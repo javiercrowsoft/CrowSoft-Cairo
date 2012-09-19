@@ -9,3 +9,8 @@ END;
 $BODY$
   LANGUAGE plpgsql
 ;
+
+
+-- to raise an exception
+
+RAISE EXCEPTION 'Error message';
