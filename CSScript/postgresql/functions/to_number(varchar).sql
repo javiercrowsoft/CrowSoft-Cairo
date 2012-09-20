@@ -1,3 +1,4 @@
+﻿/*
 CrowSoft-Cairo
 ==============
 
@@ -26,4 +27,19 @@ Created by Javier
 http://www.crowsoft.com.ar
 
 javier at crowsoft.com.ar
+*/
+-- Function: to_number(character varying)
 
+-- DROP FUNCTION to_number(character varying);
+
+CREATE OR REPLACE FUNCTION to_number(param character varying)
+  RETURNS integer AS
+$BODY$
+begin
+	return to_number(param, '999999999');
+end;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100;
+ALTER FUNCTION to_number(character varying)
+  OWNER TO postgres;
