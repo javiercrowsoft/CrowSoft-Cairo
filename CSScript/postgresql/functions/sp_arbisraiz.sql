@@ -28,33 +28,40 @@ http://www.crowsoft.com.ar
 
 javier at crowsoft.com.ar
 */
-﻿CREATE OR REPLACE FUNCTION function_name (OUT/IN parameter_name data_type, ...)
-RETURNS void/data_type AS
+-- Function: sp_arbisraiz(integer)
+
+-- DROP FUNCTION sp_arbisraiz(integer);
+
+CREATE OR REPLACE FUNCTION sp_arbisraiz(IN p_ram_id integer, OUT p_israiz smallint)
+  RETURNS smallint AS
 $BODY$
 DECLARE
-	var_name data_type;
+   v_temp integer := 0;
 BEGIN
+
+   BEGIN
+      SELECT count(*) INTO v_temp
+      FROM Rama
+         WHERE ram_id = p_ram_id
+                 AND ram_id_padre = 0;
+   EXCEPTION
+      WHEN OTHERS THEN
+         NULL;
+         raise info 'puto';
+   END;
+
+   -- Verifico que se trate de una raiz
+   IF v_temp = 1 THEN
+      p_IsRaiz := 1::smallint;
+
+   ELSE
+      p_IsRaiz := 0::smallint;
+
+   END IF;
 
 END;
 $BODY$
-  LANGUAGE plpgsql
-;
-
-
--- to raise an exception
-
-RAISE EXCEPTION 'Error message';
-
--- temporary tables
-
-...
-
-BEGIN
-
-   CREATE TEMPORARY TABLE tt_t_rama
-   (
-     ram_id integer  NOT NULL,
-     N integer  NOT NULL
-   ) ON COMMIT DROP;
-
-...
+  LANGUAGE plpgsql VOLATILE
+  COST 100;
+ALTER FUNCTION sp_arbisraiz(integer)
+  OWNER TO postgres;

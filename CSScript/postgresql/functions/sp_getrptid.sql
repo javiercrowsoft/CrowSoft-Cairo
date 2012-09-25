@@ -28,33 +28,41 @@ http://www.crowsoft.com.ar
 
 javier at crowsoft.com.ar
 */
-﻿CREATE OR REPLACE FUNCTION function_name (OUT/IN parameter_name data_type, ...)
-RETURNS void/data_type AS
+-- Function: sp_getrptid()
+
+-- DROP FUNCTION sp_getrptid();
+
+CREATE OR REPLACE FUNCTION sp_getrptid(OUT p_clienteid integer)
+  RETURNS integer AS
 $BODY$
 DECLARE
-	var_name data_type;
 BEGIN
+
+   SELECT id_NextId
+     INTO p_ClienteID
+     FROM Id
+      WHERE Id_Tabla = 'rptArbolRamaHoja'
+              AND id_CampoId = 'rptarb_cliente';
+
+   IF coalesce(p_ClienteID, 0) = 0 THEN
+   BEGIN
+      INSERT INTO id
+        ( id_NextId, id_Tabla, id_CampoId )
+        VALUES ( 0, 'rptArbolRamaHoja', 'rptarb_cliente' );
+
+      p_ClienteID := 1;
+
+   END;
+   END IF;
+
+   UPDATE id
+      SET id_NextId = p_ClienteID + 1
+      WHERE Id_Tabla = 'rptArbolRamaHoja'
+     AND id_CampoId = 'rptarb_cliente';
 
 END;
 $BODY$
-  LANGUAGE plpgsql
-;
-
-
--- to raise an exception
-
-RAISE EXCEPTION 'Error message';
-
--- temporary tables
-
-...
-
-BEGIN
-
-   CREATE TEMPORARY TABLE tt_t_rama
-   (
-     ram_id integer  NOT NULL,
-     N integer  NOT NULL
-   ) ON COMMIT DROP;
-
-...
+  LANGUAGE plpgsql VOLATILE
+  COST 100;
+ALTER FUNCTION sp_getrptid()
+  OWNER TO postgres;
