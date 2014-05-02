@@ -10,7 +10,7 @@ CREATE TABLE user_sign_up
   ussu_salt character varying(1000) NOT NULL,
   ussu_active smallint NOT NULL DEFAULT 1,
   created_at timestamp with time zone NOT NULL DEFAULT getdate(),
-  updated_at timestamp with time zone NOT NULL DEFAULT getdate()
+  updated_at timestamp with time zone NOT NULL DEFAULT getdate(),
   CONSTRAINT pk_ussu_id PRIMARY KEY (ussu_id)
 )
 WITH (
