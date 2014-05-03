@@ -6,3 +6,5 @@
 *.ear
 
 *~
+production.conf
+dev.conf
