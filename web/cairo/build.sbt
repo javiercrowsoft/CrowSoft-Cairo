@@ -5,8 +5,9 @@ version := "1.0-SNAPSHOT"
 libraryDependencies ++= Seq(
   jdbc,
   anorm,
-  cache
-)     
+  cache,
+  filters
+)
 
 play.Project.playScalaSettings
 

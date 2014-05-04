@@ -16,4 +16,6 @@ body {
   height: 60px;
   background-color: #303030;
 }
-
+.container .text-muted {
+  margin: 20px 0;
+}

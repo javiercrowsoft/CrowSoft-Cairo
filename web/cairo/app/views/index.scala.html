@@ -1,4 +1,7 @@
-@(message: String)
+@(message: String)(implicit token: play.filters.csrf.CSRF.Token)
+
+@import helper._
+
 @main(message) {
     <div class="navbar navbar-default navbar-fixed-top" role="navigation">
       <div class="container">
@@ -40,14 +43,15 @@
     <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-4 well well-sm">
             <legend><i class="glyphicon glyphicon-user"></i> Sign up!</legend>
-            <form action="#" method="post" class="form" role="form">
-            <input class="form-control form-conatrol-signup " name="youremail" placeholder="Your Email" type="email" />
-            <input class="form-control form-conatrol-signup " name="password" placeholder="New Password" type="password" />
-            <br />
-            <br />
-            <button class="btn btn-lg btn-primary btn-block" type="submit">
-                Sign up</button>
-            </form>
+            @form(routes.Registration.create, 'class -> "form") {
+              @CSRF.formField
+              <input class="form-control form-conatrol-signup " name="youremail" placeholder="Your Email" type="email" />
+              <input class="form-control form-conatrol-signup " name="password" placeholder="New Password" type="password" />
+              <br />
+              <br />
+              <button class="btn btn-lg btn-primary btn-block" type="submit">
+                  Sign up</button>
+            }
         </div>
     </div> 
       <hr>

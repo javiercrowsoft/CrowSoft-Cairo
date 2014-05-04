@@ -1,0 +1,1 @@
+scp /Users/javier/Work/CrowSoft/CrowSoft-Cairo/web/cairo/conf/production.conf root@190.210.181.104:/root/apps/CrowSoft-Cairo/web/cairo/conf/
