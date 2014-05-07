@@ -1,0 +1,7 @@
+@(userForm: Form[UserSignUp])
+
+@import helper._
+@import models.UserSignUp
+
+@inputText(userForm("email"), args = 'id -> "emailField", 'class -> "form-control form-control-signup", 'placeholder -> "Your Email", '_label -> "Email", '_help -> "")
+@inputPassword(userForm("password"), args = 'class -> "form-control form-control-signup", 'placeholder -> "Password", '_label -> "Password", '_showConstraints -> false)

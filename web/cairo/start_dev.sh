@@ -1,1 +1,1 @@
-play run -Dconfig.resource=dev.conf
+play -Dconfig.file=conf/dev.conf run

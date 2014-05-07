@@ -1,0 +1,35 @@
+@(users: Iterable[models.UserSignUp])(implicit flash:Flash)
+
+@main("All Users") {
+<!-- Main jumbotron for a primary marketing message or call to action -->
+<div class="jumbotron">
+  <div class="container">
+    <h1>All Users</h1>
+  </div>
+</div>
+<div class="container">
+  <div class="row">
+	@flash.get("success").map { msg =>
+		<div class="flash">@msg</div>
+	}
+	@if(users.isEmpty) {
+		<p>No Users found</p>
+	} else {
+		<ul>
+		@for(user <- users) {
+  			<li>@user.username @user.email @user.password @user.is_mobile
+  			<a href="@routes.Users.edit(user.id.get)">Edit</a>
+  			@helper.form(routes.Users.delete(user.id.get)){
+          <button type="submit" class="btn btn-danger btn-xs">Delete</button>
+        }
+        <hr>
+        </li>
+
+		}
+		</ul>
+	}
+	<a href="@routes.Users.add">Add a new User</a>
+  </div>
+</div>
+}
+

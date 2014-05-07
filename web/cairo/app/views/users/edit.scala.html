@@ -1,0 +1,25 @@
+@(id: Int, userForm: Form[UserSignUp])(implicit token: play.filters.csrf.CSRF.Token)
+
+@import helper._
+@import models.UserSignUp
+
+@main("Edit User") {
+<div class="jumbotron">
+  <div class="container">
+    <h1>Edit User</h1>
+  </div>
+</div>
+<div class="container">
+  <div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-4 well well-sm">
+      <legend><i class="glyphicon glyphicon-user"></i> User</legend>
+	    @form(routes.Users.update(id), 'id -> "userForm", 'class -> "form") {
+        @CSRF.formField
+		@formFields(userForm)
+		<button class="btn btn-lg btn-primary btn-block" type="submit">Update</button>
+	    }
+    </div>
+  </div>
+</div>
+}
+

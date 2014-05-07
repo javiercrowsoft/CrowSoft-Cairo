@@ -1,0 +1,9 @@
+@(siteBaseURL: String, code: String)
+
+Thank you for registering a CrowSoft Cairo account.
+
+In order to login to your CrowSoft Cairo account, you must validate your email address by visiting the following URL:
+
+@siteBaseURL/registration/validation/@code
+
+If you experience any problems or have any questions, please see the contact information below.

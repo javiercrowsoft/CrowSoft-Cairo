@@ -1,0 +1,7 @@
+@(elements: helper.FieldElements)
+<div class="@if(elements.hasErrors) {form-group has-error}">
+    <div class="input">
+        @elements.input
+        <span class="field-validation-error">@elements.errors.mkString(", ")</span>
+    </div>
+</div>
