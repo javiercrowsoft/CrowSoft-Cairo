@@ -17,4 +17,5 @@ object Global extends GlobalSettings {
   override def doFilter(action:EssentialAction): EssentialAction = {
     CSRFFilter().apply(next = Filters(super.doFilter(action), LoggingFilter, new GzipFilter()))
   }
+
 }

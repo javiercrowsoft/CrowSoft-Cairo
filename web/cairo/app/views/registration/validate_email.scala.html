@@ -1,0 +1,22 @@
+@(siteBaseURL: String, email: String)
+
+@import helper._
+@import models.UserData
+
+@main("CrowSoft Cairo") {
+<!-- Main jumbotron for a primary marketing message or call to action -->
+<div class="jumbotron">
+    <div class="container">
+        <h1>Validation Email</h1>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-6 well well-sm">
+            <p>An email with a validation link has been sent to @email.</p>
+        </div>
+    </div>
+    <hr>
+</div> <!-- /container -->
+}

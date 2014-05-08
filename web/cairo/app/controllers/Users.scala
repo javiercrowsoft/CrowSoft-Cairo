@@ -26,7 +26,7 @@ object Users extends Controller {
       "updated_at" -> date
       )(UserSignUp.apply)(UserSignUp.unapply))
 
-  def add = GetAction { implicit req =>
+  def add = GetAction { implicit request =>
     Ok(views.html.users.add(form))
   }
 
@@ -43,7 +43,7 @@ object Users extends Controller {
     Ok(views.html.users.list(UserSignUp.list))
   }
 
-  def edit(id: Int) = GetAction { implicit req =>
+  def edit(id: Int) = GetAction { implicit request =>
     UserSignUp.load(id).map { user =>
       val bindedForm = form.fill(user)
       Ok(views.html.users.edit(id, bindedForm))

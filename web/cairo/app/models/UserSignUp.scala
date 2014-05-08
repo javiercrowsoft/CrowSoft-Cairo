@@ -1,5 +1,6 @@
 package models
 
+import play.api.Logger
 import anorm._
 import anorm.SqlParser._
 import play.api.db.DB
@@ -28,7 +29,7 @@ object UserData {
            ip_address: String,
            user_agent: String,
            accept_language: String,
-           is_mobile: Boolean) {
+           is_mobile: Boolean): Int = {
 
     val userSignUp = UserSignUp(
       anorm.NotAssigned,
@@ -44,7 +45,7 @@ object UserData {
       is_mobile,
       null,
       null)
-    UserSignUp.save(userSignUp)
+    UserSignUp.saveAndSendRegistrationEmail(userSignUp)
   }
 }
 
@@ -66,7 +67,17 @@ case class UserSignUp(
 
 object UserSignUp {
 
-  def save(user: UserSignUp) {
+  def saveAndSendRegistrationEmail(user: UserSignUp): Int = {
+    val id = save(user)
+    CustomerMailer.sendRegistration(user)
+    id
+  }
+
+  def sendRegistration(user: UserSignUp) = {
+    CustomerMailer.sendRegistration(user)
+  }
+
+  def save(user: UserSignUp): Int = {
     DB.withConnection("master") { implicit connection =>
       SQL("""
           INSERT INTO user_sign_up(ussu_username, ussu_email, ussu_password, ussu_code, ussu_active, ussu_platform, ussu_ip_address, ussu_user_agent, ussu_accept_language, ussu_is_mobile)
@@ -82,9 +93,8 @@ object UserSignUp {
           'user_agent -> user.user_agent,
           'accept_language -> user.accept_language,
           'is_mobile -> (if(user.is_mobile) 1 else 0)
-      ).executeUpdate
+      ).executeInsert().map(id => id.toInt).getOrElse(0)
     }
-    CustomerMailer.sendRegistration(user)
   }
 
   private val userParser: RowParser[UserSignUp] = {
@@ -112,10 +122,18 @@ object UserSignUp {
     }
   }
 
+  def findByCode(code: String): Option[UserSignUp] = {
+    loadWhere("ussu_code = {code}", 'code -> code)
+  }
+
   def load(id: Int): Option[UserSignUp] = {
+    loadWhere("ussu_id = {id}", 'id -> id)
+  }
+
+  def loadWhere(where: String, args : scala.Tuple2[scala.Any, anorm.ParameterValue[_]]*) = {
     DB.withConnection("master") { implicit connection =>
-      SQL("SELECT * from user_sign_up WHERE ussu_id = {id}")
-        .on('id -> id)
+      SQL(s"SELECT * from user_sign_up WHERE $where")
+        .on(args: _*)
         .as(userParser.singleOpt)
     }
   }
@@ -131,6 +149,18 @@ object UserSignUp {
           'id -> id,
           'username -> user.username,
           'email -> user.email
+      ).executeUpdate
+    }
+  }
+
+  def activateUser(id: Int) {
+    DB.withConnection("master") { implicit connection =>
+      SQL("""
+          UPDATE user_sign_up SET
+          ussu_active = 1
+          WHERE ussu_id = {id}
+          """).on(
+        'id -> id
       ).executeUpdate
     }
   }

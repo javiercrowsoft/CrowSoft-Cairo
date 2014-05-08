@@ -14,7 +14,7 @@ object Application extends Controller {
       "password" -> nonEmptyText
     )(UserData.apply)(UserData.unapply))
 
-  def index = GetAction { implicit req =>
+  def index = GetAction { implicit request =>
     Ok(views.html.index(form))
   }
 

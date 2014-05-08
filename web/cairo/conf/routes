@@ -7,6 +7,15 @@ GET     /                               controllers.Application.index
 
 # Sign Up
 POST    /registration                   controllers.Registration.save
+GET     /registration/validate/:code    controllers.Registration.validate(code: String)
+GET     /registration/validation_email  controllers.Registration.sendValidationEmail
+GET     /registration/activate          controllers.Registration.activate
+
+POST    /login                          controllers.Sessions.create
+GET     /logout                         controllers.Sessions.destroy
+
+GET     /domains/add                    controllers.Domains.add
+POST    /domains                        controllers.Domains.save
 
 GET   	/users          				controllers.Users.list
 GET	  	/users/add					    controllers.Users.add
