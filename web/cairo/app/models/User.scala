@@ -82,7 +82,7 @@ object User {
   def save(user: User): Int = {
     DB.withConnection("master") { implicit connection =>
       SQL("""
-          INSERT INTO user(us_username, us_email, us_password, us_code, us_active, us_locked, us_platform, us_ip_address, us_user_agent, us_accept_language, us_is_mobile)
+          INSERT INTO users(us_username, us_email, us_password, us_code, us_active, us_locked, us_platform, us_ip_address, us_user_agent, us_accept_language, us_is_mobile)
           VALUES({username}, {email}, {password}, {code}, {active}, {locked}, {platform}, {ip_address}, {user_agent}, {accept_language}, {is_mobile})
       """).on(
           'username -> user.username,
@@ -122,7 +122,7 @@ object User {
 
   def list: List[User] = {
     DB.withConnection("master") { implicit connection =>
-      SQL("SELECT * from user").as(userParser *)
+      SQL("SELECT * from users").as(userParser *)
     }
   }
 
@@ -144,7 +144,7 @@ object User {
 
   def loadWhere(where: String, args : scala.Tuple2[scala.Any, anorm.ParameterValue[_]]*) = {
     DB.withConnection("master") { implicit connection =>
-      SQL(s"SELECT * from user WHERE $where")
+      SQL(s"SELECT * from users WHERE $where")
         .on(args: _*)
         .as(userParser.singleOpt)
     }
@@ -153,7 +153,7 @@ object User {
   def update(id: Int, user: User) {
     DB.withConnection("master") { implicit connection =>
       SQL("""
-          UPDATE user SET
+          UPDATE users SET
           us_username = {username},
           us_email = {email}
           WHERE us_id = {id}
@@ -168,7 +168,7 @@ object User {
   def activateUser(id: Int) {
     DB.withConnection("master") { implicit connection =>
       SQL("""
-          UPDATE user SET
+          UPDATE users SET
           us_active = 1
           WHERE us_id = {id}
           """).on(
@@ -180,7 +180,7 @@ object User {
   def delete(id: Int) {
     DB.withConnection("master") { implicit connection =>
       SQL(""" 
-          DELETE FROM user where us_id = {id}
+          DELETE FROM users where us_id = {id}
       """).on(
           'id -> id
       ).executeUpdate

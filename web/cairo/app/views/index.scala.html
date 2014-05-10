@@ -1,4 +1,4 @@
-@(userForm: Form[UserData])(implicit token: play.filters.csrf.CSRF.Token, loggedUser: LoggedUser)
+@(userForm: Form[UserData], siteBaseURL: String)(implicit token: play.filters.csrf.CSRF.Token, loggedUser: LoggedUser)
 
 @import helper._
 
@@ -8,6 +8,15 @@
   <div class="container">
     @if(loggedUser.isLogged) {
       <h3>Welcome @loggedUser.user.username!</h3>
+
+      @if(!loggedUser.user.active) {
+      <div class="alert alert-info">
+          <p>You are now logged into the system but your account is not active yet.</p>
+          <p>An email with a validation link has been sent to <b>@loggedUser.user.email</b>.</p>
+          <p>If you haven't received the email please click <a href="@siteBaseURL/registration/validation_email">here</a> to resend it.</p>
+      </div>
+      }
+
     } else {
       <h1>Welcome!</h1>
       <p>Please register to start using CrowSoft Cairo. It is free for the first two months. If you like it start paying $50.- a month. No user limit.</p>

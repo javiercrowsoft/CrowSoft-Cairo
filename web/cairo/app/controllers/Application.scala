@@ -5,6 +5,7 @@ import actions._
 import play.api.data._
 import play.api.data.Forms._
 import models.{ UserData }
+import settings.Settings
 
 object Application extends Controller with ProvidesUser {
 
@@ -15,7 +16,7 @@ object Application extends Controller with ProvidesUser {
     )(UserData.apply)(UserData.unapply))
 
   def index = GetAction { implicit request =>
-    Ok(views.html.index(form))
+    Ok(views.html.index(form, Settings.siteBaseURL))
   }
 
 }
