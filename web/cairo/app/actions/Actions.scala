@@ -3,6 +3,7 @@ package actions
 import play.api.mvc._
 import scala.concurrent._
 import play.filters.csrf._
+import models.User
 
 object PostAction extends ActionBuilder[Request] {
   def invokeBlock[A](request: Request[A], block: (Request[A]) => Future[SimpleResult]) = {

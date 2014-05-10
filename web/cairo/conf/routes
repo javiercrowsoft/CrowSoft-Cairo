@@ -11,8 +11,12 @@ GET     /registration/validate/:code    controllers.Registration.validate(code: 
 GET     /registration/validation_email  controllers.Registration.sendValidationEmail
 GET     /registration/activate          controllers.Registration.activate
 
+GET     /login                          controllers.Sessions.newSession
 POST    /login                          controllers.Sessions.create
 GET     /logout                         controllers.Sessions.destroy
+GET     /clean                          controllers.Sessions.clean
+GET     /location_blocked               controllers.Sessions.locationBlocked
+GET     /account_locked                 controllers.Sessions.userLocked
 
 GET     /domains/add                    controllers.Domains.add
 POST    /domains                        controllers.Domains.save
@@ -24,6 +28,11 @@ GET		/users/:id/edit				    controllers.Users.edit(id: Int)
 #PUT 	/users/:id					    controllers.Users.update(id: Int)
 POST 	/users/:id					    controllers.Users.update(id: Int)
 DELETE	/users/:id		                controllers.Users.delete(id: Int)
+GET     /users/password/reset           controllers.Users.resetPassword
+POST    /users/password/reset           controllers.Users.sendResetPasswordEmail
+GET     /users/password/new/:code       controllers.Users.newPassword(code: String)
+GET     /users/password/change          controllers.Users.changePassword
+POST    /users/password/save            controllers.Users.savePassword
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file                   controllers.Assets.at(path="/public", file)

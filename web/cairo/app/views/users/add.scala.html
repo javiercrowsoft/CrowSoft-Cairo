@@ -1,13 +1,14 @@
-@(userForm: Form[UserSignUp])(implicit token: play.filters.csrf.CSRF.Token)
+@(userForm: Form[UserSignUp])(implicit token: play.filters.csrf.CSRF.Token, loggedUser: LoggedUser)
 
 @import helper._
 @import models.UserSignUp
 
 @main("Add a new User") {
-	<h1>Add a new User</h1>
-	@form(routes.Users.save(), 'id -> "userForm", 'class -> "userForm") {
-		@formFields(userForm)
-		<button type="submit">Save</button>
-	}
+    <h1>Add a new User</h1>
+    @form(routes.Users.save(), 'id -> "userForm", 'class -> "userForm") {
+        @CSRF.formField
+        @formFields(userForm)
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Add</button>
+    }
 }
 

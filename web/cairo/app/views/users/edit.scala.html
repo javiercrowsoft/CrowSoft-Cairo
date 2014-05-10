@@ -1,4 +1,4 @@
-@(id: Int, userForm: Form[UserSignUp])(implicit token: play.filters.csrf.CSRF.Token)
+@(id: Int, userForm: Form[UserSignUp])(implicit token: play.filters.csrf.CSRF.Token, loggedUser: LoggedUser)
 
 @import helper._
 @import models.UserSignUp

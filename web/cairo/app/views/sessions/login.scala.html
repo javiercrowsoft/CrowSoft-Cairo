@@ -1,0 +1,37 @@
+@(userForm: Form[LoginData])(implicit flash:Flash, token: play.filters.csrf.CSRF.Token, user: LoggedUser)
+
+@import helper._
+@import models.UserLogin
+
+@main("CrowSoft Cairo") {
+<!-- Main jumbotron for a primary marketing message or call to action -->
+<div class="jumbotron">
+    <div class="container">
+        <h3>Sign Up</h3>
+        @flash.get("error").map { msg =>
+        <div class="alert alert-warning">@msg</div>
+        }
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-4">
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-4 well well-sm">
+            <legend><i class="glyphicon glyphicon-user"></i> Sign in</legend>
+            @form(routes.Sessions.create(), 'id -> "userForm", 'class -> "form") {
+            @CSRF.formField
+            @formFields(userForm)
+
+            <button class="btn btn-lg btn-primary btn-block" type="submit">
+                Sign up</button>
+            }
+            <hr/>
+            <a href="@{routes.Users.resetPassword}">Forgot your password</a>
+
+        </div>
+    </div>
+    <hr>
+</div> <!-- /container -->
+}

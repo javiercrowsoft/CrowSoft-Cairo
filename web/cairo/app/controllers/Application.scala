@@ -4,9 +4,9 @@ import play.api.mvc._
 import actions._
 import play.api.data._
 import play.api.data.Forms._
-import models.UserData
+import models.{ UserData }
 
-object Application extends Controller {
+object Application extends Controller with ProvidesUser {
 
   val form = Form(
     mapping(

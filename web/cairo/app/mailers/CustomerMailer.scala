@@ -9,12 +9,12 @@ package mailers
 import play.api._
 import play.api.Configuration._
 import services._
-import models.UserSignUp
+import models.User
 import settings._
 
 object CustomerMailer {
 
-  def sendRegistration(user: UserSignUp) = {
+  def sendRegistration(user: User) = {
     Mailer.sendEmail(
       Settings.registrationEmailFrom,
       user.email,

@@ -1,31 +1,35 @@
-@(userForm: Form[UserData])(implicit token: play.filters.csrf.CSRF.Token)
+@(userForm: Form[UserData])(implicit token: play.filters.csrf.CSRF.Token, loggedUser: LoggedUser)
 
 @import helper._
-@import models.UserData
 
 @main("CrowSoft Cairo") {
 <!-- Main jumbotron for a primary marketing message or call to action -->
 <div class="jumbotron">
   <div class="container">
-    <h1>Welcome!</h1>
-    <p>Please register to start using CrowSoft Cairo. It is free for the first two months. If you like it start paying $50.- a month. No user limit.</p>
-    <p><a class="btn btn-primary btn-lg" role="button">Learn more &raquo;</a></p>
+    @if(loggedUser.isLogged) {
+      <h3>Welcome @loggedUser.user.username!</h3>
+    } else {
+      <h1>Welcome!</h1>
+      <p>Please register to start using CrowSoft Cairo. It is free for the first two months. If you like it start paying $50.- a month. No user limit.</p>
+      <p><a class="btn btn-primary btn-lg" role="button">Learn more &raquo;</a></p>
+    }
   </div>
 </div>
 
     <div class="container">
-    <div class="row">
-        <div class="col-xs-12 col-sm-12 col-md-4 well well-sm">
-            <legend><i class="glyphicon glyphicon-user"></i> Sign up!</legend>
-            @form(routes.Registration.save(), 'id -> "userForm", 'class -> "form") {
-              @CSRF.formField
-              @formFields(userForm)
-              <button class="btn btn-lg btn-primary btn-block" type="submit">
-                  Sign up</button>
-            }
-
+        @if(loggedUser.isLogged) {
+        } else {
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-4 well well-sm">
+                <legend><i class="glyphicon glyphicon-user"></i> Sign up!</legend>
+                @form(routes.Registration.save, 'id -> "userForm", 'class -> "form") {
+                @CSRF.formField
+                @formFields(userForm)
+                <button class="btn btn-lg btn-primary btn-block" type="submit">Sign up</button>
+                }
+            </div>
         </div>
-    </div> 
-      <hr>
+        <hr>
+        }
     </div> <!-- /container -->
 }

@@ -14,14 +14,14 @@ case class UserData(email: String, password: String)
 object UserData {
 
   def save(user: UserData) {
-    val userSignUp = UserSignUp(
+    val userSignUp = User(
       anorm.NotAssigned,
       user.email,
       user.email,
       PasswordHash.createHash(user.password),
       PasswordHash.createCode(user.password),
-      false, "", "", "", "", false, null, null)
-    UserSignUp.save(userSignUp)
+      false, false, "", "", "", "", false, null, null)
+    User.save(userSignUp)
   }
 
   def save(user: UserData,
@@ -31,12 +31,13 @@ object UserData {
            accept_language: String,
            is_mobile: Boolean): Int = {
 
-    val userSignUp = UserSignUp(
+    val userSignUp = User(
       anorm.NotAssigned,
       user.email,
       user.email,
       PasswordHash.createHash(user.password),
       PasswordHash.createCode(user.password),
+      false,
       false,
       platform,
       ip_address,
@@ -45,17 +46,18 @@ object UserData {
       is_mobile,
       null,
       null)
-    UserSignUp.saveAndSendRegistrationEmail(userSignUp)
+    User.saveAndSendRegistrationEmail(userSignUp)
   }
 }
 
-case class UserSignUp(
+case class User(
   id: Pk[Int] = NotAssigned,
   username: String,
   email: String,
   password: String,
   code: String,
   active: Boolean,
+  locked: Boolean,
   platform: String,
   ip_address: String,
   user_agent: String,
@@ -65,86 +67,96 @@ case class UserSignUp(
   updated_at: Date
   )
 
-object UserSignUp {
+object User {
 
-  def saveAndSendRegistrationEmail(user: UserSignUp): Int = {
+  def saveAndSendRegistrationEmail(user: User): Int = {
     val id = save(user)
     CustomerMailer.sendRegistration(user)
     id
   }
 
-  def sendRegistration(user: UserSignUp) = {
+  def sendRegistration(user: User) = {
     CustomerMailer.sendRegistration(user)
   }
 
-  def save(user: UserSignUp): Int = {
+  def save(user: User): Int = {
     DB.withConnection("master") { implicit connection =>
       SQL("""
-          INSERT INTO user_sign_up(ussu_username, ussu_email, ussu_password, ussu_code, ussu_active, ussu_platform, ussu_ip_address, ussu_user_agent, ussu_accept_language, ussu_is_mobile)
-          VALUES({username}, {email}, {password}, {code}, {active}, {platform}, {ip_address}, {user_agent}, {accept_language}, {is_mobile})
+          INSERT INTO user(us_username, us_email, us_password, us_code, us_active, us_locked, us_platform, us_ip_address, us_user_agent, us_accept_language, us_is_mobile)
+          VALUES({username}, {email}, {password}, {code}, {active}, {locked}, {platform}, {ip_address}, {user_agent}, {accept_language}, {is_mobile})
       """).on(
           'username -> user.username,
           'email -> user.email,
           'password -> user.password,
           'code -> user.code,
           'active -> (if(user.active) 1 else 0),
+          'locked -> (if(user.locked) 1 else 0),
           'platform -> user.platform,
           'ip_address -> user.ip_address,
           'user_agent -> user.user_agent,
           'accept_language -> user.accept_language,
           'is_mobile -> (if(user.is_mobile) 1 else 0)
-      ).executeInsert().map(id => id.toInt).getOrElse(0)
+      ).executeInsert().map(id => id.toInt).getOrElse(throw new RuntimeException("Error when inserting user"))
     }
   }
 
-  private val userParser: RowParser[UserSignUp] = {
-    get[Pk[Int]]("ussu_id") ~
-      get[String]("ussu_username") ~
-      get[String]("ussu_email") ~
-      get[String]("ussu_password") ~
-      get[String]("ussu_code") ~
-      get[Int]("ussu_active") ~
-      get[String]("ussu_platform") ~
-      get[String]("ussu_ip_address") ~
-      get[String]("ussu_user_agent") ~
-      get[String]("ussu_accept_language") ~
-      get[Int]("ussu_is_mobile") ~
+  private val userParser: RowParser[User] = {
+    get[Pk[Int]]("us_id") ~
+      get[String]("us_username") ~
+      get[String]("us_email") ~
+      get[String]("us_password") ~
+      get[String]("us_code") ~
+      get[Int]("us_active") ~
+      get[Int]("us_locked") ~
+      get[String]("us_platform") ~
+      get[String]("us_ip_address") ~
+      get[String]("us_user_agent") ~
+      get[String]("us_accept_language") ~
+      get[Int]("us_is_mobile") ~
       get[Date]("created_at") ~
       get[Date]("updated_at") map {
-      case ussu_id ~ ussu_username ~ ussu_email ~ ussu_password ~ ussu_code ~ ussu_active ~ ussu_platform ~ ussu_ip_address ~ ussu_user_agent ~ ussu_accept_language ~ ussu_is_mobile ~ created_at ~ updated_at =>
-      UserSignUp(ussu_id, ussu_username, ussu_email, ussu_password, ussu_code, ussu_active != 0, ussu_platform, ussu_ip_address, ussu_user_agent, ussu_accept_language, ussu_is_mobile != 0, created_at, updated_at)
+      case us_id ~ us_username ~ us_email ~ us_password ~ us_code ~ us_active ~us_locked ~ us_platform ~ us_ip_address ~ us_user_agent ~ us_accept_language ~ us_is_mobile ~ created_at ~ updated_at =>
+      User(us_id, us_username, us_email, us_password, us_code, us_active != 0, us_locked != 0, us_platform, us_ip_address, us_user_agent, us_accept_language, us_is_mobile != 0, created_at, updated_at)
     }
   }
 
-  def list: List[UserSignUp] = {
+  def list: List[User] = {
     DB.withConnection("master") { implicit connection =>
-      SQL("SELECT * from user_sign_up").as(userParser *)
+      SQL("SELECT * from user").as(userParser *)
     }
   }
 
-  def findByCode(code: String): Option[UserSignUp] = {
-    loadWhere("ussu_code = {code}", 'code -> code)
+  def findByCode(code: String): Option[User] = {
+    loadWhere("us_code = {code}", 'code -> code)
   }
 
-  def load(id: Int): Option[UserSignUp] = {
-    loadWhere("ussu_id = {id}", 'id -> id)
+  def findByEmail(email: String): Option[User] = {
+    loadWhere("us_email = {email}", 'email -> email)
+  }
+
+  def findByUsername(username: String): Option[User] = {
+    loadWhere("us_username = {username}", 'username -> username)
+  }
+
+  def load(id: Int): Option[User] = {
+    loadWhere("us_id = {id}", 'id -> id)
   }
 
   def loadWhere(where: String, args : scala.Tuple2[scala.Any, anorm.ParameterValue[_]]*) = {
     DB.withConnection("master") { implicit connection =>
-      SQL(s"SELECT * from user_sign_up WHERE $where")
+      SQL(s"SELECT * from user WHERE $where")
         .on(args: _*)
         .as(userParser.singleOpt)
     }
   }
 
-  def update(id: Int, user: UserSignUp) {
+  def update(id: Int, user: User) {
     DB.withConnection("master") { implicit connection =>
       SQL("""
-          UPDATE user_sign_up SET
-          ussu_username = {username},
-          ussu_email = {email}
-          WHERE ussu_id = {id}
+          UPDATE user SET
+          us_username = {username},
+          us_email = {email}
+          WHERE us_id = {id}
       """).on(
           'id -> id,
           'username -> user.username,
@@ -156,9 +168,9 @@ object UserSignUp {
   def activateUser(id: Int) {
     DB.withConnection("master") { implicit connection =>
       SQL("""
-          UPDATE user_sign_up SET
-          ussu_active = 1
-          WHERE ussu_id = {id}
+          UPDATE user SET
+          us_active = 1
+          WHERE us_id = {id}
           """).on(
         'id -> id
       ).executeUpdate
@@ -168,7 +180,7 @@ object UserSignUp {
   def delete(id: Int) {
     DB.withConnection("master") { implicit connection =>
       SQL(""" 
-          DELETE FROM user_sign_up where ussu_id = {id}
+          DELETE FROM user where us_id = {id}
       """).on(
           'id -> id
       ).executeUpdate

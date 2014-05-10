@@ -1,4 +1,4 @@
-@(title: String)(content: Html)
+@(title: String)(content: Html)(implicit token: play.filters.csrf.CSRF.Token, loggedUser: LoggedUser)
 
 @import helper._
 
@@ -33,15 +33,15 @@
           <a class="navbar-brand" href="/">CrowSoft Cairo</a>
         </div>
         <div class="collapse navbar-collapse">
-          <form class="navbar-form navbar-right" role="form" action="/login">
-            <div class="form-group">
-              <input type="text" placeholder="Email" class="form-control">
-            </div>
-            <div class="form-group">
-              <input type="password" placeholder="Password" class="form-control">
-            </div>
-            <button type="submit" class="btn btn-success">Sign in</button>
-          </form>
+            @if(loggedUser.isLogged) {
+                <div class="navbar-form navbar-right"><a class="btn btn-danger btn-xs" href="/logout">Logout</a></div>
+            } else {
+                @form(routes.Sessions.create(), 'id -> "loginForm", 'class -> "navbar-form navbar-right") {
+                @CSRF.formField
+                @formLoginFields()
+                <button type="submit" class="btn btn-success">Sign in</button>
+                }
+            }
         </div><!--/.nav-collapse -->
       </div>
     </div>

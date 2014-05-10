@@ -5,7 +5,7 @@ import play.api.data._
 import play.api.data.Forms._
 import actions._
 
-object Domains extends Controller {
+object Domains extends Controller with ProvidesUser {
 
   def save = PostAction { implicit request =>
     Ok
