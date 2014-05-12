@@ -18,4 +18,8 @@ object Settings {
     config.getString("registrationSubject").getOrElse("registration@crowsoft.com.ar")
   }
 
+  val resetPasswordSubject = {
+    config.getString("resetPasswordSubject").getOrElse("You have requested to reset your CrowSoft Cairo password")
+  }
+
 }

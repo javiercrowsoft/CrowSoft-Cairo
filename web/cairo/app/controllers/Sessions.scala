@@ -22,37 +22,23 @@ object Sessions extends Controller with ProvidesUser {
   }
 
   def create = PostAction { implicit request =>
-
-    Logger.debug("on create")
-
     form.bindFromRequest.fold(
       formWithErrors => {
-        Logger.debug("on create-bad request")
         BadRequest(views.html.sessions.login(formWithErrors))
       },
       login => {
-
-        Logger.debug("on create-good request")
-
-        val requestUserAgent = request.headers.get("user-agent").getOrElse("")
-        val userAgent = UserAgent.parse(requestUserAgent)
-
-        Logger.debug("on create-calling LoginData.save")
+        val userAgent = UserAgent.parse(request)
 
         val success = LoginData.save(
           login,
           userAgent.platform,
           request.remoteAddress,
-          requestUserAgent,
-          request.acceptLanguages.toString(),
+          userAgent.userAgent,
+          request.acceptLanguages.toString,
           userAgent.isMobile)
 
         if (UserLogin.successCodes.contains(success)) {
-
-          Logger.debug("on create-success")
-
           val user = User.findByUsername(login.email).getOrElse(null)
-
           Redirect(routes.Application.index).withSession(
             "user" -> user.id.getOrElse(0).toString
           )

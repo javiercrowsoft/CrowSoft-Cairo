@@ -5,7 +5,7 @@ import play.api.data._
 import play.api.data.Forms._
 import actions._
 import models.{ User, UserData , LoggedUser }
-import services.UserAgent
+import services.{ UserAgent, PasswordValidation }
 import settings._
 import play.api.Logger
 
@@ -14,22 +14,21 @@ object Registration extends Controller with ProvidesUser {
   val form = Form(
     mapping(
       "email" -> email,
-      "password" -> nonEmptyText
+      "password" -> nonEmptyText(minLength = 12).verifying(PasswordValidation.passwordCheckConstraint)
     )(UserData.apply)(UserData.unapply))
 
   def save = PostAction { implicit request =>
     form.bindFromRequest.fold(
-      formWithErrors => BadRequest(views.html.index(formWithErrors)),
+      formWithErrors => BadRequest(views.html.index(formWithErrors, Settings.siteBaseURL)),
       user => {
-        val requestUserAgent = request.headers.get("user-agent").getOrElse("")
-        val userAgent = UserAgent.parse(requestUserAgent)
+        val userAgent = UserAgent.parse(request)
 
         val userId = UserData.save(
           user,
           userAgent.platform,
           request.remoteAddress,
-          requestUserAgent,
-          request.acceptLanguages.toString(),
+          userAgent.userAgent,
+          request.acceptLanguages.toString,
           userAgent.isMobile)
         Redirect(routes.Registration.activate).withSession(
           "user" -> userId.toString
@@ -48,24 +47,6 @@ object Registration extends Controller with ProvidesUser {
   }
 
   def sendValidationEmail = GetAction { implicit request =>
-    /*
-    val userId = request.session.get("user").getOrElse("")
-    if (userId.isEmpty)
-      Unauthorized("Oops, you are not connected")
-    else {
-      val user = UserSignUp.load(userId.toInt).getOrElse(null)
-      if (user != null) {
-        UserSignUp.sendRegistration(user)
-        Ok(views.html.registration.validateEmail(Settings.siteBaseURL, user.email))
-      }
-      else
-        NotFound
-    }
-
-    UserSignUp.sendRegistration(user)
-    Ok(views.html.registration.validateEmail(Settings.siteBaseURL, user.email))
-
-    */
     LoggedResponse.getAction(request, { user =>
       User.sendRegistration(user)
       Ok(views.html.registration.validateEmail(Settings.siteBaseURL, user.email))
@@ -73,18 +54,6 @@ object Registration extends Controller with ProvidesUser {
   }
 
   def activate = GetAction { implicit request =>
-    /*
-    val userId = request.session.get("user").getOrElse("")
-    if (userId.isEmpty)
-      Unauthorized("Oops, you are not connected")
-    else {
-      val user = UserSignUp.load(userId.toInt).getOrElse(null)
-      if (user != null)
-        Ok(views.html.registration.activate(Settings.siteBaseURL, user.email))
-      else
-        NotFound
-    }
-    */
     LoggedResponse.getAction(request, { user =>
       Ok(views.html.registration.activate(Settings.siteBaseURL, user.email))
     })

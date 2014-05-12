@@ -1,7 +1,7 @@
-@(userForm: Form[UserSignUp])
+@(userForm: Form[User])
 
 @import helper._
-@import models.UserSignUp
+@import models.User
 
 @inputText(userForm("email"), args = 'id -> "emailField", 'class -> "form-control form-control-signup", 'placeholder -> "Your Email", '_label -> "Email", '_help -> "")
 @inputPassword(userForm("password"), args = 'class -> "form-control form-control-signup", 'placeholder -> "Password", '_label -> "Password", '_showConstraints -> false)

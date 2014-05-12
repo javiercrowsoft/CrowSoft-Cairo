@@ -1,6 +1,6 @@
 -- Table: users
 
--- DROP TABLE user;
+-- DROP TABLE users;
 
 CREATE TABLE users
 (
@@ -21,8 +21,8 @@ CREATE TABLE users
   created_at timestamp with time zone NOT NULL DEFAULT getdate(),
   updated_at timestamp with time zone NOT NULL DEFAULT getdate(),
 
-  CONSTRAINT ix_email UNIQUE (us_email),
-  CONSTRAINT ix_username UNIQUE (us_username) 
+  CONSTRAINT ix_users_email UNIQUE (us_email),
+  CONSTRAINT ix_users_username UNIQUE (us_username) 
 )
 WITH (
   OIDS=FALSE

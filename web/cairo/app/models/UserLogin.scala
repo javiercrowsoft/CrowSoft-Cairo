@@ -37,17 +37,17 @@ object LoginData {
 }
 
 case class UserLogin(
-                       id: Pk[Int] = NotAssigned,
-                       username: String,
-                       password: String,
-                       platform: String,
-                       ip_address: String,
-                       user_agent: String,
-                       accept_language: String,
-                       is_mobile: Boolean,
-                       created_at: Date,
-                       updated_at: Date
-                       )
+                      id: Pk[Int] = NotAssigned,
+                      username: String,
+                      password: String,
+                      platform: String,
+                      ip_address: String,
+                      user_agent: String,
+                      accept_language: String,
+                      is_mobile: Boolean,
+                      created_at: Date,
+                      updated_at: Date
+                      )
 
 object UserLogin {
 
@@ -85,9 +85,8 @@ object UserLogin {
         'user_agent -> user.user_agent,
         'accept_language -> user.accept_language,
         'is_mobile -> (if(user.is_mobile) 1 else 0)
-      ).executeUpdate()
+      ).executeUpdate
     }
-    Logger.debug(s"resultCode: $resultCode")
     resultCode
   }
 
@@ -104,9 +103,6 @@ object UserLogin {
 * */
 
   def login(userLogin: UserLogin) = {
-
-    Logger.debug(s"password $userLogin.password, username: $userLogin.username")
-
     val user = User.findByUsername(userLogin.username).getOrElse(null)
     if (user == null)
       resultCodes(resultNoUser)

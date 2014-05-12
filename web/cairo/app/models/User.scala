@@ -13,30 +13,30 @@ case class UserData(email: String, password: String)
 
 object UserData {
 
-  def save(user: UserData) {
-    val userSignUp = User(
+  def save(userData: UserData) = {
+    val user = User(
       anorm.NotAssigned,
-      user.email,
-      user.email,
-      PasswordHash.createHash(user.password),
-      PasswordHash.createCode(user.password),
+      userData.email,
+      userData.email,
+      PasswordHash.createHash(userData.password),
+      PasswordHash.createCode(userData.password),
       false, false, "", "", "", "", false, null, null)
-    User.save(userSignUp)
+    User.save(user)
   }
 
-  def save(user: UserData,
+  def save(userData: UserData,
            platform: String,
            ip_address: String,
            user_agent: String,
            accept_language: String,
            is_mobile: Boolean): Int = {
 
-    val userSignUp = User(
+    val user = User(
       anorm.NotAssigned,
-      user.email,
-      user.email,
-      PasswordHash.createHash(user.password),
-      PasswordHash.createCode(user.password),
+      userData.email,
+      userData.email,
+      PasswordHash.createHash(userData.password),
+      PasswordHash.createCode(userData.password),
       false,
       false,
       platform,
@@ -46,26 +46,26 @@ object UserData {
       is_mobile,
       null,
       null)
-    User.saveAndSendRegistrationEmail(userSignUp)
+    User.saveAndSendRegistrationEmail(user)
   }
 }
 
 case class User(
-  id: Pk[Int] = NotAssigned,
-  username: String,
-  email: String,
-  password: String,
-  code: String,
-  active: Boolean,
-  locked: Boolean,
-  platform: String,
-  ip_address: String,
-  user_agent: String,
-  accept_language: String,
-  is_mobile: Boolean,
-  created_at: Date,
-  updated_at: Date
-  )
+                 id: Pk[Int] = NotAssigned,
+                 username: String,
+                 email: String,
+                 password: String,
+                 code: String,
+                 active: Boolean,
+                 locked: Boolean,
+                 platform: String,
+                 ip_address: String,
+                 user_agent: String,
+                 accept_language: String,
+                 is_mobile: Boolean,
+                 created_at: Date,
+                 updated_at: Date
+                 )
 
 object User {
 
@@ -77,6 +77,10 @@ object User {
 
   def sendRegistration(user: User) = {
     CustomerMailer.sendRegistration(user)
+  }
+
+  def sendResetPassword(user: User, token: String) = {
+    CustomerMailer.sendResetPassword(user, token)
   }
 
   def save(user: User): Int = {
@@ -142,6 +146,14 @@ object User {
     loadWhere("us_id = {id}", 'id -> id)
   }
 
+  def findByResetPasswordToken(tokenText: String): (Option[User], String) = {
+    val token = Token.findByToken(tokenText)
+    if (token.isValid)
+      (loadWhere("us_id = {id}", 'id -> token.us_id), "")
+    else
+      (None, token.message)
+  }
+
   def loadWhere(where: String, args : scala.Tuple2[scala.Any, anorm.ParameterValue[_]]*) = {
     DB.withConnection("master") { implicit connection =>
       SQL(s"SELECT * from users WHERE $where")
@@ -150,7 +162,7 @@ object User {
     }
   }
 
-  def update(id: Int, user: User) {
+  def update(id: Int, user: User) = {
     DB.withConnection("master") { implicit connection =>
       SQL("""
           UPDATE users SET
@@ -165,7 +177,7 @@ object User {
     }
   }
 
-  def activateUser(id: Int) {
+  def activateUser(id: Int) = {
     DB.withConnection("master") { implicit connection =>
       SQL("""
           UPDATE users SET
@@ -177,7 +189,7 @@ object User {
     }
   }
 
-  def delete(id: Int) {
+  def delete(id: Int) = {
     DB.withConnection("master") { implicit connection =>
       SQL(""" 
           DELETE FROM users where us_id = {id}
@@ -186,5 +198,16 @@ object User {
       ).executeUpdate
     }
   }
+
+  def createResetPasswordToken(usId: Int, requestOrigin: RequestOrigin) = {
+    Token.newToken(
+      Token.tokenTypes(Token.resetPasswordTokenType),
+      DateUtil.plusDays(DateUtil.currentTime, 2),
+      "",
+      usId,
+      requestOrigin
+    )
+  }
+
 }
 

@@ -23,4 +23,15 @@ object CustomerMailer {
       views.html.mailers.registration(Settings.siteBaseURL, user.code).toString
     )
   }
+
+  def sendResetPassword(user: User, token: String) = {
+    Mailer.sendEmail(
+      Settings.registrationEmailFrom,
+      user.email,
+      Settings.resetPasswordSubject,
+      views.txt.mailers.resetPassword(Settings.siteBaseURL, token).toString,
+      views.html.mailers.resetPassword(Settings.siteBaseURL, token).toString
+    )
+  }
+
 }

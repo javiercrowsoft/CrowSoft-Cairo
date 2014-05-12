@@ -30,7 +30,7 @@ POST 	/users/:id					    controllers.Users.update(id: Int)
 DELETE	/users/:id		                controllers.Users.delete(id: Int)
 GET     /users/password/reset           controllers.Users.resetPassword
 POST    /users/password/reset           controllers.Users.sendResetPasswordEmail
-GET     /users/password/new/:code       controllers.Users.newPassword(code: String)
+GET     /users/password/reset/:token    controllers.Users.newPassword(token: String)
 GET     /users/password/change          controllers.Users.changePassword
 POST    /users/password/save            controllers.Users.savePassword
 

@@ -1,7 +1,7 @@
-@(userForm: Form[UserSignUp])(implicit token: play.filters.csrf.CSRF.Token, loggedUser: LoggedUser)
+@(userForm: Form[User])(implicit token: play.filters.csrf.CSRF.Token, loggedUser: LoggedUser)
 
 @import helper._
-@import models.UserSignUp
+@import models.User
 
 @main("Add a new User") {
     <h1>Add a new User</h1>
