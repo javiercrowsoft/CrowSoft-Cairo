@@ -23,7 +23,7 @@ object LoggedResponse extends Controller {
   def getAction[A](request: Request[A], f: (User) => play.api.mvc.SimpleResult) : play.api.mvc.SimpleResult = {
     val userId = request.session.get("user").getOrElse("")
     if (userId.isEmpty)
-      Unauthorized("Oops, you are not connected")
+      Unauthorized(views.html.errorpages.unauthorized("CrowSoft Cairo - Unauthorized"))
     else {
       val user = User.load(userId.toInt).getOrElse(null)
       if (user != null) {

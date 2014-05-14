@@ -5,9 +5,10 @@ import play.api.data._
 import play.api.data.Forms._
 import actions._
 import anorm._
-import models.User
+import models.{LoginData, User, Token}
 import services.{PasswordValidation, UserAgent, RequestOrigin}
 import play.api.Logger
+import settings.Settings
 
 case class ResetPasswordData(username: String)
 
@@ -103,7 +104,7 @@ object Users extends Controller with ProvidesUser {
       resetPassword => {
         val user = User.findByUsername(resetPassword.username).getOrElse(null)
         if(user == null)
-          NotFound
+          Redirect(routes.Users.resetPassword).flashing("error" -> s"No user is registered in our system for email ${resetPassword.username}")
         else {
           val token = User.createResetPasswordToken(user.id.getOrElse(0), RequestOrigin.parse(request))
           User.sendResetPassword(user, token.token)
@@ -112,32 +113,63 @@ object Users extends Controller with ProvidesUser {
       })
   }
 
-  def newPassword(token: String) = GetAction { implicit request =>
-    val user = User.findByResetPasswordToken(token)
-    if (user._1 != null) {
-      val newPasswordWithTokenForm = newPasswordForm.fill(NewPasswordData("", "", token))
+  def newPassword(tokenText: String) = GetAction { implicit request =>
+    val t = User.findByResetPasswordToken(tokenText)
+    val user = t._1.getOrElse(null)
+    if (user != null) {
+      val newPasswordWithTokenForm = newPasswordForm.fill(NewPasswordData("", "", tokenText))
       Ok(views.html.users.newPassword(newPasswordWithTokenForm))
     }
-    else
-      Ok(views.html.users.resetPasswordInvalidToken(user._2))
+    else {
+      val token = t._2
+      Ok(views.html.users.resetPasswordInvalidToken(token.message))
+    }
   }
 
   def changePassword = GetAction { implicit request =>
-    Ok(views.html.users.newPassword(newPasswordForm))
+    LoggedResponse.getAction(request, { user =>
+      Ok(views.html.users.newPassword(newPasswordForm))
+    })
   }
 
   def savePassword = PostAction { implicit request =>
     Logger.debug("in savePassword")
     newPasswordForm.bindFromRequest.fold(
       formWithErrors => {
-        Logger.debug("unvalid form")
+        Logger.debug("invalid form")
         BadRequest(views.html.users.newPassword(formWithErrors))
       },
-      user => {
-        // TODO: update password
-        Logger.debug("valid form")
-        Ok(views.html.users.newPasswordSaved())
+      newPassword => {
+        if (newPassword.token.isEmpty) {
+          LoggedResponse.getAction(request, { user =>
+            User.updatePassword(user.id.getOrElse(0), newPassword.password)
+            Ok(views.html.users.newPasswordSaved())
+          })
+        }
+        else {
+          val t = User.findByResetPasswordToken(newPassword.token)
+          val user = t._1.getOrElse(null)
+          if (user != null) {
+            User.updatePassword(user.id.getOrElse(0), newPassword.password)
+
+            // this token has been used
+            val token = t._2
+            Token.setAsUsed(token.id.getOrElse(0))
+
+            // we login this user and then redirect to passwordSaved
+            val loginData = LoginData(user.username, newPassword.password)
+            Sessions.login(RequestOrigin.parse(request), loginData, routes.Users.passwordSaved)
+          }
+          else {
+            val token = t._2
+            Ok(views.html.users.resetPasswordInvalidToken(token.message))
+          }
+        }
       })
+  }
+
+  def passwordSaved = GetAction { implicit request =>
+    Ok(views.html.users.newPasswordSaved())
   }
 }
 

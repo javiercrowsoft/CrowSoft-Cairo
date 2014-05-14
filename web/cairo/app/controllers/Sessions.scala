@@ -5,7 +5,7 @@ import play.api.data._
 import play.api.data.Forms._
 import actions._
 import models.{User, LoginData, UserLogin}
-import services.UserAgent
+import services.{ UserAgent, RequestOrigin }
 import settings._
 import play.api.Logger
 
@@ -26,7 +26,9 @@ object Sessions extends Controller with ProvidesUser {
       formWithErrors => {
         BadRequest(views.html.sessions.login(formWithErrors))
       },
-      login => {
+      loginForm => {
+        login(RequestOrigin.parse(request), loginForm, routes.Application.index)
+        /*
         val userAgent = UserAgent.parse(request)
 
         val success = LoginData.save(
@@ -51,6 +53,7 @@ object Sessions extends Controller with ProvidesUser {
           Redirect(routes.Sessions.userLocked)
         else
           Redirect(routes.Sessions.newSession).flashing("error" -> "There was an error when trying to sign in you in the system. Please try again.")
+          */
       })
   }
 
@@ -68,6 +71,33 @@ object Sessions extends Controller with ProvidesUser {
 
   def clean = GetAction { implicit request =>
     Redirect(routes.Application.index).withNewSession
+  }
+
+  def login(requestOrigin: RequestOrigin, loginForm: LoginData, call : play.api.mvc.Call) = {
+    val userAgent = requestOrigin.userAgent
+
+    val success = LoginData.save(
+      loginForm,
+      userAgent.platform,
+      requestOrigin.remoteAddress,
+      userAgent.userAgent,
+      requestOrigin.acceptLanguages.toString,
+      userAgent.isMobile)
+
+    if (UserLogin.successCodes.contains(success)) {
+      val user = User.findByUsername(loginForm.email).getOrElse(null)
+      Redirect(call).withSession(
+        "user" -> user.id.getOrElse(0).toString
+      )
+    }
+    else if (UserLogin.loginErrorCodes.contains(success))
+      Redirect(routes.Sessions.newSession).flashing("error" -> "User name or password invalid")
+    else if (success == UserLogin.resultCodes(UserLogin.resultLocationBlocked))
+      Redirect(routes.Sessions.locationBlocked)
+    else if (success == UserLogin.resultCodes(UserLogin.resultLocked))
+      Redirect(routes.Sessions.userLocked)
+    else
+      Redirect(routes.Sessions.newSession).flashing("error" -> "There was an error when trying to sign in you in the system. Please try again.")
   }
 
 }

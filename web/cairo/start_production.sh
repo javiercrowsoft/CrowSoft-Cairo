@@ -1,1 +1,1 @@
-play -Dconfig.file=production.conf start
+play -Dconfig.file=conf/production.conf start

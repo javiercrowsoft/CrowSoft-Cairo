@@ -33,6 +33,7 @@ POST    /users/password/reset           controllers.Users.sendResetPasswordEmail
 GET     /users/password/reset/:token    controllers.Users.newPassword(token: String)
 GET     /users/password/change          controllers.Users.changePassword
 POST    /users/password/save            controllers.Users.savePassword
+GET     /users/password/saved           controllers.Users.passwordSaved
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file                   controllers.Assets.at(path="/public", file)

@@ -22,7 +22,25 @@ object Registration extends Controller with ProvidesUser {
       formWithErrors => BadRequest(views.html.index(formWithErrors, Settings.siteBaseURL)),
       user => {
         val userAgent = UserAgent.parse(request)
-
+        UserData.insert(
+          user,
+          userAgent.platform,
+          request.remoteAddress,
+          userAgent.userAgent,
+          request.acceptLanguages.toString,
+          userAgent.isMobile) match {
+          case (success, message, userId) => {
+            if (success) {
+              Redirect(routes.Registration.activate).withSession(
+                "user" -> userId.toString
+              )
+            }
+            else {
+              Redirect(routes.Application.index).flashing("error" -> message)
+            }
+          }
+        }
+        /*
         val userId = UserData.save(
           user,
           userAgent.platform,
@@ -32,7 +50,7 @@ object Registration extends Controller with ProvidesUser {
           userAgent.isMobile)
         Redirect(routes.Registration.activate).withSession(
           "user" -> userId.toString
-        )
+        )*/
       })
   }
 

@@ -13,6 +13,22 @@ case class UserData(email: String, password: String)
 
 object UserData {
 
+  def insert(userData: UserData,
+             platform: String,
+             ip_address: String,
+             user_agent: String,
+             accept_language: String,
+             is_mobile: Boolean):(Boolean, String, Int) = {
+    if (User.existsWithEmail(userData.email)) {
+      (false, "This email address has already been taken", 0)
+    }
+    else {
+      val userId = save(userData, platform, ip_address, user_agent, accept_language, is_mobile)
+      (true, "", userId)
+    }
+  }
+
+
   def save(userData: UserData) = {
     val user = User(
       anorm.NotAssigned,
@@ -135,23 +151,36 @@ object User {
   }
 
   def findByEmail(email: String): Option[User] = {
-    loadWhere("us_email = {email}", 'email -> email)
+    loadWhere("us_email = {email}", 'email -> email.toLowerCase())
+  }
+
+  def existsWithEmail(email: String): Boolean = {
+    countWhere("us_email = {email}", 'email -> email.toLowerCase()) > 0
   }
 
   def findByUsername(username: String): Option[User] = {
-    loadWhere("us_username = {username}", 'username -> username)
+    loadWhere("us_username = {username}", 'username -> username.toLowerCase())
   }
 
   def load(id: Int): Option[User] = {
     loadWhere("us_id = {id}", 'id -> id)
   }
 
-  def findByResetPasswordToken(tokenText: String): (Option[User], String) = {
+  def findByResetPasswordToken(tokenText: String): (Option[User], Token) = {
     val token = Token.findByToken(tokenText)
     if (token.isValid)
-      (loadWhere("us_id = {id}", 'id -> token.us_id), "")
+      (loadWhere("us_id = {id}", 'id -> token.us_id), token)
     else
-      (None, token.message)
+      (None, token)
+  }
+
+  def countWhere(where: String, args : scala.Tuple2[scala.Any, anorm.ParameterValue[_]]*): Long = {
+    DB.withConnection("master") { implicit connection =>
+      val row = SQL(s"SELECT count(*) as c from users WHERE $where")
+        .on(args: _*)
+        .apply().head
+      row[Long]("c")
+    }
   }
 
   def loadWhere(where: String, args : scala.Tuple2[scala.Any, anorm.ParameterValue[_]]*) = {
@@ -174,6 +203,19 @@ object User {
           'username -> user.username,
           'email -> user.email
       ).executeUpdate
+    }
+  }
+
+  def updatePassword(id: Int, password: String) = {
+    DB.withConnection("master") { implicit connection =>
+      SQL("""
+          UPDATE users SET
+          us_password = {password}
+          WHERE us_id = {id}
+          """).on(
+          'id -> id,
+          'password -> PasswordHash.createHash(password)
+        ).executeUpdate
     }
   }
 

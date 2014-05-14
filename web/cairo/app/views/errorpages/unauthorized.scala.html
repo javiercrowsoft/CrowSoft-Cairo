@@ -1,0 +1,61 @@
+@(title: String)
+<!DOCTYPE html>
+<html>
+<head>
+    <title>@title</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="stylesheet" href="@routes.Assets.at("stylesheets/main.min.css")">
+    <link rel="stylesheet" href="@routes.Assets.at("stylesheets/sticky-footer-navbar.css")">
+    <link rel="stylesheet" href="@routes.Assets.at("stylesheets/multi-level-drop-menu.css")">
+    <link rel="shortcut icon" type="image/png" href="@routes.Assets.at("images/favicon.png")">
+    <script src="@routes.Assets.at("javascripts/jquery-1.9.0.min.js")" type="text/javascript"></script>
+        <script src="@routes.Assets.at("javascripts/bootstrap.min.js")" type="text/javascript"></script>
+</head>
+<style>
+    .form-control-signup { margin-bottom: 10px; }
+</style>
+<body>
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">CrowSoft Cairo</a>
+        </div>
+        <div class="collapse navbar-collapse">
+        </div><!--/.nav-collapse -->
+    </div>
+</div>
+<div class="jumbotron">
+    <div class="container">
+        <h1>Unauthorized</h1>
+    </div>
+</div>
+<div class="container">
+    <div class="alert alert-warning">You must be authenticated to access this page.</div>
+    <hr>
+</div> <!-- /container -->
+
+<div id="footer">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8">
+                <p class="text-muted">&copy; Company 2014</p>
+            </div>
+            <div class="col-md-4">
+                <p class="text-muted">
+                    <a href="http://glyphicons.com/">http://glyphicons.com/</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
