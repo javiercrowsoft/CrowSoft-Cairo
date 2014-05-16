@@ -28,7 +28,7 @@ http://www.crowsoft.com.ar
 
 javier at crowsoft.com.ar
 */
-﻿-- Function: add_months(timestamp with time zone, integer)
+-- Function: add_months(timestamp with time zone, integer)
 
 -- DROP FUNCTION add_months(timestamp with time zone, integer);
 

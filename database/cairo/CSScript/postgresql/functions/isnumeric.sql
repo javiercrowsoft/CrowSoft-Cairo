@@ -28,7 +28,7 @@ http://www.crowsoft.com.ar
 
 javier at crowsoft.com.ar
 */
-﻿-- Function: isnumeric(character varying)
+-- Function: isnumeric(character varying)
 
 -- DROP FUNCTION isnumeric(character varying);
 

@@ -2,7 +2,7 @@
 
 -- DROP TABLE user_login;
 
-CREATE TABLE user_logins
+CREATE TABLE user_login
 (
   usl_id serial primary key,
   usl_username character varying(1000) NOT NULL,

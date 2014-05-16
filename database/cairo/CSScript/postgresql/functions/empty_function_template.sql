@@ -1,4 +1,4 @@
-﻿/*
+/*
 CrowSoft-Cairo
 ==============
 
@@ -28,7 +28,7 @@ http://www.crowsoft.com.ar
 
 javier at crowsoft.com.ar
 */
-﻿CREATE OR REPLACE FUNCTION function_name (OUT/IN parameter_name data_type, ...)
+CREATE OR REPLACE FUNCTION function_name (OUT/IN parameter_name data_type, ...)
 RETURNS void/data_type AS
 $BODY$
 DECLARE

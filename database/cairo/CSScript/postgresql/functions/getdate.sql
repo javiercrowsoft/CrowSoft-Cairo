@@ -28,7 +28,7 @@ http://www.crowsoft.com.ar
 
 javier at crowsoft.com.ar
 */
-﻿-- Function: getdate()
+-- Function: getdate()
 
 -- DROP FUNCTION getdate();
 

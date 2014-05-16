@@ -28,7 +28,7 @@ http://www.crowsoft.com.ar
 
 javier at crowsoft.com.ar
 */
-﻿-- Function: dateadd(character varying, integer, timestamp with time zone)
+-- Function: dateadd(character varying, integer, timestamp with time zone)
 
 -- DROP FUNCTION dateadd(character varying, integer, timestamp with time zone);
 

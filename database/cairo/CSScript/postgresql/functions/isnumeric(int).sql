@@ -28,7 +28,7 @@ http://www.crowsoft.com.ar
 
 javier at crowsoft.com.ar
 */
-﻿-- Function: isnumeric(integer)
+-- Function: isnumeric(integer)
 
 -- DROP FUNCTION isnumeric(integer);
 

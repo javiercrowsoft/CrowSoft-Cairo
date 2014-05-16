@@ -28,32 +28,6 @@ object Sessions extends Controller with ProvidesUser {
       },
       loginForm => {
         login(RequestOrigin.parse(request), loginForm, routes.Application.index)
-        /*
-        val userAgent = UserAgent.parse(request)
-
-        val success = LoginData.save(
-          login,
-          userAgent.platform,
-          request.remoteAddress,
-          userAgent.userAgent,
-          request.acceptLanguages.toString,
-          userAgent.isMobile)
-
-        if (UserLogin.successCodes.contains(success)) {
-          val user = User.findByUsername(login.email).getOrElse(null)
-          Redirect(routes.Application.index).withSession(
-            "user" -> user.id.getOrElse(0).toString
-          )
-        }
-        else if (UserLogin.loginErrorCodes.contains(success))
-          Redirect(routes.Sessions.newSession).flashing("error" -> "User name or password invalid")
-        else if (success == UserLogin.resultCodes(UserLogin.resultLocationBlocked))
-          Redirect(routes.Sessions.locationBlocked)
-        else if (success == UserLogin.resultCodes(UserLogin.resultLocked))
-          Redirect(routes.Sessions.userLocked)
-        else
-          Redirect(routes.Sessions.newSession).flashing("error" -> "There was an error when trying to sign in you in the system. Please try again.")
-          */
       })
   }
 
@@ -86,6 +60,7 @@ object Sessions extends Controller with ProvidesUser {
 
     if (UserLogin.successCodes.contains(success)) {
       val user = User.findByUsername(loginForm.email).getOrElse(null)
+
       Redirect(call).withSession(
         "user" -> user.id.getOrElse(0).toString
       )
@@ -97,7 +72,8 @@ object Sessions extends Controller with ProvidesUser {
     else if (success == UserLogin.resultCodes(UserLogin.resultLocked))
       Redirect(routes.Sessions.userLocked)
     else
-      Redirect(routes.Sessions.newSession).flashing("error" -> "There was an error when trying to sign in you in the system. Please try again.")
+      Redirect(routes.Sessions.newSession).flashing(
+        "error" -> "There was an error when trying to sign in you in the system. Please try again.")
   }
 
 }
