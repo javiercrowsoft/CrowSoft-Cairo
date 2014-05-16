@@ -12,7 +12,7 @@ object CairoDB {
   var dataBases: List[String] = List()
 
   def connectDomainForUser(user: User) = {
-
+    // load user domain from email address
   }
 
   def connectDataSource(dbName: String, driver: String, url: String, user: String, password: String) = {
