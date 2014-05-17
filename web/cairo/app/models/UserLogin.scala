@@ -134,7 +134,7 @@ object UserLogin {
 
   def list: List[UserLogin] = {
     DB.withConnection("master") { implicit connection =>
-      SQL("SELECT * from user_login").as(userParser *)
+      SQL("SELECT * FROM user_login").as(userParser *)
     }
   }
 

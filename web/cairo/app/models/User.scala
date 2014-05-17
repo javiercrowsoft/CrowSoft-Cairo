@@ -4,7 +4,6 @@ import play.api.Logger
 import anorm._
 import anorm.SqlParser._
 import play.api.db.DB
-//import services.db.DB
 import services._
 import mailers._
 import java.util.Date
@@ -136,14 +135,14 @@ object User {
       get[Int]("us_is_mobile") ~
       get[Date]("created_at") ~
       get[Date]("updated_at") map {
-      case us_id ~ us_username ~ us_email ~ us_password ~ us_code ~ us_active ~us_locked ~ us_platform ~ us_ip_address ~ us_user_agent ~ us_accept_language ~ us_is_mobile ~ created_at ~ updated_at =>
+      case us_id ~ us_username ~ us_email ~ us_password ~ us_code ~ us_active ~ us_locked ~ us_platform ~ us_ip_address ~ us_user_agent ~ us_accept_language ~ us_is_mobile ~ created_at ~ updated_at =>
       User(us_id, us_username, us_email, us_password, us_code, us_active != 0, us_locked != 0, us_platform, us_ip_address, us_user_agent, us_accept_language, us_is_mobile != 0, created_at, updated_at)
     }
   }
 
   def list: List[User] = {
     DB.withConnection("master") { implicit connection =>
-      SQL("SELECT * from users").as(userParser *)
+      SQL("SELECT * FROM users").as(userParser *)
     }
   }
 
@@ -177,7 +176,7 @@ object User {
 
   def countWhere(where: String, args : scala.Tuple2[scala.Any, anorm.ParameterValue[_]]*): Long = {
     DB.withConnection("master") { implicit connection =>
-      val row = SQL(s"SELECT count(*) as c from users WHERE $where")
+      val row = SQL(s"SELECT count(*) as c FROM users WHERE $where")
         .on(args: _*)
         .apply().head
       row[Long]("c")
@@ -186,7 +185,7 @@ object User {
 
   def loadWhere(where: String, args : scala.Tuple2[scala.Any, anorm.ParameterValue[_]]*) = {
     DB.withConnection("master") { implicit connection =>
-      SQL(s"SELECT * from users WHERE $where")
+      SQL(s"SELECT * FROM users WHERE $where")
         .on(args: _*)
         .as(userParser.singleOpt)
     }

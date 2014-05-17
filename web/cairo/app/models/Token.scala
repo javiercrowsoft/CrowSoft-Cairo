@@ -126,7 +126,7 @@ object Token {
 
   def list: List[Token] = {
     DB.withConnection("master") { implicit connection =>
-      SQL("SELECT * from token").as(tokenParser *)
+      SQL("SELECT * FROM token").as(tokenParser *)
     }
   }
 
@@ -156,7 +156,7 @@ object Token {
 
   def loadWhere(where: String, args : scala.Tuple2[scala.Any, anorm.ParameterValue[_]]*) = {
     DB.withConnection("master") { implicit connection =>
-      SQL(s"SELECT * from token WHERE $where")
+      SQL(s"SELECT * FROM token WHERE $where")
         .on(args: _*)
         .as(tokenParser.singleOpt)
     }

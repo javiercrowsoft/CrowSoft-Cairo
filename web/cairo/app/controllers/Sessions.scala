@@ -6,6 +6,7 @@ import play.api.data.Forms._
 import actions._
 import models.{User, LoginData, UserLogin}
 import services.{ UserAgent, RequestOrigin }
+import services.db.CairoDB
 import settings._
 import play.api.Logger
 
@@ -60,7 +61,7 @@ object Sessions extends Controller with ProvidesUser {
 
     if (UserLogin.successCodes.contains(success)) {
       val user = User.findByUsername(loginForm.email).getOrElse(null)
-
+      CairoDB.connectDomainForUser(user)
       Redirect(call).withSession(
         "user" -> user.id.getOrElse(0).toString
       )

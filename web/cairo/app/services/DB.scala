@@ -13,6 +13,8 @@ import com.jolbox.bonecp._
 import com.jolbox.bonecp.hooks._
 import scala.util.control.{ NonFatal, ControlThrowable }
 
+import play.api.Logger
+
 /**
  * The Play Database API manages several connection pools.
  */
@@ -209,7 +211,8 @@ class BoneCPPlugin(app: Application) extends CSDBPlugin {
 
   var getConfig: ( () => play.api.Configuration ) = getEmptyConfig
 
-  lazy val dbConfig = getConfig() // Configuration.empty // app.configuration.getConfig("db").getOrElse(Configuration.empty)
+  //lazy val dbConfig = app.configuration.getConfig("db").getOrElse(Configuration.empty)
+  lazy val dbConfig = getConfig()
 
   private def dbURL(conn: Connection): String = {
     val u = conn.getMetaData.getURL

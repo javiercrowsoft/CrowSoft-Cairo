@@ -5,14 +5,20 @@ import scala.collection.immutable.Map
 import play.api.Configuration
 import com.typesafe.config._
 import play.api.Play.current
-import models.User
+import models.{ User, Domain }
 
 object CairoDB {
 
   var dataBases: List[String] = List()
 
   def connectDomainForUser(user: User) = {
-    // load user domain from email address
+    val domain = Domain.findByEmail(user.email).getOrElse(null)
+    connectDataSource(
+      domain.database,
+      "org.postgresql.Driver",
+      s"${domain.server}/${domain.database}",
+      domain.username,
+      domain.password)
   }
 
   def connectDataSource(dbName: String, driver: String, url: String, user: String, password: String) = {
