@@ -8,3 +8,6 @@
 *~
 production.conf
 dev.conf
+
+database/no_repo_scripts
+
