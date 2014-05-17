@@ -3,7 +3,8 @@ package models
 import play.api.Logger
 import anorm._
 import anorm.SqlParser._
-import play.api.db.DB
+//import play.api.db.DB
+import services.db.DB
 import java.util.Date
 import play.api.Play.current
 import services.{DateUtil, PasswordHash, UserAgent, RequestOrigin}

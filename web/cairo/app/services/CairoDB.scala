@@ -2,7 +2,7 @@ package services.db
 
 import scala.collection.JavaConversions._
 import scala.collection.immutable.Map
-import play.api.Configuration
+import play.api.{Logger, Configuration}
 import com.typesafe.config._
 import play.api.Play.current
 import models.{ User, Domain }
@@ -22,10 +22,14 @@ object CairoDB {
   }
 
   def connectDataSource(dbName: String, driver: String, url: String, user: String, password: String) = {
+
+    Logger.debug(s"addDataSource called with $dbName $driver $url $user and password")
+
     val key = s"$driver|$url|$user"
     if (!dataBases.contains(key)) {
       val config = createConfig(dbName, driver, url, user, password)
       DB.addDataSource(config)
+      dataBases = key :: dataBases
     }
   }
 

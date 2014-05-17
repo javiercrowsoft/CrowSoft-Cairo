@@ -188,6 +188,9 @@ object DB {
   }
 
   def addDataSource(config: play.api.Configuration)(implicit app: Application) = {
+
+    Logger.debug(s"DB.addDataSource called with ${config.toString}")
+
     app.plugin[CSDBPlugin].map(_.api.addDataSource(config)).getOrElse(error)
   }
 
@@ -207,12 +210,12 @@ trait CSDBPlugin extends Plugin {
  */
 class BoneCPPlugin(app: Application) extends CSDBPlugin {
 
-  def getEmptyConfig(): play.api.Configuration = Configuration.empty
+  //def getEmptyConfig(): play.api.Configuration = Configuration.empty
 
-  var getConfig: ( () => play.api.Configuration ) = getEmptyConfig
+  //var getConfig: ( () => play.api.Configuration ) = getEmptyConfig
 
-  //lazy val dbConfig = app.configuration.getConfig("db").getOrElse(Configuration.empty)
-  lazy val dbConfig = getConfig()
+  lazy val dbConfig = app.configuration.getConfig("csdb").getOrElse(Configuration.empty)
+  //lazy val dbConfig = getConfig()
 
   private def dbURL(conn: Connection): String = {
     val u = conn.getMetaData.getURL
@@ -227,7 +230,7 @@ class BoneCPPlugin(app: Application) extends CSDBPlugin {
    * plugin is disabled if either configuration is missing or the plugin is explicitly disabled
    */
   private lazy val isDisabled = {
-    app.configuration.getString("dbplugin").filter(_ == "disabled").isDefined || dbConfig.subKeys.isEmpty
+    app.configuration.getString("dbplugin").filter(_ == "disabled").isDefined
   }
 
   /**
@@ -249,6 +252,8 @@ class BoneCPPlugin(app: Application) extends CSDBPlugin {
    */
   override def onStart() {
     // Try to connect to each, this should be the first access to dbApi
+    Logger.debug(s"BoneCPPlugin: dbApi = ${dbApi.toString}")
+
     dbApi.datasources.map { ds =>
       try {
         ds._1.getConnection.close()
@@ -460,6 +465,9 @@ private[db] class BoneCPApi(configuration: Configuration, classloader: ClassLoad
    * @param config the data source definition
    */
   def addDataSource(config: play.api.Configuration) = {
+
+    Logger.debug(s"addDataSource called with ${config.toString}")
+
     val dbName = config.getString("dbName").getOrElse(error("-", "Missing configuration [dbName]"))
     val url = config.getString("url").getOrElse(error(dbName, "Missing configuration [url]"))
     val driver = config.getString("driver").getOrElse(error(dbName, "Missing configuration [driver]"))
