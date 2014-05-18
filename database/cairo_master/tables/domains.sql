@@ -13,7 +13,9 @@ CREATE TABLE domains
   dm_locked smallint NOT NULL DEFAULT 0,    
 
   created_at timestamp with time zone NOT NULL DEFAULT getdate(),
-  updated_at timestamp with time zone NOT NULL DEFAULT getdate()
+  updated_at timestamp with time zone NOT NULL DEFAULT getdate(),
+
+ CONSTRAINT ix_domains_database UNIQUE (dm_database) 
 )
 WITH (
   OIDS=FALSE

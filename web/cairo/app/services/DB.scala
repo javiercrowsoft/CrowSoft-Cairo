@@ -471,8 +471,10 @@ private[db] class BoneCPApi(configuration: Configuration, classloader: ClassLoad
     val dbName = config.getString("dbName").getOrElse(error("-", "Missing configuration [dbName]"))
     val url = config.getString("url").getOrElse(error(dbName, "Missing configuration [url]"))
     val driver = config.getString("driver").getOrElse(error(dbName, "Missing configuration [driver]"))
-    register(driver, config)
-    datasources = (createDataSource(dbName, url, driver, config) -> dbName) :: datasources
+    this.synchronized {
+      register(driver, config)
+      datasources = (createDataSource(dbName, url, driver, config) -> dbName) :: datasources
+    }
   }
 
 }

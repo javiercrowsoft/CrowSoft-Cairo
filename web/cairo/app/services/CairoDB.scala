@@ -27,9 +27,16 @@ object CairoDB {
 
     val key = s"$driver|$url|$user"
     if (!dataBases.contains(key)) {
+      Logger.debug(s"registering ${dbName}")
       val config = createConfig(dbName, driver, url, user, password)
-      DB.addDataSource(config)
-      dataBases = key :: dataBases
+      this.synchronized {
+        DB.addDataSource(config)
+        dataBases = key :: dataBases
+      }
+    }
+    // TODO: remove after some testing
+    else {
+      Logger.debug(s"database was already registered: ${dbName}")
     }
   }
 
