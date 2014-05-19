@@ -12,13 +12,19 @@ object CairoDB {
   var dataBases: List[String] = List()
 
   def connectDomainForUser(user: User) = {
-    val domain = Domain.findByEmail(user.email).getOrElse(null)
-    connectDataSource(
-      domain.database,
-      "org.postgresql.Driver",
-      s"${domain.server}/${domain.database}",
-      domain.username,
-      domain.password)
+    if(user.active) {
+      val domain = Domain.findByEmail(user.email).getOrElse(null)
+      connectDataSource(
+        domain.database,
+        "org.postgresql.Driver",
+        s"${domain.server}/${domain.database}",
+        domain.username,
+        domain.password)
+      user.setDomainDataSource(domain.database)
+    }
+    else {
+      Logger.error(s"user [${user.username}] isn't activated and CairoDB.connectDomainForUser was called")
+    }
   }
 
   def connectDataSource(dbName: String, driver: String, url: String, user: String, password: String) = {
@@ -27,7 +33,7 @@ object CairoDB {
 
     val key = s"$driver|$url|$user"
     if (!dataBases.contains(key)) {
-      Logger.debug(s"registering ${dbName}")
+      Logger.debug(s"registering $dbName")
       val config = createConfig(dbName, driver, url, user, password)
       this.synchronized {
         DB.addDataSource(config)
@@ -36,7 +42,7 @@ object CairoDB {
     }
     // TODO: remove after some testing
     else {
-      Logger.debug(s"database was already registered: ${dbName}")
+      Logger.debug(s"database was already registered: $dbName")
     }
   }
 

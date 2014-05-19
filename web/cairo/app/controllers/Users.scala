@@ -5,8 +5,8 @@ import play.api.data._
 import play.api.data.Forms._
 import actions._
 import anorm._
-import models.{LoginData, User, Token}
-import services.{PasswordValidation, UserAgent, RequestOrigin}
+import models.{ LoginData, User, Token }
+import services.{ PasswordValidation, UserAgent, RequestOrigin }
 import play.api.Logger
 import settings.Settings
 
@@ -116,7 +116,7 @@ object Users extends Controller with ProvidesUser {
   def newPassword(tokenText: String) = GetAction { implicit request =>
     val t = User.findByResetPasswordToken(tokenText)
     val user = t._1.getOrElse(null)
-    if (user != null) {
+    if(user != null) {
       val newPasswordWithTokenForm = newPasswordForm.fill(NewPasswordData("", "", tokenText))
       Ok(views.html.users.newPassword(newPasswordWithTokenForm))
     }
@@ -140,7 +140,7 @@ object Users extends Controller with ProvidesUser {
         BadRequest(views.html.users.newPassword(formWithErrors))
       },
       newPassword => {
-        if (newPassword.token.isEmpty) {
+        if(newPassword.token.isEmpty) {
           LoggedResponse.getAction(request, { user =>
             User.updatePassword(user.id.getOrElse(0), newPassword.password)
             Ok(views.html.users.newPasswordSaved())
@@ -149,7 +149,7 @@ object Users extends Controller with ProvidesUser {
         else {
           val t = User.findByResetPasswordToken(newPassword.token)
           val user = t._1.getOrElse(null)
-          if (user != null) {
+          if(user != null) {
             User.updatePassword(user.id.getOrElse(0), newPassword.password)
 
             // this token has been used

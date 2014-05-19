@@ -30,7 +30,7 @@ object Registration extends Controller with ProvidesUser {
           request.acceptLanguages.toString,
           userAgent.isMobile) match {
           case (success, message, userId) => {
-            if (success) {
+            if(success) {
               Redirect(routes.Registration.activate).withSession(
                 "user" -> userId.toString
               )
@@ -56,7 +56,7 @@ object Registration extends Controller with ProvidesUser {
 
   def validate(code: String) = GetAction { implicit request =>
     val user = User.findByCode(code).getOrElse(null)
-    if (user != null) {
+    if(user != null) {
       User.activateUser(user.id.getOrElse(0))
       Ok(views.html.registration.validate(user.username))
     }

@@ -4,7 +4,7 @@ import play.api.mvc._
 import play.api.data._
 import play.api.data.Forms._
 import actions._
-import models.{User, LoginData, UserLogin}
+import models.{ User, LoginData, UserLogin }
 import services.{ UserAgent, RequestOrigin }
 import services.db.CairoDB
 import settings._
@@ -28,7 +28,7 @@ object Sessions extends Controller with ProvidesUser {
         BadRequest(views.html.sessions.login(formWithErrors))
       },
       loginForm => {
-        login(RequestOrigin.parse(request), loginForm, routes.Application.index)
+        login(RequestOrigin.parse(request), loginForm, controllers.logged.routes.Companies.list)
       })
   }
 
@@ -59,18 +59,18 @@ object Sessions extends Controller with ProvidesUser {
       requestOrigin.acceptLanguages.toString,
       userAgent.isMobile)
 
-    if (UserLogin.successCodes.contains(success)) {
+    if(UserLogin.successCodes.contains(success)) {
       val user = User.findByUsername(loginForm.email).getOrElse(null)
-      CairoDB.connectDomainForUser(user)
-      Redirect(call).withSession(
+      val redirectTo = if(user.active) call else routes.Application.index
+      Redirect(redirectTo).withSession(
         "user" -> user.id.getOrElse(0).toString
       )
     }
-    else if (UserLogin.loginErrorCodes.contains(success))
+    else if(UserLogin.loginErrorCodes.contains(success))
       Redirect(routes.Sessions.newSession).flashing("error" -> "User name or password invalid")
-    else if (success == UserLogin.resultCodes(UserLogin.resultLocationBlocked))
+    else if(success == UserLogin.resultCodes(UserLogin.resultLocationBlocked))
       Redirect(routes.Sessions.locationBlocked)
-    else if (success == UserLogin.resultCodes(UserLogin.resultLocked))
+    else if(success == UserLogin.resultCodes(UserLogin.resultLocked))
       Redirect(routes.Sessions.userLocked)
     else
       Redirect(routes.Sessions.newSession).flashing(

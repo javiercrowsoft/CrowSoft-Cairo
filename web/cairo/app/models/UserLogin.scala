@@ -105,13 +105,13 @@ object UserLogin {
 
   def login(userLogin: UserLogin) = {
     val user = User.findByUsername(userLogin.username).getOrElse(null)
-    if (user == null)
+    if(user == null)
       resultCodes(resultNoUser)
-    else if (!PasswordHash.validatePassword(userLogin.password, user.password))
+    else if(!PasswordHash.validatePassword(userLogin.password, user.password))
       resultCodes(resultBadPassword)
-    else if (user.locked)
+    else if(user.locked)
       resultCodes(resultLocked)
-    else if (locationIsBlocked(user))
+    else if(locationIsBlocked(user))
       resultCodes(resultLocationBlocked)
     else
       resultCodes(resultSuccess)

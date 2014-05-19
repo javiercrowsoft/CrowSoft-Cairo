@@ -1,0 +1,29 @@
+@(companies: Iterable[models.domain.Company])(implicit flash:Flash, token: play.filters.csrf.CSRF.Token, loggedUser: LoggedUser)
+
+@main("All Users") {
+<!-- Main jumbotron for a primary marketing message or call to action -->
+<div class="jumbotron">
+    <div class="container">
+        <h3>Welcome @loggedUser.user.username!</h3>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        @flash.get("success").map { msg =>
+            <div class="alert alert-info">@msg</div>
+        }
+        @if(companies.isEmpty) {
+            <p>No Users found</p>
+        } else {
+        <ul>
+            @for(company <- companies) {
+            <li>@company.company_name
+                <hr>
+            </li>
+
+            }
+        </ul>
+        }
+    </div>
+</div>
+}

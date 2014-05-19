@@ -29,13 +29,13 @@ case class Token(
 
   // TODO: language support
   val status: (Boolean, String) = {
-    if (token_type == Token.tokenTypes(Token.invalidTokenType)) {
+    if(token_type == Token.tokenTypes(Token.invalidTokenType)) {
       (false, "Invalid Token")
     }
-    else if (used) {
+    else if(used) {
       (false, "This token has already been used")
     }
-    else if (isExpired) {
+    else if(isExpired) {
       (false, "Token has expired")
     }
     else
@@ -93,7 +93,7 @@ object Token {
           'expires -> token.expires,
           'token_type -> token.token_type,
           'data -> token.data,
-          'used -> (if (token.used) 1 else 0),
+          'used -> (if(token.used) 1 else 0),
           'us_id -> (if(token.us_id !=0) token.us_id else null),
           'platform -> token.platform,
           'ip_address -> token.ip_address,
@@ -145,7 +145,7 @@ object Token {
 
   def findByToken(tokenText: String): Token = {
     val token = loadWhere("tk_token = {token}", 'token -> tokenText).getOrElse(null)
-    if (token == null)
+    if(token == null)
       invalidToken
     else
       token

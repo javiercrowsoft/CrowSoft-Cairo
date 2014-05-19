@@ -19,7 +19,7 @@ object PasswordValidation {
         case allLetters() => Seq(ValidationError("Password is all letters"))
         case _ => Nil
       }
-      if (errors.isEmpty) {
+      if(errors.isEmpty) {
         Logger.debug("passwordCheckConstraint.valid")
         Valid
       } else {

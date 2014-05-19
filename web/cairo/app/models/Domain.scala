@@ -102,7 +102,7 @@ object Domain {
           'database -> domain.database,
           'username -> domain.username,
           'password -> domain.password,
-          'locked -> (if (domain.locked) 1 else 0)
+          'locked -> (if(domain.locked) 1 else 0)
         ).executeUpdate
     }
   }

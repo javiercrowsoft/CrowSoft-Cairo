@@ -334,7 +334,7 @@ private[db] class BoneCPApi(configuration: Configuration, classloader: ClassLoad
     datasource.setConnectionHook(new AbstractConnectionHook {
 
       override def onCheckIn(connection: ConnectionHandle) {
-        if (logger.isTraceEnabled) {
+        if(logger.isTraceEnabled) {
           logger.trace("Check in connection %s [%s leased]".format(connection.toString, datasource.getTotalLeased))
         }
       }
@@ -344,7 +344,7 @@ private[db] class BoneCPApi(configuration: Configuration, classloader: ClassLoad
         isolation.map(connection.setTransactionIsolation)
         connection.setReadOnly(readOnly)
         catalog.map(connection.setCatalog)
-        if (logger.isTraceEnabled) {
+        if(logger.isTraceEnabled) {
           logger.trace("Check out connection %s [%s leased]".format(connection.toString, datasource.getTotalLeased))
         }
       }
@@ -374,7 +374,7 @@ private[db] class BoneCPApi(configuration: Configuration, classloader: ClassLoad
         datasource.setUsername(username)
         datasource.setPassword(password)
       case Some(url @ H2DefaultUrl()) if !url.contains("DB_CLOSE_DELAY") =>
-        if (Play.maybeApplication.exists(_.mode == Mode.Dev)) {
+        if(Play.maybeApplication.exists(_.mode == Mode.Dev)) {
           datasource.setJdbcUrl(url + ";DB_CLOSE_DELAY=-1")
         } else {
           datasource.setJdbcUrl(url)
@@ -474,6 +474,8 @@ private[db] class BoneCPApi(configuration: Configuration, classloader: ClassLoad
     this.synchronized {
       register(driver, config)
       datasources = (createDataSource(dbName, url, driver, config) -> dbName) :: datasources
+
+      Logger.debug(s"datasources: ${datasources.toString}")
     }
   }
 

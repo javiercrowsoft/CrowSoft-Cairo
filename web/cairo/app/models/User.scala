@@ -4,7 +4,7 @@ import play.api.Logger
 import anorm._
 import anorm.SqlParser._
 //import play.api.db.DB
-import services.db.DB
+import services.db.{CairoDB, DB}
 import services._
 import mailers._
 import java.util.Date
@@ -20,7 +20,7 @@ object UserData {
              user_agent: String,
              accept_language: String,
              is_mobile: Boolean):(Boolean, String, Int) = {
-    if (User.existsWithEmail(userData.email)) {
+    if(User.existsWithEmail(userData.email)) {
       (false, "This email address has already been taken", 0)
     }
     else {
@@ -82,7 +82,22 @@ case class User(
                  is_mobile: Boolean,
                  created_at: Date,
                  updated_at: Date
-                 )
+                 ) {
+
+  var _domainDataSource = ""
+  def setDomainDataSource(dataSource: String) = _domainDataSource = dataSource
+
+  lazy val domainDataSource = {
+    CairoDB.connectDomainForUser(this)
+    _domainDataSource
+  }
+
+  var _cairoDataSource = ""
+  def setCairoDataSource(dataSource: String) = _cairoDataSource = dataSource
+
+  lazy val cairoDataSource = _cairoDataSource
+
+}
 
 object User {
 
@@ -169,7 +184,7 @@ object User {
 
   def findByResetPasswordToken(tokenText: String): (Option[User], Token) = {
     val token = Token.findByToken(tokenText)
-    if (token.isValid)
+    if(token.isValid)
       (loadWhere("us_id = {id}", 'id -> token.us_id), token)
     else
       (None, token)
