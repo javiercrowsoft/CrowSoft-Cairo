@@ -22,10 +22,10 @@ object Companies extends Controller with ProvidesUser {
     })
   }
 
-  def create = PostAction { implicit request =>
+  def login = PostAction { implicit request =>
     form.bindFromRequest.fold(
       formWithErrors => {
-        BadRequest(views.html.sessions.login(formWithErrors))
+        BadRequest
       },
       loginForm => {
 
