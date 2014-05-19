@@ -6,12 +6,13 @@ import play.api.{Logger, Configuration}
 import com.typesafe.config._
 import play.api.Play.current
 import models.{ User, Domain }
+import models.domain.{ Company, Database, CompanyUser }
 
 object CairoDB {
 
   var dataBases: List[String] = List()
 
-  def connectDomainForUser(user: User) = {
+  def connectDomainForUser(user: User): String = {
     if(user.active) {
       val domain = Domain.findByEmail(user.email).getOrElse(null)
       connectDataSource(
@@ -20,10 +21,35 @@ object CairoDB {
         s"${domain.server}/${domain.database}",
         domain.username,
         domain.password)
-      user.setDomainDataSource(domain.database)
+      domain.database
     }
     else {
       Logger.error(s"user [${user.username}] isn't activated and CairoDB.connectDomainForUser was called")
+      ""
+    }
+  }
+
+  def connectCairoForUser(user: User, companyId: Int): CompanyUser = {
+    if(user.active) {
+      val company = Company.load(user, companyId).getOrElse(null)
+      if(company != null) {
+        val database = Database.load(user, company.db_id).getOrElse(null)
+        connectDataSource(
+          database.database,
+          "org.postgresql.Driver",
+          s"${database.server}/${database.database}",
+          database.username,
+          database.password)
+        CompanyUser(user, company, database)
+      }
+      else {
+        Logger.error(s"companyId [$companyId] wasn't found for user [${user.domainDataSource}}]")
+        null
+      }
+    }
+    else {
+      Logger.error(s"user [${user.username}] isn't activated and CairoDB.connectCairoForUser was called")
+      null
     }
   }
 
@@ -32,7 +58,7 @@ object CairoDB {
     Logger.debug(s"addDataSource called with $dbName $driver $url $user and password")
 
     val key = s"$driver|$url|$user"
-    if (!dataBases.contains(key)) {
+    if(!dataBases.contains(key)) {
       Logger.debug(s"registering $dbName")
       val config = createConfig(dbName, driver, url, user, password)
       this.synchronized {

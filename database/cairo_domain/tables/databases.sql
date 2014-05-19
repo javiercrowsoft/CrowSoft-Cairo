@@ -7,8 +7,8 @@ CREATE TABLE databases
   db_id serial NOT NULL,
   db_corporation character varying(1000) NOT NULL,
   db_server character varying(1000) NOT NULL,
-  db_dbname character varying(1000) NOT NULL,
-  db_user character varying(1000) NOT NULL,
+  db_database character varying(1000) NOT NULL,
+  db_username character varying(1000) NOT NULL,
   db_password character varying(1000) NOT NULL,
   
   created_at timestamp with time zone NOT NULL DEFAULT getdate(),

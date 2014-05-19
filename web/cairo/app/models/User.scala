@@ -84,18 +84,7 @@ case class User(
                  updated_at: Date
                  ) {
 
-  var _domainDataSource = ""
-  def setDomainDataSource(dataSource: String) = _domainDataSource = dataSource
-
-  lazy val domainDataSource = {
-    CairoDB.connectDomainForUser(this)
-    _domainDataSource
-  }
-
-  var _cairoDataSource = ""
-  def setCairoDataSource(dataSource: String) = _cairoDataSource = dataSource
-
-  lazy val cairoDataSource = _cairoDataSource
+  lazy val domainDataSource = CairoDB.connectDomainForUser(this)
 
 }
 

@@ -3,6 +3,8 @@ package controllers
 import play.api.mvc._
 import actions._
 import models.{ LoggedUser, User }
+import models.domain.{ CompanyUser, Company }
+import services.db.CairoDB
 
 trait ProvidesUser {
 
@@ -32,5 +34,24 @@ object LoggedResponse extends Controller {
       else
         NotFound
     }
+  }
+}
+
+object LoggedIntoCompanyResponse extends Controller {
+
+  def getAction[A](request: Request[A], f: (CompanyUser) => play.api.mvc.SimpleResult) : play.api.mvc.SimpleResult = {
+    LoggedResponse.getAction(request, { user =>
+      val companyId = request.session.get("company").getOrElse("")
+      if(companyId.isEmpty)
+        Unauthorized(views.html.errorpages.unauthorized("CrowSoft Cairo - Unauthorized"))
+      else {
+        val companyUser = CairoDB.connectCairoForUser(user, companyId.toInt)
+        if(companyUser != null) {
+          f(companyUser)
+        }
+        else
+          NotFound
+      }
+    })
   }
 }

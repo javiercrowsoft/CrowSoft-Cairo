@@ -6,7 +6,7 @@ CREATE TABLE companies
 (
   co_id serial NOT NULL,
   db_id int NOT NULL,
-  co_company_id character varying(1000) NOT NULL,
+  co_company_id int NOT NULL,
   co_company_name character varying(1000) NOT NULL,
   
   created_at timestamp with time zone NOT NULL DEFAULT getdate(),
