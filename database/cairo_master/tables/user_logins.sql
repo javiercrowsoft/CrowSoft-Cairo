@@ -1,8 +1,8 @@
--- Table: user_login
+-- Table: user_logins
 
--- DROP TABLE user_login;
+-- DROP TABLE user_logins;
 
-CREATE TABLE user_login
+CREATE TABLE user_logins
 (
   usl_id serial primary key,
   usl_username character varying(1000) NOT NULL,
@@ -20,5 +20,5 @@ CREATE TABLE user_login
 WITH (
   OIDS=FALSE
 );
-ALTER TABLE user_login
+ALTER TABLE user_logins
   OWNER TO postgres;

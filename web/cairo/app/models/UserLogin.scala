@@ -26,6 +26,7 @@ object LoginData {
       anorm.NotAssigned,
       user.email,
       user.password,
+      "",
       platform,
       ip_address,
       user_agent,
@@ -41,6 +42,7 @@ case class UserLogin(
                       id: Pk[Int] = NotAssigned,
                       username: String,
                       password: String,
+                      result_code: String,
                       platform: String,
                       ip_address: String,
                       user_agent: String,
@@ -76,7 +78,7 @@ object UserLogin {
     val resultCode = login(user)
     DB.withConnection("master") { implicit connection =>
       SQL("""
-          INSERT INTO user_login(usl_username, usl_result_code, usl_platform, usl_ip_address, usl_user_agent, usl_accept_language, usl_is_mobile)
+          INSERT INTO user_logins(usl_username, usl_result_code, usl_platform, usl_ip_address, usl_user_agent, usl_accept_language, usl_is_mobile)
           VALUES({username}, {result_code}, {platform}, {ip_address}, {user_agent}, {accept_language}, {is_mobile})
           """).on(
         'username -> user.username,
@@ -129,13 +131,13 @@ object UserLogin {
       get[Date]("created_at") ~
       get[Date]("updated_at") map {
       case usl_id ~ usl_username ~ usl_result_code ~ usl_platform ~ usl_ip_address ~ usl_user_agent ~ usl_accept_language ~ usl_is_mobile ~ created_at ~ updated_at =>
-        UserLogin(usl_id, usl_username, usl_result_code, usl_platform, usl_ip_address, usl_user_agent, usl_accept_language, usl_is_mobile != 0, created_at, updated_at)
+        UserLogin(usl_id, usl_username, "", usl_result_code, usl_platform, usl_ip_address, usl_user_agent, usl_accept_language, usl_is_mobile != 0, created_at, updated_at)
     }
   }
 
   def list: List[UserLogin] = {
     DB.withConnection("master") { implicit connection =>
-      SQL("SELECT * FROM user_login").as(userParser *)
+      SQL("SELECT * FROM user_logins").as(userParser *)
     }
   }
 

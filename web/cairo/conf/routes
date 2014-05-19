@@ -32,7 +32,6 @@ GET   	/users          				controllers.Users.list
 GET	  	/users/add					    controllers.Users.add
 POST  	/users						    controllers.Users.save
 GET		/users/:id/edit				    controllers.Users.edit(id: Int)
-#PUT 	/users/:id					    controllers.Users.update(id: Int)
 POST 	/users/:id					    controllers.Users.update(id: Int)
 DELETE	/users/:id		                controllers.Users.delete(id: Int)
 GET     /users/password/reset           controllers.Users.resetPassword
@@ -44,6 +43,7 @@ GET     /users/password/saved           controllers.Users.passwordSaved
 
 # Company
 GET     /companies                      controllers.logged.Companies.list
+POST    /company/login                  controllers.logged.Companies.login
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file                   controllers.Assets.at(path="/public", file)
