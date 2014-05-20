@@ -6,6 +6,8 @@ import anorm._
 import anorm.SqlParser._
 import anorm.~
 import services.{DateUtil, RequestOrigin}
+import java.util.Date
+import play.api.Play.current
 
 case class CompanyUser(user: User, company: Company, database: Database) {
   val isLogged = { user != null }

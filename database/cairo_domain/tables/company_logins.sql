@@ -11,7 +11,7 @@ CREATE TABLE company_logins
 
   col_platform character varying(255) NOT NULL,
   col_ip_address character varying(255) NOT NULL,
-  col_company_agent character varying(255) NOT NULL,
+  col_user_agent character varying(255) NOT NULL,
   col_accept_language character varying(255) NOT NULL,
   col_is_mobile smallint NOT NULL DEFAULT 0,
 

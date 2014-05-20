@@ -27,6 +27,7 @@ object LoginData {
       anorm.NotAssigned,
       company.companyId,
       company.user.id.getOrElse(0),
+      "",
       platform,
       ip_address,
       user_agent,
@@ -69,7 +70,7 @@ object CompanyLogin {
   val loginErrorCodes = List(resultCodes(resultNoCompany), resultCodes(resultAccessDenied))
 
   def save(user: User, companyLogin: CompanyLogin): String = {
-    val resultCode = login(companyLogin)
+    val resultCode = login(user, companyLogin)
     DB.withConnection(user.domainDataSource) { implicit connection =>
       SQL("""
           INSERT INTO company_logins(co_id, us_id, col_result_code, col_platform, col_ip_address, col_user_agent, col_accept_language, col_is_mobile)
@@ -95,11 +96,11 @@ object CompanyLogin {
 
   * */
 
-  def login(companyLogin: CompanyLogin) = {
-    val company = Company.load(companyLogin.co_id).getOrElse(null)
+  def login(user: User, companyLogin: CompanyLogin) = {
+    val company = Company.load(user, companyLogin.co_id).getOrElse(null)
     if(company == null)
       resultCodes(resultNoCompany)
-    else if(CompanyUser.existsWithCompanyAndUser(companyLogin.co_id, companyLogin.us_id))
+    else if(!CompanyUser.existsWithCompanyAndUser(user, companyLogin.co_id, companyLogin.us_id))
       resultCodes(resultAccessDenied)
     else
       resultCodes(resultSuccess)

@@ -18,6 +18,23 @@ trait ProvidesUser {
     }
     getUser
   }
+
+  implicit def companyUser[A](implicit request: Request[A]) : CompanyUser = {
+    val user = loggedUser(request)
+    if(user.user != null) {
+      val companyId = request.session.get("company").getOrElse("")
+      def getCompanyUser(): CompanyUser = {
+        if (companyId.isEmpty)
+          CompanyUser(null, null, null)
+        else
+          CairoDB.connectCairoForUser(user.user, companyId.toInt)
+      }
+      getCompanyUser
+    }
+    else
+      CompanyUser(null, null, null)
+  }
+
 }
 
 object LoggedResponse extends Controller {

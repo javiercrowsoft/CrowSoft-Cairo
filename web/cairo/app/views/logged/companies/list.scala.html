@@ -1,6 +1,8 @@
 @(companies: Iterable[models.domain.Company])(implicit flash:Flash, token: play.filters.csrf.CSRF.Token, loggedUser: LoggedUser)
 
-@main("All Users") {
+@import helper._
+
+@main("Companies") {
 <!-- Main jumbotron for a primary marketing message or call to action -->
 <div class="jumbotron">
     <div class="container">
@@ -8,6 +10,8 @@
     </div>
 </div>
 <div class="container">
+    <h3>Select a company to work with</h3>
+    <br>
     <div class="row">
         @flash.get("success").map { msg =>
             <div class="alert alert-info">@msg</div>
@@ -15,15 +19,25 @@
         @if(companies.isEmpty) {
             <p>No Companies found</p>
         } else {
-        <ul>
-            @for(company <- companies) {
-            <li>@company.company_name
-                <hr>
-            </li>
+            @form(controllers.logged.routes.Companies.login, 'id -> "loginToCompanyForm", 'class -> "form") {
+            @CSRF.formField
+            <input type="hidden" name="companyId" id="companyId" value="0">
+            <ul>
+                @for(company <- companies) {
+                <li><a href="javascript:loginInto(@company.id)">@company.company_name</a>
+                    <hr>
+                </li>
 
+                }
+            </ul>
             }
-        </ul>
         }
     </div>
 </div>
+<script>
+    function loginInto(companyId) {
+        $('#companyId').val(companyId);
+        $('#loginToCompanyForm').submit();
+    }
+</script>
 }

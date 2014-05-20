@@ -74,7 +74,7 @@ object Sessions extends Controller with ProvidesUser {
       Redirect(routes.Sessions.userLocked)
     else
       Redirect(routes.Sessions.newSession).flashing(
-        "error" -> "There was an error when trying to sign in you in the system. Please try again.")
+        "error" -> "There was an error when trying to sign in you into the system. Please try again.")
   }
 
 }

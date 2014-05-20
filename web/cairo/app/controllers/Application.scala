@@ -20,4 +20,8 @@ object Application extends Controller with ProvidesUser {
     Ok(views.html.index(form, Settings.siteBaseURL))
   }
 
+  def error = GetAction { implicit request =>
+    Ok(views.html.errorpages.error("Error"))
+  }
+
 }
