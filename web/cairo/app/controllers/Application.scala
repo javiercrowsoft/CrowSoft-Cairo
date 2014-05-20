@@ -17,7 +17,15 @@ object Application extends Controller with ProvidesUser {
     )(UserData.apply)(UserData.unapply))
 
   def index = GetAction { implicit request =>
-    Ok(views.html.index(form, Settings.siteBaseURL))
+    if(SessionStatus.isLoggedCompanyUser(request)) {
+      Redirect(controllers.logged.routes.Desktop.show)
+    }
+    else if(SessionStatus.isLoggedUser(request)) {
+      Redirect(controllers.logged.routes.Companies.list)
+    }
+    else {
+      Ok(views.html.index(form, Settings.siteBaseURL))
+    }
   }
 
   def error = GetAction { implicit request =>

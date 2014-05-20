@@ -72,3 +72,10 @@ object LoggedIntoCompanyResponse extends Controller {
     })
   }
 }
+
+object SessionStatus {
+
+  def isLoggedUser[A](request: Request[A]) = !request.session.get("user").getOrElse("").isEmpty
+  def isLoggedCompanyUser[A](request: Request[A]) = !request.session.get("company").getOrElse("").isEmpty
+
+}
