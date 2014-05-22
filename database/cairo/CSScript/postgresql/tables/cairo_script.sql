@@ -16510,7 +16510,7 @@ CREATE TABLE SindicatoCategoria(
 	sindca_id int NOT NULL,
 	sind_id int NOT NULL,
 	sindca_nombre varchar(100) NOT NULL,
-	sindca_codigo varchar(15) NOT NULL,
+	sindca_codigo varchar(50) NOT NULL,
 	sindca_descrip varchar(255) NOT NULL,
 	creado timestamptz NOT NULL CONSTRAINT DF_SindicatoCategoria_creado  DEFAULT (getdate()),
 	modificado timestamptz NOT NULL CONSTRAINT DF_SindicatoCategoria_modificado  DEFAULT (getdate()),
@@ -25538,3 +25538,27 @@ REFERENCES webArticulo (wart_id)
 ;
 -- FK_webArticuloUsuario_webArticulo
 ;
+
+CREATE TABLE sysmenu
+(
+  me_id serial NOT NULL,
+  me_text character varying(1000) NOT NULL DEFAULT ''::character varying,
+  me_key character varying(100) NOT NULL DEFAULT ''::character varying,
+  pre_id integer,
+  me_father character varying(1000) NOT NULL DEFAULT ''::character varying,
+  me_position integer,
+  me_is_last smallint,
+  me_is_separator smallint,
+  me_have_separator smallint,
+  me_is_main_menu smallint,
+  me_is_popup_menu smallint,
+  me_object_handler character varying(255) NOT NULL DEFAULT ''::character varying,
+  me_package character varying(255) NOT NULL DEFAULT ''::character varying,
+  me_file_path character varying(255) NOT NULL DEFAULT ''::character varying,
+  CONSTRAINT sysmenu_pkey PRIMARY KEY (me_id)
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE sysmenu
+  OWNER TO postgres;
