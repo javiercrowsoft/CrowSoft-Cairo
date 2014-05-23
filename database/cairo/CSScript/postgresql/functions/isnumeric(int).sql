@@ -2,7 +2,7 @@
 CrowSoft-Cairo
 ==============
 
-ERP application written in Java (Tomcat + GWT) and Postgresql
+ERP application written in Scala Play Framework and Postgresql
 
 Copyright (C) 2012  Javier Mariano Alvarez
 

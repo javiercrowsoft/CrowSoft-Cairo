@@ -1,4 +1,4 @@
-﻿/*
+/*
 CrowSoft-Cairo
 ==============
 
@@ -28,32 +28,33 @@ http://www.crowsoft.com.ar
 
 javier at crowsoft.com.ar
 */
--- Function: sp_arbconvertid(character varying)
+-- Function: sp_sys_module_get()
 
--- DROP FUNCTION sp_arbconvertid(character varying);
+-- DROP FUNCTION sp_sys_module_get();
 
-CREATE OR REPLACE FUNCTION sp_arbconvertid(IN p_id character varying, OUT p_hoja_id integer, OUT p_ram_id integer)
-  RETURNS record AS
+CREATE OR REPLACE FUNCTION sp_sys_module_get(IN p_us_id integer, out rtn refcursor)
+  RETURNS refcursor AS
 $BODY$
 DECLARE
 BEGIN
+        rtn := 'rtn';
+        
+        open rtn for
+        select distinct 
 
-   p_hoja_id := 0;
+			s.sysm_id,
+			s.sysm_orden,
+			s.sysm_objetoinicializacion,
+			s.sysm_objetoedicion,
+			s.pre_id
 
-   p_ram_id := 0;
+ 	from sysModulo s inner join sysModuloUser u on s.sysm_id = u.sysm_id and u.us_id = p_us_id
 
-   IF SUBSTR(p_id, 1, 1) = 'n' THEN-- esto significa que es un nodo
-   
-      p_ram_id := to_number(SUBSTR(p_id, 2, LENGTHB(p_id) - 1));
-
-   ELSE
-      p_hoja_id := to_number(p_id);
-
-   END IF;
+	order by s.sysm_orden;
 
 END;
 $BODY$
   LANGUAGE plpgsql VOLATILE
   COST 100;
-ALTER FUNCTION sp_arbconvertid(character varying)
+ALTER FUNCTION sp_sys_module_get(integer)
   OWNER TO postgres;

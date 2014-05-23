@@ -1,4 +1,4 @@
-﻿/*
+/*
 CrowSoft-Cairo
 ==============
 
@@ -28,32 +28,26 @@ http://www.crowsoft.com.ar
 
 javier at crowsoft.com.ar
 */
--- Function: sp_arbconvertid(character varying)
+-- Function: sp_cols()
 
--- DROP FUNCTION sp_arbconvertid(character varying);
+-- DROP FUNCTION sp_cols();
 
-CREATE OR REPLACE FUNCTION sp_arbconvertid(IN p_id character varying, OUT p_hoja_id integer, OUT p_ram_id integer)
-  RETURNS record AS
+CREATE OR REPLACE FUNCTION sp_cols(IN tableName varchar, refcursor)
+  RETURNS refcursor AS
 $BODY$
 DECLARE
+v_leng_id integer;
 BEGIN
+        OPEN $2 FOR
+        SELECT *
+        FROM information_schema.columns
+        WHERE table_name = lower(tableName);
 
-   p_hoja_id := 0;
-
-   p_ram_id := 0;
-
-   IF SUBSTR(p_id, 1, 1) = 'n' THEN-- esto significa que es un nodo
-   
-      p_ram_id := to_number(SUBSTR(p_id, 2, LENGTHB(p_id) - 1));
-
-   ELSE
-      p_hoja_id := to_number(p_id);
-
-   END IF;
+        RETURN $2;
 
 END;
 $BODY$
   LANGUAGE plpgsql VOLATILE
   COST 100;
-ALTER FUNCTION sp_arbconvertid(character varying)
+ALTER FUNCTION sp_cols(varchar, refcursor)
   OWNER TO postgres;

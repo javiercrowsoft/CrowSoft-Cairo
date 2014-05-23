@@ -2,7 +2,7 @@
 CrowSoft-Cairo
 ==============
 
-ERP application written in Java (Tomcat + GWT) and Postgresql
+ERP application written in Scala Play Framework and Postgresql
 
 Copyright (C) 2012  Javier Mariano Alvarez
 
@@ -28,7 +28,7 @@ http://www.crowsoft.com.ar
 
 javier at crowsoft.com.ar
 */
-﻿-- Function: alr_dc_csc_srv_0010_m()
+-- Function: alr_dc_csc_srv_0010_m()
 
 -- DROP FUNCTION alr_dc_csc_srv_0010_m();
 

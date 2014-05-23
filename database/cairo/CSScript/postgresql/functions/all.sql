@@ -2,7 +2,7 @@
 CrowSoft-Cairo
 ==============
 
-ERP application written in Java (Tomcat + GWT) and Postgresql
+ERP application written in Scala Play Framework and Postgresql
 
 Copyright (C) 2012  Javier Mariano Alvarez
 
@@ -47,7 +47,7 @@ ALTER FUNCTION add_months(timestamp with time zone, integer)
 CrowSoft-Cairo
 ==============
 
-ERP application written in Java (Tomcat + GWT) and Postgresql
+ERP application written in Scala Play Framework and Postgresql
 
 Copyright (C) 2012  Javier Mariano Alvarez
 
@@ -137,7 +137,7 @@ ALTER FUNCTION dateadd(character varying, integer, timestamp with time zone)
 CrowSoft-Cairo
 ==============
 
-ERP application written in Java (Tomcat + GWT) and Postgresql
+ERP application written in Scala Play Framework and Postgresql
 
 Copyright (C) 2012  Javier Mariano Alvarez
 
@@ -178,7 +178,7 @@ ALTER FUNCTION getdate()
 CrowSoft-Cairo
 ==============
 
-ERP application written in Java (Tomcat + GWT) and Postgresql
+ERP application written in Scala Play Framework and Postgresql
 
 Copyright (C) 2012  Javier Mariano Alvarez
 
@@ -223,7 +223,7 @@ ALTER FUNCTION isnumeric(integer)
 CrowSoft-Cairo
 ==============
 
-ERP application written in Java (Tomcat + GWT) and Postgresql
+ERP application written in Scala Play Framework and Postgresql
 
 Copyright (C) 2012  Javier Mariano Alvarez
 
@@ -273,7 +273,7 @@ ALTER FUNCTION isnumeric(character varying)
 CrowSoft-Cairo
 ==============
 
-ERP application written in Java (Tomcat + GWT) and Postgresql
+ERP application written in Scala Play Framework and Postgresql
 
 Copyright (C) 2012  Javier Mariano Alvarez
 
@@ -332,7 +332,7 @@ ALTER FUNCTION sp_arbconvertid(character varying)
 CrowSoft-Cairo
 ==============
 
-ERP application written in Java (Tomcat + GWT) and Postgresql
+ERP application written in Scala Play Framework and Postgresql
 
 Copyright (C) 2012  Javier Mariano Alvarez
 
@@ -453,7 +453,7 @@ ALTER FUNCTION sp_arbgetallhojas(integer, integer, integer)
 CrowSoft-Cairo
 ==============
 
-ERP application written in Java (Tomcat + GWT) and Postgresql
+ERP application written in Scala Play Framework and Postgresql
 
 Copyright (C) 2012  Javier Mariano Alvarez
 
@@ -520,7 +520,7 @@ ALTER FUNCTION sp_arbisraiz(integer)
 CrowSoft-Cairo
 ==============
 
-ERP application written in Java (Tomcat + GWT) and Postgresql
+ERP application written in Scala Play Framework and Postgresql
 
 Copyright (C) 2012  Javier Mariano Alvarez
 
@@ -578,7 +578,7 @@ ALTER FUNCTION sp_cfg_getvalor(character varying, character varying, smallint, i
 CrowSoft-Cairo
 ==============
 
-ERP application written in Java (Tomcat + GWT) and Postgresql
+ERP application written in Scala Play Framework and Postgresql
 
 Copyright (C) 2012  Javier Mariano Alvarez
 
@@ -639,7 +639,7 @@ ALTER FUNCTION sp_cfg_getvalorrs(character varying, character varying, smallint,
 CrowSoft-Cairo
 ==============
 
-ERP application written in Java (Tomcat + GWT) and Postgresql
+ERP application written in Scala Play Framework and Postgresql
 
 Copyright (C) 2012  Javier Mariano Alvarez
 
@@ -746,7 +746,7 @@ ALTER FUNCTION sp_dbgetnewid2(character varying, character varying, integer, int
 CrowSoft-Cairo
 ==============
 
-ERP application written in Java (Tomcat + GWT) and Postgresql
+ERP application written in Scala Play Framework and Postgresql
 
 Copyright (C) 2012  Javier Mariano Alvarez
 
@@ -814,7 +814,7 @@ ALTER FUNCTION sp_getrptid()
 CrowSoft-Cairo
 ==============
 
-ERP application written in Java (Tomcat + GWT) and Postgresql
+ERP application written in Scala Play Framework and Postgresql
 
 Copyright (C) 2012  Javier Mariano Alvarez
 
@@ -859,7 +859,7 @@ ALTER FUNCTION to_char(integer)
 CrowSoft-Cairo
 ==============
 
-ERP application written in Java (Tomcat + GWT) and Postgresql
+ERP application written in Scala Play Framework and Postgresql
 
 Copyright (C) 2012  Javier Mariano Alvarez
 
@@ -904,7 +904,7 @@ ALTER FUNCTION to_number(integer)
 CrowSoft-Cairo
 ==============
 
-ERP application written in Java (Tomcat + GWT) and Postgresql
+ERP application written in Scala Play Framework and Postgresql
 
 Copyright (C) 2012  Javier Mariano Alvarez
 
