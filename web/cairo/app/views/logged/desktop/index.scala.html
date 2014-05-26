@@ -1,4 +1,4 @@
-@(menu: List[models.cairo.Menu])(implicit flash:Flash, token: play.filters.csrf.CSRF.Token, companyUser: models.domain.CompanyUser, loggedUser: LoggedUser)
+@(menus: List[models.cairo.MenuItem])(implicit flash:Flash, token: play.filters.csrf.CSRF.Token, companyUser: models.domain.CompanyUser, loggedUser: LoggedUser)
 
 @import helper._
 
@@ -17,5 +17,13 @@
         <div class="alert alert-info">@msg</div>
         }
     </div>
+
+    <ul class="nav navbar-nav">
+        @for(menu <- menus) {
+            @htmlHelpers.menuItem(menu)
+
+        }
+    </ul>
+
 </div>
 }

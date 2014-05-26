@@ -12,7 +12,7 @@ object Desktop extends Controller with ProvidesUser {
 
   def show = GetAction { implicit request =>
     LoggedIntoCompanyResponse.getAction(request, { user =>
-      val menu = Menu.list(user)
+      val menu = Menu.createMenu(Menu.list(user))
       Logger.debug(s"Menu: ${menu.toString}")
       Ok(views.html.logged.desktop.index(menu))
     })

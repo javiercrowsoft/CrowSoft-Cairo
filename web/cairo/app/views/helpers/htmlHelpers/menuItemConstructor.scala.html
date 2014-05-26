@@ -1,0 +1,34 @@
+@(menu: models.cairo.MenuItem, mainMenu: Boolean, firstMenuInLevel: Boolean)
+@if(menu.items.size == 0) {
+    @if(menu.hasSeparator && !firstMenuInLevel) {
+    <li class="divider"></li>
+    }
+    <li><a href="#">@menu.text</a></li>
+} else {
+    @if(mainMenu) {
+        <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">@menu.text <b class="caret"></b></a>
+            <ul class="dropdown-menu multi-level">
+                @defining(menu.items.head) { firstMenu =>
+                @for(menuItem <- menu.items) {
+                    @menuItemConstructor(menuItem, false, menuItem.id == firstMenu.id)
+                }
+                }
+            </ul>
+        </li>
+    } else {
+        <li class="dropdown-submenu">
+            @if(menu.hasSeparator) {
+                <li class="divider"></li>
+            }
+            <a tabindex="-1" href="#">@menu.text </a>
+            <ul class="dropdown-menu">
+                @defining(menu.items.head) { firstMenu =>
+                @for(menuItem <- menu.items) {
+                    @menuItemConstructor(menuItem, false, menuItem.id == firstMenu.id)
+                }
+                }
+            </ul>
+        </li>
+    }
+}
