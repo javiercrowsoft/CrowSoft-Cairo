@@ -83,7 +83,10 @@ object Menu {
 
     def updateMenu(menu: MenuItem, items: List[MenuItem], newItems: List[MenuItem]): List[MenuItem] = items match {
       case Nil => MenuItem(menu.id, menu.text, newItems, menu.hasSeparator) :: items
-      case h :: t => if(h.id == menu.id) MenuItem(menu.id, menu.text, newItems, menu.hasSeparator) :: t else h :: updateMenu(menu, t, newItems)
+      case h :: t => {
+        if(h.id == menu.id) MenuItem(menu.id, menu.text, newItems, menu.hasSeparator) :: t
+        else h :: updateMenu(menu, t, newItems)
+      }
     }
 
     def createMenuItem(menu: Menu,
