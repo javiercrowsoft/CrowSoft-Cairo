@@ -68,7 +68,10 @@ object Menu {
 
   def createMenu(menus: List[Menu]): List[MenuItem] = {
 
-    def createMenuFather(father: MenuFather, items: List[MenuItem]): MenuItem = {
+    val emptyFather = MenuFather(0, "")
+    val emptyMenuItem = MenuItem(0, "", List(), false)
+
+    def createIfNotExistsMenuFather(father: MenuFather, items: List[MenuItem]): MenuItem = {
       val item = findMenuInList(father, items)
       if(item != null) item else MenuItem(father.id, father.text, List(), false)
     }
@@ -78,36 +81,35 @@ object Menu {
       case h :: t => if(h.id == father.id) h else findMenuInList(father, t)
     }
 
-    def updateFather(father: MenuItem, items: List[MenuItem], newItems: List[MenuItem]): List[MenuItem] = items match {
-      case Nil => MenuItem(father.id, father.text, newItems, father.hasSeparator) :: items
-      case h :: t => if(h.id == father.id) MenuItem(father.id, father.text, newItems, father.hasSeparator) :: t else h :: updateFather(father, t, newItems)
+    def updateMenu(menu: MenuItem, items: List[MenuItem], newItems: List[MenuItem]): List[MenuItem] = items match {
+      case Nil => MenuItem(menu.id, menu.text, newItems, menu.hasSeparator) :: items
+      case h :: t => if(h.id == menu.id) MenuItem(menu.id, menu.text, newItems, menu.hasSeparator) :: t else h :: updateMenu(menu, t, newItems)
     }
 
-    def createMenuItem(
-                        menu: Menu,
-                        grandFather: MenuFather,
-                        fathers: List[MenuFather],
-                        itemGrandFather: MenuItem,
-                        items: List[MenuItem]): List[MenuItem] = fathers match {
+    def createMenuItem(menu: Menu,
+                       grandFather: MenuFather,
+                       fathers: List[MenuFather],
+                       grandFatherItem: MenuItem,
+                       items: List[MenuItem]): List[MenuItem] = fathers match {
       case Nil => {
-        MenuItem(menu.id, menu.text, List(), menu.have_separator) :: itemGrandFather.items
+        MenuItem(menu.id, menu.text, List(), menu.have_separator) :: grandFatherItem.items
       }
       case father :: fathers => {
-        if(father.id == 0) createMenuItem(menu, father, fathers, itemGrandFather, items)
+        if(father.id == 0) createMenuItem(menu, father, fathers, grandFatherItem, items)
         else {
           val itemFather = if(grandFather.id == 0) /* main menu */
-                              createMenuFather(father, items)
+                              createIfNotExistsMenuFather(father, items)
                            else /* sub menu */
-                              createMenuFather(father, itemGrandFather.items)
+                              createIfNotExistsMenuFather(father, grandFatherItem.items)
           val newItems = createMenuItem(menu, father, fathers, itemFather, itemFather.items)
-          updateFather(itemFather, items, newItems)
+          updateMenu(itemFather, items, newItems)
         }
       }
     }
 
     def createMenuItemList(menus: List[Menu], items: List[MenuItem]): List[MenuItem] = menus match {
       case Nil => items
-      case h :: t => createMenuItemList(t, createMenuItem(h, MenuFather(0, ""), h.fathers, null, items))
+      case h :: t => createMenuItemList(t, createMenuItem(h, emptyFather, h.fathers, emptyMenuItem, items))
     }
 
     createMenuItemList(menus, List())
