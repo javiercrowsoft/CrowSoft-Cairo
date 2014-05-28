@@ -25547,6 +25547,7 @@ CREATE TABLE sysmenu
   me_key character varying(100) NOT NULL DEFAULT ''::character varying,
   pre_id integer,
   me_action character varying(255) NOT NULL DEFAULT ''::character varying,
+  me_path character varying(1000) NOT NULL DEFAULT ''::character varying,
   me_father character varying(1000) NOT NULL DEFAULT ''::character varying,
   me_position integer,
   me_is_last smallint,

@@ -21,7 +21,8 @@ case class Menu(
                  is_main_menu: Boolean,
                  is_popup_menu: Boolean,
                  action: String,
-                 handler: String
+                 handler: String,
+                 path: String
                  )
 
 object Menu {
@@ -58,7 +59,8 @@ object Menu {
           rs.getInt("me_is_main_menu") != 0,
           rs.getInt("me_is_popup_menu") != 0,
           rs.getString("me_action"),
-          rs.getString("handler")
+          rs.getString("handler"),
+          rs.getString("me_path")
         ) :: fillList()
       }
       else {
