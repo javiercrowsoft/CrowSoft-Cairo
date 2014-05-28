@@ -19,7 +19,9 @@ case class Menu(
                  is_separator: Boolean,
                  have_separator: Boolean,
                  is_main_menu: Boolean,
-                 is_popup_menu: Boolean
+                 is_popup_menu: Boolean,
+                 action: String,
+                 handler: String
                  )
 
 object Menu {
@@ -54,12 +56,16 @@ object Menu {
           rs.getInt("me_is_separator") != 0,
           rs.getInt("me_have_separator") != 0,
           rs.getInt("me_is_main_menu") != 0,
-          rs.getInt("me_is_popup_menu") != 0
+          rs.getInt("me_is_popup_menu") != 0,
+          rs.getString("me_action"),
+          rs.getString("handler")
         ) :: fillList()
       }
       else {
         rs.close
         cs.close
+        connection.commit
+        connection.close
         List()
       }
     }

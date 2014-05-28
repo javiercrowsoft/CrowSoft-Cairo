@@ -54,8 +54,9 @@ BEGIN
                         s.sysm_id,
                         s.sysm_orden,
                         s.sysm_objetoinicializacion,
-                        s.sysm_objetoedicion,
+                        replace(s.sysm_objetoedicion,'.','/') as handler,
                         s.pre_id,
+                        m.me_action,
                         m.me_id,
                         m.me_text,
                         m.me_key,
@@ -82,6 +83,11 @@ BEGIN
                         father4.me_id as father4_id,
                         father5.me_id as father5_id
 
+                        /*
+                        ,'mkdir ' || substring(s.sysm_objetoedicion from 1 for position('.' in s.sysm_objetoedicion)-1) as make_dir
+                        ,'touch ' || replace(s.sysm_objetoedicion,'.','/') || '.js' as js_file
+                        */
+                        
  	from sysModulo s 
                 inner join sysModuloUser u on s.sysm_id = u.sysm_id and u.us_id = p_us_id
                 inner join sysMenu m on s.pre_id = m.pre_id

@@ -25542,9 +25542,11 @@ REFERENCES webArticulo (wart_id)
 CREATE TABLE sysmenu
 (
   me_id serial NOT NULL,
+  me_id_father integer,
   me_text character varying(1000) NOT NULL DEFAULT ''::character varying,
   me_key character varying(100) NOT NULL DEFAULT ''::character varying,
   pre_id integer,
+  me_action character varying(255) NOT NULL DEFAULT ''::character varying,
   me_father character varying(1000) NOT NULL DEFAULT ''::character varying,
   me_position integer,
   me_is_last smallint,
