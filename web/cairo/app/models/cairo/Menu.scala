@@ -7,7 +7,7 @@ import models.domain.CompanyUser
 
 case class MenuFather(id: Int, text: String)
 
-case class MenuItem(id: Int, text: String, items: List[MenuItem], hasSeparator: Boolean)
+case class MenuItem(id: Int, text: String, items: List[MenuItem], path: String, hasSeparator: Boolean)
 
 case class Menu(
                  id: Int,
@@ -77,11 +77,11 @@ object Menu {
   def createMenu(menus: List[Menu]): List[MenuItem] = {
 
     val emptyFather = MenuFather(0, "")
-    val emptyMenuItem = MenuItem(0, "", List(), false)
+    val emptyMenuItem = MenuItem(0, "", List(), "", false)
 
     def createIfNotExistsMenuFather(father: MenuFather, items: List[MenuItem]): MenuItem = {
       val item = findMenuInList(father, items)
-      if(item != null) item else MenuItem(father.id, father.text, List(), false)
+      if(item != null) item else MenuItem(father.id, father.text, List(), "", false)
     }
 
     def findMenuInList(father: MenuFather, items: List[MenuItem]): MenuItem = items match {
@@ -90,9 +90,9 @@ object Menu {
     }
 
     def updateMenu(menu: MenuItem, items: List[MenuItem], newItems: List[MenuItem]): List[MenuItem] = items match {
-      case Nil => MenuItem(menu.id, menu.text, newItems, menu.hasSeparator) :: items
+      case Nil => MenuItem(menu.id, menu.text, newItems, menu.path, menu.hasSeparator) :: items
       case h :: t => {
-        if(h.id == menu.id) MenuItem(menu.id, menu.text, newItems, menu.hasSeparator) :: t
+        if(h.id == menu.id) MenuItem(menu.id, menu.text, newItems, menu.path, menu.hasSeparator) :: t
         else h :: updateMenu(menu, t, newItems)
       }
     }
@@ -103,7 +103,7 @@ object Menu {
                        grandFatherItem: MenuItem,
                        items: List[MenuItem]): List[MenuItem] = fathers match {
       case Nil => {
-        MenuItem(menu.id, menu.text, List(), menu.have_separator) :: grandFatherItem.items
+        MenuItem(menu.id, menu.text, List(), menu.path, menu.have_separator) :: grandFatherItem.items
       }
       case father :: fathers => {
         if(father.id == 0) createMenuItem(menu, father, fathers, grandFatherItem, items)

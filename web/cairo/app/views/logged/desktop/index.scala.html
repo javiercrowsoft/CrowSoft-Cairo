@@ -44,7 +44,7 @@
 
 </div>
 
-<script>
+<script type="text/template">
     $('ul.dropdown-menu').on('click', function(event) {
         // Avoid following the href location when clicking
         event.preventDefault();
@@ -69,16 +69,21 @@ Cairo.module("CairoRouterApp", function(CairoRouterApp, Cairo, Backbone, Marione
   CairoRouterApp.Router = Marionette.AppRouter.extend({
     appRoutes: {
       @for(routerEntry <- router) {
-        "@{routerEntry.path}":   "@{routerEntry.handlerObject}.@{routerEntry.action}" }
+        "@{routerEntry.path}": "@{routerEntry.handlerObject}.@{routerEntry.action}", }
+        "about" : "cAbout.show"
     }
   });
 
   var API = {
     @for(routerEntry <- router) {
         @{routerEntry.action}@{routerEntry.handlerObject}: function(id){
-          CairoRouterApp.@{routerEntry.handlerObject}.Controller.@{routerEntry.action}@{routerEntry.handlerObject}();
+          CairoRouterApp.@{routerEntry.handlerObject}.Controller.@{routerEntry.action}();
           Cairo.execute("set:active:header", "@{routerEntry.handlerObject}");
-        } }
+        }, }
+        showAbout: function(id){
+          CairoRouterApp.cAbout.Controller.show();
+          Cairo.execute("set:active:header", "cAbout");
+        }
   };
 
   @for(routerEntry <- router) {

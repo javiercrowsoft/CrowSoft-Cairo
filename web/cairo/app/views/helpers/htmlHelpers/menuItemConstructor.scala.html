@@ -3,7 +3,7 @@
     @if(menu.hasSeparator && !firstMenuInLevel) {
     <li class="divider"></li>
     }
-    <li><a href="#" class="menu">@menu.text</a></li>
+    <li><a href="#@menu.path" class="menu">@menu.text</a></li>
 } else {
     @if(mainMenu) {
         <li class="dropdown">
