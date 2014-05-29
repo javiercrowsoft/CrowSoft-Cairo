@@ -1,0 +1,42 @@
+@(router: List[models.cairo.RouterEntry])
+
+Cairo.module("CairoRouterApp", function(CairoRouterApp, Cairo, Backbone, Marionette, $, _){
+  CairoRouterApp.Router = Marionette.AppRouter.extend({
+    appRoutes: {
+      @for(routerEntry <- router) {
+        "@{routerEntry.path}": "@{routerEntry.action}@{routerEntry.handlerObject}", }
+        "about" : "showAbout"
+    }
+  });
+
+  var API = {
+    @for(routerEntry <- router) {
+        @{routerEntry.action}@{routerEntry.handlerObject}: function(id){
+          Cairo.@{routerEntry.handlerObject}.Controller.@{routerEntry.action}();
+          Cairo.execute("set:active:header", "@{routerEntry.handlerObject}");
+        }, }
+        showAbout: function(id){
+          Cairo.About.Show.Controller.showAbout();
+          Cairo.execute("set:active:header", "about");
+        }
+  };
+
+  @for(routerEntry <- router) {
+  Cairo.on("@{routerEntry.handlerObject}:@{routerEntry.action}", function(){
+    Cairo.navigate("@{routerEntry.handlerObject}");
+    API.@{routerEntry.action}@{routerEntry.handlerObject}();
+  }); }
+
+  Cairo.on("about:show", function(){
+    Cairo.navigate("about");
+    API.showAbout();
+  });
+
+  Cairo.addInitializer(function(){
+    new CairoRouterApp.Router({
+      controller: API
+    });
+  });
+});
+
+Cairo.start();

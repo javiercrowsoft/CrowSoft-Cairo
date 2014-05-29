@@ -20,9 +20,11 @@ case class Menu(
                  have_separator: Boolean,
                  is_main_menu: Boolean,
                  is_popup_menu: Boolean,
-                 action: String,
                  handler: String,
-                 path: String
+                 action: String,
+                 path: String,
+                 action2: String,
+                 path2: String
                  )
 
 object Menu {
@@ -58,9 +60,11 @@ object Menu {
           rs.getInt("me_have_separator") != 0,
           rs.getInt("me_is_main_menu") != 0,
           rs.getInt("me_is_popup_menu") != 0,
-          rs.getString("me_action"),
           rs.getString("handler"),
-          rs.getString("me_path")
+          rs.getString("me_action"),
+          rs.getString("me_path"),
+          rs.getString("me_action2"),
+          rs.getString("me_path2")
         ) :: fillList()
       }
       else {

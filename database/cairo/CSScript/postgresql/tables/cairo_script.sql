@@ -25548,6 +25548,8 @@ CREATE TABLE sysmenu
   pre_id integer,
   me_action character varying(255) NOT NULL DEFAULT ''::character varying,
   me_path character varying(1000) NOT NULL DEFAULT ''::character varying,
+  me_action2 character varying(255) NOT NULL DEFAULT ''::character varying,
+  me_path2 character varying(1000) NOT NULL DEFAULT ''::character varying,
   me_father character varying(1000) NOT NULL DEFAULT ''::character varying,
   me_position integer,
   me_is_last smallint,
@@ -25558,6 +25560,7 @@ CREATE TABLE sysmenu
   me_object_handler character varying(255) NOT NULL DEFAULT ''::character varying,
   me_package character varying(255) NOT NULL DEFAULT ''::character varying,
   me_file_path character varying(255) NOT NULL DEFAULT ''::character varying,
+  
   CONSTRAINT sysmenu_pkey PRIMARY KEY (me_id)
 )
 WITH (

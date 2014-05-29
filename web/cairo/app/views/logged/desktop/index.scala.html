@@ -12,6 +12,12 @@
                 @for(menu <- menus) {
                     @htmlHelpers.menuItem(menu)
                 }
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle menu" data-toggle="dropdown">Help <b class="caret"></b></a>
+                    <ul class="dropdown-menu multi-level">
+                        <li><a href="#about" class="menu">About</a></li>
+                    </ul>
+                </li>
             </ul>
         </div>
     </div>
@@ -44,6 +50,12 @@
 
 </div>
 
+<script type="text/template" id="about-message">
+    <h1>About this application</h1>
+    <p>This application was designed to accompany you during your learning.</p>
+    <p>Hopefully, it has served you well !</p>
+</script>
+
 <script type="text/template">
     $('ul.dropdown-menu').on('click', function(event) {
         // Avoid following the href location when clicking
@@ -63,41 +75,13 @@
 
 @for(routerEntry <- router) {<script src="./client/cairo/modules/@{routerEntry.fileHandler}.js"></script>
 }
+<script src="./client/cairo/about/aboutApp.js"></script>
+<script src="./client/cairo/about/show/showView.js"></script>
+<script src="./client/cairo/about/show/showController.js"></script>
 
 <script>
-Cairo.module("CairoRouterApp", function(CairoRouterApp, Cairo, Backbone, Marionette, $, _){
-  CairoRouterApp.Router = Marionette.AppRouter.extend({
-    appRoutes: {
-      @for(routerEntry <- router) {
-        "@{routerEntry.path}": "@{routerEntry.handlerObject}.@{routerEntry.action}", }
-        "about" : "cAbout.show"
-    }
-  });
 
-  var API = {
-    @for(routerEntry <- router) {
-        @{routerEntry.action}@{routerEntry.handlerObject}: function(id){
-          CairoRouterApp.@{routerEntry.handlerObject}.Controller.@{routerEntry.action}();
-          Cairo.execute("set:active:header", "@{routerEntry.handlerObject}");
-        }, }
-        showAbout: function(id){
-          CairoRouterApp.cAbout.Controller.show();
-          Cairo.execute("set:active:header", "cAbout");
-        }
-  };
-
-  @for(routerEntry <- router) {
-  Cairo.on("@{routerEntry.handlerObject}:@{routerEntry.action}", function(){
-    Cairo.navigate("@{routerEntry.handlerObject}");
-    API.@{routerEntry.action}@{routerEntry.handlerObject}();
-  }); }
-
-  Cairo.addInitializer(function(){
-    new CairoRouterApp.Router({
-      controller: API
-    });
-  });
-});
+@routerGenerator(router)
 
 </script>
 
