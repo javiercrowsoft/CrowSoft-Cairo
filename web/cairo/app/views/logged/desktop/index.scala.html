@@ -22,6 +22,7 @@
         </div>
     </div>
 </div>
+
 <div class="container">
     <div class="row">
         @flash.get("success").map { msg =>
@@ -40,7 +41,7 @@
     <script type="text/template" id="header-template">
         <div class="navbar-inner">
             <div class="container">
-                <a class="brand" href="#contacts">Contact manager</a>
+                <a class="brand" href="#sistema/usuarios">Users</a>
                 <div class="nav-collapse collapse">
                     <ul class="nav"></ul>
                 </div>
@@ -50,10 +51,100 @@
 
 </div>
 
+<!-- Backbone templates -->
+
 <script type="text/template" id="about-message">
-    <h1>About this application</h1>
-    <p>This application was designed to accompany you during your learning.</p>
+    <h1>About CrowSoft Cairo Web</h1>
+    <p>This application has been developed with Play Framework (Scala), Postgresql, Bootstrap 3.0, jQuery, Backbone.js and Backbone.Marionette.js.</p>
     <p>Hopefully, it has served you well !</p>
+    <p>It is open source :) You can find all the source code in <a href="https://github.com/javiercrowsoft/CrowSoft-Cairo">https://github.com/javiercrowsoft/CrowSoft-Cairo</a>.</p>
+</script>
+
+<script type="text/template" id="usuario-edit">
+    <h1>Usuario Edit</h1>
+</script>
+
+<script type="text/template" id="loading-view">
+    <h1><%- title %></h1>
+    <p><%- message %></p>
+    <div id="spinner"></div>
+</script>
+
+<script type="text/template" id="usuario-list">
+    <thead>
+    <tr>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    </tbody>
+</script>
+
+<script type="text/template" id="usuario-list-none">
+    <td colspan="3">No contacts to display.</td>
+</script>
+
+<script type="text/template" id="usuario-list-item">
+    <td><%- firstName %></td>
+    <td><%- lastName %></td>
+    <td>
+        <a href="#sistema/usuario/<%- id %>" class="btn btn-small js-edit">
+            <i class="icon-pencil"></i>
+            Edit
+        </a>
+        <button class="btn btn-small js-delete btn-danger">
+            <i class="icon-remove"></i>
+            Delete
+        </button>
+    </td>
+</script>
+
+<script type="text/template" id="missing-usuario-view">
+    <div class="alert alert-error">This user doesn't exist !</div>
+</script>
+
+<script type="text/template" id="usuario-view">
+    <h1><%- firstName %> <%- lastName %></h1>
+    <a href="#sistema/usuario/<%- id %>" class="btn btn-small js-edit">
+        <i class="icon-pencil"></i>
+        Edit this user
+    </a>
+    <p><strong>Phone number:</strong> <%- phoneNumber %></p>
+</script>
+
+<script type="text/template" id="usuario-form">
+    <form>
+        <div class="control-group edit-group">
+            <label for="usuario-firstName" class="control-label control-label-block">First name:</label>
+            <input id="usuario-firstName" name="firstName" type="text" value="<%- firstName %>"/>
+        </div>
+        <div class="control-group edit-group">
+            <label for="usuario-lastName" class="control-label control-label-block">Last name:</label>
+            <input id="usuario-lastName" name="lastName" type="text" value="<%- lastName %>"/>
+        </div>
+        <div class="control-group edit-group">
+            <label for="usuario-phoneNumber" class="control-label control-label-block">Phone number:</label>
+            <input id="usuario-phoneNumber" name="phoneNumber" type="text" value="<%- phoneNumber %>"/>
+        </div>
+        <button class="btn js-submit btn-info">Save</button>
+    </form>
+</script>
+
+<script type="text/template" id="usuario-list-layout">
+    <div id="panel-region"></div>
+    <div id="usuarios-region"></div>
+</script>
+
+<script type="text/template" id="usuario-list-panel">
+    <button class="btn btn-primary js-new">New user</button>
+    <form id="filter-form" class="form-search form-inline pull-right">
+        <div class="input-append">
+            <input type="text" class="span2 search-query js-filter-criterion">
+            <button type="submit" class="btn btn-info">Filter users</button>
+        </div>
+    </form>
 </script>
 
 <script type="text/template">
@@ -69,9 +160,26 @@
     });
 </script>
 
+<script src="@routes.Assets.at("javascripts/vendor/jquery-ui-1.10.3.js")" type="text/javascript"></script>
+<script src="@routes.Assets.at("javascripts/vendor/json2.js")" type="text/javascript"></script>
+<script src="@routes.Assets.at("javascripts/vendor/underscore.js")" type="text/javascript"></script>
+<script src="@routes.Assets.at("javascripts/vendor/backbone.js")" type="text/javascript"></script>
+<script src="@routes.Assets.at("javascripts/vendor/backbone.marionette.js")" type="text/javascript"></script>
+
+<script src="@routes.Assets.at("javascripts/vendor/backbone.picky.js")" type="text/javascript"></script>
+<script src="@routes.Assets.at("javascripts/vendor/backbone.syphon.js")" type="text/javascript"></script>
+<script src="@routes.Assets.at("javascripts/vendor/backbone.localstorage.js")" type="text/javascript"></script>
+
+<script src="@routes.Assets.at("javascripts/vendor/spin.js")" type="text/javascript"></script>
+<script src="@routes.Assets.at("javascripts/vendor/spin.jquery.js")" type="text/javascript"></script>
+
+
+
 <script src="./client/cairo/config/marionette/regions/dialog.js"></script>
 <script src="./client/cairo/cairoApp.js"></script>
 <script src="./client/cairo/config/storage/localstorage.js"></script>
+<script src="./client/cairo/entities/common.js"></script>
+<script src="./client/cairo/common/views.js"></script>
 
 @for(routerEntry <- router) {<script src="./client/cairo/modules/@{routerEntry.fileHandler}.js"></script>
 }
