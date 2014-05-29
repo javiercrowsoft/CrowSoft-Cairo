@@ -33,12 +33,12 @@ Cairo.module("CairoRouterApp", function(CairoRouterApp, Cairo, Backbone, Marione
   @for(routerEntry <- router) {
         Cairo.on("@{routerEntry.handlerObject.toLowerCase}:@{routerEntry.action}", function(@routerEntry.pathParam){
             Cairo.navigate(@Html(routerEntry.pathForNavigate));
-            API.@{routerEntry.action}@{routerEntry.handlerObject}();
+            API.@{routerEntry.action}@{routerEntry.handlerObject}(@routerEntry.pathParam);
         });
         @if(!routerEntry.path2.isEmpty){
             Cairo.on("@{routerEntry.handlerObject.toLowerCase}:@{routerEntry.action2}", function(@routerEntry.path2Param){
                 Cairo.navigate(@Html(routerEntry.path2ForNavigate));
-                API.@{routerEntry.action2}@{routerEntry.handlerObject}();
+                API.@{routerEntry.action2}@{routerEntry.handlerObject}(@routerEntry.path2Param);
             });
         }
   }
