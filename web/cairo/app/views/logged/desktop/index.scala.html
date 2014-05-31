@@ -1,11 +1,12 @@
-@(menus: List[models.cairo.MenuItem], router: List[models.cairo.RouterEntry])(implicit flash:Flash, token: play.filters.csrf.CSRF.Token, companyUser: models.domain.CompanyUser, loggedUser: LoggedUser)
+@(menus: List[models.cairo.MenuItem], router: List[models.cairo.RouterEntry])(implicit flash:Flash, token: play.filters.csrf.CSRF.Token, companyUser: models.domain.CompanyUser, loggedUser: LoggedUser, requestOrigin: services.RequestOrigin)
 
 @import helper._
 
 @main("Desktop", s"Welcome ${companyUser.user.username} to your ${companyUser.company.company_name}'s desktop!") {
 
 <!-- Main jumbotron for a primary marketing message or call to action -->
-<div class="jumbotron" style="padding-bottom: 0px;">
+@if(!requestOrigin.userAgent.isMobile) {
+<div class="jumbotron desktop-menu">
     <div class="container">
         <div class="row">
             <ul class="nav navbar-nav">
@@ -22,11 +23,41 @@
         </div>
     </div>
 </div>
+} else {
+<div class="collapse mobile-menu">
+    <div class="container">
+        <div class="row">
+            <div class="panel-group mobile-accordion-menu" id="mainMenu">
+                @for(menu <- menus) {
+                    @htmlHelpers.menuItemMobile(menu)
+                }
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            <a data-toggle="collapse" data-parent="#mainMenu" href="#collapseHelp">
+                                Help <b class="caret"></b>
+                            </a>
+                        </h4>
+                    </div>
 
-<div class="container">
+                    <div id="collapseHelp" class="panel-collapse collapse menu-panel">
+                        <div class="panel-body">
+                            <ul class="list-group">
+                                <li class="list-group-item"><a href="#about" class="menu">About</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div><!--/.nav-collapse -->
+}
+
+<div class="container mobile-body">
     <div class="row">
         @flash.get("success").map { msg =>
-        <div class="alert alert-info">@msg</div>
+            <div class="alert alert-info">@msg</div>
         }
     </div>
 
@@ -147,19 +178,6 @@
     </form>
 </script>
 
-<script type="text/template">
-    $('ul.dropdown-menu').on('click', function(event) {
-        // Avoid following the href location when clicking
-        event.preventDefault();
-        // Avoid having the menu to close when clicking
-        event.stopPropagation();
-        // If a menu is already open we close it
-        $('ul.dropdown-menu [data-toggle=dropdown]').parent().removeClass('open');
-        // opening the one you clicked on
-        $(this).parent().addClass('open');
-    });
-</script>
-
 <script src="@routes.Assets.at("javascripts/vendor/jquery-ui-1.10.3.js")" type="text/javascript"></script>
 <script src="@routes.Assets.at("javascripts/vendor/json2.js")" type="text/javascript"></script>
 <script src="@routes.Assets.at("javascripts/vendor/underscore.js")" type="text/javascript"></script>
@@ -193,4 +211,18 @@
 
 </script>
 
+<script type='text/javascript'>
+
+    $(document).ready(function () {
+        function closeNav() {
+            $(".mobile-menu").stop().css({ 'height': '1px' }).removeClass('in').addClass("collapse");
+            $(".menu-panel").stop().css({ 'height': '1px' }).removeClass('in').addClass("collapse");
+        }
+
+        $('.menu').click(function (event) {
+            closeNav();
+        });
+    });
+
+</script>
 }

@@ -1,4 +1,4 @@
-@(siteBaseURL: String, email: String)(implicit token: play.filters.csrf.CSRF.Token, user: LoggedUser)
+@(siteBaseURL: String, email: String)(implicit token: play.filters.csrf.CSRF.Token, user: LoggedUser, requestOrigin: services.RequestOrigin)
 
 @import helper._
 @import models.UserData

@@ -1,4 +1,4 @@
-@(companies: Iterable[models.domain.Company])(implicit flash:Flash, token: play.filters.csrf.CSRF.Token, loggedUser: LoggedUser)
+@(companies: Iterable[models.domain.Company])(implicit flash:Flash, token: play.filters.csrf.CSRF.Token, loggedUser: LoggedUser, requestOrigin: services.RequestOrigin)
 
 @import helper._
 

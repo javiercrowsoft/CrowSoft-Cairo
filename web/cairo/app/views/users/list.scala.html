@@ -1,4 +1,4 @@
-@(users: Iterable[models.User])(implicit flash:Flash, token: play.filters.csrf.CSRF.Token, loggedUser: LoggedUser)
+@(users: Iterable[models.User])(implicit flash:Flash, token: play.filters.csrf.CSRF.Token, loggedUser: LoggedUser, requestOrigin: services.RequestOrigin)
 
 @main("All Users", "") {
 <!-- Main jumbotron for a primary marketing message or call to action -->

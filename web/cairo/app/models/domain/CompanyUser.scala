@@ -5,7 +5,6 @@ import services.db.DB
 import anorm._
 import anorm.SqlParser._
 import anorm.~
-import services.{DateUtil, RequestOrigin}
 import java.util.Date
 import play.api.Play.current
 

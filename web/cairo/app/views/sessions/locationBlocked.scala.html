@@ -1,4 +1,4 @@
-@()(implicit flash:Flash, token: play.filters.csrf.CSRF.Token, user: LoggedUser)
+@()(implicit flash:Flash, token: play.filters.csrf.CSRF.Token, user: LoggedUser, requestOrigin: services.RequestOrigin)
 
 @import helper._
 @import models.UserLogin

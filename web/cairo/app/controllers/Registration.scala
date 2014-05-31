@@ -40,17 +40,6 @@ object Registration extends Controller with ProvidesUser {
             }
           }
         }
-        /*
-        val userId = UserData.save(
-          user,
-          userAgent.platform,
-          request.remoteAddress,
-          userAgent.userAgent,
-          request.acceptLanguages.toString,
-          userAgent.isMobile)
-        Redirect(routes.Registration.activate).withSession(
-          "user" -> userId.toString
-        )*/
       })
   }
 

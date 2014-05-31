@@ -5,10 +5,13 @@ import actions._
 import models.{ LoggedUser, User }
 import models.domain.{ CompanyUser, Company }
 import services.db.CairoDB
+import services.RequestOrigin
+import play.api.Logger
 
 trait ProvidesUser {
 
-  implicit def loggedUser[A](implicit request: Request[A]) : LoggedUser = {
+  implicit def loggedUser[A](implicit request: Request[A]): LoggedUser = {
+    Logger.debug("loggedUser called")
     val userId = request.session.get("user").getOrElse("")
     def getUser() : LoggedUser = {
       if(userId.isEmpty)
@@ -19,7 +22,8 @@ trait ProvidesUser {
     getUser
   }
 
-  implicit def companyUser[A](implicit request: Request[A]) : CompanyUser = {
+  implicit def companyUser[A](implicit request: Request[A]): CompanyUser = {
+    Logger.debug("companyUser called")
     val user = loggedUser(request)
     if(user.user != null) {
       val companyId = request.session.get("company").getOrElse("")
@@ -35,11 +39,16 @@ trait ProvidesUser {
       CompanyUser(null, null, null)
   }
 
+  implicit def requestOrigin[A](implicit request: Request[A]): RequestOrigin = {
+    Logger.debug("requestOrigin called")
+    RequestOrigin.parse(request)
+  }
+
 }
 
 object LoggedResponse extends Controller {
 
-  def getAction[A](request: Request[A], f: (User) => play.api.mvc.SimpleResult) : play.api.mvc.SimpleResult = {
+  def getAction[A](request: Request[A], f: (User) => play.api.mvc.SimpleResult): play.api.mvc.SimpleResult = {
     val userId = request.session.get("user").getOrElse("")
     if(userId.isEmpty)
       Unauthorized(views.html.errorpages.unauthorized("CrowSoft Cairo - Unauthorized"))
@@ -56,7 +65,7 @@ object LoggedResponse extends Controller {
 
 object LoggedIntoCompanyResponse extends Controller {
 
-  def getAction[A](request: Request[A], f: (CompanyUser) => play.api.mvc.SimpleResult) : play.api.mvc.SimpleResult = {
+  def getAction[A](request: Request[A], f: (CompanyUser) => play.api.mvc.SimpleResult): play.api.mvc.SimpleResult = {
     LoggedResponse.getAction(request, { user =>
       val companyId = request.session.get("company").getOrElse("")
       if(companyId.isEmpty)

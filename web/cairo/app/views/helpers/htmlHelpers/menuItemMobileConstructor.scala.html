@@ -1,0 +1,27 @@
+@(menu: models.cairo.MenuItem, parent: String)
+@if(menu.items.size == 0) {
+    <li class="list-group-item"><a href="#@menu.path" class="menu">@menu.text</a></li>
+} else {
+
+    <div class="panel panel-default" id="subMenu@menu.id">
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                <a data-toggle="collapse" data-parent="#@parent" href="#collapse@menu.id">
+                    @menu.text <b class="caret"></b>
+                </a>
+            </h4>
+        </div>
+
+        <div id="collapse@menu.id" class="panel-collapse collapse menu-panel">
+            <div class="panel-body">
+                <ul class="list-group">
+                    @defining(menu.items.head) { firstMenu =>
+                        @for(menuItem <- menu.items) {
+                            @menuItemMobileConstructor(menuItem, "subMenu" + menu.id)
+                        }
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+}
