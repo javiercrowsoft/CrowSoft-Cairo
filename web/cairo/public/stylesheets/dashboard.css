@@ -97,7 +97,3 @@
 .desktop-container {
     width: 100%;
 }
-
-.noFocus:focus {
-    outline: none;
-}
