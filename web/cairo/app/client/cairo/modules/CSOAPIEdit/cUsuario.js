@@ -31,15 +31,15 @@ Cairo.module("Entities", function(Entities, Cairo, Backbone, Marionette, $, _){
     }
   });
 
-  Entities.configureStorage(Entities.Usuario);
+  //Entities.configureStorage(Entities.Usuario);
 
   Entities.UsuarioCollection = Backbone.Collection.extend({
-    url: "usuarios",
+    url: "/system/users",
     model: Entities.Usuario,
     comparator: "firstName"
   });
 
-  Entities.configureStorage(Entities.UsuarioCollection);
+  //Entities.configureStorage(Entities.UsuarioCollection);
 
   var initializeUsuarios = function(){
     usuarios = new Entities.UsuarioCollection([

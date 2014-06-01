@@ -1,8 +1,8 @@
-@(title: String)(implicit flash:Flash)
+@(request: RequestHeader)
 <!DOCTYPE html>
 <html>
 <head>
-    <title>@title</title>
+    <title>Handler Not Found</title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
@@ -32,15 +32,15 @@
 </div>
 <div class="jumbotron">
     <div class="container">
-        <h1>Error</h1>
+        <h1>404</h1>
     </div>
 </div>
 <div class="container">
-    <div class="alert alert-warning">An error has occurred. Please contact <a href="mailto:support@@crowsoft.com.ar">support@@crowsft.com.ar</a></div>
+    <div class="alert alert-warning">
+        <h1>Not Found</h1>
+        <p>You requested: @request.path</p>
+    </div>
     <hr>
-    @flash.get("error").map { msg =>
-    <div class="alert alert-warning">@msg</div>
-    }
 
 </div> <!-- /container -->
 

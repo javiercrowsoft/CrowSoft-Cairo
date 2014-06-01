@@ -51,6 +51,9 @@ POST    /company/login                  controllers.logged.Companies.login
 # Desktop
 GET     /desktop                        controllers.logged.Desktop.show
 
+# Cairo
+GET     /system/users                   controllers.logged.system.Users.list
+
 # Web client code
 GET     /client/*file                   controllers.FileService.getFile(path="/app/client", file)
 

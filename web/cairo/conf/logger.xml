@@ -1,8 +1,10 @@
 <configuration>
 
+    <conversionRule conversionWord="coloredLevel" converterClass="play.api.Logger$ColoredLevel" />
+
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
-            <pattern>%-5level - %msg%n</pattern>
+            <pattern>%coloredLevel %logger{15} - %message%n%xException{5}</pattern>
         </encoder>
     </appender>
 
