@@ -55,7 +55,14 @@ object LoggedResponse extends Controller {
     else {
       val user = User.load(userId.toInt).getOrElse(null)
       if(user != null) {
-        f(user)
+        val userMustBeActivated = !request.uri.toString.startsWith("/registration")
+        Logger.debug(s"userMustBeActivated: $userMustBeActivated")
+        if(!user.active && userMustBeActivated) {
+          Redirect(routes.Registration.mustActivate)
+        }
+        else {
+          f(user)
+        }
       }
       else
         NotFound
@@ -84,7 +91,13 @@ object LoggedIntoCompanyResponse extends Controller {
 
 object SessionStatus {
 
-  def isLoggedUser[A](request: Request[A]) = !request.session.get("user").getOrElse("").isEmpty
-  def isLoggedCompanyUser[A](request: Request[A]) = !request.session.get("company").getOrElse("").isEmpty
+  def isLoggedUser[A](request: Request[A]) = {
+    Logger.debug(s"user in session is empty: ${request.session.get("user").getOrElse("").isEmpty}")
+    !request.session.get("user").getOrElse("").isEmpty
+  }
+  def isLoggedCompanyUser[A](request: Request[A]) = {
+    Logger.debug(s"company in session is empty: ${request.session.get("company").getOrElse("").isEmpty}")
+    !request.session.get("company").getOrElse("").isEmpty
+  }
 
 }

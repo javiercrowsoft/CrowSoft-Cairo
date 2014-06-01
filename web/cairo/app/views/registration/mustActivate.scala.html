@@ -1,0 +1,22 @@
+@(siteBaseURL: String, email: String)(implicit token: play.filters.csrf.CSRF.Token, user: LoggedUser, requestOrigin: services.RequestOrigin)
+
+@import helper._
+@import models.UserData
+
+@main("CrowSoft Cairo", "") {
+<!-- Main jumbotron for a primary marketing message or call to action -->
+<div class="jumbotron">
+    <div class="container">
+        <h1>You must activate your account!</h1>
+        <p>To start using the system you need to activate your account.</p>
+    </div>
+</div>
+
+<div class="container">
+    <div class="well well-sm">
+        <p>An email with a validation link has been sent to <b>@email</b>.</p>
+        <p>If you haven't received the email please click <a href="@siteBaseURL/registration/validation_email">here</a> to resend it.</p>
+    </div>
+    <hr>
+</div> <!-- /container -->
+}

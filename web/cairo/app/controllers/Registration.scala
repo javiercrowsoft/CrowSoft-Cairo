@@ -66,4 +66,10 @@ object Registration extends Controller with ProvidesUser {
     })
   }
 
+  def mustActivate = GetAction { implicit request =>
+    LoggedResponse.getAction(request, { user =>
+      Ok(views.html.registration.mustActivate(Settings.siteBaseURL, user.email))
+    })
+  }
+
 }

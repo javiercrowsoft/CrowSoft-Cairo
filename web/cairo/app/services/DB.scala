@@ -456,7 +456,7 @@ private[db] class BoneCPApi(configuration: Configuration, classloader: ClassLoad
    * @throws an error if the required data source is not registered
    */
   def getDataSource(name: String): DataSource = {
-    datasources.find(_._2 == name).map(e => e._1).getOrElse(error(" - could not find datasource for " + name))
+    datasources.find(_._2 == name).map(e => e._1).getOrElse(error("could not find datasource for " + name))
   }
 
   /**

@@ -14,6 +14,7 @@ POST    /registration                   controllers.Registration.save
 GET     /registration/validate/:code    controllers.Registration.validate(code: String)
 GET     /registration/validation_email  controllers.Registration.sendValidationEmail
 GET     /registration/activate          controllers.Registration.activate
+GET     /registration/must_activate     controllers.Registration.mustActivate
 
 # Session
 

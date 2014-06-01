@@ -7,6 +7,7 @@ import play.api.data.Forms._
 import models.{ UserData }
 import settings.Settings
 import services.PasswordValidation
+import play.api.Logger
 
 object Application extends Controller with ProvidesUser {
 
@@ -18,12 +19,15 @@ object Application extends Controller with ProvidesUser {
 
   def index = GetAction { implicit request =>
     if(SessionStatus.isLoggedCompanyUser(request)) {
+      Logger.debug("redirecting to Desktop.show")
       Redirect(controllers.logged.routes.Desktop.show)
     }
     else if(SessionStatus.isLoggedUser(request)) {
+      Logger.debug("redirecting to Companies.list")
       Redirect(controllers.logged.routes.Companies.list)
     }
     else {
+      Logger.debug("showing index")
       Ok(views.html.index(form, Settings.siteBaseURL))
     }
   }
