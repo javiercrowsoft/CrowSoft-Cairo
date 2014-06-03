@@ -44,7 +44,8 @@ BEGIN
         INTO v_raiz_id
         FROM Rama
         WHERE arb_id = p_arb_id
-        AND ram_id_padre = 0;
+        AND ram_id_padre = 0
+        AND ram_id <> 0;
 
         rtn := 'rtn';
 
