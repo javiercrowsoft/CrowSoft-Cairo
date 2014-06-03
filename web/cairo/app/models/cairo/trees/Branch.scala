@@ -37,64 +37,19 @@ object Branch {
   }
 
   def createTree(branches: List[Branch]): List[Branch] = {
-
-    def findFatherOrCreate(branch: Branch, items: List[Branch]): Branch = {
-      val item = findBranch(branch.fatherId, items)
-      if(item != null) item else Branch(branch.fatherId, "", List(), List(), 0)
+    def createBranch(branch: Branch, items: List[Branch]): Branch = {
+      Branch(branch.id, branch.name, branch.leaves, createItems(branch.id, items), branch.fatherId)
     }
 
-    def findBranchOr(branch: Branch, items: List[Branch]): Branch = {
-      val item = findBranch(branch.id, items)
-      if(item != null) item else branch
-    }
-
-    def findBranch(id: Int, items: List[Branch]): Branch = items match {
-      case Nil => null
-      case h :: t => if(h.id == id) h else findBranch(id, t)
-    }
-
-    def replaceBranch(branch: Branch, items: List[Branch]): List[Branch] = items match {
-      case Nil => List(branch)
-      case h :: t => {
-        if(h.id == branch.id) branch :: t
-        else h :: replaceBranch(branch, t)
-      }
-    }
-
-    def removeBranch(branch: Branch, items: List[Branch]): List[Branch] = items match {
+    def createItems(fatherId: Int, items: List[Branch]): List[Branch] = items match {
       case Nil => List()
       case h :: t => {
-        if(h.id == branch.id) t
-        else h :: removeBranch(branch, t)
+        if(h.fatherId == fatherId) createBranch(h, t) :: createItems(fatherId, t)
+        else createItems(fatherId, t)
       }
     }
 
-    def updateBranch(branch: Branch, items: List[Branch]): List[Branch] = items match {
-      case Nil => List()
-      case h :: t => {
-        if(h.id == branch.id) Branch(branch.id, branch.name, branch.leaves, h.items, branch.fatherId) :: t
-        else h :: updateBranch(branch, t)
-      }
-    }
-
-    def createBranch(items: List[Branch], newItems: List[Branch]): List[Branch] = items match {
-      case Nil => newItems
-      case h :: t => {
-        if (h.fatherId == 0) {
-          updateBranch(h, newItems)
-        }
-        else {
-          val updatedItems = updateBranch(h, newItems)
-          val branch = findBranchOr(h, updatedItems)
-          val father = findFatherOrCreate(branch, updatedItems)
-          val newFather = Branch(father.id, father.name, father.leaves, branch :: father.items, father.fatherId)
-          createBranch(t, replaceBranch(newFather, removeBranch(branch, updatedItems)))
-        }
-      }
-    }
-
-    createBranch(branches, List())
-
+    List(createBranch(branches.head, branches.tail))
   }
 
 }
