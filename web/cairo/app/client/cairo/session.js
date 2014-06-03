@@ -5,13 +5,8 @@ Cairo.module("Session", function(Session, Cairo, Backbone, Marionette, $, _){
         url : '/session',
 
         initialize : function(){
-            //Ajax Request Configuration
-            //To Set The CSRF Token To Request Header
-            $.ajaxSetup({
-                headers : {
-                    'Csrf-Token' : csrf
-                }
-            });
+
+            Cairo.setAjax();
 
             //Check for sessionStorage support
             if(Storage && sessionStorage){

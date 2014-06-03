@@ -10,7 +10,7 @@ import play.api.Logger
 import play.api.libs.json._
 
 
-case class User(id: Long, firstName: String, lastName: String, phoneNumber: String)
+case class User(id: Int, firstName: String, lastName: String, phoneNumber: String)
 
 object Users extends Controller with ProvidesUser {
 
@@ -39,7 +39,6 @@ object Users extends Controller with ProvidesUser {
 
   def list = GetAction { implicit request =>
     LoggedIntoCompanyResponse.getAction(request, { user =>
-      Logger.debug(s"user: ${user.isLoggedIntoCompany} ${user.user.id}")
       Ok(Json.toJson(
         List(
           User(1, "Jose", "Burgues", "555-0011"),

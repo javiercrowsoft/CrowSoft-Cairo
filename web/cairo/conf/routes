@@ -52,11 +52,25 @@ POST    /company/login                  controllers.logged.Companies.login
 # Desktop
 GET     /desktop                        controllers.logged.Desktop.show
 
+
 # Cairo
+#--------------------------------------------------------------------------------------------------
+#
+
+# system
+#
+GET     /system/trees/:tableId          controllers.logged.system.Trees.list(tableId: Int)
+GET     /system/tree/:id                controllers.logged.system.Trees.get(id: Int)
 GET     /system/users                   controllers.logged.system.Users.list
 
 # Web client code
+#
 GET     /client/*file                   controllers.FileService.getFile(path="/app/client", file)
+
+# end Cairo
+#--------------------------------------------------------------------------------------------------
+
+
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file                   controllers.Assets.at(path="/public", file)

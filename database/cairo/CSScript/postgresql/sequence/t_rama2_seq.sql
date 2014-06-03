@@ -1,0 +1,1 @@
+CREATE SEQUENCE t_rama2_seq;
