@@ -7,6 +7,7 @@ import models.domain.CompanyUser
 import play.api.Logger
 
 case class Branch(id: Int, name: String, leaves: List[Leave], items: List[Branch], fatherId: Int)
+case class FancyTreeBranch(title: String, key: String, folder: Boolean, children: List[FancyTreeBranch])
 
 object Branch {
 

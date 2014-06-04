@@ -3,6 +3,7 @@ var Cairo = new Marionette.Application();
 Cairo.addRegions({
   headerRegion: "#header-region",
   mainRegion: "#main-region",
+  loadingRegion: "#loading-region",
   dialogRegion: Marionette.Region.Dialog.extend({
     el: "#dialog-region"
   })
@@ -26,3 +27,8 @@ Cairo.on("initialize:after", function(){
     }
   }
 });
+
+Cairo.Tables = {
+    USUARIO: 3,
+    CUENTA: 17
+}

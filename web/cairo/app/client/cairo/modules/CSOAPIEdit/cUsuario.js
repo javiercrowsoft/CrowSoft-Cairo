@@ -4,7 +4,7 @@
 
 Cairo.module("Entities", function(Entities, Cairo, Backbone, Marionette, $, _){
   Entities.Usuario = Backbone.Model.extend({
-    urlRoot: "usuarios",
+    urlRoot: "/system/user",
 
     defaults: {
       firstName: "",
@@ -170,10 +170,6 @@ Cairo.module("Usuario.Edit", function(Edit, Cairo, Backbone, Marionette, $, _){
 });
 
 Cairo.module("Usuario.List", function(List, Cairo, Backbone, Marionette, $, _){
-  List.Message = Marionette.ItemView.extend({
-    template: "#usuario-list"
-  });
-
   List.Layout = Marionette.Layout.extend({
     template: "#usuario-list-layout",
 
@@ -280,12 +276,8 @@ Cairo.module("Usuario.List", function(List, Cairo, Backbone, Marionette, $, _){
 
 Cairo.module("Usuario.List", function(List, Cairo, Backbone, Marionette, $, _){
   List.Controller = {
-    listOld: function(){
-      var view = new List.Message();
-      Cairo.mainRegion.show(view);
-    },
-
     list: function(criterion){
+
       var loadingView = new Cairo.Common.Views.Loading();
       Cairo.mainRegion.show(loadingView);
 
@@ -391,6 +383,9 @@ Cairo.module("Usuario.List", function(List, Cairo, Backbone, Marionette, $, _){
         });
 
         Cairo.mainRegion.show(usuariosListLayout);
+
+        Cairo.Tree.List.Controller.list(Cairo.Tables.CUENTA, usuariosListLayout);
+
       });
     }    
   };

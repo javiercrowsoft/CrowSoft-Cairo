@@ -21,10 +21,10 @@ object Trees extends Controller with ProvidesUser {
 
   implicit val branchWrites = new Writes[Branch] {
     def writes(branch: Branch) = Json.obj(
-      "id" -> branch.id,
-      "name" -> branch.name,
-      "fatherId" -> branch.fatherId,
-      "items" -> Json.toJson(writesItems(branch.items))
+      "key" -> branch.id,
+      "title" -> branch.name,
+      "folder" -> true,
+      "children" -> Json.toJson(writesItems(branch.items))
     )
     def writesItems(items: List[Branch]) = items.map(branch => writes(branch))
   }

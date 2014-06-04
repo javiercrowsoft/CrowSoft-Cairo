@@ -62,55 +62,7 @@
     </div>
 
     <div id="header-region"></div>
-
-
-
-    <h2 class="sub-header">Users</h2>
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-sm-3 col-md-2">
-                <ul class="nav nav-sidebar noFocus">
-                    <li><select></select></li>
-                    <li><div id="tree"></div></li>
-                </ul>
-
-            </div>
-            <div class="col-sm-9 col-md-8">
-                <div class="table-responsive">
-                    <table class="table table-striped">
-                        <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Header</th>
-                            <th>Header</th>
-                            <th>Header</th>
-                            <th>Header</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <td>1,001</td>
-                            <td>Lorem</td>
-                            <td>ipsum</td>
-                            <td>dolor</td>
-                            <td>sit</td>
-                        </tr>
-                        <tr>
-                            <td>1,002</td>
-                            <td>amet</td>
-                            <td>consectetur</td>
-                            <td>adipiscing</td>
-                            <td>elit</td>
-                        </tr>
-
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
+    <div id="loading-region"></div>
     <div id="main-region" class="container">
         <p>Here is static content in the web page. You'll notice that it gets replaced by our app as soon as we start it.</p>
     </div>
@@ -212,8 +164,22 @@
 </script>
 
 <script type="text/template" id="usuario-list-layout">
-    <div id="panel-region"></div>
-    <div id="usuarios-region"></div>
+    <h2 class="sub-header">Users</h2>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-3 col-md-2">
+                <ul class="nav nav-sidebar noFocus">
+                    <li><div id="trees"></div></li>
+                    <li><div id="tree"></div></li>
+                </ul>
+
+            </div>
+            <div class="col-sm-9 col-md-8">
+                <div id="panel-region"></div>
+                <div id="usuarios-region"></div>
+            </div>
+        </div>
+    </div>
 </script>
 
 <script type="text/template" id="usuario-list-panel">
@@ -225,6 +191,15 @@
         </div>
     </form>
 </script>
+
+
+<!-- trees -->
+
+<script type="text/template" id="tree-item-template">
+    <option value="<%- id %>"><%- name %></option>
+</script>
+
+<!-- scripts -->
 
 <script src="@routes.Assets.at("javascripts/vendor/jquery-ui-1.10.3.js")" type="text/javascript"></script>
 <script src="@routes.Assets.at("javascripts/vendor/json2.js")" type="text/javascript"></script>
@@ -259,6 +234,7 @@
 <script src="./client/cairo/config/storage/localstorage.js"></script>
 <script src="./client/cairo/entities/common.js"></script>
 <script src="./client/cairo/common/views.js"></script>
+<script src="./client/cairo/system/tree.js"></script>
 
 @for(routerEntry <- router) {<script src="./client/cairo/modules/@{routerEntry.fileHandler}.js"></script>
 }
