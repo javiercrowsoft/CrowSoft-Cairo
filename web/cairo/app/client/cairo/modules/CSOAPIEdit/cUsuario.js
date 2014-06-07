@@ -278,8 +278,14 @@ Cairo.module("Usuario.List", function(List, Cairo, Backbone, Marionette, $, _){
   List.Controller = {
     list: function(criterion){
 
+      var self = this;
+
+      this.showNode = function(nodeId) {
+        Cairo.log("Loading nodeId: " + nodeId);
+      }
+
       var loadingView = new Cairo.Common.Views.Loading();
-      Cairo.mainRegion.show(loadingView);
+      Cairo.loadingRegion.show(loadingView);
 
       var fetchingUsuarios = Cairo.request("usuario:entities");
 
@@ -383,8 +389,7 @@ Cairo.module("Usuario.List", function(List, Cairo, Backbone, Marionette, $, _){
         });
 
         Cairo.mainRegion.show(usuariosListLayout);
-
-        Cairo.Tree.List.Controller.list(Cairo.Tables.CUENTA, usuariosListLayout);
+        Cairo.Tree.List.Controller.list(Cairo.Tables.USUARIO, usuariosListLayout, self);
 
       });
     }    
@@ -400,10 +405,10 @@ Cairo.module("Usuario.Edit", function(Edit, Cairo, Backbone, Marionette, $, _){
 
     edit: function(id){
       var loadingView = new Cairo.Common.Views.Loading({
-        title: "Artificial Loading Delay",
-        message: "Data loading is delayed to demonstrate using a loading view."
+        title: "Usuarios",
+        message: "Loading users from crowsoft cairo server."
       });
-      Cairo.mainRegion.show(loadingView);
+      Cairo.loadingRegion.show(loadingView);
 
       var fetchingUsuario = Cairo.request("usuario:entity", id);
       $.when(fetchingUsuario).done(function(usuario){
@@ -428,6 +433,7 @@ Cairo.module("Usuario.Edit", function(Edit, Cairo, Backbone, Marionette, $, _){
         }
 
         Cairo.mainRegion.show(view);
+        Cairo.loadingRegion.close();
       });
     }
   };

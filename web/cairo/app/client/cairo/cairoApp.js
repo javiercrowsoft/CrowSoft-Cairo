@@ -31,4 +31,24 @@ Cairo.on("initialize:after", function(){
 Cairo.Tables = {
     USUARIO: 3,
     CUENTA: 17
-}
+};
+
+Cairo.sleep = function(millis, callback) {
+    setTimeout(function()
+            { callback(); }
+    , millis);
+};
+
+Cairo.logTreeEvent = function(event, data, msg){
+  msg = msg ? ": " + msg : "";
+  if (window.console && window.console.log) {
+    window.console.log("Event('" + event.type + "', node=" + data.node + ")" + msg);
+  }
+};
+
+Cairo.log = function(msg){
+  msg = msg ? ": " + msg : "";
+  if (window.console && window.console.log) {
+    window.console.log(msg);
+  }
+};

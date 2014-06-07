@@ -84,6 +84,7 @@ Cairo.module("Tree", function(Tree, Cairo, Backbone, Marionette, $, _){});
 Cairo.module("Tree.List", function(List, Cairo, Backbone, Marionette, $, _){
   List.View = Backbone.View.extend({
     tagName: "select",
+    className: "form-control tree-select",
     events: {
         "change": "clicked"
     },
@@ -103,7 +104,7 @@ Cairo.module("Tree.List", function(List, Cairo, Backbone, Marionette, $, _){
         });
         try {
             var treeId = this.collection.first().get("id");
-            Cairo.Tree.List.Controller.listTree(treeId);
+            Cairo.Tree.List.Controller.listTree(treeId, this.listController);
         }
         catch (e) {
         }
@@ -118,7 +119,7 @@ Cairo.module("Tree.List", function(List, Cairo, Backbone, Marionette, $, _){
 
 Cairo.module("Tree.List", function(List, Cairo, Backbone, Marionette, $, _){
   List.Controller = {
-    listTree: function(treeId){
+    listTree: function(treeId, listController){
       var loadingView = new Cairo.Common.Views.Loading();
       Cairo.loadingRegion.show(loadingView);
 
@@ -130,13 +131,17 @@ Cairo.module("Tree.List", function(List, Cairo, Backbone, Marionette, $, _){
         }
         catch (e) {}
         $("#tree").fancytree({
-            source: [trees.attributes[0]]
+            source: [trees.attributes[0]],
+            activate: function(event, data) {
+                        Cairo.logTreeEvent(event, data);
+                        listController.showNode(data.node.key)
+                      }
         });
         Cairo.loadingRegion.close();
       });
     },
 
-    list: function(tableId, mainView){
+    list: function(tableId, mainView, listController){
       var loadingView = new Cairo.Common.Views.Loading();
       Cairo.loadingRegion.show(loadingView);
 
@@ -144,9 +149,9 @@ Cairo.module("Tree.List", function(List, Cairo, Backbone, Marionette, $, _){
 
       $.when(fetchingTrees).done(function(trees){
         var view = new List.View({collection: trees});
+        view.listController = listController
         view.render();
         $("#trees", mainView.$el).html(view.el);
-        Cairo.loadingRegion.close();
       });
     }
 

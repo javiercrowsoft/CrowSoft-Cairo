@@ -60,35 +60,27 @@
             <div class="alert alert-info">@msg</div>
         }
     </div>
+</div>
 
-    <div id="header-region"></div>
-    <div id="loading-region"></div>
-    <div id="main-region" class="container">
+<div id="header-region"></div>
+<div id="loading-region" class="container"></div>
+<div id="main-region">
+    <div class="container">
         <p>Here is static content in the web page. You'll notice that it gets replaced by our app as soon as we start it.</p>
     </div>
-
-    <div id="dialog-region"></div>
-
-    <script type="text/template" id="header-template">
-        <div class="navbar-inner">
-            <div class="container">
-                <a class="brand" href="#sistema/usuarios">Users</a>
-                <div class="nav-collapse collapse">
-                    <ul class="nav"></ul>
-                </div>
-            </div>
-        </div>
-    </script>
-
 </div>
+
+<div id="dialog-region"></div>
 
 <!-- Backbone templates -->
 
 <script type="text/template" id="about-message">
-    <h1>About CrowSoft Cairo Web</h1>
-    <p>This application has been developed with Play Framework (Scala), Postgresql, Bootstrap 3.0, jQuery, Backbone.js and Backbone.Marionette.js.</p>
-    <p>Hopefully, it has served you well !</p>
-    <p>It is open source :) You can find all the source code in <a href="https://github.com/javiercrowsoft/CrowSoft-Cairo">https://github.com/javiercrowsoft/CrowSoft-Cairo</a>.</p>
+    <div class="container">
+        <h1>About CrowSoft Cairo Web</h1>
+        <p>This application has been developed with Play Framework (Scala), Postgresql, Bootstrap 3.0, jQuery, Backbone.js and Backbone.Marionette.js.</p>
+        <p>Hopefully, it has served you well !</p>
+        <p>It is open source :) You can find all the source code in <a href="https://github.com/javiercrowsoft/CrowSoft-Cairo">https://github.com/javiercrowsoft/CrowSoft-Cairo</a>.</p>
+    </div>
 </script>
 
 <script type="text/template" id="usuario-edit">
@@ -96,9 +88,15 @@
 </script>
 
 <script type="text/template" id="loading-view">
-    <h1><%- title %></h1>
-    <p><%- message %></p>
-    <div id="spinner"></div>
+    <div class="row">
+        <div class="col-sm-4 col-md-3">
+            <h1><%- title %></h1>
+            <p><%- message %></p>
+        </div>
+        <div class="col-sm-8 col-md-9">
+            <div id="spinner"></div>
+        </div>
+    </div>
 </script>
 
 <script type="text/template" id="usuario-list">
@@ -164,17 +162,19 @@
 </script>
 
 <script type="text/template" id="usuario-list-layout">
-    <h2 class="sub-header">Users</h2>
-    <div class="container-fluid">
+    <div class="@if(requestOrigin.userAgent.isMobile) {container} else {desktop-big-container}">
+        <h2 class="sub-header">Users</h2>
+    </div>
+    <div class="@if(requestOrigin.userAgent.isMobile) {container} else {desktop-big-container}">
         <div class="row">
-            <div class="col-sm-3 col-md-2">
-                <ul class="nav nav-sidebar noFocus">
+            <div class="col-sm-4 col-md-3">
+                <ul class="nav noFocus">
                     <li><div id="trees"></div></li>
                     <li><div id="tree"></div></li>
                 </ul>
-
+                @if(requestOrigin.userAgent.isMobile){<br/>}
             </div>
-            <div class="col-sm-9 col-md-8">
+            <div class="col-sm-8 col-md-9">
                 <div id="panel-region"></div>
                 <div id="usuarios-region"></div>
             </div>

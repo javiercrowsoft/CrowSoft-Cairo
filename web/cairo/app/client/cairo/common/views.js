@@ -20,11 +20,11 @@ Cairo.module("Common.Views", function(Views, Cairo, Backbone, Marionette, $, _){
         lines: 13, // The number of lines to draw
         length: 20, // The length of each line
         width: 10, // The line thickness
-        radius: 30, // The radius of the inner circle
+        radius: 10, // The radius of the inner circle
         corners: 1, // Corner roundness (0..1)
         rotate: 0, // The rotation offset
         direction: 1, // 1: clockwise, -1: counterclockwise
-        color: "#000", // #rgb or #rrggbb
+        color: "#fff", // #rgb or #rrggbb
         speed: 1, // Rounds per second
         trail: 60, // Afterglow percentage
         shadow: false, // Whether to render a shadow

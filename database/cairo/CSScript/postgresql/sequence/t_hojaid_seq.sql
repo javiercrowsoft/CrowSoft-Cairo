@@ -1,0 +1,1 @@
+CREATE SEQUENCE t_hojaid_seq;

@@ -174,5 +174,5 @@ END;
 $BODY$
   LANGUAGE plpgsql VOLATILE
   COST 100;
-ALTER FUNCTION sp_arbgetdecendencia(integer, integer, smallint, smallint, integer)
+ALTER FUNCTION sp_arbgetdecendencia(integer, integer, integer, integer, integer)
   OWNER TO postgres;
