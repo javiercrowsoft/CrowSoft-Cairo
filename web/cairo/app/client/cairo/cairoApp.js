@@ -9,20 +9,20 @@ Cairo.addRegions({
   })
 });
 
-Cairo.navigate = function(route,  options){
+Cairo.navigate = function(route,  options) {
   options || (options = {});
   Backbone.history.navigate(route, options);
 };
 
-Cairo.getCurrentRoute = function(){
+Cairo.getCurrentRoute = function() {
   return Backbone.history.fragment
 };
 
-Cairo.on("initialize:after", function(){
-  if(Backbone.history){
+Cairo.on("initialize:after", function() {
+  if(Backbone.history) {
     Backbone.history.start();
 
-    if(this.getCurrentRoute() === ""){
+    if(this.getCurrentRoute() === "") {
       Cairo.trigger("desktop:show");
     }
   }
@@ -39,14 +39,14 @@ Cairo.sleep = function(millis, callback) {
     , millis);
 };
 
-Cairo.logTreeEvent = function(event, data, msg){
+Cairo.logTreeEvent = function(event, data, msg) {
   msg = msg ? ": " + msg : "";
   if (window.console && window.console.log) {
     window.console.log("Event('" + event.type + "', node=" + data.node + ")" + msg);
   }
 };
 
-Cairo.log = function(msg){
+Cairo.log = function(msg) {
   msg = msg ? ": " + msg : "";
   if (window.console && window.console.log) {
     window.console.log(msg);

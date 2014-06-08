@@ -1,6 +1,6 @@
-Cairo.module("About.Show", function(Show, Cairo, Backbone, Marionette, $, _){
+Cairo.module("About.Show", function(Show, Cairo, Backbone, Marionette, $, _) {
   Show.Controller = {
-    showAbout: function(){
+    showAbout: function() {
       var view = new Show.Message();
       Cairo.mainRegion.show(view);
     }

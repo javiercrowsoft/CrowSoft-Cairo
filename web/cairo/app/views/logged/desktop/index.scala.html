@@ -161,6 +161,16 @@
     </form>
 </script>
 
+<script type="text/template" id="usuario-list-panel">
+    <button class="btn btn-primary js-new">New user</button>
+    <form id="filter-form" class="form-search form-inline pull-right">
+        <div class="input-append">
+            <input type="text" class="span2 search-query js-filter-criterion">
+            <button type="submit" class="btn btn-info">Filter users</button>
+        </div>
+    </form>
+</script>
+
 <script type="text/template" id="usuario-list-layout">
     <div class="@if(requestOrigin.userAgent.isMobile) {container} else {desktop-big-container}">
         <h2 class="sub-header">Users</h2>
@@ -182,22 +192,69 @@
     </div>
 </script>
 
-<script type="text/template" id="usuario-list-panel">
-    <button class="btn btn-primary js-new">New user</button>
+
+<!-- trees -->
+
+<script type="text/template" id="tree-list-panel-template">
+    <button class="btn btn-primary js-new"><%- entityName %></button>
     <form id="filter-form" class="form-search form-inline pull-right">
         <div class="input-append">
             <input type="text" class="span2 search-query js-filter-criterion">
-            <button type="submit" class="btn btn-info">Filter users</button>
+            <button type="submit" class="btn btn-info">Filter <%- entitiesName %></button>
         </div>
     </form>
 </script>
 
-
-<!-- trees -->
+<script type="text/template" id="tree-list-layout-template">
+    <div class="@if(requestOrigin.userAgent.isMobile) {container} else {desktop-big-container}">
+        <h2 class="sub-header"><%- entitiesTitle %></h2>
+    </div>
+    <div class="@if(requestOrigin.userAgent.isMobile) {container} else {desktop-big-container}">
+        <div class="row">
+            <div class="col-sm-4 col-md-3">
+                <ul class="nav noFocus">
+                    <li><div id="trees"></div></li>
+                    <li><div id="tree"></div></li>
+                </ul>
+                @if(requestOrigin.userAgent.isMobile){<br/>}
+            </div>
+            <div class="col-sm-8 col-md-9">
+                <div id="tree-panel-region"></div>
+                <div id="tree-region"></div>
+            </div>
+        </div>
+    </div>
+</script>
 
 <script type="text/template" id="tree-item-template">
     <option value="<%- id %>"><%- name %></option>
 </script>
+
+<script type="text/template" id="tree-list-template">
+    <thead>
+    <tr id="tree-list-headers">
+    </tr>
+    </thead>
+    <tbody>
+    </tbody>
+</script>
+
+<script type="text/template" id="tree-list-item-template">
+    <td><%- firstName %></td>
+    <td><%- lastName %></td>
+    <td>
+        <a href="#sistema/usuario/<%- id %>" class="btn btn-small js-edit">
+            <i class="icon-pencil"></i>
+            Edit
+        </a>
+        <button class="btn btn-small js-delete btn-danger">
+            <i class="icon-remove"></i>
+            Delete
+        </button>
+    </td>
+</script>
+
+
 
 <!-- scripts -->
 
@@ -263,18 +320,4 @@
 
 </script>
 
-<script type="text/javascript">
-    $(function(){
-      // Create the tree inside the <div id="tree"> element.
-      $("#tree").fancytree({
-            source: [
-                {title: "Node 1", key: "1"},
-                {title: "Folder 2", key: "2", folder: true, children: [
-                  {title: "Node 2.1", key: "3"},
-                  {title: "Node 2.2", key: "4"}
-                ]}
-              ]
-       });
-    });
-</script>
 }

@@ -1,1 +1,1 @@
-Cairo.module("About", function(About, Cairo, Backbone, Marionette, $, _){});
+Cairo.module("About", function(About, Cairo, Backbone, Marionette, $, _) {});

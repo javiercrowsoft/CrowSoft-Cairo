@@ -1,5 +1,5 @@
 Marionette.Region.Dialog = Marionette.Region.extend({
-  onShow: function(view){
+  onShow: function(view) {
     this.listenTo(view, "dialog:close", this.closeDialog);
 
     var self = this;
@@ -7,13 +7,13 @@ Marionette.Region.Dialog = Marionette.Region.extend({
       modal: true,
       title: view.title,
       width: "auto",
-      close: function(e, ui){
+      close: function(e, ui) {
         self.closeDialog();
       }
     });
   },
 
-  closeDialog: function(){
+  closeDialog: function() {
     this.stopListening();
     this.close();
     this.$el.dialog("destroy");

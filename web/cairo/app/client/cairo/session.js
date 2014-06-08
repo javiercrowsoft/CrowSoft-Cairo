@@ -1,23 +1,23 @@
-Cairo.module("Session", function(Session, Cairo, Backbone, Marionette, $, _){
+Cairo.module("Session", function(Session, Cairo, Backbone, Marionette, $, _) {
 
     var SessionModel = Backbone.Model.extend({
 
         url : '/session',
 
-        initialize : function(){
+        initialize : function() {
 
             Cairo.setAjax();
 
             //Check for sessionStorage support
-            if(Storage && sessionStorage){
+            if(Storage && sessionStorage) {
                 this.supportStorage = true;
             }
         },
 
-        get : function(key){
-            if(this.supportStorage){
+        get : function(key) {
+            if(this.supportStorage) {
                 var data = sessionStorage.getItem(key);
-                if(data && data[0] === '{'){
+                if(data && data[0] === '{') {
                     return JSON.parse(data);
                 }else{
                     return data;
@@ -28,8 +28,8 @@ Cairo.module("Session", function(Session, Cairo, Backbone, Marionette, $, _){
         },
 
 
-        set : function(key, value){
-            if(this.supportStorage){
+        set : function(key, value) {
+            if(this.supportStorage) {
                 sessionStorage.setItem(key, value);
             }else{
                 Backbone.Model.prototype.set.call(this, key, value);
@@ -37,8 +37,8 @@ Cairo.module("Session", function(Session, Cairo, Backbone, Marionette, $, _){
             return this;
         },
 
-        unset : function(key){
-            if(this.supportStorage){
+        unset : function(key) {
+            if(this.supportStorage) {
                 sessionStorage.removeItem(key);
             }else{
                 Backbone.Model.prototype.unset.call(this, key);
@@ -46,25 +46,25 @@ Cairo.module("Session", function(Session, Cairo, Backbone, Marionette, $, _){
             return this;
         },
 
-        clear : function(){
-            if(this.supportStorage){
+        clear : function() {
+            if(this.supportStorage) {
                 sessionStorage.clear();
             }else{
                 Backbone.Model.prototype.clear(this);
             }
         },
 
-        login : function(credentials){
+        login : function(credentials) {
             var that = this;
             var login = $.ajax({
                 url : this.url + '/login',
                 data : credentials,
                 type : 'POST'
             });
-            login.done(function(response){
+            login.done(function(response) {
                 that.set('authenticated', true);
                 that.set('user', JSON.stringify(response.user));
-                if(that.get('redirectFrom')){
+                if(that.get('redirectFrom')) {
                     var path = that.get('redirectFrom');
                     that.unset('redirectFrom');
                     Backbone.history.navigate(path, { trigger : true });
@@ -72,17 +72,17 @@ Cairo.module("Session", function(Session, Cairo, Backbone, Marionette, $, _){
                     Backbone.history.navigate('', { trigger : true });
                 }
             });
-            login.fail(function(){
+            login.fail(function() {
                 Backbone.history.navigate('login', { trigger : true });
             });
         },
 
-        logout : function(callback){
+        logout : function(callback) {
             var that = this;
             $.ajax({
                 url : this.url + '/logout',
                 type : 'DELETE'
-            }).done(function(response){
+            }).done(function(response) {
                 //Clear all session data
                 that.clear();
                 //Set the new csrf token to csrf vaiable and
@@ -95,16 +95,16 @@ Cairo.module("Session", function(Session, Cairo, Backbone, Marionette, $, _){
         },
 
 
-        getAuth : function(callback){
+        getAuth : function(callback) {
             var that = this;
             var Session = this.fetch();
 
-            Session.done(function(response){
+            Session.done(function(response) {
                 that.set('authenticated', true);
                 that.set('user', JSON.stringify(response.user));
             });
 
-            Session.fail(function(response){
+            Session.fail(function(response) {
                 response = JSON.parse(response.responseText);
                 that.clear();
                 csrf = response.csrf !== csrf ? response.csrf : csrf;

@@ -57,6 +57,8 @@ BEGIN
 
    v_j := 0;
 
+   v_p := 0;
+
    v_z := 0;
 
    v_retval := '';
@@ -127,13 +129,11 @@ BEGIN
 
                      IF v_caracter = ')' THEN
                      BEGIN
+                        v_p := v_p - 1;
+                        
                         -- si encontre el cierre del primer parentesis termine con este campo
                         IF v_p = 0 THEN
-                           EXIT;
-
-                        -- sino sigo buscando el parentesis que cierra
-                        ELSE
-                           v_p := v_p - 1;
+                           EXIT;                           
 
                         END IF;
 
@@ -146,7 +146,7 @@ BEGIN
                END LOOP;
 
                -- ahora busco una coma a partir del ultimo parentesis
-               v_j := INSTR(p_campos, ',', v_t + 1);
+               v_j := INSTR(p_campos, ',', v_t);
 
                -- si la encuentro agrego el campo tal como esta a la sentencia
                IF v_j > 0 THEN
@@ -221,13 +221,11 @@ BEGIN
 
                        IF v_caracter = ')' THEN
                        BEGIN
+                          v_p := v_p - 1;
+                          
                           -- si encontre el cierre del primer parentesis termine con este campo
                           IF v_p = 0 THEN
                              EXIT;
-
-                          -- sino sigo buscando el parentesis que cierra
-                          ELSE
-                             v_p := v_p - 1;
 
                           END IF;
 

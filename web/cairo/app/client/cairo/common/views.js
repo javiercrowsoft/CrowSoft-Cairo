@@ -1,21 +1,21 @@
-Cairo.module("Common.Views", function(Views, Cairo, Backbone, Marionette, $, _){
+Cairo.module("Common.Views", function(Views, Cairo, Backbone, Marionette, $, _) {
   Views.Loading = Marionette.ItemView.extend({
     template: "#loading-view",
 
-    initialize: function(options){
+    initialize: function(options) {
       var options = options || {};
       this.title = options.title || "Loading Data";
       this.message = options.message || "Please wait, data is loading.";
     },
 
-    serializeData: function(){
+    serializeData: function() {
       return {
         title: this.title,
         message: this.message
       }
     },
 
-    onShow: function(){
+    onShow: function() {
       var opts = {
         lines: 13, // The number of lines to draw
         length: 20, // The length of each line
