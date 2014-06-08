@@ -37,7 +37,6 @@ object Trees extends Controller with ProvidesUser {
 
   def get(id: Int) = GetAction { implicit request =>
     LoggedIntoCompanyResponse.getAction(request, { user =>
-      //Ok(Json.toJson(Branch.listForTree(user, id).reverse))
       Ok(Json.toJson(Branch.createTree(Branch.listForTree(user, id))))
     })
   }

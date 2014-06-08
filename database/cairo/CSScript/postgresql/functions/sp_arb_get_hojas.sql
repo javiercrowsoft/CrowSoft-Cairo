@@ -189,7 +189,7 @@ BEGIN
    BEGIN
       -- si se trata de la raiz tambien entran los que no estan asignados a ninguna rama
       SELECT ram_id_padre,
-                     arb_id
+             arb_id
         INTO v_esRaiz,
              v_arb_id
         FROM Rama

@@ -61,7 +61,9 @@ GET     /desktop                        controllers.logged.Desktop.show
 #
 GET     /system/trees/:tableId          controllers.logged.system.Trees.list(tableId: Int)
 GET     /system/tree/:id                controllers.logged.system.Trees.get(id: Int)
+GET     /system/branch/:id              controllers.logged.system.Branches.get(id: Int)
 GET     /system/users                   controllers.logged.system.Users.list
+
 
 # Web client code
 #
