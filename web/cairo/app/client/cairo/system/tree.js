@@ -342,12 +342,6 @@ Cairo.module("Tree.List", function(List, Cairo, Backbone, Marionette, $, _) {
     },
     
     showItem: function(branch, criterion, itemsListPanel, itemsListLayout, listController) {
-      /*
-      view.listController = listController;
-      view.render();
-      $("#items").html(view.el);
-      */
-
       branch.entityInfo = listController.entityInfo;
 
       var filteredItems = Cairo.Entities.FilteredCollection({
@@ -455,7 +449,8 @@ Cairo.module("Tree.List", function(List, Cairo, Backbone, Marionette, $, _) {
         // TODO: test how it works
         args.model.destroy();
       });
-            
+
+      Cairo.treeListRegion.reset();
       Cairo.treeListRegion.show(itemsListLayout);
       Cairo.loadingRegion.close();
     }
