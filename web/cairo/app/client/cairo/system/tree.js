@@ -193,7 +193,7 @@ Cairo.module("Tree.List", function(List, Cairo, Backbone, Marionette, $, _) {
 
     regions: {
       panelRegion: "#tree-panel-region",
-      treesRegion: "#trees-region"
+      itemsRegion: "#tree-items-region"
     }
   });
 
@@ -224,7 +224,7 @@ Cairo.module("Tree.List", function(List, Cairo, Backbone, Marionette, $, _) {
   });
 
   List.Item = Marionette.ItemView.extend({
-    tagName: "tr",
+    tagName: "span",
     template: "#tree-list-item-template",
 
     triggers: {
@@ -255,6 +255,7 @@ Cairo.module("Tree.List", function(List, Cairo, Backbone, Marionette, $, _) {
         Marionette.ItemView.prototype.remove.call(self);
       });
     }
+
   });
 
   var NoItemsView = Marionette.ItemView.extend({
@@ -283,7 +284,21 @@ Cairo.module("Tree.List", function(List, Cairo, Backbone, Marionette, $, _) {
       this.appendHtml = function(collectionView, itemView, index) {
         collectionView.$el.prepend(itemView.el);
       }
+    },
+
+    serializeData: function() {
+      var data = {};
+      if (this.collection){
+        data = this.collection.models[0].toJSON();
+      }
+      return data;
+    },
+
+    appendBuffer: function(compositeView, buffer) {
+      var $container = this.getItemViewContainer(compositeView);
+      $container.append(buffer.firstElementChild.children);
     }
+
   });  
   // end new list
 
@@ -337,8 +352,8 @@ Cairo.module("Tree.List", function(List, Cairo, Backbone, Marionette, $, _) {
 
       var fetchingBranch = Cairo.request("branch:entity", branchId);
       
-      var itemsListLayout = new List.Layout();
-      var itemsListPanel = new List.Panel();      
+      var itemsListLayout = new List.Layout({ model: listController.entityInfo });
+      var itemsListPanel = new List.Panel({ model: listController.entityInfo });
 
       $.when(fetchingBranch).done(function(branch) {
         //showItem(branch, criterion, new List.Items({collection: branch}), listController);
@@ -352,6 +367,9 @@ Cairo.module("Tree.List", function(List, Cairo, Backbone, Marionette, $, _) {
       view.render();
       $("#items").html(view.el);
       */
+
+      branch.entityInfo = listController.entityInfo;
+
       var filteredItems = Cairo.Entities.FilteredCollection({
         collection: branch,
         filterFunction: function(filterCriterion) {
@@ -458,7 +476,8 @@ Cairo.module("Tree.List", function(List, Cairo, Backbone, Marionette, $, _) {
         args.model.destroy();
       });
             
-      Cairo.mainRegion.show(itemsListLayout);
+      Cairo.treeListRegion.show(itemsListLayout);
+      Cairo.loadingRegion.close();
     }
 
   };

@@ -99,15 +99,16 @@ object Branch {
           }
         }
       }
-      Leave(rs.getInt(1), rs.getInt(2), getValues())
+      Leave(rs.getInt(1), rs.getInt(2), getValues().reverse)
     }
 
     def createColumns(): List[BranchColumn] = {
-      for {
+      val columns = for {
         i <- columnIndex
       } yield {
         BranchColumn(metaData.getColumnName(i), metaData.getColumnTypeName(i))
       }
+      columns.reverse
     }
 
     def fillList(): List[Leave] = {

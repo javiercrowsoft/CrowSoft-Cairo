@@ -184,7 +184,7 @@
                 </ul>
                 @if(requestOrigin.userAgent.isMobile){<br/>}
             </div>
-            <div class="col-sm-8 col-md-9">
+            <div id="tree-list-region" class="col-sm-8 col-md-9">
                 <div id="panel-region"></div>
                 <div id="usuarios-region"></div>
             </div>
@@ -205,7 +205,7 @@
     </form>
 </script>
 
-<script type="text/template" id="tree-list-layout-template">
+<script type="text/template" id="tree-layout-template">
     <div class="@if(requestOrigin.userAgent.isMobile) {container} else {desktop-big-container}">
         <h2 class="sub-header"><%- entitiesTitle %></h2>
     </div>
@@ -218,11 +218,18 @@
                 </ul>
                 @if(requestOrigin.userAgent.isMobile){<br/>}
             </div>
-            <div class="col-sm-8 col-md-9">
+            <div id="tree-list-region" class="col-sm-8 col-md-9">
                 <div id="tree-panel-region"></div>
-                <div id="trees-region"></div>
+                <div id="tree-items-region"></div>
             </div>
         </div>
+    </div>
+</script>
+
+<script type="text/template" id="tree-list-layout-template">
+    <div id="tree-list-region" class="col-sm-8 col-md-9">
+        <div id="tree-panel-region"></div>
+        <div id="tree-items-region"></div>
     </div>
 </script>
 
@@ -233,6 +240,9 @@
 <script type="text/template" id="tree-list-template">
     <thead>
     <tr id="tree-list-headers">
+        <% columns.forEach(function(column) { %>
+            <th><%- column.name %></th>
+        <% }); %>
     </tr>
     </thead>
     <tbody>

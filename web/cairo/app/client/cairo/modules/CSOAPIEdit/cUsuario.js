@@ -280,10 +280,16 @@ Cairo.module("Usuario.List", function(List, Cairo, Backbone, Marionette, $, _) {
 
       var self = this;
 
+      this.entityInfo = new Backbone.Model({
+        entitiesTitle: "Usuarios",
+        entityName: "usuario",
+        entitiesName: "usuarios"
+      });
+
       this.showBranch = function(branchId) {
         Cairo.log("Loading nodeId: " + branchId);
         Cairo.Tree.List.Controller.listBranch(branchId, criterion, Cairo.Tree.List.Controller.showItem, self)
-      }
+      };
 
       var loadingView = new Cairo.Common.Views.Loading();
       Cairo.loadingRegion.show(loadingView);
@@ -390,7 +396,7 @@ Cairo.module("Usuario.List", function(List, Cairo, Backbone, Marionette, $, _) {
         });
 
         Cairo.mainRegion.show(usuariosListLayout);
-        Cairo.Tree.List.Controller.list(Cairo.Tables.USUARIO, usuariosListLayout, self);
+        Cairo.Tree.List.Controller.list(Cairo.Tables.CUENTA, usuariosListLayout, self);
 
       });
     }    
