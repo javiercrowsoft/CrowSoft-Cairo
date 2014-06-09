@@ -1,5 +1,5 @@
 ///////////////
-// Entities
+// Entities        underscore.js 1270 your new 2501 :P
 ///////////////
 
 Cairo.module("Entities", function(Entities, Cairo, Backbone, Marionette, $, _) {
@@ -158,7 +158,7 @@ Cairo.module("Tree.List", function(List, Cairo, Backbone, Marionette, $, _) {
     }
   });
 
-  List.Items = Backbone.View.extend({
+  List.OldItems = Backbone.View.extend({
     tagName: "select",
     className: "form-control tree-select",
     events: {
@@ -186,6 +186,106 @@ Cairo.module("Tree.List", function(List, Cairo, Backbone, Marionette, $, _) {
         }
     }
   });
+  
+  // new list
+  List.Layout = Marionette.Layout.extend({
+    template: "#tree-list-layout-template",
+
+    regions: {
+      panelRegion: "#tree-panel-region",
+      treesRegion: "#trees-region"
+    }
+  });
+
+  List.Panel = Marionette.ItemView.extend({
+    template: "#tree-list-panel-template",
+
+    triggers: {
+      "click button.js-new": "tree:new"
+    },
+
+    events: {
+      "submit #filter-form": "filterTrees"
+    },
+
+    ui: {
+      criterion: "input.js-filter-criterion"
+    },
+
+    filterTrees: function(e) {
+      e.preventDefault();
+      var criterion = this.$(".js-filter-criterion").val();
+      this.trigger("trees:filter", criterion);
+    },
+
+    onSetFilterCriterion: function(criterion) {
+      this.ui.criterion.val(criterion);
+    }
+  });
+
+  List.Item = Marionette.ItemView.extend({
+    tagName: "tr",
+    template: "#tree-list-item-template",
+
+    triggers: {
+      "click td a.js-edit": "item:edit",
+      "click button.js-delete": "item:delete"
+    },
+
+    events: {
+      "click": "highlightName"
+    },
+
+    flash: function(cssClass) {
+      var $view = this.$el;
+      $view.hide().toggleClass(cssClass).fadeIn(800, function() {
+        setTimeout(function() {
+          $view.toggleClass(cssClass)
+        }, 500);
+      });
+    },
+
+    highlightName: function(e) {
+      this.$el.toggleClass("warning");
+    },
+
+    remove: function() {
+      var self = this;
+      this.$el.fadeOut(function() {
+        Marionette.ItemView.prototype.remove.call(self);
+      });
+    }
+  });
+
+  var NoItemsView = Marionette.ItemView.extend({
+    template: "#tree-list-none-template",
+    tagName: "tr",
+    className: "alert"
+  });
+
+  List.Items = Marionette.CompositeView.extend({
+    tagName: "table",
+    className: "table table-hover",
+    template: "#tree-list-template",
+    emptyView: NoItemsView,
+    itemView: List.Item,
+    itemViewContainer: "tbody",
+
+    initialize: function() {
+      this.listenTo(this.collection, "reset", function() {
+        this.appendHtml = function(collectionView, itemView, index) {
+          collectionView.$el.append(itemView.el);
+        }
+      });
+    },
+
+    onCompositeCollectionRendered: function() {
+      this.appendHtml = function(collectionView, itemView, index) {
+        collectionView.$el.prepend(itemView.el);
+      }
+    }
+  });  
+  // end new list
 
 });
 

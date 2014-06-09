@@ -220,7 +220,7 @@
             </div>
             <div class="col-sm-8 col-md-9">
                 <div id="tree-panel-region"></div>
-                <div id="tree-region"></div>
+                <div id="trees-region"></div>
             </div>
         </div>
     </div>
@@ -240,10 +240,13 @@
 </script>
 
 <script type="text/template" id="tree-list-item-template">
-    <td><%- firstName %></td>
-    <td><%- lastName %></td>
+    <% leaves.forEach(function(leave) { %>
+    <tr>
+        <% leave.values.forEach(function(value) { %>
+            <td><%- value %></td>
+        <% }); %>
     <td>
-        <a href="#sistema/usuario/<%- id %>" class="btn btn-small js-edit">
+        <a href="#sistema/usuario/<%- leave.clientId %>" class="btn btn-small js-edit">
             <i class="icon-pencil"></i>
             Edit
         </a>
@@ -252,9 +255,13 @@
             Delete
         </button>
     </td>
+    </tr>
+    <% }); %>
 </script>
 
-
+<script type="text/template" id="tree-list-none-template">
+    <td colspan="3">No items to display.</td>
+</script>
 
 <!-- scripts -->
 

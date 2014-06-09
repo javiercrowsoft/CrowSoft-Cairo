@@ -93,6 +93,7 @@ object Branch {
             case "character"  => rs.getString(i)
             case "char"       => rs.getString(i)
             case "varchar"    => rs.getString(i)
+            case "text"       => rs.getString(i)
             case "character varying" => rs.getString(i)
             case other => s"unclassified type: $other val:${rs.getObject(i).toString}"
           }
