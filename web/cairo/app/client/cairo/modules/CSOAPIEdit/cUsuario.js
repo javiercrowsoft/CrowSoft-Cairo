@@ -396,7 +396,7 @@ Cairo.module("Usuario.List", function(List, Cairo, Backbone, Marionette, $, _) {
         });
 
         Cairo.mainRegion.show(usuariosListLayout);
-        Cairo.Tree.List.Controller.list(Cairo.Tables.CUENTA, usuariosListLayout, self);
+        Cairo.Tree.List.Controller.list(Cairo.Tables.USUARIO, usuariosListLayout, self);
 
       });
     }    
@@ -405,11 +405,6 @@ Cairo.module("Usuario.List", function(List, Cairo, Backbone, Marionette, $, _) {
 
 Cairo.module("Usuario.Edit", function(Edit, Cairo, Backbone, Marionette, $, _) {
   Edit.Controller = {
-    editOld: function() {
-      var view = new Edit.Message();
-      Cairo.mainRegion.show(view);
-    },
-
     edit: function(id) {
       var loadingView = new Cairo.Common.Views.Loading({
         title: "Usuarios",

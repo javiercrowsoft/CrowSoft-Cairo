@@ -3,27 +3,17 @@
 ///////////////
 
 Cairo.module("Entities", function(Entities, Cairo, Backbone, Marionette, $, _) {
-  Entities.Usuario = Backbone.Model.extend({
-    urlRoot: "/system/user",
+  Entities.Rol = Backbone.Model.extend({
+    urlRoot: "/system/role",
 
     defaults: {
-      firstName: "",
-      lastName: "",
-      phoneNumber: ""
+      name: ""
     },
 
     validate: function(attrs, options) {
       var errors = {}
-      if(! attrs.firstName) {
-        errors.firstName = "can't be blank";
-      }
-      if(! attrs.lastName) {
-        errors.lastName = "can't be blank";
-      }
-      else {
-        if(attrs.lastName.length < 2) {
-          errors.lastName = "is too short";
-        }
+      if(! attrs.name) {
+        errors.name = "can't be blank";
       }
       if( ! _.isEmpty(errors)) {
         return errors;
@@ -31,53 +21,31 @@ Cairo.module("Entities", function(Entities, Cairo, Backbone, Marionette, $, _) {
     }
   });
 
-  //Entities.configureStorage(Entities.Usuario);
-
-  Entities.UsuarioCollection = Backbone.Collection.extend({
-    url: "/system/users",
-    model: Entities.Usuario,
-    comparator: "firstName"
+  Entities.RolCollection = Backbone.Collection.extend({
+    url: "/system/roles",
+    model: Entities.Rol,
+    comparator: "name"
   });
 
-  //Entities.configureStorage(Entities.UsuarioCollection);
-
-  var initializeUsuarios = function() {
-    usuarios = new Entities.UsuarioCollection([
-      { id: 1, firstName: "Alice", lastName: "Arten", phoneNumber: "555-0184" },
-      { id: 2, firstName: "Bob", lastName: "Brigham", phoneNumber: "555-0163" },
-      { id: 3, firstName: "Charlie", lastName: "Campbell", phoneNumber: "555-0129" }
-    ]);
-    usuarios.forEach(function(usuario) {
-      usuario.save();
-    });
-    return usuarios.models;
-  };
-
   var API = {
-    getUsuarioEntities: function() {
-      var usuarios = new Entities.UsuarioCollection();
+    getRolEntities: function() {
+      var roles = new Entities.RolCollection();
       var defer = $.Deferred();
-      usuarios.fetch({
+      roles.fetch({
         success: function(data) {
           defer.resolve(data);
         }
       });
       var promise = defer.promise();
-      $.when(promise).done(function(usuarios) {
-        if(usuarios.length === 0) {
-          // if we don't have any usuarios yet, create some for convenience
-          var models = initializeUsuarios();
-          usuarios.reset(models);
-        }
-      });
+      $.when(promise).done(function(roles) { });
       return promise;
     },
 
-    getUsuarioEntity: function(usuarioId) {
-      var usuario = new Entities.Usuario({id: usuarioId});
+    getRolEntity: function(rolId) {
+      var rol = new Entities.Rol({id: rolId});
       var defer = $.Deferred();
       setTimeout(function() {
-        usuario.fetch({
+        rol.fetch({
           success: function(data) {
             defer.resolve(data);
           },
@@ -90,12 +58,12 @@ Cairo.module("Entities", function(Entities, Cairo, Backbone, Marionette, $, _) {
     }
   };
 
-  Cairo.reqres.setHandler("usuario:entities", function() {
-    return API.getUsuarioEntities();
+  Cairo.reqres.setHandler("rol:entities", function() {
+    return API.getRolEntities();
   });
 
-  Cairo.reqres.setHandler("usuario:entity", function(id) {
-    return API.getUsuarioEntity(id);
+  Cairo.reqres.setHandler("rol:entity", function(id) {
+    return API.getRolEntity(id);
   });
 });
 
@@ -103,15 +71,15 @@ Cairo.module("Entities", function(Entities, Cairo, Backbone, Marionette, $, _) {
 // Handler
 ///////////////
 
-Cairo.module("Usuario", function(Usuario, Cairo, Backbone, Marionette, $, _) {});
+Cairo.module("Rol", function(Rol, Cairo, Backbone, Marionette, $, _) {});
 
 ///////////////
 // View
 ///////////////
 
-Cairo.module("Usuario.Common.Views", function(Views, Cairo, Backbone, Marionette, $, _) {
+Cairo.module("Rol.Common.Views", function(Views, Cairo, Backbone, Marionette, $, _) {
   Views.Form = Marionette.ItemView.extend({
-    template: "#usuario-form",
+    template: "#rol-form",
 
     events: {
       "click button.js-submit": "submitClicked"
@@ -137,7 +105,7 @@ Cairo.module("Usuario.Common.Views", function(Views, Cairo, Backbone, Marionette
       }
 
       var markErrors = function(value, key) {
-        var $controlGroup = $view.find("#usuario-" + key).parent();
+        var $controlGroup = $view.find("#rol-" + key).parent();
         var $errorEl = $("<span>", { class: "help-inline error", text: value });
         $controlGroup.append($errorEl).addClass("error");
       }
@@ -148,14 +116,14 @@ Cairo.module("Usuario.Common.Views", function(Views, Cairo, Backbone, Marionette
   });
 });
 
-Cairo.module("Usuario.Edit", function(Edit, Cairo, Backbone, Marionette, $, _) {
+Cairo.module("Rol.Edit", function(Edit, Cairo, Backbone, Marionette, $, _) {
   Edit.Message = Marionette.ItemView.extend({
-    template: "#usuario-edit"
+    template: "#rol-edit"
   });
 
-  Edit.Usuario = Cairo.Usuario.Common.Views.Form.extend({
+  Edit.Rol = Cairo.Rol.Common.Views.Form.extend({
     initialize: function() {
-      this.title = "Edit " + this.model.get("firstName") + " " + this.model.get("lastName");
+      this.title = "Edit " + this.model.get("name");
     },
 
     onRender: function() {
@@ -164,40 +132,41 @@ Cairo.module("Usuario.Edit", function(Edit, Cairo, Backbone, Marionette, $, _) {
         this.$el.prepend($title);
       }
 
-      this.$(".js-submit").text("Update user");
+      this.$(".js-submit").text("Update role");
     }
   });
 });
 
-Cairo.module("Usuario.List", function(List, Cairo, Backbone, Marionette, $, _) {
+/*
+Cairo.module("Rol.List", function(List, Cairo, Backbone, Marionette, $, _) {
   List.Layout = Marionette.Layout.extend({
-    template: "#usuario-list-layout",
+    template: "#rol-list-layout",
 
     regions: {
       panelRegion: "#panel-region",
-      usuariosRegion: "#usuarios-region"
+      rolesRegion: "#roles-region"
     }
   });
 
   List.Panel = Marionette.ItemView.extend({
-    template: "#usuario-list-panel",
+    template: "#rol-list-panel",
 
     triggers: {
-      "click button.js-new": "usuario:new"
+      "click button.js-new": "rol:new"
     },
 
     events: {
-      "submit #filter-form": "filterUsuarios"
+      "submit #filter-form": "filterRols"
     },
 
     ui: {
       criterion: "input.js-filter-criterion"
     },
 
-    filterUsuarios: function(e) {
+    filterRols: function(e) {
       e.preventDefault();
       var criterion = this.$(".js-filter-criterion").val();
-      this.trigger("usuarios:filter", criterion);
+      this.trigger("roles:filter", criterion);
     },
 
     onSetFilterCriterion: function(criterion) {
@@ -205,13 +174,13 @@ Cairo.module("Usuario.List", function(List, Cairo, Backbone, Marionette, $, _) {
     }
   });
 
-  List.Usuario = Marionette.ItemView.extend({
+  List.Rol = Marionette.ItemView.extend({
     tagName: "tr",
-    template: "#usuario-list-item",
+    template: "#rol-list-item",
 
     triggers: {
-      "click td a.js-edit": "usuario:edit",
-      "click button.js-delete": "usuario:delete"
+      "click td a.js-edit": "rol:edit",
+      "click button.js-delete": "rol:delete"
     },
 
     events: {
@@ -239,18 +208,18 @@ Cairo.module("Usuario.List", function(List, Cairo, Backbone, Marionette, $, _) {
     }
   });
 
-  var NoUsuariosView = Marionette.ItemView.extend({
-    template: "#usuario-list-none",
+  var NoRolsView = Marionette.ItemView.extend({
+    template: "#rol-list-none",
     tagName: "tr",
     className: "alert"
   });
 
-  List.Usuarios = Marionette.CompositeView.extend({
+  List.Roles = Marionette.CompositeView.extend({
     tagName: "table",
     className: "table table-hover",
-    template: "#usuario-list",
-    emptyView: NoUsuariosView,
-    itemView: List.Usuario,
+    template: "#rol-list",
+    emptyView: NoRolsView,
+    itemView: List.Rol,
     itemViewContainer: "tbody",
 
     initialize: function() {
@@ -269,21 +238,22 @@ Cairo.module("Usuario.List", function(List, Cairo, Backbone, Marionette, $, _) {
   });
 
 });
+*/
 
 ///////////////
 // Controller
 ///////////////
 
-Cairo.module("Usuario.List", function(List, Cairo, Backbone, Marionette, $, _) {
+Cairo.module("Rol.List", function(List, Cairo, Backbone, Marionette, $, _) {
   List.Controller = {
     list: function(criterion) {
 
       var self = this;
 
       this.entityInfo = new Backbone.Model({
-        entitiesTitle: "Usuarios",
-        entityName: "usuario",
-        entitiesName: "usuarios"
+        entitiesTitle: "Roles",
+        entityName: "rol",
+        entitiesName: "roles"
       });
 
       this.showBranch = function(branchId) {
@@ -294,149 +264,44 @@ Cairo.module("Usuario.List", function(List, Cairo, Backbone, Marionette, $, _) {
       var loadingView = new Cairo.Common.Views.Loading();
       Cairo.loadingRegion.show(loadingView);
 
-      var fetchingUsuarios = Cairo.request("usuario:entities");
+      var rolesListLayout = new Cairo.Tree.List.TreeLayout({ model: this.entityInfo });
+      Cairo.mainRegion.show(rolesListLayout);
 
-      var usuariosListLayout = new List.Layout();
-      var usuariosListPanel = new List.Panel();
+      Cairo.Tree.List.Controller.list(Cairo.Tables.ROL, rolesListLayout, self);
 
-      $.when(fetchingUsuarios).done(function(usuarios) {
-        var filteredUsuarios = Cairo.Entities.FilteredCollection({
-          collection: usuarios,
-          filterFunction: function(filterCriterion) {
-            var criterion = filterCriterion.toLowerCase();
-            return function(usuario) {
-              if(usuario.get("firstName").toLowerCase().indexOf(criterion) !== -1
-                || usuario.get("lastName").toLowerCase().indexOf(criterion) !== -1
-                || usuario.get("phoneNumber").toLowerCase().indexOf(criterion) !== -1) {
-                  return usuario;
-              }
-            };
-          }
-        });
-
-        if(criterion) {
-          filteredUsuarios.filter(criterion);
-          usuariosListPanel.once("show", function() {
-            usuariosListPanel.triggerMethod("set:filter:criterion", criterion);
-          });
-        }
-
-        var usuariosListView = new List.Usuarios({
-          collection: filteredUsuarios
-        });
-
-        usuariosListPanel.on("usuarios:filter", function(filterCriterion) {
-          filteredUsuarios.filter(filterCriterion);
-          Cairo.trigger("usuarios:filter", filterCriterion);
-        });
-
-        usuariosListLayout.on("show", function() {
-          usuariosListLayout.panelRegion.show(usuariosListPanel);
-          usuariosListLayout.usuariosRegion.show(usuariosListView);
-        });
-
-        usuariosListPanel.on("usuario:new", function() {
-          var newUsuario = new Cairo.Entities.Usuario();
-
-          var view = new Cairo.Usuario.New.Usuario({
-            model: newUsuario
-          });
-
-          view.on("form:submit", function(data) {
-            if(usuarios.length > 0) {
-              var highestId = usuarios.max(function(c) { return c.id; }).get("id");
-              data.id = highestId + 1;
-            }
-            else{
-              data.id = 1;
-            }
-            if(newUsuario.save(data)) {
-              usuarios.add(newUsuario);
-              view.trigger("dialog:close");
-              var newUsuarioView = usuariosListView.children.findByModel(newUsuario);
-              // check whether the new usuario view is displayed (it could be
-              // invisible due to the current filter criterion)
-              if(newUsuarioView) {
-                newUsuarioView.flash("success");
-              }
-            }
-            else{
-              view.triggerMethod("form:data:invalid", newUsuario.validationError);
-            }
-          });
-
-          Cairo.dialogRegion.show(view);
-        });
-
-        usuariosListView.on("itemview:usuario:edit", function(childView, args) {
-          Cairo.trigger("usuario:edit", args.model.get("id"));
-          /*
-          var model = args.model;
-          var view = new Cairo.Usuario.Edit.Usuario({
-            model: model
-          });
-
-          view.on("form:submit", function(data) {
-            if(model.save(data)) {
-              childView.render();
-              view.trigger("dialog:close");
-              childView.flash("success");
-            }
-            else{
-              view.triggerMethod("form:data:invalid", model.validationError);
-            }
-          });
-
-          Cairo.dialogRegion.show(view);
-          */
-        });
-
-        usuariosListView.on("itemview:usuario:delete", function(childView, args) {
-          args.model.destroy();
-        });
-
-        Cairo.mainRegion.show(usuariosListLayout);
-        Cairo.Tree.List.Controller.list(Cairo.Tables.CUENTA, usuariosListLayout, self);
-
-      });
     }
   };
 });
 
-Cairo.module("Usuario.Edit", function(Edit, Cairo, Backbone, Marionette, $, _) {
+Cairo.module("Rol.Edit", function(Edit, Cairo, Backbone, Marionette, $, _) {
   Edit.Controller = {
-    editOld: function() {
-      var view = new Edit.Message();
-      Cairo.mainRegion.show(view);
-    },
-
     edit: function(id) {
       var loadingView = new Cairo.Common.Views.Loading({
-        title: "Usuarios",
-        message: "Loading users from crowsoft cairo server."
+        title: "Roles",
+        message: "Loading roles from crowsoft cairo server."
       });
       Cairo.loadingRegion.show(loadingView);
 
-      var fetchingUsuario = Cairo.request("usuario:entity", id);
-      $.when(fetchingUsuario).done(function(usuario) {
+      var fetchingRol = Cairo.request("rol:entity", id);
+      $.when(fetchingRol).done(function(rol) {
         var view;
-        if(usuario !== undefined) {
-          view = new Edit.Usuario({
-            model: usuario,
+        if(rol !== undefined) {
+          view = new Edit.Rol({
+            model: rol,
             generateTitle: true
           });
 
           view.on("form:submit", function(data) {
-            if(usuario.save(data)) {
-              Cairo.trigger("usuario:edit", usuario.get("id"));
+            if(rol.save(data)) {
+              Cairo.trigger("rol:edit", rol.get("id"));
             }
             else{
-              view.triggerMethod("form:data:invalid", usuario.validationError);
+              view.triggerMethod("form:data:invalid", rol.validationError);
             }
           });
         }
         else{
-          view = new Cairo.Usuario.Show.MissingUsuario();
+          view = new Cairo.Rol.Show.MissingRol();
         }
 
         Cairo.mainRegion.show(view);

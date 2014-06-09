@@ -157,37 +157,17 @@ Cairo.module("Tree.List", function(List, Cairo, Backbone, Marionette, $, _) {
         }
     }
   });
-
-  List.OldItems = Backbone.View.extend({
-    tagName: "select",
-    className: "form-control tree-select",
-    events: {
-        "change": "clicked"
-    },
-
-    clicked: function(e) {
-        e.preventDefault();
-        var treeId = $(e.currentTarget).val();
-        Cairo.Tree.List.Controller.listTree(treeId);
-    },
-
-    render: function() {
-        var template = _.template($("#tree-list-template").html());
-        var el = $(this.el);
-        this.collection.each(function(model) {
-            var html = template(model.toJSON());
-            el.append(html);
-        });
-        try {
-            var treeId = this.collection.first().get("id");
-            Cairo.Tree.List.Controller.listTree(treeId, this.listController);
-        }
-        catch (e) {
-        }
-    }
-  });
   
   // new list
+  List.TreeLayout = Marionette.Layout.extend({
+    template: "#tree-layout-template",
+
+    regions: {
+      panelRegion: "#tree-panel-region",
+      itemsRegion: "#tree-items-region"
+    }
+  });
+
   List.Layout = Marionette.Layout.extend({
     template: "#tree-list-layout-template",
 
