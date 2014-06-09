@@ -12,7 +12,7 @@ Cairo.module("Entities", function(Entities, Cairo, Backbone, Marionette, $, _) {
 
     validate: function(attrs, options) {
       var errors = {}
-      if (! attrs.name) {
+      if(! attrs.name) {
         errors.name = "can't be blank";
       }
       if( ! _.isEmpty(errors)) {
@@ -31,7 +31,7 @@ Cairo.module("Entities", function(Entities, Cairo, Backbone, Marionette, $, _) {
 
     validate: function(attrs, options) {
       var errors = {}
-      if (attrs.clientId === 0) {
+      if(attrs.clientId === 0) {
         errors.clientId = "can't be blank";
       }
       if( ! _.isEmpty(errors)) {
@@ -331,21 +331,134 @@ Cairo.module("Tree.List", function(List, Cairo, Backbone, Marionette, $, _) {
       });
     },
 
-    listBranch: function(branchId, showItem, listController) {
+    listBranch: function(branchId, criterion, showItem, listController) {
       var loadingView = new Cairo.Common.Views.Loading();
       Cairo.loadingRegion.show(loadingView);
 
       var fetchingBranch = Cairo.request("branch:entity", branchId);
+      
+      var itemsListLayout = new List.Layout();
+      var itemsListPanel = new List.Panel();      
 
       $.when(fetchingBranch).done(function(branch) {
-        showItem(branch, new List.Items({collection: branch}), listController);
+        //showItem(branch, criterion, new List.Items({collection: branch}), listController);
+        showItem(branch, criterion, itemsListPanel, itemsListLayout, listController);
       });
     },
     
-    showItem: function(branch, view, listController) {
+    showItem: function(branch, criterion, itemsListPanel, itemsListLayout, listController) {
+      /*
       view.listController = listController;
       view.render();
       $("#items").html(view.el);
+      */
+      var filteredItems = Cairo.Entities.FilteredCollection({
+        collection: branch,
+        filterFunction: function(filterCriterion) {
+          var criterion = filterCriterion.toLowerCase();
+          return function(leave) {
+            var matches = false;
+            leave.values.forEach(function(value) {
+              if(value.toLowerCase().indexOf(criterion) !== -1) matches = true; 
+            });
+            if(matches) {
+                return leave;
+            }
+          };
+        }
+      });
+            
+      if(criterion) {
+        filteredItems.filter(criterion);
+        itemsListPanel.once("show", function() {
+          itemsListPanel.triggerMethod("set:filter:criterion", criterion);
+        });
+      }
+            
+      var itemsListView = new List.Items({
+        collection: filteredItems
+      });
+            
+      itemsListPanel.on("items:filter", function(filterCriterion) {
+        filteredItems.filter(filterCriterion);
+        Cairo.trigger("items:filter", filterCriterion);
+      });
+            
+      itemsListLayout.on("show", function() {
+        itemsListLayout.panelRegion.show(itemsListPanel);
+        itemsListLayout.itemsRegion.show(itemsListView);
+      });
+            
+      itemsListPanel.on("item:new", function() {
+      
+        // TODO: call to controller listController.newItem
+      
+        /*
+        var newUsuario = new Cairo.Entities.Usuario();
+            
+        var view = new Cairo.Usuario.New.Usuario({
+          model: newUsuario
+        });
+            
+        view.on("form:submit", function(data) {
+          if(usuarios.length > 0) {
+            var highestId = usuarios.max(function(c) { return c.id; }).get("id");
+            data.id = highestId + 1;
+          }
+          else{
+            data.id = 1;
+          }
+          if(newUsuario.save(data)) {
+            usuarios.add(newUsuario);
+            view.trigger("dialog:close");
+            var newUsuarioView = usuariosListView.children.findByModel(newUsuario);
+            // check whether the new usuario view is displayed (it could be
+            // invisible due to the current filter criterion)
+            if(newUsuarioView) {
+              newUsuarioView.flash("success");
+            }
+          }
+          else{
+            view.triggerMethod("form:data:invalid", newUsuario.validationError);
+          }
+        });
+            
+        Cairo.dialogRegion.show(view);
+        */
+      });
+            
+      itemsListView.on("itemview:item:edit", function(childView, args) {
+      
+        // TODO: call to controller listController.editItem
+      
+        //Cairo.trigger("usuario:edit", args.model.get("id"));
+        /*
+        var model = args.model;
+        var view = new Cairo.Usuario.Edit.Usuario({
+          model: model
+        });
+            
+        view.on("form:submit", function(data) {
+          if(model.save(data)) {
+            childView.render();
+            view.trigger("dialog:close");
+            childView.flash("success");
+          }
+          else{
+            view.triggerMethod("form:data:invalid", model.validationError);
+          }
+        });
+            
+        Cairo.dialogRegion.show(view);
+        */
+      });
+            
+      itemsListView.on("itemview:item:delete", function(childView, args) {
+        // TODO: test how it works
+        args.model.destroy();
+      });
+            
+      Cairo.mainRegion.show(itemsListLayout);
     }
 
   };

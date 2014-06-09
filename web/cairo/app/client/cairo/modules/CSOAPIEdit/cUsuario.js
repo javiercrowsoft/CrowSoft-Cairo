@@ -14,14 +14,14 @@ Cairo.module("Entities", function(Entities, Cairo, Backbone, Marionette, $, _) {
 
     validate: function(attrs, options) {
       var errors = {}
-      if (! attrs.firstName) {
+      if(! attrs.firstName) {
         errors.firstName = "can't be blank";
       }
-      if (! attrs.lastName) {
+      if(! attrs.lastName) {
         errors.lastName = "can't be blank";
       }
-      else{
-        if (attrs.lastName.length < 2) {
+      else {
+        if(attrs.lastName.length < 2) {
           errors.lastName = "is too short";
         }
       }
@@ -282,7 +282,7 @@ Cairo.module("Usuario.List", function(List, Cairo, Backbone, Marionette, $, _) {
 
       this.showBranch = function(branchId) {
         Cairo.log("Loading nodeId: " + branchId);
-        Cairo.Tree.List.Controller.listBranch(branchId, Cairo.Tree.List.Controller.showItem, self)
+        Cairo.Tree.List.Controller.listBranch(branchId, criterion, Cairo.Tree.List.Controller.showItem, self)
       }
 
       var loadingView = new Cairo.Common.Views.Loading();
