@@ -17,7 +17,7 @@ object Application extends Controller with ProvidesUser {
       "password" -> nonEmptyText(minLength = 12).verifying(PasswordValidation.passwordCheckConstraint)
     )(UserData.apply)(UserData.unapply))
 
-  def index = GetAction { implicit request =>
+  def loggedIndex = GetAction { implicit request =>
     if(SessionStatus.isLoggedCompanyUser(request)) {
       Logger.debug("redirecting to Desktop.show")
       Redirect(controllers.logged.routes.Desktop.show)
@@ -28,8 +28,29 @@ object Application extends Controller with ProvidesUser {
     }
     else {
       Logger.debug("showing index")
+      Redirect(controllers.routes.Application.index)
+    }
+
+    /*
+    else if(SessionStatus.isNotFirstRequestToIndex(request)) {
+      Logger.debug("showing index")
       Ok(views.html.index(form, Settings.siteBaseURL))
     }
+    else {
+      Logger.debug("showing index")
+      Ok(views.html.welcome(form, Settings.siteBaseURL)).withSession(
+        "index" -> "true"
+      )
+    }
+    */
+  }
+
+  def index = Action { implicit request =>
+    Ok(views.html.index(form, Settings.siteBaseURL))
+  }
+
+  def welcome = Action { implicit request =>
+    Ok(views.html.welcome(form, Settings.siteBaseURL))
   }
 
   def error = GetAction { implicit request =>

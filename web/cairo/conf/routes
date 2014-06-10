@@ -3,7 +3,9 @@
 # ~~~~
 
 # Home page
-GET     /                               controllers.Application.index
+GET     /                               controllers.Application.loggedIndex
+GET     /index                          controllers.Application.index
+GET     /welcome                        controllers.Application.welcome
 
 # Error
 GET     /error                          controllers.Application.error

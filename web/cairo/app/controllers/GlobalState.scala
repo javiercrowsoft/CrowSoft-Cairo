@@ -91,6 +91,11 @@ object LoggedIntoCompanyResponse extends Controller {
 
 object SessionStatus {
 
+  def isNotFirstRequestToIndex[A](request: Request[A]) = {
+    Logger.debug(s"firstRequestForIndex: ${request.session.get("index").getOrElse("").isEmpty}")
+    !request.session.get("index").getOrElse("").isEmpty
+  }
+
   def isLoggedUser[A](request: Request[A]) = {
     Logger.debug(s"user in session is empty: ${request.session.get("user").getOrElse("").isEmpty}")
     !request.session.get("user").getOrElse("").isEmpty
