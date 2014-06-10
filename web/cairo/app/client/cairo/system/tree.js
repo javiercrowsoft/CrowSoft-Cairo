@@ -276,7 +276,8 @@ Cairo.module("Tree.List", function(List, Cairo, Backbone, Marionette, $, _) {
 
     appendBuffer: function(compositeView, buffer) {
       var $container = this.getItemViewContainer(compositeView);
-      $container.append(buffer.firstElementChild.children);
+      //$container.append(buffer.firstElementChild.children);
+      $container.append(buffer.firstChild.children);
     }
 
   });  

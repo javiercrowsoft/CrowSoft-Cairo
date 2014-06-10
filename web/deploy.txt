@@ -1,1 +1,72 @@
+how to connect to salmax server
+
+these alias are in ~/.bash_profile
+
+alias sshprogressalmax='ssh -L 5439:localhost:5432 root@190.210.181.104'
+alias sshsalmax='ssh root@190.210.181.104'
+
+how to update production
+
+1 run
+
 scp /Users/javier/Work/CrowSoft/CrowSoft-Cairo/web/cairo/conf/production.conf root@190.210.181.104:/root/apps/CrowSoft-Cairo/web/cairo/conf/
+
+2 connect using sshsalmax or sshprogressalmax if you want to run some scripts
+
+3 stop play
+
+    in the ssh terminal use top to get the PID of the JVM (look for the process which has java in the COMMAND column)
+    
+    use that PID to kill the process
+    
+    kill {PID}
+
+4 in the ssh terminal go to 
+
+    cd ~/apps/CrowSoft-Cairo
+    
+    git pull origin master
+
+5 start play server
+
+    cd ~/apps/CrowSoft-Cairo/web/cairo
+    
+    ./start_production.sh
+
+how to migrate a database:
+
+CAIRO MASTER
+
+1 drop database
+2 create new database cairo_master
+3 restore from backup
+
+4 update settings
+update domains set dm_server = 'jdbc:postgresql://localhost:5432', dm_database = 'salmax_com_ar_domain', dm_password = 'the password :P' 
+delete from token
+delete from users where us_id <> 1
+delete from user_logins
+update users set us_username = 'javier@salmax.com.ar'
+
+DOMAIN DATABASE
+
+1 drop database
+2 create new database [url]_domain
+3 restore from backup
+
+4 update databases
+
+update databases set db_corporation = 'Salmax', db_server = 'jdbc:postgresql://localhost:5432', db_database = 'salmax_com_ar_cairo', db_password = 'the password :P' 
+
+CAIRO DATABASE
+
+1 run sysmenu backup:
+
+/Users/javier/Work/CrowSoft/CrowSoft-Cairo/database/backup/crowsoft_com_ar_cairo-sysmenu.sql
+
+2 update tabla
+
+/Users/javier/Work/CrowSoft/CrowSoft-Cairo/database/migration_from_sqlserver/update_tabla.sql
+
+3 run all functions
+
