@@ -309,6 +309,42 @@ Cairo.module("Tree.List", function(List, Cairo, Backbone, Marionette, $, _) {
                         listController.showBranch(data.node.key)
                       }
         });
+
+        $("#tree").contextmenu({
+			delegate: "span.fancytree-title",
+			menu: [
+			        {title: "New Tree", cmd: "newTree", uiIcon: "ui-icon-folder-collapsed"},
+			        {title: "New Folder", cmd: "newFolder", uiIcon: "ui-icon-folder-open"},
+			        {title: "----"},
+					{title: "Cut", cmd: "cut", uiIcon: "ui-icon-scissors"},
+					{title: "Copy", cmd: "copy", uiIcon: "ui-icon-copy"},
+					{title: "Copy (only children)", cmd: "copyChildren", uiIcon: "ui-icon-copy"},
+					{title: "Paste", cmd: "paste", uiIcon: "ui-icon-clipboard", disabled: true },
+					{title: "----"},
+					{title: "Rename", cmd: "edit", uiIcon: "ui-icon-pencil"},
+					{title: "Delete", cmd: "delete", uiIcon: "ui-icon-trash"},
+					{title: "----"},
+					{title: "Move Up", cmd: "moveUp", uiIcon: "ui-icon-circle-arrow-n"},
+					{title: "Move Down", cmd: "moveDown", uiIcon: "ui-icon-circle-arrow-s"},
+					{title: "----"},
+					{title: "Move Top", cmd: "moveTop", uiIcon: "ui-icon-circle-arrow-n"},
+					{title: "Move Bottom", cmd: "moveBottom", uiIcon: "ui-icon-circle-arrow-s"},
+					{title: "----"},
+					{title: "Sort A-Z", cmd: "sortAZ", uiIcon: "ui-icon-circle-triangle-n"},
+					{title: "Sort Z-A", cmd: "sortZA", uiIcon: "ui-icon-circle-triangle-s"},
+					{title: "----"},
+					{title: "Export to Spreed Sheet", cmd: "export", uiIcon: "ui-icon-calculator"}
+					],
+			beforeOpen: function(event, ui) {
+				var node = $.ui.fancytree.getNode(ui.target);
+				node.setActive();
+			},
+			select: function(event, ui) {
+				var node = $.ui.fancytree.getNode(ui.target);
+				alert("select " + ui.cmd + " on " + node);
+			}
+		});
+
         Cairo.loadingRegion.close();
       });
     },
