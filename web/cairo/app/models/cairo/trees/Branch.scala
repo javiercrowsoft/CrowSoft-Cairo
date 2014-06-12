@@ -71,7 +71,7 @@ object Branch {
     val rs = cs.getObject(5).asInstanceOf [java.sql.ResultSet]
 
     lazy val metaData = rs.getMetaData()
-    lazy val columnIndex = 3.to(metaData.getColumnCount()).toList.reverse
+    lazy val columnIndex = 3.to(metaData.getColumnCount()).toList
 
     def createLeave(): Leave = {
       def getValues(): List[String] = {
@@ -99,7 +99,7 @@ object Branch {
           }
         }
       }
-      Leave(rs.getInt(1), rs.getInt(2), getValues().reverse)
+      Leave(rs.getInt(1), rs.getInt(2), getValues())
     }
 
     def createColumns(): List[BranchColumn] = {
@@ -108,7 +108,7 @@ object Branch {
       } yield {
         BranchColumn(metaData.getColumnName(i), metaData.getColumnTypeName(i))
       }
-      columns.reverse
+      columns
     }
 
     def fillList(): List[Leave] = {
