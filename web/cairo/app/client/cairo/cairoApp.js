@@ -256,6 +256,42 @@ Cairo.Tables = {
 
 };
 
+Cairo.LoadingMessage = (function() {
+    var workDone = false;
+    var view = null;
+    var message = null;
+    var title = null;
+
+    var showMessage = function() {
+        if(workDone) return;
+        if(view) return;
+        view = new Cairo.Common.Views.Loading({
+          title: this.title,
+          message: this.message
+        });
+
+        Cairo.loadingRegion.show(view);
+    };
+
+    this.close = function() {
+        workDone = true;
+        if(view) {
+            Cairo.loadingRegion.close();
+            view = null;
+        }
+    };
+
+    this.show = function(title, message) {
+        if(view) return;
+        workDone = false;
+        this.message = message || this.message;
+        this.title = title || this.title;
+        setTimeout(showMessage, 200);
+    };
+
+    return this;
+})();
+
 Cairo.sleep = function(millis, callback) {
     setTimeout(function()
             { callback(); }

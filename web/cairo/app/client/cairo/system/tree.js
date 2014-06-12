@@ -76,16 +76,14 @@ Cairo.module("Entities", function(Entities, Cairo, Backbone, Marionette, $, _) {
     getTreeEntity: function(treeId) {
       var tree = new Entities.Tree({id: treeId});
       var defer = $.Deferred();
-      setTimeout(function() {
-        tree.fetch({
-          success: function(data) {
-            defer.resolve(data);
-          },
-          error: function(data) {
-            defer.resolve(undefined);
-          }
-        });
-      }, 2000);
+      tree.fetch({
+        success: function(data) {
+          defer.resolve(data);
+        },
+        error: function(data) {
+          defer.resolve(undefined);
+        }
+      });
       return defer.promise();
     },
 
@@ -292,8 +290,7 @@ Cairo.module("Tree.List", function(List, Cairo, Backbone, Marionette, $, _) {
 Cairo.module("Tree.List", function(List, Cairo, Backbone, Marionette, $, _) {
   List.Controller = {
     listTree: function(treeId, listController) {
-      var loadingView = new Cairo.Common.Views.Loading();
-      Cairo.loadingRegion.show(loadingView);
+      Cairo.LoadingMessage.show();
 
       var fetchingTree = Cairo.request("tree:entity", treeId);
 
@@ -345,13 +342,12 @@ Cairo.module("Tree.List", function(List, Cairo, Backbone, Marionette, $, _) {
 			}
 		});
 
-        Cairo.loadingRegion.close();
+        Cairo.LoadingMessage.close();
       });
     },
 
     list: function(tableId, mainView, listController) {
-      var loadingView = new Cairo.Common.Views.Loading();
-      Cairo.loadingRegion.show(loadingView);
+      Cairo.LoadingMessage.show();
 
       var fetchingTrees = Cairo.request("tree:entities", tableId);
 
@@ -364,8 +360,7 @@ Cairo.module("Tree.List", function(List, Cairo, Backbone, Marionette, $, _) {
     },
 
     listBranch: function(branchId, criterion, showItem, listController) {
-      var loadingView = new Cairo.Common.Views.Loading();
-      Cairo.loadingRegion.show(loadingView);
+      Cairo.LoadingMessage.show();
 
       var fetchingBranch = Cairo.request("branch:entity", branchId);
       
@@ -373,7 +368,6 @@ Cairo.module("Tree.List", function(List, Cairo, Backbone, Marionette, $, _) {
       var itemsListPanel = new List.Panel({ model: listController.entityInfo });
 
       $.when(fetchingBranch).done(function(branch) {
-        //showItem(branch, criterion, new List.Items({collection: branch}), listController);
         showItem(branch, criterion, itemsListPanel, itemsListLayout, listController);
       });
     },
@@ -489,7 +483,8 @@ Cairo.module("Tree.List", function(List, Cairo, Backbone, Marionette, $, _) {
 
       Cairo.treeListRegion.reset();
       Cairo.treeListRegion.show(itemsListLayout);
-      Cairo.loadingRegion.close();
+
+      Cairo.LoadingMessage.close();
     }
 
   };

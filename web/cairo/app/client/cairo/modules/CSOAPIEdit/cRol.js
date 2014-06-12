@@ -44,16 +44,14 @@ Cairo.module("Entities", function(Entities, Cairo, Backbone, Marionette, $, _) {
     getRolEntity: function(rolId) {
       var rol = new Entities.Rol({id: rolId});
       var defer = $.Deferred();
-      setTimeout(function() {
-        rol.fetch({
-          success: function(data) {
-            defer.resolve(data);
-          },
-          error: function(data) {
-            defer.resolve(undefined);
-          }
-        });
-      }, 2000);
+      rol.fetch({
+        success: function(data) {
+          defer.resolve(data);
+        },
+        error: function(data) {
+          defer.resolve(undefined);
+        }
+      });
       return defer.promise();
     }
   };
@@ -158,8 +156,7 @@ Cairo.module("Rol.List", function(List, Cairo, Backbone, Marionette, $, _) {
         Cairo.Tree.List.Controller.listBranch(branchId, criterion, Cairo.Tree.List.Controller.showItem, self)
       };
 
-      var loadingView = new Cairo.Common.Views.Loading();
-      Cairo.loadingRegion.show(loadingView);
+      Cairo.LoadingMessage.show("Roles", "Loading roles from Crowsoft Cairo server.");
 
       var rolesListLayout = new Cairo.Tree.List.TreeLayout({ model: this.entityInfo });
       Cairo.mainRegion.show(rolesListLayout);
@@ -173,11 +170,7 @@ Cairo.module("Rol.List", function(List, Cairo, Backbone, Marionette, $, _) {
 Cairo.module("Rol.Edit", function(Edit, Cairo, Backbone, Marionette, $, _) {
   Edit.Controller = {
     edit: function(id) {
-      var loadingView = new Cairo.Common.Views.Loading({
-        title: "Roles",
-        message: "Loading roles from crowsoft cairo server."
-      });
-      Cairo.loadingRegion.show(loadingView);
+      Cairo.LoadingMessage.show("Rol", "Loading rol from Crowsoft Cairo server.");
 
       var fetchingRol = Cairo.request("rol:entity", id);
       $.when(fetchingRol).done(function(rol) {
@@ -202,7 +195,7 @@ Cairo.module("Rol.Edit", function(Edit, Cairo, Backbone, Marionette, $, _) {
         }
 
         Cairo.mainRegion.show(view);
-        Cairo.loadingRegion.close();
+        Cairo.LoadingMessage.close();
       });
     }
   };

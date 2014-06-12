@@ -76,16 +76,14 @@ Cairo.module("Entities", function(Entities, Cairo, Backbone, Marionette, $, _) {
     getUsuarioEntity: function(usuarioId) {
       var usuario = new Entities.Usuario({id: usuarioId});
       var defer = $.Deferred();
-      setTimeout(function() {
-        usuario.fetch({
-          success: function(data) {
-            defer.resolve(data);
-          },
-          error: function(data) {
-            defer.resolve(undefined);
-          }
-        });
-      }, 2000);
+      usuario.fetch({
+        success: function(data) {
+          defer.resolve(data);
+        },
+        error: function(data) {
+          defer.resolve(undefined);
+        }
+      });
       return defer.promise();
     }
   };
@@ -291,8 +289,7 @@ Cairo.module("Usuario.List", function(List, Cairo, Backbone, Marionette, $, _) {
         Cairo.Tree.List.Controller.listBranch(branchId, criterion, Cairo.Tree.List.Controller.showItem, self)
       };
 
-      var loadingView = new Cairo.Common.Views.Loading();
-      Cairo.loadingRegion.show(loadingView);
+      Cairo.LoadingMessage.show("Usuarios", "Loading usuarios from Crowsoft Cairo server.");
 
       var fetchingUsuarios = Cairo.request("usuario:entities");
 
@@ -406,11 +403,7 @@ Cairo.module("Usuario.List", function(List, Cairo, Backbone, Marionette, $, _) {
 Cairo.module("Usuario.Edit", function(Edit, Cairo, Backbone, Marionette, $, _) {
   Edit.Controller = {
     edit: function(id) {
-      var loadingView = new Cairo.Common.Views.Loading({
-        title: "Usuarios",
-        message: "Loading users from crowsoft cairo server."
-      });
-      Cairo.loadingRegion.show(loadingView);
+      Cairo.LoadingMessage.show("Usuario", "Loading usuario from Crowsoft Cairo server.");
 
       var fetchingUsuario = Cairo.request("usuario:entity", id);
       $.when(fetchingUsuario).done(function(usuario) {
@@ -435,7 +428,7 @@ Cairo.module("Usuario.Edit", function(Edit, Cairo, Backbone, Marionette, $, _) {
         }
 
         Cairo.mainRegion.show(view);
-        Cairo.loadingRegion.close();
+        Cairo.LoadingMessage.close();
       });
     }
   };
