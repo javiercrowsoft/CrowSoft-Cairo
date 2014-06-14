@@ -192,6 +192,32 @@
     </div>
 </script>
 
+<!-- general dialogs -->
+
+<script type="text/template" id="input-text-form">
+  <form>
+    <div class="input-text-form">
+      <div class="control-group">
+        <label for="input-text-text"><%- label %></label>
+        <input id="input-text-text" name="input-text-text" type="text" value="<%- text %>"/>
+      </div>
+    </div>
+    <button class="btn js-submit btn-info btn-small">Submit</button>
+  </form>
+</script>
+
+
+<script type="text/template" id="confirm-form">
+  <form>
+    <div class="input-text-form">
+      <div class="control-group">
+        <p><%- message %></p>
+      </div>
+    </div>
+    <button class="btn js-submit-yes <%- yesClass %> btn-small">Yes</button>
+    <button class="btn js-submit-no <%- noClass %> btn-small">No</button>
+  </form>
+</script>
 
 <!-- trees -->
 

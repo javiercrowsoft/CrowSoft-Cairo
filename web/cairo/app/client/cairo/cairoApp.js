@@ -256,7 +256,7 @@ Cairo.Tables = {
 
 };
 
-Cairo.LoadingMessage = (function() {
+Cairo.LoadingMessage = function() {
     var workDone = false;
     var view = null;
     var message = null;
@@ -290,7 +290,7 @@ Cairo.LoadingMessage = (function() {
     };
 
     return this;
-})();
+}();
 
 Cairo.sleep = function(millis, callback) {
     setTimeout(function()
@@ -310,4 +310,141 @@ Cairo.log = function(msg) {
   if(window.console && window.console.log) {
     window.console.log(msg);
   }
+};
+
+///////////////
+// Views
+///////////////
+
+Cairo.module("Common.Views", function(Views, Cairo, Backbone, Marionette, $, _){
+  Views.InputTextForm = Marionette.ItemView.extend({
+    template: "#input-text-form",
+
+    events: {
+      "click button.js-submit": "submitClicked"
+    },
+
+    submitClicked: function(e){
+      e.preventDefault();
+      var data = Backbone.Syphon.serialize(this);
+      this.trigger("form:submit", data);
+    },
+
+    onFormDataInvalid: function(errors){
+      var $view = this.$el;
+
+      var clearFormErrors = function(){
+        var $form = $view.find("form");
+        $form.find(".help-inline.error").each(function(){
+          $(this).remove();
+        });
+        $form.find(".control-group.error").each(function(){
+          $(this).removeClass("error");
+        });
+      }
+
+      var markErrors = function(value, key){
+        var $controlGroup = $view.find("#input-text-" + key).parent();
+        var $errorEl = $("<span>", { class: "help-inline error", text: value });
+        $controlGroup.append($errorEl).addClass("error");
+      }
+
+      clearFormErrors();
+      _.each(errors, markErrors);
+    }
+  });
+
+  Views.ConfirmForm = Marionette.ItemView.extend({
+    template: "#confirm-form",
+
+    events: {
+      "click button.js-submit-yes": "yesClicked",
+      "click button.js-submit-no": "noClicked"
+    },
+
+    yesClicked: function(e){
+      e.preventDefault();
+      var data = { answer: 'yes' };
+      this.trigger("form:submit", data);
+    },
+
+    noClicked: function(e){
+      e.preventDefault();
+      var data = { answer: 'no' };
+      this.trigger("form:submit", data);
+    }
+  });
+
+});
+
+Cairo.module("Common.Views", function(Views, Cairo, Backbone, Marionette, $, _){
+  Views.InputText = Cairo.Common.Views.InputTextForm.extend({
+    initialize: function(){
+      this.title = this.model.get("title");
+    },
+
+    onRender: function(){
+      if(this.options.generateTitle){
+        var $title = $('<h1>', { text: this.title });
+        this.$el.prepend($title);
+      }
+
+      this.$(".js-submit").text("Submit");
+    }
+  });
+
+  Views.Confirm = Cairo.Common.Views.ConfirmForm.extend({
+    initialize: function(){
+      this.title = this.model.get("title");
+    },
+
+    onRender: function(){
+      if(this.options.generateTitle){
+        var $title = $('<h1>', { text: this.title });
+        this.$el.prepend($title);
+      }
+    }
+  });
+
+});
+
+
+Cairo.inputFormView = function(title, label, defaultValue, inputHandler) {
+  var Model = Backbone.Model.extend({ urlRoot: "inputForm" });
+  model = new Model({ title: title, label: label, text: defaultValue });
+  var view = new Cairo.Common.Views.InputText({
+      model: model
+    });
+
+  view.on("form:submit", function(data) {
+    Cairo.log("submit handled - Data: " + data);
+    view.trigger("dialog:close");
+    inputHandler(data["input-text-text"]);
+  });
+
+  return view;
+};
+
+Cairo.confirmViewWithClasses = function(title, message, yesClass, noClass, confirmHandler) {
+  var Model = Backbone.Model.extend({ urlRoot: "inputForm" });
+  model = new Model({ title: title, message: message, yesClass: yesClass, noClass: noClass });
+  var view = new Cairo.Common.Views.Confirm({
+      model: model
+    });
+
+  view.on("form:submit", function(data) {
+    Cairo.log("submit handled - Data: " + data);
+    view.trigger("dialog:close");
+    confirmHandler(data["answer"]);
+  });
+
+  return view;
+};
+
+Cairo.confirmViewYesDanger = function(title, message, confirmHandler) {
+  return Cairo.confirmViewWithClasses(title, message, "btn-danger", "btn-info", confirmHandler);
+};
+
+Cairo.confirmView = function(title, message, confirmHandler) {
+  return Cairo.confirmViewWithClasses(title, message, "btn-info", "", confirmHandler);
 };

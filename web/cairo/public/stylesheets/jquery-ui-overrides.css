@@ -18,7 +18,7 @@
 .ui-state-focus,
 .ui-widget-content .ui-state-focus,
 .ui-widget-header .ui-state-focus {
-	border: 1px solid #448dae;
+	border: 1px solid #fff;
 	background: #00bc8c;
 	font-weight: normal;
 	color: #fff;
@@ -47,4 +47,89 @@
 .ui-corner-right,
 .ui-corner-br {
 	border-bottom-right-radius: 0px;
+}
+
+/**/
+
+.ui-widget-header {
+  font-weight:bold;
+  border-color: #fff;
+  border-bottom:1px solid #cecece;
+  background: #fff;
+  color: #000;
+  font-weight: bold;
+}
+
+.ui-widget-header .ui-state-default {
+	border: none;
+	background: #fff;
+	font-weight: normal;
+	color: #ffffff;
+}
+
+div.input-text-form {
+  margin: 20px 10px 40px 10px;
+}
+
+div.input-text-form label {
+  display: block;
+  font-size: 14px;
+  font-weight: normal;
+  line-height: 20px;
+  color: #404040;
+}
+
+div.input-text-form input {
+  display: inline-block;
+  padding: 4px;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 13px;
+  line-height: 18px;
+  color: #808080 !important;
+  border: 1px solid #ccc;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  min-width: 400px;
+}
+
+.ui-dialog .ui-dialog-title {
+  float: left;
+  color: #404040;
+  font-weight: bold;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  padding: 5px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  font-size: 18px;
+}
+
+.ui-widget-content {
+ border: 1px solid #cecece;
+ -webkit-border-radius: 3px;
+ -moz-border-radius: 3px;
+ border-radius: 3px;
+}
+/**/
+
+.ui-dialog .ui-dialog-titlebar {
+  padding: .1em 1em;
+}
+
+/* states and images */
+.ui-icon { width: 16px; height: 16px; background-image: url(images/ui-icons_222222_256x240.png); }
+.ui-widget-content .ui-icon {background-image: url(images/ui-icons_222222_256x240.png); }
+.ui-widget-header .ui-icon {background-image: url(images/ui-icons_222222_256x240.png); }
+.ui-state-default .ui-icon { background-image: url(images/ui-icons_888888_256x240.png); }
+.ui-state-hover .ui-icon, .ui-state-focus .ui-icon {background-image: url(images/ui-icons_454545_256x240.png); }
+.ui-state-active .ui-icon {background-image: url(images/ui-icons_454545_256x240.png); }
+.ui-state-highlight .ui-icon {background-image: url(images/ui-icons_2e83ff_256x240.png); }
+.ui-state-error .ui-icon, .ui-state-error-text .ui-icon {background-image: url(images/ui-icons_f6cf3b_256x240.png); }
+
+.ui-icon {
+  display: block;
+  text-indent: -99999px;
+  overflow: hidden;
+  background-repeat: no-repeat;
 }
