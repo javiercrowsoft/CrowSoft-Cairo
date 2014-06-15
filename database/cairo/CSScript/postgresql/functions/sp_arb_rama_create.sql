@@ -56,12 +56,11 @@ BEGIN
         v_is_temp := p_ram_id_padre = -1000;
     
         /*
-        ' - Si es una rama temporal la agrego como una raiz
-        '   y despues le asigno como padre
+        ' - Si es una rama temporal le asigno como padre
         '   su propio ID para que quede huerfana
         */
         IF v_is_temp THEN
-                p_ram_id_padre = 0;
+                p_ram_id_padre = v_ram_id;
                 v_orden := 0;
         /*
         ' - Si no obtengo el numero de orden que le corresponde
@@ -76,7 +75,7 @@ BEGIN
                         v_orden := v_max + 1;                        
                 END IF;
 
-                SELECT arb_id INTO p_arb_id FROM rama where ram_id_padre = p_ram_id_padre;                
+                SELECT arb_id INTO p_arb_id FROM rama where ram_id = p_ram_id_padre;                
         END IF;        
 
         INSERT INTO rama (ram_id, ram_nombre, ram_id_padre, ram_orden, arb_id, modifico)

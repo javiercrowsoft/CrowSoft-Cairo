@@ -365,14 +365,18 @@ Cairo.module("Tree.Actions", function(Actions, Cairo, Backbone, Marionette, $, _
             + "} )");
     },
 
-    newBranch: function(branchId, text, listController) {
+    newBranch: function(node, branchId, text, listController) {
       var view = Cairo.inputFormView("New folder", "Folder name", "(New folder)", function(text) {
-        alert(text);
         var branch = new Cairo.Entities.Branch();
         branch.save({ name: text, fatherId: branchId, treeId: listController.Tree.treeId }, {
           wait: true,
           success: function(model, response) {
             Cairo.log("Successfully saved!");
+            var childNode = node.addChildren({
+                    title: text,
+                    key: model.get("id"),
+                    folder: true
+                  });
           },
           error: function(model, error) {
             Cairo.log("Failed in save new branch.");
@@ -482,7 +486,7 @@ Cairo.module("Tree.List", function(List, Cairo, Backbone, Marionette, $, _) {
                 Cairo.Tree.Actions.Tree.newTree(listController);
                 break;
               case "newBranch":
-                Cairo.Tree.Actions.Branch.newBranch(node.key, node.title, listController);
+                Cairo.Tree.Actions.Branch.newBranch(node, node.key, node.title, listController);
                 break;
               case "cut":
                 Cairo.Tree.Actions.Branch.cut(node.key, node.title, listController);
