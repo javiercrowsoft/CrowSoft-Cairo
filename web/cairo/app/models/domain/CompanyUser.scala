@@ -28,7 +28,7 @@ object CompanyUser {
   }
 
   private val companyUserParser: RowParser[CompanyUser] = {
-    get[Pk[Int]]("cu_id") ~
+      get[Pk[Int]]("cu_id") ~
       get[Int]("co_id") ~
       get[Int]("us_id") ~
       get[Date]("created_at") map {

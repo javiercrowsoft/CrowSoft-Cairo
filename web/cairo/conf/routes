@@ -12,7 +12,7 @@ GET     /error                          controllers.Application.error
 
 # Sign Up
 
-POST    /registration                   controllers.Registration.save
+POST    /registration                   controllers.Registration.create
 GET     /registration/validate/:code    controllers.Registration.validate(code: String)
 GET     /registration/validation_email  controllers.Registration.sendValidationEmail
 GET     /registration/activate          controllers.Registration.activate
@@ -30,16 +30,16 @@ GET     /account_locked                 controllers.Sessions.userLocked
 # Domain
 
 GET     /domains/add                    controllers.Domains.add
-POST    /domains                        controllers.Domains.save
+POST    /domains                        controllers.Domains.create
 
 # User
 
-GET   	/users          				controllers.Users.list
-GET	  	/users/add					    controllers.Users.add
-POST  	/users						    controllers.Users.save
-GET		/users/:id/edit				    controllers.Users.edit(id: Int)
-POST 	/users/:id					    controllers.Users.update(id: Int)
-DELETE	/users/:id		                controllers.Users.delete(id: Int)
+GET   	/users          				        controllers.Users.list
+GET	  	/users/add					            controllers.Users.add
+POST  	/users						              controllers.Users.create
+GET		  /users/:id/edit				          controllers.Users.edit(id: Int)
+POST 	  /users/:id					            controllers.Users.update(id: Int)
+DELETE	/users/:id		                  controllers.Users.delete(id: Int)
 GET     /users/password/reset           controllers.Users.resetPassword
 POST    /users/password/reset           controllers.Users.sendResetPasswordEmail
 GET     /users/password/reset/:token    controllers.Users.newPassword(token: String)
@@ -64,6 +64,9 @@ GET     /desktop                        controllers.logged.Desktop.show
 GET     /system/trees/:tableId          controllers.logged.system.Trees.list(tableId: Int)
 GET     /system/tree/:id                controllers.logged.system.Trees.get(id: Int)
 GET     /system/branch/:id              controllers.logged.system.Branches.get(id: Int)
+POST    /system/branch                  controllers.logged.system.Branches.create
+PUT     /system/branch                  controllers.logged.system.Branches.update
+DELETE  /system/branch/:id              controllers.logged.system.Branches.delete(id: Int)
 GET     /system/users                   controllers.logged.system.Users.list
 
 

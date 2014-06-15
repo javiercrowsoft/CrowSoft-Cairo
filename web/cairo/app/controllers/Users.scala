@@ -47,9 +47,9 @@ object Users extends Controller with ProvidesUser {
     )(NewPasswordData.apply)(NewPasswordData.unapply)
       verifying("Password and confirmation doesn't match.",
         fields => fields match { case passwordData => {
-          Logger.debug(s"passwordCheckConfirmation: ${(passwordData.password == passwordData.confirm).toString}")
-          passwordData.password == passwordData.confirm
-        }
+            Logger.debug(s"passwordCheckConfirmation: ${(passwordData.password == passwordData.confirm).toString}")
+            passwordData.password == passwordData.confirm
+          }
         }
       )
   )
@@ -58,7 +58,7 @@ object Users extends Controller with ProvidesUser {
     Ok(views.html.users.add(form))
   }
 
-  def save = PostAction { implicit request =>
+  def create = PostAction { implicit request =>
     form.bindFromRequest.fold(
       formWithErrors => BadRequest(views.html.users.add(formWithErrors)),
       user => {

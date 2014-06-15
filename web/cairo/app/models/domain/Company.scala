@@ -34,7 +34,7 @@ object Company {
   }
 
   private val companyParser: RowParser[Company] = {
-    get[Pk[Int]]("co_id") ~
+      get[Pk[Int]]("co_id") ~
       get[Int]("db_id") ~
       get[Int]("co_company_id") ~
       get[String]("co_company_name") ~

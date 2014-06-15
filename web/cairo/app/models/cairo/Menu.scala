@@ -1,9 +1,12 @@
 package models.cairo
 
 import java.sql.{Connection, CallableStatement, ResultSet, Types, SQLException}
+import play.api.Logger
 import services.db.DB
 import play.api.Play.current
 import models.domain.CompanyUser
+
+import scala.util.control.NonFatal
 
 case class MenuFather(id: Int, text: String)
 
@@ -38,44 +41,58 @@ object Menu {
     cs.setInt(2, user.company.id.getOrElse(0))
     cs.registerOutParameter(3, Types.OTHER)
 
-    cs.execute()
+    try {
+      cs.execute()
 
-    val rs = cs.getObject(3).asInstanceOf [java.sql.ResultSet]
-    def fillList(): List[Menu] = {
-      if (rs.next()) {
-        Menu(
-          rs.getInt("pre_id"),
-          rs.getInt("me_id"),
-          rs.getString("text").replace("&", ""),
-          List(
-            MenuFather(rs.getInt("father5_id"), rs.getString("father5").replace("&", "")),
-            MenuFather(rs.getInt("father4_id"), rs.getString("father4").replace("&", "")),
-            MenuFather(rs.getInt("father3_id"), rs.getString("father3").replace("&", "")),
-            MenuFather(rs.getInt("father2_id"), rs.getString("father2").replace("&", "")),
-            MenuFather(rs.getInt("father1_id"), rs.getString("father1").replace("&", ""))
-          ),
-          rs.getInt("me_position"),
-          rs.getInt("me_is_last") != 0,
-          rs.getInt("me_is_separator") != 0,
-          rs.getInt("me_have_separator") != 0,
-          rs.getInt("me_is_main_menu") != 0,
-          rs.getInt("me_is_popup_menu") != 0,
-          rs.getString("handler"),
-          rs.getString("me_action"),
-          rs.getString("me_path"),
-          rs.getString("me_action2"),
-          rs.getString("me_path2")
-        ) :: fillList()
-      }
-      else {
+      val rs = cs.getObject(3).asInstanceOf[java.sql.ResultSet]
+
+      try {
+        def fillList(): List[Menu] = {
+          if (rs.next()) {
+            Menu(
+              rs.getInt("pre_id"),
+              rs.getInt("me_id"),
+              rs.getString("text").replace("&", ""),
+              List(
+                MenuFather(rs.getInt("father5_id"), rs.getString("father5").replace("&", "")),
+                MenuFather(rs.getInt("father4_id"), rs.getString("father4").replace("&", "")),
+                MenuFather(rs.getInt("father3_id"), rs.getString("father3").replace("&", "")),
+                MenuFather(rs.getInt("father2_id"), rs.getString("father2").replace("&", "")),
+                MenuFather(rs.getInt("father1_id"), rs.getString("father1").replace("&", ""))
+              ),
+              rs.getInt("me_position"),
+              rs.getInt("me_is_last") != 0,
+              rs.getInt("me_is_separator") != 0,
+              rs.getInt("me_have_separator") != 0,
+              rs.getInt("me_is_main_menu") != 0,
+              rs.getInt("me_is_popup_menu") != 0,
+              rs.getString("handler"),
+              rs.getString("me_action"),
+              rs.getString("me_path"),
+              rs.getString("me_action2"),
+              rs.getString("me_path2")
+            ) :: fillList()
+          }
+          else {
+            List()
+          }
+        }
+        fillList()
+
+      } finally {
         rs.close
-        cs.close
-        connection.commit
-        connection.close
-        List()
       }
+
+    } catch {
+      case NonFatal(e) => {
+        Logger.error(s"can't load menu for user ${user.toString}. Error ${e.toString}")
+        throw e
+      }
+    } finally {
+      cs.close
+      connection.commit
+      connection.close
     }
-    fillList()
   }
 
   def createMenu(menus: List[Menu]): List[MenuItem] = {

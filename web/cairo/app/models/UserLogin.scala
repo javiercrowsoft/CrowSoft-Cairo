@@ -120,7 +120,7 @@ object UserLogin {
   }
 
   private val userParser: RowParser[UserLogin] = {
-    get[Pk[Int]]("usl_id") ~
+      get[Pk[Int]]("usl_id") ~
       get[String]("usl_username") ~
       get[String]("usl_result_code") ~
       get[String]("usl_platform") ~

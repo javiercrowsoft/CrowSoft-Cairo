@@ -17,7 +17,7 @@ object Registration extends Controller with ProvidesUser {
       "password" -> nonEmptyText(minLength = 12).verifying(PasswordValidation.passwordCheckConstraint)
     )(UserData.apply)(UserData.unapply))
 
-  def save = PostAction { implicit request =>
+  def create = PostAction { implicit request =>
     form.bindFromRequest.fold(
       formWithErrors => BadRequest(views.html.index(formWithErrors, Settings.siteBaseURL)),
       user => {

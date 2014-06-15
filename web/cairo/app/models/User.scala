@@ -126,7 +126,7 @@ object User {
   }
 
   private val userParser: RowParser[User] = {
-    get[Pk[Int]]("us_id") ~
+      get[Pk[Int]]("us_id") ~
       get[String]("us_username") ~
       get[String]("us_email") ~
       get[String]("us_password") ~

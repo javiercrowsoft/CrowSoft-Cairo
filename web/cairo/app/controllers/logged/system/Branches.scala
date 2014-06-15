@@ -9,8 +9,19 @@ import models.cairo.{ Menu, Router }
 import play.api.Logger
 import play.api.libs.json._
 import models.cairo.trees._
+import services.PasswordValidation
+
+case class BranchData(id: Option[Int], name: String, fatherId: Int, treeId: Int)
 
 object Branches extends Controller with ProvidesUser {
+
+  val branchForm = Form(
+    mapping(
+      "id" -> optional(number),
+      "name" -> nonEmptyText,
+      "fatherId" -> number,
+      "treeId" -> number
+    )(BranchData.apply)(BranchData.unapply))
 
   implicit val loadedBranchWrites = new Writes[LoadedBranch] {
     def writes(branch: LoadedBranch) = Json.obj(
@@ -30,9 +41,53 @@ object Branches extends Controller with ProvidesUser {
     def writeColumns(columns: List[BranchColumn]) = columns.map(column => columnWrites(column))
   }
 
+  implicit val branchWrites = new Writes[Branch] {
+    def writes(branch: Branch) = Json.obj(
+      "id" -> Json.toJson(branch.id),
+      "name" -> Json.toJson(branch.name),
+      "fatherId" -> Json.toJson(branch.fatherId)
+    )
+  }
+
   def get(id: Int) = GetAction { implicit request =>
     LoggedIntoCompanyResponse.getAction(request, { user =>
       Ok(Json.toJson(Branch.get(user, id)))
     })
   }
+
+  def update = PostAction { implicit request =>
+    Logger.debug("in branches.update")
+    branchForm.bindFromRequest.fold(
+      formWithErrors => {
+        Logger.debug("invalid form")
+        BadRequest
+      },
+      branch => {
+        LoggedIntoCompanyResponse.getAction(request, { user =>
+          Ok(Json.toJson(Branch.update(user, Branch(branch.id.getOrElse(0), branch.name, List(), List(), branch.fatherId))))
+        })
+      })
+  }
+
+  def create = PostAction { implicit request =>
+    Logger.debug("in branches.save")
+    branchForm.bindFromRequest.fold(
+      formWithErrors => {
+        Logger.debug(s"invalid form: ${formWithErrors.toString}")
+        BadRequest
+      },
+      branch => {
+        LoggedIntoCompanyResponse.getAction(request, { user =>
+          Ok(Json.toJson(Branch.save(user, branch.treeId, Branch(0, branch.name, List(), List(), branch.fatherId))))
+        })
+      })
+  }
+
+  def delete(id: Int) = PostAction { implicit request =>
+    Logger.debug("in branches.delete")
+    LoggedIntoCompanyResponse.getAction(request, { user =>
+      Ok(Json.toJson(Branch.delete(user, id)))
+    })
+  }
+
 }

@@ -7,7 +7,7 @@ import actions._
 
 object Domains extends Controller with ProvidesUser {
 
-  def save = PostAction { implicit request =>
+  def create = PostAction { implicit request =>
     Ok
   }
 

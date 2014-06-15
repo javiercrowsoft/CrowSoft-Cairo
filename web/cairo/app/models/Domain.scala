@@ -38,7 +38,7 @@ object Domain {
   }
 
   private val domainParser: RowParser[Domain] = {
-    get[Pk[Int]]("dm_id") ~
+      get[Pk[Int]]("dm_id") ~
       get[String]("dm_server") ~
       get[String]("dm_database") ~
       get[String]("dm_username") ~

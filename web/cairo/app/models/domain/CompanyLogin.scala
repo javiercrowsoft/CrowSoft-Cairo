@@ -107,7 +107,7 @@ object CompanyLogin {
   }
 
   private val userParser: RowParser[CompanyLogin] = {
-    get[Pk[Int]]("col_id") ~
+      get[Pk[Int]]("col_id") ~
       get[Int]("co_id") ~
       get[Int]("us_id") ~
       get[String]("col_result_code") ~

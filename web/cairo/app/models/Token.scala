@@ -106,7 +106,7 @@ object Token {
   }
 
   private val tokenParser: RowParser[Token] = {
-    get[Pk[Int]]("tk_id") ~
+      get[Pk[Int]]("tk_id") ~
       get[String]("tk_token") ~
       get[Date]("tk_expires") ~
       get[String]("tk_type") ~

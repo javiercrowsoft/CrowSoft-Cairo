@@ -5,7 +5,7 @@
 
 @main("Add a new User", "") {
     <h1>Add a new User</h1>
-    @form(routes.Users.save(), 'id -> "userForm", 'class -> "userForm") {
+    @form(routes.Users.create(), 'id -> "userForm", 'class -> "userForm") {
         @CSRF.formField
         @formFields(userForm)
         <button class="btn btn-lg btn-primary btn-block" type="submit">Add</button>

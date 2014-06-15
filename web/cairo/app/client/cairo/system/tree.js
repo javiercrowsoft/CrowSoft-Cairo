@@ -21,6 +21,28 @@ Cairo.module("Entities", function(Entities, Cairo, Backbone, Marionette, $, _) {
     }
   });
 
+  Entities.Branch = Backbone.Model.extend({
+    urlRoot: "/system/branch",
+
+    defaults: {
+      name: "",
+      treeId: 0
+    },
+
+    validate: function(attrs, options) {
+      var errors = {}
+      if(attrs.treeId === 0) {
+        errors.treeId = "can't be blank";
+      }
+      if(attrs.name === "") {
+        errors.name = "can't be blank";
+      }
+      if( ! _.isEmpty(errors)) {
+        return errors;
+      }
+    }
+  });
+
   Entities.Leave = Backbone.Model.extend({
     urlRoot: "/system/leave",
 
@@ -274,7 +296,6 @@ Cairo.module("Tree.List", function(List, Cairo, Backbone, Marionette, $, _) {
 
     appendBuffer: function(compositeView, buffer) {
       var $container = this.getItemViewContainer(compositeView);
-      //$container.append(buffer.firstElementChild.children);
       $container.append(buffer.firstChild.children);
     }
 
@@ -347,6 +368,17 @@ Cairo.module("Tree.Actions", function(Actions, Cairo, Backbone, Marionette, $, _
     newBranch: function(branchId, text, listController) {
       var view = Cairo.inputFormView("New folder", "Folder name", "(New folder)", function(text) {
         alert(text);
+        var branch = new Cairo.Entities.Branch();
+        branch.save({ name: text, fatherId: branchId, treeId: listController.Tree.treeId }, {
+          wait: true,
+          success: function(model, response) {
+            Cairo.log("Successfully saved!");
+          },
+          error: function(model, error) {
+            Cairo.log("Failed in save new branch.");
+            Cairo.log(error.responseText);
+          }
+        });
       });
       Cairo.dialogRegion.show(view);
     },
@@ -378,6 +410,8 @@ Cairo.module("Tree.List", function(List, Cairo, Backbone, Marionette, $, _) {
       if(listController.Tree == undefined) {
         listController.Tree = { };
       };
+
+      listController.Tree.treeId = treeId;
 
       Cairo.LoadingMessage.show();
 

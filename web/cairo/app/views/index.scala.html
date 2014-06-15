@@ -31,7 +31,7 @@
         <div class="row">
             <div class="col-xs-12 col-sm-12 col-md-4 well well-sm">
                 <legend><i class="glyphicon glyphicon-user"></i> Sign up!</legend>
-                @form(routes.Registration.save, 'id -> "userForm", 'class -> "form") {
+                @form(routes.Registration.create, 'id -> "userForm", 'class -> "form") {
                 @CSRF.formField
                 @formFields(userForm)
                 @flash.get("error").map { msg =>

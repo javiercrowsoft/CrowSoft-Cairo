@@ -38,7 +38,7 @@ object Database {
   }
 
   private val databaseParser: RowParser[Database] = {
-    get[Pk[Int]]("db_id") ~
+      get[Pk[Int]]("db_id") ~
       get[String]("db_corporation") ~
       get[String]("db_server") ~
       get[String]("db_database") ~
