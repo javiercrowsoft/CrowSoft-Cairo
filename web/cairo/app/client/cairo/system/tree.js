@@ -373,10 +373,11 @@ Cairo.module("Tree.Actions", function(Actions, Cairo, Backbone, Marionette, $, _
           success: function(model, response) {
             Cairo.log("Successfully saved!");
             var childNode = node.addChildren({
-                    title: text,
+                    title: model.get("name"),
                     key: model.get("id"),
                     folder: true
                   });
+            node.setExpanded(true);
           },
           error: function(model, error) {
             Cairo.log("Failed in save new branch.");
@@ -387,9 +388,29 @@ Cairo.module("Tree.Actions", function(Actions, Cairo, Backbone, Marionette, $, _
       Cairo.dialogRegion.show(view);
     },
 
-    rename: function(branchId, text, listController) {
+    rename: function(node, branchId, text, listController) {
       var view = Cairo.inputFormView("Rename", "New name", text, function(text) {
-        alert(text);
+        var branch = new Cairo.Entities.Branch();
+        branch.id = branchId;
+        branch.save(
+          {
+            id: branchId,
+            name: text,
+            fatherId: Cairo.Tree.Actions.Branch.getFatherId(node),
+            treeId: listController.Tree.treeId
+          },
+          {
+            wait: true,
+            success: function(model, response) {
+              Cairo.log("Successfully updated!");
+              node.setTitle(model.get("name"));
+            },
+            error: function(model, error) {
+              Cairo.log("Failed in save new branch.");
+              Cairo.log(error.responseText);
+            }
+          }
+        );
       });
       Cairo.dialogRegion.show(view);
     },
@@ -402,6 +423,11 @@ Cairo.module("Tree.Actions", function(Actions, Cairo, Backbone, Marionette, $, _
           alert(answer);
       });
       Cairo.dialogRegion.show(view);
+    },
+
+    getFatherId: function(node) {
+      var key = node.parent.key;
+      return key.toString().substr(0, 5) === "root_" ? 0 : key;
     }
 
   }
@@ -501,7 +527,7 @@ Cairo.module("Tree.List", function(List, Cairo, Backbone, Marionette, $, _) {
                 Cairo.Tree.Actions.Branch.paste(node.key, node.title, listController);
                 break;
               case "rename":
-                Cairo.Tree.Actions.Branch.rename(node.key, node.title, listController);
+                Cairo.Tree.Actions.Branch.rename(node, node.key, node.title, listController);
                 break;
               case "delete":
                 Cairo.Tree.Actions.Branch.deleteBranch(node.key, node.title, listController);

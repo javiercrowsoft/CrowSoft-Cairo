@@ -65,7 +65,7 @@ GET     /system/trees/:tableId          controllers.logged.system.Trees.list(tab
 GET     /system/tree/:id                controllers.logged.system.Trees.get(id: Int)
 GET     /system/branch/:id              controllers.logged.system.Branches.get(id: Int)
 POST    /system/branch                  controllers.logged.system.Branches.create
-PUT     /system/branch                  controllers.logged.system.Branches.update
+PUT     /system/branch/:id              controllers.logged.system.Branches.update(id: Int)
 DELETE  /system/branch/:id              controllers.logged.system.Branches.delete(id: Int)
 GET     /system/users                   controllers.logged.system.Users.list
 

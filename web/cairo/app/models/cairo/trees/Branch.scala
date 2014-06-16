@@ -225,7 +225,7 @@ object Branch {
   }
 
   def load(user: CompanyUser, id: Int): Option[Branch] = {
-    loadWhere(user, "branch_id = {id}", 'id -> id)
+    loadWhere(user, "ram_id = {id}", 'id -> id)
   }
 
   def loadWhere(user: CompanyUser, where: String, args : scala.Tuple2[scala.Any, anorm.ParameterValue[_]]*) = {

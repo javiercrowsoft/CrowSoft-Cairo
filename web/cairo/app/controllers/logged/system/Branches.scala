@@ -55,16 +55,17 @@ object Branches extends Controller with ProvidesUser {
     })
   }
 
-  def update = PostAction { implicit request =>
+  def update(id: Int) = PostAction { implicit request =>
     Logger.debug("in branches.update")
     branchForm.bindFromRequest.fold(
       formWithErrors => {
-        Logger.debug("invalid form")
+        Logger.debug(s"invalid form: ${formWithErrors.toString}")
         BadRequest
       },
       branch => {
+        Logger.debug(s"form: ${branch.toString}")
         LoggedIntoCompanyResponse.getAction(request, { user =>
-          Ok(Json.toJson(Branch.update(user, Branch(branch.id.getOrElse(0), branch.name, List(), List(), branch.fatherId))))
+          Ok(Json.toJson(Branch.update(user, Branch(id, branch.name, List(), List(), branch.fatherId))))
         })
       })
   }
@@ -77,6 +78,7 @@ object Branches extends Controller with ProvidesUser {
         BadRequest
       },
       branch => {
+        Logger.debug(s"form: ${branch.toString}")
         LoggedIntoCompanyResponse.getAction(request, { user =>
           Ok(Json.toJson(Branch.save(user, branch.treeId, Branch(0, branch.name, List(), List(), branch.fatherId))))
         })
