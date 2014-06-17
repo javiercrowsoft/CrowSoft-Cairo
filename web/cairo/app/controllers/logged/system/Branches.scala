@@ -88,7 +88,8 @@ object Branches extends Controller with ProvidesUser {
   def delete(id: Int) = PostAction { implicit request =>
     Logger.debug("in branches.delete")
     LoggedIntoCompanyResponse.getAction(request, { user =>
-      Ok(Json.toJson(Branch.delete(user, id)))
+      Branch.delete(user, id)
+      Ok
     })
   }
 

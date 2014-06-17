@@ -288,7 +288,7 @@ Cairo.module("Tree.List", function(List, Cairo, Backbone, Marionette, $, _) {
 
     serializeData: function() {
       var data = {};
-      if (this.collection){
+      if (this.collection) {
         data = this.collection.models[0].toJSON();
       }
       return data;
@@ -415,12 +415,29 @@ Cairo.module("Tree.Actions", function(Actions, Cairo, Backbone, Marionette, $, _
       Cairo.dialogRegion.show(view);
     },
 
-    deleteBranch: function(branchId, text, listController) {
+    deleteBranch: function(node, branchId, text, listController) {
       var view = Cairo.confirmViewYesDanger(
         "Delete",
         "Are you sure you want to delete this folder: " + text,
         function(answer) {
-          alert(answer);
+          if(answer == "yes") {
+            var branch = new Cairo.Entities.Branch({
+              id: branchId
+            });
+            branch.destroy({
+              success: function () {
+                node.remove();
+              },
+              error: function(model, error) {
+                Cairo.log("Failed in delete branch.");
+                Cairo.log(error.responseText);
+                Cairo.manageError(
+                  "Delete Folder",
+                  "Can't delete this folder '" + text + "'. An error has occurred in the server.",
+                  error.responseText);
+              }
+            });
+          }
       });
       Cairo.dialogRegion.show(view);
     },
@@ -530,7 +547,7 @@ Cairo.module("Tree.List", function(List, Cairo, Backbone, Marionette, $, _) {
                 Cairo.Tree.Actions.Branch.rename(node, node.key, node.title, listController);
                 break;
               case "delete":
-                Cairo.Tree.Actions.Branch.deleteBranch(node.key, node.title, listController);
+                Cairo.Tree.Actions.Branch.deleteBranch(node, node.key, node.title, listController);
                 break;
             }
           }
@@ -579,7 +596,7 @@ Cairo.module("Tree.List", function(List, Cairo, Backbone, Marionette, $, _) {
               if(value.toLowerCase().indexOf(criterion) !== -1) matches = true;
             });
             if(matches) {
-                return leave;
+              return leave;
             }
           };
         }

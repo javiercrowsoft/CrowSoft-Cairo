@@ -219,6 +219,19 @@
   </form>
 </script>
 
+<script type="text/template" id="error-message-view">
+  <form>
+    <div class="input-text-form">
+      <div class="control-group">
+        <p><%- message %></p>
+      </div>
+    </div>
+    <button class="btn js-submit btn-info btn-small">Close</button>
+    <button class="btn js-showErrorDetails btn-warning btn-small">Details</button>
+  </form>
+  <iframe id="errorDetailIFrame" style="width: 800px; height: 600px; display: none; margin-top: 50px; border: none;"></iframe>
+</script>
+
 <!-- trees -->
 
 <script type="text/template" id="tree-list-panel-template">

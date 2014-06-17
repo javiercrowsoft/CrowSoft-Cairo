@@ -316,7 +316,7 @@ Cairo.log = function(msg) {
 // Views
 ///////////////
 
-Cairo.module("Common.Views", function(Views, Cairo, Backbone, Marionette, $, _){
+Cairo.module("Common.Views", function(Views, Cairo, Backbone, Marionette, $, _) {
   Views.InputTextForm = Marionette.ItemView.extend({
     template: "#input-text-form",
 
@@ -324,26 +324,26 @@ Cairo.module("Common.Views", function(Views, Cairo, Backbone, Marionette, $, _){
       "click button.js-submit": "submitClicked"
     },
 
-    submitClicked: function(e){
+    submitClicked: function(e) {
       e.preventDefault();
       var data = Backbone.Syphon.serialize(this);
       this.trigger("form:submit", data);
     },
 
-    onFormDataInvalid: function(errors){
+    onFormDataInvalid: function(errors) {
       var $view = this.$el;
 
-      var clearFormErrors = function(){
+      var clearFormErrors = function() {
         var $form = $view.find("form");
-        $form.find(".help-inline.error").each(function(){
+        $form.find(".help-inline.error").each(function() {
           $(this).remove();
         });
-        $form.find(".control-group.error").each(function(){
+        $form.find(".control-group.error").each(function() {
           $(this).removeClass("error");
         });
       }
 
-      var markErrors = function(value, key){
+      var markErrors = function(value, key) {
         var $controlGroup = $view.find("#input-text-" + key).parent();
         var $errorEl = $("<span>", { class: "help-inline error", text: value });
         $controlGroup.append($errorEl).addClass("error");
@@ -362,29 +362,49 @@ Cairo.module("Common.Views", function(Views, Cairo, Backbone, Marionette, $, _){
       "click button.js-submit-no": "noClicked"
     },
 
-    yesClicked: function(e){
+    yesClicked: function(e) {
       e.preventDefault();
       var data = { answer: 'yes' };
       this.trigger("form:submit", data);
     },
 
-    noClicked: function(e){
+    noClicked: function(e) {
       e.preventDefault();
       var data = { answer: 'no' };
       this.trigger("form:submit", data);
     }
   });
 
+  Views.ErrorMessageView = Marionette.ItemView.extend({
+    template: "#error-message-view",
+
+    events: {
+      "click button.js-submit": "submitClicked",
+      "click button.js-showErrorDetails": "showErrorDetails"
+    },
+
+    submitClicked: function(e) {
+      e.preventDefault();
+      this.trigger("form:submit");
+    },
+
+    showErrorDetails: function(e) {
+      e.preventDefault();
+      this.trigger("form:showDetails");
+    }
+
+  });
+
 });
 
-Cairo.module("Common.Views", function(Views, Cairo, Backbone, Marionette, $, _){
+Cairo.module("Common.Views", function(Views, Cairo, Backbone, Marionette, $, _) {
   Views.InputText = Cairo.Common.Views.InputTextForm.extend({
-    initialize: function(){
+    initialize: function() {
       this.title = this.model.get("title");
     },
 
-    onRender: function(){
-      if(this.options.generateTitle){
+    onRender: function() {
+      if(this.options.generateTitle) {
         var $title = $('<h1>', { text: this.title });
         this.$el.prepend($title);
       }
@@ -394,12 +414,25 @@ Cairo.module("Common.Views", function(Views, Cairo, Backbone, Marionette, $, _){
   });
 
   Views.Confirm = Cairo.Common.Views.ConfirmForm.extend({
-    initialize: function(){
+    initialize: function() {
       this.title = this.model.get("title");
     },
 
-    onRender: function(){
-      if(this.options.generateTitle){
+    onRender: function() {
+      if(this.options.generateTitle) {
+        var $title = $('<h1>', { text: this.title });
+        this.$el.prepend($title);
+      }
+    }
+  });
+
+  Views.ErrorMessage = Cairo.Common.Views.ErrorMessageView.extend({
+    initialize: function() {
+      this.title = this.model.get("title");
+    },
+
+    onRender: function() {
+      if(this.options.generateTitle) {
         var $title = $('<h1>', { text: this.title });
         this.$el.prepend($title);
       }
@@ -447,4 +480,37 @@ Cairo.confirmViewYesDanger = function(title, message, confirmHandler) {
 
 Cairo.confirmView = function(title, message, confirmHandler) {
   return Cairo.confirmViewWithClasses(title, message, "btn-info", "", confirmHandler);
+};
+
+Cairo.manageErrorView = function(title, message, errorResponse, closeHandler) {
+  var Model = Backbone.Model.extend({ urlRoot: "errorMessage" });
+  model = new Model({ title: title, message: message });
+  var view = new Cairo.Common.Views.ErrorMessage({
+      model: model
+    });
+
+  view.on("form:submit", function(data) {
+    Cairo.log("submit handled - Data: " + data);
+    view.trigger("dialog:close");
+    if(closeHandler) closeHandler();
+  });
+
+  view.on("form:showDetails", function(data) {
+    Cairo.log("showDetails handled");
+    Cairo.showErrorDetails(errorResponse);
+  });
+
+  return view;
+};
+
+Cairo.manageError = function(title, message, errorResponse, closeHandler) {
+  var view = Cairo.manageErrorView(title, message, errorResponse, closeHandler);
+  Cairo.dialogRegion.show(view);
+};
+
+Cairo.showErrorDetails = function(html) {
+  //var popupWindow = window.open("", "MsgWindow", "width=800, height=600, top=100, left=400");
+  //setTimeout(function() { popupWindow.document.write(html); popupWindow.focus(); }, 200);
+  $('#errorDetailIFrame')[0].src = "data:text/html;charset=utf-8," + escape(html);
+  $('#errorDetailIFrame').show();
 };

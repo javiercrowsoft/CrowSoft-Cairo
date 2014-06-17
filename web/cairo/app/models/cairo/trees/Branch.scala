@@ -236,7 +236,7 @@ object Branch {
     }
   }
 
-  def delete(user: CompanyUser, branchId: Int): Boolean = {
+  def delete(user: CompanyUser, branchId: Int) = {
     val sql = "{call sp_arbborrarrama(?, ?)}";
     val connection = DB.getConnection(user.database.database, false)
     val cs = connection.prepareCall(sql)
@@ -246,11 +246,10 @@ object Branch {
 
     try {
       cs.execute()
-      true
     } catch {
       case NonFatal(e) => {
         Logger.error(s"can't delete a branch. Branch id: $branchId. Error ${e.toString}")
-        false
+        throw e
       }
     } finally {
       cs.close
