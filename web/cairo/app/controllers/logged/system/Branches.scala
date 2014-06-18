@@ -89,7 +89,9 @@ object Branches extends Controller with ProvidesUser {
     Logger.debug("in branches.delete")
     LoggedIntoCompanyResponse.getAction(request, { user =>
       Branch.delete(user, id)
-      Ok(Json.toJson(Json.obj("result" -> "deleted")))
+      // Backbonejs requires at least an empty json object in the response
+      // if not it will call errorHandler even when we responded with 200 OK :P
+      Ok(JsonUtil.emptyJson)
     })
   }
 
