@@ -425,6 +425,7 @@ Cairo.module("Tree.Actions", function(Actions, Cairo, Backbone, Marionette, $, _
               id: branchId
             });
             branch.destroy({
+              wait: true,
               success: function () {
                 node.remove();
               },

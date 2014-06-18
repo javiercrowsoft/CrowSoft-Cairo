@@ -89,7 +89,7 @@ object Branches extends Controller with ProvidesUser {
     Logger.debug("in branches.delete")
     LoggedIntoCompanyResponse.getAction(request, { user =>
       Branch.delete(user, id)
-      Ok
+      Ok(Json.toJson(Json.obj("result" -> "deleted")))
     })
   }
 

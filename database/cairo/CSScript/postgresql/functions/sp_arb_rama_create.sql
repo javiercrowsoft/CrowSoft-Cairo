@@ -35,8 +35,8 @@ javier at crowsoft.com.ar
 CREATE OR REPLACE FUNCTION sp_arb_rama_create(
   IN p_us_id integer,
   IN p_arb_id integer,
-  IN p_ram_id_padre integer ,
-  IN p_nombre varchar ,
+  IN p_ram_id_padre integer,
+  IN p_nombre varchar,
   OUT rtn refcursor
 )
   RETURNS refcursor AS

@@ -28,209 +28,121 @@ http://www.crowsoft.com.ar
 
 javier at crowsoft.com.ar
 */
--- Function: sp_arbgethojas()
+-- Function: sp_arbborrarrama()
 
--- DROP FUNCTION sp_arbgethojas();
+-- DROP FUNCTION sp_arbborrarrama();
 
-CREATE OR REPLACE FUNCTION sp_arbgethojas(
-  IN p_ram_id integer DEFAULT NULL ,
-  IN p_soloColumnas integer DEFAULT 0 ,
-  IN p_aBuscar varchar DEFAULT '' ,
-  IN p_top integer DEFAULT 3000,
-  OUT rtn refcursor
+CREATE OR REPLACE FUNCTION sp_arbborrarrama(
+  IN p_us_id integer, 
+  IN p_ram_id integer DEFAULT NULL
 )
-  RETURNS refcursor AS
+  RETURNS void AS
 $BODY$
 DECLARE
-   -- 1 Averiguo de que tabla se trata
-   v_tabla varchar(5000);
-   v_campoId varchar(5000);
-   v_campoNombre varchar(255);
-   v_campos varchar(5000);
-   v_camposRama varchar(5000);
-   v_tablasRama varchar(5000);
-   v_where varchar(5000);
-   v_prefix varchar(5000);
-   v_sqlstmt varchar(5000);
-   v_sqlstmt2 varchar(5000);
-   v_sqlwhere varchar(5000);
-   v_esRaiz integer;
+   v_error_code varchar := '00';
+   -- si la rama es raiz tengo que borrar el arbol
    v_arb_id integer;
+   -- para actulizar el orden
+   v_ram_orden integer;
+   v_ram_id_padre integer;
+   rtn refcursor;
+   v_row record;
    v_tran_id integer;
 BEGIN
 
-        CREATE TEMP TABLE tt_hojaid
-        (
-          tran_id integer NOT NULL,
-          hoja_id integer NOT NULL,
-          id integer NOT NULL
-        ) on commit drop;
+          IF NOT EXISTS(SELECT 1 FROM rama WHERE ram_id = p_ram_id) THEN RETURN; END IF;
 
-        v_tran_id := nextval('t_hojaid_seq');
+   --------------------------------------------------------------------
+
+        CREATE TEMP TABLE tt_t_ramas_a_borrar
+        (
+          ram_id integer  NOT NULL,
+          tran_id integer  NOT NULL
+        ) on commit drop;
+        
+        v_tran_id := nextval('t_ramas_a_borrar_seq');
         
    --------------------------------------------------------------------
    
-   SELECT ramc_valor
-     INTO v_camposRama
-     FROM RamaConfig
-      WHERE ram_id = p_ram_id
-              AND ramc_aspecto = 'Campos';
+   SET TRANSACTION READ WRITE;
 
-   SELECT ramc_valor
-     INTO v_tablasRama
-     FROM RamaConfig
-      WHERE ram_id = p_ram_id
-              AND ramc_aspecto = 'Tablas';
-
-   SELECT ramc_valor
-     INTO v_prefix
-     FROM RamaConfig
-      WHERE ram_id = p_ram_id
-              AND ramc_aspecto = 'Prefix';
-
-   SELECT ramc_valor
-     INTO v_where
-     FROM RamaConfig
-      WHERE ram_id = p_ram_id
-              AND ramc_aspecto = 'where';
-
-   IF v_camposRama IS NULL THEN
-      v_camposRama := '';
+   IF p_ram_id = 0 THEN
+      RETURN;
 
    END IF;
 
-   IF v_tablasRama IS NULL THEN
-      v_tablasRama := '';
+   SELECT arb_id,
+          ram_orden,
+          ram_id_padre
+     INTO v_arb_id,
+          v_ram_orden,
+          v_ram_id_padre
+     FROM Rama
+     WHERE ram_id = p_ram_id
+       AND ram_id_padre = 0;
 
-   END IF;
+   SELECT INTO rtn t.rtn FROM SP_ArbGetDecendencia(p_ram_id,1,0,0,0) t;
 
-   IF v_prefix IS NULL THEN
-      v_prefix := '';
+   LOOP
+          FETCH rtn INTO v_row;
+          EXIT WHEN NOT FOUND;
+          INSERT INTO tt_t_ramas_a_borrar(ram_id, tran_id) VALUES (v_row.ram_id, v_tran_id);
+   END LOOP;
+   CLOSE rtn;
 
-   END IF;
-
-   IF v_where IS NULL THEN
-      v_where := '';
-
-   END IF;
-
-   --------------------------------------------------------------------
-   SELECT tbl_nombreFisico,
-          tbl_camposInView,
-          tbl_campoId,
-          tbl_campoNombre
-     INTO v_tabla,
-          v_campos,
-          v_campoId,
-          v_campoNombre
-     FROM Arbol ,
-          Rama ,
-          Tabla
-      WHERE Arbol.arb_id = Rama.arb_id
-              AND Tabla.tbl_id = Arbol.tbl_Id
-              AND Rama.ram_id = p_ram_id;
-
-   --------------------------------------------------------------------
-   IF LTRIM(v_camposRama) <> '' THEN
-      v_campos := v_camposRama;
-
-   END IF;
-
-   IF LTRIM(v_prefix) = '' THEN
-      v_prefix := v_tabla;
-
-   END IF;
-
-   --------------------------------------------------------------------
-   -- armo la sentencia sql
-   v_sqlstmt := 'SELECT hoja_id,';
-
-   v_sqlstmt := v_sqlstmt || v_prefix || '.' || v_campoId || ' AS ID,';
-
-   IF INSTR(v_campoNombre, 'codigo', 1) <> 0 THEN
-      v_sqlstmt := v_sqlstmt || v_prefix || '.' || v_campoNombre || ' AS Codigo';
-
-   ELSE
-      IF INSTR(v_campoNombre, 'apellido', 1) <> 0 THEN
-         v_sqlstmt := v_sqlstmt || v_prefix || '.' || v_campoNombre || ' AS Apellido' ;
-
-      ELSE
-         v_sqlstmt := v_sqlstmt || v_prefix || '.' || v_campoNombre || ' AS Nombre';
-
-      END IF;
-
-   END IF;
-
-   v_campos := sp_strSetPrefix(v_prefix, v_campos);
-
-   IF LTRIM(v_campos) <> '' THEN
-      v_sqlstmt := v_sqlstmt || ',' || v_campos;
-
-   END IF;
-
-   v_sqlstmt := v_sqlstmt || ' from ' || v_tabla || ' ' || v_prefix;
-
-   IF LTRIM(v_tablasRama) <> '' THEN
-      v_sqlstmt := v_sqlstmt || ',' || v_tablasRama;
-
-   END IF;
-
-   v_sqlwhere := ' where Hoja.ram_id = ' || to_char(p_ram_id) || ' and Hoja.id = ' || v_prefix || '.' || v_campoId || v_where;
-
-   -- si solo quieren las columnas
-   IF coalesce(p_soloColumnas, 0) <> 0 THEN
    BEGIN
-      v_sqlstmt := v_sqlstmt || ', Hoja ' || v_sqlwhere;
+      -- primero las hojas
+      DELETE FROM Hoja WHERE EXISTS(SELECT 1 FROM tt_t_ramas_a_borrar WHERE Hoja.ram_id = tt_t_ramas_a_borrar.ram_id);
 
-      v_sqlstmt := v_sqlstmt || ' and 1=2';
-
+   EXCEPTION
+      WHEN OTHERS THEN
+         v_error_code := SQLSTATE;
    END;
-   ELSE
-   BEGIN
-      -- si se trata de la raiz tambien entran los que no estan asignados a ninguna rama
-      SELECT ram_id_padre,
-             arb_id
-        INTO v_esRaiz,
-             v_arb_id
-        FROM Rama
-         WHERE ram_id = p_ram_id;
 
-      IF v_esRaiz = 0 THEN
-      BEGIN
-         -- Ids de la raiz
-         v_sqlstmt2 := ' insert into tt_hojaid select ' || v_tran_id::varchar || ', hoja_id,id from Hoja where ram_id = ' || to_char(p_ram_id);
+   IF NOT is_error(v_error_code) THEN
 
-         EXECUTE v_sqlstmt2;--print (@sqlstmt2)--
-         
+             BEGIN
+                -- ahora las ramas
+                DELETE FROM Rama WHERE EXISTS (SELECT 1 FROM tt_t_ramas_a_borrar WHERE Rama.ram_id = tt_t_ramas_a_borrar.ram_id);
+             EXCEPTION
+                WHEN OTHERS THEN
+                   v_error_code := SQLSTATE;
+             END;
 
-         -- Ids sin asignar
-         v_sqlstmt2 := 'insert into tt_hojaid select ' || v_tran_id::varchar || ', ' || v_campoId || '*-1,' || v_campoId || ' from ' || v_tabla || ' where not exists (select hoja_id from Hoja inner join Rama on Hoja.ram_id = Rama.ram_id where Hoja.id = ' || v_tabla || '.' || v_campoId || ' and Hoja.arb_id = ' || to_char(v_arb_id) || ' and (Rama.ram_id <> ram_id_padre or Rama.ram_id = 0))';
+             IF NOT is_error(v_error_code) THEN
+             BEGIN      
+                       -- si era una raiz borro el arbol
+                       IF v_arb_id IS NOT NULL THEN
 
-         EXECUTE v_sqlstmt2;--print (@sqlstmt2)--
-         
+                          DELETE FROM Arbol WHERE arb_id = v_arb_id;
 
-         -- el filtro esta en tt_hojaid
-         v_sqlstmt := v_sqlstmt || ', tt_hojaid where tt_hojaid.tran_id = ' || v_tran_id::varchar || ' and tt_hojaid.id = ' || v_prefix || '.' || v_campoId || v_where;
+                       ELSE
+                          -- sino, tengo que actualizar el orden de los que estaban bajo esta rama
+                          UPDATE rama
+                             SET ram_orden = ram_orden - 1
+                          WHERE ram_id_padre = v_ram_id_padre
+                            AND ram_orden < v_ram_orden;
 
-      END;
-      ELSE
-         v_sqlstmt := v_sqlstmt || ', Hoja ' || v_sqlwhere;
+                       END IF;
 
-      END IF;
+                       RETURN;
 
-   END;
+             EXCEPTION
+                WHEN OTHERS THEN
+                   v_error_code := SQLSTATE;
+             END;
+             END IF;
    END IF;
-
-   v_sqlstmt := v_sqlstmt || ' limit ' || p_top::varchar;
-
-   rtn := 'rtn';
-
-   open rtn for execute v_sqlstmt;
-   --print (@sqlstmt)--
    
+   IF is_error(v_error_code) THEN
+
+          RAISE EXCEPTION 'No se pude borrar la rama. % %', SQLSTATE, SQLERRM;   
+          
+   END IF;
+
 END;
 $BODY$
   LANGUAGE plpgsql VOLATILE
   COST 100;
-ALTER FUNCTION sp_arbgethojas(integer, integer, varchar, integer)
+ALTER FUNCTION sp_arbborrarrama(integer, integer)
   OWNER TO postgres;
