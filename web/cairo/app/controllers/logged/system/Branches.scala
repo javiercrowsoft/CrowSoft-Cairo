@@ -71,7 +71,7 @@ object Branches extends Controller with ProvidesUser {
   }
 
   def create = PostAction { implicit request =>
-    Logger.debug("in branches.save")
+    Logger.debug("in branches.create")
     branchForm.bindFromRequest.fold(
       formWithErrors => {
         Logger.debug(s"invalid form: ${formWithErrors.toString}")

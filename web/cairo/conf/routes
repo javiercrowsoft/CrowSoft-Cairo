@@ -63,10 +63,15 @@ GET     /desktop                        controllers.logged.Desktop.show
 #
 GET     /system/trees/:tableId          controllers.logged.system.Trees.list(tableId: Int)
 GET     /system/tree/:id                controllers.logged.system.Trees.get(id: Int)
+
+POST    /system/tree                    controllers.logged.system.Trees.create
+
 GET     /system/branch/:id              controllers.logged.system.Branches.get(id: Int)
+
 POST    /system/branch                  controllers.logged.system.Branches.create
 PUT     /system/branch/:id              controllers.logged.system.Branches.update(id: Int)
 DELETE  /system/branch/:id              controllers.logged.system.Branches.delete(id: Int)
+
 GET     /system/users                   controllers.logged.system.Users.list
 
 

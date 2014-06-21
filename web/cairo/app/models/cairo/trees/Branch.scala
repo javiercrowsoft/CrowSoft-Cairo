@@ -200,28 +200,48 @@ object Branch {
     } catch {
       case NonFatal(e) => {
         Logger.error(s"can't save a branch. Branch id: ${branch.id}. Error ${e.toString}")
-        emptyBranch
+        throw e
       }
     } finally {
       cs.close
       connection.commit
       connection.close
     }
-
   }
 
   def update(user: CompanyUser, branch: Branch): Branch = {
-    DB.withConnection(user.database.database) { implicit connection =>
-      SQL("""
-          UPDATE rama SET
-          ram_nombre = {name}
-          WHERE ram_id = {id}
-          """).on(
-          'id -> branch.id,
-          'name -> branch.name
-        ).executeUpdate
+    val sql = "{call sp_arb_rama_rename(?, ?, ?, ?)}";
+    val connection = DB.getConnection(user.database.database, false)
+    val cs = connection.prepareCall(sql)
+
+    cs.setInt(1, user.user.id.getOrElse(0))
+    cs.setInt(2, branch.id)
+    cs.setString(3, branch.name)
+    cs.registerOutParameter(4, Types.OTHER)
+
+    try {
+      cs.execute()
+
+      val rs = cs.getObject(4).asInstanceOf[java.sql.ResultSet]
+
+      try {
+        if (rs.next) Branch(rs.getInt("ram_id"), rs.getString("ram_nombre"), List(), List(), rs.getInt("ram_id_padre"))
+        else emptyBranch
+      }
+      finally {
+        rs.close
+      }
+
+    } catch {
+      case NonFatal(e) => {
+        Logger.error(s"can't rename this branch. Branch id: ${branch.id}. Error ${e.toString}")
+        throw e
+      }
+    } finally {
+      cs.close
+      connection.commit
+      connection.close
     }
-    load(user, branch.id).getOrElse(emptyBranch)
   }
 
   def load(user: CompanyUser, id: Int): Option[Branch] = {

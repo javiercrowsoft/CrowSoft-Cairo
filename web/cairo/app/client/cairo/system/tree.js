@@ -142,7 +142,17 @@ Cairo.module("Entities", function(Entities, Cairo, Backbone, Marionette, $, _) {
 // Handler
 ///////////////
 
-Cairo.module("Tree", function(Tree, Cairo, Backbone, Marionette, $, _) {});
+Cairo.module("Tree", function(Tree, Cairo, Backbone, Marionette, $, _) {
+  var nextControlId = 1000;
+
+  Tree.SELECT_ID_TAG_NAME = "data-select-ctrl-id";
+
+  Tree.getNextControlId = function() {
+    nextControlId += 1;
+    return "C" + nextControlId;
+  };
+
+});
 
 ///////////////
 // Views
@@ -163,14 +173,30 @@ Cairo.module("Tree.List", function(List, Cairo, Backbone, Marionette, $, _) {
     },
 
     render: function() {
+        var self = this;
+        var getSelectedTree = function() {
+          try {
+            return self.listController.Tree.selectedTreeId || self.collection.first().get("id");
+          }
+          catch (e) {
+            return 0;
+          }
+        };
+        var clearSelectedTree = function() {
+          self.listController.Tree.selectedTreeId = 0;
+        };
         var template = _.template($("#tree-item-template").html());
         var el = $(this.el);
         this.collection.each(function(model) {
             var html = template(model.toJSON());
             el.append(html);
         });
+        this.listController.Tree.SelectControlId = Cairo.Tree.getNextControlId();
+        $(el).attr(Cairo.Tree.SELECT_ID_TAG_NAME, this.listController.Tree.SelectControlId);
         try {
-            var treeId = this.collection.first().get("id");
+            var treeId = getSelectedTree();
+            clearSelectedTree();
+            if(treeId) { $(el).val(treeId); }
             Cairo.Tree.List.Controller.listTree(treeId, this.listController);
         }
         catch (e) {
@@ -319,7 +345,19 @@ Cairo.module("Tree.Actions", function(Actions, Cairo, Backbone, Marionette, $, _
   Actions.Tree = {
     newTree: function(listController) {
       var view = Cairo.inputFormView("New tree", "Tree name", "(New tree)", function(text) {
-        alert(text);
+        var tree = new Cairo.Entities.Tree();
+        tree.save({ name: text, tableId: listController.Tree.tableId }, {
+          wait: true,
+          success: function(model, response) {
+            Cairo.log("Successfully saved!");
+            listController.Tree.selectedTreeId = model.get("id")
+            Cairo.Tree.List.Controller.list(listController.Tree.tableId, listController.Tree.mainView, listController);
+          },
+          error: function(model, error) {
+            Cairo.log("Failed in save new tree.");
+            Cairo.log(error.responseText);
+          }
+        });
       });
       Cairo.dialogRegion.show(view);
     }
@@ -404,6 +442,11 @@ Cairo.module("Tree.Actions", function(Actions, Cairo, Backbone, Marionette, $, _
             success: function(model, response) {
               Cairo.log("Successfully updated!");
               node.setTitle(model.get("name"));
+              if(model.get("fatherId") === 0) {
+                var selector = '*[' + Cairo.Tree.SELECT_ID_TAG_NAME + '="' +
+                               listController.Tree.SelectControlId + '"]';
+                $(selector).find('option[value="' + listController.Tree.treeId + '"]').text(model.get("name"));
+              }
             },
             error: function(model, error) {
               Cairo.log("Failed in save new branch.");
@@ -427,7 +470,12 @@ Cairo.module("Tree.Actions", function(Actions, Cairo, Backbone, Marionette, $, _
             branch.destroy({
               wait: true,
               success: function () {
-                node.remove();
+                if(Cairo.Tree.Actions.Branch.getFatherId(node) === 0) {
+                  Cairo.Tree.List.Controller.list(listController.Tree.tableId, listController.Tree.mainView, listController);
+                }
+                else {
+                  node.remove();
+                }
               },
               error: function(model, error) {
                 Cairo.log("Failed in delete branch.");
@@ -453,113 +501,12 @@ Cairo.module("Tree.Actions", function(Actions, Cairo, Backbone, Marionette, $, _
 
 Cairo.module("Tree.List", function(List, Cairo, Backbone, Marionette, $, _) {
   List.Controller = {
-    listTree: function(treeId, listController) {
-
-      if(listController.Tree == undefined) {
-        listController.Tree = { };
-      };
-
-      listController.Tree.treeId = treeId;
-
-      Cairo.LoadingMessage.show();
-
-      var fetchingTree = Cairo.request("tree:entity", treeId);
-
-      $.when(fetchingTree).done(function(tree) {
-        try {
-            $("#tree").fancytree("destroy");
-        }
-        catch (e) {}
-        $("#tree").fancytree({
-            source: [tree.attributes[0]],
-            activate: function(event, data) {
-                        Cairo.logTreeEvent(event, data);
-                        listController.showBranch(data.node.key)
-                      }
-        });
-
-        $("#tree").contextmenu({
-          delegate: "span.fancytree-title",
-          preventContextMenuForPopup: true,
-          preventSelect: true,
-          taphold: true,
-          menu: [
-            {title: "New Tree", cmd: "newTree", uiIcon: "ui-icon-folder-collapsed"},
-            {title: "New Folder", cmd: "newBranch", uiIcon: "ui-icon-folder-open"},
-            {title: "----"},
-            {title: "Cut", cmd: "cut", uiIcon: "ui-icon-scissors"},
-            {title: "Copy", cmd: "copy", uiIcon: "ui-icon-copy"},
-            {title: "Copy (only children)", cmd: "copyChildren", uiIcon: "ui-icon-copy"},
-            {title: "Paste", cmd: "paste", uiIcon: "ui-icon-clipboard", disabled: true },
-            {title: "----"},
-            {title: "Rename", cmd: "rename", uiIcon: "ui-icon-pencil"},
-            {title: "Delete", cmd: "delete", uiIcon: "ui-icon-trash"},
-            {title: "----"},
-            {title: "Move Up", cmd: "moveUp", uiIcon: "ui-icon-circle-arrow-n"},
-            {title: "Move Down", cmd: "moveDown", uiIcon: "ui-icon-circle-arrow-s"},
-            {title: "----"},
-            {title: "Move Top", cmd: "moveTop", uiIcon: "ui-icon-circle-arrow-n"},
-            {title: "Move Bottom", cmd: "moveBottom", uiIcon: "ui-icon-circle-arrow-s"},
-            {title: "----"},
-            {title: "Sort A-Z", cmd: "sortAZ", uiIcon: "ui-icon-circle-triangle-n"},
-            {title: "Sort Z-A", cmd: "sortZA", uiIcon: "ui-icon-circle-triangle-s"},
-            {title: "----"},
-            {title: "Export to Spreed Sheet", cmd: "export", uiIcon: "ui-icon-calculator"}
-					],
-          beforeOpen: function(event, ui) {
-            var node = $.ui.fancytree.getNode(ui.target);
-            var clipboardContent = "";
-            var branchId = 0;
-            if(listController.Tree.clipboard && listController.Tree.clipboard.action) {
-              clipboardContent = listController.Tree.clipboard.text;
-              branchId = listController.Tree.clipboard.branchId;
-            }
-            $("#tree")
-                .contextmenu("setEntry", "paste", {
-                    title: "Paste" + (clipboardContent ? " : " + clipboardContent : ""),
-                    uiIcon: "ui-icon-clipboard"
-                    })
-                .contextmenu("enableEntry", "paste", (clipboardContent !== "" && branchId !== node.key));
-            node.setActive();
-          },
-          select: function(event, ui) {
-            var node = $.ui.fancytree.getNode(ui.target);
-            Cairo.log("select " + ui.cmd + " on " + node.key);
-            switch(ui.cmd) {
-              case "newTree":
-                Cairo.Tree.Actions.Tree.newTree(listController);
-                break;
-              case "newBranch":
-                Cairo.Tree.Actions.Branch.newBranch(node, node.key, node.title, listController);
-                break;
-              case "cut":
-                Cairo.Tree.Actions.Branch.cut(node.key, node.title, listController);
-                break;
-              case "copy":
-                Cairo.Tree.Actions.Branch.copy(node.key, node.title, listController);
-                break;
-              case "copyChildren":
-                Cairo.Tree.Actions.Branch.copyChildren(node.key, node.title, listController);
-                break;
-              case "paste":
-                Cairo.Tree.Actions.Branch.paste(node.key, node.title, listController);
-                break;
-              case "rename":
-                Cairo.Tree.Actions.Branch.rename(node, node.key, node.title, listController);
-                break;
-              case "delete":
-                Cairo.Tree.Actions.Branch.deleteBranch(node, node.key, node.title, listController);
-                break;
-            }
-          }
-        });
-
-        Cairo.LoadingMessage.close();
-      });
-    },
-
     list: function(tableId, mainView, listController) {
       Cairo.LoadingMessage.show();
+
+      Cairo.Tree.List.Controller.addTreeToController(listController);
+      listController.Tree.tableId = tableId;
+      listController.Tree.mainView = mainView;
 
       var fetchingTrees = Cairo.request("tree:entities", tableId);
 
@@ -569,6 +516,112 @@ Cairo.module("Tree.List", function(List, Cairo, Backbone, Marionette, $, _) {
         view.render();
         $("#trees", mainView.$el).html(view.el);
       });
+    },
+
+    listTree: function(treeId, listController) {
+      Cairo.LoadingMessage.show();
+
+      Cairo.Tree.List.Controller.addTreeToController(listController);
+      listController.Tree.treeId = treeId;
+
+      if(treeId) {
+        var fetchingTree = Cairo.request("tree:entity", treeId);
+
+        $.when(fetchingTree).done(function(tree) {
+          try {
+              $("#tree").fancytree("destroy");
+          }
+          catch (e) {}
+          $("#tree").fancytree({
+              source: [tree.attributes[0]],
+              activate: function(event, data) {
+                          Cairo.logTreeEvent(event, data);
+                          listController.showBranch(data.node.key)
+                        }
+          });
+
+          $("#tree").contextmenu({
+            delegate: "span.fancytree-title",
+            preventContextMenuForPopup: true,
+            preventSelect: true,
+            taphold: true,
+            menu: [
+              {title: "New Tree", cmd: "newTree", uiIcon: "ui-icon-folder-collapsed"},
+              {title: "New Folder", cmd: "newBranch", uiIcon: "ui-icon-folder-open"},
+              {title: "----"},
+              {title: "Cut", cmd: "cut", uiIcon: "ui-icon-scissors"},
+              {title: "Copy", cmd: "copy", uiIcon: "ui-icon-copy"},
+              {title: "Copy (only children)", cmd: "copyChildren", uiIcon: "ui-icon-copy"},
+              {title: "Paste", cmd: "paste", uiIcon: "ui-icon-clipboard", disabled: true },
+              {title: "----"},
+              {title: "Rename", cmd: "rename", uiIcon: "ui-icon-pencil"},
+              {title: "Delete", cmd: "delete", uiIcon: "ui-icon-trash"},
+              {title: "----"},
+              {title: "Move Up", cmd: "moveUp", uiIcon: "ui-icon-circle-arrow-n"},
+              {title: "Move Down", cmd: "moveDown", uiIcon: "ui-icon-circle-arrow-s"},
+              {title: "----"},
+              {title: "Move Top", cmd: "moveTop", uiIcon: "ui-icon-circle-arrow-n"},
+              {title: "Move Bottom", cmd: "moveBottom", uiIcon: "ui-icon-circle-arrow-s"},
+              {title: "----"},
+              {title: "Sort A-Z", cmd: "sortAZ", uiIcon: "ui-icon-circle-triangle-n"},
+              {title: "Sort Z-A", cmd: "sortZA", uiIcon: "ui-icon-circle-triangle-s"},
+              {title: "----"},
+              {title: "Export to Spreed Sheet", cmd: "export", uiIcon: "ui-icon-calculator"}
+            ],
+            beforeOpen: function(event, ui) {
+              var node = $.ui.fancytree.getNode(ui.target);
+              var clipboardContent = "";
+              var branchId = 0;
+              if(listController.Tree.clipboard && listController.Tree.clipboard.action) {
+                clipboardContent = listController.Tree.clipboard.text;
+                branchId = listController.Tree.clipboard.branchId;
+              }
+              $("#tree")
+                  .contextmenu("setEntry", "paste", {
+                      title: "Paste" + (clipboardContent ? " : " + clipboardContent : ""),
+                      uiIcon: "ui-icon-clipboard"
+                      })
+                  .contextmenu("enableEntry", "paste", (clipboardContent !== "" && branchId !== node.key));
+              node.setActive();
+            },
+            select: function(event, ui) {
+              var node = $.ui.fancytree.getNode(ui.target);
+              Cairo.log("select " + ui.cmd + " on " + node.key);
+              switch(ui.cmd) {
+                case "newTree":
+                  Cairo.Tree.Actions.Tree.newTree(listController);
+                  break;
+                case "newBranch":
+                  Cairo.Tree.Actions.Branch.newBranch(node, node.key, node.title, listController);
+                  break;
+                case "cut":
+                  Cairo.Tree.Actions.Branch.cut(node.key, node.title, listController);
+                  break;
+                case "copy":
+                  Cairo.Tree.Actions.Branch.copy(node.key, node.title, listController);
+                  break;
+                case "copyChildren":
+                  Cairo.Tree.Actions.Branch.copyChildren(node.key, node.title, listController);
+                  break;
+                case "paste":
+                  Cairo.Tree.Actions.Branch.paste(node.key, node.title, listController);
+                  break;
+                case "rename":
+                  Cairo.Tree.Actions.Branch.rename(node, node.key, node.title, listController);
+                  break;
+                case "delete":
+                  Cairo.Tree.Actions.Branch.deleteBranch(node, node.key, node.title, listController);
+                  break;
+              }
+            }
+          });
+
+          Cairo.LoadingMessage.close();
+        });
+      }
+      else {
+        Cairo.LoadingMessage.close();
+      }
     },
 
     listBranch: function(branchId, criterion, showItem, listController) {
@@ -697,6 +750,12 @@ Cairo.module("Tree.List", function(List, Cairo, Backbone, Marionette, $, _) {
       Cairo.treeListRegion.show(itemsListLayout);
 
       Cairo.LoadingMessage.close();
+    },
+
+    addTreeToController: function(listController) {
+      if(listController.Tree == undefined) {
+        listController.Tree = { };
+      };
     }
 
   };
