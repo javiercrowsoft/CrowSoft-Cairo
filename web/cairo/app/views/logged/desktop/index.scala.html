@@ -244,6 +244,16 @@
     </form>
 </script>
 
+<script type="text/template" id="tree-create-first-tree-template">
+  <br>
+  <br>
+  <div class="alert alert-info">
+    <div class="alert alert-warning"><h4>You must create a tree to list <%- entitiesName %></h4></div>
+    <br><br>
+  <button class="btn btn-primary js-new-tree">Create new tree</button>
+  </div>
+</script>
+
 <script type="text/template" id="tree-layout-template">
     <div class="@if(requestOrigin.userAgent.isMobile) {container} else {desktop-big-container}">
         <h2 class="sub-header"><%- entitiesTitle %></h2>

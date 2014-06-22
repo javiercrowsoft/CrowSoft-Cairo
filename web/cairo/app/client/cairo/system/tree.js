@@ -204,14 +204,28 @@ Cairo.module("Tree.List", function(List, Cairo, Backbone, Marionette, $, _) {
     }
   });
 
+  List.NewTree = Marionette.ItemView.extend({
+    template: "#tree-create-first-tree-template",
+    id: "new-tree-view",
+
+    events: {
+      "click button.js-new-tree": "clicked"
+    },
+
+    clicked: function(e) {
+      e.preventDefault();
+      Cairo.Tree.Actions.Tree.newTree(this.listController);
+    }
+  });
+
   // new list
   List.TreeLayout = Marionette.Layout.extend({
     template: "#tree-layout-template",
 
-    regions: {
+    /*regions: {
       panelRegion: "#tree-panel-region",
       itemsRegion: "#tree-items-region"
-    }
+    }*/
   });
 
   List.Layout = Marionette.Layout.extend({
@@ -524,7 +538,14 @@ Cairo.module("Tree.List", function(List, Cairo, Backbone, Marionette, $, _) {
       Cairo.Tree.List.Controller.addTreeToController(listController);
       listController.Tree.treeId = treeId;
 
+      var removeNewTreeView = function() {
+        $("#new-tree-view", listController.Tree.mainView.$el).remove();
+      };
+
       if(treeId) {
+
+        removeNewTreeView();
+
         var fetchingTree = Cairo.request("tree:entity", treeId);
 
         $.when(fetchingTree).done(function(tree) {
@@ -620,6 +641,10 @@ Cairo.module("Tree.List", function(List, Cairo, Backbone, Marionette, $, _) {
         });
       }
       else {
+        var view = new List.NewTree({model: listController.entityInfo});
+        view.listController = listController;
+        view.render();
+        $("#tree", listController.Tree.mainView.$el).html(view.el);
         Cairo.LoadingMessage.close();
       }
     },

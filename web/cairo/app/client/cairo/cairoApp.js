@@ -509,8 +509,6 @@ Cairo.manageError = function(title, message, errorResponse, closeHandler) {
 };
 
 Cairo.showErrorDetails = function(html) {
-  //var popupWindow = window.open("", "MsgWindow", "width=800, height=600, top=100, left=400");
-  //setTimeout(function() { popupWindow.document.write(html); popupWindow.focus(); }, 200);
   $('#errorDetailIFrame')[0].src = "data:text/html;charset=utf-8," + escape(html);
   $('#errorDetailIFrame').show();
 };
