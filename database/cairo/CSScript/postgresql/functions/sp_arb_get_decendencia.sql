@@ -46,8 +46,8 @@ DECLARE
    v_tot1 integer;
    v_n integer;
    v_arb_id integer;
-   v_sqlstmt varchar(255);
-   v_where varchar(50);
+   v_sqlstmt varchar(512);
+   v_where varchar(255);
    v_sqlArbId varchar(50);
    v_tran_id integer;
 BEGIN
@@ -129,7 +129,7 @@ BEGIN
    v_where := ' where t.tran_id = ' || v_tran_id::varchar;
 
    IF p_incluir_ram_id = 0 THEN
-      v_where := ' and t.ram_id <> ' || to_char(p_ram_id);
+      v_where := v_where || ' and t.ram_id <> ' || to_char(p_ram_id);
    END IF;
 
    IF p_incluir_arb_id <> 0 THEN

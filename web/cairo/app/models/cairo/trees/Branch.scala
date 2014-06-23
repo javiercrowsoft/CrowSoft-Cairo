@@ -38,41 +38,42 @@ object Branch {
   }
 
   private def listBranches(user: CompanyUser, id: Int, storedProcedure: String): List[Branch] = {
-    val sql = s"{call $storedProcedure(?, ?)}"
-    val connection = DB.getConnection(user.database.database, false)
-    val cs = connection.prepareCall(sql)
 
-    cs.setInt(1, id)
-    cs.registerOutParameter(2, Types.OTHER)
+    DB.withTransaction(user.database.database) { implicit connection =>
 
-    try {
-      cs.execute()
+      val sql = s"{call $storedProcedure(?, ?)}"
+      val cs = connection.prepareCall(sql)
 
-      val rs = cs.getObject(2).asInstanceOf[java.sql.ResultSet]
+      cs.setInt(1, id)
+      cs.registerOutParameter(2, Types.OTHER)
 
       try {
-        def fillList(): List[Branch] = {
-          if (rs.next()) {
-            Branch(rs.getInt("ram_id"), rs.getString("ram_nombre"), List(), List(), rs.getInt("ram_id_padre")) :: fillList()
-          }
-          else {
-            List()
-          }
-        }
-        fillList()
+        cs.execute()
 
+        val rs = cs.getObject(2).asInstanceOf[java.sql.ResultSet]
+
+        try {
+          def fillList(): List[Branch] = {
+            if (rs.next()) {
+              Branch(rs.getInt("ram_id"), rs.getString("ram_nombre"), List(), List(), rs.getInt("ram_id_padre")) :: fillList()
+            }
+            else {
+              List()
+            }
+          }
+          fillList()
+
+        } finally {
+          rs.close
+        }
+      } catch {
+        case NonFatal(e) => {
+          Logger.error(s"can't load tree with id $id for user ${user.toString}. Error ${e.toString}")
+          throw e
+        }
       } finally {
-        rs.close
+        cs.close
       }
-    } catch {
-      case NonFatal(e) => {
-        Logger.error(s"can't load tree with id $id for user ${user.toString}. Error ${e.toString}")
-        throw e
-      }
-    } finally {
-      cs.close
-      connection.commit
-      connection.close
     }
   }
 
@@ -93,162 +94,165 @@ object Branch {
   }
 
   def get(user: CompanyUser, branchId: Int): LoadedBranch = {
-    val sql = "{call sp_arbgethojas(?, ?, ?, ?, ?)}"
-    val connection = DB.getConnection(user.database.database, false)
-    val cs = connection.prepareCall(sql)
 
-    cs.setInt(1, branchId)
-    cs.setInt(2, 0)
-    cs.setString(3, "")
-    cs.setInt(4, 3000)
-    cs.registerOutParameter(5, Types.OTHER)
+    DB.withTransaction(user.database.database) { implicit connection =>
 
-    try {
-      cs.execute()
+      val sql = "{call sp_arbgethojas(?, ?, ?, ?, ?)}"
+      val cs = connection.prepareCall(sql)
 
-      val rs = cs.getObject(5).asInstanceOf[java.sql.ResultSet]
+      cs.setInt(1, branchId)
+      cs.setInt(2, 0)
+      cs.setString(3, "")
+      cs.setInt(4, 3000)
+      cs.registerOutParameter(5, Types.OTHER)
 
       try {
-        lazy val metaData = rs.getMetaData()
-        lazy val columnIndex = 3.to(metaData.getColumnCount()).toList
+        cs.execute()
 
-        def createLeave(): Leave = {
-          def getValues(): List[String] = {
-            for {
-              i <- columnIndex
-            } yield {
-              metaData.getColumnTypeName(i).toLowerCase match {
-                case "integer" => rs.getInt(i).toString
-                case "int2" => rs.getInt(i).toString
-                case "smallint" => rs.getInt(i).toString
-                case "biginteger" => rs.getLong(i).toString
-                case "serial" => rs.getLong(i).toString
-                case "bigserial" => rs.getLong(i).toString
-                case "decimal" => rs.getBigDecimal(i).toString
-                case "real" => rs.getBigDecimal(i).toString
-                case "timestamp" => rs.getDate(i).toString
-                case "date" => rs.getDate(i).toString
-                case "time" => rs.getTime(i).toString
-                case "character" => rs.getString(i)
-                case "char" => rs.getString(i)
-                case "varchar" => rs.getString(i)
-                case "text" => rs.getString(i)
-                case "character varying" => rs.getString(i)
-                case other => s"unclassified type: $other val:${rs.getObject(i).toString}"
+        val rs = cs.getObject(5).asInstanceOf[java.sql.ResultSet]
+
+        try {
+          lazy val metaData = rs.getMetaData()
+          lazy val columnIndex = 3.to(metaData.getColumnCount()).toList
+
+          def createLeave(): Leave = {
+            def getValues(): List[String] = {
+              for {
+                i <- columnIndex
+              } yield {
+                metaData.getColumnTypeName(i).toLowerCase match {
+                  case "integer" => rs.getInt(i).toString
+                  case "int2" => rs.getInt(i).toString
+                  case "smallint" => rs.getInt(i).toString
+                  case "biginteger" => rs.getLong(i).toString
+                  case "serial" => rs.getLong(i).toString
+                  case "bigserial" => rs.getLong(i).toString
+                  case "decimal" => rs.getBigDecimal(i).toString
+                  case "real" => rs.getBigDecimal(i).toString
+                  case "timestamp" => rs.getDate(i).toString
+                  case "date" => rs.getDate(i).toString
+                  case "time" => rs.getTime(i).toString
+                  case "character" => rs.getString(i)
+                  case "char" => rs.getString(i)
+                  case "varchar" => rs.getString(i)
+                  case "text" => rs.getString(i)
+                  case "character varying" => rs.getString(i)
+                  case other => s"unclassified type: $other val:${rs.getObject(i).toString}"
+                }
               }
             }
+            Leave(rs.getInt(1), rs.getInt(2), getValues())
           }
-          Leave(rs.getInt(1), rs.getInt(2), getValues())
-        }
 
-        def createColumns(): List[BranchColumn] = {
-          val columns = for {
-            i <- columnIndex
-          } yield {
-            BranchColumn(metaData.getColumnName(i), metaData.getColumnTypeName(i))
+          def createColumns(): List[BranchColumn] = {
+            val columns = for {
+              i <- columnIndex
+            } yield {
+              BranchColumn(metaData.getColumnName(i), metaData.getColumnTypeName(i))
+            }
+            columns
           }
-          columns
-        }
 
-        def fillList(): List[Leave] = {
-          if (rs.next()) {
-            createLeave() :: fillList()
+          def fillList(): List[Leave] = {
+            if (rs.next()) {
+              createLeave() :: fillList()
+            }
+            else {
+              List()
+            }
+          }
+
+          if (rs.next) {
+            LoadedBranch(createLeave() :: fillList(), createColumns())
           }
           else {
-            List()
+            LoadedBranch(List(), List())
           }
-        }
 
-        if (rs.next) {
-          LoadedBranch(createLeave() :: fillList(), createColumns())
+        } finally {
+          rs.close
         }
-        else {
-          LoadedBranch(List(), List())
+      } catch {
+        case NonFatal(e) => {
+          Logger.error(s"can't get branch with id $branchId for user ${user.toString}. Error ${e.toString}")
+          throw e
         }
-
       } finally {
-        rs.close
+        cs.close
       }
-    } catch {
-      case NonFatal(e) => {
-        Logger.error(s"can't get branch with id $branchId for user ${user.toString}. Error ${e.toString}")
-        throw e
-      }
-    } finally {
-      cs.close
-      connection.commit
-      connection.close
     }
   }
 
   def save(user: CompanyUser, treeId: Int, branch: Branch): Branch = {
-    val sql = "{call sp_arb_rama_create(?, ?, ?, ?, ?)}"
-    val connection = DB.getConnection(user.database.database, false)
-    val cs = connection.prepareCall(sql)
 
-    cs.setInt(1, user.user.id.getOrElse(0))
-    cs.setInt(2, treeId)
-    cs.setInt(3, branch.fatherId)
-    cs.setString(4, branch.name)
-    cs.registerOutParameter(5, Types.OTHER)
+    DB.withTransaction(user.database.database) { implicit connection =>
 
-    try {
-      cs.execute()
+      val sql = "{call sp_arb_rama_create(?, ?, ?, ?, ?)}"
+      val cs = connection.prepareCall(sql)
 
-      val rs = cs.getObject(5).asInstanceOf[java.sql.ResultSet]
+      cs.setInt(1, user.user.id.getOrElse(0))
+      cs.setInt(2, treeId)
+      cs.setInt(3, branch.fatherId)
+      cs.setString(4, branch.name)
+      cs.registerOutParameter(5, Types.OTHER)
 
       try {
-        if (rs.next) Branch(rs.getInt("ram_id"), rs.getString("ram_nombre"), List(), List(), rs.getInt("ram_id_padre"))
-        else emptyBranch
-      }
-      finally {
-        rs.close
-      }
+        cs.execute()
 
-    } catch {
-      case NonFatal(e) => {
-        Logger.error(s"can't save a branch. Branch id: ${branch.id}. Error ${e.toString}")
-        throw e
+        val rs = cs.getObject(5).asInstanceOf[java.sql.ResultSet]
+
+        try {
+          if (rs.next) Branch(rs.getInt("ram_id"), rs.getString("ram_nombre"), List(), List(), rs.getInt("ram_id_padre"))
+          else emptyBranch
+        }
+        finally {
+          rs.close
+        }
+
+      } catch {
+        case NonFatal(e) => {
+          Logger.error(s"can't save a branch. Branch id: ${branch.id}. Error ${e.toString}")
+          throw e
+        }
+      } finally {
+        cs.close
       }
-    } finally {
-      cs.close
-      connection.commit
-      connection.close
     }
   }
 
   def update(user: CompanyUser, branch: Branch): Branch = {
-    val sql = "{call sp_arb_rama_rename(?, ?, ?, ?)}"
-    val connection = DB.getConnection(user.database.database, false)
-    val cs = connection.prepareCall(sql)
 
-    cs.setInt(1, user.user.id.getOrElse(0))
-    cs.setInt(2, branch.id)
-    cs.setString(3, branch.name)
-    cs.registerOutParameter(4, Types.OTHER)
+    DB.withTransaction(user.database.database) { implicit connection =>
 
-    try {
-      cs.execute()
+      val sql = "{call sp_arb_rama_rename(?, ?, ?, ?)}"
+      val cs = connection.prepareCall(sql)
 
-      val rs = cs.getObject(4).asInstanceOf[java.sql.ResultSet]
+      cs.setInt(1, user.user.id.getOrElse(0))
+      cs.setInt(2, branch.id)
+      cs.setString(3, branch.name)
+      cs.registerOutParameter(4, Types.OTHER)
 
       try {
-        if (rs.next) Branch(rs.getInt("ram_id"), rs.getString("ram_nombre"), List(), List(), rs.getInt("ram_id_padre"))
-        else emptyBranch
-      }
-      finally {
-        rs.close
-      }
+        cs.execute()
 
-    } catch {
-      case NonFatal(e) => {
-        Logger.error(s"can't rename this branch. Branch id: ${branch.id}. Error ${e.toString}")
-        throw e
+        val rs = cs.getObject(4).asInstanceOf[java.sql.ResultSet]
+
+        try {
+          if (rs.next) Branch(rs.getInt("ram_id"), rs.getString("ram_nombre"), List(), List(), rs.getInt("ram_id_padre"))
+          else emptyBranch
+        }
+        finally {
+          rs.close
+        }
+
+      } catch {
+        case NonFatal(e) => {
+          Logger.error(s"can't rename this branch. Branch id: ${branch.id}. Error ${e.toString}")
+          throw e
+        }
+      } finally {
+        cs.close
       }
-    } finally {
-      cs.close
-      connection.commit
-      connection.close
     }
   }
 
@@ -265,61 +269,63 @@ object Branch {
   }
 
   def delete(user: CompanyUser, branchId: Int) = {
-    val sql = "{call sp_arbborrarrama(?, ?)}"
-    val connection = DB.getConnection(user.database.database, false)
-    val cs = connection.prepareCall(sql)
 
-    cs.setInt(1, user.user.id.getOrElse(0))
-    cs.setInt(2, branchId)
+    DB.withTransaction(user.database.database) { implicit connection =>
 
-    try {
-      cs.execute()
-    } catch {
-      case NonFatal(e) => {
-        Logger.error(s"can't delete a branch. Branch id: $branchId. Error ${e.toString}")
-        throw e
+      val sql = "{call sp_arbborrarrama(?, ?)}"
+      val cs = connection.prepareCall(sql)
+
+      cs.setInt(1, user.user.id.getOrElse(0))
+      cs.setInt(2, branchId)
+
+      try {
+        cs.execute()
+      } catch {
+        case NonFatal(e) => {
+          Logger.error(s"can't delete a branch. Branch id: $branchId. Error ${e.toString}")
+          throw e
+        }
+      } finally {
+        cs.close
       }
-    } finally {
-      cs.close
-      connection.commit
-      connection.close
     }
   }
 
   def paste(user: CompanyUser, branchIdFrom: Int, branchIdTo: Int, onlyChildren: Boolean, isCut: Boolean): Branch = {
-    val sp = if(isCut) "SP_ArbCortarRama" else "SP_ArbCopiarRama"
-    val sql = s"{call $sp(?, ?, ?, ?, ?)}"
-    val connection = DB.getConnection(user.database.database, false)
-    val cs = connection.prepareCall(sql)
 
-    cs.setInt(1, user.user.id.getOrElse(0))
-    cs.setInt(2, branchIdFrom)
-    cs.setInt(3, branchIdTo)
-    cs.setShort(4, (if(onlyChildren) 1 else 0).toShort)
-    cs.registerOutParameter(5, Types.OTHER)
+    DB.withTransaction(user.database.database) { implicit connection =>
 
-    try {
-      cs.execute()
+      val sp = if (isCut) "SP_ArbCortarRama" else "SP_ArbCopiarRama"
+      val sql = s"{call $sp(?, ?, ?, ?, ?)}"
+      val cs = connection.prepareCall(sql)
 
-      val rs = cs.getObject(5).asInstanceOf[java.sql.ResultSet]
+      cs.setInt(1, user.user.id.getOrElse(0))
+      cs.setInt(2, branchIdFrom)
+      cs.setInt(3, branchIdTo)
+      cs.setShort(4, (if (onlyChildren) 1 else 0).toShort)
+      cs.registerOutParameter(5, Types.OTHER)
 
       try {
-        if (rs.next) Branch(rs.getInt("ram_id"), rs.getString("ram_nombre"), List(), List(), rs.getInt("ram_id_padre"))
-        else emptyBranch
-      }
-      finally {
-        rs.close
-      }
+        cs.execute()
 
-    } catch {
-      case NonFatal(e) => {
-        Logger.error(s"can't paste this branch. Branch id from: $branchIdFrom - Branch id to: $branchIdTo. Error ${e.toString}")
-        throw e
+        val rs = cs.getObject(5).asInstanceOf[java.sql.ResultSet]
+
+        try {
+          if (rs.next) Branch(rs.getInt("ram_id"), rs.getString("ram_nombre"), List(), List(), rs.getInt("ram_id_padre"))
+          else emptyBranch
+        }
+        finally {
+          rs.close
+        }
+
+      } catch {
+        case NonFatal(e) => {
+          Logger.error(s"can't paste this branch. Branch id from: $branchIdFrom - Branch id to: $branchIdTo. Error ${e.toString}")
+          throw e
+        }
+      } finally {
+        cs.close
       }
-    } finally {
-      cs.close
-      connection.commit
-      connection.close
     }
   }
 

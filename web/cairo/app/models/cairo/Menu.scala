@@ -33,65 +33,66 @@ case class Menu(
 object Menu {
 
   def list(user: CompanyUser): List[Menu] = {
-    val sql = "{call sp_sys_menu_get(?, ?, ?)}"
-    val connection = DB.getConnection(user.database.database, false)
-    val cs = connection.prepareCall(sql)
 
-    cs.setInt(1, user.user.id.getOrElse(0))
-    cs.setInt(2, user.company.id.getOrElse(0))
-    cs.registerOutParameter(3, Types.OTHER)
+    DB.withTransaction(user.database.database) { implicit connection =>
 
-    try {
-      cs.execute()
+      val sql = "{call sp_sys_menu_get(?, ?, ?)}"
+      val cs = connection.prepareCall(sql)
 
-      val rs = cs.getObject(3).asInstanceOf[java.sql.ResultSet]
+      cs.setInt(1, user.user.id.getOrElse(0))
+      cs.setInt(2, user.company.id.getOrElse(0))
+      cs.registerOutParameter(3, Types.OTHER)
 
       try {
-        def fillList(): List[Menu] = {
-          if (rs.next()) {
-            Menu(
-              rs.getInt("pre_id"),
-              rs.getInt("me_id"),
-              rs.getString("text").replace("&", ""),
-              List(
-                MenuFather(rs.getInt("father5_id"), rs.getString("father5").replace("&", "")),
-                MenuFather(rs.getInt("father4_id"), rs.getString("father4").replace("&", "")),
-                MenuFather(rs.getInt("father3_id"), rs.getString("father3").replace("&", "")),
-                MenuFather(rs.getInt("father2_id"), rs.getString("father2").replace("&", "")),
-                MenuFather(rs.getInt("father1_id"), rs.getString("father1").replace("&", ""))
-              ),
-              rs.getInt("me_position"),
-              rs.getInt("me_is_last") != 0,
-              rs.getInt("me_is_separator") != 0,
-              rs.getInt("me_have_separator") != 0,
-              rs.getInt("me_is_main_menu") != 0,
-              rs.getInt("me_is_popup_menu") != 0,
-              rs.getString("handler"),
-              rs.getString("me_action"),
-              rs.getString("me_path"),
-              rs.getString("me_action2"),
-              rs.getString("me_path2")
-            ) :: fillList()
+        cs.execute()
+
+        val rs = cs.getObject(3).asInstanceOf[java.sql.ResultSet]
+
+        try {
+          def fillList(): List[Menu] = {
+            if (rs.next()) {
+              Menu(
+                rs.getInt("pre_id"),
+                rs.getInt("me_id"),
+                rs.getString("text").replace("&", ""),
+                List(
+                  MenuFather(rs.getInt("father5_id"), rs.getString("father5").replace("&", "")),
+                  MenuFather(rs.getInt("father4_id"), rs.getString("father4").replace("&", "")),
+                  MenuFather(rs.getInt("father3_id"), rs.getString("father3").replace("&", "")),
+                  MenuFather(rs.getInt("father2_id"), rs.getString("father2").replace("&", "")),
+                  MenuFather(rs.getInt("father1_id"), rs.getString("father1").replace("&", ""))
+                ),
+                rs.getInt("me_position"),
+                rs.getInt("me_is_last") != 0,
+                rs.getInt("me_is_separator") != 0,
+                rs.getInt("me_have_separator") != 0,
+                rs.getInt("me_is_main_menu") != 0,
+                rs.getInt("me_is_popup_menu") != 0,
+                rs.getString("handler"),
+                rs.getString("me_action"),
+                rs.getString("me_path"),
+                rs.getString("me_action2"),
+                rs.getString("me_path2")
+              ) :: fillList()
+            }
+            else {
+              List()
+            }
           }
-          else {
-            List()
-          }
+          fillList()
+
+        } finally {
+          rs.close
         }
-        fillList()
 
+      } catch {
+        case NonFatal(e) => {
+          Logger.error(s"can't load menu for user ${user.toString}. Error ${e.toString}")
+          throw e
+        }
       } finally {
-        rs.close
+        cs.close
       }
-
-    } catch {
-      case NonFatal(e) => {
-        Logger.error(s"can't load menu for user ${user.toString}. Error ${e.toString}")
-        throw e
-      }
-    } finally {
-      cs.close
-      connection.commit
-      connection.close
     }
   }
 

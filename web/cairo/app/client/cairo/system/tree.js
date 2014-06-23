@@ -442,6 +442,9 @@ Cairo.module("Tree.Actions", function(Actions, Cairo, Backbone, Marionette, $, _
                 + " branchId: " + listController.Tree.clipboard.branchId
                 + " text: " + listController.Tree.clipboard.text
             + "} )");
+        // we need a reference to the cut node because if this is pasted
+        // in the same tree we need to remove it
+        var fromNode = node.tree.getNodeByKey(listController.Tree.clipboard.branchId);
         var pasteInfo = new Cairo.Entities.PasteInfo();
         pasteInfo.save({
             branchIdFrom: listController.Tree.clipboard.branchId,
@@ -453,6 +456,9 @@ Cairo.module("Tree.Actions", function(Actions, Cairo, Backbone, Marionette, $, _
           success: function(model, response) {
             Cairo.log("Successfully pasted!");
             node.fromDict(response[0]);
+            if(fromNode !== null && listController.Tree.clipboard.action === Actions.clipboardActions.ACTION_CUT) {
+              fromNode.remove();
+            }
           },
           error: function(model, error) {
             Cairo.log("Failed in paste branch.");

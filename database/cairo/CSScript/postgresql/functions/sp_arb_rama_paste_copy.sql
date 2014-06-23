@@ -66,14 +66,7 @@ BEGIN
    IF NOT EXISTS(SELECT 1 FROM rama WHERE ram_id = p_ram_id_copy_to) THEN RETURN; END IF;
 
    --------------------------------------------------------------------
-        /*
-        CREATE TEMP TABLE tt_t_ramas_a_copiar
-        (
-          ram_id integer  NOT NULL,
-          tran_id integer  NOT NULL
-        ) on commit drop;
-        */
-        
+
         CREATE TEMP TABLE t_rama_new
         (
           ram_id integer  NOT NULL,
@@ -97,17 +90,6 @@ BEGIN
 
    SELECT INTO c_branches_to_copy t.rtn FROM SP_ArbGetDecendencia(p_ram_id_copy_from,v_incluir_ram_id_to_copy,0,0,0) t;
 
-   /*
-   LOOP
-          FETCH c_branches_to_copy INTO v_branch_row;
-          EXIT WHEN NOT FOUND;
-          INSERT INTO tt_t_ramas_a_copiar(ram_id, tran_id) VALUES (v_branch_row.ram_id, v_tran_id);
-   END LOOP;
-   CLOSE c_branches_to_copy;
-
-   OPEN c_branches_to_copy FOR SELECT * FROM tt_t_ramas_a_copiar WHERE tran_id = v_tran_id;
-   */
-   
    LOOP
       FETCH c_branches_to_copy INTO v_branch_row;
       EXIT WHEN NOT FOUND;
