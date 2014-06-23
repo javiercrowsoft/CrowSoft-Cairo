@@ -33,7 +33,7 @@ case class Menu(
 object Menu {
 
   def list(user: CompanyUser): List[Menu] = {
-    val sql = "{call sp_sys_menu_get(?, ?, ?)}";
+    val sql = "{call sp_sys_menu_get(?, ?, ?)}"
     val connection = DB.getConnection(user.database.database, false)
     val cs = connection.prepareCall(sql)
 

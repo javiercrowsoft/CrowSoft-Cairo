@@ -8,7 +8,7 @@ import services.db.DB
 import play.api.Play.current
 import models.domain.CompanyUser
 import play.api.Logger
-
+import play.api.libs.json._
 import scala.util.control.{NonFatal, ControlThrowable}
 
 case class Branch(id: Int, name: String, leaves: List[Leave], items: List[Branch], fatherId: Int)
@@ -30,11 +30,19 @@ object Branch {
   }
 
   def listForTree(user: CompanyUser, treeId: Int): List[Branch] = {
-    val sql = "{call sp_arbgetramas(?, ?)}";
+    listBranches(user, treeId, "sp_arbgetramas")
+  }
+
+  def listForBranch(user: CompanyUser, branchId: Int): List[Branch] = {
+    listBranches(user, branchId, "sp_arb_rama_get_ramas")
+  }
+
+  private def listBranches(user: CompanyUser, id: Int, storedProcedure: String): List[Branch] = {
+    val sql = s"{call $storedProcedure(?, ?)}"
     val connection = DB.getConnection(user.database.database, false)
     val cs = connection.prepareCall(sql)
 
-    cs.setInt(1, treeId)
+    cs.setInt(1, id)
     cs.registerOutParameter(2, Types.OTHER)
 
     try {
@@ -58,7 +66,7 @@ object Branch {
       }
     } catch {
       case NonFatal(e) => {
-        Logger.error(s"can't load tree with id $treeId for user ${user.toString}. Error ${e.toString}")
+        Logger.error(s"can't load tree with id $id for user ${user.toString}. Error ${e.toString}")
         throw e
       }
     } finally {
@@ -85,7 +93,7 @@ object Branch {
   }
 
   def get(user: CompanyUser, branchId: Int): LoadedBranch = {
-    val sql = "{call sp_arbgethojas(?, ?, ?, ?, ?)}";
+    val sql = "{call sp_arbgethojas(?, ?, ?, ?, ?)}"
     val connection = DB.getConnection(user.database.database, false)
     val cs = connection.prepareCall(sql)
 
@@ -174,7 +182,7 @@ object Branch {
   }
 
   def save(user: CompanyUser, treeId: Int, branch: Branch): Branch = {
-    val sql = "{call sp_arb_rama_create(?, ?, ?, ?, ?)}";
+    val sql = "{call sp_arb_rama_create(?, ?, ?, ?, ?)}"
     val connection = DB.getConnection(user.database.database, false)
     val cs = connection.prepareCall(sql)
 
@@ -210,7 +218,7 @@ object Branch {
   }
 
   def update(user: CompanyUser, branch: Branch): Branch = {
-    val sql = "{call sp_arb_rama_rename(?, ?, ?, ?)}";
+    val sql = "{call sp_arb_rama_rename(?, ?, ?, ?)}"
     val connection = DB.getConnection(user.database.database, false)
     val cs = connection.prepareCall(sql)
 
@@ -257,7 +265,7 @@ object Branch {
   }
 
   def delete(user: CompanyUser, branchId: Int) = {
-    val sql = "{call sp_arbborrarrama(?, ?)}";
+    val sql = "{call sp_arbborrarrama(?, ?)}"
     val connection = DB.getConnection(user.database.database, false)
     val cs = connection.prepareCall(sql)
 
@@ -276,6 +284,58 @@ object Branch {
       connection.commit
       connection.close
     }
+  }
+
+  def paste(user: CompanyUser, branchIdFrom: Int, branchIdTo: Int, onlyChildren: Boolean, isCut: Boolean): Branch = {
+    val sp = if(isCut) "SP_ArbCortarRama" else "SP_ArbCopiarRama"
+    val sql = s"{call $sp(?, ?, ?, ?, ?)}"
+    val connection = DB.getConnection(user.database.database, false)
+    val cs = connection.prepareCall(sql)
+
+    cs.setInt(1, user.user.id.getOrElse(0))
+    cs.setInt(2, branchIdFrom)
+    cs.setInt(3, branchIdTo)
+    cs.setShort(4, (if(onlyChildren) 1 else 0).toShort)
+    cs.registerOutParameter(5, Types.OTHER)
+
+    try {
+      cs.execute()
+
+      val rs = cs.getObject(5).asInstanceOf[java.sql.ResultSet]
+
+      try {
+        if (rs.next) Branch(rs.getInt("ram_id"), rs.getString("ram_nombre"), List(), List(), rs.getInt("ram_id_padre"))
+        else emptyBranch
+      }
+      finally {
+        rs.close
+      }
+
+    } catch {
+      case NonFatal(e) => {
+        Logger.error(s"can't paste this branch. Branch id from: $branchIdFrom - Branch id to: $branchIdTo. Error ${e.toString}")
+        throw e
+      }
+    } finally {
+      cs.close
+      connection.commit
+      connection.close
+    }
+  }
+
+  def getAsJsonForFancyTree(branches: List[Branch]): JsValue = {
+
+    implicit val branchWrites = new Writes[Branch] {
+      def writes(branch: Branch) = Json.obj(
+      "key" -> branch.id,
+      "title" -> branch.name,
+      "folder" -> true,
+      "children" -> Json.toJson(writesItems(branch.items))
+      )
+      def writesItems(items: List[Branch]) = items.map(branch => writes(branch))
+    }
+
+    Json.toJson(branches)
   }
 
 }

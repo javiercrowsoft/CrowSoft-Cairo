@@ -13,7 +13,7 @@ Cairo.module("Entities", function(Entities, Cairo, Backbone, Marionette, $, _) {
     },
 
     validate: function(attrs, options) {
-      var errors = {}
+      var errors = {};
       if(! attrs.firstName) {
         errors.firstName = "can't be blank";
       }

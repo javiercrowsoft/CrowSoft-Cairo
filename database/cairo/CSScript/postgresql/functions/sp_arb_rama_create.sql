@@ -51,7 +51,7 @@ BEGIN
 
         SELECT SP_DBGetNewId('rama',
                               'ram_id',
-                              0::smallint) into v_ram_id;
+                              0::smallint) INTO v_ram_id;
 
         v_is_temp := p_ram_id_padre = -1000;
     
@@ -83,7 +83,7 @@ BEGIN
 
         rtn := 'rtn';
 
-        open rtn for SELECT * FROM rama WHERE ram_id = v_ram_id;
+        OPEN rtn FOR SELECT * FROM rama WHERE ram_id = v_ram_id;
    
 END;
 $BODY$

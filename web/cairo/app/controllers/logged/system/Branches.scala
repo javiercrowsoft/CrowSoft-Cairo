@@ -12,6 +12,7 @@ import models.cairo.trees._
 import services.PasswordValidation
 
 case class BranchData(id: Option[Int], name: String, fatherId: Int, treeId: Int)
+case class PasteInfo(branchIdFrom: Int, branchIdTo: Int, onlyChildren: Boolean, isCut: Boolean)
 
 object Branches extends Controller with ProvidesUser {
 
@@ -22,6 +23,14 @@ object Branches extends Controller with ProvidesUser {
       "fatherId" -> number,
       "treeId" -> number
     )(BranchData.apply)(BranchData.unapply))
+
+  val pasteForm = Form(
+    mapping(
+      "branchIdFrom" -> number,
+      "branchIdTo" -> number,
+      "onlyChildren" -> boolean,
+      "isCut" -> boolean
+    )(PasteInfo.apply)(PasteInfo.unapply))
 
   implicit val loadedBranchWrites = new Writes[LoadedBranch] {
     def writes(branch: LoadedBranch) = Json.obj(
@@ -95,4 +104,25 @@ object Branches extends Controller with ProvidesUser {
     })
   }
 
+  def paste = PostAction { implicit request =>
+    Logger.debug("in branches.paste")
+    pasteForm.bindFromRequest.fold(
+      formWithErrors => {
+        Logger.debug(s"invalid form: ${formWithErrors.toString}")
+        BadRequest
+      },
+      pasteInfo => {
+        Logger.debug(s"form: ${pasteInfo.toString}")
+        LoggedIntoCompanyResponse.getAction(request, { user =>
+          val branch = Branch.paste(
+            user,
+            pasteInfo.branchIdFrom,
+            pasteInfo.branchIdTo,
+            pasteInfo.onlyChildren,
+            pasteInfo.isCut)
+          Ok(Branch.getAsJsonForFancyTree(Branch.createTree(Branch.listForBranch(user, branch.id))))
+        })
+      })
+  }
 }
+

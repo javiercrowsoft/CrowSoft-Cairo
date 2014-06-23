@@ -28,38 +28,22 @@ http://www.crowsoft.com.ar
 
 javier at crowsoft.com.ar
 */
--- Function: sp_arb_rama_rename()
+-- Function: sp_arb_rama_get_ramas(integer)
 
--- DROP FUNCTION sp_arb_rama_rename();
+-- DROP FUNCTION sp_arb_rama_get_ramas(integer);
 
-CREATE OR REPLACE FUNCTION sp_arb_rama_rename(
-  IN p_us_id integer,
-  IN p_ram_id integer,
-  IN p_nombre varchar,
-  OUT rtn refcursor
-)
+CREATE OR REPLACE FUNCTION sp_arb_rama_get_ramas(IN p_ram_id integer, OUT rtn refcursor)
   RETURNS refcursor AS
 $BODY$
 BEGIN
 
-        UPDATE rama set ram_nombre = p_nombre WHERE ram_id = p_ram_id;
-
-
-        IF EXISTS(SELECT 1 FROM rama WHERE ram_id = p_ram_id AND ram_id_padre = 0)
-        THEN
-
-            UPDATE arbol set arb_nombre = p_nombre
-            WHERE arb_id = (SELECT arb_id FROM rama WHERE ram_id = p_ram_id);
-
-        END IF;
-
         rtn := 'rtn';
 
-        OPEN rtn FOR SELECT * FROM rama WHERE ram_id = p_ram_id;
+        select INTO rtn t.rtn from SP_ArbGetDecendencia(p_ram_id,1,1,1,0) t;
 
 END;
 $BODY$
   LANGUAGE plpgsql VOLATILE
   COST 100;
-ALTER FUNCTION sp_arb_rama_rename(integer, integer, varchar)
+ALTER FUNCTION sp_arb_rama_get_ramas(integer)
   OWNER TO postgres;

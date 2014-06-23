@@ -13,7 +13,7 @@ case class Tree(id: Int, name: String, root: Int)
 object Tree {
 
   def loadForTable(user: CompanyUser, tableId: Int): List[Tree] = {
-    val sql = "{call sp_arbgetarboles(?, ?)}";
+    val sql = "{call sp_arbgetarboles(?, ?)}"
     val connection = DB.getConnection(user.database.database, false)
     val cs = connection.prepareCall(sql)
 
@@ -39,7 +39,7 @@ object Tree {
   }
 
   def save(user: CompanyUser, tableId: Int, name: String): Tree = {
-    val sql = "{call sp_arb_arbol_create(?, ?, ?, ?)}";
+    val sql = "{call sp_arb_arbol_create(?, ?, ?, ?)}"
     val connection = DB.getConnection(user.database.database, false)
     val cs = connection.prepareCall(sql)
 

@@ -11,7 +11,7 @@ Cairo.module("Entities", function(Entities, Cairo, Backbone, Marionette, $, _) {
     },
 
     validate: function(attrs, options) {
-      var errors = {}
+      var errors = {};
       if(! attrs.name) {
         errors.name = "can't be blank";
       }
@@ -30,7 +30,7 @@ Cairo.module("Entities", function(Entities, Cairo, Backbone, Marionette, $, _) {
     },
 
     validate: function(attrs, options) {
-      var errors = {}
+      var errors = {};
       if(attrs.treeId === 0) {
         errors.treeId = "can't be blank";
       }
@@ -52,7 +52,7 @@ Cairo.module("Entities", function(Entities, Cairo, Backbone, Marionette, $, _) {
     },
 
     validate: function(attrs, options) {
-      var errors = {}
+      var errors = {};
       if(attrs.clientId === 0) {
         errors.clientId = "can't be blank";
       }
@@ -78,6 +78,29 @@ Cairo.module("Entities", function(Entities, Cairo, Backbone, Marionette, $, _) {
     model: Entities.Leave,
     comparator: "id",
     branchId: 0
+  });
+
+  Entities.PasteInfo = Backbone.Model.extend({
+    urlRoot: "/system/branch/paste",
+
+    validate: function(attrs, options) {
+      var errors = {};
+      if(attrs.branchIdFrom === 0) {
+        errors.branchIdFrom = "can't be blank";
+      }
+      if(attrs.branchIdTo === 0) {
+        errors.branchIdTo = "can't be blank";
+      }
+      if(attrs.onlyChildren === undefined) {
+        errors.onlyChildren = "can't be undefined";
+      }
+      if(attrs.isCut === undefined) {
+        errors.isCut = "can't be undefined";
+      }
+      if( ! _.isEmpty(errors)) {
+        return errors;
+      }
+    }
   });
 
   var API = {
@@ -370,6 +393,10 @@ Cairo.module("Tree.Actions", function(Actions, Cairo, Backbone, Marionette, $, _
           error: function(model, error) {
             Cairo.log("Failed in save new tree.");
             Cairo.log(error.responseText);
+            Cairo.manageError(
+              "New Tree",
+              "Can't create a new tree named '" + text + "'. An error has occurred in the server.",
+              error.responseText);
           }
         });
       });
@@ -407,7 +434,7 @@ Cairo.module("Tree.Actions", function(Actions, Cairo, Backbone, Marionette, $, _
         };
     },
 
-    paste: function(branchId, text, listController) {
+    paste: function(node, branchId, text, listController) {
         Cairo.log(
             "paste called (branchId: " + branchId
             + " listController: " + listController + " clipboard: {"
@@ -415,6 +442,27 @@ Cairo.module("Tree.Actions", function(Actions, Cairo, Backbone, Marionette, $, _
                 + " branchId: " + listController.Tree.clipboard.branchId
                 + " text: " + listController.Tree.clipboard.text
             + "} )");
+        var pasteInfo = new Cairo.Entities.PasteInfo();
+        pasteInfo.save({
+            branchIdFrom: listController.Tree.clipboard.branchId,
+            branchIdTo: branchId,
+            onlyChildren: (listController.Tree.clipboard.action === Actions.clipboardActions.ACTION_COPY_CHILDREN),
+            isCut: (listController.Tree.clipboard.action === Actions.clipboardActions.ACTION_CUT)
+          }, {
+          wait: true,
+          success: function(model, response) {
+            Cairo.log("Successfully pasted!");
+            node.fromDict(response[0]);
+          },
+          error: function(model, error) {
+            Cairo.log("Failed in paste branch.");
+            Cairo.log(error.responseText);
+            Cairo.manageError(
+              "Paste Folder",
+              "Can't paste this folder '" + listController.Tree.clipboard.text + "'. An error has occurred in the server.",
+              error.responseText);
+          }
+        });
     },
 
     newBranch: function(node, branchId, text, listController) {
@@ -434,6 +482,10 @@ Cairo.module("Tree.Actions", function(Actions, Cairo, Backbone, Marionette, $, _
           error: function(model, error) {
             Cairo.log("Failed in save new branch.");
             Cairo.log(error.responseText);
+            Cairo.manageError(
+              "New Folder",
+              "Can't create a new folder named '" + text + "'. An error has occurred in the server.",
+              error.responseText);
           }
         });
       });
@@ -465,6 +517,10 @@ Cairo.module("Tree.Actions", function(Actions, Cairo, Backbone, Marionette, $, _
             error: function(model, error) {
               Cairo.log("Failed in save new branch.");
               Cairo.log(error.responseText);
+              Cairo.manageError(
+              "Rename Folder",
+              "Can't rename this folder '" + node.title + "' to '" + text + "'. An error has occurred in the server.",
+              error.responseText);
             }
           }
         );
@@ -625,7 +681,7 @@ Cairo.module("Tree.List", function(List, Cairo, Backbone, Marionette, $, _) {
                   Cairo.Tree.Actions.Branch.copyChildren(node.key, node.title, listController);
                   break;
                 case "paste":
-                  Cairo.Tree.Actions.Branch.paste(node.key, node.title, listController);
+                  Cairo.Tree.Actions.Branch.paste(node, node.key, node.title, listController);
                   break;
                 case "rename":
                   Cairo.Tree.Actions.Branch.rename(node, node.key, node.title, listController);

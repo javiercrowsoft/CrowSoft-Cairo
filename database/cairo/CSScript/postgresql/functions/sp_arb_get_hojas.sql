@@ -225,7 +225,7 @@ BEGIN
 
    rtn := 'rtn';
 
-   open rtn for execute v_sqlstmt;
+   OPEN rtn FOR EXECUTE v_sqlstmt;
    --print (@sqlstmt)--
    
 END;

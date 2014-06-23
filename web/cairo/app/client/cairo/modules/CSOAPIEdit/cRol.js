@@ -11,7 +11,7 @@ Cairo.module("Entities", function(Entities, Cairo, Backbone, Marionette, $, _) {
     },
 
     validate: function(attrs, options) {
-      var errors = {}
+      var errors = {};
       if(! attrs.name) {
         errors.name = "can't be blank";
       }

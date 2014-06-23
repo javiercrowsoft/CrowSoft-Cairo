@@ -29,16 +29,6 @@ object Trees extends Controller with ProvidesUser {
     )
   }
 
-  implicit val branchWrites = new Writes[Branch] {
-    def writes(branch: Branch) = Json.obj(
-      "key" -> branch.id,
-      "title" -> branch.name,
-      "folder" -> true,
-      "children" -> Json.toJson(writesItems(branch.items))
-    )
-    def writesItems(items: List[Branch]) = items.map(branch => writes(branch))
-  }
-
   def list(tableId: Int) = GetAction { implicit request =>
     LoggedIntoCompanyResponse.getAction(request, { user =>
       Ok(Json.toJson(Tree.loadForTable(user, tableId)))
@@ -47,7 +37,7 @@ object Trees extends Controller with ProvidesUser {
 
   def get(id: Int) = GetAction { implicit request =>
     LoggedIntoCompanyResponse.getAction(request, { user =>
-      Ok(Json.toJson(Branch.createTree(Branch.listForTree(user, id))))
+      Ok(Branch.getAsJsonForFancyTree(Branch.createTree(Branch.listForTree(user, id))))
     })
   }
 
