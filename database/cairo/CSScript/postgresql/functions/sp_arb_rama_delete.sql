@@ -66,10 +66,7 @@ BEGIN
    
    SET TRANSACTION READ WRITE;
 
-   IF p_ram_id = 0 THEN
-      RETURN;
-
-   END IF;
+   IF p_ram_id = 0 THEN RETURN; END IF;
 
    SELECT arb_id,
           ram_orden,
