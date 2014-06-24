@@ -30,13 +30,14 @@ javier at crowsoft.com.ar
 */
 -- Function: sp_arb_rama_move_down()
 
--- DROP FUNCTION sp_arb_rama_move_down();
+-- DROP FUNCTION sp_arb_rama_move_down(int, int);
 
 CREATE OR REPLACE FUNCTION sp_arb_rama_move_down(
   IN p_us_id integer,
-  IN p_ram_id integer DEFAULT NULL
+  IN p_ram_id integer,
+  OUT rtn refcursor
 )
-  RETURNS void AS
+  RETURNS refcursor AS
 $BODY$
 DECLARE
    v_last integer;
@@ -61,6 +62,10 @@ BEGIN
     AND ram_orden = v_ram_orden + 1;
 
    UPDATE rama SET ram_orden = ram_orden +1 WHERE ram_id = p_ram_id;
+
+   rtn := 'rtn';
+
+   OPEN rtn FOR SELECT * FROM rama WHERE ram_id = p_ram_id;
 
 END;
 $BODY$

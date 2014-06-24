@@ -33,8 +33,8 @@ object Branch {
     listBranches(user, treeId, "sp_arbgetramas")
   }
 
-  def listForBranch(user: CompanyUser, branchId: Int): List[Branch] = {
-    listBranches(user, branchId, "sp_arb_rama_get_ramas")
+  def listForBranch(user: CompanyUser, id: Int): List[Branch] = {
+    listBranches(user, id, "sp_arb_rama_get_ramas")
   }
 
   private def listBranches(user: CompanyUser, id: Int, storedProcedure: String): List[Branch] = {
@@ -93,14 +93,14 @@ object Branch {
     List(createBranch(branches.head, branches.tail))
   }
 
-  def get(user: CompanyUser, branchId: Int): LoadedBranch = {
+  def get(user: CompanyUser, id: Int): LoadedBranch = {
 
     DB.withTransaction(user.database.database) { implicit connection =>
 
       val sql = "{call sp_arbgethojas(?, ?, ?, ?, ?)}"
       val cs = connection.prepareCall(sql)
 
-      cs.setInt(1, branchId)
+      cs.setInt(1, id)
       cs.setInt(2, 0)
       cs.setString(3, "")
       cs.setInt(4, 3000)
@@ -174,7 +174,7 @@ object Branch {
         }
       } catch {
         case NonFatal(e) => {
-          Logger.error(s"can't get branch with id $branchId for user ${user.toString}. Error ${e.toString}")
+          Logger.error(s"can't get branch with id $id for user ${user.toString}. Error ${e.toString}")
           throw e
         }
       } finally {
@@ -268,7 +268,7 @@ object Branch {
     }
   }
 
-  def delete(user: CompanyUser, branchId: Int) = {
+  def delete(user: CompanyUser, id: Int) = {
 
     DB.withTransaction(user.database.database) { implicit connection =>
 
@@ -276,13 +276,13 @@ object Branch {
       val cs = connection.prepareCall(sql)
 
       cs.setInt(1, user.user.id.getOrElse(0))
-      cs.setInt(2, branchId)
+      cs.setInt(2, id)
 
       try {
         cs.execute()
       } catch {
         case NonFatal(e) => {
-          Logger.error(s"can't delete a branch. Branch id: $branchId. Error ${e.toString}")
+          Logger.error(s"can't delete a branch. Branch id: $id. Error ${e.toString}")
           throw e
         }
       } finally {
@@ -291,7 +291,7 @@ object Branch {
     }
   }
 
-  def paste(user: CompanyUser, branchIdFrom: Int, branchIdTo: Int, onlyChildren: Boolean, isCut: Boolean): Branch = {
+  def paste(user: CompanyUser, idFrom: Int, idTo: Int, onlyChildren: Boolean, isCut: Boolean): Branch = {
 
     DB.withTransaction(user.database.database) { implicit connection =>
 
@@ -300,8 +300,8 @@ object Branch {
       val cs = connection.prepareCall(sql)
 
       cs.setInt(1, user.user.id.getOrElse(0))
-      cs.setInt(2, branchIdFrom)
-      cs.setInt(3, branchIdTo)
+      cs.setInt(2, idFrom)
+      cs.setInt(3, idTo)
       cs.setShort(4, (if (onlyChildren) 1 else 0).toShort)
       cs.registerOutParameter(5, Types.OTHER)
 
@@ -320,7 +320,49 @@ object Branch {
 
       } catch {
         case NonFatal(e) => {
-          Logger.error(s"can't paste this branch. Branch id from: $branchIdFrom - Branch id to: $branchIdTo. Error ${e.toString}")
+          Logger.error(s"can't paste this branch. Branch id from: $idFrom - Branch id to: $idTo. Error ${e.toString}")
+          throw e
+        }
+      } finally {
+        cs.close
+      }
+    }
+  }
+
+  def move(user: CompanyUser, id: Int, direction: String): Branch = {
+
+    DB.withTransaction(user.database.database) { implicit connection =>
+
+      val sp = direction match {
+        case "UP"       => "sp_arb_rama_move_up"
+        case "DOWN"     => "sp_arb_rama_move_down"
+        case "TOP"      => "sp_arb_rama_move_top"
+        case "BOTTOM"   => "sp_arb_rama_move_bottom"
+      }
+
+      val sql = s"{call $sp(?, ?, ?)}"
+      val cs = connection.prepareCall(sql)
+
+      cs.setInt(1, user.user.id.getOrElse(0))
+      cs.setint(2, id)
+      cs.registerOutParameter(3, Types.OTHER)
+
+      try {
+        cs.execute()
+
+        val rs = cs.getObject(3).asInstanceOf[java.sql.ResultSet]
+
+        try {
+          if (rs.next) Branch(rs.getInt("ram_id"), rs.getString("ram_nombre"), List(), List(), rs.getInt("ram_id_padre"))
+          else emptyBranch
+        }
+        finally {
+          rs.close
+        }
+
+      } catch {
+        case NonFatal(e) => {
+          Logger.error(s"can't move ${direction.toLowerCase()} this branch. Branch id: $id. Error ${e.toString}")
           throw e
         }
       } finally {

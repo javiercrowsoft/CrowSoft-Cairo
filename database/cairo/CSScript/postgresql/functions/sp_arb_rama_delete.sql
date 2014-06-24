@@ -30,11 +30,11 @@ javier at crowsoft.com.ar
 */
 -- Function: sp_arbborrarrama()
 
--- DROP FUNCTION sp_arbborrarrama();
+-- DROP FUNCTION sp_arbborrarrama(int, int);
 
 CREATE OR REPLACE FUNCTION sp_arbborrarrama(
   IN p_us_id integer, 
-  IN p_ram_id integer DEFAULT NULL
+  IN p_ram_id integer
 )
   RETURNS void AS
 $BODY$

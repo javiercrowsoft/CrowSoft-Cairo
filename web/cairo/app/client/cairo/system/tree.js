@@ -85,17 +85,34 @@ Cairo.module("Entities", function(Entities, Cairo, Backbone, Marionette, $, _) {
 
     validate: function(attrs, options) {
       var errors = {};
-      if(attrs.branchIdFrom === 0) {
-        errors.branchIdFrom = "can't be blank";
+      if(attrs.idFrom === 0) {
+        errors.idFrom = "can't be blank";
       }
-      if(attrs.branchIdTo === 0) {
-        errors.branchIdTo = "can't be blank";
+      if(attrs.idTo === 0) {
+        errors.idTo = "can't be blank";
       }
       if(attrs.onlyChildren === undefined) {
         errors.onlyChildren = "can't be undefined";
       }
       if(attrs.isCut === undefined) {
         errors.isCut = "can't be undefined";
+      }
+      if( ! _.isEmpty(errors)) {
+        return errors;
+      }
+    }
+  });
+
+  Entities.MoveInfo = Backbone.Model.extend({
+    urlRoot: "/system/branch/move",
+
+    validate: function(attrs, options) {
+      var errors = {};
+      if(attrs.id === 0) {
+        errors.id = "can't be blank";
+      }
+      if(attrs.direction !== 'UP' && attrs.direction !== 'DOWN') {
+        errors.direction = "must be UP or DOWN";
       }
       if( ! _.isEmpty(errors)) {
         return errors;
@@ -447,8 +464,8 @@ Cairo.module("Tree.Actions", function(Actions, Cairo, Backbone, Marionette, $, _
         var fromNode = node.tree.getNodeByKey(listController.Tree.clipboard.branchId);
         var pasteInfo = new Cairo.Entities.PasteInfo();
         pasteInfo.save({
-            branchIdFrom: listController.Tree.clipboard.branchId,
-            branchIdTo: branchId,
+            idFrom: listController.Tree.clipboard.branchId,
+            idTo: branchId,
             onlyChildren: (listController.Tree.clipboard.action === Actions.clipboardActions.ACTION_COPY_CHILDREN),
             isCut: (listController.Tree.clipboard.action === Actions.clipboardActions.ACTION_CUT)
           }, {
@@ -565,6 +582,44 @@ Cairo.module("Tree.Actions", function(Actions, Cairo, Backbone, Marionette, $, _
           }
       });
       Cairo.dialogRegion.show(view);
+    },
+
+    moveUp: function(node, branchId, text, listController) {
+      Cairo.Tree.Actions.Branch.move(node, branchId, text, listController, 'UP');
+    },
+
+    moveDown: function(node, branchId, text, listController) {
+      Cairo.Tree.Actions.Branch.move(node, branchId, text, listController, 'DOWN');
+    },
+
+    moveTop: function(node, branchId, text, listController) {
+      Cairo.Tree.Actions.Branch.move(node, branchId, text, listController, 'TOP');
+    },
+
+    moveBottom: function(node, branchId, text, listController) {
+      Cairo.Tree.Actions.Branch.move(node, branchId, text, listController, 'BOTTOM');
+    },
+
+    move: function(node, branchId, text, listController, direction) {
+        Cairo.log("move" + direction + " called (branchId: " + branchId + ")");
+        var moveInfo = new Cairo.Entities.MoveInfo();
+        moveInfo.save({
+            id: branchId,
+            direction: direction
+          }, {
+          wait: true,
+          success: function(model, response) {
+            Cairo.log("Successfully move" + direction + "!");
+          },
+          error: function(model, error) {
+            Cairo.log("Failed in paste branch.");
+            Cairo.log(error.responseText);
+            Cairo.manageError(
+              "Move " + direction,
+              "Can't move " + direction.toLowerCase() + " this folder '" + text + "'. An error has occurred in the server.",
+              error.responseText);
+          }
+        });
     },
 
     getFatherId: function(node) {
@@ -694,6 +749,18 @@ Cairo.module("Tree.List", function(List, Cairo, Backbone, Marionette, $, _) {
                   break;
                 case "delete":
                   Cairo.Tree.Actions.Branch.deleteBranch(node, node.key, node.title, listController);
+                  break;
+                case "moveUp":
+                  Cairo.Tree.Actions.Branch.moveUp(node, node.key, node.title, listController);
+                  break;
+                case "moveDown":
+                  Cairo.Tree.Actions.Branch.moveDown(node, node.key, node.title, listController);
+                  break;
+                case "moveTop":
+                  Cairo.Tree.Actions.Branch.moveTop(node, node.key, node.title, listController);
+                  break;
+                case "moveBottom":
+                  Cairo.Tree.Actions.Branch.moveBottom(node, node.key, node.title, listController);
                   break;
               }
             }

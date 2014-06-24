@@ -12,7 +12,8 @@ import models.cairo.trees._
 import services.PasswordValidation
 
 case class BranchData(id: Option[Int], name: String, fatherId: Int, treeId: Int)
-case class PasteInfo(branchIdFrom: Int, branchIdTo: Int, onlyChildren: Boolean, isCut: Boolean)
+case class PasteInfo(idFrom: Int, idTo: Int, onlyChildren: Boolean, isCut: Boolean)
+case class MoveInfo(id: Int, direction: Int)
 
 object Branches extends Controller with ProvidesUser {
 
@@ -31,6 +32,12 @@ object Branches extends Controller with ProvidesUser {
       "onlyChildren" -> boolean,
       "isCut" -> boolean
     )(PasteInfo.apply)(PasteInfo.unapply))
+
+  val moveForm = Form(
+    mapping(
+      "branchId" -> number,
+      "direction" -> nonEmptyText
+    )(MoveInfo.apply)(MoveInfo.unapply))
 
   implicit val loadedBranchWrites = new Writes[LoadedBranch] {
     def writes(branch: LoadedBranch) = Json.obj(
@@ -76,7 +83,8 @@ object Branches extends Controller with ProvidesUser {
         LoggedIntoCompanyResponse.getAction(request, { user =>
           Ok(Json.toJson(Branch.update(user, Branch(id, branch.name, List(), List(), branch.fatherId))))
         })
-      })
+      }
+    )
   }
 
   def create = PostAction { implicit request =>
@@ -91,7 +99,8 @@ object Branches extends Controller with ProvidesUser {
         LoggedIntoCompanyResponse.getAction(request, { user =>
           Ok(Json.toJson(Branch.save(user, branch.treeId, Branch(0, branch.name, List(), List(), branch.fatherId))))
         })
-      })
+      }
+    )
   }
 
   def delete(id: Int) = PostAction { implicit request =>
@@ -116,13 +125,34 @@ object Branches extends Controller with ProvidesUser {
         LoggedIntoCompanyResponse.getAction(request, { user =>
           val branch = Branch.paste(
             user,
-            pasteInfo.branchIdFrom,
-            pasteInfo.branchIdTo,
+            pasteInfo.idFrom,
+            pasteInfo.idTo,
             pasteInfo.onlyChildren,
             pasteInfo.isCut)
           Ok(Branch.getAsJsonForFancyTree(Branch.createTree(Branch.listForBranch(user, branch.id))))
         })
-      })
+      }
+    )
   }
+
+  def move = PostAction { implicit request =>
+    Logger.debug("in branches.paste")
+    moveForm.bindFromRequest.fold(
+      formWithErrors => {
+        Logger.debug(s"invalid form: ${formWithErrors.toString}")
+        BadRequest
+      },
+      moveInfo => {
+        Logger.debug(s"form: ${moveInfo.toString}")
+        LoggedIntoCompanyResponse.getAction(request, { user =>
+          val branch = Branch.move(
+            user,
+            moveInfo.id,
+            moveInfo.direction)
+          Ok(Branch.getAsJsonForFancyTree(Branch.createTree(Branch.listForBranch(user, branch.fatherId))))
+        })
+      }
+    )
+  }  
 }
 
