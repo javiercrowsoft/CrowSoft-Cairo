@@ -344,7 +344,7 @@ object Branch {
       val cs = connection.prepareCall(sql)
 
       cs.setInt(1, user.user.id.getOrElse(0))
-      cs.setint(2, id)
+      cs.setInt(2, id)
       cs.registerOutParameter(3, Types.OTHER)
 
       try {

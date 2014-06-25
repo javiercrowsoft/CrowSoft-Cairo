@@ -65,6 +65,7 @@ GET     /system/trees/:tableId          controllers.logged.system.Trees.list(tab
 GET     /system/tree/:id                controllers.logged.system.Trees.get(id: Int)
 
 POST    /system/tree                    controllers.logged.system.Trees.create
+POST    /system/tree/sort               controllers.logged.system.Trees.sort
 
 GET     /system/branch/:id              controllers.logged.system.Branches.get(id: Int)
 

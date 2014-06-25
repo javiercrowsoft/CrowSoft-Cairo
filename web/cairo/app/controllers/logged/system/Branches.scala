@@ -13,7 +13,7 @@ import services.PasswordValidation
 
 case class BranchData(id: Option[Int], name: String, fatherId: Int, treeId: Int)
 case class PasteInfo(idFrom: Int, idTo: Int, onlyChildren: Boolean, isCut: Boolean)
-case class MoveInfo(id: Int, direction: Int)
+case class MoveInfo(id: Int, direction: String)
 
 object Branches extends Controller with ProvidesUser {
 
@@ -27,8 +27,8 @@ object Branches extends Controller with ProvidesUser {
 
   val pasteForm = Form(
     mapping(
-      "branchIdFrom" -> number,
-      "branchIdTo" -> number,
+      "idFrom" -> number,
+      "idTo" -> number,
       "onlyChildren" -> boolean,
       "isCut" -> boolean
     )(PasteInfo.apply)(PasteInfo.unapply))

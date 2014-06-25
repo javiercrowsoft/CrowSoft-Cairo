@@ -47,6 +47,7 @@ DECLARE
    v_new_ram_id integer;
    v_new_hoja_id integer;
    v_ram_id_padre integer;
+   v_orden integer;
    v_arb_id integer;
    v_incluir_ram_id_to_copy integer;
 
@@ -101,6 +102,8 @@ BEGIN
          -- si esta es la rama principal de la copia, su padre tiene que ser la rama en la que estoy pegando
          IF v_ram_id = p_ram_id_copy_from THEN
             v_ram_id_padre := p_ram_id_copy_to;
+            SELECT max(ram_orden) INTO v_orden FROM rama WHERE ram_id_padre = v_ram_id_padre;
+            v_orden := coalesce(v_orden + 1, 0); 
 
          ELSE
          BEGIN
@@ -112,6 +115,8 @@ BEGIN
             IF p_solo_los_hijos <> 0 AND v_ram_id_padre = p_ram_id_copy_from THEN
             BEGIN
                v_ram_id_padre := p_ram_id_copy_to;
+               SELECT max(ram_orden) INTO v_orden FROM rama WHERE ram_id_padre = v_ram_id_padre;
+               v_orden := coalesce(v_orden + 1, 0); 
 
             END;
             ELSE
@@ -123,6 +128,9 @@ BEGIN
                     ON rama.ram_id = t_rama_new.ram_id
                         AND rama.ram_id = v_ram_id_padre
                WHERE tran_id = v_tran_id;
+
+               v_orden := NULL;
+               
             END;
             END IF;
 
@@ -134,12 +142,13 @@ BEGIN
                               0::smallint) INTO v_new_ram_id;
 
          INSERT INTO rama
-           ( ram_id, ram_nombre, arb_id, modifico, ram_id_padre )
+           ( ram_id, ram_nombre, arb_id, modifico, ram_id_padre, ram_orden )
            ( SELECT v_new_ram_id,
                     ram_nombre,
                     v_arb_id,
                     p_us_id,
-                    v_ram_id_padre
+                    v_ram_id_padre,
+                    coalesce(v_orden, ram_orden)
              FROM rama
                 WHERE ram_id = v_ram_id );
 

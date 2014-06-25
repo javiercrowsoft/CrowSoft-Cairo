@@ -75,4 +75,39 @@ object Tree {
     }
   }
 
+  def sort(user: CompanyUser, id: Int, direction: String): Branch = {
+
+    DB.withTransaction(user.database.database) { implicit connection =>
+
+      val sql = "{call sp_arb_arbol_sort(?, ?, ?, ?)}"
+      val cs = connection.prepareCall(sql)
+
+      cs.setInt(1, user.user.id.getOrElse(0))
+      cs.setInt(2, id)
+      cs.setInt(3, (if(direction == "DESC") 1 else 0))
+      cs.registerOutParameter(4, Types.OTHER)
+
+      try {
+        cs.execute()
+
+        val rs = cs.getObject(4).asInstanceOf[java.sql.ResultSet]
+
+        try {
+          if (rs.next) Branch(rs.getInt("ram_id"), rs.getString("ram_nombre"), List(), List(), rs.getInt("ram_id_padre"))
+          else Branch.emptyBranch
+        }
+        finally {
+          rs.close
+        }
+
+      } catch {
+        case NonFatal(e) => {
+          Logger.error(s"can't sort ${direction.toLowerCase()} this tree. Tree id: $id. Error ${e.toString}")
+          throw e
+        }
+      } finally {
+        cs.close
+      }
+    }
+  }
 }

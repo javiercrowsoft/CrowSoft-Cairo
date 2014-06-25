@@ -49,7 +49,7 @@ BEGIN
 
    IF p_ram_id = 0 THEN RETURN; END IF;
 
-   SELECT v_ram_orden = ram_orden FROM rama WHERE ram_id = p_ram_id;
+   SELECT ram_orden INTO v_ram_orden FROM rama WHERE ram_id = p_ram_id;
 
    IF v_ram_orden = 0 THEN RETURN; END IF;
 

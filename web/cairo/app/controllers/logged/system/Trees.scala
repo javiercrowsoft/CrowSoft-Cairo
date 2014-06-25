@@ -12,6 +12,7 @@ import play.api.libs.json._
 import models.cairo.trees._
 
 case class TreeData(id: Option[Int], name: String, tableId: Int)
+case class SortInfo(id: Int, direction: String)
 
 object Trees extends Controller with ProvidesUser {
 
@@ -21,6 +22,12 @@ object Trees extends Controller with ProvidesUser {
       "name" -> nonEmptyText,
       "tableId" -> number
     )(TreeData.apply)(TreeData.unapply))
+
+  val sortForm = Form(
+    mapping(
+      "treeId" -> number,
+      "direction" -> nonEmptyText
+    )(SortInfo.apply)(SortInfo.unapply))
 
   implicit val treeWrites = new Writes[Tree] {
     def writes(tree: Tree) = Json.obj(
@@ -54,5 +61,25 @@ object Trees extends Controller with ProvidesUser {
           Ok(Json.toJson(Tree.save(user, tree.tableId, tree.name)))
         })
       })
+  }
+
+  def sort = PostAction { implicit request =>
+    Logger.debug("in tree.sort")
+    sortForm.bindFromRequest.fold(
+      formWithErrors => {
+        Logger.debug(s"invalid form: ${formWithErrors.toString}")
+        BadRequest
+      },
+      sortInfo => {
+        Logger.debug(s"form: ${sortInfo.toString}")
+        LoggedIntoCompanyResponse.getAction(request, { user =>
+          val branch = Tree.sort(
+            user,
+            sortInfo.id,
+            sortInfo.direction)
+          Ok(Branch.getAsJsonForFancyTree(Branch.createTree(Branch.listForBranch(user, branch.id))))
+        })
+      }
+    )
   }
 }

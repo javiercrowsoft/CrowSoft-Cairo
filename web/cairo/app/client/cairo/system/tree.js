@@ -108,11 +108,32 @@ Cairo.module("Entities", function(Entities, Cairo, Backbone, Marionette, $, _) {
 
     validate: function(attrs, options) {
       var errors = {};
-      if(attrs.id === 0) {
-        errors.id = "can't be blank";
+      if(attrs.branchId === 0) {
+        errors.branchId = "can't be blank";
       }
-      if(attrs.direction !== 'UP' && attrs.direction !== 'DOWN') {
-        errors.direction = "must be UP or DOWN";
+      if(attrs.direction !== 'UP' &&
+         attrs.direction !== 'DOWN' &&
+         attrs.direction !== 'TOP' &&
+         attrs.direction !== 'BOTTOM') {
+        errors.direction = "must be UP, DOWN, TOP or BOTTOM";
+      }
+      if( ! _.isEmpty(errors)) {
+        return errors;
+      }
+    }
+  });
+
+  Entities.SortInfo = Backbone.Model.extend({
+    urlRoot: "/system/tree/sort",
+
+    validate: function(attrs, options) {
+      var errors = {};
+      if(attrs.treeId === 0) {
+        errors.treeId = "can't be blank";
+      }
+      if(attrs.direction !== 'ASC' &&
+         attrs.direction !== 'DESC') {
+        errors.direction = "must be ASC or DESC";
       }
       if( ! _.isEmpty(errors)) {
         return errors;
@@ -452,40 +473,40 @@ Cairo.module("Tree.Actions", function(Actions, Cairo, Backbone, Marionette, $, _
     },
 
     paste: function(node, branchId, text, listController) {
-        Cairo.log(
-            "paste called (branchId: " + branchId
-            + " listController: " + listController + " clipboard: {"
-                + " action: " + listController.Tree.clipboard.action
-                + " branchId: " + listController.Tree.clipboard.branchId
-                + " text: " + listController.Tree.clipboard.text
-            + "} )");
-        // we need a reference to the cut node because if this is pasted
-        // in the same tree we need to remove it
-        var fromNode = node.tree.getNodeByKey(listController.Tree.clipboard.branchId);
-        var pasteInfo = new Cairo.Entities.PasteInfo();
-        pasteInfo.save({
-            idFrom: listController.Tree.clipboard.branchId,
-            idTo: branchId,
-            onlyChildren: (listController.Tree.clipboard.action === Actions.clipboardActions.ACTION_COPY_CHILDREN),
-            isCut: (listController.Tree.clipboard.action === Actions.clipboardActions.ACTION_CUT)
-          }, {
-          wait: true,
-          success: function(model, response) {
-            Cairo.log("Successfully pasted!");
-            node.fromDict(response[0]);
-            if(fromNode !== null && listController.Tree.clipboard.action === Actions.clipboardActions.ACTION_CUT) {
-              fromNode.remove();
-            }
-          },
-          error: function(model, error) {
-            Cairo.log("Failed in paste branch.");
-            Cairo.log(error.responseText);
-            Cairo.manageError(
-              "Paste Folder",
-              "Can't paste this folder '" + listController.Tree.clipboard.text + "'. An error has occurred in the server.",
-              error.responseText);
+      Cairo.log(
+          "paste called (branchId: " + branchId
+          + " listController: " + listController + " clipboard: {"
+              + " action: " + listController.Tree.clipboard.action
+              + " branchId: " + listController.Tree.clipboard.branchId
+              + " text: " + listController.Tree.clipboard.text
+          + "} )");
+      // we need a reference to the cut node because if this is pasted
+      // in the same tree we need to remove it
+      var fromNode = node.tree.getNodeByKey(listController.Tree.clipboard.branchId);
+      var pasteInfo = new Cairo.Entities.PasteInfo();
+      pasteInfo.save({
+          idFrom: listController.Tree.clipboard.branchId,
+          idTo: branchId,
+          onlyChildren: (listController.Tree.clipboard.action === Actions.clipboardActions.ACTION_COPY_CHILDREN),
+          isCut: (listController.Tree.clipboard.action === Actions.clipboardActions.ACTION_CUT)
+        }, {
+        wait: true,
+        success: function(model, response) {
+          Cairo.log("Successfully pasted!");
+          node.fromDict(response[0]);
+          if(fromNode !== null && listController.Tree.clipboard.action === Actions.clipboardActions.ACTION_CUT) {
+            fromNode.remove();
           }
-        });
+        },
+        error: function(model, error) {
+          Cairo.log("Failed in paste branch.");
+          Cairo.log(error.responseText);
+          Cairo.manageError(
+            "Paste Folder",
+            "Can't paste this folder '" + listController.Tree.clipboard.text + "'. An error has occurred in the server.",
+            error.responseText);
+        }
+      });
     },
 
     newBranch: function(node, branchId, text, listController) {
@@ -601,25 +622,76 @@ Cairo.module("Tree.Actions", function(Actions, Cairo, Backbone, Marionette, $, _
     },
 
     move: function(node, branchId, text, listController, direction) {
-        Cairo.log("move" + direction + " called (branchId: " + branchId + ")");
-        var moveInfo = new Cairo.Entities.MoveInfo();
-        moveInfo.save({
-            id: branchId,
-            direction: direction
-          }, {
-          wait: true,
-          success: function(model, response) {
-            Cairo.log("Successfully move" + direction + "!");
-          },
-          error: function(model, error) {
-            Cairo.log("Failed in paste branch.");
-            Cairo.log(error.responseText);
-            Cairo.manageError(
-              "Move " + direction,
-              "Can't move " + direction.toLowerCase() + " this folder '" + text + "'. An error has occurred in the server.",
-              error.responseText);
+      Cairo.log("move" + direction + " called (branchId: " + branchId + ")");
+      var moveInfo = new Cairo.Entities.MoveInfo();
+      moveInfo.save({
+          branchId: branchId,
+          direction: direction
+        }, {
+        wait: true,
+        success: function(model, response) {
+          Cairo.log("Successfully moved " + direction + "!");
+          switch(direction) {
+            case "UP":
+              node.moveTo(node.getPrevSibling(), "before");
+              node.setActive();
+              break;
+            case "DOWN":
+              node.moveTo(node.getNextSibling(), "after");
+              node.setActive();
+              break;
+            case "TOP":
+              node.moveTo(node.getParent().getFirstChild(), "before");
+              node.setActive();
+              break;
+            case "BOTTOM":
+              node.moveTo(node.getParent().getLastChild(), "after");
+              node.setActive();
+              break;
           }
-        });
+        },
+        error: function(model, error) {
+          Cairo.log("Failed in move branch.");
+          Cairo.log(error.responseText);
+          Cairo.manageError(
+            "Move " + direction,
+            "Can't move " + direction.toLowerCase() + " this folder '" + text + "'. An error has occurred in the server.",
+            error.responseText);
+        }
+      });
+    },
+
+    sortAZ: function(node, branchId, text, listController) {
+      Cairo.Tree.Actions.Branch.sort(node, branchId, text, listController, 'ASC');
+    },
+
+    sortZA: function(node, branchId, text, listController) {
+      Cairo.Tree.Actions.Branch.sort(node, branchId, text, listController, 'DESC');
+    },
+
+    sort: function(node, branchId, text, listController, direction) {
+      Cairo.log("sort" + direction + " called (branchId: " + branchId + ")");
+      // we need a reference to the cut node because if this is pasted
+      // in the same tree we need to remove it
+      var sortInfo = new Cairo.Entities.SortInfo();
+      sortInfo.save({
+          treeId: listController.Tree.treeId,
+          direction: direction
+        }, {
+        wait: true,
+        success: function(model, response) {
+          Cairo.log("Successfully sorted!");
+          node.fromDict(response[0]);
+        },
+        error: function(model, error) {
+          Cairo.log("Failed in sort tree.");
+          Cairo.log(error.responseText);
+          Cairo.manageError(
+            "Paste Folder",
+            "Can't sort this tree '" + text + "'. An error has occurred in the server.",
+            error.responseText);
+        }
+      });
     },
 
     getFatherId: function(node) {
@@ -714,12 +786,18 @@ Cairo.module("Tree.List", function(List, Cairo, Backbone, Marionette, $, _) {
                 clipboardContent = listController.Tree.clipboard.text;
                 branchId = listController.Tree.clipboard.branchId;
               }
+              var isRoot = (node === node.tree.getFirstChild());
               $("#tree")
                   .contextmenu("setEntry", "paste", {
                       title: "Paste" + (clipboardContent ? " : " + clipboardContent : ""),
                       uiIcon: "ui-icon-clipboard"
                       })
-                  .contextmenu("enableEntry", "paste", (clipboardContent !== "" && branchId !== node.key));
+                  .contextmenu("enableEntry", "paste", (clipboardContent !== "" && branchId !== node.key))
+                  .contextmenu("enableEntry", "moveUp", (node !== node.getParent().getFirstChild()))
+                  .contextmenu("enableEntry", "moveTop", (node !== node.getParent().getFirstChild()))
+                  .contextmenu("enableEntry", "moveDown", (node !== node.getParent().getLastChild()))
+                  .contextmenu("enableEntry", "sortAZ", isRoot)
+                  .contextmenu("enableEntry", "sortZA", isRoot);
               node.setActive();
             },
             select: function(event, ui) {
@@ -761,6 +839,12 @@ Cairo.module("Tree.List", function(List, Cairo, Backbone, Marionette, $, _) {
                   break;
                 case "moveBottom":
                   Cairo.Tree.Actions.Branch.moveBottom(node, node.key, node.title, listController);
+                  break;
+                case "sortAZ":
+                  Cairo.Tree.Actions.Branch.sortAZ(node, node.key, node.title, listController);
+                  break;
+                case "sortZA":
+                  Cairo.Tree.Actions.Branch.sortZA(node, node.key, node.title, listController);
                   break;
               }
             }

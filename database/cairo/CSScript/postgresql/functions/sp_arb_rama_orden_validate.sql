@@ -28,48 +28,50 @@ http://www.crowsoft.com.ar
 
 javier at crowsoft.com.ar
 */
--- Function: sp_arb_rama_move_down()
+-- Function: sp_arb_rama_orden_validate()
 
--- DROP FUNCTION sp_arb_rama_move_down(int, int);
+-- DROP FUNCTION sp_arb_rama_orden_validate(int, int);
 
-CREATE OR REPLACE FUNCTION sp_arb_rama_move_down(
-  IN p_us_id integer,
-  IN p_ram_id integer,
-  OUT rtn refcursor
+CREATE OR REPLACE FUNCTION sp_arb_rama_orden_validate(
+  IN p_us_id integer
 )
-  RETURNS refcursor AS
+  RETURNS void AS
 $BODY$
 DECLARE
-   v_last integer;
-   v_ram_orden integer;
+   v_orden integer;
+   c1 refcursor;
+   c2 refcursor;
+   v_row record;
+   v_row2 record;
 BEGIN
-
-   IF NOT EXISTS(SELECT 1 FROM rama WHERE ram_id = p_ram_id) THEN RETURN; END IF;
-
-   SELECT MAX(ram_orden) INTO v_last FROM rama WHERE ram_id_padre = (SELECT ram_id_padre FROM rama WHERE ram_id = p_ram_id);
 
    SET TRANSACTION READ WRITE;
 
-   IF p_ram_id = 0 THEN RETURN; END IF;
+   OPEN c1 FOR SELECT ram_id FROM rama WHERE ram_id <> 0;
+   LOOP
+          FETCH c1 INTO v_row;
+          EXIT WHEN NOT FOUND;
 
-   SELECT ram_orden INTO v_ram_orden FROM rama WHERE ram_id = p_ram_id;
+          v_orden := 0;
 
-   IF v_ram_orden = v_last THEN RETURN; END IF;
+          OPEN c2 FOR SELECT ram_id FROM rama WHERE ram_id_padre = v_row.ram_id ORDER BY ram_orden;
+          LOOP
 
-   UPDATE rama
-    SET ram_orden = ram_orden - 1
-   WHERE ram_id_padre = (SELECT ram_id_padre FROM rama WHERE ram_id = p_ram_id)
-    AND ram_orden = v_ram_orden + 1;
+                FETCH c2 INTO v_row2;
+                EXIT WHEN NOT FOUND;
 
-   UPDATE rama SET ram_orden = ram_orden +1 WHERE ram_id = p_ram_id;
+                UPDATE rama SET ram_orden = v_orden WHERE ram_id = v_row2.ram_id;
+                v_orden := v_orden +1;
 
-   rtn := 'rtn';
+          END LOOP;
+          CLOSE c2;
 
-   OPEN rtn FOR SELECT * FROM rama WHERE ram_id = p_ram_id;
+   END LOOP;
+   CLOSE c1;
 
 END;
 $BODY$
   LANGUAGE plpgsql VOLATILE
   COST 100;
-ALTER FUNCTION sp_arb_rama_move_down(integer, integer)
+ALTER FUNCTION sp_arb_rama_orden_validate(integer)
   OWNER TO postgres;

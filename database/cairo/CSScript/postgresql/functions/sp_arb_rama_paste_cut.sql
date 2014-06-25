@@ -45,6 +45,7 @@ $BODY$
 DECLARE
    v_arb_id integer;
    v_incluir_ram_id_to_copy integer;
+   v_orden integer;
 
    c_branches_to_copy refcursor;
    v_branch_row record;
@@ -63,15 +64,19 @@ BEGIN
    IF p_solo_los_hijos <> 0 THEN
       v_incluir_ram_id_to_copy := 0;
 
+      SELECT max(orden) INTO v_orden FROM rama WHERE ram_id_padre = p_ram_id_to_paste_in;
+
+      v_orden := coalesce(v_orden+1,0);
+
       UPDATE rama
-                  SET ram_id_padre = p_ram_id_to_paste_in, modifico = p_us_id
+                  SET ram_id_padre = p_ram_id_to_paste_in, modifico = p_us_id, ram_orden = ram_orden + v_orden
                   WHERE ram_id_padre = p_ram_id_cut_from;
 
    ELSE
       v_incluir_ram_id_to_copy := 1;
 
       UPDATE rama
-                  SET ram_id_padre = p_ram_id_to_paste_in, modifico = p_us_id
+                  SET ram_id_padre = p_ram_id_to_paste_in, modifico = p_us_id, ram_orden = ram_orden + v_orden
                   WHERE ram_id = p_ram_id_cut_from;
 
    END IF;

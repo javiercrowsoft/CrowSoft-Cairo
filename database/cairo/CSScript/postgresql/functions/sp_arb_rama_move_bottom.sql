@@ -28,11 +28,11 @@ http://www.crowsoft.com.ar
 
 javier at crowsoft.com.ar
 */
--- Function: sp_arb_rama_move_down()
+-- Function: sp_arb_rama_move_bottom()
 
--- DROP FUNCTION sp_arb_rama_move_down(int, int);
+-- DROP FUNCTION sp_arb_rama_move_bottom(int, int);
 
-CREATE OR REPLACE FUNCTION sp_arb_rama_move_down(
+CREATE OR REPLACE FUNCTION sp_arb_rama_move_bottom(
   IN p_us_id integer,
   IN p_ram_id integer,
   OUT rtn refcursor
@@ -59,9 +59,9 @@ BEGIN
    UPDATE rama
     SET ram_orden = ram_orden - 1
    WHERE ram_id_padre = (SELECT ram_id_padre FROM rama WHERE ram_id = p_ram_id)
-    AND ram_orden = v_ram_orden + 1;
+    AND ram_orden > v_ram_orden;
 
-   UPDATE rama SET ram_orden = ram_orden +1 WHERE ram_id = p_ram_id;
+   UPDATE rama SET ram_orden = v_last WHERE ram_id = p_ram_id;
 
    rtn := 'rtn';
 
@@ -71,5 +71,5 @@ END;
 $BODY$
   LANGUAGE plpgsql VOLATILE
   COST 100;
-ALTER FUNCTION sp_arb_rama_move_down(integer, integer)
+ALTER FUNCTION sp_arb_rama_move_bottom(integer, integer)
   OWNER TO postgres;
