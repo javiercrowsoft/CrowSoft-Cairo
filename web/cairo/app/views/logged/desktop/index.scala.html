@@ -238,10 +238,11 @@
     <button class="btn btn-primary js-new"><%- entityName %></button>
     <form id="filter-form" class="form-search form-inline pull-right">
         <div class="input-append">
-            <input type="text" class="span2 search-query js-filter-criterion">
-            <button type="submit" class="btn btn-info">Filter <%- entitiesName %></button>
+            <button type="submit" class="btn btn-info"><i class="glyphicon glyphicon-search"></i> Search <%- entitiesName %></button>
         </div>
     </form>
+  <br>
+  <br>
 </script>
 
 <script type="text/template" id="tree-create-first-tree-template">
@@ -274,7 +275,7 @@
 </script>
 
 <script type="text/template" id="tree-list-layout-template">
-    <div id="tree-list-region" class="col-sm-8 col-md-9">
+    <div id="tree-list-region">
         <div id="tree-panel-region"></div>
         <div id="tree-items-region"></div>
     </div>
@@ -288,8 +289,9 @@
     <thead>
     <tr id="tree-list-headers">
         <% columns.forEach(function(column) { %>
-            <th><%- column.name %></th>
+            <th class="capitalize"><%- column.name %></th>
         <% }); %>
+        <th></th>
     </tr>
     </thead>
     <tbody>
@@ -303,14 +305,12 @@
             <td><%- value %></td>
         <% }); %>
     <td>
-        <a href="#sistema/usuario/<%- leave.clientId %>" class="btn btn-small js-edit">
-            <i class="icon-pencil"></i>
-            Edit
-        </a>
-        <button class="btn btn-small js-delete btn-danger">
-            <i class="icon-remove"></i>
-            Delete
-        </button>
+      <button class="btn btn-sm btn-info js-edit" type="button" data-row-id="<%- leave.clientId %>">
+        <i class="glyphicon glyphicon-pencil"></i>
+      </button>
+      <button class="btn btn-sm btn-danger js-delete" type="button">
+        <i class="glyphicon glyphicon-remove"></i>
+      </button>
     </td>
     </tr>
     <% }); %>
@@ -337,6 +337,9 @@
 <script src="@routes.Assets.at("javascripts/vendor/spin.jquery.js")" type="text/javascript"></script>
 
 <script src="@routes.Assets.at("javascripts/vendor/jquery.fancytree-all.min.js")" type="text/javascript"></script>
+<script src="@routes.Assets.at("javascripts/vendor/jquery.dataTables.js")" type="text/javascript"></script>
+<script src="@routes.Assets.at("javascripts/vendor/dataTables.bootstrap.js")" type="text/javascript"></script>
+<script src="@routes.Assets.at("javascripts/vendor/dataTables.tableTools.js")" type="text/javascript"></script>
 
 
 <script src="./client/cairo/config/marionette/regions/dialog.js"></script>

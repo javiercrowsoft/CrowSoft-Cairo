@@ -305,6 +305,7 @@ Cairo.module("Tree.List", function(List, Cairo, Backbone, Marionette, $, _) {
       "click button.js-new": "tree:new"
     },
 
+    /* TODO: implement search
     events: {
       "submit #filter-form": "filterTrees"
     },
@@ -322,6 +323,7 @@ Cairo.module("Tree.List", function(List, Cairo, Backbone, Marionette, $, _) {
     onSetFilterCriterion: function(criterion) {
       this.ui.criterion.val(criterion);
     }
+    */
   });
 
   List.Item = Marionette.ItemView.extend({
@@ -367,6 +369,7 @@ Cairo.module("Tree.List", function(List, Cairo, Backbone, Marionette, $, _) {
 
   List.Items = Marionette.CompositeView.extend({
     tagName: "table",
+    id: "tree-item-table",
     className: "table table-hover",
     template: "#tree-list-template",
     emptyView: NoItemsView,
@@ -986,6 +989,20 @@ Cairo.module("Tree.List", function(List, Cairo, Backbone, Marionette, $, _) {
 
       Cairo.treeListRegion.reset();
       Cairo.treeListRegion.show(itemsListLayout);
+
+      $("#tree-item-table", itemsListLayout.$el).dataTable({
+          scrollY: 300,
+          paging: false,
+          scrollX: true,
+          "language": {
+              "search": "Search in this folder: "
+          },
+          dom: 'T<"clear">lfrtip',
+          tableTools: {
+              "sRowSelect": "multi",
+              "aButtons": [ "select_all", "select_none", "print"]
+          }
+      });
 
       Cairo.LoadingMessage.close();
     },
