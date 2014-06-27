@@ -371,6 +371,43 @@ object Branch {
     }
   }
 
+  def pasteLeave(user: CompanyUser, ids: String, idTo: Int, isCut: Boolean): Branch = {
+
+    DB.withTransaction(user.database.database) { implicit connection =>
+
+      val sp = if (isCut) "sp_arb_hoja_paste_cut" else "sp_arb_hoja_paste_copy"
+      val sql = s"{call $sp(?, ?, ?, ?)}"
+      val cs = connection.prepareCall(sql)
+
+      cs.setInt(1, user.user.id.getOrElse(0))
+      cs.setString(2, ids)
+      cs.setInt(3, idTo)
+      cs.registerOutParameter(4, Types.OTHER)
+
+      try {
+        cs.execute()
+
+        val rs = cs.getObject(4).asInstanceOf[java.sql.ResultSet]
+
+        try {
+          if (rs.next) Branch(rs.getInt("ram_id"), rs.getString("ram_nombre"), List(), List(), rs.getInt("ram_id_padre"))
+          else emptyBranch
+        }
+        finally {
+          rs.close
+        }
+
+      } catch {
+        case NonFatal(e) => {
+          Logger.error(s"can't paste these leaves. Leave ids from: $ids - Branch id to: $idTo. Error ${e.toString}")
+          throw e
+        }
+      } finally {
+        cs.close
+      }
+    }
+  }
+
   def getAsJsonForFancyTree(branches: List[Branch]): JsValue = {
 
     implicit val branchWrites = new Writes[Branch] {

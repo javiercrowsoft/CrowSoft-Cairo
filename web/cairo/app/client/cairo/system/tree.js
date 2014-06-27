@@ -141,6 +141,26 @@ Cairo.module("Entities", function(Entities, Cairo, Backbone, Marionette, $, _) {
     }
   });
 
+  Entities.PasteLeaveInfo = Backbone.Model.extend({
+    urlRoot: "/system/leave/paste",
+
+    validate: function(attrs, options) {
+      var errors = {};
+      if(attrs.ids === "") {
+        errors.ids = "can't be blank";
+      }
+      if(attrs.idTo === 0) {
+        errors.idTo = "can't be blank";
+      }
+      if(attrs.isCut === undefined) {
+        errors.isCut = "can't be undefined";
+      }
+      if( ! _.isEmpty(errors)) {
+        return errors;
+      }
+    }
+  });
+
   var API = {
     getTreeEntities: function(tableId) {
       var trees = new Entities.TreeCollection();
@@ -369,7 +389,7 @@ Cairo.module("Tree.List", function(List, Cairo, Backbone, Marionette, $, _) {
 
   List.Items = Marionette.CompositeView.extend({
     tagName: "table",
-    id: "tree-item-table",
+    id: "tree-item-table" + Cairo.Tree.getNextControlId(),
     className: "table table-hover",
     template: "#tree-list-template",
     emptyView: NoItemsView,
@@ -453,7 +473,8 @@ Cairo.module("Tree.Actions", function(Actions, Cairo, Backbone, Marionette, $, _
         listController.Tree.clipboard = {
             action: Actions.clipboardActions.ACTION_CUT,
             branchId: branchId,
-            text: text
+            text: text,
+            isBranch: true
         };
     },
 
@@ -462,7 +483,8 @@ Cairo.module("Tree.Actions", function(Actions, Cairo, Backbone, Marionette, $, _
         listController.Tree.clipboard = {
             action: Actions.clipboardActions.ACTION_COPY,
             branchId: branchId,
-            text: text
+            text: text,
+            isBranch: true
         };
     },
 
@@ -471,7 +493,8 @@ Cairo.module("Tree.Actions", function(Actions, Cairo, Backbone, Marionette, $, _
         listController.Tree.clipboard = {
             action: Actions.clipboardActions.ACTION_COPY_CHILDREN,
             branchId: branchId,
-            text: text
+            text: text,
+            isBranch: true
         };
     },
 
@@ -483,33 +506,66 @@ Cairo.module("Tree.Actions", function(Actions, Cairo, Backbone, Marionette, $, _
               + " branchId: " + listController.Tree.clipboard.branchId
               + " text: " + listController.Tree.clipboard.text
           + "} )");
-      // we need a reference to the cut node because if this is pasted
-      // in the same tree we need to remove it
-      var fromNode = node.tree.getNodeByKey(listController.Tree.clipboard.branchId);
-      var pasteInfo = new Cairo.Entities.PasteInfo();
-      pasteInfo.save({
-          idFrom: listController.Tree.clipboard.branchId,
-          idTo: branchId,
-          onlyChildren: (listController.Tree.clipboard.action === Actions.clipboardActions.ACTION_COPY_CHILDREN),
-          isCut: (listController.Tree.clipboard.action === Actions.clipboardActions.ACTION_CUT)
-        }, {
-        wait: true,
-        success: function(model, response) {
-          Cairo.log("Successfully pasted!");
-          node.fromDict(response[0]);
-          if(fromNode !== null && listController.Tree.clipboard.action === Actions.clipboardActions.ACTION_CUT) {
-            fromNode.remove();
+
+      var pasteLeave = function() {
+        var pasteInfo = new Cairo.Entities.PasteLeaveInfo();
+        pasteInfo.save({
+            ids: listController.Tree.clipboard.leaveIds,
+            idTo: branchId,
+            isCut: (listController.Tree.clipboard.action === Actions.clipboardActions.ACTION_CUT)
+          }, {
+          wait: true,
+          success: function(model, response) {
+            Cairo.log("Successfully pasted!");
+            listController.showBranch(node.key)
+          },
+          error: function(model, error) {
+            Cairo.log("Failed in pate leaves.");
+            Cairo.log(error.responseText);
+            Cairo.manageError(
+              "Paste Leaves",
+              "Can't paste these leaves '" + listController.Tree.clipboard.leaveIds + "'. An error has occurred in the server.",
+              error.responseText);
           }
-        },
-        error: function(model, error) {
-          Cairo.log("Failed in paste branch.");
-          Cairo.log(error.responseText);
-          Cairo.manageError(
-            "Paste Folder",
-            "Can't paste this folder '" + listController.Tree.clipboard.text + "'. An error has occurred in the server.",
-            error.responseText);
-        }
-      });
+        });
+      };
+
+      var pasteBranch = function() {
+        // we need a reference to the cut node because if this is pasted
+        // in the same tree we need to remove it
+        var fromNode = node.tree.getNodeByKey(listController.Tree.clipboard.branchId);
+        var pasteInfo = new Cairo.Entities.PasteInfo();
+        pasteInfo.save({
+            idFrom: listController.Tree.clipboard.branchId,
+            idTo: branchId,
+            onlyChildren: (listController.Tree.clipboard.action === Actions.clipboardActions.ACTION_COPY_CHILDREN),
+            isCut: (listController.Tree.clipboard.action === Actions.clipboardActions.ACTION_CUT)
+          }, {
+          wait: true,
+          success: function(model, response) {
+            Cairo.log("Successfully pasted!");
+            node.fromDict(response[0]);
+            if(fromNode !== null && listController.Tree.clipboard.action === Actions.clipboardActions.ACTION_CUT) {
+              fromNode.remove();
+            }
+          },
+          error: function(model, error) {
+            Cairo.log("Failed in paste branch.");
+            Cairo.log(error.responseText);
+            Cairo.manageError(
+              "Paste Folder",
+              "Can't paste this folder '" + listController.Tree.clipboard.text + "'. An error has occurred in the server.",
+              error.responseText);
+          }
+        });
+      };
+
+      if(listController.Tree.clipboard.isBranch) {
+        pasteBranch();
+      }
+      else {
+        pasteLeave();
+      }
     },
 
     newBranch: function(node, branchId, text, listController) {
@@ -690,7 +746,7 @@ Cairo.module("Tree.Actions", function(Actions, Cairo, Backbone, Marionette, $, _
           Cairo.log("Failed in sort tree.");
           Cairo.log(error.responseText);
           Cairo.manageError(
-            "Paste Folder",
+            "Sort Folder",
             "Can't sort this tree '" + text + "'. An error has occurred in the server.",
             error.responseText);
         }
@@ -990,7 +1046,73 @@ Cairo.module("Tree.List", function(List, Cairo, Backbone, Marionette, $, _) {
       Cairo.treeListRegion.reset();
       Cairo.treeListRegion.show(itemsListLayout);
 
-      $("#tree-item-table", itemsListLayout.$el).dataTable({
+      var getSelectedIds = function(selectedItems) {
+        var ids = "";
+        for(var i=0; i<selectedItems.length; i++) {
+          if(selectedItems[i]) {
+            ids += "," + $(selectedItems[i]).data("id");
+          }
+        }
+        if(ids.length) { ids = ids.substring(1, ids.length); }
+        return ids;
+      };
+
+      var cutOrCopyClicked = function(menuItem, menu, action) {
+        Cairo.log("You clicked " + action + "!");
+        listController.Tree.tableTools.fnSelect(menu.target);
+        var ids = getSelectedIds(listController.Tree.tableTools.fnGetSelected());
+        Cairo.log("selected: " + ids);
+        Cairo.log("selected length: " + ids.split(",").length);
+        listController.Tree.clipboard = {
+            action: action,
+            leaveIds: ids,
+            text: "(items)",
+            isBranch: false
+        };
+      };
+
+      var cutClicked = function(menuItem, menu) {
+        cutOrCopyClicked(menuItem, menu, Cairo.Tree.Actions.clipboardActions.ACTION_CUT);
+      };
+
+      var copyClicked = function(menuItem, menu) {
+        cutOrCopyClicked(menuItem, menu, Cairo.Tree.Actions.clipboardActions.ACTION_COPY);
+      };
+
+      var menu = [
+        {'Cut': {
+            onclick: cutClicked,
+            icon:'assets/stylesheets/images/cut.png'
+          }
+        },
+        {'Copy': {
+            onclick: copyClicked,
+            icon:'assets/stylesheets/images/copy.png'
+          }
+        },
+        $.contextMenu.separator,
+        {'Edit': {
+            onclick: function(menuItem, menu) { Cairo.log("You clicked edit!"); },
+            icon:'assets/stylesheets/images/edit.png'
+          }
+        },
+        {'Delete': {
+            onclick: function(menuItem, menu) { Cairo.log("You clicked delete!"); },
+            icon:'assets/stylesheets/images/delete.png'
+          }
+        },
+        $.contextMenu.separator,
+        {'Export to Spreed Sheet': {
+            onclick: function(menuItem, menu) { Cairo.log("You clicked export!"); },
+            icon:'assets/stylesheets/images/calculator.png'
+          }
+        }
+      ];
+
+      listController.Tree.dataTableId = itemsListView.$el.attr("id");
+      listController.Tree.dataTableId$ = "#" + listController.Tree.dataTableId;
+
+      listController.Tree.dataTable = $(listController.Tree.dataTableId$, itemsListLayout.$el).dataTable({
           scrollY: 300,
           paging: false,
           scrollX: true,
@@ -999,10 +1121,15 @@ Cairo.module("Tree.List", function(List, Cairo, Backbone, Marionette, $, _) {
           },
           dom: 'T<"clear">lfrtip',
           tableTools: {
-              "sRowSelect": "multi",
+              "sRowSelect": "os",
               "aButtons": [ "select_all", "select_none", "print"]
+          },
+          fnDrawCallback: function( oSettings ) {
+            $(listController.Tree.dataTableId$ + " tbody tr").contextMenu(menu, {theme:'osx'});
           }
       });
+
+      listController.Tree.tableTools = TableTools.fnGetInstance(listController.Tree.dataTableId);
 
       Cairo.LoadingMessage.close();
     },
@@ -1014,4 +1141,5 @@ Cairo.module("Tree.List", function(List, Cairo, Backbone, Marionette, $, _) {
     }
 
   };
+
 });

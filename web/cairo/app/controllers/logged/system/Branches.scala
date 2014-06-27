@@ -14,6 +14,7 @@ import services.PasswordValidation
 case class BranchData(id: Option[Int], name: String, fatherId: Int, treeId: Int)
 case class PasteInfo(idFrom: Int, idTo: Int, onlyChildren: Boolean, isCut: Boolean)
 case class MoveInfo(id: Int, direction: String)
+case class PasteLeaveInfo(ids: String, idTo: Int, isCut: Boolean)
 
 object Branches extends Controller with ProvidesUser {
 
@@ -38,6 +39,13 @@ object Branches extends Controller with ProvidesUser {
       "branchId" -> number,
       "direction" -> nonEmptyText
     )(MoveInfo.apply)(MoveInfo.unapply))
+
+  val pasteLeaveForm = Form(
+    mapping(
+      "ids" -> nonEmptyText,
+      "idTo" -> number,
+      "isCut" -> boolean
+    )(PasteLeaveInfo.apply)(PasteLeaveInfo.unapply))
 
   implicit val loadedBranchWrites = new Writes[LoadedBranch] {
     def writes(branch: LoadedBranch) = Json.obj(
@@ -153,6 +161,27 @@ object Branches extends Controller with ProvidesUser {
         })
       }
     )
-  }  
+  }
+
+  def pasteLeave = PostAction { implicit request =>
+    Logger.debug("in branches.pasteLeave")
+    pasteLeaveForm.bindFromRequest.fold(
+      formWithErrors => {
+        Logger.debug(s"invalid form: ${formWithErrors.toString}")
+        BadRequest
+      },
+      pasteLeaveInfo => {
+        Logger.debug(s"form: ${pasteLeaveInfo.toString}")
+        LoggedIntoCompanyResponse.getAction(request, { user =>
+          val branch = Branch.pasteLeave(
+            user,
+            pasteLeaveInfo.ids,
+            pasteLeaveInfo.idTo,
+            pasteLeaveInfo.isCut)
+          Ok(Branch.getAsJsonForFancyTree(Branch.createTree(Branch.listForBranch(user, branch.id))))
+        })
+      }
+    )
+  }
 }
 

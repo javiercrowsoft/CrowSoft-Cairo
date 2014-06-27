@@ -74,6 +74,7 @@ PUT     /system/branch/:id              controllers.logged.system.Branches.updat
 DELETE  /system/branch/:id              controllers.logged.system.Branches.delete(id: Int)
 POST    /system/branch/paste            controllers.logged.system.Branches.paste
 POST    /system/branch/move             controllers.logged.system.Branches.move
+POST    /system/leave/paste             controllers.logged.system.Branches.pasteLeave
 
 GET     /system/users                   controllers.logged.system.Users.list
 

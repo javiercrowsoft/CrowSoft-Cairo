@@ -300,7 +300,7 @@
 
 <script type="text/template" id="tree-list-item-template">
     <% leaves.forEach(function(leave) { %>
-    <tr>
+    <tr data-id="<%- leave.id %>" data-clientid="<%- leave.clientId %>">
         <% leave.values.forEach(function(value) { %>
             <td><%- value %></td>
         <% }); %>
@@ -340,6 +340,7 @@
 <script src="@routes.Assets.at("javascripts/vendor/jquery.dataTables.js")" type="text/javascript"></script>
 <script src="@routes.Assets.at("javascripts/vendor/dataTables.bootstrap.js")" type="text/javascript"></script>
 <script src="@routes.Assets.at("javascripts/vendor/dataTables.tableTools.js")" type="text/javascript"></script>
+<script src="@routes.Assets.at("javascripts/vendor/jquery.contextmenu.js")" type="text/javascript"></script>
 
 
 <script src="./client/cairo/config/marionette/regions/dialog.js"></script>
