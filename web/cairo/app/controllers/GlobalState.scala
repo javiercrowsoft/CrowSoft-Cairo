@@ -16,9 +16,9 @@ trait ProvidesUser {
     val userId = request.session.get("user").getOrElse("")
     def getUser() : LoggedUser = {
       if(userId.isEmpty)
-        LoggedUser(null)
+        LoggedUser(null, false)
       else
-        LoggedUser(User.load(userId.toInt).getOrElse(null))
+        LoggedUser(User.load(userId.toInt).getOrElse(null), request.path.startsWith("/desktop"))
     }
     getUser
   }
@@ -92,11 +92,6 @@ object LoggedIntoCompanyResponse extends Controller {
 
 object SessionStatus {
 
-  def isNotFirstRequestToIndex[A](request: Request[A]) = {
-    Logger.debug(s"firstRequestForIndex: ${request.session.get("index").getOrElse("").isEmpty}")
-    !request.session.get("index").getOrElse("").isEmpty
-  }
-
   def isLoggedUser[A](request: Request[A]) = {
     Logger.debug(s"user in session is empty: ${request.session.get("user").getOrElse("").isEmpty}")
     !request.session.get("user").getOrElse("").isEmpty
@@ -104,6 +99,11 @@ object SessionStatus {
   def isLoggedCompanyUser[A](request: Request[A]) = {
     Logger.debug(s"company in session is empty: ${request.session.get("company").getOrElse("").isEmpty}")
     !request.session.get("company").getOrElse("").isEmpty
+  }
+
+  def isDesktop[A](request: Request[A]) = {
+    Logger.debug(s"user in session is empty: ${request.path}")
+    request.path.startsWith("/desktop")
   }
 
 }

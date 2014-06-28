@@ -30,19 +30,6 @@ object Application extends Controller with ProvidesUser {
       Logger.debug("showing index")
       Redirect(controllers.routes.Application.index)
     }
-
-    /*
-    else if(SessionStatus.isNotFirstRequestToIndex(request)) {
-      Logger.debug("showing index")
-      Ok(views.html.index(form, Settings.siteBaseURL))
-    }
-    else {
-      Logger.debug("showing index")
-      Ok(views.html.welcome(form, Settings.siteBaseURL)).withSession(
-        "index" -> "true"
-      )
-    }
-    */
   }
 
   def index = Action { implicit request =>

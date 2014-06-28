@@ -233,6 +233,15 @@ Cairo.module("Tree", function(Tree, Cairo, Backbone, Marionette, $, _) {
     return "C" + nextControlId;
   };
 
+  Tree.getColumnValue = function(column, value) {
+    switch(column.columnType) {
+      case "boolean":
+        value = "";
+        break;
+    }
+    return value;
+  }
+
 });
 
 ///////////////
@@ -348,7 +357,7 @@ Cairo.module("Tree.List", function(List, Cairo, Backbone, Marionette, $, _) {
 
   List.Item = Marionette.ItemView.extend({
     tagName: "span",
-    template: "#tree-list-item-template",
+    template: Cairo.isMobile() ? "#tree-list-item-template-mobile" : "#tree-list-item-template",
 
     triggers: {
       "click td a.js-edit": "item:edit",
@@ -391,7 +400,7 @@ Cairo.module("Tree.List", function(List, Cairo, Backbone, Marionette, $, _) {
     tagName: "table",
     id: "tree-item-table" + Cairo.Tree.getNextControlId(),
     className: "table table-hover",
-    template: "#tree-list-template",
+    template: Cairo.isMobile() ? "#tree-list-template-mobile" : "#tree-list-template",
     emptyView: NoItemsView,
     itemView: List.Item,
     itemViewContainer: "tbody",
@@ -1112,17 +1121,29 @@ Cairo.module("Tree.List", function(List, Cairo, Backbone, Marionette, $, _) {
       listController.Tree.dataTableId = itemsListView.$el.attr("id");
       listController.Tree.dataTableId$ = "#" + listController.Tree.dataTableId;
 
+      var buttons = [];
+      var scrollX = false;
+      var scrollY = 0;
+      var rowSelect = "multi";
+
+      if(!Cairo.isMobile()) {
+        buttons = [ "select_all", "select_none", "print"];
+        scrollX = true;
+        scrollY = 350;
+        rowSelect = "os";
+      }
+
       listController.Tree.dataTable = $(listController.Tree.dataTableId$, itemsListLayout.$el).dataTable({
-          scrollY: 300,
+          scrollY: scrollY,
           paging: false,
-          scrollX: true,
+          scrollX: scrollX,
           "language": {
               "search": "Search in this folder: "
           },
           dom: 'T<"clear">lfrtip',
           tableTools: {
-              "sRowSelect": "os",
-              "aButtons": [ "select_all", "select_none", "print"]
+              "sRowSelect": rowSelect,
+              "aButtons": buttons
           },
           fnDrawCallback: function( oSettings ) {
             $(listController.Tree.dataTableId$ + " tbody tr").contextMenu(menu, {theme:'osx'});

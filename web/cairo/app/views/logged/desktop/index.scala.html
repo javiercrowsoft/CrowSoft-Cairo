@@ -7,7 +7,7 @@
 <!-- Main jumbotron for a primary marketing message or call to action -->
 @if(!requestOrigin.userAgent.isMobile) {
 <div class="jumbotron desktop-menu">
-    <div class="container">
+    <div class="desktop-big-container">
         <div class="row">
             <ul class="nav navbar-nav">
                 @for(menu <- menus) {
@@ -269,6 +269,15 @@
                 @if(requestOrigin.userAgent.isMobile){<br/>}
             </div>
             <div id="tree-main-list-region" class="col-sm-8 col-md-9">
+
+              <div class="col-sm-1 col-md-1"></div>
+              <div class="col-sm-10 col-md-10">
+              <div class="alert alert-info">
+                <p>Select a folder to list <%- entitiesName %></p>
+              </div>
+              </div>
+              <div class="col-sm-1 col-md-1"></div>
+
             </div>
         </div>
     </div>
@@ -298,6 +307,16 @@
     </tbody>
 </script>
 
+<script type="text/template" id="tree-list-template-mobile">
+  <thead>
+  <tr id="tree-list-headers">
+    <th>Items</th>
+  </tr>
+  </thead>
+  <tbody>
+  </tbody>
+</script>
+
 <script type="text/template" id="tree-list-item-template">
     <% leaves.forEach(function(leave) { %>
     <tr data-id="<%- leave.id %>" data-clientid="<%- leave.clientId %>">
@@ -305,6 +324,29 @@
             <td><%- value %></td>
         <% }); %>
     <td>
+      <button class="btn btn-sm btn-info js-edit" type="button" data-row-id="<%- leave.clientId %>">
+        <i class="glyphicon glyphicon-pencil"></i>
+      </button>
+      <button class="btn btn-sm btn-danger js-delete" type="button">
+        <i class="glyphicon glyphicon-remove"></i>
+      </button>
+    </td>
+    </tr>
+    <% }); %>
+</script>
+
+<script type="text/template" id="tree-list-item-template-mobile">
+    <% leaves.forEach(function(leave) { %>
+    <tr data-id="<%- leave.id %>" data-clientid="<%- leave.clientId %>">
+      <td>
+        <%
+        var index;
+        var a = ["a", "b", "c"];
+        for (index = 0; index < a.length; ++index) {
+        %>
+        <span class="capitalize"><%- columns[index].name %></span>: <%- Cairo.Tree.getColumnValue(columns[index], leave.values[index]) %><br>
+        <% } %>
+      <br>
       <button class="btn btn-sm btn-info js-edit" type="button" data-row-id="<%- leave.clientId %>">
         <i class="glyphicon glyphicon-pencil"></i>
       </button>
@@ -346,15 +388,19 @@
 <script src="./client/cairo/config/marionette/regions/dialog.js"></script>
 <script src="./client/cairo/cairoApp.js"></script>
 <script>
-    Cairo.setAjax = function() {
-        //Ajax Request Configuration
-        //To Set The CSRF Token To Request Header
-        $.ajaxSetup({
-            headers : {
-                'Csrf-Token' : '@csrfToken'
-            }
-        });
-    };
+  Cairo.setAjax = function() {
+      //Ajax Request Configuration
+      //To Set The CSRF Token To Request Header
+      $.ajaxSetup({
+          headers : {
+              'Csrf-Token' : '@csrfToken'
+          }
+      });
+  };
+
+  Cairo.isMobile = function() {
+    return @if(requestOrigin.userAgent.isMobile) {true} else {false};
+  };
 </script>
 <script src="./client/cairo/session.js"></script>
 <script src="./client/cairo/config/storage/localstorage.js"></script>
@@ -374,19 +420,17 @@
 
 </script>
 
-<script type='text/javascript'>
+<script>
+  $(document).ready(function () {
+      function closeNav() {
+          $(".mobile-menu").stop().css({ 'height': '1px' }).removeClass('in').addClass("collapse");
+          $(".menu-panel").stop().css({ 'height': '1px' }).removeClass('in').addClass("collapse");
+      }
 
-    $(document).ready(function () {
-        function closeNav() {
-            $(".mobile-menu").stop().css({ 'height': '1px' }).removeClass('in').addClass("collapse");
-            $(".menu-panel").stop().css({ 'height': '1px' }).removeClass('in').addClass("collapse");
-        }
-
-        $('.menu').click(function (event) {
-            closeNav();
-        });
-    });
-
+      $('.menu').click(function (event) {
+          closeNav();
+      });
+  });
 </script>
 
 }
