@@ -141,7 +141,7 @@ Cairo.module("Cuenta.Edit", function(Edit, Cairo, Backbone, Marionette, $, _) {
 
 Cairo.module("Cuenta.List", function(List, Cairo, Backbone, Marionette, $, _) {
   List.Controller = {
-    list: function(criterion) {
+    list: function() {
 
       var self = this;
 
@@ -157,7 +157,7 @@ Cairo.module("Cuenta.List", function(List, Cairo, Backbone, Marionette, $, _) {
 
         self.showBranch = function(branchId) {
           Cairo.log("Loading nodeId: " + branchId);
-          Cairo.Tree.List.Controller.listBranch(branchId, criterion, Cairo.Tree.List.Controller.showItem, self)
+          Cairo.Tree.List.Controller.listBranch(branchId, Cairo.Tree.List.Controller.showItem, self)
         };
 
         // progress message
@@ -190,7 +190,7 @@ Cairo.module("Cuenta.List", function(List, Cairo, Backbone, Marionette, $, _) {
         Cairo.Tree.List.Controller.list(
           Cairo.Tables.CUENTA,
           new Cairo.Tree.List.TreeLayout({ model: self.entityInfo }),
-          Cairo.cuentaTreeRegion, 
+          Cairo.cuentaTreeRegion,
           self);
 
       };

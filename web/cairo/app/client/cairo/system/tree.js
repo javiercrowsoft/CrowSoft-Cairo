@@ -339,25 +339,8 @@ Cairo.module("Tree.List", function(List, Cairo, Backbone, Marionette, $, _) {
       "click button.js-new": "tree:new"
     },
 
-    /* TODO: implement search
-    events: {
-      "submit #filter-form": "filterTrees"
-    },
+    // TODO: implement search
 
-    ui: {
-      criterion: "input.js-filter-criterion"
-    },
-
-    filterTrees: function(e) {
-      e.preventDefault();
-      var criterion = this.$(".js-filter-criterion").val();
-      this.trigger("trees:filter", criterion);
-    },
-
-    onSetFilterCriterion: function(criterion) {
-      this.ui.criterion.val(criterion);
-    }
-    */
   });
 
   List.Item = Marionette.ItemView.extend({
@@ -962,7 +945,7 @@ Cairo.module("Tree.List", function(List, Cairo, Backbone, Marionette, $, _) {
       }
     },
 
-    listBranch: function(branchId, criterion, showItem, listController) {
+    listBranch: function(branchId, showItem, listController) {
       Cairo.LoadingMessage.show();
 
       var fetchingBranch = Cairo.request("branch:entity", branchId);
@@ -972,7 +955,7 @@ Cairo.module("Tree.List", function(List, Cairo, Backbone, Marionette, $, _) {
 
       $.when(fetchingBranch).done(function(branch) {
 
-        showItem(branch, criterion, itemsListPanel, itemsListLayout, listController);
+        showItem(branch, itemsListPanel, itemsListLayout, listController);
 
         //$("#tree-list-region").attr("id", "tree-list-region_" + Cairo.Tree.getNextControlId());
 
@@ -990,9 +973,9 @@ Cairo.module("Tree.List", function(List, Cairo, Backbone, Marionette, $, _) {
       });
     },
 
-    showItem: function(branch, criterion, itemsListPanel, itemsListLayout, listController) {
+    showItem: function(branch, itemsListPanel, itemsListLayout, listController) {
       branch.entityInfo = listController.entityInfo;
-
+      /*
       var filteredItems = Cairo.Entities.FilteredCollection({
         collection: branch,
         filterFunction: function(filterCriterion) {
@@ -1008,22 +991,17 @@ Cairo.module("Tree.List", function(List, Cairo, Backbone, Marionette, $, _) {
           };
         }
       });
-
-      if(criterion) {
-        filteredItems.filter(criterion);
-        itemsListPanel.once("show", function() {
-          itemsListPanel.triggerMethod("set:filter:criterion", criterion);
-        });
-      }
-
+      */
       var itemsListView = new List.Items({
-        collection: filteredItems
+        collection: branch
       });
 
+      /*
       itemsListPanel.on("items:filter", function(filterCriterion) {
         filteredItems.filter(filterCriterion);
         Cairo.trigger("items:filter", filterCriterion);
       });
+      */
 
       itemsListLayout.on("show", function() {
         itemsListLayout.panelRegion.reset();
