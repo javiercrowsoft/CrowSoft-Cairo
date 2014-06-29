@@ -64,6 +64,33 @@
 
 <div id="header-region"></div>
 <div id="loading-region" class="container"></div>
+<div>
+  <!-- Nav tabs -->
+  <ul class="nav nav-tabs" role="tablist">
+    <li class="active"><a href="#home" role="tab" data-toggle="tab">Home</a></li>
+    <li><a href="#profile" role="tab" data-toggle="tab">Profile</a></li>
+    <li><a href="#messages" role="tab" data-toggle="tab">Messages</a></li>
+    <li><a href="#settings" role="tab" data-toggle="tab">Settings</a></li>
+  </ul>
+
+  <!-- Tab panes -->
+  <div class="tab-content">
+    <div class="tab-pane active" id="home">a...</div>
+    <div class="tab-pane" id="profile">b...</div>
+    <div class="tab-pane" id="messages">c...</div>
+    <div class="tab-pane" id="settings">d...</div>
+  </div>
+</div>
+
+<ul id="mainTabBar" class="nav nav-tabs">
+  <li class="active"><a href="#desktop" data-toggle="tab">Desktop</a></li>
+</ul>
+<div id="mainTabBody" class="tab-content">
+  <div class="tab-pane active" id="desktop">
+    <h1>Welcome to you desktop !!!</h1>
+  </div>
+</div>
+
 <div id="main-region">
     <div class="container">
         <p>Here is static content in the web page. You'll notice that it gets replaced by our app as soon as we start it.</p>
@@ -131,7 +158,7 @@
 </script>
 
 <script type="text/template" id="missing-usuario-view">
-    <div class="alert alert-error">This user doesn't exist !</div>
+    <div class="alert alert-error">This user does not exist !</div>
 </script>
 
 <script type="text/template" id="usuario-view">
@@ -320,9 +347,12 @@
 <script type="text/template" id="tree-list-item-template">
     <% leaves.forEach(function(leave) { %>
     <tr data-id="<%- leave.id %>" data-clientid="<%- leave.clientId %>">
-        <% leave.values.forEach(function(value) { %>
-            <td><%- value %></td>
-        <% }); %>
+      <%
+        var index;
+        for (index = 0; index < columns.length; index++) {
+      %>
+        <td><%= Cairo.Tree.getColumnValue(columns[index], leave.values[index]) %></td>
+      <% } %>
     <td>
       <button class="btn btn-sm btn-info js-edit" type="button" data-row-id="<%- leave.clientId %>">
         <i class="glyphicon glyphicon-pencil"></i>
@@ -341,10 +371,9 @@
       <td>
         <%
         var index;
-        var a = ["a", "b", "c"];
-        for (index = 0; index < a.length; ++index) {
+        for (index = 0; index < columns.length; index++) {
         %>
-        <span class="capitalize"><%- columns[index].name %></span>: <%- Cairo.Tree.getColumnValue(columns[index], leave.values[index]) %><br>
+        <span class="capitalize"><%- columns[index].name %></span>: <%= Cairo.Tree.getColumnValue(columns[index], leave.values[index]) %><br>
         <% } %>
       <br>
       <button class="btn btn-sm btn-info js-edit" type="button" data-row-id="<%- leave.clientId %>">
@@ -407,6 +436,7 @@
 <script src="./client/cairo/entities/common.js"></script>
 <script src="./client/cairo/common/views.js"></script>
 <script src="./client/cairo/system/tree.js"></script>
+<script src="./client/cairo/system/tab.js"></script>
 
 @for(routerEntry <- router) {<script src="./client/cairo/modules/@{routerEntry.fileHandler}.js"></script>
 }
@@ -418,6 +448,9 @@
 
 @routerGenerator(router)
 
+  $(document).ready(function () {
+    Cairo.mainTab = Cairo.Tab.Controller.createTab("#mainTabBar", "#mainTabBody", "main_tab");
+  });
 </script>
 
 <script>

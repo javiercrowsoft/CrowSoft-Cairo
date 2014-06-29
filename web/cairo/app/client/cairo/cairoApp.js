@@ -104,7 +104,7 @@ Cairo.Tables = {
     DEPOSITOS_DE_CUPONES: 18008,
     DETALLE_DE_EQUIPO: 28006,
     DICCIONARIO_DE_DATOS: 42,
-    DOCUMENTOS: 4001,
+    DOCUMENTO: 4001,
     EJERCICIOS_CONTABLES: 19002,
     EMBALAJE: 1023,
     EMBARQUE: 22002,
@@ -293,9 +293,7 @@ Cairo.LoadingMessage = function() {
 }();
 
 Cairo.sleep = function(millis, callback) {
-    setTimeout(function()
-            { callback(); }
-    , millis);
+    setTimeout(function() { callback(); }, millis);
 };
 
 Cairo.logTreeEvent = function(event, data, msg) {

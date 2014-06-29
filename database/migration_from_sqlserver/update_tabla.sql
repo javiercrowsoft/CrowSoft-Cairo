@@ -12,4 +12,8 @@ update tabla set tbl_sqlhelpcliente = replace(tbl_sqlhelpcliente,'isnull(','coal
 update tabla set tbl_camposinview = replace(tbl_camposinview,'IsNull(','coalesce(');
 update tabla set tbl_sqlhelp = replace(tbl_sqlhelp,'IsNull(','coalesce(');
 update tabla set tbl_camposinviewcliente = replace(tbl_camposinviewcliente,'IsNull(','coalesce(');
-update tabla set tbl_sqlhelpcliente = replace(tbl_sqlhelpcliente,'IsNull(','coalesce(');       
+update tabla set tbl_sqlhelpcliente = replace(tbl_sqlhelpcliente,'IsNull(','coalesce(');
+
+-- list and edit by hand
+select * from tabla where tbl_camposinview like '%case %' ;
+select * from tabla where tbl_camposinviewcliente like '%case %' ;

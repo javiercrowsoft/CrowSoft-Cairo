@@ -234,10 +234,20 @@ Cairo.module("Tree", function(Tree, Cairo, Backbone, Marionette, $, _) {
   };
 
   Tree.getColumnValue = function(column, value) {
-    switch(column.columnType) {
-      case "boolean":
-        value = "";
-        break;
+    // TODO: find a generic way to identify boolean columns
+    //
+    if(column.name === "activo") {
+      value = "<i class='glyphicon glyphicon-check'></i>";
+    }
+    else {
+      /* TODO: add other formats
+      switch(column.columnType) {
+        case "boolean":
+          value = "";
+          break;
+      }
+      */
+      value = _.escape(value);
     }
     return value;
   }

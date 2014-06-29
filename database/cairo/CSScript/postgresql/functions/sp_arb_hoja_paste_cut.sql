@@ -55,11 +55,11 @@ BEGIN
 
     IF p_ids = '' THEN RETURN; END IF;
 
-    IF p_ram_id_copy_to = 0 THEN RETURN; END IF;
+    IF p_ram_id_to_paste_in = 0 THEN RETURN; END IF;
 
-    IF NOT EXISTS(SELECT 1 FROM rama WHERE ram_id = p_ram_id_copy_to) THEN RETURN; END IF;
+    IF NOT EXISTS(SELECT 1 FROM rama WHERE ram_id = p_ram_id_to_paste_in) THEN RETURN; END IF;
 
-    SELECT arb_id INTO v_arb_id FROM rama WHERE ram_id = p_ram_id_copy_to;
+    SELECT arb_id INTO v_arb_id FROM rama WHERE ram_id = p_ram_id_to_paste_in;
 
 
     -- Creo un cursor para recorrer cada una de las hojas e insertarlas
@@ -70,9 +70,9 @@ BEGIN
         EXIT WHEN NOT FOUND;
         BEGIN
 
-           IF NOT EXISTS(SELECT 1 FROM hoja WHERE ram_id = p_ram_id_copy_to AND id = v_leave_row.id) THEN
+           IF NOT EXISTS(SELECT 1 FROM hoja WHERE ram_id = p_ram_id_to_paste_in AND id = v_leave_row.id) THEN
 
-               UPDATE hoja SET ram_id = p_ram_id_copy_to, arb_id = v_arb_id WHERE hoja_id = v_leave_row.hoja_id;
+               UPDATE hoja SET ram_id = p_ram_id_to_paste_in, arb_id = v_arb_id WHERE hoja_id = v_leave_row.hoja_id;
 
            ELSE
 
@@ -99,14 +99,14 @@ BEGIN
                                  0::smallint) INTO v_new_hoja_id;
 
             INSERT INTO hoja ( hoja_id, id, modifico, ram_id, arb_id )
-            VALUES ( v_new_hoja_id, v_id::integer * -1, p_us_id, p_ram_id_copy_to, v_arb_id );
+            VALUES ( v_new_hoja_id, v_id::integer * -1, p_us_id, p_ram_id_to_paste_in, v_arb_id );
 
         END IF;
     END LOOP;
 
     rtn := 'rtn';
 
-    OPEN rtn FOR SELECT * FROM rama WHERE ram_id = p_ram_id_copy_to;
+    OPEN rtn FOR SELECT * FROM rama WHERE ram_id = p_ram_id_to_paste_in;
 
 END;
 $BODY$

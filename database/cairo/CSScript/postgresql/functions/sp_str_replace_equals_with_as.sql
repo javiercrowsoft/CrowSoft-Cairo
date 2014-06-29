@@ -85,7 +85,7 @@ BEGIN
 
          IF v_i < v_z AND v_i <> 0 THEN
          BEGIN
-                v_retval := SUBSTR(v_retval, v_i +1) || ' AS ' || SUBSTR(v_retval, 1, v_i -1);
+                v_retval := SUBSTR(v_retval, v_i +1) || ' AS ' || REPLACE(SUBSTR(v_retval, 1, v_i -1),'''', '"');
          END;
          END IF;
 
@@ -95,7 +95,7 @@ BEGIN
 
          IF v_i <> 0 THEN
          BEGIN
-                v_retval := SUBSTR(v_retval, v_i +1) || ' AS ' || SUBSTR(v_retval, 1, v_i -1);
+                v_retval := SUBSTR(v_retval, v_i +1) || ' AS ' || REPLACE(SUBSTR(v_retval, 1, v_i -1),'''', '"');
          
          END;
          END IF;
@@ -159,7 +159,7 @@ BEGIN
 
                   IF v_n < v_z AND v_n <> 0 THEN
                   BEGIN
-                        v_campo := SUBSTR(v_campo, v_n +1) || ' AS ' || SUBSTR(v_campo, 1, v_n -1) || ',';
+                        v_campo := SUBSTR(v_campo, v_n +1) || ' AS ' || REPLACE(SUBSTR(v_campo, 1, v_n -1),'''', '"') || ',';
                   END;
                   END IF;
          
@@ -183,7 +183,7 @@ BEGIN
 
                   IF v_n < v_z AND v_n <> 0 THEN
                   BEGIN
-                        v_campo := SUBSTR(v_campo, v_n +1) || ' AS ' || SUBSTR(v_campo, 1, v_n -1);
+                        v_campo := SUBSTR(v_campo, v_n +1) || ' AS ' || REPLACE(SUBSTR(v_campo, 1, v_n -1),'''', '"');
                   END;
                   END IF;
 
@@ -205,7 +205,7 @@ BEGIN
 
                IF v_n <> 0 THEN
                BEGIN
-                   v_campo := SUBSTR(v_campo, v_n +1) || ' AS ' || SUBSTR(v_campo, 1, v_n -1) || ',';
+                   v_campo := SUBSTR(v_campo, v_n +1) || ' AS ' || REPLACE(SUBSTR(v_campo, 1, v_n -1),'''', '"') || ',';
                END;
                END IF;
 
@@ -267,7 +267,7 @@ BEGIN
 
                  IF v_n < v_z AND v_n <> 0 THEN
                  BEGIN
-                        v_campo := SUBSTR(v_campo, v_n +1) || ' AS ' || SUBSTR(v_campo, 1, v_n -1);
+                        v_campo := SUBSTR(v_campo, v_n +1) || ' AS ' || REPLACE(SUBSTR(v_campo, 1, v_n -1),'''', '"');
                  END;
                  END IF;                 
 
@@ -282,7 +282,7 @@ BEGIN
 
                  IF v_n <> 0 THEN
                  BEGIN
-                        v_campo := SUBSTR(v_campo, v_n +1) || ' AS ' || SUBSTR(v_campo, 1, v_n -1);
+                        v_campo := SUBSTR(v_campo, v_n +1) || ' AS ' || REPLACE(SUBSTR(v_campo, 1, v_n -1),'''', '"');
                  END;
                  END IF;
 
