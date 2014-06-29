@@ -25,7 +25,7 @@ Cairo.module("Tab", function(Tab, Cairo, Backbone, Marionette, $, _) {
       /**
        * Add or show a Tab
        */
-      var addOrShowTab = function(title, id, route) {
+      var showTab = function(title, id, route, createDialog) {
         var tabId = tabs[id];
 
         if(tabId === undefined) {
@@ -36,32 +36,31 @@ Cairo.module("Tab", function(Tab, Cairo, Backbone, Marionette, $, _) {
               '" id="link_' + tabId.substring(1, tabId.length) +
               '" data-route="' + route + '">' +
               title +
-              '<button class="close" type="button" title="Remove this tab">×</button></a></li>')
+              '<button class="close tab-button-close" type="button" title="Remove this tab">×</button></a></li>')
           );
 
           $(tabBody).append(
             $('<div class="tab-pane" id="tab_' + tabName + '_' + tabIndex +
             '">Content tab_' + tabName + '_' + tabIndex + '</div>'));
 
-          var regionHash = {};
-          regionHash[id] = tabId;
+          createDialog(tabId);
 
-          Cairo.addRegions(regionHash);
+          tabs[id] = tabId;
         }
 
         $('#link_' + tabId.substring(1, tabId.length)).tab('show');
-
-        tabs[id] = tabId;
       };
 
       /**
       * Remove a Tab
       */
-      $(tabBar).on('click', ' li a .close', function() {
+      $(tabBar).on('click', ' li .close', function(e) {
+        e.preventDefault();
         var tabId = $(this).parents('li').children('a').attr('href');
         $(this).parents('li').remove('li');
         $(tabId).remove();
         $(tabBar + ' a:first').tab('show');
+        $(this).parents('li').children('a').data("removed", "true");
         tabs.remove(tabId);
         Cairo.navigate('#');
       });
@@ -71,12 +70,14 @@ Cairo.module("Tab", function(Tab, Cairo, Backbone, Marionette, $, _) {
        */
       $(tabBar).on("click", "a", function(e) {
         e.preventDefault();
-        $(this).tab('show');
-        var route = $(this).data("route");
-        Cairo.navigate(route);
+        if(! $(this).data("removed")) {
+          $(this).tab('show');
+          var route = $(this).data("route");
+          Cairo.navigate(route);
+        }
       });
 
-      return { addOrShowTab: addOrShowTab };
+      return { showTab: showTab };
     }
   }
 });

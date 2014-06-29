@@ -4,7 +4,7 @@
 
 Cairo.module("Entities", function(Entities, Cairo, Backbone, Marionette, $, _) {
   Entities.Documento = Backbone.Model.extend({
-    urlRoot: "/general/documento",
+    urlRoot: "/documento/documento",
 
     defaults: {
       name: ""
@@ -22,7 +22,7 @@ Cairo.module("Entities", function(Entities, Cairo, Backbone, Marionette, $, _) {
   });
 
   Entities.DocumentoCollection = Backbone.Collection.extend({
-    url: "/general/documentos",
+    url: "/documento/documentos",
     model: Entities.Documento,
     comparator: "name"
   });
@@ -145,24 +145,56 @@ Cairo.module("Documento.List", function(List, Cairo, Backbone, Marionette, $, _)
 
       var self = this;
 
-      this.entityInfo = new Backbone.Model({
-        entitiesTitle: "Documentos",
-        entityName: "documento",
-        entitiesName: "documentos"
-      });
+      var createTreeDialog = function(tabId) {
 
-      this.showBranch = function(branchId) {
-        Cairo.log("Loading nodeId: " + branchId);
-        Cairo.Tree.List.Controller.listBranch(branchId, criterion, Cairo.Tree.List.Controller.showItem, self)
+        // ListController properties and methods
+        //
+        self.entityInfo = new Backbone.Model({
+          entitiesTitle: "Documentos",
+          entityName: "documento",
+          entitiesName: "documentos"
+        });
+
+        self.showBranch = function(branchId) {
+          Cairo.log("Loading nodeId: " + branchId);
+          Cairo.Tree.List.Controller.listBranch(branchId, criterion, Cairo.Tree.List.Controller.showItem, self)
+        };
+
+        // progress message
+        //
+        Cairo.LoadingMessage.show("Documentos", "Loading documentos from Crowsoft Cairo server.");
+
+        // create the tree region
+        //
+        Cairo.addRegions({ documentoTreeRegion: tabId });
+
+        // create the dialog
+        //
+        /*
+        var documentosListLayout = new Cairo.Tree.List.TreeLayout({ model: self.entityInfo });
+        Cairo.documentoTreeRegion.show(documentosListLayout);
+
+        var regionId = "tree-main-list-region_" + Cairo.Tree.getNextControlId();
+        $("#tree-main-list-region").attr("id", regionId);
+
+        // create the list region
+        //
+        Cairo.addRegions({ documentoTreeListRegion: "#" + regionId });
+
+        self.Tree = { treeListRegion : Cairo.documentoTreeListRegion };
+
+        Cairo.Tree.List.Controller.list(Cairo.Tables.DOCUMENTO, documentosListLayout, self);
+        */
+        Cairo.Tree.List.Controller.list(
+          Cairo.Tables.DOCUMENTO,
+          new Cairo.Tree.List.TreeLayout({ model: self.entityInfo }),
+          Cairo.documentoTreeRegion,
+          self);
       };
 
-      Cairo.LoadingMessage.show("Documentos", "Loading documentos from Crowsoft Cairo server.");
-
-      var documentosListLayout = new Cairo.Tree.List.TreeLayout({ model: this.entityInfo });
-      //Cairo.mainRegion.show(documentosListLayout);
-      Cairo.mainTab.addOrShowTab("Documentos", "documentoList", "#documento/documentos");
-      Cairo.documentoList.show(documentosListLayout);
-      Cairo.Tree.List.Controller.list(Cairo.Tables.DOCUMENTO, documentosListLayout, self);
+      // create the tab
+      //
+      Cairo.mainTab.showTab("Documentos", "documentoTreeRegion", "#documento/documentos", createTreeDialog);
 
     }
   };
@@ -201,3 +233,14 @@ Cairo.module("Documento.Edit", function(Edit, Cairo, Backbone, Marionette, $, _)
     }
   };
 });
+
+
+/*
+
+Documento
+Documentos
+documento
+documentos
+DOCUMENTO
+
+*/

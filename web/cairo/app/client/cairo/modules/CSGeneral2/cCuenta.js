@@ -145,25 +145,59 @@ Cairo.module("Cuenta.List", function(List, Cairo, Backbone, Marionette, $, _) {
 
       var self = this;
 
-      this.entityInfo = new Backbone.Model({
-        entitiesTitle: "Cuentas",
-        entityName: "cuenta",
-        entitiesName: "cuentas"
-      });
+      var createTreeDialog = function(tabId) {
 
-      this.showBranch = function(branchId) {
-        Cairo.log("Loading nodeId: " + branchId);
-        Cairo.Tree.List.Controller.listBranch(branchId, criterion, Cairo.Tree.List.Controller.showItem, self)
+        // ListController properties and methods
+        //
+        self.entityInfo = new Backbone.Model({
+          entitiesTitle: "Cuentas",
+          entityName: "cuenta",
+          entitiesName: "cuentas"
+        });
+
+        self.showBranch = function(branchId) {
+          Cairo.log("Loading nodeId: " + branchId);
+          Cairo.Tree.List.Controller.listBranch(branchId, criterion, Cairo.Tree.List.Controller.showItem, self)
+        };
+
+        // progress message
+        //
+        Cairo.LoadingMessage.show("Cuentas", "Loading cuentas from Crowsoft Cairo server.");
+
+        // create the tree region
+        //
+        Cairo.addRegions({ cuentaTreeRegion: tabId });
+
+        // create the dialog
+        //
+        /*
+        var cuentasListLayout = new Cairo.Tree.List.TreeLayout({ model: self.entityInfo });
+        Cairo.cuentaTreeRegion.show(cuentasListLayout);
+
+        var regionId = "tree-main-list-region_" + Cairo.Tree.getNextControlId();
+        $("#tree-main-list-region").attr("id", regionId);
+
+        //$("#tree-list-region").attr("id", "tree-list-region_" + Cairo.Tree.getNextControlId());
+
+        // create the list region
+        //
+        Cairo.addRegions({ cuentaTreeListRegion: "#" + regionId });
+
+        self.Tree = { treeListRegion : Cairo.cuentaTreeListRegion };
+
+        Cairo.Tree.List.Controller.list(Cairo.Tables.CUENTA, cuentasListLayout, self);
+        */
+        Cairo.Tree.List.Controller.list(
+          Cairo.Tables.CUENTA,
+          new Cairo.Tree.List.TreeLayout({ model: self.entityInfo }),
+          Cairo.cuentaTreeRegion, 
+          self);
+
       };
 
-      Cairo.LoadingMessage.show("Cuentas", "Loading cuentas from Crowsoft Cairo server.");
-
-      var cuentasListLayout = new Cairo.Tree.List.TreeLayout({ model: this.entityInfo });
-      //Cairo.mainRegion.show(cuentasListLayout);
-      Cairo.mainTab.addOrShowTab("Cuentas", "cuentaList", "#general/cuentas");
-      Cairo.cuentaList.show(cuentasListLayout);
-
-      Cairo.Tree.List.Controller.list(Cairo.Tables.CUENTA, cuentasListLayout, self);
+      // create the tab
+      //
+      Cairo.mainTab.showTab("Cuentas", "cuentaTreeRegion", "#general/cuentas", createTreeDialog);
 
     }
   };

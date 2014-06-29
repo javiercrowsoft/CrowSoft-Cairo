@@ -230,7 +230,7 @@ Cairo.module("Tree", function(Tree, Cairo, Backbone, Marionette, $, _) {
 
   Tree.getNextControlId = function() {
     nextControlId += 1;
-    return "C" + nextControlId;
+    return "CTL_" + nextControlId;
   };
 
   Tree.getColumnValue = function(column, value) {
@@ -321,11 +321,6 @@ Cairo.module("Tree.List", function(List, Cairo, Backbone, Marionette, $, _) {
   // new list
   List.TreeLayout = Marionette.Layout.extend({
     template: "#tree-layout-template",
-
-    /*regions: {
-      panelRegion: "#tree-panel-region",
-      itemsRegion: "#tree-items-region"
-    }*/
   });
 
   List.Layout = Marionette.Layout.extend({
@@ -408,7 +403,7 @@ Cairo.module("Tree.List", function(List, Cairo, Backbone, Marionette, $, _) {
 
   List.Items = Marionette.CompositeView.extend({
     tagName: "table",
-    id: "tree-item-table" + Cairo.Tree.getNextControlId(),
+    id: "tree-item-table",
     className: "table table-hover",
     template: Cairo.isMobile() ? "#tree-list-template-mobile" : "#tree-list-template",
     emptyView: NoItemsView,
@@ -782,12 +777,31 @@ Cairo.module("Tree.Actions", function(Actions, Cairo, Backbone, Marionette, $, _
 
 Cairo.module("Tree.List", function(List, Cairo, Backbone, Marionette, $, _) {
   List.Controller = {
-    list: function(tableId, mainView, listController) {
+    list: function(tableId, mainView, mainRegion, listController) {
       Cairo.LoadingMessage.show();
 
       Cairo.Tree.List.Controller.addTreeToController(listController);
+
+      //////////////
+      mainRegion.show(mainView);
+
+      var regionId = "tree-main-list-region_" + Cairo.Tree.getNextControlId();
+      $("#tree-main-list-region").attr("id", regionId);
+
+      // create the list region
+      //
+      var treeListRegion = listController.entityInfo.entityName;
+      var regions = {};
+      regions[treeListRegion] = "#" + regionId;
+      Cairo.addRegions(regions);
+
+      listController.Tree.treeListRegion = Cairo[treeListRegion];
+      //////////////
+
       listController.Tree.tableId = tableId;
       listController.Tree.mainView = mainView;
+      listController.Tree.treeControlId = Cairo.Tree.getNextControlId();
+      listController.Tree.newTreeMessageId = Cairo.Tree.getNextControlId();
 
       var fetchingTrees = Cairo.request("tree:entities", tableId);
 
@@ -796,6 +810,14 @@ Cairo.module("Tree.List", function(List, Cairo, Backbone, Marionette, $, _) {
         view.listController = listController;
         view.render();
         $("#trees", mainView.$el).html(view.el);
+
+        // rename all generic ids from this template
+        //
+        $("#tree", mainView.$el).attr("id", listController.Tree.treeControlId);
+        listController.Tree.treeControlId = "#" + listController.Tree.treeControlId;
+
+        $("#new-tree-view", mainView.$el).attr("id", listController.Tree.newTreeMessageId);
+        listController.Tree.newTreeMessageId = "#" + listController.Tree.newTreeMessageId;
       });
     },
 
@@ -806,7 +828,7 @@ Cairo.module("Tree.List", function(List, Cairo, Backbone, Marionette, $, _) {
       listController.Tree.treeId = treeId;
 
       var removeNewTreeView = function() {
-        $("#new-tree-view", listController.Tree.mainView.$el).remove();
+        $(listController.Tree.newTreeMessageId, listController.Tree.mainView.$el).remove();
       };
 
       if(treeId) {
@@ -817,10 +839,10 @@ Cairo.module("Tree.List", function(List, Cairo, Backbone, Marionette, $, _) {
 
         $.when(fetchingTree).done(function(tree) {
           try {
-              $("#tree").fancytree("destroy");
+              $(listController.Tree.treeControlId).fancytree("destroy");
           }
           catch (e) {}
-          $("#tree").fancytree({
+          $(listController.Tree.treeControlId).fancytree({
               source: [tree.attributes[0]],
               activate: function(event, data) {
                           Cairo.logTreeEvent(event, data);
@@ -828,7 +850,7 @@ Cairo.module("Tree.List", function(List, Cairo, Backbone, Marionette, $, _) {
                         }
           });
 
-          $("#tree").contextmenu({
+          $(listController.Tree.treeControlId).contextmenu({
             delegate: "span.fancytree-title",
             preventContextMenuForPopup: true,
             preventSelect: true,
@@ -865,7 +887,7 @@ Cairo.module("Tree.List", function(List, Cairo, Backbone, Marionette, $, _) {
                 branchId = listController.Tree.clipboard.branchId;
               }
               var isRoot = (node === node.tree.getFirstChild());
-              $("#tree")
+              $(listController.Tree.treeControlId)
                   .contextmenu("setEntry", "paste", {
                       title: "Paste" + (clipboardContent ? " : " + clipboardContent : ""),
                       uiIcon: "ui-icon-clipboard"
@@ -935,7 +957,7 @@ Cairo.module("Tree.List", function(List, Cairo, Backbone, Marionette, $, _) {
         var view = new List.NewTree({model: listController.entityInfo});
         view.listController = listController;
         view.render();
-        $("#tree", listController.Tree.mainView.$el).html(view.el);
+        $(listController.Tree.treeControlId, listController.Tree.mainView.$el).html(view.el);
         Cairo.LoadingMessage.close();
       }
     },
@@ -949,7 +971,22 @@ Cairo.module("Tree.List", function(List, Cairo, Backbone, Marionette, $, _) {
       var itemsListPanel = new List.Panel({ model: listController.entityInfo });
 
       $.when(fetchingBranch).done(function(branch) {
+
         showItem(branch, criterion, itemsListPanel, itemsListLayout, listController);
+
+        //$("#tree-list-region").attr("id", "tree-list-region_" + Cairo.Tree.getNextControlId());
+
+        //var panelRegionId = "tree-panel-region_" + Cairo.Tree.getNextControlId();
+        //$("#tree-panel-region").attr("id", panelRegionId);
+
+        //var itemsRegionId = "tree-items-region_" + Cairo.Tree.getNextControlId();
+        //$("#tree-items-region").attr("id", itemsRegionId);
+
+        //itemsListLayout.addRegions({
+        //  panelRegion: "#" + panelRegionId,
+        //  itemsRegion: "#" + itemsRegionId
+        //});
+
       });
     },
 
@@ -989,72 +1026,20 @@ Cairo.module("Tree.List", function(List, Cairo, Backbone, Marionette, $, _) {
       });
 
       itemsListLayout.on("show", function() {
+        itemsListLayout.panelRegion.reset();
         itemsListLayout.panelRegion.show(itemsListPanel);
+        itemsListLayout.itemsRegion.reset();
         itemsListLayout.itemsRegion.show(itemsListView);
       });
 
       itemsListPanel.on("item:new", function() {
 
         // TODO: call to controller listController.newItem
-
-        /*
-        var newUsuario = new Cairo.Entities.Usuario();
-
-        var view = new Cairo.Usuario.New.Usuario({
-          model: newUsuario
-        });
-
-        view.on("form:submit", function(data) {
-          if(usuarios.length > 0) {
-            var highestId = usuarios.max(function(c) { return c.id; }).get("id");
-            data.id = highestId + 1;
-          }
-          else{
-            data.id = 1;
-          }
-          if(newUsuario.save(data)) {
-            usuarios.add(newUsuario);
-            view.trigger("dialog:close");
-            var newUsuarioView = usuariosListView.children.findByModel(newUsuario);
-            // check whether the new usuario view is displayed (it could be
-            // invisible due to the current filter criterion)
-            if(newUsuarioView) {
-              newUsuarioView.flash("success");
-            }
-          }
-          else{
-            view.triggerMethod("form:data:invalid", newUsuario.validationError);
-          }
-        });
-
-        Cairo.dialogRegion.show(view);
-        */
       });
 
       itemsListView.on("itemview:item:edit", function(childView, args) {
 
         // TODO: call to controller listController.editItem
-
-        //Cairo.trigger("usuario:edit", args.model.get("id"));
-        /*
-        var model = args.model;
-        var view = new Cairo.Usuario.Edit.Usuario({
-          model: model
-        });
-
-        view.on("form:submit", function(data) {
-          if(model.save(data)) {
-            childView.render();
-            view.trigger("dialog:close");
-            childView.flash("success");
-          }
-          else{
-            view.triggerMethod("form:data:invalid", model.validationError);
-          }
-        });
-
-        Cairo.dialogRegion.show(view);
-        */
       });
 
       itemsListView.on("itemview:item:delete", function(childView, args) {
@@ -1062,8 +1047,12 @@ Cairo.module("Tree.List", function(List, Cairo, Backbone, Marionette, $, _) {
         args.model.destroy();
       });
 
+      /*
       Cairo.treeListRegion.reset();
       Cairo.treeListRegion.show(itemsListLayout);
+      */
+      listController.Tree.treeListRegion.reset();
+      listController.Tree.treeListRegion.show(itemsListLayout);
 
       var getSelectedIds = function(selectedItems) {
         var ids = "";
@@ -1128,8 +1117,10 @@ Cairo.module("Tree.List", function(List, Cairo, Backbone, Marionette, $, _) {
         }
       ];
 
-      listController.Tree.dataTableId = itemsListView.$el.attr("id");
+      listController.Tree.dataTableId = Cairo.Tree.getNextControlId();
       listController.Tree.dataTableId$ = "#" + listController.Tree.dataTableId;
+
+      itemsListView.$el.attr("id", listController.Tree.dataTableId);
 
       var buttons = [];
       var scrollX = false;

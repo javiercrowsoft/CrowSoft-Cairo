@@ -160,7 +160,7 @@ Cairo.module("Cliente.List", function(List, Cairo, Backbone, Marionette, $, _) {
 
       var clientesListLayout = new Cairo.Tree.List.TreeLayout({ model: this.entityInfo });
       //Cairo.mainRegion.show(clientesListLayout);
-      Cairo.mainTab.addOrShowTab("Clientes", "clienteList", "#general/clientes");
+      Cairo.mainTab.showTab("Clientes", "clienteList", "#general/clientes");
       Cairo.clienteList.show(clientesListLayout);
       Cairo.Tree.List.Controller.list(Cairo.Tables.CLIENTE, clientesListLayout, self);
 

@@ -160,7 +160,7 @@ Cairo.module("Rol.List", function(List, Cairo, Backbone, Marionette, $, _) {
 
       var rolesListLayout = new Cairo.Tree.List.TreeLayout({ model: this.entityInfo });
       //Cairo.mainRegion.show(rolesListLayout);
-      Cairo.mainTab.addOrShowTab("Roles", "rolList", "#sistema/roles");
+      Cairo.mainTab.showTab("Roles", "rolList", "#sistema/roles");
       Cairo.rolList.show(rolesListLayout);
       Cairo.Tree.List.Controller.list(Cairo.Tables.ROL, rolesListLayout, self);
 
