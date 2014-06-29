@@ -159,7 +159,9 @@ Cairo.module("Cuenta.List", function(List, Cairo, Backbone, Marionette, $, _) {
       Cairo.LoadingMessage.show("Cuentas", "Loading cuentas from Crowsoft Cairo server.");
 
       var cuentasListLayout = new Cairo.Tree.List.TreeLayout({ model: this.entityInfo });
-      Cairo.mainRegion.show(cuentasListLayout);
+      //Cairo.mainRegion.show(cuentasListLayout);
+      Cairo.mainTab.addOrShowTab("Cuentas", "cuentaList", "#general/cuentas");
+      Cairo.cuentaList.show(cuentasListLayout);
 
       Cairo.Tree.List.Controller.list(Cairo.Tables.CUENTA, cuentasListLayout, self);
 

@@ -159,8 +159,9 @@ Cairo.module("Rol.List", function(List, Cairo, Backbone, Marionette, $, _) {
       Cairo.LoadingMessage.show("Roles", "Loading roles from Crowsoft Cairo server.");
 
       var rolesListLayout = new Cairo.Tree.List.TreeLayout({ model: this.entityInfo });
-      Cairo.mainRegion.show(rolesListLayout);
-
+      //Cairo.mainRegion.show(rolesListLayout);
+      Cairo.mainTab.addOrShowTab("Roles", "rolList", "#sistema/roles");
+      Cairo.rolList.show(rolesListLayout);
       Cairo.Tree.List.Controller.list(Cairo.Tables.ROL, rolesListLayout, self);
 
     }
@@ -200,4 +201,3 @@ Cairo.module("Rol.Edit", function(Edit, Cairo, Backbone, Marionette, $, _) {
     }
   };
 });
-

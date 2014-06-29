@@ -64,37 +64,19 @@
 
 <div id="header-region"></div>
 <div id="loading-region" class="container"></div>
-<div>
-  <!-- Nav tabs -->
-  <ul class="nav nav-tabs" role="tablist">
-    <li class="active"><a href="#home" role="tab" data-toggle="tab">Home</a></li>
-    <li><a href="#profile" role="tab" data-toggle="tab">Profile</a></li>
-    <li><a href="#messages" role="tab" data-toggle="tab">Messages</a></li>
-    <li><a href="#settings" role="tab" data-toggle="tab">Settings</a></li>
-  </ul>
-
-  <!-- Tab panes -->
-  <div class="tab-content">
-    <div class="tab-pane active" id="home">a...</div>
-    <div class="tab-pane" id="profile">b...</div>
-    <div class="tab-pane" id="messages">c...</div>
-    <div class="tab-pane" id="settings">d...</div>
-  </div>
-</div>
 
 <ul id="mainTabBar" class="nav nav-tabs">
-  <li class="active"><a href="#desktop" data-toggle="tab">Desktop</a></li>
+  <li class="active"><a href="#desktop" data-toggle="tab" data-route="#">Desktop</a></li>
 </ul>
 <div id="mainTabBody" class="tab-content">
   <div class="tab-pane active" id="desktop">
-    <h1>Welcome to you desktop !!!</h1>
+    <div class="container">
+        <h1>Welcome to you desktop 2 !!!</h1>
+    </div>
   </div>
 </div>
 
 <div id="main-region">
-    <div class="container">
-        <p>Here is static content in the web page. You'll notice that it gets replaced by our app as soon as we start it.</p>
-    </div>
 </div>
 
 <div id="dialog-region"></div>
@@ -290,7 +272,7 @@
         <div class="row">
             <div class="col-sm-4 col-md-3">
                 <ul class="nav noFocus">
-                    <li><div id="trees" data-foo="bar"></div></li>
+                    <li><div id="trees"></div></li>
                     <li><div id="tree"></div></li>
                 </ul>
                 @if(requestOrigin.userAgent.isMobile){<br/>}
@@ -448,9 +430,6 @@
 
 @routerGenerator(router)
 
-  $(document).ready(function () {
-    Cairo.mainTab = Cairo.Tab.Controller.createTab("#mainTabBar", "#mainTabBody", "main_tab");
-  });
 </script>
 
 <script>

@@ -159,8 +159,9 @@ Cairo.module("Producto.List", function(List, Cairo, Backbone, Marionette, $, _) 
       Cairo.LoadingMessage.show("Productos", "Loading productos from Crowsoft Cairo server.");
 
       var productosListLayout = new Cairo.Tree.List.TreeLayout({ model: this.entityInfo });
-      Cairo.mainRegion.show(productosListLayout);
-
+      //Cairo.mainRegion.show(productosListLayout);
+      Cairo.mainTab.addOrShowTab("Productos", "productoList", "#general/productos");
+      Cairo.productoList.show(productosListLayout);
       Cairo.Tree.List.Controller.list(Cairo.Tables.PRODUCTO, productosListLayout, self);
 
     }

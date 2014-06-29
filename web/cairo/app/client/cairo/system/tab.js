@@ -3,13 +3,6 @@ Cairo.module("Tab", function(Tab, Cairo, Backbone, Marionette, $, _) {
   Tab.Controller = {
 
     createTab: function(tabBar, tabBody, tabName) {
-
-      /*
-
-        #pageTabContent -> tabContent
-        #pageTab -> tabBar
-
-      */
       var tabIndex = 1;
       var tabs = {
         find: function(tabId) {
@@ -30,30 +23,36 @@ Cairo.module("Tab", function(Tab, Cairo, Backbone, Marionette, $, _) {
       };
 
       /**
-       * Add a Tab
+       * Add or show a Tab
        */
-      var addOrShowTab = function(title, id) {
+      var addOrShowTab = function(title, id, route) {
         var tabId = tabs[id];
+
         if(tabId === undefined) {
           tabIndex++;
           tabId = '#tab_' + tabName + '_' + tabIndex;
           $(tabBar).append(
-            $('<li><a href="' + tabId + '">' + title +
+            $('<li><a href="' + tabId +
+              '" id="link_' + tabId.substring(1, tabId.length) +
+              '" data-route="' + route + '">' +
+              title +
               '<button class="close" type="button" title="Remove this tab">×</button></a></li>')
           );
 
           $(tabBody).append(
             $('<div class="tab-pane" id="tab_' + tabName + '_' + tabIndex +
             '">Content tab_' + tabName + '_' + tabIndex + '</div>'));
+
+          var regionHash = {};
+          regionHash[id] = tabId;
+
+          Cairo.addRegions(regionHash);
         }
-        $('#tab_' + tabName + '_' + tabIndex).tab('show');
+
+        $('#link_' + tabId.substring(1, tabId.length)).tab('show');
 
         tabs[id] = tabId;
       };
-
-      return {
-        addOrShowTab: addOrShowTab
-      }
 
       /**
       * Remove a Tab
@@ -64,6 +63,7 @@ Cairo.module("Tab", function(Tab, Cairo, Backbone, Marionette, $, _) {
         $(tabId).remove();
         $(tabBar + ' a:first').tab('show');
         tabs.remove(tabId);
+        Cairo.navigate('#');
       });
 
       /**
@@ -72,8 +72,13 @@ Cairo.module("Tab", function(Tab, Cairo, Backbone, Marionette, $, _) {
       $(tabBar).on("click", "a", function(e) {
         e.preventDefault();
         $(this).tab('show');
+        var route = $(this).data("route");
+        Cairo.navigate(route);
       });
 
+      return { addOrShowTab: addOrShowTab };
     }
   }
 });
+
+Cairo.mainTab = Cairo.Tab.Controller.createTab("#mainTabBar", "#mainTabBody", "main_tab");

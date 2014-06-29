@@ -159,8 +159,9 @@ Cairo.module("Documento.List", function(List, Cairo, Backbone, Marionette, $, _)
       Cairo.LoadingMessage.show("Documentos", "Loading documentos from Crowsoft Cairo server.");
 
       var documentosListLayout = new Cairo.Tree.List.TreeLayout({ model: this.entityInfo });
-      Cairo.mainRegion.show(documentosListLayout);
-
+      //Cairo.mainRegion.show(documentosListLayout);
+      Cairo.mainTab.addOrShowTab("Documentos", "documentoList", "#documento/documentos");
+      Cairo.documentoList.show(documentosListLayout);
       Cairo.Tree.List.Controller.list(Cairo.Tables.DOCUMENTO, documentosListLayout, self);
 
     }
