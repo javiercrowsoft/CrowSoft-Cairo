@@ -157,7 +157,7 @@ Cairo.module("Documento.List", function(List, Cairo, Backbone, Marionette, $, _)
 
         self.showBranch = function(branchId) {
           Cairo.log("Loading nodeId: " + branchId);
-          Cairo.Tree.List.Controller.listBranch(branchId, Cairo.Tree.List.Controller.showItem, self)
+          Cairo.Tree.List.Controller.listBranch(branchId, Cairo.Tree.List.Controller.showItems, self)
         };
 
         // progress message

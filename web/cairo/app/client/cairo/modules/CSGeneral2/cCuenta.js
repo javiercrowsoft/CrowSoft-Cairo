@@ -145,6 +145,11 @@ Cairo.module("Cuenta.List", function(List, Cairo, Backbone, Marionette, $, _) {
 
       var self = this;
 
+      /*
+          this function will be called by the tab manager every time the
+          view must be created. when the tab is not visible the tab manager
+          will not call this function but only make the tab visible
+      */
       var createTreeDialog = function(tabId) {
 
         // ListController properties and methods
@@ -157,7 +162,7 @@ Cairo.module("Cuenta.List", function(List, Cairo, Backbone, Marionette, $, _) {
 
         self.showBranch = function(branchId) {
           Cairo.log("Loading nodeId: " + branchId);
-          Cairo.Tree.List.Controller.listBranch(branchId, Cairo.Tree.List.Controller.showItem, self)
+          Cairo.Tree.List.Controller.listBranch(branchId, Cairo.Tree.List.Controller.showItems, self)
         };
 
         // progress message
@@ -170,23 +175,6 @@ Cairo.module("Cuenta.List", function(List, Cairo, Backbone, Marionette, $, _) {
 
         // create the dialog
         //
-        /*
-        var cuentasListLayout = new Cairo.Tree.List.TreeLayout({ model: self.entityInfo });
-        Cairo.cuentaTreeRegion.show(cuentasListLayout);
-
-        var regionId = "tree-main-list-region_" + Cairo.Tree.getNextControlId();
-        $("#tree-main-list-region").attr("id", regionId);
-
-        //$("#tree-list-region").attr("id", "tree-list-region_" + Cairo.Tree.getNextControlId());
-
-        // create the list region
-        //
-        Cairo.addRegions({ cuentaTreeListRegion: "#" + regionId });
-
-        self.Tree = { treeListRegion : Cairo.cuentaTreeListRegion };
-
-        Cairo.Tree.List.Controller.list(Cairo.Tables.CUENTA, cuentasListLayout, self);
-        */
         Cairo.Tree.List.Controller.list(
           Cairo.Tables.CUENTA,
           new Cairo.Tree.List.TreeLayout({ model: self.entityInfo }),

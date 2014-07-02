@@ -286,7 +286,7 @@ Cairo.module("Usuario.List", function(List, Cairo, Backbone, Marionette, $, _) {
 
       this.showBranch = function(branchId) {
         Cairo.log("Loading nodeId: " + branchId);
-        Cairo.Tree.List.Controller.listBranch(branchId, criterion, Cairo.Tree.List.Controller.showItem, self)
+        Cairo.Tree.List.Controller.listBranch(branchId, criterion, Cairo.Tree.List.Controller.showItems, self)
       };
 
       Cairo.LoadingMessage.show("Usuarios", "Loading usuarios from Crowsoft Cairo server.");

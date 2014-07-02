@@ -1,8 +1,72 @@
+/*
+    this module manages a tree view. all master tables are navigated using a tree view
+    a table needs to have at least one tree associated to it. a table can have many
+    trees. a tree allows the user to classify all rows in a hierarchy
+
+    trees are compose for three tables: (for now the database is in spanish :)
+      Arbol   ( Tree )
+      Rama    ( Branch )
+      Hoja    ( Leave )
+
+      a tree is associated to a table through the field tbl_id which is a FK to table Tabla
+      the table Tabla is a dictionary which contains a definition for ever master table in
+      the system
+      every leave is associated with one row in the table associated to its tree
+      every row which doesn't have a leave is in the root branch of the tree
+      branches are used to set parameters in reports and process. branches allow the users
+      to define arbitrary sets of rows and the hierarchy is not only used to filter but
+      to grouping and summarizing
+      in accounting trees are used to define the trial balance. the user can create
+      as many trial balance as he need
+
+    this tree module works with a table entity manager. All operations over the tree are
+    handled by this module and all operations to the rows of the table associated to a tree
+    are managed by the entity manager object.
+
+    every master table has an entity manager object which handles the CRUD operations over
+    that table
+
+    the table entity manager is responsible for creating the tab which will contain the tree
+    view and the main view ( List.TreeLayout ) of the tree
+
+    the table entity manager is referred as the listController
+
+    the listController must implement the following methods:
+
+      entityInfo:
+        an object of type:
+
+              entityInfo = {
+                entitiesTitle:  "",
+                entityName:     "",
+                entitiesName:   ""
+              }
+
+      showBranch:
+        a function which will call listBranch and pass it a function to draw the leaves:
+
+              showBranch = function (branchId) {
+                Cairo.log("Loading nodeId: " + branchId);
+                Cairo.Tree.List.Controller.listBranch(branchId, Cairo.Tree.List.Controller.showItems, self)
+              };
+
+        most of the case will pass Cairo.Tree.List.Controller.showItems which is the default
+        implementation
+
+*/
+
 ///////////////
-// Entities        underscore.js 1270 your new 2501 :P
+// Entities
 ///////////////
 
 Cairo.module("Entities", function(Entities, Cairo, Backbone, Marionette, $, _) {
+
+  /*
+      used ONLY to create a tree
+      the UPDATE and DELETE in a tree are handled by the root branch
+      to rename a tree the user renames the root branch
+      to delete a tree the user deletes the root branch
+  */
   Entities.Tree = Backbone.Model.extend({
     urlRoot: "/system/tree",
 
@@ -21,6 +85,9 @@ Cairo.module("Entities", function(Entities, Cairo, Backbone, Marionette, $, _) {
     }
   });
 
+  /*
+      used to CREATE, RENAME and DELETE a branch or a tree if the branch is the root
+  */
   Entities.Branch = Backbone.Model.extend({
     urlRoot: "/system/branch",
 
@@ -43,6 +110,11 @@ Cairo.module("Entities", function(Entities, Cairo, Backbone, Marionette, $, _) {
     }
   });
 
+  /*
+      used in tree API
+
+      maybe this will be remove in the future
+  */
   Entities.Leave = Backbone.Model.extend({
     urlRoot: "/system/leave",
 
@@ -62,6 +134,11 @@ Cairo.module("Entities", function(Entities, Cairo, Backbone, Marionette, $, _) {
     }
   });
 
+  /*
+      used in tree API
+
+      maybe this will be remove in the future
+  */
   Entities.TreeCollection = Backbone.Collection.extend({
     url: function () {
             return '/system/trees/' + this.tableId;
@@ -71,6 +148,11 @@ Cairo.module("Entities", function(Entities, Cairo, Backbone, Marionette, $, _) {
     tableId: 0
   });
 
+  /*
+      used in tree API
+
+      maybe this will be remove in the future
+  */
   Entities.LeaveCollection = Backbone.Collection.extend({
     url: function () {
             return '/system/branch/' + this.branchId;
@@ -80,6 +162,9 @@ Cairo.module("Entities", function(Entities, Cairo, Backbone, Marionette, $, _) {
     branchId: 0
   });
 
+  /*
+      used for BRANCH paste operations: paste copy and paste cut
+  */
   Entities.PasteInfo = Backbone.Model.extend({
     urlRoot: "/system/branch/paste",
 
@@ -103,6 +188,9 @@ Cairo.module("Entities", function(Entities, Cairo, Backbone, Marionette, $, _) {
     }
   });
 
+  /*
+      used for move operations over branches
+  */
   Entities.MoveInfo = Backbone.Model.extend({
     urlRoot: "/system/branch/move",
 
@@ -123,6 +211,9 @@ Cairo.module("Entities", function(Entities, Cairo, Backbone, Marionette, $, _) {
     }
   });
 
+  /*
+      used for sort operations over trees
+  */
   Entities.SortInfo = Backbone.Model.extend({
     urlRoot: "/system/tree/sort",
 
@@ -141,6 +232,9 @@ Cairo.module("Entities", function(Entities, Cairo, Backbone, Marionette, $, _) {
     }
   });
 
+  /*
+      used for LEAVE paste operations: paste copy and paste cut
+  */
   Entities.PasteLeaveInfo = Backbone.Model.extend({
     urlRoot: "/system/leave/paste",
 
@@ -160,6 +254,12 @@ Cairo.module("Entities", function(Entities, Cairo, Backbone, Marionette, $, _) {
       }
     }
   });
+
+  /*
+      tree API
+
+      this API is not used yet and maybe will be removed in the future
+  */
 
   var API = {
     getTreeEntities: function(tableId) {
@@ -217,6 +317,10 @@ Cairo.module("Entities", function(Entities, Cairo, Backbone, Marionette, $, _) {
     return API.getBranchEntity(branchId);
   });
 
+  /*
+      end of tree API
+  */
+
 });
 
 ///////////////
@@ -226,12 +330,33 @@ Cairo.module("Entities", function(Entities, Cairo, Backbone, Marionette, $, _) {
 Cairo.module("Tree", function(Tree, Cairo, Backbone, Marionette, $, _) {
   var nextControlId = 1000;
 
+  /*
+      the system shows many trees at the same time
+      so the ids in the templates has to be updated
+      to make them unique
+  */
+
+  /*
+      the select which contains the list of trees has a data attribute set to
+      the tbl_id of the table been shown. this data attribute is set in the render
+      function of the view List.Tree and used to update the select when the root
+      branch is renamed
+  */
   Tree.SELECT_ID_TAG_NAME = "data-select-ctrl-id";
 
+  /*
+      every id in the templates need to be updated keep them unique
+  */
   Tree.getNextControlId = function() {
     nextControlId += 1;
     return "CTL_" + nextControlId;
   };
+
+  /*
+
+    column formatting
+
+  */
 
   Tree.getColumnValue = function(column, value) {
     // TODO: find a generic way to identify boolean columns
@@ -259,6 +384,10 @@ Cairo.module("Tree", function(Tree, Cairo, Backbone, Marionette, $, _) {
 ///////////////
 
 Cairo.module("Tree.List", function(List, Cairo, Backbone, Marionette, $, _) {
+
+  /*
+      this view is used to show the select which contains the list of trees
+  */
   List.Tree = Backbone.View.extend({
     tagName: "select",
     className: "form-control tree-select",
@@ -304,6 +433,10 @@ Cairo.module("Tree.List", function(List, Cairo, Backbone, Marionette, $, _) {
     }
   });
 
+  /*
+      used to present an alert dialog to explain the user he needs to create at least a tree to
+      navigate the table
+  */
   List.NewTree = Marionette.ItemView.extend({
     template: "#tree-create-first-tree-template",
     id: "new-tree-view",
@@ -318,11 +451,19 @@ Cairo.module("Tree.List", function(List, Cairo, Backbone, Marionette, $, _) {
     }
   });
 
-  // new list
+  /*
+      the main view which contains all other views in the tree dialog
+      this view is created by the tree client object
+  */
   List.TreeLayout = Marionette.Layout.extend({
     template: "#tree-layout-template",
   });
 
+  /*
+      this view contain the list of items/rows in a branch
+      every time a branch is selected this view is destroyed and created
+      this is done in List.Controller.listBranch
+  */
   List.Layout = Marionette.Layout.extend({
     template: "#tree-list-layout-template",
 
@@ -332,6 +473,10 @@ Cairo.module("Tree.List", function(List, Cairo, Backbone, Marionette, $, _) {
     }
   });
 
+  /*
+      this view contains the create and the search buttons
+      every time a branch is selected this view is destroyed and created
+  */
   List.Panel = Marionette.ItemView.extend({
     template: "#tree-list-panel-template",
 
@@ -343,6 +488,10 @@ Cairo.module("Tree.List", function(List, Cairo, Backbone, Marionette, $, _) {
 
   });
 
+  /*
+      this view is a subview of List.Items
+      it draws a row
+  */
   List.Item = Marionette.ItemView.extend({
     tagName: "span",
     template: Cairo.isMobile() ? "#tree-list-item-template-mobile" : "#tree-list-item-template",
@@ -378,12 +527,22 @@ Cairo.module("Tree.List", function(List, Cairo, Backbone, Marionette, $, _) {
 
   });
 
+  /*
+      this view is a subview of List.Items
+      it shows a message when a branch is empty
+  */
   var NoItemsView = Marionette.ItemView.extend({
     template: "#tree-list-none-template",
     tagName: "tr",
     className: "alert"
   });
 
+  /*
+      it draws a table with all the leave/rows in a branch or
+      a message alerting the user that there is no data to list
+      when the branch is empty
+      it is used by List.Controller.showItems
+  */
   List.Items = Marionette.CompositeView.extend({
     tagName: "table",
     id: "tree-item-table",
@@ -760,6 +919,32 @@ Cairo.module("Tree.Actions", function(Actions, Cairo, Backbone, Marionette, $, _
 
 Cairo.module("Tree.List", function(List, Cairo, Backbone, Marionette, $, _) {
   List.Controller = {
+
+    /*
+        this controller has four basic functions:
+
+          list:       fills a select with all the trees associated to a table
+          listTree:   fills a FancyTree with all the branches of the selected tree
+          listBranch: fills a table with all the leaves of the selected branch
+          showItems:  draw the table with all the leaves
+
+          IMPORTANT: listBranch will call a showItems function which is responsible
+                     of draw the table. this controller implement a showItems function
+                     but is the table entity manager ( listController ) who decide
+                     which function to use to draw the leaves. the listBranch function
+                     must be called by the showBranch function of the listController
+
+                     all the state associated with the tree is persisted in the
+                     listController's Tree object. this object is created when the
+                     list function is called by the listController
+    */
+
+    /*
+        @tableId:         the tbl_id of the table to navigate
+        @mainView:        an instance of List.TreeLayout
+        @mainRegion:      is a region that the listController must have added to Cairo
+        @listController:  a reference to the table entity manager
+    */
     list: function(tableId, mainView, mainRegion, listController) {
       Cairo.LoadingMessage.show();
 
@@ -945,7 +1130,7 @@ Cairo.module("Tree.List", function(List, Cairo, Backbone, Marionette, $, _) {
       }
     },
 
-    listBranch: function(branchId, showItem, listController) {
+    listBranch: function(branchId, showItems, listController) {
       Cairo.LoadingMessage.show();
 
       var fetchingBranch = Cairo.request("branch:entity", branchId);
@@ -955,53 +1140,24 @@ Cairo.module("Tree.List", function(List, Cairo, Backbone, Marionette, $, _) {
 
       $.when(fetchingBranch).done(function(branch) {
 
-        showItem(branch, itemsListPanel, itemsListLayout, listController);
-
-        //$("#tree-list-region").attr("id", "tree-list-region_" + Cairo.Tree.getNextControlId());
-
-        //var panelRegionId = "tree-panel-region_" + Cairo.Tree.getNextControlId();
-        //$("#tree-panel-region").attr("id", panelRegionId);
-
-        //var itemsRegionId = "tree-items-region_" + Cairo.Tree.getNextControlId();
-        //$("#tree-items-region").attr("id", itemsRegionId);
-
-        //itemsListLayout.addRegions({
-        //  panelRegion: "#" + panelRegionId,
-        //  itemsRegion: "#" + itemsRegionId
-        //});
+        showItems(branch, itemsListPanel, itemsListLayout, listController);
 
       });
     },
 
-    showItem: function(branch, itemsListPanel, itemsListLayout, listController) {
+    /*
+        @branch:            an object that contains the columns definition and the
+                            all the leaves in a branch
+        @itemsListPanel:    an instance of List.Layout passed by listBranch
+        @itemsListLayout:   an instance of List.Panel passed by listBranch
+        @listController:    a reference to the table entity manager
+    */
+    showItems: function(branch, itemsListPanel, itemsListLayout, listController) {
       branch.entityInfo = listController.entityInfo;
-      /*
-      var filteredItems = Cairo.Entities.FilteredCollection({
-        collection: branch,
-        filterFunction: function(filterCriterion) {
-          var criterion = filterCriterion.toLowerCase();
-          return function(leave) {
-            var matches = false;
-            leave.values.forEach(function(value) {
-              if(value.toLowerCase().indexOf(criterion) !== -1) matches = true;
-            });
-            if(matches) {
-              return leave;
-            }
-          };
-        }
-      });
-      */
+
       var itemsListView = new List.Items({
         collection: branch
       });
-
-      /*
-      itemsListPanel.on("items:filter", function(filterCriterion) {
-        filteredItems.filter(filterCriterion);
-        Cairo.trigger("items:filter", filterCriterion);
-      });
-      */
 
       itemsListLayout.on("show", function() {
         itemsListLayout.panelRegion.reset();
@@ -1011,12 +1167,10 @@ Cairo.module("Tree.List", function(List, Cairo, Backbone, Marionette, $, _) {
       });
 
       itemsListPanel.on("item:new", function() {
-
         // TODO: call to controller listController.newItem
       });
 
       itemsListView.on("itemview:item:edit", function(childView, args) {
-
         // TODO: call to controller listController.editItem
       });
 
@@ -1025,10 +1179,6 @@ Cairo.module("Tree.List", function(List, Cairo, Backbone, Marionette, $, _) {
         args.model.destroy();
       });
 
-      /*
-      Cairo.treeListRegion.reset();
-      Cairo.treeListRegion.show(itemsListLayout);
-      */
       listController.Tree.treeListRegion.reset();
       listController.Tree.treeListRegion.show(itemsListLayout);
 

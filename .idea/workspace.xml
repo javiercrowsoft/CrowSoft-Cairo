@@ -2,14 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d47203c3-b220-49d7-aac2-46c758baa4bb" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSGeneral2/cCliente.js" afterPath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSGeneral2/cCliente.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSGeneral2/cCuenta.js" afterPath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSGeneral2/cCuenta.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSDocumentoEdit/cDocumento.js" afterPath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSDocumentoEdit/cDocumento.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSGeneral2/cProducto.js" afterPath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSGeneral2/cProducto.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/cairo/app/client/cairo/cairoApp.js" afterPath="$PROJECT_DIR$/web/cairo/app/client/cairo/cairoApp.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/cairo/app/views/logged/desktop/index.scala.html" afterPath="$PROJECT_DIR$/web/cairo/app/views/logged/desktop/index.scala.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/database/cairo/CSScript/postgresql/functions/sp_arb_hoja_paste_cut.sql" afterPath="$PROJECT_DIR$/database/cairo/CSScript/postgresql/functions/sp_arb_hoja_paste_cut.sql" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/database/cairo/CSScript/postgresql/functions/sp_str_replace_equals_with_as.sql" afterPath="$PROJECT_DIR$/database/cairo/CSScript/postgresql/functions/sp_str_replace_equals_with_as.sql" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/CrowSoft-Cairo.iml" afterPath="$PROJECT_DIR$/.idea/CrowSoft-Cairo.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/cairo/app/services/UserAgent.scala" afterPath="$PROJECT_DIR$/web/cairo/app/services/UserAgent.scala" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/database/cairo/CSScript/postgresql/functions/sp_arb_rama_create.sql" afterPath="$PROJECT_DIR$/database/cairo/CSScript/postgresql/functions/sp_arb_rama_create.sql" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/cairo/app/client/cairo/system/tab.js" afterPath="$PROJECT_DIR$/web/cairo/app/client/cairo/system/tab.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/cairo/app/client/cairo/system/tree.js" afterPath="$PROJECT_DIR$/web/cairo/app/client/cairo/system/tree.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/database/migration_from_sqlserver/update_tabla.sql" afterPath="$PROJECT_DIR$/database/migration_from_sqlserver/update_tabla.sql" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
@@ -83,8 +80,98 @@
       <file leaf-file-name="sp_arb_rama_delete.sql" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/database/cairo/CSScript/postgresql/functions/sp_arb_rama_delete.sql">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="1254" max-vertical-offset="2850">
-              <caret line="66" column="49" selection-start-line="66" selection-start-column="30" selection-end-line="66" selection-end-column="30" />
+            <state vertical-scroll-proportion="1.48407" vertical-offset="0" max-vertical-offset="2850">
+              <caret line="76" column="41" selection-start-line="76" selection-start-column="14" selection-end-line="76" selection-end-column="14" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="sp_str_replace_equals_with_as.sql" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/database/cairo/CSScript/postgresql/functions/sp_str_replace_equals_with_as.sql">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-0.0" vertical-offset="0" max-vertical-offset="5890">
+              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="sp_arb_get_decendencia.sql" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/database/cairo/CSScript/postgresql/functions/sp_arb_get_decendencia.sql">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-6.793103" vertical-offset="620" max-vertical-offset="3477">
+              <caret line="43" column="40" selection-start-line="43" selection-start-column="7" selection-end-line="43" selection-end-column="7" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="sp_arb_hoja_paste_cut.sql" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/database/cairo/CSScript/postgresql/functions/sp_arb_hoja_paste_cut.sql">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-38.275864" vertical-offset="771" max-vertical-offset="2299">
+              <caret line="99" column="8" selection-start-line="99" selection-start-column="0" selection-end-line="99" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="sp_arb_get_hojas.sql" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/database/cairo/CSScript/postgresql/functions/sp_arb_get_hojas.sql">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-26.034483" vertical-offset="3558" max-vertical-offset="4579">
+              <caret line="227" column="23" selection-start-line="227" selection-start-column="23" selection-end-line="227" selection-end-column="23" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="sp_arb_rama_move_bottom.sql" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/database/cairo/CSScript/postgresql/functions/sp_arb_rama_move_bottom.sql">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-27.137932" vertical-offset="486" max-vertical-offset="1520">
+              <caret line="67" column="59" selection-start-line="65" selection-start-column="3" selection-end-line="67" selection-end-column="59" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="sp_arb_get_ramas.sql" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/database/cairo/CSScript/postgresql/functions/sp_arb_get_ramas.sql">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-21.448277" vertical-offset="195" max-vertical-offset="1216">
+              <caret line="43" column="39" selection-start-line="0" selection-start-column="0" selection-end-line="58" selection-end-column="20" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="sp_arb_rama_paste_cut.sql" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/database/cairo/CSScript/postgresql/functions/sp_arb_rama_paste_cut.sql">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-21.896551" vertical-offset="1151" max-vertical-offset="2185">
+              <caret line="94" column="39" selection-start-line="0" selection-start-column="0" selection-end-line="109" selection-end-column="20" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="sp_get_rpt_id.sql" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/database/cairo/CSScript/postgresql/functions/sp_get_rpt_id.sql">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-0.0" vertical-offset="0" max-vertical-offset="1406">
+              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="sp_arb_rama_orden_validate.sql" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/database/cairo/CSScript/postgresql/functions/sp_arb_rama_orden_validate.sql">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-6.172414" vertical-offset="543" max-vertical-offset="1577">
+              <caret line="38" column="0" selection-start-line="38" selection-start-column="0" selection-end-line="38" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -106,7 +193,6 @@
         <option value="$PROJECT_DIR$/docs/how it works.md" />
         <option value="$PROJECT_DIR$/database/cairo/CSScript/postgresql/functions/sp_arb_arbol_create.sql" />
         <option value="$PROJECT_DIR$/database/cairo/CSScript/postgresql/functions/sp_arb_get_hojas.sql" />
-        <option value="$PROJECT_DIR$/database/cairo/CSScript/postgresql/functions/sp_arb_rama_create.sql" />
         <option value="$PROJECT_DIR$/database/cairo/CSScript/postgresql/functions/sp_arb_rama_rename.sql" />
         <option value="$PROJECT_DIR$/database/cairo/CSScript/postgresql/sequence/t_rama_new_seq.sql" />
         <option value="$PROJECT_DIR$/database/cairo/CSScript/postgresql/sequence/t_ramas_a_borrar_seq.sql" />
@@ -123,6 +209,7 @@
         <option value="$PROJECT_DIR$/database/cairo/CSScript/postgresql/functions/sp_arb_arbol_sort.sql" />
         <option value="$PROJECT_DIR$/database/cairo/CSScript/postgresql/functions/sp_arb_hoja_paste_copy.sql" />
         <option value="$PROJECT_DIR$/database/cairo/CSScript/postgresql/functions/sp_arb_hoja_paste_cut.sql" />
+        <option value="$PROJECT_DIR$/database/cairo/CSScript/postgresql/functions/sp_arb_rama_create.sql" />
       </list>
     </option>
   </component>
@@ -159,6 +246,7 @@
       <sortByType />
     </navigator>
     <panes>
+      <pane id="PackagesPane" />
       <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
@@ -490,7 +578,6 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -508,6 +595,7 @@
     <property name="project.structure.last.edited" value="Project" />
     <property name="project.structure.proportion" value="0.0" />
     <property name="project.structure.side.proportion" value="0.0" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
   </component>
   <component name="RunManager">
     <configuration default="true" type="#org.jetbrains.idea.devkit.run.PluginConfigurationType" factoryName="Plugin">
@@ -698,7 +786,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1920" height="1080" extended-state="0" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -715,8 +803,10 @@
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32959402" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32959402" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.23931624" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.23931624" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="DB Browser" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.1340812" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="DB Execution Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3294686" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.589372" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
@@ -744,6 +834,14 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/database/cairo/CSScript/postgresql/functions/sp_arb_rama_delete.sql">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="608" max-vertical-offset="2850">
+          <caret line="76" column="41" selection-start-line="76" selection-start-column="14" selection-end-line="76" selection-end-column="14" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/database/cairo/CSScript/postgresql/functions/sp_arb_rama_delete.sql">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="1254" max-vertical-offset="2850">
@@ -914,13 +1012,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/database/cairo/CSScript/postgresql/functions/sp_arb_get_hojas.sql">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.7240664" vertical-offset="3615" max-vertical-offset="4579">
-          <caret line="227" column="23" selection-start-line="227" selection-start-column="23" selection-end-line="227" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/database/cairo/CSScript/postgresql/functions/sp_arb_rama_rename.sql">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="956" max-vertical-offset="1349">
@@ -970,27 +1061,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/database/cairo/CSScript/postgresql/functions/sp_arb_get_ramas.sql">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.591607" vertical-offset="239" max-vertical-offset="1216">
-          <caret line="43" column="39" selection-start-line="0" selection-start-column="0" selection-end-line="58" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/database/cairo/CSScript/postgresql/functions/sp_arb_get_decendencia.sql">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.21069519" vertical-offset="620" max-vertical-offset="3477">
-          <caret line="43" column="40" selection-start-line="43" selection-start-column="7" selection-end-line="43" selection-end-column="7" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/database/cairo/CSScript/postgresql/functions/sp_arb_rama_create.sql">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="125" max-vertical-offset="1862">
-          <caret line="85" column="21" selection-start-line="85" selection-start-column="21" selection-end-line="85" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/database/cairo/CSScript/postgresql/functions/sp_arb_rama_move_up.sql">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.3402778" vertical-offset="455" max-vertical-offset="1463">
@@ -1026,20 +1096,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/database/cairo/CSScript/postgresql/functions/sp_arb_rama_orden_validate.sql">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.17311412" vertical-offset="543" max-vertical-offset="1577">
-          <caret line="38" column="0" selection-start-line="38" selection-start-column="0" selection-end-line="38" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/database/cairo/CSScript/postgresql/functions/sp_arb_rama_move_bottom.sql">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.76112187" vertical-offset="486" max-vertical-offset="1520">
-          <caret line="67" column="59" selection-start-line="65" selection-start-column="3" selection-end-line="67" selection-end-column="59" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/database/cairo/CSScript/postgresql/functions/sp_arb_arbol_sort.sql">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.33770162" vertical-offset="691" max-vertical-offset="1881">
@@ -1054,13 +1110,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/database/cairo/CSScript/postgresql/functions/sp_arb_rama_paste_cut.sql">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.61411995" vertical-offset="1151" max-vertical-offset="2185">
-          <caret line="94" column="39" selection-start-line="0" selection-start-column="0" selection-end-line="109" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/database/cairo/CSScript/postgresql/functions/sp_arb_hoja_paste_copy.sql">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.41199225" vertical-offset="1303" max-vertical-offset="2337">
@@ -1068,17 +1117,90 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/database/cairo/CSScript/postgresql/functions/sp_arb_rama_create.sql">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-0.0" vertical-offset="532" max-vertical-offset="1862">
+          <caret line="28" column="29" selection-start-line="28" selection-start-column="25" selection-end-line="28" selection-end-column="25" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/database/cairo/CSScript/postgresql/functions/sp_arb_rama_move_bottom.sql">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-27.137932" vertical-offset="486" max-vertical-offset="1520">
+          <caret line="67" column="59" selection-start-line="65" selection-start-column="3" selection-end-line="67" selection-end-column="59" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/database/cairo/CSScript/postgresql/functions/sp_arb_get_ramas.sql">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-21.448277" vertical-offset="195" max-vertical-offset="1216">
+          <caret line="43" column="39" selection-start-line="0" selection-start-column="0" selection-end-line="58" selection-end-column="20" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/database/cairo/CSScript/postgresql/functions/sp_arb_rama_paste_cut.sql">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-21.896551" vertical-offset="1151" max-vertical-offset="2185">
+          <caret line="94" column="39" selection-start-line="0" selection-start-column="0" selection-end-line="109" selection-end-column="20" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/database/cairo/CSScript/postgresql/functions/sp_get_rpt_id.sql">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1406">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/database/cairo/CSScript/postgresql/functions/sp_arb_rama_orden_validate.sql">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-6.172414" vertical-offset="543" max-vertical-offset="1577">
+          <caret line="38" column="0" selection-start-line="38" selection-start-column="0" selection-end-line="38" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/database/cairo/CSScript/postgresql/functions/sp_str_replace_equals_with_as.sql">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="5890">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/database/cairo/CSScript/postgresql/functions/sp_arb_get_decendencia.sql">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-6.793103" vertical-offset="620" max-vertical-offset="3477">
+          <caret line="43" column="40" selection-start-line="43" selection-start-column="7" selection-end-line="43" selection-end-column="7" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/database/cairo/CSScript/postgresql/functions/sp_arb_hoja_paste_cut.sql">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="1.073501" vertical-offset="771" max-vertical-offset="2299">
+        <state vertical-scroll-proportion="-38.275864" vertical-offset="771" max-vertical-offset="2299">
           <caret line="99" column="8" selection-start-line="99" selection-start-column="0" selection-end-line="99" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/database/cairo/CSScript/postgresql/functions/sp_arb_get_hojas.sql">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-26.034483" vertical-offset="3558" max-vertical-offset="4579">
+          <caret line="227" column="23" selection-start-line="227" selection-start-column="23" selection-end-line="227" selection-end-column="23" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/database/cairo/CSScript/postgresql/functions/sp_arb_rama_delete.sql">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1254" max-vertical-offset="2850">
-          <caret line="66" column="49" selection-start-line="66" selection-start-column="30" selection-end-line="66" selection-end-column="30" />
+        <state vertical-scroll-proportion="1.48407" vertical-offset="0" max-vertical-offset="2850">
+          <caret line="76" column="41" selection-start-line="76" selection-start-column="14" selection-end-line="76" selection-end-column="14" />
           <folding />
         </state>
       </provider>
