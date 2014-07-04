@@ -5,11 +5,9 @@ import play.api.mvc._
 import play.api.data._
 import play.api.data.Forms._
 import actions._
-import models.cairo.{ Menu, Router }
 import play.api.Logger
 import play.api.libs.json._
 import models.cairo.trees._
-import services.PasswordValidation
 
 case class BranchData(id: Option[Int], name: String, fatherId: Int, treeId: Int)
 case class PasteInfo(idFrom: Int, idTo: Int, onlyChildren: Boolean, isCut: Boolean)

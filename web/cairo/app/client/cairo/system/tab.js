@@ -8,7 +8,7 @@ Cairo.module("Tab", function(Tab, Cairo, Backbone, Marionette, $, _) {
         there is two main concepts:
 
         a tab manager which is implemented in this module and have the
-        responsability of create and detroy the tab and show / hide
+        responsibility of create and destroy the tab and show / hide
         the tab body
 
         a tab client which is the object which will create a new tab
@@ -16,7 +16,7 @@ Cairo.module("Tab", function(Tab, Cairo, Backbone, Marionette, $, _) {
     */
 
     /*
-        instantiate a taba manager
+        instantiate a tab manager
 
         returns an object which allow to create and show a tab
 

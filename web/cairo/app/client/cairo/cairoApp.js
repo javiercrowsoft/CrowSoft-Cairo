@@ -4,7 +4,6 @@ Cairo.addRegions({
   headerRegion: "#header-region",
   mainRegion: "#main-region",
   loadingRegion: "#loading-region",
-  /*treeListRegion: "#tree-main-list-region",*/
   dialogRegion: Marionette.Region.Dialog.extend({
     el: "#dialog-region"
   })

@@ -2,7 +2,7 @@ how to connect to salmax server
 
 these alias are in ~/.bash_profile
 
-alias sshprogressalmax='ssh -L 5439:localhost:5432 root@190.210.181.104'
+alias sshpostgressalmax='ssh -L 5439:localhost:5432 root@190.210.181.104'
 alias sshsalmax='ssh root@190.210.181.104'
 
 how to update production
@@ -11,7 +11,7 @@ how to update production
 
 scp /Users/javier/Work/CrowSoft/CrowSoft-Cairo/web/cairo/conf/production.conf root@190.210.181.104:/root/apps/CrowSoft-Cairo/web/cairo/conf/
 
-2 connect using sshsalmax or sshprogressalmax if you want to run some scripts
+2 connect using sshsalmax or sshpostgressalmax if you want to run some scripts
 
 3 stop play
 

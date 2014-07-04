@@ -79,6 +79,9 @@ POST    /system/leave/paste             controllers.logged.system.Branches.paste
 GET     /system/users                   controllers.logged.system.Users.list
 
 
+GET     /system/select/:tableId/:filter/:active/:useSearch/:internalFilter  controllers.logged.system.Selects.get(tableId: Int, filter: String, active: Boolean, useSearch: Boolean, internalFilter: String)
+
+
 # Web client code
 #
 GET     /client/*file                   controllers.FileService.getFile(path="/app/client", file)
