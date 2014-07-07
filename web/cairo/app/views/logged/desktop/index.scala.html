@@ -66,13 +66,10 @@
 <div id="loading-region" class="container"></div>
 
 <ul id="mainTabBar" class="nav nav-tabs">
-  <li class="active"><a href="#desktop" data-toggle="tab" data-route="#">Desktop</a></li>
+  <li class="active"><a href="#desktop-region" data-toggle="tab" data-route="#" id="link_desktop-region">Desktop</a></li>
 </ul>
 <div id="mainTabBody" class="tab-content">
-  <div class="tab-pane active" id="desktop">
-    <div class="container">
-        <h1>Welcome to you desktop 2 !!!</h1>
-    </div>
+  <div class="tab-pane active" id="desktop-region">
   </div>
 </div>
 
@@ -241,6 +238,25 @@
   <iframe id="errorDetailIFrame" style="width: 800px; height: 600px; display: none; margin-top: 50px; border: none;"></iframe>
 </script>
 
+<!-- desktop -->
+<script type="text/template" id="desktop-template">
+    <div class="container">
+        <h1>Welcome to you desktop 3 !!!</h1>
+        <form>
+          <fieldset>
+            <input
+        					type="text"
+        					class="form-control"
+        					id="desktop-select"
+        					placeholder="What's your favorite US State?"
+        					autocomplete="off"
+        					data-provide="typeahead"
+        				/>
+          </fieldset>
+        </form>
+    </div>
+</script>
+
 <!-- trees -->
 
 <script type="text/template" id="tree-list-panel-template">
@@ -394,7 +410,7 @@
 <script src="@routes.Assets.at("javascripts/vendor/dataTables.bootstrap.js")" type="text/javascript"></script>
 <script src="@routes.Assets.at("javascripts/vendor/dataTables.tableTools.js")" type="text/javascript"></script>
 <script src="@routes.Assets.at("javascripts/vendor/jquery.contextmenu.js")" type="text/javascript"></script>
-
+<script src="@routes.Assets.at("javascripts/vendor/typeahead.bundle.js")" type="text/javascript"></script>
 
 <script src="./client/cairo/config/marionette/regions/dialog.js"></script>
 <script src="./client/cairo/cairoApp.js"></script>
@@ -419,10 +435,12 @@
 <script src="./client/cairo/common/views.js"></script>
 <script src="./client/cairo/system/tree.js"></script>
 <script src="./client/cairo/system/tab.js"></script>
+<script src="./client/cairo/system/select.js"></script>
 
 @for(routerEntry <- router) {<script src="./client/cairo/modules/@{routerEntry.fileHandler}.js"></script>
 }
 <script src="./client/cairo/about/aboutApp.js"></script>
+<script src="./client/cairo/desktop/desktopApp.js"></script>
 <script src="./client/cairo/about/show/showView.js"></script>
 <script src="./client/cairo/about/show/showController.js"></script>
 

@@ -4,12 +4,7 @@ Cairo.module("Select", function(Select, Cairo, Backbone, Marionette, $, _) {
       implements a type ahead control which shows a table grid
   */
 
-  Select.Controller = {
-
-    /*
-        @selector:  selector to an html input
-        @source:    url to request the list
-    */
+  var createSelect = function() {
 
     var getSource = function(tableId, active, useSearch, internalFilter) {
       return "/system/select" +
@@ -18,16 +13,20 @@ Cairo.module("Select", function(Select, Cairo, Backbone, Marionette, $, _) {
              "/" + active +
              "/" + useSearch +
              "/" + internalFilter
-    },
+    };
 
     var getSearchSource = function(tableId, active, internalFilter) {
       return getSource(tableId, active, true, internalFilter);
-    },
+    };
 
     var getSelectSource = function(tableId, active, internalFilter) {
       return getSource(tableId, active, false, internalFilter);
-    },
+    };
 
+    /*
+        @selector:  selector to an html input
+        @source:    url to request the list
+    */
     var createSelect = function(selector, source) {
 
 			var listData = {};
@@ -76,10 +75,21 @@ Cairo.module("Select", function(Select, Cairo, Backbone, Marionette, $, _) {
 					return listData[key].text;
 				}
 			});
-		},
-		
-		this.createSelectControl = function(selector tableId, active, internalFilter) {
-		  createSelect(selector, getSelectSource(tableId, active, internalFilter));
-		}
-  }
+		};
+
+    /*
+        @selector:        selector to an html input
+        @tableId:         tbl_id
+        @active:          if the list must be filter using the active column
+        @internalFilter:  allows to define flags for especial cases
+    */
+    var createSelectControl = function(selector, tableId, active, internalFilter) {
+      createSelect(selector, getSelectSource(tableId, active, internalFilter));
+    };
+
+    return { createSelectControl: createSelectControl	};
+
+  };
+
+  Select.Controller = createSelect();
 });

@@ -46,6 +46,7 @@ Cairo.module("Tab", function(Tab, Cairo, Backbone, Marionette, $, _) {
           var tab = this.find(tabId);
           if(tab) { this[tab] = undefined; }
         }
+
       };
 
       /*
@@ -68,24 +69,33 @@ Cairo.module("Tab", function(Tab, Cairo, Backbone, Marionette, $, _) {
         // only create a tab if it is not in the collection
         //
         if(tabId === undefined) {
-          tabIndex++;
-          tabId = '#tab_' + tabName + '_' + tabIndex;
 
-          // add a tab header
-          //
-          $(tabBar).append(
-            $('<li><a href="' + tabId +
-              '" id="link_' + tabId.substring(1, tabId.length) +
-              '" data-route="' + route + '">' +
-              title +
-              '<button class="close tab-button-close" type="button" title="Remove this tab">×</button></a></li>')
-          );
+          /*
+              the desktop tab is especial
+          */
+          if("desktopRegion" === id) {
+            tabId = '#desktop-region';
+          }
+          else {
+            tabIndex++;
+            tabId = '#tab_' + tabName + '_' + tabIndex;
 
-          // add a tab body
-          //
-          $(tabBody).append(
-            $('<div class="tab-pane" id="tab_' + tabName + '_' + tabIndex +
-            '">Content tab_' + tabName + '_' + tabIndex + '</div>'));
+            // add a tab header
+            //
+            $(tabBar).append(
+              $('<li><a href="' + tabId +
+                '" id="link_' + tabId.substring(1, tabId.length) +
+                '" data-route="' + route + '">' +
+                title +
+                '<button class="close tab-button-close" type="button" title="Remove this tab">×</button></a></li>')
+            );
+
+            // add a tab body
+            //
+            $(tabBody).append(
+              $('<div class="tab-pane" id="tab_' + tabName + '_' + tabIndex +
+              '">Content tab_' + tabName + '_' + tabIndex + '</div>'));
+          }
 
           // this callback let the tab client to instantiate the view
           // and display it in the body of this tab

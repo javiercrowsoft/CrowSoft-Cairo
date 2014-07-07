@@ -7,7 +7,8 @@ Cairo.module("CairoRouterApp", function(CairoRouterApp, Cairo, Backbone, Marione
          "@{routerEntry.path}": "@{routerEntry.action}@{routerEntry.handlerObject}",
          @if(!routerEntry.path2.isEmpty){"@{routerEntry.path2}": "@{routerEntry.action2}@{routerEntry.handlerObject}",}
       }
-        "about" : "showAbout"
+        "about" : "showAbout",
+        "desktop" : "showDesktop"
     }
   });
 
@@ -27,7 +28,12 @@ Cairo.module("CairoRouterApp", function(CairoRouterApp, Cairo, Backbone, Marione
         showAbout: function(id){
           Cairo.About.Show.Controller.showAbout();
           Cairo.execute("set:active:header", "about");
-        }
+        },
+        showDesktop: function(id){
+          Cairo.Desktop.Show.Controller.showDesktop();
+          Cairo.execute("set:active:header", "desktop");
+        },
+
   };
 
   @for(routerEntry <- router) {
@@ -46,6 +52,11 @@ Cairo.module("CairoRouterApp", function(CairoRouterApp, Cairo, Backbone, Marione
   Cairo.on("about:show", function(){
     Cairo.navigate("about");
     API.showAbout();
+  });
+
+  Cairo.on("desktop:show", function(){
+    Cairo.navigate("desktop");
+    API.showDesktop();
   });
 
   Cairo.addInitializer(function(){
