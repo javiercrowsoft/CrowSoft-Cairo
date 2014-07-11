@@ -4,7 +4,7 @@ import play.api.mvc._
 import actions._
 import play.api.data._
 import play.api.data.Forms._
-import models.{ UserData }
+import models.master.UserData
 import settings.Settings
 import services.PasswordValidation
 import play.api.Logger

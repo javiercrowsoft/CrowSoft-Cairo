@@ -4,7 +4,7 @@ import play.api.mvc._
 import play.api.data._
 import play.api.data.Forms._
 import actions._
-import models.{ User, LoginData, UserLogin }
+import models.master.{ User, LoginData, UserLogin }
 import services.{ UserAgent, RequestOrigin }
 import services.db.CairoDB
 import settings._

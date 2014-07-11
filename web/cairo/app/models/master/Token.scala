@@ -1,4 +1,4 @@
-package models
+package models.master
 
 import play.api.Logger
 import anorm._

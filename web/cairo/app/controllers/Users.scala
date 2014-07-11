@@ -5,7 +5,7 @@ import play.api.data._
 import play.api.data.Forms._
 import actions._
 import anorm._
-import models.{ LoginData, User, Token }
+import models.master.{ LoginData, User, Token }
 import services.{ PasswordValidation, UserAgent, RequestOrigin }
 import play.api.Logger
 import settings.Settings

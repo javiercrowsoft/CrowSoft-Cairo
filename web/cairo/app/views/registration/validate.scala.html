@@ -1,7 +1,7 @@
-@(username: String)(implicit token: play.filters.csrf.CSRF.Token, user: LoggedUser, requestOrigin: services.RequestOrigin)
+@(username: String)(implicit token: play.filters.csrf.CSRF.Token, user: models.master.LoggedUser, requestOrigin: services.RequestOrigin)
 
 @import helper._
-@import models.{ UserData /*, LoggedUser */}
+@import models.master.UserData
 
 @main("CrowSoft Cairo", "") {
 <!-- Main jumbotron for a primary marketing message or call to action -->

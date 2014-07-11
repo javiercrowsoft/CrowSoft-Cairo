@@ -1,7 +1,7 @@
-@(id: Int, userForm: Form[User])(implicit token: play.filters.csrf.CSRF.Token, loggedUser: LoggedUser, requestOrigin: services.RequestOrigin)
+@(id: Int, userForm: Form[models.master.User])(implicit token: play.filters.csrf.CSRF.Token, loggedUser: models.master.LoggedUser, requestOrigin: services.RequestOrigin)
 
 @import helper._
-@import models.User
+@import models.master.User
 
 @main("Edit User", "") {
 <div class="jumbotron">

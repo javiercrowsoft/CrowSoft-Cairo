@@ -1,8 +1,8 @@
-@(userForm: Form[LoginData])
+@(userForm: Form[models.master.LoginData])
 
 @import helper._
 @import views.html.helper.htmlHelpers._
-@import models.LoginData
+@import models.master.LoginData
 
 @inputText(userForm("email"), args = 'id -> "emailField", 'class -> "form-control form-control-sign-in", 'placeholder -> "Your Email", '_label -> "")
 @inputPassword(userForm("password"), args = 'class -> "form-control form-control-sign-in", 'placeholder -> "Password", '_label -> "")

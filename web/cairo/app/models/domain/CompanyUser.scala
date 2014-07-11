@@ -1,6 +1,6 @@
 package models.domain
 
-import models.User
+import models.master.User
 import services.db.DB
 import anorm._
 import anorm.SqlParser._

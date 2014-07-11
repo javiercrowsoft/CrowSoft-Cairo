@@ -3,7 +3,7 @@ package controllers
 import play.api.libs.json.Json
 import play.api.mvc._
 import actions._
-import models.{ LoggedUser, User }
+import models.master.{ LoggedUser, User }
 import models.domain.{ CompanyUser, Company }
 import services.db.CairoDB
 import services.RequestOrigin

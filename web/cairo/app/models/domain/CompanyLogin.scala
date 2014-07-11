@@ -10,7 +10,7 @@ import mailers._
 import java.util.Date
 import play.api.Play.current
 import collection.immutable.HashMap
-import models.User
+import models.master.User
 
 case class LoginData(companyId: Int, user: User)
 

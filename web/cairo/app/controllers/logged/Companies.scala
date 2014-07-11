@@ -7,7 +7,7 @@ import play.api.data.Forms._
 import actions._
 import models.domain.{ Company, CompanyLogin, LoginData }
 import services.RequestOrigin
-import models.{User, UserLogin}
+import models.master.{User, UserLogin}
 
 case class CompanyLoginData(companyId: Int)
 

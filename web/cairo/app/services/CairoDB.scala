@@ -5,7 +5,7 @@ import scala.collection.immutable.Map
 import play.api.{Logger, Configuration}
 import com.typesafe.config._
 import play.api.Play.current
-import models.{ User, Domain }
+import models.master.{ User, Domain }
 import models.domain.{ Company, Database, CompanyUser }
 
 object CairoDB {

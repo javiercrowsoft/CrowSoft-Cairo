@@ -5,7 +5,7 @@ import anorm._
 import anorm.SqlParser._
 import anorm.~
 import services.db.DB
-import models.User
+import models.master.User
 import java.util.Date
 import play.api.Play.current
 

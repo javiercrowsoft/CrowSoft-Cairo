@@ -9,7 +9,7 @@ package mailers
 import play.api._
 import play.api.Configuration._
 import services._
-import models.User
+import models.master.User
 import settings._
 
 object CustomerMailer {

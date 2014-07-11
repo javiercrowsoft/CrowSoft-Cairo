@@ -1,4 +1,4 @@
-package models
+package models.master
 
 import anorm._
 //import play.api.db.DB

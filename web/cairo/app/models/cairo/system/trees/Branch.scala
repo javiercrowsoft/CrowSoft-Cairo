@@ -3,7 +3,7 @@ package models.cairo.system.trees
 import java.sql.{Connection, CallableStatement, ResultSet, Types, SQLException}
 import anorm.SqlParser._
 import anorm._
-import models.Token
+import models.master.Token
 import services.db.DB
 import play.api.Play.current
 import models.domain.CompanyUser
