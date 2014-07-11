@@ -6,7 +6,7 @@ import play.api.data._
 import play.api.data.Forms._
 import play.filters.csrf.CSRF
 import actions._
-import models.cairo.{ Menu, Router }
+import models.cairo.system.{ Menu, Router }
 import play.api.Logger
 
 object Desktop extends Controller with ProvidesUser {

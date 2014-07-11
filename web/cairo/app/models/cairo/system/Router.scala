@@ -1,4 +1,4 @@
-package models.cairo
+package models.cairo.system
 
 case class RouterEntry(fileHandler: String, action: String, path: String, action2: String, path2: String) {
   val handlerObject = fileHandler.substring(fileHandler.indexOf("/") + 2)

@@ -1,4 +1,4 @@
-package models.cairo
+package models.cairo.system
 
 import java.sql.{Connection, CallableStatement, ResultSet, Types, SQLException}
 import play.api.Logger

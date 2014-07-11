@@ -1,4 +1,4 @@
-@(menu: models.cairo.MenuItem, mainMenu: Boolean, firstMenuInLevel: Boolean)
+@(menu: models.cairo.system.MenuItem, mainMenu: Boolean, firstMenuInLevel: Boolean)
 @if(menu.items.size == 0) {
     @if(menu.hasSeparator && !firstMenuInLevel) {
     <li class="divider"></li>

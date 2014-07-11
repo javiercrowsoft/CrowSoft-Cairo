@@ -1,4 +1,4 @@
-@(menus: List[models.cairo.MenuItem], router: List[models.cairo.RouterEntry], csrfToken: String)(implicit flash:Flash, token: play.filters.csrf.CSRF.Token, companyUser: models.domain.CompanyUser, loggedUser: LoggedUser, requestOrigin: services.RequestOrigin)
+@(menus: List[models.cairo.system.MenuItem], router: List[models.cairo.system.RouterEntry], csrfToken: String)(implicit flash:Flash, token: play.filters.csrf.CSRF.Token, companyUser: models.domain.CompanyUser, loggedUser: LoggedUser, requestOrigin: services.RequestOrigin)
 
 @import helper._
 
