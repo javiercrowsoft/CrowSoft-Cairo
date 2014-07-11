@@ -8,6 +8,8 @@ import actions._
 import play.api.Logger
 import play.api.libs.json._
 
+case class SelectInfo(tableId: Int, filter: String, active: Boolean, useSearch: Boolean, internalFilter: String)
+
 object Selects extends Controller with ProvidesUser {
 
   def get(tableId: Int, filter: String, active: Boolean, useSearch: Boolean, internalFilter: String) = GetAction { implicit request =>

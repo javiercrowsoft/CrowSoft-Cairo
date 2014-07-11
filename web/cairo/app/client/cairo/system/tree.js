@@ -605,7 +605,11 @@ Cairo.module("Tree.Actions", function(Actions, Cairo, Backbone, Marionette, $, _
           success: function(model, response) {
             Cairo.log("Successfully saved!");
             listController.Tree.selectedTreeId = model.get("id")
-            Cairo.Tree.List.Controller.list(listController.Tree.tableId, listController.Tree.mainView, listController);
+            Cairo.Tree.List.Controller.list(
+              listController.Tree.tableId,
+              listController.Tree.mainView,
+              listController.Tree.mainRegion,
+              listController);
           },
           error: function(model, error) {
             Cairo.log("Failed in save new tree.");
@@ -800,7 +804,11 @@ Cairo.module("Tree.Actions", function(Actions, Cairo, Backbone, Marionette, $, _
               wait: true,
               success: function () {
                 if(Cairo.Tree.Actions.Branch.getFatherId(node) === 0) {
-                  Cairo.Tree.List.Controller.list(listController.Tree.tableId, listController.Tree.mainView, listController);
+                  Cairo.Tree.List.Controller.list(
+                    listController.Tree.tableId,
+                    listController.Tree.mainView,
+                    listController.Tree.mainRegion,
+                    listController);
                 }
                 else {
                   node.remove();
@@ -968,6 +976,7 @@ Cairo.module("Tree.List", function(List, Cairo, Backbone, Marionette, $, _) {
 
       listController.Tree.tableId = tableId;
       listController.Tree.mainView = mainView;
+      listController.Tree.mainRegion = mainRegion;
       listController.Tree.treeControlId = Cairo.Tree.getNextControlId();
       listController.Tree.newTreeMessageId = Cairo.Tree.getNextControlId();
 

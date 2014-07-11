@@ -170,21 +170,6 @@ Cairo.module("Documento.List", function(List, Cairo, Backbone, Marionette, $, _)
 
         // create the dialog
         //
-        /*
-        var documentosListLayout = new Cairo.Tree.List.TreeLayout({ model: self.entityInfo });
-        Cairo.documentoTreeRegion.show(documentosListLayout);
-
-        var regionId = "tree-main-list-region_" + Cairo.Tree.getNextControlId();
-        $("#tree-main-list-region").attr("id", regionId);
-
-        // create the list region
-        //
-        Cairo.addRegions({ documentoTreeListRegion: "#" + regionId });
-
-        self.Tree = { treeListRegion : Cairo.documentoTreeListRegion };
-
-        Cairo.Tree.List.Controller.list(Cairo.Tables.DOCUMENTO, documentosListLayout, self);
-        */
         Cairo.Tree.List.Controller.list(
           Cairo.Tables.DOCUMENTO,
           new Cairo.Tree.List.TreeLayout({ model: self.entityInfo }),
