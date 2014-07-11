@@ -1,4 +1,4 @@
-package models.cairo.trees
+package models.cairo.system.trees
 
 import java.sql.{Connection, CallableStatement, ResultSet, Types, SQLException}
 import anorm.SqlParser._

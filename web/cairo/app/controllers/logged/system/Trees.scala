@@ -7,7 +7,7 @@ import play.api.data.Forms._
 import actions._
 import play.api.Logger
 import play.api.libs.json._
-import models.cairo.trees._
+import models.cairo.system.trees._
 
 case class TreeData(id: Option[Int], name: String, tableId: Int)
 case class SortInfo(id: Int, direction: String)
