@@ -61,25 +61,25 @@ GET     /desktop                        controllers.logged.Desktop.show
 
 # system
 #
-GET     /system/trees/:tableId          controllers.logged.system.Trees.list(tableId: Int)
-GET     /system/tree/:id                controllers.logged.system.Trees.get(id: Int)
+GET     /system/trees/:tableId          controllers.logged.system.trees.Trees.list(tableId: Int)
+GET     /system/tree/:id                controllers.logged.system.trees.Trees.get(id: Int)
 
-POST    /system/tree                    controllers.logged.system.Trees.create
-POST    /system/tree/sort               controllers.logged.system.Trees.sort
+POST    /system/tree                    controllers.logged.system.trees.Trees.create
+POST    /system/tree/sort               controllers.logged.system.trees.Trees.sort
 
-GET     /system/branch/:id              controllers.logged.system.Branches.get(id: Int)
+GET     /system/branch/:id              controllers.logged.system.trees.Branches.get(id: Int)
 
-POST    /system/branch                  controllers.logged.system.Branches.create
-PUT     /system/branch/:id              controllers.logged.system.Branches.update(id: Int)
-DELETE  /system/branch/:id              controllers.logged.system.Branches.delete(id: Int)
-POST    /system/branch/paste            controllers.logged.system.Branches.paste
-POST    /system/branch/move             controllers.logged.system.Branches.move
-POST    /system/leave/paste             controllers.logged.system.Branches.pasteLeave
+POST    /system/branch                  controllers.logged.system.trees.Branches.create
+PUT     /system/branch/:id              controllers.logged.system.trees.Branches.update(id: Int)
+DELETE  /system/branch/:id              controllers.logged.system.trees.Branches.delete(id: Int)
+POST    /system/branch/paste            controllers.logged.system.trees.Branches.paste
+POST    /system/branch/move             controllers.logged.system.trees.Branches.move
+POST    /system/leave/paste             controllers.logged.system.trees.Branches.pasteLeave
 
 GET     /system/users                   controllers.logged.system.Users.list
 
 
-GET     /system/select/:tableId/:filter/:active/:useSearch/:internalFilter  controllers.logged.system.Selects.get(tableId: Int, filter: String, active: Boolean, useSearch: Boolean, internalFilter: String)
+GET     /system/select/:tableId/:filter/:active/:useSearch/:internalFilter  controllers.logged.system.select.Selects.get(tableId: Int, filter: String, active: Boolean, useSearch: Boolean, internalFilter: String)
 
 
 # Web client code

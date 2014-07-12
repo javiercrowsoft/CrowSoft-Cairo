@@ -9,16 +9,29 @@ Cairo.module("Select", function(Select, Cairo, Backbone, Marionette, $, _) {
             var self = this;
             var thead;
 
+            /*
+                jQuery UI requires that "items" has to be an array of objects {label, value}
+                and that is not what we want.
+
+                we create items as an array of only one element with have an object with four
+                properties {label, value, columns, rows}. the label and value properties aren't
+                used.
+
+            */
+
+            // it is used in _renderItem
+            this.options.columns = items[0].columns;
+
             if (this.options.showHeader) {
                 table = $('<div class="ui-widget-header" style="width:100%"></div>');
-                $.each(items.columns, function(index, item) {
-                    table.append('<span style="padding:0 4px;float:left;width:' + item.width + ';">' +
+                $.each(items[0].columns, function(index, item) {
+                    table.append('<span style="padding:0 4px;float:left;width:100px;">' +
                       item.name + '</span>');
                 });
                 table.append('<div style="clear: both;"></div>');
                 ul.append(table);
             }
-            $.each(items.rows, function(index, item) {
+            $.each(items[0].rows, function(index, item) {
                 self._renderItem(ul, item);
             });
         },
@@ -27,8 +40,8 @@ Cairo.module("Select", function(Select, Cairo, Backbone, Marionette, $, _) {
                 result = '';
 
             $.each(this.options.columns, function(index, column) {
-                t += '<span style="padding:0 4px;float:left;width:' + column.width + ';">' +
-                      item[column.valueField ? column.valueField : index] + '</span>';
+                t += '<span style="padding:0 4px;float:left;width:100px;">' +
+                      item.values[column.valueField ? column.valueField : index] + '</span>';
             });
 
             result = $('<li></li>').data('item.autocomplete', item).append(
@@ -64,28 +77,28 @@ Cairo.module("Select", function(Select, Cairo, Backbone, Marionette, $, _) {
         @source:    url to request the list
     */
     var createSelect = function(selector, source) {
-
-      var listData = {};
-      var listKeys = [];
-
       var throttledRequest = _.debounce(function(request, responseCallBack) {
         var url = source.replace("{{filter}}", encodeURIComponent(request.term));
         $.ajax({
           url: url
           ,cache: false
           ,success: function(data) {
-            // reset these containers every time the user searches
-            // because we're potentially getting entirely different results from the api
-            listData = {};
-            listKeys = [];
+            /*
+                jQuery UI requires that "items" has to be an array of objects {label, value}
+                and that is not what we want.
 
-            _.each(data, function(item, ix, list) {
-              listKeys.push(item.id);
-              listData[item.id] = item;
-            });
+                we create items as an array of only one element with have an object with four
+                properties {label, value, columns, rows}. the label and value properties aren't
+                used.
 
-            //send the array of results to bootstrap for display
-            responseCallBack(listKeys);
+            */
+            var items = [{
+              label: "-",
+              value: "-",
+              columns: data.columns,
+              rows: data.rows
+            }];
+            responseCallBack(items);
           }
         });
       }, 300);

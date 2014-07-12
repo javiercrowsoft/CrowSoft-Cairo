@@ -1,4 +1,4 @@
-package controllers.logged.system
+package controllers.logged.system.trees
 
 import controllers._
 import play.api.mvc._

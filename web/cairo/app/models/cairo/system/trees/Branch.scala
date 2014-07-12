@@ -3,13 +3,12 @@ package models.cairo.system.trees
 import java.sql.{Connection, CallableStatement, ResultSet, Types, SQLException}
 import anorm.SqlParser._
 import anorm._
-import models.master.Token
 import services.db.DB
 import play.api.Play.current
 import models.domain.CompanyUser
 import play.api.Logger
 import play.api.libs.json._
-import scala.util.control.{NonFatal, ControlThrowable}
+import scala.util.control.NonFatal
 
 case class Branch(id: Int, name: String, leaves: List[Leave], items: List[Branch], fatherId: Int)
 
