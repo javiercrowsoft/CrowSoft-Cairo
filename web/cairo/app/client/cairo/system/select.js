@@ -44,7 +44,7 @@ Cairo.module("Select", function(Select, Cairo, Backbone, Marionette, $, _) {
                       item.values[column.valueField ? column.valueField : index] + '</span>';
             });
 
-            result = $('<li></li>').data('item.autocomplete', item).append(
+            result = $('<li></li>').data('ui-autocomplete-item', { value: item.values[0], data: item }).append(
                           '<a class="mcacAnchor">' + t + '<div style="clear: both;"></div></a>').appendTo(ul);
             return result;
         }
@@ -109,8 +109,15 @@ Cairo.module("Select", function(Select, Cairo, Backbone, Marionette, $, _) {
               return throttledRequest(request, responseCallBack);
           },
           select: function(event, ui) {
-              this.value = (ui.item ? ui.item[0] : '');
-              return false;
+            if(ui.item) {
+              this.value = ui.item.value;
+              $(this).data("select-data", ui.item.data);
+            }
+            else {
+              this.value = "";
+              $(this).data("select-data", undefined);
+            }
+            return false;
           }
       });
 

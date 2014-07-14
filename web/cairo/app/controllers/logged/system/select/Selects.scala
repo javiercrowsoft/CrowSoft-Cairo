@@ -11,8 +11,8 @@ import models.cairo.system.select._
 
 object Selects extends Controller with ProvidesUser {
 
-  implicit val tableWrites = new Writes[Table] {
-    def writes(table: Table) = Json.obj(
+  implicit val tableWrites = new Writes[RecordSet] {
+    def writes(table: RecordSet) = Json.obj(
       "rows" -> Json.toJson(writeRows(table.rows)),
       "columns" -> Json.toJson(writeColumns(table.columns))
     )
