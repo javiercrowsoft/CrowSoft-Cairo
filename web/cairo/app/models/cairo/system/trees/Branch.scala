@@ -4,6 +4,7 @@ import java.sql.{Connection, CallableStatement, ResultSet, Types, SQLException}
 import anorm.SqlParser._
 import anorm._
 import services.db.DB
+import models.cairo.system.database.DBHelper
 import play.api.Play.current
 import models.domain.CompanyUser
 import play.api.Logger
@@ -115,32 +116,7 @@ object Branch {
           lazy val columnIndex = 3.to(metaData.getColumnCount()).toList
 
           def createLeave(): Leave = {
-            def getValues(): List[String] = {
-              for {
-                i <- columnIndex
-              } yield {
-                metaData.getColumnTypeName(i).toLowerCase match {
-                  case "integer" => rs.getInt(i).toString
-                  case "int2" => rs.getInt(i).toString
-                  case "smallint" => rs.getInt(i).toString
-                  case "biginteger" => rs.getLong(i).toString
-                  case "serial" => rs.getLong(i).toString
-                  case "bigserial" => rs.getLong(i).toString
-                  case "decimal" => rs.getBigDecimal(i).toString
-                  case "real" => rs.getBigDecimal(i).toString
-                  case "timestamp" => rs.getDate(i).toString
-                  case "date" => rs.getDate(i).toString
-                  case "time" => rs.getTime(i).toString
-                  case "character" => rs.getString(i)
-                  case "char" => rs.getString(i)
-                  case "varchar" => rs.getString(i)
-                  case "text" => rs.getString(i)
-                  case "character varying" => rs.getString(i)
-                  case other => s"unclassified type: $other val:${rs.getObject(i).toString}"
-                }
-              }
-            }
-            Leave(rs.getInt(1), rs.getInt(2), getValues())
+            Leave(rs.getInt(1), rs.getInt(2), DBHelper.getValues(rs, metaData, columnIndex))
           }
 
           def createColumns(): List[BranchColumn] = {
@@ -189,7 +165,7 @@ object Branch {
       val sql = "{call sp_arb_rama_create(?, ?, ?, ?, ?)}"
       val cs = connection.prepareCall(sql)
 
-      cs.setInt(1, user.user.id.getOrElse(0))
+      cs.setInt(1, user.userId)
       cs.setInt(2, treeId)
       cs.setInt(3, branch.fatherId)
       cs.setString(4, branch.name)
@@ -226,7 +202,7 @@ object Branch {
       val sql = "{call sp_arb_rama_rename(?, ?, ?, ?)}"
       val cs = connection.prepareCall(sql)
 
-      cs.setInt(1, user.user.id.getOrElse(0))
+      cs.setInt(1, user.userId)
       cs.setInt(2, branch.id)
       cs.setString(3, branch.name)
       cs.registerOutParameter(4, Types.OTHER)
@@ -274,7 +250,7 @@ object Branch {
       val sql = "{call sp_arbborrarrama(?, ?)}"
       val cs = connection.prepareCall(sql)
 
-      cs.setInt(1, user.user.id.getOrElse(0))
+      cs.setInt(1, user.userId)
       cs.setInt(2, id)
 
       try {
@@ -298,7 +274,7 @@ object Branch {
       val sql = s"{call $sp(?, ?, ?, ?, ?)}"
       val cs = connection.prepareCall(sql)
 
-      cs.setInt(1, user.user.id.getOrElse(0))
+      cs.setInt(1, user.userId)
       cs.setInt(2, idFrom)
       cs.setInt(3, idTo)
       cs.setShort(4, (if (onlyChildren) 1 else 0).toShort)
@@ -342,7 +318,7 @@ object Branch {
       val sql = s"{call $sp(?, ?, ?)}"
       val cs = connection.prepareCall(sql)
 
-      cs.setInt(1, user.user.id.getOrElse(0))
+      cs.setInt(1, user.userId)
       cs.setInt(2, id)
       cs.registerOutParameter(3, Types.OTHER)
 
@@ -378,7 +354,7 @@ object Branch {
       val sql = s"{call $sp(?, ?, ?, ?)}"
       val cs = connection.prepareCall(sql)
 
-      cs.setInt(1, user.user.id.getOrElse(0))
+      cs.setInt(1, user.userId)
       cs.setString(2, ids)
       cs.setInt(3, idTo)
       cs.registerOutParameter(4, Types.OTHER)

@@ -106,7 +106,7 @@ object Users extends Controller with ProvidesUser {
         if(user == null)
           Redirect(routes.Users.resetPassword).flashing("error" -> s"No user is registered in our system for email ${resetPassword.username}")
         else {
-          val token = User.createResetPasswordToken(user.id.getOrElse(0), RequestOrigin.parse(request))
+          val token = User.createResetPasswordToken(user.userId, RequestOrigin.parse(request))
           User.sendResetPassword(user, token.token)
           Ok(views.html.users.resetPasswordSent())
         }
@@ -142,7 +142,7 @@ object Users extends Controller with ProvidesUser {
       newPassword => {
         if(newPassword.token.isEmpty) {
           LoggedResponse.getAction(request, { user =>
-            User.updatePassword(user.id.getOrElse(0), newPassword.password)
+            User.updatePassword(user.userId, newPassword.password)
             Ok(views.html.users.newPasswordSaved())
           })
         }
@@ -150,7 +150,7 @@ object Users extends Controller with ProvidesUser {
           val t = User.findByResetPasswordToken(newPassword.token)
           val user = t._1.getOrElse(null)
           if(user != null) {
-            User.updatePassword(user.id.getOrElse(0), newPassword.password)
+            User.updatePassword(user.userId, newPassword.password)
 
             // this token has been used
             val token = t._2

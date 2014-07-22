@@ -46,7 +46,7 @@ object Registration extends Controller with ProvidesUser {
   def validate(code: String) = GetAction { implicit request =>
     val user = User.findByCode(code).getOrElse(null)
     if(user != null) {
-      User.activateUser(user.id.getOrElse(0))
+      User.activateUser(user.userId)
       Ok(views.html.registration.validate(user.username))
     }
     else

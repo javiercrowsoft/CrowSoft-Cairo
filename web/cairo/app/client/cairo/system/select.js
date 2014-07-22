@@ -61,7 +61,8 @@ Cairo.module("Select", function(Select, Cairo, Backbone, Marionette, $, _) {
              "/{{filter}}" +
              "/" + active +
              "/" + useSearch +
-             "/" + internalFilter
+             "/" + internalFilter +
+             "/1" // like: 1 filter% | 2 %filter% | 3 filter.replaceAll(*,%) | 4 %filter
     };
 
     var getSearchSource = function(tableId, active, internalFilter) {

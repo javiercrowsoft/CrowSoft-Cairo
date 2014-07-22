@@ -46,7 +46,7 @@ object Tree {
       val sql = "{call sp_arb_arbol_create(?, ?, ?, ?)}"
       val cs = connection.prepareCall(sql)
 
-      cs.setInt(1, user.user.id.getOrElse(0))
+      cs.setInt(1, user.userId)
       cs.setInt(2, tableId)
       cs.setString(3, name)
       cs.registerOutParameter(4, Types.OTHER)
@@ -82,7 +82,7 @@ object Tree {
       val sql = "{call sp_arb_arbol_sort(?, ?, ?, ?)}"
       val cs = connection.prepareCall(sql)
 
-      cs.setInt(1, user.user.id.getOrElse(0))
+      cs.setInt(1, user.userId)
       cs.setInt(2, id)
       cs.setInt(3, (if(direction == "DESC") 1 else 0))
       cs.registerOutParameter(4, Types.OTHER)

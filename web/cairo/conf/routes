@@ -79,7 +79,7 @@ POST    /system/leave/paste             controllers.logged.system.trees.Branches
 GET     /system/users                   controllers.logged.system.Users.list
 
 
-GET     /system/select/:tableId/:filter/:active/:useSearch/:internalFilter  controllers.logged.system.select.Selects.get(tableId: Int, filter: String, active: Boolean, useSearch: Boolean, internalFilter: String)
+GET     /system/select/:tableId/:filter/:active/:useSearch/:internalFilter/:like  controllers.logged.system.select.Selects.get(tableId: Int, filter: String, active: Boolean, useSearch: Boolean, internalFilter: String, like: Int)
 
 
 # Web client code

@@ -85,6 +85,7 @@ case class User(
                  ) {
 
   lazy val domainDataSource = CairoDB.connectDomainForUser(this)
+  lazy val userId = id.getOrElse(0)
 
 }
 

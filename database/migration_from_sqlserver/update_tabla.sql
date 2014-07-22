@@ -20,4 +20,8 @@ select * from tabla where tbl_camposinviewcliente like '%case %' ;
 select * from tabla where tbl_camposinview like '%[%' ;
 select tbl_id, tbl_camposinview, tbl_camposinviewcliente from tabla where tbl_camposinview like '%case %' ;
 select tbl_id, tbl_camposinview, tbl_camposinviewcliente from tabla where tbl_camposinviewcliente like '%case %' ;
-
+update tabla 
+set 
+          tbl_sqlhelp = replace(tbl_sqlhelp,'@@bFilterType','@@filterType'),
+          tbl_sqlhelpcliente = replace(tbl_sqlhelpcliente,'@@bFilterType','@@filterType')
+;

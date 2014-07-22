@@ -11,6 +11,9 @@ import play.api.Play.current
 case class CompanyUser(user: User, company: Company, database: Database) {
   val isLogged = { user != null }
   val isLoggedIntoCompany = { company != null }
+  lazy val userId = { if(user == null) 0 else user.userId }
+  lazy val domainCompanyId = { if(company == null) 0 else company.domainId}
+  lazy val cairoCompanyId = { if(company == null) 0 else company.company_id}
 }
 
 object CompanyUser {

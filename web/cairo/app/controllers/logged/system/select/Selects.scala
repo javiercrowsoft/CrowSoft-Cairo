@@ -28,9 +28,9 @@ object Selects extends Controller with ProvidesUser {
     def writeColumns(columns: List[Column]) = columns.map(column => columnWrites(column))
   }
 
-  def get(tableId: Int, filter: String, active: Boolean, useSearch: Boolean, internalFilter: String) = GetAction { implicit request =>
+  def get(tableId: Int, filter: String, active: Boolean, useSearch: Boolean, internalFilter: String, like: Int) = GetAction { implicit request =>
     LoggedIntoCompanyResponse.getAction(request, { user =>
-      Ok(Json.toJson(Select.get(user, tableId, filter, active, useSearch, internalFilter)))
+      Ok(Json.toJson(Select.get(user, tableId, filter, active, useSearch, internalFilter, like)))
     })
   }
 }

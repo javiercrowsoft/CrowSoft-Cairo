@@ -26,7 +26,7 @@ object LoginData {
     val companyLogin = CompanyLogin(
       anorm.NotAssigned,
       company.companyId,
-      company.user.id.getOrElse(0),
+      company.user.userId,
       "",
       platform,
       ip_address,

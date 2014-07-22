@@ -1,4 +1,4 @@
-package models.cairo.system.select
+package models.cairo.system.database
 
 import java.sql.{Connection, CallableStatement, ResultSet, Types, SQLException}
 import anorm.SqlParser._
@@ -31,6 +31,40 @@ case class Table(
                   updatedAt: Date
                 )
 
+case class ParsedTable(usId: Int, cairoCompanyId: Int, table: Table) {
+
+  lazy val selectStatement = getSelect(processMacros(table.selectStatement))
+  lazy val searchStatement = processMacros(table.searchStatement)
+
+  private def processMacros(statement: String): String = {
+    statement
+      .replaceAll("[@][@]us_id", usId.toString())
+      .replaceAll("[@][@]emp_id", cairoCompanyId.toString())
+  }
+
+  /*
+
+  if there isn't a selectStatement in table, we generate a simple
+  select using the definition of the table like:
+
+    " select un_id, un_nombre, un_codigo from unidad|un_nombre:string,un_codigo:string
+
+   */
+  private def getSelect(statement: String): String = {
+    if(statement.isEmpty) {
+      val limit = if(table.selectLimit > 0) table.selectLimit else 300 // TODO: should be in databse config
+      val codeColumn = if(table.codeColumn.isEmpty) "" else s", ${table.codeColumn} as Codigo" // TODO: language
+      val codeColumnDefinition = if(table.codeColumn.isEmpty) "" else s",${table.codeColumn}:string"
+      val nameColumnName = if(table.nameColumn.toLowerCase().contains("codigo")) "Codigo" else "Nombre" // TODO: language
+      val select = s"select top ${limit} ${table.idColumn}, ${table.nameColumn} as ${nameColumnName} ${codeColumn}"
+      val from = s" from ${table.realName}"
+      val columnDefinition = s"|${table.nameColumn}:string${codeColumnDefinition}"
+      select + from + table.whereStatement + columnDefinition
+    }
+    else statement
+  }
+}
+
 object Table {
 
   private val tableParser: RowParser[Table] = {
@@ -52,16 +86,16 @@ object Table {
       get[String]("tbl_objectabm") ~
       get[String]("tbl_sqlhelpcliente") ~
       get[String]("tbl_camposinviewcliente") ~
-      get[Int]("pre_id") ~
+      get[Option[Int]]("pre_id") ~
       get[Date]("modificado") map {
       case
         id ~ name ~ realName ~ idColumn ~ codeColumn ~ nameColumn ~ hasTree ~ hasActive ~ selectStatement ~ searchStatement ~ whereStatement ~ infoStatement ~ columnsInView ~ selectLimit ~ editObject ~ editManagerObject ~ customerSelectStatement ~ customerColumnsInView ~ preId ~ updatedAt =>
-        Table(id, name, realName, idColumn, codeColumn, nameColumn, hasTree != 0, hasActive != 0, selectStatement, searchStatement, whereStatement, infoStatement, columnsInView, selectLimit, editObject, editManagerObject, customerSelectStatement, customerColumnsInView, preId, updatedAt)
+        Table(id, name, realName, idColumn, codeColumn, nameColumn, hasTree != 0, hasActive != 0, selectStatement, searchStatement, whereStatement, infoStatement, columnsInView, selectLimit, editObject, editManagerObject, customerSelectStatement, customerColumnsInView, preId.getOrElse(0), updatedAt)
     }
   }
 
   def load(user: CompanyUser, id: Int): Option[Table] = {
-    loadWhere("tbl_id = {id}", 'id -> id)
+    loadWhere(user, "tbl_id = {id}", 'id -> id)
   }
 
   def loadWhere(user: CompanyUser, where: String, args : scala.Tuple2[scala.Any, anorm.ParameterValue[_]]*) = {

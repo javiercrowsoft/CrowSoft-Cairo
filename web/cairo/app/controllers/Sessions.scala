@@ -63,7 +63,7 @@ object Sessions extends Controller with ProvidesUser {
       val user = User.findByUsername(loginForm.email).getOrElse(null)
       val redirectTo = if(user.active) call else routes.Application.index
       Redirect(redirectTo).withSession(
-        "user" -> user.id.getOrElse(0).toString
+        "user" -> user.userId.toString
       )
     }
     else if(UserLogin.loginErrorCodes.contains(success))

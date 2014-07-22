@@ -39,8 +39,8 @@ object Menu {
       val sql = "{call sp_sys_menu_get(?, ?, ?)}"
       val cs = connection.prepareCall(sql)
 
-      cs.setInt(1, user.user.id.getOrElse(0))
-      cs.setInt(2, user.company.id.getOrElse(0))
+      cs.setInt(1, user.userId)
+      cs.setInt(2, user.cairoCompanyId)
       cs.registerOutParameter(3, Types.OTHER)
 
       try {

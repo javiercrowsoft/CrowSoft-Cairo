@@ -12,11 +12,13 @@ import play.api.Play.current
 case class Company(
                  id: Pk[Int] = NotAssigned,
                  db_id: Int,
-                 company_id: Int,
-                 company_name: String,
+                 company_id: Int,             /* id in cairo database */
+                 company_name: String,        /* name in cairo database (replicated here for performance)*/
                  created_at: Date,
                  updated_at: Date
-                 )
+                 ) {
+  lazy val domainId = id.getOrElse(0)
+}
 
 object Company {
 
