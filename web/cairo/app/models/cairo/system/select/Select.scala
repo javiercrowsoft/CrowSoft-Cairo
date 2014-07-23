@@ -8,7 +8,7 @@ import play.api.Play.current
 import models.domain.CompanyUser
 import play.api.Logger
 import play.api.libs.json._
-import scala.util.control.{NonFatal, ControlThrowable}
+import scala.util.control.NonFatal
 import models.cairo.system.database.{ParsedTable, Table, DBHelper}
 
 case class Column(name: String, columnType: String)
@@ -38,22 +38,12 @@ object Select {
           active,
           table.name,
           filter,
-          escapeInternalFilter(internalFilter),
+          InternalFilter.getFilter(user,internalFilter),
           like,
           createRecordSet(user, tableId, table.name))
       }
       case None => throw new RuntimeException(s"There is not table definition for tableId: ${tableId}")
     }
-  }
-
-  // the internalFilter doesn't have to be an sql string
-  // if it starts with ' it should end with '
-  // we remove the surroundings ' characters
-  //
-  private def escapeInternalFilter(filter: String): String = {
-    val s = filter.trim()
-    if(s.startsWith("'")) s.substring(1, s.length - 1)
-    else filter
   }
 
   private def executeSelect(
@@ -62,9 +52,9 @@ object Select {
                   useActive: Boolean,
                   tableName: String,
                   filter: String,
-                  internalFilter: String,
+                  internalFilter: InternalFilter,
                   like: Int,
-                  createRecordSet: (String, String, String, Int, Boolean) => RecordSet): RecordSet = {
+                  createRecordSet: (String, String, InternalFilter, Int, Boolean) => RecordSet): RecordSet = {
 
     /*
     * sqlSelectDefinition can contain a query or an stored procedure
@@ -141,7 +131,7 @@ object Select {
 
     def getInternalFilter(): String = {
       if(internalFilter.isEmpty) ""
-      else s"($internalFilter)"
+      else s"(${internalFilter.query})"
     }
 
     def applyLike(filter: String): String = {
@@ -225,108 +215,118 @@ object Select {
   }
 
   private def createRecordSet(user: CompanyUser, tableId: Int, table: String)
-                             (sqlstmt: String, filter: String, internalFilter: String,
-                              paramCount: Int, isFunction: Boolean): RecordSet = {
+                             (sqlstmt: String, filter: String, internalFilter: InternalFilter, paramCount: Int,
+                              isFunction: Boolean): RecordSet = {
+    if(isFunction) executeStoredProcedure(user, tableId, table)(sqlstmt, filter, internalFilter, paramCount)
+    else executeQuery(user, tableId, table)(sqlstmt, filter, internalFilter, paramCount)
+  }
+
+  private def executeStoredProcedure(user: CompanyUser, tableId: Int, table: String)
+                                    (sqlstmt: String, filter: String, internalFilter: InternalFilter,
+                                     paramCount: Int): RecordSet = {
 
     Logger.debug(sqlstmt)
 
     DB.withTransaction(user.database.database) { implicit connection =>
 
-      // standard queries and stored procedures must be handled in
-      // different ways by JDBC
-      //
-      // isFunction is used to handle this issue
-      //
-      val ps = if(isFunction) null else connection.prepareStatement(sqlstmt)
-      val cs = if(isFunction) connection.prepareCall(sqlstmt) else null
+      val cs = connection.prepareCall(sqlstmt)
 
-      // when the statement is a function filter is passed as a parameter
-      // when the statement is an standard query filter is set for every
-      // column listed in selectStatement FILTER DEFINITION
-      //
-      if(isFunction) {
-        for (index <- 1 to paramCount) {
-          cs.setString(index, filter)
-        }
-      }
-      else {
-        for (index <- 1 to paramCount) {
-          ps.setString(index, filter)
-        }
+      for (index <- 1 to paramCount) {
+        cs.setString(index, filter)
       }
 
       // internalFilter must be the last input parameter
       //
-      if(!internalFilter.isEmpty) {
-        if(isFunction) cs.setString(paramCount + 1, internalFilter)
-        else ps.setString(paramCount + 1, internalFilter)
-      }
+      if(!internalFilter.isEmpty) cs.setString(paramCount + 1, internalFilter.query)
 
-      // only used if sqlstmt is a stored procedure
-      //
       val cursorParamIndex = paramCount + (if(internalFilter.isEmpty) 1 else 2)
 
-      // when statement is stored procedure the returned cursor must be
-      // the last parameter
-      //
-      if(isFunction) cs.registerOutParameter(cursorParamIndex, Types.OTHER)
+      cs.registerOutParameter(cursorParamIndex, Types.OTHER)
 
       try {
 
-        val rs = {
-          if (isFunction) {
-            cs.execute()
-            cs.getObject(cursorParamIndex).asInstanceOf[java.sql.ResultSet]
-          }
-          else ps.executeQuery()
-        }
+        cs.execute()
+        createRows(cs.getObject(cursorParamIndex).asInstanceOf[java.sql.ResultSet])
 
-        try {
-          lazy val metaData = rs.getMetaData()
-          lazy val columnIndex = 2.to(metaData.getColumnCount()).toList
-
-          def createRow(): Row = {
-            Row(rs.getInt(1), DBHelper.getValues(rs, metaData, columnIndex))
-          }
-
-          def createColumns(): List[Column] = {
-            val columns = for {
-              i <- columnIndex
-            } yield {
-              Column(metaData.getColumnName(i), metaData.getColumnTypeName(i))
-            }
-            columns
-          }
-
-          def fillList(): List[Row] = {
-            if (rs.next()) {
-              createRow() :: fillList()
-            }
-            else {
-              List()
-            }
-          }
-
-          if (rs.next) {
-            RecordSet(createRow() :: fillList(), createColumns())
-          }
-          else {
-            RecordSet(List(), List())
-          }
-
-        } finally {
-          rs.close
-        }
       } catch {
         case NonFatal(e) => {
           Logger.error(s"can't get list for table ${table} id ${tableId}. Error ${e.toString}")
           throw e
         }
       } finally {
-        if(isFunction) cs.close
-        else ps.close
+        cs.close
       }
     }
   }
 
+  private def executeQuery(user: CompanyUser, tableId: Int, table: String)
+                          (sqlstmt: String, filter: String, internalFilter: InternalFilter, paramCount: Int): RecordSet = {
+
+    Logger.debug(sqlstmt)
+
+    DB.withTransaction(user.database.database) { implicit connection =>
+
+      val ps = connection.prepareStatement(sqlstmt)
+
+      for (index <- 1 to paramCount) {
+        ps.setString(index, filter)
+      }
+
+      // internalFilter must be the last input parameter
+      //
+      if(!internalFilter.isEmpty) DBHelper.applyParameters(ps, paramCount, internalFilter.filters)
+
+      try {
+
+        createRows(ps.executeQuery())
+
+      } catch {
+        case NonFatal(e) => {
+          Logger.error(s"can't get list for table ${table} id ${tableId}. Error ${e.toString}")
+          throw e
+        }
+      } finally {
+        ps.close
+      }
+    }
+  }
+
+  private def createRows(rs: ResultSet): RecordSet = {
+    try {
+      lazy val metaData = rs.getMetaData()
+      lazy val columnIndex = 2.to(metaData.getColumnCount()).toList
+
+      def createRow(): Row = {
+        Row(rs.getInt(1), DBHelper.getValues(rs, metaData, columnIndex))
+      }
+
+      def createColumns(): List[Column] = {
+        val columns = for {
+          i <- columnIndex
+        } yield {
+          Column(metaData.getColumnName(i), metaData.getColumnTypeName(i))
+        }
+        columns
+      }
+
+      def fillList(): List[Row] = {
+        if (rs.next()) {
+          createRow() :: fillList()
+        }
+        else {
+          List()
+        }
+      }
+
+      if (rs.next) {
+        RecordSet(createRow() :: fillList(), createColumns())
+      }
+      else {
+        RecordSet(List(), List())
+      }
+
+    } finally {
+      rs.close
+    }
+  }
 }
