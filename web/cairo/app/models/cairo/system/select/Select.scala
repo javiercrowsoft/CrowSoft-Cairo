@@ -13,11 +13,50 @@ import models.cairo.system.database.{ParsedTable, Table, DBHelper}
 
 case class Column(name: String, columnType: String)
 case class Row(id: Int, values: List[String])
-
 case class RecordSet(rows: List[Row], columns: List[Column])
 
 object Select {
 
+  /*
+  * returns a RecordSet as the result of executing a query on database
+  * defined in the table dictionary. the query can have two filters
+  * on from the user and one from the system
+  * the system filter is defined in InternalFilter class
+  * because the call is made from the client browser we doesn't accept
+  * any sql concatenation
+  * the system filter is a filter key and a list of parameters
+  * the query defined in the table dictionary can be an stored procedure
+  * or a simple select
+  * if the query is an stored procedure it follows this interface:
+  *
+  * sp_table_name_select (
+                @@emp_id          int,
+                @@us_id           int,
+                @@bForAbm         tinyint,
+                @@filterType      tinyint,
+                @@filter 					varchar(255)  = '',
+                @@check  					smallint 			= 0,
+                @@id              int           = 0,
+                @@filter2         varchar(255)  = ''
+              )
+  *
+  * the first four parameters are macros (@@emp_id, @@us_id, @@bForAbm, @@filterType)
+  * the filter parameter is the user filter
+  * the filter2 parameter is the system filter
+  * the check parameter indicates that the stored procedure must check that the id and the name
+  * of code match
+  *
+  * if the query is a simple select there could be one or more columns which will be compare against
+  * the user filter. the internalFilter can have additional filters - look at class InternalFilter
+  * for more details
+  *
+  * the useSearch parameter indicates that instead of use the selectStatement the searchStatement
+  * must be used
+  *
+  * there are a customer versions of selectStatement which override the system version. this allows
+  * to customize the select with the requirements of every customer
+  *
+  * */
   def get(
            user: CompanyUser,
            tableId: Int,
@@ -26,8 +65,6 @@ object Select {
            useSearch: Boolean,
            internalFilter: String,
            like: Int): RecordSet = {
-
-    //RecordSet(List(Row(1,List("Virginia","Diaz")),Row(1,List("Javier","Alvarez"))), List(Column("Nombre", "String"), Column("Apellido", "String")))
 
     Table.load(user, tableId) match {
       case Some(table) => {
@@ -177,7 +214,7 @@ object Select {
                 @@emp_id          int,
                 @@us_id           int,
                 @@bForAbm         tinyint,
-                @@bFilterType     tinyint,
+                @@filterType      tinyint,
                 @@filter 					varchar(255)  = '',
                 @@check  					smallint 			= 0,
                 @@cpa_id          int           = 0,
@@ -329,4 +366,5 @@ object Select {
       rs.close
     }
   }
+
 }

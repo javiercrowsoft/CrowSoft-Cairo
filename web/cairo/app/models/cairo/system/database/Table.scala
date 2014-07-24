@@ -33,8 +33,12 @@ case class Table(
 
 case class ParsedTable(usId: Int, cairoCompanyId: Int, table: Table) {
 
-  lazy val selectStatement = getSelect(processMacros(table.selectStatement))
+  lazy val selectStatement = {
+    val query = if(table.customerSelectStatement.isEmpty) table.selectStatement else table.customerSelectStatement
+    getSelect(processMacros(query))
+  }
   lazy val searchStatement = processMacros(table.searchStatement)
+
 
   private def processMacros(statement: String): String = {
     statement
@@ -44,10 +48,10 @@ case class ParsedTable(usId: Int, cairoCompanyId: Int, table: Table) {
 
   /*
 
-  if there isn't a selectStatement in table, we generate a simple
-  select using the definition of the table like:
+   if there isn't a selectStatement in table, we generate a simple
+   select using the definition of the table like:
 
-    " select un_id, un_nombre, un_codigo from unidad|un_nombre:string,un_codigo:string
+     select un_id, un_nombre, un_codigo from unidad|un_nombre:string,un_codigo:string
 
    */
   private def getSelect(statement: String): String = {

@@ -5,7 +5,17 @@ import models.domain.CompanyUser
 import play.api.Logger
 import scala.util.control.NonFatal
 
-case class InternalFilter(query: String, filters: List[QueryParameter]) {
+/*
+*
+* the internalFilter can have additional filters
+*
+* a filterDefinition is a key and a list of parameters
+*
+* f:supplierListPrice|supplierId:1,documentId:1
+*
+* */
+
+ case class InternalFilter(query: String, filters: List[QueryParameter]) {
   val isEmpty = query.isEmpty
 }
 
@@ -22,6 +32,13 @@ object InternalFilter {
     (info(0), info(1).split("[,]").toList)
   }
 
+  /*
+  *
+  * a filterDefinition is a key and a list of parameters
+  *
+  * f:supplierListPrice|supplierId:1,documentId:1
+  *
+  * */
   def getFilter(user: CompanyUser, filterDefinition: String): InternalFilter = {
     try {
       parseDefinition(filterDefinition) match {
@@ -77,7 +94,5 @@ object InternalFilter {
       )
     )
   }
-
-
 
 }
