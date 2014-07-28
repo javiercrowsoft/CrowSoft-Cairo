@@ -127,7 +127,8 @@ object Select {
           case Nil => List()
           case columnDef :: tail => getColumn(columnDef) :: getColumns(tail)
         }
-        (sqlstmt, getColumns(info(1).split("[,]").toList))
+        if(info.length == 1) (sqlstmt, List())
+        else (sqlstmt, getColumns(info(1).split("[,]").toList))
       }
       catch {
         case NonFatal(e) => {
@@ -139,7 +140,11 @@ object Select {
     }
 
     def filterForColumn(column: Column, operator: String): String = {
-      column.name + (if(column.columnType == "number") "::varchar " else " ") + operator + " ? "
+      val columnName = {
+        if(column.columnType == "number") s"${column.name}::varchar "
+        else s"lower(f_unaccent(${column.name})) "
+      }
+      columnName + operator + " ? "
     }
 
     def applyFilter(filter: String, columns: List[Column], operator: String): String = {
@@ -241,7 +246,7 @@ object Select {
 
           def processMacros(statement: String): String = {
             statement
-              .replaceAll("[@][@]bforabm", if(useActive) "1" else "0")
+              .replaceAll("[@][@]bforabm", if(useActive) "0" else "1")
               .replaceAll("[@][@]filtertype", like.toString())
           }
           val function = processMacros(sqlstmt) + "?, 0, 0, ?, ?"
@@ -251,10 +256,18 @@ object Select {
     }
   }
 
+  private def getCallStatement(sqlstmt: String): String = {
+    val firstSpace = sqlstmt.indexOf(" ")
+    val function = sqlstmt.substring(0, firstSpace)
+    val params = sqlstmt.substring(firstSpace)
+    s"{call $function($params)}"
+  }
+
   private def createRecordSet(user: CompanyUser, tableId: Int, table: String)
                              (sqlstmt: String, filter: String, internalFilter: InternalFilter, paramCount: Int,
                               isFunction: Boolean): RecordSet = {
-    if(isFunction) executeStoredProcedure(user, tableId, table)(sqlstmt, filter, internalFilter, paramCount)
+    Logger.debug(s"table: ${table} tableId: ${tableId} filter: ${filter} isFunction: ${isFunction} internalFilter:${internalFilter.toString()}")
+    if(isFunction) executeStoredProcedure(user, tableId, table)(getCallStatement(sqlstmt), filter, internalFilter, paramCount)
     else executeQuery(user, tableId, table)(sqlstmt, filter, internalFilter, paramCount)
   }
 
@@ -274,10 +287,11 @@ object Select {
 
       // internalFilter must be the last input parameter
       //
-      if(!internalFilter.isEmpty) cs.setString(paramCount + 1, internalFilter.query)
+      cs.setString(paramCount + 1, internalFilter.query)
 
-      val cursorParamIndex = paramCount + (if(internalFilter.isEmpty) 1 else 2)
+      val cursorParamIndex = paramCount + 2
 
+      //cs.registerOutParameter(cursorParamIndex, Types.OTHER)
       cs.registerOutParameter(cursorParamIndex, Types.OTHER)
 
       try {

@@ -57,7 +57,12 @@ case class ParsedTable(usId: Int, cairoCompanyId: Int, table: Table) {
   private def getSelect(statement: String): String = {
     if(statement.isEmpty) {
       val limit = if(table.selectLimit > 0) table.selectLimit else 300 // TODO: should be in databse config
-      val codeColumn = if(table.codeColumn.isEmpty) "" else s", ${table.codeColumn} as Codigo" // TODO: language
+      val codeColumn = {
+        if(table.codeColumn.isEmpty) ""
+        else {
+          if(table.codeColumn == table.nameColumn) "" else s", ${table.codeColumn} as Codigo"
+        }
+      } // TODO: language
       val codeColumnDefinition = if(table.codeColumn.isEmpty) "" else s",${table.codeColumn}:string"
       val nameColumnName = if(table.nameColumn.toLowerCase().contains("codigo")) "Codigo" else "Nombre" // TODO: language
       val select = s"select top ${limit} ${table.idColumn}, ${table.nameColumn} as ${nameColumnName} ${codeColumn}"

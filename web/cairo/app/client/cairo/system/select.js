@@ -23,9 +23,10 @@ Cairo.module("Select", function(Select, Cairo, Backbone, Marionette, $, _) {
             this.options.columns = items[0].columns;
 
             if (this.options.showHeader) {
-                table = $('<div class="ui-widget-header" style="width:100%"></div>');
+                var table = $('<div class="ui-widget-header" style="width:100%"></div>');
+                var width = (ul.width()-50) / this.options.columns.length;
                 $.each(items[0].columns, function(index, item) {
-                    table.append('<span style="padding:0 4px;float:left;width:100px;">' +
+                    table.append('<span style="padding:0 4px;float:left;width:' + width + 'px;">' +
                       item.name + '</span>');
                 });
                 table.append('<div style="clear: both;"></div>');
@@ -39,8 +40,9 @@ Cairo.module("Select", function(Select, Cairo, Backbone, Marionette, $, _) {
             var t = '',
                 result = '';
 
+            var width = (ul.width()-50) / this.options.columns.length;
             $.each(this.options.columns, function(index, column) {
-                t += '<span style="padding:0 4px;float:left;width:100px;">' +
+                t += '<span style="padding:0 4px;float:left;width:' + width + 'px;">' +
                       item.values[column.valueField ? column.valueField : index] + '</span>';
             });
 
@@ -62,7 +64,7 @@ Cairo.module("Select", function(Select, Cairo, Backbone, Marionette, $, _) {
              "/" + active +
              "/" + useSearch +
              "/" + internalFilter +
-             "/1" // like: 1 filter% | 2 %filter% | 3 filter.replaceAll(*,%) | 4 %filter
+             "/2" // like: 1 filter% | 2 %filter% | 3 filter.replaceAll(*,%) | 4 %filter
     };
 
     var getSearchSource = function(tableId, active, internalFilter) {

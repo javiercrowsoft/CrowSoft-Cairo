@@ -15,7 +15,7 @@ import scala.util.control.NonFatal
 *
 * */
 
- case class InternalFilter(query: String, filters: List[QueryParameter]) {
+case class InternalFilter(query: String, filters: List[QueryParameter]) {
   val isEmpty = query.isEmpty
 }
 
@@ -28,8 +28,11 @@ object InternalFilter {
   val emptyFilter = InternalFilter("", List())
 
   def parseDefinition(filterDefinition: String): (String, List[String]) = {
-    val info = filterDefinition.split("[|]")
-    (info(0), info(1).split("[,]").toList)
+    if(filterDefinition == "-") ("", List())
+    else {
+      val info = filterDefinition.split("[|]")
+      (info(0), info(1).split("[,]").toList)
+    }
   }
 
   /*

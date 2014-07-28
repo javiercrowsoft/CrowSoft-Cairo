@@ -89,6 +89,7 @@ object DBHelper {
     val value = metaData.getColumnTypeName(i).toLowerCase match {
       case "integer" => rs.getInt(i)
       case "int2" => rs.getInt(i)
+      case "int4" => rs.getLong(i)
       case "smallint" => rs.getInt(i)
       case "biginteger" => rs.getLong(i)
       case "serial" => rs.getLong(i)
