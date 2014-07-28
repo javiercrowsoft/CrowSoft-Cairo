@@ -1,0 +1,15 @@
+how to migrate an small database
+
+1- execute in the sql server database these script:
+
+Generate SQL Inserts.sql
+
+2- open this script in sql manager and set the output to a file
+
+Execute Generate SQL Inserts.sql
+
+3- open the file with textmate and save it as UTF8 and using LF not CRLF
+
+Execute this file using psql
+
+/Library/PostgreSQL/9.0/bin/psql -p 5434 -U postgres -d salmax_com_ar_cairo -a -f /Users/javier//Documents/CrowSoft/Scripts/cairoSalmax-2014-3-u8.sql
