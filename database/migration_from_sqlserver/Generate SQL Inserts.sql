@@ -301,7 +301,7 @@ WHILE @Column_ID IS NOT NULL
 				CASE 
 				WHEN @Data_Type IN ('char','varchar','nchar','nvarchar') 
 						THEN 
-						'COALESCE('''''''' + REPLACE(RTRIM(' + @Column_Name + '),'''''''','''''''''''')+'''''''',''NULL'')'
+						'COALESCE(''E'' + '''''''' + REPLACE(REPLACE(RTRIM(' + @Column_Name + '),'''''''',''''''''''''),''\'',''\\'')+'''''''',''NULL'')'
 				WHEN @Data_Type IN ('datetime','smalldatetime') 
 						THEN 
 						'COALESCE('''''''' + RTRIM(CONVERT(char,' + @Column_Name + ',120))+'''''''',''NULL'')'
@@ -336,7 +336,7 @@ WHILE @Column_ID IS NOT NULL
 				CASE 
 				WHEN @Data_Type IN ('char','varchar','nchar','nvarchar') 
 						THEN 
-						'COALESCE('''''''' + REPLACE(RTRIM(' + @Column_Name + '),'''''''','''''''''''')+'''''''',''NULL'')'
+						'COALESCE(''E'' + '''''''' + REPLACE(REPLACE(RTRIM(' + @Column_Name + '),'''''''',''''''''''''),''\'',''\\'')+'''''''',''NULL'')'
 				WHEN @Data_Type IN ('datetime','smalldatetime') 
 						THEN 
 						'COALESCE('''''''' + RTRIM(CONVERT(char,' + @Column_Name + ',120))+'''''''',''NULL'')'
