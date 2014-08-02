@@ -33,4 +33,10 @@ object Selects extends Controller with ProvidesUser {
       Ok(Json.toJson(Select.get(user, tableId, filter, active, useSearch, internalFilter, like)))
     })
   }
+
+  def validate(tableId: Int, text: String, textId: String, active: Boolean, internalFilter: String) = GetAction { implicit request =>
+    LoggedIntoCompanyResponse.getAction(request, { user =>
+      Ok(Json.toJson(Select.validate(user, tableId, text, textId, active, internalFilter)))
+    })
+  }
 }

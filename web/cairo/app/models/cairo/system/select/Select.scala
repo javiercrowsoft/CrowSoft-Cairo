@@ -66,34 +66,17 @@ object Select {
            internalFilter: String,
            like: Int): RecordSet = {
 
-    Table.load(user, tableId) match {
-      case Some(table) => {
-        val parsedTable = ParsedTable(user.userId, user.cairoCompanyId, table)
-        executeSelect(
-          parsedTable.selectStatement,
-          table.hasActive,
-          active,
-          table.name,
-          filter,
-          InternalFilter.getFilter(user,internalFilter),
-          like,
-          createRecordSet(user, tableId, table.name))
-      }
-      case None => throw new RuntimeException(s"There is not table definition for tableId: ${tableId}")
-    }
-  }
+    def executeSelect(
+                       sqlSelectDefinition: String,
+                       hasActive: Boolean,
+                       useActive: Boolean,
+                       tableName: String,
+                       filter: String,
+                       internalFilter: InternalFilter,
+                       like: Int,
+                       createRecordSet: (String, String, InternalFilter, Int, Boolean) => RecordSet): RecordSet = {
 
-  private def executeSelect(
-                  sqlSelectDefinition: String,
-                  hasActive: Boolean,
-                  useActive: Boolean,
-                  tableName: String,
-                  filter: String,
-                  internalFilter: InternalFilter,
-                  like: Int,
-                  createRecordSet: (String, String, InternalFilter, Int, Boolean) => RecordSet): RecordSet = {
-
-    /*
+      /*
     * sqlSelectDefinition can contain a query or an stored procedure
     *
     * when sqlSelectDefinition is a query it contains the query and a list of columns used to create the filter
@@ -115,98 +98,98 @@ object Select {
     * and the character comma is used to split the filter list
     *
     * */
-    def parseDefinition(sqlSelectDefinition: String): (String, List[Column]) = {
-      val info = sqlSelectDefinition.split("[|]")
-      try {
-        val sqlstmt = info(0)
-        def getColumn(columnDef: String): Column = {
-          val info = columnDef.split("[:]")
-          Column(info(0), info(1))
+      def parseDefinition(sqlSelectDefinition: String): (String, List[Column]) = {
+        val info = sqlSelectDefinition.split("[|]")
+        try {
+          val sqlstmt = info(0)
+          def getColumn(columnDef: String): Column = {
+            val info = columnDef.split("[:]")
+            Column(info(0), info(1))
+          }
+          def getColumns(columnsDefinition: List[String]): List[Column] = columnsDefinition match {
+            case Nil => List()
+            case columnDef :: tail => getColumn(columnDef) :: getColumns(tail)
+          }
+          if (info.length == 1) (sqlstmt, List())
+          else (sqlstmt, getColumns(info(1).split("[,]").toList))
         }
-        def getColumns(columnsDefinition: List[String]): List[Column] = columnsDefinition match {
-          case Nil => List()
-          case columnDef :: tail => getColumn(columnDef) :: getColumns(tail)
-        }
-        if(info.length == 1) (sqlstmt, List())
-        else (sqlstmt, getColumns(info(1).split("[,]").toList))
-      }
-      catch {
-        case NonFatal(e) => {
-          val message = s"Error when parsing sqlstmt for table ${tableName}. Definition: ${sqlSelectDefinition}]. Error ${e.toString}"
-          Logger.error(message)
-          throw new RuntimeException(message)
+        catch {
+          case NonFatal(e) => {
+            val message = s"Error when parsing sqlstmt for table ${tableName}. Definition: ${sqlSelectDefinition}]. Error ${e.toString}"
+            Logger.error(message)
+            throw new RuntimeException(message)
+          }
         }
       }
-    }
 
-    def filterForColumn(column: Column, operator: String): String = {
-      val columnName = {
-        if(column.columnType == "number") s"${column.name}::varchar "
-        else s"lower(f_unaccent(${column.name})) "
-      }
-      columnName + operator + " ? "
-    }
-
-    def applyFilter(filter: String, columns: List[Column], operator: String): String = {
-      if(filter.isEmpty) ""
-      else {
-        if(columns.length == 0) ""
-        else "(" + columns.map(filterForColumn(_, operator)).mkString(" or ") + ")"
-      }
-    }
-
-    def getFilter(condition: String, operator: String): String = {
-      if(condition.isEmpty) ""
-      else s" ${operator} ${condition}"
-    }
-
-    def getWhere(where: String, conditions: String, activeFilter: String, internalFilter: String): String = {
-      val wc = if(where.isEmpty) s" where ${conditions}" else where + getFilter(conditions, "and")
-      val wca = if(wc.isEmpty) s" where ${activeFilter}" else wc + getFilter(activeFilter, "and")
-      (if(wca.isEmpty) s" where ${internalFilter}" else wca + getFilter(internalFilter, "and")) + " "
-    }
-
-    def getTop(top: Int): String = {
-      if(top > 0) " limit " + top.toString
-      else " limit 300" // TODO: this should be set in global and database configuration
-    }
-
-    def getInternalFilter(): String = {
-      if(internalFilter.isEmpty) ""
-      else s"(${internalFilter.query})"
-    }
-
-    def applyLike(filter: String): String = {
-      like match {
-        case 1 => s"$filter%"
-        case 3 => filter.replaceAll("[*]", "%")
-        case 4 => s"%$filter"
-        case _ => s"%$filter%" // 2 is default => %filter%
-      }
-    }
-
-    parseDefinition(sqlSelectDefinition) match {
-      case (sql, columns) => {
-        val sqlstmt = sql.toLowerCase()
-        if (sqlstmt.startsWith("select")) {
-          val select = DBHelper.removeTopClause(DBHelper.getSelectClause(sqlstmt))
-          val from = DBHelper.getFromClause(sqlstmt)
-          val where = DBHelper.getWhereClause(sqlstmt)
-          val groupBy = DBHelper.getGroupByClause(sqlstmt)
-          val orderBy = DBHelper.getOrderByClause(sqlstmt)
-          val top = DBHelper.getTopValue(sqlstmt)
-          val conditions = applyFilter(filter, columns, " like ")
-          val activeFilter = if(hasActive && useActive) s"(${tableName}.activo <> 0)" else ""
-          val statement = select +
-                          from +
-                          getWhere(where, conditions, activeFilter, getInternalFilter()) +
-                          groupBy +
-                          orderBy +
-                          getTop(top)
-          createRecordSet(statement, applyLike(filter), internalFilter, columns.length, false)
+      def filterForColumn(column: Column, operator: String): String = {
+        val columnName = {
+          if (column.columnType == "number") s"${column.name}::varchar "
+          else s"lower(f_unaccent(${column.name})) "
         }
+        columnName + operator + " ? "
+      }
+
+      def applyFilter(filter: String, columns: List[Column], operator: String): String = {
+        if (filter.isEmpty) ""
         else {
-          /*
+          if (columns.length == 0) ""
+          else "(" + columns.map(filterForColumn(_, operator)).mkString(" or ") + ")"
+        }
+      }
+
+      def getFilter(condition: String, operator: String): String = {
+        if (condition.isEmpty) ""
+        else s" ${operator} ${condition}"
+      }
+
+      def getWhere(where: String, conditions: String, activeFilter: String, internalFilter: String): String = {
+        val wc = if (where.isEmpty) s" where ${conditions}" else where + getFilter(conditions, "and")
+        val wca = if (wc.isEmpty) s" where ${activeFilter}" else wc + getFilter(activeFilter, "and")
+        (if (wca.isEmpty) s" where ${internalFilter}" else wca + getFilter(internalFilter, "and")) + " "
+      }
+
+      def getTop(top: Int): String = {
+        if (top > 0) " limit " + top.toString
+        else " limit 300" // TODO: this should be set in global and database configuration
+      }
+
+      def getInternalFilter(): String = {
+        if (internalFilter.isEmpty) ""
+        else s"(${internalFilter.query})"
+      }
+
+      def applyLike(filter: String): String = {
+        like match {
+          case 1 => s"$filter%"
+          case 3 => filter.replaceAll("[*]", "%")
+          case 4 => s"%$filter"
+          case _ => s"%$filter%" // 2 is default => %filter%
+        }
+      }
+
+      parseDefinition(sqlSelectDefinition) match {
+        case (sql, columns) => {
+          val sqlstmt = sql.toLowerCase()
+          if (sqlstmt.startsWith("select")) {
+            val select = DBHelper.removeTopClause(DBHelper.getSelectClause(sqlstmt))
+            val from = DBHelper.getFromClause(sqlstmt)
+            val where = DBHelper.getWhereClause(sqlstmt)
+            val groupBy = DBHelper.getGroupByClause(sqlstmt)
+            val orderBy = DBHelper.getOrderByClause(sqlstmt)
+            val top = DBHelper.getTopValue(sqlstmt)
+            val conditions = applyFilter(filter, columns, " like ")
+            val activeFilter = if (hasActive && useActive) s"(${tableName}.activo <> 0)" else ""
+            val statement = select +
+              from +
+              getWhere(where, conditions, activeFilter, getInternalFilter()) +
+              groupBy +
+              orderBy +
+              getTop(top)
+            createRecordSet(statement, applyLike(filter), internalFilter, columns.length, false)
+          }
+          else {
+            /*
           * when the query is an stored procedure it has to follow this conventions:
           *
           * - Macros can be declared: @@emp_id, @@us_id, @@bForABM, @@filterType
@@ -244,140 +227,173 @@ object Select {
 
           * */
 
-          def processMacros(statement: String): String = {
-            statement
-              .replaceAll("[@][@]bforabm", if(useActive) "0" else "1")
-              .replaceAll("[@][@]filtertype", like.toString())
+            def processMacros(statement: String): String = {
+              statement
+                .replaceAll("[@][@]bforabm", if (useActive) "0" else "1")
+                .replaceAll("[@][@]filtertype", like.toString())
+            }
+            val function = processMacros(sqlstmt) + "?, 0, 0, ?, ?"
+            createRecordSet(function, filter, internalFilter, 1, true)
           }
-          val function = processMacros(sqlstmt) + "?, 0, 0, ?, ?"
-          createRecordSet(function, filter, internalFilter, 1, true)
         }
       }
     }
-  }
 
-  private def getCallStatement(sqlstmt: String): String = {
-    val firstSpace = sqlstmt.indexOf(" ")
-    val function = sqlstmt.substring(0, firstSpace)
-    val params = sqlstmt.substring(firstSpace)
-    s"{call $function($params)}"
-  }
+    def getCallStatement(sqlstmt: String): String = {
+      val firstSpace = sqlstmt.indexOf(" ")
+      val function = sqlstmt.substring(0, firstSpace)
+      val params = sqlstmt.substring(firstSpace)
+      s"{call $function($params)}"
+    }
 
-  private def createRecordSet(user: CompanyUser, tableId: Int, table: String)
-                             (sqlstmt: String, filter: String, internalFilter: InternalFilter, paramCount: Int,
-                              isFunction: Boolean): RecordSet = {
-    Logger.debug(s"table: ${table} tableId: ${tableId} filter: ${filter} isFunction: ${isFunction} internalFilter:${internalFilter.toString()}")
-    if(isFunction) executeStoredProcedure(user, tableId, table)(getCallStatement(sqlstmt), filter, internalFilter, paramCount)
-    else executeQuery(user, tableId, table)(sqlstmt, filter, internalFilter, paramCount)
-  }
+    def createRecordSet(user: CompanyUser, tableId: Int, table: String)
+                       (sqlstmt: String, filter: String, internalFilter: InternalFilter, paramCount: Int, isFunction: Boolean): RecordSet = {
+      Logger.debug(s"table: ${table} tableId: ${tableId} filter: ${filter} isFunction: ${isFunction} internalFilter:${internalFilter.toString()}")
+      if (isFunction) executeStoredProcedure(user, tableId, table)(getCallStatement(sqlstmt), filter, internalFilter, paramCount)
+      else executeQuery(user, tableId, table)(sqlstmt, filter, internalFilter, paramCount)
+    }
 
-  private def executeStoredProcedure(user: CompanyUser, tableId: Int, table: String)
-                                    (sqlstmt: String, filter: String, internalFilter: InternalFilter,
-                                     paramCount: Int): RecordSet = {
+    def executeStoredProcedure(user: CompanyUser, tableId: Int, table: String)
+                              (sqlstmt: String, filter: String, internalFilter: InternalFilter, paramCount: Int): RecordSet = {
 
-    Logger.debug(sqlstmt)
+      Logger.debug(sqlstmt)
 
-    DB.withTransaction(user.database.database) { implicit connection =>
+      DB.withTransaction(user.database.database) { implicit connection =>
 
-      val cs = connection.prepareCall(sqlstmt)
+        val cs = connection.prepareCall(sqlstmt)
 
-      for (index <- 1 to paramCount) {
-        cs.setString(index, filter)
+        for (index <- 1 to paramCount) {
+          cs.setString(index, filter)
+        }
+
+        // internalFilter must be the last input parameter
+        //
+        cs.setString(paramCount + 1, internalFilter.query)
+
+        val cursorParamIndex = paramCount + 2
+
+        //cs.registerOutParameter(cursorParamIndex, Types.OTHER)
+        cs.registerOutParameter(cursorParamIndex, Types.OTHER)
+
+        try {
+
+          cs.execute()
+          createRows(cs.getObject(cursorParamIndex).asInstanceOf[java.sql.ResultSet])
+
+        } catch {
+          case NonFatal(e) => {
+            Logger.error(s"can't get list for table ${table} id ${tableId}. Error ${e.toString}")
+            throw e
+          }
+        } finally {
+          cs.close
+        }
       }
+    }
 
-      // internalFilter must be the last input parameter
-      //
-      cs.setString(paramCount + 1, internalFilter.query)
+    def executeQuery(user: CompanyUser, tableId: Int, table: String)
+                    (sqlstmt: String, filter: String, internalFilter: InternalFilter, paramCount: Int): RecordSet = {
 
-      val cursorParamIndex = paramCount + 2
+      Logger.debug(sqlstmt)
 
-      //cs.registerOutParameter(cursorParamIndex, Types.OTHER)
-      cs.registerOutParameter(cursorParamIndex, Types.OTHER)
+      DB.withTransaction(user.database.database) { implicit connection =>
 
+        val ps = connection.prepareStatement(sqlstmt)
+
+        for (index <- 1 to paramCount) {
+          ps.setString(index, filter)
+        }
+
+        // internalFilter must be the last input parameter
+        //
+        if (!internalFilter.isEmpty) DBHelper.applyParameters(ps, paramCount, internalFilter.filters)
+
+        try {
+
+          createRows(ps.executeQuery())
+
+        } catch {
+          case NonFatal(e) => {
+            Logger.error(s"can't get list for table ${table} id ${tableId}. Error ${e.toString}")
+            throw e
+          }
+        } finally {
+          ps.close
+        }
+      }
+    }
+
+    def createRows(rs: ResultSet): RecordSet = {
       try {
+        lazy val metaData = rs.getMetaData()
+        lazy val columnIndex = 2.to(metaData.getColumnCount()).toList
 
-        cs.execute()
-        createRows(cs.getObject(cursorParamIndex).asInstanceOf[java.sql.ResultSet])
-
-      } catch {
-        case NonFatal(e) => {
-          Logger.error(s"can't get list for table ${table} id ${tableId}. Error ${e.toString}")
-          throw e
+        def createRow(): Row = {
+          Row(rs.getInt(1), DBHelper.getValues(rs, metaData, columnIndex))
         }
-      } finally {
-        cs.close
-      }
-    }
-  }
 
-  private def executeQuery(user: CompanyUser, tableId: Int, table: String)
-                          (sqlstmt: String, filter: String, internalFilter: InternalFilter, paramCount: Int): RecordSet = {
-
-    Logger.debug(sqlstmt)
-
-    DB.withTransaction(user.database.database) { implicit connection =>
-
-      val ps = connection.prepareStatement(sqlstmt)
-
-      for (index <- 1 to paramCount) {
-        ps.setString(index, filter)
-      }
-
-      // internalFilter must be the last input parameter
-      //
-      if(!internalFilter.isEmpty) DBHelper.applyParameters(ps, paramCount, internalFilter.filters)
-
-      try {
-
-        createRows(ps.executeQuery())
-
-      } catch {
-        case NonFatal(e) => {
-          Logger.error(s"can't get list for table ${table} id ${tableId}. Error ${e.toString}")
-          throw e
+        def createColumns(): List[Column] = {
+          val columns = for {
+            i <- columnIndex
+          } yield {
+            Column(metaData.getColumnName(i), metaData.getColumnTypeName(i))
+          }
+          columns
         }
-      } finally {
-        ps.close
-      }
-    }
-  }
 
-  private def createRows(rs: ResultSet): RecordSet = {
-    try {
-      lazy val metaData = rs.getMetaData()
-      lazy val columnIndex = 2.to(metaData.getColumnCount()).toList
-
-      def createRow(): Row = {
-        Row(rs.getInt(1), DBHelper.getValues(rs, metaData, columnIndex))
-      }
-
-      def createColumns(): List[Column] = {
-        val columns = for {
-          i <- columnIndex
-        } yield {
-          Column(metaData.getColumnName(i), metaData.getColumnTypeName(i))
+        def fillList(): List[Row] = {
+          if (rs.next()) {
+            createRow() :: fillList()
+          }
+          else {
+            List()
+          }
         }
-        columns
-      }
 
-      def fillList(): List[Row] = {
-        if (rs.next()) {
-          createRow() :: fillList()
+        if (rs.next) {
+          RecordSet(createRow() :: fillList(), createColumns())
         }
         else {
-          List()
+          RecordSet(List(), List())
         }
-      }
 
-      if (rs.next) {
-        RecordSet(createRow() :: fillList(), createColumns())
+      } finally {
+        rs.close
       }
-      else {
-        RecordSet(List(), List())
-      }
+    }
 
-    } finally {
-      rs.close
+    Table.load(user, tableId) match {
+      case Some(table) => {
+        val parsedTable = ParsedTable(user.userId, user.cairoCompanyId, table)
+        executeSelect(
+          parsedTable.selectStatement,
+          table.hasActive,
+          active,
+          table.name,
+          filter,
+          InternalFilter.getFilter(user, internalFilter),
+          like,
+          createRecordSet(user, tableId, table.name))
+      }
+      case None => throw new RuntimeException(s"There is not table definition for tableId: ${tableId}")
+    }
+
+  }
+
+  def validate(
+               user: CompanyUser,
+               tableId: Int,
+               text: String,
+               textId: String,
+               active: Boolean,
+               internalFilter: String): RecordSet = {
+
+    Table.load(user, tableId) match {
+      case Some(table) => {
+        val parsedTable = ParsedTable(user.userId, user.cairoCompanyId, table)
+        RecordSet(List(Row(1001, List("Test Validate"))), List(Column("Text","string")))
+      }
+      case None => throw new RuntimeException(s"There is not table definition for tableId: ${tableId}")
     }
   }
 
