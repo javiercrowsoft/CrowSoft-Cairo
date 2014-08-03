@@ -118,6 +118,14 @@ Cairo.module("Select", function(Select, Cairo, Backbone, Marionette, $, _) {
             }];
             responseCallBack(items);
           }
+          ,error: function(request, status, error) {
+            Cairo.log("Failed to request a select.");
+            Cairo.log(request.responseText);
+            Cairo.manageError(
+              "Request a Select",
+              "Can't request a select for this input. An error has occurred in the server.",
+              request.responseText);
+          }
         });
       }, 300);
 
@@ -142,7 +150,7 @@ Cairo.module("Select", function(Select, Cairo, Backbone, Marionette, $, _) {
       $(selector).blur(function() {
         var self = this;
         var textId = $(self).data("select-data");
-        textId = textId || "-";
+        textId = textId ? textId.id : "0";
         var url = validateSource.replace(
                     "{{text}}",
                     encodeURIComponent(self.value)
@@ -154,8 +162,23 @@ Cairo.module("Select", function(Select, Cairo, Backbone, Marionette, $, _) {
           url: url
           ,cache: false
           ,success: function(data) {
-            self.value = data.rows[0].values[0];
-            $(self).data("select-data", data.rows[0].id);
+            if(data.rows.length > 0) {
+              self.value = data.rows[0].values[0];
+              $(self).removeClass("select-invalid-input");
+              $(self).data("select-data", data.rows[0]);
+            }
+            else {
+              $(self).addClass("select-invalid-input");
+              $(self).data("select-data", null);
+            }
+          }
+          ,error: function(request, status, error) {
+            Cairo.log("Failed to validate a select.");
+            Cairo.log(request.responseText);
+            Cairo.manageError(
+              "Select Validate",
+              "Can't validate this input. An error has occurred in the server.",
+              request.responseText);
           }
         });
       });
