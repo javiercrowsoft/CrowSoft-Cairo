@@ -27,6 +27,11 @@ Cairo.module("Select", function(Select, Cairo, Backbone, Marionette, $, _) {
             else {
               if(this.options.showHeader) {
                   var table = $('<div class="ui-widget-header" style="width:100%"></div>');
+                  // TODO: create a better method to define the size of columns because numeric data should
+                  //       get less space than string data
+                  //
+                  // the first time the ul hasn't set the width property so we use the width of the input
+                  //
                   var width = ul.width() === 0 ? this.element.width() : ul.width();
                   width = (width-50) / this.options.columns.length;
                   $.each(items[0].columns, function(index, item) {
@@ -44,7 +49,11 @@ Cairo.module("Select", function(Select, Cairo, Backbone, Marionette, $, _) {
         _renderItem: function(ul, item) {
             var t = '';
             var result = '';
-
+            // TODO: create a better method to define the size of columns because numeric data should
+            //       get less space than string data
+            //
+            // the first time the ul hasn't set the width property so we use the width of the input
+            //
             var width = ul.width() === 0 ? this.element.width() : ul.width();
             width = (width-50) / this.options.columns.length;
             $.each(this.options.columns, function(index, column) {
@@ -97,6 +106,7 @@ Cairo.module("Select", function(Select, Cairo, Backbone, Marionette, $, _) {
     var createSelect = function(selector, source, validateSource) {
       var throttledRequest = _.debounce(function(request, responseCallBack) {
         var url = source.replace("{{filter}}", encodeURIComponent(request.term));
+        Cairo.log("Selecting: " + url);
         $.ajax({
           url: url
           ,cache: false
@@ -132,55 +142,139 @@ Cairo.module("Select", function(Select, Cairo, Backbone, Marionette, $, _) {
       $(selector).cautocomplete({
         showHeader: true,
         source: function(request, responseCallBack) {
-            return throttledRequest(request, responseCallBack);
+          // only call select if validating hasn't been called
+          //
+          if(this.element.data("validating-data") !== true) {
+            throttledRequest(request, responseCallBack);
+          }
         },
         select: function(event, ui) {
+          $(this).removeClass("select-invalid-input");
           if(ui.item) {
             this.value = ui.item.value;
-            $(this).data("select-data", ui.item.data);
+            $(this).data("selected-data", ui.item.data);
           }
           else {
             this.value = "";
-            $(this).data("select-data", undefined);
+            $(this).data("selected-data", null);
           }
           return false;
         }
       });
 
+      /*
+          we validate the input on lost focus
+
+          rules:
+
+          - only validates if there are changes
+          - validates even when the input comes from the list
+
+          the last rule needs to be explained:
+
+            there are some cases when the id shown in the list is
+            a temporary id and the real id is returned by validate
+            look at sp_codigopostalhelp in the check section
+      */
+
       $(selector).blur(function() {
         var self = this;
-        var textId = $(self).data("select-data");
-        textId = textId ? textId.id : "0";
-        var url = validateSource.replace(
-                    "{{text}}",
-                    encodeURIComponent(self.value)
-                  ).replace(
-                    "{{textId}}",
-                    encodeURIComponent(textId)
-                  );
-        $.ajax({
-          url: url
-          ,cache: false
-          ,success: function(data) {
-            if(data.rows.length > 0) {
-              self.value = data.rows[0].values[0];
-              $(self).removeClass("select-invalid-input");
-              $(self).data("select-data", data.rows[0]);
-            }
-            else {
-              $(self).addClass("select-invalid-input");
-              $(self).data("select-data", null);
-            }
+
+        var invalidateData = function(highlight) {
+          if(highlight) {
+            $(self).addClass("select-invalid-input");
           }
-          ,error: function(request, status, error) {
-            Cairo.log("Failed to validate a select.");
-            Cairo.log(request.responseText);
-            Cairo.manageError(
-              "Select Validate",
-              "Can't validate this input. An error has occurred in the server.",
-              request.responseText);
+          else {
+            $(self).removeClass("select-invalid-input");
           }
-        });
+          $(self).data("selected-data", null);
+          $(self).data("validated-data", null);
+        };
+
+        if(self.value.trim() === "") {
+          invalidateData(false);
+        }
+        else {
+
+          // we have two data attributes set to track the state of this control:
+          //
+          // select-data contains a selection from the list
+          // validated-data contains the data return by validate
+          //
+          // only the validated-data is trusted
+          //
+          // validate is called when:
+          //
+          //  self.value is not empty and
+ 
+          //  validated-data is empty
+          //  or self.value !== validated-data
+          //  or validated-data !== selected-data
+
+          var data = $(self).data("selected-data");
+          var validatedData = $(self).data("validated-data");
+
+          var text = data ? data.values[0] : "";
+          var textId = data ? data.id : "0";
+
+          var validatedText = validatedData ? validatedData.values[0] : "";
+          var validatedTextId = validatedData ? validatedData.id : "0";
+
+          // the same input is validates one time only
+          //
+          if(self.value !== validatedText || validatedText !== text || validatedTextId !== textId) {
+
+            // this flag prevents a call to select when validating
+            //
+            $(self).data("validating-data", true);
+
+            // when self.value !== text (which comes from selected-data) the textId value
+            // is invalid because it was originated from selected-data
+            //
+            if(self.value !== text) textId = "0";
+
+            var url = validateSource.replace(
+                        "{{text}}",
+                        encodeURIComponent(self.value)
+                      ).replace(
+                        "{{textId}}",
+                        encodeURIComponent(textId)
+                      );
+            Cairo.log("validating: " + url);
+
+            $.ajax({
+              url: url
+              ,cache: false
+              ,success: function(data) {
+                if(data.rows.length > 0) {
+                  self.value = data.rows[0].values[0]; // TODO: implement a more powerful mechanism to allow the text
+                                                       //       to be set as a combination of columns
+                                                       //       which is good for persons ( last name, first name )
+                                                       //       or zip codes ( zip code - city, state )
+                                                       //       or even general masters like products ( [code] name )
+                                                       //
+                  $(self).removeClass("select-invalid-input");
+                  $(self).data("selected-data", data.rows[0]);
+                  $(self).data("validated-data", data.rows[0]);
+                }
+                else {
+                  invalidateData(true);
+                }
+                $(self).data("validating-data", null);
+              }
+              ,error: function(request, status, error) {
+                invalidateData(true);
+                Cairo.log("Failed to validate a select.");
+                Cairo.log(request.responseText);
+                Cairo.manageError(
+                  "Select Validate",
+                  "Can't validate this input. An error has occurred in the server.",
+                  request.responseText);
+                $(self).data("validating-data", null);
+              }
+            });
+          }
+        }
       });
 
     };

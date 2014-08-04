@@ -210,8 +210,8 @@ object Select {
     def createRecordSet(user: CompanyUser, tableId: Int, table: String)
                        (sqlstmt: String, filter: String, internalFilter: InternalFilter, paramCount: Int, isFunction: Boolean): RecordSet = {
       Logger.debug(s"table: ${table} tableId: ${tableId} filter: ${filter} isFunction: ${isFunction} internalFilter:${internalFilter.toString()}")
-      if (isFunction) executeStoredProcedure(user, tableId, table, getCallStatement(sqlstmt), filter, 0, internalFilter)
-      else executeQuery(user, tableId, table, sqlstmt, filter, internalFilter, paramCount)
+      if (isFunction) executeStoredProcedure(user, tableId, table, getCallStatement(sqlstmt), filter.toLowerCase(), 0, internalFilter)
+      else executeQuery(user, tableId, table, sqlstmt, filter.toLowerCase(), internalFilter, paramCount)
     }
 
     Table.load(user, tableId) match {
@@ -427,7 +427,7 @@ object Select {
             if (sqlstmt.startsWith("select")) {
               val columns = getColumns
               val activeFilter = if (table.hasActive) s"(${table.name}.activo <> 0)" else ""
-              val conditions = applyFilter(text, columns, " like ")
+              val conditions = applyFilter(text, columns, " = ")
               val sql = getSqlstmt
               val select = DBHelper.removeTopClause(DBHelper.getSelectClause(sql))
               val from = DBHelper.getFromClause(sql)
@@ -497,8 +497,8 @@ object Select {
     def createRecordSet(user: CompanyUser, tableId: Int, table: String)
                        (sqlstmt: String, text: String, id: Int, internalFilter: InternalFilter, paramCount: Int, isFunction: Boolean): RecordSet = {
       Logger.debug(s"table: ${table} tableId: ${tableId} text: ${text} id: ${id} isFunction: ${isFunction} internalFilter:${internalFilter.toString()}")
-      if (isFunction) executeStoredProcedure(user, tableId, table, getCallStatement(sqlstmt), text, id, internalFilter)
-      else executeQuery(user, tableId, table, sqlstmt, text, internalFilter, paramCount)
+      if (isFunction) executeStoredProcedure(user, tableId, table, getCallStatement(sqlstmt), text.toLowerCase(), id, internalFilter)
+      else executeQuery(user, tableId, table, sqlstmt, text.toLowerCase(), internalFilter, paramCount)
     }
 
     Table.load(user, tableId) match {

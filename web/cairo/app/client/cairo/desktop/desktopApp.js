@@ -19,6 +19,7 @@ Cairo.module("Desktop.Show", function(Show, Cairo, Backbone, Marionette, $, _) {
       Cairo.mainTab.showTab("Desktop", "desktopRegion", "#desktop", createDialog);
       Cairo.desktopRegion.show(view);
       Cairo.Select.Controller.createSelectControl("#desktop-select", Cairo.Tables.CODIGOS_POSTALES, true, "-");
+      Cairo.Select.Controller.createSelectControl("#desktop-select2", Cairo.Tables.PRESTACION, true, "-");
     }
   };
 });

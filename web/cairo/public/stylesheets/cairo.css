@@ -1,0 +1,9 @@
+.select-empty-result-message {
+  padding: 15px;
+  color: red;
+  font-weight: bold;
+}
+
+.select-invalid-input {
+  border: 3px solid red !important;
+}
