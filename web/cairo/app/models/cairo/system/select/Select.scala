@@ -395,14 +395,14 @@ object Select {
         if(hasCodeColumn) s", ${table.codeColumn}" else ""
       }
 
-      def getSqlstmt = {
-        if(table.selectStatement.isEmpty) {
+      def getSqlstmt(sqlstmt: String) = {
+        if(table.selectStatement.isEmpty && table.customerSelectStatement.isEmpty) {
           val select = s"select ${table.idColumn}, ${table.nameColumn}${getCodeColumn} from ${table.realName}"
           val where = if(table.whereStatement.isEmpty) "" else s" where (${table.whereStatement})"
           select + where
         }
         else {
-          table.selectStatement
+          sqlstmt
         }
       }
 
@@ -428,7 +428,7 @@ object Select {
               val columns = getColumns
               val activeFilter = if (table.hasActive) s"(${table.name}.activo <> 0)" else ""
               val conditions = applyFilter(text, columns, " = ")
-              val sql = getSqlstmt
+              val sql = getSqlstmt(sqlstmt)
               val select = DBHelper.removeTopClause(DBHelper.getSelectClause(sql))
               val from = DBHelper.getFromClause(sql)
               val where = DBHelper.getWhereClause(sql)

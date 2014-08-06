@@ -4,7 +4,6 @@
 
 @main("Desktop", s"Welcome ${companyUser.user.username} to your ${companyUser.company.company_name}'s desktop!") {
 
-<!-- Main jumbotron for a primary marketing message or call to action -->
 @if(!requestOrigin.userAgent.isMobile) {
 <div class="jumbotron desktop-menu">
     <div class="desktop-big-container">
@@ -269,7 +268,13 @@
             </div>
             <br/>
             <div class="tree-select-control cf">
-            	<input type="text" class="form-control" placeholder="Search here..." required>
+            	<input
+            	      type="text"
+            	      class="form-control"
+            	      id="desktop-select3"
+            	      placeholder="Search here..."
+            	      autocomplete="off"
+            	      />
             	<button onclick="alert('hola');">...</button>
             </div>
           </div>
@@ -455,6 +460,7 @@
 <script src="./client/cairo/system/tree.js"></script>
 <script src="./client/cairo/system/tab.js"></script>
 <script src="./client/cairo/system/select.js"></script>
+<script src="./client/cairo/system/treeSelect.js"></script>
 
 @for(routerEntry <- router) {<script src="./client/cairo/modules/@{routerEntry.fileHandler}.js"></script>
 }
