@@ -272,7 +272,7 @@ Cairo.LoadingMessage = function() {
         Cairo.loadingRegion.show(view);
     };
 
-    this.close = function() {
+    var close = function() {
         workDone = true;
         if(view) {
             Cairo.loadingRegion.close();
@@ -280,7 +280,7 @@ Cairo.LoadingMessage = function() {
         }
     };
 
-    this.show = function(title, message) {
+    var show = function(title, message) {
         if(view) return;
         workDone = false;
         this.message = message || this.message;
@@ -288,7 +288,7 @@ Cairo.LoadingMessage = function() {
         setTimeout(showMessage, 200);
     };
 
-    return this;
+    return {close: close, show: show};
 }();
 
 Cairo.sleep = function(millis, callback) {

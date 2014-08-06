@@ -68,6 +68,8 @@ Cairo.module("Select", function(Select, Cairo, Backbone, Marionette, $, _) {
     });
   };
 
+  // add the new widget to jQuery
+  //
   createAutoCompleteControl();
 
   var createSelect = function() {
@@ -104,6 +106,17 @@ Cairo.module("Select", function(Select, Cairo, Backbone, Marionette, $, _) {
         @source:    url to request the list
     */
     var createSelect = function(selector, source, validateSource) {
+
+      /*
+          SELECT
+
+          make an ajax request to get a RowSet using the input text
+          in this control (selector) as a query filter
+
+          @request            the input text used as a filter
+          @responseCallBack   the function to call when the RowSet arrives
+
+      */
       var throttledRequest = _.debounce(function(request, responseCallBack) {
         var url = source.replace("{{filter}}", encodeURIComponent(request.term));
         Cairo.log("Selecting: " + url);
@@ -139,31 +152,10 @@ Cairo.module("Select", function(Select, Cairo, Backbone, Marionette, $, _) {
         });
       }, 300);
 
-      $(selector).cautocomplete({
-        showHeader: true,
-        source: function(request, responseCallBack) {
-          // only call select if validating hasn't been called
-          //
-          if(this.element.data("validating-data") !== true) {
-            throttledRequest(request, responseCallBack);
-          }
-        },
-        select: function(event, ui) {
-          $(this).removeClass("select-invalid-input");
-          if(ui.item) {
-            this.value = ui.item.value;
-            $(this).data("selected-data", ui.item.data);
-          }
-          else {
-            this.value = "";
-            $(this).data("selected-data", null);
-          }
-          return false;
-        }
-      });
-
       /*
-          we validate the input on lost focus
+          VALIDATION
+
+          we validate the input in lost focus
 
           rules:
 
@@ -206,7 +198,7 @@ Cairo.module("Select", function(Select, Cairo, Backbone, Marionette, $, _) {
           // validate is called when:
           //
           //  self.value is not empty and
- 
+
           //  validated-data is empty
           //  or self.value !== validated-data
           //  or validated-data !== selected-data
@@ -274,6 +266,31 @@ Cairo.module("Select", function(Select, Cairo, Backbone, Marionette, $, _) {
               }
             });
           }
+        }
+      });
+
+      // create the select control
+      //
+      $(selector).cautocomplete({
+        showHeader: true,
+        source: function(request, responseCallBack) {
+          // only call select if validating hasn't been called
+          //
+          if(this.element.data("validating-data") !== true) {
+            throttledRequest(request, responseCallBack);
+          }
+        },
+        select: function(event, ui) {
+          $(this).removeClass("select-invalid-input");
+          if(ui.item) {
+            this.value = ui.item.value;
+            $(this).data("selected-data", ui.item.data);
+          }
+          else {
+            this.value = "";
+            $(this).data("selected-data", null);
+          }
+          return false;
         }
       });
 
