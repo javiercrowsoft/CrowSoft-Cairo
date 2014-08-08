@@ -102,3 +102,39 @@ overflow: visible;
     border: 0;
     padding: 0;
 }
+
+.tree-select-dialog {
+    background-color: #222;
+    border-color: #222;
+    color: #fff;
+}
+
+.tree-select-dialog div {
+    background-color: #222;
+    border-color: #222;
+    color: #fff;
+}
+
+.tree-select-dialog > div > span {
+    background-color: #222;
+    border-color: #222;
+    color: #fff !important;
+}
+
+.tree-select-dialog > .ui-widget-header {
+    border-bottom: 1px solid #464545;
+}
+
+.tree-select-dialog > div > span.ui-dialog-title {
+  font-weight: normal;
+  font-size: 24px;
+}
+
+div.tree-select-dialog.ui-widget-content {
+  background: none;
+  background-color: #222;
+}
+
+.tree-list-region {
+  border-left: 1px solid #464545 !important;
+}

@@ -6,6 +6,12 @@ Cairo.addRegions({
   loadingRegion: "#loading-region",
   dialogRegion: Marionette.Region.Dialog.extend({
     el: "#dialog-region"
+  }),
+  dialogSelectTreeRegion: Marionette.Region.Dialog.extend({
+      el: "#dialog-select-tree-region",
+      handlerClose: function() {
+        if(this.handler) this.handler.closeDialog();
+      }
   })
 });
 

@@ -77,6 +77,8 @@
 
 <div id="dialog-region"></div>
 
+<div id="dialog-select-tree-region"></div>
+
 <!-- Backbone templates -->
 
 <script type="text/template" id="about-message">
@@ -275,7 +277,7 @@
             	      placeholder="Search here..."
             	      autocomplete="off"
             	      />
-            	<button onclick="alert('hola');">...</button>
+            	<button>...</button>
             </div>
           </div>
         </form>
@@ -311,14 +313,14 @@
     </div>
     <div class="@if(requestOrigin.userAgent.isMobile) {container} else {desktop-big-container}">
         <div class="row">
-            <div class="col-sm-4 col-md-3">
+            <div class="col-sm-5 col-md-4">
                 <ul class="nav noFocus">
                     <li><div id="trees"></div></li>
                     <li><div id="tree"></div></li>
                 </ul>
                 @if(requestOrigin.userAgent.isMobile){<br/>}
             </div>
-            <div id="tree-main-list-region" class="col-sm-8 col-md-9">
+            <div id="tree-main-list-region" class="col-sm-7 col-md-8 tree-list-region">
 
               <div class="col-sm-1 col-md-1"></div>
               <div class="col-sm-10 col-md-10">

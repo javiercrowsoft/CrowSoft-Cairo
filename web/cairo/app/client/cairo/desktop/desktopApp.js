@@ -20,7 +20,7 @@ Cairo.module("Desktop.Show", function(Show, Cairo, Backbone, Marionette, $, _) {
       Cairo.desktopRegion.show(view);
       Cairo.Select.Controller.createSelectControl("#desktop-select", Cairo.Tables.CODIGOS_POSTALES, true, "-");
       Cairo.Select.Controller.createSelectControl("#desktop-select2", Cairo.Tables.PRESTACION, true, "-");
-      Cairo.TreeSelect.Controller.createSelectControl("#desktop-select3", Cairo.Tables.PROVINCIA, true, "-");
+      Cairo.TreeSelect.Controller.createSelectControl("#desktop-select3", Cairo.Tables.PROVINCIA, true, "-", "Province", "Select a province");
     }
   };
 });
