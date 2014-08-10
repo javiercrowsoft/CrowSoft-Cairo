@@ -379,12 +379,17 @@
         <td><%= Cairo.Tree.getColumnValue(columns[index], leave.values[index]) %></td>
       <% } %>
     <td>
+      <% if(showEditButton) { %>
       <button class="btn btn-sm btn-info js-edit" type="button" data-row-id="<%- leave.clientId %>">
         <i class="glyphicon glyphicon-pencil"></i>
       </button>
+      <% }
+         if(showDeleteButton) {
+      %>
       <button class="btn btn-sm btn-danger js-delete" type="button">
         <i class="glyphicon glyphicon-remove"></i>
       </button>
+      <% } %>
     </td>
     </tr>
     <% }); %>
@@ -453,6 +458,12 @@
 
   Cairo.isMobile = function() {
     return @if(requestOrigin.userAgent.isMobile) {true} else {false};
+  };
+
+  // TODO: implement this. read this values from the user's language
+  Cairo.Language = {
+    ACTIVE_TEXT: 'activo',
+    UPDATED_BY_TEXT: 'modifico'
   };
 </script>
 <script src="./client/cairo/session.js"></script>

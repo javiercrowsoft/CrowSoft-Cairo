@@ -1147,8 +1147,48 @@ Cairo.module("Tree.List", function(List, Cairo, Backbone, Marionette, $, _) {
       var itemsListLayout = new List.Layout({ model: listController.entityInfo });
       var itemsListPanel = new List.Panel({ model: listController.entityInfo });
 
+      var hideColumns = function(branch) {
+
+        if(listController.entityInfo.attributes.hiddenCols) {
+
+          var columns = branch.models[0].attributes.columns;
+          var k = -1;
+          var colsToHide = [];
+          var i, j;
+
+          for(i = columns.length; i -= 1;) {
+            for(j = 0; j < listController.entityInfo.attributes.hiddenCols.length; j += 1) {
+              if(columns[i].name === listController.entityInfo.attributes.hiddenCols[j]) {
+                k += 1;
+                colsToHide[k] = i;
+                columns.splice(colsToHide[k],1);
+                break;
+              }
+            }
+          }
+
+          var leaves = branch.models[0].attributes.leaves;
+          for(i = 0; i < leaves.length; i += 1) {
+            for(j = 0; j < colsToHide.length; j += 1) {
+              leaves[i].values.splice(colsToHide[j], 1);
+            }
+          }
+        }
+      };
+
+      var setEditControls = function(branch) {
+        var getValue = function(attribute) {
+          // default is true
+          return attribute !== undefined ? attribute : true;
+        };
+        branch.models[0].attributes.showEditButton = getValue(listController.entityInfo.attributes.showEditButton);
+        branch.models[0].attributes.showDeleteButton = getValue(listController.entityInfo.attributes.showDeleteButton);
+      };
+
       $.when(fetchingBranch).done(function(branch) {
 
+        hideColumns(branch);
+        setEditControls(branch);
         showItems(branch, itemsListPanel, itemsListLayout, listController);
 
       });

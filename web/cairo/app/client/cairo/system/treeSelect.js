@@ -39,7 +39,9 @@ Cairo.module("TreeSelect", function(TreeSelect, Cairo, Backbone, Marionette, $, 
         self.entityInfo = new Backbone.Model({
           entitiesTitle: entity,
           entityName: entity.toLowerCase(),
-          entitiesName: entity
+          entitiesName: entity,
+          hiddenCols: [Cairo.Language.UPDATED_BY_TEXT, Cairo.Language.ACTIVE_TEXT],
+          showDeleteButton: false
         });
 
         self.showBranch = function(branchId) {
