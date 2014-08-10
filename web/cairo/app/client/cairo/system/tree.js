@@ -1076,6 +1076,10 @@ Cairo.module("Tree.List", function(List, Cairo, Backbone, Marionette, $, _) {
                   .contextmenu("enableEntry", "sortAZ", isRoot)
                   .contextmenu("enableEntry", "sortZA", isRoot);
               node.setActive();
+
+              // to prevent the menu to be behind the dialog when showing a tree select
+              //
+              ui.menu.zIndex(1000);
             },
             select: function(event, ui) {
               var node = $.ui.fancytree.getNode(ui.target);
@@ -1156,7 +1160,7 @@ Cairo.module("Tree.List", function(List, Cairo, Backbone, Marionette, $, _) {
           var colsToHide = [];
           var i, j;
 
-          for(i = columns.length; i -= 1;) {
+          for(i = columns.length -1; i >= 0; i -= 1) {
             for(j = 0; j < listController.entityInfo.attributes.hiddenCols.length; j += 1) {
               if(columns[i].name === listController.entityInfo.attributes.hiddenCols[j]) {
                 k += 1;
@@ -1179,7 +1183,7 @@ Cairo.module("Tree.List", function(List, Cairo, Backbone, Marionette, $, _) {
       var setEditControls = function(branch) {
         var getValue = function(attribute) {
           // default is true
-          return attribute !== undefined ? attribute : true;
+          return attribute === undefined ? true : attribute;
         };
         branch.models[0].attributes.showEditButton = getValue(listController.entityInfo.attributes.showEditButton);
         branch.models[0].attributes.showDeleteButton = getValue(listController.entityInfo.attributes.showDeleteButton);
