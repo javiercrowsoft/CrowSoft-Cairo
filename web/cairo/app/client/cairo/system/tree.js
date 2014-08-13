@@ -42,6 +42,10 @@
                 entitiesName:   ""
               }
 
+        the entityInfo has more properties which are only used by the TreeSelect object
+        these attributes allow us to hide some controls like the new entity button, search button,
+        select all button, etc. when showing the tree dialog for select
+
       showBranch:
         a function which will call listBranch and pass it a function to draw the leaves:
 
@@ -979,6 +983,13 @@ Cairo.module("Tree.List", function(List, Cairo, Backbone, Marionette, $, _) {
       listController.Tree.mainRegion = mainRegion;
       listController.Tree.treeControlId = Cairo.Tree.getNextControlId();
       listController.Tree.newTreeMessageId = Cairo.Tree.getNextControlId();
+      listController.Tree.treeSearchControlId = Cairo.Tree.getNextControlId();
+
+      // create the select control to search entities
+      //
+      $("#tree-search-control", mainView.$el).attr("id", listController.Tree.treeSearchControlId);
+      listController.Tree.treeSearchControlId = "#" + listController.Tree.treeSearchControlId;
+      Cairo.Select.Controller.createSelectControl(listController.Tree.treeSearchControlId, tableId, false, "-");
 
       var fetchingTrees = Cairo.request("tree:entities", tableId);
 
@@ -1181,12 +1192,8 @@ Cairo.module("Tree.List", function(List, Cairo, Backbone, Marionette, $, _) {
       };
 
       var setEditControls = function(branch) {
-        var getValue = function(attribute) {
-          // default is true
-          return attribute === undefined ? true : attribute;
-        };
-        branch.models[0].attributes.showEditButton = getValue(listController.entityInfo.attributes.showEditButton);
-        branch.models[0].attributes.showDeleteButton = getValue(listController.entityInfo.attributes.showDeleteButton);
+        branch.models[0].attributes.showEditButton = listController.Tree.getValue('showEditButton');
+        branch.models[0].attributes.showDeleteButton = listController.Tree.getValue('showDeleteButton');
       };
 
       $.when(fetchingBranch).done(function(branch) {
@@ -1309,11 +1316,18 @@ Cairo.module("Tree.List", function(List, Cairo, Backbone, Marionette, $, _) {
       var rowSelect = "multi";
 
       if(!Cairo.isMobile()) {
-        buttons = [ "select_all", "select_none", "print"];
+        buttons = listController.Tree.getValue('showButtons') ? [ "select_all", "select_none", "print"] : [];
         scrollX = true;
         scrollY = 350;
         rowSelect = "os";
       }
+
+      var getDataTableDomAttribute = function() {
+        var f = listController.Tree.getValue('showFilter') ? 'f' : '';
+        return 'T<"clear">l' + f + 'rtip';
+      };
+
+      var dom = getDataTableDomAttribute();
 
       listController.Tree.dataTable = $(listController.Tree.dataTableId$, itemsListLayout.$el).dataTable({
           scrollY: scrollY,
@@ -1322,7 +1336,7 @@ Cairo.module("Tree.List", function(List, Cairo, Backbone, Marionette, $, _) {
           "language": {
               "search": "Search in this folder: "
           },
-          dom: 'T<"clear">lfrtip',
+          dom: dom,
           tableTools: {
               "sRowSelect": rowSelect,
               "aButtons": buttons
@@ -1339,7 +1353,22 @@ Cairo.module("Tree.List", function(List, Cairo, Backbone, Marionette, $, _) {
 
     addTreeToController: function(listController) {
       if(listController.Tree == undefined) {
-        listController.Tree = { };
+
+        var getValue = function(attribute) {
+          // default is true
+          attribute = listController.entityInfo.attributes[attribute];
+          return attribute === undefined ? true : attribute;
+        };
+
+        // this attribute is used in templates so it should be present
+        // in entityInfo
+        //
+        if(listController.entityInfo.attributes.showButtons === undefined) {
+          listController.entityInfo.attributes.showButtons = true;
+        }
+
+        listController.Tree = { getValue: getValue };
+
       };
     }
 

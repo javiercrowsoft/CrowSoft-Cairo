@@ -245,28 +245,26 @@
         <h1>Welcome to you desktop 3 !!!</h1>
         <form>
           <div class="input-text-form">
-            <div class="control-group">
-                <fieldset>
-                  <input
-                        type="text"
-                        class="form-control"
-                        id="desktop-select"
-                        placeholder="Search for any city"
-                        autocomplete="off"
-                      />
-                </fieldset>
+            <div class="tree-select-control cf">
+              <input
+                    type="text"
+                    class="form-control"
+                    id="desktop-select"
+                    placeholder="Search for any city"
+                    autocomplete="off"
+                  />
+              <button>+</button>
             </div>
             <br/>
-            <div class="control-group">
-                <fieldset>
-                  <input
-                        type="text"
-                        class="form-control"
-                        id="desktop-select2"
-                        placeholder="Search for any action you want to make like create an invoice"
-                        autocomplete="off"
-                      />
-                </fieldset>
+            <div class="tree-select-control cf">
+              <input
+                    type="text"
+                    class="form-control"
+                    id="desktop-select2"
+                    placeholder="Search for any action you want to make like create an invoice"
+                    autocomplete="off"
+                  />
+              <button>+</button>
             </div>
             <br/>
             <div class="tree-select-control cf">
@@ -287,6 +285,7 @@
 <!-- trees -->
 
 <script type="text/template" id="tree-list-panel-template">
+  <% if(showButtons) { %>
     <button class="btn btn-primary js-new"><%- entityName %></button>
     <form id="filter-form" class="form-search form-inline pull-right">
         <div class="input-append">
@@ -295,6 +294,7 @@
     </form>
   <br>
   <br>
+  <% } %>
 </script>
 
 <script type="text/template" id="tree-create-first-tree-template">
@@ -308,9 +308,28 @@
 </script>
 
 <script type="text/template" id="tree-layout-template">
-    <div class="@if(requestOrigin.userAgent.isMobile) {container} else {desktop-big-container}">
-        <h2 class="sub-header"><%- entitiesTitle %></h2>
+    <div class="row">
+      <div class="col-sm-5 col-md-4">
+        <div class="@if(requestOrigin.userAgent.isMobile) {container} else {desktop-big-container}">
+            <h2 class="sub-header"><%- entitiesTitle %></h2>
+        </div>
+      </div>
+      <div class="col-sm-3 col-md-3">
+      </div>
+      <div class="col-sm-4 col-md-5 tree-select-control-search">
+        <div class="tree-select-control cf">
+          <input
+                type="text"
+                class="form-control"
+                id="tree-search-control"
+                placeholder="Search for <%- entitiesName %>"
+                autocomplete="off"
+              />
+          <button>+</button>
+        </div>
+      </div>
     </div>
+
     <div class="@if(requestOrigin.userAgent.isMobile) {container} else {desktop-big-container}">
         <div class="row">
             <div class="col-sm-5 col-md-4">
@@ -323,13 +342,11 @@
             <div id="tree-main-list-region" class="col-sm-7 col-md-8 tree-list-region">
 
               <div class="col-sm-1 col-md-1"></div>
-              <div class="col-sm-10 col-md-10">
-              <div class="alert alert-info">
-                <p>Select a folder to list <%- entitiesName %></p>
+              <div class="col-sm-11 col-md-11" style="padding-right: 0px;">
+                <div class="alert alert-info" style="padding-right: 5px;">
+                  <p>Select a folder to list <%- entitiesName %></p>
+                </div>
               </div>
-              </div>
-              <div class="col-sm-1 col-md-1"></div>
-
             </div>
         </div>
     </div>

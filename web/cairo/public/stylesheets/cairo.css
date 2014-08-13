@@ -138,3 +138,14 @@ div.tree-select-dialog.ui-widget-content {
 .tree-list-region {
   border-left: 1px solid #464545 !important;
 }
+
+.tree-select-control-search {
+  padding-top: 5px;
+  padding-right: 30px;
+}
+
+.tree-select-dialog div .alert-info {
+  background-color: #3498db;
+  border-color: #3498db;
+  color: #fff;
+}

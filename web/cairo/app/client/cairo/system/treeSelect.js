@@ -13,7 +13,7 @@ Cairo.module("TreeSelect", function(TreeSelect, Cairo, Backbone, Marionette, $, 
 
     var createSelectControl = function(selector, tableId, active, internalFilter, entity, label) {
       Cairo.Select.Controller.createSelectControl(selector, tableId, active, internalFilter);
-      $($(selector).parent).find("button").click(function () {
+      $($(selector).parent()).find("button").click(function () {
               listTree(tableId, entity, label);
               return false;
       });
@@ -41,7 +41,9 @@ Cairo.module("TreeSelect", function(TreeSelect, Cairo, Backbone, Marionette, $, 
           entityName: entity.toLowerCase(),
           entitiesName: entity,
           hiddenCols: [Cairo.Language.UPDATED_BY_TEXT, Cairo.Language.ACTIVE_TEXT],
-          showDeleteButton: false
+          showDeleteButton: false,
+          showFilter: false,
+          showButtons: false
         });
 
         self.showBranch = function(branchId) {
