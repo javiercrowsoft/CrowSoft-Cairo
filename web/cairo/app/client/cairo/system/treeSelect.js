@@ -3,24 +3,28 @@ Cairo.module("TreeSelect", function(TreeSelect, Cairo, Backbone, Marionette, $, 
 
   var createSelect = function() {
 
-    var that = {};
-    var dialogIsVisible = false;
-
-    Cairo.dialogSelectTreeRegion.handler = that;
-
-    that.closeDialog = function() {
-      that.dialogIsVisible = false;
-    };
-
     var createSelectControl = function(selector, tableId, active, internalFilter, entity, label) {
       Cairo.Select.Controller.createSelectControl(selector, tableId, active, internalFilter);
       $($(selector).parent()).find("button").click(function () {
-              listTree(tableId, entity, label);
-              return false;
+        var treeController = { dialogIsVisible: false };
+
+        Cairo.dialogSelectTreeRegion.handler = treeController;
+
+        treeController.closeDialog = function() {
+          treeController.dialogIsVisible = false;
+        };
+
+        treeController.showBranch = function(branchId) {
+          Cairo.log("Loading nodeId: " + branchId);
+          Cairo.Tree.List.Controller.listBranch(branchId, Cairo.Tree.List.Controller.showItems, treeController)
+        };
+
+        listTree(tableId, entity, label, treeController);
+        return false;
       });
     };
 
-    var listTree = function(tableId, entity, label) {
+    var listTree = function(tableId, entity, label, treeController) {
 
       /*
           this function will be called by the tab manager every time the
@@ -37,7 +41,7 @@ Cairo.module("TreeSelect", function(TreeSelect, Cairo, Backbone, Marionette, $, 
 
         // ListController properties and methods
         //
-        that.entityInfo = new Backbone.Model({
+        treeController.entityInfo = new Backbone.Model({
           entitiesTitle: entity,
           entityName: entity.toLowerCase(),
           entitiesName: entity,
@@ -47,11 +51,6 @@ Cairo.module("TreeSelect", function(TreeSelect, Cairo, Backbone, Marionette, $, 
           showButtons: false
         });
 
-        that.showBranch = function(branchId) {
-          Cairo.log("Loading nodeId: " + branchId);
-          Cairo.Tree.List.Controller.listBranch(branchId, Cairo.Tree.List.Controller.showItems, that)
-        };
-
         // progress message
         //
         Cairo.LoadingMessage.show(entity, label);
@@ -60,14 +59,14 @@ Cairo.module("TreeSelect", function(TreeSelect, Cairo, Backbone, Marionette, $, 
         //
         Cairo.Tree.List.Controller.list(
           tableId,
-          new Cairo.Tree.List.TreeLayout({ model: that.entityInfo }),
+          new Cairo.Tree.List.TreeLayout({ model: treeController.entityInfo }),
           Cairo.dialogSelectTreeRegion,
-          that);
+          treeController);
 
       };
 
-      if(!that.dialogIsVisible) {
-        that.dialogIsVisible = true;
+      if(!treeController.dialogIsVisible) {
+        treeController.dialogIsVisible = true;
         showTreeDialog();
       }
 

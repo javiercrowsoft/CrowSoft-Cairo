@@ -994,11 +994,20 @@
         var searchCtrl = Cairo.Select.Controller.createSelectControl(listController.Tree.treeSearchControlId, tableId, false, "-");
 
         var searchUpdateHandler = function(e) {
-          Cairo.log("search: " + e.data.id + " - " + e.data.values[0] + " - " + e.data.values[1]);
+          Cairo.log("search-update: " + e.data.id + " - " + e.data.values[0] + " - " + e.data.values[1]);
+        };
+
+        var searchSelectHandler = function(e) {
+          Cairo.log("search-select: " + e.data.id + " - " + e.data.values[0] + " - " + e.data.values[1]);
+        };
+
+        var searchValidateHandler = function(e) {
+          Cairo.log("search-validate: " + e.data.id + " - " + e.data.values[0] + " - " + e.data.values[1]);
         };
 
         searchCtrl.addListener('onUpdate', searchUpdateHandler);
-        searchCtrl.addListener('onUpdate2', searchUpdateHandler);
+        searchCtrl.addListener('onSelect', searchSelectHandler);
+        searchCtrl.addListener('onValidate', searchValidateHandler);
 
         var fetchingTrees = Cairo.request("tree:entities", tableId);
 

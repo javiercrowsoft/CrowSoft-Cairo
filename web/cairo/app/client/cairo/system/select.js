@@ -75,8 +75,6 @@ Cairo.module("Select", function(Select, Cairo, Backbone, Marionette, $, _) {
 
   var createSelect = function() {
 
-    var that = { onUpdate: [] };
-
     var getSource = function(tableId, active, useSearch, internalFilter) {
       return "/system/select/rows" +
              "/" + tableId +
@@ -108,7 +106,16 @@ Cairo.module("Select", function(Select, Cairo, Backbone, Marionette, $, _) {
         @selector:  selector to an html input
         @source:    url to request the list
     */
-    var createSelect = function(selector, source, validateSource) {
+    var createControl = function(selector, source, validateSource) {
+
+      var selectController = {
+        listeners: {
+         onUpdate: [],
+         onSelect: [],
+         onValidate: []
+        },
+        data: null
+      };
 
       /*
           SELECT
@@ -184,8 +191,33 @@ Cairo.module("Select", function(Select, Cairo, Backbone, Marionette, $, _) {
         };
       };
 
+      var hasChanged = function(data) {
+        if(selectController.data !== data) {
+          if(selectController.data === null
+            || data === null
+            || selectController.data.id !== data.id
+            || selectController.data.values[0] !== data.values[0]
+            || selectController.data.values[1] !== data.values[1]) {
+
+            selectController.data = data;
+            return true;
+          }
+        }
+        return false;
+      }
+
       var raiseOnUpdate = function(e) {
-        _.each(that.onUpdate, raiseEvent(e));
+        if(hasChanged(e.data)) {
+          _.each(selectController.listeners.onUpdate, raiseEvent(e));
+        }
+      };
+
+      var raiseOnSelect = function(e) {
+        _.each(selectController.listeners.onSelect, raiseEvent(e));
+      };
+
+      var raiseOnValidate = function(e) {
+        _.each(selectController.listeners.onValidate, raiseEvent(e));
       };
 
       $(selector).blur(function() {
@@ -204,6 +236,7 @@ Cairo.module("Select", function(Select, Cairo, Backbone, Marionette, $, _) {
 
         if(self.value.trim() === "" && $(self).data("validated-data")) {
           invalidateData(false);
+          raiseOnValidate( { data: $(self).data("validated-data") } );
           raiseOnUpdate( { data: $(self).data("validated-data") } );
         }
         else {
@@ -273,6 +306,7 @@ Cairo.module("Select", function(Select, Cairo, Backbone, Marionette, $, _) {
                   invalidateData(true);
                 }
                 $(self).data("validating-data", null);
+                raiseOnValidate( { data: $(self).data("validated-data") } );
                 raiseOnUpdate( { data: $(self).data("validated-data") } );
               }
               ,error: function(request, status, error) {
@@ -284,6 +318,7 @@ Cairo.module("Select", function(Select, Cairo, Backbone, Marionette, $, _) {
                   "Can't validate this input. An error has occurred in the server.",
                   request.responseText);
                 $(self).data("validating-data", null);
+                raiseOnValidate( { data: $(self).data("validated-data") } );
                 raiseOnUpdate( { data: $(self).data("validated-data") } );
               }
             });
@@ -307,10 +342,13 @@ Cairo.module("Select", function(Select, Cairo, Backbone, Marionette, $, _) {
           if(ui.item) {
             this.value = ui.item.value;
             $(this).data("selected-data", ui.item.data);
+            raiseOnSelect( { data: ui.item.data } );
+            raiseOnUpdate( { data: ui.item.data } );
           }
           else {
             this.value = "";
             $(this).data("selected-data", null);
+            raiseOnUpdate( { data: null } );
           }
           return false;
         }
@@ -319,7 +357,9 @@ Cairo.module("Select", function(Select, Cairo, Backbone, Marionette, $, _) {
       var addListener = function(eventName, functionHandler) {
         switch(eventName) {
           case "onUpdate":
-            that[eventName].push(functionHandler);
+          case "onSelect":
+          case "onValidate":
+            selectController.listeners[eventName].push(functionHandler);
             break;
           default:
             Cairo.logError('Invalid event listener registration. EventName: ' + eventName + ' - Handler: ' + functionHandler.toString());
@@ -337,14 +377,25 @@ Cairo.module("Select", function(Select, Cairo, Backbone, Marionette, $, _) {
         @internalFilter:  allows to define flags for especial cases
     */
     var createSelectControl = function(selector, tableId, active, internalFilter) {
-      return createSelect(
+      return createControl(
         selector,
         getSelectSource(tableId, active, internalFilter),
         getValidateSource(tableId, active, internalFilter)
       );
     };
 
-    return { createSelectControl: createSelectControl	};
+    var createSearchControl = function(selector, tableId, active, internalFilter) {
+      return createControl(
+        selector,
+        getSearchSource(tableId, active, internalFilter),
+        getValidateSource(tableId, active, internalFilter)
+      );
+    };
+
+    return {
+      createSelectControl: createSelectControl,
+      createSearchControl: createSearchControl
+    };
 
   };
 

@@ -24,6 +24,7 @@
         Cairo.Select.Controller.createSelectControl("#desktop-select", Cairo.Tables.CODIGOS_POSTALES, true, "-");
         Cairo.Select.Controller.createSelectControl("#desktop-select2", Cairo.Tables.PRESTACION, true, "-");
         Cairo.TreeSelect.Controller.createSelectControl("#desktop-select3", Cairo.Tables.PROVINCIA, true, "-", "Province", "Select a province");
+        Cairo.TreeSelect.Controller.createSelectControl("#desktop-select4", Cairo.Tables.CUENTA, true, "-", "Account", "Select an Account");
       }
     };
   });
