@@ -989,7 +989,14 @@ Cairo.module("Tree.List", function(List, Cairo, Backbone, Marionette, $, _) {
       //
       $("#tree-search-control", mainView.$el).attr("id", listController.Tree.treeSearchControlId);
       listController.Tree.treeSearchControlId = "#" + listController.Tree.treeSearchControlId;
-      Cairo.Select.Controller.createSelectControl(listController.Tree.treeSearchControlId, tableId, false, "-");
+      var searchCtrl = Cairo.Select.Controller.createSelectControl(listController.Tree.treeSearchControlId, tableId, false, "-");
+
+      var searchUpdateHandler = function(e) {
+        Cairo.log("search: " + e.data.id + " - " + e.data.values[0] + " - " + e.data.values[1]);
+      };
+
+      searchCtrl.addListener('onUpdate', searchUpdateHandler);
+      searchCtrl.addListener('onUpdate2', searchUpdateHandler);
 
       var fetchingTrees = Cairo.request("tree:entities", tableId);
 

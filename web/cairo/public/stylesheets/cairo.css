@@ -107,6 +107,7 @@ overflow: visible;
     background-color: #222;
     border-color: #222;
     color: #fff;
+    min-height: 400px;
 }
 
 .tree-select-dialog div {
@@ -147,5 +148,12 @@ div.tree-select-dialog.ui-widget-content {
 .tree-select-dialog div .alert-info {
   background-color: #3498db;
   border-color: #3498db;
+  color: #fff;
+}
+
+.select-header {
+  background-color: #3498db !important;
+  border-color: #3498db !important;
+  padding: 10px !important;
   color: #fff;
 }

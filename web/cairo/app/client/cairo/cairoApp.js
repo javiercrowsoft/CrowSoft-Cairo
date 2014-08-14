@@ -308,6 +308,10 @@ Cairo.logTreeEvent = function(event, data, msg) {
   }
 };
 
+Cairo.logError = function(msg) {
+  Cairo.log('CAIRO_INTERNAL_ERROR: ' + msg);
+};
+
 Cairo.log = function(msg) {
   msg = msg ? ": " + msg : "";
   if(window.console && window.console.log) {

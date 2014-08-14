@@ -19,23 +19,23 @@ Cairo.module("Select", function(Select, Cairo, Backbone, Marionette, $, _) {
             */
 
             // it is used in _renderItem
-            this.options.columns = items[0].columns;
+            self.options.columns = items[0].columns;
 
             if(items[0].rows.length === 0) {
               ul.append($('<div class="select-empty-result-message" style="width:100%">There isn&apos;t any rows using this filter: ' + this.element.text() + '</div>'));
             }
             else {
-              if(this.options.showHeader) {
-                  var table = $('<div class="ui-widget-header" style="width:100%"></div>');
+              if(self.options.showHeader) {
+                  var table = $('<div class="ui-widget-header select-header" style="width:100%"></div>');
                   // TODO: create a better method to define the size of columns because numeric data should
                   //       get less space than string data
                   //
                   // the first time the ul hasn't set the width property so we use the width of the input
                   //
-                  var width = ul.width() === 0 ? this.element.width() : ul.width();
-                  width = (width-50) / this.options.columns.length;
+                  var width = ul.width() === 0 ? self.element.width() : ul.width();
+                  width = (width-50) / self.options.columns.length;
                   $.each(items[0].columns, function(index, item) {
-                      table.append('<span style="padding:0 4px;float:left;width:' + width + 'px;">' +
+                      table.append('<span class="capitalize" style="padding:0 4px;float:left;width:' + width + 'px;">' +
                         item.name + '</span>');
                   });
                   table.append('<div style="clear: both;"></div>');
@@ -73,6 +73,8 @@ Cairo.module("Select", function(Select, Cairo, Backbone, Marionette, $, _) {
   createAutoCompleteControl();
 
   var createSelect = function() {
+
+    var that = { onUpdate: [] };
 
     var getSource = function(tableId, active, useSearch, internalFilter) {
       return "/system/select/rows" +
@@ -169,6 +171,22 @@ Cairo.module("Select", function(Select, Cairo, Backbone, Marionette, $, _) {
             look at sp_codigopostalhelp in the check section
       */
 
+      var raiseEvent = function(e) {
+        return function(eventListener) {
+          if(!e.data) {
+            e.data = {
+              id: 0,
+              values: ['','']
+            }
+          }
+          eventListener(e);
+        };
+      };
+
+      var raiseOnUpdate = function(e) {
+        _.each(that.onUpdate, raiseEvent(e));
+      };
+
       $(selector).blur(function() {
         var self = this;
 
@@ -183,8 +201,9 @@ Cairo.module("Select", function(Select, Cairo, Backbone, Marionette, $, _) {
           $(self).data("validated-data", null);
         };
 
-        if(self.value.trim() === "") {
+        if(self.value.trim() === "" && $(self).data("validated-data")) {
           invalidateData(false);
+          raiseOnUpdate( { data: $(self).data("validated-data") } );
         }
         else {
 
@@ -253,6 +272,7 @@ Cairo.module("Select", function(Select, Cairo, Backbone, Marionette, $, _) {
                   invalidateData(true);
                 }
                 $(self).data("validating-data", null);
+                raiseOnUpdate( { data: $(self).data("validated-data") } );
               }
               ,error: function(request, status, error) {
                 invalidateData(true);
@@ -263,6 +283,7 @@ Cairo.module("Select", function(Select, Cairo, Backbone, Marionette, $, _) {
                   "Can't validate this input. An error has occurred in the server.",
                   request.responseText);
                 $(self).data("validating-data", null);
+                raiseOnUpdate( { data: $(self).data("validated-data") } );
               }
             });
           }
@@ -294,6 +315,18 @@ Cairo.module("Select", function(Select, Cairo, Backbone, Marionette, $, _) {
         }
       });
 
+      var addListener = function(eventName, functionHandler) {
+        switch(eventName) {
+          case "onUpdate":
+            that[eventName].push(functionHandler);
+            break;
+          default:
+            Cairo.logError('Invalid event listener registration. EventName: ' + eventName + ' - Handler: ' + functionHandler.toString());
+        }
+      };
+
+      return { addListener: addListener };
+
     };
 
     /*
@@ -303,7 +336,7 @@ Cairo.module("Select", function(Select, Cairo, Backbone, Marionette, $, _) {
         @internalFilter:  allows to define flags for especial cases
     */
     var createSelectControl = function(selector, tableId, active, internalFilter) {
-      createSelect(
+      return createSelect(
         selector,
         getSelectSource(tableId, active, internalFilter),
         getValidateSource(tableId, active, internalFilter)
