@@ -266,7 +266,7 @@
         tree API
 
         this API is not used yet and maybe will be removed in the future
-
+    */
 
     var API = {
       getTreeEntities: function(tableId) {
@@ -279,7 +279,7 @@
           }
         });
         var promise = defer.promise();
-        $.when(promise).done(function(trees) { });
+        //$.when(promise).done(function(trees) { });
         return promise;
       },
 
@@ -307,7 +307,7 @@
           }
         });
         var promise = defer.promise();
-        $.when(promise).done(function(leaves) { });
+        //$.when(promise).done(function(leaves) { });
         return promise;
       }
     };
@@ -324,7 +324,7 @@
       return API.getBranchEntity(branchId);
     });
 
-
+    /*
         end of tree API
     */
 
