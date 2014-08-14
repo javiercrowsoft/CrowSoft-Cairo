@@ -1,4 +1,5 @@
 Cairo.module("Session", function(Session, Cairo, Backbone, Marionette, $, _) {
+    "use strict";
 
     var SessionModel = Backbone.Model.extend({
 

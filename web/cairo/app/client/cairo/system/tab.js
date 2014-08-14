@@ -1,4 +1,5 @@
 Cairo.module("Tab", function(Tab, Cairo, Backbone, Marionette, $, _) {
+  "use strict";
 
   Tab.Controller = {
 

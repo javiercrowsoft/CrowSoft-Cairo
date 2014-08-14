@@ -1,4 +1,5 @@
 Cairo.module("Select", function(Select, Cairo, Backbone, Marionette, $, _) {
+  "use strict";
 
   /*
       implements an auto complete control which shows a table grid
@@ -242,7 +243,7 @@ Cairo.module("Select", function(Select, Cairo, Backbone, Marionette, $, _) {
             // when self.value !== text (which comes from selected-data) the textId value
             // is invalid because it was originated from selected-data
             //
-            if(self.value !== text) textId = "0";
+            if(self.value !== text) { textId = "0"; }
 
             var url = validateSource.replace(
                         "{{text}}",

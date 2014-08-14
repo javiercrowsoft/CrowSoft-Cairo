@@ -1,14 +1,15 @@
 Cairo.module("TreeSelect", function(TreeSelect, Cairo, Backbone, Marionette, $, _) {
+  "use strict";
 
   var createSelect = function() {
 
-    var self = this;
+    var that = {};
     var dialogIsVisible = false;
 
-    Cairo.dialogSelectTreeRegion.handler = self;
+    Cairo.dialogSelectTreeRegion.handler = that;
 
-    self.closeDialog = function() {
-      self.dialogIsVisible = false;
+    that.closeDialog = function() {
+      that.dialogIsVisible = false;
     };
 
     var createSelectControl = function(selector, tableId, active, internalFilter, entity, label) {
@@ -36,7 +37,7 @@ Cairo.module("TreeSelect", function(TreeSelect, Cairo, Backbone, Marionette, $, 
 
         // ListController properties and methods
         //
-        self.entityInfo = new Backbone.Model({
+        that.entityInfo = new Backbone.Model({
           entitiesTitle: entity,
           entityName: entity.toLowerCase(),
           entitiesName: entity,
@@ -46,9 +47,9 @@ Cairo.module("TreeSelect", function(TreeSelect, Cairo, Backbone, Marionette, $, 
           showButtons: false
         });
 
-        self.showBranch = function(branchId) {
+        that.showBranch = function(branchId) {
           Cairo.log("Loading nodeId: " + branchId);
-          Cairo.Tree.List.Controller.listBranch(branchId, Cairo.Tree.List.Controller.showItems, self)
+          Cairo.Tree.List.Controller.listBranch(branchId, Cairo.Tree.List.Controller.showItems, that)
         };
 
         // progress message
@@ -59,14 +60,14 @@ Cairo.module("TreeSelect", function(TreeSelect, Cairo, Backbone, Marionette, $, 
         //
         Cairo.Tree.List.Controller.list(
           tableId,
-          new Cairo.Tree.List.TreeLayout({ model: self.entityInfo }),
+          new Cairo.Tree.List.TreeLayout({ model: that.entityInfo }),
           Cairo.dialogSelectTreeRegion,
-          self);
+          that);
 
       };
 
-      if(!self.dialogIsVisible) {
-        self.dialogIsVisible = true;
+      if(!that.dialogIsVisible) {
+        that.dialogIsVisible = true;
         showTreeDialog();
       }
 
