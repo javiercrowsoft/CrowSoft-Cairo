@@ -454,7 +454,7 @@ var Cairo = new Marionette.Application();
 
   Cairo.inputFormView = function(title, label, defaultValue, inputHandler) {
     var Model = Backbone.Model.extend({ urlRoot: "inputForm" });
-    model = new Model({ title: title, label: label, text: defaultValue });
+    var model = new Model({ title: title, label: label, text: defaultValue });
     var view = new Cairo.Common.Views.InputText({
         model: model
       });
@@ -470,7 +470,7 @@ var Cairo = new Marionette.Application();
 
   Cairo.confirmViewWithClasses = function(title, message, yesClass, noClass, confirmHandler) {
     var Model = Backbone.Model.extend({ urlRoot: "inputForm" });
-    model = new Model({ title: title, message: message, yesClass: yesClass, noClass: noClass });
+    var model = new Model({ title: title, message: message, yesClass: yesClass, noClass: noClass });
     var view = new Cairo.Common.Views.Confirm({
         model: model
       });
@@ -494,7 +494,7 @@ var Cairo = new Marionette.Application();
 
   Cairo.manageErrorView = function(title, message, errorResponse, closeHandler) {
     var Model = Backbone.Model.extend({ urlRoot: "errorMessage" });
-    model = new Model({ title: title, message: message });
+    var model = new Model({ title: title, message: message });
     var view = new Cairo.Common.Views.ErrorMessage({
         model: model
       });
