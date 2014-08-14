@@ -962,7 +962,7 @@
       list: function(tableId, mainView, mainRegion, listController) {
         Cairo.LoadingMessage.show();
 
-        Cairo.Tree.List.Controller.addTreeToController(listController);
+        Cairo.Tree.List.Controller.setTreeIntoController(listController);
 
         //////////////
         mainRegion.show(mainView);
@@ -1021,7 +1021,7 @@
       listTree: function(treeId, listController) {
         Cairo.LoadingMessage.show();
 
-        Cairo.Tree.List.Controller.addTreeToController(listController);
+        Cairo.Tree.List.Controller.setTreeIntoController(listController);
         listController.Tree.treeId = treeId;
 
         var removeNewTreeView = function() {
@@ -1360,7 +1360,7 @@
         Cairo.LoadingMessage.close();
       },
 
-      addTreeToController: function(listController) {
+      setTreeIntoController: function(listController) {
         if(listController.Tree == undefined) {
 
           var getValue = function(attribute) {
@@ -1369,16 +1369,16 @@
             return attribute === undefined ? true : attribute;
           };
 
-          // this attribute is used in templates so it should be present
-          // in entityInfo
-          //
-          if(listController.entityInfo.attributes.showButtons === undefined) {
-            listController.entityInfo.attributes.showButtons = true;
-          }
-
           listController.Tree = { getValue: getValue };
 
         };
+
+        // this attribute is used in templates so it should be present
+        // in entityInfo
+        //
+        if(listController.entityInfo.attributes.showButtons === undefined) {
+          listController.entityInfo.attributes.showButtons = true;
+        }        
       }
 
     };

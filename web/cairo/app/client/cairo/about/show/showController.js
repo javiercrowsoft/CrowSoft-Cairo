@@ -1,4 +1,6 @@
 Cairo.module("About.Show", function(Show, Cairo, Backbone, Marionette, $, _) {
+  "use strict";
+
   Show.Controller = {
     showAbout: function() {
       var view = new Show.Message();

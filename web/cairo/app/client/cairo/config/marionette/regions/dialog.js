@@ -1,27 +1,32 @@
-Marionette.Region.Dialog = Marionette.Region.extend({
-  onShow: function(view) {
-    this.listenTo(view, "dialog:close", this.closeDialog);
+(function() {
+  "use strict";
 
-    var self = this;
-    var options = {
-                    modal: true,
-                    title: view.title,
-                    width: "auto",
+  Marionette.Region.Dialog = Marionette.Region.extend({
+    onShow: function(view) {
+      this.listenTo(view, "dialog:close", this.closeDialog);
 
-                    close: function(e, ui) {
-                      self.closeDialog();
-                    }
-                  };
-    if(this.dialogSettings) {
-      $.extend(options, this.dialogSettings);
+      var self = this;
+      var options = {
+                      modal: true,
+                      title: view.title,
+                      width: "auto",
+
+                      close: function(e, ui) {
+                        self.closeDialog();
+                      }
+                    };
+      if(this.dialogSettings) {
+        $.extend(options, this.dialogSettings);
+      }
+      this.$el.dialog(options);
+    },
+
+    closeDialog: function() {
+      this.stopListening();
+      this.close();
+      this.$el.dialog("destroy");
+      if(this.handlerClose) this.handlerClose();
     }
-    this.$el.dialog(options);
-  },
+  });
 
-  closeDialog: function() {
-    this.stopListening();
-    this.close();
-    this.$el.dialog("destroy");
-    if(this.handlerClose) this.handlerClose();
-  }
-});
+}());

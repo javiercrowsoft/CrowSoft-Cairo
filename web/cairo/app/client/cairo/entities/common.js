@@ -1,4 +1,6 @@
 Cairo.module("Entities", function(Entities, Cairo, Backbone, Marionette, $, _) {
+  "use strict";
+
   Entities.FilteredCollection = function(options) {
     var original = options.collection;
     var filtered = new original.constructor();

@@ -1,4 +1,6 @@
 Cairo.module("Common.Views", function(Views, Cairo, Backbone, Marionette, $, _) {
+  "use strict";
+
   Views.Loading = Marionette.ItemView.extend({
     template: "#loading-view",
 
