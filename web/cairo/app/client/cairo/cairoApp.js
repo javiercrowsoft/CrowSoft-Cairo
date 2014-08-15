@@ -13,7 +13,7 @@ var Cairo = new Marionette.Application();
     dialogSelectTreeRegion: Marionette.Region.Dialog.extend({
         el: "#dialog-select-tree-region",
         handlerClose: function() {
-          if(this.handler) this.handler.closeDialog();
+          if(this.handler) { this.handler.closeDialog(); }
         }
     })
   });
@@ -24,7 +24,7 @@ var Cairo = new Marionette.Application();
   };
 
   Cairo.getCurrentRoute = function() {
-    return Backbone.history.fragment
+    return Backbone.history.fragment;
   };
 
   Cairo.on("initialize:after", function() {
@@ -264,41 +264,48 @@ var Cairo = new Marionette.Application();
 
   };
 
-  Cairo.LoadingMessage = function() {
+  Cairo.LoadingMessage = (function() {
       var workDone = false;
       var view = null;
       var message = null;
       var title = null;
 
       var showMessage = function() {
-          if(workDone) return;
-          if(view) return;
-          view = new Cairo.Common.Views.Loading({
-            title: this.title,
-            message: this.message
-          });
+          if(!workDone) {
+              if(!view) {
+                  view = new Cairo.Common.Views.Loading({
+                      title: title,
+                      message: message
+                  });
 
-          Cairo.loadingRegion.show(view);
+                  Cairo.loadingRegion.show(view);
+              }
+          }
+      };
+      
+      var closeView = function() {
+          Cairo.loadingRegion.close();
+          view = null;
       };
 
       var close = function() {
           workDone = true;
           if(view) {
-              Cairo.loadingRegion.close();
-              view = null;
+            setTimeout(closeView, 300);
           }
       };
 
-      var show = function(title, message) {
-          if(view) return;
-          workDone = false;
-          this.message = message || this.message;
-          this.title = title || this.title;
-          setTimeout(showMessage, 200);
+      var show = function(title_, message_) {
+          if(!view) {
+              workDone = false;
+              message = message_ || message;
+              title = title_ || title;
+              setTimeout(showMessage, 300);
+          }
       };
 
       return {close: close, show: show};
-  }();
+  }());
 
   Cairo.sleep = function(millis, callback) {
       setTimeout(function() { callback(); }, millis);
@@ -351,13 +358,13 @@ var Cairo = new Marionette.Application();
           $form.find(".control-group.error").each(function() {
             $(this).removeClass("error");
           });
-        }
+        };
 
         var markErrors = function(value, key) {
           var $controlGroup = $view.find("#input-text-" + key).parent();
           var $errorEl = $("<span>", { class: "help-inline error", text: value });
           $controlGroup.append($errorEl).addClass("error");
-        }
+        };
 
         clearFormErrors();
         _.each(errors, markErrors);
@@ -478,7 +485,7 @@ var Cairo = new Marionette.Application();
     view.on("form:submit", function(data) {
       Cairo.log("submit handled - Data: " + data);
       view.trigger("dialog:close");
-      confirmHandler(data["answer"]);
+      confirmHandler(data.answer);
     });
 
     return view;
@@ -502,7 +509,7 @@ var Cairo = new Marionette.Application();
     view.on("form:submit", function(data) {
       Cairo.log("submit handled - Data: " + data);
       view.trigger("dialog:close");
-      if(closeHandler) closeHandler();
+      if(closeHandler) { closeHandler(); }
     });
 
     view.on("form:showDetails", function(data) {

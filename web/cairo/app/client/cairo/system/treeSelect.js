@@ -70,7 +70,7 @@ Cairo.module("TreeSelect", function(TreeSelect, Cairo, Backbone, Marionette, $, 
         showTreeDialog();
       }
 
-    }
+    };
 
     return { createSelectControl: createSelectControl	};
   };

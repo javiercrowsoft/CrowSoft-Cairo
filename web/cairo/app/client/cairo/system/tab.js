@@ -151,7 +151,7 @@ Cairo.module("Tab", function(Tab, Cairo, Backbone, Marionette, $, _) {
       //
       return { showTab: showTab };
     }
-  }
+  };
 });
 
 // we create the main tab for Cairo

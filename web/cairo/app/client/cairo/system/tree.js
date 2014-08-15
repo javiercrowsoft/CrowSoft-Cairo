@@ -1370,7 +1370,7 @@
       },
 
       setTreeIntoController: function(listController) {
-        if(listController.Tree == undefined) {
+        if(listController.Tree === undefined) {
 
           var getValue = function(attribute) {
             // default is true
