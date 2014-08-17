@@ -116,5 +116,5 @@ Cairo.module("Session", function(Session, Cairo, Backbone, Marionette, $, _) {
         }
     });
 
-    Session.getSession = new SessionModel()
+    Session.getSession = new SessionModel();
 });

@@ -53,8 +53,8 @@ BEGIN
                             cue_nombre as Nombre,
                             cue_codigo as Codigo
                     from Cuenta
-                    where (     lower(f_unaccent(cue_nombre)) = ''' || p_filter || ''' or lower(f_unaccent(cue_codigo)) = ''' || p_filter || '''
-                            or (lower(f_unaccent(cue_identificacionexterna)) = ''' || p_filter || '''
+                    where (     lower(f_unaccent(cue_nombre)) = f_unaccent(''' || p_filter || ''') or lower(f_unaccent(cue_codigo)) = f_unaccent(''' || p_filter || ''')
+                            or (lower(f_unaccent(cue_identificacionexterna)) = f_unaccent(''' || p_filter || ''')
                                 and cue_identificacionexterna <> '''')
                           )
                       and activo <> 0
