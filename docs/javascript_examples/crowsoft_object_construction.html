@@ -1,0 +1,41 @@
+<script>
+var f = function(message) {
+    var self;
+    var _hidden = 'hidden';
+    var logMessage = function() { 
+        console.log(self.message); 
+        _hidden += ' ' + self.message;
+    };
+    var logMessage2 = function() { 
+        console.log(this.message); 
+        _hidden += ' ' + this.message;
+    };
+    var logHidden = function() { console.log(_hidden); };
+    self = {
+           logMessage: logMessage,
+           logMessage2: logMessage2,           
+           logHidden: logHidden,
+           message: message
+       };
+    return self;
+};
+
+var m = f('hola');
+m.logMessage();
+var n = f('chau');
+m.logMessage();
+m.logHidden();
+console.log('--------------');
+n.logHidden();
+n.logMessage();
+n.logHidden();
+
+console.log('--------------');
+var t = function(f) { f() };
+t(n.logMessage);
+t(n.logHidden);
+
+console.log('--------------');
+t(n.logMessage2);
+t(n.logHidden);
+</script>
