@@ -181,5 +181,11 @@ object Branches extends Controller with ProvidesUser {
       }
     )
   }
+
+  def getByClientId(treeId: Int, clientId: Int) = GetAction { implicit request =>
+    LoggedIntoCompanyResponse.getAction(request, { user =>
+      Ok(Json.toJson(Branch.get(user, treeId, clientId)))
+    })
+  }
 }
 

@@ -76,6 +76,8 @@ POST    /system/branch/paste            controllers.logged.system.trees.Branches
 POST    /system/branch/move             controllers.logged.system.trees.Branches.move
 POST    /system/leave/paste             controllers.logged.system.trees.Branches.pasteLeave
 
+GET     /system/branch/:treeId/leave/item/:clientId controllers.logged.system.trees.Branches.getByClientId(treeId: Int, clientId: Int)
+
 GET     /system/users                   controllers.logged.system.Users.list
 
 

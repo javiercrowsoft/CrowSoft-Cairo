@@ -119,8 +119,6 @@
 
     /*
         used in tree API
-
-        maybe this will be remove in the future
     */
     Entities.Leave = Backbone.Model.extend({
       urlRoot: "/system/leave",
@@ -143,8 +141,6 @@
 
     /*
         used in tree API
-
-        maybe this will be remove in the future
     */
     Entities.TreeCollection = Backbone.Collection.extend({
       url: function () {
@@ -157,8 +153,6 @@
 
     /*
         used in tree API
-
-        maybe this will be remove in the future
     */
     Entities.LeaveCollection = Backbone.Collection.extend({
       url: function () {
@@ -167,6 +161,19 @@
       model: Entities.Leave,
       comparator: "id",
       branchId: 0
+    });
+
+    /*
+        used in tree API
+    */
+    Entities.BranchCollection = Backbone.Collection.extend({
+      url: function () {
+              return '/system/branch/' + this.treeId + '/leave/item/' + this.clientId;
+           },
+      model: Entities.Branch,
+      comparator: "id",
+      treeId: 0,
+      clientId: 0
     });
 
     /*
@@ -306,9 +313,20 @@
             defer.resolve(data);
           }
         });
-        var promise = defer.promise();
-        //$.when(promise).done(function(leaves) { });
-        return promise;
+        return defer.promise();
+      },
+
+      getBranchEntityByClientId: function(treeId, clientId) {
+        var branches = new Entities.BranchCollection();
+        branches.treeId = treeId;
+        branches.clientId = clientId;
+        var defer = $.Deferred();
+        branches.fetch({
+          success: function(data) {
+            defer.resolve(data);
+          }
+        });
+        return defer.promise();
       }
     };
 
@@ -322,6 +340,10 @@
 
     Cairo.reqres.setHandler("branch:entity", function(branchId) {
       return API.getBranchEntity(branchId);
+    });
+
+    Cairo.reqres.setHandler("branch:entity_by_client_id", function(treeId, clientId) {
+      return API.getBranchEntityByClientId(treeId, clientId);
     });
 
     /*
@@ -490,9 +512,6 @@
       triggers: {
         "click button.js-new": "tree:new"
       }
-
-      // TODO: implement search
-
     });
 
     /*
@@ -995,6 +1014,25 @@
 
         var searchUpdateHandler = function(e) {
           Cairo.log("search-update: " + e.data.id + " - " + e.data.values[0] + " - " + e.data.values[1]);
+          var fetchingBranch = Cairo.request("branch:entity_by_client_id", listController.Tree.treeId, e.data.id);
+          $.when(fetchingBranch).done(function(branches) {
+            if(branches.models.length > 0) {
+              try {
+                var branchId = branches.models[0].id;
+                listController.showBranch(branchId);
+                var node = $(listController.Tree.treeControlId).fancytree("getRootNode").tree.getNodeByKey(branchId);
+                node.setActive();
+              }
+              catch (e) {
+                Cairo.log("Failed in find branch which contains item.");
+                Cairo.log(e.message);
+                Cairo.manageError(
+                  "Search in Tree",
+                  "An error has occurred when trying to find and item in the tree.",
+                  e.message);
+              }
+            }
+          });
         };
 
         var searchSelectHandler = function(e) {

@@ -398,4 +398,38 @@ object Branch {
     Json.toJson(branches)
   }
 
+  def get(user: CompanyUser, treeId: Int, clientId: Int): Branch = {
+
+    DB.withTransaction(user.database.database) { implicit connection =>
+
+      val sql = "{call sp_arb_rama_get_rama(?, ?, ?)}"
+      val cs = connection.prepareCall(sql)
+
+      cs.setInt(1, treeId)
+      cs.setInt(2, clientId)
+      cs.registerOutParameter(3, Types.OTHER)
+
+      try {
+        cs.execute()
+
+        val rs = cs.getObject(3).asInstanceOf[java.sql.ResultSet]
+
+        try {
+          if (rs.next) Branch(rs.getInt("ram_id"), rs.getString("ram_nombre"), List(), List(), rs.getInt("ram_id_padre"))
+          else emptyBranch
+        }
+        finally {
+          rs.close
+        }
+
+      } catch {
+        case NonFatal(e) => {
+          Logger.error(s"can't get branch with treeId $treeId and clientId $clientId for user ${user.toString}. Error ${e.toString}")
+          throw e
+        }
+      } finally {
+        cs.close
+      }
+    }
+  }
 }
