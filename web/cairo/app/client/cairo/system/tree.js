@@ -1019,8 +1019,9 @@
             if(branches.models.length > 0) {
               try {
                 var branchId = branches.models[0].id;
-                listController.showBranch(branchId);
-                var node = $(listController.Tree.treeControlId).fancytree("getRootNode").tree.getNodeByKey(branchId);
+                var root = $(listController.Tree.treeControlId).fancytree("getRootNode").tree.getFirstChild();
+                var node = branchId != 0 ? root.tree.getNodeByKey(branchId) : root;
+                listController.Tree.lastItemIdSearched = e.data.id;
                 node.setActive();
               }
               catch (e) {
@@ -1046,6 +1047,97 @@
         searchCtrl.addListener('onUpdate', searchUpdateHandler);
         searchCtrl.addListener('onSelect', searchSelectHandler);
         searchCtrl.addListener('onValidate', searchValidateHandler);
+
+        if(listController.Tree.getValue('showSelectButton')) {
+          //
+          // handle select button which close dialog and create a multi selection branch if needed
+          //
+          $('#tree-select-select-button', mainView.$el).click(function() {
+
+            // if the user has selected more than one item we need to create a new branch
+            // and paste the items into it
+            //
+            var createMultiSelectionBranch = function(ids) {
+
+              // special paste function which only paste the items into the folder but
+              // didn't try to add show them in the tree dialog
+              //
+              var pasteLeave = function(branchId, text) {
+                var pasteInfo = new Cairo.Entities.PasteLeaveInfo();
+                pasteInfo.save({
+                    ids: ids.toString(),
+                    idTo: branchId,
+                    isCut: false
+                  }, {
+                  wait: true,
+                  success: function(model, response) {
+                    Cairo.log("Successfully pasted!");
+                    listController.Tree.lastSelected = {
+                      type: 'node',
+                      text: text,
+                      ids: branchId
+                    };
+                    mainView.trigger("dialog:close");
+                  },
+                  error: function(model, error) {
+                    Cairo.log("Failed in pate leaves.");
+                    Cairo.log(error.responseText);
+                    Cairo.manageError(
+                      "Paste Leaves",
+                      "Can't paste these leaves '" + ids + "'. An error has occurred in the server.",
+                      error.responseText);
+                  }
+                });
+              };
+
+              // first we create the multi selection branch
+              //
+              var TEMP_BRANCH = -1000;
+              var branch = new Cairo.Entities.Branch();
+              branch.save({ name: "Multi Selection", fatherId: TEMP_BRANCH, treeId: listController.Tree.treeId }, {
+                wait: true,
+                success: function(model, response) {
+                  Cairo.log("Successfully saved!");
+                  pasteLeave(model.get("id"), model.get("name"));
+                },
+                error: function(model, error) {
+                  Cairo.log("Failed in save new branch.");
+                  Cairo.log(error.responseText);
+                  Cairo.manageError(
+                    "New Folder",
+                    "Can't create a new folder named '" + text + "'. An error has occurred in the server.",
+                    error.responseText);
+                }
+              });
+            };
+
+            //
+            // when the select button is clicked we check if there was a selection
+            // we need to manage the special case when there was a multi selection
+            // of items
+            //
+            Cairo.log('tree-select-button clicked');
+            Cairo.log(JSON.stringify(listController.Tree.lastSelected))
+            var data = listController.Tree.lastSelected;
+            var closeDialog = true;
+            if(data) {
+              if(data.type === 'items') {
+                var ids = data.ids.toString().split(",");
+                if(ids.length > 1) {
+                  //
+                  // this is a complex operation which can result in errors
+                  // we only close the dialog if the operation success
+                  //
+                  createMultiSelectionBranch(ids);
+                  closeDialog = false;
+                }
+              }
+            }
+            if(closeDialog) {
+              mainView.trigger("dialog:close");
+            }
+          });
+        }
 
         var fetchingTrees = Cairo.request("tree:entities", tableId);
 
@@ -1252,11 +1344,43 @@
           branch.models[0].attributes.showDeleteButton = listController.Tree.getValue('showDeleteButton');
         };
 
+        var setLastSelected = function() {
+          var node = $(listController.Tree.treeControlId).fancytree("getActiveNode");
+          Cairo.log('listBranch { title: ' + node.title + ' - key: ' + node.key + ' }');
+          listController.Tree.lastSelected = {
+            type: 'node',
+            text: node.title,
+            ids: node.key
+          };
+        };
+
+        var selectLastSearchedRow = function() {
+          Cairo.log('selectLastSearchedRow');
+          if(listController.Tree.lastItemIdSearched) {
+            var search = listController.Tree.lastItemIdSearched;
+            listController.Tree.lastItemIdSearched = null;
+            var rows = listController.Tree.dataTable.fnFindDataRow(search);
+            if(rows.length) {
+              listController.Tree.tableTools.fnSelect(rows[0]);
+              var ids = Cairo.Tree.List.Controller.getSelectedIds(listController.Tree.tableTools.fnGetSelected());
+              var text = Cairo.Tree.List.Controller.getSelectedText(listController.Tree.tableTools.fnGetSelected());
+              Cairo.log("selected: " + ids);
+              listController.Tree.lastSelected = {
+                type: 'items',
+                text: text,
+                ids: ids
+              };
+            }
+          }
+        };
+
         $.when(fetchingBranch).done(function(branch) {
 
           hideColumns(branch);
           setEditControls(branch);
           showItems(branch, itemsListPanel, itemsListLayout, listController);
+          setLastSelected();
+          selectLastSearchedRow();
 
         });
       },
@@ -1298,21 +1422,10 @@
         listController.Tree.treeListRegion.reset();
         listController.Tree.treeListRegion.show(itemsListLayout);
 
-        var getSelectedIds = function(selectedItems) {
-          var ids = "";
-          for(var i=0; i<selectedItems.length; i+=1) {
-            if(selectedItems[i]) {
-              ids += "," + $(selectedItems[i]).data("id");
-            }
-          }
-          if(ids.length) { ids = ids.substring(1, ids.length); }
-          return ids;
-        };
-
         var cutOrCopyClicked = function(menuItem, menu, action) {
           Cairo.log("You clicked " + action + "!");
           listController.Tree.tableTools.fnSelect(menu.target);
-          var ids = getSelectedIds(listController.Tree.tableTools.fnGetSelected());
+          var ids = Cairo.Tree.List.Controller.getSelectedIds(listController.Tree.tableTools.fnGetSelected());
           Cairo.log("selected: " + ids);
           Cairo.log("selected length: " + ids.split(",").length);
           listController.Tree.clipboard = {
@@ -1372,7 +1485,7 @@
         var rowSelect = "multi";
 
         if(!Cairo.isMobile()) {
-          buttons = listController.Tree.getValue('showButtons') ? [ "select_all", "select_none", "print"] : [];
+          buttons = listController.Tree.getValue('showTableButtons') ? [ "select_all", "select_none", "print"] : [];
           scrollX = true;
           scrollY = 350;
           rowSelect = "os";
@@ -1402,6 +1515,58 @@
             }
         });
 
+        var handleClickOrDoubleClickEvent = function(scope, type) {
+          var mustHandleEvent = function() {
+            if(type === 'dblclick' && listController.Tree.dblClick) {
+              return true;
+            }
+            else if(type === 'click' && !listController.Tree.dblClick) {
+              return true;
+            }
+            else {
+              return false;
+            }
+          };
+
+          var setSelectedInfo = function(ids, text) {
+            listController.Tree.lastSelected = {
+              type: 'items',
+              text: text,
+              ids: ids
+            };
+          };
+
+          if(mustHandleEvent()) {
+            if(listController.Tree.dblClick) {
+              listController.Tree.dblClick = false;
+              var data = listController.Tree.dataTable.fnGetData(scope);
+              Cairo.log('dblclick ' + JSON.stringify(data));
+              var ids = Cairo.Tree.List.Controller.getSelectedIds(listController.Tree.tableTools.fnGetSelected());
+              var text = Cairo.Tree.List.Controller.getSelectedText(listController.Tree.tableTools.fnGetSelected());
+              Cairo.log("selected: " + ids);
+              setSelectedInfo(ids, text);
+            }
+            else {
+              var data = listController.Tree.dataTable.fnGetData(scope);
+              Cairo.log('click ' + JSON.stringify(data));
+              var ids = Cairo.Tree.List.Controller.getSelectedIds(listController.Tree.tableTools.fnGetSelected());
+              var text = Cairo.Tree.List.Controller.getSelectedText(listController.Tree.tableTools.fnGetSelected());
+              Cairo.log("selected: " + ids);
+              setSelectedInfo(ids, text);
+            }
+          }
+        }
+
+        listController.Tree.dataTable.on('click', 'tr', function(event) {
+          var scope = this;
+          setTimeout(function() { handleClickOrDoubleClickEvent(scope, 'click'); }, 300);
+
+        }).on('dblclick', 'td', function(event) {
+          listController.Tree.dblClick = true;
+          var scope = this;
+          setTimeout(function() { handleClickOrDoubleClickEvent(scope, 'dblclick'); }, 300);
+        });
+
         listController.Tree.tableTools = TableTools.fnGetInstance(listController.Tree.dataTableId);
 
         Cairo.LoadingMessage.close();
@@ -1423,9 +1588,39 @@
         // this attribute is used in templates so it should be present
         // in entityInfo
         //
-        if(listController.entityInfo.attributes.showButtons === undefined) {
-          listController.entityInfo.attributes.showButtons = true;
-        }        
+        if(listController.entityInfo.attributes.showTableButtons === undefined) {
+          listController.entityInfo.attributes.showTableButtons = true;
+        }
+        if(listController.entityInfo.attributes.showSelectButton === undefined) {
+          listController.entityInfo.attributes.showSelectButton = false;
+        }
+      },
+
+      getSelectedIds: function(selectedItems) {
+        var ids = "";
+        for(var i=0; i<selectedItems.length; i+=1) {
+          if(selectedItems[i]) {
+            ids += "," + $(selectedItems[i]).data("id");
+          }
+        }
+        if(ids.length) { ids = ids.substring(1, ids.length); }
+        return ids;
+      },
+
+      getSelectedText: function(selectedItems) {
+        var text = "";
+        for(var i=0; i<selectedItems.length; i+=1) {
+          if(selectedItems[i]) {
+            if(text === "") {
+              text = selectedItems[i];
+            }
+            else {
+              text = "Multi Selection";
+              break;
+            }
+          }
+        }
+        return text;
       }
 
     };

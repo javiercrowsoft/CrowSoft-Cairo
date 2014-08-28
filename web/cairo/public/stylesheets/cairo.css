@@ -52,8 +52,28 @@
     border-radius: 3px 0 0 3px !important;
 }
 
+.tree-select-control-node {
+    width: -moz-calc(100% - 105px) !important;
+    width: -webkit-calc(100% - 105px) !important;
+    width: calc(100% - 80px) !important;
+    float: left;
+    margin-left: 15px;
+    border: 0;
+    background: #eee;
+    -moz-border-radius: 3px 0 0 3px !important;
+    -webkit-border-radius: 3px 0 0 3px !important;
+    border-radius: 3px 0 0 3px !important;
+}
+
+.tree-select-control-folder-icon {
+    float: left;
+    margin-left: 10px;
+    margin-top: 10px;
+}
+
+
 .tree-select-control button {
-overflow: visible;
+    overflow: visible;
     position: relative;
     float: right;
     border: 0;
@@ -156,4 +176,28 @@ div.tree-select-dialog.ui-widget-content {
   border-color: #3498db !important;
   padding: 10px !important;
   color: #fff;
+}
+
+.tree-select-button-select {
+  text-align: right;
+  float: right;
+  padding-left: 25px;
+}
+
+@media(max-width:767px){
+
+  .tree-select-input {
+    float: right;
+    min-width: 100%;
+    padding-left: 15px;
+    margin-bottom: 10px;
+  }
+}
+
+@media(min-width:992px){
+
+  .tree-select-input {
+    float: right;
+    min-width: 80%;
+  }
 }

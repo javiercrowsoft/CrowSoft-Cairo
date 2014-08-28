@@ -279,6 +279,7 @@
             </div>
             <br/>
             <div class="tree-select-control cf">
+              <span class="tree-select-control-folder-icon hidden"><i class='glyphicon glyphicon-folder-open'></i></span>
             	<input
             	      type="text"
             	      class="form-control"
@@ -296,7 +297,7 @@
 <!-- trees -->
 
 <script type="text/template" id="tree-list-panel-template">
-  <% if(showButtons) { %>
+  <% if(showTableButtons) { %>
     <button class="btn btn-primary js-new"><%- entityName %></button>
     <form id="filter-form" class="form-search form-inline pull-right">
         <div class="input-append">
@@ -320,23 +321,32 @@
 
 <script type="text/template" id="tree-layout-template">
     <div class="row">
-      <div class="col-sm-5 col-md-4">
+      <div class="col-sm-4 col-md-4">
         <div class="@if(requestOrigin.userAgent.isMobile) {container} else {desktop-big-container}">
             <h2 class="sub-header"><%- entitiesTitle %></h2>
         </div>
       </div>
-      <div class="col-sm-3 col-md-3">
+      <div class="col-sm-1 col-md-1">
       </div>
-      <div class="col-sm-4 col-md-5 tree-select-control-search">
-        <div class="tree-select-control cf">
-          <input
-                type="text"
-                class="form-control"
-                id="tree-search-control"
-                placeholder="Search for <%- entitiesName %>"
-                autocomplete="off"
-              />
-          <button>+</button>
+      <div class="col-sm-7 col-md-7 tree-select-control-search">
+        <div>
+          <% if(showSelectButton) { %>
+          <div class="tree-select-button-select">
+            <button class="btn btn-primary" id="tree-select-select-button"> Select </button>
+          </div>
+          <% } %>
+          <div class="tree-select-input">
+            <div class="tree-select-control cf">
+              <input
+                    type="text"
+                    class="form-control"
+                    id="tree-search-control"
+                    placeholder="Search for <%- entitiesName %>"
+                    autocomplete="off"
+                  />
+              <button>+</button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -470,6 +480,7 @@
 <script src="@routes.Assets.at("javascripts/vendor/dataTables.bootstrap.js")" type="text/javascript"></script>
 <script src="@routes.Assets.at("javascripts/vendor/dataTables.tableTools.js")" type="text/javascript"></script>
 <script src="@routes.Assets.at("javascripts/vendor/jquery.contextmenu.js")" type="text/javascript"></script>
+<script src="@routes.Assets.at("javascripts/vendor/jquery.dataTables.plugins.js")" type="text/javascript"></script>
 
 <script src="./client/cairo/config/marionette/regions/dialog.js"></script>
 <script src="./client/cairo/cairoApp.js"></script>

@@ -4,13 +4,24 @@ Cairo.module("TreeSelect", function(TreeSelect, Cairo, Backbone, Marionette, $, 
   var createSelect = function() {
 
     var createSelectControl = function(selector, tableId, active, internalFilter, entity, label) {
-      Cairo.Select.Controller.createSelectControl(selector, tableId, active, internalFilter);
+      var selectCtrl = Cairo.Select.Controller.createSelectControl(selector, tableId, active, internalFilter);
       $($(selector).parent()).find("button").click(function () {
         var treeController = { dialogIsVisible: false };
 
         Cairo.dialogSelectTreeRegion.handler = treeController;
 
         treeController.closeDialog = function() {
+          var data = treeController.Tree.lastSelected;
+          if(data) {
+            if(data.type === 'node') {
+              data.id = 'N' + data.ids;
+            }
+            else if(data.type === 'items') {
+              data.id = data.ids;
+            }
+          }
+          data = data || {};
+          selectCtrl.setData(data.id, data.text);
           treeController.dialogIsVisible = false;
         };
 
@@ -48,7 +59,8 @@ Cairo.module("TreeSelect", function(TreeSelect, Cairo, Backbone, Marionette, $, 
           hiddenCols: [Cairo.Language.UPDATED_BY_TEXT, Cairo.Language.ACTIVE_TEXT],
           showDeleteButton: false,
           showFilter: false,
-          showButtons: false
+          showTableButtons: false,
+          showSelectButton: true
         });
 
         // progress message

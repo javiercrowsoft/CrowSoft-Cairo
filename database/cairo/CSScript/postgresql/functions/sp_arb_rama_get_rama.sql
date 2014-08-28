@@ -39,7 +39,12 @@ BEGIN
 
         rtn := 'rtn';
 
-        open rtn for SELECT rama.ram_id, ram_nombre, ram_id_padre FROM rama INNER JOIN hoja ON rama.ram_id = hoja.ram_id WHERE hoja.arb_id = p_arb_id AND hoja.id = p_client_id ;
+        open rtn for 
+        SELECT rama.ram_id, ram_nombre, ram_id_padre 
+        FROM rama INNER JOIN hoja ON rama.ram_id = hoja.ram_id 
+        WHERE hoja.arb_id = p_arb_id 
+          AND hoja.id = p_client_id 
+          AND rama.ram_id <> rama.ram_id_padre; /* filter temp branches */
 
 END;
 $BODY$

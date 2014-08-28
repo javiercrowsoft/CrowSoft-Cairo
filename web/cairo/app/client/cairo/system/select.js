@@ -114,7 +114,8 @@ Cairo.module("Select", function(Select, Cairo, Backbone, Marionette, $, _) {
          onSelect: [],
          onValidate: []
         },
-        data: null
+        data: null,
+        control: null
       };
 
       /*
@@ -198,16 +199,27 @@ Cairo.module("Select", function(Select, Cairo, Backbone, Marionette, $, _) {
             || selectController.data.id !== data.id
             || selectController.data.values[0] !== data.values[0]
             || selectController.data.values[1] !== data.values[1]) {
-
-            selectController.data = data;
             return true;
           }
         }
         return false;
       }
 
-      var raiseOnUpdate = function(e) {
+      var refreshNodeSelection = function(data) {
+        if(data && data.id && data.id.toString().substring(0, 1) === 'N') {
+          selectController.control.addClass("tree-select-control-node");
+          selectController.control.parent().find("span").removeClass("hidden");
+        }
+        else {
+          selectController.control.removeClass("tree-select-control-node");
+          selectController.control.parent().find("span").addClass("hidden");
+        }
+      };
+
+      var updateData = function(e) {
         if(hasChanged(e.data)) {
+          selectController.data = e.data;
+          refreshNodeSelection(e.data);
           _.each(selectController.listeners.onUpdate, raiseEvent(e));
         }
       };
@@ -237,7 +249,7 @@ Cairo.module("Select", function(Select, Cairo, Backbone, Marionette, $, _) {
         if(self.value.trim() === "" && $(self).data("validated-data")) {
           invalidateData(false);
           raiseOnValidate( { data: $(self).data("validated-data") } );
-          raiseOnUpdate( { data: $(self).data("validated-data") } );
+          updateData( { data: $(self).data("validated-data") } );
         }
         else {
 
@@ -307,7 +319,7 @@ Cairo.module("Select", function(Select, Cairo, Backbone, Marionette, $, _) {
                 }
                 $(self).data("validating-data", null);
                 raiseOnValidate( { data: $(self).data("validated-data") } );
-                raiseOnUpdate( { data: $(self).data("validated-data") } );
+                updateData( { data: $(self).data("validated-data") } );
               }
               ,error: function(request, status, error) {
                 invalidateData(true);
@@ -319,7 +331,7 @@ Cairo.module("Select", function(Select, Cairo, Backbone, Marionette, $, _) {
                   request.responseText);
                 $(self).data("validating-data", null);
                 raiseOnValidate( { data: $(self).data("validated-data") } );
-                raiseOnUpdate( { data: $(self).data("validated-data") } );
+                updateData( { data: $(self).data("validated-data") } );
               }
             });
           }
@@ -328,7 +340,8 @@ Cairo.module("Select", function(Select, Cairo, Backbone, Marionette, $, _) {
 
       // create the select control
       //
-      $(selector).cautocomplete({
+      selectController.control = $(selector)
+      selectController.control.cautocomplete({
         showHeader: true,
         source: function(request, responseCallBack) {
           // only call select if validating hasn't been called
@@ -343,12 +356,12 @@ Cairo.module("Select", function(Select, Cairo, Backbone, Marionette, $, _) {
             this.value = ui.item.value;
             $(this).data("selected-data", ui.item.data);
             raiseOnSelect( { data: ui.item.data } );
-            raiseOnUpdate( { data: ui.item.data } );
+            updateData( { data: ui.item.data } );
           }
           else {
             this.value = "";
             $(this).data("selected-data", null);
-            raiseOnUpdate( { data: null } );
+            updateData( { data: null } );
           }
           return false;
         }
@@ -366,7 +379,20 @@ Cairo.module("Select", function(Select, Cairo, Backbone, Marionette, $, _) {
         }
       };
 
-      return { addListener: addListener };
+      var setData = function(id, text, code) {
+        var data = id ? { id: id, values: [text || "", code || ""] } : null;
+
+        selectController.control.data("selected-data", data);
+        selectController.control.data("validated-data", data);
+        selectController.control.val(data.values[0]);
+
+        updateData({ data: data });
+      };
+
+      return {
+        addListener: addListener,
+        setData: setData
+      };
 
     };
 
