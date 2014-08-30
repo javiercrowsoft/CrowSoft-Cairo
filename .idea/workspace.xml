@@ -2,8 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d47203c3-b220-49d7-aac2-46c758baa4bb" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/cairo/app/views/logged/desktop/index.scala.html" afterPath="$PROJECT_DIR$/web/cairo/app/views/logged/desktop/index.scala.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/cairo/app/client/cairo/system/select.js" afterPath="$PROJECT_DIR$/web/cairo/app/client/cairo/system/select.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/cairo/app/client/cairo/system/tree.js" afterPath="$PROJECT_DIR$/web/cairo/app/client/cairo/system/tree.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/cairo/app/client/cairo/system/treeSelect.js" afterPath="$PROJECT_DIR$/web/cairo/app/client/cairo/system/treeSelect.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="CrowSoft-Cairo.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -75,7 +78,7 @@
         <entry file="file://$PROJECT_DIR$/database/cairo/CSScript/postgresql/functions/sp_arb_rama_delete.sql">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0" vertical-offset="1444" max-vertical-offset="2850">
-              <caret line="76" column="41" selection-start-line="76" selection-start-column="14" selection-end-line="76" selection-end-column="14" />
+              <caret line="76" column="14" selection-start-line="76" selection-start-column="14" selection-end-line="76" selection-end-column="14" />
               <folding />
             </state>
           </provider>
@@ -105,7 +108,7 @@
         <entry file="file://$PROJECT_DIR$/database/cairo/CSScript/postgresql/functions/sp_arb_get_decendencia.sql">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0" vertical-offset="620" max-vertical-offset="3477">
-              <caret line="43" column="40" selection-start-line="43" selection-start-column="7" selection-end-line="43" selection-end-column="7" />
+              <caret line="43" column="7" selection-start-line="43" selection-start-column="7" selection-end-line="43" selection-end-column="7" />
               <folding />
             </state>
           </provider>
@@ -115,7 +118,7 @@
         <entry file="file://$PROJECT_DIR$/database/cairo/CSScript/postgresql/functions/sp_arb_hoja_paste_cut.sql">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0" vertical-offset="1881" max-vertical-offset="2299">
-              <caret line="99" column="8" selection-start-line="99" selection-start-column="0" selection-end-line="99" selection-end-column="0" />
+              <caret line="99" column="0" selection-start-line="99" selection-start-column="0" selection-end-line="99" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -135,7 +138,7 @@
         <entry file="file://$PROJECT_DIR$/database/cairo/CSScript/postgresql/functions/sp_arb_get_ramas.sql">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0" vertical-offset="195" max-vertical-offset="1216">
-              <caret line="43" column="39" selection-start-line="0" selection-start-column="0" selection-end-line="58" selection-end-column="20" />
+              <caret line="43" column="22" selection-start-line="0" selection-start-column="0" selection-end-line="58" selection-end-column="20" />
               <folding />
             </state>
           </provider>
@@ -145,7 +148,7 @@
         <entry file="file://$PROJECT_DIR$/database/cairo/CSScript/postgresql/functions/sp_arb_rama_paste_cut.sql">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0" vertical-offset="1151" max-vertical-offset="2185">
-              <caret line="94" column="39" selection-start-line="0" selection-start-column="0" selection-end-line="109" selection-end-column="20" />
+              <caret line="94" column="16" selection-start-line="0" selection-start-column="0" selection-end-line="109" selection-end-column="20" />
               <folding />
             </state>
           </provider>
@@ -558,7 +561,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1920" height="1080" extended-state="0" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -899,8 +902,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/database/cairo/CSScript/postgresql/functions/sp_arb_rama_delete.sql">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-0.0" vertical-offset="1444" max-vertical-offset="2850">
-          <caret line="76" column="41" selection-start-line="76" selection-start-column="14" selection-end-line="76" selection-end-column="14" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="1444" max-vertical-offset="2850">
+          <caret line="76" column="14" selection-start-line="76" selection-start-column="14" selection-end-line="76" selection-end-column="14" />
           <folding />
         </state>
       </provider>
@@ -916,7 +919,7 @@
     <entry file="file://$PROJECT_DIR$/database/cairo/CSScript/postgresql/functions/sp_arb_get_decendencia.sql">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="620" max-vertical-offset="3477">
-          <caret line="43" column="40" selection-start-line="43" selection-start-column="7" selection-end-line="43" selection-end-column="7" />
+          <caret line="43" column="7" selection-start-line="43" selection-start-column="7" selection-end-line="43" selection-end-column="7" />
           <folding />
         </state>
       </provider>
@@ -924,7 +927,7 @@
     <entry file="file://$PROJECT_DIR$/database/cairo/CSScript/postgresql/functions/sp_arb_hoja_paste_cut.sql">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="1881" max-vertical-offset="2299">
-          <caret line="99" column="8" selection-start-line="99" selection-start-column="0" selection-end-line="99" selection-end-column="0" />
+          <caret line="99" column="0" selection-start-line="99" selection-start-column="0" selection-end-line="99" selection-end-column="0" />
           <folding />
         </state>
       </provider>
@@ -940,7 +943,7 @@
     <entry file="file://$PROJECT_DIR$/database/cairo/CSScript/postgresql/functions/sp_arb_get_ramas.sql">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="195" max-vertical-offset="1216">
-          <caret line="43" column="39" selection-start-line="0" selection-start-column="0" selection-end-line="58" selection-end-column="20" />
+          <caret line="43" column="22" selection-start-line="0" selection-start-column="0" selection-end-line="58" selection-end-column="20" />
           <folding />
         </state>
       </provider>
@@ -948,7 +951,7 @@
     <entry file="file://$PROJECT_DIR$/database/cairo/CSScript/postgresql/functions/sp_arb_rama_paste_cut.sql">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="1151" max-vertical-offset="2185">
-          <caret line="94" column="39" selection-start-line="0" selection-start-column="0" selection-end-line="109" selection-end-column="20" />
+          <caret line="94" column="16" selection-start-line="0" selection-start-column="0" selection-end-line="109" selection-end-column="20" />
           <folding />
         </state>
       </provider>

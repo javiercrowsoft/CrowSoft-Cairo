@@ -1,6 +1,20 @@
 Cairo.module("Select", function(Select, Cairo, Backbone, Marionette, $, _) {
   "use strict";
 
+  ///////////////
+  // Entities
+  ///////////////
+
+  Cairo.module("Entities", function(Entities, Cairo, Backbone, Marionette, $, _) {
+
+      Entities.Select = {};
+
+      Entities.Select.SelectType = {
+        normal: 0,
+        tree: 1
+      };
+
+  });
   /*
       implements an auto complete control which shows a table grid
   */

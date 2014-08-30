@@ -46,11 +46,6 @@ Cairo.module("TreeSelect", function(TreeSelect, Cairo, Backbone, Marionette, $, 
 
     var listTree = function(tableId, entity, label, treeController) {
 
-      /*
-          this function will be called by the tab manager every time the
-          view must be created. when the tab is not visible the tab manager
-          will not call this function but only make the tab visible
-      */
       var showTreeDialog = function() {
 
         Cairo.dialogSelectTreeRegion.dialogSettings = {
