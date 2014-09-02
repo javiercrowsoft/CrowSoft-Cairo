@@ -264,6 +264,27 @@ var Cairo = new Marionette.Application();
 
   };
 
+  Cairo.Constants = {};
+
+  Cairo.Constants.Types = {
+    integer:    2,
+    double:     5,
+    currency:   6,
+    text:       200,
+    id:         -1,
+    taxId:      -100,
+    boolean:    -200,
+    single:     -300,
+    variant:    -400,
+    long:       -500,
+    date:       -600,
+    dateOrNull: -700
+  };
+
+  Cairo.Util = {
+    sendKeys: function(key) { /*TODO: implement this.*/ }
+  };
+
   Cairo.LoadingMessage = (function() {
       var workDone = false;
       var view = null;

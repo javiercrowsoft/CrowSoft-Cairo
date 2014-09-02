@@ -43,6 +43,36 @@
 
   Cairo.module("Dialogs.View", function(View, Cairo, Backbone, Marionette, $, _) {
 
+    View.Document = Backbone.View.extend({
+      tagName: "select",
+      className: "form-control",
+
+      render: function() {
+          var template = _.template( $("#dialog-main-template").html(), {} );
+          this.$el.html( template );
+      }
+    });
+
+    View.Wizard = Backbone.View.extend({
+      tagName: "select",
+      className: "form-control",
+
+      render: function() {
+          var template = _.template( $("#dialog-main-template").html(), {} );
+          this.$el.html( template );
+      }
+    });
+
+    View.Master = Backbone.View.extend({
+      tagName: "select",
+      className: "form-control",
+
+      render: function() {
+          var template = _.template( $("#dialog-main-template").html(), {} );
+          this.$el.html( template );
+      }
+    });
+
   });
 
   ///////////////
@@ -53,9 +83,9 @@
 
   });
 
-  Cairo.module("Controller", function(Controller, Cairo, Backbone, Marionette, $, _) {
+  Cairo.module("Dialogs.View", function(View, Cairo, Backbone, Marionette, $, _) {
 
-    Controller = {
+    View.Controller = {
 
       newDialog: function() {
 
@@ -96,8 +126,9 @@
 
         var m_popMenuClient = "";
 
-        // Tabs
+        // tabs
         //
+        var m_tabs = null;
         var m_currentTab = 0;
         var m_currentInnerTab = 0;
 
@@ -113,982 +144,663 @@
         var m_lastTopOp   = 0;
         var m_labelLeft   = 0;
 
-        // grid manager
-        //
-        var m_mngGrid = new Cairo.Entities.Dialogs.Grids.Manager();
+        var m_gridManager = new Cairo.Entities.Dialogs.Grids.Manager();
 
         // minimum size of the view
         //
         var m_minHeight = 0;
         var m_minWidth = 0;
 
-        /*
-        // Contiene el ancho de los textbox
+        // text input box's width
         //
         var m_textOrigWidth = 0;
 
-        // Flag para evitar un refresh recursivo
+        // flag: avoid recursive refresh
         //
-        private boolean m_showingForm = false;
+        var m_showingForm = false;
 
-        // Indica si el cliente implementa la interfaz
-        // cIABMClientGrid
+        // flag: client implement grid
         //
-        private boolean m_implementsClientGrid = false;
+        var m_clientManageGrid = false;
 
-        // Indica que esta instancia edita un documento
+        // flag: editing a document
         //
-        private boolean m_isDocument = false;
+        var m_isDocument = false;
 
-        // Flag que indican si esta instancia se
-        // encarga de implementar los items del
-        // documento
+        // flag: it is the items manager of a document edition
         //
-        private boolean m_isItems = false;
+        var m_isItems = false;
 
-        // Flag que indican si esta instancia se
-        // encarga de implementar el footer del
-        // documento
+        // flag: it is the footer manager of a document edition
         //
-        private boolean m_isFooter = false;
+        var m_isFooter = false;
 
-        // Flag que indica si se trata de un wizard
+        // flag: editing a wizard
         //
-        private boolean m_isWizard = false;
+        var m_isWizard = false;
 
-        // Usada para ocultar el titulo en el
-        // ABM de maestros
+        // title customization
         //
-        private boolean m_hideTitle = false;
-        private String m_title2 = "";
-        private String m_formCaption = "";
+        var m_hideTitle = false;
+        var m_title2 = "";
+        var m_formText = "";
 
-        // Flag que indica que estoy descargando
-        // la ventana de edicion
+        // flag: unloading dialog
         //
-        private boolean m_unloading = false;
+        var m_unloading = false;
 
-        // Flag que indica que se deben ocultar los
-        // botones de los tabs. Usado para asistentes
+        // flag: used in wizard. hide tab's button
         //
-        private boolean m_hideTabButtons = false;
+        var m_hideTabButtons = false;
 
-        // Flag que indica que se trata de una edicion
-        // modal
+        // flag: when the dialog is shown as modal
         //
-        private boolean m_inModalWindow = false;
+        var m_inModalWindow = false;
 
-        // Flag que le indica a pShow que debe invocar
-        // el load del form
+        // flag: to avoid load the view more than once
         //
-        private boolean m_loadForm = false;
+        var m_mustCompleteLoading = false;
 
-        // Flag para evitar la pregunta "¿desea guardar los
-        // cambios?" aun cuando hay hubo cambios en la
-        // edicion
+        // flag: don't show dialog asking to save changes
         //
-        private boolean m_bDontAskForSave = false;
+        var m_noAskForSave = false;
 
-        // Flag que indica si hubo cambios
+        // flag: true if there are unsaved changes
         //
-        private boolean m_wasChanged2 = false;
+        var m_changed = false;
 
-        // Flag que indica que el form se ha
-        // mostrado. Solo se usa para ".Show vbModal"
+        // flag: to avoid show more than once in modals
         //
-        private boolean m_formShowed = false;
+        var m_formShowed = false;
 
-        // Contiene el indice del primer tab
+        // first tab index
         //
-        private int m_firstTab = 0;
+        var m_firstTab = 0;
 
-        // Indica que en lugar de mostrar "guardar cancelar"
-        // hay que mostrar "aceptar cancelar"
+        // flag: show okay cancel instead of save cancel
         //
-        private boolean m_bOkCancelDialog = false;
+        var m_showOkCancel = false;
 
-        // Flag que contiene la respuesta del usuario
+        // flag:
         //
-        // True:  si el usuario acepto
-        // False: si cancelo
+        // true:  save or okay was pressed
+        // false: cancel was pressed
         //
-        private boolean m_bOkCancelDialogRslt = false;
+        var m_okCancelResult = false;
 
-        // Flags que indican que se ha cargado el control
-        //
-        //Private m_bLoadAdHock           As Boolean
-        private boolean m_bLoadList = false;
-        private boolean m_bLoadHelp = false;
-        private boolean m_bLoadNumeric = false;
-        private boolean m_bLoadDate = false;
-        private boolean m_bLoadOption = false;
-        private boolean m_bLoadLabel = false;
-        private boolean m_bLoadTitle = false;
-        private boolean m_bLoadProgressBar = false;
-        private boolean m_bLoadDescription = false;
-        private boolean m_bLoadImage = false;
-        private boolean m_bLoadText = false;
-        private boolean m_bLoadTextM = false;
-        private boolean m_bLoadFile = false;
-        private boolean m_bLoadFolder = false;
-        private boolean m_bLoadPassword = false;
-        private boolean m_bLoadCheck = false;
-        private boolean m_bLoadGrid = false;
-        private boolean m_bLoadButton = false;
+        var m_tabIndex = 0;
 
-        // Indice del Tab
-        //
-        private int m_tabIndex = 0;
-
-        // Posicion de los controles
+        // controls position
         //
         var m_constLeft = 0;
         var m_constLeftOp = 0;
         var m_constTop = 0;
         var m_constTopOp = 0;
 
-        // Permite evitar el form fABM modifique
-        // la posicion de los botones "save y cancel"
-        // en el resize
+        // flag: don't move the buttons save and cancel when resizing
         //
-        private boolean m_dontMoveGenericButton = false;
+        var m_noMoveGenericButton = false;
 
-        private String m_cancelCaption = "";
-        private String m_saveCaption = "";
-        private int m_saveWidth = 0;
-        private int m_saveTop = 0;
-        private int m_saveLeft = 0;
-        private int m_cancelTop = 0;
-        private int m_cancelLeft = 0;
+        var m_cancelText = "";
+        var m_saveText = "";
 
-        // Identifica la clave de la propiedad que
-        // debe recibir el foco cuando se hace nuevo
+        var m_saveWidth = 0;
+        var m_saveTop = 0;
+        var m_saveLeft = 0;
+        var m_cancelTop = 0;
+        var m_cancelLeft = 0;
+
+        // key of the control to be activated when this dialog get focus
+        // or the new button is clicked
         //
-        private String m_newKeyPropFocus = "";
+        var m_newKeyPropFocus = "";
 
-        private boolean m_bNotLockWnd = false;
+        var m_useSelectIntValue = false;
 
-        private boolean m_bUseHelpValueProcess = false;
-
-        // Para evitar re-cargar los controles
-        // despues de grabar en algunos maestros
-        // muy pesados como Cliente, Proveedor
-        // y Articulo
+        // flag: special case for grid edition
+        //       used in kit production
         //
-        private boolean m_bSendRefresh = false;
+        var m_createRowInBeforeEdit = false;
 
-
-        // Permite contemplar un caso especial
-        // de edicion en grilla que se utiliza para
-        // la produccio de Kit
+        // flag: don't change columns when refreshing grid controls
         //
-        private boolean m_bCreateRowInBeforeEdit = false;
+        var m_noChangeColsInRefresh = false;
 
-
-        // Permite indicar que no se deben modificar
-        // las columnas de la grilla cuando ser refrezcan
-        // las propiedades del form por que cambio alguna
-        // propiedad (evento propertychange)
+        // flag: to allow the client to force a save, close or new
+        //       after processing a change property event
         //
-        private boolean m_bNoChangeColsInRefresh = false;
+        var m_sendSave   = false;
+        var m_sendClose  = false;
+        var m_sendNewDoc = false;
+        var m_sendNewABM = false;
 
-        // Permite indicar que luego de terminar de procesar
-        // un property change, se envie el comando save
+        // auto save in modal dialogs
         //
-        private boolean m_bSendSave = false;
-        private boolean m_bSendClose = false;
-        private boolean m_sendNewDoc = false;
-        private boolean m_sendNewABM = false;
+        var m_sendAutoSave = false;
 
-        // Auto save para dialogos modales
+        var m_setFocusFirstCtrlInNew = false;
+        var m_savingAs = false;
+        var m_inSave = false;
+
+        var m_noButtons1 = 0;
+        var m_noButtons2 = 0;
+        var m_noButtons3 = 0;
+
+        var m_buttonsEx2 = 0;
+        var m_buttonsEx3 = 0;
+
+        var m_noChangeBackColorCell = false;
+
+        var m_autoPrint = false;
+
+        var m_tabTopHeight = 0;
+
+        var m_tabHideControlsInAllTab = 0;
+
+        var m_masterView   = null;
+        var m_wizardView   = null;
+        var m_documentView = null;
+
+        self.setTabHideControlsInAllTab = function(rhs) {
+          m_tabHideControlsInAllTab = rhs;
+        };
+
+        self.setBNoChangeBackColorCell = function(rhs) {
+          m_noChangeBackColorCell = rhs;
+        };
+
+        self.setFormText = function(rhs) {
+          m_formText = rhs;
+        };
+
+        self.setPopMenuClient = function(rhs) {
+          m_popMenuClient = rhs;
+        };
+
+        self.getSetFocusFirstCtrlInNew = function() {
+          return m_setFocusFirstCtrlInNew;
+        };
+
+        self.setSetFocusFirstCtrlInNew = function(rhs) {
+          m_setFocusFirstCtrlInNew = rhs;
+        };
+
+        self.setNoButtons1 = function(rhs) {
+          m_noButtons1 = rhs;
+        };
+
+        self.setNoButtons2 = function(rhs) {
+          m_noButtons2 = rhs;
+        };
+
+        self.setNoButtons3 = function(rhs) {
+          m_noButtons3 = rhs;
+        };
+
+        self.setButtonsEx2 = function(rhs) {
+          m_buttonsEx2 = rhs;
+        };
+
+        self.setButtonsEx3 = function(rhs) {
+          m_buttonsEx3 = rhs;
+        };
+
+        self.setBSendSave = function(rhs) {
+          m_sendSave = rhs;
+        };
+
+        self.setBSendClose = function(rhs) {
+          m_sendClose = rhs;
+        };
+
+        self.setBSendAutoSave = function(rhs) {
+          m_sendAutoSave = rhs;
+        };
+
+        self.setSendNewDoc = function(rhs) {
+          m_sendNewDoc = rhs;
+        };
+
+        self.setSendNewABM = function(rhs) {
+          m_sendNewABM = rhs;
+        };
+
+        self.getInSave = function() {
+          return m_inSave;
+        };
+
+        self.getBSavingAs = function() {
+          return m_savingAs;
+        };
+
+        self.setIsWizard = function(rhs) {
+          m_isWizard = rhs;
+        };
+
+        self.setNoAskForSave = function(rhs) {
+          m_noAskForSave = rhs;
+        };
+
+        self.setNoMoveGenericButton = function(rhs) {
+          m_noMoveGenericButton = rhs;
+        };
+
+        self.setSaveText = function(rhs) {
+          m_saveText = rhs;
+        };
+
+        self.setSaveWidth = function(rhs) {
+          m_saveWidth = rhs;
+        };
+
+        self.setCancelText = function(rhs) {
+          m_cancelText = rhs;
+        };
+
+        self.setSaveTop = function(rhs) {
+          m_saveTop = rhs;
+        };
+
+        self.setSaveLeft = function(rhs) {
+          m_saveLeft = rhs;
+        };
+
+        self.setCancelTop = function(rhs) {
+          m_cancelTop = rhs;
+        };
+
+        self.setCancelLeft = function(rhs) {
+          m_cancelLeft = rhs;
+        };
+
+        // returns the view
         //
-        private boolean m_bSendAutoSave = false;
+        var getView = function() {
+          var mustInitialize = false;
 
-        private boolean m_setFocusFirstCtrlInNew = false;
-        private boolean m_bSavingAs = false;
-        private boolean m_inSave = false;
+          // documents
+          //
+          if(m_isDocument) {
+            if(m_documentView === null) {
+              m_documentView = new View.Document({});
+              
+              m_documentView.addListener({
+                commandClick:               docHandlerCommandClick,
+                selectKeyDown:              docHandlerSelectKeyDown,
+                
+                tabClick:                   docHandlerTabClick,
+                tabGetFirstCtrl:            docHandlerTabGetFirstCtrl,
+                
+                viewLoad:                   docHandlerViewLoad,
+                viewBeforeDestroy:          docHandlerViewBeforeDestroy,
+                viewDestroy:                docHandlerViewDestroy,
+                
+                toolBarClick:               docHandlerToolBarClick,
+                comboChange:                docHandlerComboChange,
+                checkBoxClick:              docHandlerCheckBoxClick,
 
-        private int m_noButtons1 = 0;
-        private int m_noButtons2 = 0;
-        private int m_noButtons3 = 0;
+                gridDblClick:               docHandlerGridDblClick,
+                gridAfterDeleteRow:         docHandlerGridAfterDeleteRow,
+                gridDeleteRow:              docHandlerGridDeleteRow,
+                gridNewRow:                 docHandlerGridNewRow,
+                gridValidateRow:            docHandlerGridValidateRow,
+                
+                gridColumnButtonClick:      docHandlerGridColumnButtonClick,
+                gridColumnAfterEdit:        docHandlerGridColumnAfterEdit,
+                gridColumnAfterUpdate:      docHandlerGridColumnAfterUpdate,
+                gridColumnBeforeEdit:       docHandlerGridColumnBeforeEdit,
 
-        private int m_buttonsEx2 = 0;
-        private int m_buttonsEx3 = 0;
-
-        private boolean m_bNoChangeBackColorCell = false;
-
-        private Object m_owner = null;
-
-        private boolean m_autoPrint = false;
-
-        private int m_tabTopHeight = 0;
-
-        private int m_tabHideCtrlsInAllTab = 0;
-
-        // eventos
-        // propiedades publicas
-        public void setTabHideCtrlsInAllTab(int rhs) {
-            m_tabHideCtrlsInAllTab = rhs;
-        }
-
-        public void setOwner(Object rhs) {
-            m_owner = rhs;
-        }
-
-        public void setBNoChangeBackColorCell(boolean rhs) {
-            m_bNoChangeBackColorCell = rhs;
-        }
-
-        public void setFormCaption(String rhs) {
-            m_formCaption = rhs;
-        }
-
-        public void setPopMenuClient(String rhs) {
-            m_popMenuClient = rhs;
-        }
-
-        public boolean getSetFocusFirstCtrlInNew() {
-            return m_setFocusFirstCtrlInNew;
-        }
-
-        public void setSetFocusFirstCtrlInNew(boolean rhs) {
-            m_setFocusFirstCtrlInNew = rhs;
-        }
-
-        public void setNoButtons1(int rhs) {
-            m_noButtons1 = rhs;
-        }
-
-        public void setNoButtons2(int rhs) {
-            m_noButtons2 = rhs;
-        }
-
-        public void setNoButtons3(int rhs) {
-            m_noButtons3 = rhs;
-        }
-
-        public void setButtonsEx2(int rhs) {
-            m_buttonsEx2 = rhs;
-        }
-
-        public void setButtonsEx3(int rhs) {
-            m_buttonsEx3 = rhs;
-        }
-
-        public void setBSendSave(boolean rhs) {
-            m_bSendSave = rhs;
-        }
-
-        public void setBSendClose(boolean rhs) {
-            m_bSendClose = rhs;
-        }
-
-        public void setBSendAutoSave(boolean rhs) {
-            m_bSendAutoSave = rhs;
-        }
-
-        public void setSendNewDoc(boolean rhs) {
-            m_sendNewDoc = rhs;
-        }
-
-        public void setSendNewABM(boolean rhs) {
-            m_sendNewABM = rhs;
-        }
-
-        public boolean getInSave() {
-            return m_inSave;
-        }
-
-        public boolean getBSavingAs() {
-            return m_bSavingAs;
-        }
-
-        // Indica si se trata de un wizard
-        //
-        public void setIsWizard(boolean rhs) {
-            m_isWizard = rhs;
-        }
-
-        public void setBDontAskForSave(boolean rhs) {
-            m_bDontAskForSave = rhs;
-        }
-
-        // Permite evitar el form fABM modifique
-        // la posicion de los botones "save y cancel"
-        // en el resize
-        //
-        public void setDontMoveGenericButton(boolean rhs) {
-            m_dontMoveGenericButton = rhs;
-        }
-
-        public void setSaveCaption(String rhs) {
-            m_saveCaption = rhs;
-        }
-
-        public void setSaveWidth(int rhs) {
-            m_saveWidth = rhs;
-        }
-
-        public void setCancelCaption(String rhs) {
-            m_cancelCaption = rhs;
-        }
-
-        public void setSaveTop(int rhs) {
-            m_saveTop = rhs;
-        }
-
-        public void setSaveLeft(int rhs) {
-            m_saveLeft = rhs;
-        }
-
-        public void setCancelTop(int rhs) {
-            m_cancelTop = rhs;
-        }
-
-        public void setCancelLeft(int rhs) {
-            m_cancelLeft = rhs;
-        }
-
-
-        // Devuelve un formulario de tipo
-        //
-        //  - fABM
-        //  - fABMDoc
-        //  - fWizad
-        //
-        public Object getFrm() {
-            boolean bInit = false;
-
-            // Documentos
-            //
-            if (m_isDocument) {
-                if (m_formDoc == null) {
-                    m_formDoc = new fABMDoc();
-                    m_formDoc.addListener(new fABMDocEventA() {
-                      public void CMDClick(int index) {
-                        m_FormDoc_CMDClick(index,);
-                      }
-                      public void GRDblClick(int index, int rowIndex, int colIndex) {
-                        m_FormDoc_GRDblClick(index, rowIndex, colIndex,);
-                      }
-                      public void HLKeyDown(int index, int keyCode, int shift) {
-                        m_FormDoc_HLKeyDown(index, keyCode, shift,);
-                      }
-                      public void cbTabClick(int index, String tag) {
-                        m_FormDoc_cbTabClick(index, tag,);
-                      }
-                      public void TabGetFirstCtrl(int index, String tag, Control ctrl) {
-                        m_FormDoc_TabGetFirstCtrl(index, tag, ctrl,);
-                      }
-                      public void FormLoad() {
-                        m_FormDoc_FormLoad();
-                      }
-                      public void GRRowWasDeleted(int index, int rowIndex) {
-                        m_FormDoc_GRRowWasDeleted(index, rowIndex,);
-                      }
-                      public void ToolBarClick(MSComctlLib.Button button) {
-                        m_FormDoc_ToolBarClick(button,);
-                      }
-                      public void CBChange(int index) {
-                        m_FormDoc_CBChange(index,);
-                      }
-                      public void CHKClick(int index) {
-                        m_FormDoc_CHKClick(index,);
-                      }
-                      public void FormQueryUnload(int cancel, int unloadMode) {
-                        m_FormDoc_FormQueryUnload(cancel, unloadMode,);
-                      }
-                      public void FormUnload(int cancel) {
-                        m_FormDoc_FormUnload(cancel,);
-                      }
-                      public void GRColumnButtonClick(int index, int lRow, int lCol, int iKeyAscii, boolean bCancel) {
-                        m_FormDoc_GRColumnButtonClick(index, lRow, lCol, iKeyAscii, bCancel,);
-                      }
-                      public void GRColumnAfterEdit(int index, int lRow, int lCol, Object newValue, int newValueID, boolean bCancel) {
-                        m_FormDoc_GRColumnAfterEdit(index, lRow, lCol, newValue, newValueID, bCancel,);
-                      }
-                      public void GRColumnAfterUpdate(int index, int lRow, int lCol, Object newValue, int newValueID) {
-                        m_FormDoc_GRColumnAfterUpdate(index, lRow, lCol, newValue, newValueID,);
-                      }
-                      public void GRColumnBeforeEdit(int index, int lRow, int lCol, int iKeyAscii, boolean bCancel) {
-                        m_FormDoc_GRColumnBeforeEdit(index, lRow, lCol, iKeyAscii, bCancel,);
-                      }
-                      public void GRDeleteRow(int index, int lRow, boolean bCancel) {
-                        m_FormDoc_GRDeleteRow(index, lRow, bCancel,);
-                      }
-                      public void GRNewRow(int index, int rowIndex) {
-                        m_FormDoc_GRNewRow(index, rowIndex,);
-                      }
-                      public void GRValidateRow(int index, int rowIndex, boolean bCancel) {
-                        m_FormDoc_GRValidateRow(index, rowIndex, bCancel,);
-                      }
-                      public void GRSelectionChange(int index, int lRow, int lCol) {
-                        m_FormDoc_GRSelectionChange(index, lRow, lCol,);
-                      }
-                      public void GRSelectionRowChange(int index, int lRow, int lCol) {
-                        m_FormDoc_GRSelectionRowChange(index, lRow, lCol,);
-                      }
-                      public void HLChange(int index) {
-                        m_FormDoc_HLChange(index,);
-                      }
-                      public void MEChange(int index) {
-                        m_FormDoc_MEChange(index,);
-                      }
-                      public void MEDateChange(int index) {
-                        m_FormDoc_MEDateChange(index,);
-                      }
-                      public void OPClick(int index) {
-                        m_FormDoc_OPClick(index,);
-                      }
-                      public void TXChange(int index) {
-                        m_FormDoc_TXChange(index,);
-                      }
-                      public void TXMChange(int index) {
-                        m_FormDoc_TXMChange(index,);
-                      }
-                      public void TXPasswordChange(int index) {
-                        m_FormDoc_TXPasswordChange(index,);
-                      }
-
-                  };);
-                    Load(m_formDoc);
-                    m_loadForm = true;
-                    bInit = true;
-                }
-                return m_formDoc;
-
-                // Asistentes
-                //
+                gridSelectionChange:        docHandlerGridSelectionChange,
+                gridSelectionRowChange:     docHandlerGridSelectionRowChange,
+                
+                selectChange:               docHandlerSelectChange,
+                
+                maskEditChange:             docHandlerMaskEditChange
+                
+                dateChange:                 docHandlerDateChange,
+                
+                optionButtonClick:          docHandlerOptionButtonClick,
+                
+                textChange:                 docHandlerTextChange,
+                textAreaChange:             docHandlerTextAreaChange,
+                textPasswordChange:         docHandlerTextPasswordChange
+              });
+              
+              m_mustCompleteLoading = true;
+              mustInitialize = true;
             }
-            else if (m_isWizard) {
-                if (m_formWizard == null) {
-                    m_formWizard = new fWizard();
-                    m_formWizard.addListener(new fWizardEventA() {
-                      public void GRDblClick(int index, int rowIndex, int colIndex) {
-                        m_FormWizard_GRDblClick(index, rowIndex, colIndex,);
-                      }
-                      public void TabGetFirstCtrl(int index, Control ctrl) {
-                        m_FormWizard_TabGetFirstCtrl(index, ctrl,);
-                      }
-                      public void CBChange(int index) {
-                        m_FormWizard_CBChange(index,);
-                      }
-                      public void cbTabClick(int index) {
-                        m_FormWizard_cbTabClick(index,);
-                      }
-                      public void CHKClick(int index) {
-                        m_FormWizard_CHKClick(index,);
-                      }
-                      public void cmdCancelClick() {
-                        m_FormWizard_cmdCancelClick();
-                      }
-                      public void cmdBackClick() {
-                        m_FormWizard_cmdBackClick();
-                      }
-                      public void CMDClick(int index) {
-                        m_FormWizard_CMDClick(index,);
-                      }
-                      public void cmdNextClick() {
-                        m_FormWizard_cmdNextClick();
-                      }
-                      public void FormLoad() {
-                        m_FormWizard_FormLoad();
-                      }
-                      public void FormQueryUnload(int cancel, int unloadMode) {
-                        m_FormWizard_FormQueryUnload(cancel, unloadMode,);
-                      }
-                      public void FormUnload(int cancel) {
-                        m_FormWizard_FormUnload(cancel,);
-                      }
-                      public void GRColumnAfterEdit(int index, int lRow, int lCol, Object newValue, int newValueID, boolean bCancel) {
-                        m_FormWizard_GRColumnAfterEdit(index, lRow, lCol, newValue, newValueID, bCancel,);
-                      }
-                      public void GRColumnAfterUpdate(int index, int lRow, int lCol, Object newValue, int newValueID) {
-                        m_FormWizard_GRColumnAfterUpdate(index, lRow, lCol, newValue, newValueID,);
-                      }
-                      public void GRColumnBeforeEdit(int index, int lRow, int lCol, int iKeyAscii, boolean bCancel) {
-                        m_FormWizard_GRColumnBeforeEdit(index, lRow, lCol, iKeyAscii, bCancel,);
-                      }
-                      public void GRColumnButtonClick(int index, int lRow, int lCol, int iKeyAscii, boolean bCancel) {
-                        m_FormWizard_GRColumnButtonClick(index, lRow, lCol, iKeyAscii, bCancel,);
-                      }
-                      public void GRDeleteRow(int index, int lRow, boolean bCancel) {
-                        m_FormWizard_GRDeleteRow(index, lRow, bCancel,);
-                      }
-                      public void GRNewRow(int index, int rowIndex) {
-                        m_FormWizard_GRNewRow(index, rowIndex,);
-                      }
-                      public void GRRowWasDeleted(int index, int rowIndex) {
-                        m_FormWizard_GRRowWasDeleted(index, rowIndex,);
-                      }
-                      public void GRSelectionChange(int index, int lRow, int lCol) {
-                        m_FormWizard_GRSelectionChange(index, lRow, lCol,);
-                      }
-                      public void GRSelectionRowChange(int index, int lRow, int lCol) {
-                        m_FormWizard_GRSelectionRowChange(index, lRow, lCol,);
-                      }
-                      public void GRValidateRow(int index, int rowIndex, boolean bCancel) {
-                        m_FormWizard_GRValidateRow(index, rowIndex, bCancel,);
-                      }
-                      public void HLChange(int index) {
-                        m_FormWizard_HLChange(index,);
-                      }
-                      public void MEChange(int index) {
-                        m_FormWizard_MEChange(index,);
-                      }
-                      public void MEDateChange(int index) {
-                        m_FormWizard_MEDateChange(index,);
-                      }
-                      public void OPClick(int index) {
-                        m_FormWizard_OPClick(index,);
-                      }
-                      public void ToolBarButtonClick(MSComctlLib.Button button) {
-                        m_FormWizard_ToolBarButtonClick(button,);
-                      }
-                      public void TXChange(int index) {
-                        m_FormWizard_TXChange(index,);
-                      }
-                      public void TXMChange(int index) {
-                        m_FormWizard_TXMChange(index,);
-                      }
-                      public void TXPasswordChange(int index) {
-                        m_FormWizard_TXPasswordChange(index,);
-                      }
+            return m_documentView;
+          }
+          //
+          // wizards
+          //
+          else if(m_isWizard) {
+            if(m_wizardView === null) {
+              m_wizardView = new View.Wizard({});
 
-                  };);
-                    Load(m_formWizard);
-                    m_loadForm = true;
-                    bInit = true;
-                }
-                return m_formWizard;
+              m_wizardView.addListener({
+                comboChange:              wizHandlerComboChange,
+                
+                tabGetFirstCtrl:          wizHandlerTabGetFirstCtrl,
+                tabClick:                 wizHandlerTabClick,
+                
+                checkBoxClick:            wizHandlerCheckBoxClick,
+                
+                cancelClick:              wizHandlerCancelClick,
+                backClick:                wizHandlerBackClick,
+                commandClick:             wizHandlerCommandClick,
+                nextClick:                wizHandlerNextClick,
+                
+                viewLoad:                 wizHandlerViewLoad,
+                viewBeforeDestroy:        wizHandlerViewBeforeDestroy,
+                viewDestroy:              wizHandlerViewDestroy,
 
-                // ABM
-                //
+                gridDblClick:             wizHandlerGridDblClick,
+                gridAfterDeleteRow:       wizHandlerGridAfterDeleteRow,
+                gridDeleteRow:            wizHandlerGridDeleteRow,
+                gridNewRow:               wizHandlerGridNewRow,
+                gridValidateRow:          wizHandlerGridValidateRow,
+
+                gridColumnButtonClick:    wizHandlerGridColumnButtonClick,
+                gridColumnAfterEdit:      wizHandlerGridColumnAfterEdit,
+                gridColumnAfterUpdate:    wizHandlerGridColumnAfterUpdate,
+                gridColumnBeforeEdit:     wizHandlerGridColumnBeforeEdit,
+
+                gridSelectionChange:      wizHandlerGridSelectionChange,
+                gridSelectionRowChange:   wizHandlerGridSelectionRowChange,
+
+                selectChange:             wizHandlerSelectChange,
+                
+                maskEditChange:           wizHandlerMaskEditChange,
+                
+                dateChange:               wizHandlerDateChange,
+                
+                optionButtonClick:        wizHandlerOptionButtonClick,
+                
+                toolBarButtonClick:       wizHandlerToolBarButtonClick,
+                
+                textChange:               wizHandlerTextChange,
+                textAreaChange:           wizHandlerTextAreaChange,
+                textPasswordChange:       wizHandlerTextPasswordChange
+              });
+
+              m_mustCompleteLoading = true;
+              mustInitialize = true;
             }
-            else {
-                if (m_formABM == null) {
-                    m_formABM = new fABM();
-                    m_formABM.addListener(new fABMEventA() {
-                      public void AbmKeyDown(int keyCode, int shift) {
-                        m_FormABM_AbmKeyDown(keyCode, shift,);
-                      }
-                      public void AfterShowModal() {
-                        m_FormABM_AfterShowModal();
-                      }
-                      public void PopItemClick(int index) {
-                        m_FormABM_PopItemClick(index,);
-                      }
-                      public void SetResizeGrid() {
-                        m_FormABM_SetResizeGrid();
-                      }
-                      public void TabGetFirstCtrl(int index, Control ctrl) {
-                        m_FormABM_TabGetFirstCtrl(index, ctrl,);
-                      }
-                      public void CBChange(int index) {
-                        m_FormABM_CBChange(index,);
-                      }
-                      public void cbTabClick(int index) {
-                        m_FormABM_cbTabClick(index,);
-                      }
-                      public void CHKClick(int index) {
-                        m_FormABM_CHKClick(index,);
-                      }
-                      public void cmdCancelClick() {
-                        m_FormABM_cmdCancelClick();
-                      }
-                      public void CMDClick(int index) {
-                        m_FormABM_CMDClick(index,);
-                      }
-                      public void cmdCloseClick() {
-                        m_FormABM_cmdCloseClick();
-                      }
-                      public void cmdCopyClick() {
-                        m_FormABM_cmdCopyClick();
-                      }
-                      public void cmdDocsClick() {
-                        m_FormABM_cmdDocsClick();
-                      }
-                      public void cmdNewClick() {
-                        m_FormABM_cmdNewClick();
-                      }
-                      public void cmdPrintClick() {
-                        m_FormABM_cmdPrintClick();
-                      }
-                      public void cmdPermisosClick() {
-                        m_FormABM_cmdPermisosClick();
-                      }
-                      public void cmdSaveClick() {
-                        m_FormABM_cmdSaveClick();
-                      }
-                      public void FormLoad() {
-                        m_FormABM_FormLoad();
-                      }
-                      public void FormQueryUnload(int cancel, int unloadMode) {
-                        m_FormABM_FormQueryUnload(cancel, unloadMode,);
-                      }
-                      public void FormUnload(int cancel) {
-                        m_FormABM_FormUnload(cancel,);
-                      }
-                      public void GRColumnAfterEdit(int index, int lRow, int lCol, Object newValue, int newValueID, boolean bCancel) {
-                        m_FormABM_GRColumnAfterEdit(index, lRow, lCol, newValue, newValueID, bCancel,);
-                      }
-                      public void GRColumnAfterUpdate(int index, int lRow, int lCol, Object newValue, int newValueID) {
-                        m_FormABM_GRColumnAfterUpdate(index, lRow, lCol, newValue, newValueID,);
-                      }
-                      public void GRColumnBeforeEdit(int index, int lRow, int lCol, int iKeyAscii, boolean bCancel) {
-                        m_FormABM_GRColumnBeforeEdit(index, lRow, lCol, iKeyAscii, bCancel,);
-                      }
-                      public void GRColumnButtonClick(int index, int lRow, int lCol, int iKeyAscii, boolean bCancel) {
-                        m_FormABM_GRColumnButtonClick(index, lRow, lCol, iKeyAscii, bCancel,);
-                      }
-                      public void GRDblClick(int index, int rowIndex, int colIndex) {
-                        m_FormABM_GRDblClick(index, rowIndex, colIndex,);
-                      }
-                      public void GRDeleteRow(int index, int lRow, boolean bCancel) {
-                        m_FormABM_GRDeleteRow(index, lRow, bCancel,);
-                      }
-                      public void GRNewRow(int index, int rowIndex) {
-                        m_FormABM_GRNewRow(index, rowIndex,);
-                      }
-                      public void GRRowWasDeleted(int index, int rowIndex) {
-                        m_FormABM_GRRowWasDeleted(index, rowIndex,);
-                      }
-                      public void GRSelectionChange(int index, int lRow, int lCol) {
-                        m_FormABM_GRSelectionChange(index, lRow, lCol,);
-                      }
-                      public void GRSelectionRowChange(int index, int lRow, int lCol) {
-                        m_FormABM_GRSelectionRowChange(index, lRow, lCol,);
-                      }
-                      public void GRValidateRow(int index, int rowIndex, boolean bCancel) {
-                        m_FormABM_GRValidateRow(index, rowIndex, bCancel,);
-                      }
-                      public void HLChange(int index) {
-                        m_FormABM_HLChange(index,);
-                      }
-                      public void MEChange(int index) {
-                        m_FormABM_MEChange(index,);
-                      }
-                      public void MEDateChange(int index) {
-                        m_FormABM_MEDateChange(index,);
-                      }
-                      public void OPClick(int index) {
-                        m_FormABM_OPClick(index,);
-                      }
-                      public void ShowHelp() {
-                        m_FormABM_ShowHelp();
-                      }
-                      public void ToolBarButtonClick(MSComctlLib.Button button) {
-                        m_FormABM_ToolBarButtonClick(button,);
-                      }
-                      public void TXButtonClick(int index, boolean cancel) {
-                        m_FormABM_TXButtonClick(index, cancel,);
-                      }
-                      public void TXChange(int index) {
-                        m_FormABM_TXChange(index,);
-                      }
-                      public void TXMChange(int index) {
-                        m_FormABM_TXMChange(index,);
-                      }
-                      public void TXPasswordChange(int index) {
-                        m_FormABM_TXPasswordChange(index,);
-                      }
+            return m_wizardView;
+          }
+          //
+          // masters
+          //
+          else {
+            if(m_masterView === null) {
+              m_masterView = new View.Master({});;
 
-                  };);
-                    Load(m_formABM);
-                    m_loadForm = true;
-                    bInit = true;
-                    pSetABMCanPrint();
-                    pSetABMShowPermisos();
+              m_masterView.addListener({
+                viewKeyDown:               masterHandlerViewKeyDown,
+                
+                afterShowModal:            masterHandlerAfterShowModal,
+                
+                popItemClick:              masterHandlerPopItemClick,
+                
+                setResizeGrid:             masterHandlerSetResizeGrid,
+                
+                tabGetFirstCtrl:           masterHandlerTabGetFirstCtrl,
+                tabClick:                  masterHandlerTabClick,
+                
+                comboChange:               masterHandlerComboChange,
+                checkBoxClick:             masterHandlerCheckBoxClick,
+                
+                commandClick:              masterHandlerCommandClick,
+                cancelClick:               masterHandlerCancelClick,
+                closeClick:                masterHandlerCloseClick,
+                copyClick:                 masterHandlerCopyClick,
+                documentsClick:            masterHandlerDocumentsClick,
+                newClick:                  masterHandlerNewClick,
+                printClick:                masterHandlerPrintClick,
+                permissionsClick:          masterHandlerPermissionsClick,
+                saveClick:                 masterHandlerSaveClick,
+                
+                viewLoad:                  masterHandlerViewLoad,
+                viewBeforeDestroy:         masterHandlerViewBeforeDestroy,
+                viewDestroy:               masterHandlerViewDestroy,
+                
+                gridDblClick:              masterHandlerGridDblClick,
+                gridAfterDeleteRow:        masterHandlerGridAfterDeleteRow,
+                gridDeleteRow:             masterHandlerGridDeleteRow,
+                gridNewRow:                masterHandlerGridNewRow,
+                gridValidateRow:           masterHandlerGridValidateRow,
+                
+                gridColumnAfterEdit:       masterHandlerGridColumnAfterEdit,
+                gridColumnAfterUpdate:     masterHandlerGridColumnAfterUpdate,
+                gridColumnBeforeEdit:      masterHandlerGridColumnBeforeEdit,
+                gridColumnButtonClick:     masterHandlerGridColumnButtonClick,
 
-                    // Solo los ABM pueden ser
-                    // de tipo CancelDialog
-                    //
-                    if (m_bOkCancelDialog) {
-                        // With m_formABM;
-                            // * TODO:** can't found type for with block
-                            // * With .cmdCancel
-                            __TYPE_NOT_FOUND w___TYPE_NOT_FOUND = m_formABM.cmdCancel;
-                                w___TYPE_NOT_FOUND.Caption = "&Cancelar";
-                                w___TYPE_NOT_FOUND.Cancel = true;
-                            // {end with: w___TYPE_NOT_FOUND}
-                            // * TODO:** can't found type for with block
-                            // * With .cmdSave
-                            __TYPE_NOT_FOUND w___TYPE_NOT_FOUND = m_formABM.cmdSave;
-                                w___TYPE_NOT_FOUND.Caption = "&Aceptar";
-                                m_formABM.cmdCancel.cABMProperty.setWidth(w___TYPE_NOT_FOUND.Width);
-                            // {end with: w___TYPE_NOT_FOUND}
-                            m_formABM.cmdClose.cABMGridRow.setVisible(false);
-                        // {end with: m_formABM}
-                    }
+                gridSelectionChange:       masterHandlerGridSelectionChange,
+                gridSelectionRowChange:    masterHandlerGridSelectionRowChange,
 
-                    // * TODO:** can't found type for with block
-                    // * With m_formABM.cmdSave
-                    __TYPE_NOT_FOUND w___TYPE_NOT_FOUND = m_formABM.cmdSave;
-                        if (LenB(m_saveCaption)) { w___TYPE_NOT_FOUND.Caption = m_saveCaption; }
-                        if (m_saveWidth) { w___TYPE_NOT_FOUND.Width = m_saveWidth; }
-                        if (m_saveTop) { w___TYPE_NOT_FOUND.Top = m_saveTop; }
-                        if (m_saveLeft) { w___TYPE_NOT_FOUND.Left = m_saveLeft; }
-                    // {end with: w___TYPE_NOT_FOUND}
+                showSelect:                masterHandlerShowSelect,
 
-                    // * TODO:** can't found type for with block
-                    // * With m_formABM.cmdCancel
-                    __TYPE_NOT_FOUND w___TYPE_NOT_FOUND = m_formABM.cmdCancel;
-                        if (LenB(m_cancelCaption)) { w___TYPE_NOT_FOUND.Caption = m_cancelCaption; }
-                        if (m_cancelTop) { w___TYPE_NOT_FOUND.Top = m_cancelTop; }
-                        if (m_cancelLeft) { w___TYPE_NOT_FOUND.Left = m_cancelLeft; }
-                    // {end with: w___TYPE_NOT_FOUND}
-                }
+                selectChange:              masterHandlerSelectChange,
+                
+                maskEditChange:            masterHandlerMaskEditChange,
+                
+                dateChange:                masterHandlerDateChange,
+                
+                optionButtonClick:         masterHandlerOptionButtonClick,
+                
+                toolBarButtonClick:        masterHandlerToolBarButtonClick,
+                
+                textButtonClick:           masterHandlerTextButtonClick,
+                textChange:                masterHandlerTextChange,
+                textAreaChange:            masterHandlerTextAreaChange,
+                textPasswordChange:        masterHandlerTextPasswordChange
+              });
 
-                return m_formABM;
+              m_mustCompleteLoading = true;
+              mustInitialize = true;
+              setCanPrint();
+              setShowPermissions();
 
+              // only master dialogs can be of OkCancel type
+              //
+              if(m_showOkCancel) {
+
+                m_masterView.cmdCancel.text = "Cancel";
+                m_masterView.cmdCancel.cancel = true;
+
+                m_masterView.cmdSave.text = "Ok";
+                m_masterView.cmdCancel.width = m_masterView.cmdSave.width;
+
+                m_masterView.cmdClose.visible = false;
+              }
+
+              if(m_saveText)  { m_masterView.cmdSave.text  = m_saveText; }
+              if(m_saveWidth) { m_masterView.cmdSave.width = m_saveWidth; }
+              if(m_saveTop)   { m_masterView.cmdSave.top   = m_saveTop; }
+              if(m_saveLeft)  { m_masterView.cmdSave.left  = m_saveLeft; }
+
+              if(m_cancelText) { m_masterView.cmdCancel.text = m_cancelText; }
+              if(m_cancelTop)  { m_masterView.cmdCancel.top  = m_cancelTop; }
+              if(m_cancelLeft) { m_masterView.cmdCancel.left = m_cancelLeft; }
             }
 
-            // Si invoque a Load inicializo el form
-            //
-            if (bInit) {
-                initCtrlPosition();
-                initVectorsPosition();
+            return m_masterView;
+          }
+
+          if(mustInitialize) {
+            initCtrlPosition();
+            initVectorsPosition();
+          }
+        };
+
+        // hide tab buttons is used in wizards
+        //
+        self.setHideTabButtons = function(rhs) {
+          m_hideTabButtons = rhs;
+        };
+
+        // min size height of dialog's view
+        //
+        self.setMinHeight = function(rhs) {
+          m_minHeight = rhs;
+        };
+
+        self.setMinWidth = function(rhs) {
+          m_minWidth = rhs;
+        };
+
+        self.setOkCancelDialog = function(rhs) {
+          m_showOkCancel = rhs;
+        };
+
+        self.getOkCancelDialogResult = function(() {
+          return m_okCancelResult;
+        };
+
+        self.setTabs = function(rhs) {
+          m_tabs = rhs;
+        };
+
+        self.setNewKeyPropFocus = function(rhs) {
+          m_newKeyPropFocus = rhs;
+        };
+
+        self.getNewKeyPropFocus = function() {
+          return m_newKeyPropFocus;
+        };
+
+        self.setUseHelpValueProcess = function(rhs) {
+          m_useSelectIntValue = rhs;
+        };
+
+        self.setRowSelected = function(property, rowIndex) {
+          try {
+            var grid = property.getCtl();
+            if(grid) {
+              grid.selectRow(rowIndex);
+              property.selectedIndex = rowIndex;
             }
+          }
+          catch(ignore) {}
+        };
+
+        self.getMngGrid = function() {
+          return m_gridManager;
+        };
+
+        self.setTabTopHeight = function(rhs) {
+          m_tabTopHeight = rhs;
         }
 
-        // Flag que indica que se deben ocultar los
-        // botones de los tabs. Usado para asistentes
-        //
-        public void setHideTabButtons(boolean rhs) {
-            m_hideTabButtons = rhs;
-        }
-
-        // Tamaño minimos de la ventana
-        //
-        public void setMinHeight(int rhs) {
-            m_minHeight = rhs;
-        }
-
-        public void setMinWidth(int rhs) {
-            m_minWidth = rhs;
-        }
-
-        // Indica que en lugar de mostrar "guardar cancelar"
-        // hay que mostrar "aceptar cancelar"
-        //
-        public void setOkCancelDialog(boolean rhs) {
-            m_bOkCancelDialog = rhs;
-        }
-
-        public boolean getOkCancelDialogRslt() {
-            return m_bOkCancelDialogRslt;
-        }
-
-        public void setTabs(cIABMTabs rhs) { // TODO: Use of ByRef founded Public Property Set Tabs(ByRef rhs As cIABMTabs)
-            m_tabs = rhs;
-        }
-
-        public void setNewKeyPropFocus(String rhs) {
-            m_newKeyPropFocus = rhs;
-        }
-
-        public String getNewKeyPropFocus() {
-            return m_newKeyPropFocus;
-        }
-
-        public void setNotLockWnd(boolean rhs) {
-            m_bNotLockWnd = rhs;
-        }
-
-        public boolean getBNotLockWnd() {
-            setNotLockWnd(m_bNotLockWnd);
-        }
-
-        public int getHWnd() {
-            int _rtn = 0;
-            if (getFrm() == null) {
-                _rtn = 0;
+        var getChanged = function() {
+          // in documents the view define if it was changed
+          //
+          if(m_isDocument) {
+            if(getView() === null) {
+              return false;
             }
             else {
-                _rtn = getFrm().hWnd;
+              return getView().changed;
             }
-            return _rtn;
-        }
+          }
+          else {
+            return m_changed;
+          }
+        };
 
-        public void setUseHelpValueProcess(boolean rhs) {
-            m_bUseHelpValueProcess = rhs;
-        }
-
-        public void setRowSelected(cIABMProperty iProperty, int lRow) { // TODO: Use of ByRef founded Public Sub SetRowSelected(ByRef iProperty As cIABMProperty, ByVal lRow As Long)
-            try {
-
-                cABMProperty oProp = null;
-                oProp = iProperty;
-                if (oProp.getCtl() == null) { return; }
-
-                cGridAdvanced grid = null;
-                grid = oProp.getCtl();
-
-                grid.SelectRow(lRow);
-                iProperty.SelectedIndex = lRow;
-            } catch (Exception ex) {
+        self.setChanged = function(rhs) {
+          // in documents the view define if it was changed
+          //
+          if(m_isDocument) {
+            if(getView()) {
+              getView().changed = rhs;
             }
-        }
+          }
+          else {
+            m_changed = rhs;
+          }
+        };
 
-        // propiedades friend
-
-        // propiedades privadas
-
-        // Manejador para la grilla avanzada
+        // in some edit cases we need to know the value
+        // of a cell to handle the beforeEdit event.
+        // for example this happens in kit edition.
+        // there we need to know the pr_id of an alternative
+        // component to get how many serial numbers it needs
+        // before allow the edition of the serial number
         //
-        private cABMCSGrid getMngGrid() {
-            if (m_mngGrid == null) { m_mngGrid = new cABMCSGrid(); }
-            return m_mngGrid;
-        }
+        self.setCreateRowInBeforeEdit = function(rhs) {
+          m_createRowInBeforeEdit = rhs;
+        };
 
-        public boolean getBWasChanged() {
-            return getWasChanged();
-        }
+        self.setNoChangeColsInRefresh = function(rhs) {
+          m_noChangeColsInRefresh = rhs;
+        };
 
-        public void setTabTopHeight(int rhs) {
-            m_tabTopHeight = rhs;
-        }
+        self.getAutoPrint = function() {
+          return m_autoPrint;
+        };
 
-        // Flag que indica si hubo cambios
-        //
-        private boolean getWasChanged() {
-            boolean _rtn = false;
+        self.setAutoPrint = function(rhs) {
+          m_autoPrint = rhs;
+        };
 
-            // Para documentos es el form el que indica
-            // si hubo cambios
-            //
-            if (m_isDocument) {
-                if (getFrm() == null) { Exit Property; }
-                _rtn = getFrm().WasChanged;
-            }
-            else {
-                _rtn = m_wasChanged2;
-            }
-            return _rtn;
-        }
+        self.setBackColorTagMain = function(color) {
+          if(m_documentView) {
+            m_documentView.getTab().setBackColor(color);
+            m_documentView.getTabFooter().setBackColor(color);
+            m_documentView.getTabItems().setBackColor(color);
+          }
+        };
 
-        private void setWasChanged(boolean rhs) {
-            boolean _rtn = ;
-
-            // Para documentos es el form el que indica
-            // si hubo cambios
-            //
-            if (m_isDocument) {
-                if (getFrm() == null) { Exit Property; }
-                DoEvents:(DoEvents: DoEvents);
-                getFrm().WasChanged = rhs;
-            }
-            else {
-                m_wasChanged2 = rhs;
+        self.setHeightToDocWithDescription = function() {
+          if(m_documentView) {
+            if(m_isDocument && !m_isItems) {
+              m_documentView.setHeightToDocWithDescription();
             }
 
-            return _rtn;
-        }
+            if(m_isItems) {
+              m_constTop = m_documentView.getTabItems().getTop() + 100;
 
-        // Esta funcion es necesaria para aquellos casos
-        // en los que necesito conocer el valor de una
-        // celda de la fila para responder al evento
-        // BeforeEdit. Puntualmente esto se dio en la
-        // edicion de Kits con alternativas y numeros de serie
-        // con cantidad variable. En este caso fue necesario
-        // conocer el pr_id de la alternativa antes de permitir
-        // la edicion de la celda numero de serie, para poder
-        // preparar el filtro SQL.
-        //
-        public void setCreateRowInBeforeEdit(boolean rhs) {
-            m_bCreateRowInBeforeEdit = rhs;
-        }
-
-        // Se explica en la declaracion de m_bNoChangeColsInRefresh
-        //
-        public void setNoChangeColsInRefresh(boolean rhs) {
-            m_bNoChangeColsInRefresh = rhs;
-        }
-
-        // Para evitar re-carga de controles en maestros
-        //
-        public void setBSendRefresh(boolean rhs) {
-            m_bSendRefresh = rhs;
-        }
-
-        public String getAutoPrint() {
-            return m_autoPrint;
-        }
-
-        public void setAutoPrint(String rhs) {
-            m_autoPrint = rhs;
-        }
-
-        // funciones publicas
-        public void setBakcColorTagMain(int color) {
-            if (m_formDoc == null) { return; }
-            m_formDoc.ShTab.cABMGridRow.setBackColor(color);
-            m_formDoc.shTabFooter.cABMGridRow.setBackColor(color);
-            m_formDoc.shTabItems.cABMGridRow.setBackColor(color);
-        }
-
-        public void setHeightToDocWithDescrip() {
-            if (m_formDoc == null) { return; }
-            if (m_isDocument && !m_isItems) {
-                m_formDoc.setHeightToDocWithDescrip();
+              for (var q = 0; q < m_nextTop.length; q++) {
+                m_nextTop[q] = m_constTop;
+                m_left[q] = m_constLeft;
+              }
             }
-
-            if (m_isItems) {
-
-                m_constTop = m_formDoc.shTabItems.cABMProperty.getTop() + 100;
-
-                int q = 0;
-                for (q = 0; q <= m_nextTop.length; q++) {
-                    m_nextTop[q] = m_constTop;
-                    m_left[q] = m_constLeft;
-                }
-            }
+          }
         }
 
-        public void refreshTitle() {
-            pRefreshTitle();
+        self.refreshSelStartToEnd = function(property) {
+          try {
+            var c = property.getCtl()
+            c.selStart(c.text.length());
+          }
+          catch(ignore) {}
+        };
+
+        self.showMessage = function(msg) {
+          showMsg(msg, true);
+        };
+
+        self.hideMessage = function() {
+          hideMsg();
+        };
+
+        self.setFocusCtrl = function(property) {
+          try {
+            property.getCtl().SetFocus;
+          }
+          catch(ignore) {}
+        };
+
+        self.setFocusInGridItems() {
+          try {
+            setFocusControl(m_documentView.getGrid(0));
+            Cairo.Util.sendKeys("{ENTER}");
+          }
         }
 
-        public void refreshSelStartToEnd(cIABMProperty iProperty) { // TODO: Use of ByRef founded Public Sub RefreshSelStartToEnd(ByRef iProperty As cIABMProperty)
-
-                cABMProperty oProp = null;
-                oProp = iProperty;
-                Object w_ctl = oProp.getCtl();
-                    w_ctl.SelStart = w_ctl.Text.length();
-                // {end with: w_ctl}
-            }
-        }
-
-        public void resetChanged() {
-            pResetChanged();
-        }
-
-        public void showMessage(String msg) {
-            pShowMsg(msg, true);
-        }
-
-        public void hideMessage() {
-            pHideMsg();
-        }
-
-        public void setFocusCtrl(cIABMProperty iProperty) { // TODO: Use of ByRef founded Public Sub SetFocusCtrl(ByRef iProperty As cIABMProperty)
-
-                cABMProperty oProp = null;
-                oProp = iProperty;
-                oProp.getCtl().SetFocus;
-                VBA.ex.Clear;
-            }
-        }
-
-        public void setFocusInGridItems() {
-
-                SetFocusControl(m_formDoc.GR(0));
-                mUtil.sendKeys("{ENTER}");
-                VBA.ex.Clear;
-            }
-        }
-
-        public void printABM(int id, int tblId) {
+        self.printABM(int id, int tblId) {
 
             //'CSPrintManager.cPrintManager
             Object printManager = null;
@@ -1108,7 +820,7 @@
         // Por cada columna llama a la rutina
         // encargada de calcular el ancho
         //
-        public void autoWidthColumn(cIABMProperty iProperty, String keyCol) { // TODO: Use of ByRef founded Public Sub AutoWidthColumn(ByRef iProperty As cIABMProperty, Optional ByVal KeyCol As String)
+        self.autoWidthColumn(cIABMProperty iProperty, String keyCol) { // TODO: Use of ByRef founded Public Sub AutoWidthColumn(ByRef iProperty As cIABMProperty, Optional ByVal KeyCol As String)
 
             cABMProperty oProperty = null;
             cIABMGridColumns columns = null;
@@ -1127,7 +839,7 @@
             // Si pasan una columna especifica
             // solo se aplica a dicha columna
             //
-            if (keyCol.length()) {
+            if(keyCol.length()) {
 
                 // Obtengo un puntero a la interfaz cABMGridColumn
                 //
@@ -1153,7 +865,7 @@
         //
         //       Calculo que pa el 2015 lo tendremos mejorado :P
         //
-        public void groupGrid(cIABMProperty iProperty, String keyCol, String keyColSort) { // TODO: Use of ByRef founded Public Sub GroupGrid(ByRef iProperty As cIABMProperty, ByVal KeyCol As String, ByVal KeyColSort As String)
+        self.groupGrid(cIABMProperty iProperty, String keyCol, String keyColSort) { // TODO: Use of ByRef founded Public Sub GroupGrid(ByRef iProperty As cIABMProperty, ByVal KeyCol As String, ByVal KeyColSort As String)
 
             groupGridEx(iProperty, keyCol, keyColSort);
 
@@ -1189,7 +901,7 @@
         //                 y por ende offSetColSort es 4
         //
 
-        public void groupGridEx(cIABMProperty iProperty, String keyCol, String keyColSort, int offSetColSort) { // TODO: Use of ByRef founded Public Sub GroupGridEx(ByRef iProperty As cIABMProperty, ByVal KeyCol As String, ByVal KeyColSort As String, Optional ByVal offSetColSort As Integer = 3)
+        self.groupGridEx(cIABMProperty iProperty, String keyCol, String keyColSort, int offSetColSort) { // TODO: Use of ByRef founded Public Sub GroupGridEx(ByRef iProperty As cIABMProperty, ByVal KeyCol As String, ByVal KeyColSort As String, Optional ByVal offSetColSort As Integer = 3)
 
 
 
@@ -1200,7 +912,7 @@
                 cABMProperty oProp = null;
                 oProp = iProperty;
 
-                if (oProp.getCtl() == null) { return; }
+                if(oProp.getCtl() === null) { return; }
 
                 // Ocultamos la grilla para evitar el refresh
                 //
@@ -1282,7 +994,7 @@
                 i = 1;
                 while (i < rows.Count) {
                     row = rows.Item(i);
-                    if (row.getIsGroup()) {
+                    if(row.getIsGroup()) {
                         rows.Remove(i);
                     }
                     else {
@@ -1297,7 +1009,7 @@
                 //
                 for (j = 1; j <= grid.Rows; j++) {
 
-                    if (grid.RowIsGroup(j)) {
+                    if(grid.RowIsGroup(j)) {
                         row = new cABMGridRow();
                         row.setIsGroup(true);
                         row.setIndex(j);
@@ -1316,21 +1028,21 @@
 
                     index = VBA.mUtil.val(grid.CellText(j, 3));
 
-                    if (grid.RowIsGroup(j)) {
+                    if(grid.RowIsGroup(j)) {
                         sortedRows.add(rows(j));
                     }
                     else {
 
                         for (i = 1; i <= rows.Count; i++) {
                             row = rows.Item(i);
-                            if (!row.getIsGroup()) {
-                                if (index == row.getIndex()) {
+                            if(!row.getIsGroup()) {
+                                if(index === row.getIndex()) {
 
                                     // El indice debe estar en 0 para
                                     // que lo inserte al final
                                     //
                                     row.setIndex(0);
-                                    if (LenB(row.getKey())) {
+                                    if(LenB(row.getKey())) {
                                         sortedRows.add(row, row.getKey());
                                     }
                                     else {
@@ -1348,15 +1060,15 @@
                 //
                 k = 0;
                 for (j = 1; j <= grid.Rows; j++) {
-                    if (!grid.RowIsGroup(j)) {
+                    if(!grid.RowIsGroup(j)) {
                         k = k + 1;
-                        grid.CellText(j, 3) == k;
+                        grid.CellText(j, 3) === k;
                     }
                 }
 
                 // Selecciono la primer columna
                 //
-                if (grid.Rows) {
+                if(grid.Rows) {
                     grid.SelectedRow = 2;
                     grid.SelectedCol = 5;
                 }
@@ -1378,7 +1090,7 @@
 
                 for (j = 1; j <= rows.Count; j++) {
                     row = rows.Item(j);
-                    if (!row.getIsGroup()) {
+                    if(!row.getIsGroup()) {
                         k = k + 1;
                         row.setIndex(k);
                         row.item(1).Value = k;
@@ -1390,12 +1102,12 @@
                 / * *TODO:** goto found: GoTo ExitProc* /
                 / * *TODO:** label found: ControlError:* /
 
-                MngError(VBA.ex, "GroupGrid", C_MODULE, "Linea: "+ Erl+ "\\r\\n"+ "\\r\\n"+ "Descrip: "+ VBA.ex.Description);
-                if (VBA.ex.Number) { / * *TODO:** resume found: Resume(ExitProc)* /  }
+                MngError(VBA.ex, "GroupGrid", C_MODULE, "Linea: "+ Erl+ "\\r\\n"+ "\\r\\n"+ "Description: "+ VBA.ex.Descriptiontion);
+                if(VBA.ex.Number) { / * *TODO:** resume found: Resume(ExitProc)* /  }
 
                 / * *TODO:** label found: ExitProc:* /
-                if (oProp == null) { return; }
-                if (oProp.getCtl() == null) { return; }
+                if(oProp === null) { return; }
+                if(oProp.getCtl() === null) { return; }
 
                 oProp.getCtl().GridCtrl.Redraw = true;
                 oProp.getCtl().Visible = bVisible;
@@ -1406,19 +1118,19 @@
             }
         }
 
-        public void refreshButtonsStyle(cIABMProperty iProp) {
+        self.refreshButtonsStyle(cIABMProperty iProp) {
 
 
                 cABMProperty oProp = null;
                 oProp = iProp;
 
-                if (oProp.getCtl() == null) { return; }
+                if(oProp.getCtl() === null) { return; }
 
-                if (iProp.ForeColor != -1) {
+                if(iProp.ForeColor != -1) {
                     oProp.getCtl().ForeColor = iProp.ForeColor;
                 }
 
-                if (iProp.BackColor != -1) {
+                if(iProp.BackColor != -1) {
                     oProp.getCtl().BackColor = iProp.BackColor;
                     oProp.getCtl().BackColorUnpressed = iProp.BackColor;
                     boolean buttonEnabled = false;
@@ -1447,13 +1159,13 @@
 
             // Columnas
             //
-            if (iProperty.Grid.cABMDocProperties.getColumns().item(c_col_aux_group1) == null) {
+            if(iProperty.Grid.cABMDocProperties.getColumns().item(c_col_aux_group1) === null) {
                 CSInterfacesABM.cIABMGridColumn w_add = cols.add(null, c_col_aux_group1, 1);
                     w_add.Visible = false;
                 // {end with: w_add}
             }
 
-            if (iProperty.Grid.cABMDocProperties.getColumns().item(c_col_aux_group2) == null) {
+            if(iProperty.Grid.cABMDocProperties.getColumns().item(c_col_aux_group2) === null) {
                 CSInterfacesABM.cIABMGridColumn w_add = cols.add(null, c_col_aux_group2, 1);
                     w_add.Visible = false;
                 // {end with: w_add}
@@ -1465,10 +1177,10 @@
 
             for (int _i = 0; _i < iProperty.Grid.cABMCSGrid.getRows().size(); _i++) {
                 Row = iProperty.Grid.Rows.getItem(_i);
-                if (row.item(c_col_aux_group1) == null) {
+                if(row.item(c_col_aux_group1) === null) {
                     row.add(, null, c_col_aux_group1, 1);
                 }
-                if (row.item(c_col_aux_group2) == null) {
+                if(row.item(c_col_aux_group2) === null) {
                     row.add(, null, c_col_aux_group2, 1);
                 }
             }
@@ -1479,11 +1191,11 @@
             cGridAdvanced gridAd = null;
             gridAd = oProp.getCtl();
 
-            if (gridAd.Columns(c_col_aux_group1) == null) {
+            if(gridAd.Columns(c_col_aux_group1) === null) {
                 gridAd.Columns.cABMGridRows.add(, null, c_col_aux_group1);
             }
 
-            if (gridAd.Columns(c_col_aux_group2) == null) {
+            if(gridAd.Columns(c_col_aux_group2) === null) {
                 gridAd.Columns.cABMGridRows.add(, null, c_col_aux_group2);
             }
 
@@ -1491,7 +1203,7 @@
 
         }
 
-        public void drawGrid(cIABMProperty iProperty, boolean bRedraw) { // TODO: Use of ByRef founded Public Sub DrawGrid(ByRef iProperty As cIABMProperty, ByVal bRedraw As Boolean)
+        self.drawGrid(cIABMProperty iProperty, boolean bRedraw) { // TODO: Use of ByRef founded Public Sub DrawGrid(ByRef iProperty As cIABMProperty, ByVal bRedraw As Boolean)
 
             cABMProperty oProperty = null;
             cGridAdvanced oGrid = null;
@@ -1500,9 +1212,9 @@
             // especificas
             //
             oProperty = iProperty;
-            oGrid = getFrm().GR(oProperty.getIndex());
+            oGrid = getView().getGrid(oProperty.getIndex());
 
-            if (oGrid == null) { return; }
+            if(oGrid === null) { return; }
 
             oGrid.Redraw = bRedraw;
 
@@ -1529,7 +1241,7 @@
             //
             oProperty = iProperty;
             column = iProperty.Grid.cABMDocProperties.getColumns().item(keyCol);
-            oGrid = getFrm().GR(oProperty.getIndex());
+            oGrid = getView().getGrid(oProperty.getIndex());
 
             // Todo esto es para no perder el
             // ancho de la columna al refrescar
@@ -1546,7 +1258,7 @@
 
         // Modifica el estado de edicion de todas las propiedades
         //
-        public void refreshEnabledState(cIABMProperties iProperties) { // TODO: Use of ByRef founded Public Sub RefreshEnabledState(ByRef iProperties As cIABMProperties)
+        self.refreshEnabledState(cIABMProperties iProperties) { // TODO: Use of ByRef founded Public Sub RefreshEnabledState(ByRef iProperties As cIABMProperties)
             cIABMProperty iProperty = null;
 
             for (int _i = 0; _i < iProperties.size(); _i++) {
@@ -1554,17 +1266,17 @@
                 setEnabled(iProperty);
             }
 
-            pSetTabIndexDescrip();
+            pSetTabIndexDescription();
         }
 
         // Modifica los valores de todas las propiedades
         //
-        public void showValues(cIABMProperties iProperties) { // TODO: Use of ByRef founded Public Sub ShowValues(ByRef iProperties As cIABMProperties)
+        self.showValues(cIABMProperties iProperties) { // TODO: Use of ByRef founded Public Sub ShowValues(ByRef iProperties As cIABMProperties)
             cIABMProperty iProperty = null;
 
             // Tratamiento especial para documentos
             //
-            if (m_isDocument) {
+            if(m_isDocument) {
 
                 // Los documentos se dividen en tres objetos
                 // cABMGeneric
@@ -1572,11 +1284,11 @@
                 for (int _i = 0; _i < iProperties.size(); _i++) {
                     iProperty = iProperties.getItem(_i);
 
-                    if (m_isFooter) {
+                    if(m_isFooter) {
                         showValue(iProperty, true, c_Footer);
 
                     }
-                    else if (m_isItems) {
+                    else if(m_isItems) {
                         showValue(iProperty, true, c_Items);
 
                     //' Header
@@ -1608,14 +1320,14 @@
         //
         // si cols_to_refresh = 0 se refrezcan todas las columnas
         //
-        public void refreshGridRows(cIABMProperty iProperty, int cols_to_refresh) {
+        self.refreshGridRows(cIABMProperty iProperty, int cols_to_refresh) {
 
-            if (iProperty.PropertyType != cspGrid) { return; }
+            if(iProperty.PropertyType != cspGrid) { return; }
 
             cABMProperty oProp = null;
             oProp = iProperty;
 
-            if (oProp.getCtl() == null) { return; }
+            if(oProp.getCtl() === null) { return; }
 
             cGridAdvanced grCtrl = null;
             int rowIndex = 0;
@@ -1636,11 +1348,11 @@
             cIABMGridCellFormat iFormat = null;
             StdFont oFont = null;
 
-            if (cols_to_refresh > columns.Count) {
+            if(cols_to_refresh > columns.Count) {
                 cols_to_refresh = columns.Count;
             }
 
-            if (cols_to_refresh <= 0) {
+            if(cols_to_refresh <= 0) {
                 cols_to_refresh = columns.Count;
             }
 
@@ -1661,28 +1373,28 @@
                         __TYPE_NOT_FOUND w___TYPE_NOT_FOUND = grCtrl.Cell(rowIndex, colIndex);
                             w___TYPE_NOT_FOUND.ItemData = cell.Id;
 
-                            if (col.PropertyType == cspDate) {
-                                w___TYPE_NOT_FOUND.Text = mUtil.getDateValueForGrid(cell.Value);
+                            if(col.PropertyType === cspDate) {
+                                w___TYPE_NOT_FOUND.text = mUtil.getDateValueForGrid(cell.Value);
 
                             }
-                            else if (col.SubType == cspPercent) {
-                                w___TYPE_NOT_FOUND.Text = mUtil.val(cell.Value) / 100;
+                            else if(col.SubType === cspPercent) {
+                                w___TYPE_NOT_FOUND.text = mUtil.val(cell.Value) / 100;
 
                             }
                             else {
-                                w___TYPE_NOT_FOUND.Text = cell.Value;
+                                w___TYPE_NOT_FOUND.text = cell.Value;
                             }
 
                             // Formato de cada celda
                             //
                             iFormat = cell.Format;
-                            if (iFormat != null) {
+                            if(iFormat != null) {
 
                                 oFormat = cell.Format;
                                 w___TYPE_NOT_FOUND.ForeColor = iFormat.Color;
                                 w___TYPE_NOT_FOUND.BackColor = iFormat.BackColor;
 
-                                w___TYPE_NOT_FOUND.TextAlign = oFormat.getAlign();
+                                w___TYPE_NOT_FOUND.textAlign = oFormat.getAlign();
                                 oFont = new StdFont();
                                 // With oFont;
                                     oFont.Name = oFormat.getFontName();
@@ -1708,7 +1420,7 @@
 
         }
 
-        public void refreshRowColor(cIABMProperty iProperty, int rowIndex, cIABMGridRow row) { // TODO: Use of ByRef founded Public Sub RefreshRowColor(ByVal iProperty As cIABMProperty, ByVal RowIndex As Long, ByRef Row As cIABMGridRow)
+        self.refreshRowColor(cIABMProperty iProperty, int rowIndex, cIABMGridRow row) { // TODO: Use of ByRef founded Public Sub RefreshRowColor(ByVal iProperty As cIABMProperty, ByVal RowIndex As Long, ByRef Row As cIABMGridRow)
 
             cABMProperty oProp = null;
             cGridAdvanced oGrid = null;
@@ -1717,7 +1429,7 @@
             oProp = iProperty;
             oGrid = oProp.getCtl();
 
-            if (oGrid == null) { return; }
+            if(oGrid === null) { return; }
 
             oRow = row;
             oGrid.RowBackColor(rowIndex) = oRow.getBackColor();
@@ -1725,7 +1437,7 @@
         }
         // Inicializa las variables auxiliares
         //
-        public void resetLayoutMembers() {
+        self.resetLayoutMembers() {
             G.redim(m_nextTop, 0);
             G.redim(m_nextTopOp, 0);
             G.redim(m_left, 0);
@@ -1743,7 +1455,7 @@
         // Inicializa el left y el top de un
         // Tab
         //
-        public void resetTabLeftTop(int tabIndex) {
+        self.resetTabLeftTop(int tabIndex) {
             m_nextTop[tabIndex] = m_constTop;
             m_left[tabIndex] = 2500;
             m_labelLeft = C_OFFSET_H;
@@ -1751,18 +1463,18 @@
 
         // Modifica el contenido de una celda
         //
-        public boolean showCellValue(cIABMProperty iProperty, int lRow, int lCol) { // TODO: Use of ByRef founded Public Function ShowCellValue(ByRef iProperty As cIABMProperty, ByVal lRow As Long, ByVal lCol As Long) As Boolean
+        self.showCellValue(cIABMProperty iProperty, int lRow, int lCol) { // TODO: Use of ByRef founded Public Function ShowCellValue(ByRef iProperty As cIABMProperty, ByVal lRow As Long, ByVal lCol As Long) As Boolean
 
             cABMProperty oProperty = null;
 
             oProperty = iProperty;
 
-            getMngGrid().showCellValue(getFrm().GR(oProperty.getIndex()), iProperty.Grid, lRow, lCol);
+            getMngGrid().showCellValue(getView().getGrid(oProperty.getIndex()), iProperty.Grid, lRow, lCol);
         }
 
         // Modifica el valor de una propiedad
         //
-        public boolean showValue(cABMProperty oProperty, boolean noChangeColumns, String strTag) { // TODO: Use of ByRef founded Public Function ShowValue(ByRef oProperty As cABMProperty, Optional ByVal NoChangeColumns As Boolean, Optional ByVal strTag As String) As Boolean
+        self.showValue(cABMProperty oProperty, boolean noChangeColumns, String strTag) { // TODO: Use of ByRef founded Public Function ShowValue(ByRef oProperty As cABMProperty, Optional ByVal NoChangeColumns As Boolean, Optional ByVal strTag As String) As Boolean
 
             cIABMProperty iProperty = null;
             cIABMListItem item = null;
@@ -1771,29 +1483,9 @@
 
             iProperty = oProperty;
 
-            Object w_frm = getFrm();
+            Object w_frm = getView();
 
                 switch (iProperty.PropertyType) {
-
-                        //        Case csTypeABMProperty.cspAdHock
-                        //
-                        //            Set c = .CBhock(oProperty.Index)
-                        //            c.Clear
-                        //
-                        //            For Each Item In iProperty.List
-                        //              c.AddItem Item.Value
-                        //              ListSetListIndexForId c, Item.Id
-                        //            Next
-                        //
-                        //            c.ListIndex = iProperty.Value
-                        //            c.Enabled = iProperty.Enabled
-                        //
-                        //            ' Esto es por que necesito una propiedad para el ItemData
-                        //            ' y uso el HelpId para ello. Cuando el usuario no
-                        //            ' modifica este control se devuelve el mismo ItemData que
-                        //            ' se mostro.
-                        //            '
-                        //            iProperty.HelpId = iProperty.Value
 
                     case  csTypeABMProperty.cspList:
 
@@ -1824,7 +1516,7 @@
                                 break;
                         }
 
-                        if (c.ListIndex == -1  && c.ListCount > 0) { c.ListIndex = 0; }
+                        if(c.ListIndex === -1  && c.ListCount > 0) { c.ListIndex = 0; }
                         c.Enabled = iProperty.Enabled;
 
                         break;
@@ -1834,7 +1526,7 @@
                         // With c;
                             c.Id = iProperty.HelpId;
 
-                            if (m_bUseHelpValueProcess) {
+                            if(m_useSelectIntValue) {
                                 c.ValueHelp = (iProperty.HelpValueProcess != "") ? iProperty.HelpValueProcess : iProperty.HelpId);
                             }
                             else {
@@ -1887,20 +1579,20 @@
                     case  csTypeABMProperty.cspFile:
                     case  csTypeABMProperty.cspFolder:
 
-                        if (iProperty.SubType == cspMemo) {
+                        if(iProperty.SubType === cspMemo) {
 
                             c = w_frm.TXM(oProperty.getIndex());
                         }
                         else {
 
                             c = w_frm.TX(oProperty.getIndex());
-                            if (c(instanceOf cMaskEdit)) {
-                                c.Mask = iProperty.TextMask;
+                            if(c(instanceOf cMaskEdit)) {
+                                c.Mask = iProperty.textMask;
                             }
                         }
 
                         // With c;
-                            c.Text = iProperty.Value;
+                            c.text = iProperty.Value;
                             c.Enabled = iProperty.Enabled;
                         // {end with: c}
 
@@ -1908,9 +1600,9 @@
                         // actualizo en iProperty.value
                         // con el texto formateado
                         //
-                        if (c(instanceOf cMaskEdit)) {
-                            if (c.Mask != "") {
-                                iProperty.Value = c.Text;
+                        if(c(instanceOf cMaskEdit)) {
+                            if(c.Mask != "") {
+                                iProperty.Value = c.text;
                             }
                         }
 
@@ -1920,7 +1612,7 @@
                         c = w_frm.txPassword(oProperty.getIndex());
 
                         // With c;
-                            c.Text = iProperty.Value;
+                            c.text = iProperty.Value;
                             c.Enabled = iProperty.Enabled;
                         // {end with: c}
 
@@ -1940,7 +1632,7 @@
                         c = w_frm.CMD(oProperty.getIndex());
 
                         // With c;
-                            c.Caption = iProperty.Name;
+                            c.text = iProperty.Name;
                             c.Enabled = iProperty.Enabled;
                         // {end with: c}
 
@@ -1948,8 +1640,8 @@
                     case  csTypeABMProperty.cspLabel:
 
                         c = w_frm.LB2(oProperty.getIndex());
-                        c.Caption = iProperty.Value;
-                        if (iProperty.BackColor >= 0) {
+                        c.text = iProperty.Value;
+                        if(iProperty.BackColor >= 0) {
                             c.BackColor = iProperty.BackColor;
                         }
 
@@ -1959,16 +1651,16 @@
                         c = w_frm.Img(oProperty.getIndex());
 
                         // With c;
-                            if (getFrm(instanceOf fWizard)) {
+                            if(getView(instanceOf fWizard)) {
                                 switch (mUtil.val(iProperty.Value)) {
                                     case  1:
-                                        c.Picture = m_formWizard.ImgWiz1.Picture;
+                                        c.Picture = m_wizardView.ImgWiz1.Picture;
                                         break;
                                     case  3:
-                                        c.Picture = m_formWizard.ImgWiz3.Picture;
+                                        c.Picture = m_wizardView.ImgWiz3.Picture;
                                         break;
                                     case  5:
-                                        c.Picture = m_formWizard.ImgWiz5.Picture;
+                                        c.Picture = m_wizardView.ImgWiz5.Picture;
                                     break;
                                     default:
                                         c.Picture = iProperty.Picture;
@@ -1984,19 +1676,19 @@
                         break;
                     case  csTypeABMProperty.cspTitle:
                         c = w_frm.lbTitle2(oProperty.getIndex());
-                        c.Caption = iProperty.Value;
+                        c.text = iProperty.Value;
 
                         break;
-                    case  csTypeABMProperty.cspDescription:
-                        c = w_frm.LBDescrip(oProperty.getIndex());
-                        c.Caption = iProperty.Value;
+                    case  csTypeABMProperty.cspDescriptiontion:
+                        c = w_frm.LBDescription(oProperty.getIndex());
+                        c.text = iProperty.Value;
 
                         break;
                     case  csTypeABMProperty.cspGrid:
 
                         Object grid = null;
 
-                        grid = w_frm.GR(oProperty.getIndex());
+                        grid = w_frm.getGrid(oProperty.getIndex());
                         c = grid;
                         grid.Enabled = iProperty.Enabled;
 
@@ -2010,18 +1702,18 @@
                             w_mngGrid.setAllowEdit(grid, iProperty.GridEdit);
                             w_mngGrid.setAllowDelete(grid, iProperty.GridRemove);
 
-                            if (!w_mngGrid.loadFromRows(grid, iProperty.Grid, noChangeColumns, pGetNameGrid(iProperty))) {
+                            if(!w_mngGrid.loadFromRows(grid, iProperty.Grid, noChangeColumns, pGetNameGrid(iProperty))) {
                                 return null;
                             }
 
-                            if (iProperty.GridAdd) {
+                            if(iProperty.GridAdd) {
                                 pSetDefaults(iProperty, grid.Rows);
                             }
                         // {end with: w_mngGrid}
 
                         break;
                     case  csTypeABMProperty.cspProgressBar:
-                        c = getFrm().prgBar(oProperty.getIndex());
+                        c = getView().prgBar(oProperty.getIndex());
                         double iVal = 0;
                         iVal = mUtil.val(iProperty.Value);
                         c.Value = (iVal <= 100) ? iVal : 100);
@@ -2030,13 +1722,13 @@
 
                 // Obtengo la etiqueta asociada al control
                 //
-                if (oProperty.getLabelIndex() != 0) {
+                if(oProperty.getLabelIndex() != 0) {
                     lbl = w_frm.LB(oProperty.getLabelIndex());
                 }
 
             // {end with: w_frm}
 
-            if (c != null) {
+            if(c != null) {
 
                 boolean bInCurrenTag = false;
                 int lenStrTag = 0;
@@ -2047,9 +1739,9 @@
 
                     // Si es un documento
                     //
-                    if (m_isDocument) {
+                    if(m_isDocument) {
 
-                        if (m_currentTab < m_firstTab) {
+                        if(m_currentTab < m_firstTab) {
                             m_currentTab = m_firstTab;
                         }
 
@@ -2062,28 +1754,28 @@
                     else {
                         int valTag = 0;
                         valTag = mUtil.val(c.Tag);
-                        if (valTag < 0 && valTag > TabIndexType.TAB_ID_XT_ALL) {
-                            bInCurrenTag = (valTag == m_currentInnerTab) || (valTag == TabIndexType.TAB_ID_XT_ALL  && m_currentInnerTab != m_tabHideCtrlsInAllTab) || (valTag == TabIndexType.TAB_ID_XT_ALL2);
+                        if(valTag < 0 && valTag > TabIndexType.TAB_ID_XT_ALL) {
+                            bInCurrenTag = (valTag === m_currentInnerTab) || (valTag === TabIndexType.TAB_ID_XT_ALL  && m_currentInnerTab != m_tabHideControlsInAllTab) || (valTag === TabIndexType.TAB_ID_XT_ALL2);
                         }
                         else {
-                            bInCurrenTag = (valTag == m_currentTab) || (valTag == TabIndexType.TAB_ID_XT_ALL  && m_currentTab != m_tabHideCtrlsInAllTab) || (valTag == TabIndexType.TAB_ID_XT_ALL2);
+                            bInCurrenTag = (valTag === m_currentTab) || (valTag === TabIndexType.TAB_ID_XT_ALL  && m_currentTab != m_tabHideControlsInAllTab) || (valTag === TabIndexType.TAB_ID_XT_ALL2);
                         }
                     }
 
-                    if (bInCurrenTag) {
+                    if(bInCurrenTag) {
 
                         c.Visible = iProperty.Visible;
-                        if (lbl != null) {
-                            if (mUtil.val(lbl.Tag) != -1) {
+                        if(lbl != null) {
+                            if(mUtil.val(lbl.Tag) != -1) {
                                 lbl.Visible = iProperty.Visible;
                             }
                         }
 
                     }
                     else {
-                        if (!(oProperty.getKeyCol().equals(csNumberID) || oProperty.getKeyCol().equals(csStateID) || (iProperty.Table == Cairo.Tables.DOCUMENTO  && m_isDocument))) {
+                        if(!(oProperty.getKeyCol().equals(csNumberID) || oProperty.getKeyCol().equals(csStateID) || (iProperty.Table === Cairo.Tables.DOCUMENTO  && m_isDocument))) {
                             c.Visible = false;
-                            if (lbl != null) {
+                            if(lbl != null) {
                                 lbl.Visible = false;
                             }
                         }
@@ -2101,7 +1793,7 @@
 
         // Modifica el estado de edicion de los controles
         //
-        public void setEnabled(cABMProperty oProperty) { // TODO: Use of ByRef founded Public Sub SetEnabled(ByRef oProperty As cABMProperty)
+        self.setEnabled(cABMProperty oProperty) { // TODO: Use of ByRef founded Public Sub SetEnabled(ByRef oProperty As cABMProperty)
             cIABMProperty iProperty = null;
             cIABMListItem item = null;
             int nIndex = 0;
@@ -2112,7 +1804,7 @@
             nIndex = oProperty.getIndex();
             bEnabled = iProperty.Enabled;
 
-            Object w_frm = getFrm();
+            Object w_frm = getView();
 
                 switch (iProperty.PropertyType) {
 
@@ -2143,7 +1835,7 @@
                     case  csTypeABMProperty.cspText:
                     case  csTypeABMProperty.cspFile:
                     case  csTypeABMProperty.cspFolder:
-                        if (iProperty.SubType == cspMemo) {
+                        if(iProperty.SubType === cspMemo) {
                             w_frm.TXM(nIndex).Enabled = bEnabled;
                         }
                         else {
@@ -2165,7 +1857,7 @@
                         break;
                     case  csTypeABMProperty.cspGrid:
                         Object grid = null;
-                        grid = w_frm.GR(nIndex);
+                        grid = w_frm.getGrid(nIndex);
                         grid.Enabled = bEnabled;
                         break;
                 }
@@ -2176,13 +1868,13 @@
 
         // Carga los controles asociados a las propiedades
         //
-        public boolean loadControlEx(cABMProperty oProperty, boolean noGrids) { // TODO: Use of ByRef founded Public Function LoadControlEx(ByRef oProperty As cABMProperty, Optional ByVal NoGrids As Boolean) As Boolean
+        self.loadControlEx(cABMProperty oProperty, boolean noGrids) { // TODO: Use of ByRef founded Public Function LoadControlEx(ByRef oProperty As cABMProperty, Optional ByVal NoGrids As Boolean) As Boolean
 
             cIABMProperty iProperty = null;
 
-            if (!oProperty.getControlLoaded()) {
+            if(!oProperty.getControlLoaded()) {
 
-                if (!loadControl(oProperty)) {
+                if(!loadControl(oProperty)) {
                     return null;
                 }
 
@@ -2191,12 +1883,12 @@
 
             iProperty = oProperty;
 
-            if (iProperty.PropertyType != cspGrid  || !noGrids) {
+            if(iProperty.PropertyType != cspGrid  || !noGrids) {
 
                 showValue(oProperty);
             }
 
-            pSetTabIndexDescrip();
+            pSetTabIndexDescription();
 
             pSetBackgroundColor();
 
@@ -2205,11 +1897,11 @@
 
         // Descarga los controles
         //
-        public void unloadControl(cABMProperty oProperty) { // TODO: Use of ByRef founded Public Sub UnloadControl(ByRef oProperty As cABMProperty)
+        self.unloadControl(cABMProperty oProperty) { // TODO: Use of ByRef founded Public Sub UnloadControl(ByRef oProperty As cABMProperty)
 
             cIABMProperty iProperty = null;
 
-            if (oProperty.getControlLoaded()) {
+            if(oProperty.getControlLoaded()) {
 
                 oProperty.setCtl(null);
 
@@ -2218,7 +1910,7 @@
                 int nIndex = 0;
                 nIndex = oProperty.getIndex();
 
-                Object w_frm = getFrm();
+                Object w_frm = getView();
                     switch (iProperty.PropertyType) {
 
                             //        Case csTypeABMProperty.cspAdHock
@@ -2231,7 +1923,7 @@
 
                         case  csTypeABMProperty.cspList:
 
-                            if (nIndex == 0) {
+                            if(nIndex === 0) {
                                 w_frm.CB(0).cABMGridRow.setVisible(0);
                             }
                             else {
@@ -2241,7 +1933,7 @@
                             break;
                         case  csTypeABMProperty.cspHelp:
 
-                            if (nIndex == 0) {
+                            if(nIndex === 0) {
                                 w_frm.HL(0).cABMGridRow.setVisible(0);
                             }
                             else {
@@ -2251,7 +1943,7 @@
                             break;
                         case  csTypeABMProperty.cspNumeric:
 
-                            if (nIndex == 0) {
+                            if(nIndex === 0) {
                                 w_frm.ME(0).cABMGridRow.setVisible(0);
                             }
                             else {
@@ -2262,7 +1954,7 @@
                         case  csTypeABMProperty.cspDate:
                         case  csTypeABMProperty.cspTime:
 
-                            if (nIndex == 0) {
+                            if(nIndex === 0) {
                                 w_frm.MEFE(0).cABMGridRow.setVisible(0);
                             }
                             else {
@@ -2272,7 +1964,7 @@
                             break;
                         case  csTypeABMProperty.cspLabel:
 
-                            if (nIndex == 0) {
+                            if(nIndex === 0) {
                                 w_frm.LB2(0).cABMGridRow.setVisible(0);
                             }
                             else {
@@ -2282,7 +1974,7 @@
                             break;
                         case  csTypeABMProperty.cspTitle:
 
-                            if (nIndex == 0) {
+                            if(nIndex === 0) {
                                 w_frm.lbTitle2(0).cABMGridRow.setVisible(0);
                             }
                             else {
@@ -2292,7 +1984,7 @@
                             break;
                         case  csTypeABMProperty.cspProgressBar:
 
-                            if (nIndex == 0) {
+                            if(nIndex === 0) {
                                 w_frm.prgBar(0).cABMGridRow.setVisible(0);
                             }
                             else {
@@ -2300,19 +1992,19 @@
                             }
 
                             break;
-                        case  csTypeABMProperty.cspDescription:
+                        case  csTypeABMProperty.cspDescriptiontion:
 
-                            if (nIndex == 0) {
-                                w_frm.LBDescrip(0).cABMGridRow.setVisible(0);
+                            if(nIndex === 0) {
+                                w_frm.LBDescription(0).cABMGridRow.setVisible(0);
                             }
                             else {
-                                Unload(w_frm.LBDescrip(nIndex));
+                                Unload(w_frm.LBDescription(nIndex));
                             }
 
                             break;
                         case  csTypeABMProperty.cspImage:
 
-                            if (nIndex == 0) {
+                            if(nIndex === 0) {
                                 w_frm.Img(0).cABMGridRow.setVisible(0);
                             }
                             else {
@@ -2324,8 +2016,8 @@
                         case  csTypeABMProperty.cspFile:
                         case  csTypeABMProperty.cspFolder:
 
-                            if (iProperty.SubType == cspMemo) {
-                                if (nIndex == 0) {
+                            if(iProperty.SubType === cspMemo) {
+                                if(nIndex === 0) {
                                     w_frm.TXM(0).cABMGridRow.setVisible(0);
                                 }
                                 else {
@@ -2333,7 +2025,7 @@
                                 }
                             }
                             else {
-                                if (nIndex == 0) {
+                                if(nIndex === 0) {
                                     w_frm.TX(0).cABMGridRow.setVisible(0);
                                 }
                                 else {
@@ -2344,7 +2036,7 @@
                             break;
                         case  csTypeABMProperty.cspPassword:
 
-                            if (nIndex == 0) {
+                            if(nIndex === 0) {
                                 w_frm.txPassword(0).cABMGridRow.setVisible(0);
                             }
                             else {
@@ -2354,7 +2046,7 @@
                             break;
                         case  csTypeABMProperty.cspCheck:
 
-                            if (nIndex == 0) {
+                            if(nIndex === 0) {
                                 w_frm.CHK(0).cABMGridRow.setVisible(0);
                             }
                             else {
@@ -2364,17 +2056,17 @@
                             break;
                         case  csTypeABMProperty.cspGrid:
 
-                            if (nIndex == 0) {
-                                w_frm.GR(0).cABMGridRow.setVisible(0);
+                            if(nIndex === 0) {
+                                w_frm.getGrid(0).cABMGridRow.setVisible(0);
                             }
                             else {
-                                Unload(w_frm.GR(nIndex));
+                                Unload(w_frm.getGrid(nIndex));
                             }
 
                             break;
                         case  csTypeABMProperty.cspButton:
 
-                            if (nIndex == 0) {
+                            if(nIndex === 0) {
                                 w_frm.CMD(0).cABMGridRow.setVisible(0);
                             }
                             else {
@@ -2385,15 +2077,15 @@
                 // {end with: w_frm}
 
                 nIndex = oProperty.getLabelIndex();
-                if (nIndex > 0) {
-                    Unload(getFrm().LB(nIndex));
+                if(nIndex > 0) {
+                    Unload(getView().LB(nIndex));
                 }
             }
-        }
+        };
 
-        public void closeWizard() {
-            setWasChanged(false);
-            Unload(m_formWizard);
+        self.closeWizard() {
+            setChanged(false);
+            Unload(m_wizardView);
         }
 
         public Object tabGetFirstCtrl(int index) {
@@ -2405,32 +2097,32 @@
 
             tabIndex = 999;
 
-            Object w_frm = getFrm();
+            Object w_frm = getView();
 
-                if (w_frm.cbTab(index).Tag.indexOf(c_InerTab, 1)) {
+                if(w_frm.cbTab(index).Tag.indexOf(c_InerTab, 1)) {
 
                     childIndex = mUtil.getTagChildIndex(w_frm.cbTab(index).Tag);
                     fatherIndex = mUtil.getTagFatherIndex(w_frm.cbTab(index).Tag);
 
                     for (int _i = 0; _i < w_frm.Controls.size(); _i++) {
                         c = .Controls.getItem(_i);
-                        if (!CBool(TypeOf c Is cButton && c.Name.indexOf("cbTab", 1))) {
-                            if (LenB(c.Tag.trim())) {
-                                if (mUtil.val(c.Tag) != fatherIndex) {
+                        if(!CBool(TypeOf c Is cButton && c.Name.indexOf("cbTab", 1))) {
+                            if(LenB(c.Tag.trim())) {
+                                if(mUtil.val(c.Tag) != fatherIndex) {
 
                                     bVisible = pGetControlVisible(c, pGetCtrlVisibleInTab(c, childIndex));
                                     //Val(c.Tag) = ChildIndex Or Val(c.Tag) = csETabIdxT_All)
 
-                                    if (bVisible) {
+                                    if(bVisible) {
 
-                                        if (c(instanceOf Label)) {
+                                        if(c(instanceOf Label)) {
                                             // Nada que hacer este no sirve ya que no puede tomar el foco
                                         }
-                                        else if (c(instanceOf cABMProperty.setToolbar())) {
+                                        else if(c(instanceOf cABMProperty.setToolbar())) {
                                             // Nada que hacer este no sirve ya que no puede tomar el foco
                                         }
                                         else {
-                                            if (c.TabIndex < tabIndex) {
+                                            if(c.TabIndex < tabIndex) {
                                                 tabIndex = c.TabIndex;
                                                 return c;
                                             }
@@ -2446,29 +2138,29 @@
 
                     for (int _i = 0; _i < w_frm.Controls.size(); _i++) {
                         c = .Controls.getItem(_i);
-                        if (c(instanceOf cButton && c.Name.indexOf("cbTab", 1))) {
+                        if(c(instanceOf cButton && c.Name.indexOf("cbTab", 1))) {
 
                             // Es un inner tab, no tengo que hacer nada con esto
 
                         }
-                        else if (LenB(c.Tag.trim())) {
+                        else if(LenB(c.Tag.trim())) {
 
                             bVisible = pGetControlVisible(c, pGetCtrlVisibleInTab(c, index));
                             //Val(c.Tag) = Index Or Val(c.Tag) = csETabIdxT_All)
 
-                            if (bVisible) {
+                            if(bVisible) {
 
-                                if (c(instanceOf Label)) {
+                                if(c(instanceOf Label)) {
                                     // Nada que hacer este no sirve ya que no puede tomar el foco
                                 }
-                                else if (c(instanceOf cABMProperty.setToolbar())) {
+                                else if(c(instanceOf cABMProperty.setToolbar())) {
                                     // Nada que hacer este no sirve ya que no puede tomar el foco
                                 }
-                                else if (c(instanceOf Image)) {
+                                else if(c(instanceOf Image)) {
                                     // Nada que hacer este no sirve ya que no puede tomar el foco
                                 }
                                 else {
-                                    if (c.TabIndex < tabIndex) {
+                                    if(c.TabIndex < tabIndex) {
                                         tabIndex = c.TabIndex;
                                         return c;
                                     }
@@ -2489,17 +2181,17 @@
                     // la palabra Items o Footers o "" (null string)
                     // para identificar a que grupo pertenecen
                 case  c_Items:
-                    if (m_isItems) {
+                    if(m_isItems) {
                         return pDocTabGetFirstCtrl(c_Items, index);
                     }
                     break;
                 case  c_Footer:
-                    if (m_isFooter) {
+                    if(m_isFooter) {
                         return pDocTabGetFirstCtrl(c_Footer, index);
                     }
                 break;
                 default:
-                    if (m_isItems || m_isFooter) { return null; }
+                    if(m_isItems || m_isFooter) { return null; }
                     return pDocTabGetFirstCtrl(c_Header, index);
                     break;
             }
@@ -2509,7 +2201,7 @@
         public Object docTabClick(int index, String tag) {
             cLockUpdateWindow oLock = null;
             oLock = new cLockUpdateWindow();
-            oLock.lockW(getFrm().hWnd);
+            oLock.lockW(getView().hWnd);
 
             switch (tag) {
 
@@ -2517,17 +2209,17 @@
                     // la palabra Items o Footers o "" (null string)
                     // para identificar a que grupo pertenecen
                 case  c_Items:
-                    if (m_isItems) {
+                    if(m_isItems) {
                         pDocTabClickEx(c_Items, index);
                     }
                     break;
                 case  c_Footer:
-                    if (m_isFooter) {
+                    if(m_isFooter) {
                         pDocTabClickEx(c_Footer, index);
                     }
                 break;
                 default:
-                    if (m_isItems || m_isFooter) { return null; }
+                    if(m_isItems || m_isFooter) { return null; }
                     pDocTabClickEx(c_Header, index);
                     break;
             }
@@ -2542,26 +2234,26 @@
 
             tabIndex = 999;
 
-            Object w_frm = getFrm();
+            Object w_frm = getView();
                 for (int _i = 0; _i < w_frm.Controls.size(); _i++) {
                     c = .Controls.getItem(_i);
-                    if (c.Tag.substring(0, strTag.length()) == strTag  && c.Tag != ""  && !(c.Name.equals("cbTab"))) {
+                    if(c.Tag.substring(0, strTag.length()) === strTag  && c.Tag != ""  && !(c.Name.equals("cbTab"))) {
 
-                        bVisible = pGetControlVisible(c, mUtil.val(c.Tag.substring(strTag.length() + 1)) + m_firstTab == index);
+                        bVisible = pGetControlVisible(c, mUtil.val(c.Tag.substring(strTag.length() + 1)) + m_firstTab === index);
 
-                        if (bVisible) {
+                        if(bVisible) {
 
-                            if (c(instanceOf Label)) {
+                            if(c(instanceOf Label)) {
                                 // Nada que hacer este no sirve ya que no puede tomar el foco
                             }
-                            else if (c(instanceOf cABMProperty.setToolbar())) {
+                            else if(c(instanceOf cABMProperty.setToolbar())) {
                                 // Nada que hacer este no sirve ya que no puede tomar el foco
                             }
-                            else if (c(instanceOf Image)) {
+                            else if(c(instanceOf Image)) {
                                 // Nada que hacer este no sirve ya que no puede tomar el foco
                             }
                             else {
-                                if (c.TabIndex < tabIndex) {
+                                if(c.TabIndex < tabIndex) {
                                     tabIndex = c.TabIndex;
                                     return c;
                                 }
@@ -2577,28 +2269,28 @@
 
             m_currentTab = index;
 
-            Object w_frm = getFrm();
+            Object w_frm = getView();
                 for (int _i = 0; _i < w_frm.Controls.size(); _i++) {
                     c = .Controls.getItem(_i);
-                    if (c.Tag.substring(0, strTag.length()) == strTag  && c.Tag != ""  && !(c.Name.equals("cbTab"))) {
+                    if(c.Tag.substring(0, strTag.length()) === strTag  && c.Tag != ""  && !(c.Name.equals("cbTab"))) {
 
-                        c.Visible = pGetControlVisible(c, mUtil.val(c.Tag.substring(strTag.length() + 1)) + m_firstTab == index);
+                        c.Visible = pGetControlVisible(c, mUtil.val(c.Tag.substring(strTag.length() + 1)) + m_firstTab === index);
 
-                        if (c(instanceOf Label)) {
-                            if (c.BackColor == vbButtonFace) {
+                        if(c(instanceOf Label)) {
+                            if(c.BackColor === vbButtonFace) {
                                 c.BackColor = w_frm.ShTab.cABMGridRow.getBackColor();
                             }
                             c.ZOrder;
-                            if (c.Name.toLowerCase().equals("lb")) {
-                                if (LenB(c.Caption.trim()).equals(0)) {
+                            if(c.Name.toLowerCase().equals("lb")) {
+                                if(LenB(c.text.trim()).equals(0)) {
                                     c.Visible = false;
                                 }
                             }
                         }
-                        else if (c(instanceOf cABMCSGrid.getCheckBox())) {
+                        else if(c(instanceOf cABMCSGrid.getCheckBox())) {
                             c.BackColor = w_frm.ShTab.cABMGridRow.getBackColor();
                         }
-                        if (c(instanceOf cABMProperty.setToolbar() && c.Visible)) {
+                        if(c(instanceOf cABMProperty.setToolbar() && c.Visible)) {
                             w_frm.SetToolbar(c);
                         }
                     }
@@ -2606,7 +2298,7 @@
             // {end with: w_frm}
         }
 
-        private boolean pGetControlVisible(Object ctl, boolean bVisible) { // TODO: Use of ByRef founded Private Function pGetControlVisible(ByRef ctl As Object, ByVal bVisible As Boolean) As Boolean
+        var pGetControlVisible(Object ctl, boolean bVisible) { // TODO: Use of ByRef founded Private Function pGetControlVisible(ByRef ctl As Object, ByVal bVisible As Boolean) As Boolean
             boolean _rtn = false;
             cABMProperty oProperty = null;
             cIABMProperty iProp = null;
@@ -2618,20 +2310,20 @@
 
             for (int _i = 0; _i < iProperties.size(); _i++) {
                 oProperty = iProperties.getItem(_i);
-                if (oProperty.getCtl(Is ctl)) {
+                if(oProperty.getCtl(Is ctl)) {
                     iProp = oProperty;
-                    if (!iProp.Visible) {
+                    if(!iProp.Visible) {
                         _rtn = false;
                     }
                     return _rtn;
 
                 }
-                else if (ctl(instanceOf Label)) {
+                else if(ctl(instanceOf Label)) {
 
-                    if (!(ctl.Name.substring(0, 3).equals("LB2"))) {
-                        if (oProperty.getLabelIndex() == ctl.Index) {
+                    if(!(ctl.Name.substring(0, 3).equals("LB2"))) {
+                        if(oProperty.getLabelIndex() === ctl.Index) {
                             iProp = oProperty;
-                            if (!iProp.Visible) {
+                            if(!iProp.Visible) {
                                 _rtn = false;
                             }
                             return _rtn;
@@ -2652,21 +2344,21 @@
 
             m_currentInnerTab = 0;
 
-            Object w_frm = getFrm();
+            Object w_frm = getView();
 
                 oLock = new cLockUpdateWindow();
                 oLock.lockW(w_frm.hWnd);
 
-                if (w_frm.cbTab(index).Tag.indexOf(c_InerTab, 1)) {
+                if(w_frm.cbTab(index).Tag.indexOf(c_InerTab, 1)) {
 
                     childIndex = mUtil.getTagChildIndex(w_frm.cbTab(index).Tag);
                     fatherIndex = mUtil.getTagFatherIndex(w_frm.cbTab(index).Tag);
 
                     for (int _i = 0; _i < w_frm.Controls.size(); _i++) {
                         c = .Controls.getItem(_i);
-                        if (!CBool(TypeOf c Is cButton && c.Name.indexOf("cbTab", 1))) {
-                            if (LenB(c.Tag.trim())) {
-                                if (mUtil.val(c.Tag) != fatherIndex) {
+                        if(!CBool(TypeOf c Is cButton && c.Name.indexOf("cbTab", 1))) {
+                            if(LenB(c.Tag.trim())) {
+                                if(mUtil.val(c.Tag) != fatherIndex) {
                                     pSetVisible(c, childIndex);
                                 }
                             }
@@ -2685,23 +2377,23 @@
 
                     for (int _i = 0; _i < w_frm.Controls.size(); _i++) {
                         c = .Controls.getItem(_i);
-                        if (c(instanceOf cButton && c.Name.indexOf("cbTab", 1))) {
-                            if (c.Tag.indexOf(c_InerTab, 1)) {
-                                bVisible = mUtil.getTagFatherIndex(c.Tag) == index;
+                        if(c(instanceOf cButton && c.Name.indexOf("cbTab", 1))) {
+                            if(c.Tag.indexOf(c_InerTab, 1)) {
+                                bVisible = mUtil.getTagFatherIndex(c.Tag) === index;
                                 c.Visible = bVisible;
-                                if (bVisible) {
-                                    if (firstTab == null) { firstTab = c; }
+                                if(bVisible) {
+                                    if(firstTab === null) { firstTab = c; }
                                 }
                             }
                         }
-                        else if (LenB(c.Tag.trim())) {
+                        else if(LenB(c.Tag.trim())) {
                             pSetVisible(c, index);
                         }
                     }
 
                 }
 
-                if (firstTab != null) {
+                if(firstTab != null) {
                     tabClick(firstTab.Index);
                     m_currentInnerTab = mUtil.getTagChildIndex(firstTab.Tag);
                 }
@@ -2712,34 +2404,34 @@
 
         private void pSetVisible(Object c, int index) { // TODO: Use of ByRef founded Private Sub pSetVisible(ByRef c As Object, ByVal Index As Long)
 
-            Object w_frm = getFrm();
+            Object w_frm = getView();
 
                 c.Visible = pGetControlVisible(c, pGetCtrlVisibleInTab(c, index));
-                if (c(instanceOf Label)) {
-                    if (c.BackColor == vbButtonFace) {
+                if(c(instanceOf Label)) {
+                    if(c.BackColor === vbButtonFace) {
                         c.BackColor = w_frm.ShTab.cABMGridRow.getBackColor();
                     }
                     c.ZOrder;
-                    if (c.Name.toLowerCase().equals("lb")) {
-                        if (LenB(c.Caption.trim()).equals(0)) {
+                    if(c.Name.toLowerCase().equals("lb")) {
+                        if(LenB(c.text.trim()).equals(0)) {
                             c.Visible = false;
                         }
                     }
                 }
-                else if (c(instanceOf cABMCSGrid.getCheckBox())) {
+                else if(c(instanceOf cABMCSGrid.getCheckBox())) {
                     c.BackColor = w_frm.ShTab.cABMGridRow.getBackColor();
                 }
-                if (c(instanceOf cABMProperty.setToolbar() && c.Visible)) {
+                if(c(instanceOf cABMProperty.setToolbar() && c.Visible)) {
                     w_frm.SetToolbar(c);
                 }
             // {end with: w_frm}
         }
 
-        public boolean showEx(CSInterfacesABM.cIABMClient obj, int indexTag, boolean bAddProp) {
+        self.showEx(CSInterfacesABM.cIABMClient obj, int indexTag, boolean bAddProp) {
             return pShow(obj, indexTag, !bAddProp);
         }
 
-        public boolean show(CSInterfacesABM.cIABMClient obj, int indexTag) {
+        self.show(CSInterfacesABM.cIABMClient obj, int indexTag) {
             boolean _rtn = false;
             try {
 
@@ -2751,23 +2443,23 @@
                 / * *TODO:** goto found: GoTo ExitProc* /
             } catch (Exception ex) {
                 MngError(VBA.ex, "Show", C_MODULE, "");
-                if (VBA.ex.Number) { / * *TODO:** resume found: Resume(ExitProc)* /  }
+                if(VBA.ex.Number) { / * *TODO:** resume found: Resume(ExitProc)* /  }
                 / * *TODO:** label found: ExitProc:* /
 
             }
             return _rtn;
         }
 
-        public void setIconFormDoc(int iconIndex) {
-            if (m_formDoc == null) { return; }
-            if (m_formDoc.imIcon.ListImages.cABMDocPropertiesCols.count() < iconIndex) { return; }
-            m_formDoc.Icon = m_formDoc.imIcon.ListImages.cABMGridRow.item(iconIndex).Picture;
+        self.setIconFormDoc(int iconIndex) {
+            if(m_documentView === null) { return; }
+            if(m_documentView.imIcon.ListImages.cABMDocPropertiesCols.count() < iconIndex) { return; }
+            m_documentView.Icon = m_documentView.imIcon.ListImages.cABMGridRow.item(iconIndex).Picture;
         }
 
-        public void setIconFormABM(int iconIndex) {
-            if (m_formABM == null) { return; }
-            if (m_formABM.imIcon.ListImages.cABMDocPropertiesCols.count() < iconIndex) { return; }
-            m_formABM.Icon = m_formABM.imIcon.ListImages.cABMGridRow.item(iconIndex).Picture;
+        self.setIconFormABM(int iconIndex) {
+            if(m_masterView === null) { return; }
+            if(m_masterView.imIcon.ListImages.cABMDocPropertiesCols.count() < iconIndex) { return; }
+            m_masterView.Icon = m_masterView.imIcon.ListImages.cABMGridRow.item(iconIndex).Picture;
         }
 
         // Presenta el menu popup del boton doc_aux de documentos
@@ -2789,10 +2481,10 @@
             int iP3 = 0;
             int i = 0;
 
-            if (m_menu == null) {
+            if(m_menu === null) {
                 m_menu = new cPopupMenu();
                 m_menu.addListener(new cPopupMenuEventA() {
-                      public void Click(int itemNumber) {
+                      self.Click(int itemNumber) {
                         m_Menu_Click(itemNumber,);
                       }
 
@@ -2804,7 +2496,7 @@
             // Creating a Menu:
             // With m_menu;
                 // Initial set up:
-                m_menu.hWndOwner = getFrm().hWnd;
+                m_menu.hWndOwner = getView().hWnd;
                 m_menu.OfficeXpStyle = true;
             // {end with: m_menu}
 
@@ -2818,90 +2510,88 @@
 
             mUtil.getMousePosition(left, top);
 
-            left = (left * Screen.TwipsPerPixelX) - getFrm().Left;
-            top = (top * Screen.TwipsPerPixelY) - getFrm().Top - 200;
+            left = (left * Screen.TwipsPerPixelX) - getView().Left;
+            top = (top * Screen.TwipsPerPixelY) - getView().Top - 200;
 
             m_menu.ShowPopupMenu(left, top);
 
         }
 
-        private boolean pShow(CSInterfacesABM.cIABMClient obj, int indexTag, boolean bInitMemebers) {
+        var pShow(CSInterfacesABM.cIABMClient obj, int indexTag) {
             boolean _rtn = false;
             cMouse mouse = null;
             cIABMClientGrid tmpObj = null;
 
-            if (obj == null) { return _rtn; }
+            if(obj === null) { return _rtn; }
 
             m_client = obj;
 
-            if (bInitMemebers) { initLoadMembers(); }
-
-            if (m_isDocument || m_isWizard) {
-                m_bLoadHelp = true;
-                m_bLoadNumeric = true;
-                m_bLoadText = true;
+            if(m_isDocument || m_isWizard) {
+                m_loadHelp = true;
+                m_loadNumeric = true;
+                m_loadText = true;
             }
 
-            Object w_frm = getFrm();
+            Object w_frm = getView();
 
-                m_implementsClientGrid = mUtil.implementsInterface(m_client, tmpObj);
+                m_clientManageGrid = mUtil.implementsInterface(m_client, tmpObj);
                 w_frm.ShTab.cABMGridRow.setBackColor(vb3DHighlight);
 
-                if (m_loadForm) {
-                    m_loadForm = false;
+                if(m_mustCompleteLoading) {
+                    m_mustCompleteLoading = false;
 
-                    if (m_owner == null) {
-                        if (m_minHeight < w_frm.Height) { m_minHeight = w_frm.Height; }
-                        if (m_minWidth < w_frm.Width) { m_minWidth = w_frm.Width; }
+                    if(m_owner === null) {
+                        if(m_minHeight < w_frm.Height) { m_minHeight = w_frm.Height; }
+                        if(m_minWidth < w_frm.Width) { m_minWidth = w_frm.Width; }
                     }
 
-                    if (getFrm(instanceOf fABM)) {
-                        getFrm().DontMoveGenericButton = m_dontMoveGenericButton;
-                        getFrm().PopMenuClient = m_popMenuClient;
+                    if(getView(instanceOf fABM)) {
+                        getView().DontMoveGenericButton = m_noMoveGenericButton;
+                        getView().PopMenuClient = m_popMenuClient;
                     }
 
-                    if (getFrm(instanceOf fWizard)) {
+                    if(getView(instanceOf fWizard)) {
                         //' Aproposito para que no cambie el tamaño inicial del form
-                        CSKernelClient2.LoadForm(getFrm(), "wiz");
+                        CSKernelClient2.LoadForm(getView(), "wiz");
                     }
                     else {
-                        CSKernelClient2.LoadForm(getFrm(), "ABM_"+ m_client.Title);
+                        CSKernelClient2.LoadForm(getView(), "ABM_"+ m_client.Title);
                     }
 
-                    if (getFrm(instanceOf fABM || getFrm() instanceOf fWizard)) {
-                        if (w_frm.Height < m_minHeight) { w_frm.Height = m_minHeight; }
-                        if (w_frm.Width < m_minWidth) { w_frm.Width = m_minWidth; }
+                    if(getView(instanceOf fABM || getView() instanceOf fWizard)) {
+                        if(w_frm.Height < m_minHeight) { w_frm.Height = m_minHeight; }
+                        if(w_frm.Width < m_minWidth) { w_frm.Width = m_minWidth; }
                     }
                 }
 
-                if (!showForm(indexTag)) { return _rtn; }
+                if(!showForm(indexTag)) { return _rtn; }
 
-                w_frm.Caption = pGetFormCaption();
+                w_frm.text = pGetFormText();
 
-                if (m_hideTitle) {
+                if(m_hideTitle) {
                     w_frm.lbTitle.cABMGridRow.setVisible(false);
                 }
                 else {
-                    w_frm.lbTitle.cABMDocPropertiesCol.setCaption(m_client.Title);
+                    w_frm.lbTitle.cABMDocPropertiesCol.setText(m_client.Title);
                 }
 
-                if (getFrm(instanceOf fABM)) {
+                if(getView(instanceOf fABM)) {
                     w_frm.cmdDocs.cABMGridRow.setVisible(m_client.CanAddDocDigital);
                     w_frm.cmdNew.cABMGridRow.setVisible(m_client.CanNew);
                     w_frm.cmdCopy.cABMGridRow.setVisible(m_client.CanCopy);
                 }
 
-                pRefreshTitle();
+                refreshTitle();
 
-                if (w_frm.Visible) {
+                if(w_frm.Visible) {
                     w_frm.ZOrder;
                 }
                 else {
-                    if (m_isDocument) {
-                        if (m_isFooter) {
+                    if(m_isDocument) {
+                        if(m_isFooter) {
                             w_frm.Loading = false;
-                            if (m_inModalWindow) {
-                                if (!m_formShowed) {
+                            if(m_inModalWindow) {
+                                if(!m_formShowed) {
                                     m_formShowed = true;
                                     mouse = new cMouse();
                                     mouse.MouseDefault;
@@ -2915,39 +2605,39 @@
                     }
                     else {
                         w_frm.Loading = false;
-                        if (m_inModalWindow) {
-                            if (!m_formShowed) {
+                        if(m_inModalWindow) {
+                            if(!m_formShowed) {
                                 m_formShowed = true;
                                 mouse = new cMouse();
                                 mouse.MouseDefault;
-                                if (getFrm(instanceOf fABM || getFrm() instanceOf fWizard)) {
+                                if(getView(instanceOf fABM || getView() instanceOf fWizard)) {
                                     w_frm.ShowForm;
                                     pSetDontResize();
                                     w_frm.FirstResize;
 
-                                    if (getFrm(instanceOf fWizard)) {
-                                        CSKernelClient2.GetConfigForm(getFrm(), "ABM_"+ mUtil.gEmpNombre+ " - "+ m_client.Title);
+                                    if(getView(instanceOf fWizard)) {
+                                        CSKernelClient2.GetConfigForm(getView(), "ABM_"+ mUtil.gEmpNombre+ " - "+ m_client.Title);
                                     }
                                 }
-                                if (m_bSendAutoSave) {
-                                    if (getFrm(instanceOf fABM)) {
-                                        getFrm().SendAutoSave;
+                                if(m_sendAutoSave) {
+                                    if(getView(instanceOf fABM)) {
+                                        getView().SendAutoSave;
                                     }
                                 }
-                                if (getFrm(Is m_formABM)) {
-                                    m_formABM.raiseAfterLoadEvent();
+                                if(getView(Is m_masterView)) {
+                                    m_masterView.raiseAfterLoadEvent();
                                 }
                                 w_frm.Show(vbModal, m_owner);
                             }
                         }
                         else {
-                            if (getFrm(instanceOf fABM || getFrm() instanceOf fWizard)) {
+                            if(getView(instanceOf fABM || getView() instanceOf fWizard)) {
                                 w_frm.ShowForm;
                                 pSetDontResize();
                                 w_frm.FirstResize;
 
-                                if (getFrm(instanceOf fWizard)) {
-                                    CSKernelClient2.GetConfigForm(getFrm(), "ABM_"+ mUtil.gEmpNombre+ " - "+ m_client.Title);
+                                if(getView(instanceOf fWizard)) {
+                                    CSKernelClient2.GetConfigForm(getView(), "ABM_"+ mUtil.gEmpNombre+ " - "+ m_client.Title);
                                 }
                             }
                             w_frm.Show(, m_owner);
@@ -2961,51 +2651,51 @@
         }
         // funciones privadas
 
-        private void setCIABMGeneric_HideTitle(boolean rhs) {
+        private void setCIABMGeneric_HideTitle = function(rhs) {
             m_hideTitle = rhs;
         }
 
-        private void setCIABMGeneric_InModalWindow(boolean rhs) {
+        private void setCIABMGeneric_InModalWindow = function(rhs) {
             m_inModalWindow = rhs;
         }
 
-        private boolean getCIABMGeneric_InModalWindow() {
+        var getCIABMGeneric_InModalWindow() {
             return m_inModalWindow;
         }
 
-        private void setCIABMGeneric_IsDocument(boolean rhs) {
+        private void setCIABMGeneric_IsDocument = function(rhs) {
             m_isDocument = rhs;
         }
 
-        private void setCIABMGeneric_IsFooter(boolean rhs) {
+        private void setCIABMGeneric_IsFooter = function(rhs) {
             m_isFooter = rhs;
         }
 
-        private void setCIABMGeneric_IsItems(boolean rhs) {
+        private void setCIABMGeneric_IsItems = function(rhs) {
             m_isItems = rhs;
         }
 
         private void setCIABMGeneric_Left(float rhs) {
-            getFrm().Left = rhs;
+            getView().Left = rhs;
         }
 
         var getCIABMGeneric_Left() {
-            return getFrm().Left;
+            return getView().Left;
         }
 
         private void setCIABMGeneric_ObjForm(Object rhs) {
-            m_formDoc = rhs;
+            m_documentView = rhs;
 
             initCtrlPosition();
             initVectorsPosition();
         }
 
         private Object getCIABMGeneric_ObjForm() {
-            return getFrm();
+            return getView();
         }
 
         private Object getCIABMGeneric_PicMain() {
-            return getFrm().Image1;
+            return getView().Image1;
         }
 
         // Implementacion de Interface
@@ -3015,28 +2705,28 @@
 
         private void cIABMGeneric_RefreshControls(Object noGrids) {
 
-            if (m_unloading) { return; }
+            if(m_unloading) { return; }
 
             cLockUpdateWindow lockwnd = null;
             lockwnd = new cLockUpdateWindow();
-            lockwnd.lockW(getFrm().hWnd);
+            lockwnd.lockW(getView().hWnd);
 
             showForm() -1, noGrids, false;
 
 
 
                 CSButton.cButton cmdTab = null;
-                cmdTab = getFrm().cbTab(m_currentTab);
+                cmdTab = getView().cbTab(m_currentTab);
                 cmdTab.VirtualPush;
 
             }
         }
 
         private Object getCIABMGeneric_ShapeMain() {
-            return getFrm().ShTab;
+            return getView().ShTab;
         }
 
-        private boolean cIABMGeneric_Show(CSInterfacesABM.cIABMClient obj) {
+        var cIABMGeneric_Show(CSInterfacesABM.cIABMClient obj) {
             cMouseWait mouse = null;
             mouse = new cMouseWait();
 
@@ -3045,16 +2735,16 @@
 
         private void cIABMGeneric_ShowValue(CSInterfacesABM.cIABMProperty iProp) {
             String strTag = "";
-            if (m_isDocument) {
+            if(m_isDocument) {
                 strTag = pGetStrTag(iProp);
             }
             showValue(iProp, , strTag);
         }
 
-        private String pGetStrTag(cABMProperty oProp) { // TODO: Use of ByRef founded Private Function pGetStrTag(ByRef oProp As cABMProperty) As String
+        var pGetStrTag(cABMProperty oProp) { // TODO: Use of ByRef founded Private Function pGetStrTag(ByRef oProp As cABMProperty) As String
             String _rtn = "";
 
-                if (oProp.getCtl() == null) { return _rtn; }
+                if(oProp.getCtl() === null) { return _rtn; }
                 Object w_ctl = oProp.getCtl();
                     _rtn = w_ctl.Tag.substring(1, w_ctl.Tag.length() - 1);
                 // {end with: w_ctl}
@@ -3063,61 +2753,61 @@
         }
 
         private CSInterfacesABM.cIABMTabs getCIABMGeneric_Tabs() {
-            if (m_tabs == null) { m_tabs = new cABMTabs(); }
+            if(m_tabs === null) { m_tabs = new cABMTabs(); }
             return m_tabs;
         }
 
-        private boolean cIABMGeneric_Terminate() {
+        var cIABMGeneric_Terminate() {
 
         }
 
-        private void setCIABMGeneric_Title2(String rhs) {
+        private void setCIABMGeneric_Title2 = function(rhs) {
             m_title2 = rhs;
         }
 
         private void setCIABMGeneric_Top(float rhs) {
-            getFrm().Top = rhs;
+            getView().Top = rhs;
         }
 
         var getCIABMGeneric_Top() {
-            return getFrm().Top;
+            return getView().Top;
         }
 
-        private void m_FormABM_AbmKeyDown(int keyCode, int shift) {
+        private void masterHandlerViewKeyDown(int keyCode, int shift) {
 
                 m_client.MessageEx(ABM_MSG.MSG_KEY_DOWN, keyCode);
             }
         }
 
-        private void m_FormABM_AfterShowModal() {
+        private void masterHandlerAfterShowModal() {
 
                 m_client.MessageEx(ABM_MSG.MSG_FORM_AFTER_SHOW_MODAL, null);
             }
         }
 
-        private void m_FormABM_PopItemClick(int index) {
+        private void masterHandlerPopItemClick(int index) {
 
                 m_client.MessageEx(ABM_MSG.MSG_POP_MENU_ITEM, index);
             }
         }
 
-        private void m_FormABM_SetResizeGrid() {
+        private void masterHandlerSetResizeGrid() {
             pSetDontResize();
         }
 
-        private void m_FormABM_TabGetFirstCtrl(int index, Control ctrl) {
+        private void masterHandlerTabGetFirstCtrl(int index, Control ctrl) {
             ctrl = tabGetFirstCtrl(index);
         }
 
-        private void m_FormDoc_CMDClick(int index) {
-            changeProperty(cspButton, index, getFrm().CMD(index));
+        private void docHandlerCommandClick(int index) {
+            changeProperty(cspButton, index, getView().CMD(index));
         }
 
-        private void m_FormDoc_GRDblClick(int index, int rowIndex, int colIndex) {
+        private void docHandlerGridDblClick(int index, int rowIndex, int colIndex) {
 
-            if (!m_isItems) { return; }
+            if(!m_isItems) { return; }
 
-            if (m_implementsClientGrid) {
+            if(m_clientManageGrid) {
                 cIABMClientGrid clientGrid = null;
                 cIABMProperty iProperty = null;
 
@@ -3127,22 +2817,22 @@
             }
         }
 
-        private void m_FormDoc_HLKeyDown(int index, int keyCode, int shift) {
+        private void docHandlerSelectKeyDown(int index, int keyCode, int shift) {
             cIABMProperty iProperty = null;
             iProperty = getProperty(cspHelp, index, 0);
-            if (iProperty == null) { return; }
+            if(iProperty === null) { return; }
 
-            if (keyCode == vbKeyF2) {
+            if(keyCode === vbKeyF2) {
                 m_client.MessageEx(ABM_MSG.MSG_ABM_KEY_F2, iProperty);
             }
-            else if (keyCode == vbKeyF3) {
+            else if(keyCode === vbKeyF3) {
                 m_client.MessageEx(ABM_MSG.MSG_ABM_KEY_F3, iProperty);
             }
 
         }
 
-        private void m_FormWizard_GRDblClick(int index, int rowIndex, int colIndex) {
-            if (m_implementsClientGrid) {
+        private void wizHandlerGridDblClick(int index, int rowIndex, int colIndex) {
+            if(m_clientManageGrid) {
                 cIABMClientGrid clientGrid = null;
                 cIABMProperty iProperty = null;
 
@@ -3152,7 +2842,7 @@
             }
         }
 
-        private void m_FormWizard_TabGetFirstCtrl(int index, Control ctrl) {
+        private void wizHandlerTabGetFirstCtrl(int index, Control ctrl) {
             ctrl = tabGetFirstCtrl(index);
         }
 
@@ -3174,7 +2864,7 @@
                 / * *TODO:** goto found: GoTo ExitProc* /
             } catch (Exception ex) {
                 MngError(VBA.ex, "m_Menu_Click", C_MODULE, "");
-                if (VBA.ex.Number) { / * *TODO:** resume found: Resume(ExitProc)* /  }
+                if(VBA.ex.Number) { / * *TODO:** resume found: Resume(ExitProc)* /  }
                 / * *TODO:** label found: ExitProc:* /
 
             }
@@ -3183,35 +2873,35 @@
         //------------
         // Abms
         //
-        private void m_FormABM_CBChange(int index) {
-            pCBChange(index);
+        private void masterHandlerComboChange(int index) {
+            pComboChange(index);
         }
 
-        //Private Sub m_FormABM_CBhockChange(ByVal Index As Integer)
+        //Private Sub masterHandlerCBhockChange(ByVal Index As Integer)
         //  pCBHockChange Index
         //End Sub
 
-        private void m_FormABM_cbTabClick(int index) {
+        private void masterHandlerTabClick(int index) {
             tabClick(index);
         }
 
-        private void m_FormABM_CHKClick(int index) {
-            pCHKClick(index);
+        private void masterHandlerCheckBoxClick(int index) {
+            pCheckBoxClick(index);
         }
 
-        private void m_FormABM_cmdCancelClick() {
+        private void masterHandlerCancelClick() {
             try {
 
-                if (m_bOkCancelDialog) {
-                    m_FormABM_cmdCloseClick();
-                    m_bOkCancelDialogRslt = false;
+                if(m_showOkCancel) {
+                    masterHandlerCloseClick();
+                    m_okCancelResult = false;
                 }
                 else {
 
-                    if (m_bSendRefresh) {
+                    if(m_bSendRefresh) {
                         m_client.MessageEx(ABM_MSG.MSG_DOC_REFRESH, null);
-                        pRefreshTitle();
-                        setWasChanged(false);
+                        refreshTitle();
+                        setChanged(false);
                     }
                     else {
                         pDiscardChanges();
@@ -3220,50 +2910,50 @@
 
                 / * *TODO:** goto found: GoTo ExitProc* /
             } catch (Exception ex) {
-                MngError(VBA.ex, "m_FormABM_cmdCancelClick", C_MODULE, "");
-                if (VBA.ex.Number) { / * *TODO:** resume found: Resume(ExitProc)* /  }
+                MngError(VBA.ex, "masterHandlerCancelClick", C_MODULE, "");
+                if(VBA.ex.Number) { / * *TODO:** resume found: Resume(ExitProc)* /  }
                 / * *TODO:** label found: ExitProc:* /
 
             }
         }
 
-        private void m_FormABM_CMDClick(int index) {
-            changeProperty(cspButton, index, getFrm().CMD(index));
+        private void masterHandlerCommandClick(int index) {
+            changeProperty(cspButton, index, getView().CMD(index));
         }
 
-        private void m_FormABM_cmdCloseClick() {
-            if (m_formABM == null) { return; }
-            Unload(m_formABM);
+        private void masterHandlerCloseClick() {
+            if(m_masterView === null) { return; }
+            Unload(m_masterView);
         }
 
-        private void m_FormABM_cmdCopyClick() {
+        private void masterHandlerCopyClick() {
             m_client.Copy;
 
-                m_formABM.ZOrder;
+                m_masterView.ZOrder;
                 VBA.ex.Clear;
             }
         }
 
-        private void m_FormABM_cmdDocsClick() {
+        private void masterHandlerDocumentsClick() {
             m_client.ShowDocDigital;
         }
 
-        private void m_FormABM_cmdNewClick() {
+        private void masterHandlerNewClick() {
             try {
-                if (m_client.CanNew) {
+                if(m_client.CanNew) {
 
-                    doNew(m_formABM);
+                    doNew(m_masterView);
 
                 // * TODO:** the error label ControlError: couldn't be found
 
-                    m_formABM.ZOrder;
+                    m_masterView.ZOrder;
                     VBA.ex.Clear;
                 }
 
                 / * *TODO:** goto found: GoTo ExitProc* /
                 / * *TODO:** label found: ControlError:* /
-                MngError(VBA.ex, "m_FormABM_cmdNewClick", C_MODULE, "");
-                if (VBA.ex.Number) { / * *TODO:** resume found: Resume(ExitProc)* /  }
+                MngError(VBA.ex, "masterHandlerNewClick", C_MODULE, "");
+                if(VBA.ex.Number) { / * *TODO:** resume found: Resume(ExitProc)* /  }
                 / * *TODO:** label found: ExitProc:* /
 
             }
@@ -3276,18 +2966,18 @@
             cLockUpdateWindow lockwnd = null;
 
             // Solo en headers y en abm's
-            if (m_isDocument) {
-                if (m_isItems) { return; }
-                if (m_isFooter) { return; }
+            if(m_isDocument) {
+                if(m_isItems) { return; }
+                if(m_isFooter) { return; }
             }
 
-            if (!pSaveChanges(false, false)) { return; }
+            if(!pSaveChanges(false, false)) { return; }
 
             // With frm;
 
                 m_title2 = "";
 
-                if (!m_isDocument && !m_bSendRefresh) {
+                if(!m_isDocument && !m_bSendRefresh) {
                     pDiscardChanges(true);
                 }
 
@@ -3296,25 +2986,25 @@
 
                 m_client.EditNew;
 
-                if (m_bSendRefresh) {
-                    pRefreshTitle();
+                if(m_bSendRefresh) {
+                    refreshTitle();
                 }
 
-                if (m_isDocument) {
-                    if (!pNewWithWizard()) {
+                if(m_isDocument) {
+                    if(!pNewWithWizard()) {
                         pMoveFocus();
                     }
                 }
 
-                setWasChanged(false);
+                setChanged(false);
 
-                if (m_newKeyPropFocus != "") {
+                if(m_newKeyPropFocus != "") {
                     pSetFocusFromKeyProp(m_newKeyPropFocus);
                 }
                 else {
 
-                    if (m_isDocument) {
-                        if (!pNewWithWizard()) {
+                    if(m_isDocument) {
+                        if(!pNewWithWizard()) {
                             frm.SetFocusFirstControl;
                         }
                     }
@@ -3325,10 +3015,10 @@
         private void pMoveFocus() {
             Object c = null;
 
-            if (m_formDoc != null) {
+            if(m_documentView != null) {
 
-                    c = m_formDoc.ActiveControl;
-                    m_formDoc.MEFE.cABMGridRow.item(0).SetFocus;
+                    c = m_documentView.ActiveControl;
+                    m_documentView.MEFE.cABMGridRow.item(0).SetFocus;
                     VBA.ex.Clear;
                     DoEvents:(DoEvents: DoEvents);
                     c.SetFocus;
@@ -3352,158 +3042,158 @@
             }
         }
 
-        private void m_FormABM_cmdPrintClick() {
+        private void masterHandlerPrintClick() {
 
                 Object rtnVar = null;
 
                 rtnVar = m_client.MessageEx(ABM_MSG.MSG_ABM_PRINT, null);
-                if (VarType(rtnVar) != vbBoolean) {
+                if(VarType(rtnVar) != vbBoolean) {
                     MsgInfo("Esta interfaz no posee impresión");
                 }
             }
         }
 
-        private void pSetABMCanPrint() {
+        private void setCanPrint() {
 
                 Object rtnVar = null;
 
                 rtnVar = m_client.MessageEx(ABM_MSG.MSG_ABM_CAN_PRINT, null);
-                if (mUtil.val(rtnVar) != ABM_MSG.MSG_ABM_CAN_PRINT) {
-                    getFrm().cmdPrint.cABMGridRow.setVisible(false);
+                if(mUtil.val(rtnVar) != ABM_MSG.MSG_ABM_CAN_PRINT) {
+                    getView().cmdPrint.cABMGridRow.setVisible(false);
                 }
                 else {
-                    getFrm().cmdPrint.cABMGridRow.setVisible(true);
+                    getView().cmdPrint.cABMGridRow.setVisible(true);
                 }
             }
         }
 
-        private void m_FormABM_cmdPermisosClick() {
+        private void masterHandlerPermissionsClick() {
 
                 Object rtnVar = null;
 
-                rtnVar = m_client.MessageEx(ABM_MSG.MSG_EDIT_PERMISOS, null);
-                if (VarType(rtnVar) != vbBoolean) {
-                    MsgInfo("Esta interfaz no permite editar permisos");
+                rtnVar = m_client.MessageEx(ABM_MSG.MSG_EDIT_Permissions, null);
+                if(VarType(rtnVar) != vbBoolean) {
+                    MsgInfo("Esta interfaz no permite editar Permissions");
                 }
             }
         }
 
-        private void pSetABMShowPermisos() {
+        private void setShowPermissions() {
 
                 Object rtnVar = null;
 
-                rtnVar = m_client.MessageEx(ABM_MSG.MSG_SHOW_EDIT_PERMISOS, null);
-                if (mUtil.val(rtnVar) != ABM_MSG.MSG_SHOW_EDIT_PERMISOS) {
-                    getFrm().cmdPermisos.cABMGridRow.setVisible(false);
+                rtnVar = m_client.MessageEx(ABM_MSG.MSG_SHOW_EDIT_Permissions, null);
+                if(mUtil.val(rtnVar) != ABM_MSG.MSG_SHOW_EDIT_Permissions) {
+                    getView().cmdPermissions.cABMGridRow.setVisible(false);
                 }
                 else {
-                    getFrm().cmdPermisos.cABMGridRow.setVisible(true);
+                    getView().cmdPermissions.cABMGridRow.setVisible(true);
                 }
             }
         }
 
-        private void pShowHelp() {
+        private void pshowSelect() {
 
                 Object rtnVar = null;
 
                 rtnVar = m_client.MessageEx(ABM_MSG.MSG_DOC_INFO, null);
 
-                if (VarType(rtnVar) != vbBoolean) {
-                    if (G.isNumeric(rtnVar)) {
-                        if (mUtil.val(rtnVar) != ABM_MSG.MSG_DOC_INFO_HANDLED) {
-                            pShowHelpAux();
+                if(VarType(rtnVar) != vbBoolean) {
+                    if(G.isNumeric(rtnVar)) {
+                        if(mUtil.val(rtnVar) != ABM_MSG.MSG_DOC_INFO_HANDLED) {
+                            pshowSelectAux();
                         }
                     }
                     else {
-                        pShowHelpAux();
+                        pshowSelectAux();
                     }
                 }
                 else {
-                    pShowHelpAux();
+                    pshowSelectAux();
                 }
             }
         }
 
-        private void pShowHelpAux() {
+        private void pshowSelectAux() {
 
                 CSKernelClient2.EditFile(CSKernelClient2.GetValidPath(mUtil.gAppPath)+ "cairo.chm", getHWnd());
             }
         }
 
-        private void m_FormABM_cmdSaveClick() {
-            if (!pSave(false, false)) { return; }
+        private void masterHandlerSaveClick() {
+            if(!pSave(false, false)) { return; }
 
-            if (m_bOkCancelDialog) {
-                m_bOkCancelDialogRslt = true;
+            if(m_showOkCancel) {
+                m_okCancelResult = true;
 
-                if (m_formABM != null) {
-                    m_formABM.setSaved();
-                    m_FormABM_cmdCloseClick();
+                if(m_masterView != null) {
+                    m_masterView.setSaved();
+                    masterHandlerCloseClick();
                 }
 
             }
             else {
 
-                if (m_sendNewABM) {
-                    m_FormABM_cmdNewClick();
+                if(m_sendNewABM) {
+                    masterHandlerNewClick();
                 }
             }
         }
 
-        private void m_FormABM_FormLoad() {
-            pResetChanged();
+        private void masterHandlerViewLoad() {
+            resetChanged();
         }
 
-        private void m_FormABM_FormQueryUnload(int cancel, int unloadMode) {
-            if (m_client != null) {
+        private void masterHandlerViewBeforeDestroy(int cancel, int unloadMode) {
+            if(m_client != null) {
                 pSaveChanges(cancel, true);
             }
         }
 
-        private void m_FormABM_FormUnload(int cancel) {
-            if (m_client != null) {
+        private void masterHandlerViewDestroy(int cancel) {
+            if(m_client != null) {
 
                 saveColumnsGrids();
 
-                mUtil.destroyGrids(getFrm());
+                mUtil.destroyGrids(getView());
 
                 m_unloading = true;
 
                 m_client.Terminate;
                 m_client = null;
             }
-            m_formABM = null;
+            m_masterView = null;
         }
 
-        private boolean pSaveChanges(int cancel, boolean bUnloading) { // TODO: Use of ByRef founded Private Function pSaveChanges(ByRef Cancel As Integer, ByVal bUnloading As Boolean) As Boolean
+        var pSaveChanges(int cancel, boolean bUnloading) { // TODO: Use of ByRef founded Private Function pSaveChanges(ByRef Cancel As Integer, ByVal bUnloading As Boolean) As Boolean
             boolean _rtn = false;
-            if (m_isDocument) {
-                if (m_isFooter || m_isItems) {
+            if(m_isDocument) {
+                if(m_isFooter || m_isItems) {
                     _rtn = true;
                     return _rtn;
                 }
             }
 
-            if (getWasChanged() && !m_bDontAskForSave) {
+            if(getChanged() && !m_noAskForSave) {
                 VbMsgBoxResult rslt = null;
 
-                getFrm().ZOrder;
+                getView().ZOrder;
                 rslt = MsgBox("Ud. ha realizado cambios que no ha guardado."+ "\\r\\n"+ "\\r\\n"+ "¿Desea guardarlos?", vbQuestion + vbYesNoCancel, "Guardar");
 
-                if (rslt == vbYes) {
+                if(rslt === vbYes) {
 
-                    if (!pSave(bUnloading, false)) {
+                    if(!pSave(bUnloading, false)) {
                         cancel = true;
                         return _rtn;
                     }
-                    setWasChanged(false);
+                    setChanged(false);
 
                 }
-                else if (rslt == vbNo) {
-                    setWasChanged(false);
+                else if(rslt === vbNo) {
+                    setChanged(false);
 
                 }
-                else if (rslt == vbCancel) {
+                else if(rslt === vbCancel) {
                     cancel = true;
                     return _rtn;
                 }
@@ -3513,24 +3203,24 @@
             return _rtn;
         }
 
-        private void m_FormABM_GRColumnAfterEdit(int index, int lRow, int lCol, Object newValue, int newValueID, boolean bCancel) {
-            pGRColumnEdit(true, index, lRow, lCol, 0, newValue, newValueID, bCancel);
+        private void masterHandlerGridColumnAfterEdit(int index, int lRow, int lCol, Object newValue, int newValueID, boolean bCancel) {
+            pGridColumnEdit(true, index, lRow, lCol, 0, newValue, newValueID, bCancel);
         }
 
-        private void m_FormABM_GRColumnAfterUpdate(int index, int lRow, int lCol, Object newValue, int newValueID) {
-            pGRColumnAfterUpdate(index, lRow, lCol, 0, newValue, newValueID);
+        private void masterHandlerGridColumnAfterUpdate(int index, int lRow, int lCol, Object newValue, int newValueID) {
+            pGridColumnAfterUpdate(index, lRow, lCol, 0, newValue, newValueID);
         }
 
-        private void m_FormABM_GRColumnBeforeEdit(int index, int lRow, int lCol, int iKeyAscii, boolean bCancel) {
-            pGRColumnEdit(false, index, lRow, lCol, iKeyAscii, 0, 0, bCancel);
+        private void masterHandlerGridColumnBeforeEdit(int index, int lRow, int lCol, int iKeyAscii, boolean bCancel) {
+            pGridColumnEdit(false, index, lRow, lCol, iKeyAscii, 0, 0, bCancel);
         }
 
-        private void m_FormABM_GRColumnButtonClick(int index, int lRow, int lCol, int iKeyAscii, boolean bCancel) {
-            pGRColumnButtonClick(index, lRow, lCol, iKeyAscii, bCancel);
+        private void masterHandlerGridColumnButtonClick(int index, int lRow, int lCol, int iKeyAscii, boolean bCancel) {
+            pGridColumnButtonClick(index, lRow, lCol, iKeyAscii, bCancel);
         }
 
-        private void m_FormABM_GRDblClick(int index, int rowIndex, int colIndex) {
-            if (m_implementsClientGrid) {
+        private void masterHandlerGridDblClick(int index, int rowIndex, int colIndex) {
+            if(m_clientManageGrid) {
                 cIABMClientGrid clientGrid = null;
                 cIABMProperty iProperty = null;
 
@@ -3540,71 +3230,71 @@
             }
         }
 
-        private void m_FormABM_GRDeleteRow(int index, int lRow, boolean bCancel) {
-            pGRDeleteRow(index, lRow, bCancel);
+        private void masterHandlerGridDeleteRow(int index, int lRow, boolean bCancel) {
+            pGridDeleteRow(index, lRow, bCancel);
         }
 
-        private void m_FormABM_GRNewRow(int index, int rowIndex) {
-            pGRNewRow(index, rowIndex);
+        private void masterHandlerGridNewRow(int index, int rowIndex) {
+            pGridNewRow(index, rowIndex);
         }
 
-        private void m_FormABM_GRRowWasDeleted(int index, int rowIndex) {
-            pGRRowWasDeleted(index, rowIndex);
+        private void masterHandlerGridAfterDeleteRow(int index, int rowIndex) {
+            pgridAfterDeleteRow(index, rowIndex);
         }
 
-        private void m_FormABM_GRSelectionChange(int index, int lRow, int lCol) {
-            pGRSelectionChange(index, lRow, lCol, GridSelectChangeType.GRID_SELECTION_CHANGE);
+        private void masterHandlerGridSelectionChange(int index, int lRow, int lCol) {
+            pGridSelectionChange(index, lRow, lCol, GridSelectChangeType.GRID_SELECTION_CHANGE);
         }
 
-        private void m_FormABM_GRSelectionRowChange(int index, int lRow, int lCol) {
-            pGRSelectionChange(index, lRow, lCol, GridSelectChangeType.GRID_ROW_CHANGE);
+        private void masterHandlerGridSelectionRowChange(int index, int lRow, int lCol) {
+            pGridSelectionChange(index, lRow, lCol, GridSelectChangeType.GRID_ROW_CHANGE);
         }
 
-        private void m_FormABM_GRValidateRow(int index, int rowIndex, boolean bCancel) {
-            pGRValidateRow(index, rowIndex, bCancel, true, false);
+        private void masterHandlerGridValidateRow(int index, int rowIndex, boolean bCancel) {
+            pGridValidateRow(index, rowIndex, bCancel, true, false);
         }
 
-        private void m_FormABM_HLChange(int index) {
-            pHLChange(index);
+        private void masterHandlerSelectChange(int index) {
+            pSelectChange(index);
         }
 
-        private void m_FormABM_MEChange(int index) {
-            pMEChange(index);
+        private void masterHandlerMaskEditChange(int index) {
+            pMaskEditChange(index);
         }
 
-        private void m_FormABM_MEDateChange(int index) {
-            pMEDateChange(index);
+        private void masterHandlerDateChange(int index) {
+            pDateChange(index);
         }
 
-        private void m_FormABM_OPClick(int index) {
-            pOPClick(index);
+        private void masterHandlerOptionButtonClick(int index) {
+            pOptionButtonClick(index);
         }
 
-        private void m_FormABM_ShowHelp() {
-            pShowHelp();
+        private void masterHandlerShowSelect() {
+            pshowSelect();
         }
 
-        private void m_FormABM_ToolBarButtonClick(MSComctlLib.Button button) {
+        private void masterHandlerToolBarButtonClick(MSComctlLib.Button button) {
             pToolBarButtonClik(button);
         }
 
-        private void m_FormABM_TXButtonClick(int index, boolean cancel) {
-            pTXButtonClick(index, cancel);
+        private void masterHandlerTextButtonClick(int index, boolean cancel) {
+            pTextButtonClick(index, cancel);
         }
 
-        private void m_FormABM_TXChange(int index) {
-            pTXChange(index);
+        private void masterHandlerTextChange(int index) {
+            pTextChange(index);
         }
 
-        private void m_FormABM_TXMChange(int index) {
-            pTXMChange(index);
+        private void masterHandlerTextAreaChange(int index) {
+            pTextAreaChange(index);
         }
 
-        private void m_FormABM_TXPasswordChange(int index) {
-            pTXPasswordChange(index);
+        private void masterHandlerTextPasswordChange(int index) {
+            pTextPasswordChange(index);
         }
 
-        private void m_FormDoc_cbTabClick(int index, String tag) {
+        private void docHandlerTabClick(int index, String tag) {
             docTabClick(index, tag);
         }
 
@@ -3618,48 +3308,48 @@
         // llamadas puede o no estar en nothing dependiendo
         // de donde se activo el tab (Header, Items, Footers)
         //
-        private void m_FormDoc_TabGetFirstCtrl(int index, String tag, Control ctrl) { // TODO: Use of ByRef founded Private Sub m_FormDoc_TabGetFirstCtrl(ByVal Index As Integer, ByVal Tag As String, ByRef ctrl As Control)
+        private void docHandlerTabGetFirstCtrl(int index, String tag, Control ctrl) { // TODO: Use of ByRef founded Private Sub docHandlerTabGetFirstCtrl(ByVal Index As Integer, ByVal Tag As String, ByRef ctrl As Control)
             Control ctrlAux = null;
             ctrlAux = docTabGetFirstCtrl(index, tag);
-            if (ctrlAux != null) {
+            if(ctrlAux != null) {
                 ctrl = ctrlAux;
             }
         }
 
-        private void m_FormDoc_FormLoad() {
-            pResetChanged();
+        private void docHandlerViewLoad() {
+            resetChanged();
         }
 
-        private void m_FormDoc_GRRowWasDeleted(int index, int rowIndex) {
-            pGRRowWasDeleted(index, rowIndex);
+        private void docHandlerGridAfterDeleteRow(int index, int rowIndex) {
+            pgridAfterDeleteRow(index, rowIndex);
         }
 
-        private void m_FormDoc_ToolBarClick(MSComctlLib.Button button) {
+        private void docHandlerToolBarClick(MSComctlLib.Button button) {
             try {
 
-                if (m_isItems) { return; }
-                if (m_isFooter) { return; }
+                if(m_isItems) { return; }
+                if(m_isFooter) { return; }
 
-                if (button == null) { return; }
+                if(button === null) { return; }
 
                 switch (button.Key) {
                     case  c_KeyTbNew:
 
                         pToolBarClickNew();
 
-                        if (m_sendNewDoc) {
+                        if(m_sendNewDoc) {
 
                             // El comportamiento generico es poner el foco
                             // en segunda columna de la grilla
                             //
-                            if (m_setFocusFirstCtrlInNew) {
+                            if(m_setFocusFirstCtrlInNew) {
 
                                 // Nada que hacer
 
                             }
                             else {
 
-                                SetFocusControl(m_formDoc.GR(0));
+                                SetFocusControl(m_documentView.getGrid(0));
                                 mUtil.sendKeys("{ENTER}");
                             }
 
@@ -3670,25 +3360,25 @@
                         break;
                     case  c_KeyTbSave:
 
-                        pShowMsg("Guardando el comprobante ...");
+                        showMsg("Guardando el comprobante ...");
 
-                        if (pSave(false, false)) {
+                        if(pSave(false, false)) {
 
-                            if (m_sendNewDoc) {
+                            if(m_sendNewDoc) {
 
                                 pToolBarClickNew();
 
                                 // El comportamiento generico es poner el foco
                                 // en segunda columna de la grilla
                                 //
-                                if (m_setFocusFirstCtrlInNew) {
+                                if(m_setFocusFirstCtrlInNew) {
 
                                     // Nada que hacer
 
                                 }
                                 else {
 
-                                    SetFocusControl(m_formDoc.GR(0));
+                                    SetFocusControl(m_documentView.getGrid(0));
                                     mUtil.sendKeys("{ENTER}");
                                 }
 
@@ -3696,32 +3386,32 @@
 
                         }
 
-                        pHideMsg();
+                        hideMsg();
 
                         break;
                     case  c_KeyTbSaveAs:
 
-                        pShowMsg("Guardando el comprobante ...");
+                        showMsg("Guardando el comprobante ...");
 
-                        m_bSavingAs = true;
+                        m_savingAs = true;
 
-                        if (pSave(false, true)) {
+                        if(pSave(false, true)) {
 
-                            if (m_sendNewDoc) {
+                            if(m_sendNewDoc) {
 
                                 pToolBarClickNew();
 
                                 // El comportamiento generico es poner el foco
                                 // en segunda columna de la grilla
                                 //
-                                if (m_setFocusFirstCtrlInNew) {
+                                if(m_setFocusFirstCtrlInNew) {
 
                                     // Nada que hacer
 
                                 }
                                 else {
 
-                                    SetFocusControl(m_formDoc.GR(0));
+                                    SetFocusControl(m_documentView.getGrid(0));
                                     mUtil.sendKeys("{ENTER}");
                                 }
 
@@ -3729,16 +3419,16 @@
 
                         }
 
-                        m_bSavingAs = false;
+                        m_savingAs = false;
 
-                        pHideMsg();
+                        hideMsg();
 
                         break;
                     case  c_KeyTbAnular:
 
-                        pShowMsg("Anulando el comprobante ...");
+                        showMsg("Anulando el comprobante ...");
                         m_client.MessageEx(ABM_MSG.MSG_DOC_ANULAR, null);
-                        pHideMsg();
+                        hideMsg();
 
                         break;
                     case  c_KeyTbReload:
@@ -3748,7 +3438,7 @@
                         break;
                     case  c_KeyTbCopy:
 
-                        m_FormABM_cmdCopyClick();
+                        masterHandlerCopyClick();
 
                         break;
                     case  c_KeyTbEditState:
@@ -3769,18 +3459,18 @@
                         break;
                     case  c_KeyTbDelete:
 
-                        pShowMsg("Borrando el comprobante ...");
-                        if (pAskDelete("Confirma que desea borrar el comprobante")) {
-                            if (mMsgConstantes.varToBool(m_client.MessageEx(ABM_MSG.MSG_DOC_DELETE, null))) {
-                                pResetChanged();
+                        showMsg("Borrando el comprobante ...");
+                        if(pAskDelete("Confirma que desea borrar el comprobante")) {
+                            if(mMsgConstantes.varToBool(m_client.MessageEx(ABM_MSG.MSG_DOC_DELETE, null))) {
+                                resetChanged();
                             }
                         }
-                        pHideMsg();
+                        hideMsg();
 
                         break;
                     case  c_KeyTbSearch:
 
-                        m_client.MessageEx(ABM_MSG.MSG_DOC_SEARCH, getWasChanged());
+                        m_client.MessageEx(ABM_MSG.MSG_DOC_SEARCH, getChanged());
 
                         break;
                     case  c_KeyTbPrint:
@@ -3797,13 +3487,13 @@
                         break;
                     case  c_KeyTbApply:
 
-                        pShowMsg("Cargando las aplicaciones del comprobante ...");
+                        showMsg("Cargando las aplicaciones del comprobante ...");
                         m_client.MessageEx(ABM_MSG.MSG_DOC_APPLY, null);
-                        pHideMsg();
+                        hideMsg();
 
                         break;
                     case  c_KeyTbAttach:
-                        m_FormABM_cmdDocsClick();
+                        masterHandlerDocumentsClick();
 
                         break;
                     case  c_KeyTbHistory:
@@ -3812,46 +3502,46 @@
                         break;
                     case  c_KeyTbFirst:
 
-                        pShowMsg("Cargando el primer comprobante ...");
+                        showMsg("Cargando el primer comprobante ...");
                         pMove(ABM_MSG.MSG_DOC_FIRST);
-                        pHideMsg();
+                        hideMsg();
 
                         break;
                     case  c_KeyTbPrevious:
 
-                        pShowMsg("Cargando el comprobante anterior ...");
+                        showMsg("Cargando el comprobante anterior ...");
                         pMove(ABM_MSG.MSG_DOC_PREVIOUS);
-                        pHideMsg();
+                        hideMsg();
 
                         break;
                     case  c_KeyTbNext:
 
-                        pShowMsg("Cargando el siguiente comprobante ...");
+                        showMsg("Cargando el siguiente comprobante ...");
                         pMove(ABM_MSG.MSG_DOC_NEXT);
-                        pHideMsg();
+                        hideMsg();
 
                         break;
                     case  c_KeyTbLast:
 
-                        pShowMsg("Cargando el último comprobante ...");
+                        showMsg("Cargando el último comprobante ...");
                         pMove(ABM_MSG.MSG_DOC_LAST);
-                        pHideMsg();
+                        hideMsg();
 
                         break;
                     case  c_KeyTbHelp:
-                        pShowHelp();
+                        pshowSelect();
 
                         break;
                     case  c_KeyTbDocMerge:
-                        pShowMsg("Ejecutando el proceso de compensación ...");
+                        showMsg("Ejecutando el proceso de compensación ...");
                         m_client.MessageEx(ABM_MSG.MSG_DOC_MERGE, null);
-                        pHideMsg();
+                        hideMsg();
 
                         break;
                     case  c_KeyTbDocAlert:
-                        pShowMsg("Cargando alertas para este comprobante...");
+                        showMsg("Cargando alertas para este comprobante...");
                         m_client.MessageEx(ABM_MSG.MSG_DOC_ALERT, null);
-                        pHideMsg();
+                        hideMsg();
 
                         break;
                     case  c_KeyTbDocTip:
@@ -3870,33 +3560,33 @@
 
                 / * *TODO:** goto found: GoTo ExitProc* /
             } catch (Exception ex) {
-                MngError(VBA.ex, "m_FormDoc_ToolBarClick", C_MODULE, "");
-                if (VBA.ex.Number) { / * *TODO:** resume found: Resume(ExitProc)* /  }
+                MngError(VBA.ex, "docHandlerToolBarClick", C_MODULE, "");
+                if(VBA.ex.Number) { / * *TODO:** resume found: Resume(ExitProc)* /  }
                 / * *TODO:** label found: ExitProc:* /
 
-                pHideMsg();
-                m_bSavingAs = false;
+                hideMsg();
+                m_savingAs = false;
 
             }
         }
 
-        public void raiseNewDocEven() {
+        self.raiseNewDocEven() {
 
             pToolBarClickNew();
 
-            if (m_sendNewDoc) {
+            if(m_sendNewDoc) {
 
                 // El comportamiento generico es poner el foco
                 // en segunda columna de la grilla
                 //
-                if (m_setFocusFirstCtrlInNew) {
+                if(m_setFocusFirstCtrlInNew) {
 
                     // Nada que hacer
 
                 }
                 else {
 
-                    SetFocusControl(m_formDoc.GR(0));
+                    SetFocusControl(m_documentView.getGrid(0));
                     mUtil.sendKeys("{ENTER}");
                 }
 
@@ -3904,9 +3594,9 @@
 
         }
 
-        public void setFocusInGridForDocs() {
+        self.setFocusInGridForDocs() {
 
-            SetFocusControl(m_formDoc.GR(0));
+            SetFocusControl(m_documentView.getGrid(0));
             mUtil.sendKeys("{ENTER}");
 
         }
@@ -3918,8 +3608,8 @@
         // Siempre hay al menos una fila seleccionada ya que la
         // que tiene el foco esta siempre seleccionada
         //
-        public void refreshSelectedInGrid(cIABMProperty iProp) { // TODO: Use of ByRef founded Public Sub RefreshSelectedInGrid(ByRef iProp As cIABMProperty)
-            m_mngGrid.refreshSelectedInGrid(iProp);
+        self.refreshSelectedInGrid(cIABMProperty iProp) { // TODO: Use of ByRef founded Public Sub RefreshSelectedInGrid(ByRef iProp As cIABMProperty)
+            m_gridManager.refreshSelectedInGrid(iProp);
         }
 
         // Solo acepta filas seleccionadas si el foco esta en la primera
@@ -3928,24 +3618,24 @@
         // Esto es para diferenciar entre una fila seleccionada explicitamente
         // de una fila seleccionada por que el foco esta en ella
         //
-        public void refreshSelectedInGrid2(cIABMProperty iProp) { // TODO: Use of ByRef founded Public Sub RefreshSelectedInGrid2(ByRef iProp As cIABMProperty)
-            m_mngGrid.refreshSelectedInGrid2(iProp);
+        self.refreshSelectedInGrid2(cIABMProperty iProp) { // TODO: Use of ByRef founded Public Sub RefreshSelectedInGrid2(ByRef iProp As cIABMProperty)
+            m_gridManager.refreshSelectedInGrid2(iProp);
         }
 
         private void pToolBarClickNew() {
-            pShowMsg("Cargando nuevo comprobante ...");
-            doNew(m_formDoc);
-            pHideMsg();
+            showMsg("Cargando nuevo comprobante ...");
+            doNew(m_documentView);
+            hideMsg();
         }
 
-        private void pShowMsg(String msg, boolean changeTop) {
+        self.showMsg = function(msg, changeTop) {
 
-                Object w_frm = getFrm();
+                Object w_frm = getView();
                     w_frm.picMsg.cABMProperty.setLeft((w_frm.ScaleWidth - w_frm.picMsg.cABMProperty.getWidth()) * 0.5);
-                    if (changeTop) {
+                    if(changeTop) {
                         w_frm.picMsg.cABMProperty.setTop((w_frm.ScaleHeight - w_frm.picMsg.cABMProperty.getHeight()) * 0.25);
                     }
-                    w_frm.lbMsg.cABMDocPropertiesCol.setCaption(msg);
+                    w_frm.lbMsg.cABMDocPropertiesCol.setText(msg);
                     w_frm.picMsg.ZOrder;
                     w_frm.picMsg.cABMGridRow.setVisible(true);
                     DoEvents;
@@ -3953,66 +3643,66 @@
             }
         }
 
-        private void pHideMsg() {
+        private void hideMsg() {
 
-                getFrm().picMsg.cABMGridRow.setVisible(false);
+                getView().picMsg.cABMGridRow.setVisible(false);
             }
         }
 
         private void pMove(ABM_MSG moveTo) {
-            if (m_client != null) {
+            if(m_client != null) {
 
-                if (!pSaveChanges(false, false)) { return; }
+                if(!pSaveChanges(false, false)) { return; }
 
                 m_client.MessageEx(moveTo, null);
 
-                if (m_isDocument) {
+                if(m_isDocument) {
 
                     pMoveFocus();
                 }
 
-                setWasChanged(false);
+                setChanged(false);
 
             }
         }
 
         //------------
         // Wizard
-        private void m_FormWizard_CBChange(int index) {
-            pCBChange(index);
+        private void wizHandlerComboChange(int index) {
+            pComboChange(index);
         }
 
-        //Private Sub m_FormWizard_CBhockChange(ByVal Index As Integer)
+        //Private Sub wizHandlerCBhockChange(ByVal Index As Integer)
         //  pCBHockChange Index
         //End Sub
 
-        private void m_FormWizard_cbTabClick(int index) {
+        private void wizHandlerTabClick(int index) {
             tabClick(index);
         }
 
-        private void m_FormWizard_CHKClick(int index) {
-            pCHKClick(index);
+        private void wizHandlerCheckBoxClick(int index) {
+            pCheckBoxClick(index);
         }
 
-        private void m_FormWizard_cmdCancelClick() {
+        private void wizHandlerCancelClick() {
 
-                if (m_inProcess) { return; }
+                if(m_inProcess) { return; }
                 pWizDisableButtons();
-                if (!m_client.PropertyChange(K_W_CANCEL)) {
+                if(!m_client.PropertyChange(K_W_CANCEL)) {
                     pWizEnableButtons();
                     return;
                 }
 
                 pWizEnableButtons();
-                setWasChanged(false);
-                Unload(m_formWizard);
+                setChanged(false);
+                Unload(m_wizardView);
                 VBA.ex.Clear;
             }
         }
 
-        private void m_FormWizard_cmdBackClick() {
+        private void wizHandlerBackClick() {
 
-                if (m_inProcess) { return; }
+                if(m_inProcess) { return; }
                 pWizDisableButtons();
                 moveBack();
                 pWizEnableButtons();
@@ -4020,13 +3710,13 @@
             }
         }
 
-        private void m_FormWizard_CMDClick(int index) {
-            changeProperty(cspButton, index, getFrm().CMD(index));
+        private void wizHandlerCommandClick(int index) {
+            changeProperty(cspButton, index, getView().CMD(index));
         }
 
-        private void m_FormWizard_cmdNextClick() {
+        private void wizHandlerNextClick() {
 
-                if (m_inProcess) { return; }
+                if(m_inProcess) { return; }
                 pWizDisableButtons();
                 moveNext();
                 pWizEnableButtons();
@@ -4034,161 +3724,161 @@
             }
         }
 
-        private void m_FormWizard_FormLoad() {
-            pResetChanged();
+        private void wizHandlerViewLoad() {
+            resetChanged();
         }
 
-        private void m_FormWizard_FormQueryUnload(int cancel, int unloadMode) {
-            if (m_client != null) {
+        private void wizHandlerViewBeforeDestroy(int cancel, int unloadMode) {
+            if(m_client != null) {
                 pSaveChanges(cancel, true);
             }
         }
 
-        private void m_FormWizard_FormUnload(int cancel) {
-            if (m_client != null) {
+        private void wizHandlerViewDestroy(int cancel) {
+            if(m_client != null) {
 
                 saveColumnsGrids();
 
-                mUtil.destroyGrids(getFrm());
+                mUtil.destroyGrids(getView());
 
                 m_unloading = true;
 
                 m_client.Terminate;
                 m_client = null;
             }
-            m_formWizard = null;
+            m_wizardView = null;
         }
 
-        private void m_FormWizard_GRColumnAfterEdit(int index, int lRow, int lCol, Object newValue, int newValueID, boolean bCancel) {
-            pGRColumnEdit(true, index, lRow, lCol, 0, newValue, newValueID, bCancel);
+        private void wizHandlerGridColumnAfterEdit(int index, int lRow, int lCol, Object newValue, int newValueID, boolean bCancel) {
+            pGridColumnEdit(true, index, lRow, lCol, 0, newValue, newValueID, bCancel);
         }
 
-        private void m_FormWizard_GRColumnAfterUpdate(int index, int lRow, int lCol, Object newValue, int newValueID) {
-            pGRColumnAfterUpdate(index, lRow, lCol, 0, newValue, newValueID);
+        private void wizHandlerGridColumnAfterUpdate(int index, int lRow, int lCol, Object newValue, int newValueID) {
+            pGridColumnAfterUpdate(index, lRow, lCol, 0, newValue, newValueID);
         }
 
-        private void m_FormWizard_GRColumnBeforeEdit(int index, int lRow, int lCol, int iKeyAscii, boolean bCancel) {
-            pGRColumnEdit(false, index, lRow, lCol, iKeyAscii, 0, 0, bCancel);
+        private void wizHandlerGridColumnBeforeEdit(int index, int lRow, int lCol, int iKeyAscii, boolean bCancel) {
+            pGridColumnEdit(false, index, lRow, lCol, iKeyAscii, 0, 0, bCancel);
         }
 
-        private void m_FormWizard_GRColumnButtonClick(int index, int lRow, int lCol, int iKeyAscii, boolean bCancel) {
-            pGRColumnButtonClick(index, lRow, lCol, iKeyAscii, bCancel);
+        private void wizHandlerGridColumnButtonClick(int index, int lRow, int lCol, int iKeyAscii, boolean bCancel) {
+            pGridColumnButtonClick(index, lRow, lCol, iKeyAscii, bCancel);
         }
 
-        //Private Sub m_FormWizard_GRDblClick(ByVal Index As Integer, ByVal RowIndex As Long, ByVal ColIndex As Long)
+        //Private Sub wizHandlerGridDblClick(ByVal Index As Integer, ByVal RowIndex As Long, ByVal ColIndex As Long)
         // Ya veremos que hacemos
         //End Sub
 
-        private void m_FormWizard_GRDeleteRow(int index, int lRow, boolean bCancel) {
-            pGRDeleteRow(index, lRow, bCancel);
+        private void wizHandlerGridDeleteRow(int index, int lRow, boolean bCancel) {
+            pGridDeleteRow(index, lRow, bCancel);
         }
 
-        private void m_FormWizard_GRNewRow(int index, int rowIndex) {
-            pGRNewRow(index, rowIndex);
+        private void wizHandlerGridNewRow(int index, int rowIndex) {
+            pGridNewRow(index, rowIndex);
         }
 
-        private void m_FormWizard_GRRowWasDeleted(int index, int rowIndex) {
-            pGRRowWasDeleted(index, rowIndex);
+        private void wizHandlerGridAfterDeleteRow(int index, int rowIndex) {
+            pgridAfterDeleteRow(index, rowIndex);
         }
 
-        private void m_FormWizard_GRSelectionChange(int index, int lRow, int lCol) {
-            pGRSelectionChange(index, lRow, lCol, GridSelectChangeType.GRID_SELECTION_CHANGE);
+        private void wizHandlerGridSelectionChange(int index, int lRow, int lCol) {
+            pGridSelectionChange(index, lRow, lCol, GridSelectChangeType.GRID_SELECTION_CHANGE);
         }
 
-        private void m_FormWizard_GRSelectionRowChange(int index, int lRow, int lCol) {
-            pGRSelectionChange(index, lRow, lCol, GridSelectChangeType.GRID_ROW_CHANGE);
+        private void wizHandlerGridSelectionRowChange(int index, int lRow, int lCol) {
+            pGridSelectionChange(index, lRow, lCol, GridSelectChangeType.GRID_ROW_CHANGE);
         }
 
-        private void m_FormWizard_GRValidateRow(int index, int rowIndex, boolean bCancel) {
-            pGRValidateRow(index, rowIndex, bCancel, true, false);
+        private void wizHandlerGridValidateRow(int index, int rowIndex, boolean bCancel) {
+            pGridValidateRow(index, rowIndex, bCancel, true, false);
         }
 
-        private void m_FormWizard_HLChange(int index) {
-            pHLChange(index);
+        private void wizHandlerSelectChange(int index) {
+            pSelectChange(index);
         }
 
-        private void m_FormWizard_MEChange(int index) {
-            pMEChange(index);
+        private void wizHandlerMaskEditChange(int index) {
+            pMaskEditChange(index);
         }
 
-        private void m_FormWizard_MEDateChange(int index) {
-            pMEDateChange(index);
+        private void wizHandlerDateChange(int index) {
+            pDateChange(index);
         }
 
-        private void m_FormWizard_OPClick(int index) {
-            pOPClick(index);
+        private void wizHandlerOptionButtonClick(int index) {
+            pOptionButtonClick(index);
         }
 
-        private void m_FormWizard_ToolBarButtonClick(MSComctlLib.Button button) {
+        private void wizHandlerToolBarButtonClick(MSComctlLib.Button button) {
             pToolBarButtonClik(button);
         }
 
-        private void m_FormWizard_TXChange(int index) {
+        private void wizHandlerTextChange(int index) {
             try {
 
-                pTXChange(index);
+                pTextChange(index);
 
                 return;
             } catch (Exception ex) {
-                MngError(VBA.ex, "m_FormWizard_TXChange", C_MODULE, "");
+                MngError(VBA.ex, "wizHandlerTextChange", C_MODULE, "");
             }
         }
 
-        private void m_FormWizard_TXMChange(int index) {
+        private void wizHandlerTextAreaChange(int index) {
             try {
 
-                pTXMChange(index);
+                pTextAreaChange(index);
 
                 return;
             } catch (Exception ex) {
-                MngError(VBA.ex, "m_FormWizard_TXMChange", C_MODULE, "");
+                MngError(VBA.ex, "wizHandlerTextAreaChange", C_MODULE, "");
             }
         }
 
-        private void m_FormWizard_TXPasswordChange(int index) {
-            pTXPasswordChange(index);
+        private void wizHandlerTextPasswordChange(int index) {
+            pTextPasswordChange(index);
         }
 
         //------------
         // Documentos
-        private void m_FormDoc_CBChange(int index) {
-            pCBChange(index);
+        private void docHandlerComboChange(int index) {
+            pComboChange(index);
         }
 
-        private void m_FormDoc_CHKClick(int index) {
-            pCHKClick(index);
+        private void docHandlerCheckBoxClick(int index) {
+            pCheckBoxClick(index);
         }
 
         private void pFormDocClose() {
-            if (m_formDoc == null) { return; }
-            Unload(m_formDoc);
+            if(m_documentView === null) { return; }
+            Unload(m_documentView);
         }
 
-        private void m_FormDoc_FormQueryUnload(int cancel, int unloadMode) {
-            if (m_isFooter || m_isItems) { return; }
+        private void docHandlerViewBeforeDestroy(int cancel, int unloadMode) {
+            if(m_isFooter || m_isItems) { return; }
 
-            if (m_client != null) {
+            if(m_client != null) {
 
-                Object w_frm = getFrm();
+                Object w_frm = getView();
 
                     w_frm.CancelUnload = false;
-                    if (!pSaveChanges(cancel, true)) {
+                    if(!pSaveChanges(cancel, true)) {
                         w_frm.CancelUnload = true;
                     }
                 // {end with: w_frm}
             }
         }
 
-        private void m_FormDoc_FormUnload(int cancel) {
+        private void docHandlerViewDestroy(int cancel) {
 
-            getFrm().UnloadCount = getFrm().UnloadCount + 1;
+            getView().UnloadCount = getView().UnloadCount + 1;
 
-            Object w_frm = getFrm();
+            Object w_frm = getView();
 
-                if (m_isFooter || m_isItems) {
+                if(m_isFooter || m_isItems) {
 
                     // Solo si el usuario no desidio cancelar el cierre del form
-                    if (w_frm.CancelUnload) { return; }
+                    if(w_frm.CancelUnload) { return; }
 
                     saveColumnsGrids();
                     m_unloading = true;
@@ -4198,7 +3888,7 @@
                 }
                 else {
 
-                    if (m_client != null) {
+                    if(m_client != null) {
 
                         w_frm.CancelUnload = false;
 
@@ -4214,101 +3904,101 @@
                 // Solo destruyo las grillas en el footer que
                 // es el ultimo en recibir el evento unload
                 //
-                if (getFrm().UnloadCount == 3) { mUtil.destroyGrids(getFrm()); }
+                if(getView().UnloadCount === 3) { mUtil.destroyGrids(getView()); }
 
-                m_formDoc = null;
+                m_documentView = null;
             // {end with: w_frm}
         }
 
-        private void m_FormDoc_GRColumnButtonClick(int index, int lRow, int lCol, int iKeyAscii, boolean bCancel) {
-            pGRColumnButtonClick(index, lRow, lCol, iKeyAscii, bCancel);
+        private void docHandlerGridColumnButtonClick(int index, int lRow, int lCol, int iKeyAscii, boolean bCancel) {
+            pGridColumnButtonClick(index, lRow, lCol, iKeyAscii, bCancel);
         }
 
-        private void m_FormDoc_GRColumnAfterEdit(int index, int lRow, int lCol, Object newValue, int newValueID, boolean bCancel) {
-            pGRColumnEdit(true, index, lRow, lCol, 0, newValue, newValueID, bCancel);
+        private void docHandlerGridColumnAfterEdit(int index, int lRow, int lCol, Object newValue, int newValueID, boolean bCancel) {
+            pGridColumnEdit(true, index, lRow, lCol, 0, newValue, newValueID, bCancel);
         }
 
-        private void m_FormDoc_GRColumnAfterUpdate(int index, int lRow, int lCol, Object newValue, int newValueID) {
-            pGRColumnAfterUpdate(index, lRow, lCol, 0, newValue, newValueID);
+        private void docHandlerGridColumnAfterUpdate(int index, int lRow, int lCol, Object newValue, int newValueID) {
+            pGridColumnAfterUpdate(index, lRow, lCol, 0, newValue, newValueID);
         }
 
-        private void m_FormDoc_GRColumnBeforeEdit(int index, int lRow, int lCol, int iKeyAscii, boolean bCancel) {
-            pGRColumnBeforeEdit(index, lRow, lCol, iKeyAscii, bCancel);
-            if (bCancel) { return; }
-            pGRColumnEdit(false, index, lRow, lCol, iKeyAscii, 0, 0, bCancel);
+        private void docHandlerGridColumnBeforeEdit(int index, int lRow, int lCol, int iKeyAscii, boolean bCancel) {
+            pGridColumnBeforeEdit(index, lRow, lCol, iKeyAscii, bCancel);
+            if(bCancel) { return; }
+            pGridColumnEdit(false, index, lRow, lCol, iKeyAscii, 0, 0, bCancel);
         }
 
-        private void m_FormDoc_GRDeleteRow(int index, int lRow, boolean bCancel) {
-            pGRDeleteRow(index, lRow, bCancel);
+        private void docHandlerGridDeleteRow(int index, int lRow, boolean bCancel) {
+            pGridDeleteRow(index, lRow, bCancel);
         }
 
-        private void m_FormDoc_GRNewRow(int index, int rowIndex) {
-            pGRNewRow(index, rowIndex);
+        private void docHandlerGridNewRow(int index, int rowIndex) {
+            pGridNewRow(index, rowIndex);
         }
 
-        private void m_FormDoc_GRValidateRow(int index, int rowIndex, boolean bCancel) {
-            pGRValidateRow(index, rowIndex, bCancel, true, false);
+        private void docHandlerGridValidateRow(int index, int rowIndex, boolean bCancel) {
+            pGridValidateRow(index, rowIndex, bCancel, true, false);
         }
 
-        private void m_FormDoc_GRSelectionChange(int index, int lRow, int lCol) {
-            pGRSelectionChange(index, lRow, lCol, GridSelectChangeType.GRID_SELECTION_CHANGE);
+        private void docHandlerGridSelectionChange(int index, int lRow, int lCol) {
+            pGridSelectionChange(index, lRow, lCol, GridSelectChangeType.GRID_SELECTION_CHANGE);
         }
 
-        private void m_FormDoc_GRSelectionRowChange(int index, int lRow, int lCol) {
-            pGRSelectionChange(index, lRow, lCol, GridSelectChangeType.GRID_ROW_CHANGE);
+        private void docHandlerGridSelectionRowChange(int index, int lRow, int lCol) {
+            pGridSelectionChange(index, lRow, lCol, GridSelectChangeType.GRID_ROW_CHANGE);
         }
 
-        private void m_FormDoc_HLChange(int index) {
-            pHLChange(index);
+        private void docHandlerSelectChange(int index) {
+            pSelectChange(index);
         }
 
-        private void m_FormDoc_MEChange(int index) {
-            pMEChange(index);
+        private void docHandlerMaskEditChange(int index) {
+            pMaskEditChange(index);
         }
 
-        private void m_FormDoc_MEDateChange(int index) {
-            pMEDateChange(index);
+        private void docHandlerDateChange(int index) {
+            pDateChange(index);
         }
 
-        private void m_FormDoc_OPClick(int index) {
-            pOPClick(index);
+        private void docHandlerOptionButtonClick(int index) {
+            pOptionButtonClick(index);
         }
 
-        private void m_FormDoc_TXChange(int index) {
-            pTXChange(index);
+        private void docHandlerTextChange(int index) {
+            pTextChange(index);
         }
 
-        private void m_FormDoc_TXMChange(int index) {
-            pTXMChange(index);
+        private void docHandlerTextAreaChange(int index) {
+            pTextAreaChange(index);
         }
 
-        private void m_FormDoc_TXPasswordChange(int index) {
-            pTXPasswordChange(index);
+        private void docHandlerTextPasswordChange(int index) {
+            pTextPasswordChange(index);
         }
 
         // funciones del objeto
-        private void pCBChange(int index) {
-            changeProperty(cspList, index, getFrm().CB(index));
+        private void pComboChange(int index) {
+            changeProperty(cspList, index, getView().CB(index));
             //ReLoadListAdHock
         }
 
-        private void pCHKClick(int index) {
-            changeProperty(cspCheck, index, getFrm().CHK(index));
+        private void pCheckBoxClick(int index) {
+            changeProperty(cspCheck, index, getView().CHK(index));
             //ReLoadListAdHock
         }
 
-        private void pGRDeleteRow(int index, int lRow, boolean bCancel) {
-            if (!m_implementsClientGrid) { return; }
+        private void pGridDeleteRow(int index, int lRow, boolean bCancel) {
+            if(!m_clientManageGrid) { return; }
 
             cABMProperty oProperty = null;
             oProperty = getProperty(cspGrid, index, 0);
 
-            if (oProperty == null) { return; }
+            if(oProperty === null) { return; }
 
             cIABMClientGrid clientGrid = null;
             clientGrid = m_client;
 
-            if (clientGrid.DeleteRow(pGetPropertyKey(oProperty), pCreateRow(index, oProperty, lRow), lRow)) {
+            if(clientGrid.DeleteRow(pGetPropertyKey(oProperty), pCreateRow(index, oProperty, lRow), lRow)) {
                 cIABMProperty iProperty = null;
                 iProperty = oProperty;
                 iProperty.Grid.cABMCSGrid.getRows().Remove(lRow);
@@ -4317,8 +4007,8 @@
 
 
                     Object grid = null;
-                    grid = getFrm().GR(oProperty.getIndex());
-                    if (grid.Rows <= 1) {
+                    grid = getView().getGrid(oProperty.getIndex());
+                    if(grid.Rows <= 1) {
                         grid.Rows = 2;
                     }
                 }
@@ -4328,7 +4018,7 @@
             }
         }
 
-        private void pGRRowWasDeleted(int index, int lRow) {
+        private void pgridAfterDeleteRow(int index, int lRow) {
             cIABMProperty iProperty = null;
             iProperty = getProperty(cspGrid, index, 0);
 
@@ -4336,8 +4026,8 @@
 
 
                 Object grid = null;
-                grid = getFrm().GR(index);
-                if (grid.Rows < 1) {
+                grid = getView().getGrid(index);
+                if(grid.Rows < 1) {
                     grid.Rows = 1;
                 }
             }
@@ -4355,8 +4045,8 @@
 
                 oProperty = iProperty;
                 grid = oProperty.getCtl();
-                if (lRow <= grid.Rows) {
-                    grid.Cell(lRow, 1).Text == lRow;
+                if(lRow <= grid.Rows) {
+                    grid.Cell(lRow, 1).text === lRow;
                 }
 
             } catch (Exception ex) {
@@ -4367,9 +4057,9 @@
             try {
 
                 cGridAdvanced grid = null;
-                grid = getFrm().GR(index);
+                grid = getView().getGrid(index);
 
-                if (iProperty.Grid.cABMDocProperties.getColumns(lCol).PropertyType == cspGrid) {
+                if(iProperty.Grid.cABMDocProperties.getColumns(lCol).PropertyType === cspGrid) {
                     grid.SelectRow(lRow);
                 }
                 else {
@@ -4379,34 +4069,34 @@
             }
         }
 
-        private void pGRSelectionChange(int index, int lRow, int lCol, csEGridSelectChangeType what) {
+        private void pGridSelectionChange(int index, int lRow, int lCol, csEGridSelectChangeType what) {
 
             cIABMProperty iProperty = null;
             iProperty = getProperty(cspGrid, index, 0);
 
-            if (iProperty != null) {
+            if(iProperty != null) {
                 iProperty.SelectedIndex = lRow;
 
-                if (what == GridSelectChangeType.GRID_SELECTION_CHANGE) {
+                if(what === GridSelectChangeType.GRID_SELECTION_CHANGE) {
 
                     pSetRowBackground(index, iProperty, lRow, lCol);
 
                 }
-                else if (what == GridSelectChangeType.GRID_ROW_CHANGE) {
+                else if(what === GridSelectChangeType.GRID_ROW_CHANGE) {
 
-                    if (m_client == null) { return; }
+                    if(m_client === null) { return; }
                     m_client.MessageEx(ABM_MSG.MSG_GRID_ROW_CHANGE, iProperty);
                 }
             }
         }
 
-        private void pGRNewRow(int index, int rowIndex) {
-            if (m_implementsClientGrid) {
+        private void pGridNewRow(int index, int rowIndex) {
+            if(m_clientManageGrid) {
 
                 cABMProperty oProperty = null;
                 oProperty = getProperty(cspGrid, index, 0);
 
-                if (oProperty != null) {
+                if(oProperty != null) {
 
                     cIABMClientGrid clientGrid = null;
                     clientGrid = m_client;
@@ -4434,7 +4124,7 @@
             for (int _i = 0; _i < iProp.Grid.cABMDocProperties.getColumns().size(); _i++) {
                 Col = iProp.Grid.Columns.getItem(_i);
                 colIndex = colIndex + 1;
-                if (!col.DefaultValue == null) {
+                if(!col.DefaultValue === null) {
                     // * TODO:** can't found type for with block
                     // * With iRow.Item(colIndex)
                     __TYPE_NOT_FOUND w___TYPE_NOT_FOUND = iRow.Item(colIndex);
@@ -4444,23 +4134,23 @@
                 }
             }
 
-            if (iRow == null) { return; }
+            if(iRow === null) { return; }
 
-            grid = getFrm().GR(oProperty.getIndex());
+            grid = getView().getGrid(oProperty.getIndex());
             getMngGrid().loadFromRow(grid, iRow, rowIndex, iProp.Grid.cABMDocProperties.getColumns());
         }
 
-        private void pGRColumnAfterUpdate(int index, int lRow, int lCol, int iKeyAscii, Object newValue, int newValueID) {
+        private void pGridColumnAfterUpdate(int index, int lRow, int lCol, int iKeyAscii, Object newValue, int newValueID) {
             try {
 
-                if (m_implementsClientGrid) {
+                if(m_clientManageGrid) {
 
                     cABMProperty oProperty = null;
                     cIABMProperty iProperty = null;
 
                     oProperty = getProperty(cspGrid, index, 0);
 
-                    if (oProperty != null) {
+                    if(oProperty != null) {
 
                         cIABMClientGrid clientGrid = null;
                         String keyProp = "";
@@ -4479,7 +4169,7 @@
                         // Si no se generaron filas virtuales con esta llamada
                         // actualizo los valores en la grilla
                         //
-                        if (!pProcessVirtualRow(oProperty, index, lRow, lCol, keyProp, clientGrid)) {
+                        if(!pProcessVirtualRow(oProperty, index, lRow, lCol, keyProp, clientGrid)) {
 
                             // Let client one chance to calculate columns
                             clientGrid.ColumnAfterUpdate(keyProp, lRow, lCol);
@@ -4489,9 +4179,9 @@
 
                         }
 
-                        if (pIsEditColumn(oProperty, lCol)) {
+                        if(pIsEditColumn(oProperty, lCol)) {
 
-                            setWasChanged(true);
+                            setChanged(true);
 
                         }
                     }
@@ -4499,17 +4189,17 @@
 
                 return;
             } catch (Exception ex) {
-                MngError(VBA.ex, "pGRColumnAfterUpdate", C_MODULE, "");
+                MngError(VBA.ex, "pGridColumnAfterUpdate", C_MODULE, "");
             }
         }
 
-        private boolean pIsEditColumn(cIABMProperty iProperty, int lCol) {
+        var pIsEditColumn(cIABMProperty iProperty, int lCol) {
             cABMGridColumn oCol = null;
             oCol = iProperty.Grid.cABMDocProperties.getColumns(lCol);
             return oCol.getIsEditColumn();
         }
 
-        private boolean pProcessVirtualRow(cABMProperty oProperty, int index, int lRow, int lCol, String keyProp, cIABMClientGrid clientGrid) { // TODO: Use of ByRef founded Private Function pProcessVirtualRow(ByRef oProperty As cABMProperty, ByVal Index As Integer, ByVal lRow As Long, ByVal lCol As Long, ByVal KeyProp As String, ByRef ClientGrid As cIABMClientGrid) As Boolean
+        var pProcessVirtualRow(cABMProperty oProperty, int index, int lRow, int lCol, String keyProp, cIABMClientGrid clientGrid) { // TODO: Use of ByRef founded Private Function pProcessVirtualRow(ByRef oProperty As cABMProperty, ByVal Index As Integer, ByVal lRow As Long, ByVal lCol As Long, ByVal KeyProp As String, ByRef ClientGrid As cIABMClientGrid) As Boolean
             boolean _rtn = false;
 
             // Manejo de Filas Virtuales
@@ -4520,7 +4210,7 @@
             cVirtualRowInfo vrInfo = null;
             vrInfo = new cVirtualRowInfo();
 
-            if (pAddVirtualRows(pGetPropertyKey(oProperty), lRow, lCol, iAddRows, vrInfo)) {
+            if(pAddVirtualRows(pGetPropertyKey(oProperty), lRow, lCol, iAddRows, vrInfo)) {
 
                 _rtn = true;
 
@@ -4539,10 +4229,10 @@
 
                 for (i = n; i <= iAddRows; i++) {
                     q = q + 1;
-                    pGRNewRow(index, i);
+                    pGridNewRow(index, i);
                     pCreateRowIfNotExists(oProperty, index, i);
 
-                    if (i < iAddRows) {
+                    if(i < iAddRows) {
                         pSetColumnValueInProperty(oProperty, index, i, lCol, vrInfo.getNewValue(q), mUtil.val(vrInfo.getNewId(q)));
 
                         clientGrid.ColumnAfterEdit(keyProp, i, lCol, vrInfo.getNewValue(q), mUtil.val(vrInfo.getNewId(q)));
@@ -4550,7 +4240,7 @@
                         // Let client one chance to calculate columns
                         clientGrid.ColumnAfterUpdate(keyProp, i, lCol);
 
-                        if (lColAmount > 0) {
+                        if(lColAmount > 0) {
                             pSetColumnValueInProperty(oProperty, index, i, lColAmount, vrInfo.getNewAmount(q), 0);
 
                             clientGrid.ColumnAfterEdit(keyProp, i, lColAmount, vrInfo.getNewAmount(q), 0);
@@ -4569,17 +4259,17 @@
         }
 
         // Multi
-        private boolean pAddVirtualRows(String key, int lRow, int lCol, int iAddRows, cVirtualRowInfo vrInfo) { // TODO: Use of ByRef founded Private Function pAddVirtualRows(ByVal Key As String, ByVal lRow As Long, ByVal lCol As Long, ByRef iAddRows As Long, ByRef vrInfo As cVirtualRowInfo) As Boolean
+        var pAddVirtualRows(String key, int lRow, int lCol, int iAddRows, cVirtualRowInfo vrInfo) { // TODO: Use of ByRef founded Private Function pAddVirtualRows(ByVal Key As String, ByVal lRow As Long, ByVal lCol As Long, ByRef iAddRows As Long, ByRef vrInfo As cVirtualRowInfo) As Boolean
             boolean _rtn = false;
-            if (m_client == null) { return _rtn; }
+            if(m_client === null) { return _rtn; }
 
             vrInfo.setKey(key);
             vrInfo.setLRow(lRow);
             vrInfo.setLCol(lCol);
 
-            if (m_client.MessageEx(ABM_MSG.MSG_GRID_VIRTUAL_ROW, vrInfo)) {
+            if(m_client.MessageEx(ABM_MSG.MSG_GRID_VIRTUAL_ROW, vrInfo)) {
 
-                if (vrInfo.getBAddRows()) {
+                if(vrInfo.getBAddRows()) {
 
                     iAddRows = vrInfo.getIAddRows();
                     _rtn = true;
@@ -4590,10 +4280,10 @@
             return _rtn;
         }
 
-        private void pGRColumnBeforeEdit(int index, int lRow, int lCol, int iKeyAscii, boolean bCancel) { // TODO: Use of ByRef founded Private Sub pGRColumnBeforeEdit(ByVal Index As Integer, ByVal lRow As Long, ByVal lCol As Long, ByVal iKeyAscii As Integer, ByRef bCancel As Boolean)
+        private void pGridColumnBeforeEdit(int index, int lRow, int lCol, int iKeyAscii, boolean bCancel) { // TODO: Use of ByRef founded Private Sub pGridColumnBeforeEdit(ByVal Index As Integer, ByVal lRow As Long, ByVal lCol As Long, ByVal iKeyAscii As Integer, ByRef bCancel As Boolean)
             try {
 
-                if (!m_implementsClientGrid) { return; }
+                if(!m_clientManageGrid) { return; }
 
                 bCancel = false;
 
@@ -4605,17 +4295,17 @@
 
                 iProperty = getProperty(cspGrid, index, 0);
 
-                if (iProperty == null) { return; }
-                if (lRow > iProperty.Grid.cABMCSGrid.getRows().Count) { return; }
+                if(iProperty === null) { return; }
+                if(lRow > iProperty.Grid.cABMCSGrid.getRows().Count) { return; }
 
                 oProperty = iProperty;
 
-                oGrid = getFrm().GR(oProperty.getIndex());
+                oGrid = getView().getGrid(oProperty.getIndex());
                 column = iProperty.Grid.cABMDocProperties.getColumns(lCol);
                 c = oGrid.Columns(lCol);
 
                 CSInterfacesABM.cIABMGridCellValue w_item = iProperty.Grid.cABMCSGrid.getRows().Item(lRow).cABMGridRow.item(lRow).Item(lCol);
-                    if (w_item.Format == null) {
+                    if(w_item.Format === null) {
 
                         // With c;
 
@@ -4632,15 +4322,15 @@
                             c.Size = column.Size;
                             c.Format = column.Format;
 
-                            if (column.PropertyType == cspList) {
+                            if(column.PropertyType === cspList) {
                                 c.List = column.List;
                             }
                             else {
                                 c.List = null;
                             }
 
-                            if (column.SubType == cspPercent) {
-                                if (column.Format == "") {
+                            if(column.SubType === cspPercent) {
+                                if(column.Format === "") {
                                     c.Format = "0.00 %";
                                 }
                             }
@@ -4659,15 +4349,15 @@
                         c.Size = w_item.Format.Size;
                         c.Format = w_item.Format.Format;
 
-                        if (w_item.Format.PropertyType == cspList) {
+                        if(w_item.Format.PropertyType === cspList) {
                             c.List = w_item.Format.List;
                         }
                         else {
                             c.List = null;
                         }
 
-                        if (w_item.Format.SubType == cspPercent) {
-                            if (w_item.Format.Format == "") {
+                        if(w_item.Format.SubType === cspPercent) {
+                            if(w_item.Format.Format === "") {
                                 c.Format = "0.00 %";
                             }
                         }
@@ -4676,14 +4366,14 @@
 
                 return;
             } catch (Exception ex) {
-                MngError(VBA.ex, "pGRColumnBeforeEdit", C_MODULE, "");
+                MngError(VBA.ex, "pGridColumnBeforeEdit", C_MODULE, "");
             }
         }
 
-        private void pGRColumnEdit(boolean after, int index, int lRow, int lCol, int iKeyAscii, Object newValue, int newValueID, boolean bCancel) {
+        private void pGridColumnEdit(boolean after, int index, int lRow, int lCol, int iKeyAscii, Object newValue, int newValueID, boolean bCancel) {
             try {
 
-                if (m_implementsClientGrid) {
+                if(m_clientManageGrid) {
 
                     cABMProperty oProperty = null;
                     cIABMProperty iProperty = null;
@@ -4693,31 +4383,31 @@
                     oProperty = getProperty(cspGrid, index, 0);
                     bCancel = false;
 
-                    if (oProperty != null) {
+                    if(oProperty != null) {
 
                         keyProp = pGetPropertyKey(oProperty);
                         clientGrid = m_client;
 
-                        if (after) {
+                        if(after) {
 
                             // If the row not exists we have to create it because the client need it to hold
                             // calculated data
                             pCreateRowIfNotExists(oProperty, index, lRow);
 
-                            if (!clientGrid.ColumnAfterEdit(keyProp, lRow, lCol, newValue, newValueID)) {
+                            if(!clientGrid.ColumnAfterEdit(keyProp, lRow, lCol, newValue, newValueID)) {
                                 bCancel = true;
                             }
 
                         }
                         else {
 
-                            if (m_bCreateRowInBeforeEdit) {
+                            if(m_createRowInBeforeEdit) {
                                 // If the row not exists we have to create it because the client need it to hold
                                 // calculated data
                                 pCreateRowIfNotExists(oProperty, index, lRow);
                             }
 
-                            if (!clientGrid.ColumnBeforeEdit(keyProp, lRow, lCol, iKeyAscii)) {
+                            if(!clientGrid.ColumnBeforeEdit(keyProp, lRow, lCol, iKeyAscii)) {
                                 bCancel = true;
                             }
                         }
@@ -4733,14 +4423,14 @@
 
                 return;
             } catch (Exception ex) {
-                MngError(VBA.ex, "pGRColumnEdit", C_MODULE, "");
+                MngError(VBA.ex, "pGridColumnEdit", C_MODULE, "");
             }
         }
 
-        private void pGRColumnButtonClick(int index, int lRow, int lCol, int iKeyAscii, boolean bCancel) {
+        private void pGridColumnButtonClick(int index, int lRow, int lCol, int iKeyAscii, boolean bCancel) {
             try {
 
-                if (m_implementsClientGrid) {
+                if(m_clientManageGrid) {
 
                     cABMProperty oProperty = null;
                     cIABMProperty iProperty = null;
@@ -4750,7 +4440,7 @@
                     oProperty = getProperty(cspGrid, index, 0);
                     bCancel = false;
 
-                    if (oProperty != null) {
+                    if(oProperty != null) {
 
                         keyProp = pGetPropertyKey(oProperty);
                         clientGrid = m_client;
@@ -4760,7 +4450,7 @@
                         // calculated data
                         pCreateRowIfNotExists(oProperty, index, lRow);
 
-                        if (!clientGrid.ColumnButtonClick(keyProp, lRow, lCol, iKeyAscii)) {
+                        if(!clientGrid.ColumnButtonClick(keyProp, lRow, lCol, iKeyAscii)) {
                             bCancel = true;
                         }
 
@@ -4771,13 +4461,13 @@
                         // * TODO:** can't found type for with block
                         // * With iProperty.Grid
                         __TYPE_NOT_FOUND w___TYPE_NOT_FOUND = iProperty.Grid;
-                            if (w___TYPE_NOT_FOUND.Columns(lCol).SubType == cspTextButtonEx) {
+                            if(w___TYPE_NOT_FOUND.Columns(lCol).SubType === cspTextButtonEx) {
                                 String rtn = "";
                                 // * TODO:** can't found type for with block
                                 // * With .cABMCSGrid.getRows().Item(lRow).cABMGridRow.item(lCol)
                                 __TYPE_NOT_FOUND w___TYPE_NOT_FOUND = w___TYPE_NOT_FOUND.Rows.cABMGridRow.item(lRow).Item(lCol);
                                     rtn = w___TYPE_NOT_FOUND.Value;
-                                    if (GetInputEx(rtn)) {
+                                    if(GetInputEx(rtn)) {
                                         w___TYPE_NOT_FOUND.Value = rtn;
                                     }
                                 // {end with: w___TYPE_NOT_FOUND}
@@ -4790,7 +4480,7 @@
                         //
                         pSetRowValueInGrid(index, oProperty, lRow, iProperty.Grid.cABMCSGrid.getRows(lRow));
 
-                        setWasChanged(true);
+                        setChanged(true);
 
                     }
                     else {
@@ -4803,7 +4493,7 @@
 
                 return;
             } catch (Exception ex) {
-                MngError(VBA.ex, "pGRColumnEdit", C_MODULE, "");
+                MngError(VBA.ex, "pGridColumnEdit", C_MODULE, "");
             }
         }
 
@@ -4812,29 +4502,29 @@
 
             int w_rows = iProperty.Grid.cABMCSGrid.getRows();
                 row = w_rows.Item(lRow);
-                if (row == null) {
+                if(row === null) {
                     row = pCreateRow(index, iProperty, lRow);
                     w_rows.Add(row);
                 }
             // {end with: w_rows}
         }
 
-        private int pGetColIndexFromKey(cIABMProperty iProperty, int lKey) {
+        var pGetColIndexFromKey(cIABMProperty iProperty, int lKey) {
             int _rtn = 0;
-            if (lKey == -1) {
+            if(lKey === -1) {
                 _rtn = -1;
             }
             else {
                 cIABMGridRow row = null;
                 row = iProperty.Grid.cABMCSGrid.getRows().Item(1);
-                if (row == null) {
+                if(row === null) {
                     return _rtn;
                 }
                 cIABMGridCellValue iCell = null;
                 int i = 0;
                 for (i = 1; i <= row.Count; i++) {
                     iCell = row.Item(i);
-                    if (iCell.Key == lKey) {
+                    if(iCell.Key === lKey) {
                         _rtn = i;
                         return _rtn;
                     }
@@ -4853,7 +4543,7 @@
             int w_rows = iProperty.Grid.cABMCSGrid.getRows();
 
                 row = w_rows.Item(lRow);
-                if (row == null) {
+                if(row === null) {
                     row = pCreateRow(index, iProperty, lRow);
                     w_rows.Add(row);
                 }
@@ -4877,10 +4567,10 @@
             }
         }
 
-        private boolean pGRValidateRow(int index, int rowIndex, boolean bCancel, boolean bAddRow, boolean bIsEmpty) { // TODO: Use of ByRef founded Private Function pGRValidateRow(ByVal Index As Integer, ByVal RowIndex As Long, ByRef bCancel As Boolean, ByVal bAddRow As Boolean, ByRef bIsEmpty As Boolean) As Boolean
+        var pGridValidateRow(int index, int rowIndex, boolean bCancel, boolean bAddRow, boolean bIsEmpty) { // TODO: Use of ByRef founded Private Function pGridValidateRow(ByVal Index As Integer, ByVal RowIndex As Long, ByRef bCancel As Boolean, ByVal bAddRow As Boolean, ByRef bIsEmpty As Boolean) As Boolean
             boolean rtn = false;
 
-            if (m_implementsClientGrid) {
+            if(m_clientManageGrid) {
 
                 cIABMProperty iProperty = null;
                 cABMProperty oProperty = null;
@@ -4888,7 +4578,7 @@
                 oProperty = getProperty(cspGrid, index, 0);
                 bCancel = false;
 
-                if (oProperty != null) {
+                if(oProperty != null) {
 
                     cIABMClientGrid clientGrid = null;
                     cIABMGridRow iRow = null;
@@ -4900,7 +4590,7 @@
 
                     iRow = pCreateRow(index, oProperty, rowIndex);
 
-                    if (clientGrid.IsEmptyRow(keyProp, iRow, rowIndex)) {
+                    if(clientGrid.IsEmptyRow(keyProp, iRow, rowIndex)) {
                         mUtil.sendKeys("{TAB}");
                         bCancel = true;
                         bIsEmpty = true;
@@ -4910,7 +4600,7 @@
 
                         // Let Client one chance to validate and modify row values
                     }
-                    else if (!clientGrid.ValidateRow(keyProp, iRow, rowIndex)) {
+                    else if(!clientGrid.ValidateRow(keyProp, iRow, rowIndex)) {
                         bCancel = true;
 
                         // El cliente no valido la fila
@@ -4924,7 +4614,7 @@
                         // Put Client's values to Grid
                         pSetRowValueInGrid(index, oProperty, rowIndex, iRow);
 
-                        if (bAddRow) {
+                        if(bAddRow) {
 
                             // Keep updated the rows collection
                             iProperty = oProperty;
@@ -4942,7 +4632,7 @@
 
                                 oRows.add(iRow);
 
-                                if (!iRow.Item(c_keyRowItem) == null) {
+                                if(!iRow.Item(c_keyRowItem) === null) {
                                     iRow.Item(c_keyRowItem).Value = rowIndex;
                                 }
 
@@ -4967,22 +4657,22 @@
             return rtn;
         }
 
-        private void pHLChange(int index) {
-            changeProperty(cspHelp, index, getFrm().HL(index));
+        private void pSelectChange(int index) {
+            changeProperty(cspHelp, index, getView().HL(index));
             //ReLoadListAdHock
         }
 
-        private void pMEChange(int index) {
-            changeProperty(cspNumeric, index, getFrm().ME(index));
+        private void pMaskEditChange(int index) {
+            changeProperty(cspNumeric, index, getView().ME(index));
             //ReLoadListAdHock
         }
 
-        private void pMEDateChange(int index) {
+        private void pDateChange(int index) {
             cMaskEdit c = null;
 
-            c = getFrm().MEFE(index);
+            c = getView().MEFE(index);
 
-            if (c.csType == csMkTime) {
+            if(c.csType === csMkTime) {
                 changeProperty(cspTime, index, c);
             }
             else {
@@ -4992,28 +4682,28 @@
             //ReLoadListAdHock
         }
 
-        private void pOPClick(int index) {
-            changeProperty(cspOption, index, getFrm().OP(index));
+        private void pOptionButtonClick(int index) {
+            changeProperty(cspOption, index, getView().OP(index));
             //ReLoadListAdHock
         }
 
-        private void pTXButtonClick(int index, boolean cancel) {
+        private void pTextButtonClick(int index, boolean cancel) {
             cIABMProperty iProp = null;
 
             iProp = getProperty(cspText, index, 0);
 
-            if (iProp == null) { return; }
+            if(iProp === null) { return; }
 
             m_client.MessageEx(ABM_MSG.MSG_BUTTON_TEXT_CLICK, iProp);
 
-            if (iProp.SubType == cspTextButtonEx) {
+            if(iProp.SubType === cspTextButtonEx) {
                 String rtn = "";
                 // * TODO:** can't found type for with block
-                // * With getFrm().TX(index)
-                __TYPE_NOT_FOUND w___TYPE_NOT_FOUND = getFrm().TX(index);
-                    rtn = w___TYPE_NOT_FOUND.Text;
-                    if (GetInputEx(rtn)) {
-                        w___TYPE_NOT_FOUND.Text = rtn;
+                // * With getView().TX(index)
+                __TYPE_NOT_FOUND w___TYPE_NOT_FOUND = getView().TX(index);
+                    rtn = w___TYPE_NOT_FOUND.text;
+                    if(GetInputEx(rtn)) {
+                        w___TYPE_NOT_FOUND.text = rtn;
                     }
                 // {end with: w___TYPE_NOT_FOUND}
             }
@@ -5024,35 +4714,35 @@
             changeProperty(cspToolBar, 0, button);
         }
 
-        private void pTXChange(int index) {
-            changeProperty(cspText, index, getFrm().TX(index));
+        private void pTextChange(int index) {
+            changeProperty(cspText, index, getView().TX(index));
             //ReLoadListAdHock
         }
 
-        private void pTXMChange(int index) {
-            changeProperty(cspText, index, getFrm().TXM(index), false, cspMemo);
+        private void pTextAreaChange(int index) {
+            changeProperty(cspText, index, getView().TXM(index), false, cspMemo);
             //ReLoadListAdHock
         }
 
-        private void pTXPasswordChange(int index) {
-            changeProperty(cspPassword, index, getFrm().txPassword(index));
+        private void pTextPasswordChange(int index) {
+            changeProperty(cspPassword, index, getView().txPassword(index));
             //ReLoadListAdHock
         }
 
-        private int pGetPropertyKey(cABMProperty oProperty) {
+        var pGetPropertyKey(cABMProperty oProperty) {
             cIABMProperty iProperty = null;
             iProperty = oProperty;
             return iProperty.Key;
         }
 
-        private String pGetKeyFromRowValue(cIABMGridRows rows, int rowIndex, int iCol) {
+        var pGetKeyFromRowValue(cIABMGridRows rows, int rowIndex, int iCol) {
 
-            if (rows.Count < rowIndex) { return ""; }
-            if (rows.Item(rowIndex).cABMDocPropertiesCols.count() < iCol) { return ""; }
+            if(rows.Count < rowIndex) { return ""; }
+            if(rows.Item(rowIndex).cABMDocPropertiesCols.count() < iCol) { return ""; }
 
             cABMGridRowValue rowValue = null;
             rowValue = rows.Item(rowIndex).cABMGridRow.item(iCol);
-            if (rowValue == null) { return ""; }
+            if(rowValue === null) { return ""; }
             return rowValue.getStrKey();
         }
 
@@ -5069,12 +4759,12 @@
             for (int _i = 0; _i < iProperty.Grid.cABMDocProperties.getColumns().size(); _i++) {
                 Col = iProperty.Grid.Columns.getItem(_i);
                 colIndex = colIndex + 1;
-                if (colIndex == 1) {
+                if(colIndex === 1) {
                     cell = row.Add(null, c_keyRowItem);
                 }
                 else {
                     sKey = pGetKeyFromRowValue(iProperty.Grid.cABMCSGrid.getRows(), rowIndex, colIndex);
-                    if (LenB(sKey)) {
+                    if(LenB(sKey)) {
                         cell = row.Add(null, sKey);
                     }
                     else {
@@ -5082,25 +4772,25 @@
                     }
                 }
 
-                // With getFrm().GR(index).cell(rowIndex, colIndex);
-                    cell.Id = getFrm().GR.ItemData;
+                // With getView().getGrid(index).cell(rowIndex, colIndex);
+                    cell.Id = getView().GR.ItemData;
                     oCell = cell;
-                    oCell.setHelpValueProcess(getFrm().GR.Tag);
+                    oCell.setHelpValueProcess(getView().GR.Tag);
 
-                    if (col.PropertyType == cspDate) {
-                        cell.Value = mUtil.getDateValueForGridClient(getFrm().GR.Text);
+                    if(col.PropertyType === cspDate) {
+                        cell.Value = mUtil.getDateValueForGridClient(getView().GR.text);
 
                     }
-                    else if (col.SubType == cspPercent) {
-                        cell.Value = mUtil.val(getFrm().GR.Text) * 100;
+                    else if(col.SubType === cspPercent) {
+                        cell.Value = mUtil.val(getView().GR.text) * 100;
 
                     }
                     else {
-                        cell.Value = getFrm().GR.Text;
+                        cell.Value = getView().GR.text;
                     }
 
                     cell.Key = col.Key;
-                // {end with: getFrm().GR}
+                // {end with: getView().GR}
             }
 
             return row;
@@ -5118,7 +4808,7 @@
             cIABMGridCellFormat iFormat = null;
             StdFont oFont = null;
 
-            oGrid = getFrm().GR(index);
+            oGrid = getView().getGrid(index);
 
             oRow = row;
             oGrid.RowBackColor(rowIndex) = oRow.getBackColor();
@@ -5132,28 +4822,28 @@
                 // * TODO:** can't found type for with block
                 // * With oGrid.Cell(rowIndex, colIndex)
                 __TYPE_NOT_FOUND w___TYPE_NOT_FOUND = oGrid.Cell(rowIndex, colIndex);
-                    oGrid.CellItemdata(rowIndex, colIndex) == cell.Id;
+                    oGrid.CellItemdata(rowIndex, colIndex) === cell.Id;
 
-                    if (col.PropertyType == cspDate) {
-                        w___TYPE_NOT_FOUND.Text = mUtil.getDateValueForGrid(cell.Value);
+                    if(col.PropertyType === cspDate) {
+                        w___TYPE_NOT_FOUND.text = mUtil.getDateValueForGrid(cell.Value);
 
                     }
-                    else if (col.SubType == cspPercent) {
-                        w___TYPE_NOT_FOUND.Text = mUtil.val(cell.Value) / 100;
+                    else if(col.SubType === cspPercent) {
+                        w___TYPE_NOT_FOUND.text = mUtil.val(cell.Value) / 100;
 
                     }
                     else {
-                        w___TYPE_NOT_FOUND.Text = cell.Value;
+                        w___TYPE_NOT_FOUND.text = cell.Value;
                     }
 
                     // Formato de cada celda
                     //
                     iFormat = cell.Format;
-                    if (iFormat != null) {
+                    if(iFormat != null) {
 
                         oFormat = cell.Format;
 
-                        if (!iFormat.Enabled || !col.Enabled) {
+                        if(!iFormat.Enabled || !col.Enabled) {
                             w___TYPE_NOT_FOUND.BackColor = vbButtonFace;
                             oFormat.setBold(true);
                         }
@@ -5163,7 +4853,7 @@
 
                         w___TYPE_NOT_FOUND.ForeColor = iFormat.Color;
 
-                        w___TYPE_NOT_FOUND.TextAlign = oFormat.getAlign();
+                        w___TYPE_NOT_FOUND.textAlign = oFormat.getAlign();
                         oFont = new StdFont();
                         // With oFont;
                             oFont.Name = oFormat.getFontName();
@@ -5178,7 +4868,7 @@
                     }
                     else {
 
-                        if (!col.Enabled && !m_bNoChangeBackColorCell) {
+                        if(!col.Enabled && !m_noChangeBackColorCell) {
                             w___TYPE_NOT_FOUND.BackColor = vbButtonFace;
                         }
 
@@ -5189,7 +4879,7 @@
 
         }
 
-        private boolean showForm(int tabIndex, boolean noGrids, boolean bSetFocus) {
+        var showForm(int tabIndex, boolean noGrids, boolean bSetFocus) {
             cABMProperty oProperty = null;
             cIABMProperties iProperties = null;
             cIABMProperty iProperty = null;
@@ -5201,7 +4891,7 @@
 
             for (int _i = 0; _i < iProperties.size(); _i++) {
                 iProperty = iProperties.getItem(_i);
-                if (pGetTabIndex(iProperty) > tabs) { tabs = pGetTabIndex(iProperty); }
+                if(pGetTabIndex(iProperty) > tabs) { tabs = pGetTabIndex(iProperty); }
             }
 
             showTabs(tabs);
@@ -5216,12 +4906,12 @@
 
             m_showingForm = false;
 
-            Object w_frm = getFrm();
+            Object w_frm = getView();
 
                 count = w_frm.Controls.count;
 
-                if (!m_isDocument) {
-                    if (m_isWizard) {
+                if(!m_isDocument) {
+                    if(m_isWizard) {
                         w_frm.cmdNext.tabIndex = count;
                         w_frm.cmdCancel.tabIndex = count;
                         w_frm.cmdBack.tabIndex = count;
@@ -5233,12 +4923,12 @@
                     }
                 }
 
-                if (tabIndex != -1) {
-                    if (m_isDocument) {
+                if(tabIndex != -1) {
+                    if(m_isDocument) {
                         pDocTabClickEx(c_Items, tabIndex);
                         pDocTabClickEx(c_Footer, tabIndex);
                         pDocTabClickEx(c_Header, tabIndex);
-                        w_frm.cbTab(tabIndex + m_firstTab).TabSelected == true;
+                        w_frm.cbTab(tabIndex + m_firstTab).TabSelected === true;
                     }
                     else {
                         tabClick(tabIndex);
@@ -5246,13 +4936,13 @@
                     }
                 }
 
-                if (bSetFocus) { w_frm.SetFocusFirstControl; }
+                if(bSetFocus) { w_frm.SetFocusFirstControl; }
             // {end with: w_frm}
 
             return true;
         }
 
-        private boolean loadControl(cABMProperty oProperty) { // TODO: Use of ByRef founded Private Function LoadControl(ByRef oProperty As cABMProperty) As Boolean
+        var loadControl(cABMProperty oProperty) { // TODO: Use of ByRef founded Private Function LoadControl(ByRef oProperty As cABMProperty) As Boolean
             Control c = null;
             Control f = null;
             cIABMProperty iProperty = null;
@@ -5266,24 +4956,24 @@
             int nTabIndex = 0;
             nTabIndex = pGetTabIndex(iProperty);
 
-            Object w_frm = getFrm();
+            Object w_frm = getView();
                 switch (iProperty.PropertyType) {
                         //      Case csTypeABMProperty.cspAdHock
-                        //        If m_bLoadAdHock Then
+                        //        If m_loadAdHock Then
                         //          Load .CBhock(.CBhock.UBound + 1)
                         //        Else
-                        //          m_bLoadAdHock = True
+                        //          m_loadAdHock = True
                         //        End If
                         //
                         //        Set c = .CBhock(.CBhock.UBound)
                         //        pSetFont c, iProperty
 
                     case  csTypeABMProperty.cspList:
-                        if (m_bLoadList) {
+                        if(m_loadList) {
                             Load(w_frm.CB(w_frm.CB.UBound + 1));
                         }
                         else {
-                            m_bLoadList = true;
+                            m_loadList = true;
                         }
 
                         c = w_frm.CB(w_frm.CB.UBound);
@@ -5291,11 +4981,11 @@
 
                         break;
                     case  csTypeABMProperty.cspHelp:
-                        if (m_bLoadHelp) {
+                        if(m_loadHelp) {
                             Load(w_frm.HL(w_frm.HL.UBound + 1));
                         }
                         else {
-                            m_bLoadHelp = true;
+                            m_loadHelp = true;
                         }
 
                         c = w_frm.HL(w_frm.HL.UBound);
@@ -5310,20 +5000,20 @@
 
                         break;
                     case  csTypeABMProperty.cspNumeric:
-                        if (m_bLoadNumeric) {
+                        if(m_loadNumeric) {
                             Load(w_frm.ME(w_frm.ME.UBound + 1));
                         }
                         else {
-                            m_bLoadNumeric = true;
+                            m_loadNumeric = true;
                         }
 
                         c = w_frm.ME(w_frm.ME.UBound);
                         c.csType = iProperty.SubType;
-                        if (iProperty.SubType == 0) {
+                        if(iProperty.SubType === 0) {
                             VBA.ex.Raise(csErrores.CSERRORABMLOADCONTROLSUBTYPENOTDEFINED, "CSABMInterface.LoadControl", "Error al cargar controles en ABM Generico. No se ha indicado un subnType para la propiedad numerica: "+ iProperty.Name);
                         }
 
-                        if (m_isFooter) {
+                        if(m_isFooter) {
                             c.Width = 1100;
                             c.BackColor = w_frm.shTabFooter.cABMGridRow.getBackColor();
                             c.EnabledNoChngBkColor = true;
@@ -5334,15 +5024,15 @@
                         break;
                     case  csTypeABMProperty.cspDate:
                     case  csTypeABMProperty.cspTime:
-                        if (m_bLoadDate) {
+                        if(m_loadDate) {
                             Load(w_frm.MEFE(w_frm.MEFE.UBound + 1));
                         }
                         else {
-                            m_bLoadDate = true;
+                            m_loadDate = true;
                         }
 
                         c = w_frm.MEFE(w_frm.MEFE.UBound);
-                        if (iProperty.PropertyType == csTypeABMProperty.cspDate) {
+                        if(iProperty.PropertyType === csTypeABMProperty.cspDate) {
                             c.csType = csMkDate;
                         //'csTypeABMProperty.cspTime
                         }
@@ -5356,7 +5046,7 @@
                         f = w_frm.FR(iProperty.OptionGroup);
 
                         // With f;
-                            if (!f.Tag != "") {
+                            if(!f.Tag != "") {
                                 f.Top = m_nextTop[nTabIndex];
                                 f.Left = m_left[nTabIndex];
                                 f.Visible = true;
@@ -5370,30 +5060,30 @@
 
                         break;
                     case  csTypeABMProperty.cspLabel:
-                        if (m_bLoadLabel) {
+                        if(m_loadLabel) {
                             Load(w_frm.LB2(w_frm.LB2.UBound + 1));
                         }
                         else {
-                            m_bLoadLabel = true;
+                            m_loadLabel = true;
                         }
 
                         c = w_frm.LB2(w_frm.LB2.UBound);
                         pSetFont(c, iProperty);
-                        if (iProperty.BackColor != -1) {
+                        if(iProperty.BackColor != -1) {
                             c.BackStyle = 1;
                         }
                         else {
                             c.BackStyle = 0;
                         }
-                        c.Alignment = iProperty.TextAlign;
+                        c.Alignment = iProperty.textAlign;
 
                         break;
                     case  csTypeABMProperty.cspTitle:
-                        if (m_bLoadTitle) {
+                        if(m_loadTitle) {
                             Load(w_frm.lbTitle2(w_frm.lbTitle2.UBound + 1));
                         }
                         else {
-                            m_bLoadTitle = true;
+                            m_loadTitle = true;
                         }
 
                         c = w_frm.lbTitle2(w_frm.lbTitle2.UBound);
@@ -5401,34 +5091,34 @@
 
                         break;
                     case  csTypeABMProperty.cspProgressBar:
-                        if (m_bLoadProgressBar) {
+                        if(m_loadProgressBar) {
                             Load(w_frm.prgBar(w_frm.prgBar.UBound + 1));
                         }
                         else {
-                            m_bLoadProgressBar = true;
+                            m_loadProgressBar = true;
                         }
 
                         c = w_frm.prgBar(w_frm.prgBar.UBound);
 
                         break;
-                    case  csTypeABMProperty.cspDescription:
-                        if (m_bLoadDescription) {
-                            Load(w_frm.LBDescrip(w_frm.LBDescrip.UBound + 1));
+                    case  csTypeABMProperty.cspDescriptiontion:
+                        if(m_loadDescriptiontion) {
+                            Load(w_frm.LBDescription(w_frm.LBDescription.UBound + 1));
                         }
                         else {
-                            m_bLoadDescription = true;
+                            m_loadDescriptiontion = true;
                         }
 
-                        c = w_frm.LBDescrip(w_frm.LBDescrip.UBound);
+                        c = w_frm.LBDescription(w_frm.LBDescription.UBound);
                         pSetFont(c, iProperty);
 
                         break;
                     case  csTypeABMProperty.cspImage:
-                        if (m_bLoadImage) {
+                        if(m_loadImage) {
                             Load(w_frm.Img(w_frm.Img.UBound + 1));
                         }
                         else {
-                            m_bLoadImage = true;
+                            m_loadImage = true;
                         }
 
                         c = w_frm.Img(w_frm.Img.UBound);
@@ -5436,37 +5126,37 @@
                         break;
                     case  csTypeABMProperty.cspText:
 
-                        if (iProperty.SubType == CSConstantes.cspMemo) {
-                            if (m_bLoadTextM) {
+                        if(iProperty.SubType === CSConstantes.cspMemo) {
+                            if(m_loadTextM) {
                                 Load(w_frm.TXM(w_frm.TXM.UBound + 1));
                             }
                             else {
-                                m_bLoadTextM = true;
+                                m_loadTextM = true;
                             }
 
                             c = w_frm.TXM(w_frm.TXM.UBound);
 
                         }
                         else {
-                            if (m_bLoadText) {
+                            if(m_loadText) {
                                 Load(w_frm.TX(w_frm.TX.UBound + 1));
                                 w_frm.TX(w_frm.TX.UBound).cABMProperty.setWidth(m_textOrigWidth);
                             }
                             else {
-                                m_bLoadText = true;
+                                m_loadText = true;
                             }
 
                             c = w_frm.TX(w_frm.TX.UBound);
-                            if (c(instanceOf cMaskEdit)) {
-                                c.ButtonStyle = (iProperty.SubType == cspTextButton  || iProperty.SubType == cspTextButtonEx) ? cButtonSingle : cButtonNone);
-                                c.Mask = iProperty.TextMask;
+                            if(c(instanceOf cMaskEdit)) {
+                                c.ButtonStyle = (iProperty.SubType === cspTextButton  || iProperty.SubType === cspTextButtonEx) ? cButtonSingle : cButtonNone);
+                                c.Mask = iProperty.textMask;
                                 c.csType = csMkText;
                             }
                             c.PasswordChar = "";
                         }
 
                         c.MaxLength = iProperty.Size;
-                        c.Alignment = iProperty.TextAlign;
+                        c.Alignment = iProperty.textAlign;
 
                         // Para soportar cajas multinline
                         // que permiten desplazarce con las flechas
@@ -5478,11 +5168,11 @@
 
                         break;
                     case  csTypeABMProperty.cspFile:
-                        if (m_bLoadText) {
+                        if(m_loadText) {
                             Load(w_frm.TX(w_frm.TX.UBound + 1));
                         }
                         else {
-                            m_bLoadText = true;
+                            m_loadText = true;
                         }
 
                         c = w_frm.TX(w_frm.TX.UBound);
@@ -5496,11 +5186,11 @@
 
                         break;
                     case  csTypeABMProperty.cspFolder:
-                        if (m_bLoadText) {
+                        if(m_loadText) {
                             Load(w_frm.TX(w_frm.TX.UBound + 1));
                         }
                         else {
-                            m_bLoadText = true;
+                            m_loadText = true;
                         }
 
                         c = w_frm.TX(w_frm.TX.UBound);
@@ -5513,11 +5203,11 @@
 
                         break;
                     case  csTypeABMProperty.cspPassword:
-                        if (m_bLoadPassword) {
+                        if(m_loadPassword) {
                             Load(w_frm.txPassword(w_frm.txPassword.UBound + 1));
                         }
                         else {
-                            m_bLoadPassword = true;
+                            m_loadPassword = true;
                         }
 
                         c = w_frm.txPassword(w_frm.txPassword.UBound);
@@ -5527,27 +5217,27 @@
 
                         break;
                     case  csTypeABMProperty.cspCheck:
-                        if (m_bLoadCheck) {
+                        if(m_loadCheck) {
                             Load(w_frm.CHK(w_frm.CHK.UBound + 1));
                         }
                         else {
-                            m_bLoadCheck = true;
+                            m_loadCheck = true;
                         }
 
                         c = w_frm.CHK(w_frm.CHK.UBound);
-                        c.Caption = "  ";
+                        c.text = "  ";
                         c.Width = 400;
 
                         break;
                     case  csTypeABMProperty.cspGrid:
-                        if (m_bLoadGrid) {
-                            Load(w_frm.GR(w_frm.GR.UBound + 1));
+                        if(m_loadGrid) {
+                            Load(w_frm.getGrid(w_frm.GR.UBound + 1));
                         }
                         else {
-                            m_bLoadGrid = true;
+                            m_loadGrid = true;
                         }
 
-                        c = w_frm.GR(w_frm.GR.UBound);
+                        c = w_frm.getGrid(w_frm.GR.UBound);
                         c.Editable = iProperty.GridEdit;
                         getMngGrid().setPropertys(c);
 
@@ -5559,11 +5249,11 @@
 
                         break;
                     case  csTypeABMProperty.cspButton:
-                        if (m_bLoadButton) {
+                        if(m_loadButton) {
                             Load(w_frm.CMD(w_frm.CMD.UBound + 1));
                         }
                         else {
-                            m_bLoadButton = true;
+                            m_loadButton = true;
                         }
 
                         c = w_frm.CMD(w_frm.CMD.UBound);
@@ -5588,7 +5278,7 @@
                         break;
                 }
 
-                if (iProperty.PropertyType != csTypeABMProperty.cspToolBar) {
+                if(iProperty.PropertyType != csTypeABMProperty.cspToolBar) {
                     oProperty.setIndex(c.Index);
                 }
             // {end with: w_frm}
@@ -5599,16 +5289,16 @@
             oProperty.setCtl(c);
 
             // Aplico formateos personalizados
-            if (iProperty.Height > 0) {
+            if(iProperty.Height > 0) {
                 c.Height = iProperty.Height;
             }
 
-            if (iProperty.Width > 0) {
+            if(iProperty.Width > 0) {
                 c.Width = iProperty.Width;
             }
 
             // Si se indica un top en funcion de una propiedad
-            if (iProperty.TopFromProperty != "") {
+            if(iProperty.TopFromProperty != "") {
                 iProperties = m_properties;
                 oProp = iProperties(iProperty.TopFromProperty);
                 iProperty.Top = oProp.getTop();
@@ -5619,14 +5309,14 @@
             }
 
             // Si se indico un top en funcion del control anterior
-            if (iProperty.TopToPrevious != 0) {
+            if(iProperty.TopToPrevious != 0) {
 
-                if (iProperty.PropertyType == cspOption) {
+                if(iProperty.PropertyType === cspOption) {
                     m_lastTop = m_lastTopOp;
                 }
 
                 // Si se indica -1 significa el mismo top que el control anterior
-                if (iProperty.TopToPrevious == -1) {
+                if(iProperty.TopToPrevious === -1) {
                     iProperty.Top = m_lastTop;
                 }
                 else {
@@ -5634,12 +5324,12 @@
                 }
             }
 
-            if (iProperty.Top != -1) {
+            if(iProperty.Top != -1) {
                 c.Top = iProperty.Top;
             }
 
             // Si se indica un left en funcion de una propiedad
-            if (iProperty.LeftFromProperty != "") {
+            if(iProperty.LeftFromProperty != "") {
                 iProperties = m_properties;
                 oProp = iProperties(iProperty.LeftFromProperty);
                 iProperty.Left = oProp.getLeft();
@@ -5650,18 +5340,18 @@
 
                 // Si hay left personalizado, pero no se indico un left para el label
                 // le ponemos el default
-                if (iProperty.LeftLabel == 0) { iProperty.LeftLabel = -C_OFFSET_H; }
+                if(iProperty.LeftLabel === 0) { iProperty.LeftLabel = -C_OFFSET_H; }
             }
 
             // Si se indico un left en funcion del control anterior
-            if (iProperty.LeftToPrevious != 0) {
+            if(iProperty.LeftToPrevious != 0) {
 
-                if (iProperty.PropertyType == cspOption) {
+                if(iProperty.PropertyType === cspOption) {
                     m_lastLeft = m_lastLeftOp;
                 }
 
                 // Si se indica -1 significa el mismo left que el control anterior
-                if (iProperty.LeftToPrevious == -1) {
+                if(iProperty.LeftToPrevious === -1) {
                     iProperty.Left = m_lastLeft;
                 }
                 else {
@@ -5669,10 +5359,10 @@
                 }
             }
 
-            if (iProperty.Left != -1) {
+            if(iProperty.Left != -1) {
                 // Si hay left personalizado, pero no se indico un left para el label
                 // le ponemos el default
-                if (iProperty.LeftLabel == 0) { iProperty.LeftLabel = -C_OFFSET_H; }
+                if(iProperty.LeftLabel === 0) { iProperty.LeftLabel = -C_OFFSET_H; }
 
                 c.Left = iProperty.Left;
             }
@@ -5681,43 +5371,43 @@
             // Si el control va a quedar sobre la linea lo corro a la derecha y empiezo desde arriba otra vez
             //
 
-            Object w_frm = getFrm();
+            Object w_frm = getView();
 
-                if (m_isItems) {
+                if(m_isItems) {
 
                     // * TODO:** can't found type for with block
-                    // * With .shTabItems
-                    __TYPE_NOT_FOUND w___TYPE_NOT_FOUND = w_frm.shTabItems;
-                        if (m_nextTop[nTabIndex] + c.Height > w___TYPE_NOT_FOUND.Top + w___TYPE_NOT_FOUND.Height - 50) {
+                    // * With .getTabItems
+                    __TYPE_NOT_FOUND w___TYPE_NOT_FOUND = w_frm.getTabItems;
+                        if(m_nextTop[nTabIndex] + c.Height > w___TYPE_NOT_FOUND.Top + w___TYPE_NOT_FOUND.Height - 50) {
                             setNewTopAndLeft(iProperty);
                         }
                     // {end with: w___TYPE_NOT_FOUND}
 
                 }
-                else if (m_isFooter) {
+                else if(m_isFooter) {
 
                     // * TODO:** can't found type for with block
                     // * With .shTabFooter
                     __TYPE_NOT_FOUND w___TYPE_NOT_FOUND = w_frm.shTabFooter;
-                        if (m_nextTop[nTabIndex] + c.Height > w___TYPE_NOT_FOUND.Top + w___TYPE_NOT_FOUND.Height) {
+                        if(m_nextTop[nTabIndex] + c.Height > w___TYPE_NOT_FOUND.Top + w___TYPE_NOT_FOUND.Height) {
                             setNewTopAndLeft(iProperty);
                         }
                     // {end with: w___TYPE_NOT_FOUND}
 
                 }
                 else {
-                    if (m_nextTop[nTabIndex] + c.Height + C_LINE_LIGHT + 50 > w_frm.Line1.Y1) {
+                    if(m_nextTop[nTabIndex] + c.Height + C_LINE_LIGHT + 50 > w_frm.Line1.Y1) {
                         setNewTopAndLeft(iProperty);
                     }
                 }
             // {end with: w_frm}
 
             // With c;
-                if (m_isDocument) {
-                    if (m_isItems) {
+                if(m_isDocument) {
+                    if(m_isItems) {
                         c.Tag = c_Items+ iProperty.TabIndex;
                     }
-                    else if (m_isFooter) {
+                    else if(m_isFooter) {
                         c.Tag = c_Footer+ iProperty.TabIndex;
                     }
                     else {
@@ -5725,7 +5415,7 @@
                     }
                 }
                 else {
-                    if (oProperty.getTabIndex()) {
+                    if(oProperty.getTabIndex()) {
                         c.Tag = oProperty.getTabIndex();
                     }
                     else {
@@ -5739,69 +5429,69 @@
             // {end with: c}
 
             // With iProperty;
-                if (iProperty.PropertyType == cspOption) {
+                if(iProperty.PropertyType === cspOption) {
                     int r = 0;
                     int q = 0;
-                    if (iProperty.OptionGroup - 1 > m_leftOp.length) {
+                    if(iProperty.OptionGroup - 1 > m_leftOp.length) {
                         r = m_leftOp.length;
                         G.redimPreserve(m_leftOp, iProperty.OptionGroup);
-                        Object w_frm = getFrm();
+                        Object w_frm = getView();
                             for (q = r; q <= m_leftOp.length; q++) {
                                 m_leftOp[q] = w_frm.OP(0).cABMProperty.getLeft();
                             }
                         // {end with: w_frm}
                     }
-                    if (iProperty.OptionGroup - 1 > m_nextTopOp.length) {
+                    if(iProperty.OptionGroup - 1 > m_nextTopOp.length) {
                         r = m_nextTopOp.length;
                         G.redimPreserve(m_nextTopOp, iProperty.OptionGroup);
-                        Object w_frm = getFrm();
+                        Object w_frm = getView();
                             for (q = r; q <= m_nextTopOp.length; q++) {
                                 m_nextTopOp[q] = w_frm.OP(0).cABMProperty.getTop();
                             }
                         // {end with: w_frm}
                     }
 
-                    if (iProperty.Left == -1) {
+                    if(iProperty.Left === -1) {
                         c.Left = m_leftOp[iProperty.OptionGroup];
                     }
-                    if (iProperty.Top == -1) {
+                    if(iProperty.Top === -1) {
                         c.Top = m_nextTopOp[iProperty.OptionGroup];
                     }
-                    if (iProperty.Width == 0) {
+                    if(iProperty.Width === 0) {
                         c.Width = 1500;
                     }
-                    c.Caption = iProperty.Name;
+                    c.text = iProperty.Name;
 
                     // Agrando el Frame
-                    if (c.Top + c.Height > f.Height) { f.Height = c.Top + c.Height + 50; }
+                    if(c.Top + c.Height > f.Height) { f.Height = c.Top + c.Height + 50; }
 
-                    if (f.Height + f.Top > getFrm().Line1.Y1) {
+                    if(f.Height + f.Top > getView().Line1.Y1) {
                         f.Top = m_nextTop[nTabIndex] - 100;
                         f.Left = m_left[nTabIndex];
                     }
 
-                    if (c.Left + c.Width > f.Width) { f.Width = c.Left + c.Width + 20; }
+                    if(c.Left + c.Width > f.Width) { f.Width = c.Left + c.Width + 20; }
 
-                    if (iProperty.TopFrame != 0) { f.Top = iProperty.TopFrame; }
-                    if (iProperty.LeftFrame != 0) { f.Left = iProperty.LeftFrame; }
+                    if(iProperty.TopFrame != 0) { f.Top = iProperty.TopFrame; }
+                    if(iProperty.LeftFrame != 0) { f.Left = iProperty.LeftFrame; }
 
                     m_nextTopOp[iProperty.OptionGroup] = m_nextTopOp[iProperty.OptionGroup] + C_LINE_HEIGHT;
 
                 }
-                else if (iProperty.PropertyType == cspToolBar) {
+                else if(iProperty.PropertyType === cspToolBar) {
 
                     // With frameToolBar;
                         frameToolBar.Width = iProperty.Width;
                         frameToolBar.Top = iProperty.TopFrame;
                         frameToolBar.Left = iProperty.LeftFrame;
-                        if (iProperty.Height > 0) {
+                        if(iProperty.Height > 0) {
                             frameToolBar.Height = iProperty.Height;
                         }
                         else {
                             frameToolBar.Height = c.Height;
                         }
                         frameToolBar.Tag = iProperty.TabIndex;
-                        frameToolBar.BackColor = getFrm().ShTab.cABMGridRow.getBackColor();
+                        frameToolBar.BackColor = getView().ShTab.cABMGridRow.getBackColor();
                     // {end with: frameToolBar}
 
                     Toolbar tbl = null;
@@ -5818,13 +5508,13 @@
                     iProperty.TopNotChange = true;
 
                 }
-                else if (iProperty.PropertyType == cspLabel  || iProperty.PropertyType == cspTitle  || iProperty.PropertyType == cspDescription) {
+                else if(iProperty.PropertyType === cspLabel  || iProperty.PropertyType === cspTitle  || iProperty.PropertyType === cspDescriptiontion) {
 
-                    if (iProperty.Top == -1) {
+                    if(iProperty.Top === -1) {
                         c.Top = m_nextTop[nTabIndex];
                     }
 
-                    if (iProperty.Left == -1) {
+                    if(iProperty.Left === -1) {
                         c.Left = m_left[nTabIndex] + m_labelLeft;
                     }
 
@@ -5833,19 +5523,19 @@
 
                     Label lB = null;
 
-                    Object w_frm = getFrm();
+                    Object w_frm = getView();
                         Load(w_frm.LB(w_frm.LB.UBound + 1));
                         lB = w_frm.LB(w_frm.LB.UBound);
                     // {end with: w_frm}
 
                     // With lB;
                         oProperty.setLabelIndex(lB.Index);
-                        lB.Caption = iProperty.Name;
+                        lB.text = iProperty.Name;
                         lB.Left = m_left[nTabIndex];
                         lB.BackStyle = 0;
                         lB.Tag = c.Tag;
                         lB.ZOrder;
-                        if (iProperty.PropertyType == cspButton) {
+                        if(iProperty.PropertyType === cspButton) {
                             lB.Visible = false;
                         }
                     // {end with: lB}
@@ -5853,7 +5543,7 @@
                     // Etiquetas invisibles
                     // para Grillas, Botones e Imagenes
                     //
-                    if (iProperty.LeftLabel == -1) {
+                    if(iProperty.LeftLabel === -1) {
                         // With lB;
                             lB.Visible = false;
                             //' Si una etiqueta tiene tag=-1
@@ -5864,12 +5554,12 @@
                     }
 
                     // Formateo especial para Grids
-                    if (iProperty.PropertyType == cspGrid) {
-                        if (iProperty.Left == -1) {
+                    if(iProperty.PropertyType === cspGrid) {
+                        if(iProperty.Left === -1) {
                             c.Left = m_left[nTabIndex];
                         }
 
-                        if (m_isItems) {
+                        if(m_isItems) {
                             c.Top = m_nextTop[nTabIndex];
                             // With lB;
                                 lB.Visible = false;
@@ -5880,7 +5570,7 @@
                             // {end with: lB}
                         }
                         else {
-                            if (iProperty.Top == 0) {
+                            if(iProperty.Top === 0) {
                                 c.Top = m_nextTop[nTabIndex] + 300;
                                 // With lB;
                                     lB.Top = m_nextTop[nTabIndex];
@@ -5888,12 +5578,12 @@
                                 // {end with: lB}
                             }
                         }
-                        if (iProperty.Width == -1  || iProperty.Width == 0) {
-                            c.Width = getFrm().ScaleWidth - c.Left - 300;
+                        if(iProperty.Width === -1  || iProperty.Width === 0) {
+                            c.Width = getView().ScaleWidth - c.Left - 300;
                         }
 
                     }
-                    else if (m_isDocument && iProperty.Table == Cairo.Tables.DOCUMENTO) {
+                    else if(m_isDocument && iProperty.Table === Cairo.Tables.DOCUMENTO) {
 
                         // With c;
                             c.Left = 3600;
@@ -5912,9 +5602,9 @@
                         // {end with: lB}
 
                     }
-                    else if (m_isDocument && (oProperty.getKeyCol().equals(csNumberID) || oProperty.getKeyCol().equals(csStateID))) {
+                    else if(m_isDocument && (oProperty.getKeyCol().equals(csNumberID) || oProperty.getKeyCol().equals(csStateID))) {
 
-                        if (oProperty.getKeyCol().equals(csNumberID)) {
+                        if(oProperty.getKeyCol().equals(csNumberID)) {
                             c.Left = 7300;
                             c.Width = 1200;
                         }
@@ -5937,7 +5627,7 @@
                     }
                     else {
 
-                        if (iProperty.Top != -1) {
+                        if(iProperty.Top != -1) {
 
                             lB.Top = iProperty.Top;
                         }
@@ -5964,8 +5654,8 @@
                                 break;
                         }
 
-                        if (m_isFooter) {
-                            if (iProperty.Left == -1) {
+                        if(m_isFooter) {
+                            if(iProperty.Left === -1) {
                                 c.Left = m_left[nTabIndex];
                             }
                             // With lB;
@@ -5977,13 +5667,13 @@
                             // {end with: lB}
                         }
                         else {
-                            if (iProperty.Left != -1) {
+                            if(iProperty.Left != -1) {
                                 lB.Left = c.Left + iProperty.LeftLabel;
                                 lB.Width = Abs(iProperty.LeftLabel);
                             }
                             else {
                                 c.Left = m_left[nTabIndex] + m_labelLeft;
-                                if (iProperty.LeftLabel != 0) {
+                                if(iProperty.LeftLabel != 0) {
                                     lB.Left = c.Left + iProperty.LeftLabel;
                                     lB.Width = Abs(iProperty.LeftLabel);
                                 }
@@ -6002,17 +5692,17 @@
                 // {end with: oProperty}
 
                 // Si el control modifica el Left de los que vienen detras
-                if (!iProperty.LeftNotChange) {
+                if(!iProperty.LeftNotChange) {
 
                     // Si fue un option button hay que fijarce en el contenedor
-                    if (iProperty.PropertyType == cspOption) {
-                        if (iProperty.LeftFrame != 0  && !iProperty.LeftNotChange) {
+                    if(iProperty.PropertyType === cspOption) {
+                        if(iProperty.LeftFrame != 0  && !iProperty.LeftNotChange) {
                             m_left[nTabIndex] = f.Left;
                         }
                     }
                     else {
                         // Si el control indico un left fijo, los demas se alinean con el
-                        if (iProperty.Left != -1  && iProperty.LeftToPrevious == 0) {
+                        if(iProperty.Left != -1  && iProperty.LeftToPrevious === 0) {
                             m_left[nTabIndex] = iProperty.Left + iProperty.LeftLabel;
                             m_labelLeft = Abs(iProperty.LeftLabel);
                         }
@@ -6030,15 +5720,15 @@
                 // Ahora hay que calcular donde empieza el renglo para el proximo control
 
                 // Si el control modifica el Top para los que vienen detras
-                if (!iProperty.TopNotChange) {
+                if(!iProperty.TopNotChange) {
                     // Si el control tiene un top personalizado entonces
                     // parto de dicho top para el calculo. Siempre y cuando no sea un OptionButton
-                    if (iProperty.Top != -1  && iProperty.PropertyType != cspOption  && !iProperty.TopNotChange) {
+                    if(iProperty.Top != -1  && iProperty.PropertyType != cspOption  && !iProperty.TopNotChange) {
 
                         m_lastTop = iProperty.Top;
 
                         // Si el control inidica un alto personalizado
-                        if (iProperty.Height > 0) {
+                        if(iProperty.Height > 0) {
                             m_nextTop[nTabIndex] = iProperty.Top + c.Height + C_LINE_LIGHT;
                         }
                         else {
@@ -6047,7 +5737,7 @@
                     }
                     else {
                         // Si el control inidica un alto personalizado. Siempre y cuando no sea un OptionButton
-                        if (iProperty.Height > 0 && iProperty.PropertyType != cspOption) {
+                        if(iProperty.Height > 0 && iProperty.PropertyType != cspOption) {
                             m_nextTop[nTabIndex] = m_nextTop[nTabIndex] + c.Height + C_LINE_LIGHT;
 
                             // Si se uso el alto standar (C_LINE_Height)
@@ -6060,7 +5750,7 @@
                             // no trae ningun problema.
                             //
                             // Aunque hay una excepcion: Cuando se trata de documentos el help de documento va en la barra de titulo
-                            if (!(m_isDocument && (iProperty.Table == Cairo.Tables.DOCUMENTO  || oProperty.getKeyCol().equals(csNumberID) || oProperty.getKeyCol().equals(csStateID)))) {
+                            if(!(m_isDocument && (iProperty.Table === Cairo.Tables.DOCUMENTO  || oProperty.getKeyCol().equals(csNumberID) || oProperty.getKeyCol().equals(csStateID)))) {
                                 m_nextTop[nTabIndex] = m_nextTop[nTabIndex] + C_LINE_HEIGHT;
                             }
                         }
@@ -6068,7 +5758,7 @@
                 }
 
                 // Finalmente valido el ancho del form
-                if (iProperty.PropertyType == cspOption) {
+                if(iProperty.PropertyType === cspOption) {
                     setNewWidthForm(iProperty, f.Width + f.Left);
                 }
                 else {
@@ -6084,13 +5774,13 @@
 
             nTabIndex = pGetTabIndex(iProperty);
 
-            Object w_frm = getFrm();
-                if (m_isItems) {
-                    m_nextTop[nTabIndex] = w_frm.shTabItems.cABMProperty.getTop() + 100;
+            Object w_frm = getView();
+                if(m_isItems) {
+                    m_nextTop[nTabIndex] = w_frm.getTabItems().getTop() + 100;
                     m_left[nTabIndex] = m_left[nTabIndex] + C_OFFSET_H2;
 
                 }
-                else if (m_isFooter) {
+                else if(m_isFooter) {
                     m_nextTop[nTabIndex] = w_frm.shTabFooter.cABMProperty.getTop() + C_OFFSET_V1;
                     m_left[nTabIndex] = m_left[nTabIndex] + C_OFFSET_H3;
 
@@ -6118,22 +5808,22 @@
 
                 iProp = oProp;
 
-                Object w_frm = getFrm();
-                    if (w_frm.ShTab.cABMProperty.getLeft() == 0) {
+                Object w_frm = getView();
+                    if(w_frm.ShTab.cABMProperty.getLeft() === 0) {
                         offsetH = 120;
                     }
                     else {
                         offsetH = 400;
                     }
 
-                    if (frameSize > 0) {
-                        if (w_frm.Width < frameSize + offsetH) {
+                    if(frameSize > 0) {
+                        if(w_frm.Width < frameSize + offsetH) {
                             w_frm.Width = frameSize + offsetH;
                             w_frm.ShTab.cABMProperty.setWidth(w_frm.ScaleWidth - w_frm.ShTab.cABMProperty.getLeft() * 2);
                         }
                     }
                     else {
-                        if (w_frm.Width < oProp.getWidth() + oProp.getLeft() + offsetH) {
+                        if(w_frm.Width < oProp.getWidth() + oProp.getLeft() + offsetH) {
                             w_frm.Width = oProp.getWidth() + oProp.getLeft() + offsetH;
                         }
                         w_frm.ShTab.cABMProperty.setWidth(w_frm.ScaleWidth - w_frm.ShTab.cABMProperty.getLeft() * 2);
@@ -6148,20 +5838,20 @@
             cIABMProperties iProperties = null;
             boolean found = false;
 
-            if (m_properties == null) { return; }
+            if(m_properties === null) { return; }
 
             iProperties = m_properties;
 
             // Para Toolbars no hay indice
-            if (nType == cspToolBar) {
+            if(nType === cspToolBar) {
                 Toolbar tbl = null;
 
-                tbl = getFrm().GetToolBar;
+                tbl = getView().GetToolBar;
                 for (int _i = 0; _i < iProperties.size(); _i++) {
                     iProperty = iProperties.getItem(_i);
                     oProperty = iProperty;
-                    if (iProperty.PropertyType == nType) {
-                        if (oProperty.setToolbar(Is tbl)) {
+                    if(iProperty.PropertyType === nType) {
+                        if(oProperty.setToolbar(Is tbl)) {
                             return oProperty;
                             break;
                         }
@@ -6179,10 +5869,10 @@
 
                         // Tratamiento especial para textos que
                         // tambien pueden ser carpetas o archivos
-                        if (nType == cspText) {
+                        if(nType === cspText) {
 
-                            if (iProperty.PropertyType == cspText  && subType == cspMemo) {
-                                if (iProperty.SubType == subType) {
+                            if(iProperty.PropertyType === cspText  && subType === cspMemo) {
+                                if(iProperty.SubType === subType) {
                                     found = true;
                                 }
                             }
@@ -6191,21 +5881,21 @@
                                 // Los textbox y los cspFile y cspFolder estan dentro
                                 // del mismo arreglo de controles ( TX )
                                 //
-                                if ((iProperty.PropertyType == cspText  || iProperty.PropertyType == cspFile  || iProperty.PropertyType == cspFolder) && iProperty.SubType != cspMemo  && iProperty.SubType == subType) {
+                                if((iProperty.PropertyType === cspText  || iProperty.PropertyType === cspFile  || iProperty.PropertyType === cspFolder) && iProperty.SubType != cspMemo  && iProperty.SubType === subType) {
 
                                     found = true;
 
                                     // Finalmente puede tratarse de una caja de texto
                                     // con boton asi que SubType es cspTextButton o cspTextButtonEx
-                                    // pero cuando me llaman desde TxButtonClick me pasan 0 en
+                                    // pero cuando me llaman desde TextButtonClick me pasan 0 en
                                     // SubType ya que puede ser un cspFile, cspFolder o cspText
                                     // asi que este ultimo if captura los textbox que tienen boton
-                                    // normalmente descripciones en controles de una linea
+                                    // normalmente Descriptionciones en controles de una linea
                                     // o cajas de texto con boton que se resuelve por la clase
                                     // cliente que maneja las reglas de negocio de esta edicion.
                                     //
                                 }
-                                else if ((iProperty.PropertyType == cspText  && (iProperty.SubType == cspTextButton  || iProperty.SubType == cspTextButtonEx))) {
+                                else if((iProperty.PropertyType === cspText  && (iProperty.SubType === cspTextButton  || iProperty.SubType === cspTextButtonEx))) {
 
                                     found = true;
 
@@ -6213,7 +5903,7 @@
                             }
                         }
                         else {
-                            if (iProperty.PropertyType == nType) {
+                            if(iProperty.PropertyType === nType) {
                                 found = true;
                             }
                         }
@@ -6227,10 +5917,10 @@
                         // Para identificar la propiedad usamos
                         // el indice del control.
                         //
-                        if (found) {
+                        if(found) {
                             oProperty = iProperty;
 
-                            if (oProperty.getIndex() == index) {
+                            if(oProperty.getIndex() === index) {
                                 return oProperty;
                                 break;
                             }
@@ -6240,7 +5930,7 @@
             }
         }
 
-        private boolean changeProperty(csTypeABMProperty nType, int index, Object c, boolean bNoRefresh, csSubTypeABMProperty subType) { // TODO: Use of ByRef founded Private Function ChangeProperty(ByVal nType As csTypeABMProperty, ByVal Index As Integer, ByRef c As Object, Optional ByVal bNoRefresh As Boolean, Optional ByVal SubType As csSubTypeABMProperty = 0) As Boolean
+        var changeProperty(csTypeABMProperty nType, int index, Object c, boolean bNoRefresh, csSubTypeABMProperty subType) { // TODO: Use of ByRef founded Private Function ChangeProperty(ByVal nType As csTypeABMProperty, ByVal Index As Integer, ByRef c As Object, Optional ByVal bNoRefresh As Boolean, Optional ByVal SubType As csSubTypeABMProperty = 0) As Boolean
             boolean _rtn = false;
             try {
 
@@ -6251,7 +5941,7 @@
 
                 Static(Refreshing As Boolean);
 
-                if (Refreshing || m_showingForm) {
+                if(Refreshing || m_showingForm) {
                     Refreshing = false;
                     _rtn = true;
                     return _rtn;
@@ -6261,7 +5951,7 @@
 
                 iProperties = m_properties;
 
-                if (oProperty != null) {
+                if(oProperty != null) {
 
                     iProperty = oProperty;
 
@@ -6270,8 +5960,8 @@
                                 //Case csTypeABMProperty.cspAdHock, csTypeABMProperty.cspList
                             case  csTypeABMProperty.cspList:
                                 iProperty.ListListIndex = c.ListIndex;
-                                iProperty.ListText = c.Text;
-                                if (c.ListIndex >= 0) {
+                                iProperty.ListText = c.text;
+                                if(c.ListIndex >= 0) {
                                     iProperty.ListItemData = c.ItemData(c.ListIndex);
                                 }
                                 else {
@@ -6282,7 +5972,7 @@
                             case  csTypeABMProperty.cspPassword:
                             case  csTypeABMProperty.cspFile:
                             case  csTypeABMProperty.cspFolder:
-                                iProperty.Value = c.Text;
+                                iProperty.Value = c.text;
                                 break;
                             case  csTypeABMProperty.cspNumeric:
                                 iProperty.Value = c.csValue;
@@ -6293,13 +5983,13 @@
                                 break;
                             case  csTypeABMProperty.cspOption:
 
-                                if (c.Value) {
+                                if(c.Value) {
                                     // Aca hay que cambiar al resto de las Properties de este Group de
                                     // option buttons
                                     for (int _i = 0; _i < iProperties.size(); _i++) {
                                         iProperty2 = iProperties.getItem(_i);
-                                        if (!iProperty2(Is iProperty)) {
-                                            if (iProperty2.PropertyType == cspOption  && iProperty2.OptionGroup == iProperty.OptionGroup) {
+                                        if(!iProperty2(Is iProperty)) {
+                                            if(iProperty2.PropertyType === cspOption  && iProperty2.OptionGroup === iProperty.OptionGroup) {
                                                 iProperty2.Value = 0;
                                             }
                                         }
@@ -6321,27 +6011,27 @@
                                 break;
                         }
 
-                        if (m_client.PropertyChange(iProperty.Key) && !bNoRefresh) {
+                        if(m_client.PropertyChange(iProperty.Key) && !bNoRefresh) {
                             Refreshing = true;
                             for (int _i = 0; _i < iProperties.size(); _i++) {
                                 iProperty = iProperties.getItem(_i);
-                                showValue(iProperty, m_bNoChangeColsInRefresh);
+                                showValue(iProperty, m_noChangeColsInRefresh);
                             }
                         }
                     // {end with: iProperty}
                 }
 
-                if (!pIsButton(iProperty) && pIsEditProperty(iProperty)) {
+                if(!pIsButton(iProperty) && pIsEditProperty(iProperty)) {
 
-                    if (m_isDocument) {
-                        if (iProperty != null) {
-                            if (iProperty.Table != Cairo.Tables.DOCUMENTO) {
-                                setWasChanged(true);
+                    if(m_isDocument) {
+                        if(iProperty != null) {
+                            if(iProperty.Table != Cairo.Tables.DOCUMENTO) {
+                                setChanged(true);
                             }
                         }
                     }
                     else {
-                        setWasChanged(true);
+                        setChanged(true);
                     }
                 }
 
@@ -6352,12 +6042,12 @@
                 // permitimos al objeto de negocios
                 // que indique se debe cerrar el form
                 //
-                if (m_formABM != null) {
-                    if (m_bSendSave) {
-                        m_formABM.ctrlKeySave();
+                if(m_masterView != null) {
+                    if(m_sendSave) {
+                        m_masterView.ctrlKeySave();
                     }
-                    else if (m_bSendClose) {
-                        m_formABM.ctrlKeyClose();
+                    else if(m_sendClose) {
+                        m_masterView.ctrlKeyClose();
                     }
                 }
 
@@ -6368,27 +6058,27 @@
             return _rtn;
         }
 
-        private boolean pIsButton(cIABMProperty iProp) { // TODO: Use of ByRef founded Private Function pIsButton(ByRef iProp As cIABMProperty) As Boolean
-            if (iProp == null) { return false; }
-            return iProp.PropertyType == cspButton;
+        var pIsButton(cIABMProperty iProp) { // TODO: Use of ByRef founded Private Function pIsButton(ByRef iProp As cIABMProperty) As Boolean
+            if(iProp === null) { return false; }
+            return iProp.PropertyType === cspButton;
         }
 
-        private boolean pIsEditProperty(cABMProperty iProp) { // TODO: Use of ByRef founded Private Function pIsEditProperty(ByRef iProp As cABMProperty) As Boolean
-            if (iProp == null) { return false; }
+        var pIsEditProperty(cABMProperty iProp) { // TODO: Use of ByRef founded Private Function pIsEditProperty(ByRef iProp As cABMProperty) As Boolean
+            if(iProp === null) { return false; }
             return iProp.getIsEditProperty();
         }
 
-        public boolean validateEx() {
-            if (!pFillGrids()) { return false; }
-            if (!pValidate()) { return false; }
+        self.validateEx() {
+            if(!pFillGrids()) { return false; }
+            if(!pValidate()) { return false; }
             return true;
         }
 
-        public void validateProp(cIABMProperty iProp, String strKey) { // TODO: Use of ByRef founded Public Sub ValidateProp(ByRef iProp As cIABMProperty, ByVal strKey As String)
+        self.validateProp(cIABMProperty iProp, String strKey) { // TODO: Use of ByRef founded Public Sub ValidateProp(ByRef iProp As cIABMProperty, ByVal strKey As String)
             cABMProperty oProp = null;
             cIABMProperties iProps = null;
 
-            if (iProp == null) {
+            if(iProp === null) {
                 iProps = m_properties;
                 oProp = iProps.Item(strKey);
             }
@@ -6396,21 +6086,21 @@
                 oProp = iProp;
             }
 
-            if (!TypeOf(oProp.getCtl() Is cshelp2.cHelp)) { return; }
+            if(!TypeOf(oProp.getCtl() Is cshelp2.cHelp)) { return; }
 
             cshelp2.cHelp hL = null;
             hL = oProp.getCtl();
             hL.Validate;
         }
 
-        private boolean pValidateItemsAndFooter() {
+        var pValidateItemsAndFooter() {
             boolean _rtn = false;
             cABMGeneric genDocEx = null;
 
-            if (m_isDocument) {
+            if(m_isDocument) {
 
                 genDocEx = m_client.MessageEx(ABM_MSG.MSG_DOC_EX_GET_ITEMS, null);
-                if (!genDocEx.validateEx()) { return _rtn; }
+                if(!genDocEx.validateEx()) { return _rtn; }
 
                 genDocEx = m_client.MessageEx(ABM_MSG.MSG_DOC_EX_GET_FOOTERS, null);
                 _rtn = genDocEx.validateEx();
@@ -6424,44 +6114,34 @@
 
         // Solo guarda si hubo cambios y el usuario los quiere guardar
         //
-        public boolean saveChanges() {
+        self.saveChanges() {
             return pSaveChanges(false, false);
         }
 
-        public boolean save() {
+        self.save() {
             boolean _rtn = false;
             _rtn = pSave(false, false);
-            if (m_bOkCancelDialog) {
-                m_bOkCancelDialogRslt = true;
-                if (getFrm(instanceOf fABM)) {
-                    m_FormABM_cmdCloseClick();
+            if(m_showOkCancel) {
+                m_okCancelResult = true;
+                if(getView(instanceOf fABM)) {
+                    masterHandlerCloseClick();
                 }
-                else if (getFrm(instanceOf fABMDoc)) {
+                else if(getView(instanceOf fABMDoc)) {
                     pFormDocClose();
                 }
-                else if (getFrm(instanceOf fWizard)) {
-                    m_FormWizard_cmdCancelClick();
+                else if(getView(instanceOf fWizard)) {
+                    wizHandlerCancelClick();
                 }
             }
             return _rtn;
         }
 
-        private boolean pSave(boolean bUnloading, boolean bSaveAs) {
+        var pSave(boolean bUnloading, boolean bSaveAs) {
             boolean _rtn = false;
             try {
 
-                if (!m_isDocument) {
-
-                    cLockUpdateWindow lockwnd = null;
-
-                    if (!m_bNotLockWnd) {
-                        lockwnd = new cLockUpdateWindow();
-                        lockwnd.lockW(getFrm().hWnd);
-                    }
-                }
-
-                if (m_isItems) { return _rtn; }
-                if (m_isFooter) { return _rtn; }
+                if(m_isItems) { return _rtn; }
+                if(m_isFooter) { return _rtn; }
 
                 m_inSave = true;
 
@@ -6471,7 +6151,7 @@
                 pRefreshAux();
                 pFillList();
 
-                if (!pFillGrids()) { / * *TODO:** goto found: GoTo ExitProc* /  }
+                if(!pFillGrids()) { / * *TODO:** goto found: GoTo ExitProc* /  }
 
                 // OJO: Esto se cambio de lugar y se puso antes
                 //      de los validate para que no se de el bug
@@ -6481,7 +6161,7 @@
                 //      Si notamos que hay algun bug nuevo este es
                 //      nuestro sospechoso de siempre!!!
                 //
-                if (!m_isDocument) {
+                if(!m_isDocument) {
                     pSetEnabled(false);
                 }
 
@@ -6501,19 +6181,19 @@
                 // preguntar tres veces por cada Validate, si
                 // se el usuario acepta el reingreso o no
                 //
-                if (m_isDocument) {
+                if(m_isDocument) {
                     m_client.MessageEx(ABM_MSG.MSG_DOC_EX_PRE_VALIDATE, null);
                 }
 
-                if (!pValidate()) {
-                    if (!m_isDocument) {
+                if(!pValidate()) {
+                    if(!m_isDocument) {
                         pSetEnabled(true);
                     }
                     / * *TODO:** goto found: GoTo ExitProc* /
                 }
 
-                if (!pValidateItemsAndFooter()) {
-                    if (!m_isDocument) {
+                if(!pValidateItemsAndFooter()) {
+                    if(!m_isDocument) {
                         pSetEnabled(true);
                     }
                     / * *TODO:** goto found: GoTo ExitProc* /
@@ -6521,10 +6201,10 @@
 
                 // Grabacion normal de un documento
                 //
-                if (!bSaveAs) {
+                if(!bSaveAs) {
 
-                    if (!m_client.Save()) {
-                        if (!m_isDocument) {
+                    if(!m_client.Save()) {
+                        if(!m_isDocument) {
                             pSetEnabled(true);
                         }
                         / * *TODO:** goto found: GoTo ExitProc* /
@@ -6537,8 +6217,8 @@
                     // se guarde como otra cosa, util para convertir
                     // una factura en un presupuesto
                     //
-                    if (!m_client.MessageEx(ABM_MSG.MSG_SAVE_AS, null)) {
-                        if (!m_isDocument) {
+                    if(!m_client.MessageEx(ABM_MSG.MSG_SAVE_AS, null)) {
+                        if(!m_isDocument) {
                             pSetEnabled(true);
                         }
                         / * *TODO:** goto found: GoTo ExitProc* /
@@ -6546,26 +6226,26 @@
 
                 }
 
-                if (!m_isDocument) {
+                if(!m_isDocument) {
                     pSetEnabled(true);
                 }
 
-                if (!bUnloading) {
+                if(!bUnloading) {
 
-                    if (!m_isDocument && !m_bSendRefresh && !m_bOkCancelDialog) {
+                    if(!m_isDocument && !m_bSendRefresh && !m_showOkCancel) {
 
                         pDiscardChanges(false);
                     }
                     else {
                         m_client.MessageEx(ABM_MSG.MSG_DOC_REFRESH, null);
-                        if (!m_isDocument) {
-                            pRefreshTitle();
+                        if(!m_isDocument) {
+                            refreshTitle();
                         }
-                        getFrm().SetFocusFirstControl;
+                        getView().SetFocusFirstControl;
                     }
                 }
 
-                setWasChanged(false);
+                setChanged(false);
                 _rtn = true;
 
                 / * *TODO:** goto found: GoTo ExitProc* /
@@ -6586,17 +6266,17 @@
 
             iProperties = m_properties;
 
-            for (Index = 1; Index <= getFrm().CB.UBound; Index++) {
+            for (Index = 1; Index <= getView().CB.UBound; Index++) {
                 for (int _j = 0; _j < iProperties.size(); _j++) {
                     iProperty = iProperties.getItem(_j);
-                    if (iProperty.PropertyType == cspList) {
+                    if(iProperty.PropertyType === cspList) {
                         oProperty = iProperty;
-                        if (oProperty.getIndex() == index) {
+                        if(oProperty.getIndex() === index) {
 
-                            Object w_frm = getFrm();
+                            Object w_frm = getView();
                                 iProperty.ListItemData = ListID(w_frm.CB(index));
                                 iProperty.ListListIndex = w_frm.CB(index).ListIndex;
-                                iProperty.ListText = w_frm.CB(index).Text;
+                                iProperty.ListText = w_frm.CB(index).text;
                             // {end with: w_frm}
                         }
                     }
@@ -6612,7 +6292,7 @@
             //          With Frm
             //            iProperty.ListItemData = ListID(.CBhock(Index))
             //            iProperty.ListListIndex = .CBhock(Index).ListIndex
-            //            iProperty.ListText = .CBhock(Index).Text
+            //            iProperty.ListText = .CBhock(Index).text
             //          End With
             //        End If
             //      End If
@@ -6620,7 +6300,7 @@
             //  Next
         }
 
-        private boolean pFillGrids() {
+        var pFillGrids() {
             cIABMProperty iProperty = null;
             cABMProperty oProperty = null;
             cIABMProperties iProperties = null;
@@ -6628,16 +6308,16 @@
 
             iProperties = m_properties;
 
-            Object w_frm = getFrm();
+            Object w_frm = getView();
 
                 for (Index = 0; Index <= w_frm.GR.UBound; Index++) {
                     for (int _j = 0; _j < iProperties.size(); _j++) {
                         iProperty = iProperties.getItem(_j);
-                        if (iProperty.PropertyType == cspGrid) {
+                        if(iProperty.PropertyType === cspGrid) {
                             oProperty = iProperty;
-                            if (oProperty.getIndex() == index) {
+                            if(oProperty.getIndex() === index) {
 
-                                if (!pFillRows(iProperty.Grid, w_frm.GR(index))) { return false; }
+                                if(!pFillRows(iProperty.Grid, w_frm.getGrid(index))) { return false; }
 
                             }
                         }
@@ -6648,7 +6328,7 @@
             return true;
         }
 
-        private boolean pFillRows(cIABMGrid grid, cGridAdvanced grCtrl) { // TODO: Use of ByRef founded Private Function pFillRows(ByRef Grid As cIABMGrid, ByRef grCtrl As cGridAdvanced) As Boolean
+        var pFillRows(cIABMGrid grid, cGridAdvanced grCtrl) { // TODO: Use of ByRef founded Private Function pFillRows(ByRef Grid As cIABMGrid, ByRef grCtrl As cGridAdvanced) As Boolean
             cIABMGridColumn col = null;
             int colIndex = 0;
             int rowIndex = 0;
@@ -6663,7 +6343,7 @@
 
             oRows = grid.Rows;
 
-            if (oRows.getHaveKey()) {
+            if(oRows.getHaveKey()) {
 
                 bHaveKey = true;
                 G.redim(vKeys, grid.Rows.cABMDocPropertiesCols.count(), grid.Columns.cABMDocPropertiesCols.count());
@@ -6676,7 +6356,7 @@
 
                     for (ColIndex = 2; ColIndex <= grid.Columns.cABMDocPropertiesCols.count(); ColIndex++) {
                         row = oRow;
-                        if (colIndex <= row.Count) {
+                        if(colIndex <= row.Count) {
                             oCell = row.Item(colIndex);
                             vKeys[rowIndex, colIndex].equals(oCell.getStrKey());
                         }
@@ -6688,7 +6368,7 @@
 
             // Clear borra m_HaveKey
             //
-            if (bHaveKey) {
+            if(bHaveKey) {
                 oRows.setHaveKey(bHaveKey);
             }
 
@@ -6697,23 +6377,23 @@
 
                     // The last row can be empty because it is for new items
                     // so if no columns with values exists don't add to grid.rows
-                    if (rowIndex == grCtrl.Rows) {
+                    if(rowIndex === grCtrl.Rows) {
 
                         // Only for grid that allow add new rows
                         cIABMProperty iProperty = null;
                         iProperty = getProperty(cspGrid, grCtrl.Index, 0);
-                        if (iProperty.GridAdd) {
-                            if (!pGRValidateRow(grCtrl.Index, rowIndex, false, false, bIsEmpty)) {
+                        if(iProperty.GridAdd) {
+                            if(!pGridValidateRow(grCtrl.Index, rowIndex, false, false, bIsEmpty)) {
                                 return null;
                             }
                         }
                     }
 
-                    if (!bIsEmpty) {
+                    if(!bIsEmpty) {
 
-                        if (bHaveKey) {
-                            if (rowIndex <= (vKeys, 1).length) {
-                                if (vKeys[rowIndex, 1] != "") {
+                        if(bHaveKey) {
+                            if(rowIndex <= (vKeys, 1).length) {
+                                if(vKeys[rowIndex, 1] != "") {
                                     row = grid.Rows.cABMGridRows.add(null, vKeys[rowIndex, 1]);
                                 }
                                 else {
@@ -6736,11 +6416,11 @@
                             // * With .cell(rowIndex, colIndex)
                             __TYPE_NOT_FOUND w___TYPE_NOT_FOUND = grCtrl.Cell(rowIndex, colIndex);
 
-                                if (bHaveKey) {
-                                    if (rowIndex <= (vKeys, 1).length && colIndex <= (vKeys, 1vKeys, 2).length) {
-                                        if (vKeys[rowIndex, colIndex] != "") {
-                                            if (vKeys[rowIndex, colIndex] == c_keyRowItem) {
-                                                if (row.Item(c_keyRowItem) == null) {
+                                if(bHaveKey) {
+                                    if(rowIndex <= (vKeys, 1).length && colIndex <= (vKeys, 1vKeys, 2).length) {
+                                        if(vKeys[rowIndex, colIndex] != "") {
+                                            if(vKeys[rowIndex, colIndex] === c_keyRowItem) {
+                                                if(row.Item(c_keyRowItem) === null) {
                                                     cell = row.Add(null, vKeys[rowIndex, colIndex]);
                                                 }
                                                 else {
@@ -6767,20 +6447,20 @@
                                 oCell = cell;
                                 oCell.setHelpValueProcess(w___TYPE_NOT_FOUND.Tag);
 
-                                if (col.PropertyType == cspCheck) {
+                                if(col.PropertyType === cspCheck) {
                                     cell.Id = w___TYPE_NOT_FOUND.ItemData;
 
                                 }
-                                else if (col.PropertyType == cspDate) {
-                                    cell.Value = mUtil.getDateValueForGridClient(w___TYPE_NOT_FOUND.Text);
+                                else if(col.PropertyType === cspDate) {
+                                    cell.Value = mUtil.getDateValueForGridClient(w___TYPE_NOT_FOUND.text);
 
                                 }
-                                else if (col.SubType == cspPercent) {
-                                    cell.Value = mUtil.val(w___TYPE_NOT_FOUND.Text) * 100;
+                                else if(col.SubType === cspPercent) {
+                                    cell.Value = mUtil.val(w___TYPE_NOT_FOUND.text) * 100;
 
                                 }
                                 else {
-                                    cell.Value = w___TYPE_NOT_FOUND.Text;
+                                    cell.Value = w___TYPE_NOT_FOUND.text;
                                 }
                             // {end with: w___TYPE_NOT_FOUND}
 
@@ -6797,15 +6477,15 @@
             int i = 0;
             cIABMProperty iProperty = null;
 
-            Object w_frm = getFrm();
+            Object w_frm = getView();
 
                 for (i = 0; i <= w_frm.GR.UBound; i++) {
 
                     iProperty = getProperty(cspGrid, i, 0);
 
-                    if (iProperty != null) {
-                        getMngGrid().saveColumnWidth(w_frm.GR(i), pGetNameGrid(iProperty));
-                        getMngGrid().saveColumnOrder(w_frm.GR(i), pGetNameGrid(iProperty));
+                    if(iProperty != null) {
+                        getMngGrid().saveColumnWidth(w_frm.getGrid(i), pGetNameGrid(iProperty));
+                        getMngGrid().saveColumnOrder(w_frm.getGrid(i), pGetNameGrid(iProperty));
                     }
                 }
             // {end with: w_frm}
@@ -6829,7 +6509,7 @@
                     oProperty.setCtl(null);
                 }
 
-                Object w_frm = getFrm();
+                Object w_frm = getView();
 
                     oLock = new cLockUpdateWindow();
                     oLock.lockW(w_frm.hWnd);
@@ -6907,24 +6587,24 @@
                         Unload(w_frm.LB(i));
                     }
 
-                    mUtil.destroyGrids(getFrm());
+                    mUtil.destroyGrids(getView());
 
-                    if (getFrm(instanceOf fWizard || getFrm() instanceOf fABM)) {
+                    if(getView(instanceOf fWizard || getView() instanceOf fABM)) {
                         for (i = 1; i <= w_frm.LB2.UBound; i++) {
                             Unload(w_frm.LB2(i));
                         }
                     }
 
-                    if (getFrm(instanceOf fWizard)) {
+                    if(getView(instanceOf fWizard)) {
                         for (i = 1; i <= w_frm.prgBar.UBound; i++) {
                             Unload(w_frm.prgBar(i));
                         }
-                        for (i = 1; i <= w_frm.LBDescrip.UBound; i++) {
-                            Unload(w_frm.LBDescrip(i));
+                        for (i = 1; i <= w_frm.LBDescription.UBound; i++) {
+                            Unload(w_frm.LBDescription(i));
                         }
                     }
 
-                    if (getFrm(instanceOf fWizard || getFrm() instanceOf fABM)) {
+                    if(getView(instanceOf fWizard || getView() instanceOf fABM)) {
 
                         for (i = 1; i <= w_frm.lbTitle2.UBound; i++) {
                             Unload(w_frm.lbTitle2(i));
@@ -6945,7 +6625,7 @@
             }
             try {
 
-                if (!dontCallClient) { m_client.DiscardChanges; }
+                if(!dontCallClient) { m_client.DiscardChanges; }
 
                 return;
             } catch (Exception ex) {
@@ -6953,11 +6633,11 @@
             }
         }
 
-        private boolean pValidate() {
+        var pValidate() {
             boolean _rtn = false;
-            if (!m_client.Validate()) { return _rtn; }
+            if(!m_client.Validate()) { return _rtn; }
 
-            if (m_implementsClientGrid) {
+            if(m_clientManageGrid) {
 
                 cABMProperty oProp = null;
                 int rowIndex = 0;
@@ -6971,7 +6651,7 @@
                     iProp = iProperties.getItem(_i);
                     oProp = iProp;
 
-                    if (iProp.PropertyType == cspGrid) {
+                    if(iProp.PropertyType === cspGrid) {
 
                         //' oProp.ctl.Redraw cuando recompile cGridAdvanced voy
                         oldRedraw = true;
@@ -6979,7 +6659,7 @@
                         oProp.getCtl().Redraw = false;
 
                         for (RowIndex = 1; RowIndex <= iProp.Grid.cABMCSGrid.getRows().Count; RowIndex++) {
-                            if (!pGRValidateRow(oProp.getIndex(), rowIndex, false, true, false)) {
+                            if(!pGridValidateRow(oProp.getIndex(), rowIndex, false, true, false)) {
                                 oProp.getCtl().Redraw = oldRedraw;
                                 return _rtn;
                             }
@@ -6995,7 +6675,7 @@
             return _rtn;
         }
 
-        public void setTabCtlIndex() {
+        self.setTabCtlIndex() {
 
             cIABMTabs iTabs = null;
             cIABMTabItem iTab = null;
@@ -7019,7 +6699,7 @@
             for (int _i = 0; _i < iProperties.size(); _i++) {
                 iProp = iProperties.getItem(_i);
 
-                if (iProp.TabIndex < 0) {
+                if(iProp.TabIndex < 0) {
 
                     iTab = pGetTabFather(iProp.TabIndex);
 
@@ -7042,9 +6722,9 @@
             iTabs = m_tabs;
             for (int _i = 0; _i < iTabs.size(); _i++) {
                 iTab = iTabs.getItem(_i);
-                if (iTab.Index == index) {
+                if(iTab.Index === index) {
                     oTab = iTab;
-                    if (!(oTab.getFatherTab().equals(""))) {
+                    if(!(oTab.getFatherTab().equals(""))) {
                         return iTabs(oTab.getFatherTab());
                     }
                 }
@@ -7064,26 +6744,26 @@
 
             left = 90;
 
-            if (m_tabTopHeight == 0) {
+            if(m_tabTopHeight === 0) {
                 tabTopHeight = 540;
             }
             else {
                 tabTopHeight = m_tabTopHeight;
-                getFrm().ShTab.top = m_tabTopHeight + getFrm().cbTab.cABMGridRow.item(0).Height - 10;
-                m_constTop = getFrm().ShTab.top + 200;
+                getView().ShTab.top = m_tabTopHeight + getView().cbTab.cABMGridRow.item(0).Height - 10;
+                m_constTop = getView().ShTab.top + 200;
             }
 
-            Object w_frm = getFrm();
+            Object w_frm = getView();
 
-                if (m_isItems) {
-                    top = w_frm.shTabItems.top - w_frm.cbTab(0).cABMProperty.getHeight();
+                if(m_isItems) {
+                    top = w_frm.getTabItems().top - w_frm.cbTab(0).cABMProperty.getHeight();
                     topItems = 10;
                 }
-                else if (m_isFooter) {
+                else if(m_isFooter) {
                     top = w_frm.shTabFooter.top - w_frm.cbTab(0).cABMProperty.getHeight();
                 }
                 else {
-                    if (m_isDocument) {
+                    if(m_isDocument) {
                         top = 1080;
                     }
                     else {
@@ -7093,13 +6773,13 @@
                 }
 
                 for (i = 1; i <= w_frm.cbTab.UBound; i++) {
-                    if (m_isItems) {
-                        if (w_frm.cbTab(i).Tag == c_Footer  || w_frm.cbTab(i).Tag == c_Items) {
+                    if(m_isItems) {
+                        if(w_frm.cbTab(i).Tag === c_Footer  || w_frm.cbTab(i).Tag === c_Items) {
                             Unload(w_frm.cbTab(i));
                         }
                     }
-                    else if (m_isFooter) {
-                        if (w_frm.cbTab(i).Tag == c_Footer) {
+                    else if(m_isFooter) {
+                        if(w_frm.cbTab(i).Tag === c_Footer) {
                             Unload(w_frm.cbTab(i));
                         }
                     }
@@ -7112,18 +6792,18 @@
                 cABMTabItem oTab = null;
                 int k = 0;
 
-                if (m_tabs != null) {
+                if(m_tabs != null) {
 
                     iTabs = m_tabs;
                     tabs = (iTabs.Count - 1 > tabs) ? iTabs.Count - 1 : tabs);
                 }
 
-                if (tabs == 0) { return; }
+                if(tabs === 0) { return; }
 
                 // * TODO:** can't found type for with block
                 // * With .cbTab
                 __TYPE_NOT_FOUND w___TYPE_NOT_FOUND = w_frm.cbTab;
-                    if (w___TYPE_NOT_FOUND.Count == 1) {
+                    if(w___TYPE_NOT_FOUND.Count === 1) {
                         m_firstTab = 0;
                     }
                     else {
@@ -7132,17 +6812,17 @@
                 // {end with: w___TYPE_NOT_FOUND}
 
                 for (i = m_firstTab; i <= tabs + m_firstTab; i++) {
-                    if (i > 0) { Load(w_frm.cbTab(i)); }
+                    if(i > 0) { Load(w_frm.cbTab(i)); }
 
                     // * TODO:** can't found type for with block
                     // * With .cbTab(i)
                     __TYPE_NOT_FOUND w___TYPE_NOT_FOUND = w_frm.cbTab(i);
-                        if (m_isDocument) {
-                            if (m_isItems) {
+                        if(m_isDocument) {
+                            if(m_isItems) {
                                 w___TYPE_NOT_FOUND.Tag = c_Items;
                                 w___TYPE_NOT_FOUND.TabGroup = 1;
                             }
-                            else if (m_isFooter) {
+                            else if(m_isFooter) {
                                 w___TYPE_NOT_FOUND.Tag = c_Footer;
                                 w___TYPE_NOT_FOUND.TabGroup = 2;
                             }
@@ -7155,25 +6835,25 @@
                         k = k + 1;
 
                         oTab = iTabs(k);
-                        if (!(oTab.getFatherTab().equals(""))) {
+                        if(!(oTab.getFatherTab().equals(""))) {
                             iTab = iTabs(oTab.getFatherTab());
                             iTab2 = oTab;
                             w___TYPE_NOT_FOUND.Tag = w___TYPE_NOT_FOUND.Tag+ c_InerTab+ String.valueOf((iTab.Index * 100) + Abs(iTab2.Index));
 
-                            if (oTab.getLeft() != 0) {
+                            if(oTab.getLeft() != 0) {
                                 bDontResize = true;
                                 left = oTab.getLeft();
                             }
-                            if (oTab.getTop() != 0) {
+                            if(oTab.getTop() != 0) {
                                 bDontResize = true;
                                 top = oTab.getTop();
                             }
                         }
 
-                        w___TYPE_NOT_FOUND.Caption = "Tab"+ ((Integer) i).toString();
+                        w___TYPE_NOT_FOUND.text = "Tab"+ ((Integer) i).toString();
                         w___TYPE_NOT_FOUND.TabStop = false;
                         w___TYPE_NOT_FOUND.Visible = !m_hideTabButtons;
-                        if (left + w___TYPE_NOT_FOUND.Width > getFrm().Width) {
+                        if(left + w___TYPE_NOT_FOUND.Width > getView().Width) {
                             left = 90;
                             top = top + w___TYPE_NOT_FOUND.Height - 20;
                         }
@@ -7195,25 +6875,25 @@
                     m_left[q] = m_constLeft;
                 }
 
-                if (m_tabs == null) { return; }
+                if(m_tabs === null) { return; }
 
                 ///////////////////////////////////////////////////////////////
                 // Textos y anchos
                 //
                 Form f = null;
-                f = Me.getFrm();
+                f = Me.getView();
                 CSButton.cButton cbTab = null;
 
                 left = 90;
-                if (m_isItems) {
-                    top = w_frm.shTabItems.top - w_frm.cbTab(0).cABMProperty.getHeight();
+                if(m_isItems) {
+                    top = w_frm.getTabItems().top - w_frm.cbTab(0).cABMProperty.getHeight();
                     topItems = 10;
                 }
-                else if (m_isFooter) {
+                else if(m_isFooter) {
                     top = w_frm.shTabFooter.top - w_frm.cbTab(0).cABMProperty.getHeight();
                 }
                 else {
-                    if (m_isDocument) {
+                    if(m_isDocument) {
                         top = 1080;
                     }
                     else {
@@ -7224,19 +6904,19 @@
 
                 for (int _i = 0; _i < iTabs.size(); _i++) {
                     iTab = iTabs.getItem(_i);
-                    if (iTab.Index < 0) {
+                    if(iTab.Index < 0) {
                         oTab = iTab;
                         cbTab = w_frm.cbTab(oTab.getCtlIndex() + m_firstTab);
-                        cbTab.Caption = "&"+ Abs(iTab.Index)+ "-"+ iTab.Name;
+                        cbTab.text = "&"+ Abs(iTab.Index)+ "-"+ iTab.Name;
                     }
                     else {
                         cbTab = w_frm.cbTab(iTab.Index + m_firstTab);
-                        cbTab.Caption = "&"+ iTab.Index + m_firstTab + 1+ "-"+ iTab.Name;
+                        cbTab.text = "&"+ iTab.Index + m_firstTab + 1+ "-"+ iTab.Name;
                     }
 
-                    if (!bDontResize) {
-                        cbTab.Width = f.TextWidth(cbTab.Caption) + 300;
-                        if (left + cbTab.Width > f.Width) {
+                    if(!bDontResize) {
+                        cbTab.Width = f.textWidth(cbTab.text) + 300;
+                        if(left + cbTab.Width > f.Width) {
                             left = 100;
                             top = top + cbTab.Height - 20;
                         }
@@ -7252,12 +6932,12 @@
 
         private void pSetButton(Control control, cABMProperty oProperty) { // TODO: Use of ByRef founded Private Sub pSetButton(ByRef Control As Control, ByRef oProperty As cABMProperty)
 
-            if (control(instanceOf cMaskEdit)) {
+            if(control(instanceOf cMaskEdit)) {
                 // With control;
-                    if (control.csType != csMkText  && control.csType != csMkTime) {
-                        if (control.Enabled) {
+                    if(control.csType != csMkText  && control.csType != csMkTime) {
+                        if(control.Enabled) {
 
-                            if (oProperty.getNoShowButton()) {
+                            if(oProperty.getNoShowButton()) {
                                 control.ButtonStyle = cButtonNone;
                             }
                             else {
@@ -7273,7 +6953,7 @@
         }
 
         private Toolbar pLoadToolBar(cABMProperty prop, Frame f) { // TODO: Use of ByRef founded Private Function pLoadToolBar(ByVal Prop As cABMProperty, ByRef f As Frame) As Toolbar
-            return m_formABM.loadToolbar(f);
+            return m_masterView.loadToolbar(f);
         }
 
         private void moveNext() {
@@ -7295,19 +6975,19 @@
             wizardClient.moveBack();
         }
 
-        public void refreshFont(cIABMProperty iProperty) { // TODO: Use of ByRef founded Public Sub RefreshFont(ByRef iProperty As cIABMProperty)
+        self.refreshFont(cIABMProperty iProperty) { // TODO: Use of ByRef founded Public Sub RefreshFont(ByRef iProperty As cIABMProperty)
             cABMProperty oProp = null;
             oProp = iProperty;
 
-            if (oProp.getCtl() == null) { return; }
+            if(oProp.getCtl() === null) { return; }
             pSetFont(oProp.getCtl(), iProperty);
         }
 
-        public void refreshPosition(cIABMProperty iProperty) { // TODO: Use of ByRef founded Public Sub RefreshPosition(ByRef iProperty As cIABMProperty)
+        self.refreshPosition(cIABMProperty iProperty) { // TODO: Use of ByRef founded Public Sub RefreshPosition(ByRef iProperty As cIABMProperty)
             cABMProperty oProp = null;
             oProp = iProperty;
 
-            if (oProp.getCtl() == null) { return; }
+            if(oProp.getCtl() === null) { return; }
 
 
                 oProp.getCtl().Left = iProperty.Left;
@@ -7321,16 +7001,16 @@
 
 
                 // With iProperty;
-                    if (iProperty.FontName != "") {
+                    if(iProperty.FontName != "") {
                         c.FontName = iProperty.FontName;
                     }
-                    if (iProperty.FontSize > 0) {
+                    if(iProperty.FontSize > 0) {
                         c.FontSize = iProperty.FontSize;
                     }
                     c.FontUnderline = iProperty.FontUnderline;
                     c.FontBold = iProperty.FontBold;
                     c.FontItalic = iProperty.FontItalic;
-                    if (iProperty.ForeColor != -1) {
+                    if(iProperty.ForeColor != -1) {
                         c.ForeColor = iProperty.ForeColor;
                     }
                 // {end with: iProperty}
@@ -7340,27 +7020,27 @@
         private void pSetBackColor(Control c, cIABMProperty iProperty) { // TODO: Use of ByRef founded Private Sub pSetBackColor(ByRef c As Control, ByRef iProperty As cIABMProperty)
 
                 // With iProperty;
-                    if (iProperty.BackColor != -1) {
+                    if(iProperty.BackColor != -1) {
                         c.BackColor = iProperty.BackColor;
                     }
                 // {end with: iProperty}
             }
         }
 
-        private void pSetTabIndexDescrip() {
+        private void pSetTabIndexDescription() {
             cIABMProperty iProperty = null;
             cABMProperty oProperty = null;
             cIABMProperties iProperties = null;
 
-            if (m_isDocument) {
+            if(m_isDocument) {
 
                 iProperties = m_properties;
 
-                Object w_frm = getFrm();
+                Object w_frm = getView();
 
                     for (int _i = 0; _i < iProperties.size(); _i++) {
                         iProperty = iProperties.getItem(_i);
-                        if (iProperty.SubType == cspMemo) {
+                        if(iProperty.SubType === cspMemo) {
                             oProperty = iProperty;
                             w_frm.TXM(oProperty.getIndex()).cABMProperty.setTabIndex(w_frm.Controls.cABMDocPropertiesCols.count());
                         }
@@ -7377,7 +7057,7 @@
 
             iProperties = m_properties;
 
-            Object w_frm = getFrm();
+            Object w_frm = getView();
 
                 for (i = 1; i <= iProperties.Count; i++) {
 
@@ -7420,7 +7100,7 @@
                         case  csTypeABMProperty.cspText:
                         case  csTypeABMProperty.cspFile:
                         case  csTypeABMProperty.cspFolder:
-                            if (iProperties(i).SubType == cspMemo) {
+                            if(iProperties(i).SubType === cspMemo) {
                                 changeProperty(cspText, index, w_frm.TXM.cABMGridRow.item(index), true, cspMemo);
                             }
                             else {
@@ -7433,36 +7113,36 @@
             // {end with: w_frm}
         }
 
-        private void pResetChanged() {
-            setWasChanged(false);
-            m_unloading = false;
-        }
+        self.resetChanged = function() {
+          setChanged(false);
+          m_unloading = false;
+        };
 
-        private boolean pAskDelete(String msg) {
+        var pAskDelete(String msg) {
             return Ask(msg, vbYes, "Borrar");
         }
 
         private void pReloadDocument() {
 
 
-                if (m_unloading) { return; }
+                if(m_unloading) { return; }
 
-                pShowMsg("Descartando los cambios hechos al documento ...");
+                showMsg("Descartando los cambios hechos al documento ...");
                 m_client.MessageEx(ABM_MSG.MSG_DOC_REFRESH, null);
-                setWasChanged(false);
-                pHideMsg();
+                setChanged(false);
+                hideMsg();
             }
         }
 
-        public void printDocumento() {
+        self.printDocumento() {
             pPrint(false);
         }
 
-        public void printDocEx(int id) {
+        self.printDocEx(int id) {
             pPrint(false, id);
         }
 
-        public void printDocumentoCobranzaCdo(CSInterfacesABM.cIABMClient obj) { // TODO: Use of ByRef founded Public Sub PrintDocumentoCobranzaCdo(ByRef Obj As CSInterfacesABM.cIABMClient)
+        self.printDocumentoCobranzaCdo(CSInterfacesABM.cIABMClient obj) { // TODO: Use of ByRef founded Public Sub PrintDocumentoCobranzaCdo(ByRef Obj As CSInterfacesABM.cIABMClient)
 
                 CSInterfacesABM.cIABMClient oldClient = null;
                 oldClient = m_client;
@@ -7472,7 +7152,7 @@
             }
         }
 
-        public boolean printDocWithResult(CSInterfacesABM.cIABMClient obj, int id, int docId) { // TODO: Use of ByRef founded Public Function PrintDocWithResult(ByRef Obj As CSInterfacesABM.cIABMClient, ByVal Id As Long, ByVal DocId As Long) As Boolean
+        self.printDocWithResult(CSInterfacesABM.cIABMClient obj, int id, int docId) { // TODO: Use of ByRef founded Public Function PrintDocWithResult(ByRef Obj As CSInterfacesABM.cIABMClient, ByVal Id As Long, ByVal DocId As Long) As Boolean
             boolean _rtn = false;
 
 
@@ -7488,10 +7168,10 @@
             return _rtn;
         }
 
-        public boolean pPrintDocWithResult(int id, int docId) {
+        self.pPrintDocWithResult(int id, int docId) {
             boolean _rtn = false;
 
-            if (id == csNO_ID) {
+            if(id === csNO_ID) {
                 return _rtn;
             }
 
@@ -7508,7 +7188,7 @@
                 printManager.CommandTimeout = mUtil.val(mMngIni.iniGetEx(C_RPT_KEY, C_RPT_COMMAND_TIMEOUT, 0));
                 printManager.ConnectionTimeout = mUtil.val(mMngIni.iniGetEx(C_RPT_KEY, C_RPT_CONNECTION_TIMEOUT, 0));
 
-                printManager.DescripUser = pGetDescripUser();
+                printManager.DescriptionUser = pGetDescriptionUser();
                 printManager.Title = pGetPrintTitle();
 
                 printManager.ShowPrint(id, csNO_ID, docId);
@@ -7528,14 +7208,14 @@
                 Object printManager = null;
                 CSIDocumento.cIDocumento iDoc = null;
 
-                if (!TypeOf(m_client Is CSIDocumento.cIDocumento)) { / * *TODO:** goto found: GoTo ExitProc* /  }
+                if(!TypeOf(m_client Is CSIDocumento.cIDocumento)) { / * *TODO:** goto found: GoTo ExitProc* /  }
                 iDoc = m_client;
 
-                if (id == csNO_ID) {
+                if(id === csNO_ID) {
                     id = iDoc.Id;
                 }
 
-                if (id == csNO_ID) {
+                if(id === csNO_ID) {
                     MsgInfo("Debe grabar el documento para poder imprimirlo", "Imprimir");
                     / * *TODO:** goto found: GoTo ExitProc* /
                 }
@@ -7546,9 +7226,9 @@
                 //      es para que no se impriman formularios
                 //      con cambios sin guardar
                 //
-                if (!m_inSave) {
+                if(!m_inSave) {
 
-                    if (!pSaveChanges(false, false)) { / * *TODO:** goto found: GoTo ExitProc* /  }
+                    if(!pSaveChanges(false, false)) { / * *TODO:** goto found: GoTo ExitProc* /  }
 
                 }
 
@@ -7560,12 +7240,12 @@
                     printManager.CommandTimeout = mUtil.val(mMngIni.iniGetEx(C_RPT_KEY, C_RPT_COMMAND_TIMEOUT, 0));
                     printManager.ConnectionTimeout = mUtil.val(mMngIni.iniGetEx(C_RPT_KEY, C_RPT_CONNECTION_TIMEOUT, 0));
 
-                    printManager.DescripUser = pGetDescripUser();
+                    printManager.DescriptionUser = pGetDescriptionUser();
                     printManager.AutoPrint = m_autoPrint;
 
                     printManager.ShowPrint(id, csNO_ID, iDoc.DocId);
 
-                    if (printManager.DocImpreso) {
+                    if(printManager.DocImpreso) {
                         pReloadDocument();
                     }
                 // {end with: printManager}
@@ -7573,13 +7253,13 @@
                 / * *TODO:** goto found: GoTo ExitProc* /
             } catch (Exception ex) {
                 MngError(VBA.ex, "pPrint", C_MODULE, "");
-                if (VBA.ex.Number) { / * *TODO:** resume found: Resume(ExitProc)* /  }
+                if(VBA.ex.Number) { / * *TODO:** resume found: Resume(ExitProc)* /  }
                 / * *TODO:** label found: ExitProc:* /
 
             }
         }
 
-        private String pGetDescripUser() {
+        var pGetDescriptionUser() {
             String rtn = "";
 
             rtn = m_client.MessageEx(ABM_MSG.MSG_EXPORT_GET_FILE_NAME_POSTFIX, null);
@@ -7587,7 +7267,7 @@
             return rtn;
         }
 
-        private String pGetPrintTitle() {
+        var pGetPrintTitle() {
             String rtn = "";
 
             rtn = m_client.MessageEx(ABM_MSG.MSG_PRINT_GET_TITLE, null);
@@ -7595,7 +7275,7 @@
             return rtn;
         }
 
-        private String pGetEmailAddress() {
+        var pGetEmailAddress() {
 
 
                 String emailAddress = "";
@@ -7606,16 +7286,16 @@
             }
         }
 
-        private boolean pNewWithWizard() {
+        var pNewWithWizard() {
 
                 return mMsgConstantes.varToBool(m_client.MessageEx(ABM_MSG.MSG_DOC_NEW_WITH_WIZARD, null));
             }
         }
 
-        private int pGetTabIndex(cIABMProperty iProperty) { // TODO: Use of ByRef founded Private Function pGetTabIndex(ByRef iProperty As cIABMProperty) As Long
+        var pGetTabIndex(cIABMProperty iProperty) { // TODO: Use of ByRef founded Private Function pGetTabIndex(ByRef iProperty As cIABMProperty) As Long
             int _rtn = 0;
             // With iProperty;
-                if (iProperty.TabIndex == TabIndexType.TAB_ID_XT_ALL  || iProperty.TabIndex == TabIndexType.TAB_ID_XT_ALL2) {
+                if(iProperty.TabIndex === TabIndexType.TAB_ID_XT_ALL  || iProperty.TabIndex === TabIndexType.TAB_ID_XT_ALL2) {
                     _rtn = 0;
                 }
                 else {
@@ -7633,73 +7313,45 @@
         }
 
         private void initCtrlPosition() {
-            m_constLeft = getFrm().LB(0).cABMProperty.getLeft();
-            m_constLeftOp = getFrm().OP(0).cABMProperty.getLeft();
-            m_textOrigWidth = getFrm().TX(0).cABMProperty.getWidth();
+            m_constLeft = getView().LB(0).cABMProperty.getLeft();
+            m_constLeftOp = getView().OP(0).cABMProperty.getLeft();
+            m_textOrigWidth = getView().TX(0).cABMProperty.getWidth();
 
-            if (m_isItems) {
-                m_constTop = getFrm().shTabItems.cABMProperty.getTop() + 100;
+            if(m_isItems) {
+                m_constTop = getView().getTabItems().getTop() + 100;
 
             }
-            else if (m_isFooter) {
-                m_constTop = getFrm().shTabFooter.cABMProperty.getTop() + C_OFFSET_V1;
-                m_constLeft = getFrm().shTabFooter.cABMProperty.getLeft() + 200;
+            else if(m_isFooter) {
+                m_constTop = getView().shTabFooter.cABMProperty.getTop() + C_OFFSET_V1;
+                m_constLeft = getView().shTabFooter.cABMProperty.getLeft() + 200;
             }
             else {
-                m_constTop = getFrm().HL(0).cABMProperty.getTop();
+                m_constTop = getView().HL(0).cABMProperty.getTop();
             }
 
-            m_constTopOp = getFrm().OP(0).cABMProperty.getTop();
+            m_constTopOp = getView().OP(0).cABMProperty.getTop();
         }
 
-        private Object initLoadMembers() {
-            //m_bLoadAdHock = False
-            m_bLoadList = false;
-            m_bLoadHelp = false;
-            m_bLoadNumeric = false;
-            m_bLoadDate = false;
-            m_bLoadOption = false;
-            m_bLoadLabel = false;
-            m_bLoadTitle = false;
-            m_bLoadProgressBar = false;
-            m_bLoadDescription = false;
-            m_bLoadImage = false;
-            m_bLoadText = false;
-            m_bLoadTextM = false;
-            m_bLoadFile = false;
-            m_bLoadFolder = false;
-            m_bLoadPassword = false;
-            m_bLoadCheck = false;
-            m_bLoadGrid = false;
-            m_bLoadButton = false;
-        }
-
-        public void initButtons() {
-            if (getFrm(instanceOf fABMDoc)) {
-                m_formDoc.setNoButtons1(m_noButtons1);
-                m_formDoc.setNoButtons2(m_noButtons2);
-                m_formDoc.setNoButtons3(m_noButtons3);
-                m_formDoc.setButtonsEx2(m_buttonsEx2);
-                m_formDoc.setButtonsEx3(m_buttonsEx3);
-                m_formDoc.setToolbarButtons();
+        self.initButtons() {
+            if(getView(instanceOf fABMDoc)) {
+                m_documentView.setNoButtons1(m_noButtons1);
+                m_documentView.setNoButtons2(m_noButtons2);
+                m_documentView.setNoButtons3(m_noButtons3);
+                m_documentView.setButtonsEx2(m_buttonsEx2);
+                m_documentView.setButtonsEx3(m_buttonsEx3);
+                m_documentView.setToolbarButtons();
             }
         }
 
         // construccion - destruccion
         private void class_Initialize() {
-            #If PREPROC_DEBUG Then;
-            gdbInitInstance(C_MODULE);
-            #End If;
-
-
-
                 m_isDocument = false;
                 m_isFooter = false;
                 m_isItems = false;
                 m_formShowed = false;
                 m_minHeight = 5310;
                 m_minWidth = 8640;
-                m_tabHideCtrlsInAllTab = -1;
+                m_tabHideControlsInAllTab = -1;
 
                 m_properties = new cABMProperties();
 
@@ -7723,23 +7375,21 @@
                 m_properties = null;
                 m_client = null;
                 m_tabs = null;
-                m_mngGrid = null;
+                m_gridManager = null;
 
-                if (m_formABM != null) {
-                    Unload(m_formABM);
+                if(m_masterView != null) {
+                    Unload(m_masterView);
                 }
-                if (m_formDoc != null) {
-                    Unload(m_formDoc);
+                if(m_documentView != null) {
+                    Unload(m_documentView);
                 }
-                if (m_formWizard != null) {
-                    Unload(m_formWizard);
+                if(m_wizardView != null) {
+                    Unload(m_wizardView);
                 }
 
-                m_formABM = null;
-                m_formDoc = null;
-                m_formWizard = null;
-
-                m_owner = null;
+                m_masterView = null;
+                m_documentView = null;
+                m_wizardView = null;
 
                 #If PREPROC_DEBUG Then;
                 gdbTerminateInstance(C_MODULE);
@@ -7747,9 +7397,9 @@
             }
         }
 
-        private String pGetNameGrid(cIABMProperty iProp) { // TODO: Use of ByRef founded Private Function pGetNameGrid(ByRef iProp As cIABMProperty) As String
+        var pGetNameGrid(cIABMProperty iProp) { // TODO: Use of ByRef founded Private Function pGetNameGrid(ByRef iProp As cIABMProperty) As String
             String _rtn = "";
-            if (iProp.Name != "") {
+            if(iProp.Name != "") {
                 _rtn = m_client.Title+ "_"+ iProp.Name;
             }
             else {
@@ -7771,20 +7421,20 @@
             for (int _i = 0; _i < iProperties.size(); _i++) {
                 iProp = iProperties.getItem(_i);
 
-                if (iProp.PropertyType == cspGrid) {
+                if(iProp.PropertyType === cspGrid) {
                     i = i + 1;
                     grid = iProp.Grid;
 
                     oProp = iProp;
 
-                    if (!oProp.getCtl() == null && getFrm() Is m_formABM) {
-                        indexGrid = getFrm().GetIndexGrid(oProp.getCtl());
-                        if (indexGrid == 0) { indexGrid = i; }
+                    if(!oProp.getCtl() === null && getView() Is m_masterView) {
+                        indexGrid = getView().GetIndexGrid(oProp.getCtl());
+                        if(indexGrid === 0) { indexGrid = i; }
                     else {
                         indexGrid = i;
                     }
 
-                    getFrm().SetDontResize(indexGrid) = grid.setDontResize();
+                    getView().SetDontResize(indexGrid) = grid.setDontResize();
 
                     // Solo aplicamos un valor a esta propiedad
                     // cuando explicitamente se indico que no se
@@ -7801,10 +7451,10 @@
                     // Esto en algun momento se puede reprogramar para
                     // que quede mas coherente.
                     //
-                    if (grid.setDontResizeHeight()) {
-                        getFrm().SetDontResizeHeight(indexGrid) = true;
+                    if(grid.setDontResizeHeight()) {
+                        getView().SetDontResizeHeight(indexGrid) = true;
 
-                        if (!oProp.getCtl() == null) {
+                        if(!oProp.getCtl() === null) {
                             pSetGridHeight(oProp.getCtl(), iProp.Height);
                         }
                     }
@@ -7814,7 +7464,7 @@
 
         private void pSetGridHeight(Object ctl, int height) {
 
-                if (height > 0) {
+                if(height > 0) {
                     ctl.Height = height;
                 }
             }
@@ -7826,12 +7476,12 @@
                 Object ctl = null;
                 int i = 0;
 
-                if (bEnabled) {
-                    for (int _i = 0; _i < getFrm().Controls.size(); _i++) {
+                if(bEnabled) {
+                    for (int _i = 0; _i < getView().Controls.size(); _i++) {
                         ctl = Frm.Controls.getItem(_i);
-                        if (ctl(instanceOf cGridAdvanced)) {
+                        if(ctl(instanceOf cGridAdvanced)) {
                             i = i + 1;
-                            if (m_enabledState[i]) {
+                            if(m_enabledState[i]) {
                                 ctl.Enabled = true;
                             }
                         }
@@ -7843,9 +7493,9 @@
 
                     G.redim(m_enabledState, 0);
 
-                    for (int _i = 0; _i < getFrm().Controls.size(); _i++) {
+                    for (int _i = 0; _i < getView().Controls.size(); _i++) {
                         ctl = Frm.Controls.getItem(_i);
-                        if (ctl(instanceOf cGridAdvanced)) {
+                        if(ctl(instanceOf cGridAdvanced)) {
                             i = i + 1;
                             G.redimPreserve(m_enabledState, i);
                             m_enabledState[i] = ctl.Enabled;
@@ -7856,62 +7506,61 @@
             }
         }
 
-        private void pRefreshTitle() {
-            Object w_frm = getFrm();
-                if (!ValEmpty(m_title2, csText)) {
-                    w_frm.lbTitleEx2.cABMDocPropertiesCol.setCaption(" - "+ m_title2);
-                    w_frm.lbTitleEx2.cABMProperty.setLeft(w_frm.lbTitle.cABMProperty.getLeft() + w_frm.lbTitle.cABMProperty.getWidth() + 50);
-                }
-                else {
-                    w_frm.lbTitleEx2.cABMDocPropertiesCol.setCaption("");
-                }
-            // {end with: w_frm}
+        self.refreshTitle = function() {
+          view = getView();
+          if(!valEmpty(m_title2, csText)) {
+              w_frm.lbTitleEx2.cABMDocPropertiesCol.setText(" - "+ m_title2);
+              w_frm.lbTitleEx2.cABMProperty.setLeft(w_frm.lbTitle.cABMProperty.getLeft() + w_frm.lbTitle.cABMProperty.getWidth() + 50);
+          }
+          else {
+              w_frm.lbTitleEx2.cABMDocPropertiesCol.setText("");
+          }
         }
 
-        public void refreshFormCaption() {
+        self.refreshFormText() {
 
-                getFrm().Caption = pGetFormCaption();
+                getView().text = pGetFormText();
             }
         }
 
-        private String pGetFormCaption() {
-            return m_formCaption+ mUtil.gEmpNombre+ " - "+ m_client.Title+ " || Presione F12 para ver las teclas de acceso rapido";
+        var pGetFormText() {
+            return m_formText+ mUtil.gEmpNombre+ " - "+ m_client.Title+ " || Presione F12 para ver las teclas de acceso rapido";
         }
 
         private void pSetBackgroundColor() {
-            if (mUtil.gBackgroundColor != 0) {
+            if(mUtil.gBackgroundColor != 0) {
 
-                setBakcColorTagMainEx(mUtil.gBackgroundColor);
+                setBackColorTagMainEx(mUtil.gBackgroundColor);
 
             }
         }
 
-        public void setBakcColorTagMainEx(int color) {
+        self.setBackColorTagMainEx(int color) {
             mUtil.gBackgroundColor = color;
-            if (m_formABM != null) {
-                m_formABM.ShTab.cABMGridRow.setBackColor(color);
+            if(m_masterView != null) {
+                m_masterView.ShTab.cABMGridRow.setBackColor(color);
             }
-            else if (m_formDoc != null) {
-                m_formDoc.ShTab.cABMGridRow.setBackColor(color);
-                m_formDoc.shTabFooter.cABMGridRow.setBackColor(color);
-                m_formDoc.shTabItems.cABMGridRow.setBackColor(color);
+            else if(m_documentView != null) {
+                m_documentView.ShTab.cABMGridRow.setBackColor(color);
+                m_documentView.shTabFooter.cABMGridRow.setBackColor(color);
+                m_documentView.getTabItems().cABMGridRow.setBackColor(color);
             }
-            else if (m_formWizard != null) {
-                m_formWizard.ShTab.cABMGridRow.setBackColor(color);
-                m_formWizard.shBack.cABMGridRow.setBackColor(color);
-                m_formWizard.shTitle.cABMGridRow.setBackColor(vbWhite);
+            else if(m_wizardView != null) {
+                m_wizardView.ShTab.cABMGridRow.setBackColor(color);
+                m_wizardView.shBack.cABMGridRow.setBackColor(color);
+                m_wizardView.shTitle.cABMGridRow.setBackColor(vbWhite);
             }
         }
 
-        private boolean pGetCtrlVisibleInTab(Object c, int index) { // TODO: Use of ByRef founded Private Function pGetCtrlVisibleInTab(ByRef c As Object, ByVal Index As Long) As Boolean
-            return mUtil.val(c.Tag) == index  || (mUtil.val(c.Tag) == TabIndexType.TAB_ID_XT_ALL  && index != m_tabHideCtrlsInAllTab) || mUtil.val(c.Tag) == TabIndexType.TAB_ID_XT_ALL2;
+        var pGetCtrlVisibleInTab(Object c, int index) { // TODO: Use of ByRef founded Private Function pGetCtrlVisibleInTab(ByRef c As Object, ByVal Index As Long) As Boolean
+            return mUtil.val(c.Tag) === index  || (mUtil.val(c.Tag) === TabIndexType.TAB_ID_XT_ALL  && index != m_tabHideControlsInAllTab) || mUtil.val(c.Tag) === TabIndexType.TAB_ID_XT_ALL2;
         }
 
         private void pWizDisableButtons() {
 
-                if (m_formWizard == null) { return; }
-                //m_FormWizard.Enabled = False
-                //m_FormWizard.cmdNext.Enabled = False
+                if(m_wizardView === null) { return; }
+                //m_wizardView.Enabled = False
+                //m_wizardView.cmdNext.Enabled = False
                 m_inProcess = true;
                 VBA.ex.Clear;
             }
@@ -7919,9 +7568,9 @@
 
         private void pWizEnableButtons() {
 
-                if (m_formWizard == null) { return; }
-                //m_FormWizard.Enabled = True
-                //m_FormWizard.cmdNext.Enabled = True
+                if(m_wizardView === null) { return; }
+                //m_wizardView.Enabled = True
+                //m_wizardView.cmdNext.Enabled = True
                 m_inProcess = false;
                 VBA.ex.Clear;
             }

@@ -457,8 +457,7 @@
               if(treeId) { $(el).val(treeId); }
               Cairo.Tree.List.Controller.listTree(treeId, this.listController);
           }
-          catch (ignore) {
-          }
+          catch(ignore) {}
       }
     });
 
@@ -1179,7 +1178,7 @@
             try {
                 $(listController.Tree.treeControlId).fancytree("destroy");
             }
-            catch (ignore) {}
+            catch(ignore) {}
             $(listController.Tree.treeControlId).fancytree({
                 source: [tree.attributes[0]],
                 activate: function(event, data) {
