@@ -47,6 +47,12 @@
       urlRoot: "",
 
       defaults: {
+        key:     0,
+        name:    '',
+
+        type:    null,
+        subType: null,
+
         default: null /* is a Grids.Cell object */
       }
 

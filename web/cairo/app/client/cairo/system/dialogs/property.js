@@ -38,7 +38,7 @@
       money:        1,
       integer:      2,
       double:       3,
-      percent:      4,
+      percentage:   4,
       mask:         5,
       taxId:        6,
       memo:         7,
@@ -53,9 +53,9 @@
     };
 
     Dialogs.ListWhoSetItem = {
-      listItemData:     1,
-      listListIndex:    2,
-      listText:         3
+      itemData: 1,
+      index:    2,
+      text:     3
     };
 
     Dialogs.Property = Backbone.Model.extend({
@@ -74,7 +74,7 @@
         listText:               '',
         listListIndex:          0,
         listItemData:           0,
-        listWhoSetItem:         Dialogs.ListWhoSetItem.listItemData,
+        listWhoSetItem:         Dialogs.ListWhoSetItem.itemData,
         selectedIndex:          0,
 
         optionGroup:            0,

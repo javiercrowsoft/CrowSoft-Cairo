@@ -38,4 +38,26 @@ t(n.logHidden);
 console.log('--------------');
 t(n.logMessage2);
 t(n.logHidden);
+
+
+var o = {
+    self: null,
+    name: 'my name',
+    printName: function() {
+        console.log(self.name);
+    },
+    init: function() { self = this; return this; }
+}.init();
+
+o.printName;
+
+var a = {
+    self: null,
+    name: 'my name',
+    printName: function() {
+        console.log(this.name);
+    },
+    init: function() { self = this; return this; }
+}.init();
+
 </script>

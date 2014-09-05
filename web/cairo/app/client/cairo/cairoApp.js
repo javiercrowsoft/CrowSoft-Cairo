@@ -264,7 +264,9 @@ var Cairo = new Marionette.Application();
 
   };
 
-  Cairo.Constants = {};
+  Cairo.Constants = {
+    NO_ID: 0
+  };
 
   Cairo.Constants.Types = {
     integer:    2,
@@ -281,8 +283,58 @@ var Cairo = new Marionette.Application();
     dateOrNull: -700
   };
 
+  Cairo.Constants.ShellSortOrder = {
+    none: 0,
+    ascending: 1,
+    descending: 2
+  };
+
+  Cairo.Constants.DocumentSections = {
+    header: 'Header',
+    items: 'Items',
+    footer: 'Footer'
+  };
+
   Cairo.Util = {
-    sendKeys: function(key) { /*TODO: implement this.*/ }
+    sendKeys: function(key) { /* TODO: implement this. */ },
+    getDateValueForGrid: function(value) { /* TODO: implement this. */ }
+  };
+
+  Cairo.Font = Backbone.Model.extend({
+    urlRoot: "",
+
+    defaults: {
+      name:           '',
+      italic:         false,
+      bold:           false,
+      size:           0,
+      strikeThrough:  false,
+      underline:      false
+    }
+
+  };
+
+  Cairo.Util.List = {
+    listSetListIndexForId: function(c, id) { /* TODO: implement this. */ },
+    listSetListIndex: function(c, index) { /* TODO: implement this. */ },
+    listSetListIndexForText: function(c, text) { /* TODO: implement this. */ }
+  };
+
+  Cairo.Util.File = {
+    getValidPath: function(path) { /* TODO: implement this. */ },
+    editFile: function(file) { /* TODO: implement this. */ }
+  };
+
+  Cairo.Configuration = {
+    get: function(section, key, defaultValue) { /* TODO: implement this. */},
+    appPath: function() { /* TODO: implement this. */ }
+  };
+
+  Cairo.Configuration.Reports = {
+    reportSection: 'REPORTS',
+    reportPath: 'REPORT_PATH',
+    commandTimeOut: 'COMMAND_TIME_OUT',
+    connectionTimeOut: 'CONNECT_TIME_OUT'
   };
 
   Cairo.LoadingMessage = (function() {
@@ -323,6 +375,10 @@ var Cairo = new Marionette.Application();
               title = title_ || title;
               setTimeout(showMessage, 300);
           }
+      };
+
+      var showWait = function() {
+        show("processing", "please wait");
       };
 
       return {close: close, show: show};
