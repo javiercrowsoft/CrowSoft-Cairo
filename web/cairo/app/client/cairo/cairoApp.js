@@ -300,6 +300,17 @@ var Cairo = new Marionette.Application();
     getDateValueForGrid: function(value) { /* TODO: implement this. */ }
   };
 
+  Cairo.Math = {
+    truncate: function(value) {
+      if (value<0) {
+        return Math.ceil(value);
+      }
+      else {
+        return Math.floor(value);
+      }
+    }
+  };
+
   Cairo.Font = Backbone.Model.extend({
     urlRoot: "",
 

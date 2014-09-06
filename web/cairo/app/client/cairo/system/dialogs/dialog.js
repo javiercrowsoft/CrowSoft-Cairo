@@ -20,6 +20,27 @@
       innerTab: "_INNERTAB_"
     };
 
+    Dialogs.Util = {
+      getTagChildIndex: function(tag) {
+        var i = tag.indexOf(Dialogs.Constants.innerTab, 1);
+        if(i > 0) {
+          var n = Cairo.Util.val(tag.substring(1, i + Dialogs.Constants.innerTab.length));
+          var q = Math.abs(Cairo.Math.truncate(n / 100));
+          return (n - q * 100) * -1;
+        }
+      },
+      getTagFatherIndex: function(tag) {
+        var i = tag.indexOf(Dialogs.Constants.innerTab, 1);
+        if(i > 0) {
+          return Math.abs(Math.truncate(Cairo.Util.val(tag.substring(1, i + Dialogs.Constants.innerTab.length)) / 100));
+        }
+      }
+    };
+    
+    Dialogs.Colors = {
+      buttonFace: '#cecece'
+    };
+
     Dialogs.Manager = Backbone.Model.extend({
       urlRoot: "",
 
@@ -122,7 +143,8 @@
 
         var m_client;
 
-        var m_properties;
+        var m_properties = null;
+        var m_menu = null;
 
         var m_popMenuClient = "";
 
@@ -773,7 +795,7 @@
         self.refreshSelStartToEnd = function(property) {
           try {
             var c = property.getControl()
-            c.selStart(c.text.length);
+            c.selStart(c.getText().length);
           }
           catch(ignore) {}
         };
@@ -1306,7 +1328,7 @@
           var lbl = null;
           var view = getView();
 
-          switch (property.getType()) {
+          switch(property.getType()) {
 
             case Dialogs.PropertyType.list:
 
@@ -1319,7 +1341,7 @@
                 c.setItemData(c.getNewIndex(), item.getId());
               }
 
-              switch (property.getListWhoSetItem()) {
+              switch(property.getListWhoSetItem()) {
 
                 case Dialogs.ListWhoSetItem.itemData:
                   Cairo.Util.List.listSetListIndexForId(c, property.getListItemData());
@@ -1452,16 +1474,16 @@
               var c = view.getImages().get(property.getIndex());
 
               if(m_isWizard) {
-                switch (Cairo.Util.val(property.getValue())) {
-                  case  1:
+                switch(Cairo.Util.val(property.getValue())) {
+                  case 1:
                     c.setPicture(m_wizardView.getImgWiz1());
                     break;
 
-                  case  3:
+                  case 3:
                     c.setPicture(m_wizardView.getImgWiz3());
                     break;
 
-                  case  5:
+                  case 5:
                     c.setPicture(m_wizardView.getImgWiz5());
                     break;
 
@@ -1596,7 +1618,7 @@
 
           var view = getView();
 
-          switch (property.getType()) {
+          switch(property.getType()) {
 
             case Dialogs.PropertyType.List:
               view.getCombos().get(index).setEnabled(enabled);
@@ -1685,7 +1707,7 @@
 
             var view = getView();
             
-            switch (property.getType()) {
+            switch(property.getType()) {
 
               case Dialogs.PropertyType.List:
               
@@ -1866,43 +1888,35 @@
           unload(m_wizardView);
         };
 
-        self.controlIsButton = function(control) { /* TODO: implement this */ };
-        self.controlIsLabel = function(control) { /* TODO: implement this */ };
-        self.controlIsToolbar = function(control) { /* TODO: implement this */ };
-        self.controlIsImage = function(control) { /* TODO: implement this */ };
+        self.controlIsButton = function(control) { /* TODO: implement this. */ };
+        self.controlIsLabel = function(control) { /* TODO: implement this. */ };
+        self.controlIsToolbar = function(control) { /* TODO: implement this. */ };
+        self.controlIsImage = function(control) { /* TODO: implement this. */ };
 
         self.tabGetFirstCtrl = function(index) {
             
-          var childIndex = 0;
-          var fatherIndex = 0;
-          var isVisible = false;
           var tabIndex = 999;
-
           var view = getView();
+          var controlsCount = view.getControls().count();
+          var controls = view.getControls();
+          var c = null;
 
           if(view.getTabs().get(index).getTag().indexOf(Dialogs.Constants.innerTab, 1)) {
 
-            childIndex = mUtil.getTagChildIndex(view.getTabs().get(index).getTag());
-            fatherIndex = mUtil.getTagFatherIndex(view.getTabs().get(index).getTag());
+            var childIndex = Dialogs.Util.getTagChildIndex(view.getTabs().get(index).getTag());
+            var fatherIndex = Dialogs.Util.getTagFatherIndex(view.getTabs().get(index).getTag());
 
-            var controlsCount = view.getControls().count();
-            var controls = view.getControls();
-            
             for(var _i = 0; _i < controlsCount; _i++) {
 
-              var c = controls.get(_i);
+              c = controls.get(_i);
 
               if(!(controlIsButton(c) && c.getName().indexOf("cbTab", 1))) {
                 if(c.getTag().trim() !== "") {
                   if(Cairo.Util.val(c.getTag()) !== fatherIndex) {
-
-                    isVisible = getControlVisible(c, isControlVisibleInTab(c, childIndex));
-
-                    if(isVisible) {
+                    if(getControlVisible(c, isControlVisibleInTab(c, childIndex))) {
                       if(!controlIsLabel(c) && !controlIsToolbar(c)) {
                         if(c.getTabIndex() < tabIndex) {
                           tabIndex = c.getTabIndex();
-                          return c;
                         }
                       }
                     }
@@ -1910,51 +1924,74 @@
                 }
               }
             }
+            return c;
           }
           else {
 
-            for(var _i = 0; _i < view.getControls().count(); _i++) {
+            for(var _i = 0; _i < controlsCount; _i++) {
 
-              c = .getControls().get(_i);
+              c = controls.get(_i);
 
               if(!(controlIsButton(c) && c.getName().indexOf("cbTab", 1))) {
                 if(c.getTag().trim() !== "") {
-
-                  isVisible = getControlVisible(c, isControlVisibleInTab(c, index));
-
-                  if(isVisible) {
+                  if(getControlVisible(c, isControlVisibleInTab(c, index))) {
                     if(!controlIsLabel(c) && !controlIsToolbar(c) && !controlIsImage(c)) {
                       if(c.getTabIndex() < tabIndex) {
                         tabIndex = c.getTabIndex();
-                        return c;
                       }
                     }
                   }
                 }
               }
             }
+            return c;
           }
+        };
+
+        var docTabGetFirstCtrlAux = function(strTag, index) {
+
+          var tabIndex = 999;
+          var view = getView();
+          var c = null;
+          var controlsCount = view.getControls().count();
+
+          for(var _i = 0; _i < controlsCount; _i++) {
+            c = .getControls().get(_i);
+            if(c.getTag().substring(0, strTag.length) === strTag
+                && c.getTag() !== ""
+                && !(c.getName().equals("cbTab"))) {
+
+              var isVisible = Cairo.Util.val(c.getTag().substring(strTag.length + 1)) + m_firstTab === index;
+
+              if(getControlVisible(c, isVisible)) {
+                if(!controlIsLabel(c) && !controlIsToolbar(c) && !controlIsImage(c)) {
+                  if(c.getTabIndex() < tabIndex) {
+                    tabIndex = c.getTabIndex();
+                  }
+                }
+              }
+            }
+          }
+          return c;
         };
 
         self.docTabGetFirstCtrl = function(index, tag) {
 
-          switch (tag) {
+          switch(tag) {
 
-                // Para documentos los tag de los controles tienen
-                // la palabra Items o Footers o "" (null string)
-                // para identificar a que grupo pertenecen
-            // in documents tags of controls are set to
+            // in documents controls 's tags are set to
             // the word 'Items', 'Footers' or '' (null string)
+            // used to know the group to which them belong
             //
-            case  Cairo.Constants.DocumentSections.items:
+            case Cairo.Constants.DocumentSections.items:
               if(m_isItems) {
-                return pDocTabGetFirstCtrl(Cairo.Constants.DocumentSections.items, index);
+                return docTabGetFirstCtrlAux(Cairo.Constants.DocumentSections.items, index);
               }
               break;
 
-            case  Cairo.Constants.DocumentSections.footer:
+            case Cairo.Constants.DocumentSections.footer:
               if(m_isFooter) {
-                return pDocTabGetFirstCtrl(Cairo.Constants.DocumentSections.footer, index);
+                return docTabGetFirstCtrlAux(Cairo.Constants.DocumentSections.footer, index);
               }
               break;
 
@@ -1963,322 +2000,245 @@
                 return null;
               }
               else {
-                return pDocTabGetFirstCtrl(Cairo.Constants.DocumentSections.header, index);
+                return docTabGetFirstCtrlAux(Cairo.Constants.DocumentSections.header, index);
               }
               break;
           }
         };
 
-        self.docTabClick(index, tag) {
-            switch (tag) {
+        self.docTabClick = function(index, tag) {
 
-                    // Para documentos los tag de los controles tienen
-                    // la palabra Items o Footers o "" (null string)
-                    // para identificar a que grupo pertenecen
-                case  Cairo.Constants.DocumentSections.items:
-                    if(m_isItems) {
-                        pDocTabClickEx(Cairo.Constants.DocumentSections.items, index);
-                    }
-                    break;
-                case  Cairo.Constants.DocumentSections.footer:
-                    if(m_isFooter) {
-                        pDocTabClickEx(Cairo.Constants.DocumentSections.footer, index);
-                    }
-                break;
-                default:
-                    if(m_isItems || m_isFooter) { return null; }
-                    pDocTabClickEx(Cairo.Constants.DocumentSections.header, index);
-                    break;
+          switch(tag) {
+
+            // in documents controls 's tags are set to
+            // the word 'Items', 'Footers' or '' (null string)
+            // used to know the group to which them belong
+            //
+            case Cairo.Constants.DocumentSections.items:
+              if(m_isItems) {
+                docTabClickEx(Cairo.Constants.DocumentSections.items, index);
+              }
+              break;
+
+            case Cairo.Constants.DocumentSections.footer:
+              if(m_isFooter) {
+                docTabClickEx(Cairo.Constants.DocumentSections.footer, index);
+              }
+              break;
+
+            default:
+              if(m_isItems || m_isFooter) {
+                return null;
+              }
+              else {
+                docTabClickEx(Cairo.Constants.DocumentSections.header, index);
+              }
+              break;
+          }
+        };
+
+        var docTabClickEx = function(strTag, index) {
+
+          m_currentTab = index;
+          var view = getView();
+          var controlsCount = view.getControls().count();
+
+          for(var _i = 0; _i < controlsCount; _i++) {
+
+            var c = .getControls().get(_i);
+
+            if(c.getTag().substring(0, strTag.length) === strTag
+                && c.getTag() !== ""
+                && !(c.getName().equals("cbTab"))) {
+
+              var isVisible = Cairo.Util.val(c.getTag().substring(strTag.length + 1)) + m_firstTab === index;
+              c.setVisible(getControlVisible(c, isVisible));
+
+              if(controlIsLabel(c)) {
+                if(c.getBackColor() === Dialogs.Colors.buttonFace) {
+                  c.setBackColor(view.getBackground().getBackColor());
+                }
+                if(c.getName().toLowerCase().equals("lb")) {
+                  if(c.getText().trim() === "") {
+                    c.setVisible(false);
+                  }
+                }
+              }
+              else if(c(instanceOf cABMCSGrid.getCheckBox())) {
+                c.BackColor = view.getBackground().getBackColor();
+              }
+              if(c(instanceOf cABMProperty.setToolbar() && c.getVisible())) {
+                view.SetToolbar(c);
+              }
+            }
+          }
+        };
+
+        var getControlVisible = function(ctl, isVisible) {
+
+          var propertiesCount = m_properties.count();
+          for(var _i = 0; _i < propertiesCount; _i++) {
+            var property = m_properties.get(_i);
+            var c = property.getControl();
+            if(c.getType() === ctrl.getType()) {
+              if(!property.getVisible()) {
+                isVisible = false;
+              }
+              break;
+            }
+            else if(controlIsLabel(c)) {
+              if(!(ctl.getName().substring(0, 3).equals("lb2"))) {
+                if(property.getLabelIndex() === ctl.getIndex()) {
+                  if(!property.getVisible()) {
+                    isVisible = false;
+                  }
+                  break;
+                }
+              }
+            }
+          }
+          return isVisible;
+        };
+
+        self.tabClick = function(index) {
+
+          var firstTab = null;
+          var view = getView();
+          var controlsCount = view.getControls().count();
+          var controls = view.getControls();
+          m_currentInnerTab = 0;
+
+          if(view.getTabs().get(index).getTag().indexOf(Dialogs.Constants.innerTab, 1)) {
+
+            var childIndex = Dialogs.Util.getTagChildIndex(view.getTabs().get(index).getTag());
+            var fatherIndex = Dialogs.Util.getTagFatherIndex(view.getTabs().get(index).getTag());
+
+            for(var _i = 0; _i < controlsCount; _i++) {
+              var c = controls.get(_i);
+              if(!(controlIsButton(c) && c.getName().indexOf("cbTab", 1))) {
+                if(c.getTag().trim() === "") {
+                  if(Cairo.Util.val(c.getTag()) !== fatherIndex) {
+                    setVisible(c, childIndex);
+                  }
+                }
+              }
             }
 
-            oLock.unLockW();
-        }
+            var tab = view.getTabs().get(index);
+            tab.virtualPush();
 
-        private Control pDocTabGetFirstCtrl(String strTag, var index) {
-            
-            isVisible = false;
-            var tabIndex = 0;
+            m_currentInnerTab = childIndex;
 
-            tabIndex = 999;
-
-            var view = getView();
-                for(var _i = 0; _i < view.getControls().count(); _i++) {
-                    c = .getControls().get(_i);
-                    if(c.getTag().substring(0, strTag.length) === strTag  && c.getTag() !== ""  && !(c.getName().equals("cbTab"))) {
-
-                        isVisible = getControlVisible(c, Cairo.Util.val(c.getTag().substring(strTag.length + 1)) + m_firstTab === index);
-
-                        if(isVisible) {
-
-                            if(c(instanceOf Label)) {
-                                // Nada que hacer este no sirve ya que no puede tomar el foco
-                            }
-                            else if(c(instanceOf cABMProperty.setToolbar())) {
-                                // Nada que hacer este no sirve ya que no puede tomar el foco
-                            }
-                            else if(c(instanceOf Image)) {
-                                // Nada que hacer este no sirve ya que no puede tomar el foco
-                            }
-                            else {
-                                if(c.TabIndex < tabIndex) {
-                                    tabIndex = c.TabIndex;
-                                    return c;
-                                }
-                            }
-                        }
-                    }
-                }
-            // {end with: view}
-        }
-
-        private void pDocTabClickEx(String strTag, var index) {
-            
-
+          }
+          else {
             m_currentTab = index;
 
-            var view = getView();
-                for(var _i = 0; _i < view.getControls().count(); _i++) {
-                    c = .getControls().get(_i);
-                    if(c.getTag().substring(0, strTag.length) === strTag  && c.getTag() !== ""  && !(c.getName().equals("cbTab"))) {
-
-                        c.setVisible(getControlVisible(c, Cairo.Util.val(c.getTag().substring(strTag.length + 1)) + m_firstTab === index));
-
-                        if(c(instanceOf Label)) {
-                            if(c.BackColor === vbButtonFace) {
-                                c.BackColor = view.ShTab.getBackColor();
-                            }
-                            c.ZOrder;
-                            if(c.getName().toLowerCase().equals("lb")) {
-                                if(LenB(c.text.trim()).equals(0)) {
-                                    c.setVisible(false);
-                                }
-                            }
-                        }
-                        else if(c(instanceOf cABMCSGrid.getCheckBox())) {
-                            c.BackColor = view.ShTab.getBackColor();
-                        }
-                        if(c(instanceOf cABMProperty.setToolbar() && c.getVisible())) {
-                            view.SetToolbar(c);
-                        }
+            for(var _i = 0; _i < controlsCount; _i++) {
+              var c = controls.get(_i);
+              if(controlIsButton(c) && c.getName().indexOf("cbTab", 1))) {
+                if(c.getTag().indexOf(Dialogs.Constants.innerTab, 1)) {
+                  var isVisible = Dialogs.Util.getTagFatherIndex(c.getTag()) === index;
+                  c.setVisible(isVisible);
+                  if(isVisible) {
+                    if(firstTab === null) {
+                      firstTab = c;
                     }
+                  }
                 }
-            // {end with: view}
-        }
-
-        var getControlVisible(Object ctl, isVisible) { // TODO: Use of ByRef founded Private Function getControlVisible(ByRef ctl As Object, ByVal isVisible As Boolean) As Boolean
-            _rtn = false;
-            property = null;
-            cIABMProperty property = null;
-            cIABMProperties iProperties = null;
-
-            _rtn = isVisible;
-
-            iProperties = m_properties;
-
-            for(var _i = 0; _i < iProperties.count(); _i++) {
-                property = iProperties.get(_i);
-                if(property.getControl(Is ctl)) {
-                    property = property;
-                    if(!property.getVisible()) {
-                        _rtn = false;
-                    }
-                    return _rtn;
-
-                }
-                else if(ctl(instanceOf Label)) {
-
-                    if(!(ctl.Name.substring(0, 3).equals("LB2"))) {
-                        if(property.getLabelIndex() === ctl.Index) {
-                            property = property;
-                            if(!property.getVisible()) {
-                                _rtn = false;
-                            }
-                            return _rtn;
-                        }
-                    }
-                }
+              }
+              else if(c.getTag().trim() === "") {
+                setVisible(c, index);
+              }
             }
-            return _rtn;
-        }
+          }
 
-        self.tabClick(index) {
-            
-            var childIndex = 0;
-            var fatherIndex = 0;
-            Object firstTab = null;
-            isVisible = false;
+          if(firstTab !== null) {
+            tabClick(firstTab.Index);
+            m_currentInnerTab = Dialogs.Util.getTagChildIndex(firstTab.getTag());
+          }
+        };
 
-            m_currentInnerTab = 0;
+        var setVisible = function(c, index) {
 
-            var view = getView();
+          var view = getView();
+          c.setVisible(getControlVisible(c, isControlVisibleInTab(c, index)));
 
-                if(view.getTabs().get(index).getTag().indexOf(Dialogs.Constants.innerTab, 1)) {
-
-                    childIndex = mUtil.getTagChildIndex(view.getTabs().get(index).getTag());
-                    fatherIndex = mUtil.getTagFatherIndex(view.getTabs().get(index).getTag());
-
-                    for(var _i = 0; _i < view.getControls().count(); _i++) {
-                        c = .getControls().get(_i);
-                        if(!CBool(TypeOf c Is cButton && c.getName().indexOf("cbTab", 1))) {
-                            if(LenB(c.getTag().trim())) {
-                                if(Cairo.Util.val(c.getTag()) !== fatherIndex) {
-                                    pSetVisible(c, childIndex);
-                                }
-                            }
-                        }
-                    }
-
-                    CSButton.cButton cmdTab = null;
-                    cmdTab = view.getTabs().get(index);
-                    cmdTab.VirtualPush;
-
-                    m_currentInnerTab = childIndex;
-
-                }
-                else {
-                    m_currentTab = index;
-
-                    for(var _i = 0; _i < view.getControls().count(); _i++) {
-                        c = .getControls().get(_i);
-                        if(c(instanceOf cButton && c.getName().indexOf("cbTab", 1))) {
-                            if(c.getTag().indexOf(Dialogs.Constants.innerTab, 1)) {
-                                isVisible = mUtil.getTagFatherIndex(c.getTag()) === index;
-                                c.setVisible(isVisible);
-                                if(isVisible) {
-                                    if(firstTab === null) { firstTab = c; }
-                                }
-                            }
-                        }
-                        else if(LenB(c.getTag().trim())) {
-                            pSetVisible(c, index);
-                        }
-                    }
-
-                }
-
-                if(firstTab !== null) {
-                    tabClick(firstTab.Index);
-                    m_currentInnerTab = mUtil.getTagChildIndex(firstTab.getTag());
-                }
-
-                oLock.unLockW();
-            // {end with: view}
-        }
-
-        private void pSetVisible(Object c, var index) { // TODO: Use of ByRef founded Private Sub pSetVisible(ByRef c As Object, ByVal Index As Long)
-
-            var view = getView();
-
-                c.setVisible(getControlVisible(c, isControlVisibleInTab(c, index)));
-                if(c(instanceOf Label)) {
-                    if(c.BackColor === vbButtonFace) {
-                        c.BackColor = view.ShTab.getBackColor();
-                    }
-                    c.ZOrder;
-                    if(c.getName().toLowerCase().equals("lb")) {
-                        if(LenB(c.text.trim()).equals(0)) {
-                            c.setVisible(false);
-                        }
-                    }
-                }
-                else if(c(instanceOf cABMCSGrid.getCheckBox())) {
-                    c.BackColor = view.ShTab.getBackColor();
-                }
-                if(c(instanceOf cABMProperty.setToolbar() && c.getVisible())) {
-                    view.SetToolbar(c);
-                }
-            // {end with: view}
-        }
-
-        self.showEx(CSInterfacesABM.cIABMClient obj, var indexTag, bAddProp) {
-            return pShow(obj, indexTag, !bAddProp);
-        }
-
-        self.show(CSInterfacesABM.cIABMClient obj, var indexTag) {
-            _rtn = false;
-            try {
-                Cairo.LoadingMessage.showWait();
-
-                _rtn = pShow(obj, indexTag, true);
-
-                / * *TODO:** goto found: GoTo ExitProc* /
-            } catch (Exception ex) {
-                MngError(VBA.ex, "Show", C_MODULE, "");
-                if(VBA.ex.Number) { / * *TODO:** resume found: Resume(ExitProc)* /  }
-                / * *TODO:** label found: ExitProc:* /
-
+          if(controlIsLabel(c)) {
+            if(c.getBackColor() === Dialogs.Colors.buttonFace) {
+              c.setBackColor(view.getBackground().getBackColor());
             }
-            return _rtn;
-        }
+            if(c.getName().toLowerCase().equals("lb")) {
+              if(c.getText().trim() === "") {
+                c.setVisible(false);
+              }
+            }
+          }
+          else if(controlIsCheckbox(c)) {
+            c.setBackColor(view.getBackground().getBackColor());
+          }
+          else if(controlIsToolbar(c) && c.getVisible())) {
+            view.setToolbar(c);
+          }
+        };
 
-        self.setIconFormDoc(var iconIndex) {
-            if(m_documentView === null) { return; }
-            if(m_documentView.imIcon.ListImages.cABMDocPropertiesCols.count() < iconIndex) { return; }
-            m_documentView.Icon = m_documentView.imIcon.ListImages.get(iconIndex).Picture;
-        }
+        self.showEx = function(obj, indexTag, addProp) {
+          return showDialog(obj, indexTag, !addProp);
+        };
 
-        self.setIconFormABM(var iconIndex) {
-            if(m_masterView === null) { return; }
-            if(m_masterView.imIcon.ListImages.cABMDocPropertiesCols.count() < iconIndex) { return; }
-            m_masterView.Icon = m_masterView.imIcon.ListImages.get(iconIndex).Picture;
-        }
+        self.show = function(obj, indexTag) {
+          try {
+            Cairo.LoadingMessage.showWait();
+            return showDialog(obj, indexTag, true);
+          }
+          catch(e) {
+            Cairo.manageError(
+              "Showing Dialog",
+              "An error has occurred when showing a dialog.",
+              e.message);
+            return false;
+          }
+          finally {
+            Cairo.LoadingMessage.close();
+          }
+        };
 
-        // Presenta el menu popup del boton doc_aux de documentos
+        self.setIconInDocument = function(iconIndex) {
+          if(m_documentView !== null) {
+            if(m_documentView.getIcons().count() >= iconIndex) {
+              m_documentView.setIcon(m_documentView.getIcons().get(iconIndex));
+            }
+          }
+        };
+
+        self.setIconInMaster = function(iconIndex) {
+          if(m_masterView !== null) {
+            if(m_masterView.getIcons.count() >= iconIndex) {
+              m_masterView.setIcon(m_masterView.getIcons().get(iconIndex));
+            }
+          }
+        };
+
+        // show pop menu for document aux button in document views
         //
-        self.showPopMenu(String strMenuDef) {
-            Object vMenus = null;
-            Object vMenu = null;
+        self.showPopMenu = function(strMenuDef) {
 
-            "|"
-    .equals(Const c_menu_sep);
-            "~"
-    .equals(Const c_menu_sep2);
+          var c_menu_sep = "|";
+          var c_menu_sep2 = "~";
 
-            vMenus = Split(strMenuDef, c_menu_sep);
+          var menus = strMenuDef.split(c_menu_sep);
 
-            var iPTop = 0;
-            var iP = 0;
-            var iP2 = 0;
-            var iP3 = 0;
-            var i = 0;
+          m_menu.addListener(menuClick);
+          m_menu.clear();
 
-            if(m_menu === null) {
-                m_menu = new cPopupMenu();
-                m_menu.addListener(new cPopupMenuEventA() {
-                      self.Click(var itemNumber) {
-                        m_Menu_Click(itemNumber,);
-                      }
+          for(var i = 0; i <= menus.length; i++) {
+            var menu = menus[i].split(c_menu_sep2);
+            m_menu.add(menu[0], menu[1]);
+          }
 
-                  };);
-            }
+          m_menu.showPopupMenu();
+        };
 
-            m_menu.Clear;
-
-            // Creating a Menu:
-            // With m_menu;
-                // Initial set up:
-                m_menu.hWndOwner = getView().hWnd;
-                m_menu.OfficeXpStyle = true;
-            // {end with: m_menu}
-
-            for(i = 0; i <= vMenus.length; i++) {
-                vMenu = Split(vMenus(i), c_menu_sep2);
-                iP = m_menu.add(vMenu(0), , vMenu(1), iPTop);
-            }
-
-            var left = 0;
-            var top = 0;
-
-            mUtil.getMousePosition(left, top);
-
-            left = (left * Screen.TwipsPerPixelX) - getView().Left;
-            top = (top * Screen.TwipsPerPixelY) - getView().Top - 200;
-
-            m_menu.ShowPopupMenu(left, top);
-
-        }
-
-        var pShow(CSInterfacesABM.cIABMClient obj, var indexTag) {
+        var showDialog = function(obj, indexTag) {
             _rtn = false;
             cMouse mouse = null;
             cIABMClientGrid tmpObj = null;
@@ -2296,7 +2256,7 @@
             var view = getView();
 
                 m_clientManageGrid = mUtil.implementsInterface(m_client, tmpObj);
-                view.ShTab.setBackColor(vb3DHighlight);
+                view.getBackground().setBackColor(vb3DHighlight);
 
                 if(m_mustCompleteLoading) {
                     m_mustCompleteLoading = false;
@@ -2611,7 +2571,7 @@
         //-----------
         // Menu
         //
-        private void m_Menu_Click(var itemNumber) { // TODO: Use of ByRef founded Private Sub m_Menu_Click(ByRef ItemNumber As Long)
+        private void menuClick(var itemNumber) { // TODO: Use of ByRef founded Private Sub menuClick(ByRef ItemNumber As Long)
             try {
 
                 var itemData = 0;
@@ -2621,8 +2581,13 @@
                 m_client.MessageEx(ABM_MSG.MSG_MENU_AUX, itemData);
 
                 / * *TODO:** goto found: GoTo ExitProc* /
-            } catch (Exception ex) {
-                MngError(VBA.ex, "m_Menu_Click", C_MODULE, "");
+            }
+            catch(e) {
+               Cairo.manageError(
+                 "",
+                 "An error has occurred when #action.",
+                 e.message);
+                MngError(VBA.ex, "menuClick", C_MODULE, "");
                 if(VBA.ex.Number) { / * *TODO:** resume found: Resume(ExitProc)* /  }
                 / * *TODO:** label found: ExitProc:* /
 
@@ -2668,7 +2633,12 @@
                 }
 
                 / * *TODO:** goto found: GoTo ExitProc* /
-            } catch (Exception ex) {
+            }
+            catch(e) {
+              Cairo.manageError(
+                "",
+                "An error has occurred when #action.",
+                e.message);
                 MngError(VBA.ex, "masterHandlerCancelClick", C_MODULE, "");
                 if(VBA.ex.Number) { / * *TODO:** resume found: Resume(ExitProc)* /  }
                 / * *TODO:** label found: ExitProc:* /
@@ -2708,7 +2678,11 @@
                     m_masterView.ZOrder;
                     VBA.ex.Clear;
                 }
-
+            catch(e) {
+              Cairo.manageError(
+                "",
+                "An error has occurred when #action.",
+                e.message);
                 / * *TODO:** goto found: GoTo ExitProc* /
                 / * *TODO:** label found: ControlError:* /
                 MngError(VBA.ex, "masterHandlerNewClick", C_MODULE, "");
@@ -2765,7 +2739,7 @@
             // {end with: frm}
         }
 
-        private void pMoveFocus() {
+        var pMoveFocus() {
             Object c = null;
 
             if(m_documentView !== null) {
@@ -2838,7 +2812,7 @@
             }
         }
 
-        private void pshowSelect() {
+        var pshowSelect() {
 
                 Object rtnVar = null;
 
@@ -3079,8 +3053,8 @@
 
                 if(button === null) { return; }
 
-                switch (button.Key) {
-                    case  c_KeyTbNew:
+                switch(button.Key) {
+                    case c_KeyTbNew:
 
                         pToolBarClickNew();
 
@@ -3105,7 +3079,7 @@
                         m_client.MessageEx(ABM_MSG.MSG_DOC_NEW_EVENT_COMPLETE, null);
 
                         break;
-                    case  c_KeyTbSave:
+                    case c_KeyTbSave:
 
                         showMsg("Guardando el comprobante ...");
 
@@ -3136,7 +3110,7 @@
                         hideMsg();
 
                         break;
-                    case  c_KeyTbSaveAs:
+                    case c_KeyTbSaveAs:
 
                         showMsg("Guardando el comprobante ...");
 
@@ -3171,40 +3145,40 @@
                         hideMsg();
 
                         break;
-                    case  c_KeyTbAnular:
+                    case c_KeyTbAnular:
 
                         showMsg("Anulando el comprobante ...");
                         m_client.MessageEx(ABM_MSG.MSG_DOC_ANULAR, null);
                         hideMsg();
 
                         break;
-                    case  c_KeyTbReload:
+                    case c_KeyTbReload:
 
                         pReloadDocument();
 
                         break;
-                    case  c_KeyTbCopy:
+                    case c_KeyTbCopy:
 
                         masterHandlerCopyClick();
 
                         break;
-                    case  c_KeyTbEditState:
+                    case c_KeyTbEditState:
                         m_client.MessageEx(ABM_MSG.MSG_DOC_EDIT_STATE, null);
 
                         break;
-                    case  c_KeyTbDocAux:
+                    case c_KeyTbDocAux:
                         m_client.MessageEx(ABM_MSG.MSG_DOC_DOC_AUX, null);
 
                         break;
-                    case  c_KeyTbDocAction:
+                    case c_KeyTbDocAction:
                         m_client.MessageEx(ABM_MSG.MSG_DOC_DOC_ACTION, null);
 
                         break;
-                    case  c_KeyTbDocEdit:
+                    case c_KeyTbDocEdit:
                         m_client.MessageEx(ABM_MSG.MSG_DOC_DOC_EDIT, null);
 
                         break;
-                    case  c_KeyTbDelete:
+                    case c_KeyTbDelete:
 
                         showMsg("Borrando el comprobante ...");
                         if(pAskDelete("Confirma que desea borrar el comprobante")) {
@@ -3215,87 +3189,87 @@
                         hideMsg();
 
                         break;
-                    case  c_KeyTbSearch:
+                    case c_KeyTbSearch:
 
                         m_client.MessageEx(ABM_MSG.MSG_DOC_SEARCH, getChanged());
 
                         break;
-                    case  c_KeyTbPrint:
+                    case c_KeyTbPrint:
                         pPrint(false);
 
                         break;
-                    case  c_KeyTbDocMail:
+                    case c_KeyTbDocMail:
                         pPrint(true);
 
                         break;
-                    case  c_KeyTbSignature:
+                    case c_KeyTbSignature:
                         m_client.MessageEx(ABM_MSG.MSG_DOC_SIGNATURE, null);
 
                         break;
-                    case  c_KeyTbApply:
+                    case c_KeyTbApply:
 
                         showMsg("Cargando las aplicaciones del comprobante ...");
                         m_client.MessageEx(ABM_MSG.MSG_DOC_APPLY, null);
                         hideMsg();
 
                         break;
-                    case  c_KeyTbAttach:
+                    case c_KeyTbAttach:
                         masterHandlerDocumentsClick();
 
                         break;
-                    case  c_KeyTbHistory:
+                    case c_KeyTbHistory:
                         m_client.MessageEx(ABM_MSG.MSG_DOC_HISTORY, null);
 
                         break;
-                    case  c_KeyTbFirst:
+                    case c_KeyTbFirst:
 
                         showMsg("Cargando el primer comprobante ...");
                         pMove(ABM_MSG.MSG_DOC_FIRST);
                         hideMsg();
 
                         break;
-                    case  c_KeyTbPrevious:
+                    case c_KeyTbPrevious:
 
                         showMsg("Cargando el comprobante anterior ...");
                         pMove(ABM_MSG.MSG_DOC_PREVIOUS);
                         hideMsg();
 
                         break;
-                    case  c_KeyTbNext:
+                    case c_KeyTbNext:
 
                         showMsg("Cargando el siguiente comprobante ...");
                         pMove(ABM_MSG.MSG_DOC_NEXT);
                         hideMsg();
 
                         break;
-                    case  c_KeyTbLast:
+                    case c_KeyTbLast:
 
                         showMsg("Cargando el último comprobante ...");
                         pMove(ABM_MSG.MSG_DOC_LAST);
                         hideMsg();
 
                         break;
-                    case  c_KeyTbHelp:
+                    case c_KeyTbHelp:
                         pshowSelect();
 
                         break;
-                    case  c_KeyTbDocMerge:
+                    case c_KeyTbDocMerge:
                         showMsg("Ejecutando el proceso de compensación ...");
                         m_client.MessageEx(ABM_MSG.MSG_DOC_MERGE, null);
                         hideMsg();
 
                         break;
-                    case  c_KeyTbDocAlert:
+                    case c_KeyTbDocAlert:
                         showMsg("Cargando alertas para este comprobante...");
                         m_client.MessageEx(ABM_MSG.MSG_DOC_ALERT, null);
                         hideMsg();
 
                         break;
-                    case  c_KeyTbDocTip:
+                    case c_KeyTbDocTip:
                         CSKernelClient2.SendEmailToCrowSoft("Sugerencia para CrowSoft Cairo", "Documento: "+ m_title2);
 
                         break;
-                    case  c_KeyTbClose:
+                    case c_KeyTbClose:
                         pFormDocClose();
 
                     break;
@@ -3306,7 +3280,12 @@
                 }
 
                 / * *TODO:** goto found: GoTo ExitProc* /
-            } catch (Exception ex) {
+            }
+            catch(e) {
+              Cairo.manageError(
+                "",
+                "An error has occurred when #action.",
+                e.message);
                 MngError(VBA.ex, "docHandlerToolBarClick", C_MODULE, "");
                 if(VBA.ex.Number) { / * *TODO:** resume found: Resume(ExitProc)* /  }
                 / * *TODO:** label found: ExitProc:* /
@@ -3369,7 +3348,7 @@
             m_gridManager.refreshSelectedInGrid2(property);
         }
 
-        private void pToolBarClickNew() {
+        var pToolBarClickNew() {
             showMsg("Cargando nuevo comprobante ...");
             doNew(m_documentView);
             hideMsg();
@@ -3396,7 +3375,7 @@
             }
         }
 
-        private void pMove(ABM_MSG moveTo) {
+        var pMove(ABM_MSG moveTo) {
             if(m_client !== null) {
 
                 if(!pSaveChanges(false, false)) { return; }
@@ -3566,7 +3545,12 @@
                 pTextChange(index);
 
                 return;
-            } catch (Exception ex) {
+            }
+            catch(e) {
+              Cairo.manageError(
+                "",
+                "An error has occurred when #action.",
+                e.message);
                 MngError(VBA.ex, "wizHandlerTextChange", C_MODULE, "");
             }
         }
@@ -3577,7 +3561,12 @@
                 pTextAreaChange(index);
 
                 return;
-            } catch (Exception ex) {
+            }
+            catch(e) {
+              Cairo.manageError(
+                "",
+                "An error has occurred when #action.",
+                e.message);
                 MngError(VBA.ex, "wizHandlerTextAreaChange", C_MODULE, "");
             }
         }
@@ -3596,7 +3585,7 @@
             pCheckBoxClick(index);
         }
 
-        private void pFormDocClose() {
+        var pFormDocClose() {
             if(m_documentView === null) { return; }
             unload(m_documentView);
         }
@@ -3724,17 +3713,17 @@
         }
 
         // funciones del objeto
-        private void pComboChange(index) {
+        var pComboChange(index) {
             changeProperty(cspList, index, getView().combos.get(index));
             //ReLoadListAdHock
         }
 
-        private void pCheckBoxClick(index) {
+        var pCheckBoxClick(index) {
             changeProperty(cspCheck, index, getView().checkBoxes().get(index));
             //ReLoadListAdHock
         }
 
-        private void pGridDeleteRow(index, var lRow, bCancel) {
+        var pGridDeleteRow(index, var lRow, bCancel) {
             if(!m_clientManageGrid) { return; }
 
             property = null;
@@ -3764,7 +3753,7 @@
             }
         }
 
-        private void pgridAfterDeleteRow(index, var lRow) {
+        var pgridAfterDeleteRow(index, var lRow) {
             cIABMProperty property = null;
             property = getProperty(Dialogs.PropertyType.grid, index, 0);
 
@@ -3779,7 +3768,7 @@
             }
         }
 
-        private void pRefreshRowsIndex(cIABMProperty property, var lRow) { // TODO: Use of ByRef founded Private Sub pRefreshRowsIndex(ByRef property As cIABMProperty, ByVal lRow As Long)
+        var pRefreshRowsIndex(cIABMProperty property, var lRow) { // TODO: Use of ByRef founded Private Sub pRefreshRowsIndex(ByRef property As cIABMProperty, ByVal lRow As Long)
             try {
 
                 for(lRow = lRow; lRow <= property.getGrid().cABMCSGrid.getRows().count(); lRow++) {
@@ -3798,7 +3787,7 @@
             }
         }
 
-        private void pSetRowBackground(index, cIABMProperty property, var lRow, var lCol) { // TODO: Use of ByRef founded Private Sub pSetRowBackground(ByVal Index As Long, ByRef property As cIABMProperty, ByVal lRow As Long, ByVal lCol As Long)
+        var pSetRowBackground(index, cIABMProperty property, var lRow, var lCol) { // TODO: Use of ByRef founded Private Sub pSetRowBackground(ByVal Index As Long, ByRef property As cIABMProperty, ByVal lRow As Long, ByVal lCol As Long)
             try {
 
                 cGridAdvanced grid = null;
@@ -3814,7 +3803,7 @@
             }
         }
 
-        private void pGridSelectionChange(index, var lRow, var lCol, csEGridSelectChangeType what) {
+        var pGridSelectionChange(index, var lRow, var lCol, csEGridSelectChangeType what) {
 
             cIABMProperty property = null;
             property = getProperty(Dialogs.PropertyType.grid, index, 0);
@@ -3835,7 +3824,7 @@
             }
         }
 
-        private void pGridNewRow(index, var rowIndex) {
+        var pGridNewRow(index, var rowIndex) {
             if(m_clientManageGrid) {
 
                 property = null;
@@ -3885,7 +3874,7 @@
             m_gridManager.loadFromRow(grid, iRow, rowIndex, property.Grid.cABMDocProperties.getColumns());
         }
 
-        private void pGridColumnAfterUpdate(index, var lRow, var lCol, var iKeyAscii, Object newValue, var newValueID) {
+        var pGridColumnAfterUpdate(index, var lRow, var lCol, var iKeyAscii, Object newValue, var newValueID) {
             try {
 
                 if(m_clientManageGrid) {
@@ -3932,7 +3921,12 @@
                 }
 
                 return;
-            } catch (Exception ex) {
+            }
+            catch(e) {
+              Cairo.manageError(
+                "",
+                "An error has occurred when #action.",
+                e.message);
                 MngError(VBA.ex, "pGridColumnAfterUpdate", C_MODULE, "");
             }
         }
@@ -4023,7 +4017,7 @@
             return _rtn;
         }
 
-        private void pGridColumnBeforeEdit(index, var lRow, var lCol, var iKeyAscii, bCancel) { // TODO: Use of ByRef founded Private Sub pGridColumnBeforeEdit(ByVal Index As Integer, ByVal lRow As Long, ByVal lCol As Long, ByVal iKeyAscii As Integer, ByRef bCancel As Boolean)
+        var pGridColumnBeforeEdit(index, var lRow, var lCol, var iKeyAscii, bCancel) { // TODO: Use of ByRef founded Private Sub pGridColumnBeforeEdit(ByVal Index As Integer, ByVal lRow As Long, ByVal lCol As Long, ByVal iKeyAscii As Integer, ByRef bCancel As Boolean)
             try {
 
                 if(!m_clientManageGrid) { return; }
@@ -4106,12 +4100,17 @@
                 // {end with: w_item}
 
                 return;
-            } catch (Exception ex) {
+            }
+            catch(e) {
+              Cairo.manageError(
+                "",
+                "An error has occurred when #action.",
+                e.message);
                 MngError(VBA.ex, "pGridColumnBeforeEdit", C_MODULE, "");
             }
         }
 
-        private void pGridColumnEdit(after, var index, var lRow, var lCol, var iKeyAscii, Object newValue, var newValueID, bCancel) {
+        var pGridColumnEdit(after, var index, var lRow, var lCol, var iKeyAscii, Object newValue, var newValueID, bCancel) {
             try {
 
                 if(m_clientManageGrid) {
@@ -4163,12 +4162,17 @@
                 }
 
                 return;
-            } catch (Exception ex) {
+            }
+            catch(e) {
+              Cairo.manageError(
+                "",
+                "An error has occurred when #action.",
+                e.message);
                 MngError(VBA.ex, "pGridColumnEdit", C_MODULE, "");
             }
         }
 
-        private void pGridColumnButtonClick(index, var lRow, var lCol, var iKeyAscii, bCancel) {
+        var pGridColumnButtonClick(index, var lRow, var lCol, var iKeyAscii, bCancel) {
             try {
 
                 if(m_clientManageGrid) {
@@ -4231,12 +4235,17 @@
                 }
 
                 return;
-            } catch (Exception ex) {
+            }
+            catch(e) {
+              Cairo.manageError(
+                "",
+                "An error has occurred when #action.",
+                e.message);
                 MngError(VBA.ex, "pGridColumnEdit", C_MODULE, "");
             }
         }
 
-        private void pCreateRowIfNotExists(cIABMProperty property, var index, var lRow) { // TODO: Use of ByRef founded Private Sub pCreateRowIfNotExists(ByRef property As cIABMProperty, ByVal Index As Integer, ByVal lRow As Long)
+        var pCreateRowIfNotExists(cIABMProperty property, var index, var lRow) { // TODO: Use of ByRef founded Private Sub pCreateRowIfNotExists(ByRef property As cIABMProperty, ByVal Index As Integer, ByVal lRow As Long)
             cIABMGridRow row = null;
 
             var w_rows = property.getGrid().cABMCSGrid.getRows();
@@ -4272,7 +4281,7 @@
             return _rtn;
         }
 
-        private void pSetColumnValueInProperty(cIABMProperty property, var index, var lRow, var lCol, Object newValue, var newValueID) { // TODO: Use of ByRef founded Private Sub pSetColumnValueInProperty(ByRef property As cIABMProperty, ByVal Index As Integer, ByVal lRow As Long, ByVal lCol As Long, ByVal NewValue As Variant, ByVal NewValueID As Long)
+        var pSetColumnValueInProperty(cIABMProperty property, var index, var lRow, var lCol, Object newValue, var newValueID) { // TODO: Use of ByRef founded Private Sub pSetColumnValueInProperty(ByRef property As cIABMProperty, ByVal Index As Integer, ByVal lRow As Long, ByVal lCol As Long, ByVal NewValue As Variant, ByVal NewValueID As Long)
             cIABMGridRow row = null;
             cIABMGridCellValue iCell = null;
             cABMGridRowValue oCell = null;
@@ -4393,17 +4402,17 @@
             return rtn;
         }
 
-        private void pSelectChange(index) {
+        var pSelectChange(index) {
             changeProperty(cspHelp, index, getView().getSelects().get(index));
             //ReLoadListAdHock
         }
 
-        private void pMaskEditChange(index) {
+        var pMaskEditChange(index) {
             changeProperty(cspNumeric, index, getView().getMaskEdits().get(index));
             //ReLoadListAdHock
         }
 
-        private void pDateChange(index) {
+        var pDateChange(index) {
             cMaskEdit c = null;
 
             c = getView().getDatePickers().get(index);
@@ -4418,12 +4427,12 @@
             //ReLoadListAdHock
         }
 
-        private void pOptionButtonClick(index) {
+        var pOptionButtonClick(index) {
             changeProperty(cspOption, index, getView().getOptionButtons().get(index));
             //ReLoadListAdHock
         }
 
-        private void pTextButtonClick(index, cancel) {
+        var pTextButtonClick(index, cancel) {
             cIABMProperty property = null;
 
             property = getProperty(cspText, index, 0);
@@ -4446,21 +4455,21 @@
 
         }
 
-        private void pToolBarButtonClik(MSComctlLib.Button button) {
+        var pToolBarButtonClik(MSComctlLib.Button button) {
             changeProperty(cspToolBar, 0, button);
         }
 
-        private void pTextChange(index) {
+        var pTextChange(index) {
             changeProperty(cspText, index, getView().getTextInputs().get(index));
             //ReLoadListAdHock
         }
 
-        private void pTextAreaChange(index) {
+        var pTextAreaChange(index) {
             changeProperty(cspText, index, getView().getTextAreas().get(index), false, Dialogs.PropertySubType.memo);
             //ReLoadListAdHock
         }
 
-        private void pTextPasswordChange(index) {
+        var pTextPasswordChange(index) {
             changeProperty(cspPassword, index, getView().getPasswordInputs().get(index));
             //ReLoadListAdHock
         }
@@ -4473,7 +4482,7 @@
         var pGetKeyFromRowValue(cIABMGridRows rows, var rowIndex, var iCol) {
 
             if(rows.count() < rowIndex) { return ""; }
-            if(rows.get(rowIndex).cABMDocPropertiesCols.count() < iCol) { return ""; }
+            if(rows.get(rowIndex).count() < iCol) { return ""; }
 
             cABMGridRowValue rowValue = null;
             rowValue = rows.get(rowIndex).get(iCol);
@@ -4531,7 +4540,7 @@
             return row;
         }
 
-        private void pSetRowValueInGrid(index, cIABMProperty property, var rowIndex, cIABMGridRow row) { // TODO: Use of ByRef founded Private Sub pSetRowValueInGrid(ByVal Index As Integer, ByVal property As cIABMProperty, ByVal rowIndex As Long, ByRef Row As cIABMGridRow)
+        var pSetRowValueInGrid(index, cIABMProperty property, var rowIndex, cIABMGridRow row) { // TODO: Use of ByRef founded Private Sub pSetRowValueInGrid(ByVal Index As Integer, ByVal property As cIABMProperty, ByVal rowIndex As Long, ByRef Row As cIABMGridRow)
 
             cIABMGridColumn col = null;
             cIABMGridCellValue cell = null;
@@ -4660,9 +4669,9 @@
 
                 if(tabIndex !== -1) {
                     if(m_isDocument) {
-                        pDocTabClickEx(Cairo.Constants.DocumentSections.items, tabIndex);
-                        pDocTabClickEx(Cairo.Constants.DocumentSections.footer, tabIndex);
-                        pDocTabClickEx(Cairo.Constants.DocumentSections.header, tabIndex);
+                        docTabClickEx(Cairo.Constants.DocumentSections.items, tabIndex);
+                        docTabClickEx(Cairo.Constants.DocumentSections.footer, tabIndex);
+                        docTabClickEx(Cairo.Constants.DocumentSections.header, tabIndex);
                         view.getTabs().get(tabIndex + m_firstTab).TabSelected === true;
                     }
                     else {
@@ -4689,7 +4698,7 @@
             nTabIndex = pGetTabIndex(property);
 
             var view = getView();
-                switch (property.getType()) {
+                switch(property.getType()) {
                         //      Case Dialogs.PropertyType.AdHock
                         //        If m_loadAdHock Then
                         //          Load .CBhock(.CBhock.UBound + 1)
@@ -4747,7 +4756,7 @@
 
                         if(m_isFooter) {
                             c.Width = 1100;
-                            c.BackColor = view.shTabFooter.getBackColor();
+                            c.BackColor = view.getFooterBackground().getBackColor();
                             c.EnabledNoChngBkColor = true;
                         }
                         pSetFont(c, property);
@@ -5223,7 +5232,7 @@
                             frameToolBar.Height = c.Height;
                         }
                         frameToolBar.setTag = property.getTabIndex();
-                        frameToolBar.BackColor = getView().ShTab.getBackColor();
+                        frameToolBar.BackColor = getView().getBackground().getBackColor();
                     // {end with: frameToolBar}
 
                     Toolbar tbl = null;
@@ -5377,7 +5386,7 @@
                             c.Top = m_nextTop[nTabIndex] + property.OptionGroup;
                         }
 
-                        switch (property.getType()) {
+                        switch(property.getType()) {
                             case Dialogs.PropertyType.date:
                                 c.Width = 1400;
                                 break;
@@ -5513,7 +5522,7 @@
 
                 }
                 else if(m_isFooter) {
-                    m_nextTop[nTabIndex] = view.shTabFooter.cABMProperty.getTop() + C_OFFSET_V1;
+                    m_nextTop[nTabIndex] = view.getFooterBackground().cABMProperty.getTop() + C_OFFSET_V1;
                     m_left[nTabIndex] = m_left[nTabIndex] + C_OFFSET_H3;
 
                 }
@@ -5525,7 +5534,7 @@
 
         }
 
-        private void pSetTabIndex(Object c) { // TODO: Use of ByRef founded Private Sub pSetTabIndex(ByRef c As Object)
+        var pSetTabIndex(Object c) { // TODO: Use of ByRef founded Private Sub pSetTabIndex(ByRef c As Object)
 
                 c.TabIndex = m_tabIndex;
             }
@@ -5541,7 +5550,7 @@
                 property = property;
 
                 var view = getView();
-                    if(view.ShTab.cABMProperty.getLeft() === 0) {
+                    if(view.getBackground().cABMProperty.getLeft() === 0) {
                         offsetH = 120;
                     }
                     else {
@@ -5551,14 +5560,14 @@
                     if(frameSize > 0) {
                         if(view.Width < frameSize + offsetH) {
                             view.Width = frameSize + offsetH;
-                            view.ShTab.cABMProperty.setWidth(view.ScaleWidth - view.ShTab.cABMProperty.getLeft() * 2);
+                            view.getBackground().cABMProperty.setWidth(view.ScaleWidth - view.getBackground().cABMProperty.getLeft() * 2);
                         }
                     }
                     else {
                         if(view.Width < property.getWidth() + property.getLeft() + offsetH) {
                             view.Width = property.getWidth() + property.getLeft() + offsetH;
                         }
-                        view.ShTab.cABMProperty.setWidth(view.ScaleWidth - view.ShTab.cABMProperty.getLeft() * 2);
+                        view.getBackground().cABMProperty.setWidth(view.ScaleWidth - view.getBackground().cABMProperty.getLeft() * 2);
                     }
                 // {end with: view}
             }
@@ -5684,7 +5693,7 @@
 
 
                     // With property;
-                        switch (nType) {
+                        switch(nType) {
                                 //Case Dialogs.PropertyType.AdHock, Dialogs.PropertyType.List
                             case Dialogs.PropertyType.List:
                                 property.ListListIndex = c.ListIndex;
@@ -5780,7 +5789,12 @@
                 }
 
                 return _rtn;
-            } catch (Exception ex) {
+            }
+            catch(e) {
+              Cairo.manageError(
+                "",
+                "An error has occurred when #action.",
+                e.message);
                 MngError(VBA.ex, "ChangeProperty", C_MODULE, "");
             }
             return _rtn;
@@ -5975,7 +5989,12 @@
                 _rtn = true;
 
                 / * *TODO:** goto found: GoTo ExitProc* /
-            } catch (Exception ex) {
+            }
+            catch(e) {
+              Cairo.manageError(
+                "",
+                "An error has occurred when #action.",
+                e.message);
                 MngError(VBA.ex, "pSave", C_MODULE, "");
 
                 / * *TODO:** label found: ExitProc:* /
@@ -5984,7 +6003,7 @@
             return _rtn;
         }
 
-        private void pFillList() {
+        var pFillList() {
             cIABMProperty property = null;
             property = null;
             cIABMProperties iProperties = null;
@@ -6070,7 +6089,7 @@
             if(oRows.getHaveKey()) {
 
                 bHaveKey = true;
-                G.redim(vKeys, grid.getRows().count(), grid.Columns.cABMDocPropertiesCols.count());
+                G.redim(vKeys, grid.getRows().count(), grid.Columns.count());
 
                 cABMGridRow oRow = null;
 
@@ -6078,7 +6097,7 @@
                     oRow = grid.getRows().get(rowIndex);
                     vKeys[rowIndex, 1].equals(oRow.getKey());
 
-                    for(colIndex = 2; colIndex <= grid.Columns.cABMDocPropertiesCols.count(); colIndex++) {
+                    for(colIndex = 2; colIndex <= grid.Columns.count(); colIndex++) {
                         row = oRow;
                         if(colIndex <= row.count()) {
                             oCell = row.get(colIndex);
@@ -6132,7 +6151,7 @@
                             row = grid.getRows().add(null);
                         }
 
-                        for(colIndex = 2; colIndex <= grid.Columns.cABMDocPropertiesCols.count(); colIndex++) {
+                        for(colIndex = 2; colIndex <= grid.Columns.count(); colIndex++) {
 
                             col = grid.Columns(colIndex);
 
@@ -6215,7 +6234,7 @@
             // {end with: view}
         }
 
-        private void pDiscardChanges(dontCallClient) {
+        var pDiscardChanges(dontCallClient) {
             try {
 
                 Cairo.LoadingMessage.showWait();
@@ -6340,7 +6359,12 @@
                 if(!dontCallClient) { m_client.DiscardChanges; }
 
                 return;
-            } catch (Exception ex) {
+            }
+            catch(e) {
+              Cairo.manageError(
+                "",
+                "An error has occurred when #action.",
+                e.message);
                 MngError(VBA.ex, "DiscardChanges", C_MODULE, "");
             }
         }
@@ -6459,8 +6483,8 @@
             }
             else {
                 tabTopHeight = m_tabTopHeight;
-                getView().ShTab.top = m_tabTopHeight + getView().cbTab.get(0).Height - 10;
-                m_constTop = getView().ShTab.top + 200;
+                getView().getBackground().top = m_tabTopHeight + getView().cbTab.get(0).Height - 10;
+                m_constTop = getView().getBackground().top + 200;
             }
 
             var view = getView();
@@ -6470,7 +6494,7 @@
                     topItems = 10;
                 }
                 else if(m_isFooter) {
-                    top = view.shTabFooter.top - view.getTabs().get(0).cABMProperty.getHeight();
+                    top = view.getFooterBackground().top - view.getTabs().get(0).cABMProperty.getHeight();
                 }
                 else {
                     if(m_isDocument) {
@@ -6600,7 +6624,7 @@
                     topItems = 10;
                 }
                 else if(m_isFooter) {
-                    top = view.shTabFooter.top - view.getTabs().get(0).cABMProperty.getHeight();
+                    top = view.getFooterBackground().top - view.getTabs().get(0).cABMProperty.getHeight();
                 }
                 else {
                     if(m_isDocument) {
@@ -6636,11 +6660,11 @@
                     }
                 }
 
-                view.ShTab.ZOrder(1);
+                view.getBackground().ZOrder(1);
             // {end with: view}
         }
 
-        private void pSetButton(Control control, property) { // TODO: Use of ByRef founded Private Sub pSetButton(ByRef Control As Control, ByRef property As cABMProperty)
+        var pSetButton(Control control, property) { // TODO: Use of ByRef founded Private Sub pSetButton(ByRef Control As Control, ByRef property As cABMProperty)
 
             if(c.getType !== undefined) {
                 // With control;
@@ -6674,7 +6698,12 @@
                 wizardClient.moveNext();
 
                 return;
-            } catch (Exception ex) {
+            }
+            catch(e) {
+              Cairo.manageError(
+                "",
+                "An error has occurred when #action.",
+                e.message);
                 MngError(VBA.ex, "MoveNext", C_MODULE, "");
             }
         }
@@ -6705,7 +6734,7 @@
             }
         }
 
-        private void pSetFont(Control c, cIABMProperty property) { // TODO: Use of ByRef founded Private Sub pSetFont(ByRef c As Control, ByRef property As cIABMProperty)
+        var pSetFont(Control c, cIABMProperty property) { // TODO: Use of ByRef founded Private Sub pSetFont(ByRef c As Control, ByRef property As cIABMProperty)
 
 
                 // With property;
@@ -6725,7 +6754,7 @@
             }
         }
 
-        private void pSetBackColor(Control c, cIABMProperty property) { // TODO: Use of ByRef founded Private Sub pSetBackColor(ByRef c As Control, ByRef property As cIABMProperty)
+        var pSetBackColor(Control c, cIABMProperty property) { // TODO: Use of ByRef founded Private Sub pSetBackColor(ByRef c As Control, ByRef property As cIABMProperty)
 
                 // With property;
                     if(property.getBackColor() !== -1) {
@@ -6749,14 +6778,14 @@
                     for(var _i = 0; _i < iProperties.count(); _i++) {
                         property = iProperties.get(_i);
                         if(property.getSubType() === Dialogs.PropertySubType.memo) {
-                            view.getTextAreas().get(property.getIndex()).cABMProperty.setTabIndex(view.getControls().cABMDocPropertiesCols.count());
+                            view.getTextAreas().get(property.getIndex()).cABMProperty.setTabIndex(view.getControls().count());
                         }
                     }
                 // {end with: view}
             }
         }
 
-        private void pRefreshAux() {
+        var pRefreshAux() {
             var index = 0;
             property = null;
             cIABMProperties iProperties = null;
@@ -6771,7 +6800,7 @@
                     property = iProperties(i);
                     index = property.getIndex();
 
-                    switch (iProperties(i).PropertyType) {
+                    switch(iProperties(i).PropertyType) {
                             //        Case Dialogs.PropertyType.AdHock
                             //          ChangeProperty cspAdHock, Index, .CBhock.get(Index), True
 
@@ -6829,7 +6858,7 @@
             return Ask(msg, vbYes, "Borrar");
         }
 
-        private void pReloadDocument() {
+        var pReloadDocument() {
 
 
                 if(m_unloading) { return; }
@@ -6907,7 +6936,7 @@
             return _rtn;
         }
 
-        private void pPrint(byEmail, var id) {
+        var pPrint(byEmail, var id) {
 
             try {
 
@@ -6958,7 +6987,12 @@
                 // {end with: printManager}
 
                 / * *TODO:** goto found: GoTo ExitProc* /
-            } catch (Exception ex) {
+            }
+            catch(e) {
+              Cairo.manageError(
+                "",
+                "An error has occurred when #action.",
+                e.message);
                 MngError(VBA.ex, "pPrint", C_MODULE, "");
                 if(VBA.ex.Number) { / * *TODO:** resume found: Resume(ExitProc)* /  }
                 / * *TODO:** label found: ExitProc:* /
@@ -7030,8 +7064,8 @@
 
             }
             else if(m_isFooter) {
-                m_constTop = getView().shTabFooter.cABMProperty.getTop() + C_OFFSET_V1;
-                m_constLeft = getView().shTabFooter.cABMProperty.getLeft() + 200;
+                m_constTop = getView().getFooterBackground().cABMProperty.getTop() + C_OFFSET_V1;
+                m_constLeft = getView().getFooterBackground().cABMProperty.getLeft() + 200;
             }
             else {
                 m_constTop = getView().getSelects().get(0).cABMProperty.getTop();
@@ -7114,7 +7148,7 @@
           }
         };
 
-        private void pSetDontResize() {
+        var pSetDontResize() {
             cIABMProperty property = null;
             cABMGrid grid = null;
             var i = 0;
@@ -7167,7 +7201,7 @@
             }
         }
 
-        private void pSetGridHeight(Object ctl, var height) {
+        var pSetGridHeight(Object ctl, var height) {
 
                 if(height > 0) {
                     ctl.Height = height;
@@ -7175,7 +7209,7 @@
             }
         }
 
-        private void pSetEnabled(bEnabled) {
+        var pSetEnabled(bEnabled) {
 
 
                 Object ctl = null;
@@ -7243,17 +7277,17 @@
         self.setBackColorTagMainEx(var color) {
             mUtil.gBackgroundColor = color;
             if(m_masterView !== null) {
-                m_masterView.ShTab.setBackColor(color);
+                m_masterView.getBackground().setBackColor(color);
             }
             else if(m_documentView !== null) {
-                m_documentView.ShTab.setBackColor(color);
-                m_documentView.shTabFooter.setBackColor(color);
+                m_documentView.getBackground().setBackColor(color);
+                m_documentView.getFooterBackground().setBackColor(color);
                 m_documentView.getTabItems().setBackColor(color);
             }
             else if(m_wizardView !== null) {
-                m_wizardView.ShTab.setBackColor(color);
-                m_wizardView.shBack.setBackColor(color);
-                m_wizardView.shTitle.setBackColor(vbWhite);
+                m_wizardView.getBackground().setBackColor(color);
+                m_wizardView.getDialogBackground().setBackColor(color);
+                m_wizardView.getTitleBackground().setBackColor(vbWhite);
             }
         }
 
@@ -7264,7 +7298,7 @@
                     || Cairo.Util.val(c.getTag()) === Dialogs.TabIndexType.TAB_ID_XT_ALL2);
         }
 
-        private void pWizDisableButtons() {
+        var pWizDisableButtons() {
 
                 if(m_wizardView === null) { return; }
                 //m_wizardView.Enabled = False
@@ -7274,7 +7308,7 @@
             }
         }
 
-        private void pWizEnableButtons() {
+        var pWizEnableButtons() {
 
                 if(m_wizardView === null) { return; }
                 //m_wizardView.Enabled = True
