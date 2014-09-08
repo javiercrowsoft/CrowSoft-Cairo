@@ -300,6 +300,10 @@ var Cairo = new Marionette.Application();
     getDateValueForGrid: function(value) { /* TODO: implement this. */ }
   };
 
+  Cairo.Company = {
+    name: ''
+  };
+
   Cairo.Math = {
     truncate: function(value) {
       if (value<0) {

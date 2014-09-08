@@ -14,7 +14,7 @@
     Dialogs.PropertyType = {
       select:       1,
       text:         2,
-      adHock:       3,
+      adHock:       3, /* TODO: remove. no code must use this. */
       numeric:      4,
       option:       5,
       list:         6,
