@@ -2607,7 +2607,7 @@
           catch(e) {
             Cairo.manageError(
               "Error in Master Cancel Click Handler",
-              "An error has occurred when handling a cancel action.",
+              "An error has occurred when handling a 'cancel' action.",
               e.message);
           }
         };
@@ -2631,81 +2631,71 @@
           case(ignore) {}
         };
 
-        var masterHandlerDocumentsClick() {
-            m_client.ShowDocDigital;
-        }
+        var masterHandlerDocumentsClick = function() {
+          m_client.showDocDigital();
+        };
 
-        var masterHandlerNewClick() {
-            try {
-                if(m_client.addEnabled()) {
+        var masterHandlerNewClick = function() {
+          try {
+            if(m_client.addEnabled()) {
+              doNew(m_masterView);
+              try {
+                m_masterView.bringToFront();
+              }
+              case(ignore) {}
+          }
+          catch(e) {
+            Cairo.manageError(
+              "Error in Master New Click Handler",
+              "An error has occurred when handling a 'new' action.",
+              e.message);
+          }
+        };
 
-                    doNew(m_masterView);
+        var doNew = function(frm) {
+          Cairo.LoadingMessage.showWait();
 
-                // * TODO:** the error label ControlError: couldn't be found
+          // only on master or header of documents
+          //
+          if(!m_isItems && !m_isFooter) {
+            if(!saveChanges(false)) { return; }
 
-                    m_masterView.bringToFront();
-                    VBA.ex.Clear;
-                }
-            catch(e) {
-              Cairo.manageError(
-                "",
-                "An error has occurred when #action.",
-                e.message);
-                / * *TODO:** goto found: GoTo ExitProc* /
-                / * *TODO:** label found: ControlError:* /
-                MngError(VBA.ex, "masterHandlerNewClick", C_MODULE, "");
-                if(VBA.ex.Number) { / * *TODO:** resume found: Resume(ExitProc)* /  }
-                / * *TODO:** label found: ExitProc:* /
+          // With frm;
 
+              m_title2 = "";
+
+              if(!m_isDocument && !m_bSendRefresh) {
+                  discardChanges(true);
+              }
+
+              m_client.EditNew;
+
+              if(m_bSendRefresh) {
+                  refreshTitle();
+              }
+
+              if(m_isDocument) {
+                  if(!pNewWithWizard()) {
+                      pMoveFocus();
+                  }
+              }
+
+              setChanged(false);
+
+              if(m_newKeyPropFocus !== "") {
+                  pSetFocusFromKeyProp(m_newKeyPropFocus);
+              }
+              else {
+
+                  if(m_isDocument) {
+                      if(!pNewWithWizard()) {
+                          frm.SetFocusFirstControl;
+                      }
+                  }
+              }
             }
-        }
-
-        var doNew(Form frm) {
-            Cairo.LoadingMessage.showWait();
-
-            // Solo en headers y en abm's
-            if(m_isDocument) {
-                if(m_isItems) { return; }
-                if(m_isFooter) { return; }
-            }
-
-            if(!pSaveChanges(false, false)) { return; }
-
-            // With frm;
-
-                m_title2 = "";
-
-                if(!m_isDocument && !m_bSendRefresh) {
-                    discardChanges(true);
-                }
-
-                m_client.EditNew;
-
-                if(m_bSendRefresh) {
-                    refreshTitle();
-                }
-
-                if(m_isDocument) {
-                    if(!pNewWithWizard()) {
-                        pMoveFocus();
-                    }
-                }
-
-                setChanged(false);
-
-                if(m_newKeyPropFocus !== "") {
-                    pSetFocusFromKeyProp(m_newKeyPropFocus);
-                }
-                else {
-
-                    if(m_isDocument) {
-                        if(!pNewWithWizard()) {
-                            frm.SetFocusFirstControl;
-                        }
-                    }
-                }
-            // {end with: frm}
-        }
+          }
+        };
 
         var pMoveFocus() {
             Object c = null;
@@ -2835,7 +2825,7 @@
 
         var masterHandlerViewBeforeDestroy(var cancel, var unloadMode) {
             if(m_client !== null) {
-                pSaveChanges(cancel, true);
+                saveChanges(true);
             }
         }
 
@@ -2854,43 +2844,46 @@
             m_masterView = null;
         }
 
-        var pSaveChanges(var cancel, bUnloading) { // TODO: Use of ByRef founded Private Function pSaveChanges(ByRef Cancel As Integer, ByVal bUnloading As Boolean) As Boolean
-            _rtn = false;
-            if(m_isDocument) {
-                if(m_isFooter || m_isItems) {
-                    _rtn = true;
-                    return _rtn;
-                }
-            }
+        var saveChanges = function(bUnloading) {
+          if(bUnloading === undefined) {
+            bUnloading = false;
+          }
 
+          _rtn = false;
+
+          if(m_isFooter || m_isItems) {
+            _rtn = true;
+          }
+          else {
             if(getChanged() && !m_noAskForSave) {
-                VbMsgBoxResult rslt = null;
+              VbMsgBoxResult rslt = null;
 
-                getView().bringToFront();
-                rslt = MsgBox("Ud. ha realizado cambios que no ha guardado."+ "\\r\\n"+ "\\r\\n"+ "¿Desea guardarlos?", vbQuestion + vbYesNoCancel, "Guardar");
+              getView().bringToFront();
+              rslt = MsgBox("Ud. ha realizado cambios que no ha guardado."+ "\\r\\n"+ "\\r\\n"+ "¿Desea guardarlos?", vbQuestion + vbYesNoCancel, "Guardar");
 
-                if(rslt === vbYes) {
+              if(rslt === vbYes) {
 
-                    if(!pSave(bUnloading, false)) {
-                        cancel = true;
-                        return _rtn;
-                    }
-                    setChanged(false);
+                  if(!pSave(bUnloading, false)) {
+                      cancel = true;
+                      return _rtn;
+                  }
+                  setChanged(false);
 
-                }
-                else if(rslt === vbNo) {
-                    setChanged(false);
+              }
+              else if(rslt === vbNo) {
+                  setChanged(false);
 
-                }
-                else if(rslt === vbCancel) {
-                    cancel = true;
-                    return _rtn;
-                }
+              }
+              else if(rslt === vbCancel) {
+                  cancel = true;
+                  return _rtn;
+              }
             }
 
             _rtn = true;
-            return _rtn;
-        }
+          }
+          return _rtn;
+        };
 
         var masterHandlerGridColumnAfterEdit(index, var lRow, var lCol, Object newValue, var newValueID, bCancel) {
             pGridColumnEdit(true, index, lRow, lCol, 0, newValue, newValueID, bCancel);
@@ -3346,7 +3339,7 @@
         var pMove(ABM_MSG moveTo) {
             if(m_client !== null) {
 
-                if(!pSaveChanges(false, false)) { return; }
+                if(!saveChanges(false)) { return; }
 
                 m_client.messageEx(moveTo, null);
 
@@ -3424,7 +3417,7 @@
 
         var wizHandlerViewBeforeDestroy(var cancel, var unloadMode) {
             if(m_client !== null) {
-                pSaveChanges(cancel, true);
+                saveChanges(true);
             }
         }
 
@@ -3566,7 +3559,7 @@
                 var view = getView();
 
                     view.CancelUnload = false;
-                    if(!pSaveChanges(cancel, true)) {
+                    if(!saveChanges(true)) {
                         view.CancelUnload = true;
                     }
                 // {end with: view}
@@ -5804,12 +5797,6 @@
             return _rtn;
         }
 
-        // Solo guarda si hubo cambios y el usuario los quiere guardar
-        //
-        self.saveChanges() {
-            return pSaveChanges(false, false);
-        }
-
         self.save() {
             _rtn = false;
             _rtn = pSave(false, false);
@@ -6916,7 +6903,7 @@
                 //
                 if(!m_inSave) {
 
-                    if(!pSaveChanges(false, false)) { / * *TODO:** goto found: GoTo ExitProc* /  }
+                    if(!saveChanges(false)) { / * *TODO:** goto found: GoTo ExitProc* /  }
 
                 }
 
