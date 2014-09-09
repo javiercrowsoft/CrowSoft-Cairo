@@ -815,9 +815,10 @@
       },
 
       deleteBranch: function(node, branchId, text, listController) {
-        var view = Cairo.confirmViewYesDanger(
+        Cairo.Modal.confirmViewYesDanger(
           "Delete",
-          "Are you sure you want to delete this folder: " + text,
+          "Are you sure you want to delete this folder: " + text
+        ).then(
           function(answer) {
             if(answer === "yes") {
               var branch = new Cairo.Entities.Branch({
@@ -847,8 +848,8 @@
                 }
               });
             }
-        });
-        Cairo.dialogRegion.show(view);
+          }
+        );
       },
 
       moveUp: function(node, branchId, text, listController) {

@@ -326,8 +326,7 @@ var Cairo = new Marionette.Application();
       strikeThrough:  false,
       underline:      false
     }
-
-  };
+  });
 
   Cairo.Util.List = {
     listSetListIndexForId: function(c, id) { /* TODO: implement this. */ },
