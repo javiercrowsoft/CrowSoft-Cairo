@@ -509,10 +509,13 @@
 <script src="./client/cairo/config/storage/localstorage.js"></script>
 <script src="./client/cairo/entities/common.js"></script>
 <script src="./client/cairo/common/views.js"></script>
-<script src="./client/cairo/system/tree.js"></script>
-<script src="./client/cairo/system/tab.js"></script>
-<script src="./client/cairo/system/select.js"></script>
-<script src="./client/cairo/system/treeSelect.js"></script>
+<script src="./client/cairo/system/promise.js"></script>
+<script src="./client/cairo/system/modal.js"></script>
+<script src="./client/cairo/system/controls/tree.js"></script>
+<script src="./client/cairo/system/controls/tab.js"></script>
+<script src="./client/cairo/system/controls/select.js"></script>
+<script src="./client/cairo/system/controls/treeSelect.js"></script>
+<!--
 <script src="./client/cairo/system/dialogs/property.js"></script>
 <script src="./client/cairo/system/dialogs/menu.js"></script>
 <script src="./client/cairo/system/dialogs/tab.js"></script>
@@ -520,7 +523,7 @@
 <script src="./client/cairo/system/dialogs/wizardStep.js"></script>
 <script src="./client/cairo/system/dialogs/wizard.js"></script>
 <script src="./client/cairo/system/dialogs/list.js"></script>
-
+-->
 @for(routerEntry <- router) {<script src="./client/cairo/modules/@{routerEntry.fileHandler}.js"></script>
 }
 <script src="./client/cairo/about/aboutApp.js"></script>

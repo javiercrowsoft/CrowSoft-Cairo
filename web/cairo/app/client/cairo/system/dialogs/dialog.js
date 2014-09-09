@@ -2652,52 +2652,49 @@
           }
         };
 
-        var doNew = function(frm) {
+        var doNew = function(view) {
           Cairo.LoadingMessage.showWait();
 
           // only on master or header of documents
           //
           if(!m_isItems && !m_isFooter) {
-            if(!saveChanges(false)) { return; }
-
-          // With frm;
+            saveChanges(false).then(function() {
 
               m_title2 = "";
 
               if(!m_isDocument && !m_bSendRefresh) {
-                  discardChanges(true);
+                discardChanges(true);
               }
 
-              m_client.EditNew;
+              m_client.editNew();
 
               if(m_bSendRefresh) {
-                  refreshTitle();
+                refreshTitle();
               }
 
               if(m_isDocument) {
-                  if(!pNewWithWizard()) {
-                      pMoveFocus();
-                  }
+                if(!newWithWizard()) {
+                  moveFocus();
+                }
               }
 
               setChanged(false);
 
               if(m_newKeyPropFocus !== "") {
-                  pSetFocusFromKeyProp(m_newKeyPropFocus);
+                setFocusFromKeyProp(m_newKeyPropFocus);
               }
               else {
-
-                  if(m_isDocument) {
-                      if(!pNewWithWizard()) {
-                          frm.SetFocusFirstControl;
-                      }
+                if(m_isDocument) {
+                  if(!newWithWizard()) {
+                    view.setFocusFirstControl();
                   }
+                }
               }
-            }
+            });
           }
         };
 
-        var pMoveFocus() {
+        var moveFocus = function() {
             Object c = null;
 
             if(m_documentView !== null) {
@@ -2713,12 +2710,12 @@
             }
         }
 
-        self.pSetFocusFromKeyProp = function(keyProp) {
+        self.setFocusFromKeyProp = function(keyProp) {
           try {
             m_properties.get(keyProp).getControl().setFocus();
           }
           catch(ignore) {}
-        }
+        };
 
         var masterHandlerPrintClick() {
 
@@ -3345,7 +3342,7 @@
 
                 if(m_isDocument) {
 
-                    pMoveFocus();
+                    moveFocus();
                 }
 
                 setChanged(false);
@@ -6966,11 +6963,12 @@
             }
         }
 
-        var pNewWithWizard() {
-
-                return mMsgConstantes.varToBool(m_client.messageEx(Dialogs.Message.MSG_DOC_NEW_WITH_WIZARD, null));
-            }
-        }
+        var newWithWizard = function() {
+          try {
+            return mMsgConstantes.varToBool(m_client.messageEx(Dialogs.Message.MSG_DOC_NEW_WITH_WIZARD, null));
+          }
+          catch(ignore) {}
+        };
 
         var pGetTabIndex(cIABMProperty property) { // TODO: Use of ByRef founded Private Function pGetTabIndex(ByRef property As cIABMProperty) As Long
             var _rtn = 0;
