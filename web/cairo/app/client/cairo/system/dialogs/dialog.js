@@ -2841,45 +2841,93 @@
             m_masterView = null;
         }
 
-        var saveChanges = function(bUnloading) {
-          if(bUnloading === undefined) {
-            bUnloading = false;
-          }
+        /*
+          we need to ask the user if she/he wants to save changes
+          so this function returns a promise which depends of the
+          answer:
 
-          _rtn = false;
+            the user have three options: Yes, No or Cancel
 
-          if(m_isFooter || m_isItems) {
-            _rtn = true;
-          }
-          else {
+            when Yes:     it returns the promise with the result of calling save()
+
+            when No:      it returns true. because the user want to discard the changes
+
+            when Cancel:  it returns false. because the user neither want to save these
+                          changes or discard them. Probably he/she wants to continue
+                          editing before saving
+
+            NOTE: maybe the unloading param will be removed in the future. it was used
+                  in the desktop version to prevent the window to be closed when the
+                  user decided to continue editing. I don't know if that could be done
+                  in the web. the idea is to present a message asking the user if she/he
+                  really wants to close the tab in the browser. we have two different tabs
+                  one is the Cairo Tab the other is the browser tab. We have total control
+                  of the former but I don't know about cross browser compatibility in
+                  preventing a browser tab/window close action from javascript.
+        */
+        var saveChanges = function(unloading) {
+          var p;
+
+          unloading = unloading || false;
+
+          /*
+            Document edition:
+
+            for footers or items it returns always true
+            because the saving is done in the header
+          */
+          if(!m_isFooter && !m_isItems) {
+
+            /*
+              there are some dialogs which are used to
+              show information or present parameters
+              to launch a process like import or export.
+              in these cases m_noAskForSave defines
+              we don't need to ask the user because these
+              changes never will be persisted.
+            */
             if(getChanged() && !m_noAskForSave) {
-              VbMsgBoxResult rslt = null;
-
               getView().bringToFront();
-              rslt = MsgBox("Ud. ha realizado cambios que no ha guardado."+ "\\r\\n"+ "\\r\\n"+ "¿Desea guardarlos?", vbQuestion + vbYesNoCancel, "Guardar");
 
-              if(rslt === vbYes) {
-
-                  if(!pSave(bUnloading, false)) {
-                      cancel = true;
-                      return _rtn;
+              p = Cairo.Modal.confirmCancelViewNoDanger(
+                "Saving",
+                "Do you want to save changes ?"
+              ).then(
+                function(answer) {
+                  /*
+                    if the user wants to save changes
+                    it returns a promise with the result
+                    of calling save()
+                    save is asynchronous (ajax call to server)
+                  */
+                  if(answer === "yes") {
+                    return save(unloading, false).then(
+                        function(saved) {
+                          if(saved) {
+                            setChanged(false);
+                          }
+                          return saved;
+                        }
+                      );
                   }
-                  setChanged(false);
-
-              }
-              else if(rslt === vbNo) {
-                  setChanged(false);
-
-              }
-              else if(rslt === vbCancel) {
-                  cancel = true;
-                  return _rtn;
-              }
+                  /*
+                    the user wants to discard these changes
+                  */
+                  else if(answer === "no") {
+                    setChanged(false);
+                    return true;
+                  }
+                  /*
+                    the user wants to continue editing
+                  */
+                  else { /* answer === "cancel" */
+                    return false;
+                  }
+                }
+              );
             }
-
-            _rtn = true;
           }
-          return _rtn;
+          return (p || Cairo.Promises.resolvedPromise(true));
         };
 
         var masterHandlerGridColumnAfterEdit(index, var lRow, var lCol, Object newValue, var newValueID, bCancel) {
@@ -3041,7 +3089,7 @@
 
                         showMsg("Guardando el comprobante ...");
 
-                        if(pSave(false, false)) {
+                        if(save(false, false)) {
 
                             if(m_sendNewDoc) {
 
@@ -3074,7 +3122,7 @@
 
                         m_savingAs = true;
 
-                        if(pSave(false, true)) {
+                        if(save(false, true)) {
 
                             if(m_sendNewDoc) {
 
@@ -5796,7 +5844,7 @@
 
         self.save() {
             _rtn = false;
-            _rtn = pSave(false, false);
+            _rtn = save(false, false);
             var view = getView();
             if(m_showOkCancel) {
                 m_okCancelResult = true;
@@ -5813,7 +5861,7 @@
             return _rtn;
         }
 
-        var pSave(bUnloading, bSaveAs) {
+        var save(bUnloading, bSaveAs) {
             _rtn = false;
             try {
 
@@ -5931,7 +5979,7 @@
                 "",
                 "An error has occurred when #action.",
                 e.message);
-                MngError(VBA.ex, "pSave", C_MODULE, "");
+                MngError(VBA.ex, "save", C_MODULE, "");
 
                 / * *TODO:** label found: ExitProc:* /
                 m_inSave = false;

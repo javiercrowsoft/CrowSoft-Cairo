@@ -100,4 +100,10 @@
     }
   };
 
+  Cairo.Promises.resolvedPromise = function(result) {
+    var defer = new Cairo.Promises.Defer();
+    defer.resolve(result);
+    return defer.promise;
+  };
+
 }());
