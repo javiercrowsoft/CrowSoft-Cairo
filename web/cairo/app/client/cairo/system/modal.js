@@ -14,6 +14,10 @@
       Cairo.dialogRegion.show(view);
 
       return defer.promise;
+    },
+
+    confirmCancelViewNoDanger: function(title, message) {
+      /* TODO: implement this. */
     }
   };
 

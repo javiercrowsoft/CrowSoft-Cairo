@@ -60,4 +60,30 @@ var a = {
     init: function() { self = this; return this; }
 }.init();
 
+var Cairo = {}
+
+Cairo.safeExecute = function(f, errorValue) {
+    try {
+      return f();
+    }
+    catch(ignore) {
+      return errorValue;
+    }
+  };
+  
+var createObject = function() {
+    var m_text = "test it";
+    var test = function() {
+        Cairo.safeExecute(function(){console.log(m_text);});
+    }
+    
+    return {
+      test: test  
+    };
+};
+
+var u = createObject();
+u.test();
+  
+
 </script>

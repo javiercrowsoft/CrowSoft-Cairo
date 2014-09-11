@@ -26,6 +26,84 @@
       KeyF3: 2
     };
 
+    Dialogs.Message = {
+      MSG_BUTTON_TEXT_CLICK: 1,
+
+      //
+      // documents
+      //
+      MSG_DOC_FIRST: 101,
+      MSG_DOC_PREVIOUS: 102,
+      MSG_DOC_NEXT: 103,
+      MSG_DOC_LAST: 104,
+
+      MSG_DOC_SIGNATURE: 105,
+      MSG_DOC_DELETE: 106,
+
+      MSG_DOC_INVALIDATE: 107,
+      MSG_DOC_REFRESH: 108,
+
+      MSG_DOC_EDIT_STATE: 109,
+      MSG_DOC_NEW_WITH_WIZARD: 110,
+
+      MSG_DOC_APPLY: 111,
+
+      MSG_DOC_EX_GET_ITEMS: 112,
+      MSG_DOC_EX_GET_FOOTERS: 113,
+
+      MSG_DOC_INFO: 114,
+      MSG_DOC_SEARCH: 115,
+      MSG_DOC_HISTORY: 116,
+
+      MSG_DOC_DOC_AUX: 117,
+      MSG_DOC_DOC_EDIT: 119,
+      MSG_DOC_DOC_ACTION: 122,
+
+      MSG_MENU_AUX: 118,
+      MSG_DOC_MERGE: 120,
+      MSG_DOC_ALERT: 121,
+
+      MSG_DOC_INFO_HANDLED: -100,
+
+      //
+      // grid
+      //
+      MSG_GRID_ROW_DELETED: 201,
+      MSG_GRID_ROW_CHANGE: 202,
+      MSG_GRID_VIRTUAL_ROW: 203,
+
+      //
+      // master
+      //
+      MSG_ABM_PRINT: 300,
+      MSG_ABM_CAN_PRINT: 310,
+      MSG_ABM_KEY_F2: 320,
+      MSG_ABM_KEY_F3: 330,
+
+      MSG_DOC_EX_PRE_VALIDATE: 400,
+
+      MSG_EDIT_PERMISSIONS: 500,
+      MSG_SHOW_EDIT_PERMISSIONS: 501,
+
+      MSG_EXPORT_GET_EMAIL: 800,
+
+      MSG_EXPORT_GET_FILE_NAME_POSTFIX: 801,
+
+      MSG_SAVE_AS: 900,
+
+      MSG_DOC_NEW_EVENT_COMPLETE: 901,
+
+      MSG_POP_MENU_ITEM: 700,
+
+      MSG_PRINT_GET_TITLE: 902,
+
+      MSG_TOOLBAR_BUTTON_CLICK: 903,
+
+      MSG_FORM_AFTER_SHOW_MODAL: 600,
+
+      MSG_KEY_DOWN: 850
+    };
+
     Dialogs.Util = {
       getTagChildIndex: function(tag) {
         var i = tag.indexOf(Dialogs.Constants.innerTab, 1);
@@ -634,23 +712,23 @@
               //
               if(m_showOkCancel) {
 
-                m_masterView.cmdCancel.setText("Cancel";
-                m_masterView.cmdCancel.cancel = true;
+                m_masterView.getCancelButton().setText("Cancel";
+                m_masterView.getCancelButton().cancel = true;
 
-                m_masterView.cmdSave.setText("Ok";
-                m_masterView.cmdCancel.width = m_masterView.cmdSave.width;
+                m_masterView.getSaveButton().setText("Ok";
+                m_masterView.getCancelButton().width = m_masterView.getSaveButton().width;
 
-                m_masterView.cmdClose.setVisible(false);
+                m_masterView.getCloseButton().setVisible(false);
               }
 
-              if(m_saveText)  { m_masterView.cmdSave.text  = m_saveText; }
-              if(m_saveWidth) { m_masterView.cmdSave.width = m_saveWidth; }
-              if(m_saveTop)   { m_masterView.cmdSave.top   = m_saveTop; }
-              if(m_saveLeft)  { m_masterView.cmdSave.left  = m_saveLeft; }
+              if(m_saveText)  { m_masterView.getSaveButton().text  = m_saveText; }
+              if(m_saveWidth) { m_masterView.getSaveButton().width = m_saveWidth; }
+              if(m_saveTop)   { m_masterView.getSaveButton().top   = m_saveTop; }
+              if(m_saveLeft)  { m_masterView.getSaveButton().left  = m_saveLeft; }
 
-              if(m_cancelText) { m_masterView.cmdCancel.setText(m_cancelText; }
-              if(m_cancelTop)  { m_masterView.cmdCancel.top  = m_cancelTop; }
-              if(m_cancelLeft) { m_masterView.cmdCancel.left = m_cancelLeft; }
+              if(m_cancelText) { m_masterView.getCancelButton().setText(m_cancelText; }
+              if(m_cancelTop)  { m_masterView.getCancelButton().top  = m_cancelTop; }
+              if(m_cancelLeft) { m_masterView.getCancelButton().left = m_cancelLeft; }
             }
 
             return m_masterView;
@@ -2457,17 +2535,18 @@
         };
 
         self.getStrTag = function(property) {
-          var _rtn = "";
-
-          try {
-            if(property.getControl() !== null) {
-              var tag = property.getControl().getTag();
-              _rtn = tag.substring(1, tag.length - 1);
-            }
-          }
-          catch(ignore) {}
-
-          return _rtn;
+          return Cairo.safeExecute(
+            function() {
+              if(property.getControl() !== null) {
+                var tag = property.getControl().getTag();
+                return tag.substring(1, tag.length - 1);
+              }
+              else {
+                return "";
+              }
+            },
+            ""
+          );
         };
 
         self.getTabs = function() {
@@ -2490,24 +2569,21 @@
         };
 
         var masterHandlerViewKeyDown = function(keyCode, shift) {
-          try {
+          return Cairo.safeExecute(function() {
             m_client.messageEx(Dialogs.Message.MSG_KEY_DOWN, keyCode);
-          }
-          catch(ignore) {}
+          });
         };
 
         var masterHandlerAfterShowModal = function() {
-          try {
+          return Cairo.safeExecute(function() {
             m_client.messageEx(Dialogs.Message.MSG_FORM_AFTER_SHOW_MODAL, null);
-          }
-          catch(ignore) {}
+          });
         };
 
         var masterHandlerPopItemClick = function(index) {
-          try {
+          return Cairo.safeExecute(function() {
             m_client.messageEx(Dialogs.Message.MSG_POP_MENU_ITEM, index);
-          }
-          catch(ignore) {}
+          });
         };
 
         var masterHandlerSetResizeGrid = function() {
@@ -2643,6 +2719,7 @@
                 m_masterView.bringToFront();
               }
               case(ignore) {}
+            }
           }
           catch(e) {
             Cairo.manageError(
@@ -2695,136 +2772,122 @@
         };
 
         var moveFocus = function() {
-            Object c = null;
-
-            if(m_documentView !== null) {
-
-                    c = m_documentView.ActiveControl;
-                    m_documentView.MEFE.get(0).SetFocus;
-                    VBA.ex.Clear;
-                    DoEvents:(DoEvents: DoEvents);
-                    c.SetFocus;
-                    DoEvents:(DoEvents: DoEvents);
-                    VBA.ex.Clear;
-                }
-            }
-        }
+          if(m_documentView !== null) {
+            Cairo.safeExecute(function() { m_documentView.getDatePickers().get(0).setFocus() });
+            Cairo.safeExecute(function() { m_documentView.getActiveControl().setFocus() });
+          }
+        };
 
         self.setFocusFromKeyProp = function(keyProp) {
-          try {
-            m_properties.get(keyProp).getControl().setFocus();
-          }
-          catch(ignore) {}
+          Cairo.safeExecute(function() { m_properties.get(keyProp).getControl().setFocus() });
         };
 
-        var masterHandlerPrintClick() {
-
-                Object rtnVar = null;
-
-                rtnVar = m_client.messageEx(Dialogs.Message.MSG_ABM_PRINT, null);
-                if(VarType(rtnVar) !== vbBoolean) {
-                    MsgInfo("Esta interfaz no posee impresión");
-                }
+        var masterHandlerPrintClick = function() {
+          Cairo.safeExecute(function() {
+            var answer = m_client.messageEx(Dialogs.Message.MSG_ABM_PRINT, null);
+            if(answer !== true) {
+              Cairo.infoViewShow("Printing", "This dialog doesn't have a print option");
             }
-        }
+          });
+        };
 
-        var setCanPrint() {
+        var setCanPrint = function() {
+          Cairo.safeExecute(function() {
+            m_client.messageEx(
+              Dialogs.Message.MSG_ABM_CAN_PRINT,
+              null
+            ).then(
+              function(result) {
+                getView().getPrintButton().setVisible(Cairo.Util.val(result) === Dialogs.Message.MSG_ABM_CAN_PRINT);
+              },
+              Cairo.manageErrorHandler("Printing")
+            );
+          });
+        };
 
-                Object rtnVar = null;
-
-                rtnVar = m_client.messageEx(Dialogs.Message.MSG_ABM_CAN_PRINT, null);
-                if(Cairo.Util.val(rtnVar) !== Dialogs.Message.MSG_ABM_CAN_PRINT) {
-                    getView().cmdPrint.setVisible(false);
+        var masterHandlerPermissionsClick = function() {
+          Cairo.safeExecute(function() {
+            m_client.messageEx(
+              Dialogs.Message.MSG_EDIT_PERMISSIONS,
+              null
+            ).then(
+              function(answer) {
+                if(answer !== true) {
+                  Cairo.infoViewShow("Printing", "This dialog doesn't allow to edit permissions");
                 }
-                else {
-                    getView().cmdPrint.setVisible(true);
+              },
+              Cairo.manageErrorHandler("Permissions")
+            );
+          });
+        };
+
+        var setShowPermissions = function() {
+          Cairo.safeExecute(function() {
+            m_client.messageEx(
+              Dialogs.Message.MSG_SHOW_EDIT_PERMISSIONS,
+              null
+            ).then(
+              function(result) {
+                getView().getPermissionsButton().setVisible(
+                  Cairo.Util.val(result) === Dialogs.Message.MSG_SHOW_EDIT_PERMISSIONS);
+              },
+              Cairo.manageErrorHandler("Permissions")
+            );
+          });
+        };
+
+        var showSelect = function() {
+          Cairo.safeExecute(function() {
+            m_client.messageEx(
+              Dialogs.Message.MSG_DOC_INFO,
+              null
+            ).then(
+              function(result) {
+                if(Cairo.Util.val(result) !== Dialogs.Message.MSG_DOC_INFO_HANDLED) {
+                  showHelpAux();
                 }
-            }
-        }
-
-        var masterHandlerPermissionsClick() {
-
-                Object rtnVar = null;
-
-                rtnVar = m_client.messageEx(Dialogs.Message.MSG_EDIT_Permissions, null);
-                if(VarType(rtnVar) !== vbBoolean) {
-                    MsgInfo("Esta interfaz no permite editar Permissions");
-                }
-            }
-        }
-
-        var setShowPermissions() {
-
-                Object rtnVar = null;
-
-                rtnVar = m_client.messageEx(Dialogs.Message.MSG_SHOW_EDIT_Permissions, null);
-                if(Cairo.Util.val(rtnVar) !== Dialogs.Message.MSG_SHOW_EDIT_Permissions) {
-                    getView().cmdPermissions.setVisible(false);
-                }
-                else {
-                    getView().cmdPermissions.setVisible(true);
-                }
-            }
-        }
-
-        var pshowSelect() {
-
-                Object rtnVar = null;
-
-                rtnVar = m_client.messageEx(Dialogs.Message.MSG_DOC_INFO, null);
-
-                if(VarType(rtnVar) !== vbBoolean) {
-                    if(G.isNumeric(rtnVar)) {
-                        if(Cairo.Util.val(rtnVar) !== Dialogs.Message.MSG_DOC_INFO_HANDLED) {
-                            showHelpAux();
-                        }
-                    }
-                    else {
-                        showHelpAux();
-                    }
-                }
-                else {
-                    showHelpAux();
-                }
-            }
-        }
+              },
+              Cairo.manageErrorHandler("Show Info")
+            );
+          });
+        };
 
         self.showHelpAux = function() {
-          try {
-            Cairo.Util.File.editFile(Cairo.Util.File.getValidPath(Cairo.Configuration.appPath()) + "cairo.chm");
-          }
-          catch(ignore) {}
+          Cairo.safeExecute(function() {
+            Cairo.Util.File.editFile(Cairo.Util.File.getValidPath(Cairo.Configuration.appPath()) + "cairo.html");
+          });
         };
 
-        var masterHandlerSaveClick() {
-            if(!pSave(false, false)) { return; }
-
-            if(m_showOkCancel) {
-                m_okCancelResult = true;
-
-                if(m_masterView !== null) {
+        var masterHandlerSaveClick = function() {
+          save(false, false).then(
+            function(saved) {
+              if(saved) {
+                if(m_showOkCancel) {
+                  m_okCancelResult = true;
+                  if(m_masterView !== null) {
                     m_masterView.setSaved();
                     masterHandlerCloseClick();
+                  }
                 }
-
-            }
-            else {
-
-                if(m_sendNewABM) {
+                else {
+                  if(m_sendNewABM) {
                     masterHandlerNewClick();
+                  }
                 }
+              }
             }
-        }
+          );
+        };
 
-        var masterHandlerViewLoad() {
-            resetChanged();
-        }
+        var masterHandlerViewLoad = function() {
+          resetChanged();
+        };
 
-        var masterHandlerViewBeforeDestroy(var cancel, var unloadMode) {
-            if(m_client !== null) {
-                saveChanges(true);
-            }
-        }
+        var masterHandlerViewBeforeDestroy = function(cancel, unloadMode) {
+          if(m_client !== null) {
+            saveChanges(true);
+          }
+        };
 
         var masterHandlerViewDestroy(var cancel) {
             if(m_client !== null) {
@@ -2998,7 +3061,7 @@
         }
 
         var masterHandlerShowSelect() {
-            pshowSelect();
+            showSelect();
         }
 
         var masterHandlerToolBarButtonClick(MSComctlLib.Button button) {
@@ -3154,7 +3217,7 @@
                     case c_KeyTbAnular:
 
                         showMsg("Anulando el comprobante ...");
-                        m_client.messageEx(Dialogs.Message.MSG_DOC_ANULAR, null);
+                        m_client.messageEx(Dialogs.Message.MSG_DOC_INVALIDATE, null);
                         hideMsg();
 
                         break;
@@ -3256,7 +3319,7 @@
 
                         break;
                     case c_KeyTbHelp:
-                        pshowSelect();
+                        showSelect();
 
                         break;
                     case c_KeyTbDocMerge:
@@ -4653,14 +4716,14 @@
 
                 if(!m_isDocument) {
                     if(m_isWizard) {
-                        view.cmdNext.tabIndex = count;
-                        view.cmdCancel.tabIndex = count;
-                        view.cmdBack.tabIndex = count;
+                        view.getNextButton().tabIndex = count;
+                        view.getCancelButton().tabIndex = count;
+                        view.getBackButton().tabIndex = count;
                     }
                     else {
-                        view.cmdSave.tabIndex = count;
-                        view.cmdCancel.tabIndex = count;
-                        view.cmdClose.tabIndex = count;
+                        view.getSaveButton().tabIndex = count;
+                        view.getCancelButton().tabIndex = count;
+                        view.getCloseButton().tabIndex = count;
                     }
                 }
 
@@ -4754,13 +4817,13 @@
                     case Dialogs.PropertyType.date:
                     case Dialogs.PropertyType.time:
                         if(m_loadDate) {
-                            Load(view.getDatePickers().get(view.MEFE.count() + 1));
+                            Load(view.getDatePickers().get(view.getDatePickers().count() + 1));
                         }
                         else {
                             m_loadDate = true;
                         }
 
-                        c = view.getDatePickers().get(view.MEFE.count());
+                        c = view.getDatePickers().get(view.getDatePickers().count());
                         if(property.getType() === Dialogs.PropertyType.date) {
                             c.csType = csMkDate;
                         //'Dialogs.PropertyType.time
@@ -6250,7 +6313,7 @@
                     }
 
                     view.getDatePickers().get(0).setVisible(false);
-                    for(i = 1; i <= view.MEFE.count(); i++) {
+                    for(i = 1; i <= view.getDatePickers().count(); i++) {
                         unload(view.getDatePickers().get(i));
                     }
 
@@ -6794,7 +6857,7 @@
                             break;
                         case Dialogs.PropertyType.date:
                         case Dialogs.PropertyType.time:
-                            changeProperty(Dialogs.PropertyType.date, index, view.MEFE.get(index), true);
+                            changeProperty(Dialogs.PropertyType.date, index, view.getDatePickers().get(index), true);
 
                             break;
                         case Dialogs.PropertyType.select:
@@ -7288,7 +7351,7 @@
 
                 if(m_wizardView === null) { return; }
                 //m_wizardView.Enabled = False
-                //m_wizardView.cmdNext.Enabled = False
+                //m_wizardView.getNextButton().Enabled = False
                 m_inProcess = true;
                 VBA.ex.Clear;
             }
@@ -7298,7 +7361,7 @@
 
                 if(m_wizardView === null) { return; }
                 //m_wizardView.Enabled = True
-                //m_wizardView.cmdNext.Enabled = True
+                //m_wizardView.getNextButton().Enabled = True
                 m_inProcess = false;
                 VBA.ex.Clear;
             }

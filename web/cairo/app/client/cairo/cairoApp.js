@@ -297,7 +297,15 @@ var Cairo = new Marionette.Application();
 
   Cairo.Util = {
     sendKeys: function(key) { /* TODO: implement this. */ },
-    getDateValueForGrid: function(value) { /* TODO: implement this. */ }
+    getDateValueForGrid: function(value) { /* TODO: implement this. */ },
+    val: function(value) {
+      try {
+        return parseFloat(value);
+      }
+      catch(ignore) {
+        return 0;
+      }
+    }
   };
 
   Cairo.Company = {
@@ -327,6 +335,19 @@ var Cairo = new Marionette.Application();
       underline:      false
     }
   });
+
+  /*
+    returns the execution of function f or errorValue if an error occurs
+    the error is ignored
+  */
+  Cairo.safeExecute = function(f, errorValue) {
+    try {
+      return f();
+    }
+    catch(ignore) {
+      return errorValue;
+    }
+  };
 
   Cairo.Util.List = {
     listSetListIndexForId: function(c, id) { /* TODO: implement this. */ },
@@ -549,7 +570,6 @@ var Cairo = new Marionette.Application();
 
   });
 
-
   Cairo.inputFormView = function(title, label, defaultValue, inputHandler) {
     var Model = Backbone.Model.extend({ urlRoot: "inputForm" });
     var model = new Model({ title: title, label: label, text: defaultValue });
@@ -590,6 +610,15 @@ var Cairo = new Marionette.Application();
     return Cairo.confirmViewWithClasses(title, message, "btn-info", "", confirmHandler);
   };
 
+  Cairo.infoView = function(title, message, closeHandler) {
+    /* TODO: implement this. */
+  };
+
+  Cairo.infoViewShow = function(title, message, closeHandler) {
+    var view = Cairo.infoView(title, message, closeHandler);
+    Cairo.dialogRegion.show(view);
+  };
+
   Cairo.manageErrorView = function(title, message, errorResponse, closeHandler) {
     var Model = Backbone.Model.extend({ urlRoot: "errorMessage" });
     var model = new Model({ title: title, message: message });
@@ -614,6 +643,13 @@ var Cairo = new Marionette.Application();
   Cairo.manageError = function(title, message, errorResponse, closeHandler) {
     var view = Cairo.manageErrorView(title, message, errorResponse, closeHandler);
     Cairo.dialogRegion.show(view);
+  };
+
+  Cairo.manageErrorHandler = function(title, message, closeHandler) {
+    message = message || "";
+    return function(errorResponse) {
+      Cairo.manageError(title, message, errorResponse, closeHandler)
+    };
   };
 
   Cairo.showErrorDetails = function(html) {
