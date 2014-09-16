@@ -42,11 +42,20 @@ CAIRO MASTER
 3 restore from backup
 
 4 update settings
-update domains set dm_server = 'jdbc:postgresql://localhost:5432', dm_database = 'salmax_com_ar_domain', dm_password = 'the password :P' 
+
+salmax
+    update domains set dm_server = 'jdbc:postgresql://localhost:5432', dm_database = 'salmax_com_ar_domain', dm_password = 'the password :P' 
+
+open shift
+    update domains set dm_server = 'jdbc:postgresql:$OPENSHIFT_POSTGRESQL_DB_HOST:$OPENSHIFT_POSTGRESQL_DB_PORT', dm_database = 'crowsoft_com_ar_domain', dm_username = 'the user :P', dm_password = 'the password :P' 
+
+
 delete from token
 delete from users where us_id <> 1
 delete from user_logins
-update users set us_username = 'javier@salmax.com.ar'
+
+only on salmax
+    update users set us_username = 'javier@salmax.com.ar'
 
 DOMAIN DATABASE
 
@@ -56,7 +65,11 @@ DOMAIN DATABASE
 
 4 update databases
 
-update databases set db_corporation = 'Salmax', db_server = 'jdbc:postgresql://localhost:5432', db_database = 'salmax_com_ar_cairo', db_password = 'the password :P' 
+salmax
+    update databases set db_corporation = 'Salmax', db_server = 'jdbc:postgresql://localhost:5432', db_database = 'salmax_com_ar_cairo', db_password = 'the password :P' 
+
+open shift
+    update databases set db_server = 'jdbc:postgresql:$OPENSHIFT_POSTGRESQL_DB_HOST:$OPENSHIFT_POSTGRESQL_DB_PORT', db_username = 'the user :P', db_password = 'the password :P'
 
 CAIRO DATABASE
 

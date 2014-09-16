@@ -305,7 +305,8 @@ var Cairo = new Marionette.Application();
       catch(ignore) {
         return 0;
       }
-    }
+    },
+    sendEmailToCrowSoft: function(subject, section) { /* TODO: implement this. */ }
   };
 
   Cairo.Company = {

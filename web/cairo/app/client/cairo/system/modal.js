@@ -18,7 +18,12 @@
 
     confirmCancelViewNoDanger: function(title, message) {
       /* TODO: implement this. */
+    },
+
+    confirmCancelViewYesDanger: function(title, message) {
+      /* TODO: implement this. */
     }
+
   };
 
 }());

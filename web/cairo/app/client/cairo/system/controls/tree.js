@@ -285,9 +285,7 @@
             defer.resolve(data);
           }
         });
-        var promise = defer.promise();
-        //$.when(promise).done(function(trees) { });
-        return promise;
+        return defer.promise();
       },
 
       getTreeEntity: function(treeId) {
