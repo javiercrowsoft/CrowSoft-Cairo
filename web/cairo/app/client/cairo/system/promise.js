@@ -51,6 +51,9 @@
       return defer.promise;
     },
 
+    // TODO: remove when I am sure it is not nedeed
+    // result: function() { return this.then(function(result) { return result; }); },
+
     executeCallback: function(callbackData, result) {
       window.setTimeout(function() {
         var res = callbackData.func(result);

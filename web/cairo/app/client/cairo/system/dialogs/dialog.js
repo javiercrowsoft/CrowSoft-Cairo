@@ -3069,6 +3069,8 @@
         *
         * */
 
+        // TODO: refactor promise is returned by this function
+        //
         var masterHandlerGridColumnAfterEdit = function(index, indexRow, indexCol, newValue, newValueID) {
           return gridColumnEdit(true, index, indexRow, indexCol, 0, newValue, newValueID);
         };
@@ -3077,6 +3079,8 @@
           gridColumnAfterUpdate(index, indexRow, indexCol, 0, newValue, newValueID);
         };
 
+        // TODO: refactor promise is returned by this function
+        //
         var masterHandlerGridColumnBeforeEdit = function(index, indexRow, indexCol, keyAscii) {
           // TODO: investigate why it calls gridColumnEdit instead of gridBeforeColumnEdit()
           return gridColumnEdit(false, index, indexRow, indexCol, keyAscii, 0, 0);
@@ -3548,6 +3552,8 @@
           catch(ignore) {}
         };
 
+        // TODO: refactor promise is returned by this function
+        //
         var wizHandlerGridColumnAfterEdit = function(index, indexRow, indexCol, newValue, newValueID) {
           return gridColumnEdit(true, index, indexRow, indexCol, 0, newValue, newValueID);
         };
@@ -3556,6 +3562,8 @@
           gridColumnAfterUpdate(index, indexRow, indexCol, 0, newValue, newValueID);
         };
 
+        // TODO: refactor promise is returned by this function
+        //
         var wizHandlerGridColumnBeforeEdit = function(index, indexRow, indexCol, keyAscii) {
           // TODO: investigate why it calls gridColumnEdit instead of gridBeforeColumnEdit()
           return gridColumnEdit(false, index, indexRow, indexCol, keyAscii, 0, 0);
@@ -3717,12 +3725,15 @@
           gridColumnAfterUpdate(index, indexRow, indexCol, 0, newValue, newValueID);
         };
 
+        // TODO: refactor promise is returned by this function
+        //
         var docHandlerGridColumnBeforeEdit = function(index, indexRow, indexCol, keyAscii) {
-          var canEdit = gridColumnBeforeEdit(index, indexRow, indexCol);
-          if(canEdit) {
-            canEdit = gridColumnEdit(false, index, indexRow, indexCol, keyAscii, 0, 0);
+          if(gridColumnBeforeEdit(index, indexRow, indexCol)) {
+            return gridColumnEdit(false, index, indexRow, indexCol, keyAscii, 0, 0);
           }
-          return canEdit;
+          else {
+            return Cairo.Promises.resolvedPromise(false);
+          }
         };
 
         var docHandlerGridDeleteRow = function(index, indexRow, _cancel_) {
@@ -3791,7 +3802,7 @@
   
             if(property !== null) {
   
-              if(clientGrid.deleteRow(getPropertyKey(property), pCreateRow(index, property, indexRow), indexRow)) {
+              if(m_client.deleteRow(getPropertyKey(property), pCreateRow(index, property, indexRow), indexRow)) {
               
                 property.getGrid().getRows().remove(indexRow);
                 m_client.messageEx(Dialogs.Message.MSG_GRID_ROW_DELETED, property.Key);
@@ -4012,11 +4023,7 @@
               col: indexCol
             };
 
-            return m_client.messageEx(Dialogs.Message.MSG_GRID_VIRTUAL_ROW, info).then(
-              function(info) {
-                return info;
-              }
-            );
+            return m_client.messageEx(Dialogs.Message.MSG_GRID_VIRTUAL_ROW, info);
           }
         };
 
@@ -4098,57 +4105,37 @@
         };
 
         var gridColumnEdit = function(after, index, indexRow, indexCol, keyAscii, newValue, newValueID) {
+          var p = null;
           try {
 
             if(m_clientManageGrid) {
 
-              property = null;
-              property = null;
-              var keyProp = 0;
-              cIABMClientGrid clientGrid = null;
-
               property = getProperty(Dialogs.PropertyType.grid, index, 0);
-              _cancel_ = false;
 
               if(property !== null) {
 
-                keyProp = getPropertyKey(property);
-                clientGrid = m_client;
+                var keyProp = getPropertyKey(property);
 
                 if(after) {
 
-                  // If the row not exists we have to create it because the client need it to hold
+                  // If the row doesn't exists we have to create it because the client need it to hold
                   // calculated data
                   createRowIfNotExists(property, index, indexRow);
 
-                  if(!clientGrid.columnAfterEdit(keyProp, indexRow, indexCol, newValue, newValueID)) {
-                    _cancel_ = true;
-                  }
-
+                  p = m_client.columnAfterEdit(keyProp, indexRow, indexCol, newValue, newValueID);
                 }
                 else {
 
                   if(m_createRowInBeforeEdit) {
-                    // If the row not exists we have to create it because the client need it to hold
+                    // If the row doesn't exists we have to create it because the client need it to hold
                     // calculated data
                     createRowIfNotExists(property, index, indexRow);
                   }
 
-                  if(!clientGrid.columnBeforeEdit(keyProp, indexRow, indexCol, keyAscii)) {
-                    _cancel_ = true;
-                  }
+                  p = m_client.columnBeforeEdit(keyProp, indexRow, indexCol, keyAscii);
                 }
-
-              }
-              else {
-                _cancel_ = true;
               }
             }
-            else {
-              _cancel_ = true;
-            }
-
-            return;
           }
           catch(e) {
             Cairo.manageError(
@@ -4156,79 +4143,90 @@
               "An error has occurred when editing in a grid.",
               e.message);
           }
+          return (p || Cairo.Promises.resolvedPromise(false));
         };
 
-        var gridColumnButtonClick = function(index, indexRow, indexCol, keyAscii, _cancel_) {
-            try {
+        // TODO: refactor promise is returned by this function
+        //
+        // TODO: check that the code which calls this function uses
+        //       the return value to determine if the button click must
+        //       by handle by the caller
+        //
+        // this function is returning true to indicate the button
+        // has to be handle by the grid (calculator in numeric columns, date picker in date columns, etc)
+        // and false is returned when the event has ben handle by m_client or by
+        // this function (when column.subType == textButtonEx)
+        //
+        var gridColumnButtonClick = function(index, indexRow, indexCol, keyAscii) {
+          var p = null;
+          try {
 
-                if(m_clientManageGrid) {
+            if(m_clientManageGrid) {
 
-                    property = null;
-                    property = null;
-                    var keyProp = 0;
-                    cIABMClientGrid clientGrid = null;
+              property = getProperty(Dialogs.PropertyType.grid, index, 0);
 
-                    property = getProperty(Dialogs.PropertyType.grid, index, 0);
-                    _cancel_ = false;
+              if(property !== null) {
 
-                    if(property !== null) {
+                var keyProp = getPropertyKey(property);
+                m_client = m_client;
 
-                        keyProp = getPropertyKey(property);
-                        clientGrid = m_client;
+                // If the row not exists we have to create it because the client need it to hold
+                // calculated data
+                createRowIfNotExists(property, index, indexRow);
 
+                p = m_client.columnButtonClick(keyProp, indexRow, indexCol, keyAscii).then(
+                  function(mustHandleEvent) {
+                    var p = null;
+                    var grid = property.getGrid();
 
-                        // If the row not exists we have to create it because the client need it to hold
-                        // calculated data
-                        createRowIfNotExists(property, index, indexRow);
+                    //
+                    // the mustHandleEvent is passed to the grid to inform that the client has handled the button
+                    // this code is executed either mustHandleEvent == true or false
+                    //
+                    var updateCell = function() {
+                      setRowValueInGrid(index, property, indexRow, grid.getRows(indexRow));
+                      setChanged(true);
+                    };
 
-                        if(!clientGrid.columnButtonClick(keyProp, indexRow, indexCol, keyAscii)) {
-                            _cancel_ = true;
-                        }
-
-                        // Si se trata de una columna de tipo TextButtonEx
-                        //
-                        // * TODO:** can't found type for with block
-                        // * With property.getGrid()
-                        __TYPE_NOT_FOUND w___TYPE_NOT_FOUND = property.getGrid();
-                            if(w___TYPE_NOT_FOUND.getColumns().get(indexCol).getSubType() === Dialogs.PropertyType.textButtonEx) {
-                                String rtn = "";
-                                // * TODO:** can't found type for with block
-                                // * With .getRows().get(indexRow).get(indexCol)
-                                __TYPE_NOT_FOUND w___TYPE_NOT_FOUND = w___TYPE_NOT_FOUND.Rows.get(indexRow).get(indexCol);
-                                    rtn = w___TYPE_NOT_FOUND.getValue();
-                                    if(GetInputEx(rtn)) {
-                                        w___TYPE_NOT_FOUND.setValue(rtn;
-                                    }
-                                // {end with: w___TYPE_NOT_FOUND}
-                            }
-                        // {end with: w___TYPE_NOT_FOUND}
-
-                        //
-                        // _cancel_ es para informarle a la grilla que el button click se manejo por la clase
-                        // ya sea true o false el codigo que sigue siempre se ejecuta
-                        //
-                        setRowValueInGrid(index, property, indexRow, property.getGrid().getRows(indexRow));
-
-                        setChanged(true);
-
+                    if(mustHandleEvent) {
+                      // if this column's type is textButtonEx we show the input text dialog
+                      //
+                      if(grid.getColumns().get(indexCol).getSubType() === Dialogs.PropertyType.textButtonEx) {
+                        var cell = grid.getRows().get(indexRow).get(indexCol);
+                        p = Cairo.Modal.inputFormView("", "", cell.getValue()).then(
+                          function(text) {
+                            cell.setValue(text);
+                            updateCell();
+                            return false;
+                          },
+                          function() {
+                            updateCell();
+                            return false;
+                          }
+                        );
+                      }
+                      else {
+                        updateCell();
+                      }
                     }
                     else {
-                        _cancel_ = true;
+                      updateCell();
                     }
-                }
-                else {
-                    _cancel_ = true;
-                }
 
-                return;
+                    return (p || Cairo.Promises.resolvedPromise(mustHandleEvent));
+                  }
+                );
+              }
             }
-            catch(e) {
-              Cairo.manageError(
-                "Edit",
-                "An error has occurred when editing in a grid.",
-                e.message);
-            }
-        }
+          }
+          catch(e) {
+            Cairo.manageError(
+              "Edit",
+              "An error has occurred when editing in a grid.",
+              e.message);
+          }
+          return (p || Cairo.Promises.resolvedPromise(false));
+        };
 
         var createRowIfNotExists = function(property, var index, indexRow) { // TODO: Use of ByRef founded Private Sub createRowIfNotExists(ByRef property As cIABMProperty, ByVal Index As Integer, ByVal indexRow As Long)
             row = null;
@@ -4312,17 +4310,17 @@
 
                 if(property !== null) {
 
-                    cIABMClientGrid clientGrid = null;
+                    
                     iRow = null;
                     cABMGridRow oRow = null;
                     String keyProp = "";
 
-                    clientGrid = m_client;
+                    m_client = m_client;
                     keyProp = getPropertyKey(property);
 
                     iRow = pCreateRow(index, property, rowIndex);
 
-                    if(clientGrid.IsEmptyRow(keyProp, iRow, rowIndex)) {
+                    if(m_client.IsEmptyRow(keyProp, iRow, rowIndex)) {
                         Cairo.Util.sendKeys("{TAB}");
                         _cancel_ = true;
                         bIsEmpty = true;
@@ -4332,7 +4330,7 @@
 
                         // Let Client one chance to validate and modify row values
                     }
-                    else if(!clientGrid.ValidateRow(keyProp, iRow, rowIndex)) {
+                    else if(!m_client.ValidateRow(keyProp, iRow, rowIndex)) {
                         _cancel_ = true;
 
                         // El cliente no valido la fila
@@ -7292,6 +7290,9 @@
   });
 
 }());
+
+// TODO: refactor promise is returned by this function
+//
 
 
 // TODO: check uses of this function to refactor _cancel_

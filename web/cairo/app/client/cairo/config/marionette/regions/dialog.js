@@ -25,7 +25,7 @@
       this.stopListening();
       this.close();
       this.$el.dialog("destroy");
-      if(this.handlerClose) this.handlerClose();
+      if(this.onCloseDialog) this.onCloseDialog();
     }
   });
 

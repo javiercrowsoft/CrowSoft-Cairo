@@ -22,6 +22,30 @@
 
     confirmCancelViewYesDanger: function(title, message) {
       /* TODO: implement this. */
+    },
+
+    inputFormView: function(title, message, defaultValue) {
+      var defer = new Cairo.Promises.Defer();
+
+      var view = Cairo.inputFormView(
+        title,
+        message,
+        defaultValue,
+        function(text) {
+          Cairo.dialogSelectTreeRegion.handler = null;
+          defer.resolve(text);
+        }
+      );
+
+      Cairo.dialogSelectTreeRegion.handler = {
+        closeDialog: function() {
+          defer.reject();
+        }
+      };
+
+      Cairo.dialogRegion.show(view);
+
+      return defer.promise;
     }
 
   };
