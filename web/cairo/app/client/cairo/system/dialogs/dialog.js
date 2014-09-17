@@ -976,7 +976,7 @@
           // if kyeCol was given we only apply to that column
           //
           if(keyCol) {
-            property.getControl().autoWidthColumn(property.getGrid().columns.get(keyCol).getIndex());
+            property.getControl().autoWidthColumn(property.getGrid().getColumns().get(keyCol).getIndex());
           }
           else {
             property.getControl().autoWidthColumns();
@@ -1049,7 +1049,7 @@
               property.getControl().setVisible(false);
               property.getControl().setRedraw(false);
 
-              var col = property.getGrid().getColumns(keyCol);
+              var col = property.getGrid().getColumns().get(keyCol);
 
               var grid = property.getControl();
 
@@ -1074,7 +1074,7 @@
 
               // add sorting
               //
-              col = property.getGrid().getColumns(keyColSort);
+              col = property.getGrid().getColumns().get(keyColSort);
 
               group = grid.addGroup();
               group.setName(col.getName());
@@ -3049,20 +3049,41 @@
           return (p || Cairo.Promises.resolvedPromise(true));
         };
 
-        var masterHandlerGridColumnAfterEdit = function(index, lRow, lCol, newValue, newValueID, bCancel) {
-          gridColumnEdit(true, index, lRow, lCol, 0, newValue, newValueID, bCancel);
+        /*
+        * TODO:
+        *
+        * _cancel_
+        *
+        * sadly in the vb6 version I have used this style of passing a byref boolean cancel parameter
+        * to allow this methods to indicate the action must be cancelled
+        *
+        * this has to be changed
+        *
+        * all function which has a _cancel_ should be refactor to return boolean:
+        *
+        *   returns true when it is success or false when the edition has to be cancelled
+        *
+        * if any function has a return value in its original vb6 version it should return an object
+        *
+        *   { cancel: boolean, originalReturn: any type }
+        *
+        * */
+
+        var masterHandlerGridColumnAfterEdit = function(index, indexRow, indexCol, newValue, newValueID) {
+          return gridColumnEdit(true, index, indexRow, indexCol, 0, newValue, newValueID);
         };
 
-        var masterHandlerGridColumnAfterUpdate = function(index, lRow, lCol, newValue, newValueID) {
-          gridColumnAfterUpdate(index, lRow, lCol, 0, newValue, newValueID);
+        var masterHandlerGridColumnAfterUpdate = function(index, indexRow, indexCol, newValue, newValueID) {
+          gridColumnAfterUpdate(index, indexRow, indexCol, 0, newValue, newValueID);
         };
 
-        var masterHandlerGridColumnBeforeEdit = function(index, lRow, lCol, iKeyAscii, bCancel) {
-          gridColumnEdit(false, index, lRow, lCol, iKeyAscii, 0, 0, bCancel);
+        var masterHandlerGridColumnBeforeEdit = function(index, indexRow, indexCol, keyAscii) {
+          // TODO: investigate why it calls gridColumnEdit instead of gridBeforeColumnEdit()
+          return gridColumnEdit(false, index, indexRow, indexCol, keyAscii, 0, 0);
         };
 
-        var masterHandlerGridColumnButtonClick = function(index, lRow, lCol, iKeyAscii, bCancel) {
-          gridColumnButtonClick(index, lRow, lCol, iKeyAscii, bCancel);
+        var masterHandlerGridColumnButtonClick = function(index, indexRow, indexCol) {
+          return gridColumnButtonClick(index, indexRow, indexCol);
         };
 
         var masterHandlerGridDblClick = function(index, rowIndex, colIndex) {
@@ -3072,8 +3093,8 @@
           }
         };
 
-        var masterHandlerGridDeleteRow = function(index, lRow, bCancel) {
-          gridDeleteRow(index, lRow, bCancel);
+        var masterHandlerGridDeleteRow = function(index, indexRow, _cancel_) {
+          gridDeleteRow(index, indexRow, _cancel_);
         };
 
         var masterHandlerGridNewRow = function(index, rowIndex) {
@@ -3084,16 +3105,16 @@
           gridAfterDeleteRow(index, rowIndex);
         };
 
-        var masterHandlerGridSelectionChange = function(index, lRow, lCol) {
-          gridSelectionChange(index, lRow, lCol, Dialogs.GridSelectChangeType.GRID_SELECTION_CHANGE);
+        var masterHandlerGridSelectionChange = function(index, indexRow, indexCol) {
+          gridSelectionChange(index, indexRow, indexCol, Dialogs.GridSelectChangeType.GRID_SELECTION_CHANGE);
         };
 
-        var masterHandlerGridSelectionRowChange = function(index, lRow, lCol) {
-          gridSelectionChange(index, lRow, lCol, Dialogs.GridSelectChangeType.GRID_ROW_CHANGE);
+        var masterHandlerGridSelectionRowChange = function(index, indexRow, indexCol) {
+          gridSelectionChange(index, indexRow, indexCol, Dialogs.GridSelectChangeType.GRID_ROW_CHANGE);
         };
 
-        var masterHandlerGridValidateRow = function(index, rowIndex, bCancel) {
-          gridValidateRow(index, rowIndex, bCancel, true, false);
+        var masterHandlerGridValidateRow = function(index, rowIndex, _cancel_) {
+          gridValidateRow(index, rowIndex, _cancel_, true, false);
         };
 
         var masterHandlerSelectChange = function(index) {
@@ -3527,24 +3548,25 @@
           catch(ignore) {}
         };
 
-        var wizHandlerGridColumnAfterEdit = function(index, lRow, lCol, newValue, newValueID, bCancel) {
-          gridColumnEdit(true, index, lRow, lCol, 0, newValue, newValueID, bCancel);
+        var wizHandlerGridColumnAfterEdit = function(index, indexRow, indexCol, newValue, newValueID) {
+          return gridColumnEdit(true, index, indexRow, indexCol, 0, newValue, newValueID);
         };
 
-        var wizHandlerGridColumnAfterUpdate = function(index, lRow, lCol, newValue, newValueID) {
-          gridColumnAfterUpdate(index, lRow, lCol, 0, newValue, newValueID);
+        var wizHandlerGridColumnAfterUpdate = function(index, indexRow, indexCol, newValue, newValueID) {
+          gridColumnAfterUpdate(index, indexRow, indexCol, 0, newValue, newValueID);
         };
 
-        var wizHandlerGridColumnBeforeEdit = function(index, lRow, lCol, iKeyAscii, bCancel) {
-          gridColumnEdit(false, index, lRow, lCol, iKeyAscii, 0, 0, bCancel);
+        var wizHandlerGridColumnBeforeEdit = function(index, indexRow, indexCol, keyAscii) {
+          // TODO: investigate why it calls gridColumnEdit instead of gridBeforeColumnEdit()
+          return gridColumnEdit(false, index, indexRow, indexCol, keyAscii, 0, 0);
         };
 
-        var wizHandlerGridColumnButtonClick = function(index, lRow, lCol, iKeyAscii, bCancel) {
-          gridColumnButtonClick(index, lRow, lCol, iKeyAscii, bCancel);
+        var wizHandlerGridColumnButtonClick = function(index, indexRow, indexCol, keyAscii, _cancel_) {
+          gridColumnButtonClick(index, indexRow, indexCol, keyAscii, _cancel_);
         };
 
-        var wizHandlerGridDeleteRow = function(index, lRow, bCancel) {
-          gridDeleteRow(index, lRow, bCancel);
+        var wizHandlerGridDeleteRow = function(index, indexRow, _cancel_) {
+          gridDeleteRow(index, indexRow, _cancel_);
         };
 
         var wizHandlerGridNewRow = function(index, rowIndex) {
@@ -3555,16 +3577,16 @@
           gridAfterDeleteRow(index, rowIndex);
         };
 
-        var wizHandlerGridSelectionChange(index, lRow, lCol) {
-          gridSelectionChange(index, lRow, lCol, Dialogs.GridSelectChangeType.GRID_SELECTION_CHANGE);
+        var wizHandlerGridSelectionChange(index, indexRow, indexCol) {
+          gridSelectionChange(index, indexRow, indexCol, Dialogs.GridSelectChangeType.GRID_SELECTION_CHANGE);
         };
 
-        var wizHandlerGridSelectionRowChange = function(index, lRow, lCol) {
-          gridSelectionChange(index, lRow, lCol, Dialogs.GridSelectChangeType.GRID_ROW_CHANGE);
+        var wizHandlerGridSelectionRowChange = function(index, indexRow, indexCol) {
+          gridSelectionChange(index, indexRow, indexCol, Dialogs.GridSelectChangeType.GRID_ROW_CHANGE);
         };
 
-        var wizHandlerGridValidateRow = function(index, rowIndex, bCancel) {
-          gridValidateRow(index, rowIndex, bCancel, true, false);
+        var wizHandlerGridValidateRow = function(index, rowIndex, _cancel_) {
+          gridValidateRow(index, rowIndex, _cancel_, true, false);
         };
 
         var wizHandlerSelectChange = function(index) {
@@ -3647,567 +3669,496 @@
 
         var docHandlerViewDestroy = function(cancel) {
 
-            getView().UnloadCount = getView().UnloadCount + 1;
+          var view = getView();
+          view.setUnloadCount(view.getUnloadCount() + 1);
 
-            var view = getView();
+          if(m_isFooter || m_isItems) {
 
-                if(m_isFooter || m_isItems) {
+            // only if the user didn't cancel the close tab or window action
+            //
+            if(!view.getCancelUnload()) {
+              saveColumnsGrids();
+              m_unloading = true;
+              m_client = null;
+            }
+          }
+          else {
 
-                    // Solo si el usuario no desidio cancelar el cierre del form
-                    if(view.CancelUnload) { return; }
+            if(m_client !== null) {
 
-                    saveColumnsGrids();
-                    m_unloading = true;
+              view.CancelUnload = false;
 
-                    m_client = null;
+              saveColumnsGrids();
+              m_unloading = true;
 
-                }
-                else {
+              m_client.terminate();
+              m_client = null;
+            }
+          }
 
-                    if(m_client !== null) {
+          // grids are destroyed only on footer because it the last to process the unload event
+          //
+          if(view.getUnloadCount() === 3) {
+            Dialogs.Util.destroyGrids(view);
+          }
 
-                        view.CancelUnload = false;
+          m_documentView = null;
+        };
 
-                        saveColumnsGrids();
-                        m_unloading = true;
+        var docHandlerGridColumnButtonClick = function(index, indexRow, indexCol, keyAscii, _cancel_) {
+          gridColumnButtonClick(index, indexRow, indexCol, keyAscii, _cancel_);
+        };
 
-                        m_client.terminate();
-                        m_client = null;
-                    }
+        var docHandlerGridColumnAfterEdit = function(index, indexRow, indexCol, newValue, newValueID) {
+          return gridColumnEdit(true, index, indexRow, indexCol, 0, newValue, newValueID, _cancel_);
+        };
 
-                }
+        var docHandlerGridColumnAfterUpdate = function(index, indexRow, indexCol, newValue, newValueID) {
+          gridColumnAfterUpdate(index, indexRow, indexCol, 0, newValue, newValueID);
+        };
 
-                // Solo destruyo las grillas en el footer que
-                // es el ultimo en recibir el evento unload
-                //
-                if(getView().UnloadCount === 3) { Dialogs.Util.destroyGrids(getView()); }
+        var docHandlerGridColumnBeforeEdit = function(index, indexRow, indexCol, keyAscii) {
+          var canEdit = gridColumnBeforeEdit(index, indexRow, indexCol);
+          if(canEdit) {
+            canEdit = gridColumnEdit(false, index, indexRow, indexCol, keyAscii, 0, 0);
+          }
+          return canEdit;
+        };
 
-                m_documentView = null;
-            // {end with: view}
-        }
-
-        var docHandlerGridColumnButtonClick = function(index, lRow, lCol, iKeyAscii, bCancel) {
-            gridColumnButtonClick(index, lRow, lCol, iKeyAscii, bCancel);
-        }
-
-        var docHandlerGridColumnAfterEdit = function(index, lRow, lCol, newValue, newValueID, bCancel) {
-            gridColumnEdit(true, index, lRow, lCol, 0, newValue, newValueID, bCancel);
-        }
-
-        var docHandlerGridColumnAfterUpdate = function(index, lRow, lCol, newValue, newValueID) {
-            gridColumnAfterUpdate(index, lRow, lCol, 0, newValue, newValueID);
-        }
-
-        var docHandlerGridColumnBeforeEdit = function(index, lRow, lCol, iKeyAscii, bCancel) {
-            gridColumnBeforeEdit = function(index, lRow, lCol, iKeyAscii, bCancel);
-            if(bCancel) { return; }
-            gridColumnEdit(false, index, lRow, lCol, iKeyAscii, 0, 0, bCancel);
-        }
-
-        var docHandlerGridDeleteRow = function(index, lRow, bCancel) {
-            gridDeleteRow(index, lRow, bCancel);
-        }
+        var docHandlerGridDeleteRow = function(index, indexRow, _cancel_) {
+          gridDeleteRow(index, indexRow, _cancel_);
+        };
 
         var docHandlerGridNewRow = function(index, rowIndex) {
-            gridNewRow(index, rowIndex);
-        }
+          gridNewRow(index, rowIndex);
+        };
 
-        var docHandlerGridValidateRow = function(index, rowIndex, bCancel) {
-            gridValidateRow(index, rowIndex, bCancel, true, false);
-        }
+        var docHandlerGridValidateRow = function(index, rowIndex, _cancel_) {
+          gridValidateRow(index, rowIndex, _cancel_, true, false);
+        };
 
-        var docHandlerGridSelectionChange = function(index, lRow, lCol) {
-            gridSelectionChange(index, lRow, lCol, Dialogs.GridSelectChangeType.GRID_SELECTION_CHANGE);
-        }
+        var docHandlerGridSelectionChange = function(index, indexRow, indexCol) {
+          gridSelectionChange(index, indexRow, indexCol, Dialogs.GridSelectChangeType.GRID_SELECTION_CHANGE);
+        };
 
-        var docHandlerGridSelectionRowChange = function(index, lRow, lCol) {
-            gridSelectionChange(index, lRow, lCol, Dialogs.GridSelectChangeType.GRID_ROW_CHANGE);
-        }
+        var docHandlerGridSelectionRowChange = function(index, indexRow, indexCol) {
+          gridSelectionChange(index, indexRow, indexCol, Dialogs.GridSelectChangeType.GRID_ROW_CHANGE);
+        };
 
         var docHandlerSelectChange = function(index) {
-            selectChange(index);
-        }
+          selectChange(index);
+        };
 
         var docHandlerMaskEditChange = function(index) {
-            maskEditChange(index);
-        }
+          maskEditChange(index);
+        };
 
         var docHandlerDateChange = function(index) {
-            dateChange(index);
-        }
+          dateChange(index);
+        };
 
         var docHandlerOptionButtonClick = function(index) {
-            optionButtonClick(index);
-        }
+          optionButtonClick(index);
+        };
 
         var docHandlerTextChange = function(index) {
-            textChange(index);
-        }
+          textChange(index);
+        };
 
         var docHandlerTextAreaChange = function(index) {
-            textAreaChange(index);
-        }
+          textAreaChange(index);
+        };
 
         var docHandlerTextPasswordChange = function(index) {
-            textPasswordChange(index);
-        }
+          textPasswordChange(index);
+        };
 
         // funciones del objeto
         var comboChange = function(index) {
-            propertyHasChanged(Dialogs.PropertyType.list, index, getView().combos.get(index));
-        }
+          propertyHasChanged(Dialogs.PropertyType.list, index, getView().combos.get(index));
+        };
 
         var checkBoxClick = function(index) {
-            propertyHasChanged(Dialogs.PropertyType.check, index, getView().checkBoxes().get(index));
-        }
+          propertyHasChanged(Dialogs.PropertyType.check, index, getView().checkBoxes().get(index));
+        };
 
-        var gridDeleteRow = function(index, lRow, bCancel) {
-            if(!m_clientManageGrid) { return; }
-
-            property = null;
+        var gridDeleteRow = function(index, indexRow) {
+          var cancel = false;
+          
+          if(m_clientManageGrid) {
+            
             property = getProperty(Dialogs.PropertyType.grid, index, 0);
-
-            if(property === null) { return; }
-
-            cIABMClientGrid clientGrid = null;
-            clientGrid = m_client;
-
-            if(clientGrid.DeleteRow(pGetPropertyKey(property), pCreateRow(index, property, lRow), lRow)) {
-                property = null;
-                property.getGrid().cABMCSGrid.getRows().Remove(lRow);
-                bCancel = false;
+  
+            if(property !== null) {
+  
+              if(clientGrid.deleteRow(getPropertyKey(property), pCreateRow(index, property, indexRow), indexRow)) {
+              
+                property.getGrid().getRows().remove(indexRow);
                 m_client.messageEx(Dialogs.Message.MSG_GRID_ROW_DELETED, property.Key);
-
-
-                    Object grid = null;
-                    grid = getView().getGrid(property.getIndex());
-                    if(grid.getRows().count() <= 1) {
-                        grid.getRows().count() = 2;
-                    }
+  
+                var grid = getView().getGrid(property.getIndex());
+                if(grid.getRows().count() <= 1) {
+                  grid.getRows().setCount(2);
                 }
-                else {
-                    bCancel = true;
-                }
+              }
+              else {
+                cancel = true;
+              }
             }
-        }
+          }
+          return !cancel;
+        };
 
-        var gridAfterDeleteRow = function(index, lRow) {
-            property = null;
-            property = getProperty(Dialogs.PropertyType.grid, index, 0);
+        var gridAfterDeleteRow = function(index, indexRow) {
+          property = getProperty(Dialogs.PropertyType.grid, index, 0);
+          refreshRowsIndex(property, indexRow);
+          var grid = getView().getGrid(index);
+          if(grid.getRows().count() < 1) {
+            grid.getRows.add();
+          }
+        };
 
-            pRefreshRowsIndex(property, lRow);
+        var refreshRowsIndex = function(property, indexRow) {
+          try {
 
-
-                Object grid = null;
-                grid = getView().getGrid(index);
-                if(grid.getRows().count() < 1) {
-                    grid.getRows.add();
-                }
+            var count = property.getGrid().getRows().count();
+            for(indexRow = indexRow; indexRow <= count; indexRow++) {
+              showCellValue(property, indexRow, 1);
             }
-        }
 
-        var pRefreshRowsIndex = function(property, lRow) { // TODO: Use of ByRef founded Private Sub pRefreshRowsIndex(ByRef property As cIABMProperty, ByVal lRow As Long)
-            try {
-
-                for(lRow = lRow; lRow <= property.getGrid().cABMCSGrid.getRows().count(); lRow++) {
-                    showCellValue(property, lRow, 1);
-                }
-
-                cGridAdvanced grid = null;
-                property = null;
-
-                grid = property.getControl();
-                if(lRow <= grid.getRows().count()) {
-                    grid.Cell(lRow, 1).getText() === lRow;
-                }
-
-            } catch (Exception ex) {
+            var grid = property.getControl();
+            if(indexRow <= grid.getRows().count()) {
+              grid.Cell(indexRow, 1).getText() === indexRow;
             }
-        }
 
-        var pSetRowBackground = function(index, property, lRow, lCol) { // TODO: Use of ByRef founded Private Sub pSetRowBackground(ByVal Index As Long, ByRef property As cIABMProperty, ByVal lRow As Long, ByVal lCol As Long)
-            try {
+          }
+          catch(ignore) {}
+        };
 
-                cGridAdvanced grid = null;
-                grid = getView().getGrid(index);
-
-                if(property.getGrid().getColumns(lCol).getType() === Dialogs.PropertyType.grid) {
-                    grid.SelectRow(lRow);
-                }
-                else {
-                    grid.UnSelectRow;
-                }
-            } catch (Exception ex) {
+        var setRowBackground = function(index, property, indexRow, indexCol) {
+          try {
+            var grid = getView().getGrid(index);
+            if(property.getGrid().getColumns(indexCol).getType() === Dialogs.PropertyType.grid) {
+              grid.selectRow(indexRow);
             }
-        }
+            else {
+              grid.unSelectRow();
+            }
+          }
+          catch(ignore) {}
+        };
 
-        var gridSelectionChange = function(index, lRow, lCol, csEGridSelectChangeType what) {
+        var gridSelectionChange = function(index, indexRow, indexCol, what) {
+          property = getProperty(Dialogs.PropertyType.grid, index, 0);
 
-            property = null;
+          if(property !== null) {
+            property.setSelectedIndex(indexRow);
+
+            if(what === Dialogs.GridSelectChangeType.GRID_SELECTION_CHANGE) {
+              setRowBackground(index, property, indexRow, indexCol);
+            }
+            else if(what === Dialogs.GridSelectChangeType.GRID_ROW_CHANGE) {
+              if(m_client !== null) {
+                m_client.messageEx(Dialogs.Message.MSG_GRID_ROW_CHANGE, property);
+              }
+            }
+          }
+        };
+
+        var gridNewRow = function(index, rowIndex) {
+          if(m_clientManageGrid) {
+
             property = getProperty(Dialogs.PropertyType.grid, index, 0);
 
             if(property !== null) {
-                property.SelectedIndex = lRow;
-
-                if(what === Dialogs.GridSelectChangeType.GRID_SELECTION_CHANGE) {
-
-                    pSetRowBackground(index, property, lRow, lCol);
-
-                }
-                else if(what === Dialogs.GridSelectChangeType.GRID_ROW_CHANGE) {
-
-                    if(m_client === null) { return; }
-                    m_client.messageEx(Dialogs.Message.MSG_GRID_ROW_CHANGE, property);
-                }
+              m_client.newRow(getPropertyKey(property), rowIndex);
+              setDefaults(property, rowIndex);
             }
-        }
+          }
+        };
 
-        var gridNewRow = function(index, rowIndex) {
+        var setDefaults = function(property, rowIndex) {
+
+          var row = pCreateRow(property.getIndex(), property, rowIndex);
+          row.get(1).setValue(property.getGrid().getRows().count() + 1);
+
+          var colIndex = 0;
+          var columnsCount = property.getGrid().getColumns().count();
+          for(var _i = 0; _i < columnsCount; _i++) {
+            var col = property.getGrid().getColumns().get(_i);
+            colIndex = colIndex + 1;
+            if(col.getDefaultValue() !== null) {
+              var cell = row.get(colIndex);
+              cell.setId(col.getDefaultValue().getId());
+              cell.setValue(col.getDefaultValue().getValue());
+            }
+          }
+
+          if(row !== null) {
+            var grid = getView().getGrid(property.getIndex());
+            m_gridManager.loadFromRow(grid, row, rowIndex, property.getGrid().getColumns());
+          }
+        };
+
+        var gridColumnAfterUpdate = function(index, indexRow, indexCol, keyAscii, newValue, newValueID) {
+          try {
+
             if(m_clientManageGrid) {
 
-                property = null;
-                property = getProperty(Dialogs.PropertyType.grid, index, 0);
+              property = getProperty(Dialogs.PropertyType.grid, index, 0);
 
-                if(property !== null) {
+              if(property !== null) {
 
-                    cIABMClientGrid clientGrid = null;
-                    clientGrid = m_client;
+                var keyProp = getPropertyKey(property);
 
-                    clientGrid.NewRow(pGetPropertyKey(property), rowIndex);
+                // If the row not exists we have to create it because the client need it to hold
+                // calculated data
+                createRowIfNotExists(property, index, indexRow);
 
-                    setDefaults(property, rowIndex);
-                }
-            }
-        }
+                setColumnValueInProperty(property, index, indexRow, indexCol, newValue, newValueID);
 
-        var setDefaults = function(property, rowIndex) { // TODO: Use of ByRef founded Private Sub setDefaults(ByRef property As cABMProperty, ByVal rowIndex As Long)
-            Object grid = null;
-            property = null;
-            cIABMGridRow iRow = null;
-            cIABMGridColumn col = null;
-            var colIndex = 0;
+                // Multi
+                // if virtual rows were not created in this call
+                // we update the grid
+                //
+                processVirtualRow(property, index, indexRow, indexCol, keyProp).then(
+                  function(result) {
 
-            property = property;
-            iRow = pCreateRow(property.getIndex(), property, rowIndex);
-
-            property = property;
-            iRow.get(1).setValue(property.Grid.cABMCSGrid.getRows().count() + 1;
-
-            for(var _i = 0; _i < property.Grid.cABMDocProperties.getColumns().count(); _i++) {
-                Col = property.Grid.Columns.get(_i);
-                colIndex = colIndex + 1;
-                if(!col.DefaultValue === null) {
-                    // * TODO:** can't found type for with block
-                    // * With iRow.get(colIndex)
-                    __TYPE_NOT_FOUND w___TYPE_NOT_FOUND = iRow.get(colIndex);
-                        w___TYPE_NOT_FOUND.Id = col.DefaultValue.cABMCSGrid.getId();
-                        w___TYPE_NOT_FOUND.setValue(col.DefaultValue.getValue();
-                    // {end with: w___TYPE_NOT_FOUND}
-                }
-            }
-
-            if(iRow === null) { return; }
-
-            grid = getView().getGrid(property.getIndex());
-            m_gridManager.loadFromRow(grid, iRow, rowIndex, property.Grid.cABMDocProperties.getColumns());
-        }
-
-        var gridColumnAfterUpdate = function(index, lRow, lCol, iKeyAscii, newValue, newValueID) {
-            try {
-
-                if(m_clientManageGrid) {
-
-                    property = null;
-                    property = null;
-
-                    property = getProperty(Dialogs.PropertyType.grid, index, 0);
-
-                    if(property !== null) {
-
-                        cIABMClientGrid clientGrid = null;
-                        String keyProp = "";
-
-                        keyProp = pGetPropertyKey(property);
-
-                        clientGrid = m_client;
-
-                        // If the row not exists we have to create it because the client need it to hold
-                        // calculated data
-                        pCreateRowIfNotExists(property, index, lRow);
-
-                        pSetColumnValueInProperty(property, index, lRow, lCol, newValue, newValueID);
-
-                        // Multi
-                        // Si no se generaron filas virtuales con esta llamada
-                        // actualizo los valores en la grilla
-                        //
-                        if(!pProcessVirtualRow(property, index, lRow, lCol, keyProp, clientGrid)) {
-
-                            // Let client one chance to calculate columns
-                            clientGrid.ColumnAfterUpdate(keyProp, lRow, lCol);
-
-                            pSetRowValueInGrid(index, property, lRow, property.getGrid().cABMCSGrid.getRows(lRow));
-
-                        }
-
-                        if(pIsEditColumn(property, lCol)) {
-
-                            setChanged(true);
-
-                        }
-                    }
-                }
-
-                return;
-            }
-            catch(e) {
-              Cairo.manageError(
-                "Edit",
-                "An error has occurred after editing in a grid.",
-                e.message);
-            }
-        }
-
-        var pIsEditColumn = function(property, lCol) {
-            cABMGridColumn oCol = null;
-            oCol = property.getGrid().getColumns(lCol);
-            return oCol.getIsEditColumn();
-        }
-
-        var pProcessVirtualRow = function(property, var index, lRow, lCol, keyProp, clientGrid) { // TODO: Use of ByRef founded Private Function pProcessVirtualRow(ByRef property As cABMProperty, ByVal Index As Integer, ByVal lRow As Long, ByVal lCol As Long, ByVal KeyProp As String, ByRef ClientGrid As cIABMClientGrid) As Boolean
-            _rtn = false;
-
-            // Manejo de Filas Virtuales
-            //
-            var iAddRows = 0;
-            var i = 0;
-            var q = 0;
-            cVirtualRowInfo vrInfo = null;
-            vrInfo = new cVirtualRowInfo();
-
-            if(pAddVirtualRows(pGetPropertyKey(property), lRow, lCol, iAddRows, vrInfo)) {
-
-                _rtn = true;
-
-                property = null;
-
-                var n = 0;
-                n = property.getGrid().cABMCSGrid.getRows().count();
-
-                property.getControl().getRows().count() = n + iAddRows;
-
-                iAddRows = n + iAddRows;
-
-                var lColAmount = 0;
-                lColAmount = pGetColIndexFromKey(property, vrInfo.getLColAmount());
-
-                for(i = n; i <= iAddRows; i++) {
-                    q = q + 1;
-                    gridNewRow(index, i);
-                    pCreateRowIfNotExists(property, index, i);
-
-                    if(i < iAddRows) {
-                        pSetColumnValueInProperty(property, index, i, lCol, vrInfo.getNewValue(q), Cairo.Util.val(vrInfo.getNewId(q)));
-
-                        clientGrid.ColumnAfterEdit(keyProp, i, lCol, vrInfo.getNewValue(q), Cairo.Util.val(vrInfo.getNewId(q)));
-
-                        // Let client one chance to calculate columns
-                        clientGrid.ColumnAfterUpdate(keyProp, i, lCol);
-
-                        if(lColAmount > 0) {
-                            pSetColumnValueInProperty(property, index, i, lColAmount, vrInfo.getNewAmount(q), 0);
-
-                            clientGrid.ColumnAfterEdit(keyProp, i, lColAmount, vrInfo.getNewAmount(q), 0);
-
-                            // Let client one chance to calculate columns
-                            clientGrid.ColumnAfterUpdate(keyProp, i, lColAmount);
-                        }
+                    if(result) {
+                      // Let client one chance to calculate columns
+                      m_client.columnAfterUpdate(keyProp, indexRow, indexCol);
+                      setRowValueInGrid(index, property, indexRow, property.getGrid().getRows(indexRow));
                     }
 
-                    pSetRowValueInGrid(index, property, i, property.getGrid().cABMCSGrid.getRows(i));
-                }
-
+                    if(columnIsEditable(property, indexCol)) {
+                      setChanged(true);
+                    }
+                  }
+                );
+              }
             }
+          }
+          catch(e) {
+            Cairo.manageError(
+              "Edit",
+              "An error has occurred after editing in a grid.",
+              e.message);
+          }
+        };
 
-            return _rtn;
-        }
+        var columnIsEditable = function(property, indexCol) {
+          return property.getGrid().getColumns().get(indexCol).getColumnIsEditable();
+        };
 
-        // Multi
-        var pAddVirtualRows = function(String key, lRow, lCol, var iAddRows, cVirtualRowInfo vrInfo) { // TODO: Use of ByRef founded Private Function pAddVirtualRows(ByVal Key As String, ByVal lRow As Long, ByVal lCol As Long, ByRef iAddRows As Long, ByRef vrInfo As cVirtualRowInfo) As Boolean
-            _rtn = false;
-            if(m_client === null) { return _rtn; }
+        var processVirtualRow = function(property, index, indexRow, indexCol, keyProp) {
 
-            vrInfo.setKey(key);
-            vrInfo.setLRow(lRow);
-            vrInfo.setLCol(lCol);
+          return addVirtualRows(getPropertyKey(property), indexRow, indexCol).then(
+            function(info) {
+              if(info.success) {
+                return false;
+              }
+              else {
+                var n = property.getGrid().getRows().count();
 
-            if(m_client.messageEx(Dialogs.Message.MSG_GRID_VIRTUAL_ROW, vrInfo)) {
+                property.getControl().getRows().setCount(n + info.getRowsToAdd());
 
-                if(vrInfo.getBAddRows()) {
+                var rowsCount = property.getControl().getRows().getCount();
+                var colAmount = getColIndexFromKey(property, info.getColAmount());
+                var q = 0;
 
-                    iAddRows = vrInfo.getIAddRows();
-                    _rtn = true;
+                for(var i = n; i <= rowsCount; i++) {
+                  q = q + 1;
+                  gridNewRow(index, i);
+                  createRowIfNotExists(property, index, i);
 
+                  if(i < rowsCount) {
+                    setColumnValueInProperty(property, index, i, indexCol, info.getNewValue(q), Cairo.Util.val(info.getNewId(q)));
+
+                    m_client.columnAfterEdit(keyProp, i, indexCol, info.getNewValue(q), Cairo.Util.val(info.getNewId(q)));
+
+                    // Let client one chance to calculate columns
+                    m_client.columnAfterUpdate(keyProp, i, indexCol);
+
+                    if(colAmount > 0) {
+                      setColumnValueInProperty(property, index, i, colAmount, info.getNewAmount(q), 0);
+
+                      m_client.columnAfterEdit(keyProp, i, colAmount, info.getNewAmount(q), 0);
+
+                      // Let client one chance to calculate columns
+                      m_client.columnAfterUpdate(keyProp, i, colAmount);
+                    }
+                  }
+
+                  setRowValueInGrid(index, property, i, property.getGrid().getRows(i));
                 }
+                return true;
+              }
             }
+          );
+        };
 
-            return _rtn;
-        }
+        var addVirtualRows = function(key, indexRow, indexCol) {
+          if(m_client === null) {
+            return Cairo.Promises.resolvedPromise({
+              result: false,
+              info: null,
+              rowsToAdd: 0
+            });
+          }
+          else {
+            var info = {
+              key: key,
+              row: indexRow,
+              col: indexCol
+            };
 
-        var gridColumnBeforeEdit = function(index, lRow, lCol, iKeyAscii, bCancel) { // TODO: Use of ByRef founded Private Sub gridColumnBeforeEdit(ByVal Index As Integer, ByVal lRow As Long, ByVal lCol As Long, ByVal iKeyAscii As Integer, ByRef bCancel As Boolean)
-            try {
+            return m_client.messageEx(Dialogs.Message.MSG_GRID_VIRTUAL_ROW, info).then(
+              function(info) {
+                return info;
+              }
+            );
+          }
+        };
 
-                if(!m_clientManageGrid) { return; }
+        // TODO: check uses of this function to refactor _cancel_
+        //
+        var gridColumnBeforeEdit = function(index, indexRow, indexCol) {
+          var cancel = true;
+          try {
 
-                bCancel = false;
+            if(m_clientManageGrid) {
+              property = getProperty(Dialogs.PropertyType.grid, index, 0);
 
-                property = null;
-                property = null;
-                cGridAdvanced oGrid = null;
-                cIABMGridColumn column = null;
-                cGridColumn c = null;
+              if(property !== null) {
+                if(indexRow > property.getGrid().getRows().count()) {
 
-                property = getProperty(Dialogs.PropertyType.grid, index, 0);
+                  var column = property.getGrid().getColumns().get(indexCol);
+                  var col = getView().getGrid(property.getIndex()).getColumns().get(indexCol);
+                  var cell = property.getGrid().getRows().get(indexRow).get(indexCol);
+                  var format = cell.getFormat();
 
-                if(property === null) { return; }
-                if(lRow > property.getGrid().cABMCSGrid.getRows().count()) { return; }
+                  if(format === null) {
+                    col.setEditType(column.getPropertyType());
+                    col.setEditSubType(column.getSubType());
+                    col.setTable(column.getTable());
+                    col.setAllowEdit(column.getEnabled());
+                    col.setEnabled(column.getEnabled());
+                    col.setSelectFilter(column.getSelectFilter());
+                    col.setSize(column.getSize());
+                    col.setFormat(column.getFormat());
 
-                oGrid = getView().getGrid(property.getIndex());
-                column = property.getGrid().getColumns(lCol);
-                c = oGrid.Columns(lCol);
-
-                CSInterfacesABM.cIABMGridCellValue w_item = property.getGrid().cABMCSGrid.getRows().get(lRow).get(lRow).get(lCol);
-                    if(w_item.Format === null) {
-
-                        // With c;
-
-                            c.EditType = column.PropertyType;
-                            c.EditSubType = column.SubType;
-                            c.Table = column.Table;
-                            c.AllowEdit = column.getEnabled();
-                            c.Enabled = column.getEnabled();
-                            bCancel = !column.getEnabled();
-                            c.HelpFilter = column.HelpFilter;
-                            c.HelpSPFilter = column.HelpSPFilter;
-                            c.HelpSPInfoFilter = column.HelpSPInfoFilter;
-
-                            c.Size = column.Size;
-                            c.Format = column.Format;
-
-                            if(column.getType() === Dialogs.PropertyType.list) {
-                                c.List = column.List;
-                            }
-                            else {
-                                c.List = null;
-                            }
-
-                            if(column.getSubType() === Dialogs.PropertySubType.percentage) {
-                                if(column.Format === "") {
-                                    c.Format = "0.00 %";
-                                }
-                            }
-                        // {end with: c}
-
+                    if(column.getType() === Dialogs.PropertyType.list) {
+                      col.setList(column.getList());
                     }
                     else {
-
-                        c.EditType = w_item.Format.PropertyType;
-                        c.EditSubType = w_item.Format.SubType;
-                        c.Table = w_item.Format.Table;
-                        c.AllowEdit = w_item.Format.getEnabled();
-                        c.Enabled = w_item.Format.getEnabled();
-                        bCancel = !w_item.Format.getEnabled();
-                        c.HelpFilter = w_item.Format.HelpFilter;
-                        c.Size = w_item.Format.Size;
-                        c.Format = w_item.Format.Format;
-
-                        if(w_item.Format.getType() === Dialogs.PropertyType.list) {
-                            c.List = w_item.Format.List;
-                        }
-                        else {
-                            c.List = null;
-                        }
-
-                        if(w_item.Format.getSubType() === Dialogs.PropertySubType.percentage) {
-                            if(w_item.Format.Format === "") {
-                                c.Format = "0.00 %";
-                            }
-                        }
+                      col.setList(null);
                     }
-                // {end with: w_item}
 
-                return;
-            }
-            catch(e) {
-              Cairo.manageError(
-                "Edit",
-                "An error has occurred before editing in a grid.",
-                e.message);
-            }
-        }
+                    if(column.getSubType() === Dialogs.PropertySubType.percentage) {
+                      if(column.getFormat() === "") {
+                        col.setFormat("0.00 %");
+                      }
+                    }
+                  }
+                  else {
+                    col.setEditType(format.getPropertyType());
+                    col.setEditSubType(format.getSubType());
+                    col.setTable(format.getTable());
+                    col.setAllowEdit(format.getEnabled());
+                    col.setEnabled(format.getEnabled());
+                    col.setSelectFilter(format.getSelectFilter());
+                    col.setSize(format.getSize());
+                    col.setFormat(format.getFormat());
 
-        var gridColumnEdit = function(after, var index, lRow, lCol, iKeyAscii, newValue, newValueID, bCancel) {
-            try {
-
-                if(m_clientManageGrid) {
-
-                    property = null;
-                    property = null;
-                    var keyProp = 0;
-                    cIABMClientGrid clientGrid = null;
-
-                    property = getProperty(Dialogs.PropertyType.grid, index, 0);
-                    bCancel = false;
-
-                    if(property !== null) {
-
-                        keyProp = pGetPropertyKey(property);
-                        clientGrid = m_client;
-
-                        if(after) {
-
-                            // If the row not exists we have to create it because the client need it to hold
-                            // calculated data
-                            pCreateRowIfNotExists(property, index, lRow);
-
-                            if(!clientGrid.ColumnAfterEdit(keyProp, lRow, lCol, newValue, newValueID)) {
-                                bCancel = true;
-                            }
-
-                        }
-                        else {
-
-                            if(m_createRowInBeforeEdit) {
-                                // If the row not exists we have to create it because the client need it to hold
-                                // calculated data
-                                pCreateRowIfNotExists(property, index, lRow);
-                            }
-
-                            if(!clientGrid.ColumnBeforeEdit(keyProp, lRow, lCol, iKeyAscii)) {
-                                bCancel = true;
-                            }
-                        }
-
+                    if(format.getType() === Dialogs.PropertyType.list) {
+                      col.setList(format.getList());
                     }
                     else {
-                        bCancel = true;
+                      col.setList(null);
                     }
+
+                    if(format.getSubType() === Dialogs.PropertySubType.percentage) {
+                      if(format.getFormat() === "") {
+                        col.setFormat("0.00 %");
+                      }
+                    }
+                  }
+                  cancel = col.getEnabled() && col.getAllowEdit();
+                }
+              }
+            }
+          }
+          catch(e) {
+            Cairo.manageError(
+              "Edit",
+              "An error has occurred before editing in a grid.",
+              e.message);
+          }
+          return !cancel;
+        };
+
+        var gridColumnEdit = function(after, index, indexRow, indexCol, keyAscii, newValue, newValueID) {
+          try {
+
+            if(m_clientManageGrid) {
+
+              property = null;
+              property = null;
+              var keyProp = 0;
+              cIABMClientGrid clientGrid = null;
+
+              property = getProperty(Dialogs.PropertyType.grid, index, 0);
+              _cancel_ = false;
+
+              if(property !== null) {
+
+                keyProp = getPropertyKey(property);
+                clientGrid = m_client;
+
+                if(after) {
+
+                  // If the row not exists we have to create it because the client need it to hold
+                  // calculated data
+                  createRowIfNotExists(property, index, indexRow);
+
+                  if(!clientGrid.columnAfterEdit(keyProp, indexRow, indexCol, newValue, newValueID)) {
+                    _cancel_ = true;
+                  }
+
                 }
                 else {
-                    bCancel = true;
+
+                  if(m_createRowInBeforeEdit) {
+                    // If the row not exists we have to create it because the client need it to hold
+                    // calculated data
+                    createRowIfNotExists(property, index, indexRow);
+                  }
+
+                  if(!clientGrid.columnBeforeEdit(keyProp, indexRow, indexCol, keyAscii)) {
+                    _cancel_ = true;
+                  }
                 }
 
-                return;
+              }
+              else {
+                _cancel_ = true;
+              }
             }
-            catch(e) {
-              Cairo.manageError(
-                "Edit",
-                "An error has occurred when editing in a grid.",
-                e.message);
+            else {
+              _cancel_ = true;
             }
-        }
 
-        var gridColumnButtonClick = function(index, lRow, lCol, iKeyAscii, bCancel) {
+            return;
+          }
+          catch(e) {
+            Cairo.manageError(
+              "Edit",
+              "An error has occurred when editing in a grid.",
+              e.message);
+          }
+        };
+
+        var gridColumnButtonClick = function(index, indexRow, indexCol, keyAscii, _cancel_) {
             try {
 
                 if(m_clientManageGrid) {
@@ -4218,20 +4169,20 @@
                     cIABMClientGrid clientGrid = null;
 
                     property = getProperty(Dialogs.PropertyType.grid, index, 0);
-                    bCancel = false;
+                    _cancel_ = false;
 
                     if(property !== null) {
 
-                        keyProp = pGetPropertyKey(property);
+                        keyProp = getPropertyKey(property);
                         clientGrid = m_client;
 
 
                         // If the row not exists we have to create it because the client need it to hold
                         // calculated data
-                        pCreateRowIfNotExists(property, index, lRow);
+                        createRowIfNotExists(property, index, indexRow);
 
-                        if(!clientGrid.ColumnButtonClick(keyProp, lRow, lCol, iKeyAscii)) {
-                            bCancel = true;
+                        if(!clientGrid.columnButtonClick(keyProp, indexRow, indexCol, keyAscii)) {
+                            _cancel_ = true;
                         }
 
                         // Si se trata de una columna de tipo TextButtonEx
@@ -4239,11 +4190,11 @@
                         // * TODO:** can't found type for with block
                         // * With property.getGrid()
                         __TYPE_NOT_FOUND w___TYPE_NOT_FOUND = property.getGrid();
-                            if(w___TYPE_NOT_FOUND.Columns(lCol).getSubType() === Dialogs.PropertyType.textButtonEx) {
+                            if(w___TYPE_NOT_FOUND.getColumns().get(indexCol).getSubType() === Dialogs.PropertyType.textButtonEx) {
                                 String rtn = "";
                                 // * TODO:** can't found type for with block
-                                // * With .cABMCSGrid.getRows().get(lRow).get(lCol)
-                                __TYPE_NOT_FOUND w___TYPE_NOT_FOUND = w___TYPE_NOT_FOUND.Rows.get(lRow).get(lCol);
+                                // * With .getRows().get(indexRow).get(indexCol)
+                                __TYPE_NOT_FOUND w___TYPE_NOT_FOUND = w___TYPE_NOT_FOUND.Rows.get(indexRow).get(indexCol);
                                     rtn = w___TYPE_NOT_FOUND.getValue();
                                     if(GetInputEx(rtn)) {
                                         w___TYPE_NOT_FOUND.setValue(rtn;
@@ -4253,20 +4204,20 @@
                         // {end with: w___TYPE_NOT_FOUND}
 
                         //
-                        // bCancel es para informarle a la grilla que el button click se manejo por la clase
+                        // _cancel_ es para informarle a la grilla que el button click se manejo por la clase
                         // ya sea true o false el codigo que sigue siempre se ejecuta
                         //
-                        pSetRowValueInGrid(index, property, lRow, property.getGrid().cABMCSGrid.getRows(lRow));
+                        setRowValueInGrid(index, property, indexRow, property.getGrid().getRows(indexRow));
 
                         setChanged(true);
 
                     }
                     else {
-                        bCancel = true;
+                        _cancel_ = true;
                     }
                 }
                 else {
-                    bCancel = true;
+                    _cancel_ = true;
                 }
 
                 return;
@@ -4279,30 +4230,30 @@
             }
         }
 
-        var pCreateRowIfNotExists = function(property, var index, lRow) { // TODO: Use of ByRef founded Private Sub pCreateRowIfNotExists(ByRef property As cIABMProperty, ByVal Index As Integer, ByVal lRow As Long)
-            cIABMGridRow row = null;
+        var createRowIfNotExists = function(property, var index, indexRow) { // TODO: Use of ByRef founded Private Sub createRowIfNotExists(ByRef property As cIABMProperty, ByVal Index As Integer, ByVal indexRow As Long)
+            row = null;
 
-            var w_rows = property.getGrid().cABMCSGrid.getRows();
-                row = w_rows.get(lRow);
+            var w_rows = property.getGrid().getRows();
+                row = w_rows.get(indexRow);
                 if(row === null) {
-                    row = pCreateRow(index, property, lRow);
+                    row = pCreateRow(index, property, indexRow);
                     w_rows.Add(row);
                 }
             // {end with: w_rows}
         }
 
-        var pGetColIndexFromKey = function(property, var lKey) {
+        var getColIndexFromKey = function(property, var lKey) {
             var _rtn = 0;
             if(lKey === -1) {
                 _rtn = -1;
             }
             else {
-                cIABMGridRow row = null;
-                row = property.getGrid().cABMCSGrid.getRows().get(1);
+                row = null;
+                row = property.getGrid().getRows().get(1);
                 if(row === null) {
                     return _rtn;
                 }
-                cIABMGridCellValue iCell = null;
+                iCell = null;
                 var i = 0;
                 for(i = 1; i <= row.count(); i++) {
                     iCell = row.get(i);
@@ -4315,21 +4266,21 @@
             return _rtn;
         }
 
-        var pSetColumnValueInProperty = function(property, var index, lRow, lCol, newValue, newValueID) { // TODO: Use of ByRef founded Private Sub pSetColumnValueInProperty(ByRef property As cIABMProperty, ByVal Index As Integer, ByVal lRow As Long, ByVal lCol As Long, ByVal NewValue As Variant, ByVal NewValueID As Long)
-            cIABMGridRow row = null;
-            cIABMGridCellValue iCell = null;
+        var setColumnValueInProperty = function(property, var index, indexRow, indexCol, newValue, newValueID) { // TODO: Use of ByRef founded Private Sub setColumnValueInProperty(ByRef property As cIABMProperty, ByVal Index As Integer, ByVal indexRow As Long, ByVal indexCol As Long, ByVal NewValue As Variant, ByVal NewValueID As Long)
+            row = null;
+            iCell = null;
             cABMGridRowValue oCell = null;
-            cGridAdvanced grd = null;
+            grd = null;
 
-            var w_rows = property.getGrid().cABMCSGrid.getRows();
+            var w_rows = property.getGrid().getRows();
 
-                row = w_rows.get(lRow);
+                row = w_rows.get(indexRow);
                 if(row === null) {
-                    row = pCreateRow(index, property, lRow);
+                    row = pCreateRow(index, property, indexRow);
                     w_rows.Add(row);
                 }
 
-                iCell = row.get(lCol);
+                iCell = row.get(indexCol);
                 oCell = iCell;
 
                 // With iCell;
@@ -4343,12 +4294,12 @@
 
                     property = property;
                     grd = property.getControl();
-                    oCell.setSelectIntValue(grd.Cell(lRow, lCol).getTag());
+                    oCell.setSelectIntValue(grd.Cell(indexRow, indexCol).getTag());
                 // {end with: w_rows}
             }
         }
 
-        var gridValidateRow = function(index, rowIndex, bCancel, bAddRow, bIsEmpty) { // TODO: Use of ByRef founded Private Function gridValidateRow(ByVal Index As Integer, ByVal rowIndex As Long, ByRef bCancel As Boolean, ByVal bAddRow As Boolean, ByRef bIsEmpty As Boolean) As Boolean
+        var gridValidateRow = function(index, rowIndex, _cancel_, bAddRow, bIsEmpty) { // TODO: Use of ByRef founded Private Function gridValidateRow(ByVal Index As Integer, ByVal rowIndex As Long, ByRef _cancel_ As Boolean, ByVal bAddRow As Boolean, ByRef bIsEmpty As Boolean) As Boolean
             rtn = false;
 
             if(m_clientManageGrid) {
@@ -4357,23 +4308,23 @@
                 property = null;
 
                 property = getProperty(Dialogs.PropertyType.grid, index, 0);
-                bCancel = false;
+                _cancel_ = false;
 
                 if(property !== null) {
 
                     cIABMClientGrid clientGrid = null;
-                    cIABMGridRow iRow = null;
+                    iRow = null;
                     cABMGridRow oRow = null;
                     String keyProp = "";
 
                     clientGrid = m_client;
-                    keyProp = pGetPropertyKey(property);
+                    keyProp = getPropertyKey(property);
 
                     iRow = pCreateRow(index, property, rowIndex);
 
                     if(clientGrid.IsEmptyRow(keyProp, iRow, rowIndex)) {
                         Cairo.Util.sendKeys("{TAB}");
-                        bCancel = true;
+                        _cancel_ = true;
                         bIsEmpty = true;
 
                         // La fila esta vacia asi que es valida
@@ -4382,7 +4333,7 @@
                         // Let Client one chance to validate and modify row values
                     }
                     else if(!clientGrid.ValidateRow(keyProp, iRow, rowIndex)) {
-                        bCancel = true;
+                        _cancel_ = true;
 
                         // El cliente no valido la fila
                         rtn = false;
@@ -4393,14 +4344,14 @@
                         rtn = true;
 
                         // Put Client's values to Grid
-                        pSetRowValueInGrid(index, property, rowIndex, iRow);
+                        setRowValueInGrid(index, property, rowIndex, iRow);
 
                         if(bAddRow) {
 
                             // Keep updated the rows collection
                             cABMGridRows oRows = null;
 
-                            oRows = property.getGrid().cABMCSGrid.getRows();
+                            oRows = property.getGrid().getRows();
 
                             // With oRows;
 
@@ -4417,20 +4368,20 @@
 
                             // {end with: oRows}
 
-                            bCancel = !property.getGrid()Add;
+                            _cancel_ = !property.getGrid()Add;
                         }
                         else {
-                            bCancel = true;
+                            _cancel_ = true;
                         }
                     }
 
                 }
                 else {
-                    bCancel = true;
+                    _cancel_ = true;
                 }
             }
             else {
-                bCancel = true;
+                _cancel_ = true;
             }
 
             return rtn;
@@ -4501,7 +4452,7 @@
             propertyHasChanged(Dialogs.PropertyType.password, index, getView().getPasswordInputs().get(index));
         }
 
-        var pGetPropertyKey = function(property) {
+        var getPropertyKey = function(property) {
             property = null;
             return property.Key;
         }
@@ -4518,9 +4469,9 @@
         }
 
         var pCreateRow = function(index, property, rowIndex) {
-            cIABMGridRow row = null;
-            cIABMGridColumn col = null;
-            cIABMGridCellValue cell = null;
+            row = null;
+            col = null;
+            cell = null;
             cABMGridRowValue oCell = null;
             var colIndex = 0;
             String sKey = "";
@@ -4528,13 +4479,13 @@
             row = new cABMGridRow();
 
             for(var _i = 0; _i < property.getGrid().getColumns().count(); _i++) {
-                Col = property.getGrid().Columns.get(_i);
+                Col = property.getGrid().getColumns().get(_i);
                 colIndex = colIndex + 1;
                 if(colIndex === 1) {
                     cell = row.Add(null, c_keyRowItem);
                 }
                 else {
-                    sKey = pGetKeyFromRowValue(property.getGrid().cABMCSGrid.getRows(), rowIndex, colIndex);
+                    sKey = pGetKeyFromRowValue(property.getGrid().getRows(), rowIndex, colIndex);
                     if(LenB(sKey)) {
                         cell = row.Add(null, sKey);
                     }
@@ -4567,12 +4518,12 @@
             return row;
         }
 
-        var pSetRowValueInGrid = function(index, property, rowIndex, cIABMGridRow row) { // TODO: Use of ByRef founded Private Sub pSetRowValueInGrid(ByVal Index As Integer, ByVal property As cIABMProperty, ByVal rowIndex As Long, ByRef Row As cIABMGridRow)
+        var setRowValueInGrid = function(index, property, rowIndex, row) { // TODO: Use of ByRef founded Private Sub setRowValueInGrid(ByVal Index As Integer, ByVal property As cIABMProperty, ByVal rowIndex As Long, ByRef Row As cIABMGridRow)
 
-            cIABMGridColumn col = null;
-            cIABMGridCellValue cell = null;
+            col = null;
+            cell = null;
             var colIndex = 0;
-            cGridAdvanced oGrid = null;
+            oGrid = null;
             cABMGridRow oRow = null;
 
             cABMGridCellFormat oFormat = null;
@@ -4586,7 +4537,7 @@
             oGrid.RowForeColor(rowIndex) = oRow.getForeColor();
 
             for(var _i = 0; _i < property.getGrid().getColumns().count(); _i++) {
-                Col = property.getGrid().Columns.get(_i);
+                Col = property.getGrid().getColumns().get(_i);
                 colIndex = colIndex + 1;
                 cell = row.get(colIndex);
 
@@ -6070,7 +6021,7 @@
                         if(property.getType() === Dialogs.PropertyType.grid) {
                             if(property.getIndex() === index) {
 
-                                if(!pFillRows(property.getGrid(), view.getGrid(index))) { return false; }
+                                if(!fillRows(property.getGrid(), view.getGrid(index))) { return false; }
 
                             }
                         }
@@ -6081,12 +6032,12 @@
             return true;
         }
 
-        var pFillRows = function(cIABMGrid grid, cGridAdvanced grCtrl) { // TODO: Use of ByRef founded Private Function pFillRows(ByRef Grid As cIABMGrid, ByRef grCtrl As cGridAdvanced) As Boolean
-            cIABMGridColumn col = null;
+        var fillRows = function(grid, grCtrl) { // TODO: Use of ByRef founded Private Function fillRows(ByRef Grid As cIABMGrid, ByRef grCtrl As cGridAdvanced) As Boolean
+            col = null;
             var colIndex = 0;
             var rowIndex = 0;
-            cIABMGridCellValue cell = null;
-            cIABMGridRow row = null;
+            cell = null;
+            row = null;
             bIsEmpty = false;
 
             bHaveKey = false;
@@ -6099,7 +6050,7 @@
             if(oRows.getHaveKey()) {
 
                 bHaveKey = true;
-                G.redim(vKeys, grid.getRows().count(), grid.Columns.count());
+                G.redim(vKeys, grid.getRows().count(), grid.getColumns().count());
 
                 cABMGridRow oRow = null;
 
@@ -6107,7 +6058,7 @@
                     oRow = grid.getRows().get(rowIndex);
                     vKeys[rowIndex, 1].equals(oRow.getKey());
 
-                    for(colIndex = 2; colIndex <= grid.Columns.count(); colIndex++) {
+                    for(colIndex = 2; colIndex <= grid.getColumns().count(); colIndex++) {
                         row = oRow;
                         if(colIndex <= row.count()) {
                             oCell = row.get(colIndex);
@@ -6161,9 +6112,9 @@
                             row = grid.getRows().add(null);
                         }
 
-                        for(colIndex = 2; colIndex <= grid.Columns.count(); colIndex++) {
+                        for(colIndex = 2; colIndex <= grid.getColumns().count(); colIndex++) {
 
-                            col = grid.Columns(colIndex);
+                            col = grid.getColumns(colIndex);
 
                             // * TODO:** can't found type for with block
                             // * With .cell(rowIndex, colIndex)
@@ -6400,12 +6351,12 @@
 
                     if(property.getType() === Dialogs.PropertyType.grid) {
 
-                        //' property.ctl.Redraw cuando recompile cGridAdvanced voy
+                        //' property.ctl.Redraw cuando recompile voy
                         oldRedraw = true;
                         // a agregar el get a Redraw
                         property.getControl().Redraw = false;
 
-                        for(rowIndex = 1; rowIndex <= property.Grid.cABMCSGrid.getRows().count(); rowIndex++) {
+                        for(rowIndex = 1; rowIndex <= property.getGrid().getRows().count(); rowIndex++) {
                             if(!gridValidateRow(property.getIndex(), rowIndex, false, true, false)) {
                                 property.getControl().Redraw = oldRedraw;
                                 return _rtn;
@@ -7341,3 +7292,7 @@
   });
 
 }());
+
+
+// TODO: check uses of this function to refactor _cancel_
+//
