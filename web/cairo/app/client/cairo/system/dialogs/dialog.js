@@ -45,7 +45,10 @@
       toolbarKeyDocTip: "DOC_TIP",
       toolbarKeyDocAlert: "DOC_ALERT",
       toolbarKeyDocAction: "DOC_ACTION",
-      toolbarKeyDocMail: "SEND_EMAIL"
+      toolbarKeyDocMail: "SEND_EMAIL",
+
+
+      keyRowItem: "#RI#"
     };
 
     /* TODO: check if this has to be moved to Cairo.Keys or something similar */
@@ -4228,162 +4231,132 @@
           return (p || Cairo.Promises.resolvedPromise(false));
         };
 
-        var createRowIfNotExists = function(property, var index, indexRow) { // TODO: Use of ByRef founded Private Sub createRowIfNotExists(ByRef property As cIABMProperty, ByVal Index As Integer, ByVal indexRow As Long)
-            row = null;
+        var createRowIfNotExists = function(property, index, indexRow) {
+          var rows = property.getGrid().getRows();
+          var row = rows.get(indexRow);
+          if(row === null) {
+            row = createRow(index, property, indexRow);
+            rows.Add(row);
+          }
+        };
 
-            var w_rows = property.getGrid().getRows();
-                row = w_rows.get(indexRow);
-                if(row === null) {
-                    row = pCreateRow(index, property, indexRow);
-                    w_rows.Add(row);
+        var getColIndexFromKey = function(property, lKey) {
+          var colIndex = -1;
+          if(lKey !== -1) {
+            var row = property.getGrid().getRows().get(1);
+            if(row !== null) {
+              var rowCount = row.count();
+              for(var i = 1; i <= rowCount; i++) {
+                var cell = row.get(i);
+                if(cell.getKey() === lKey) {
+                  colIndex = i;
+                  break;
                 }
-            // {end with: w_rows}
-        }
-
-        var getColIndexFromKey = function(property, var lKey) {
-            var _rtn = 0;
-            if(lKey === -1) {
-                _rtn = -1;
+              }
             }
-            else {
-                row = null;
-                row = property.getGrid().getRows().get(1);
-                if(row === null) {
-                    return _rtn;
-                }
-                iCell = null;
-                var i = 0;
-                for(i = 1; i <= row.count(); i++) {
-                    iCell = row.get(i);
-                    if(iCell.Key === lKey) {
-                        _rtn = i;
-                        return _rtn;
-                    }
-                }
-            }
-            return _rtn;
-        }
+          }
+          return colIndex;
+        };
 
-        var setColumnValueInProperty = function(property, var index, indexRow, indexCol, newValue, newValueID) { // TODO: Use of ByRef founded Private Sub setColumnValueInProperty(ByRef property As cIABMProperty, ByVal Index As Integer, ByVal indexRow As Long, ByVal indexCol As Long, ByVal NewValue As Variant, ByVal NewValueID As Long)
-            row = null;
-            iCell = null;
-            cABMGridRowValue oCell = null;
-            grd = null;
+        var setColumnValueInProperty = function(property, index, indexRow, indexCol, newValue, newValueID) {
+          var rows = property.getGrid().getRows();
+          var row = rows.get(indexRow);
 
-            var w_rows = property.getGrid().getRows();
+          if(row === null) {
+            row = createRow(index, property, indexRow);
+            rows.Add(row);
+          }
 
-                row = w_rows.get(indexRow);
-                if(row === null) {
-                    row = pCreateRow(index, property, indexRow);
-                    w_rows.Add(row);
-                }
+          var cell = row.get(indexCol);
 
-                iCell = row.get(indexCol);
-                oCell = iCell;
+          Cairo.safeExecute(function() {
+            cell.setId(newValueID);
+            cell.setValue(newValue);
+            cell.setSelectIntValue(property.getControl().getCell(indexRow, indexCol).getTag());
+          });
+        };
 
-                // With iCell;
-                    iCell.Id = newValueID;
-                    iCell.setValue(newValue;
-                // {end with: iCell}
+        // TODO: refactor promise is returned by this function
+        //
+        var gridValidateRow = function(index, rowIndex, bAddRow) {
+          var p = null;
 
-                // Si esto no funca mala leche :P
-                //
+          if(m_clientManageGrid) {
 
+            property = getProperty(Dialogs.PropertyType.grid, index, 0);
 
-                    property = property;
-                    grd = property.getControl();
-                    oCell.setSelectIntValue(grd.Cell(indexRow, indexCol).getTag());
-                // {end with: w_rows}
-            }
-        }
+            if(property !== null) {
 
-        var gridValidateRow = function(index, rowIndex, _cancel_, bAddRow, bIsEmpty) { // TODO: Use of ByRef founded Private Function gridValidateRow(ByVal Index As Integer, ByVal rowIndex As Long, ByRef _cancel_ As Boolean, ByVal bAddRow As Boolean, ByRef bIsEmpty As Boolean) As Boolean
-            rtn = false;
+              var keyProp = getPropertyKey(property);
+              var row = pCreateRow(index, property, rowIndex);
 
-            if(m_clientManageGrid) {
+              p = m_client.isEmptyRow(keyProp, row, rowIndex).then(
+                function(isEmpty) {
 
-                property = null;
-                property = null;
-
-                property = getProperty(Dialogs.PropertyType.grid, index, 0);
-                _cancel_ = false;
-
-                if(property !== null) {
-
-                    
-                    iRow = null;
-                    cABMGridRow oRow = null;
-                    String keyProp = "";
-
-                    m_client = m_client;
-                    keyProp = getPropertyKey(property);
-
-                    iRow = pCreateRow(index, property, rowIndex);
-
-                    if(m_client.IsEmptyRow(keyProp, iRow, rowIndex)) {
-                        Cairo.Util.sendKeys("{TAB}");
-                        _cancel_ = true;
-                        bIsEmpty = true;
-
-                        // La fila esta vacia asi que es valida
-                        rtn = true;
-
-                        // Let Client one chance to validate and modify row values
-                    }
-                    else if(!m_client.ValidateRow(keyProp, iRow, rowIndex)) {
-                        _cancel_ = true;
-
-                        // El cliente no valido la fila
-                        rtn = false;
-                    }
-                    else {
-
-                        // La fila es valida
-                        rtn = true;
-
-                        // Put Client's values to Grid
-                        setRowValueInGrid(index, property, rowIndex, iRow);
-
-                        if(bAddRow) {
-
-                            // Keep updated the rows collection
-                            cABMGridRows oRows = null;
-
-                            oRows = property.getGrid().getRows();
-
-                            // With oRows;
-
-                                orows.remove(rowIndex, false);
-
-                                oRow = iRow;
-                                oRow.setIndex(rowIndex);
-
-                                oRows.add(iRow);
-
-                                if(!iRow.get(c_keyRowItem) === null) {
-                                    iRow.get(c_keyRowItem).setValue(rowIndex;
-                                }
-
-                            // {end with: oRows}
-
-                            _cancel_ = !property.getGrid()Add;
+                  if(isEmpty) {
+                    Cairo.Util.sendKeys("{TAB}");
+                    return {
+                      cancel:  true,
+                      isEmpty: true,
+                      isValid: true // empty rows are valid
+                    };
+                  }
+                  else {
+                    //
+                    // let the client one chance to validate and modify row values
+                    //
+                    return m_client.validateRow(keyProp, row, rowIndex).then(
+                      function(isValid) {
+                        if(isValid) {
+                          return {
+                            cancel:  true,
+                            isEmpty: false,
+                            isValid: false // m_client set this row as invalid
+                          };
                         }
                         else {
-                            _cancel_ = true;
+
+                          // put client's values into the grid
+                          setRowValueInGrid(index, property, rowIndex, row);
+
+                          if(bAddRow) {
+                            var rows = property.getGrid().getRows();
+                            rows.remove(rowIndex, false);
+                            row.setIndex(rowIndex);
+                            rows.add(row);
+
+                            if(!row.get(Dialogs.Constants.keyRowItem) === null) {
+                              row.get(Dialogs.Constants.keyRowItem).setValue(rowIndex);
+                            }
+
+                            return {
+                              cancel:  !property.getGridAddEnabled(),
+                              isEmpty: false,
+                              isValid: true
+                            };
+                          }
+                          else {
+                            return {
+                              cancel:  true,
+                              isEmpty: true,
+                              isValid: true // empty rows are valid
+                            };
+                          }
                         }
-                    }
-
+                      }
+                    );
+                  }
                 }
-                else {
-                    _cancel_ = true;
-                }
+              );
             }
-            else {
-                _cancel_ = true;
-            }
+          }
 
-            return rtn;
-        }
+          return (p || Cairo.Promises.resolvedPromise({
+            cancel:  true,
+            isEmpty: false,
+            isValid: false
+          }));
+        };
 
         var selectChange = function(index) {
             propertyHasChanged(Dialogs.PropertyType.select, index, getView().getSelects().get(index));
@@ -4480,7 +4453,7 @@
                 Col = property.getGrid().getColumns().get(_i);
                 colIndex = colIndex + 1;
                 if(colIndex === 1) {
-                    cell = row.Add(null, c_keyRowItem);
+                    cell = row.Add(null, Dialogs.Constants.keyRowItem);
                 }
                 else {
                     sKey = pGetKeyFromRowValue(property.getGrid().getRows(), rowIndex, colIndex);
@@ -6121,8 +6094,8 @@
                                 if(bHaveKey) {
                                     if(rowIndex <= (vKeys, 1).length && colIndex <= (vKeys, 1vKeys, 2).length) {
                                         if(vKeys[rowIndex, colIndex] !== "") {
-                                            if(vKeys[rowIndex, colIndex] === c_keyRowItem) {
-                                                if(row.get(c_keyRowItem) === null) {
+                                            if(vKeys[rowIndex, colIndex] === Dialogs.Constants.keyRowItem) {
+                                                if(row.get(Dialogs.Constants.keyRowItem) === null) {
                                                     cell = row.Add(null, vKeys[rowIndex, colIndex]);
                                                 }
                                                 else {
@@ -6833,7 +6806,7 @@
             print(false);
         }
 
-        self.printDocEx = function(var id) {
+        self.printDocEx = function(id) {
             print(false, id);
         }
 
@@ -7156,12 +7129,12 @@
         }
 
         var pSetGridHeight = function(ctl, height) {
-
-                if(height > 0) {
-                    ctl.Height = height;
-                }
+          Cairo.safeExecute(function() {
+            if(height > 0) {
+               ctl.Height = height;
             }
-        }
+          });
+        };
 
         var pSetEnabled = function(bEnabled) {
 
@@ -7211,10 +7184,10 @@
         }
 
         self.refreshFormText = function() {
-
-                getView().setText(getViewText();
-            }
-        }
+          Cairo.safeExecute(function() {
+            getView().setText(getViewText();
+          });
+        };
 
         var getViewText = function() {
           return m_viewText + Cairo.Company.name + " - " + m_client.getTitle() + " || Press F12 to see the a shortcut key list";
@@ -7253,36 +7226,18 @@
         }
 
         var wizDisableButtons = function() {
-
-                if(m_wizardView === null) { return; }
-                //m_wizardView.Enabled = False
-                //m_wizardView.getNextButton().Enabled = False
-                m_inProcess = true;
-                VBA.ex.Clear;
-            }
-        }
+          Cairo.safeExecute(function() {
+            if(m_wizardView === null) { return; }
+            m_inProcess = true;
+          });
+        };
 
         var wizEnableButtons = function() {
-
-                if(m_wizardView === null) { return; }
-                //m_wizardView.Enabled = True
-                //m_wizardView.getNextButton().Enabled = True
-                m_inProcess = false;
-                VBA.ex.Clear;
-            }
-        }
-
-        ////////////////////////////////
-        //  Codigo estandar de errores
-        //  On Error GoTo ControlError
-        //
-        //  GoTo ExitProc
-        //ControlError:
-        //  MngError err,"", C_Module, vbnullstring
-        //  If Err.Number Then Resume ExitProc
-        //ExitProc:
-        //  On Error Resume Next
-
+          Cairo.safeExecute(function() {
+            if(m_wizardView === null) { return; }
+            m_inProcess = false;
+          });
+        };
 
       }
     };
