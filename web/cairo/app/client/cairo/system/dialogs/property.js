@@ -31,7 +31,8 @@
       title:        17,
       description:  18,
       file:         19,
-      folder:       20
+      folder:       20,
+      controlLabel: 21
     };
 
     Dialogs.PropertySubType = {

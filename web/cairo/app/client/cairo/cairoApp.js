@@ -384,6 +384,13 @@ var Cairo = new Marionette.Application();
     connectionTimeOut: 'CONNECT_TIME_OUT'
   };
 
+  Cairo.raiseError = function(title, message) {
+    throw {
+      title: title,
+      message: message
+    };
+  };
+
   Cairo.LoadingMessage = (function() {
       var workDone = false;
       var view = null;

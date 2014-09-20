@@ -47,7 +47,6 @@
       toolbarKeyDocAction: "DOC_ACTION",
       toolbarKeyDocMail: "SEND_EMAIL",
 
-
       keyRowItem: "#RI#"
     };
 
@@ -163,7 +162,13 @@
     };
     
     Dialogs.Colors = {
-      buttonFace: '#cecece'
+      buttonFace: '#cecece',
+      buttonShadow: '#cecece'
+    };
+
+    Dialogs.BackgroundType = {
+      opaque: 1,
+      transparent: 2
     };
 
     Dialogs.Manager = Backbone.Model.extend({
@@ -176,6 +181,11 @@
       }
 
     });
+
+    Dialogs.ButtonStyle = {
+      none: 1,
+      sinlge: 2
+    };
 
   });
 
@@ -251,11 +261,6 @@
         var C_LINE_LIGHT = 155;
 
         var K_W_CANCEL = -10;
-
-        var Cairo.Configuration.Reports.reportSection = "RPT-CONFIG";
-        var Cairo.Configuration.Reports.reportPath = "RPT_PATH_REPORTS";
-        var Cairo.Configuration.Reports.commandTimeOut = "RPT_COMMAND_TIMEOUT";
-        var Cairo.Configuration.Reports.connectionTimeOut = "RPT_CONNECTION_TIMEOUT";
 
         var m_enabledState = [];
 
@@ -1307,7 +1312,7 @@
         // update edit status in all properties
         //
         self.refreshEnabledState = function(properties) {
-          for(var _i = 0; _i < iProperties.count(); _i++) {
+          for(var _i = 0; _i < m_properties.count(); _i++) {
             setEnabled(properties.get(_i));
           }
           setTabIndexDescription();
@@ -1379,17 +1384,17 @@
                 var col = columns.get(colIndex);
                 var cell = row.get(colIndex);
 
-                var cellControl = grid.cell(rowIndex, colIndex);
-                cellControl.setItemData(cell.getId());
+                var gridCell = grid.cell(rowIndex, colIndex);
+                gridCell.setItemData(cell.getId());
 
                 if(col.getType() === Dialogs.PropertyType.date) {
-                  cellControl.setText(Cairo.Util.getDateValueForGrid(cell.getValue()));
+                  gridCell.setText(Cairo.Util.getDateValueForGrid(cell.getValue()));
                 }
                 else if(col.getSubType() === Dialogs.PropertySubType.percentage) {
-                  cellControl.setText(Cairo.Util.val(cell.getValue()) / 100);
+                  gridCell.setText(Cairo.Util.val(cell.getValue()) / 100);
                 }
                 else {
-                  cellControl.setText(cell.getValue());
+                  gridCell.setText(cell.getValue());
                 }
 
                 // cell format
@@ -1397,9 +1402,9 @@
                 var format = cell.getFormat();
                 if(format !== null) {
 
-                  cellControl.setForeColor(format.getColor());
-                  cellControl.setBackColor(format.getBackColor());
-                  cellControl.setTextAlign(format.getTextAlign());
+                  gridCell.setForeColor(format.getColor());
+                  gridCell.setBackColor(format.getBackColor());
+                  gridCell.setTextAlign(format.getTextAlign());
 
                   var font = new  Cairo.Font();
                   font.setName(format.getFontName());
@@ -1409,7 +1414,7 @@
                   font.setStrikeThrough(format.getStrike());
                   font.setUnderline(format.getUnderline());
 
-                  cellControl.setFont(font);
+                  gridCell.setFont(font);
                 }
               }
 
@@ -1758,7 +1763,7 @@
 
           switch(property.getType()) {
 
-            case Dialogs.PropertyType.List:
+            case Dialogs.PropertyType.list:
               view.getCombos().get(index).setEnabled(enabled);
               break;
 
@@ -1810,7 +1815,7 @@
 
         // load property's control
         //
-        self.loadControlEx(property, noGrids) {
+        self.loadControlEx = function(property, noGrids) {
 
           if(!property.getControlLoaded()) {
             if(!loadControl(property)) {
@@ -1847,7 +1852,7 @@
 
             switch(property.getType()) {
 
-              case Dialogs.PropertyType.List:
+              case Dialogs.PropertyType.list:
 
                 if(index === 0) {
                   view.getCombos().get(0).setVisible(0);
@@ -1864,7 +1869,7 @@
                   view.getSelects().get(0).setVisible(0);
                 }
                 else {
-                  unload(view.getSelects().get(index));
+                  removeControl(view.getSelects().get(index));
                 }
 
                 break;
@@ -1875,7 +1880,7 @@
                   view.getMaskEdits().get(0).setVisible(0);
                 }
                 else {
-                  unload(view.getMaskEdits().get(index));
+                  removeControl(view.getMaskEdits().get(index));
                 }
 
                 break;
@@ -1887,7 +1892,7 @@
                   view.getDatePickers().get(0).setVisible(0);
                 }
                 else {
-                  unload(view.getDatePickers().get(index));
+                  removeControl(view.getDatePickers().get(index));
                 }
 
                 break;
@@ -1898,7 +1903,7 @@
                   view.getCtlLabels().get(0).setVisible(0);
                 }
                 else {
-                  unload(view.getCtlLabels().get(index));
+                  removeControl(view.getCtlLabels().get(index));
                 }
 
                 break;
@@ -1909,7 +1914,7 @@
                   view.getTitleLabel2().get(0).setVisible(0);
                 }
                 else {
-                  unload(view.getTitleLabel2().get(index));
+                  removeControl(view.getTitleLabel2().get(index));
                 }
 
                 break;
@@ -1920,7 +1925,7 @@
                   view.getProgressBars().get(0).setVisible(0);
                 }
                 else {
-                  unload(view.getProgressBars().get(index));
+                  removeControl(view.getProgressBars().get(index));
                 }
 
                 break;
@@ -1931,7 +1936,7 @@
                   view.getDescription(0).setVisible(0);
                 }
                 else {
-                  unload(view.getDescription(index));
+                  removeControl(view.getDescription(index));
                 }
 
                 break;
@@ -1942,7 +1947,7 @@
                   view.getImages().get(0).setVisible(0);
                 }
                 else {
-                  unload(view.getImages().get(index));
+                  removeControl(view.getImages().get(index));
                 }
 
                 break;
@@ -1956,7 +1961,7 @@
                     view.getTextAreas().get(0).setVisible(0);
                   }
                   else {
-                    unload(view.getTextAreas().get(index));
+                    removeControl(view.getTextAreas().get(index));
                   }
                 }
                 else {
@@ -1964,7 +1969,7 @@
                     view.getTextInputs().get(0).setVisible(0);
                   }
                   else {
-                    unload(view.getTextInputs().get(index));
+                    removeControl(view.getTextInputs().get(index));
                   }
                 }
 
@@ -1976,7 +1981,7 @@
                   view.getPasswordInputs().get(0).setVisible(0);
                 }
                 else {
-                  unload(view.getPasswordInputs().get(index));
+                  removeControl(view.getPasswordInputs().get(index));
                 }
 
                 break;
@@ -1987,7 +1992,7 @@
                   view.checkBoxes().get(0).setVisible(0);
                 }
                 else {
-                  unload(view.checkBoxes().get(index));
+                  removeControl(view.checkBoxes().get(index));
                 }
 
                 break;
@@ -1998,7 +2003,7 @@
                   view.getGrid(0).setVisible(0);
                 }
                 else {
-                  unload(view.getGrid(index));
+                  removeControl(view.getGrid(index));
                 }
 
                 break;
@@ -2009,21 +2014,21 @@
                   view.getButtons().get(0).setVisible(0);
                 }
                 else {
-                  unload(view.getButtons().get(index));
+                  removeControl(view.getButtons().get(index));
                 }
                 break;
             }
 
             index = property.getLabelIndex();
             if(index > 0) {
-              unload(getView().getLabels().get(index));
+              removeControl(getView().getLabels().get(index));
             }
           }
         };
 
         self.closeWizard = function() {
           setChanged(false);
-          unload(m_wizardView);
+          removeControl(m_wizardView);
         };
 
         self.controlIsButton = function(control) { /* TODO: implement this. */ };
@@ -2385,19 +2390,13 @@
         var viewIsWizard = function(view) { /* TODO: implements this. */ };
 
         var showDialog = function(obj, indexTag) {
-          _rtn = false;
+          var success = false;
 
           indexTag = indexTag || 0;
 
           if(obj !== null) {
 
             m_client = obj;
-
-            if(m_isDocument || m_isWizard) {
-              m_loadHelp = true;
-              m_loadNumeric = true;
-              m_loadText = true;
-            }
 
             var view = getView();
 
@@ -2437,69 +2436,48 @@
               }
             }
 
-            if(showView(indexTag)) {
+            showView(indexTag);
 
-              view.setText(getViewText());
+            view.setText(getViewText());
 
-              if(m_hideTitle) {
-                view.getTitleLabel().setVisible(false);
-              }
-              else {
-                view.getTitleLabel().setText(m_client.getTitle());
-              }
+            if(m_hideTitle) {
+              view.getTitleLabel().setVisible(false);
+            }
+            else {
+              view.getTitleLabel().setText(m_client.getTitle());
+            }
 
-              if(viewIsMaster(view)) {
-                view.getEditDocumentsButton().setVisible(m_client.editDocumentsEnabled());
-                view.getNewButton().setVisible(m_client.addEnabled());
-                view.getCopyButton().setVisible(m_client.copyEnabled());
-              }
+            if(viewIsMaster(view)) {
+              view.getEditDocumentsButton().setVisible(m_client.editDocumentsEnabled());
+              view.getNewButton().setVisible(m_client.addEnabled());
+              view.getCopyButton().setVisible(m_client.copyEnabled());
+            }
 
-              refreshTitle();
+            refreshTitle();
 
-              if(view.getVisible()) {
-                view.bringToFront();
-              }
-              else {
-                if(m_isDocument) {
-                  if(m_isFooter) {
-                    view.setLoading(false);
-                    if(m_inModalWindow) {
-                      if(!m_viewShowed) {
-                        m_viewShowed = true;
-                        view.showDialog();
-                      }
-                    }
-                    else {
-                      view.showView();
-                    }
-                  }
-                }
-                else {
+            if(view.getVisible()) {
+              view.bringToFront();
+            }
+            else {
+              if(m_isDocument) {
+                if(m_isFooter) {
                   view.setLoading(false);
                   if(m_inModalWindow) {
                     if(!m_viewShowed) {
                       m_viewShowed = true;
-                      if(viewIsMaster(view) || viewIsWizard(view))) {
-                        view.showView();
-                        setNoResize();
-                        view.firstResize();
-
-                        if(viewIsWizard(view)) {
-                          loadViewConfiguration(getView(), "master_" + Cairo.Company.name + " - "+ m_client.getTitle());
-                        }
-                      }
-                      if(m_sendAutoSave) {
-                        if(viewIsMaster(view)) {
-                          view.sendAutoSave();
-                        }
-                      }
-                      if(viewIsMaster(view)) {
-                        view.raiseAfterLoadEvent();
-                      }
                       view.showDialog();
                     }
                   }
                   else {
+                    view.showView();
+                  }
+                }
+              }
+              else {
+                view.setLoading(false);
+                if(m_inModalWindow) {
+                  if(!m_viewShowed) {
+                    m_viewShowed = true;
                     if(viewIsMaster(view) || viewIsWizard(view))) {
                       view.showView();
                       setNoResize();
@@ -2509,14 +2487,34 @@
                         loadViewConfiguration(getView(), "master_" + Cairo.Company.name + " - "+ m_client.getTitle());
                       }
                     }
+                    if(m_sendAutoSave) {
+                      if(viewIsMaster(view)) {
+                        view.sendAutoSave();
+                      }
+                    }
+                    if(viewIsMaster(view)) {
+                      view.raiseAfterLoadEvent();
+                    }
                     view.showDialog();
                   }
                 }
+                else {
+                  if(viewIsMaster(view) || viewIsWizard(view))) {
+                    view.showView();
+                    setNoResize();
+                    view.firstResize();
+
+                    if(viewIsWizard(view)) {
+                      loadViewConfiguration(getView(), "master_" + Cairo.Company.name + " - "+ m_client.getTitle());
+                    }
+                  }
+                  view.showDialog();
+                }
               }
-              _rtn = true;
+              success = true;
             }
           }
-          return _rtn;
+          return success;
         };
 
         self.setHideTitle = function(rhs) {
@@ -2557,11 +2555,11 @@
           initVectorsPosition();
         };
 
-        self.getViewMainImage() = function() {
+        self.getViewMainImage = function() {
           return getView().getImage();
         };
 
-        self.getProperties() = function() {
+        self.getProperties = function() {
           return m_properties;
         };
 
@@ -2748,7 +2746,7 @@
 
         var masterHandlerCloseClick = function() {
           if(m_masterView !== null) {
-            unload(m_masterView);
+            removeControl(m_masterView);
           }
         };
 
@@ -3493,7 +3491,7 @@
                   wizEnableButtons();
                   if(result) {
                     setChanged(false);
-                    unload(m_wizardView);
+                    removeControl(m_wizardView);
                   }
                 }
               );
@@ -3660,7 +3658,7 @@
 
         var formDocClose = function() {
           if(m_documentView !== null) {
-            unload(m_documentView);
+            removeControl(m_documentView);
           }
         };
 
@@ -3805,7 +3803,7 @@
   
             if(property !== null) {
   
-              if(m_client.deleteRow(getPropertyKey(property), pCreateRow(index, property, indexRow), indexRow)) {
+              if(m_client.deleteRow(getPropertyKey(property), createRow(index, property, indexRow), indexRow)) {
               
                 property.getGrid().getRows().remove(indexRow);
                 m_client.messageEx(Dialogs.Message.MSG_GRID_ROW_DELETED, property.Key);
@@ -3893,7 +3891,7 @@
 
         var setDefaults = function(property, rowIndex) {
 
-          var row = pCreateRow(property.getIndex(), property, rowIndex);
+          var row = createRow(property.getIndex(), property, rowIndex);
           row.get(1).setValue(property.getGrid().getRows().count() + 1);
 
           var colIndex = 0;
@@ -4288,7 +4286,7 @@
             if(property !== null) {
 
               var keyProp = getPropertyKey(property);
-              var row = pCreateRow(index, property, rowIndex);
+              var row = createRow(index, property, rowIndex);
 
               p = m_client.isEmptyRow(keyProp, row, rowIndex).then(
                 function(isEmpty) {
@@ -4359,1098 +4357,855 @@
         };
 
         var selectChange = function(index) {
-            propertyHasChanged(Dialogs.PropertyType.select, index, getView().getSelects().get(index));
-        }
+          propertyHasChanged(Dialogs.PropertyType.select, index, getView().getSelects().get(index));
+        };
 
         var maskEditChange = function(index) {
-            propertyHasChanged(Dialogs.PropertyType.numeric, index, getView().getMaskEdits().get(index));
-        }
+          propertyHasChanged(Dialogs.PropertyType.numeric, index, getView().getMaskEdits().get(index));
+        };
 
         var dateChange = function(index) {
-            cMaskEdit c = null;
-
-            c = getView().getDatePickers().get(index);
-
-            if(c.getType() === csMkTime) {
-                propertyHasChanged(Dialogs.PropertyType.time, index, c);
-            }
-            else {
-                propertyHasChanged(Dialogs.PropertyType.date, index, c);
-            }
-
-        }
+          var c = getView().getDatePickers().get(index);
+          if(c.getType() === Dialogs.PropertyType.time) {
+            propertyHasChanged(Dialogs.PropertyType.time, index, c);
+          }
+          else {
+            propertyHasChanged(Dialogs.PropertyType.date, index, c);
+          }
+        };
 
         var optionButtonClick = function(index) {
-            propertyHasChanged(Dialogs.PropertyType.option, index, getView().getOptionButtons().get(index));
-        }
+          propertyHasChanged(Dialogs.PropertyType.option, index, getView().getOptionButtons().get(index));
+        };
 
-        var textButtonClick = function(index, cancel) {
-            property = null;
+        var textButtonClick = function(index) {
+          var p = null;
+          var property = getProperty(Dialogs.PropertyType.text, index, 0);
 
-            property = getProperty(Dialogs.PropertyType.text, index, 0);
+          if(property !== null) {
 
-            if(property === null) { return; }
+            p = m_client.messageEx(Dialogs.Message.MSG_BUTTON_TEXT_CLICK, property).then(
+              function() {
 
-            m_client.messageEx(Dialogs.Message.MSG_BUTTON_TEXT_CLICK, property);
-
-            if(property.getSubType() === Dialogs.PropertyType.textButtonEx) {
-                String rtn = "";
-                // * TODO:** can't found type for with block
-                // * With getView().getTextInputs().get(index)
-                __TYPE_NOT_FOUND w___TYPE_NOT_FOUND = getView().getTextInputs().get(index);
-                    rtn = w___TYPE_NOT_FOUND.text;
-                    if(GetInputEx(rtn)) {
-                        w___TYPE_NOT_FOUND.setText(rtn;
+                if(property.getSubType() === Dialogs.PropertyType.textButtonEx) {
+                  var c = getView().getTextInputs().get(index);
+                  return Cairo.Modal.inputFormView("", "", c.getText()).then(
+                    function(text) {
+                      c.setText(text);
                     }
-                // {end with: w___TYPE_NOT_FOUND}
-            }
+                  );
+                }
+              }
+            );
+          }
+          return (p || Cairo.Promises.resolvedPromise());
+        };
 
-        }
-
-        var toolBarButtonClick = function(MSComctlLib.Button button) {
-            propertyHasChanged(Dialogs.PropertyType.toolbar, 0, button);
-        }
+        var toolBarButtonClick = function(button) {
+          propertyHasChanged(Dialogs.PropertyType.toolbar, 0, button);
+        };
 
         var textChange = function(index) {
-            propertyHasChanged(Dialogs.PropertyType.text, index, getView().getTextInputs().get(index));
-        }
+          propertyHasChanged(Dialogs.PropertyType.text, index, getView().getTextInputs().get(index));
+        };
 
         var textAreaChange = function(index) {
-            propertyHasChanged(Dialogs.PropertyType.text, index, getView().getTextAreas().get(index), false, Dialogs.PropertySubType.memo);
-        }
+          propertyHasChanged(Dialogs.PropertyType.text, index, getView().getTextAreas().get(index), false, Dialogs.PropertySubType.memo);
+        };
 
         var textPasswordChange = function(index) {
-            propertyHasChanged(Dialogs.PropertyType.password, index, getView().getPasswordInputs().get(index));
-        }
+          propertyHasChanged(Dialogs.PropertyType.password, index, getView().getPasswordInputs().get(index));
+        };
 
+        // TODO: refactor all calls to this function should be replace by property.getKey() it is legacy from vb6 interfaces :P
         var getPropertyKey = function(property) {
-            property = null;
-            return property.Key;
-        }
+          return property.getKey();
+        };
 
-        var pGetKeyFromRowValue = function(cIABMGridRows rows, rowIndex, var iCol) {
+        var getKeyFromRowValue = function(rows, rowIndex, colIndex) {
+          var key = "";
+          if(rows.count() >= rowIndex && rows.get(rowIndex).count() >= colIndex) {
+            var row = rows.get(rowIndex).get(colIndex);
+            if(row !== null) {
+              return row.getStrKey();
+            }
+          }
+          return key;
+        };
 
-            if(rows.count() < rowIndex) { return ""; }
-            if(rows.get(rowIndex).count() < iCol) { return ""; }
+        var createRow = function(index, property, rowIndex) {
+          var colIndex = 0;
+          var row = newGridRow();
+          var cell = null;
 
-            cABMGridRowValue rowValue = null;
-            rowValue = rows.get(rowIndex).get(iCol);
-            if(rowValue === null) { return ""; }
-            return rowValue.getStrKey();
-        }
-
-        var pCreateRow = function(index, property, rowIndex) {
-            row = null;
-            col = null;
-            cell = null;
-            cABMGridRowValue oCell = null;
-            var colIndex = 0;
-            String sKey = "";
-
-            row = new cABMGridRow();
-
-            for(var _i = 0; _i < property.getGrid().getColumns().count(); _i++) {
-                Col = property.getGrid().getColumns().get(_i);
-                colIndex = colIndex + 1;
-                if(colIndex === 1) {
-                    cell = row.Add(null, Dialogs.Constants.keyRowItem);
-                }
-                else {
-                    sKey = pGetKeyFromRowValue(property.getGrid().getRows(), rowIndex, colIndex);
-                    if(LenB(sKey)) {
-                        cell = row.Add(null, sKey);
-                    }
-                    else {
-                        cell = row.Add(null);
-                    }
-                }
-
-                // With getView().getGrid(index).cell(rowIndex, colIndex);
-                    cell.Id = getView().GR.ItemData;
-                    oCell = cell;
-                    oCell.setSelectIntValue(getView().GR.getTag());
-
-                    if(col.getType() === Dialogs.PropertyType.date) {
-                        cell.setValue(mUtil.getDateValueForGridClient(getView().GR.text);
-
-                    }
-                    else if(col.getSubType() === Dialogs.PropertySubType.percentage) {
-                        cell.setValue(Cairo.Util.val(getView().GR.text) * 100;
-
-                    }
-                    else {
-                        cell.setValue(getView().GR.text;
-                    }
-
-                    cell.Key = col.Key;
-                // {end with: getView().GR}
+          for(var _i = 0; _i < property.getGrid().getColumns().count(); _i++) {
+            var col = property.getGrid().getColumns().get(_i);
+            colIndex = colIndex + 1;
+            if(colIndex === 1) {
+              cell = row.add(null, Dialogs.Constants.keyRowItem);
+            }
+            else {
+              var key = getKeyFromRowValue(property.getGrid().getRows(), rowIndex, colIndex);
+              if(key !== "") {
+                cell = row.add(null, key);
+              }
+              else {
+                cell = row.add(null);
+              }
             }
 
-            return row;
-        }
+            var gridCell = getView().getGrid(index).cell(rowIndex, colIndex);
+            cell.Id = gridCell.getItemData();
+            cell.setSelectIntValue(gridCell.getTag());
 
-        var setRowValueInGrid = function(index, property, rowIndex, row) { // TODO: Use of ByRef founded Private Sub setRowValueInGrid(ByVal Index As Integer, ByVal property As cIABMProperty, ByVal rowIndex As Long, ByRef Row As cIABMGridRow)
+            if(col.getType() === Dialogs.PropertyType.date) {
+              cell.setValue(Dialogs.Util.getDateValueFromGrid(gridCell.getText()));
+            }
+            else if(col.getSubType() === Dialogs.PropertySubType.percentage) {
+              cell.setValue(Cairo.Util.val(gridCell.getText())) * 100;
+            }
+            else {
+              cell.setValue(gridCell.getText());
+            }
+            cell.Key = col.Key;
+          }
 
-            col = null;
-            cell = null;
-            var colIndex = 0;
-            oGrid = null;
-            cABMGridRow oRow = null;
+          return row;
+        };
 
-            cABMGridCellFormat oFormat = null;
-            cIABMGridCellFormat iFormat = null;
-            StdFont oFont = null;
+        var setRowValueInGrid = function(index, property, rowIndex, row) {
+          var colIndex = 0;
+          var grid = getView().getGrid(index);
 
-            oGrid = getView().getGrid(index);
+          grid.setRowBackColor(rowIndex, row.getBackColor());
+          grid.setRowForeColor(rowIndex, row.getForeColor());
 
-            oRow = row;
-            oGrid.RowBackColor(rowIndex) = oRow.getBackColor();
-            oGrid.RowForeColor(rowIndex) = oRow.getForeColor();
+          for(var _i = 0; _i < property.getGrid().getColumns().count(); _i++) {
+            var col = property.getGrid().getColumns().get(_i);
+            colIndex = colIndex + 1;
+            var cell = row.get(colIndex);
 
-            for(var _i = 0; _i < property.getGrid().getColumns().count(); _i++) {
-                Col = property.getGrid().getColumns().get(_i);
-                colIndex = colIndex + 1;
-                cell = row.get(colIndex);
+            var gridCell = grid.Cell(rowIndex, colIndex);
+            gridCell.setItemData(cell.getId());
 
-                // * TODO:** can't found type for with block
-                // * With oGrid.Cell(rowIndex, colIndex)
-                __TYPE_NOT_FOUND w___TYPE_NOT_FOUND = oGrid.Cell(rowIndex, colIndex);
-                    oGrid.CellItemdata(rowIndex, colIndex) === cell.getId();
-
-                    if(col.getType() === Dialogs.PropertyType.date) {
-                        w___TYPE_NOT_FOUND.setText(Cairo.Util.getDateValueForGrid(cell.getValue());
-
-                    }
-                    else if(col.getSubType() === Dialogs.PropertySubType.percentage) {
-                        w___TYPE_NOT_FOUND.setText(Cairo.Util.val(cell.getValue()) / 100;
-
-                    }
-                    else {
-                        w___TYPE_NOT_FOUND.setText(cell.getValue();
-                    }
-
-                    // Formato de cada celda
-                    //
-                    iFormat = cell.Format;
-                    if(iFormat !== null) {
-
-                        oFormat = cell.Format;
-
-                        if(!iFormat.Enabled || !col.Enabled) {
-                            w___TYPE_NOT_FOUND.BackColor = vbButtonFace;
-                            oFormat.setBold(true);
-                        }
-                        else {
-                            w___TYPE_NOT_FOUND.BackColor = iFormat.BackColor;
-                        }
-
-                        w___TYPE_NOT_FOUND.ForeColor = iFormat.Color;
-
-                        w___TYPE_NOT_FOUND.textAlign = oFormat.getAlign();
-                        oFont = new StdFont();
-                        // With oFont;
-                            oFont.Name = oFormat.getFontName();
-                            oFont.Italic = oFormat.getItalic();
-                            oFont.Bold = oFormat.getBold();
-                            oFont.Size = oFormat.getFontSize();
-                            oFont.Strikethrough = oFormat.getStrike();
-                            oFont.Underline = oFormat.getUnderline();
-                        // {end with: oFont}
-                        w___TYPE_NOT_FOUND.Font = oFont;
-
-                    }
-                    else {
-
-                        if(!col.Enabled && !m_noChangeBackColorCell) {
-                            w___TYPE_NOT_FOUND.BackColor = vbButtonFace;
-                        }
-
-                    }
-
-                // {end with: w___TYPE_NOT_FOUND}
+            if(col.getType() === Dialogs.PropertyType.date) {
+              gridCell.setText(Cairo.Util.getDateValueForGrid(cell.getValue()));
+            }
+            else if(col.getSubType() === Dialogs.PropertySubType.percentage) {
+              gridCell.setText(Cairo.Util.val(cell.getValue()) / 100);
+            }
+            else {
+              gridCell.setText(cell.getValue());
             }
 
-        }
-
-        var showView = function(var tabIndex, noGrids, bSetFocus) {
-            property = null;
-            cIABMProperties iProperties = null;
-            property = null;
-            var tabs = 0;
-            var count = 0;
-
-            iProperties = m_properties;
-            m_labelLeft = C_OFFSET_H;
-
-            for(var _i = 0; _i < iProperties.count(); _i++) {
-                property = iProperties.get(_i);
-                if(pGetTabIndex(property) > tabs) { tabs = pGetTabIndex(property); }
-            }
-
-            showTabs(tabs);
-
-            m_showingForm = true;
-            m_tabIndex = 0;
-
-            for(var _i = 0; _i < iProperties.count(); _i++) {
-                property = iProperties.get(_i);
-                loadControlEx(property, noGrids);
-            }
-
-            m_showingForm = false;
-
-            var view = getView();
-
-                count = view.getControls().count();
-
-                if(!m_isDocument) {
-                    if(m_isWizard) {
-                        view.getNextButton().tabIndex = count;
-                        view.getCancelButton().tabIndex = count;
-                        view.getBackButton().tabIndex = count;
-                    }
-                    else {
-                        view.getSaveButton().tabIndex = count;
-                        view.getCancelButton().tabIndex = count;
-                        view.getCloseButton().tabIndex = count;
-                    }
-                }
-
-                if(tabIndex !== -1) {
-                    if(m_isDocument) {
-                        docTabClickEx(Cairo.Constants.DocumentSections.items, tabIndex);
-                        docTabClickEx(Cairo.Constants.DocumentSections.footer, tabIndex);
-                        docTabClickEx(Cairo.Constants.DocumentSections.header, tabIndex);
-                        view.getTabs().get(tabIndex + m_firstTab).TabSelected === true;
-                    }
-                    else {
-                        tabClick(tabIndex);
-                        view.getTabs().get(tabIndex).TabSelected = true;
-                    }
-                }
-
-                if(bSetFocus) { view.SetFocusFirstControl; }
-            // {end with: view}
-
-            return true;
-        }
-
-        var loadControl = function(property) { // TODO: Use of ByRef founded Private Function LoadControl(ByRef property As cABMProperty) As Boolean
-
-            Control f = null;
-            property = null;
-
-            cIABMProperties iProperties = null;
-            cABMGrid oGrid = null;
-
-            var nTabIndex = 0;
-            nTabIndex = pGetTabIndex(property);
-
-            var view = getView();
-                switch(property.getType()) {
-
-                    case Dialogs.PropertyType.List:
-                        if(m_loadList) {
-                            Load(view.getCombos().get(view.CB.count() + 1));
-                        }
-                        else {
-                            m_loadList = true;
-                        }
-
-                        c = view.getCombos().get(view.CB.count());
-                        pSetFont(c, property);
-
-                        break;
-                    case Dialogs.PropertyType.select:
-                        if(m_loadHelp) {
-                            Load(view.getSelects().get(view.HL.count() + 1));
-                        }
-                        else {
-                            m_loadHelp = true;
-                        }
-
-                        c = view.getSelects().get(view.HL.count());
-                        c.setHelpType = property.getHelpType();
-                        c.setForAbm = property.IsForAbm;
-                        c.setTable = property.getTable();
-                        c.setButtonStyle = cHelpButtonSingle;
-                        c.setSPFilter = property.HelpSPFilter;
-                        c.setSPInfoFilter = property.HelpSPInfoFilter;
-                        c.reset();
-                        pSetFont(c, property);
-
-                        break;
-                    case Dialogs.PropertyType.numeric:
-                        if(m_loadNumeric) {
-                            Load(view.getMaskEdits().get(view.ME.count() + 1));
-                        }
-                        else {
-                            m_loadNumeric = true;
-                        }
-
-                        c = view.getMaskEdits().get(view.ME.count());
-                        c.csType = property.SubType;
-                        if(property.getSubType() === 0) {
-                            VBA.ex.Raise(csErrores.CSERRORABMLOADCONTROLSUBTYPENOTDEFINED, "CSABMInterface.LoadControl", "Error al cargar controles en ABM Generico. No se ha indicado un subnType para la propiedad numerica: "+ property.getName());
-                        }
-
-                        if(m_isFooter) {
-                            c.Width = 1100;
-                            c.BackColor = view.getFooterBackground().getBackColor();
-                            c.EnabledNoChngBkColor = true;
-                        }
-                        pSetFont(c, property);
-                        c.FormatNumber = property.Format;
-
-                        break;
-                    case Dialogs.PropertyType.date:
-                    case Dialogs.PropertyType.time:
-                        if(m_loadDate) {
-                            Load(view.getDatePickers().get(view.getDatePickers().count() + 1));
-                        }
-                        else {
-                            m_loadDate = true;
-                        }
-
-                        c = view.getDatePickers().get(view.getDatePickers().count());
-                        if(property.getType() === Dialogs.PropertyType.date) {
-                            c.csType = csMkDate;
-                        //'Dialogs.PropertyType.time
-                        }
-                        else {
-                            c.csType = csMkTime;
-                        }
-                        pSetFont(c, property);
-
-                        break;
-                    case Dialogs.PropertyType.option:
-                        f = view.FR(property.OptionGroup);
-
-                        // With f;
-                            if(!f.getTag() !== "") {
-                                f.Top = m_nextTop[nTabIndex];
-                                f.Left = m_left[nTabIndex];
-                                f.setVisible(true);
-                                f.setTag = property.getTabIndex();
-                            }
-                        // {end with: f}
-
-                        Load(view.getOptionButtons().get(view.OP.count() + 1));
-                        c = view.getOptionButtons().get(view.OP.count());
-
-
-                        break;
-                    case Dialogs.PropertyType.label:
-                        if(m_loadLabel) {
-                            Load(view.getCtlLabels().get(view.LB2.count() + 1));
-                        }
-                        else {
-                            m_loadLabel = true;
-                        }
-
-                        c = view.getCtlLabels().get(view.LB2.count());
-                        pSetFont(c, property);
-                        if(property.getBackColor() !== -1) {
-                            c.BackStyle = 1;
-                        }
-                        else {
-                            c.BackStyle = 0;
-                        }
-                        c.Alignment = property.textAlign;
-
-                        break;
-                    case Dialogs.PropertyType.title:
-                        if(m_loadTitle) {
-                            Load(view.getTitleLabel2().get(view.getTitleLabel2().count() + 1));
-                        }
-                        else {
-                            m_loadTitle = true;
-                        }
-
-                        c = view.getTitleLabel2().get(view.getTitleLabel2().count());
-                        pSetFont(c, property);
-
-                        break;
-                    case Dialogs.PropertyType.progressBar:
-                        if(m_loadProgressBar) {
-                            Load(view.getProgressBars().get(view.prgBar.count() + 1));
-                        }
-                        else {
-                            m_loadProgressBar = true;
-                        }
-
-                        c = view.getProgressBars().get(view.prgBar.count());
-
-                        break;
-                    case Dialogs.PropertyType.description:
-                        if(m_loaddescription) {
-                            Load(view.getDescription(view.LBDescription.count() + 1));
-                        }
-                        else {
-                            m_loaddescription = true;
-                        }
-
-                        c = view.getDescription(view.LBDescription.count());
-                        pSetFont(c, property);
-
-                        break;
-                    case Dialogs.PropertyType.image:
-                        if(m_loadImage) {
-                            Load(view.getImages().get(view.Img.count() + 1));
-                        }
-                        else {
-                            m_loadImage = true;
-                        }
-
-                        c = view.getImages().get(view.Img.count());
-
-                        break;
-                    case Dialogs.PropertyType.text:
-
-                        if(property.getSubType() === Dialogs.PropertyType.memo) {
-                            if(m_loadTextM) {
-                                Load(view.getTextAreas().get(view.TXM.count() + 1));
-                            }
-                            else {
-                                m_loadTextM = true;
-                            }
-
-                            c = view.getTextAreas().get(view.TXM.count());
-
-                        }
-                        else {
-                            if(m_loadText) {
-                                Load(view.getTextInputs().get(view.TX.count() + 1));
-                                view.getTextInputs().get(view.TX.count()).setWidth(m_textOrigWidth);
-                            }
-                            else {
-                                m_loadText = true;
-                            }
-
-                            c = view.getTextInputs().get(view.TX.count());
-                            if(c.setMask !== undefined) {
-                                c.ButtonStyle = (property.getSubType() === Dialogs.PropertyType.textButton  || property.getSubType() === Dialogs.PropertyType.textButtonEx) ? cButtonSingle : cButtonNone);
-                                c.setMask(property.getTextMask());
-                                c.csType = csMkText;
-                            }
-                            c.PasswordChar = "";
-                        }
-
-                        c.MaxLength = property.Size;
-                        c.Alignment = property.textAlign;
-
-                        // Para soportar cajas multinline
-                        // que permiten desplazarce con las flechas
-                        // entre renglones, pero no aceptan edicion
-                        //
-                        c.InputDisabled = property.getInputDisabled();
-
-                        pSetFont(c, property);
-
-                        break;
-                    case Dialogs.PropertyType.file:
-                        if(m_loadText) {
-                            Load(view.getTextInputs().get(view.TX.count() + 1));
-                        }
-                        else {
-                            m_loadText = true;
-                        }
-
-                        c = view.getTextInputs().get(view.TX.count());
-                        // With c;
-                            c.MaxLength = property.Size;
-                            c.csType = CSMaskEdit2.csMkFile;
-                            c.FileFilter = property.HelpFilter;
-                            c.PasswordChar = "";
-                        // {end with: c}
-                        pSetFont(c, property);
-
-                        break;
-                    case Dialogs.PropertyType.folder:
-                        if(m_loadText) {
-                            Load(view.getTextInputs().get(view.TX.count() + 1));
-                        }
-                        else {
-                            m_loadText = true;
-                        }
-
-                        c = view.getTextInputs().get(view.TX.count());
-                        // With c;
-                            c.MaxLength = property.Size;
-                            c.csType = CSMaskEdit2.csMkFolder;
-                            c.PasswordChar = "";
-                        // {end with: c}
-                        pSetFont(c, property);
-
-                        break;
-                    case Dialogs.PropertyType.password:
-                        if(m_loadPassword) {
-                            Load(view.getPasswordInputs().get(view.txPassword.count() + 1));
-                        }
-                        else {
-                            m_loadPassword = true;
-                        }
-
-                        c = view.getPasswordInputs().get(view.txPassword.count());
-                        c.ButtonStyle = cButtonNone;
-                        c.PasswordChar = "*";
-                        pSetFont(c, property);
-
-                        break;
-                    case Dialogs.PropertyType.check:
-                        if(m_loadCheck) {
-                            Load(view.checkBoxes().get(view.CHK.count() + 1));
-                        }
-                        else {
-                            m_loadCheck = true;
-                        }
-
-                        c = view.checkBoxes().get(view.CHK.count());
-                        c.setText("  ";
-                        c.Width = 400;
-
-                        break;
-                    case Dialogs.PropertyType.grid:
-                        if(m_loadGrid) {
-                            Load(view.getGrid(view.GR.count() + 1));
-                        }
-                        else {
-                            m_loadGrid = true;
-                        }
-
-                        c = view.getGrid(view.GR.count());
-                        c.Editable = property.getGrid()Edit;
-                        m_gridManager.setPropertys(c);
-
-                        oGrid = property.getGrid();
-                        c.DontSelectInGotFocus = oGrid.getDontSelectInGotFocus();
-
-                        // Formatos adicionales a la interfaz cIABMGrid
-                        c.RowMode = oGrid.getRowSelect();
-
-                        break;
-                    case Dialogs.PropertyType.button:
-                        if(m_loadButton) {
-                            Load(view.getButtons().get(view.CMD.count() + 1));
-                        }
-                        else {
-                            m_loadButton = true;
-                        }
-
-                        c = view.getButtons().get(view.CMD.count());
-                        pSetFont(c, property);
-
-                        break;
-                    case Dialogs.PropertyType.ToolBar:
-                        Frame frameToolBar = null;
-                        c = pLoadToolBar(property, frameToolBar);
-
-                        // With frameToolBar;
-                            frameToolBar.BorderStyle = 0;
-                        // {end with: frameToolBar}
-
-                        // With c;
-                            c.Top = 0;
-                            c.Left = 0;
-                            c.Appearance = ccFlat;
-                        // {end with: c}
-
-                        property.setToolbar(c);
-                        break;
-                }
-
-                if(property.getType() !== Dialogs.PropertyType.ToolBar) {
-                    property.setIndex(c.Index);
-                }
-            // {end with: view}
-
-            pSetTabIndex(c);
-            m_tabIndex = m_tabIndex + 1;
-
-            property.setControl(c);
-
-            // Aplico formateos personalizados
-            if(property.Height > 0) {
-                c.Height = property.Height;
-            }
-
-            if(property.Width > 0) {
-                c.Width = property.Width;
-            }
-
-            // Si se indica un top en funcion de una propiedad
-            if(property.TopFromProperty !== "") {
-                iProperties = m_properties;
-                property = iProperties(property.TopFromProperty);
-                property.Top = property.getTop();
-
-                // Modificamos m_LastTop para poder indicar un top en funcion
-                // de una propiedad. Es decir combinar TopFromProperty y TopToPrevious
-                m_lastTop = property.getTop();
-            }
-
-            // Si se indico un top en funcion del control anterior
-            if(property.TopToPrevious !== 0) {
-
-                if(property.getType() === Dialogs.PropertyType.option) {
-                    m_lastTop = m_lastTopOp;
-                }
-
-                // Si se indica -1 significa el mismo top que el control anterior
-                if(property.TopToPrevious === -1) {
-                    property.Top = m_lastTop;
-                }
-                else {
-                    property.Top = m_lastTop + property.TopToPrevious;
-                }
-            }
-
-            if(property.Top !== -1) {
-                c.Top = property.Top;
-            }
-
-            // Si se indica un left en funcion de una propiedad
-            if(property.LeftFromProperty !== "") {
-                iProperties = m_properties;
-                property = iProperties(property.LeftFromProperty);
-                property.Left = property.getLeft();
-
-                // Modificamos m_LastLeft para poder indicar un left en funcion
-                // de una propiedad. Es decir combinar LeftFromProperty y LeftToPrevious
-                m_lastLeft = property.getLeft();
-
-                // Si hay left personalizado, pero no se indico un left para el label
-                // le ponemos el default
-                if(property.LeftLabel === 0) { property.LeftLabel = -C_OFFSET_H; }
-            }
-
-            // Si se indico un left en funcion del control anterior
-            if(property.LeftToPrevious !== 0) {
-
-                if(property.getType() === Dialogs.PropertyType.option) {
-                    m_lastLeft = m_lastLeftOp;
-                }
-
-                // Si se indica -1 significa el mismo left que el control anterior
-                if(property.LeftToPrevious === -1) {
-                    property.Left = m_lastLeft;
-                }
-                else {
-                    property.Left = m_lastLeft + property.LeftToPrevious;
-                }
-            }
-
-            if(property.Left !== -1) {
-                // Si hay left personalizado, pero no se indico un left para el label
-                // le ponemos el default
-                if(property.LeftLabel === 0) { property.LeftLabel = -C_OFFSET_H; }
-
-                c.Left = property.Left;
-            }
-
+            // cell format
             //
-            // Si el control va a quedar sobre la linea lo corro a la derecha y empiezo desde arriba otra vez
+            var format = cell.Format;
+            if(format !== null) {
+
+              if(!format.getEnabled() || !col.getEnabled()) {
+                gridCell.setBackColor(Dialogs.Colors.buttonFace);
+                format.setBold(true);
+              }
+              else {
+                gridCell.setBackColor(format.getBackColor());
+              }
+
+              gridCell.setForeColor(format.getColor());
+              gridCell.setTextAlign(format.getAlign());
+
+              var font = {
+                name:           format.getFontName(),
+                italic:         format.getItalic(),
+                bold:           format.getBold(),
+                size:           format.getFontSize(),
+                strikethrough:  format.getStrike(),
+                underline:      format.getUnderline()
+              };
+
+              gridCell.setFont(font);
+            }
+            else {
+
+              if(!col.getEnabled() && !m_noChangeBackColorCell) {
+                gridCell.setBackColor(Dialogs.Colors.buttonFace);
+              }
+            }
+          }
+        };
+
+        var showView = function(tabIndex, noGrids, bSetFocus) {
+          var tabs = 0;
+          var property = null;
+
+          m_labelLeft = C_OFFSET_H;
+
+          var propertyCount = m_properties.count();
+
+          for(var _i = 0; _i < propertyCount; _i++) {
+            property = m_properties.get(_i);
+            if(pGetTabIndex(property) > tabs) {
+              tabs = pGetTabIndex(property);
+            }
+          }
+
+          showTabs(tabs);
+
+          m_showingForm = true;
+          m_tabIndex = 0;
+
+          for(var _i = 0; _i < propertyCount; _i++) {
+            property = m_properties.get(_i);
+            loadControlEx(property, noGrids);
+          }
+
+          m_showingForm = false;
+
+          var view = getView();
+
+          var count = view.getControls().count();
+
+          if(!m_isDocument) {
+            if(m_isWizard) {
+              view.getNextButton().setTabIndex(count);
+              view.getCancelButton().setTabIndex(count);
+              view.getBackButton().setTabIndex(count);
+            }
+            else {
+              view.getSaveButton().setTabIndex(count);
+              view.getCancelButton().setTabIndex(count);
+              view.getCloseButton().setTabIndex(count);
+            }
+          }
+
+          if(tabIndex !== -1) {
+            if(m_isDocument) {
+              docTabClickEx(Cairo.Constants.DocumentSections.items, tabIndex);
+              docTabClickEx(Cairo.Constants.DocumentSections.footer, tabIndex);
+              docTabClickEx(Cairo.Constants.DocumentSections.header, tabIndex);
+              view.getTabs().get(tabIndex + m_firstTab).setTabSelected(true);
+            }
+            else {
+              tabClick(tabIndex);
+              view.getTabs().get(tabIndex).setTabSelected(true);
+            }
+          }
+
+          if(bSetFocus) {
+            view.setFocusFirstControl();
+          }
+        };
+
+        var loadControl = function(property) {
+          
+          var nTabIndex = pGetTabIndex(property);
+          var view = getView();
+          var controlType = property.getType();
+          var subType = property.getSubType();
+
+          var c = addControl(controlType, subType);
+
+          switch(controlType) {
+
+            case Dialogs.PropertyType.select:
+              
+              c.setSelectType(property.getSelectType());
+              c.setSelectNoUseActive(property.getSelectNoUseActive());
+              c.setTable(property.getTable());
+              c.reset();
+              setFont(c, property);
+              break;
+            
+            case Dialogs.PropertyType.numeric:
+
+              c.setType(subType);
+              if(subType === 0) {
+                Cairo.raiseError("Dialogs.loadControl", "subType wasn't set for property: " + property.getName());
+              }
+
+              if(m_isFooter) {
+                c.setWidth(1100);
+                c.setBackColor(view.getFooterBackground().getBackColor());
+                c.setEnabledNoChngBkColor(true);
+              }
+              setFont(c, property);
+              c.setFormatNumber(property.getFormat());
+              break;
+
+            case Dialogs.PropertyType.date:
+            case Dialogs.PropertyType.time:
+
+              c.setType(controlType);
+              setFont(c, property);
+              break;
+
+            case Dialogs.PropertyType.option:
+
+              c.setOptionGroup(property.getOptionGroup());
+              break;
+
+            case Dialogs.PropertyType.label:
+
+              setFont(c, property);
+              if(property.getBackColor() !== -1) {
+                c.setBackStyle(Dialogs.BackgroundType.opaque);
+              }
+              else {
+                c.setBackStyle(Dialogs.BackgroundType.transparent);
+              }
+              c.setAlignment(property.getTextAlign());
+              break;
+
+            // this is here to avoid confuse someone reading the code and thinking we forgot this type
             //
+            // case Dialogs.PropertyType.progressBar:
+            // case Dialogs.PropertyType.image:
 
-            var view = getView();
+              // nothing to do :D
+              //break;
 
-                if(m_isItems) {
+            case Dialogs.PropertyType.title:
+            case Dialogs.PropertyType.list:
+            case Dialogs.PropertyType.description:
+            case Dialogs.PropertyType.button:
 
-                    // * TODO:** can't found type for with block
-                    // * With .getTabItems
-                    __TYPE_NOT_FOUND w___TYPE_NOT_FOUND = view.getTabItems;
-                        if(m_nextTop[nTabIndex] + c.Height > w___TYPE_NOT_FOUND.Top + w___TYPE_NOT_FOUND.Height - 50) {
-                            setNewTopAndLeft(property);
-                        }
-                    // {end with: w___TYPE_NOT_FOUND}
+              setFont(c, property);
+              break;
 
+            case Dialogs.PropertyType.text:
+
+              if(subType !== Dialogs.PropertyType.memo) {
+                if(c.getMask() !== "") {
+                  var buttonStyle = subType === Dialogs.PropertyType.textButton || subType === Dialogs.PropertyType.textButtonEx;
+                  buttonStyle = buttonStyle ? Dialogs.ButtonStyle.single : Dialogs.ButtonStyle.none;
+                  c.setButtonStyle(buttonStyle);
+                  c.setMask(property.getTextMask());
+                  c.setType(Dialogs.PropertyType.text);
                 }
-                else if(m_isFooter) {
+                c.setPasswordChar("");
+              }
 
-                    // * TODO:** can't found type for with block
-                    // * With .shTabFooter
-                    __TYPE_NOT_FOUND w___TYPE_NOT_FOUND = view.shTabFooter;
-                        if(m_nextTop[nTabIndex] + c.Height > w___TYPE_NOT_FOUND.Top + w___TYPE_NOT_FOUND.Height) {
-                            setNewTopAndLeft(property);
-                        }
-                    // {end with: w___TYPE_NOT_FOUND}
+              c.setMaxLength(property.getSize());
+              c.setAlignment(property.getTextAlign());
 
+              // to allow disbled text areas which allow using
+              // arrow keys to scroll content but not allow edition
+              //
+              c.setInputDisabled(property.getInputDisabled());
+
+              setFont(c, property);
+              break;
+
+            case Dialogs.PropertyType.file:
+
+              c.setMaxLength(property.getSize());
+              c.setType(Dialogs.PropertyType.file);
+              c.setFileFilter(property.selectFilter);
+              c.setPasswordChar("");
+              setFont(c, property);
+              break;
+
+            case Dialogs.PropertyType.folder:
+
+              c.setMaxLength(property.getSize());
+              c.setType(Dialogs.PropertyType.folder);
+              c.setPasswordChar("");
+              setFont(c, property);
+              break;
+
+            case Dialogs.PropertyType.password:
+
+              c.setButtonStyle(Dialogs.ButtonStyle.none);
+              c.setPasswordChar("*");
+              setFont(c, property);
+              break;
+
+            case Dialogs.PropertyType.check:
+
+              c.setWidth(400);
+              break;
+
+            case Dialogs.PropertyType.grid:
+
+              c.setEditable(property.getGridEditEnabled());
+              m_gridManager.setPropertys(c);
+
+              var grid = property.getGrid();
+              c.setDontSelectInGotFocus(grid.getDontSelectInGotFocus());
+              c.setRowMode(grid.getRowSelect());
+              break;
+
+            case Dialogs.PropertyType.ToolBar:
+
+              c.setTop(0);
+              c.setLeft(0);
+              property.setToolbar(c);
+              break;
+          }
+
+          if(property.getType() !== Dialogs.PropertyType.toolbar) {
+            property.setIndex(c.Index);
+          }
+
+          pSetTabIndex(c);
+          m_tabIndex += 1;
+
+          property.setControl(c);
+
+          // apply custom setings
+          //
+          if(property.getHeight() > 0) {
+            c.setHeight(property.getHeight());
+          }
+
+          if(property.getWidth() > 0) {
+            c.setWidth(property.getWidth());
+          }
+
+          // top from property
+          //
+          if(property.getTopFromProperty() !== "") {
+            //
+            // update m_lastTop to be able to use
+            // topFromProperty and topToPrevious in the same call
+            //
+            m_lastTop = m_properties.get(property.getTopFromProperty()).getTop();
+            property.setTop(m_lastTop);
+          }
+
+          // top to previous
+          //
+          if(property.getTopToPrevious() !== 0) {
+
+            if(property.getType() === Dialogs.PropertyType.option) {
+              m_lastTop = m_lastTopOp;
+            }
+
+            // topToPrevious == 1 means same top than previous control
+            //
+            if(property.getTopToPrevious() === -1) {
+              property.setTop(m_lastTop);
+            }
+            else {
+              property.setTop(m_lastTop + property.getTopToPrevious());
+            }
+          }
+
+          // the client set a fixed top
+          //
+          if(property.getTop() !== -1) {
+            c.setTop(property.getTop());
+          }
+
+          // left from property
+          //
+          if(property.getLeftFromProperty() !== "") {
+
+            // update m_lastLeft to be able to use
+            // leftFromProperty and leftToPrevious in the same call
+            //
+            m_lastLeft = m_properties.get(property.getLeftFromProperty()).getLeft();
+            property.setLeft(m_lastLeft);
+
+            // if left is set but the client but the label'left hasn't be defined
+            // we use the default left
+            //
+            if(property.getLeftLabel() === 0) {
+              property.setLeftLabel(-C_OFFSET_H);
+            }
+          }
+
+          // left to previous
+          //
+          if(property.getLeftToPrevious() !== 0) {
+
+            if(property.getType() === Dialogs.PropertyType.option) {
+              m_lastLeft = m_lastLeftOp;
+            }
+
+            // leftToPrevious == 1 means same left than previous control
+            //
+            if(property.getLeftToPrevious() === -1) {
+              property.setLeft(m_lastLeft);
+            }
+            else {
+              property.setLeft(m_lastLeft + property.getLeftToPrevious());
+            }
+          }
+
+          if(property.getLeft() !== -1) {
+            // if left is set but the client but the label'left hasn't be defined
+            // we use the default left
+            //
+            if(property.getLeftLabel() === 0) {
+              property.setLeftLabel(-C_OFFSET_H);
+            }
+
+            c.setLeft(property.Left);
+          }
+
+          //
+          // if the control is going to be placed over the bottom
+          // line it is moved to the top in the next column
+          //
+
+          var view = getView();
+
+          if(m_isItems) {
+
+            var tabs = view.getTabItems();
+            if(m_nextTop[nTabIndex] + c.getHeight() > tabs.getTop() + tabs.getHeight() - 50) {
+              setNewTopAndLeft(property);
+            }
+          }
+          else if(m_isFooter) {
+
+            var footerTab = view.getTabFooter();
+            if(m_nextTop[nTabIndex] + c.getHeight() > footerTab.getTop() + footerTab.getHeight()) {
+              setNewTopAndLeft(property);
+            }
+          }
+          else {
+            if(m_nextTop[nTabIndex] + c.getHeight() + C_LINE_LIGHT + 50 > view.getBottomLine().getTop()) {
+              setNewTopAndLeft(property);
+            }
+          }
+
+          if(m_isDocument) {
+            if(m_isItems) {
+              c.setTag(Cairo.Constants.DocumentSections.items + property.getTabIndex().toString());
+            }
+            else if(m_isFooter) {
+              c.setTag(Cairo.Constants.DocumentSections.footer + property.getTabIndex().toString());
+            }
+            else {
+              c.setTag(Cairo.Constants.DocumentSections.header + property.getTabIndex().toString());
+            }
+          }
+          else {
+            if(property.getTabIndex()) {
+              c.setTag(property.getTabIndex());
+            }
+            else {
+              c.setTag(property.getTabIndex());
+            }
+          }
+
+          c.setEnabled(property.getEnabled());
+          setBackColor(c, property);
+          setButton(c, property);
+
+          if(property.getType() === Dialogs.PropertyType.option) {
+            var r = 0;
+            var q = 0;
+            if(property.getOptionGroup() - 1 > m_leftOp.length) {
+              r = m_leftOp.length;
+              var view = getView();
+              for(q = r; q <= m_leftOp.length; q++) {
+                m_leftOp[q] = view.getOptionButtons().get(0).getLeft();
+              }
+            }
+            if(property.getOptionGroup() - 1 > m_nextTopOp.length) {
+              r = m_nextTopOp.length;
+              var view = getView();
+              for(q = r; q <= m_nextTopOp.length; q++) {
+                m_nextTopOp[q] = view.getOptionButtons().get(0).getTop();
+              }
+            }
+
+            if(property.getLeft() === -1) {
+              c.setLeft(m_leftOp[property.getOptionGroup()]);
+            }
+            if(property.getTop() === -1) {
+              c.setTop(m_nextTopOp[property.getOptionGroup()]);
+            }
+            if(property.getWidth() === 0) {
+              c.setWidth(1500);
+            }
+            c.setText(property.getName());
+
+            // increase the with of this tab
+            //
+            if(c.getTop() + c.getHeight() > f.getHeight()) { 
+              f.setHeight(c.getTop() + c.getHeight() + 50); 
+            }
+
+            if(f.getHeight() + f.getTop() > getView().getBottomLine().getTop()) {
+              f.setTop(m_nextTop[nTabIndex] - 100);
+              f.setLeft(m_left[nTabIndex]);
+            }
+
+            if(c.getLeft() + c.getWidth() > f.getWidth()) {
+              f.setWidth(c.getLeft() + c.getWidth() + 20);
+            }
+
+            if(property.getTopFrame() !== 0) {
+              f.setTop(property.getTopFrame());
+            }
+            if(property.getLeftFrame() !== 0) {
+              f.setLeft(property.getLeftFrame());
+            }
+
+            m_nextTopOp[property.OptionGroup] = m_nextTopOp[property.OptionGroup] + C_LINE_HEIGHT;
+          }
+          else if(property.getType() === Dialogs.PropertyType.toolbar) {
+
+            frameToolBar.setWidth(property.getWidth());
+            frameToolBar.setTop(property.getTopFrame());
+            frameToolBar.setLeft(property.getLeftFrame());
+            if(property.getHeight() > 0) {
+              frameToolBar.setHeight(property.getHeight());
+            }
+            else {
+              frameToolBar.setHeight(c.getHeight());
+            }
+            frameToolBar.setTag(property.getTabIndex());
+            frameToolBar.setBackColor(getView().getBackground().getBackColor());
+
+            setToolbar(tbl, property.getButtons());
+
+            property.setLeftNotChange(true);
+            property.setTopNotChange(true);
+
+          }
+          else if(property.getType() === Dialogs.PropertyType.label
+                  || property.getType() === Dialogs.PropertyType.title
+                  || property.getType() === Dialogs.PropertyType.description) {
+
+            if(property.getTop() === -1) {
+              c.setTop(m_nextTop[nTabIndex]);
+            }
+
+            if(property.getLeft() === -1) {
+              c.setLeft(m_left[nTabIndex] + m_labelLeft);
+            }
+          }
+          else {
+
+            var label = addControl(Dialogs.PropertyType.controlLabel);
+
+            property.setLabelIndex(label.getIndex());
+            label.setText(property.getName());
+            label.setLeft(m_left[nTabIndex]);
+            label.setBackStyle(0);
+            label.setTag(c.getTag());
+            label.bringToFront();
+            if(property.getType() === Dialogs.PropertyType.button) {
+              label.setVisible(false);
+            }
+
+            // hide labels for grids, buttons and images
+            //
+            if(property.LeftLabel === -1) {
+              label.setVisible(false);
+              // labels with tag == -1 aren't modified by showValue
+              label.setTag("-1");
+            }
+
+            // special formats for grids
+            //
+            if(property.getType() === Dialogs.PropertyType.grid) {
+              if(property.Left === -1) {
+                c.setLeft(m_left[nTabIndex]);
+              }
+
+              if(m_isItems) {
+                c.setTop(m_nextTop[nTabIndex]);
+                label.setVisible(false);
+                // labels with tag == -1 aren't modified by showValue
+                label.setTag("-1");
+              }
+              else {
+                if(property.getTop() === 0) {
+                  c.setTop(m_nextTop[nTabIndex] + 300);
+                  label.setTop(m_nextTop[nTabIndex]);
+                  label.setWidth(c.getWidth());
+                }
+              }
+              if(property.getWidth() === -1 || property.getWidth() === 0) {
+                c.setWidth(getView().getWidth() - c.getLeft() - 300);
+              }
+
+            }
+            else if(m_isDocument && property.getTable() === Cairo.Tables.DOCUMENTO) {
+
+              c.setLeft(3600);
+              c.setTop(80);
+              c.setWidth(3500);
+              c.setFontSize(11);
+              c.setFontBold(true);
+              c.setHeight(330);
+              c.setTag("");
+              c.setBorderColor(Dialogs.Colors.buttonFace);
+
+              label.setVisible(false);
+              label.setTag("-1");
+            }
+            else if(m_isDocument && (property.getKeyCol().equals(csNumberID) || property.getKeyCol().equals(csStateID))) {
+
+              if(property.getKeyCol().equals(csNumberID)) {
+                c.Left = 7300;
+                c.Width = 1200;
+              }
+              else {
+                c.Left = 8700;
+                c.Width = 3000;
+              }
+              c.Top = 80;
+              c.FontSize = 11;
+              c.FontBold = true;
+              c.Height = 330;
+              c.EnabledNoChngBkColor = true;
+              c.ForeColor = Dialogs.Colors.white;
+              c.BackColor = Dialogs.Colors.buttonShadow;
+              c.BorderColor = Dialogs.Colors.buttonFace;
+              label.setVisible(false);
+              label.setTag = -1;
+              c.setTag("";
+
+            }
+            else {
+
+              if(property.Top !== -1) {
+
+                label.Top = property.Top;
+              }
+              else {
+                // OptionGroup la uso para indicar un offset cuando la
+                // property no es de nType Option sirve para permitir un
+                // posicionamiento mas fino de los controles. Solo se usa en
+                // cuenta.
+                label.Top = m_nextTop[nTabIndex] + property.OptionGroup;
+
+                // OptionGroup la uso para indicar un offset cuando la
+                // property no es de nType Option sirve para permitir un
+                // posicionamiento mas fino de los controles. Solo se usa en
+                // cuenta.
+                c.Top = m_nextTop[nTabIndex] + property.OptionGroup;
+              }
+
+              switch(property.getType()) {
+                case Dialogs.PropertyType.date:
+                  c.Width = 1400;
+                  break;
+                case Dialogs.PropertyType.time:
+                  c.Width = 800;
+                  break;
+              }
+
+              if(m_isFooter) {
+                if(property.Left === -1) {
+                  c.Left = m_left[nTabIndex];
+                }
+                // With label;
+                label.Left = c.Left;
+                label.Top = c.Top - C_OFFSET_V3;
+                label.Height = 225;
+                label.Alignment = vbRightJustify;
+                label.Width = 1000;
+                // {end with: label}
+              }
+              else {
+                if(property.Left !== -1) {
+                  label.Left = c.Left + property.LeftLabel;
+                  label.Width = Abs(property.LeftLabel);
                 }
                 else {
-                    if(m_nextTop[nTabIndex] + c.Height + C_LINE_LIGHT + 50 > view.Line1.Y1) {
-                        setNewTopAndLeft(property);
-                    }
+                  c.Left = m_left[nTabIndex] + m_labelLeft;
+                  if(property.LeftLabel !== 0) {
+                    label.Left = c.Left + property.LeftLabel;
+                    label.Width = Abs(property.LeftLabel);
+                  }
                 }
-            // {end with: view}
+              }
 
-            // With c;
-                if(m_isDocument) {
-                    if(m_isItems) {
-                        c.setTag(Cairo.Constants.DocumentSections.items+ property.getTabIndex());
-                    }
-                    else if(m_isFooter) {
-                        c.setTag(Cairo.Constants.DocumentSections.footer+ property.getTabIndex());
-                    }
-                    else {
-                        c.setTag(Cairo.Constants.DocumentSections.header+ property.getTabIndex());
-                    }
+            }
+          }
+
+          // Me guardo el Top y el Left de esta propiedad
+          // With property;
+          property.setTop(c.Top);
+          property.setLeft(c.Left);
+          property.setWidth(c.Width);
+          property.setHeight(c.Height);
+          // {end with: property}
+
+          // Si el control modifica el Left de los que vienen detras
+          if(!property.LeftNotChange) {
+
+            // Si fue un option button hay que fijarce en el contenedor
+            if(property.getType() === Dialogs.PropertyType.option) {
+              if(property.LeftFrame !== 0  && !property.LeftNotChange) {
+                m_left[nTabIndex] = f.Left;
+              }
+            }
+            else {
+              // Si el control indico un left fijo, los demas se alinean con el
+              if(property.Left !== -1  && property.LeftToPrevious === 0) {
+                m_left[nTabIndex] = property.Left + property.LeftLabel;
+                m_labelLeft = Abs(property.LeftLabel);
+              }
+            }
+          }
+
+          // Me guardo el ultimo Left
+          m_lastLeft = m_left[nTabIndex];
+          m_lastLeftOp = c.Left;
+
+          // Me guardo el ultimo Top
+          m_lastTop = m_nextTop[nTabIndex];
+          m_lastTopOp = c.Top;
+
+          // Ahora hay que calcular donde empieza el renglo para el proximo control
+
+          // Si el control modifica el Top para los que vienen detras
+          if(!property.TopNotChange) {
+            // Si el control tiene un top personalizado entonces
+            // parto de dicho top para el calculo. Siempre y cuando no sea un OptionButton
+            if(property.Top !== -1  && property.getType() !== Dialogs.PropertyType.option  && !property.TopNotChange) {
+
+              m_lastTop = property.Top;
+
+              // Si el control inidica un alto personalizado
+              if(property.Height > 0) {
+                m_nextTop[nTabIndex] = property.Top + c.Height + C_LINE_LIGHT;
+              }
+              else {
+                m_nextTop[nTabIndex] = property.Top + C_LINE_HEIGHT;
+              }
+            }
+            else {
+              // Si el control inidica un alto personalizado. Siempre y cuando no sea un OptionButton
+              if(property.Height > 0 && property.getType() !== Dialogs.PropertyType.option) {
+                m_nextTop[nTabIndex] = m_nextTop[nTabIndex] + c.Height + C_LINE_LIGHT;
+
+                // Si se uso el alto standar (C_LINE_Height)
+              }
+              else {
+                //
+                // Siempre incremento el NextTop general incluso si es una property de nType option o Grid
+                // ya que por cada option que exista se agrega un renglo de C_LINE_Height y eso es correcto.
+                // En el caso de las Grids no trabaja bien, pero como por ahora solo hay una Grid por tab,
+                // no trae ningun problema.
+                //
+                // Aunque hay una excepcion: Cuando se trata de documentos el help de documento va en la barra de titulo
+                if(!(m_isDocument && (property.getTable() === Cairo.Tables.DOCUMENTO  || property.getKeyCol().equals(csNumberID) || property.getKeyCol().equals(csStateID)))) {
+                  m_nextTop[nTabIndex] = m_nextTop[nTabIndex] + C_LINE_HEIGHT;
                 }
-                else {
-                    if(property.getTabIndex()) {
-                        c.setTag(property.getTabIndex());
-                    }
-                    else {
-                        c.setTag(property.getTabIndex());
-                    }
-                }
+              }
+            }
+          }
 
-                c.setEnabled(property.getEnabled());
-                pSetBackColor(c, property);
-                pSetButton(c, property);
-            // {end with: c}
+          // Finalmente valido el ancho del form
+          if(property.getType() === Dialogs.PropertyType.option) {
+            setNewWidthForm(property, f.Width + f.Left);
+          }
+          else {
+            setNewWidthForm(property, 0);
+          }
 
-            // With property;
-                if(property.getType() === Dialogs.PropertyType.option) {
-                    var r = 0;
-                    var q = 0;
-                    if(property.OptionGroup - 1 > m_leftOp.length) {
-                        r = m_leftOp.length;
-                        G.redimPreserve(m_leftOp, property.OptionGroup);
-                        var view = getView();
-                            for(q = r; q <= m_leftOp.length; q++) {
-                                m_leftOp[q] = view.getOptionButtons().get(0).getLeft();
-                            }
-                        // {end with: view}
-                    }
-                    if(property.OptionGroup - 1 > m_nextTopOp.length) {
-                        r = m_nextTopOp.length;
-                        G.redimPreserve(m_nextTopOp, property.OptionGroup);
-                        var view = getView();
-                            for(q = r; q <= m_nextTopOp.length; q++) {
-                                m_nextTopOp[q] = view.getOptionButtons().get(0).getTop();
-                            }
-                        // {end with: view}
-                    }
-
-                    if(property.Left === -1) {
-                        c.Left = m_leftOp[property.OptionGroup];
-                    }
-                    if(property.Top === -1) {
-                        c.Top = m_nextTopOp[property.OptionGroup];
-                    }
-                    if(property.Width === 0) {
-                        c.Width = 1500;
-                    }
-                    c.setText(property.getName();
-
-                    // Agrando el Frame
-                    if(c.Top + c.Height > f.Height) { f.Height = c.Top + c.Height + 50; }
-
-                    if(f.Height + f.Top > getView().Line1.Y1) {
-                        f.Top = m_nextTop[nTabIndex] - 100;
-                        f.Left = m_left[nTabIndex];
-                    }
-
-                    if(c.Left + c.Width > f.Width) { f.Width = c.Left + c.Width + 20; }
-
-                    if(property.TopFrame !== 0) { f.Top = property.TopFrame; }
-                    if(property.LeftFrame !== 0) { f.Left = property.LeftFrame; }
-
-                    m_nextTopOp[property.OptionGroup] = m_nextTopOp[property.OptionGroup] + C_LINE_HEIGHT;
-
-                }
-                else if(property.getType() === Dialogs.PropertyType.toolbar) {
-
-                    // With frameToolBar;
-                        frameToolBar.Width = property.Width;
-                        frameToolBar.Top = property.TopFrame;
-                        frameToolBar.Left = property.LeftFrame;
-                        if(property.Height > 0) {
-                            frameToolBar.Height = property.Height;
-                        }
-                        else {
-                            frameToolBar.Height = c.Height;
-                        }
-                        frameToolBar.setTag = property.getTabIndex();
-                        frameToolBar.BackColor = getView().getBackground().getBackColor();
-                    // {end with: frameToolBar}
-
-                    Toolbar tbl = null;
-
-                    tbl = c;
-                    // With tbl;
-                        tbl.Appearance = cc3D;
-                        tbl.BorderStyle = ccFixedSingle;
-                    // {end with: tbl}
-
-                    CSKernelClient2.fABM.setToolbar(tbl, property.Buttons);
-
-                    property.LeftNotChange = true;
-                    property.TopNotChange = true;
-
-                }
-                else if(property.getType() === Dialogs.PropertyType.label
-                        || property.getType() === Dialogs.PropertyType.title
-                        || property.getType() === Dialogs.PropertyType.description) {
-
-                    if(property.Top === -1) {
-                        c.Top = m_nextTop[nTabIndex];
-                    }
-
-                    if(property.Left === -1) {
-                        c.Left = m_left[nTabIndex] + m_labelLeft;
-                    }
-
-                }
-                else {
-
-                    Label lB = null;
-
-                    var view = getView();
-                        Load(view.getLabels().get(view.LB.count() + 1));
-                        lB = view.getLabels().get(view.LB.count());
-                    // {end with: view}
-
-                    // With lB;
-                        property.setLabelIndex(lB.Index);
-                        lB.setText(property.getName();
-                        lB.Left = m_left[nTabIndex];
-                        lB.BackStyle = 0;
-                        lB.setTag = c.getTag();
-                        lB.bringToFront();
-                        if(property.getType() === Dialogs.PropertyType.button) {
-                            lB.setVisible(false);
-                        }
-                    // {end with: lB}
-
-                    // Etiquetas invisibles
-                    // para Grillas, Botones e Imagenes
-                    //
-                    if(property.LeftLabel === -1) {
-                        // With lB;
-                            lB.setVisible(false);
-                            //' Si una etiqueta tiene tag=-1
-                            lB.setTag = "-1";
-                            // no se modifica su propiedad
-                            // visible en el ShowValue
-                        // {end with: lB}
-                    }
-
-                    // Formateo especial para Grids
-                    if(property.getType() === Dialogs.PropertyType.grid) {
-                        if(property.Left === -1) {
-                            c.Left = m_left[nTabIndex];
-                        }
-
-                        if(m_isItems) {
-                            c.Top = m_nextTop[nTabIndex];
-                            // With lB;
-                                lB.setVisible(false);
-                                //' Si una etiqueta tiene tag=-1
-                                lB.setTag = "-1";
-                                // no se modifica su propiedad
-                                // visible en el ShowValue
-                            // {end with: lB}
-                        }
-                        else {
-                            if(property.Top === 0) {
-                                c.Top = m_nextTop[nTabIndex] + 300;
-                                // With lB;
-                                    lB.Top = m_nextTop[nTabIndex];
-                                    lB.Width = c.Width;
-                                // {end with: lB}
-                            }
-                        }
-                        if(property.Width === -1  || property.Width === 0) {
-                            c.Width = getView().ScaleWidth - c.Left - 300;
-                        }
-
-                    }
-                    else if(m_isDocument && property.getTable() === Cairo.Tables.DOCUMENTO) {
-
-                        // With c;
-                            c.Left = 3600;
-                            c.Top = 80;
-                            c.Width = 3500;
-                            c.FontSize = 11;
-                            c.FontBold = true;
-                            c.Height = 330;
-                            c.setTag("";
-                            c.BorderColor = vbButtonFace;
-                        // {end with: c}
-
-                        // With lB;
-                            lB.setVisible(false);
-                            lB.setTag = -1;
-                        // {end with: lB}
-
-                    }
-                    else if(m_isDocument && (property.getKeyCol().equals(csNumberID) || property.getKeyCol().equals(csStateID))) {
-
-                        if(property.getKeyCol().equals(csNumberID)) {
-                            c.Left = 7300;
-                            c.Width = 1200;
-                        }
-                        else {
-                            c.Left = 8700;
-                            c.Width = 3000;
-                        }
-                        c.Top = 80;
-                        c.FontSize = 11;
-                        c.FontBold = true;
-                        c.Height = 330;
-                        c.EnabledNoChngBkColor = true;
-                        c.ForeColor = vbWhite;
-                        c.BackColor = vbButtonShadow;
-                        c.BorderColor = vbButtonFace;
-                        lB.setVisible(false);
-                        lB.setTag = -1;
-                        c.setTag("";
-
-                    }
-                    else {
-
-                        if(property.Top !== -1) {
-
-                            lB.Top = property.Top;
-                        }
-                        else {
-                            // OptionGroup la uso para indicar un offset cuando la
-                            // property no es de nType Option sirve para permitir un
-                            // posicionamiento mas fino de los controles. Solo se usa en
-                            // cuenta.
-                            lB.Top = m_nextTop[nTabIndex] + property.OptionGroup;
-
-                            // OptionGroup la uso para indicar un offset cuando la
-                            // property no es de nType Option sirve para permitir un
-                            // posicionamiento mas fino de los controles. Solo se usa en
-                            // cuenta.
-                            c.Top = m_nextTop[nTabIndex] + property.OptionGroup;
-                        }
-
-                        switch(property.getType()) {
-                            case Dialogs.PropertyType.date:
-                                c.Width = 1400;
-                                break;
-                            case Dialogs.PropertyType.time:
-                                c.Width = 800;
-                                break;
-                        }
-
-                        if(m_isFooter) {
-                            if(property.Left === -1) {
-                                c.Left = m_left[nTabIndex];
-                            }
-                            // With lB;
-                                lB.Left = c.Left;
-                                lB.Top = c.Top - C_OFFSET_V3;
-                                lB.Height = 225;
-                                lB.Alignment = vbRightJustify;
-                                lB.Width = 1000;
-                            // {end with: lB}
-                        }
-                        else {
-                            if(property.Left !== -1) {
-                                lB.Left = c.Left + property.LeftLabel;
-                                lB.Width = Abs(property.LeftLabel);
-                            }
-                            else {
-                                c.Left = m_left[nTabIndex] + m_labelLeft;
-                                if(property.LeftLabel !== 0) {
-                                    lB.Left = c.Left + property.LeftLabel;
-                                    lB.Width = Abs(property.LeftLabel);
-                                }
-                            }
-                        }
-
-                    }
-                }
-
-                // Me guardo el Top y el Left de esta propiedad
-                // With property;
-                    property.setTop(c.Top);
-                    property.setLeft(c.Left);
-                    property.setWidth(c.Width);
-                    property.setHeight(c.Height);
-                // {end with: property}
-
-                // Si el control modifica el Left de los que vienen detras
-                if(!property.LeftNotChange) {
-
-                    // Si fue un option button hay que fijarce en el contenedor
-                    if(property.getType() === Dialogs.PropertyType.option) {
-                        if(property.LeftFrame !== 0  && !property.LeftNotChange) {
-                            m_left[nTabIndex] = f.Left;
-                        }
-                    }
-                    else {
-                        // Si el control indico un left fijo, los demas se alinean con el
-                        if(property.Left !== -1  && property.LeftToPrevious === 0) {
-                            m_left[nTabIndex] = property.Left + property.LeftLabel;
-                            m_labelLeft = Abs(property.LeftLabel);
-                        }
-                    }
-                }
-
-                // Me guardo el ultimo Left
-                m_lastLeft = m_left[nTabIndex];
-                m_lastLeftOp = c.Left;
-
-                // Me guardo el ultimo Top
-                m_lastTop = m_nextTop[nTabIndex];
-                m_lastTopOp = c.Top;
-
-                // Ahora hay que calcular donde empieza el renglo para el proximo control
-
-                // Si el control modifica el Top para los que vienen detras
-                if(!property.TopNotChange) {
-                    // Si el control tiene un top personalizado entonces
-                    // parto de dicho top para el calculo. Siempre y cuando no sea un OptionButton
-                    if(property.Top !== -1  && property.getType() !== Dialogs.PropertyType.option  && !property.TopNotChange) {
-
-                        m_lastTop = property.Top;
-
-                        // Si el control inidica un alto personalizado
-                        if(property.Height > 0) {
-                            m_nextTop[nTabIndex] = property.Top + c.Height + C_LINE_LIGHT;
-                        }
-                        else {
-                            m_nextTop[nTabIndex] = property.Top + C_LINE_HEIGHT;
-                        }
-                    }
-                    else {
-                        // Si el control inidica un alto personalizado. Siempre y cuando no sea un OptionButton
-                        if(property.Height > 0 && property.getType() !== Dialogs.PropertyType.option) {
-                            m_nextTop[nTabIndex] = m_nextTop[nTabIndex] + c.Height + C_LINE_LIGHT;
-
-                            // Si se uso el alto standar (C_LINE_Height)
-                        }
-                        else {
-                            //
-                            // Siempre incremento el NextTop general incluso si es una property de nType option o Grid
-                            // ya que por cada option que exista se agrega un renglo de C_LINE_Height y eso es correcto.
-                            // En el caso de las Grids no trabaja bien, pero como por ahora solo hay una Grid por tab,
-                            // no trae ningun problema.
-                            //
-                            // Aunque hay una excepcion: Cuando se trata de documentos el help de documento va en la barra de titulo
-                            if(!(m_isDocument && (property.getTable() === Cairo.Tables.DOCUMENTO  || property.getKeyCol().equals(csNumberID) || property.getKeyCol().equals(csStateID)))) {
-                                m_nextTop[nTabIndex] = m_nextTop[nTabIndex] + C_LINE_HEIGHT;
-                            }
-                        }
-                    }
-                }
-
-                // Finalmente valido el ancho del form
-                if(property.getType() === Dialogs.PropertyType.option) {
-                    setNewWidthForm(property, f.Width + f.Left);
-                }
-                else {
-                    setNewWidthForm(property, 0);
-                }
-            // {end with: property}
-
-            return true;
-        }
+          return true;
+        };
 
         var setNewTopAndLeft = function(property) { // TODO: Use of ByRef founded Private Sub SetNewTopAndLeft(ByRef property As cIABMProperty)
             var nTabIndex = 0;
@@ -5518,20 +5273,20 @@
         var getProperty = function(csTypeABMProperty nType, var index, csSubTypeABMProperty subType) {
             property = null;
             property = null;
-            cIABMProperties iProperties = null;
+            
             found = false;
 
             if(m_properties === null) { return; }
 
-            iProperties = m_properties;
+            
 
             // Para Toolbars no hay indice
             if(nType === Dialogs.PropertyType.toolbar) {
                 Toolbar tbl = null;
 
                 tbl = getView().GetToolBar;
-                for(var _i = 0; _i < iProperties.count(); _i++) {
-                    property = iProperties.get(_i);
+                for(var _i = 0; _i < m_properties.count(); _i++) {
+                    property = m_properties.get(_i);
                     if(property.getType() === nType) {
                         if(property.setToolbar(Is tbl)) {
                             return property;
@@ -5542,8 +5297,8 @@
 
             }
             else {
-                for(var _i = 0; _i < iProperties.count(); _i++) {
-                    property = iProperties.get(_i);
+                for(var _i = 0; _i < m_properties.count(); _i++) {
+                    property = m_properties.get(_i);
 
                     // With property;
 
@@ -5617,7 +5372,7 @@
                 property = null;
                 property2 = null;
                 property = null;
-                cIABMProperties iProperties = null;
+                
 
                 Static(Refreshing As Boolean);
 
@@ -5629,14 +5384,14 @@
 
                 property = getProperty(nType, index, subType);
 
-                iProperties = m_properties;
+                
 
                 if(property !== null) {
 
 
                     // With property;
                         switch(nType) {
-                            case Dialogs.PropertyType.List:
+                            case Dialogs.PropertyType.list:
                                 property.ListListIndex = c.ListIndex;
                                 property.ListText = c.text;
                                 if(c.ListIndex >= 0) {
@@ -5664,8 +5419,8 @@
                                 if(c.getValue()) {
                                     // Aca hay que cambiar al resto de las Properties de este Group de
                                     // option buttons
-                                    for(var _i = 0; _i < iProperties.count(); _i++) {
-                                        property2 = iProperties.get(_i);
+                                    for(var _i = 0; _i < m_properties.count(); _i++) {
+                                        property2 = m_properties.get(_i);
                                         if(!property2(Is property)) {
                                             if(property2.getType() === Dialogs.PropertyType.option  && property2.OptionGroup === property.OptionGroup) {
                                                 property2.setValue(0;
@@ -5691,8 +5446,8 @@
 
                         if(m_client.propertyChange(property.Key) && !bNoRefresh) {
                             Refreshing = true;
-                            for(var _i = 0; _i < iProperties.count(); _i++) {
-                                property = iProperties.get(_i);
+                            for(var _i = 0; _i < m_properties.count(); _i++) {
+                                property = m_properties.get(_i);
                                 showValueEx(property, m_noChangeColsInRefresh);
                             }
                         }
@@ -5842,11 +5597,11 @@
 
                 // Only for debug
                 //
-                //Dim iProperties As cIABMProperties
-                //Set iProperties = m_Properties
+                //Dim m_properties As cIABMProperties
+                //Set m_properties = m_Properties
                 //Dim row As cABMGridRow
 
-                //Set row = iProperties.get("Items").grid.getRows().get(1)
+                //Set row = m_properties.get("Items").grid.getRows().get(1)
                 //
                 // Comentar despues de depurar
 
@@ -5938,14 +5693,14 @@
         var pFillList = function() {
             property = null;
             property = null;
-            cIABMProperties iProperties = null;
+            
             var index = 0;
 
-            iProperties = m_properties;
+            
 
             for(Index = 1; Index <= getView().CB.count(); Index++) {
-                for(var _j = 0; _j < iProperties.count(); _j++) {
-                    property = iProperties.get(_j);
+                for(var _j = 0; _j < m_properties.count(); _j++) {
+                    property = m_properties.get(_j);
                     if(property.getType() === Dialogs.PropertyType.list) {
                         if(property.getIndex() === index) {
 
@@ -5960,7 +5715,7 @@
             }
 
             //  For Index = 1 To Frm.CBhock.count()
-            //    For Each property In iProperties
+            //    For Each property In m_properties
             //      If property.getType() = Dialogs.PropertyType.list Then
             //        Set property = property
             //        If property.Index = Index Then
@@ -5979,16 +5734,16 @@
         var pFillGrids = function() {
             property = null;
             property = null;
-            cIABMProperties iProperties = null;
+            
             var index = 0;
 
-            iProperties = m_properties;
+            
 
             var view = getView();
 
                 for(Index = 0; Index <= view.GR.count(); Index++) {
-                    for(var _j = 0; _j < iProperties.count(); _j++) {
-                        property = iProperties.get(_j);
+                    for(var _j = 0; _j < m_properties.count(); _j++) {
+                        property = m_properties.get(_j);
                         if(property.getType() === Dialogs.PropertyType.grid) {
                             if(property.getIndex() === index) {
 
@@ -6014,7 +5769,7 @@
             bHaveKey = false;
             String[] vKeys() = null;
             cABMGridRows oRows = null;
-            cABMGridRowValue oCell = null;
+            oCell = null;
 
             oRows = grid.getRows();
 
@@ -6172,12 +5927,12 @@
                 Cairo.LoadingMessage.showWait();
 
                 property = null;
-                cIABMProperties iProperties = null;
+                
 
-                iProperties = m_properties;
+                
 
-                for(var _i = 0; _i < iProperties.count(); _i++) {
-                    property = iProperties.get(_i);
+                for(var _i = 0; _i < m_properties.count(); _i++) {
+                    property = m_properties.get(_i);
                     property.setControl(null);
                 }
 
@@ -6194,87 +5949,87 @@
 
                     view.getMaskEdits().get(0).setVisible(false);
                     for(i = 1; i <= view.ME.count(); i++) {
-                        unload(view.getMaskEdits().get(i));
+                        removeControl(view.getMaskEdits().get(i));
                     }
 
                     view.getDatePickers().get(0).setVisible(false);
                     for(i = 1; i <= view.getDatePickers().count(); i++) {
-                        unload(view.getDatePickers().get(i));
+                        removeControl(view.getDatePickers().get(i));
                     }
 
                     view.getSelects().get(0).setVisible(false);
                     for(i = 1; i <= view.HL.count(); i++) {
-                        unload(view.getSelects().get(i));
+                        removeControl(view.getSelects().get(i));
                     }
 
                     for(i = 1; i <= view.OP.count(); i++) {
-                        unload(view.getOptionButtons().get(i));
+                        removeControl(view.getOptionButtons().get(i));
                     }
 
                     for(i = 1; i <= view.FR.count(); i++) {
-                        unload(view.FR(i));
+                        removeControl(view.FR(i));
                     }
 
                     view.checkBoxes().get(0).setVisible(false);
                     for(i = 1; i <= view.CHK.count(); i++) {
-                        unload(view.checkBoxes().get(i));
+                        removeControl(view.checkBoxes().get(i));
                     }
 
                     view.getButtons().get(0).setVisible(false);
                     for(i = 1; i <= view.CMD.count(); i++) {
-                        unload(view.getButtons().get(i));
+                        removeControl(view.getButtons().get(i));
                     }
 
                     view.getCombos().get(0).setVisible(false);
                     for(i = 1; i <= view.CB.count(); i++) {
-                        unload(view.getCombos().get(i));
+                        removeControl(view.getCombos().get(i));
                     }
 
                     view.getTextInputs().get(0).setVisible(false);
                     for(i = 1; i <= view.TX.count(); i++) {
-                        unload(view.getTextInputs().get(i));
+                        removeControl(view.getTextInputs().get(i));
                     }
 
                     view.getTextAreas().get(0).setVisible(false);
                     for(i = 1; i <= view.TXM.count(); i++) {
-                        unload(view.getTextAreas().get(i));
+                        removeControl(view.getTextAreas().get(i));
                     }
 
                     view.getPasswordInputs().get(0).setVisible(false);
                     for(i = 1; i <= view.txPassword.count(); i++) {
-                        unload(view.getPasswordInputs().get(i));
+                        removeControl(view.getPasswordInputs().get(i));
                     }
 
                     view.getLabels().get(0).setVisible(false);
                     for(i = 1; i <= view.LB.count(); i++) {
-                        unload(view.getLabels().get(i));
+                        removeControl(view.getLabels().get(i));
                     }
 
                     Dialogs.Util.destroyGrids(getView());
 
                     if(viewIsWizard(view) || viewIsMaster(view)) {
                         for(i = 1; i <= view.LB2.count(); i++) {
-                            unload(view.getCtlLabels().get(i));
+                            removeControl(view.getCtlLabels().get(i));
                         }
                     }
 
                     if(viewIsWizard(view)) {
                         for(i = 1; i <= view.prgBar.count(); i++) {
-                            unload(view.getProgressBars().get(i));
+                            removeControl(view.getProgressBars().get(i));
                         }
                         for(i = 1; i <= view.getDescription().count(); i++) {
-                            unload(view.getDescription(i));
+                            removeControl(view.getDescription(i));
                         }
                     }
 
                     if(viewIsWizard(view) || viewIsMaster(view)) {
 
                         for(i = 1; i <= view.getTitleLabel2().count(); i++) {
-                            unload(view.getTitleLabel2().get(i));
+                            removeControl(view.getTitleLabel2().get(i));
                         }
 
                         for(i = 1; i <= view.Img.count(); i++) {
-                            unload(view.getImages().get(i));
+                            removeControl(view.getImages().get(i));
                         }
                     }
 
@@ -6311,13 +6066,13 @@
 
                 var rowIndex = 0;
                 property = null;
-                cIABMProperties iProperties = null;
+                
                 oldRedraw = false;
 
-                iProperties = m_properties;
+                
 
-                for(var _i = 0; _i < iProperties.count(); _i++) {
-                    property = iProperties.get(_i);
+                for(var _i = 0; _i < m_properties.count(); _i++) {
+                    property = m_properties.get(_i);
                     property = property;
 
                     if(property.getType() === Dialogs.PropertyType.grid) {
@@ -6359,13 +6114,13 @@
                 index = index + 1;
             }
 
-            cIABMProperties iProperties = null;
-            iProperties = m_properties;
+            
+            
 
             property = null;
 
-            for(var _i = 0; _i < iProperties.count(); _i++) {
-                property = iProperties.get(_i);
+            for(var _i = 0; _i < m_properties.count(); _i++) {
+                property = m_properties.get(_i);
 
                 if(property.getTabIndex() < 0) {
 
@@ -6443,16 +6198,16 @@
                 for(i = 1; i <= view.cbTab.count(); i++) {
                     if(m_isItems) {
                         if(view.getTabs().get(i).getTag() === Cairo.Constants.DocumentSections.footer  || view.getTabs().get(i).getTag() === Cairo.Constants.DocumentSections.items) {
-                            unload(view.getTabs().get(i));
+                            removeControl(view.getTabs().get(i));
                         }
                     }
                     else if(m_isFooter) {
                         if(view.getTabs().get(i).getTag() === Cairo.Constants.DocumentSections.footer) {
-                            unload(view.getTabs().get(i));
+                            removeControl(view.getTabs().get(i));
                         }
                     }
                     else {
-                        unload(view.getTabs().get(i));
+                        removeControl(view.getTabs().get(i));
                     }
                 }
 
@@ -6480,7 +6235,7 @@
                 // {end with: w___TYPE_NOT_FOUND}
 
                 for(i = m_firstTab; i <= tabs + m_firstTab; i++) {
-                    if(i > 0) { Load(view.getTabs().get(i)); }
+                    if(i > 0) { addControl(view.getTabs().get(i)); }
 
                     // * TODO:** can't found type for with block
                     // * With .getTabs().get(i)
@@ -6598,22 +6353,22 @@
             // {end with: view}
         }
 
-        var pSetButton = function(Control control, property) { // TODO: Use of ByRef founded Private Sub pSetButton(ByRef Control As Control, ByRef property As cABMProperty)
+        var setButton = function(control, property) {
 
             if(c.getType !== undefined) {
                 // With control;
-                    if(control.getType() !== csMkText  && control.getType() !== csMkTime) {
+                    if(control.getType() !== Dialogs.PropertyType.time  && control.getType() !== Dialogs.PropertyType.time) {
                         if(control.Enabled) {
 
                             if(property.getNoShowButton()) {
-                                control.ButtonStyle = cButtonNone;
+                                control.ButtonStyle = Dialogs.ButtonStyle.none;
                             }
                             else {
-                                control.ButtonStyle = cButtonSingle;
+                                control.ButtonStyle = Dialogs.ButtonStyle.single;
                             }
                         }
                         else {
-                            control.ButtonStyle = cButtonNone;
+                            control.ButtonStyle = Dialogs.ButtonStyle.none;
                         }
                     }
                 // {end with: control}
@@ -6649,7 +6404,7 @@
             property = property;
 
             if(property.getControl() === null) { return; }
-            pSetFont(property.getControl(), property);
+            setFont(property.getControl(), property);
         }
 
         self.refreshPosition = function(property) { // TODO: Use of ByRef founded Public Sub RefreshPosition(ByRef property As cIABMProperty)
@@ -6665,7 +6420,7 @@
             }
         }
 
-        var pSetFont = function(Control c, property) { // TODO: Use of ByRef founded Private Sub pSetFont(ByRef c As Control, ByRef property As cIABMProperty)
+        var setFont = function(c, property) { // TODO: Use of ByRef founded Private Sub setFont(ByRef c As Control, ByRef property As cIABMProperty)
 
 
                 // With property;
@@ -6685,7 +6440,7 @@
             }
         }
 
-        var pSetBackColor = function(Control c, property) { // TODO: Use of ByRef founded Private Sub pSetBackColor(ByRef c As Control, ByRef property As cIABMProperty)
+        var setBackColor = function(c, property) {
 
                 // With property;
                     if(property.getBackColor() !== -1) {
@@ -6698,16 +6453,16 @@
         self.setTabIndexDescription = function() {
             property = null;
             property = null;
-            cIABMProperties iProperties = null;
+            
 
             if(m_isDocument) {
 
-                iProperties = m_properties;
+                
 
                 var view = getView();
 
-                    for(var _i = 0; _i < iProperties.count(); _i++) {
-                        property = iProperties.get(_i);
+                    for(var _i = 0; _i < m_properties.count(); _i++) {
+                        property = m_properties.get(_i);
                         if(property.getSubType() === Dialogs.PropertySubType.memo) {
                             view.getTextAreas().get(property.getIndex()).setTabIndex(view.getControls().count());
                         }
@@ -6719,19 +6474,19 @@
         var pRefreshAux = function() {
             var index = 0;
             property = null;
-            cIABMProperties iProperties = null;
+            
             var i = 0;
 
-            iProperties = m_properties;
+            
 
             var view = getView();
 
                 for(i = 1; i <= properties.count(); i++) {
 
-                    property = iProperties(i);
+                    property = m_properties.get(i);
                     index = property.getIndex();
 
-                    switch(iProperties(i).PropertyType) {
+                    switch(m_properties.get(i).PropertyType) {
 
                         case Dialogs.PropertyType.check:
                             propertyHasChanged(Dialogs.PropertyType.check, index, view.CHK.get(index), true);
@@ -6746,7 +6501,7 @@
                             propertyHasChanged(Dialogs.PropertyType.select, index, view.HL.get(index), true);
 
                             break;
-                        case Dialogs.PropertyType.List:
+                        case Dialogs.PropertyType.list:
                             propertyHasChanged(Dialogs.PropertyType.list, index, view.CB.get(index), true);
 
                             break;
@@ -6765,7 +6520,7 @@
                         case Dialogs.PropertyType.text:
                         case Dialogs.PropertyType.file:
                         case Dialogs.PropertyType.folder:
-                            if(iProperties(i).getSubType() === Dialogs.PropertySubType.memo) {
+                            if(m_properties.get(i).getSubType() === Dialogs.PropertySubType.memo) {
                                 propertyHasChanged(Dialogs.PropertyType.text, index, view.TXM.get(index), true, Dialogs.PropertySubType.memo);
                             }
                             else {
@@ -7050,13 +6805,13 @@
                 m_gridManager = null;
 
                 if(m_masterView !== null) {
-                    unload(m_masterView);
+                    removeControl(m_masterView);
                 }
                 if(m_documentView !== null) {
-                    unload(m_documentView);
+                    removeControl(m_documentView);
                 }
                 if(m_wizardView !== null) {
-                    unload(m_wizardView);
+                    removeControl(m_wizardView);
                 }
 
                 m_masterView = null;
@@ -7080,12 +6835,12 @@
             cABMGrid grid = null;
             var i = 0;
             var indexGrid = 0;
-            cIABMProperties iProperties = null;
+            
 
-            iProperties = m_properties;
+            
 
-            for(var _i = 0; _i < iProperties.count(); _i++) {
-                property = iProperties.get(_i);
+            for(var _i = 0; _i < m_properties.count(); _i++) {
+                property = m_properties.get(_i);
 
                 if(property.getType() === Dialogs.PropertyType.grid) {
                     i = i + 1;
