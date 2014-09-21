@@ -276,7 +276,9 @@ var Cairo = new Marionette.Application();
   };
 
   Cairo.Constants = {
-    NO_ID: 0
+    NO_ID: 0,
+    NUMBER_ID: '_number_id_',
+    STATUS_ID: '_status_id_'
   };
 
   Cairo.Constants.Types = {
@@ -385,10 +387,7 @@ var Cairo = new Marionette.Application();
   };
 
   Cairo.raiseError = function(title, message) {
-    throw {
-      title: title,
-      message: message
-    };
+    throw new Error(title + " - " + message);
   };
 
   Cairo.LoadingMessage = (function() {

@@ -187,6 +187,12 @@
       sinlge: 2
     };
 
+    Dialogs.AlignText = {
+      left:   0,
+      center: 1,
+      right:  2
+    }
+
   });
 
   ///////////////
@@ -4924,6 +4930,9 @@
             }
             c.setText(property.getName());
 
+            // TODO: implement a main frame (it doesn't need to be a dom element)
+            var f = null;
+
             // increase the with of this tab
             //
             if(c.getTop() + c.getHeight() > f.getHeight()) { 
@@ -4950,17 +4959,20 @@
           }
           else if(property.getType() === Dialogs.PropertyType.toolbar) {
 
-            frameToolBar.setWidth(property.getWidth());
-            frameToolBar.setTop(property.getTopFrame());
-            frameToolBar.setLeft(property.getLeftFrame());
+            // TODO: implement frameToolbar
+            //
+            var frameToolbar = null;
+            frameToolbar.setWidth(property.getWidth());
+            frameToolbar.setTop(property.getTopFrame());
+            frameToolbar.setLeft(property.getLeftFrame());
             if(property.getHeight() > 0) {
-              frameToolBar.setHeight(property.getHeight());
+              frameToolbar.setHeight(property.getHeight());
             }
             else {
-              frameToolBar.setHeight(c.getHeight());
+              frameToolbar.setHeight(c.getHeight());
             }
-            frameToolBar.setTag(property.getTabIndex());
-            frameToolBar.setBackColor(getView().getBackground().getBackColor());
+            frameToolbar.setTag(property.getTabIndex());
+            frameToolbar.setBackColor(getView().getBackground().getBackColor());
 
             setToolbar(tbl, property.getButtons());
 
@@ -5044,77 +5056,71 @@
             else if(m_isDocument && (property.getKeyCol().equals(csNumberID) || property.getKeyCol().equals(csStateID))) {
 
               if(property.getKeyCol().equals(csNumberID)) {
-                c.Left = 7300;
-                c.Width = 1200;
+                c.setLeft(7300);
+                c.setWidth(1200);
               }
               else {
-                c.Left = 8700;
-                c.Width = 3000;
+                c.setLeft(8700);
+                c.setWidth(3000);
               }
-              c.Top = 80;
-              c.FontSize = 11;
-              c.FontBold = true;
-              c.Height = 330;
-              c.EnabledNoChngBkColor = true;
-              c.ForeColor = Dialogs.Colors.white;
-              c.BackColor = Dialogs.Colors.buttonShadow;
-              c.BorderColor = Dialogs.Colors.buttonFace;
+              c.setTop(80);
+              c.setFontSize(11);
+              c.setFontBold(true);
+              c.setHeight(330);
+              c.setEnabledNoChngBkColor(true);
+              c.setForeColor(Dialogs.Colors.white);
+              c.setBackColor(Dialogs.Colors.buttonShadow);
+              c.setBorderColor(Dialogs.Colors.buttonFace);
               label.setVisible(false);
-              label.setTag = -1;
-              c.setTag("";
+              label.setTag("-1");
+              c.setTag("");
 
             }
             else {
 
-              if(property.Top !== -1) {
-
-                label.Top = property.Top;
+              if(property.getTop() !== -1) {
+                label.setTop(property.getTop());
               }
               else {
-                // OptionGroup la uso para indicar un offset cuando la
-                // property no es de nType Option sirve para permitir un
-                // posicionamiento mas fino de los controles. Solo se usa en
-                // cuenta.
-                label.Top = m_nextTop[nTabIndex] + property.OptionGroup;
-
-                // OptionGroup la uso para indicar un offset cuando la
-                // property no es de nType Option sirve para permitir un
-                // posicionamiento mas fino de los controles. Solo se usa en
-                // cuenta.
-                c.Top = m_nextTop[nTabIndex] + property.OptionGroup;
+                // optionGroup is used to define an offeset
+                // when the property type !==  option
+                // allows a fine control over the label position
+                // ugly but legacy.
+                // TODO: fixme. use a new field like labelOffset or similar
+                //
+                label.setTop(m_nextTop[nTabIndex] + property.getOptionGroup());
+                c.setTop(m_nextTop[nTabIndex] + property.getOptionGroup());
               }
 
               switch(property.getType()) {
                 case Dialogs.PropertyType.date:
-                  c.Width = 1400;
+                  c.setWidth(1400);
                   break;
                 case Dialogs.PropertyType.time:
-                  c.Width = 800;
+                  c.setWidth(800);
                   break;
               }
 
               if(m_isFooter) {
-                if(property.Left === -1) {
-                  c.Left = m_left[nTabIndex];
+                if(property.getLeft() === -1) {
+                  c.setLeft(m_left[nTabIndex]);
                 }
-                // With label;
-                label.Left = c.Left;
-                label.Top = c.Top - C_OFFSET_V3;
-                label.Height = 225;
-                label.Alignment = vbRightJustify;
-                label.Width = 1000;
-                // {end with: label}
+                label.setLeft(c.getLeft());
+                label.setTop(c.getTop() - C_OFFSET_V3);
+                label.setHeight(225);
+                label.setAlignment(Dialogs.AlignText.right);
+                label.setWidth(1000);
               }
               else {
-                if(property.Left !== -1) {
-                  label.Left = c.Left + property.LeftLabel;
-                  label.Width = Abs(property.LeftLabel);
+                if(property.getLeft() !== -1) {
+                  label.setLeft(c.getLeft() + property.getLeftLabel());
+                  label.setWidth(Math.abs(property.getLeftLabel()));
                 }
                 else {
-                  c.Left = m_left[nTabIndex] + m_labelLeft;
-                  if(property.LeftLabel !== 0) {
-                    label.Left = c.Left + property.LeftLabel;
-                    label.Width = Abs(property.LeftLabel);
+                  c.setLeft = m_left[nTabIndex] + m_labelLeft;
+                  if(property.getLeftLabel() !== 0) {
+                    label.setLeft(c.getLeft() + property.getLeftLabel());
+                    label.setWidth(Math.abs(property.getLeftLabel()));
                   }
                 }
               }
@@ -5122,83 +5128,81 @@
             }
           }
 
-          // Me guardo el Top y el Left de esta propiedad
-          // With property;
-          property.setTop(c.Top);
-          property.setLeft(c.Left);
-          property.setWidth(c.Width);
-          property.setHeight(c.Height);
-          // {end with: property}
+          property.setTop(c.getTop());
+          property.setLeft(c.getLeft());
+          property.setWidth(c.getWidth());
+          property.setHeight(c.getHeight());
 
-          // Si el control modifica el Left de los que vienen detras
-          if(!property.LeftNotChange) {
+          // only if this control changes the left of next controls
+          //
+          if(!property.getLeftNotChange()) {
 
-            // Si fue un option button hay que fijarce en el contenedor
+            //
             if(property.getType() === Dialogs.PropertyType.option) {
-              if(property.LeftFrame !== 0  && !property.LeftNotChange) {
-                m_left[nTabIndex] = f.Left;
+              if(property.getLeftFrame() !== 0  && !property.getLeftNotChange()) {
+                m_left[nTabIndex] = property.getLeft(); // TODO: check if there is a frame as in vb6
               }
             }
             else {
-              // Si el control indico un left fijo, los demas se alinean con el
-              if(property.Left !== -1  && property.LeftToPrevious === 0) {
-                m_left[nTabIndex] = property.Left + property.LeftLabel;
-                m_labelLeft = Abs(property.LeftLabel);
+              if(property.getLeft() !== -1  && property.getLeftToPrevious() === 0) {
+                m_left[nTabIndex] = property.getLeft() + property.getLeftLabel();
+                m_labelLeft = Math.abs(property.getLeftLabel());
               }
             }
           }
 
-          // Me guardo el ultimo Left
           m_lastLeft = m_left[nTabIndex];
-          m_lastLeftOp = c.Left;
+          m_lastLeftOp = c.getLeft();
 
-          // Me guardo el ultimo Top
           m_lastTop = m_nextTop[nTabIndex];
-          m_lastTopOp = c.Top;
+          m_lastTopOp = c.getTop();
 
-          // Ahora hay que calcular donde empieza el renglo para el proximo control
+          // define the top of next row
 
-          // Si el control modifica el Top para los que vienen detras
-          if(!property.TopNotChange) {
-            // Si el control tiene un top personalizado entonces
-            // parto de dicho top para el calculo. Siempre y cuando no sea un OptionButton
-            if(property.Top !== -1  && property.getType() !== Dialogs.PropertyType.option  && !property.TopNotChange) {
+          // only if this control changes the top of next controls
+          //
+          if(!property.getTopNotChange()) {
+            // if the control has set a custom top and it is not an option button
+            //
+            if(property.getTop() !== -1
+                && property.getType() !== Dialogs.PropertyType.option
+                && !property.getTopNotChange()) {
 
-              m_lastTop = property.Top;
+              m_lastTop = property.getTop();
 
-              // Si el control inidica un alto personalizado
-              if(property.Height > 0) {
-                m_nextTop[nTabIndex] = property.Top + c.Height + C_LINE_LIGHT;
+              // if the control defines a custom height
+              //
+              if(property.getHeight() > 0) {
+                m_nextTop[nTabIndex] = property.getTop() + c.getHeight() + C_LINE_LIGHT;
               }
               else {
-                m_nextTop[nTabIndex] = property.Top + C_LINE_HEIGHT;
+                m_nextTop[nTabIndex] = property.getTop() + C_LINE_HEIGHT;
               }
             }
             else {
-              // Si el control inidica un alto personalizado. Siempre y cuando no sea un OptionButton
-              if(property.Height > 0 && property.getType() !== Dialogs.PropertyType.option) {
-                m_nextTop[nTabIndex] = m_nextTop[nTabIndex] + c.Height + C_LINE_LIGHT;
-
-                // Si se uso el alto standar (C_LINE_Height)
+              // if the control defines a custom height and it is not an option button
+              //
+              if(property.getHeight() > 0 && property.getType() !== Dialogs.PropertyType.option) {
+                m_nextTop[nTabIndex] = m_nextTop[nTabIndex] + c.getHeight() + C_LINE_LIGHT;
               }
               else {
                 //
-                // Siempre incremento el NextTop general incluso si es una property de nType option o Grid
-                // ya que por cada option que exista se agrega un renglo de C_LINE_Height y eso es correcto.
-                // En el caso de las Grids no trabaja bien, pero como por ahora solo hay una Grid por tab,
-                // no trae ningun problema.
+                // nextTop is always updated. even when type == option group. this fails with grids (we need to fix it)
                 //
-                // Aunque hay una excepcion: Cuando se trata de documentos el help de documento va en la barra de titulo
-                if(!(m_isDocument && (property.getTable() === Cairo.Tables.DOCUMENTO  || property.getKeyCol().equals(csNumberID) || property.getKeyCol().equals(csStateID)))) {
+                // exception: in documents the select for document is placed in the title bar
+                //
+                if(!(m_isDocument
+                    && (property.getTable() === Cairo.Tables.DOCUMENTO
+                        || property.getKeyCol().equals(Cairo.Constants.NUMBER_ID)
+                        || property.getKeyCol().equals(Cairo.Constants.STATUS_ID)))) {
                   m_nextTop[nTabIndex] = m_nextTop[nTabIndex] + C_LINE_HEIGHT;
                 }
               }
             }
           }
 
-          // Finalmente valido el ancho del form
           if(property.getType() === Dialogs.PropertyType.option) {
-            setNewWidthForm(property, f.Width + f.Left);
+            setNewWidthForm(property, f.getWidth() + f.getLeft());
           }
           else {
             setNewWidthForm(property, 0);
