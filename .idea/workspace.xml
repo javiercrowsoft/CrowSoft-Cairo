@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d47203c3-b220-49d7-aac2-46c758baa4bb" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/cairo/app/client/cairo/cairoApp.js" afterPath="$PROJECT_DIR$/web/cairo/app/client/cairo/cairoApp.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/cairo/app/client/cairo/system/dialogs/dialog.js" afterPath="$PROJECT_DIR$/web/cairo/app/client/cairo/system/dialogs/dialog.js" />
     </list>
     <ignored path="CrowSoft-Cairo.iws" />
@@ -10,9 +9,9 @@
     <file path="/Dummy.txt" changelist="d47203c3-b220-49d7-aac2-46c758baa4bb" time="1411252553265" ignored="false" />
     <file path="/tree.js" changelist="d47203c3-b220-49d7-aac2-46c758baa4bb" time="1410535229260" ignored="false" />
     <file path="/Companies.scala" changelist="d47203c3-b220-49d7-aac2-46c758baa4bb" time="1410535836230" ignored="false" />
-    <file path="/a.dummy" changelist="d47203c3-b220-49d7-aac2-46c758baa4bb" time="1411256548302" ignored="false" />
+    <file path="/a.dummy" changelist="d47203c3-b220-49d7-aac2-46c758baa4bb" time="1411339432937" ignored="false" />
     <file path="/index.scala.html" changelist="d47203c3-b220-49d7-aac2-46c758baa4bb" time="1410625080198" ignored="false" />
-    <file path="/dialog.js" changelist="d47203c3-b220-49d7-aac2-46c758baa4bb" time="1411258348795" ignored="false" />
+    <file path="/dialog.js" changelist="d47203c3-b220-49d7-aac2-46c758baa4bb" time="1411344318821" ignored="false" />
     <file path="/a.js" changelist="d47203c3-b220-49d7-aac2-46c758baa4bb" time="1410779836562" ignored="false" />
     <file path="/modal.js" changelist="d47203c3-b220-49d7-aac2-46c758baa4bb" time="1410991727679" ignored="false" />
     <file path="/cairoApp.js" changelist="d47203c3-b220-49d7-aac2-46c758baa4bb" time="1411257551265" ignored="false" />
@@ -122,8 +121,10 @@
       <file leaf-file-name="dialog.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/web/cairo/app/client/cairo/system/dialogs/dialog.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="5211" column="12" selection-start="168114" selection-end="168114" vertical-scroll-proportion="0.53900707">
-              <folding />
+            <state line="5712" column="25" selection-start="185119" selection-end="185119" vertical-scroll-proportion="0.45104167">
+              <folding>
+                <element signature="e#181581#184811#0" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -710,9 +711,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/web/cairo/app/client/cairo/system/promise.js">
+    <entry file="file://$PROJECT_DIR$/web/cairo/app/client/cairo/cairoApp.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="105" column="17" selection-start="2722" selection-end="2722" vertical-scroll-proportion="0.0">
+        <state line="280" column="27" selection-start="7689" selection-end="7689" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
@@ -724,17 +725,19 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/web/cairo/app/client/cairo/cairoApp.js">
+    <entry file="file://$PROJECT_DIR$/web/cairo/app/client/cairo/system/promise.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="280" column="27" selection-start="7689" selection-end="7689" vertical-scroll-proportion="0.0">
+        <state line="105" column="17" selection-start="2722" selection-end="2722" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/web/cairo/app/client/cairo/system/dialogs/dialog.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="5211" column="12" selection-start="168114" selection-end="168114" vertical-scroll-proportion="0.53900707">
-          <folding />
+        <state line="5712" column="25" selection-start="185119" selection-end="185119" vertical-scroll-proportion="0.45104167">
+          <folding>
+            <element signature="e#181581#184811#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>

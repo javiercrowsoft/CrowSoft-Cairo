@@ -366,6 +366,10 @@
         //
         var m_viewShowed = false;
 
+        // flag: to avoid processing changes in controls when we are refreshing the view
+        //
+        var m_refreshing = false;
+
         // first tab index
         //
         var m_firstTab = 0;
@@ -763,19 +767,19 @@
                 m_masterView.getCancelButton().cancel = true;
 
                 m_masterView.getSaveButton().setText("Ok";
-                m_masterView.getCancelButton().width = m_masterView.getSaveButton().width;
+                m_masterView.getCancelButton().setWidth(m_masterView.getSaveButton().getWidth());
 
                 m_masterView.getCloseButton().setVisible(false);
               }
 
-              if(m_saveText)  { m_masterView.getSaveButton().text  = m_saveText; }
-              if(m_saveWidth) { m_masterView.getSaveButton().width = m_saveWidth; }
-              if(m_saveTop)   { m_masterView.getSaveButton().top   = m_saveTop; }
-              if(m_saveLeft)  { m_masterView.getSaveButton().left  = m_saveLeft; }
+              if(m_saveText)  { m_masterView.getSaveButton().setText(m_saveText); }
+              if(m_saveWidth) { m_masterView.getSaveButton().setWidth(m_saveWidth); }
+              if(m_saveTop)   { m_masterView.getSaveButton().setTop(m_saveTop); }
+              if(m_saveLeft)  { m_masterView.getSaveButton().setLeft(m_saveLeft); }
 
-              if(m_cancelText) { m_masterView.getCancelButton().setText(m_cancelText; }
-              if(m_cancelTop)  { m_masterView.getCancelButton().top  = m_cancelTop; }
-              if(m_cancelLeft) { m_masterView.getCancelButton().left = m_cancelLeft; }
+              if(m_cancelText) { m_masterView.getCancelButton().setText(m_cancelText); }
+              if(m_cancelTop)  { m_masterView.getCancelButton().setTop(m_cancelTop); }
+              if(m_cancelLeft) { m_masterView.getCancelButton().setLeft(m_cancelLeft); }
             }
 
             return m_masterView;
@@ -2226,8 +2230,8 @@
 
         var getControlVisible = function(ctl, isVisible) {
 
-          var propertiesCount = m_properties.count();
-          for(var _i = 0; _i < propertiesCount; _i++) {
+          var propertyCount = m_properties.count();
+          for(var _i = 0; _i < propertyCount; _i++) {
             var property = m_properties.get(_i);
             var c = property.getControl();
             if(c.getType() === ctrl.getType()) {
@@ -2433,10 +2437,10 @@
               }
 
               if(viewIsMaster(view) || viewIsWizard(view)) {
-                if(view.Height < m_minHeight) {
+                if(view.getHeight() < m_minHeight) {
                   view.setHeight(m_minHeight);
                 }
-                if(view.Width < m_minWidth) {
+                if(view.getWidth() < m_minWidth) {
                   view.setWidth(m_minWidth);
                 }
               }
@@ -2923,7 +2927,7 @@
         };
 
         var masterHandlerSaveClick = function() {
-          save(false, false).then(
+          saveDialog(false, false).then(
             function(saved) {
               if(saved) {
                 if(m_showOkCancel) {
@@ -2974,7 +2978,7 @@
 
             the user have three options: Yes, No or Cancel
 
-            when Yes:     it returns the promise with the result of calling save()
+            when Yes:     it returns the promise with the result of calling saveDialog()
 
             when No:      it returns true. because the user want to discard the changes
 
@@ -3023,11 +3027,11 @@
                   /*
                     if the user wants to save changes
                     it returns a promise with the result
-                    of calling save()
+                    of calling saveDialog()
                     save is asynchronous (ajax call to server)
                   */
                   if(answer === "yes") {
-                    return save(unloading, false).then(
+                    return saveDialog(unloading, false).then(
                         function(saved) {
                           if(saved) {
                             setChanged(false);
@@ -3213,7 +3217,7 @@
                 case Dialogs.Constants.toolbarKeySave:
 
                   showMsg("Saving document ...");
-                  save(false, false).then(
+                  saveDialog(false, false).then(
                     function() {
                       if(m_sendNewDoc) {
                         toolBarClickNew().then(
@@ -3233,7 +3237,7 @@
 
                   showMsg("Saving document ...");
                   m_savingAs = true;
-                  save(false, true).then(
+                  saveDialog(false, true).then(
                     function() {
                       if(m_sendNewDoc) {
                         toolBarClickNew().then(
@@ -4547,11 +4551,10 @@
           m_labelLeft = C_OFFSET_H;
 
           var propertyCount = m_properties.count();
-
           for(var _i = 0; _i < propertyCount; _i++) {
             property = m_properties.get(_i);
-            if(pGetTabIndex(property) > tabs) {
-              tabs = pGetTabIndex(property);
+            if(getTabIndex(property) > tabs) {
+              tabs = getTabIndex(property);
             }
           }
 
@@ -4604,7 +4607,7 @@
 
         var loadControl = function(property) {
           
-          var nTabIndex = pGetTabIndex(property);
+          var nTabIndex = getTabIndex(property);
           var view = getView();
           var controlType = property.getType();
           var subType = property.getSubType();
@@ -5017,7 +5020,7 @@
             // special formats for grids
             //
             if(property.getType() === Dialogs.PropertyType.grid) {
-              if(property.Left === -1) {
+              if(property.getLeft() === -1) {
                 c.setLeft(m_left[nTabIndex]);
               }
 
@@ -5211,490 +5214,516 @@
           return true;
         };
 
-        var setNewTopAndLeft = function(property) { // TODO: Use of ByRef founded Private Sub SetNewTopAndLeft(ByRef property As cIABMProperty)
-            var nTabIndex = 0;
+        var setNewTopAndLeft = function(property) {
+          var nTabIndex = getTabIndex(property);
+          var view = getView();
+          if(m_isItems) {
+            m_nextTop[nTabIndex] = view.getTabItems().getTop() + 100;
+            m_left[nTabIndex] = m_left[nTabIndex] + C_OFFSET_H2;
 
-            nTabIndex = pGetTabIndex(property);
+          }
+          else if(m_isFooter) {
+            m_nextTop[nTabIndex] = view.getFooterBackground().getTop() + C_OFFSET_V1;
+            m_left[nTabIndex] = m_left[nTabIndex] + C_OFFSET_H3;
 
-            var view = getView();
-                if(m_isItems) {
-                    m_nextTop[nTabIndex] = view.getTabItems().getTop() + 100;
-                    m_left[nTabIndex] = m_left[nTabIndex] + C_OFFSET_H2;
-
-                }
-                else if(m_isFooter) {
-                    m_nextTop[nTabIndex] = view.getFooterBackground().getTop() + C_OFFSET_V1;
-                    m_left[nTabIndex] = m_left[nTabIndex] + C_OFFSET_H3;
-
-                }
-                else {
-                    m_nextTop[nTabIndex] = m_constTop;
-                    m_left[nTabIndex] = m_left[nTabIndex] + C_OFFSET_H2;
-                }
-            // {end with: view}
-
+          }
+          else {
+            m_nextTop[nTabIndex] = m_constTop;
+            m_left[nTabIndex] = m_left[nTabIndex] + C_OFFSET_H2;
+          }
         }
 
-        var pSetTabIndex = function(Object c) { // TODO: Use of ByRef founded Private Sub pSetTabIndex(ByRef c As Object)
+        var pSetTabIndex = function(c) {
+          Cairo.safeExecute(function() { c.setTabIndex(m_tabIndex); });
+        };
 
-                c.TabIndex = m_tabIndex;
+        var setNewWidthForm = function(property, frameSize) {
+          var view = getView();
+          var offsetH = 0;
+          
+          if(view.getBackground().getLeft() === 0) {
+            offsetH = 120;
+          }
+          else {
+            offsetH = 400;
+          }
+
+          if(frameSize > 0) {
+            if(view.getWidth() < frameSize + offsetH) {
+              view.setWidth(frameSize + offsetH);
+              view.getBackground().setWidth(view.getWidth() - view.getBackground().getLeft() * 2);
             }
-        }
-
-        var setNewWidthForm = function(property, var frameSize) { // TODO: Use of ByRef founded Private Sub SetNewWidthForm(ByRef property As cABMProperty, ByVal FrameSize As Integer)
-
-
-
-                var offsetH = 0;
-                property = null;
-
-                property = property;
-
-                var view = getView();
-                    if(view.getBackground().getLeft() === 0) {
-                        offsetH = 120;
-                    }
-                    else {
-                        offsetH = 400;
-                    }
-
-                    if(frameSize > 0) {
-                        if(view.Width < frameSize + offsetH) {
-                            view.Width = frameSize + offsetH;
-                            view.getBackground().setWidth(view.ScaleWidth - view.getBackground().getLeft() * 2);
-                        }
-                    }
-                    else {
-                        if(view.Width < property.getWidth() + property.getLeft() + offsetH) {
-                            view.Width = property.getWidth() + property.getLeft() + offsetH;
-                        }
-                        view.getBackground().setWidth(view.ScaleWidth - view.getBackground().getLeft() * 2);
-                    }
-                // {end with: view}
+          }
+          else {
+            if(view.getWidth() < property.getWidth() + property.getLeft() + offsetH) {
+              view.setWidth(property.getWidth() + property.getLeft() + offsetH);
             }
-        }
+            view.getBackground().setWidth(view.getWidth() - view.getBackground().getLeft() * 2);
+          }
+        };
 
-        var getProperty = function(csTypeABMProperty nType, var index, csSubTypeABMProperty subType) {
-            property = null;
-            property = null;
+        var getProperty = function(type, index, subType) {
+
+          var property = null;
+          var found = false;
+          var propertyCount = m_properties.count();
+
+          if(m_properties !== null) {
             
-            found = false;
-
-            if(m_properties === null) { return; }
-
-            
-
-            // Para Toolbars no hay indice
-            if(nType === Dialogs.PropertyType.toolbar) {
-                Toolbar tbl = null;
-
-                tbl = getView().GetToolBar;
-                for(var _i = 0; _i < m_properties.count(); _i++) {
-                    property = m_properties.get(_i);
-                    if(property.getType() === nType) {
-                        if(property.setToolbar(Is tbl)) {
-                            return property;
-                            break;
-                        }
-                    }
+            // toolbars doesn't have index
+            //
+            if(type === Dialogs.PropertyType.toolbar) {
+              var tbl = getView().getToolBar();
+              for(var _i = 0; _i < propertyCount; _i++) {
+                property = m_properties.get(_i);
+                if(property.getType() === type) {
+                  if(property.getetToolbar() === tbl) {
+                    return property;
+                    break;
+                  }
                 }
-
+              }
             }
             else {
-                for(var _i = 0; _i < m_properties.count(); _i++) {
-                    property = m_properties.get(_i);
+              for(var _i = 0; _i < propertyCount; _i++) {
+                property = m_properties.get(_i);
 
-                    // With property;
+                found = false;
 
-                        found = false;
+                // properties of type text can be text, file or folder
+                //
+                if(type === Dialogs.PropertyType.text) {
+  
+                  if(property.getType() === Dialogs.PropertyType.text  && subType === Dialogs.PropertySubType.memo) {
+                    if(property.getSubType() === subType) {
+                      found = true;
+                    }
+                  }
+                  else {
 
-                        // Tratamiento especial para textos que
-                        // tambien pueden ser carpetas o archivos
-                        if(nType === Dialogs.PropertyType.text) {
+                    // text, file and folder are in the same array
+                    //
+                    if((property.getType() === Dialogs.PropertyType.text
+                      || property.getType() === Dialogs.PropertyType.file
+                      || property.getType() === Dialogs.PropertyType.folder)
+                      && property.getSubType() !== Dialogs.PropertySubType.memo
+                      && property.getSubType() === subType) {
 
-                            if(property.getType() === Dialogs.PropertyType.text  && subType === Dialogs.PropertySubType.memo) {
-                                if(property.getSubType() === subType) {
-                                    found = true;
-                                }
-                            }
-                            else {
+                      found = true;
+                    }
+                    // finally it can be a text with a button
+                    //   subType == Dialogs.PropertyType.textButton or Dialogs.PropertyType.textButtonEx
+                    // textButtonClick call will pass 0 as subType
+                    //
+                    // so this if handles text controls which has a button and aren't file or folder
+                    //
+                    else if((property.getType() === Dialogs.PropertyType.text
+                      && (property.getSubType() === Dialogs.PropertyType.textButton
+                      || property.getSubType() === Dialogs.PropertyType.textButtonEx))) {
 
-                                // Los textbox y los Dialogs.PropertyType.file y Dialogs.PropertyType.folder estan dentro
-                                // del mismo arreglo de controles ( TX )
-                                //
-                                if((property.getType() === Dialogs.PropertyType.text  || property.getType() === Dialogs.PropertyType.file  || property.getType() === Dialogs.PropertyType.folder) && property.SubType !== Dialogs.PropertySubType.memo  && property.getSubType() === subType) {
-
-                                    found = true;
-
-                                    // Finalmente puede tratarse de una caja de texto
-                                    // con boton asi que SubType es Dialogs.PropertyType.textButton o Dialogs.PropertyType.textButtonEx
-                                    // pero cuando me llaman desde TextButtonClick me pasan 0 en
-                                    // SubType ya que puede ser un Dialogs.PropertyType.file, Dialogs.PropertyType.folder o Dialogs.PropertyType.text
-                                    // asi que este ultimo if captura los textbox que tienen boton
-                                    // normalmente Descriptionciones en controles de una linea
-                                    // o cajas de texto con boton que se resuelve por la clase
-                                    // cliente que maneja las reglas de negocio de esta edicion.
-                                    //
-                                }
-                                else if((property.getType() === Dialogs.PropertyType.text  && (property.getSubType() === Dialogs.PropertyType.textButton  || property.getSubType() === Dialogs.PropertyType.textButtonEx))) {
-
-                                    found = true;
-
-                                }
-                            }
-                        }
-                        else {
-                            if(property.getType() === nType) {
-                                found = true;
-                            }
-                        }
-
-                        // Ok, encontre una propiedad del mismo
-                        // tipo, pero ahora tengo que ver que se
-                        // trata del control que estoy buscando
-                        // ya que puede haber mas de un control
-                        // de este tipo en el form.
-                        //
-                        // Para identificar la propiedad usamos
-                        // el indice del control.
-                        //
-                        if(found) {
-                            if(property.getIndex() === index) {
-                                return property;
-                                break;
-                            }
-                        }
-                    // {end with: property}
+                      found = true;
+                    }
+                  }
                 }
+                else {
+                  if(property.getType() === type) {
+                    found = true;
+                  }
+                }
+
+                // we have found a control of the same type we were looking
+                // know we need to check if this is the control we want
+                // there can be more than one control of this type in the view
+                //
+                // we use index to check this
+                //
+                if(found) {
+                  if(property.getIndex() === index) {
+                    return property;
+                    break;
+                  }
+                }
+              }
             }
-        }
+          }
+        };
 
-        var propertyHasChanged = function(nType, index, c, bNoRefresh, subType) {
-            _rtn = false;
-            try {
+        // TODO: refactor promise is returned by this function
+        //
+        var propertyHasChanged = function(type, index, c, bNoRefresh, subType) {
+          var p = null;
 
-                property = null;
-                property2 = null;
-                property = null;
-                
+          try {
 
-                Static(Refreshing As Boolean);
+            if(m_refreshing || m_showingForm) {
+              m_refreshing = false;
+            }
+            else {
 
-                if(Refreshing || m_showingForm) {
-                    Refreshing = false;
-                    _rtn = true;
-                    return _rtn;
+              var property = getProperty(type, index, subType);
+
+              if(property !== null) {
+
+                var propertyCount = m_properties.count();
+
+                switch(type) {
+                  case Dialogs.PropertyType.list:
+
+                    property.setListListIndex(c.getListIndex());
+                    property.setListText(c.getText());
+                    if(c.getListIndex() >= 0) {
+                      property.setListItemData(c.getItemData(c.getListIndex()));
+                    }
+                    else {
+                      property.setListItemData(0);
+                    }
+                    break;
+
+                  case Dialogs.PropertyType.text:
+                  case Dialogs.PropertyType.password:
+                  case Dialogs.PropertyType.file:
+                  case Dialogs.PropertyType.folder:
+
+                    property.setValue(c.getText());
+                    break;
+
+                  case Dialogs.PropertyType.numeric:
+
+                    property.setValue(c.getValue());
+                    break;
+
+                  case Dialogs.PropertyType.date:
+                  case Dialogs.PropertyType.time:
+
+                    property.setValue(c.getValue());
+                    break;
+
+                  case Dialogs.PropertyType.option:
+
+                    if(c.getValue()) {
+                      // all options in a group must be updated
+                      //
+                      for(var _i = 0; _i < propertyCount; _i++) {
+                        var property2 = m_properties.get(_i);
+                        if(property2 !== property) {
+                          if(property2.getType() === Dialogs.PropertyType.option
+                              && property2.OptionGroup === property.OptionGroup) {
+                            property2.setValue(0);
+                          }
+                        }
+                      }
+                    }
+
+                    property.setValue(c.getValue());
+                    break;
+
+                  case Dialogs.PropertyType.select:
+
+                    property.setValue(c.getValue());
+                    property.setSelectId(Cairo.Util.val(c.getId()));
+                    property.setSelectIntValue(c.getId());
+                    break;
+
+                  case Dialogs.PropertyType.check:
+
+                    property.setValue(c.getValue());
+                    break;
+
+                  case Dialogs.PropertyType.ToolBar:
+
+                    property.setValue(c.getKey());
+                    break;
                 }
 
-                property = getProperty(nType, index, subType);
+                p = m_client.propertyChange(property.getKey()).then(
+                  function(success) {
+                    if(success && !bNoRefresh) {
+                      m_refreshing = true;
+                      for(var _i = 0; _i < propertyCount; _i++) {
+                        property = m_properties.get(_i);
+                        showValueEx(property, m_noChangeColsInRefresh);
+                      }
+                    }
+                  }
+                );
+              }
 
-                
+              // TODO: I don't like this code because I think it should be
+              // including in the above if. I don't se a reason to execute
+              // this code if property is null
+              // the original code was coded this way. It should be refactored.
 
-                if(property !== null) {
+              p == p || Cairo.Promises.resolvedPromise(true);
 
-
-                    // With property;
-                        switch(nType) {
-                            case Dialogs.PropertyType.list:
-                                property.ListListIndex = c.ListIndex;
-                                property.ListText = c.text;
-                                if(c.ListIndex >= 0) {
-                                    property.ListItemData = c.getItemData(c.ListIndex);
-                                }
-                                else {
-                                    property.ListItemData = 0;
-                                }
-                                break;
-                            case Dialogs.PropertyType.text:
-                            case Dialogs.PropertyType.password:
-                            case Dialogs.PropertyType.file:
-                            case Dialogs.PropertyType.folder:
-                                property.setValue(c.text;
-                                break;
-                            case Dialogs.PropertyType.numeric:
-                                property.setValue(c.csValue;
-                                break;
-                            case Dialogs.PropertyType.date:
-                            case Dialogs.PropertyType.time:
-                                property.setValue(c.csValue;
-                                break;
-                            case Dialogs.PropertyType.option:
-
-                                if(c.getValue()) {
-                                    // Aca hay que cambiar al resto de las Properties de este Group de
-                                    // option buttons
-                                    for(var _i = 0; _i < m_properties.count(); _i++) {
-                                        property2 = m_properties.get(_i);
-                                        if(!property2(Is property)) {
-                                            if(property2.getType() === Dialogs.PropertyType.option  && property2.OptionGroup === property.OptionGroup) {
-                                                property2.setValue(0;
-                                            }
-                                        }
-                                    }
-                                }
-
-                                property.setValue(c.getValue();
-                                break;
-                            case Dialogs.PropertyType.select:
-                                property.setValue(c.ValueUser;
-                                property.getSelectId() = Cairo.Util.val(c.getId());
-                                property.setSelectIntValue(c.getId());
-                                break;
-                            case Dialogs.PropertyType.check:
-                                property.setValue(c.getValue();
-                                break;
-                            case Dialogs.PropertyType.ToolBar:
-                                property.setValue(c.Key;
-                                break;
-                        }
-
-                        if(m_client.propertyChange(property.Key) && !bNoRefresh) {
-                            Refreshing = true;
-                            for(var _i = 0; _i < m_properties.count(); _i++) {
-                                property = m_properties.get(_i);
-                                showValueEx(property, m_noChangeColsInRefresh);
-                            }
-                        }
-                    // {end with: property}
-                }
-
-                if(!pIsButton(property) && pIsEditProperty(property)) {
+              p.then(
+                function() {
+                  if(!isButton(property) && isEditProperty(property)) {
 
                     if(m_isDocument) {
-                        if(property !== null) {
-                            if(property.getTable() !== Cairo.Tables.DOCUMENTO) {
-                                setChanged(true);
-                            }
+                      if(property !== null) {
+                        if(property.getTable() !== Cairo.Tables.DOCUMENTO) {
+                          setChanged(true);
                         }
+                      }
                     }
                     else {
-                        setChanged(true);
+                      setChanged(true);
                     }
-                }
+                  }
 
-                Refreshing = false;
-                _rtn = true;
+                  m_refreshing = false;
 
-                // Si es un ABM de maestros
-                // permitimos al objeto de negocios
-                // que indique se debe cerrar el form
-                //
-                if(m_masterView !== null) {
+                  // master edition can close this view
+                  //
+                  if(m_masterView !== null) {
                     if(m_sendSave) {
-                        m_masterView.ctrlKeySave();
+                      m_masterView.ctrlKeySave();
                     }
                     else if(m_sendClose) {
-                        m_masterView.ctrlKeyClose();
+                      m_masterView.ctrlKeyClose();
                     }
+                  }
                 }
-
-                return _rtn;
+              );
             }
-            catch(e) {
-              Cairo.manageError(
-                "Update",
-                "An error has occurred when updating a property.",
-                e.message);
-            }
-            return _rtn;
+          }
+          catch(e) {
+            Cairo.manageError(
+              "Update",
+              "An error has occurred when updating a property.",
+              e.message);
+          }
         }
 
-        var pIsButton = function(property) { // TODO: Use of ByRef founded Private Function pIsButton(ByRef property As cIABMProperty) As Boolean
-            if(property === null) { return false; }
+        var isButton = function(property) {
+          if(property === null) {
+            return false;
+          }
+          else {
             return property.getType() === Dialogs.PropertyType.button;
-        }
+          }
+        };
 
-        var pIsEditProperty = function(property) { // TODO: Use of ByRef founded Private Function pIsEditProperty(ByRef property As cABMProperty) As Boolean
-            if(property === null) { return false; }
+        var isEditProperty = function(property) {
+          if(property === null) {
+            return false;
+          }
+          else {
             return property.getIsEditProperty();
-        }
+          }
+        };
 
         self.validateEx = function() {
-            if(!pFillGrids()) { return false; }
-            if(!pValidate()) { return false; }
-            return true;
+          return (!fillGrids() || !validate()) ? false : true;
         }
 
-        self.validateProp = function(property, strKey) { // TODO: Use of ByRef founded Public Sub ValidateProp(ByRef property As cIABMProperty, ByVal strKey As String)
-            cIABMProperties iProps = null;
-
-            if(property === null) {
-                iProps = m_properties;
-                property = iProps.get(strKey);
-            }
-            else {
-                property = property;
-            }
-
-            if(!TypeOf(property.getControl() Is cshelp2.cHelp)) { return; }
-
-            cshelp2.cHelp hL = null;
-            hL = property.getControl();
-            hL.Validate;
+        self.validateProp = function(property, strKey) {
+          if(property === null) {
+            property = m_properties.get(strKey);
+          }
+          if(property.getControl().getType() === Dialogs.PropertyType.select) {
+            property.getControl().validate();
+          }
         }
 
-        var pValidateItemsAndFooter = function() {
-            _rtn = false;
-            cABMGeneric genDocEx = null;
-
-            if(m_isDocument) {
-
-                genDocEx = m_client.messageEx(Dialogs.Message.MSG_DOC_EX_GET_ITEMS, null);
-                if(!genDocEx.validateEx()) { return _rtn; }
-
-                genDocEx = m_client.messageEx(Dialogs.Message.MSG_DOC_EX_GET_FOOTERS, null);
-                _rtn = genDocEx.validateEx();
-
-            }
-            else {
-                _rtn = true;
-            }
-            return _rtn;
-        }
-
-        self.save = function() {
-            _rtn = false;
-            _rtn = save(false, false);
-            var view = getView();
-            if(m_showOkCancel) {
-                m_okCancelResult = true;
-                if(viewIsMaster(view)) {
-                    masterHandlerCloseClick();
-                }
-                else if(viewIsDocument(view)) {
-                    formDocClose();
-                }
-                else if(viewIsWizard(view)) {
-                    wizHandlerCancelClick();
-                }
-            }
-            return _rtn;
-        }
-
-        var save = function(bUnloading, bSaveAs) {
-            _rtn = false;
-            try {
-
-                if(m_isItems) { return _rtn; }
-                if(m_isFooter) { return _rtn; }
-
-                m_inSave = true;
-
-                Cairo.LoadingMessage.showWait();
-
-                pRefreshAux();
-                pFillList();
-
-                if(!pFillGrids()) { / * *TODO:** goto found: GoTo ExitProc* /  }
-
-                // OJO: Esto se cambio de lugar y se puso antes
-                //      de los validate para que no se de el bug
-                //      de click en los checkbox de las grillas
-                //      que afectaba los abm de cliente y proveedor
-                //
-                //      Si notamos que hay algun bug nuevo este es
-                //      nuestro sospechoso de siempre!!!
-                //
-                if(!m_isDocument) {
-                    pSetEnabled(false);
-                }
-
-                // Only for debug
-                //
-                //Dim m_properties As cIABMProperties
-                //Set m_properties = m_Properties
-                //Dim row As cABMGridRow
-
-                //Set row = m_properties.get("Items").grid.getRows().get(1)
-                //
-                // Comentar despues de depurar
-
-                // Para informarle al documento que comienza
-                // la serie de llamadas de validacion
-                // Esto es necesario en OrdenDeServicio para no
-                // preguntar tres veces por cada Validate, si
-                // se el usuario acepta el reingreso o no
-                //
-                if(m_isDocument) {
-                    m_client.messageEx(Dialogs.Message.MSG_DOC_EX_PRE_VALIDATE, null);
-                }
-
-                if(!pValidate()) {
-                    if(!m_isDocument) {
-                        pSetEnabled(true);
+        // TODO: refactor promise is returned by this function
+        //
+        var validateItemsAndFooter = function() {
+          var p = null;
+          if(m_isDocument) {
+            p = m_client.messageEx(Dialogs.Message.MSG_DOC_EX_GET_ITEMS, null).then(
+              function(genDocEx) {
+                return genDocEx.validateEx();
+              }
+            ).then(
+              function(success) {
+                if(success) {
+                  return m_client.messageEx(Dialogs.Message.MSG_DOC_EX_GET_FOOTERS, null).then(
+                    function(genDocEx) {
+                      return genDocEx.validateEx();
                     }
-                    / * *TODO:** goto found: GoTo ExitProc* /
-                }
-
-                if(!pValidateItemsAndFooter()) {
-                    if(!m_isDocument) {
-                        pSetEnabled(true);
-                    }
-                    / * *TODO:** goto found: GoTo ExitProc* /
-                }
-
-                // Grabacion normal de un documento
-                //
-                if(!bSaveAs) {
-
-                    if(!m_client.Save()) {
-                        if(!m_isDocument) {
-                            pSetEnabled(true);
-                        }
-                        / * *TODO:** goto found: GoTo ExitProc* /
-                    }
-
+                  )
                 }
                 else {
-
-                    // Grabacion Como que permite que un documento
-                    // se guarde como otra cosa, util para convertir
-                    // una factura en un presupuesto
-                    //
-                    if(!m_client.messageEx(Dialogs.Message.MSG_SAVE_AS, null)) {
-                        if(!m_isDocument) {
-                            pSetEnabled(true);
-                        }
-                        / * *TODO:** goto found: GoTo ExitProc* /
-                    }
-
+                  return false;
                 }
+              }
+            );
+          }
+          else {
+            p = Cairo.Promises.resolvedPromise(true);
+          }
+          return p;
+        };
+
+        // TODO: refactor promise is returned by this function
+        //
+        self.save = function() {
+          return saveDialog(false, false).then(
+            function() {
+              var view = getView();
+              if(m_showOkCancel) {
+                m_okCancelResult = true;
+                if(viewIsMaster(view)) {
+                  masterHandlerCloseClick();
+                }
+                else if(viewIsDocument(view)) {
+                  formDocClose();
+                }
+                else if(viewIsWizard(view)) {
+                  wizHandlerCancelClick();
+                }
+              }
+            }
+          );
+        };
+
+        // TODO: refactor promise is returned by this function
+        //
+        var saveDialog = function(bUnloading, bSaveAs) {
+          var p = null;
+
+          try {
+
+            if(!m_isItems && !m_isFooter) {
+
+              m_inSave = true;
+
+              Cairo.LoadingMessage.showWait();
+
+              refreshAux();
+              fillList();
+
+              if(fillGrids()) {
 
                 if(!m_isDocument) {
-                    pSetEnabled(true);
+                  setEnabled(false);
                 }
 
-                if(!bUnloading) {
+                // tell the document client the validation is starting
+                //
+                if(m_isDocument) {
+                  p = m_client.messageEx(Dialogs.Message.MSG_DOC_EX_PRE_VALIDATE, null);
+                }
 
-                    if(!m_isDocument && !m_bSendRefresh && !m_showOkCancel) {
+                p = p || Cairo.Promises.resolvedPromise();
 
-                        discardChanges(false);
+                p.then(
+                  function() {
+                    var p = null;
+
+                    if(!validate()) {
+                      if(!m_isDocument) {
+                        setEnabled(true);
+                      }
                     }
                     else {
-                        m_client.messageEx(Dialogs.Message.MSG_DOC_REFRESH, null);
+                      if(!validateItemsAndFooter()) {
                         if(!m_isDocument) {
-                            refreshTitle();
+                          setEnabled(true);
                         }
-                        getView().SetFocusFirstControl;
+                      }
+                      else {
+
+                        var afterSave = function() {
+                          var p = null;
+
+                          if(!m_isDocument) {
+                            setEnabled(true);
+                          }
+
+                          if(!bUnloading) {
+
+                            if(!m_isDocument && !m_bSendRefresh && !m_showOkCancel) {
+                              discardChanges(false);
+                            }
+                            else {
+                              p = m_client.messageEx(Dialogs.Message.MSG_DOC_REFRESH, null).then(
+                                function() {
+                                  if(!m_isDocument) {
+                                    refreshTitle();
+                                  }
+                                  getView().setFocusFirstControl();
+                                }
+                              );
+                            }
+                          }
+
+                          p = p || Cairo.Promises.resolvedPromise();
+
+                          return p.then(
+                            function() {
+                              setChanged(false);
+                              return true;
+                            }
+                          );
+                        };
+
+                        // standard document, wizard or master save
+                        //
+                        if(!bSaveAs) {
+
+                          p = m_client.save().then(
+                            function(success) {
+                              var p = null;
+                              if(success) {
+                                p = afterSave();
+                              }
+                              else {
+                                if(!m_isDocument) {
+                                  setEnabled(true);
+                                }
+                              }
+                              return (p || Cairo.Promises.resolvedPromise(false));
+                            }
+                          );
+                        }
+                        else {
+
+                          // saveAs allows to save copys of documents between different document types
+                          // like save an invoice like budget
+                          //
+                          p = m_client.messageEx(Dialogs.Message.MSG_SAVE_AS, null).then(
+                            function(success) {
+                              var p = null;
+                              if(success) {
+                                p = afterSave();
+                              }
+                              else {
+                                if(!m_isDocument) {
+                                  setEnabled(true);
+                                }
+                              }
+                              return (p || Cairo.Promises.resolvedPromise(false));
+                            }
+                          );
+                        }
+                      }
                     }
-                }
-
-                setChanged(false);
-                _rtn = true;
-
-                / * *TODO:** goto found: GoTo ExitProc* /
+                    return (p || Cairo.Promises.resolvedPromise(false));
+                  }
+                );
+              }
             }
-            catch(e) {
-              Cairo.manageError(
-                "Saving",
-                "An error has occurred when saving.",
-                e.message);
-                m_inSave = false;
-            }
-            return _rtn;
-        }
+          }
+          catch(e) {
+            Cairo.manageError(
+              "Saving",
+              "An error has occurred when saving.",
+              e.message);
+          }
 
-        var pFillList = function() {
+          p = p || Cairo.Promises.resolvedPromise(false);
+
+          return p.then(
+            function(success) {
+              m_inSave = false;
+              return success;
+            }
+          );
+        };
+
+        var fillList = function() {
             property = null;
             property = null;
             
@@ -5709,33 +5738,17 @@
                         if(property.getIndex() === index) {
 
                             var view = getView();
-                                property.ListItemData = ListID(view.getCombos().get(index));
-                                property.ListListIndex = view.getCombos().get(index).ListIndex;
-                                property.ListText = view.getCombos().get(index).text;
+                                property.setListItemData = ListID(view.getCombos().get(index));
+                                property.setListListIndex = view.getCombos().get(index).ListIndex;
+                                property.setListText = view.getCombos().get(index).text;
                             // {end with: view}
                         }
                     }
                 }
             }
-
-            //  For Index = 1 To Frm.CBhock.count()
-            //    For Each property In m_properties
-            //      If property.getType() = Dialogs.PropertyType.list Then
-            //        Set property = property
-            //        If property.Index = Index Then
-            //
-            //          With Frm
-            //            property.ListItemData = ListID(.CBhock(Index))
-            //            property.ListListIndex = .CBhock(Index).ListIndex
-            //            property.ListText = .CBhock(Index).text
-            //          End With
-            //        End If
-            //      End If
-            //    Next
-            //  Next
         }
 
-        var pFillGrids = function() {
+        var fillGrids = function() {
             property = null;
             property = null;
             
@@ -6062,7 +6075,7 @@
             }
         }
 
-        var pValidate = function() {
+        var validate = function() {
             _rtn = false;
             if(!m_client.Validate()) { return _rtn; }
 
@@ -6176,18 +6189,18 @@
             }
             else {
                 tabTopHeight = m_tabTopHeight;
-                getView().getBackground().top = m_tabTopHeight + getView().cbTab.get(0).Height - 10;
-                m_constTop = getView().getBackground().top + 200;
+                getView().getBackground().setTop(m_tabTopHeight + getView().cbTab.get(0).getHeight() - 10;
+                m_constTop = getView().getBackground().getTop() + 200;
             }
 
             var view = getView();
 
                 if(m_isItems) {
-                    top = view.getTabItems().top - view.getTabs().get(0).getHeight();
+                    top = view.getTabItems().getTop() - view.getTabs().get(0).getHeight();
                     topItems = 10;
                 }
                 else if(m_isFooter) {
-                    top = view.getFooterBackground().top - view.getTabs().get(0).getHeight();
+                    top = view.getFooterBackground().getTop() - view.getTabs().get(0).getHeight();
                 }
                 else {
                     if(m_isDocument) {
@@ -6280,15 +6293,15 @@
                         w___TYPE_NOT_FOUND.setText = "Tab"+ ((Integer) i).toString();
                         w___TYPE_NOT_FOUND.setTabStop = false;
                         w___TYPE_NOT_FOUND.setVisible(!m_hideTabButtons);
-                        if(left + w___TYPE_NOT_FOUND.Width > getView().Width) {
+                        if(left + w___TYPE_NOT_FOUND.getWidth() > getView().Width) {
                             left = 90;
-                            top = top + w___TYPE_NOT_FOUND.Height - 20;
+                            top = top + w___TYPE_NOT_FOUND.getHeight() - 20;
                         }
-                        w___TYPE_NOT_FOUND.Top = top + topItems;
-                        w___TYPE_NOT_FOUND.Left = left;
+                        w___TYPE_NOT_FOUND.setTop(top + topItems;
+                        w___TYPE_NOT_FOUND.setLeft(left;
                         w___TYPE_NOT_FOUND.bringToFront();
                         w___TYPE_NOT_FOUND.BackColorPressed = vb3DHighlight;
-                        left = left + w___TYPE_NOT_FOUND.Width - 20;
+                        left = left + w___TYPE_NOT_FOUND.getWidth() - 20;
                     // {end with: w___TYPE_NOT_FOUND}
                 }
 
@@ -6313,11 +6326,11 @@
 
                 left = 90;
                 if(m_isItems) {
-                    top = view.getTabItems().top - view.getTabs().get(0).getHeight();
+                    top = view.getTabItems().getTop() - view.getTabs().get(0).getHeight();
                     topItems = 10;
                 }
                 else if(m_isFooter) {
-                    top = view.getFooterBackground().top - view.getTabs().get(0).getHeight();
+                    top = view.getFooterBackground().getTop() - view.getTabs().get(0).getHeight();
                 }
                 else {
                     if(m_isDocument) {
@@ -6342,14 +6355,14 @@
                     }
 
                     if(!bDontResize) {
-                        cbTab.Width = f.textWidth(cbTab.text) + 300;
-                        if(left + cbTab.Width > f.Width) {
+                        cbTab.setWidth(f.textWidth(cbTab.text) + 300;
+                        if(left + cbTab.getWidth() > f.Width) {
                             left = 100;
-                            top = top + cbTab.Height - 20;
+                            top = top + cbTab.getHeight() - 20;
                         }
-                        cbTab.Left = left;
-                        cbTab.Top = top + topItems;
-                        left = left + cbTab.Width - 20;
+                        cbTab.setLeft(left;
+                        cbTab.setTop(top + topItems;
+                        left = left + cbTab.getWidth() - 20;
                     }
                 }
 
@@ -6417,10 +6430,10 @@
             if(property.getControl() === null) { return; }
 
 
-                property.getControl().Left = property.Left;
-                property.getControl().Top = property.Top;
-                property.getControl().Width = property.Width;
-                property.getControl().Height = property.Height;
+                property.getControl().setLeft(property.getLeft();
+                property.getControl().setTop(property.getTop();
+                property.getControl().setWidth(property.getWidth();
+                property.getControl().setHeight(property.getHeight();
             }
         }
 
@@ -6475,7 +6488,7 @@
             }
         }
 
-        var pRefreshAux = function() {
+        var refreshAux = function() {
             var index = 0;
             property = null;
             
@@ -6721,7 +6734,7 @@
           catch(ignore) {}
         };
 
-        var pGetTabIndex = function(property) { // TODO: Use of ByRef founded Private Function pGetTabIndex(ByRef property As cIABMProperty) As Long
+        var getTabIndex = function(property) { // TODO: Use of ByRef founded Private Function getTabIndex(ByRef property As cIABMProperty) As Long
             var _rtn = 0;
             // With property;
                 if(property.getTabIndex() === Dialogs.TabIndexType.TAB_ID_XT_ALL
@@ -6890,46 +6903,41 @@
         var pSetGridHeight = function(ctl, height) {
           Cairo.safeExecute(function() {
             if(height > 0) {
-               ctl.Height = height;
+               ctl.setHeight(height;
             }
           });
         };
 
-        var pSetEnabled = function(bEnabled) {
+        var setEnabled = function(bEnabled) {
+          var view = getView();
+          var controlCount = view.getControls().count();
+          var i = 0;
 
-
-                Object ctl = null;
-                var i = 0;
-
-                if(bEnabled) {
-                    for(var _i = 0; _i < getView().getControls().count(); _i++) {
-                        ctl = Frm.getControls().get(_i);
-                        if(controlIsGrid(ctl)) {
-                            i = i + 1;
-                            if(m_enabledState[i]) {
-                                ctl.Enabled = true;
-                            }
-                        }
-                    }
-
-                    G.redim(m_enabledState, 0);
+          if(bEnabled) {
+            for(var _i = 0; _i < controlCount; _i++) {
+              var ctl = view.getControls().get(_i);
+              if(controlIsGrid(ctl)) {
+                i = i + 1;
+                if(m_enabledState[i]) {
+                  ctl.setEnabled(true);
                 }
-                else {
-
-                    G.redim(m_enabledState, 0);
-
-                    for(var _i = 0; _i < getView().getControls().count(); _i++) {
-                        ctl = Frm.getControls().get(_i);
-                        if(controlIsGrid(ctl)) {
-                            i = i + 1;
-                            G.redimPreserve(m_enabledState, i);
-                            m_enabledState[i] = ctl.getEnabled();
-                            ctl.Enabled = false;
-                        }
-                    }
-                }
+              }
             }
-        }
+            m_enabledState = [];
+          }
+          else {
+
+            m_enabledState = [];
+
+            for(var _i = 0; _i < controlCount; _i++) {
+              var ctl = view.getControls().get(_i);
+              if(controlIsGrid(ctl)) {
+                m_enabledState.push(ctl.getEnabled());
+                ctl.setEnabled(false);
+              }
+            }
+          }
+        };
 
         self.refreshTitle = function() {
           view = getView();
