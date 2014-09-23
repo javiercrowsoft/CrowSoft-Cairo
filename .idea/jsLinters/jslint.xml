@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="JSLintConfiguration">
+    <option browser="true" />
+    <option indent="2" />
+    <option maxerr="500" />
+    <option predef="Cairo, Backbone, Marionette" />
+    <option todo="true" />
+    <option unparam="true" />
+    <option vars="true" />
+    <option white="true" />
+    <option anon="true" />
+  </component>
+</project>
+

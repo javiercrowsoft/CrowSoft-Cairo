@@ -311,6 +311,7 @@ var Cairo = new Marionette.Application();
   Cairo.Util = {
     sendKeys: function(key) { /* TODO: implement this. */ },
     getDateValueForGrid: function(value) { /* TODO: implement this. */ },
+    getDateValueFromGrid: function(value) { /* TODO: implement this. */ },
     val: function(value) {
       try {
         return parseFloat(value);
@@ -319,7 +320,14 @@ var Cairo = new Marionette.Application();
         return 0;
       }
     },
-    sendEmailToCrowSoft: function(subject, section) { /* TODO: implement this. */ }
+    sendEmailToCrowSoft: function(subject, section) { /* TODO: implement this. */ },
+    newArray: function(length, val) {
+      var array = [];
+      for (var i = 0; i < length; i++) {
+        array[i] = val;
+      }
+      return array;
+    }
   };
 
   Cairo.Company = {
@@ -364,9 +372,10 @@ var Cairo = new Marionette.Application();
   };
 
   Cairo.Util.List = {
-    listSetListIndexForId: function(c, id) { /* TODO: implement this. */ },
-    listSetListIndex: function(c, index) { /* TODO: implement this. */ },
-    listSetListIndexForText: function(c, text) { /* TODO: implement this. */ }
+    setListIndexForId: function(c, id) { /* TODO: implement this. */ },
+    setListIndex: function(c, index) { /* TODO: implement this. */ },
+    setListIndexForText: function(c, text) { /* TODO: implement this. */ }
+    getListId: function(c) { /* TODO: implement this. */ }
   };
 
   Cairo.Util.File = {
