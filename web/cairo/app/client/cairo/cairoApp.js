@@ -30,7 +30,7 @@ var Cairo = new Marionette.Application();
   });
 
   Cairo.navigate = function(route,  options) {
-    options || (options = {});
+    options = options || {};
     Backbone.history.navigate(route, options);
   };
 
@@ -374,7 +374,7 @@ var Cairo = new Marionette.Application();
   Cairo.Util.List = {
     setListIndexForId: function(c, id) { /* TODO: implement this. */ },
     setListIndex: function(c, index) { /* TODO: implement this. */ },
-    setListIndexForText: function(c, text) { /* TODO: implement this. */ }
+    setListIndexForText: function(c, text) { /* TODO: implement this. */ },
     getListId: function(c) { /* TODO: implement this. */ }
   };
 
@@ -675,7 +675,7 @@ var Cairo = new Marionette.Application();
   Cairo.manageErrorHandler = function(title, message, closeHandler) {
     message = message || "";
     return function(errorResponse) {
-      Cairo.manageError(title, message, errorResponse, closeHandler)
+      Cairo.manageError(title, message, errorResponse, closeHandler);
     };
   };
 

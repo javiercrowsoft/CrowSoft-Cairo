@@ -2,10 +2,12 @@
   <library name="Generated files" type="javaScript">
     <properties>
       <sourceFilesUrls>
+        <item url="file://$PROJECT_DIR$/web/cairo/app/client/cairo/cairoApp.min.js" />
         <item url="file://$PROJECT_DIR$/web/cairo/app/client/cairo/system/dialogs/dialog.min.js" />
       </sourceFilesUrls>
     </properties>
     <CLASSES>
+      <root url="file://$PROJECT_DIR$/web/cairo/app/client/cairo/cairoApp.min.js" />
       <root url="file://$PROJECT_DIR$/web/cairo/app/client/cairo/system/dialogs/dialog.min.js" />
     </CLASSES>
     <SOURCES />
