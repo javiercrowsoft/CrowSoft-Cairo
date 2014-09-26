@@ -256,6 +256,8 @@
 
       newDialog: function() {
 
+        var Dialogs = Cairo.Dialogs;
+
         var C_OFFSET_V  = 540;
         var C_OFFSET_V1 = 280;
         var C_OFFSET_V3 = 225;
@@ -2493,7 +2495,7 @@
                 if(m_inModalWindow) {
                   if(!m_viewShowed) {
                     m_viewShowed = true;
-                    if(viewIsMaster(view) || viewIsWizard(view))) {
+                    if(viewIsMaster(view) || viewIsWizard(view)) {
                       view.showView();
                       setNoResize();
                       view.firstResize();
@@ -6721,7 +6723,7 @@
                   printManager.setIsForEmail(byEmail);
 
                   printManager.setPath(
-                    Cairo.Util.File.(
+                    Cairo.Util.File.getValidPath(
                       config.get(
                         reportConfig.reportSection,
                         reportConfig.reportPath,
