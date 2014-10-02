@@ -139,28 +139,6 @@
       MSG_KEY_DOWN: 850
     };
 
-    Dialogs.Util = {
-      getTagChildIndex: function(tag) {
-        var i = tag.indexOf(Dialogs.Constants.innerTab, 1);
-        if(i > 0) {
-          var n = Cairo.Util.val(tag.substring(1, i + Dialogs.Constants.innerTab.length));
-          var q = Math.abs(Cairo.Math.truncate(n / 100));
-          return (n - q * 100) * -1;
-        }
-      },
-      getTagFatherIndex: function(tag) {
-        var i = tag.indexOf(Dialogs.Constants.innerTab, 1);
-        if(i > 0) {
-          return Math.abs(Math.truncate(Cairo.Util.val(tag.substring(1, i + Dialogs.Constants.innerTab.length)) / 100));
-        }
-      },
-      destroyGrids: function(view) {
-        for(var i = view.getGrids().count()-1; i < view.getGrids().count(); i -= 1) {
-          unload(view.getGrids().get(i));
-        }
-      }
-    };
-    
     Dialogs.Colors = {
       buttonFace: '#cecece',
       buttonShadow: '#cecece',
@@ -463,6 +441,8 @@
 
         var m_backgroundColor = 0;
 
+        var self = this;
+
         self.setTabHideControlsInAllTab = function(rhs) {
           m_tabHideControlsInAllTab = rhs;
         };
@@ -576,6 +556,8 @@
         };
 
         // returns the view
+        //
+        // @return Entities.Dialogs.View
         //
         var getView = function() {
           var mustInitialize = false;
@@ -853,7 +835,7 @@
 
         self.setTabTopHeight = function(rhs) {
           m_tabTopHeight = rhs;
-        }
+        };
 
         var getChanged = function() {
           // in documents the view define if it was changed
@@ -930,7 +912,7 @@
               }
             }
           }
-        }
+        };
 
         self.refreshSelStartToEnd = function(property) {
           try {
@@ -1309,7 +1291,7 @@
         };
 
         self.refreshColumnPropertiesByIndex = function(property, keyCol) {
-          return refreshColumnProperties(property, keyCol);
+          return self.refreshColumnProperties(property, keyCol);
         };
 
         self.refreshColumnProperties = function(property, keyCol) {
@@ -1330,7 +1312,7 @@
           for(var _i = 0; _i < m_properties.count(); _i++) {
             setEnabled(properties.get(_i));
           }
-          setTabIndexDescription();
+          self.setTabIndexDescription();
         };
 
         // update value in all properties
@@ -1343,13 +1325,13 @@
               var property = properties.get(_i);
 
               if(m_isFooter) {
-                showValueEx(property, true, Cairo.Constants.DocumentSections.footer);
+                self.showValueEx(property, true, Cairo.Constants.DocumentSections.footer);
               }
               else if(m_isItems) {
-                showValueEx(property, true, Cairo.Constants.DocumentSections.items);
+                self.showValueEx(property, true, Cairo.Constants.DocumentSections.items);
               }
               else {
-                showValueEx(property, true, Cairo.Constants.DocumentSections.header);
+                self.showValueEx(property, true, Cairo.Constants.DocumentSections.header);
               }
             }
           }
@@ -1357,7 +1339,7 @@
             // masters and wizards
             //
             for(var _i = 0; _i < properties.count(); _i++) {
-              showValueEx(properties.get(_i), true, "");
+              self.showValueEx(properties.get(_i), true, "");
             }
           }
         };
@@ -1651,7 +1633,7 @@
                 }
               }
               else {
-                c.setPicture(property.getPicture());
+                c.setPicture(property.getImage());
               }
 
               break;
@@ -1752,7 +1734,7 @@
             else {
               if(!(property.getKeyCol().equals(csNumberID)
                     || property.getKeyCol().equals(csStateID)
-                    || (property.getTable() === Cairo.Tables.DOCUMENTO && m_isDocument))) {
+                    || (property.getSelectTable() === Cairo.Tables.DOCUMENTO && m_isDocument))) {
                 c.setVisible(false);
                 if(lbl !== null) {
                   lbl.setVisible(false);
@@ -1840,20 +1822,15 @@
           }
 
           if(property.getType() !== Dialogs.PropertyType.grid || !noGrids) {
-            showValueEx(property, false, "");
+            self.showValueEx(property, false, "");
           }
 
-          setTabIndexDescription();
+          self.setTabIndexDescription();
           setBackgroundColor();
           return true;
-        }
+        };
 
         // unload property's control
-        //
-        // TODO: this function can be rewrite because it is limited by vb6 array controls
-        //       instead of unloading all controls in the array except the one at index zero
-        //       we can just take the control from the property ( property.getControl() )
-        //       and just unload it. there is no need to maintain the control at index zero
         //
         self.unloadControl = function(property) {
 
@@ -1869,102 +1846,48 @@
 
               case Dialogs.PropertyType.list:
 
-                if(index === 0) {
-                  view.getCombos().get(0).setVisible(0);
-                }
-                else {
-                  unload(view.getCombos().get(index));
-                }
-
+                removeControl(view.getCombos().get(index));
                 break;
 
               case Dialogs.PropertyType.select:
 
-                if(index === 0) {
-                  view.getSelects().get(0).setVisible(0);
-                }
-                else {
-                  removeControl(view.getSelects().get(index));
-                }
-
+                removeControl(view.getSelects().get(index));
                 break;
 
               case Dialogs.PropertyType.numeric:
 
-                if(index === 0) {
-                  view.getMaskEdits().get(0).setVisible(0);
-                }
-                else {
-                  removeControl(view.getMaskEdits().get(index));
-                }
-
+                removeControl(view.getMaskEdits().get(index));
                 break;
 
               case Dialogs.PropertyType.date:
               case Dialogs.PropertyType.time:
 
-                if(index === 0) {
-                  view.getDatePickers().get(0).setVisible(0);
-                }
-                else {
-                  removeControl(view.getDatePickers().get(index));
-                }
-
+                removeControl(view.getDatePickers().get(index));
                 break;
 
               case Dialogs.PropertyType.label:
 
-                if(index === 0) {
-                  view.getCtlLabels().get(0).setVisible(0);
-                }
-                else {
-                  removeControl(view.getCtlLabels().get(index));
-                }
-
+                removeControl(view.getCtlLabels().get(index));
                 break;
 
               case Dialogs.PropertyType.title:
 
-                if(index === 0) {
-                  view.getTitleLabel2().get(0).setVisible(0);
-                }
-                else {
-                  removeControl(view.getTitleLabel2().get(index));
-                }
-
+                removeControl(view.getTitleLabel2().get(index));
                 break;
 
               case Dialogs.PropertyType.progressBar:
 
-                if(index === 0) {
-                  view.getProgressBars().get(0).setVisible(0);
-                }
-                else {
-                  removeControl(view.getProgressBars().get(index));
-                }
-
+                removeControl(view.getProgressBars().get(index));
                 break;
 
               case Dialogs.PropertyType.description:
 
-                if(index === 0) {
-                  view.getDescription(0).setVisible(0);
-                }
-                else {
-                  removeControl(view.getDescription(index));
-                }
-
+                removeControl(view.getDescription(index));
                 break;
 
               case Dialogs.PropertyType.image:
 
-                if(index === 0) {
-                  view.getImages().get(0).setVisible(0);
-                }
-                else {
-                  removeControl(view.getImages().get(index));
-                }
-
+                removeControl(view.getImages().get(index));
                 break;
 
               case Dialogs.PropertyType.text:
@@ -1972,65 +1895,31 @@
               case Dialogs.PropertyType.folder:
 
                 if(property.getSubType() === Dialogs.PropertySubType.memo) {
-                  if(index === 0) {
-                    view.getTextAreas().get(0).setVisible(0);
-                  }
-                  else {
-                    removeControl(view.getTextAreas().get(index));
-                  }
+                  removeControl(view.getTextAreas().get(index));
                 }
                 else {
-                  if(index === 0) {
-                    view.getTextInputs().get(0).setVisible(0);
-                  }
-                  else {
-                    removeControl(view.getTextInputs().get(index));
-                  }
+                  removeControl(view.getTextInputs().get(index));
                 }
-
                 break;
 
               case Dialogs.PropertyType.password:
 
-                if(index === 0) {
-                  view.getPasswordInputs().get(0).setVisible(0);
-                }
-                else {
-                  removeControl(view.getPasswordInputs().get(index));
-                }
-
+                removeControl(view.getPasswordInputs().get(index));
                 break;
 
               case Dialogs.PropertyType.check:
 
-                if(index === 0) {
-                  view.checkBoxes().get(0).setVisible(0);
-                }
-                else {
-                  removeControl(view.checkBoxes().get(index));
-                }
-
+                removeControl(view.checkBoxes().get(index));
                 break;
 
               case Dialogs.PropertyType.grid:
 
-                if(index === 0) {
-                  view.getGrid(0).setVisible(0);
-                }
-                else {
-                  removeControl(view.getGrid(index));
-                }
-
+                removeControl(view.getGrid(index));
                 break;
 
               case Dialogs.PropertyType.button:
 
-                if(index === 0) {
-                  view.getButtons().get(0).setVisible(0);
-                }
-                else {
-                  removeControl(view.getButtons().get(index));
-                }
+                removeControl(view.getButtons().get(index));
                 break;
             }
 
@@ -2042,15 +1931,15 @@
         };
 
         self.closeWizard = function() {
-          setChanged(false);
+          self.setChanged(false);
           removeControl(m_wizardView);
         };
 
-        self.controlIsButton = function(control) { /* TODO: implement this. */ };
-        self.controlIsLabel = function(control) { /* TODO: implement this. */ };
-        self.controlIsToolbar = function(control) { /* TODO: implement this. */ };
-        self.controlIsImage = function(control) { /* TODO: implement this. */ };
-        self.controlIsGrid = function(control) { /* TODO: implement this. */ };
+        var controlIsButton = function(control) { /* TODO: implement this. */ };
+        var controlIsLabel = function(control) { /* TODO: implement this. */ };
+        var controlIsToolbar = function(control) { /* TODO: implement this. */ };
+        var controlIsImage = function(control) { /* TODO: implement this. */ };
+        var controlIsGrid = function(control) { /* TODO: implement this. */ };
 
         self.tabGetFirstCtrl = function(index) {
 
@@ -2062,8 +1951,8 @@
 
           if(view.getTabs().get(index).getTag().indexOf(Dialogs.Constants.innerTab, 1)) {
 
-            var childIndex = Dialogs.Util.getTagChildIndex(view.getTabs().get(index).getTag());
-            var fatherIndex = Dialogs.Util.getTagFatherIndex(view.getTabs().get(index).getTag());
+            var childIndex = getTagChildIndex(view.getTabs().get(index).getTag());
+            var fatherIndex = getTagFatherIndex(view.getTabs().get(index).getTag());
 
             for(var _i = 0; _i < controlsCount; _i++) {
 
@@ -2271,8 +2160,8 @@
 
           if(view.getTabs().get(index).getTag().indexOf(Dialogs.Constants.innerTab, 1)) {
 
-            var childIndex = Dialogs.Util.getTagChildIndex(view.getTabs().get(index).getTag());
-            var fatherIndex = Dialogs.Util.getTagFatherIndex(view.getTabs().get(index).getTag());
+            var childIndex = getTagChildIndex(view.getTabs().get(index).getTag());
+            var fatherIndex = getTagFatherIndex(view.getTabs().get(index).getTag());
 
             for(var _i = 0; _i < controlsCount; _i++) {
               var c = controls.get(_i);
@@ -2298,7 +2187,7 @@
               var c = controls.get(_i);
               if(controlIsButton(c) && c.getName().indexOf("cbTab", 1)) {
                 if(c.getTag().indexOf(Dialogs.Constants.innerTab, 1)) {
-                  var isVisible = Dialogs.Util.getTagFatherIndex(c.getTag()) === index;
+                  var isVisible = getTagFatherIndex(c.getTag()) === index;
                   c.setVisible(isVisible);
                   if(isVisible) {
                     if(firstTab === null) {
@@ -2315,7 +2204,7 @@
 
           if(firstTab !== null) {
             tabClick(firstTab.Index);
-            m_currentInnerTab = Dialogs.Util.getTagChildIndex(firstTab.getTag());
+            m_currentInnerTab = getTagChildIndex(firstTab.getTag());
           }
         };
 
@@ -2600,7 +2489,7 @@
           if(m_isDocument) {
             strTag = getStrTag(property);
           }
-          showValueEx(property, false, strTag);
+          self.showValueEx(property, false, strTag);
         };
 
         self.getStrTag = function(property) {
@@ -2671,7 +2560,7 @@
           if(m_isItems) {
             if(m_clientManageGrid) {
               var property = getProperty(Dialogs.PropertyType.grid, index, 0);
-              m_client.gridDblClick(property.Key, rowIndex, colIndex);
+              m_client.gridDblClick(property.getKey(), rowIndex, colIndex);
             }
           }
         };
@@ -2691,7 +2580,7 @@
         var wizHandlerGridDblClick = function(index, rowIndex, colIndex) {
           if(m_clientManageGrid) {
             var property = getProperty(Dialogs.PropertyType.grid, index, 0);
-            m_client.gridDblClick(property.Key, rowIndex, colIndex);
+            m_client.gridDblClick(property.getKey(), rowIndex, colIndex);
           }
         };
 
@@ -2955,7 +2844,7 @@
         };
 
         var masterHandlerViewLoad = function() {
-          resetChanged();
+          self.resetChanged();
         };
 
         var masterHandlerViewBeforeDestroy = function(cancel, unloadMode) {
@@ -2968,7 +2857,7 @@
           try {
             if(m_client !== null) {
               saveColumnsGrids();
-              Dialogs.Util.destroyGrids(getView());
+              destroyGrids(getView());
               m_unloading = true;
               m_client.terminate();
               m_client = null;
@@ -3111,7 +3000,7 @@
         var masterHandlerGridDblClick = function(index, rowIndex, colIndex) {
           if(m_clientManageGrid) {
             var property = getProperty(Dialogs.PropertyType.grid, index, 0);
-            m_client.gridDblClick(property.Key, rowIndex, colIndex);
+            m_client.gridDblClick(property.getKey(), rowIndex, colIndex);
           }
         };
 
@@ -3560,7 +3449,7 @@
           try {
             if(m_client !== null) {
               saveColumnsGrids();
-              Dialogs.Util.destroyGrids(getView());
+              destroyGrids(getView());
               m_unloading = true;
               m_client.terminate();
               m_client = null;
@@ -3725,7 +3614,7 @@
           // grids are destroyed only on footer because it the last to process the unload event
           //
           if(view.getUnloadCount() === 3) {
-            Dialogs.Util.destroyGrids(view);
+            destroyGrids(view);
           }
 
           m_documentView = null;
@@ -3823,7 +3712,7 @@
               if(m_client.deleteRow(getPropertyKey(property), createRow(index, property, indexRow), indexRow)) {
               
                 property.getGrid().getRows().remove(indexRow);
-                m_client.messageEx(Dialogs.Message.MSG_GRID_ROW_DELETED, property.Key);
+                m_client.messageEx(Dialogs.Message.MSG_GRID_ROW_DELETED, property.getKey());
   
                 var grid = getView().getGrid(property.getIndex());
                 if(grid.getRows().count() <= 1) {
@@ -3881,7 +3770,7 @@
           var property = getProperty(Dialogs.PropertyType.grid, index, 0);
 
           if(property !== null) {
-            property.setSelectedIndex(indexRow);
+            property.setSelectedRow(indexRow);
 
             if(what === Dialogs.GridSelectChangeType.GRID_SELECTION_CHANGE) {
               setRowBackground(index, property, indexRow, indexCol);
@@ -4064,7 +3953,7 @@
                   if(format === null) {
                     col.setEditType(column.getPropertyType());
                     col.setEditSubType(column.getSubType());
-                    col.setTable(column.getTable());
+                    col.setTable(column.getSelectTable());
                     col.setAllowEdit(column.getEnabled());
                     col.setEnabled(column.getEnabled());
                     col.setSelectFilter(column.getSelectFilter());
@@ -4087,7 +3976,7 @@
                   else {
                     col.setEditType(format.getPropertyType());
                     col.setEditSubType(format.getSubType());
-                    col.setTable(format.getTable());
+                    col.setTable(format.getSelectTable());
                     col.setAllowEdit(format.getEnabled());
                     col.setEnabled(format.getEnabled());
                     col.setSelectFilter(format.getSelectFilter());
@@ -4475,7 +4364,7 @@
             cell.setSelectIntValue(gridCell.getTag());
 
             if(col.getType() === Dialogs.PropertyType.date) {
-              cell.setValue(Dialogs.Util.getDateValueFromGrid(gridCell.getText()));
+              cell.setValue(getDateValueFromGrid(gridCell.getText()));
             }
             else if(col.getSubType() === Dialogs.PropertySubType.percentage) {
               cell.setValue(Cairo.Util.val(gridCell.getText())) * 100;
@@ -4626,7 +4515,7 @@
               
               c.setSelectType(property.getSelectType());
               c.setSelectNoUseActive(property.getSelectNoUseActive());
-              c.setTable(property.getTable());
+              c.setTable(property.getSelectTable());
               c.reset();
               setFont(c, property);
               break;
@@ -4715,7 +4604,7 @@
 
               c.setMaxLength(property.getSize());
               c.setType(Dialogs.PropertyType.file);
-              c.setFileFilter(property.selectFilter);
+              c.setFileFilter(property.getSelectFilter());
               c.setPasswordChar("");
               setFont(c, property);
               break;
@@ -4964,7 +4853,7 @@
               f.setLeft(property.getLeftFrame());
             }
 
-            m_nextTopOp[property.OptionGroup] = m_nextTopOp[property.OptionGroup] + C_LINE_HEIGHT;
+            m_nextTopOp[property.getOptionGroup()] = m_nextTopOp[property.getOptionGroup()] + C_LINE_HEIGHT;
           }
           else if(property.getType() === Dialogs.PropertyType.toolbar) {
 
@@ -5017,7 +4906,7 @@
 
             // hide labels for grids, buttons and images
             //
-            if(property.LeftLabel === -1) {
+            if(property.getLeftLabel() === -1) {
               label.setVisible(false);
               // labels with tag == -1 aren't modified by showValue
               label.setTag("-1");
@@ -5048,7 +4937,7 @@
               }
 
             }
-            else if(m_isDocument && property.getTable() === Cairo.Tables.DOCUMENTO) {
+            else if(m_isDocument && property.getSelectTable() === Cairo.Tables.DOCUMENTO) {
 
               c.setLeft(3600);
               c.setTop(80);
@@ -5201,7 +5090,7 @@
                 // exception: in documents the select for document is placed in the title bar
                 //
                 if(!(m_isDocument
-                    && (property.getTable() === Cairo.Tables.DOCUMENTO
+                    && (property.getSelectTable() === Cairo.Tables.DOCUMENTO
                         || property.getKeyCol().equals(Cairo.Constants.NUMBER_ID)
                         || property.getKeyCol().equals(Cairo.Constants.STATUS_ID)))) {
                   m_nextTop[nTabIndex] = m_nextTop[nTabIndex] + C_LINE_HEIGHT;
@@ -5413,7 +5302,7 @@
                         var property2 = m_properties.get(_i);
                         if(property2 !== property) {
                           if(property2.getType() === Dialogs.PropertyType.option
-                              && property2.OptionGroup === property.OptionGroup) {
+                              && property2.getOptionGroup() === property.getOptionGroup()) {
                             property2.setValue(0);
                           }
                         }
@@ -5447,7 +5336,7 @@
                       m_refreshing = true;
                       for(var _i = 0; _i < propertyCount; _i++) {
                         property = m_properties.get(_i);
-                        showValueEx(property, m_noChangeColsInRefresh);
+                        self.showValueEx(property, m_noChangeColsInRefresh);
                       }
                     }
                   }
@@ -5467,7 +5356,7 @@
 
                     if(m_isDocument) {
                       if(property !== null) {
-                        if(property.getTable() !== Cairo.Tables.DOCUMENTO) {
+                        if(property.getSelectTable() !== Cairo.Tables.DOCUMENTO) {
                           setChanged(true);
                         }
                       }
@@ -6051,7 +5940,7 @@
               removeControl(view.getLabels().get(i));
             }
 
-            Dialogs.Util.destroyGrids(getView());
+            destroyGrids(getView());
 
             if(viewIsWizard(view) || viewIsMaster(view)) {
               for(i = 1; i <= view.getCtlLabels().count(); i++) {
@@ -7045,6 +6934,40 @@
             if(m_wizardView === null) { return; }
             m_inProcess = false;
           });
+        };
+
+        var setFocusControl = function(c) {
+          Cairo.safeExecute(function() { c.setFocus(); });
+        };
+
+        var removeControl = function(c) {
+          // TODO: implement this.
+        };
+
+        var addControl = function(c) {
+          // TODO: implement this.
+        };
+
+        var getTagChildIndex = function(tag) {
+          var i = tag.indexOf(Dialogs.Constants.innerTab, 1);
+          if(i > 0) {
+            var n = Cairo.Util.val(tag.substring(1, i + Dialogs.Constants.innerTab.length));
+            var q = Math.abs(Cairo.Math.truncate(n / 100));
+            return (n - q * 100) * -1;
+          }
+        };
+
+        var getTagFatherIndex = function(tag) {
+          var i = tag.indexOf(Dialogs.Constants.innerTab, 1);
+          if(i > 0) {
+            return Math.abs(Math.truncate(Cairo.Util.val(tag.substring(1, i + Dialogs.Constants.innerTab.length)) / 100));
+          }
+        };
+
+        var destroyGrids = function(view) {
+          for(var i = view.getGrids().count()-1; i < view.getGrids().count(); i -= 1) {
+            removeControl(view.getGrids().get(i));
+          }
         };
 
       }

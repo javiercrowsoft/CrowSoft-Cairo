@@ -282,18 +282,18 @@ var Cairo = new Marionette.Application();
   };
 
   Cairo.Constants.Types = {
-    integer:    2,
-    double:     5,
-    currency:   6,
-    text:       200,
-    id:         -1,
-    taxId:      -100,
-    boolean:    -200,
-    single:     -300,
-    variant:    -400,
-    long:       -500,
-    date:       -600,
-    dateOrNull: -700
+    "integer":    2,
+    "double":     5,
+    "currency":   6,
+    "text":       200,
+    "id":         -1,
+    "taxId":      -100,
+    "boolean":    -200,
+    "single":     -300,
+    "variant":    -400,
+    "long":       -500,
+    "date":       -600,
+    "dateOrNull": -700
   };
 
   Cairo.Constants.ShellSortOrder = {
@@ -501,7 +501,7 @@ var Cairo = new Marionette.Application();
 
         var markErrors = function(value, key) {
           var $controlGroup = $view.find("#input-text-" + key).parent();
-          var $errorEl = $("<span>", { class: "help-inline error", text: value });
+          var $errorEl = $("<span>", { "class": "help-inline error", text: value });
           $controlGroup.append($errorEl).addClass("error");
         };
 

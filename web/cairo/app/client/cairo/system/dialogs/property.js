@@ -96,6 +96,7 @@
         gridAddEnabled:         false,
         gridRemoveEnabled:      false,
         gridEditEnabled:        false,
+        gridSelectedRow:        false,
 
         selectId:               0,
         selectFilter:           '',
@@ -136,7 +137,7 @@
         textMask:               '',
         format:                 '',
 
-        picture:                '',
+        image:                  '',
 
         hideButton:             false,
 
@@ -149,7 +150,127 @@
         _controlLoaded: false,
         _index:         0,
         _labelIndex:    0,
-        _keyCol:        ''
+        _keyCol:        '',
+
+        _unPressedBackColor: -1,
+
+        getName: function() { return this.name; },
+
+        getControl: function() { return this._ctl; },
+        setControl: function(control) { this._ctl = control; },
+        getControlLoaded: function() { return this._controlLoaded; },
+        setControlLoaded: function(loaded) { this._controlLoaded = loaded; },
+
+        getIndex: function() { return this._index; },
+
+        getGrid: function() { return this.grid; },
+        getGridRemoveEnable: function() { return this.gridRemoveEnabled; },
+        setGridRemoveEnable: function(enabled) { this.gridRemoveEnabled = enabled; },
+
+        setSelectedRow: function() { return this.gridSelectedRow; },
+        getForeColor: function() { return this.foreColor; },
+        getBackColor: function() { return this.backColor; },
+        setBackColor: function(backColor) { this.backColor = backColor; },
+        setBackColorUnpressed: function(backColor) { this._unPressedBackColor = backColor; },
+
+        getType: function() { return this.type; },
+        getSubType: function() { return this.subType; },
+
+        getList: function() { return this.list; },
+        getListWhoSetItem: function() { return this.listWhoSetItem; },
+        getListItemData: function() { return this.listItemData; },
+        setListIndex: function(c, index) { /* TODO: implement this */ },
+        setListIndexForText: function(c, text) { /* TODO: implement this */ },
+
+        getSelectTable: function() { return this.selectTable; },
+        getSelectId: function() { return this.selectId; },
+        getSelectIntValue: function() { return this.selectIntValue; },
+        getSelectFieldIntValue: function() { return this.selectFieldIntValue; },
+        getSelectFilter: function() { return this.selectFilter; },
+        getSelectType: function() { return this.selectType; },
+        setSelectType: function(type) { this.selectType = type; },
+        getSelectNoUseActive: function() { return this.selectNoUseActive; },
+        setSelectNoUseActive: function(value) { this.selectNoUseActive = value; },
+
+        getValue: function() { return this.value; },
+
+        getTextMask: function() { return this.textMask; },
+
+        getImage: function() { return this.image; },
+
+        getMultiSelect: function() { return this.getMultiSelect(); },
+
+        getGridAddEnabled: function() { return this.gridAddEnabled; },
+        getGridEditEnabled: function() { return this.gridEditEnabled; },
+        getGridRemoveEnabled: function() { return this.gridRemoveEnabled; },
+
+        getLabelIndex: function() { return this._labelIndex; },
+
+        getVisible: function() { return this.visible; },
+
+        getKeyCol: function() { return this._keyCol; },
+        setIndex: function(index) { this._index = index; },
+
+        getKey: function() { return this.key; },
+
+        getFormat: function() { return this.format; },
+
+        getOptionGroup: function() { return this.optionGroup; },
+
+        getTextAlign: function() { return this.textAlign; },
+        getSize: function() { return this.size; },
+
+        getInputDisabled: function() { return this.inputDisabled; },
+        setToolbar: function(c) { /* TODO: implement this */},
+
+        getHeight: function() { return this.height; },
+        setHeight: function(height) { this.height = height; },
+        getWidth: function() { return this.width; },
+        setWidth: function(width) { this.width = width; },
+        getTopFromProperty: function() { return this.topFromProperty; },
+        getTop: function() { return this.top; },
+        setTop: function(top) { this.top = top; },
+        getTopToPrevious: function() { return this.topToPrevious; },
+        getLeftFromProperty: function() { return this.leftFromProperty; },
+
+        setLeft: function(left) { this.left = left; },
+        getLeft: function() { return this.left; },
+
+        getLeftLabel: function() { return this.leftLabel; },
+        setLeftLabel: function(leftLabel) { this.leftLabel = leftLabel; },
+
+        getLeftToPrevious: function() { return this.leftToPrevious; },
+
+        getTabIndex: function() { return this.tabIndex; },
+        getTopFrame: function() { return this.topFrame; },
+
+        getLeftFrame: function() { return this.leftFrame; },
+        getButtons: function() { return this.buttons; },
+
+        getLeftNotChange: function() { return this.leftNotChange; },
+        setLeftNotChange: function(leftNoChange) { this.leftNotChange = leftNoChange; },
+        getTopNotChange: function() { return this.topNotChange; },
+        setTopNotChange: function(topNoChange) { this.topNotChange = topNoChange; },
+
+        setLabelIndex: function(labelIndex) { this._labelIndex = labelIndex; },
+
+        getToolbar: function() { return this.toolbar; },
+        setListListIndex: function(index) { this.listListIndex = index; },
+        setListItemData: function(index) { this.listItemData = index; },
+        setSelectId: function(id) { this.selectId = id; },
+        setSelectIntValue: function(value) { this.selectIntValue = value; },
+        getIsEditProperty: function() { return this.isEditProperty; },
+        setListText: function(text) { return this.listText = text; },
+        getNoShowButton: function() { return this.hideButton; },
+
+        getFontName: function() { return this.fontName; },
+        setFontName: function(name) { this.fontName = name; },
+        getFontSize: function() { return this.fontSize; },
+        setFontSize: function(size) { this.fontSize = size; },
+        setFontUnderline: function(underline) { this.fontUnderline = underline; },
+        setFontBold: function(bold) { this.fontBold = bold; },
+        setFontItalic: function(italic) { this.fontItalic = italic; }
+
       },
 
       validate: function(attrs, options) {
