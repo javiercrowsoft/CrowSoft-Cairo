@@ -15,7 +15,12 @@
       urlRoot: "",
 
       defaults: {
-      }
+      },
+
+      setPath: function(path) { /* TODO: implement this. */ },
+      setCommandTimeout: function(timeout) { /* TODO: implement this. */ },
+      setConnectionTimeout: function(timeout) { /* TODO: implement this. */ },
+      showPrint: function(id, tblId, docId) { /* TODO: implement this. */ }
 
     });
 

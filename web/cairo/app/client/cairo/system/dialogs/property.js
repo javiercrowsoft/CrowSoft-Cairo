@@ -76,7 +76,6 @@
         listListIndex:          0,
         listItemData:           0,
         listWhoSetItem:         Dialogs.ListWhoSetItem.itemData,
-        selectedIndex:          0,
 
         optionGroup:            0,
         size:                   0,
@@ -96,7 +95,7 @@
         gridAddEnabled:         false,
         gridRemoveEnabled:      false,
         gridEditEnabled:        false,
-        gridSelectedRow:        false,
+        gridSelectedRow:        0,      /* VB6: was selectedIndex */
 
         selectId:               0,
         selectFilter:           '',
@@ -167,7 +166,8 @@
         getGridRemoveEnable: function() { return this.gridRemoveEnabled; },
         setGridRemoveEnable: function(enabled) { this.gridRemoveEnabled = enabled; },
 
-        setSelectedRow: function() { return this.gridSelectedRow; },
+        setSelectedRow: function(row) { this.gridSelectedRow = row; },
+        getSelectedRow: function() { return this.gridSelectedRow; },
         getForeColor: function() { return this.foreColor; },
         getBackColor: function() { return this.backColor; },
         setBackColor: function(backColor) { this.backColor = backColor; },
@@ -176,21 +176,42 @@
         getType: function() { return this.type; },
         getSubType: function() { return this.subType; },
 
+        // list
+        //
+
         getList: function() { return this.list; },
         getListWhoSetItem: function() { return this.listWhoSetItem; },
-        getListItemData: function() { return this.listItemData; },
-        setListIndex: function(c, index) { /* TODO: implement this */ },
-        setListIndexForText: function(c, text) { /* TODO: implement this */ },
 
+        getListItemData: function() { return this.listItemData; },
+        setListItemData: function(index) { this.listItemData = index; },
+
+        getListIndex: function() { /* TODO: implement this */ },
+        setListIndex: function(index) { this.listListIndex = index; },
+
+        getListText: function() { return this.listText; },
+        setListText: function(text) { return this.listText = text; },
+
+        // select
+        //
         getSelectTable: function() { return this.selectTable; },
+
         getSelectId: function() { return this.selectId; },
+        setSelectId: function(id) { this.selectId = id; },
+
         getSelectIntValue: function() { return this.selectIntValue; },
+        setSelectIntValue: function(value) { this.selectIntValue = value; },
+
         getSelectFieldIntValue: function() { return this.selectFieldIntValue; },
+
         getSelectFilter: function() { return this.selectFilter; },
+
         getSelectType: function() { return this.selectType; },
         setSelectType: function(type) { this.selectType = type; },
+
         getSelectNoUseActive: function() { return this.selectNoUseActive; },
         setSelectNoUseActive: function(value) { this.selectNoUseActive = value; },
+
+        //
 
         getValue: function() { return this.value; },
 
@@ -255,12 +276,7 @@
         setLabelIndex: function(labelIndex) { this._labelIndex = labelIndex; },
 
         getToolbar: function() { return this.toolbar; },
-        setListListIndex: function(index) { this.listListIndex = index; },
-        setListItemData: function(index) { this.listItemData = index; },
-        setSelectId: function(id) { this.selectId = id; },
-        setSelectIntValue: function(value) { this.selectIntValue = value; },
         getIsEditProperty: function() { return this.isEditProperty; },
-        setListText: function(text) { return this.listText = text; },
         getNoShowButton: function() { return this.hideButton; },
 
         getFontName: function() { return this.fontName; },
@@ -269,7 +285,9 @@
         setFontSize: function(size) { this.fontSize = size; },
         setFontUnderline: function(underline) { this.fontUnderline = underline; },
         setFontBold: function(bold) { this.fontBold = bold; },
-        setFontItalic: function(italic) { this.fontItalic = italic; }
+        setFontItalic: function(italic) { this.fontItalic = italic; },
+
+        getEnabled: function() { return this.enabled; }
 
       },
 

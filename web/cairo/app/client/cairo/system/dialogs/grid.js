@@ -15,7 +15,10 @@
       urlRoot: "",
 
       defaults: {
-      }
+      },
+
+      loadFromRows: function(gridControl, grid, noChangeColumns, name) { /* TODO: implement this. */ },
+      setColumnProperties: function(grid, column, colGrid) { /* TODO: implement this. */ }
 
     });
 
@@ -23,7 +26,17 @@
       urlRoot: "",
 
       defaults: {
-      }
+      },
+
+      getColor: function() { /* TODO: implement this. */ },
+      getBackColor: function() { /* TODO: implement this. */ },
+      getTextAlign: function() { /* TODO: implement this. */ },
+      getFontName: function() { /* TODO: implement this. */ },
+      getBold: function() { /* TODO: implement this. */ },
+      getFontSize: function() { /* TODO: implement this. */ },
+      getStrike: function() { /* TODO: implement this. */ },
+      getUnderline: function() { /* TODO: implement this. */ },
+      getItalic: function() { /* TODO: implement this. */ }
 
     });
 
@@ -54,7 +67,9 @@
         subType: null,
 
         default: null /* is a Grids.Cell object */
-      }
+      },
+
+      setValue: function(value) { /* TODO: implement this. */ }
 
     });
 
@@ -70,7 +85,11 @@
 
       defaults: {
         cells: new Grids.Cells()
-      }
+      },
+
+      getIsGroup: function() { /* TODO: implement this. */ },
+      setIsGroup: function(isGroup) { /* TODO: implement this. */ },
+      get: function(col) { /* TODO: implement this. */ }
 
     });
 
@@ -87,7 +106,11 @@
       defaults: {
         columns: new Grids.Columns(),
         rows:    new Grids.Rows()
-      }
+      },
+
+      getColumns: function() { /* TODO: implement this. */ },
+      getRows: function() { /* TODO: implement this. */ },
+      setRows: function(rows) { /* TODO: implement this. */ }
 
     });
 

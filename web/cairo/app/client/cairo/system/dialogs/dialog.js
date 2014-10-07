@@ -236,13 +236,11 @@
 
         var Dialogs = Cairo.Dialogs;
 
-        var C_OFFSET_V  = 540;
         var C_OFFSET_V1 = 280;
         var C_OFFSET_V3 = 225;
         var C_OFFSET_H  = 1190;
         var C_OFFSET_H2 = 3780;
         var C_OFFSET_H3 = 1300;
-        var C_OFFSET_H4 = 1000;
 
         var C_LINE_HEIGHT = 440;
         var C_LINE_LIGHT = 155;
@@ -823,7 +821,7 @@
             var grid = property.getControl();
             if(grid) {
               grid.selectRow(rowIndex);
-              property.selectedIndex = rowIndex;
+              property.setSelectedRow(rowIndex);
             }
           }
           catch(ignore) {}
@@ -968,7 +966,7 @@
           var U = Cairo.Util;
           var C = Cairo.Configuration;
 
-          var printManager = new Cairo.Printing.Manager();
+          var printManager = new Cairo.Entities.Printing.Manager();
 
           printManager.setPath(U.File.getValidPath(C.get(R.reportSection, R.reportPath, Cairo.Configuration.appPath())));
           printManager.setCommandTimeout(U.val(C.get(R.reportSection, R.commandTimeOut, 0)));
@@ -1003,7 +1001,7 @@
         //       hope I will fix it before 2015 :P
         //
         self.groupGrid = function(property, keyCol, keyColSort) {
-            groupGridEx(property, keyCol, keyColSort);
+          groupGridEx(property, keyCol, keyColSort);
         };
 
         //
@@ -1058,7 +1056,7 @@
 
               var grid = property.getControl();
 
-              grid.clearGroups;
+              grid.clearGroups();
               grid.refreshGroupsAndFormulasEx(true);
 
               // remove all grouping data in this control
@@ -1115,7 +1113,7 @@
               //
               for(var j = 1; j <= grid.getRows().count(); j++) {
                 if(grid.rowIsGroup(j)) {
-                  var row = new cABMGridRow();
+                  var row = new Cairo.Entities.Dialogs.Grids.Row();
                   row.setIsGroup(true);
                   row.setIndex(j);
                   rows.add(row);
@@ -1126,7 +1124,8 @@
               //
               var sortedRows = new Dialogs.Grids.Rows();
 
-              for(var j = 1; j <= grid.getRows().count(); j++) {
+              var count = grid.getRows().count();
+              for(var j = 0; j < count; j++) {
                 var index = Cairo.Util.val(grid.cellText(j, 3));
                 if(grid.rowIsGroup(j)) {
                   sortedRows.add(rows(j));
@@ -1182,8 +1181,8 @@
               //
               rows = sortedRows;
               k = 0;
-
-              for(var j = 1; j <= rows.count(); j++) {
+              var count = rows.count();
+              for(var j = 0; j < count; j++) {
                   row = rows.get(j);
                   if(!row.getIsGroup()) {
                       k = k + 1;
@@ -1234,7 +1233,7 @@
         // add auxiliary columns in the property to match
         // the columns in the control
         //
-        self.addAuxCol = function(property) {
+        var addAuxCol = function(property) {
           var c_col_aux_group1 = "#aux_group_1";
           var c_col_aux_group2 = "#aux_group_2";
 
@@ -1488,7 +1487,7 @@
                   break;
 
                 case Dialogs.ListWhoSetItem.index:
-                  Cairo.Util.List.setListIndex(c, property.getListListIndex());
+                  Cairo.Util.List.setListIndex(c, property.getListIndex());
                   break;
 
                 case Dialogs.ListWhoSetItem.text:
@@ -1585,7 +1584,7 @@
 
             case Dialogs.PropertyType.check:
 
-              var c = view.checkBoxes().get(property.getIndex());
+              var c = view.getCheckBoxes().get(property.getIndex());
               c.setValue(Cairo.Util.val(property.getValue()) !== 0);
               c.setEnabled(property.getEnabled());
 
@@ -1616,24 +1615,24 @@
               if(m_isWizard) {
                 switch(Cairo.Util.val(property.getValue())) {
                   case 1:
-                    c.setPicture(m_wizardView.getImgWiz1());
+                    c.setImage(m_wizardView.getImgWiz1());
                     break;
 
                   case 3:
-                    c.setPicture(m_wizardView.getImgWiz3());
+                    c.setImage(m_wizardView.getImgWiz3());
                     break;
 
                   case 5:
-                    c.setPicture(m_wizardView.getImgWiz5());
+                    c.setImage(m_wizardView.getImgWiz5());
                     break;
 
                   default:
-                    c.setPicture(property.getImage());
+                    c.setImage(property.getImage());
                     break;
                 }
               }
               else {
-                c.setPicture(property.getImage());
+                c.setImage(property.getImage());
               }
 
               break;
@@ -2630,8 +2629,8 @@
             else {
               if(m_bSendRefresh) {
                 m_client.messageEx(Dialogs.Message.MSG_DOC_REFRESH, null);
-                refreshTitle();
-                setChanged(false);
+                self.refreshTitle();
+                self.setChanged(false);
               }
               else {
                 discardChanges();
@@ -2713,7 +2712,7 @@
                 }
               }
 
-              setChanged(false);
+              self.setChanged(false);
 
               if(m_newKeyPropFocus !== "") {
                 setFocusFromKeyProp(m_newKeyPropFocus);
@@ -2930,7 +2929,7 @@
                     return saveDialog(unloading, false).then(
                         function(saved) {
                           if(saved) {
-                            setChanged(false);
+                            self.setChanged(false);
                           }
                           return saved;
                         }
@@ -2940,7 +2939,7 @@
                     the user wants to discard these changes
                   */
                   else if(answer === "no") {
-                    setChanged(false);
+                    self.setChanged(false);
                     return true;
                   }
                   /*
@@ -3084,7 +3083,7 @@
         };
 
         var docHandlerViewLoad = function() {
-          resetChanged();
+          self.resetChanged();
         };
 
         var docHandlerGridAfterDeleteRow = function(index, rowIndex) {
@@ -3194,7 +3193,7 @@
                         m_client.messageEx(Dialogs.Message.MSG_DOC_DELETE, null).then(
                           function(success) {
                             if(success) {
-                              resetChanged();
+                              self.resetChanged();
                             }
                             hideMsg();
                           }
@@ -3352,7 +3351,7 @@
         // TODO: remove changeTop from all places which call this function
         //       then remove this param :D
         //
-        self.showMsg = function(msg, changeTop) {
+        var showMsg = function(msg, changeTop) {
           Cairo.LoadingMessage.show("Documents", msg);
         };
 
@@ -3368,7 +3367,7 @@
                 if(m_isDocument) {
                   moveFocus();
                 }
-                setChanged(false);
+                self.setChanged(false);
               }
             );
           }
@@ -3396,7 +3395,7 @@
                 function(result) {
                   wizEnableButtons();
                   if(result) {
-                    setChanged(false);
+                    self.setChanged(false);
                     removeControl(m_wizardView);
                   }
                 }
@@ -3431,7 +3430,7 @@
         };
 
         var wizHandlerViewLoad = function() {
-          resetChanged();
+          self.resetChanged();
         };
 
         // TODO: implement a mechanic to prevent losing changes when close the tab or the window browser
@@ -3847,7 +3846,7 @@
                     }
 
                     if(columnIsEditable(property, indexCol)) {
-                      setChanged(true);
+                      self.setChanged(true);
                     }
                   }
                 );
@@ -4091,7 +4090,7 @@
                     //
                     var updateCell = function() {
                       setRowValueInGrid(index, property, indexRow, grid.getRows(indexRow));
-                      setChanged(true);
+                      self.setChanged(true);
                     };
 
                     if(mustHandleEvent) {
@@ -5264,7 +5263,7 @@
                 switch(type) {
                   case Dialogs.PropertyType.list:
 
-                    property.setListListIndex(c.getListIndex());
+                    property.setListIndex(c.getListIndex());
                     property.setListText(c.getText());
                     if(c.getListIndex() >= 0) {
                       property.setListItemData(c.getItemData(c.getListIndex()));
@@ -5357,12 +5356,12 @@
                     if(m_isDocument) {
                       if(property !== null) {
                         if(property.getSelectTable() !== Cairo.Tables.DOCUMENTO) {
-                          setChanged(true);
+                          self.setChanged(true);
                         }
                       }
                     }
                     else {
-                      setChanged(true);
+                      self.setChanged(true);
                     }
                   }
 
@@ -5562,7 +5561,7 @@
 
                               return p.then(
                                 function() {
-                                  setChanged(false);
+                                  self.setChanged(false);
                                   return true;
                                 }
                               );
@@ -5647,7 +5646,7 @@
               if(property.getType() === Dialogs.PropertyType.list) {
                 if(property.getIndex() === index) {
                   property.setListItemData(Cairo.Util.List.getListId(view.getCombos().get(index)));
-                  property.setListListIndex(view.getCombos().get(index).getListIndex());
+                  property.setListIndex(view.getCombos().get(index).getListIndex());
                   property.setListText(view.getCombos().get(index).getText());
                 }
               }
@@ -5872,98 +5871,110 @@
 
             Cairo.LoadingMessage.showWait();
 
+            var i, count;
             var propertyCount = m_properties.count();
-            for(var _i = 0; _i < propertyCount; _i++) {
-              m_properties.get(_i).setControl(null);
+            for(i = 0; i < propertyCount; i++) {
+              m_properties.get(i).setControl(null);
             }
 
             var view = getView();
-            var q = 0;
 
             saveColumnsGrids();
 
             initVectorsPosition();
 
-            var i = 0;
-
             view.getMaskEdits().get(0).setVisible(false);
-            for(i = 1; i <= view.getMaskEdits().count(); i++) {
+            count = view.getMaskEdits().count();
+            for(i = 0; i < count; i++) {
               removeControl(view.getMaskEdits().get(i));
             }
 
             view.getDatePickers().get(0).setVisible(false);
-            for(i = 1; i <= view.getDatePickers().count(); i++) {
+            count = view.getDatePickers().count()
+            for(i = 0; i < count; i++) {
               removeControl(view.getDatePickers().get(i));
             }
 
             view.getSelects().get(0).setVisible(false);
-            for(i = 1; i <= view.getSelects().count(); i++) {
+            count = view.getSelects().count();
+            for(i = 0; i < count; i++) {
               removeControl(view.getSelects().get(i));
             }
 
-            for(i = 1; i <= view.getOptionButtons.count(); i++) {
+            count = view.getOptionButtons.count();
+            for(i = 0; i < count; i++) {
               removeControl(view.getOptionButtons().get(i));
             }
 
-            view.checkBoxes().get(0).setVisible(false);
-            for(i = 1; i <= view.checkBoxes().count(); i++) {
+            view.getCheckBoxes().get(0).setVisible(false);
+            count = view.getCheckBoxes().count();
+            for(i = 0; i < count; i++) {
               removeControl(view.checkBoxes().get(i));
             }
 
             view.getButtons().get(0).setVisible(false);
-            for(i = 1; i <= view.getButtons().count(); i++) {
+            count = view.getButtons().count();
+            for(i = 0; i < count; i++) {
               removeControl(view.getButtons().get(i));
             }
 
             view.getCombos().get(0).setVisible(false);
-            for(i = 1; i <= view.getCombos().count(); i++) {
+            count = view.getCombos().count();
+            for(i = 0; i < count; i++) {
               removeControl(view.getCombos().get(i));
             }
 
             view.getTextInputs().get(0).setVisible(false);
-            for(i = 1; i <= view.getTextInputs().count(); i++) {
+            count = view.getTextInputs().count();
+            for(i = 0; i < count; i++) {
               removeControl(view.getTextInputs().get(i));
             }
 
             view.getTextAreas().get(0).setVisible(false);
-            for(i = 1; i <= view.getTextAreas().count(); i++) {
+            count = view.getTextAreas().count();
+            for(i = 0; i < count; i++) {
               removeControl(view.getTextAreas().get(i));
             }
 
             view.getPasswordInputs().get(0).setVisible(false);
-            for(i = 1; i <= view.getPasswordInputs().count(); i++) {
+            count = view.getPasswordInputs().count();
+            for(i = 0; i < count; i++) {
               removeControl(view.getPasswordInputs().get(i));
             }
 
             view.getLabels().get(0).setVisible(false);
-            for(i = 1; i <= view.getLabels().count(); i++) {
+            count = view.getLabels().count();
+            for(i = 0; i < count; i++) {
               removeControl(view.getLabels().get(i));
             }
 
             destroyGrids(getView());
 
             if(viewIsWizard(view) || viewIsMaster(view)) {
-              for(i = 1; i <= view.getCtlLabels().count(); i++) {
+              count = view.getCtlLabels().count();
+              for(i = 0; i < count; i++) {
                 removeControl(view.getCtlLabels().get(i));
               }
             }
 
             if(viewIsWizard(view)) {
-              for(i = 1; i <= view.getProgressBars().count(); i++) {
+              count = view.getProgressBars().count();
+              for(i = 0; i < count; i++) {
                 removeControl(view.getProgressBars().get(i));
               }
-              for(i = 1; i <= view.getDescription().count(); i++) {
+              count = view.getDescription().count();
+              for(i = 0; i < count; i++) {
                 removeControl(view.getDescription(i));
               }
             }
 
             if(viewIsWizard(view) || viewIsMaster(view)) {
-
-              for(i = 1; i <= view.getTitleLabel2().count(); i++) {
+              count = view.getTitleLabel2().count();
+              for(i = 0; i < count; i++) {
                 removeControl(view.getTitleLabel2().get(i));
               }
-
-              for(i = 1; i <= view.getImages().count(); i++) {
+              count = view.getImages().count();
+              for(i = 0; i < count; i++) {
                 removeControl(view.getImages().get(i));
               }
             }
@@ -6472,7 +6483,7 @@
         };
 
         self.resetChanged = function() {
-          setChanged(false);
+          self.setChanged(false);
           m_unloading = false;
         };
 
@@ -6488,7 +6499,7 @@
             showMsg("Discarding changes ...");
             m_client.messageEx(Dialogs.Message.MSG_DOC_REFRESH, null).then(
               function() {
-                setChanged(false);
+                self.setChanged(false);
                 hideMsg();
               }
             );
@@ -6945,6 +6956,10 @@
         };
 
         var addControl = function(c) {
+          // TODO: implement this.
+        };
+
+        var groupGridEx = function(property, keyCol, keyColSort) {
           // TODO: implement this.
         };
 

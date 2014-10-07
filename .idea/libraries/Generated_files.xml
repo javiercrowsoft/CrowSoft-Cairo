@@ -5,9 +5,11 @@
         <item url="file://$PROJECT_DIR$/web/cairo/app/client/cairo/system/controls/control.min.js" />
         <item url="file://$PROJECT_DIR$/web/cairo/app/client/cairo/system/controls/grid.min.js" />
         <item url="file://$PROJECT_DIR$/web/cairo/app/client/cairo/cairoApp.min.js" />
+        <item url="file://$PROJECT_DIR$/web/cairo/app/client/cairo/system/dialogs/documentView.min.js" />
         <item url="file://$PROJECT_DIR$/web/cairo/app/client/cairo/system/dialogs/view.min.js" />
-        <item url="file://$PROJECT_DIR$/web/cairo/app/client/cairo/system/dialogs/dialog.min.js" />
         <item url="file://$PROJECT_DIR$/web/cairo/app/client/cairo/system/dialogs/grid.min.js" />
+        <item url="file://$PROJECT_DIR$/web/cairo/app/client/cairo/system/dialogs/dialog.min.js" />
+        <item url="file://$PROJECT_DIR$/web/cairo/app/client/cairo/system/dialogs/dialogClient.min.js" />
         <item url="file://$PROJECT_DIR$/web/cairo/app/client/cairo/system/dialogs/property.min.js" />
       </sourceFilesUrls>
     </properties>
@@ -16,8 +18,10 @@
       <root url="file://$PROJECT_DIR$/web/cairo/app/client/cairo/system/controls/grid.min.js" />
       <root url="file://$PROJECT_DIR$/web/cairo/app/client/cairo/cairoApp.min.js" />
       <root url="file://$PROJECT_DIR$/web/cairo/app/client/cairo/system/dialogs/view.min.js" />
-      <root url="file://$PROJECT_DIR$/web/cairo/app/client/cairo/system/dialogs/grid.min.js" />
+      <root url="file://$PROJECT_DIR$/web/cairo/app/client/cairo/system/dialogs/documentView.min.js" />
       <root url="file://$PROJECT_DIR$/web/cairo/app/client/cairo/system/dialogs/dialog.min.js" />
+      <root url="file://$PROJECT_DIR$/web/cairo/app/client/cairo/system/dialogs/grid.min.js" />
+      <root url="file://$PROJECT_DIR$/web/cairo/app/client/cairo/system/dialogs/dialogClient.min.js" />
       <root url="file://$PROJECT_DIR$/web/cairo/app/client/cairo/system/dialogs/property.min.js" />
     </CLASSES>
     <SOURCES />

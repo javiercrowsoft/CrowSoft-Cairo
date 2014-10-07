@@ -389,7 +389,9 @@ Cairo.module("Select", function(Select, Cairo, Backbone, Marionette, $, _) {
             selectController.listeners[eventName].push(functionHandler);
             break;
           default:
-            Cairo.logError('Invalid event listener registration. EventName: ' + eventName + ' - Handler: ' + functionHandler.toString());
+            Cairo.logError(
+              'Invalid event listener registration. EventName: '
+                + eventName + ' - Handler: ' + functionHandler.toString());
         }
       };
 
@@ -403,9 +405,24 @@ Cairo.module("Select", function(Select, Cairo, Backbone, Marionette, $, _) {
         updateData({ data: data });
       };
 
+      var setId = function(id) { /* TODO: implement this. */ };
+      var setValue = function(value) { /* TODO: implement this. */ };
+      var setIntValue = function(value) { /* TODO: implement this. */ };
+      var setFieldIntValue = function(field) { /* TODO: implement this. */ };
+      var setFilter = function(filter) { /* TODO: implement this. */ };
+      var setTable = function(table) { /* TODO: implement this. */ };
+      var setEnabled = function(enable) { /* TODO: implement this. */ };
+
       return {
         addListener: addListener,
-        setData: setData
+        setData: setData,
+        setId: setId,
+        setValue: setValue,
+        setIntValue: setIntValue,
+        setFieldIntValue: setFieldIntValue,
+        setFilter: setFilter,
+        setTable: setTable,
+        setEnabled: setEnabled
       };
 
     };

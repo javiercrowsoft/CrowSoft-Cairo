@@ -355,7 +355,15 @@ var Cairo = new Marionette.Application();
       size:           0,
       strikeThrough:  false,
       underline:      false
-    }
+    },
+
+    setName: function(value) { /* TODO: implement this. */ },
+    setItalic: function(value) { /* TODO: implement this. */ },
+    setBold: function(value) { /* TODO: implement this. */ },
+    setSize: function(value) { /* TODO: implement this. */ },
+    setStrikeThrough: function(value) { /* TODO: implement this. */ },
+    setUnderline: function(value) { /* TODO: implement this. */ }
+
   });
 
   /*
