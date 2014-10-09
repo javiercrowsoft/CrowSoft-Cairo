@@ -22,7 +22,12 @@
       propertyChange: function() { /* TODO: implement this. */ },
       deleteRow: function(propertyKey, row, rowIndex) { /* TODO: implement this. */ },
       newRow: function(propertyKey, rowIndex) { /* TODO: implement this. */ },
-      columnAfterUpdate: function(propertyKey, indexRow, indexCol) { /* TODO: implement this. */ }
+      columnAfterUpdate: function(propertyKey, indexRow, indexCol) { /* TODO: implement this. */ },
+      columnAfterEdit: function(propertyKey, indexRow, indexCol, newValue, newId) { /* TODO: implement this. */ },
+      columnBeforeEdit: function(propertyKey, indexRow, indexCol, keyAscii) { /* TODO: implement this. */ },
+      columnButtonClick: function(propertyKey, indexRow, indexCol, keyAscii) { /* TODO: implement this. */ },
+      isEmptyRow: function(propertyKey, row, indexRow) { /* TODO: implement this. */ },
+      validateRow: function(propertyKey, row, indexRow) { /* TODO: implement this. */ }
 
     };
 

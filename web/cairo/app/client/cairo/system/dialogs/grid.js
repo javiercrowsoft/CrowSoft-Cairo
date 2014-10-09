@@ -23,11 +23,46 @@
 
     });
 
+    Grids.VirtualRow = Backbone.Model.extend({
+      urlRoot: "",
+
+      defaults: {
+        result: false,
+        info: null,
+        rowsToAdd: 0
+      },
+
+      getRowsToAdd: function() { return this.rowsToAdd; },
+      getColAmount: function() { /* TODO: implement this. */ },
+      getNewValue: function(rowIndex) { /* TODO: implement this. */ },
+      getNewId: function(rowIndex) { /* TODO: implement this. */ },
+      getNewAmount: function(rowIndex) { /* TODO: implement this. */ },
+      loadFromRow: function(gridControl, row, rowIndex, columns) { /* TODO: implement this. */ },
+      setColumnProperties: function(grid, column, colGrid) { /* TODO: implement this. */ }
+
+    });
+
     Grids.CellFormat = Backbone.Model.extend({
       urlRoot: "",
 
       defaults: {
       },
+
+      getType: function() { /* TODO: implement this. */ },
+      getSubType: function() { /* TODO: implement this. */ },
+      getSelectTable: function() { /* TODO: implement this. */ },
+      getEnabled: function() { /* TODO: implement this. */ },
+      getSelectFilter: function() { /* TODO: implement this. */ },
+      getSize: function() { /* TODO: implement this. */ },
+      getFormat: function() { /* TODO: implement this. */ },
+
+      setType: function() { /* TODO: implement this. */ },
+      setSubType: function() { /* TODO: implement this. */ },
+      setSelectTable: function() { /* TODO: implement this. */ },
+      setEnabled: function() { /* TODO: implement this. */ },
+      setSelectFilter: function() { /* TODO: implement this. */ },
+      setSize: function() { /* TODO: implement this. */ },
+      setFormat: function() { /* TODO: implement this. */ },
 
       getColor: function() { /* TODO: implement this. */ },
       getBackColor: function() { /* TODO: implement this. */ },
@@ -71,7 +106,23 @@
       },
 
       setValue: function(value) { /* TODO: implement this. */ },
-      getDefaultValue: function() { /* TODO: implement this. */ }
+      getDefaultValue: function() { /* TODO: implement this. */ },
+
+      getType: function() { /* TODO: implement this. */ },
+      getSubType: function() { /* TODO: implement this. */ },
+      getSelectTable: function() { /* TODO: implement this. */ },
+      getEnabled: function() { /* TODO: implement this. */ },
+      getSelectFilter: function() { /* TODO: implement this. */ },
+      getSize: function() { /* TODO: implement this. */ },
+      getFormat: function() { /* TODO: implement this. */ },
+
+      setType: function() { /* TODO: implement this. */ },
+      setSubType: function() { /* TODO: implement this. */ },
+      setSelectTable: function() { /* TODO: implement this. */ },
+      setEnabled: function() { /* TODO: implement this. */ },
+      setSelectFilter: function() { /* TODO: implement this. */ },
+      setSize: function() { /* TODO: implement this. */ },
+      setFormat: function() { /* TODO: implement this. */ }
 
     });
 

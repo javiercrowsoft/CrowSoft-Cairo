@@ -22,11 +22,7 @@
       setKey: function(key) { /* TODO: implement this. */ },
       setSortType: function(type) { /* TODO: implement this. */ },
       setIsSortCol: function(isSortCol) { /* TODO: implement this. */ },
-      expandAllGroups: function() { /* TODO: implement this. */ },
-      setGridLines: function(gridLines) { /* TODO: implement this. */ },
-      setAddEnabled: function(enabled) { /* TODO: implement this. */ },
-      setEditEnabled: function(enabled) { /* TODO: implement this. */ },
-      setDeleteEnabled: function(enabled) { /* TODO: implement this. */ }
+      expandAllGroups: function() { /* TODO: implement this. */ }
 
     });
 
@@ -65,7 +61,29 @@
         default: null /* is a Grids.Cell object */
       },
 
-      setValue: function(value) { /* TODO: implement this. */ }
+      setValue: function(value) { /* TODO: implement this. */ },
+
+      getType: function() { /* TODO: implement this. */ },
+      getSubType: function() { /* TODO: implement this. */ },
+      getSelectTable: function() { /* TODO: implement this. */ },
+      getSelectFilter: function() { /* TODO: implement this. */ },
+      getSize: function() { /* TODO: implement this. */ },
+      getFormat: function() { /* TODO: implement this. */ },
+
+      setType: function() { /* TODO: implement this. */ },
+      setSubType: function() { /* TODO: implement this. */ },
+      setSelectTable: function() { /* TODO: implement this. */ },
+
+      // TODO: check if Enabled and EditEnabled aren't redundant
+      getEnabled: function() { /* TODO: implement this. */ },
+      setEnabled: function() { /* TODO: implement this. */ },
+      getEditEnabled: function() { /* TODO: implement this. */ },
+      setEditEnabled: function(enabled) { /* TODO: implement this. */ },
+
+      setSelectFilter: function() { /* TODO: implement this. */ },
+      setSize: function() { /* TODO: implement this. */ },
+      setFormat: function() { /* TODO: implement this. */ },
+      setList: function(list) { /* TODO: implement this. */ }
 
     });
 
@@ -124,7 +142,11 @@
       cell: function(row, col) { /* TODO: implement this. */ },
       setRowBackColor: function(rowIndex, backColor) { /* TODO: implement this. */ },
       setRowForeColor: function(rowIndex, foreColor) { /* TODO: implement this. */ },
-      setMultiSelect: function(multiSelect) { /* TODO: implement this. */ }
+      setMultiSelect: function(multiSelect) { /* TODO: implement this. */ },
+      setGridLines: function(gridLines) { /* TODO: implement this. */ },
+      setAddEnabled: function(enabled) { /* TODO: implement this. */ },
+      setEditEnabled: function(enabled) { /* TODO: implement this. */ },
+      setDeleteEnabled: function(enabled) { /* TODO: implement this. */ }
 
     });
 

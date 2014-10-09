@@ -1119,7 +1119,8 @@
 
               // add auxiliary rows to match the two collections
               //
-              for(var j = 1; j <= grid.getRows().count(); j++) {
+              var count = grid.getRows().count();
+              for(var j = 0; j < count; j++) {
                 if(grid.rowIsGroup(j)) {
                   var row = new Cairo.Entities.Dialogs.Grids.Row();
                   row.setIsGroup(true);
@@ -1139,7 +1140,8 @@
                   sortedRows.add(rows(j));
                 }
                 else {
-                  for(var i = 1; i <= rows.count(); i++) {
+                  var count = rows.count();
+                  for(var i = 0; i < count; i++) {
                     var row = rows.get(i);
                     if(!row.getIsGroup()) {
                       if(index === row.getIndex()) {
@@ -1164,7 +1166,8 @@
               // refresh grid
               //
               var k = 0;
-              for(var j = 1; j <= grid.getRows().count(); j++) {
+              var count = grid.getRows().count();
+              for(var j = 0; j < count; j++) {
                 if(!grid.rowIsGroup(j)) {
                   k = k + 1;
                   grid.cellText(j, 3) === k;
@@ -1378,12 +1381,12 @@
             }
 
             grid.setRedraw(false);
-
-            for(var rowIndex = 1; rowIndex <= grid.getRows().count(); rowIndex++) {
+            var count = grid.getRows().count();
+            for(var rowIndex = 0; rowIndex < count; rowIndex++) {
 
               var row = rows.get(rowIndex);
 
-              for(var colIndex = 1; colIndex <= colsToRefresh; colIndex++) {
+              for(var colIndex = 0; colIndex < colsToRefresh; colIndex++) {
 
                 var col = columns.get(colIndex);
                 var cell = row.get(colIndex);
@@ -2287,8 +2290,8 @@
 
           m_menu.addListener(menuClick);
           m_menu.clear();
-
-          for(var i = 0; i <= menus.length; i++) {
+          var count = menus.length;
+          for(var i = 0; i < count; i++) {
             var menu = menus[i].split(c_menu_sep2);
             m_menu.add(menu[0], menu[1]);
           }
@@ -3486,8 +3489,8 @@
           return gridColumnEdit(false, index, indexRow, indexCol, keyAscii, 0, 0);
         };
 
-        var wizHandlerGridColumnButtonClick = function(index, indexRow, indexCol, keyAscii, _cancel_) {
-          gridColumnButtonClick(index, indexRow, indexCol, keyAscii, _cancel_);
+        var wizHandlerGridColumnButtonClick = function(index, indexRow, indexCol, keyAscii) {
+          return gridColumnButtonClick(index, indexRow, indexCol, keyAscii);
         };
 
         var wizHandlerGridDeleteRow = function(index, indexRow) {
@@ -3763,8 +3766,8 @@
           try {
 
             var count = property.getGrid().getRows().count();
-            for(indexRow = indexRow; indexRow <= count; indexRow++) {
-              showCellValue(property, indexRow, 1);
+            for(indexRow = indexRow; indexRow < count; indexRow++) {
+              self.showCellValue(property, indexRow, 1);
             }
 
             var grid = property.getControl();
@@ -3914,16 +3917,17 @@
 
                 property.getControl().getRows().setCount(n + info.getRowsToAdd());
 
-                var rowsCount = property.getControl().getRows().count();
+                var rowsToAdd = n + info.getRowsToAdd();
+
                 var colAmount = getColIndexFromKey(property, info.getColAmount());
                 var q = 0;
 
-                for(var i = n; i <= rowsCount; i++) {
+                for(var i = n; i < rowsToAdd; i++) {
                   q = q + 1;
                   gridNewRow(index, i);
                   createRowIfNotExists(property, index, i);
 
-                  if(i < rowsCount) {
+                  if(i < rowsToAdd) {
                     setColumnValueInProperty(property, index, i, indexCol, info.getNewValue(q), Cairo.Util.val(info.getNewId(q)));
 
                     m_client.columnAfterEdit(propertyKey, i, indexCol, info.getNewValue(q), Cairo.Util.val(info.getNewId(q)));
@@ -3951,11 +3955,11 @@
 
         var addVirtualRows = function(key, indexRow, indexCol) {
           if(m_client === null) {
-            return Cairo.Promises.resolvedPromise({
+            return Cairo.Promises.resolvedPromise(new Cairo.Entities.Controls.Grids.VirtualRow({
               result: false,
               info: null,
               rowsToAdd: 0
-            });
+            }));
           }
           else {
             var info = {
@@ -3987,10 +3991,10 @@
                   var format = cell.getFormat();
 
                   if(format === null) {
-                    col.setEditType(column.getPropertyType());
-                    col.setEditSubType(column.getSubType());
+                    col.setType(column.getType());
+                    col.setSubType(column.getSubType());
                     col.setTable(column.getSelectTable());
-                    col.setAllowEdit(column.getEnabled());
+                    col.setEditEnabled(column.getEnabled());
                     col.setEnabled(column.getEnabled());
                     col.setSelectFilter(column.getSelectFilter());
                     col.setSize(column.getSize());
@@ -4010,10 +4014,10 @@
                     }
                   }
                   else {
-                    col.setEditType(format.getPropertyType());
-                    col.setEditSubType(format.getSubType());
+                    col.setType(format.getType());
+                    col.setSubType(format.getSubType());
                     col.setTable(format.getSelectTable());
-                    col.setAllowEdit(format.getEnabled());
+                    col.setEditEnabled(format.getEnabled());
                     col.setEnabled(format.getEnabled());
                     col.setSelectFilter(format.getSelectFilter());
                     col.setSize(format.getSize());
@@ -4032,7 +4036,7 @@
                       }
                     }
                   }
-                  cancel = col.getEnabled() && col.getAllowEdit();
+                  cancel = col.getEnabled() && col.getEditEnabled();
                 }
               }
             }
@@ -4175,7 +4179,7 @@
           var row = rows.get(indexRow);
           if(row === null) {
             row = createRow(index, property, indexRow);
-            rows.Add(row);
+            rows.add(row);
           }
         };
 
@@ -4203,7 +4207,7 @@
 
           if(row === null) {
             row = createRow(index, property, indexRow);
-            rows.Add(row);
+            rows.add(row);
           }
 
           var cell = row.get(indexCol);
@@ -4211,7 +4215,7 @@
           Cairo.safeExecute(function() {
             cell.setId(newValueID);
             cell.setValue(newValue);
-            cell.setSelectIntValue(property.getControl().getCell(indexRow, indexCol).getTag());
+            cell.setSelectIntValue(property.getControl().cell(indexRow, indexCol).getTag());
           });
         };
 
