@@ -18,6 +18,7 @@
       },
 
       loadFromRows: function(gridControl, grid, noChangeColumns, name) { /* TODO: implement this. */ },
+      loadFromRow: function(gridControl, row, rowIndex, columns) { /* TODO: implement this. */ },
       setColumnProperties: function(grid, column, colGrid) { /* TODO: implement this. */ }
 
     });
@@ -69,7 +70,8 @@
         default: null /* is a Grids.Cell object */
       },
 
-      setValue: function(value) { /* TODO: implement this. */ }
+      setValue: function(value) { /* TODO: implement this. */ },
+      getDefaultValue: function() { /* TODO: implement this. */ }
 
     });
 

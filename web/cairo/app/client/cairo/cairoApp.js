@@ -451,7 +451,12 @@ var Cairo = new Marionette.Application();
         show("processing", "please wait");
       };
 
-      return {close: close, show: show};
+      return {
+        close: close,
+        show: show,
+        showWait: showWait
+      };
+
   }());
 
   Cairo.sleep = function(millis, callback) {

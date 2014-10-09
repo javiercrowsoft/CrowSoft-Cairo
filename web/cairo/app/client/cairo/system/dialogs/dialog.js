@@ -389,7 +389,7 @@
         // key of the control to be activated when this dialog get focus
         // or the new button is clicked
         //
-        var m_newKeyPropFocus = "";
+        var m_newPropertyKeyFocus = "";
 
         var m_useSelectIntValue = false;
 
@@ -438,6 +438,10 @@
         var m_documentView = null;
 
         var m_backgroundColor = 0;
+
+        var m_sendRefresh = false;
+
+        var m_owner = null;
 
         var self = this;
 
@@ -551,6 +555,10 @@
 
         self.setCancelLeft = function(rhs) {
           m_cancelLeft = rhs;
+        };
+
+        self.setSendRefresh = function(sendRefresh) {
+          m_sendRefresh = sendRefresh;
         };
 
         // returns the view
@@ -804,12 +812,12 @@
           m_tabs = rhs;
         };
 
-        self.setNewKeyPropFocus = function(rhs) {
-          m_newKeyPropFocus = rhs;
+        self.setNewPropertyKeyFocus = function(rhs) {
+          m_newPropertyKeyFocus = rhs;
         };
 
-        self.getNewKeyPropFocus = function() {
-          return m_newKeyPropFocus;
+        self.getNewPropertyKeyFocus = function() {
+          return m_newPropertyKeyFocus;
         };
 
         self.setUseSelectIntValue = function(rhs) {
@@ -1701,10 +1709,10 @@
               // by the document dialog calling this method
               // (header, items or footer)
               //
-              inCurrentTag = (c.getTag().substring(0, lenStrTag).equals(strTag)
+              inCurrentTag = (c.getTag().substring(0, lenStrTag) === strTag
                               && c.getTag() !== ""
-                              && !("cbTab".equals(c.getName()))
-                              && (Cairo.Util.val(c.getTag().substring(lenStrTag + 1)) + m_firstTab).equals(m_currentTab));
+                              && !("cbTab" === c.getName())
+                              && (Cairo.Util.val(c.getTag().substring(lenStrTag + 1)) + m_firstTab) === m_currentTab);
             }
             else {
               var valTag = Cairo.Util.val(c.getTag());
@@ -1731,8 +1739,8 @@
               }
             }
             else {
-              if(!(property.getKeyCol().equals(csNumberID)
-                    || property.getKeyCol().equals(csStateID)
+              if(!(property.getKeyCol() === Cairo.Constants.NUMBER_ID
+                    || property.getKeyCol() === Cairo.Constants.STATUS_ID
                     || (property.getSelectTable() === Cairo.Tables.DOCUMENTO && m_isDocument))) {
                 c.setVisible(false);
                 if(lbl !== null) {
@@ -1796,7 +1804,7 @@
               break;
 
             case Dialogs.PropertyType.check:
-              view.checkBoxes().get(index).setEnabled(enabled);
+              view.getCheckBoxes().get(index).setEnabled(enabled);
               break;
 
             case Dialogs.PropertyType.button:
@@ -1908,7 +1916,7 @@
 
               case Dialogs.PropertyType.check:
 
-                removeControl(view.checkBoxes().get(index));
+                removeControl(view.getCheckBoxes().get(index));
                 break;
 
               case Dialogs.PropertyType.grid:
@@ -1939,13 +1947,14 @@
         var controlIsToolbar = function(control) { /* TODO: implement this. */ };
         var controlIsImage = function(control) { /* TODO: implement this. */ };
         var controlIsGrid = function(control) { /* TODO: implement this. */ };
+        var controlIsCheckbox = function(control) { /* TODO: implement this. */ };
 
         self.tabGetFirstCtrl = function(index) {
 
           var tabIndex = 999;
           var view = getView();
-          var controlsCount = view.getControls().count();
           var controls = view.getControls();
+          var controlsCount = controls.count();
           var c = null;
 
           if(view.getTabs().get(index).getTag().indexOf(Dialogs.Constants.innerTab, 1)) {
@@ -2007,7 +2016,7 @@
             c = controls.get(_i);
             if(c.getTag().substring(0, strTag.length) === strTag
                 && c.getTag() !== ""
-                && !(c.getName().equals("cbTab"))) {
+                && !(c.getName() === "cbTab")) {
 
               var isVisible = Cairo.Util.val(c.getTag().substring(strTag.length + 1)) + m_firstTab === index;
 
@@ -2098,7 +2107,7 @@
 
             if(c.getTag().substring(0, strTag.length) === strTag
                 && c.getTag() !== ""
-                && !(c.getName().equals("cbTab"))) {
+                && !(c.getName() === "cbTab")) {
 
               var isVisible = Cairo.Util.val(c.getTag().substring(strTag.length + 1)) + m_firstTab === index;
               c.setVisible(getControlVisible(c, isVisible));
@@ -2107,7 +2116,7 @@
                 if(c.getBackColor() === Dialogs.Colors.buttonFace) {
                   c.setBackColor(view.getBackground().getBackColor());
                 }
-                if(c.getName().toLowerCase().equals("lb")) {
+                if(c.getName().toLowerCase() === "lb") {
                   if(c.getText().trim() === "") {
                     c.setVisible(false);
                   }
@@ -2117,7 +2126,7 @@
                 c.BackColor = view.getBackground().getBackColor();
               }
               if(controlIsToolbar(c) && c.getVisible()) {
-                view.SetToolbar(c);
+                view.setToolbar(c);
               }
             }
           }
@@ -2136,7 +2145,7 @@
               break;
             }
             else if(controlIsLabel(c)) {
-              if(!(ctl.getName().substring(0, 3).equals("lb2"))) {
+              if(!(ctl.getName().substring(0, 3) === "lb2")) {
                 if(property.getLabelIndex() === ctl.getIndex()) {
                   if(!property.getVisible()) {
                     isVisible = false;
@@ -2202,7 +2211,7 @@
           }
 
           if(firstTab !== null) {
-            tabClick(firstTab.Index);
+            self.tabClick(firstTab.getIndex());
             m_currentInnerTab = getTagChildIndex(firstTab.getTag());
           }
         };
@@ -2216,7 +2225,7 @@
             if(c.getBackColor() === Dialogs.Colors.buttonFace) {
               c.setBackColor(view.getBackground().getBackColor());
             }
-            if(c.getName().toLowerCase().equals("lb")) {
+            if(c.getName().toLowerCase() === "lb") {
               if(c.getText().trim() === "") {
                 c.setVisible(false);
               }
@@ -2358,7 +2367,7 @@
               view.getCopyButton().setVisible(m_client.copyEnabled());
             }
 
-            refreshTitle();
+            self.refreshTitle();
 
             if(view.getVisible()) {
               view.bringToFront();
@@ -2491,7 +2500,7 @@
           self.showValueEx(property, false, strTag);
         };
 
-        self.getStrTag = function(property) {
+        var getStrTag = function(property) {
           return Cairo.safeExecute(
             function() {
               if(property.getControl() !== null) {
@@ -2508,7 +2517,7 @@
 
         self.getTabs = function() {
           if(m_tabs === null) {
-            m_tabs = new cABMTabs();
+            m_tabs = Cairo.Tab.Controller.createTab("#viewMainTabBar", "#viewMainTabBody", "view_main_tab");;
           }
           return m_tabs;
         };
@@ -2584,7 +2593,7 @@
         };
 
         var wizHandlerTabGetFirstCtrl = function(index) {
-          return tabGetFirstCtrl(index);
+          return self.tabGetFirstCtrl(index);
         };
 
         ///////////////////////////////////////////////////////////////////////////////////////////
@@ -2593,9 +2602,9 @@
         //-----------
         // menu
         //
-        var menuClick = function(itemNumber) {
+        var menuClick = function(id) {
           try {
-            m_client.messageEx(Dialogs.Message.MSG_MENU_AUX, m_menu.getItemData(itemNumber));
+            m_client.messageEx(Dialogs.Message.MSG_MENU_AUX, m_menu.getItemData(id));
           }
           catch(e) {
             Cairo.manageError(
@@ -2613,7 +2622,7 @@
         };
 
         var masterHandlerTabClick = function(index) {
-          tabClick(index);
+          self.tabClick(index);
         };
 
         var masterHandlerCheckBoxClick = function(index) {
@@ -2627,7 +2636,7 @@
               m_okCancelResult = false;
             }
             else {
-              if(m_bSendRefresh) {
+              if(m_sendRefresh) {
                 m_client.messageEx(Dialogs.Message.MSG_DOC_REFRESH, null);
                 self.refreshTitle();
                 self.setChanged(false);
@@ -2696,14 +2705,14 @@
 
               m_title2 = "";
 
-              if(!m_isDocument && !m_bSendRefresh) {
+              if(!m_isDocument && !m_sendRefresh) {
                 discardChanges(true);
               }
 
               m_client.editNew();
 
-              if(m_bSendRefresh) {
-                refreshTitle();
+              if(m_sendRefresh) {
+                self.refreshTitle();
               }
 
               if(m_isDocument) {
@@ -2714,8 +2723,8 @@
 
               self.setChanged(false);
 
-              if(m_newKeyPropFocus !== "") {
-                setFocusFromKeyProp(m_newKeyPropFocus);
+              if(m_newPropertyKeyFocus !== "") {
+                self.setFocusFromPropertyKey(m_newPropertyKeyFocus);
               }
               else {
                 if(m_isDocument) {
@@ -2735,8 +2744,8 @@
           }
         };
 
-        self.setFocusFromKeyProp = function(keyProp) {
-          Cairo.safeExecute(function() { m_properties.get(keyProp).getControl().setFocus() });
+        self.setFocusFromPropertyKey = function(propertyKey) {
+          Cairo.safeExecute(function() { m_properties.get(propertyKey).getControl().setFocus() });
         };
 
         var masterHandlerPrintClick = function() {
@@ -2807,7 +2816,7 @@
             ).then(
               function(result) {
                 if(Cairo.Util.val(result) !== Dialogs.Message.MSG_DOC_INFO_HANDLED) {
-                  showHelpAux();
+                  self.showHelpAux();
                 }
               },
               Cairo.manageErrorHandler("Show Info")
@@ -2973,6 +2982,8 @@
         *
         *   { cancel: boolean, originalReturn: any type }
         *
+        * NOTICE: if the function makes a call to any method of m_client it should return a promise
+        *
         * */
 
         // TODO: refactor promise is returned by this function
@@ -3003,8 +3014,8 @@
           }
         };
 
-        var masterHandlerGridDeleteRow = function(index, indexRow, _cancel_) {
-          gridDeleteRow(index, indexRow, _cancel_);
+        var masterHandlerGridDeleteRow = function(index, indexRow) {
+          return gridDeleteRow(index, indexRow);
         };
 
         var masterHandlerGridNewRow = function(index, rowIndex) {
@@ -3068,14 +3079,14 @@
         };
 
         var docHandlerTabClick = function(index, tag) {
-          docTabClick(index, tag);
+          self.docTabClick(index, tag);
         };
 
         // only change ctrl if there is a control in this tab
         // under this index
         //
         var docHandlerTabGetFirstCtrl = function(index, tag, ctrl) {
-          var ctrlAux = docTabGetFirstCtrl(index, tag);
+          var ctrlAux = self.docTabGetFirstCtrl(index, tag);
           if(ctrlAux !== null) {
             ctrl = ctrlAux;
           }
@@ -3189,7 +3200,7 @@
                   showMsg("Deleting document ...");
                   askDelete("Confirm you want to delete this document ?").then(
                     function(answer) {
-                      if(anwer) {
+                      if(answer) {
                         m_client.messageEx(Dialogs.Message.MSG_DOC_DELETE, null).then(
                           function(success) {
                             if(success) {
@@ -3380,7 +3391,7 @@
         };
 
         var wizHandlerTabClick = function(index) {
-          tabClick(index);
+          self.tabClick(index);
         };
 
         var wizHandlerCheckBoxClick = function(index) {
@@ -3479,8 +3490,8 @@
           gridColumnButtonClick(index, indexRow, indexCol, keyAscii, _cancel_);
         };
 
-        var wizHandlerGridDeleteRow = function(index, indexRow, _cancel_) {
-          gridDeleteRow(index, indexRow, _cancel_);
+        var wizHandlerGridDeleteRow = function(index, indexRow) {
+          return gridDeleteRow(index, indexRow);
         };
 
         var wizHandlerGridNewRow = function(index, rowIndex) {
@@ -3581,6 +3592,8 @@
           }
         };
 
+        // TODO: check where this functions is called and define if parameters cancel is needed
+        //
         var docHandlerViewDestroy = function(cancel) {
 
           var view = getView();
@@ -3619,12 +3632,12 @@
           m_documentView = null;
         };
 
-        var docHandlerGridColumnButtonClick = function(index, indexRow, indexCol, keyAscii, _cancel_) {
-          gridColumnButtonClick(index, indexRow, indexCol, keyAscii, _cancel_);
+        var docHandlerGridColumnButtonClick = function(index, indexRow, indexCol, keyAscii) {
+          return gridColumnButtonClick(index, indexRow, indexCol, keyAscii);
         };
 
         var docHandlerGridColumnAfterEdit = function(index, indexRow, indexCol, newValue, newValueID) {
-          return gridColumnEdit(true, index, indexRow, indexCol, 0, newValue, newValueID, _cancel_);
+          return gridColumnEdit(true, index, indexRow, indexCol, 0, newValue, newValueID);
         };
 
         var docHandlerGridColumnAfterUpdate = function(index, indexRow, indexCol, newValue, newValueID) {
@@ -3642,8 +3655,8 @@
           }
         };
 
-        var docHandlerGridDeleteRow = function(index, indexRow, _cancel_) {
-          gridDeleteRow(index, indexRow, _cancel_);
+        var docHandlerGridDeleteRow = function(index, indexRow) {
+          return gridDeleteRow(index, indexRow);
         };
 
         var docHandlerGridNewRow = function(index, rowIndex) {
@@ -3700,30 +3713,41 @@
         };
 
         var gridDeleteRow = function(index, indexRow) {
-          var cancel = false;
-          
-          if(m_clientManageGrid) {
-            
-            var property = getProperty(Dialogs.PropertyType.grid, index, 0);
-  
-            if(property !== null) {
-  
-              if(m_client.deleteRow(getPropertyKey(property), createRow(index, property, indexRow), indexRow)) {
-              
-                property.getGrid().getRows().remove(indexRow);
-                m_client.messageEx(Dialogs.Message.MSG_GRID_ROW_DELETED, property.getKey());
-  
-                var grid = getView().getGrid(property.getIndex());
-                if(grid.getRows().count() <= 1) {
-                  grid.getRows().setCount(2);
-                }
-              }
-              else {
-                cancel = true;
+          var p = null;
+          try {
+            if(m_clientManageGrid) {
+
+              var property = getProperty(Dialogs.PropertyType.grid, index, 0);
+
+              if(property !== null) {
+                p = m_client.deleteRow(getPropertyKey(property), createRow(index, property, indexRow), indexRow).then(
+                  function(success) {
+                    if(success) {
+                      property.getGrid().getRows().remove(indexRow);
+                      return m_client.messageEx(Dialogs.Message.MSG_GRID_ROW_DELETED, property.getKey()).then(
+                        function() {
+                          var grid = getView().getGrid(property.getIndex());
+                          if(grid.getRows().count() <= 1) {
+                            grid.getRows().setCount(2);
+                          }
+                          return true;
+                        }
+                      );
+                    }
+                    else
+                      return false;
+                  }
+                );
               }
             }
           }
-          return !cancel;
+          catch(e) {
+            Cairo.manageError(
+              "Delete a row",
+              "An error has occurred when deleting a row in a grid.",
+              e.message);
+          }
+          return (p || Cairo.Promises.resolvedPromise(false));
         };
 
         var gridAfterDeleteRow = function(index, indexRow) {
@@ -3786,8 +3810,11 @@
           if(m_clientManageGrid) {
             var property = getProperty(Dialogs.PropertyType.grid, index, 0);
             if(property !== null) {
-              m_client.newRow(getPropertyKey(property), rowIndex);
-              setDefaults(property, rowIndex);
+              m_client.newRow(getPropertyKey(property), rowIndex).then(
+                function(rowIndex) {
+                  setDefaults(property, rowIndex);
+                }
+              );
             }
           }
         };
@@ -3824,7 +3851,7 @@
 
               if(property !== null) {
 
-                var keyProp = getPropertyKey(property);
+                var propertyKey = getPropertyKey(property);
 
                 // If the row not exists we have to create it because the client need it to hold
                 // calculated data
@@ -3836,18 +3863,28 @@
                 // if virtual rows were not created in this call
                 // we update the grid
                 //
-                processVirtualRow(property, index, indexRow, indexCol, keyProp).then(
+                processVirtualRow(property, index, indexRow, indexCol, propertyKey).then(
                   function(result) {
+                    var p = null;
 
                     if(result) {
                       // Let client one chance to calculate columns
-                      m_client.columnAfterUpdate(keyProp, indexRow, indexCol);
-                      setRowValueInGrid(index, property, indexRow, property.getGrid().getRows(indexRow));
+                      p = m_client.columnAfterUpdate(propertyKey, indexRow, indexCol).then(
+                        function() {
+                          setRowValueInGrid(index, property, indexRow, property.getGrid().getRows(indexRow));
+                        }
+                      );
                     }
 
-                    if(columnIsEditable(property, indexCol)) {
-                      self.setChanged(true);
-                    }
+                    p = p || Cairo.Promises.resolvedPromise();
+
+                    p.then(
+                      function() {
+                        if(columnIsEditable(property, indexCol)) {
+                          self.setChanged(true);
+                        }
+                      }
+                    );
                   }
                 );
               }
@@ -3865,7 +3902,7 @@
           return property.getGrid().getColumns().get(indexCol).getColumnIsEditable();
         };
 
-        var processVirtualRow = function(property, index, indexRow, indexCol, keyProp) {
+        var processVirtualRow = function(property, index, indexRow, indexCol, propertyKey) {
 
           return addVirtualRows(getPropertyKey(property), indexRow, indexCol).then(
             function(info) {
@@ -3889,18 +3926,18 @@
                   if(i < rowsCount) {
                     setColumnValueInProperty(property, index, i, indexCol, info.getNewValue(q), Cairo.Util.val(info.getNewId(q)));
 
-                    m_client.columnAfterEdit(keyProp, i, indexCol, info.getNewValue(q), Cairo.Util.val(info.getNewId(q)));
+                    m_client.columnAfterEdit(propertyKey, i, indexCol, info.getNewValue(q), Cairo.Util.val(info.getNewId(q)));
 
                     // Let client one chance to calculate columns
-                    m_client.columnAfterUpdate(keyProp, i, indexCol);
+                    m_client.columnAfterUpdate(propertyKey, i, indexCol);
 
                     if(colAmount > 0) {
                       setColumnValueInProperty(property, index, i, colAmount, info.getNewAmount(q), 0);
 
-                      m_client.columnAfterEdit(keyProp, i, colAmount, info.getNewAmount(q), 0);
+                      m_client.columnAfterEdit(propertyKey, i, colAmount, info.getNewAmount(q), 0);
 
                       // Let client one chance to calculate columns
-                      m_client.columnAfterUpdate(keyProp, i, colAmount);
+                      m_client.columnAfterUpdate(propertyKey, i, colAmount);
                     }
                   }
 
@@ -4019,7 +4056,7 @@
 
               if(property !== null) {
 
-                var keyProp = getPropertyKey(property);
+                var propertyKey = getPropertyKey(property);
 
                 if(after) {
 
@@ -4027,7 +4064,7 @@
                   // calculated data
                   createRowIfNotExists(property, index, indexRow);
 
-                  p = m_client.columnAfterEdit(keyProp, indexRow, indexCol, newValue, newValueID);
+                  p = m_client.columnAfterEdit(propertyKey, indexRow, indexCol, newValue, newValueID);
                 }
                 else {
 
@@ -4037,7 +4074,7 @@
                     createRowIfNotExists(property, index, indexRow);
                   }
 
-                  p = m_client.columnBeforeEdit(keyProp, indexRow, indexCol, keyAscii);
+                  p = m_client.columnBeforeEdit(propertyKey, indexRow, indexCol, keyAscii);
                 }
               }
             }
@@ -4072,14 +4109,14 @@
 
               if(property !== null) {
 
-                var keyProp = getPropertyKey(property);
+                var propertyKey = getPropertyKey(property);
                 m_client = m_client;
 
                 // If the row not exists we have to create it because the client need it to hold
                 // calculated data
                 createRowIfNotExists(property, index, indexRow);
 
-                p = m_client.columnButtonClick(keyProp, indexRow, indexCol, keyAscii).then(
+                p = m_client.columnButtonClick(propertyKey, indexRow, indexCol, keyAscii).then(
                   function(mustHandleEvent) {
                     var p = null;
                     var grid = property.getGrid();
@@ -4189,10 +4226,10 @@
 
             if(property !== null) {
 
-              var keyProp = getPropertyKey(property);
+              var propertyKey = getPropertyKey(property);
               var row = createRow(index, property, rowIndex);
 
-              p = m_client.isEmptyRow(keyProp, row, rowIndex).then(
+              p = m_client.isEmptyRow(propertyKey, row, rowIndex).then(
                 function(isEmpty) {
 
                   if(isEmpty) {
@@ -4207,7 +4244,7 @@
                     //
                     // let the client one chance to validate and modify row values
                     //
-                    return m_client.validateRow(keyProp, row, rowIndex).then(
+                    return m_client.validateRow(propertyKey, row, rowIndex).then(
                       function(isValid) {
                         if(isValid) {
                           return {
@@ -4950,9 +4987,9 @@
               label.setVisible(false);
               label.setTag("-1");
             }
-            else if(m_isDocument && (property.getKeyCol().equals(csNumberID) || property.getKeyCol().equals(csStateID))) {
+            else if(m_isDocument && (property.getKeyCol() === csNumberID || property.getKeyCol() === csStateID)) {
 
-              if(property.getKeyCol().equals(csNumberID)) {
+              if(property.getKeyCol() === csNumberID) {
                 c.setLeft(7300);
                 c.setWidth(1200);
               }
@@ -5090,8 +5127,8 @@
                 //
                 if(!(m_isDocument
                     && (property.getSelectTable() === Cairo.Tables.DOCUMENTO
-                        || property.getKeyCol().equals(Cairo.Constants.NUMBER_ID)
-                        || property.getKeyCol().equals(Cairo.Constants.STATUS_ID)))) {
+                        || property.getKeyCol() === Cairo.Constants.NUMBER_ID
+                        || property.getKeyCol() === Cairo.Constants.STATUS_ID))) {
                   m_nextTop[nTabIndex] = m_nextTop[nTabIndex] + C_LINE_HEIGHT;
                 }
               }
@@ -5542,7 +5579,7 @@
 
                               if(!unloading) {
 
-                                if(!m_isDocument && !m_bSendRefresh && !m_showOkCancel) {
+                                if(!m_isDocument && !m_sendRefresh && !m_showOkCancel) {
                                   discardChanges(false);
                                 }
                                 else {
@@ -6795,7 +6832,7 @@
           m_wizardView   = null;
         };
 
-        self.getGridName = function(property) {
+        var getGridName = function(property) {
           if(property.getName() !== "") {
             return m_client.getTitle() + "_" + property.getName();
           }

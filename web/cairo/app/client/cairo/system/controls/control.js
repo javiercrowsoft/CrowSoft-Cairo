@@ -26,7 +26,10 @@
       setForeColor: function(color) { /* TODO: implement this. */ },
 
       setItemData: function(index, data) { /* TODO: implement this. */ },
-      getNewIndex: function() { /* TODO: implement this. */ }
+      getNewIndex: function() { /* TODO: implement this. */ },
+
+      getTag: function() { /* TODO: implement this. */ }
+
 
     });
 

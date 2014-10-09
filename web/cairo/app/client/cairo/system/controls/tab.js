@@ -147,9 +147,16 @@ Cairo.module("Tab", function(Tab, Cairo, Backbone, Marionette, $, _) {
         }
       });
 
+      var virtualPush = function() { /* TODO: implement this. */ };
+      var getIndex = function() { /* TODO: implement this. */ };
+
       // we return a tab manager which can be use to create and show a tab
       //
-      return { showTab: showTab };
+      return {
+        showTab: showTab,
+        virtualPush: virtualPush,
+        getIndex: getIndex
+      };
     }
   };
 });

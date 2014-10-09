@@ -9,9 +9,9 @@
   // Entities
   ///////////////
 
-  Cairo.module("Entities.Controls", function(Controls, Cairo, Backbone, Marionette, $, _) {
+  Cairo.module("Entities.Controls.Grids", function(Grids, Cairo, Backbone, Marionette, $, _) {
 
-    Controls.GridGroup = Backbone.Model.extend({
+    Grids.GridGroup = Backbone.Model.extend({
       urlRoot: "",
 
       defaults: {
@@ -23,11 +23,14 @@
       setSortType: function(type) { /* TODO: implement this. */ },
       setIsSortCol: function(isSortCol) { /* TODO: implement this. */ },
       expandAllGroups: function() { /* TODO: implement this. */ },
-      setGridLines: function(gridLines) { /* TODO: implement this. */ }
+      setGridLines: function(gridLines) { /* TODO: implement this. */ },
+      setAddEnabled: function(enabled) { /* TODO: implement this. */ },
+      setEditEnabled: function(enabled) { /* TODO: implement this. */ },
+      setDeleteEnabled: function(enabled) { /* TODO: implement this. */ }
 
     });
 
-    Controls.Cell = Backbone.Model.extend({
+    Grids.Cell = Backbone.Model.extend({
       urlRoot: "",
 
       defaults: {
@@ -42,7 +45,62 @@
 
     });
 
-    Controls.Grid = Controls.Control.extend({
+    Grids.Cells = Backbone.Collection.extend({
+      url: "",
+
+      model: Grids.Cell,
+      comparator: "index"
+    });
+
+    Grids.Column = Backbone.Model.extend({
+      urlRoot: "",
+
+      defaults: {
+        key:     0,
+        name:    '',
+
+        type:    null,
+        subType: null,
+
+        default: null /* is a Grids.Cell object */
+      },
+
+      setValue: function(value) { /* TODO: implement this. */ }
+
+    });
+
+    Grids.Columns = Backbone.Collection.extend({
+      url: "",
+
+      model: Grids.Column,
+      comparator: "index"
+    });
+
+    Grids.Row = Backbone.Model.extend({
+      urlRoot: "",
+
+      defaults: {
+        cells: new Grids.Cells()
+      },
+
+      getIsGroup: function() { /* TODO: implement this. */ },
+      setIsGroup: function(isGroup) { /* TODO: implement this. */ },
+      get: function(col) { /* TODO: implement this. */ }
+
+    });
+
+    Grids.Rows = Backbone.Collection.extend({
+      url: "",
+
+      model: Grids.Row,
+      comparator: "index",
+
+      setCount: function(count) { /* TODO: implement this. */ },
+      count: function(count) { /* TODO: implement this. */ }
+
+    });
+
+    Grids.Grid = Cairo.Entities.Controls.Control.extend({
       urlRoot: "",
 
       defaults: {
@@ -51,6 +109,7 @@
       selectRow: function(row) { /* TODO: implement this. */ },
       autoWidthColumns: function() { /* TODO: implement this. */ },
       getColumns: function() { /* TODO: implement this. */ },
+      getRows: function() { /* TODO: implement this. */ },
       clearGroups: function() { /* TODO: implement this. */ },
       refreshGroupsAndFormulasEx: function() { /* TODO: implement this. */ },
       clearEx: function() { /* TODO: implement this. */ },
@@ -64,7 +123,8 @@
       setColumnWidth: function(col, width) { /* TODO: implement this. */ },
       cell: function(row, col) { /* TODO: implement this. */ },
       setRowBackColor: function(rowIndex, backColor) { /* TODO: implement this. */ },
-      setRowForeColor: function(rowIndex, foreColor) { /* TODO: implement this. */ }
+      setRowForeColor: function(rowIndex, foreColor) { /* TODO: implement this. */ },
+      setMultiSelect: function(multiSelect) { /* TODO: implement this. */ }
 
     });
 
