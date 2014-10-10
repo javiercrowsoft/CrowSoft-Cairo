@@ -15,10 +15,12 @@
       urlRoot: "",
 
       defaults: {
+        enabledNoChangeBkColor: false
       },
 
       getMask: function() { /* TODO: implement this. */ },
-      setMask: function(mask) { /* TODO: implement this. */ }
+      setMask: function(mask) { /* TODO: implement this. */ },
+      setEnabledNoChangeBkColor: function(value) { this.enabledNoChangeBkColor = value; }
 
     });
 

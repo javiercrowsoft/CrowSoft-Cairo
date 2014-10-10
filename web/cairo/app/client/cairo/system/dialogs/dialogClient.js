@@ -27,7 +27,13 @@
       columnBeforeEdit: function(propertyKey, rowIndex, columnIndex, keyAscii) { /* TODO: implement this. */ },
       columnButtonClick: function(propertyKey, rowIndex, columnIndex, keyAscii) { /* TODO: implement this. */ },
       isEmptyRow: function(propertyKey, row, rowIndex) { /* TODO: implement this. */ },
-      validateRow: function(propertyKey, row, rowIndex) { /* TODO: implement this. */ }
+      validateRow: function(propertyKey, row, rowIndex) { /* TODO: implement this. */ },
+      discardChanges: function() { /* TODO: implement this. */ },
+      moveNext: function() { /* TODO: implement this. */ },
+      moveBack: function() { /* TODO: implement this. */ },
+      isDocument: function() { /* TODO: implement this. */ },
+      getDocumentId: function() { /* TODO: implement this. */ },
+      getDocumentIsPrinted: function() { /* TODO: implement this. */ }
 
     };
 

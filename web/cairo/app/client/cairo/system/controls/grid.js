@@ -34,6 +34,7 @@
 
       setItemData: function(data) { /* TODO: implement this. */ },
       getId: function() { /* TODO: implement this. */ },
+      getKey: function() { /* TODO: implement this. */ },
       setForeColor: function(color) { /* TODO: implement this. */ },
       setBackColor: function(color) { /* TODO: implement this. */ },
       setTextAlign: function(align) { /* TODO: implement this. */ },
@@ -132,6 +133,7 @@
       refreshGroupsAndFormulasEx: function() { /* TODO: implement this. */ },
       clearEx: function() { /* TODO: implement this. */ },
       addGroup: function() { /* TODO: implement this. */ },
+      getRedraw: function() { /* TODO: implement this. */ },
       setRedraw: function(redraw) { /* TODO: implement this. */ },
       rowIsGroup: function(row) { /* TODO: implement this. */ },
       setSelectedCol: function(col) { /* TODO: implement this. */ },
@@ -146,7 +148,8 @@
       setGridLines: function(gridLines) { /* TODO: implement this. */ },
       setAddEnabled: function(enabled) { /* TODO: implement this. */ },
       setEditEnabled: function(enabled) { /* TODO: implement this. */ },
-      setDeleteEnabled: function(enabled) { /* TODO: implement this. */ }
+      setDeleteEnabled: function(enabled) { /* TODO: implement this. */ },
+      unSelectRow: function(row) { /* TODO: implement this. */ }
 
     });
 

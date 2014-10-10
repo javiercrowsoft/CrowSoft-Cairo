@@ -20,7 +20,11 @@
       setPath: function(path) { /* TODO: implement this. */ },
       setCommandTimeout: function(timeout) { /* TODO: implement this. */ },
       setConnectionTimeout: function(timeout) { /* TODO: implement this. */ },
-      showPrint: function(id, tblId, docId) { /* TODO: implement this. */ }
+      showPrint: function(id, tblId, docId) { /* TODO: implement this. */ },
+      setIsForEmail: function(timeout) { /* TODO: implement this. */ },
+      setEmailAddress: function(emaill) { /* TODO: implement this. */ },
+      setUserDescription: function(description) { /* TODO: implement this. */ },
+      setDocumentAsPrinted: function() { /* TODO: implement this. */ }
 
     });
 

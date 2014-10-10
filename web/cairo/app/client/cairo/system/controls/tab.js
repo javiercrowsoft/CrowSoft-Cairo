@@ -149,13 +149,31 @@ Cairo.module("Tab", function(Tab, Cairo, Backbone, Marionette, $, _) {
 
       var virtualPush = function() { /* TODO: implement this. */ };
       var getIndex = function() { /* TODO: implement this. */ };
+      var setIndex = function(index) { /* TODO: implement this. */ };
+      var getControlIndex = function() { /* TODO: implement this. */ };
+      var setControlIndex = function(index) { /* TODO: implement this. */ };
+      var setTabSelected = function(selected) { /* TODO: implement this. */ };
+      var getFatherTab = function() { /* TODO: implement this. */ };
+      var setTabGroup = function(group) { /* TODO: implement this. */ };
+      var setTabStop = function(stop) { /* TODO: implement this. */ };
+      var setBackColorPressed = function(color) { /* TODO: implement this. */ };
+      var getWidth = function() { /* TODO: implement this. */ };
 
       // we return a tab manager which can be use to create and show a tab
       //
       return {
         showTab: showTab,
         virtualPush: virtualPush,
-        getIndex: getIndex
+        getIndex: getIndex,
+        setIndex: setIndex,
+        getControlIndex: getControlIndex,
+        setControlIndex: setControlIndex,
+        setTabSelected: setTabSelected,
+        getFatherTab: getFatherTab,
+        setTabGroup: setTabGroup,
+        setTabStop: setTabStop,
+        setBackColorPressed: setBackColorPressed,
+        getWidth: getWidth
       };
     }
   };

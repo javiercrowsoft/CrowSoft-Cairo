@@ -42,6 +42,7 @@
       getLabels: function() { /* TODO: implement this. */ },
       getCtlLabels: function() { /* TODO: implement this. */ },
       getProgressBars: function() { /* TODO: implement this. */ },
+      getGrids: function() { /* TODO: implement this. */ },
       getDescription: function() { /* TODO: implement this. */ },
       getTitleLabel2: function() { /* TODO: implement this. */ },
       getImages: function() { /* TODO: implement this. */ },
@@ -61,7 +62,9 @@
       showDialog: function() { /* TODO: implement this. */ },
       showView: function() { /* TODO: implement this. */ },
       setFocusFirstControl: function() { /* TODO: implement this. */ },
-      getActiveControl: function() { /* TODO: implement this. */ }
+      getActiveControl: function() { /* TODO: implement this. */ },
+
+      getTextWidth: function(text) { /* TODO: implement this. */ }
 
     });
 
@@ -74,7 +77,9 @@
       raiseAfterLoadEvent: function() { /* TODO: implement this. */ },
       getPrintButton: function() { /* TODO: implement this. */ },
       getPermissionsButton: function() { /* TODO: implement this. */ },
-      setSaved: function() { /* TODO: implement this. */ }
+      setSaved: function() { /* TODO: implement this. */ },
+      save: function() { /* TODO: implement this. */ },
+      close: function() { /* TODO: implement this. */ }
 
     });
 
@@ -82,17 +87,28 @@
 
       getImgWiz1: function() { /* TODO: implement this. */ },
       getImgWiz3: function() { /* TODO: implement this. */ },
-      getImgWiz5: function() { /* TODO: implement this. */ }
+      getImgWiz5: function() { /* TODO: implement this. */ },
+      getNextButton: function() { /* TODO: implement this. */ },
+      getBackButton: function() { /* TODO: implement this. */ }
 
     });
 
     Views.DocumentView = Views.View.extend({
 
       setLoading: function(loading) { /* TODO: implement this. */ },
+      getCancelUnload: function() { /* TODO: implement this. */ },
       setCancelUnload: function(loading) { /* TODO: implement this. */ },
-      setUnloadCount: function(loading) { /* TODO: implement this. */ },
-      getCancelUnload: function(loading) { /* TODO: implement this. */ },
-      getUnloadCount: function(loading) { /* TODO: implement this. */ }
+      getUnloadCount: function() { /* TODO: implement this. */ },
+      setUnloadCount: function(count) { /* TODO: implement this. */ },
+      getFooterBackground: function() { /* TODO: implement this. */ },
+
+      setNoButtons1: function(buttons) { /* TODO: implement this. */ },
+      setNoButtons2: function(buttons) { /* TODO: implement this. */ },
+      setNoButtons3: function(buttons) { /* TODO: implement this. */ },
+      setButtonsEx2: function(buttons) { /* TODO: implement this. */ },
+      setButtonsEx3: function(buttons) { /* TODO: implement this. */ },
+
+      setToolbarButtons: function() { /* TODO: implement this. */ }
 
     });
 

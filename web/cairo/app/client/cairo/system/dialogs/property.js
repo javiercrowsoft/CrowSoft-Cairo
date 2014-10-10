@@ -279,13 +279,16 @@
         getIsEditProperty: function() { return this.isEditProperty; },
         getNoShowButton: function() { return this.hideButton; },
 
-        getFontName: function() { return this.fontName; },
-        setFontName: function(name) { this.fontName = name; },
-        getFontSize: function() { return this.fontSize; },
-        setFontSize: function(size) { this.fontSize = size; },
+        getFontName:      function()          { return this.fontName; },
+        setFontName:      function(name)      { this.fontName = name; },
+        getFontSize:      function()          { return this.fontSize; },
+        setFontSize:      function(size)      { this.fontSize = size; },
+        getFontUnderline: function()          { return this.fontUnderline; },
         setFontUnderline: function(underline) { this.fontUnderline = underline; },
-        setFontBold: function(bold) { this.fontBold = bold; },
-        setFontItalic: function(italic) { this.fontItalic = italic; },
+        getFontBold:      function()          { return this.fontBold; },
+        setFontBold:      function(bold)      { this.fontBold = bold; },
+        getFontItalic:    function()          { return this.fontItalic; },
+        setFontItalic:    function(italic)    { this.fontItalic = italic; },
 
         getEnabled: function() { return this.enabled; }
 

@@ -19,7 +19,9 @@
 
       loadFromRows: function(gridControl, grid, noChangeColumns, name) { /* TODO: implement this. */ },
       loadFromRow: function(gridControl, row, rowIndex, columns) { /* TODO: implement this. */ },
-      setColumnProperties: function(grid, column, colGrid) { /* TODO: implement this. */ }
+      setColumnProperties: function(grid, column, colGrid) { /* TODO: implement this. */ },
+      saveColumnWidth: function(grid, name) { /* TODO: implement this. */ },
+      saveColumnOrder: function(grid, name) { /* TODO: implement this. */ }
 
     });
 
@@ -81,7 +83,9 @@
 
       defaults: {
         format: null /* is a Grids.CellFormat object */
-      }
+      },
+
+      getKey: function() { /* TODO: implement this. */ }
 
     });
 
@@ -142,7 +146,11 @@
 
       getIsGroup: function() { /* TODO: implement this. */ },
       setIsGroup: function(isGroup) { /* TODO: implement this. */ },
-      get: function(col) { /* TODO: implement this. */ }
+
+      get: function(col) { /* TODO: implement this. */ },
+
+      getHaveKey: function() { /* TODO: implement this. */ },
+      setHaveKey: function(haveKey) { /* TODO: implement this. */ }
 
     });
 
