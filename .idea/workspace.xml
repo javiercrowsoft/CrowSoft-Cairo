@@ -4,16 +4,13 @@
     <list default="true" id="d47203c3-b220-49d7-aac2-46c758baa4bb" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/cairo/app/client/cairo/system/dialogs/dialog.js" afterPath="$PROJECT_DIR$/web/cairo/app/client/cairo/system/dialogs/dialog.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/cairo/app/client/cairo/system/dialogs/dialogClient.js" afterPath="$PROJECT_DIR$/web/cairo/app/client/cairo/system/dialogs/dialogClient.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/cairo/app/client/cairo/system/controls/grid.js" afterPath="$PROJECT_DIR$/web/cairo/app/client/cairo/system/controls/grid.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/cairo/app/client/cairo/system/dialogs/grid.js" afterPath="$PROJECT_DIR$/web/cairo/app/client/cairo/system/dialogs/grid.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="CrowSoft-Cairo.iws" />
     <ignored path=".idea/workspace.xml" />
     <file path="/Dummy.txt" changelist="d47203c3-b220-49d7-aac2-46c758baa4bb" time="1412872563314" ignored="false" />
     <file path="/tree.js" changelist="d47203c3-b220-49d7-aac2-46c758baa4bb" time="1410535229260" ignored="false" />
     <file path="/Companies.scala" changelist="d47203c3-b220-49d7-aac2-46c758baa4bb" time="1410535836230" ignored="false" />
-    <file path="/a.dummy" changelist="d47203c3-b220-49d7-aac2-46c758baa4bb" time="1412881195847" ignored="false" />
+    <file path="/a.dummy" changelist="d47203c3-b220-49d7-aac2-46c758baa4bb" time="1412964303918" ignored="false" />
     <file path="/index.scala.html" changelist="d47203c3-b220-49d7-aac2-46c758baa4bb" time="1410625080198" ignored="false" />
     <file path="/dialog.js" changelist="d47203c3-b220-49d7-aac2-46c758baa4bb" time="1412880438617" ignored="false" />
     <file path="/a.js" changelist="d47203c3-b220-49d7-aac2-46c758baa4bb" time="1410779836562" ignored="false" />
@@ -24,10 +21,10 @@
     <file path="/property.js" changelist="d47203c3-b220-49d7-aac2-46c758baa4bb" time="1412698305822" ignored="false" />
     <file path="$PROJECT_DIR$/../../ArizonaBay/Intelimax/draftteam/WebClient/app/views/shared/marketing/_promotion_popup.erb" changelist="d47203c3-b220-49d7-aac2-46c758baa4bb" time="1411407408246" ignored="false" />
     <file path="$PROJECT_DIR$/../../ArizonaBay/Intelimax/draftteam/WebClient/app/views/marketing/index.html.erb" changelist="d47203c3-b220-49d7-aac2-46c758baa4bb" time="1411407592521" ignored="false" />
-    <file path="$PROJECT_DIR$/../../ArizonaBay/Intelimax/draftteam/WebClient/doc/deploy_notes.txt" changelist="d47203c3-b220-49d7-aac2-46c758baa4bb" time="1411407723099" ignored="false" />
+    <file path="$PROJECT_DIR$/../../ArizonaBay/Intelimax/draftteam/WebClient/doc/deploy_notes.txt" changelist="d47203c3-b220-49d7-aac2-46c758baa4bb" time="1412962959425" ignored="false" />
     <file path="$PROJECT_DIR$/../../ArizonaBay/Intelimax/draftteam/CentralServer/config/database.yml" changelist="d47203c3-b220-49d7-aac2-46c758baa4bb" time="1411407660147" ignored="false" />
     <file path="$PROJECT_DIR$/../../ArizonaBay/Intelimax/draftteam/CentralServer/db/seeds.rb" changelist="d47203c3-b220-49d7-aac2-46c758baa4bb" time="1411407660147" ignored="false" />
-    <file path="$PROJECT_DIR$/../../ArizonaBay/Intelimax/draftteam/CentralServer/doc/deploy_notes.txt" changelist="d47203c3-b220-49d7-aac2-46c758baa4bb" time="1411407660147" ignored="false" />
+    <file path="$PROJECT_DIR$/../../ArizonaBay/Intelimax/draftteam/CentralServer/doc/deploy_notes.txt" changelist="d47203c3-b220-49d7-aac2-46c758baa4bb" time="1412962969384" ignored="false" />
     <file path="$PROJECT_DIR$/../../ArizonaBay/Intelimax/draftteam/WebClient/app/controllers/application_controller.rb" changelist="d47203c3-b220-49d7-aac2-46c758baa4bb" time="1411407660147" ignored="false" />
     <file path="$PROJECT_DIR$/../../ArizonaBay/Intelimax/draftteam/CentralServer/app/views/contests/_roster.json.jbuilder" changelist="d47203c3-b220-49d7-aac2-46c758baa4bb" time="1411675201735" ignored="false" />
     <file path="/_roster.json.jbuilder" changelist="d47203c3-b220-49d7-aac2-46c758baa4bb" time="1411672049870" ignored="false" />
@@ -35,8 +32,8 @@
     <file path="/view.js" changelist="d47203c3-b220-49d7-aac2-46c758baa4bb" time="1412797300883" ignored="false" />
     <file path="$PROJECT_DIR$/../../ArizonaBay/Intelimax/draftteam/WebClient/app/views/layouts/_calculus3_contest.html.erb" changelist="d47203c3-b220-49d7-aac2-46c758baa4bb" time="1412188925426" ignored="false" />
     <file path="/_calculus3_contest.html.erb" changelist="d47203c3-b220-49d7-aac2-46c758baa4bb" time="1412184744163" ignored="false" />
-    <file path="$PROJECT_DIR$/../../ArizonaBay/Intelimax/draftteam/WebClient/app/controllers/contests_controller.rb" changelist="d47203c3-b220-49d7-aac2-46c758baa4bb" time="1412184349764" ignored="false" />
-    <file path="/contests_controller.rb" changelist="d47203c3-b220-49d7-aac2-46c758baa4bb" time="1412184316762" ignored="false" />
+    <file path="$PROJECT_DIR$/../../ArizonaBay/Intelimax/draftteam/WebClient/app/controllers/contests_controller.rb" changelist="d47203c3-b220-49d7-aac2-46c758baa4bb" time="1412960500980" ignored="false" />
+    <file path="/contests_controller.rb" changelist="d47203c3-b220-49d7-aac2-46c758baa4bb" time="1412960500980" ignored="false" />
     <file path="$PROJECT_DIR$/../../ArizonaBay/Intelimax/draftteam/WebClient/app/views/layouts/application.html.erb" changelist="d47203c3-b220-49d7-aac2-46c758baa4bb" time="1412184704525" ignored="false" />
     <file path="/application.html.erb" changelist="d47203c3-b220-49d7-aac2-46c758baa4bb" time="1412184644861" ignored="false" />
     <file path="$PROJECT_DIR$/../../ArizonaBay/Intelimax/draftteam/WebClient/app/views_mobile/layouts/application.html.erb" changelist="d47203c3-b220-49d7-aac2-46c758baa4bb" time="1412184681605" ignored="false" />
@@ -49,6 +46,14 @@
     <file path="/image.js" changelist="d47203c3-b220-49d7-aac2-46c758baa4bb" time="1412699879474" ignored="false" />
     <file path="/tab.js" changelist="d47203c3-b220-49d7-aac2-46c758baa4bb" time="1412717896481" ignored="false" />
     <file path="/menu.js" changelist="d47203c3-b220-49d7-aac2-46c758baa4bb" time="1412719367678" ignored="false" />
+    <file path="$PROJECT_DIR$/../../ArizonaBay/Intelimax/draftteam/CentralServer/app/controllers/contests_controller.rb" changelist="d47203c3-b220-49d7-aac2-46c758baa4bb" time="1412958763722" ignored="false" />
+    <file path="$PROJECT_DIR$/../../ArizonaBay/Intelimax/draftteam/WebClient/app/views/contests/_contests_select.html.erb" changelist="d47203c3-b220-49d7-aac2-46c758baa4bb" time="1412959182195" ignored="false" />
+    <file path="/_contests_select.html.erb" changelist="d47203c3-b220-49d7-aac2-46c758baa4bb" time="1412959175224" ignored="false" />
+    <file path="$PROJECT_DIR$/../../ArizonaBay/Intelimax/draftteam/WebClient/app/views_mobile/contests/_contest_list_select.html.erb" changelist="d47203c3-b220-49d7-aac2-46c758baa4bb" time="1412959434236" ignored="false" />
+    <file path="/_contest_list_select.html.erb" changelist="d47203c3-b220-49d7-aac2-46c758baa4bb" time="1412959417049" ignored="false" />
+    <file path="$PROJECT_DIR$/../../ArizonaBay/Intelimax/draftteam/WebClient/app/views_mobile/contests/_contest_select.html.erb" changelist="d47203c3-b220-49d7-aac2-46c758baa4bb" time="1412960562858" ignored="false" />
+    <file path="/_contest_select.html.erb" changelist="d47203c3-b220-49d7-aac2-46c758baa4bb" time="1412960562858" ignored="false" />
+    <file path="/deploy_notes.txt" changelist="d47203c3-b220-49d7-aac2-46c758baa4bb" time="1412962019808" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -108,14 +113,14 @@
     <breakpoint_rules converted="true" />
   </component>
   <component name="DockManager">
-    <window id="1">
+    <window id="2">
       <content type="file-editors">
         <state>
           <leaf>
             <file leaf-file-name="dialog.js" pinned="false" current="true" current-in-tab="true">
               <entry file="file://$PROJECT_DIR$/web/cairo/app/client/cairo/system/dialogs/dialog.js">
                 <provider selected="true" editor-type-id="text-editor">
-                  <state line="4205" column="29" selection-start="134343" selection-end="134343" vertical-scroll-proportion="0.33333334">
+                  <state line="4195" column="80" selection-start="134054" selection-end="134054" vertical-scroll-proportion="0.16918103">
                     <folding />
                   </state>
                 </provider>
@@ -132,10 +137,10 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="grid.js" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="grid.js" pinned="false" current="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/web/cairo/app/client/cairo/system/controls/grid.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="78" column="0" selection-start="2325" selection-end="2325" vertical-scroll-proportion="0.0">
+            <state line="78" column="0" selection-start="2325" selection-end="2325" vertical-scroll-proportion="1.6764706">
               <folding />
             </state>
           </provider>
@@ -168,10 +173,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="dialogClient.js" pinned="false" current="false" current-in-tab="true">
+      <file leaf-file-name="dialogClient.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/web/cairo/app/client/cairo/system/dialogs/dialogClient.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="4" column="50" selection-start="69" selection-end="69" vertical-scroll-proportion="0.5714286">
+            <state line="27" column="68" selection-start="1283" selection-end="1283" vertical-scroll-proportion="-9.160714">
               <folding />
             </state>
           </provider>
@@ -245,8 +250,8 @@
         <option value="$PROJECT_DIR$/web/cairo/app/client/cairo/system/dialogs/view.js" />
         <option value="$PROJECT_DIR$/web/cairo/app/client/cairo/system/controls/grid.js" />
         <option value="$PROJECT_DIR$/web/cairo/app/client/cairo/system/dialogs/grid.js" />
-        <option value="$PROJECT_DIR$/web/cairo/app/client/cairo/system/dialogs/dialog.js" />
         <option value="$PROJECT_DIR$/web/cairo/app/client/cairo/system/dialogs/dialogClient.js" />
+        <option value="$PROJECT_DIR$/web/cairo/app/client/cairo/system/dialogs/dialog.js" />
       </list>
     </option>
   </component>
@@ -901,7 +906,7 @@
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.8189749" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.8189749" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="true" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.23608138" sideWeight="0.18102509" order="0" side_tool="false" content_ui="combo" />
@@ -1094,13 +1099,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/web/cairo/app/client/cairo/system/controls/grid.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="78" column="0" selection-start="2325" selection-end="2325" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/web/cairo/app/client/cairo/system/dialogs/grid.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="25" column="20" selection-start="632" selection-end="648" vertical-scroll-proportion="0.0">
@@ -1110,14 +1108,21 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/web/cairo/app/client/cairo/system/dialogs/dialogClient.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="4" column="50" selection-start="69" selection-end="69" vertical-scroll-proportion="0.5714286">
+        <state line="27" column="68" selection-start="1283" selection-end="1283" vertical-scroll-proportion="-9.160714">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/cairo/app/client/cairo/system/controls/grid.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="78" column="0" selection-start="2325" selection-end="2325" vertical-scroll-proportion="1.6764706">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/web/cairo/app/client/cairo/system/dialogs/dialog.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="4205" column="29" selection-start="134343" selection-end="134343" vertical-scroll-proportion="0.33333334">
+        <state line="4195" column="80" selection-start="134054" selection-end="134054" vertical-scroll-proportion="0.16918103">
           <folding />
         </state>
       </provider>
