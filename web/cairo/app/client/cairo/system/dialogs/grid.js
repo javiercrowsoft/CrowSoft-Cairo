@@ -171,7 +171,9 @@
 
       getColumns: function() { /* TODO: implement this. */ },
       getRows: function() { /* TODO: implement this. */ },
-      setRows: function(rows) { /* TODO: implement this. */ }
+      setRows: function(rows) { /* TODO: implement this. */ },
+      getNoResize: function() { /* TODO: implement this. */ },
+      setNoResizeHeight: function() { /* TODO: implement this. */ }
 
     });
 

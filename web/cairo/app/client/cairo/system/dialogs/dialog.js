@@ -142,7 +142,8 @@
     Dialogs.Colors = {
       buttonFace: '#cecece',
       buttonShadow: '#cecece',
-      tabBackColor: '#ffffff'
+      tabBackColor: '#ffffff',
+      backgroundColor: '#cecece'
     };
 
     Dialogs.BackgroundType = {
@@ -6916,10 +6917,10 @@
                 indexGrid = i;
               }
 
-              getView().setDontResize(indexGrid, grid.setDontResize());
+              getView().setNoResize(indexGrid, grid.getNoResize());
 
-              if(grid.setDontResizeHeight()) {
-                getView().setDontResizeHeight(indexGrid, true);
+              if(grid.setNoResizeHeight()) {
+                getView().setNoResizeHeight(indexGrid, true);
 
                 if(!property.getControl() === null) {
                   setGridHeight(property.getControl(), property.getHeight());
@@ -6992,7 +6993,7 @@
         // TODO: implement or remove
         var setBackgroundColor = function() {
           if(m_backgroundColor !== 0) {
-            setBackColorTagMainEx(mUtil.gBackgroundColor);
+            self.setBackColorTagMainEx(Dialogs.Colors.backgroundColor);
           }
         };
 
@@ -7009,7 +7010,7 @@
           else if(m_wizardView !== null) {
             m_wizardView.getBackground().setBackColor(color);
             m_wizardView.getDialogBackground().setBackColor(color);
-            m_wizardView.getTitleBackground().setBackColor(Dialgos.Colors.tabBackColor);
+            m_wizardView.getTitleBackground().setBackColor(Dialogs.Colors.tabBackColor);
           }
         };
 

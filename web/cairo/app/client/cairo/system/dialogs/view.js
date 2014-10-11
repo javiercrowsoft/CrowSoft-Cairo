@@ -64,13 +64,17 @@
       setFocusFirstControl: function() { /* TODO: implement this. */ },
       getActiveControl: function() { /* TODO: implement this. */ },
 
-      getTextWidth: function(text) { /* TODO: implement this. */ }
+      getTextWidth: function(text) { /* TODO: implement this. */ },
+
+      getIndexGrid: function(grid) { /* TODO: implement this. */ },
+      setNoResize: function(indexGrid, noResize) { /* TODO: implement this. */ }
 
     });
 
     Views.MasterView = Views.View.extend({
 
       getEditDocumentsButton: function() { /* TODO: implement this. */ },
+      getTitleLabelEx2: function() { /* TODO: implement this. */ },
       getNewButton: function() { /* TODO: implement this. */ },
       getCopyButton: function() { /* TODO: implement this. */ },
       sendAutoSave: function() { /* TODO: implement this. */ },
@@ -89,7 +93,9 @@
       getImgWiz3: function() { /* TODO: implement this. */ },
       getImgWiz5: function() { /* TODO: implement this. */ },
       getNextButton: function() { /* TODO: implement this. */ },
-      getBackButton: function() { /* TODO: implement this. */ }
+      getBackButton: function() { /* TODO: implement this. */ },
+      getDialogBackground: function() { /* TODO: implement this. */ },
+      getTitleBackground: function() { /* TODO: implement this. */ }
 
     });
 
