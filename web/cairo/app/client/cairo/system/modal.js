@@ -46,7 +46,9 @@
       Cairo.dialogRegion.show(view);
 
       return defer.promise;
-    }
+    },
+
+    showInfo: function(message) { /* TODO: implement this. */}
 
   };
 

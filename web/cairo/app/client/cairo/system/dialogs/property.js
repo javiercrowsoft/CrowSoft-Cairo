@@ -174,7 +174,9 @@
         setBackColorUnpressed: function(backColor) { this._unPressedBackColor = backColor; },
 
         getType: function() { return this.type; },
+        setType: function(type) { this.type = type; },
         getSubType: function() { return this.subType; },
+        setSubType: function(subType) { this.subType = subType; },
 
         // list
         //

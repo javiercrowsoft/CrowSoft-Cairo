@@ -149,7 +149,8 @@
       setAddEnabled: function(enabled) { /* TODO: implement this. */ },
       setEditEnabled: function(enabled) { /* TODO: implement this. */ },
       setDeleteEnabled: function(enabled) { /* TODO: implement this. */ },
-      unSelectRow: function(row) { /* TODO: implement this. */ }
+      unSelectRow: function(row) { /* TODO: implement this. */ },
+      setNoSelectInGotFocus: function(value) { /* TODO: implement this. */ }
 
     });
 

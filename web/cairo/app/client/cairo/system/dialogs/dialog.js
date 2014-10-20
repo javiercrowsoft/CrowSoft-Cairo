@@ -315,7 +315,7 @@
         // title customization
         //
         var m_hideTitle = false;
-        var m_title2 = "";
+        var m_title = "";
         var m_viewText = "";
 
         // flag: unloading dialog
@@ -1651,7 +1651,7 @@
 
             case Dialogs.PropertyType.title:
 
-              var c = view.getTitle2(property.getIndex());
+              var c = view.getTitle(property.getIndex());
               c.setText(property.getValue());
 
               break;
@@ -2526,8 +2526,8 @@
           return m_tabs;
         };
 
-        self.setTitle2 = function(rhs) {
-          m_title2 = rhs;
+        self.setTitle = function(rhs) {
+          m_title = rhs;
         };
 
         self.setTop = function(rhs) {
@@ -2714,7 +2714,7 @@
               function() {
                 var p = null;
 
-                m_title2 = "";
+                m_title = "";
 
                 if(!m_isDocument && !m_sendRefresh) {
                   p = discardChanges(true);
@@ -3335,16 +3335,16 @@
 
                 case Dialogs.Constants.toolbarKeyDocTip:
 
-                  Cairo.Util.sendEmailToCrowSoft("Suggestions for CrowSoft Cairo", "Documents: " + m_title2);
+                  Cairo.Util.sendEmailToCrowSoft("Suggestions for CrowSoft Cairo", "Documents: " + m_title);
                   break;
 
                 case Dialogs.Constants.toolbarKeyClose:
-                  
+
                   formDocClose();
                   break;
-                
+
                 default:
-                  
+
                   m_client.messageEx(Dialogs.Message.MSG_TOOLBAR_BUTTON_CLICK, button.getKey());
                   break;
               }
@@ -3376,7 +3376,7 @@
         // update the rows collection of the property's grid object
         // with the value contained in the selected row of the
         // grid control
-        // 
+        //
         // there is always a row selected because the row which
         // has the focus is always selected
         //
@@ -4579,7 +4579,7 @@
         };
 
         var loadControl = function(property) {
-          
+
           var nTabIndex = getTabIndex(property);
           var view = getView();
           var controlType = property.getType();
@@ -4590,14 +4590,14 @@
           switch(controlType) {
 
             case Dialogs.PropertyType.select:
-              
+
               c.setSelectType(property.getSelectType());
               c.setSelectNoUseActive(property.getSelectNoUseActive());
               c.setTable(property.getSelectTable());
               c.reset();
               setFont(c, property);
               break;
-            
+
             case Dialogs.PropertyType.numeric:
 
               c.setType(subType);
@@ -4635,7 +4635,7 @@
               else {
                 c.setBackStyle(Dialogs.BackgroundType.transparent);
               }
-              c.setAlignment(property.getTextAlign());
+              c.setTextAlign(property.getTextAlign());
               break;
 
             // this is here to avoid confuse someone reading the code and thinking we forgot this type
@@ -4668,7 +4668,7 @@
               }
 
               c.setMaxLength(property.getSize());
-              c.setAlignment(property.getTextAlign());
+              c.setTextAlign(property.getTextAlign());
 
               // to allow disbled text areas which allow using
               // arrow keys to scroll content but not allow edition
@@ -4709,12 +4709,12 @@
 
             case Dialogs.PropertyType.grid:
 
-              c.setEditable(property.getGridEditEnabled());
-              m_gridManager.setPropertys(c);
+              c.setEnabled(property.getGridEditEnabled());
+              m_gridManager.setProperties(c);
 
               var grid = property.getGrid();
-              c.setDontSelectInGotFocus(grid.getDontSelectInGotFocus());
-              c.setRowMode(grid.getRowSelect());
+              c.setNoSelectInGotFocus(grid.getNoSelectInGotFocus());
+              c.setRowMode(grid.getRowMode());
               break;
 
             case Dialogs.PropertyType.toolbar:
@@ -4726,7 +4726,7 @@
           }
 
           if(property.getType() !== Dialogs.PropertyType.toolbar) {
-            property.setIndex(c.Index);
+            property.setIndex(c.getIndex());
           }
 
           pSetTabIndex(c);
@@ -4911,8 +4911,8 @@
 
             // increase the with of this tab
             //
-            if(c.getTop() + c.getHeight() > f.getHeight()) { 
-              f.setHeight(c.getTop() + c.getHeight() + 50); 
+            if(c.getTop() + c.getHeight() > f.getHeight()) {
+              f.setHeight(c.getTop() + c.getHeight() + 50);
             }
 
             if(f.getHeight() + f.getTop() > getView().getBottomLine().getTop()) {
@@ -5029,9 +5029,9 @@
               label.setVisible(false);
               label.setTag("-1");
             }
-            else if(m_isDocument && (property.getKeyCol() === csNumberID || property.getKeyCol() === csStateID)) {
+            else if(m_isDocument && (property.getKeyCol() === Cairo.Constants.NUMBER_ID || property.getKeyCol() === Cairo.Constants.STATUS_ID)) {
 
-              if(property.getKeyCol() === csNumberID) {
+              if(property.getKeyCol() === Cairo.Constants.NUMBER_ID) {
                 c.setLeft(7300);
                 c.setWidth(1200);
               }
@@ -5213,7 +5213,7 @@
         var setNewWidthForm = function(property, frameSize) {
           var view = getView();
           var offsetH = 0;
-          
+
           if(view.getBackground().getLeft() === 0) {
             offsetH = 120;
           }
@@ -5242,7 +5242,7 @@
           var propertyCount = m_properties.count();
 
           if(m_properties !== null) {
-            
+
             // toolbars doesn't have index
             //
             if(type === Dialogs.PropertyType.toolbar) {
@@ -5266,7 +5266,7 @@
                 // properties of type text can be text, file or folder
                 //
                 if(type === Dialogs.PropertyType.text) {
-  
+
                   if(property.getType() === Dialogs.PropertyType.text  && subType === Dialogs.PropertySubType.memo) {
                     if(property.getSubType() === subType) {
                       found = true;
@@ -6526,7 +6526,7 @@
             switch(m_properties.get(i).PropertyType) {
 
               case Dialogs.PropertyType.check:
-                propertyHasChanged(Dialogs.PropertyType.check, index, view.getCheckboxes().get(index), true);
+                propertyHasChanged(Dialogs.PropertyType.check, index, view.getCheckBoxes().get(index), true);
                 break;
 
               case Dialogs.PropertyType.date:
@@ -6971,8 +6971,8 @@
 
         self.refreshTitle = function() {
           var view = getView();
-          if(m_title2 !== "") {
-            view.getTitleLabelEx2().setText(" - "+ m_title2);
+          if(m_title !== "") {
+            view.getTitleLabelEx2().setText(" - "+ m_title);
             view.getTitleLabelEx2().setLeft(view.getTitleLabel().getLeft() + view.getTitleLabel().getWidth() + 50);
           }
           else {

@@ -26,7 +26,7 @@
       getTab: function() { /* TODO: implement this. */ },
       getTabFooter: function() { /* TODO: implement this. */ },
       getTabItems: function() { /* TODO: implement this. */ },
-      getTitle2: function() { /* TODO: implement this. */ },
+      getTitle: function() { /* TODO: implement this. */ },
       getTitleLabel: function() { /* TODO: implement this. */ },
 
       getMaskEdits: function() { /* TODO: implement this. */ },
@@ -52,6 +52,7 @@
 
       getControls: function() { /* TODO: implement this. */ },
       getBackground: function() { /* TODO: implement this. */ },
+      getBottomLine: function() { /* TODO: implement this. */ },
 
       setToolbar: function(toolbar) { /* TODO: implement this. */ },
 

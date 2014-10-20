@@ -15,12 +15,20 @@
       urlRoot: "",
 
       defaults: {
-        enabledNoChangeBkColor: false
+        enabledNoChangeBkColor: false,
+        maxLength: 0,
+        fileFilter: "",
+        inputDisabled: false
       },
 
       getMask: function() { /* TODO: implement this. */ },
       setMask: function(mask) { /* TODO: implement this. */ },
-      setEnabledNoChangeBkColor: function(value) { this.enabledNoChangeBkColor = value; }
+      setButtonStyle: function(style) { /* TODO: implement this. */ },
+      setPasswordChar: function(char) { /* TODO: implement this. */ },
+      setEnabledNoChangeBkColor: function(value) { this.enabledNoChangeBkColor = value; },
+      setMaxLength: function(length) { this.maxLength = length; },
+      setInputDisabled: function(value) { this.inputDisabled = value; },
+      setFileFilter: function(filter) { this.fileFilter = filter; }
 
     });
 

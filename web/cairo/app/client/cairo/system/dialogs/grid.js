@@ -21,7 +21,8 @@
       loadFromRow: function(gridControl, row, rowIndex, columns) { /* TODO: implement this. */ },
       setColumnProperties: function(grid, column, colGrid) { /* TODO: implement this. */ },
       saveColumnWidth: function(grid, name) { /* TODO: implement this. */ },
-      saveColumnOrder: function(grid, name) { /* TODO: implement this. */ }
+      saveColumnOrder: function(grid, name) { /* TODO: implement this. */ },
+      setProperties: function(grid) { /* TODO: implement this. */ }
 
     });
 
@@ -40,7 +41,8 @@
       getNewId: function(rowIndex) { /* TODO: implement this. */ },
       getNewAmount: function(rowIndex) { /* TODO: implement this. */ },
       loadFromRow: function(gridControl, row, rowIndex, columns) { /* TODO: implement this. */ },
-      setColumnProperties: function(grid, column, colGrid) { /* TODO: implement this. */ }
+      setColumnProperties: function(grid, column, colGrid) { /* TODO: implement this. */ },
+      getNoSelectInGotFocus: function(grid, column, colGrid) { /* TODO: implement this. */ }
 
     });
 
@@ -172,6 +174,7 @@
       getColumns: function() { /* TODO: implement this. */ },
       getRows: function() { /* TODO: implement this. */ },
       setRows: function(rows) { /* TODO: implement this. */ },
+      getRowMode: function() { /* TODO: implement this. */ },
       getNoResize: function() { /* TODO: implement this. */ },
       setNoResizeHeight: function() { /* TODO: implement this. */ }
 

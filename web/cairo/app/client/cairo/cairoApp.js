@@ -278,7 +278,11 @@ var Cairo = new Marionette.Application();
   Cairo.Constants = {
     NO_ID: 0,
     NUMBER_ID: '_number_id_',
-    STATUS_ID: '_status_id_'
+    STATUS_ID: '_status_id_',
+    COPY_OF: 'copy of ',
+    DELETE_FUNCTION: 'delete',
+    SHOW_DOCUMENTS_FUNCTION: "showDocDigital",
+    CLIENT_SAVE_FUNCTION: "save"
   };
 
   Cairo.Constants.Types = {
@@ -320,6 +324,7 @@ var Cairo = new Marionette.Application();
         return 0;
       }
     },
+    valEmpty: function(value, type) { /* TODO: implement this. */ },
     sendEmailToCrowSoft: function(subject, section) { /* TODO: implement this. */ },
     newArray: function(length, val) {
       var array = [];
@@ -683,6 +688,13 @@ var Cairo = new Marionette.Application();
   Cairo.manageError = function(title, message, errorResponse, closeHandler) {
     var view = Cairo.manageErrorView(title, message, errorResponse, closeHandler);
     Cairo.dialogRegion.show(view);
+  };
+
+  Cairo.manageErrorEx = function(errorResponse, functionName, className, infoAdd) {
+    Cairo.manageError(
+      "Error",
+      "An error has occurred when calling this function: " + className + "." + functionName + "/n" + infoAdd,
+      errorResponse);
   };
 
   Cairo.manageErrorHandler = function(title, message, closeHandler) {

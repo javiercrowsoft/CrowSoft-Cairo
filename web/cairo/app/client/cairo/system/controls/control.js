@@ -22,6 +22,9 @@
       setIsCancel: function(isCancel) { /* TODO: implement this. */ },
       setText: function(text) { /* TODO: implement this. */ },
 
+      getIndex: function() { /* TODO: implement this. */ },
+      setIndex: function(index) { /* TODO: implement this. */ },
+
       getLeft: function() { /* TODO: implement this. */ },
       setLeft: function(left) { /* TODO: implement this. */ },
       getTop: function() { /* TODO: implement this. */ },
