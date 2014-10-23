@@ -2,7 +2,6 @@
   "use strict";
 
   Cairo.module("Provincia.Edit", function(Edit, Cairo, Backbone, Marionette, $, _) {
-    Edit.Controller = createObject();
 
     var createObject = function() {
 
@@ -97,8 +96,7 @@
 
           if(m_id == Cairo.Constants.NO_ID) { return _rtn; }
 
-          var doc = null;
-          doc = new cDocDigital();
+          var doc = new cDocDigital();
 
           doc.setClientTable(Cairo.General.Constants.PROVINCIA);
           doc.setClientTableID(m_id);
@@ -132,7 +130,7 @@
       };
 
       self.discardChanges = function() {
-        loadCollection();
+        return Cairo.Promises.resolvedPromise(loadCollection());
       };
 
       self.propertyChange = function(key) {
@@ -182,6 +180,7 @@
 
         fields.setHaveLastUpdate(true);
         fields.setHaveWhoModify(true);
+
         // Error saving Provincias
         return Cairo.Database.saveEx(
             register,
@@ -298,41 +297,45 @@
       };
 
       self.edit = function(id,  inModalWindow) {
-        var _rtn = null;
+        var p = Cairo.Promises.resolvedPromise(false);
         try {
 
           if(id == Cairo.Constants.NO_ID) {
             m_isNew = true;
-            if(!Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.NEW_Provincia)) { return _rtn; }
+            if(!Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.NEW_Provincia)) { return p; }
           }
           else {
             m_isNew = false;
-            if(!Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.EDIT_Provincia)) { return _rtn; }
+            if(!Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.EDIT_Provincia)) { return p; }
           }
 
           m_dialog.setInModalWindow(inModalWindow);
 
-          if(!load(id)) { return _rtn; }
+          p = load(id).then(
+            function(success) {
+              if(success) {
 
-          if(!loadCollection()) { return _rtn; }
+                if(!loadCollection()) { return false; }
 
-          m_editing = true;
-          m_copy = false;
+                m_editing = true;
+                m_copy = false;
 
-          if(inModalWindow) {
-            _rtn = m_id != Cairo.Constants.NO_ID;
-          }
-          else {
-            _rtn = true;
-          }
+                if(inModalWindow) {
+                  success = m_id != Cairo.Constants.NO_ID;
+                }
+                else {
+                  success = true;
+                }
 
-          return _rtn;
+              }
+              return success;
+            });
         }
         catch (ex) {
           Cairo.manageErrorEx(ex.message, C_EditGenericEdit, "cProvincia", "");
         }
 
-        return _rtn;
+        return p;
       };
 
       self.setTree = function(rhs) {
@@ -401,10 +404,12 @@
 
       var load = function(id) {
 
-        return Cairo.Database.getData("load[cProvincia").then(
+        return Cairo.Database.getData("load[cProvincia]", id).then(
           function(response) {
 
-            if(response.success === false || response.data.length === 0) {
+            if(response.success === false) { return false; }
+
+            if(response.data.length === 0) {
               m_activo = true;
               m_nombre = "";
               m_codigo = "";
@@ -423,6 +428,7 @@
               m_pais = Cairo.Database.valField(response.data, Cairo.General.Constants.PANOMBRE);
             }
 
+            return true;
           });
       };
 
@@ -434,7 +440,62 @@
       return self;
     };
 
-  })
+    Edit.Controller = createObject();
+
+  });
+
+  Cairo.module("Provincia.List", function(List, Cairo, Backbone, Marionette, $, _) {
+    List.Controller = {
+      list: function() {
+
+        var self = this;
+
+        /*
+         this function will be called by the tab manager every time the
+         view must be created. when the tab is not visible the tab manager
+         will not call this function but only make the tab visible
+         */
+        var createTreeDialog = function(tabId) {
+
+          // ListController properties and methods
+          //
+          self.entityInfo = new Backbone.Model({
+            entitiesTitle: "Provincias",
+            entityName: "provincia",
+            entitiesName: "provincias"
+          });
+
+          self.showBranch = function(branchId) {
+            Cairo.log("Loading nodeId: " + branchId);
+            Cairo.Tree.List.Controller.listBranch(branchId, Cairo.Tree.List.Controller.showItems, self);
+          };
+
+          // progress message
+          //
+          Cairo.LoadingMessage.show("Provincias", "Loading provincia from Crowsoft Cairo server.");
+
+          // create the tree region
+          //
+          Cairo.addRegions({ provinciaTreeRegion: tabId });
+
+          // create the dialog
+          //
+          Cairo.Tree.List.Controller.list(
+            Cairo.Tables.PROVINCIA,
+            new Cairo.Tree.List.TreeLayout({ model: self.entityInfo }),
+            Cairo.provinciaTreeRegion,
+            self);
+
+        };
+
+        // create the tab
+        //
+        Cairo.mainTab.showTab("Provincias", "provinciaTreeRegion", "#general/provincias", createTreeDialog);
+
+      }
+    };
+  });
+
 
 }());
 
