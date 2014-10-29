@@ -68,10 +68,10 @@ POST    /system/tree                    controllers.logged.system.trees.Trees.cr
 POST    /system/tree/sort               controllers.logged.system.trees.Trees.sort
 
 GET     /system/branch/:id              controllers.logged.system.trees.Branches.get(id: Int)
-
 POST    /system/branch                  controllers.logged.system.trees.Branches.create
 PUT     /system/branch/:id              controllers.logged.system.trees.Branches.update(id: Int)
 DELETE  /system/branch/:id              controllers.logged.system.trees.Branches.delete(id: Int)
+
 POST    /system/branch/paste            controllers.logged.system.trees.Branches.paste
 POST    /system/branch/move             controllers.logged.system.trees.Branches.move
 POST    /system/leave/paste             controllers.logged.system.trees.Branches.pasteLeave
@@ -88,6 +88,16 @@ GET     /system/select/validate/:tableId/:text/:textId/:active/:internalFilter  
 # Web client code
 #
 GET     /client/*file                   controllers.FileService.getFile(path="/app/client", file)
+
+
+# modules
+
+# general
+GET     /api/v1/general/provincia/:id              controllers.logged.modules.general.Provincias.get(id: Int)
+POST    /api/v1/general/provincia                  controllers.logged.modules.general.Provincias.create
+PUT     /api/v1/general/provincia/:id              controllers.logged.modules.general.Provincias.update(id: Int)
+DELETE  /api/v1/general/provincia/:id              controllers.logged.modules.general.Provincias.delete(id: Int)
+
 
 # end Cairo
 #--------------------------------------------------------------------------------------------------

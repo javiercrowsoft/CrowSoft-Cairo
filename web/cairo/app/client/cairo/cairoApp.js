@@ -282,22 +282,23 @@ var Cairo = new Marionette.Application();
     COPY_OF: 'copy of ',
     DELETE_FUNCTION: 'delete',
     SHOW_DOCUMENTS_FUNCTION: "showDocDigital",
-    CLIENT_SAVE_FUNCTION: "save"
+    CLIENT_SAVE_FUNCTION: "save",
+    GET_CODE_FROM_ID: "'(@@get_code_from_id@@)'"
   };
 
   Cairo.Constants.Types = {
-    "integer":    2,
-    "double":     5,
-    "currency":   6,
-    "text":       200,
-    "id":         -1,
-    "taxId":      -100,
-    "boolean":    -200,
-    "single":     -300,
-    "variant":    -400,
-    "long":       -500,
-    "date":       -600,
-    "dateOrNull": -700
+    integer:    2,
+    double:     5,
+    currency:   6,
+    text:       200,
+    id:         -1,
+    taxId:      -100,
+    boolean:    -200,
+    single:     -300,
+    variant:    -400,
+    long:       -500,
+    date:       -600,
+    dateOrNull: -700
   };
 
   Cairo.Constants.ShellSortOrder = {

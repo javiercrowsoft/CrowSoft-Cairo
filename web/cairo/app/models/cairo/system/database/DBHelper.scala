@@ -1,18 +1,27 @@
 package models.cairo.system.database
 
-import java.sql.{ResultSet, ResultSetMetaData, PreparedStatement, Date}
+import java.sql.{ResultSet, ResultSetMetaData, PreparedStatement, Types, Date, CallableStatement, SQLException}
 
+import anorm._
 import models.domain.CompanyUser
 import play.api.Logger
 import services.db.DB
+import services.G
 import play.api.Play.current
 import scala.util.control.NonFatal
 
-case class QueryParameter(val value: Any)
+case class QueryParameter(value: Any)
+
+case class SaveResult(success: Boolean, id: Int)
 
 object DBHelper {
 
   val NoId = 0
+
+  val CREATED_AT = "creado"
+  val UPDATED_AT = "modificado"
+  val UPDATED_BY = "modifico"
+  val ACTIVE = "activo"
 
   def getSelectClause(sqlstmt: String): String = {
     val i = sqlstmt.indexOf("from")
@@ -176,6 +185,118 @@ object DBHelper {
       } finally {
         ps.close
       }
+    }
+  }
+
+  def getNewId(user: CompanyUser, table: String, fieldId: String): Int = {
+    DB.withTransaction(user.database.database) { implicit connection =>
+
+      val sql = s"{call SP_DBGetNewId(?, ?, ?, ?)}"
+      val cs = connection.prepareCall(sql)
+
+      cs.setString(1, table)
+      cs.setString(2, fieldId)
+      cs.registerOutParameter(3, Types.INTEGER)
+      cs.setInt(4, 0)
+
+      try {
+
+        cs.execute()
+        cs.getInt(3)
+
+      } catch {
+        case NonFatal(e) => {
+          Logger.error(s"failed to execute getNewId . Table: $table - Field Id: $fieldId. Error ${e.toString}")
+          throw e
+        }
+      } finally {
+        cs.close
+      }
+    }
+  }
+
+  def save(user: CompanyUser, register: Register, isNew: Boolean): SaveResult = {
+    saveEx(user, register, isNew, "")
+  }
+
+  def saveEx(user: CompanyUser, register: Register, isNew: Boolean, fieldCode: String): SaveResult = {
+
+    def update(s: SqlStatement) = {
+      DB.withConnection(user.database.database) { implicit connection =>
+        SQL(s.sqlstmt).on(s.parameters: _*).executeUpdate
+      }
+      register.id
+    }
+
+    //
+    // only used when register.useIdentity == true
+    //
+    def insert(s: SqlStatement) = {
+      DB.withConnection(user.database.database) { implicit connection =>
+        SQL(s.sqlstmt).on(s.parameters: _*).executeInsert().map(id => id.toInt).getOrElse(throw new RuntimeException(s"Error when inserting ${register.table}"))
+      }
+    }
+
+    def getId(isNewRecord: Boolean) = {
+      if(isNewRecord && !register.useIdentity && !register.fieldId.isEmpty) {
+        getNewId(user, register.table, register.fieldId)
+      }
+      else NoId
+    }
+
+    def updateCode(newId: Int) = {
+      def getField(f: Field) = {
+        val GET_CODE_FROM_ID = "'(@@get_code_from_id@@)'"
+        if(f.name == fieldCode && f.value == GET_CODE_FROM_ID) {
+          val id = (if(newId != NoId) newId else register.id).toString()
+          val value = G.padLeft(id, 5, "0")
+          Field(f.name, value, f.fieldType)
+        }
+        else f
+      }
+      def getFields(fields: List[Field]): List[Field] = fields match {
+        case Nil => List()
+        case h :: t => getField(h) :: getFields(t)
+      }
+      Register(
+        register.table,
+        register.fieldId,
+        register.id,
+        register.useIdentity,
+        register.hasTimestamp,
+        register.hasUpdatedBy,
+        getFields(register.fields))
+    }
+
+    val isNewRecord = register.id == NoId
+    val newId = getId(isNewRecord)
+    val useInsert = (if(isNewRecord) true else isNew)
+
+    val r = if(fieldCode.isEmpty) register else updateCode(newId)
+
+    val s = Register.getSqlSave(user, r, useInsert, newId)
+    val execute = if(useInsert && register.useIdentity) insert _ else update _
+
+    try {
+
+      val id = execute(s)
+      SaveResult(true, id)
+
+    }
+    catch {
+      case NonFatal(e) => {
+
+        Logger.error(s"failed to execute saveEx: ${r.toString}. Error ${e.toString}")
+        SaveResult(false, NoId)
+
+      }
+    }
+  }
+
+  def delete(user: CompanyUser, register: Register) = {
+    DB.withConnection(user.database.database) { implicit connection =>
+      val s = Register.getSqlDelete(register)
+      SQL(s.sqlstmt).on(s.parameters: _*).executeUpdate
     }
   }
 

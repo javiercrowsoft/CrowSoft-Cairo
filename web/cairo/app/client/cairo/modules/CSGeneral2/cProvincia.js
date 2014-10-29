@@ -19,6 +19,7 @@
       var K_ACTIVO = 3;
       var K_DESCIP = 4;
       var K_PA_ID = 5;
+
       var m_id = 0;
       var m_nombre = "";
       var m_codigo = "";
@@ -203,13 +204,12 @@
       };
 
       self.terminate = function() {
-        var _rtn = null;
+
         m_editing = false;
 
-        _rtn = true;
         try {
-          if(m_id == Cairo.Constants.NO_ID) { return _rtn; }
-          if(m_objTree == null) { return _rtn; }
+          if(m_id == Cairo.Constants.NO_ID) { return; }
+          if(m_objTree == null) { return; }
 
           if(m_isNew) {
             m_objTree.addLeave(m_id, m_branchId, m_treeId);
@@ -221,8 +221,6 @@
         }
         catch (ex) {
         }
-
-        return _rtn;
       };
 
       self.title = function() {
