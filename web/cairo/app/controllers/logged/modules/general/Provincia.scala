@@ -8,6 +8,7 @@ import actions._
 import play.api.Logger
 import play.api.libs.json._
 import models.cairo.modules.general._
+import models.cairo.system.security.CairoSecurity
 
 case class ProvinciaData(id: Option[Int], name: String, code: String, active: Boolean, paId: Int)
 
@@ -34,7 +35,7 @@ object Provincias extends Controller with ProvidesUser {
   }
 
   def get(id: Int) = GetAction { implicit request =>
-    LoggedIntoCompanyResponse.getAction(request, { user =>
+    LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.LIST_PROVINCIA), { user =>
       Ok(Json.toJson(Provincia.get(user, id)))
     })
   }
@@ -48,7 +49,7 @@ object Provincias extends Controller with ProvidesUser {
       },
       provincia => {
         Logger.debug(s"form: ${provincia.toString}")
-        LoggedIntoCompanyResponse.getAction(request, { user =>
+        LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.EDIT_PROVINCIA), { user =>
           Ok(
             Json.toJson(
               Provincia.update(user, Provincia(id, provincia.name, provincia.code, provincia.active, provincia.paId))))
@@ -66,7 +67,7 @@ object Provincias extends Controller with ProvidesUser {
       },
       provincia => {
         Logger.debug(s"form: ${provincia.toString}")
-        LoggedIntoCompanyResponse.getAction(request, { user =>
+        LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.NEW_PROVINCIA), { user =>
           Ok(
             Json.toJson(
               Provincia.create(user, Provincia(provincia.name, provincia.code, provincia.active, provincia.paId))))
@@ -77,7 +78,7 @@ object Provincias extends Controller with ProvidesUser {
 
   def delete(id: Int) = PostAction { implicit request =>
     Logger.debug("in provincias.delete")
-    LoggedIntoCompanyResponse.getAction(request, { user =>
+    LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.DELETE_PROVINCIA), { user =>
       Provincia.delete(user, id)
       // Backbonejs requires at least an empty json object in the response
       // if not it will call errorHandler even when we responded with 200 OK :P

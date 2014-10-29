@@ -88,6 +88,15 @@ object LoggedIntoCompanyResponse extends Controller {
       }
     })
   }
+
+  def getAction[A](request: Request[A], hasPermission: (CompanyUser) => Boolean, f: (CompanyUser) => play.api.mvc.SimpleResult): play.api.mvc.SimpleResult = {
+    LoggedIntoCompanyResponse.getAction(request, { user =>
+      if(hasPermission(user))
+        f(user)
+      else
+        Unauthorized(views.html.errorpages.unauthorized("CrowSoft Cairo - Unauthorized"))
+    })
+  }
 }
 
 object SessionStatus {
