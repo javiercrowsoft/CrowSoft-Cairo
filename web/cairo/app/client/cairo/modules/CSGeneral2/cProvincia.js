@@ -14,15 +14,15 @@
 
       var C_MODULE = "cPronvincia";
 
-      var K_NOMBRE = 1;
-      var K_CODIGO = 2;
-      var K_ACTIVO = 3;
+      var K_NAME = 1;
+      var K_CODE = 2;
+      var K_ACTIVE = 3;
       var K_DESCIP = 4;
       var K_PA_ID = 5;
 
       var m_id = 0;
-      var m_nombre = "";
-      var m_codigo = "";
+      var m_name = "";
+      var m_code = "";
       var m_descrip = "";
       var m_pa_Id = 0;
       var m_pais = "";
@@ -31,14 +31,13 @@
       var m_editing;
 
       var m_dialog;
-      var m_objTree = null;
+      var m_listController = null;
 
       var m_isNew;
 
       var m_branchId = 0;
       var m_treeId = 0;
 
-      var m_host;
       var m_copy;
 
       self.getId = function() {
@@ -46,11 +45,11 @@
       };
 
       self.getName = function() {
-        return m_nombre;
+        return m_name;
       };
 
       self.getCode = function() {
-        return m_codigo;
+        return m_code;
       };
 
       self.copy = function() {
@@ -58,11 +57,11 @@
         self.terminate();
         m_isNew = true;
 
-        var property = m_dialog.getProperties().item(Cairo.General.Constants.PROCODIGO);
+        var property = m_dialog.getProperties().item(Cairo.General.Constants.PRO_CODE);
         property.setValue(Cairo.Constants.COPY_OF + property.getValue());
 
-        m_dialog.showValue(m_dialog.getProperties().item(Cairo.General.Constants.PROCODIGO));
-        m_dialog.showValue(m_dialog.getProperties().item(Cairo.General.Constants.PRONOMBRE));
+        m_dialog.showValue(m_dialog.getProperties().item(Cairo.General.Constants.PRO_CODE));
+        m_dialog.showValue(m_dialog.getProperties().item(Cairo.General.Constants.PRO_NAME));
 
         m_copy = true;
       };
@@ -97,7 +96,7 @@
 
           if(m_id == Cairo.Constants.NO_ID) { return _rtn; }
 
-          var doc = new cDocDigital();
+          var doc = new Cairo.DocDigital();
 
           doc.setClientTable(Cairo.General.Constants.PROVINCIA);
           doc.setClientTableID(m_id);
@@ -118,7 +117,7 @@
 
           case Dialogs.Message.MSG_DOC_INFO:
 
-            Cairo.Documentation.show("", "", Cairo.Security.Actions.General.NEW_Provincia);
+            Cairo.Documentation.show("", "", Cairo.Security.Actions.General.NEW_PROVINCIA);
             _rtn = Dialogs.Message.MSG_DOC_INFO_HANDLED;
             break;
 
@@ -143,58 +142,55 @@
         var register = new Cairo.Database.Register();
         var fields = register.getFields();
 
-        register.setFieldId(Cairo.General.Constants.PROID);
+        register.setFieldId(Cairo.General.Constants.PRO_ID);
         register.setTable(Cairo.General.Constants.PROVINCIA);
 
         if(m_copy) {
-          register.setID(csConstIds.cSNEW);
+          register.setId(Cairo.Constants.NEW_ID);
         }
         else {
-          register.setID(m_id);
+          register.setId(m_id);
         }
 
         var _count = m_dialog.getProperties().size();
         for (var _i = 0; _i < _count; _i++) {
           var property = m_dialog.getProperties().item(_i);
           switch (property.getKey()) {
-            case K_NOMBRE:
-              fields.add(Cairo.General.Constants.PRONOMBRE, property.getValue(), Cairo.Constants.Types.TEXT);
+            case K_NAME:
+              fields.add(Cairo.General.Constants.PRO_NAME, property.getValue(), Cairo.Constants.Types.text);
               break;
 
-            case K_CODIGO:
-              fields.add(Cairo.General.Constants.PROCODIGO, property.getValue(), Cairo.Constants.Types.TEXT);
+            case K_CODE:
+              fields.add(Cairo.General.Constants.PRO_CODE, property.getValue(), Cairo.Constants.Types.text);
               break;
 
             case K_DESCIP:
-              fields.add(Cairo.General.Constants.PRODESCRIP, property.getValue(), Cairo.Constants.Types.TEXT);
+              fields.add(Cairo.General.Constants.PRO_DESCRIP, property.getValue(), Cairo.Constants.Types.text);
               break;
 
             case K_PA_ID:
-              fields.add(Cairo.General.Constants.PAID, property.getSelectId(), Cairo.Constants.Types.ID);
+              fields.add(Cairo.General.Constants.PA_ID, property.getSelectId(), Cairo.Constants.Types.id);
               break;
 
-            case K_ACTIVO:
-              fields.add(Cairo.Constants.ACTIVE, Cairo.Util.val(property.getValue()), Cairo.Constants.Types.BOOLEAN);
+            case K_ACTIVE:
+              fields.add(Cairo.Constants.ACTIVE, Cairo.Util.val(property.getValue()), Cairo.Constants.Types.boolean);
               break;
           }
         }
-
-        fields.setHaveLastUpdate(true);
-        fields.setHaveWhoModify(true);
 
         // Error saving Provincias
         return Cairo.Database.saveEx(
             register,
             false,
-            Cairo.General.Constants.PROCODIGO,
+            Cairo.General.Constants.PRO_CODE,
             Cairo.Constants.CLIENT_SAVE_FUNCTION,
             C_MODULE,
             Cairo.Language.getText(1409, "")).then(
 
           function(result) {
-            if(result) {
+            if(result.success) {
               m_copy = false;
-              return load(register.getID());
+              return load(result.id);
 
             }
             else {
@@ -209,14 +205,14 @@
 
         try {
           if(m_id == Cairo.Constants.NO_ID) { return; }
-          if(m_objTree == null) { return; }
+          if(m_listController == null) { return; }
 
           if(m_isNew) {
-            m_objTree.addLeave(m_id, m_branchId, m_treeId);
+            m_listController.addLeave(m_id, m_branchId, m_treeId);
           }
           else {
-            m_objTree.addEditedId(m_id);
-            m_objTree.refreshActiveBranch();
+            m_listController.addEditedId(m_id);
+            m_listController.refreshActiveBranch();
           }
         }
         catch (ex) {
@@ -235,26 +231,26 @@
         for (var _i = 0; _i < _count; _i++) {
           property = m_dialog.getProperties().item(_i);
           switch (property.getKey()) {
-            case K_NOMBRE:
-              if(Cairo.Util.valEmpty(property.getValue(), Cairo.Constants.Types.TEXT)) {
+            case K_NAME:
+              if(Cairo.Util.valEmpty(property.getValue(), Cairo.Constants.Types.text)) {
                 return Cairo.Modal.showInfo(Cairo.Constants.MUST_SET_A_NAME).then(function() {return false;});
               }
               break;
 
-            case K_CODIGO:
-              if(Cairo.Util.valEmpty(property.getValue(), Cairo.Constants.Types.TEXT)) {
+            case K_CODE:
+              if(Cairo.Util.valEmpty(property.getValue(), Cairo.Constants.Types.text)) {
                 property.setValue(Cairo.Constants.GET_CODE_FROM_ID);
               }
               break;
 
             case K_PA_ID:
-              if(Cairo.Util.valEmpty(property.getSelectId(), Cairo.Constants.Types.ID)) {
+              if(Cairo.Util.valEmpty(property.getSelectId(), Cairo.Constants.Types.id)) {
                 return Cairo.Modal.showInfo(Cairo.Language.getText(1411, "")).then(function() {return false;});
                 //Debe indicar un País
               }
               break;
 
-            case K_ACTIVO:
+            case K_ACTIVE:
               break;
           }
         }
@@ -275,7 +271,7 @@
       };
 
       self.list = function() {
-        return Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.LIST_Provincia);
+        return Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.LIST_PROVINCIA);
       };
 
       self.setDialog = function(rhs) {
@@ -287,7 +283,7 @@
       };
 
       self.delete = function(id) {
-        if(!Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.DELETE_Provincia)) {
+        if(!Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.DELETE_PROVINCIA)) {
           return Cairo.Promises.resolvedPromise(false);
         }
 
@@ -300,11 +296,11 @@
 
           if(id == Cairo.Constants.NO_ID) {
             m_isNew = true;
-            if(!Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.NEW_Provincia)) { return p; }
+            if(!Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.NEW_PROVINCIA)) { return p; }
           }
           else {
             m_isNew = false;
-            if(!Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.EDIT_Provincia)) { return p; }
+            if(!Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.EDIT_PROVINCIA)) { return p; }
           }
 
           m_dialog.setInModalWindow(inModalWindow);
@@ -330,14 +326,14 @@
             });
         }
         catch (ex) {
-          Cairo.manageErrorEx(ex.message, C_EditGenericEdit, "cProvincia", "");
+          Cairo.manageErrorEx(ex.message, Cairo.Constants.EDIT_FUNCTION, "cProvincia", "");
         }
 
         return p;
       };
 
       self.setTree = function(rhs) {
-        m_objTree = rhs;
+        m_listController = rhs;
       };
 
       self.setBranchId = function(rhs) {
@@ -350,33 +346,33 @@
 
       var loadCollection = function() {
 
-        m_dialog.setTitle(m_nombre);
+        m_dialog.setTitle(m_name);
 
         var properties = m_dialog.getProperties();
 
         properties.clear();
 
-        var elem = properties.add(null, Cairo.General.Constants.PRONOMBRE);
+        var elem = properties.add(null, Cairo.General.Constants.PRO_NAME);
         elem.setType(Dialogs.PropertyType.text);
         elem.setName(Cairo.Constants.NAME_LABEL);
         elem.setSize(100);
-        elem.setKey(K_NOMBRE);
-        elem.setValue(m_nombre);
+        elem.setKey(K_NAME);
+        elem.setValue(m_name);
 
-        var elem = properties.add(null, Cairo.General.Constants.PROCODIGO);
+        var elem = properties.add(null, Cairo.General.Constants.PRO_CODE);
         elem.setType(Dialogs.PropertyType.text);
         elem.setName(Cairo.Constants.CODE_LABEL);
         elem.setSize(15);
-        elem.setValue(m_codigo);
-        elem.setKey(K_CODIGO);
+        elem.setValue(m_code);
+        elem.setKey(K_CODE);
 
         var elem = properties.add(null, Cairo.Constants.ACTIVE);
         elem.setType(Dialogs.PropertyType.check);
         elem.setName(Cairo.Constants.ACTIVE_LABEL);
-        elem.setKey(K_ACTIVO);
+        elem.setKey(K_ACTIVE);
         elem.setValue(m_activo === true ? 1 : 0);
 
-        var elem = properties.add(null, Cairo.General.Constants.PAID);
+        var elem = properties.add(null, Cairo.General.Constants.PA_ID);
         elem.setType(Dialogs.PropertyType.select);
         elem.setTable(Cairo.Tables.PAIS);
         //'País
@@ -385,7 +381,7 @@
         elem.setValue(m_pais);
         elem.setSelectId(m_pa_Id);
 
-        var elem = properties.add(null, Cairo.General.Constants.PRODESCRIP);
+        var elem = properties.add(null, Cairo.General.Constants.PRO_DESCRIP);
         elem.setType(Dialogs.PropertyType.text);
         elem.setName(Cairo.Constants.DESCRIPTION_LABEL);
         elem.setSize(255);
@@ -402,15 +398,16 @@
 
       var load = function(id) {
 
-        return Cairo.Database.getData("load[cProvincia]", id).then(
+        var apiPath = Cairo.Database.getAPIVersion();
+        return Cairo.Database.getData("load[" + apiPath + "general/provincia]", id).then(
           function(response) {
 
             if(response.success === false) { return false; }
 
             if(response.data.length === 0) {
               m_activo = true;
-              m_nombre = "";
-              m_codigo = "";
+              m_name = "";
+              m_code = "";
               m_descrip = "";
               m_id = Cairo.Constants.NO_ID;
               m_pa_Id = Cairo.Constants.NO_ID;
@@ -418,12 +415,12 @@
             }
             else {
               m_activo = Cairo.Database.valField(response.data, Cairo.Constants.ACTIVE);
-              m_nombre = Cairo.Database.valField(response.data, Cairo.General.Constants.PRONOMBRE);
-              m_codigo = Cairo.Database.valField(response.data, Cairo.General.Constants.PROCODIGO);
-              m_descrip = Cairo.Database.valField(response.data, Cairo.General.Constants.PRODESCRIP);
-              m_id = Cairo.Database.valField(response.data, Cairo.General.Constants.PROID);
-              m_pa_Id = Cairo.Database.valField(response.data, Cairo.General.Constants.PAID);
-              m_pais = Cairo.Database.valField(response.data, Cairo.General.Constants.PANOMBRE);
+              m_name = Cairo.Database.valField(response.data, Cairo.General.Constants.PRO_NAME);
+              m_code = Cairo.Database.valField(response.data, Cairo.General.Constants.PRO_CODE);
+              m_descrip = Cairo.Database.valField(response.data, Cairo.General.Constants.PRO_DESCRIP);
+              m_id = Cairo.Database.valField(response.data, Cairo.General.Constants.PRO_ID);
+              m_pa_Id = Cairo.Database.valField(response.data, Cairo.General.Constants.PA_ID);
+              m_pais = Cairo.Database.valField(response.data, Cairo.General.Constants.PA_NAME);
             }
 
             return true;
@@ -432,7 +429,7 @@
 
       self.destroy = function() {
         m_dialog = null;
-        m_objTree = null;
+        m_listController = null;
       };
 
       return self;
@@ -467,6 +464,10 @@
             Cairo.log("Loading nodeId: " + branchId);
             Cairo.Tree.List.Controller.listBranch(branchId, Cairo.Tree.List.Controller.showItems, self);
           };
+
+          self.addLeave = function(id, branchId, treeId) { /* TODO: implement this. */ };
+          self.addEditedId = function(id) { /* TODO: implement this. */ };
+          self.refreshActiveBranch = function() { /* TODO: implement this. */ };
 
           // progress message
           //

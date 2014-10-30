@@ -277,13 +277,22 @@ var Cairo = new Marionette.Application();
 
   Cairo.Constants = {
     NO_ID: 0,
+    NEW_ID: 0,
     NUMBER_ID: '_number_id_',
     STATUS_ID: '_status_id_',
     COPY_OF: 'copy of ',
     DELETE_FUNCTION: 'delete',
     SHOW_DOCUMENTS_FUNCTION: "showDocDigital",
     CLIENT_SAVE_FUNCTION: "save",
-    GET_CODE_FROM_ID: "'(@@get_code_from_id@@)'"
+    GET_CODE_FROM_ID: "'(@@get_code_from_id@@)'",
+
+    ACTIVE: "activo",
+    ACTIVE_LABEL: "Active",
+    NAME_LABEL: "Name",
+    CODE_LABEL: "Code",
+    DESCRIPTION_LABEL: "Description",
+    EDIT_FUNCTION: "edit",
+    MUST_SET_A_NAME: "You must provide a name"
   };
 
   Cairo.Constants.Types = {

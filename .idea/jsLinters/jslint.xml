@@ -5,7 +5,7 @@
     <option indent="2" />
     <option maxerr="500" />
     <option nomen="true" />
-    <option predef="Cairo, Backbone, Marionette" />
+    <option predef="Cairo, Backbone, Marionette, Entities" />
     <option todo="true" />
     <option unparam="true" />
     <option vars="true" />
