@@ -59,13 +59,12 @@
       text:     3
     };
 
-    Dialogs.Property = Backbone.Model.extend({
-      urlRoot: "",
+    Dialogs.createProperty = function() {
 
-      defaults: {
+      var self = {
         key:                    0,
         name:                   '',
-
+        
         type:                   null,
         subType:                null,
 
@@ -96,6 +95,7 @@
         gridRemoveEnabled:      false,
         gridEditEnabled:        false,
         gridSelectedRow:        0,      /* VB6: was selectedIndex */
+        gridMultiSelect:        false,
 
         selectId:               0,
         selectFilter:           '',
@@ -151,168 +151,207 @@
         _labelIndex:    0,
         _keyCol:        '',
 
-        _unPressedBackColor: -1,
+        _unPressedBackColor: -1
+    };
 
-        getName: function() { return this.name; },
+    self.getName = function() { return  self.name; },
 
-        getControl: function() { return this._ctl; },
-        setControl: function(control) { this._ctl = control; },
-        getControlLoaded: function() { return this._controlLoaded; },
-        setControlLoaded: function(loaded) { this._controlLoaded = loaded; },
+    self.getControl = function() { return  self._ctl; },
+    self.setControl = function(control) {  self._ctl = control; },
+    self.getControlLoaded = function() { return  self._controlLoaded; },
+    self.setControlLoaded = function(loaded) {  self._controlLoaded = loaded; },
 
-        getIndex: function() { return this._index; },
+    self.getIndex = function() { return  self._index; },
 
-        getGrid: function() { return this.grid; },
-        getGridRemoveEnable: function() { return this.gridRemoveEnabled; },
-        setGridRemoveEnable: function(enabled) { this.gridRemoveEnabled = enabled; },
+    self.getGrid = function() { return  grid; },
+    self.getGridRemoveEnable = function() { return  self.gridRemoveEnabled; },
+    self.setGridRemoveEnable = function(enabled) {  self.gridRemoveEnabled = enabled; },
 
-        setSelectedRow: function(row) { this.gridSelectedRow = row; },
-        getSelectedRow: function() { return this.gridSelectedRow; },
-        getForeColor: function() { return this.foreColor; },
-        getBackColor: function() { return this.backColor; },
-        setBackColor: function(backColor) { this.backColor = backColor; },
-        setBackColorUnpressed: function(backColor) { this._unPressedBackColor = backColor; },
+    self.setSelectedRow = function(row) {  self.gridSelectedRow = row; },
+    self.getSelectedRow = function() { return  self.gridSelectedRow; },
+    self.getForeColor = function() { return  self.foreColor; },
+    self.getBackColor = function() { return  self.backColor; },
+    self.setBackColor = function(color) {  self.backColor = color; },
+    self.setBackColorUnpressed = function(backColor) {  self._unPressedBackColor = backColor; },
 
-        getType: function() { return this.type; },
-        setType: function(type) { this.type = type; },
-        getSubType: function() { return this.subType; },
-        setSubType: function(subType) { this.subType = subType; },
+    self.getType = function() { return self.type; },
+    self.setType = function(type) {  self.type = type; },
+    self.getSubType = function() { return  self.subType; },
+    self.setSubType = function(subType) {  self.subType = subType; },
 
-        // list
+    // list
+    //
+
+    self.getList = function() { return  self.list; },
+    self.getListWhoSetItem = function() { return  self.listWhoSetItem; },
+
+    self.getListItemData = function() { return  self.listItemData; },
+    self.setListItemData = function(index) {  self.listItemData = index; },
+
+    self.getListIndex = function() { return self.listListIndex; },
+    self.setListIndex = function(index) {  self.listListIndex = index; },
+
+    self.getListText = function() { return  self.listText; },
+    self.setListText = function(text) { return  self.listText = text; },
+
+    // select
+    //
+    self.getSelectTable = function() { return  self.selectTable; },
+
+    self.getSelectId = function() { return  self.selectId; },
+    self.setSelectId = function(id) {  self.selectId = id; },
+
+    self.getSelectIntValue = function() { return  self.selectIntValue; },
+    self.setSelectIntValue = function(value) {  self.selectIntValue = value; },
+
+    self.getSelectFieldIntValue = function() { return  self.selectFieldIntValue; },
+
+    self.getSelectFilter = function() { return  self.selectFilter; },
+
+    self.getSelectType = function() { return  selectType; },
+    self.setSelectType = function(type) {  selectType = type; },
+
+    self.getSelectNoUseActive = function() { return  selectNoUseActive; },
+    self.setSelectNoUseActive = function(value) {  selectNoUseActive = value; },
+
+    //
+
+    self.getValue = function() { return  self.value; },
+
+    self.getTextMask = function() { return  self.textMask; },
+
+    self.getImage = function() { return  self.image; },
+
+    self.getMultiSelect = function() { return  self.gridMultiSelect; },
+
+    self.getGridAddEnabled = function() { return  self.gridAddEnabled; },
+    self.getGridEditEnabled = function() { return  self.gridEditEnabled; },
+    self.getGridRemoveEnabled = function() { return  self.gridRemoveEnabled; },
+
+    self.getLabelIndex = function() { return  self._labelIndex; },
+
+    self.getVisible = function() { return  self.visible; },
+
+    self.getKeyCol = function() { return  self._keyCol; },
+    self.setIndex = function(index) {  self._index = index; },
+
+    self.getKey = function() { return  self.key; },
+
+    self.getFormat = function() { return  self.format; },
+
+    self.getOptionGroup = function() { return  self.optionGroup; },
+
+    self.getTextAlign = function() { return  self.textAlign; },
+    self.getSize = function() { return  self.size; },
+
+    self.getInputDisabled = function() { return  self.inputDisabled; },
+
+    self.setToolbar = function(c) { /* TODO = implement this */},
+
+    self.getHeight = function() { return  self.height; },
+    self.setHeight = function(height) {  self.height = height; },
+
+    self.getWidth = function() { return  self.width; },
+    self.setWidth = function(width) {  self.width = width; },
+
+    self.getTopFromProperty = function() { return  self.topFromProperty; },
+
+    self.getTop = function() { return  self.top; },
+    self.setTop = function(top) {  self.top = top; },
+
+    self.getTopToPrevious =     function() { return  self.topToPrevious; },
+    self.getLeftFromProperty =  function() { return  self.leftFromProperty; },
+
+    self.setLeft = function(left) {  self.left = left; },
+    self.getLeft = function() { return  self.left; },
+
+    self.getLeftLabel = function() { return  self.leftLabel; },
+    self.setLeftLabel = function(left) {  self.leftLabel = left; },
+
+    self.getLeftToPrevious = function() { return  self.leftToPrevious; },
+
+    self.getTabIndex = function() { return  self.tabIndex; },
+    self.setTabIndex = function(index) { self.tabIndex = index; },
+
+    self.getTabIndex2 = function() { return  self.tabIndex2; },
+    self.setTabIndex2 = function(index) { self.tabIndex2 = index; },
+
+    self.getTopFrame =  function() { return  self.topFrame; },
+    self.getLeftFrame = function() { return  self.leftFrame; },
+
+    self.getButtons = function() { return  self.buttons; },
+
+    self.getLeftNotChange = function()              { return  self.leftNotChange; },
+    self.setLeftNotChange = function(leftNotChange)  {  self.leftNotChange = leftNotChange; },
+    self.getTopNotChange =  function()              { return  self.topNotChange; },
+    self.setTopNotChange =  function(topNotChange)   {  self.topNotChange = topNotChange; },
+
+    self.setLabelIndex = function(labelIndex) {  self._labelIndex = labelIndex; },
+
+    self.getToolbar =         function() { return  self.toolbar; },
+    self.getIsEditProperty =  function() { return  self.isEditProperty; },
+    self.getNoShowButton =    function() { return  self.hideButton; },
+
+    self.getFontName =      function()          { return  self.fontName; },
+    self.setFontName =      function(name)      {  self.fontName = name; },
+    self.getFontSize =      function()          { return  self.fontSize; },
+    self.setFontSize =      function(size)      {  self.fontSize = size; },
+    self.getFontUnderline = function()          { return  self.fontUnderline; },
+    self.setFontUnderline = function(underline) {  self.fontUnderline = underline; },
+    self.getFontBold =      function()          { return  self.fontBold; },
+    self.setFontBold =      function(bold)      {  self.fontBold = bold; },
+    self.getFontItalic =    function()          { return  self.fontItalic; },
+    self.setFontItalic =    function(italic)    {  self.fontItalic = italic; },
+
+    self.getEnabled = function() { return  self.enabled; }
+      
+
+      return self;
+
+    };
+
+    Dialogs.createProperties = function() {
+      var items = [];
+      var keys = {};
+      var count = 0;
+
+      var add = function(value, key) {
         //
-
-        getList: function() { return this.list; },
-        getListWhoSetItem: function() { return this.listWhoSetItem; },
-
-        getListItemData: function() { return this.listItemData; },
-        setListItemData: function(index) { this.listItemData = index; },
-
-        getListIndex: function() { /* TODO: implement this */ },
-        setListIndex: function(index) { this.listListIndex = index; },
-
-        getListText: function() { return this.listText; },
-        setListText: function(text) { return this.listText = text; },
-
-        // select
+        // if a key is present we need to validate it
         //
-        getSelectTable: function() { return this.selectTable; },
-
-        getSelectId: function() { return this.selectId; },
-        setSelectId: function(id) { this.selectId = id; },
-
-        getSelectIntValue: function() { return this.selectIntValue; },
-        setSelectIntValue: function(value) { this.selectIntValue = value; },
-
-        getSelectFieldIntValue: function() { return this.selectFieldIntValue; },
-
-        getSelectFilter: function() { return this.selectFilter; },
-
-        getSelectType: function() { return this.selectType; },
-        setSelectType: function(type) { this.selectType = type; },
-
-        getSelectNoUseActive: function() { return this.selectNoUseActive; },
-        setSelectNoUseActive: function(value) { this.selectNoUseActive = value; },
-
-        //
-
-        getValue: function() { return this.value; },
-
-        getTextMask: function() { return this.textMask; },
-
-        getImage: function() { return this.image; },
-
-        getMultiSelect: function() { return this.getMultiSelect(); },
-
-        getGridAddEnabled: function() { return this.gridAddEnabled; },
-        getGridEditEnabled: function() { return this.gridEditEnabled; },
-        getGridRemoveEnabled: function() { return this.gridRemoveEnabled; },
-
-        getLabelIndex: function() { return this._labelIndex; },
-
-        getVisible: function() { return this.visible; },
-
-        getKeyCol: function() { return this._keyCol; },
-        setIndex: function(index) { this._index = index; },
-
-        getKey: function() { return this.key; },
-
-        getFormat: function() { return this.format; },
-
-        getOptionGroup: function() { return this.optionGroup; },
-
-        getTextAlign: function() { return this.textAlign; },
-        getSize: function() { return this.size; },
-
-        getInputDisabled: function() { return this.inputDisabled; },
-        setToolbar: function(c) { /* TODO: implement this */},
-
-        getHeight: function() { return this.height; },
-        setHeight: function(height) { this.height = height; },
-        getWidth: function() { return this.width; },
-        setWidth: function(width) { this.width = width; },
-        getTopFromProperty: function() { return this.topFromProperty; },
-        getTop: function() { return this.top; },
-        setTop: function(top) { this.top = top; },
-        getTopToPrevious: function() { return this.topToPrevious; },
-        getLeftFromProperty: function() { return this.leftFromProperty; },
-
-        setLeft: function(left) { this.left = left; },
-        getLeft: function() { return this.left; },
-
-        getLeftLabel: function() { return this.leftLabel; },
-        setLeftLabel: function(leftLabel) { this.leftLabel = leftLabel; },
-
-        getLeftToPrevious: function() { return this.leftToPrevious; },
-
-        getTabIndex: function() { return this.tabIndex; },
-        getTopFrame: function() { return this.topFrame; },
-
-        getLeftFrame: function() { return this.leftFrame; },
-        getButtons: function() { return this.buttons; },
-
-        getLeftNotChange: function() { return this.leftNotChange; },
-        setLeftNotChange: function(leftNoChange) { this.leftNotChange = leftNoChange; },
-        getTopNotChange: function() { return this.topNotChange; },
-        setTopNotChange: function(topNoChange) { this.topNotChange = topNoChange; },
-
-        setLabelIndex: function(labelIndex) { this._labelIndex = labelIndex; },
-
-        getToolbar: function() { return this.toolbar; },
-        getIsEditProperty: function() { return this.isEditProperty; },
-        getNoShowButton: function() { return this.hideButton; },
-
-        getFontName:      function()          { return this.fontName; },
-        setFontName:      function(name)      { this.fontName = name; },
-        getFontSize:      function()          { return this.fontSize; },
-        setFontSize:      function(size)      { this.fontSize = size; },
-        getFontUnderline: function()          { return this.fontUnderline; },
-        setFontUnderline: function(underline) { this.fontUnderline = underline; },
-        getFontBold:      function()          { return this.fontBold; },
-        setFontBold:      function(bold)      { this.fontBold = bold; },
-        getFontItalic:    function()          { return this.fontItalic; },
-        setFontItalic:    function(italic)    { this.fontItalic = italic; },
-
-        getEnabled: function() { return this.enabled; }
-
-      },
-
-      validate: function(attrs, options) {
-        var errors = {};
-        if(! attrs.type) {
-          errors.type = "can't be blank";
+        if(key !== undefined) {
+          //
+          // key is alwas string
+          //
+          key = key.toString();
+          if(keys[key] !== undefined) {
+            throw new Error("Can't add this item. There is already an object with this key [" + key + "] in the colletion.");
+          }
+          keys[key] = count;
         }
-        if( ! _.isEmpty(errors)) {
-          return errors;
+        value = value || Dialogs.createProperty();
+        items[count] = value;
+        count += 1;
+
+        return value;
+      };
+
+      var item = function(index) {
+        if(typeof index === "number") {
+          if(index < 0 || index >= count) {
+            throw new Error("Index out of bounds. Index: " + index.toString());
+          }
         }
-      }
-    });
-
-    Dialogs.Properties = Backbone.Collection.extend({
-      url: "",
-
-      model: Dialogs.Property,
-      comparator: "key"
-    });
+        else {
+          var key = index.toString();
+          index = keys[key];
+          if(index === undefined) {
+            throw new Error("This key is not present in this collection. Key: " + key);
+          }
+        }
+        return items[index];
+      };
+    }
 
   });
 
