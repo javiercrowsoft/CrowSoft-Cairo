@@ -496,6 +496,11 @@
       regions: {
         panelRegion: "#tree-panel-region",
         itemsRegion: "#tree-items-region"
+      },
+
+      triggers: {
+        "click button.js-edit": "item:edit",
+        "click button.js-delete": "item:delete"
       }
     });
 
@@ -517,34 +522,7 @@
     */
     List.Item = Marionette.ItemView.extend({
       tagName: "span",
-      template: Cairo.isMobile() ? "#tree-list-item-template-mobile" : "#tree-list-item-template",
-
-      triggers: {
-        "click td a.js-edit": "item:edit",
-        "click button.js-delete": "item:delete"
-      },
-
-      events: {
-        "click": "highlightName"
-      },
-
-      flash: function(cssClass) {
-        var $view = this.$el;
-        $view.hide().toggleClass(cssClass).fadeIn(800, function() {
-          setTimeout(function() { $view.toggleClass(cssClass); }, 500);
-        });
-      },
-
-      highlightName: function(e) {
-        this.$el.toggleClass("warning");
-      },
-
-      remove: function() {
-        var self = this;
-        this.$el.fadeOut(function() {
-          Marionette.ItemView.prototype.remove.call(self);
-        });
-      }
+      template: Cairo.isMobile() ? "#tree-list-item-template-mobile" : "#tree-list-item-template"
 
     });
 
@@ -1409,15 +1387,15 @@
           itemsListLayout.itemsRegion.show(itemsListView);
         });
 
-        itemsListPanel.on("item:new", function() {
-          // TODO: call to controller listController.newItem
+        itemsListPanel.on("tree:new", function() {
+          listController.edit(Cairo.Constants.NO_ID);
         });
 
-        itemsListView.on("itemview:item:edit", function(childView, args) {
-          // TODO: call to controller listController.editItem
+        itemsListLayout.on("item:edit", function(childView, args) {
+          listController.edit();
         });
 
-        itemsListView.on("itemview:item:delete", function(childView, args) {
+        itemsListLayout.on("item:delete", function(childView, args) {
           // TODO: test how it works
           args.model.destroy();
         });

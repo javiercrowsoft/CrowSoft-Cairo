@@ -435,7 +435,7 @@
       return self;
     };
 
-    Edit.Controller = createObject();
+    Edit.Controller = { getEditor: createObject };
 
   });
 
@@ -468,6 +468,10 @@
           self.addLeave = function(id, branchId, treeId) { /* TODO: implement this. */ };
           self.addEditedId = function(id) { /* TODO: implement this. */ };
           self.refreshActiveBranch = function() { /* TODO: implement this. */ };
+
+          self.edit = function(id) {
+            Cairo.Provincia.Edit.getEditor().edit(id);
+          };
 
           // progress message
           //
