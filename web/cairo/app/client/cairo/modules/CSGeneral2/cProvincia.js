@@ -7,7 +7,7 @@
 
       var self = {};
 
-      var Dialogs = Cairo.Entities.Dialogs;
+      var Dialogs = Cairo.Dialogs;
 
       // cProvincia
       // 31-07-00
@@ -402,9 +402,9 @@
         return Cairo.Database.getData("load[" + apiPath + "general/provincia]", id).then(
           function(response) {
 
-            if(response.success === false) { return false; }
+            if(response.success !== true) { return false; }
 
-            if(response.data.length === 0) {
+            if(response.data.id === 0) {
               m_activo = true;
               m_name = "";
               m_code = "";
@@ -470,7 +470,9 @@
           self.refreshActiveBranch = function() { /* TODO: implement this. */ };
 
           self.edit = function(id) {
-            Cairo.Provincia.Edit.getEditor().edit(id);
+            var editor = Cairo.Provincia.Edit.Controller.getEditor();
+            editor.setDialog(Cairo.Dialogs.View.Controller.newDialog());
+            editor.edit(id);
           };
 
           // progress message

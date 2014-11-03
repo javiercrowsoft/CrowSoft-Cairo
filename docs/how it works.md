@@ -50,4 +50,27 @@ Grid control
 
 Reports
 
+JavaScript dependencies:
+
+Marionette.js used is 1.7.0
+NOTICE !!! :
+  this library has been modified at line 1337
+  the original code was:
+
+        // build the args for the event
+        var args = {
+          view: this,
+          model: this.model,
+          collection: this.collection
+        };
+
+  the modified version adds a property to hold the event
+
+        // build the args for the event
+        var args = {
+          view: this,
+          model: this.model,
+          collection: this.collection,
+          event: e
+        };
 

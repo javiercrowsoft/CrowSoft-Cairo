@@ -9,7 +9,7 @@
   // Entities
   ///////////////
 
-  Cairo.module("Entities.Controls.Grids", function(Grids, Cairo, Backbone, Marionette, $, _) {
+  Cairo.module("Controls.Grids", function(Grids, Cairo, Backbone, Marionette, $, _) {
 
     Grids.GridGroup = Backbone.Model.extend({
       urlRoot: "",
@@ -119,7 +119,7 @@
 
     });
 
-    Grids.Grid = Cairo.Entities.Controls.Control.extend({
+    Grids.Grid = Cairo.Controls.Control.extend({
       urlRoot: "",
 
       defaults: {

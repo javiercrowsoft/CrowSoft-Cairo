@@ -9,7 +9,7 @@
   // Entities
   ///////////////
 
-  Cairo.module("Entities.Controls", function(Controls, Cairo, Backbone, Marionette, $, _) {
+  Cairo.module("Controls", function(Controls, Cairo, Backbone, Marionette, $, _) {
 
     Controls.Control = Backbone.Model.extend({
       urlRoot: "",

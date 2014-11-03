@@ -9,7 +9,7 @@
   // Entities
   ///////////////
 
-  Cairo.module("Entities.Dialogs.Grids", function(Grids, Cairo, Backbone, Marionette, $, _) {
+  Cairo.module("Dialogs.Grids", function(Grids, Cairo, Backbone, Marionette, $, _) {
 
     Grids.Manager = Backbone.Model.extend({
       urlRoot: "",

@@ -9,7 +9,7 @@
   // Entities
   ///////////////
 
-  Cairo.module("Entities.Dialogs.Views", function(Views, Cairo, Backbone, Marionette, $, _) {
+  Cairo.module("Dialogs.Views", function(Views, Cairo, Backbone, Marionette, $, _) {
 
     Views.View = Backbone.Model.extend({
       urlRoot: "",
@@ -115,7 +115,8 @@
       setButtonsEx2: function(buttons) { /* TODO: implement this. */ },
       setButtonsEx3: function(buttons) { /* TODO: implement this. */ },
 
-      setToolbarButtons: function() { /* TODO: implement this. */ }
+      setToolbarButtons: function() { /* TODO: implement this. */ },
+      setHeightToDocWithDescription: function() { /* TODO: implement this. */ }
 
     });
 

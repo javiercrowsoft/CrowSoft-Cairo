@@ -9,28 +9,32 @@ import play.api.Logger
 import play.api.libs.json._
 import models.cairo.modules.general._
 import models.cairo.system.security.CairoSecurity
+import models.cairo.system.database.DBHelper
 
-case class ProvinciaData(id: Option[Int], name: String, code: String, active: Boolean, paId: Int)
+case class ProvinciaData(id: Option[Int], name: String, code: String, descrip: String, active: Boolean, paId: Int)
 
 object Provincias extends Controller with ProvidesUser {
 
   val provinciaForm = Form(
     mapping(
       "id" -> optional(number),
-      "name" -> nonEmptyText,
-      "code" -> text,
-      "active" -> boolean,
-      "paId" -> number
+      C.PRO_NAME -> nonEmptyText,
+      C.PRO_CODE -> text,
+      C.PRO_DESCRIP -> text,
+      DBHelper.ACTIVE -> boolean,
+      C.PA_ID -> number
     )(ProvinciaData.apply)(ProvinciaData.unapply))
 
   implicit val provinciaWrites = new Writes[Provincia] {
     def writes(provincia: Provincia) = Json.obj(
       "id" -> Json.toJson(provincia.id),
-      "name" -> Json.toJson(provincia.name),
-      "code" -> Json.toJson(provincia.code),
-      "active" -> Json.toJson(provincia.active),
-      "paId" -> Json.toJson(provincia.paId),
-      "paName" -> Json.toJson(provincia.paName)
+      C.PRO_ID -> Json.toJson(provincia.id),
+      C.PRO_NAME -> Json.toJson(provincia.name),
+      C.PRO_CODE -> Json.toJson(provincia.code),
+      C.PRO_DESCRIP -> Json.toJson(provincia.descrip),
+      DBHelper.ACTIVE -> Json.toJson(provincia.active),
+      C.PA_ID -> Json.toJson(provincia.paId),
+      C.PA_NAME -> Json.toJson(provincia.paName)
     )
   }
 
@@ -52,7 +56,7 @@ object Provincias extends Controller with ProvidesUser {
         LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.EDIT_PROVINCIA), { user =>
           Ok(
             Json.toJson(
-              Provincia.update(user, Provincia(id, provincia.name, provincia.code, provincia.active, provincia.paId))))
+              Provincia.update(user, Provincia(id, provincia.name, provincia.descrip, provincia.code, provincia.active, provincia.paId))))
         })
       }
     )
@@ -70,7 +74,7 @@ object Provincias extends Controller with ProvidesUser {
         LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.NEW_PROVINCIA), { user =>
           Ok(
             Json.toJson(
-              Provincia.create(user, Provincia(provincia.name, provincia.code, provincia.active, provincia.paId))))
+              Provincia.create(user, Provincia(provincia.name, provincia.code, provincia.descrip, provincia.active, provincia.paId))))
         })
       }
     )

@@ -23,7 +23,7 @@
     getData: function(query, id) {
       var getAction = function() {
         var p = query.indexOf("[");
-        return p > 0 ? query.substring(0, p-1) : "";
+        return p > 0 ? query.substring(0, p) : "";
       };
 
       var getPath = function() {
@@ -32,13 +32,14 @@
         return p1 > 0 && p2 > 1 ? query.substring(p1+1, p2) : "";
       };
 
+      var p = null;
       var rp = Cairo.Promises.resolvedPromise;
       var action = getAction();
 
       if(action === "load") {
         var path = getPath();
         if(path === "") {
-          rp({success: false, message: "Invalid query: Path not defined."});
+          p = rp({success: false, message: "Invalid query: Path not defined."});
         }
         else {
           var q = new Cairo.Entities.DatabaseQuery({id: id});
@@ -46,21 +47,36 @@
           var defer = new Cairo.Promises.Defer();
           q.fetch({
             success: function(data) {
-              defer.resolve(data);
+              defer.resolve({success: true, data: data});
+            },
+            error: function(data, response) {
+              if(response.status === 401) {
+                Cairo.infoViewShow("Unauthorized", "The server has denied access to this action.")
+              }
+              else if(response.status === 500) {
+                Cairo.manageError(
+                  "Server Request [Get Data]",
+                  "Can't get data for query:[ " + query + " id: " + id.toString() + " ]. An error has occurred in the server.",
+                  response.responseText);
+              }
+              defer.resolve({success: false, data: data, response: response});
             }
           });
-          return defer.promise;
+          p = defer.promise;
         }
       }
       else if(action === "") {
-        rp({success: false, message: "Invalid query: Action not defined."});
+        p = rp({success: false, message: "Invalid query: Action not defined."});
       }
       else {
-        rp({success: false, message: "Invalid query: Action [" + action + "] not supported."});
+        p = rp({success: false, message: "Invalid query: Action [" + action + "] not supported."});
       }
+      return p;
     },
 
-    valField: function(fields, fieldName) {},
+    valField: function(fields, fieldName) {
+      return fields.get(fieldName);
+    },
 
     Register: function() {
       var fieldId, table, id;

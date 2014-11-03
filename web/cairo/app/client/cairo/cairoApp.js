@@ -579,6 +579,20 @@ var Cairo = new Marionette.Application();
 
     });
 
+    Views.InfoMessageView = Marionette.ItemView.extend({
+      template: "#info-message-view",
+
+      events: {
+        "click button.js-submit": "submitClicked"
+      },
+
+      submitClicked: function(e) {
+        e.preventDefault();
+        this.trigger("form:submit");
+      }
+
+    });
+
   });
 
   Cairo.module("Common.Views", function(Views, Cairo, Backbone, Marionette, $, _) {
@@ -611,6 +625,19 @@ var Cairo = new Marionette.Application();
     });
 
     Views.ErrorMessage = Cairo.Common.Views.ErrorMessageView.extend({
+      initialize: function() {
+        this.title = this.model.get("title");
+      },
+
+      onRender: function() {
+        if(this.options.generateTitle) {
+          var $title = $('<h1>', { text: this.title });
+          this.$el.prepend($title);
+        }
+      }
+    });
+
+    Views.InfoMessage = Cairo.Common.Views.InfoMessageView.extend({
       initialize: function() {
         this.title = this.model.get("title");
       },
@@ -666,7 +693,19 @@ var Cairo = new Marionette.Application();
   };
 
   Cairo.infoView = function(title, message, closeHandler) {
-    /* TODO: implement this. */
+    var Model = Backbone.Model.extend({ urlRoot: "infoMessage" });
+    var model = new Model({ title: title, message: message });
+    var view = new Cairo.Common.Views.InfoMessage({
+      model: model
+    });
+
+    view.on("form:submit", function(data) {
+      Cairo.log("submit handled - Data: " + data);
+      view.trigger("dialog:close");
+      if(closeHandler) { closeHandler(); }
+    });
+
+    return view;
   };
 
   Cairo.infoViewShow = function(title, message, closeHandler) {
@@ -703,7 +742,7 @@ var Cairo = new Marionette.Application();
   Cairo.manageErrorEx = function(errorResponse, functionName, className, infoAdd) {
     Cairo.manageError(
       "Error",
-      "An error has occurred when calling this function: " + className + "." + functionName + "/n" + infoAdd,
+      "An error has occurred when calling this function: " + className + "." + functionName + "<br>" + infoAdd,
       errorResponse);
   };
 

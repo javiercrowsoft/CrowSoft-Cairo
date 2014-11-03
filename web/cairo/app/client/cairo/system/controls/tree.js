@@ -1392,7 +1392,13 @@
         });
 
         itemsListLayout.on("item:edit", function(childView, args) {
-          listController.edit();
+          try {
+            var id = $(childView.event.currentTarget.parentElement.parentElement).data("clientid");
+            listController.edit(id);
+          }
+          catch(ex) {
+            Cairo.manageError("Edit Item", "Can't edit this item", ex.message, "");
+          }
         });
 
         itemsListLayout.on("item:delete", function(childView, args) {

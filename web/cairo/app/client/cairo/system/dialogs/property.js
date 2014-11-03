@@ -9,7 +9,7 @@
   // Entities
   ///////////////
 
-  Cairo.module("Entities.Dialogs", function(Dialogs, Cairo, Backbone, Marionette, $, _) {
+  Cairo.module("Dialogs", function(Dialogs, Cairo, Backbone, Marionette, $, _) {
 
     Dialogs.PropertyType = {
       select: 1,
@@ -161,6 +161,9 @@
       that.getName = function() {
         return self.name;
       };
+      that.setName = function(name) {
+        self.name = name;
+      };
 
       that.getControl = function() {
         return self._ctl;
@@ -168,6 +171,7 @@
       that.setControl = function(control) {
         self._ctl = control;
       };
+
       that.getControlLoaded = function() {
         return self._controlLoaded;
       };
@@ -180,6 +184,9 @@
       };
 
       that.getGrid = function() {
+        if(self.grid === null) {
+          self.grid = new Dialogs.Grids.Grid();
+        }
         return self.grid;
       };
       that.getGridRemoveEnable = function() {
@@ -299,46 +306,82 @@
       that.getValue = function() {
         return self.value;
       };
+      that.setValue = function(value) {
+        self.value = value;
+      };
 
       that.getTextMask = function() {
         return self.textMask;
+      };
+      that.setTextMask = function(mask) {
+        self.textMask = mask;
       };
 
       that.getImage = function() {
         return self.image;
       };
+      that.setImage = function(image) {
+        self.image = image;
+      };
 
       that.getMultiSelect = function() {
         return self.gridMultiSelect;
+      };
+      that.setMultiSelect = function(multiSelect) {
+        self.gridMultiSelect = multiSelect;
       };
 
       that.getGridAddEnabled = function() {
         return self.gridAddEnabled;
       };
+      that.setGridAddEnabled = function(enabled) {
+        self.gridAddEnabled = enabled;
+      };
+
       that.getGridEditEnabled = function() {
         return self.gridEditEnabled;
       };
+      that.setGridEditEnabled = function(enabled) {
+        self.gridEditEnabled = enabled;
+      };
+
       that.getGridRemoveEnabled = function() {
         return self.gridRemoveEnabled;
+      };
+      that.setGridRemoveEnabled = function(enabled) {
+        self.gridRemoveEnabled = enabled;
       };
 
       that.getLabelIndex = function() {
         return self._labelIndex;
       };
+      that.setLabelIndex = function(labelIndex) {
+        self._labelIndex = labelIndex;
+      };
 
       that.getVisible = function() {
         return self.visible;
+      };
+      that.getVisible = function(visible) {
+        self.visible = visible;
       };
 
       that.getKeyCol = function() {
         return self._keyCol;
       };
+      that.setKeyCol = function(key) {
+        self._keyCol = key;
+      };
+
       that.setIndex = function(index) {
         self._index = index;
       };
 
       that.getKey = function() {
         return self.key;
+      };
+      that.setKey = function(key) {
+        self.key = key;
       };
 
       that.getFormat = function() {
@@ -352,8 +395,12 @@
       that.getTextAlign = function() {
         return self.textAlign;
       };
+
       that.getSize = function() {
         return self.size;
+      };
+      that.setSize = function(size) {
+        self.size = size;
       };
 
       that.getInputDisabled = function() {
@@ -450,10 +497,6 @@
         self.topNotChange = topNotChange;
       };
 
-      that.setLabelIndex = function(labelIndex) {
-        self._labelIndex = labelIndex;
-      };
-
       that.getToolbar = function() {
         return self.toolbar;
       };
@@ -503,109 +546,9 @@
 
     };
 
-    Dialogs.createProperties = function(itemConstructor) {
-
-      var newCollection = function() {
-        return {
-          items: [],
-          keys: {},
-          count: 0
-        };
-      };
-
-      var self = newCollection();
-
-      var that = {};
-
-      that.add = function(value, key) {
-        //
-        // if a key is present we need to validate it
-        //
-        if (key !== undefined) {
-          //
-          // key is alwas string
-          //
-          key = key.toString();
-          if (self.keys[key] !== undefined) {
-            throw new Error("Can't add this item. There is already an object with this key [" + key + "] in the colletion.");
-          }
-          self.keys[key] = self.count;
-        }
-        value = value || itemConstructor();
-        self.items[self.count] = value;
-        self.count += 1;
-
-        return value;
-      };
-
-      var checkIndex = function(index) {
-        if (typeof index === "number") {
-          if (index < 0 || index >= self.count) {
-            throw new Error("Index out of bounds. Index: " + index.toString());
-          }
-        } else {
-          var key = index.toString();
-          index = self.keys[key];
-          if (index === undefined) {
-            throw new Error("This key is not present in this collection. Key: " + key);
-          }
-        }
-        return index;
-      };
-
-      that.item = function(indexOrKey) {
-        var index = checkIndex(indexOrKey);
-        return self.items[index];
-      };
-      
-      that.remove = function(indexOrKey) {
-        var index = checkIndex(indexOrKey);
-        var count = self.count - 1;
-        //
-        // move all elements from index to the beginning of the array
-        //
-        for(var i = index; i < count; i += 1) {
-          self.items[i] = self.items[i + 1];
-        }
-        //
-        // remove the last reference to allow the object be garbage collected
-        //
-        delete self.items[self.count-1];
-        //
-        // update size of items array
-        //
-        self.count -=1;
-        //
-        // update keys array
-        //
-        var keys = Object.keys(self.keys);
-        for(var i = 0; i < keys.length; i += 1) {
-          if(self.keys[keys[i]]) {
-            //
-            // delete the key for this object
-            //
-            if(self.keys[keys[i]] === index) {
-              delete self.keys[keys[i]];
-            }
-            //
-            // update index for every key which references an element
-            // moved in this remove operation
-            //
-            else if(self.keys[keys[i]] > index) {
-              self.keys[keys[i]] -= 1;
-            }
-          }
-        }
-      };
-
-      that.clear = newCollection();
-
-      that.count = function() {
-        return self.count;
-      };
-
-      return that;
-    }
+    Dialogs.createProperties = function() {
+      return Cairo.Collections.createCollection(Dialogs.createProperty);
+    };
 
   });
 

@@ -5,7 +5,10 @@
 
     Actions: {},
 
-    hasPermissionTo: function(action) { /* TODO: implement this. */ }
+    hasPermissionTo: function(action) {
+      /* TODO: implement this. */
+      return true;
+    }
 
   };
 

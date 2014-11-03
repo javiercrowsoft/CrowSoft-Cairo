@@ -9,7 +9,7 @@
   // Entities
   ///////////////
 
-  Cairo.module("Entities.Dialogs", function(Dialogs, Cairo, Backbone, Marionette, $, _) {
+  Cairo.module("Dialogs", function(Dialogs, Cairo, Backbone, Marionette, $, _) {
 
     Dialogs.Menu = Backbone.Model.extend({
       urlRoot: "",

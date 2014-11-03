@@ -17,6 +17,7 @@ case class Provincia(
                       id: Int,
                       name: String,
                       code: String,
+                      descrip: String,
                       active: Boolean,
                       createdAt: Date,
                       updatedAt: Date,
@@ -26,34 +27,42 @@ case class Provincia(
   def this(id: Int,
            name: String,
            code: String,
+           descrip: String,
            active: Boolean,
            paId: Int) = {
-    this(id, name, code, active, DateUtil.currentTime, DateUtil.currentTime, DBHelper.NoId, paId, "")
+    this(id, name, code, descrip, active, DateUtil.currentTime, DateUtil.currentTime, DBHelper.NoId, paId, "")
   }
 
-  def this(name: String, code: String, active: Boolean, paId: Int) = this(DBHelper.NoId, name, code, active, paId)
+  def this(name: String, code: String, descrip: String, active: Boolean, paId: Int) = {
+    this(DBHelper.NoId, name, code, descrip, active, paId)
+  }
 
 }
 
 object Provincia {
 
-  lazy val emptyProvincia = Provincia("", "", false, DBHelper.NoId)
+  lazy val emptyProvincia = Provincia("", "", "", false, DBHelper.NoId)
 
-  def apply(id: Int, name: String, code: String, active: Boolean, paId: Int) = new Provincia(id, name, code, active, paId)
-  def apply(name: String, code: String, active: Boolean, paId: Int) = new Provincia(name, code, active, paId)
+  def apply(id: Int, name: String, code: String, descrip: String, active: Boolean, paId: Int) = {
+    new Provincia(id, name, code, descrip, active, paId)
+  }
+  def apply(name: String, code: String, descrip: String, active: Boolean, paId: Int) = {
+    new Provincia(name, code, descrip, active, paId)
+  }
 
   private val provinciaParser: RowParser[Provincia] = {
     SqlParser.get[Int](C.PRO_ID) ~
       SqlParser.get[String](C.PRO_NAME) ~
       SqlParser.get[String](C.PRO_CODE) ~
+      SqlParser.get[String](C.PRO_DESCRIP) ~
       SqlParser.get[Int](DBHelper.ACTIVE) ~
       SqlParser.get[Date](DBHelper.CREATED_AT) ~
       SqlParser.get[Date](DBHelper.UPDATED_AT) ~
       SqlParser.get[Int](DBHelper.UPDATED_BY) ~
       SqlParser.get[Int](C.PA_ID) ~
       SqlParser.get[String](C.PA_NAME) map {
-      case id ~ name ~ code ~ active ~ createdAt ~ updatedAt ~ updatedBy ~ paId ~ paName =>
-        Provincia(id, name, code, (if(active != 0) true else false), createdAt, updatedAt, updatedBy, paId, paName)
+      case id ~ name ~ code ~ descrip ~ active ~ createdAt ~ updatedAt ~ updatedBy ~ paId ~ paName =>
+        Provincia(id, name, code, descrip, (if(active != 0) true else false), createdAt, updatedAt, updatedBy, paId, paName)
     }
   }
 
@@ -70,6 +79,7 @@ object Provincia {
       List(
         Field(C.PRO_NAME, provincia.name, FieldType.text),
         Field(C.PRO_CODE, provincia.code, FieldType.text),
+        Field(C.PRO_DESCRIP, provincia.descrip, FieldType.text),
         Field(DBHelper.ACTIVE, provincia.active, FieldType.boolean),
         Field(C.PA_ID, provincia.paId, FieldType.id)
       )
@@ -101,7 +111,7 @@ object Provincia {
 
   def loadWhere(user: CompanyUser, where: String, args : scala.Tuple2[scala.Any, anorm.ParameterValue[_]]*) = {
     DB.withConnection(user.database.database) { implicit connection =>
-      SQL(s"SELECT * FROM ${C.PROVINCIA} WHERE $where")
+      SQL(s"SELECT t1.*, t2.${C.PA_NAME} FROM ${C.PROVINCIA} t1 INNER JOIN ${C.PAIS} t2 ON t1.${C.PA_ID} = t2.${C.PA_ID} WHERE $where")
         .on(args: _*)
         .as(provinciaParser.singleOpt)
     }

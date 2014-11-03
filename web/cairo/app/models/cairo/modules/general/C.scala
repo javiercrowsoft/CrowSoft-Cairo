@@ -5,6 +5,7 @@ object C {
   val PRO_ID = "pro_id"
   val PRO_NAME = "pro_nombre"
   val PRO_CODE = "pro_codigo"
+  val PRO_DESCRIP = "pro_descrip"
 
   val PAIS = "pais"
   val PA_ID = "pa_id"

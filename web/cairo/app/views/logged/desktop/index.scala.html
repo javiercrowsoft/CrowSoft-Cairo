@@ -230,13 +230,24 @@
   <form>
     <div class="input-text-form">
       <div class="control-group">
-        <p><%- message %></p>
+        <p><%= message %></p>
       </div>
     </div>
     <button class="btn js-submit btn-info btn-small">Close</button>
     <button class="btn js-showErrorDetails btn-warning btn-small">Details</button>
   </form>
   <iframe id="errorDetailIFrame" style="width: 800px; height: 600px; display: none; margin-top: 50px; border: none;"></iframe>
+</script>
+
+<script type="text/template" id="info-message-view">
+    <form>
+        <div class="input-text-form">
+            <div class="control-group">
+                <p><%= message %></p>
+            </div>
+        </div>
+        <button class="btn js-submit btn-info btn-small">Close</button>
+    </form>
 </script>
 
 <!-- desktop -->
@@ -511,19 +522,45 @@
 <script src="./client/cairo/common/views.js"></script>
 <script src="./client/cairo/system/promise.js"></script>
 <script src="./client/cairo/system/modal.js"></script>
+
+<!-- controls -->
+
 <script src="./client/cairo/system/controls/tree.js"></script>
 <script src="./client/cairo/system/controls/tab.js"></script>
 <script src="./client/cairo/system/controls/select.js"></script>
 <script src="./client/cairo/system/controls/treeSelect.js"></script>
-<!--
+
+<script src="./client/cairo/system/controls/control.js"></script>
+<script src="./client/cairo/system/controls/menu.js"></script>
+<script src="./client/cairo/system/controls/image.js"></script>
+<script src="./client/cairo/system/controls/input.js"></script>
+<script src="./client/cairo/system/controls/grid.js"></script>
+
+<!-- system -->
+
+<script src="./client/cairo/system/database/database.js"></script>
+<script src="./client/cairo/system/database/docDigital.js"></script>
+<script src="./client/cairo/system/security/security.js"></script>
+<script src="./client/cairo/system/language/language.js"></script>
+<script src="./client/cairo/system/documentation/documentation.js"></script>
+
+<!-- dialogs -->
+
+<script src="./client/cairo/system/collections/collection.js"></script>
 <script src="./client/cairo/system/dialogs/property.js"></script>
 <script src="./client/cairo/system/dialogs/menu.js"></script>
 <script src="./client/cairo/system/dialogs/tab.js"></script>
+<script src="./client/cairo/system/dialogs/grid.js"></script>
+<script src="./client/cairo/system/dialogs/view.js"></script>
 <script src="./client/cairo/system/dialogs/dialog.js"></script>
 <script src="./client/cairo/system/dialogs/wizardStep.js"></script>
 <script src="./client/cairo/system/dialogs/wizard.js"></script>
-<script src="./client/cairo/system/dialogs/list.js"></script>
--->
+
+<!-- modules -->
+
+<!-- TODO: this file is hardcoded for now but must be included in the router -->
+<script src="./client/cairo/modules/CSGeneral2/constants.js"></script>
+
 @for(routerEntry <- router) {<script src="./client/cairo/modules/@{routerEntry.fileHandler}.js"></script>
 }
 <script src="./client/cairo/about/aboutApp.js"></script>
@@ -531,6 +568,7 @@
 <script src="./client/cairo/about/show/showView.js"></script>
 <script src="./client/cairo/about/show/showController.js"></script>
 
+<!-- routes -->
 <script>
 
 @routerGenerator(router)

@@ -1333,7 +1333,8 @@ Marionette.View = Backbone.View.extend({
         var args = {
           view: this,
           model: this.model,
-          collection: this.collection
+          collection: this.collection,
+          event: e
         };
 
         // trigger the event

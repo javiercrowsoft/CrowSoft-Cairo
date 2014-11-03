@@ -9,7 +9,7 @@
   // Entities
   ///////////////
 
-  Cairo.module("Entities.Controls", function(Controls, Cairo, Backbone, Marionette, $, _) {
+  Cairo.module("Controls", function(Controls, Cairo, Backbone, Marionette, $, _) {
 
     Controls.Input = Controls.Control.extend({
       urlRoot: "",

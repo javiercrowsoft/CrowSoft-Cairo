@@ -9,7 +9,7 @@
   // Entities
   ///////////////
 
-  Cairo.module("Entities.Dialogs.Views", function(Views, Cairo, Backbone, Marionette, $, _) {
+  Cairo.module("Dialogs.Views", function(Views, Cairo, Backbone, Marionette, $, _) {
 
     Views.DialogClient = {
 

@@ -4,8 +4,8 @@
   Cairo.General = {
 
     Constants: {
-      PRO_NAME:     "pro_name",
-      PRO_CODE:     "pro_code",
+      PRO_NAME:     "pro_nombre",
+      PRO_CODE:     "pro_codigo",
       PRO_DESCRIP:  "pro_descrip",
       PRO_ID:       "pro_id",
 

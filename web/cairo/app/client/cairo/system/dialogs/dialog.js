@@ -9,7 +9,7 @@
   // Entities
   ///////////////
 
-  Cairo.module("Entities.Dialogs", function(Dialogs, Cairo, Backbone, Marionette, $, _) {
+  Cairo.module("Dialogs", function(Dialogs, Cairo, Backbone, Marionette, $, _) {
 
     Dialogs.TabIndexType = {
       TAB_ID_XT_ALL:  -1000,
@@ -151,17 +151,6 @@
       transparent: 2
     };
 
-    Dialogs.Manager = Backbone.Model.extend({
-      urlRoot: "",
-
-      defaults: {
-        properties: new Dialogs.Properties(),
-        menus:      new Dialogs.Menus(),
-        tabs:       new Dialogs.Tabs()
-      }
-
-    });
-
     Dialogs.ButtonStyle = {
       none: 1,
       sinlge: 2
@@ -179,7 +168,7 @@
   // Handler
   ///////////////
 
-  Cairo.module("Dialog", function(Tree, Cairo, Backbone, Marionette, $, _) {
+  Cairo.module("Dialogs", function(Tree, Cairo, Backbone, Marionette, $, _) {
 
   });
 
@@ -277,7 +266,7 @@
         var m_lastTopOp   = 0;
         var m_labelLeft   = 0;
 
-        var m_gridManager = new Cairo.Entities.Dialogs.Grids.Manager();
+        var m_gridManager = new Cairo.Dialogs.Grids.Manager();
 
         // minimum size of the view
         //
@@ -444,7 +433,7 @@
 
         var m_owner = null;
 
-        var self = this;
+        var self = {};
 
         self.setTabHideControlsInAllTab = function(rhs) {
           m_tabHideControlsInAllTab = rhs;
@@ -564,7 +553,7 @@
 
         // returns the view
         //
-        // @return Entities.Dialogs.View
+        // @return Dialogs.View
         //
         var getView = function() {
           var mustInitialize = false;
@@ -1123,7 +1112,7 @@
               var count = grid.getRows().count();
               for(var j = 0; j < count; j++) {
                 if(grid.rowIsGroup(j)) {
-                  var row = new Cairo.Entities.Dialogs.Grids.Row();
+                  var row = new Cairo.Dialogs.Grids.Row();
                   row.setIsGroup(true);
                   row.setIndex(j);
                   rows.add(row);
@@ -3991,7 +3980,7 @@
 
         var addVirtualRows = function(key, rowIndex, colIndex) {
           if(m_client === null) {
-            return Cairo.Promises.resolvedPromise(new Cairo.Entities.Controls.Grids.VirtualRow({
+            return Cairo.Promises.resolvedPromise(new Cairo.Dialogs.Grids.VirtualRow({
               result: false,
               info: null,
               rowsToAdd: 0
@@ -4416,7 +4405,7 @@
 
         var createRow = function(index, property, rowIndex) {
           var colIndex = 0;
-          var row = new Cairo.Entities.Controls.Grids.Row();
+          var row = new Cairo.Controls.Grids.Row();
           var cell = null;
 
           var count = property.getGrid().getColumns().count();
@@ -6846,7 +6835,7 @@
 
           m_tabHideControlsInAllTab = -1;
 
-          m_properties = new Dialogs.Properties();
+          m_properties = new Dialogs.createProperties();
 
           m_nextTop   = [0];
           m_nextTopOp = [0];
@@ -7073,6 +7062,9 @@
           }
         };
 
+        self.initialize();
+
+        return self;
       }
     };
 

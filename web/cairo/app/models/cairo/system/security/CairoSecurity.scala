@@ -9,7 +9,7 @@ object CairoSecurity {
   }
 
   def hasPermissionTo(user: CompanyUser, action: Int): Boolean = {
-    false
+    true
   }
 
 }
