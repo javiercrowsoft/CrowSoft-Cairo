@@ -219,7 +219,7 @@
         }
       };
 
-      self.title = function() {
+      self.getTitle = function() {
         //'Provincias
         return Cairo.Language.getText(1410, "");
       };
@@ -274,8 +274,8 @@
         return Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.LIST_PROVINCIA);
       };
 
-      self.setDialog = function(rhs) {
-        m_dialog = rhs;
+      self.setDialog = function(dialog) {
+        m_dialog = dialog;
       };
 
       self.isEditing = function() {
@@ -374,7 +374,7 @@
 
         var elem = properties.add(null, Cairo.General.Constants.PA_ID);
         elem.setType(Dialogs.PropertyType.select);
-        elem.setTable(Cairo.Tables.PAIS);
+        elem.setSelectTable(Cairo.Tables.PAIS);
         //'País
         elem.setName(Cairo.Language.getText(1212, ""));
         elem.setKey(K_PA_ID);
@@ -391,7 +391,7 @@
         elem.setValue(m_descrip);
         elem.setKey(K_DESCIP);
 
-        if(!m_dialog.show(this)) { return false; }
+        if(!m_dialog.show(self)) { return false; }
 
         return true;
       };
@@ -471,7 +471,7 @@
 
           self.edit = function(id) {
             var editor = Cairo.Provincia.Edit.Controller.getEditor();
-            editor.setDialog(Cairo.Dialogs.View.Controller.newDialog());
+            editor.setDialog(Cairo.Dialogs.Views.Controller.newDialog());
             editor.edit(id);
           };
 

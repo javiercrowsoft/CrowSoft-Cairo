@@ -61,6 +61,8 @@
         return self.items[index];
       };
 
+      that.get = that.item;
+
       that.remove = function(indexOrKey) {
         var index = checkIndex(indexOrKey);
         var count = self.count - 1;

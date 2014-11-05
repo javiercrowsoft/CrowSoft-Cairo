@@ -11,6 +11,11 @@
 
   Cairo.module("Controls", function(Controls, Cairo, Backbone, Marionette, $, _) {
 
+    Controls.ButtonStyle = {
+      single: 1,
+      none: 2
+    };
+
     Controls.Input = Controls.Control.extend({
       urlRoot: "",
 

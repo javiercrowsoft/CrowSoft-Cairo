@@ -15,9 +15,10 @@
       urlRoot: "",
 
       defaults: {
-      },
 
-      addListener: function(listenerDefinition) { /* TODO: implement this. */ },
+      },
+      listeners: [],
+      tabs: Cairo.Collections.createCollection(Cairo.Dialogs.createTab),
 
       getSaveButton: function() { /* TODO: implement this. */ },
       getCancelButton: function() { /* TODO: implement this. */ },
@@ -26,8 +27,13 @@
       getTab: function() { /* TODO: implement this. */ },
       getTabFooter: function() { /* TODO: implement this. */ },
       getTabItems: function() { /* TODO: implement this. */ },
+
       getTitle: function() { /* TODO: implement this. */ },
       getTitleLabel: function() { /* TODO: implement this. */ },
+
+      getTabs: function() {
+        return this.tabs;
+      },
 
       getMaskEdits: function() { /* TODO: implement this. */ },
       getDatePickers: function() { /* TODO: implement this. */ },
@@ -40,7 +46,7 @@
       getTextAreas: function() { /* TODO: implement this. */ },
       getPasswordInputs: function() { /* TODO: implement this. */ },
       getLabels: function() { /* TODO: implement this. */ },
-      getCtlLabels: function() { /* TODO: implement this. */ },
+      getCtrlLabels: function() { /* TODO: implement this. */ },
       getProgressBars: function() { /* TODO: implement this. */ },
       getGrids: function() { /* TODO: implement this. */ },
       getDescription: function() { /* TODO: implement this. */ },
@@ -68,21 +74,42 @@
       getTextWidth: function(text) { /* TODO: implement this. */ },
 
       getIndexGrid: function(grid) { /* TODO: implement this. */ },
-      setNoResize: function(indexGrid, noResize) { /* TODO: implement this. */ }
+      setNoResize: function(indexGrid, noResize) { /* TODO: implement this. */ },
+
+      getHeight: function() {
+        return 480;
+      },
+
+      getWidth: function() {
+        return 320;
+      },
+
+      addListener: function(listenerDefinition) {
+        this.listeners.push(listenerDefinition);
+      }
 
     });
 
     Views.MasterView = Views.View.extend({
 
-      getEditDocumentsButton: function() { /* TODO: implement this. */ },
-      getTitleLabelEx2: function() { /* TODO: implement this. */ },
-      getNewButton: function() { /* TODO: implement this. */ },
-      getCopyButton: function() { /* TODO: implement this. */ },
+      btnEditDocument: new Cairo.Controls.Button({}),
+      btnNew: new Cairo.Controls.Button({}),
+      btnCopy: new Cairo.Controls.Button({}),
+      btnPrint: new Cairo.Controls.Button({}),
+      btnPermission: new Cairo.Controls.Button({}),
+      lbTitleEx2: new Cairo.Controls.Label({}),
+
+      saved: false,
+
+      getEditDocumentsButton: function() { return this.btnEditDocument; },
+      getTitleLabelEx2: function() { return this.lbTitleEx2; },
+      getNewButton: function() { return this.btnNew; },
+      getCopyButton: function() { return this.btnCopy; },
       sendAutoSave: function() { /* TODO: implement this. */ },
       raiseAfterLoadEvent: function() { /* TODO: implement this. */ },
-      getPrintButton: function() { /* TODO: implement this. */ },
-      getPermissionsButton: function() { /* TODO: implement this. */ },
-      setSaved: function() { /* TODO: implement this. */ },
+      getPrintButton: function() { return this.btnPrint; },
+      getPermissionsButton: function() { return this.btnPermission; },
+      setSaved: function(saved) { this.saved = saved; },
       save: function() { /* TODO: implement this. */ },
       close: function() { /* TODO: implement this. */ }
 

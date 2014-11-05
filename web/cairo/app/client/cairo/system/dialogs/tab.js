@@ -11,32 +11,25 @@
 
   Cairo.module("Dialogs", function(Dialogs, Cairo, Backbone, Marionette, $, _) {
 
-    Dialogs.Tab = Backbone.Model.extend({
-      urlRoot: "",
+    Dialogs.createTab = function() {
 
-      defaults: {
-        index:   0,
-        name:    '',
-        father:  -1
-      },
+      var self = {
+        key: 0,
+        name: ''
+      };
 
-      validate: function(attrs, options) {
-        var errors = {};
-        if(! attrs.name) {
-          errors.name = "can't be blank";
-        }
-        if( ! _.isEmpty(errors)) {
-          return errors;
-        }
-      }
-    });
+      var that = {};
 
-    Dialogs.Tabs = Backbone.Collection.extend({
-      url: "",
+      that.getName = function() {
+        return self.name;
+      };
+      that.setName = function(name) {
+        self.name = name;
+      };
 
-      model: Dialogs.Tab,
-      comparator: "index"
-    });
+      return that;
+
+    };
 
   });
 

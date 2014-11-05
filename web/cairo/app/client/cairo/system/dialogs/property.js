@@ -14,8 +14,6 @@
     Dialogs.PropertyType = {
       select: 1,
       text: 2,
-      adHock: 3,
-      /* TODO: remove. no code must use this. */
       numeric: 4,
       option: 5,
       list: 6,
@@ -263,6 +261,9 @@
       //
       that.getSelectTable = function() {
         return self.selectTable;
+      };
+      that.setSelectTable = function(table) {
+        self.selectTable = table;
       };
 
       that.getSelectId = function() {

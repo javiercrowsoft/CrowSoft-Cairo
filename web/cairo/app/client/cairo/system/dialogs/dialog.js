@@ -176,9 +176,9 @@
   // Views
   ///////////////
 
-  Cairo.module("Dialogs.View", function(View, Cairo, Backbone, Marionette, $, _) {
+  Cairo.module("Dialogs.Views", function(Views, Cairo, Backbone, Marionette, $, _) {
 
-    View.Document = Backbone.View.extend({
+    Views.Document = Backbone.View.extend({
       tagName: "select",
       className: "form-control",
 
@@ -188,7 +188,7 @@
       }
     });
 
-    View.Wizard = Backbone.View.extend({
+    Views.Wizard = Backbone.View.extend({
       tagName: "select",
       className: "form-control",
 
@@ -198,7 +198,7 @@
       }
     });
 
-    View.Master = Backbone.View.extend({
+    Views.Master = Backbone.View.extend({
       tagName: "select",
       className: "form-control",
 
@@ -218,22 +218,22 @@
 
   });
 
-  Cairo.module("Dialogs.View", function(View, Cairo, Backbone, Marionette, $, _) {
+  Cairo.module("Dialogs.Views", function(Views, Cairo, Backbone, Marionette, $, _) {
 
-    View.Controller = {
+    Views.Controller = {
 
       newDialog: function() {
 
         var Dialogs = Cairo.Dialogs;
 
-        var C_OFFSET_V1 = 280;
-        var C_OFFSET_V3 = 225;
-        var C_OFFSET_H  = 1190;
-        var C_OFFSET_H2 = 3780;
-        var C_OFFSET_H3 = 1300;
+        var C_OFFSET_V1 = 18;
+        var C_OFFSET_V3 = 15;
+        var C_OFFSET_H  = 79;
+        var C_OFFSET_H2 = 252;
+        var C_OFFSET_H3 = 86;
 
-        var C_LINE_HEIGHT = 440;
-        var C_LINE_LIGHT = 155;
+        var C_LINE_HEIGHT = 25;
+        var C_LINE_LIGHT = 10;
 
         var K_W_CANCEL = -10;
 
@@ -553,7 +553,7 @@
 
         // returns the view
         //
-        // @return Dialogs.View
+        // @return Dialogs.Views.View
         //
         var getView = function() {
           var mustInitialize = false;
@@ -562,7 +562,7 @@
           //
           if(m_isDocument) {
             if(m_documentView === null) {
-              m_documentView = new View.Document({});
+              m_documentView = new Views.DocumentView({});
 
               m_documentView.addListener({
                 commandClick:               docHandlerCommandClick,
@@ -616,7 +616,7 @@
           //
           else if(m_isWizard) {
             if(m_wizardView === null) {
-              m_wizardView = new View.Wizard({});
+              m_wizardView = new Views.WizardView({});
 
               m_wizardView.addListener({
                 comboChange:              wizHandlerComboChange,
@@ -674,7 +674,7 @@
           //
           else {
             if(m_masterView === null) {
-              m_masterView = new View.Master({});;
+              m_masterView = new Views.MasterView({});
 
               m_masterView.addListener({
                 viewKeyDown:               masterHandlerViewKeyDown,
@@ -1601,7 +1601,7 @@
 
             case Dialogs.PropertyType.label:
 
-              var c = view.getCtlLabels().get(property.getIndex());
+              var c = view.getCtrlLabels().get(property.getIndex());
               c.setText(property.getValue());
               if(property.getBackColor() >= 0) {
                 c.setBackColor(property.getBackColor());
@@ -1641,13 +1641,6 @@
             case Dialogs.PropertyType.title:
 
               var c = view.getTitle(property.getIndex());
-              c.setText(property.getValue());
-
-              break;
-
-            case Dialogs.PropertyType.description:
-
-              var c = view.getDescription(property.getIndex());
               c.setText(property.getValue());
 
               break;
@@ -1867,7 +1860,7 @@
 
               case Dialogs.PropertyType.label:
 
-                removeControl(view.getCtlLabels().get(index));
+                removeControl(view.getCtrlLabels().get(index));
                 break;
 
               case Dialogs.PropertyType.title:
@@ -1878,11 +1871,6 @@
               case Dialogs.PropertyType.progressBar:
 
                 removeControl(view.getProgressBars().get(index));
-                break;
-
-              case Dialogs.PropertyType.description:
-
-                removeControl(view.getDescription(index));
                 break;
 
               case Dialogs.PropertyType.image:
@@ -2236,7 +2224,16 @@
           return showDialog(obj, indexTag, !addProp);
         };
 
+        /* for debugging - it allows google web tools to spot the line with the error
+        *
+        *
+        */
         self.show = function(obj, indexTag) {
+          Cairo.LoadingMessage.showWait();
+          return showDialog(obj, indexTag, true);
+        };
+        /*
+        self.show2 = function(obj, indexTag) {
           try {
             Cairo.LoadingMessage.showWait();
             return showDialog(obj, indexTag, true);
@@ -2252,6 +2249,7 @@
             Cairo.LoadingMessage.close();
           }
         };
+        */
 
         self.setIconInDocument = function(iconIndex) {
           if(m_documentView !== null) {
@@ -4139,7 +4137,6 @@
               if(property !== null) {
 
                 var propertyKey = getPropertyKey(property);
-                m_client = m_client;
 
                 // If the row not exists we have to create it because the client need it to hold
                 // calculated data
@@ -4574,7 +4571,7 @@
           var controlType = property.getType();
           var subType = property.getSubType();
 
-          var c = addControl(controlType, subType);
+          var c = addControl(view, controlType, subType);
 
           switch(controlType) {
 
@@ -4637,7 +4634,6 @@
 
             case Dialogs.PropertyType.title:
             case Dialogs.PropertyType.list:
-            case Dialogs.PropertyType.description:
             case Dialogs.PropertyType.button:
 
               setFont(c, property);
@@ -4946,8 +4942,7 @@
 
           }
           else if(property.getType() === Dialogs.PropertyType.label
-                  || property.getType() === Dialogs.PropertyType.title
-                  || property.getType() === Dialogs.PropertyType.description) {
+                  || property.getType() === Dialogs.PropertyType.title) {
 
             if(property.getTop() === -1) {
               c.setTop(m_nextTop[nTabIndex]);
@@ -4959,7 +4954,7 @@
           }
           else {
 
-            var label = addControl(Dialogs.PropertyType.controlLabel);
+            var label = addControl(view, Dialogs.PropertyType.controlLabel);
 
             property.setLabelIndex(label.getIndex());
             label.setText(property.getName());
@@ -6026,9 +6021,9 @@
             destroyGrids(getView());
 
             if(viewIsWizard(view) || viewIsMaster(view)) {
-              count = view.getCtlLabels().count();
+              count = view.getCtrlLabels().count();
               for(i = 0; i < count; i++) {
-                removeControl(view.getCtlLabels().get(i));
+                removeControl(view.getCtrlLabels().get(i));
               }
             }
 
@@ -6303,7 +6298,7 @@
 
             for(i = m_firstTab; i <= tabs + m_firstTab; i++) {
               if(i > 0) {
-                addControl(view.getTabs().get(i));
+                view.getTabs().add();
               }
 
               var tabCtrl = view.getTabs().get(i);
@@ -6830,8 +6825,8 @@
           m_isFooter   = false;
           m_isItems    = false;
           m_viewShowed = false;
-          m_minHeight  = 5310;
-          m_minWidth   = 8640;
+          m_minHeight  = 480;
+          m_minWidth   = 320;
 
           m_tabHideControlsInAllTab = -1;
 
@@ -7032,8 +7027,89 @@
           // TODO: implement this.
         };
 
-        var addControl = function(c) {
-          // TODO: implement this.
+        var addControl = function(view, type, subType) {
+          var ctrl = null;
+
+          switch(type) {
+            case Dialogs.PropertyType.select:
+              ctrl = view.getSelects().add();
+              break;
+
+            case Dialogs.PropertyType.text:
+            case Dialogs.PropertyType.file:
+            case Dialogs.PropertyType.folder:
+
+              switch(subType) {
+                case Dialogs.PropertySubType.mask:
+                case Dialogs.PropertySubType.taxId:
+                case Dialogs.PropertySubType.textButton:
+                case Dialogs.PropertySubType.textButtonEx:
+                  ctrl = view.getTextInputs().add();
+                  break;
+                case Dialogs.PropertySubType.memo:
+                  ctrl = view.getTextAreas().add();
+                  break;
+              }
+
+            case Dialogs.PropertyType.numeric:
+              ctrl = view.getMaskEdits().add();
+              break;
+
+            case Dialogs.PropertyType.option:
+              ctrl = view.getOptionButtons().add();
+              break;
+
+            case Dialogs.PropertyType.list:
+              ctrl = view.getCombos().add();
+              break;
+
+            case Dialogs.PropertyType.check:
+              ctrl = view.getCheckBoxes().add();
+              break;
+
+            case Dialogs.PropertyType.password:
+              ctrl = view.getPasswordInputs().add();
+              break;
+
+            case Dialogs.PropertyType.grid:
+              ctrl = view.getGrids().add();
+              break;
+
+            case Dialogs.PropertyType.date:
+            case Dialogs.PropertyType.time:
+              ctrl = view.getDatePickers().add();
+              break;
+
+            case Dialogs.PropertyType.button:
+              ctrl = view.getButtons().add();
+              break;
+
+            case Dialogs.PropertyType.toolbar:
+              ctrl = view.getToolbar().add();
+              break;
+
+            case Dialogs.PropertyType.image:
+              ctrl = view.getImages().add();
+              break;
+
+            case Dialogs.PropertyType.progressBar:
+              ctrl = view.getProgressBars().add();
+              break;
+
+            case Dialogs.PropertyType.label:
+              ctrl = view.getLabels().add();
+              break;
+
+            case Dialogs.PropertyType.title:
+              ctrl = view.getTitleLabel().add();
+              break;
+
+            case Dialogs.PropertyType.controlLabel:
+              ctrl = view.getCtrlLabels().add();
+              break;
+          }
+
+          return ctrl;
         };
 
         var groupGridEx = function(property, keyCol, keyColSort) {
