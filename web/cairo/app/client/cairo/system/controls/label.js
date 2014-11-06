@@ -14,10 +14,25 @@
     Controls.Label = Controls.Control.extend({
       urlRoot: "",
 
-      defaults: {
-      }
+      defaults: {}
 
     });
+
+    Controls.createLabel = function() {
+
+      var self = {
+        objectType: "cairo.controls.label"
+      };
+
+      var that = new Controls.Label();
+
+      that.getObjectType = function() {
+        return self.objectType;
+      };
+
+      return that;
+
+    };
 
   });
 

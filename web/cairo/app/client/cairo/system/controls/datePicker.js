@@ -11,20 +11,20 @@
 
   Cairo.module("Controls", function(Controls, Cairo, Backbone, Marionette, $, _) {
 
-    Controls.Button = Controls.Control.extend({
+    Controls.DatePicker = Controls.Control.extend({
       urlRoot: "",
 
       defaults: {}
 
     });
 
-    Controls.createButton = function() {
+    Controls.createDatePicker = function() {
 
       var self = {
-        objectType: "cairo.controls.button"
+        objectType: "cairo.controls.datePicker"
       };
 
-      var that = new Controls.Button();
+      var that = new Controls.DatePicker();
 
       that.getObjectType = function() {
         return self.objectType;

@@ -4,24 +4,23 @@
     <list default="true" id="d47203c3-b220-49d7-aac2-46c758baa4bb" name="Default" comment="">
       <change type="DELETED" beforePath="$PROJECT_DIR$/web/cairo/app/client/cairo/system/dialogs/documentView.js" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/web/cairo/app/client/cairo/system/dialogs/list.js" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSGeneral2/cProvincia.js" afterPath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSGeneral2/cProvincia.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/cairo/app/client/cairo/system/collections/collection.js" afterPath="$PROJECT_DIR$/web/cairo/app/client/cairo/system/collections/collection.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/cairo/app/client/cairo/system/controls/button.js" afterPath="$PROJECT_DIR$/web/cairo/app/client/cairo/system/controls/button.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/cairo/app/client/cairo/system/dialogs/dialog.js" afterPath="$PROJECT_DIR$/web/cairo/app/client/cairo/system/dialogs/dialog.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/cairo/app/views/logged/desktop/index.scala.html" afterPath="$PROJECT_DIR$/web/cairo/app/views/logged/desktop/index.scala.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/cairo/app/client/cairo/system/controls/grid.js" afterPath="$PROJECT_DIR$/web/cairo/app/client/cairo/system/controls/grid.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/cairo/app/client/cairo/system/controls/input.js" afterPath="$PROJECT_DIR$/web/cairo/app/client/cairo/system/controls/input.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/cairo/app/client/cairo/system/dialogs/property.js" afterPath="$PROJECT_DIR$/web/cairo/app/client/cairo/system/dialogs/property.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/cairo/app/client/cairo/system/dialogs/tab.js" afterPath="$PROJECT_DIR$/web/cairo/app/client/cairo/system/dialogs/tab.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/cairo/app/client/cairo/system/controls/label.js" afterPath="$PROJECT_DIR$/web/cairo/app/client/cairo/system/controls/label.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/cairo/app/client/cairo/system/controls/select.js" afterPath="$PROJECT_DIR$/web/cairo/app/client/cairo/system/controls/select.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/cairo/app/client/cairo/system/dialogs/view.js" afterPath="$PROJECT_DIR$/web/cairo/app/client/cairo/system/dialogs/view.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="CrowSoft-Cairo.iws" />
     <ignored path=".idea/workspace.xml" />
-    <file path="/Dummy.txt" changelist="d47203c3-b220-49d7-aac2-46c758baa4bb" time="1415035647441" ignored="false" />
+    <file path="/Dummy.txt" changelist="d47203c3-b220-49d7-aac2-46c758baa4bb" time="1415293323746" ignored="false" />
     <file path="/tree.js" changelist="d47203c3-b220-49d7-aac2-46c758baa4bb" time="1414875851189" ignored="false" />
     <file path="/Companies.scala" changelist="d47203c3-b220-49d7-aac2-46c758baa4bb" time="1410535836230" ignored="false" />
-    <file path="/a.dummy" changelist="d47203c3-b220-49d7-aac2-46c758baa4bb" time="1415213303181" ignored="false" />
+    <file path="/a.dummy" changelist="d47203c3-b220-49d7-aac2-46c758baa4bb" time="1415298804024" ignored="false" />
     <file path="/index.scala.html" changelist="d47203c3-b220-49d7-aac2-46c758baa4bb" time="1415116461020" ignored="false" />
-    <file path="/dialog.js" changelist="d47203c3-b220-49d7-aac2-46c758baa4bb" time="1415213612490" ignored="false" />
+    <file path="/dialog.js" changelist="d47203c3-b220-49d7-aac2-46c758baa4bb" time="1415283331376" ignored="false" />
     <file path="/a.js" changelist="d47203c3-b220-49d7-aac2-46c758baa4bb" time="1410779836562" ignored="false" />
     <file path="/modal.js" changelist="d47203c3-b220-49d7-aac2-46c758baa4bb" time="1413497360423" ignored="false" />
     <file path="/cairoApp.js" changelist="d47203c3-b220-49d7-aac2-46c758baa4bb" time="1414937357459" ignored="false" />
@@ -33,12 +32,12 @@
     <file path="$PROJECT_DIR$/../../ArizonaBay/Intelimax/draftteam/WebClient/doc/deploy_notes.txt" changelist="d47203c3-b220-49d7-aac2-46c758baa4bb" time="1412962959425" ignored="false" />
     <file path="$PROJECT_DIR$/../../ArizonaBay/Intelimax/draftteam/CentralServer/config/database.yml" changelist="d47203c3-b220-49d7-aac2-46c758baa4bb" time="1411407660147" ignored="false" />
     <file path="$PROJECT_DIR$/../../ArizonaBay/Intelimax/draftteam/CentralServer/db/seeds.rb" changelist="d47203c3-b220-49d7-aac2-46c758baa4bb" time="1411407660147" ignored="false" />
-    <file path="$PROJECT_DIR$/../../ArizonaBay/Intelimax/draftteam/CentralServer/doc/deploy_notes.txt" changelist="d47203c3-b220-49d7-aac2-46c758baa4bb" time="1415035684717" ignored="false" />
+    <file path="$PROJECT_DIR$/../../ArizonaBay/Intelimax/draftteam/CentralServer/doc/deploy_notes.txt" changelist="d47203c3-b220-49d7-aac2-46c758baa4bb" time="1415311653493" ignored="false" />
     <file path="$PROJECT_DIR$/../../ArizonaBay/Intelimax/draftteam/WebClient/app/controllers/application_controller.rb" changelist="d47203c3-b220-49d7-aac2-46c758baa4bb" time="1411407660147" ignored="false" />
     <file path="$PROJECT_DIR$/../../ArizonaBay/Intelimax/draftteam/CentralServer/app/views/contests/_roster.json.jbuilder" changelist="d47203c3-b220-49d7-aac2-46c758baa4bb" time="1411675201735" ignored="false" />
     <file path="/_roster.json.jbuilder" changelist="d47203c3-b220-49d7-aac2-46c758baa4bb" time="1411672049870" ignored="false" />
-    <file path="/grid.js" changelist="d47203c3-b220-49d7-aac2-46c758baa4bb" time="1413065088055" ignored="false" />
-    <file path="/view.js" changelist="d47203c3-b220-49d7-aac2-46c758baa4bb" time="1415213308411" ignored="false" />
+    <file path="/grid.js" changelist="d47203c3-b220-49d7-aac2-46c758baa4bb" time="1415311922455" ignored="false" />
+    <file path="/view.js" changelist="d47203c3-b220-49d7-aac2-46c758baa4bb" time="1415283828136" ignored="false" />
     <file path="$PROJECT_DIR$/../../ArizonaBay/Intelimax/draftteam/WebClient/app/views/layouts/_calculus3_contest.html.erb" changelist="d47203c3-b220-49d7-aac2-46c758baa4bb" time="1412188925426" ignored="false" />
     <file path="/_calculus3_contest.html.erb" changelist="d47203c3-b220-49d7-aac2-46c758baa4bb" time="1412184744163" ignored="false" />
     <file path="$PROJECT_DIR$/../../ArizonaBay/Intelimax/draftteam/WebClient/app/controllers/contests_controller.rb" changelist="d47203c3-b220-49d7-aac2-46c758baa4bb" time="1412967821681" ignored="false" />
@@ -50,8 +49,8 @@
     <file path="/documentView.js" changelist="d47203c3-b220-49d7-aac2-46c758baa4bb" time="1412265116764" ignored="false" />
     <file path="/dialogClient.js" changelist="d47203c3-b220-49d7-aac2-46c758baa4bb" time="1412880474308" ignored="false" />
     <file path="/printing.js" changelist="d47203c3-b220-49d7-aac2-46c758baa4bb" time="1412984813523" ignored="false" />
-    <file path="/select.js" changelist="d47203c3-b220-49d7-aac2-46c758baa4bb" time="1412698237982" ignored="false" />
-    <file path="/input.js" changelist="d47203c3-b220-49d7-aac2-46c758baa4bb" time="1415210443624" ignored="false" />
+    <file path="/select.js" changelist="d47203c3-b220-49d7-aac2-46c758baa4bb" time="1415313938432" ignored="false" />
+    <file path="/input.js" changelist="d47203c3-b220-49d7-aac2-46c758baa4bb" time="1415292015843" ignored="false" />
     <file path="/image.js" changelist="d47203c3-b220-49d7-aac2-46c758baa4bb" time="1412699879474" ignored="false" />
     <file path="/tab.js" changelist="d47203c3-b220-49d7-aac2-46c758baa4bb" time="1415118739988" ignored="false" />
     <file path="/menu.js" changelist="d47203c3-b220-49d7-aac2-46c758baa4bb" time="1412719367678" ignored="false" />
@@ -62,7 +61,7 @@
     <file path="/_contest_list_select.html.erb" changelist="d47203c3-b220-49d7-aac2-46c758baa4bb" time="1412959417049" ignored="false" />
     <file path="$PROJECT_DIR$/../../ArizonaBay/Intelimax/draftteam/WebClient/app/views_mobile/contests/_contest_select.html.erb" changelist="d47203c3-b220-49d7-aac2-46c758baa4bb" time="1412960562858" ignored="false" />
     <file path="/_contest_select.html.erb" changelist="d47203c3-b220-49d7-aac2-46c758baa4bb" time="1412960562858" ignored="false" />
-    <file path="/deploy_notes.txt" changelist="d47203c3-b220-49d7-aac2-46c758baa4bb" time="1415035682299" ignored="false" />
+    <file path="/deploy_notes.txt" changelist="d47203c3-b220-49d7-aac2-46c758baa4bb" time="1415303345695" ignored="false" />
     <file path="/security.js" changelist="d47203c3-b220-49d7-aac2-46c758baa4bb" time="1414866801961" ignored="false" />
     <file path="/database.js" changelist="d47203c3-b220-49d7-aac2-46c758baa4bb" time="1414941498382" ignored="false" />
     <file path="/cProvincia.js" changelist="d47203c3-b220-49d7-aac2-46c758baa4bb" time="1415111737240" ignored="false" />
@@ -94,8 +93,19 @@
     <file path="$PROJECT_DIR$/../../ArizonaBay/Intelimax/draftteam/CentralServer/app/controllers/support_requests_controller.rb" changelist="d47203c3-b220-49d7-aac2-46c758baa4bb" time="1415035661068" ignored="false" />
     <file path="$PROJECT_DIR$/../../ArizonaBay/Intelimax/draftteam/CentralServer/app/models/customer.rb" changelist="d47203c3-b220-49d7-aac2-46c758baa4bb" time="1415035661068" ignored="false" />
     <file path="$PROJECT_DIR$/../../ArizonaBay/Intelimax/draftteam/CentralServer/app/models/contest_entry.rb" changelist="d47203c3-b220-49d7-aac2-46c758baa4bb" time="1415035661068" ignored="false" />
-    <file path="/button.js" changelist="d47203c3-b220-49d7-aac2-46c758baa4bb" time="1415115906984" ignored="false" />
-    <file path="/label.js" changelist="d47203c3-b220-49d7-aac2-46c758baa4bb" time="1415116288766" ignored="false" />
+    <file path="/button.js" changelist="d47203c3-b220-49d7-aac2-46c758baa4bb" time="1415292874883" ignored="false" />
+    <file path="/label.js" changelist="d47203c3-b220-49d7-aac2-46c758baa4bb" time="1415312518592" ignored="false" />
+    <file path="/datePicker.js" changelist="d47203c3-b220-49d7-aac2-46c758baa4bb" time="1415311884849" ignored="false" />
+    <file path="/optionButton.js" changelist="d47203c3-b220-49d7-aac2-46c758baa4bb" time="1415312574629" ignored="false" />
+    <file path="/checkBox.js" changelist="d47203c3-b220-49d7-aac2-46c758baa4bb" time="1415292898956" ignored="false" />
+    <file path="/combo.js" changelist="d47203c3-b220-49d7-aac2-46c758baa4bb" time="1415311946059" ignored="false" />
+    <file path="/password.js" changelist="d47203c3-b220-49d7-aac2-46c758baa4bb" time="1415279985838" ignored="false" />
+    <file path="/toolbar.js" changelist="d47203c3-b220-49d7-aac2-46c758baa4bb" time="1415314069153" ignored="false" />
+    <file path="/progressBar.js" changelist="d47203c3-b220-49d7-aac2-46c758baa4bb" time="1415312626006" ignored="false" />
+    <file path="/textArea.js" changelist="d47203c3-b220-49d7-aac2-46c758baa4bb" time="1415314055389" ignored="false" />
+    <file path="$PROJECT_DIR$/../../ArizonaBay/Intelimax/draftteam/CentralServer/lib/utils/region_filter.rb" changelist="d47203c3-b220-49d7-aac2-46c758baa4bb" time="1415303021101" ignored="false" />
+    <file path="$PROJECT_DIR$/../../ArizonaBay/Intelimax/draftteam/CentralServer/app/controllers/www/registration_controller.rb" changelist="d47203c3-b220-49d7-aac2-46c758baa4bb" time="1415302571630" ignored="false" />
+    <file path="/registration_controller.rb" changelist="d47203c3-b220-49d7-aac2-46c758baa4bb" time="1415302163632" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -160,73 +170,10 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="property.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/web/cairo/app/client/cairo/system/dialogs/property.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="16" column="0" selection-start="305" selection-end="305" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="dialog.js" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/web/cairo/app/client/cairo/system/dialogs/dialog.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="7108" column="20" selection-start="232824" selection-end="232824" vertical-scroll-proportion="0.75091577">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="collection.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/web/cairo/app/client/cairo/system/collections/collection.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="36" column="26" selection-start="924" selection-end="924" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="index.scala.html" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/web/cairo/app/views/logged/desktop/index.scala.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="534" column="49" selection-start="19324" selection-end="19324" vertical-scroll-proportion="-16.321428">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="input.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/web/cairo/app/client/cairo/system/controls/input.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="13" column="4" selection-start="216" selection-end="236" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="view.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/web/cairo/app/client/cairo/system/dialogs/view.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="47" column="14" selection-start="1633" selection-end="1633" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="tab.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/web/cairo/app/client/cairo/system/controls/tab.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="tab.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/web/cairo/app/client/cairo/system/dialogs/tab.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="13" column="21" selection-start="239" selection-end="256" vertical-scroll-proportion="0.0">
+            <state line="42" column="8" selection-start="1130" selection-end="1130" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -235,7 +182,77 @@
       <file leaf-file-name="label.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/web/cairo/app/client/cairo/system/controls/label.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="6" column="45" selection-start="76" selection-end="76" vertical-scroll-proportion="0.0">
+            <state line="26" column="37" selection-start="458" selection-end="458" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="password.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/web/cairo/app/client/cairo/system/controls/password.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="26" column="36" selection-start="466" selection-end="466" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="menu.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/web/cairo/app/client/cairo/system/controls/menu.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="select.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/web/cairo/app/client/cairo/system/controls/select.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="478" column="66" selection-start="17937" selection-end="17937" vertical-scroll-proportion="0.0">
+              <folding>
+                <marker date="1415313970000" expanded="false" signature="1292:1302" placeholder="..." />
+                <marker date="1415313970000" expanded="false" signature="1556:1566" placeholder="..." />
+                <marker date="1415313970000" expanded="false" signature="2198:2229" placeholder="..." />
+                <marker date="1415313970000" expanded="false" signature="2371:2383" placeholder="..." />
+                <marker date="1415313970000" expanded="false" signature="3256:3287" placeholder="..." />
+                <marker date="1415313970000" expanded="false" signature="3610:3622" placeholder="..." />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="textArea.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/web/cairo/app/client/cairo/system/controls/textArea.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="26" column="40" selection-start="470" selection-end="470" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="toolbar.js" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/web/cairo/app/client/cairo/system/controls/toolbar.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="24" column="32" selection-start="424" selection-end="424" vertical-scroll-proportion="0.5308498">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="progressBar.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/web/cairo/app/client/cairo/system/controls/progressBar.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="26" column="43" selection-start="482" selection-end="482" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="optionButton.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/web/cairo/app/client/cairo/system/controls/optionButton.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="26" column="44" selection-start="486" selection-end="486" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -244,7 +261,7 @@
       <file leaf-file-name="button.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/web/cairo/app/client/cairo/system/controls/button.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="0" selection-start="0" selection-end="328" vertical-scroll-proportion="0.0">
+            <state line="13" column="4" selection-start="216" selection-end="307" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -268,22 +285,22 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/web/cairo/app/client/cairo/system/controls/control.js" />
-        <option value="$PROJECT_DIR$/web/cairo/app/client/cairo/system/controls/image.js" />
-        <option value="$PROJECT_DIR$/web/cairo/app/client/cairo/system/controls/menu.js" />
-        <option value="$PROJECT_DIR$/web/cairo/app/client/cairo/system/controls/grid.js" />
-        <option value="$PROJECT_DIR$/web/cairo/app/client/cairo/system/dialogs/grid.js" />
-        <option value="$PROJECT_DIR$/web/cairo/app/client/cairo/system/dialogs/dialogClient.js" />
-        <option value="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSGeneral2/cProvincia.js" />
-        <option value="$PROJECT_DIR$/web/cairo/app/client/cairo/system/collections/collection.js" />
-        <option value="$PROJECT_DIR$/web/cairo/app/client/cairo/system/controls/button.js" />
-        <option value="$PROJECT_DIR$/web/cairo/app/client/cairo/system/controls/label.js" />
-        <option value="$PROJECT_DIR$/web/cairo/app/views/logged/desktop/index.scala.html" />
-        <option value="$PROJECT_DIR$/web/cairo/app/client/cairo/system/dialogs/tab.js" />
-        <option value="$PROJECT_DIR$/web/cairo/app/client/cairo/system/controls/input.js" />
         <option value="$PROJECT_DIR$/web/cairo/app/client/cairo/system/dialogs/property.js" />
-        <option value="$PROJECT_DIR$/web/cairo/app/client/cairo/system/dialogs/view.js" />
         <option value="$PROJECT_DIR$/web/cairo/app/client/cairo/system/dialogs/dialog.js" />
+        <option value="$PROJECT_DIR$/web/cairo/app/client/cairo/system/dialogs/view.js" />
+        <option value="$PROJECT_DIR$/web/cairo/app/client/cairo/system/controls/input.js" />
+        <option value="$PROJECT_DIR$/web/cairo/app/client/cairo/system/controls/button.js" />
+        <option value="$PROJECT_DIR$/web/cairo/app/client/cairo/system/controls/checkBox.js" />
+        <option value="$PROJECT_DIR$/web/cairo/app/client/cairo/system/controls/datePicker.js" />
+        <option value="$PROJECT_DIR$/web/cairo/app/client/cairo/system/controls/grid.js" />
+        <option value="$PROJECT_DIR$/web/cairo/app/client/cairo/system/controls/combo.js" />
+        <option value="$PROJECT_DIR$/web/cairo/app/client/cairo/system/controls/label.js" />
+        <option value="$PROJECT_DIR$/web/cairo/app/client/cairo/system/controls/optionButton.js" />
+        <option value="$PROJECT_DIR$/web/cairo/app/client/cairo/system/controls/password.js" />
+        <option value="$PROJECT_DIR$/web/cairo/app/client/cairo/system/controls/progressBar.js" />
+        <option value="$PROJECT_DIR$/web/cairo/app/client/cairo/system/controls/select.js" />
+        <option value="$PROJECT_DIR$/web/cairo/app/client/cairo/system/controls/textArea.js" />
+        <option value="$PROJECT_DIR$/web/cairo/app/client/cairo/system/controls/toolbar.js" />
       </list>
     </option>
   </component>
@@ -410,58 +427,6 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="public" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="CrowSoft-Cairo" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="CrowSoft-Cairo" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="web" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="cairo" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="public" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="javascripts" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="vendor" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="CrowSoft-Cairo" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="CrowSoft-Cairo" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="web" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="cairo" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
               <option name="myItemId" value="app" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -514,70 +479,6 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="views" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="logged" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="desktop" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="CrowSoft-Cairo" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="CrowSoft-Cairo" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="web" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="cairo" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="views" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="logged" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="CrowSoft-Cairo" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="CrowSoft-Cairo" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="web" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="cairo" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
               <option name="myItemId" value="models" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -609,124 +510,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="cairo" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="system" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="CrowSoft-Cairo" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="CrowSoft-Cairo" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="web" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="cairo" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="models" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="cairo" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="system" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="security" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="CrowSoft-Cairo" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="CrowSoft-Cairo" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="web" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="cairo" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="models" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="cairo" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="system" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="database" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="CrowSoft-Cairo" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="CrowSoft-Cairo" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="web" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="cairo" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="models" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="cairo" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="modules" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="general" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -808,44 +591,6 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="controllers" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="logged" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="modules" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="general" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="CrowSoft-Cairo" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="CrowSoft-Cairo" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="web" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="cairo" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
               <option name="myItemId" value="client" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -885,82 +630,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="system" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="CrowSoft-Cairo" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="CrowSoft-Cairo" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="web" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="cairo" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="client" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="cairo" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="system" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="security" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="CrowSoft-Cairo" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="CrowSoft-Cairo" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="web" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="cairo" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="client" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="cairo" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="system" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="printing" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -1070,121 +739,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="system" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="collections" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="CrowSoft-Cairo" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="CrowSoft-Cairo" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="web" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="cairo" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="client" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="cairo" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
               <option name="myItemId" value="modules" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="CrowSoft-Cairo" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="CrowSoft-Cairo" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="web" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="cairo" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="client" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="cairo" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="modules" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="CSGeneral2" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="CrowSoft-Cairo" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="CrowSoft-Cairo" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="web" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="cairo" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="client" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="cairo" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="modules" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="CSDocumentoEdit" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -1225,24 +780,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="docs" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="CrowSoft-Cairo" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="CrowSoft-Cairo" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="docs" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="javascript_examples" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -1334,10 +871,9 @@
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3299075" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.40470853" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="true" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25076827" sideWeight="0.5952915" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2581438" sideWeight="0.5952915" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32913843" sideWeight="0.5" order="0" side_tool="true" content_ui="tabs" />
@@ -1354,6 +890,7 @@
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32903865" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.40470853" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32959402" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32959402" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
@@ -1432,121 +969,121 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/web/cairo/app/client/cairo/system/controls/select.js">
+    <entry file="file://$PROJECT_DIR$/web/cairo/app/client/cairo/system/controls/checkBox.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="125" column="8" selection-start="4766" selection-end="4766" vertical-scroll-proportion="0.0">
-          <folding>
-            <marker date="1412698238000" expanded="false" signature="-1:-1" placeholder="..." />
-            <marker date="1412698238000" expanded="false" signature="-1:-1" placeholder="..." />
-            <marker date="1412698238000" expanded="false" signature="-1:-1" placeholder="..." />
-            <marker date="1412698238000" expanded="false" signature="-1:-1" placeholder="..." />
-            <marker date="1412698238000" expanded="false" signature="-1:-1" placeholder="..." />
-            <marker date="1412698238000" expanded="false" signature="-1:-1" placeholder="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web/cairo/app/client/cairo/system/controls/tree.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="64" column="33" selection-start="2767" selection-end="2767" vertical-scroll-proportion="0.0">
+        <state line="26" column="40" selection-start="470" selection-end="470" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSGeneral2/cProvincia.js">
+    <entry file="file://$PROJECT_DIR$/web/cairo/app/client/cairo/system/controls/combo.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="393" column="23" selection-start="10561" selection-end="10561" vertical-scroll-proportion="0.0">
+        <state line="26" column="37" selection-start="458" selection-end="458" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/web/cairo/app/client/cairo/system/controls/control.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="9" column="36" selection-start="126" selection-end="126" vertical-scroll-proportion="0.0">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/cairo/app/client/cairo/system/controls/datePicker.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="26" column="42" selection-start="478" selection-end="478" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/cairo/app/client/cairo/system/controls/grid.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="161" column="27" selection-start="5560" selection-end="5560" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/web/cairo/app/client/cairo/system/controls/image.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="393" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web/cairo/app/client/cairo/system/dialogs/grid.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="11" column="16" selection-start="154" selection-end="154" vertical-scroll-proportion="0.0">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/web/cairo/app/client/cairo/system/controls/input.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="13" column="4" selection-start="216" selection-end="236" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web/cairo/app/client/cairo/system/collections/collection.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="36" column="26" selection-start="924" selection-end="924" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web/cairo/app/views/logged/desktop/index.scala.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="534" column="49" selection-start="19324" selection-end="19324" vertical-scroll-proportion="-16.321428">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web/cairo/app/client/cairo/system/controls/tab.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web/cairo/app/client/cairo/system/dialogs/tab.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="13" column="21" selection-start="239" selection-end="256" vertical-scroll-proportion="0.0">
+        <state line="42" column="8" selection-start="1130" selection-end="1130" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/web/cairo/app/client/cairo/system/controls/label.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="6" column="45" selection-start="76" selection-end="76" vertical-scroll-proportion="0.0">
+        <state line="26" column="37" selection-start="458" selection-end="458" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/cairo/app/client/cairo/system/controls/menu.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/cairo/app/client/cairo/system/controls/optionButton.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="26" column="44" selection-start="486" selection-end="486" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/cairo/app/client/cairo/system/controls/password.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="26" column="36" selection-start="466" selection-end="466" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/cairo/app/client/cairo/system/controls/progressBar.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="26" column="43" selection-start="482" selection-end="482" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/web/cairo/app/client/cairo/system/controls/button.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="328" vertical-scroll-proportion="0.0">
+        <state line="13" column="4" selection-start="216" selection-end="307" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/web/cairo/app/client/cairo/system/dialogs/property.js">
+    <entry file="file://$PROJECT_DIR$/web/cairo/app/client/cairo/system/controls/select.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="16" column="0" selection-start="305" selection-end="305" vertical-scroll-proportion="0.0">
+        <state line="478" column="66" selection-start="17937" selection-end="17937" vertical-scroll-proportion="0.0">
+          <folding>
+            <marker date="1415313970000" expanded="false" signature="1292:1302" placeholder="..." />
+            <marker date="1415313970000" expanded="false" signature="1556:1566" placeholder="..." />
+            <marker date="1415313970000" expanded="false" signature="2198:2229" placeholder="..." />
+            <marker date="1415313970000" expanded="false" signature="2371:2383" placeholder="..." />
+            <marker date="1415313970000" expanded="false" signature="3256:3287" placeholder="..." />
+            <marker date="1415313970000" expanded="false" signature="3610:3622" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/cairo/app/client/cairo/system/controls/textArea.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="26" column="40" selection-start="470" selection-end="470" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/web/cairo/app/client/cairo/system/dialogs/view.js">
+    <entry file="file://$PROJECT_DIR$/web/cairo/app/client/cairo/system/controls/toolbar.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="47" column="14" selection-start="1633" selection-end="1633" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web/cairo/app/client/cairo/system/dialogs/dialog.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="7108" column="20" selection-start="232824" selection-end="232824" vertical-scroll-proportion="0.75091577">
+        <state line="24" column="32" selection-start="424" selection-end="424" vertical-scroll-proportion="0.5308498">
           <folding />
         </state>
       </provider>

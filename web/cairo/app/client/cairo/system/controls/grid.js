@@ -154,6 +154,22 @@
 
     });
 
+    Cairo.Controls.createGrid = function() {
+
+      var self = {
+        objectType: "cairo.controls.grid"
+      };
+
+      var that = new Grids.Grid();
+
+      that.getObjectType = function() {
+        return self.objectType;
+      };
+
+      return that;
+
+    };
+
   });
 
 }());

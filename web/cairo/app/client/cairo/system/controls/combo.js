@@ -11,20 +11,20 @@
 
   Cairo.module("Controls", function(Controls, Cairo, Backbone, Marionette, $, _) {
 
-    Controls.Button = Controls.Control.extend({
+    Controls.Combo = Controls.Control.extend({
       urlRoot: "",
 
       defaults: {}
 
     });
 
-    Controls.createButton = function() {
+    Controls.createCombo = function() {
 
       var self = {
-        objectType: "cairo.controls.button"
+        objectType: "cairo.controls.combo"
       };
 
-      var that = new Controls.Button();
+      var that = new Controls.Combo();
 
       that.getObjectType = function() {
         return self.objectType;

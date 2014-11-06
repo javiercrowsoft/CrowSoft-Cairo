@@ -19,6 +19,22 @@
       },
       listeners: [],
       tabs: Cairo.Collections.createCollection(Cairo.Dialogs.createTab),
+      maskEdits: Cairo.Collections.createCollection(Cairo.Controls.createInput),
+      datePickers: Cairo.Collections.createCollection(Cairo.Controls.createDatePicker),
+      selects: Cairo.Collections.createCollection(Cairo.Controls.createSelect),
+      optionButtons: Cairo.Collections.createCollection(Cairo.Controls.createOptionButton),
+      checkBoxes: Cairo.Collections.createCollection(Cairo.Controls.createCheckBox),
+      buttons: Cairo.Collections.createCollection(Cairo.Controls.createButton),
+      combos: Cairo.Collections.createCollection(Cairo.Controls.createCombo),
+      passwords: Cairo.Collections.createCollection(Cairo.Controls.createPassword),
+      grids: Cairo.Collections.createCollection(Cairo.Controls.createGrid),
+      inputs: Cairo.Collections.createCollection(Cairo.Controls.createInput),
+      progressBars: Cairo.Collections.createCollection(Cairo.Controls.createProgressBar),
+      textAreas: Cairo.Collections.createCollection(Cairo.Controls.createTextArea),
+      labels: Cairo.Collections.createCollection(Cairo.Controls.createLabel),
+      ctrlLabels: Cairo.Collections.createCollection(Cairo.Controls.createLabel),
+      titles: Cairo.Collections.createCollection(Cairo.Controls.createLabel),
+      title: "",
 
       getSaveButton: function() { /* TODO: implement this. */ },
       getCancelButton: function() { /* TODO: implement this. */ },
@@ -28,27 +44,76 @@
       getTabFooter: function() { /* TODO: implement this. */ },
       getTabItems: function() { /* TODO: implement this. */ },
 
-      getTitle: function() { /* TODO: implement this. */ },
-      getTitleLabel: function() { /* TODO: implement this. */ },
+      getTitle: function() {
+        return this.title;
+      },
+      setTitle: function() {
+        this.title = title;
+      },
+
+      getTitleLabel: function() {
+        return this.titles;
+      },
 
       getTabs: function() {
         return this.tabs;
       },
 
-      getMaskEdits: function() { /* TODO: implement this. */ },
-      getDatePickers: function() { /* TODO: implement this. */ },
-      getSelects: function() { /* TODO: implement this. */ },
-      getOptionButtons: function() { /* TODO: implement this. */ },
-      getCheckBoxes: function() { /* TODO: implement this. */ },
-      getButtons: function() { /* TODO: implement this. */ },
-      getCombos: function() { /* TODO: implement this. */ },
-      getTextInputs: function() { /* TODO: implement this. */ },
-      getTextAreas: function() { /* TODO: implement this. */ },
-      getPasswordInputs: function() { /* TODO: implement this. */ },
-      getLabels: function() { /* TODO: implement this. */ },
-      getCtrlLabels: function() { /* TODO: implement this. */ },
-      getProgressBars: function() { /* TODO: implement this. */ },
-      getGrids: function() { /* TODO: implement this. */ },
+      getMaskEdits: function() {
+        return this.maskEdits;
+      },
+
+      getDatePickers: function() {
+        return this.datePickers;
+      },
+
+      getSelects: function() {
+        return this.selects;
+      },
+      getOptionButtons: function() {
+        return this.optionButtons;
+      },
+
+      getCheckBoxes: function() {
+        return this.checkBoxes;
+      },
+
+      getButtons: function() {
+        return this.buttons;
+      },
+
+      getCombos: function() {
+        return this.combos;
+      },
+
+      getTextInputs: function() {
+        return this.inputs;
+      },
+
+      getTextAreas: function() {
+        return this.textAreas;
+      },
+
+      getPasswordInputs: function() {
+        return this.passwords;
+      },
+
+      getLabels: function() {
+        return this.labels;
+      },
+
+      getCtrlLabels: function() {
+        return this.ctrlLabels;
+      },
+
+      getProgressBars: function() {
+        return this.progressBars;
+      },
+
+      getGrids: function() {
+        return this.grids;
+      },
+
       getDescription: function() { /* TODO: implement this. */ },
       getTitleLabel2: function() { /* TODO: implement this. */ },
       getImages: function() { /* TODO: implement this. */ },

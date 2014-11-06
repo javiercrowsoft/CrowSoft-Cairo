@@ -11,20 +11,20 @@
 
   Cairo.module("Controls", function(Controls, Cairo, Backbone, Marionette, $, _) {
 
-    Controls.Button = Controls.Control.extend({
+    Controls.CheckBox = Controls.Control.extend({
       urlRoot: "",
 
       defaults: {}
 
     });
 
-    Controls.createButton = function() {
+    Controls.createCheckBox = function() {
 
       var self = {
-        objectType: "cairo.controls.button"
+        objectType: "cairo.controls.checkBox"
       };
 
-      var that = new Controls.Button();
+      var that = new Controls.CheckBox();
 
       that.getObjectType = function() {
         return self.objectType;

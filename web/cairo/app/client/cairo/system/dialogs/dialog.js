@@ -2343,7 +2343,7 @@
 
             showView(indexTag);
 
-            view.setText(getViewText());
+            view.setTitle(getViewTitle());
 
             if(m_hideTitle) {
               view.getTitleLabel().setVisible(false);
@@ -6964,13 +6964,13 @@
           }
         };
 
-        self.refreshViewText = function() {
+        self.refreshViewTitle = function() {
           Cairo.safeExecute(function() {
-            getView().setText(getViewText());
+            getView().setText(getViewTitle());
           });
         };
 
-        var getViewText = function() {
+        var getViewTitle = function() {
           return m_viewText + Cairo.Company.name + " - " + m_client.getTitle() + " || Press F12 to see the a shortcut key list";
         };
 
@@ -7082,14 +7082,6 @@
 
             case Dialogs.PropertyType.button:
               ctrl = view.getButtons().add();
-              break;
-
-            case Dialogs.PropertyType.toolbar:
-              ctrl = view.getToolbar().add();
-              break;
-
-            case Dialogs.PropertyType.image:
-              ctrl = view.getImages().add();
               break;
 
             case Dialogs.PropertyType.progressBar:

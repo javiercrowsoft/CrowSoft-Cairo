@@ -37,6 +37,22 @@
 
     });
 
+    Controls.createInput = function() {
+
+      var self = {
+        objectType: "cairo.controls.input"
+      };
+
+      var that = new Controls.Input();
+
+      that.getObjectType = function() {
+        return self.objectType;
+      };
+
+      return that;
+
+    };
+
   });
 
 }());

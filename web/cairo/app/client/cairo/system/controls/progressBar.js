@@ -11,20 +11,20 @@
 
   Cairo.module("Controls", function(Controls, Cairo, Backbone, Marionette, $, _) {
 
-    Controls.Button = Controls.Control.extend({
+    Controls.ProgressBar = Controls.Control.extend({
       urlRoot: "",
 
       defaults: {}
 
     });
 
-    Controls.createButton = function() {
+    Controls.createProgressBar = function() {
 
       var self = {
-        objectType: "cairo.controls.button"
+        objectType: "cairo.controls.progressBar"
       };
 
-      var that = new Controls.Button();
+      var that = new Controls.ProgressBar();
 
       that.getObjectType = function() {
         return self.objectType;
