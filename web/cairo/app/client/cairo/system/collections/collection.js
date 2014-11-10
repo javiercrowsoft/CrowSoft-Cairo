@@ -3,7 +3,7 @@
 
   Cairo.Collections = {
 
-    createCollection: function(itemConstructor) {
+    createCollection: function(itemConstructor, parentCollection) {
 
       if(itemConstructor === undefined) {
         throw new Error("Can't create this collection because the itemConstructor function is undefined");
@@ -43,11 +43,15 @@
         setIndexInItem(value, self.count);
         self.count += 1;
 
+        if(parentCollection !== undefined) {
+          parentCollection.add(value);
+        }
+
         return value;
       };
 
       var setIndexInItem = function(value, index) {
-        if(value !== undefined && value != null) {
+        if(value !== undefined && value != null && itemConstructor !== null) {
           if(value.setIndex !== undefined) {
             value.setIndex(index);
           }
@@ -79,6 +83,16 @@
       that.remove = function(indexOrKey) {
         var index = checkIndex(indexOrKey);
         var count = self.count;
+        var value = null;
+
+        // get a reference to this item to then
+        // call to the parent collection remove
+        // method
+        //
+        if(parentCollection !== undefined) {
+          value = self.items[index];
+        }
+
         //
         // move all elements from index to the beginning of the array
         //
@@ -115,9 +129,32 @@
             }
           }
         }
+        if(parentCollection !== undefined) {
+          parentCollection.remove(value);
+        }
+      };
+
+      that.removeObject = function(object) {
+        var count = self.items.length;
+        for(var i = 0; i < count; i += 1) {
+          if(self.items[i] === object) {
+            that.remove(i);
+            break;
+          }
+        }
+      };
+
+      var clearParentCollection = function() {
+        if(parentCollection !== undefined) {
+          var count = self.items.length;
+          for(var i = 0; i < count; i += 1) {
+            parentCollection.removeObject(self.items[i]);
+          }
+        }
       };
 
       that.clear = function() {
+        clearParentCollection();
         self = newCollection();
       };
 

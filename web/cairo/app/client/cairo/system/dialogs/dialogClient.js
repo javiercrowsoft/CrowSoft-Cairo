@@ -1,14 +1,6 @@
 (function() {
   "use strict";
 
-  /*
-   this module manages a view ...
-   */
-
-  ///////////////
-  // Entities
-  ///////////////
-
   Cairo.module("Dialogs.Views", function(Views, Cairo, Backbone, Marionette, $, _) {
 
     Views.DialogClient = {

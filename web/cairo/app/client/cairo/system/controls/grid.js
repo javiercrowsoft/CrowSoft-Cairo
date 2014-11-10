@@ -1,14 +1,6 @@
 (function() {
   "use strict";
 
-  /*
-   this module manages a view ...
-   */
-
-  ///////////////
-  // Entities
-  ///////////////
-
   Cairo.module("Controls.Grids", function(Grids, Cairo, Backbone, Marionette, $, _) {
 
     Grids.GridGroup = Backbone.Model.extend({

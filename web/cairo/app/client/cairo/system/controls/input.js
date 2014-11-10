@@ -1,14 +1,6 @@
 (function() {
   "use strict";
 
-  /*
-   this module manages a view ...
-   */
-
-  ///////////////
-  // Entities
-  ///////////////
-
   Cairo.module("Controls", function(Controls, Cairo, Backbone, Marionette, $, _) {
 
     Controls.ButtonStyle = {
@@ -32,15 +24,14 @@
     Controls.Input = Controls.Control.extend({
       urlRoot: "",
 
-      defaults: {
-        enabledNoChangeBkColor: false,
-        maxLength: 0,
-        fileFilter: "",
-        inputDisabled: false,
-        type: Controls.InputType.text
-      },
+      defaults: {},
 
       text: "",
+      enabledNoChangeBkColor: false,
+      maxLength: 0,
+      fileFilter: "",
+      inputDisabled: false,
+      type: Controls.InputType.text,
 
       setText: function(text) {
         this.text = text;
@@ -57,6 +48,10 @@
       setMaxLength: function(length) { this.maxLength = length; },
       setInputDisabled: function(value) { this.inputDisabled = value; },
       setFileFilter: function(filter) { this.fileFilter = filter; },
+
+      getType: function() {
+        return this.type;
+      },
       setType: function(type) {
         this.type = type;
       }

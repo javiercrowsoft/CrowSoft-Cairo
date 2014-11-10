@@ -1,36 +1,32 @@
 (function() {
   "use strict";
 
-  /*
-   this module manages a view ...
-   */
-
-  ///////////////
-  // Entities
-  ///////////////
-
   Cairo.module("Controls", function(Controls, Cairo, Backbone, Marionette, $, _) {
 
     Controls.Control = Backbone.Model.extend({
       urlRoot: "",
 
-      defaults: {
-        tag: null,
+      defaults: {},
 
-        fontName: '',
-        fontSize: 0,
-        fontBold: false,
-        fontUnderline: false,
-        fontItalic: false,
-        foreColor: -1,
-        backColor: -1
-      },
+      tag: "",
+
+      fontName: '',
+      fontSize: 0,
+      fontBold: false,
+      fontUnderline: false,
+      fontItalic: false,
+      foreColor: -1,
+      backColor: -1,
 
       index: -1,
       text: "",
 
+      top: 0,
+      left: 0,
+      width: 0,
+      height: 0,
+
       setVisible: function(visible) { /* TODO: implement this. */ },
-      setIsCancel: function(isCancel) { /* TODO: implement this. */ },
 
       getIndex: function() {
         return this.index;
@@ -39,14 +35,33 @@
         this.index = index;
       },
 
-      getLeft: function() { /* TODO: implement this. */ },
-      setLeft: function(left) { /* TODO: implement this. */ },
-      getTop: function() { /* TODO: implement this. */ },
-      setTop: function(top) { /* TODO: implement this. */ },
-      getHeight: function() { /* TODO: implement this. */ },
-      setHeight: function(height) { /* TODO: implement this. */ },
-      getWidth: function() { /* TODO: implement this. */ },
-      setWidth: function(text) { /* TODO: implement this. */ },
+      getLeft: function() {
+        return this.left;
+      },
+      setLeft: function(left) {
+        this.left = left;
+      },
+
+      getTop: function() {
+        return this.top;
+      },
+      setTop: function(top) {
+        this.top = top;
+      },
+
+      getHeight: function() {
+        return this.height;
+      },
+      setHeight: function(height) {
+        this.height = height;
+      },
+
+      getWidth: function() {
+        return this.width;
+      },
+      setWidth: function(width) {
+        this.width = width;
+      },
 
       selStart: function(start) { /* TODO: implement this. */ },
       bringToFront: function() { /* TODO: implement this. */ },
@@ -57,8 +72,12 @@
       setItemData: function(index, data) { /* TODO: implement this. */ },
       getNewIndex: function() { /* TODO: implement this. */ },
 
-      getTag: function() { return this.tag; },
-      setTag: function(tag) { this.tag = tag; },
+      getTag: function() {
+        return this.tag;
+      },
+      setTag: function(tag) {
+        this.tag = tag.toString();
+      },
 
       setTabIndex: function(tabIndex) { /* TODO: implement this. */ },
       setTabIndex2: function(tabIndex2) { /* TODO: implement this. */ },

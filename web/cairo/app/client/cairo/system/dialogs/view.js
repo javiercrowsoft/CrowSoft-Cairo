@@ -12,48 +12,87 @@
   Cairo.module("Dialogs.Views", function(Views, Cairo, Backbone, Marionette, $, _) {
 
     Views.createView = function() {
-
+      var controls = Cairo.Collections.createCollection(null);
       var self = {
         listeners: [],
-        tabs: Cairo.Collections.createCollection(Cairo.Dialogs.createTab),
-        maskEdits: Cairo.Collections.createCollection(Cairo.Controls.createInput),
-        datePickers: Cairo.Collections.createCollection(Cairo.Controls.createDatePicker),
-        selects: Cairo.Collections.createCollection(Cairo.Controls.createSelect),
-        optionButtons: Cairo.Collections.createCollection(Cairo.Controls.createOptionButton),
-        checkBoxes: Cairo.Collections.createCollection(Cairo.Controls.createCheckBox),
-        buttons: Cairo.Collections.createCollection(Cairo.Controls.createButton),
-        combos: Cairo.Collections.createCollection(Cairo.Controls.createCombo),
-        passwords: Cairo.Collections.createCollection(Cairo.Controls.createPassword),
-        grids: Cairo.Collections.createCollection(Cairo.Controls.createGrid),
-        inputs: Cairo.Collections.createCollection(Cairo.Controls.createInput),
-        progressBars: Cairo.Collections.createCollection(Cairo.Controls.createProgressBar),
-        textAreas: Cairo.Collections.createCollection(Cairo.Controls.createTextArea),
-        labels: Cairo.Collections.createCollection(Cairo.Controls.createLabel),
-        ctrlLabels: Cairo.Collections.createCollection(Cairo.Controls.createLabel),
-        titles: Cairo.Collections.createCollection(Cairo.Controls.createLabel),
-        title: "",
+
+        text: "",
+        title: new Cairo.Controls.Label(),
+        subTitle: new Cairo.Controls.Label(),
+
+        controls: controls,
+        tabs: Cairo.Collections.createCollection(Cairo.Controls.createTab, controls),
+        maskEdits: Cairo.Collections.createCollection(Cairo.Controls.createInput, controls),
+        datePickers: Cairo.Collections.createCollection(Cairo.Controls.createDatePicker, controls),
+        selects: Cairo.Collections.createCollection(Cairo.Controls.createSelect, controls),
+        optionButtons: Cairo.Collections.createCollection(Cairo.Controls.createOptionButton, controls),
+        checkBoxes: Cairo.Collections.createCollection(Cairo.Controls.createCheckBox, controls),
+        buttons: Cairo.Collections.createCollection(Cairo.Controls.createButton, controls),
+        combos: Cairo.Collections.createCollection(Cairo.Controls.createCombo, controls),
+        passwords: Cairo.Collections.createCollection(Cairo.Controls.createPassword, controls),
+        grids: Cairo.Collections.createCollection(Cairo.Controls.createGrid, controls),
+        inputs: Cairo.Collections.createCollection(Cairo.Controls.createInput, controls),
+        progressBars: Cairo.Collections.createCollection(Cairo.Controls.createProgressBar, controls),
+        textAreas: Cairo.Collections.createCollection(Cairo.Controls.createTextArea, controls),
+        labels: Cairo.Collections.createCollection(Cairo.Controls.createLabel, controls),
+        ctrlLabels: Cairo.Collections.createCollection(Cairo.Controls.createLabel, controls),
+        titles: Cairo.Collections.createCollection(Cairo.Controls.createLabel, controls),
+
         bottomLine: new Cairo.Controls.Control(),
-        background: new Cairo.Controls.Control()
+        background: new Cairo.Controls.Control(),
+        saveButton: new Cairo.Controls.Control(),
+        cancelButton: new Cairo.Controls.Control(),
+        closeButton: new Cairo.Controls.Control(),
+
+        width: 320,
+        heithg: 480,
+        visible: true
       };
 
       var that = {};
 
-      that.getSaveButton = function() { /* TODO: implement self. */ };
-      that.getCancelButton = function() { /* TODO: implement self. */ };
-      that.getCloseButton = function() { /* TODO: implement self. */ };
+      self.tabs.add();
 
-      that.getTab = function() { /* TODO: implement self. */ };
-      that.getTabFooter = function() { /* TODO: implement self. */ };
-      that.getTabItems = function() { /* TODO: implement self. */ };
+      that.getText = function() {
+        return self.text;
+      };
+      that.setText = function(text) {
+        self.text = text;
+      };
 
       that.getTitle = function() {
         return self.title;
       };
       that.setTitle = function(title) {
-        self.title = title;
+        self.title.setText(title);
       };
 
-      that.getTitleLabel = function() {
+      that.getSubTitle = function() {
+        return self.subTitle;
+      };
+
+      that.getVisible = function() {
+        return self.visible;
+      }
+      that.setVisible = function(visible) {
+        self.visible = visible;
+      }
+
+      that.getSaveButton = function() {
+        return self.saveButton;
+      };
+      that.getCancelButton = function() {
+        return self.cancelButton;
+      };
+      that.getCloseButton = function() {
+        return self.closeButton
+      };
+
+      that.getTab = function() { /* TODO: implement self. */ };
+      that.getTabFooter = function() { /* TODO: implement self. */ };
+      that.getTabItems = function() { /* TODO: implement self. */ };
+
+      that.getTitleLabels = function() {
         return self.titles;
       };
 
@@ -117,13 +156,15 @@
       };
 
       that.getDescription = function() { /* TODO: implement self. */ };
-      that.getTitleLabel2 = function() { /* TODO: implement self. */ };
+
       that.getImages = function() { /* TODO: implement self. */ };
 
       that.getIcons = function() { /* TODO: implement self. */ };
       that.setIcon = function(index) { /* TODO: implement self. */ };
 
-      that.getControls = function() { /* TODO: implement self. */ };
+      that.getControls = function() {
+        return self.controls;
+      };
 
       that.getBackground = function() {
         return self.background;
@@ -150,11 +191,19 @@
       that.setNoResize = function(indexGrid, noResize) { /* TODO: implement self. */ };
 
       that.getHeight = function() {
-        return 480;
+        return self.height;
+      };
+
+      that.setHeight = function(height) {
+        self.height = height;
       };
 
       that.getWidth = function() {
-        return 320;
+        return self.width;
+      };
+
+      that.setWidth = function(width) {
+        self.width = width;
       };
 
       that.addListener = function(listenerDefinition) {
@@ -172,7 +221,6 @@
         btnCopy: new Cairo.Controls.Button({}),
         btnPrint: new Cairo.Controls.Button({}),
         btnPermission: new Cairo.Controls.Button({}),
-        lbTitleEx2: new Cairo.Controls.Label({}),
         saved: false
       };
 
@@ -180,9 +228,6 @@
 
       that.getEditDocumentsButton = function() {
         return self.btnEditDocument;
-      };
-      that.getTitleLabelEx2 = function() {
-        return self.lbTitleEx2;
       };
       that.getNewButton = function() {
         return self.btnNew;

@@ -1640,7 +1640,7 @@
 
             case Dialogs.PropertyType.title:
 
-              var c = view.getTitle(property.getIndex());
+              var c = view.getTitleLabels().get(property.getIndex());
               c.setText(property.getValue());
 
               break;
@@ -1865,7 +1865,7 @@
 
               case Dialogs.PropertyType.title:
 
-                removeControl(view.getTitleLabel2().get(index));
+                removeControl(view.getTitleLabels().get(index));
                 break;
 
               case Dialogs.PropertyType.progressBar:
@@ -2119,7 +2119,7 @@
           for(var _i = 0; _i < propertyCount; _i++) {
             var property = m_properties.get(_i);
             var c = property.getControl();
-            if(c.getType() === ctrl.getType()) {
+            if(c === ctl) {
               if(!property.getVisible()) {
                 isVisible = false;
               }
@@ -2346,10 +2346,10 @@
             view.setTitle(getViewTitle());
 
             if(m_hideTitle) {
-              view.getTitleLabel().setVisible(false);
+              view.getTitle().setVisible(false);
             }
             else {
-              view.getTitleLabel().setText(m_client.getTitle());
+              view.getTitle().setText(m_client.getTitle());
             }
 
             if(viewIsMaster(view)) {
@@ -2477,10 +2477,6 @@
             }
             catch(ignore) {}
           }
-        };
-
-        self.getShapeMain = function() {
-          return getView().getTab();
         };
 
         self.showValue = function(property) {
@@ -4531,18 +4527,18 @@
 
           var view = getView();
 
-          var count = view.getControls().count();
+          var lastTabIndex = 9999;
 
           if(!m_isDocument) {
             if(m_isWizard) {
-              view.getNextButton().setTabIndex(count);
-              view.getCancelButton().setTabIndex(count);
-              view.getBackButton().setTabIndex(count);
+              view.getNextButton().setTabIndex(lastTabIndex);
+              view.getCancelButton().setTabIndex(lastTabIndex);
+              view.getBackButton().setTabIndex(lastTabIndex);
             }
             else {
-              view.getSaveButton().setTabIndex(count);
-              view.getCancelButton().setTabIndex(count);
-              view.getCloseButton().setTabIndex(count);
+              view.getSaveButton().setTabIndex(lastTabIndex);
+              view.getCancelButton().setTabIndex(lastTabIndex);
+              view.getCloseButton().setTabIndex(lastTabIndex);
             }
           }
 
@@ -6063,9 +6059,9 @@
             }
 
             if(viewIsWizard(view) || viewIsMaster(view)) {
-              count = view.getTitleLabel2().count();
+              count = view.getTitleLabels().count();
               for(i = 0; i < count; i++) {
-                removeControl(view.getTitleLabel2().get(i));
+                removeControl(view.getTitleLabels().get(i));
               }
               count = view.getImages().count();
               for(i = 0; i < count; i++) {
@@ -6288,7 +6284,7 @@
           }
 
           var tabCount = view.getTabs().count();
-          for(var i = 0; i < tabCount; i++) {
+          for(var i = 1; i < tabCount; i++) {
             if(m_isItems) {
               if(view.getTabs().get(i).getTag() === Cairo.Constants.DocumentSections.footer
                 || view.getTabs().get(i).getTag() === Cairo.Constants.DocumentSections.items) {
@@ -6433,8 +6429,15 @@
         var setButton = function(control, property) {
 
           if(control.getType !== undefined) {
-            if(control.getType() !== Dialogs.PropertyType.time
-                && control.getType() !== Dialogs.PropertyType.time) {
+            if(!(
+                  control.getObjectType() === "cairo.controls.input"
+                    && control.getType() !== Cairo.Controls.InputType.text
+                )
+              && !(
+                  control.getObjectType() === "cairo.controls.datePicker"
+                    && control.getType() !== Cairo.Controls.DatePickerType.time
+                  )
+              ) {
 
               if(control.getEnabled()) {
 
@@ -6980,17 +6983,17 @@
         self.refreshTitle = function() {
           var view = getView();
           if(m_title !== "") {
-            view.getTitleLabelEx2().setText(" - "+ m_title);
-            view.getTitleLabelEx2().setLeft(view.getTitleLabel().getLeft() + view.getTitleLabel().getWidth() + 50);
+            view.getSubTitle().setText(" - "+ m_title);
+            view.getSubTitle().setLeft(view.getTitle().getLeft() + view.getTitle().getWidth() + 50);
           }
           else {
-            view.getTitleLabelEx2().setText("");
+            view.getSubTitle().setText("");
           }
         };
 
         self.refreshViewTitle = function() {
           Cairo.safeExecute(function() {
-            getView().setText(getViewTitle());
+            getView().setText(m_client.getTitle());
           });
         };
 
@@ -7113,7 +7116,7 @@
               break;
 
             case Dialogs.PropertyType.title:
-              ctrl = view.getTitleLabel().add();
+              ctrl = view.getTitleLabels().add();
               break;
 
             case Dialogs.PropertyType.controlLabel:
