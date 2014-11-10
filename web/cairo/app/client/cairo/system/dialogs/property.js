@@ -181,6 +181,10 @@
         return self._index;
       };
 
+      that.setIndex = function(index) {
+        self._index = index;
+      };
+
       that.getGrid = function() {
         if(self.grid === null) {
           self.grid = new Dialogs.Grids.Grid();
@@ -254,7 +258,7 @@
         return self.listText;
       };
       that.setListText = function(text) {
-        return self.listText = text;
+        self.listText = text;
       };
 
       // select
@@ -289,17 +293,17 @@
       };
 
       that.getSelectType = function() {
-        return selectType;
+        return self.selectType;
       };
       that.setSelectType = function(type) {
-        selectType = type;
+        self.selectType = type;
       };
 
       that.getSelectNoUseActive = function() {
-        return selectNoUseActive;
+        return self.selectNoUseActive;
       };
       that.setSelectNoUseActive = function(value) {
-        selectNoUseActive = value;
+        self.selectNoUseActive = value;
       };
 
       //
@@ -374,10 +378,6 @@
         self._keyCol = key;
       };
 
-      that.setIndex = function(index) {
-        self._index = index;
-      };
-
       that.getKey = function() {
         return self.key;
       };
@@ -408,7 +408,8 @@
         return self.inputDisabled;
       };
 
-      that.setToolbar = function(c) { /* TODO = implement this */ };
+      that.setToolbar = function(c) {
+      };
 
       that.getHeight = function() {
         return self.height;

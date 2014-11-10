@@ -15,24 +15,34 @@
       urlRoot: "",
 
       defaults: {
-        tag: null
+        tag: null,
+
+        fontName: '',
+        fontSize: 0,
+        fontBold: false,
+        fontUnderline: false,
+        fontItalic: false,
+        foreColor: -1,
+        backColor: -1
       },
+
+      index: -1,
+      text: "",
 
       setVisible: function(visible) { /* TODO: implement this. */ },
       setIsCancel: function(isCancel) { /* TODO: implement this. */ },
-      setText: function(text) { /* TODO: implement this. */ },
 
-      getIndex: function() { /* TODO: implement this. */ },
-      setIndex: function(index) { /* TODO: implement this. */ },
+      getIndex: function() {
+        return this.index;
+      },
+      setIndex: function(index) {
+        this.index = index;
+      },
 
       getLeft: function() { /* TODO: implement this. */ },
       setLeft: function(left) { /* TODO: implement this. */ },
       getTop: function() { /* TODO: implement this. */ },
       setTop: function(top) { /* TODO: implement this. */ },
-      getFontSize: function() { /* TODO: implement this. */ },
-      setFontSize: function(size) { /* TODO: implement this. */ },
-      getFontBold: function() { /* TODO: implement this. */ },
-      setFontBold: function(bold) { /* TODO: implement this. */ },
       getHeight: function() { /* TODO: implement this. */ },
       setHeight: function(height) { /* TODO: implement this. */ },
       getWidth: function() { /* TODO: implement this. */ },
@@ -55,7 +65,43 @@
       setBackStyle: function(style) { /* TODO: implement this. */ },
 
       getTextAlign: function() { /* TODO: implement this. */ },
-      setTextAlign: function(align) { /* TODO: implement this. */ }
+      setTextAlign: function(align) { /* TODO: implement this. */ },
+
+      getEnabled: function() { /* TODO: implement this. */ },
+      setEnabled: function() { /* TODO: implement this. */ },
+      getEditEnabled: function() { /* TODO: implement this. */ },
+      setEditEnabled: function(enabled) { /* TODO: implement this. */ },
+
+      getFontName: function() {
+        return self.fontName;
+      },
+      setFontName: function(name) {
+        self.fontName = name;
+      },
+      getFontSize: function() {
+        return self.fontSize;
+      },
+      setFontSize: function(size) {
+        self.fontSize = size;
+      },
+      getFontUnderline: function() {
+        return self.fontUnderline;
+      },
+      setFontUnderline: function(underline) {
+        self.fontUnderline = underline;
+      },
+      getFontBold: function() {
+        return self.fontBold;
+      },
+      setFontBold: function(bold) {
+        self.fontBold = bold;
+      },
+      getFontItalic: function() {
+        return self.fontItalic;
+      },
+      setFontItalic: function(italic) {
+        self.fontItalic = italic;
+      }
 
     });
 

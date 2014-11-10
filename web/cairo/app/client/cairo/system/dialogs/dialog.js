@@ -562,7 +562,7 @@
           //
           if(m_isDocument) {
             if(m_documentView === null) {
-              m_documentView = new Views.DocumentView({});
+              m_documentView = Views.createDocumentView();
 
               m_documentView.addListener({
                 commandClick:               docHandlerCommandClick,
@@ -616,7 +616,7 @@
           //
           else if(m_isWizard) {
             if(m_wizardView === null) {
-              m_wizardView = new Views.WizardView({});
+              m_wizardView = Views.createWizardView();
 
               m_wizardView.addListener({
                 comboChange:              wizHandlerComboChange,
@@ -674,7 +674,7 @@
           //
           else {
             if(m_masterView === null) {
-              m_masterView = new Views.MasterView({});
+              m_masterView = Views.createMasterView();
 
               m_masterView.addListener({
                 viewKeyDown:               masterHandlerViewKeyDown,
@@ -4564,6 +4564,29 @@
           }
         };
 
+        var getInputType = function(subType) {
+          var type = 0;
+
+          switch(subType) {
+            case Dialogs.PropertySubType.money:
+              type = Cairo.Controls.InputType.money;
+              break;
+
+            case Dialogs.PropertySubType.integer:
+              type = Cairo.Controls.InputType.integer;
+              break;
+
+            case Dialogs.PropertySubType.double:
+              type = Cairo.Controls.InputType.double;
+              break;
+
+            case Dialogs.PropertySubType.percentage:
+              type = Cairo.Controls.InputType.percentage;
+              break;
+          }
+          return type;
+        };
+
         var loadControl = function(property) {
 
           var nTabIndex = getTabIndex(property);
@@ -4586,10 +4609,11 @@
 
             case Dialogs.PropertyType.numeric:
 
-              c.setType(subType);
               if(subType === 0) {
                 Cairo.raiseError("Dialogs.loadControl", "subType wasn't set for property: " + property.getName());
               }
+
+              c.setType(getInputType(subType));
 
               if(m_isFooter) {
                 c.setWidth(1100);
@@ -4641,13 +4665,13 @@
 
             case Dialogs.PropertyType.text:
 
-              if(subType !== Dialogs.PropertyType.memo) {
+              if(subType !== Dialogs.PropertySubType.memo) {
                 if(c.getMask() !== "") {
                   var buttonStyle = subType === Dialogs.PropertyType.textButton || subType === Dialogs.PropertyType.textButtonEx;
                   buttonStyle = buttonStyle ? Dialogs.ButtonStyle.single : Dialogs.ButtonStyle.none;
                   c.setButtonStyle(buttonStyle);
                   c.setMask(property.getTextMask());
-                  c.setType(Dialogs.PropertyType.text);
+                  c.setType(Cairo.Controls.InputType.text);
                 }
                 c.setPasswordChar("");
               }
@@ -4954,7 +4978,7 @@
           }
           else {
 
-            var label = addControl(view, Dialogs.PropertyType.controlLabel);
+            var label = addControl(view, Dialogs.PropertyType.label);
 
             property.setLabelIndex(label.getIndex());
             label.setText(property.getName());
@@ -6408,7 +6432,7 @@
 
         var setButton = function(control, property) {
 
-          if(c.getType !== undefined) {
+          if(control.getType !== undefined) {
             if(control.getType() !== Dialogs.PropertyType.time
                 && control.getType() !== Dialogs.PropertyType.time) {
 
@@ -7039,17 +7063,13 @@
             case Dialogs.PropertyType.file:
             case Dialogs.PropertyType.folder:
 
-              switch(subType) {
-                case Dialogs.PropertySubType.mask:
-                case Dialogs.PropertySubType.taxId:
-                case Dialogs.PropertySubType.textButton:
-                case Dialogs.PropertySubType.textButtonEx:
-                  ctrl = view.getTextInputs().add();
-                  break;
-                case Dialogs.PropertySubType.memo:
-                  ctrl = view.getTextAreas().add();
-                  break;
+              if(subType === Dialogs.PropertySubType.memo) {
+                ctrl = view.getTextAreas().add();
               }
+              else {
+                ctrl = view.getTextInputs().add();
+              }
+              break;
 
             case Dialogs.PropertyType.numeric:
               ctrl = view.getMaskEdits().add();

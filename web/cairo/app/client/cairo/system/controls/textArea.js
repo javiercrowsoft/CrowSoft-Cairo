@@ -14,7 +14,21 @@
     Controls.TextArea = Controls.Control.extend({
       urlRoot: "",
 
-      defaults: {}
+      defaults: {},
+
+      text: "",
+      maxLength: 0,
+      inputDisabled: false,
+
+      setText: function(text) {
+        this.text = text;
+      },
+      getText: function() {
+        return this.text;
+      },
+
+      setMaxLength: function(length) { this.maxLength = length; },
+      setInputDisabled: function(value) { this.inputDisabled = value; }
 
     });
 

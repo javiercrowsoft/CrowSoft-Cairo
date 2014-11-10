@@ -14,7 +14,24 @@
     Controls.OptionButton = Controls.Control.extend({
       urlRoot: "",
 
-      defaults: {}
+      defaults: {},
+
+      text: "",
+      value: false,
+
+      setText: function(text) {
+        this.text = text;
+      },
+      getText: function() {
+        return this.text;
+      },
+
+      setValue: function(value) {
+        this.value = value;
+      },
+      getValue: function() {
+        return this.value;
+      }
 
     });
 

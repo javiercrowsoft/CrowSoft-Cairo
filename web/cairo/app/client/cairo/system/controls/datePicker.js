@@ -14,7 +14,16 @@
     Controls.DatePicker = Controls.Control.extend({
       urlRoot: "",
 
-      defaults: {}
+      defaults: {},
+
+      value: false,
+
+      setValue: function(value) {
+        this.value = value;
+      },
+      getValue: function() {
+        return this.value;
+      }
 
     });
 

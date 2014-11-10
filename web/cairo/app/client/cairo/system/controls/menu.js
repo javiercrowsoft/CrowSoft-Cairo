@@ -14,7 +14,15 @@
     Controls.Menu = Controls.Control.extend({
       urlRoot: "",
 
-      defaults: {
+      defaults: {},
+
+      text: "",
+
+      setText: function(text) {
+        this.text = text;
+      },
+      getText: function() {
+        return this.text;
       },
 
       showPopupMenu: function() { /* TODO: implement this. */ },

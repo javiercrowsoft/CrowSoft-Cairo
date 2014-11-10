@@ -476,7 +476,13 @@
       setFieldIntValue: function(field) { /* TODO: implement this. */ },
       setFilter: function(filter) { /* TODO: implement this. */ },
       setTable: function(table) { /* TODO: implement this. */ },
-      setEnabled: function(enable) { /* TODO: implement this. */ }
+      setEnabled: function(enable) { /* TODO: implement this. */ },
+
+      getSelectType: function() { /* TODO: implement this. */ },
+      setSelectType: function(type) { /* TODO: implement this. */ },
+
+      setSelectNoUseActive: function(noUseActive) { /* TODO: implement this. */ },
+      reset: function() { /* TODO: implement this. */ }
 
     });
 

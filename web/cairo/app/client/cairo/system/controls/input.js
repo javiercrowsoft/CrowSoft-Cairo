@@ -16,6 +16,19 @@
       none: 2
     };
 
+    Controls.InputType = {
+      text: 1,
+      money: 2,
+      integer: 3,
+      double: 4,
+      percentage: 5,
+      mask: 6,
+      taxId: 7,
+      memo: 8,
+      file: 9,
+      folder: 10
+    };
+
     Controls.Input = Controls.Control.extend({
       urlRoot: "",
 
@@ -23,7 +36,17 @@
         enabledNoChangeBkColor: false,
         maxLength: 0,
         fileFilter: "",
-        inputDisabled: false
+        inputDisabled: false,
+        type: Controls.InputType.text
+      },
+
+      text: "",
+
+      setText: function(text) {
+        this.text = text;
+      },
+      getText: function() {
+        return this.text;
       },
 
       getMask: function() { /* TODO: implement this. */ },
@@ -33,7 +56,10 @@
       setEnabledNoChangeBkColor: function(value) { this.enabledNoChangeBkColor = value; },
       setMaxLength: function(length) { this.maxLength = length; },
       setInputDisabled: function(value) { this.inputDisabled = value; },
-      setFileFilter: function(filter) { this.fileFilter = filter; }
+      setFileFilter: function(filter) { this.fileFilter = filter; },
+      setType: function(type) {
+        this.type = type;
+      }
 
     });
 

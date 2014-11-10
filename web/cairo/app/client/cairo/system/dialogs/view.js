@@ -11,206 +11,239 @@
 
   Cairo.module("Dialogs.Views", function(Views, Cairo, Backbone, Marionette, $, _) {
 
-    Views.View = Backbone.Model.extend({
-      urlRoot: "",
+    Views.createView = function() {
 
-      defaults: {
+      var self = {
+        listeners: [],
+        tabs: Cairo.Collections.createCollection(Cairo.Dialogs.createTab),
+        maskEdits: Cairo.Collections.createCollection(Cairo.Controls.createInput),
+        datePickers: Cairo.Collections.createCollection(Cairo.Controls.createDatePicker),
+        selects: Cairo.Collections.createCollection(Cairo.Controls.createSelect),
+        optionButtons: Cairo.Collections.createCollection(Cairo.Controls.createOptionButton),
+        checkBoxes: Cairo.Collections.createCollection(Cairo.Controls.createCheckBox),
+        buttons: Cairo.Collections.createCollection(Cairo.Controls.createButton),
+        combos: Cairo.Collections.createCollection(Cairo.Controls.createCombo),
+        passwords: Cairo.Collections.createCollection(Cairo.Controls.createPassword),
+        grids: Cairo.Collections.createCollection(Cairo.Controls.createGrid),
+        inputs: Cairo.Collections.createCollection(Cairo.Controls.createInput),
+        progressBars: Cairo.Collections.createCollection(Cairo.Controls.createProgressBar),
+        textAreas: Cairo.Collections.createCollection(Cairo.Controls.createTextArea),
+        labels: Cairo.Collections.createCollection(Cairo.Controls.createLabel),
+        ctrlLabels: Cairo.Collections.createCollection(Cairo.Controls.createLabel),
+        titles: Cairo.Collections.createCollection(Cairo.Controls.createLabel),
+        title: "",
+        bottomLine: new Cairo.Controls.Control(),
+        background: new Cairo.Controls.Control()
+      };
 
-      },
-      listeners: [],
-      tabs: Cairo.Collections.createCollection(Cairo.Dialogs.createTab),
-      maskEdits: Cairo.Collections.createCollection(Cairo.Controls.createInput),
-      datePickers: Cairo.Collections.createCollection(Cairo.Controls.createDatePicker),
-      selects: Cairo.Collections.createCollection(Cairo.Controls.createSelect),
-      optionButtons: Cairo.Collections.createCollection(Cairo.Controls.createOptionButton),
-      checkBoxes: Cairo.Collections.createCollection(Cairo.Controls.createCheckBox),
-      buttons: Cairo.Collections.createCollection(Cairo.Controls.createButton),
-      combos: Cairo.Collections.createCollection(Cairo.Controls.createCombo),
-      passwords: Cairo.Collections.createCollection(Cairo.Controls.createPassword),
-      grids: Cairo.Collections.createCollection(Cairo.Controls.createGrid),
-      inputs: Cairo.Collections.createCollection(Cairo.Controls.createInput),
-      progressBars: Cairo.Collections.createCollection(Cairo.Controls.createProgressBar),
-      textAreas: Cairo.Collections.createCollection(Cairo.Controls.createTextArea),
-      labels: Cairo.Collections.createCollection(Cairo.Controls.createLabel),
-      ctrlLabels: Cairo.Collections.createCollection(Cairo.Controls.createLabel),
-      titles: Cairo.Collections.createCollection(Cairo.Controls.createLabel),
-      title: "",
+      var that = {};
 
-      getSaveButton: function() { /* TODO: implement this. */ },
-      getCancelButton: function() { /* TODO: implement this. */ },
-      getCloseButton: function() { /* TODO: implement this. */ },
+      that.getSaveButton = function() { /* TODO: implement self. */ };
+      that.getCancelButton = function() { /* TODO: implement self. */ };
+      that.getCloseButton = function() { /* TODO: implement self. */ };
 
-      getTab: function() { /* TODO: implement this. */ },
-      getTabFooter: function() { /* TODO: implement this. */ },
-      getTabItems: function() { /* TODO: implement this. */ },
+      that.getTab = function() { /* TODO: implement self. */ };
+      that.getTabFooter = function() { /* TODO: implement self. */ };
+      that.getTabItems = function() { /* TODO: implement self. */ };
 
-      getTitle: function() {
-        return this.title;
-      },
-      setTitle: function() {
-        this.title = title;
-      },
+      that.getTitle = function() {
+        return self.title;
+      };
+      that.setTitle = function(title) {
+        self.title = title;
+      };
 
-      getTitleLabel: function() {
-        return this.titles;
-      },
+      that.getTitleLabel = function() {
+        return self.titles;
+      };
 
-      getTabs: function() {
-        return this.tabs;
-      },
+      that.getTabs = function() {
+        return self.tabs;
+      };
 
-      getMaskEdits: function() {
-        return this.maskEdits;
-      },
+      that.getMaskEdits = function() {
+        return self.maskEdits;
+      };
 
-      getDatePickers: function() {
-        return this.datePickers;
-      },
+      that.getDatePickers = function() {
+        return self.datePickers;
+      };
 
-      getSelects: function() {
-        return this.selects;
-      },
-      getOptionButtons: function() {
-        return this.optionButtons;
-      },
+      that.getSelects = function() {
+        return self.selects;
+      };
+      that.getOptionButtons = function() {
+        return self.optionButtons;
+      };
 
-      getCheckBoxes: function() {
-        return this.checkBoxes;
-      },
+      that.getCheckBoxes = function() {
+        return self.checkBoxes;
+      };
 
-      getButtons: function() {
-        return this.buttons;
-      },
+      that.getButtons = function() {
+        return self.buttons;
+      };
 
-      getCombos: function() {
-        return this.combos;
-      },
+      that.getCombos = function() {
+        return self.combos;
+      };
 
-      getTextInputs: function() {
-        return this.inputs;
-      },
+      that.getTextInputs = function() {
+        return self.inputs;
+      };
 
-      getTextAreas: function() {
-        return this.textAreas;
-      },
+      that.getTextAreas = function() {
+        return self.textAreas;
+      };
 
-      getPasswordInputs: function() {
-        return this.passwords;
-      },
+      that.getPasswordInputs = function() {
+        return self.passwords;
+      };
 
-      getLabels: function() {
-        return this.labels;
-      },
+      that.getLabels = function() {
+        return self.labels;
+      };
 
-      getCtrlLabels: function() {
-        return this.ctrlLabels;
-      },
+      that.getCtrlLabels = function() {
+        return self.ctrlLabels;
+      };
 
-      getProgressBars: function() {
-        return this.progressBars;
-      },
+      that.getProgressBars = function() {
+        return self.progressBars;
+      };
 
-      getGrids: function() {
-        return this.grids;
-      },
+      that.getGrids = function() {
+        return self.grids;
+      };
 
-      getDescription: function() { /* TODO: implement this. */ },
-      getTitleLabel2: function() { /* TODO: implement this. */ },
-      getImages: function() { /* TODO: implement this. */ },
+      that.getDescription = function() { /* TODO: implement self. */ };
+      that.getTitleLabel2 = function() { /* TODO: implement self. */ };
+      that.getImages = function() { /* TODO: implement self. */ };
 
-      getIcons: function() { /* TODO: implement this. */ },
-      setIcon: function(index) { /* TODO: implement this. */ },
+      that.getIcons = function() { /* TODO: implement self. */ };
+      that.setIcon = function(index) { /* TODO: implement self. */ };
 
-      getControls: function() { /* TODO: implement this. */ },
-      getBackground: function() { /* TODO: implement this. */ },
-      getBottomLine: function() { /* TODO: implement this. */ },
+      that.getControls = function() { /* TODO: implement self. */ };
 
-      setToolbar: function(toolbar) { /* TODO: implement this. */ },
+      that.getBackground = function() {
+        return self.background;
+      };
 
-      unLoadToolbar: function() { /* TODO: implement this. */ },
-      bringToFront: function() { /* TODO: implement this. */ },
-      firstResize: function() { /* TODO: implement this. */ },
+      that.getBottomLine = function() {
+        return self.bottomLine;
+      };
 
-      showDialog: function() { /* TODO: implement this. */ },
-      showView: function() { /* TODO: implement this. */ },
-      setFocusFirstControl: function() { /* TODO: implement this. */ },
-      getActiveControl: function() { /* TODO: implement this. */ },
+      that.setToolbar = function(toolbar) { /* TODO: implement self. */ };
 
-      getTextWidth: function(text) { /* TODO: implement this. */ },
+      that.unLoadToolbar = function() { /* TODO: implement self. */ };
+      that.bringToFront = function() { /* TODO: implement self. */ };
+      that.firstResize = function() { /* TODO: implement self. */ };
 
-      getIndexGrid: function(grid) { /* TODO: implement this. */ },
-      setNoResize: function(indexGrid, noResize) { /* TODO: implement this. */ },
+      that.showDialog = function() { /* TODO: implement self. */ };
+      that.showView = function() { /* TODO: implement self. */ };
+      that.setFocusFirstControl = function() { /* TODO: implement self. */ };
+      that.getActiveControl = function() { /* TODO: implement self. */ };
 
-      getHeight: function() {
+      that.getTextWidth = function(text) { /* TODO: implement self. */ };
+
+      that.getIndexGrid = function(grid) { /* TODO: implement self. */ };
+      that.setNoResize = function(indexGrid, noResize) { /* TODO: implement self. */ };
+
+      that.getHeight = function() {
         return 480;
-      },
+      };
 
-      getWidth: function() {
+      that.getWidth = function() {
         return 320;
-      },
+      };
 
-      addListener: function(listenerDefinition) {
-        this.listeners.push(listenerDefinition);
-      }
+      that.addListener = function(listenerDefinition) {
+        self.listeners.push(listenerDefinition);
+      };
 
-    });
+      return that;
+    };
 
-    Views.MasterView = Views.View.extend({
+    Views.createMasterView = function() {
 
-      btnEditDocument: new Cairo.Controls.Button({}),
-      btnNew: new Cairo.Controls.Button({}),
-      btnCopy: new Cairo.Controls.Button({}),
-      btnPrint: new Cairo.Controls.Button({}),
-      btnPermission: new Cairo.Controls.Button({}),
-      lbTitleEx2: new Cairo.Controls.Label({}),
+      var self = {
+        btnEditDocument: new Cairo.Controls.Button({}),
+        btnNew: new Cairo.Controls.Button({}),
+        btnCopy: new Cairo.Controls.Button({}),
+        btnPrint: new Cairo.Controls.Button({}),
+        btnPermission: new Cairo.Controls.Button({}),
+        lbTitleEx2: new Cairo.Controls.Label({}),
+        saved: false
+      };
 
-      saved: false,
+      var that = Views.createView();
 
-      getEditDocumentsButton: function() { return this.btnEditDocument; },
-      getTitleLabelEx2: function() { return this.lbTitleEx2; },
-      getNewButton: function() { return this.btnNew; },
-      getCopyButton: function() { return this.btnCopy; },
-      sendAutoSave: function() { /* TODO: implement this. */ },
-      raiseAfterLoadEvent: function() { /* TODO: implement this. */ },
-      getPrintButton: function() { return this.btnPrint; },
-      getPermissionsButton: function() { return this.btnPermission; },
-      setSaved: function(saved) { this.saved = saved; },
-      save: function() { /* TODO: implement this. */ },
-      close: function() { /* TODO: implement this. */ }
+      that.getEditDocumentsButton = function() {
+        return self.btnEditDocument;
+      };
+      that.getTitleLabelEx2 = function() {
+        return self.lbTitleEx2;
+      };
+      that.getNewButton = function() {
+        return self.btnNew;
+      };
+      that.getCopyButton = function() {
+        return self.btnCopy;
+      };
+      that.sendAutoSave = function() { /* TODO: implement self. */ };
+      that.raiseAfterLoadEvent = function() { /* TODO: implement self. */ };
+      that.getPrintButton = function() {
+        return self.btnPrint;
+      };
+      that.getPermissionsButton = function() {
+        return self.btnPermission;
+      };
+      that.setSaved = function(saved) {
+        self.saved = saved;
+      };
+      that.save = function() { /* TODO: implement self. */ };
+      that.close = function() { /* TODO: implement self. */ };
 
-    });
+      return that;
+    };
 
-    Views.WizardView = Views.View.extend({
+    Views.createWizardView = function() {
 
-      getImgWiz1: function() { /* TODO: implement this. */ },
-      getImgWiz3: function() { /* TODO: implement this. */ },
-      getImgWiz5: function() { /* TODO: implement this. */ },
-      getNextButton: function() { /* TODO: implement this. */ },
-      getBackButton: function() { /* TODO: implement this. */ },
-      getDialogBackground: function() { /* TODO: implement this. */ },
-      getTitleBackground: function() { /* TODO: implement this. */ }
+      var that = Views.createView();
 
-    });
+      that.getImgWiz1 = function() { /* TODO: implement self. */ };
+      that.getImgWiz3 = function() { /* TODO: implement self. */ };
+      that.getImgWiz5 = function() { /* TODO: implement self. */ };
+      that.getNextButton = function() { /* TODO: implement self. */ };
+      that.getBackButton = function() { /* TODO: implement self. */ };
+      that.getDialogBackground = function() { /* TODO: implement self. */ };
+      that.getTitleBackground = function() { /* TODO: implement self. */ };
 
-    Views.DocumentView = Views.View.extend({
+      return that;
+    };
 
-      setLoading: function(loading) { /* TODO: implement this. */ },
-      getCancelUnload: function() { /* TODO: implement this. */ },
-      setCancelUnload: function(loading) { /* TODO: implement this. */ },
-      getUnloadCount: function() { /* TODO: implement this. */ },
-      setUnloadCount: function(count) { /* TODO: implement this. */ },
-      getFooterBackground: function() { /* TODO: implement this. */ },
+    Views.createDocumentView = function() {
 
-      setNoButtons1: function(buttons) { /* TODO: implement this. */ },
-      setNoButtons2: function(buttons) { /* TODO: implement this. */ },
-      setNoButtons3: function(buttons) { /* TODO: implement this. */ },
-      setButtonsEx2: function(buttons) { /* TODO: implement this. */ },
-      setButtonsEx3: function(buttons) { /* TODO: implement this. */ },
+      var that = Views.createView();
 
-      setToolbarButtons: function() { /* TODO: implement this. */ },
-      setHeightToDocWithDescription: function() { /* TODO: implement this. */ }
+      that.setLoading = function(loading) { /* TODO: implement self. */ };
+      that.getCancelUnload = function() { /* TODO: implement self. */ };
+      that.setCancelUnload = function(loading) { /* TODO: implement self. */ };
+      that.getUnloadCount = function() { /* TODO: implement self. */ };
+      that.setUnloadCount = function(count) { /* TODO: implement self. */ };
+      that.getFooterBackground = function() { /* TODO: implement self. */ };
 
-    });
+      that.setNoButtons1 = function(buttons) { /* TODO: implement self. */ };
+      that.setNoButtons2 = function(buttons) { /* TODO: implement self. */ };
+      that.setNoButtons3 = function(buttons) { /* TODO: implement self. */ };
+      that.setButtonsEx2 = function(buttons) { /* TODO: implement self. */ };
+      that.setButtonsEx3 = function(buttons) { /* TODO: implement self. */ };
+
+      that.setToolbarButtons = function() { /* TODO: implement self. */ };
+      that.setHeightToDocWithDescription = function() { /* TODO: implement self. */ };
+
+      return that;
+    };
 
   });
 

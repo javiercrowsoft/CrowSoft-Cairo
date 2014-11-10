@@ -14,7 +14,16 @@
     Controls.Button = Controls.Control.extend({
       urlRoot: "",
 
-      defaults: {}
+      defaults: {},
+
+      text: "",
+
+      setText: function(text) {
+        this.text = text;
+      },
+      getText: function() {
+        return this.text;
+      }
 
     });
 
