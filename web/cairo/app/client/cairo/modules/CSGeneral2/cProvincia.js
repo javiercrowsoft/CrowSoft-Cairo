@@ -224,6 +224,14 @@
         return Cairo.Language.getText(1410, "");
       };
 
+      self.getPath = function() {
+        return "#general/provincia";
+      };
+
+      self.getName = function() {
+        return "province";
+      };
+
       self.validate = function() {
         var property = null;
 

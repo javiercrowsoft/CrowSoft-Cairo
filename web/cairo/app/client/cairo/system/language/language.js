@@ -3,7 +3,9 @@
 
   Cairo.Language = {
 
-    getText: function(code, defaultValue) { /* TODO: implement this. */ }
+    getText: function(code, defaultValue) {
+      return ""; /* TODO: implement this. */
+    }
 
   };
 

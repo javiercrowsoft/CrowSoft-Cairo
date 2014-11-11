@@ -20,8 +20,8 @@
         title: new Cairo.Controls.Label(),
         subTitle: new Cairo.Controls.Label(),
 
-        tab: null,
         path: "",
+        name: "",
 
         controls: controls,
         tabs: Cairo.Collections.createCollection(Cairo.Controls.createTab, controls),
@@ -49,7 +49,8 @@
 
         width: 320,
         heithg: 480,
-        visible: true
+        visible: false,
+        loading: true
       };
 
       var that = {};
@@ -61,6 +62,14 @@
       };
       that.setText = function(text) {
         self.text = text;
+      };
+
+      that.setPath = function(path) {
+        self.path = path;
+      };
+
+      that.setName = function(name) {
+        self.name = name;
       };
 
       that.getTitle = function() {
@@ -180,10 +189,22 @@
       that.setToolbar = function(toolbar) { /* TODO: implement self. */ };
 
       that.unLoadToolbar = function() { /* TODO: implement self. */ };
-      that.bringToFront = function() { /* TODO: implement self. */ };
+
+      that.bringToFront = function() {
+        showTab(self);
+      };
+
+      that.setLoading = function(loading) {
+        self.loading = loading;
+      };
+
       that.firstResize = function() { /* TODO: implement self. */ };
 
-      var createTab = function(view) {
+      var getRegion = function() {
+        return self.name.toLowerCase() + "TreeRegion";
+      };
+
+      var showTab = function(view) {
 
         var self = {};
 
@@ -243,9 +264,8 @@
       }
 
       that.showDialog = function() {
-        if(self.tab === null) {
-          self.tab = createTab(self);
-        }
+        showTab(self);
+        self.visible = true;
       };
 
       that.showView = function() { /* TODO: implement self. */ };

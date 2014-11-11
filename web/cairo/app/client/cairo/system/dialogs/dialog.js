@@ -2343,13 +2343,12 @@
 
             showView(indexTag);
 
-            view.setTitle(getViewTitle());
+            view.setText(m_client.getTitle());
+            view.setPath(m_client.getPath());
+            view.setName(m_client.getName());
 
             if(m_hideTitle) {
               view.getTitle().setVisible(false);
-            }
-            else {
-              view.getTitle().setText(m_client.getTitle());
             }
 
             if(viewIsMaster(view)) {
@@ -6993,7 +6992,7 @@
 
         self.refreshViewTitle = function() {
           Cairo.safeExecute(function() {
-            getView().setText(m_client.getTitle());
+            getView().setTitle(getViewTitle());
           });
         };
 
