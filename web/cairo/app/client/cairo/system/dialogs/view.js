@@ -20,6 +20,9 @@
         title: new Cairo.Controls.Label(),
         subTitle: new Cairo.Controls.Label(),
 
+        tab: null,
+        path: "",
+
         controls: controls,
         tabs: Cairo.Collections.createCollection(Cairo.Controls.createTab, controls),
         maskEdits: Cairo.Collections.createCollection(Cairo.Controls.createInput, controls),
@@ -180,7 +183,71 @@
       that.bringToFront = function() { /* TODO: implement self. */ };
       that.firstResize = function() { /* TODO: implement self. */ };
 
-      that.showDialog = function() { /* TODO: implement self. */ };
+      var createTab = function(view) {
+
+        var self = {};
+
+        /*
+         this function will be called by the tab manager every time the
+         view must be created. when the tab is not visible the tab manager
+         will not call this function but only make the tab visible
+         */
+        var createDialog = function(tabId) {
+
+          // ListController properties and methods
+          //
+          self.entityInfo = new Backbone.Model({
+            entitiesTitle: "Provincias",
+            entityName: "provincia",
+            entitiesName: "provincias"
+          });
+
+          self.showBranch = function(branchId) {
+            Cairo.log("Loading nodeId: " + branchId);
+            Cairo.Tree.List.Controller.listBranch(branchId, Cairo.Tree.List.Controller.showItems, self);
+          };
+
+          self.addLeave = function(id, branchId, treeId) { /* TODO: implement this. */ };
+          self.addEditedId = function(id) { /* TODO: implement this. */ };
+          self.refreshActiveBranch = function() { /* TODO: implement this. */ };
+
+          self.edit = function(id) {
+            var editor = Cairo.Provincia.Edit.Controller.getEditor();
+            editor.setDialog(Cairo.Dialogs.Views.Controller.newDialog());
+            editor.edit(id);
+          };
+
+          // progress message
+          //
+          Cairo.LoadingMessage.show("Provincias", "Loading provincia from Crowsoft Cairo server.");
+
+          // create the tree region
+          //
+          Cairo.addRegions({ provinciaTreeRegion: tabId });
+
+          // create the dialog
+          //
+          Cairo.Tree.List.Controller.list(
+            Cairo.Tables.PROVINCIA,
+            new Cairo.Tree.List.TreeLayout({ model: self.entityInfo }),
+            Cairo.provinciaTreeRegion,
+            self);
+
+        };
+
+        // create the tab
+        //
+        Cairo.mainTab.showTab(self.text, getRegion(), view.path, createDialog);
+
+        return true;
+      }
+
+      that.showDialog = function() {
+        if(self.tab === null) {
+          self.tab = createTab(self);
+        }
+      };
+
       that.showView = function() { /* TODO: implement self. */ };
       that.setFocusFirstControl = function() { /* TODO: implement self. */ };
       that.getActiveControl = function() { /* TODO: implement self. */ };
