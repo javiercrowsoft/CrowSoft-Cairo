@@ -1,20 +1,5 @@
 <component name="libraryTable">
-  <library name="Generated files" type="javaScript">
-    <properties>
-      <sourceFilesUrls>
-        <item url="file://$PROJECT_DIR$/web/cairo/app/client/cairo/system/controls/input.min.js" />
-        <item url="file://$PROJECT_DIR$/web/cairo/app/client/cairo/system/controls/control.min.js" />
-        <item url="file://$PROJECT_DIR$/web/cairo/app/client/cairo/system/controls/grid.min.js" />
-        <item url="file://$PROJECT_DIR$/web/cairo/app/client/cairo/system/controls/tree.min.js" />
-        <item url="file://$PROJECT_DIR$/web/cairo/app/client/cairo/cairoApp.min.js" />
-        <item url="file://$PROJECT_DIR$/web/cairo/app/client/cairo/system/dialogs/documentView.min.js" />
-        <item url="file://$PROJECT_DIR$/web/cairo/app/client/cairo/system/dialogs/view.min.js" />
-        <item url="file://$PROJECT_DIR$/web/cairo/app/client/cairo/system/dialogs/grid.min.js" />
-        <item url="file://$PROJECT_DIR$/web/cairo/app/client/cairo/system/dialogs/dialog.min.js" />
-        <item url="file://$PROJECT_DIR$/web/cairo/app/client/cairo/system/dialogs/dialogClient.min.js" />
-        <item url="file://$PROJECT_DIR$/web/cairo/app/client/cairo/system/dialogs/property.min.js" />
-      </sourceFilesUrls>
-    </properties>
+  <library name="Generated files">
     <CLASSES>
       <root url="file://$PROJECT_DIR$/web/cairo/app/client/cairo/system/controls/input.min.js" />
       <root url="file://$PROJECT_DIR$/web/cairo/app/client/cairo/system/controls/control.min.js" />
@@ -28,6 +13,7 @@
       <root url="file://$PROJECT_DIR$/web/cairo/app/client/cairo/system/dialogs/dialogClient.min.js" />
       <root url="file://$PROJECT_DIR$/web/cairo/app/client/cairo/system/dialogs/property.min.js" />
     </CLASSES>
+    <JAVADOC />
     <SOURCES />
   </library>
 </component>

@@ -1,0 +1,1 @@
+CREATE SEQUENCE sysmenu_me_id_seq;
