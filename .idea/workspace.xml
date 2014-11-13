@@ -2,8 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d47203c3-b220-49d7-aac2-46c758baa4bb" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/cairo/app/client/cairo/system/dialogs/dialog.js" afterPath="$PROJECT_DIR$/web/cairo/app/client/cairo/system/dialogs/dialog.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/cairo/app/client/cairo/system/dialogs/view.js" afterPath="$PROJECT_DIR$/web/cairo/app/client/cairo/system/dialogs/view.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/cairo/app/client/cairo/system/controls/tab.js" afterPath="$PROJECT_DIR$/web/cairo/app/client/cairo/system/controls/tab.js" />
     </list>
     <ignored path="CrowSoft-Cairo.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -17,7 +16,7 @@
     <file path="/index.scala.html" changelist="d47203c3-b220-49d7-aac2-46c758baa4bb" time="1415827992265" ignored="false" />
     <file path="/dialog.js" changelist="d47203c3-b220-49d7-aac2-46c758baa4bb" time="1415847742574" ignored="false" />
     <file path="/cProvincia.js" changelist="d47203c3-b220-49d7-aac2-46c758baa4bb" time="1415840745930" ignored="false" />
-    <file path="/tab.js" changelist="d47203c3-b220-49d7-aac2-46c758baa4bb" time="1415837961712" ignored="false" />
+    <file path="/tab.js" changelist="d47203c3-b220-49d7-aac2-46c758baa4bb" time="1415848328482" ignored="false" />
     <file path="/collection.js" changelist="d47203c3-b220-49d7-aac2-46c758baa4bb" time="1415842981796" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -119,10 +118,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="dialog.js" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="dialog.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/web/cairo/app/client/cairo/system/dialogs/dialog.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="445" column="24" selection-start="10047" selection-end="10058" vertical-scroll-proportion="0.30946603">
+            <state line="445" column="24" selection-start="10047" selection-end="10058" vertical-scroll-proportion="-9.444445">
               <folding />
             </state>
           </provider>
@@ -171,10 +170,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="tab.js" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="tab.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/web/cairo/app/client/cairo/system/controls/tab.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="51" column="25" selection-start="1553" selection-end="1553" vertical-scroll-proportion="-26.333334">
+            <state line="39" column="51" selection-start="1241" selection-end="1241" vertical-scroll-proportion="0.5861651">
               <folding />
             </state>
           </provider>
@@ -210,10 +209,10 @@
         <option value="$PROJECT_DIR$/web/cairo/app/client/cairo/system/controls/tree.js" />
         <option value="$PROJECT_DIR$/web/cairo/app/views/logged/desktop/index.scala.html" />
         <option value="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSGeneral2/cProvincia.js" />
-        <option value="$PROJECT_DIR$/web/cairo/app/client/cairo/system/controls/tab.js" />
         <option value="$PROJECT_DIR$/web/cairo/app/client/cairo/system/collections/collection.js" />
         <option value="$PROJECT_DIR$/web/cairo/app/client/cairo/system/dialogs/dialog.js" />
         <option value="$PROJECT_DIR$/web/cairo/app/client/cairo/system/dialogs/view.js" />
+        <option value="$PROJECT_DIR$/web/cairo/app/client/cairo/system/controls/tab.js" />
       </list>
     </option>
   </component>
@@ -832,7 +831,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="85" y="22" width="1740" height="966" extended-state="0" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32977462" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -978,13 +977,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/web/cairo/app/client/cairo/system/controls/tab.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="51" column="25" selection-start="1553" selection-end="1553" vertical-scroll-proportion="-26.333334">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/web/cairo/app/client/cairo/cairoApp.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="487" column="2" selection-start="12797" selection-end="12811" vertical-scroll-proportion="0.0">
@@ -1050,7 +1042,14 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/web/cairo/app/client/cairo/system/dialogs/dialog.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="445" column="24" selection-start="10047" selection-end="10058" vertical-scroll-proportion="0.30946603">
+        <state line="445" column="24" selection-start="10047" selection-end="10058" vertical-scroll-proportion="-9.444445">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/cairo/app/client/cairo/system/controls/tab.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="39" column="51" selection-start="1241" selection-end="1241" vertical-scroll-proportion="0.5861651">
           <folding />
         </state>
       </provider>
