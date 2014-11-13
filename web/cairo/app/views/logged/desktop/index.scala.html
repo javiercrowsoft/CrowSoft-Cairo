@@ -1,4 +1,4 @@
-@(menus: List[models.cairo.system.MenuItem], router: List[models.cairo.system.RouterEntry], csrfToken: String)(implicit flash:Flash, token: play.filters.csrf.CSRF.Token, companyUser: models.domain.CompanyUser, loggedUser: models.master.LoggedUser, requestOrigin: services.RequestOrigin)
+@(menus: List[models.cairo.system.MenuItem], router: List[models.cairo.system.RouterEntry], language: List[models.cairo.system.LanguageEntry], csrfToken: String)(implicit flash:Flash, token: play.filters.csrf.CSRF.Token, companyUser: models.domain.CompanyUser, loggedUser: models.master.LoggedUser, requestOrigin: services.RequestOrigin)
 
 @import helper._
 
@@ -470,6 +470,18 @@
     <td colspan="3">No items to display.</td>
 </script>
 
+<!-- dialogs -->
+
+<script type="text/template" id="dialog-layout-template">
+    <div class="row">
+        <div class="col-sm-12 col-md-12">
+            <div class="@if(requestOrigin.userAgent.isMobile) {container} else {desktop-big-container}">
+                <h2 class="sub-header"><%- entityTitle %></h2>
+            </div>
+        </div>
+    </div>
+</script>
+
 <!-- scripts -->
 
 <script src="@routes.Assets.at("javascripts/vendor/jquery-ui-1.10.3.js")" type="text/javascript"></script>
@@ -510,11 +522,6 @@
     return @if(requestOrigin.userAgent.isMobile) {true} else {false};
   };
 
-  // TODO: implement this. read this values from the user's language
-  Cairo.Language = {
-    ACTIVE_TEXT: 'activo',
-    UPDATED_BY_TEXT: 'modifico'
-  };
 </script>
 <script src="./client/cairo/session.js"></script>
 <script src="./client/cairo/config/storage/localstorage.js"></script>
@@ -583,6 +590,7 @@
 <script>
 
 @routerGenerator(router)
+@languageGenerator(language)
 
 </script>
 

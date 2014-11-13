@@ -37,7 +37,7 @@
           find: function(tabId) {
             for (var property in this) {
               if (this.hasOwnProperty(property)) {
-                if(this[property] === tabId) {
+                if(this[property].tabId === tabId) {
                     return property;
                 }
               }
@@ -47,7 +47,12 @@
 
           remove: function(tabId) {
             var tab = this.find(tabId);
-            if(tab) { this[tab] = undefined; }
+            if(tab) {
+              if (this[tab].closeHandler !== undefined) {
+                this[tab].closeHandler();
+              }
+              this[tab] = undefined;
+            }
           }
 
         };
@@ -63,11 +68,11 @@
             @createDialog:  a callback function to be called when a new tab need
                             is added
         */
-        var showTab = function(title, id, route, createDialog) {
+        var showTab = function(title, id, route, createDialog, closeTabHandler) {
 
           // get the tab from the tabs collection
           //
-          var tabId = tabs[id];
+          var tabId = tabs[id] !== undefined ? tabs[id].tabId : undefined;
 
           // only create a tab if it is not in the collection
           //
@@ -107,7 +112,10 @@
 
             // add this tab to the tabs collection
             //
-            tabs[id] = tabId;
+            tabs[id] = { tabId: tabId };
+            if(closeTabHandler !== undefined) {
+              tabs[id].closeHandler = closeTabHandler;
+            }
           }
 
           $('#link_' + tabId.substring(1, tabId.length)).tab('show');

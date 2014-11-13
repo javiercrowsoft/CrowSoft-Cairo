@@ -58,20 +58,35 @@
         }
       };
 
-      var checkIndex = function(index) {
+      var checkIndex = function(index, noError) {
+        if(noError === undefined) { noError = false; }
         if (typeof index === "number") {
           if (index < 0 || index >= self.count) {
-            throw new Error("Index out of bounds. Index: " + index.toString());
+            if(noError) {
+              index = -1;
+            }
+            else {
+              throw new Error("Index out of bounds. Index: " + index.toString());
+            }
           }
         } else {
           var key = index.toString();
           index = self.keys[key];
           if (index === undefined) {
-            throw new Error("This key is not present in this collection. Key: " + key);
+            if(noError) {
+              index = -1;
+            }
+            else {
+              throw new Error("This key is not present in this collection. Key: " + key);
+            }
           }
         }
         return index;
       };
+
+      that.contains = function(indexOrKey) {
+        return (checkIndex(indexOrKey, true) !== -1);
+      }
 
       that.item = function(indexOrKey) {
         var index = checkIndex(indexOrKey);
@@ -103,7 +118,7 @@
         //
         // remove the last reference to allow the object be garbage collected
         //
-        delete self.items[self.count-1];
+        delete self.items[count -1];
         //
         // update size of items array
         //
@@ -113,7 +128,7 @@
         //
         var keys = Object.keys(self.keys);
         for(var i = 0; i < keys.length; i += 1) {
-          if(self.keys[keys[i]]) {
+          if(self.keys[keys[i]] !== undefined) {
             //
             // delete the key for this object
             //

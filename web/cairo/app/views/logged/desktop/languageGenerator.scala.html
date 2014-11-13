@@ -1,0 +1,11 @@
+@(language: List[models.cairo.system.LanguageEntry])
+
+Cairo.module("Language", function(Language, Cairo, Backbone, Marionette, $, _){
+  Language.texts = {
+    @for(languageEntry <- language) {
+      code@{languageEntry.code}: "@{languageEntry.text}",
+    }
+    dummy: ''
+  };
+
+});

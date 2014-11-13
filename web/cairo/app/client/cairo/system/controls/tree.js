@@ -938,8 +938,8 @@
             showItems:  draw the table with all the leaves
 
             IMPORTANT: listBranch will call a showItems function which is responsible
-                       of draw the table. this controller implement a showItems function
-                       but is the table entity manager ( listController ) who decide
+                       of drawing the table. this controller implements a showItems function
+                       but is the table entity manager ( listController ) who decides
                        which function to use to draw the leaves. the listBranch function
                        must be called by the showBranch function of the listController
 

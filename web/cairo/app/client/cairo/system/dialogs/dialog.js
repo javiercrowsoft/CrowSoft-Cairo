@@ -2230,7 +2230,9 @@
         */
         self.show = function(obj, indexTag) {
           Cairo.LoadingMessage.showWait();
-          return showDialog(obj, indexTag, true);
+          var succes = showDialog(obj, indexTag, true);
+          Cairo.LoadingMessage.close();
+          return succes;
         };
         /*
         self.show2 = function(obj, indexTag) {
@@ -2250,6 +2252,25 @@
           }
         };
         */
+
+        /*
+        *
+        * called when the client has already loaded this dialog and wants only to make the
+        * view visible
+        *
+        * */
+        self.showDialog = function() {
+          try {
+            getView().showDialog();
+          }
+          catch(e) {
+            Cairo.manageError(
+              "Showing Dialog",
+              "An error has occurred when showing a dialog.",
+              e.message);
+            return false;
+          }
+        };
 
         self.setIconInDocument = function(iconIndex) {
           if(m_documentView !== null) {
@@ -2893,7 +2914,9 @@
             }
             m_masterView = null;
           }
-          catch(ignore) {}
+          catch(ignore) {
+            Cairo.logError(ignore.message);
+          }
         };
 
         /*
@@ -3789,7 +3812,7 @@
             }
 
             var grid = property.getControl();
-            if(rowIndex <= grid.getRows().count()) {
+            if(rowIndex < grid.getRows().count()) {
               grid.Cell(rowIndex, 1).getText() === rowIndex;
             }
 
@@ -4206,7 +4229,7 @@
             var row = property.getGrid().getRows().get(1);
             if(row !== null) {
               var rowCount = row.count();
-              for(var i = 1; i <= rowCount; i++) {
+              for(var i = 0; i < rowCount; i++) {
                 var cell = row.get(i);
                 if(cell.getKey() === lKey) {
                   colIndex = i;
@@ -4887,14 +4910,14 @@
             if(property.getOptionGroup() - 1 > m_leftOp.length) {
               r = m_leftOp.length;
               var view = getView();
-              for(q = r; q <= m_leftOp.length; q++) {
+              for(q = r; q < m_leftOp.length; q++) {
                 m_leftOp[q] = view.getOptionButtons().get(0).getLeft();
               }
             }
             if(property.getOptionGroup() - 1 > m_nextTopOp.length) {
               r = m_nextTopOp.length;
               var view = getView();
-              for(q = r; q <= m_nextTopOp.length; q++) {
+              for(q = r; q < m_nextTopOp.length; q++) {
                 m_nextTopOp[q] = view.getOptionButtons().get(0).getTop();
               }
             }
@@ -5725,7 +5748,7 @@
           var listCount = getView().getCombos().count();
           var propertyCount = m_properties.count();
           var view = getView();
-          for(var index = 1; index <= listCount; index++) {
+          for(var index = 0; index < listCount; index++) {
             for(var _j = 0; _j < propertyCount; _j++) {
               var property = m_properties.get(_j);
               if(property.getType() === Dialogs.PropertyType.list) {
@@ -5751,7 +5774,7 @@
           var gridCount = view.getGrids().count();
           var propertyCount = m_properties.count();
 
-          for(var index = 0; index <= gridCount; index++) {
+          for(var index = 0; index < gridCount; index++) {
             for(var _j = 0; _j < propertyCount; _j++) {
               var property = m_properties.get(_j);
               if(property.getType() === Dialogs.PropertyType.grid) {
@@ -5942,7 +5965,8 @@
 
         var saveColumnsGrids = function() {
           var view = getView();
-          for(var i = 0; i <= view.getGrids().count(); i++) {
+          var count = view.getGrids().count();
+          for(var i = 0; i < count; i++) {
             var property = getProperty(Dialogs.PropertyType.grid, i, 0);
             if(property !== null) {
               m_gridManager.saveColumnWidth(view.getGrids().get(i), getGridName(property));
@@ -7147,7 +7171,8 @@
         };
 
         var destroyGrids = function(view) {
-          for(var i = view.getGrids().count()-1; i < view.getGrids().count(); i -= 1) {
+          var count = view.getGrids().count();
+          for(var i = 0; i < count; i += 1) {
             removeControl(view.getGrids().get(i));
           }
         };

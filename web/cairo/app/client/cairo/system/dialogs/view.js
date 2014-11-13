@@ -11,6 +11,14 @@
 
   Cairo.module("Dialogs.Views", function(Views, Cairo, Backbone, Marionette, $, _) {
 
+    /*
+     the main view which contains all other views in the tree dialog
+     this view is created by the tree client object
+     */
+    Views.DialogLayout = Marionette.Layout.extend({
+      template: "#dialog-layout-template"
+    });
+
     Views.createView = function() {
       var controls = Cairo.Collections.createCollection(null);
       var self = {
@@ -201,12 +209,21 @@
       that.firstResize = function() { /* TODO: implement self. */ };
 
       var getRegion = function() {
-        return self.name.toLowerCase() + "TreeRegion";
+        return self.name.toLowerCase() + "DialogRegion";
       };
 
       var showTab = function(view) {
 
         var self = {};
+
+        var showView = function(mainView, mainRegion, viewController) {
+          Cairo.LoadingMessage.show();
+
+          //////////////
+          mainRegion.show(mainView);
+
+          Cairo.LoadingMessage.close();
+        }
 
         /*
          this function will be called by the tab manager every time the
@@ -215,50 +232,40 @@
          */
         var createDialog = function(tabId) {
 
-          // ListController properties and methods
+
+          // viewController properties and methods
           //
           self.entityInfo = new Backbone.Model({
-            entitiesTitle: "Provincias",
-            entityName: "provincia",
-            entitiesName: "provincias"
+            entityTitle: view.text
           });
-
-          self.showBranch = function(branchId) {
-            Cairo.log("Loading nodeId: " + branchId);
-            Cairo.Tree.List.Controller.listBranch(branchId, Cairo.Tree.List.Controller.showItems, self);
-          };
-
-          self.addLeave = function(id, branchId, treeId) { /* TODO: implement this. */ };
-          self.addEditedId = function(id) { /* TODO: implement this. */ };
-          self.refreshActiveBranch = function() { /* TODO: implement this. */ };
-
-          self.edit = function(id) {
-            var editor = Cairo.Provincia.Edit.Controller.getEditor();
-            editor.setDialog(Cairo.Dialogs.Views.Controller.newDialog());
-            editor.edit(id);
-          };
-
-          // progress message
-          //
-          Cairo.LoadingMessage.show("Provincias", "Loading provincia from Crowsoft Cairo server.");
 
           // create the tree region
           //
-          Cairo.addRegions({ provinciaTreeRegion: tabId });
+          var regionName = getRegion();
+          var region = {};
+          region[regionName] = tabId;
+          Cairo.addRegions(region);
 
           // create the dialog
           //
-          Cairo.Tree.List.Controller.list(
-            Cairo.Tables.PROVINCIA,
-            new Cairo.Tree.List.TreeLayout({ model: self.entityInfo }),
-            Cairo.provinciaTreeRegion,
+          showView(
+            new Cairo.Dialogs.Views.DialogLayout({ model: self.entityInfo }),
+            Cairo[regionName],
             self);
+        };
 
+        var destroyDialog = function() {
+          for(var i = 0; i < view.listeners.length; i += 1) {
+            var listener = view.listeners[i];
+            if(listener.viewDestroy !== undefined) {
+              listener.viewDestroy();
+            }
+          }
         };
 
         // create the tab
         //
-        Cairo.mainTab.showTab(self.text, getRegion(), view.path, createDialog);
+        Cairo.mainTab.showTab(view.text, getRegion(), view.path, createDialog, destroyDialog);
 
         return true;
       }

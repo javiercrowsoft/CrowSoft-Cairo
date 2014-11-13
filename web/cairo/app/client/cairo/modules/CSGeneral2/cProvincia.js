@@ -214,6 +214,7 @@
             m_listController.addEditedId(m_id);
             m_listController.refreshActiveBranch();
           }
+          m_listController.removeEditor(self);
         }
         catch (ex) {
         }
@@ -221,15 +222,15 @@
 
       self.getTitle = function() {
         //'Provincias
-        return Cairo.Language.getText(1410, "");
+        return Cairo.Language.getText(1080, "");
       };
 
       self.getPath = function() {
-        return "#general/provincia";
+        return "#general/provincia/" + m_id.toString();
       };
 
       self.getName = function() {
-        return "province";
+        return "province" + m_id.toString();
       };
 
       self.validate = function() {
@@ -460,6 +461,8 @@
          */
         var createTreeDialog = function(tabId) {
 
+          var editors = Cairo.Collections.createCollection(null);
+
           // ListController properties and methods
           //
           self.entityInfo = new Backbone.Model({
@@ -477,10 +480,32 @@
           self.addEditedId = function(id) { /* TODO: implement this. */ };
           self.refreshActiveBranch = function() { /* TODO: implement this. */ };
 
+          self.removeEditor = function(editor) {
+            var count = editors.count();
+            for(var i = 0; i < count; i += 1) {
+              if(editors.item(i).editor === editor) {
+                editors.remove(i);
+                break;
+              }
+            }
+          };
+
           self.edit = function(id) {
-            var editor = Cairo.Provincia.Edit.Controller.getEditor();
-            editor.setDialog(Cairo.Dialogs.Views.Controller.newDialog());
-            editor.edit(id);
+            var k = "id:" + id.toString();
+            if(editors.contains(k)) {
+              editors.item(k).dialog.showDialog();
+            }
+            else {
+              var editor = Cairo.Provincia.Edit.Controller.getEditor();
+              var dialog = Cairo.Dialogs.Views.Controller.newDialog();
+
+              editor.setTree(self);
+              editor.setDialog(dialog);
+              editor.edit(id);
+
+              var key = id !== Cairo.Database.NO_ID ? k : undefined;
+              editors.add({editor: editor, dialog: dialog}, key);
+            }
           };
 
           // progress message
