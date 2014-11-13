@@ -2378,6 +2378,7 @@
               view.getCopyButton().setVisible(m_client.copyEnabled());
             }
 
+            self.refreshViewTitle();
             self.refreshTitle();
 
             if(view.getVisible()) {
@@ -7006,8 +7007,10 @@
         self.refreshTitle = function() {
           var view = getView();
           if(m_title !== "") {
-            view.getSubTitle().setText(" - "+ m_title);
-            view.getSubTitle().setLeft(view.getTitle().getLeft() + view.getTitle().getWidth() + 50);
+            var subTitle = view.getSubTitle();
+            var viewTitle = view.getTitle();
+            subTitle.setText(m_client.getTitle() + " - "+ m_title);
+            subTitle.setLeft(viewTitle.getLeft() + viewTitle.getWidth() + 50);
           }
           else {
             view.getSubTitle().setText("");

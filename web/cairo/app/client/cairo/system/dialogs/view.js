@@ -232,11 +232,10 @@
          */
         var createDialog = function(tabId) {
 
-
           // viewController properties and methods
           //
           self.entityInfo = new Backbone.Model({
-            entityTitle: view.text
+            entityTitle: view.subTitle.getText()
           });
 
           // create the tree region
