@@ -8,8 +8,16 @@
 
       defaults: {},
 
+      htmlTag: "<input/>",
+
       text: "",
       value: false,
+
+      setElement: function(element) {
+        Controls.Input.__super__.setElement(element);
+        element.attr('type', 'checkbox');
+        element.prop('checked', this.value);
+      },
 
       setText: function(text) {
         this.text = text;

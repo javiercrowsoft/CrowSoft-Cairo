@@ -84,7 +84,7 @@ BEGIN
       END;
    END LOOP;
 
-   v_filter := LOWER(v_p_filter);
+   v_filter := lower(f_unaccent(v_p_filter));
 
    v_filter := sp_HelpGetFilter(p_bFilterType, v_filter);
 

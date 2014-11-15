@@ -480,6 +480,27 @@
             </div>
         </div>
     </div>
+    <div class="@if(requestOrigin.userAgent.isMobile) {container} else {dialog-container}">
+        <div id="formBody">
+        </div>
+        <div class="input-text-form">
+            <div class="row dialog-buttons-first-row">
+                <button class="btn btn-success dialog-button dialog-wide-button dialog-save-button">Save</button>
+                <button class="btn btn-warning dialog-button dialog-cancel-button">Cancel</button>
+            </div>
+            <div class="row dialog-buttons-row">
+                <button class="btn btn-info dialog-button dialog-new-button">New</button>
+                <button class="btn btn-info dialog-button dialog-copy-button">Duplicate</button>
+                <button class="btn btn-warning dialog-button dialog-discard-button">Discard Changes</button>
+            </div>
+            <div class="row dialog-buttons-last-row">
+                <button class="btn btn-info dialog-button dialog-print-button">Print</button>
+                <button class="btn btn-info dialog-button dialog-permissions-button">Permissions</button>
+                <button class="btn btn-info dialog-button dialog-documents-button">Attached Files</button>
+            </div>
+            <br/>
+        </div>
+    </div>
 </script>
 
 <!-- scripts -->
@@ -530,6 +551,14 @@
 <script src="./client/cairo/system/promise.js"></script>
 <script src="./client/cairo/system/modal.js"></script>
 
+<!-- system -->
+
+<script src="./client/cairo/system/database/database.js"></script>
+<script src="./client/cairo/system/database/docDigital.js"></script>
+<script src="./client/cairo/system/security/security.js"></script>
+<script src="./client/cairo/system/language/language.js"></script>
+<script src="./client/cairo/system/documentation/documentation.js"></script>
+
 <!-- controls -->
 
 <script src="./client/cairo/system/controls/control.js"></script>
@@ -553,14 +582,6 @@
 <script src="./client/cairo/system/controls/textArea.js"></script>
 <script src="./client/cairo/system/controls/toolbar.js"></script>
 <script src="./client/cairo/system/controls/grid.js"></script>
-
-<!-- system -->
-
-<script src="./client/cairo/system/database/database.js"></script>
-<script src="./client/cairo/system/database/docDigital.js"></script>
-<script src="./client/cairo/system/security/security.js"></script>
-<script src="./client/cairo/system/language/language.js"></script>
-<script src="./client/cairo/system/documentation/documentation.js"></script>
 
 <!-- dialogs -->
 

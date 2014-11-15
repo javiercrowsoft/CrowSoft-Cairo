@@ -11,12 +11,37 @@
 
   Cairo.module("Dialogs.Views", function(Views, Cairo, Backbone, Marionette, $, _) {
 
+    var createControls = function(view) {
+      var count = view.controls.count();
+      var form = $('<div></div>');
+      var newRow = function(elements) {
+        var row = $('<div class="row"></div>');
+        var column = $('<div class="col-lg-4 col-md-5 col-sm-7"></div>');
+        column.append(elements);
+        row.append(column);
+        return row;
+      };
+      for(var i = 0; i < count; i += 1) {
+        var control = view.controls.item(i);
+        var element = $(control.htmlTag);
+        control.setElement(element);
+        form.append(newRow(element));
+      }
+      return form;
+    };
+
     /*
-     the main view which contains all other views in the tree dialog
-     this view is created by the tree client object
+     the main view which contains all other views in the dialog
+     this view is created by the dialog client object
      */
     Views.DialogLayout = Marionette.Layout.extend({
-      template: "#dialog-layout-template"
+      template: "#dialog-layout-template",
+
+      onRender: function(){
+        this.$("#formBody").append(createControls(this.model.get('viewDef')));
+        var viewManager = this.model.get('viewManager');
+        viewManager.bindView(this);
+      }
     });
 
     Views.createView = function() {
@@ -51,9 +76,9 @@
 
         bottomLine: new Cairo.Controls.Control(),
         background: new Cairo.Controls.Control(),
-        saveButton: new Cairo.Controls.Control(),
-        cancelButton: new Cairo.Controls.Control(),
-        closeButton: new Cairo.Controls.Control(),
+        btnSave: new Cairo.Controls.Control(),
+        btnCancel: new Cairo.Controls.Control(),
+        btnClose: new Cairo.Controls.Control(),
 
         width: 320,
         heithg: 480,
@@ -99,13 +124,13 @@
       }
 
       that.getSaveButton = function() {
-        return self.saveButton;
+        return self.btnSave;
       };
       that.getCancelButton = function() {
-        return self.cancelButton;
+        return self.btnCancel;
       };
       that.getCloseButton = function() {
-        return self.closeButton
+        return self.btnClose;
       };
 
       that.getTab = function() { /* TODO: implement self. */ };
@@ -212,8 +237,7 @@
         return self.name.toLowerCase() + "DialogRegion";
       };
 
-      var showTab = function(view) {
-
+      var createTab = function(view, viewManager) {
         var self = {};
 
         var showView = function(mainView, mainRegion, viewController) {
@@ -235,7 +259,9 @@
           // viewController properties and methods
           //
           self.entityInfo = new Backbone.Model({
-            entityTitle: view.subTitle.getText()
+            entityTitle: view.subTitle.getText(),
+            viewDef: view,
+            viewManager: viewManager
           });
 
           // create the tree region
@@ -262,15 +288,32 @@
           }
         };
 
+        return {
+          createDialog: createDialog,
+          destroyDialog: destroyDialog
+        };
+      };
+
+      self.tabHandler = createTab(self, that);
+
+      var showTab = function() {
+
         // create the tab
         //
-        Cairo.mainTab.showTab(view.text, getRegion(), view.path, createDialog, destroyDialog);
+        Cairo.mainTab.showTab(
+          self.text,
+          getRegion(),
+          self.path,
+          self.tabHandler.createDialog,
+          self.tabHandler.destroyDialog);
 
         return true;
       }
 
+      that.showModalDialog = function () { /* TODO: implement self. */ };
+
       that.showDialog = function() {
-        showTab(self);
+        showTab();
         self.visible = true;
       };
 
@@ -301,6 +344,12 @@
 
       that.addListener = function(listenerDefinition) {
         self.listeners.push(listenerDefinition);
+      };
+
+      that.bindView = function(view) {
+        self.btnSave = view.$('.dialog-save-button');
+        self.btnCancel = view.$('.dialog-cancel-button');
+        self.btnClose = self.btnCancel;
       };
 
       return that;
@@ -341,6 +390,18 @@
       };
       that.save = function() { /* TODO: implement self. */ };
       that.close = function() { /* TODO: implement self. */ };
+
+      var supperBindView = that.bindView;
+
+      that.bindView = function(view) {
+        supperBindView(view);
+        self.btnEditDocument = view.$('.dialog-documents-button');
+        self.btnPermission = view.$('.dialog-permissions-button');
+        self.btnPrint = view.$('.dialog-print-button');
+        self.btn = view.$('.dialog-discard-button');
+        self.btnCopy = view.$('.dialog-copy-button');
+        self.btnNew = view.$('.dialog-new-button');
+      };
 
       return that;
     };

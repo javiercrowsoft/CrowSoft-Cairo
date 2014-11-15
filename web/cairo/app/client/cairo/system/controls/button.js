@@ -8,6 +8,8 @@
 
       defaults: {},
 
+      htmlTag: "<button/>",
+
       text: "",
       isCancel: false,
 

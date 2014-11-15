@@ -201,3 +201,59 @@ div.tree-select-dialog.ui-widget-content {
     min-width: 80%;
   }
 }
+
+/* -------------- dialogs ------------*/
+
+.dialog-label {
+    margin-top: 15px;
+}
+
+.dialog-control {
+    display: block;
+    width: 100%;
+    height: 43px;
+    padding: 10px 15px;
+}
+
+.dialog-input-control {
+    font-size: 15px;
+    line-height: 1.428571429;
+    color: #464545;
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #f1f1f1;
+    border-radius: 4px;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,0.075);
+    box-shadow: inset 0 1px 1px rgba(0,0,0,0.075);
+    -webkit-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+    transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+}
+
+.dialog-textarea-control {
+    height: 129px;
+}
+
+.dialog-container {
+    padding-left: 50px;
+    padding-right: 50px;
+}
+
+.dialog-buttons-first-row {
+    margin-bottom: 20px;
+}
+
+.dialog-buttons-row {
+    margin-bottom: 10px;
+}
+
+.dialog-buttons-last-row {
+    margin-bottom: 40px;
+}
+
+.dialog-wide-button {
+    min-width: 150px;
+}
+
+.dialog-button {
+    margin-bottom: 10px;
+}

@@ -26,7 +26,17 @@
       width: 0,
       height: 0,
 
-      setVisible: function(visible) { /* TODO: implement this. */ },
+      visible: true,
+
+      element: null,
+
+      setElement: function(element) {
+        this.element = element;
+      },
+
+      setVisible: function(visible) {
+        this.visible = visible;
+      },
 
       getIndex: function() {
         return this.index;

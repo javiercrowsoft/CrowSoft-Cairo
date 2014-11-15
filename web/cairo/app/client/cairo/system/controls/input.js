@@ -26,12 +26,20 @@
 
       defaults: {},
 
+      htmlTag: "<input/>",
+
       text: "",
       enabledNoChangeBkColor: false,
       maxLength: 0,
       fileFilter: "",
       inputDisabled: false,
       type: Controls.InputType.text,
+
+      setElement: function(element) {
+        Controls.Input.__super__.setElement(element);
+        element.val(this.text);
+        element.addClass("dialog-control dialog-input-control");
+      },
 
       setText: function(text) {
         this.text = text;

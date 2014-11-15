@@ -9,6 +9,8 @@
       defaults: {
       },
 
+      htmlTag: "<img/>",
+
       setImage: function(image) { /* TODO: implement this. */ }
 
     });

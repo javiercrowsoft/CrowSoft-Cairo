@@ -6,7 +6,9 @@
     Controls.Toolbar = Controls.Control.extend({
       urlRoot: "",
 
-      defaults: {}
+      defaults: {},
+
+      htmlTag: "<div><div/>"
 
     });
 

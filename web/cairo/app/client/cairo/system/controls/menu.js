@@ -8,6 +8,8 @@
 
       defaults: {},
 
+      htmlTag: "<div><div/>",
+
       text: "",
 
       setText: function(text) {

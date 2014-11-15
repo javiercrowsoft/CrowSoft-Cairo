@@ -8,6 +8,8 @@
 
       defaults: {},
 
+      htmlTag: "<input/>",
+
       text: "",
 
       setText: function(text) {

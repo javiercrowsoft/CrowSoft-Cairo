@@ -8,6 +8,8 @@
 
       defaults: {},
 
+      htmlTag: "<select></select>",
+
       text: "",
 
       setText: function(text) {

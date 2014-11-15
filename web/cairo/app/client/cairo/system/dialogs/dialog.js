@@ -2391,11 +2391,11 @@
                   if(m_inModalWindow) {
                     if(!m_viewShowed) {
                       m_viewShowed = true;
-                      view.showDialog();
+                      view.showModalDialog();
                     }
                   }
                   else {
-                    view.showView();
+                    view.showDialog();
                   }
                 }
               }
@@ -2421,7 +2421,7 @@
                     if(viewIsMaster(view)) {
                       view.raiseAfterLoadEvent();
                     }
-                    view.showDialog();
+                    view.showModalDialog();
                   }
                 }
                 else {
@@ -4613,6 +4613,16 @@
           var controlType = property.getType();
           var subType = property.getSubType();
 
+          var label = null;
+
+          if(property.getType() !== Dialogs.PropertyType.option
+            && property.getType() !== Dialogs.PropertyType.toolbar
+            && property.getType() !== Dialogs.PropertyType.label
+            && property.getType() !== Dialogs.PropertyType.title) {
+
+            label = addControl(view, Dialogs.PropertyType.label);
+          }
+
           var c = addControl(view, controlType, subType);
 
           switch(controlType) {
@@ -4622,6 +4632,7 @@
               c.setSelectType(property.getSelectType());
               c.setSelectNoUseActive(property.getSelectNoUseActive());
               c.setTable(property.getSelectTable());
+              c.setName(property.getName());
               c.reset();
               setFont(c, property);
               break;
@@ -4996,8 +5007,6 @@
             }
           }
           else {
-
-            var label = addControl(view, Dialogs.PropertyType.label);
 
             property.setLabelIndex(label.getIndex());
             label.setText(property.getName());

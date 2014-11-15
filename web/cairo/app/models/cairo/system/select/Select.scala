@@ -522,7 +522,7 @@ object Select {
       if (column.columnType == "number") s"${column.name}::varchar "
       else s"lower(f_unaccent(${column.name})) "
     }
-    columnName + operator + " ? "
+    columnName + operator + " lower(f_unaccent(?)) "
   }
 
   private def applyFilter(filter: String, columns: List[Column], operator: String): String = {

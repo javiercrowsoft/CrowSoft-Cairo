@@ -41,7 +41,7 @@
               self.options.columns = items[0].columns;
 
               if(items[0].rows.length === 0) {
-                ul.append($('<div class="select-empty-result-message" style="width:100%">There isn&apos;t any rows using this filter: ' + this.element.text() + '</div>'));
+                ul.append($('<div class="select-empty-result-message" style="width:100%">There isn&apos;t any rows using this filter: ' + this.element.val() + '</div>'));
               }
               else {
                 if(self.options.showHeader) {
@@ -470,18 +470,104 @@
 
       defaults: {},
 
-      setId: function(id) { /* TODO: implement this. */ },
-      setValue: function(value) { /* TODO: implement this. */ },
-      setIntValue: function(value) { /* TODO: implement this. */ },
-      setFieldIntValue: function(field) { /* TODO: implement this. */ },
-      setFilter: function(filter) { /* TODO: implement this. */ },
-      setTable: function(table) { /* TODO: implement this. */ },
-      setEnabled: function(enable) { /* TODO: implement this. */ },
+      htmlTag: '<div class="tree-select-control cf"></div>',
 
-      getSelectType: function() { /* TODO: implement this. */ },
-      setSelectType: function(type) { /* TODO: implement this. */ },
+      name: "",
+      value: "",
+      id: Cairo.Database.NO_ID,
+      intValue: "",
+      fieldIntValue: "",
+      filter: "-",
+      table: Cairo.Database.NO_ID,
+      enabled: true,
+      type: Cairo.Entities.Select.SelectType.normal,
+      noUseActive: false,
 
-      setSelectNoUseActive: function(noUseActive) { /* TODO: implement this. */ },
+      setElement: function(element) {
+        var select = null;
+
+        Controls.Input.__super__.setElement(element);
+        element.val(this.value);
+
+        if(this.type === Cairo.Entities.Select.SelectType.tree) {
+          element.append('<span class="tree-select-control-folder-icon hidden"><i class="glyphicon glyphicon-folder-open"></i></span>');
+        }
+        var input = $('<input type="text" class="dialog-control dialog-input-control" autocomplete="off"/>');
+        element.append(input);
+
+        if(this.type === Cairo.Entities.Select.SelectType.normal) {
+          element.append('<button>+</button>');
+          select = Cairo.Select.Controller.createSelectControl(
+            input,
+            this.table,
+            this.noUseActive === false,
+            this.filter);
+        }
+        else if (this.type === Cairo.Entities.Select.SelectType.tree) {
+          element.append('<button>...</button>');
+          select = Cairo.TreeSelect.Controller.createSelectControl(
+            input,
+            this.table,
+            this.noUseActive === false,
+            this.filter,
+            this.name,
+            "Select a " + this.name);
+        }
+        select.setData(this.id, this.value);
+      },
+
+      setValue: function(value) {
+        this.value = value;
+      },
+      getValue: function() {
+        return this.value;
+      },
+
+      setName: function(name) {
+        this.name = name;
+      },
+      getName: function() {
+        return this.name;
+      },
+
+      getId: function() {
+        return this.id;
+      },
+      setId: function(id) {
+        this.id = id;
+      },
+
+      getIntValue: function() {
+        return this.intValue;
+      },
+      setIntValue: function(value) {
+        this.intValue = value;
+      },
+
+      setFieldIntValue: function(field) {
+        this.fieldIntValue = field;
+      },
+      setFilter: function(filter) {
+        this.filter = filter !== "" ? filter : "-";
+      },
+      setTable: function(table) {
+        this.table = table;
+      },
+      setEnabled: function(enabled) {
+        this.enabled = enabled;
+      },
+
+      getSelectType: function() {
+        return this.type;
+      },
+      setSelectType: function(type) {
+        this.type = type;
+      },
+
+      setSelectNoUseActive: function(noUseActive) {
+        this.noUseActive = noUseActive;
+      },
+
       reset: function() { /* TODO: implement this. */ }
 
     });

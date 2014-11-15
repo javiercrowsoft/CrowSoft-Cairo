@@ -117,6 +117,8 @@
       defaults: {
       },
 
+      htmlTag: "<table></table>",
+
       selectRow: function(row) { /* TODO: implement this. */ },
       autoWidthColumns: function() { /* TODO: implement this. */ },
       getColumns: function() { /* TODO: implement this. */ },

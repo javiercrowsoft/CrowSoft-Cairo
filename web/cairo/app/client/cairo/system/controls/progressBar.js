@@ -8,6 +8,8 @@
 
       defaults: {},
 
+      htmlTag: "<progress/>",
+
       value: false,
 
       setValue: function(value) {

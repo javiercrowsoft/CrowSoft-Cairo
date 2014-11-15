@@ -13,6 +13,8 @@
 
       defaults: {},
 
+      htmlTag: "<input/>",
+
       value: new Date(1990, 1, 1, 0, 0, 0, 0),
       type: Controls.DatePickerType,
 

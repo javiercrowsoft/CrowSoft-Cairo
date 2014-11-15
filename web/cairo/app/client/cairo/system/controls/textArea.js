@@ -8,9 +8,17 @@
 
       defaults: {},
 
+      htmlTag: "<textarea/>",
+
       text: "",
       maxLength: 0,
       inputDisabled: false,
+
+      setElement: function(element) {
+        Controls.Input.__super__.setElement(element);
+        element.val(this.text);
+        element.addClass("dialog-control dialog-input-control dialog-textarea-control");
+      },
 
       setText: function(text) {
         this.text = text;

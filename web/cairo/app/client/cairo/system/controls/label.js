@@ -8,7 +8,15 @@
 
       defaults: {},
 
+      htmlTag: "<label/>",
+
       text: "",
+
+      setElement: function(element) {
+        Controls.Input.__super__.setElement(element);
+        element.text(this.text);
+        element.addClass('dialog-label');
+      },
 
       setText: function(text) {
         this.text = text;
