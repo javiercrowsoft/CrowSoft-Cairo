@@ -33,6 +33,9 @@
       setElement: function(element) {
         this.element = element;
       },
+      getElement: function() {
+        return this.element;
+      },
 
       setVisible: function(visible) {
         this.visible = visible;

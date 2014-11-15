@@ -2671,7 +2671,7 @@
 
         var masterHandlerCloseClick = function() {
           if(m_masterView !== null) {
-            removeControl(m_masterView);
+            m_masterView.close();
           }
         };
 

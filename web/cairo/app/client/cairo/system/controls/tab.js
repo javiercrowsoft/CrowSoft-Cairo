@@ -121,6 +121,14 @@
           $('#link_' + tabId.substring(1, tabId.length)).tab('show');
         };
 
+        var closeTab = function(id) {
+          var tabId = tabs[id] !== undefined ? tabs[id].tabId : undefined;
+          if(tabId !== undefined) {
+            var btnClose = $('.close', $('#link_' + tabId.substring(1, tabId.length)));
+            btnClose.click();
+          }
+        };
+
         /*
             remove a tab
         */
@@ -173,6 +181,7 @@
         //
         return {
           showTab: showTab,
+          closeTab: closeTab,
           virtualPush: virtualPush,
           getIndex: getIndex,
           setIndex: setIndex,

@@ -42,6 +42,7 @@
         var viewManager = this.model.get('viewManager');
         viewManager.bindView(this);
       }
+
     });
 
     Views.createView = function() {
@@ -346,10 +347,39 @@
         self.listeners.push(listenerDefinition);
       };
 
+      that.save = function() { /* TODO: implement self. */ };
+
+      that.close = function() {
+        // close the tab
+        //
+        Cairo.mainTab.closeTab(getRegion());
+      };
+
+      var onSaveClick = function() {
+        that.raiseEvent("saveClick");
+      };
+
+      var onCloseClick = function() {
+        that.raiseEvent("closeClick");
+      };
+
       that.bindView = function(view) {
-        self.btnSave = view.$('.dialog-save-button');
-        self.btnCancel = view.$('.dialog-cancel-button');
-        self.btnClose = self.btnCancel;
+        self.btnSave.setElement(view.$('.dialog-save-button'));
+        self.btnSave.getElement().click(onSaveClick);
+
+        self.btnClose.setElement(view.$('.dialog-close-button'));
+        self.btnClose.getElement().click(onCloseClick);
+
+        self.btnCancel = self.btnClose;
+      };
+
+      that.raiseEvent = function(eventName, eventData) {
+        for(var i = 0; i < self.listeners.length; i += 1) {
+          var listener = self.listeners[i];
+          if(listener[eventName] !== undefined) {
+            listener[eventName](eventData);
+          }
+        }
       };
 
       return that;
@@ -363,6 +393,7 @@
         btnCopy: new Cairo.Controls.Button({}),
         btnPrint: new Cairo.Controls.Button({}),
         btnPermission: new Cairo.Controls.Button({}),
+        btnDiscardChanges: new Cairo.Controls.Button({}),
         saved: false
       };
 
@@ -388,19 +419,53 @@
       that.setSaved = function(saved) {
         self.saved = saved;
       };
-      that.save = function() { /* TODO: implement self. */ };
-      that.close = function() { /* TODO: implement self. */ };
 
       var supperBindView = that.bindView;
 
+      var onEditDocumentClick = function() {
+        that.raiseEvent("saveClick");
+      };
+
+      var onPermissionClick = function() {
+        that.raiseEvent("permissionsClick");
+      };
+
+      var onPrintClick = function() {
+        that.raiseEvent("printClick");
+      };
+
+      var onDiscardChangesClick = function() {
+        that.raiseEvent("cancelClick");
+      };
+
+      var onCopyClick = function() {
+        that.raiseEvent("copyClick");
+      };
+
+      var onNewClick = function() {
+        that.raiseEvent("newClick");
+      };
+
+
       that.bindView = function(view) {
         supperBindView(view);
-        self.btnEditDocument = view.$('.dialog-documents-button');
-        self.btnPermission = view.$('.dialog-permissions-button');
-        self.btnPrint = view.$('.dialog-print-button');
-        self.btn = view.$('.dialog-discard-button');
-        self.btnCopy = view.$('.dialog-copy-button');
-        self.btnNew = view.$('.dialog-new-button');
+        self.btnEditDocument.setElement(view.$('.dialog-documents-button'));
+        self.btnEditDocument.getElement().click(onEditDocumentClick);
+
+        self.btnPermission.setElement(view.$('.dialog-permissions-button'));
+        self.btnPermission.getElement().click(onPermissionClick);
+
+        self.btnPrint.setElement(view.$('.dialog-print-button'));
+        self.btnPrint.getElement().click(onPrintClick);
+
+        self.btnDiscardChanges.setElement(view.$('.dialog-discard-button'));
+        self.btnDiscardChanges.getElement().click(onDiscardChangesClick);
+
+        self.btnCopy.setElement(view.$('.dialog-copy-button'));
+        self.btnCopy.getElement().click(onCopyClick);
+
+        self.btnNew.setElement(view.$('.dialog-new-button'));
+        self.btnNew.getElement().click(onNewClick);
       };
 
       return that;
