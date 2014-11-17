@@ -55,6 +55,10 @@
 
       that.setText = function(text) {
         self.text = text;
+        var element = that.getElement();
+        if(element) {
+          element.val(self.text);
+        }
       };
       that.getText = function() {
         return self.text;

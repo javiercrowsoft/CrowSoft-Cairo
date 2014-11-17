@@ -88,7 +88,7 @@ object Provincia {
       throw new RuntimeException(s"Error when saving ${C.PROVINCIA}")
     }
 
-    DBHelper.save(
+    DBHelper.saveEx(
       user,
       Register(
         C.PROVINCIA,
@@ -98,7 +98,8 @@ object Provincia {
         true,
         true,
         getFields),
-      isNew
+      isNew,
+      C.PRO_CODE
     ) match {
       case SaveResult(true, id) => load(user, id).getOrElse(throwException)
       case SaveResult(false, id) => throwException

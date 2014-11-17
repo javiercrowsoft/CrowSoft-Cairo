@@ -278,6 +278,7 @@ var Cairo = new Marionette.Application();
   Cairo.Constants = {
     NO_ID: 0,
     NEW_ID: 0,
+    NO_DATE: Date.parse("1900-01-01"),
     NUMBER_ID: '_number_id_',
     STATUS_ID: '_status_id_',
     COPY_OF: 'copy of ',
@@ -326,6 +327,9 @@ var Cairo = new Marionette.Application();
     sendKeys: function(key) { /* TODO: implement this. */ },
     getDateValueForGrid: function(value) { /* TODO: implement this. */ },
     getDateValueFromGrid: function(value) { /* TODO: implement this. */ },
+    getDateValue: function(value) {
+      return Date.parse(value.toString());
+    },
     val: function(value) {
       try {
         return parseFloat(value);
@@ -334,7 +338,32 @@ var Cairo = new Marionette.Application();
         return 0;
       }
     },
-    valEmpty: function(value, type) { /* TODO: implement this. */ },
+    valEmpty: function(value, type) {
+      if(value === null || value === undefined) {
+        return true;
+      }
+      else {
+        switch(type) {
+          case Cairo.Constants.Types.text:
+          case Cairo.Constants.Types.taxId:
+            return value.toString() === "";
+
+          case Cairo.Constants.Types.integer:
+          case Cairo.Constants.Types.double:
+          case Cairo.Constants.Types.currency:
+          case Cairo.Constants.Types.single:
+          case Cairo.Constants.Types.long:
+          case Cairo.Constants.Types.id:
+            return this.val(value) === 0;
+
+          case Cairo.Constants.Types.date:
+          case Cairo.Constants.Types.dateOrNull:
+            return this.getDateValue(value) === Cairo.Constants.NO_DATE;
+        }
+        return false;
+      }
+    },
+
     sendEmailToCrowSoft: function(subject, section) { /* TODO: implement this. */ },
     newArray: function(length, val) {
       var array = [];
@@ -728,7 +757,7 @@ var Cairo = new Marionette.Application();
 
     view.on("form:showDetails", function(data) {
       Cairo.log("showDetails handled");
-      Cairo.showErrorDetails(errorResponse.replace(/\n/g, "<br>"));
+      Cairo.showErrorDetails(errorResponse);
     });
 
     return view;
@@ -738,6 +767,7 @@ var Cairo = new Marionette.Application();
     var errorDetails = errorResponse;
     if(exception) {
       errorDetails += "\n\n" + exception.stack.toString();
+      errorDetails = errorDetails.replace(/\n/g, "<br>");
     }
     var view = Cairo.manageErrorView(title, message, errorDetails, closeHandler);
     Cairo.dialogRegion.show(view);

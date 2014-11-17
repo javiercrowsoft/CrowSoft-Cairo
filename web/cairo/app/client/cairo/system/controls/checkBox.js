@@ -35,6 +35,10 @@
 
       that.setValue = function(value) {
         self.value = value;
+        var element = that.getElement();
+        if(element) {
+          element.prop('checked', self.value);
+        }
       };
       that.getValue = function() {
         return self.value;
