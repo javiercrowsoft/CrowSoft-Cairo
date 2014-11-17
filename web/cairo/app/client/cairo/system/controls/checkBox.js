@@ -3,37 +3,46 @@
 
   Cairo.module("Controls", function(Controls, Cairo, Backbone, Marionette, $, _) {
 
-    Controls.CheckBox = Controls.Control.extend({
-      urlRoot: "",
+    var createCheckBox = function() {
+      var self = {
+        urlRoot: "",
+  
+        defaults: {},
 
-      defaults: {},
-
-      htmlTag: "<input/>",
-
-      text: "",
-      value: false,
-
-      setElement: function(element) {
-        Controls.Input.__super__.setElement(element);
-        element.attr('type', 'checkbox');
-        element.prop('checked', this.value);
-      },
-
-      setText: function(text) {
-        this.text = text;
-      },
-      getText: function() {
-        return this.text;
-      },
-
-      setValue: function(value) {
-        this.value = value;
-      },
-      getValue: function() {
-        return this.value;
+        text: "",
+        value: false
       }
+      
+      var that = Controls.createControl();
 
-    });
+      that.htmlTag = "<input/>";
+
+      var superSetElement = that.setElement;
+
+      that.setElement = function(element) {
+        superSetElement(element);
+        element.attr('type', 'checkbox');
+        element.prop('checked', self.value);
+      };
+
+      that.setText = function(text) {
+        self.text = text;
+      };
+
+      that.getText = function() {
+        return self.text;
+      };
+
+      that.setValue = function(value) {
+        self.value = value;
+      };
+      that.getValue = function() {
+        return self.value;
+      };
+
+      return that;
+
+    };
 
     Controls.createCheckBox = function() {
 
@@ -41,7 +50,7 @@
         objectType: "cairo.controls.checkBox"
       };
 
-      var that = new Controls.CheckBox();
+      var that = createCheckBox();
 
       that.getObjectType = function() {
         return self.objectType;

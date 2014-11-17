@@ -3,17 +3,36 @@
 
   Cairo.module("Controls", function(Controls, Cairo, Backbone, Marionette, $, _) {
 
-    Controls.Image = Controls.Control.extend({
-      urlRoot: "",
+    var createImage = function() {
 
-      defaults: {
-      },
+      var self = {
+      };
 
-      htmlTag: "<img/>",
+      var that = Controls.createControl();
 
-      setImage: function(image) { /* TODO: implement this. */ }
+      that.htmlTag = "<img/>";
 
-    });
+      that.setImage = function(image) { /* TODO: implement this. */ };
+
+      return that;
+
+    };
+
+    Controls.createImage = function() {
+
+      var self = {
+        objectType: "cairo.controls.image"
+      };
+
+      var that = createImage();
+
+      that.getObjectType = function() {
+        return self.objectType;
+      };
+
+      return that;
+
+    };
 
   });
 

@@ -1198,7 +1198,8 @@
               Cairo.manageError(
                 "Grouping",
                 "An error has occurred when grouping a grid.",
-                e.message);
+                e.message,
+                e);
             }
             finally {
 
@@ -1467,6 +1468,9 @@
         self.showValueEx = function(property, noChangeColumns, strTag) {
           var lbl = null;
           var view = getView();
+
+          noChangeColumns = noChangeColumns === undefined ? false : noChangeColumns;
+          strTag = strTag === undefined ? "" : strTag;
 
           switch(property.getType()) {
 
@@ -2267,7 +2271,8 @@
             Cairo.manageError(
               "Showing Dialog",
               "An error has occurred when showing a dialog.",
-              e.message);
+              e.message,
+              e);
             return false;
           }
         };
@@ -2618,7 +2623,8 @@
             Cairo.manageError(
               "Error in Menu Click Handler",
               "An error has occurred when handling a menu action.",
-              e.message);
+              e.message,
+              e);
           }
         };
 
@@ -2652,7 +2658,7 @@
                 self.setChanged(false);
               }
               else {
-                p = discardChanges();
+                p = discardChanges(false);
               }
             }
           }
@@ -2660,7 +2666,8 @@
             Cairo.manageError(
               "Error in Master Cancel Click Handler",
               "An error has occurred when handling a 'cancel' action.",
-              e.message);
+              e.message,
+              e);
           }
           return (p || Cairo.Promises.resolvedPromise(true));
         };
@@ -2702,7 +2709,8 @@
             Cairo.manageError(
               "Error in Master New Click Handler",
               "An error has occurred when handling a 'new' action.",
-              e.message);
+              e.message,
+              e);
           }
         };
 
@@ -3360,7 +3368,8 @@
             Cairo.manageError(
               "Error in Document Toolbar Click Handler",
               "An error has occurred when processing '" + button.getName() + button.getKey().toString()  + "' action.",
-              e.message);
+              e.message,
+              e);
               hideMsg();
               m_savingAs = false;
           }
@@ -3587,7 +3596,8 @@
             Cairo.manageError(
               "Update",
               "An error has occurred when updating a text input.",
-              e.message);
+              e.message,
+              e);
           }
         };
 
@@ -3599,7 +3609,8 @@
             Cairo.manageError(
               "Edit",
               "An error has occurred when updating a text area.",
-              e.message);
+              e.message,
+              e);
           }
         };
 
@@ -3790,7 +3801,8 @@
             Cairo.manageError(
               "Delete a row",
               "An error has occurred when deleting a row in a grid.",
-              e.message);
+              e.message,
+              e);
           }
           return (p || Cairo.Promises.resolvedPromise(false));
         };
@@ -3939,7 +3951,8 @@
             Cairo.manageError(
               "Edit",
               "An error has occurred after editing in a grid.",
-              e.message);
+              e.message,
+              e);
           }
         };
 
@@ -4087,7 +4100,8 @@
             Cairo.manageError(
               "Edit",
               "An error has occurred before editing in a grid.",
-              e.message);
+              e.message,
+              e);
           }
           return !cancel;
         };
@@ -4129,7 +4143,8 @@
             Cairo.manageError(
               "Edit",
               "An error has occurred when editing in a grid.",
-              e.message);
+              e.message,
+              e);
           }
           return (p || Cairo.Promises.resolvedPromise(false));
         };
@@ -4210,7 +4225,8 @@
             Cairo.manageError(
               "Edit",
               "An error has occurred when editing in a grid.",
-              e.message);
+              e.message,
+              e);
           }
           return (p || Cairo.Promises.resolvedPromise(false));
         };
@@ -4421,7 +4437,7 @@
 
         var createRow = function(index, property, rowIndex) {
           var colIndex = 0;
-          var row = new Cairo.Controls.Grids.Row();
+          var row = Cairo.Controls.Grids.createRow();
           var cell = null;
 
           var count = property.getGrid().getColumns().count();
@@ -5277,6 +5293,8 @@
           var found = false;
           var propertyCount = m_properties.count();
 
+          subType = subType === undefined ? null : subType;
+
           if(m_properties !== null) {
 
             // toolbars doesn't have index
@@ -5450,7 +5468,7 @@
                       m_refreshing = true;
                       for(var _i = 0; _i < propertyCount; _i++) {
                         property = m_properties.get(_i);
-                        self.showValueEx(property, m_noChangeColsInRefresh);
+                        self.showValueEx(property, m_noChangeColsInRefresh, "");
                       }
                     }
                   }
@@ -5503,7 +5521,8 @@
             Cairo.manageError(
               "Update",
               "An error has occurred when updating a property.",
-              e.message);
+              e.message,
+              e);
           }
         }
 
@@ -5604,6 +5623,14 @@
         // TODO: refactor promise is returned by this function
         //
         var saveDialog = function(unloading, saveAs) {
+          var defer = new Cairo.Promises.Defer();
+          var success = function(success) { defer.resolve(success); };
+          var error = function() { defer.resolve(false); }
+          setTimeout(function(){ _saveDialog().then(success, error); }, 300);
+          return defer.promise;
+        };
+
+        var _saveDialog = function(unloading, saveAs) {
           var p = null;
 
           try {
@@ -5660,18 +5687,18 @@
 
                               if(!unloading) {
 
+                                var refreshAfterSave = function() {
+                                  if(!m_isDocument) {
+                                    self.refreshTitle();
+                                  }
+                                  getView().setFocusFirstControl();
+                                };
+
                                 if(!m_isDocument && !m_sendRefresh && !m_showOkCancel) {
-                                  discardChanges(false);
+                                  p = discardChanges(false).then(refreshAfterSave);
                                 }
                                 else {
-                                  p = m_client.messageEx(Dialogs.Message.MSG_DOC_REFRESH, null).then(
-                                    function() {
-                                      if(!m_isDocument) {
-                                        self.refreshTitle();
-                                      }
-                                      getView().setFocusFirstControl();
-                                    }
-                                  );
+                                  p = m_client.messageEx(Dialogs.Message.MSG_DOC_REFRESH, null).then(refreshAfterSave);
                                 }
                               }
 
@@ -5741,7 +5768,8 @@
             Cairo.manageError(
               "Saving",
               "An error has occurred when saving.",
-              e.message);
+              e.message,
+              e);
           }
 
           p = p || Cairo.Promises.resolvedPromise(false);
@@ -5749,6 +5777,7 @@
           return p.then(
             function(success) {
               m_inSave = false;
+              Cairo.LoadingMessage.close();
               return success;
             }
           );
@@ -5989,7 +6018,7 @@
         //
         var discardChanges = function(dontCallClient) {
           var p = null;
-
+          /*
           try {
 
             Cairo.LoadingMessage.showWait();
@@ -6006,19 +6035,16 @@
 
             initVectorsPosition();
 
-            view.getMaskEdits().get(0).setVisible(false);
             count = view.getMaskEdits().count();
             for(i = 0; i < count; i++) {
               removeControl(view.getMaskEdits().get(i));
             }
 
-            view.getDatePickers().get(0).setVisible(false);
             count = view.getDatePickers().count()
             for(i = 0; i < count; i++) {
               removeControl(view.getDatePickers().get(i));
             }
 
-            view.getSelects().get(0).setVisible(false);
             count = view.getSelects().count();
             for(i = 0; i < count; i++) {
               removeControl(view.getSelects().get(i));
@@ -6029,43 +6055,36 @@
               removeControl(view.getOptionButtons().get(i));
             }
 
-            view.getCheckBoxes().get(0).setVisible(false);
             count = view.getCheckBoxes().count();
             for(i = 0; i < count; i++) {
               removeControl(view.getCheckBoxes().get(i));
             }
 
-            view.getButtons().get(0).setVisible(false);
             count = view.getButtons().count();
             for(i = 0; i < count; i++) {
               removeControl(view.getButtons().get(i));
             }
 
-            view.getCombos().get(0).setVisible(false);
             count = view.getCombos().count();
             for(i = 0; i < count; i++) {
               removeControl(view.getCombos().get(i));
             }
 
-            view.getTextInputs().get(0).setVisible(false);
             count = view.getTextInputs().count();
             for(i = 0; i < count; i++) {
               removeControl(view.getTextInputs().get(i));
             }
 
-            view.getTextAreas().get(0).setVisible(false);
             count = view.getTextAreas().count();
             for(i = 0; i < count; i++) {
               removeControl(view.getTextAreas().get(i));
             }
 
-            view.getPasswordInputs().get(0).setVisible(false);
             count = view.getPasswordInputs().count();
             for(i = 0; i < count; i++) {
               removeControl(view.getPasswordInputs().get(i));
             }
 
-            view.getLabels().get(0).setVisible(false);
             count = view.getLabels().count();
             for(i = 0; i < count; i++) {
               removeControl(view.getLabels().get(i));
@@ -6112,8 +6131,24 @@
             Cairo.manageError(
               "Discard Changes",
               "An error has occurred when discarding changes.",
-              e.message);
+              e.message,
+              e);
           }
+          */
+          try {
+
+            if(!dontCallClient) {
+              p = m_client.discardChanges();
+            }
+          }
+          catch(e) {
+            Cairo.manageError(
+              "Discard Changes",
+              "An error has occurred when discarding changes.",
+              e.message,
+              e);
+          }
+
           return (p || Cairo.Promises.resolvedPromise(true));
         };
 
@@ -6497,7 +6532,8 @@
             Cairo.manageError(
               "Moving",
               "An error has occurred when moving to the next document.",
-              e.message);
+              e.message,
+              e);
           }
         };
 
@@ -6804,7 +6840,8 @@
             Cairo.manageError(
               "Printing",
               "An error has occurred when printing.",
-              e.message);
+              e.message,
+              e);
           }
 
           return (p || Cairo.Promises.resolvedPromise(false));
@@ -7020,6 +7057,7 @@
             var viewTitle = view.getTitle();
             subTitle.setText(m_client.getTitle() + " - "+ m_title);
             subTitle.setLeft(viewTitle.getLeft() + viewTitle.getWidth() + 50);
+            subTitle.flash();
           }
           else {
             view.getSubTitle().setText("");
@@ -7086,7 +7124,7 @@
         };
 
         var removeControl = function(c) {
-          // TODO: implement this.
+
         };
 
         var addControl = function(view, type, subType) {

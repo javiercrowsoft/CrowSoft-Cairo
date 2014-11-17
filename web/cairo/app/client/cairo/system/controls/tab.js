@@ -204,69 +204,71 @@
 
   Cairo.module("Controls", function(Controls, Cairo, Backbone, Marionette, $, _) {
 
-    Controls.Tab = Controls.Control.extend({
-      urlRoot: "",
+    var createTab = function() {
+      var self = {
+        text: "",
+        index: 0,
+        selected: false,
+        father: "",
+        group: 0,
+        tabStop: false,
+        backColorPressed: 0,
+        width: 0,
+        controlIndex: 0
+      };
 
-      defaults: {},
+      var that = Controls.createControl();
 
-      text: "",
-      index: 0,
-      selected: false,
-      father: "",
-      group: 0,
-      tabStop: false,
-      backColorPressed: 0,
-      width: 0,
-      controlIndex: 0,
+      that.setText = function(text) {
+        self.text = text;
+      };
+      that.getText = function() {
+        return self.text;
+      };
 
-      setText: function(text) {
-        this.text = text;
-      },
-      getText: function() {
-        return this.text;
-      },
+      that.virtualPush = function() { /* TODO = implement self. */ };
 
-      virtualPush: function() { /* TODO: implement self. */ },
+      that.getIndex = function() {
+        return self.index;
+      };
+      that.setIndex = function(index) {
+        self.index = index;
+      };
 
-      getIndex: function() {
-        return this.index;
-      },
-      setIndex: function(index) {
-        this.index = index;
-      },
+      that.getControlIndex = function() {
+        return self.controlIndex;
+      };
+      that.setControlIndex = function(index) {
+        self.controlIndex = index;
+      };
 
-      getControlIndex: function() {
-        return this.controlIndex;
-      },
-      setControlIndex: function(index) {
-        this.controlIndex = index;
-      },
+      that.setTabSelected = function(selected) {
+        self.selected = selected;
+      };
 
-      setTabSelected: function(selected) {
-        this.selected = selected;
-      },
+      that.getFatherTab = function() {
+        return self.father;
+      };
 
-      getFatherTab: function() {
-        return this.father;
-      },
+      that.setTabGroup = function(group) {
+        self.group = group;
+      };
 
-      setTabGroup: function(group) {
-        this.group = group;
-      },
+      that.setTabStop = function(stop) {
+        self.stop = stop;
+      };
 
-      setTabStop: function(stop) {
-        this.stop = stop;
-      },
+      that.setBackColorPressed = function(color) {
+        self.color = color;
+      };
 
-      setBackColorPressed: function(color) {
-        this.color = color;
-      },
-
-      getWidth: function() {
-        return this.width;
+      that.getWidth = function() {
+        return self.width;
       }
+      
+      return that;
 
-    });
+    };
 
     Controls.createTab = function() {
 
@@ -274,7 +276,7 @@
         objectType: "cairo.controls.tab"
       };
 
-      var that = new Controls.Tab();
+      var that = createTab();
 
       that.getObjectType = function() {
         return self.objectType;

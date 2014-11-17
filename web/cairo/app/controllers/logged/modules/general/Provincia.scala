@@ -56,7 +56,7 @@ object Provincias extends Controller with ProvidesUser {
         LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.EDIT_PROVINCIA), { user =>
           Ok(
             Json.toJson(
-              Provincia.update(user, Provincia(id, provincia.name, provincia.descrip, provincia.code, provincia.active, provincia.paId))))
+              Provincia.update(user, Provincia(id, provincia.name, provincia.code, provincia.descrip, provincia.active, provincia.paId))))
         })
       }
     )

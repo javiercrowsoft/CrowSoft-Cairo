@@ -3,29 +3,38 @@
 
   Cairo.module("Controls", function(Controls, Cairo, Backbone, Marionette, $, _) {
 
-    Controls.Label = Controls.Control.extend({
-      urlRoot: "",
+    var createLabel = function() {
+      var self = {
+        text: ""
+      };
 
-      defaults: {},
+      var that = Controls.createControl();
 
-      htmlTag: "<label/>",
+      that.htmlTag = "<label/>";
 
-      text: "",
+      var superSetElement = that.setElement;
 
-      setElement: function(element) {
-        Controls.Input.__super__.setElement(element);
-        element.text(this.text);
+      that.setElement = function(element) {
+        superSetElement(element);
+        element.text(self.text);
         element.addClass('dialog-label');
-      },
+      };
 
-      setText: function(text) {
-        this.text = text;
-      },
-      getText: function() {
-        return this.text;
+      that.setText = function(text) {
+        self.text = text;
+        var element = that.getElement();
+        if(element) {
+          element.text(self.text);
+        }
+      };
+
+      that.getText = function() {
+        return self.text;
       }
 
-    });
+      return that;
+
+    };
 
     Controls.createLabel = function() {
 
@@ -33,7 +42,7 @@
         objectType: "cairo.controls.label"
       };
 
-      var that = new Controls.Label();
+      var that = createLabel();
 
       that.getObjectType = function() {
         return self.objectType;

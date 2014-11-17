@@ -21,50 +21,64 @@
       folder: 10
     };
 
-    Controls.Input = Controls.Control.extend({
-      urlRoot: "",
+    var createInput = function() {
+      var self = {
+        urlRoot: "",
+  
+        defaults: {},
+  
+        text: "",
+        enabledNoChangeBkColor: false,
+        maxLength: 0,
+        fileFilter: "",
+        inputDisabled: false,
+        type: Controls.InputType.text
 
-      defaults: {},
-
-      htmlTag: "<input/>",
-
-      text: "",
-      enabledNoChangeBkColor: false,
-      maxLength: 0,
-      fileFilter: "",
-      inputDisabled: false,
-      type: Controls.InputType.text,
-
-      setElement: function(element) {
-        Controls.Input.__super__.setElement(element);
-        element.val(this.text);
-        element.addClass("dialog-control dialog-input-control");
-      },
-
-      setText: function(text) {
-        this.text = text;
-      },
-      getText: function() {
-        return this.text;
-      },
-
-      getMask: function() { /* TODO: implement this. */ },
-      setMask: function(mask) { /* TODO: implement this. */ },
-      setButtonStyle: function(style) { /* TODO: implement this. */ },
-      setPasswordChar: function(char) { /* TODO: implement this. */ },
-      setEnabledNoChangeBkColor: function(value) { this.enabledNoChangeBkColor = value; },
-      setMaxLength: function(length) { this.maxLength = length; },
-      setInputDisabled: function(value) { this.inputDisabled = value; },
-      setFileFilter: function(filter) { this.fileFilter = filter; },
-
-      getType: function() {
-        return this.type;
-      },
-      setType: function(type) {
-        this.type = type;
       }
 
-    });
+      var that = Controls.createControl();
+
+      that.htmlTag = "<input/>";
+
+      var superSetElement = that.setElement;      
+      
+      that.setElement = function(element, view) {
+        superSetElement(element);
+        element.val(self.text);
+        element.addClass("dialog-control dialog-input-control");
+        var onChange = view.onTextChange(that);
+        element.change(function() {
+          that.setText(element.val());
+          onChange();
+        });
+      };
+
+      that.setText = function(text) {
+        self.text = text;
+      };
+      that.getText = function() {
+        return self.text;
+      };
+
+      that.getMask = function() { /* TODO = implement self. */ };
+      that.setMask = function(mask) { /* TODO = implement self. */ };
+      that.setButtonStyle = function(style) { /* TODO = implement self. */ };
+      that.setPasswordChar = function(char) { /* TODO = implement self. */ };
+      that.setEnabledNoChangeBkColor = function(value) { self.enabledNoChangeBkColor = value; };
+      that.setMaxLength = function(length) { self.maxLength = length; };                       
+      that.setInputDisabled = function(value) { self.inputDisabled = value; };
+      that.setFileFilter = function(filter) { self.fileFilter = filter; };
+
+      that.getType = function() {
+        return self.type;
+      };
+      that.setType = function(type) {
+        self.type = type;
+      };
+      
+      return that;
+
+    };
 
     Controls.createInput = function() {
 
@@ -72,7 +86,7 @@
         objectType: "cairo.controls.input"
       };
 
-      var that = new Controls.Input();
+      var that = createInput();
 
       that.getObjectType = function() {
         return self.objectType;

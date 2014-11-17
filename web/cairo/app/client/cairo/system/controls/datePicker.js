@@ -8,31 +8,37 @@
       time: 2
     };
 
-    Controls.DatePicker = Controls.Control.extend({
-      urlRoot: "",
+    var createDatePicker = function() {
+      var self = {
+        urlRoot: "",
+  
+        defaults: {},
+  
+        value: new Date(1990, 1, 1, 0, 0, 0, 0),
+        type: Controls.DatePickerType
+      };
 
-      defaults: {},
+      var that = Controls.createControl();
 
-      htmlTag: "<input/>",
+      that.htmlTag = "<input/>";
 
-      value: new Date(1990, 1, 1, 0, 0, 0, 0),
-      type: Controls.DatePickerType,
+      that.setValue = function(value) {
+        self.value = value;
+      };
+      that.getValue = function() {
+        return self.value;
+      };
 
-      setValue: function(value) {
-        this.value = value;
-      },
-      getValue: function() {
-        return this.value;
-      },
-
-      getType: function() {
-        return this.type;
-      },
-      setType: function(type) {
-        this.type = type;
+      that.getType = function() {
+        return self.type;
+      };
+      that.setType = function(type) {
+        self.type = type;
       }
 
-    });
+      return that;
+      
+    };
 
     Controls.createDatePicker = function() {
 
@@ -40,7 +46,7 @@
         objectType: "cairo.controls.datePicker"
       };
 
-      var that = new Controls.DatePicker();
+      var that = createDatePicker();
 
       that.getObjectType = function() {
         return self.objectType;

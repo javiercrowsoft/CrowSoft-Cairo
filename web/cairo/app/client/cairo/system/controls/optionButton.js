@@ -3,31 +3,34 @@
 
   Cairo.module("Controls", function(Controls, Cairo, Backbone, Marionette, $, _) {
 
-    Controls.OptionButton = Controls.Control.extend({
-      urlRoot: "",
+    var createOptionButton = function() {
+      var self = {
+        text: "",
+        value: false
+      };  
 
-      defaults: {},
+      var that = Controls.createControl();
+      
+      that.htmlTag = "<input/>";
 
-      htmlTag: "<input/>",
 
-      text: "",
-      value: false,
+      that.setText = function(text) {
+        self.text = text;
+      };
+      that.getText = function() {
+        return self.text;
+      };
 
-      setText: function(text) {
-        this.text = text;
-      },
-      getText: function() {
-        return this.text;
-      },
+      that.setValue = function(value) {
+        self.value = value;
+      };
+      that.getValue = function() {
+        return self.value;
+      };
+      
+      return that;
 
-      setValue: function(value) {
-        this.value = value;
-      },
-      getValue: function() {
-        return this.value;
-      }
-
-    });
+    };
 
     Controls.createOptionButton = function() {
 
@@ -35,7 +38,7 @@
         objectType: "cairo.controls.optionButton"
       };
 
-      var that = new Controls.OptionButton();
+      var that = createOptionButton();
 
       that.getObjectType = function() {
         return self.objectType;

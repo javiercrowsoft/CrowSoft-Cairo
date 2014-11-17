@@ -3,34 +3,43 @@
 
   Cairo.module("Controls", function(Controls, Cairo, Backbone, Marionette, $, _) {
 
-    Controls.TextArea = Controls.Control.extend({
-      urlRoot: "",
+    var createTextArea = function() {
+      var self = {
+        text: "",
+        maxLength: 0,
+        inputDisabled: false
+      };
 
-      defaults: {},
+      var that = Controls.createControl();
+      
+      that.htmlTag = "<textarea/>";
 
-      htmlTag: "<textarea/>",
-
-      text: "",
-      maxLength: 0,
-      inputDisabled: false,
-
-      setElement: function(element) {
-        Controls.Input.__super__.setElement(element);
-        element.val(this.text);
+      var superSetElement = that.setElement;
+      
+      that.setElement = function(element, view) {
+        superSetElement(element);
+        element.val(self.text);
         element.addClass("dialog-control dialog-input-control dialog-textarea-control");
-      },
+        var onChange = view.onTextAreaChange(that);
+        element.change(function() {
+          that.setText(element.val());
+          onChange();
+        });
+      };
 
-      setText: function(text) {
-        this.text = text;
-      },
-      getText: function() {
-        return this.text;
-      },
+      that.setText = function(text) {
+        self.text = text;
+      };
+      that.getText = function() {
+        return self.text;
+      };
 
-      setMaxLength: function(length) { this.maxLength = length; },
-      setInputDisabled: function(value) { this.inputDisabled = value; }
+      that.setMaxLength = function(length) { self.maxLength = length; };
+      that.setInputDisabled = function(value) { self.inputDisabled = value; };
 
-    });
+      return that;
+
+    };
 
     Controls.createTextArea = function() {
 
@@ -38,7 +47,7 @@
         objectType: "cairo.controls.textArea"
       };
 
-      var that = new Controls.TextArea();
+      var that = createTextArea();
 
       that.getObjectType = function() {
         return self.objectType;

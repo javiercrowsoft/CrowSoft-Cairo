@@ -3,23 +3,26 @@
 
   Cairo.module("Controls", function(Controls, Cairo, Backbone, Marionette, $, _) {
 
-    Controls.Password = Controls.Control.extend({
-      urlRoot: "",
+    var createPassword = function() {
+      var self = {
+        text: ""
+      };
 
-      defaults: {},
+      var that = Controls.createControl();
 
-      htmlTag: "<input/>",
+      that.htmlTag = "<input/>";
 
-      text: "",
+      that.setText = function(text) {
+        self.text = text;
+      };
 
-      setText: function(text) {
-        this.text = text;
-      },
-      getText: function() {
-        return this.text;
-      }
+      that.getText = function() {
+        return self.text;
+      };
 
-    });
+      return that;
+
+    };
 
     Controls.createPassword = function() {
 
@@ -27,7 +30,7 @@
         objectType: "cairo.controls.password"
       };
 
-      var that = Controls.Password();
+      var that = createPassword();
 
       that.getObjectType = function() {
         return self.objectType;

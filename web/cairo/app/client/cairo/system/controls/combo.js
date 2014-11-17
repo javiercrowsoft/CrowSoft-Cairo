@@ -3,23 +3,30 @@
 
   Cairo.module("Controls", function(Controls, Cairo, Backbone, Marionette, $, _) {
 
-    Controls.Combo = Controls.Control.extend({
-      urlRoot: "",
+    var createCombo = function() {
+      var self = {
+        urlRoot: "",
 
-      defaults: {},
+        defaults: {},
 
-      htmlTag: "<select></select>",
+        text: ""
+      };
 
-      text: "",
+      var that = Controls.createControl();
 
-      setText: function(text) {
-        this.text = text;
-      },
-      getText: function() {
-        return this.text;
-      }
+      that.htmlTag = "<select></select>";
 
-    });
+      that.setText = function(text) {
+        self.text = text;
+      };
+
+      that.getText = function() {
+        return self.text;
+      };
+
+      return that;
+      
+    };
 
     Controls.createCombo = function() {
 
@@ -27,7 +34,7 @@
         objectType: "cairo.controls.combo"
       };
 
-      var that = new Controls.Combo();
+      var that = createCombo();
 
       that.getObjectType = function() {
         return self.objectType;

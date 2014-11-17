@@ -130,11 +130,11 @@
       };
 
       self.discardChanges = function() {
-        return Cairo.Promises.resolvedPromise(loadCollection());
+        return Cairo.Promises.resolvedPromise(refreshCollection());
       };
 
       self.propertyChange = function(key) {
-
+        return Cairo.Promises.resolvedPromise(true);
       };
 
       self.save = function() {
@@ -404,6 +404,33 @@
         elem.setKey(K_DESCIP);
 
         if(!m_dialog.show(self)) { return false; }
+
+        return true;
+      };
+
+      var refreshCollection = function() {
+
+        m_dialog.setTitle(m_name);
+
+        var properties = m_dialog.getProperties();
+
+        var elem = properties.item(Cairo.General.Constants.PRO_NAME);
+        elem.setValue(m_name);
+
+        var elem = properties.item(Cairo.General.Constants.PRO_CODE);
+        elem.setValue(m_code);
+
+        var elem = properties.item(Cairo.Constants.ACTIVE);
+        elem.setValue(m_activo === true ? 1 : 0);
+
+        var elem = properties.item(Cairo.General.Constants.PA_ID);
+        elem.setValue(m_pais);
+        elem.setSelectId(m_pa_Id);
+
+        var elem = properties.item(Cairo.General.Constants.PRO_DESCRIP);
+        elem.setValue(m_descrip);
+
+        if(!m_dialog.showValues(properties)) { return false; }
 
         return true;
       };

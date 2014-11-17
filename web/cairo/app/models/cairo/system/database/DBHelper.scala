@@ -274,7 +274,7 @@ object DBHelper {
     val newId = getId(isNewRecord)
     val useInsert = (if(isNewRecord) true else isNew)
 
-    Logger.error(s"in DBHelper.saveEx: isNewRecord ${isNewRecord}. useInsert ${useInsert}. isNew ${isNew}")
+    Logger.debug(s"in DBHelper.saveEx: isNewRecord ${isNewRecord}. useInsert ${useInsert}. isNew ${isNew}")
 
     val r = if(fieldCode.isEmpty) register else updateCode(newId)
 

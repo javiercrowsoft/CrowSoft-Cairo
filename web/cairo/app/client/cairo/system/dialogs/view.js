@@ -11,7 +11,7 @@
 
   Cairo.module("Dialogs.Views", function(Views, Cairo, Backbone, Marionette, $, _) {
 
-    var createControls = function(view) {
+    var createControls = function(view, viewManager) {
       var count = view.controls.count();
       var form = $('<div></div>');
       var newRow = function(elements) {
@@ -24,7 +24,7 @@
       for(var i = 0; i < count; i += 1) {
         var control = view.controls.item(i);
         var element = $(control.htmlTag);
-        control.setElement(element);
+        control.setElement(element, viewManager);
         form.append(newRow(element));
       }
       return form;
@@ -38,8 +38,9 @@
       template: "#dialog-layout-template",
 
       onRender: function(){
-        this.$("#formBody").append(createControls(this.model.get('viewDef')));
         var viewManager = this.model.get('viewManager');
+        var viewDef = this.model.get('viewDef');
+        this.$("#formBody").append(createControls(viewDef, viewManager));
         viewManager.bindView(this);
       }
 
@@ -51,8 +52,8 @@
         listeners: [],
 
         text: "",
-        title: new Cairo.Controls.Label(),
-        subTitle: new Cairo.Controls.Label(),
+        title: Cairo.Controls.createLabel(),
+        subTitle: Cairo.Controls.createLabel(),
 
         path: "",
         name: "",
@@ -75,11 +76,11 @@
         ctrlLabels: Cairo.Collections.createCollection(Cairo.Controls.createLabel, controls),
         titles: Cairo.Collections.createCollection(Cairo.Controls.createLabel, controls),
 
-        bottomLine: new Cairo.Controls.Control(),
-        background: new Cairo.Controls.Control(),
-        btnSave: new Cairo.Controls.Control(),
-        btnCancel: new Cairo.Controls.Control(),
-        btnClose: new Cairo.Controls.Control(),
+        bottomLine: Cairo.Controls.createControl(),
+        background: Cairo.Controls.createControl(),
+        btnSave: Cairo.Controls.createControl(),
+        btnCancel: Cairo.Controls.createControl(),
+        btnClose: Cairo.Controls.createControl(),
 
         width: 320,
         heithg: 480,
@@ -370,6 +371,8 @@
         self.btnClose.setElement(view.$('.dialog-close-button'));
         self.btnClose.getElement().click(onCloseClick);
 
+        self.subTitle.setElement(view.$('.dialog-subtitle'));
+
         self.btnCancel = self.btnClose;
       };
 
@@ -382,18 +385,30 @@
         }
       };
 
+      that.onTextChange = function(control) {
+        return function() {
+          that.raiseEvent("textChange", control.getIndex());
+        };
+      };
+
+      that.onTextAreaChange = function(control) {
+        return function() {
+          that.raiseEvent("textAreaChange", control.getIndex());
+        };
+      };
+
       return that;
     };
 
     Views.createMasterView = function() {
 
       var self = {
-        btnEditDocument: new Cairo.Controls.Button({}),
-        btnNew: new Cairo.Controls.Button({}),
-        btnCopy: new Cairo.Controls.Button({}),
-        btnPrint: new Cairo.Controls.Button({}),
-        btnPermission: new Cairo.Controls.Button({}),
-        btnDiscardChanges: new Cairo.Controls.Button({}),
+        btnEditDocument: Cairo.Controls.createButton(),
+        btnNew: Cairo.Controls.createButton(),
+        btnCopy: Cairo.Controls.createButton(),
+        btnPrint: Cairo.Controls.createButton(),
+        btnPermission: Cairo.Controls.createButton(),
+        btnDiscardChanges: Cairo.Controls.createButton(),
         saved: false
       };
 

@@ -1010,7 +1010,8 @@
                 Cairo.manageError(
                   "Search in Tree",
                   "An error has occurred when trying to find and item in the tree.",
-                  e.message);
+                  e.message,
+                  e);
               }
             }
           });
@@ -1397,7 +1398,7 @@
             listController.edit(id);
           }
           catch(ex) {
-            Cairo.manageError("Edit Item", "Can't edit this item", ex.message, "");
+            Cairo.manageError("Edit Item", "Can't edit this item", ex.message, ex);
           }
         });
 

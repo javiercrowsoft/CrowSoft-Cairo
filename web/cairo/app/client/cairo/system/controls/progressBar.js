@@ -3,23 +3,26 @@
 
   Cairo.module("Controls", function(Controls, Cairo, Backbone, Marionette, $, _) {
 
-    Controls.ProgressBar = Controls.Control.extend({
-      urlRoot: "",
+    var createProgressBar = function(){
+      var self = {
+        value: false
+      };
 
-      defaults: {},
+      var that = Controls.createControl();
 
-      htmlTag: "<progress/>",
+      that.htmlTag = "<progress/>";
 
-      value: false,
+      that.setValue = function(value) {
+        self.value = value;
+      };
 
-      setValue: function(value) {
-        this.value = value;
-      },
-      getValue: function() {
-        return this.value;
-      }
+      that.getValue = function() {
+        return self.value;
+      };
 
-    });
+      return that;
+
+    };
 
     Controls.createProgressBar = function() {
 
@@ -27,7 +30,7 @@
         objectType: "cairo.controls.progressBar"
       };
 
-      var that = new Controls.ProgressBar();
+      var that = createProgressBar();
 
       that.getObjectType = function() {
         return self.objectType;

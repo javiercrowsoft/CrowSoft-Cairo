@@ -3,28 +3,35 @@
 
   Cairo.module("Controls", function(Controls, Cairo, Backbone, Marionette, $, _) {
 
-    Controls.Button = Controls.Control.extend({
-      urlRoot: "",
+    var createButton = function() {
+      var self = {
+        urlRoot: "",
 
-      defaults: {},
+        defaults: {},
 
-      htmlTag: "<button/>",
-
-      text: "",
-      isCancel: false,
-
-      setText: function(text) {
-        this.text = text;
-      },
-      getText: function() {
-        return this.text;
-      },
-
-      setIsCancel: function(isCancel) {
-        this.isCancel = isCancel;
+        text: "",
+        isCancel: false
       }
 
-    });
+      var that = Controls.createControl();
+
+      that.htmlTag = "<button/>";
+
+      that.setText = function(text) {
+        self.text = text;
+      };
+
+      that.getText = function() {
+        return self.text;
+      };
+
+      that.setIsCancel = function(isCancel) {
+        self.isCancel = isCancel;
+      };
+
+      return that;
+
+    };
 
     Controls.createButton = function() {
 
@@ -32,7 +39,7 @@
         objectType: "cairo.controls.button"
       };
 
-      var that = new Controls.Button();
+      var that = new createButton();
 
       that.getObjectType = function() {
         return self.objectType;

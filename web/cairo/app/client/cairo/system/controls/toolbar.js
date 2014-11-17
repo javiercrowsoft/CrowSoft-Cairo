@@ -3,14 +3,16 @@
 
   Cairo.module("Controls", function(Controls, Cairo, Backbone, Marionette, $, _) {
 
-    Controls.Toolbar = Controls.Control.extend({
-      urlRoot: "",
+    var createToolbar = function() {
+      var self = {}
 
-      defaults: {},
+      var that = Controls.createControl();
 
-      htmlTag: "<div><div/>"
+      that.htmlTag = "<div><div/>";
 
-    });
+      return that;
+
+    };
 
     Controls.createButton = function() {
 
@@ -18,7 +20,7 @@
         objectType: "cairo.controls.toolbar"
       };
 
-      var that = new Controls.Toolbar();
+      var that = createToolbar();
 
       that.getObjectType = function() {
         return self.objectType;

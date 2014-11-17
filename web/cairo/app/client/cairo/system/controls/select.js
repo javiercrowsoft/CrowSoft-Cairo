@@ -465,112 +465,116 @@
 
   Cairo.module("Controls", function(Controls, Cairo, Backbone, Marionette, $, _) {
 
-    Controls.Select = Controls.Control.extend({
-      urlRoot: "",
+    var createSelect = function(){
+      var self = {
+        name: "",
+        value: "",
+        id: Cairo.Database.NO_ID,
+        intValue: "",
+        fieldIntValue: "",
+        filter: "-",
+        table: Cairo.Database.NO_ID,
+        enabled: true,
+        type: Cairo.Entities.Select.SelectType.normal,
+        noUseActive: false
+      };
+      
+      var that = Controls.createControl();
+      
+      that.htmlTag = '<div class="tree-select-control cf"></div>';
 
-      defaults: {},
+      var superSetElement = that.setElement;
 
-      htmlTag: '<div class="tree-select-control cf"></div>',
-
-      name: "",
-      value: "",
-      id: Cairo.Database.NO_ID,
-      intValue: "",
-      fieldIntValue: "",
-      filter: "-",
-      table: Cairo.Database.NO_ID,
-      enabled: true,
-      type: Cairo.Entities.Select.SelectType.normal,
-      noUseActive: false,
-
-      setElement: function(element) {
+      that.setElement = function(element) {
         var select = null;
 
-        Controls.Input.__super__.setElement(element);
-        element.val(this.value);
+        superSetElement(element);
+        element.val(self.value);
 
-        if(this.type === Cairo.Entities.Select.SelectType.tree) {
+        if(self.type === Cairo.Entities.Select.SelectType.tree) {
           element.append('<span class="tree-select-control-folder-icon hidden"><i class="glyphicon glyphicon-folder-open"></i></span>');
         }
         var input = $('<input type="text" class="dialog-control dialog-input-control" autocomplete="off"/>');
         element.append(input);
 
-        if(this.type === Cairo.Entities.Select.SelectType.normal) {
+        if(self.type === Cairo.Entities.Select.SelectType.normal) {
           element.append('<button>+</button>');
           select = Cairo.Select.Controller.createSelectControl(
             input,
-            this.table,
-            this.noUseActive === false,
-            this.filter);
+            self.table,
+            self.noUseActive === false,
+            self.filter);
         }
-        else if (this.type === Cairo.Entities.Select.SelectType.tree) {
+        else if (self.type === Cairo.Entities.Select.SelectType.tree) {
           element.append('<button>...</button>');
           select = Cairo.TreeSelect.Controller.createSelectControl(
             input,
-            this.table,
-            this.noUseActive === false,
-            this.filter,
-            this.name,
-            "Select a " + this.name);
+            self.table,
+            self.noUseActive === false,
+            self.filter,
+            self.name,
+            "Select a " + self.name);
         }
-        select.setData(this.id, this.value);
-      },
+        select.setData(self.id, self.value);
+      };
 
-      setValue: function(value) {
-        this.value = value;
-      },
-      getValue: function() {
-        return this.value;
-      },
+      that.setValue = function(value) {
+        self.value = value;
+      };
+      that.getValue = function() {
+        return self.value;
+      };
 
-      setName: function(name) {
-        this.name = name;
-      },
-      getName: function() {
-        return this.name;
-      },
+      that.setName = function(name) {
+        self.name = name;
+      };
+      that.getName = function() {
+        return self.name;
+      };
 
-      getId: function() {
-        return this.id;
-      },
-      setId: function(id) {
-        this.id = id;
-      },
+      that.getId = function() {
+        return self.id;
+      };
+      that.setId = function(id) {
+        self.id = id;
+      };
 
-      getIntValue: function() {
-        return this.intValue;
-      },
-      setIntValue: function(value) {
-        this.intValue = value;
-      },
+      that.getIntValue = function() {
+        return self.intValue;
+      };
+      that.setIntValue = function(value) {
+        self.intValue = value;
+      };
 
-      setFieldIntValue: function(field) {
-        this.fieldIntValue = field;
-      },
-      setFilter: function(filter) {
-        this.filter = filter !== "" ? filter : "-";
-      },
-      setTable: function(table) {
-        this.table = table;
-      },
-      setEnabled: function(enabled) {
-        this.enabled = enabled;
-      },
+      that.setFieldIntValue = function(field) {
+        self.fieldIntValue = field;
+      };
+      that.setFilter = function(filter) {
+        self.filter = filter !== "" ? filter : "-";
+      };
+      that.setTable = function(table) {
+        self.table = table;
+      };
+      that.setEnabled = function(enabled) {
+        self.enabled = enabled;
+      };
 
-      getSelectType: function() {
-        return this.type;
-      },
-      setSelectType: function(type) {
-        this.type = type;
-      },
+      that.getSelectType = function() {
+        return self.type;
+      };
+      that.setSelectType = function(type) {
+        self.type = type;
+      };
 
-      setSelectNoUseActive: function(noUseActive) {
-        this.noUseActive = noUseActive;
-      },
+      that.setSelectNoUseActive = function(noUseActive) {
+        self.noUseActive = noUseActive;
+      };
 
-      reset: function() { /* TODO: implement this. */ }
+      that.reset = function() { /* TODO = implement self. */ }
 
-    });
+      return that;
+
+    };
 
     Controls.createSelect = function() {
 
@@ -578,7 +582,7 @@
         objectType: "cairo.controls.select"
       };
 
-      var that = new Controls.Select();
+      var that = createSelect();
 
       that.getObjectType = function() {
         return self.objectType;

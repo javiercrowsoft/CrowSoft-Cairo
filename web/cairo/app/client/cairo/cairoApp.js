@@ -728,14 +728,18 @@ var Cairo = new Marionette.Application();
 
     view.on("form:showDetails", function(data) {
       Cairo.log("showDetails handled");
-      Cairo.showErrorDetails(errorResponse);
+      Cairo.showErrorDetails(errorResponse.replace(/\n/g, "<br>"));
     });
 
     return view;
   };
 
-  Cairo.manageError = function(title, message, errorResponse, closeHandler) {
-    var view = Cairo.manageErrorView(title, message, errorResponse, closeHandler);
+  Cairo.manageError = function(title, message, errorResponse, exception, closeHandler) {
+    var errorDetails = errorResponse;
+    if(exception) {
+      errorDetails += "\n\n" + exception.stack.toString();
+    }
+    var view = Cairo.manageErrorView(title, message, errorDetails, closeHandler);
     Cairo.dialogRegion.show(view);
   };
 
@@ -749,7 +753,7 @@ var Cairo = new Marionette.Application();
   Cairo.manageErrorHandler = function(title, message, closeHandler) {
     message = message || "";
     return function(errorResponse) {
-      Cairo.manageError(title, message, errorResponse, closeHandler);
+      Cairo.manageError(title, message, errorResponse, null, closeHandler);
     };
   };
 

@@ -3,29 +3,48 @@
 
   Cairo.module("Controls", function(Controls, Cairo, Backbone, Marionette, $, _) {
 
-    Controls.Menu = Controls.Control.extend({
-      urlRoot: "",
+    var createMenu = function() {
+      var self = {
+        text: ""
+      }
 
-      defaults: {},
+      var that = Controls.createControl();
+      
+      that.htmlTag = "<div><div/>";
+      
+      that.setText = function(text) {
+        self.text = text;
+      };
+      
+      that.getText = function() {
+        return self.text;
+      };
 
-      htmlTag: "<div><div/>",
+      that.showPopupMenu = function() { /* TODO: implement self. */ };
+      that.clear = function() { /* TODO: implement self. */ };
+      that.addListener = function(callback) { /* TODO: implement self. */ };
+      that.add = function(id, text) { /* TODO: implement self. */ };
+      that.getItemData = function(id) { /* TODO: implement self. */ };
 
-      text: "",
+      return that;
 
-      setText: function(text) {
-        this.text = text;
-      },
-      getText: function() {
-        return this.text;
-      },
+    };
 
-      showPopupMenu: function() { /* TODO: implement this. */ },
-      clear: function() { /* TODO: implement this. */ },
-      addListener: function(callback) { /* TODO: implement this. */ },
-      add: function(id, text) { /* TODO: implement this. */ },
-      getItemData: function(id) { /* TODO: implement this. */ }
+    Controls.createMenu = function() {
 
-    });
+      var self = {
+        objectType: "cairo.controls.menu"
+      };
+
+      var that = createMenu();
+
+      that.getObjectType = function() {
+        return self.objectType;
+      };
+
+      return that;
+
+    };
 
   });
 
