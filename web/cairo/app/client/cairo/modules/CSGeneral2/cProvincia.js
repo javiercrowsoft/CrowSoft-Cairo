@@ -145,6 +145,9 @@
         register.setFieldId(Cairo.General.Constants.PRO_ID);
         register.setTable(Cairo.General.Constants.PROVINCIA);
 
+        var apiPath = Cairo.Database.getAPIVersion();
+        register.setPath(apiPath + "general/provincia");
+
         if(m_copy) {
           register.setId(Cairo.Constants.NEW_ID);
         }
@@ -190,7 +193,7 @@
           function(result) {
             if(result.success) {
               m_copy = false;
-              return load(result.id);
+              return load(result.data.getId());
 
             }
             else {

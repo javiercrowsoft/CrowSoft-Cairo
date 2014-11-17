@@ -177,6 +177,8 @@
         return self.count;
       };
 
+      that.size = that.count;
+
       return that;
     }
   };

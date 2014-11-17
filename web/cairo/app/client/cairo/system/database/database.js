@@ -17,7 +17,39 @@
       return "/api/v1/";
     },
 
-    saveEx: function() { /* TODO: implement this. */ },
+    saveEx: function(register, isNew, codeField, functionName, module, title) {
+      var p = null;
+      if(register.getPath() === "") {
+        p = Cairo.Promises.resolvedPromise({success: false, message: "Invalid query: Path not defined."});
+      }
+      else {
+        var q = new Cairo.Entities.DatabaseQuery({id: register.getId()});
+        var fields = register.getFields().asObject();
+        q.urlRoot = register.getPath();
+        var defer = new Cairo.Promises.Defer();
+        q.save(fields, {
+          wait: true,
+          success: function(data) {
+            Cairo.log("Successfully saved!");
+            register.setId(data.get("id"));
+            register.setData(data);
+            defer.resolve({success: true, data: register});
+          },
+          error: function(data, response) {
+            Cairo.log("Failed in saveEx: " + module + "." + functionName + ".");
+            Cairo.log(response.responseText);
+            Cairo.manageError(
+              "New Tree",
+              "Can't save this record. An error has occurred in the server.",
+              response.responseText);
+            defer.resolve({success: false, data: data, response: response});
+          }
+        });
+        p = defer.promise;
+      }
+      return p;
+    },
+
     execute: function() { /* TODO: implement this. */ },
 
     getData: function(query, id) {
@@ -79,18 +111,67 @@
     },
 
     Register: function() {
-      var fieldId, table, id;
-      var fields = [];
+      var _fieldId, _table, _id;
+      var __fields = [];
+      var _data = null;
+      var _path = "";
 
-      this.getFields = {
+      var _fields = {
         add: function(name, value, type) {
-          fields.push({name: name, value: value, type: type});
+          __fields.push({name: name, value: value, type: type});
+        },
+        asObject: function() {
+          var getValue = function(value, type) {
+            switch(type) {
+              case Cairo.Constants.Types.boolean:
+                value = value ? true : false;
+              case Cairo.Constants.Types.text:
+                value = value.toString();
+            }
+            return value;
+          };
+          var obj = {};
+          for(var i = 0; i < __fields.length; i += 1) {
+            obj[__fields[i].name] = getValue(__fields[i].value, __fields[i].type);
+          }
+          return obj;
         }
       };
 
-      this.setFieldId = function(fieldId) { this.fieldId = fieldId; }
-      this.setTable = function(table) { this.table = table; }
-      this.setId = function(id) { this.id = id; }
+      this.getFields = function() {
+        return _fields;
+      };
+
+      this.setFieldId = function(fieldId) {
+        _fieldId = fieldId;
+      };
+
+      this.setTable = function(table) {
+        _table = table;
+      };
+
+      this.setId = function(id) {
+        _id = id;
+      };
+      this.getId = function() {
+        return _id;
+      };
+
+      this.setPath = function(path) {
+        _path = path;
+      };
+      this.getPath = function() {
+        return _path;
+      };
+
+      this.setData = function(data) {
+        _data = data;
+      }
+      this.getData = function() {
+        return _data;
+      }
+
+      return this;
     }
 
   };

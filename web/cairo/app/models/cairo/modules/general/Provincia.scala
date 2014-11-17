@@ -67,20 +67,20 @@ object Provincia {
   }
 
   def create(user: CompanyUser, provincia: Provincia): Provincia = {
-    save(user, provincia)
+    save(user, provincia, true)
   }
 
   def update(user: CompanyUser, provincia: Provincia): Provincia = {
-    save(user, provincia)
+    save(user, provincia, false)
   }
 
-  private def save(user: CompanyUser, provincia: Provincia): Provincia = {
+  private def save(user: CompanyUser, provincia: Provincia, isNew: Boolean): Provincia = {
     def getFields = {
       List(
         Field(C.PRO_NAME, provincia.name, FieldType.text),
         Field(C.PRO_CODE, provincia.code, FieldType.text),
         Field(C.PRO_DESCRIP, provincia.descrip, FieldType.text),
-        Field(DBHelper.ACTIVE, provincia.active, FieldType.boolean),
+        Field(DBHelper.ACTIVE, (if(provincia.active) 1 else 0), FieldType.boolean),
         Field(C.PA_ID, provincia.paId, FieldType.id)
       )
     }
@@ -98,7 +98,7 @@ object Provincia {
         true,
         true,
         getFields),
-      true
+      isNew
     ) match {
       case SaveResult(true, id) => load(user, id).getOrElse(throwException)
       case SaveResult(false, id) => throwException

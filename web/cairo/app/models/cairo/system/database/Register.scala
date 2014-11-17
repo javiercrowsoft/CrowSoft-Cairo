@@ -3,6 +3,7 @@ package models.cairo.system.database
 import anorm._
 import models.domain.CompanyUser
 import services.DateUtil
+import play.api.Logger
 
 case class FieldType(value: Int) {
   override def equals(o: Any) = o match {
@@ -61,8 +62,12 @@ object Register {
         case true => Field(DBHelper.UPDATED_BY, user.userId, FieldType.id) :: fields
         case false => fields
       }
-      getFieldsWithUpdatedBy(getFieldsWithTimestamp)
+      Logger.debug(s"in Register.getSqlSave - getFields - register.hasUpdatedBy: ${register.hasUpdatedBy} - register.hasTimestamp: ${register.hasTimestamp}")
+      val fields = getFieldsWithUpdatedBy(getFieldsWithTimestamp)
+      Logger.debug(s"in Register.getSqlSave - getFields - fields: ${fields}")
+      fields
     }
+    Logger.debug(s"in Register.getSqlSave - useInsert: ${useInsert} - Register: ${register}")
     useInsert match {
       case true => getSqlInsert(register, getFields, newId)
       case false => getSqlUpdate(register, getFields)
@@ -80,24 +85,24 @@ object Register {
 
   def getSqlInsert(register: Register, fields: List[Field], newId: Int): SqlStatement = {
     def getSqlstmt = {
-      val columns = fields.map( _.name ).toString()
-      val values = fields.map( f => s"${f.name}" ).toString()
+      val columns = fields.map( _.name ).mkString(",")
+      val values = fields.map( f => s"{${f.name}}" ).mkString(",")
       s"INSERT INTO ${register.table} ($columns) VALUES ($values)"
     }
-    SqlStatement(getSqlstmt, (register.fieldId, toParameterValue(newId)) :: getParameters(register.fields))
+    SqlStatement(getSqlstmt, (register.fieldId, toParameterValue(newId)) :: getParameters(fields))
   }
 
   def getSqlUpdate(register: Register, fields: List[Field]): SqlStatement = {
     def getSqlstmt = {
-      val values = fields.map( f => s"${f.name} = {${f.name}}" ).toString()
+      val values = fields.map( f => s"${f.name} = {${f.name}}" ).mkString(",")
       s"UPDATE ${register.table} SET $values WHERE ${register.fieldId} = {${register.fieldId}}"
     }
-    SqlStatement(getSqlstmt, (register.fieldId, toParameterValue(register.id)) :: getParameters(register.fields))
+    SqlStatement(getSqlstmt, (register.fieldId, toParameterValue(register.id)) :: getParameters(fields))
   }
 
   def getSqlDelete(register: Register): SqlStatement = {
     def getSqlstmt(fields: List[Field]) = {
-      val values = fields.map( f => s"${f.name} = {${f.name}}" ).toString()
+      val values = fields.map( f => s"${f.name} = {${f.name}}" ).mkString(",")
       s"DELETE FROM ${register.table} WHERE ${register.fieldId} = {${register.fieldId}}"
     }
     SqlStatement(getSqlstmt(register.fields), List((register.fieldId, toParameterValue(register.id))))

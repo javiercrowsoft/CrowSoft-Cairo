@@ -222,6 +222,7 @@ object DBHelper {
   def saveEx(user: CompanyUser, register: Register, isNew: Boolean, fieldCode: String): SaveResult = {
 
     def update(s: SqlStatement) = {
+      Logger.debug(s"in DBHelper.saveEx - update: ${s.sqlstmt}")
       DB.withConnection(user.database.database) { implicit connection =>
         SQL(s.sqlstmt).on(s.parameters: _*).executeUpdate
       }
@@ -232,6 +233,7 @@ object DBHelper {
     // only used when register.useIdentity == true
     //
     def insert(s: SqlStatement) = {
+      Logger.debug(s"in DBHelper.saveEx - insert: ${s.sqlstmt}")
       DB.withConnection(user.database.database) { implicit connection =>
         SQL(s.sqlstmt).on(s.parameters: _*).executeInsert().map(id => id.toInt).getOrElse(throw new RuntimeException(s"Error when inserting ${register.table}"))
       }
@@ -271,6 +273,8 @@ object DBHelper {
     val isNewRecord = register.id == NoId
     val newId = getId(isNewRecord)
     val useInsert = (if(isNewRecord) true else isNew)
+
+    Logger.error(s"in DBHelper.saveEx: isNewRecord ${isNewRecord}. useInsert ${useInsert}. isNew ${isNew}")
 
     val r = if(fieldCode.isEmpty) register else updateCode(newId)
 
