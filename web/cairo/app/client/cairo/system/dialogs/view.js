@@ -397,6 +397,12 @@
         };
       };
 
+      that.onSelectChange = function(control) {
+        return function() {
+          that.raiseEvent("selectChange", control.getIndex());
+        };
+      };
+
       return that;
     };
 

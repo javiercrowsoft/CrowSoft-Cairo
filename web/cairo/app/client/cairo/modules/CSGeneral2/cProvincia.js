@@ -134,7 +134,7 @@
       };
 
       self.propertyChange = function(key) {
-        return Cairo.Promises.resolvedPromise(true);
+        return Cairo.Promises.resolvedPromise(false);
       };
 
       self.save = function() {

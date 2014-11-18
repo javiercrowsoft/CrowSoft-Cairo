@@ -234,11 +234,14 @@
           }
         };
 
-        var updateData = function(e) {
+        var updateData = function(e, noRaiseEvent) {
+          noRaiseEvent = noRaiseEvent === undefined ? false : noRaiseEvent;
           if(hasChanged(e.data)) {
             selectController.data = e.data;
             refreshNodeSelection(e.data);
-            _.each(selectController.listeners.onUpdate, raiseEvent(e));
+            if(noRaiseEvent === false) {
+              _.each(selectController.listeners.onUpdate, raiseEvent(e));
+            }
           }
         };
 
@@ -406,7 +409,7 @@
           selectController.control.data("validated-data", data);
           selectController.control.val(data.values[0]);
 
-          updateData({ data: data });
+          updateData({ data: data }, true);
         };
 
         var setId = function(id) { /* TODO: implement this. */ };
@@ -476,7 +479,9 @@
         table: Cairo.Database.NO_ID,
         enabled: true,
         type: Cairo.Entities.Select.SelectType.normal,
-        noUseActive: false
+        noUseActive: false,
+
+        select: null
       };
       
       var that = Controls.createControl();
@@ -485,7 +490,7 @@
 
       var superSetElement = that.setElement;
 
-      that.setElement = function(element) {
+      that.setElement = function(element, view) {
         var select = null;
 
         superSetElement(element);
@@ -516,10 +521,23 @@
             "Select a " + self.name);
         }
         select.setData(self.id, self.value);
+
+        var onChange = view.onSelectChange(that);
+        select.addListener('onUpdate', function(e) {
+          self.value = e.data.values[0];
+          self.id = e.data.id;
+          onChange();
+        });
+
+        self.select = select;
       };
 
       that.setValue = function(value) {
         self.value = value;
+        var element = self.select;
+        if(element) {
+          element.setData(self.id, self.value);
+        }
       };
       that.getValue = function() {
         return self.value;
@@ -537,6 +555,10 @@
       };
       that.setId = function(id) {
         self.id = id;
+        var element = self.select;
+        if(element) {
+          element.setData(self.id, self.value);
+        }
       };
 
       that.getIntValue = function() {
