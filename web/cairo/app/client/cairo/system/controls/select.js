@@ -407,7 +407,13 @@
 
           selectController.control.data("selected-data", data);
           selectController.control.data("validated-data", data);
-          selectController.control.val(data.values[0]);
+
+          var value = "";
+          if(data) {
+            value = data.values[0];
+          }
+          selectController.control.val(value);
+
 
           updateData({ data: data }, true);
         };
@@ -472,11 +478,11 @@
       var self = {
         name: "",
         value: "",
-        id: Cairo.Database.NO_ID,
+        id: Cairo.Constants.NO_ID,
         intValue: "",
         fieldIntValue: "",
         filter: "-",
-        table: Cairo.Database.NO_ID,
+        table: Cairo.Constants.NO_ID,
         enabled: true,
         type: Cairo.Entities.Select.SelectType.normal,
         noUseActive: false,

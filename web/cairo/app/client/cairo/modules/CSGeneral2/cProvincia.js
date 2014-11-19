@@ -68,10 +68,17 @@
 
       self.editNew = function() {
 
-        self.terminate();
+        updateList();
+
         m_isNew = true;
 
-        return self.edit(Cairo.Constants.NO_ID);
+        m_listController.removeEditorKey(m_id);
+
+        return load(Cairo.Constants.NO_ID).then(
+          function(ignored) {
+            return refreshCollection();
+          }
+        );
       };
 
       self.getApplication = function() {
@@ -202,22 +209,27 @@
           });
       };
 
+      var updateList = function() {
+        if(m_id == Cairo.Constants.NO_ID) { return; }
+        if(m_listController == null) { return; }
+
+        if(m_isNew) {
+          m_listController.addLeave(m_id, m_branchId, m_treeId);
+        }
+        else {
+          m_listController.refreshBranch(m_id);
+        }
+      };
+
       self.terminate = function() {
 
         m_editing = false;
 
         try {
-          if(m_id == Cairo.Constants.NO_ID) { return; }
-          if(m_listController == null) { return; }
-
-          if(m_isNew) {
-            m_listController.addLeave(m_id, m_branchId, m_treeId);
+          if(m_listController != null) {
+            updateList();
+            m_listController.removeEditor(self);
           }
-          else {
-            m_listController.addEditedId(m_id);
-            m_listController.refreshActiveBranch();
-          }
-          m_listController.removeEditor(self);
         }
         catch (ex) {
         }
@@ -225,7 +237,7 @@
 
       self.getTitle = function() {
         //'Provincias
-        return Cairo.Language.getText(1080, "");
+        return Cairo.Language.getText(1080, "");;
       };
 
       self.getPath = function() {
@@ -507,8 +519,7 @@
           };
 
           self.addLeave = function(id, branchId, treeId) { /* TODO: implement this. */ };
-          self.addEditedId = function(id) { /* TODO: implement this. */ };
-          self.refreshActiveBranch = function() { /* TODO: implement this. */ };
+          self.refreshBranch = function(id) { /* TODO: implement this. */ };
 
           self.removeEditor = function(editor) {
             var count = editors.count();
@@ -520,8 +531,26 @@
             }
           };
 
+          var getKey = function(id) {
+            if(id !== Cairo.Constants.NO_ID) {
+              return "new-id:" + (new Date).getTime().toString()
+            }
+            else {
+              return undefined
+            }
+          };
+
+          self.removeEditorKey = function(id) {
+            var key = getKey(id);
+            if(editors.contains(key)) {
+              var editor = editors.item(key);
+              editors.remove(key);
+              editors.add(editor, undefined);
+            }
+          };
+
           self.edit = function(id) {
-            var k = "id:" + id.toString();
+            var k = getKey(id);
             if(editors.contains(k)) {
               editors.item(k).dialog.showDialog();
             }
@@ -533,7 +562,7 @@
               editor.setDialog(dialog);
               editor.edit(id);
 
-              var key = id !== Cairo.Database.NO_ID ? k : undefined;
+              var key = id !== Cairo.Constants.NO_ID ? k : undefined;
               editors.add({editor: editor, dialog: dialog}, key);
             }
           };

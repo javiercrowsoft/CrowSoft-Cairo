@@ -83,13 +83,14 @@ object Register {
     (field.name, toParameterValue(field.value))
   }
 
-  def getSqlInsert(register: Register, fields: List[Field], newId: Int): SqlStatement = {
+  def getSqlInsert(register: Register, fieldsWithoutId: List[Field], newId: Int): SqlStatement = {
+    val fields = Field(register.fieldId, newId, FieldType.id) :: fieldsWithoutId
     def getSqlstmt = {
       val columns = fields.map( _.name ).mkString(",")
       val values = fields.map( f => s"{${f.name}}" ).mkString(",")
       s"INSERT INTO ${register.table} ($columns) VALUES ($values)"
     }
-    SqlStatement(getSqlstmt, (register.fieldId, toParameterValue(newId)) :: getParameters(fields))
+    SqlStatement(getSqlstmt, getParameters(fields))
   }
 
   def getSqlUpdate(register: Register, fields: List[Field]): SqlStatement = {

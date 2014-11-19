@@ -2785,7 +2785,12 @@
               }
             );
           }
-          return (p || Cairo.Promises.resolvedPromise(true));
+          return (p || Cairo.Promises.resolvedPromise(true)).then(
+            function(success) {
+              Cairo.LoadingMessage.close();
+              return success;
+            }
+          );
         };
 
         var moveFocus = function() {
@@ -7060,7 +7065,7 @@
             subTitle.flash();
           }
           else {
-            view.getSubTitle().setText("");
+            view.getSubTitle().setText(m_client.getTitle());
           }
         };
 

@@ -197,7 +197,7 @@ object DBHelper {
       cs.setString(1, table)
       cs.setString(2, fieldId)
       cs.registerOutParameter(3, Types.INTEGER)
-      cs.setInt(4, 0)
+      cs.setShort(4, 0.toShort)
 
       try {
 
@@ -221,12 +221,23 @@ object DBHelper {
 
   def saveEx(user: CompanyUser, register: Register, isNew: Boolean, fieldCode: String): SaveResult = {
 
+    def getId(isNewRecord: Boolean) = {
+      if(isNewRecord && !register.useIdentity && !register.fieldId.isEmpty) {
+        getNewId(user, register.table, register.fieldId)
+      }
+      else NoId
+    }
+
+    val isNewRecord = register.id == NoId
+    val newId = getId(isNewRecord)
+    val useInsert = (if(isNewRecord) true else isNew)
+
     def update(s: SqlStatement) = {
       Logger.debug(s"in DBHelper.saveEx - update: ${s.sqlstmt}")
       DB.withConnection(user.database.database) { implicit connection =>
         SQL(s.sqlstmt).on(s.parameters: _*).executeUpdate
       }
-      register.id
+      if(useInsert) newId else register.id
     }
 
     //
@@ -237,13 +248,6 @@ object DBHelper {
       DB.withConnection(user.database.database) { implicit connection =>
         SQL(s.sqlstmt).on(s.parameters: _*).executeInsert().map(id => id.toInt).getOrElse(throw new RuntimeException(s"Error when inserting ${register.table}"))
       }
-    }
-
-    def getId(isNewRecord: Boolean) = {
-      if(isNewRecord && !register.useIdentity && !register.fieldId.isEmpty) {
-        getNewId(user, register.table, register.fieldId)
-      }
-      else NoId
     }
 
     def updateCode(newId: Int) = {
@@ -270,11 +274,7 @@ object DBHelper {
         getFields(register.fields))
     }
 
-    val isNewRecord = register.id == NoId
-    val newId = getId(isNewRecord)
-    val useInsert = (if(isNewRecord) true else isNew)
-
-    Logger.debug(s"in DBHelper.saveEx: isNewRecord ${isNewRecord}. useInsert ${useInsert}. isNew ${isNew}. fieldCode ${fieldCode}")
+    Logger.debug(s"in DBHelper.saveEx: isNewRecord ${isNewRecord}. useInsert ${useInsert}. isNew ${isNew}. fieldCode ${fieldCode}. newId: ${newId}.")
 
     val r = if(fieldCode.isEmpty) register else updateCode(newId)
 
