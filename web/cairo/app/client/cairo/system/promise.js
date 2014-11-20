@@ -51,8 +51,20 @@
       return defer.promise;
     },
 
-    // TODO: remove when I am sure it is not nedeed
-    // result: function() { return this.then(function(result) { return result; }); },
+    success: function(successCallback, falseReturnValue, errorCallback) {
+      return this.then(function(success) {
+        if(success) {
+          successCallback();
+        }
+        else {
+          return Cairo.isFunction(falseReturnValue) ? falseReturnValue() : falseReturnValue || false;
+        }
+      }, errorCallback);
+    },
+
+    successful: function() {
+      return this.then(function(){ return true; });
+    },
 
     executeCallback: function(callbackData, result) {
       window.setTimeout(function() {

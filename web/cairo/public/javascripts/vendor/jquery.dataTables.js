@@ -3914,7 +3914,7 @@
 			tableContainer = table.parentNode,
 			userInputs = false,
 			i, column, columnIdx, width, outerWidth;
-	
+
 		/* Convert any user input sizes into pixel sizes */
 		for ( i=0 ; i<visibleColumns.length ; i++ ) {
 			column = columns[ visibleColumns[i] ];
@@ -3991,7 +3991,7 @@
 			}
 			else if ( scrollX ) {
 				tmpTable.css( 'width', 'auto' );
-	
+
 				if ( tmpTable.width() < tableContainer.offsetWidth ) {
 					tmpTable.width( tableContainer.offsetWidth );
 				}

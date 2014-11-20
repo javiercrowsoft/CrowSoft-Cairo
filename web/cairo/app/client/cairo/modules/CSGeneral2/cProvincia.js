@@ -200,8 +200,14 @@
           function(result) {
             if(result.success) {
               m_copy = false;
-              return load(result.data.getId());
-
+              return load(result.data.getId()).then(
+                function (success) {
+                  if(success) {
+                    updateList()
+                  };
+                  return success;
+                }
+              );
             }
             else {
               return false;
@@ -214,10 +220,10 @@
         if(m_listController == null) { return; }
 
         if(m_isNew) {
-          m_listController.addLeave(m_id, m_branchId, m_treeId);
+          m_listController.addLeave(m_id, m_branchId);
         }
         else {
-          m_listController.refreshBranch(m_id);
+          m_listController.refreshBranch(m_id, m_branchId);
         }
       };
 
@@ -518,8 +524,23 @@
             Cairo.Tree.List.Controller.listBranch(branchId, Cairo.Tree.List.Controller.showItems, self);
           };
 
-          self.addLeave = function(id, branchId, treeId) { /* TODO: implement this. */ };
-          self.refreshBranch = function(id) { /* TODO: implement this. */ };
+          self.addLeave = function(id, branchId) {
+            try {
+              Cairo.Tree.List.Controller.addLeave(branchId, id, self);
+            }
+            catch(ignore) {
+              Cairo.log("Error when adding this item to the branch\n\n" + ignore.message);
+            }
+          };
+
+          self.refreshBranch = function(id, branchId) {
+            try {
+              Cairo.Tree.List.Controller.refreshBranchIfActive(branchId, id, self);
+            }
+            catch(ignore) {
+              Cairo.log("Error when refreshing a branch\n\n" + ignore.message);
+            }
+          };
 
           self.removeEditor = function(editor) {
             var count = editors.count();
@@ -549,7 +570,7 @@
             }
           };
 
-          self.edit = function(id) {
+          self.edit = function(id, treeId, branchId) {
             var k = getKey(id);
             if(editors.contains(k)) {
               editors.item(k).dialog.showDialog();
@@ -560,6 +581,8 @@
 
               editor.setTree(self);
               editor.setDialog(dialog);
+              editor.setTreeId(treeId);
+              editor.setBranchId(branchId);
               editor.edit(id);
 
               var key = id !== Cairo.Constants.NO_ID ? k : undefined;
@@ -585,9 +608,17 @@
 
         };
 
+        var showTreeDialog = function() {
+          Cairo.Tree.List.Controller.showTreeDialog(self);
+        };
+
+        var closeTreeDialog = function() {
+
+        }
+
         // create the tab
         //
-        Cairo.mainTab.showTab("Provincias", "provinciaTreeRegion", "#general/provincias", createTreeDialog);
+        Cairo.mainTab.showTab("Provincias", "provinciaTreeRegion", "#general/provincias", createTreeDialog, closeTreeDialog, showTreeDialog);
 
       }
     };

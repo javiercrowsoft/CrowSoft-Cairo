@@ -53,6 +53,15 @@
               }
               this[tab] = undefined;
             }
+          },
+
+          show: function(tabId) {
+            var tab = this.find(tabId);
+            if(tab) {
+              if (this[tab].showHandler !== undefined) {
+                this[tab].showHandler();
+              }
+            }
           }
 
         };
@@ -68,7 +77,7 @@
             @createDialog:  a callback function to be called when a new tab need
                             is added
         */
-        var showTab = function(title, id, route, createDialog, closeTabHandler) {
+        var showTab = function(title, id, route, createDialog, closeTabHandler, showTabHandler) {
 
           // get the tab from the tabs collection
           //
@@ -115,10 +124,16 @@
             tabs[id] = { tabId: tabId };
             if(closeTabHandler !== undefined) {
               tabs[id].closeHandler = closeTabHandler;
+              tabs[id].showHandler = showTabHandler;
             }
           }
 
           $('#link_' + tabId.substring(1, tabId.length)).tab('show');
+
+          if(showTabHandler) {
+            showTabHandler();
+          }
+
         };
 
         var closeTab = function(id) {
@@ -162,6 +177,9 @@
             $(this).tab('show');
             var route = $(this).data("route");
             Cairo.navigate(route);
+
+            var tabId = $(this).parents('li').children('a').attr('href');
+            tabs.show(tabId);
           }
         });
 

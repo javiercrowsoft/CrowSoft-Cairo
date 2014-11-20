@@ -754,6 +754,40 @@
         Cairo.dialogRegion.show(view);
       },
 
+      newLeave: function(node, branchId, text, leaveId, listController) {
+        Cairo.log("newLeave called (branchId: " + branchId + ")");
+
+        var createLeave = function() {
+          var pasteInfo = new Cairo.Entities.PasteLeaveInfo();
+          pasteInfo.save({
+            ids: leaveId,
+            idTo: branchId,
+            isCut: true
+          }, {
+            wait: true,
+            success: function(model, response) {
+              Cairo.log("Successfully created a new leave!");
+              if(node) {
+                var activeNode = $(listController.Tree.treeControlId).fancytree("getActiveNode");
+                if(activeNode === node) {
+                  listController.showBranch(node.key);
+                }
+              }
+            },
+            error: function(model, error) {
+              Cairo.log("Failed in create a leave.");
+              Cairo.log(error.responseText);
+              Cairo.manageError(
+                "Create Leave",
+                "Can't create this leave '" + leaveId + "'. An error has occurred in the server.",
+                error.responseText);
+            }
+          });
+        };
+
+        createLeave();
+      },
+
       rename: function(node, branchId, text, listController) {
         var view = Cairo.inputFormView("Rename", "New name", text, function(text) {
           var branch = new Cairo.Entities.Branch();
@@ -927,6 +961,92 @@
   });
 
   Cairo.module("Tree.List", function(List, Cairo, Backbone, Marionette, $, _) {
+
+    var tableContains = function(id, listController) {
+      var rows = listController.Tree.dataTable.fnFindDataRow(id);
+      return rows.length > 0;
+    };
+
+    var selectLastSearchedRow = function(listController) {
+      Cairo.log('selectLastSearchedRow');
+      if(listController.Tree.lastItemIdSearched) {
+        var search = listController.Tree.lastItemIdSearched;
+        listController.Tree.lastItemIdSearched = null;
+        var rows = listController.Tree.dataTable.fnFindDataRow(search);
+        if(rows.length) {
+
+          var currentSelection = listController.Tree.tableTools.fnGetSelected();
+          for(var i = 0; i < currentSelection.length; i += 1) {
+            listController.Tree.tableTools.fnDeselect(currentSelection[i]);
+          }
+
+          listController.Tree.tableTools.fnSelect(rows[0]);
+          var ids = getSelectedIds(listController.Tree.tableTools.fnGetSelected());
+          var text = getSelectedText(
+            listController.Tree.tableTools.fnGetSelected(),
+            listController.Tree.dataTable
+          );
+          Cairo.log("selected: " + ids);
+          listController.Tree.lastSelected = {
+            type: 'items',
+            text: text,
+            ids: ids
+          };
+        }
+      }
+    };
+
+    var getSelectedIds = function(selectedItems) {
+      var ids = "";
+      for(var i=0; i<selectedItems.length; i+=1) {
+        if(selectedItems[i]) {
+          ids += "," + $(selectedItems[i]).data("id");
+        }
+      }
+      if(ids.length) { ids = ids.substring(1, ids.length); }
+      return ids;
+    };
+
+    var getSelectedText = function(selectedItems, dataTable) {
+      var text = "";
+      for(var i=0; i<selectedItems.length; i+=1) {
+        if(selectedItems[i]) {
+          if(text === "") {
+            text = dataTable.fnGetData(selectedItems[i])[0];
+          }
+          else {
+            text = "Multi Selection";
+            break;
+          }
+        }
+      }
+      return text;
+    };
+
+    var setTreeIntoController = function(listController) {
+      if(listController.Tree === undefined) {
+
+        var getValue = function(attribute) {
+          // default is true
+          attribute = listController.entityInfo.attributes[attribute];
+          return attribute === undefined ? true : attribute;
+        };
+
+        listController.Tree = { getValue: getValue };
+
+      };
+
+      // this attribute is used in templates so it should be present
+      // in entityInfo
+      //
+      if(listController.entityInfo.attributes.showTableButtons === undefined) {
+        listController.entityInfo.attributes.showTableButtons = true;
+      }
+      if(listController.entityInfo.attributes.showSelectButton === undefined) {
+        listController.entityInfo.attributes.showSelectButton = false;
+      }
+    };
+
     List.Controller = {
 
       /*
@@ -957,7 +1077,7 @@
       list: function(tableId, mainView, mainRegion, listController) {
         Cairo.LoadingMessage.show();
 
-        Cairo.Tree.List.Controller.setTreeIntoController(listController);
+        setTreeIntoController(listController);
 
         //////////////
         mainRegion.show(mainView);
@@ -994,15 +1114,36 @@
         //
         var searchUpdateHandler = function(e) {
           Cairo.log("search-update: " + e.data.id + " - " + e.data.values[0] + " - " + e.data.values[1]);
-          var fetchingBranch = Cairo.request("branch:entity_by_client_id", listController.Tree.treeId, e.data.id);
+          selectLeave(listController.Tree.treeId, e.data.id, listController).then(
+            function(result) {
+              if(result.success) {
+                listController.Tree.lastItemIdSearched = e.data.id;
+                if(!result.branchWillBeLoaded) {
+                  selectLastSearchedRow(listController);
+                }
+              }
+            }
+          );
+        };
+
+        var selectLeave = function(treeId, clientId, listController) {
+          var defer = new Cairo.Promises.Defer();
+          var fetchingBranch = Cairo.request("branch:entity_by_client_id", treeId, clientId);
           $.when(fetchingBranch).done(function(branches) {
             if(branches.models.length > 0) {
               try {
                 var branchId = branches.models[0].id;
                 var root = $(listController.Tree.treeControlId).fancytree("getRootNode").tree.getFirstChild();
                 var node = branchId != 0 ? root.tree.getNodeByKey(branchId) : root;
-                listController.Tree.lastItemIdSearched = e.data.id;
-                node.setActive();
+                var activeNode = $(listController.Tree.treeControlId).fancytree("getActiveNode");
+                if(activeNode !== node) {
+                  node.setActive();
+                  defer.resolve({ success: true, branchWillBeLoaded: true});
+                }
+                else {
+                  defer.resolve({ success: true, branchWillBeLoaded: false});
+                }
+
               }
               catch (e) {
                 Cairo.log("Failed in find branch which contains item.");
@@ -1012,9 +1153,11 @@
                   "An error has occurred when trying to find and item in the tree.",
                   e.message,
                   e);
+                defer.resolve(false);
               }
             }
           });
+          return defer.promise;
         };
 
         searchCtrl.addListener('onUpdate', searchUpdateHandler);
@@ -1139,7 +1282,7 @@
       listTree: function(treeId, listController) {
         Cairo.LoadingMessage.show();
 
-        Cairo.Tree.List.Controller.setTreeIntoController(listController);
+        setTreeIntoController(listController);
         listController.Tree.treeId = treeId;
 
         var removeNewTreeView = function() {
@@ -1333,36 +1476,13 @@
           };
         };
 
-        var selectLastSearchedRow = function() {
-          Cairo.log('selectLastSearchedRow');
-          if(listController.Tree.lastItemIdSearched) {
-            var search = listController.Tree.lastItemIdSearched;
-            listController.Tree.lastItemIdSearched = null;
-            var rows = listController.Tree.dataTable.fnFindDataRow(search);
-            if(rows.length) {
-              listController.Tree.tableTools.fnSelect(rows[0]);
-              var ids = Cairo.Tree.List.Controller.getSelectedIds(listController.Tree.tableTools.fnGetSelected());
-              var text = Cairo.Tree.List.Controller.getSelectedText(
-                listController.Tree.tableTools.fnGetSelected(),
-                listController.Tree.dataTable
-              );
-              Cairo.log("selected: " + ids);
-              listController.Tree.lastSelected = {
-                type: 'items',
-                text: text,
-                ids: ids
-              };
-            }
-          }
-        };
-
         $.when(fetchingBranch).done(function(branch) {
 
           hideColumns(branch);
           setEditControls(branch);
           showItems(branch, itemsListPanel, itemsListLayout, listController);
           setLastSelected();
-          selectLastSearchedRow();
+          selectLastSearchedRow(listController);
 
         });
       },
@@ -1413,7 +1533,7 @@
         var cutOrCopyClicked = function(menuItem, menu, action) {
           Cairo.log("You clicked " + action + "!");
           listController.Tree.tableTools.fnSelect(menu.target);
-          var ids = Cairo.Tree.List.Controller.getSelectedIds(listController.Tree.tableTools.fnGetSelected());
+          var ids = getSelectedIds(listController.Tree.tableTools.fnGetSelected());
           Cairo.log("selected: " + ids);
           Cairo.log("selected length: " + ids.split(",").length);
           listController.Tree.clipboard = {
@@ -1486,22 +1606,26 @@
 
         var dom = getDataTableDomAttribute();
 
-        listController.Tree.dataTable = $(listController.Tree.dataTableId$, itemsListLayout.$el).dataTable({
+        listController.Tree.dataTableSettings = {
           scrollY: scrollY,
           paging: false,
           scrollX: scrollX,
           "language": {
-              "search": "Search in this folder: "
+            "search": "Search in this folder: "
           },
           dom: dom,
           tableTools: {
-              "sRowSelect": rowSelect,
-              "aButtons": buttons
+            "sRowSelect": rowSelect,
+            "aButtons": buttons
           },
           fnDrawCallback: function( oSettings ) {
             $(listController.Tree.dataTableId$ + " tbody tr").contextMenu(menu, {theme:'osx'});
           }
-        });
+        };
+
+        $(listController.Tree.dataTableId$).attr('width', '100%');
+
+        listController.Tree.dataTable = $(listController.Tree.dataTableId$, itemsListLayout.$el).dataTable(listController.Tree.dataTableSettings);
 
         var handleClickOrDoubleClickEvent = function(scope, type) {
           var mustHandleEvent = function() {
@@ -1544,8 +1668,8 @@
             else {
               var data = listController.Tree.dataTable.fnGetData(scope);
               Cairo.log('click ' + JSON.stringify(data));
-              var ids = Cairo.Tree.List.Controller.getSelectedIds(listController.Tree.tableTools.fnGetSelected());
-              var text = Cairo.Tree.List.Controller.getSelectedText(
+              var ids = getSelectedIds(listController.Tree.tableTools.fnGetSelected());
+              var text = getSelectedText(
                 listController.Tree.tableTools.fnGetSelected(),
                 listController.Tree.dataTable
               );
@@ -1569,55 +1693,32 @@
         Cairo.LoadingMessage.close();
       },
 
-      setTreeIntoController: function(listController) {
-        if(listController.Tree === undefined) {
-
-          var getValue = function(attribute) {
-            // default is true
-            attribute = listController.entityInfo.attributes[attribute];
-            return attribute === undefined ? true : attribute;
-          };
-
-          listController.Tree = { getValue: getValue };
-
-        };
-
-        // this attribute is used in templates so it should be present
-        // in entityInfo
-        //
-        if(listController.entityInfo.attributes.showTableButtons === undefined) {
-          listController.entityInfo.attributes.showTableButtons = true;
-        }
-        if(listController.entityInfo.attributes.showSelectButton === undefined) {
-          listController.entityInfo.attributes.showSelectButton = false;
+      refreshBranchIfActive: function(branchId, id, listController) {
+        var activeNode = $(listController.Tree.treeControlId).fancytree("getActiveNode");
+        if(activeNode) {
+          var root = $(listController.Tree.treeControlId).fancytree("getRootNode").tree.getFirstChild();
+          var node = root.tree.getNodeByKey(branchId);
+          if(activeNode === node || tableContains(id, listController)) {
+            listController.showBranch(activeNode.key);
+            listController.Tree.refreshDataTableOnShowTab = true;
+          }
         }
       },
 
-      getSelectedIds: function(selectedItems) {
-        var ids = "";
-        for(var i=0; i<selectedItems.length; i+=1) {
-          if(selectedItems[i]) {
-            ids += "," + $(selectedItems[i]).data("id");
-          }
-        }
-        if(ids.length) { ids = ids.substring(1, ids.length); }
-        return ids;
+      addLeave: function(branchId, id, listController) {
+        var root = $(listController.Tree.treeControlId).fancytree("getRootNode").tree.getFirstChild();
+        var node = root.tree.getNodeByKey(branchId);
+        var title = node ? node.title : "";
+        Cairo.Tree.Actions.Branch.newLeave(node, branchId, title, -id, listController);
       },
 
-      getSelectedText: function(selectedItems, dataTable) {
-        var text = "";
-        for(var i=0; i<selectedItems.length; i+=1) {
-          if(selectedItems[i]) {
-            if(text === "") {
-              text = dataTable.fnGetData(selectedItems[i])[0];
-            }
-            else {
-              text = "Multi Selection";
-              break;
-            }
-          }
+      showTreeDialog: function(listController) {
+        if(listController.Tree.dataTable && listController.Tree.refreshDataTableOnShowTab) {
+          listController.Tree.refreshDataTableOnShowTab = false;
+          listController.Tree.dataTable.fnDestroy();
+          $(listController.Tree.dataTableId$).attr('width', '100%');
+          $(listController.Tree.dataTableId$).dataTable(listController.Tree.dataTableSettings);
         }
-        return text;
       }
 
     };

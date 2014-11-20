@@ -48,7 +48,20 @@
       return defer.promise;
     },
 
-    showInfo: function(message) { /* TODO: implement this. */}
+    showInfo: function(message, title) {
+      var defer = new Cairo.Promises.Defer();
+
+      title = title || "Info"; // TODO: use Language.getText
+
+      var view = Cairo.infoView(
+        title,
+        message,
+        function(ignore) { defer.resolve(true); }
+      );
+      Cairo.dialogRegion.show(view);
+
+      return defer.promise;
+    }
 
   };
 

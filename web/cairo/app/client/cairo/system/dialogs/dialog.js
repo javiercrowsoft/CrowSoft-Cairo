@@ -4405,7 +4405,7 @@
               }
             );
           }
-          return (p || Cairo.Promises.resolvedPromise());
+          return p || Cairo.Promises.resolvedPromise();
         };
 
         var toolBarButtonClick = function(button) {
@@ -5575,7 +5575,7 @@
 
         // TODO: refactor promise is returned by this function
         //
-        var validateItemsAndFooter = function() {
+        var validateItemsAndFooters = function() {
           var p = null;
           if(m_isDocument) {
             p = m_client.messageEx(Dialogs.Message.MSG_DOC_EX_GET_ITEMS, null).then(
@@ -5646,9 +5646,134 @@
 
               Cairo.LoadingMessage.showWait();
 
+              //
+              // first we need to take from controls and update the properties collection
+              //
               refreshAux();
               fillList();
 
+              //
+              // with grids we need to call the client so it could mean an ajax request
+              // that is why we use promises
+              //
+              p = fillGrids().success(
+              //
+              //  if there aren't errors just disabled all controls so the user can't
+              //  input anything until we finished with saving
+              //
+              //
+                function() {
+                  var p = null;
+
+                  if(!m_isDocument) {
+                    setEnabled(false);
+                  }
+
+                  // tell the document client the validation is starting
+                  //
+                  if(m_isDocument) {
+                    p = m_client.messageEx(Dialogs.Message.MSG_DOC_EX_PRE_VALIDATE, null);
+                  }
+
+                  return p || Cairo.Promises.resolvedPromise();
+                },
+                false
+              ).then(
+              //
+              // now we need to validate
+              // again validation could mean an ajax request
+              //
+                function() {
+                  return validate();
+                }
+              ).success(
+              //
+              // if validation succeeded we check items and footers
+              //
+                function() {
+                  return validateItemsAndFooters();
+                }
+              ).success(
+              //
+              // all validation succeeded, now we save
+              //
+                function() {
+
+                  // standard document, wizard or master save
+                  //
+                  if(!saveAs) {
+                    return m_client.save();
+                  }
+                  else {
+
+                    // saveAs allows to save copys of documents between different document types
+                    // like save an invoice like budget
+                    //
+                    return m_client.messageEx(Dialogs.Message.MSG_SAVE_AS, null);
+                  }
+                }
+              ).success(
+              //
+              // if save has succeeded we need to refresh some parts of the view
+              //
+                function() {
+                  var p = null;
+
+                  if(!m_isDocument) {
+                    setEnabled(true);
+                  }
+
+                  if(!unloading) {
+                    var refreshAfterSave = function() {
+                      if(!m_isDocument) {
+                        self.refreshTitle();
+                      }
+                      getView().setFocusFirstControl();
+                    };
+
+                    if(!m_isDocument && !m_sendRefresh && !m_showOkCancel) {
+                      p = discardChanges(false).then(refreshAfterSave);
+                    }
+                    else {
+                      p = m_client.messageEx(Dialogs.Message.MSG_DOC_REFRESH, null).then(refreshAfterSave);
+                    }
+                  }
+
+                  p = p || Cairo.Promises.resolvedPromise(true);
+
+                  //
+                  // this function always returns success
+                  //
+                  return p.successful;
+                }
+              ).success(
+                /*
+
+                  save has SUCCEEDED
+
+                  we reset the changed flag and returns TRUE
+
+                */
+                function() {
+                  self.setChanged(false);
+                  return true;
+                },
+                /*
+
+                 save has FAILED
+
+                 we enable controls and retuns FALSE
+
+                */
+                function() {
+                  if(!m_isDocument) {
+                    setEnabled(true);
+                  }
+                  return false;
+                }
+              );
+
+              /*
               p = fillGrids().then(
                 function(success) {
                   if(success) {
@@ -5670,94 +5795,99 @@
                       function() {
                         var p = null;
 
-                        if(!validate()) {
-                          if(!m_isDocument) {
-                            setEnabled(true);
-                          }
-                        }
-                        else {
-                          if(!validateItemsAndFooter()) {
-                            if(!m_isDocument) {
-                              setEnabled(true);
-                            }
-                          }
-                          else {
-
-                            var afterSave = function() {
-                              var p = null;
-
+                        p = validate().then(
+                          function(success) {
+                            if(!success) {
                               if(!m_isDocument) {
                                 setEnabled(true);
                               }
-
-                              if(!unloading) {
-
-                                var refreshAfterSave = function() {
-                                  if(!m_isDocument) {
-                                    self.refreshTitle();
-                                  }
-                                  getView().setFocusFirstControl();
-                                };
-
-                                if(!m_isDocument && !m_sendRefresh && !m_showOkCancel) {
-                                  p = discardChanges(false).then(refreshAfterSave);
-                                }
-                                else {
-                                  p = m_client.messageEx(Dialogs.Message.MSG_DOC_REFRESH, null).then(refreshAfterSave);
-                                }
-                              }
-
-                              p = p || Cairo.Promises.resolvedPromise();
-
-                              return p.then(
-                                function() {
-                                  self.setChanged(false);
-                                  return true;
-                                }
-                              );
-                            };
-
-                            // standard document, wizard or master save
-                            //
-                            if(!saveAs) {
-
-                              p = m_client.save().then(
-                                function(success) {
-                                  var p = null;
-                                  if(success) {
-                                    p = afterSave();
-                                  }
-                                  else {
-                                    if(!m_isDocument) {
-                                      setEnabled(true);
-                                    }
-                                  }
-                                  return (p || false);
-                                }
-                              );
                             }
                             else {
+                              if(!validateItemsAndFooter()) {
+                                if(!m_isDocument) {
+                                  setEnabled(true);
+                                }
+                              }
+                              else {
 
-                              // saveAs allows to save copys of documents between different document types
-                              // like save an invoice like budget
-                              //
-                              p = m_client.messageEx(Dialogs.Message.MSG_SAVE_AS, null).then(
-                                function(success) {
+                                var afterSave = function() {
                                   var p = null;
-                                  if(success) {
-                                    p = afterSave();
+
+                                  if(!m_isDocument) {
+                                    setEnabled(true);
                                   }
-                                  else {
-                                    if(!m_isDocument) {
-                                      setEnabled(true);
+
+                                  if(!unloading) {
+
+                                    var refreshAfterSave = function() {
+                                      if(!m_isDocument) {
+                                        self.refreshTitle();
+                                      }
+                                      getView().setFocusFirstControl();
+                                    };
+
+                                    if(!m_isDocument && !m_sendRefresh && !m_showOkCancel) {
+                                      p = discardChanges(false).then(refreshAfterSave);
+                                    }
+                                    else {
+                                      p = m_client.messageEx(Dialogs.Message.MSG_DOC_REFRESH, null).then(refreshAfterSave);
                                     }
                                   }
-                                  return (p || false);
+
+                                  p = p || Cairo.Promises.resolvedPromise();
+
+                                  return p.then(
+                                    function() {
+                                      self.setChanged(false);
+                                      return true;
+                                    }
+                                  );
+                                };
+
+                                // standard document, wizard or master save
+                                //
+                                if(!saveAs) {
+
+                                  p = m_client.save().then(
+                                    function(success) {
+                                      var p = null;
+                                      if(success) {
+                                        p = afterSave();
+                                      }
+                                      else {
+                                        if(!m_isDocument) {
+                                          setEnabled(true);
+                                        }
+                                      }
+                                      return (p || false);
+                                    }
+                                  );
                                 }
-                              );
+                                else {
+
+                                  // saveAs allows to save copys of documents between different document types
+                                  // like save an invoice like budget
+                                  //
+                                  p = m_client.messageEx(Dialogs.Message.MSG_SAVE_AS, null).then(
+                                    function(success) {
+                                      var p = null;
+                                      if(success) {
+                                        p = afterSave();
+                                      }
+                                      else {
+                                        if(!m_isDocument) {
+                                          setEnabled(true);
+                                        }
+                                      }
+                                      return (p || false);
+                                    }
+                                  );
+                                }
+                              }
                             }
                           }
-                        }
+                        );
+
                         return (p || false);
                       }
                     );
@@ -5767,6 +5897,7 @@
                   }
                 }
               );
+              * */
             }
           }
           catch(e) {

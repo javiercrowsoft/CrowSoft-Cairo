@@ -3,6 +3,10 @@ var Cairo = new Marionette.Application();
 (function() {
   "use strict";
 
+  Cairo.isFunction = function(object) {
+    return !!(object && object.constructor && object.call && object.apply);
+  };
+
   Cairo.addRegions({
     headerRegion: "#header-region",
     mainRegion: "#main-region",

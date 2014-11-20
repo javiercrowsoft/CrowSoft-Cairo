@@ -70,7 +70,7 @@
             }
           }
         } else {
-          var key = index.toString();
+          var key = index ? index.toString() : "";
           index = self.keys[key];
           if (index === undefined) {
             if(noError) {

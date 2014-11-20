@@ -74,3 +74,4 @@ NOTICE !!! :
           event: e
         };
 
+Datatables.net used is 1.10.0
