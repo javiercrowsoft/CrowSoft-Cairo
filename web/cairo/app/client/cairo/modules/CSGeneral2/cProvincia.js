@@ -203,8 +203,9 @@
               return load(result.data.getId()).then(
                 function (success) {
                   if(success) {
-                    updateList()
+                    updateList();
                   };
+                  m_isNew = false;
                   return success;
                 }
               );
@@ -250,8 +251,9 @@
         return "#general/provincia/" + m_id.toString();
       };
 
-      self.getName = function() {
-        return "province" + m_id.toString();
+      self.getEditorName = function() {
+        var id = m_id ? m_id.toString() : "N" + (new Date).getTime().toString();
+        return "province" + id;
       };
 
       self.validate = function() {

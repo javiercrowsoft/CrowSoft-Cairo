@@ -2371,7 +2371,7 @@
 
             view.setText(m_client.getTitle());
             view.setPath(m_client.getPath());
-            view.setName(m_client.getName());
+            view.setName(m_client.getEditorName());
 
             if(m_hideTitle) {
               view.getTitle().setVisible(false);
@@ -5647,7 +5647,8 @@
               Cairo.LoadingMessage.showWait();
 
               //
-              // first we need to take from controls and update the properties collection
+              // first we need to take all input from the view's controls and update
+              // the properties collection
               //
               refreshAux();
               fillList();
@@ -5659,7 +5660,7 @@
               p = fillGrids().success(
               //
               //  if there aren't errors just disabled all controls so the user can't
-              //  input anything until we finished with saving
+              //  input anything until we have finished with saving
               //
               //
                 function() {

@@ -54,7 +54,7 @@
     success: function(successCallback, falseReturnValue, errorCallback) {
       return this.then(function(success) {
         if(success) {
-          successCallback();
+          return successCallback();
         }
         else {
           return Cairo.isFunction(falseReturnValue) ? falseReturnValue() : falseReturnValue || false;

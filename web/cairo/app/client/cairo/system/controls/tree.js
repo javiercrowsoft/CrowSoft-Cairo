@@ -757,7 +757,7 @@
       newLeave: function(node, branchId, text, leaveId, listController) {
         Cairo.log("newLeave called (branchId: " + branchId + ")");
 
-        var createLeave = function() {
+        if(branchId) {
           var pasteInfo = new Cairo.Entities.PasteLeaveInfo();
           pasteInfo.save({
             ids: leaveId,
@@ -771,6 +771,7 @@
                 var activeNode = $(listController.Tree.treeControlId).fancytree("getActiveNode");
                 if(activeNode === node) {
                   listController.showBranch(node.key);
+                  listController.Tree.refreshDataTableOnShowTab = true;
                 }
               }
             },
@@ -783,9 +784,7 @@
                 error.responseText);
             }
           });
-        };
-
-        createLeave();
+        }
       },
 
       rename: function(node, branchId, text, listController) {
@@ -1045,6 +1044,11 @@
       if(listController.entityInfo.attributes.showSelectButton === undefined) {
         listController.entityInfo.attributes.showSelectButton = false;
       }
+    };
+
+    var getActiveBranchId = function(listController) {
+      var activeNode = $(listController.Tree.treeControlId).fancytree("getActiveNode");
+      return activeNode ? activeNode.key : undefined;
     };
 
     List.Controller = {
@@ -1509,13 +1513,13 @@
         });
 
         itemsListPanel.on("tree:new", function() {
-          listController.edit(Cairo.Constants.NO_ID);
+          listController.edit(Cairo.Constants.NO_ID, listController.Tree.treeId, getActiveBranchId(listController));
         });
 
         itemsListLayout.on("item:edit", function(childView, args) {
           try {
             var id = $(childView.event.currentTarget.parentElement.parentElement).data("clientid");
-            listController.edit(id);
+            listController.edit(id, listController.Tree.treeId, getActiveBranchId(listController));
           }
           catch(ex) {
             Cairo.manageError("Edit Item", "Can't edit this item", ex.message, ex);
