@@ -980,6 +980,12 @@
           }
 
           listController.Tree.tableTools.fnSelect(rows[0]);
+
+          var selectedRow = rows[0];
+          $('.dataTables_scrollBody').animate({
+            scrollTop: selectedRow.offsetTop
+          }, 800);
+
           var ids = getSelectedIds(listController.Tree.tableTools.fnGetSelected());
           var text = getSelectedText(
             listController.Tree.tableTools.fnGetSelected(),
@@ -1527,8 +1533,17 @@
         });
 
         itemsListLayout.on("item:delete", function(childView, args) {
-          // TODO: test how it works
-          args.model.destroy();
+          try {
+            var id = $(childView.event.currentTarget.parentElement.parentElement).data("clientid");
+            listController.destroy(id).success(
+              function() {
+                Cairo.Tree.List.Controller.refreshBranchIfActive(getActiveBranchId(listController), id, listController);
+              }
+            );
+          }
+          catch(ex) {
+            Cairo.manageError("Edit Item", "Can't edit this item", ex.message, ex);
+          }
         });
 
         listController.Tree.treeListRegion.reset();

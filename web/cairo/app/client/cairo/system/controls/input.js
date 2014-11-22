@@ -64,10 +64,10 @@
         return self.text;
       };
 
-      that.getMask = function() { /* TODO = implement self. */ };
-      that.setMask = function(mask) { /* TODO = implement self. */ };
-      that.setButtonStyle = function(style) { /* TODO = implement self. */ };
-      that.setPasswordChar = function(char) { /* TODO = implement self. */ };
+      that.getMask = function() { /* TODO: implement this. */ };
+      that.setMask = function(mask) { /* TODO: implement this. */ };
+      that.setButtonStyle = function(style) { /* TODO: implement this. */ };
+      that.setPasswordChar = function(char) { /* TODO: implement this. */ };
       that.setEnabledNoChangeBkColor = function(value) { self.enabledNoChangeBkColor = value; };
       that.setMaxLength = function(length) { self.maxLength = length; };                       
       that.setInputDisabled = function(value) { self.inputDisabled = value; };

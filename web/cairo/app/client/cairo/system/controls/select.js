@@ -598,7 +598,7 @@
         self.noUseActive = noUseActive;
       };
 
-      that.reset = function() { /* TODO = implement self. */ }
+      that.reset = function() { /* TODO: implement this. */ }
 
       return that;
 

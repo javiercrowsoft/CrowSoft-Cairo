@@ -244,7 +244,7 @@
         return self.text;
       };
 
-      that.virtualPush = function() { /* TODO = implement self. */ };
+      that.virtualPush = function() { /* TODO: implement this. */ };
 
       that.getIndex = function() {
         return self.index;

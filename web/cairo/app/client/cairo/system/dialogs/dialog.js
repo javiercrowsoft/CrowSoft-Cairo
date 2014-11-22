@@ -2277,6 +2277,20 @@
           }
         };
 
+        self.closeDialog = function() {
+          try {
+            getView().closeDialog();
+          }
+          catch(e) {
+            Cairo.manageError(
+              "Closing Dialog",
+              "An error has occurred when closing a dialog.",
+              e.message,
+              e);
+            return false;
+          }
+        };
+
         self.setIconInDocument = function(iconIndex) {
           if(m_documentView !== null) {
             if(m_documentView.getIcons().count() >= iconIndex) {
@@ -5513,7 +5527,11 @@
                       p = m_masterView.save();
                     }
                     else if(m_sendClose) {
-                      p = m_masterView.close();
+                      //
+                      // TODO: maybe this should check if there are unsaved changes and ask
+                      //       the user to confirm he/she wants to close this dialog
+                      //
+                      m_masterView.close();
                     }
                   }
 

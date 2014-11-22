@@ -314,14 +314,6 @@
         return m_editing;
       };
 
-      self.delete = function(id) {
-        if(!Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.DELETE_PROVINCIA)) {
-          return Cairo.Promises.resolvedPromise(false);
-        }
-
-        return Cairo.Database.execute(Cairo.Constants.DELETE_FUNCTION, "cProvincia");
-      };
-
       self.edit = function(id,  inModalWindow) {
         var p = Cairo.Promises.resolvedPromise(false);
         try {
@@ -590,6 +582,21 @@
               var key = id !== Cairo.Constants.NO_ID ? k : undefined;
               editors.add({editor: editor, dialog: dialog}, key);
             }
+          };
+
+          self.destroy = function(id, treeId, branchId) {
+            if(!Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.DELETE_PROVINCIA)) {
+              return Cairo.Promises.resolvedPromise(false);
+            }
+            var apiPath = Cairo.Database.getAPIVersion();
+            return Cairo.Database.destroy(apiPath + "general/provincia", id, Cairo.Constants.DELETE_FUNCTION, "cProvincia").success(
+              function() {
+                var k = getKey(id);
+                if(editors.contains(k)) {
+                  editors.item(k).dialog.closeDialog();
+                }
+              }
+            );
           };
 
           // progress message

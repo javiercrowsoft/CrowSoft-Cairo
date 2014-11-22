@@ -80,14 +80,14 @@
           self.width = width;
         },
   
-        selStart: function(start) { /* TODO: implement self. */ },
-        bringToFront: function() { /* TODO: implement self. */ },
+        selStart: function(start) { /* TODO: implement this. */ },
+        bringToFront: function() { /* TODO: implement this. */ },
   
-        setForeColor: function(color) { /* TODO: implement self. */ },
-        setBorderColor: function(color) { /* TODO: implement self. */ },
+        setForeColor: function(color) { /* TODO: implement this. */ },
+        setBorderColor: function(color) { /* TODO: implement this. */ },
   
-        setItemData: function(index, data) { /* TODO: implement self. */ },
-        getNewIndex: function() { /* TODO: implement self. */ },
+        setItemData: function(index, data) { /* TODO: implement this. */ },
+        getNewIndex: function() { /* TODO: implement this. */ },
   
         getTag: function() {
           return self.tag;
@@ -96,17 +96,17 @@
           self.tag = tag.toString();
         },
   
-        setTabIndex: function(tabIndex) { /* TODO: implement self. */ },
-        setTabIndex2: function(tabIndex2) { /* TODO: implement self. */ },
-        setBackStyle: function(style) { /* TODO: implement self. */ },
+        setTabIndex: function(tabIndex) { /* TODO: implement this. */ },
+        setTabIndex2: function(tabIndex2) { /* TODO: implement this. */ },
+        setBackStyle: function(style) { /* TODO: implement this. */ },
   
-        getTextAlign: function() { /* TODO: implement self. */ },
-        setTextAlign: function(align) { /* TODO: implement self. */ },
+        getTextAlign: function() { /* TODO: implement this. */ },
+        setTextAlign: function(align) { /* TODO: implement this. */ },
   
-        getEnabled: function() { /* TODO: implement self. */ },
-        setEnabled: function() { /* TODO: implement self. */ },
-        getEditEnabled: function() { /* TODO: implement self. */ },
-        setEditEnabled: function(enabled) { /* TODO: implement self. */ },
+        getEnabled: function() { /* TODO: implement this. */ },
+        setEnabled: function() { /* TODO: implement this. */ },
+        getEditEnabled: function() { /* TODO: implement this. */ },
+        setEditEnabled: function(enabled) { /* TODO: implement this. */ },
   
         getFontName: function() {
           return self.fontName;

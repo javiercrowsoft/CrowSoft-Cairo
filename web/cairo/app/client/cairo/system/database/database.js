@@ -41,7 +41,7 @@
             Cairo.log("Failed in saveEx: " + module + "." + functionName + ".");
             Cairo.log(response.responseText);
             Cairo.manageError(
-              "New Tree",
+              "Saving",
               "Can't save this record. An error has occurred in the server.",
               response.responseText);
             defer.resolve({success: false, data: data, response: response});
@@ -53,6 +53,41 @@
     },
 
     execute: function() { /* TODO: implement this. */ },
+
+    destroy: function(path, id, module, functionName) {
+      var p = null;
+      if(path === "" || path === undefined) {
+        p = Cairo.Promises.resolvedPromise({success: false, message: "Invalid query: Path not defined."});
+      }
+      else {
+        if(id === Cairo.Constants.NO_ID || id === undefined) {
+          p = Cairo.Promises.resolvedPromise({success: false, message: "Invalid query: Id not undefined."});
+        }
+        else {
+          var q = new Cairo.Entities.DatabaseQuery({id: id});
+          q.urlRoot = path;
+          var defer = new Cairo.Promises.Defer();
+          q.destroy({
+            wait: true,
+            success: function(data) {
+              Cairo.log("Successfully deleted!");
+              defer.resolve({success: true});
+            },
+            error: function(data, response) {
+              Cairo.log("Failed in destroy: " + module + "." + functionName + ".");
+              Cairo.log(response.responseText);
+              Cairo.manageError(
+                "Deleting",
+                "Can't delete this record. An error has occurred in the server.",
+                response.responseText);
+              defer.resolve({success: false, data: data, response: response});
+            }
+          });
+          p = defer.promise;
+        }
+      }
+      return p;
+    },
 
     getData: function(query, id) {
       var getAction = function() {

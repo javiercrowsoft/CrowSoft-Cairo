@@ -119,6 +119,18 @@ object Provincia {
   }
 
   def delete(user: CompanyUser, id: Int) = {
+    DB.withConnection(user.database.database) { implicit connection =>
+      try {
+        SQL(s"DELETE FROM ${C.PROVINCIA} where ${C.PRO_ID} = {id}")
+        .on('id -> id)
+        .executeUpdate
+      } catch {
+        case NonFatal(e) => {
+          Logger.error(s"can't delete a ${C.PROVINCIA}. ${C.PRO_ID} id: $id. Error ${e.toString}")
+          throw e
+        }
+      }
+    }
   }
 
   def get(user: CompanyUser, id: Int): Provincia = {

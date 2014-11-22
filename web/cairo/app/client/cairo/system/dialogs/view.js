@@ -135,9 +135,9 @@
         return self.btnClose;
       };
 
-      that.getTab = function() { /* TODO: implement self. */ };
-      that.getTabFooter = function() { /* TODO: implement self. */ };
-      that.getTabItems = function() { /* TODO: implement self. */ };
+      that.getTab = function() { /* TODO: implement this. */ };
+      that.getTabFooter = function() { /* TODO: implement this. */ };
+      that.getTabItems = function() { /* TODO: implement this. */ };
 
       that.getTitleLabels = function() {
         return self.titles;
@@ -202,12 +202,12 @@
         return self.grids;
       };
 
-      that.getDescription = function() { /* TODO: implement self. */ };
+      that.getDescription = function() { /* TODO: implement this. */ };
 
-      that.getImages = function() { /* TODO: implement self. */ };
+      that.getImages = function() { /* TODO: implement this. */ };
 
-      that.getIcons = function() { /* TODO: implement self. */ };
-      that.setIcon = function(index) { /* TODO: implement self. */ };
+      that.getIcons = function() { /* TODO: implement this. */ };
+      that.setIcon = function(index) { /* TODO: implement this. */ };
 
       that.getControls = function() {
         return self.controls;
@@ -221,9 +221,9 @@
         return self.bottomLine;
       };
 
-      that.setToolbar = function(toolbar) { /* TODO: implement self. */ };
+      that.setToolbar = function(toolbar) { /* TODO: implement this. */ };
 
-      that.unLoadToolbar = function() { /* TODO: implement self. */ };
+      that.unLoadToolbar = function() { /* TODO: implement this. */ };
 
       that.bringToFront = function() {
         showTab(self);
@@ -233,7 +233,7 @@
         self.loading = loading;
       };
 
-      that.firstResize = function() { /* TODO: implement self. */ };
+      that.firstResize = function() { /* TODO: implement this. */ };
 
       var getRegion = function() {
         return self.name.toLowerCase() + "DialogRegion";
@@ -312,21 +312,31 @@
         return true;
       }
 
-      that.showModalDialog = function () { /* TODO: implement self. */ };
+      that.showModalDialog = function () { /* TODO: implement this. */ };
 
       that.showDialog = function() {
         showTab();
         self.visible = true;
       };
 
-      that.showView = function() { /* TODO: implement self. */ };
-      that.setFocusFirstControl = function() { /* TODO: implement self. */ };
-      that.getActiveControl = function() { /* TODO: implement self. */ };
+      that.closeDialog = function() {
+        that.close();
+      };
 
-      that.getTextWidth = function(text) { /* TODO: implement self. */ };
+      that.save = function() { /* TODO: implement this. */ };
 
-      that.getIndexGrid = function(grid) { /* TODO: implement self. */ };
-      that.setNoResize = function(indexGrid, noResize) { /* TODO: implement self. */ };
+      that.close = function() {
+        Cairo.mainTab.closeTab(getRegion());
+      };
+
+      that.showView = function() { /* TODO: implement this. */ };
+      that.setFocusFirstControl = function() { /* TODO: implement this. */ };
+      that.getActiveControl = function() { /* TODO: implement this. */ };
+
+      that.getTextWidth = function(text) { /* TODO: implement this. */ };
+
+      that.getIndexGrid = function(grid) { /* TODO: implement this. */ };
+      that.setNoResize = function(indexGrid, noResize) { /* TODO: implement this. */ };
 
       that.getHeight = function() {
         return self.height;
@@ -346,14 +356,6 @@
 
       that.addListener = function(listenerDefinition) {
         self.listeners.push(listenerDefinition);
-      };
-
-      that.save = function() { /* TODO: implement self. */ };
-
-      that.close = function() {
-        // close the tab
-        //
-        Cairo.mainTab.closeTab(getRegion());
       };
 
       var onSaveClick = function() {
@@ -429,8 +431,8 @@
       that.getCopyButton = function() {
         return self.btnCopy;
       };
-      that.sendAutoSave = function() { /* TODO: implement self. */ };
-      that.raiseAfterLoadEvent = function() { /* TODO: implement self. */ };
+      that.sendAutoSave = function() { /* TODO: implement this. */ };
+      that.raiseAfterLoadEvent = function() { /* TODO: implement this. */ };
       that.getPrintButton = function() {
         return self.btnPrint;
       };
@@ -496,13 +498,13 @@
 
       var that = Views.createView();
 
-      that.getImgWiz1 = function() { /* TODO: implement self. */ };
-      that.getImgWiz3 = function() { /* TODO: implement self. */ };
-      that.getImgWiz5 = function() { /* TODO: implement self. */ };
-      that.getNextButton = function() { /* TODO: implement self. */ };
-      that.getBackButton = function() { /* TODO: implement self. */ };
-      that.getDialogBackground = function() { /* TODO: implement self. */ };
-      that.getTitleBackground = function() { /* TODO: implement self. */ };
+      that.getImgWiz1 = function() { /* TODO: implement this. */ };
+      that.getImgWiz3 = function() { /* TODO: implement this. */ };
+      that.getImgWiz5 = function() { /* TODO: implement this. */ };
+      that.getNextButton = function() { /* TODO: implement this. */ };
+      that.getBackButton = function() { /* TODO: implement this. */ };
+      that.getDialogBackground = function() { /* TODO: implement this. */ };
+      that.getTitleBackground = function() { /* TODO: implement this. */ };
 
       return that;
     };
@@ -511,21 +513,21 @@
 
       var that = Views.createView();
 
-      that.setLoading = function(loading) { /* TODO: implement self. */ };
-      that.getCancelUnload = function() { /* TODO: implement self. */ };
-      that.setCancelUnload = function(loading) { /* TODO: implement self. */ };
-      that.getUnloadCount = function() { /* TODO: implement self. */ };
-      that.setUnloadCount = function(count) { /* TODO: implement self. */ };
-      that.getFooterBackground = function() { /* TODO: implement self. */ };
+      that.setLoading = function(loading) { /* TODO: implement this. */ };
+      that.getCancelUnload = function() { /* TODO: implement this. */ };
+      that.setCancelUnload = function(loading) { /* TODO: implement this. */ };
+      that.getUnloadCount = function() { /* TODO: implement this. */ };
+      that.setUnloadCount = function(count) { /* TODO: implement this. */ };
+      that.getFooterBackground = function() { /* TODO: implement this. */ };
 
-      that.setNoButtons1 = function(buttons) { /* TODO: implement self. */ };
-      that.setNoButtons2 = function(buttons) { /* TODO: implement self. */ };
-      that.setNoButtons3 = function(buttons) { /* TODO: implement self. */ };
-      that.setButtonsEx2 = function(buttons) { /* TODO: implement self. */ };
-      that.setButtonsEx3 = function(buttons) { /* TODO: implement self. */ };
+      that.setNoButtons1 = function(buttons) { /* TODO: implement this. */ };
+      that.setNoButtons2 = function(buttons) { /* TODO: implement this. */ };
+      that.setNoButtons3 = function(buttons) { /* TODO: implement this. */ };
+      that.setButtonsEx2 = function(buttons) { /* TODO: implement this. */ };
+      that.setButtonsEx3 = function(buttons) { /* TODO: implement this. */ };
 
-      that.setToolbarButtons = function() { /* TODO: implement self. */ };
-      that.setHeightToDocWithDescription = function() { /* TODO: implement self. */ };
+      that.setToolbarButtons = function() { /* TODO: implement this. */ };
+      that.setHeightToDocWithDescription = function() { /* TODO: implement this. */ };
 
       return that;
     };
