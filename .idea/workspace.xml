@@ -2,10 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d47203c3-b220-49d7-aac2-46c758baa4bb" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSGeneral2/cProvincia.js" afterPath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSGeneral2/cProvincia.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/cairo/app/client/cairo/cairoApp.js" afterPath="$PROJECT_DIR$/web/cairo/app/client/cairo/cairoApp.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/cairo/app/client/cairo/system/controls/tab.js" afterPath="$PROJECT_DIR$/web/cairo/app/client/cairo/system/controls/tab.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/cairo/app/client/cairo/system/dialogs/view.js" afterPath="$PROJECT_DIR$/web/cairo/app/client/cairo/system/dialogs/view.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/cairo/app/client/cairo/system/dialogs/dialog.js" afterPath="$PROJECT_DIR$/web/cairo/app/client/cairo/system/dialogs/dialog.js" />
     </list>
     <ignored path="CrowSoft-Cairo.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -95,10 +93,10 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="cairoApp.js" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="cairoApp.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/web/cairo/app/client/cairo/cairoApp.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="840" column="4" selection-start="22702" selection-end="22702" vertical-scroll-proportion="0.8802521">
+            <state line="803" column="21" selection-start="21947" selection-end="21947" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -131,13 +129,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="dialog.js" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="dialog.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/web/cairo/app/client/cairo/system/dialogs/dialog.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="5673" column="14" selection-start="184166" selection-end="187940" vertical-scroll-proportion="71.07407">
-              <folding>
-                <element signature="e#187956#193020#0" expanded="false" />
-              </folding>
+            <state line="5792" column="16" selection-start="187940" selection-end="187940" vertical-scroll-proportion="0.125">
+              <folding />
             </state>
           </provider>
         </entry>
@@ -169,13 +165,13 @@
         <option value="$PROJECT_DIR$/web/cairo/app/models/cairo/modules/general/Provincia.scala" />
         <option value="$PROJECT_DIR$/web/cairo/app/views/logged/desktop/index.scala.html" />
         <option value="$PROJECT_DIR$/web/cairo/app/client/cairo/system/controls/tree.js" />
-        <option value="$PROJECT_DIR$/web/cairo/app/client/cairo/system/dialogs/dialog.js" />
         <option value="$PROJECT_DIR$/web/cairo/app/client/cairo/system/controls/control.js" />
         <option value="$PROJECT_DIR$/web/cairo/app/client/cairo/system/controls/input.js" />
         <option value="$PROJECT_DIR$/web/cairo/app/client/cairo/system/controls/tab.js" />
         <option value="$PROJECT_DIR$/web/cairo/app/client/cairo/system/dialogs/view.js" />
-        <option value="$PROJECT_DIR$/web/cairo/app/client/cairo/cairoApp.js" />
         <option value="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSGeneral2/cProvincia.js" />
+        <option value="$PROJECT_DIR$/web/cairo/app/client/cairo/cairoApp.js" />
+        <option value="$PROJECT_DIR$/web/cairo/app/client/cairo/system/dialogs/dialog.js" />
       </list>
     </option>
   </component>
@@ -812,15 +808,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/web/cairo/app/client/cairo/system/dialogs/dialog.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="5673" column="14" selection-start="184166" selection-end="187940" vertical-scroll-proportion="71.07407">
-          <folding>
-            <element signature="e#187956#193020#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/web/cairo/app/client/cairo/system/dialogs/view.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="65" column="74" selection-start="1738" selection-end="1798" vertical-scroll-proportion="0.0">
@@ -844,7 +831,14 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/web/cairo/app/client/cairo/cairoApp.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="840" column="4" selection-start="22702" selection-end="22702" vertical-scroll-proportion="0.8802521">
+        <state line="803" column="21" selection-start="21947" selection-end="21947" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/cairo/app/client/cairo/system/dialogs/dialog.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="5792" column="16" selection-start="187940" selection-end="187940" vertical-scroll-proportion="0.125">
           <folding />
         </state>
       </provider>

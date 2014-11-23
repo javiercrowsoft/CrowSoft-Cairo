@@ -802,43 +802,5 @@ var Cairo = new Marionette.Application();
   };
 
   Cairo.Editors = {};
-  /*
-    (function(){
-    var self = {
-      editors: Cairo.Collections.createCollection(null)
-    };
-
-    var getGroup = function(group) {
-      var key = "k" + group;
-      if(self.editors.contains(key)) {
-
-      }
-      else {
-        var editors = Cairo.Collections.createCollection(null);
-        self.editors.add(editors, key);
-      }
-    }
-
-    var that = {};
-
-    that.add = function(group, key, editor) {
-      var editors = getGroup(group);
-      editors.add(editor, key);
-    };
-
-    that.contains = function(group, key) {
-      var editors = getGroup(group);
-      return editors.contains(key);
-    };
-
-    that.item = function(group, key) {
-      var editors = getGroup(group);
-      return editors.item(key);
-    };
-
-    return that;
-
-  }());
-  */
 
 }());
