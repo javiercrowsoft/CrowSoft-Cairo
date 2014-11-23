@@ -54,8 +54,11 @@
 
       self.copy = function() {
 
-        self.terminate();
+        updateList();
+
         m_isNew = true;
+
+        m_listController.updateEditorKey(self, Cairo.Constants.NO_ID);
 
         var property = m_dialog.getProperties().item(Cairo.General.Constants.PRO_CODE);
         property.setValue(Cairo.Constants.COPY_OF + property.getValue());
@@ -72,7 +75,7 @@
 
         m_isNew = true;
 
-        m_listController.removeEditorKey(m_id);
+        m_listController.updateEditorKey(self, Cairo.Constants.NO_ID);
 
         return load(Cairo.Constants.NO_ID).then(
           function(ignored) {
@@ -204,6 +207,7 @@
                 function (success) {
                   if(success) {
                     updateList();
+                    m_listController.updateEditorKey(self, m_id);
                   };
                   m_isNew = false;
                   return success;
@@ -238,7 +242,8 @@
             m_listController.removeEditor(self);
           }
         }
-        catch (ex) {
+        catch (ignored) {
+          Cairo.logError('Error in terminate', ignored);
         }
       };
 
@@ -503,7 +508,9 @@
          */
         var createTreeDialog = function(tabId) {
 
-          var editors = Cairo.Collections.createCollection(null);
+          //var editors = Cairo.Collections.createCollection(null);
+          var editors = Cairo.Editors.provinciaEditors || Cairo.Collections.createCollection(null);
+          Cairo.Editors.provinciaEditors = editors;
 
           // ListController properties and methods
           //
@@ -536,38 +543,46 @@
             }
           };
 
-          self.removeEditor = function(editor) {
+          var getIndexFromEditor = function(editor) {
             var count = editors.count();
             for(var i = 0; i < count; i += 1) {
               if(editors.item(i).editor === editor) {
-                editors.remove(i);
-                break;
+                return i;
               }
+            }
+            return -1;
+          };
+
+          self.removeEditor = function(editor) {
+            var index = getIndexFromEditor(editor);
+            if(index >= 0) {
+              editors.remove(index);
             }
           };
 
           var getKey = function(id) {
-            if(id !== Cairo.Constants.NO_ID) {
+            if(id === Cairo.Constants.NO_ID) {
               return "new-id:" + (new Date).getTime().toString()
             }
             else {
-              return undefined
+              return "k:" + id.toString();
             }
           };
 
-          self.removeEditorKey = function(id) {
-            var key = getKey(id);
-            if(editors.contains(key)) {
-              var editor = editors.item(key);
-              editors.remove(key);
-              editors.add(editor, undefined);
+          self.updateEditorKey = function(editor, newId) {
+            var index = getIndexFromEditor(editor);
+            if(index >= 0) {
+              var editor = editors.item(index);
+              editors.remove(index);
+              var key = getKey(newId);
+              editors.add(editor, key);
             }
           };
 
           self.edit = function(id, treeId, branchId) {
-            var k = getKey(id);
-            if(editors.contains(k)) {
-              editors.item(k).dialog.showDialog();
+            var key = getKey(id);
+            if(editors.contains(key)) {
+              editors.item(key).dialog.showDialog();
             }
             else {
               var editor = Cairo.Provincia.Edit.Controller.getEditor();
@@ -579,7 +594,6 @@
               editor.setBranchId(branchId);
               editor.edit(id);
 
-              var key = id !== Cairo.Constants.NO_ID ? k : undefined;
               editors.add({editor: editor, dialog: dialog}, key);
             }
           };
@@ -591,10 +605,16 @@
             var apiPath = Cairo.Database.getAPIVersion();
             return Cairo.Database.destroy(apiPath + "general/provincia", id, Cairo.Constants.DELETE_FUNCTION, "cProvincia").success(
               function() {
-                var k = getKey(id);
-                if(editors.contains(k)) {
-                  editors.item(k).dialog.closeDialog();
+                try {
+                var key = getKey(id);
+                if(editors.contains(key)) {
+                  editors.item(key).dialog.closeDialog();
                 }
+                }
+                catch(ignore) {
+                  Cairo.log('Error closing dialog after delete');
+                }
+                return true;
               }
             );
           };

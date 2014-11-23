@@ -47,7 +47,11 @@
     });
 
     Views.createView = function() {
+
+      var _viewId = "view" + (new Date).getTime().toString();
+
       var controls = Cairo.Collections.createCollection(null);
+
       var self = {
         listeners: [],
 
@@ -236,7 +240,7 @@
       that.firstResize = function() { /* TODO: implement this. */ };
 
       var getRegion = function() {
-        return self.name.toLowerCase() + "DialogRegion";
+        return _viewId + "DialogRegion";
       };
 
       var createTab = function(view, viewManager) {

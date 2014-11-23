@@ -30,6 +30,8 @@
       createTab: function(tabBar, tabBody, tabName) {
         var tabIndex = 1;
 
+        var activeTab = null;
+
         /*
             a collection of the tabs in this tab set
         */
@@ -122,6 +124,7 @@
             // add this tab to the tabs collection
             //
             tabs[id] = { tabId: tabId };
+            activeTab = tabId;
             if(closeTabHandler !== undefined) {
               tabs[id].closeHandler = closeTabHandler;
               tabs[id].showHandler = showTabHandler;
@@ -152,12 +155,15 @@
           var tabId = $(this).parents('li').children('a').attr('href');
           $(this).parents('li').remove('li');
           $(tabId).remove();
-          $(tabBar + ' a:first').tab('show');
           tabs.remove(tabId);
 
           // we navigate to the desktop
           //
-          Cairo.navigate('#');
+          if(tabId === activeTab) {
+            activeTab = null;
+            $(tabBar + ' a:first').tab('show');
+            Cairo.navigate('#');
+          }
 
           // we use this property to prevent a click event that
           // will navigate to this tab after it has been removed
@@ -175,10 +181,12 @@
           //
           if(! $(this).data("removed")) {
             $(this).tab('show');
+
             var route = $(this).data("route");
             Cairo.navigate(route);
 
             var tabId = $(this).parents('li').children('a').attr('href');
+            activeTab = tabId;
             tabs.show(tabId);
           }
         });

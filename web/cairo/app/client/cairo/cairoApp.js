@@ -518,8 +518,12 @@ var Cairo = new Marionette.Application();
     }
   };
 
-  Cairo.logError = function(msg) {
+  Cairo.logError = function(msg, exception) {
     Cairo.log('CAIRO_INTERNAL_ERROR: ' + msg);
+    if(exception) {
+      Cairo.log(exception.message);
+      Cairo.log(exception.stack.toString());
+    }
   };
 
   Cairo.log = function(msg) {
@@ -775,6 +779,7 @@ var Cairo = new Marionette.Application();
     }
     var view = Cairo.manageErrorView(title, message, errorDetails, closeHandler);
     Cairo.dialogRegion.show(view);
+    Cairo.logError(message, exception);
   };
 
   Cairo.manageErrorEx = function(errorResponse, functionName, className, infoAdd) {
@@ -795,5 +800,45 @@ var Cairo = new Marionette.Application();
     $('#errorDetailIFrame')[0].src = "data:text/html;charset=utf-8," + escape(html);
     $('#errorDetailIFrame').show();
   };
+
+  Cairo.Editors = {};
+  /*
+    (function(){
+    var self = {
+      editors: Cairo.Collections.createCollection(null)
+    };
+
+    var getGroup = function(group) {
+      var key = "k" + group;
+      if(self.editors.contains(key)) {
+
+      }
+      else {
+        var editors = Cairo.Collections.createCollection(null);
+        self.editors.add(editors, key);
+      }
+    }
+
+    var that = {};
+
+    that.add = function(group, key, editor) {
+      var editors = getGroup(group);
+      editors.add(editor, key);
+    };
+
+    that.contains = function(group, key) {
+      var editors = getGroup(group);
+      return editors.contains(key);
+    };
+
+    that.item = function(group, key) {
+      var editors = getGroup(group);
+      return editors.item(key);
+    };
+
+    return that;
+
+  }());
+  */
 
 }());
