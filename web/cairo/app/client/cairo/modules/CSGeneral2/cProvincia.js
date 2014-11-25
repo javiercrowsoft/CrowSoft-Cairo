@@ -19,14 +19,13 @@
       var K_ACTIVE = 3;
       var K_DESCIP = 4;
       var K_PA_ID = 5;
-
       var m_id = 0;
       var m_name = "";
       var m_code = "";
       var m_descrip = "";
       var m_pa_Id = 0;
       var m_pais = "";
-      var m_activo;
+      var m_active;
 
       var m_editing;
 
@@ -144,6 +143,7 @@
       };
 
       self.propertyChange = function(key) {
+
         return Cairo.Promises.resolvedPromise(false);
       };
 
@@ -191,7 +191,6 @@
           }
         }
 
-        // Error saving Provincias
         return Cairo.Database.saveEx(
             register,
             false,
@@ -247,18 +246,18 @@
         }
       };
 
-      self.getTitle = function() {
-        //'Provincias
-        return Cairo.Language.getText(1080, "");;
-      };
-
       self.getPath = function() {
         return "#general/provincia/" + m_id.toString();
       };
 
       self.getEditorName = function() {
         var id = m_id ? m_id.toString() : "N" + (new Date).getTime().toString();
-        return "province" + id;
+        return "provincia" + id;
+      };
+
+      self.getTitle = function() {
+        //'Provincias
+        return Cairo.Language.getText(1080, "");
       };
 
       self.validate = function() {
@@ -311,8 +310,8 @@
         return Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.LIST_PROVINCIA);
       };
 
-      self.setDialog = function(dialog) {
-        m_dialog = dialog;
+      self.setDialog = function(rhs) {
+        m_dialog = rhs;
       };
 
       self.isEditing = function() {
@@ -399,7 +398,7 @@
         elem.setType(Dialogs.PropertyType.check);
         elem.setName(Cairo.Constants.ACTIVE_LABEL);
         elem.setKey(K_ACTIVE);
-        elem.setValue(m_activo === true ? 1 : 0);
+        elem.setValue(m_active === true ? 1 : 0);
 
         var elem = properties.add(null, Cairo.General.Constants.PA_ID);
         elem.setType(Dialogs.PropertyType.select);
@@ -438,7 +437,7 @@
         elem.setValue(m_code);
 
         var elem = properties.item(Cairo.Constants.ACTIVE);
-        elem.setValue(m_activo === true ? 1 : 0);
+        elem.setValue(m_active === true ? 1 : 0);
 
         var elem = properties.item(Cairo.General.Constants.PA_ID);
         elem.setValue(m_pais);
@@ -447,9 +446,7 @@
         var elem = properties.item(Cairo.General.Constants.PRO_DESCRIP);
         elem.setValue(m_descrip);
 
-        if(!m_dialog.showValues(properties)) { return false; }
-
-        return true;
+        return m_dialog.showValues(properties);
       };
 
       var load = function(id) {
@@ -460,8 +457,8 @@
 
             if(response.success !== true) { return false; }
 
-            if(response.data.id === 0) {
-              m_activo = true;
+            if(response.data.id === Cairo.Constants.NO_ID) {
+              m_active = true;
               m_name = "";
               m_code = "";
               m_descrip = "";
@@ -470,7 +467,7 @@
               m_pais = "";
             }
             else {
-              m_activo = Cairo.Database.valField(response.data, Cairo.Constants.ACTIVE);
+              m_active = Cairo.Database.valField(response.data, Cairo.Constants.ACTIVE);
               m_name = Cairo.Database.valField(response.data, Cairo.General.Constants.PRO_NAME);
               m_code = Cairo.Database.valField(response.data, Cairo.General.Constants.PRO_CODE);
               m_descrip = Cairo.Database.valField(response.data, Cairo.General.Constants.PRO_DESCRIP);
@@ -508,7 +505,6 @@
          */
         var createTreeDialog = function(tabId) {
 
-          //var editors = Cairo.Collections.createCollection(null);
           var editors = Cairo.Editors.provinciaEditors || Cairo.Collections.createCollection(null);
           Cairo.Editors.provinciaEditors = editors;
 
@@ -603,13 +599,13 @@
               return Cairo.Promises.resolvedPromise(false);
             }
             var apiPath = Cairo.Database.getAPIVersion();
-            return Cairo.Database.destroy(apiPath + "general/provincia", id, Cairo.Constants.DELETE_FUNCTION, "cProvincia").success(
+            return Cairo.Database.destroy(apiPath + "general/provincia", id, Cairo.Constants.DELETE_FUNCTION, "Provincia").success(
               function() {
                 try {
-                var key = getKey(id);
-                if(editors.contains(key)) {
-                  editors.item(key).dialog.closeDialog();
-                }
+                  var key = getKey(id);
+                  if(editors.contains(key)) {
+                    editors.item(key).dialog.closeDialog();
+                  }
                 }
                 catch(ignore) {
                   Cairo.log('Error closing dialog after delete');
