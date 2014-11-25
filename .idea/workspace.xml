@@ -2,12 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d47203c3-b220-49d7-aac2-46c758baa4bb" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/cairo/app/client/cairo/cairoApp.js" afterPath="$PROJECT_DIR$/web/cairo/app/client/cairo/cairoApp.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/cairo/app/client/cairo/system/dialogs/dialog.js" afterPath="$PROJECT_DIR$/web/cairo/app/client/cairo/system/dialogs/dialog.js" />
     </list>
     <ignored path="CrowSoft-Cairo.iws" />
     <ignored path=".idea/workspace.xml" />
-    <file path="/Dummy.txt" changelist="d47203c3-b220-49d7-aac2-46c758baa4bb" time="1416669681223" ignored="false" />
+    <file path="/Dummy.txt" changelist="d47203c3-b220-49d7-aac2-46c758baa4bb" time="1416952173814" ignored="false" />
     <file path="$PROJECT_DIR$/web/cairo/target/streams/compile/compile/$global/export" changelist="d47203c3-b220-49d7-aac2-46c758baa4bb" time="1416264673552" ignored="false" />
     <file path="/input.js" changelist="d47203c3-b220-49d7-aac2-46c758baa4bb" time="1416264711559" ignored="false" />
     <file path="/textArea.js" changelist="d47203c3-b220-49d7-aac2-46c758baa4bb" time="1416264726694" ignored="false" />
@@ -17,8 +16,8 @@
     <file path="/select.js" changelist="d47203c3-b220-49d7-aac2-46c758baa4bb" time="1416341290357" ignored="false" />
     <file path="/view.js" changelist="d47203c3-b220-49d7-aac2-46c758baa4bb" time="1416750218517" ignored="false" />
     <file path="/cProvincia.js" changelist="d47203c3-b220-49d7-aac2-46c758baa4bb" time="1416758545682" ignored="false" />
-    <file path="/dialog.js" changelist="d47203c3-b220-49d7-aac2-46c758baa4bb" time="1416670077097" ignored="false" />
-    <file path="/a.dummy" changelist="d47203c3-b220-49d7-aac2-46c758baa4bb" time="1416750177597" ignored="false" />
+    <file path="/dialog.js" changelist="d47203c3-b220-49d7-aac2-46c758baa4bb" time="1416845676639" ignored="false" />
+    <file path="/a.dummy" changelist="d47203c3-b220-49d7-aac2-46c758baa4bb" time="1416952187270" ignored="false" />
     <file path="/tree.js" changelist="d47203c3-b220-49d7-aac2-46c758baa4bb" time="1416594586491" ignored="false" />
     <file path="/how it works.md" changelist="d47203c3-b220-49d7-aac2-46c758baa4bb" time="1416496165757" ignored="false" />
     <file path="/jquery.dataTables.js" changelist="d47203c3-b220-49d7-aac2-46c758baa4bb" time="1416500093753" ignored="false" />
@@ -29,6 +28,16 @@
     <file path="/cairoApp.js" changelist="d47203c3-b220-49d7-aac2-46c758baa4bb" time="1416758488469" ignored="false" />
     <file path="/database.js" changelist="d47203c3-b220-49d7-aac2-46c758baa4bb" time="1416583790963" ignored="false" />
     <file path="/Provincia.scala" changelist="d47203c3-b220-49d7-aac2-46c758baa4bb" time="1416586665044" ignored="false" />
+    <file path="$PROJECT_DIR$/../../ArizonaBay/Intelimax/draftteam/CentralServer/app/models/admin_adjustment.rb" changelist="d47203c3-b220-49d7-aac2-46c758baa4bb" time="1416867514411" ignored="false" />
+    <file path="/admin_adjustment.rb" changelist="d47203c3-b220-49d7-aac2-46c758baa4bb" time="1416867514411" ignored="false" />
+    <file path="$PROJECT_DIR$/../../ArizonaBay/Intelimax/draftteam/CentralServer/doc/deploy_notes.txt" changelist="d47203c3-b220-49d7-aac2-46c758baa4bb" time="1416868115467" ignored="false" />
+    <file path="/deploy_notes.txt" changelist="d47203c3-b220-49d7-aac2-46c758baa4bb" time="1416868088205" ignored="false" />
+    <file path="$PROJECT_DIR$/../../ArizonaBay/Intelimax/draftteam/CentralServer/app/views/customer_logins/index.html.erb" changelist="d47203c3-b220-49d7-aac2-46c758baa4bb" time="1416933269755" ignored="false" />
+    <file path="/index.html.erb" changelist="d47203c3-b220-49d7-aac2-46c758baa4bb" time="1416922290791" ignored="false" />
+    <file path="$PROJECT_DIR$/../../ArizonaBay/Intelimax/draftteam/CentralServer/app/models/customer_login.rb" changelist="d47203c3-b220-49d7-aac2-46c758baa4bb" time="1416933151537" ignored="false" />
+    <file path="/customer_login.rb" changelist="d47203c3-b220-49d7-aac2-46c758baa4bb" time="1416932944595" ignored="false" />
+    <file path="$PROJECT_DIR$/../../ArizonaBay/Intelimax/draftteam/CentralServer/app/controllers/customer_logins_controller.rb" changelist="d47203c3-b220-49d7-aac2-46c758baa4bb" time="1416933166618" ignored="false" />
+    <file path="/customer_logins_controller.rb" changelist="d47203c3-b220-49d7-aac2-46c758baa4bb" time="1416929260348" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -96,7 +105,7 @@
       <file leaf-file-name="cairoApp.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/web/cairo/app/client/cairo/cairoApp.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="803" column="21" selection-start="21947" selection-end="21947" vertical-scroll-proportion="0.0">
+            <state line="773" column="8" selection-start="20843" selection-end="20843" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -111,28 +120,19 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="cProvincia.js" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="cProvincia.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSGeneral2/cProvincia.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="557" column="30" selection-start="15918" selection-end="15918" vertical-scroll-proportion="0.0">
+            <state line="497" column="0" selection-start="13754" selection-end="13754" vertical-scroll-proportion="0.7976571">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="collection.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/web/cairo/app/client/cairo/system/collections/collection.js">
+      <file leaf-file-name="constants.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSGeneral2/constants.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="144" column="39" selection-start="4075" selection-end="4075" vertical-scroll-proportion="-10.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="dialog.js" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/web/cairo/app/client/cairo/system/dialogs/dialog.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="5792" column="16" selection-start="187940" selection-end="187940" vertical-scroll-proportion="0.125">
+            <state line="9" column="6" selection-start="178" selection-end="178" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -169,9 +169,9 @@
         <option value="$PROJECT_DIR$/web/cairo/app/client/cairo/system/controls/input.js" />
         <option value="$PROJECT_DIR$/web/cairo/app/client/cairo/system/controls/tab.js" />
         <option value="$PROJECT_DIR$/web/cairo/app/client/cairo/system/dialogs/view.js" />
-        <option value="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSGeneral2/cProvincia.js" />
         <option value="$PROJECT_DIR$/web/cairo/app/client/cairo/cairoApp.js" />
         <option value="$PROJECT_DIR$/web/cairo/app/client/cairo/system/dialogs/dialog.js" />
+        <option value="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSGeneral2/cProvincia.js" />
       </list>
     </option>
   </component>
@@ -732,11 +732,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/web/cairo/app/models/cairo/system/trees/Branch.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="262" column="7" selection-start="7106" selection-end="7267" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/web/cairo/app/models/cairo/modules/general/Provincia.scala">
       <provider editor-type-id="com.intellij.persistence.database.editor.CsvTableFileEditorProvider">
         <state />
@@ -815,30 +810,37 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/web/cairo/app/client/cairo/system/collections/collection.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="144" column="39" selection-start="4075" selection-end="4075" vertical-scroll-proportion="-10.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSGeneral2/cProvincia.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="557" column="30" selection-start="15918" selection-end="15918" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/web/cairo/app/client/cairo/cairoApp.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="803" column="21" selection-start="21947" selection-end="21947" vertical-scroll-proportion="0.0">
+        <state line="773" column="8" selection-start="20843" selection-end="20843" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/web/cairo/app/client/cairo/system/dialogs/dialog.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="5792" column="16" selection-start="187940" selection-end="187940" vertical-scroll-proportion="0.125">
+        <state line="2243" column="17" selection-start="69469" selection-end="69469" vertical-scroll-proportion="-101.416664">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/cairo/app/client/cairo/system/collections/collection.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="144" column="39" selection-start="4075" selection-end="4075" vertical-scroll-proportion="0.2918919">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSGeneral2/constants.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="9" column="6" selection-start="178" selection-end="178" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSGeneral2/cProvincia.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="497" column="0" selection-start="13754" selection-end="13754" vertical-scroll-proportion="0.7976571">
           <folding />
         </state>
       </provider>

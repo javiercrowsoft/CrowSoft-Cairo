@@ -2232,14 +2232,16 @@
         *
         *
         */
+        /*
         self.show = function(obj, indexTag) {
           Cairo.LoadingMessage.showWait();
           var succes = showDialog(obj, indexTag, true);
           Cairo.LoadingMessage.close();
           return succes;
         };
-        /*
-        self.show2 = function(obj, indexTag) {
+        */
+
+        self.show = function(obj, indexTag) {
           try {
             Cairo.LoadingMessage.showWait();
             return showDialog(obj, indexTag, true);
@@ -2248,14 +2250,14 @@
             Cairo.manageError(
               "Showing Dialog",
               "An error has occurred when showing a dialog.",
-              e.message);
+              e.message,
+              e);
             return false;
           }
           finally {
             Cairo.LoadingMessage.close();
           }
         };
-        */
 
         /*
         *
@@ -6048,123 +6050,7 @@
         //
         var discardChanges = function(dontCallClient) {
           var p = null;
-          /*
-          try {
 
-            Cairo.LoadingMessage.showWait();
-
-            var i, count;
-            var propertyCount = m_properties.count();
-            for(i = 0; i < propertyCount; i++) {
-              m_properties.get(i).setControl(null);
-            }
-
-            var view = getView();
-
-            saveColumnsGrids();
-
-            initVectorsPosition();
-
-            count = view.getMaskEdits().count();
-            for(i = 0; i < count; i++) {
-              removeControl(view.getMaskEdits().get(i));
-            }
-
-            count = view.getDatePickers().count()
-            for(i = 0; i < count; i++) {
-              removeControl(view.getDatePickers().get(i));
-            }
-
-            count = view.getSelects().count();
-            for(i = 0; i < count; i++) {
-              removeControl(view.getSelects().get(i));
-            }
-
-            count = view.getOptionButtons.count();
-            for(i = 0; i < count; i++) {
-              removeControl(view.getOptionButtons().get(i));
-            }
-
-            count = view.getCheckBoxes().count();
-            for(i = 0; i < count; i++) {
-              removeControl(view.getCheckBoxes().get(i));
-            }
-
-            count = view.getButtons().count();
-            for(i = 0; i < count; i++) {
-              removeControl(view.getButtons().get(i));
-            }
-
-            count = view.getCombos().count();
-            for(i = 0; i < count; i++) {
-              removeControl(view.getCombos().get(i));
-            }
-
-            count = view.getTextInputs().count();
-            for(i = 0; i < count; i++) {
-              removeControl(view.getTextInputs().get(i));
-            }
-
-            count = view.getTextAreas().count();
-            for(i = 0; i < count; i++) {
-              removeControl(view.getTextAreas().get(i));
-            }
-
-            count = view.getPasswordInputs().count();
-            for(i = 0; i < count; i++) {
-              removeControl(view.getPasswordInputs().get(i));
-            }
-
-            count = view.getLabels().count();
-            for(i = 0; i < count; i++) {
-              removeControl(view.getLabels().get(i));
-            }
-
-            destroyGrids(getView());
-
-            if(viewIsWizard(view) || viewIsMaster(view)) {
-              count = view.getCtrlLabels().count();
-              for(i = 0; i < count; i++) {
-                removeControl(view.getCtrlLabels().get(i));
-              }
-            }
-
-            if(viewIsWizard(view)) {
-              count = view.getProgressBars().count();
-              for(i = 0; i < count; i++) {
-                removeControl(view.getProgressBars().get(i));
-              }
-              count = view.getDescription().count();
-              for(i = 0; i < count; i++) {
-                removeControl(view.getDescription(i));
-              }
-            }
-
-            if(viewIsWizard(view) || viewIsMaster(view)) {
-              count = view.getTitleLabels().count();
-              for(i = 0; i < count; i++) {
-                removeControl(view.getTitleLabels().get(i));
-              }
-              count = view.getImages().count();
-              for(i = 0; i < count; i++) {
-                removeControl(view.getImages().get(i));
-              }
-            }
-
-            view.unLoadToolbar();
-
-            if(!dontCallClient) {
-              p = m_client.discardChanges();
-            }
-          }
-          catch(e) {
-            Cairo.manageError(
-              "Discard Changes",
-              "An error has occurred when discarding changes.",
-              e.message,
-              e);
-          }
-          */
           try {
 
             if(!dontCallClient) {
