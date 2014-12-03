@@ -14,55 +14,131 @@ import play.api.libs.json._
 import scala.util.control.NonFatal
 
 case class Provincia(
-                      id: Int,
-                      name: String,
-                      code: String,
-                      descrip: String,
-                      active: Boolean,
-                      createdAt: Date,
-                      updatedAt: Date,
-                      updatedBy: Int,
-                      paId: Int,
-                      paName: String) {
-  def this(id: Int,
-           name: String,
-           code: String,
-           descrip: String,
-           active: Boolean,
-           paId: Int) = {
-    this(id, name, code, descrip, active, DateUtil.currentTime, DateUtil.currentTime, DBHelper.NoId, paId, "")
+              id: Int,
+              name: String,
+              code: String,
+              active: Boolean,
+              paId: Int,
+              paName: String,
+              descrip: String,
+              createdAt: Date,
+              updatedAt: Date,
+              updatedBy: Int) {
+
+  def this(
+      id: Int,
+      name: String,
+      code: String,
+      active: Boolean,
+      paId: Int,
+      descrip: String) = {
+
+    this(
+      id,
+      name,
+      code,
+      active,
+      paId,
+      "",
+      descrip,
+      DateUtil.currentTime,
+      DateUtil.currentTime,
+      DBHelper.NoId)
   }
 
-  def this(name: String, code: String, descrip: String, active: Boolean, paId: Int) = {
-    this(DBHelper.NoId, name, code, descrip, active, paId)
+  def this(
+      name: String,
+      code: String,
+      active: Boolean,
+      paId: Int,
+      descrip: String) = {
+
+    this(
+      DBHelper.NoId,
+      name,
+      code,
+      active,
+      paId,
+      descrip)
+
   }
 
 }
 
 object Provincia {
 
-  lazy val emptyProvincia = Provincia("", "", "", false, DBHelper.NoId)
+  lazy val emptyProvincia = Provincia(
+    "",
+    "",
+    false,
+    DBHelper.NoId,
+    "")
 
-  def apply(id: Int, name: String, code: String, descrip: String, active: Boolean, paId: Int) = {
-    new Provincia(id, name, code, descrip, active, paId)
+  def apply(
+      id: Int,
+      name: String,
+      code: String,
+      active: Boolean,
+      paId: Int,
+      descrip: String) = {
+
+    new Provincia(
+      id,
+      name,
+      code,
+      active,
+      paId,
+      descrip)
   }
-  def apply(name: String, code: String, descrip: String, active: Boolean, paId: Int) = {
-    new Provincia(name, code, descrip, active, paId)
+
+  def apply(
+      name: String,
+      code: String,
+      active: Boolean,
+      paId: Int,
+      descrip: String) = {
+
+    new Provincia(
+      name,
+      code,
+      active,
+      paId,
+      descrip)
   }
 
   private val provinciaParser: RowParser[Provincia] = {
-    SqlParser.get[Int](C.PRO_ID) ~
+      SqlParser.get[Int](C.PRO_ID) ~
       SqlParser.get[String](C.PRO_NAME) ~
       SqlParser.get[String](C.PRO_CODE) ~
-      SqlParser.get[String](C.PRO_DESCRIP) ~
       SqlParser.get[Int](DBHelper.ACTIVE) ~
+      SqlParser.get[Int](C.PA_ID) ~
+      SqlParser.get[String](C.PA_NAME) ~
+      SqlParser.get[String](C.PRO_DESCRIP) ~
       SqlParser.get[Date](DBHelper.CREATED_AT) ~
       SqlParser.get[Date](DBHelper.UPDATED_AT) ~
-      SqlParser.get[Int](DBHelper.UPDATED_BY) ~
-      SqlParser.get[Int](C.PA_ID) ~
-      SqlParser.get[String](C.PA_NAME) map {
-      case id ~ name ~ code ~ descrip ~ active ~ createdAt ~ updatedAt ~ updatedBy ~ paId ~ paName =>
-        Provincia(id, name, code, descrip, (if(active != 0) true else false), createdAt, updatedAt, updatedBy, paId, paName)
+      SqlParser.get[Int](DBHelper.UPDATED_BY) map {
+      case
+              id ~
+              name ~
+              code ~
+              active ~
+              paId ~
+              paName ~
+              descrip  ~
+              createdAt ~
+              updatedAt ~
+              updatedBy =>
+        Provincia(
+              id,
+              name,
+              code,
+              (if(active != 0) true else false),
+              paId,
+              paName,
+              descrip,
+              createdAt,
+              updatedAt,
+              updatedBy)
     }
   }
 
@@ -79,9 +155,9 @@ object Provincia {
       List(
         Field(C.PRO_NAME, provincia.name, FieldType.text),
         Field(C.PRO_CODE, provincia.code, FieldType.text),
-        Field(C.PRO_DESCRIP, provincia.descrip, FieldType.text),
         Field(DBHelper.ACTIVE, (if(provincia.active) 1 else 0), FieldType.boolean),
-        Field(C.PA_ID, provincia.paId, FieldType.id)
+        Field(C.PA_ID, provincia.paId, FieldType.id),
+        Field(C.PRO_DESCRIP, provincia.descrip, FieldType.text)
       )
     }
     def throwException = {
@@ -121,7 +197,7 @@ object Provincia {
   def delete(user: CompanyUser, id: Int) = {
     DB.withConnection(user.database.database) { implicit connection =>
       try {
-        SQL(s"DELETE FROM ${C.PROVINCIA} where ${C.PRO_ID} = {id}")
+        SQL(s"DELETE FROM ${C.PROVINCIA} WHERE ${C.PRO_ID} = {id}")
         .on('id -> id)
         .executeUpdate
       } catch {
