@@ -291,6 +291,9 @@
       that.getSelectFilter = function() {
         return self.selectFilter;
       };
+      that.setSelectFilter = function(filter) {
+        self.selectFilter = filter;
+      };
 
       that.getSelectType = function() {
         return self.selectType;
@@ -428,6 +431,9 @@
       that.getTopFromProperty = function() {
         return self.topFromProperty;
       };
+      that.setTopFromProperty = function(key) {
+        self.topFromProperty = key;
+      };
 
       that.getTop = function() {
         return self.top;
@@ -439,8 +445,15 @@
       that.getTopToPrevious = function() {
         return self.topToPrevious;
       };
+      that.setTopToPrevious = function(top) {
+        self.topToPrevious = top;
+      };
+
       that.getLeftFromProperty = function() {
         return self.leftFromProperty;
+      };
+      that.setLeftFromProperty = function(key) {
+        self.leftFromProperty = key;
       };
 
       that.setLeft = function(left) {
@@ -459,6 +472,9 @@
 
       that.getLeftToPrevious = function() {
         return self.leftToPrevious;
+      };
+      that.setLeftToPrevious = function(left) {
+        self.leftToPrevious = left;
       };
 
       that.getTabIndex = function() {

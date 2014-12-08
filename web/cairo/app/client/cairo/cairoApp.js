@@ -297,7 +297,8 @@ var Cairo = new Marionette.Application();
     CODE_LABEL: "Code",
     DESCRIPTION_LABEL: "Description",
     EDIT_FUNCTION: "edit",
-    MUST_SET_A_NAME: "You must provide a name"
+    MUST_SET_A_NAME: "You must provide a name",
+    VALIDATE_ROW_FUNCTION: "validateRow"
   };
 
   Cairo.Constants.Types = {
@@ -367,7 +368,6 @@ var Cairo = new Marionette.Application();
         return false;
       }
     },
-
     sendEmailToCrowSoft: function(subject, section) { /* TODO: implement this. */ },
     newArray: function(length, val) {
       var array = [];
@@ -375,6 +375,9 @@ var Cairo = new Marionette.Application();
         array[i] = val;
       }
       return array;
+    },
+    boolToInt: function(value) {
+      return value === true ? 1 : 0;
     }
   };
 
@@ -439,9 +442,21 @@ var Cairo = new Marionette.Application();
     editFile: function(file) { /* TODO: implement this. */ }
   };
 
+  Cairo.String = {
+    rtrim: function(str){
+      return str.replace(/\s+$/, "");
+    },
+    ltrim: function(str){
+      return str.replace(/^\s+/, "");
+    }
+  };
+
   Cairo.Configuration = {
     get: function(section, key, defaultValue) { /* TODO: implement this. */},
-    appPath: function() { /* TODO: implement this. */ }
+    appPath: function() { /* TODO: implement this. */ },
+    getQuantityDecimals: function() {
+      return 2;
+    }
   };
 
   Cairo.Configuration.Reports = {
@@ -450,6 +465,26 @@ var Cairo = new Marionette.Application();
     commandTimeOut: 'COMMAND_TIME_OUT',
     connectionTimeOut: 'CONNECT_TIME_OUT'
   };
+
+  /* TODO: this must to be read from Database */
+  var loadSettings = function() {
+    var quantityDecimals = 2;
+    return {
+      quantityDecimals: quantityDecimals,
+      quantityDecimalsFormat: "#,###,###,##0." + Array(quantityDecimals+1).join("0")
+    }
+  };
+
+  var getConfiguration = function() {
+    var settings = loadSettings();
+
+    Cairo.Configuration.getQuantityDecimalsFormat = function() {
+      return settings.quantityDecimalsFormat;
+    };
+
+  };
+
+  getConfiguration();
 
   Cairo.raiseError = function(title, message) {
     throw new Error(title + " - " + message);

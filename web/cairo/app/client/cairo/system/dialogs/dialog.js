@@ -169,7 +169,9 @@
   ///////////////
 
   Cairo.module("Dialogs", function(Tree, Cairo, Backbone, Marionette, $, _) {
-
+    Dialogs.cell = function(row, key) {
+      // TODO: implement this.
+    };
   });
 
   ///////////////
