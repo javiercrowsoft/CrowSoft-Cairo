@@ -298,6 +298,7 @@ var Cairo = new Marionette.Application();
     DESCRIPTION_LABEL: "Description",
     EDIT_FUNCTION: "edit",
     MUST_SET_A_NAME: "You must provide a name",
+    MUST_SET_A_CODE: "You must provide a code",
     VALIDATE_ROW_FUNCTION: "validateRow"
   };
 

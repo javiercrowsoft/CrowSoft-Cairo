@@ -624,9 +624,9 @@
 
               oCell = Dialogs.cell(row, KIT_PR_ID_TAG);
 
-              if(LenB(oCell.getHelpValueProcess())) {
-                if(oCell.getHelpValueProcess().indexOf(",", 1)) {
-                  AddMultiRowsCompras(oCell.getHelpValueProcess(), info, -1);
+              if(LenB(oCell.getSelectIntValue())) {
+                if(oCell.getSelectIntValue().indexOf(",", 1)) {
+                  AddMultiRowsCompras(oCell.getSelectIntValue(), info, -1);
                   _rtn = true;
                 }
               }
@@ -2006,7 +2006,7 @@
         elem.setType(Dialogs.PropertyType.label);
         elem.setWidth(10500);
         elem.setHeight(10);
-        elem.setBackColor(&HCCCCCC);
+        elem.setBackColor("&HCCCCCC");
         elem.setLeft(300);
         elem.setTopToPrevious(840);
 
@@ -2713,7 +2713,7 @@
 
         var elem = properties.add(null, Cairo.General.Constants.TA_ID_KIT_SERIE);
         elem.setType(Dialogs.PropertyType.select);
-        elem.setTable(csTalonario);
+        elem.setTable(Cairo.Tables.TALONARIO);
         elem.setTabIndex(tab_kit);
         //'Talonario Serie
         elem.setName(Cairo.Language.getText(1343, ""));
@@ -2748,7 +2748,7 @@
 
         var elem = properties.add(null, Cairo.General.Constants.TA_ID_KIT_LOTE);
         elem.setType(Dialogs.PropertyType.select);
-        elem.setTable(csTalonario);
+        elem.setTable(Cairo.Tables.TALONARIO);
         elem.setTabIndex(tab_kit);
         //'Talonario Lote
         elem.setName(Cairo.Language.getText(1346, ""));
@@ -2783,7 +2783,6 @@
         c.setGridRemoveEnabled(false);
 
         o = c.getGrid();
-        o.setDontResize(true);
 
         //////////////////////////////////////////////////////////////
         // Proveedores
@@ -4589,11 +4588,11 @@
       /////////////////////////////////////////////////////////////////////////////////////////////
       /////////////////////////////////////////////////////////////////////////////////////////////
       /////////////////////////////////////////////////////////////////////////////////////////////
-      var cIABMClientGrid_ColumnAfterEdit = function(key,  lRow,  lCol,  newValue,  newValueID) {
+      var columnAfterEdit = function(key,  lRow,  lCol,  newValue,  newValueID) {
         return true;
       };
 
-      var cIABMClientGrid_ColumnBeforeEdit = function(key,  lRow,  lCol,  iKeyAscii) {
+      var columnBeforeEdit = function(key,  lRow,  lCol,  iKeyAscii) {
         var _rtn = null;
         switch (key) {
           case K_WEB_CATALOGOS:
@@ -4609,15 +4608,11 @@
         return _rtn;
       };
 
-      var cIABMClientGrid_ColumnButtonClick = function(key,  lRow,  lCol,  iKeyAscii) {
+      var columnButtonClick = function(key,  lRow,  lCol,  iKeyAscii) {
 
       };
 
-      var cIABMClientGrid_ColumnCancelEdit = function(key) {
-
-      };
-
-      var cIABMClientGrid_DeleteRow = function(key,  row,  lRow) {
+      var deleteRow = function(key,  row,  lRow) {
         var id = null;
 
         switch (key) {
@@ -5316,9 +5311,8 @@
 
       var pValidateRowProveedor = function(row,  rowIndex) {
         var cell = null;
-        var strRow = null;
 
-        strRow = " (Fila "+ rowIndex.toString()+ ")";
+        var strRow = " (Row: " + rowIndex.toString() + ")";
 
         var _count = row.size();
         for (var _i = 0; _i < _count; _i++) {
@@ -5326,22 +5320,20 @@
           switch (cell.getKey()) {
             case KIK_PROV_ID:
               if(Cairo.Util.valEmpty(cell.getId(), Cairo.Constants.Types.id)) {
-                cWindow.msgInfo(Cairo.Language.getText(1349, "", strRow));
+                return Cairo.Modal.showInfo(Cairo.Language.getText(1349, "", strRow)).then(function() {return false;});
                 //Debe indicar un proveedor
-                return null;
               }
               break;
           }
         }
 
-        return true;
+        return Cairo.Promises.resolvedPromise(true);
       };
 
       var pValidateRowLeyendas = function(row,  rowIndex) {
         var cell = null;
-        var strRow = null;
 
-        strRow = " (Fila "+ rowIndex.toString()+ ")";
+        var strRow = " (Row: " + rowIndex.toString() + ")";
 
         var _count = row.size();
         for (var _i = 0; _i < _count; _i++) {
@@ -5349,30 +5341,27 @@
           switch (cell.getKey()) {
             case KIPRL_NOMBRE:
               if(Cairo.Util.valEmpty(cell.getValue(), Cairo.Constants.Types.text)) {
-                cWindow.msgInfo(Cairo.Constants.MUST_SET_A_NAME);
-                return null;
+                return Cairo.Modal.showInfo(Cairo.Constants.MUST_SET_A_NAME).then(function() {return false;});
               }
               break;
 
             case KIPRL_TEXTO:
               if(Cairo.Util.valEmpty(cell.getValue(), Cairo.Constants.Types.text)) {
-                cWindow.msgInfo(Cairo.Language.getText(5037, "", strRow));
+                return Cairo.Modal.showInfo(Cairo.Language.getText(5037, "", strRow)).then(function() {return false;});
                 //Debe indicar una texto
-                return null;
               }
               break;
           }
         }
 
-        return true;
+        return Cairo.Promises.resolvedPromise(true);
 
       };
 
       var pValidateRowCMI = function(row,  rowIndex) {
         var cell = null;
-        var strRow = null;
 
-        strRow = " (Fila "+ rowIndex.toString()+ ")";
+        var strRow = " (Row: " + rowIndex.toString() + ")";
 
         var _count = row.size();
         for (var _i = 0; _i < _count; _i++) {
@@ -5380,29 +5369,26 @@
           switch (cell.getKey()) {
             case KICMI_CMI_ID:
               if(Cairo.Util.valEmpty(cell.getId(), Cairo.Constants.Types.integer)) {
-                cWindow.msgInfo(Cairo.Language.getText(5028, "", strRow));
+                return Cairo.Modal.showInfo(Cairo.Language.getText(5028, "", strRow)).then(function() {return false;});
                 //Debe indicar una comunidad
-                return null;
               }
               break;
 
             case KICMI_CODIGO:
               if(Cairo.Util.valEmpty(cell.getValue(), Cairo.Constants.Types.text)) {
-                cWindow.msgInfo(Cairo.Constants.c_DebeIndicarCodigo);
-                return null;
+                return Cairo.Modal.showInfo(Cairo.Constants.c_DebeIndicarCodigo).then(function() {return false;});
               }
               break;
           }
         }
 
-        return true;
+        return Cairo.Promises.resolvedPromise(true);
       };
 
       var pValidateRowWebImage = function(row,  rowIndex) {
         var cell = null;
-        var strRow = null;
 
-        strRow = " (Fila "+ rowIndex.toString()+ ")";
+        var strRow = " (Row: " + rowIndex.toString() + ")";
 
         var _count = row.size();
         for (var _i = 0; _i < _count; _i++) {
@@ -5410,30 +5396,27 @@
           switch (cell.getKey()) {
             case KIWI_IMAGE:
               if(Cairo.Util.valEmpty(cell.getValue(), Cairo.Constants.Types.text)) {
-                cWindow.msgInfo(Cairo.Language.getText(4574, "", strRow));
+                return Cairo.Modal.showInfo(Cairo.Language.getText(4574, "", strRow)).then(function() {return false;});
                 //Debe indicar el nombre de un archivo de imagen
-                return null;
               }
               break;
 
             case KIWI_IMAGE_TYPE:
               if(Cairo.Util.valEmpty(cell.getId(), Cairo.Constants.Types.integer)) {
-                cWindow.msgInfo(Cairo.Language.getText(4575, "", strRow));
+                return Cairo.Modal.showInfo(Cairo.Language.getText(4575, "", strRow)).then(function() {return false;});
                 //Debe indicar el tipo de imagen
-                return null;
               }
               break;
           }
         }
 
-        return true;
+        return Cairo.Promises.resolvedPromise(true);
       };
 
       var pValidateRowCliente = function(row,  rowIndex) {
         var cell = null;
-        var strRow = null;
 
-        strRow = " (Fila "+ rowIndex.toString()+ ")";
+        var strRow = " (Row: " + rowIndex.toString() + ")";
 
         var _count = row.size();
         for (var _i = 0; _i < _count; _i++) {
@@ -5441,22 +5424,20 @@
           switch (cell.getKey()) {
             case KIK_CLI_ID:
               if(Cairo.Util.valEmpty(cell.getId(), Cairo.Constants.Types.id)) {
-                cWindow.msgInfo(Cairo.Language.getText(1351, "", strRow));
+                return Cairo.Modal.showInfo(Cairo.Language.getText(1351, "", strRow)).then(function() {return false;});
                 //Debe indicar un cliente
-                return null;
               }
               break;
           }
         }
 
-        return true;
+        return Cairo.Promises.resolvedPromise(true);
       };
 
-      var pIsEmptyRowProveedor = function(row,  rowIndex) { // TODO: Use of ByRef founded Private Function pIsEmptyRowProveedor(ByRef row As CSInterfacesABM.cIABMGridRow, ByVal RowIndex As Long) As Boolean
+      var pIsEmptyRowProveedor = function(row,  rowIndex) {
         var cell = null;
-        var bRowIsEmpty = null;
 
-        bRowIsEmpty = true;
+        var bRowIsEmpty = true;
 
         var _count = row.size();
         for (var _i = 0; _i < _count; _i++) {
@@ -5503,11 +5484,10 @@
         return bRowIsEmpty;
       };
 
-      var pIsEmptyRowCliente = function(row,  rowIndex) { // TODO: Use of ByRef founded Private Function pIsEmptyRowCliente(ByRef row As CSInterfacesABM.cIABMGridRow, ByVal RowIndex As Long) As Boolean
+      var pIsEmptyRowCliente = function(row,  rowIndex) {
         var cell = null;
-        var bRowIsEmpty = null;
 
-        bRowIsEmpty = true;
+        var bRowIsEmpty = true;
 
         var _count = row.size();
         for (var _i = 0; _i < _count; _i++) {
@@ -5546,11 +5526,10 @@
         return bRowIsEmpty;
       };
 
-      var pIsEmptyRowLeyendas = function(row,  rowIndex) { // TODO: Use of ByRef founded Private Function pIsEmptyRowLeyendas(ByRef row As CSInterfacesABM.cIABMGridRow, ByVal RowIndex As Long) As Boolean
+      var pIsEmptyRowLeyendas = function(row,  rowIndex) {
         var cell = null;
-        var bRowIsEmpty = null;
 
-        bRowIsEmpty = true;
+        var bRowIsEmpty = true;
 
         var _count = row.size();
         for (var _i = 0; _i < _count; _i++) {
@@ -5575,11 +5554,10 @@
         return bRowIsEmpty;
       };
 
-      var pIsEmptyRowCMI = function(row,  rowIndex) { // TODO: Use of ByRef founded Private Function pIsEmptyRowCMI(ByRef row As CSInterfacesABM.cIABMGridRow, ByVal RowIndex As Long) As Boolean
+      var pIsEmptyRowCMI = function(row,  rowIndex) {
         var cell = null;
-        var bRowIsEmpty = null;
 
-        bRowIsEmpty = true;
+        var bRowIsEmpty = true;
 
         var _count = row.size();
         for (var _i = 0; _i < _count; _i++) {
@@ -5604,11 +5582,10 @@
         return bRowIsEmpty;
       };
 
-      var pIsEmptyRowWebImages = function(row,  rowIndex) { // TODO: Use of ByRef founded Private Function pIsEmptyRowWebImages(ByRef row As CSInterfacesABM.cIABMGridRow, ByVal RowIndex As Long) As Boolean
+      var pIsEmptyRowWebImages = function(row,  rowIndex) {
         var cell = null;
-        var bRowIsEmpty = null;
 
-        bRowIsEmpty = true;
+        var bRowIsEmpty = true;
 
         var _count = row.size();
         for (var _i = 0; _i < _count; _i++) {
@@ -5633,11 +5610,10 @@
         return bRowIsEmpty;
       };
 
-      var pIsEmptyRowTags = function(row,  rowIndex) { // TODO: Use of ByRef founded Private Function pIsEmptyRowTags(ByRef row As CSInterfacesABM.cIABMGridRow, ByVal RowIndex As Long) As Boolean
+      var pIsEmptyRowTags = function(row,  rowIndex) {
         var cell = null;
-        var bRowIsEmpty = null;
 
-        bRowIsEmpty = true;
+        var bRowIsEmpty = true;
 
         var _count = row.size();
         for (var _i = 0; _i < _count; _i++) {
@@ -7146,6 +7122,5 @@
       }
     };
   });
-
 
 }());
