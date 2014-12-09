@@ -98,6 +98,10 @@ POST    /api/v1/general/provincia                  controllers.logged.modules.ge
 PUT     /api/v1/general/provincia/:id              controllers.logged.modules.general.Provincias.update(id: Int)
 DELETE  /api/v1/general/provincia/:id              controllers.logged.modules.general.Provincias.delete(id: Int)
 
+GET     /api/v1/general/banco/:id              controllers.logged.modules.general.Bancos.get(id: Int)
+POST    /api/v1/general/banco                  controllers.logged.modules.general.Bancos.create
+PUT     /api/v1/general/banco/:id              controllers.logged.modules.general.Bancos.update(id: Int)
+DELETE  /api/v1/general/banco/:id              controllers.logged.modules.general.Bancos.delete(id: Int)
 
 # end Cairo
 #--------------------------------------------------------------------------------------------------

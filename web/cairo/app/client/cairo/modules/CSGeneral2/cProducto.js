@@ -616,7 +616,7 @@
             var w_pGetTags = pGetTags();
 
             var row = null;
-            row = w_pGetTags.getGrid().getProperties().item(info.lRow);
+            row = w_pGetTags.getGrid().getRows(info.lRow);
 
             if(row.item(info.lCol).getKey() == KIT_PR_ID_TAG) {
 
@@ -2006,7 +2006,7 @@
         elem.setType(Dialogs.PropertyType.label);
         elem.setWidth(10500);
         elem.setHeight(10);
-        elem.setBackColor("&HCCCCCC");
+        elem.setBackColor(&HCCCCCC);
         elem.setLeft(300);
         elem.setTopToPrevious(840);
 
@@ -2772,6 +2772,7 @@
         c.setTop(1500);
         c.setType(Dialogs.PropertyType.grid);
         c.setLeftLabel(-1);
+        setGridKit(c);
         if(!pLoadKit(c)) { return false; }
         c.setName(C_PRODUCTOKIT);
         c.setKey(K_PRODUCTO_KIT);
@@ -2790,6 +2791,7 @@
         c = properties.add(null, C_PROVEEDOR);
         c.setType(Dialogs.PropertyType.grid);
         c.setLeftLabel(-1);
+        setGridProveedor(c);
         if(!pLoadProveedor(c)) { return false; }
         c.setName(C_PROVEEDOR);
         c.setKey(K_PROVEEDOR);
@@ -2812,6 +2814,7 @@
         c = properties.add(null, C_CLIENTE);
         c.setType(Dialogs.PropertyType.grid);
         c.setLeftLabel(-1);
+        setGridCliente(c);
         if(!pLoadCliente(c)) { return false; }
         c.setName(C_CLIENTE);
         c.setKey(K_CLIENTE);
@@ -2834,6 +2837,7 @@
         c = properties.add(null, C_BOM);
         c.setType(Dialogs.PropertyType.grid);
         c.setLeftLabel(-1);
+        setGridBOM(c);
         if(!pLoadBOM(c)) { return false; }
         c.setName(C_BOM);
         c.setKey(K_BOM);
@@ -2855,6 +2859,7 @@
         c = properties.add(null, C_CMI);
         c.setType(Dialogs.PropertyType.grid);
         c.setLeftLabel(-1);
+        setGridCMI(c);
         if(!pLoadCMI(c)) { return false; }
         c.setName(C_CMI);
         c.setKey(K_CMI);
@@ -2874,6 +2879,7 @@
         c = properties.add(null, C_LEYENDAS);
         c.setType(Dialogs.PropertyType.grid);
         c.setLeftLabel(-1);
+        setGridLeyendas(c);
         if(!pLoadLeyendas(c)) { return false; }
         c.setName(C_LEYENDAS);
         c.setKey(K_LEYENDAS);
@@ -3026,6 +3032,7 @@
         c = properties.add(null, C_WEB_IMAGES);
         c.setType(Dialogs.PropertyType.grid);
         c.setLeftLabel(-1);
+        setGridWebImages(c);
         if(!pLoadWebImages(c)) { return false; }
         c.setName(C_WEB_IMAGES);
         c.setKey(K_WEB_IMAGES);
@@ -3044,6 +3051,7 @@
         c = properties.add(null, C_TAGS);
         c.setType(Dialogs.PropertyType.grid);
         c.setLeftLabel(-1);
+        setGridTags(c);
         if(!pLoadTags(c)) { return false; }
         c.setName(C_TAGS);
         c.setKey(K_TAGS);
@@ -3060,6 +3068,7 @@
         c = properties.add(null, C_WEB_CATALOGS);
         c.setType(Dialogs.PropertyType.grid);
         c.setLeftLabel(-1);
+        setGridCatalogosWeb(c);
         if(!pLoadCatalogosWeb(c)) { return false; }
         c.setName(C_WEB_CATALOGS);
         c.setKey(K_WEB_CATALOGOS);
@@ -3076,6 +3085,7 @@
         c = properties.add(null, C_WEB_CATEGORIES);
         c.setType(Dialogs.PropertyType.grid);
         c.setLeftLabel(-1);
+        setGridCategoriasWeb(c);
         if(!pLoadCategoriasWeb(c)) { return false; }
         c.setName(C_WEB_CATEGORIES);
         c.setKey(K_WEB_CATEGORIAS);
@@ -4731,7 +4741,7 @@
         switch (key) {
           case K_PROVEEDOR:
             var property = m_dialog.getProperties().item(C_PROVEEDOR);
-            pEditLP(Dialogs.cell(property.getGrid().getRows().getProperties().item(lRow), KIK_PROV_LPI_ID).getID());
+            pEditLP(Dialogs.cell(property.getGrid().getRows().item(lRow), KIK_PROV_LPI_ID).getID());
             break;
         }
       };
@@ -5376,7 +5386,7 @@
 
             case KICMI_CODIGO:
               if(Cairo.Util.valEmpty(cell.getValue(), Cairo.Constants.Types.text)) {
-                return Cairo.Modal.showInfo(Cairo.Constants.c_DebeIndicarCodigo).then(function() {return false;});
+                return Cairo.Modal.showInfo(Cairo.Constants.MUST_SET_A_CODE).then(function() {return false;});
               }
               break;
           }
@@ -5648,18 +5658,11 @@
         return bRowIsEmpty;
       };
 
-      var pLoadProveedor = function(propiedad) { // TODO: Use of ByRef founded Private Function pLoadProveedor(ByRef Propiedad As cIABMProperty) As Boolean
+      var setGridProveedor = function(property) {
 
-        var sqlstmt = null;
-        var rs = null;
-        var fecha = null;
-        var precio = null;
 
-        sqlstmt = "sp_productoGetProveedores "+ m_id;
 
-        if(!Cairo.Database.openRs(sqlstmt, rs, csTypeCursor.cSRSSTATIC, csTypeLock.cSLOCKREADONLY, csCommandType.cSCMDTEXT, "pLoadProveedor", C_MODULE)) { return false; }
-
-        var w_grid = propiedad.getGrid();
+        var w_grid = property.getGrid();
 
         var w_columns = w_grid.getColumns();
 
@@ -5745,113 +5748,86 @@
         var w_rows = w_grid.getRows();
 
         w_rows.clear();
+        return true;
+      };
 
-        while (!rs.isEOF()) {
+      var pLoadProveedor = function() {
+        var fecha = null;
+        var precio = null;
 
-          var property = w_rows.getProperties().LinkedMap.get(null);
+        for(var _i = 0; _i < m_data.proveedor.length; _i += 1) {
 
-          //*TODO:** can't found type for with block
-          //*With .cIABMList.add(null)
-          var w___TYPE_NOT_FOUND = property.Add(null);
-          w___TYPE_NOT_FOUND.Value = Cairo.Database.valField(rs.getFields(), Cairo.General.Constants.PR_PROV_ID);
-          w___TYPE_NOT_FOUND.Key = KIK_PRPROV_ID;
+          var elem = w_rows.add(null);
 
-          //*TODO:** can't found type for with block
-          //*With .cIABMList.add(null)
-          var w___TYPE_NOT_FOUND = property.Add(null);
-          w___TYPE_NOT_FOUND.Value = Cairo.Database.valField(rs.getFields(), Cairo.General.Constants.PROV_NAME);
-          w___TYPE_NOT_FOUND.Id = Cairo.Database.valField(rs.getFields(), Cairo.General.Constants.PROV_ID);
-          w___TYPE_NOT_FOUND.Key = KIK_PROV_ID;
+          var elem = elem.add(null);
+          elem.Value = Cairo.Database.valField(m_data.proveedor[_i], Cairo.General.Constants.PR_PROV_ID);
+          elem.setKey(KIK_PRPROV_ID);
 
-          //*TODO:** can't found type for with block
-          //*With .cIABMList.add(null)
-          var w___TYPE_NOT_FOUND = property.Add(null);
-          w___TYPE_NOT_FOUND.Id = Cairo.Database.valField(rs.getFields(), Cairo.General.Constants.PR_PROV_FABRICANTE);
-          w___TYPE_NOT_FOUND.Key = KIK_PROV_FABRICANTE;
+          var elem = elem.add(null);
+          elem.Value = Cairo.Database.valField(m_data.proveedor[_i], Cairo.General.Constants.PROV_NAME);
+          elem.Id = Cairo.Database.valField(m_data.proveedor[_i], Cairo.General.Constants.PROV_ID);
+          elem.setKey(KIK_PROV_ID);
 
-          //*TODO:** can't found type for with block
-          //*With .cIABMList.add(null)
-          var w___TYPE_NOT_FOUND = property.Add(null);
-          w___TYPE_NOT_FOUND.Value = Cairo.Database.valField(rs.getFields(), Cairo.General.Constants.PR_PROV_NAME);
-          w___TYPE_NOT_FOUND.Key = KIK_PROV_NOMBRE;
+          var elem = elem.add(null);
+          elem.Id = Cairo.Database.valField(m_data.proveedor[_i], Cairo.General.Constants.PR_PROV_FABRICANTE);
+          elem.setKey(KIK_PROV_FABRICANTE);
 
-          //*TODO:** can't found type for with block
-          //*With .cIABMList.add(null)
-          var w___TYPE_NOT_FOUND = property.Add(null);
-          w___TYPE_NOT_FOUND.Value = Cairo.Database.valField(rs.getFields(), Cairo.General.Constants.PR_PROV_CODE);
-          w___TYPE_NOT_FOUND.Key = KIK_PROV_CODIGO;
+          var elem = elem.add(null);
+          elem.Value = Cairo.Database.valField(m_data.proveedor[_i], Cairo.General.Constants.PR_PROV_NAME);
+          elem.setKey(KIK_PROV_NOMBRE);
 
-          //*TODO:** can't found type for with block
-          //*With .cIABMList.add(null)
-          var w___TYPE_NOT_FOUND = property.Add(null);
-          w___TYPE_NOT_FOUND.Value = Cairo.Database.valField(rs.getFields(), Cairo.General.Constants.PR_PROV_CODIGO_BARRA);
-          w___TYPE_NOT_FOUND.Key = KIK_PROV_CODBARRA;
+          var elem = elem.add(null);
+          elem.Value = Cairo.Database.valField(m_data.proveedor[_i], Cairo.General.Constants.PR_PROV_CODE);
+          elem.setKey(KIK_PROV_CODIGO);
 
-          //*TODO:** can't found type for with block
-          //*With .cIABMList.add(null)
-          var w___TYPE_NOT_FOUND = property.Add(null);
-          w___TYPE_NOT_FOUND.Value = Cairo.Database.valField(rs.getFields(), Cairo.General.Constants.PA_NAME);
-          w___TYPE_NOT_FOUND.Id = Cairo.Database.valField(rs.getFields(), Cairo.General.Constants.PA_ID);
-          w___TYPE_NOT_FOUND.Key = KIK_PA_ID;
+          var elem = elem.add(null);
+          elem.Value = Cairo.Database.valField(m_data.proveedor[_i], Cairo.General.Constants.PR_PROV_CODIGO_BARRA);
+          elem.setKey(KIK_PROV_CODBARRA);
 
-          //*TODO:** can't found type for with block
-          //*With .cIABMList.add(null)
-          var w___TYPE_NOT_FOUND = property.Add(null);
-          w___TYPE_NOT_FOUND.Value = Cairo.Database.valField(rs.getFields(), Cairo.General.Constants.LP_NAME);
-          w___TYPE_NOT_FOUND.Id = Cairo.Database.valField(rs.getFields(), Cairo.General.Constants.LPI_ID);
-          w___TYPE_NOT_FOUND.Key = KIK_PROV_LPI_ID;
+          var elem = elem.add(null);
+          elem.Value = Cairo.Database.valField(m_data.proveedor[_i], Cairo.General.Constants.PA_NAME);
+          elem.Id = Cairo.Database.valField(m_data.proveedor[_i], Cairo.General.Constants.PA_ID);
+          elem.setKey(KIK_PA_ID);
 
-          precio = Cairo.Database.valField(rs.getFields(), Cairo.General.Constants.LPI_PRECIO);
+          var elem = elem.add(null);
+          elem.Value = Cairo.Database.valField(m_data.proveedor[_i], Cairo.General.Constants.LP_NAME);
+          elem.Id = Cairo.Database.valField(m_data.proveedor[_i], Cairo.General.Constants.LPI_ID);
+          elem.setKey(KIK_PROV_LPI_ID);
 
-          //*TODO:** can't found type for with block
-          //*With .cIABMList.add(null)
-          var w___TYPE_NOT_FOUND = property.Add(null);
+          precio = Cairo.Database.valField(m_data.proveedor[_i], Cairo.General.Constants.LPI_PRECIO);
+
+          var elem = elem.add(null);
           if(precio != 0) {
-            w___TYPE_NOT_FOUND.Value = precio;
+            elem.Value = precio;
           }
-          w___TYPE_NOT_FOUND.Key = KIK_PROV_PRECIO;
+          elem.setKey(KIK_PROV_PRECIO);
 
-          //*TODO:** can't found type for with block
-          //*With .cIABMList.add(null)
-          var w___TYPE_NOT_FOUND = property.Add(null);
+          var elem = elem.add(null);
           if(precio != 0) {
-            w___TYPE_NOT_FOUND.Value = precio;
+            elem.Value = precio;
           }
-          w___TYPE_NOT_FOUND.Key = KIK_PROV_PRECIO2;
+          elem.setKey(KIK_PROV_PRECIO2);
 
-          fecha = Cairo.Database.valField(rs.getFields(), Cairo.General.Constants.LPI_FECHA);
+          fecha = Cairo.Database.valField(m_data.proveedor[_i], Cairo.General.Constants.LPI_FECHA);
 
-          //*TODO:** can't found type for with block
-          //*With .cIABMList.add(null)
-          var w___TYPE_NOT_FOUND = property.Add(null);
+          var elem = elem.add(null);
           if(fecha != Cairo.Constants.cSNODATE) {
-            w___TYPE_NOT_FOUND.Value = fecha;
+            elem.Value = fecha;
           }
-          w___TYPE_NOT_FOUND.Key = KIK_PROV_PRECIO_FECHA;
+          elem.setKey(KIK_PROV_PRECIO_FECHA);
 
-          //*TODO:** can't found type for with block
-          //*With .cIABMList.add(null)
-          var w___TYPE_NOT_FOUND = property.Add(null);
-          w___TYPE_NOT_FOUND.Id = Cairo.Database.valField(rs.getFields(), "lpi_top");
-          w___TYPE_NOT_FOUND.Key = KIK_PROV_PRECIO_DEFAULT;
-
-          rs.MoveNext;
+          var elem = elem.add(null);
+          elem.Id = Cairo.Database.valField(m_data.proveedor[_i], "lpi_top");
+          elem.setKey(KIK_PROV_PRECIO_DEFAULT);
 
         }
 
         return true;
       };
 
-      var pLoadCliente = function(propiedad) { // TODO: Use of ByRef founded Private Function pLoadCliente(ByRef Propiedad As cIABMProperty) As Boolean
+      var setGridCliente = function(property) {
 
-        var sqlstmt = null;
-        var rs = null;
-
-        sqlstmt = "sp_productoGetClientes "+ m_id;
-
-        if(!Cairo.Database.openRs(sqlstmt, rs, csTypeCursor.cSRSSTATIC, csTypeLock.cSLOCKREADONLY, csCommandType.cSCMDTEXT, "pLoadCliente", C_MODULE)) { return false; }
-
-        var w_grid = propiedad.getGrid();
+        var w_grid = property.getGrid();
 
         var w_columns = w_grid.getColumns();
 
@@ -5891,61 +5867,45 @@
         var w_rows = w_grid.getRows();
 
         w_rows.clear();
+        return true;
+      };
 
-        while (!rs.isEOF()) {
+      var pLoadCliente = function() {
 
-          //*TODO:** can't found type for with block
-          //*With .cIABMList.add(null, rs(Cairo.General.Constants.PR_CLI_ID).Value)
-          var w___TYPE_NOT_FOUND = w_rows.getProperties().item(null, rs(Cairo.General.Constants.PR_CLI_ID).Value);
 
-          //*TODO:** can't found type for with block
-          //*With .cIABMList.add(null)
-          var w___TYPE_NOT_FOUND = w___TYPE_NOT_FOUND.Add(null);
-          w___TYPE_NOT_FOUND.Value = rs(Cairo.General.Constants.PR_CLI_ID).Value;
-          w___TYPE_NOT_FOUND.Key = KIK_PRCLI_ID;
+        for(var _i = 0; _i < m_data.cliente.length; _i += 1) {
 
-          //*TODO:** can't found type for with block
-          //*With .cIABMList.add(null)
-          var w___TYPE_NOT_FOUND = w___TYPE_NOT_FOUND.Add(null);
-          w___TYPE_NOT_FOUND.Value = Cairo.Database.valField(rs.getFields(), Cairo.General.Constants.CLI_NAME);
-          w___TYPE_NOT_FOUND.Id = Cairo.Database.valField(rs.getFields(), Cairo.General.Constants.CLI_ID);
-          w___TYPE_NOT_FOUND.Key = KIK_CLI_ID;
+          var elem = w_rows.add(null, rs(Cairo.General.Constants.PR_CLI_ID).Value);
 
-          //*TODO:** can't found type for with block
-          //*With .cIABMList.add(null)
-          var w___TYPE_NOT_FOUND = w___TYPE_NOT_FOUND.Add(null);
-          w___TYPE_NOT_FOUND.Value = Cairo.Database.valField(rs.getFields(), Cairo.General.Constants.PR_CLI_NAME);
-          w___TYPE_NOT_FOUND.Key = KIK_CLI_NOMBRE;
+          var elem = elem.add(null);
+          elem.Value = rs(Cairo.General.Constants.PR_CLI_ID).Value;
+          elem.setKey(KIK_PRCLI_ID);
 
-          //*TODO:** can't found type for with block
-          //*With .cIABMList.add(null)
-          var w___TYPE_NOT_FOUND = w___TYPE_NOT_FOUND.Add(null);
-          w___TYPE_NOT_FOUND.Value = Cairo.Database.valField(rs.getFields(), Cairo.General.Constants.PR_CLI_CODE);
-          w___TYPE_NOT_FOUND.Key = KIK_CLI_CODIGO;
+          var elem = elem.add(null);
+          elem.Value = Cairo.Database.valField(m_data.cliente[_i], Cairo.General.Constants.CLI_NAME);
+          elem.Id = Cairo.Database.valField(m_data.cliente[_i], Cairo.General.Constants.CLI_ID);
+          elem.setKey(KIK_CLI_ID);
 
-          //*TODO:** can't found type for with block
-          //*With .cIABMList.add(null)
-          var w___TYPE_NOT_FOUND = w___TYPE_NOT_FOUND.Add(null);
-          w___TYPE_NOT_FOUND.Value = Cairo.Database.valField(rs.getFields(), Cairo.General.Constants.PR_CLI_CODIGO_BARRA);
-          w___TYPE_NOT_FOUND.Key = KIK_CLI_CODBARRA;
+          var elem = elem.add(null);
+          elem.Value = Cairo.Database.valField(m_data.cliente[_i], Cairo.General.Constants.PR_CLI_NAME);
+          elem.setKey(KIK_CLI_NOMBRE);
 
-          rs.MoveNext;
+          var elem = elem.add(null);
+          elem.Value = Cairo.Database.valField(m_data.cliente[_i], Cairo.General.Constants.PR_CLI_CODE);
+          elem.setKey(KIK_CLI_CODIGO);
+
+          var elem = elem.add(null);
+          elem.Value = Cairo.Database.valField(m_data.cliente[_i], Cairo.General.Constants.PR_CLI_CODIGO_BARRA);
+          elem.setKey(KIK_CLI_CODBARRA);
 
         }
 
         return true;
       };
 
-      var pLoadCMI = function(propiedad) { // TODO: Use of ByRef founded Private Function pLoadCMI(ByRef Propiedad As cIABMProperty) As Boolean
+      var setGridCMI = function(property) {
 
-        var sqlstmt = null;
-        var rs = null;
-
-        sqlstmt = "sp_ProductoGetCMI "+ m_id;
-
-        if(!Cairo.Database.openRs(sqlstmt, rs, csTypeCursor.cSRSSTATIC, csTypeLock.cSLOCKREADONLY, csCommandType.cSCMDTEXT, "pLoadBOM", C_MODULE)) { return false; }
-
-        var w_grid = propiedad.getGrid();
+        var w_grid = property.getGrid();
 
         var w_columns = w_grid.getColumns();
 
@@ -6001,72 +5961,53 @@
         var w_rows = w_grid.getRows();
 
         w_rows.clear();
+        return true;
+      };
 
-        while (!rs.isEOF()) {
+      var pLoadCMI = function() {
 
-          //*TODO:** can't found type for with block
-          //*With .cIABMList.add(null, rs(Cairo.General.Constants.PRCMI_ID).Value)
-          var w___TYPE_NOT_FOUND = w_rows.getProperties().item(null, rs(Cairo.General.Constants.PRCMI_ID).Value);
 
-          //*TODO:** can't found type for with block
-          //*With .cIABMList.add(null)
-          var w___TYPE_NOT_FOUND = w___TYPE_NOT_FOUND.Add(null);
-          w___TYPE_NOT_FOUND.Value = rs(Cairo.General.Constants.PRCMI_ID).Value;
-          w___TYPE_NOT_FOUND.Key = KICMI_ID;
+        for(var _i = 0; _i < m_data.cMI.length; _i += 1) {
 
-          //*TODO:** can't found type for with block
-          //*With .cIABMList.add(null)
-          var w___TYPE_NOT_FOUND = w___TYPE_NOT_FOUND.Add(null);
-          w___TYPE_NOT_FOUND.Value = Cairo.Database.valField(rs.getFields(), Cairo.General.Constants.CMI_NAME);
-          w___TYPE_NOT_FOUND.Id = Cairo.Database.valField(rs.getFields(), Cairo.General.Constants.CMI_ID);
-          w___TYPE_NOT_FOUND.Key = KICMI_ID;
+          var elem = w_rows.add(null, rs(Cairo.General.Constants.PRCMI_ID).Value);
 
-          //*TODO:** can't found type for with block
-          //*With .cIABMList.add(null)
-          var w___TYPE_NOT_FOUND = w___TYPE_NOT_FOUND.Add(null);
-          w___TYPE_NOT_FOUND.Value = Cairo.Database.valField(rs.getFields(), Cairo.General.Constants.PRCMI_CODE);
-          w___TYPE_NOT_FOUND.Key = KICMI_CODIGO;
+          var elem = elem.add(null);
+          elem.Value = rs(Cairo.General.Constants.PRCMI_ID).Value;
+          elem.setKey(KICMI_ID);
 
-          //*TODO:** can't found type for with block
-          //*With .cIABMList.add(null)
-          var w___TYPE_NOT_FOUND = w___TYPE_NOT_FOUND.Add(null);
-          w___TYPE_NOT_FOUND.Value = Cairo.Database.valField(rs.getFields(), Cairo.General.Constants.PRCMI_PRECIO);
-          w___TYPE_NOT_FOUND.Key = KICMI_PRECIO;
+          var elem = elem.add(null);
+          elem.Value = Cairo.Database.valField(m_data.cMI[_i], Cairo.General.Constants.CMI_NAME);
+          elem.Id = Cairo.Database.valField(m_data.cMI[_i], Cairo.General.Constants.CMI_ID);
+          elem.setKey(KICMI_ID);
 
-          //*TODO:** can't found type for with block
-          //*With .cIABMList.add(null)
-          var w___TYPE_NOT_FOUND = w___TYPE_NOT_FOUND.Add(null);
-          w___TYPE_NOT_FOUND.Value = Cairo.Database.valField(rs.getFields(), Cairo.General.Constants.PRCMI_FECHA_ALTA);
-          w___TYPE_NOT_FOUND.Key = KICMI_FECHAALTA;
+          var elem = elem.add(null);
+          elem.Value = Cairo.Database.valField(m_data.cMI[_i], Cairo.General.Constants.PRCMI_CODE);
+          elem.setKey(KICMI_CODIGO);
 
-          //*TODO:** can't found type for with block
-          //*With .cIABMList.add(null)
-          var w___TYPE_NOT_FOUND = w___TYPE_NOT_FOUND.Add(null);
-          w___TYPE_NOT_FOUND.Value = Cairo.Database.valField(rs.getFields(), Cairo.General.Constants.PRCMI_FECHA_VTO);
-          w___TYPE_NOT_FOUND.Key = KICMI_FECHAVTO;
+          var elem = elem.add(null);
+          elem.Value = Cairo.Database.valField(m_data.cMI[_i], Cairo.General.Constants.PRCMI_PRECIO);
+          elem.setKey(KICMI_PRECIO);
 
-          //*TODO:** can't found type for with block
-          //*With .cIABMList.add(null)
-          var w___TYPE_NOT_FOUND = w___TYPE_NOT_FOUND.Add(null);
-          w___TYPE_NOT_FOUND.Value = Cairo.Database.valField(rs.getFields(), Cairo.General.Constants.PRCMI_DESCRIP);
-          w___TYPE_NOT_FOUND.Key = KICMI_DESCRIP;
+          var elem = elem.add(null);
+          elem.Value = Cairo.Database.valField(m_data.cMI[_i], Cairo.General.Constants.PRCMI_FECHA_ALTA);
+          elem.setKey(KICMI_FECHAALTA);
 
-          rs.MoveNext;
+          var elem = elem.add(null);
+          elem.Value = Cairo.Database.valField(m_data.cMI[_i], Cairo.General.Constants.PRCMI_FECHA_VTO);
+          elem.setKey(KICMI_FECHAVTO);
+
+          var elem = elem.add(null);
+          elem.Value = Cairo.Database.valField(m_data.cMI[_i], Cairo.General.Constants.PRCMI_DESCRIP);
+          elem.setKey(KICMI_DESCRIP);
+
         }
 
         return true;
       };
 
-      var pLoadLeyendas = function(propiedad) { // TODO: Use of ByRef founded Private Function pLoadLeyendas(ByRef Propiedad As cIABMProperty) As Boolean
+      var setGridLeyendas = function(property) {
 
-        var sqlstmt = null;
-        var rs = null;
-
-        sqlstmt = "sp_ProductoGetLeyendas "+ m_id;
-
-        if(!Cairo.Database.openRs(sqlstmt, rs, csTypeCursor.cSRSSTATIC, csTypeLock.cSLOCKREADONLY, csCommandType.cSCMDTEXT, "sp_ProductoGetLeyendas", C_MODULE)) { return false; }
-
-        var w_grid = propiedad.getGrid();
+        var w_grid = property.getGrid();
 
         var w_columns = w_grid.getColumns();
 
@@ -6107,59 +6048,44 @@
         var w_rows = w_grid.getRows();
 
         w_rows.clear();
+        return true;
+      };
 
-        while (!rs.isEOF()) {
+      var pLoadLeyendas = function() {
 
-          //*TODO:** can't found type for with block
-          //*With .cIABMList.add(null, rs(Cairo.General.Constants.PRL_ID).Value)
-          var w___TYPE_NOT_FOUND = w_rows.getProperties().item(null, rs(Cairo.General.Constants.PRL_ID).Value);
 
-          //*TODO:** can't found type for with block
-          //*With .cIABMList.add(null)
-          var w___TYPE_NOT_FOUND = w___TYPE_NOT_FOUND.Add(null);
-          w___TYPE_NOT_FOUND.Value = rs(Cairo.General.Constants.PRL_ID).Value;
-          w___TYPE_NOT_FOUND.Key = KICMI_ID;
+        for(var _i = 0; _i < m_data.leyendas.length; _i += 1) {
 
-          //*TODO:** can't found type for with block
-          //*With .cIABMList.add(null)
-          var w___TYPE_NOT_FOUND = w___TYPE_NOT_FOUND.Add(null);
-          w___TYPE_NOT_FOUND.Value = Cairo.Database.valField(rs.getFields(), Cairo.General.Constants.PRL_NAME);
-          w___TYPE_NOT_FOUND.Key = KIPRL_NOMBRE;
+          var elem = w_rows.add(null, rs(Cairo.General.Constants.PRL_ID).Value);
 
-          //*TODO:** can't found type for with block
-          //*With .cIABMList.add(null)
-          var w___TYPE_NOT_FOUND = w___TYPE_NOT_FOUND.Add(null);
-          w___TYPE_NOT_FOUND.Value = Cairo.Database.valField(rs.getFields(), Cairo.General.Constants.PRL_TEXTO);
-          w___TYPE_NOT_FOUND.Key = KIPRL_TEXTO;
+          var elem = elem.add(null);
+          elem.Value = rs(Cairo.General.Constants.PRL_ID).Value;
+          elem.setKey(KICMI_ID);
 
-          //*TODO:** can't found type for with block
-          //*With .cIABMList.add(null)
-          var w___TYPE_NOT_FOUND = w___TYPE_NOT_FOUND.Add(null);
-          w___TYPE_NOT_FOUND.Value = Cairo.Database.valField(rs.getFields(), Cairo.General.Constants.PRL_TAG);
-          w___TYPE_NOT_FOUND.Key = KIPRL_TAG;
+          var elem = elem.add(null);
+          elem.Value = Cairo.Database.valField(m_data.leyendas[_i], Cairo.General.Constants.PRL_NAME);
+          elem.setKey(KIPRL_NOMBRE);
 
-          //*TODO:** can't found type for with block
-          //*With .cIABMList.add(null)
-          var w___TYPE_NOT_FOUND = w___TYPE_NOT_FOUND.Add(null);
-          w___TYPE_NOT_FOUND.Value = Cairo.Database.valField(rs.getFields(), Cairo.General.Constants.PRL_ORDEN);
-          w___TYPE_NOT_FOUND.Key = KIPRL_ORDEN;
+          var elem = elem.add(null);
+          elem.Value = Cairo.Database.valField(m_data.leyendas[_i], Cairo.General.Constants.PRL_TEXTO);
+          elem.setKey(KIPRL_TEXTO);
 
-          rs.MoveNext;
+          var elem = elem.add(null);
+          elem.Value = Cairo.Database.valField(m_data.leyendas[_i], Cairo.General.Constants.PRL_TAG);
+          elem.setKey(KIPRL_TAG);
+
+          var elem = elem.add(null);
+          elem.Value = Cairo.Database.valField(m_data.leyendas[_i], Cairo.General.Constants.PRL_ORDEN);
+          elem.setKey(KIPRL_ORDEN);
+
         }
 
         return true;
       };
 
-      var pLoadBOM = function(propiedad) { // TODO: Use of ByRef founded Private Function pLoadBOM(ByRef Propiedad As cIABMProperty) As Boolean
+      var setGridBOM = function(property) {
 
-        var sqlstmt = null;
-        var rs = null;
-
-        sqlstmt = "sp_ProductoGetBOMs "+ m_id;
-
-        if(!Cairo.Database.openRs(sqlstmt, rs, csTypeCursor.cSRSSTATIC, csTypeLock.cSLOCKREADONLY, csCommandType.cSCMDTEXT, "pLoadBOM", C_MODULE)) { return false; }
-
-        var w_grid = propiedad.getGrid();
+        var w_grid = property.getGrid();
 
         var w_columns = w_grid.getColumns();
 
@@ -6174,39 +6100,32 @@
         var w_rows = w_grid.getRows();
 
         w_rows.clear();
+        return true;
+      };
 
-        while (!rs.isEOF()) {
+      var pLoadBOM = function() {
 
-          //*TODO:** can't found type for with block
-          //*With .cIABMList.add(null, rs(Cairo.General.Constants.PBM_ID).Value)
-          var w___TYPE_NOT_FOUND = w_rows.getProperties().item(null, rs(Cairo.General.Constants.PBM_ID).Value);
 
-          //*TODO:** can't found type for with block
-          //*With .cIABMList.add(null)
-          var w___TYPE_NOT_FOUND = w___TYPE_NOT_FOUND.Add(null);
-          w___TYPE_NOT_FOUND.Value = Cairo.Database.valField(rs.getFields(), Cairo.General.Constants.PBM_NAME);
-          w___TYPE_NOT_FOUND.Id = Cairo.Database.valField(rs.getFields(), Cairo.General.Constants.PBM_ID);
-          w___TYPE_NOT_FOUND.Key = KIK_PBM_ID;
+        for(var _i = 0; _i < m_data.bOM.length; _i += 1) {
 
-          rs.MoveNext;
+          var elem = w_rows.add(null, rs(Cairo.General.Constants.PBM_ID).Value);
+
+          var elem = elem.add(null);
+          elem.Value = Cairo.Database.valField(m_data.bOM[_i], Cairo.General.Constants.PBM_NAME);
+          elem.Id = Cairo.Database.valField(m_data.bOM[_i], Cairo.General.Constants.PBM_ID);
+          elem.setKey(KIK_PBM_ID);
+
         }
 
         return true;
       };
 
-      var pLoadTags = function(propiedad) { // TODO: Use of ByRef founded Private Function pLoadTags(ByRef Propiedad As cIABMProperty) As Boolean
+      var setGridTags = function(property) {
 
         var oCol = null;
         var iCol = null;
 
-        var sqlstmt = null;
-        var rs = null;
-
-        sqlstmt = "sp_ProductoGetTag "+ m_id;
-
-        if(!Cairo.Database.openRs(sqlstmt, rs, csTypeCursor.cSRSSTATIC, csTypeLock.cSLOCKREADONLY, csCommandType.cSCMDTEXT, "pLoadTags", C_MODULE)) { return false; }
-
-        var w_grid = propiedad.getGrid();
+        var w_grid = property.getGrid();
 
         var w_columns = w_grid.getColumns();
 
@@ -6266,69 +6185,51 @@
         var w_rows = w_grid.getRows();
 
         w_rows.clear();
+        return true;
+      };
 
-        while (!rs.isEOF()) {
+      var pLoadTags = function() {
 
-          //*TODO:** can't found type for with block
-          //*With .cIABMList.add(null, rs(Cairo.General.Constants.PRT_ID).Value)
-          var w___TYPE_NOT_FOUND = w_rows.getProperties().item(null, rs(Cairo.General.Constants.PRT_ID).Value);
 
-          //*TODO:** can't found type for with block
-          //*With .cIABMList.add(null)
-          var w___TYPE_NOT_FOUND = w___TYPE_NOT_FOUND.Add(null);
-          w___TYPE_NOT_FOUND.Value = rs(Cairo.General.Constants.PRT_ID).Value;
-          w___TYPE_NOT_FOUND.Key = KIT_PRT_ID;
+        for(var _i = 0; _i < m_data.tags.length; _i += 1) {
 
-          //*TODO:** can't found type for with block
-          //*With .cIABMList.add(null)
-          var w___TYPE_NOT_FOUND = w___TYPE_NOT_FOUND.Add(null);
-          w___TYPE_NOT_FOUND.Value = Cairo.Database.valField(rs.getFields(), Cairo.General.Constants.PR_NOMBRECOMPRA);
-          w___TYPE_NOT_FOUND.Id = Cairo.Database.valField(rs.getFields(), Cairo.General.Constants.PR_ID_TAG);
-          w___TYPE_NOT_FOUND.Key = KIT_PR_ID_TAG;
+          var elem = w_rows.add(null, rs(Cairo.General.Constants.PRT_ID).Value);
 
-          //*TODO:** can't found type for with block
-          //*With .cIABMList.add(null)
-          var w___TYPE_NOT_FOUND = w___TYPE_NOT_FOUND.Add(null);
-          w___TYPE_NOT_FOUND.Value = Cairo.Database.valField(rs.getFields(), "orden");
+          var elem = elem.add(null);
+          elem.Value = rs(Cairo.General.Constants.PRT_ID).Value;
+          elem.setKey(KIT_PRT_ID);
 
-          //*TODO:** can't found type for with block
-          //*With .cIABMList.add(null)
-          var w___TYPE_NOT_FOUND = w___TYPE_NOT_FOUND.Add(null);
-          w___TYPE_NOT_FOUND.Value = Cairo.Database.valField(rs.getFields(), Cairo.General.Constants.PRT_TEXTO);
-          w___TYPE_NOT_FOUND.Key = KIT_TEXTO;
+          var elem = elem.add(null);
+          elem.Value = Cairo.Database.valField(m_data.tags[_i], Cairo.General.Constants.PR_NOMBRECOMPRA);
+          elem.Id = Cairo.Database.valField(m_data.tags[_i], Cairo.General.Constants.PR_ID_TAG);
+          elem.setKey(KIT_PR_ID_TAG);
 
-          //*TODO:** can't found type for with block
-          //*With .cIABMList.add(null)
-          var w___TYPE_NOT_FOUND = w___TYPE_NOT_FOUND.Add(null);
-          w___TYPE_NOT_FOUND.Value = Cairo.Database.valField(rs.getFields(), Cairo.General.Constants.PRT_EXPO_WEB);
-          w___TYPE_NOT_FOUND.Key = KIT_EXPOWEB;
+          var elem = elem.add(null);
+          elem.Value = Cairo.Database.valField(m_data.tags[_i], "orden");
 
-          //*TODO:** can't found type for with block
-          //*With .cIABMList.add(null)
-          var w___TYPE_NOT_FOUND = w___TYPE_NOT_FOUND.Add(null);
-          w___TYPE_NOT_FOUND.Value = Cairo.Database.valField(rs.getFields(), Cairo.General.Constants.PRT_EXPO_CAIRO);
-          w___TYPE_NOT_FOUND.Key = KIT_EXPOCAIRO;
+          var elem = elem.add(null);
+          elem.Value = Cairo.Database.valField(m_data.tags[_i], Cairo.General.Constants.PRT_TEXTO);
+          elem.setKey(KIT_TEXTO);
 
-          rs.MoveNext;
+          var elem = elem.add(null);
+          elem.Value = Cairo.Database.valField(m_data.tags[_i], Cairo.General.Constants.PRT_EXPO_WEB);
+          elem.setKey(KIT_EXPOWEB);
+
+          var elem = elem.add(null);
+          elem.Value = Cairo.Database.valField(m_data.tags[_i], Cairo.General.Constants.PRT_EXPO_CAIRO);
+          elem.setKey(KIT_EXPOCAIRO);
 
         }
 
         return true;
       };
 
-      var pLoadCategoriasWeb = function(propiedad) { // TODO: Use of ByRef founded Private Function pLoadCategoriasWeb(ByRef Propiedad As cIABMProperty) As Boolean
+      var setGridCategoriasWeb = function(property) {
 
         var oCol = null;
         var iCol = null;
 
-        var sqlstmt = null;
-        var rs = null;
-
-        sqlstmt = "sp_ProductoGetCatalogoCategoriasWeb "+ m_id;
-
-        if(!Cairo.Database.openRs(sqlstmt, rs, csTypeCursor.cSRSSTATIC, csTypeLock.cSLOCKREADONLY, csCommandType.cSCMDTEXT, "pLoadCategoriasWeb", C_MODULE)) { return false; }
-
-        var w_grid = propiedad.getGrid();
+        var w_grid = property.getGrid();
 
         var w_columns = w_grid.getColumns();
 
@@ -6361,56 +6262,44 @@
         var w_rows = w_grid.getRows();
 
         w_rows.clear();
+        return true;
+      };
 
-        while (!rs.isEOF()) {
+      var pLoadCategoriasWeb = function() {
 
-          var property = w_rows.getProperties().LinkedMap.get(null);
 
-          //*TODO:** can't found type for with block
-          //*With .cIABMList.add(null)
-          var w___TYPE_NOT_FOUND = property.Add(null);
-          w___TYPE_NOT_FOUND.Value = Cairo.Database.valField(rs.getFields(), Cairo.General.Constants.CATWCI_ID);
-          w___TYPE_NOT_FOUND.Key = KICWCI_ID;
+        for(var _i = 0; _i < m_data.categoriasWeb.length; _i += 1) {
 
-          //*TODO:** can't found type for with block
-          //*With .cIABMList.add(null)
-          var w___TYPE_NOT_FOUND = property.Add(null);
-          w___TYPE_NOT_FOUND.Value = Cairo.Database.valField(rs.getFields(), Cairo.General.Constants.CATWC_NAME);
-          w___TYPE_NOT_FOUND.Id = Cairo.Database.valField(rs.getFields(), Cairo.General.Constants.CATWC_ID);
-          w___TYPE_NOT_FOUND.Key = KICWC_ID;
+          var elem = w_rows.add(null);
 
-          //*TODO:** can't found type for with block
-          //*With .cIABMList.add(null)
-          var w___TYPE_NOT_FOUND = property.Add(null);
-          w___TYPE_NOT_FOUND.Id = Cairo.Database.valField(rs.getFields(), Cairo.General.Constants.CATWCI_ID);
-          w___TYPE_NOT_FOUND.Key = KICWC_SELECT;
+          var elem = elem.add(null);
+          elem.Value = Cairo.Database.valField(m_data.categoriasWeb[_i], Cairo.General.Constants.CATWCI_ID);
+          elem.setKey(KICWCI_ID);
 
-          //*TODO:** can't found type for with block
-          //*With .cIABMList.add(null)
-          var w___TYPE_NOT_FOUND = property.Add(null);
-          w___TYPE_NOT_FOUND.Value = Cairo.Database.valField(rs.getFields(), Cairo.General.Constants.CATWCI_POSICION);
-          w___TYPE_NOT_FOUND.Key = KICWCI_POSICION;
+          var elem = elem.add(null);
+          elem.Value = Cairo.Database.valField(m_data.categoriasWeb[_i], Cairo.General.Constants.CATWC_NAME);
+          elem.Id = Cairo.Database.valField(m_data.categoriasWeb[_i], Cairo.General.Constants.CATWC_ID);
+          elem.setKey(KICWC_ID);
 
-          rs.MoveNext;
+          var elem = elem.add(null);
+          elem.Id = Cairo.Database.valField(m_data.categoriasWeb[_i], Cairo.General.Constants.CATWCI_ID);
+          elem.setKey(KICWC_SELECT);
+
+          var elem = elem.add(null);
+          elem.Value = Cairo.Database.valField(m_data.categoriasWeb[_i], Cairo.General.Constants.CATWCI_POSICION);
+          elem.setKey(KICWCI_POSICION);
 
         }
 
         return true;
       };
 
-      var pLoadCatalogosWeb = function(propiedad) { // TODO: Use of ByRef founded Private Function pLoadCatalogosWeb(ByRef Propiedad As cIABMProperty) As Boolean
+      var setGridCatalogosWeb = function(property) {
 
         var oCol = null;
         var iCol = null;
 
-        var sqlstmt = null;
-        var rs = null;
-
-        sqlstmt = "sp_ProductoGetCatalogosWeb "+ m_id;
-
-        if(!Cairo.Database.openRs(sqlstmt, rs, csTypeCursor.cSRSSTATIC, csTypeLock.cSLOCKREADONLY, csCommandType.cSCMDTEXT, "pLoadCatalogosWeb", C_MODULE)) { return false; }
-
-        var w_grid = propiedad.getGrid();
+        var w_grid = property.getGrid();
 
         var w_columns = w_grid.getColumns();
 
@@ -6436,50 +6325,40 @@
         var w_rows = w_grid.getRows();
 
         w_rows.clear();
+        return true;
+      };
 
-        while (!rs.isEOF()) {
+      var pLoadCatalogosWeb = function() {
 
-          var property = w_rows.getProperties().LinkedMap.get(null);
 
-          //*TODO:** can't found type for with block
-          //*With .cIABMList.add(null)
-          var w___TYPE_NOT_FOUND = property.Add(null);
-          w___TYPE_NOT_FOUND.Value = Cairo.Database.valField(rs.getFields(), Cairo.General.Constants.CATWI_ID);
-          w___TYPE_NOT_FOUND.Key = KICWI_ID;
+        for(var _i = 0; _i < m_data.catalogosWeb.length; _i += 1) {
 
-          //*TODO:** can't found type for with block
-          //*With .cIABMList.add(null)
-          var w___TYPE_NOT_FOUND = property.Add(null);
-          w___TYPE_NOT_FOUND.Value = Cairo.Database.valField(rs.getFields(), Cairo.General.Constants.CATW_NAME);
-          w___TYPE_NOT_FOUND.Id = Cairo.Database.valField(rs.getFields(), Cairo.General.Constants.CATW_ID);
-          w___TYPE_NOT_FOUND.Key = KICW_ID;
+          var elem = w_rows.add(null);
 
-          //*TODO:** can't found type for with block
-          //*With .cIABMList.add(null)
-          var w___TYPE_NOT_FOUND = property.Add(null);
-          w___TYPE_NOT_FOUND.Id = Cairo.Database.valField(rs.getFields(), Cairo.General.Constants.CATWI_ID);
-          w___TYPE_NOT_FOUND.Key = KICW_SELECT;
+          var elem = elem.add(null);
+          elem.Value = Cairo.Database.valField(m_data.catalogosWeb[_i], Cairo.General.Constants.CATWI_ID);
+          elem.setKey(KICWI_ID);
 
-          rs.MoveNext;
+          var elem = elem.add(null);
+          elem.Value = Cairo.Database.valField(m_data.catalogosWeb[_i], Cairo.General.Constants.CATW_NAME);
+          elem.Id = Cairo.Database.valField(m_data.catalogosWeb[_i], Cairo.General.Constants.CATW_ID);
+          elem.setKey(KICW_ID);
+
+          var elem = elem.add(null);
+          elem.Id = Cairo.Database.valField(m_data.catalogosWeb[_i], Cairo.General.Constants.CATWI_ID);
+          elem.setKey(KICW_SELECT);
 
         }
 
         return true;
       };
 
-      var pLoadWebImages = function(propiedad) { // TODO: Use of ByRef founded Private Function pLoadWebImages(ByRef Propiedad As cIABMProperty) As Boolean
+      var setGridWebImages = function(property) {
 
         var oCol = null;
         var iCol = null;
 
-        var sqlstmt = null;
-        var rs = null;
-
-        sqlstmt = "select * from ProductoWebImage where pr_id = "+ m_id;
-
-        if(!Cairo.Database.openRs(sqlstmt, rs, csTypeCursor.cSRSSTATIC, csTypeLock.cSLOCKREADONLY, csCommandType.cSCMDTEXT, "pLoadWebImages", C_MODULE)) { return false; }
-
-        var w_grid = propiedad.getGrid();
+        var w_grid = property.getGrid();
 
         var w_columns = w_grid.getColumns();
 
@@ -6538,60 +6417,44 @@
         var w_rows = w_grid.getRows();
 
         w_rows.clear();
+        return true;
+      };
 
-        while (!rs.isEOF()) {
+      var pLoadWebImages = function() {
 
-          //*TODO:** can't found type for with block
-          //*With .cIABMList.add(null, rs(Cairo.General.Constants.PRWI_ID).Value)
-          var w___TYPE_NOT_FOUND = w_rows.getProperties().item(null, rs(Cairo.General.Constants.PRWI_ID).Value);
 
-          //*TODO:** can't found type for with block
-          //*With .cIABMList.add(null)
-          var w___TYPE_NOT_FOUND = w___TYPE_NOT_FOUND.Add(null);
-          w___TYPE_NOT_FOUND.Value = rs(Cairo.General.Constants.PRWI_ID).Value;
-          w___TYPE_NOT_FOUND.Key = KIWI_PRWI_ID;
+        for(var _i = 0; _i < m_data.webImages.length; _i += 1) {
 
-          //*TODO:** can't found type for with block
-          //*With .cIABMList.add(null)
-          var w___TYPE_NOT_FOUND = w___TYPE_NOT_FOUND.Add(null);
-          w___TYPE_NOT_FOUND.Value = Cairo.Database.valField(rs.getFields(), Cairo.General.Constants.PRWI_ARCHIVO);
-          w___TYPE_NOT_FOUND.Key = KIWI_IMAGE;
+          var elem = w_rows.add(null, rs(Cairo.General.Constants.PRWI_ID).Value);
 
-          //*TODO:** can't found type for with block
-          //*With .cIABMList.add(null)
-          var w___TYPE_NOT_FOUND = w___TYPE_NOT_FOUND.Add(null);
-          w___TYPE_NOT_FOUND.Id = Cairo.Database.valField(rs.getFields(), Cairo.General.Constants.PRWI_TIPO);
-          w___TYPE_NOT_FOUND.Key = KIWI_IMAGE_TYPE;
+          var elem = elem.add(null);
+          elem.Value = rs(Cairo.General.Constants.PRWI_ID).Value;
+          elem.setKey(KIWI_PRWI_ID);
 
-          //*TODO:** can't found type for with block
-          //*With .cIABMList.add(null)
-          var w___TYPE_NOT_FOUND = w___TYPE_NOT_FOUND.Add(null);
-          w___TYPE_NOT_FOUND.Value = Cairo.Database.valField(rs.getFields(), Cairo.General.Constants.PRWI_ALT);
-          w___TYPE_NOT_FOUND.Key = KIWI_ALT;
+          var elem = elem.add(null);
+          elem.Value = Cairo.Database.valField(m_data.webImages[_i], Cairo.General.Constants.PRWI_ARCHIVO);
+          elem.setKey(KIWI_IMAGE);
 
-          //*TODO:** can't found type for with block
-          //*With .cIABMList.add(null)
-          var w___TYPE_NOT_FOUND = w___TYPE_NOT_FOUND.Add(null);
-          w___TYPE_NOT_FOUND.Value = Cairo.Database.valField(rs.getFields(), Cairo.General.Constants.PRWI_POSICION);
-          w___TYPE_NOT_FOUND.Key = KIWI_POSICION;
+          var elem = elem.add(null);
+          elem.Id = Cairo.Database.valField(m_data.webImages[_i], Cairo.General.Constants.PRWI_TIPO);
+          elem.setKey(KIWI_IMAGE_TYPE);
 
-          rs.MoveNext;
+          var elem = elem.add(null);
+          elem.Value = Cairo.Database.valField(m_data.webImages[_i], Cairo.General.Constants.PRWI_ALT);
+          elem.setKey(KIWI_ALT);
+
+          var elem = elem.add(null);
+          elem.Value = Cairo.Database.valField(m_data.webImages[_i], Cairo.General.Constants.PRWI_POSICION);
+          elem.setKey(KIWI_POSICION);
 
         }
 
         return true;
       };
 
-      var pLoadKit = function(propiedad) { // TODO: Use of ByRef founded Private Function pLoadKit(ByRef Propiedad As cIABMProperty) As Boolean
+      var setGridKit = function(property) {
 
-        var sqlstmt = null;
-        var rs = null;
-
-        sqlstmt = "sp_ProductoGetKits "+ m_id;
-
-        if(!Cairo.Database.openRs(sqlstmt, rs, csTypeCursor.cSRSSTATIC, csTypeLock.cSLOCKREADONLY, csCommandType.cSCMDTEXT, "pLoadBOM", C_MODULE)) { return false; }
-
-        var w_grid = propiedad.getGrid();
+        var w_grid = property.getGrid();
 
         var w_columns = w_grid.getColumns();
 
@@ -6613,27 +6476,25 @@
         var w_rows = w_grid.getRows();
 
         w_rows.clear();
+        return true;
+      };
 
-        while (!rs.isEOF()) {
+      var pLoadKit = function() {
 
-          //*TODO:** can't found type for with block
-          //*With .cIABMList.add(null, rs(Cairo.General.Constants.PRFK_ID).Value)
-          var w___TYPE_NOT_FOUND = w_rows.getProperties().item(null, rs(Cairo.General.Constants.PRFK_ID).Value);
 
-          //*TODO:** can't found type for with block
-          //*With .cIABMList.add(null)
-          var w___TYPE_NOT_FOUND = w___TYPE_NOT_FOUND.Add(null);
-          w___TYPE_NOT_FOUND.Value = Cairo.Database.valField(rs.getFields(), Cairo.General.Constants.PRFK_NAME);
-          w___TYPE_NOT_FOUND.Id = Cairo.Database.valField(rs.getFields(), Cairo.General.Constants.PRFK_ID);
-          w___TYPE_NOT_FOUND.Key = KIK_PRFK_ID;
+        for(var _i = 0; _i < m_data.kit.length; _i += 1) {
 
-          //*TODO:** can't found type for with block
-          //*With .cIABMList.add(null)
-          var w___TYPE_NOT_FOUND = w___TYPE_NOT_FOUND.Add(null);
-          w___TYPE_NOT_FOUND.Id = Cairo.Database.valField(rs.getFields(), Cairo.General.Constants.PRFK_DEFAULT);
-          w___TYPE_NOT_FOUND.Key = KIK_PRFK_ID;
+          var elem = w_rows.add(null, rs(Cairo.General.Constants.PRFK_ID).Value);
 
-          rs.MoveNext;
+          var elem = elem.add(null);
+          elem.Value = Cairo.Database.valField(m_data.kit[_i], Cairo.General.Constants.PRFK_NAME);
+          elem.Id = Cairo.Database.valField(m_data.kit[_i], Cairo.General.Constants.PRFK_ID);
+          elem.setKey(KIK_PRFK_ID);
+
+          var elem = elem.add(null);
+          elem.Id = Cairo.Database.valField(m_data.kit[_i], Cairo.General.Constants.PRFK_DEFAULT);
+          elem.setKey(KIK_PRFK_ID);
+
         }
 
         return true;
@@ -7122,5 +6983,6 @@
       }
     };
   });
+
 
 }());
