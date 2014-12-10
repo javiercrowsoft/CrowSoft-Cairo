@@ -88,7 +88,7 @@
       };
 
       self.editDocumentsEnabled = function() {
-        return m_id != Cairo.Constants.NO_ID;
+        return m_id !== Cairo.Constants.NO_ID;
       };
 
       self.copyEnabled = function() {
@@ -103,7 +103,7 @@
         var _rtn = null;
         try {
 
-          if(m_id == Cairo.Constants.NO_ID) { return _rtn; }
+          if(m_id === Cairo.Constants.NO_ID) { return _rtn; }
 
           var doc = new Cairo.DocDigital();
 
@@ -116,7 +116,7 @@
         catch (ex) {
           Cairo.manageErrorEx(ex.message, Cairo.Constants.SHOW_DOCUMENTS_FUNCTION, C_MODULE, "");
         }
-
+              
         return _rtn;
       };
 
@@ -134,7 +134,7 @@
             _rtn = true;
             break;
         }
-
+      
         return Cairo.Promises.resolvedPromise(_rtn);
       };
 
@@ -160,7 +160,7 @@
 
         if(m_copy) {
           register.setId(Cairo.Constants.NEW_ID);
-        }
+        } 
         else {
           register.setId(m_id);
         }
@@ -194,14 +194,14 @@
         return Cairo.Database.saveEx(
             register,
             false,
-            Cairo.General.Constants.PRO_CODE,
+            Cairo.General.Constants.PRO_CODE, 
             Cairo.Constants.CLIENT_SAVE_FUNCTION,
             C_MODULE,
             Cairo.Language.getText(1409, "")).then(
 
           function(result) {
             if(result.success) {
-              m_copy = false;
+                m_copy = false;
               return load(result.data.getId()).then(
                 function (success) {
                   if(success) {
@@ -216,12 +216,12 @@
             else {
               return false;
             }
-          });
+        });
       };
 
       var updateList = function() {
-        if(m_id == Cairo.Constants.NO_ID) { return; }
-        if(m_listController == null) { return; }
+        if(m_id === Cairo.Constants.NO_ID) { return; }
+        if(m_listController === null) { return; }
 
         if(m_isNew) {
           m_listController.addLeave(m_id, m_branchId);
@@ -236,7 +236,7 @@
         m_editing = false;
 
         try {
-          if(m_listController != null) {
+          if(m_listController !== null) {
             updateList();
             m_listController.removeEditor(self);
           }
@@ -257,7 +257,7 @@
 
       self.getTitle = function() {
         //'Provincias
-        return Cairo.Language.getText(1080, "");
+        return Cairo.Language.getText(1410, "");
       };
 
       self.validate = function() {
@@ -322,10 +322,10 @@
         var p = Cairo.Promises.resolvedPromise(false);
         try {
 
-          if(id == Cairo.Constants.NO_ID) {
+          if(id === Cairo.Constants.NO_ID) {
             m_isNew = true;
             if(!Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.NEW_PROVINCIA)) { return p; }
-          }
+          } 
           else {
             m_isNew = false;
             if(!Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.EDIT_PROVINCIA)) { return p; }
@@ -334,7 +334,7 @@
           m_dialog.setInModalWindow(inModalWindow);
 
           p = load(id).then(
-            function(success) {
+           function(success) {
               if(success) {
 
                 if(!loadCollection()) { return false; }
@@ -343,20 +343,20 @@
                 m_copy = false;
 
                 if(inModalWindow) {
-                  success = m_id != Cairo.Constants.NO_ID;
-                }
+                  success = m_id !== Cairo.Constants.NO_ID;
+                } 
                 else {
                   success = true;
                 }
 
               }
               return success;
-            });
+          });
         }
         catch (ex) {
           Cairo.manageErrorEx(ex.message, Cairo.Constants.EDIT_FUNCTION, "cProvincia", "");
-        }
-
+      }
+      
         return p;
       };
 
@@ -465,7 +465,7 @@
               m_id = Cairo.Constants.NO_ID;
               m_pa_Id = Cairo.Constants.NO_ID;
               m_pais = "";
-            }
+            } 
             else {
               m_active = Cairo.Database.valField(response.data, Cairo.Constants.ACTIVE);
               m_name = Cairo.Database.valField(response.data, Cairo.General.Constants.PRO_NAME);
@@ -476,8 +476,8 @@
               m_pais = Cairo.Database.valField(response.data, Cairo.General.Constants.PA_NAME);
             }
 
-            return true;
-          });
+          return true;
+        });
       };
 
       self.destroy = function() {
@@ -651,4 +651,3 @@
 
 
 }());
-

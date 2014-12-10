@@ -544,7 +544,7 @@
       };
 
       self.editDocumentsEnabled = function() {
-        return m_id != Cairo.Constants.NO_ID;
+        return m_id !== Cairo.Constants.NO_ID;
       };
 
       self.copyEnabled = function() {
@@ -559,7 +559,7 @@
         var _rtn = null;
         try {
 
-          if(m_id == Cairo.Constants.NO_ID) { return _rtn; }
+          if(m_id === Cairo.Constants.NO_ID) { return _rtn; }
 
           var doc = new Cairo.DocDigital();
 
@@ -618,7 +618,7 @@
             var row = null;
             row = w_pGetTags.getGrid().getRows(info.lRow);
 
-            if(row.item(info.lCol).getKey() == KIT_PR_ID_TAG) {
+            if(row.item(info.lCol).getKey() === KIT_PR_ID_TAG) {
 
               var oCell = null;
 
@@ -776,7 +776,7 @@
         var iProp = null;
         var status = null;
 
-        status = m_esplantilla == false;
+        status = m_esplantilla === false;
 
         var _count = m_dialog.getProperties().size();
         for (var _i = 0; _i < _count; _i++) {
@@ -793,7 +793,7 @@
         }
 
         m_dialog.getProperties().item(Cairo.General.Constants.PR_ES_PLANTILLA).setEnabled(true);
-        pGetTags().setEnabled(m_pr_id_webpadre == Cairo.Constants.NO_ID);
+        pGetTags().setEnabled(m_pr_id_webpadre === Cairo.Constants.NO_ID);
 
       };
 
@@ -808,27 +808,27 @@
 
         switch (key) {
           case K_SECOMPRA:
-            setEnabledCompra(Cairo.Util.val(m_dialog.getProperties().item(Cairo.General.Constants.PR_SECOMPRA).getValue()) != 0);
+            setEnabledCompra(Cairo.Util.val(m_dialog.getProperties().item(Cairo.General.Constants.PR_SECOMPRA).getValue()) !== 0);
 
             break;
 
           case K_SEVENDE:
 
-            bSeVende = Cairo.Util.val(m_dialog.getProperties().item(Cairo.General.Constants.PR_SEVENDE).getValue()) != 0;
+            bSeVende = Cairo.Util.val(m_dialog.getProperties().item(Cairo.General.Constants.PR_SEVENDE).getValue()) !== 0;
             setEnabledVenta(bSeVende);
 
             iProp = m_dialog.getProperties().item(Cairo.General.Constants.PR_NOMBREVENTA);
 
             if(bSeVende) {
 
-              if(iProp.getValue().Length == 0) {
+              if(iProp.getValue().Length === 0) {
                 iProp.setValue(m_dialog.getProperties().item(Cairo.General.Constants.PR_NOMBRECOMPRA).getValue());
               }
 
             }
             else {
 
-              if(iProp.getValue() == m_dialog.getProperties().item(Cairo.General.Constants.PR_NOMBRECOMPRA).getValue()) {
+              if(iProp.getValue() === m_dialog.getProperties().item(Cairo.General.Constants.PR_NOMBRECOMPRA).getValue()) {
                 iProp.setValue("");
               }
 
@@ -837,14 +837,14 @@
             break;
 
           case K_LLEVASTOCK:
-            setEnabledStock(Cairo.Util.val(m_dialog.getProperties().item(Cairo.General.Constants.PR_LLEVASTOCK).getValue()) != 0);
+            setEnabledStock(Cairo.Util.val(m_dialog.getProperties().item(Cairo.General.Constants.PR_LLEVASTOCK).getValue()) !== 0);
 
             break;
 
           case K_RUB_ID:
             var rubId = null;
             rubId = pGetRubId();
-            if(m_lastRubId != rubId) {
+            if(m_lastRubId !== rubId) {
               pSetRubro(rubId, true);
               m_lastRubId = rubId;
             }
@@ -862,7 +862,7 @@
             nombreventa = properties.item(Cairo.General.Constants.PR_NOMBREVENTA).getValue();
             bSeVende = Cairo.Util.val(properties.item(Cairo.General.Constants.PR_SEVENDE).getValue());
 
-            if(m_nombrecompra != nombre && nombre != nombreventa && bSeVende) {
+            if(m_nombrecompra !== nombre && nombre !== nombreventa && bSeVende) {
               //Ha modificado el nombre de compras, desea aplicar el mismo nombre a ventas
               if(cWindow.ask(Cairo.Language.getText(1282, ""), vbYes)) {
 
@@ -916,7 +916,7 @@
             var c = null;
             c = pGetTags();
 
-            c.setEnabled(m_dialog.getProperties().item(Cairo.General.Constants.PR_ID_WEB_PADRE).getSelectId() == Cairo.Constants.NO_ID);
+            c.setEnabled(m_dialog.getProperties().item(Cairo.General.Constants.PR_ID_WEB_PADRE).getSelectId() === Cairo.Constants.NO_ID);
 
             var abmGen = null;
             abmGen = m_dialog;
@@ -1437,7 +1437,7 @@
 
         if(rs.isEOF()) {  return false; }
 
-        if(cDataBase.valField(rs.getFields(), 0) == 0) {
+        if(cDataBase.valField(rs.getFields(), 0) === 0) {
           cWindow.msgWarning(cDataBase.valField(rs.getFields(), 1));
           // **TODO:** goto found: GoTo SaveError;
         }
@@ -1479,8 +1479,8 @@
       };
 
       var updateList = function() {
-        if(m_id == Cairo.Constants.NO_ID) { return; }
-        if(m_listController == null) { return; }
+        if(m_id === Cairo.Constants.NO_ID) { return; }
+        if(m_listController === null) { return; }
 
         if(m_isNew) {
           m_listController.addLeave(m_id, m_branchId);
@@ -1495,7 +1495,7 @@
         m_editing = false;
 
         try {
-          if(m_listController != null) {
+          if(m_listController !== null) {
             updateList();
             m_listController.removeEditor(self);
           }
@@ -1653,19 +1653,19 @@
               break;
 
             case K_KIT_IDENTIDADXITEM:
-              bNeedTalIdentidad = Cairo.Util.val(property.getValue()) == 0;
+              bNeedTalIdentidad = Cairo.Util.val(property.getValue()) === 0;
               break;
 
             case K_KIT_LOTEXITEM:
-              bNeedTalLote = Cairo.Util.val(property.getValue()) == 0;
+              bNeedTalLote = Cairo.Util.val(property.getValue()) === 0;
               break;
 
             case K_TA_ID_KITSERIE:
-              bHaveTalIdentidad = property.getSelectId() != Cairo.Constants.NO_ID;
+              bHaveTalIdentidad = property.getSelectId() !== Cairo.Constants.NO_ID;
               break;
 
             case K_TA_ID_KITLOTE:
-              bHaveTalLote = property.getSelectId() != Cairo.Constants.NO_ID;
+              bHaveTalLote = property.getSelectId() !== Cairo.Constants.NO_ID;
               break;
           }
         }
@@ -1749,7 +1749,7 @@
                 m_copy = false;
 
                 if(inModalWindow) {
-                  success = m_id != Cairo.Constants.NO_ID;
+                  success = m_id !== Cairo.Constants.NO_ID;
                 }
                 else {
                   success = true;
@@ -1779,7 +1779,7 @@
       };
 
       var pValidateAccessNewEdit = function(id) {
-        if(id == Cairo.Constants.NO_ID) {
+        if(id === Cairo.Constants.NO_ID) {
           m_isNew = true;
           if(!Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.NEW_PRODUCTO)) { return false; }
         }
@@ -3436,48 +3436,48 @@
 
         var properties = m_dialog.getProperties();
 
-        if(!properties.item(Cairo.General.Constants.RUBTIID1) == null) {
+        if(!properties.item(Cairo.General.Constants.RUBTIID1) === null) {
           abmGen.unloadControl(properties.item(Cairo.General.Constants.RUBTIID1));
           properties.remove(Cairo.General.Constants.RUBTIID1);
         }
-        if(!properties.item(Cairo.General.Constants.RUBTIID2) == null) {
+        if(!properties.item(Cairo.General.Constants.RUBTIID2) === null) {
           abmGen.unloadControl(properties.item(Cairo.General.Constants.RUBTIID2));
           properties.remove(Cairo.General.Constants.RUBTIID2);
         }
-        if(!properties.item(Cairo.General.Constants.RUBTIID3) == null) {
+        if(!properties.item(Cairo.General.Constants.RUBTIID3) === null) {
           abmGen.unloadControl(properties.item(Cairo.General.Constants.RUBTIID3));
           properties.remove(Cairo.General.Constants.RUBTIID3);
         }
-        if(!properties.item(Cairo.General.Constants.RUBTIID4) == null) {
+        if(!properties.item(Cairo.General.Constants.RUBTIID4) === null) {
           abmGen.unloadControl(properties.item(Cairo.General.Constants.RUBTIID4));
           properties.remove(Cairo.General.Constants.RUBTIID4);
         }
-        if(!properties.item(Cairo.General.Constants.RUBTIID5) == null) {
+        if(!properties.item(Cairo.General.Constants.RUBTIID5) === null) {
           abmGen.unloadControl(properties.item(Cairo.General.Constants.RUBTIID5));
           properties.remove(Cairo.General.Constants.RUBTIID5);
         }
-        if(!properties.item(Cairo.General.Constants.RUBTIID6) == null) {
+        if(!properties.item(Cairo.General.Constants.RUBTIID6) === null) {
           abmGen.unloadControl(properties.item(Cairo.General.Constants.RUBTIID6));
           properties.remove(Cairo.General.Constants.RUBTIID6);
         }
-        if(!properties.item(Cairo.General.Constants.RUBTIID7) == null) {
+        if(!properties.item(Cairo.General.Constants.RUBTIID7) === null) {
           abmGen.unloadControl(properties.item(Cairo.General.Constants.RUBTIID7));
           properties.remove(Cairo.General.Constants.RUBTIID7);
         }
-        if(!properties.item(Cairo.General.Constants.RUBTIID8) == null) {
+        if(!properties.item(Cairo.General.Constants.RUBTIID8) === null) {
           abmGen.unloadControl(properties.item(Cairo.General.Constants.RUBTIID8));
           properties.remove(Cairo.General.Constants.RUBTIID8);
         }
-        if(!properties.item(Cairo.General.Constants.RUBTIID9) == null) {
+        if(!properties.item(Cairo.General.Constants.RUBTIID9) === null) {
           abmGen.unloadControl(properties.item(Cairo.General.Constants.RUBTIID9));
           properties.remove(Cairo.General.Constants.RUBTIID9);
         }
-        if(!properties.item(Cairo.General.Constants.RUBTIID10) == null) {
+        if(!properties.item(Cairo.General.Constants.RUBTIID10) === null) {
           abmGen.unloadControl(properties.item(Cairo.General.Constants.RUBTIID10));
           properties.remove(Cairo.General.Constants.RUBTIID10);
         }
 
-        if(rubro.self.getRubt_id1() != Cairo.Constants.NO_ID) {
+        if(rubro.self.getRubt_id1() !== Cairo.Constants.NO_ID) {
           var elem = properties.add(null, Cairo.General.Constants.RUBTIID1);
           elem.setType(Dialogs.PropertyType.select);
           elem.setSelectTable(Cairo.Tables.RUBROTABLAITEM);
@@ -3490,7 +3490,7 @@
           elem.setLeft(2500);
           elem.setLeftLabel(-1800);
 
-          if(rubro.self.getRubti_id1() != Cairo.Constants.NO_ID) {
+          if(rubro.self.getRubti_id1() !== Cairo.Constants.NO_ID) {
             elem.setValue(rubro.self.getTablaItem1());
             elem.setSelectId(rubro.self.getRubti_id1());
             elem.setEnabled(false);
@@ -3502,7 +3502,7 @@
 
         }
 
-        if(rubro.self.getRubt_id2() != Cairo.Constants.NO_ID) {
+        if(rubro.self.getRubt_id2() !== Cairo.Constants.NO_ID) {
           var elem = properties.add(null, Cairo.General.Constants.RUBTIID2);
           elem.setType(Dialogs.PropertyType.select);
           elem.setSelectTable(Cairo.Tables.RUBROTABLAITEM);
@@ -3513,7 +3513,7 @@
 
           elem.setLeftLabel(-1800);
 
-          if(rubro.self.getRubti_id2() != Cairo.Constants.NO_ID) {
+          if(rubro.self.getRubti_id2() !== Cairo.Constants.NO_ID) {
             elem.setValue(rubro.self.getTablaItem2());
             elem.setSelectId(rubro.self.getRubti_id2());
             elem.setEnabled(false);
@@ -3525,7 +3525,7 @@
 
         }
 
-        if(rubro.self.getRubt_id3() != Cairo.Constants.NO_ID) {
+        if(rubro.self.getRubt_id3() !== Cairo.Constants.NO_ID) {
           var elem = properties.add(null, Cairo.General.Constants.RUBTIID3);
           elem.setType(Dialogs.PropertyType.select);
           elem.setSelectTable(Cairo.Tables.RUBROTABLAITEM);
@@ -3536,7 +3536,7 @@
 
           elem.setLeftLabel(-1800);
 
-          if(rubro.self.getRubti_id3() != Cairo.Constants.NO_ID) {
+          if(rubro.self.getRubti_id3() !== Cairo.Constants.NO_ID) {
             elem.setValue(rubro.self.getTablaItem3());
             elem.setSelectId(rubro.self.getRubti_id3());
             elem.setEnabled(false);
@@ -3548,7 +3548,7 @@
 
         }
 
-        if(rubro.self.getRubt_id4() != Cairo.Constants.NO_ID) {
+        if(rubro.self.getRubt_id4() !== Cairo.Constants.NO_ID) {
           var elem = properties.add(null, Cairo.General.Constants.RUBTIID4);
           elem.setType(Dialogs.PropertyType.select);
           elem.setSelectTable(Cairo.Tables.RUBROTABLAITEM);
@@ -3559,7 +3559,7 @@
 
           elem.setLeftLabel(-1800);
 
-          if(rubro.self.getRubti_id4() != Cairo.Constants.NO_ID) {
+          if(rubro.self.getRubti_id4() !== Cairo.Constants.NO_ID) {
             elem.setValue(rubro.self.getTablaItem4());
             elem.setSelectId(rubro.self.getRubti_id4());
             elem.setEnabled(false);
@@ -3570,7 +3570,7 @@
           }
         }
 
-        if(rubro.self.getRubt_id5() != Cairo.Constants.NO_ID) {
+        if(rubro.self.getRubt_id5() !== Cairo.Constants.NO_ID) {
           var elem = properties.add(null, Cairo.General.Constants.RUBTIID5);
           elem.setType(Dialogs.PropertyType.select);
           elem.setSelectTable(Cairo.Tables.RUBROTABLAITEM);
@@ -3581,7 +3581,7 @@
 
           elem.setLeftLabel(-1800);
 
-          if(rubro.self.getRubti_id5() != Cairo.Constants.NO_ID) {
+          if(rubro.self.getRubti_id5() !== Cairo.Constants.NO_ID) {
             elem.setValue(rubro.self.getTablaItem5());
             elem.setSelectId(rubro.self.getRubti_id5());
             elem.setEnabled(false);
@@ -3593,7 +3593,7 @@
 
         }
 
-        if(rubro.self.getRubt_id6() != Cairo.Constants.NO_ID) {
+        if(rubro.self.getRubt_id6() !== Cairo.Constants.NO_ID) {
           var elem = properties.add(null, Cairo.General.Constants.RUBTIID6);
           elem.setType(Dialogs.PropertyType.select);
           elem.setSelectTable(Cairo.Tables.RUBROTABLAITEM);
@@ -3606,7 +3606,7 @@
           elem.setLeft(7200);
           elem.setLeftLabel(-1800);
 
-          if(rubro.self.getRubti_id6() != Cairo.Constants.NO_ID) {
+          if(rubro.self.getRubti_id6() !== Cairo.Constants.NO_ID) {
             elem.setValue(rubro.self.getTablaItem6());
             elem.setSelectId(rubro.self.getRubti_id6());
             elem.setEnabled(false);
@@ -3617,7 +3617,7 @@
           }
         }
 
-        if(rubro.self.getRubt_id7() != Cairo.Constants.NO_ID) {
+        if(rubro.self.getRubt_id7() !== Cairo.Constants.NO_ID) {
           var elem = properties.add(null, Cairo.General.Constants.RUBTIID7);
           elem.setType(Dialogs.PropertyType.select);
           elem.setSelectTable(Cairo.Tables.RUBROTABLAITEM);
@@ -3628,7 +3628,7 @@
 
           elem.setLeftLabel(-1800);
 
-          if(rubro.self.getRubti_id7() != Cairo.Constants.NO_ID) {
+          if(rubro.self.getRubti_id7() !== Cairo.Constants.NO_ID) {
             elem.setValue(rubro.self.getTablaItem7());
             elem.setSelectId(rubro.self.getRubti_id7());
             elem.setEnabled(false);
@@ -3640,7 +3640,7 @@
 
         }
 
-        if(rubro.self.getRubt_id8() != Cairo.Constants.NO_ID) {
+        if(rubro.self.getRubt_id8() !== Cairo.Constants.NO_ID) {
           var elem = properties.add(null, Cairo.General.Constants.RUBTIID8);
           elem.setType(Dialogs.PropertyType.select);
           elem.setSelectTable(Cairo.Tables.RUBROTABLAITEM);
@@ -3651,7 +3651,7 @@
 
           elem.setLeftLabel(-1800);
 
-          if(rubro.self.getRubti_id8() != Cairo.Constants.NO_ID) {
+          if(rubro.self.getRubti_id8() !== Cairo.Constants.NO_ID) {
             elem.setValue(rubro.self.getTablaItem8());
             elem.setSelectId(rubro.self.getRubti_id8());
             elem.setEnabled(false);
@@ -3663,7 +3663,7 @@
 
         }
 
-        if(rubro.self.getRubt_id9() != Cairo.Constants.NO_ID) {
+        if(rubro.self.getRubt_id9() !== Cairo.Constants.NO_ID) {
           var elem = properties.add(null, Cairo.General.Constants.RUBTIID9);
           elem.setType(Dialogs.PropertyType.select);
           elem.setSelectTable(Cairo.Tables.RUBROTABLAITEM);
@@ -3674,7 +3674,7 @@
 
           elem.setLeftLabel(-1800);
 
-          if(rubro.self.getRubti_id9() != Cairo.Constants.NO_ID) {
+          if(rubro.self.getRubti_id9() !== Cairo.Constants.NO_ID) {
             elem.setValue(rubro.self.getTablaItem9());
             elem.setSelectId(rubro.self.getRubti_id9());
             elem.setEnabled(false);
@@ -3686,7 +3686,7 @@
 
         }
 
-        if(rubro.self.getRubt_id10() != Cairo.Constants.NO_ID) {
+        if(rubro.self.getRubt_id10() !== Cairo.Constants.NO_ID) {
           var elem = properties.add(null, Cairo.General.Constants.RUBTIID10);
           elem.setType(Dialogs.PropertyType.select);
           elem.setSelectTable(Cairo.Tables.RUBROTABLAITEM);
@@ -3697,7 +3697,7 @@
 
           elem.setLeftLabel(-1800);
 
-          if(rubro.self.getRubti_id10() != Cairo.Constants.NO_ID) {
+          if(rubro.self.getRubti_id10() !== Cairo.Constants.NO_ID) {
             elem.setValue(rubro.self.getTablaItem10());
             elem.setSelectId(rubro.self.getRubti_id10());
             elem.setEnabled(false);
@@ -4085,7 +4085,7 @@
 
             }
 
-            m_bRubroChanged = m_lastRubId != m_rub_id;
+            m_bRubroChanged = m_lastRubId !== m_rub_id;
             m_lastRubId = m_rub_id;
 
             if(!m_genericEdit.Load(m_id)) { return false; }
@@ -4512,61 +4512,61 @@
 
         var properties = m_dialog.getProperties();
 
-        if(rubro.self.getRubt_id1() != Cairo.Constants.NO_ID) {
+        if(rubro.self.getRubt_id1() !== Cairo.Constants.NO_ID) {
           var property = properties.item(Cairo.General.Constants.RUBTIID1);
           property.setValue(m_tablaItem1);
           property.setSelectId(m_rubti_id1);
         }
 
-        if(rubro.self.getRubt_id2() != Cairo.Constants.NO_ID) {
+        if(rubro.self.getRubt_id2() !== Cairo.Constants.NO_ID) {
           var property = properties.item(Cairo.General.Constants.RUBTIID2);
           property.setValue(m_tablaItem2);
           property.setSelectId(m_rubti_id2);
         }
 
-        if(rubro.self.getRubt_id3() != Cairo.Constants.NO_ID) {
+        if(rubro.self.getRubt_id3() !== Cairo.Constants.NO_ID) {
           var property = properties.item(Cairo.General.Constants.RUBTIID3);
           property.setValue(m_tablaItem3);
           property.setSelectId(m_rubti_id3);
         }
 
-        if(rubro.self.getRubt_id4() != Cairo.Constants.NO_ID) {
+        if(rubro.self.getRubt_id4() !== Cairo.Constants.NO_ID) {
           var property = properties.item(Cairo.General.Constants.RUBTIID4);
           property.setValue(m_tablaItem4);
           property.setSelectId(m_rubti_id4);
         }
 
-        if(rubro.self.getRubt_id5() != Cairo.Constants.NO_ID) {
+        if(rubro.self.getRubt_id5() !== Cairo.Constants.NO_ID) {
           var property = properties.item(Cairo.General.Constants.RUBTIID5);
           property.setValue(m_tablaItem5);
           property.setSelectId(m_rubti_id5);
         }
 
-        if(rubro.self.getRubt_id6() != Cairo.Constants.NO_ID) {
+        if(rubro.self.getRubt_id6() !== Cairo.Constants.NO_ID) {
           var property = properties.item(Cairo.General.Constants.RUBTIID6);
           property.setValue(m_tablaItem6);
           property.setSelectId(m_rubti_id6);
         }
 
-        if(rubro.self.getRubt_id7() != Cairo.Constants.NO_ID) {
+        if(rubro.self.getRubt_id7() !== Cairo.Constants.NO_ID) {
           var property = properties.item(Cairo.General.Constants.RUBTIID7);
           property.setValue(m_tablaItem7);
           property.setSelectId(m_rubti_id7);
         }
 
-        if(rubro.self.getRubt_id8() != Cairo.Constants.NO_ID) {
+        if(rubro.self.getRubt_id8() !== Cairo.Constants.NO_ID) {
           var property = properties.item(Cairo.General.Constants.RUBTIID8);
           property.setValue(m_tablaItem8);
           property.setSelectId(m_rubti_id8);
         }
 
-        if(rubro.self.getRubt_id9() != Cairo.Constants.NO_ID) {
+        if(rubro.self.getRubt_id9() !== Cairo.Constants.NO_ID) {
           var property = properties.item(Cairo.General.Constants.RUBTIID9);
           property.setValue(m_tablaItem9);
           property.setSelectId(m_rubti_id9);
         }
 
-        if(rubro.self.getRubt_id10() != Cairo.Constants.NO_ID) {
+        if(rubro.self.getRubt_id10() !== Cairo.Constants.NO_ID) {
           var property = properties.item(Cairo.General.Constants.RUBTIID10);
           property.setValue(m_tablaItem10);
           property.setSelectId(m_rubti_id10);
@@ -4607,7 +4607,7 @@
         switch (key) {
           case K_WEB_CATALOGOS:
           case K_WEB_CATEGORIAS:
-            _rtn = lCol == 4 || lCol == 5;
+            _rtn = lCol === 4 || lCol === 5;
             break;
 
           default:
@@ -4629,37 +4629,37 @@
 
           case K_PROVEEDOR:
             id = Cairo.Util.val(Dialogs.cell(row, KIK_PRPROV_ID).getValue());
-            if(id != Cairo.Constants.NO_ID) { m_itemsDeletedProveedor = m_itemsDeletedProveedor+ id.toString()+ C_StrColon; }
+            if(id !== Cairo.Constants.NO_ID) { m_itemsDeletedProveedor = m_itemsDeletedProveedor+ id.toString()+ C_StrColon; }
 
             break;
 
           case K_CLIENTE:
             id = Cairo.Util.val(Dialogs.cell(row, KIK_PRCLI_ID).getValue());
-            if(id != Cairo.Constants.NO_ID) { m_itemsDeletedCliente = m_itemsDeletedCliente+ id.toString()+ C_StrColon; }
+            if(id !== Cairo.Constants.NO_ID) { m_itemsDeletedCliente = m_itemsDeletedCliente+ id.toString()+ C_StrColon; }
 
             break;
 
           case K_TAGS:
             id = Cairo.Util.val(Dialogs.cell(row, KIT_PRT_ID).getValue());
-            if(id != Cairo.Constants.NO_ID) { m_itemsDeletedTag = m_itemsDeletedTag+ id.toString()+ C_StrColon; }
+            if(id !== Cairo.Constants.NO_ID) { m_itemsDeletedTag = m_itemsDeletedTag+ id.toString()+ C_StrColon; }
 
             break;
 
           case K_WEB_IMAGES:
             id = Cairo.Util.val(Dialogs.cell(row, KIWI_PRWI_ID).getValue());
-            if(id != Cairo.Constants.NO_ID) { m_itemsDeletedWebImages = m_itemsDeletedWebImages+ id.toString()+ C_StrColon; }
+            if(id !== Cairo.Constants.NO_ID) { m_itemsDeletedWebImages = m_itemsDeletedWebImages+ id.toString()+ C_StrColon; }
 
             break;
 
           case K_CMI:
             id = Cairo.Util.val(Dialogs.cell(row, KICMI_ID).getValue());
-            if(id != Cairo.Constants.NO_ID) { m_itemsDeletedCMI = m_itemsDeletedCMI+ id.toString()+ C_StrColon; }
+            if(id !== Cairo.Constants.NO_ID) { m_itemsDeletedCMI = m_itemsDeletedCMI+ id.toString()+ C_StrColon; }
 
             break;
 
           case K_LEYENDAS:
             id = Cairo.Util.val(Dialogs.cell(row, KIPRL_ID).getValue());
-            if(id != Cairo.Constants.NO_ID) { m_itemsDeletedLeyendas = m_itemsDeletedLeyendas+ id.toString()+ C_StrColon; }
+            if(id !== Cairo.Constants.NO_ID) { m_itemsDeletedLeyendas = m_itemsDeletedLeyendas+ id.toString()+ C_StrColon; }
 
             break;
         }
@@ -4952,7 +4952,7 @@
 
           }
 
-          if(Dialogs.cell(row, KIK_PROV_PRECIO).getValue() != Dialogs.cell(row, KIK_PROV_PRECIO2).getValue() && Dialogs.cell(row, KIK_PROV_LPI_ID).getID() != Cairo.Constants.NO_ID) {
+          if(Dialogs.cell(row, KIK_PROV_PRECIO).getValue() !== Dialogs.cell(row, KIK_PROV_PRECIO2).getValue() && Dialogs.cell(row, KIK_PROV_LPI_ID).getID() !== Cairo.Constants.NO_ID) {
 
             sqlstmt = "sp_ProductoSavePrecio "+ m_id+ ","+ Dialogs.cell(row, KIK_PROV_LPI_ID).getID().toString()+ ","+ Cairo.Database.sqlNumber(Dialogs.cell(row, KIK_PROV_PRECIO).getValue())+ ","+ Cairo.Database.sqlDate(Dialogs.cell(row, KIK_PROV_PRECIO_FECHA).getValue());
 
@@ -4962,7 +4962,7 @@
 
         }
 
-        if(m_itemsDeletedProveedor != "" && !m_copy) {
+        if(m_itemsDeletedProveedor !== "" && !m_copy) {
 
           transaction.setDeletedList(m_itemsDeletedProveedor )
         }
@@ -5039,7 +5039,7 @@
           transaction.addRegister(register);
         }
 
-        if(m_itemsDeletedCMI != "" && !m_copy) {
+        if(m_itemsDeletedCMI !== "" && !m_copy) {
 
           transaction.setDeletedList(m_itemsDeletedCMI )
         }
@@ -5106,7 +5106,7 @@
           transaction.addRegister(register);
         }
 
-        if(m_itemsDeletedLeyendas != "" && !m_copy) {
+        if(m_itemsDeletedLeyendas !== "" && !m_copy) {
 
           transaction.setDeletedList(m_itemsDeletedLeyendas )
         }
@@ -5172,7 +5172,7 @@
           transaction.addRegister(register);
         }
 
-        if(m_itemsDeletedWebImages != "" && !m_copy) {
+        if(m_itemsDeletedWebImages !== "" && !m_copy) {
 
           transaction.setDeletedList(m_itemsDeletedWebImages )
         }
@@ -5234,7 +5234,7 @@
           transaction.addRegister(register);
         }
 
-        if(m_itemsDeletedCliente != "" && !m_copy) {
+        if(m_itemsDeletedCliente !== "" && !m_copy) {
 
           transaction.setDeletedList(m_itemsDeletedCliente )
         }
@@ -5276,7 +5276,7 @@
                 break;
 
               case KIT_PR_ID_TAG:
-                bPrIdTag = cell.getId() != Cairo.Constants.NO_ID;
+                bPrIdTag = cell.getId() !== Cairo.Constants.NO_ID;
                 fields.add(Cairo.General.Constants.PR_ID_TAG, cell.getId(), Cairo.Constants.Types.id);
 
                 break;
@@ -5309,7 +5309,7 @@
           transaction.addRegister(register);
         }
 
-        if(m_itemsDeletedTag != "" && !m_copy) {
+        if(m_itemsDeletedTag !== "" && !m_copy) {
 
           transaction.setDeletedList(m_itemsDeletedTag )
         }
@@ -5639,7 +5639,7 @@
             case KIT_EXPOWEB:
             case KIT_EXPOCAIRO:
               if(!Cairo.Util.valEmpty(cell.getValue(), Cairo.Constants.Types.integer)) {
-                if(Cairo.Util.val(cell.getValue()) != 50) {
+                if(Cairo.Util.val(cell.getValue()) !== 50) {
                   bRowIsEmpty = false;
                   break;
                 }
@@ -5797,13 +5797,13 @@
           precio = Cairo.Database.valField(m_data.proveedor[_i], Cairo.General.Constants.LPI_PRECIO);
 
           var elem = elem.add(null);
-          if(precio != 0) {
+          if(precio !== 0) {
             elem.Value = precio;
           }
           elem.setKey(KIK_PROV_PRECIO);
 
           var elem = elem.add(null);
-          if(precio != 0) {
+          if(precio !== 0) {
             elem.Value = precio;
           }
           elem.setKey(KIK_PROV_PRECIO2);
@@ -5811,7 +5811,7 @@
           fecha = Cairo.Database.valField(m_data.proveedor[_i], Cairo.General.Constants.LPI_FECHA);
 
           var elem = elem.add(null);
-          if(fecha != Cairo.Constants.cSNODATE) {
+          if(fecha !== Cairo.Constants.cSNODATE) {
             elem.Value = fecha;
           }
           elem.setKey(KIK_PROV_PRECIO_FECHA);
@@ -6534,7 +6534,7 @@
             iProp.setEnabled(true);
             m_dialog.showValue(iProp);
 
-            bEnabledTa = Cairo.Util.val(iProp.getValue()) == 0;
+            bEnabledTa = Cairo.Util.val(iProp.getValue()) === 0;
 
             iProp = properties.item(Cairo.General.Constants.TA_ID_KIT_SERIE);
             iProp.setEnabled(bEnabledTa);
@@ -6608,7 +6608,7 @@
             iProp.setEnabled(true);
             m_dialog.showValue(iProp);
 
-            bEnabled = Cairo.Util.val(iProp.getValue()) == 0;
+            bEnabled = Cairo.Util.val(iProp.getValue()) === 0;
 
             iProp = properties.item(Cairo.General.Constants.TA_ID_KIT_LOTE);
             iProp.setEnabled(bEnabled);
@@ -6697,7 +6697,7 @@
 
       var pCreateFromRubro = function() {
 
-        if(pGetRubId() == Cairo.Constants.NO_ID) { return false; }
+        if(pGetRubId() === Cairo.Constants.NO_ID) { return false; }
 
         if(!cWindow.ask(Cairo.Language.getText(2539, ""), vbYes)) {
           return null;
@@ -6709,43 +6709,43 @@
 
         var properties = m_dialog.getProperties();
 
-        if(!properties.item(Cairo.General.Constants.RUBTIID1) == null) {
-          if(pGetRubro().getValue().toLowerCase() != properties.item(Cairo.General.Constants.RUBTIID1).getValue().toLowerCase()) {
+        if(!properties.item(Cairo.General.Constants.RUBTIID1) === null) {
+          if(pGetRubro().getValue().toLowerCase() !== properties.item(Cairo.General.Constants.RUBTIID1).getValue().toLowerCase()) {
             nombre = nombre+ (Cairo.String.rtrim(" "+ properties.item(Cairo.General.Constants.RUBTIID1).getValue())).toString();
           }
         }
-        if(!properties.item(Cairo.General.Constants.RUBTIID2) == null) {
+        if(!properties.item(Cairo.General.Constants.RUBTIID2) === null) {
           nombre = nombre+ (Cairo.String.rtrim(" "+ properties.item(Cairo.General.Constants.RUBTIID2).getValue())).toString();
         }
-        if(!properties.item(Cairo.General.Constants.RUBTIID3) == null) {
+        if(!properties.item(Cairo.General.Constants.RUBTIID3) === null) {
           nombre = nombre+ (Cairo.String.rtrim(" "+ properties.item(Cairo.General.Constants.RUBTIID3).getValue())).toString();
         }
-        if(!properties.item(Cairo.General.Constants.RUBTIID4) == null) {
+        if(!properties.item(Cairo.General.Constants.RUBTIID4) === null) {
           nombre = nombre+ (Cairo.String.rtrim(" "+ properties.item(Cairo.General.Constants.RUBTIID4).getValue())).toString();
         }
-        if(!properties.item(Cairo.General.Constants.RUBTIID5) == null) {
+        if(!properties.item(Cairo.General.Constants.RUBTIID5) === null) {
           nombre = nombre+ (Cairo.String.rtrim(" "+ properties.item(Cairo.General.Constants.RUBTIID5).getValue())).toString();
         }
-        if(!properties.item(Cairo.General.Constants.RUBTIID6) == null) {
+        if(!properties.item(Cairo.General.Constants.RUBTIID6) === null) {
           nombre = nombre+ (Cairo.String.rtrim(" "+ properties.item(Cairo.General.Constants.RUBTIID6).getValue())).toString();
         }
-        if(!properties.item(Cairo.General.Constants.RUBTIID7) == null) {
+        if(!properties.item(Cairo.General.Constants.RUBTIID7) === null) {
           nombre = nombre+ (Cairo.String.rtrim(" "+ properties.item(Cairo.General.Constants.RUBTIID7).getValue())).toString();
         }
-        if(!properties.item(Cairo.General.Constants.RUBTIID8) == null) {
+        if(!properties.item(Cairo.General.Constants.RUBTIID8) === null) {
           nombre = nombre+ (Cairo.String.rtrim(" "+ properties.item(Cairo.General.Constants.RUBTIID8).getValue())).toString();
         }
-        if(!properties.item(Cairo.General.Constants.RUBTIID9) == null) {
+        if(!properties.item(Cairo.General.Constants.RUBTIID9) === null) {
           nombre = nombre+ (Cairo.String.rtrim(" "+ properties.item(Cairo.General.Constants.RUBTIID9).getValue())).toString();
         }
-        if(!properties.item(Cairo.General.Constants.RUBTIID10) == null) {
+        if(!properties.item(Cairo.General.Constants.RUBTIID10) === null) {
           nombre = nombre+ (Cairo.String.rtrim(" "+ properties.item(Cairo.General.Constants.RUBTIID10).getValue())).toString();
         }
 
         properties.item(Cairo.General.Constants.PR_NOMBRECOMPRA).setValue(nombre);
         m_dialog.showValue(properties.item(Cairo.General.Constants.PR_NOMBRECOMPRA));
 
-        if(LenB(properties.item(Cairo.General.Constants.PR_NOMBREVENTA).getValue()) == 0) {
+        if(LenB(properties.item(Cairo.General.Constants.PR_NOMBREVENTA).getValue()) === 0) {
           properties.item(Cairo.General.Constants.PR_NOMBREVENTA).setValue(nombre);
           m_dialog.showValue(properties.item(Cairo.General.Constants.PR_NOMBREVENTA));
         }

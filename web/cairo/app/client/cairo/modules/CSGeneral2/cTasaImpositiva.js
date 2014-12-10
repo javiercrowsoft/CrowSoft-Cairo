@@ -7,31 +7,28 @@
 
       var self = {};
 
-      var Dialogs = Cairo.Entities.Dialogs;
+      var Dialogs = Cairo.Dialogs;
 
       // cTasaImpositiva
       // 31-07-00
 
       var C_MODULE = "cTasaImpositiva";
 
-      Cairo.Constants.csE_TasaImpositivaTipo = {
-        CSTI_VENTAS: 1,
-        CSTI_COMPRAS: 2
-      };      
-      
-      var K_NOMBRE = 1;
-      var K_CODIGO = 2;
-      var K_ACTIVO = 3;
+      var K_NAME = 1;
+      var K_CODE = 2;
+      var K_ACTIVE = 3;
       var K_PORCENTAJE = 4;
       var K_CODIGODGI1 = 5;
       var K_CODIGODGI2 = 6;
       var K_CUE_ID = 7;
       var K_TIPO = 8;
 
+//*TODO:** enum is translated as a new class at the end of the file Public Enum csE_TasaImpositivaTipo
+
       var m_id = 0;
-      var m_nombre = "";
-      var m_codigo = "";
-      var m_activo;
+      var m_name = "";
+      var m_code = "";
+      var m_active;
       var m_porcentaje = 0;
       var m_codigoDGI1 = "";
       var m_codigoDGI2 = "";
@@ -42,14 +39,12 @@
       var m_editing;
 
       var m_dialog;
-      var m_objTree = null;
+      var m_listController = null;
 
       var m_isNew;
 
       var m_branchId = 0;
       var m_treeId = 0;
-
-      var m_host;
 
       var m_copy;
 
@@ -60,45 +55,55 @@
         m_id = rhs;
       };
       self.getName = function() {
-        return m_nombre;
+        return m_name;
       };
       self.setNombre = function(rhs) {
-        m_nombre = rhs;
+        m_name = rhs;
       };
       self.getCode = function() {
-        return m_codigo;
+        return m_code;
       };
       self.setCodigo = function(rhs) {
-        m_codigo = rhs;
+        m_code = rhs;
       };
 
       self.data = function(id,  field) {
         var rtn = null;
 
-        if(!Cairo.Database.getData(Cairo.General.Constants.TASAIMPOSITIVA, Cairo.General.Constants.TIID, id, field, rtn, "Data", C_MODULE)) { return null; }
+        if(!Cairo.Database.getData(Cairo.General.Constants.TASAIMPOSITIVA, Cairo.General.Constants.TI_ID, id, field, rtn, "Data", C_MODULE)) { return null; }
         return rtn;
       };
 
       self.copy = function() {
 
-        self.terminate();
+        updateList();
+
         m_isNew = true;
 
-        var property = m_dialog.getProperties().item(Cairo.General.Constants.TICODIGO);
+        m_listController.updateEditorKey(self, Cairo.Constants.NO_ID);
+
+        var property = m_dialog.getProperties().item(Cairo.General.Constants.TI_CODE);
         property.setValue(Cairo.Constants.COPY_OF + property.getValue());
 
-        m_dialog.showValue(m_dialog.getProperties().item(Cairo.General.Constants.TICODIGO));
-        m_dialog.showValue(m_dialog.getProperties().item(Cairo.General.Constants.TINOMBRE));
+        m_dialog.showValue(m_dialog.getProperties().item(Cairo.General.Constants.TI_CODE));
+        m_dialog.showValue(m_dialog.getProperties().item(Cairo.General.Constants.TI_NAME));
 
         m_copy = true;
       };
 
       self.editNew = function() {
 
-        self.terminate();
+        updateList();
+
         m_isNew = true;
 
-        return self.edit(Cairo.Constants.NO_ID);
+        m_listController.updateEditorKey(self, Cairo.Constants.NO_ID);
+
+        return load(Cairo.Constants.NO_ID).then(
+          function(ignored) {
+            return refreshCollection();
+          }
+        );
       };
 
       self.getApplication = function() {
@@ -106,7 +111,7 @@
       };
 
       self.editDocumentsEnabled = function() {
-        return m_id != Cairo.Constants.NO_ID;
+        return m_id !== Cairo.Constants.NO_ID;
       };
 
       self.copyEnabled = function() {
@@ -121,9 +126,9 @@
         var _rtn = null;
         try {
 
-          if(m_id == Cairo.Constants.NO_ID) { return _rtn; }
+          if(m_id === Cairo.Constants.NO_ID) { return _rtn; }
 
-          var doc = new cDocDigital();
+          var doc = new Cairo.DocDigital();
 
           doc.setClientTable(Cairo.General.Constants.TASAIMPOSITIVA);
           doc.setClientTableID(m_id);
@@ -134,7 +139,7 @@
         catch (ex) {
           Cairo.manageErrorEx(ex.message, Cairo.Constants.SHOW_DOCUMENTS_FUNCTION, C_MODULE, "");
         }
-
+              
         return _rtn;
       };
 
@@ -144,7 +149,7 @@
 
           case Dialogs.Message.MSG_DOC_INFO:
 
-            Cairo.Documentation.show("", "", Cairo.Security.Actions.General.NEW_TasaImpositiva);
+            Cairo.Documentation.show("", "", Cairo.Security.Actions.General.NEW_TASAIMPOSITIVA);
             _rtn = Dialogs.Message.MSG_DOC_INFO_HANDLED;
             break;
 
@@ -152,16 +157,17 @@
             _rtn = true;
             break;
         }
-
+      
         return Cairo.Promises.resolvedPromise(_rtn);
       };
 
       self.discardChanges = function() {
-        return Cairo.Promises.resolvedPromise(loadCollection());
+        return Cairo.Promises.resolvedPromise(refreshCollection());
       };
 
       self.propertyChange = function(key) {
 
+        return Cairo.Promises.resolvedPromise(false);
       };
 
       self.save = function() {
@@ -169,102 +175,122 @@
         var register = new Cairo.Database.Register();
         var fields = register.getFields();
 
-        register.setFieldId(Cairo.General.Constants.TIID);
+        register.setFieldId(Cairo.General.Constants.TI_ID);
         register.setTable(Cairo.General.Constants.TASAIMPOSITIVA);
 
+        var apiPath = Cairo.Database.getAPIVersion();
+        register.setPath(apiPath + "general/tasaimpositiva");
+
         if(m_copy) {
-          register.setID(csConstIds.cSNEW);
-        }
+          register.setId(Cairo.Constants.NEW_ID);
+        } 
         else {
-          register.setID(m_id);
+          register.setId(m_id);
         }
 
         var _count = m_dialog.getProperties().size();
         for (var _i = 0; _i < _count; _i++) {
           var property = m_dialog.getProperties().item(_i);
           switch (property.getKey()) {
-            case K_NOMBRE:
-              fields.add(Cairo.General.Constants.TINOMBRE, property.getValue(), Cairo.Constants.Types.TEXT);
+            case K_NAME:
+              fields.add(Cairo.General.Constants.TI_NAME, property.getValue(), Cairo.Constants.Types.text);
               break;
 
-            case K_CODIGO:
-              fields.add(Cairo.General.Constants.TICODIGO, property.getValue(), Cairo.Constants.Types.TEXT);
+            case K_CODE:
+              fields.add(Cairo.General.Constants.TI_CODE, property.getValue(), Cairo.Constants.Types.text);
               break;
 
-            case K_ACTIVO:
-              fields.add(Cairo.Constants.ACTIVE, Cairo.Util.val(property.getValue()), Cairo.Constants.Types.BOOLEAN);
+            case K_ACTIVE:
+              fields.add(Cairo.Constants.ACTIVE, Cairo.Util.val(property.getValue()), Cairo.Constants.Types.boolean);
               break;
 
             case K_PORCENTAJE:
-              fields.add(Cairo.General.Constants.TIPORCENTAJE, property.getValue(), Cairo.Constants.Types.CURRENCY);
+              fields.add(Cairo.General.Constants.TI_PORCENTAJE, property.getValue(), Cairo.Constants.Types.currency);
               break;
 
             case K_CODIGODGI1:
-              fields.add(Cairo.General.Constants.TICODIGODGI1, property.getValue(), Cairo.Constants.Types.TEXT);
+              fields.add(Cairo.General.Constants.TI_CODIGO_DGI1, property.getValue(), Cairo.Constants.Types.text);
               break;
 
             case K_CODIGODGI2:
-              fields.add(Cairo.General.Constants.TICODIGODGI2, property.getValue(), Cairo.Constants.Types.TEXT);
+              fields.add(Cairo.General.Constants.TI_CODIGO_DGI2, property.getValue(), Cairo.Constants.Types.text);
               break;
 
             case K_CUE_ID:
-              fields.add(Cairo.General.Constants.CUEID, property.getSelectId(), Cairo.Constants.Types.TEXT);
+              fields.add(Cairo.General.Constants.CUE_ID, property.getSelectId(), Cairo.Constants.Types.text);
               break;
 
             case K_TIPO:
-              fields.add(Cairo.General.Constants.TITIPO, property.getListItemData(), Cairo.Constants.Types.INTEGER);
+              fields.add(Cairo.General.Constants.TI_TIPO, property.getListItemData(), Cairo.Constants.Types.integer);
               break;
           }
         }
 
-        fields.setHaveLastUpdate(true);
-        fields.setHaveWhoModify(true);
-
-        // Error saving Tasas Impositivas
         return Cairo.Database.saveEx(
             register,
             false,
-            Cairo.General.Constants.TICODIGO,
+            Cairo.General.Constants.TI_CODE, 
             Cairo.Constants.CLIENT_SAVE_FUNCTION,
             C_MODULE,
             Cairo.Language.getText(1481, "")).then(
 
           function(result) {
-            if(result) {
-              m_copy = false;
-              return load(register.getID());
-
+            if(result.success) {
+                m_copy = false;
+              return load(result.data.getId()).then(
+                function (success) {
+                  if(success) {
+                    updateList();
+                    m_listController.updateEditorKey(self, m_id);
+                  };
+                  m_isNew = false;
+                  return success;
+                }
+              );
             }
             else {
               return false;
             }
-          });
+        });
+      };
+
+      var updateList = function() {
+        if(m_id === Cairo.Constants.NO_ID) { return; }
+        if(m_listController === null) { return; }
+
+        if(m_isNew) {
+          m_listController.addLeave(m_id, m_branchId);
+        }
+        else {
+          m_listController.refreshBranch(m_id, m_branchId);
+        }
       };
 
       self.terminate = function() {
-        var _rtn = null;
+
         m_editing = false;
 
-        _rtn = true;
         try {
-          if(m_id == Cairo.Constants.NO_ID) { return _rtn; }
-          if(m_objTree == null) { return _rtn; }
-
-          if(m_isNew) {
-            m_objTree.addLeave(m_id, m_branchId, m_treeId);
-          }
-          else {
-            m_objTree.addEditedId(m_id);
-            m_objTree.refreshActiveBranch();
+          if(m_listController !== null) {
+            updateList();
+            m_listController.removeEditor(self);
           }
         }
-        catch (ex) {
+        catch (ignored) {
+          Cairo.logError('Error in terminate', ignored);
         }
-
-        return _rtn;
       };
 
-      self.title = function() {
+      self.getPath = function() {
+        return "#general/tasaimpositiva/" + m_id.toString();
+      };
+
+      self.getEditorName = function() {
+        var id = m_id ? m_id.toString() : "N" + (new Date).getTime().toString();
+        return "tasaimpositiva" + id;
+      };
+
+      self.getTitle = function() {
         //'Tasas Impositivas
         return Cairo.Language.getText(1482, "");
       };
@@ -276,20 +302,20 @@
         for (var _i = 0; _i < _count; _i++) {
           property = m_dialog.getProperties().item(_i);
           switch (property.getKey()) {
-            case K_NOMBRE:
-              if(Cairo.Util.valEmpty(property.getValue(), Cairo.Constants.Types.TEXT)) {
+            case K_NAME:
+              if(Cairo.Util.valEmpty(property.getValue(), Cairo.Constants.Types.text)) {
                 return Cairo.Modal.showInfo(Cairo.Constants.MUST_SET_A_NAME).then(function() {return false;});
               }
               break;
 
-            case K_CODIGO:
-              if(Cairo.Util.valEmpty(property.getValue(), Cairo.Constants.Types.TEXT)) {
+            case K_CODE:
+              if(Cairo.Util.valEmpty(property.getValue(), Cairo.Constants.Types.text)) {
                 property.setValue(Cairo.Constants.GET_CODE_FROM_ID);
               }
               break;
 
             case K_CUE_ID:
-              if(Cairo.Util.valEmpty(property.getSelectId(), Cairo.Constants.Types.ID)) {
+              if(Cairo.Util.valEmpty(property.getSelectId(), Cairo.Constants.Types.id)) {
                 return Cairo.Modal.showInfo(Cairo.Language.getText(1261, "")).then(function() {return false;});
                 //Debe indicar una cuenta
               }
@@ -326,7 +352,7 @@
       };
 
       self.list = function() {
-        return Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.LIST_TasaImpositiva);
+        return Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.LIST_TASAIMPOSITIVA);
       };
 
       self.setDialog = function(rhs) {
@@ -337,31 +363,23 @@
         return m_editing;
       };
 
-      self.delete = function(id) {
-        if(!Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.DELETE_TasaImpositiva)) {
-          return Cairo.Promises.resolvedPromise(false);
-        }
-
-        return Cairo.Database.execute(Cairo.Constants.DELETE_FUNCTION, C_MODULE);
-      };
-
       self.edit = function(id,  inModalWindow) {
         var p = Cairo.Promises.resolvedPromise(false);
         try {
 
-          if(id == Cairo.Constants.NO_ID) {
+          if(id === Cairo.Constants.NO_ID) {
             m_isNew = true;
-            if(!Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.NEW_TasaImpositiva)) { return p; }
-          }
+            if(!Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.NEW_TASAIMPOSITIVA)) { return p; }
+          } 
           else {
             m_isNew = false;
-            if(!Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.EDIT_TasaImpositiva)) { return p; }
+            if(!Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.EDIT_TASAIMPOSITIVA)) { return p; }
           }
 
           m_dialog.setInModalWindow(inModalWindow);
 
           p = load(id).then(
-            function(success) {
+           function(success) {
               if(success) {
 
                 if(!loadCollection()) { return false; }
@@ -370,25 +388,25 @@
                 m_copy = false;
 
                 if(inModalWindow) {
-                  success = m_id != Cairo.Constants.NO_ID;
-                }
+                  success = m_id !== Cairo.Constants.NO_ID;
+                } 
                 else {
                   success = true;
                 }
 
               }
               return success;
-            });
+          });
         }
         catch (ex) {
-          Cairo.manageErrorEx(ex.message, C_EditGenericEdit, C_MODULE, "");
-        }
-
+          Cairo.manageErrorEx(ex.message, Cairo.Constants.EDIT_FUNCTION, C_MODULE, "");
+      }
+      
         return p;
       };
 
       self.setTree = function(rhs) {
-        m_objTree = rhs;
+        m_listController = rhs;
       };
 
       self.setBranchId = function(rhs) {
@@ -401,57 +419,57 @@
 
       var loadCollection = function() {
 
-        m_dialog.setTitle(m_nombre);
+        m_dialog.setTitle(m_name);
 
         var properties = m_dialog.getProperties();
 
         properties.clear();
 
-        var elem = properties.add(null, Cairo.General.Constants.TINOMBRE);
+        var elem = properties.add(null, Cairo.General.Constants.TI_NAME);
         elem.setType(Dialogs.PropertyType.text);
         elem.setName(Cairo.Constants.NAME_LABEL);
         elem.setSize(100);
         elem.setWidth(4500);
-        elem.setKey(K_NOMBRE);
-        elem.setValue(m_nombre);
+        elem.setKey(K_NAME);
+        elem.setValue(m_name);
 
-        var elem = properties.add(null, Cairo.General.Constants.TICODIGO);
+        var elem = properties.add(null, Cairo.General.Constants.TI_CODE);
         elem.setType(Dialogs.PropertyType.text);
         elem.setName(Cairo.Constants.CODE_LABEL);
         elem.setSize(15);
-        elem.setValue(m_codigo);
-        elem.setKey(K_CODIGO);
+        elem.setValue(m_code);
+        elem.setKey(K_CODE);
 
         var elem = properties.add(null, Cairo.Constants.ACTIVE);
         elem.setType(Dialogs.PropertyType.check);
         elem.setName(Cairo.Constants.ACTIVE_LABEL);
-        elem.setTopFromProperty(Cairo.General.Constants.TICODIGO);
+        elem.setTopFromProperty(Cairo.General.Constants.TI_CODE);
         elem.setTopNotChange(true);
         elem.setLeft(5200);
         elem.setLeftNotChange(true);
         elem.setLeftLabel(-700);
-        elem.setKey(K_ACTIVO);
-        elem.setValue(m_activo === true ? 1 : 0);
+        elem.setKey(K_ACTIVE);
+        elem.setValue(m_active === true ? 1 : 0);
 
-        var elem = properties.add(null, Cairo.General.Constants.TIPORCENTAJE);
+        var elem = properties.add(null, Cairo.General.Constants.TI_PORCENTAJE);
         elem.setType(Dialogs.PropertyType.numeric);
-        elem.setSubType(Dialogs.PropertySubType.Percent);
+        elem.setSubType(Dialogs.PropertySubType.percentage);
         //'Porcentaje
         elem.setName(Cairo.Language.getText(1105, ""));
         elem.setKey(K_PORCENTAJE);
         elem.setWidth(1000);
         elem.setValue(m_porcentaje);
 
-        var elem = properties.add(null, Cairo.General.Constants.CUECID);
+        var elem = properties.add(null, Cairo.General.Constants.CUEC_ID);
         elem.setType(Dialogs.PropertyType.select);
-        elem.setTable(Cairo.Tables.CUENTA);
+        elem.setSelectTable(Cairo.Tables.CUENTA);
         //'Cuenta
         elem.setName(Cairo.Language.getText(1267, ""));
         elem.setKey(K_CUE_ID);
         elem.setValue(m_cuenta);
         elem.setSelectId(m_cue_id);
 
-        var elem = properties.add(null, Cairo.General.Constants.TICODIGODGI1);
+        var elem = properties.add(null, Cairo.General.Constants.TI_CODIGO_DGI1);
         elem.setType(Dialogs.PropertyType.text);
         //'Código DGI 1
         elem.setName(Cairo.Language.getText(1486, ""));
@@ -460,11 +478,11 @@
         elem.setKey(K_CODIGODGI1);
         elem.setValue(m_codigoDGI1);
 
-        var elem = properties.add(null, Cairo.General.Constants.TICODIGODGI2);
+        var elem = properties.add(null, Cairo.General.Constants.TI_CODIGO_DGI2);
         elem.setType(Dialogs.PropertyType.text);
         //'Código DGI 2
         elem.setName(Cairo.Language.getText(1487, ""));
-        elem.setTopFromProperty(Cairo.General.Constants.TICODIGODGI1);
+        elem.setTopFromProperty(Cairo.General.Constants.TI_CODIGO_DGI1);
         elem.setTopNotChange(true);
         elem.setLeft(4500);
         elem.setLeftNotChange(true);
@@ -473,7 +491,7 @@
         elem.setKey(K_CODIGODGI2);
         elem.setValue(m_codigoDGI2);
 
-        var elem = properties.add(null, Cairo.General.Constants.TITIPO);
+        var elem = properties.add(null, Cairo.General.Constants.TI_TIPO);
         elem.setType(Dialogs.PropertyType.list);
         //'Tipo
         elem.setName(Cairo.Language.getText(1223, ""));
@@ -483,65 +501,99 @@
         elem.setListItemData(m_tipo);
 
         var w_list = elem.getList();
-        var elem = w_list.add(null, Cairo.Constants.csE_TasaImpositivaTipo.CSTI_VENTAS);
-        elem.Id = Cairo.Constants.csE_TasaImpositivaTipo.CSTI_VENTAS;
+        var elem = w_list.add(null, csE_TasaImpositivaTipo.cSTI_VENTAS);
+        elem.Id = csE_TasaImpositivaTipo.cSTI_VENTAS;
         //'Ventas
         elem.setValue(Cairo.Language.getText(1488, ""));
 
-        var elem = w_list.add(null, Cairo.Constants.csE_TasaImpositivaTipo.CSTI_COMPRAS);
-        elem.Id = Cairo.Constants.csE_TasaImpositivaTipo.CSTI_COMPRAS;
+        var elem = w_list.add(null, csE_TasaImpositivaTipo.cSTI_COMPRAS);
+        elem.Id = csE_TasaImpositivaTipo.cSTI_COMPRAS;
         //'Compras
         elem.setValue(Cairo.Language.getText(1489, ""));
 
-        if(!m_dialog.show(this)) { return false; }
+        if(!m_dialog.show(self)) { return false; }
 
         return true;
       };
 
+      var refreshCollection = function() {
+
+        m_dialog.setTitle(m_name);
+
+        var properties = m_dialog.getProperties();
+
+        var elem = properties.item(Cairo.General.Constants.TI_NAME);
+        elem.setValue(m_name);
+
+        var elem = properties.item(Cairo.General.Constants.TI_CODE);
+        elem.setValue(m_code);
+
+        var elem = properties.item(Cairo.Constants.ACTIVE);
+        elem.setValue(m_active === true ? 1 : 0);
+
+        var elem = properties.item(Cairo.General.Constants.TI_PORCENTAJE);
+        elem.setValue(m_porcentaje);
+
+        var elem = properties.item(Cairo.General.Constants.CUEC_ID);
+        elem.setValue(m_cuenta);
+        elem.setSelectId(m_cue_id);
+
+        var elem = properties.item(Cairo.General.Constants.TI_CODIGO_DGI1);
+        elem.setValue(m_codigoDGI1);
+
+        var elem = properties.item(Cairo.General.Constants.TI_CODIGO_DGI2);
+        elem.setValue(m_codigoDGI2);
+
+        var elem = properties.item(Cairo.General.Constants.TI_TIPO);
+
+        return m_dialog.showValues(properties);
+      };
+
       var load = function(id) {
 
-        return Cairo.Database.getData("load[cTasaImpositiva]", id).then(
+        var apiPath = Cairo.Database.getAPIVersion();
+        return Cairo.Database.getData("load[" + apiPath + "general/tasaimpositiva]", id).then(
           function(response) {
 
-            if(response.success === false) { return false; }
+            if(response.success !== true) { return false; }
 
-            if(response.data.length === 0) {
-              m_activo = true;
-              m_nombre = "";
-              m_codigo = "";
+            if(response.data.id === Cairo.Constants.NO_ID) {
+              m_active = true;
+              m_name = "";
+              m_code = "";
               m_id = Cairo.Constants.NO_ID;
               m_porcentaje = 0;
               m_codigoDGI1 = "";
               m_codigoDGI2 = "";
               m_cue_id = 0;
               m_cuenta = "";
-              m_tipo = Cairo.Constants.csE_TasaImpositivaTipo.cSTI_VENTAS;
-            }
+              m_tipo = csE_TasaImpositivaTipo.cSTI_VENTAS;
+            } 
             else {
-              m_activo = Cairo.Database.valField(response.data, Cairo.Constants.ACTIVE);
-              m_nombre = Cairo.Database.valField(response.data, Cairo.General.Constants.TINOMBRE);
-              m_codigo = Cairo.Database.valField(response.data, Cairo.General.Constants.TICODIGO);
-              m_id = Cairo.Database.valField(response.data, Cairo.General.Constants.TIID);
-              m_porcentaje = Cairo.Database.valField(response.data, Cairo.General.Constants.TIPORCENTAJE);
-              m_codigoDGI1 = Cairo.Database.valField(response.data, Cairo.General.Constants.TICODIGODGI1);
-              m_codigoDGI2 = Cairo.Database.valField(response.data, Cairo.General.Constants.TICODIGODGI2);
-              m_cue_id = Cairo.Database.valField(response.data, Cairo.General.Constants.CUEID);
-              m_cuenta = Cairo.Database.valField(response.data, Cairo.General.Constants.CUENOMBRE);
-              m_tipo = Cairo.Database.valField(response.data, Cairo.General.Constants.TITIPO);
+              m_active = Cairo.Database.valField(response.data, Cairo.Constants.ACTIVE);
+              m_name = Cairo.Database.valField(response.data, Cairo.General.Constants.TI_NAME);
+              m_code = Cairo.Database.valField(response.data, Cairo.General.Constants.TI_CODE);
+              m_id = Cairo.Database.valField(response.data, Cairo.General.Constants.TI_ID);
+              m_porcentaje = Cairo.Database.valField(response.data, Cairo.General.Constants.TI_PORCENTAJE);
+              m_codigoDGI1 = Cairo.Database.valField(response.data, Cairo.General.Constants.TI_CODIGO_DGI1);
+              m_codigoDGI2 = Cairo.Database.valField(response.data, Cairo.General.Constants.TI_CODIGO_DGI2);
+              m_cue_id = Cairo.Database.valField(response.data, Cairo.General.Constants.CUE_ID);
+              m_cuenta = Cairo.Database.valField(response.data, Cairo.General.Constants.CUE_NAME);
+              m_tipo = Cairo.Database.valField(response.data, Cairo.General.Constants.TI_TIPO);
             }
-            return true;
-          });
+          return true;
+        });
       };
 
       self.destroy = function() {
         m_dialog = null;
-        m_objTree = null;
+        m_listController = null;
       };
 
       return self;
     };
 
-    Edit.Controller = createObject();
+    Edit.Controller = { getEditor: createObject };
 
   });
 
@@ -558,6 +610,9 @@
          */
         var createTreeDialog = function(tabId) {
 
+          var editors = Cairo.Editors.tasaimpositivaEditors || Cairo.Collections.createCollection(null);
+          Cairo.Editors.tasaimpositivaEditors = editors;
+
           // ListController properties and methods
           //
           self.entityInfo = new Backbone.Model({
@@ -569,6 +624,100 @@
           self.showBranch = function(branchId) {
             Cairo.log("Loading nodeId: " + branchId);
             Cairo.Tree.List.Controller.listBranch(branchId, Cairo.Tree.List.Controller.showItems, self);
+          };
+
+          self.addLeave = function(id, branchId) {
+            try {
+              Cairo.Tree.List.Controller.addLeave(branchId, id, self);
+            }
+            catch(ignore) {
+              Cairo.log("Error when adding this item to the branch\n\n" + ignore.message);
+            }
+          };
+
+          self.refreshBranch = function(id, branchId) {
+            try {
+              Cairo.Tree.List.Controller.refreshBranchIfActive(branchId, id, self);
+            }
+            catch(ignore) {
+              Cairo.log("Error when refreshing a branch\n\n" + ignore.message);
+            }
+          };
+
+          var getIndexFromEditor = function(editor) {
+            var count = editors.count();
+            for(var i = 0; i < count; i += 1) {
+              if(editors.item(i).editor === editor) {
+                return i;
+              }
+            }
+            return -1;
+          };
+
+          self.removeEditor = function(editor) {
+            var index = getIndexFromEditor(editor);
+            if(index >= 0) {
+              editors.remove(index);
+            }
+          };
+
+          var getKey = function(id) {
+            if(id === Cairo.Constants.NO_ID) {
+              return "new-id:" + (new Date).getTime().toString()
+            }
+            else {
+              return "k:" + id.toString();
+            }
+          };
+
+          self.updateEditorKey = function(editor, newId) {
+            var index = getIndexFromEditor(editor);
+            if(index >= 0) {
+              var editor = editors.item(index);
+              editors.remove(index);
+              var key = getKey(newId);
+              editors.add(editor, key);
+            }
+          };
+
+          self.edit = function(id, treeId, branchId) {
+            var key = getKey(id);
+            if(editors.contains(key)) {
+              editors.item(key).dialog.showDialog();
+            }
+            else {
+              var editor = Cairo.TasaImpositiva.Edit.Controller.getEditor();
+              var dialog = Cairo.Dialogs.Views.Controller.newDialog();
+
+              editor.setTree(self);
+              editor.setDialog(dialog);
+              editor.setTreeId(treeId);
+              editor.setBranchId(branchId);
+              editor.edit(id);
+
+              editors.add({editor: editor, dialog: dialog}, key);
+            }
+          };
+
+          self.destroy = function(id, treeId, branchId) {
+            if(!Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.DELETE_TASAIMPOSITIVA)) {
+              return Cairo.Promises.resolvedPromise(false);
+            }
+            var apiPath = Cairo.Database.getAPIVersion();
+            return Cairo.Database.destroy(apiPath + "general/tasaimpositiva", id, Cairo.Constants.DELETE_FUNCTION, "TasaImpositiva").success(
+              function() {
+                try {
+                  var key = getKey(id);
+                  if(editors.contains(key)) {
+                    editors.item(key).dialog.closeDialog();
+                  }
+                }
+                catch(ignore) {
+                  Cairo.log('Error closing dialog after delete');
+                }
+                return true;
+              }
+            );
           };
 
           // progress message
@@ -589,9 +738,17 @@
 
         };
 
+        var showTreeDialog = function() {
+          Cairo.Tree.List.Controller.showTreeDialog(self);
+        };
+
+        var closeTreeDialog = function() {
+
+        }
+
         // create the tab
         //
-        Cairo.mainTab.showTab("TasaImpositivas", "tasaimpositivaTreeRegion", "#general/tasaimpositivas", createTreeDialog);
+        Cairo.mainTab.showTab("TasaImpositivas", "tasaimpositivaTreeRegion", "#general/tasaimpositivas", createTreeDialog, closeTreeDialog, showTreeDialog);
 
       }
     };
