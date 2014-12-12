@@ -253,15 +253,15 @@ POST    /api/v1/general/transporte                  controllers.logged.modules.g
 PUT     /api/v1/general/transporte/:id              controllers.logged.modules.general.Transportes.update(id: Int)
 DELETE  /api/v1/general/transporte/:id              controllers.logged.modules.general.Transportes.delete(id: Int)
 
-GET     /api/v1/general/unidad/:id              controllers.logged.modules.general.Unidads.get(id: Int)
-POST    /api/v1/general/unidad                  controllers.logged.modules.general.Unidads.create
-PUT     /api/v1/general/unidad/:id              controllers.logged.modules.general.Unidads.update(id: Int)
-DELETE  /api/v1/general/unidad/:id              controllers.logged.modules.general.Unidads.delete(id: Int)
+GET     /api/v1/general/unidad/:id              controllers.logged.modules.general.Unidades.get(id: Int)
+POST    /api/v1/general/unidad                  controllers.logged.modules.general.Unidades.create
+PUT     /api/v1/general/unidad/:id              controllers.logged.modules.general.Unidades.update(id: Int)
+DELETE  /api/v1/general/unidad/:id              controllers.logged.modules.general.Unidades.delete(id: Int)
 
-GET     /api/v1/general/ventamodo/:id              controllers.logged.modules.general.Ventamodos.get(id: Int)
-POST    /api/v1/general/ventamodo                  controllers.logged.modules.general.Ventamodos.create
-PUT     /api/v1/general/ventamodo/:id              controllers.logged.modules.general.Ventamodos.update(id: Int)
-DELETE  /api/v1/general/ventamodo/:id              controllers.logged.modules.general.Ventamodos.delete(id: Int)
+GET     /api/v1/general/ventamodo/:id              controllers.logged.modules.general.VentaModos.get(id: Int)
+POST    /api/v1/general/ventamodo                  controllers.logged.modules.general.VentaModos.create
+PUT     /api/v1/general/ventamodo/:id              controllers.logged.modules.general.VentaModos.update(id: Int)
+DELETE  /api/v1/general/ventamodo/:id              controllers.logged.modules.general.VentaModos.delete(id: Int)
 
 GET     /api/v1/general/zona/:id              controllers.logged.modules.general.Zonas.get(id: Int)
 POST    /api/v1/general/zona                  controllers.logged.modules.general.Zonas.create

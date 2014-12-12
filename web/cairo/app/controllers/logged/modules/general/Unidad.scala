@@ -19,7 +19,7 @@ case class UnidadData(
               active: Boolean
               )
 
-object Unidads extends Controller with ProvidesUser {
+object Unidades extends Controller with ProvidesUser {
 
   val unidadForm = Form(
     mapping(
@@ -46,7 +46,7 @@ object Unidads extends Controller with ProvidesUser {
   }
 
   def update(id: Int) = PostAction { implicit request =>
-    Logger.debug("in unidads.update")
+    Logger.debug("in unidades.update")
     unidadForm.bindFromRequest.fold(
       formWithErrors => {
         Logger.debug(s"invalid form: ${formWithErrors.toString}")
@@ -70,7 +70,7 @@ object Unidads extends Controller with ProvidesUser {
   }
 
   def create = PostAction { implicit request =>
-    Logger.debug("in unidads.create")
+    Logger.debug("in unidades.create")
     unidadForm.bindFromRequest.fold(
       formWithErrors => {
         Logger.debug(s"invalid form: ${formWithErrors.toString}")
@@ -93,7 +93,7 @@ object Unidads extends Controller with ProvidesUser {
   }
 
   def delete(id: Int) = PostAction { implicit request =>
-    Logger.debug("in unidads.delete")
+    Logger.debug("in unidades.delete")
     LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.DELETE_UNIDAD), { user =>
       Unidad.delete(user, id)
       // Backbonejs requires at least an empty json object in the response

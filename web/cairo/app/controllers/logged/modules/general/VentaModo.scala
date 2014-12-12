@@ -25,7 +25,7 @@ case class VentamodoData(
               descrip: String
               )
 
-object Ventamodos extends Controller with ProvidesUser {
+object VentaModos extends Controller with ProvidesUser {
 
   val ventamodoForm = Form(
     mapping(

@@ -37,8 +37,8 @@
       <file leaf-file-name="cProducto.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/cairo/modules/CSGeneral2/cProducto.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-0.35300547" vertical-offset="38266" max-vertical-offset="118218">
-              <caret line="1997" column="67" selection-start-line="1997" selection-start-column="67" selection-end-line="1997" selection-end-column="67" />
+            <state vertical-scroll-proportion="-6.146448" vertical-offset="14345" max-vertical-offset="118218">
+              <caret line="459" column="0" selection-start-line="459" selection-start-column="0" selection-end-line="459" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -77,8 +77,8 @@
       <file leaf-file-name="cProvincia.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/cairo/modules/CSGeneral2/cProvincia.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.31034482" vertical-offset="8749" max-vertical-offset="12540">
-              <caret line="460" column="0" selection-start-line="457" selection-start-column="0" selection-end-line="460" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.31034482" vertical-offset="8749" max-vertical-offset="12502">
+              <caret line="460" column="0" selection-start-line="460" selection-start-column="0" selection-end-line="460" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -452,8 +452,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/cairo/modules/CSGeneral2/cProvincia.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.31034482" vertical-offset="8749" max-vertical-offset="12540">
-          <caret line="460" column="0" selection-start-line="457" selection-start-column="0" selection-end-line="460" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.31034482" vertical-offset="8749" max-vertical-offset="12502">
+          <caret line="460" column="0" selection-start-line="460" selection-start-column="0" selection-end-line="460" selection-end-column="0" />
           <folding />
         </state>
       </provider>
@@ -476,8 +476,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/cairo/modules/CSGeneral2/cProducto.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-0.35300547" vertical-offset="38266" max-vertical-offset="118218">
-          <caret line="1997" column="67" selection-start-line="1997" selection-start-column="67" selection-end-line="1997" selection-end-column="67" />
+        <state vertical-scroll-proportion="-6.146448" vertical-offset="14345" max-vertical-offset="118218">
+          <caret line="459" column="0" selection-start-line="459" selection-start-column="0" selection-end-line="459" selection-end-column="0" />
           <folding />
         </state>
       </provider>

@@ -456,9 +456,9 @@
           // ListController properties and methods
           //
           self.entityInfo = new Backbone.Model({
-            entitiesTitle: "Unidads",
+            entitiesTitle: "Unidades",
             entityName: "unidad",
-            entitiesName: "unidads"
+            entitiesName: "unidades"
           });
 
           self.showBranch = function(branchId) {
@@ -562,7 +562,7 @@
 
           // progress message
           //
-          Cairo.LoadingMessage.show("Unidads", "Loading unidad from Crowsoft Cairo server.");
+          Cairo.LoadingMessage.show("Unidades", "Loading unidad from Crowsoft Cairo server.");
 
           // create the tree region
           //
@@ -588,7 +588,7 @@
 
         // create the tab
         //
-        Cairo.mainTab.showTab("Unidads", "unidadTreeRegion", "#general/unidads", createTreeDialog, closeTreeDialog, showTreeDialog);
+        Cairo.mainTab.showTab("Unidades", "unidadTreeRegion", "#general/unidades", createTreeDialog, closeTreeDialog, showTreeDialog);
 
       }
     };

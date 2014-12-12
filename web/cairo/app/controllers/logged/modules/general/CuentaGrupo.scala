@@ -17,7 +17,8 @@ case class CuentagrupoData(
               name: String,
               code: String,
               active: Boolean,
-              tipo:               cueId: Int,
+              tipo: Int,
+              cueId: Int,
               descrip: String
               )
 
@@ -29,7 +30,8 @@ object Cuentagrupos extends Controller with ProvidesUser {
       C.CUEG_NAME -> nonEmptyText,
       C.CUEG_CODE -> text,
       DBHelper.ACTIVE -> boolean,
-      C.CUEG_TIPO ->       C.CUE_ID -> number,
+      C.CUEG_TIPO -> number,
+      C.CUE_ID -> number,
       C.CUEG_DESCRIP -> text
   )(CuentagrupoData.apply)(CuentagrupoData.unapply))
 
