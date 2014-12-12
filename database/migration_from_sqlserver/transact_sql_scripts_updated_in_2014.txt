@@ -1,0 +1,4 @@
+scripts updated in cairo transact sql in 2014 that must be migrated to pl-pgsql:
+
+frRetencionGanancias
+

@@ -2226,9 +2226,14 @@
           }
         };
 
+        /*
+        *
+        * TODO: confirm this function is not used
+        *
         self.showEx = function(obj, indexTag, addProp) {
           return showDialog(obj, indexTag, !addProp);
         };
+        */
 
         /* for debugging - it allows google web tools to spot the line with the error
         *
@@ -2246,7 +2251,7 @@
         self.show = function(obj, indexTag) {
           try {
             Cairo.LoadingMessage.showWait();
-            return showDialog(obj, indexTag, true);
+            return showDialog(obj, indexTag);
           }
           catch(e) {
             Cairo.manageError(

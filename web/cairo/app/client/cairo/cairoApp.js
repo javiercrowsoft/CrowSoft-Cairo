@@ -204,7 +204,7 @@ var Cairo = new Marionette.Application();
       PRESUPUESTO_DE_VENTA: 16004,
       PRESUPUESTOS_DE_ENVIO: 15009,
       PRIORIDAD: 2003,
-      PROCESOS_PRIME: -7002,
+      PROCESOS: -7002,
       PROCESOS_DE_IMPORTACION: 23002,
       PRODUCTO: 30,
       PRODUCTOKIT: 10000000,
@@ -285,21 +285,25 @@ var Cairo = new Marionette.Application();
     NO_DATE: Date.parse("1900-01-01"),
     NUMBER_ID: '_number_id_',
     STATUS_ID: '_status_id_',
-    COPY_OF: 'copy of ',
+
     DELETE_FUNCTION: 'delete',
+    EDIT_FUNCTION: "edit",
+    VALIDATE_ROW_FUNCTION: "validateRow",
+
     SHOW_DOCUMENTS_FUNCTION: "showDocDigital",
     CLIENT_SAVE_FUNCTION: "save",
     GET_CODE_FROM_ID: "'(@@get_code_from_id@@)'",
-
     ACTIVE: "activo",
+
+    // TODO: must be set from Language
+    COPY_OF: 'copy of ',
     ACTIVE_LABEL: "Active",
     NAME_LABEL: "Name",
     CODE_LABEL: "Code",
     DESCRIPTION_LABEL: "Description",
-    EDIT_FUNCTION: "edit",
     MUST_SET_A_NAME: "You must provide a name",
     MUST_SET_A_CODE: "You must provide a code",
-    VALIDATE_ROW_FUNCTION: "validateRow"
+    GENERAL: "General"
   };
 
   Cairo.Constants.Types = {
@@ -764,6 +768,8 @@ var Cairo = new Marionette.Application();
   Cairo.confirmView = function(title, message, confirmHandler) {
     return Cairo.confirmViewWithClasses(title, message, "btn-info", "", confirmHandler);
   };
+
+  Cairo.confirmViewYesDefault = Cairo.confirmView;
 
   Cairo.infoView = function(title, message, closeHandler) {
     var Model = Backbone.Model.extend({ urlRoot: "infoMessage" });

@@ -86,7 +86,7 @@ Cairo.module("Session", function(Session, Cairo, Backbone, Marionette, $, _) {
             }).done(function(response) {
                 //Clear all session data
                 that.clear();
-                //Set the new csrf token to csrf vaiable and
+                //Set the new csrf token to csrf variable and
                 //call initialize to update the $.ajaxSetup
                 // with new csrf
                 csrf = response.csrf;
