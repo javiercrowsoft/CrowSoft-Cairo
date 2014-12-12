@@ -13,7 +13,7 @@ import play.api.Logger
 import play.api.libs.json._
 import scala.util.control.NonFatal
 
-case class Reglaliquidacion(
+case class ReglaLiquidacion(
               id: Int,
               name: String,
               code: String,
@@ -58,9 +58,9 @@ case class Reglaliquidacion(
 
 }
 
-object Reglaliquidacion {
+object ReglaLiquidacion {
 
-  lazy val emptyReglaliquidacion = Reglaliquidacion(
+  lazy val emptyReglaLiquidacion = ReglaLiquidacion(
     "",
     "",
     false,
@@ -73,7 +73,7 @@ object Reglaliquidacion {
       active: Boolean,
       descrip: String) = {
 
-    new Reglaliquidacion(
+    new ReglaLiquidacion(
       id,
       name,
       code,
@@ -87,14 +87,14 @@ object Reglaliquidacion {
       active: Boolean,
       descrip: String) = {
 
-    new Reglaliquidacion(
+    new ReglaLiquidacion(
       name,
       code,
       active,
       descrip)
   }
 
-  private val reglaliquidacionParser: RowParser[Reglaliquidacion] = {
+  private val reglaLiquidacionParser: RowParser[ReglaLiquidacion] = {
       SqlParser.get[Int](C.REL_ID) ~
       SqlParser.get[String](C.REL_NAME) ~
       SqlParser.get[String](C.REL_CODE) ~
@@ -112,7 +112,7 @@ object Reglaliquidacion {
               createdAt ~
               updatedAt ~
               updatedBy =>
-        Reglaliquidacion(
+        ReglaLiquidacion(
               id,
               name,
               code,
@@ -124,21 +124,21 @@ object Reglaliquidacion {
     }
   }
 
-  def create(user: CompanyUser, reglaliquidacion: Reglaliquidacion): Reglaliquidacion = {
-    save(user, reglaliquidacion, true)
+  def create(user: CompanyUser, reglaLiquidacion: ReglaLiquidacion): ReglaLiquidacion = {
+    save(user, reglaLiquidacion, true)
   }
 
-  def update(user: CompanyUser, reglaliquidacion: Reglaliquidacion): Reglaliquidacion = {
-    save(user, reglaliquidacion, false)
+  def update(user: CompanyUser, reglaLiquidacion: ReglaLiquidacion): ReglaLiquidacion = {
+    save(user, reglaLiquidacion, false)
   }
 
-  private def save(user: CompanyUser, reglaliquidacion: Reglaliquidacion, isNew: Boolean): Reglaliquidacion = {
+  private def save(user: CompanyUser, reglaLiquidacion: ReglaLiquidacion, isNew: Boolean): ReglaLiquidacion = {
     def getFields = {
       List(
-        Field(C.REL_NAME, reglaliquidacion.name, FieldType.text),
-        Field(C.REL_CODE, reglaliquidacion.code, FieldType.text),
-        Field(DBHelper.ACTIVE, (if(reglaliquidacion.active) 1 else 0), FieldType.boolean),
-        Field(C.REL_DESCRIP, reglaliquidacion.descrip, FieldType.text)
+        Field(C.REL_NAME, reglaLiquidacion.name, FieldType.text),
+        Field(C.REL_CODE, reglaLiquidacion.code, FieldType.text),
+        Field(DBHelper.ACTIVE, (if(reglaLiquidacion.active) 1 else 0), FieldType.boolean),
+        Field(C.REL_DESCRIP, reglaLiquidacion.descrip, FieldType.text)
       )
     }
     def throwException = {
@@ -150,7 +150,7 @@ object Reglaliquidacion {
       Register(
         C.REGLALIQUIDACION,
         C.REL_ID,
-        reglaliquidacion.id,
+        reglaLiquidacion.id,
         false,
         true,
         true,
@@ -163,7 +163,7 @@ object Reglaliquidacion {
     }
   }
 
-  def load(user: CompanyUser, id: Int): Option[Reglaliquidacion] = {
+  def load(user: CompanyUser, id: Int): Option[ReglaLiquidacion] = {
     loadWhere(user, s"${C.REL_ID} = {id}", 'id -> id)
   }
 
@@ -171,7 +171,7 @@ object Reglaliquidacion {
     DB.withConnection(user.database.database) { implicit connection =>
       SQL(s"SELECT t1.* FROM ${C.REGLALIQUIDACION} t1 WHERE $where")
         .on(args: _*)
-        .as(reglaliquidacionParser.singleOpt)
+        .as(reglaLiquidacionParser.singleOpt)
     }
   }
 
@@ -190,10 +190,10 @@ object Reglaliquidacion {
     }
   }
 
-  def get(user: CompanyUser, id: Int): Reglaliquidacion = {
+  def get(user: CompanyUser, id: Int): ReglaLiquidacion = {
     load(user, id) match {
       case Some(p) => p
-      case None => emptyReglaliquidacion
+      case None => emptyReglaLiquidacion
     }
   }
 }

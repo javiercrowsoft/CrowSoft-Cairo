@@ -269,7 +269,7 @@
 
       self.getEditorName = function() {
         var id = m_id ? m_id.toString() : "N" + (new Date).getTime().toString();
-        return "productohelpconfig" + id;
+        return "productoHelpConfig" + id;
       };
 
       self.getTitle = function() {

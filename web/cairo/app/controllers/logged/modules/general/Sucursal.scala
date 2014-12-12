@@ -21,7 +21,7 @@ case class SucursalData(
               descrip: String
               )
 
-object Sucursals extends Controller with ProvidesUser {
+object Sucursales extends Controller with ProvidesUser {
 
   val sucursalForm = Form(
     mapping(
@@ -52,7 +52,7 @@ object Sucursals extends Controller with ProvidesUser {
   }
 
   def update(id: Int) = PostAction { implicit request =>
-    Logger.debug("in sucursals.update")
+    Logger.debug("in Sucursales.update")
     sucursalForm.bindFromRequest.fold(
       formWithErrors => {
         Logger.debug(s"invalid form: ${formWithErrors.toString}")
@@ -78,7 +78,7 @@ object Sucursals extends Controller with ProvidesUser {
   }
 
   def create = PostAction { implicit request =>
-    Logger.debug("in sucursals.create")
+    Logger.debug("in Sucursales.create")
     sucursalForm.bindFromRequest.fold(
       formWithErrors => {
         Logger.debug(s"invalid form: ${formWithErrors.toString}")
@@ -103,7 +103,7 @@ object Sucursals extends Controller with ProvidesUser {
   }
 
   def delete(id: Int) = PostAction { implicit request =>
-    Logger.debug("in sucursals.delete")
+    Logger.debug("in Sucursales.delete")
     LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.DELETE_SUCURSAL), { user =>
       Sucursal.delete(user, id)
       // Backbonejs requires at least an empty json object in the response

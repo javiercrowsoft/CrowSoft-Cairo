@@ -245,7 +245,7 @@
 
       self.getEditorName = function() {
         var id = m_id ? m_id.toString() : "N" + (new Date).getTime().toString();
-        return "reglaliquidacion" + id;
+        return "reglaLiquidacion" + id;
       };
 
       self.getTitle = function() {
@@ -474,15 +474,15 @@
          */
         var createTreeDialog = function(tabId) {
 
-          var editors = Cairo.Editors.reglaliquidacionEditors || Cairo.Collections.createCollection(null);
-          Cairo.Editors.reglaliquidacionEditors = editors;
+          var editors = Cairo.Editors.reglaLiquidacionEditors || Cairo.Collections.createCollection(null);
+          Cairo.Editors.reglaLiquidacionEditors = editors;
 
           // ListController properties and methods
           //
           self.entityInfo = new Backbone.Model({
-            entitiesTitle: "ReglaLiquidacions",
+            entitiesTitle: "Reglas de Liquidacion",
             entityName: "reglaliquidacion",
-            entitiesName: "reglaliquidacions"
+            entitiesName: "reglasliquidacion"
           });
 
           self.showBranch = function(branchId) {
@@ -586,18 +586,18 @@
 
           // progress message
           //
-          Cairo.LoadingMessage.show("ReglaLiquidacions", "Loading reglaliquidacion from CrowSoft Cairo server.");
+          Cairo.LoadingMessage.show("Reglas de Liquidacion", "Loading Reglas de Liquidacion from CrowSoft Cairo server.");
 
           // create the tree region
           //
-          Cairo.addRegions({ reglaliquidacionTreeRegion: tabId });
+          Cairo.addRegions({ reglaLiquidacionTreeRegion: tabId });
 
           // create the dialog
           //
           Cairo.Tree.List.Controller.list(
             Cairo.Tables.REGLALIQUIDACION,
             new Cairo.Tree.List.TreeLayout({ model: self.entityInfo }),
-            Cairo.reglaliquidacionTreeRegion,
+            Cairo.reglaLiquidacionTreeRegion,
             self);
 
         };
@@ -612,7 +612,7 @@
 
         // create the tab
         //
-        Cairo.mainTab.showTab("ReglaLiquidacions", "reglaliquidacionTreeRegion", "#general/reglaliquidacions", createTreeDialog, closeTreeDialog, showTreeDialog);
+        Cairo.mainTab.showTab("Reglas de Liquidacion", "reglaLiquidacionTreeRegion", "#general/reglasliquidacion", createTreeDialog, closeTreeDialog, showTreeDialog);
 
       }
     };

@@ -228,20 +228,20 @@ POST    /api/v1/general/productokititema                  controllers.logged.mod
 PUT     /api/v1/general/productokititema/:id              controllers.logged.modules.general.Productokititemas.update(id: Int)
 DELETE  /api/v1/general/productokititema/:id              controllers.logged.modules.general.Productokititemas.delete(id: Int)
 
-GET     /api/v1/general/reglaliquidacion/:id              controllers.logged.modules.general.Reglaliquidacions.get(id: Int)
-POST    /api/v1/general/reglaliquidacion                  controllers.logged.modules.general.Reglaliquidacions.create
-PUT     /api/v1/general/reglaliquidacion/:id              controllers.logged.modules.general.Reglaliquidacions.update(id: Int)
-DELETE  /api/v1/general/reglaliquidacion/:id              controllers.logged.modules.general.Reglaliquidacions.delete(id: Int)
+GET     /api/v1/general/reglaliquidacion/:id              controllers.logged.modules.general.ReglasLiquidacion.get(id: Int)
+POST    /api/v1/general/reglaliquidacion                  controllers.logged.modules.general.ReglasLiquidacion.create
+PUT     /api/v1/general/reglaliquidacion/:id              controllers.logged.modules.general.ReglasLiquidacion.update(id: Int)
+DELETE  /api/v1/general/reglaliquidacion/:id              controllers.logged.modules.general.ReglasLiquidacion.delete(id: Int)
 
 GET     /api/v1/general/retenciontipo/:id              controllers.logged.modules.general.RetencionesTipo.get(id: Int)
 POST    /api/v1/general/retenciontipo                  controllers.logged.modules.general.RetencionesTipo.create
 PUT     /api/v1/general/retenciontipo/:id              controllers.logged.modules.general.RetencionesTipo.update(id: Int)
 DELETE  /api/v1/general/retenciontipo/:id              controllers.logged.modules.general.RetencionesTipo.delete(id: Int)
 
-GET     /api/v1/general/sucursal/:id              controllers.logged.modules.general.Sucursals.get(id: Int)
-POST    /api/v1/general/sucursal                  controllers.logged.modules.general.Sucursals.create
-PUT     /api/v1/general/sucursal/:id              controllers.logged.modules.general.Sucursals.update(id: Int)
-DELETE  /api/v1/general/sucursal/:id              controllers.logged.modules.general.Sucursals.delete(id: Int)
+GET     /api/v1/general/sucursal/:id              controllers.logged.modules.general.Sucursales.get(id: Int)
+POST    /api/v1/general/sucursal                  controllers.logged.modules.general.Sucursales.create
+PUT     /api/v1/general/sucursal/:id              controllers.logged.modules.general.Sucursales.update(id: Int)
+DELETE  /api/v1/general/sucursal/:id              controllers.logged.modules.general.Sucursales.delete(id: Int)
 
 GET     /api/v1/general/tasaimpositiva/:id              controllers.logged.modules.general.Tasaimpositivas.get(id: Int)
 POST    /api/v1/general/tasaimpositiva                  controllers.logged.modules.general.Tasaimpositivas.create
