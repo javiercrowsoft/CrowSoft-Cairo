@@ -18,7 +18,8 @@ case class Cuentagrupo(
               name: String,
               code: String,
               active: Boolean,
-              tipo:               cueId: Int,
+              tipo: Int,
+              cueId: Int,
               cueName: String,
               descrip: String,
               createdAt: Date,
@@ -30,7 +31,8 @@ case class Cuentagrupo(
       name: String,
       code: String,
       active: Boolean,
-      tipo:       cueId: Int,
+      tipo: Int,
+      cueId: Int,
       descrip: String) = {
 
     this(
@@ -51,7 +53,8 @@ case class Cuentagrupo(
       name: String,
       code: String,
       active: Boolean,
-      tipo:       cueId: Int,
+      tipo: Int,
+      cueId: Int,
       descrip: String) = {
 
     this(
@@ -73,6 +76,7 @@ object Cuentagrupo {
     "",
     "",
     false,
+    0,
     DBHelper.NoId,
     "")
 
@@ -81,7 +85,8 @@ object Cuentagrupo {
       name: String,
       code: String,
       active: Boolean,
-      tipo:       cueId: Int,
+      tipo: Int,
+      cueId: Int,
       descrip: String) = {
 
     new Cuentagrupo(
@@ -98,7 +103,8 @@ object Cuentagrupo {
       name: String,
       code: String,
       active: Boolean,
-      tipo:       cueId: Int,
+      tipo: Int,
+      cueId: Int,
       descrip: String) = {
 
     new Cuentagrupo(
@@ -115,6 +121,7 @@ object Cuentagrupo {
       SqlParser.get[String](C.CUEG_NAME) ~
       SqlParser.get[String](C.CUEG_CODE) ~
       SqlParser.get[Int](DBHelper.ACTIVE) ~
+      SqlParser.get[Int](C.CUEG_TIPO) ~
       SqlParser.get[Int](C.CUE_ID) ~
       SqlParser.get[String](C.CUE_NAME) ~
       SqlParser.get[String](C.CUEG_DESCRIP) ~
@@ -162,6 +169,7 @@ object Cuentagrupo {
         Field(C.CUEG_NAME, cuentagrupo.name, FieldType.text),
         Field(C.CUEG_CODE, cuentagrupo.code, FieldType.text),
         Field(DBHelper.ACTIVE, (if(cuentagrupo.active) 1 else 0), FieldType.boolean),
+        Field(C.CUEG_TIPO, cuentagrupo.tipo, FieldType.integer),
         Field(C.CUE_ID, cuentagrupo.cueId, FieldType.id),
         Field(C.CUEG_DESCRIP, cuentagrupo.descrip, FieldType.text)
       )

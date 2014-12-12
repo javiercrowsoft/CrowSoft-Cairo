@@ -606,7 +606,7 @@
 
           // progress message
           //
-          Cairo.LoadingMessage.show("Clearings", "Loading clearing from CrowSoft Cairo server.");
+          Cairo.LoadingMessage.show("Clearings", "Loading Clearings from CrowSoft Cairo server.");
 
           // create the tree region
           //

@@ -30,7 +30,7 @@ object Zonas extends Controller with ProvidesUser {
       C.ZON_NAME -> nonEmptyText,
       C.ZON_CODE -> text,
       DBHelper.ACTIVE -> boolean,
-      C.ZON_PRECIO -> number,
+      C.ZON_PRECIO -> of(Global.doubleFormat),
       C.PR_ID -> number,
       C.ZON_DESCRIP -> text
   )(ZonaData.apply)(ZonaData.unapply))
@@ -44,7 +44,7 @@ object Zonas extends Controller with ProvidesUser {
       DBHelper.ACTIVE -> Json.toJson(zona.active),
       C.ZON_PRECIO -> Json.toJson(zona.precio),
       C.PR_ID -> Json.toJson(zona.prId),
-      C.PR_NAME -> Json.toJson(zona.prName),
+      C.PR_NOMBRE_VENTA -> Json.toJson(zona.prName),
       C.ZON_DESCRIP -> Json.toJson(zona.descrip)
     )
   }

@@ -562,7 +562,7 @@
 
           // progress message
           //
-          Cairo.LoadingMessage.show("Unidades", "Loading unidad from CrowSoft Cairo server.");
+          Cairo.LoadingMessage.show("Unidades", "Loading Unidades from CrowSoft Cairo server.");
 
           // create the tree region
           //

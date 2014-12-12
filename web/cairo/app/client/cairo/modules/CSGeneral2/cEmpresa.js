@@ -1207,7 +1207,7 @@ import java.util.Date;
 
           // progress message
           //
-          Cairo.LoadingMessage.show("Empresas", "Loading empresa from CrowSoft Cairo server.");
+          Cairo.LoadingMessage.show("Empresas", "Loading Empresas from CrowSoft Cairo server.");
 
           // create the tree region
           //

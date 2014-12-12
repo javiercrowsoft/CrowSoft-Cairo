@@ -42,7 +42,8 @@ object Cuentagrupos extends Controller with ProvidesUser {
       C.CUEG_NAME -> Json.toJson(cuentagrupo.name),
       C.CUEG_CODE -> Json.toJson(cuentagrupo.code),
       DBHelper.ACTIVE -> Json.toJson(cuentagrupo.active),
-      C.CUEG_TIPO ->       C.CUE_ID -> Json.toJson(cuentagrupo.cueId),
+      C.CUEG_TIPO -> Json.toJson(cuentagrupo.tipo),
+      C.CUE_ID -> Json.toJson(cuentagrupo.cueId),
       C.CUE_NAME -> Json.toJson(cuentagrupo.cueName),
       C.CUEG_DESCRIP -> Json.toJson(cuentagrupo.descrip)
     )

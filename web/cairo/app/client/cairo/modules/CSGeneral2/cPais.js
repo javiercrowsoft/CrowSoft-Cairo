@@ -486,9 +486,9 @@
           // ListController properties and methods
           //
           self.entityInfo = new Backbone.Model({
-            entitiesTitle: "Paiss",
+            entitiesTitle: "Paises",
             entityName: "pais",
-            entitiesName: "paiss"
+            entitiesName: "paises"
           });
 
           self.showBranch = function(branchId) {
@@ -592,7 +592,7 @@
 
           // progress message
           //
-          Cairo.LoadingMessage.show("Paiss", "Loading pais from CrowSoft Cairo server.");
+          Cairo.LoadingMessage.show("Paises", "Loading Paises from CrowSoft Cairo server.");
 
           // create the tree region
           //
@@ -618,7 +618,7 @@
 
         // create the tab
         //
-        Cairo.mainTab.showTab("Paiss", "paisTreeRegion", "#general/paiss", createTreeDialog, closeTreeDialog, showTreeDialog);
+        Cairo.mainTab.showTab("Paises", "paisTreeRegion", "#general/paises", createTreeDialog, closeTreeDialog, showTreeDialog);
 
       }
     };

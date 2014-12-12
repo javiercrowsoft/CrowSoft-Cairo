@@ -21,7 +21,7 @@ case class TasaimpositivaData(
               cuecId: Int,
               codigoDgi1: String,
               codigoDgi2: String,
-              tipo
+              tipo: Int
               )
 
 object Tasaimpositivas extends Controller with ProvidesUser {
@@ -32,11 +32,11 @@ object Tasaimpositivas extends Controller with ProvidesUser {
       C.TI_NAME -> nonEmptyText,
       C.TI_CODE -> text,
       DBHelper.ACTIVE -> boolean,
-      C.TI_PORCENTAJE -> number,
+      C.TI_PORCENTAJE -> of(Global.doubleFormat),
       C.CUEC_ID -> number,
       C.TI_CODIGO_DGI1 -> text,
       C.TI_CODIGO_DGI2 -> text,
-      C.TI_TIPO -
+      C.TI_TIPO -> number
   )(TasaimpositivaData.apply)(TasaimpositivaData.unapply))
 
   implicit val tasaimpositivaWrites = new Writes[Tasaimpositiva] {
@@ -51,12 +51,12 @@ object Tasaimpositivas extends Controller with ProvidesUser {
       C.CUEC_NAME -> Json.toJson(tasaimpositiva.cuecName),
       C.TI_CODIGO_DGI1 -> Json.toJson(tasaimpositiva.codigoDgi1),
       C.TI_CODIGO_DGI2 -> Json.toJson(tasaimpositiva.codigoDgi2),
-      C.TI_TIPO -
+      C.TI_TIPO -> Json.toJson(tasaimpositiva.tipo)
     )
   }
 
   def get(id: Int) = GetAction { implicit request =>
-    LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.LIST_TASAIMPOSITIVA), { user =>
+    LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.LIST_TASA_IMPOSITIVA), { user =>
       Ok(Json.toJson(Tasaimpositiva.get(user, id)))
     })
   }
@@ -70,7 +70,7 @@ object Tasaimpositivas extends Controller with ProvidesUser {
       },
       tasaimpositiva => {
         Logger.debug(s"form: ${tasaimpositiva.toString}")
-        LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.EDIT_TASAIMPOSITIVA), { user =>
+        LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.EDIT_TASA_IMPOSITIVA), { user =>
           Ok(
             Json.toJson(
               Tasaimpositiva.update(user,
@@ -99,7 +99,7 @@ object Tasaimpositivas extends Controller with ProvidesUser {
       },
       tasaimpositiva => {
         Logger.debug(s"form: ${tasaimpositiva.toString}")
-        LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.NEW_TASAIMPOSITIVA), { user =>
+        LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.NEW_TASA_IMPOSITIVA), { user =>
           Ok(
             Json.toJson(
               Tasaimpositiva.create(user,
@@ -120,7 +120,7 @@ object Tasaimpositivas extends Controller with ProvidesUser {
 
   def delete(id: Int) = PostAction { implicit request =>
     Logger.debug("in tasaimpositivas.delete")
-    LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.DELETE_TASAIMPOSITIVA), { user =>
+    LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.DELETE_TASA_IMPOSITIVA), { user =>
       Tasaimpositiva.delete(user, id)
       // Backbonejs requires at least an empty json object in the response
       // if not it will call errorHandler even when we responded with 200 OK :P

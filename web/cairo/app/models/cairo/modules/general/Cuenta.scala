@@ -20,7 +20,6 @@ case class Cuenta(
               identificacionExterna: String,
               active: Boolean,
               monId: Int,
-              monName: Int,
               monName: String,
               llevaCentroCosto: Boolean,
               producto: Boolean,
@@ -31,7 +30,7 @@ case class Cuenta(
               bcoId: Int,
               bcoName: String,
               codigoRpt: String,
-              cuecDescrip: String,
+              descrip: String,
               createdAt: Date,
               updatedAt: Date,
               updatedBy: Int) {
@@ -50,7 +49,7 @@ case class Cuenta(
       cuecId: Int,
       bcoId: Int,
       codigoRpt: String,
-      cuecDescrip: String) = {
+      descrip: String) = {
 
     this(
       id,
@@ -59,7 +58,6 @@ case class Cuenta(
       identificacionExterna,
       active,
       monId,
-      "",
       "",
       llevaCentroCosto,
       producto,
@@ -70,7 +68,7 @@ case class Cuenta(
       bcoId,
       "",
       codigoRpt,
-      cuecDescrip,
+      descrip,
       DateUtil.currentTime,
       DateUtil.currentTime,
       DBHelper.NoId)
@@ -89,7 +87,7 @@ case class Cuenta(
       cuecId: Int,
       bcoId: Int,
       codigoRpt: String,
-      cuecDescrip: String) = {
+      descrip: String) = {
 
     this(
       DBHelper.NoId,
@@ -105,7 +103,7 @@ case class Cuenta(
       cuecId,
       bcoId,
       codigoRpt,
-      cuecDescrip)
+      descrip)
 
   }
 
@@ -117,14 +115,14 @@ object Cuenta {
     "",
     "",
     "",
-    falDBHelper.NoId,
+    false,
     DBHelper.NoId,
     false,
     false,
     false,
     false,
-    DBHelper.NoDBHelper.NoId,
-    "",
+    DBHelper.NoId,
+    DBHelper.NoId,
     "",
     "")
 
@@ -142,7 +140,7 @@ object Cuenta {
       cuecId: Int,
       bcoId: Int,
       codigoRpt: String,
-      cuecDescrip: String) = {
+      descrip: String) = {
 
     new Cuenta(
       id,
@@ -158,7 +156,7 @@ object Cuenta {
       cuecId,
       bcoId,
       codigoRpt,
-      cuecDescrip)
+      descrip)
   }
 
   def apply(
@@ -174,7 +172,7 @@ object Cuenta {
       cuecId: Int,
       bcoId: Int,
       codigoRpt: String,
-      cuecDescrip: String) = {
+      descrip: String) = {
 
     new Cuenta(
       name,
@@ -189,7 +187,7 @@ object Cuenta {
       cuecId,
       bcoId,
       codigoRpt,
-      cuecDescrip)
+      descrip)
   }
 
   private val cuentaParser: RowParser[Cuenta] = {
@@ -197,8 +195,7 @@ object Cuenta {
       SqlParser.get[String](C.CUE_NAME) ~
       SqlParser.get[String](C.CUE_CODE) ~
       SqlParser.get[String](C.CUE_IDENTIFICACION_EXTERNA) ~
-      SqlParser.get[Int](C.MON_ID) ~
-      SqlParser.get[String](C.MON_NAME) ~
+      SqlParser.get[Int](DBHelper.ACTIVE) ~
       SqlParser.get[Int](C.MON_ID) ~
       SqlParser.get[String](C.MON_NAME) ~
       SqlParser.get[Boolean](C.CUE_LLEVA_CENTRO_COSTO) ~
@@ -206,11 +203,11 @@ object Cuenta {
       SqlParser.get[Boolean](C.CUE_ES_EFECTIVO) ~
       SqlParser.get[Boolean](C.CUE_ES_TICKET) ~
       SqlParser.get[Int](C.CUEC_ID) ~
+      SqlParser.get[String](C.CUEC_NAME) ~
       SqlParser.get[Int](C.BCO_ID) ~
       SqlParser.get[String](C.BCO_NAME) ~
-      SqlParser.get[String](C.BCO_ID) ~
       SqlParser.get[String](C.CUE_CODIGO_RPT) ~
-      SqlParser.get[String](C.CUEC_DESCRIP) ~
+      SqlParser.get[String](C.CUE_DESCRIP) ~
       SqlParser.get[Date](DBHelper.CREATED_AT) ~
       SqlParser.get[Date](DBHelper.UPDATED_AT) ~
       SqlParser.get[Int](DBHelper.UPDATED_BY) map {
@@ -222,7 +219,6 @@ object Cuenta {
               active ~
               monId ~
               monName ~
-              monName ~
               llevaCentroCosto ~
               producto ~
               esEfectivo ~
@@ -232,7 +228,7 @@ object Cuenta {
               bcoId ~
               bcoName ~
               codigoRpt ~
-              cuecDescrip  ~
+              descrip  ~
               createdAt ~
               updatedAt ~
               updatedBy =>
@@ -244,7 +240,6 @@ object Cuenta {
               (if(active != 0) true else false),
               monId,
               monName,
-              monName,
               llevaCentroCosto,
               producto,
               esEfectivo,
@@ -254,7 +249,7 @@ object Cuenta {
               bcoId,
               bcoName,
               codigoRpt,
-              cuecDescrip,
+              descrip,
               createdAt,
               updatedAt,
               updatedBy)
@@ -284,7 +279,7 @@ object Cuenta {
         Field(C.CUEC_ID, cuenta.cuecId, FieldType.id),
         Field(C.BCO_ID, cuenta.bcoId, FieldType.text),
         Field(C.CUE_CODIGO_RPT, cuenta.codigoRpt, FieldType.text),
-        Field(C.CUEC_DESCRIP, cuenta.cuecDescrip, FieldType.text)
+        Field(C.CUE_DESCRIP, cuenta.descrip, FieldType.text)
       )
     }
     def throwException = {
@@ -315,7 +310,12 @@ object Cuenta {
 
   def loadWhere(user: CompanyUser, where: String, args : scala.Tuple2[scala.Any, anorm.ParameterValue[_]]*) = {
     DB.withConnection(user.database.database) { implicit connection =>
-      SQL(s"SELECT t1.*, t2.${C.FK_NAME} FROM ${C.CUENTA} t1 LEFT JOIN ${C.???} t2 ON t1.${C.FK_ID} = t2.${C.FK_ID} WHERE $where")
+      SQL(s"SELECT t1.*, t2.${C.MON_NAME}, t2.${C.CUEC_NAME}, t2.${C.BCO_NAME}" +
+        s" FROM ${C.CUENTA} t1" +
+        s" LEFT JOIN ${C.MONEDA} t2 ON t1.${C.MON_ID} = t2.${C.MON_ID}" +
+        s" LEFT JOIN ${C.CUENTACATEGORIA} t3 ON t1.${C.CUEC_ID} = t3.${C.CUEC_ID}" +
+        s" LEFT JOIN ${C.BANCO} t4 ON t1.${C.BCO_ID} = t4.${C.BCO_ID}" +
+        s" WHERE $where")
         .on(args: _*)
         .as(cuentaParser.singleOpt)
     }

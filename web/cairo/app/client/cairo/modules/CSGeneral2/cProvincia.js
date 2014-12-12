@@ -617,7 +617,7 @@
 
           // progress message
           //
-          Cairo.LoadingMessage.show("Provincias", "Loading provincia from CrowSoft Cairo server.");
+          Cairo.LoadingMessage.show("Provincias", "Loading Provincias from CrowSoft Cairo server.");
 
           // create the tree region
           //

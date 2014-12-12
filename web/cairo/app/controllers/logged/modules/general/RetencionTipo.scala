@@ -20,7 +20,8 @@ case class RetenciontipoData(
               generaSicore: Boolean,
               codigoSicore: String,
               cueId: Int,
-              tipo:               descrip: String
+              tipo: Int,
+              descrip: String
               )
 
 object RetencionesTipo extends Controller with ProvidesUser {
@@ -34,8 +35,9 @@ object RetencionesTipo extends Controller with ProvidesUser {
       C.RETT_GENERA_SICORE -> boolean,
       C.RETT_CODIGO_SICORE -> text,
       C.CUE_ID -> number,
-      C.RETT_TIPO ->       C.RETT_DESCRIP -> text
-  )(RetenciontipoData.apply)(RetenciontipoData.unapply))
+      C.RETT_TIPO -> number,
+      C.RETT_DESCRIP -> text
+    )(RetenciontipoData.apply)(RetenciontipoData.unapply))
 
   implicit val retencionTipoWrites = new Writes[Retenciontipo] {
     def writes(retencionTipo: Retenciontipo) = Json.obj(
@@ -48,7 +50,8 @@ object RetencionesTipo extends Controller with ProvidesUser {
       C.RETT_CODIGO_SICORE -> Json.toJson(retencionTipo.codigoSicore),
       C.CUE_ID -> Json.toJson(retencionTipo.cueId),
       C.CUE_NAME -> Json.toJson(retencionTipo.cueName),
-      C.RETT_TIPO ->       C.RETT_DESCRIP -> Json.toJson(retencionTipo.descrip)
+      C.RETT_TIPO -> Json.toJson(retencionTipo.tipo),
+      C.RETT_DESCRIP -> Json.toJson(retencionTipo.descrip)
     )
   }
 
@@ -72,15 +75,15 @@ object RetencionesTipo extends Controller with ProvidesUser {
             Json.toJson(
               Retenciontipo.update(user,
                 Retenciontipo(
-                       id,
-                       retencionTipo.name,
-                       retencionTipo.code,
-                       retencionTipo.active,
-                       retencionTipo.generaSicore,
-                       retencionTipo.codigoSicore,
-                       retencionTipo.cueId,
-                       retencionTipo.tipo,
-                       retencionTipo.descrip
+                  id,
+                  retencionTipo.name,
+                  retencionTipo.code,
+                  retencionTipo.active,
+                  retencionTipo.generaSicore,
+                  retencionTipo.codigoSicore,
+                  retencionTipo.cueId,
+                  retencionTipo.tipo,
+                  retencionTipo.descrip
                 ))))
         })
       }
@@ -101,14 +104,14 @@ object RetencionesTipo extends Controller with ProvidesUser {
             Json.toJson(
               Retenciontipo.create(user,
                 Retenciontipo(
-                       retencionTipo.name,
-                       retencionTipo.code,
-                       retencionTipo.active,
-                       retencionTipo.generaSicore,
-                       retencionTipo.codigoSicore,
-                       retencionTipo.cueId,
-                       retencionTipo.tipo,
-                       retencionTipo.descrip
+                  retencionTipo.name,
+                  retencionTipo.code,
+                  retencionTipo.active,
+                  retencionTipo.generaSicore,
+                  retencionTipo.codigoSicore,
+                  retencionTipo.cueId,
+                  retencionTipo.tipo,
+                  retencionTipo.descrip
                 ))))
         })
       }
@@ -124,4 +127,6 @@ object RetencionesTipo extends Controller with ProvidesUser {
       Ok(JsonUtil.emptyJson)
     })
   }
+
+}
 

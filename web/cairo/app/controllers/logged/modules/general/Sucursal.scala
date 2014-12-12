@@ -16,7 +16,7 @@ case class SucursalData(
               id: Option[Int],
               name: String,
               code: String,
-              numero: Long,
+              numero: Int,
               active: Boolean,
               descrip: String
               )

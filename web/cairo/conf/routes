@@ -128,10 +128,10 @@ POST    /api/v1/general/circuitocontable                  controllers.logged.mod
 PUT     /api/v1/general/circuitocontable/:id              controllers.logged.modules.general.CircuitosContables.update(id: Int)
 DELETE  /api/v1/general/circuitocontable/:id              controllers.logged.modules.general.CircuitosContables.delete(id: Int)
 
-GET     /api/v1/general/ciudad/:id              controllers.logged.modules.general.Ciudads.get(id: Int)
-POST    /api/v1/general/ciudad                  controllers.logged.modules.general.Ciudads.create
-PUT     /api/v1/general/ciudad/:id              controllers.logged.modules.general.Ciudads.update(id: Int)
-DELETE  /api/v1/general/ciudad/:id              controllers.logged.modules.general.Ciudads.delete(id: Int)
+GET     /api/v1/general/ciudad/:id              controllers.logged.modules.general.Ciudades.get(id: Int)
+POST    /api/v1/general/ciudad                  controllers.logged.modules.general.Ciudades.create
+PUT     /api/v1/general/ciudad/:id              controllers.logged.modules.general.Ciudades.update(id: Int)
+DELETE  /api/v1/general/ciudad/:id              controllers.logged.modules.general.Ciudades.delete(id: Int)
 
 GET     /api/v1/general/clearing/:id              controllers.logged.modules.general.Clearings.get(id: Int)
 POST    /api/v1/general/clearing                  controllers.logged.modules.general.Clearings.create
@@ -163,11 +163,6 @@ POST    /api/v1/general/empresa                  controllers.logged.modules.gene
 PUT     /api/v1/general/empresa/:id              controllers.logged.modules.general.Empresas.update(id: Int)
 DELETE  /api/v1/general/empresa/:id              controllers.logged.modules.general.Empresas.delete(id: Int)
 
-GET     /api/v1/general/empresadelete/:id              controllers.logged.modules.general.Empresadeletes.get(id: Int)
-POST    /api/v1/general/empresadelete                  controllers.logged.modules.general.Empresadeletes.create
-PUT     /api/v1/general/empresadelete/:id              controllers.logged.modules.general.Empresadeletes.update(id: Int)
-DELETE  /api/v1/general/empresadelete/:id              controllers.logged.modules.general.Empresadeletes.delete(id: Int)
-
 GET     /api/v1/general/escala/:id              controllers.logged.modules.general.Escalas.get(id: Int)
 POST    /api/v1/general/escala                  controllers.logged.modules.general.Escalas.create
 PUT     /api/v1/general/escala/:id              controllers.logged.modules.general.Escalas.update(id: Int)
@@ -188,20 +183,20 @@ POST    /api/v1/general/gasto                  controllers.logged.modules.genera
 PUT     /api/v1/general/gasto/:id              controllers.logged.modules.general.Gastos.update(id: Int)
 DELETE  /api/v1/general/gasto/:id              controllers.logged.modules.general.Gastos.delete(id: Int)
 
-GET     /api/v1/general/listapreciomarcado/:id              controllers.logged.modules.general.Listapreciomarcados.get(id: Int)
-POST    /api/v1/general/listapreciomarcado                  controllers.logged.modules.general.Listapreciomarcados.create
-PUT     /api/v1/general/listapreciomarcado/:id              controllers.logged.modules.general.Listapreciomarcados.update(id: Int)
-DELETE  /api/v1/general/listapreciomarcado/:id              controllers.logged.modules.general.Listapreciomarcados.delete(id: Int)
+GET     /api/v1/general/listapreciomarcado/:id              controllers.logged.modules.general.ListasPrecioMarcado.get(id: Int)
+POST    /api/v1/general/listapreciomarcado                  controllers.logged.modules.general.ListasPrecioMarcado.create
+PUT     /api/v1/general/listapreciomarcado/:id              controllers.logged.modules.general.ListasPrecioMarcado.update(id: Int)
+DELETE  /api/v1/general/listapreciomarcado/:id              controllers.logged.modules.general.ListasPrecioMarcado.delete(id: Int)
 
 GET     /api/v1/general/marca/:id              controllers.logged.modules.general.Marcas.get(id: Int)
 POST    /api/v1/general/marca                  controllers.logged.modules.general.Marcas.create
 PUT     /api/v1/general/marca/:id              controllers.logged.modules.general.Marcas.update(id: Int)
 DELETE  /api/v1/general/marca/:id              controllers.logged.modules.general.Marcas.delete(id: Int)
 
-GET     /api/v1/general/pais/:id              controllers.logged.modules.general.Paiss.get(id: Int)
-POST    /api/v1/general/pais                  controllers.logged.modules.general.Paiss.create
-PUT     /api/v1/general/pais/:id              controllers.logged.modules.general.Paiss.update(id: Int)
-DELETE  /api/v1/general/pais/:id              controllers.logged.modules.general.Paiss.delete(id: Int)
+GET     /api/v1/general/pais/:id              controllers.logged.modules.general.Paises.get(id: Int)
+POST    /api/v1/general/pais                  controllers.logged.modules.general.Paises.create
+PUT     /api/v1/general/pais/:id              controllers.logged.modules.general.Paises.update(id: Int)
+DELETE  /api/v1/general/pais/:id              controllers.logged.modules.general.Paises.delete(id: Int)
 
 GET     /api/v1/general/percepciontipo/:id              controllers.logged.modules.general.Percepciontipos.get(id: Int)
 POST    /api/v1/general/percepciontipo                  controllers.logged.modules.general.Percepciontipos.create
@@ -222,11 +217,6 @@ GET     /api/v1/general/productohelpconfig/:id              controllers.logged.m
 POST    /api/v1/general/productohelpconfig                  controllers.logged.modules.general.ProductosHelpConfig.create
 PUT     /api/v1/general/productohelpconfig/:id              controllers.logged.modules.general.ProductosHelpConfig.update(id: Int)
 DELETE  /api/v1/general/productohelpconfig/:id              controllers.logged.modules.general.ProductosHelpConfig.delete(id: Int)
-
-GET     /api/v1/general/productokititema/:id              controllers.logged.modules.general.Productokititemas.get(id: Int)
-POST    /api/v1/general/productokititema                  controllers.logged.modules.general.Productokititemas.create
-PUT     /api/v1/general/productokititema/:id              controllers.logged.modules.general.Productokititemas.update(id: Int)
-DELETE  /api/v1/general/productokititema/:id              controllers.logged.modules.general.Productokititemas.delete(id: Int)
 
 GET     /api/v1/general/reglaliquidacion/:id              controllers.logged.modules.general.ReglasLiquidacion.get(id: Int)
 POST    /api/v1/general/reglaliquidacion                  controllers.logged.modules.general.ReglasLiquidacion.create

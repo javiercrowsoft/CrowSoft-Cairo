@@ -21,7 +21,7 @@ case class CiudadData(
               descrip: String
               )
 
-object Ciudads extends Controller with ProvidesUser {
+object Ciudades extends Controller with ProvidesUser {
 
   val ciudadForm = Form(
     mapping(

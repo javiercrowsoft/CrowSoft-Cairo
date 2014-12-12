@@ -23,7 +23,7 @@ case class Tasaimpositiva(
               cuecName: String,
               codigoDgi1: String,
               codigoDgi2: String,
-              tipo,
+              tipo: Int,
               createdAt: Date,
               updatedAt: Date,
               updatedBy: Int) {
@@ -37,7 +37,7 @@ case class Tasaimpositiva(
       cuecId: Int,
       codigoDgi1: String,
       codigoDgi2: String,
-      tipo) = {
+      tipo: Int) = {
 
     this(
       id,
@@ -63,7 +63,7 @@ case class Tasaimpositiva(
       cuecId: Int,
       codigoDgi1: String,
       codigoDgi2: String,
-      tipo) = {
+      tipo: Int) = {
 
     this(
       DBHelper.NoId,
@@ -89,7 +89,8 @@ object Tasaimpositiva {
     0,
     DBHelper.NoId,
     "",
-    "")
+    "",
+    0)
 
   def apply(
       id: Int,
@@ -100,7 +101,7 @@ object Tasaimpositiva {
       cuecId: Int,
       codigoDgi1: String,
       codigoDgi2: String,
-      tipo) = {
+      tipo: Int) = {
 
     new Tasaimpositiva(
       id,
@@ -122,7 +123,7 @@ object Tasaimpositiva {
       cuecId: Int,
       codigoDgi1: String,
       codigoDgi2: String,
-      tipo) = {
+      tipo: Int) = {
 
     new Tasaimpositiva(
       name,
@@ -145,6 +146,7 @@ object Tasaimpositiva {
       SqlParser.get[String](C.CUEC_NAME) ~
       SqlParser.get[String](C.TI_CODIGO_DGI1) ~
       SqlParser.get[String](C.TI_CODIGO_DGI2) ~
+      SqlParser.get[Int](C.TI_TIPO) ~
       SqlParser.get[Date](DBHelper.CREATED_AT) ~
       SqlParser.get[Date](DBHelper.UPDATED_AT) ~
       SqlParser.get[Int](DBHelper.UPDATED_BY) map {
@@ -196,17 +198,18 @@ object Tasaimpositiva {
         Field(C.TI_PORCENTAJE, tasaimpositiva.porcentaje, FieldType.number),
         Field(C.CUEC_ID, tasaimpositiva.cuecId, FieldType.id),
         Field(C.TI_CODIGO_DGI1, tasaimpositiva.codigoDgi1, FieldType.text),
-        Field(C.TI_CODIGO_DGI2, tasaimpositiva.codigoDgi2, FieldType.text)
+        Field(C.TI_CODIGO_DGI2, tasaimpositiva.codigoDgi2, FieldType.text),
+        Field(C.TI_TIPO, tasaimpositiva.tipo, FieldType.integer)
       )
     }
     def throwException = {
-      throw new RuntimeException(s"Error when saving ${C.TASAIMPOSITIVA}")
+      throw new RuntimeException(s"Error when saving ${C.TASA_IMPOSITIVA}")
     }
 
     DBHelper.saveEx(
       user,
       Register(
-        C.TASAIMPOSITIVA,
+        C.TASA_IMPOSITIVA,
         C.TI_ID,
         tasaimpositiva.id,
         false,
@@ -228,7 +231,7 @@ object Tasaimpositiva {
   def loadWhere(user: CompanyUser, where: String, args : scala.Tuple2[scala.Any, anorm.ParameterValue[_]]*) = {
     DB.withConnection(user.database.database) { implicit connection =>
       SQL(s"SELECT t1.*, t2.${C.CUEC_NAME}" +
-        s" FROM ${C.TASAIMPOSITIVA} t1" +
+        s" FROM ${C.TASA_IMPOSITIVA} t1" +
         s" LEFT JOIN ${C.CUENTA} t2 ON t1.${C.CUE_ID} = t2.${C.CUE_ID} WHERE $where")
         .on(args: _*)
         .as(tasaimpositivaParser.singleOpt)
@@ -238,12 +241,12 @@ object Tasaimpositiva {
   def delete(user: CompanyUser, id: Int) = {
     DB.withConnection(user.database.database) { implicit connection =>
       try {
-        SQL(s"DELETE FROM ${C.TASAIMPOSITIVA} WHERE ${C.TI_ID} = {id}")
+        SQL(s"DELETE FROM ${C.TASA_IMPOSITIVA} WHERE ${C.TI_ID} = {id}")
         .on('id -> id)
         .executeUpdate
       } catch {
         case NonFatal(e) => {
-          Logger.error(s"can't delete a ${C.TASAIMPOSITIVA}. ${C.TI_ID} id: $id. Error ${e.toString}")
+          Logger.error(s"can't delete a ${C.TASA_IMPOSITIVA}. ${C.TI_ID} id: $id. Error ${e.toString}")
           throw e
         }
       }

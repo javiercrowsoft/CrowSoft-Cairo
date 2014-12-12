@@ -21,7 +21,7 @@ case class CentroCosto(
               compra: Int,
               venta: Int,
               idPadre: Int,
-              idName: String,
+              padreName: String,
               descrip: String,
               createdAt: Date,
               updatedAt: Date,
@@ -81,8 +81,8 @@ object CentroCosto {
     "",
     "",
     false,
-    null,
-    null,
+    0,
+    0,
     DBHelper.NoId,
     "")
 
@@ -134,7 +134,7 @@ object CentroCosto {
       SqlParser.get[Int](C.CCOS_COMPRA) ~
       SqlParser.get[Int](C.CCOS_VENTA) ~
       SqlParser.get[Int](C.CCOS_ID_PADRE) ~
-      SqlParser.get[String](C.ID_NAME) ~
+      SqlParser.get[String](C.CCOS_PADRE_NAME) ~
       SqlParser.get[String](C.CCOS_DESCRIP) ~
       SqlParser.get[Date](DBHelper.CREATED_AT) ~
       SqlParser.get[Date](DBHelper.UPDATED_AT) ~
@@ -147,7 +147,7 @@ object CentroCosto {
               compra ~
               venta ~
               idPadre ~
-              idName ~
+              padreName ~
               descrip  ~
               createdAt ~
               updatedAt ~
@@ -160,7 +160,7 @@ object CentroCosto {
               compra,
               venta,
               idPadre,
-              idName,
+              padreName,
               descrip,
               createdAt,
               updatedAt,
@@ -216,7 +216,10 @@ object CentroCosto {
 
   def loadWhere(user: CompanyUser, where: String, args : scala.Tuple2[scala.Any, anorm.ParameterValue[_]]*) = {
     DB.withConnection(user.database.database) { implicit connection =>
-      SQL(s"SELECT t1.*, t2.${C.FK_NAME} FROM ${C.CENTRO_COSTO} t1 LEFT JOIN ${C.???} t2 ON t1.${C.FK_ID} = t2.${C.FK_ID} WHERE $where")
+      SQL(s"SELECT t1.*,  t2.${C.CCOS_NAME} AS ${C.CCOS_PADRE_NAME}" +
+        s" FROM ${C.CENTRO_COSTO} t1" +
+        s" LEFT JOIN ${C.CENTRO_COSTO} t2 ON t1.${C.CCOS_ID_PADRE} = t2.${C.CCOS_ID}" +
+        s" WHERE $where")
         .on(args: _*)
         .as(centroCostoParser.singleOpt)
     }

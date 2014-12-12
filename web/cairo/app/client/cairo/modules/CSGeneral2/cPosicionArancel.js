@@ -117,7 +117,7 @@
 
           var doc = new Cairo.DocDigital();
 
-          doc.setClientTable(Cairo.General.Constants.POSICIONARANCEL);
+          doc.setClientTable(Cairo.General.Constants.POSICION_ARANCEL);
           doc.setClientTableID(m_id);
 
           _rtn = doc.showDocs(Cairo.Database);
@@ -136,7 +136,7 @@
 
           case Dialogs.Message.MSG_DOC_INFO:
 
-            Cairo.Documentation.show("", "", csGeneralPrestacion.Cairo.Security.Actions.General.NEW_POSICIONARANCEL);
+            Cairo.Documentation.show("", "", csGeneralPrestacion.Cairo.Security.Actions.General.NEW_POSICION_ARANCEL);
             _rtn = Dialogs.Message.MSG_DOC_INFO_HANDLED;
             break;
 
@@ -163,7 +163,7 @@
         var fields = register.getFields();
 
         register.setFieldId(Cairo.General.Constants.POAR_ID);
-        register.setTable(Cairo.General.Constants.POSICIONARANCEL);
+        register.setTable(Cairo.General.Constants.POSICION_ARANCEL);
 
         var apiPath = Cairo.Database.getAPIVersion();
         register.setPath(apiPath + "general/posicionarancel");
@@ -312,7 +312,7 @@
       };
 
       self.list = function() {
-        return Cairo.Security.hasPermissionTo(csGeneralPrestacion.Cairo.Security.Actions.General.LIST_POSICIONARANCEL);
+        return Cairo.Security.hasPermissionTo(csGeneralPrestacion.Cairo.Security.Actions.General.LIST_POSICION_ARANCEL);
       };
 
       self.setDialog = function(rhs) {
@@ -329,11 +329,11 @@
 
           if(id === Cairo.Constants.NO_ID) {
             m_isNew = true;
-            if(!Cairo.Security.hasPermissionTo(csGeneralPrestacion.Cairo.Security.Actions.General.NEW_POSICIONARANCEL)) { return p; }
+            if(!Cairo.Security.hasPermissionTo(csGeneralPrestacion.Cairo.Security.Actions.General.NEW_POSICION_ARANCEL)) { return p; }
           } 
           else {
             m_isNew = false;
-            if(!Cairo.Security.hasPermissionTo(csGeneralPrestacion.Cairo.Security.Actions.General.EDIT_POSICIONARANCEL)) { return p; }
+            if(!Cairo.Security.hasPermissionTo(csGeneralPrestacion.Cairo.Security.Actions.General.EDIT_POSICION_ARANCEL)) { return p; }
           }
 
           m_dialog.setInModalWindow(inModalWindow);
@@ -418,7 +418,7 @@
 
         var elem = properties.add(null, Cairo.General.Constants.TI_ID_DERECHOS);
         elem.setType(Dialogs.PropertyType.select);
-        elem.setSelectTable(Cairo.Tables.TASAIMPOSITIVA);
+        elem.setSelectTable(Cairo.Tables.TASA_IMPOSITIVA);
         elem.setSelectFilter(Cairo.General.Constants.filterForPurchase);
         //' Derechos
         elem.setName(Cairo.Language.getText(4973, ""));
@@ -429,7 +429,7 @@
 
         var elem = properties.add(null, Cairo.General.Constants.TI_ID_ESTADISTICA);
         elem.setType(Dialogs.PropertyType.select);
-        elem.setSelectTable(Cairo.Tables.TASAIMPOSITIVA);
+        elem.setSelectTable(Cairo.Tables.TASA_IMPOSITIVA);
         elem.setSelectFilter(Cairo.General.Constants.filterForPurchase);
         //' Estadisticas
         elem.setName(Cairo.Language.getText(4972, ""));
@@ -634,7 +634,7 @@
           };
 
           self.destroy = function(id, treeId, branchId) {
-            if(!Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.DELETE_POSICIONARANCEL)) {
+            if(!Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.DELETE_POSICION_ARANCEL)) {
               return Cairo.Promises.resolvedPromise(false);
             }
             var apiPath = Cairo.Database.getAPIVersion();
@@ -656,7 +656,7 @@
 
           // progress message
           //
-          Cairo.LoadingMessage.show("PosicionArancels", "Loading posicionarancel from CrowSoft Cairo server.");
+          Cairo.LoadingMessage.show("Posiciones Arancelarias", "Loading Posiciones Arancelarias from CrowSoft Cairo server.");
 
           // create the tree region
           //
@@ -665,7 +665,7 @@
           // create the dialog
           //
           Cairo.Tree.List.Controller.list(
-            Cairo.Tables.POSICIONARANCEL,
+            Cairo.Tables.POSICION_ARANCEL,
             new Cairo.Tree.List.TreeLayout({ model: self.entityInfo }),
             Cairo.posicionarancelTreeRegion,
             self);

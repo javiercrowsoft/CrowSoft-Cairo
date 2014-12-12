@@ -26,7 +26,7 @@ case class CuentaData(
               cuecId: Int,
               bcoId: Int,
               codigoRpt: String,
-              cuecDescrip: String
+              descrip: String
               )
 
 object Cuentas extends Controller with ProvidesUser {
@@ -46,7 +46,7 @@ object Cuentas extends Controller with ProvidesUser {
       C.CUEC_ID -> number,
       C.BCO_ID -> number,
       C.CUE_CODIGO_RPT -> text,
-      C.CUEC_DESCRIP -> text
+      C.CUE_DESCRIP -> text
   )(CuentaData.apply)(CuentaData.unapply))
 
   implicit val cuentaWrites = new Writes[Cuenta] {
@@ -54,14 +54,12 @@ object Cuentas extends Controller with ProvidesUser {
       "id" -> Json.toJson(cuenta.id),
       C.CUE_ID -> Json.toJson(cuenta.id),
       C.CUE_NAME -> Json.toJson(cuenta.name),
-      C.TJC_NAME -> Json.toJson(cuenta.tjcName),
       C.CUE_CODE -> Json.toJson(cuenta.code),
       C.CUE_IDENTIFICACION_EXTERNA -> Json.toJson(cuenta.identificacionExterna),
       DBHelper.ACTIVE -> Json.toJson(cuenta.active),
       C.MON_ID -> Json.toJson(cuenta.monId),
       C.MON_NAME -> Json.toJson(cuenta.monName),
       C.CUE_LLEVA_CENTRO_COSTO -> Json.toJson(cuenta.llevaCentroCosto),
-      C.MON_NAME -> Json.toJson(cuenta.monName),
       C.CUE_PRODUCTO -> Json.toJson(cuenta.producto),
       C.CUE_ES_EFECTIVO -> Json.toJson(cuenta.esEfectivo),
       C.CUE_ES_TICKET -> Json.toJson(cuenta.esTicket),
@@ -70,7 +68,7 @@ object Cuentas extends Controller with ProvidesUser {
       C.BCO_ID -> Json.toJson(cuenta.bcoId),
       C.BCO_NAME -> Json.toJson(cuenta.bcoName),
       C.CUE_CODIGO_RPT -> Json.toJson(cuenta.codigoRpt),
-      C.CUEC_DESCRIP -> Json.toJson(cuenta.cuecDescrip)
+      C.CUE_DESCRIP -> Json.toJson(cuenta.descrip)
     )
   }
 
@@ -107,7 +105,7 @@ object Cuentas extends Controller with ProvidesUser {
                        cuenta.cuecId,
                        cuenta.bcoId,
                        cuenta.codigoRpt,
-                       cuenta.cuecDescrip
+                       cuenta.descrip
                 ))))
         })
       }
@@ -140,7 +138,7 @@ object Cuentas extends Controller with ProvidesUser {
                        cuenta.cuecId,
                        cuenta.bcoId,
                        cuenta.codigoRpt,
-                       cuenta.cuecDescrip
+                       cuenta.descrip
                 ))))
         })
       }

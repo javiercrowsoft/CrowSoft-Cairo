@@ -777,7 +777,7 @@
 
           // progress message
           //
-          Cairo.LoadingMessage.show("CuentaGrupos", "Loading cuentagrupo from CrowSoft Cairo server.");
+          Cairo.LoadingMessage.show("Grupos de Cuentas", "Loading Grupos de Cuentas from CrowSoft Cairo server.");
 
           // create the tree region
           //

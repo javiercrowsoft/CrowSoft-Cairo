@@ -19,9 +19,9 @@ case class Posicionarancel(
               code: String,
               active: Boolean,
               tiIdDerechos: Int,
-              tiName: String,
+              tiDerechos: String,
               tiIdEstadistica: Int,
-              tiName: String,
+              tiEstadistica: String,
               descrip: String,
               createdAt: Date,
               updatedAt: Date,
@@ -77,9 +77,9 @@ object Posicionarancel {
   lazy val emptyPosicionarancel = Posicionarancel(
     "",
     "",
-    falDBHelper.NoId,
+    false,
     DBHelper.NoId,
-    "",
+    DBHelper.NoId,
     "")
 
   def apply(
@@ -122,11 +122,11 @@ object Posicionarancel {
       SqlParser.get[Int](C.POAR_ID) ~
       SqlParser.get[String](C.POAR_NAME) ~
       SqlParser.get[String](C.POAR_CODE) ~
+      SqlParser.get[Int](DBHelper.ACTIVE) ~
       SqlParser.get[Int](C.TI_ID_DERECHOS) ~
-      SqlParser.get[String](C.TI_NAME) ~
+      SqlParser.get[String](C.TI_DERECHOS) ~
       SqlParser.get[Int](C.TI_ID_ESTADISTICA) ~
-      SqlParser.get[String](C.TI_NAME) ~
-      SqlParser.get[String](C.TI_ID_ESTADISTICA) ~
+      SqlParser.get[String](C.TI_ESTADISTICA) ~
       SqlParser.get[String](C.POAR_DESCRIP) ~
       SqlParser.get[Date](DBHelper.CREATED_AT) ~
       SqlParser.get[Date](DBHelper.UPDATED_AT) ~
@@ -137,9 +137,9 @@ object Posicionarancel {
               code ~
               active ~
               tiIdDerechos ~
-              tiName ~
+              tiDerechos ~
               tiIdEstadistica ~
-              tiName ~
+              tiEstadistica ~
               descrip  ~
               createdAt ~
               updatedAt ~
@@ -150,9 +150,9 @@ object Posicionarancel {
               code,
               (if(active != 0) true else false),
               tiIdDerechos,
-              tiName,
+              tiDerechos,
               tiIdEstadistica,
-              tiName,
+              tiEstadistica,
               descrip,
               createdAt,
               updatedAt,
@@ -180,13 +180,13 @@ object Posicionarancel {
       )
     }
     def throwException = {
-      throw new RuntimeException(s"Error when saving ${C.POSICIONARANCEL}")
+      throw new RuntimeException(s"Error when saving ${C.POSICION_ARANCEL}")
     }
 
     DBHelper.saveEx(
       user,
       Register(
-        C.POSICIONARANCEL,
+        C.POSICION_ARANCEL,
         C.POAR_ID,
         posicionarancel.id,
         false,
@@ -207,10 +207,10 @@ object Posicionarancel {
 
   def loadWhere(user: CompanyUser, where: String, args : scala.Tuple2[scala.Any, anorm.ParameterValue[_]]*) = {
     DB.withConnection(user.database.database) { implicit connection =>
-      SQL(s"SELECT t1.*, t2.${C.TI_NAME}, t3.${C.TI_NAME}" +
-        s" FROM ${C.POSICIONARANCEL} t1" +
-        s" LEFT JOIN ${C.TASAIMPOSITIVA} t2 ON t1.${C.TI_ID} = t2.${C.TI_ID}" +
-        s" LEFT JOIN ${C.TASAIMPOSITIVA} t3 ON t1.${C.TI_ID} = t2.${C.TI_ID} WHERE $where")
+      SQL(s"SELECT t1.*, t2.${C.TI_NAME} AS ${C.TI_DERECHOS}, t3.${C.TI_NAME} AS ${C.TI_ESTADISTICA}" +
+        s" FROM ${C.POSICION_ARANCEL} t1" +
+        s" LEFT JOIN ${C.TASA_IMPOSITIVA} t2 ON t1.${C.TI_ID_DERECHOS} = t2.${C.TI_ID}" +
+        s" LEFT JOIN ${C.TASA_IMPOSITIVA} t3 ON t1.${C.TI_ID_ESTADISTICA} = t3.${C.TI_ID} WHERE $where")
         .on(args: _*)
         .as(posicionarancelParser.singleOpt)
     }
@@ -219,12 +219,12 @@ object Posicionarancel {
   def delete(user: CompanyUser, id: Int) = {
     DB.withConnection(user.database.database) { implicit connection =>
       try {
-        SQL(s"DELETE FROM ${C.POSICIONARANCEL} WHERE ${C.POAR_ID} = {id}")
+        SQL(s"DELETE FROM ${C.POSICION_ARANCEL} WHERE ${C.POAR_ID} = {id}")
         .on('id -> id)
         .executeUpdate
       } catch {
         case NonFatal(e) => {
-          Logger.error(s"can't delete a ${C.POSICIONARANCEL}. ${C.POAR_ID} id: $id. Error ${e.toString}")
+          Logger.error(s"can't delete a ${C.POSICION_ARANCEL}. ${C.POAR_ID} id: $id. Error ${e.toString}")
           throw e
         }
       }

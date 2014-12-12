@@ -123,7 +123,7 @@ object Zona {
       SqlParser.get[Int](DBHelper.ACTIVE) ~
       SqlParser.get[Double](C.ZON_PRECIO) ~
       SqlParser.get[Int](C.PR_ID) ~
-      SqlParser.get[String](C.PR_NAME) ~
+      SqlParser.get[String](C.PR_NOMBRE_VENTA) ~
       SqlParser.get[String](C.ZON_DESCRIP) ~
       SqlParser.get[Date](DBHelper.CREATED_AT) ~
       SqlParser.get[Date](DBHelper.UPDATED_AT) ~
@@ -202,7 +202,7 @@ object Zona {
 
   def loadWhere(user: CompanyUser, where: String, args : scala.Tuple2[scala.Any, anorm.ParameterValue[_]]*) = {
     DB.withConnection(user.database.database) { implicit connection =>
-      SQL(s"SELECT t1.*, t2.${C.PR_NAME}" +
+      SQL(s"SELECT t1.*, t2.${C.PR_NOMBRE_VENTA}" +
         s" FROM ${C.ZONA} t1" +
         s" LEFT JOIN ${C.PRODUCTO} t2 ON t1.${C.PR_ID} = t2.${C.PR_ID} WHERE $where")
         .on(args: _*)

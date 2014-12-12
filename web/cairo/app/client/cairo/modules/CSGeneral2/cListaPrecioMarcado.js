@@ -125,7 +125,7 @@
 
           var doc = new Cairo.DocDigital();
 
-          doc.setClientTable(Cairo.General.Constants.LISTAPRECIOMARCADO);
+          doc.setClientTable(Cairo.General.Constants.LISTA_PRECIO_MARCADO);
           doc.setClientTableID(m_id);
 
           _rtn = doc.showDocs(Cairo.Database);
@@ -144,7 +144,7 @@
 
           case Dialogs.Message.MSG_DOC_INFO:
 
-            Cairo.Documentation.show("", "", csGeneralPrestacion.Cairo.Security.Actions.General.NEW_LISTAPRECIOMARCADO);
+            Cairo.Documentation.show("", "", csGeneralPrestacion.Cairo.Security.Actions.General.NEW_LISTA_PRECIO_MARCADO);
             _rtn = Dialogs.Message.MSG_DOC_INFO_HANDLED;
             break;
 
@@ -171,7 +171,7 @@
         var fields = register.getFields();
 
         register.setFieldId(Cairo.General.Constants.LPM_ID);
-        register.setTable(Cairo.General.Constants.LISTAPRECIOMARCADO);
+        register.setTable(Cairo.General.Constants.LISTA_PRECIO_MARCADO);
 
         var apiPath = Cairo.Database.getAPIVersion();
         register.setPath(apiPath + "general/listapreciomarcado");
@@ -353,7 +353,7 @@
       };
 
       self.list = function() {
-        return Cairo.Security.hasPermissionTo(csGeneralPrestacion.Cairo.Security.Actions.General.LIST_LISTAPRECIOMARCADO);
+        return Cairo.Security.hasPermissionTo(csGeneralPrestacion.Cairo.Security.Actions.General.LIST_LISTA_PRECIO_MARCADO);
       };
 
       self.setDialog = function(rhs) {
@@ -370,11 +370,11 @@
 
           if(id === Cairo.Constants.NO_ID) {
             m_isNew = true;
-            if(!Cairo.Security.hasPermissionTo(csGeneralPrestacion.Cairo.Security.Actions.General.NEW_LISTAPRECIOMARCADO)) { return p; }
+            if(!Cairo.Security.hasPermissionTo(csGeneralPrestacion.Cairo.Security.Actions.General.NEW_LISTA_PRECIO_MARCADO)) { return p; }
           } 
           else {
             m_isNew = false;
-            if(!Cairo.Security.hasPermissionTo(csGeneralPrestacion.Cairo.Security.Actions.General.EDIT_LISTAPRECIOMARCADO)) { return p; }
+            if(!Cairo.Security.hasPermissionTo(csGeneralPrestacion.Cairo.Security.Actions.General.EDIT_LISTA_PRECIO_MARCADO)) { return p; }
           }
 
           m_dialog.setInModalWindow(inModalWindow);
@@ -690,15 +690,15 @@
          */
         var createTreeDialog = function(tabId) {
 
-          var editors = Cairo.Editors.listapreciomarcadoEditors || Cairo.Collections.createCollection(null);
-          Cairo.Editors.listapreciomarcadoEditors = editors;
+          var editors = Cairo.Editors.listaPrecioMarcadoEditors || Cairo.Collections.createCollection(null);
+          Cairo.Editors.listaPrecioMarcadoEditors = editors;
 
           // ListController properties and methods
           //
           self.entityInfo = new Backbone.Model({
-            entitiesTitle: "ListaPrecioMarcados",
-            entityName: "listapreciomarcado",
-            entitiesName: "listapreciomarcados"
+            entitiesTitle: "Lista de Marcado de Precio",
+            entityName: "lista de marcado",
+            entitiesName: "listas de marcado de precios"
           });
 
           self.showBranch = function(branchId) {
@@ -780,7 +780,7 @@
           };
 
           self.destroy = function(id, treeId, branchId) {
-            if(!Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.DELETE_LISTAPRECIOMARCADO)) {
+            if(!Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.DELETE_LISTA_PRECIO_MARCADO)) {
               return Cairo.Promises.resolvedPromise(false);
             }
             var apiPath = Cairo.Database.getAPIVersion();
@@ -802,18 +802,18 @@
 
           // progress message
           //
-          Cairo.LoadingMessage.show("ListaPrecioMarcados", "Loading listapreciomarcado from CrowSoft Cairo server.");
+          Cairo.LoadingMessage.show("Listas de Marcado de Precios", "Loading Listas de Marcado de Precios from CrowSoft Cairo server.");
 
           // create the tree region
           //
-          Cairo.addRegions({ listapreciomarcadoTreeRegion: tabId });
+          Cairo.addRegions({ listaPrecioMarcadoTreeRegion: tabId });
 
           // create the dialog
           //
           Cairo.Tree.List.Controller.list(
-            Cairo.Tables.LISTAPRECIOMARCADO,
+            Cairo.Tables.LISTA_PRECIO_MARCADO,
             new Cairo.Tree.List.TreeLayout({ model: self.entityInfo }),
-            Cairo.listapreciomarcadoTreeRegion,
+            Cairo.listaPrecioMarcadoTreeRegion,
             self);
 
         };
@@ -828,7 +828,7 @@
 
         // create the tab
         //
-        Cairo.mainTab.showTab("ListaPrecioMarcados", "listapreciomarcadoTreeRegion", "#general/listapreciomarcados", createTreeDialog, closeTreeDialog, showTreeDialog);
+        Cairo.mainTab.showTab("Listas de Marcado de Precios", "listaPrecioMarcadoTreeRegion", "#general/listaspreciomarcado", createTreeDialog, closeTreeDialog, showTreeDialog);
 
       }
     };

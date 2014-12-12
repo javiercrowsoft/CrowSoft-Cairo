@@ -280,7 +280,7 @@ object Gasto {
       SQL(s"SELECT t1.*, t2.${C.MON_NAME}, t3.${C.TI_NAME}" +
         s" FROM ${C.GASTO} t1" +
         s" LEFT JOIN ${C.MONEDA} t2 ON t1.${C.MON_ID} = t2.${C.MON_ID}" +
-        s" LEFT JOIN ${C.TASAIMPOSITIVA} t3 ON t1.${C.TI_ID} = t3.${C.TI_ID} WHERE $where")
+        s" LEFT JOIN ${C.TASA_IMPOSITIVA} t3 ON t1.${C.TI_ID} = t3.${C.TI_ID} WHERE $where")
         .on(args: _*)
         .as(gastoParser.singleOpt)
     }

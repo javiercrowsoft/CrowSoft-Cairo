@@ -41,7 +41,7 @@ object C {
   val ZON_PRECIO = "zon_precio"
 
   // TasaImpositiva
-  val TASAIMPOSITIVA = "TasaImpositiva"
+  val TASA_IMPOSITIVA = "TasaImpositiva"
   val TI_ID = "ti_id"
   val TI_NAME = "ti_nombre"
   val TI_CODE = "ti_codigo"
@@ -170,6 +170,7 @@ object C {
   val CCOS_COMPRA = "ccos_compra"
   val CCOS_VENTA = "ccos_venta"
   val CCOS_ID_PADRE = "ccos_id_padre"
+  val CCOS_PADRE_NAME = "padre_nombre"
 
   //Cobrador
   val COBRADOR = "Cobrador"
@@ -455,6 +456,7 @@ object C {
   val CAM_CODE = "cam_codigo"
   val CAM_DESCRIP = "cam_descrip"
   val CAM_PATENTE = "cam_patente"
+  val CAM_NAME = CAM_PATENTE
   val CAM_PATENTESEMI = "cam_patentesemi"
   val CAM_TARA = "cam_tara"
   val CAM_ES_SEMI = "cam_essemi"
@@ -630,14 +632,15 @@ object C {
   val RETI_IMPORTEFIJO = "reti_importefijo"
 
   // Monedas
+  val MONEDA = "moneda"
   val MON_ID = "mon_id"
   val MON_NAME = "mon_nombre"
 
   //Producto
   val PRODUCTO = "Producto"
   val PR_ID = "pr_id"
-  val PR_NOMBRECOMPRA = "pr_Nombrecompra"
-  val PR_NOMBREVENTA = "pr_Nombreventa"
+  val PR_NOMBRE_COMPRA = "pr_Nombrecompra"
+  val PR_NOMBRE_VENTA = "pr_Nombreventa"
   val PR_CODE = "pr_codigo"
   val PR_DESCRIPVENTA = "pr_descripventa"
   val PR_DESCRIPCOMPRA = "pr_descripcompra"
@@ -746,7 +749,7 @@ object C {
   val PRWI_POSICION = "prwi_posicion"
 
   // ListaPrecioMarcado
-  val LISTAPRECIOMARCADO = "ListaPrecioMarcado"
+  val LISTA_PRECIO_MARCADO = "ListaPrecioMarcado"
   val LPM_ID = "lpm_id"
   val LPM_NAME = "lpm_nombre"
   val LPM_CODE = "lpm_codigo"
@@ -788,6 +791,8 @@ object C {
   val PBM_FECHA = "pbm_fecha"
 
   // Empresa
+  val EMPRESA = "empresa"
+  val EMP_ID = "emp_id"
   val EMP_DESCRIP = "emp_descrip"
   val EMP_RAZONSOCIAL = "emp_razonsocial"
   val EMP_CUIT = "emp_cuit"
@@ -1043,13 +1048,15 @@ object C {
   val CPA_CODE = "cpa_codigo"
 
   // PosicionArancel
-  val POSICIONARANCEL = "PosicionArancel"
+  val POSICION_ARANCEL = "PosicionArancel"
   val POAR_ID = "poar_id"
   val POAR_NAME = "poar_nombre"
   val POAR_CODE = "poar_codigo"
   val POAR_DESCRIP = "poar_descrip"
   val TI_ID_ESTADISTICA = "ti_id_estadistica"
   val TI_ID_DERECHOS = "ti_id_derechos"
+  val TI_ESTADISTICA = "estadistica"
+  val TI_DERECHOS = "derechos"
 
   // Producto Comunidad Internet
   val PRODUCTOCOMUNIDADINTERNET = "ProductoComunidadInternet"
@@ -1236,10 +1243,10 @@ object S {
   val DELETE_ZONA = 1118
   val LIST_ZONA = 1119
 
-  val NEW_TASAIMPOSITIVA = 1120
-  val EDIT_TASAIMPOSITIVA = 1121
-  val DELETE_TASAIMPOSITIVA = 1122
-  val LIST_TASAIMPOSITIVA = 1123
+  val NEW_TASA_IMPOSITIVA = 1120
+  val EDIT_TASA_IMPOSITIVA = 1121
+  val DELETE_TASA_IMPOSITIVA = 1122
+  val LIST_TASA_IMPOSITIVA = 1123
 
   val NEW_DEPOSITOFISICO = 1124
   val EDIT_DEPOSITOFISICO = 1125
@@ -1368,10 +1375,10 @@ object S {
   val DELETE_CAJA = 1241
   val LIST_CAJA = 1242
 
-  val NEW_LISTAPRECIOMARCADO = 1243
-  val EDIT_LISTAPRECIOMARCADO = 1244
-  val DELETE_LISTAPRECIOMARCADO = 1245
-  val LIST_LISTAPRECIOMARCADO = 1246
+  val NEW_LISTA_PRECIO_MARCADO = 1243
+  val EDIT_LISTA_PRECIO_MARCADO = 1244
+  val DELETE_LISTA_PRECIO_MARCADO = 1245
+  val LIST_LISTA_PRECIO_MARCADO = 1246
 
   val NEW_CATALOGOWEB = 1247
   val EDIT_CATALOGOWEB = 1248
@@ -1410,10 +1417,10 @@ object S {
   val DELETE_PERSONADOCUMENTOTIPO = 1274
   val LIST_PERSONADOCUMENTOTIPO = 1275
 
-  val NEW_POSICIONARANCEL = 1276
-  val EDIT_POSICIONARANCEL = 1277
-  val DELETE_POSICIONARANCEL = 1278
-  val LIST_POSICIONARANCEL = 1279
+  val NEW_POSICION_ARANCEL = 1276
+  val EDIT_POSICION_ARANCEL = 1277
+  val DELETE_POSICION_ARANCEL = 1278
+  val LIST_POSICION_ARANCEL = 1279
 
   val NEW_TARIFARIO = 1280
   val EDIT_TARIFARIO = 1281

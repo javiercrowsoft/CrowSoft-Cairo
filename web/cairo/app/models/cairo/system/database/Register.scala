@@ -17,6 +17,7 @@ object FieldType {
 
   val integer = FieldType(2)
   val double = FieldType(5)
+  val number = FieldType(5)
   val currency = FieldType(6)
   val text = FieldType(200)
   val id = FieldType(-1)

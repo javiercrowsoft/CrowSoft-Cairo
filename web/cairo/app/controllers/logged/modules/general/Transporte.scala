@@ -10,7 +10,7 @@ import play.api.libs.json._
 import models.cairo.modules.general._
 import models.cairo.system.security.CairoSecurity
 import models.cairo.system.database.DBHelper
-
+import java.util.Date
 
 case class TransporteData(
               id: Option[Int],
@@ -44,10 +44,10 @@ object Transportes extends Controller with ProvidesUser {
       C.TRANS_MAIL -> text,
       C.TRANS_WEB -> text,
       C.PROV_ID -> number,
-      C.TRANS_HORARIO_MDESDE -> number,
-      C.TRANS_HORARIO_MHASTA -> number,
-      C.TRANS_HORARIO_TDESDE -> number,
-      C.TRANS_HORARIO_THASTA -> number,
+      C.TRANS_HORARIO_MDESDE -> date,
+      C.TRANS_HORARIO_MHASTA -> date,
+      C.TRANS_HORARIO_TDESDE -> date,
+      C.TRANS_HORARIO_THASTA -> date,
       C.TRANS_DESCRIP -> text
   )(TransporteData.apply)(TransporteData.unapply))
 

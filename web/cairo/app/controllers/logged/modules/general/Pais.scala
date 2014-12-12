@@ -20,7 +20,7 @@ case class PaisData(
               descrip: String
               )
 
-object Paiss extends Controller with ProvidesUser {
+object Paises extends Controller with ProvidesUser {
 
   val paisForm = Form(
     mapping(
@@ -49,7 +49,7 @@ object Paiss extends Controller with ProvidesUser {
   }
 
   def update(id: Int) = PostAction { implicit request =>
-    Logger.debug("in paiss.update")
+    Logger.debug("in Paises.update")
     paisForm.bindFromRequest.fold(
       formWithErrors => {
         Logger.debug(s"invalid form: ${formWithErrors.toString}")
@@ -74,7 +74,7 @@ object Paiss extends Controller with ProvidesUser {
   }
 
   def create = PostAction { implicit request =>
-    Logger.debug("in paiss.create")
+    Logger.debug("in Paises.create")
     paisForm.bindFromRequest.fold(
       formWithErrors => {
         Logger.debug(s"invalid form: ${formWithErrors.toString}")
@@ -98,7 +98,7 @@ object Paiss extends Controller with ProvidesUser {
   }
 
   def delete(id: Int) = PostAction { implicit request =>
-    Logger.debug("in paiss.delete")
+    Logger.debug("in Paises.delete")
     LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.DELETE_PAIS), { user =>
       Pais.delete(user, id)
       // Backbonejs requires at least an empty json object in the response

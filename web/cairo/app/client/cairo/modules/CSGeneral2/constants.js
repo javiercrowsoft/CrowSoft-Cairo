@@ -44,7 +44,7 @@
       ZON_PRECIO: "zon_precio",
 
       // TasaImpositiva
-      TASAIMPOSITIVA: "TasaImpositiva",
+      TASA_IMPOSITIVA: "TasaImpositiva",
       TI_ID: "ti_id",
       TI_NAME: "ti_nombre",
       TI_CODE: "ti_codigo",
@@ -639,8 +639,8 @@
       //Producto
       PRODUCTO: "Producto",
       PR_ID: "pr_id",
-      PR_NOMBRECOMPRA: "pr_Nombrecompra",
-      PR_NOMBREVENTA: "pr_Nombreventa",
+      PR_NOMBRE_COMPRA: "pr_Nombrecompra",
+      PR_NOMBRE_VENTA: "pr_Nombreventa",
       PR_CODE: "pr_codigo",
       PR_DESCRIPVENTA: "pr_descripventa",
       PR_DESCRIPCOMPRA: "pr_descripcompra",
@@ -749,7 +749,7 @@
       PRWI_POSICION: "prwi_posicion",
 
       // ListaPrecioMarcado
-      LISTAPRECIOMARCADO: "ListaPrecioMarcado",
+      LISTA_PRECIO_MARCADO: "ListaPrecioMarcado",
       LPM_ID: "lpm_id",
       LPM_NAME: "lpm_nombre",
       LPM_CODE: "lpm_codigo",
@@ -1046,7 +1046,7 @@
       CPA_CODE: "cpa_codigo",
 
       // PosicionArancel
-      POSICIONARANCEL: "PosicionArancel",
+      POSICION_ARANCEL: "PosicionArancel",
       POAR_ID: "poar_id",
       POAR_NAME: "poar_nombre",
       POAR_CODE: "poar_codigo",
@@ -1256,10 +1256,10 @@
     DELETE_ZONA: 1118,
     LIST_ZONA: 1119,
 
-    NEW_TASAIMPOSITIVA: 1120,
-    EDIT_TASAIMPOSITIVA: 1121,
-    DELETE_TASAIMPOSITIVA: 1122,
-    LIST_TASAIMPOSITIVA: 1123,
+    NEW_TASA_IMPOSITIVA: 1120,
+    EDIT_TASA_IMPOSITIVA: 1121,
+    DELETE_TASA_IMPOSITIVA: 1122,
+    LIST_TASA_IMPOSITIVA: 1123,
 
     NEW_DEPOSITOFISICO: 1124,
     EDIT_DEPOSITOFISICO: 1125,
@@ -1388,10 +1388,10 @@
     DELETE_CAJA: 1241,
     LIST_CAJA: 1242,
 
-    NEW_LISTAPRECIOMARCADO: 1243,
-    EDIT_LISTAPRECIOMARCADO: 1244,
-    DELETE_LISTAPRECIOMARCADO: 1245,
-    LIST_LISTAPRECIOMARCADO: 1246,
+    NEW_LISTA_PRECIO_MARCADO: 1243,
+    EDIT_LISTA_PRECIO_MARCADO: 1244,
+    DELETE_LISTA_PRECIO_MARCADO: 1245,
+    LIST_LISTA_PRECIO_MARCADO: 1246,
 
     NEW_CATALOGOWEB: 1247,
     EDIT_CATALOGOWEB: 1248,
@@ -1430,10 +1430,10 @@
     DELETE_PERSONADOCUMENTOTIPO: 1274,
     LIST_PERSONADOCUMENTOTIPO: 1275,
 
-    NEW_POSICIONARANCEL: 1276,
-    EDIT_POSICIONARANCEL: 1277,
-    DELETE_POSICIONARANCEL: 1278,
-    LIST_POSICIONARANCEL: 1279,
+    NEW_POSICION_ARANCEL: 1276,
+    EDIT_POSICION_ARANCEL: 1277,
+    DELETE_POSICION_ARANCEL: 1278,
+    LIST_POSICION_ARANCEL: 1279,
 
     NEW_TARIFARIO: 1280,
     EDIT_TARIFARIO: 1281,

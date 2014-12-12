@@ -17,7 +17,7 @@ case class Sucursal(
               id: Int,
               name: String,
               code: String,
-              numero: Long,
+              numero: Int,
               active: Boolean,
               descrip: String,
               createdAt: Date,
@@ -28,7 +28,7 @@ case class Sucursal(
       id: Int,
       name: String,
       code: String,
-      numero: Long,
+      numero: Int,
       active: Boolean,
       descrip: String) = {
 
@@ -47,7 +47,7 @@ case class Sucursal(
   def this(
       name: String,
       code: String,
-      numero: Long,
+      numero: Int,
       active: Boolean,
       descrip: String) = {
 
@@ -76,7 +76,7 @@ object Sucursal {
       id: Int,
       name: String,
       code: String,
-      numero: Long,
+      numero: Int,
       active: Boolean,
       descrip: String) = {
 
@@ -92,7 +92,7 @@ object Sucursal {
   def apply(
       name: String,
       code: String,
-      numero: Long,
+      numero: Int,
       active: Boolean,
       descrip: String) = {
 
@@ -108,7 +108,7 @@ object Sucursal {
       SqlParser.get[Int](C.SUC_ID) ~
       SqlParser.get[String](C.SUC_NAME) ~
       SqlParser.get[String](C.SUC_CODE) ~
-      SqlParser.get[Long](C.SUC_NUMERO) ~
+      SqlParser.get[Int](C.SUC_NUMERO) ~
       SqlParser.get[Int](DBHelper.ACTIVE) ~
       SqlParser.get[String](C.SUC_DESCRIP) ~
       SqlParser.get[Date](DBHelper.CREATED_AT) ~

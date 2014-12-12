@@ -112,8 +112,8 @@ object Listapreciomarcado {
     0,
     0,
     0,
+    0,
     DBHelper.NoId,
-    "",
     "")
 
   def apply(
@@ -176,7 +176,7 @@ object Listapreciomarcado {
       descrip)
   }
 
-  private val listapreciomarcadoParser: RowParser[Listapreciomarcado] = {
+  private val listaPrecioMarcadoParser: RowParser[Listapreciomarcado] = {
       SqlParser.get[Int](C.LPM_ID) ~
       SqlParser.get[String](C.LPM_NAME) ~
       SqlParser.get[String](C.LPM_CODE) ~
@@ -187,9 +187,9 @@ object Listapreciomarcado {
       SqlParser.get[Double](C.LPM_DECREMENTO) ~
       SqlParser.get[Double](C.LPM_PORCMINIMO) ~
       SqlParser.get[Double](C.LPM_PORCMAXIMO) ~
+      SqlParser.get[Double](C.LPM_MONTOMINIMO) ~
       SqlParser.get[Int](C.MON_ID) ~
       SqlParser.get[String](C.MON_NAME) ~
-      SqlParser.get[String](C.MON_ID) ~
       SqlParser.get[String](C.LPM_DESCRIP) ~
       SqlParser.get[Date](DBHelper.CREATED_AT) ~
       SqlParser.get[Date](DBHelper.UPDATED_AT) ~
@@ -233,41 +233,41 @@ object Listapreciomarcado {
     }
   }
 
-  def create(user: CompanyUser, listapreciomarcado: Listapreciomarcado): Listapreciomarcado = {
-    save(user, listapreciomarcado, true)
+  def create(user: CompanyUser, listaPrecioMarcado: Listapreciomarcado): Listapreciomarcado = {
+    save(user, listaPrecioMarcado, true)
   }
 
-  def update(user: CompanyUser, listapreciomarcado: Listapreciomarcado): Listapreciomarcado = {
-    save(user, listapreciomarcado, false)
+  def update(user: CompanyUser, listaPrecioMarcado: Listapreciomarcado): Listapreciomarcado = {
+    save(user, listaPrecioMarcado, false)
   }
 
-  private def save(user: CompanyUser, listapreciomarcado: Listapreciomarcado, isNew: Boolean): Listapreciomarcado = {
+  private def save(user: CompanyUser, listaPrecioMarcado: Listapreciomarcado, isNew: Boolean): Listapreciomarcado = {
     def getFields = {
       List(
-        Field(C.LPM_NAME, listapreciomarcado.name, FieldType.text),
-        Field(C.LPM_CODE, listapreciomarcado.code, FieldType.text),
-        Field(DBHelper.ACTIVE, (if(listapreciomarcado.active) 1 else 0), FieldType.boolean),
-        Field(C.LPM_BASE, listapreciomarcado.base, FieldType.number),
-        Field(C.LPM_PORCENTAJE, listapreciomarcado.porcentaje, FieldType.number),
-        Field(C.LPM_SALTO, listapreciomarcado.salto, FieldType.number),
-        Field(C.LPM_DECREMENTO, listapreciomarcado.decremento, FieldType.number),
-        Field(C.LPM_PORCMINIMO, listapreciomarcado.porcminimo, FieldType.number),
-        Field(C.LPM_PORCMAXIMO, listapreciomarcado.porcmaximo, FieldType.number),
-        Field(C.LPM_MONTOMINIMO, listapreciomarcado.montominimo, FieldType.id),
-        Field(C.MON_ID, listapreciomarcado.monId, FieldType.text),
-        Field(C.LPM_DESCRIP, listapreciomarcado.descrip, FieldType.text)
+        Field(C.LPM_NAME, listaPrecioMarcado.name, FieldType.text),
+        Field(C.LPM_CODE, listaPrecioMarcado.code, FieldType.text),
+        Field(DBHelper.ACTIVE, (if(listaPrecioMarcado.active) 1 else 0), FieldType.boolean),
+        Field(C.LPM_BASE, listaPrecioMarcado.base, FieldType.number),
+        Field(C.LPM_PORCENTAJE, listaPrecioMarcado.porcentaje, FieldType.number),
+        Field(C.LPM_SALTO, listaPrecioMarcado.salto, FieldType.number),
+        Field(C.LPM_DECREMENTO, listaPrecioMarcado.decremento, FieldType.number),
+        Field(C.LPM_PORCMINIMO, listaPrecioMarcado.porcminimo, FieldType.number),
+        Field(C.LPM_PORCMAXIMO, listaPrecioMarcado.porcmaximo, FieldType.number),
+        Field(C.LPM_MONTOMINIMO, listaPrecioMarcado.montominimo, FieldType.id),
+        Field(C.MON_ID, listaPrecioMarcado.monId, FieldType.text),
+        Field(C.LPM_DESCRIP, listaPrecioMarcado.descrip, FieldType.text)
       )
     }
     def throwException = {
-      throw new RuntimeException(s"Error when saving ${C.LISTAPRECIOMARCADO}")
+      throw new RuntimeException(s"Error when saving ${C.LISTA_PRECIO_MARCADO}")
     }
 
     DBHelper.saveEx(
       user,
       Register(
-        C.LISTAPRECIOMARCADO,
+        C.LISTA_PRECIO_MARCADO,
         C.LPM_ID,
-        listapreciomarcado.id,
+        listaPrecioMarcado.id,
         false,
         true,
         true,
@@ -286,21 +286,24 @@ object Listapreciomarcado {
 
   def loadWhere(user: CompanyUser, where: String, args : scala.Tuple2[scala.Any, anorm.ParameterValue[_]]*) = {
     DB.withConnection(user.database.database) { implicit connection =>
-      SQL(s"SELECT t1.* FROM ${C.LISTAPRECIOMARCADO} t1 WHERE $where")
+      SQL(s"SELECT t1.*, t2.${C.MON_NAME}" +
+        s" FROM ${C.LISTA_PRECIO_MARCADO} t1" +
+        s" LEFT JOIN ${C.MONEDA} t2 ON t1.${C.MON_ID} = t2.${C.MON_ID}" +
+        s" WHERE $where")
         .on(args: _*)
-        .as(listapreciomarcadoParser.singleOpt)
+        .as(listaPrecioMarcadoParser.singleOpt)
     }
   }
 
   def delete(user: CompanyUser, id: Int) = {
     DB.withConnection(user.database.database) { implicit connection =>
       try {
-        SQL(s"DELETE FROM ${C.LISTAPRECIOMARCADO} WHERE ${C.LPM_ID} = {id}")
+        SQL(s"DELETE FROM ${C.LISTA_PRECIO_MARCADO} WHERE ${C.LPM_ID} = {id}")
         .on('id -> id)
         .executeUpdate
       } catch {
         case NonFatal(e) => {
-          Logger.error(s"can't delete a ${C.LISTAPRECIOMARCADO}. ${C.LPM_ID} id: $id. Error ${e.toString}")
+          Logger.error(s"can't delete a ${C.LISTA_PRECIO_MARCADO}. ${C.LPM_ID} id: $id. Error ${e.toString}")
           throw e
         }
       }

@@ -776,7 +776,7 @@ import java.util.Date;
 
           // progress message
           //
-          Cairo.LoadingMessage.show("Choferes", "Loading chofer from CrowSoft Cairo server.");
+          Cairo.LoadingMessage.show("Choferes", "Loading Choferes from CrowSoft Cairo server.");
 
           // create the tree region
           //

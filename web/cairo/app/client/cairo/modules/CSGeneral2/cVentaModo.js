@@ -793,7 +793,7 @@
 
           // progress message
           //
-          Cairo.LoadingMessage.show("VentaModos", "Loading ventamodo from CrowSoft Cairo server.");
+          Cairo.LoadingMessage.show("Modos de Venta", "Loading Modos de Venta from CrowSoft Cairo server.");
 
           // create the tree region
           //

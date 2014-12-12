@@ -107,9 +107,9 @@ object Feriado {
   lazy val emptyFeriado = Feriado(
     "",
     "",
-    null,
-    null,
-    null,
+    0,
+    0,
+    0,
     false,
     false,
     false,

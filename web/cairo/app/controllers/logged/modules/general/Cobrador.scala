@@ -31,7 +31,7 @@ object Cobradors extends Controller with ProvidesUser {
       C.COB_CODE -> text,
       DBHelper.ACTIVE -> boolean,
       C.REL_ID -> number,
-      C.COB_COMISION -> number,
+      C.COB_COMISION -> of(Global.doubleFormat),
       C.COB_DESCRIP -> text
   )(CobradorData.apply)(CobradorData.unapply))
 

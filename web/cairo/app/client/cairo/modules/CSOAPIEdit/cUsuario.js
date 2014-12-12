@@ -289,7 +289,7 @@ Cairo.module("Usuario.List", function(List, Cairo, Backbone, Marionette, $, _) {
         Cairo.Tree.List.Controller.listBranch(branchId, criterion, Cairo.Tree.List.Controller.showItems, self)
       };
 
-      Cairo.LoadingMessage.show("Usuarios", "Loading usuarios from CrowSoft Cairo server.");
+      Cairo.LoadingMessage.show("Usuarios", "Loading Usuarios from CrowSoft Cairo server.");
 
       var fetchingUsuarios = Cairo.request("usuario:entities");
 

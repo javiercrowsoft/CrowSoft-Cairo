@@ -89,12 +89,11 @@ object ProductoHelpConfig {
     "",
     "",
     "",
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
+    0,
+    0,
+    0,
+    0,
+    0,
     "")
 
   def apply(
@@ -227,7 +226,7 @@ object ProductoHelpConfig {
         true,
         getFields),
       isNew,
-      C.PRHC_CODE
+      ""
     ) match {
       case SaveResult(true, id) => load(user, id).getOrElse(throwException)
       case SaveResult(false, id) => throwException

@@ -497,7 +497,7 @@
 
         var elem = properties.add(null, Cairo.General.Constants.TI_ID);
         elem.setType(Dialogs.PropertyType.select);
-        elem.setSelectTable(Cairo.Tables.TASAIMPOSITIVA);
+        elem.setSelectTable(Cairo.Tables.TASA_IMPOSITIVA);
         //'Tasa Impositiva
         elem.setName(Cairo.Language.getText(1229, ""));
         elem.setKey(K_TI_ID);
@@ -763,7 +763,7 @@
 
           // progress message
           //
-          Cairo.LoadingMessage.show("Gastos", "Loading gasto from CrowSoft Cairo server.");
+          Cairo.LoadingMessage.show("Gastos", "Loading Gastos from CrowSoft Cairo server.");
 
           // create the tree region
           //

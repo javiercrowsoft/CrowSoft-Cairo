@@ -70,7 +70,7 @@
       self.data = function(id,  field) {
         var rtn = null;
 
-        if(!Cairo.Database.getData(Cairo.General.Constants.TASAIMPOSITIVA, Cairo.General.Constants.TI_ID, id, field, rtn, "Data", C_MODULE)) { return null; }
+        if(!Cairo.Database.getData(Cairo.General.Constants.TASA_IMPOSITIVA, Cairo.General.Constants.TI_ID, id, field, rtn, "Data", C_MODULE)) { return null; }
         return rtn;
       };
 
@@ -130,7 +130,7 @@
 
           var doc = new Cairo.DocDigital();
 
-          doc.setClientTable(Cairo.General.Constants.TASAIMPOSITIVA);
+          doc.setClientTable(Cairo.General.Constants.TASA_IMPOSITIVA);
           doc.setClientTableID(m_id);
 
           _rtn = doc.showDocs(Cairo.Database);
@@ -149,7 +149,7 @@
 
           case Dialogs.Message.MSG_DOC_INFO:
 
-            Cairo.Documentation.show("", "", Cairo.Security.Actions.General.NEW_TASAIMPOSITIVA);
+            Cairo.Documentation.show("", "", Cairo.Security.Actions.General.NEW_TASA_IMPOSITIVA);
             _rtn = Dialogs.Message.MSG_DOC_INFO_HANDLED;
             break;
 
@@ -176,7 +176,7 @@
         var fields = register.getFields();
 
         register.setFieldId(Cairo.General.Constants.TI_ID);
-        register.setTable(Cairo.General.Constants.TASAIMPOSITIVA);
+        register.setTable(Cairo.General.Constants.TASA_IMPOSITIVA);
 
         var apiPath = Cairo.Database.getAPIVersion();
         register.setPath(apiPath + "general/tasaimpositiva");
@@ -352,7 +352,7 @@
       };
 
       self.list = function() {
-        return Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.LIST_TASAIMPOSITIVA);
+        return Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.LIST_TASA_IMPOSITIVA);
       };
 
       self.setDialog = function(rhs) {
@@ -369,11 +369,11 @@
 
           if(id === Cairo.Constants.NO_ID) {
             m_isNew = true;
-            if(!Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.NEW_TASAIMPOSITIVA)) { return p; }
+            if(!Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.NEW_TASA_IMPOSITIVA)) { return p; }
           } 
           else {
             m_isNew = false;
-            if(!Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.EDIT_TASAIMPOSITIVA)) { return p; }
+            if(!Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.EDIT_TASA_IMPOSITIVA)) { return p; }
           }
 
           m_dialog.setInModalWindow(inModalWindow);
@@ -700,7 +700,7 @@
           };
 
           self.destroy = function(id, treeId, branchId) {
-            if(!Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.DELETE_TASAIMPOSITIVA)) {
+            if(!Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.DELETE_TASA_IMPOSITIVA)) {
               return Cairo.Promises.resolvedPromise(false);
             }
             var apiPath = Cairo.Database.getAPIVersion();
@@ -722,7 +722,7 @@
 
           // progress message
           //
-          Cairo.LoadingMessage.show("TasaImpositivas", "Loading tasaimpositiva from CrowSoft Cairo server.");
+          Cairo.LoadingMessage.show("Tasa Impositivas", "Loading Tasas Impositivas from CrowSoft Cairo server.");
 
           // create the tree region
           //
@@ -731,7 +731,7 @@
           // create the dialog
           //
           Cairo.Tree.List.Controller.list(
-            Cairo.Tables.TASAIMPOSITIVA,
+            Cairo.Tables.TASA_IMPOSITIVA,
             new Cairo.Tree.List.TreeLayout({ model: self.entityInfo }),
             Cairo.tasaimpositivaTreeRegion,
             self);

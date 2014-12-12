@@ -10,6 +10,7 @@ import play.api.libs.json._
 import models.cairo.modules.general._
 import models.cairo.system.security.CairoSecurity
 import models.cairo.system.database.DBHelper
+import java.util.Date
 
 
 case class ChoferData(
@@ -20,7 +21,7 @@ case class ChoferData(
                        transId: Int,
                        camId: Int,
                        direccion: String,
-                       dni: Long,
+                       dni: Int,
                        fechadenacimiento: Date,
                        telefono: String,
                        descrip: String
@@ -38,7 +39,7 @@ object Choferes extends Controller with ProvidesUser {
       C.CAM_ID -> number,
       C.CHOF_DIRECCION -> text,
       C.CHOF_DNI -> number,
-      C.CHOF_FECHADENACIMIENTO -> number,
+      C.CHOF_FECHADENACIMIENTO -> date,
       C.CHOF_TELEFONO -> text,
       C.CHOF_DESCRIP -> text
     )(ChoferData.apply)(ChoferData.unapply))

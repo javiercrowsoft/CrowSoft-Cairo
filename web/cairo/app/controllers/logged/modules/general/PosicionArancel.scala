@@ -43,15 +43,15 @@ object Posicionarancels extends Controller with ProvidesUser {
       C.POAR_CODE -> Json.toJson(posicionarancel.code),
       DBHelper.ACTIVE -> Json.toJson(posicionarancel.active),
       C.TI_ID_DERECHOS -> Json.toJson(posicionarancel.tiIdDerechos),
-      C.TI_NAME -> Json.toJson(posicionarancel.tiName),
+      C.TI_DERECHOS -> Json.toJson(posicionarancel.tiDerechos),
       C.TI_ID_ESTADISTICA -> Json.toJson(posicionarancel.tiIdEstadistica),
-      C.TI_NAME -> Json.toJson(posicionarancel.tiName),
+      C.TI_ESTADISTICA -> Json.toJson(posicionarancel.tiEstadistica),
       C.POAR_DESCRIP -> Json.toJson(posicionarancel.descrip)
     )
   }
 
   def get(id: Int) = GetAction { implicit request =>
-    LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.LIST_POSICIONARANCEL), { user =>
+    LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.LIST_POSICION_ARANCEL), { user =>
       Ok(Json.toJson(Posicionarancel.get(user, id)))
     })
   }
@@ -65,7 +65,7 @@ object Posicionarancels extends Controller with ProvidesUser {
       },
       posicionarancel => {
         Logger.debug(s"form: ${posicionarancel.toString}")
-        LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.EDIT_POSICIONARANCEL), { user =>
+        LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.EDIT_POSICION_ARANCEL), { user =>
           Ok(
             Json.toJson(
               Posicionarancel.update(user,
@@ -92,7 +92,7 @@ object Posicionarancels extends Controller with ProvidesUser {
       },
       posicionarancel => {
         Logger.debug(s"form: ${posicionarancel.toString}")
-        LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.NEW_POSICIONARANCEL), { user =>
+        LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.NEW_POSICION_ARANCEL), { user =>
           Ok(
             Json.toJson(
               Posicionarancel.create(user,
@@ -111,7 +111,7 @@ object Posicionarancels extends Controller with ProvidesUser {
 
   def delete(id: Int) = PostAction { implicit request =>
     Logger.debug("in posicionarancels.delete")
-    LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.DELETE_POSICIONARANCEL), { user =>
+    LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.DELETE_POSICION_ARANCEL), { user =>
       Posicionarancel.delete(user, id)
       // Backbonejs requires at least an empty json object in the response
       // if not it will call errorHandler even when we responded with 200 OK :P

@@ -640,7 +640,7 @@
 
           // progress message
           //
-          Cairo.LoadingMessage.show("Marcas", "Loading marca from CrowSoft Cairo server.");
+          Cairo.LoadingMessage.show("Marcas", "Loading Marcas from CrowSoft Cairo server.");
 
           // create the tree region
           //

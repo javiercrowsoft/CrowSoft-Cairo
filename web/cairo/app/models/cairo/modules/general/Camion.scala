@@ -20,7 +20,7 @@ case class Camion(
               esSemi: Boolean,
               patente: String,
               patentesemi: String,
-              tara: Long,
+              tara: Int,
               transId: Int,
               transName: String,
               chofId: Int,
@@ -37,7 +37,7 @@ case class Camion(
       esSemi: Boolean,
       patente: String,
       patentesemi: String,
-      tara: Long,
+      tara: Int,
       transId: Int,
       chofId: Int,
       descrip: String) = {
@@ -66,7 +66,7 @@ case class Camion(
       esSemi: Boolean,
       patente: String,
       patentesemi: String,
-      tara: Long,
+      tara: Int,
       transId: Int,
       chofId: Int,
       descrip: String) = {
@@ -107,7 +107,7 @@ object Camion {
       esSemi: Boolean,
       patente: String,
       patentesemi: String,
-      tara: Long,
+      tara: Int,
       transId: Int,
       chofId: Int,
       descrip: String) = {
@@ -131,7 +131,7 @@ object Camion {
       esSemi: Boolean,
       patente: String,
       patentesemi: String,
-      tara: Long,
+      tara: Int,
       transId: Int,
       chofId: Int,
       descrip: String) = {
@@ -155,7 +155,7 @@ object Camion {
       SqlParser.get[Boolean](C.CAM_ES_SEMI) ~
       SqlParser.get[String](C.CAM_PATENTE) ~
       SqlParser.get[String](C.CAM_PATENTESEMI) ~
-      SqlParser.get[Long](C.CAM_TARA) ~
+      SqlParser.get[Int](C.CAM_TARA) ~
       SqlParser.get[Int](C.TRANS_ID) ~
       SqlParser.get[String](C.TRANS_NAME) ~
       SqlParser.get[Int](C.CHOF_ID) ~

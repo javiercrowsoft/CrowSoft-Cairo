@@ -637,7 +637,7 @@
               return Cairo.Promises.resolvedPromise(false);
             }
             var apiPath = Cairo.Database.getAPIVersion();
-            return Cairo.Database.destroy(apiPath + "general/centrodecosto", id, Cairo.Constants.DELETE_FUNCTION, "Centro de Costo").success(
+            return Cairo.Database.destroy(apiPath + "general/centrodecosto", id, Cairo.Constants.DELETE_FUNCTION, "CentroCosto").success(
               function() {
                 try {
                   var key = getKey(id);

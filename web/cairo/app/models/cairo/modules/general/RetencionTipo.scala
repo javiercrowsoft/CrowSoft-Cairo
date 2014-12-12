@@ -22,7 +22,8 @@ case class Retenciontipo(
               codigoSicore: String,
               cueId: Int,
               cueName: String,
-              tipo:               descrip: String,
+              tipo: Int,
+              descrip: String,
               createdAt: Date,
               updatedAt: Date,
               updatedBy: Int) {
@@ -35,7 +36,8 @@ case class Retenciontipo(
       generaSicore: Boolean,
       codigoSicore: String,
       cueId: Int,
-      tipo:       descrip: String) = {
+      tipo: Int,
+      descrip: String) = {
 
     this(
       id,
@@ -60,7 +62,8 @@ case class Retenciontipo(
       generaSicore: Boolean,
       codigoSicore: String,
       cueId: Int,
-      tipo:       descrip: String) = {
+      tipo: Int,
+      descrip: String) = {
 
     this(
       DBHelper.NoId,
@@ -86,6 +89,7 @@ object Retenciontipo {
     false,
     "",
     DBHelper.NoId,
+    0,
     "")
 
   def apply(
@@ -96,7 +100,8 @@ object Retenciontipo {
       generaSicore: Boolean,
       codigoSicore: String,
       cueId: Int,
-      tipo:       descrip: String) = {
+      tipo: Int,
+      descrip: String) = {
 
     new Retenciontipo(
       id,
@@ -117,7 +122,8 @@ object Retenciontipo {
       generaSicore: Boolean,
       codigoSicore: String,
       cueId: Int,
-      tipo:       descrip: String) = {
+      tipo: Int,
+      descrip: String) = {
 
     new Retenciontipo(
       name,
@@ -139,6 +145,7 @@ object Retenciontipo {
       SqlParser.get[String](C.RETT_CODIGO_SICORE) ~
       SqlParser.get[Int](C.CUE_ID) ~
       SqlParser.get[String](C.CUE_NAME) ~
+      SqlParser.get[Int](C.RETT_TIPO) ~
       SqlParser.get[String](C.RETT_DESCRIP) ~
       SqlParser.get[Date](DBHelper.CREATED_AT) ~
       SqlParser.get[Date](DBHelper.UPDATED_AT) ~
@@ -191,6 +198,7 @@ object Retenciontipo {
         Field(C.RETT_GENERA_SICORE, retencionTipo.generaSicore, FieldType.boolean),
         Field(C.RETT_CODIGO_SICORE, retencionTipo.codigoSicore, FieldType.text),
         Field(C.CUE_ID, retencionTipo.cueId, FieldType.id),
+        Field(C.RETT_TIPO, retencionTipo.tipo, FieldType.integer),
         Field(C.RETT_DESCRIP, retencionTipo.descrip, FieldType.text)
       )
     }

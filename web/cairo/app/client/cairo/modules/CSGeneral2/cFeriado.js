@@ -852,7 +852,7 @@
 
           // progress message
           //
-          Cairo.LoadingMessage.show("Feriados", "Loading feriado from CrowSoft Cairo server.");
+          Cairo.LoadingMessage.show("Feriados", "Loading Feriados from CrowSoft Cairo server.");
 
           // create the tree region
           //

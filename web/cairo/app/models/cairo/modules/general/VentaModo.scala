@@ -18,7 +18,8 @@ case class Ventamodo(
               name: String,
               code: String,
               active: Boolean,
-              ctaCte:               pv: Boolean,
+              ctaCte: Int,
+              pv: Boolean,
               os: Boolean,
               cobz: Boolean,
               cmvxi: Boolean,
@@ -34,7 +35,8 @@ case class Ventamodo(
       name: String,
       code: String,
       active: Boolean,
-      ctaCte:       pv: Boolean,
+      ctaCte: Int,
+      pv: Boolean,
       os: Boolean,
       cobz: Boolean,
       cmvxi: Boolean,
@@ -63,7 +65,8 @@ case class Ventamodo(
       name: String,
       code: String,
       active: Boolean,
-      ctaCte:       pv: Boolean,
+      ctaCte: Int,
+      pv: Boolean,
       os: Boolean,
       cobz: Boolean,
       cmvxi: Boolean,
@@ -93,6 +96,7 @@ object Ventamodo {
     "",
     "",
     false,
+    0,
     false,
     false,
     false,
@@ -105,7 +109,8 @@ object Ventamodo {
       name: String,
       code: String,
       active: Boolean,
-      ctaCte:       pv: Boolean,
+      ctaCte: Int,
+      pv: Boolean,
       os: Boolean,
       cobz: Boolean,
       cmvxi: Boolean,
@@ -130,7 +135,8 @@ object Ventamodo {
       name: String,
       code: String,
       active: Boolean,
-      ctaCte:       pv: Boolean,
+      ctaCte: Int,
+      pv: Boolean,
       os: Boolean,
       cobz: Boolean,
       cmvxi: Boolean,
@@ -155,6 +161,7 @@ object Ventamodo {
       SqlParser.get[String](C.VM_NAME) ~
       SqlParser.get[String](C.VM_CODE) ~
       SqlParser.get[Int](DBHelper.ACTIVE) ~
+      SqlParser.get[Int](C.VM_CTA_CTE) ~
       SqlParser.get[Boolean](C.VM_PV) ~
       SqlParser.get[Boolean](C.VM_OS) ~
       SqlParser.get[Boolean](C.VM_COBZ) ~
@@ -214,6 +221,7 @@ object Ventamodo {
         Field(C.VM_NAME, ventamodo.name, FieldType.text),
         Field(C.VM_CODE, ventamodo.code, FieldType.text),
         Field(DBHelper.ACTIVE, (if(ventamodo.active) 1 else 0), FieldType.boolean),
+        Field(C.VM_CTA_CTE, ventamodo.ctaCte, FieldType.integer),
         Field(C.VM_PV, ventamodo.pv, FieldType.boolean),
         Field(C.VM_OS, ventamodo.os, FieldType.boolean),
         Field(C.VM_COBZ, ventamodo.cobz, FieldType.boolean),

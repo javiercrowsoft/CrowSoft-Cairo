@@ -524,9 +524,9 @@
           // ListController properties and methods
           //
           self.entityInfo = new Backbone.Model({
-            entitiesTitle: "Ciudads",
+            entitiesTitle: "Ciudades",
             entityName: "ciudad",
-            entitiesName: "ciudads"
+            entitiesName: "ciudades"
           });
 
           self.showBranch = function(branchId) {
@@ -630,7 +630,7 @@
 
           // progress message
           //
-          Cairo.LoadingMessage.show("Ciudads", "Loading ciudad from CrowSoft Cairo server.");
+          Cairo.LoadingMessage.show("Ciudades", "Loading Ciudades from CrowSoft Cairo server.");
 
           // create the tree region
           //
@@ -656,7 +656,7 @@
 
         // create the tab
         //
-        Cairo.mainTab.showTab("Ciudads", "ciudadTreeRegion", "#general/ciudads", createTreeDialog, closeTreeDialog, showTreeDialog);
+        Cairo.mainTab.showTab("Ciudades", "ciudadTreeRegion", "#general/ciudades", createTreeDialog, closeTreeDialog, showTreeDialog);
 
       }
     };

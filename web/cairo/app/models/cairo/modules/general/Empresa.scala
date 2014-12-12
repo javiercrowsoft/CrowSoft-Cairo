@@ -19,7 +19,8 @@ case class Empresa(
               razonsocial: String,
               cuit: String,
               ingresosbrutos: String,
-              catfiscal:               chequeorden: String,
+              catfiscal: Int,
+              chequeorden: String,
               calle: String,
               callenumero: String,
               piso: String,
@@ -41,7 +42,8 @@ case class Empresa(
       razonsocial: String,
       cuit: String,
       ingresosbrutos: String,
-      catfiscal:       chequeorden: String,
+      catfiscal: Int,
+      chequeorden: String,
       calle: String,
       callenumero: String,
       piso: String,
@@ -83,7 +85,8 @@ case class Empresa(
       razonsocial: String,
       cuit: String,
       ingresosbrutos: String,
-      catfiscal:       chequeorden: String,
+      catfiscal: Int,
+      chequeorden: String,
       calle: String,
       callenumero: String,
       piso: String,
@@ -127,6 +130,7 @@ object Empresa {
     "",
     "",
     "",
+    0,
     "",
     "",
     "",
@@ -146,7 +150,8 @@ object Empresa {
       razonsocial: String,
       cuit: String,
       ingresosbrutos: String,
-      catfiscal:       chequeorden: String,
+      catfiscal: Int,
+      chequeorden: String,
       calle: String,
       callenumero: String,
       piso: String,
@@ -185,7 +190,8 @@ object Empresa {
       razonsocial: String,
       cuit: String,
       ingresosbrutos: String,
-      catfiscal:       chequeorden: String,
+      catfiscal: Int,
+      chequeorden: String,
       calle: String,
       callenumero: String,
       piso: String,
@@ -224,6 +230,7 @@ object Empresa {
       SqlParser.get[String](C.EMP_RAZONSOCIAL) ~
       SqlParser.get[String](C.EMP_CUIT) ~
       SqlParser.get[String](C.EMP_INGRESOSBRUTOS) ~
+      SqlParser.get[Int](C.EMP_CATFISCAL) ~
       SqlParser.get[String](C.EMP_CHEQUEORDEN) ~
       SqlParser.get[String](C.EMP_CALLE) ~
       SqlParser.get[String](C.EMP_CALLENUMERO) ~
@@ -301,6 +308,7 @@ object Empresa {
         Field(C.EMP_RAZONSOCIAL, empresa.razonsocial, FieldType.text),
         Field(C.EMP_CUIT, empresa.cuit, FieldType.text),
         Field(C.EMP_INGRESOSBRUTOS, empresa.ingresosbrutos, FieldType.text),
+        Field(C.EMP_CATFISCAL, empresa.catfiscal, FieldType.integer),
         Field(C.EMP_CHEQUEORDEN, empresa.chequeorden, FieldType.text),
         Field(C.EMP_CALLE, empresa.calle, FieldType.text),
         Field(C.EMP_CALLENUMERO, empresa.callenumero, FieldType.text),
@@ -330,7 +338,7 @@ object Empresa {
         true,
         getFields),
       isNew,
-      C.EMP_CODE
+      ""
     ) match {
       case SaveResult(true, id) => load(user, id).getOrElse(throwException)
       case SaveResult(false, id) => throwException

@@ -19,7 +19,7 @@ case class CamionData(
               esSemi: Boolean,
               patente: String,
               patentesemi: String,
-              tara: Long,
+              tara: Int,
               transId: Int,
               chofId: Int,
               descrip: String

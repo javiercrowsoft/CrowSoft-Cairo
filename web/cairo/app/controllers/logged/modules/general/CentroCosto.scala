@@ -47,7 +47,7 @@ object CentrosCosto extends Controller with ProvidesUser {
       C.CCOS_COMPRA -> Json.toJson(centroCosto.compra),
       C.CCOS_VENTA -> Json.toJson(centroCosto.venta),
       C.CCOS_ID_PADRE -> Json.toJson(centroCosto.idPadre),
-      C.CCOS_NAME -> Json.toJson(centroCosto.ccosName),
+      C.CCOS_PADRE_NAME -> Json.toJson(centroCosto.padreName),
       C.CCOS_DESCRIP -> Json.toJson(centroCosto.descrip)
     )
   }

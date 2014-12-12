@@ -69,7 +69,7 @@ object Clearing {
     "",
     "",
     false,
-    null,
+    0,
     "")
 
   def apply(

@@ -75,8 +75,8 @@ object Leyenda {
   lazy val emptyLeyenda = Leyenda(
     "",
     "",
-    falDBHelper.NoId,
-    "",
+    false,
+    DBHelper.NoId,
     "",
     "")
 
@@ -120,9 +120,9 @@ object Leyenda {
       SqlParser.get[Int](C.LEY_ID) ~
       SqlParser.get[String](C.LEY_NAME) ~
       SqlParser.get[String](C.LEY_CODE) ~
+      SqlParser.get[Int](DBHelper.ACTIVE) ~
       SqlParser.get[Int](C.IDM_ID) ~
       SqlParser.get[String](C.IDM_NAME) ~
-      SqlParser.get[String](C.IDM_ID) ~
       SqlParser.get[String](C.LEY_DESCRIP) ~
       SqlParser.get[String](C.LEYTEXTO) ~
       SqlParser.get[Date](DBHelper.CREATED_AT) ~
@@ -204,7 +204,8 @@ object Leyenda {
     DB.withConnection(user.database.database) { implicit connection =>
       SQL(s"SELECT t1.*, t2.${C.IDM_NAME}" +
         s" FROM ${C.LEYENDA} t1" +
-        s" LEFT JOIN ${C.IDIOMA} t2 ON t1.${C.IDM_ID} = t2.${C.IDM_ID} WHERE $where")
+        s" LEFT JOIN ${C.IDIOMA} t2 ON t1.${C.IDM_ID} = t2.${C.IDM_ID}" +
+        s" WHERE $where")
         .on(args: _*)
         .as(leyendaParser.singleOpt)
     }

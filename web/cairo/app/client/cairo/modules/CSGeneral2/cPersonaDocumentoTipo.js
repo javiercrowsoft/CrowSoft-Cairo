@@ -593,7 +593,7 @@
 
           // progress message
           //
-          Cairo.LoadingMessage.show("PersonaDocumentoTipos", "Loading personadocumentotipo from CrowSoft Cairo server.");
+          Cairo.LoadingMessage.show("Tipos de Documento", "Loading Tipos de Documento from CrowSoft Cairo server.");
 
           // create the tree region
           //

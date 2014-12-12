@@ -631,7 +631,7 @@
 
           // progress message
           //
-          Cairo.LoadingMessage.show("Cobradors", "Loading cobrador from CrowSoft Cairo server.");
+          Cairo.LoadingMessage.show("Cobradors", "Loading Cobradores from CrowSoft Cairo server.");
 
           // create the tree region
           //

@@ -23,7 +23,7 @@ case class Chofer(
               camId: Int,
               camName: String,
               direccion: String,
-              dni: Long,
+              dni: Int,
               fechadenacimiento: Date,
               telefono: String,
               descrip: String,
@@ -39,7 +39,7 @@ case class Chofer(
       transId: Int,
       camId: Int,
       direccion: String,
-      dni: Long,
+      dni: Int,
       fechadenacimiento: Date,
       telefono: String,
       descrip: String) = {
@@ -70,7 +70,7 @@ case class Chofer(
       transId: Int,
       camId: Int,
       direccion: String,
-      dni: Long,
+      dni: Int,
       fechadenacimiento: Date,
       telefono: String,
       descrip: String) = {
@@ -114,7 +114,7 @@ object Chofer {
       transId: Int,
       camId: Int,
       direccion: String,
-      dni: Long,
+      dni: Int,
       fechadenacimiento: Date,
       telefono: String,
       descrip: String) = {
@@ -140,7 +140,7 @@ object Chofer {
       transId: Int,
       camId: Int,
       direccion: String,
-      dni: Long,
+      dni: Int,
       fechadenacimiento: Date,
       telefono: String,
       descrip: String) = {
@@ -168,7 +168,7 @@ object Chofer {
       SqlParser.get[Int](C.CAM_ID) ~
       SqlParser.get[String](C.CAM_NAME) ~
       SqlParser.get[String](C.CHOF_DIRECCION) ~
-      SqlParser.get[Long](C.CHOF_DNI) ~
+      SqlParser.get[Int](C.CHOF_DNI) ~
       SqlParser.get[Date](C.CHOF_FECHADENACIMIENTO) ~
       SqlParser.get[String](C.CHOF_TELEFONO) ~
       SqlParser.get[String](C.CHOF_DESCRIP) ~
