@@ -207,7 +207,10 @@ object Posicionarancel {
 
   def loadWhere(user: CompanyUser, where: String, args : scala.Tuple2[scala.Any, anorm.ParameterValue[_]]*) = {
     DB.withConnection(user.database.database) { implicit connection =>
-      SQL(s"SELECT t1.*, t2.${C.FK_NAME} FROM ${C.POSICIONARANCEL} t1 INNER JOIN ${C.???} t2 ON t1.${C.FK_ID} = t2.${C.FK_ID} WHERE $where")
+      SQL(s"SELECT t1.*, t2.${C.TI_NAME}, t3.${C.TI_NAME}" +
+        s" FROM ${C.POSICIONARANCEL} t1" +
+        s" LEFT JOIN ${C.TASAIMPOSITIVA} t2 ON t1.${C.TI_ID} = t2.${C.TI_ID}" +
+        s" LEFT JOIN ${C.TASAIMPOSITIVA} t3 ON t1.${C.TI_ID} = t2.${C.TI_ID} WHERE $where")
         .on(args: _*)
         .as(posicionarancelParser.singleOpt)
     }

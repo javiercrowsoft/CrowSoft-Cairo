@@ -319,7 +319,10 @@ object Transporte {
 
   def loadWhere(user: CompanyUser, where: String, args : scala.Tuple2[scala.Any, anorm.ParameterValue[_]]*) = {
     DB.withConnection(user.database.database) { implicit connection =>
-      SQL(s"SELECT t1.*, t2.${C.FK_NAME} FROM ${C.TRANSPORTE} t1 INNER JOIN ${C.???} t2 ON t1.${C.FK_ID} = t2.${C.FK_ID} WHERE $where")
+      SQL(s"SELECT t1.*, t2.${C.PRO_NAME}, t3.${C.PROV_NAME}" +
+        s" FROM ${C.TRANSPORTE} t1" +
+        s" LEFT JOIN ${C.PROVINCIA} t2 ON t1.${C.PRO_ID} = t2.${C.PRO_ID}" +
+        s" LEFT JOIN ${C.PROVEEDOR} t3 ON t1.${C.PROV_ID} = t3.${C.PROV_ID} WHERE $where")
         .on(args: _*)
         .as(transporteParser.singleOpt)
     }

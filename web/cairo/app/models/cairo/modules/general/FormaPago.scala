@@ -267,7 +267,7 @@ object Formapago {
 
   def loadWhere(user: CompanyUser, where: String, args : scala.Tuple2[scala.Any, anorm.ParameterValue[_]]*) = {
     DB.withConnection(user.database.database) { implicit connection =>
-      SQL(s"SELECT t1.*, t2.${C.FK_NAME} FROM ${C.FORMAPAGO} t1 INNER JOIN ${C.???} t2 ON t1.${C.FK_ID} = t2.${C.FK_ID} WHERE $where")
+      SQL(s"SELECT t1.* FROM ${C.FORMAPAGO} t1 WHERE $where")
         .on(args: _*)
         .as(formapagoParser.singleOpt)
     }
