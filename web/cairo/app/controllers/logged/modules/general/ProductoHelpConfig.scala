@@ -12,13 +12,12 @@ import models.cairo.system.security.CairoSecurity
 import models.cairo.system.database.DBHelper
 
 
-case class ProductohelpconfigData(
+case class ProductoHelpConfigData(
               id: Option[Int],
               name: String,
               tecla: String,
               valorCode: String,
               atributoIndice: Int,
-Int,
               default: Int,
               defaultSrv: Int,
               defaultPrp: Int,
@@ -26,70 +25,68 @@ Int,
               descrip: String
               )
 
-object Productohelpconfigs extends Controller with ProvidesUser {
+object ProductosHelpConfig extends Controller with ProvidesUser {
 
-  val productohelpconfigForm = Form(
+  val productoHelpConfigForm = Form(
     mapping(
       "id" -> optional(number),
       C.PRHC_NAME -> nonEmptyText,
       C.PRHC_TECLA -> text,
       C.PRHC_VALOR_CODE -> text,
       C.PRHC_ATRIBUTO_INDICE -> number,
-number,
       C.PRHC_DEFAULT -> number,
       C.PRHC_DEFAULT_SRV -> number,
       C.PRHC_DEFAULT_PRP -> number,
       C.PRHC_DEFAULT_PRNS -> number,
       C.PRHC_DESCRIP -> text
-  )(ProductohelpconfigData.apply)(ProductohelpconfigData.unapply))
+  )(ProductoHelpConfigData.apply)(ProductoHelpConfigData.unapply))
 
-  implicit val productohelpconfigWrites = new Writes[Productohelpconfig] {
-    def writes(productohelpconfig: Productohelpconfig) = Json.obj(
-      "id" -> Json.toJson(productohelpconfig.id),
-      C.PRHC_ID -> Json.toJson(productohelpconfig.id),
-      C.PRHC_NAME -> Json.toJson(productohelpconfig.name),
-      C.PRHC_TECLA -> Json.toJson(productohelpconfig.tecla),
-      C.PRHC_VALOR_CODE -> Json.toJson(productohelpconfig.valorCode),
-      C.PRHC_ATRIBUTO_INDICE -> Json.toJson(productohelpconfig.atributoIndice),
-Json.toJson(productohelpconfig.atributoIndice),
-      C.PRHC_DEFAULT -> Json.toJson(productohelpconfig.default),
-      C.PRHC_DEFAULT_SRV -> Json.toJson(productohelpconfig.defaultSrv),
-      C.PRHC_DEFAULT_PRP -> Json.toJson(productohelpconfig.defaultPrp),
-      C.PRHC_DEFAULT_PRNS -> Json.toJson(productohelpconfig.defaultPrns),
-      C.PRHC_DESCRIP -> Json.toJson(productohelpconfig.descrip)
+  implicit val productoHelpConfigWrites = new Writes[ProductoHelpConfig] {
+    def writes(productoHelpConfig: ProductoHelpConfig) = Json.obj(
+      "id" -> Json.toJson(productoHelpConfig.id),
+      C.PRHC_ID -> Json.toJson(productoHelpConfig.id),
+      C.PRHC_NAME -> Json.toJson(productoHelpConfig.name),
+      C.PRHC_TECLA -> Json.toJson(productoHelpConfig.tecla),
+      C.PRHC_VALOR_CODE -> Json.toJson(productoHelpConfig.valorCode),
+      C.PRHC_ATRIBUTO_INDICE -> Json.toJson(productoHelpConfig.atributoIndice),
+      C.PRHC_DEFAULT -> Json.toJson(productoHelpConfig.default),
+      C.PRHC_DEFAULT_SRV -> Json.toJson(productoHelpConfig.defaultSrv),
+      C.PRHC_DEFAULT_PRP -> Json.toJson(productoHelpConfig.defaultPrp),
+      C.PRHC_DEFAULT_PRNS -> Json.toJson(productoHelpConfig.defaultPrns),
+      C.PRHC_DESCRIP -> Json.toJson(productoHelpConfig.descrip)
     )
   }
 
   def get(id: Int) = GetAction { implicit request =>
-    LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.LIST_PRODUCTOHELPCONFIG), { user =>
-      Ok(Json.toJson(Productohelpconfig.get(user, id)))
+    LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.LIST_PRODUCTO_HELP_CONFIG), { user =>
+      Ok(Json.toJson(ProductoHelpConfig.get(user, id)))
     })
   }
 
   def update(id: Int) = PostAction { implicit request =>
-    Logger.debug("in productohelpconfigs.update")
-    productohelpconfigForm.bindFromRequest.fold(
+    Logger.debug("in ProductosHelpConfig.update")
+    productoHelpConfigForm.bindFromRequest.fold(
       formWithErrors => {
         Logger.debug(s"invalid form: ${formWithErrors.toString}")
         BadRequest
       },
-      productohelpconfig => {
-        Logger.debug(s"form: ${productohelpconfig.toString}")
-        LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.EDIT_PRODUCTOHELPCONFIG), { user =>
+      productoHelpConfig => {
+        Logger.debug(s"form: ${productoHelpConfig.toString}")
+        LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.EDIT_PRODUCTO_HELP_CONFIG), { user =>
           Ok(
             Json.toJson(
-              Productohelpconfig.update(user,
-                Productohelpconfig(
+              ProductoHelpConfig.update(user,
+                ProductoHelpConfig(
                        id,
-                       productohelpconfig.name,
-                       productohelpconfig.tecla,
-                       productohelpconfig.valorCode,
-                       productohelpconfig.atributoIndice,
-                       productohelpconfig.default,
-                       productohelpconfig.defaultSrv,
-                       productohelpconfig.defaultPrp,
-                       productohelpconfig.defaultPrns,
-                       productohelpconfig.descrip
+                       productoHelpConfig.name,
+                       productoHelpConfig.tecla,
+                       productoHelpConfig.valorCode,
+                       productoHelpConfig.atributoIndice,
+                       productoHelpConfig.default,
+                       productoHelpConfig.defaultSrv,
+                       productoHelpConfig.defaultPrp,
+                       productoHelpConfig.defaultPrns,
+                       productoHelpConfig.descrip
                 ))))
         })
       }
@@ -97,28 +94,28 @@ Json.toJson(productohelpconfig.atributoIndice),
   }
 
   def create = PostAction { implicit request =>
-    Logger.debug("in productohelpconfigs.create")
-    productohelpconfigForm.bindFromRequest.fold(
+    Logger.debug("in ProductosHelpConfig.create")
+    productoHelpConfigForm.bindFromRequest.fold(
       formWithErrors => {
         Logger.debug(s"invalid form: ${formWithErrors.toString}")
         BadRequest
       },
-      productohelpconfig => {
-        Logger.debug(s"form: ${productohelpconfig.toString}")
-        LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.NEW_PRODUCTOHELPCONFIG), { user =>
+      productoHelpConfig => {
+        Logger.debug(s"form: ${productoHelpConfig.toString}")
+        LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.NEW_PRODUCTO_HELP_CONFIG), { user =>
           Ok(
             Json.toJson(
-              Productohelpconfig.create(user,
-                Productohelpconfig(
-                       productohelpconfig.name,
-                       productohelpconfig.tecla,
-                       productohelpconfig.valorCode,
-                       productohelpconfig.atributoIndice,
-                       productohelpconfig.default,
-                       productohelpconfig.defaultSrv,
-                       productohelpconfig.defaultPrp,
-                       productohelpconfig.defaultPrns,
-                       productohelpconfig.descrip
+              ProductoHelpConfig.create(user,
+                ProductoHelpConfig(
+                       productoHelpConfig.name,
+                       productoHelpConfig.tecla,
+                       productoHelpConfig.valorCode,
+                       productoHelpConfig.atributoIndice,
+                       productoHelpConfig.default,
+                       productoHelpConfig.defaultSrv,
+                       productoHelpConfig.defaultPrp,
+                       productoHelpConfig.defaultPrns,
+                       productoHelpConfig.descrip
                 ))))
         })
       }
@@ -126,9 +123,9 @@ Json.toJson(productohelpconfig.atributoIndice),
   }
 
   def delete(id: Int) = PostAction { implicit request =>
-    Logger.debug("in productohelpconfigs.delete")
-    LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.DELETE_PRODUCTOHELPCONFIG), { user =>
-      Productohelpconfig.delete(user, id)
+    Logger.debug("in ProductosHelpConfig.delete")
+    LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.DELETE_PRODUCTO_HELP_CONFIG), { user =>
+      ProductoHelpConfig.delete(user, id)
       // Backbonejs requires at least an empty json object in the response
       // if not it will call errorHandler even when we responded with 200 OK :P
       Ok(JsonUtil.emptyJson)

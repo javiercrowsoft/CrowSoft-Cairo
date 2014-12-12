@@ -61,7 +61,7 @@ object Bancos extends Controller with ProvidesUser {
   }
 
   def update(id: Int) = PostAction { implicit request =>
-    Logger.debug("in bancos.update")
+    Logger.debug("in Bancos.update")
     bancoForm.bindFromRequest.fold(
       formWithErrors => {
         Logger.debug(s"invalid form: ${formWithErrors.toString}")
@@ -90,7 +90,7 @@ object Bancos extends Controller with ProvidesUser {
   }
 
   def create = PostAction { implicit request =>
-    Logger.debug("in bancos.create")
+    Logger.debug("in Bancos.create")
     bancoForm.bindFromRequest.fold(
       formWithErrors => {
         Logger.debug(s"invalid form: ${formWithErrors.toString}")
@@ -118,7 +118,7 @@ object Bancos extends Controller with ProvidesUser {
   }
 
   def delete(id: Int) = PostAction { implicit request =>
-    Logger.debug("in bancos.delete")
+    Logger.debug("in Bancos.delete")
     LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.DELETE_BANCO), { user =>
       Banco.delete(user, id)
       // Backbonejs requires at least an empty json object in the response

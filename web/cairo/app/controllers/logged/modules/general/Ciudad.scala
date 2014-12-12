@@ -53,7 +53,7 @@ object Ciudads extends Controller with ProvidesUser {
   }
 
   def update(id: Int) = PostAction { implicit request =>
-    Logger.debug("in ciudads.update")
+    Logger.debug("in Ciudades.update")
     ciudadForm.bindFromRequest.fold(
       formWithErrors => {
         Logger.debug(s"invalid form: ${formWithErrors.toString}")
@@ -79,7 +79,7 @@ object Ciudads extends Controller with ProvidesUser {
   }
 
   def create = PostAction { implicit request =>
-    Logger.debug("in ciudads.create")
+    Logger.debug("in Ciudades.create")
     ciudadForm.bindFromRequest.fold(
       formWithErrors => {
         Logger.debug(s"invalid form: ${formWithErrors.toString}")
@@ -104,7 +104,7 @@ object Ciudads extends Controller with ProvidesUser {
   }
 
   def delete(id: Int) = PostAction { implicit request =>
-    Logger.debug("in ciudads.delete")
+    Logger.debug("in Ciudades.delete")
     LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.DELETE_CIUDAD), { user =>
       Ciudad.delete(user, id)
       // Backbonejs requires at least an empty json object in the response

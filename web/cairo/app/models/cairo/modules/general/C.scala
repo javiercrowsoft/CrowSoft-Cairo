@@ -1006,7 +1006,7 @@ object C {
   val AJII_INDICE = "ajii_indice"
 
   // ProductoHelpConfig
-  val PRODUCTOHELPCONFIG = "ProductoHelpConfig"
+  val PRODUCTO_HELP_CONFIG = "ProductoHelpConfig"
   val PRHC_ID = "prhc_id"
   val PRHC_NAME = "prhc_nombre"
   val PRHC_TECLA = "prhc_tecla"
@@ -1385,10 +1385,10 @@ object S {
 
   val EDIT_AJUSTEINFLACIONINDICE = 1255
 
-  val NEW_PRODUCTOHELPCONFIG = 1256
-  val EDIT_PRODUCTOHELPCONFIG = 1257
-  val DELETE_PRODUCTOHELPCONFIG = 1258
-  val LIST_PRODUCTOHELPCONFIG = 1259
+  val NEW_PRODUCTO_HELP_CONFIG = 1256
+  val EDIT_PRODUCTO_HELP_CONFIG = 1257
+  val DELETE_PRODUCTO_HELP_CONFIG = 1258
+  val LIST_PRODUCTO_HELP_CONFIG = 1259
 
   val NEW_CALLE = 1260
   val EDIT_CALLE = 1261

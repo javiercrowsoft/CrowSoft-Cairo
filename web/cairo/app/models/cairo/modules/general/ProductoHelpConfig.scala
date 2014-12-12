@@ -13,13 +13,12 @@ import play.api.Logger
 import play.api.libs.json._
 import scala.util.control.NonFatal
 
-case class Productohelpconfig(
+case class ProductoHelpConfig(
               id: Int,
               name: String,
               tecla: String,
               valorCode: String,
               atributoIndice: Int,
-Int,
               default: Int,
               defaultSrv: Int,
               defaultPrp: Int,
@@ -35,7 +34,6 @@ Int,
       tecla: String,
       valorCode: String,
       atributoIndice: Int,
-Int,
       default: Int,
       defaultSrv: Int,
       defaultPrp: Int,
@@ -63,7 +61,6 @@ Int,
       tecla: String,
       valorCode: String,
       atributoIndice: Int,
-Int,
       default: Int,
       defaultSrv: Int,
       defaultPrp: Int,
@@ -86,9 +83,9 @@ Int,
 
 }
 
-object Productohelpconfig {
+object ProductoHelpConfig {
 
-  lazy val emptyProductohelpconfig = Productohelpconfig(
+  lazy val emptyProductoHelpConfig = ProductoHelpConfig(
     "",
     "",
     "",
@@ -106,14 +103,13 @@ object Productohelpconfig {
       tecla: String,
       valorCode: String,
       atributoIndice: Int,
-Int,
       default: Int,
       defaultSrv: Int,
       defaultPrp: Int,
       defaultPrns: Int,
       descrip: String) = {
 
-    new Productohelpconfig(
+    new ProductoHelpConfig(
       id,
       name,
       tecla,
@@ -131,14 +127,13 @@ Int,
       tecla: String,
       valorCode: String,
       atributoIndice: Int,
-Int,
       default: Int,
       defaultSrv: Int,
       defaultPrp: Int,
       defaultPrns: Int,
       descrip: String) = {
 
-    new Productohelpconfig(
+    new ProductoHelpConfig(
       name,
       tecla,
       valorCode,
@@ -150,12 +145,11 @@ Int,
       descrip)
   }
 
-  private val productohelpconfigParser: RowParser[Productohelpconfig] = {
+  private val productoHelpConfigParser: RowParser[ProductoHelpConfig] = {
       SqlParser.get[Int](C.PRHC_ID) ~
       SqlParser.get[String](C.PRHC_NAME) ~
       SqlParser.get[String](C.PRHC_TECLA) ~
       SqlParser.get[String](C.PRHC_VALOR_CODE) ~
-      SqlParser.get[Int](C.PRHC_ATRIBUTO_INDICE) ~
       SqlParser.get[Int](C.PRHC_ATRIBUTO_INDICE) ~
       SqlParser.get[Int](C.PRHC_DEFAULT) ~
       SqlParser.get[Int](C.PRHC_DEFAULT_SRV) ~
@@ -179,7 +173,7 @@ Int,
               createdAt ~
               updatedAt ~
               updatedBy =>
-        Productohelpconfig(
+        ProductoHelpConfig(
               id,
               name,
               tecla,
@@ -196,39 +190,38 @@ Int,
     }
   }
 
-  def create(user: CompanyUser, productohelpconfig: Productohelpconfig): Productohelpconfig = {
-    save(user, productohelpconfig, true)
+  def create(user: CompanyUser, productoHelpConfig: ProductoHelpConfig): ProductoHelpConfig = {
+    save(user, productoHelpConfig, true)
   }
 
-  def update(user: CompanyUser, productohelpconfig: Productohelpconfig): Productohelpconfig = {
-    save(user, productohelpconfig, false)
+  def update(user: CompanyUser, productoHelpConfig: ProductoHelpConfig): ProductoHelpConfig = {
+    save(user, productoHelpConfig, false)
   }
 
-  private def save(user: CompanyUser, productohelpconfig: Productohelpconfig, isNew: Boolean): Productohelpconfig = {
+  private def save(user: CompanyUser, productoHelpConfig: ProductoHelpConfig, isNew: Boolean): ProductoHelpConfig = {
     def getFields = {
       List(
-        Field(C.PRHC_NAME, productohelpconfig.name, FieldType.text),
-        Field(C.PRHC_TECLA, productohelpconfig.tecla, FieldType.text),
-        Field(C.PRHC_VALOR_CODE, productohelpconfig.valorCode, FieldType.text),
-        Field(C.PRHC_ATRIBUTO_INDICE, productohelpconfig.atributoIndice, FieldType.number),
-        Field(C.PRHC_ATRIBUTO_INDICE, productohelpconfig.atributoIndice, FieldType.number),
-        Field(C.PRHC_DEFAULT, productohelpconfig.default, FieldType.number),
-        Field(C.PRHC_DEFAULT_SRV, productohelpconfig.defaultSrv, FieldType.number),
-        Field(C.PRHC_DEFAULT_PRP, productohelpconfig.defaultPrp, FieldType.number),
-        Field(C.PRHC_DEFAULT_PRNS, productohelpconfig.defaultPrns, FieldType.number),
-        Field(C.PRHC_DESCRIP, productohelpconfig.descrip, FieldType.text)
+        Field(C.PRHC_NAME, productoHelpConfig.name, FieldType.text),
+        Field(C.PRHC_TECLA, productoHelpConfig.tecla, FieldType.text),
+        Field(C.PRHC_VALOR_CODE, productoHelpConfig.valorCode, FieldType.text),
+        Field(C.PRHC_ATRIBUTO_INDICE, productoHelpConfig.atributoIndice, FieldType.number),
+        Field(C.PRHC_DEFAULT, productoHelpConfig.default, FieldType.number),
+        Field(C.PRHC_DEFAULT_SRV, productoHelpConfig.defaultSrv, FieldType.number),
+        Field(C.PRHC_DEFAULT_PRP, productoHelpConfig.defaultPrp, FieldType.number),
+        Field(C.PRHC_DEFAULT_PRNS, productoHelpConfig.defaultPrns, FieldType.number),
+        Field(C.PRHC_DESCRIP, productoHelpConfig.descrip, FieldType.text)
       )
     }
     def throwException = {
-      throw new RuntimeException(s"Error when saving ${C.PRODUCTOHELPCONFIG}")
+      throw new RuntimeException(s"Error when saving ${C.PRODUCTO_HELP_CONFIG}")
     }
 
     DBHelper.saveEx(
       user,
       Register(
-        C.PRODUCTOHELPCONFIG,
+        C.PRODUCTO_HELP_CONFIG,
         C.PRHC_ID,
-        productohelpconfig.id,
+        productoHelpConfig.id,
         false,
         true,
         true,
@@ -241,37 +234,37 @@ Int,
     }
   }
 
-  def load(user: CompanyUser, id: Int): Option[Productohelpconfig] = {
+  def load(user: CompanyUser, id: Int): Option[ProductoHelpConfig] = {
     loadWhere(user, s"${C.PRHC_ID} = {id}", 'id -> id)
   }
 
   def loadWhere(user: CompanyUser, where: String, args : scala.Tuple2[scala.Any, anorm.ParameterValue[_]]*) = {
     DB.withConnection(user.database.database) { implicit connection =>
-      SQL(s"SELECT t1.*, FROM ${C.PRODUCTOHELPCONFIG} t1 WHERE $where")
+      SQL(s"SELECT t1.*, FROM ${C.PRODUCTO_HELP_CONFIG} t1 WHERE $where")
         .on(args: _*)
-        .as(productohelpconfigParser.singleOpt)
+        .as(productoHelpConfigParser.singleOpt)
     }
   }
 
   def delete(user: CompanyUser, id: Int) = {
     DB.withConnection(user.database.database) { implicit connection =>
       try {
-        SQL(s"DELETE FROM ${C.PRODUCTOHELPCONFIG} WHERE ${C.PRHC_ID} = {id}")
+        SQL(s"DELETE FROM ${C.PRODUCTO_HELP_CONFIG} WHERE ${C.PRHC_ID} = {id}")
         .on('id -> id)
         .executeUpdate
       } catch {
         case NonFatal(e) => {
-          Logger.error(s"can't delete a ${C.PRODUCTOHELPCONFIG}. ${C.PRHC_ID} id: $id. Error ${e.toString}")
+          Logger.error(s"can't delete a ${C.PRODUCTO_HELP_CONFIG}. ${C.PRHC_ID} id: $id. Error ${e.toString}")
           throw e
         }
       }
     }
   }
 
-  def get(user: CompanyUser, id: Int): Productohelpconfig = {
+  def get(user: CompanyUser, id: Int): ProductoHelpConfig = {
     load(user, id) match {
       case Some(p) => p
-      case None => emptyProductohelpconfig
+      case None => emptyProductoHelpConfig
     }
   }
 }

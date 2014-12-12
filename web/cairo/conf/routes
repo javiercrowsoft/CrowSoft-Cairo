@@ -218,10 +218,10 @@ POST    /api/v1/general/posicionarancel                  controllers.logged.modu
 PUT     /api/v1/general/posicionarancel/:id              controllers.logged.modules.general.Posicionarancels.update(id: Int)
 DELETE  /api/v1/general/posicionarancel/:id              controllers.logged.modules.general.Posicionarancels.delete(id: Int)
 
-GET     /api/v1/general/productohelpconfig/:id              controllers.logged.modules.general.Productohelpconfigs.get(id: Int)
-POST    /api/v1/general/productohelpconfig                  controllers.logged.modules.general.Productohelpconfigs.create
-PUT     /api/v1/general/productohelpconfig/:id              controllers.logged.modules.general.Productohelpconfigs.update(id: Int)
-DELETE  /api/v1/general/productohelpconfig/:id              controllers.logged.modules.general.Productohelpconfigs.delete(id: Int)
+GET     /api/v1/general/productohelpconfig/:id              controllers.logged.modules.general.ProductosHelpConfig.get(id: Int)
+POST    /api/v1/general/productohelpconfig                  controllers.logged.modules.general.ProductosHelpConfig.create
+PUT     /api/v1/general/productohelpconfig/:id              controllers.logged.modules.general.ProductosHelpConfig.update(id: Int)
+DELETE  /api/v1/general/productohelpconfig/:id              controllers.logged.modules.general.ProductosHelpConfig.delete(id: Int)
 
 GET     /api/v1/general/productokititema/:id              controllers.logged.modules.general.Productokititemas.get(id: Int)
 POST    /api/v1/general/productokititema                  controllers.logged.modules.general.Productokititemas.create

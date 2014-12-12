@@ -52,6 +52,10 @@
       return p;
     },
 
+    save: function(register, isNew, functionName, module, title) {
+      return this.saveEx(register, isNew, codeField, functionName, module, title);
+    },
+
     execute: function() { /* TODO: implement this. */ },
 
     destroy: function(path, id, module, functionName) {
