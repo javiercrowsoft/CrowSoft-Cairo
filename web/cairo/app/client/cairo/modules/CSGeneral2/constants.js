@@ -165,7 +165,7 @@
       LEYTEXTO: "ley_texto",
 
       // CentroCosto
-      CENTROCOSTO: "CentroCosto",
+      CENTRO_COSTO: "CentroCosto",
       CCOS_ID: "ccos_id",
       CCOS_NAME: "ccos_nombre",
       CCOS_CODE: "ccos_codigo",
@@ -445,7 +445,7 @@
       DPTO_PROV_ID: "dptoprov_id",
 
       // ProveedorCentroCosto
-      PROVEEDORCENTROCOSTO: "ProveedorCentroCosto",
+      PROVEEDORCENTRO_COSTO: "ProveedorCentroCosto",
       PROV_CCOS_ID: "provccos_id",
 
       // DepartamentoCliente
@@ -1186,10 +1186,10 @@
     DELETE_LEYENDA: 1050,
     LIST_LEYENDA: 1051,
 
-    NEW_CENTROCOSTO: 1052,
-    EDIT_CENTROCOSTO: 1053,
-    DELETE_CENTROCOSTO: 1054,
-    LIST_CENTROCOSTO: 1055,
+    NEW_CENTRO_COSTO: 1052,
+    EDIT_CENTRO_COSTO: 1053,
+    DELETE_CENTRO_COSTO: 1054,
+    LIST_CENTRO_COSTO: 1055,
 
     NEW_COBRADOR: 1056,
     EDIT_COBRADOR: 1057,

@@ -25,7 +25,7 @@ case class CamionData(
               descrip: String
               )
 
-object Camions extends Controller with ProvidesUser {
+object Camiones extends Controller with ProvidesUser {
 
   val camionForm = Form(
     mapping(

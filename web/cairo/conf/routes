@@ -103,25 +103,25 @@ POST    /api/v1/general/banco                  controllers.logged.modules.genera
 PUT     /api/v1/general/banco/:id              controllers.logged.modules.general.Bancos.update(id: Int)
 DELETE  /api/v1/general/banco/:id              controllers.logged.modules.general.Bancos.delete(id: Int)
 
-GET     /api/v1/general/chofer/:id              controllers.logged.modules.general.Chofers.get(id: Int)
-POST    /api/v1/general/chofer                  controllers.logged.modules.general.Chofers.create
-PUT     /api/v1/general/chofer/:id              controllers.logged.modules.general.Chofers.update(id: Int)
-DELETE  /api/v1/general/chofer/:id              controllers.logged.modules.general.Chofers.delete(id: Int)
+GET     /api/v1/general/chofer/:id              controllers.logged.modules.general.Choferes.get(id: Int)
+POST    /api/v1/general/chofer                  controllers.logged.modules.general.Choferes.create
+PUT     /api/v1/general/chofer/:id              controllers.logged.modules.general.Choferes.update(id: Int)
+DELETE  /api/v1/general/chofer/:id              controllers.logged.modules.general.Choferes.delete(id: Int)
 
-GET     /api/v1/general/calidad/:id              controllers.logged.modules.general.Calidads.get(id: Int)
-POST    /api/v1/general/calidad                  controllers.logged.modules.general.Calidads.create
-PUT     /api/v1/general/calidad/:id              controllers.logged.modules.general.Calidads.update(id: Int)
-DELETE  /api/v1/general/calidad/:id              controllers.logged.modules.general.Calidads.delete(id: Int)
+GET     /api/v1/general/calidad/:id              controllers.logged.modules.general.Calidades.get(id: Int)
+POST    /api/v1/general/calidad                  controllers.logged.modules.general.Calidades.create
+PUT     /api/v1/general/calidad/:id              controllers.logged.modules.general.Calidades.update(id: Int)
+DELETE  /api/v1/general/calidad/:id              controllers.logged.modules.general.Calidades.delete(id: Int)
 
-GET     /api/v1/general/camion/:id              controllers.logged.modules.general.Camions.get(id: Int)
-POST    /api/v1/general/camion                  controllers.logged.modules.general.Camions.create
-PUT     /api/v1/general/camion/:id              controllers.logged.modules.general.Camions.update(id: Int)
-DELETE  /api/v1/general/camion/:id              controllers.logged.modules.general.Camions.delete(id: Int)
+GET     /api/v1/general/camion/:id              controllers.logged.modules.general.Camiones.get(id: Int)
+POST    /api/v1/general/camion                  controllers.logged.modules.general.Camiones.create
+PUT     /api/v1/general/camion/:id              controllers.logged.modules.general.Camiones.update(id: Int)
+DELETE  /api/v1/general/camion/:id              controllers.logged.modules.general.Camiones.delete(id: Int)
 
-GET     /api/v1/general/centrocosto/:id              controllers.logged.modules.general.Centrocostos.get(id: Int)
-POST    /api/v1/general/centrocosto                  controllers.logged.modules.general.Centrocostos.create
-PUT     /api/v1/general/centrocosto/:id              controllers.logged.modules.general.Centrocostos.update(id: Int)
-DELETE  /api/v1/general/centrocosto/:id              controllers.logged.modules.general.Centrocostos.delete(id: Int)
+GET     /api/v1/general/centrodecosto/:id              controllers.logged.modules.general.CentrosCosto.get(id: Int)
+POST    /api/v1/general/centrodecosto                  controllers.logged.modules.general.CentrosCosto.create
+PUT     /api/v1/general/centrodecosto/:id              controllers.logged.modules.general.CentrosCosto.update(id: Int)
+DELETE  /api/v1/general/centrodecosto/:id              controllers.logged.modules.general.CentrosCosto.delete(id: Int)
 
 GET     /api/v1/general/circuitocontable/:id              controllers.logged.modules.general.Circuitocontables.get(id: Int)
 POST    /api/v1/general/circuitocontable                  controllers.logged.modules.general.Circuitocontables.create

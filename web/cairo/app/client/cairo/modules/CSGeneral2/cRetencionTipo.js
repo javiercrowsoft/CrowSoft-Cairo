@@ -624,9 +624,9 @@
           // ListController properties and methods
           //
           self.entityInfo = new Backbone.Model({
-            entitiesTitle: "Retenciones Tipo",
-            entityName: "retenciontipo",
-            entitiesName: "retencionestipo"
+            entitiesTitle: "Tipos de Retencion",
+            entityName: "tipo de retencion",
+            entitiesName: "tipos de retencion"
           });
 
           self.showBranch = function(branchId) {

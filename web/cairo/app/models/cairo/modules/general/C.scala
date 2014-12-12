@@ -162,7 +162,7 @@ object C {
   val LEYTEXTO = "ley_texto"
 
   // CentroCosto
-  val CENTROCOSTO = "CentroCosto"
+  val CENTRO_COSTO = "CentroCosto"
   val CCOS_ID = "ccos_id"
   val CCOS_NAME = "ccos_nombre"
   val CCOS_CODE = "ccos_codigo"
@@ -442,7 +442,7 @@ object C {
   val DPTO_PROV_ID = "dptoprov_id"
 
   // ProveedorCentroCosto
-  val PROVEEDORCENTROCOSTO = "ProveedorCentroCosto"
+  val PROVEEDORCENTRO_COSTO = "ProveedorCentroCosto"
   val PROV_CCOS_ID = "provccos_id"
 
   // DepartamentoCliente
@@ -1166,10 +1166,10 @@ object S {
   val DELETE_LEYENDA = 1050
   val LIST_LEYENDA = 1051
 
-  val NEW_CENTROCOSTO = 1052
-  val EDIT_CENTROCOSTO = 1053
-  val DELETE_CENTROCOSTO = 1054
-  val LIST_CENTROCOSTO = 1055
+  val NEW_CENTRO_COSTO = 1052
+  val EDIT_CENTRO_COSTO = 1053
+  val DELETE_CENTRO_COSTO = 1054
+  val LIST_CENTRO_COSTO = 1055
 
   val NEW_COBRADOR = 1056
   val EDIT_COBRADOR = 1057

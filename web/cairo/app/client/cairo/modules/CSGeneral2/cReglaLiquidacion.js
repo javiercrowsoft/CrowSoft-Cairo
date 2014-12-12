@@ -481,8 +481,8 @@
           //
           self.entityInfo = new Backbone.Model({
             entitiesTitle: "Reglas de Liquidacion",
-            entityName: "reglaliquidacion",
-            entitiesName: "reglasliquidacion"
+            entityName: "regla de liquidacion",
+            entitiesName: "reglas de liquidacion"
           });
 
           self.showBranch = function(branchId) {

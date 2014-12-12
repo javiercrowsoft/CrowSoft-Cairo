@@ -488,9 +488,9 @@
           // ListController properties and methods
           //
           self.entityInfo = new Backbone.Model({
-            entitiesTitle: "Calidads",
+            entitiesTitle: "Calidades",
             entityName: "calidad",
-            entitiesName: "calidads"
+            entitiesName: "calidades"
           });
 
           self.showBranch = function(branchId) {
@@ -594,7 +594,7 @@
 
           // progress message
           //
-          Cairo.LoadingMessage.show("Calidads", "Loading calidad from CrowSoft Cairo server.");
+          Cairo.LoadingMessage.show("Calidades", "Loading Calidades from CrowSoft Cairo server.");
 
           // create the tree region
           //
@@ -620,7 +620,7 @@
 
         // create the tab
         //
-        Cairo.mainTab.showTab("Calidads", "calidadTreeRegion", "#general/calidads", createTreeDialog, closeTreeDialog, showTreeDialog);
+        Cairo.mainTab.showTab("Calidades", "calidadTreeRegion", "#general/calidades", createTreeDialog, closeTreeDialog, showTreeDialog);
 
       }
     };

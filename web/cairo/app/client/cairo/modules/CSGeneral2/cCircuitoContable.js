@@ -488,8 +488,8 @@
           //
           self.entityInfo = new Backbone.Model({
             entitiesTitle: "CircuitoContables",
-            entityName: "circuitocontable",
-            entitiesName: "circuitocontables"
+            entityName: "circuito contable",
+            entitiesName: "circuitos contables"
           });
 
           self.showBranch = function(branchId) {

@@ -1909,7 +1909,7 @@
 
         var elem = properties.add(null, Constants.CCOS_ID_COMPRA);
         elem.setType(Dialogs.PropertyType.select);
-        elem.setSelectTable(Cairo.Tables.CENTROCOSTO);
+        elem.setSelectTable(Cairo.Tables.CENTRO_COSTO);
         elem.setTabIndex(tab_compra);
         elem.setName(Cairo.Language.getText(1057, "")); // Centro de Costo
         elem.setKey(K_CCOS_ID_COMPRA);
@@ -2166,7 +2166,7 @@
 
         var elem = properties.add(null, Constants.CCOS_ID_VENTA);
         elem.setType(Dialogs.PropertyType.select);
-        elem.setSelectTable(Cairo.Tables.CENTROCOSTO);
+        elem.setSelectTable(Cairo.Tables.CENTRO_COSTO);
         elem.setTabIndex(tab_venta);
         elem.setName(Cairo.Language.getText(1057, "")); // Centro de Costo
         elem.setKey(K_CCOS_ID_VENTA);

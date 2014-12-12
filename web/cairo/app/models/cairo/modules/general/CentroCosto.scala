@@ -13,7 +13,7 @@ import play.api.Logger
 import play.api.libs.json._
 import scala.util.control.NonFatal
 
-case class Centrocosto(
+case class CentroCosto(
               id: Int,
               name: String,
               code: String,
@@ -75,9 +75,9 @@ case class Centrocosto(
 
 }
 
-object Centrocosto {
+object CentroCosto {
 
-  lazy val emptyCentrocosto = Centrocosto(
+  lazy val emptyCentroCosto = CentroCosto(
     "",
     "",
     false,
@@ -96,7 +96,7 @@ object Centrocosto {
       idPadre: Int,
       descrip: String) = {
 
-    new Centrocosto(
+    new CentroCosto(
       id,
       name,
       code,
@@ -116,7 +116,7 @@ object Centrocosto {
       idPadre: Int,
       descrip: String) = {
 
-    new Centrocosto(
+    new CentroCosto(
       name,
       code,
       active,
@@ -126,7 +126,7 @@ object Centrocosto {
       descrip)
   }
 
-  private val centrocostoParser: RowParser[Centrocosto] = {
+  private val centroCostoParser: RowParser[CentroCosto] = {
       SqlParser.get[Int](C.CCOS_ID) ~
       SqlParser.get[String](C.CCOS_NAME) ~
       SqlParser.get[String](C.CCOS_CODE) ~
@@ -152,7 +152,7 @@ object Centrocosto {
               createdAt ~
               updatedAt ~
               updatedBy =>
-        Centrocosto(
+        CentroCosto(
               id,
               name,
               code,
@@ -168,36 +168,36 @@ object Centrocosto {
     }
   }
 
-  def create(user: CompanyUser, centrocosto: Centrocosto): Centrocosto = {
-    save(user, centrocosto, true)
+  def create(user: CompanyUser, centroCosto: CentroCosto): CentroCosto = {
+    save(user, centroCosto, true)
   }
 
-  def update(user: CompanyUser, centrocosto: Centrocosto): Centrocosto = {
-    save(user, centrocosto, false)
+  def update(user: CompanyUser, centroCosto: CentroCosto): CentroCosto = {
+    save(user, centroCosto, false)
   }
 
-  private def save(user: CompanyUser, centrocosto: Centrocosto, isNew: Boolean): Centrocosto = {
+  private def save(user: CompanyUser, centroCosto: CentroCosto, isNew: Boolean): CentroCosto = {
     def getFields = {
       List(
-        Field(C.CCOS_NAME, centrocosto.name, FieldType.text),
-        Field(C.CCOS_CODE, centrocosto.code, FieldType.text),
-        Field(DBHelper.ACTIVE, (if(centrocosto.active) 1 else 0), FieldType.boolean),
-        Field(C.CCOS_COMPRA, centrocosto.compra, FieldType.number),
-        Field(C.CCOS_VENTA, centrocosto.venta, FieldType.number),
-        Field(C.CCOS_ID_PADRE, centrocosto.idPadre, FieldType.id),
-        Field(C.CCOS_DESCRIP, centrocosto.descrip, FieldType.text)
+        Field(C.CCOS_NAME, centroCosto.name, FieldType.text),
+        Field(C.CCOS_CODE, centroCosto.code, FieldType.text),
+        Field(DBHelper.ACTIVE, (if(centroCosto.active) 1 else 0), FieldType.boolean),
+        Field(C.CCOS_COMPRA, centroCosto.compra, FieldType.number),
+        Field(C.CCOS_VENTA, centroCosto.venta, FieldType.number),
+        Field(C.CCOS_ID_PADRE, centroCosto.idPadre, FieldType.id),
+        Field(C.CCOS_DESCRIP, centroCosto.descrip, FieldType.text)
       )
     }
     def throwException = {
-      throw new RuntimeException(s"Error when saving ${C.CENTROCOSTO}")
+      throw new RuntimeException(s"Error when saving ${C.CENTRO_COSTO}")
     }
 
     DBHelper.saveEx(
       user,
       Register(
-        C.CENTROCOSTO,
+        C.CENTRO_COSTO,
         C.CCOS_ID,
-        centrocosto.id,
+        centroCosto.id,
         false,
         true,
         true,
@@ -210,37 +210,37 @@ object Centrocosto {
     }
   }
 
-  def load(user: CompanyUser, id: Int): Option[Centrocosto] = {
+  def load(user: CompanyUser, id: Int): Option[CentroCosto] = {
     loadWhere(user, s"${C.CCOS_ID} = {id}", 'id -> id)
   }
 
   def loadWhere(user: CompanyUser, where: String, args : scala.Tuple2[scala.Any, anorm.ParameterValue[_]]*) = {
     DB.withConnection(user.database.database) { implicit connection =>
-      SQL(s"SELECT t1.*, t2.${C.FK_NAME} FROM ${C.CENTROCOSTO} t1 LEFT JOIN ${C.???} t2 ON t1.${C.FK_ID} = t2.${C.FK_ID} WHERE $where")
+      SQL(s"SELECT t1.*, t2.${C.FK_NAME} FROM ${C.CENTRO_COSTO} t1 LEFT JOIN ${C.???} t2 ON t1.${C.FK_ID} = t2.${C.FK_ID} WHERE $where")
         .on(args: _*)
-        .as(centrocostoParser.singleOpt)
+        .as(centroCostoParser.singleOpt)
     }
   }
 
   def delete(user: CompanyUser, id: Int) = {
     DB.withConnection(user.database.database) { implicit connection =>
       try {
-        SQL(s"DELETE FROM ${C.CENTROCOSTO} WHERE ${C.CCOS_ID} = {id}")
+        SQL(s"DELETE FROM ${C.CENTRO_COSTO} WHERE ${C.CCOS_ID} = {id}")
         .on('id -> id)
         .executeUpdate
       } catch {
         case NonFatal(e) => {
-          Logger.error(s"can't delete a ${C.CENTROCOSTO}. ${C.CCOS_ID} id: $id. Error ${e.toString}")
+          Logger.error(s"can't delete a ${C.CENTRO_COSTO}. ${C.CCOS_ID} id: $id. Error ${e.toString}")
           throw e
         }
       }
     }
   }
 
-  def get(user: CompanyUser, id: Int): Centrocosto = {
+  def get(user: CompanyUser, id: Int): CentroCosto = {
     load(user, id) match {
       case Some(p) => p
-      case None => emptyCentrocosto
+      case None => emptyCentroCosto
     }
   }
 }

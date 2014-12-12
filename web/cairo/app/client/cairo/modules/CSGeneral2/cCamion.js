@@ -598,9 +598,9 @@
           // ListController properties and methods
           //
           self.entityInfo = new Backbone.Model({
-            entitiesTitle: "Camions",
+            entitiesTitle: "Camiones",
             entityName: "camion",
-            entitiesName: "camions"
+            entitiesName: "camiones"
           });
 
           self.showBranch = function(branchId) {
@@ -704,7 +704,7 @@
 
           // progress message
           //
-          Cairo.LoadingMessage.show("Camions", "Loading camion from CrowSoft Cairo server.");
+          Cairo.LoadingMessage.show("Camiones", "Loading Camiones from CrowSoft Cairo server.");
 
           // create the tree region
           //
@@ -730,7 +730,7 @@
 
         // create the tab
         //
-        Cairo.mainTab.showTab("Camions", "camionTreeRegion", "#general/camions", createTreeDialog, closeTreeDialog, showTreeDialog);
+        Cairo.mainTab.showTab("Camiones", "camionTreeRegion", "#general/camiones", createTreeDialog, closeTreeDialog, showTreeDialog);
 
       }
     };

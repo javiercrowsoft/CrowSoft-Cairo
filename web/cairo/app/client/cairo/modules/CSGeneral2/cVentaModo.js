@@ -687,9 +687,9 @@
           // ListController properties and methods
           //
           self.entityInfo = new Backbone.Model({
-            entitiesTitle: "VentaModos",
-            entityName: "ventamodo",
-            entitiesName: "ventamodos"
+            entitiesTitle: "Modos de Venta",
+            entityName: "modo de venta",
+            entitiesName: "modos de venta"
           });
 
           self.showBranch = function(branchId) {

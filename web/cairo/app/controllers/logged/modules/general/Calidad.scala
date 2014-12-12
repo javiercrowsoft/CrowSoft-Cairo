@@ -20,7 +20,7 @@ case class CalidadData(
               descrip: String
               )
 
-object Calidads extends Controller with ProvidesUser {
+object Calidades extends Controller with ProvidesUser {
 
   val calidadForm = Form(
     mapping(

@@ -670,9 +670,9 @@ import java.util.Date;
           // ListController properties and methods
           //
           self.entityInfo = new Backbone.Model({
-            entitiesTitle: "Chofers",
+            entitiesTitle: "Choferes",
             entityName: "chofer",
-            entitiesName: "chofers"
+            entitiesName: "choferes"
           });
 
           self.showBranch = function(branchId) {
@@ -776,7 +776,7 @@ import java.util.Date;
 
           // progress message
           //
-          Cairo.LoadingMessage.show("Chofers", "Loading chofer from CrowSoft Cairo server.");
+          Cairo.LoadingMessage.show("Choferes", "Loading chofer from CrowSoft Cairo server.");
 
           // create the tree region
           //
@@ -802,7 +802,7 @@ import java.util.Date;
 
         // create the tab
         //
-        Cairo.mainTab.showTab("Chofers", "choferTreeRegion", "#general/chofers", createTreeDialog, closeTreeDialog, showTreeDialog);
+        Cairo.mainTab.showTab("Choferes", "choferTreeRegion", "#general/choferes", createTreeDialog, closeTreeDialog, showTreeDialog);
 
       }
     };

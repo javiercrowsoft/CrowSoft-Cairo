@@ -112,7 +112,7 @@
 
           var doc = new Cairo.DocDigital();
 
-          doc.setClientTable(Cairo.General.Constants.CENTROCOSTO);
+          doc.setClientTable(Cairo.General.Constants.CENTRO_COSTO);
           doc.setClientTableID(m_id);
 
           _rtn = doc.showDocs(Cairo.Database);
@@ -131,7 +131,7 @@
 
           case Dialogs.Message.MSG_DOC_INFO:
 
-            Cairo.Documentation.show("", "", csGeneralPrestacion.Cairo.Security.Actions.General.NEW_CENTROCOSTO);
+            Cairo.Documentation.show("", "", csGeneralPrestacion.Cairo.Security.Actions.General.NEW_CENTRO_COSTO);
             _rtn = Dialogs.Message.MSG_DOC_INFO_HANDLED;
             break;
 
@@ -158,10 +158,10 @@
         var fields = register.getFields();
 
         register.setFieldId(Cairo.General.Constants.CCOS_ID);
-        register.setTable(Cairo.General.Constants.CENTROCOSTO);
+        register.setTable(Cairo.General.Constants.CENTRO_COSTO);
 
         var apiPath = Cairo.Database.getAPIVersion();
-        register.setPath(apiPath + "general/centrocosto");
+        register.setPath(apiPath + "general/centrodecosto");
 
         if(m_copy) {
           register.setId(Cairo.Constants.NEW_ID);
@@ -260,12 +260,12 @@
       };
 
       self.getPath = function() {
-        return "#general/centrocosto/" + m_id.toString();
+        return "#general/centrodecosto/" + m_id.toString();
       };
 
       self.getEditorName = function() {
         var id = m_id ? m_id.toString() : "N" + (new Date).getTime().toString();
-        return "centrocosto" + id;
+        return "centroCosto" + id;
       };
 
       self.getTitle = function() {
@@ -313,7 +313,7 @@
       };
 
       self.list = function() {
-        return Cairo.Security.hasPermissionTo(csGeneralPrestacion.Cairo.Security.Actions.General.LIST_CENTROCOSTO);
+        return Cairo.Security.hasPermissionTo(csGeneralPrestacion.Cairo.Security.Actions.General.LIST_CENTRO_COSTO);
       };
 
       self.setDialog = function(rhs) {
@@ -330,11 +330,11 @@
 
           if(id === Cairo.Constants.NO_ID) {
             m_isNew = true;
-            if(!Cairo.Security.hasPermissionTo(csGeneralPrestacion.Cairo.Security.Actions.General.NEW_CENTROCOSTO)) { return p; }
+            if(!Cairo.Security.hasPermissionTo(csGeneralPrestacion.Cairo.Security.Actions.General.NEW_CENTRO_COSTO)) { return p; }
           } 
           else {
             m_isNew = false;
-            if(!Cairo.Security.hasPermissionTo(csGeneralPrestacion.Cairo.Security.Actions.General.EDIT_CENTROCOSTO)) { return p; }
+            if(!Cairo.Security.hasPermissionTo(csGeneralPrestacion.Cairo.Security.Actions.General.EDIT_CENTRO_COSTO)) { return p; }
           }
 
           m_dialog.setInModalWindow(inModalWindow);
@@ -427,7 +427,7 @@
 
         var elem = properties.add(null, Cairo.General.Constants.CCOS_ID_PADRE);
         elem.setType(Dialogs.PropertyType.select);
-        elem.setSelectTable(Cairo.Tables.CENTROCOSTO);
+        elem.setSelectTable(Cairo.Tables.CENTRO_COSTO);
         //'Centro Costo Padre
         elem.setName(Cairo.Language.getText(3573, ""));
         elem.setKey(K_CCOS_ID_PADRE);
@@ -485,7 +485,7 @@
       var load = function(id) {
 
         var apiPath = Cairo.Database.getAPIVersion();
-        return Cairo.Database.getData("load[" + apiPath + "general/centrocosto]", id).then(
+        return Cairo.Database.getData("load[" + apiPath + "general/centrodecosto]", id).then(
           function(response) {
 
             if(response.success !== true) { return false; }
@@ -543,15 +543,15 @@
          */
         var createTreeDialog = function(tabId) {
 
-          var editors = Cairo.Editors.centrocostoEditors || Cairo.Collections.createCollection(null);
-          Cairo.Editors.centrocostoEditors = editors;
+          var editors = Cairo.Editors.centroCostoEditors || Cairo.Collections.createCollection(null);
+          Cairo.Editors.centroCostoEditors = editors;
 
           // ListController properties and methods
           //
           self.entityInfo = new Backbone.Model({
-            entitiesTitle: "CentroCostos",
-            entityName: "centrocosto",
-            entitiesName: "centrocostos"
+            entitiesTitle: "Centros de Costo",
+            entityName: "centro de costo",
+            entitiesName: "centros de costo"
           });
 
           self.showBranch = function(branchId) {
@@ -633,11 +633,11 @@
           };
 
           self.destroy = function(id, treeId, branchId) {
-            if(!Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.DELETE_CENTROCOSTO)) {
+            if(!Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.DELETE_CENTRO_COSTO)) {
               return Cairo.Promises.resolvedPromise(false);
             }
             var apiPath = Cairo.Database.getAPIVersion();
-            return Cairo.Database.destroy(apiPath + "general/centrocosto", id, Cairo.Constants.DELETE_FUNCTION, "CentroCosto").success(
+            return Cairo.Database.destroy(apiPath + "general/centrodecosto", id, Cairo.Constants.DELETE_FUNCTION, "Centro de Costo").success(
               function() {
                 try {
                   var key = getKey(id);
@@ -655,18 +655,18 @@
 
           // progress message
           //
-          Cairo.LoadingMessage.show("CentroCostos", "Loading centrocosto from CrowSoft Cairo server.");
+          Cairo.LoadingMessage.show("Centros de Costo", "Loading Centros de Costo from CrowSoft Cairo server.");
 
           // create the tree region
           //
-          Cairo.addRegions({ centrocostoTreeRegion: tabId });
+          Cairo.addRegions({ centroCostoTreeRegion: tabId });
 
           // create the dialog
           //
           Cairo.Tree.List.Controller.list(
-            Cairo.Tables.CENTROCOSTO,
+            Cairo.Tables.CENTRO_COSTO,
             new Cairo.Tree.List.TreeLayout({ model: self.entityInfo }),
-            Cairo.centrocostoTreeRegion,
+            Cairo.centroCostoTreeRegion,
             self);
 
         };
@@ -681,7 +681,7 @@
 
         // create the tab
         //
-        Cairo.mainTab.showTab("CentroCostos", "centrocostoTreeRegion", "#general/centrocostos", createTreeDialog, closeTreeDialog, showTreeDialog);
+        Cairo.mainTab.showTab("Centros de Costos", "centroCostoTreeRegion", "#general/centrosdecosto", createTreeDialog, closeTreeDialog, showTreeDialog);
 
       }
     };

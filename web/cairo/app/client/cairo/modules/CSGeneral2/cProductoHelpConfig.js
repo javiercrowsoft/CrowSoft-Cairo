@@ -604,9 +604,9 @@
           // ListController properties and methods
           //
           self.entityInfo = new Backbone.Model({
-            entitiesTitle: "ProductosHelpConfig",
-            entityName: "productohelpconfig",
-            entitiesName: "productoshelpconfig"
+            entitiesTitle: "Productos Select Config",
+            entityName: "producto select pconfig",
+            entitiesName: "productos select config"
           });
 
           self.showBranch = function(branchId) {
