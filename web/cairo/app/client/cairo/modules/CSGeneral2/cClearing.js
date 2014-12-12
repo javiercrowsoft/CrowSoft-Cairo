@@ -7,35 +7,34 @@
 
       var self = {};
 
-      var Dialogs = Cairo.Entities.Dialogs;
+      var Dialogs = Cairo.Dialogs;
 
       // cClearing
       // 12-02-01
 
       var C_MODULE = "cClearing";
 
-      var K_NOMBRE = 1;
-      var K_CODIGO = 2;
-      var K_ACTIVO = 3;
+      var K_NAME = 1;
+      var K_CODE = 2;
+      var K_ACTIVE = 3;
       var K_DESCRIPCION = 4;
       var K_DIAS = 5;
       var m_id = 0;
-      var m_nombre = "";
-      var m_codigo = "";
-      var m_activo;
+      var m_name = "";
+      var m_code = "";
+      var m_active;
       var m_descripcion = "";
       var m_dias = 0;
 
       var m_editing;
 
       var m_dialog;
-      var m_objTree = null;
+      var m_listController = null;
 
       var m_isNew;
 
       var m_branchId = 0;
       var m_treeId = 0;
-      var m_host;
       var m_copy;
 
       self.getId = function() {
@@ -43,33 +42,43 @@
       };
 
       self.getName = function() {
-        return m_nombre;
+        return m_name;
       };
 
       self.getCode = function() {
-        return m_codigo;
+        return m_code;
       };
 
       self.copy = function() {
 
-        self.terminate();
+        updateList();
+
         m_isNew = true;
 
-        var property = m_dialog.getProperties().item(Cairo.General.Constants.CLECODIGO);
+        m_listController.updateEditorKey(self, Cairo.Constants.NO_ID);
+
+        var property = m_dialog.getProperties().item(Cairo.General.Constants.CLE_CODE);
         property.setValue(Cairo.Constants.COPY_OF + property.getValue());
 
-        m_dialog.showValue(m_dialog.getProperties().item(Cairo.General.Constants.CLECODIGO));
-        m_dialog.showValue(m_dialog.getProperties().item(Cairo.General.Constants.CLENOMBRE));
+        m_dialog.showValue(m_dialog.getProperties().item(Cairo.General.Constants.CLE_CODE));
+        m_dialog.showValue(m_dialog.getProperties().item(Cairo.General.Constants.CLE_NAME));
 
         m_copy = true;
       };
 
       self.editNew = function() {
 
-        self.terminate();
+        updateList();
+
         m_isNew = true;
 
-        return self.edit(Cairo.Constants.NO_ID);
+        m_listController.updateEditorKey(self, Cairo.Constants.NO_ID);
+
+        return load(Cairo.Constants.NO_ID).then(
+          function(ignored) {
+            return refreshCollection();
+          }
+        );
       };
 
       self.getApplication = function() {
@@ -77,7 +86,7 @@
       };
 
       self.editDocumentsEnabled = function() {
-        return m_id != Cairo.Constants.NO_ID;
+        return m_id !== Cairo.Constants.NO_ID;
       };
 
       self.copyEnabled = function() {
@@ -92,9 +101,9 @@
         var _rtn = null;
         try {
 
-          if(m_id == Cairo.Constants.NO_ID) { return _rtn; }
+          if(m_id === Cairo.Constants.NO_ID) { return _rtn; }
 
-          var doc = new cDocDigital();
+          var doc = new Cairo.DocDigital();
 
           doc.setClientTable(Cairo.General.Constants.CLEARING);
           doc.setClientTableID(m_id);
@@ -105,7 +114,7 @@
         catch (ex) {
           Cairo.manageErrorEx(ex.message, Cairo.Constants.SHOW_DOCUMENTS_FUNCTION, C_MODULE, "");
         }
-
+              
         return _rtn;
       };
 
@@ -115,7 +124,7 @@
 
           case Dialogs.Message.MSG_DOC_INFO:
 
-            Cairo.Documentation.show("", "", csGeneralPrestacion.cSPREGNEWCLEARING);
+            Cairo.Documentation.show("", "", csGeneralPrestacion.Cairo.Security.Actions.General.NEW_CLEARING);
             _rtn = Dialogs.Message.MSG_DOC_INFO_HANDLED;
             break;
 
@@ -123,16 +132,17 @@
             _rtn = true;
             break;
         }
-
+      
         return Cairo.Promises.resolvedPromise(_rtn);
       };
 
       self.discardChanges = function() {
-        return Cairo.Promises.resolvedPromise(loadCollection());
+        return Cairo.Promises.resolvedPromise(refreshCollection());
       };
 
       self.propertyChange = function(key) {
 
+        return Cairo.Promises.resolvedPromise(false);
       };
 
       self.save = function() {
@@ -140,90 +150,110 @@
         var register = new Cairo.Database.Register();
         var fields = register.getFields();
 
-        register.setFieldId(Cairo.General.Constants.CLEID);
+        register.setFieldId(Cairo.General.Constants.CLE_ID);
         register.setTable(Cairo.General.Constants.CLEARING);
 
+        var apiPath = Cairo.Database.getAPIVersion();
+        register.setPath(apiPath + "general/clearing");
+
         if(m_copy) {
-          register.setID(csConstIds.cSNEW);
-        }
+          register.setId(Cairo.Constants.NEW_ID);
+        } 
         else {
-          register.setID(m_id);
+          register.setId(m_id);
         }
 
         var _count = m_dialog.getProperties().size();
         for (var _i = 0; _i < _count; _i++) {
           var property = m_dialog.getProperties().item(_i);
           switch (property.getKey()) {
-            case K_NOMBRE:
-              fields.add(Cairo.General.Constants.CLENOMBRE, property.getValue(), Cairo.Constants.Types.TEXT);
+            case K_NAME:
+              fields.add(Cairo.General.Constants.CLE_NAME, property.getValue(), Cairo.Constants.Types.text);
               break;
 
-            case K_CODIGO:
-              fields.add(Cairo.General.Constants.CLECODIGO, property.getValue(), Cairo.Constants.Types.TEXT);
+            case K_CODE:
+              fields.add(Cairo.General.Constants.CLE_CODE, property.getValue(), Cairo.Constants.Types.text);
               break;
 
-            case K_ACTIVO:
-              fields.add(Cairo.Constants.ACTIVE, Cairo.Util.val(property.getValue()), Cairo.Constants.Types.BOOLEAN);
+            case K_ACTIVE:
+              fields.add(Cairo.Constants.ACTIVE, Cairo.Util.val(property.getValue()), Cairo.Constants.Types.boolean);
               break;
 
             case K_DESCRIPCION:
-              fields.add(Cairo.General.Constants.CLEDESCRIP, property.getValue(), Cairo.Constants.Types.TEXT);
+              fields.add(Cairo.General.Constants.CLE_DESCRIP, property.getValue(), Cairo.Constants.Types.text);
               break;
 
             case K_DIAS:
-              fields.add(Cairo.General.Constants.CLEDIAS, property.getValue(), Cairo.Constants.Types.INTEGER);
+              fields.add(Cairo.General.Constants.CLE_DIAS, property.getValue(), Cairo.Constants.Types.integer);
               break;
           }
         }
 
-        fields.setHaveLastUpdate(true);
-        fields.setHaveWhoModify(true);
-
-        // Error saving Clearings
         return Cairo.Database.saveEx(
             register,
             false,
-            Cairo.General.Constants.CLECODIGO,
+            Cairo.General.Constants.CLE_CODE, 
             Cairo.Constants.CLIENT_SAVE_FUNCTION,
             C_MODULE,
             Cairo.Language.getText(1081, "")).then(
 
           function(result) {
-            if(result) {
-              m_copy = false;
-              return load(register.getID());
-
+            if(result.success) {
+                m_copy = false;
+              return load(result.data.getId()).then(
+                function (success) {
+                  if(success) {
+                    updateList();
+                    m_listController.updateEditorKey(self, m_id);
+                  };
+                  m_isNew = false;
+                  return success;
+                }
+              );
             }
             else {
               return false;
             }
-          });
+        });
+      };
+
+      var updateList = function() {
+        if(m_id === Cairo.Constants.NO_ID) { return; }
+        if(m_listController === null) { return; }
+
+        if(m_isNew) {
+          m_listController.addLeave(m_id, m_branchId);
+        }
+        else {
+          m_listController.refreshBranch(m_id, m_branchId);
+        }
       };
 
       self.terminate = function() {
-        var _rtn = null;
+
         m_editing = false;
 
-        _rtn = true;
         try {
-          if(m_id == Cairo.Constants.NO_ID) { return _rtn; }
-          if(m_objTree == null) { return _rtn; }
-
-          if(m_isNew) {
-            m_objTree.addLeave(m_id, m_branchId, m_treeId);
-          }
-          else {
-            m_objTree.addEditedId(m_id);
-            m_objTree.refreshActiveBranch();
+          if(m_listController !== null) {
+            updateList();
+            m_listController.removeEditor(self);
           }
         }
-        catch (ex) {
+        catch (ignored) {
+          Cairo.logError('Error in terminate', ignored);
         }
-
-        return _rtn;
       };
 
-      self.title = function() {
+      self.getPath = function() {
+        return "#general/clearing/" + m_id.toString();
+      };
+
+      self.getEditorName = function() {
+        var id = m_id ? m_id.toString() : "N" + (new Date).getTime().toString();
+        return "clearing" + id;
+      };
+
+      self.getTitle = function() {
         //'Clearings
         return Cairo.Language.getText(1084, "");
       };
@@ -235,19 +265,19 @@
         for (var _i = 0; _i < _count; _i++) {
           property = m_dialog.getProperties().item(_i);
           switch (property.getKey()) {
-            case K_NOMBRE:
-              if(Cairo.Util.valEmpty(property.getValue(), Cairo.Constants.Types.TEXT)) {
+            case K_NAME:
+              if(Cairo.Util.valEmpty(property.getValue(), Cairo.Constants.Types.text)) {
                 return Cairo.Modal.showInfo(Cairo.Constants.MUST_SET_A_NAME).then(function() {return false;});
               }
               break;
 
-            case K_CODIGO:
-              if(Cairo.Util.valEmpty(property.getValue(), Cairo.Constants.Types.TEXT)) {
+            case K_CODE:
+              if(Cairo.Util.valEmpty(property.getValue(), Cairo.Constants.Types.text)) {
                 property.setValue(Cairo.Constants.GET_CODE_FROM_ID);
               }
               break;
 
-            case K_ACTIVO:
+            case K_ACTIVE:
               break;
           }
         }
@@ -268,7 +298,7 @@
       };
 
       self.list = function() {
-        return Cairo.Security.hasPermissionTo(csGeneralPrestacion.cSPREGLISTCLEARING);
+        return Cairo.Security.hasPermissionTo(csGeneralPrestacion.Cairo.Security.Actions.General.LIST_CLEARING);
       };
 
       self.setDialog = function(rhs) {
@@ -279,31 +309,23 @@
         return m_editing;
       };
 
-      self.delete = function(id) {
-        if(!Cairo.Security.hasPermissionTo(csGeneralPrestacion.cSPREGDELETECLEARING)) {
-          return Cairo.Promises.resolvedPromise(false);
-        }
-
-        return Cairo.Database.execute(Cairo.Constants.DELETE_FUNCTION, C_MODULE);
-      };
-
       self.edit = function(id,  inModalWindow) {
         var p = Cairo.Promises.resolvedPromise(false);
         try {
 
-          if(id == Cairo.Constants.NO_ID) {
+          if(id === Cairo.Constants.NO_ID) {
             m_isNew = true;
-            if(!Cairo.Security.hasPermissionTo(csGeneralPrestacion.cSPREGNEWCLEARING)) { return p; }
-          }
+            if(!Cairo.Security.hasPermissionTo(csGeneralPrestacion.Cairo.Security.Actions.General.NEW_CLEARING)) { return p; }
+          } 
           else {
             m_isNew = false;
-            if(!Cairo.Security.hasPermissionTo(csGeneralPrestacion.cSPREGEDITCLEARING)) { return p; }
+            if(!Cairo.Security.hasPermissionTo(csGeneralPrestacion.Cairo.Security.Actions.General.EDIT_CLEARING)) { return p; }
           }
 
           m_dialog.setInModalWindow(inModalWindow);
 
           p = load(id).then(
-            function(success) {
+           function(success) {
               if(success) {
 
                 if(!loadCollection()) { return false; }
@@ -312,25 +334,25 @@
                 m_copy = false;
 
                 if(inModalWindow) {
-                  success = m_id != Cairo.Constants.NO_ID;
-                }
+                  success = m_id !== Cairo.Constants.NO_ID;
+                } 
                 else {
                   success = true;
                 }
 
               }
               return success;
-            });
+          });
         }
         catch (ex) {
-          Cairo.manageErrorEx(ex.message, C_EditGenericEdit, C_MODULE, "");
-        }
-
+          Cairo.manageErrorEx(ex.message, Cairo.Constants.EDIT_FUNCTION, C_MODULE, "");
+      }
+      
         return p;
       };
 
       self.setTree = function(rhs) {
-        m_objTree = rhs;
+        m_listController = rhs;
       };
 
       self.setBranchId = function(rhs) {
@@ -343,34 +365,34 @@
 
       var loadCollection = function() {
 
-        m_dialog.setTitle(m_nombre);
+        m_dialog.setTitle(m_name);
 
         var properties = m_dialog.getProperties();
 
         properties.clear();
 
-        var elem = properties.add(null, Cairo.General.Constants.CLENOMBRE);
+        var elem = properties.add(null, Cairo.General.Constants.CLE_NAME);
         elem.setType(Dialogs.PropertyType.text);
         elem.setName(Cairo.Constants.NAME_LABEL);
         elem.setSize(100);
         elem.setWidth(6500);
-        elem.setKey(K_NOMBRE);
-        elem.setValue(m_nombre);
+        elem.setKey(K_NAME);
+        elem.setValue(m_name);
 
-        var elem = properties.add(null, Cairo.General.Constants.CLECODIGO);
+        var elem = properties.add(null, Cairo.General.Constants.CLE_CODE);
         elem.setType(Dialogs.PropertyType.text);
         elem.setName(Cairo.Constants.CODE_LABEL);
         elem.setSize(15);
-        elem.setValue(m_codigo);
-        elem.setKey(K_CODIGO);
+        elem.setValue(m_code);
+        elem.setKey(K_CODE);
 
         var elem = properties.add(null, Cairo.Constants.ACTIVE);
         elem.setType(Dialogs.PropertyType.check);
         elem.setName(Cairo.Constants.ACTIVE_LABEL);
-        elem.setKey(K_ACTIVO);
-        elem.setValue(m_activo === true ? 1 : 0);
+        elem.setKey(K_ACTIVE);
+        elem.setValue(m_active === true ? 1 : 0);
 
-        var elem = properties.add(null, Cairo.General.Constants.CLEDIAS);
+        var elem = properties.add(null, Cairo.General.Constants.CLE_DIAS);
         elem.setType(Dialogs.PropertyType.numeric);
         elem.setSubType(Dialogs.PropertySubType.Integer);
         //'Días
@@ -379,7 +401,7 @@
         elem.setValue(m_dias);
         elem.setWidth(800);
 
-        var elem = properties.add(null, Cairo.General.Constants.CLEDESCRIP);
+        var elem = properties.add(null, Cairo.General.Constants.CLE_DESCRIP);
         elem.setType(Dialogs.PropertyType.text);
         elem.setName(Cairo.Constants.DESCRIPTION_LABEL);
         elem.setKey(K_DESCRIPCION);
@@ -388,49 +410,74 @@
         elem.setWidth(6500);
         elem.setHeight(780);
 
-        if(!m_dialog.show(this)) { return false; }
+        if(!m_dialog.show(self)) { return false; }
 
         return true;
       };
 
+      var refreshCollection = function() {
+
+        m_dialog.setTitle(m_name);
+
+        var properties = m_dialog.getProperties();
+
+        var elem = properties.item(Cairo.General.Constants.CLE_NAME);
+        elem.setValue(m_name);
+
+        var elem = properties.item(Cairo.General.Constants.CLE_CODE);
+        elem.setValue(m_code);
+
+        var elem = properties.item(Cairo.Constants.ACTIVE);
+        elem.setValue(m_active === true ? 1 : 0);
+
+        var elem = properties.item(Cairo.General.Constants.CLE_DIAS);
+        elem.setValue(m_dias);
+
+        var elem = properties.item(Cairo.General.Constants.CLE_DESCRIP);
+        elem.setValue(m_descripcion);
+
+        return m_dialog.showValues(properties);
+      };
+
       var load = function(id) {
 
-        return Cairo.Database.getData("load[cClearing]", id).then(
+        var apiPath = Cairo.Database.getAPIVersion();
+        return Cairo.Database.getData("load[" + apiPath + "general/clearing]", id).then(
           function(response) {
 
-            if(response.success === false) { return false; }
+            if(response.success !== true) { return false; }
 
-            if(response.data.length === 0) {
-              m_activo = true;
-              m_nombre = "";
-              m_codigo = "";
+            if(response.data.id === Cairo.Constants.NO_ID) {
+              m_active = true;
+              m_name = "";
+              m_code = "";
               m_id = Cairo.Constants.NO_ID;
               m_descripcion = "";
               m_dias = 0;
-            }
+            } 
             else {
-              m_activo = Cairo.Database.valField(response.data, Cairo.Constants.ACTIVE);
-              m_nombre = Cairo.Database.valField(response.data, Cairo.General.Constants.CLENOMBRE);
-              m_codigo = Cairo.Database.valField(response.data, Cairo.General.Constants.CLECODIGO);
-              m_id = Cairo.Database.valField(response.data, Cairo.General.Constants.CLEID);
-              m_descripcion = Cairo.Database.valField(response.data, Cairo.General.Constants.CLEDESCRIP);
-              m_dias = Cairo.Database.valField(response.data, Cairo.General.Constants.CLEDIAS);
+              m_active = Cairo.Database.valField(response.data, Cairo.Constants.ACTIVE);
+              m_name = Cairo.Database.valField(response.data, Cairo.General.Constants.CLE_NAME);
+              m_code = Cairo.Database.valField(response.data, Cairo.General.Constants.CLE_CODE);
+              m_id = Cairo.Database.valField(response.data, Cairo.General.Constants.CLE_ID);
+              m_descripcion = Cairo.Database.valField(response.data, Cairo.General.Constants.CLE_DESCRIP);
+              m_dias = Cairo.Database.valField(response.data, Cairo.General.Constants.CLE_DIAS);
             }
 
-            return true;
-          });
+          return true;
+        });
 
       };
 
       self.destroy = function() {
         m_dialog = null;
-        m_objTree = null;
+        m_listController = null;
       };
 
       return self;
     };
 
-    Edit.Controller = createObject();
+    Edit.Controller = { getEditor: createObject };
 
   });
 
@@ -447,6 +494,9 @@
          */
         var createTreeDialog = function(tabId) {
 
+          var editors = Cairo.Editors.clearingEditors || Cairo.Collections.createCollection(null);
+          Cairo.Editors.clearingEditors = editors;
+
           // ListController properties and methods
           //
           self.entityInfo = new Backbone.Model({
@@ -458,6 +508,100 @@
           self.showBranch = function(branchId) {
             Cairo.log("Loading nodeId: " + branchId);
             Cairo.Tree.List.Controller.listBranch(branchId, Cairo.Tree.List.Controller.showItems, self);
+          };
+
+          self.addLeave = function(id, branchId) {
+            try {
+              Cairo.Tree.List.Controller.addLeave(branchId, id, self);
+            }
+            catch(ignore) {
+              Cairo.log("Error when adding this item to the branch\n\n" + ignore.message);
+            }
+          };
+
+          self.refreshBranch = function(id, branchId) {
+            try {
+              Cairo.Tree.List.Controller.refreshBranchIfActive(branchId, id, self);
+            }
+            catch(ignore) {
+              Cairo.log("Error when refreshing a branch\n\n" + ignore.message);
+            }
+          };
+
+          var getIndexFromEditor = function(editor) {
+            var count = editors.count();
+            for(var i = 0; i < count; i += 1) {
+              if(editors.item(i).editor === editor) {
+                return i;
+              }
+            }
+            return -1;
+          };
+
+          self.removeEditor = function(editor) {
+            var index = getIndexFromEditor(editor);
+            if(index >= 0) {
+              editors.remove(index);
+            }
+          };
+
+          var getKey = function(id) {
+            if(id === Cairo.Constants.NO_ID) {
+              return "new-id:" + (new Date).getTime().toString()
+            }
+            else {
+              return "k:" + id.toString();
+            }
+          };
+
+          self.updateEditorKey = function(editor, newId) {
+            var index = getIndexFromEditor(editor);
+            if(index >= 0) {
+              var editor = editors.item(index);
+              editors.remove(index);
+              var key = getKey(newId);
+              editors.add(editor, key);
+            }
+          };
+
+          self.edit = function(id, treeId, branchId) {
+            var key = getKey(id);
+            if(editors.contains(key)) {
+              editors.item(key).dialog.showDialog();
+            }
+            else {
+              var editor = Cairo.Clearing.Edit.Controller.getEditor();
+              var dialog = Cairo.Dialogs.Views.Controller.newDialog();
+
+              editor.setTree(self);
+              editor.setDialog(dialog);
+              editor.setTreeId(treeId);
+              editor.setBranchId(branchId);
+              editor.edit(id);
+
+              editors.add({editor: editor, dialog: dialog}, key);
+            }
+          };
+
+          self.destroy = function(id, treeId, branchId) {
+            if(!Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.DELETE_CLEARING)) {
+              return Cairo.Promises.resolvedPromise(false);
+            }
+            var apiPath = Cairo.Database.getAPIVersion();
+            return Cairo.Database.destroy(apiPath + "general/clearing", id, Cairo.Constants.DELETE_FUNCTION, "Clearing").success(
+              function() {
+                try {
+                  var key = getKey(id);
+                  if(editors.contains(key)) {
+                    editors.item(key).dialog.closeDialog();
+                  }
+                }
+                catch(ignore) {
+                  Cairo.log('Error closing dialog after delete');
+                }
+                return true;
+              }
+            );
           };
 
           // progress message
@@ -478,9 +622,17 @@
 
         };
 
+        var showTreeDialog = function() {
+          Cairo.Tree.List.Controller.showTreeDialog(self);
+        };
+
+        var closeTreeDialog = function() {
+
+        }
+
         // create the tab
         //
-        Cairo.mainTab.showTab("Clearings", "clearingTreeRegion", "#general/clearings", createTreeDialog);
+        Cairo.mainTab.showTab("Clearings", "clearingTreeRegion", "#general/clearings", createTreeDialog, closeTreeDialog, showTreeDialog);
 
       }
     };
@@ -488,4 +640,3 @@
 
 
 }());
-

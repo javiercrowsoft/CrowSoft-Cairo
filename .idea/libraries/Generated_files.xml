@@ -13,6 +13,7 @@
       <root url="file://$PROJECT_DIR$/web/cairo/app/client/cairo/system/dialogs/dialogClient.min.js" />
       <root url="file://$PROJECT_DIR$/web/cairo/app/client/cairo/system/dialogs/property.min.js" />
     </CLASSES>
+    <JAVADOC />
     <SOURCES />
   </library>
 </component>
