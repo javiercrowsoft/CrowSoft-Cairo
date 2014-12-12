@@ -401,7 +401,7 @@ object C {
   val PA_DESCRIP = "pa_descrip"
 
   // CircuitoContable
-  val CIRCUITOCONTABLE = "CircuitoContable"
+  val CIRCUITO_CONTABLE = "CircuitoContable"
   val CICO_ID = "cico_id"
   val CICO_NAME = "cico_nombre"
   val CICO_CODE = "cico_codigo"
@@ -1316,10 +1316,10 @@ object S {
   val EDIT_DEPARTAMENTO = 1195
   val LIST_DEPARTAMENTO = 1196
 
-  val NEW_CIRCUITOCONTABLE = 1197
-  val EDIT_CIRCUITOCONTABLE = 1198
-  val DELETE_CIRCUITOCONTABLE = 1199
-  val LIST_CIRCUITOCONTABLE = 1200
+  val NEW_CIRCUITO_CONTABLE = 1197
+  val EDIT_CIRCUITO_CONTABLE = 1198
+  val DELETE_CIRCUITO_CONTABLE = 1199
+  val LIST_CIRCUITO_CONTABLE = 1200
 
   val NEW_EMPRESA = 1201
   val EDIT_EMPRESA = 1202

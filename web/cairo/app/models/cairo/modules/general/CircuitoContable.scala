@@ -13,7 +13,7 @@ import play.api.Logger
 import play.api.libs.json._
 import scala.util.control.NonFatal
 
-case class Circuitocontable(
+case class CircuitoContable(
               id: Int,
               name: String,
               code: String,
@@ -58,9 +58,9 @@ case class Circuitocontable(
 
 }
 
-object Circuitocontable {
+object CircuitoContable {
 
-  lazy val emptyCircuitocontable = Circuitocontable(
+  lazy val emptyCircuitoContable = CircuitoContable(
     "",
     "",
     false,
@@ -73,7 +73,7 @@ object Circuitocontable {
       active: Boolean,
       descrip: String) = {
 
-    new Circuitocontable(
+    new CircuitoContable(
       id,
       name,
       code,
@@ -87,14 +87,14 @@ object Circuitocontable {
       active: Boolean,
       descrip: String) = {
 
-    new Circuitocontable(
+    new CircuitoContable(
       name,
       code,
       active,
       descrip)
   }
 
-  private val circuitocontableParser: RowParser[Circuitocontable] = {
+  private val circuitoContableParser: RowParser[CircuitoContable] = {
       SqlParser.get[Int](C.CICO_ID) ~
       SqlParser.get[String](C.CICO_NAME) ~
       SqlParser.get[String](C.CICO_CODE) ~
@@ -112,7 +112,7 @@ object Circuitocontable {
               createdAt ~
               updatedAt ~
               updatedBy =>
-        Circuitocontable(
+        CircuitoContable(
               id,
               name,
               code,
@@ -124,33 +124,33 @@ object Circuitocontable {
     }
   }
 
-  def create(user: CompanyUser, circuitocontable: Circuitocontable): Circuitocontable = {
-    save(user, circuitocontable, true)
+  def create(user: CompanyUser, circuitoContable: CircuitoContable): CircuitoContable = {
+    save(user, circuitoContable, true)
   }
 
-  def update(user: CompanyUser, circuitocontable: Circuitocontable): Circuitocontable = {
-    save(user, circuitocontable, false)
+  def update(user: CompanyUser, circuitoContable: CircuitoContable): CircuitoContable = {
+    save(user, circuitoContable, false)
   }
 
-  private def save(user: CompanyUser, circuitocontable: Circuitocontable, isNew: Boolean): Circuitocontable = {
+  private def save(user: CompanyUser, circuitoContable: CircuitoContable, isNew: Boolean): CircuitoContable = {
     def getFields = {
       List(
-        Field(C.CICO_NAME, circuitocontable.name, FieldType.text),
-        Field(C.CICO_CODE, circuitocontable.code, FieldType.text),
-        Field(DBHelper.ACTIVE, (if(circuitocontable.active) 1 else 0), FieldType.boolean),
-        Field(C.CICO_DESCRIP, circuitocontable.descrip, FieldType.text)
+        Field(C.CICO_NAME, circuitoContable.name, FieldType.text),
+        Field(C.CICO_CODE, circuitoContable.code, FieldType.text),
+        Field(DBHelper.ACTIVE, (if(circuitoContable.active) 1 else 0), FieldType.boolean),
+        Field(C.CICO_DESCRIP, circuitoContable.descrip, FieldType.text)
       )
     }
     def throwException = {
-      throw new RuntimeException(s"Error when saving ${C.CIRCUITOCONTABLE}")
+      throw new RuntimeException(s"Error when saving ${C.CIRCUITO_CONTABLE}")
     }
 
     DBHelper.saveEx(
       user,
       Register(
-        C.CIRCUITOCONTABLE,
+        C.CIRCUITO_CONTABLE,
         C.CICO_ID,
-        circuitocontable.id,
+        circuitoContable.id,
         false,
         true,
         true,
@@ -163,37 +163,37 @@ object Circuitocontable {
     }
   }
 
-  def load(user: CompanyUser, id: Int): Option[Circuitocontable] = {
+  def load(user: CompanyUser, id: Int): Option[CircuitoContable] = {
     loadWhere(user, s"${C.CICO_ID} = {id}", 'id -> id)
   }
 
   def loadWhere(user: CompanyUser, where: String, args : scala.Tuple2[scala.Any, anorm.ParameterValue[_]]*) = {
     DB.withConnection(user.database.database) { implicit connection =>
-      SQL(s"SELECT t1.* FROM ${C.CIRCUITOCONTABLE} WHERE $where")
+      SQL(s"SELECT t1.* FROM ${C.CIRCUITO_CONTABLE} WHERE $where")
         .on(args: _*)
-        .as(circuitocontableParser.singleOpt)
+        .as(circuitoContableParser.singleOpt)
     }
   }
 
   def delete(user: CompanyUser, id: Int) = {
     DB.withConnection(user.database.database) { implicit connection =>
       try {
-        SQL(s"DELETE FROM ${C.CIRCUITOCONTABLE} WHERE ${C.CICO_ID} = {id}")
+        SQL(s"DELETE FROM ${C.CIRCUITO_CONTABLE} WHERE ${C.CICO_ID} = {id}")
         .on('id -> id)
         .executeUpdate
       } catch {
         case NonFatal(e) => {
-          Logger.error(s"can't delete a ${C.CIRCUITOCONTABLE}. ${C.CICO_ID} id: $id. Error ${e.toString}")
+          Logger.error(s"can't delete a ${C.CIRCUITO_CONTABLE}. ${C.CICO_ID} id: $id. Error ${e.toString}")
           throw e
         }
       }
     }
   }
 
-  def get(user: CompanyUser, id: Int): Circuitocontable = {
+  def get(user: CompanyUser, id: Int): CircuitoContable = {
     load(user, id) match {
       case Some(p) => p
-      case None => emptyCircuitocontable
+      case None => emptyCircuitoContable
     }
   }
 }

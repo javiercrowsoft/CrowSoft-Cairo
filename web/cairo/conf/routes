@@ -123,10 +123,10 @@ POST    /api/v1/general/centrodecosto                  controllers.logged.module
 PUT     /api/v1/general/centrodecosto/:id              controllers.logged.modules.general.CentrosCosto.update(id: Int)
 DELETE  /api/v1/general/centrodecosto/:id              controllers.logged.modules.general.CentrosCosto.delete(id: Int)
 
-GET     /api/v1/general/circuitocontable/:id              controllers.logged.modules.general.Circuitocontables.get(id: Int)
-POST    /api/v1/general/circuitocontable                  controllers.logged.modules.general.Circuitocontables.create
-PUT     /api/v1/general/circuitocontable/:id              controllers.logged.modules.general.Circuitocontables.update(id: Int)
-DELETE  /api/v1/general/circuitocontable/:id              controllers.logged.modules.general.Circuitocontables.delete(id: Int)
+GET     /api/v1/general/circuitocontable/:id              controllers.logged.modules.general.CircuitosContables.get(id: Int)
+POST    /api/v1/general/circuitocontable                  controllers.logged.modules.general.CircuitosContables.create
+PUT     /api/v1/general/circuitocontable/:id              controllers.logged.modules.general.CircuitosContables.update(id: Int)
+DELETE  /api/v1/general/circuitocontable/:id              controllers.logged.modules.general.CircuitosContables.delete(id: Int)
 
 GET     /api/v1/general/ciudad/:id              controllers.logged.modules.general.Ciudads.get(id: Int)
 POST    /api/v1/general/ciudad                  controllers.logged.modules.general.Ciudads.create

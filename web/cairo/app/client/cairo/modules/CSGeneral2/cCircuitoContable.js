@@ -108,7 +108,7 @@
 
           var doc = new Cairo.DocDigital();
 
-          doc.setClientTable(Cairo.General.Constants.CIRCUITOCONTABLE);
+          doc.setClientTable(Cairo.General.Constants.CIRCUITO_CONTABLE);
           doc.setClientTableID(m_id);
 
           _rtn = doc.showDocs(Cairo.Database);
@@ -127,7 +127,7 @@
 
           case Dialogs.Message.MSG_DOC_INFO:
 
-            Cairo.Documentation.show("", "", csGeneralPrestacion.Cairo.Security.Actions.General.NEW_CIRCUITOCONTABLE);
+            Cairo.Documentation.show("", "", csGeneralPrestacion.Cairo.Security.Actions.General.NEW_CIRCUITO_CONTABLE);
             _rtn = Dialogs.Message.MSG_DOC_INFO_HANDLED;
             break;
 
@@ -154,7 +154,7 @@
         var fields = register.getFields();
 
         register.setFieldId(Cairo.General.Constants.CICO_ID);
-        register.setTable(Cairo.General.Constants.CIRCUITOCONTABLE);
+        register.setTable(Cairo.General.Constants.CIRCUITO_CONTABLE);
 
         var apiPath = Cairo.Database.getAPIVersion();
         register.setPath(apiPath + "general/circuitocontable");
@@ -249,7 +249,7 @@
 
       self.getEditorName = function() {
         var id = m_id ? m_id.toString() : "N" + (new Date).getTime().toString();
-        return "circuitocontable" + id;
+        return "circuitoContable" + id;
       };
 
       self.getTitle = function() {
@@ -296,7 +296,7 @@
       };
 
       self.list = function() {
-        return Cairo.Security.hasPermissionTo(csGeneralPrestacion.Cairo.Security.Actions.General.LIST_CIRCUITOCONTABLE);
+        return Cairo.Security.hasPermissionTo(csGeneralPrestacion.Cairo.Security.Actions.General.LIST_CIRCUITO_CONTABLE);
       };
 
       self.setDialog = function(rhs) {
@@ -313,11 +313,11 @@
 
           if(id === Cairo.Constants.NO_ID) {
             m_isNew = true;
-            if(!Cairo.Security.hasPermissionTo(csGeneralPrestacion.Cairo.Security.Actions.General.NEW_CIRCUITOCONTABLE)) { return p; }
+            if(!Cairo.Security.hasPermissionTo(csGeneralPrestacion.Cairo.Security.Actions.General.NEW_CIRCUITO_CONTABLE)) { return p; }
           } 
           else {
             m_isNew = false;
-            if(!Cairo.Security.hasPermissionTo(csGeneralPrestacion.Cairo.Security.Actions.General.EDIT_CIRCUITOCONTABLE)) { return p; }
+            if(!Cairo.Security.hasPermissionTo(csGeneralPrestacion.Cairo.Security.Actions.General.EDIT_CIRCUITO_CONTABLE)) { return p; }
           }
 
           m_dialog.setInModalWindow(inModalWindow);
@@ -481,13 +481,13 @@
          */
         var createTreeDialog = function(tabId) {
 
-          var editors = Cairo.Editors.circuitocontableEditors || Cairo.Collections.createCollection(null);
-          Cairo.Editors.circuitocontableEditors = editors;
+          var editors = Cairo.Editors.circuitoContableEditors || Cairo.Collections.createCollection(null);
+          Cairo.Editors.circuitoContableEditors = editors;
 
           // ListController properties and methods
           //
           self.entityInfo = new Backbone.Model({
-            entitiesTitle: "CircuitoContables",
+            entitiesTitle: "Circuito Contable",
             entityName: "circuito contable",
             entitiesName: "circuitos contables"
           });
@@ -571,7 +571,7 @@
           };
 
           self.destroy = function(id, treeId, branchId) {
-            if(!Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.DELETE_CIRCUITOCONTABLE)) {
+            if(!Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.DELETE_CIRCUITO_CONTABLE)) {
               return Cairo.Promises.resolvedPromise(false);
             }
             var apiPath = Cairo.Database.getAPIVersion();
@@ -593,18 +593,18 @@
 
           // progress message
           //
-          Cairo.LoadingMessage.show("CircuitoContables", "Loading circuitocontable from CrowSoft Cairo server.");
+          Cairo.LoadingMessage.show("Circuitos Contables", "Loading Circuitos Contables from CrowSoft Cairo server.");
 
           // create the tree region
           //
-          Cairo.addRegions({ circuitocontableTreeRegion: tabId });
+          Cairo.addRegions({ circuitoContableTreeRegion: tabId });
 
           // create the dialog
           //
           Cairo.Tree.List.Controller.list(
-            Cairo.Tables.CIRCUITOCONTABLE,
+            Cairo.Tables.CIRCUITO_CONTABLE,
             new Cairo.Tree.List.TreeLayout({ model: self.entityInfo }),
-            Cairo.circuitocontableTreeRegion,
+            Cairo.circuitoContableTreeRegion,
             self);
 
         };
@@ -619,7 +619,7 @@
 
         // create the tab
         //
-        Cairo.mainTab.showTab("CircuitoContables", "circuitocontableTreeRegion", "#general/circuitocontables", createTreeDialog, closeTreeDialog, showTreeDialog);
+        Cairo.mainTab.showTab("Circuitos Contables", "circuitoContableTreeRegion", "#general/circuitoscontables", createTreeDialog, closeTreeDialog, showTreeDialog);
 
       }
     };

@@ -12,7 +12,7 @@ import models.cairo.system.security.CairoSecurity
 import models.cairo.system.database.DBHelper
 
 
-case class CircuitocontableData(
+case class CircuitoContableData(
               id: Option[Int],
               name: String,
               code: String,
@@ -20,53 +20,53 @@ case class CircuitocontableData(
               descrip: String
               )
 
-object Circuitocontables extends Controller with ProvidesUser {
+object CircuitosContables extends Controller with ProvidesUser {
 
-  val circuitocontableForm = Form(
+  val circuitoContableForm = Form(
     mapping(
       "id" -> optional(number),
       C.CICO_NAME -> nonEmptyText,
       C.CICO_CODE -> text,
       DBHelper.ACTIVE -> boolean,
       C.CICO_DESCRIP -> text
-  )(CircuitocontableData.apply)(CircuitocontableData.unapply))
+  )(CircuitoContableData.apply)(CircuitoContableData.unapply))
 
-  implicit val circuitocontableWrites = new Writes[Circuitocontable] {
-    def writes(circuitocontable: Circuitocontable) = Json.obj(
-      "id" -> Json.toJson(circuitocontable.id),
-      C.CICO_ID -> Json.toJson(circuitocontable.id),
-      C.CICO_NAME -> Json.toJson(circuitocontable.name),
-      C.CICO_CODE -> Json.toJson(circuitocontable.code),
-      DBHelper.ACTIVE -> Json.toJson(circuitocontable.active),
-      C.CICO_DESCRIP -> Json.toJson(circuitocontable.descrip)
+  implicit val circuitoContableWrites = new Writes[CircuitoContable] {
+    def writes(circuitoContable: CircuitoContable) = Json.obj(
+      "id" -> Json.toJson(circuitoContable.id),
+      C.CICO_ID -> Json.toJson(circuitoContable.id),
+      C.CICO_NAME -> Json.toJson(circuitoContable.name),
+      C.CICO_CODE -> Json.toJson(circuitoContable.code),
+      DBHelper.ACTIVE -> Json.toJson(circuitoContable.active),
+      C.CICO_DESCRIP -> Json.toJson(circuitoContable.descrip)
     )
   }
 
   def get(id: Int) = GetAction { implicit request =>
-    LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.LIST_CIRCUITOCONTABLE), { user =>
-      Ok(Json.toJson(Circuitocontable.get(user, id)))
+    LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.LIST_CIRCUITO_CONTABLE), { user =>
+      Ok(Json.toJson(CircuitoContable.get(user, id)))
     })
   }
 
   def update(id: Int) = PostAction { implicit request =>
     Logger.debug("in CircuitosContables.update")
-    circuitocontableForm.bindFromRequest.fold(
+    circuitoContableForm.bindFromRequest.fold(
       formWithErrors => {
         Logger.debug(s"invalid form: ${formWithErrors.toString}")
         BadRequest
       },
-      circuitocontable => {
-        Logger.debug(s"form: ${circuitocontable.toString}")
-        LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.EDIT_CIRCUITOCONTABLE), { user =>
+      circuitoContable => {
+        Logger.debug(s"form: ${circuitoContable.toString}")
+        LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.EDIT_CIRCUITO_CONTABLE), { user =>
           Ok(
             Json.toJson(
-              Circuitocontable.update(user,
-                Circuitocontable(
+              CircuitoContable.update(user,
+                CircuitoContable(
                        id,
-                       circuitocontable.name,
-                       circuitocontable.code,
-                       circuitocontable.active,
-                       circuitocontable.descrip
+                       circuitoContable.name,
+                       circuitoContable.code,
+                       circuitoContable.active,
+                       circuitoContable.descrip
                 ))))
         })
       }
@@ -75,22 +75,22 @@ object Circuitocontables extends Controller with ProvidesUser {
 
   def create = PostAction { implicit request =>
     Logger.debug("in CircuitosContables.create")
-    circuitocontableForm.bindFromRequest.fold(
+    circuitoContableForm.bindFromRequest.fold(
       formWithErrors => {
         Logger.debug(s"invalid form: ${formWithErrors.toString}")
         BadRequest
       },
-      circuitocontable => {
-        Logger.debug(s"form: ${circuitocontable.toString}")
-        LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.NEW_CIRCUITOCONTABLE), { user =>
+      circuitoContable => {
+        Logger.debug(s"form: ${circuitoContable.toString}")
+        LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.NEW_CIRCUITO_CONTABLE), { user =>
           Ok(
             Json.toJson(
-              Circuitocontable.create(user,
-                Circuitocontable(
-                       circuitocontable.name,
-                       circuitocontable.code,
-                       circuitocontable.active,
-                       circuitocontable.descrip
+              CircuitoContable.create(user,
+                CircuitoContable(
+                       circuitoContable.name,
+                       circuitoContable.code,
+                       circuitoContable.active,
+                       circuitoContable.descrip
                 ))))
         })
       }
@@ -99,8 +99,8 @@ object Circuitocontables extends Controller with ProvidesUser {
 
   def delete(id: Int) = PostAction { implicit request =>
     Logger.debug("in CircuitosContables.delete")
-    LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.DELETE_CIRCUITOCONTABLE), { user =>
-      Circuitocontable.delete(user, id)
+    LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.DELETE_CIRCUITO_CONTABLE), { user =>
+      CircuitoContable.delete(user, id)
       // Backbonejs requires at least an empty json object in the response
       // if not it will call errorHandler even when we responded with 200 OK :P
       Ok(JsonUtil.emptyJson)
