@@ -233,10 +233,10 @@ POST    /api/v1/general/reglaliquidacion                  controllers.logged.mod
 PUT     /api/v1/general/reglaliquidacion/:id              controllers.logged.modules.general.Reglaliquidacions.update(id: Int)
 DELETE  /api/v1/general/reglaliquidacion/:id              controllers.logged.modules.general.Reglaliquidacions.delete(id: Int)
 
-GET     /api/v1/general/retenciontipo/:id              controllers.logged.modules.general.Retenciontipos.get(id: Int)
-POST    /api/v1/general/retenciontipo                  controllers.logged.modules.general.Retenciontipos.create
-PUT     /api/v1/general/retenciontipo/:id              controllers.logged.modules.general.Retenciontipos.update(id: Int)
-DELETE  /api/v1/general/retenciontipo/:id              controllers.logged.modules.general.Retenciontipos.delete(id: Int)
+GET     /api/v1/general/retenciontipo/:id              controllers.logged.modules.general.RetencionesTipo.get(id: Int)
+POST    /api/v1/general/retenciontipo                  controllers.logged.modules.general.RetencionesTipo.create
+PUT     /api/v1/general/retenciontipo/:id              controllers.logged.modules.general.RetencionesTipo.update(id: Int)
+DELETE  /api/v1/general/retenciontipo/:id              controllers.logged.modules.general.RetencionesTipo.delete(id: Int)
 
 GET     /api/v1/general/sucursal/:id              controllers.logged.modules.general.Sucursals.get(id: Int)
 POST    /api/v1/general/sucursal                  controllers.logged.modules.general.Sucursals.create

@@ -656,7 +656,7 @@
 
           // progress message
           //
-          Cairo.LoadingMessage.show("PosicionArancels", "Loading posicionarancel from Crowsoft Cairo server.");
+          Cairo.LoadingMessage.show("PosicionArancels", "Loading posicionarancel from CrowSoft Cairo server.");
 
           // create the tree region
           //

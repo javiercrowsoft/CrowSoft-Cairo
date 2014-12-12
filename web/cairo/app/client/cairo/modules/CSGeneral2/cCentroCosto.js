@@ -655,7 +655,7 @@
 
           // progress message
           //
-          Cairo.LoadingMessage.show("CentroCostos", "Loading centrocosto from Crowsoft Cairo server.");
+          Cairo.LoadingMessage.show("CentroCostos", "Loading centrocosto from CrowSoft Cairo server.");
 
           // create the tree region
           //

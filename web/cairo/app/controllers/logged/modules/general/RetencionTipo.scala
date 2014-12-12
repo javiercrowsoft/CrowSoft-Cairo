@@ -23,9 +23,9 @@ case class RetenciontipoData(
               tipo:               descrip: String
               )
 
-object Retenciontipos extends Controller with ProvidesUser {
+object RetencionesTipo extends Controller with ProvidesUser {
 
-  val retenciontipoForm = Form(
+  val retencionTipoForm = Form(
     mapping(
       "id" -> optional(number),
       C.RETT_NAME -> nonEmptyText,
@@ -37,18 +37,18 @@ object Retenciontipos extends Controller with ProvidesUser {
       C.RETT_TIPO ->       C.RETT_DESCRIP -> text
   )(RetenciontipoData.apply)(RetenciontipoData.unapply))
 
-  implicit val retenciontipoWrites = new Writes[Retenciontipo] {
-    def writes(retenciontipo: Retenciontipo) = Json.obj(
-      "id" -> Json.toJson(retenciontipo.id),
-      C.RETT_ID -> Json.toJson(retenciontipo.id),
-      C.RETT_NAME -> Json.toJson(retenciontipo.name),
-      C.RETT_CODE -> Json.toJson(retenciontipo.code),
-      DBHelper.ACTIVE -> Json.toJson(retenciontipo.active),
-      C.RETT_GENERA_SICORE -> Json.toJson(retenciontipo.generaSicore),
-      C.RETT_CODIGO_SICORE -> Json.toJson(retenciontipo.codigoSicore),
-      C.CUE_ID -> Json.toJson(retenciontipo.cueId),
-      C.CUE_NAME -> Json.toJson(retenciontipo.cueName),
-      C.RETT_TIPO ->       C.RETT_DESCRIP -> Json.toJson(retenciontipo.descrip)
+  implicit val retencionTipoWrites = new Writes[Retenciontipo] {
+    def writes(retencionTipo: Retenciontipo) = Json.obj(
+      "id" -> Json.toJson(retencionTipo.id),
+      C.RETT_ID -> Json.toJson(retencionTipo.id),
+      C.RETT_NAME -> Json.toJson(retencionTipo.name),
+      C.RETT_CODE -> Json.toJson(retencionTipo.code),
+      DBHelper.ACTIVE -> Json.toJson(retencionTipo.active),
+      C.RETT_GENERA_SICORE -> Json.toJson(retencionTipo.generaSicore),
+      C.RETT_CODIGO_SICORE -> Json.toJson(retencionTipo.codigoSicore),
+      C.CUE_ID -> Json.toJson(retencionTipo.cueId),
+      C.CUE_NAME -> Json.toJson(retencionTipo.cueName),
+      C.RETT_TIPO ->       C.RETT_DESCRIP -> Json.toJson(retencionTipo.descrip)
     )
   }
 
@@ -59,28 +59,28 @@ object Retenciontipos extends Controller with ProvidesUser {
   }
 
   def update(id: Int) = PostAction { implicit request =>
-    Logger.debug("in retenciontipos.update")
-    retenciontipoForm.bindFromRequest.fold(
+    Logger.debug("in RetencionesTipo.update")
+    retencionTipoForm.bindFromRequest.fold(
       formWithErrors => {
         Logger.debug(s"invalid form: ${formWithErrors.toString}")
         BadRequest
       },
-      retenciontipo => {
-        Logger.debug(s"form: ${retenciontipo.toString}")
+      retencionTipo => {
+        Logger.debug(s"form: ${retencionTipo.toString}")
         LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.EDIT_RETENCIONTIPO), { user =>
           Ok(
             Json.toJson(
               Retenciontipo.update(user,
                 Retenciontipo(
                        id,
-                       retenciontipo.name,
-                       retenciontipo.code,
-                       retenciontipo.active,
-                       retenciontipo.generaSicore,
-                       retenciontipo.codigoSicore,
-                       retenciontipo.cueId,
-                       retenciontipo.tipo,
-                       retenciontipo.descrip
+                       retencionTipo.name,
+                       retencionTipo.code,
+                       retencionTipo.active,
+                       retencionTipo.generaSicore,
+                       retencionTipo.codigoSicore,
+                       retencionTipo.cueId,
+                       retencionTipo.tipo,
+                       retencionTipo.descrip
                 ))))
         })
       }
@@ -88,27 +88,27 @@ object Retenciontipos extends Controller with ProvidesUser {
   }
 
   def create = PostAction { implicit request =>
-    Logger.debug("in retenciontipos.create")
-    retenciontipoForm.bindFromRequest.fold(
+    Logger.debug("in RetencionesTipo.create")
+    retencionTipoForm.bindFromRequest.fold(
       formWithErrors => {
         Logger.debug(s"invalid form: ${formWithErrors.toString}")
         BadRequest
       },
-      retenciontipo => {
-        Logger.debug(s"form: ${retenciontipo.toString}")
+      retencionTipo => {
+        Logger.debug(s"form: ${retencionTipo.toString}")
         LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.NEW_RETENCIONTIPO), { user =>
           Ok(
             Json.toJson(
               Retenciontipo.create(user,
                 Retenciontipo(
-                       retenciontipo.name,
-                       retenciontipo.code,
-                       retenciontipo.active,
-                       retenciontipo.generaSicore,
-                       retenciontipo.codigoSicore,
-                       retenciontipo.cueId,
-                       retenciontipo.tipo,
-                       retenciontipo.descrip
+                       retencionTipo.name,
+                       retencionTipo.code,
+                       retencionTipo.active,
+                       retencionTipo.generaSicore,
+                       retencionTipo.codigoSicore,
+                       retencionTipo.cueId,
+                       retencionTipo.tipo,
+                       retencionTipo.descrip
                 ))))
         })
       }
@@ -116,7 +116,7 @@ object Retenciontipos extends Controller with ProvidesUser {
   }
 
   def delete(id: Int) = PostAction { implicit request =>
-    Logger.debug("in retenciontipos.delete")
+    Logger.debug("in RetencionesTipo.delete")
     LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.DELETE_RETENCIONTIPO), { user =>
       Retenciontipo.delete(user, id)
       // Backbonejs requires at least an empty json object in the response

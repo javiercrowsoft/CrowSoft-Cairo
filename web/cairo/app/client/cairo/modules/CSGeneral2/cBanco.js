@@ -679,7 +679,7 @@
 
           // progress message
           //
-          Cairo.LoadingMessage.show("Bancos", "Loading banco from Crowsoft Cairo server.");
+          Cairo.LoadingMessage.show("Bancos", "Loading banco from CrowSoft Cairo server.");
 
           // create the tree region
           //

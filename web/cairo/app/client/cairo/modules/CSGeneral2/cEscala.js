@@ -564,7 +564,7 @@
 
           // progress message
           //
-          Cairo.LoadingMessage.show("Escalas", "Loading escala from Crowsoft Cairo server.");
+          Cairo.LoadingMessage.show("Escalas", "Loading escala from CrowSoft Cairo server.");
 
           // create the tree region
           //

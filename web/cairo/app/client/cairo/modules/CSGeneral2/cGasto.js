@@ -763,7 +763,7 @@
 
           // progress message
           //
-          Cairo.LoadingMessage.show("Gastos", "Loading gasto from Crowsoft Cairo server.");
+          Cairo.LoadingMessage.show("Gastos", "Loading gasto from CrowSoft Cairo server.");
 
           // create the tree region
           //

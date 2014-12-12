@@ -628,7 +628,7 @@
 
           // progress message
           //
-          Cairo.LoadingMessage.show("Sucursals", "Loading sucursal from Crowsoft Cairo server.");
+          Cairo.LoadingMessage.show("Sucursals", "Loading sucursal from CrowSoft Cairo server.");
 
           // create the tree region
           //

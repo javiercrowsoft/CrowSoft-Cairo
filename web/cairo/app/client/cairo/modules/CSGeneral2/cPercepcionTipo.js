@@ -693,7 +693,7 @@
 
           // progress message
           //
-          Cairo.LoadingMessage.show("PercepcionTipos", "Loading percepciontipo from Crowsoft Cairo server.");
+          Cairo.LoadingMessage.show("PercepcionTipos", "Loading percepciontipo from CrowSoft Cairo server.");
 
           // create the tree region
           //

@@ -592,7 +592,7 @@
 
           // progress message
           //
-          Cairo.LoadingMessage.show("Paiss", "Loading pais from Crowsoft Cairo server.");
+          Cairo.LoadingMessage.show("Paiss", "Loading pais from CrowSoft Cairo server.");
 
           // create the tree region
           //

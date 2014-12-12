@@ -710,7 +710,7 @@
 
           // progress message
           //
-          Cairo.LoadingMessage.show("ProductosHelpConfig", "Loading ProductosHelpConfig from Crowsoft Cairo server.");
+          Cairo.LoadingMessage.show("ProductosHelpConfig", "Loading ProductosHelpConfig from CrowSoft Cairo server.");
 
           // create the tree region
           //

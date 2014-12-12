@@ -722,7 +722,7 @@
 
           // progress message
           //
-          Cairo.LoadingMessage.show("TasaImpositivas", "Loading tasaimpositiva from Crowsoft Cairo server.");
+          Cairo.LoadingMessage.show("TasaImpositivas", "Loading tasaimpositiva from CrowSoft Cairo server.");
 
           // create the tree region
           //

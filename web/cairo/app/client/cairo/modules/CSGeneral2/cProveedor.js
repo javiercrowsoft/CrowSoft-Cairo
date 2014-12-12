@@ -29,7 +29,7 @@
 
           // progress message
           //
-          Cairo.LoadingMessage.show("Proveedores", "Loading proveedores from Crowsoft Cairo server.");
+          Cairo.LoadingMessage.show("Proveedores", "Loading proveedores from CrowSoft Cairo server.");
 
           // create the tree region
           //

@@ -704,7 +704,7 @@
 
           // progress message
           //
-          Cairo.LoadingMessage.show("Camions", "Loading camion from Crowsoft Cairo server.");
+          Cairo.LoadingMessage.show("Camions", "Loading camion from CrowSoft Cairo server.");
 
           // create the tree region
           //

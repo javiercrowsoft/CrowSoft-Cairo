@@ -6181,7 +6181,7 @@
 
           // progress message
           //
-          Cairo.LoadingMessage.show("Productos", "Loading producto from Crowsoft Cairo server.");
+          Cairo.LoadingMessage.show("Productos", "Loading producto from CrowSoft Cairo server.");
 
           // create the tree region
           //

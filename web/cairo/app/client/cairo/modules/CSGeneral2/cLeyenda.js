@@ -640,7 +640,7 @@
 
           // progress message
           //
-          Cairo.LoadingMessage.show("Leyendas", "Loading leyenda from Crowsoft Cairo server.");
+          Cairo.LoadingMessage.show("Leyendas", "Loading leyenda from CrowSoft Cairo server.");
 
           // create the tree region
           //

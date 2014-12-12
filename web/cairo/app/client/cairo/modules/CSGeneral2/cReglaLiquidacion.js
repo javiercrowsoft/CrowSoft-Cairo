@@ -586,7 +586,7 @@
 
           // progress message
           //
-          Cairo.LoadingMessage.show("ReglaLiquidacions", "Loading reglaliquidacion from Crowsoft Cairo server.");
+          Cairo.LoadingMessage.show("ReglaLiquidacions", "Loading reglaliquidacion from CrowSoft Cairo server.");
 
           // create the tree region
           //

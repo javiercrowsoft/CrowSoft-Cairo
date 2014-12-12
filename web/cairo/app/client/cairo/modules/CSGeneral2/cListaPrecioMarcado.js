@@ -802,7 +802,7 @@
 
           // progress message
           //
-          Cairo.LoadingMessage.show("ListaPrecioMarcados", "Loading listapreciomarcado from Crowsoft Cairo server.");
+          Cairo.LoadingMessage.show("ListaPrecioMarcados", "Loading listapreciomarcado from CrowSoft Cairo server.");
 
           // create the tree region
           //

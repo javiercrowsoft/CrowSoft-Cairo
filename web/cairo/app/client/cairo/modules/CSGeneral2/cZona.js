@@ -633,7 +633,7 @@
 
           // progress message
           //
-          Cairo.LoadingMessage.show("Zonas", "Loading zona from Crowsoft Cairo server.");
+          Cairo.LoadingMessage.show("Zonas", "Loading zona from CrowSoft Cairo server.");
 
           // create the tree region
           //

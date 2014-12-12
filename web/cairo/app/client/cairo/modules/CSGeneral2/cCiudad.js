@@ -630,7 +630,7 @@
 
           // progress message
           //
-          Cairo.LoadingMessage.show("Ciudads", "Loading ciudad from Crowsoft Cairo server.");
+          Cairo.LoadingMessage.show("Ciudads", "Loading ciudad from CrowSoft Cairo server.");
 
           // create the tree region
           //

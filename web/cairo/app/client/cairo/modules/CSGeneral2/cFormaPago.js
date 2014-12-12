@@ -736,7 +736,7 @@
 
           // progress message
           //
-          Cairo.LoadingMessage.show("FormaPagos", "Loading formapago from Crowsoft Cairo server.");
+          Cairo.LoadingMessage.show("FormaPagos", "Loading formapago from CrowSoft Cairo server.");
 
           // create the tree region
           //

@@ -165,7 +165,7 @@
 
           // progress message
           //
-          Cairo.LoadingMessage.show("Documentos", "Loading documentos from Crowsoft Cairo server.");
+          Cairo.LoadingMessage.show("Documentos", "Loading documentos from CrowSoft Cairo server.");
 
           // create the tree region
           //
@@ -191,7 +191,7 @@
   Cairo.module("Documento.Edit", function(Edit, Cairo, Backbone, Marionette, $, _) {
     Edit.Controller = {
       edit: function(id) {
-        Cairo.LoadingMessage.show("Documento", "Loading documento from Crowsoft Cairo server.");
+        Cairo.LoadingMessage.show("Documento", "Loading documento from CrowSoft Cairo server.");
 
         var fetchingDocumento = Cairo.request("documento:entity", id);
         $.when(fetchingDocumento).done(function(documento) {

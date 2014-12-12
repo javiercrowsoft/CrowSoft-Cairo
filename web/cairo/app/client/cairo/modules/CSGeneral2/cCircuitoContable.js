@@ -593,7 +593,7 @@
 
           // progress message
           //
-          Cairo.LoadingMessage.show("CircuitoContables", "Loading circuitocontable from Crowsoft Cairo server.");
+          Cairo.LoadingMessage.show("CircuitoContables", "Loading circuitocontable from CrowSoft Cairo server.");
 
           // create the tree region
           //

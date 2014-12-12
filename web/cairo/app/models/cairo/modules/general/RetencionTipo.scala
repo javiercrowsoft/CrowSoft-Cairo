@@ -130,7 +130,7 @@ object Retenciontipo {
       descrip)
   }
 
-  private val retenciontipoParser: RowParser[Retenciontipo] = {
+  private val retencionTipoParser: RowParser[Retenciontipo] = {
       SqlParser.get[Int](C.RETT_ID) ~
       SqlParser.get[String](C.RETT_NAME) ~
       SqlParser.get[String](C.RETT_CODE) ~
@@ -174,24 +174,24 @@ object Retenciontipo {
     }
   }
 
-  def create(user: CompanyUser, retenciontipo: Retenciontipo): Retenciontipo = {
-    save(user, retenciontipo, true)
+  def create(user: CompanyUser, retencionTipo: Retenciontipo): Retenciontipo = {
+    save(user, retencionTipo, true)
   }
 
-  def update(user: CompanyUser, retenciontipo: Retenciontipo): Retenciontipo = {
-    save(user, retenciontipo, false)
+  def update(user: CompanyUser, retencionTipo: Retenciontipo): Retenciontipo = {
+    save(user, retencionTipo, false)
   }
 
-  private def save(user: CompanyUser, retenciontipo: Retenciontipo, isNew: Boolean): Retenciontipo = {
+  private def save(user: CompanyUser, retencionTipo: Retenciontipo, isNew: Boolean): Retenciontipo = {
     def getFields = {
       List(
-        Field(C.RETT_NAME, retenciontipo.name, FieldType.text),
-        Field(C.RETT_CODE, retenciontipo.code, FieldType.text),
-        Field(DBHelper.ACTIVE, (if(retenciontipo.active) 1 else 0), FieldType.boolean),
-        Field(C.RETT_GENERA_SICORE, retenciontipo.generaSicore, FieldType.boolean),
-        Field(C.RETT_CODIGO_SICORE, retenciontipo.codigoSicore, FieldType.text),
-        Field(C.CUE_ID, retenciontipo.cueId, FieldType.id),
-        Field(C.RETT_DESCRIP, retenciontipo.descrip, FieldType.text)
+        Field(C.RETT_NAME, retencionTipo.name, FieldType.text),
+        Field(C.RETT_CODE, retencionTipo.code, FieldType.text),
+        Field(DBHelper.ACTIVE, (if(retencionTipo.active) 1 else 0), FieldType.boolean),
+        Field(C.RETT_GENERA_SICORE, retencionTipo.generaSicore, FieldType.boolean),
+        Field(C.RETT_CODIGO_SICORE, retencionTipo.codigoSicore, FieldType.text),
+        Field(C.CUE_ID, retencionTipo.cueId, FieldType.id),
+        Field(C.RETT_DESCRIP, retencionTipo.descrip, FieldType.text)
       )
     }
     def throwException = {
@@ -203,7 +203,7 @@ object Retenciontipo {
       Register(
         C.RETENCIONTIPO,
         C.RETT_ID,
-        retenciontipo.id,
+        retencionTipo.id,
         false,
         true,
         true,
@@ -225,7 +225,7 @@ object Retenciontipo {
       SQL(s"SELECT t1.*, t2.${C.CUE_NAME} FROM ${C.RETENCIONTIPO} t1" +
         s" LEFT JOIN ${C.CUENTA} t2 ON t1.${C.CUE_ID} = t2.${C.CUE_ID} WHERE $where")
         .on(args: _*)
-        .as(retenciontipoParser.singleOpt)
+        .as(retencionTipoParser.singleOpt)
     }
   }
 

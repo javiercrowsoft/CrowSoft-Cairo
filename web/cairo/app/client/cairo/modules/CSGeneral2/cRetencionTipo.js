@@ -274,7 +274,7 @@
 
       self.getEditorName = function() {
         var id = m_id ? m_id.toString() : "N" + (new Date).getTime().toString();
-        return "retenciontipo" + id;
+        return "retencionTipo" + id;
       };
 
       self.getTitle = function() {
@@ -618,15 +618,15 @@
          */
         var createTreeDialog = function(tabId) {
 
-          var editors = Cairo.Editors.retenciontipoEditors || Cairo.Collections.createCollection(null);
-          Cairo.Editors.retenciontipoEditors = editors;
+          var editors = Cairo.Editors.retencionTipoEditors || Cairo.Collections.createCollection(null);
+          Cairo.Editors.retencionTipoEditors = editors;
 
           // ListController properties and methods
           //
           self.entityInfo = new Backbone.Model({
-            entitiesTitle: "RetencionTipos",
+            entitiesTitle: "Retenciones Tipo",
             entityName: "retenciontipo",
-            entitiesName: "retenciontipos"
+            entitiesName: "retencionestipo"
           });
 
           self.showBranch = function(branchId) {
@@ -730,18 +730,18 @@
 
           // progress message
           //
-          Cairo.LoadingMessage.show("RetencionTipos", "Loading retenciontipo from Crowsoft Cairo server.");
+          Cairo.LoadingMessage.show("Tipos de Retenciones", "Loading Tipos de Retenciones from CrowSoft Cairo server.");
 
           // create the tree region
           //
-          Cairo.addRegions({ retenciontipoTreeRegion: tabId });
+          Cairo.addRegions({ retencionTipoTreeRegion: tabId });
 
           // create the dialog
           //
           Cairo.Tree.List.Controller.list(
             Cairo.Tables.RETENCIONTIPO,
             new Cairo.Tree.List.TreeLayout({ model: self.entityInfo }),
-            Cairo.retenciontipoTreeRegion,
+            Cairo.retencionTipoTreeRegion,
             self);
 
         };
@@ -756,7 +756,7 @@
 
         // create the tab
         //
-        Cairo.mainTab.showTab("RetencionTipos", "retenciontipoTreeRegion", "#general/retenciontipos", createTreeDialog, closeTreeDialog, showTreeDialog);
+        Cairo.mainTab.showTab("RetencionesTipo", "retencionTipoTreeRegion", "#general/retencionestipo", createTreeDialog, closeTreeDialog, showTreeDialog);
 
       }
     };
