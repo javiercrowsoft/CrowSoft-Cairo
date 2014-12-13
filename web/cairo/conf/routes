@@ -138,25 +138,25 @@ POST    /api/v1/general/clearing                  controllers.logged.modules.gen
 PUT     /api/v1/general/clearing/:id              controllers.logged.modules.general.Clearings.update(id: Int)
 DELETE  /api/v1/general/clearing/:id              controllers.logged.modules.general.Clearings.delete(id: Int)
 
-GET     /api/v1/general/clientecontactotipo/:id              controllers.logged.modules.general.Clientecontactotipos.get(id: Int)
-POST    /api/v1/general/clientecontactotipo                  controllers.logged.modules.general.Clientecontactotipos.create
-PUT     /api/v1/general/clientecontactotipo/:id              controllers.logged.modules.general.Clientecontactotipos.update(id: Int)
-DELETE  /api/v1/general/clientecontactotipo/:id              controllers.logged.modules.general.Clientecontactotipos.delete(id: Int)
+GET     /api/v1/general/clientecontactotipo/:id              controllers.logged.modules.general.ClienteContactoTipos.get(id: Int)
+POST    /api/v1/general/clientecontactotipo                  controllers.logged.modules.general.ClienteContactoTipos.create
+PUT     /api/v1/general/clientecontactotipo/:id              controllers.logged.modules.general.ClienteContactoTipos.update(id: Int)
+DELETE  /api/v1/general/clientecontactotipo/:id              controllers.logged.modules.general.ClienteContactoTipos.delete(id: Int)
 
-GET     /api/v1/general/cobrador/:id              controllers.logged.modules.general.Cobradors.get(id: Int)
-POST    /api/v1/general/cobrador                  controllers.logged.modules.general.Cobradors.create
-PUT     /api/v1/general/cobrador/:id              controllers.logged.modules.general.Cobradors.update(id: Int)
-DELETE  /api/v1/general/cobrador/:id              controllers.logged.modules.general.Cobradors.delete(id: Int)
+GET     /api/v1/general/cobrador/:id              controllers.logged.modules.general.Cobradores.get(id: Int)
+POST    /api/v1/general/cobrador                  controllers.logged.modules.general.Cobradores.create
+PUT     /api/v1/general/cobrador/:id              controllers.logged.modules.general.Cobradores.update(id: Int)
+DELETE  /api/v1/general/cobrador/:id              controllers.logged.modules.general.Cobradores.delete(id: Int)
 
 GET     /api/v1/general/cuenta/:id              controllers.logged.modules.general.Cuentas.get(id: Int)
 POST    /api/v1/general/cuenta                  controllers.logged.modules.general.Cuentas.create
 PUT     /api/v1/general/cuenta/:id              controllers.logged.modules.general.Cuentas.update(id: Int)
 DELETE  /api/v1/general/cuenta/:id              controllers.logged.modules.general.Cuentas.delete(id: Int)
 
-GET     /api/v1/general/cuentagrupo/:id              controllers.logged.modules.general.Cuentagrupos.get(id: Int)
-POST    /api/v1/general/cuentagrupo                  controllers.logged.modules.general.Cuentagrupos.create
-PUT     /api/v1/general/cuentagrupo/:id              controllers.logged.modules.general.Cuentagrupos.update(id: Int)
-DELETE  /api/v1/general/cuentagrupo/:id              controllers.logged.modules.general.Cuentagrupos.delete(id: Int)
+GET     /api/v1/general/cuentagrupo/:id              controllers.logged.modules.general.CuentaGrupos.get(id: Int)
+POST    /api/v1/general/cuentagrupo                  controllers.logged.modules.general.CuentaGrupos.create
+PUT     /api/v1/general/cuentagrupo/:id              controllers.logged.modules.general.CuentaGrupos.update(id: Int)
+DELETE  /api/v1/general/cuentagrupo/:id              controllers.logged.modules.general.CuentaGrupos.delete(id: Int)
 
 GET     /api/v1/general/empresa/:id              controllers.logged.modules.general.Empresas.get(id: Int)
 POST    /api/v1/general/empresa                  controllers.logged.modules.general.Empresas.create
@@ -173,10 +173,10 @@ POST    /api/v1/general/feriado                  controllers.logged.modules.gene
 PUT     /api/v1/general/feriado/:id              controllers.logged.modules.general.Feriados.update(id: Int)
 DELETE  /api/v1/general/feriado/:id              controllers.logged.modules.general.Feriados.delete(id: Int)
 
-GET     /api/v1/general/formapago/:id              controllers.logged.modules.general.Formapagos.get(id: Int)
-POST    /api/v1/general/formapago                  controllers.logged.modules.general.Formapagos.create
-PUT     /api/v1/general/formapago/:id              controllers.logged.modules.general.Formapagos.update(id: Int)
-DELETE  /api/v1/general/formapago/:id              controllers.logged.modules.general.Formapagos.delete(id: Int)
+GET     /api/v1/general/formapago/:id              controllers.logged.modules.general.FormasPago.get(id: Int)
+POST    /api/v1/general/formapago                  controllers.logged.modules.general.FormasPago.create
+PUT     /api/v1/general/formapago/:id              controllers.logged.modules.general.FormasPago.update(id: Int)
+DELETE  /api/v1/general/formapago/:id              controllers.logged.modules.general.FormasPago.delete(id: Int)
 
 GET     /api/v1/general/gasto/:id              controllers.logged.modules.general.Gastos.get(id: Int)
 POST    /api/v1/general/gasto                  controllers.logged.modules.general.Gastos.create
@@ -198,20 +198,20 @@ POST    /api/v1/general/pais                  controllers.logged.modules.general
 PUT     /api/v1/general/pais/:id              controllers.logged.modules.general.Paises.update(id: Int)
 DELETE  /api/v1/general/pais/:id              controllers.logged.modules.general.Paises.delete(id: Int)
 
-GET     /api/v1/general/percepciontipo/:id              controllers.logged.modules.general.Percepciontipos.get(id: Int)
-POST    /api/v1/general/percepciontipo                  controllers.logged.modules.general.Percepciontipos.create
-PUT     /api/v1/general/percepciontipo/:id              controllers.logged.modules.general.Percepciontipos.update(id: Int)
-DELETE  /api/v1/general/percepciontipo/:id              controllers.logged.modules.general.Percepciontipos.delete(id: Int)
+GET     /api/v1/general/percepciontipo/:id              controllers.logged.modules.general.PercepcionTipos.get(id: Int)
+POST    /api/v1/general/percepciontipo                  controllers.logged.modules.general.PercepcionTipos.create
+PUT     /api/v1/general/percepciontipo/:id              controllers.logged.modules.general.PercepcionTipos.update(id: Int)
+DELETE  /api/v1/general/percepciontipo/:id              controllers.logged.modules.general.PercepcionTipos.delete(id: Int)
 
-GET     /api/v1/general/personadocumentotipo/:id              controllers.logged.modules.general.Personadocumentotipos.get(id: Int)
-POST    /api/v1/general/personadocumentotipo                  controllers.logged.modules.general.Personadocumentotipos.create
-PUT     /api/v1/general/personadocumentotipo/:id              controllers.logged.modules.general.Personadocumentotipos.update(id: Int)
-DELETE  /api/v1/general/personadocumentotipo/:id              controllers.logged.modules.general.Personadocumentotipos.delete(id: Int)
+GET     /api/v1/general/personadocumentotipo/:id              controllers.logged.modules.general.PersonaDocumentoTipos.get(id: Int)
+POST    /api/v1/general/personadocumentotipo                  controllers.logged.modules.general.PersonaDocumentoTipos.create
+PUT     /api/v1/general/personadocumentotipo/:id              controllers.logged.modules.general.PersonaDocumentoTipos.update(id: Int)
+DELETE  /api/v1/general/personadocumentotipo/:id              controllers.logged.modules.general.PersonaDocumentoTipos.delete(id: Int)
 
-GET     /api/v1/general/posicionarancel/:id              controllers.logged.modules.general.Posicionarancels.get(id: Int)
-POST    /api/v1/general/posicionarancel                  controllers.logged.modules.general.Posicionarancels.create
-PUT     /api/v1/general/posicionarancel/:id              controllers.logged.modules.general.Posicionarancels.update(id: Int)
-DELETE  /api/v1/general/posicionarancel/:id              controllers.logged.modules.general.Posicionarancels.delete(id: Int)
+GET     /api/v1/general/posicionarancel/:id              controllers.logged.modules.general.PosicionAranceles.get(id: Int)
+POST    /api/v1/general/posicionarancel                  controllers.logged.modules.general.PosicionAranceles.create
+PUT     /api/v1/general/posicionarancel/:id              controllers.logged.modules.general.PosicionAranceles.update(id: Int)
+DELETE  /api/v1/general/posicionarancel/:id              controllers.logged.modules.general.PosicionAranceles.delete(id: Int)
 
 GET     /api/v1/general/productohelpconfig/:id              controllers.logged.modules.general.ProductosHelpConfig.get(id: Int)
 POST    /api/v1/general/productohelpconfig                  controllers.logged.modules.general.ProductosHelpConfig.create
@@ -233,10 +233,10 @@ POST    /api/v1/general/sucursal                  controllers.logged.modules.gen
 PUT     /api/v1/general/sucursal/:id              controllers.logged.modules.general.Sucursales.update(id: Int)
 DELETE  /api/v1/general/sucursal/:id              controllers.logged.modules.general.Sucursales.delete(id: Int)
 
-GET     /api/v1/general/tasaimpositiva/:id              controllers.logged.modules.general.Tasaimpositivas.get(id: Int)
-POST    /api/v1/general/tasaimpositiva                  controllers.logged.modules.general.Tasaimpositivas.create
-PUT     /api/v1/general/tasaimpositiva/:id              controllers.logged.modules.general.Tasaimpositivas.update(id: Int)
-DELETE  /api/v1/general/tasaimpositiva/:id              controllers.logged.modules.general.Tasaimpositivas.delete(id: Int)
+GET     /api/v1/general/tasaimpositiva/:id              controllers.logged.modules.general.TasasImpositivas.get(id: Int)
+POST    /api/v1/general/tasaimpositiva                  controllers.logged.modules.general.TasasImpositivas.create
+PUT     /api/v1/general/tasaimpositiva/:id              controllers.logged.modules.general.TasasImpositivas.update(id: Int)
+DELETE  /api/v1/general/tasaimpositiva/:id              controllers.logged.modules.general.TasasImpositivas.delete(id: Int)
 
 GET     /api/v1/general/transporte/:id              controllers.logged.modules.general.Transportes.get(id: Int)
 POST    /api/v1/general/transporte                  controllers.logged.modules.general.Transportes.create

@@ -13,7 +13,7 @@ import play.api.Logger
 import play.api.libs.json._
 import scala.util.control.NonFatal
 
-case class Clientecontactotipo(
+case class ClienteContactoTipo(
               id: Int,
               name: String,
               code: String,
@@ -58,9 +58,9 @@ case class Clientecontactotipo(
 
 }
 
-object Clientecontactotipo {
+object ClienteContactoTipo {
 
-  lazy val emptyClientecontactotipo = Clientecontactotipo(
+  lazy val emptyClienteContactoTipo = ClienteContactoTipo(
     "",
     "",
     false,
@@ -73,7 +73,7 @@ object Clientecontactotipo {
       active: Boolean,
       descrip: String) = {
 
-    new Clientecontactotipo(
+    new ClienteContactoTipo(
       id,
       name,
       code,
@@ -87,14 +87,14 @@ object Clientecontactotipo {
       active: Boolean,
       descrip: String) = {
 
-    new Clientecontactotipo(
+    new ClienteContactoTipo(
       name,
       code,
       active,
       descrip)
   }
 
-  private val clientecontactotipoParser: RowParser[Clientecontactotipo] = {
+  private val clienteContactoTipoParser: RowParser[ClienteContactoTipo] = {
       SqlParser.get[Int](C.CLICT_ID) ~
       SqlParser.get[String](C.CLICT_NAME) ~
       SqlParser.get[String](C.CLICT_CODE) ~
@@ -112,7 +112,7 @@ object Clientecontactotipo {
               createdAt ~
               updatedAt ~
               updatedBy =>
-        Clientecontactotipo(
+        ClienteContactoTipo(
               id,
               name,
               code,
@@ -124,33 +124,33 @@ object Clientecontactotipo {
     }
   }
 
-  def create(user: CompanyUser, clientecontactotipo: Clientecontactotipo): Clientecontactotipo = {
-    save(user, clientecontactotipo, true)
+  def create(user: CompanyUser, clienteContactoTipo: ClienteContactoTipo): ClienteContactoTipo = {
+    save(user, clienteContactoTipo, true)
   }
 
-  def update(user: CompanyUser, clientecontactotipo: Clientecontactotipo): Clientecontactotipo = {
-    save(user, clientecontactotipo, false)
+  def update(user: CompanyUser, clienteContactoTipo: ClienteContactoTipo): ClienteContactoTipo = {
+    save(user, clienteContactoTipo, false)
   }
 
-  private def save(user: CompanyUser, clientecontactotipo: Clientecontactotipo, isNew: Boolean): Clientecontactotipo = {
+  private def save(user: CompanyUser, clienteContactoTipo: ClienteContactoTipo, isNew: Boolean): ClienteContactoTipo = {
     def getFields = {
       List(
-        Field(C.CLICT_NAME, clientecontactotipo.name, FieldType.text),
-        Field(C.CLICT_CODE, clientecontactotipo.code, FieldType.text),
-        Field(DBHelper.ACTIVE, (if(clientecontactotipo.active) 1 else 0), FieldType.boolean),
-        Field(C.CLICT_DESCRIP, clientecontactotipo.descrip, FieldType.text)
+        Field(C.CLICT_NAME, clienteContactoTipo.name, FieldType.text),
+        Field(C.CLICT_CODE, clienteContactoTipo.code, FieldType.text),
+        Field(DBHelper.ACTIVE, (if(clienteContactoTipo.active) 1 else 0), FieldType.boolean),
+        Field(C.CLICT_DESCRIP, clienteContactoTipo.descrip, FieldType.text)
       )
     }
     def throwException = {
-      throw new RuntimeException(s"Error when saving ${C.CLIENTECONTACTOTIPO}")
+      throw new RuntimeException(s"Error when saving ${C.CLIENTE_CONTACTO_TIPO}")
     }
 
     DBHelper.saveEx(
       user,
       Register(
-        C.CLIENTECONTACTOTIPO,
+        C.CLIENTE_CONTACTO_TIPO,
         C.CLICT_ID,
-        clientecontactotipo.id,
+        clienteContactoTipo.id,
         false,
         true,
         true,
@@ -163,37 +163,37 @@ object Clientecontactotipo {
     }
   }
 
-  def load(user: CompanyUser, id: Int): Option[Clientecontactotipo] = {
+  def load(user: CompanyUser, id: Int): Option[ClienteContactoTipo] = {
     loadWhere(user, s"${C.CLICT_ID} = {id}", 'id -> id)
   }
 
   def loadWhere(user: CompanyUser, where: String, args : scala.Tuple2[scala.Any, anorm.ParameterValue[_]]*) = {
     DB.withConnection(user.database.database) { implicit connection =>
-      SQL(s"SELECT t1.* FROM ${C.CLIENTECONTACTOTIPO} t1 WHERE $where")
+      SQL(s"SELECT t1.* FROM ${C.CLIENTE_CONTACTO_TIPO} t1 WHERE $where")
         .on(args: _*)
-        .as(clientecontactotipoParser.singleOpt)
+        .as(clienteContactoTipoParser.singleOpt)
     }
   }
 
   def delete(user: CompanyUser, id: Int) = {
     DB.withConnection(user.database.database) { implicit connection =>
       try {
-        SQL(s"DELETE FROM ${C.CLIENTECONTACTOTIPO} WHERE ${C.CLICT_ID} = {id}")
+        SQL(s"DELETE FROM ${C.CLIENTE_CONTACTO_TIPO} WHERE ${C.CLICT_ID} = {id}")
         .on('id -> id)
         .executeUpdate
       } catch {
         case NonFatal(e) => {
-          Logger.error(s"can't delete a ${C.CLIENTECONTACTOTIPO}. ${C.CLICT_ID} id: $id. Error ${e.toString}")
+          Logger.error(s"can't delete a ${C.CLIENTE_CONTACTO_TIPO}. ${C.CLICT_ID} id: $id. Error ${e.toString}")
           throw e
         }
       }
     }
   }
 
-  def get(user: CompanyUser, id: Int): Clientecontactotipo = {
+  def get(user: CompanyUser, id: Int): ClienteContactoTipo = {
     load(user, id) match {
       case Some(p) => p
-      case None => emptyClientecontactotipo
+      case None => emptyClienteContactoTipo
     }
   }
 }

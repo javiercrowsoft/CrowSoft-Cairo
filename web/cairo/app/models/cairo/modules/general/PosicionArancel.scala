@@ -13,7 +13,7 @@ import play.api.Logger
 import play.api.libs.json._
 import scala.util.control.NonFatal
 
-case class Posicionarancel(
+case class PosicionArancel(
               id: Int,
               name: String,
               code: String,
@@ -72,9 +72,9 @@ case class Posicionarancel(
 
 }
 
-object Posicionarancel {
+object PosicionArancel {
 
-  lazy val emptyPosicionarancel = Posicionarancel(
+  lazy val emptyPosicionArancel = PosicionArancel(
     "",
     "",
     false,
@@ -91,7 +91,7 @@ object Posicionarancel {
       tiIdEstadistica: Int,
       descrip: String) = {
 
-    new Posicionarancel(
+    new PosicionArancel(
       id,
       name,
       code,
@@ -109,7 +109,7 @@ object Posicionarancel {
       tiIdEstadistica: Int,
       descrip: String) = {
 
-    new Posicionarancel(
+    new PosicionArancel(
       name,
       code,
       active,
@@ -118,7 +118,7 @@ object Posicionarancel {
       descrip)
   }
 
-  private val posicionarancelParser: RowParser[Posicionarancel] = {
+  private val posicionArancelParser: RowParser[PosicionArancel] = {
       SqlParser.get[Int](C.POAR_ID) ~
       SqlParser.get[String](C.POAR_NAME) ~
       SqlParser.get[String](C.POAR_CODE) ~
@@ -144,7 +144,7 @@ object Posicionarancel {
               createdAt ~
               updatedAt ~
               updatedBy =>
-        Posicionarancel(
+        PosicionArancel(
               id,
               name,
               code,
@@ -160,23 +160,23 @@ object Posicionarancel {
     }
   }
 
-  def create(user: CompanyUser, posicionarancel: Posicionarancel): Posicionarancel = {
-    save(user, posicionarancel, true)
+  def create(user: CompanyUser, posicionArancel: PosicionArancel): PosicionArancel = {
+    save(user, posicionArancel, true)
   }
 
-  def update(user: CompanyUser, posicionarancel: Posicionarancel): Posicionarancel = {
-    save(user, posicionarancel, false)
+  def update(user: CompanyUser, posicionArancel: PosicionArancel): PosicionArancel = {
+    save(user, posicionArancel, false)
   }
 
-  private def save(user: CompanyUser, posicionarancel: Posicionarancel, isNew: Boolean): Posicionarancel = {
+  private def save(user: CompanyUser, posicionArancel: PosicionArancel, isNew: Boolean): PosicionArancel = {
     def getFields = {
       List(
-        Field(C.POAR_NAME, posicionarancel.name, FieldType.text),
-        Field(C.POAR_CODE, posicionarancel.code, FieldType.text),
-        Field(DBHelper.ACTIVE, (if(posicionarancel.active) 1 else 0), FieldType.id),
-        Field(C.TI_ID_DERECHOS, posicionarancel.tiIdDerechos, FieldType.id),
-        Field(C.TI_ID_ESTADISTICA, posicionarancel.tiIdEstadistica, FieldType.text),
-        Field(C.POAR_DESCRIP, posicionarancel.descrip, FieldType.text)
+        Field(C.POAR_NAME, posicionArancel.name, FieldType.text),
+        Field(C.POAR_CODE, posicionArancel.code, FieldType.text),
+        Field(DBHelper.ACTIVE, (if(posicionArancel.active) 1 else 0), FieldType.id),
+        Field(C.TI_ID_DERECHOS, posicionArancel.tiIdDerechos, FieldType.id),
+        Field(C.TI_ID_ESTADISTICA, posicionArancel.tiIdEstadistica, FieldType.text),
+        Field(C.POAR_DESCRIP, posicionArancel.descrip, FieldType.text)
       )
     }
     def throwException = {
@@ -188,7 +188,7 @@ object Posicionarancel {
       Register(
         C.POSICION_ARANCEL,
         C.POAR_ID,
-        posicionarancel.id,
+        posicionArancel.id,
         false,
         true,
         true,
@@ -201,7 +201,7 @@ object Posicionarancel {
     }
   }
 
-  def load(user: CompanyUser, id: Int): Option[Posicionarancel] = {
+  def load(user: CompanyUser, id: Int): Option[PosicionArancel] = {
     loadWhere(user, s"${C.POAR_ID} = {id}", 'id -> id)
   }
 
@@ -212,7 +212,7 @@ object Posicionarancel {
         s" LEFT JOIN ${C.TASA_IMPOSITIVA} t2 ON t1.${C.TI_ID_DERECHOS} = t2.${C.TI_ID}" +
         s" LEFT JOIN ${C.TASA_IMPOSITIVA} t3 ON t1.${C.TI_ID_ESTADISTICA} = t3.${C.TI_ID} WHERE $where")
         .on(args: _*)
-        .as(posicionarancelParser.singleOpt)
+        .as(posicionArancelParser.singleOpt)
     }
   }
 
@@ -231,10 +231,10 @@ object Posicionarancel {
     }
   }
 
-  def get(user: CompanyUser, id: Int): Posicionarancel = {
+  def get(user: CompanyUser, id: Int): PosicionArancel = {
     load(user, id) match {
       case Some(p) => p
-      case None => emptyPosicionarancel
+      case None => emptyPosicionArancel
     }
   }
 }

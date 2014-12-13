@@ -12,7 +12,7 @@ import models.cairo.system.security.CairoSecurity
 import models.cairo.system.database.DBHelper
 
 
-case class TasaimpositivaData(
+case class TasaImpositivaData(
               id: Option[Int],
               name: String,
               code: String,
@@ -24,9 +24,9 @@ case class TasaimpositivaData(
               tipo: Int
               )
 
-object Tasaimpositivas extends Controller with ProvidesUser {
+object TasasImpositivas extends Controller with ProvidesUser {
 
-  val tasaimpositivaForm = Form(
+  val tasaImpositivaForm = Form(
     mapping(
       "id" -> optional(number),
       C.TI_NAME -> nonEmptyText,
@@ -37,53 +37,53 @@ object Tasaimpositivas extends Controller with ProvidesUser {
       C.TI_CODIGO_DGI1 -> text,
       C.TI_CODIGO_DGI2 -> text,
       C.TI_TIPO -> number
-  )(TasaimpositivaData.apply)(TasaimpositivaData.unapply))
+  )(TasaImpositivaData.apply)(TasaImpositivaData.unapply))
 
-  implicit val tasaimpositivaWrites = new Writes[Tasaimpositiva] {
-    def writes(tasaimpositiva: Tasaimpositiva) = Json.obj(
-      "id" -> Json.toJson(tasaimpositiva.id),
-      C.TI_ID -> Json.toJson(tasaimpositiva.id),
-      C.TI_NAME -> Json.toJson(tasaimpositiva.name),
-      C.TI_CODE -> Json.toJson(tasaimpositiva.code),
-      DBHelper.ACTIVE -> Json.toJson(tasaimpositiva.active),
-      C.TI_PORCENTAJE -> Json.toJson(tasaimpositiva.porcentaje),
-      C.CUEC_ID -> Json.toJson(tasaimpositiva.cuecId),
-      C.CUEC_NAME -> Json.toJson(tasaimpositiva.cuecName),
-      C.TI_CODIGO_DGI1 -> Json.toJson(tasaimpositiva.codigoDgi1),
-      C.TI_CODIGO_DGI2 -> Json.toJson(tasaimpositiva.codigoDgi2),
-      C.TI_TIPO -> Json.toJson(tasaimpositiva.tipo)
+  implicit val tasaImpositivaWrites = new Writes[TasaImpositiva] {
+    def writes(tasaImpositiva: TasaImpositiva) = Json.obj(
+      "id" -> Json.toJson(tasaImpositiva.id),
+      C.TI_ID -> Json.toJson(tasaImpositiva.id),
+      C.TI_NAME -> Json.toJson(tasaImpositiva.name),
+      C.TI_CODE -> Json.toJson(tasaImpositiva.code),
+      DBHelper.ACTIVE -> Json.toJson(tasaImpositiva.active),
+      C.TI_PORCENTAJE -> Json.toJson(tasaImpositiva.porcentaje),
+      C.CUEC_ID -> Json.toJson(tasaImpositiva.cuecId),
+      C.CUEC_NAME -> Json.toJson(tasaImpositiva.cuecName),
+      C.TI_CODIGO_DGI1 -> Json.toJson(tasaImpositiva.codigoDgi1),
+      C.TI_CODIGO_DGI2 -> Json.toJson(tasaImpositiva.codigoDgi2),
+      C.TI_TIPO -> Json.toJson(tasaImpositiva.tipo)
     )
   }
 
   def get(id: Int) = GetAction { implicit request =>
     LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.LIST_TASA_IMPOSITIVA), { user =>
-      Ok(Json.toJson(Tasaimpositiva.get(user, id)))
+      Ok(Json.toJson(TasaImpositiva.get(user, id)))
     })
   }
 
   def update(id: Int) = PostAction { implicit request =>
-    Logger.debug("in tasaimpositivas.update")
-    tasaimpositivaForm.bindFromRequest.fold(
+    Logger.debug("in tasaImpositivas.update")
+    tasaImpositivaForm.bindFromRequest.fold(
       formWithErrors => {
         Logger.debug(s"invalid form: ${formWithErrors.toString}")
         BadRequest
       },
-      tasaimpositiva => {
-        Logger.debug(s"form: ${tasaimpositiva.toString}")
+      tasaImpositiva => {
+        Logger.debug(s"form: ${tasaImpositiva.toString}")
         LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.EDIT_TASA_IMPOSITIVA), { user =>
           Ok(
             Json.toJson(
-              Tasaimpositiva.update(user,
-                Tasaimpositiva(
+              TasaImpositiva.update(user,
+                TasaImpositiva(
                        id,
-                       tasaimpositiva.name,
-                       tasaimpositiva.code,
-                       tasaimpositiva.active,
-                       tasaimpositiva.porcentaje,
-                       tasaimpositiva.cuecId,
-                       tasaimpositiva.codigoDgi1,
-                       tasaimpositiva.codigoDgi2,
-                       tasaimpositiva.tipo
+                       tasaImpositiva.name,
+                       tasaImpositiva.code,
+                       tasaImpositiva.active,
+                       tasaImpositiva.porcentaje,
+                       tasaImpositiva.cuecId,
+                       tasaImpositiva.codigoDgi1,
+                       tasaImpositiva.codigoDgi2,
+                       tasaImpositiva.tipo
                 ))))
         })
       }
@@ -91,27 +91,27 @@ object Tasaimpositivas extends Controller with ProvidesUser {
   }
 
   def create = PostAction { implicit request =>
-    Logger.debug("in tasaimpositivas.create")
-    tasaimpositivaForm.bindFromRequest.fold(
+    Logger.debug("in tasaImpositivas.create")
+    tasaImpositivaForm.bindFromRequest.fold(
       formWithErrors => {
         Logger.debug(s"invalid form: ${formWithErrors.toString}")
         BadRequest
       },
-      tasaimpositiva => {
-        Logger.debug(s"form: ${tasaimpositiva.toString}")
+      tasaImpositiva => {
+        Logger.debug(s"form: ${tasaImpositiva.toString}")
         LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.NEW_TASA_IMPOSITIVA), { user =>
           Ok(
             Json.toJson(
-              Tasaimpositiva.create(user,
-                Tasaimpositiva(
-                       tasaimpositiva.name,
-                       tasaimpositiva.code,
-                       tasaimpositiva.active,
-                       tasaimpositiva.porcentaje,
-                       tasaimpositiva.cuecId,
-                       tasaimpositiva.codigoDgi1,
-                       tasaimpositiva.codigoDgi2,
-                       tasaimpositiva.tipo
+              TasaImpositiva.create(user,
+                TasaImpositiva(
+                       tasaImpositiva.name,
+                       tasaImpositiva.code,
+                       tasaImpositiva.active,
+                       tasaImpositiva.porcentaje,
+                       tasaImpositiva.cuecId,
+                       tasaImpositiva.codigoDgi1,
+                       tasaImpositiva.codigoDgi2,
+                       tasaImpositiva.tipo
                 ))))
         })
       }
@@ -119,9 +119,9 @@ object Tasaimpositivas extends Controller with ProvidesUser {
   }
 
   def delete(id: Int) = PostAction { implicit request =>
-    Logger.debug("in tasaimpositivas.delete")
+    Logger.debug("in tasaImpositivas.delete")
     LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.DELETE_TASA_IMPOSITIVA), { user =>
-      Tasaimpositiva.delete(user, id)
+      TasaImpositiva.delete(user, id)
       // Backbonejs requires at least an empty json object in the response
       // if not it will call errorHandler even when we responded with 200 OK :P
       Ok(JsonUtil.emptyJson)

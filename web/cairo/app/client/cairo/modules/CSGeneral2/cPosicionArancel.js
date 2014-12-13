@@ -266,7 +266,7 @@
 
       self.getEditorName = function() {
         var id = m_id ? m_id.toString() : "N" + (new Date).getTime().toString();
-        return "posicionarancel" + id;
+        return "posicionArancel" + id;
       };
 
       self.getTitle = function() {
@@ -544,15 +544,15 @@
          */
         var createTreeDialog = function(tabId) {
 
-          var editors = Cairo.Editors.posicionarancelEditors || Cairo.Collections.createCollection(null);
-          Cairo.Editors.posicionarancelEditors = editors;
+          var editors = Cairo.Editors.posicionArancelEditors || Cairo.Collections.createCollection(null);
+          Cairo.Editors.posicionArancelEditors = editors;
 
           // ListController properties and methods
           //
           self.entityInfo = new Backbone.Model({
-            entitiesTitle: "PosicionArancels",
-            entityName: "posicionarancel",
-            entitiesName: "posicionarancels"
+            entitiesTitle: "Posiciones Arancelarias",
+            entityName: "posicion arancelaria",
+            entitiesName: "posiciones arancelarias"
           });
 
           self.showBranch = function(branchId) {
@@ -660,14 +660,14 @@
 
           // create the tree region
           //
-          Cairo.addRegions({ posicionarancelTreeRegion: tabId });
+          Cairo.addRegions({ posicionArancelTreeRegion: tabId });
 
           // create the dialog
           //
           Cairo.Tree.List.Controller.list(
             Cairo.Tables.POSICION_ARANCEL,
             new Cairo.Tree.List.TreeLayout({ model: self.entityInfo }),
-            Cairo.posicionarancelTreeRegion,
+            Cairo.posicionArancelTreeRegion,
             self);
 
         };
@@ -682,7 +682,7 @@
 
         // create the tab
         //
-        Cairo.mainTab.showTab("PosicionArancels", "posicionarancelTreeRegion", "#general/posicionarancels", createTreeDialog, closeTreeDialog, showTreeDialog);
+        Cairo.mainTab.showTab("Posiciones Arancelarias", "posicionArancelTreeRegion", "#general/posicionaranceles", createTreeDialog, closeTreeDialog, showTreeDialog);
 
       }
     };

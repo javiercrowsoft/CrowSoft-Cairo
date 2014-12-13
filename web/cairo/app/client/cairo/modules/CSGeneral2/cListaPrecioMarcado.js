@@ -696,7 +696,7 @@
           // ListController properties and methods
           //
           self.entityInfo = new Backbone.Model({
-            entitiesTitle: "Lista de Marcado de Precio",
+            entitiesTitle: "Listas de Marcado de Precio",
             entityName: "lista de marcado",
             entitiesName: "listas de marcado de precios"
           });

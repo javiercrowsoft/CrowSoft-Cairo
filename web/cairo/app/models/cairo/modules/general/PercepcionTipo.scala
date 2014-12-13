@@ -13,7 +13,7 @@ import play.api.Logger
 import play.api.libs.json._
 import scala.util.control.NonFatal
 
-case class Percepciontipo(
+case class PercepcionTipo(
               id: Int,
               name: String,
               code: String,
@@ -75,9 +75,9 @@ case class Percepciontipo(
 
 }
 
-object Percepciontipo {
+object PercepcionTipo {
 
-  lazy val emptyPercepciontipo = Percepciontipo(
+  lazy val emptyPercepcionTipo = PercepcionTipo(
     "",
     "",
     false,
@@ -96,7 +96,7 @@ object Percepciontipo {
       cueId: Int,
       descrip: String) = {
 
-    new Percepciontipo(
+    new PercepcionTipo(
       id,
       name,
       code,
@@ -116,7 +116,7 @@ object Percepciontipo {
       cueId: Int,
       descrip: String) = {
 
-    new Percepciontipo(
+    new PercepcionTipo(
       name,
       code,
       active,
@@ -126,7 +126,7 @@ object Percepciontipo {
       descrip)
   }
 
-  private val percepciontipoParser: RowParser[Percepciontipo] = {
+  private val percepcionTipoParser: RowParser[PercepcionTipo] = {
       SqlParser.get[Int](C.PERCT_ID) ~
       SqlParser.get[String](C.PERCT_NAME) ~
       SqlParser.get[String](C.PERCT_CODE) ~
@@ -152,7 +152,7 @@ object Percepciontipo {
               createdAt ~
               updatedAt ~
               updatedBy =>
-        Percepciontipo(
+        PercepcionTipo(
               id,
               name,
               code,
@@ -168,24 +168,24 @@ object Percepciontipo {
     }
   }
 
-  def create(user: CompanyUser, percepciontipo: Percepciontipo): Percepciontipo = {
-    save(user, percepciontipo, true)
+  def create(user: CompanyUser, percepcionTipo: PercepcionTipo): PercepcionTipo = {
+    save(user, percepcionTipo, true)
   }
 
-  def update(user: CompanyUser, percepciontipo: Percepciontipo): Percepciontipo = {
-    save(user, percepciontipo, false)
+  def update(user: CompanyUser, percepcionTipo: PercepcionTipo): PercepcionTipo = {
+    save(user, percepcionTipo, false)
   }
 
-  private def save(user: CompanyUser, percepciontipo: Percepciontipo, isNew: Boolean): Percepciontipo = {
+  private def save(user: CompanyUser, percepcionTipo: PercepcionTipo, isNew: Boolean): PercepcionTipo = {
     def getFields = {
       List(
-        Field(C.PERCT_NAME, percepciontipo.name, FieldType.text),
-        Field(C.PERCT_CODE, percepciontipo.code, FieldType.text),
-        Field(DBHelper.ACTIVE, (if(percepciontipo.active) 1 else 0), FieldType.boolean),
-        Field(C.PERCT_GENERA_SICORE, percepciontipo.generaSicore, FieldType.boolean),
-        Field(C.PERCT_CODIGO_SICORE, percepciontipo.codigoSicore, FieldType.text),
-        Field(C.CUE_ID, percepciontipo.cueId, FieldType.id),
-        Field(C.PERCT_DESCRIP, percepciontipo.descrip, FieldType.text)
+        Field(C.PERCT_NAME, percepcionTipo.name, FieldType.text),
+        Field(C.PERCT_CODE, percepcionTipo.code, FieldType.text),
+        Field(DBHelper.ACTIVE, (if(percepcionTipo.active) 1 else 0), FieldType.boolean),
+        Field(C.PERCT_GENERA_SICORE, percepcionTipo.generaSicore, FieldType.boolean),
+        Field(C.PERCT_CODIGO_SICORE, percepcionTipo.codigoSicore, FieldType.text),
+        Field(C.CUE_ID, percepcionTipo.cueId, FieldType.id),
+        Field(C.PERCT_DESCRIP, percepcionTipo.descrip, FieldType.text)
       )
     }
     def throwException = {
@@ -197,7 +197,7 @@ object Percepciontipo {
       Register(
         C.PERCEPCIONTIPO,
         C.PERCT_ID,
-        percepciontipo.id,
+        percepcionTipo.id,
         false,
         true,
         true,
@@ -210,7 +210,7 @@ object Percepciontipo {
     }
   }
 
-  def load(user: CompanyUser, id: Int): Option[Percepciontipo] = {
+  def load(user: CompanyUser, id: Int): Option[PercepcionTipo] = {
     loadWhere(user, s"${C.PERCT_ID} = {id}", 'id -> id)
   }
 
@@ -220,7 +220,7 @@ object Percepciontipo {
         s" FROM ${C.PERCEPCIONTIPO} t1" +
         s" LEFT JOIN ${C.CUENTA} t2 ON t1.${C.CUE_ID} = t2.${C.CUE_ID} WHERE $where")
         .on(args: _*)
-        .as(percepciontipoParser.singleOpt)
+        .as(percepcionTipoParser.singleOpt)
     }
   }
 
@@ -239,10 +239,10 @@ object Percepciontipo {
     }
   }
 
-  def get(user: CompanyUser, id: Int): Percepciontipo = {
+  def get(user: CompanyUser, id: Int): PercepcionTipo = {
     load(user, id) match {
       case Some(p) => p
-      case None => emptyPercepciontipo
+      case None => emptyPercepcionTipo
     }
   }
 }

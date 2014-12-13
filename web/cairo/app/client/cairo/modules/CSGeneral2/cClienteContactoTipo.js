@@ -110,7 +110,7 @@
 
           var doc = new Cairo.DocDigital();
 
-          doc.setClientTable(Cairo.General.Constants.CLIENTECONTACTOTIPO);
+          doc.setClientTable(Cairo.General.Constants.CLIENTE_CONTACTO_TIPO);
           doc.setClientTableID(m_id);
 
           _rtn = doc.showDocs(Cairo.Database);
@@ -129,7 +129,7 @@
 
           case Dialogs.Message.MSG_DOC_INFO:
 
-            Cairo.Documentation.show("", "", csGeneralPrestacion.Cairo.Security.Actions.General.NEW_CLIENTECONTACTOTIPO);
+            Cairo.Documentation.show("", "", csGeneralPrestacion.Cairo.Security.Actions.General.NEW_CLIENTE_CONTACTO_TIPO);
             _rtn = Dialogs.Message.MSG_DOC_INFO_HANDLED;
             break;
 
@@ -156,7 +156,7 @@
         var fields = register.getFields();
 
         register.setFieldId(Cairo.General.Constants.CLICT_ID);
-        register.setTable(Cairo.General.Constants.CLIENTECONTACTOTIPO);
+        register.setTable(Cairo.General.Constants.CLIENTE_CONTACTO_TIPO);
 
         var apiPath = Cairo.Database.getAPIVersion();
         register.setPath(apiPath + "general/clientecontactotipo");
@@ -251,7 +251,7 @@
 
       self.getEditorName = function() {
         var id = m_id ? m_id.toString() : "N" + (new Date).getTime().toString();
-        return "clientecontactotipo" + id;
+        return "clienteContactoTipo" + id;
       };
 
       self.getTitle = function() {
@@ -298,7 +298,7 @@
       };
 
       self.list = function() {
-        return Cairo.Security.hasPermissionTo(csGeneralPrestacion.Cairo.Security.Actions.General.LIST_CLIENTECONTACTOTIPO);
+        return Cairo.Security.hasPermissionTo(csGeneralPrestacion.Cairo.Security.Actions.General.LIST_CLIENTE_CONTACTO_TIPO);
       };
 
       self.setDialog = function(rhs) {
@@ -315,11 +315,11 @@
 
           if(id === Cairo.Constants.NO_ID) {
             m_isNew = true;
-            if(!Cairo.Security.hasPermissionTo(csGeneralPrestacion.Cairo.Security.Actions.General.NEW_CLIENTECONTACTOTIPO)) { return p; }
+            if(!Cairo.Security.hasPermissionTo(csGeneralPrestacion.Cairo.Security.Actions.General.NEW_CLIENTE_CONTACTO_TIPO)) { return p; }
           } 
           else {
             m_isNew = false;
-            if(!Cairo.Security.hasPermissionTo(csGeneralPrestacion.Cairo.Security.Actions.General.EDIT_CLIENTECONTACTOTIPO)) { return p; }
+            if(!Cairo.Security.hasPermissionTo(csGeneralPrestacion.Cairo.Security.Actions.General.EDIT_CLIENTE_CONTACTO_TIPO)) { return p; }
           }
 
           m_dialog.setInModalWindow(inModalWindow);
@@ -482,15 +482,15 @@
          */
         var createTreeDialog = function(tabId) {
 
-          var editors = Cairo.Editors.clientecontactotipoEditors || Cairo.Collections.createCollection(null);
-          Cairo.Editors.clientecontactotipoEditors = editors;
+          var editors = Cairo.Editors.clienteContactoTipoEditors || Cairo.Collections.createCollection(null);
+          Cairo.Editors.clienteContactoTipoEditors = editors;
 
           // ListController properties and methods
           //
           self.entityInfo = new Backbone.Model({
-            entitiesTitle: "ClienteContactoTipos",
-            entityName: "clientecontactotipo",
-            entitiesName: "clientecontactotipos"
+            entitiesTitle: "Tipos de Contacto",
+            entityName: "tipo de contacto",
+            entitiesName: "tipos de contacto"
           });
 
           self.showBranch = function(branchId) {
@@ -572,7 +572,7 @@
           };
 
           self.destroy = function(id, treeId, branchId) {
-            if(!Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.DELETE_CLIENTECONTACTOTIPO)) {
+            if(!Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.DELETE_CLIENTE_CONTACTO_TIPO)) {
               return Cairo.Promises.resolvedPromise(false);
             }
             var apiPath = Cairo.Database.getAPIVersion();
@@ -594,18 +594,18 @@
 
           // progress message
           //
-          Cairo.LoadingMessage.show("ClienteContactoTipos", "Loading Tipos de Contactos from CrowSoft Cairo server.");
+          Cairo.LoadingMessage.show("Tipos de Contactos", "Loading Tipos de Contactos from CrowSoft Cairo server.");
 
           // create the tree region
           //
-          Cairo.addRegions({ clientecontactotipoTreeRegion: tabId });
+          Cairo.addRegions({ clienteContactoTipoTreeRegion: tabId });
 
           // create the dialog
           //
           Cairo.Tree.List.Controller.list(
-            Cairo.Tables.CLIENTECONTACTOTIPO,
+            Cairo.Tables.CLIENTE_CONTACTO_TIPO,
             new Cairo.Tree.List.TreeLayout({ model: self.entityInfo }),
-            Cairo.clientecontactotipoTreeRegion,
+            Cairo.clienteContactoTipoTreeRegion,
             self);
 
         };
@@ -620,7 +620,7 @@
 
         // create the tab
         //
-        Cairo.mainTab.showTab("ClienteContactoTipos", "clientecontactotipoTreeRegion", "#general/clientecontactotipos", createTreeDialog, closeTreeDialog, showTreeDialog);
+        Cairo.mainTab.showTab("Tipos de Contacto", "clienteContactoTipoTreeRegion", "#general/clientecontactotipos", createTreeDialog, closeTreeDialog, showTreeDialog);
 
       }
     };

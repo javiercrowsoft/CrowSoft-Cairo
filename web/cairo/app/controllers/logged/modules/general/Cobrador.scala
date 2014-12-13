@@ -22,7 +22,7 @@ case class CobradorData(
               descrip: String
               )
 
-object Cobradors extends Controller with ProvidesUser {
+object Cobradores extends Controller with ProvidesUser {
 
   val cobradorForm = Form(
     mapping(
@@ -56,7 +56,7 @@ object Cobradors extends Controller with ProvidesUser {
   }
 
   def update(id: Int) = PostAction { implicit request =>
-    Logger.debug("in cobradors.update")
+    Logger.debug("in Cobradores.update")
     cobradorForm.bindFromRequest.fold(
       formWithErrors => {
         Logger.debug(s"invalid form: ${formWithErrors.toString}")
@@ -83,7 +83,7 @@ object Cobradors extends Controller with ProvidesUser {
   }
 
   def create = PostAction { implicit request =>
-    Logger.debug("in cobradors.create")
+    Logger.debug("in Cobradores.create")
     cobradorForm.bindFromRequest.fold(
       formWithErrors => {
         Logger.debug(s"invalid form: ${formWithErrors.toString}")
@@ -109,7 +109,7 @@ object Cobradors extends Controller with ProvidesUser {
   }
 
   def delete(id: Int) = PostAction { implicit request =>
-    Logger.debug("in cobradors.delete")
+    Logger.debug("in Cobradores.delete")
     LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.DELETE_COBRADOR), { user =>
       Cobrador.delete(user, id)
       // Backbonejs requires at least an empty json object in the response

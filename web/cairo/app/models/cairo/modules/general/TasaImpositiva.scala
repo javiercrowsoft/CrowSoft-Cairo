@@ -13,7 +13,7 @@ import play.api.Logger
 import play.api.libs.json._
 import scala.util.control.NonFatal
 
-case class Tasaimpositiva(
+case class TasaImpositiva(
               id: Int,
               name: String,
               code: String,
@@ -80,9 +80,9 @@ case class Tasaimpositiva(
 
 }
 
-object Tasaimpositiva {
+object TasaImpositiva {
 
-  lazy val emptyTasaimpositiva = Tasaimpositiva(
+  lazy val emptyTasaImpositiva = TasaImpositiva(
     "",
     "",
     false,
@@ -103,7 +103,7 @@ object Tasaimpositiva {
       codigoDgi2: String,
       tipo: Int) = {
 
-    new Tasaimpositiva(
+    new TasaImpositiva(
       id,
       name,
       code,
@@ -125,7 +125,7 @@ object Tasaimpositiva {
       codigoDgi2: String,
       tipo: Int) = {
 
-    new Tasaimpositiva(
+    new TasaImpositiva(
       name,
       code,
       active,
@@ -136,7 +136,7 @@ object Tasaimpositiva {
       tipo)
   }
 
-  private val tasaimpositivaParser: RowParser[Tasaimpositiva] = {
+  private val tasaImpositivaParser: RowParser[TasaImpositiva] = {
       SqlParser.get[Int](C.TI_ID) ~
       SqlParser.get[String](C.TI_NAME) ~
       SqlParser.get[String](C.TI_CODE) ~
@@ -164,7 +164,7 @@ object Tasaimpositiva {
               createdAt ~
               updatedAt ~
               updatedBy =>
-        Tasaimpositiva(
+        TasaImpositiva(
               id,
               name,
               code,
@@ -181,25 +181,25 @@ object Tasaimpositiva {
     }
   }
 
-  def create(user: CompanyUser, tasaimpositiva: Tasaimpositiva): Tasaimpositiva = {
-    save(user, tasaimpositiva, true)
+  def create(user: CompanyUser, tasaImpositiva: TasaImpositiva): TasaImpositiva = {
+    save(user, tasaImpositiva, true)
   }
 
-  def update(user: CompanyUser, tasaimpositiva: Tasaimpositiva): Tasaimpositiva = {
-    save(user, tasaimpositiva, false)
+  def update(user: CompanyUser, tasaImpositiva: TasaImpositiva): TasaImpositiva = {
+    save(user, tasaImpositiva, false)
   }
 
-  private def save(user: CompanyUser, tasaimpositiva: Tasaimpositiva, isNew: Boolean): Tasaimpositiva = {
+  private def save(user: CompanyUser, tasaImpositiva: TasaImpositiva, isNew: Boolean): TasaImpositiva = {
     def getFields = {
       List(
-        Field(C.TI_NAME, tasaimpositiva.name, FieldType.text),
-        Field(C.TI_CODE, tasaimpositiva.code, FieldType.text),
-        Field(DBHelper.ACTIVE, (if(tasaimpositiva.active) 1 else 0), FieldType.boolean),
-        Field(C.TI_PORCENTAJE, tasaimpositiva.porcentaje, FieldType.number),
-        Field(C.CUEC_ID, tasaimpositiva.cuecId, FieldType.id),
-        Field(C.TI_CODIGO_DGI1, tasaimpositiva.codigoDgi1, FieldType.text),
-        Field(C.TI_CODIGO_DGI2, tasaimpositiva.codigoDgi2, FieldType.text),
-        Field(C.TI_TIPO, tasaimpositiva.tipo, FieldType.integer)
+        Field(C.TI_NAME, tasaImpositiva.name, FieldType.text),
+        Field(C.TI_CODE, tasaImpositiva.code, FieldType.text),
+        Field(DBHelper.ACTIVE, (if(tasaImpositiva.active) 1 else 0), FieldType.boolean),
+        Field(C.TI_PORCENTAJE, tasaImpositiva.porcentaje, FieldType.number),
+        Field(C.CUEC_ID, tasaImpositiva.cuecId, FieldType.id),
+        Field(C.TI_CODIGO_DGI1, tasaImpositiva.codigoDgi1, FieldType.text),
+        Field(C.TI_CODIGO_DGI2, tasaImpositiva.codigoDgi2, FieldType.text),
+        Field(C.TI_TIPO, tasaImpositiva.tipo, FieldType.integer)
       )
     }
     def throwException = {
@@ -211,7 +211,7 @@ object Tasaimpositiva {
       Register(
         C.TASA_IMPOSITIVA,
         C.TI_ID,
-        tasaimpositiva.id,
+        tasaImpositiva.id,
         false,
         true,
         true,
@@ -224,7 +224,7 @@ object Tasaimpositiva {
     }
   }
 
-  def load(user: CompanyUser, id: Int): Option[Tasaimpositiva] = {
+  def load(user: CompanyUser, id: Int): Option[TasaImpositiva] = {
     loadWhere(user, s"${C.TI_ID} = {id}", 'id -> id)
   }
 
@@ -234,7 +234,7 @@ object Tasaimpositiva {
         s" FROM ${C.TASA_IMPOSITIVA} t1" +
         s" LEFT JOIN ${C.CUENTA} t2 ON t1.${C.CUE_ID} = t2.${C.CUE_ID} WHERE $where")
         .on(args: _*)
-        .as(tasaimpositivaParser.singleOpt)
+        .as(tasaImpositivaParser.singleOpt)
     }
   }
 
@@ -253,10 +253,10 @@ object Tasaimpositiva {
     }
   }
 
-  def get(user: CompanyUser, id: Int): Tasaimpositiva = {
+  def get(user: CompanyUser, id: Int): TasaImpositiva = {
     load(user, id) match {
       case Some(p) => p
-      case None => emptyTasaimpositiva
+      case None => emptyTasaImpositiva
     }
   }
 }

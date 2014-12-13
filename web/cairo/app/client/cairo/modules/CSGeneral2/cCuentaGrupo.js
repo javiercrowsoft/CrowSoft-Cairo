@@ -268,7 +268,7 @@
 
       self.getEditorName = function() {
         var id = m_id ? m_id.toString() : "N" + (new Date).getTime().toString();
-        return "cuentagrupo" + id;
+        return "cuentaGrupo" + id;
       };
 
       self.getTitle = function() {
@@ -665,15 +665,15 @@
          */
         var createTreeDialog = function(tabId) {
 
-          var editors = Cairo.Editors.cuentagrupoEditors || Cairo.Collections.createCollection(null);
-          Cairo.Editors.cuentagrupoEditors = editors;
+          var editors = Cairo.Editors.cuentaGrupoEditors || Cairo.Collections.createCollection(null);
+          Cairo.Editors.cuentaGrupoEditors = editors;
 
           // ListController properties and methods
           //
           self.entityInfo = new Backbone.Model({
-            entitiesTitle: "CuentaGrupos",
-            entityName: "cuentagrupo",
-            entitiesName: "cuentagrupos"
+            entitiesTitle: "Grupos de Cuenta",
+            entityName: "grupo de cuentas",
+            entitiesName: "grupos de cuentas"
           });
 
           self.showBranch = function(branchId) {
@@ -781,14 +781,14 @@
 
           // create the tree region
           //
-          Cairo.addRegions({ cuentagrupoTreeRegion: tabId });
+          Cairo.addRegions({ cuentaGrupoTreeRegion: tabId });
 
           // create the dialog
           //
           Cairo.Tree.List.Controller.list(
             Cairo.Tables.CUENTAGRUPO,
             new Cairo.Tree.List.TreeLayout({ model: self.entityInfo }),
-            Cairo.cuentagrupoTreeRegion,
+            Cairo.cuentaGrupoTreeRegion,
             self);
 
         };
@@ -803,7 +803,7 @@
 
         // create the tab
         //
-        Cairo.mainTab.showTab("CuentaGrupos", "cuentagrupoTreeRegion", "#general/cuentagrupos", createTreeDialog, closeTreeDialog, showTreeDialog);
+        Cairo.mainTab.showTab("Grupos de Cuentas", "cuentaGrupoTreeRegion", "#general/cuentagrupos", createTreeDialog, closeTreeDialog, showTreeDialog);
 
       }
     };

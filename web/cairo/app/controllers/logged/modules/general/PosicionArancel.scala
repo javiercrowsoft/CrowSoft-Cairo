@@ -12,7 +12,7 @@ import models.cairo.system.security.CairoSecurity
 import models.cairo.system.database.DBHelper
 
 
-case class PosicionarancelData(
+case class PosicionArancelData(
               id: Option[Int],
               name: String,
               code: String,
@@ -22,9 +22,9 @@ case class PosicionarancelData(
               descrip: String
               )
 
-object Posicionarancels extends Controller with ProvidesUser {
+object PosicionAranceles extends Controller with ProvidesUser {
 
-  val posicionarancelForm = Form(
+  val posicionArancelForm = Form(
     mapping(
       "id" -> optional(number),
       C.POAR_NAME -> nonEmptyText,
@@ -33,50 +33,50 @@ object Posicionarancels extends Controller with ProvidesUser {
       C.TI_ID_DERECHOS -> number,
       C.TI_ID_ESTADISTICA -> number,
       C.POAR_DESCRIP -> text
-  )(PosicionarancelData.apply)(PosicionarancelData.unapply))
+  )(PosicionArancelData.apply)(PosicionArancelData.unapply))
 
-  implicit val posicionarancelWrites = new Writes[Posicionarancel] {
-    def writes(posicionarancel: Posicionarancel) = Json.obj(
-      "id" -> Json.toJson(posicionarancel.id),
-      C.POAR_ID -> Json.toJson(posicionarancel.id),
-      C.POAR_NAME -> Json.toJson(posicionarancel.name),
-      C.POAR_CODE -> Json.toJson(posicionarancel.code),
-      DBHelper.ACTIVE -> Json.toJson(posicionarancel.active),
-      C.TI_ID_DERECHOS -> Json.toJson(posicionarancel.tiIdDerechos),
-      C.TI_DERECHOS -> Json.toJson(posicionarancel.tiDerechos),
-      C.TI_ID_ESTADISTICA -> Json.toJson(posicionarancel.tiIdEstadistica),
-      C.TI_ESTADISTICA -> Json.toJson(posicionarancel.tiEstadistica),
-      C.POAR_DESCRIP -> Json.toJson(posicionarancel.descrip)
+  implicit val posicionArancelWrites = new Writes[PosicionArancel] {
+    def writes(posicionArancel: PosicionArancel) = Json.obj(
+      "id" -> Json.toJson(posicionArancel.id),
+      C.POAR_ID -> Json.toJson(posicionArancel.id),
+      C.POAR_NAME -> Json.toJson(posicionArancel.name),
+      C.POAR_CODE -> Json.toJson(posicionArancel.code),
+      DBHelper.ACTIVE -> Json.toJson(posicionArancel.active),
+      C.TI_ID_DERECHOS -> Json.toJson(posicionArancel.tiIdDerechos),
+      C.TI_DERECHOS -> Json.toJson(posicionArancel.tiDerechos),
+      C.TI_ID_ESTADISTICA -> Json.toJson(posicionArancel.tiIdEstadistica),
+      C.TI_ESTADISTICA -> Json.toJson(posicionArancel.tiEstadistica),
+      C.POAR_DESCRIP -> Json.toJson(posicionArancel.descrip)
     )
   }
 
   def get(id: Int) = GetAction { implicit request =>
     LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.LIST_POSICION_ARANCEL), { user =>
-      Ok(Json.toJson(Posicionarancel.get(user, id)))
+      Ok(Json.toJson(PosicionArancel.get(user, id)))
     })
   }
 
   def update(id: Int) = PostAction { implicit request =>
-    Logger.debug("in posicionarancels.update")
-    posicionarancelForm.bindFromRequest.fold(
+    Logger.debug("in PosicionAranceles.update")
+    posicionArancelForm.bindFromRequest.fold(
       formWithErrors => {
         Logger.debug(s"invalid form: ${formWithErrors.toString}")
         BadRequest
       },
-      posicionarancel => {
-        Logger.debug(s"form: ${posicionarancel.toString}")
+      posicionArancel => {
+        Logger.debug(s"form: ${posicionArancel.toString}")
         LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.EDIT_POSICION_ARANCEL), { user =>
           Ok(
             Json.toJson(
-              Posicionarancel.update(user,
-                Posicionarancel(
+              PosicionArancel.update(user,
+                PosicionArancel(
                        id,
-                       posicionarancel.name,
-                       posicionarancel.code,
-                       posicionarancel.active,
-                       posicionarancel.tiIdDerechos,
-                       posicionarancel.tiIdEstadistica,
-                       posicionarancel.descrip
+                       posicionArancel.name,
+                       posicionArancel.code,
+                       posicionArancel.active,
+                       posicionArancel.tiIdDerechos,
+                       posicionArancel.tiIdEstadistica,
+                       posicionArancel.descrip
                 ))))
         })
       }
@@ -84,25 +84,25 @@ object Posicionarancels extends Controller with ProvidesUser {
   }
 
   def create = PostAction { implicit request =>
-    Logger.debug("in posicionarancels.create")
-    posicionarancelForm.bindFromRequest.fold(
+    Logger.debug("in PosicionAranceles.create")
+    posicionArancelForm.bindFromRequest.fold(
       formWithErrors => {
         Logger.debug(s"invalid form: ${formWithErrors.toString}")
         BadRequest
       },
-      posicionarancel => {
-        Logger.debug(s"form: ${posicionarancel.toString}")
+      posicionArancel => {
+        Logger.debug(s"form: ${posicionArancel.toString}")
         LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.NEW_POSICION_ARANCEL), { user =>
           Ok(
             Json.toJson(
-              Posicionarancel.create(user,
-                Posicionarancel(
-                       posicionarancel.name,
-                       posicionarancel.code,
-                       posicionarancel.active,
-                       posicionarancel.tiIdDerechos,
-                       posicionarancel.tiIdEstadistica,
-                       posicionarancel.descrip
+              PosicionArancel.create(user,
+                PosicionArancel(
+                       posicionArancel.name,
+                       posicionArancel.code,
+                       posicionArancel.active,
+                       posicionArancel.tiIdDerechos,
+                       posicionArancel.tiIdEstadistica,
+                       posicionArancel.descrip
                 ))))
         })
       }
@@ -110,9 +110,9 @@ object Posicionarancels extends Controller with ProvidesUser {
   }
 
   def delete(id: Int) = PostAction { implicit request =>
-    Logger.debug("in posicionarancels.delete")
+    Logger.debug("in PosicionAranceles.delete")
     LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.DELETE_POSICION_ARANCEL), { user =>
-      Posicionarancel.delete(user, id)
+      PosicionArancel.delete(user, id)
       // Backbonejs requires at least an empty json object in the response
       // if not it will call errorHandler even when we responded with 200 OK :P
       Ok(JsonUtil.emptyJson)

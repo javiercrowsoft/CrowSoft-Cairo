@@ -525,9 +525,9 @@
           // ListController properties and methods
           //
           self.entityInfo = new Backbone.Model({
-            entitiesTitle: "Cobradors",
+            entitiesTitle: "Cobradores",
             entityName: "cobrador",
-            entitiesName: "cobradors"
+            entitiesName: "cobradores"
           });
 
           self.showBranch = function(branchId) {
@@ -631,7 +631,7 @@
 
           // progress message
           //
-          Cairo.LoadingMessage.show("Cobradors", "Loading Cobradores from CrowSoft Cairo server.");
+          Cairo.LoadingMessage.show("Cobradores", "Loading Cobradores from CrowSoft Cairo server.");
 
           // create the tree region
           //
@@ -657,7 +657,7 @@
 
         // create the tab
         //
-        Cairo.mainTab.showTab("Cobradors", "cobradorTreeRegion", "#general/cobradors", createTreeDialog, closeTreeDialog, showTreeDialog);
+        Cairo.mainTab.showTab("Cobradores", "cobradorTreeRegion", "#general/cobradores", createTreeDialog, closeTreeDialog, showTreeDialog);
 
       }
     };

@@ -624,15 +624,15 @@
          */
         var createTreeDialog = function(tabId) {
 
-          var editors = Cairo.Editors.formapagoEditors || Cairo.Collections.createCollection(null);
-          Cairo.Editors.formapagoEditors = editors;
+          var editors = Cairo.Editors.formaPagoEditors || Cairo.Collections.createCollection(null);
+          Cairo.Editors.formaPagoEditors = editors;
 
           // ListController properties and methods
           //
           self.entityInfo = new Backbone.Model({
-            entitiesTitle: "FormaPagos",
-            entityName: "formapago",
-            entitiesName: "formapagos"
+            entitiesTitle: "Formas de Pago",
+            entityName: "forma de pago",
+            entitiesName: "formas de pago"
           });
 
           self.showBranch = function(branchId) {
@@ -740,14 +740,14 @@
 
           // create the tree region
           //
-          Cairo.addRegions({ formapagoTreeRegion: tabId });
+          Cairo.addRegions({ formaPagoTreeRegion: tabId });
 
           // create the dialog
           //
           Cairo.Tree.List.Controller.list(
             Cairo.Tables.FORMAPAGO,
             new Cairo.Tree.List.TreeLayout({ model: self.entityInfo }),
-            Cairo.formapagoTreeRegion,
+            Cairo.formaPagoTreeRegion,
             self);
 
         };
@@ -762,7 +762,7 @@
 
         // create the tab
         //
-        Cairo.mainTab.showTab("FormaPagos", "formapagoTreeRegion", "#general/formapagos", createTreeDialog, closeTreeDialog, showTreeDialog);
+        Cairo.mainTab.showTab("Formas de Pago", "formaPagoTreeRegion", "#general/formasdepago", createTreeDialog, closeTreeDialog, showTreeDialog);
 
       }
     };

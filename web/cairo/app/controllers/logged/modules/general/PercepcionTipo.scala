@@ -12,7 +12,7 @@ import models.cairo.system.security.CairoSecurity
 import models.cairo.system.database.DBHelper
 
 
-case class PercepciontipoData(
+case class PercepcionTipoData(
               id: Option[Int],
               name: String,
               code: String,
@@ -23,9 +23,9 @@ case class PercepciontipoData(
               descrip: String
               )
 
-object Percepciontipos extends Controller with ProvidesUser {
+object PercepcionTipos extends Controller with ProvidesUser {
 
-  val percepciontipoForm = Form(
+  val percepcionTipoForm = Form(
     mapping(
       "id" -> optional(number),
       C.PERCT_NAME -> nonEmptyText,
@@ -35,51 +35,51 @@ object Percepciontipos extends Controller with ProvidesUser {
       C.PERCT_CODIGO_SICORE -> text,
       C.CUE_ID -> number,
       C.PERCT_DESCRIP -> text
-  )(PercepciontipoData.apply)(PercepciontipoData.unapply))
+  )(PercepcionTipoData.apply)(PercepcionTipoData.unapply))
 
-  implicit val percepciontipoWrites = new Writes[Percepciontipo] {
-    def writes(percepciontipo: Percepciontipo) = Json.obj(
-      "id" -> Json.toJson(percepciontipo.id),
-      C.PERCT_ID -> Json.toJson(percepciontipo.id),
-      C.PERCT_NAME -> Json.toJson(percepciontipo.name),
-      C.PERCT_CODE -> Json.toJson(percepciontipo.code),
-      DBHelper.ACTIVE -> Json.toJson(percepciontipo.active),
-      C.PERCT_GENERA_SICORE -> Json.toJson(percepciontipo.generaSicore),
-      C.PERCT_CODIGO_SICORE -> Json.toJson(percepciontipo.codigoSicore),
-      C.CUE_ID -> Json.toJson(percepciontipo.cueId),
-      C.CUE_NAME -> Json.toJson(percepciontipo.cueName),
-      C.PERCT_DESCRIP -> Json.toJson(percepciontipo.descrip)
+  implicit val percepcionTipoWrites = new Writes[PercepcionTipo] {
+    def writes(percepcionTipo: PercepcionTipo) = Json.obj(
+      "id" -> Json.toJson(percepcionTipo.id),
+      C.PERCT_ID -> Json.toJson(percepcionTipo.id),
+      C.PERCT_NAME -> Json.toJson(percepcionTipo.name),
+      C.PERCT_CODE -> Json.toJson(percepcionTipo.code),
+      DBHelper.ACTIVE -> Json.toJson(percepcionTipo.active),
+      C.PERCT_GENERA_SICORE -> Json.toJson(percepcionTipo.generaSicore),
+      C.PERCT_CODIGO_SICORE -> Json.toJson(percepcionTipo.codigoSicore),
+      C.CUE_ID -> Json.toJson(percepcionTipo.cueId),
+      C.CUE_NAME -> Json.toJson(percepcionTipo.cueName),
+      C.PERCT_DESCRIP -> Json.toJson(percepcionTipo.descrip)
     )
   }
 
   def get(id: Int) = GetAction { implicit request =>
     LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.LIST_PERCEPCIONTIPO), { user =>
-      Ok(Json.toJson(Percepciontipo.get(user, id)))
+      Ok(Json.toJson(PercepcionTipo.get(user, id)))
     })
   }
 
   def update(id: Int) = PostAction { implicit request =>
-    Logger.debug("in percepciontipos.update")
-    percepciontipoForm.bindFromRequest.fold(
+    Logger.debug("in PercepcionTipos.update")
+    percepcionTipoForm.bindFromRequest.fold(
       formWithErrors => {
         Logger.debug(s"invalid form: ${formWithErrors.toString}")
         BadRequest
       },
-      percepciontipo => {
-        Logger.debug(s"form: ${percepciontipo.toString}")
+      percepcionTipo => {
+        Logger.debug(s"form: ${percepcionTipo.toString}")
         LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.EDIT_PERCEPCIONTIPO), { user =>
           Ok(
             Json.toJson(
-              Percepciontipo.update(user,
-                Percepciontipo(
+              PercepcionTipo.update(user,
+                PercepcionTipo(
                        id,
-                       percepciontipo.name,
-                       percepciontipo.code,
-                       percepciontipo.active,
-                       percepciontipo.generaSicore,
-                       percepciontipo.codigoSicore,
-                       percepciontipo.cueId,
-                       percepciontipo.descrip
+                       percepcionTipo.name,
+                       percepcionTipo.code,
+                       percepcionTipo.active,
+                       percepcionTipo.generaSicore,
+                       percepcionTipo.codigoSicore,
+                       percepcionTipo.cueId,
+                       percepcionTipo.descrip
                 ))))
         })
       }
@@ -87,26 +87,26 @@ object Percepciontipos extends Controller with ProvidesUser {
   }
 
   def create = PostAction { implicit request =>
-    Logger.debug("in percepciontipos.create")
-    percepciontipoForm.bindFromRequest.fold(
+    Logger.debug("in PercepcionTipos.create")
+    percepcionTipoForm.bindFromRequest.fold(
       formWithErrors => {
         Logger.debug(s"invalid form: ${formWithErrors.toString}")
         BadRequest
       },
-      percepciontipo => {
-        Logger.debug(s"form: ${percepciontipo.toString}")
+      percepcionTipo => {
+        Logger.debug(s"form: ${percepcionTipo.toString}")
         LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.NEW_PERCEPCIONTIPO), { user =>
           Ok(
             Json.toJson(
-              Percepciontipo.create(user,
-                Percepciontipo(
-                       percepciontipo.name,
-                       percepciontipo.code,
-                       percepciontipo.active,
-                       percepciontipo.generaSicore,
-                       percepciontipo.codigoSicore,
-                       percepciontipo.cueId,
-                       percepciontipo.descrip
+              PercepcionTipo.create(user,
+                PercepcionTipo(
+                       percepcionTipo.name,
+                       percepcionTipo.code,
+                       percepcionTipo.active,
+                       percepcionTipo.generaSicore,
+                       percepcionTipo.codigoSicore,
+                       percepcionTipo.cueId,
+                       percepcionTipo.descrip
                 ))))
         })
       }
@@ -114,9 +114,9 @@ object Percepciontipos extends Controller with ProvidesUser {
   }
 
   def delete(id: Int) = PostAction { implicit request =>
-    Logger.debug("in percepciontipos.delete")
+    Logger.debug("in PercepcionTipos.delete")
     LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.DELETE_PERCEPCIONTIPO), { user =>
-      Percepciontipo.delete(user, id)
+      PercepcionTipo.delete(user, id)
       // Backbonejs requires at least an empty json object in the response
       // if not it will call errorHandler even when we responded with 200 OK :P
       Ok(JsonUtil.emptyJson)

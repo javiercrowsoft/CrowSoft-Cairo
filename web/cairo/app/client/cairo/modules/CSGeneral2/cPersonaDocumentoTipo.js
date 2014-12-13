@@ -251,7 +251,7 @@
 
       self.getEditorName = function() {
         var id = m_id ? m_id.toString() : "N" + (new Date).getTime().toString();
-        return "personadocumentotipo" + id;
+        return "personaDocumentoTipo" + id;
       };
 
       self.getTitle = function() {
@@ -481,15 +481,15 @@
          */
         var createTreeDialog = function(tabId) {
 
-          var editors = Cairo.Editors.personadocumentotipoEditors || Cairo.Collections.createCollection(null);
-          Cairo.Editors.personadocumentotipoEditors = editors;
+          var editors = Cairo.Editors.personaDocumentoTipoEditors || Cairo.Collections.createCollection(null);
+          Cairo.Editors.personaDocumentoTipoEditors = editors;
 
           // ListController properties and methods
           //
           self.entityInfo = new Backbone.Model({
-            entitiesTitle: "PersonaDocumentoTipos",
-            entityName: "personadocumentotipo",
-            entitiesName: "personadocumentotipos"
+            entitiesTitle: "Tipos de Documento",
+            entityName: "tipo de documento",
+            entitiesName: "tipos de documento"
           });
 
           self.showBranch = function(branchId) {
@@ -597,14 +597,14 @@
 
           // create the tree region
           //
-          Cairo.addRegions({ personadocumentotipoTreeRegion: tabId });
+          Cairo.addRegions({ personaDocumentoTipoTreeRegion: tabId });
 
           // create the dialog
           //
           Cairo.Tree.List.Controller.list(
             Cairo.Tables.PERSONADOCUMENTOTIPO,
             new Cairo.Tree.List.TreeLayout({ model: self.entityInfo }),
-            Cairo.personadocumentotipoTreeRegion,
+            Cairo.personaDocumentoTipoTreeRegion,
             self);
 
         };
@@ -619,7 +619,7 @@
 
         // create the tab
         //
-        Cairo.mainTab.showTab("PersonaDocumentoTipos", "personadocumentotipoTreeRegion", "#general/personadocumentotipos", createTreeDialog, closeTreeDialog, showTreeDialog);
+        Cairo.mainTab.showTab("Tipos de Documentos", "personaDocumentoTipoTreeRegion", "#general/personadocumentotipos", createTreeDialog, closeTreeDialog, showTreeDialog);
 
       }
     };

@@ -13,7 +13,7 @@ import play.api.Logger
 import play.api.libs.json._
 import scala.util.control.NonFatal
 
-case class Cuentagrupo(
+case class CuentaGrupo(
               id: Int,
               name: String,
               code: String,
@@ -70,9 +70,9 @@ case class Cuentagrupo(
 
 }
 
-object Cuentagrupo {
+object CuentaGrupo {
 
-  lazy val emptyCuentagrupo = Cuentagrupo(
+  lazy val emptyCuentaGrupo = CuentaGrupo(
     "",
     "",
     false,
@@ -89,7 +89,7 @@ object Cuentagrupo {
       cueId: Int,
       descrip: String) = {
 
-    new Cuentagrupo(
+    new CuentaGrupo(
       id,
       name,
       code,
@@ -107,7 +107,7 @@ object Cuentagrupo {
       cueId: Int,
       descrip: String) = {
 
-    new Cuentagrupo(
+    new CuentaGrupo(
       name,
       code,
       active,
@@ -116,7 +116,7 @@ object Cuentagrupo {
       descrip)
   }
 
-  private val cuentagrupoParser: RowParser[Cuentagrupo] = {
+  private val cuentaGrupoParser: RowParser[CuentaGrupo] = {
       SqlParser.get[Int](C.CUEG_ID) ~
       SqlParser.get[String](C.CUEG_NAME) ~
       SqlParser.get[String](C.CUEG_CODE) ~
@@ -140,7 +140,7 @@ object Cuentagrupo {
               createdAt ~
               updatedAt ~
               updatedBy =>
-        Cuentagrupo(
+        CuentaGrupo(
               id,
               name,
               code,
@@ -155,23 +155,23 @@ object Cuentagrupo {
     }
   }
 
-  def create(user: CompanyUser, cuentagrupo: Cuentagrupo): Cuentagrupo = {
-    save(user, cuentagrupo, true)
+  def create(user: CompanyUser, cuentaGrupo: CuentaGrupo): CuentaGrupo = {
+    save(user, cuentaGrupo, true)
   }
 
-  def update(user: CompanyUser, cuentagrupo: Cuentagrupo): Cuentagrupo = {
-    save(user, cuentagrupo, false)
+  def update(user: CompanyUser, cuentaGrupo: CuentaGrupo): CuentaGrupo = {
+    save(user, cuentaGrupo, false)
   }
 
-  private def save(user: CompanyUser, cuentagrupo: Cuentagrupo, isNew: Boolean): Cuentagrupo = {
+  private def save(user: CompanyUser, cuentaGrupo: CuentaGrupo, isNew: Boolean): CuentaGrupo = {
     def getFields = {
       List(
-        Field(C.CUEG_NAME, cuentagrupo.name, FieldType.text),
-        Field(C.CUEG_CODE, cuentagrupo.code, FieldType.text),
-        Field(DBHelper.ACTIVE, (if(cuentagrupo.active) 1 else 0), FieldType.boolean),
-        Field(C.CUEG_TIPO, cuentagrupo.tipo, FieldType.integer),
-        Field(C.CUE_ID, cuentagrupo.cueId, FieldType.id),
-        Field(C.CUEG_DESCRIP, cuentagrupo.descrip, FieldType.text)
+        Field(C.CUEG_NAME, cuentaGrupo.name, FieldType.text),
+        Field(C.CUEG_CODE, cuentaGrupo.code, FieldType.text),
+        Field(DBHelper.ACTIVE, (if(cuentaGrupo.active) 1 else 0), FieldType.boolean),
+        Field(C.CUEG_TIPO, cuentaGrupo.tipo, FieldType.integer),
+        Field(C.CUE_ID, cuentaGrupo.cueId, FieldType.id),
+        Field(C.CUEG_DESCRIP, cuentaGrupo.descrip, FieldType.text)
       )
     }
     def throwException = {
@@ -183,7 +183,7 @@ object Cuentagrupo {
       Register(
         C.CUENTAGRUPO,
         C.CUEG_ID,
-        cuentagrupo.id,
+        cuentaGrupo.id,
         false,
         true,
         true,
@@ -196,7 +196,7 @@ object Cuentagrupo {
     }
   }
 
-  def load(user: CompanyUser, id: Int): Option[Cuentagrupo] = {
+  def load(user: CompanyUser, id: Int): Option[CuentaGrupo] = {
     loadWhere(user, s"${C.CUEG_ID} = {id}", 'id -> id)
   }
 
@@ -206,7 +206,7 @@ object Cuentagrupo {
         s"FROM ${C.CUENTAGRUPO} t1 " +
         s"LEFT JOIN ${C.CUENTA} t2 ON t1.${C.CUE_ID} = t2.${C.CUE_ID} WHERE $where")
         .on(args: _*)
-        .as(cuentagrupoParser.singleOpt)
+        .as(cuentaGrupoParser.singleOpt)
     }
   }
 
@@ -225,10 +225,10 @@ object Cuentagrupo {
     }
   }
 
-  def get(user: CompanyUser, id: Int): Cuentagrupo = {
+  def get(user: CompanyUser, id: Int): CuentaGrupo = {
     load(user, id) match {
       case Some(p) => p
-      case None => emptyCuentagrupo
+      case None => emptyCuentaGrupo
     }
   }
 }

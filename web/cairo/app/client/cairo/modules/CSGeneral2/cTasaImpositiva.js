@@ -287,7 +287,7 @@
 
       self.getEditorName = function() {
         var id = m_id ? m_id.toString() : "N" + (new Date).getTime().toString();
-        return "tasaimpositiva" + id;
+        return "tasaImpositiva" + id;
       };
 
       self.getTitle = function() {
@@ -610,15 +610,15 @@
          */
         var createTreeDialog = function(tabId) {
 
-          var editors = Cairo.Editors.tasaimpositivaEditors || Cairo.Collections.createCollection(null);
-          Cairo.Editors.tasaimpositivaEditors = editors;
+          var editors = Cairo.Editors.tasaImpositivaEditors || Cairo.Collections.createCollection(null);
+          Cairo.Editors.tasaImpositivaEditors = editors;
 
           // ListController properties and methods
           //
           self.entityInfo = new Backbone.Model({
-            entitiesTitle: "TasaImpositivas",
-            entityName: "tasaimpositiva",
-            entitiesName: "tasaimpositivas"
+            entitiesTitle: "Tasas Impositivas",
+            entityName: "tasa impositiva",
+            entitiesName: "tasas impositivas"
           });
 
           self.showBranch = function(branchId) {
@@ -726,14 +726,14 @@
 
           // create the tree region
           //
-          Cairo.addRegions({ tasaimpositivaTreeRegion: tabId });
+          Cairo.addRegions({ tasaImpositivaTreeRegion: tabId });
 
           // create the dialog
           //
           Cairo.Tree.List.Controller.list(
             Cairo.Tables.TASA_IMPOSITIVA,
             new Cairo.Tree.List.TreeLayout({ model: self.entityInfo }),
-            Cairo.tasaimpositivaTreeRegion,
+            Cairo.tasaImpositivaTreeRegion,
             self);
 
         };
@@ -748,7 +748,7 @@
 
         // create the tab
         //
-        Cairo.mainTab.showTab("TasaImpositivas", "tasaimpositivaTreeRegion", "#general/tasaimpositivas", createTreeDialog, closeTreeDialog, showTreeDialog);
+        Cairo.mainTab.showTab("TasaImpositivas", "tasaImpositivaTreeRegion", "#general/tasaimpositivas", createTreeDialog, closeTreeDialog, showTreeDialog);
 
       }
     };

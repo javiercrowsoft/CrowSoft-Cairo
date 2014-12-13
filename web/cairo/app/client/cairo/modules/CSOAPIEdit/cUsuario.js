@@ -403,7 +403,7 @@ Cairo.module("Usuario.List", function(List, Cairo, Backbone, Marionette, $, _) {
 Cairo.module("Usuario.Edit", function(Edit, Cairo, Backbone, Marionette, $, _) {
   Edit.Controller = {
     edit: function(id) {
-      Cairo.LoadingMessage.show("Usuario", "Loading usuario from CrowSoft Cairo server.");
+      Cairo.LoadingMessage.show("Usuarios", "Loading Usuarios from CrowSoft Cairo server.");
 
       var fetchingUsuario = Cairo.request("usuario:entity", id);
       $.when(fetchingUsuario).done(function(usuario) {

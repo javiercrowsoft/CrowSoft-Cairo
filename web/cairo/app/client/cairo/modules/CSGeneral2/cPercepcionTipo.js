@@ -266,7 +266,7 @@
 
       self.getEditorName = function() {
         var id = m_id ? m_id.toString() : "N" + (new Date).getTime().toString();
-        return "percepciontipo" + id;
+        return "percepcionTipo" + id;
       };
 
       self.getTitle = function() {
@@ -581,15 +581,15 @@
          */
         var createTreeDialog = function(tabId) {
 
-          var editors = Cairo.Editors.percepciontipoEditors || Cairo.Collections.createCollection(null);
-          Cairo.Editors.percepciontipoEditors = editors;
+          var editors = Cairo.Editors.percepcionTipoEditors || Cairo.Collections.createCollection(null);
+          Cairo.Editors.percepcionTipoEditors = editors;
 
           // ListController properties and methods
           //
           self.entityInfo = new Backbone.Model({
-            entitiesTitle: "PercepcionTipos",
-            entityName: "percepciontipo",
-            entitiesName: "percepciontipos"
+            entitiesTitle: "Tipos de Percepcion",
+            entityName: "tipo de percepcion",
+            entitiesName: "tipos de percepcion"
           });
 
           self.showBranch = function(branchId) {
@@ -697,14 +697,14 @@
 
           // create the tree region
           //
-          Cairo.addRegions({ percepciontipoTreeRegion: tabId });
+          Cairo.addRegions({ percepcionTipoTreeRegion: tabId });
 
           // create the dialog
           //
           Cairo.Tree.List.Controller.list(
             Cairo.Tables.PERCEPCIONTIPO,
             new Cairo.Tree.List.TreeLayout({ model: self.entityInfo }),
-            Cairo.percepciontipoTreeRegion,
+            Cairo.percepcionTipoTreeRegion,
             self);
 
         };
@@ -719,7 +719,7 @@
 
         // create the tab
         //
-        Cairo.mainTab.showTab("PercepcionTipos", "percepciontipoTreeRegion", "#general/percepciontipos", createTreeDialog, closeTreeDialog, showTreeDialog);
+        Cairo.mainTab.showTab("Tipos de Percepcion", "percepcionTipoTreeRegion", "#general/percepciontipos", createTreeDialog, closeTreeDialog, showTreeDialog);
 
       }
     };

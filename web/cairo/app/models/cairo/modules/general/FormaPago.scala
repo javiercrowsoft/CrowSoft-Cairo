@@ -13,7 +13,7 @@ import play.api.Logger
 import play.api.libs.json._
 import scala.util.control.NonFatal
 
-case class Formapago(
+case class FormaPago(
               id: Int,
               name: String,
               code: String,
@@ -93,9 +93,9 @@ case class Formapago(
 
 }
 
-object Formapago {
+object FormaPago {
 
-  lazy val emptyFormapago = Formapago(
+  lazy val emptyFormaPago = FormaPago(
     "",
     "",
     false,
@@ -122,7 +122,7 @@ object Formapago {
       domingo: Boolean,
       descrip: String) = {
 
-    new Formapago(
+    new FormaPago(
       id,
       name,
       code,
@@ -150,7 +150,7 @@ object Formapago {
       domingo: Boolean,
       descrip: String) = {
 
-    new Formapago(
+    new FormaPago(
       name,
       code,
       active,
@@ -164,7 +164,7 @@ object Formapago {
       descrip)
   }
 
-  private val formapagoParser: RowParser[Formapago] = {
+  private val formaPagoParser: RowParser[FormaPago] = {
       SqlParser.get[Int](C.FP_ID) ~
       SqlParser.get[String](C.FP_NAME) ~
       SqlParser.get[String](C.FP_CODE) ~
@@ -196,7 +196,7 @@ object Formapago {
               createdAt ~
               updatedAt ~
               updatedBy =>
-        Formapago(
+        FormaPago(
               id,
               name,
               code,
@@ -215,28 +215,28 @@ object Formapago {
     }
   }
 
-  def create(user: CompanyUser, formapago: Formapago): Formapago = {
-    save(user, formapago, true)
+  def create(user: CompanyUser, formaPago: FormaPago): FormaPago = {
+    save(user, formaPago, true)
   }
 
-  def update(user: CompanyUser, formapago: Formapago): Formapago = {
-    save(user, formapago, false)
+  def update(user: CompanyUser, formaPago: FormaPago): FormaPago = {
+    save(user, formaPago, false)
   }
 
-  private def save(user: CompanyUser, formapago: Formapago, isNew: Boolean): Formapago = {
+  private def save(user: CompanyUser, formaPago: FormaPago, isNew: Boolean): FormaPago = {
     def getFields = {
       List(
-        Field(C.FP_NAME, formapago.name, FieldType.text),
-        Field(C.FP_CODE, formapago.code, FieldType.text),
-        Field(DBHelper.ACTIVE, (if(formapago.active) 1 else 0), FieldType.boolean),
-        Field(C.FP_LUNES, formapago.lunes, FieldType.boolean),
-        Field(C.FP_MARTES, formapago.martes, FieldType.boolean),
-        Field(C.FP_MIERCOLES, formapago.miercoles, FieldType.boolean),
-        Field(C.FP_JUEVES, formapago.jueves, FieldType.boolean),
-        Field(C.FP_VIERNES, formapago.viernes, FieldType.boolean),
-        Field(C.FP_SABADO, formapago.sabado, FieldType.boolean),
-        Field(C.FP_DOMINGO, formapago.domingo, FieldType.boolean),
-        Field(C.FP_DESCRIP, formapago.descrip, FieldType.text)
+        Field(C.FP_NAME, formaPago.name, FieldType.text),
+        Field(C.FP_CODE, formaPago.code, FieldType.text),
+        Field(DBHelper.ACTIVE, (if(formaPago.active) 1 else 0), FieldType.boolean),
+        Field(C.FP_LUNES, formaPago.lunes, FieldType.boolean),
+        Field(C.FP_MARTES, formaPago.martes, FieldType.boolean),
+        Field(C.FP_MIERCOLES, formaPago.miercoles, FieldType.boolean),
+        Field(C.FP_JUEVES, formaPago.jueves, FieldType.boolean),
+        Field(C.FP_VIERNES, formaPago.viernes, FieldType.boolean),
+        Field(C.FP_SABADO, formaPago.sabado, FieldType.boolean),
+        Field(C.FP_DOMINGO, formaPago.domingo, FieldType.boolean),
+        Field(C.FP_DESCRIP, formaPago.descrip, FieldType.text)
       )
     }
     def throwException = {
@@ -248,7 +248,7 @@ object Formapago {
       Register(
         C.FORMAPAGO,
         C.FP_ID,
-        formapago.id,
+        formaPago.id,
         false,
         true,
         true,
@@ -261,7 +261,7 @@ object Formapago {
     }
   }
 
-  def load(user: CompanyUser, id: Int): Option[Formapago] = {
+  def load(user: CompanyUser, id: Int): Option[FormaPago] = {
     loadWhere(user, s"${C.FP_ID} = {id}", 'id -> id)
   }
 
@@ -269,7 +269,7 @@ object Formapago {
     DB.withConnection(user.database.database) { implicit connection =>
       SQL(s"SELECT t1.* FROM ${C.FORMAPAGO} t1 WHERE $where")
         .on(args: _*)
-        .as(formapagoParser.singleOpt)
+        .as(formaPagoParser.singleOpt)
     }
   }
 
@@ -288,10 +288,10 @@ object Formapago {
     }
   }
 
-  def get(user: CompanyUser, id: Int): Formapago = {
+  def get(user: CompanyUser, id: Int): FormaPago = {
     load(user, id) match {
       case Some(p) => p
-      case None => emptyFormapago
+      case None => emptyFormaPago
     }
   }
 }

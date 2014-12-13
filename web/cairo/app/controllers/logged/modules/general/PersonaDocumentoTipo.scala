@@ -12,7 +12,7 @@ import models.cairo.system.security.CairoSecurity
 import models.cairo.system.database.DBHelper
 
 
-case class PersonadocumentotipoData(
+case class PersonaDocumentoTipoData(
               id: Option[Int],
               name: String,
               code: String,
@@ -20,53 +20,53 @@ case class PersonadocumentotipoData(
               descrip: String
               )
 
-object Personadocumentotipos extends Controller with ProvidesUser {
+object PersonaDocumentoTipos extends Controller with ProvidesUser {
 
-  val personadocumentotipoForm = Form(
+  val personaDocumentoTipoForm = Form(
     mapping(
       "id" -> optional(number),
       C.PRSDT_NAME -> nonEmptyText,
       C.PRSDT_CODE -> text,
       DBHelper.ACTIVE -> boolean,
       C.PRSDT_DESCRIP -> text
-  )(PersonadocumentotipoData.apply)(PersonadocumentotipoData.unapply))
+  )(PersonaDocumentoTipoData.apply)(PersonaDocumentoTipoData.unapply))
 
-  implicit val personadocumentotipoWrites = new Writes[Personadocumentotipo] {
-    def writes(personadocumentotipo: Personadocumentotipo) = Json.obj(
-      "id" -> Json.toJson(personadocumentotipo.id),
-      C.PRSDT_ID -> Json.toJson(personadocumentotipo.id),
-      C.PRSDT_NAME -> Json.toJson(personadocumentotipo.name),
-      C.PRSDT_CODE -> Json.toJson(personadocumentotipo.code),
-      DBHelper.ACTIVE -> Json.toJson(personadocumentotipo.active),
-      C.PRSDT_DESCRIP -> Json.toJson(personadocumentotipo.descrip)
+  implicit val personaDocumentoTipoWrites = new Writes[PersonaDocumentoTipo] {
+    def writes(personaDocumentoTipo: PersonaDocumentoTipo) = Json.obj(
+      "id" -> Json.toJson(personaDocumentoTipo.id),
+      C.PRSDT_ID -> Json.toJson(personaDocumentoTipo.id),
+      C.PRSDT_NAME -> Json.toJson(personaDocumentoTipo.name),
+      C.PRSDT_CODE -> Json.toJson(personaDocumentoTipo.code),
+      DBHelper.ACTIVE -> Json.toJson(personaDocumentoTipo.active),
+      C.PRSDT_DESCRIP -> Json.toJson(personaDocumentoTipo.descrip)
     )
   }
 
   def get(id: Int) = GetAction { implicit request =>
     LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.LIST_PERSONADOCUMENTOTIPO), { user =>
-      Ok(Json.toJson(Personadocumentotipo.get(user, id)))
+      Ok(Json.toJson(PersonaDocumentoTipo.get(user, id)))
     })
   }
 
   def update(id: Int) = PostAction { implicit request =>
-    Logger.debug("in personadocumentotipos.update")
-    personadocumentotipoForm.bindFromRequest.fold(
+    Logger.debug("in PersonaDocumentoTipos.update")
+    personaDocumentoTipoForm.bindFromRequest.fold(
       formWithErrors => {
         Logger.debug(s"invalid form: ${formWithErrors.toString}")
         BadRequest
       },
-      personadocumentotipo => {
-        Logger.debug(s"form: ${personadocumentotipo.toString}")
+      personaDocumentoTipo => {
+        Logger.debug(s"form: ${personaDocumentoTipo.toString}")
         LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.EDIT_PERSONADOCUMENTOTIPO), { user =>
           Ok(
             Json.toJson(
-              Personadocumentotipo.update(user,
-                Personadocumentotipo(
+              PersonaDocumentoTipo.update(user,
+                PersonaDocumentoTipo(
                        id,
-                       personadocumentotipo.name,
-                       personadocumentotipo.code,
-                       personadocumentotipo.active,
-                       personadocumentotipo.descrip
+                       personaDocumentoTipo.name,
+                       personaDocumentoTipo.code,
+                       personaDocumentoTipo.active,
+                       personaDocumentoTipo.descrip
                 ))))
         })
       }
@@ -74,23 +74,23 @@ object Personadocumentotipos extends Controller with ProvidesUser {
   }
 
   def create = PostAction { implicit request =>
-    Logger.debug("in personadocumentotipos.create")
-    personadocumentotipoForm.bindFromRequest.fold(
+    Logger.debug("in PersonaDocumentoTipos.create")
+    personaDocumentoTipoForm.bindFromRequest.fold(
       formWithErrors => {
         Logger.debug(s"invalid form: ${formWithErrors.toString}")
         BadRequest
       },
-      personadocumentotipo => {
-        Logger.debug(s"form: ${personadocumentotipo.toString}")
+      personaDocumentoTipo => {
+        Logger.debug(s"form: ${personaDocumentoTipo.toString}")
         LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.NEW_PERSONADOCUMENTOTIPO), { user =>
           Ok(
             Json.toJson(
-              Personadocumentotipo.create(user,
-                Personadocumentotipo(
-                       personadocumentotipo.name,
-                       personadocumentotipo.code,
-                       personadocumentotipo.active,
-                       personadocumentotipo.descrip
+              PersonaDocumentoTipo.create(user,
+                PersonaDocumentoTipo(
+                       personaDocumentoTipo.name,
+                       personaDocumentoTipo.code,
+                       personaDocumentoTipo.active,
+                       personaDocumentoTipo.descrip
                 ))))
         })
       }
@@ -98,9 +98,9 @@ object Personadocumentotipos extends Controller with ProvidesUser {
   }
 
   def delete(id: Int) = PostAction { implicit request =>
-    Logger.debug("in personadocumentotipos.delete")
+    Logger.debug("in PersonaDocumentoTipos.delete")
     LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.DELETE_PERSONADOCUMENTOTIPO), { user =>
-      Personadocumentotipo.delete(user, id)
+      PersonaDocumentoTipo.delete(user, id)
       // Backbonejs requires at least an empty json object in the response
       // if not it will call errorHandler even when we responded with 200 OK :P
       Ok(JsonUtil.emptyJson)

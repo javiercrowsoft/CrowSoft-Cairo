@@ -13,7 +13,7 @@ import play.api.Logger
 import play.api.libs.json._
 import scala.util.control.NonFatal
 
-case class Personadocumentotipo(
+case class PersonaDocumentoTipo(
               id: Int,
               name: String,
               code: String,
@@ -58,9 +58,9 @@ case class Personadocumentotipo(
 
 }
 
-object Personadocumentotipo {
+object PersonaDocumentoTipo {
 
-  lazy val emptyPersonadocumentotipo = Personadocumentotipo(
+  lazy val emptyPersonaDocumentoTipo = PersonaDocumentoTipo(
     "",
     "",
     false,
@@ -73,7 +73,7 @@ object Personadocumentotipo {
       active: Boolean,
       descrip: String) = {
 
-    new Personadocumentotipo(
+    new PersonaDocumentoTipo(
       id,
       name,
       code,
@@ -87,14 +87,14 @@ object Personadocumentotipo {
       active: Boolean,
       descrip: String) = {
 
-    new Personadocumentotipo(
+    new PersonaDocumentoTipo(
       name,
       code,
       active,
       descrip)
   }
 
-  private val personadocumentotipoParser: RowParser[Personadocumentotipo] = {
+  private val personaDocumentoTipoParser: RowParser[PersonaDocumentoTipo] = {
       SqlParser.get[Int](C.PRSDT_ID) ~
       SqlParser.get[String](C.PRSDT_NAME) ~
       SqlParser.get[String](C.PRSDT_CODE) ~
@@ -112,7 +112,7 @@ object Personadocumentotipo {
               createdAt ~
               updatedAt ~
               updatedBy =>
-        Personadocumentotipo(
+        PersonaDocumentoTipo(
               id,
               name,
               code,
@@ -124,21 +124,21 @@ object Personadocumentotipo {
     }
   }
 
-  def create(user: CompanyUser, personadocumentotipo: Personadocumentotipo): Personadocumentotipo = {
-    save(user, personadocumentotipo, true)
+  def create(user: CompanyUser, personaDocumentoTipo: PersonaDocumentoTipo): PersonaDocumentoTipo = {
+    save(user, personaDocumentoTipo, true)
   }
 
-  def update(user: CompanyUser, personadocumentotipo: Personadocumentotipo): Personadocumentotipo = {
-    save(user, personadocumentotipo, false)
+  def update(user: CompanyUser, personaDocumentoTipo: PersonaDocumentoTipo): PersonaDocumentoTipo = {
+    save(user, personaDocumentoTipo, false)
   }
 
-  private def save(user: CompanyUser, personadocumentotipo: Personadocumentotipo, isNew: Boolean): Personadocumentotipo = {
+  private def save(user: CompanyUser, personaDocumentoTipo: PersonaDocumentoTipo, isNew: Boolean): PersonaDocumentoTipo = {
     def getFields = {
       List(
-        Field(C.PRSDT_NAME, personadocumentotipo.name, FieldType.text),
-        Field(C.PRSDT_CODE, personadocumentotipo.code, FieldType.text),
-        Field(DBHelper.ACTIVE, (if(personadocumentotipo.active) 1 else 0), FieldType.boolean),
-        Field(C.PRSDT_DESCRIP, personadocumentotipo.descrip, FieldType.text)
+        Field(C.PRSDT_NAME, personaDocumentoTipo.name, FieldType.text),
+        Field(C.PRSDT_CODE, personaDocumentoTipo.code, FieldType.text),
+        Field(DBHelper.ACTIVE, (if(personaDocumentoTipo.active) 1 else 0), FieldType.boolean),
+        Field(C.PRSDT_DESCRIP, personaDocumentoTipo.descrip, FieldType.text)
       )
     }
     def throwException = {
@@ -150,7 +150,7 @@ object Personadocumentotipo {
       Register(
         C.PERSONADOCUMENTOTIPO,
         C.PRSDT_ID,
-        personadocumentotipo.id,
+        personaDocumentoTipo.id,
         false,
         true,
         true,
@@ -163,7 +163,7 @@ object Personadocumentotipo {
     }
   }
 
-  def load(user: CompanyUser, id: Int): Option[Personadocumentotipo] = {
+  def load(user: CompanyUser, id: Int): Option[PersonaDocumentoTipo] = {
     loadWhere(user, s"${C.PRSDT_ID} = {id}", 'id -> id)
   }
 
@@ -171,7 +171,7 @@ object Personadocumentotipo {
     DB.withConnection(user.database.database) { implicit connection =>
       SQL(s"SELECT t1.* FROM ${C.PERSONADOCUMENTOTIPO} t1 WHERE $where")
         .on(args: _*)
-        .as(personadocumentotipoParser.singleOpt)
+        .as(personaDocumentoTipoParser.singleOpt)
     }
   }
 
@@ -190,10 +190,10 @@ object Personadocumentotipo {
     }
   }
 
-  def get(user: CompanyUser, id: Int): Personadocumentotipo = {
+  def get(user: CompanyUser, id: Int): PersonaDocumentoTipo = {
     load(user, id) match {
       case Some(p) => p
-      case None => emptyPersonadocumentotipo
+      case None => emptyPersonaDocumentoTipo
     }
   }
 }
