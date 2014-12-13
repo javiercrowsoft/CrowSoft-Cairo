@@ -1,5 +1,3 @@
-import java.util.Date;
-
 (function() {
   "use strict";
 
@@ -152,7 +150,7 @@ import java.util.Date;
 
           case Dialogs.Message.MSG_DOC_INFO:
 
-            Cairo.Documentation.show("", "", csGeneralPrestacion.Cairo.Security.Actions.General.NEW_TRANSPORTE);
+            Cairo.Documentation.show("", "", Cairo.Security.Actions.General.NEW_TRANSPORTE);
             _rtn = Dialogs.Message.MSG_DOC_INFO_HANDLED;
             break;
 
@@ -319,7 +317,7 @@ import java.util.Date;
       };
 
       self.getTitle = function() {
-        //'Transportes
+        // Transportes
         return Cairo.Language.getText(1496, "");
       };
 
@@ -361,7 +359,7 @@ import java.util.Date;
       };
 
       self.list = function() {
-        return Cairo.Security.hasPermissionTo(csGeneralPrestacion.Cairo.Security.Actions.General.LIST_TRANSPORTE);
+        return Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.LIST_TRANSPORTE);
       };
 
       self.setDialog = function(rhs) {
@@ -378,11 +376,11 @@ import java.util.Date;
 
           if(id === Cairo.Constants.NO_ID) {
             m_isNew = true;
-            if(!Cairo.Security.hasPermissionTo(csGeneralPrestacion.Cairo.Security.Actions.General.NEW_TRANSPORTE)) { return p; }
+            if(!Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.NEW_TRANSPORTE)) { return p; }
           } 
           else {
             m_isNew = false;
-            if(!Cairo.Security.hasPermissionTo(csGeneralPrestacion.Cairo.Security.Actions.General.EDIT_TRANSPORTE)) { return p; }
+            if(!Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.EDIT_TRANSPORTE)) { return p; }
           }
 
           m_dialog.setInModalWindow(inModalWindow);
@@ -427,11 +425,8 @@ import java.util.Date;
       };
 
       var loadCollection = function() {
-        var abmObj = null;
 
-        abmObj = m_dialog;
-        abmObj.setMinHeight(7000);
-
+        m_dialog.setMinHeight(7000);
         m_dialog.setTitle(m_name);
 
         var properties = m_dialog.getProperties();
@@ -464,7 +459,7 @@ import java.util.Date;
 
         var elem = properties.add(null, Cairo.General.Constants.TRANS_DIRECCION);
         elem.setType(Dialogs.PropertyType.text);
-        //'Direcci�n
+        // Direcci�n
         elem.setName(Cairo.Language.getText(1037, ""));
         elem.setSize(50);
         elem.setKey(K_DIRECCION);
@@ -473,7 +468,7 @@ import java.util.Date;
 
         var elem = properties.add(null, Cairo.General.Constants.TRANS_TELEFONO);
         elem.setType(Dialogs.PropertyType.text);
-        //'Tel�fono
+        // Tel�fono
         elem.setName(Cairo.Language.getText(1036, ""));
         elem.setSize(50);
         elem.setKey(K_TELEFONO);
@@ -482,7 +477,7 @@ import java.util.Date;
         var elem = properties.add(null, Cairo.General.Constants.PRO_ID);
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.PROVINCIA);
-        //'Provincia
+        // Provincia
         elem.setName(Cairo.Language.getText(1080, ""));
         elem.setKey(K_PRO_ID);
         elem.setValue(m_provincia);
@@ -493,7 +488,7 @@ import java.util.Date;
 
         var elem = properties.add(null, Cairo.General.Constants.TRANS_MAIL);
         elem.setType(Dialogs.PropertyType.text);
-        //'Mail
+        // Mail
         elem.setName(Cairo.Language.getText(1034, ""));
         elem.setSize(255);
         elem.setKey(K_MAIL);
@@ -502,7 +497,7 @@ import java.util.Date;
 
         var elem = properties.add(null, Cairo.General.Constants.TRANS_WEB);
         elem.setType(Dialogs.PropertyType.text);
-        //'P�gina Web
+        // P�gina Web
         elem.setName(Cairo.Language.getText(1038, ""));
         elem.setSize(255);
         elem.setKey(K_WEB);
@@ -512,7 +507,7 @@ import java.util.Date;
         var elem = properties.add(null, Cairo.General.Constants.PROV_ID);
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.PROVEEDOR);
-        //'Proveedor
+        // Proveedor
         elem.setName(Cairo.Language.getText(1151, ""));
         elem.setKey(K_PROV_ID);
         elem.setValue(m_proveedor);
@@ -521,7 +516,7 @@ import java.util.Date;
 
         var elem = properties.add(null, Cairo.General.Constants.TRANS_HORARIO_MDESDE);
         elem.setType(Dialogs.PropertyType.time);
-        //' Horario desde
+        // Horario desde
         elem.setName(Cairo.Language.getText(4965, ""));
         elem.setValue(m_horario_m_desde);
         elem.setKey(K_HORARIO_M_DESDE);
@@ -529,7 +524,7 @@ import java.util.Date;
 
         var elem = properties.add(null, Cairo.General.Constants.TRANS_HORARIO_MHASTA);
         elem.setType(Dialogs.PropertyType.time);
-        //' Hasta
+        // Hasta
         elem.setName(Cairo.Language.getText(4966, ""));
         elem.setValue(m_horario_m_hasta);
         elem.setKey(K_HORARIO_M_HASTA);
@@ -541,7 +536,7 @@ import java.util.Date;
 
         var elem = properties.add(null, Cairo.General.Constants.TRANS_HORARIO_TDESDE);
         elem.setType(Dialogs.PropertyType.time);
-        //' Desde
+        // Desde
         elem.setName(Cairo.Language.getText(4967, ""));
         elem.setValue(m_horario_t_desde);
         elem.setKey(K_HORARIO_T_DESDE);
@@ -553,7 +548,7 @@ import java.util.Date;
 
         var elem = properties.add(null, Cairo.General.Constants.TRANS_HORARIO_THASTA);
         elem.setType(Dialogs.PropertyType.time);
-        //' Hasta
+        // Hasta
         elem.setName(Cairo.Language.getText(4966, ""));
         elem.setValue(m_horario_t_hasta);
         elem.setKey(K_HORARIO_T_HASTA);
@@ -640,7 +635,9 @@ import java.util.Date;
         return Cairo.Database.getData("load[" + apiPath + "general/transporte]", id).then(
           function(response) {
 
-            if(!rs.isEOF()) {
+            if(response.success !== true) { return false; }
+
+            if(response.data.id !== Cairo.Constants.NO_ID) {
 
               m_id = Cairo.Database.valField(response.data, Cairo.General.Constants.TRANS_ID);
               m_name = Cairo.Database.valField(response.data, Cairo.General.Constants.TRANS_NAME);

@@ -28,8 +28,6 @@
       var m_provincia = "";
       var m_active;
 
-      //OJO HASTA ACA
-
       var m_editing;
 
       var m_dialog;
@@ -41,7 +39,6 @@
       var m_treeId = 0;
       var m_copy;
 
-      // Properties publicas
       self.getId = function() {
         return m_id;
       };
@@ -101,7 +98,7 @@
 
           case Dialogs.Message.MSG_DOC_INFO:
 
-            Cairo.Documentation.show("", "", csGeneralPrestacion.Cairo.Security.Actions.General.NEW_CIUDAD);
+            Cairo.Documentation.show("", "", Cairo.Security.Actions.General.NEW_CIUDAD);
             _rtn = Dialogs.Message.MSG_DOC_INFO_HANDLED;
             break;
 
@@ -263,7 +260,7 @@
       };
 
       self.getTitle = function() {
-        //'Ciudades
+        // Ciudades
         return Cairo.Language.getText(1076, "");
       };
 
@@ -289,7 +286,7 @@
 
             case K_PRO_ID:
               if(Cairo.Util.valEmpty(property.getSelectId(), Cairo.Constants.Types.id)) {
-                //'Debe indicar una provincia
+                // Debe indicar una provincia
                 cWindow.msgInfo(Cairo.Language.getText(1077, ""));
               }
               break;
@@ -312,7 +309,7 @@
       };
 
       self.list = function() {
-        return Cairo.Security.hasPermissionTo(csGeneralPrestacion.Cairo.Security.Actions.General.LIST_CIUDAD);
+        return Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.LIST_CIUDAD);
       };
 
       self.setDialog = function(rhs) {
@@ -329,11 +326,11 @@
 
           if(id === Cairo.Constants.NO_ID) {
             m_isNew = true;
-            if(!Cairo.Security.hasPermissionTo(csGeneralPrestacion.Cairo.Security.Actions.General.NEW_CIUDAD)) { return p; }
+            if(!Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.NEW_CIUDAD)) { return p; }
           } 
           else {
             m_isNew = false;
-            if(!Cairo.Security.hasPermissionTo(csGeneralPrestacion.Cairo.Security.Actions.General.EDIT_CIUDAD)) { return p; }
+            if(!Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.EDIT_CIUDAD)) { return p; }
           }
 
           m_dialog.setInModalWindow(inModalWindow);
@@ -409,7 +406,7 @@
         var elem = properties.add(null, Cairo.General.Constants.PRO_ID);
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.PROVINCIA);
-        //'Provincia
+        // Provincia
         elem.setName(Cairo.Language.getText(1080, ""));
         elem.setKey(K_PRO_ID);
         elem.setValue(m_provincia);
@@ -466,7 +463,9 @@
         return Cairo.Database.getData("load[" + apiPath + "general/ciudad]", id).then(
           function(response) {
 
-            if(!rs.isEOF()) {
+            if(response.success !== true) { return false; }
+
+            if(response.data.id !== Cairo.Constants.NO_ID) {
 
               m_id = Cairo.Database.valField(response.data, Cairo.General.Constants.CIU_ID);
               m_name = Cairo.Database.valField(response.data, Cairo.General.Constants.CIU_NAME);

@@ -256,7 +256,7 @@
       };
 
       self.getTitle = function() {
-        //'Provincias
+        // Provincias
         return Cairo.Language.getText(1410, "");
       };
 
@@ -403,7 +403,7 @@
         var elem = properties.add(null, Cairo.General.Constants.PA_ID);
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.PAIS);
-        //'País
+        // País
         elem.setName(Cairo.Language.getText(1212, ""));
         elem.setKey(K_PA_ID);
         elem.setValue(m_pais);

@@ -4,8 +4,13 @@
       <w>codigo</w>
       <w>descrip</w>
       <w>indice</w>
+      <w>percepcion</w>
+      <w>percepciones</w>
       <w>prns</w>
+      <w>retencion</w>
+      <w>retenciones</w>
       <w>rubro</w>
+      <w>tipos</w>
     </words>
   </dictionary>
 </component>

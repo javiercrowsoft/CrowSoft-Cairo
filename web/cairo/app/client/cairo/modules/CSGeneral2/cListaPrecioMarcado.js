@@ -144,7 +144,7 @@
 
           case Dialogs.Message.MSG_DOC_INFO:
 
-            Cairo.Documentation.show("", "", csGeneralPrestacion.Cairo.Security.Actions.General.NEW_LISTA_PRECIO_MARCADO);
+            Cairo.Documentation.show("", "", Cairo.Security.Actions.General.NEW_LISTA_PRECIO_MARCADO);
             _rtn = Dialogs.Message.MSG_DOC_INFO_HANDLED;
             break;
 
@@ -330,7 +330,7 @@
 
             case K_MON_ID:
               if(Cairo.Util.valEmpty(property.getSelectId(), Cairo.Constants.Types.id)) {
-                //' Debe indicar una moneda
+                // Debe indicar una moneda
                 cWindow.msgInfo(Cairo.Language.getText(1108, ""));
               }
               break;
@@ -353,7 +353,7 @@
       };
 
       self.list = function() {
-        return Cairo.Security.hasPermissionTo(csGeneralPrestacion.Cairo.Security.Actions.General.LIST_LISTA_PRECIO_MARCADO);
+        return Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.LIST_LISTA_PRECIO_MARCADO);
       };
 
       self.setDialog = function(rhs) {
@@ -370,11 +370,11 @@
 
           if(id === Cairo.Constants.NO_ID) {
             m_isNew = true;
-            if(!Cairo.Security.hasPermissionTo(csGeneralPrestacion.Cairo.Security.Actions.General.NEW_LISTA_PRECIO_MARCADO)) { return p; }
+            if(!Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.NEW_LISTA_PRECIO_MARCADO)) { return p; }
           } 
           else {
             m_isNew = false;
-            if(!Cairo.Security.hasPermissionTo(csGeneralPrestacion.Cairo.Security.Actions.General.EDIT_LISTA_PRECIO_MARCADO)) { return p; }
+            if(!Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.EDIT_LISTA_PRECIO_MARCADO)) { return p; }
           }
 
           m_dialog.setInModalWindow(inModalWindow);
@@ -456,7 +456,7 @@
         elem.setType(Dialogs.PropertyType.numeric);
         elem.setSubType(Dialogs.PropertySubType.double);
         elem.setFormat(Cairo.Settings.getQuantityDecimalsFormat());
-        //'Base
+        // Base
         elem.setName(Cairo.Language.getText(2550, ""));
         elem.setKey(K_BASE);
         elem.setValue(m_base);
@@ -465,7 +465,7 @@
         var elem = properties.add(null, Cairo.General.Constants.LPM_PORCENTAJE);
         elem.setType(Dialogs.PropertyType.numeric);
         elem.setSubType(Dialogs.PropertySubType.percentage);
-        //'porcentaje
+        // porcentaje
         elem.setName(Cairo.Language.getText(1105, ""));
         elem.setKey(K_PORCENTAJE);
         elem.setValue(m_porcentaje);
@@ -474,7 +474,7 @@
         elem.setType(Dialogs.PropertyType.numeric);
         elem.setSubType(Dialogs.PropertySubType.double);
         elem.setFormat(Cairo.Settings.getQuantityDecimalsFormat());
-        //'Salto
+        // Salto
         elem.setName(Cairo.Language.getText(3509, ""));
         elem.setKey(K_SALTO);
         elem.setValue(m_salto);
@@ -482,7 +482,7 @@
         var elem = properties.add(null, Cairo.General.Constants.LPM_DECREMENTO);
         elem.setType(Dialogs.PropertyType.numeric);
         elem.setSubType(Dialogs.PropertySubType.percentage);
-        //'Decremento
+        // Decremento
         elem.setName(Cairo.Language.getText(3510, ""));
         elem.setKey(K_DECREMENTO);
         elem.setValue(m_decremento);
@@ -490,7 +490,7 @@
         var elem = properties.add(null, Cairo.General.Constants.LPM_PORCMINIMO);
         elem.setType(Dialogs.PropertyType.numeric);
         elem.setSubType(Dialogs.PropertySubType.percentage);
-        //'Porc. Minimo
+        // Porc. Minimo
         elem.setName(Cairo.Language.getText(3511, ""));
         elem.setKey(K_PORCMINIMO);
         elem.setValue(m_porcminimo);
@@ -500,7 +500,7 @@
         var elem = properties.add(null, Cairo.General.Constants.LPM_PORCMAXIMO);
         elem.setType(Dialogs.PropertyType.numeric);
         elem.setSubType(Dialogs.PropertySubType.percentage);
-        //'Porc. Maximo
+        // Porc. Maximo
         elem.setName(Cairo.Language.getText(3512, ""));
         elem.setKey(K_PORCMAXIMO);
         elem.setValue(m_porcmaximo);
@@ -509,7 +509,7 @@
         elem.setType(Dialogs.PropertyType.numeric);
         elem.setSubType(Dialogs.PropertySubType.double);
         elem.setFormat(Cairo.Settings.getQuantityDecimalsFormat());
-        //'Monto Minimo
+        // Monto Minimo
         elem.setName(Cairo.Language.getText(3513, ""));
         elem.setKey(K_MONTOMINIMO);
         elem.setValue(m_montominimo);
@@ -517,7 +517,7 @@
         var elem = properties.add(null, Cairo.General.Constants.MON_ID);
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.MONEDA);
-        //'Moneda
+        // Moneda
         elem.setName(Cairo.Language.getText(1113, ""));
         elem.setKey(K_MON_ID);
         elem.setSelectId(m_mon_id);

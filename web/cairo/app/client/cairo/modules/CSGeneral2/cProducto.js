@@ -1868,7 +1868,7 @@
 
         var elem = properties.add(null, Constants.PR_CUEG_ID_COMPRA);
         elem.setType(Dialogs.PropertyType.select);
-        elem.setSelectTable(Cairo.Tables.CUENTAGRUPO);
+        elem.setSelectTable(Cairo.Tables.GRUPO_DE_CUENTA);
         elem.setTabIndex(tab_compra);
         elem.setName(Cairo.Language.getText(1516, "")); // Grupo de Cuenta
         elem.setKey(K_CUEG_ID_COMPRA);
@@ -2096,7 +2096,7 @@
 
         var elem = properties.add(null, Constants.PR_CUEG_ID_VENTA);
         elem.setType(Dialogs.PropertyType.select);
-        elem.setSelectTable(Cairo.Tables.CUENTAGRUPO);
+        elem.setSelectTable(Cairo.Tables.GRUPO_DE_CUENTA);
         elem.setName(Cairo.Language.getText(1516, "")); // Grupo de Cuenta
         elem.setKey(K_CUEG_ID_VENTA);
         elem.setTopFromProperty(Constants.PR_UN_ID_VENTA);
@@ -5403,7 +5403,7 @@
 
         var iCol = w_columns.add(null);
         var oCol = iCol;
-        //  Producto
+        // Producto
         iCol.setName(Cairo.Language.getText(1619, ""));
         iCol.setType(Dialogs.PropertyType.select);
         iCol.setTable(Cairo.Tables.PRODUCTO);
@@ -5414,20 +5414,20 @@
         }
 
         var elem = w_columns.add(null);
-        //  Orden
+        // Orden
         elem.setName(Cairo.Language.getText(5016, ""));
         elem.setType(Dialogs.PropertyType.text);
         elem.setEnabled(false);
 
         var elem = w_columns.add(null);
-        //  Texto
+        // Texto
         elem.setName(Cairo.Language.getText(3968, ""));
         elem.setType(Dialogs.PropertyType.text);
         elem.setWidth(1000);
         elem.setKey(KIT_TEXTO);
 
         var elem = w_columns.add(null);
-        //  Expo Web
+        // Expo Web
         elem.setName(Cairo.Language.getText(3897, ""));
         elem.setType(Dialogs.PropertyType.text);
         elem.setWidth(1000);
@@ -5437,7 +5437,7 @@
         elem.getDefaultValue().setValue(50);
 
         var elem = w_columns.add(null);
-        //  Expo Cairo
+        // Expo Cairo
         elem.setName(Cairo.Language.getText(3898, ""));
         elem.setType(Dialogs.PropertyType.text);
         elem.setWidth(1000);
@@ -5499,7 +5499,7 @@
         elem.setKey(KICWCI_ID);
 
         var elem = w_columns.add(null);
-        //  Categoria de Catalogo Web
+        // Categoria de Catalogo Web
         elem.setName(Cairo.Language.getText(4597, ""));
         elem.setType(Dialogs.PropertyType.text);
         elem.setWidth(4000);
@@ -5564,7 +5564,7 @@
         elem.setKey(KICWI_ID);
 
         var elem = w_columns.add(null);
-        //  Catalogo Web
+        // Catalogo Web
         elem.setName(Cairo.Language.getText(4598, ""));
         elem.setType(Dialogs.PropertyType.text);
         elem.setWidth(2000);
@@ -5618,14 +5618,14 @@
         elem.setKey(KIWI_PRWI_ID);
 
         var elem = w_columns.add(null);
-        //  Imagen
+        // Imagen
         elem.setName(Cairo.Language.getText(4573, ""));
         elem.setType(Dialogs.PropertyType.text);
         elem.setWidth(2000);
         elem.setKey(KIWI_IMAGE);
 
         var elem = w_columns.add(null);
-        //  Tipo
+        // Tipo
         elem.setName(Cairo.Language.getText(1223, ""));
         elem.setType(Dialogs.PropertyType.list);
         elem.setWidth(3000);
@@ -5635,28 +5635,28 @@
 
         var elem = w_list.add(null);
         elem.Id = csE_ProductoWebImageType.cSE_PRWEBIMAGETHUMBNAIL;
-        //  Pequeña Principal
+        // Pequeña Principal
         elem.Value = Cairo.Language.getText(4572, "");
 
         var elem = w_list.add(null);
         elem.Id = csE_ProductoWebImageType.cSE_PRWEBIMAGEMEDIUM;
-        //  Pequeña
+        // Pequeña
         elem.Value = Cairo.Language.getText(4571, "");
 
         var elem = w_list.add(null);
         elem.Id = csE_ProductoWebImageType.cSE_PRWEBIMAGEBIG;
-        //  Grande
+        // Grande
         elem.Value = Cairo.Language.getText(4570, "");
 
         var elem = w_columns.add(null);
-        //  Texto Alternativo
+        // Texto Alternativo
         elem.setName(Cairo.Language.getText(4569, ""));
         elem.setType(Dialogs.PropertyType.text);
         elem.setWidth(3000);
         elem.setKey(KIWI_ALT);
 
         var elem = w_columns.add(null);
-        //  Posición
+        // Posición
         elem.setName(Cairo.Language.getText(3268, ""));
         elem.setType(Dialogs.PropertyType.numeric);
         elem.setSubType(Dialogs.PropertySubType.integer);

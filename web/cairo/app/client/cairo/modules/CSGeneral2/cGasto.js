@@ -52,8 +52,6 @@
       var m_treeId = 0;
       var m_copy;
 
-      // Properties publicas
-
       self.getId = function() {
         return m_id;
       };
@@ -65,7 +63,6 @@
       self.getCode = function() {
         return m_code;
       };
-      // Properties privadas
 
       self.getApplication = function() {
         return Cairo.appName;
@@ -309,14 +306,14 @@
 
             case K_TIPO:
               if(Cairo.Util.valEmpty(property.getListItemData(), Cairo.Constants.Types.integer)) {
-                //'Debe indicar un tipo
+                // Debe indicar un tipo
                 cWindow.msgInfo(Cairo.Language.getText(1222, ""));
               }
               break;
 
             case K_MON_ID:
               if(Cairo.Util.valEmpty(property.getSelectId(), Cairo.Constants.Types.id)) {
-                //'Debe indicar un moneda
+                // Debe indicar un moneda
                 cWindow.msgInfo(Cairo.Language.getText(1108, ""));
               }
               break;
@@ -335,7 +332,7 @@
       };
 
       self.list = function() {
-        return Cairo.Security.hasPermissionTo(csGeneralPrestacion.Cairo.Security.Actions.General.LIST_GASTO);
+        return Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.LIST_GASTO);
       };
 
       self.getDialog = function() {
@@ -356,11 +353,11 @@
 
           if(id === Cairo.Constants.NO_ID) {
             m_isNew = true;
-            if(!Cairo.Security.hasPermissionTo(csGeneralPrestacion.Cairo.Security.Actions.General.NEW_GASTO)) { return p; }
+            if(!Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.NEW_GASTO)) { return p; }
           } 
           else {
             m_isNew = false;
-            if(!Cairo.Security.hasPermissionTo(csGeneralPrestacion.Cairo.Security.Actions.General.EDIT_GASTO)) { return p; }
+            if(!Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.EDIT_GASTO)) { return p; }
           }
 
           m_dialog.setInModalWindow(inModalWindow);
@@ -434,7 +431,7 @@
 
         var elem = properties.add(null, Cairo.General.Constants.GTO_TIPO);
         elem.setType(Dialogs.PropertyType.list);
-        //'Tipo
+        // Tipo
         elem.setName(Cairo.Language.getText(1223, ""));
         elem.setKey(K_TIPO);
         elem.setListWhoSetItem(csListItemData);
@@ -442,20 +439,20 @@
 
         var elem = elem.add(null);
         elem.Id = csE_GastoTipo.cSEGTOTAEREO;
-        //'A�reo
+        // A�reo
         elem.setValue(Cairo.Language.getText(1224, ""));
         var elem = elem.add(null);
         elem.Id = csE_GastoTipo.cSEGTOTGENERAL;
         elem.setValue(Cairo.Constants.c_strGeneral);
         var elem = elem.add(null);
         elem.Id = csE_GastoTipo.cSEGTOTMARITIMO;
-        //'Mar�timo
+        // Mar�timo
         elem.setValue(Cairo.Language.getText(1225, ""));
 
         var elem = properties.add(null, Cairo.General.Constants.GTO_FIJO);
         elem.setType(Dialogs.PropertyType.numeric);
         elem.setSubType(Dialogs.PropertySubType.money);
-        //'Fijo
+        // Fijo
         elem.setName(Cairo.Language.getText(1226, ""));
         elem.setKey(K_FIJO);
         elem.setValue(m_fijo);
@@ -463,7 +460,7 @@
         var elem = properties.add(null, Cairo.General.Constants.GTO_MINIMO);
         elem.setType(Dialogs.PropertyType.numeric);
         elem.setSubType(Dialogs.PropertySubType.money);
-        //'M�nimo
+        // M�nimo
         elem.setName(Cairo.Language.getText(1227, ""));
         elem.setKey(K_MINIMO);
         elem.setValue(m_minimo);
@@ -473,7 +470,7 @@
         var elem = properties.add(null, Cairo.General.Constants.GTO_PORCENTAJE);
         elem.setType(Dialogs.PropertyType.numeric);
         elem.setSubType(Dialogs.PropertySubType.percentage);
-        //'Porcentaje
+        // Porcentaje
         elem.setName(Cairo.Language.getText(1105, ""));
         elem.setKey(K_PORCENTAJE);
         elem.setValue(m_porcentaje);
@@ -481,7 +478,7 @@
         var elem = properties.add(null, Cairo.General.Constants.GTO_IMPORTE);
         elem.setType(Dialogs.PropertyType.numeric);
         elem.setSubType(Dialogs.PropertySubType.money);
-        //'Importe
+        // Importe
         elem.setName(Cairo.Language.getText(1228, ""));
         elem.setKey(K_IMPORTE);
         elem.setValue(m_importe);
@@ -489,7 +486,7 @@
         var elem = properties.add(null, Cairo.General.Constants.MON_ID);
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.MONEDA);
-        //'Moneda
+        // Moneda
         elem.setName(Cairo.Language.getText(1113, ""));
         elem.setKey(K_MON_ID);
         elem.setValue(m_moneda);
@@ -498,7 +495,7 @@
         var elem = properties.add(null, Cairo.General.Constants.TI_ID);
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.TASA_IMPOSITIVA);
-        //'Tasa Impositiva
+        // Tasa Impositiva
         elem.setName(Cairo.Language.getText(1229, ""));
         elem.setKey(K_TI_ID);
         elem.setValue(m_tasaImpositiva);
@@ -572,7 +569,9 @@
         return Cairo.Database.getData("load[" + apiPath + "general/gasto]", id).then(
           function(response) {
 
-            if(!rs.isEOF()) {
+            if(response.success !== true) { return false; }
+
+            if(response.data.id !== Cairo.Constants.NO_ID) {
 
               m_id = Cairo.Database.valField(response.data, Cairo.General.Constants.GTO_ID);
               m_name = Cairo.Database.valField(response.data, Cairo.General.Constants.GTO_NAME);
@@ -618,18 +617,6 @@
         m_dialog = null;
         m_listController = null;
       };
-
-      ////////////////////////////////
-      //  Codigo estandar de errores
-      //  On Error GoTo ControlError
-      //
-      //  GoTo ExitProc
-      //ControlError:
-      //  MngError err,"", C_Module, ""
-      //  If Err.Number Then Resume ExitProc
-      //ExitProc:
-      //  On Error Resume Next
-
 
       return self;
     };

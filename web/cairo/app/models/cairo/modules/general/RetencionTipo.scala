@@ -141,7 +141,7 @@ object Retenciontipo {
       SqlParser.get[String](C.RETT_NAME) ~
       SqlParser.get[String](C.RETT_CODE) ~
       SqlParser.get[Int](DBHelper.ACTIVE) ~
-      SqlParser.get[Boolean](C.RETT_GENERA_SICORE) ~
+      SqlParser.get[Int](C.RETT_GENERA_SICORE) ~
       SqlParser.get[String](C.RETT_CODIGO_SICORE) ~
       SqlParser.get[Int](C.CUE_ID) ~
       SqlParser.get[String](C.CUE_NAME) ~
@@ -169,7 +169,7 @@ object Retenciontipo {
               name,
               code,
               (if(active != 0) true else false),
-              generaSicore,
+              (if(generaSicore != 0) true else false),
               codigoSicore,
               cueId,
               cueName,
@@ -195,7 +195,7 @@ object Retenciontipo {
         Field(C.RETT_NAME, retencionTipo.name, FieldType.text),
         Field(C.RETT_CODE, retencionTipo.code, FieldType.text),
         Field(DBHelper.ACTIVE, (if(retencionTipo.active) 1 else 0), FieldType.boolean),
-        Field(C.RETT_GENERA_SICORE, retencionTipo.generaSicore, FieldType.boolean),
+        Field(C.RETT_GENERA_SICORE, (if(retencionTipo.generaSicore) 1 else 0), FieldType.boolean),
         Field(C.RETT_CODIGO_SICORE, retencionTipo.codigoSicore, FieldType.text),
         Field(C.CUE_ID, retencionTipo.cueId, FieldType.id),
         Field(C.RETT_TIPO, retencionTipo.tipo, FieldType.integer),

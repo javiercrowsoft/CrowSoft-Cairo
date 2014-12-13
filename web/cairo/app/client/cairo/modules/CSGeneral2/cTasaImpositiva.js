@@ -291,7 +291,7 @@
       };
 
       self.getTitle = function() {
-        //'Tasas Impositivas
+        // Tasas Impositivas
         return Cairo.Language.getText(1482, "");
       };
 
@@ -454,7 +454,7 @@
         var elem = properties.add(null, Cairo.General.Constants.TI_PORCENTAJE);
         elem.setType(Dialogs.PropertyType.numeric);
         elem.setSubType(Dialogs.PropertySubType.percentage);
-        //'Porcentaje
+        // Porcentaje
         elem.setName(Cairo.Language.getText(1105, ""));
         elem.setKey(K_PORCENTAJE);
         elem.setWidth(1000);
@@ -463,7 +463,7 @@
         var elem = properties.add(null, Cairo.General.Constants.CUEC_ID);
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.CUENTA);
-        //'Cuenta
+        // Cuenta
         elem.setName(Cairo.Language.getText(1267, ""));
         elem.setKey(K_CUE_ID);
         elem.setValue(m_cuenta);
@@ -471,7 +471,7 @@
 
         var elem = properties.add(null, Cairo.General.Constants.TI_CODIGO_DGI1);
         elem.setType(Dialogs.PropertyType.text);
-        //'Código DGI 1
+        // Código DGI 1
         elem.setName(Cairo.Language.getText(1486, ""));
         elem.setSize(5);
         elem.setWidth(1500);
@@ -480,7 +480,7 @@
 
         var elem = properties.add(null, Cairo.General.Constants.TI_CODIGO_DGI2);
         elem.setType(Dialogs.PropertyType.text);
-        //'Código DGI 2
+        // Código DGI 2
         elem.setName(Cairo.Language.getText(1487, ""));
         elem.setTopFromProperty(Cairo.General.Constants.TI_CODIGO_DGI1);
         elem.setTopNotChange(true);
@@ -493,7 +493,7 @@
 
         var elem = properties.add(null, Cairo.General.Constants.TI_TIPO);
         elem.setType(Dialogs.PropertyType.list);
-        //'Tipo
+        // Tipo
         elem.setName(Cairo.Language.getText(1223, ""));
         elem.setSize(5);
         elem.setKey(K_TIPO);
@@ -503,12 +503,12 @@
         var w_list = elem.getList();
         var elem = w_list.add(null, csE_TasaImpositivaTipo.cSTI_VENTAS);
         elem.Id = csE_TasaImpositivaTipo.cSTI_VENTAS;
-        //'Ventas
+        // Ventas
         elem.setValue(Cairo.Language.getText(1488, ""));
 
         var elem = w_list.add(null, csE_TasaImpositivaTipo.cSTI_COMPRAS);
         elem.Id = csE_TasaImpositivaTipo.cSTI_COMPRAS;
-        //'Compras
+        // Compras
         elem.setValue(Cairo.Language.getText(1489, ""));
 
         if(!m_dialog.show(self)) { return false; }
@@ -748,7 +748,7 @@
 
         // create the tab
         //
-        Cairo.mainTab.showTab("TasaImpositivas", "tasaImpositivaTreeRegion", "#general/tasaimpositivas", createTreeDialog, closeTreeDialog, showTreeDialog);
+        Cairo.mainTab.showTab("Tasas Impositivas", "tasaImpositivaTreeRegion", "#general/tasasimpositivas", createTreeDialog, closeTreeDialog, showTreeDialog);
 
       }
     };

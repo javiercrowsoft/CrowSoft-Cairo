@@ -131,7 +131,7 @@
 
           case Dialogs.Message.MSG_DOC_INFO:
 
-            Cairo.Documentation.show("", "", csGeneralPrestacion.Cairo.Security.Actions.General.NEW_CENTRO_COSTO);
+            Cairo.Documentation.show("", "", Cairo.Security.Actions.General.NEW_CENTRO_COSTO);
             _rtn = Dialogs.Message.MSG_DOC_INFO_HANDLED;
             break;
 
@@ -269,7 +269,7 @@
       };
 
       self.getTitle = function() {
-        //'CentroCosto
+        // CentroCosto
         return Cairo.Language.getText(1055, "");
       };
 
@@ -313,7 +313,7 @@
       };
 
       self.list = function() {
-        return Cairo.Security.hasPermissionTo(csGeneralPrestacion.Cairo.Security.Actions.General.LIST_CENTRO_COSTO);
+        return Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.LIST_CENTRO_COSTO);
       };
 
       self.setDialog = function(rhs) {
@@ -330,11 +330,11 @@
 
           if(id === Cairo.Constants.NO_ID) {
             m_isNew = true;
-            if(!Cairo.Security.hasPermissionTo(csGeneralPrestacion.Cairo.Security.Actions.General.NEW_CENTRO_COSTO)) { return p; }
+            if(!Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.NEW_CENTRO_COSTO)) { return p; }
           } 
           else {
             m_isNew = false;
-            if(!Cairo.Security.hasPermissionTo(csGeneralPrestacion.Cairo.Security.Actions.General.EDIT_CENTRO_COSTO)) { return p; }
+            if(!Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.EDIT_CENTRO_COSTO)) { return p; }
           }
 
           m_dialog.setInModalWindow(inModalWindow);
@@ -379,10 +379,8 @@
       };
 
       var loadCollection = function() {
-        var abmObj = null;
-        abmObj = m_dialog;
-        abmObj.setMinHeight(6400);
-
+;
+        m_dialog.setMinHeight(6400);
         m_dialog.setTitle(m_name);
 
         var properties = m_dialog.getProperties();
@@ -413,14 +411,14 @@
 
         var elem = properties.add(null, Cairo.General.Constants.CCOS_COMPRA);
         elem.setType(Dialogs.PropertyType.check);
-        //'Compra
+        // Compra
         elem.setName(Cairo.Language.getText(1058, ""));
         elem.setKey(K_COMPRA);
         elem.setValue(Cairo.Util.boolToInt(m_compra));
 
         var elem = properties.add(null, Cairo.General.Constants.CCOS_VENTA);
         elem.setType(Dialogs.PropertyType.check);
-        //'Venta
+        // Venta
         elem.setName(Cairo.Language.getText(1059, ""));
         elem.setKey(K_VENTA);
         elem.setValue(Cairo.Util.boolToInt(m_venta));
@@ -428,7 +426,7 @@
         var elem = properties.add(null, Cairo.General.Constants.CCOS_ID_PADRE);
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.CENTRO_COSTO);
-        //'Centro Costo Padre
+        // Centro Costo Padre
         elem.setName(Cairo.Language.getText(3573, ""));
         elem.setKey(K_CCOS_ID_PADRE);
         elem.setValue(m_padre);

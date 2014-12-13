@@ -29,8 +29,6 @@
       var m_tipo;
       var m_active;
 
-      //OJO HASTA ACA
-
       var m_editing;
 
       var m_dialog;
@@ -41,8 +39,6 @@
       var m_branchId = 0;
       var m_treeId = 0;
       var m_copy;
-
-      // Properties publicas
 
       self.getId = function() {
         return m_id;
@@ -55,7 +51,6 @@
       self.getCode = function() {
         return m_code;
       };
-      // Properties privadas
 
       self.getApplication = function() {
         return Cairo.appName;
@@ -90,7 +85,7 @@
         catch (ex) {
           Cairo.manageErrorEx(ex.message, Cairo.Constants.SHOW_DOCUMENTS_FUNCTION, C_MODULE, "");
         }
-              
+
         return _rtn;
       };
 
@@ -115,7 +110,7 @@
 
           case Dialogs.Message.MSG_DOC_INFO:
 
-            Cairo.Documentation.show("", "", csGeneralPrestacion.Cairo.Security.Actions.General.NEW_CUENTAGRUPO);
+            Cairo.Documentation.show("", "", Cairo.Security.Actions.General.NEW_CUENTAGRUPO);
             _rtn = Dialogs.Message.MSG_DOC_INFO_HANDLED;
             break;
 
@@ -123,7 +118,7 @@
             _rtn = true;
             break;
         }
-      
+
         return Cairo.Promises.resolvedPromise(_rtn);
       };
 
@@ -172,7 +167,7 @@
 
         if(m_copy) {
           register.setId(Cairo.Constants.NEW_ID);
-        } 
+        }
         else {
           register.setId(m_id);
         }
@@ -208,16 +203,16 @@
         }
 
         return Cairo.Database.saveEx(
-            register,
-            false,
-            Cairo.General.Constants.CUEG_CODE, 
-            Cairo.Constants.CLIENT_SAVE_FUNCTION,
-            C_MODULE,
-            Cairo.Language.getText(1123, "")).then(
+          register,
+          false,
+          Cairo.General.Constants.CUEG_CODE,
+          Cairo.Constants.CLIENT_SAVE_FUNCTION,
+          C_MODULE,
+          Cairo.Language.getText(1123, "")).then(
 
           function(result) {
             if(result.success) {
-                m_copy = false;
+              m_copy = false;
               return load(result.data.getId()).then(
                 function (success) {
                   if(success) {
@@ -232,7 +227,7 @@
             else {
               return false;
             }
-        });
+          });
       };
 
       var updateList = function() {
@@ -317,7 +312,7 @@
         switch (tipo) {
           case Cairo.General.Constants.AccountGroupType.creditor:
             if(cuec_id !== csECuentaCategoria.cSECUECACREEDORES && cuec_id !== csECuentaCategoria.cSECUECBANCOS) {
-              //'La cuenta debe ser de tipo acreedor por compras o banco.
+              // La cuenta debe ser de tipo acreedor por compras o banco.
               cWindow.msgInfo(Cairo.Language.getText(3529, ""));
               return null;
             }
@@ -326,7 +321,7 @@
 
           case Cairo.General.Constants.AccountGroupType.debtor:
             if(cuec_id !== csECuentaCategoria.cSECUECDEUDPORVENTAS) {
-              //'La cuenta debe ser de tipo deudor por ventas.
+              // La cuenta debe ser de tipo deudor por ventas.
               cWindow.msgInfo(Cairo.Language.getText(3530, ""));
               return null;
             }
@@ -336,7 +331,7 @@
           case Cairo.General.Constants.AccountGroupType.productForSale:
             if(cuec_id !== csECuentaCategoria.cSECUECINGRESOS && cuec_id !== csECuentaCategoria.cSECUECEGRESOS) {
               if(pCuentaForProducto(cue_id) === false) {
-                //'La cuenta debe ser de tipo ingresos, o egresos o estar marcada como elegible para productos.
+                // La cuenta debe ser de tipo ingresos, o egresos o estar marcada como elegible para productos.
                 cWindow.msgInfo(Cairo.Language.getText(3531, ""));
                 return null;
               }
@@ -349,7 +344,7 @@
 
               if(pCuentaForProducto(cue_id) === false) {
 
-                //'La cuenta debe ser de tipo bienes de cambio, o bienes de uso, o estar marcada como elegible para productos.
+                // La cuenta debe ser de tipo bienes de cambio, o bienes de uso, o estar marcada como elegible para productos.
                 cWindow.msgInfo(Cairo.Language.getText(3532, ""));
                 return null;
               }
@@ -359,7 +354,7 @@
 
           case Cairo.General.Constants.AccountGroupType.directDebit:
             if(cuec_id !== csECuentaCategoria.cSECUECBANCOS) {
-              //'La cuenta debe ser de tipo banco
+              // La cuenta debe ser de tipo banco
               cWindow.msgInfo(Cairo.Language.getText(3571, ""));
               return null;
             }
@@ -368,7 +363,7 @@
 
           case Cairo.General.Constants.AccountGroupType.pettyCashFund:
             if(cuec_id !== csECuentaCategoria.cSECUECCAJA) {
-              //'La cuenta debe ser de tipo caja
+              // La cuenta debe ser de tipo caja
               cWindow.msgInfo(Cairo.Language.getText(3572, ""));
               return null;
             }
@@ -376,7 +371,7 @@
             break;
 
           default:
-            //'Debe seleccionar un tipo de grupo de cuenta.
+            // Debe seleccionar un tipo de grupo de cuenta.
             cWindow.msgInfo(Cairo.Language.getText(3533, ""));
             return null;
             break;
@@ -390,11 +385,11 @@
           var bProducto = null;
           if(!Cairo.Database.getData(Cairo.General.Constants.CUENTA, Cairo.General.Constants.CUE_ID, cue_id, Cairo.General.Constants.CUE_PRODUCTO, bProducto)) { return _rtn; }
           _rtn = bProducto;
-        } 
+        }
         else {
           _rtn = false;
         }
-      
+
         return _rtn;
       };
 
@@ -407,7 +402,7 @@
       };
 
       self.list = function() {
-        return Cairo.Security.hasPermissionTo(csGeneralPrestacion.Cairo.Security.Actions.General.LIST_CUENTAGRUPO);
+        return Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.LIST_CUENTAGRUPO);
       };
 
       self.getDialog = function() {
@@ -426,21 +421,19 @@
         var p = Cairo.Promises.resolvedPromise(false);
         try {
 
-          Screen.MousePointer = vbDefault;
-
           if(id === Cairo.Constants.NO_ID) {
             m_isNew = true;
-            if(!Cairo.Security.hasPermissionTo(csGeneralPrestacion.Cairo.Security.Actions.General.NEW_CUENTAGRUPO)) { return p; }
-          } 
+            if(!Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.NEW_CUENTAGRUPO)) { return p; }
+          }
           else {
             m_isNew = false;
-            if(!Cairo.Security.hasPermissionTo(csGeneralPrestacion.Cairo.Security.Actions.General.EDIT_CUENTAGRUPO)) { return p; }
+            if(!Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.EDIT_CUENTAGRUPO)) { return p; }
           }
 
           m_dialog.setInModalWindow(inModalWindow);
 
           p = load(id).then(
-           function(success) {
+            function(success) {
               if(success) {
 
                 if(!loadCollection()) { return false; }
@@ -450,19 +443,19 @@
 
                 if(inModalWindow) {
                   success = m_id !== Cairo.Constants.NO_ID;
-                } 
+                }
                 else {
                   success = true;
                 }
 
               }
               return success;
-          });
+            });
         }
         catch (ex) {
           Cairo.manageErrorEx(ex.message, Cairo.Constants.EDIT_FUNCTION, C_MODULE, "");
-      }
-      
+        }
+
         return p;
       };
 
@@ -510,34 +503,34 @@
 
         var elem = properties.add(null, Cairo.General.Constants.CUEG_TIPO);
         elem.setType(Dialogs.PropertyType.list);
-        //'Tipo
+        // Tipo
         elem.setName(Cairo.Language.getText(1223, ""));
         elem.setListWhoSetItem(csListItemData);
         elem.setListItemData(m_tipo);
         var w_list = elem.getList();
         var elem = w_list.add(null);
         elem.Id = Cairo.General.Constants.AccountGroupType.creditor;
-        //'Acreedor
+        // Acreedor
         elem.setValue(Cairo.Language.getText(3534, ""));
         var elem = w_list.add(null);
         elem.Id = Cairo.General.Constants.AccountGroupType.debtor;
-        //'Deudor
+        // Deudor
         elem.setValue(Cairo.Language.getText(3535, ""));
         var elem = w_list.add(null);
         elem.Id = Cairo.General.Constants.AccountGroupType.productForPurchase;
-        //'Articulos de Compra
+        // Articulos de Compra
         elem.setValue(Cairo.Language.getText(3536, ""));
         var elem = w_list.add(null);
         elem.Id = Cairo.General.Constants.AccountGroupType.productForSale;
-        //'Articulos de Venta
+        // Articulos de Venta
         elem.setValue(Cairo.Language.getText(3537, ""));
         var elem = w_list.add(null);
         elem.Id = Cairo.General.Constants.AccountGroupType.directDebit;
-        //'Debito Automatico
+        // Debito Automatico
         elem.setValue(Cairo.Language.getText(3569, ""));
         var elem = w_list.add(null);
         elem.Id = Cairo.General.Constants.AccountGroupType.pettyCashFund;
-        //'Fondo Fijo
+        // Fondo Fijo
         elem.setValue(Cairo.Language.getText(3570, ""));
         elem.setKey(K_TIPO);
 
@@ -545,7 +538,7 @@
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.CUENTA);
         elem.setWidth(6000);
-        //'Cuenta por defecto
+        // Cuenta por defecto
         elem.setName(Cairo.Language.getText(1126, ""));
         elem.setKey(K_CUE_ID);
         elem.setValue(m_cuenta);
@@ -600,7 +593,9 @@
         return Cairo.Database.getData("load[" + apiPath + "general/cuentagrupo]", id).then(
           function(response) {
 
-            if(!rs.isEOF()) {
+            if(response.success !== true) { return false; }
+
+            if(response.data.id !== Cairo.Constants.NO_ID) {
 
               m_id = Cairo.Database.valField(response.data, Cairo.General.Constants.CUEG_ID);
               m_name = Cairo.Database.valField(response.data, Cairo.General.Constants.CUEG_NAME);
@@ -611,7 +606,7 @@
               m_tipo = Cairo.Database.valField(response.data, Cairo.General.Constants.CUEG_TIPO);
               m_active = Cairo.Database.valField(response.data, Cairo.Constants.ACTIVE);
 
-            } 
+            }
             else {
 
               m_id = Cairo.Constants.NO_ID;
@@ -625,25 +620,14 @@
 
             }
 
-          return true;
-        });
+            return true;
+          });
       };
 
       self.destroy = function() {
         m_dialog = null;
         m_listController = null;
       };
-
-      ////////////////////////////////
-      //  Codigo estandar de errores
-      //  On Error GoTo ControlError
-      //
-      //  GoTo ExitProc
-      //ControlError:
-      //  MngError err,"", C_Module, ""
-      //  If Err.Number Then Resume ExitProc
-      //ExitProc:
-      //  On Error Resume Next
 
       return self;
     };
@@ -786,7 +770,7 @@
           // create the dialog
           //
           Cairo.Tree.List.Controller.list(
-            Cairo.Tables.CUENTAGRUPO,
+            Cairo.Tables.GRUPO_DE_CUENTA,
             new Cairo.Tree.List.TreeLayout({ model: self.entityInfo }),
             Cairo.cuentaGrupoTreeRegion,
             self);

@@ -24,8 +24,6 @@
       var m_descrip = "";
       var m_active;
 
-      //OJO HASTA ACA
-
       var m_editing;
 
       var m_dialog;
@@ -38,8 +36,6 @@
 
       var m_copy;
 
-      // Properties publicas
-
       self.getId = function() {
         return m_id;
       };
@@ -51,8 +47,6 @@
       self.getCode = function() {
         return m_code;
       };
-
-      // Properties privadas
 
       self.copy = function() {
 
@@ -129,7 +123,7 @@
 
           case Dialogs.Message.MSG_DOC_INFO:
 
-            Cairo.Documentation.show("", "", csGeneralPrestacion.Cairo.Security.Actions.General.NEW_PERSONADOCUMENTOTIPO);
+            Cairo.Documentation.show("", "", Cairo.Security.Actions.General.NEW_PERSONADOCUMENTOTIPO);
             _rtn = Dialogs.Message.MSG_DOC_INFO_HANDLED;
             break;
 
@@ -297,7 +291,7 @@
       };
 
       self.list = function() {
-        return Cairo.Security.hasPermissionTo(csGeneralPrestacion.Cairo.Security.Actions.General.LIST_PERSONADOCUMENTOTIPO);
+        return Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.LIST_PERSONADOCUMENTOTIPO);
       };
 
       self.setDialog = function(rhs) {
@@ -314,11 +308,11 @@
 
           if(id === Cairo.Constants.NO_ID) {
             m_isNew = true;
-            if(!Cairo.Security.hasPermissionTo(csGeneralPrestacion.Cairo.Security.Actions.General.NEW_PERSONADOCUMENTOTIPO)) { return p; }
+            if(!Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.NEW_PERSONADOCUMENTOTIPO)) { return p; }
           } 
           else {
             m_isNew = false;
-            if(!Cairo.Security.hasPermissionTo(csGeneralPrestacion.Cairo.Security.Actions.General.EDIT_PERSONADOCUMENTOTIPO)) { return p; }
+            if(!Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.EDIT_PERSONADOCUMENTOTIPO)) { return p; }
           }
 
           m_dialog.setInModalWindow(inModalWindow);
@@ -433,7 +427,9 @@
         return Cairo.Database.getData("load[" + apiPath + "general/personadocumentotipo]", id).then(
           function(response) {
 
-            if(!rs.isEOF()) {
+            if(response.success !== true) { return false; }
+
+            if(response.data.id !== Cairo.Constants.NO_ID) {
 
               m_id = Cairo.Database.valField(response.data, Cairo.General.Constants.PRSDT_ID);
               m_name = Cairo.Database.valField(response.data, Cairo.General.Constants.PRSDT_NAME);

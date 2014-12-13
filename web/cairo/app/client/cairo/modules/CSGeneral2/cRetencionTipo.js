@@ -34,8 +34,6 @@
       var m_tipo = 0;
       var m_active;
 
-      //OJO HASTA ACA
-
       var m_editing;
 
       var m_dialog;
@@ -46,8 +44,6 @@
       var m_branchId = 0;
       var m_treeId = 0;
       var m_copy;
-
-//*TODO:** enum is translated as a new class at the end of the file Public Enum csE_RetencionTipo
 
       self.getId = function() {
         return m_id;
@@ -119,7 +115,7 @@
 
           case Dialogs.Message.MSG_DOC_INFO:
 
-            Cairo.Documentation.show("", "", csGeneralPrestacion.Cairo.Security.Actions.General.NEW_RETENCIONTIPO);
+            Cairo.Documentation.show("", "", Cairo.Security.Actions.General.NEW_RETENCIONTIPO);
             _rtn = Dialogs.Message.MSG_DOC_INFO_HANDLED;
             break;
 
@@ -278,7 +274,7 @@
       };
 
       self.getTitle = function() {
-        //'Tipos de Retenci�n
+        // Tipos de Retenci�n
         return Cairo.Language.getText(1422, "");
       };
 
@@ -343,7 +339,7 @@
       };
 
       self.list = function() {
-        return Cairo.Security.hasPermissionTo(csGeneralPrestacion.Cairo.Security.Actions.General.LIST_RETENCIONTIPO);
+        return Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.LIST_RETENCIONTIPO);
       };
 
       self.getDialog = function() {
@@ -364,11 +360,11 @@
 
           if(id === Cairo.Constants.NO_ID) {
             m_isNew = true;
-            if(!Cairo.Security.hasPermissionTo(csGeneralPrestacion.Cairo.Security.Actions.General.NEW_RETENCIONTIPO)) { return p; }
+            if(!Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.NEW_RETENCIONTIPO)) { return p; }
           } 
           else {
             m_isNew = false;
-            if(!Cairo.Security.hasPermissionTo(csGeneralPrestacion.Cairo.Security.Actions.General.EDIT_RETENCIONTIPO)) { return p; }
+            if(!Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.EDIT_RETENCIONTIPO)) { return p; }
           }
 
           m_dialog.setInModalWindow(inModalWindow);
@@ -444,7 +440,7 @@
         elem.setType(Dialogs.PropertyType.check);
         elem.setTopFromProperty(Cairo.Constants.ACTIVE);
         elem.setLeft(3500);
-        //'Genera Sicore
+        // Genera Sicore
         elem.setName(Cairo.Language.getText(1266, ""));
         elem.setKey(K_GENERASICORE);
         elem.setValue(Cairo.Util.boolToInt(m_generaSicore));
@@ -453,7 +449,7 @@
         elem.setType(Dialogs.PropertyType.text);
         elem.setTopFromProperty(Cairo.General.Constants.RETT_NAME);
         elem.setLeft(5500);
-        //'C�digo Sicore
+        // C�digo Sicore
         elem.setName(Cairo.Language.getText(1265, ""));
         elem.setSize(50);
         elem.setKey(K_CODIGOSICORE);
@@ -462,7 +458,7 @@
         var elem = properties.add(null, Cairo.General.Constants.CUE_ID);
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.CUENTA);
-        //'Cuenta
+        // Cuenta
         elem.setName(Cairo.Language.getText(1267, ""));
         elem.setKey(K_CUE_ID);
         elem.setValue(m_cuenta);
@@ -470,7 +466,7 @@
 
         var elem = properties.add(null, Cairo.General.Constants.RETT_TIPO);
         elem.setType(Dialogs.PropertyType.list);
-        //'Tipo
+        // Tipo
         elem.setName(Cairo.Language.getText(1223, ""));
         elem.setKey(K_TIPO);
         elem.setListItemData(m_tipo);
@@ -478,19 +474,19 @@
 
         var elem = elem.add(null);
         elem.Id = csE_RetencionTipo.cSERETTSOBREIVA;
-        //'Sobre Iva
+        // Sobre Iva
         elem.setValue(Cairo.Language.getText(1424, ""));
         var elem = elem.add(null);
         elem.Id = csE_RetencionTipo.cSERETTSOBRENETO;
-        //'Sobre Neto
+        // Sobre Neto
         elem.setValue(Cairo.Language.getText(1425, ""));
         var elem = elem.add(null);
         elem.Id = csE_RetencionTipo.cSERETTGANANCIAS;
-        //'Ganancias
+        // Ganancias
         elem.setValue(Cairo.Language.getText(1426, ""));
         var elem = elem.add(null);
         elem.Id = csE_RetencionTipo.cSERETTBRUTOEIVA;
-        //'Sobre el Total
+        // Sobre el Total
         elem.setValue(Cairo.Language.getText(1427, ""));
 
         var elem = properties.add(null, Cairo.General.Constants.RETT_DESCRIP);
@@ -550,7 +546,9 @@
         return Cairo.Database.getData("load[" + apiPath + "general/retenciontipo]", id).then(
           function(response) {
 
-            if(!rs.isEOF()) {
+            if(response.success !== true) { return false; }
+
+            if(response.data.id !== Cairo.Constants.NO_ID) {
 
               m_id = Cairo.Database.valField(response.data, Cairo.General.Constants.RETT_ID);
               m_name = Cairo.Database.valField(response.data, Cairo.General.Constants.RETT_NAME);
@@ -586,17 +584,6 @@
         m_dialog = null;
         m_listController = null;
       };
-
-      ////////////////////////////////
-      //  Codigo estandar de errores
-      //  On Error GoTo ControlError
-      //
-      //  GoTo ExitProc
-      //ControlError:
-      //  MngError err,"", C_Module, ""
-      //  If Err.Number Then Resume ExitProc
-      //ExitProc:
-      //  On Error Resume Next
 
       return self;
     };
@@ -730,7 +717,7 @@
 
           // progress message
           //
-          Cairo.LoadingMessage.show("Tipos de Retenciones", "Loading Tipos de Retenciones from CrowSoft Cairo server.");
+          Cairo.LoadingMessage.show("Tipos de Retencion", "Loading Tipos de Retencion from CrowSoft Cairo server.");
 
           // create the tree region
           //
@@ -739,7 +726,7 @@
           // create the dialog
           //
           Cairo.Tree.List.Controller.list(
-            Cairo.Tables.RETENCIONTIPO,
+            Cairo.Tables.TIPOS_DE_RETENCION,
             new Cairo.Tree.List.TreeLayout({ model: self.entityInfo }),
             Cairo.retencionTipoTreeRegion,
             self);
@@ -756,7 +743,7 @@
 
         // create the tab
         //
-        Cairo.mainTab.showTab("RetencionesTipo", "retencionTipoTreeRegion", "#general/retencionestipo", createTreeDialog, closeTreeDialog, showTreeDialog);
+        Cairo.mainTab.showTab("Tipos de Retencion", "retencionTipoTreeRegion", "#general/retencionestipo", createTreeDialog, closeTreeDialog, showTreeDialog);
 
       }
     };

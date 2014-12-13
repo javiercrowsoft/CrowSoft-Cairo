@@ -128,7 +128,7 @@
 
           case Dialogs.Message.MSG_DOC_INFO:
 
-            Cairo.Documentation.show("", "", csGeneralPrestacion.Cairo.Security.Actions.General.NEW_LEYENDA);
+            Cairo.Documentation.show("", "", Cairo.Security.Actions.General.NEW_LEYENDA);
             _rtn = Dialogs.Message.MSG_DOC_INFO_HANDLED;
             break;
 
@@ -310,7 +310,7 @@
       };
 
       self.list = function() {
-        return Cairo.Security.hasPermissionTo(csGeneralPrestacion.Cairo.Security.Actions.General.LIST_LEYENDA);
+        return Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.LIST_LEYENDA);
       };
 
       self.setDialog = function(rhs) {
@@ -327,11 +327,11 @@
 
           if(id === Cairo.Constants.NO_ID) {
             m_isNew = true;
-            if(!Cairo.Security.hasPermissionTo(csGeneralPrestacion.Cairo.Security.Actions.General.NEW_LEYENDA)) { return p; }
+            if(!Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.NEW_LEYENDA)) { return p; }
           } 
           else {
             m_isNew = false;
-            if(!Cairo.Security.hasPermissionTo(csGeneralPrestacion.Cairo.Security.Actions.General.EDIT_LEYENDA)) { return p; }
+            if(!Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.EDIT_LEYENDA)) { return p; }
           }
 
           m_dialog.setInModalWindow(inModalWindow);
@@ -412,7 +412,7 @@
         var elem = properties.add(null, Cairo.General.Constants.IDM_ID);
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.IDIOMA);
-        //'Idioma
+        // Idioma
         elem.setName(Cairo.Language.getText(1239, ""));
         elem.setKey(K_IDM_ID);
         elem.setSelectId(m_idm_id);
@@ -429,7 +429,7 @@
 
         var elem = properties.add(null, Cairo.General.Constants.LEYTEXTO);
         elem.setType(Dialogs.PropertyType.text);
-        //'Leyenda
+        // Leyenda
         elem.setName(Cairo.Language.getText(1240, ""));
         elem.setSubType(Dialogs.PropertySubType.memo);
         elem.setHeight(880);

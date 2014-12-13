@@ -38,8 +38,6 @@
 
       var m_copy;
 
-      // Properties publicas
-
       self.getId = function() {
         return m_id;
       };
@@ -127,7 +125,7 @@
 
           case Dialogs.Message.MSG_DOC_INFO:
 
-            Cairo.Documentation.show("", "", csGeneralPrestacion.Cairo.Security.Actions.General.NEW_CIRCUITO_CONTABLE);
+            Cairo.Documentation.show("", "", Cairo.Security.Actions.General.NEW_CIRCUITO_CONTABLE);
             _rtn = Dialogs.Message.MSG_DOC_INFO_HANDLED;
             break;
 
@@ -253,7 +251,7 @@
       };
 
       self.getTitle = function() {
-        //'Circuito Contable
+        // Circuito Contable
         return Cairo.Language.getText(1073, "");
       };
 
@@ -296,7 +294,7 @@
       };
 
       self.list = function() {
-        return Cairo.Security.hasPermissionTo(csGeneralPrestacion.Cairo.Security.Actions.General.LIST_CIRCUITO_CONTABLE);
+        return Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.LIST_CIRCUITO_CONTABLE);
       };
 
       self.setDialog = function(rhs) {
@@ -313,11 +311,11 @@
 
           if(id === Cairo.Constants.NO_ID) {
             m_isNew = true;
-            if(!Cairo.Security.hasPermissionTo(csGeneralPrestacion.Cairo.Security.Actions.General.NEW_CIRCUITO_CONTABLE)) { return p; }
+            if(!Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.NEW_CIRCUITO_CONTABLE)) { return p; }
           } 
           else {
             m_isNew = false;
-            if(!Cairo.Security.hasPermissionTo(csGeneralPrestacion.Cairo.Security.Actions.General.EDIT_CIRCUITO_CONTABLE)) { return p; }
+            if(!Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.EDIT_CIRCUITO_CONTABLE)) { return p; }
           }
 
           m_dialog.setInModalWindow(inModalWindow);
@@ -433,7 +431,9 @@
         return Cairo.Database.getData("load[" + apiPath + "general/circuitocontable]", id).then(
           function(response) {
 
-            if(!rs.isEOF()) {
+            if(response.success !== true) { return false; }
+
+            if(response.data.id !== Cairo.Constants.NO_ID) {
 
               m_id = Cairo.Database.valField(response.data, Cairo.General.Constants.CICO_ID);
               m_name = Cairo.Database.valField(response.data, Cairo.General.Constants.CICO_NAME);

@@ -123,7 +123,7 @@
 
           case Dialogs.Message.MSG_DOC_INFO:
 
-            Cairo.Documentation.show("", "", csGeneralPrestacion.Cairo.Security.Actions.General.NEW_PRODUCTO_HELP_CONFIG);
+            Cairo.Documentation.show("", "", Cairo.Security.Actions.General.NEW_PRODUCTO_HELP_CONFIG);
             _rtn = Dialogs.Message.MSG_DOC_INFO_HANDLED;
             break;
 
@@ -273,7 +273,7 @@
       };
 
       self.getTitle = function() {
-        //'Configuraci�n del Help de Articulos
+        // Configuraci�n del Help de Articulos
         return Cairo.Language.getText(3912, "");
       };
 
@@ -292,21 +292,21 @@
 
             case K_TECLA:
               if(Cairo.Util.valEmpty(property.getValue(), Cairo.Constants.Types.text)) {
-                //' Debe indicar una tecla
+                // Debe indicar una tecla
                 cWindow.msgInfo(Cairo.Language.getText(3905, ""));
               }
               break;
 
             case K_VALOR_CODIGO:
               if(Cairo.Util.valEmpty(property.getValue(), Cairo.Constants.Types.text)) {
-                //' Debe indicar un valor para el c�digo
+                // Debe indicar un valor para el c�digo
                 cWindow.msgInfo(Cairo.Language.getText(3906, ""));
               }
               break;
 
             case K_ATRIBUTO_INDICE:
               if(Cairo.Util.val(property.getValue()) <= 0 || Cairo.Util.val(property.getValue()) > 10) {
-                //' Debe indicar el indice del atributo
+                // Debe indicar el indice del atributo
                 cWindow.msgInfo(Cairo.Language.getText(3907, ""));
               }
               break;
@@ -329,7 +329,7 @@
       };
 
       self.list = function() {
-        return Cairo.Security.hasPermissionTo(csGeneralPrestacion.Cairo.Security.Actions.General.LIST_PRODUCTO_HELP_CONFIG);
+        return Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.LIST_PRODUCTO_HELP_CONFIG);
       };
 
       self.setDialog = function(rhs) {
@@ -346,11 +346,11 @@
 
           if(id === Cairo.Constants.NO_ID) {
             m_isNew = true;
-            if(!Cairo.Security.hasPermissionTo(csGeneralPrestacion.Cairo.Security.Actions.General.NEW_PRODUCTO_HELP_CONFIG)) { return p; }
+            if(!Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.NEW_PRODUCTO_HELP_CONFIG)) { return p; }
           }
           else {
             m_isNew = false;
-            if(!Cairo.Security.hasPermissionTo(csGeneralPrestacion.Cairo.Security.Actions.General.EDIT_PRODUCTO_HELP_CONFIG)) { return p; }
+            if(!Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.EDIT_PRODUCTO_HELP_CONFIG)) { return p; }
           }
 
           m_dialog.setInModalWindow(inModalWindow);
@@ -396,9 +396,7 @@
 
       var loadCollection = function() {
 
-        var abmObj = null;
-        abmObj = m_dialog;
-        abmObj.setMinHeight(6400);
+        m_dialog.setMinHeight(6400);
 
         var properties = m_dialog.getProperties();
         properties.clear();
@@ -412,14 +410,14 @@
 
         var elem = properties.add(null, Cairo.General.Constants.PRHC_TECLA);
         elem.setType(Dialogs.PropertyType.text);
-        //' Tecla
+        // Tecla
         elem.setName(Cairo.Language.getText(3904, ""));
         elem.setKey(K_TECLA);
         elem.setValue(m_tecla);
 
         var elem = properties.add(null, Cairo.General.Constants.PRHC_VALOR_CODE);
         elem.setType(Dialogs.PropertyType.text);
-        //' Valor C�digo
+        // Valor C�digo
         elem.setName(Cairo.Language.getText(3909, ""));
         elem.setKey(K_VALOR_CODIGO);
         elem.setValue(m_valor_codigo);
@@ -427,7 +425,7 @@
         var elem = properties.add(null, Cairo.General.Constants.PRHC_ATRIBUTO_INDICE);
         elem.setType(Dialogs.PropertyType.numeric);
         elem.setSubType(Dialogs.PropertySubType.Integer);
-        //' Indice del Atributo
+        // Indice del Atributo
         elem.setName(Cairo.Language.getText(3908, ""));
         elem.setValue(m_atributo_indice);
         elem.setKey(K_ATRIBUTO_INDICE);
@@ -441,7 +439,7 @@
 
         var elem = properties.add(null, Cairo.General.Constants.PRHC_DEFAULT);
         elem.setType(Dialogs.PropertyType.check);
-        //' Default Ventas
+        // Default Ventas
         elem.setName(Cairo.Language.getText(3919, ""));
         elem.setKey(K_DEFAULT);
         elem.setValue(m_default);
@@ -451,7 +449,7 @@
 
         var elem = properties.add(null, Cairo.General.Constants.PRHC_DEFAULT_SRV);
         elem.setType(Dialogs.PropertyType.check);
-        //' Default Servicios
+        // Default Servicios
         elem.setName(Cairo.Language.getText(3920, ""));
         elem.setKey(K_DEFAULT_SRV);
         elem.setValue(m_defaultSrv);
@@ -462,7 +460,7 @@
 
         var elem = properties.add(null, Cairo.General.Constants.PRHC_DEFAULT_PRP);
         elem.setType(Dialogs.PropertyType.check);
-        //' Default Parte de Reparaci�n
+        // Default Parte de Reparaci�n
         elem.setName(Cairo.Language.getText(3964, ""));
         elem.setKey(K_DEFAULT_PRP);
         elem.setValue(m_defaultPrp);
@@ -473,7 +471,7 @@
 
         var elem = properties.add(null, Cairo.General.Constants.PRHC_DEFAULT_PRNS);
         elem.setType(Dialogs.PropertyType.check);
-        //' Default en Equipos
+        // Default en Equipos
         elem.setName(Cairo.Language.getText(3965, ""));
         elem.setKey(K_DEFAULT_PRNS);
         elem.setValue(m_defaultPrns);

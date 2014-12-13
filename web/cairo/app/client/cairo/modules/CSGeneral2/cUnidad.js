@@ -242,7 +242,7 @@
       };
 
       self.getTitle = function() {
-        //'Unidades
+        // Unidades
         return Cairo.Language.getText(1499, "");
       };
 

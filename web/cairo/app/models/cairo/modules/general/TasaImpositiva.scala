@@ -12,6 +12,7 @@ import java.util.Date
 import play.api.Logger
 import play.api.libs.json._
 import scala.util.control.NonFatal
+import java.math.BigDecimal
 
 case class TasaImpositiva(
               id: Int,
@@ -141,9 +142,9 @@ object TasaImpositiva {
       SqlParser.get[String](C.TI_NAME) ~
       SqlParser.get[String](C.TI_CODE) ~
       SqlParser.get[Int](DBHelper.ACTIVE) ~
-      SqlParser.get[Double](C.TI_PORCENTAJE) ~
-      SqlParser.get[Int](C.CUEC_ID) ~
-      SqlParser.get[String](C.CUEC_NAME) ~
+      SqlParser.get[BigDecimal](C.TI_PORCENTAJE) ~
+      SqlParser.get[Int](C.CUE_ID) ~
+      SqlParser.get[String](C.CUE_NAME) ~
       SqlParser.get[String](C.TI_CODIGO_DGI1) ~
       SqlParser.get[String](C.TI_CODIGO_DGI2) ~
       SqlParser.get[Int](C.TI_TIPO) ~
@@ -169,7 +170,7 @@ object TasaImpositiva {
               name,
               code,
               (if(active != 0) true else false),
-              porcentaje,
+              porcentaje.doubleValue(),
               cuecId,
               cuecName,
               codigoDgi1,
@@ -196,7 +197,7 @@ object TasaImpositiva {
         Field(C.TI_CODE, tasaImpositiva.code, FieldType.text),
         Field(DBHelper.ACTIVE, (if(tasaImpositiva.active) 1 else 0), FieldType.boolean),
         Field(C.TI_PORCENTAJE, tasaImpositiva.porcentaje, FieldType.number),
-        Field(C.CUEC_ID, tasaImpositiva.cuecId, FieldType.id),
+        Field(C.CUE_ID, tasaImpositiva.cuecId, FieldType.id),
         Field(C.TI_CODIGO_DGI1, tasaImpositiva.codigoDgi1, FieldType.text),
         Field(C.TI_CODIGO_DGI2, tasaImpositiva.codigoDgi2, FieldType.text),
         Field(C.TI_TIPO, tasaImpositiva.tipo, FieldType.integer)
@@ -230,7 +231,7 @@ object TasaImpositiva {
 
   def loadWhere(user: CompanyUser, where: String, args : scala.Tuple2[scala.Any, anorm.ParameterValue[_]]*) = {
     DB.withConnection(user.database.database) { implicit connection =>
-      SQL(s"SELECT t1.*, t2.${C.CUEC_NAME}" +
+      SQL(s"SELECT t1.*, t2.${C.CUE_NAME}" +
         s" FROM ${C.TASA_IMPOSITIVA} t1" +
         s" LEFT JOIN ${C.CUENTA} t2 ON t1.${C.CUE_ID} = t2.${C.CUE_ID} WHERE $where")
         .on(args: _*)

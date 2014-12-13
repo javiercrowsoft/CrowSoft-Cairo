@@ -31,8 +31,6 @@
       var m_ti_id_estadisticas = 0;
       var m_ti_estadisticas = "";
 
-      //OJO HASTA ACA
-
       var m_editing;
 
       var m_dialog;
@@ -45,8 +43,6 @@
 
       var m_copy;
 
-      // Properties publicas
-
       self.getId = function() {
         return m_id;
       };
@@ -58,8 +54,6 @@
       self.getCode = function() {
         return m_code;
       };
-
-      // Properties privadas
 
       self.copy = function() {
 
@@ -136,7 +130,7 @@
 
           case Dialogs.Message.MSG_DOC_INFO:
 
-            Cairo.Documentation.show("", "", csGeneralPrestacion.Cairo.Security.Actions.General.NEW_POSICION_ARANCEL);
+            Cairo.Documentation.show("", "", Cairo.Security.Actions.General.NEW_POSICION_ARANCEL);
             _rtn = Dialogs.Message.MSG_DOC_INFO_HANDLED;
             break;
 
@@ -312,7 +306,7 @@
       };
 
       self.list = function() {
-        return Cairo.Security.hasPermissionTo(csGeneralPrestacion.Cairo.Security.Actions.General.LIST_POSICION_ARANCEL);
+        return Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.LIST_POSICION_ARANCEL);
       };
 
       self.setDialog = function(rhs) {
@@ -329,11 +323,11 @@
 
           if(id === Cairo.Constants.NO_ID) {
             m_isNew = true;
-            if(!Cairo.Security.hasPermissionTo(csGeneralPrestacion.Cairo.Security.Actions.General.NEW_POSICION_ARANCEL)) { return p; }
+            if(!Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.NEW_POSICION_ARANCEL)) { return p; }
           } 
           else {
             m_isNew = false;
-            if(!Cairo.Security.hasPermissionTo(csGeneralPrestacion.Cairo.Security.Actions.General.EDIT_POSICION_ARANCEL)) { return p; }
+            if(!Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.EDIT_POSICION_ARANCEL)) { return p; }
           }
 
           m_dialog.setInModalWindow(inModalWindow);
@@ -379,10 +373,7 @@
 
       var loadCollection = function() {
 
-        var abmObj = null;
-        abmObj = m_dialog;
-        abmObj.setMinHeight(7000);
-
+        m_dialog.setMinHeight(7000);
         m_dialog.setTitle(m_name);
 
         var w_tabs = m_dialog.getTabs();
@@ -420,7 +411,7 @@
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.TASA_IMPOSITIVA);
         elem.setSelectFilter(Cairo.General.Constants.filterForPurchase);
-        //' Derechos
+        // Derechos
         elem.setName(Cairo.Language.getText(4973, ""));
         elem.setSelectId(m_ti_id_derechos);
         elem.setValue(m_ti_derechos);
@@ -431,7 +422,7 @@
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.TASA_IMPOSITIVA);
         elem.setSelectFilter(Cairo.General.Constants.filterForPurchase);
-        //' Estadisticas
+        // Estadisticas
         elem.setName(Cairo.Language.getText(4972, ""));
         elem.setSelectId(m_ti_id_estadisticas);
         elem.setValue(m_ti_estadisticas);
@@ -488,7 +479,9 @@
         return Cairo.Database.getData("load[" + apiPath + "general/posicionarancel]", id).then(
           function(response) {
 
-            if(!rs.isEOF()) {
+            if(response.success !== true) { return false; }
+
+            if(response.data.id !== Cairo.Constants.NO_ID) {
 
               m_id = Cairo.Database.valField(response.data, Cairo.General.Constants.POAR_ID);
               m_name = Cairo.Database.valField(response.data, Cairo.General.Constants.POAR_NAME);

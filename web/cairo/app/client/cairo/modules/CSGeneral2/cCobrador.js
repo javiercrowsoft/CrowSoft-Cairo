@@ -129,7 +129,7 @@
 
           case Dialogs.Message.MSG_DOC_INFO:
 
-            Cairo.Documentation.show("", "", csGeneralPrestacion.Cairo.Security.Actions.General.NEW_COBRADOR);
+            Cairo.Documentation.show("", "", Cairo.Security.Actions.General.NEW_COBRADOR);
             _rtn = Dialogs.Message.MSG_DOC_INFO_HANDLED;
             break;
 
@@ -263,7 +263,7 @@
       };
 
       self.getTitle = function() {
-        //'Cobrador
+        // Cobrador
         return Cairo.Language.getText(1088, "");
       };
 
@@ -307,7 +307,7 @@
       };
 
       self.list = function() {
-        return Cairo.Security.hasPermissionTo(csGeneralPrestacion.Cairo.Security.Actions.General.LIST_COBRADOR);
+        return Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.LIST_COBRADOR);
       };
 
       self.setDialog = function(rhs) {
@@ -324,11 +324,11 @@
 
           if(id === Cairo.Constants.NO_ID) {
             m_isNew = true;
-            if(!Cairo.Security.hasPermissionTo(csGeneralPrestacion.Cairo.Security.Actions.General.NEW_COBRADOR)) { return p; }
+            if(!Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.NEW_COBRADOR)) { return p; }
           } 
           else {
             m_isNew = false;
-            if(!Cairo.Security.hasPermissionTo(csGeneralPrestacion.Cairo.Security.Actions.General.EDIT_COBRADOR)) { return p; }
+            if(!Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.EDIT_COBRADOR)) { return p; }
           }
 
           m_dialog.setInModalWindow(inModalWindow);
@@ -403,7 +403,7 @@
         var elem = properties.add(null, Cairo.General.Constants.REL_ID);
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.REGLALIQUIDACION);
-        //'Reg. Liq.
+        // Reg. Liq.
         elem.setName(Cairo.Language.getText(1090, ""));
         elem.setKey(K_REL_ID);
         elem.setValue(m_relNombre);
@@ -413,7 +413,7 @@
         elem.setType(Dialogs.PropertyType.numeric);
         elem.setSubType(Dialogs.PropertySubType.double);
         elem.setFormat(Cairo.Settings.getQuantityDecimalsFormat());
-        //'Comisi�n
+        // Comisi�n
         elem.setName(Cairo.Language.getText(1091, ""));
         elem.setKey(K_COMISION);
         elem.setValue(m_comision);

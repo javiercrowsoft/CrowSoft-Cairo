@@ -27,8 +27,6 @@
       var m_numero = 0;
       var m_active;
 
-      //OJO HASTA ACA
-
       var m_editing;
 
       var m_dialog;
@@ -39,8 +37,6 @@
       var m_branchId = 0;
       var m_treeId = 0;
       var m_copy;
-
-      // Properties publicas
 
       self.getId = function() {
         return m_id;
@@ -53,8 +49,6 @@
       self.getCode = function() {
         return m_code;
       };
-
-      // Properties privadas
 
       self.getApplication = function() {
         return Cairo.appName;
@@ -114,7 +108,7 @@
 
           case Dialogs.Message.MSG_DOC_INFO:
 
-            Cairo.Documentation.show("", "", csGeneralPrestacion.Cairo.Security.Actions.General.NEW_SUCURSAL);
+            Cairo.Documentation.show("", "", Cairo.Security.Actions.General.NEW_SUCURSAL);
             _rtn = Dialogs.Message.MSG_DOC_INFO_HANDLED;
             break;
 
@@ -261,7 +255,7 @@
       };
 
       self.getTitle = function() {
-        //'Sucursales
+        // Sucursales
         return Cairo.Language.getText(1459, "");
       };
 
@@ -307,7 +301,7 @@
       };
 
       self.list = function() {
-        return Cairo.Security.hasPermissionTo(csGeneralPrestacion.Cairo.Security.Actions.General.LIST_SUCURSAL);
+        return Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.LIST_SUCURSAL);
       };
 
       self.getDialog = function() {
@@ -328,11 +322,11 @@
 
           if(id === Cairo.Constants.NO_ID) {
             m_isNew = true;
-            if(!Cairo.Security.hasPermissionTo(csGeneralPrestacion.Cairo.Security.Actions.General.NEW_SUCURSAL)) { return p; }
+            if(!Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.NEW_SUCURSAL)) { return p; }
           } 
           else {
             m_isNew = false;
-            if(!Cairo.Security.hasPermissionTo(csGeneralPrestacion.Cairo.Security.Actions.General.EDIT_SUCURSAL)) { return p; }
+            if(!Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.EDIT_SUCURSAL)) { return p; }
           }
 
           m_dialog.setInModalWindow(inModalWindow);
@@ -398,7 +392,7 @@
 
         var elem = properties.add(null, Cairo.General.Constants.SUC_NUMERO);
         elem.setType(Dialogs.PropertyType.numeric);
-        //'N�mero
+        // N�mero
         elem.setName(Cairo.Language.getText(1065, ""));
         elem.setWidth(1000);
         elem.setSubType(Dialogs.PropertySubType.Integer);
@@ -456,7 +450,9 @@
         return Cairo.Database.getData("load[" + apiPath + "general/sucursal]", id).then(
           function(response) {
 
-            if(!rs.isEOF()) {
+            if(response.success !== true) { return false; }
+
+            if(response.data.id !== Cairo.Constants.NO_ID) {
 
               m_id = Cairo.Database.valField(response.data, Cairo.General.Constants.SUC_ID);
               m_name = Cairo.Database.valField(response.data, Cairo.General.Constants.SUC_NAME);
@@ -484,17 +480,6 @@
         m_dialog = null;
         m_listController = null;
       };
-
-      ////////////////////////////////
-      //  Codigo estandar de errores
-      //  On Error GoTo ControlError
-      //
-      //  GoTo ExitProc
-      //ControlError:
-      //  MngError err,"", C_Module, ""
-      //  If Err.Number Then Resume ExitProc
-      //ExitProc:
-      //  On Error Resume Next
 
       return self;
     };

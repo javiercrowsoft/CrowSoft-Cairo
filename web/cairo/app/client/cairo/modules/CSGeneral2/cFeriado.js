@@ -43,8 +43,6 @@
       var m_provincia = "";
       var m_recurrente;
 
-      //OJO HASTA ACA
-
       var m_editing;
 
       var m_dialog;
@@ -55,8 +53,6 @@
       var m_branchId = 0;
       var m_treeId = 0;
       var m_copy;
-
-      // Properties publicas
 
       self.getId = function() {
         return m_id;
@@ -113,7 +109,7 @@
 
           case Dialogs.Message.MSG_DOC_INFO:
 
-            Cairo.Documentation.show("", "", csGeneralPrestacion.Cairo.Security.Actions.General.NEW_FERIADO);
+            Cairo.Documentation.show("", "", Cairo.Security.Actions.General.NEW_FERIADO);
             _rtn = Dialogs.Message.MSG_DOC_INFO_HANDLED;
             break;
 
@@ -321,7 +317,7 @@
       };
 
       self.getTitle = function() {
-        //'Feriados
+        // Feriados
         return Cairo.Language.getText(1544, "");
       };
 
@@ -415,7 +411,7 @@
       };
 
       self.list = function() {
-        return Cairo.Security.hasPermissionTo(csGeneralPrestacion.Cairo.Security.Actions.General.LIST_FERIADO);
+        return Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.LIST_FERIADO);
       };
 
       self.setDialog = function(rhs) {
@@ -432,11 +428,11 @@
 
           if(id === Cairo.Constants.NO_ID) {
             m_isNew = true;
-            if(!Cairo.Security.hasPermissionTo(csGeneralPrestacion.Cairo.Security.Actions.General.NEW_FERIADO)) { return p; }
+            if(!Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.NEW_FERIADO)) { return p; }
           } 
           else {
             m_isNew = false;
-            if(!Cairo.Security.hasPermissionTo(csGeneralPrestacion.Cairo.Security.Actions.General.EDIT_FERIADO)) { return p; }
+            if(!Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.EDIT_FERIADO)) { return p; }
           }
 
           m_dialog.setInModalWindow(inModalWindow);
@@ -508,7 +504,7 @@
         var elem = properties.add(null, Cairo.General.Constants.FE_DIA);
         elem.setType(Dialogs.PropertyType.numeric);
         elem.setSubType(Dialogs.PropertySubType.Integer);
-        //'D�a
+        // D�a
         elem.setName(Cairo.Language.getText(1214, ""));
         elem.setKey(K_DIA);
         elem.setValue(m_dia);
@@ -517,7 +513,7 @@
         var elem = properties.add(null, Cairo.General.Constants.FE_MES);
         elem.setType(Dialogs.PropertyType.numeric);
         elem.setSubType(Dialogs.PropertySubType.Integer);
-        //'Mes
+        // Mes
         elem.setName(Cairo.Language.getText(1215, ""));
         elem.setKey(K_MES);
         elem.setValue(m_mes);
@@ -529,7 +525,7 @@
         var elem = properties.add(null, Cairo.General.Constants.FE_ANIO);
         elem.setType(Dialogs.PropertyType.numeric);
         elem.setSubType(Dialogs.PropertySubType.Integer);
-        //'A�o
+        // A�o
         elem.setName(Cairo.Language.getText(1216, ""));
         elem.setKey(K_ANIO);
         elem.setValue(m_anio);
@@ -540,7 +536,7 @@
 
         var elem = properties.add(null, Cairo.General.Constants.FE_RECURRENTE);
         elem.setType(Dialogs.PropertyType.check);
-        //'Recurrente
+        // Recurrente
         elem.setName(Cairo.Language.getText(1217, ""));
         elem.setKey(K_RECURRENTE);
         elem.setValue(Cairo.Util.boolToInt(m_recurrente));
@@ -549,7 +545,7 @@
 
         var elem = properties.add(null, Cairo.General.Constants.FE_BANCO);
         elem.setType(Dialogs.PropertyType.check);
-        //'Feriado Bancario
+        // Feriado Bancario
         elem.setName(Cairo.Language.getText(1218, ""));
         elem.setKey(K_BANCO);
         elem.setValue(Cairo.Util.boolToInt(m_banco));
@@ -559,7 +555,7 @@
 
         var elem = properties.add(null, Cairo.General.Constants.FE_LABORAL);
         elem.setType(Dialogs.PropertyType.check);
-        //'Feriado Laboral
+        // Feriado Laboral
         elem.setName(Cairo.Language.getText(1219, ""));
         elem.setKey(K_LABORAL);
         elem.setValue(Cairo.Util.boolToInt(m_laboral));
@@ -569,7 +565,7 @@
 
         var elem = properties.add(null, Cairo.General.Constants.FE_LOCAL);
         elem.setType(Dialogs.PropertyType.check);
-        //'Feriado Local
+        // Feriado Local
         elem.setName(Cairo.Language.getText(1213, ""));
         elem.setKey(K_LOCAL);
         elem.setValue(Cairo.Util.boolToInt(m_local));
@@ -579,7 +575,7 @@
         var elem = properties.add(null, Cairo.General.Constants.PA_ID);
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.PAIS);
-        //'Pa�s
+        // Pa�s
         elem.setName(Cairo.Language.getText(1212, ""));
         elem.setKey(K_PA_ID);
         elem.setValue(m_pais);
@@ -591,7 +587,7 @@
         var elem = properties.add(null, Cairo.General.Constants.PRO_ID);
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.PROVINCIA);
-        //'Provincia
+        // Provincia
         elem.setName(Cairo.Language.getText(1080, ""));
         elem.setKey(K_PRO_ID);
         elem.setValue(m_provincia);
@@ -603,7 +599,7 @@
         var elem = properties.add(null, Cairo.General.Constants.FE_DESCRIP);
         elem.setType(Dialogs.PropertyType.text);
         elem.setTopToPrevious(440);
-        //'Observ.
+        // Observ.
         elem.setName(Cairo.Language.getText(1211, ""));
         elem.setSize(255);
         elem.setKey(K_DESCRIP);
@@ -672,7 +668,9 @@
         return Cairo.Database.getData("load[" + apiPath + "general/feriado]", id).then(
           function(response) {
 
-            if(!rs.isEOF()) {
+            if(response.success !== true) { return false; }
+
+            if(response.data.id !== Cairo.Constants.NO_ID) {
 
               m_id = Cairo.Database.valField(response.data, Cairo.General.Constants.FE_ID);
               m_name = Cairo.Database.valField(response.data, Cairo.General.Constants.FE_NAME);

@@ -263,7 +263,7 @@
       };
 
       self.getTitle = function() {
-        //'Zonas
+        // Zonas
         return Cairo.Language.getText(1505, "");
       };
 
@@ -402,7 +402,7 @@
         var elem = properties.add(null, Cairo.General.Constants.ZON_PRECIO);
         elem.setType(Dialogs.PropertyType.numeric);
         elem.setSubType(Dialogs.PropertySubType.double);
-        //'Precio
+        // Precio
         elem.setName(Cairo.Language.getText(1586, ""));
         elem.setSize(15);
         elem.setValue(m_precio);
@@ -412,7 +412,7 @@
         var elem = properties.add(null, Cairo.General.Constants.PR_ID);
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.PRODUCTO);
-        //'Articulo
+        // Articulo
         elem.setName(Cairo.Language.getText(1367, ""));
         elem.setSize(15);
         elem.setValue(m_producto);

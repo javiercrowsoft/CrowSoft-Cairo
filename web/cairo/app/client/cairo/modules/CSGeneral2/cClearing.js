@@ -124,7 +124,7 @@
 
           case Dialogs.Message.MSG_DOC_INFO:
 
-            Cairo.Documentation.show("", "", csGeneralPrestacion.Cairo.Security.Actions.General.NEW_CLEARING);
+            Cairo.Documentation.show("", "", Cairo.Security.Actions.General.NEW_CLEARING);
             _rtn = Dialogs.Message.MSG_DOC_INFO_HANDLED;
             break;
 
@@ -254,7 +254,7 @@
       };
 
       self.getTitle = function() {
-        //'Clearings
+        // Clearings
         return Cairo.Language.getText(1084, "");
       };
 
@@ -298,7 +298,7 @@
       };
 
       self.list = function() {
-        return Cairo.Security.hasPermissionTo(csGeneralPrestacion.Cairo.Security.Actions.General.LIST_CLEARING);
+        return Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.LIST_CLEARING);
       };
 
       self.setDialog = function(rhs) {
@@ -315,11 +315,11 @@
 
           if(id === Cairo.Constants.NO_ID) {
             m_isNew = true;
-            if(!Cairo.Security.hasPermissionTo(csGeneralPrestacion.Cairo.Security.Actions.General.NEW_CLEARING)) { return p; }
+            if(!Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.NEW_CLEARING)) { return p; }
           } 
           else {
             m_isNew = false;
-            if(!Cairo.Security.hasPermissionTo(csGeneralPrestacion.Cairo.Security.Actions.General.EDIT_CLEARING)) { return p; }
+            if(!Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.EDIT_CLEARING)) { return p; }
           }
 
           m_dialog.setInModalWindow(inModalWindow);
@@ -395,7 +395,7 @@
         var elem = properties.add(null, Cairo.General.Constants.CLE_DIAS);
         elem.setType(Dialogs.PropertyType.numeric);
         elem.setSubType(Dialogs.PropertySubType.Integer);
-        //'Días
+        // Días
         elem.setName(Cairo.Language.getText(1085, ""));
         elem.setKey(K_DIAS);
         elem.setValue(m_dias);

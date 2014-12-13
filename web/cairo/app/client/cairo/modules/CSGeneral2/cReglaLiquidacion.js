@@ -123,7 +123,7 @@
 
           case Dialogs.Message.MSG_DOC_INFO:
 
-            Cairo.Documentation.show("", "", csGeneralPrestacion.Cairo.Security.Actions.General.NEW_REGLALIQUIDACION);
+            Cairo.Documentation.show("", "", Cairo.Security.Actions.General.NEW_REGLALIQUIDACION);
             _rtn = Dialogs.Message.MSG_DOC_INFO_HANDLED;
             break;
 
@@ -249,7 +249,7 @@
       };
 
       self.getTitle = function() {
-        //'ReglaLiquidacion
+        // ReglaLiquidacion
         return Cairo.Language.getText(1414, "");
       };
 
@@ -293,7 +293,7 @@
       };
 
       self.list = function() {
-        return Cairo.Security.hasPermissionTo(csGeneralPrestacion.Cairo.Security.Actions.General.LIST_REGLALIQUIDACION);
+        return Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.LIST_REGLALIQUIDACION);
       };
 
       self.setDialog = function(rhs) {
@@ -310,11 +310,11 @@
 
           if(id === Cairo.Constants.NO_ID) {
             m_isNew = true;
-            if(!Cairo.Security.hasPermissionTo(csGeneralPrestacion.Cairo.Security.Actions.General.NEW_REGLALIQUIDACION)) { return p; }
+            if(!Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.NEW_REGLALIQUIDACION)) { return p; }
           } 
           else {
             m_isNew = false;
-            if(!Cairo.Security.hasPermissionTo(csGeneralPrestacion.Cairo.Security.Actions.General.EDIT_REGLALIQUIDACION)) { return p; }
+            if(!Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.EDIT_REGLALIQUIDACION)) { return p; }
           }
 
           m_dialog.setInModalWindow(inModalWindow);

@@ -95,7 +95,7 @@ var Cairo = new Marionette.Application();
       CHEQUERA: 22,
       CHOFER: 1001,
       CIRCUITO_CONTABLE: 1016,
-      CIUDADES: 40,
+      CIUDAD: 40,
       CLEARING: 23,
       CLIENTE: 28,
       CLIENTE_W_PRIME: -28,

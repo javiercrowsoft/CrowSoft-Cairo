@@ -99,7 +99,7 @@
 
           case Dialogs.Message.MSG_DOC_INFO:
 
-            Cairo.Documentation.show("", "", csGeneralPrestacion.Cairo.Security.Actions.General.NEW_BANCO);
+            Cairo.Documentation.show("", "", Cairo.Security.Actions.General.NEW_BANCO);
             _rtn = Dialogs.Message.MSG_DOC_INFO_HANDLED;
             break;
 
@@ -316,7 +316,7 @@
       };
 
       self.list = function() {
-        return Cairo.Security.hasPermissionTo(csGeneralPrestacion.Cairo.Security.Actions.General.LIST_BANCO);
+        return Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.LIST_BANCO);
       };
 
       self.setDialog = function(rhs) {
@@ -333,11 +333,11 @@
 
           if(id === Cairo.Constants.NO_ID) {
             m_isNew = true;
-            if(!Cairo.Security.hasPermissionTo(csGeneralPrestacion.Cairo.Security.Actions.General.NEW_BANCO)) { return p; }
+            if(!Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.NEW_BANCO)) { return p; }
           }
           else {
             m_isNew = false;
-            if(!Cairo.Security.hasPermissionTo(csGeneralPrestacion.Cairo.Security.Actions.General.EDIT_BANCO)) { return p; }
+            if(!Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.EDIT_BANCO)) { return p; }
           }
 
           m_dialog.setInModalWindow(inModalWindow);
@@ -418,7 +418,7 @@
 
         var elem = properties.add(null, Cairo.General.Constants.BCO_MAIL);
         elem.setType(Dialogs.PropertyType.text);
-        //' mail
+        // mail
         elem.setName(Cairo.Language.getText(1034, ""));
         elem.setSize(255);
         elem.setKey(K_MAIL);
@@ -432,7 +432,7 @@
 
         var elem = properties.add(null, Cairo.General.Constants.BCO_CONTACTO);
         elem.setType(Dialogs.PropertyType.text);
-        //' contacto
+        // contacto
         elem.setName(Cairo.Language.getText(1035, ""));
         elem.setHeight(660);
         elem.setWidth(6500);
@@ -443,7 +443,7 @@
 
         var elem = properties.add(null, Cairo.General.Constants.BCO_TELEFONO);
         elem.setType(Dialogs.PropertyType.text);
-        //' telefono
+        // telefono
         elem.setName(Cairo.Language.getText(1036, ""));
         elem.setSize(255);
         elem.setKey(K_TELEFONO);
@@ -452,7 +452,7 @@
 
         var elem = properties.add(null, Cairo.General.Constants.BCO_DIRECCION);
         elem.setType(Dialogs.PropertyType.text);
-        //' Dirección
+        // Dirección
         elem.setName(Cairo.Language.getText(1037, ""));
         elem.setSize(255);
         elem.setKey(K_DIRECCION);
@@ -461,7 +461,7 @@
 
         var elem = properties.add(null, Cairo.General.Constants.BCO_WEB);
         elem.setType(Dialogs.PropertyType.text);
-        //' Web
+        // Web
         elem.setName(Cairo.Language.getText(1038, ""));
         elem.setSize(255);
         elem.setKey(K_WEB);

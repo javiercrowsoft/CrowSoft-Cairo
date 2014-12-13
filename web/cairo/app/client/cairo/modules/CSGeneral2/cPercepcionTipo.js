@@ -32,8 +32,6 @@
       var m_cuenta = "";
       var m_active;
 
-      //OJO HASTA ACA
-
       var m_editing;
 
       var m_dialog;
@@ -115,7 +113,7 @@
 
           case Dialogs.Message.MSG_DOC_INFO:
 
-            Cairo.Documentation.show("", "", csGeneralPrestacion.Cairo.Security.Actions.General.NEW_PERCEPCIONTIPO);
+            Cairo.Documentation.show("", "", Cairo.Security.Actions.General.NEW_PERCEPCIONTIPO);
             _rtn = Dialogs.Message.MSG_DOC_INFO_HANDLED;
             break;
 
@@ -335,7 +333,7 @@
       };
 
       self.list = function() {
-        return Cairo.Security.hasPermissionTo(csGeneralPrestacion.Cairo.Security.Actions.General.LIST_PERCEPCIONTIPO);
+        return Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.LIST_PERCEPCIONTIPO);
       };
 
       self.getDialog = function() {
@@ -356,11 +354,11 @@
 
           if(id === Cairo.Constants.NO_ID) {
             m_isNew = true;
-            if(!Cairo.Security.hasPermissionTo(csGeneralPrestacion.Cairo.Security.Actions.General.NEW_PERCEPCIONTIPO)) { return p; }
+            if(!Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.NEW_PERCEPCIONTIPO)) { return p; }
           } 
           else {
             m_isNew = false;
-            if(!Cairo.Security.hasPermissionTo(csGeneralPrestacion.Cairo.Security.Actions.General.EDIT_PERCEPCIONTIPO)) { return p; }
+            if(!Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.EDIT_PERCEPCIONTIPO)) { return p; }
           }
 
           m_dialog.setInModalWindow(inModalWindow);
@@ -436,7 +434,7 @@
         elem.setType(Dialogs.PropertyType.check);
         elem.setTopFromProperty(Cairo.Constants.ACTIVE);
         elem.setLeft(3500);
-        //'Genera Sicore
+        // Genera Sicore
         elem.setName(Cairo.Language.getText(1266, ""));
         elem.setKey(K_GENERASICORE);
         elem.setValue(Cairo.Util.boolToInt(m_generaSicore));
@@ -445,7 +443,7 @@
         elem.setType(Dialogs.PropertyType.text);
         elem.setTopFromProperty(Cairo.General.Constants.PERCT_NAME);
         elem.setLeft(5500);
-        //'C�digo Sicore
+        // C�digo Sicore
         elem.setName(Cairo.Language.getText(1265, ""));
         elem.setSize(50);
         elem.setKey(K_CODIGOSICORE);
@@ -454,7 +452,7 @@
         var elem = properties.add(null, Cairo.General.Constants.CUE_ID);
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.CUENTA);
-        //'Cuenta
+        // Cuenta
         elem.setName(Cairo.Language.getText(1267, ""));
         elem.setKey(K_CUE_ID);
         elem.setValue(m_cuenta);
@@ -515,7 +513,9 @@
         return Cairo.Database.getData("load[" + apiPath + "general/percepciontipo]", id).then(
           function(response) {
 
-            if(!rs.isEOF()) {
+            if(response.success !== true) { return false; }
+
+            if(response.data.id !== Cairo.Constants.NO_ID) {
 
               m_id = Cairo.Database.valField(response.data, Cairo.General.Constants.PERCT_ID);
               m_name = Cairo.Database.valField(response.data, Cairo.General.Constants.PERCT_NAME);
@@ -549,17 +549,6 @@
         m_dialog = null;
         m_listController = null;
       };
-
-      ////////////////////////////////
-      //  Codigo estandar de errores
-      //  On Error GoTo ControlError
-      //
-      //  GoTo ExitProc
-      //ControlError:
-      //  MngError err,"", C_Module, ""
-      //  If Err.Number Then Resume ExitProc
-      //ExitProc:
-      //  On Error Resume Next
 
       return self;
     };
@@ -693,7 +682,7 @@
 
           // progress message
           //
-          Cairo.LoadingMessage.show("Tipos de Percepciones", "Loading Tipos de Percepciones from CrowSoft Cairo server.");
+          Cairo.LoadingMessage.show("Tipos de Percepcion", "Loading Tipos de Percepcion from CrowSoft Cairo server.");
 
           // create the tree region
           //
@@ -702,7 +691,7 @@
           // create the dialog
           //
           Cairo.Tree.List.Controller.list(
-            Cairo.Tables.PERCEPCIONTIPO,
+            Cairo.Tables.TIPOS_DE_PERCEPCION,
             new Cairo.Tree.List.TreeLayout({ model: self.entityInfo }),
             Cairo.percepcionTipoTreeRegion,
             self);

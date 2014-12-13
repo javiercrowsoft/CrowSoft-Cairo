@@ -120,7 +120,7 @@
 
           case Dialogs.Message.MSG_DOC_INFO:
 
-            Cairo.Documentation.show("", "", csGeneralPrestacion.Cairo.Security.Actions.General.NEW_ESCALA);
+            Cairo.Documentation.show("", "", Cairo.Security.Actions.General.NEW_ESCALA);
             _rtn = Dialogs.Message.MSG_DOC_INFO_HANDLED;
             break;
 
@@ -286,7 +286,7 @@
       };
 
       self.list = function() {
-        return Cairo.Security.hasPermissionTo(csGeneralPrestacion.Cairo.Security.Actions.General.LIST_ESCALA);
+        return Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.LIST_ESCALA);
       };
 
       self.setDialog = function(rhs) {
@@ -303,11 +303,11 @@
 
           if(id === Cairo.Constants.NO_ID) {
             m_isNew = true;
-            if(!Cairo.Security.hasPermissionTo(csGeneralPrestacion.Cairo.Security.Actions.General.NEW_ESCALA)) { return p; }
+            if(!Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.NEW_ESCALA)) { return p; }
           } 
           else {
             m_isNew = false;
-            if(!Cairo.Security.hasPermissionTo(csGeneralPrestacion.Cairo.Security.Actions.General.EDIT_ESCALA)) { return p; }
+            if(!Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.EDIT_ESCALA)) { return p; }
           }
 
           m_dialog.setInModalWindow(inModalWindow);

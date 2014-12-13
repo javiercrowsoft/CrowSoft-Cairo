@@ -137,7 +137,7 @@
 
           case Dialogs.Message.MSG_DOC_INFO:
 
-            Cairo.Documentation.show("", "", csGeneralPrestacion.Cairo.Security.Actions.General.NEW_VENTAMODO);
+            Cairo.Documentation.show("", "", Cairo.Security.Actions.General.NEW_VENTAMODO);
             _rtn = Dialogs.Message.MSG_DOC_INFO_HANDLED;
             break;
 
@@ -287,7 +287,7 @@
       };
 
       self.getTitle = function() {
-        //'Modos de Venta
+        // Modos de Venta
         return Cairo.Language.getText(5078, "");
       };
 
@@ -331,7 +331,7 @@
       };
 
       self.list = function() {
-        return Cairo.Security.hasPermissionTo(csGeneralPrestacion.Cairo.Security.Actions.General.LIST_VENTAMODO);
+        return Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.LIST_VENTAMODO);
       };
 
       self.setDialog = function(rhs) {
@@ -348,11 +348,11 @@
 
           if(id === Cairo.Constants.NO_ID) {
             m_isNew = true;
-            if(!Cairo.Security.hasPermissionTo(csGeneralPrestacion.Cairo.Security.Actions.General.NEW_VENTAMODO)) { return p; }
+            if(!Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.NEW_VENTAMODO)) { return p; }
           } 
           else {
             m_isNew = false;
-            if(!Cairo.Security.hasPermissionTo(csGeneralPrestacion.Cairo.Security.Actions.General.EDIT_VENTAMODO)) { return p; }
+            if(!Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.EDIT_VENTAMODO)) { return p; }
           }
 
           m_dialog.setInModalWindow(inModalWindow);
@@ -431,7 +431,7 @@
 
         var elem = properties.add(null, Cairo.General.Constants.VM_CTA_CTE);
         elem.setType(Dialogs.PropertyType.list);
-        //'Tipo de Cobranza
+        // Tipo de Cobranza
         elem.setName(Cairo.Language.getText(5104, ""));
         elem.setSize(15);
         elem.setListItemData(m_ctacte);
@@ -439,15 +439,15 @@
         var w_list = elem.getList();
         var elem = w_list.add(null);
         elem.Id = csE_VentaModoCtaCte.cSVM_CTACTEHOJARUTA;
-        //'Hoja de Ruta
+        // Hoja de Ruta
         elem.setValue(Cairo.Language.getText(5106, ""));
         var elem = w_list.add(null);
         elem.Id = csE_VentaModoCtaCte.cSVM_CTACTEMOSTRADOR;
-        //'Cobranza por Mostrador
+        // Cobranza por Mostrador
         elem.setValue(Cairo.Language.getText(5107, ""));
         var elem = w_list.add(null);
         elem.Id = csE_VentaModoCtaCte.cSVM_CTACTEMOSTRADOFACTURA;
-        //'Cobranza por Facturador
+        // Cobranza por Facturador
         elem.setValue(Cairo.Language.getText(5108, ""));
         elem.setKey(K_CTACTE);
         elem.setWidth(3000);
@@ -468,7 +468,7 @@
 
         var elem = properties.add(null);
         elem.setType(Dialogs.PropertyType.label);
-        //'Se utiliza en:
+        // Se utiliza en:
         elem.setValue(Cairo.Language.getText(5081, ""));
         elem.setHeight(285);
         elem.setFontBold(true);
@@ -478,7 +478,7 @@
 
         var elem = properties.add(null, Cairo.General.Constants.VM_PV);
         elem.setType(Dialogs.PropertyType.check);
-        //'Pedidos de Venta
+        // Pedidos de Venta
         elem.setName(Cairo.Language.getText(5082, ""));
         elem.setSize(15);
         elem.setValue(Cairo.Util.boolToInt(m_pv));
@@ -492,7 +492,7 @@
 
         var elem = properties.add(null, Cairo.General.Constants.VM_OS);
         elem.setType(Dialogs.PropertyType.check);
-        //'Ordenes de Servicio
+        // Ordenes de Servicio
         elem.setName(Cairo.Language.getText(5083, ""));
         elem.setSize(15);
         elem.setValue(Cairo.Util.boolToInt(m_os));
@@ -506,7 +506,7 @@
 
         var elem = properties.add(null, Cairo.General.Constants.VM_COBZ);
         elem.setType(Dialogs.PropertyType.check);
-        //'Cobranzas
+        // Cobranzas
         elem.setName(Cairo.Language.getText(2128, ""));
         elem.setSize(15);
         elem.setValue(Cairo.Util.boolToInt(m_cobz));
@@ -520,7 +520,7 @@
 
         var elem = properties.add(null, Cairo.General.Constants.VM_CMVXI);
         elem.setType(Dialogs.PropertyType.check);
-        //'Cobro por Internet
+        // Cobro por Internet
         elem.setName(Cairo.Language.getText(5105, ""));
         elem.setSize(15);
         elem.setValue(Cairo.Util.boolToInt(m_cmvxi));
@@ -546,7 +546,7 @@
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.CUENTA);
         elem.setSelectFilter("cuec_id = "+ csECuentaCategoria.cSECUECCAJA.toString());
-        //'Cuenta
+        // Cuenta
         elem.setName(Cairo.Language.getText(1267, ""));
         elem.setSize(15);
         elem.setValue(m_cuenta);

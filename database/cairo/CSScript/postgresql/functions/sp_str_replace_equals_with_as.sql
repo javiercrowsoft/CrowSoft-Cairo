@@ -205,11 +205,11 @@ BEGIN
 
                IF v_n <> 0 THEN
                BEGIN
-                   v_campo := SUBSTR(v_campo, v_n +1) || ' AS ' || REPLACE(SUBSTR(v_campo, 1, v_n -1),'''', '"') || ',';
+                   v_campo := SUBSTR(v_campo, v_n +1) || ' AS ' || REPLACE(SUBSTR(v_campo, 1, v_n -1),'''', '"');
                END;
                END IF;
 
-               v_retval := v_retval || v_campo;
+               v_retval := v_retval || v_campo || ',';
 
                v_i := v_j + 1;
 

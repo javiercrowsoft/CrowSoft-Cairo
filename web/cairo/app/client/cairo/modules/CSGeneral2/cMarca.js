@@ -26,8 +26,6 @@
       var m_active;
       var m_textoWeb = "";
 
-      //OJO HASTA ACA
-
       var m_editing;
 
       var m_dialog;
@@ -40,8 +38,6 @@
 
       var m_copy;
 
-      // Properties publicas
-
       self.getId = function() {
         return m_id;
       };
@@ -53,8 +49,6 @@
       self.getCode = function() {
         return m_code;
       };
-
-      // Properties privadas
 
       self.copy = function() {
 
@@ -131,7 +125,7 @@
 
           case Dialogs.Message.MSG_DOC_INFO:
 
-            Cairo.Documentation.show("", "", csGeneralPrestacion.Cairo.Security.Actions.General.NEW_MARCA);
+            Cairo.Documentation.show("", "", Cairo.Security.Actions.General.NEW_MARCA);
             _rtn = Dialogs.Message.MSG_DOC_INFO_HANDLED;
             break;
 
@@ -303,7 +297,7 @@
       };
 
       self.list = function() {
-        return Cairo.Security.hasPermissionTo(csGeneralPrestacion.Cairo.Security.Actions.General.LIST_MARCA);
+        return Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.LIST_MARCA);
       };
 
       self.setDialog = function(rhs) {
@@ -320,11 +314,11 @@
 
           if(id === Cairo.Constants.NO_ID) {
             m_isNew = true;
-            if(!Cairo.Security.hasPermissionTo(csGeneralPrestacion.Cairo.Security.Actions.General.NEW_MARCA)) { return p; }
+            if(!Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.NEW_MARCA)) { return p; }
           } 
           else {
             m_isNew = false;
-            if(!Cairo.Security.hasPermissionTo(csGeneralPrestacion.Cairo.Security.Actions.General.EDIT_MARCA)) { return p; }
+            if(!Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.EDIT_MARCA)) { return p; }
           }
 
           m_dialog.setInModalWindow(inModalWindow);
@@ -370,10 +364,7 @@
 
       var loadCollection = function() {
 
-        var abmObj = null;
-        abmObj = m_dialog;
-        abmObj.setMinHeight(7000);
-
+        m_dialog.setMinHeight(7000);
         m_dialog.setTitle(m_name);
 
         var w_tabs = m_dialog.getTabs();
@@ -383,7 +374,7 @@
         tab.setName(Cairo.Constants.c_strGeneral);
 
         var tab = w_tabs.add(null);
-        //' Web
+        // Web
         tab.setName(Cairo.Language.getText(1038, ""));
         tab.setIndex(1);
 
@@ -434,7 +425,7 @@
         elem.setSubType(Dialogs.PropertySubType.memo);
         elem.setHeight(780);
         elem.setWidth(6000);
-        //' Texto Web
+        // Texto Web
         elem.setName(Cairo.Language.getText(4787, ""));
         elem.setSize(255);
         elem.setKey(K_TEXTO_WEB);
@@ -479,7 +470,9 @@
         return Cairo.Database.getData("load[" + apiPath + "general/marca]", id).then(
           function(response) {
 
-            if(!rs.isEOF()) {
+            if(response.success !== true) { return false; }
+
+            if(response.data.id !== Cairo.Constants.NO_ID) {
 
               m_id = Cairo.Database.valField(response.data, Cairo.General.Constants.MARC_ID);
               m_name = Cairo.Database.valField(response.data, Cairo.General.Constants.MARC_NAME);

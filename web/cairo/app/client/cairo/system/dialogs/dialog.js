@@ -168,7 +168,7 @@
   // Handler
   ///////////////
 
-  Cairo.module("Dialogs", function(Tree, Cairo, Backbone, Marionette, $, _) {
+  Cairo.module("Dialogs", function(Dialogs, Cairo, Backbone, Marionette, $, _) {
     Dialogs.cell = function(row, key) {
       // TODO: implement this.
     };

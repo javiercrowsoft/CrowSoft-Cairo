@@ -131,7 +131,7 @@ object PercepcionTipo {
       SqlParser.get[String](C.PERCT_NAME) ~
       SqlParser.get[String](C.PERCT_CODE) ~
       SqlParser.get[Int](DBHelper.ACTIVE) ~
-      SqlParser.get[Boolean](C.PERCT_GENERA_SICORE) ~
+      SqlParser.get[Int](C.PERCT_GENERA_SICORE) ~
       SqlParser.get[String](C.PERCT_CODIGO_SICORE) ~
       SqlParser.get[Int](C.CUE_ID) ~
       SqlParser.get[String](C.CUE_NAME) ~
@@ -157,7 +157,7 @@ object PercepcionTipo {
               name,
               code,
               (if(active != 0) true else false),
-              generaSicore,
+              (if(generaSicore != 0) true else false),
               codigoSicore,
               cueId,
               cueName,
@@ -182,7 +182,7 @@ object PercepcionTipo {
         Field(C.PERCT_NAME, percepcionTipo.name, FieldType.text),
         Field(C.PERCT_CODE, percepcionTipo.code, FieldType.text),
         Field(DBHelper.ACTIVE, (if(percepcionTipo.active) 1 else 0), FieldType.boolean),
-        Field(C.PERCT_GENERA_SICORE, percepcionTipo.generaSicore, FieldType.boolean),
+        Field(C.PERCT_GENERA_SICORE, (if(percepcionTipo.generaSicore) 1 else 0), FieldType.boolean),
         Field(C.PERCT_CODIGO_SICORE, percepcionTipo.codigoSicore, FieldType.text),
         Field(C.CUE_ID, percepcionTipo.cueId, FieldType.id),
         Field(C.PERCT_DESCRIP, percepcionTipo.descrip, FieldType.text)
