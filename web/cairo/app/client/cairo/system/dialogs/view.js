@@ -391,6 +391,12 @@
         }
       };
 
+      that.onMaskEditChange = function(control) {
+        return function() {
+          that.raiseEvent("maskEditChange", control.getIndex());
+        };
+      };
+
       that.onTextChange = function(control) {
         return function() {
           that.raiseEvent("textChange", control.getIndex());
