@@ -13,3 +13,6 @@ Execute Generate SQL Inserts.sql
 Execute this file using psql
 
 /Library/PostgreSQL/9.0/bin/psql -p 5434 -U postgres -d salmax_com_ar_cairo -a -f /Users/javier//Documents/CrowSoft/Scripts/cairoSalmax-2014-3-u8.sql
+
+
+/Library/PostgreSQL/9.0/bin/psql -p 5434 -U postgres -d development_cairo -a -f /Users/javier//Documents/CrowSoft/Scripts/cairo-utf8.sql
