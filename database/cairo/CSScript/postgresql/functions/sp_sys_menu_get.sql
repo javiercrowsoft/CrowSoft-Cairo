@@ -109,7 +109,13 @@ BEGIN
                 left join lenguajeItem lfather4 on father4.me_text = lfather4.lengi_codigo and lfather4.leng_id = v_leng_id
                 left join lenguajeItem lfather5 on father5.me_text = lfather5.lengi_codigo and lfather5.leng_id = v_leng_id
 
-	order by coalesce(lfather5.lengi_texto,'zzz'), coalesce(lfather4.lengi_texto,'zzz'), coalesce(lfather3.lengi_texto,'zzz'), coalesce(lfather2.lengi_texto,'zzz'), coalesce(lfather1.lengi_texto,'zzz'), s.sysm_orden desc;
+	order by 
+	coalesce(replace(lfather5.lengi_texto, '&',''),'zzz'), 
+	coalesce(replace(lfather4.lengi_texto, '&',''),'zzz'), 
+	coalesce(replace(lfather3.lengi_texto, '&',''),'zzz'), 
+	coalesce(replace(lfather2.lengi_texto, '&',''),'zzz'), 
+	coalesce(replace(lfather1.lengi_texto, '&',''),'zzz'), 
+	s.sysm_orden desc;
 
 END;
 $BODY$

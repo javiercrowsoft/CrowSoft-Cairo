@@ -598,7 +598,7 @@
           // create the dialog
           //
           Cairo.Tree.List.Controller.list(
-            Cairo.Tables.PERSONADOCUMENTOTIPO,
+            Cairo.Tables.TIPOS_DE_DOCUMENTO,
             new Cairo.Tree.List.TreeLayout({ model: self.entityInfo }),
             Cairo.personaDocumentoTipoTreeRegion,
             self);

@@ -15,6 +15,7 @@ object Desktop extends Controller with ProvidesUser {
     LoggedIntoCompanyResponse.getAction(request, { user =>
       val menuList = Menu.list(user)
       val menu = Menu.createMenu(menuList)
+      Logger.debug(s"Menu: ${menu.toString}")
       val router = Router.createRouter(menuList)
       val language = Language.list(user)
       Ok(views.html.logged.desktop.index(menu, router, language, CSRF.getToken(request).getOrElse(null).value))

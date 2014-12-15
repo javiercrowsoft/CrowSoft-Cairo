@@ -25,9 +25,11 @@
       <file leaf-file-name="sp_sys_menu_get.sql" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/cairo/CSScript/postgresql/functions/sp_sys_menu_get.sql">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-12.448276" vertical-offset="1444" max-vertical-offset="2375">
-              <caret line="95" column="40" selection-start-line="95" selection-start-column="27" selection-end-line="95" selection-end-column="40" />
-              <folding />
+            <state vertical-scroll-proportion="-12.448276" vertical-offset="1558" max-vertical-offset="2489">
+              <caret line="101" column="40" selection-start-line="95" selection-start-column="27" selection-end-line="95" selection-end-column="40" />
+              <folding>
+                <marker date="1418608098000" expanded="true" signature="1208:5219" placeholder="DBN-PSQL block" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -363,9 +365,11 @@
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/cairo/CSScript/postgresql/functions/sp_sys_menu_get.sql">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-12.448276" vertical-offset="1444" max-vertical-offset="2375">
-          <caret line="95" column="40" selection-start-line="95" selection-start-column="27" selection-end-line="95" selection-end-column="40" />
-          <folding />
+        <state vertical-scroll-proportion="-12.448276" vertical-offset="1558" max-vertical-offset="2489">
+          <caret line="101" column="40" selection-start-line="95" selection-start-column="27" selection-end-line="95" selection-end-column="40" />
+          <folding>
+            <marker date="1418608098000" expanded="true" signature="1208:5219" placeholder="DBN-PSQL block" />
+          </folding>
         </state>
       </provider>
     </entry>

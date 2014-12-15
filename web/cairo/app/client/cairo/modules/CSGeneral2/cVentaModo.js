@@ -459,7 +459,7 @@
         var elem = properties.add(null);
         elem.setType(Dialogs.PropertyType.label);
         elem.setHeight(20);
-        elem.setBackColor(&HCECECE);
+        elem.setBackColor("CECECE");
         elem.setLeft(200);
         elem.setWidth(8000);
         elem.setLeftNotChange(true);
@@ -535,7 +535,7 @@
         var elem = properties.add(null);
         elem.setType(Dialogs.PropertyType.label);
         elem.setHeight(20);
-        elem.setBackColor(&HCECECE);
+        elem.setBackColor("CECECE");
         elem.setLeft(200);
         elem.setWidth(8000);
         elem.setLeftNotChange(true);
