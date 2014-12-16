@@ -317,7 +317,7 @@
             case K_CUE_ID:
               if(Cairo.Util.valEmpty(property.getSelectId(), Cairo.Constants.Types.id)) {
                 return Cairo.Modal.showInfo(Cairo.Language.getText(1261, "")).then(function() {return false;});
-                //Debe indicar una cuenta
+                // Debe indicar una cuenta
               }
 
               break;

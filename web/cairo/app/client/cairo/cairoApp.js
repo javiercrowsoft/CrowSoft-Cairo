@@ -289,6 +289,7 @@ var Cairo = new Marionette.Application();
     DELETE_FUNCTION: 'delete',
     EDIT_FUNCTION: "edit",
     VALIDATE_ROW_FUNCTION: "validateRow",
+    IS_EMPTY_ROW_FUNCTION: "isEmptyRow",
 
     SHOW_DOCUMENTS_FUNCTION: "showDocDigital",
     CLIENT_SAVE_FUNCTION: "save",

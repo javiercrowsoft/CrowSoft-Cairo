@@ -288,7 +288,7 @@
             case K_TEXTO:
               if(Cairo.Util.valEmpty(property.getValue(), Cairo.Constants.Types.text)) {
                 return Cairo.Modal.showInfo(Cairo.Language.getText(1237, "")).then(function() {return false;});
-                //Debe indicar un texto para la leyenda
+                // Debe indicar un texto para la leyenda
               }
               break;
           }

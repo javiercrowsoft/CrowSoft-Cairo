@@ -282,7 +282,7 @@
             case K_PA_ID:
               if(Cairo.Util.valEmpty(property.getSelectId(), Cairo.Constants.Types.id)) {
                 return Cairo.Modal.showInfo(Cairo.Language.getText(1411, "")).then(function() {return false;});
-                //Debe indicar un País
+                // Debe indicar un País
               }
               break;
 

@@ -282,7 +282,7 @@
             case K_NUMERO:
               if(Cairo.Util.valEmpty(property.getValue(), Cairo.Constants.Types.long)) {
                 return Cairo.Modal.showInfo(Cairo.Language.getText(1461, "")).then(function() {return false;});
-                //Debe indicar un n�mero
+                // Debe indicar un n�mero
               }
 
               break;

@@ -11,175 +11,219 @@
 
   Cairo.module("Dialogs.Grids", function(Grids, Cairo, Backbone, Marionette, $, _) {
 
-    Grids.Manager = Backbone.Model.extend({
-      urlRoot: "",
+    var createManager = function() {
+      
+      var that = {};
+      
+      that.loadFromRows = function(gridControl, grid, noChangeColumns, name) { /* TODO = implement this. */ };
+      that.loadFromRow = function(gridControl, row, rowIndex, columns) { /* TODO = implement this. */ };
+      that.setColumnProperties = function(grid, column, colGrid) { /* TODO = implement this. */ };
+      that.saveColumnWidth = function(grid, name) { /* TODO = implement this. */ };
+      that.saveColumnOrder = function(grid, name) { /* TODO = implement this. */ };
+      that.setProperties = function(grid) { /* TODO = implement this. */ }
+      
+    };
+    
+    Grids.Manager = createManager();
 
-      defaults: {
-      },
-
-      loadFromRows: function(gridControl, grid, noChangeColumns, name) { /* TODO: implement this. */ },
-      loadFromRow: function(gridControl, row, rowIndex, columns) { /* TODO: implement this. */ },
-      setColumnProperties: function(grid, column, colGrid) { /* TODO: implement this. */ },
-      saveColumnWidth: function(grid, name) { /* TODO: implement this. */ },
-      saveColumnOrder: function(grid, name) { /* TODO: implement this. */ },
-      setProperties: function(grid) { /* TODO: implement this. */ }
-
-    });
-
-    Grids.VirtualRow = Backbone.Model.extend({
-      urlRoot: "",
-
-      defaults: {
+    Grids.createVirtualRow = function() {
+      
+      var self = {
         result: false,
         info: null,
         rowsToAdd: 0
-      },
+      };
 
-      getRowsToAdd: function() { return this.rowsToAdd; },
-      getColAmount: function() { /* TODO: implement this. */ },
-      getNewValue: function(rowIndex) { /* TODO: implement this. */ },
-      getNewId: function(rowIndex) { /* TODO: implement this. */ },
-      getNewAmount: function(rowIndex) { /* TODO: implement this. */ },
-      loadFromRow: function(gridControl, row, rowIndex, columns) { /* TODO: implement this. */ },
-      setColumnProperties: function(grid, column, colGrid) { /* TODO: implement this. */ },
-      getNoSelectInGotFocus: function(grid, column, colGrid) { /* TODO: implement this. */ }
+      var that = {};
 
-    });
+      that.getRowsToAdd = function() {
+        return self.rowsToAdd;
+      };
 
-    Grids.CellFormat = Backbone.Model.extend({
-      urlRoot: "",
+      that.getColAmount = function() { /* TODO = implement this. */ };
+      that.getNewValue = function(rowIndex) { /* TODO = implement this. */ };
+      that.getNewId = function(rowIndex) { /* TODO = implement this. */ };
+      that.getNewAmount = function(rowIndex) { /* TODO = implement this. */ };
+      that.loadFromRow = function(gridControl, row, rowIndex, columns) { /* TODO = implement this. */ };
+      that.setColumnProperties = function(grid, column, colGrid) { /* TODO = implement this. */ };
+      that.getNoSelectInGotFocus = function(grid, column, colGrid) { /* TODO = implement this. */ }
 
-      defaults: {
-      },
+      return that;
+    };
 
-      getType: function() { /* TODO: implement this. */ },
-      getSubType: function() { /* TODO: implement this. */ },
-      getSelectTable: function() { /* TODO: implement this. */ },
-      getEnabled: function() { /* TODO: implement this. */ },
-      getSelectFilter: function() { /* TODO: implement this. */ },
-      getSize: function() { /* TODO: implement this. */ },
-      getFormat: function() { /* TODO: implement this. */ },
+    Grids.createCellFormat = function() {
 
-      setType: function() { /* TODO: implement this. */ },
-      setSubType: function() { /* TODO: implement this. */ },
-      setSelectTable: function() { /* TODO: implement this. */ },
-      setEnabled: function() { /* TODO: implement this. */ },
-      setSelectFilter: function() { /* TODO: implement this. */ },
-      setSize: function() { /* TODO: implement this. */ },
-      setFormat: function() { /* TODO: implement this. */ },
+      var self = {
+        
+      };
 
-      getColor: function() { /* TODO: implement this. */ },
-      getBackColor: function() { /* TODO: implement this. */ },
-      getTextAlign: function() { /* TODO: implement this. */ },
-      getFontName: function() { /* TODO: implement this. */ },
-      getBold: function() { /* TODO: implement this. */ },
-      getFontSize: function() { /* TODO: implement this. */ },
-      getStrike: function() { /* TODO: implement this. */ },
-      getUnderline: function() { /* TODO: implement this. */ },
-      getItalic: function() { /* TODO: implement this. */ }
+      var that = {};
 
-    });
+      that.getType =  function() { /* TODO =  implement this. */ };
+      that.getSubType =  function() { /* TODO =  implement this. */ };
+      that.getSelectTable =  function() { /* TODO =  implement this. */ };
+      that.getEnabled =  function() { /* TODO =  implement this. */ };
+      that.getSelectFilter =  function() { /* TODO =  implement this. */ };
+      that.getSize =  function() { /* TODO =  implement this. */ };
+      that.getFormat =  function() { /* TODO =  implement this. */ };
 
-    Grids.Cell = Backbone.Model.extend({
-      urlRoot: "",
+      that.setType =  function() { /* TODO =  implement this. */ };
+      that.setSubType =  function() { /* TODO =  implement this. */ };
+      that.setSelectTable =  function() { /* TODO =  implement this. */ };
+      that.setEnabled =  function() { /* TODO =  implement this. */ };
+      that.setSelectFilter =  function() { /* TODO =  implement this. */ };
+      that.setSize =  function() { /* TODO =  implement this. */ };
+      that.setFormat =  function() { /* TODO =  implement this. */ };
 
-      defaults: {
+      that.getColor =  function() { /* TODO =  implement this. */ };
+      that.getBackColor =  function() { /* TODO =  implement this. */ };
+      that.getTextAlign =  function() { /* TODO =  implement this. */ };
+      that.getFontName =  function() { /* TODO =  implement this. */ };
+      that.getBold =  function() { /* TODO =  implement this. */ };
+      that.getFontSize =  function() { /* TODO =  implement this. */ };
+      that.getStrike =  function() { /* TODO =  implement this. */ };
+      that.getUnderline =  function() { /* TODO =  implement this. */ };
+      that.getItalic =  function() { /* TODO =  implement this. */ }
+
+      return that;
+    };
+
+    Grids.createCell = function() {
+
+      var self = {
         format: null /* is a Grids.CellFormat object */
-      },
+      };
 
-      getKey: function() { /* TODO: implement this. */ }
+      var that = {};
+      
+      that.getKey = function() { /* TODO: implement this. */ };
+      
+      return that;
+    };
 
-    });
+    Grids.createCells = function() {
+      return Cairo.Collections.createCollection(Grids.createCell, null);
+    };
 
-    Grids.Cells = Backbone.Collection.extend({
-      url: "",
+    Grids.createColumn = function() {
 
-      model: Grids.Cell,
-      comparator: "index"
-    });
-
-    Grids.Column = Backbone.Model.extend({
-      urlRoot: "",
-
-      defaults: {
+      var self = {
         key:     0,
         name:    '',
 
         type:    null,
         subType: null,
 
-        default: null /* is a Grids.Cell object */
-      },
+        defaultValue: null /* is a Grids.Cell object */
+      };
 
-      setValue: function(value) { /* TODO: implement this. */ },
-      getDefaultValue: function() { /* TODO: implement this. */ },
+      var that = {};
 
-      getType: function() { /* TODO: implement this. */ },
-      getSubType: function() { /* TODO: implement this. */ },
-      getSelectTable: function() { /* TODO: implement this. */ },
-      getEnabled: function() { /* TODO: implement this. */ },
-      getSelectFilter: function() { /* TODO: implement this. */ },
-      getSize: function() { /* TODO: implement this. */ },
-      getFormat: function() { /* TODO: implement this. */ },
+      that.setDefaultValue = function(value) {
+        self.defaultValue = value;
+      };
 
-      setType: function() { /* TODO: implement this. */ },
-      setSubType: function() { /* TODO: implement this. */ },
-      setSelectTable: function() { /* TODO: implement this. */ },
-      setEnabled: function() { /* TODO: implement this. */ },
-      setSelectFilter: function() { /* TODO: implement this. */ },
-      setSize: function() { /* TODO: implement this. */ },
-      setFormat: function() { /* TODO: implement this. */ }
+      that.getDefaultValue = function() {
+        return self.defaultValue;
+      };
 
-    });
+      that.getType = function() {
+        return self.type;
+      };
+      that.setType = function(type) {
+        self.type = type;
+      };
+      
+      that.getSelectTable = function() { /* TODO: implement this. */ };
+      that.getEnabled = function() { /* TODO: implement this. */ };
+      that.getSelectFilter = function() { /* TODO: implement this. */ };
+      that.getSize = function() { /* TODO: implement this. */ };
+      that.getFormat = function() { /* TODO: implement this. */ };
 
-    Grids.Columns = Backbone.Collection.extend({
-      url: "",
+      that.getSubType = function() {
+        return self.subType;
+      };
+      that.setSubType = function(subType) { 
+        self.subType = subType;
+      };
+      
+      that.setSelectTable = function() { /* TODO: implement this. */ };
+      that.setEnabled = function() { /* TODO: implement this. */ };
+      that.setSelectFilter = function() { /* TODO: implement this. */ };
+      that.setSize = function() { /* TODO: implement this. */ };
+      that.setFormat = function() { /* TODO: implement this. */ };
 
-      model: Grids.Column,
-      comparator: "index"
-    });
+      return that;
+    };
 
-    Grids.Row = Backbone.Model.extend({
-      urlRoot: "",
+    Grids.createColumns = function() {
+      return Cairo.Collections.createCollection(Grids.createColumn, null);
+    };
 
-      defaults: {
-        cells: new Grids.Cells()
-      },
+    Grids.createRow = function() {
 
-      getIsGroup: function() { /* TODO: implement this. */ },
-      setIsGroup: function(isGroup) { /* TODO: implement this. */ },
+      var self = {
+        cells: Grids.createCells(),
+        isGroup: false,
+        haveKey: false
+      };
 
-      get: function(col) { /* TODO: implement this. */ },
+      var that = {};
 
-      getHaveKey: function() { /* TODO: implement this. */ },
-      setHaveKey: function(haveKey) { /* TODO: implement this. */ }
+      that.getIsGroup = function() {
+        return self.isGroup;
+      };
 
-    });
+      that.setIsGroup = function(isGroup) {
+        self.isGroup = isGroup;
+      };
 
-    Grids.Rows = Backbone.Collection.extend({
-      url: "",
+      that.get = function(col) {
+        return self.cells.get(col);
+      };
 
-      model: Grids.Row,
-      comparator: "index"
-    });
+      that.getHaveKey = function() {
+        return self.haveKey;
+      };
 
-    Grids.Grid = Backbone.Model.extend({
-      urlRoot: "",
+      that.setHaveKey = function(haveKey) {
+        self.haveKey = haveKey;
+      };
 
-      defaults: {
-        columns: new Grids.Columns(),
-        rows:    new Grids.Rows()
-      },
+      return that;
+    };
 
-      getColumns: function() { /* TODO: implement this. */ },
-      getRows: function() { /* TODO: implement this. */ },
-      setRows: function(rows) { /* TODO: implement this. */ },
-      getRowMode: function() { /* TODO: implement this. */ },
-      getNoResize: function() { /* TODO: implement this. */ },
-      setNoResizeHeight: function() { /* TODO: implement this. */ }
+    Grids.createRows = function() {
+      return Cairo.Collections.createCollection(Grids.createRow, null);
+    };
 
-    });
+    Grids.createGrid = function() {
 
+      var self = {
+        columns: Grids.createColumns(),
+        rows: Grids.createRows()
+      };
+
+      var that = {};
+
+      that.getColumns = function() {
+        return self.columns;
+      };
+
+      that.getRows = function() {
+        return self.rows;
+      };
+
+      that.setRows = function(rows) {
+        self.rows = rows;
+      };
+
+      that.getRowMode = function() { /* TODO: implement this. */ };
+      that.getNoResize = function() { /* TODO: implement this. */ };
+      that.setNoResizeHeight = function() { /* TODO: implement this. */ }
+
+      return that;
+    };
 
   });
 

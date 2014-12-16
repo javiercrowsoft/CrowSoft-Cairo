@@ -257,7 +257,7 @@
 
           function(result) {
             if(result.success) {
-                sqlstmt = "sp_FeriadoSave "+ register.getID().toString();
+                sqlstmt = "sp_FeriadoSave "+ register.getId().toString();
                 if(!Cairo.Database.execute(sqlstmt)) { return false; }
 
                 register.commitTrans();
@@ -334,14 +334,14 @@
             case K_NAME:
               if(Cairo.Util.valEmpty(property.getValue(), Cairo.Constants.Types.text)) {
                 return Cairo.Modal.showInfo(Cairo.Language.getText(1007, "")).then(function() {return false;});
-                //Debe indicar un Nombre
+                // Debe indicar un Nombre
               }
               break;
 
             case K_CODE:
               if(Cairo.Util.valEmpty(property.getValue(), Cairo.Constants.Types.text)) {
                 return Cairo.Modal.showInfo(Cairo.Language.getText(1008, "")).then(function() {return false;});
-                //Debe indicar un C�digo"
+                // Debe indicar un C�digo"
               }
               break;
 
@@ -349,7 +349,7 @@
               dia = Cairo.Util.val(property.getValue());
               if(dia < 1 || dia > 31) {
                 return Cairo.Modal.showInfo(Cairo.Language.getText(1545, "")).then(function() {return false;});
-                //Debe indicar un d�a entre 1 y 31
+                // Debe indicar un d�a entre 1 y 31
               }
               break;
 
@@ -357,7 +357,7 @@
               mes = Cairo.Util.val(property.getValue());
               if(mes < 1 || mes > 12) {
                 return Cairo.Modal.showInfo(Cairo.Language.getText(1546, "")).then(function() {return false;});
-                //Debe indicar un mes entre 1 y 12
+                // Debe indicar un mes entre 1 y 12
               } 
               else {
                 switch (mes) {
@@ -367,14 +367,14 @@
                   case 11:
                     if(dia > 30) {
                       return Cairo.Modal.showInfo(Cairo.Language.getText(1547, "")).then(function() {return false;});
-                      //Debe indicar un d�a entre 1 y 30
+                      // Debe indicar un d�a entre 1 y 30
                     }
                     break;
 
                   case 2:
                     if(dia > 29) {
                       return Cairo.Modal.showInfo(Cairo.Language.getText(1548, "")).then(function() {return false;});
-                      //Debe indicar un d�a entre 1 y 29
+                      // Debe indicar un d�a entre 1 y 29
                     }
                     break;
                 }

@@ -115,7 +115,7 @@ BEGIN
 	coalesce(replace(lfather3.lengi_texto, '&',''),'zzz'), 
 	coalesce(replace(lfather2.lengi_texto, '&',''),'zzz'), 
 	coalesce(replace(lfather1.lengi_texto, '&',''),'zzz'), 
-	s.sysm_orden desc;
+	coalesce(replace(l.lengi_texto, '&',''),'zzz') desc;
 
 END;
 $BODY$

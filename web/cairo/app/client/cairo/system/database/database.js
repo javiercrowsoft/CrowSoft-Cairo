@@ -207,10 +207,52 @@
 
       this.setData = function(data) {
         _data = data;
-      }
+      };
       this.getData = function() {
         return _data;
+      };
+
+      //
+      // transactions
+      //
+      this.prepareTransaction = function() {};
+
+      var __transactions = [];
+
+      var _transactions = {
+        add: function(transaction) {
+          __transactions.push(transaction);
+        }
       }
+
+      this.addTransaction = function(transaction) {
+        _transactions.add(transaction);
+      };
+
+      return this;
+    },
+
+    Transaction: function() {
+      var _table, _deletedList;
+      var __registers = [];
+
+      var _registers = {
+        add: function(register) {
+          __registers.push(register);
+        }
+      }
+
+      this.addRegister = function(register) {
+        _registers.add(register);
+      };
+
+      this.setTable = function(table) {
+        _table = table;
+      };
+
+      this.setDeletedList = function(deletedList) {
+        _deletedList = deletedList;
+      };
 
       return this;
     }

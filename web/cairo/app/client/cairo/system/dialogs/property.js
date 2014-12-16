@@ -187,7 +187,7 @@
 
       that.getGrid = function() {
         if(self.grid === null) {
-          self.grid = new Dialogs.Grids.Grid();
+          self.grid = Dialogs.Grids.createGrid();
         }
         return self.grid;
       };
