@@ -1139,9 +1139,14 @@
         debtor: 4,
         directDebit: 5,
         pettyCashFund: 6
+      },
+
+      ProductoWebImageType: {
+        webImageThumbnail: 1,
+        webImageMedium: 2,
+        webImageBig: 3
       }
     }
-
   };
 
   Cairo.Security.Actions.General = {

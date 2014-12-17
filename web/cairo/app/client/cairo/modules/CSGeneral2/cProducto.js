@@ -421,6 +421,7 @@
         catalogosWeb: [],
         webImages: [],
         kit: [],
+        bom: [],
         rubro: null
       };
 
@@ -549,13 +550,13 @@
 
             if(row.item(info.col).getKey() === KIT_PR_ID_TAG) {
 
-              var oCell = null;
+              var cell = null;
 
-              oCell = Dialogs.cell(row, KIT_PR_ID_TAG);
+              cell = Dialogs.cell(row, KIT_PR_ID_TAG);
 
-              if(oCell.getSelectIntValue() !== "") {
-                if(oCell.getSelectIntValue().indexOf(",", 1)) {
-                  p = Cairo.Selections.addMultiRowsPurchase(oCell.getSelectIntValue(), info, -1);
+              if(cell.getSelectIntValue() !== "") {
+                if(cell.getSelectIntValue().indexOf(",", 1)) {
+                  p = Cairo.Selections.addMultiRowsPurchase(cell.getSelectIntValue(), info, -1);
                 }
               }
             }
@@ -1327,8 +1328,7 @@
       };
 
       self.getTitle = function() {
-        // Artículos
-        return Cairo.Language.getText(1283, "");
+        return Cairo.Language.getText(1283, ""); // Artículos
       };
 
       self.validate = function() {
@@ -1369,8 +1369,7 @@
 
             case K_NOMBRE_VENTA:
               if(Cairo.Util.valEmpty(property.getValue(), Types.text) && m_seVende) {
-                return Cairo.Modal.showInfo(Cairo.Language.getText(1293, "")).then(function() {return false;});
-                // Debe indicar un nombre de venta
+                return Cairo.Modal.showInfo(Cairo.Language.getText(1293, "")).then(function() {return false;}); // Debe indicar un nombre de venta
               }
               break;
 
@@ -1382,71 +1381,61 @@
 
             case K_UN_ID_COMPRA:
               if(Cairo.Util.valEmpty(property.getSelectId(), Types.id) && m_seCompra) {
-                return Cairo.Modal.showInfo(Cairo.Language.getText(1284, "")).then(function() {return false;});
-                // Debe indicar una unidad de compra
+                return Cairo.Modal.showInfo(Cairo.Language.getText(1284, "")).then(function() {return false;}); // Debe indicar una unidad de compra
               }
               break;
 
             case K_UN_ID_VENTA:
               if(Cairo.Util.valEmpty(property.getSelectId(), Types.id) && m_seVende) {
-                return Cairo.Modal.showInfo(Cairo.Language.getText(1285, "")).then(function() {return false;});
-                // Debe indicar una unidad de venta
+                return Cairo.Modal.showInfo(Cairo.Language.getText(1285, "")).then(function() {return false;}); // Debe indicar una unidad de venta
               }
               break;
 
             case K_UN_ID_STOCK:
               if(Cairo.Util.valEmpty(property.getSelectId(), Types.id) && m_llevaStock) {
-                return Cairo.Modal.showInfo(Cairo.Language.getText(1286, "")).then(function() {return false;});
-                // Debe indicar una unidad de stock
+                return Cairo.Modal.showInfo(Cairo.Language.getText(1286, "")).then(function() {return false;}); // Debe indicar una unidad de stock
               }
               break;
 
             case K_COMPRA_VENTA:
               if(Cairo.Util.valEmpty(property.getValue(), Types.double) && m_seVende && m_seCompra) {
-                return Cairo.Modal.showInfo(Cairo.Language.getText(1287, "")).then(function() {return false;});
-                // Debe indicar una relación entre la unidad de compra y la unidad de venta
+                return Cairo.Modal.showInfo(Cairo.Language.getText(1287, "")).then(function() {return false;}); // Debe indicar una relación entre la unidad de compra y la unidad de venta
               }
               break;
 
             case K_VENTA_STOCK:
               if(Cairo.Util.valEmpty(property.getValue(), Types.double) && m_seVende && m_llevaStock) {
-                return Cairo.Modal.showInfo(Cairo.Language.getText(1288, "")).then(function() {return false;});
-                // Debe indicar una relación entre la unidad de venta y la unidad de stock
+                return Cairo.Modal.showInfo(Cairo.Language.getText(1288, "")).then(function() {return false;}); // Debe indicar una relación entre la unidad de venta y la unidad de stock
               }
               break;
 
             case K_COMPRA_STOCK:
               if(Cairo.Util.valEmpty(property.getValue(), Types.double) && m_llevaStock && m_seCompra) {
-                return Cairo.Modal.showInfo(Cairo.Language.getText(1294, "")).then(function() {return false;});
-                // Debe indicar una relación entre la unidad de compra y la unidad de stock
+                return Cairo.Modal.showInfo(Cairo.Language.getText(1294, "")).then(function() {return false;}); // Debe indicar una relación entre la unidad de compra y la unidad de stock
               }
               break;
 
             case K_TI_ID_IVA_RI_COMPRA:
               if(Cairo.Util.valEmpty(property.getSelectId(), Types.id) && m_seCompra) {
-                return Cairo.Modal.showInfo(Cairo.Language.getText(1289, "")).then(function() {return false;});
-                // Debe indicar una tasa impositiva de compras para Responsables Inscriptos
+                return Cairo.Modal.showInfo(Cairo.Language.getText(1289, "")).then(function() {return false;}); // Debe indicar una tasa impositiva de compras para Responsables Inscriptos
               }
               break;
 
             case K_TI_ID_IVA_RI_VENTA:
               if(Cairo.Util.valEmpty(property.getSelectId(), Types.id) && m_seVende) {
-                return Cairo.Modal.showInfo(Cairo.Language.getText(1291, "")).then(function() {return false;});
-                // Debe indicar una tasa impositiva de ventas para Responsables Inscriptos
+                return Cairo.Modal.showInfo(Cairo.Language.getText(1291, "")).then(function() {return false;}); // Debe indicar una tasa impositiva de ventas para Responsables Inscriptos
               }
               break;
 
             case K_CUEG_ID_COMPRA:
               if(Cairo.Util.valEmpty(property.getSelectId(), Types.id) && m_seCompra) {
-                return Cairo.Modal.showInfo(Cairo.Language.getText(1295, "")).then(function() {return false;});
-                // Debe indicar un grupo de cuentas para compras
+                return Cairo.Modal.showInfo(Cairo.Language.getText(1295, "")).then(function() {return false;}); // Debe indicar un grupo de cuentas para compras
               }
               break;
 
             case K_CUEG_ID_VENTA:
               if(Cairo.Util.valEmpty(property.getSelectId(), Types.id) && m_seVende) {
-                return Cairo.Modal.showInfo(Cairo.Language.getText(1296, "")).then(function() {return false;});
-                // Debe indicar un grupo de cuentas para ventas
+                return Cairo.Modal.showInfo(Cairo.Language.getText(1296, "")).then(function() {return false;}); // Debe indicar un grupo de cuentas para ventas
               }
               break;
 
@@ -1483,13 +1472,11 @@
         if(bIsResumido) {
 
           if(bValidateIdentidad && bNeedTalIdentidad && !bHaveTalIdentidad) {
-            return Cairo.Modal.showInfo(Cairo.Language.getText(1297, "")).then(function() {return false;});
-            // Debe indicar un talonario para la identidad del Kit
+            return Cairo.Modal.showInfo(Cairo.Language.getText(1297, "")).then(function() {return false;}); // Debe indicar un talonario para la identidad del Kit
           }
 
           if(bValidateLote && bNeedTalLote && !bHaveTalLote) {
-            return Cairo.Modal.showInfo(Cairo.Language.getText(1353, "")).then(function() {return false;});
-            // Debe indicar un talonario para el lote del Kit
+            return Cairo.Modal.showInfo(Cairo.Language.getText(1353, "")).then(function() {return false;}); // Debe indicar un talonario para el lote del Kit
           }
         }
         p = p || Cairo.Promises.resolvedPromise(true);
@@ -4003,7 +3990,7 @@
         switch (key) {
           case K_PROVEEDOR:
             var property = m_dialog.getProperties().item(C_PROVEEDOR);
-            pEditLP(Dialogs.cell(property.getGrid().getRows().item(lRow), KIK_PROV_LPI_ID).getId());
+            editPriceList(Dialogs.cell(property.getGrid().getRows().item(lRow), KIK_PROV_LPI_ID).getId());
             break;
         }
       };
@@ -4120,12 +4107,10 @@
 
                 case KICWC_ID:
                   fields.add(Constants.CATWC_ID, cell.getId(), Types.id);
-
                   break;
 
                 case KICWCI_POSICION:
                   fields.add(Constants.CATWCI_POSICION, cell.getValue(), Types.integer);
-
                   break;
               }
             }
@@ -4157,7 +4142,7 @@
         for (var _i = 0; _i < _count; _i++) {
           row = property.getGrid().getRows().item(_i);
 
-          if(pIsRowProveedorFromUser(row)) {
+          if(isRowProveedorFromUser(row)) {
 
             var register = new Cairo.Database.Register();
 
@@ -4572,7 +4557,6 @@
 
       var validateRowProveedor = function(row,  rowIndex) {
         var cell = null;
-
         var strRow = " (Row: " + rowIndex.toString() + ")";
 
         var _count = row.size();
@@ -4581,8 +4565,7 @@
           switch (cell.getKey()) {
             case KIK_PROV_ID:
               if(Cairo.Util.valEmpty(cell.getId(), Types.id)) {
-                return Cairo.Modal.showInfo(Cairo.Language.getText(1349, "", strRow)).then(function() {return false;});
-                // Debe indicar un proveedor
+                return Cairo.Modal.showInfo(Cairo.Language.getText(1349, "", strRow)).then(function() {return false;}); // Debe indicar un proveedor
               }
               break;
           }
@@ -4593,7 +4576,6 @@
 
       var validateRowLeyendas = function(row,  rowIndex) {
         var cell = null;
-
         var strRow = " (Row: " + rowIndex.toString() + ")";
 
         var _count = row.size();
@@ -4608,8 +4590,7 @@
 
             case KIPRL_TEXTO:
               if(Cairo.Util.valEmpty(cell.getValue(), Types.text)) {
-                return Cairo.Modal.showInfo(Cairo.Language.getText(5037, "", strRow)).then(function() {return false;});
-                // Debe indicar una texto
+                return Cairo.Modal.showInfo(Cairo.Language.getText(5037, "", strRow)).then(function() {return false;}); // Debe indicar una texto
               }
               break;
           }
@@ -4620,7 +4601,6 @@
 
       var validateRowCMI = function(row,  rowIndex) {
         var cell = null;
-
         var strRow = " (Row: " + rowIndex.toString() + ")";
 
         var _count = row.size();
@@ -4629,8 +4609,7 @@
           switch (cell.getKey()) {
             case KICMI_CMI_ID:
               if(Cairo.Util.valEmpty(cell.getId(), Types.integer)) {
-                return Cairo.Modal.showInfo(Cairo.Language.getText(5028, "", strRow)).then(function() {return false;});
-                // Debe indicar una comunidad
+                return Cairo.Modal.showInfo(Cairo.Language.getText(5028, "", strRow)).then(function() {return false;}); // Debe indicar una comunidad
               }
               break;
 
@@ -4647,7 +4626,6 @@
 
       var validateRowWebImage = function(row,  rowIndex) {
         var cell = null;
-
         var strRow = " (Row: " + rowIndex.toString() + ")";
 
         var _count = row.size();
@@ -4656,15 +4634,13 @@
           switch (cell.getKey()) {
             case KIWI_IMAGE:
               if(Cairo.Util.valEmpty(cell.getValue(), Types.text)) {
-                return Cairo.Modal.showInfo(Cairo.Language.getText(4574, "", strRow)).then(function() {return false;});
-                // Debe indicar el nombre de un archivo de imagen
+                return Cairo.Modal.showInfo(Cairo.Language.getText(4574, "", strRow)).then(function() {return false;}); // Debe indicar el nombre de un archivo de imagen
               }
               break;
 
             case KIWI_IMAGE_TYPE:
               if(Cairo.Util.valEmpty(cell.getId(), Types.integer)) {
-                return Cairo.Modal.showInfo(Cairo.Language.getText(4575, "", strRow)).then(function() {return false;});
-                // Debe indicar el tipo de imagen
+                return Cairo.Modal.showInfo(Cairo.Language.getText(4575, "", strRow)).then(function() {return false;}); // Debe indicar el tipo de imagen
               }
               break;
           }
@@ -4675,7 +4651,6 @@
 
       var validateRowCliente = function(row,  rowIndex) {
         var cell = null;
-
         var strRow = " (Row: " + rowIndex.toString() + ")";
 
         var _count = row.size();
@@ -4684,8 +4659,7 @@
           switch (cell.getKey()) {
             case KIK_CLI_ID:
               if(Cairo.Util.valEmpty(cell.getId(), Types.id)) {
-                return Cairo.Modal.showInfo(Cairo.Language.getText(1351, "", strRow)).then(function() {return false;});
-                // Debe indicar un cliente
+                return Cairo.Modal.showInfo(Cairo.Language.getText(1351, "", strRow)).then(function() {return false;}); // Debe indicar un cliente
               }
               break;
           }
@@ -4696,7 +4670,6 @@
 
       var isEmptyRowProveedor = function(row,  rowIndex) {
         var cell = null;
-
         var bRowIsEmpty = true;
 
         var _count = row.size();
@@ -4706,37 +4679,31 @@
             case KIK_PROV_ID:
               if(!Cairo.Util.valEmpty(cell.getValue(), Types.text)) {
                 bRowIsEmpty = false;
-                break;
               }
               break;
 
             case KIK_PROV_NOMBRE:
               if(!Cairo.Util.valEmpty(cell.getValue(), Types.text)) {
                 bRowIsEmpty = false;
-                break;
               }
               break;
 
             case KIK_PROV_CODIGO:
               if(!Cairo.Util.valEmpty(cell.getValue(), Types.text)) {
                 bRowIsEmpty = false;
-                break;
               }
               break;
 
             case KIK_PROV_CODBARRA:
               if(!Cairo.Util.valEmpty(cell.getValue(), Types.text)) {
                 bRowIsEmpty = false;
-                break;
               }
               break;
 
             case KIK_PA_ID:
               if(!Cairo.Util.valEmpty(cell.getValue(), Types.text)) {
                 bRowIsEmpty = false;
-                break;
               }
-
               break;
           }
         }
@@ -4746,7 +4713,6 @@
 
       var isEmptyRowCliente = function(row,  rowIndex) {
         var cell = null;
-
         var bRowIsEmpty = true;
 
         var _count = row.size();
@@ -4756,28 +4722,24 @@
             case KIK_CLI_ID:
               if(!Cairo.Util.valEmpty(cell.getValue(), Types.text)) {
                 bRowIsEmpty = false;
-                break;
               }
               break;
 
             case KIK_CLI_NOMBRE:
               if(!Cairo.Util.valEmpty(cell.getValue(), Types.text)) {
                 bRowIsEmpty = false;
-                break;
               }
               break;
 
             case KIK_CLI_CODIGO:
               if(!Cairo.Util.valEmpty(cell.getValue(), Types.text)) {
                 bRowIsEmpty = false;
-                break;
               }
               break;
 
             case KIK_CLI_CODBARRA:
               if(!Cairo.Util.valEmpty(cell.getValue(), Types.text)) {
                 bRowIsEmpty = false;
-                break;
               }
               break;
           }
@@ -4788,7 +4750,6 @@
 
       var isEmptyRowLeyendas = function(row,  rowIndex) {
         var cell = null;
-
         var bRowIsEmpty = true;
 
         var _count = row.size();
@@ -4798,14 +4759,12 @@
             case KIPRL_NOMBRE:
               if(!Cairo.Util.valEmpty(cell.getValue(), Types.text)) {
                 bRowIsEmpty = false;
-                break;
               }
               break;
 
             case KIPRL_TEXTO:
               if(!Cairo.Util.valEmpty(cell.getValue(), Types.text)) {
                 bRowIsEmpty = false;
-                break;
               }
               break;
           }
@@ -4816,7 +4775,6 @@
 
       var isEmptyRowCMI = function(row,  rowIndex) {
         var cell = null;
-
         var bRowIsEmpty = true;
 
         var _count = row.size();
@@ -4826,14 +4784,12 @@
             case KICMI_CMI_ID:
               if(!Cairo.Util.valEmpty(cell.getValue(), Types.text)) {
                 bRowIsEmpty = false;
-                break;
               }
               break;
 
             case KICMI_CODIGO:
               if(!Cairo.Util.valEmpty(cell.getValue(), Types.text)) {
                 bRowIsEmpty = false;
-                break;
               }
               break;
           }
@@ -4844,7 +4800,6 @@
 
       var isEmptyRowWebImages = function(row,  rowIndex) {
         var cell = null;
-
         var bRowIsEmpty = true;
 
         var _count = row.size();
@@ -4854,14 +4809,12 @@
             case KIWI_IMAGE:
               if(!Cairo.Util.valEmpty(cell.getValue(), Types.text)) {
                 bRowIsEmpty = false;
-                break;
               }
               break;
 
             case KIWI_ALT:
               if(!Cairo.Util.valEmpty(cell.getValue(), Types.text)) {
                 bRowIsEmpty = false;
-                break;
               }
               break;
           }
@@ -4872,7 +4825,6 @@
 
       var isEmptyRowTags = function(row,  rowIndex) {
         var cell = null;
-
         var bRowIsEmpty = true;
 
         var _count = row.size();
@@ -4882,7 +4834,6 @@
             case KIT_TEXTO:
               if(!Cairo.Util.valEmpty(cell.getValue(), Types.text)) {
                 bRowIsEmpty = false;
-                break;
               }
               break;
 
@@ -4891,7 +4842,6 @@
               if(!Cairo.Util.valEmpty(cell.getValue(), Types.integer)) {
                 if(Cairo.Util.val(cell.getValue()) !== 50) {
                   bRowIsEmpty = false;
-                  break;
                 }
               }
               break;
@@ -4899,7 +4849,6 @@
             case KIT_PR_ID_TAG:
               if(!Cairo.Util.valEmpty(cell.getValue(), Types.text)) {
                 bRowIsEmpty = false;
-                break;
               }
               break;
           }
@@ -4920,16 +4869,14 @@
         elem.setKey(KIK_PRPROV_ID);
 
         var elem = w_columns.add(null);
-        // Proveedor
-        elem.setName(Cairo.Language.getText(1151, ""));
+        elem.setName(Cairo.Language.getText(1151, "")); // Proveedor
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.PROVEEDOR);
         elem.setWidth(2500);
         elem.setKey(KIK_PROV_ID);
 
         var elem = w_columns.add(null);
-        // Fabricante
-        elem.setName(Cairo.Language.getText(1356, ""));
+        elem.setName(Cairo.Language.getText(1356, "")); // Fabricante
         elem.setType(Dialogs.PropertyType.check);
         elem.setWidth(100);
         elem.setKey(KIK_PROV_FABRICANTE);
@@ -4947,29 +4894,25 @@
         elem.setKey(KIK_PROV_CODIGO);
 
         var elem = w_columns.add(null);
-        // Cód. Barra
-        elem.setName(Cairo.Language.getText(1306, ""));
+        elem.setName(Cairo.Language.getText(1306, "")); // Cód. Barra
         elem.setType(Dialogs.PropertyType.text);
         elem.setWidth(1000);
         elem.setKey(KIK_PROV_CODBARRA);
 
         var elem = w_columns.add(null);
-        // País
-        elem.setName(Cairo.Language.getText(1212, ""));
+        elem.setName(Cairo.Language.getText(1212, "")); // País
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.PAIS);
         elem.setWidth(2000);
         elem.setKey(KIK_PA_ID);
 
         var elem = w_columns.add(null);
-        // Lista de Precios
-        elem.setName(Cairo.Language.getText(2273, ""));
+        elem.setName(Cairo.Language.getText(2273, "")); // Lista de Precios
         elem.setWidth(2000);
         elem.setKey(KIK_PROV_LPI_ID);
 
         var elem = w_columns.add(null);
-        // Precio
-        elem.setName(Cairo.Language.getText(1586, ""));
+        elem.setName(Cairo.Language.getText(1586, "")); // Precio
         elem.setType(Dialogs.PropertyType.numeric);
         elem.setFormat("0.000");
         elem.setWidth(2000);
@@ -4980,8 +4923,7 @@
         elem.setVisible(false);
 
         var elem = w_columns.add(null);
-        // Fecha
-        elem.setName(Cairo.Language.getText(1569, ""));
+        elem.setName(Cairo.Language.getText(1569, "")); // Fecha
         elem.setType(Dialogs.PropertyType.date);
         elem.setWidth(2000);
         elem.setKey(KIK_PROV_PRECIO_FECHA);
@@ -5009,51 +4951,51 @@
           var elem = w_rows.add(null);
 
           var elem = elem.add(null);
-          elem.Value = Cairo.Database.valField(m_data.proveedor[_i], Constants.PR_PROV_ID);
+          elem.setValue(Cairo.Database.valField(m_data.proveedor[_i], Constants.PR_PROV_ID));
           elem.setKey(KIK_PRPROV_ID);
 
           var elem = elem.add(null);
-          elem.Value = Cairo.Database.valField(m_data.proveedor[_i], Constants.PROV_NAME);
-          elem.Id = Cairo.Database.valField(m_data.proveedor[_i], Constants.PROV_ID);
+          elem.setValue(Cairo.Database.valField(m_data.proveedor[_i], Constants.PROV_NAME));
+          elem.setId(Cairo.Database.valField(m_data.proveedor[_i], Constants.PROV_ID));
           elem.setKey(KIK_PROV_ID);
 
           var elem = elem.add(null);
-          elem.Id = Cairo.Database.valField(m_data.proveedor[_i], Constants.PR_PROV_FABRICANTE);
+          elem.setId(Cairo.Database.valField(m_data.proveedor[_i], Constants.PR_PROV_FABRICANTE));
           elem.setKey(KIK_PROV_FABRICANTE);
 
           var elem = elem.add(null);
-          elem.Value = Cairo.Database.valField(m_data.proveedor[_i], Constants.PR_PROV_NAME);
+          elem.setValue(Cairo.Database.valField(m_data.proveedor[_i], Constants.PR_PROV_NAME));
           elem.setKey(KIK_PROV_NOMBRE);
 
           var elem = elem.add(null);
-          elem.Value = Cairo.Database.valField(m_data.proveedor[_i], Constants.PR_PROV_CODE);
+          elem.setValue(Cairo.Database.valField(m_data.proveedor[_i], Constants.PR_PROV_CODE));
           elem.setKey(KIK_PROV_CODIGO);
 
           var elem = elem.add(null);
-          elem.Value = Cairo.Database.valField(m_data.proveedor[_i], Constants.PR_PROV_CODIGO_BARRA);
+          elem.setValue(Cairo.Database.valField(m_data.proveedor[_i], Constants.PR_PROV_CODIGO_BARRA));
           elem.setKey(KIK_PROV_CODBARRA);
 
           var elem = elem.add(null);
-          elem.Value = Cairo.Database.valField(m_data.proveedor[_i], Constants.PA_NAME);
-          elem.Id = Cairo.Database.valField(m_data.proveedor[_i], Constants.PA_ID);
+          elem.setValue(Cairo.Database.valField(m_data.proveedor[_i], Constants.PA_NAME));
+          elem.setId(Cairo.Database.valField(m_data.proveedor[_i], Constants.PA_ID));
           elem.setKey(KIK_PA_ID);
 
           var elem = elem.add(null);
-          elem.Value = Cairo.Database.valField(m_data.proveedor[_i], Constants.LP_NAME);
-          elem.Id = Cairo.Database.valField(m_data.proveedor[_i], Constants.LPI_ID);
+          elem.setValue(Cairo.Database.valField(m_data.proveedor[_i], Constants.LP_NAME));
+          elem.setId(Cairo.Database.valField(m_data.proveedor[_i], Constants.LPI_ID));
           elem.setKey(KIK_PROV_LPI_ID);
 
           precio = Cairo.Database.valField(m_data.proveedor[_i], Constants.LPI_PRECIO);
 
           var elem = elem.add(null);
           if(precio !== 0) {
-            elem.Value = precio;
+            elem.setValue(precio);
           }
           elem.setKey(KIK_PROV_PRECIO);
 
           var elem = elem.add(null);
           if(precio !== 0) {
-            elem.Value = precio;
+            elem.setValue(precio);
           }
           elem.setKey(KIK_PROV_PRECIO2);
 
@@ -5061,12 +5003,12 @@
 
           var elem = elem.add(null);
           if(fecha !== Cairo.Constants.cSNODATE) {
-            elem.Value = fecha;
+            elem.setValue(fecha);
           }
           elem.setKey(KIK_PROV_PRECIO_FECHA);
 
           var elem = elem.add(null);
-          elem.Id = Cairo.Database.valField(m_data.proveedor[_i], "lpi_top");
+          elem.setId(Cairo.Database.valField(m_data.proveedor[_i], "lpi_top"));
           elem.setKey(KIK_PROV_PRECIO_DEFAULT);
 
         }
@@ -5103,8 +5045,7 @@
         elem.setKey(KIK_CLI_CODIGO);
 
         var elem = w_columns.add(null);
-        // Cód. Barra
-        elem.setName(Cairo.Language.getText(1306, ""));
+        elem.setName(Cairo.Language.getText(1306, "")); // Cód. Barra
         elem.setType(Dialogs.PropertyType.text);
         elem.setWidth(1000);
         elem.setKey(KIK_CLI_CODBARRA);
@@ -5121,27 +5062,27 @@
 
         for(var _i = 0; _i < m_data.cliente.length; _i += 1) {
 
-          var elem = w_rows.add(null, rs(Constants.PR_CLI_ID).Value);
+          var row = w_rows.add(null, Cairo.Database.valField(m_data.cliente[_i], Constants.PR_CLI_ID));
 
           var elem = elem.add(null);
-          elem.Value = rs(Constants.PR_CLI_ID).Value;
+          elem.setValue(Cairo.Database.valField(m_data.cliente[_i], Constants.PR_CLI_ID));
           elem.setKey(KIK_PRCLI_ID);
 
-          var elem = elem.add(null);
-          elem.Value = Cairo.Database.valField(m_data.cliente[_i], Constants.CLI_NAME);
-          elem.Id = Cairo.Database.valField(m_data.cliente[_i], Constants.CLI_ID);
+          var elem = row.add(null);
+          elem.setValue(Cairo.Database.valField(m_data.cliente[_i], Constants.CLI_NAME));
+          elem.setId(Cairo.Database.valField(m_data.cliente[_i], Constants.CLI_ID));
           elem.setKey(KIK_CLI_ID);
 
-          var elem = elem.add(null);
-          elem.Value = Cairo.Database.valField(m_data.cliente[_i], Constants.PR_CLI_NAME);
+          var elem = row.add(null);
+          elem.setValue(Cairo.Database.valField(m_data.cliente[_i], Constants.PR_CLI_NAME));
           elem.setKey(KIK_CLI_NOMBRE);
 
-          var elem = elem.add(null);
-          elem.Value = Cairo.Database.valField(m_data.cliente[_i], Constants.PR_CLI_CODE);
+          var elem = row.add(null);
+          elem.setValue(Cairo.Database.valField(m_data.cliente[_i], Constants.PR_CLI_CODE));
           elem.setKey(KIK_CLI_CODIGO);
 
-          var elem = elem.add(null);
-          elem.Value = Cairo.Database.valField(m_data.cliente[_i], Constants.PR_CLI_CODIGO_BARRA);
+          var elem = row.add(null);
+          elem.setValue(Cairo.Database.valField(m_data.cliente[_i], Constants.PR_CLI_CODIGO_BARRA));
           elem.setKey(KIK_CLI_CODBARRA);
 
         }
@@ -5159,8 +5100,7 @@
         elem.setVisible(false);
 
         var elem = w_columns.add(null);
-        // Comunidad
-        elem.setName(Cairo.Language.getText(5017, ""));
+        elem.setName(Cairo.Language.getText(5017, "")); // Comunidad
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.COMUNIDAD_DE_INTERNET);
         elem.setWidth(2500);
@@ -5173,23 +5113,20 @@
         elem.setKey(KICMI_CODIGO);
 
         var elem = w_columns.add(null);
-        // Precio
-        elem.setName(Cairo.Language.getText(1586, ""));
+        elem.setName(Cairo.Language.getText(1586, "")); // Precio
         elem.setType(Dialogs.PropertyType.numeric);
         elem.setFormat("0.00");
         elem.setWidth(2000);
         elem.setKey(KICMI_PRECIO);
 
         var elem = w_columns.add(null);
-        // Publicado el
-        elem.setName(Cairo.Language.getText(5026, ""));
+        elem.setName(Cairo.Language.getText(5026, "")); // Publicado el
         elem.setType(Dialogs.PropertyType.date);
         elem.setWidth(2000);
         elem.setKey(KICMI_FECHAALTA);
 
         var elem = w_columns.add(null);
-        // Vence el
-        elem.setName(Cairo.Language.getText(5027, ""));
+        elem.setName(Cairo.Language.getText(5027, "")); // Vence el
         elem.setType(Dialogs.PropertyType.date);
         elem.setWidth(2000);
         elem.setKey(KICMI_FECHAVTO);
@@ -5213,35 +5150,35 @@
 
         for(var _i = 0; _i < m_data.cmi.length; _i += 1) {
 
-          var elem = w_rows.add(null, rs(Constants.PRCMI_ID).Value);
+          var row = w_rows.add(null, Cairo.Database.valField(m_data.cmi[_i], Constants.PRCMI_ID));
 
-          var elem = elem.add(null);
-          elem.Value = rs(Constants.PRCMI_ID).Value;
+          var elem = row.add(null);
+          elem.setValue(Cairo.Database.valField(m_data.cmi[_i], Constants.PRCMI_ID));
           elem.setKey(KICMI_ID);
 
-          var elem = elem.add(null);
-          elem.Value = Cairo.Database.valField(m_data.cmi[_i], Constants.CMI_NAME);
-          elem.Id = Cairo.Database.valField(m_data.cmi[_i], Constants.CMI_ID);
+          var elem = row.add(null);
+          elem.setValue(Cairo.Database.valField(m_data.cmi[_i], Constants.CMI_NAME));
+          elem.setId(Cairo.Database.valField(m_data.cmi[_i], Constants.CMI_ID));
           elem.setKey(KICMI_ID);
 
-          var elem = elem.add(null);
-          elem.Value = Cairo.Database.valField(m_data.cmi[_i], Constants.PRCMI_CODE);
+          var elem = row.add(null);
+          elem.setValue(Cairo.Database.valField(m_data.cmi[_i], Constants.PRCMI_CODE));
           elem.setKey(KICMI_CODIGO);
 
-          var elem = elem.add(null);
-          elem.Value = Cairo.Database.valField(m_data.cmi[_i], Constants.PRCMI_PRECIO);
+          var elem = row.add(null);
+          elem.setValue(Cairo.Database.valField(m_data.cmi[_i], Constants.PRCMI_PRECIO));
           elem.setKey(KICMI_PRECIO);
 
-          var elem = elem.add(null);
-          elem.Value = Cairo.Database.valField(m_data.cmi[_i], Constants.PRCMI_FECHA_ALTA);
+          var elem = row.add(null);
+          elem.setValue(Cairo.Database.valField(m_data.cmi[_i], Constants.PRCMI_FECHA_ALTA));
           elem.setKey(KICMI_FECHAALTA);
 
-          var elem = elem.add(null);
-          elem.Value = Cairo.Database.valField(m_data.cmi[_i], Constants.PRCMI_FECHA_VTO);
+          var elem = row.add(null);
+          elem.setValue(Cairo.Database.valField(m_data.cmi[_i], Constants.PRCMI_FECHA_VTO));
           elem.setKey(KICMI_FECHAVTO);
 
-          var elem = elem.add(null);
-          elem.Value = Cairo.Database.valField(m_data.cmi[_i], Constants.PRCMI_DESCRIP);
+          var elem = row.add(null);
+          elem.setValue(Cairo.Database.valField(m_data.cmi[_i], Constants.PRCMI_DESCRIP));
           elem.setKey(KICMI_DESCRIP);
 
         }
@@ -5265,23 +5202,20 @@
         elem.setKey(KIPRL_NOMBRE);
 
         var elem = w_columns.add(null);
-        // Texto
-        elem.setName(Cairo.Language.getText(5003, ""));
+        elem.setName(Cairo.Language.getText(5003, "")); // Texto
         elem.setType(Dialogs.PropertyType.text);
         elem.setSubType(Dialogs.PropertySubType.textButtonEx);
         elem.setWidth(2000);
         elem.setKey(KIPRL_TEXTO);
 
         var elem = w_columns.add(null);
-        // Tag
-        elem.setName(Cairo.Language.getText(5036, ""));
+        elem.setName(Cairo.Language.getText(5036, "")); // Tag
         elem.setType(Dialogs.PropertyType.text);
         elem.setWidth(2000);
         elem.setKey(KIPRL_TAG);
 
         var elem = w_columns.add(null);
-        // Orden
-        elem.setName(Cairo.Language.getText(5016, ""));
+        elem.setName(Cairo.Language.getText(5016, "")); // Orden
         elem.setType(Dialogs.PropertyType.text);
         elem.setWidth(2000);
         elem.setKey(KIPRL_ORDEN);
@@ -5298,26 +5232,26 @@
 
         for(var _i = 0; _i < m_data.leyendas.length; _i += 1) {
 
-          var elem = w_rows.add(null, rs(Constants.PRL_ID).Value);
+          var row = w_rows.add(null, Cairo.Database.valField(m_data.leyendas[_i], Constants.PRL_ID));
 
-          var elem = elem.add(null);
-          elem.Value = rs(Constants.PRL_ID).Value;
+          var elem = row.add(null);
+          elem.setValue(Cairo.Database.valField(m_data.leyendas[_i], Constants.PRL_ID));
           elem.setKey(KICMI_ID);
 
-          var elem = elem.add(null);
-          elem.Value = Cairo.Database.valField(m_data.leyendas[_i], Constants.PRL_NAME);
+          var elem = row.add(null);
+          elem.setValue(Cairo.Database.valField(m_data.leyendas[_i], Constants.PRL_NAME));
           elem.setKey(KIPRL_NOMBRE);
 
-          var elem = elem.add(null);
-          elem.Value = Cairo.Database.valField(m_data.leyendas[_i], Constants.PRL_TEXTO);
+          var elem = row.add(null);
+          elem.setValue(Cairo.Database.valField(m_data.leyendas[_i], Constants.PRL_TEXTO));
           elem.setKey(KIPRL_TEXTO);
 
-          var elem = elem.add(null);
-          elem.Value = Cairo.Database.valField(m_data.leyendas[_i], Constants.PRL_TAG);
+          var elem = row.add(null);
+          elem.setValue(Cairo.Database.valField(m_data.leyendas[_i], Constants.PRL_TAG));
           elem.setKey(KIPRL_TAG);
 
-          var elem = elem.add(null);
-          elem.Value = Cairo.Database.valField(m_data.leyendas[_i], Constants.PRL_ORDEN);
+          var elem = row.add(null);
+          elem.setValue(Cairo.Database.valField(m_data.leyendas[_i], Constants.PRL_ORDEN));
           elem.setKey(KIPRL_ORDEN);
 
         }
@@ -5331,8 +5265,7 @@
         w_columns.clear();
 
         var elem = w_columns.add(null);
-        // B.O.M.
-        elem.setName(Cairo.Language.getText(1304, ""));
+        elem.setName(Cairo.Language.getText(1304, "")); // B.O.M.
         elem.setWidth(2500);
         elem.setKey(KIK_PBM_ID);
 
@@ -5348,11 +5281,11 @@
 
         for(var _i = 0; _i < m_data.bom.length; _i += 1) {
 
-          var elem = w_rows.add(null, rs(Constants.PBM_ID).Value);
+          var row = w_rows.add(null, Cairo.Database.valField(m_data.bom[_i], Constants.PBM_ID));
 
-          var elem = elem.add(null);
-          elem.Value = Cairo.Database.valField(m_data.bom[_i], Constants.PBM_NAME);
-          elem.Id = Cairo.Database.valField(m_data.bom[_i], Constants.PBM_ID);
+          var elem = row.add(null);
+          elem.setValue(Cairo.Database.valField(m_data.bom[_i], Constants.PBM_NAME));
+          elem.setId(Cairo.Database.valField(m_data.bom[_i], Constants.PBM_ID));
           elem.setKey(KIK_PBM_ID);
 
         }
@@ -5369,34 +5302,29 @@
         elem.setVisible(false);
         elem.setKey(KIT_PRT_ID);
 
-        var iCol = w_columns.add(null);
-        var oCol = iCol;
-        // Producto
-        iCol.setName(Cairo.Language.getText(1619, ""));
-        iCol.setType(Dialogs.PropertyType.select);
-        iCol.setTable(Cairo.Tables.PRODUCTO);
-        iCol.setWidth(1000);
-        iCol.setKey(KIT_PR_ID_TAG);
+        var elem = w_columns.add(null);
+        elem.setName(Cairo.Language.getText(1619, "")); // Producto
+        elem.setType(Dialogs.PropertyType.select);
+        elem.setTable(Cairo.Tables.PRODUCTO);
+        elem.setWidth(1000);
+        elem.setKey(KIT_PR_ID_TAG);
         if(m_userConfig.getMultiSelect()) {
-          oCol.setHelpType(csHelpType.cSMULTISELECT);
+          elem.setSelectType(Cairo.Entities.Select.SelectType.tree);
         }
 
         var elem = w_columns.add(null);
-        // Orden
-        elem.setName(Cairo.Language.getText(5016, ""));
+        elem.setName(Cairo.Language.getText(5016, "")); // Orden
         elem.setType(Dialogs.PropertyType.text);
         elem.setEnabled(false);
 
         var elem = w_columns.add(null);
-        // Texto
-        elem.setName(Cairo.Language.getText(3968, ""));
+        elem.setName(Cairo.Language.getText(3968, "")); // Texto
         elem.setType(Dialogs.PropertyType.text);
         elem.setWidth(1000);
         elem.setKey(KIT_TEXTO);
 
         var elem = w_columns.add(null);
-        // Expo Web
-        elem.setName(Cairo.Language.getText(3897, ""));
+        elem.setName(Cairo.Language.getText(3897, "")); // Expo Web
         elem.setType(Dialogs.PropertyType.text);
         elem.setWidth(1000);
         elem.setKey(KIT_EXPOWEB);
@@ -5405,8 +5333,7 @@
         elem.getDefaultValue().setValue(50);
 
         var elem = w_columns.add(null);
-        // Expo Cairo
-        elem.setName(Cairo.Language.getText(3898, ""));
+        elem.setName(Cairo.Language.getText(3898, "")); // Expo Cairo
         elem.setType(Dialogs.PropertyType.text);
         elem.setWidth(1000);
         elem.setKey(KIT_EXPOCAIRO);
@@ -5426,30 +5353,30 @@
 
         for(var _i = 0; _i < m_data.tags.length; _i += 1) {
 
-          var elem = w_rows.add(null, rs(Constants.PRT_ID).Value);
+          var elem = w_rows.add(null, Cairo.Database.valField(m_data.tags[_i], Constants.PRT_ID));
 
           var elem = elem.add(null);
-          elem.Value = rs(Constants.PRT_ID).Value;
+          elem.setValue(Cairo.Database.valField(m_data.tags[_i], Constants.PRT_ID));
           elem.setKey(KIT_PRT_ID);
 
           var elem = elem.add(null);
-          elem.Value = Cairo.Database.valField(m_data.tags[_i], Constants.PR_NOMBRE_COMPRA);
-          elem.Id = Cairo.Database.valField(m_data.tags[_i], Constants.PR_ID_TAG);
+          elem.setValue(Cairo.Database.valField(m_data.tags[_i], Constants.PR_NOMBRE_COMPRA));
+          elem.setId(Cairo.Database.valField(m_data.tags[_i], Constants.PR_ID_TAG));
           elem.setKey(KIT_PR_ID_TAG);
 
           var elem = elem.add(null);
-          elem.Value = Cairo.Database.valField(m_data.tags[_i], "orden");
+          elem.setValue(Cairo.Database.valField(m_data.tags[_i], "orden"));
 
           var elem = elem.add(null);
-          elem.Value = Cairo.Database.valField(m_data.tags[_i], Constants.PRT_TEXTO);
+          elem.setValue(Cairo.Database.valField(m_data.tags[_i], Constants.PRT_TEXTO));
           elem.setKey(KIT_TEXTO);
 
           var elem = elem.add(null);
-          elem.Value = Cairo.Database.valField(m_data.tags[_i], Constants.PRT_EXPO_WEB);
+          elem.setValue(Cairo.Database.valField(m_data.tags[_i], Constants.PRT_EXPO_WEB));
           elem.setKey(KIT_EXPOWEB);
 
           var elem = elem.add(null);
-          elem.Value = Cairo.Database.valField(m_data.tags[_i], Constants.PRT_EXPO_CAIRO);
+          elem.setValue(Cairo.Database.valField(m_data.tags[_i], Constants.PRT_EXPO_CAIRO));
           elem.setKey(KIT_EXPOCAIRO);
 
         }
@@ -5467,8 +5394,7 @@
         elem.setKey(KICWCI_ID);
 
         var elem = w_columns.add(null);
-        // Categoria de Catalogo Web
-        elem.setName(Cairo.Language.getText(4597, ""));
+        elem.setName(Cairo.Language.getText(4597, "")); // Categoria de Catalogo Web
         elem.setType(Dialogs.PropertyType.text);
         elem.setWidth(4000);
         elem.setKey(KICWC_ID);
@@ -5480,8 +5406,7 @@
         elem.setKey(KICWC_SELECT);
 
         var elem = w_columns.add(null);
-        // Posición
-        elem.setName(Cairo.Language.getText(3268, ""));
+        elem.setName(Cairo.Language.getText(3268, "")); // Posición
         elem.setType(Dialogs.PropertyType.numeric);
         elem.setSubType(Dialogs.PropertySubType.integer);
         elem.setKey(KICWCI_POSICION);
@@ -5501,20 +5426,20 @@
           var elem = w_rows.add(null);
 
           var elem = elem.add(null);
-          elem.Value = Cairo.Database.valField(m_data.categoriasWeb[_i], Constants.CATWCI_ID);
+          elem.setValue(Cairo.Database.valField(m_data.categoriasWeb[_i], Constants.CATWCI_ID));
           elem.setKey(KICWCI_ID);
 
           var elem = elem.add(null);
-          elem.Value = Cairo.Database.valField(m_data.categoriasWeb[_i], Constants.CATWC_NAME);
-          elem.Id = Cairo.Database.valField(m_data.categoriasWeb[_i], Constants.CATWC_ID);
+          elem.setValue(Cairo.Database.valField(m_data.categoriasWeb[_i], Constants.CATWC_NAME));
+          elem.setId(Cairo.Database.valField(m_data.categoriasWeb[_i], Constants.CATWC_ID));
           elem.setKey(KICWC_ID);
 
           var elem = elem.add(null);
-          elem.Id = Cairo.Database.valField(m_data.categoriasWeb[_i], Constants.CATWCI_ID);
+          elem.setId(Cairo.Database.valField(m_data.categoriasWeb[_i], Constants.CATWCI_ID));
           elem.setKey(KICWC_SELECT);
 
           var elem = elem.add(null);
-          elem.Value = Cairo.Database.valField(m_data.categoriasWeb[_i], Constants.CATWCI_POSICION);
+          elem.setValue(Cairo.Database.valField(m_data.categoriasWeb[_i], Constants.CATWCI_POSICION));
           elem.setKey(KICWCI_POSICION);
 
         }
@@ -5532,8 +5457,7 @@
         elem.setKey(KICWI_ID);
 
         var elem = w_columns.add(null);
-        // Catalogo Web
-        elem.setName(Cairo.Language.getText(4598, ""));
+        elem.setName(Cairo.Language.getText(4598, "")); // Catalogo Web
         elem.setType(Dialogs.PropertyType.text);
         elem.setWidth(2000);
         elem.setKey(KICW_ID);
@@ -5559,16 +5483,16 @@
           var elem = w_rows.add(null);
 
           var elem = elem.add(null);
-          elem.Value = Cairo.Database.valField(m_data.catalogosWeb[_i], Constants.CATWI_ID);
+          elem.setValue(Cairo.Database.valField(m_data.catalogosWeb[_i], Constants.CATWI_ID));
           elem.setKey(KICWI_ID);
 
           var elem = elem.add(null);
-          elem.Value = Cairo.Database.valField(m_data.catalogosWeb[_i], Constants.CATW_NAME);
-          elem.Id = Cairo.Database.valField(m_data.catalogosWeb[_i], Constants.CATW_ID);
+          elem.setValue(Cairo.Database.valField(m_data.catalogosWeb[_i], Constants.CATW_NAME));
+          elem.setId(Cairo.Database.valField(m_data.catalogosWeb[_i], Constants.CATW_ID));
           elem.setKey(KICW_ID);
 
           var elem = elem.add(null);
-          elem.Id = Cairo.Database.valField(m_data.catalogosWeb[_i], Constants.CATWI_ID);
+          elem.setId(Cairo.Database.valField(m_data.catalogosWeb[_i], Constants.CATWI_ID);
           elem.setKey(KICW_SELECT);
 
         }
@@ -5586,15 +5510,13 @@
         elem.setKey(KIWI_PRWI_ID);
 
         var elem = w_columns.add(null);
-        // Imagen
-        elem.setName(Cairo.Language.getText(4573, ""));
+        elem.setName(Cairo.Language.getText(4573, "")); // Imagen
         elem.setType(Dialogs.PropertyType.text);
         elem.setWidth(2000);
         elem.setKey(KIWI_IMAGE);
 
         var elem = w_columns.add(null);
-        // Tipo
-        elem.setName(Cairo.Language.getText(1223, ""));
+        elem.setName(Cairo.Language.getText(1223, "")); // Tipo
         elem.setType(Dialogs.PropertyType.list);
         elem.setWidth(3000);
         elem.setKey(KIWI_IMAGE_TYPE);
@@ -5602,30 +5524,25 @@
         var w_list = elem.getList();
 
         var elem = w_list.add(null);
-        elem.Id = csE_ProductoWebImageType.cSE_PRWEBIMAGETHUMBNAIL;
-        // Pequeña Principal
-        elem.Value = Cairo.Language.getText(4572, "");
+        elem.setId(Constants.ProductoWebImageType.webImageThumbnail);
+        elem.setValue(Cairo.Language.getText(4572, "")); // Pequeña Principal
 
         var elem = w_list.add(null);
-        elem.Id = csE_ProductoWebImageType.cSE_PRWEBIMAGEMEDIUM;
-        // Pequeña
-        elem.Value = Cairo.Language.getText(4571, "");
+        elem.setId(Constants.ProductoWebImageType.webImageMedium);
+        elem.setValue(Cairo.Language.getText(4571, "")); // Pequeña
 
         var elem = w_list.add(null);
-        elem.Id = csE_ProductoWebImageType.cSE_PRWEBIMAGEBIG;
-        // Grande
-        elem.Value = Cairo.Language.getText(4570, "");
+        elem.setId(Constants.ProductoWebImageType.webImageBig);
+        elem.setValue(Cairo.Language.getText(4570, "")); // Grande
 
         var elem = w_columns.add(null);
-        // Texto Alternativo
-        elem.setName(Cairo.Language.getText(4569, ""));
+        elem.setName(Cairo.Language.getText(4569, "")); // Texto Alternativo
         elem.setType(Dialogs.PropertyType.text);
         elem.setWidth(3000);
         elem.setKey(KIWI_ALT);
 
         var elem = w_columns.add(null);
-        // Posición
-        elem.setName(Cairo.Language.getText(3268, ""));
+        elem.setName(Cairo.Language.getText(3268, "")); // Posición
         elem.setType(Dialogs.PropertyType.numeric);
         elem.setSubType(Dialogs.PropertySubType.integer);
         elem.setWidth(800);
@@ -5643,26 +5560,26 @@
 
         for(var _i = 0; _i < m_data.webImages.length; _i += 1) {
 
-          var elem = w_rows.add(null, rs(Constants.PRWI_ID).Value);
+          var row = w_rows.add(null, Cairo.Database.valField(m_data.webImages[_i], Constants.PRWI_ID));
 
-          var elem = elem.add(null);
-          elem.Value = rs(Constants.PRWI_ID).Value;
+          var elem = row.add(null);
+          elem.setValue(Cairo.Database.valField(m_data.webImages[_i], Constants.PRWI_ID));
           elem.setKey(KIWI_PRWI_ID);
 
-          var elem = elem.add(null);
-          elem.Value = Cairo.Database.valField(m_data.webImages[_i], Constants.PRWI_ARCHIVO);
+          var elem = row.add(null);
+          elem.setValue(Cairo.Database.valField(m_data.webImages[_i], Constants.PRWI_ARCHIVO));
           elem.setKey(KIWI_IMAGE);
 
-          var elem = elem.add(null);
-          elem.Id = Cairo.Database.valField(m_data.webImages[_i], Constants.PRWI_TIPO);
+          var elem = row.add(null);
+          elem.setId(Cairo.Database.valField(m_data.webImages[_i], Constants.PRWI_TIPO));
           elem.setKey(KIWI_IMAGE_TYPE);
 
-          var elem = elem.add(null);
-          elem.Value = Cairo.Database.valField(m_data.webImages[_i], Constants.PRWI_ALT);
+          var elem = row.add(null);
+          elem.setValue(Cairo.Database.valField(m_data.webImages[_i], Constants.PRWI_ALT));
           elem.setKey(KIWI_ALT);
 
-          var elem = elem.add(null);
-          elem.Value = Cairo.Database.valField(m_data.webImages[_i], Constants.PRWI_POSICION);
+          var elem = row.add(null);
+          elem.setValue(Cairo.Database.valField(m_data.webImages[_i], Constants.PRWI_POSICION));
           elem.setKey(KIWI_POSICION);
 
         }
@@ -5676,14 +5593,12 @@
         w_columns.clear();
 
         var elem = w_columns.add(null);
-        // Fórmula
-        elem.setName(Cairo.Language.getText(1354, ""));
+        elem.setName(Cairo.Language.getText(1354, "")); // Fórmula
         elem.setWidth(2500);
         elem.setKey(KIK_PRFK_ID);
 
         var elem = w_columns.add(null);
-        // x Defecto
-        elem.setName(Cairo.Language.getText(1355, ""));
+        elem.setName(Cairo.Language.getText(1355, "")); // x Defecto
         elem.setWidth(2500);
         elem.setType(Dialogs.PropertyType.check);
         elem.setKey(KIK_PRFK_DEFAULT);
@@ -5700,103 +5615,99 @@
 
         for(var _i = 0; _i < m_data.kit.length; _i += 1) {
 
-          var elem = w_rows.add(null, rs(Constants.PRFK_ID).Value);
+          var row = w_rows.add(null, Cairo.Database.valField(m_data.kit[_i], Constants.PRFK_ID));
 
-          var elem = elem.add(null);
-          elem.Value = Cairo.Database.valField(m_data.kit[_i], Constants.PRFK_NAME);
-          elem.Id = Cairo.Database.valField(m_data.kit[_i], Constants.PRFK_ID);
+          var elem = row.add(null);
+          elem.setValue(Cairo.Database.valField(m_data.kit[_i], Constants.PRFK_NAME));
+          elem.setId(Cairo.Database.valField(m_data.kit[_i], Constants.PRFK_ID));
           elem.setKey(KIK_PRFK_ID);
 
-          var elem = elem.add(null);
-          elem.Id = Cairo.Database.valField(m_data.kit[_i], Constants.PRFK_DEFAULT);
+          var elem = row.add(null);
+          elem.setId(Cairo.Database.valField(m_data.kit[_i], Constants.PRFK_DEFAULT));
           elem.setKey(KIK_PRFK_ID);
 
         }
       };
 
       var pSetKitEnabled = function() {
-        var bEnabled = null;
-        var iProp = null;
 
         var properties = m_dialog.getProperties();
+        var enabled = Cairo.Util.val(properties.item(Constants.PR_ESKIT).getValue());
 
-        bEnabled = Cairo.Util.val(properties.item(Constants.PR_ESKIT).getValue());
-
-        if(bEnabled) {
-          bEnabled = properties.item(Constants.PR_KIT_RESUMIDO).getValue();
+        if(enabled) {
+          enabled = properties.item(Constants.PR_KIT_RESUMIDO).getValue();
         }
 
-        iProp = properties.item(Constants.PR_KIT_IDENTIDAD);
-        iProp.setEnabled(bEnabled);
-        m_dialog.showValue(iProp);
+        var property = properties.item(Constants.PR_KIT_IDENTIDAD);
+        property.setEnabled(enabled);
+        m_dialog.showValue(property);
 
-        pSetKitSerieEnabled(bEnabled);
+        pSetKitSerieEnabled(enabled);
       };
 
-      var pSetKitSerieEnabled = function(bEnabled) {
-        var iProp = null;
-        var bEnabledTa = null;
+      var pSetKitSerieEnabled = function(enabled) {
+        var property = null;
 
         var properties = m_dialog.getProperties();
 
-        if(bEnabled) {
+        if(enabled) {
 
           if(Cairo.Util.val(properties.item(Constants.PR_KIT_IDENTIDAD).getValue())) {
 
-            iProp = properties.item(Constants.PR_KIT_IDENTIDAD_XITEM);
-            iProp.setEnabled(true);
-            m_dialog.showValue(iProp);
+            property = properties.item(Constants.PR_KIT_IDENTIDAD_XITEM);
+            property.setEnabled(true);
+            m_dialog.showValue(property);
 
-            bEnabledTa = Cairo.Util.val(iProp.getValue()) === 0;
+            var taEnabled = Cairo.Util.val(property.getValue()) === 0;
 
-            iProp = properties.item(Constants.TA_ID_KIT_SERIE);
-            iProp.setEnabled(bEnabledTa);
-            m_dialog.showValue(iProp);
+            property = properties.item(Constants.TA_ID_KIT_SERIE);
+            property.setEnabled(taEnabled);
+            m_dialog.showValue(property);
 
-            iProp = properties.item(Constants.PR_KIT_LOTE);
-            iProp.setEnabled(bEnabled);
-            m_dialog.showValue(iProp);
+            property = properties.item(Constants.PR_KIT_LOTE);
+            property.setEnabled(enabled);
+            m_dialog.showValue(property);
 
           }
           else {
 
-            iProp = properties.item(Constants.PR_KIT_IDENTIDAD_XITEM);
-            iProp.setEnabled(false);
-            m_dialog.showValue(iProp);
+            property = properties.item(Constants.PR_KIT_IDENTIDAD_XITEM);
+            property.setEnabled(false);
+            m_dialog.showValue(property);
 
-            iProp = properties.item(Constants.TA_ID_KIT_SERIE);
-            iProp.setEnabled(false);
-            m_dialog.showValue(iProp);
+            property = properties.item(Constants.TA_ID_KIT_SERIE);
+            property.setEnabled(false);
+            m_dialog.showValue(property);
 
-            iProp = properties.item(Constants.PR_KIT_LOTE);
-            iProp.setEnabled(false);
-            m_dialog.showValue(iProp);
+            property = properties.item(Constants.PR_KIT_LOTE);
+            property.setEnabled(false);
+            m_dialog.showValue(property);
 
           }
 
         }
         else {
 
-          iProp = properties.item(Constants.PR_KIT_IDENTIDAD_XITEM);
-          iProp.setEnabled(bEnabled);
-          m_dialog.showValue(iProp);
+          property = properties.item(Constants.PR_KIT_IDENTIDAD_XITEM);
+          property.setEnabled(enabled);
+          m_dialog.showValue(property);
 
-          iProp = properties.item(Constants.PR_KIT_LOTE_XITEM);
-          iProp.setEnabled(bEnabled);
-          m_dialog.showValue(iProp);
+          property = properties.item(Constants.PR_KIT_LOTE_XITEM);
+          property.setEnabled(enabled);
+          m_dialog.showValue(property);
 
-          iProp = properties.item(Constants.PR_KIT_LOTE);
-          iProp.setEnabled(bEnabled);
-          m_dialog.showValue(iProp);
+          property = properties.item(Constants.PR_KIT_LOTE);
+          property.setEnabled(enabled);
+          m_dialog.showValue(property);
 
         }
 
-        pSetKitLoteEnabled(bEnabled);
+        pSetKitLoteEnabled(enabled);
 
       };
 
-      var pSetKitLoteEnabled = function(bEnabled) {
-        var iProp = null;
+      var pSetKitLoteEnabled = function(enabled) {
+        var property = null;
 
         var properties = m_dialog.getProperties();
 
@@ -5807,46 +5718,46 @@
         *
         */
 
-        if(bEnabled) {
+        if(enabled) {
 
-          bEnabled = Cairo.Util.val(properties.item(Constants.PR_KIT_IDENTIDAD).getValue());
+          enabled = Cairo.Util.val(properties.item(Constants.PR_KIT_IDENTIDAD).getValue());
 
         }
 
-        if(bEnabled) {
+        if(enabled) {
 
           if(Cairo.Util.val(properties.item(Constants.PR_KIT_LOTE).getValue())) {
 
-            iProp = properties.item(Constants.PR_KIT_LOTE_XITEM);
-            iProp.setEnabled(true);
-            m_dialog.showValue(iProp);
+            property = properties.item(Constants.PR_KIT_LOTE_XITEM);
+            property.setEnabled(true);
+            m_dialog.showValue(property);
 
-            bEnabled = Cairo.Util.val(iProp.getValue()) === 0;
+            enabled = Cairo.Util.val(property.getValue()) === 0;
 
-            iProp = properties.item(Constants.TA_ID_KIT_LOTE);
-            iProp.setEnabled(bEnabled);
-            m_dialog.showValue(iProp);
+            property = properties.item(Constants.TA_ID_KIT_LOTE);
+            property.setEnabled(enabled);
+            m_dialog.showValue(property);
           }
           else {
 
-            iProp = properties.item(Constants.PR_KIT_LOTE_XITEM);
-            iProp.setEnabled(false);
-            m_dialog.showValue(iProp);
+            property = properties.item(Constants.PR_KIT_LOTE_XITEM);
+            property.setEnabled(false);
+            m_dialog.showValue(property);
 
-            iProp = properties.item(Constants.TA_ID_KIT_LOTE);
-            iProp.setEnabled(false);
-            m_dialog.showValue(iProp);
+            property = properties.item(Constants.TA_ID_KIT_LOTE);
+            property.setEnabled(false);
+            m_dialog.showValue(property);
           }
         }
         else {
 
-          iProp = properties.item(Constants.TA_ID_KIT_SERIE);
-          iProp.setEnabled(bEnabled);
-          m_dialog.showValue(iProp);
+          property = properties.item(Constants.TA_ID_KIT_SERIE);
+          property.setEnabled(enabled);
+          m_dialog.showValue(property);
 
-          iProp = properties.item(Constants.TA_ID_KIT_LOTE);
-          iProp.setEnabled(bEnabled);
-          m_dialog.showValue(iProp);
+          property = properties.item(Constants.TA_ID_KIT_LOTE);
+          property.setEnabled(enabled);
+          m_dialog.showValue(property);
         }
       };
 
@@ -5987,10 +5898,12 @@
         return m_dialog.getProperties().item(C_TAGS);
       };
 
-      // TODO: implement this
-      /*
-      var pEditLP = function(lpi_id) {
+      var editPriceList = function(lpi_id) {
         try {
+
+          /*
+
+          TODO: implement this.
 
           var lp_id = null;
 
@@ -6001,18 +5914,18 @@
           obj.setObjABM(new cABMGeneric());
 
           obj.edit(lp_id);
+          */
         }
         catch (ex) {
-          Cairo.manageErrorEx(ex.message, "pEditLP", C_MODULE, "");
+          Cairo.manageErrorEx(ex.message, "editPriceList", C_MODULE, "");
         }
       };
-      */
 
       //-------------------------------------------
-      // if the row has any cell setted it belongs to the user
+      // if the row has any cell set it belongs to the user
       // if not it belongs to the system so it is discarded
       //
-      var pIsRowProveedorFromUser = function(row) {
+      var isRowProveedorFromUser = function(row) {
 
         if(Cairo.Util.val(Dialogs.cell(row, KIK_PRPROV_ID).getValue()) >= 0) { return true; }
         if(Dialogs.cell(row, KIK_PROV_FABRICANTE).getValue() !== "") { return true; }
