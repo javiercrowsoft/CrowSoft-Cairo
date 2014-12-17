@@ -464,7 +464,7 @@
 
         m_isNew = true;
 
-        if(!pValidateAccessNewEdit(Cairo.Constants.NO_ID)) { return false; }
+        if(!validateAccessNewEdit(Cairo.Constants.NO_ID)) { return false; }
 
         m_listController.updateEditorKey(self, Cairo.Constants.NO_ID);
 
@@ -524,7 +524,7 @@
 
           case Dialogs.Message.MSG_GRID_VIRTUAL_ROW:
 
-            _rtn = pProcessMultiRow(info);
+            _rtn = processMultiRow(info);
             break;
 
           default:
@@ -536,14 +536,14 @@
         return Cairo.Promises.resolvedPromise(_rtn);
       };
 
-      var pProcessMultiRow = function(info) {
+      var processMultiRow = function(info) {
         var p = null;
 
         info.bAddRows = false;
 
         switch (info.Key) {
           case K_TAGS:
-            var w_pGetTags = pGetTags();
+            var w_pGetTags = getTags();
 
             var row = null;
             row = w_pGetTags.getGrid().getRows(info.row);
@@ -653,7 +653,7 @@
         }
 
         m_dialog.getProperties().item(Constants.PR_ES_PLANTILLA).setEnabled(true);
-        pGetTags().setEnabled(m_pr_id_webPadre === Cairo.Constants.NO_ID);
+        getTags().setEnabled(m_pr_id_webPadre === Cairo.Constants.NO_ID);
 
       };
 
@@ -700,7 +700,7 @@
 
           case K_RUB_ID:
             
-            var rubId = pGetRubId();
+            var rubId = getRubId();
             
             if(m_lastRubId !== rubId) {
               m_rubroHasChanged = true;
@@ -755,11 +755,11 @@
             iProp.setEnabled(bEnabled);
             m_dialog.showValue(iProp);
 
-            pSetKitEnabled();
+            setKitEnabled();
             break;
 
           case K_KIT_RESUMIDO:
-            pSetKitEnabled();
+            setKitEnabled();
             break;
 
           case K_KIT_IDENTIDAD:
@@ -778,7 +778,7 @@
 
           case K_PR_ID_WEB_PADRE:
             
-            var tabs = pGetTags();
+            var tabs = getTags();
             tabs.setEnabled(m_dialog.getProperties().item(Constants.PR_ID_WEB_PADRE).getSelectId() === Cairo.Constants.NO_ID);
             m_dialog.showValue(tabs, true);
             break;
@@ -1512,7 +1512,7 @@
         
         try {
 
-          if(!pValidateAccessNewEdit(id)) { return p; }
+          if(!validateAccessNewEdit(id)) { return p; }
 
           m_dialog.setInModalWindow(inModalWindow);
 
@@ -1558,7 +1558,7 @@
         return m_branchId;
       };
 
-      var pValidateAccessNewEdit = function(id) {
+      var validateAccessNewEdit = function(id) {
         if(id === Cairo.Constants.NO_ID) {
           m_isNew = true;
           if(!Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.NEW_PRODUCTO)) { return false; }
@@ -5492,7 +5492,7 @@
           elem.setKey(KICW_ID);
 
           var elem = elem.add(null);
-          elem.setId(Cairo.Database.valField(m_data.catalogosWeb[_i], Constants.CATWI_ID);
+          elem.setId(Cairo.Database.valField(m_data.catalogosWeb[_i], Constants.CATWI_ID));
           elem.setKey(KICW_SELECT);
 
         }
@@ -5629,7 +5629,7 @@
         }
       };
 
-      var pSetKitEnabled = function() {
+      var setKitEnabled = function() {
 
         var properties = m_dialog.getProperties();
         var enabled = Cairo.Util.val(properties.item(Constants.PR_ESKIT).getValue());
@@ -5815,7 +5815,7 @@
 
       var createNameFromRubro = function() {
 
-        if(pGetRubId() === Cairo.Constants.NO_ID) {
+        if(getRubId() === Cairo.Constants.NO_ID) {
 
           return Cairo.Promises.resolvedPromise(false);
         }
@@ -5828,11 +5828,11 @@
             function (answer) {
               if (answer === "yes") {
 
-                var name = pGetRubro().getValue() + (Cairo.String.rtrim(" " + pGetMarca().getValue())).toString();
+                var name = getRubro().getValue() + (Cairo.String.rtrim(" " + getMarca().getValue())).toString();
                 var properties = m_dialog.getProperties();
 
                 if (!properties.contains(Constants.RUBTIID1)) {
-                  if (pGetRubro().getValue().toLowerCase() !== properties.item(Constants.RUBTIID1).getValue().toLowerCase()) {
+                  if (getRubro().getValue().toLowerCase() !== properties.item(Constants.RUBTIID1).getValue().toLowerCase()) {
                     name = name + (Cairo.String.rtrim(" " + properties.item(Constants.RUBTIID1).getValue())).toString();
                   }
                 }
@@ -5882,19 +5882,19 @@
         }
       };
 
-      var pGetRubId = function() {
-        return pGetRubro().getSelectId();
+      var getRubId = function() {
+        return getRubro().getSelectId();
       };
 
-      var pGetRubro = function() {
+      var getRubro = function() {
         return m_dialog.getProperties().item(Constants.RUB_ID);
       };
 
-      var pGetMarca = function() {
+      var getMarca = function() {
         return m_dialog.getProperties().item(Constants.MARC_ID);
       };
 
-      var pGetTags = function() {
+      var getTags = function() {
         return m_dialog.getProperties().item(C_TAGS);
       };
 
