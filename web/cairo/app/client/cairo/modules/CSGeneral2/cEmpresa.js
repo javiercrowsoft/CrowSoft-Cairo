@@ -142,7 +142,7 @@
           _rtn = doc.showDocs(Cairo.Database);
 
         }
-        catch (ex) {
+        catch(ex) {
           Cairo.manageErrorEx(ex.message, ex, "cIABMClient_ShowDocDigital", C_MODULE, "");
         }
 
@@ -343,21 +343,6 @@
         }
       };
 
-      self.terminate = function() {
-
-        m_editing = false;
-
-        try {
-          if(m_listController !== null) {
-            updateList();
-            m_listController.removeEditor(self);
-          }
-        }
-        catch (ignored) {
-          Cairo.logError('Error in terminate', ignored);
-        }
-      };
-
       self.getPath = function() {
         return "#general/empresa/" + m_id.toString();
       };
@@ -469,7 +454,7 @@
 
           return null;
         }
-        catch (ex) {
+        catch(ex) {
           Cairo.manageErrorEx(ex.message, ex, "cIEditGeneric_Edit", "cEmpresa", "");
         }
       };
@@ -883,9 +868,31 @@
           });
       };
 
-      self.destroy = function() {
+      var destroy = function() {
         m_dialog = null;
         m_listController = null;
+      };
+
+      self.terminate = function() {
+
+        m_editing = false;
+
+        try {
+          if(m_listController !== null) {
+            updateList();
+            m_listController.removeEditor(self);
+          }
+        }
+        catch(ex) {
+          Cairo.manageErrorEx(ex.message, "terminate", C_MODULE, "");
+        }
+
+        try {
+          destroy();
+        }
+        catch(ex) {
+          Cairo.manageErrorEx(ex.message, "terminate", C_MODULE, "");
+        }
       };
 
       return self;

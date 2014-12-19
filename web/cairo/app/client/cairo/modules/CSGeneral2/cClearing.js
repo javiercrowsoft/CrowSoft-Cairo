@@ -111,7 +111,7 @@
           _rtn = doc.showDocs(Cairo.Database);
 
         }
-        catch (ex) {
+        catch(ex) {
           Cairo.manageErrorEx(ex.message, ex, Cairo.Constants.SHOW_DOCUMENTS_FUNCTION, C_MODULE, "");
         }
               
@@ -229,21 +229,6 @@
         }
       };
 
-      self.terminate = function() {
-
-        m_editing = false;
-
-        try {
-          if(m_listController !== null) {
-            updateList();
-            m_listController.removeEditor(self);
-          }
-        }
-        catch (ignored) {
-          Cairo.logError('Error in terminate', ignored);
-        }
-      };
-
       self.getPath = function() {
         return "#general/clearing/" + m_id.toString();
       };
@@ -344,7 +329,7 @@
               return success;
           });
         }
-        catch (ex) {
+        catch(ex) {
           Cairo.manageErrorEx(ex.message, ex, Cairo.Constants.EDIT_FUNCTION, C_MODULE, "");
       }
       
@@ -469,9 +454,31 @@
 
       };
 
-      self.destroy = function() {
+      var destroy = function() {
         m_dialog = null;
         m_listController = null;
+      };
+
+      self.terminate = function() {
+
+        m_editing = false;
+
+        try {
+          if(m_listController !== null) {
+            updateList();
+            m_listController.removeEditor(self);
+          }
+        }
+        catch(ex) {
+          Cairo.manageErrorEx(ex.message, "terminate", C_MODULE, "");
+        }
+
+        try {
+          destroy();
+        }
+        catch(ex) {
+          Cairo.manageErrorEx(ex.message, "terminate", C_MODULE, "");
+        }
       };
 
       return self;

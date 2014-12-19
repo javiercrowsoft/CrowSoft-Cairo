@@ -509,7 +509,7 @@
           _rtn = doc.showDocs(Cairo.Database);
 
         }
-        catch (ex) {
+        catch(ex) {
           Cairo.manageErrorEx(ex.message, ex, Cairo.Constants.SHOW_DOCUMENTS_FUNCTION, C_MODULE, "");
         }
 
@@ -1527,7 +1527,7 @@
               return success;
             });
         }
-        catch (ex) {
+        catch(ex) {
           Cairo.manageErrorEx(ex.message, ex, Cairo.Constants.EDIT_FUNCTION, C_MODULE, "");
         }
 
@@ -3949,7 +3949,7 @@
               break;
           }
         }
-        catch (ex) {
+        catch(ex) {
           Cairo.manageErrorEx(ex.message, ex, Cairo.Constants.VALIDATE_ROW_FUNCTION, C_MODULE, "");
         }
 
@@ -4004,7 +4004,7 @@
               break;
           }
         }
-        catch (ex) {
+        catch(ex) {
           Cairo.manageErrorEx(ex.message, ex, Cairo.Constants.IS_EMPTY_ROW_FUNCTION, C_MODULE, "");
         }
 
@@ -5894,7 +5894,7 @@
           obj.edit(lp_id);
           */
         }
-        catch (ex) {
+        catch(ex) {
           Cairo.manageErrorEx(ex.message, ex, "editPriceList", C_MODULE, "");
         }
       };
@@ -5944,15 +5944,15 @@
             m_listController.removeEditor(self);
           }
         }
-        catch (ignored) {
-          Cairo.logError('Error in terminate', ignored);
+        catch(ex) {
+          Cairo.manageErrorEx(ex.message, "terminate", C_MODULE, "");
         }
 
         try {
           destroy();
         }
-        catch (ignored) {
-          Cairo.logError('Error in terminate', ignored);
+        catch(ex) {
+          Cairo.manageErrorEx(ex.message, "terminate", C_MODULE, "");
         }
       };
 

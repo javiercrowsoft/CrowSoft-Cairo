@@ -594,7 +594,7 @@
           m_fields = null;
 
         }
-        catch (ex) {
+        catch(ex) {
           Cairo.manageErrorEx(ex.message, "terminate", C_MODULE, "");
         }
       };
