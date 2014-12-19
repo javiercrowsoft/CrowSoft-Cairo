@@ -116,7 +116,7 @@
         );
       };
 
-      self.messageEx = function(messageID,  info) {
+      self.messageEx = function(messageId,  info) {
         return true;
       };
 

@@ -119,13 +119,13 @@
         catch(ex) {
           Cairo.manageErrorEx(ex.message, ex, Cairo.Constants.SHOW_DOCUMENTS_FUNCTION, C_MODULE, "");
         }
-              
+
         return _rtn;
       };
 
-      self.messageEx = function(messageID,  info) {
+      self.messageEx = function(messageId,  info) {
         var _rtn = null;
-        switch (messageID) {
+        switch (messageId) {
 
           case Dialogs.Message.MSG_DOC_INFO:
 
@@ -137,7 +137,7 @@
             _rtn = true;
             break;
         }
-      
+
         return Cairo.Promises.resolvedPromise(_rtn);
       };
 
@@ -163,7 +163,7 @@
 
         if(m_copy) {
           register.setId(Cairo.Constants.NEW_ID);
-        } 
+        }
         else {
           register.setId(m_id);
         }
@@ -199,16 +199,16 @@
         }
 
         return Cairo.Database.saveEx(
-            register,
-            false,
-            Cairo.General.Constants.ZON_CODE, 
-            Cairo.Constants.CLIENT_SAVE_FUNCTION,
-            C_MODULE,
-            Cairo.Language.getText(1504, "")).then(
+          register,
+          false,
+          Cairo.General.Constants.ZON_CODE,
+          Cairo.Constants.CLIENT_SAVE_FUNCTION,
+          C_MODULE,
+          Cairo.Language.getText(1504, "")).then(
 
           function(result) {
             if(result.success) {
-                m_copy = false;
+              m_copy = false;
               return load(result.data.getId()).then(
                 function (success) {
                   if(success) {
@@ -223,7 +223,7 @@
             else {
               return false;
             }
-        });
+          });
       };
 
       var updateList = function() {
@@ -310,7 +310,7 @@
           if(id === Cairo.Constants.NO_ID) {
             m_isNew = true;
             if(!Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.NEW_ZONA)) { return p; }
-          } 
+          }
           else {
             m_isNew = false;
             if(!Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.EDIT_ZONA)) { return p; }
@@ -319,7 +319,7 @@
           m_dialog.setInModalWindow(inModalWindow);
 
           p = load(id).then(
-           function(success) {
+            function(success) {
               if(success) {
 
                 if(!loadCollection()) { return false; }
@@ -329,19 +329,19 @@
 
                 if(inModalWindow) {
                   success = m_id !== Cairo.Constants.NO_ID;
-                } 
+                }
                 else {
                   success = true;
                 }
 
               }
               return success;
-          });
+            });
         }
         catch(ex) {
           Cairo.manageErrorEx(ex.message, ex, Cairo.Constants.EDIT_FUNCTION, C_MODULE, "");
-      }
-      
+        }
+
         return p;
       };
 
@@ -465,7 +465,7 @@
               m_pr_id = Cairo.Constants.NO_ID;
               m_producto = "";
               m_precio = 0;
-            } 
+            }
             else {
               m_active = Cairo.Database.valField(response.data, Cairo.Constants.ACTIVE);
               m_name = Cairo.Database.valField(response.data, Cairo.General.Constants.ZON_NAME);
@@ -476,8 +476,8 @@
               m_producto = Cairo.Database.valField(response.data, Cairo.General.Constants.PR_NOMBRE_VENTA);
               m_pr_id = Cairo.Database.valField(response.data, Cairo.General.Constants.PR_ID);
             }
-          return true;
-        });
+            return true;
+          });
       };
 
       var destroy = function() {

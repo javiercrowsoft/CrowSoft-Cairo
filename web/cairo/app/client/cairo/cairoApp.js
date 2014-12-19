@@ -3,6 +3,44 @@ var Cairo = new Marionette.Application();
 (function() {
   "use strict";
 
+  var createApplication = function() {
+
+    var self {
+      name: "Cairo"
+    };
+
+    var that = {};
+
+    that.getName = function() {
+      return self.name;
+    };
+
+    return that;
+  };
+
+  Cairo.Application = createApplication();
+
+  var createUserConfig = function() {
+
+    var self = {
+      autoSizeCols: false
+    };
+
+    var that = {};
+
+    that.getAutoSizeCols = function() {
+      return self.autoSizeCols;
+    };
+
+    that.setAutoSizeCols = function(value) {
+      self.autoSizeCols = value;
+    };
+
+    return that;
+  };
+
+  Cairo.UserConfig = createUserConfig();
+
   Cairo.isFunction = function(object) {
     return !!(object && object.constructor && object.call && object.apply);
   };
