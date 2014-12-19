@@ -145,7 +145,7 @@
 
         }
         catch (ex) {
-          Cairo.manageErrorEx(ex.message, Cairo.Constants.SHOW_DOCUMENTS_FUNCTION, C_MODULE, "");
+          Cairo.manageErrorEx(ex.message, ex, Cairo.Constants.SHOW_DOCUMENTS_FUNCTION, C_MODULE, "");
         }
               
         return _rtn;
@@ -259,7 +259,7 @@
 
         var properties = m_dialog.getProperties();
         properties.item(Cairo.General.Constants.CUEC_ID).setSelectId(Cairo.Constants.NO_ID);
-        properties.item(Cairo.General.Constants.CUEC_ID).setHelpValueProcess("");
+        properties.item(Cairo.General.Constants.CUEC_ID).setSelectIntValue("");
         properties.item(Cairo.General.Constants.CUEC_ID).setValue("");
 
         m_dialog.refreshControls();
@@ -526,7 +526,7 @@
           });
         }
         catch (ex) {
-          Cairo.manageErrorEx(ex.message, Cairo.Constants.EDIT_FUNCTION, C_MODULE, "");
+          Cairo.manageErrorEx(ex.message, ex, Cairo.Constants.EDIT_FUNCTION, C_MODULE, "");
       }
       
         return p;

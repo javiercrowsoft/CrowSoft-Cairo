@@ -125,7 +125,7 @@
 
         }
         catch (ex) {
-          Cairo.manageErrorEx(ex.message, Cairo.Constants.SHOW_DOCUMENTS_FUNCTION, C_MODULE, "");
+          Cairo.manageErrorEx(ex.message, ex, Cairo.Constants.SHOW_DOCUMENTS_FUNCTION, C_MODULE, "");
         }
               
         return _rtn;
@@ -378,7 +378,7 @@
           });
         }
         catch (ex) {
-          Cairo.manageErrorEx(ex.message, Cairo.Constants.EDIT_FUNCTION, C_MODULE, "");
+          Cairo.manageErrorEx(ex.message, ex, Cairo.Constants.EDIT_FUNCTION, C_MODULE, "");
       }
       
         return p;
@@ -435,7 +435,7 @@
         elem.setName(Cairo.Language.getText(5104, ""));
         elem.setSize(15);
         elem.setListItemData(m_ctacte);
-        elem.setListWhoSetItem(csListItemData);
+        elem.setListWhoSetItem(Dialogs.ListWhoSetItem.itemData);
         var w_list = elem.getList();
         var elem = w_list.add(null);
         elem.Id = csE_VentaModoCtaCte.cSVM_CTACTEHOJARUTA;

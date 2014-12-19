@@ -95,7 +95,7 @@
 
         }
         catch (ex) {
-          Cairo.manageErrorEx(ex.message, Cairo.Constants.SHOW_DOCUMENTS_FUNCTION, C_MODULE, "");
+          Cairo.manageErrorEx(ex.message, ex, Cairo.Constants.SHOW_DOCUMENTS_FUNCTION, C_MODULE, "");
         }
               
         return _rtn;
@@ -383,7 +383,7 @@
           });
         }
         catch (ex) {
-          Cairo.manageErrorEx(ex.message, Cairo.Constants.EDIT_FUNCTION, C_MODULE, "");
+          Cairo.manageErrorEx(ex.message, ex, Cairo.Constants.EDIT_FUNCTION, C_MODULE, "");
       }
       
         return p;
@@ -434,7 +434,7 @@
         // Tipo
         elem.setName(Cairo.Language.getText(1223, ""));
         elem.setKey(K_TIPO);
-        elem.setListWhoSetItem(csListItemData);
+        elem.setListWhoSetItem(Dialogs.ListWhoSetItem.itemData);
         elem.setListItemData(m_tipo);
 
         var elem = elem.add(null);

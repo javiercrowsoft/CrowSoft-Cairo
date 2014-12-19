@@ -268,7 +268,7 @@
         var m_lastTopOp   = 0;
         var m_labelLeft   = 0;
 
-        var m_gridManager = new Cairo.Dialogs.Grids.Manager();
+        var m_gridManager = Cairo.Dialogs.Grids.Manager;
 
         // minimum size of the view
         //
@@ -2438,7 +2438,7 @@
                       view.firstResize();
 
                       if(viewIsWizard(view)) {
-                        loadViewConfiguration(getView(), "master_" + Cairo.Company.name + " - "+ m_client.getTitle());
+                        loadViewConfiguration(getView(), "master_" + Cairo.Company.getName() + " - "+ m_client.getTitle());
                       }
                     }
                     if(m_sendAutoSave) {
@@ -2459,7 +2459,7 @@
                     view.firstResize();
 
                     if(viewIsWizard(view)) {
-                      loadViewConfiguration(getView(), "master_" + Cairo.Company.name + " - "+ m_client.getTitle());
+                      loadViewConfiguration(getView(), "master_" + Cairo.Company.getName() + " - "+ m_client.getTitle());
                     }
                   }
                   view.showDialog();
@@ -2952,7 +2952,14 @@
             m_masterView = null;
           }
           catch(ignore) {
-            Cairo.logError(ignore.message);
+            Cairo.logError("Error in masterHandlerViewDestroy", ignore);
+          }
+
+          try {
+            destroy();
+          }
+          catch(ignore) {
+            Cairo.logError("Error in masterHandlerViewDestroy", ignore);
           }
         };
 
@@ -3548,7 +3555,17 @@
             }
             m_wizardView = null;
           }
-          catch(ignore) {}
+          catch(ignore) {
+            Cairo.logError("Error in wizHandlerViewDestroy", ignore);
+          }
+
+          try {
+            destroy();
+          }
+          catch(ignore) {
+            Cairo.logError("Error in wizHandlerViewDestroy", ignore);
+          }
+
         };
 
         // TODO: refactor promise is returned by this function
@@ -3680,40 +3697,52 @@
         //
         var docHandlerViewDestroy = function(cancel) {
 
-          var view = getView();
-          view.setUnloadCount(view.getUnloadCount() + 1);
+          try {
+            var view = getView();
+            view.setUnloadCount(view.getUnloadCount() + 1);
 
-          if(m_isFooter || m_isItems) {
+            if (m_isFooter || m_isItems) {
 
-            // only if the user didn't cancel the close tab or window action
+              // only if the user didn't cancel the close tab or window action
+              //
+              if (!view.getCancelUnload()) {
+                saveColumnsGrids();
+                m_unloading = true;
+                m_client = null;
+              }
+            }
+            else {
+
+              if (m_client !== null) {
+
+                view.CancelUnload = false;
+
+                saveColumnsGrids();
+                m_unloading = true;
+
+                m_client.terminate();
+                m_client = null;
+              }
+            }
+
+            // grids are destroyed only in footer because it is the last to process the unload event
             //
-            if(!view.getCancelUnload()) {
-              saveColumnsGrids();
-              m_unloading = true;
-              m_client = null;
+            if (view.getUnloadCount() === 3) {
+              destroyGrids(view);
             }
           }
-          else {
-
-            if(m_client !== null) {
-
-              view.CancelUnload = false;
-
-              saveColumnsGrids();
-              m_unloading = true;
-
-              m_client.terminate();
-              m_client = null;
-            }
-          }
-
-          // grids are destroyed only on footer because it the last to process the unload event
-          //
-          if(view.getUnloadCount() === 3) {
-            destroyGrids(view);
+          catch(ignore) {
+            Cairo.logError("Error in docHandlerViewDestroy", ignore);
           }
 
           m_documentView = null;
+
+          try {
+            destroy();
+          }
+          catch(ignore) {
+            Cairo.logError("Error in docHandlerViewDestroy", ignore);
+          }
         };
 
         var docHandlerGridColumnButtonClick = function(index, rowIndex, colIndex, keyAscii) {
@@ -3787,7 +3816,6 @@
           textPasswordChange(index);
         };
 
-        // funciones del objeto
         var comboChange = function(index) {
           propertyHasChanged(Dialogs.PropertyType.list, index, getView().combos.get(index));
         };
@@ -6838,8 +6866,11 @@
           }
         };
 
-        // construccion - destruccion
-        self.initialize = function() {
+        //
+        // initialization and termination
+        //
+
+        var initialize = function() {
 
           m_isDocument = false;
           m_isFooter   = false;
@@ -6858,7 +6889,7 @@
           m_leftOp    = [0];
         };
 
-        self.terminate = function() {
+        var destroy = function() {
 
           m_menu = null;
 
@@ -6994,7 +7025,7 @@
         };
 
         var getViewTitle = function() {
-          return m_viewText + Cairo.Company.name + " - " + m_client.getTitle() + " || Press F12 to see the a shortcut key list";
+          return m_viewText + Cairo.Company.getName() + " - " + m_client.getTitle() + " || Press F12 to see the a shortcut key list";
         };
 
         // TODO: implement or remove
@@ -7150,7 +7181,7 @@
           }
         };
 
-        self.initialize();
+        initialize();
 
         return self;
       }

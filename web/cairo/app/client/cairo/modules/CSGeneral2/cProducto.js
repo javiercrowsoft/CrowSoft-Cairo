@@ -407,9 +407,9 @@
       var m_lastRubId = 0;
       var m_rubroHasChanged = false;
 
-      var m_userConfig;
+      var m_userConfig = null;
 
-      var m_genericEdit;
+      var m_genericEdit = null;
 
       var m_data = {
         proveedor: [],
@@ -422,7 +422,11 @@
         webImages: [],
         kit: [],
         bom: [],
-        rubro: null
+        rubro: null,
+        additionalFields: {
+          fields: [],
+          values: []
+        }
       };
 
       self.getId = function() {
@@ -506,7 +510,7 @@
 
         }
         catch (ex) {
-          Cairo.manageErrorEx(ex.message, Cairo.Constants.SHOW_DOCUMENTS_FUNCTION, C_MODULE, "");
+          Cairo.manageErrorEx(ex.message, ex, Cairo.Constants.SHOW_DOCUMENTS_FUNCTION, C_MODULE, "");
         }
 
         return _rtn;
@@ -1303,21 +1307,6 @@
         }
       };
 
-      self.terminate = function() {
-
-        m_editing = false;
-
-        try {
-          if(m_listController !== null) {
-            updateList();
-            m_listController.removeEditor(self);
-          }
-        }
-        catch (ignored) {
-          Cairo.logError('Error in terminate', ignored);
-        }
-      };
-
       self.getPath = function() {
         return "#general/producto/" + m_id.toString();
       };
@@ -1516,12 +1505,11 @@
 
           m_dialog.setInModalWindow(inModalWindow);
 
-          m_genericEdit = new Cairo.GenericEdit();
-          if(!m_genericEdit.init(Cairo.Tables.PRODUCTO)) { return p; }
-
           p = load(id).then(
             function(success) {
               if(success) {
+
+                if(!m_genericEdit.init(m_data.additionalFields.fields)) { return p; }
 
                 if(!loadCollection()) { return false; }
 
@@ -1540,7 +1528,7 @@
             });
         }
         catch (ex) {
-          Cairo.manageErrorEx(ex.message, Cairo.Constants.EDIT_FUNCTION, C_MODULE, "");
+          Cairo.manageErrorEx(ex.message, ex, Cairo.Constants.EDIT_FUNCTION, C_MODULE, "");
         }
 
         return p;
@@ -2792,7 +2780,7 @@
         if(rubro.getRubtId1() !== Cairo.Constants.NO_ID) {
           var elem = properties.add(null, Constants.RUBTIID1);
           elem.setType(Dialogs.PropertyType.select);
-          elem.setSelectTable(Cairo.Tables.RUBROTABLAITEM);
+          elem.setSelectTable(Cairo.Tables.ITEMS_DE_TABLAS_DE_RUBROS);
           elem.setSelectFilter(Constants.RUBTID + " = "+ rubro.getRubtId1().toString());
           elem.setTabIndex(tab_rubro);
           elem.setName(rubro.getTabla1());
@@ -2816,7 +2804,7 @@
         if(rubro.getRubtId2() !== Cairo.Constants.NO_ID) {
           var elem = properties.add(null, Constants.RUBTIID2);
           elem.setType(Dialogs.PropertyType.select);
-          elem.setSelectTable(Cairo.Tables.RUBROTABLAITEM);
+          elem.setSelectTable(Cairo.Tables.ITEMS_DE_TABLAS_DE_RUBROS);
           elem.setSelectFilter(Constants.RUBTID + " = "+ rubro.getRubtId2().toString());
           elem.setTabIndex(tab_rubro);
           elem.setName(rubro.getTabla2());
@@ -2838,7 +2826,7 @@
         if(rubro.getRubtId3() !== Cairo.Constants.NO_ID) {
           var elem = properties.add(null, Constants.RUBTIID3);
           elem.setType(Dialogs.PropertyType.select);
-          elem.setSelectTable(Cairo.Tables.RUBROTABLAITEM);
+          elem.setSelectTable(Cairo.Tables.ITEMS_DE_TABLAS_DE_RUBROS);
           elem.setSelectFilter(Constants.RUBTID + " = "+ rubro.getRubtId3().toString());
           elem.setTabIndex(tab_rubro);
           elem.setName(rubro.getTabla3());
@@ -2860,7 +2848,7 @@
         if(rubro.getRubtId4() !== Cairo.Constants.NO_ID) {
           var elem = properties.add(null, Constants.RUBTIID4);
           elem.setType(Dialogs.PropertyType.select);
-          elem.setSelectTable(Cairo.Tables.RUBROTABLAITEM);
+          elem.setSelectTable(Cairo.Tables.ITEMS_DE_TABLAS_DE_RUBROS);
           elem.setSelectFilter(Constants.RUBTID + " = "+ rubro.getRubtId4().toString());
           elem.setTabIndex(tab_rubro);
           elem.setName(rubro.getTabla4());
@@ -2882,7 +2870,7 @@
         if(rubro.getRubtId5() !== Cairo.Constants.NO_ID) {
           var elem = properties.add(null, Constants.RUBTIID5);
           elem.setType(Dialogs.PropertyType.select);
-          elem.setSelectTable(Cairo.Tables.RUBROTABLAITEM);
+          elem.setSelectTable(Cairo.Tables.ITEMS_DE_TABLAS_DE_RUBROS);
           elem.setSelectFilter(Constants.RUBTID + " = "+ rubro.getRubtId5().toString());
           elem.setTabIndex(tab_rubro);
           elem.setName(rubro.getTabla5());
@@ -2904,7 +2892,7 @@
         if(rubro.getRubtId6() !== Cairo.Constants.NO_ID) {
           var elem = properties.add(null, Constants.RUBTIID6);
           elem.setType(Dialogs.PropertyType.select);
-          elem.setSelectTable(Cairo.Tables.RUBROTABLAITEM);
+          elem.setSelectTable(Cairo.Tables.ITEMS_DE_TABLAS_DE_RUBROS);
           elem.setSelectFilter(Constants.RUBTID + " = "+ rubro.getRubtId6().toString());
           elem.setTabIndex(tab_rubro);
           elem.setName(rubro.getTabla6());
@@ -2928,7 +2916,7 @@
         if(rubro.getRubtId7() !== Cairo.Constants.NO_ID) {
           var elem = properties.add(null, Constants.RUBTIID7);
           elem.setType(Dialogs.PropertyType.select);
-          elem.setSelectTable(Cairo.Tables.RUBROTABLAITEM);
+          elem.setSelectTable(Cairo.Tables.ITEMS_DE_TABLAS_DE_RUBROS);
           elem.setSelectFilter(Constants.RUBTID + " = "+ rubro.getRubtId7().toString());
           elem.setTabIndex(tab_rubro);
           elem.setName(rubro.getTabla7());
@@ -2950,7 +2938,7 @@
         if(rubro.getRubtId8() !== Cairo.Constants.NO_ID) {
           var elem = properties.add(null, Constants.RUBTIID8);
           elem.setType(Dialogs.PropertyType.select);
-          elem.setSelectTable(Cairo.Tables.RUBROTABLAITEM);
+          elem.setSelectTable(Cairo.Tables.ITEMS_DE_TABLAS_DE_RUBROS);
           elem.setSelectFilter(Constants.RUBTID + " = "+ rubro.getRubtId8().toString());
           elem.setTabIndex(tab_rubro);
           elem.setName(rubro.getTabla8());
@@ -2972,7 +2960,7 @@
         if(rubro.getRubtId9() !== Cairo.Constants.NO_ID) {
           var elem = properties.add(null, Constants.RUBTIID9);
           elem.setType(Dialogs.PropertyType.select);
-          elem.setSelectTable(Cairo.Tables.RUBROTABLAITEM);
+          elem.setSelectTable(Cairo.Tables.ITEMS_DE_TABLAS_DE_RUBROS);
           elem.setSelectFilter(Constants.RUBTID + " = "+ rubro.getRubtId9().toString());
           elem.setTabIndex(tab_rubro);
           elem.setName(rubro.getTabla9());
@@ -2994,7 +2982,7 @@
         if(rubro.getRubtId10() !== Cairo.Constants.NO_ID) {
           var elem = properties.add(null, Constants.RUBTIID10);
           elem.setType(Dialogs.PropertyType.select);
-          elem.setSelectTable(Cairo.Tables.RUBROTABLAITEM);
+          elem.setSelectTable(Cairo.Tables.ITEMS_DE_TABLAS_DE_RUBROS);
           elem.setSelectFilter(Constants.RUBTID + " = "+ rubro.getRubtId10().toString());
           elem.setTabIndex(tab_rubro);
           elem.setName(rubro.getTabla10());
@@ -3387,7 +3375,7 @@
             m_rubroHasChanged = m_lastRubId !== m_rub_id;
             m_lastRubId = m_rub_id;
 
-            if(!m_genericEdit.Load(m_id)) { return false; }
+            if(!m_genericEdit.load(m_id)) { return false; }
 
             return true;
           });
@@ -3767,7 +3755,7 @@
         var property = properties.item(C_WEB_CATEGORIES);
         loadCategoriasWeb(property);
 
-        m_genericEdit.RefreshProperties(m_dialog);
+        m_genericEdit.refreshProperties(m_dialog);
 
 
         if(m_rubroHasChanged) {
@@ -3855,20 +3843,10 @@
 
       };
 
-      self.initialize = function() {
-        m_userConfig = new cUsuarioConfig();
-        m_userConfig.load();
-      };
+      //
+      // grid
+      //
 
-      self.destroy = function() {
-        m_dialog = null;
-        m_listController = null;
-        m_userConfig = null;
-      };
-
-      /////////////////////////////////////////////////////////////////////////////////////////////
-      /////////////////////////////////////////////////////////////////////////////////////////////
-      /////////////////////////////////////////////////////////////////////////////////////////////
       self.columnAfterEdit = function(key,  lRow,  lCol,  newValue,  newValueID) {
         return true;
       };
@@ -3972,7 +3950,7 @@
           }
         }
         catch (ex) {
-          Cairo.manageErrorEx(ex.message, Cairo.Constants.VALIDATE_ROW_FUNCTION, C_MODULE, "");
+          Cairo.manageErrorEx(ex.message, ex, Cairo.Constants.VALIDATE_ROW_FUNCTION, C_MODULE, "");
         }
 
         return p || Cairo.Promises.resolvedPromise(false);
@@ -4027,7 +4005,7 @@
           }
         }
         catch (ex) {
-          Cairo.manageErrorEx(ex.message, Cairo.Constants.IS_EMPTY_ROW_FUNCTION, C_MODULE, "");
+          Cairo.manageErrorEx(ex.message, ex, Cairo.Constants.IS_EMPTY_ROW_FUNCTION, C_MODULE, "");
         }
 
         return Cairo.Promises.resolvedPromise(isEmpty);
@@ -5917,7 +5895,7 @@
           */
         }
         catch (ex) {
-          Cairo.manageErrorEx(ex.message, "editPriceList", C_MODULE, "");
+          Cairo.manageErrorEx(ex.message, ex, "editPriceList", C_MODULE, "");
         }
       };
 
@@ -5936,6 +5914,49 @@
 
         return false;
       };
+
+      //
+      // initialization and termination
+      //
+
+      var initialize = function() {
+        m_userConfig = new cUsuarioConfig();
+        m_userConfig.load();
+
+        m_genericEdit = Cairo.GenericEdit.Edit.Controller.getEditor();
+      };
+
+      var destroy = function() {
+        m_genericEdit.destroy();
+        m_genericEdit = null;
+        m_dialog = null;
+        m_listController = null;
+        m_userConfig = null;
+      };
+
+      self.terminate = function() {
+
+        m_editing = false;
+
+        try {
+          if(m_listController !== null) {
+            updateList();
+            m_listController.removeEditor(self);
+          }
+        }
+        catch (ignored) {
+          Cairo.logError('Error in terminate', ignored);
+        }
+
+        try {
+          destroy();
+        }
+        catch (ignored) {
+          Cairo.logError('Error in terminate', ignored);
+        }
+      };
+
+      initialize();
 
       return self;
     };

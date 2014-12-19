@@ -236,6 +236,10 @@
       that.getList = function() {
         return self.list;
       };
+
+      that.setListWhoSetItem = function(value) {
+        self.listWhoSetItem = value;
+      };
       that.getListWhoSetItem = function() {
         return self.listWhoSetItem;
       };

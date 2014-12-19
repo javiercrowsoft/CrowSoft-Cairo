@@ -129,7 +129,7 @@
 
         }
         catch (ex) {
-          Cairo.manageErrorEx(ex.message, Cairo.Constants.SHOW_DOCUMENTS_FUNCTION, C_MODULE, "");
+          Cairo.manageErrorEx(ex.message, ex, Cairo.Constants.SHOW_DOCUMENTS_FUNCTION, C_MODULE, "");
         }
               
         return _rtn;
@@ -385,7 +385,7 @@
           });
         }
         catch (ex) {
-          Cairo.manageErrorEx(ex.message, Cairo.Constants.EDIT_FUNCTION, C_MODULE, "");
+          Cairo.manageErrorEx(ex.message, ex, Cairo.Constants.EDIT_FUNCTION, C_MODULE, "");
       }
       
         return p;
@@ -474,7 +474,7 @@
         c.setKey(K_TIPODNI);
         pLoadTipoDoc(c);
         c.setListItemData(m_tipodni);
-        c.setListWhoSetItem(csListItemData);
+        c.setListWhoSetItem(Dialogs.ListWhoSetItem.itemData);
         c.setTopFromProperty(Cairo.General.Constants.CHOF_CODE);
         c.setLeft(6600);
 

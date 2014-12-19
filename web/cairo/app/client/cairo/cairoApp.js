@@ -339,7 +339,10 @@ var Cairo = new Marionette.Application();
     getDateValueForGrid: function(value) { /* TODO: implement this. */ },
     getDateValueFromGrid: function(value) { /* TODO: implement this. */ },
     getDateValue: function(value) {
-      return Date.parse(value.toString());
+      return new Date(value.toString());
+    },
+    isDate: function(date) {
+      return (! isNaN(new Date(date).valueOf()));
     },
     val: function(value) {
       try {
@@ -387,9 +390,59 @@ var Cairo = new Marionette.Application();
     }
   };
 
-  Cairo.Company = {
-    name: ''
+  var createCompany = function() {
+    var self = {
+      name: '',
+      id: 0
+    }
+
+    var that = {};
+
+    that.setName = function(name) {
+      self.name = name;
+    };
+    that.getName = function() {
+      return self.name;
+    };
+
+    that.setId = function(id) {
+      self.id = id;
+    };
+    that.getId = function() {
+      return self.id;
+    };
+
+    return that;
   };
+
+  Cairo.Company = createCompany();
+
+  var createUser = function() {
+    var self = {
+      name: '',
+      id: 0
+    }
+
+    var that = {};
+
+    that.setName = function(name) {
+      self.name = name;
+    };
+    that.getName = function() {
+      return self.name;
+    };
+
+    that.setId = function(id) {
+      self.id = id;
+    };
+    that.getId = function() {
+      return self.id;
+    };
+
+    return that;
+  };
+
+  Cairo.User = createUser();
 
   Cairo.Math = {
     truncate: function(value) {
@@ -825,11 +878,13 @@ var Cairo = new Marionette.Application();
     Cairo.logError(message, exception);
   };
 
-  Cairo.manageErrorEx = function(errorResponse, functionName, className, infoAdd) {
+  Cairo.manageErrorEx = function(errorResponse, exception, functionName, className, infoAdd) {
     Cairo.manageError(
       "Error",
       "An error has occurred when calling this function: " + className + "." + functionName + "<br>" + infoAdd,
-      errorResponse);
+      errorResponse,
+      exception
+    );
   };
 
   Cairo.manageErrorHandler = function(title, message, closeHandler) {

@@ -143,7 +143,7 @@
 
         }
         catch (ex) {
-          Cairo.manageErrorEx(ex.message, "cIABMClient_ShowDocDigital", C_MODULE, "");
+          Cairo.manageErrorEx(ex.message, ex, "cIABMClient_ShowDocDigital", C_MODULE, "");
         }
 
         return _rtn;
@@ -470,7 +470,7 @@
           return null;
         }
         catch (ex) {
-          Cairo.manageErrorEx(ex.message, "cIEditGeneric_Edit", "cEmpresa", "");
+          Cairo.manageErrorEx(ex.message, ex, "cIEditGeneric_Edit", "cEmpresa", "");
         }
       };
 
@@ -566,7 +566,7 @@
         // Categoria Fiscal
         elem.setName(Cairo.Language.getText(1181, ""));
         elem.setKey(K_CATFISCAL);
-        elem.setListWhoSetItem(csListItemData);
+        elem.setListWhoSetItem(Dialogs.ListWhoSetItem.itemData);
         elem.setListItemData(m_catFiscal);
 
         var w_list = elem.getList();

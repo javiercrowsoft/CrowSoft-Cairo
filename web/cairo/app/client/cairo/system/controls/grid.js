@@ -78,7 +78,7 @@
 
     var createRow = function() {
       var self = {
-        cells: Cairo.Collections.createCollection(createCell, null)
+        cells: Cairo.Collections.createCollection(createCell)
       };
 
       var that = {

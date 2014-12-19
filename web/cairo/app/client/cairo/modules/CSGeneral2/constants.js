@@ -547,7 +547,7 @@
       RUBT_DESCRIP: "rubt_descrip",
 
       // Tabla Rubro Item
-      RUBROTABLAITEM: "RubroTablaItem",
+      RUBRO_TABLA_ITEM: "RubroTablaItem",
       RUBTI_ID: "rubti_id",
       RUBTI_NAME: "rubti_nombre",
       RUBTI_CODE: "rubti_codigo",
@@ -1126,6 +1126,38 @@
       VM_PV: "vm_pv",
       VM_CMVXI: "vm_cmvxi",
       VM_COBZ: "vm_cobz",
+
+      // Tabla Item
+      TABLA_ITEM: "TablaItem",
+      TBLI_ID: "tbli_id",
+      TBLI_NAME: "tbli_nombre",
+      TBLI_NOMBRE_FISICO: "tbli_nombrefisico",
+      TBLI_TIPO: "tbli_tipo",
+      TBLI_SUB_TIPO: "tbli_subtipo",
+      TBLI_ORDEN: "tbli_orden",
+      TBLI_HELP_TYPE: "tbli_helptype",
+      TBLI_FILTRO: "tbli_filtro",
+      TBLI_DEFAULT_VALUE: "tbli_defaultvalue",
+      TBLI_MIN_VALUE: "tbli_minvalue",
+      TBLI_MAX_VALUE: "tbli_maxvalue",
+      TBLI_TEXT_ALIGN: "tbli_textalign",
+      TBLI_TEXT_MASK: "tbli_textmask",
+      TBLI_FORMAT: "tbli_format",
+      TBLI_WIDTH: "tbli_width",
+      TBLI_HEIGHT: "tbli_height",
+      TBLI_TOP: "tbli_top",
+      TBLI_LEFT: "tbli_left",
+      TBLI_NO_SHOW_BUTTON: "tbli_noshowbutton",
+      TBLI_SQLSTMT: "tbli_sqlstmt",
+      TBL_ID_HELP: "tbl_id_help",
+
+      // Tabla
+      TABLA: "Tabla",
+      TBL_ID: "tbl_id",
+      TBL_NAME: "tbl_nombre",
+      TBL_NOMBRE_FISICO: "tbl_nombrefisico",
+      TBL_CAMPO_NAME: "tbl_camponombre",
+      TBL_CAMPO_ID: "tbl_campoid",
 
 
       // Accounting

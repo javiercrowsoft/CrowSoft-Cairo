@@ -20,7 +20,9 @@
       that.setColumnProperties = function(grid, column, colGrid) { /* TODO = implement this. */ };
       that.saveColumnWidth = function(grid, name) { /* TODO = implement this. */ };
       that.saveColumnOrder = function(grid, name) { /* TODO = implement this. */ };
-      that.setProperties = function(grid) { /* TODO = implement this. */ }
+      that.setProperties = function(grid) { /* TODO = implement this. */ };
+
+      return that;
       
     };
     
@@ -102,7 +104,7 @@
     };
 
     Grids.createCells = function() {
-      return Cairo.Collections.createCollection(Grids.createCell, null);
+      return Cairo.Collections.createCollection(Grids.createCell);
     };
 
     Grids.createColumn = function() {
@@ -157,7 +159,7 @@
     };
 
     Grids.createColumns = function() {
-      return Cairo.Collections.createCollection(Grids.createColumn, null);
+      return Cairo.Collections.createCollection(Grids.createColumn);
     };
 
     Grids.createRow = function() {
@@ -194,7 +196,7 @@
     };
 
     Grids.createRows = function() {
-      return Cairo.Collections.createCollection(Grids.createRow, null);
+      return Cairo.Collections.createCollection(Grids.createRow);
     };
 
     Grids.createGrid = function() {
