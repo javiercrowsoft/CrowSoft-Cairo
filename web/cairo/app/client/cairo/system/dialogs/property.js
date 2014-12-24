@@ -522,9 +522,14 @@
       that.getToolbar = function() {
         return self.toolbar;
       };
+
       that.getIsEditProperty = function() {
         return self.isEditProperty;
       };
+      that.setIsEditProperty = function(isEditProperty) {
+        self.isEditProperty = isEditProperty;
+      };
+
       that.getNoShowButton = function() {
         return self.hideButton;
       };

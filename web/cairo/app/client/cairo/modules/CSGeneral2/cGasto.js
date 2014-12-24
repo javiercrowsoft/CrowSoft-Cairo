@@ -428,7 +428,7 @@
         elem.setValue(Cairo.Language.getText(1224, ""));
         var elem = elem.add(null);
         elem.Id = csE_GastoTipo.cSEGTOTGENERAL;
-        elem.setValue(Cairo.Constants.c_strGeneral);
+        elem.setValue(Cairo.Constants.TAB_GENERAL);
         var elem = elem.add(null);
         elem.Id = csE_GastoTipo.cSEGTOTMARITIMO;
         // Mar�timo
@@ -520,7 +520,7 @@
         elem.setValue(m_active === true ? 1 : 0);
 
         var elem = properties.item(Cairo.General.Constants.GTO_TIPO);
-        elem.setValue(Cairo.Constants.c_strGeneral);
+        elem.setValue(Cairo.Constants.TAB_GENERAL);
 
         var elem = properties.item(Cairo.General.Constants.GTO_FIJO);
         elem.setValue(m_fijo);

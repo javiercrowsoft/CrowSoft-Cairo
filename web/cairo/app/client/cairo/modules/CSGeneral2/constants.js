@@ -5,6 +5,108 @@
 
     Constants: {
 
+
+      // Usuario
+      USUARIO: "Usuario",
+      US_ID: "us_id",
+      US_NAME: "us_nombre",
+      US_CLAVE: "us_clave",
+      US_DESCRIP: "us_descrip",
+      US_EXTERNO: "us_externo",
+      US_EMP_X_DPTO: "us_empxdpto",
+      US_EMPRESA_EX: "us_empresaex",
+      
+      // Configuracion
+      CONFIGURACION: "Configuracion",
+      CFG_GRUPO: "cfg_grupo",
+      CFG_ASPECTO: "cfg_aspecto",
+      CFG_VALOR: "cfg_valor",
+      
+      // Rol
+      ROL: "Rol",
+      ROL_ID: "rol_id",
+      ROL_NAME: "rol_nombre",
+      ROL_DESCRIP: "rol_descrip",
+      
+      // usuarioRol
+      USUARIO_ROL: "usuarioRol",
+      
+      // Prestacion
+      PRESTACION: "Prestacion",
+      PRE_ID: "pre_id",
+      PRE_NAME: "pre_nombre",
+      PRE_GRUPO: "pre_grupo",
+      
+      // ListaDocumentoParametro
+      LISTA_DOCUMENTO_PARAMETRO: "ListaDocumentoParametro",
+      LDP_ID: "ldp_id",
+      LDP_VALOR: "ldp_valor",
+      LDP_ORDEN: "ldp_orden",
+      
+      // Edicion de documentos
+      DOC_EDITABLE: "Editable",
+      DOC_EDIT_MSG: "editMsg",
+      TA__PROPUESTO: "TaPropuesto",
+      TA__MASCARA: "TaMascara",
+      
+      // Empresa
+      EMPRESA: "Empresa",
+      EMP_ID: "emp_id",
+      EMP_NAME: "emp_nombre",
+      EMP_CODE: "emp_codigo",
+      EMP_CODIGO_BARRA: "emp_codigobarra",
+      EMP_ES_SUCURSAL: "emp_essucursal",
+
+      /* TODO: check if these lines must be removed */
+
+      // Arbol
+      ARBOL: "Arbol",
+      ARB_ID: "arb_Id",
+      ARB_NAME: "arb_nombre",
+      
+      // Rama
+      RAMA: "Rama",
+      RAM_ID: "ram_id",
+      RAM_NAME: "ram_nombre",
+      RAM_PADRE: "ram_id_padre",
+      RAM_ORDEN: "ram_orden",
+      
+      // RamaConfig
+      RAMA_CONFIG: "RamaConfig",
+      RAMC_ASPECTO: "ramc_aspecto",
+      RAMC_VALOR: "ramc_valor",
+      
+      // Hoja
+      HOJA: "Hoja",
+      HOJA_ID: "hoja_Id",
+      ID: "id",
+
+      /* TODO: end lines to be removed */
+      
+      // permiso
+      PERMISO: "Permiso",
+      PER_ID: "per_id",
+      PER_ID_PADRE: "per_id_padre",
+      
+      // Estado
+      ESTADO: "Estado",
+      EST_ID: "est_id",
+      EST_NAME: "est_nombre",
+      EST_CODE: "est_codigo",
+      EST_DESCRIP: "est_descrip",
+      
+      // ReporteFormulario
+      REPORTE_FORMULARIO: "ReporteFormulario",
+      RPTF_ID: "rptf_id",
+      RPTF_NAME: "rptf_nombre",
+      RPTF_CSRFILE: "rptf_csrfile",
+      RPTF_TIPO: "rptf_tipo",
+      RPTF_SUGERIDO: "rptf_sugerido",
+      RPTF_SUGERIDO_EMAIL: "rptf_sugeridoemail",
+      RPTF_COPIAS: "rptf_copias",
+      RPTF_DOC_IMPRIMIR_EN_ALTA: "rptf_docImprimirEnAlta",
+      RPTF_OBJECT: "rptf_object",
+
       // Provincia
       PROVINCIA: "Provincia",
       PRO_ID: "pro_id",
@@ -18,8 +120,8 @@
       UN_NAME: "un_nombre",
       UN_CODE: "un_codigo",
 
-      //DepositoFisico
-      DEPOSITOFISICO: "DepositoFisico",
+      // DepositoFisico
+      DEPOSITO_FISICO: "DepositoFisico",
       DEPF_ID: "depf_id",
       DEPF_NAME: "depf_nombre",
       DEPF_CODE: "depf_codigo",
@@ -28,7 +130,7 @@
       DEPF_DIR: "depf_dir",
 
       // DepositoLogico
-      DEPOSITOLOGICO: "DepositoLogico",
+      DEPOSITO_LOGICO: "DepositoLogico",
       DEPL_ID: "depl_id",
       DEPL_NAME: "depl_nombre",
       DEPL_CODE: "depl_codigo",
@@ -148,7 +250,7 @@
       PROV_RET_DESDE: "provret_desde",
       PROV_RET_HASTA: "provret_hasta",
 
-      //CuentaCategoria
+      // CuentaCategoria
       CUENTACATEGORIA: "CuentaCategoria",
       CUEC_ID: "cuec_id",
       CUEC_NAME: "cuec_nombre",
@@ -174,7 +276,7 @@
       CCOS_VENTA: "ccos_venta",
       CCOS_ID_PADRE: "ccos_id_padre",
 
-      //Cobrador
+      // Cobrador
       COBRADOR: "Cobrador",
       COB_ID: "cob_id",
       COB_NAME: "cob_nombre",
@@ -182,14 +284,14 @@
       COB_DESCRIP: "cob_descrip",
       COB_COMISION: "cob_comision",
 
-      //ReglaLiquidacion
+      // ReglaLiquidacion
       REGLALIQUIDACION: "ReglaLiquidacion",
       REL_ID: "rel_id",
       REL_NAME: "rel_nombre",
       REL_CODE: "rel_codigo",
       REL_DESCRIP: "rel_descrip",
 
-      //Clearing
+      // Clearing
       CLEARING: "Clearing",
       CLE_ID: "cle_id",
       CLE_NAME: "cle_nombre",
@@ -197,7 +299,7 @@
       CLE_DESCRIP: "cle_descrip",
       CLE_DIAS: "cle_dias",
 
-      //Cliente
+      // Cliente
       CLIENTE: "Cliente",
       CLI_ID: "cli_id",
       CLI_NAME: "cli_nombre",
@@ -236,7 +338,7 @@
       CLI_HORARIO_TDESDE: "cli_horario_t_desde",
       CLI_HORARIO_THASTA: "cli_horario_t_hasta",
 
-      //Proveedor
+      // Proveedor
       PROVEEDOR: "Proveedor",
       PROV_ID: "prov_id",
       PROV_NAME: "prov_nombre",
@@ -273,14 +375,14 @@
       PROV_HORARIO_TDESDE: "prov_horario_t_desde",
       PROV_HORARIO_THASTA: "prov_horario_t_hasta",
 
-      //Ingresos brutos categoria
+      // Ingresos brutos categoria
       INGRESOSBRUTOSCATEGORIA: "IngresosBrutosCategoria",
       IBC_ID: "ibc_id",
       IBC_NAME: "ibc_nombre",
       IBC_CODE: "ibc_codigo",
       IBC_DESCRIP: "ibc_descrip",
 
-      //Rubro
+      // Rubro
       RUBRO: "Rubro",
       RUB_ID: "rub_id",
       RUB_NAME: "rub_nombre",
@@ -337,7 +439,7 @@
       LP_ID: "lp_id",
       LP_NAME: "lp_nombre",
 
-      //Lista de Precios Items
+      // Lista de Precios Items
       LISTAPRECIOITEM: "ListaPrecioItem",
       LPI_ID: "lpi_id",
       LPI_PRECIO: "lpi_precio",
@@ -452,7 +554,7 @@
       DEPARTAMENTOCLIENTE: "DepartamentoCliente",
       DPTO_CLI_ID: "dptocli_id",
 
-      //Camion
+      // Camion
       CAMION: "Camion",
       CAM_ID: "cam_id",
       CAM_CODE: "cam_codigo",
@@ -474,7 +576,7 @@
       CHOF_DIRECCION: "chof_direccion",
       CHOF_TELEFONO: "chof_telefono",
 
-      //Ciudad
+      // Ciudad
       CIUDAD: "Ciudad",
       CIU_ID: "ciu_id",
       CIU_NAME: "ciu_nombre",
@@ -539,7 +641,7 @@
       CONT_CARGO: "cont_cargo",
       CONT_DIRECCION: "cont_direccion",
 
-      //Tabla de Rubros
+      // Tabla de Rubros
       RUBROTABLA: "RubroTabla",
       RUBTID: "rubt_id",
       RUBT_NAME: "rubt_nombre",
@@ -636,7 +738,7 @@
       MON_ID: "mon_id",
       MON_NAME: "mon_nombre",
 
-      //Producto
+      // Producto
       PRODUCTO: "Producto",
       PR_ID: "pr_id",
       PR_NOMBRE_COMPRA: "pr_Nombrecompra",
@@ -1161,8 +1263,8 @@
 
 
       // Accounting
-      filterForSales: "ti_tipo = 1",
-      filterForPurchase: "ti_tipo = 2",
+      filterForSales: "ti_tipo: 1",
+      filterForPurchase: "ti_tipo: 2",
 
       AccountGroupType: {
         productForSale: 1,
@@ -1485,7 +1587,63 @@
     NEW_VENTAMODO: 1288,
     EDIT_VENTAMODO: 1289,
     DELETE_VENTAMODO: 1290,
-    LIST_VENTAMODO: 1291
+    LIST_VENTAMODO: 1291,
+
+    NEW_MONEDA: 1028,
+    EDIT_MONEDA: 1029,
+    DELETE_MONEDA: 1030,
+    LIST_MONEDA: 1031,
+
+    NEW_CHEQUERA: 1128,
+    EDIT_CHEQUERA: 1129,
+    DELETE_CHEQUERA: 1130,
+    LIST_CHEQUERA: 1131,
+
+    NEW_LISTAPRECIO: 1096,
+    EDIT_LISTAPRECIO: 1097,
+    DELETE_LISTAPRECIO: 1098,
+    LIST_LISTAPRECIO: 1099,
+
+    NEW_LISTADESCUENTO: 1152,
+    EDIT_LISTADESCUENTO: 1153,
+    DELETE_LISTADESCUENTO: 1154,
+    LIST_LISTADESCUENTO: 1155,
+
+    MODIFY_CONFIG: 1156,
+
+    MODIFY_CONFIG_VENTAS: 1173,
+    MODIFY_CONFIG_TESORERIA: 1174,
+    MODIFY_CONFIG_COMPRAS: 1175,
+    MODIFY_CONFIG_TICKET: 1979,
+    MODIFY_CONFIG_USUARIO: 1990,
+    MODIFY_CONFIG_STOCK: 1999,
+    MODIFY_CONFIG_CONTABILIDAD: 1988,
+    MODIFY_CONFIG_PERSONAL: 1985,
+
+    EDIT_PRODUCTO_NRO_SERIE: 1217,
+
+    VENTA_SALDO_INICIAL: 1998,
+    COMPRA_SALDO_INICIAL: 1997,
+
+    VENTA_FACTURA_ANULAR: 1996,
+    VENTA_IMPORT_REMITO: 1995,
+
+    NEW_STOCKLOTE: 1994,
+    EDIT_STOCKLOTE: 1993,
+    DELETE_STOCKLOTE: 1992,
+    LIST_STOCKLOTE: 1991,
+
+    SELECT_SERIE_EX: 1989,
+
+    CONT_IMPORT_PERC_RET_IIBB: 1987,
+
+    IMPORTAR_ASIENTOS: 1986,
+
+    LIST_APRECIOCONFIG: 1984,
+    LIST_APRECIOCALC: 1983,
+
+    CONT_IMPORT_PADRON_EMBARGO: 1982,
+    VENTA_IMPORT_OS: 1981    
 
   }                                                                    
                                                                         

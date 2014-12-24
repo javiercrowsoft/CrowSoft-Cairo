@@ -229,6 +229,10 @@
         _transactions.add(transaction);
       };
 
+      this.saveTransaction = function(register, isNew, codeField, functionName, module, title) {
+        /* TODO: implement this. */
+      };
+
       return this;
     },
 
@@ -255,6 +259,10 @@
       };
 
       return this;
+    },
+
+    sqlString: function(string) {
+      return "'" + string.toString().replace("'", "''") + "'";
     }
 
   };

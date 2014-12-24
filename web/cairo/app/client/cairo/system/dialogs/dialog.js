@@ -437,68 +437,68 @@
 
         var self = {};
 
-        self.setTabHideControlsInAllTab = function(rhs) {
-          m_tabHideControlsInAllTab = rhs;
+        self.setTabHideControlsInAllTab = function(value) {
+          m_tabHideControlsInAllTab = value;
         };
 
-        self.setBNoChangeBackColorCell = function(rhs) {
-          m_noChangeBackColorCell = rhs;
+        self.setBNoChangeBackColorCell = function(value) {
+          m_noChangeBackColorCell = value;
         };
 
-        self.setFormText = function(rhs) {
-          m_viewText = rhs;
+        self.setFormText = function(value) {
+          m_viewText = value;
         };
 
-        self.setPopMenuClient = function(rhs) {
-          m_popMenuClient = rhs;
+        self.setPopMenuClient = function(value) {
+          m_popMenuClient = value;
         };
 
         self.getSetFocusFirstCtrlInNew = function() {
           return m_setFocusFirstCtrlInNew;
         };
 
-        self.setSetFocusFirstCtrlInNew = function(rhs) {
-          m_setFocusFirstCtrlInNew = rhs;
+        self.setSetFocusFirstCtrlInNew = function(value) {
+          m_setFocusFirstCtrlInNew = value;
         };
 
-        self.setNoButtons1 = function(rhs) {
-          m_noButtons1 = rhs;
+        self.setNoButtons1 = function(value) {
+          m_noButtons1 = value;
         };
 
-        self.setNoButtons2 = function(rhs) {
-          m_noButtons2 = rhs;
+        self.setNoButtons2 = function(value) {
+          m_noButtons2 = value;
         };
 
-        self.setNoButtons3 = function(rhs) {
-          m_noButtons3 = rhs;
+        self.setNoButtons3 = function(value) {
+          m_noButtons3 = value;
         };
 
-        self.setButtonsEx2 = function(rhs) {
-          m_buttonsEx2 = rhs;
+        self.setButtonsEx2 = function(value) {
+          m_buttonsEx2 = value;
         };
 
-        self.setButtonsEx3 = function(rhs) {
-          m_buttonsEx3 = rhs;
+        self.setButtonsEx3 = function(value) {
+          m_buttonsEx3 = value;
         };
 
-        self.setBSendSave = function(rhs) {
-          m_sendSave = rhs;
+        self.setBSendSave = function(value) {
+          m_sendSave = value;
         };
 
-        self.setBSendClose = function(rhs) {
-          m_sendClose = rhs;
+        self.setBSendClose = function(value) {
+          m_sendClose = value;
         };
 
-        self.setBSendAutoSave = function(rhs) {
-          m_sendAutoSave = rhs;
+        self.setBSendAutoSave = function(value) {
+          m_sendAutoSave = value;
         };
 
-        self.setSendNewDoc = function(rhs) {
-          m_sendNewDoc = rhs;
+        self.setSendNewDoc = function(value) {
+          m_sendNewDoc = value;
         };
 
-        self.setSendNewABM = function(rhs) {
-          m_sendNewABM = rhs;
+        self.setSendNewABM = function(value) {
+          m_sendNewABM = value;
         };
 
         self.getInSave = function() {
@@ -509,44 +509,44 @@
           return m_savingAs;
         };
 
-        self.setIsWizard = function(rhs) {
-          m_isWizard = rhs;
+        self.setIsWizard = function(value) {
+          m_isWizard = value;
         };
 
-        self.setNoAskForSave = function(rhs) {
-          m_noAskForSave = rhs;
+        self.setNoAskForSave = function(value) {
+          m_noAskForSave = value;
         };
 
-        self.setNoMoveGenericButton = function(rhs) {
-          m_noMoveGenericButton = rhs;
+        self.setNoMoveGenericButton = function(value) {
+          m_noMoveGenericButton = value;
         };
 
-        self.setSaveText = function(rhs) {
-          m_saveText = rhs;
+        self.setSaveText = function(value) {
+          m_saveText = value;
         };
 
-        self.setSaveWidth = function(rhs) {
-          m_saveWidth = rhs;
+        self.setSaveWidth = function(value) {
+          m_saveWidth = value;
         };
 
-        self.setCancelText = function(rhs) {
-          m_cancelText = rhs;
+        self.setCancelText = function(value) {
+          m_cancelText = value;
         };
 
-        self.setSaveTop = function(rhs) {
-          m_saveTop = rhs;
+        self.setSaveTop = function(value) {
+          m_saveTop = value;
         };
 
-        self.setSaveLeft = function(rhs) {
-          m_saveLeft = rhs;
+        self.setSaveLeft = function(value) {
+          m_saveLeft = value;
         };
 
-        self.setCancelTop = function(rhs) {
-          m_cancelTop = rhs;
+        self.setCancelTop = function(value) {
+          m_cancelTop = value;
         };
 
-        self.setCancelLeft = function(rhs) {
-          m_cancelLeft = rhs;
+        self.setCancelLeft = function(value) {
+          m_cancelLeft = value;
         };
 
         self.setSendRefresh = function(sendRefresh) {
@@ -778,42 +778,42 @@
 
         // hide tab buttons is used in wizards
         //
-        self.setHideTabButtons = function(rhs) {
-          m_hideTabButtons = rhs;
+        self.setHideTabButtons = function(value) {
+          m_hideTabButtons = value;
         };
 
         // min size height of dialog's view
         //
-        self.setMinHeight = function(rhs) {
-          m_minHeight = rhs;
+        self.setMinHeight = function(value) {
+          m_minHeight = value;
         };
 
-        self.setMinWidth = function(rhs) {
-          m_minWidth = rhs;
+        self.setMinWidth = function(value) {
+          m_minWidth = value;
         };
 
-        self.setOkCancelDialog = function(rhs) {
-          m_showOkCancel = rhs;
+        self.setOkCancelDialog = function(value) {
+          m_showOkCancel = value;
         };
 
         self.getOkCancelDialogResult = function() {
           return m_okCancelResult;
         };
 
-        self.setTabs = function(rhs) {
-          m_tabs = rhs;
+        self.setTabs = function(value) {
+          m_tabs = value;
         };
 
-        self.setNewPropertyKeyFocus = function(rhs) {
-          m_newPropertyKeyFocus = rhs;
+        self.setNewPropertyKeyFocus = function(value) {
+          m_newPropertyKeyFocus = value;
         };
 
         self.getNewPropertyKeyFocus = function() {
           return m_newPropertyKeyFocus;
         };
 
-        self.setUseSelectIntValue = function(rhs) {
-          m_useSelectIntValue = rhs;
+        self.setUseSelectIntValue = function(value) {
+          m_useSelectIntValue = value;
         };
 
         self.setRowSelected = function(property, rowIndex) {
@@ -831,8 +831,8 @@
           return m_gridManager;
         };
 
-        self.setTabTopHeight = function(rhs) {
-          m_tabTopHeight = rhs;
+        self.setTabTopHeight = function(value) {
+          m_tabTopHeight = value;
         };
 
         var getChanged = function() {
@@ -851,16 +851,16 @@
           }
         };
 
-        self.setChanged = function(rhs) {
+        self.setChanged = function(value) {
           // in documents the view define if it was changed
           //
           if(m_isDocument) {
             if(getView()) {
-              getView().changed = rhs;
+              getView().changed = value;
             }
           }
           else {
-            m_changed = rhs;
+            m_changed = value;
           }
         };
 
@@ -871,20 +871,20 @@
         // component to get how many serial numbers it needs
         // before allow the edition of the serial number
         //
-        self.setCreateRowInBeforeEdit = function(rhs) {
-          m_createRowInBeforeEdit = rhs;
+        self.setCreateRowInBeforeEdit = function(value) {
+          m_createRowInBeforeEdit = value;
         };
 
-        self.setNoChangeColsInRefresh = function(rhs) {
-          m_noChangeColsInRefresh = rhs;
+        self.setNoChangeColsInRefresh = function(value) {
+          m_noChangeColsInRefresh = value;
         };
 
         self.getAutoPrint = function() {
           return m_autoPrint;
         };
 
-        self.setAutoPrint = function(rhs) {
-          m_autoPrint = rhs;
+        self.setAutoPrint = function(value) {
+          m_autoPrint = value;
         };
 
         self.setBackColorTagMain = function(color) {
@@ -2471,40 +2471,41 @@
           return success;
         };
 
-        self.setHideTitle = function(rhs) {
-          m_hideTitle = rhs;
+        self.setHideTitle = function(value) {
+          m_hideTitle = value;
         };
 
-        self.setInModalWindow = function(rhs) {
-          m_inModalWindow = rhs;
+        self.setInModalWindow = function(value) {
+          value = value !== undefined ? value : false;
+          m_inModalWindow = value;
         };
 
         self.getInModalWindow = function() {
           return m_inModalWindow;
         };
 
-        self.setIsDocument = function(rhs) {
-          m_isDocument = rhs;
+        self.setIsDocument = function(value) {
+          m_isDocument = value;
         };
 
-        self.setIsFooter = function(rhs) {
-          m_isFooter = rhs;
+        self.setIsFooter = function(value) {
+          m_isFooter = value;
         };
 
-        self.setIsItems = function(rhs) {
-          m_isItems = rhs;
+        self.setIsItems = function(value) {
+          m_isItems = value;
         };
 
-        self.setLeft = function(rhs) {
-          getView().setLeft(rhs);
+        self.setLeft = function(value) {
+          getView().setLeft(value);
         };
 
         self.getLeft = function() {
           return getView().getLeft();
         };
 
-        self.setView = function(rhs) {
-          m_documentView = rhs;
+        self.setView = function(value) {
+          m_documentView = value;
           initCtrlPosition();
           initVectorsPosition();
         };
@@ -2558,12 +2559,12 @@
           return m_tabs;
         };
 
-        self.setTitle = function(rhs) {
-          m_title = rhs;
+        self.setTitle = function(value) {
+          m_title = value;
         };
 
-        self.setTop = function(rhs) {
-          getView().setTop(rhs);
+        self.setTop = function(value) {
+          getView().setTop(value);
         };
 
         self.getTop = function() {

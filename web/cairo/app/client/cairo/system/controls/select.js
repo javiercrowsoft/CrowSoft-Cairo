@@ -414,7 +414,6 @@
           }
           selectController.control.val(value);
 
-
           updateData({ data: data }, true);
         };
 
@@ -462,9 +461,72 @@
         );
       };
 
+      var validate = function(tableId, nameOrCode, id, active, internalFilter) {
+        active = active !== undefined ? active : true;
+        internalFilter = internalFilter !== undefined ? internalFilter : "";
+        var validateSource = getValidateSource(tableId, active, internalFilter);
+        var url = validateSource.replace(
+          "{{text}}",
+          encodeURIComponent(nameOrCode)
+        ).replace(
+          "{{textId}}",
+          encodeURIComponent(id)
+        );
+        Cairo.log("validating: " + url);
+
+        var defer = new Cairo.Promises.Defer();
+
+        $.ajax({
+          url: url
+          ,cache: false
+          ,success: function(data) {
+            if(data.rows.length > 0) {
+              defer.resolve(
+                {
+                  success: true,
+                  info: {
+                    name: data.rows[0].values[0],
+                    code: data.rows[0].values[1],
+                    id: data.rows[0].id
+                  }
+                }
+              );
+            }
+            else {
+              defer.resolve(
+                {
+                  success: true,
+                  info: {
+                    name: "",
+                    code: "",
+                    id: 0
+                  }
+                }
+              );
+            }
+          }
+          ,error: function(request, status, error) {
+            Cairo.log("Failed to validate a select.");
+            Cairo.log(request.responseText);
+            Cairo.manageError(
+              "Select Validate",
+              "Can't validate this input. An error has occurred in the server.",
+              request.responseText);
+            defer.resolve(
+              {
+                success: false
+              }
+            );
+          }
+        });
+
+        return defer.promise;
+      };
+
       return {
         createSelectControl: createSelectControl,
-        createSearchControl: createSearchControl
+        createSearchControl: createSearchControl,
+        validate: validate
       };
 
     };

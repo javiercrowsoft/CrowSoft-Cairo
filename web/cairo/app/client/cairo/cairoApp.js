@@ -342,7 +342,8 @@ var Cairo = new Marionette.Application();
     DESCRIPTION_LABEL: "Description",
     MUST_SET_A_NAME: "You must provide a name",
     MUST_SET_A_CODE: "You must provide a code",
-    GENERAL: "General"
+    GENERAL: "General",
+    TAB_GENERAL: "General"
   };
 
   Cairo.Constants.Types = {

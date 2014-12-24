@@ -481,7 +481,7 @@
         w_tabs.clear();
 
         var tab = w_tabs.add(null);
-        tab.setName(Cairo.Constants.c_strGeneral);
+        tab.setName(Cairo.Constants.TAB_GENERAL);
 
         var tab = w_tabs.add(null);
         tab.setIndex(1);
