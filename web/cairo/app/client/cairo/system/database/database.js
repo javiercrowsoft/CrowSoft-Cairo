@@ -151,6 +151,10 @@
       return fields.get(fieldName);
     },
 
+    getValue: function(object, attribute) {
+      return object[attribute];
+    },
+
     Register: function() {
       var _fieldId, _table, _id;
       var __fields = [];

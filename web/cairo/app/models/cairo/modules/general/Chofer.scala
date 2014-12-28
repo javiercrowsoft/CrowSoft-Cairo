@@ -24,7 +24,7 @@ case class Chofer(
               camName: String,
               direccion: String,
               dni: Int,
-              fechadenacimiento: Date,
+              fechadeNacimiento: Date,
               telefono: String,
               descrip: String,
               createdAt: Date,
@@ -40,7 +40,7 @@ case class Chofer(
       camId: Int,
       direccion: String,
       dni: Int,
-      fechadenacimiento: Date,
+      fechadeNacimiento: Date,
       telefono: String,
       descrip: String) = {
 
@@ -55,7 +55,7 @@ case class Chofer(
       "",
       direccion,
       dni,
-      fechadenacimiento,
+      fechadeNacimiento,
       telefono,
       descrip,
       DateUtil.currentTime,
@@ -71,7 +71,7 @@ case class Chofer(
       camId: Int,
       direccion: String,
       dni: Int,
-      fechadenacimiento: Date,
+      fechadeNacimiento: Date,
       telefono: String,
       descrip: String) = {
 
@@ -84,7 +84,7 @@ case class Chofer(
       camId,
       direccion,
       dni,
-      fechadenacimiento,
+      fechadeNacimiento,
       telefono,
       descrip)
 
@@ -115,7 +115,7 @@ object Chofer {
       camId: Int,
       direccion: String,
       dni: Int,
-      fechadenacimiento: Date,
+      fechadeNacimiento: Date,
       telefono: String,
       descrip: String) = {
 
@@ -128,7 +128,7 @@ object Chofer {
       camId,
       direccion,
       dni,
-      fechadenacimiento,
+      fechadeNacimiento,
       telefono,
       descrip)
   }
@@ -141,7 +141,7 @@ object Chofer {
       camId: Int,
       direccion: String,
       dni: Int,
-      fechadenacimiento: Date,
+      fechadeNacimiento: Date,
       telefono: String,
       descrip: String) = {
 
@@ -153,7 +153,7 @@ object Chofer {
       camId,
       direccion,
       dni,
-      fechadenacimiento,
+      fechadeNacimiento,
       telefono,
       descrip)
   }
@@ -169,7 +169,7 @@ object Chofer {
       SqlParser.get[String](C.CAM_NAME) ~
       SqlParser.get[String](C.CHOF_DIRECCION) ~
       SqlParser.get[Int](C.CHOF_DNI) ~
-      SqlParser.get[Date](C.CHOF_FECHADENACIMIENTO) ~
+      SqlParser.get[Date](C.CHOF_FECHA_NACIMIENTO) ~
       SqlParser.get[String](C.CHOF_TELEFONO) ~
       SqlParser.get[String](C.CHOF_DESCRIP) ~
       SqlParser.get[Date](DBHelper.CREATED_AT) ~
@@ -186,7 +186,7 @@ object Chofer {
               camName ~
               direccion ~
               dni ~
-              fechadenacimiento ~
+              fechadeNacimiento ~
               telefono ~
               descrip  ~
               createdAt ~
@@ -203,7 +203,7 @@ object Chofer {
               camName,
               direccion,
               dni,
-              fechadenacimiento,
+              fechadeNacimiento,
               telefono,
               descrip,
               createdAt,
@@ -230,7 +230,7 @@ object Chofer {
         Field(C.CAM_ID, chofer.camId, FieldType.id),
         Field(C.CHOF_DIRECCION, chofer.direccion, FieldType.text),
         Field(C.CHOF_DNI, chofer.dni, FieldType.number),
-        Field(C.CHOF_FECHADENACIMIENTO, chofer.fechadenacimiento, FieldType.number),
+        Field(C.CHOF_FECHA_NACIMIENTO, chofer.fechadeNacimiento, FieldType.number),
         Field(C.CHOF_TELEFONO, chofer.telefono, FieldType.text),
         Field(C.CHOF_DESCRIP, chofer.descrip, FieldType.text)
       )

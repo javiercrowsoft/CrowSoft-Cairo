@@ -258,6 +258,9 @@ POST    /api/v1/general/zona                  controllers.logged.modules.general
 PUT     /api/v1/general/zona/:id              controllers.logged.modules.general.Zonas.update(id: Int)
 DELETE  /api/v1/general/zona/:id              controllers.logged.modules.general.Zonas.delete(id: Int)
 
+GET     /api/v1/general/usuarioconfig/:id              controllers.logged.modules.general.UserSettings.get(id: Int)
+PUT     /api/v1/general/usuarioconfig/:id              controllers.logged.modules.general.UserSettings.update(id: Int)
+
 # end Cairo
 #--------------------------------------------------------------------------------------------------
 

@@ -572,7 +572,7 @@
       CHOF_DESCRIP: "chof_descrip",
       CHOF_TIPODNI: "chof_tipodni",
       CHOF_DNI: "chof_dni",
-      CHOF_FECHADENACIMIENTO: "chof_fechadenacimiento",
+      CHOF_FECHA_NACIMIENTO: "chof_fechadenacimiento",
       CHOF_DIRECCION: "chof_direccion",
       CHOF_TELEFONO: "chof_telefono",
 
@@ -978,7 +978,7 @@
       PR_ID_STOCK: "pr_id_stock",
 
       // Usuario DepositoLogico
-      USUARIODEPOSITOLOGICO: "UsuarioDepositoLogico",
+      USUARIODEPOSITO_LOGICO: "UsuarioDepositoLogico",
       US_DEPL_ID: "usdepl_id",
 
       // Expo Grupo Precio
@@ -1046,7 +1046,7 @@
       RET_PRO_ID: "retpro_id",
 
       // ProductoDepositoFisico
-      PRODUCTODEPOSITOFISICO: "ProductoDepositoFisico",
+      PRODUCTO_DEPOSITO_FISICO: "ProductoDepositoFisico",
       PRDEPF_ID: "prdepf_id",
       PRDEPF_X: "prdepf_x",
       PRDEPF_Y: "prdepf_y",
@@ -1056,7 +1056,7 @@
       PRDEPF_REPOSICION: "prdepf_reposicion",
 
       // ProductoDepositoLogico
-      PRODUCTODEPOSITOLOGICO: "ProductoDepositoLogico",
+      PRODUCTO_DEPOSITO_LOGICO: "ProductoDepositoLogico",
       PRDEPL_ID: "prdepl_id",
       PRDEPL_X: "prdepl_x",
       PRDEPL_Y: "prdepl_y",
@@ -1285,10 +1285,10 @@
 
   Cairo.Security.Actions.General = {
 
-    NEW_DEPOSITOLOGICO: 1016,
-    EDIT_DEPOSITOLOGICO: 1017,
-    DELETE_DEPOSITOLOGICO: 1018,
-    LIST_DEPOSITOLOGICO: 1019,
+    NEW_DEPOSITO_LOGICO: 1016,
+    EDIT_DEPOSITO_LOGICO: 1017,
+    DELETE_DEPOSITO_LOGICO: 1018,
+    LIST_DEPOSITO_LOGICO: 1019,
 
     NEW_UNIDAD: 1020,
     EDIT_UNIDAD: 1021,
@@ -1400,10 +1400,10 @@
     DELETE_TASA_IMPOSITIVA: 1122,
     LIST_TASA_IMPOSITIVA: 1123,
 
-    NEW_DEPOSITOFISICO: 1124,
-    EDIT_DEPOSITOFISICO: 1125,
-    DELETE_DEPOSITOFISICO: 1126,
-    LIST_DEPOSITOFISICO: 1127,
+    NEW_DEPOSITO_FISICO: 1124,
+    EDIT_DEPOSITO_FISICO: 1125,
+    DELETE_DEPOSITO_FISICO: 1126,
+    LIST_DEPOSITO_FISICO: 1127,
 
     NEW_CALIDAD: 1132,
     EDIT_CALIDAD: 1133,

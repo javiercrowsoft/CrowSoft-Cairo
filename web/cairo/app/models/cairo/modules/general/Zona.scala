@@ -13,6 +13,11 @@ import play.api.Logger
 import play.api.libs.json._
 import scala.util.control.NonFatal
 
+/*
+* TODO: test null in pr_id
+* https://www.playframework.com/documentation/2.0/ScalaAnorm
+* */
+
 case class Zona(
               id: Int,
               name: String,

@@ -22,7 +22,7 @@ case class ChoferData(
                        camId: Int,
                        direccion: String,
                        dni: Int,
-                       fechadenacimiento: Date,
+                       fechadeNacimiento: Date,
                        telefono: String,
                        descrip: String
                        )
@@ -39,7 +39,7 @@ object Choferes extends Controller with ProvidesUser {
       C.CAM_ID -> number,
       C.CHOF_DIRECCION -> text,
       C.CHOF_DNI -> number,
-      C.CHOF_FECHADENACIMIENTO -> date,
+      C.CHOF_FECHA_NACIMIENTO -> date,
       C.CHOF_TELEFONO -> text,
       C.CHOF_DESCRIP -> text
     )(ChoferData.apply)(ChoferData.unapply))
@@ -57,7 +57,7 @@ object Choferes extends Controller with ProvidesUser {
       C.CAM_NAME -> Json.toJson(chofer.camName),
       C.CHOF_DIRECCION -> Json.toJson(chofer.direccion),
       C.CHOF_DNI -> Json.toJson(chofer.dni),
-      C.CHOF_FECHADENACIMIENTO -> Json.toJson(chofer.fechadenacimiento),
+      C.CHOF_FECHA_NACIMIENTO -> Json.toJson(chofer.fechadeNacimiento),
       C.CHOF_TELEFONO -> Json.toJson(chofer.telefono),
       C.CHOF_DESCRIP -> Json.toJson(chofer.descrip)
     )
@@ -91,7 +91,7 @@ object Choferes extends Controller with ProvidesUser {
                   chofer.camId,
                   chofer.direccion,
                   chofer.dni,
-                  chofer.fechadenacimiento,
+                  chofer.fechadeNacimiento,
                   chofer.telefono,
                   chofer.descrip
                 ))))
@@ -121,7 +121,7 @@ object Choferes extends Controller with ProvidesUser {
                   chofer.camId,
                   chofer.direccion,
                   chofer.dni,
-                  chofer.fechadenacimiento,
+                  chofer.fechadeNacimiento,
                   chofer.telefono,
                   chofer.descrip
                 ))))

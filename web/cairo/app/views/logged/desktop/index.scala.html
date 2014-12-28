@@ -544,6 +544,8 @@
     return @if(requestOrigin.userAgent.isMobile) {true} else {false};
   };
 
+  Cairo.User.setId(@{companyUser.userId});
+
 </script>
 <script src="./client/cairo/session.js"></script>
 <script src="./client/cairo/config/storage/localstorage.js"></script>

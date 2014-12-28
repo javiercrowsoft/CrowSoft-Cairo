@@ -15,8 +15,8 @@ object C {
   val UN_NAME = "un_nombre"
   val UN_CODE = "un_codigo"
 
-  //DepositoFisico
-  val DEPOSITOFISICO = "DepositoFisico"
+  // DepositoFisico
+  val DEPOSITO_FISICO = "DepositoFisico"
   val DEPF_ID = "depf_id"
   val DEPF_NAME = "depf_nombre"
   val DEPF_CODE = "depf_codigo"
@@ -25,7 +25,7 @@ object C {
   val DEPF_DIR = "depf_dir"
 
   // DepositoLogico
-  val DEPOSITOLOGICO = "DepositoLogico"
+  val DEPOSITO_LOGICO = "DepositoLogico"
   val DEPL_ID = "depl_id"
   val DEPL_NAME = "depl_nombre"
   val DEPL_CODE = "depl_codigo"
@@ -145,7 +145,7 @@ object C {
   val PROV_RET_DESDE = "provret_desde"
   val PROV_RET_HASTA = "provret_hasta"
 
-  //CuentaCategoria
+  // CuentaCategoria
   val CUENTACATEGORIA = "CuentaCategoria"
   val CUEC_ID = "cuec_id"
   val CUEC_NAME = "cuec_nombre"
@@ -172,7 +172,7 @@ object C {
   val CCOS_ID_PADRE = "ccos_id_padre"
   val CCOS_PADRE_NAME = "padre_nombre"
 
-  //Cobrador
+  // Cobrador
   val COBRADOR = "Cobrador"
   val COB_ID = "cob_id"
   val COB_NAME = "cob_nombre"
@@ -180,14 +180,14 @@ object C {
   val COB_DESCRIP = "cob_descrip"
   val COB_COMISION = "cob_comision"
 
-  //ReglaLiquidacion
+  // ReglaLiquidacion
   val REGLALIQUIDACION = "ReglaLiquidacion"
   val REL_ID = "rel_id"
   val REL_NAME = "rel_nombre"
   val REL_CODE = "rel_codigo"
   val REL_DESCRIP = "rel_descrip"
 
-  //Clearing
+  // Clearing
   val CLEARING = "Clearing"
   val CLE_ID = "cle_id"
   val CLE_NAME = "cle_nombre"
@@ -195,7 +195,7 @@ object C {
   val CLE_DESCRIP = "cle_descrip"
   val CLE_DIAS = "cle_dias"
 
-  //Cliente
+  // Cliente
   val CLIENTE = "Cliente"
   val CLI_ID = "cli_id"
   val CLI_NAME = "cli_nombre"
@@ -234,7 +234,7 @@ object C {
   val CLI_HORARIO_TDESDE = "cli_horario_t_desde"
   val CLI_HORARIO_THASTA = "cli_horario_t_hasta"
 
-  //Proveedor
+  // Proveedor
   val PROVEEDOR = "Proveedor"
   val PROV_ID = "prov_id"
   val PROV_NAME = "prov_nombre"
@@ -271,14 +271,14 @@ object C {
   val PROV_HORARIO_TDESDE = "prov_horario_t_desde"
   val PROV_HORARIO_THASTA = "prov_horario_t_hasta"
 
-  //Ingresos brutos categoria
+  // Ingresos brutos categoria
   val INGRESOSBRUTOSCATEGORIA = "IngresosBrutosCategoria"
   val IBC_ID = "ibc_id"
   val IBC_NAME = "ibc_nombre"
   val IBC_CODE = "ibc_codigo"
   val IBC_DESCRIP = "ibc_descrip"
 
-  //Rubro
+  // Rubro
   val RUBRO = "Rubro"
   val RUB_ID = "rub_id"
   val RUB_NAME = "rub_nombre"
@@ -335,7 +335,7 @@ object C {
   val LP_ID = "lp_id"
   val LP_NAME = "lp_nombre"
 
-  //Lista de Precios Items
+  // Lista de Precios Items
   val LISTAPRECIOITEM = "ListaPrecioItem"
   val LPI_ID = "lpi_id"
   val LPI_PRECIO = "lpi_precio"
@@ -450,7 +450,7 @@ object C {
   val DEPARTAMENTOCLIENTE = "DepartamentoCliente"
   val DPTO_CLI_ID = "dptocli_id"
 
-  //Camion
+  // Camion
   val CAMION = "Camion"
   val CAM_ID = "cam_id"
   val CAM_CODE = "cam_codigo"
@@ -469,11 +469,11 @@ object C {
   val CHOF_DESCRIP = "chof_descrip"
   val CHOF_TIPODNI = "chof_tipodni"
   val CHOF_DNI = "chof_dni"
-  val CHOF_FECHADENACIMIENTO = "chof_fechadenacimiento"
+  val CHOF_FECHA_NACIMIENTO = "chof_fechadenacimiento"
   val CHOF_DIRECCION = "chof_direccion"
   val CHOF_TELEFONO = "chof_telefono"
 
-  //Ciudad
+  // Ciudad
   val CIUDAD = "Ciudad"
   val CIU_ID = "ciu_id"
   val CIU_NAME = "ciu_nombre"
@@ -538,7 +538,7 @@ object C {
   val CONT_CARGO = "cont_cargo"
   val CONT_DIRECCION = "cont_direccion"
 
-  //Tabla de Rubros
+  // Tabla de Rubros
   val RUBROTABLA = "RubroTabla"
   val RUBTID = "rubt_id"
   val RUBT_NAME = "rubt_nombre"
@@ -636,7 +636,7 @@ object C {
   val MON_ID = "mon_id"
   val MON_NAME = "mon_nombre"
 
-  //Producto
+  // Producto
   val PRODUCTO = "Producto"
   val PR_ID = "pr_id"
   val PR_NOMBRE_COMPRA = "pr_Nombrecompra"
@@ -878,7 +878,7 @@ object C {
   val PR_ID_STOCK = "pr_id_stock"
 
   // Usuario DepositoLogico
-  val USUARIODEPOSITOLOGICO = "UsuarioDepositoLogico"
+  val USUARIODEPOSITO_LOGICO = "UsuarioDepositoLogico"
   val US_DEPL_ID = "usdepl_id"
 
   // Expo Grupo Precio
@@ -946,7 +946,7 @@ object C {
   val RET_PRO_ID = "retpro_id"
 
   // ProductoDepositoFisico
-  val PRODUCTODEPOSITOFISICO = "ProductoDepositoFisico"
+  val PRODUCTO_DEPOSITO_FISICO = "ProductoDepositoFisico"
   val PRDEPF_ID = "prdepf_id"
   val PRDEPF_X = "prdepf_x"
   val PRDEPF_Y = "prdepf_y"
@@ -956,7 +956,7 @@ object C {
   val PRDEPF_REPOSICION = "prdepf_reposicion"
 
   // ProductoDepositoLogico
-  val PRODUCTODEPOSITOLOGICO = "ProductoDepositoLogico"
+  val PRODUCTO_DEPOSITO_LOGICO = "ProductoDepositoLogico"
   val PRDEPL_ID = "prdepl_id"
   val PRDEPL_X = "prdepl_x"
   val PRDEPL_Y = "prdepl_y"
@@ -1130,13 +1130,35 @@ object C {
   val VM_PV = "vm_pv"
   val VM_CMVXI = "vm_cmvxi"
   val VM_COBZ = "vm_cobz"
+
+  val CONFIGURACION = "Configuracion"
+  val CFG_GRUPO = "cfg_grupo"
+  val CFG_ASPECTO = "cfg_aspecto"
+  val CFG_VALOR = "cfg_valor"
+
+  // Lenguaje
+  val LENGUAJE = "Lenguaje"
+  val LENG_ID = "leng_id"
+  val LENG_NAME = "leng_nombre"
+
+  // Estado
+  val ESTADO = "Estado"
+  val EST_ID = "est_id"
+  val EST_NAME = "est_nombre"
+  val EST_CODE = "est_codigo"
+  val EST_DESCRIP = "est_descrip"
+
+  val BRANCH = "Rama"
+  val BRAN_ID = "ram_id"
+  val BRAN_NAME = "ram_nombre"
+
 }
 
 object S {
-  val NEW_DEPOSITOLOGICO = 1016
-  val EDIT_DEPOSITOLOGICO = 1017
-  val DELETE_DEPOSITOLOGICO = 1018
-  val LIST_DEPOSITOLOGICO = 1019
+  val NEW_DEPOSITO_LOGICO = 1016
+  val EDIT_DEPOSITO_LOGICO = 1017
+  val DELETE_DEPOSITO_LOGICO = 1018
+  val LIST_DEPOSITO_LOGICO = 1019
 
   val NEW_UNIDAD = 1020
   val EDIT_UNIDAD = 1021
@@ -1248,10 +1270,10 @@ object S {
   val DELETE_TASA_IMPOSITIVA = 1122
   val LIST_TASA_IMPOSITIVA = 1123
 
-  val NEW_DEPOSITOFISICO = 1124
-  val EDIT_DEPOSITOFISICO = 1125
-  val DELETE_DEPOSITOFISICO = 1126
-  val LIST_DEPOSITOFISICO = 1127
+  val NEW_DEPOSITO_FISICO = 1124
+  val EDIT_DEPOSITO_FISICO = 1125
+  val DELETE_DEPOSITO_FISICO = 1126
+  val LIST_DEPOSITO_FISICO = 1127
 
   val NEW_CALIDAD = 1132
   val EDIT_CALIDAD = 1133
@@ -1436,4 +1458,6 @@ object S {
   val EDIT_VENTAMODO = 1289
   val DELETE_VENTAMODO = 1290
   val LIST_VENTAMODO = 1291
+
+  val MODIFY_USER_SETTINGS = 1990
 }

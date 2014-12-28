@@ -337,6 +337,7 @@
       var m_listController = null;
 
       var valField = Cairo.Database.valField;
+      var getValue = Cairo.Database.getValue;
       var val = Cairo.Util.val;
       var sq = Cairo.Database.sqlString;
       var ucs = UserConfigSection;
@@ -1800,326 +1801,334 @@
         return Cairo.Database.getData("load[" + apiPath + "general/usuarioconfig]", m_userId).then(
           function (response) {
 
-            m_informarAnticipos = false;
-
-            var keyInfAnticipos = ck(INFORMAR_ANTICIPOS, ucs.sales);
-            var keyNuevoAlGrabar = ck(NUEVO_AL_GRABAR, ucs.sales);
-            var keyPrintInNewFv = ck(PRINT_IN_NEW_FV, ucs.sales);
-            var keyPrintInNewCobzCdo = ck(PRINT_IN_NEW_COBZ_CDO, ucs.sales);
-            var keyNuevoPTDAlGrabar = ck(NUEVO_PTD_AL_GRABAR, ucs.sales);
-            var keyUsePrinterSize = ck(USE_PRINTER_SIZE, ucs.general);
+            if(response.success === true) {
+
+              m_informarAnticipos = false;
 
-            var keyShowDataAddInVentas = ck(SHOW_DATA_ADD_IN_VENTAS, ucs.sales);
-            var keyShowDataAddInCompras = ck(SHOW_DATA_ADD_IN_COMPRAS, ucs.purchases);
-
-            var keyViewNamesInTb = ck(VIEW_NAMES_IN_TOOLBAR, ucs.general);
-            var keyUsarColoresEnDoc = ck(USAR_COLORES_EN_DOC, ucs.general);
-
-            var keyCloseWizard = ck(CLOSE_WIZARD, ucs.sales);
-            var keyNoAskInPrint = ck(NO_ASK_IN_PRINT, ucs.sales);
-
-            var keyDocPc = ck(DOC_PC, ucs.purchases);
-            var keyDocPrec = ck(DOC_PREC, ucs.purchases);
-            var keyDocCot = ck(DOC_COT, ucs.purchases);
-            var keyDocOc = ck(DOC_OC, ucs.purchases);
-            var keyDocRc = ck(DOC_RC, ucs.purchases);
-            var keyDocFc = ck(DOC_FC, ucs.purchases);
-
-            var keyDocPv = ck(DOC_PV, ucs.sales);
-            var keyDocPrev = ck(DOC_PREV, ucs.sales);
-            var keyDocRv = ck(DOC_RV, ucs.sales);
-            var keyDocRvC = ck(DOC_RV_C, ucs.sales);
-            var keyDocFv = ck(DOC_FV, ucs.sales);
-            var keyDocCobz = ck(DOC_COBZ, ucs.sales);
-
-            var keyPklDocFac = ck(PKL_DOC_FACTURA, ucs.sales);
-            var keyPklDocInt = ck(PKL_DOC_INTERNO, ucs.sales);
-
-            var keyDocOs = ck(DOC_OS, ucs.services);
-            var keyDocPrp = ck(DOC_PRP, ucs.services);
-            var keyPtdFecha = ck(PTD_FECHA, ucs.services);
-            var keyPrpEstadoDef = ck(PRP_ESTADO_X_DEF, ucs.services);
-
-            var keyDocMF = ck(DOC_MF, ucs.treasury);
-            var keyDocDBCO = ck(DOC_DBCO, ucs.treasury);
-            var keyDebeHaberMf = ck(DEBE_HABER_MF, ucs.treasury);
-
-            var keyDocLIQ = ck(DOC_LIQ, ucs.preferences);
-
-            var keyDepl = ck(DEPOSITO, ucs.stock);
-            var keyDeplSrv = ck(DEPOSITO_SRV, ucs.stock);
-
-            var keyDesktop = ck(DESKTOP, ucs.general);
-            var keyLenguaje = ck(LENGUAJE, ucs.general);
-            var keyAutoSizeCols = ck(AUTO_SIZE_COLS, ucs.general);
-            var keyMultiSelect = ck(MULTI_SELECT, ucs.general);
-            var keyShowSaveAs = ck(SHOW_SAVE_AS, ucs.general);
-            var keyShowAllInWizard = ck(SHOW_ALL_IN_WIZARD, ucs.general);
-            var keyFolderToExportPDF = ck(FOLDER_TO_EXPORT_PDF, ucs.general);
-
-            var keyCuentaFvo = ck(CUENTA_FVO_X_DEFECTO, ucs.sales);
-            var keyCliente = ck(CLIENTE_X_DEFECTO, ucs.sales);
-
-            var keyEstadoHojaRuta = ck(ESTADO_HOJA_RUTA, ucs.sales);
-            var keyEstadoPickingList = ck(ESTADO_PICKING_LIST, ucs.sales);
-
-            var keyColorEmpresa = ck(COLOR_EN_EMPRESA, ucs.general);
-
-            m_showBarcodeInputCtrls = false;
-
-            m_docIdPv = Cairo.Constants.NO_ID;
-            m_docPvNombre = "";
-
-            for (var _i = 0; _i < response.data.length; _i += 1) {
-              switch (valField(response.data[_i], CONFIG_KEY)) {
-                case keyInfAnticipos:
-                  m_informarAnticipos = val(valField(response.data[_i], CONFIG_VALUE));
-                  break;
-
-                case keyNuevoAlGrabar:
-                  m_nuevoAlGrabar = val(valField(response.data[_i], CONFIG_VALUE));
-                  break;
-
-                case keyNuevoPTDAlGrabar:
-                  m_nuevoPtdAlGrabar = val(valField(response.data[_i], CONFIG_VALUE));
-                  break;
-
-                case keyPrintInNewFv:
-                  m_printInNewFV = val(valField(response.data[_i], CONFIG_VALUE));
-                  break;
-
-                case keyPrintInNewCobzCdo:
-                  m_printInNewCobzCdo = val(valField(response.data[_i], CONFIG_VALUE));
-                  break;
-
-                case keyUsePrinterSize:
-                  m_usePrinterSize = val(valField(response.data[_i], CONFIG_VALUE));
-                  break;
-
-                case keyShowDataAddInVentas:
-                  m_showDataAddInVentas = val(valField(response.data[_i], CONFIG_VALUE));
-                  break;
-
-                case keyShowDataAddInCompras:
-                  m_showDataAddInCompras = val(valField(response.data[_i], CONFIG_VALUE));
-                  break;
-
-                case keyViewNamesInTb:
-                  m_viewNamesInToolbar = val(valField(response.data[_i], CONFIG_VALUE));
-                  break;
-
-                case keyUsarColoresEnDoc:
-                  m_usarColoresEnDocumentos = val(valField(response.data[_i], CONFIG_VALUE));
-                  break;
-
-                case keyCloseWizard:
-                  m_closeWizard = val(valField(response.data[_i], CONFIG_VALUE));
-                  break;
-
-                case keyNoAskInPrint:
-                  m_noAskInPrint = val(valField(response.data[_i], CONFIG_VALUE));
-                  break;
-
-                case keyDocPc:
-                  var doc = valField(response.data[_i], CONFIG_VALUE);
-                  m_docIdPc = doc.id;
-                  m_docPcNombre = doc.name;
-                  break;
-
-                case keyDocPrev:
-                  var doc = valField(response.data[_i], CONFIG_VALUE);
-                  m_docIdPrev = doc.id;
-                  m_docPrevNombre = doc.name;
-                  break;
-
-                case keyDocCot:
-                  var doc = valField(response.data[_i], CONFIG_VALUE);
-                  m_docIdCot = doc.id;
-                  m_docCotNombre = doc.name;
-                  break;
-
-                case keyDocOc:
-                  var doc = valField(response.data[_i], CONFIG_VALUE);
-                  m_docIdOc = doc.id;
-                  m_docOcNombre = doc.name;
-                  break;
-
-                case keyDocRc:
-                  var doc = valField(response.data[_i], CONFIG_VALUE);
-                  m_docIdRc = doc.id;
-                  m_docRcNombre = doc.name;
-                  break;
-
-                case keyDocFc:
-                  var doc = valField(response.data[_i], CONFIG_VALUE);
-                  m_docIdFc = doc.id;
-                  m_docIdFc = doc.name;
-                  break;
-
-                case keyDocPv:
-                  var doc = valField(response.data[_i], CONFIG_VALUE);
-                  m_docIdPv = doc.id;
-                  m_docPvNombre = doc.name;
-                  break;
-
-                case keyDocPrev:
-                  var doc = valField(response.data[_i], CONFIG_VALUE);
-                  m_docIdPrev = doc.id;
-                  m_docPrevNombre = doc.name;
-                  break;
-
-                case keyDocRv:
-                  var doc = valField(response.data[_i], CONFIG_VALUE);
-                  m_docIdRv = doc.id;
-                  m_docRvNombre = doc.name;
-                  break;
-
-                case keyDocRvC:
-                  var doc = valField(response.data[_i], CONFIG_VALUE);
-                  m_docIdRvC = doc.id;
-                  m_docRvNombreC = doc.name;
-                  break;
-
-                case keyDocFv:
-                  var doc = valField(response.data[_i], CONFIG_VALUE);
-                  m_docIdFv = doc.id;
-                  m_docFvNombre = doc.name;
-                  break;
-
-                case keyPklDocFac:
-                  var doc = valField(response.data[_i], CONFIG_VALUE);
-                  m_pklDocIdFactura = doc.id;
-                  m_pklDocFactura = doc.name;
-                  break;
-
-                case keyPklDocInt:
-                  var doc = valField(response.data[_i], CONFIG_VALUE);
-                  m_pklDocIdInterno = doc.id;
-                  m_pklDocInterno = doc.name;
-                  break;
-
-                case keyDocCobz:
-                  var doc = valField(response.data[_i], CONFIG_VALUE);
-                  m_docIdCobz = doc.id;
-                  m_docCobzNombre = doc.name;
-                  break;
-
-                case SHOW_BARCODE_INPUT_CTRLS:
-                  m_showBarcodeInputCtrls = val(valField(response.data[_i], CONFIG_VALUE));
-                  break;
-
-                case keyDocOs:
-                  var doc = valField(response.data[_i], CONFIG_VALUE);
-                  m_docIdOs = doc.id;
-                  m_docOSNombre = doc.name;
-                  break;
-
-                case keyDocPrp:
-                  var doc = valField(response.data[_i], CONFIG_VALUE);
-                  m_docIdPrp = doc.id;
-                  m_docPRPNombre = doc.name;
-                  break;
-
-                case keyPtdFecha:
-                  m_ptdFecha = val(valField(response.data[_i], CONFIG_VALUE));
-                  break;
-
-                case keyPrpEstadoDef:
-                  m_PrpEstadoDef = val(valField(response.data[_i], CONFIG_VALUE));
-                  break;
-
-                case keyDocMF:
-                  var doc = valField(response.data[_i], CONFIG_VALUE);
-                  m_docIdMf = doc.id;
-                  m_docMfNombre = doc.name;
-                  break;
-
-                case keyDocDBCO:
-                  var doc = valField(response.data[_i], CONFIG_VALUE);
-                  m_docIdDbco = doc.id;
-                  m_docDbcoNombre = doc.name;
-                  break;
-
-                case keyDebeHaberMf:
-                  m_debeHaberMf = val(valField(response.data[_i], CONFIG_VALUE));
-                  break;
-
-                case keyDocLIQ:
-                  var doc = valField(response.data[_i], CONFIG_VALUE);
-                  m_docIdLiq = doc.id;
-                  m_docLiqNombre = doc.name;
-                  break;
-
-                case keyDepl:
-                  var value = valField(response.data[_i], CONFIG_VALUE);
-                  m_deplId = value.id;
-                  m_deplNombre = value.name;
-                  break;
-
-                case keyDeplSrv:
-                  var value = valField(response.data[_i], CONFIG_VALUE);
-                  m_deplIdSrv = value.id;
-                  m_deplNombreSrv = value.name;
-                  break;
-
-                case keyDesktop:
-                  m_desktop = valField(response.data[_i], CONFIG_VALUE);
-                  break;
-
-                case keyFolderToExportPDF:
-                  m_folderToExportPDF = valField(response.data[_i], CONFIG_VALUE);
-                  break;
-
-                case keyLenguaje:
-                  var language = valField(response.data[_i], CONFIG_VALUE);
-                  m_lengId = language.id;
-                  m_lengName = language.name;
-                  break;
-
-                case keyAutoSizeCols:
-                  m_autoSizeCols = val(valField(response.data[_i], CONFIG_VALUE));
-                  break;
-
-                case keyMultiSelect:
-                  m_multiSelect = val(valField(response.data[_i], CONFIG_VALUE));
-                  break;
-
-                case keyShowSaveAs:
-                  m_showSaveAs = val(valField(response.data[_i], CONFIG_VALUE));
-                  break;
-
-                case keyShowAllInWizard:
-                  m_showAllInWizard = val(valField(response.data[_i], CONFIG_VALUE));
-                  break;
-
-                case keyCliente:
-                  var customer = valField(response.data[_i], CONFIG_VALUE);
-                  m_cliIdXDefecto = customer.id;
-                  m_clienteXDefecto = customer.name;
-                  break;
-
-                case keyCuentaFvo:
-                  var account = valField(response.data[_i], CONFIG_VALUE);
-                  m_cueIdFvoXDefecto = account.id;
-                  m_cuentaFvoXDefecto = account.name;
-                  break;
-
-                case keyEstadoHojaRuta:
-                  var status = valField(response.data[_i], CONFIG_VALUE);
-                  m_estIdHojaRuta = status.id;
-                  m_estadoHojaRuta = status.name;
-                  break;
-
-                case keyEstadoPickingList:
-                  var status = valField(response.data[_i], CONFIG_VALUE);
-                  m_estIdPickinglist = status.id;
-                  m_estadoPickingList = status.name;
-                  break;
-
-                case keyColorEmpresa:
-                  m_colorEnEmpresa = val(valField(response.data[_i], CONFIG_VALUE));
-                  break;
+              var keyInfAnticipos = ck(INFORMAR_ANTICIPOS, ucs.sales);
+              var keyNuevoAlGrabar = ck(NUEVO_AL_GRABAR, ucs.sales);
+              var keyPrintInNewFv = ck(PRINT_IN_NEW_FV, ucs.sales);
+              var keyPrintInNewCobzCdo = ck(PRINT_IN_NEW_COBZ_CDO, ucs.sales);
+              var keyNuevoPTDAlGrabar = ck(NUEVO_PTD_AL_GRABAR, ucs.sales);
+              var keyUsePrinterSize = ck(USE_PRINTER_SIZE, ucs.general);
+
+              var keyShowDataAddInVentas = ck(SHOW_DATA_ADD_IN_VENTAS, ucs.sales);
+              var keyShowDataAddInCompras = ck(SHOW_DATA_ADD_IN_COMPRAS, ucs.purchases);
+
+              var keyViewNamesInTb = ck(VIEW_NAMES_IN_TOOLBAR, ucs.general);
+              var keyUsarColoresEnDoc = ck(USAR_COLORES_EN_DOC, ucs.general);
+
+              var keyCloseWizard = ck(CLOSE_WIZARD, ucs.sales);
+              var keyNoAskInPrint = ck(NO_ASK_IN_PRINT, ucs.sales);
+
+              var keyDocPc = ck(DOC_PC, ucs.purchases);
+              var keyDocCot = ck(DOC_COT, ucs.purchases);
+              var keyDocOc = ck(DOC_OC, ucs.purchases);
+              var keyDocRc = ck(DOC_RC, ucs.purchases);
+              var keyDocFc = ck(DOC_FC, ucs.purchases);
+
+              var keyDocPv = ck(DOC_PV, ucs.sales);
+              var keyDocPrev = ck(DOC_PREV, ucs.sales);
+              var keyDocRv = ck(DOC_RV, ucs.sales);
+              var keyDocRvC = ck(DOC_RV_C, ucs.sales);
+              var keyDocFv = ck(DOC_FV, ucs.sales);
+              var keyDocCobz = ck(DOC_COBZ, ucs.sales);
+
+              var keyPklDocFac = ck(PKL_DOC_FACTURA, ucs.sales);
+              var keyPklDocInt = ck(PKL_DOC_INTERNO, ucs.sales);
+
+              var keyDocOs = ck(DOC_OS, ucs.services);
+              var keyDocPrp = ck(DOC_PRP, ucs.services);
+              var keyPtdFecha = ck(PTD_FECHA, ucs.services);
+              var keyPrpEstadoDef = ck(PRP_ESTADO_X_DEF, ucs.services);
+
+              var keyDocMF = ck(DOC_MF, ucs.treasury);
+              var keyDocDBCO = ck(DOC_DBCO, ucs.treasury);
+              var keyDebeHaberMf = ck(DEBE_HABER_MF, ucs.treasury);
+
+              var keyDocLIQ = ck(DOC_LIQ, ucs.preferences);
+
+              var keyDepl = ck(DEPOSITO, ucs.stock);
+              var keyDeplSrv = ck(DEPOSITO_SRV, ucs.stock);
+
+              var keyDesktop = ck(DESKTOP, ucs.general);
+              var keyLenguaje = ck(LENGUAJE, ucs.general);
+              var keyAutoSizeCols = ck(AUTO_SIZE_COLS, ucs.general);
+              var keyMultiSelect = ck(MULTI_SELECT, ucs.general);
+              var keyShowSaveAs = ck(SHOW_SAVE_AS, ucs.general);
+              var keyShowAllInWizard = ck(SHOW_ALL_IN_WIZARD, ucs.general);
+              var keyFolderToExportPDF = ck(FOLDER_TO_EXPORT_PDF, ucs.general);
+
+              var keyCuentaFvo = ck(CUENTA_FVO_X_DEFECTO, ucs.sales);
+              var keyCliente = ck(CLIENTE_X_DEFECTO, ucs.sales);
+
+              var keyEstadoHojaRuta = ck(ESTADO_HOJA_RUTA, ucs.sales);
+              var keyEstadoPickingList = ck(ESTADO_PICKING_LIST, ucs.sales);
+
+              var keyColorEmpresa = ck(COLOR_EN_EMPRESA, ucs.general);
+
+              m_showBarcodeInputCtrls = false;
+
+              m_docIdPv = Cairo.Constants.NO_ID;
+              m_docPvNombre = "";
+              
+              var settings = response.data.get('settings')
+
+              for (var _i = 0; _i < settings.length; _i += 1) {
+                switch (getValue(settings[_i], CONFIG_KEY)) {
+                  case keyInfAnticipos:
+                    m_informarAnticipos = val(getValue(settings[_i], CONFIG_VALUE));
+                    break;
+
+                  case keyNuevoAlGrabar:
+                    m_nuevoAlGrabar = val(getValue(settings[_i], CONFIG_VALUE));
+                    break;
+
+                  case keyNuevoPTDAlGrabar:
+                    m_nuevoPtdAlGrabar = val(getValue(settings[_i], CONFIG_VALUE));
+                    break;
+
+                  case keyPrintInNewFv:
+                    m_printInNewFV = val(getValue(settings[_i], CONFIG_VALUE));
+                    break;
+
+                  case keyPrintInNewCobzCdo:
+                    m_printInNewCobzCdo = val(getValue(settings[_i], CONFIG_VALUE));
+                    break;
+
+                  case keyUsePrinterSize:
+                    m_usePrinterSize = val(getValue(settings[_i], CONFIG_VALUE));
+                    break;
+
+                  case keyShowDataAddInVentas:
+                    m_showDataAddInVentas = val(getValue(settings[_i], CONFIG_VALUE));
+                    break;
+
+                  case keyShowDataAddInCompras:
+                    m_showDataAddInCompras = val(getValue(settings[_i], CONFIG_VALUE));
+                    break;
+
+                  case keyViewNamesInTb:
+                    m_viewNamesInToolbar = val(getValue(settings[_i], CONFIG_VALUE));
+                    break;
+
+                  case keyUsarColoresEnDoc:
+                    m_usarColoresEnDocumentos = val(getValue(settings[_i], CONFIG_VALUE));
+                    break;
+
+                  case keyCloseWizard:
+                    m_closeWizard = val(getValue(settings[_i], CONFIG_VALUE));
+                    break;
+
+                  case keyNoAskInPrint:
+                    m_noAskInPrint = val(getValue(settings[_i], CONFIG_VALUE));
+                    break;
+
+                  case keyDocPc:
+                    var doc = getValue(settings[_i], CONFIG_VALUE);
+                    m_docIdPc = doc.id;
+                    m_docPcNombre = doc.name;
+                    break;
+
+                  case keyDocPrev:
+                    var doc = getValue(settings[_i], CONFIG_VALUE);
+                    m_docIdPrev = doc.id;
+                    m_docPrevNombre = doc.name;
+                    break;
+
+                  case keyDocCot:
+                    var doc = getValue(settings[_i], CONFIG_VALUE);
+                    m_docIdCot = doc.id;
+                    m_docCotNombre = doc.name;
+                    break;
+
+                  case keyDocOc:
+                    var doc = getValue(settings[_i], CONFIG_VALUE);
+                    m_docIdOc = doc.id;
+                    m_docOcNombre = doc.name;
+                    break;
+
+                  case keyDocRc:
+                    var doc = getValue(settings[_i], CONFIG_VALUE);
+                    m_docIdRc = doc.id;
+                    m_docRcNombre = doc.name;
+                    break;
+
+                  case keyDocFc:
+                    var doc = getValue(settings[_i], CONFIG_VALUE);
+                    m_docIdFc = doc.id;
+                    m_docIdFc = doc.name;
+                    break;
+
+                  case keyDocPv:
+                    var doc = getValue(settings[_i], CONFIG_VALUE);
+                    m_docIdPv = doc.id;
+                    m_docPvNombre = doc.name;
+                    break;
+
+                  case keyDocPrev:
+                    var doc = getValue(settings[_i], CONFIG_VALUE);
+                    m_docIdPrev = doc.id;
+                    m_docPrevNombre = doc.name;
+                    break;
+
+                  case keyDocRv:
+                    var doc = getValue(settings[_i], CONFIG_VALUE);
+                    m_docIdRv = doc.id;
+                    m_docRvNombre = doc.name;
+                    break;
+
+                  case keyDocRvC:
+                    var doc = getValue(settings[_i], CONFIG_VALUE);
+                    m_docIdRvC = doc.id;
+                    m_docRvNombreC = doc.name;
+                    break;
+
+                  case keyDocFv:
+                    var doc = getValue(settings[_i], CONFIG_VALUE);
+                    m_docIdFv = doc.id;
+                    m_docFvNombre = doc.name;
+                    break;
+
+                  case keyPklDocFac:
+                    var doc = getValue(settings[_i], CONFIG_VALUE);
+                    m_pklDocIdFactura = doc.id;
+                    m_pklDocFactura = doc.name;
+                    break;
+
+                  case keyPklDocInt:
+                    var doc = getValue(settings[_i], CONFIG_VALUE);
+                    m_pklDocIdInterno = doc.id;
+                    m_pklDocInterno = doc.name;
+                    break;
+
+                  case keyDocCobz:
+                    var doc = getValue(settings[_i], CONFIG_VALUE);
+                    m_docIdCobz = doc.id;
+                    m_docCobzNombre = doc.name;
+                    break;
+
+                  case SHOW_BARCODE_INPUT_CTRLS:
+                    m_showBarcodeInputCtrls = val(getValue(settings[_i], CONFIG_VALUE));
+                    break;
+
+                  case keyDocOs:
+                    var doc = getValue(settings[_i], CONFIG_VALUE);
+                    m_docIdOs = doc.id;
+                    m_docOSNombre = doc.name;
+                    break;
+
+                  case keyDocPrp:
+                    var doc = getValue(settings[_i], CONFIG_VALUE);
+                    m_docIdPrp = doc.id;
+                    m_docPRPNombre = doc.name;
+                    break;
+
+                  case keyPtdFecha:
+                    m_ptdFecha = val(getValue(settings[_i], CONFIG_VALUE));
+                    break;
+
+                  case keyPrpEstadoDef:
+                    m_PrpEstadoDef = val(getValue(settings[_i], CONFIG_VALUE));
+                    break;
+
+                  case keyDocMF:
+                    var doc = getValue(settings[_i], CONFIG_VALUE);
+                    m_docIdMf = doc.id;
+                    m_docMfNombre = doc.name;
+                    break;
+
+                  case keyDocDBCO:
+                    var doc = getValue(settings[_i], CONFIG_VALUE);
+                    m_docIdDbco = doc.id;
+                    m_docDbcoNombre = doc.name;
+                    break;
+
+                  case keyDebeHaberMf:
+                    m_debeHaberMf = val(getValue(settings[_i], CONFIG_VALUE));
+                    break;
+
+                  case keyDocLIQ:
+                    var doc = getValue(settings[_i], CONFIG_VALUE);
+                    m_docIdLiq = doc.id;
+                    m_docLiqNombre = doc.name;
+                    break;
+
+                  case keyDepl:
+                    var value = getValue(settings[_i], CONFIG_VALUE);
+                    m_deplId = value.id;
+                    m_deplNombre = value.name;
+                    break;
+
+                  case keyDeplSrv:
+                    var value = getValue(settings[_i], CONFIG_VALUE);
+                    m_deplIdSrv = value.id;
+                    m_deplNombreSrv = value.name;
+                    break;
+
+                  case keyDesktop:
+                    m_desktop = getValue(settings[_i], CONFIG_VALUE);
+                    break;
+
+                  case keyFolderToExportPDF:
+                    m_folderToExportPDF = getValue(settings[_i], CONFIG_VALUE);
+                    break;
+
+                  case keyLenguaje:
+                    var language = getValue(settings[_i], CONFIG_VALUE);
+                    m_lengId = language.id;
+                    m_lengName = language.name;
+                    break;
+
+                  case keyAutoSizeCols:
+                    m_autoSizeCols = val(getValue(settings[_i], CONFIG_VALUE));
+                    break;
+
+                  case keyMultiSelect:
+                    m_multiSelect = val(getValue(settings[_i], CONFIG_VALUE));
+                    break;
+
+                  case keyShowSaveAs:
+                    m_showSaveAs = val(getValue(settings[_i], CONFIG_VALUE));
+                    break;
+
+                  case keyShowAllInWizard:
+                    m_showAllInWizard = val(getValue(settings[_i], CONFIG_VALUE));
+                    break;
+
+                  case keyCliente:
+                    var customer = getValue(settings[_i], CONFIG_VALUE);
+                    m_cliIdXDefecto = customer.id;
+                    m_clienteXDefecto = customer.name;
+                    break;
+
+                  case keyCuentaFvo:
+                    var account = getValue(settings[_i], CONFIG_VALUE);
+                    m_cueIdFvoXDefecto = account.id;
+                    m_cuentaFvoXDefecto = account.name;
+                    break;
+
+                  case keyEstadoHojaRuta:
+                    var status = getValue(settings[_i], CONFIG_VALUE);
+                    m_estIdHojaRuta = status.id;
+                    m_estadoHojaRuta = status.name;
+                    break;
+
+                  case keyEstadoPickingList:
+                    var status = getValue(settings[_i], CONFIG_VALUE);
+                    m_estIdPickinglist = status.id;
+                    m_estadoPickingList = status.name;
+                    break;
+
+                  case keyColorEmpresa:
+                    m_colorEnEmpresa = val(getValue(settings[_i], CONFIG_VALUE));
+                    break;
+                }
               }
+              return true;
+            }
+            else {
+              return false;
             }
           }
         );
@@ -2127,7 +2136,11 @@
 
       self.load = load;
 
-      self.edit = function(inModalWindow) {
+      self.setDialog = function(rhs) {
+        m_dialog = rhs;
+      };
+
+      self.edit = function(id, inModalWindow) {
         var p = Cairo.Promises.resolvedPromise(false);
         try {
 
@@ -2135,7 +2148,7 @@
 
           m_dialog.setInModalWindow(inModalWindow);
 
-          p = load().then(
+          p = load(id).then(
             function(success) {
               if(success) {
 
@@ -3064,7 +3077,15 @@
       return self;
     };
 
-    Edit.Controller = { getEditor: createObject };
+    var showEditor = function() {
+      var editor = Cairo.UsuarioConfig.Edit.Controller.getEditor();
+      var dialog = Cairo.Dialogs.Views.Controller.newDialog();
+
+      editor.setDialog(dialog);
+      editor.edit(Cairo.User.getId());
+    };
+
+    Edit.Controller = { getEditor: createObject, edit: showEditor };
 
   });
 
@@ -3161,7 +3182,7 @@
               var dialog = Cairo.Dialogs.Views.Controller.newDialog();
 
               editor.setDialog(dialog);
-              editor.edit();
+              editor.edit(id);
 
               editors.add({editor: editor, dialog: dialog}, key);
             }

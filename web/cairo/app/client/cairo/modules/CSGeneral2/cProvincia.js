@@ -291,6 +291,7 @@
         return m_treeId;
       };
 
+      /* TODO: check this method is used. if not remove it */
       self.list = function() {
         return Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.LIST_PROVINCIA);
       };

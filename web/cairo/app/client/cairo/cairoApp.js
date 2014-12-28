@@ -5,7 +5,7 @@ var Cairo = new Marionette.Application();
 
   var createApplication = function() {
 
-    var self {
+    var self = {
       name: "Cairo"
     };
 

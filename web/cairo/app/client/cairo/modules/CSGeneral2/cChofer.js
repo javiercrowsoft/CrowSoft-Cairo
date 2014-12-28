@@ -205,7 +205,7 @@
               break;
 
             case K_FECHADENACIMIENTO:
-              fields.add(Cairo.General.Constants.CHOF_FECHADENACIMIENTO, property.getValue(), Cairo.Constants.Types.date);
+              fields.add(Cairo.General.Constants.CHOF_FECHA_NACIMIENTO, property.getValue(), Cairo.Constants.Types.date);
               break;
 
             case K_DIRECCION:
@@ -472,7 +472,7 @@
         elem.setKey(K_DNI);
         elem.setValue(m_dni);
 
-        var elem = properties.add(null, Cairo.General.Constants.CHOF_FECHADENACIMIENTO);
+        var elem = properties.add(null, Cairo.General.Constants.CHOF_FECHA_NACIMIENTO);
         elem.setType(Dialogs.PropertyType.date);
         // Fecha de Nacimiento
         elem.setName(Cairo.Language.getText(1064, ""));
@@ -532,7 +532,7 @@
         var elem = properties.item(Cairo.General.Constants.CHOF_DNI);
         elem.setValue(m_dni);
 
-        var elem = properties.item(Cairo.General.Constants.CHOF_FECHADENACIMIENTO);
+        var elem = properties.item(Cairo.General.Constants.CHOF_FECHA_NACIMIENTO);
         elem.setValue(m_fechadenacimiento);
 
         var elem = properties.item(Cairo.General.Constants.CHOF_TELEFONO);
@@ -587,7 +587,7 @@
               m_descrip = Cairo.Database.valField(response.data, Cairo.General.Constants.CHOF_DESCRIP);
               m_tipodni = Cairo.Database.valField(response.data, Cairo.General.Constants.CHOF_TIPODNI);
               m_dni = Cairo.Database.valField(response.data, Cairo.General.Constants.CHOF_DNI);
-              m_fechadenacimiento = Cairo.Database.valField(response.data, Cairo.General.Constants.CHOF_FECHADENACIMIENTO);
+              m_fechadenacimiento = Cairo.Database.valField(response.data, Cairo.General.Constants.CHOF_FECHA_NACIMIENTO);
               m_direccion = Cairo.Database.valField(response.data, Cairo.General.Constants.CHOF_DIRECCION);
               m_telefono = Cairo.Database.valField(response.data, Cairo.General.Constants.CHOF_TELEFONO);
               m_active = Cairo.Database.valField(response.data, Cairo.Constants.ACTIVE);
