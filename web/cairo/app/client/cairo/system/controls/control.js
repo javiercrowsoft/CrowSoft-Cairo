@@ -3,12 +3,19 @@
 
   Cairo.module("Controls", function(Controls, Cairo, Backbone, Marionette, $, _) {
 
+    var nextId = 0;
+
+    var getNextId = function() {
+      nextId += 1;
+      return nextId;
+    };
+
     Controls.createControl = function() {
       var self = {
-        urlRoot: "",
-  
-        defaults: {},
-  
+        _ID_: getNextId(),
+
+        name: "",
+
         tag: "",
   
         fontName: '',
@@ -32,10 +39,42 @@
         element: null
       }
 
+      var applyVisible = function() {
+        if(self.element) {
+          if(self.visible) {
+            self.element.show();
+          }
+          else {
+            self.element.hide();
+          }
+          // TODO: remove after testing
+          // try {console.log(that.getName() + " " + that.getObjectType() + ' visible:' + self.visible.toString());} catch(ignore) {}
+        }
+        // TODO: remove after testing
+        /*
+        else {
+          console.log('element is not present');
+        }
+        */
+      };
+
       var that = {
+
+        _ID_: function() {
+          return self._ID_;
+        },
+
+        getName: function() {
+          return self.name;
+        },
+        setName: function(name) {
+          self.name = name;
+        },
       
         setElement: function(element) {
           self.element = element;
+          $(element).data('_ID_', self._ID_);
+          applyVisible();
         },
         getElement: function() {
           return self.element;
@@ -43,6 +82,10 @@
   
         setVisible: function(visible) {
           self.visible = visible;
+          applyVisible();
+        },
+        getVisible: function() {
+          return self.visible;
         },
   
         getIndex: function() {

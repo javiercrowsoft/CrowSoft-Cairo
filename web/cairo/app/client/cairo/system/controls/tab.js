@@ -245,7 +245,28 @@
 
       var that = Controls.createControl();
 
+      that.htmlTag = "<button/>";
+
+      var superSetElement = that.setElement;
+
+      that.setElement = function(element, view) {
+        superSetElement(element);
+        element.html(self.text);
+        element.addClass("btn btn-default");
+        var onClick = view.onTabClick(that);
+        element.click(function() {
+          onClick();
+        });
+      };
+
       that.setText = function(text) {
+        //
+        // for now we remove the index in the text
+        //
+        var i = text.indexOf("-");
+        if(i >= 0) {
+          text = text.substring(i+1);
+        }
         self.text = text;
       };
       that.getText = function() {
@@ -310,6 +331,10 @@
 
       return that;
 
+    };
+
+    Controls.isTab = function(control) {
+      return control.getObjectType() === "cairo.controls.tab";
     };
 
   });

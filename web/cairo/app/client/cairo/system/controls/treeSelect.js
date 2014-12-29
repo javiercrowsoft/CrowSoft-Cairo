@@ -4,7 +4,9 @@ Cairo.module("TreeSelect", function(TreeSelect, Cairo, Backbone, Marionette, $, 
   var createSelect = function() {
 
     var createSelectControl = function(selector, tableId, active, internalFilter, entity, label) {
+
       var selectCtrl = Cairo.Select.Controller.createSelectControl(selector, tableId, active, internalFilter);
+
       $($(selector).parent()).find("button").click(function () {
         var treeController = { dialogIsVisible: false };
 
@@ -42,6 +44,8 @@ Cairo.module("TreeSelect", function(TreeSelect, Cairo, Backbone, Marionette, $, 
         listTree(tableId, entity, label, treeController);
         return false;
       });
+
+      return selectCtrl;
     };
 
     var listTree = function(tableId, entity, label, treeController) {

@@ -2244,7 +2244,7 @@
 
         var elem = properties.add(null, LENGUAJE);
         elem.setType(Dialogs.PropertyType.select);
-        elem.setTable(Cairo.Tables.LENGUAJE);
+        elem.setSelectTable(Cairo.Tables.LENGUAJE);
         elem.setWidth(4000);
         elem.setName(LENGUAJE);
         elem.setKey(K_LENGUAJE);
@@ -2349,7 +2349,7 @@
 
         var elem = properties.add(null, DOC_PC);
         elem.setType(Dialogs.PropertyType.select);
-        elem.setTable(Cairo.Tables.DOCUMENTO);
+        elem.setSelectTable(Cairo.Tables.DOCUMENTO);
         elem.setLeft(2800);
         elem.setWidth(4000);
         elem.setLeftLabel(-2500);
@@ -2362,7 +2362,7 @@
 
         var elem = properties.add(null, DOC_PREC);
         elem.setType(Dialogs.PropertyType.select);
-        elem.setTable(Cairo.Tables.DOCUMENTO);
+        elem.setSelectTable(Cairo.Tables.DOCUMENTO);
         elem.setLeft(2800);
         elem.setWidth(4000);
         elem.setLeftLabel(-2500);
@@ -2375,7 +2375,7 @@
 
         var elem = properties.add(null, DOC_COT);
         elem.setType(Dialogs.PropertyType.select);
-        elem.setTable(Cairo.Tables.DOCUMENTO);
+        elem.setSelectTable(Cairo.Tables.DOCUMENTO);
         elem.setLeft(2800);
         elem.setWidth(4000);
         elem.setLeftLabel(-2500);
@@ -2388,7 +2388,7 @@
 
         var elem = properties.add(null, DOC_OC);
         elem.setType(Dialogs.PropertyType.select);
-        elem.setTable(Cairo.Tables.DOCUMENTO);
+        elem.setSelectTable(Cairo.Tables.DOCUMENTO);
         elem.setLeft(2800);
         elem.setWidth(4000);
         elem.setLeftLabel(-2500);
@@ -2401,7 +2401,7 @@
 
         var elem = properties.add(null, DOC_RC);
         elem.setType(Dialogs.PropertyType.select);
-        elem.setTable(Cairo.Tables.DOCUMENTO);
+        elem.setSelectTable(Cairo.Tables.DOCUMENTO);
         elem.setLeft(2800);
         elem.setWidth(4000);
         elem.setLeftLabel(-2500);
@@ -2414,7 +2414,7 @@
 
         var elem = properties.add(null, DOC_FC);
         elem.setType(Dialogs.PropertyType.select);
-        elem.setTable(Cairo.Tables.DOCUMENTO);
+        elem.setSelectTable(Cairo.Tables.DOCUMENTO);
         elem.setLeft(2800);
         elem.setWidth(4000);
         elem.setLeftLabel(-2500);
@@ -2478,7 +2478,7 @@
 
         var elem = properties.add(null, DOC_PREV + "v");
         elem.setType(Dialogs.PropertyType.select);
-        elem.setTable(Cairo.Tables.DOCUMENTO);
+        elem.setSelectTable(Cairo.Tables.DOCUMENTO);
         elem.setLeft(2800);
         elem.setWidth(4000);
         elem.setLeftLabel(-2500);
@@ -2492,7 +2492,7 @@
 
         var elem = properties.add(null, DOC_PV + "v");
         elem.setType(Dialogs.PropertyType.select);
-        elem.setTable(Cairo.Tables.DOCUMENTO);
+        elem.setSelectTable(Cairo.Tables.DOCUMENTO);
         elem.setLeft(2800);
         elem.setWidth(4000);
         elem.setLeftLabel(-2500);
@@ -2506,7 +2506,7 @@
 
         var elem = properties.add(null, DOC_RV + "v");
         elem.setType(Dialogs.PropertyType.select);
-        elem.setTable(Cairo.Tables.DOCUMENTO);
+        elem.setSelectTable(Cairo.Tables.DOCUMENTO);
         elem.setLeft(2800);
         elem.setWidth(4000);
         elem.setLeftLabel(-2500);
@@ -2520,7 +2520,7 @@
 
         var elem = properties.add(null, DOC_FV + "v");
         elem.setType(Dialogs.PropertyType.select);
-        elem.setTable(Cairo.Tables.DOCUMENTO);
+        elem.setSelectTable(Cairo.Tables.DOCUMENTO);
         elem.setLeft(2800);
         elem.setWidth(4000);
         elem.setLeftLabel(-2500);
@@ -2534,7 +2534,7 @@
 
         var elem = properties.add(null, DOC_COBZ);
         elem.setType(Dialogs.PropertyType.select);
-        elem.setTable(Cairo.Tables.DOCUMENTO);
+        elem.setSelectTable(Cairo.Tables.DOCUMENTO);
         elem.setLeft(2800);
         elem.setWidth(4000);
         elem.setLeftLabel(-2500);
@@ -2661,7 +2661,7 @@
 
         var elem = properties.add(null, ESTADO_HOJA_RUTA);
         elem.setType(Dialogs.PropertyType.select);
-        elem.setTable(Cairo.Tables.ESTADOS);
+        elem.setSelectTable(Cairo.Tables.ESTADOS);
         elem.setLeftFromProperty(DOC_COBZ);
         elem.setLeftLabel(-2500);
         elem.setName(Cairo.Language.getText(4549, "")); // Estado en hojas de ruta
@@ -2681,7 +2681,7 @@
 
         var elem = properties.add(null, DOC_MF);
         elem.setType(Dialogs.PropertyType.select);
-        elem.setTable(Cairo.Tables.DOCUMENTO);
+        elem.setSelectTable(Cairo.Tables.DOCUMENTO);
         elem.setLeft(2800);
         elem.setWidth(4000);
         elem.setLeftLabel(-2500);
@@ -2694,7 +2694,7 @@
 
         var elem = properties.add(null, DOC_DBCO);
         elem.setType(Dialogs.PropertyType.select);
-        elem.setTable(Cairo.Tables.DOCUMENTO);
+        elem.setSelectTable(Cairo.Tables.DOCUMENTO);
         elem.setLeft(2800);
         elem.setWidth(4000);
         elem.setLeftLabel(-2500);
@@ -2720,7 +2720,7 @@
 
         var elem = properties.add(null, DOC_OS);
         elem.setType(Dialogs.PropertyType.select);
-        elem.setTable(Cairo.Tables.DOCUMENTO);
+        elem.setSelectTable(Cairo.Tables.DOCUMENTO);
         elem.setLeft(2800);
         elem.setWidth(4000);
         elem.setLeftLabel(-2650);
@@ -2733,7 +2733,7 @@
 
         var elem = properties.add(null, DOC_PRP);
         elem.setType(Dialogs.PropertyType.select);
-        elem.setTable(Cairo.Tables.DOCUMENTO);
+        elem.setSelectTable(Cairo.Tables.DOCUMENTO);
         elem.setLeft(2800);
         elem.setWidth(4000);
         elem.setLeftLabel(-2650);
@@ -2770,7 +2770,7 @@
         
         var elem = properties.add(null, DOC_LIQ);
         elem.setType(Dialogs.PropertyType.select);
-        elem.setTable(Cairo.Tables.DOCUMENTO);
+        elem.setSelectTable(Cairo.Tables.DOCUMENTO);
         elem.setLeft(2800);
         elem.setWidth(4000);
         elem.setLeftLabel(-2500);
@@ -2787,7 +2787,7 @@
 
         var elem = properties.add(null, PKL_DOC_FACTURA);
         elem.setType(Dialogs.PropertyType.select);
-        elem.setTable(Cairo.Tables.DOCUMENTO);
+        elem.setSelectTable(Cairo.Tables.DOCUMENTO);
         elem.setLeft(2800);
         elem.setWidth(4000);
         elem.setLeftLabel(-2500);
@@ -2800,7 +2800,7 @@
 
         var elem = properties.add(null, PKL_DOC_INTERNO);
         elem.setType(Dialogs.PropertyType.select);
-        elem.setTable(Cairo.Tables.DOCUMENTO);
+        elem.setSelectTable(Cairo.Tables.DOCUMENTO);
         elem.setLeft(2800);
         elem.setWidth(4000);
         elem.setLeftLabel(-2500);
@@ -2813,7 +2813,7 @@
 
         var elem = properties.add(null, ESTADO_PICKING_LIST);
         elem.setType(Dialogs.PropertyType.select);
-        elem.setTable(Cairo.Tables.ESTADOS);
+        elem.setSelectTable(Cairo.Tables.ESTADOS);
         elem.setLeftLabel(-2500);
         elem.setName(Cairo.Language.getText(4861, "")); // Estado en picking list
         elem.setKey(K_ESTADO_EN_PICKING_LIST);
@@ -2827,7 +2827,7 @@
 
         var elem = properties.add(null, DOC_RV_C + "v");
         elem.setType(Dialogs.PropertyType.select);
-        elem.setTable(Cairo.Tables.DOCUMENTO);
+        elem.setSelectTable(Cairo.Tables.DOCUMENTO);
         elem.setLeft(3300);
         elem.setWidth(4000);
         elem.setLeftLabel(-3000);

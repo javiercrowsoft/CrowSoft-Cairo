@@ -227,6 +227,7 @@
       newDialog: function() {
 
         var Dialogs = Cairo.Dialogs;
+        var Controls = Cairo.Controls;
 
         var C_OFFSET_V1 = 18;
         var C_OFFSET_V3 = 15;
@@ -1703,7 +1704,8 @@
               //
               inCurrentTag = (c.getTag().substring(0, lenStrTag) === strTag
                               && c.getTag() !== ""
-                              && !("cbTab" === c.getName())
+                              //&& !("cbTab" === c.getName())// TODO: remove after testing
+                              && !Controls.isTab(c)
                               && (Cairo.Util.val(c.getTag().substring(lenStrTag + 1)) + m_firstTab) === m_currentTab);
             }
             else {
@@ -1944,7 +1946,7 @@
           var controlsCount = controls.count();
           var c = null;
 
-          if(view.getTabs().get(index).getTag().indexOf(Dialogs.Constants.innerTab, 1)) {
+          if(view.getTabs().get(index).getTag().indexOf(Dialogs.Constants.innerTab, 1) >= 0) {
 
             var childIndex = getTagChildIndex(view.getTabs().get(index).getTag());
             var fatherIndex = getTagFatherIndex(view.getTabs().get(index).getTag());
@@ -1953,7 +1955,9 @@
 
               c = controls.get(_i);
 
-              if(!(controlIsButton(c) && c.getName().indexOf("cbTab", 1))) {
+              // TODO: remove after testing
+              //if(!(controlIsButton(c) && c.getName().indexOf("cbTab", 1))) {
+              if(!Controls.isTab(c)) {
                 if(c.getTag().trim() !== "") {
                   if(Cairo.Util.val(c.getTag()) !== fatherIndex) {
                     if(getControlVisible(c, isControlVisibleInTab(c, childIndex))) {
@@ -1975,7 +1979,9 @@
 
               c = controls.get(_i);
 
-              if(!(controlIsButton(c) && c.getName().indexOf("cbTab", 1))) {
+              // TODO: remove after testing
+              //if(!(controlIsButton(c) && c.getName().indexOf("cbTab", 1))) {
+              if(!Controls.isTab(c)) {
                 if(c.getTag().trim() !== "") {
                   if(getControlVisible(c, isControlVisibleInTab(c, index))) {
                     if(!controlIsLabel(c) && !controlIsToolbar(c) && !controlIsImage(c)) {
@@ -2003,7 +2009,8 @@
             c = controls.get(_i);
             if(c.getTag().substring(0, strTag.length) === strTag
                 && c.getTag() !== ""
-                && !(c.getName() === "cbTab")) {
+                //&& !(c.getName() === "cbTab")) {// TODO: remove after testing
+                && !Controls.isTab(c)) {
 
               var isVisible = Cairo.Util.val(c.getTag().substring(strTag.length + 1)) + m_firstTab === index;
 
@@ -2094,7 +2101,8 @@
 
             if(c.getTag().substring(0, strTag.length) === strTag
                 && c.getTag() !== ""
-                && !(c.getName() === "cbTab")) {
+                //&& !(c.getName() === "cbTab")) {// TODO: remove after testing
+                && !Controls.isTab(c)) {
 
               var isVisible = Cairo.Util.val(c.getTag().substring(strTag.length + 1)) + m_firstTab === index;
               c.setVisible(getControlVisible(c, isVisible));
@@ -2146,22 +2154,28 @@
         };
 
         self.tabClick = function(index) {
-
           var firstTab = null;
           var view = getView();
           var controlsCount = view.getControls().count();
           var controls = view.getControls();
+          var tab = view.getTabs().get(index);
           m_currentInnerTab = 0;
 
-          if(view.getTabs().get(index).getTag().indexOf(Dialogs.Constants.innerTab, 1)) {
+          // TODO: remove after testing
+          // view.getControls().each(function(item) { console.log(item.getObjectType()); console.log(item.getTag()); })
+          //
 
-            var childIndex = getTagChildIndex(view.getTabs().get(index).getTag());
-            var fatherIndex = getTagFatherIndex(view.getTabs().get(index).getTag());
+          if(tab.getTag().indexOf(Dialogs.Constants.innerTab, 1) >= 0) {
+
+            var childIndex = getTagChildIndex(tab.getTag());
+            var fatherIndex = getTagFatherIndex(tab.getTag());
 
             for(var _i = 0; _i < controlsCount; _i++) {
               var c = controls.get(_i);
-              if(!(controlIsButton(c) && c.getName().indexOf("cbTab", 1))) {
-                if(c.getTag().trim() === "") {
+              // TODO: remove after testing
+              //if(!(controlIsButton(c) && c.getName().indexOf("cbTab", 1))) {
+              if(!Controls.isTab(c)) {
+                if(c.getTag().trim() !== "") {
                   if(Cairo.Util.val(c.getTag()) !== fatherIndex) {
                     setVisible(c, childIndex);
                   }
@@ -2169,7 +2183,6 @@
               }
             }
 
-            var tab = view.getTabs().get(index);
             tab.virtualPush();
 
             m_currentInnerTab = childIndex;
@@ -2180,8 +2193,10 @@
 
             for(var _i = 0; _i < controlsCount; _i++) {
               var c = controls.get(_i);
-              if(controlIsButton(c) && c.getName().indexOf("cbTab", 1)) {
-                if(c.getTag().indexOf(Dialogs.Constants.innerTab, 1)) {
+              // TODO: remove after testing
+              //if(controlIsButton(c) && c.getName().indexOf("cbTab", 1)) {
+              if(Controls.isTab(c)) {
+                if(c.getTag().indexOf(Dialogs.Constants.innerTab, 1) >= 0) {
                   var isVisible = getTagFatherIndex(c.getTag()) === index;
                   c.setVisible(isVisible);
                   if(isVisible) {
@@ -2191,7 +2206,7 @@
                   }
                 }
               }
-              else if(c.getTag().trim() === "") {
+              else if(c.getTag().trim() !== "") {
                 setVisible(c, index);
               }
             }
@@ -2201,6 +2216,7 @@
             self.tabClick(firstTab.getIndex());
             m_currentInnerTab = getTagChildIndex(firstTab.getTag());
           }
+          view.showRows();
         };
 
         var setVisible = function(c, index) {
@@ -2554,7 +2570,7 @@
 
         self.getTabs = function() {
           if(m_tabs === null) {
-            m_tabs = Cairo.Tab.Controller.createTab("#viewMainTabBar", "#viewMainTabBody", "view_main_tab");;
+            m_tabs = Cairo.Collections.createCollection(Cairo.Dialogs.createTab);
           }
           return m_tabs;
         };
@@ -4494,7 +4510,7 @@
 
         var createRow = function(index, property, rowIndex) {
           var colIndex = 0;
-          var row = Cairo.Controls.Grids.createRow();
+          var row = Controls.Grids.createRow();
           var cell = null;
 
           var count = property.getGrid().getColumns().count();
@@ -4661,19 +4677,19 @@
 
           switch(subType) {
             case Dialogs.PropertySubType.money:
-              type = Cairo.Controls.InputType.money;
+              type = Controls.InputType.money;
               break;
 
             case Dialogs.PropertySubType.integer:
-              type = Cairo.Controls.InputType.integer;
+              type = Controls.InputType.integer;
               break;
 
             case Dialogs.PropertySubType.double:
-              type = Cairo.Controls.InputType.double;
+              type = Controls.InputType.double;
               break;
 
             case Dialogs.PropertySubType.percentage:
-              type = Cairo.Controls.InputType.percentage;
+              type = Controls.InputType.percentage;
               break;
           }
           return type;
@@ -4774,7 +4790,7 @@
                   buttonStyle = buttonStyle ? Dialogs.ButtonStyle.single : Dialogs.ButtonStyle.none;
                   c.setButtonStyle(buttonStyle);
                   c.setMask(property.getTextMask());
-                  c.setType(Cairo.Controls.InputType.text);
+                  c.setType(Controls.InputType.text);
                 }
                 c.setPasswordChar("");
               }
@@ -4841,7 +4857,7 @@
             property.setIndex(c.getIndex());
           }
 
-          pSetTabIndex(c);
+          setTabIndex(c);
           m_tabIndex += 1;
 
           property.setControl(c);
@@ -4977,8 +4993,8 @@
             }
           }
           else {
-            if(property.getTabIndex()) {
-              c.setTag(property.getTabIndex());
+            if(property.getTabIndex2() > 0) {
+              c.setTag(property.getTabIndex2());
             }
             else {
               c.setTag(property.getTabIndex());
@@ -4986,6 +5002,7 @@
           }
 
           c.setEnabled(property.getEnabled());
+          c.setName(property.getName());
           setBackColor(c, property);
           setButton(c, property);
 
@@ -5202,7 +5219,7 @@
                   label.setWidth(Math.abs(property.getLeftLabel()));
                 }
                 else {
-                  c.setLeft = m_left[nTabIndex] + m_labelLeft;
+                  c.setLeft(m_left[nTabIndex] + m_labelLeft);
                   if(property.getLeftLabel() !== 0) {
                     label.setLeft(c.getLeft() + property.getLeftLabel());
                     label.setWidth(Math.abs(property.getLeftLabel()));
@@ -5247,6 +5264,7 @@
           // only if this control changes the top of next controls
           //
           if(!property.getTopNotChange()) {
+
             // if the control has set a custom top and it is not an option button
             //
             if(property.getTop() !== -1
@@ -5315,7 +5333,7 @@
           }
         }
 
-        var pSetTabIndex = function(c) {
+        var setTabIndex = function(c) {
           Cairo.safeExecute(function() { c.setTabIndex(m_tabIndex); });
         };
 
@@ -5533,11 +5551,11 @@
               }
 
               // TODO: I don't like this code because I think it should be
-              // including in the above if. I don't se a reason to execute
-              // this code if property is null
-              // the original code was coded this way. It should be refactored.
+              // including in the above if. I don't see a reason to execute
+              // this code when property is null the original code was coded
+              // this way. It should be refactored.
 
-              p == p || Cairo.Promises.resolvedPromise(true);
+              p = p || Cairo.Promises.resolvedPromise(true);
 
               p.then(
                 function() {
@@ -6321,8 +6339,6 @@
             }
           }
 
-          var k = 0;
-
           if(m_tabs !== null) {
             tabs = (m_tabs.count() - 1 > tabs) ? m_tabs.count() - 1 : tabs;
           }
@@ -6336,7 +6352,7 @@
               m_firstTab = tabsCtrl.count();
             }
 
-            for(i = m_firstTab; i <= tabs + m_firstTab; i++) {
+            for(var i = m_firstTab, k = 0; i <= tabs + m_firstTab; i++, k++) {
               if(i > 0) {
                 view.getTabs().add();
               }
@@ -6357,14 +6373,12 @@
                 }
               }
 
-              k += 1;
-
               var tab = m_tabs.get(k);
               if(tab.getFatherTab() !== "") {
                 var fatherTab = m_tabs.get(tab.getFatherTab());
-                tabCtrl.setTag = tabCtrl.getTag()
+                tabCtrl.setTag(tabCtrl.getTag()
                               + Dialogs.Constants.innerTab
-                              + ((fatherTab.getIndex() * 100) + Math.abs(tab.getIndex())).toString();
+                              + ((fatherTab.getIndex() * 100) + Math.abs(tab.getIndex())).toString());
 
                 if(tab.getLeft() !== 0) {
                   noResize = true;
@@ -6379,7 +6393,7 @@
               tabCtrl.setText("Tab" + i.toString());
               tabCtrl.setTabStop(false);
               tabCtrl.setVisible(!m_hideTabButtons);
-              if(left + tabCtrl.getWidth() > getView().Width) {
+              if(left + tabCtrl.getWidth() > getView().getWidth()) {
                 left = 90;
                 top = top + tabCtrl.getHeight() - 20;
               }
@@ -6422,11 +6436,13 @@
                 tab = m_tabs.get(_i);
                 if(tab.getIndex() < 0) {
                   tabCtrl = view.getTabs().get(tab.getControlIndex() + m_firstTab);
-                  tabCtrl.setText("&" + Math.abs(tab.getIndex()).toString() + "-" + tab.getName());
+                  //tabCtrl.setText("&" + Math.abs(tab.getIndex()).toString() + "-" + tab.getName());
+                  tabCtrl.setText(tab.getName());
                 }
                 else {
                   tabCtrl = view.getTabs().get(tab.getIndex() + m_firstTab);
-                  tabCtrl.setText("&" + tab.getIndex() + m_firstTab + 1 + "-" + tab.getName());
+                  //tabCtrl.setText("&" + tab.getIndex() + m_firstTab + 1 + "-" + tab.getName());
+                  tabCtrl.setText(tab.getName());
                 }
 
                 if(!noResize) {
@@ -6450,12 +6466,12 @@
 
           if(control.getType !== undefined) {
             if(!(
-                  control.getObjectType() === "cairo.controls.input"
-                    && control.getType() !== Cairo.Controls.InputType.text
+                  control.getObjectType() === "Controls.input"
+                    && control.getType() !== Controls.InputType.text
                 )
               && !(
-                  control.getObjectType() === "cairo.controls.datePicker"
-                    && control.getType() !== Cairo.Controls.DatePickerType.time
+                  control.getObjectType() === "Controls.datePicker"
+                    && control.getType() !== Controls.DatePickerType.time
                   )
               ) {
 
@@ -7054,10 +7070,11 @@
         };
 
         var isControlVisibleInTab = function(c, index) {
-          return (Cairo.Util.val(c.getTag()) === index
-                  || (Cairo.Util.val(c.getTag()) === Dialogs.TabIndexType.TAB_ID_XT_ALL
+          var tabIndex = Cairo.Util.val(c.getTag());
+          return (tabIndex === index
+                  || (tabIndex === Dialogs.TabIndexType.TAB_ID_XT_ALL
                         && index !== m_tabHideControlsInAllTab)
-                  || Cairo.Util.val(c.getTag()) === Dialogs.TabIndexType.TAB_ID_XT_ALL2);
+                  || tabIndex === Dialogs.TabIndexType.TAB_ID_XT_ALL2);
         };
 
         var wizDisableButtons = function() {
@@ -7160,19 +7177,23 @@
         };
 
         var getTagChildIndex = function(tag) {
+          var index = 0;
           var i = tag.indexOf(Dialogs.Constants.innerTab, 1);
-          if(i > 0) {
+          if(i >= 0) {
             var n = Cairo.Util.val(tag.substring(1, i + Dialogs.Constants.innerTab.length));
             var q = Math.abs(Cairo.Math.truncate(n / 100));
-            return (n - q * 100) * -1;
+            index = (n - q * 100) * -1;
           }
+          return index;
         };
 
         var getTagFatherIndex = function(tag) {
+          var index = 0;
           var i = tag.indexOf(Dialogs.Constants.innerTab, 1);
-          if(i > 0) {
+          if(i >= 0) {
             return Math.abs(Math.truncate(Cairo.Util.val(tag.substring(1, i + Dialogs.Constants.innerTab.length)) / 100));
           }
+          return index;
         };
 
         var destroyGrids = function(view) {

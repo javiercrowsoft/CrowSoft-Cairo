@@ -11,21 +11,49 @@
 
   Cairo.module("Dialogs.Views", function(Views, Cairo, Backbone, Marionette, $, _) {
 
+    var Controls = Cairo.Controls;
+    
     var createControls = function(view, viewManager) {
+      var tabs = view.tabs.count();
       var count = view.controls.count();
-      var form = $('<div></div>');
-      var newRow = function(elements) {
+      var form = $('<div class="dialog-form"></div>');
+      //
+      // first tabs
+      //
+      if(tabs > 0) {
         var row = $('<div class="row"></div>');
+        var column = $('<div class="col-lg-12 col-md-12 col-sm-12"></div>');
+        var group = $('<div class="btn-group" role="group" aria-label="..."></div>')
+        for (var i = 0; i < tabs; i += 1) {
+          var control = view.controls.item(i);
+          var element = $(control.htmlTag);
+          control.setElement(element, viewManager);
+          group.append(element);
+          row.append(column);
+        }
+        column.append(group);
+        form.append(row);
+      }
+      //
+      // add a row with one or more elements
+      //
+      var newRow = function(elements) {
+        var row = $('<div class="row dialog-row"></div>');
         var column = $('<div class="col-lg-4 col-md-5 col-sm-7"></div>');
         column.append(elements);
         row.append(column);
         return row;
       };
+      //
+      // now controls
+      //
       for(var i = 0; i < count; i += 1) {
         var control = view.controls.item(i);
-        var element = $(control.htmlTag);
-        control.setElement(element, viewManager);
-        form.append(newRow(element));
+        if(!Controls.isTab(control)) {
+          var element = $(control.htmlTag);
+          control.setElement(element, viewManager);
+          form.append(newRow(element));
+        }
       }
       return form;
     };
@@ -56,38 +84,39 @@
         listeners: [],
 
         text: "",
-        title: Cairo.Controls.createLabel(),
-        subTitle: Cairo.Controls.createLabel(),
+        title: Controls.createLabel(),
+        subTitle: Controls.createLabel(),
 
         path: "",
         name: "",
 
         controls: controls,
-        tabs: Cairo.Collections.createCollection(Cairo.Controls.createTab, controls),
-        maskEdits: Cairo.Collections.createCollection(Cairo.Controls.createInput, controls),
-        datePickers: Cairo.Collections.createCollection(Cairo.Controls.createDatePicker, controls),
-        selects: Cairo.Collections.createCollection(Cairo.Controls.createSelect, controls),
-        optionButtons: Cairo.Collections.createCollection(Cairo.Controls.createOptionButton, controls),
-        checkBoxes: Cairo.Collections.createCollection(Cairo.Controls.createCheckBox, controls),
-        buttons: Cairo.Collections.createCollection(Cairo.Controls.createButton, controls),
-        combos: Cairo.Collections.createCollection(Cairo.Controls.createCombo, controls),
-        passwords: Cairo.Collections.createCollection(Cairo.Controls.createPassword, controls),
-        grids: Cairo.Collections.createCollection(Cairo.Controls.createGrid, controls),
-        inputs: Cairo.Collections.createCollection(Cairo.Controls.createInput, controls),
-        progressBars: Cairo.Collections.createCollection(Cairo.Controls.createProgressBar, controls),
-        textAreas: Cairo.Collections.createCollection(Cairo.Controls.createTextArea, controls),
-        labels: Cairo.Collections.createCollection(Cairo.Controls.createLabel, controls),
-        ctrlLabels: Cairo.Collections.createCollection(Cairo.Controls.createLabel, controls),
-        titles: Cairo.Collections.createCollection(Cairo.Controls.createLabel, controls),
+        tabs: Cairo.Collections.createCollection(Controls.createTab, controls),
+        maskEdits: Cairo.Collections.createCollection(Controls.createInput, controls),
+        datePickers: Cairo.Collections.createCollection(Controls.createDatePicker, controls),
+        selects: Cairo.Collections.createCollection(Controls.createSelect, controls),
+        optionButtons: Cairo.Collections.createCollection(Controls.createOptionButton, controls),
+        checkBoxes: Cairo.Collections.createCollection(Controls.createCheckBox, controls),
+        buttons: Cairo.Collections.createCollection(Controls.createButton, controls),
+        combos: Cairo.Collections.createCollection(Controls.createCombo, controls),
+        passwords: Cairo.Collections.createCollection(Controls.createPassword, controls),
+        grids: Cairo.Collections.createCollection(Controls.createGrid, controls),
+        inputs: Cairo.Collections.createCollection(Controls.createInput, controls),
+        progressBars: Cairo.Collections.createCollection(Controls.createProgressBar, controls),
+        textAreas: Cairo.Collections.createCollection(Controls.createTextArea, controls),
+        labels: Cairo.Collections.createCollection(Controls.createLabel, controls),
+        ctrlLabels: Cairo.Collections.createCollection(Controls.createLabel, controls),
+        titles: Cairo.Collections.createCollection(Controls.createLabel, controls),
 
-        bottomLine: Cairo.Controls.createControl(),
-        background: Cairo.Controls.createControl(),
-        btnSave: Cairo.Controls.createControl(),
-        btnCancel: Cairo.Controls.createControl(),
-        btnClose: Cairo.Controls.createControl(),
+        bottomLine: Controls.createControl(),
+        background: Controls.createControl(),
+        btnSave: Controls.createControl(),
+        btnCancel: Controls.createControl(),
+        btnClose: Controls.createControl(),
+        form: null,
 
         width: 320,
-        heithg: 480,
+        height: 480,
         visible: false,
         loading: true
       };
@@ -237,6 +266,53 @@
         self.loading = loading;
       };
 
+      var getControlId = function(control) {
+        var id = control.data('_ID_');
+        return id !== undefined ? id : control.parent().data('_ID_');
+      };
+
+      var controlIsVisible = function(control) {
+        var isVisible = false;
+        controls.each(function(c) {
+          if(c._ID_() === getControlId(control)) {
+            isVisible = c.getVisible();
+            return false;
+          }
+        });
+        return isVisible;
+      };
+
+      that.showRows = function() {
+        var setVisible = function() {
+          var row = $(this);
+          var almostOneIsVisible = false;
+          var checkForVisibleElements = function() {
+            var child = $(this);
+            if(child.is("div")) {
+              child.children().each(checkForVisibleElements);
+            }
+            else {
+              if(controlIsVisible(child)) {
+                almostOneIsVisible = true;
+              }
+            }
+            if(almostOneIsVisible) {
+              return false;
+            }
+          };
+          row.children().each(checkForVisibleElements);
+          if(almostOneIsVisible) {
+            row.show();
+          }
+          else {
+            row.hide();
+          }
+        };
+        if(self.form !== null) {
+          self.form.children('.dialog-form').children('.dialog-row').each(setVisible);
+        }
+      };
+
       that.firstResize = function() { /* TODO: implement this. */ };
 
       var getRegion = function() {
@@ -380,6 +456,7 @@
         self.subTitle.setElement(view.$('.dialog-subtitle'));
 
         self.btnCancel = self.btnClose;
+        self.form = view.$("#formBody");
       };
 
       that.raiseEvent = function(eventName, eventData) {
@@ -415,18 +492,24 @@
         };
       };
 
+      that.onTabClick = function(control) {
+        return function() {
+          that.raiseEvent("tabClick", control.getIndex());
+        };
+      }
+
       return that;
     };
 
     Views.createMasterView = function() {
 
       var self = {
-        btnEditDocument: Cairo.Controls.createButton(),
-        btnNew: Cairo.Controls.createButton(),
-        btnCopy: Cairo.Controls.createButton(),
-        btnPrint: Cairo.Controls.createButton(),
-        btnPermission: Cairo.Controls.createButton(),
-        btnDiscardChanges: Cairo.Controls.createButton(),
+        btnEditDocument: Controls.createButton(),
+        btnNew: Controls.createButton(),
+        btnCopy: Controls.createButton(),
+        btnPrint: Controls.createButton(),
+        btnPermission: Controls.createButton(),
+        btnDiscardChanges: Controls.createButton(),
         saved: false
       };
 

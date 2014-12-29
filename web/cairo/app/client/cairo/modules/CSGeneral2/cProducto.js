@@ -559,7 +559,7 @@
               cell = Dialogs.cell(row, KIT_PR_ID_TAG);
 
               if(cell.getSelectIntValue() !== "") {
-                if(cell.getSelectIntValue().indexOf(",", 1)) {
+                if(cell.getSelectIntValue().indexOf(",", 1) >= 0) {
                   p = Cairo.Selections.addMultiRowsPurchase(cell.getSelectIntValue(), info, -1);
                 }
               }
@@ -2364,7 +2364,7 @@
 
         var elem = properties.add(null, Constants.TA_ID_KIT_SERIE);
         elem.setType(Dialogs.PropertyType.select);
-        elem.setTable(Cairo.Tables.TALONARIO);
+        elem.setSelectTable(Cairo.Tables.TALONARIO);
         elem.setTabIndex(tab_kit);
         elem.setName(Cairo.Language.getText(1343, "")); // Talonario Serie
         elem.setKey(K_TA_ID_KITSERIE);
@@ -2396,7 +2396,7 @@
 
         var elem = properties.add(null, Constants.TA_ID_KIT_LOTE);
         elem.setType(Dialogs.PropertyType.select);
-        elem.setTable(Cairo.Tables.TALONARIO);
+        elem.setSelectTable(Cairo.Tables.TALONARIO);
         elem.setTabIndex(tab_kit);
         elem.setName(Cairo.Language.getText(1346, "")); // Talonario Lote
         elem.setKey(K_TA_ID_KITLOTE);
@@ -5283,7 +5283,7 @@
         var elem = w_columns.add(null);
         elem.setName(Cairo.Language.getText(1619, "")); // Producto
         elem.setType(Dialogs.PropertyType.select);
-        elem.setTable(Cairo.Tables.PRODUCTO);
+        elem.setSelectTable(Cairo.Tables.PRODUCTO);
         elem.setWidth(1000);
         elem.setKey(KIT_PR_ID_TAG);
         if(m_userConfig.getMultiSelect()) {

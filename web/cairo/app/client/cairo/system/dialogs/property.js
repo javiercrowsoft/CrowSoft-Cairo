@@ -374,7 +374,7 @@
       that.getVisible = function() {
         return self.visible;
       };
-      that.getVisible = function(visible) {
+      that.setVisible = function(visible) {
         self.visible = visible;
       };
 

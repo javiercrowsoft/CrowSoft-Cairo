@@ -179,6 +179,15 @@
 
       that.size = that.count;
 
+      that.each = function(f) {
+        var count = self.items.length;
+        for(var i = 0; i < count; i += 1) {
+          if(f(self.items[i]) === false) {
+            break;
+          }
+        }
+      };
+
       return that;
     }
   };

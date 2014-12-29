@@ -9,9 +9,7 @@
     <div class="desktop-big-container">
         <div class="row">
             <ul class="nav navbar-nav">
-                @for(menu <- menus) {
-                    @htmlHelpers.menuItem(menu)
-                }
+                @for(menu <- menus) { @htmlHelpers.menuItem(menu) }
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle menu" data-toggle="dropdown">Help <b class="caret"></b></a>
                     <ul class="dropdown-menu multi-level">
@@ -27,9 +25,7 @@
     <div class="container">
         <div class="row">
             <div class="panel-group mobile-accordion-menu" id="mainMenu">
-                @for(menu <- menus) {
-                    @htmlHelpers.menuItemMobile(menu)
-                }
+                @for(menu <- menus) { @htmlHelpers.menuItemMobile(menu) }
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h4 class="panel-title">
