@@ -261,6 +261,11 @@ DELETE  /api/v1/general/zona/:id              controllers.logged.modules.general
 GET     /api/v1/general/usuarioconfig/:id              controllers.logged.modules.general.UserSettings.get(id: Int)
 PUT     /api/v1/general/usuarioconfig/:id              controllers.logged.modules.general.UserSettings.update(id: Int)
 
+GET     /api/v1/general/producto/:id              controllers.logged.modules.general.Productos.get(id: Int)
+POST    /api/v1/general/producto                  controllers.logged.modules.general.Productos.create
+PUT     /api/v1/general/producto/:id              controllers.logged.modules.general.Productos.update(id: Int)
+DELETE  /api/v1/general/producto/:id              controllers.logged.modules.general.Productos.delete(id: Int)
+
 # end Cairo
 #--------------------------------------------------------------------------------------------------
 

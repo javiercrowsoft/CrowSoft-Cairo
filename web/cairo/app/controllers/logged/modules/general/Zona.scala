@@ -44,7 +44,7 @@ object Zonas extends Controller with ProvidesUser {
       DBHelper.ACTIVE -> Json.toJson(zona.active),
       C.ZON_PRECIO -> Json.toJson(zona.precio),
       C.PR_ID -> Json.toJson(zona.prId),
-      C.PR_NOMBRE_VENTA -> Json.toJson(zona.prName),
+      C.PR_NAME_VENTA -> Json.toJson(zona.prName),
       C.ZON_DESCRIP -> Json.toJson(zona.descrip)
     )
   }

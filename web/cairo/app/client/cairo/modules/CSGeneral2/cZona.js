@@ -473,7 +473,7 @@
               m_descrip = Cairo.Database.valField(response.data, Cairo.General.Constants.ZON_DESCRIP);
               m_id = Cairo.Database.valField(response.data, Cairo.General.Constants.ZON_ID);
               m_precio = Cairo.Database.valField(response.data, Cairo.General.Constants.ZON_PRECIO);
-              m_producto = Cairo.Database.valField(response.data, Cairo.General.Constants.PR_NOMBRE_VENTA);
+              m_producto = Cairo.Database.valField(response.data, Cairo.General.Constants.PR_NAME_VENTA);
               m_pr_id = Cairo.Database.valField(response.data, Cairo.General.Constants.PR_ID);
             }
             return true;

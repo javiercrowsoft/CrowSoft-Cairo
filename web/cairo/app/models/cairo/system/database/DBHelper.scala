@@ -304,4 +304,14 @@ object DBHelper {
     }
   }
 
+  implicit def rowToFloat: Column[Float] = Column.nonNull { (value, meta) =>
+    val MetaDataItem(qualified, nullable, clazz) = meta
+    value match {
+      case int: Int => Right(int: Float)
+      case long: Long => Right(long: Float)
+      case float: Float => Right(float)
+      case _ => Left(TypeDoesNotMatch("Cannot convert " + value + ":" + value.asInstanceOf[AnyRef].getClass + " to Float for column " + qualified))
+    }
+  }
+
 }

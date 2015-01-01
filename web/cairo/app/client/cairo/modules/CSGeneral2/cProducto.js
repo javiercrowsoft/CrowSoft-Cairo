@@ -226,8 +226,8 @@
       var m_codigoHtmlDetalle = "";
       var m_code = "";
       var m_active;
-      var m_descripventa = "";
-      var m_descripcompra = "";
+      var m_descripVenta = "";
+      var m_descripCompra = "";
       var m_un_id_compra = 0;
       var m_unidadCompra = "";
       var m_un_id_venta = 0;
@@ -407,8 +407,6 @@
       var m_lastRubId = 0;
       var m_rubroHasChanged = false;
 
-      var m_userConfig = null;
-
       var m_genericEdit = null;
 
       var m_data = {
@@ -579,11 +577,11 @@
         noRefresh = noRefresh !== undefined ? noRefresh : false;
 
         var properties = m_dialog.getProperties();
-        properties.item(Constants.PR_UN_ID_COMPRA).setEnabled(status);
-        properties.item(Constants.PR_CUEG_ID_COMPRA).setEnabled(status);
-        properties.item(Constants.PR_TI_ID_RI_COMPRA).setEnabled(status);
-        properties.item(Constants.PR_TI_ID_INTERNOS_COMPRA).setEnabled(status);
-        properties.item(Constants.PR_PORCINTERNOC).setEnabled(status);
+        properties.item(Constants.UN_ID_COMPRA).setEnabled(status);
+        properties.item(Constants.CUEG_ID_COMPRA).setEnabled(status);
+        properties.item(Constants.TI_ID_RI_COMPRA).setEnabled(status);
+        properties.item(Constants.TI_ID_INTERNOS_COMPRA).setEnabled(status);
+        properties.item(Constants.PR_PORC_INTERNO_C).setEnabled(status);
         properties.item(C_PROVEEDOR).setEnabled(status);
 
         if(!noRefresh) m_dialog.refreshControls();
@@ -596,14 +594,14 @@
         noRefresh = noRefresh !== undefined ? noRefresh : false;
 
         var properties = m_dialog.getProperties();
-        properties.item(Constants.PR_UN_ID_VENTA).setEnabled(status);
-        properties.item(Constants.PR_CUEG_ID_VENTA).setEnabled(status);
-        properties.item(Constants.PR_TI_ID_RI_VENTA).setEnabled(status);
-        properties.item(Constants.PR_NOMBRE_FACTURA).setEnabled(status);
-        properties.item(Constants.PR_TI_ID_INTERNOS_VENTA).setEnabled(status);
-        properties.item(Constants.PR_PORCINTERNOV).setEnabled(status);
-        properties.item(Constants.PR_NOMBRE_VENTA).setEnabled(status);
-        properties.item(Constants.PR_DESCRIPVENTA).setEnabled(status);
+        properties.item(Constants.UN_ID_VENTA).setEnabled(status);
+        properties.item(Constants.CUEG_ID_VENTA).setEnabled(status);
+        properties.item(Constants.TI_ID_RI_VENTA).setEnabled(status);
+        properties.item(Constants.PR_NAME_FACTURA).setEnabled(status);
+        properties.item(Constants.TI_ID_INTERNOS_VENTA).setEnabled(status);
+        properties.item(Constants.PR_PORC_INTERNO_V).setEnabled(status);
+        properties.item(Constants.PR_NAME_VENTA).setEnabled(status);
+        properties.item(Constants.PR_DESCRIP_VENTA).setEnabled(status);
         properties.item(Constants.PR_VENTA_COMPRA).setEnabled(status);
         properties.item(Constants.PR_VENTA_STOCK).setEnabled(status);
         properties.item(Constants.PR_ES_LISTA).setEnabled(status);
@@ -619,13 +617,13 @@
         noRefresh = noRefresh !== undefined ? noRefresh : false;
 
         var properties = m_dialog.getProperties();
-        properties.item(Constants.PR_UN_ID_STOCK).setEnabled(status);
+        properties.item(Constants.UN_ID_STOCK).setEnabled(status);
         properties.item(Constants.PR_STOCK_COMPRA).setEnabled(status);
         properties.item(Constants.PR_X).setEnabled(status);
         properties.item(Constants.PR_Y).setEnabled(status);
         properties.item(Constants.PR_Z).setEnabled(status);
-        properties.item(Constants.PR_STOCKMINIMO).setEnabled(status);
-        properties.item(Constants.PR_STOCKMAXIMO).setEnabled(status);
+        properties.item(Constants.PR_STOCK_MINIMO).setEnabled(status);
+        properties.item(Constants.PR_STOCK_MAXIMO).setEnabled(status);
         properties.item(Constants.PR_REPOSICION).setEnabled(status);
         properties.item(Constants.PR_LLEVA_NRO_LOTE).setEnabled(status);
         properties.item(Constants.PR_LLEVA_NRO_SERIE).setEnabled(status);
@@ -671,26 +669,26 @@
         switch (key) {
           case K_SE_COMPRA:
 
-            setEnabledCompra(Cairo.Util.val(m_dialog.getProperties().item(Constants.PR_SECOMPRA).getValue()) !== 0);
+            setEnabledCompra(Cairo.Util.val(m_dialog.getProperties().item(Constants.PR_SE_COMPRA).getValue()) !== 0);
             break;
 
           case K_SE_VENDE:
 
-            bSeVende = Cairo.Util.val(m_dialog.getProperties().item(Constants.PR_SEVENDE).getValue()) !== 0;
+            bSeVende = Cairo.Util.val(m_dialog.getProperties().item(Constants.PR_SE_VENDE).getValue()) !== 0;
             setEnabledVenta(bSeVende);
 
-            iProp = m_dialog.getProperties().item(Constants.PR_NOMBRE_VENTA);
+            iProp = m_dialog.getProperties().item(Constants.PR_NAME_VENTA);
 
             if(bSeVende) {
 
               if(iProp.getValue() === "") {
-                iProp.setValue(m_dialog.getProperties().item(Constants.PR_NOMBRE_COMPRA).getValue());
+                iProp.setValue(m_dialog.getProperties().item(Constants.PR_NAME_COMPRA).getValue());
               }
 
             }
             else {
 
-              if(iProp.getValue() === m_dialog.getProperties().item(Constants.PR_NOMBRE_COMPRA).getValue()) {
+              if(iProp.getValue() === m_dialog.getProperties().item(Constants.PR_NAME_COMPRA).getValue()) {
                 iProp.setValue("");
               }
 
@@ -699,7 +697,7 @@
 
           case K_LLEVA_STOCK:
             
-            setEnabledStock(Cairo.Util.val(m_dialog.getProperties().item(Constants.PR_LLEVASTOCK).getValue()) !== 0);
+            setEnabledStock(Cairo.Util.val(m_dialog.getProperties().item(Constants.PR_LLEVA_STOCK).getValue()) !== 0);
             break;
 
           case K_RUB_ID:
@@ -726,9 +724,9 @@
 
             var properties = m_dialog.getProperties();
 
-            var nombre = properties.item(Constants.PR_NOMBRE_COMPRA).getValue();
-            var nombreVenta = properties.item(Constants.PR_NOMBRE_VENTA).getValue();
-            bSeVende = Cairo.Util.val(properties.item(Constants.PR_SEVENDE).getValue());
+            var nombre = properties.item(Constants.PR_NAME_COMPRA).getValue();
+            var nombreVenta = properties.item(Constants.PR_NAME_VENTA).getValue();
+            bSeVende = Cairo.Util.val(properties.item(Constants.PR_SE_VENDE).getValue());
 
             if(m_purchaseName !== nombre && nombre !== nombreVenta && bSeVende) {
 
@@ -738,7 +736,7 @@
                 ).then(
                 function(answer) {
                   if(answer === "yes") {
-                    properties.item(Constants.PR_NOMBRE_VENTA).setValue(nombre);
+                    properties.item(Constants.PR_NAME_VENTA).setValue(nombre);
                   }
                 }
               );
@@ -749,9 +747,9 @@
 
             var properties = m_dialog.getProperties();
 
-            bEnabled = Cairo.Util.val(properties.item(Constants.PR_ESKIT).getValue());
+            bEnabled = Cairo.Util.val(properties.item(Constants.PR_ES_KIT).getValue());
 
-            iProp = properties.item(Constants.PR_KIT_STOCK_XITEM);
+            iProp = properties.item(Constants.PR_KIT_STOCK_X_ITEM);
             iProp.setEnabled(bEnabled);
             m_dialog.showValue(iProp);
 
@@ -832,19 +830,19 @@
 
           switch (property.getKey()) {
             case K_NOMBRE_COMPRA:
-              fields.add(Constants.PR_NOMBRE_COMPRA, property.getValue(), Types.text);
+              fields.add(Constants.PR_NAME_COMPRA, property.getValue(), Types.text);
               break;
 
             case K_NOMBRE_VENTA:
-              fields.add(Constants.PR_NOMBRE_VENTA, property.getValue(), Types.text);
+              fields.add(Constants.PR_NAME_VENTA, property.getValue(), Types.text);
               break;
 
             case K_NOMBRE_FACTURA:
-              fields.add(Constants.PR_NOMBRE_FACTURA, property.getValue(), Types.text);
+              fields.add(Constants.PR_NAME_FACTURA, property.getValue(), Types.text);
               break;
 
             case K_NOMBRE_WEB:
-              fields.add(Constants.PR_NOMBRE_WEB, property.getValue(), Types.text);
+              fields.add(Constants.PR_NAME_WEB, property.getValue(), Types.text);
               break;
 
             case K_ALIAS_WEB:
@@ -888,23 +886,23 @@
               break;
 
             case K_DESCRIP_VENTA:
-              fields.add(Constants.PR_DESCRIPVENTA, property.getValue(), Types.text);
+              fields.add(Constants.PR_DESCRIP_VENTA, property.getValue(), Types.text);
               break;
 
             case K_DESCRIP_COMPRA:
-              fields.add(Constants.PR_DESCRIPCOMPRA, property.getValue(), Types.text);
+              fields.add(Constants.PR_DESCRIP_COMPRA, property.getValue(), Types.text);
               break;
 
             case K_UN_ID_COMPRA:
-              fields.add(Constants.PR_UN_ID_COMPRA, property.getSelectId(), Types.id);
+              fields.add(Constants.UN_ID_COMPRA, property.getSelectId(), Types.id);
               break;
 
             case K_UN_ID_VENTA:
-              fields.add(Constants.PR_UN_ID_VENTA, property.getSelectId(), Types.id);
+              fields.add(Constants.UN_ID_VENTA, property.getSelectId(), Types.id);
               break;
 
             case K_UN_ID_STOCK:
-              fields.add(Constants.PR_UN_ID_STOCK, property.getSelectId(), Types.id);
+              fields.add(Constants.UN_ID_STOCK, property.getSelectId(), Types.id);
               break;
 
             case K_COMPRA_VENTA:
@@ -920,15 +918,15 @@
               break;
 
             case K_LLEVA_STOCK:
-              fields.add(Constants.PR_LLEVASTOCK, property.getValue(), Types.integer);
+              fields.add(Constants.PR_LLEVA_STOCK, property.getValue(), Types.integer);
               break;
 
             case K_SE_COMPRA:
-              fields.add(Constants.PR_SECOMPRA, property.getValue(), Types.integer);
+              fields.add(Constants.PR_SE_COMPRA, property.getValue(), Types.integer);
               break;
 
             case K_SE_VENDE:
-              fields.add(Constants.PR_SEVENDE, property.getValue(), Types.integer);
+              fields.add(Constants.PR_SE_VENDE, property.getValue(), Types.integer);
               break;
 
             case K_NO_REDONDEO:
@@ -944,27 +942,27 @@
               break;
 
             case K_TI_ID_IVA_RI_COMPRA:
-              fields.add(Constants.PR_TI_ID_RI_COMPRA, property.getSelectId(), Types.id);
+              fields.add(Constants.TI_ID_RI_COMPRA, property.getSelectId(), Types.id);
               break;
 
             case K_TI_ID_IVA_RI_VENTA:
-              fields.add(Constants.PR_TI_ID_RI_VENTA, property.getSelectId(), Types.id);
+              fields.add(Constants.TI_ID_RI_VENTA, property.getSelectId(), Types.id);
               break;
 
             case K_TI_ID_INTERNOS_V:
-              fields.add(Constants.PR_TI_ID_INTERNOS_VENTA, property.getSelectId(), Types.id);
+              fields.add(Constants.TI_ID_INTERNOS_VENTA, property.getSelectId(), Types.id);
               break;
 
             case K_TI_ID_INTERNOS_C:
-              fields.add(Constants.PR_TI_ID_INTERNOS_COMPRA, property.getSelectId(), Types.id);
+              fields.add(Constants.TI_ID_INTERNOS_COMPRA, property.getSelectId(), Types.id);
               break;
 
             case K_PORC_INTERNO_C:
-              fields.add(Constants.PR_PORCINTERNOC, property.getValue(), Types.double);
+              fields.add(Constants.PR_PORC_INTERNO_C, property.getValue(), Types.double);
               break;
 
             case K_PORC_INTERNO_V:
-              fields.add(Constants.PR_PORCINTERNOV, property.getValue(), Types.double);
+              fields.add(Constants.PR_PORC_INTERNO_V, property.getValue(), Types.double);
               break;
 
             case K_IBC_ID:
@@ -972,11 +970,11 @@
               break;
 
             case K_CUEG_ID_COMPRA:
-              fields.add(Constants.PR_CUEG_ID_COMPRA, property.getSelectId(), Types.id);
+              fields.add(Constants.CUEG_ID_COMPRA, property.getSelectId(), Types.id);
               break;
 
             case K_CUEG_ID_VENTA:
-              fields.add(Constants.PR_CUEG_ID_VENTA, property.getSelectId(), Types.id);
+              fields.add(Constants.CUEG_ID_VENTA, property.getSelectId(), Types.id);
               break;
 
             case K_X:
@@ -992,15 +990,15 @@
               break;
 
             case K_TIENE_HIJO:
-              fields.add(Constants.PR_TIENEHIJO, property.getValue(), Types.boolean);
+              fields.add(Constants.PR_TIENE_HIJO, property.getValue(), Types.boolean);
               break;
 
             case K_STOCK_MINIMO:
-              fields.add(Constants.PR_STOCKMINIMO, property.getValue(), Types.double);
+              fields.add(Constants.PR_STOCK_MINIMO, property.getValue(), Types.double);
               break;
 
             case K_STOCK_MAXIMO:
-              fields.add(Constants.PR_STOCKMAXIMO, property.getValue(), Types.double);
+              fields.add(Constants.PR_STOCK_MAXIMO, property.getValue(), Types.double);
               break;
 
             case K_LLEVA_NRO_SERIE:
@@ -1028,7 +1026,7 @@
               break;
 
             case K_CODIGO_EXTERNO:
-              fields.add(Constants.PR_CODIGOEXTERNO, property.getValue(), Types.text);
+              fields.add(Constants.PR_CODIGO_EXTERNO, property.getValue(), Types.text);
               break;
 
             case K_MARC_ID:
@@ -1076,7 +1074,7 @@
               break;
 
             case K_CANTIDAD_X_CAJA_EXPO:
-              fields.add(Constants.PR_CANT_XCAJA_EXPO, property.getValue(), Types.integer);
+              fields.add(Constants.PR_CANT_X_CAJA_EXPO, property.getValue(), Types.integer);
               break;
 
             case K_REPOSICION:
@@ -1149,7 +1147,7 @@
 
             case K_ES_KIT:
               kitInfo.esKit = Cairo.Util.val(property.getValue());
-              fields.add(Constants.PR_ESKIT, property.getValue(), Types.boolean);
+              fields.add(Constants.PR_ES_KIT, property.getValue(), Types.boolean);
               break;
 
             case K_KIT_STK_X_ITEM:
@@ -1228,21 +1226,21 @@
 
         // IVA RNI
         //
-        fields.add(Constants.PR_TI_ID_RNI_VENTA, -1, Types.id);
-        fields.add(Constants.PR_TI_ID_RNI_COMPRA, -2, Types.id);
+        fields.add(Constants.TI_ID_RNI_VENTA, -1, Types.id);
+        fields.add(Constants.TI_ID_RNI_COMPRA, -2, Types.id);
 
         //--------------------------
         // Kit
         //
         setKitConfig(kitInfo);
 
-        fields.add(Constants.PR_KIT_STOCK_XITEM, bToI(kitInfo.kitStockXItem), Types.boolean);
+        fields.add(Constants.PR_KIT_STOCK_X_ITEM, bToI(kitInfo.kitStockXItem), Types.boolean);
         fields.add(Constants.PR_KIT_RESUMIDO, bToI(kitInfo.kitResumido), Types.boolean);
         fields.add(Constants.PR_KIT_IDENTIDAD, bToI(kitInfo.kitIdentidad), Types.boolean);
-        fields.add(Constants.PR_KIT_IDENTIDAD_XITEM, bToI(kitInfo.kitIdentidadXItem), Types.boolean);
+        fields.add(Constants.PR_KIT_IDENTIDAD_X_ITEM, bToI(kitInfo.kitIdentidadXItem), Types.boolean);
         fields.add(Constants.TA_ID_KIT_SERIE, kitInfo.taIdKitSerie, Types.id);
         fields.add(Constants.PR_KIT_LOTE, bToI(kitInfo.kitLote), Types.boolean);
-        fields.add(Constants.PR_KIT_LOTE_XITEM, bToI(kitInfo.kitLoteXItem), Types.boolean);
+        fields.add(Constants.PR_KIT_LOTE_X_ITEM, bToI(kitInfo.kitLoteXItem), Types.boolean);
         fields.add(Constants.TA_ID_KIT_LOTE, kitInfo.taIdKitLote, Types.id);
 
         m_genericEdit.save(m_dialog, register);
@@ -1626,7 +1624,7 @@
         //////////////////////////////////////////////////////////////
         // General
         //
-        var elem = properties.add(null, Constants.PR_NOMBRE_COMPRA);
+        var elem = properties.add(null, Constants.PR_NAME_COMPRA);
         elem.setType(Dialogs.PropertyType.text);
         elem.setName(Cairo.Constants.NAME_LABEL);
         elem.setWidth(8000);
@@ -1635,8 +1633,8 @@
 
         var elem = properties.add(null, Cairo.Constants.ACTIVE);
         elem.setType(Dialogs.PropertyType.check);
-        elem.setTopFromProperty(Constants.PR_NOMBRE_COMPRA);
-        elem.setLeftFromProperty(Constants.PR_NOMBRE_COMPRA);
+        elem.setTopFromProperty(Constants.PR_NAME_COMPRA);
+        elem.setLeftFromProperty(Constants.PR_NAME_COMPRA);
         elem.setLeftToPrevious(8900);
         elem.setLeftLabel(-500);
         elem.setWidth(800);
@@ -1649,14 +1647,14 @@
         var elem = properties.add(null, Constants.PR_CODE);
         elem.setType(Dialogs.PropertyType.text);
         elem.setName(Cairo.Constants.CODE_LABEL);
-        elem.setLeftFromProperty(Constants.PR_NOMBRE_COMPRA);
-        elem.setTopFromProperty(Constants.PR_NOMBRE_COMPRA);
+        elem.setLeftFromProperty(Constants.PR_NAME_COMPRA);
+        elem.setTopFromProperty(Constants.PR_NAME_COMPRA);
         elem.setTopToPrevious(440);
         elem.setSize(90);
         elem.setKey(K_CODE);
         elem.setValue(m_code);
 
-        var elem = properties.add(null, Constants.PR_CODIGOEXTERNO);
+        var elem = properties.add(null, Constants.PR_CODIGO_EXTERNO);
         elem.setType(Dialogs.PropertyType.text);
         elem.setName(Cairo.Language.getText(1305, "")); // Código Externo
         elem.setSize(30);
@@ -1722,7 +1720,7 @@
         elem.setSelectId(m_cur_id);
         elem.setWidth(4050);
 
-        var elem = properties.add(null, Constants.PR_DESCRIPCOMPRA);
+        var elem = properties.add(null, Constants.PR_DESCRIP_COMPRA);
         elem.setType(Dialogs.PropertyType.text);
         elem.setName(Cairo.Constants.DESCRIPTION_LABEL);
         elem.setHeight(660);
@@ -1730,7 +1728,7 @@
         elem.setSubType(Dialogs.PropertySubType.memo);
         elem.setSize(2000);
         elem.setKey(K_DESCRIP_COMPRA);
-        elem.setValue(m_descripcompra);
+        elem.setValue(m_descripCompra);
         elem.setLeftFromProperty(Constants.PR_CODE);
         elem.setTopToPrevious(440);
 
@@ -1833,15 +1831,15 @@
 
         //-------------------------------------------------------------------------
 
-        var elem = properties.add(null, Constants.PR_SECOMPRA);
+        var elem = properties.add(null, Constants.PR_SE_COMPRA);
         elem.setType(Dialogs.PropertyType.check);
         elem.setTabIndex(tab_compra);
-        elem.setTopFromProperty(Constants.PR_NOMBRE_COMPRA);
+        elem.setTopFromProperty(Constants.PR_NAME_COMPRA);
         elem.setName(Cairo.Language.getText(1309, "")); // Se Compra
         elem.setKey(K_SE_COMPRA);
         elem.setValue(bToI(m_seCompra));
 
-        var elem = properties.add(null, Constants.PR_UN_ID_COMPRA);
+        var elem = properties.add(null, Constants.UN_ID_COMPRA);
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.UNIDAD);
         elem.setName(Cairo.Language.getText(1165, "")); // Unidad
@@ -1850,7 +1848,7 @@
         elem.setSelectId(m_un_id_compra);
         elem.setValue(m_unidadCompra);
 
-        var elem = properties.add(null, Constants.PR_CUEG_ID_COMPRA);
+        var elem = properties.add(null, Constants.CUEG_ID_COMPRA);
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.GRUPO_DE_CUENTA);
         elem.setTabIndex(tab_compra);
@@ -1860,9 +1858,9 @@
         elem.setValue(m_cuentaGCompra);
         elem.setSelectFilter("cueg_tipo = "+ Constants.AccountGroupType.productForPurchase.toString());
 
-        var elem = properties.add(null, Constants.PR_TI_ID_RI_COMPRA);
+        var elem = properties.add(null, Constants.TI_ID_RI_COMPRA);
         elem.setType(Dialogs.PropertyType.select);
-        elem.setTopFromProperty(Constants.PR_UN_ID_COMPRA);
+        elem.setTopFromProperty(Constants.UN_ID_COMPRA);
         elem.setLeft(6000);
         elem.setSelectTable(Cairo.Tables.TASA_IMPOSITIVA);
         elem.setName(Cairo.Language.getText(1317, "")); // IVA Resp. Ins.
@@ -1872,10 +1870,10 @@
         elem.setValue(m_tiIvaRiCompra);
         elem.setSelectFilter(Constants.filterForPurchase);
 
-        var elem = properties.add(null, Constants.PR_TI_ID_INTERNOS_COMPRA);
+        var elem = properties.add(null, Constants.TI_ID_INTERNOS_COMPRA);
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.TASA_IMPOSITIVA);
-        elem.setLeftFromProperty(Constants.PR_TI_ID_RI_COMPRA);
+        elem.setLeftFromProperty(Constants.TI_ID_RI_COMPRA);
         elem.setTabIndex(tab_compra);
         elem.setName(Cairo.Language.getText(1319, "")); // Tasa Internos
         elem.setKey(K_TI_ID_INTERNOS_C);
@@ -1883,7 +1881,7 @@
         elem.setValue(m_tiInternosc);
         elem.setSelectFilter(Constants.filterForPurchase);
 
-        var elem = properties.add(null, Constants.PR_PORCINTERNOC);
+        var elem = properties.add(null, Constants.PR_PORC_INTERNO_C);
         elem.setType(Dialogs.PropertyType.numeric);
         elem.setTabIndex(tab_compra);
         elem.setName(Cairo.Language.getText(1320, "")); // Porcentaje Internos
@@ -1903,14 +1901,14 @@
         //////////////////////////////////////////////////////////////
         // Stock
         //
-        var elem = properties.add(null, Constants.PR_LLEVASTOCK);
+        var elem = properties.add(null, Constants.PR_LLEVA_STOCK);
         elem.setType(Dialogs.PropertyType.check);
         elem.setName(Cairo.Language.getText(1321, "")); // Se tiene en Stock
         elem.setTabIndex(tab_stock);
         elem.setKey(K_LLEVA_STOCK);
         elem.setValue(bToI(m_llevaStock));
 
-        var elem = properties.add(null, Constants.PR_UN_ID_STOCK);
+        var elem = properties.add(null, Constants.UN_ID_STOCK);
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.UNIDAD);
         elem.setTabIndex(tab_stock);
@@ -1952,7 +1950,7 @@
         elem.setValue(m_z);
         elem.setSubType(Dialogs.PropertySubType.integer);
 
-        var elem = properties.add(null, Constants.PR_STOCKMINIMO);
+        var elem = properties.add(null, Constants.PR_STOCK_MINIMO);
         elem.setType(Dialogs.PropertyType.numeric);
         elem.setTabIndex(tab_stock);
         elem.setName(Cairo.Language.getText(1326, "")); // Stock Mínimo
@@ -1960,7 +1958,7 @@
         elem.setValue(m_stockMinimo);
         elem.setSubType(Dialogs.PropertySubType.double);
         elem.setFormat(Cairo.Settings.getQuantityDecimalsFormat());
-        elem.setTopFromProperty(Constants.PR_UN_ID_STOCK);
+        elem.setTopFromProperty(Constants.UN_ID_STOCK);
         elem.setLeft(5700);
 
         var elem = properties.add(null, Constants.PR_REPOSICION);
@@ -1972,7 +1970,7 @@
         elem.setSubType(Dialogs.PropertySubType.double);
         elem.setFormat(Cairo.Settings.getQuantityDecimalsFormat());
 
-        var elem = properties.add(null, Constants.PR_STOCKMAXIMO);
+        var elem = properties.add(null, Constants.PR_STOCK_MAXIMO);
         elem.setType(Dialogs.PropertyType.numeric);
         elem.setTabIndex(tab_stock);
         elem.setName(Cairo.Language.getText(1327, "")); // Stock Máximo
@@ -1987,7 +1985,7 @@
         elem.setName(Cairo.Language.getText(1329, "")); // Lleva Nro Serie
         elem.setKey(K_LLEVA_NRO_SERIE);
         elem.setValue(bToI(m_llevaNroSerie));
-        elem.setTopFromProperty(Constants.PR_UN_ID_STOCK);
+        elem.setTopFromProperty(Constants.UN_ID_STOCK);
         elem.setLeft(10000);
 
         var elem = properties.add(null, Constants.PR_LLEVA_NRO_LOTE);
@@ -2021,17 +2019,17 @@
         //////////////////////////////////////////////////////////////
         // Ventas
         //
-        var elem = properties.add(null, Constants.PR_SEVENDE);
+        var elem = properties.add(null, Constants.PR_SE_VENDE);
         elem.setType(Dialogs.PropertyType.check);
         elem.setTabIndex(tab_venta);
         elem.setName(Cairo.Language.getText(1334, "")); // Se Vende
         elem.setKey(K_SE_VENDE);
         elem.setValue(bToI(m_seVende));
 
-        var elem = properties.add(null, Constants.PR_NOMBRE_VENTA);
+        var elem = properties.add(null, Constants.PR_NAME_VENTA);
         elem.setType(Dialogs.PropertyType.text);
         elem.setTabIndex(tab_venta);
-        elem.setTopFromProperty(Constants.PR_SEVENDE);
+        elem.setTopFromProperty(Constants.PR_SE_VENDE);
         elem.setLeftNotChange(true);
         elem.setTopNotChange(true);
         elem.setLeft(2800);
@@ -2042,7 +2040,7 @@
         elem.setKey(K_NOMBRE_VENTA);
         elem.setValue(m_saleName);
 
-        var elem = properties.add(null, Constants.PR_NOMBRE_FACTURA);
+        var elem = properties.add(null, Constants.PR_NAME_FACTURA);
         elem.setType(Dialogs.PropertyType.text);
         elem.setTabIndex(tab_venta);
         elem.setWidth(4950);
@@ -2051,7 +2049,7 @@
         elem.setKey(K_NOMBRE_FACTURA);
         elem.setValue(m_nombreFactura);
 
-        var elem = properties.add(null, Constants.PR_UN_ID_VENTA);
+        var elem = properties.add(null, Constants.UN_ID_VENTA);
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.UNIDAD);
         elem.setTabIndex(tab_venta);
@@ -2078,12 +2076,12 @@
         elem.setSubType(Dialogs.PropertySubType.double);
         elem.setFormat("0.000000");
 
-        var elem = properties.add(null, Constants.PR_CUEG_ID_VENTA);
+        var elem = properties.add(null, Constants.CUEG_ID_VENTA);
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.GRUPO_DE_CUENTA);
         elem.setName(Cairo.Language.getText(1516, "")); // Grupo de Cuenta
         elem.setKey(K_CUEG_ID_VENTA);
-        elem.setTopFromProperty(Constants.PR_UN_ID_VENTA);
+        elem.setTopFromProperty(Constants.UN_ID_VENTA);
         elem.setLeft(5500);
         elem.setTabIndex(tab_venta);
         elem.setSelectId(m_cueg_id_venta);
@@ -2116,10 +2114,10 @@
         elem.setLeftFromProperty(Constants.PR_DINERARIO);
         elem.setLeftToPrevious(2000);
 
-        var elem = properties.add(null, Constants.PR_TI_ID_RI_VENTA);
+        var elem = properties.add(null, Constants.TI_ID_RI_VENTA);
         elem.setType(Dialogs.PropertyType.select);
-        elem.setTopFromProperty(Constants.PR_NOMBRE_VENTA);
-        elem.setLeftFromProperty(Constants.PR_CUEG_ID_VENTA);
+        elem.setTopFromProperty(Constants.PR_NAME_VENTA);
+        elem.setLeftFromProperty(Constants.CUEG_ID_VENTA);
         elem.setLeftToPrevious(3900);
         elem.setSelectTable(Cairo.Tables.TASA_IMPOSITIVA);
         elem.setName(Cairo.Language.getText(1317, "")); // IVA Resp. Ins.
@@ -2129,10 +2127,10 @@
         elem.setValue(m_tiIvaRiVenta);
         elem.setSelectFilter(Constants.filterForSales);
 
-        var elem = properties.add(null, Constants.PR_TI_ID_INTERNOS_VENTA);
+        var elem = properties.add(null, Constants.TI_ID_INTERNOS_VENTA);
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.TASA_IMPOSITIVA);
-        elem.setLeftFromProperty(Constants.PR_TI_ID_RI_VENTA);
+        elem.setLeftFromProperty(Constants.TI_ID_RI_VENTA);
         elem.setName(Cairo.Language.getText(1319, "")); // Tasa Internos
         elem.setKey(K_TI_ID_INTERNOS_V);
         elem.setTabIndex(tab_venta);
@@ -2140,7 +2138,7 @@
         elem.setValue(m_tiInternosv);
         elem.setSelectFilter(Constants.filterForSales);
 
-        var elem = properties.add(null, Constants.PR_PORCINTERNOV);
+        var elem = properties.add(null, Constants.PR_PORC_INTERNO_V);
         elem.setType(Dialogs.PropertyType.numeric);
         elem.setName(Cairo.Language.getText(1320, "")); // Porcentaje Internos
         elem.setSubType(Dialogs.PropertySubType.percentage);
@@ -2157,11 +2155,11 @@
         elem.setValue(m_centroCostoVenta);
         elem.setSelectId(m_ccos_id_venta);
 
-        var elem = properties.add(null, Constants.PR_DESCRIPVENTA);
+        var elem = properties.add(null, Constants.PR_DESCRIP_VENTA);
         elem.setType(Dialogs.PropertyType.text);
         elem.setTabIndex(tab_venta);
         elem.setName(Cairo.Constants.DESCRIPTION_LABEL);
-        elem.setLeftFromProperty(Constants.PR_SEVENDE);
+        elem.setLeftFromProperty(Constants.PR_SE_VENDE);
         elem.setTopFromProperty(Constants.PR_VENTA_STOCK);
         elem.setTopToPrevious(440);
         elem.setHeight(880);
@@ -2169,7 +2167,7 @@
         elem.setSubType(Dialogs.PropertySubType.memo);
         elem.setSize(2000);
         elem.setKey(K_DESCRIP_VENTA);
-        elem.setValue(m_descripventa);
+        elem.setValue(m_descripVenta);
 
         var elem = properties.add(null, Constants.RUB_ID);
         elem.setType(Dialogs.PropertyType.select);
@@ -2214,7 +2212,7 @@
         elem.setTabIndex(tab_comex);
         elem.setWidth(1000);
 
-        var elem = properties.add(null, Constants.PR_CANT_XCAJA_EXPO);
+        var elem = properties.add(null, Constants.PR_CANT_X_CAJA_EXPO);
         elem.setType(Dialogs.PropertyType.numeric);
         elem.setSubType(Dialogs.PropertySubType.integer);
         elem.setName(Cairo.Language.getText(1316, "")); // Cantidad x Caja
@@ -2313,7 +2311,7 @@
         //////////////////////////////////////////////////////////////
         // Kit
         //
-        var elem = properties.add(null, Constants.PR_ESKIT);
+        var elem = properties.add(null, Constants.PR_ES_KIT);
         elem.setType(Dialogs.PropertyType.check);
         elem.setLeft(1800);
         elem.setLeftLabel(-1500);
@@ -2322,13 +2320,13 @@
         elem.setKey(K_ES_KIT);
         elem.setValue(bToI(m_eskit));
 
-        var elem = properties.add(null, Constants.PR_KIT_STOCK_XITEM);
+        var elem = properties.add(null, Constants.PR_KIT_STOCK_X_ITEM);
         elem.setType(Dialogs.PropertyType.check);
         elem.setTabIndex(tab_kit);
         elem.setName(Cairo.Language.getText(1339, "")); // Kit Stock x Item
         elem.setKey(K_KIT_STK_X_ITEM);
         elem.setValue(bToI(m_kitStkXItem));
-        elem.setTopFromProperty(Constants.PR_ESKIT);
+        elem.setTopFromProperty(Constants.PR_ES_KIT);
         elem.setTopNotChange(true);
         elem.setLeft(3500);
         elem.setLeftNotChange(true);
@@ -2349,7 +2347,7 @@
         elem.setValue(bToI(m_kitIdentidad));
         elem.setEnabled(bToI(m_kitResumido));
 
-        var elem = properties.add(null, Constants.PR_KIT_IDENTIDAD_XITEM);
+        var elem = properties.add(null, Constants.PR_KIT_IDENTIDAD_X_ITEM);
         elem.setType(Dialogs.PropertyType.check);
         elem.setTabIndex(tab_kit);
         elem.setName(Cairo.Language.getText(1342, "")); // Identidad por Item
@@ -2381,7 +2379,7 @@
         elem.setValue(bToI(m_kitLote));
         elem.setEnabled(bToI(m_kitResumido));
 
-        var elem = properties.add(null, Constants.PR_KIT_LOTE_XITEM);
+        var elem = properties.add(null, Constants.PR_KIT_LOTE_X_ITEM);
         elem.setType(Dialogs.PropertyType.check);
         elem.setTabIndex(tab_kit);
         elem.setName(Cairo.Language.getText(1345, "")); // Lote por Item
@@ -2406,7 +2404,7 @@
         elem.setWidth(3000);
 
         var elem = properties.add(null);
-        elem.setTopFromProperty(Constants.PR_ESKIT);
+        elem.setTopFromProperty(Constants.PR_ES_KIT);
         elem.setLeft(5000);
         elem.setLeftLabel(-1);
         elem.setWidth(3000);
@@ -2527,10 +2525,10 @@
         //////////////////////////////////////////////////////////////
         // Web
         //
-        var elem = properties.add(null, Constants.PR_NOMBRE_WEB);
+        var elem = properties.add(null, Constants.PR_NAME_WEB);
         elem.setType(Dialogs.PropertyType.text);
         elem.setWidth(4950);
-        elem.setLeftFromProperty(Constants.PR_NOMBRE_COMPRA);
+        elem.setLeftFromProperty(Constants.PR_NAME_COMPRA);
         elem.setName(Cairo.Language.getText(3522, "")); // Nombre Web
         elem.setSize(255);
         elem.setKey(K_NOMBRE_WEB);
@@ -2565,7 +2563,7 @@
         elem.setKey(K_ACTIVOWEB);
         elem.setTabIndex(tab_Web);
         elem.setValue(bToI(m_activoWeb));
-        elem.setTopFromProperty(Constants.PR_NOMBRE_WEB);
+        elem.setTopFromProperty(Constants.PR_NAME_WEB);
         elem.setLeft(7800);
         elem.setLeftLabel(-1100);
         elem.setLeftNotChange(true);
@@ -2577,7 +2575,7 @@
         elem.setKey(K_WEB_IMAGE_UPDATE);
         elem.setTabIndex(tab_Web);
         elem.setValue(bToI(m_webImageUpdate));
-        elem.setTopFromProperty(Constants.PR_NOMBRE_WEB);
+        elem.setTopFromProperty(Constants.PR_NAME_WEB);
         elem.setLeft(10500);
         elem.setLeftLabel(-1700);
         elem.setLeftNotChange(true);
@@ -3013,55 +3011,55 @@
             if(response.data.id !== Cairo.Constants.NO_ID) {
 
               m_id = Cairo.Database.valField(response.data, Constants.PR_ID);
-              m_purchaseName = Cairo.Database.valField(response.data, Constants.PR_NOMBRE_COMPRA);
-              m_saleName = Cairo.Database.valField(response.data, Constants.PR_NOMBRE_VENTA);
-              m_nombreFactura = Cairo.Database.valField(response.data, Constants.PR_NOMBRE_FACTURA);
-              m_nombreWeb = Cairo.Database.valField(response.data, Constants.PR_NOMBRE_WEB);
+              m_purchaseName = Cairo.Database.valField(response.data, Constants.PR_NAME_COMPRA);
+              m_saleName = Cairo.Database.valField(response.data, Constants.PR_NAME_VENTA);
+              m_nombreFactura = Cairo.Database.valField(response.data, Constants.PR_NAME_FACTURA);
+              m_nombreWeb = Cairo.Database.valField(response.data, Constants.PR_NAME_WEB);
               m_aliasWeb = Cairo.Database.valField(response.data, Constants.PR_ALIAS_WEB);
               m_activoWeb = Cairo.Database.valField(response.data, Constants.PR_ACTIVO_WEB);
               m_codigoHtml = Cairo.Database.valField(response.data, Constants.PR_CODIGO_HTML);
               m_codigoHtmlDetalle = Cairo.Database.valField(response.data, Constants.PR_CODIGO_HTML_DETALLE);
               m_code = Cairo.Database.valField(response.data, Constants.PR_CODE);
               m_active = Cairo.Database.valField(response.data, Cairo.Constants.ACTIVE);
-              m_descripventa = Cairo.Database.valField(response.data, Constants.PR_DESCRIPVENTA);
-              m_descripcompra = Cairo.Database.valField(response.data, Constants.PR_DESCRIPCOMPRA);
+              m_descripVenta = Cairo.Database.valField(response.data, Constants.PR_DESCRIP_VENTA);
+              m_descripCompra = Cairo.Database.valField(response.data, Constants.PR_DESCRIP_COMPRA);
               m_compraVenta = Cairo.Database.valField(response.data, Constants.PR_VENTA_COMPRA);
               m_ventaStock = Cairo.Database.valField(response.data, Constants.PR_VENTA_STOCK);
               m_compraStock = Cairo.Database.valField(response.data, Constants.PR_STOCK_COMPRA);
-              m_llevaStock = Cairo.Database.valField(response.data, Constants.PR_LLEVASTOCK);
-              m_seCompra = Cairo.Database.valField(response.data, Constants.PR_SECOMPRA);
-              m_seVende = Cairo.Database.valField(response.data, Constants.PR_SEVENDE);
+              m_llevaStock = Cairo.Database.valField(response.data, Constants.PR_LLEVA_STOCK);
+              m_seCompra = Cairo.Database.valField(response.data, Constants.PR_SE_COMPRA);
+              m_seVende = Cairo.Database.valField(response.data, Constants.PR_SE_VENDE);
               m_dinerario = Cairo.Database.valField(response.data, Constants.PR_DINERARIO);
               m_noRedondeo = Cairo.Database.valField(response.data, Constants.PR_NO_REDONDEO);
-              m_eskit = Cairo.Database.valField(response.data, Constants.PR_ESKIT);
+              m_eskit = Cairo.Database.valField(response.data, Constants.PR_ES_KIT);
 
               m_kitResumido = Cairo.Database.valField(response.data, Constants.PR_KIT_RESUMIDO);
               m_kitIdentidad = Cairo.Database.valField(response.data, Constants.PR_KIT_IDENTIDAD);
-              m_kitIdentidadXItem = Cairo.Database.valField(response.data, Constants.PR_KIT_IDENTIDAD_XITEM);
+              m_kitIdentidadXItem = Cairo.Database.valField(response.data, Constants.PR_KIT_IDENTIDAD_X_ITEM);
               m_kitLote = Cairo.Database.valField(response.data, Constants.PR_KIT_LOTE);
-              m_kitLoteXItem = Cairo.Database.valField(response.data, Constants.PR_KIT_LOTE_XITEM);
+              m_kitLoteXItem = Cairo.Database.valField(response.data, Constants.PR_KIT_LOTE_X_ITEM);
               m_talonarioKitSerie = Cairo.Database.valField(response.data, "TalonarioSerie");
               m_talonarioKitLote = Cairo.Database.valField(response.data, "TalonarioLote");
               m_ta_id_kitSerie = Cairo.Database.valField(response.data, Constants.TA_ID_KIT_SERIE);
               m_ta_id_kitLote = Cairo.Database.valField(response.data, Constants.TA_ID_KIT_LOTE);
 
-              m_kitStkXItem = Cairo.Database.valField(response.data, Constants.PR_KIT_STOCK_XITEM);
+              m_kitStkXItem = Cairo.Database.valField(response.data, Constants.PR_KIT_STOCK_X_ITEM);
               m_esLista = Cairo.Database.valField(response.data, Constants.PR_ES_LISTA);
 
-              m_un_id_compra = Cairo.Database.valField(response.data, Constants.PR_UN_ID_COMPRA);
-              m_un_id_venta = Cairo.Database.valField(response.data, Constants.PR_UN_ID_VENTA);
-              m_un_id_stock = Cairo.Database.valField(response.data, Constants.PR_UN_ID_STOCK);
-              m_ti_id_IVA_RI_compra = Cairo.Database.valField(response.data, Constants.PR_TI_ID_RI_COMPRA);
-              m_ti_id_ivarnicompra = Cairo.Database.valField(response.data, Constants.PR_TI_ID_RNI_COMPRA);
-              m_ti_id_IVA_RI_venta = Cairo.Database.valField(response.data, Constants.PR_TI_ID_RI_VENTA);
-              m_ti_id_ivarniventa = Cairo.Database.valField(response.data, Constants.PR_TI_ID_RNI_VENTA);
-              m_ti_id_INTERNOS_v = Cairo.Database.valField(response.data, Constants.PR_TI_ID_INTERNOS_VENTA);
-              m_ti_id_INTERNOS_c = Cairo.Database.valField(response.data, Constants.PR_TI_ID_INTERNOS_COMPRA);
+              m_un_id_compra = Cairo.Database.valField(response.data, Constants.UN_ID_COMPRA);
+              m_un_id_venta = Cairo.Database.valField(response.data, Constants.UN_ID_VENTA);
+              m_un_id_stock = Cairo.Database.valField(response.data, Constants.UN_ID_STOCK);
+              m_ti_id_IVA_RI_compra = Cairo.Database.valField(response.data, Constants.TI_ID_RI_COMPRA);
+              m_ti_id_ivarnicompra = Cairo.Database.valField(response.data, Constants.TI_ID_RNI_COMPRA);
+              m_ti_id_IVA_RI_venta = Cairo.Database.valField(response.data, Constants.TI_ID_RI_VENTA);
+              m_ti_id_ivarniventa = Cairo.Database.valField(response.data, Constants.TI_ID_RNI_VENTA);
+              m_ti_id_INTERNOS_v = Cairo.Database.valField(response.data, Constants.TI_ID_INTERNOS_VENTA);
+              m_ti_id_INTERNOS_c = Cairo.Database.valField(response.data, Constants.TI_ID_INTERNOS_COMPRA);
               m_ibc_id = Cairo.Database.valField(response.data, Constants.IBC_ID);
-              m_cueg_id_compra = Cairo.Database.valField(response.data, Constants.PR_CUEG_ID_COMPRA);
-              m_cueg_id_venta = Cairo.Database.valField(response.data, Constants.PR_CUEG_ID_VENTA);
-              m_porcInternoC = Cairo.Database.valField(response.data, Constants.PR_PORCINTERNOC);
-              m_porcInternoV = Cairo.Database.valField(response.data, Constants.PR_PORCINTERNOV);
+              m_cueg_id_compra = Cairo.Database.valField(response.data, Constants.CUEG_ID_COMPRA);
+              m_cueg_id_venta = Cairo.Database.valField(response.data, Constants.CUEG_ID_VENTA);
+              m_porcInternoC = Cairo.Database.valField(response.data, Constants.PR_PORC_INTERNO_C);
+              m_porcInternoV = Cairo.Database.valField(response.data, Constants.PR_PORC_INTERNO_V);
               m_marca = Cairo.Database.valField(response.data, Constants.MARC_NAME);
               m_marc_id = Cairo.Database.valField(response.data, Constants.MARC_ID);
 
@@ -3081,14 +3079,14 @@
               m_x = Cairo.Database.valField(response.data, Constants.PR_X);
               m_y = Cairo.Database.valField(response.data, Constants.PR_Y);
               m_z = Cairo.Database.valField(response.data, Constants.PR_Z);
-              m_tieneHijo = Cairo.Database.valField(response.data, Constants.PR_TIENEHIJO);
+              m_tieneHijo = Cairo.Database.valField(response.data, Constants.PR_TIENE_HIJO);
               m_id_Padre = Cairo.Database.valField(response.data, Constants.PR_ID_PADRE);
-              m_editarPrecioHijo = Cairo.Database.valField(response.data, Constants.PR_EDITAR_PRECIOHIJO);
-              m_permiteEdicion = Cairo.Database.valField(response.data, Constants.PR_PERMITEEDICION);
+              m_editarPrecioHijo = Cairo.Database.valField(response.data, Constants.PR_EDITAR_PRECIO_HIJO);
+              m_permiteEdicion = Cairo.Database.valField(response.data, Constants.PR_PERMITE_EDICION);
               m_borrado = Cairo.Database.valField(response.data, Constants.PR_BORRADO);
-              m_stockMinimo = Cairo.Database.valField(response.data, Constants.PR_STOCKMINIMO);
-              m_stockMaximo = Cairo.Database.valField(response.data, Constants.PR_STOCKMAXIMO);
-              m_codigoExterno = Cairo.Database.valField(response.data, Constants.PR_CODIGOEXTERNO);
+              m_stockMinimo = Cairo.Database.valField(response.data, Constants.PR_STOCK_MINIMO);
+              m_stockMaximo = Cairo.Database.valField(response.data, Constants.PR_STOCK_MAXIMO);
+              m_codigoExterno = Cairo.Database.valField(response.data, Constants.PR_CODIGO_EXTERNO);
               m_codigoBarra = Cairo.Database.valField(response.data, Constants.PR_CODIGO_BARRA);
               m_codigoBarraNombre = Cairo.Database.valField(response.data, Constants.PR_CODIGO_BARRA_NAME);
               m_reposicion = Cairo.Database.valField(response.data, Constants.PR_REPOSICION);
@@ -3133,7 +3131,7 @@
               m_efm_id = Cairo.Database.valField(response.data, Constants.EFM_ID);
               m_familiaExpo = Cairo.Database.valField(response.data, Constants.EFM_NAME);
 
-              m_cantXCajaExpo = Cairo.Database.valField(response.data, Constants.PR_CANT_XCAJA_EXPO);
+              m_cantXCajaExpo = Cairo.Database.valField(response.data, Constants.PR_CANT_X_CAJA_EXPO);
               m_un_id_peso = Cairo.Database.valField(response.data, Constants.UN_ID_PESO);
               m_unidadPeso = Cairo.Database.valField(response.data, "up");
 
@@ -3205,8 +3203,8 @@
               m_codigoHtml = "";
               m_codigoHtmlDetalle = "";
               m_active = true;
-              m_descripventa = "";
-              m_descripcompra = "";
+              m_descripVenta = "";
+              m_descripCompra = "";
               m_un_id_compra = Cairo.Constants.NO_ID;
               m_un_id_venta = Cairo.Constants.NO_ID;
               m_un_id_stock = Cairo.Constants.NO_ID;
@@ -3392,7 +3390,7 @@
         //////////////////////////////////////////////////////////////
         // Compras
         //
-        var property = properties.item(Constants.PR_NOMBRE_COMPRA);
+        var property = properties.item(Constants.PR_NAME_COMPRA);
         property.setValue(m_purchaseName);
 
         var property = properties.item(Cairo.Constants.ACTIVE);
@@ -3401,7 +3399,7 @@
         var property = properties.item(Constants.PR_CODE);
         property.setValue(m_code);
 
-        var property = properties.item(Constants.PR_CODIGOEXTERNO);
+        var property = properties.item(Constants.PR_CODIGO_EXTERNO);
         property.setValue(m_codigoExterno);
 
         var property = properties.item(Constants.PR_CODIGO_BARRA);
@@ -3421,8 +3419,8 @@
         property.setValue(m_curso);
         property.setSelectId(m_cur_id);
 
-        var property = properties.item(Constants.PR_DESCRIPCOMPRA);
-        property.setValue(m_descripcompra);
+        var property = properties.item(Constants.PR_DESCRIP_COMPRA);
+        property.setValue(m_descripCompra);
 
         var property = properties.item(Constants.RPT_ID_NOMBRE_COMPRA);
         property.setValue(m_rpt_nombreCompra);
@@ -3448,14 +3446,14 @@
         property.setValue(m_rpt_nombreimgalt);
         property.setSelectId(m_rpt_id_nombreimgalt);
 
-        var property = properties.item(Constants.PR_SECOMPRA);
+        var property = properties.item(Constants.PR_SE_COMPRA);
         property.setValue(bToI(m_seCompra));
 
-        var property = properties.item(Constants.PR_UN_ID_COMPRA);
+        var property = properties.item(Constants.UN_ID_COMPRA);
         property.setSelectId(m_un_id_compra);
         property.setValue(m_unidadCompra);
 
-        var property = properties.item(Constants.PR_CUEG_ID_COMPRA);
+        var property = properties.item(Constants.CUEG_ID_COMPRA);
         property.setSelectId(m_cueg_id_compra);
         property.setValue(m_cuentaGCompra);
 
@@ -3488,7 +3486,7 @@
         var property = properties.item(Constants.PR_FLETE_EXPO);
         property.setValue(bToI(m_fleteExpo));
 
-        var property = properties.item(Constants.PR_CANT_XCAJA_EXPO);
+        var property = properties.item(Constants.PR_CANT_X_CAJA_EXPO);
         property.setValue(m_cantXCajaExpo);
 
         var property = properties.item(Constants.EMBL_ID);
@@ -3530,24 +3528,24 @@
         var property = properties.item(Constants.PR_WEB_IMAGE_UPDATE);
         property.setValue(bToI(m_webImageUpdate));
 
-        var property = properties.item(Constants.PR_TI_ID_RI_COMPRA);
+        var property = properties.item(Constants.TI_ID_RI_COMPRA);
         property.setValue(m_tiIvaRiCompra);
         property.setSelectId(m_ti_id_IVA_RI_compra);
 
-        var property = properties.item(Constants.PR_TI_ID_INTERNOS_COMPRA);
+        var property = properties.item(Constants.TI_ID_INTERNOS_COMPRA);
         property.setValue(m_tiInternosc);
         property.setSelectId(m_ti_id_INTERNOS_c);
 
-        var property = properties.item(Constants.PR_PORCINTERNOC);
+        var property = properties.item(Constants.PR_PORC_INTERNO_C);
         property.setValue(m_porcInternoC);
 
         //////////////////////////////////////////////////////////////
         // Stock
         //
-        var property = properties.item(Constants.PR_LLEVASTOCK);
+        var property = properties.item(Constants.PR_LLEVA_STOCK);
         property.setValue(bToI(m_llevaStock));
 
-        var property = properties.item(Constants.PR_UN_ID_STOCK);
+        var property = properties.item(Constants.UN_ID_STOCK);
         property.setValue(m_unidadStock);
         property.setSelectId(m_un_id_stock);
 
@@ -3563,10 +3561,10 @@
         var property = properties.item(Constants.PR_Z);
         property.setValue(m_z);
 
-        var property = properties.item(Constants.PR_STOCKMINIMO);
+        var property = properties.item(Constants.PR_STOCK_MINIMO);
         property.setValue(m_stockMinimo);
 
-        var property = properties.item(Constants.PR_STOCKMAXIMO);
+        var property = properties.item(Constants.PR_STOCK_MAXIMO);
         property.setValue(m_stockMaximo);
 
         var property = properties.item(Constants.PR_REPOSICION);
@@ -3590,16 +3588,16 @@
         //////////////////////////////////////////////////////////////
         // Ventas
         //
-        var property = properties.item(Constants.PR_SEVENDE);
+        var property = properties.item(Constants.PR_SE_VENDE);
         property.setValue(bToI(m_seVende));
 
-        var property = properties.item(Constants.PR_NOMBRE_VENTA);
+        var property = properties.item(Constants.PR_NAME_VENTA);
         property.setValue(m_saleName);
 
-        var property = properties.item(Constants.PR_NOMBRE_FACTURA);
+        var property = properties.item(Constants.PR_NAME_FACTURA);
         property.setValue(m_nombreFactura);
 
-        var property = properties.item(Constants.PR_UN_ID_VENTA);
+        var property = properties.item(Constants.UN_ID_VENTA);
         property.setValue(m_unidadVenta);
         property.setSelectId(m_un_id_venta);
 
@@ -3609,22 +3607,22 @@
         var property = properties.item(Constants.PR_VENTA_STOCK);
         property.setValue(m_ventaStock);
 
-        var property = properties.item(Constants.PR_CUEG_ID_VENTA);
+        var property = properties.item(Constants.CUEG_ID_VENTA);
         property.setSelectId(m_cueg_id_venta);
         property.setValue(m_cuentaGVenta);
 
         var property = properties.item(Constants.PR_ES_LISTA);
         property.setValue(bToI(m_esLista));
 
-        var property = properties.item(Constants.PR_TI_ID_RI_VENTA);
+        var property = properties.item(Constants.TI_ID_RI_VENTA);
         property.setValue(m_tiIvaRiVenta);
         property.setSelectId(m_ti_id_IVA_RI_venta);
 
-        var property = properties.item(Constants.PR_TI_ID_INTERNOS_VENTA);
+        var property = properties.item(Constants.TI_ID_INTERNOS_VENTA);
         property.setValue(m_tiInternosv);
         property.setSelectId(m_ti_id_INTERNOS_v);
 
-        var property = properties.item(Constants.PR_PORCINTERNOV);
+        var property = properties.item(Constants.PR_PORC_INTERNO_V);
         property.setValue(m_porcInternoV);
 
         var property = properties.item(Constants.PR_DINERARIO);
@@ -3637,8 +3635,8 @@
         property.setSelectId(m_ccos_id_venta);
         property.setValue(m_centroCostoVenta);
 
-        var property = properties.item(Constants.PR_DESCRIPVENTA);
-        property.setValue(m_descripventa);
+        var property = properties.item(Constants.PR_DESCRIP_VENTA);
+        property.setValue(m_descripVenta);
 
         var property = properties.item(Constants.RUB_ID);
         property.setValue(m_rubro);
@@ -3647,10 +3645,10 @@
         //////////////////////////////////////////////////////////////
         // Kit
         //
-        var property = properties.item(Constants.PR_ESKIT);
+        var property = properties.item(Constants.PR_ES_KIT);
         property.setValue(bToI(m_eskit));
 
-        var property = properties.item(Constants.PR_KIT_STOCK_XITEM);
+        var property = properties.item(Constants.PR_KIT_STOCK_X_ITEM);
         property.setValue(bToI(m_kitStkXItem));
 
         var property = properties.item(Constants.PR_KIT_RESUMIDO);
@@ -3659,7 +3657,7 @@
         var property = properties.item(Constants.PR_KIT_IDENTIDAD);
         property.setValue(bToI(m_kitIdentidad));
 
-        var property = properties.item(Constants.PR_KIT_IDENTIDAD_XITEM);
+        var property = properties.item(Constants.PR_KIT_IDENTIDAD_X_ITEM);
         property.setValue(bToI(m_kitIdentidadXItem));
 
         var property = properties.item(Constants.TA_ID_KIT_SERIE);
@@ -3669,7 +3667,7 @@
         var property = properties.item(Constants.PR_KIT_LOTE);
         property.setValue(bToI(m_kitLote));
 
-        var property = properties.item(Constants.PR_KIT_LOTE_XITEM);
+        var property = properties.item(Constants.PR_KIT_LOTE_X_ITEM);
         property.setValue(bToI(m_kitLoteXItem));
 
         var property = properties.item(Constants.TA_ID_KIT_LOTE);
@@ -3716,7 +3714,7 @@
         //////////////////////////////////////////////////////////////
         // Tags
         //
-        var property = properties.item(Constants.PR_NOMBRE_WEB);
+        var property = properties.item(Constants.PR_NAME_WEB);
         property.setValue(m_nombreWeb);
 
         var property = properties.item(Constants.PR_ALIAS_WEB);
@@ -4463,7 +4461,7 @@
 
       var saveItemsTags = function(mainRegister) {
         var transaction = new Cairo.Database.Transaction();
-        transaction.setTable(Constants.PRODUCTOTAG);
+        transaction.setTable(Constants.PRODUCTO_TAG);
 
         var bPrIdTag = null;
 
@@ -4479,7 +4477,7 @@
 
           var fields = register.getFields();
           register.setFieldId(Constants.PRT_ID);
-          register.setTable(Constants.PRODUCTOTAG);
+          register.setTable(Constants.PRODUCTO_TAG);
           register.setId(Cairo.Constants.NEW_ID);
 
           var _count = row.size();
@@ -5286,7 +5284,7 @@
         elem.setSelectTable(Cairo.Tables.PRODUCTO);
         elem.setWidth(1000);
         elem.setKey(KIT_PR_ID_TAG);
-        if(m_userConfig.getMultiSelect()) {
+        if(Cairo.UserConfig.getMultiSelect()) {
           elem.setSelectType(Cairo.Entities.Select.SelectType.tree);
         }
 
@@ -5338,7 +5336,7 @@
           elem.setKey(KIT_PRT_ID);
 
           var elem = elem.add(null);
-          elem.setValue(Cairo.Database.valField(m_data.tags[_i], Constants.PR_NOMBRE_COMPRA));
+          elem.setValue(Cairo.Database.valField(m_data.tags[_i], Constants.PR_NAME_COMPRA));
           elem.setId(Cairo.Database.valField(m_data.tags[_i], Constants.PR_ID_TAG));
           elem.setKey(KIT_PR_ID_TAG);
 
@@ -5610,7 +5608,7 @@
       var setKitEnabled = function() {
 
         var properties = m_dialog.getProperties();
-        var enabled = Cairo.Util.val(properties.item(Constants.PR_ESKIT).getValue());
+        var enabled = Cairo.Util.val(properties.item(Constants.PR_ES_KIT).getValue());
 
         if(enabled) {
           enabled = properties.item(Constants.PR_KIT_RESUMIDO).getValue();
@@ -5632,7 +5630,7 @@
 
           if(Cairo.Util.val(properties.item(Constants.PR_KIT_IDENTIDAD).getValue())) {
 
-            property = properties.item(Constants.PR_KIT_IDENTIDAD_XITEM);
+            property = properties.item(Constants.PR_KIT_IDENTIDAD_X_ITEM);
             property.setEnabled(true);
             m_dialog.showValue(property);
 
@@ -5649,7 +5647,7 @@
           }
           else {
 
-            property = properties.item(Constants.PR_KIT_IDENTIDAD_XITEM);
+            property = properties.item(Constants.PR_KIT_IDENTIDAD_X_ITEM);
             property.setEnabled(false);
             m_dialog.showValue(property);
 
@@ -5666,11 +5664,11 @@
         }
         else {
 
-          property = properties.item(Constants.PR_KIT_IDENTIDAD_XITEM);
+          property = properties.item(Constants.PR_KIT_IDENTIDAD_X_ITEM);
           property.setEnabled(enabled);
           m_dialog.showValue(property);
 
-          property = properties.item(Constants.PR_KIT_LOTE_XITEM);
+          property = properties.item(Constants.PR_KIT_LOTE_X_ITEM);
           property.setEnabled(enabled);
           m_dialog.showValue(property);
 
@@ -5706,7 +5704,7 @@
 
           if(Cairo.Util.val(properties.item(Constants.PR_KIT_LOTE).getValue())) {
 
-            property = properties.item(Constants.PR_KIT_LOTE_XITEM);
+            property = properties.item(Constants.PR_KIT_LOTE_X_ITEM);
             property.setEnabled(true);
             m_dialog.showValue(property);
 
@@ -5718,7 +5716,7 @@
           }
           else {
 
-            property = properties.item(Constants.PR_KIT_LOTE_XITEM);
+            property = properties.item(Constants.PR_KIT_LOTE_X_ITEM);
             property.setEnabled(false);
             m_dialog.showValue(property);
 
@@ -5842,12 +5840,12 @@
                   name = name + (Cairo.String.rtrim(" " + properties.item(Constants.RUBTIID10).getValue())).toString();
                 }
 
-                properties.item(Constants.PR_NOMBRE_COMPRA).setValue(name);
-                m_dialog.showValue(properties.item(Constants.PR_NOMBRE_COMPRA));
+                properties.item(Constants.PR_NAME_COMPRA).setValue(name);
+                m_dialog.showValue(properties.item(Constants.PR_NAME_COMPRA));
 
-                if (properties.item(Constants.PR_NOMBRE_VENTA).getValue() === "") {
-                  properties.item(Constants.PR_NOMBRE_VENTA).setValue(name);
-                  m_dialog.showValue(properties.item(Constants.PR_NOMBRE_VENTA));
+                if (properties.item(Constants.PR_NAME_VENTA).getValue() === "") {
+                  properties.item(Constants.PR_NAME_VENTA).setValue(name);
+                  m_dialog.showValue(properties.item(Constants.PR_NAME_VENTA));
                 }
 
                 return true;
@@ -5920,9 +5918,6 @@
       //
 
       var initialize = function() {
-        m_userConfig = new cUsuarioConfig();
-        m_userConfig.load();
-
         m_genericEdit = Cairo.GenericEdit.Edit.Controller.getEditor();
       };
 
@@ -5931,7 +5926,6 @@
         m_genericEdit = null;
         m_dialog = null;
         m_listController = null;
-        m_userConfig = null;
       };
 
       self.terminate = function() {

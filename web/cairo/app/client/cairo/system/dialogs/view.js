@@ -20,7 +20,7 @@
       //
       // first tabs
       //
-      if(tabs > 0) {
+      if(tabs > 1) {
         var row = $('<div class="row"></div>');
         var column = $('<div class="col-lg-12 col-md-12 col-sm-12"></div>');
         var group = $('<div class="btn-group" role="group" aria-label="..."></div>')
