@@ -279,7 +279,7 @@
 
       var C_MODULE = "cGenericEdit";
 
-      var Constants = Cairo.General.Constants;
+      var C = Cairo.General.Constants;
       var valField = Cairo.Database.valField;
 
       var m_fields = Cairo.Collections.createCollection(createField);
@@ -290,30 +290,30 @@
 
         for(var _i = 0; _i < fields.length; _i += 1) {
 
-          var field = m_fields.add(null, valField(fields[_i], Constants.TBLI_ID));
+          var field = m_fields.add(null, valField(fields[_i], C.TBLI_ID));
 
-          field.setId(valField(fields[_i], Constants.TBLI_ID));
-          field.setName(valField(fields[_i], Constants.TBLI_NAME));
-          field.setRealName(valField(fields[_i], Constants.TBLI_NOMBRE_FISICO));
-          field.setType(valField(fields[_i], Constants.TBLI_TIPO));
-          field.setSubType(valField(fields[_i], Constants.TBLI_SUB_TIPO));
-          field.setOrder(valField(fields[_i], Constants.TBLI_ORDEN));
-          field.setTabla(valField(fields[_i], Constants.TBL_NOMBRE_FISICO));
-          field.setTblId(valField(fields[_i], Constants.TBL_ID_HELP));
-          field.setSelectType(valField(fields[_i], Constants.TBLI_HELP_TYPE));
-          field.setFilter(valField(fields[_i], Constants.TBLI_FILTRO));
-          field.setDefaultValue(valField(fields[_i], Constants.TBLI_DEFAULT_VALUE));
-          field.setMinValue(valField(fields[_i], Constants.TBLI_MIN_VALUE));
-          field.setMaxValue(valField(fields[_i], Constants.TBLI_MAX_VALUE));
-          field.setTextAlign(valField(fields[_i], Constants.TBLI_TEXT_ALIGN));
-          field.setTextMask(valField(fields[_i], Constants.TBLI_TEXT_MASK));
-          field.setFormat(valField(fields[_i], Constants.TBLI_FORMAT));
-          field.setWidth(valField(fields[_i], Constants.TBLI_WIDTH));
-          field.setHeight(valField(fields[_i], Constants.TBLI_HEIGHT));
-          field.setTop(valField(fields[_i], Constants.TBLI_TOP));
-          field.setLeft(valField(fields[_i], Constants.TBLI_LEFT));
-          field.setNoShowButton(valField(fields[_i], Constants.TBLI_NO_SHOW_BUTTON));
-          field.setListSql(valField(fields[_i], Constants.TBLI_SQLSTMT));
+          field.setId(valField(fields[_i], C.TBLI_ID));
+          field.setName(valField(fields[_i], C.TBLI_NAME));
+          field.setRealName(valField(fields[_i], C.TBLI_NOMBRE_FISICO));
+          field.setType(valField(fields[_i], C.TBLI_TIPO));
+          field.setSubType(valField(fields[_i], C.TBLI_SUB_TIPO));
+          field.setOrder(valField(fields[_i], C.TBLI_ORDEN));
+          field.setTabla(valField(fields[_i], C.TBL_NOMBRE_FISICO));
+          field.setTblId(valField(fields[_i], C.TBL_ID_HELP));
+          field.setSelectType(valField(fields[_i], C.TBLI_HELP_TYPE));
+          field.setFilter(valField(fields[_i], C.TBLI_FILTRO));
+          field.setDefaultValue(valField(fields[_i], C.TBLI_DEFAULT_VALUE));
+          field.setMinValue(valField(fields[_i], C.TBLI_MIN_VALUE));
+          field.setMaxValue(valField(fields[_i], C.TBLI_MAX_VALUE));
+          field.setTextAlign(valField(fields[_i], C.TBLI_TEXT_ALIGN));
+          field.setTextMask(valField(fields[_i], C.TBLI_TEXT_MASK));
+          field.setFormat(valField(fields[_i], C.TBLI_FORMAT));
+          field.setWidth(valField(fields[_i], C.TBLI_WIDTH));
+          field.setHeight(valField(fields[_i], C.TBLI_HEIGHT));
+          field.setTop(valField(fields[_i], C.TBLI_TOP));
+          field.setLeft(valField(fields[_i], C.TBLI_LEFT));
+          field.setNoShowButton(valField(fields[_i], C.TBLI_NO_SHOW_BUTTON));
+          field.setListSql(valField(fields[_i], C.TBLI_SQLSTMT));
         }
 
         return true;

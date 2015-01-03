@@ -963,13 +963,13 @@
         };
 
         self.printMaster = function(id, tblId) {
-          var R = Cairo.Configuration.Reports;
+          var R = Cairo.Settings.Reports;
           var U = Cairo.Util;
-          var C = Cairo.Configuration;
+          var C = Cairo.Settings;
 
           var printManager = new Cairo.Entities.Printing.Manager();
 
-          printManager.setPath(U.File.getValidPath(C.get(R.reportSection, R.reportPath, Cairo.Configuration.appPath())));
+          printManager.setPath(U.File.getValidPath(C.get(R.reportSection, R.reportPath, Cairo.Settings.appPath())));
           printManager.setCommandTimeout(U.val(C.get(R.reportSection, R.commandTimeOut, 0)));
           printManager.setConnectionTimeout(U.val(C.get(R.reportSection, R.connectionTimeOut, 0)));
 
@@ -1608,7 +1608,7 @@
 
             case Dialogs.PropertyType.label:
 
-              var c = view.getCtrlLabels().get(property.getIndex());
+              var c = view.getLabels().get(property.getIndex());
               c.setText(property.getValue());
               if(property.getBackColor() >= 0) {
                 c.setBackColor(property.getBackColor());
@@ -1684,7 +1684,7 @@
           // get the label for this control
           //
           if(property.getLabelIndex() !== 0) {
-            lbl = view.getLabels().get(property.getLabelIndex());
+            lbl = view.getCtrlLabels().get(property.getLabelIndex());
           }
 
           if(c !== null) {
@@ -1868,7 +1868,7 @@
 
               case Dialogs.PropertyType.label:
 
-                removeControl(view.getCtrlLabels().get(index));
+                removeControl(view.getLabels().get(index));
                 break;
 
               case Dialogs.PropertyType.title:
@@ -1921,7 +1921,7 @@
 
             index = property.getLabelIndex();
             if(index > 0) {
-              removeControl(getView().getLabels().get(index));
+              removeControl(getView().getCtrlLabels().get(index));
             }
           }
         };
@@ -2922,7 +2922,7 @@
 
         self.showHelpAux = function() {
           Cairo.safeExecute(function() {
-            Cairo.Util.File.editFile(Cairo.Util.File.getValidPath(Cairo.Configuration.appPath()) + "cairo.html");
+            Cairo.Util.File.editFile(Cairo.Util.File.getValidPath(Cairo.Settings.appPath()) + "cairo.html");
           });
         };
 
@@ -4709,7 +4709,7 @@
             && property.getType() !== Dialogs.PropertyType.label
             && property.getType() !== Dialogs.PropertyType.title) {
 
-            label = addControl(view, Dialogs.PropertyType.label);
+            label = addControl(view, Dialogs.PropertyType.controlLabel);
           }
 
           var c = addControl(view, controlType, subType);
@@ -6676,7 +6676,7 @@
             return Cairo.Promises.resolvedPromise(false);
           }
           else {
-            var config = Cairo.Configuration;
+            var config = Cairo.Settings;
             var reportConfig = config.Reports;
             var printManager = new Cairo.Entities.Printing.Manager();
 
@@ -6750,7 +6750,7 @@
 
               p.then(
                 function() {
-                  var config = Cairo.Configuration;
+                  var config = Cairo.Settings;
                   var reportConfig = config.Reports;
                   var printManager = new Cairo.Entities.Printing.Manager();
 
@@ -6853,7 +6853,7 @@
         };
 
         var initCtrlPosition = function() {
-          m_constLeft = getView().getLabels().get(0).getLeft();
+          m_constLeft = getView().getCtrlLabels().get(0).getLeft();
           m_constLeftOp = getView().getOptionButtons().get(0).getLeft();
           m_textOrigWidth = getView().getTextInputs().get(0).getWidth();
 

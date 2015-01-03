@@ -104,8 +104,8 @@
         inputs: Cairo.Collections.createCollection(Controls.createInput, controls),
         progressBars: Cairo.Collections.createCollection(Controls.createProgressBar, controls),
         textAreas: Cairo.Collections.createCollection(Controls.createTextArea, controls),
-        labels: Cairo.Collections.createCollection(Controls.createLabel, controls),
-        ctrlLabels: Cairo.Collections.createCollection(Controls.createLabel, controls),
+        labels: Cairo.Collections.createCollection(Controls.createLabel, controls),      // used for properties of type label
+        ctrlLabels: Cairo.Collections.createCollection(Controls.createLabel, controls),  // used to associate a label to a property
         titles: Cairo.Collections.createCollection(Controls.createLabel, controls),
 
         bottomLine: Controls.createControl(),

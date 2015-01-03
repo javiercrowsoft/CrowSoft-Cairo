@@ -549,15 +549,12 @@ var Cairo = new Marionette.Application();
     }
   };
 
-  Cairo.Configuration = {
+  Cairo.Settings = {
     get: function(section, key, defaultValue) { /* TODO: implement this. */},
-    appPath: function() { /* TODO: implement this. */ },
-    getQuantityDecimals: function() {
-      return 2;
-    }
+    appPath: function() { /* TODO: implement this. */ }
   };
 
-  Cairo.Configuration.Reports = {
+  Cairo.Settings.Reports = {
     reportSection: 'REPORTS',
     reportPath: 'REPORT_PATH',
     commandTimeOut: 'COMMAND_TIME_OUT',
@@ -576,7 +573,7 @@ var Cairo = new Marionette.Application();
   var getConfiguration = function() {
     var settings = loadSettings();
 
-    Cairo.Configuration.getQuantityDecimalsFormat = function() {
+    Cairo.Settings.getQuantityDecimalsFormat = function() {
       return settings.quantityDecimalsFormat;
     };
 

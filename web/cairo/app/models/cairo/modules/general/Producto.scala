@@ -26,9 +26,7 @@ case class ProductoBase (
                             expoCairo: Int,
                             esPlantilla: Boolean,
                             curId: Int,
-                            curName: String,
-                            rubId: Int,
-                            rubName: String
+                            curName: String
                           ) {
   def this(
             codigoExterno: String,
@@ -38,8 +36,7 @@ case class ProductoBase (
             marcId: Int,
             expoCairo: Int,
             esPlantilla: Boolean,
-            curId: Int,
-            rubId: Int
+            curId: Int
             ) = {
     this(
       codigoExterno,
@@ -52,8 +49,6 @@ case class ProductoBase (
       expoCairo,
       esPlantilla,
       curId,
-      "",
-      rubId,
       "")
   }
 }
@@ -68,8 +63,7 @@ object ProductoBase {
              marcId: Int,
              expoCairo: Int,
              esPlantilla: Boolean,
-             curId: Int,
-             rubId: Int) = {
+             curId: Int) = {
 
     new ProductoBase(
       codigoExterno,
@@ -79,8 +73,7 @@ object ProductoBase {
       marcId,
       expoCairo,
       esPlantilla,
-      curId,
-      rubId)
+      curId)
   }
 }
 
@@ -344,6 +337,100 @@ object ProductoVenta {
       tiIdInternosVenta,
       porcInternoV,
       ccosIdVenta)
+  }
+}
+
+case class ProductoRubro(
+                          rubId: Int,
+                          rubName: String,
+                          rubtiId1: Int,
+                          rubtiName1: String,
+                          rubtiId2: Int,
+                          rubtiName2: String,
+                          rubtiId3: Int,
+                          rubtiName3: String,
+                          rubtiId4: Int,
+                          rubtiName4: String,
+                          rubtiId5: Int,
+                          rubtiName5: String,
+                          rubtiId6: Int,
+                          rubtiName6: String,
+                          rubtiId7: Int,
+                          rubtiName7: String,
+                          rubtiId8: Int,
+                          rubtiName8: String,
+                          rubtiId9: Int,
+                          rubtiName9: String,
+                          rubtiId10: Int,
+                          rubtiName10: String
+                          ) {
+  def this(
+            rubId: Int,
+            rubtiId1: Int,
+            rubtiId2: Int,
+            rubtiId3: Int,
+            rubtiId4: Int,
+            rubtiId5: Int,
+            rubtiId6: Int,
+            rubtiId7: Int,
+            rubtiId8: Int,
+            rubtiId9: Int,
+            rubtiId10: Int
+            ) = {
+    this(
+      rubId,
+      "",
+      rubtiId1,
+      "",
+      rubtiId2,
+      "",
+      rubtiId3,
+      "",
+      rubtiId4,
+      "",
+      rubtiId5,
+      "",
+      rubtiId6,
+      "",
+      rubtiId7,
+      "",
+      rubtiId8,
+      "",
+      rubtiId9,
+      "",
+      rubtiId10,
+      ""
+    )
+  }
+}
+
+object ProductoRubro {
+
+  def apply(
+             rubId: Int,
+             rubtiId1: Int,
+             rubtiId2: Int,
+             rubtiId3: Int,
+             rubtiId4: Int,
+             rubtiId5: Int,
+             rubtiId6: Int,
+             rubtiId7: Int,
+             rubtiId8: Int,
+             rubtiId9: Int,
+             rubtiId10: Int) = {
+
+    new ProductoRubro(
+      rubId,
+      rubtiId1,
+      rubtiId2,
+      rubtiId3,
+      rubtiId4,
+      rubtiId5,
+      rubtiId6,
+      rubtiId7,
+      rubtiId8,
+      rubtiId9,
+      rubtiId10)
   }
 }
 
@@ -651,6 +738,8 @@ case class Producto(
                      stock: ProductoStock,
                      venta: ProductoVenta,
 
+                     rubro: ProductoRubro,
+
                      comex: ProductoComex,
                      kit: ProductoKit,
                      web: ProductoWeb,
@@ -670,6 +759,8 @@ case class Producto(
             stock: ProductoStock,
             venta: ProductoVenta,
 
+            rubro: ProductoRubro,
+
             comex: ProductoComex,
             kit: ProductoKit,
             web: ProductoWeb,
@@ -685,6 +776,8 @@ case class Producto(
       compra,
       stock,
       venta,
+
+      rubro,
 
       comex,
       kit,
@@ -706,6 +799,8 @@ case class Producto(
             stock: ProductoStock,
             venta: ProductoVenta,
 
+            rubro: ProductoRubro,
+
             comex: ProductoComex,
             kit: ProductoKit,
             web: ProductoWeb,
@@ -722,6 +817,8 @@ case class Producto(
       stock,
       venta,
 
+      rubro,
+
       comex,
       kit,
       web,
@@ -736,11 +833,13 @@ object Producto {
     false,
     "",
 
-    ProductoBase("", "", "", DBHelper.NoId, DBHelper.NoId, 0,false, DBHelper.NoId, DBHelper.NoId),
+    ProductoBase("", "", "", DBHelper.NoId, DBHelper.NoId, 0,false, DBHelper.NoId),
 
     ProductoCompra(false,"", "", DBHelper.NoId, DBHelper.NoId, DBHelper.NoId, DBHelper.NoId, 0.0, DBHelper.NoId),
     ProductoStock(false, DBHelper.NoId, 0.0, 0, 0, 0, 0d, 0.0, 0.0, false, false, false, false, false),
     ProductoVenta(false, "", "", "", DBHelper.NoId, 0.0, 0.0, DBHelper.NoId, false, false, false, DBHelper.NoId, DBHelper.NoId, 0.0, DBHelper.NoId),
+
+    ProductoRubro(DBHelper.NoId, DBHelper.NoId, DBHelper.NoId, DBHelper.NoId, DBHelper.NoId, DBHelper.NoId, DBHelper.NoId, DBHelper.NoId, DBHelper.NoId, DBHelper.NoId, DBHelper.NoId),
 
     ProductoComex(DBHelper.NoId, 0.0, 0.0, 0, DBHelper.NoId, false, DBHelper.NoId, DBHelper.NoId, DBHelper.NoId, DBHelper.NoId, DBHelper.NoId, DBHelper.NoId),
     ProductoKit(false, false, false, false, false, DBHelper.NoId, false, false, DBHelper.NoId),
@@ -759,6 +858,8 @@ object Producto {
              stock: ProductoStock,
              venta: ProductoVenta,
 
+             rubro: ProductoRubro,
+
              comex: ProductoComex,
              kit: ProductoKit,
              web: ProductoWeb,
@@ -775,6 +876,8 @@ object Producto {
       compra,
       stock,
       venta,
+
+      rubro,
 
       comex,
       kit,
@@ -793,6 +896,8 @@ object Producto {
              stock: ProductoStock,
              venta: ProductoVenta,
 
+             rubro: ProductoRubro,
+
              comex: ProductoComex,
              kit: ProductoKit,
              web: ProductoWeb,
@@ -808,6 +913,8 @@ object Producto {
       compra,
       stock,
       venta,
+
+      rubro,
 
       comex,
       kit,
@@ -831,8 +938,6 @@ object Producto {
       SqlParser.get[Int](C.PR_ES_PLANTILLA) ~
       SqlParser.get[Option[Int]](C.CUR_ID) ~
       SqlParser.get[Option[String]](C.CUR_NAME) ~
-      SqlParser.get[Option[Int]](C.RUB_ID) ~
-      SqlParser.get[Option[String]](C.RUB_NAME) ~
       SqlParser.get[Int](C.PR_SE_COMPRA) ~
       SqlParser.get[String](C.PR_NAME_COMPRA) ~
       SqlParser.get[String](C.PR_DESCRIP_COMPRA) ~
@@ -882,6 +987,28 @@ object Producto {
       SqlParser.get[Float](C.PR_PORC_INTERNO_V) ~
       SqlParser.get[Option[Int]](C.CCOS_ID_VENTA) ~
       SqlParser.get[Option[String]](C.CCOS_NAME_VENTA) ~
+      SqlParser.get[Option[Int]](C.RUB_ID) ~
+      SqlParser.get[Option[String]](C.RUB_NAME) ~
+      SqlParser.get[Option[Int]](C.RUBTI_ID_1) ~
+      SqlParser.get[Option[String]](C.RUBTI_NAME_1) ~
+      SqlParser.get[Option[Int]](C.RUBTI_ID_2) ~
+      SqlParser.get[Option[String]](C.RUBTI_NAME_2) ~
+      SqlParser.get[Option[Int]](C.RUBTI_ID_3) ~
+      SqlParser.get[Option[String]](C.RUBTI_NAME_3) ~
+      SqlParser.get[Option[Int]](C.RUBTI_ID_4) ~
+      SqlParser.get[Option[String]](C.RUBTI_NAME_4) ~
+      SqlParser.get[Option[Int]](C.RUBTI_ID_5) ~
+      SqlParser.get[Option[String]](C.RUBTI_NAME_5) ~
+      SqlParser.get[Option[Int]](C.RUBTI_ID_6) ~
+      SqlParser.get[Option[String]](C.RUBTI_NAME_6) ~
+      SqlParser.get[Option[Int]](C.RUBTI_ID_7) ~
+      SqlParser.get[Option[String]](C.RUBTI_NAME_7) ~
+      SqlParser.get[Option[Int]](C.RUBTI_ID_8) ~
+      SqlParser.get[Option[String]](C.RUBTI_NAME_8) ~
+      SqlParser.get[Option[Int]](C.RUBTI_ID_9) ~
+      SqlParser.get[Option[String]](C.RUBTI_NAME_9) ~
+      SqlParser.get[Option[Int]](C.RUBTI_ID_10) ~
+      SqlParser.get[Option[String]](C.RUBTI_NAME_10) ~
       SqlParser.get[Option[Int]](C.UN_ID_PESO) ~
       SqlParser.get[Option[String]](C.UN_NAME_PESO) ~
       SqlParser.get[BigDecimal](C.PR_PESO_NETO) ~
@@ -956,8 +1083,6 @@ object Producto {
           esPlantilla ~
           curId ~
           curName ~
-          rubId ~
-          rubName ~
 
           seCompra ~
           nombreCompra ~
@@ -1010,6 +1135,29 @@ object Producto {
           porcInternoV ~
           ccosIdVenta ~
           ccosNameVenta ~
+
+          rubId ~
+          rubName ~
+          rubtiId1 ~
+          rubtiName1 ~
+          rubtiId2 ~
+          rubtiName2 ~
+          rubtiId3 ~
+          rubtiName3 ~
+          rubtiId4 ~
+          rubtiName4 ~
+          rubtiId5 ~
+          rubtiName5 ~
+          rubtiId6 ~
+          rubtiName6 ~
+          rubtiId7 ~
+          rubtiName7 ~
+          rubtiId8 ~
+          rubtiName8 ~
+          rubtiId9 ~
+          rubtiName9 ~
+          rubtiId10 ~
+          rubtiName10 ~
 
           unIdPeso ~
           unNamePeso ~
@@ -1089,9 +1237,7 @@ object Producto {
             expoCairo,
             (if(esPlantilla != 0) true else false),
             curId.getOrElse(DBHelper.NoId),
-            curName.getOrElse(""),
-            rubId.getOrElse(DBHelper.NoId),
-            rubName.getOrElse("")
+            curName.getOrElse("")
           ),
           ProductoCompra(
             (if(seCompra != 0) true else false),
@@ -1145,6 +1291,29 @@ object Producto {
             porcInternoV,
             ccosIdVenta.getOrElse(DBHelper.NoId),
             ccosNameVenta.getOrElse("")),
+          ProductoRubro(
+            rubId.getOrElse(DBHelper.NoId),
+            rubName.getOrElse(""),
+            rubtiId1.getOrElse(DBHelper.NoId),
+            rubtiName1.getOrElse(""),
+            rubtiId2.getOrElse(DBHelper.NoId),
+            rubtiName2.getOrElse(""),
+            rubtiId3.getOrElse(DBHelper.NoId),
+            rubtiName3.getOrElse(""),
+            rubtiId4.getOrElse(DBHelper.NoId),
+            rubtiName4.getOrElse(""),
+            rubtiId5.getOrElse(DBHelper.NoId),
+            rubtiName5.getOrElse(""),
+            rubtiId6.getOrElse(DBHelper.NoId),
+            rubtiName6.getOrElse(""),
+            rubtiId7.getOrElse(DBHelper.NoId),
+            rubtiName7.getOrElse(""),
+            rubtiId8.getOrElse(DBHelper.NoId),
+            rubtiName8.getOrElse(""),
+            rubtiId9.getOrElse(DBHelper.NoId),
+            rubtiName9.getOrElse(""),
+            rubtiId10.getOrElse(DBHelper.NoId),
+            rubtiName10.getOrElse("")),
           ProductoComex(
             unIdPeso.getOrElse(DBHelper.NoId),
             unNamePeso.getOrElse(""),
@@ -1233,7 +1402,6 @@ object Producto {
         Field(C.PR_EXPO_CAIRO, producto.base.expoCairo, FieldType.number),
         Field(C.PR_ES_PLANTILLA, producto.base.esPlantilla, FieldType.boolean),
         Field(C.CUR_ID, producto.base.curId, FieldType.id),
-        Field(C.RUB_ID, producto.base.rubId, FieldType.id),
 
         Field(C.PR_SE_COMPRA, producto.compra.seCompra, FieldType.id),
         Field(C.PR_NAME_COMPRA, producto.compra.nombreCompra, FieldType.text),
@@ -1275,6 +1443,18 @@ object Producto {
         Field(C.TI_ID_INTERNOS_VENTA, producto.venta.tiIdInternosVenta, FieldType.text),
         Field(C.PR_PORC_INTERNO_V, producto.venta.porcInternoV, FieldType.number),
         Field(C.CCOS_ID_VENTA, producto.venta.ccosIdVenta, FieldType.id),
+
+        Field(C.RUB_ID, producto.rubro.rubId, FieldType.id),
+        Field(C.RUBTI_ID_1, producto.rubro.rubtiId1, FieldType.id),
+        Field(C.RUBTI_ID_2, producto.rubro.rubtiId2, FieldType.id),
+        Field(C.RUBTI_ID_3, producto.rubro.rubtiId3, FieldType.id),
+        Field(C.RUBTI_ID_4, producto.rubro.rubtiId4, FieldType.id),
+        Field(C.RUBTI_ID_5, producto.rubro.rubtiId5, FieldType.id),
+        Field(C.RUBTI_ID_6, producto.rubro.rubtiId6, FieldType.id),
+        Field(C.RUBTI_ID_7, producto.rubro.rubtiId7, FieldType.id),
+        Field(C.RUBTI_ID_8, producto.rubro.rubtiId8, FieldType.id),
+        Field(C.RUBTI_ID_9, producto.rubro.rubtiId9, FieldType.id),
+        Field(C.RUBTI_ID_10, producto.rubro.rubtiId10, FieldType.id),
 
         Field(C.UN_ID_PESO, producto.comex.unIdPeso, FieldType.id),
         Field(C.PR_PESO_NETO, producto.comex.pesoNeto, FieldType.number),

@@ -58,6 +58,34 @@
       text: 3
     };
 
+    Dialogs.ListItem = {};
+
+    Dialogs.ListItem.createListItem = function() {
+
+      var self = {
+        id: 0,
+        value: ""
+      };
+      
+      var that = {};
+
+      that.setId = function(id) {
+        self.id = id;
+      };
+      that.getId = function() {
+        return self.id;
+      };
+
+      that.setValue = function(value) {
+        self.value = value;
+      };
+      that.getValue = function() {
+        return self.value;
+      };
+
+      return that;
+    };
+
     Dialogs.createProperty = function() {
 
       var self = {
@@ -69,7 +97,7 @@
 
         value: '',
 
-        list: null,
+        list: null, /* is a Dialogs.ListItem */
         listText: '',
         listListIndex: 0,
         listItemData: 0,
@@ -93,9 +121,7 @@
         gridAddEnabled: false,
         gridRemoveEnabled: false,
         gridEditEnabled: false,
-        gridSelectedRow: 0,
-        /* VB6: was selectedIndex */
-        gridMultiSelect: false,
+        gridSelectedRow: 0, /* VB6: was selectedIndex */
 
         selectId: 0,
         selectFilter: '',
@@ -234,6 +260,9 @@
       //
 
       that.getList = function() {
+        if(self.list === null) {
+          self.list = Cairo.Collections.createCollection(Dialogs.ListItem.createListItem);
+        }
         return self.list;
       };
 
@@ -336,13 +365,6 @@
         self.image = image;
       };
 
-      that.getMultiSelect = function() {
-        return self.gridMultiSelect;
-      };
-      that.setMultiSelect = function(multiSelect) {
-        self.gridMultiSelect = multiSelect;
-      };
-
       that.getGridAddEnabled = function() {
         return self.gridAddEnabled;
       };
@@ -394,6 +416,9 @@
 
       that.getFormat = function() {
         return self.format;
+      };
+      that.setFormat = function(format) {
+        self.format = format;
       };
 
       that.getOptionGroup = function() {
@@ -567,6 +592,9 @@
 
       that.getEnabled = function() {
         return self.enabled;
+      };
+      that.setEnabled = function(enabled) {
+        self.enabled = enabled;
       };
 
       return that;

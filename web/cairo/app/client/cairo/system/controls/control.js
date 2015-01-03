@@ -128,10 +128,14 @@
   
         setForeColor: function(color) { /* TODO: implement this. */ },
         setBorderColor: function(color) { /* TODO: implement this. */ },
-  
-        setItemData: function(index, data) { /* TODO: implement this. */ },
-        getNewIndex: function() { /* TODO: implement this. */ },
-  
+
+        setBackColor: function(color) {
+          self.backColor = color;
+        },
+        getBackColor: function() {
+          return self.backColor;
+        },
+
         getTag: function() {
           return self.tag;
         },

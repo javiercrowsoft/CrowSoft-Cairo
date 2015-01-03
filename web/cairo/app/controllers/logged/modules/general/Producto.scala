@@ -20,8 +20,7 @@ case class ProductoBaseData(
                              marcId: Int,
                              expoCairo: Int,
                              esPlantilla: Boolean,
-                             curId: Int,
-                             rubId: Int
+                             curId: Int
                              )
 
 case class ProductoCompraData(
@@ -69,6 +68,20 @@ case class ProductoVentaData(
                             tiIdInternosVenta: Int,
                             porcInternoV: Double,
                             ccosIdVenta: Int
+                          )
+
+case class ProductoRubroData(
+                            rubId: Int,
+                            rubtiId1: Int,
+                            rubtiId2: Int,
+                            rubtiId3: Int,
+                            rubtiId4: Int,
+                            rubtiId5: Int,
+                            rubtiId6: Int,
+                            rubtiId7: Int,
+                            rubtiId8: Int,
+                            rubtiId9: Int,
+                            rubtiId10: Int
                           )
 
 case class ProductoComexData(
@@ -132,6 +145,8 @@ case class ProductoData(
                          stock: ProductoStockData,
                          venta: ProductoVentaData,
 
+                         rubro: ProductoRubroData,
+
                          comex: ProductoComexData,
                          kit: ProductoKitData,
                          web: ProductoWebData,
@@ -153,8 +168,7 @@ object Productos extends Controller with ProvidesUser {
         C.MARC_ID -> number,
         C.PR_EXPO_CAIRO -> number,
         C.PR_ES_PLANTILLA -> boolean,
-        C.CUR_ID -> number,
-        C.RUB_ID -> number)(ProductoBaseData.apply)(ProductoBaseData.unapply),
+        C.CUR_ID -> number)(ProductoBaseData.apply)(ProductoBaseData.unapply),
       C.PRODUCTO_COMPRA -> mapping(
         C.PR_SE_COMPRA -> boolean,
         C.PR_NAME_COMPRA -> text,
@@ -196,6 +210,18 @@ object Productos extends Controller with ProvidesUser {
         C.TI_ID_INTERNOS_VENTA -> number,
         C.PR_PORC_INTERNO_V -> of(Global.doubleFormat),
         C.CCOS_ID_VENTA -> number)(ProductoVentaData.apply)(ProductoVentaData.unapply),
+      C.PRODUCTO_RUBRO -> mapping(
+        C.RUB_ID -> number,
+        C.RUBTI_ID_1 -> number,
+        C.RUBTI_ID_2 -> number,
+        C.RUBTI_ID_3 -> number,
+        C.RUBTI_ID_4 -> number,
+        C.RUBTI_ID_5 -> number,
+        C.RUBTI_ID_6 -> number,
+        C.RUBTI_ID_7 -> number,
+        C.RUBTI_ID_8 -> number,
+        C.RUBTI_ID_9 -> number,
+        C.RUBTI_ID_10 -> number)(ProductoRubroData.apply)(ProductoRubroData.unapply),
       C.PRODUCTO_COMEX -> mapping(
         C.UN_ID_PESO -> number,
         C.PR_PESO_NETO -> of(Global.doubleFormat),
@@ -258,8 +284,6 @@ object Productos extends Controller with ProvidesUser {
       C.PR_ES_PLANTILLA -> Json.toJson(producto.base.esPlantilla),
       C.CUR_ID -> Json.toJson(producto.base.curId),
       C.CUR_NAME -> Json.toJson(producto.base.curName),
-      C.RUB_ID -> Json.toJson(producto.base.rubId),
-      C.RUB_NAME -> Json.toJson(producto.base.rubName),
 
       C.PR_SE_COMPRA -> Json.toJson(producto.compra.seCompra),
       C.PR_NAME_COMPRA -> Json.toJson(producto.compra.nombreCompra),
@@ -312,6 +336,52 @@ object Productos extends Controller with ProvidesUser {
       C.PR_PORC_INTERNO_V -> Json.toJson(producto.venta.porcInternoV),
       C.CCOS_ID_VENTA -> Json.toJson(producto.venta.ccosIdVenta),
       C.CCOS_NAME_VENTA -> Json.toJson(producto.venta.ccosNameVenta),
+
+      C.RUB_ID -> Json.toJson(producto.rubro.rubId),
+      C.RUB_NAME -> Json.toJson(producto.rubro.rubName),
+
+      // TODO: implement this
+      C.RUBT_ID_1 -> 0,
+      C.RUBT_NAME_1 -> "",
+      C.RUBT_ID_2 -> 0,
+      C.RUBT_NAME_2 -> "",
+      C.RUBT_ID_3 -> 0,
+      C.RUBT_NAME_3 -> "",
+      C.RUBT_ID_4 -> 0,
+      C.RUBT_NAME_4 -> "",
+      C.RUBT_ID_5 -> 0,
+      C.RUBT_NAME_5 -> "",
+      C.RUBT_ID_6 -> 0,
+      C.RUBT_NAME_6 -> "",
+      C.RUBT_ID_7 -> 0,
+      C.RUBT_NAME_7 -> "",
+      C.RUBT_ID_8 -> 0,
+      C.RUBT_NAME_8 -> "",
+      C.RUBT_ID_9 -> 0,
+      C.RUBT_NAME_9 -> "",
+      C.RUBT_ID_10 -> 0,
+      C.RUBT_NAME_10 -> "",
+
+      C.RUBTI_ID_1 -> Json.toJson(producto.rubro.rubtiId1),
+      C.RUBTI_NAME_1 -> Json.toJson(producto.rubro.rubtiName1),
+      C.RUBTI_ID_2 -> Json.toJson(producto.rubro.rubtiId2),
+      C.RUBTI_NAME_2 -> Json.toJson(producto.rubro.rubtiName2),
+      C.RUBTI_ID_3 -> Json.toJson(producto.rubro.rubtiId3),
+      C.RUBTI_NAME_3 -> Json.toJson(producto.rubro.rubtiName3),
+      C.RUBTI_ID_4 -> Json.toJson(producto.rubro.rubtiId4),
+      C.RUBTI_NAME_4 -> Json.toJson(producto.rubro.rubtiName4),
+      C.RUBTI_ID_5 -> Json.toJson(producto.rubro.rubtiId5),
+      C.RUBTI_NAME_5 -> Json.toJson(producto.rubro.rubtiName5),
+      C.RUBTI_ID_6 -> Json.toJson(producto.rubro.rubtiId6),
+      C.RUBTI_NAME_6 -> Json.toJson(producto.rubro.rubtiName6),
+      C.RUBTI_ID_7 -> Json.toJson(producto.rubro.rubtiId7),
+      C.RUBTI_NAME_7 -> Json.toJson(producto.rubro.rubtiName7),
+      C.RUBTI_ID_8 -> Json.toJson(producto.rubro.rubtiId8),
+      C.RUBTI_NAME_8 -> Json.toJson(producto.rubro.rubtiName8),
+      C.RUBTI_ID_9 -> Json.toJson(producto.rubro.rubtiId9),
+      C.RUBTI_NAME_9 -> Json.toJson(producto.rubro.rubtiName9),
+      C.RUBTI_ID_10 -> Json.toJson(producto.rubro.rubtiId10),
+      C.RUBTI_NAME_10 -> Json.toJson(producto.rubro.rubtiName10),
 
       C.UN_ID_PESO -> Json.toJson(producto.comex.unIdPeso),
       C.UN_NAME_PESO -> Json.toJson(producto.comex.unNamePeso),
@@ -371,8 +441,29 @@ object Productos extends Controller with ProvidesUser {
       C.RPT_ID_NOMBRE_IMG -> Json.toJson(producto.names.rptIdNombreImg),
       C.RPT_NAME -> Json.toJson(producto.names.rptNameImg),
       C.RPT_ID_NOMBRE_IMG_ALT -> Json.toJson(producto.names.rptIdNombreImgAlt),
-      C.RPT_NAME -> Json.toJson(producto.names.rptNameImgAlt)
+      C.RPT_NAME -> Json.toJson(producto.names.rptNameImgAlt),
+
+      // Items
+      "proveedor" -> Json.toJson(writeEmptyCols(List())),
+      "cliente" -> Json.toJson(writeEmptyCols(List())),
+      "cmi" -> Json.toJson(writeEmptyCols(List())),
+      "leyendas" -> Json.toJson(writeEmptyCols(List())),
+      "tags" -> Json.toJson(writeEmptyCols(List())),
+      "categoriasWeb" -> Json.toJson(writeEmptyCols(List())),
+      "catalogosWeb" -> Json.toJson(writeEmptyCols(List())),
+      "webImages" -> Json.toJson(writeEmptyCols(List())),
+      "kit" -> Json.toJson(writeEmptyCols(List())),
+      "bom" -> Json.toJson(writeEmptyCols(List())),
+      "additionalFields" -> Json.toJson(additionalFieldsWrites)
     )
+    def additionalFieldsWrites() = Json.obj(
+      "fields" -> Json.toJson(writeEmptyCols(List())),
+      "values" -> Json.toJson(writeEmptyCols(List()))
+    )
+    def itemWrites(item: Any) = Json.obj(
+      "dummy" -> Json.toJson("")
+    )
+    def writeEmptyCols(items: List[Any]) = items.map(item => itemWrites(item))
   }
 
   def get(id: Int) = GetAction { implicit request =>
@@ -407,8 +498,7 @@ object Productos extends Controller with ProvidesUser {
                     producto.base.marcId,
                     producto.base.expoCairo,
                     producto.base.esPlantilla,
-                    producto.base.curId,
-                    producto.base.rubId),
+                    producto.base.curId),
                   ProductoCompra(
                     producto.compra.seCompra,
                     producto.compra.nombreCompra,
@@ -450,6 +540,18 @@ object Productos extends Controller with ProvidesUser {
                     producto.venta.tiIdInternosVenta,
                     producto.venta.porcInternoV,
                     producto.venta.ccosIdVenta),
+                  ProductoRubro(
+                    producto.rubro.rubId,
+                    producto.rubro.rubtiId1,
+                    producto.rubro.rubtiId2,
+                    producto.rubro.rubtiId3,
+                    producto.rubro.rubtiId4,
+                    producto.rubro.rubtiId5,
+                    producto.rubro.rubtiId6,
+                    producto.rubro.rubtiId7,
+                    producto.rubro.rubtiId8,
+                    producto.rubro.rubtiId9,
+                    producto.rubro.rubtiId10),
                   ProductoComex(
                     producto.comex.unIdPeso,
                     producto.comex.pesoNeto,
@@ -523,8 +625,7 @@ object Productos extends Controller with ProvidesUser {
                     producto.base.marcId,
                     producto.base.expoCairo,
                     producto.base.esPlantilla,
-                    producto.base.curId,
-                    producto.base.rubId),
+                    producto.base.curId),
                   ProductoCompra(
                     producto.compra.seCompra,
                     producto.compra.nombreCompra,
@@ -566,6 +667,18 @@ object Productos extends Controller with ProvidesUser {
                     producto.venta.tiIdInternosVenta,
                     producto.venta.porcInternoV,
                     producto.venta.ccosIdVenta),
+                  ProductoRubro(
+                    producto.rubro.rubId,
+                    producto.rubro.rubtiId1,
+                    producto.rubro.rubtiId2,
+                    producto.rubro.rubtiId3,
+                    producto.rubro.rubtiId4,
+                    producto.rubro.rubtiId5,
+                    producto.rubro.rubtiId6,
+                    producto.rubro.rubtiId7,
+                    producto.rubro.rubtiId8,
+                    producto.rubro.rubtiId9,
+                    producto.rubro.rubtiId10),
                   ProductoComex(
                     producto.comex.unIdPeso,
                     producto.comex.pesoNeto,
