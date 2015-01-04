@@ -314,7 +314,6 @@
       }
       
       return that;
-
     };
 
     Controls.createTab = function() {
@@ -330,7 +329,6 @@
       };
 
       return that;
-
     };
 
     Controls.isTab = function(control) {

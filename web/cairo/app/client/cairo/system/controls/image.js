@@ -15,7 +15,6 @@
       that.setImage = function(image) { /* TODO: implement this. */ };
 
       return that;
-
     };
 
     Controls.createImage = function() {
@@ -31,7 +30,6 @@
       };
 
       return that;
-
     };
 
   });

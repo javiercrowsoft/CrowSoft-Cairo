@@ -663,7 +663,6 @@
       that.reset = function() { /* TODO: implement this. */ }
 
       return that;
-
     };
 
     Controls.createSelect = function() {
@@ -679,7 +678,6 @@
       };
 
       return that;
-
     };
 
   });

@@ -36,7 +36,6 @@
       }
 
       return that;
-
     };
 
     Controls.createList = function() {
@@ -52,7 +51,6 @@
       };
 
       return that;
-
     };
 
   });

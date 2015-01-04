@@ -598,7 +598,6 @@
       };
 
       return that;
-
     };
 
     Dialogs.createProperties = function() {

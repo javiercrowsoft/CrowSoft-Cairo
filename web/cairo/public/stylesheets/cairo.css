@@ -257,3 +257,11 @@ div.tree-select-dialog.ui-widget-content {
 .dialog-button {
     margin-bottom: 10px;
 }
+
+.dialog-grid {
+  margin-top: 10px;
+}
+
+.dialog-tr {
+  height: 40px;
+}

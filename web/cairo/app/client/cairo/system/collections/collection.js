@@ -180,12 +180,25 @@
       that.size = that.count;
 
       that.each = function(f) {
-        var count = self.items.length;
-        for(var i = 0; i < count; i += 1) {
-          if(f(self.items[i]) === false) {
-            break;
+        var args = Array.prototype.slice.call(arguments, 1);
+
+        for(var i = 0, count = self.items.length; i < count; i += 1) {
+          if(f.apply(null, [self.items[i]].concat(args)) === false) {
+            return false;
           }
         }
+        return true;
+      };
+
+      that.map = function(f) {
+        var args = Array.prototype.slice.call(arguments, 1);
+        var r = [];
+
+        for(var i = 0, count = self.items.length; i < count; i += 1) {
+          r.push(f.apply(null, [self.items[i]].concat(args)));
+        }
+
+        return r;
       };
 
       return that;

@@ -42,7 +42,6 @@
       that.setInputDisabled = function(value) { self.inputDisabled = value; };
 
       return that;
-
     };
 
     Controls.createTextArea = function() {
@@ -58,7 +57,6 @@
       };
 
       return that;
-
     };
 
   });

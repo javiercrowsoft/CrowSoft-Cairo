@@ -33,7 +33,6 @@
       }
 
       return that;
-
     };
 
     Controls.createLabel = function() {
@@ -49,7 +48,6 @@
       };
 
       return that;
-
     };
 
   });

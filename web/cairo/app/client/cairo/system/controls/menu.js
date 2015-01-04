@@ -27,7 +27,6 @@
       that.getItemData = function(id) { /* TODO: implement this. */ };
 
       return that;
-
     };
 
     Controls.createMenu = function() {
@@ -43,7 +42,6 @@
       };
 
       return that;
-
     };
 
   });

@@ -29,7 +29,6 @@
       };
       
       return that;
-
     };
 
     Controls.createOptionButton = function() {
@@ -45,7 +44,6 @@
       };
 
       return that;
-
     };
 
   });

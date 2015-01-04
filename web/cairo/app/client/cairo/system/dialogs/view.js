@@ -37,9 +37,9 @@
       //
       // add a row with one or more elements
       //
-      var newRow = function(elements) {
+      var newRow = function(elements, clazz) {
         var row = $('<div class="row dialog-row"></div>');
-        var column = $('<div class="col-lg-4 col-md-5 col-sm-7"></div>');
+        var column = $('<div class="' + clazz + '"></div>');
         column.append(elements);
         row.append(column);
         return row;
@@ -51,8 +51,9 @@
         var control = view.controls.item(i);
         if(!Controls.isTab(control)) {
           var element = $(control.htmlTag);
+          var clazz = control.getObjectType() === 'cairo.controls.grid' ? "col-lg-7 col-md-9 col-sm-12" : "col-lg-4 col-md-5 col-sm-7";
           control.setElement(element, viewManager);
-          form.append(newRow(element));
+          form.append(newRow(element, clazz));
         }
       }
       return form;

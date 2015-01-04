@@ -96,7 +96,6 @@
       };
       
       return that;
-
     };
 
     Controls.createInput = function() {
@@ -112,7 +111,6 @@
       };
 
       return that;
-
     };
 
   });

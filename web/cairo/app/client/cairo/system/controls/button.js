@@ -30,7 +30,6 @@
       };
 
       return that;
-
     };
 
     Controls.createButton = function() {
@@ -46,7 +45,6 @@
       };
 
       return that;
-
     };
 
   });

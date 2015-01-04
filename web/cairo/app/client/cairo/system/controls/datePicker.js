@@ -37,7 +37,6 @@
       }
 
       return that;
-      
     };
 
     Controls.createDatePicker = function() {
@@ -53,7 +52,6 @@
       };
 
       return that;
-
     };
 
   });

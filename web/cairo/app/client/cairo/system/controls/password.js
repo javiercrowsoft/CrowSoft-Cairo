@@ -21,7 +21,6 @@
       };
 
       return that;
-
     };
 
     Controls.createPassword = function() {
@@ -37,7 +36,6 @@
       };
 
       return that;
-
     };
 
   });

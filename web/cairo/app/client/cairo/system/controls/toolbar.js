@@ -11,7 +11,6 @@
       that.htmlTag = "<div><div/>";
 
       return that;
-
     };
 
     Controls.createButton = function() {
@@ -27,7 +26,6 @@
       };
 
       return that;
-
     };
 
   });

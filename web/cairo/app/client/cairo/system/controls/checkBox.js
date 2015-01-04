@@ -45,7 +45,6 @@
       };
 
       return that;
-
     };
 
     Controls.createCheckBox = function() {
@@ -61,7 +60,6 @@
       };
 
       return that;
-
     };
 
   });

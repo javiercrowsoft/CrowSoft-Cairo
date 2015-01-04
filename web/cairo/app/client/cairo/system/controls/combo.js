@@ -25,7 +25,6 @@
       };
 
       return that;
-      
     };
 
     Controls.createCombo = function() {
@@ -41,7 +40,6 @@
       };
 
       return that;
-
     };
 
   });

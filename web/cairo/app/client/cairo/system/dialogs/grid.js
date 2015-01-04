@@ -17,27 +17,75 @@
       
       var that = {};
       
-      that.loadFromRows = function(gridControl, grid, noChangeColumns, name) { /* TODO = implement this. */ };
+      that.loadFromRows = function(gridControl, grid, noChangeColumns, name) {
+
+        //
+        // during this function the grid's DOM shouldn't be modified
+        //
+        gridControl.setRedraw(false);
+
+        //
+        // columns
+        //
+
+        var columns = gridControl.getColumns();
+
+        var createColumn = function(col) {
+          var c = columns.add();
+          c.setText(col.getName());
+        };
+
+        if(!noChangeColumns || columns.count() !== grid.getColumns().count()) {
+          columns.clear();
+          grid.getColumns().each(createColumn);
+        }
+
+        var createCell = function(cell, row) {
+          var c = row.getCells().add();
+          c.setText(cell.getValue());
+        };
+
+        //
+        // rows
+        //
+
+        var rows = gridControl.getRows();
+
+        var createRow = function(row) {
+          var r = rows.add();
+          row.each(createCell, r);
+        };
+
+        rows.clear();
+        grid.getRows().each(createRow);
+
+        //
+        // finally apply changes to the grid's DOM
+        //
+
+        gridControl.setRedraw(true);
+        gridControl.draw();
+      };
+
       that.loadFromRow = function(gridControl, row, rowIndex, columns) { /* TODO = implement this. */ };
       that.setColumnProperties = function(grid, column, colGrid) { /* TODO = implement this. */ };
       that.saveColumnWidth = function(grid, name) { /* TODO = implement this. */ };
       that.saveColumnOrder = function(grid, name) { /* TODO = implement this. */ };
       that.setProperties = function(grid) { /* TODO = implement this. */ };
 
-      that.setAddEnabled = function(gridControl, grid) {
-        /* TODO = implement this. */
+      that.setAddEnabled = function(gridControl, enabled) {
+        gridControl.setAddEnabled(enabled);
       };
 
-      that.setEditEnabled = function(gridControl, grid) {
-        /* TODO = implement this. */
+      that.setEditEnabled = function(gridControl, enabled) {
+        gridControl.setEditEnabled(enabled);
       };
 
-      that.setDeleteEnabled = function(gridControl, grid) {
-        /* TODO = implement this. */
+      that.setDeleteEnabled = function(gridControl, enabled) {
+        gridControl.setDeleteEnabled(enabled);
       };
 
       return that;
-      
     };
     
     Grids.Manager = createManager();

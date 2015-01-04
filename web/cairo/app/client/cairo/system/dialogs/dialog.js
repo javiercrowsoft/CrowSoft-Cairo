@@ -156,7 +156,7 @@
       sinlge: 2
     };
 
-    Dialogs.AlignText = {
+    Dialogs.TextAlign = {
       left:   0,
       center: 1,
       right:  2
@@ -4510,7 +4510,7 @@
 
         var createRow = function(index, property, rowIndex) {
           var colIndex = 0;
-          var row = Controls.Grids.createRow();
+          var row = Dialogs.Grids.createRow();
           var cell = null;
 
           var count = property.getGrid().getColumns().count();
@@ -4532,7 +4532,7 @@
             }
 
             var gridCell = getView().getGrids().get(index).cell(rowIndex, colIndex);
-            cell.Id = gridCell.getItemData();
+            cell.setId(gridCell.getItemData());
             cell.setSelectIntValue(gridCell.getTag());
 
             if(col.getType() === Dialogs.PropertyType.date) {
@@ -5210,7 +5210,7 @@
                 label.setLeft(c.getLeft());
                 label.setTop(c.getTop() - C_OFFSET_V3);
                 label.setHeight(225);
-                label.setTextAlign(Dialogs.AlignText.right);
+                label.setTextAlign(Dialogs.TextAlign.right);
                 label.setWidth(1000);
               }
               else {
