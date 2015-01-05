@@ -727,6 +727,96 @@ object ProductoNombres {
   }
 }
 
+//
+// items
+//
+
+case class ProductoProveedor(
+                              id: Int,
+                              maker: String,
+                              name: String,
+                              code: String,
+                              barCode: String
+                              )
+
+case class ProductoCliente(
+                            id: Int,
+                            name: String,
+                            code: String,
+                            barCode: String
+                             )
+
+case class ProductoCMI(
+                        id: Int,
+                        code: String,
+                        descrip: String,
+                        createdAt: Date,
+                        expireDate: Date,
+                        price: Double
+                        )
+
+case class ProductoLeyenda(
+                            id: Int,
+                            name: String,
+                            text: String,
+                            tag: String,
+                            order: Int
+                            )
+
+case class ProductoTag(
+                        id: Int,
+                        text: String
+                        )
+
+case class ProductoCategoriaWeb(
+                                 id: Int,
+                                 name: String,
+                                 selected: Boolean,
+                                 position: Int
+                                 )
+
+case class ProductoCatalogoWeb(
+                                id: Int,
+                                name: String,
+                                selected: Boolean
+                                )
+
+case class ProductoWebImage(
+                             id: Int,
+                             file: String,
+                             imageType: Int,
+                             alt: String,
+                             position: Int
+)
+
+case class ProductoKitItem(
+                        id: Int,
+                        quantity: Double,
+                        variable: Boolean,
+                        prIdItem: Int
+                        )
+
+case class ProductoBOM(
+                        id: Int,
+                        name: String,
+                        code: String,
+                        date: Date
+                        )
+
+case class ProductoItems(
+                          proveedores: List[ProductoProveedor],
+                          clientes: List[ProductoCliente],
+                          cmi: List[ProductoCMI],
+                          leyendas: List[ProductoLeyenda],
+                          tags: List[ProductoTag],
+                          categoriasWeb: List[ProductoCategoriaWeb],
+                          catalogosWeb: List[ProductoCatalogoWeb],
+                          webImages: List[ProductoWebImage],
+                          kit: List[ProductoKitItem],
+                          bom: List[ProductoBOM],
+                          additionalFields: List[AdditionalFields]
+                          )
+
 case class Producto(
                      id: Int,
                      active: Boolean,
@@ -744,6 +834,9 @@ case class Producto(
                      kit: ProductoKit,
                      web: ProductoWeb,
                      names: ProductoNombres,
+
+                     items: ProductoItems,
+
                      createdAt: Date,
                      updatedAt: Date,
                      updatedBy: Int) {
@@ -764,7 +857,9 @@ case class Producto(
             comex: ProductoComex,
             kit: ProductoKit,
             web: ProductoWeb,
-            names: ProductoNombres) = {
+            names: ProductoNombres,
+
+            items: ProductoItems) = {
 
     this(
       id,
@@ -783,6 +878,8 @@ case class Producto(
       kit,
       web,
       names,
+
+      items,
 
       DateUtil.currentTime,
       DateUtil.currentTime,
@@ -804,7 +901,9 @@ case class Producto(
             comex: ProductoComex,
             kit: ProductoKit,
             web: ProductoWeb,
-            names: ProductoNombres) = {
+            names: ProductoNombres,
+
+            items: ProductoItems) = {
 
     this(
       DBHelper.NoId,
@@ -822,12 +921,17 @@ case class Producto(
       comex,
       kit,
       web,
-      names)
+      names,
+
+      items
+    )
   }
 
 }
 
 object Producto {
+
+  lazy val emptyProductoItems = ProductoItems(List(), List(), List(), List(), List(), List(), List(), List(), List(), List(), List())
 
   lazy val emptyProducto = Producto(
     false,
@@ -844,8 +948,53 @@ object Producto {
     ProductoComex(DBHelper.NoId, 0.0, 0.0, 0, DBHelper.NoId, false, DBHelper.NoId, DBHelper.NoId, DBHelper.NoId, DBHelper.NoId, DBHelper.NoId, DBHelper.NoId),
     ProductoKit(false, false, false, false, false, DBHelper.NoId, false, false, DBHelper.NoId),
     ProductoWeb("", "", DBHelper.NoId, false, false, "", "", 0, 0.0, DBHelper.NoId, ""),
-    ProductoNombres(DBHelper.NoId, DBHelper.NoId, DBHelper.NoId, DBHelper.NoId, DBHelper.NoId, DBHelper.NoId)
+    ProductoNombres(DBHelper.NoId, DBHelper.NoId, DBHelper.NoId, DBHelper.NoId, DBHelper.NoId, DBHelper.NoId),
+
+    emptyProductoItems
   )
+
+  def apply(
+             id: Int,
+             active: Boolean,
+             code: String,
+
+             base: ProductoBase,
+
+             compra: ProductoCompra,
+             stock: ProductoStock,
+             venta: ProductoVenta,
+
+             rubro: ProductoRubro,
+
+             comex: ProductoComex,
+             kit: ProductoKit,
+             web: ProductoWeb,
+             names: ProductoNombres,
+
+             items: ProductoItems
+             ) = {
+
+    new Producto(
+      id,
+      active,
+      code,
+
+      base,
+
+      compra,
+      stock,
+      venta,
+
+      rubro,
+
+      comex,
+      kit,
+      web,
+      names,
+
+      items
+    )
+  }
 
   def apply(
              id: Int,
@@ -882,7 +1031,50 @@ object Producto {
       comex,
       kit,
       web,
-      names
+      names,
+
+      emptyProductoItems
+    )
+  }
+
+  def apply(
+             active: Boolean,
+             code: String,
+
+             base: ProductoBase,
+
+             compra: ProductoCompra,
+             stock: ProductoStock,
+             venta: ProductoVenta,
+
+             rubro: ProductoRubro,
+
+             comex: ProductoComex,
+             kit: ProductoKit,
+             web: ProductoWeb,
+             names: ProductoNombres,
+
+             items: ProductoItems
+             ) = {
+
+    new Producto(
+      active,
+      code,
+
+      base,
+
+      compra,
+      stock,
+      venta,
+
+      rubro,
+
+      comex,
+      kit,
+      web,
+      names,
+
+      items
     )
   }
 
@@ -919,7 +1111,9 @@ object Producto {
       comex,
       kit,
       web,
-      names
+      names,
+
+      emptyProductoItems
     )
   }
 
@@ -1374,6 +1568,7 @@ object Producto {
             rptNameImg.getOrElse(""),
             rptIdNombreImgAlt.getOrElse(DBHelper.NoId),
             rptNameImgAlt.getOrElse("")),
+          emptyProductoItems,
           createdAt,
           updatedAt,
           updatedBy)
@@ -1520,25 +1715,11 @@ object Producto {
     }
   }
 
-  /*
-  def load(user: CompanyUser, id: Int): Option[Producto] = {
-    loadWhere(user, "{id}", 'id -> id)
-  }
-
-  def loadWhere(user: CompanyUser, where: String, args : scala.Tuple2[scala.Any, anorm.ParameterValue[_]]*) = {
-    DB.withConnection(user.database.database) { implicit connection =>
-      SQL("EXEC sp_productoGet {id}")
-        .on(args: _*)
-        .as(productoParser.singleOpt)
-    }
-  }
-  */
-
   def load(user: CompanyUser, id: Int): Option[Producto] = {
 
     DB.withTransaction(user.database.database) { implicit connection =>
 
-      val sql = "{call sp_productoGet(?, ?)}"
+      val sql = "{call sp_producto_get(?, ?)}"
       val cs = connection.prepareCall(sql)
 
       cs.setInt(1, id)
@@ -1564,7 +1745,7 @@ object Producto {
   def delete(user: CompanyUser, id: Int) = {
     DB.withConnection(user.database.database) { implicit connection =>
       try {
-        SQL("sp_productoDelete {id}")
+        SQL("sp_producto_delete {id}")
           .on('id -> id)
           .executeUpdate
       } catch {

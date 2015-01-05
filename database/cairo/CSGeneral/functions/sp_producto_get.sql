@@ -28,13 +28,13 @@ http://www.crowsoft.com.ar
 
 javier at crowsoft.com.ar
 */
--- Function: sp_productoget()
+-- Function: sp_producto_get()
 
--- DROP FUNCTION sp_productoget(integer);
+-- DROP FUNCTION sp_producto_get(integer);
 
-CREATE OR REPLACE FUNCTION sp_productoget(
+CREATE OR REPLACE FUNCTION sp_producto_get(
   IN p_pr_id integer ,
-  out rtn refcursor)
+  OUT rtn refcursor)
   RETURNS refcursor AS
 $BODY$
 BEGIN
@@ -204,5 +204,5 @@ END;
 $BODY$
   LANGUAGE plpgsql VOLATILE
   COST 100;
-ALTER FUNCTION sp_productoget(integer)
+ALTER FUNCTION sp_producto_get(integer)
   OWNER TO postgres;

@@ -410,8 +410,8 @@
       var m_genericEdit = null;
 
       var emptyData = {
-        proveedor: [],
-        cliente: [],
+        proveedores: [],
+        clientes: [],
         cmi: [],
         leyendas: [],
         tags: [],
@@ -3005,8 +3005,8 @@
       var loadDataFromResponse = function(response) {
         var data = response.data;
 
-        data.proveedor = data.get('proveedor');
-        data.cliente = data.get('cliente');
+        data.proveedores = data.get('proveedor');
+        data.clientes = data.get('cliente');
         data.cmi = data.get('cmi');
         data.leyendas = data.get('leyendas');
         data.tags = data.get('tags');
@@ -4137,7 +4137,7 @@
         var transaction = new Cairo.Database.Transaction();
         var updatePriceTransaction = new Cairo.Database.Transaction();
 
-        transaction.setTable(C.PRODUCTOPROVEEDOR);
+        transaction.setTable(C.PRODUCTO_PROVEEDOR);
         updatePriceTransaction.setTable("UPDATED_PRICES");
 
         var property = m_dialog.getProperties().item(C_PROVEEDOR);
@@ -4154,7 +4154,7 @@
 
             var fields = register.getFields();
             register.setFieldId(C.PR_PROV_ID);
-            register.setTable(C.PRODUCTOPROVEEDOR);
+            register.setTable(C.PRODUCTO_PROVEEDOR);
             register.setId(Cairo.Constants.NEW_ID);
 
             var _count = row.size();
@@ -4231,7 +4231,7 @@
 
       var saveItemsCMI = function(mainRegister) {
         var transaction = new Cairo.Database.Transaction();
-        transaction.setTable(C.PRODUCTOCOMUNIDADINTERNET);
+        transaction.setTable(C.PRODUCTO_COMUNIDAD_INTERNET);
 
         var property = m_dialog.getProperties().item(C_CMI);
         var row = null;
@@ -4245,7 +4245,7 @@
 
           var fields = register.getFields();
           register.setFieldId(C.PRCMI_ID);
-          register.setTable(C.PRODUCTOCOMUNIDADINTERNET);
+          register.setTable(C.PRODUCTO_COMUNIDAD_INTERNET);
           register.setId(Cairo.Constants.NEW_ID);
 
           var _count = row.size();
@@ -4302,7 +4302,7 @@
 
       var saveItemsLeyendas = function(mainRegister) {
         var transaction = new Cairo.Database.Transaction();
-        transaction.setTable(C.PRODUCTOLEYENDA);
+        transaction.setTable(C.PRODUCTO_LEYENDA);
 
         var property = m_dialog.getProperties().item(C_LEYENDAS);
         var row = null;
@@ -4316,7 +4316,7 @@
 
           var fields = register.getFields();
           register.setFieldId(C.PRL_ID);
-          register.setTable(C.PRODUCTOLEYENDA);
+          register.setTable(C.PRODUCTO_LEYENDA);
           register.setId(Cairo.Constants.NEW_ID);
 
           var _count = row.size();
@@ -4365,7 +4365,7 @@
 
       var saveItemsWebImages = function(mainRegister) {
         var transaction = new Cairo.Database.Transaction();
-        transaction.setTable(C.PRODUCTOWEBIMAGE);
+        transaction.setTable(C.PRODUCTO_WEB_IMAGE);
 
         var property = m_dialog.getProperties().item(C_WEB_IMAGES);
         var row = null;
@@ -4379,7 +4379,7 @@
 
           var fields = register.getFields();
           register.setFieldId(C.PRWI_ID);
-          register.setTable(C.PRODUCTOWEBIMAGE);
+          register.setTable(C.PRODUCTO_WEB_IMAGE);
           register.setId(Cairo.Constants.NEW_ID);
 
           var _count = row.size();
@@ -4428,7 +4428,7 @@
 
       var saveItemsCliente = function(mainRegister) {
         var transaction = new Cairo.Database.Transaction();
-        transaction.setTable(C.PRODUCTOCLIENTE);
+        transaction.setTable(C.PRODUCTO_CLIENTE);
 
         var property = m_dialog.getProperties().item(C_CLIENTE);
         var row = null;
@@ -4442,7 +4442,7 @@
 
           var fields = register.getFields();
           register.setFieldId(C.PR_CLI_ID);
-          register.setTable(C.PRODUCTOCLIENTE);
+          register.setTable(C.PRODUCTO_CLIENTE);
           register.setId(Cairo.Constants.NEW_ID);
 
           var _count = row.size();
@@ -4952,46 +4952,46 @@
         var w_grid = property.getGrid();
         var w_rows = w_grid.getRows();
 
-        for(var _i = 0; _i < m_data.proveedor.length; _i += 1) {
+        for(var _i = 0; _i < m_data.proveedores.length; _i += 1) {
 
           var elem = w_rows.add(null);
 
           var elem = elem.add(null);
-          elem.setValue(Cairo.Database.valField(m_data.proveedor[_i], C.PR_PROV_ID));
+          elem.setValue(Cairo.Database.valField(m_data.proveedores[_i], C.PR_PROV_ID));
           elem.setKey(KIK_PRPROV_ID);
 
           var elem = elem.add(null);
-          elem.setValue(Cairo.Database.valField(m_data.proveedor[_i], C.PROV_NAME));
-          elem.setId(Cairo.Database.valField(m_data.proveedor[_i], C.PROV_ID));
+          elem.setValue(Cairo.Database.valField(m_data.proveedores[_i], C.PROV_NAME));
+          elem.setId(Cairo.Database.valField(m_data.proveedores[_i], C.PROV_ID));
           elem.setKey(KIK_PROV_ID);
 
           var elem = elem.add(null);
-          elem.setId(Cairo.Database.valField(m_data.proveedor[_i], C.PR_PROV_FABRICANTE));
+          elem.setId(Cairo.Database.valField(m_data.proveedores[_i], C.PR_PROV_FABRICANTE));
           elem.setKey(KIK_PROV_FABRICANTE);
 
           var elem = elem.add(null);
-          elem.setValue(Cairo.Database.valField(m_data.proveedor[_i], C.PR_PROV_NAME));
+          elem.setValue(Cairo.Database.valField(m_data.proveedores[_i], C.PR_PROV_NAME));
           elem.setKey(KIK_PROV_NOMBRE);
 
           var elem = elem.add(null);
-          elem.setValue(Cairo.Database.valField(m_data.proveedor[_i], C.PR_PROV_CODE));
+          elem.setValue(Cairo.Database.valField(m_data.proveedores[_i], C.PR_PROV_CODE));
           elem.setKey(KIK_PROV_CODIGO);
 
           var elem = elem.add(null);
-          elem.setValue(Cairo.Database.valField(m_data.proveedor[_i], C.PR_PROV_CODIGO_BARRA));
+          elem.setValue(Cairo.Database.valField(m_data.proveedores[_i], C.PR_PROV_CODIGO_BARRA));
           elem.setKey(KIK_PROV_CODBARRA);
 
           var elem = elem.add(null);
-          elem.setValue(Cairo.Database.valField(m_data.proveedor[_i], C.PA_NAME));
-          elem.setId(Cairo.Database.valField(m_data.proveedor[_i], C.PA_ID));
+          elem.setValue(Cairo.Database.valField(m_data.proveedores[_i], C.PA_NAME));
+          elem.setId(Cairo.Database.valField(m_data.proveedores[_i], C.PA_ID));
           elem.setKey(KIK_PA_ID);
 
           var elem = elem.add(null);
-          elem.setValue(Cairo.Database.valField(m_data.proveedor[_i], C.LP_NAME));
-          elem.setId(Cairo.Database.valField(m_data.proveedor[_i], C.LPI_ID));
+          elem.setValue(Cairo.Database.valField(m_data.proveedores[_i], C.LP_NAME));
+          elem.setId(Cairo.Database.valField(m_data.proveedores[_i], C.LPI_ID));
           elem.setKey(KIK_PROV_LPI_ID);
 
-          precio = Cairo.Database.valField(m_data.proveedor[_i], C.LPI_PRECIO);
+          precio = Cairo.Database.valField(m_data.proveedores[_i], C.LPI_PRECIO);
 
           var elem = elem.add(null);
           if(precio !== 0) {
@@ -5005,7 +5005,7 @@
           }
           elem.setKey(KIK_PROV_PRECIO2);
 
-          fecha = Cairo.Database.valField(m_data.proveedor[_i], C.LPI_FECHA);
+          fecha = Cairo.Database.valField(m_data.proveedores[_i], C.LPI_FECHA);
 
           var elem = elem.add(null);
           if(fecha !== Cairo.Constants.cSNODATE) {
@@ -5014,7 +5014,7 @@
           elem.setKey(KIK_PROV_PRECIO_FECHA);
 
           var elem = elem.add(null);
-          elem.setId(Cairo.Database.valField(m_data.proveedor[_i], "lpi_top"));
+          elem.setId(Cairo.Database.valField(m_data.proveedores[_i], "lpi_top"));
           elem.setKey(KIK_PROV_PRECIO_DEFAULT);
 
         }
@@ -5066,29 +5066,29 @@
         var w_grid = property.getGrid();
         var w_rows = w_grid.getRows();
 
-        for(var _i = 0; _i < m_data.cliente.length; _i += 1) {
+        for(var _i = 0; _i < m_data.clientes.length; _i += 1) {
 
-          var row = w_rows.add(null, Cairo.Database.valField(m_data.cliente[_i], C.PR_CLI_ID));
+          var row = w_rows.add(null, Cairo.Database.valField(m_data.clientes[_i], C.PR_CLI_ID));
 
           var elem = elem.add(null);
-          elem.setValue(Cairo.Database.valField(m_data.cliente[_i], C.PR_CLI_ID));
+          elem.setValue(Cairo.Database.valField(m_data.clientes[_i], C.PR_CLI_ID));
           elem.setKey(KIK_PRCLI_ID);
 
           var elem = row.add(null);
-          elem.setValue(Cairo.Database.valField(m_data.cliente[_i], C.CLI_NAME));
-          elem.setId(Cairo.Database.valField(m_data.cliente[_i], C.CLI_ID));
+          elem.setValue(Cairo.Database.valField(m_data.clientes[_i], C.CLI_NAME));
+          elem.setId(Cairo.Database.valField(m_data.clientes[_i], C.CLI_ID));
           elem.setKey(KIK_CLI_ID);
 
           var elem = row.add(null);
-          elem.setValue(Cairo.Database.valField(m_data.cliente[_i], C.PR_CLI_NAME));
+          elem.setValue(Cairo.Database.valField(m_data.clientes[_i], C.PR_CLI_NAME));
           elem.setKey(KIK_CLI_NOMBRE);
 
           var elem = row.add(null);
-          elem.setValue(Cairo.Database.valField(m_data.cliente[_i], C.PR_CLI_CODE));
+          elem.setValue(Cairo.Database.valField(m_data.clientes[_i], C.PR_CLI_CODE));
           elem.setKey(KIK_CLI_CODIGO);
 
           var elem = row.add(null);
-          elem.setValue(Cairo.Database.valField(m_data.cliente[_i], C.PR_CLI_CODIGO_BARRA));
+          elem.setValue(Cairo.Database.valField(m_data.clientes[_i], C.PR_CLI_CODIGO_BARRA));
           elem.setKey(KIK_CLI_CODBARRA);
 
         }

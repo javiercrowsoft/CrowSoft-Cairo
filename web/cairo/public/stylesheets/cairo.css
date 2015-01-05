@@ -265,3 +265,7 @@ div.tree-select-dialog.ui-widget-content {
 .dialog-tr {
   height: 40px;
 }
+
+.dialog-td {
+  background: white;
+}

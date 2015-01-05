@@ -865,7 +865,7 @@
       PRT_TEXTO: "prt_texto",
 
       // Producto Web Image
-      PRODUCTOWEBIMAGE: "ProductoWebImage",
+      PRODUCTO_WEB_IMAGE: "ProductoWebImage",
       PRWI_ID: "prwi_id",
       PRWI_ARCHIVO: "prwi_archivo",
       PRWI_TIPO: "prwi_tipo",
@@ -887,14 +887,14 @@
       LPM_MONTOMINIMO: "lpm_montominimo",
 
       // Producto Kit
-      PRODUCTOKIT: "ProductoKit",
+      PRODUCTO_KIT: "ProductoKit",
       PRK_ID: "prk_id",
       PRK_CANTIDAD: "prk_cantidad",
       PRK_VARIABLE: "prk_variable",
       PR_ID_ITEM: "pr_id_item",
 
       // Producto Proveedor
-      PRODUCTOPROVEEDOR: "ProductoProveedor",
+      PRODUCTO_PROVEEDOR: "ProductoProveedor",
       PR_PROV_ID: "prprov_id",
       PR_PROV_FABRICANTE: "prprov_fabricante",
       PR_PROV_NAME: "prprov_nombre",
@@ -902,7 +902,7 @@
       PR_PROV_CODIGO_BARRA: "prprov_codigoBarra",
 
       // Producto Cliente
-      PRODUCTOCLIENTE: "ProductoCliente",
+      PRODUCTO_CLIENTE: "ProductoCliente",
       PR_CLI_ID: "prcli_id",
       PR_CLI_NAME: "prcli_nombre",
       PR_CLI_CODE: "prcli_codigo",
@@ -1023,7 +1023,7 @@
       PR_ID_LOTE: "pr_id_lote",
 
       // Producto Kit Item Alternativo
-      PRODUCTOKITITEMA: "ProductoKitItemA",
+      PRODUCTO_KIT_ITEM_A: "ProductoKitItemA",
       PRKA_ID: "prka_id",
 
       // Feriado
@@ -1179,7 +1179,7 @@
       TI_ID_DERECHOS: "ti_id_derechos",
 
       // Producto Comunidad Internet
-      PRODUCTOCOMUNIDADINTERNET: "ProductoComunidadInternet",
+      PRODUCTO_COMUNIDAD_INTERNET: "ProductoComunidadInternet",
       PRCMI_ID: "prcmi_id",
       PRCMI_CODE: "prcmi_codigo",
       PRCMI_DESCRIP: "prcmi_descrip",
@@ -1194,7 +1194,7 @@
       CMI_CODE: "cmi_codigo",
 
       // Producto Leyenda
-      PRODUCTOLEYENDA: "ProductoLeyenda",
+      PRODUCTO_LEYENDA: "ProductoLeyenda",
       PRL_ID: "prl_id",
       PRL_NAME: "prl_nombre",
       PRL_TEXTO: "prl_texto",

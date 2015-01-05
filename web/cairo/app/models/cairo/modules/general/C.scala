@@ -644,7 +644,7 @@ object C {
   val PRODUCTO_VENTA = "venta"
   val PRODUCTO_RUBRO = "rubro"
   val PRODUCTO_COMEX = "comex"
-  val PRODUCTO_KIT = "kit"
+  val PRODUCTO_KIT_GROUP = "kit"
   val PRODUCTO_WEB = "web"
   val PRODUCTO_NOMBRES = "names"
 
@@ -805,7 +805,7 @@ object C {
   val PRT_TEXTO = "prt_texto"
 
   // Producto Web Image
-  val PRODUCTOWEBIMAGE = "ProductoWebImage"
+  val PRODUCTO_WEB_IMAGE = "ProductoWebImage"
   val PRWI_ID = "prwi_id"
   val PRWI_ARCHIVO = "prwi_archivo"
   val PRWI_TIPO = "prwi_tipo"
@@ -827,14 +827,14 @@ object C {
   val LPM_MONTOMINIMO = "lpm_montominimo"
 
   // Producto Kit
-  val PRODUCTOKIT = "ProductoKit"
+  val PRODUCTO_KIT = "ProductoKit"
   val PRK_ID = "prk_id"
   val PRK_CANTIDAD = "prk_cantidad"
   val PRK_VARIABLE = "prk_variable"
   val PR_ID_ITEM = "pr_id_item"
 
   // Producto Proveedor
-  val PRODUCTOPROVEEDOR = "ProductoProveedor"
+  val PRODUCTO_PROVEEDOR = "ProductoProveedor"
   val PR_PROV_ID = "prprov_id"
   val PR_PROV_FABRICANTE = "prprov_fabricante"
   val PR_PROV_NAME = "prprov_nombre"
@@ -842,13 +842,14 @@ object C {
   val PR_PROV_CODIGO_BARRA = "prprov_codigoBarra"
 
   // Producto Cliente
-  val PRODUCTOCLIENTE = "ProductoCliente"
+  val PRODUCTO_CLIENTE = "ProductoCliente"
   val PR_CLI_ID = "prcli_id"
   val PR_CLI_NAME = "prcli_nombre"
   val PR_CLI_CODE = "prcli_codigo"
   val PR_CLI_CODIGO_BARRA = "prcli_codigoBarra"
 
   // Producto BOM
+  val PRODUCTO_BOM = "ProductoBOM"
   val PBM_ID = "pbm_id"
   val PBM_NAME = "pbm_nombre"
   val PBM_CODE = "pbm_codigo"
@@ -965,7 +966,7 @@ object C {
   val PR_ID_LOTE = "pr_id_lote"
 
   // Producto Kit Item Alternativo
-  val PRODUCTOKITITEMA = "ProductoKitItemA"
+  val PRODUCTO_KIT_ITEM_A = "ProductoKitItemA"
   val PRKA_ID = "prka_id"
 
   // Feriado
@@ -1123,7 +1124,7 @@ object C {
   val TI_DERECHOS = "derechos"
 
   // Producto Comunidad Internet
-  val PRODUCTOCOMUNIDADINTERNET = "ProductoComunidadInternet"
+  val PRODUCTO_COMUNIDAD_INTERNET = "ProductoComunidadInternet"
   val PRCMI_ID = "prcmi_id"
   val PRCMI_CODE = "prcmi_codigo"
   val PRCMI_DESCRIP = "prcmi_descrip"
@@ -1138,7 +1139,7 @@ object C {
   val CMI_CODE = "cmi_codigo"
 
   // Producto Leyenda
-  val PRODUCTOLEYENDA = "ProductoLeyenda"
+  val PRODUCTO_LEYENDA = "ProductoLeyenda"
   val PRL_ID = "prl_id"
   val PRL_NAME = "prl_nombre"
   val PRL_TEXTO = "prl_texto"

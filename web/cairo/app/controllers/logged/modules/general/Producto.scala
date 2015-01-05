@@ -235,7 +235,7 @@ object Productos extends Controller with ProvidesUser {
         C.TI_ID_COMEX_GANANCIAS -> number,
         C.TI_ID_COMEX_IGB -> number,
         C.TI_ID_COMEX_IVA -> number)(ProductoComexData.apply)(ProductoComexData.unapply),
-      C.PRODUCTO_KIT -> mapping(
+      C.PRODUCTO_KIT_GROUP -> mapping(
         C.PR_ES_KIT -> boolean,
         C.PR_KIT_STOCK_X_ITEM -> boolean,
         C.PR_KIT_RESUMIDO -> boolean,
