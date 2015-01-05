@@ -183,7 +183,7 @@
         var args = Array.prototype.slice.call(arguments, 1);
 
         for(var i = 0, count = self.items.length; i < count; i += 1) {
-          if(f.apply(null, [self.items[i]].concat(args)) === false) {
+          if(f.apply(null, [self.items[i], i].concat(args)) === false) {
             return false;
           }
         }
@@ -195,7 +195,7 @@
         var r = [];
 
         for(var i = 0, count = self.items.length; i < count; i += 1) {
-          r.push(f.apply(null, [self.items[i]].concat(args)));
+          r.push(f.apply(null, [self.items[i], i].concat(args)));
         }
 
         return r;

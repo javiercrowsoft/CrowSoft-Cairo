@@ -72,6 +72,8 @@
     var createColumn = function() {
       var self = {
         text:    '',
+        visible: true,
+        type: null,
 
         defaultValue: null /* is a Grids.Cell object */
       };
@@ -85,12 +87,27 @@
           self.text = text;
         },
 
+        getVisible: function() {
+          return self.visible;
+        },
+        setVisible: function(visible) {
+          self.visible = visible;
+        },
+
+        getType: function() {
+          return self.type;
+        },
+        setType: function(type) {
+          self.type = type;
+        },
+
         getDefault: function() {
           return self.defaultValue;
         },
         setDefault: function(value) {
           self.defaultValue = value;
         }
+
       };
 
       return that;
@@ -155,35 +172,56 @@
 
         var body = getTableSection(element, 'dialog-grid-body', 'tbody');
 
-        var createTD = function(item) {
-          var td = $('<td class="dialog-td"></td>');
-          td.html(item.getText());
+        var getColumnTitle = function(cell) {
+          return cell.getText();
+        };
+
+        var getValue = function(cell, col) {
+          if(col.getType() === Cairo.Dialogs.PropertyType.check) {
+            var icon = (cell.getText() === "0") ? "check" : "unchecked";
+            return "<i class='glyphicon glyphicon-" + icon + "'></i>";
+          }
+          else {
+            return cell.getText();
+          }
+        };
+
+        var hiddenStatus = [];
+        var visibleToArray = function(col, i) {
+          hiddenStatus[i] = col.getVisible() === true ? "" : " hidden";
+        };
+        self.columns.each(visibleToArray);
+
+        var createTD = function(item, i, getValue) {
+          var col = self.columns.get(i);
+          var hidden = hiddenStatus[i];
+          var td = $('<td class="dialog-td' + hidden + '"></td>');
+          td.html(getValue(item, col));
           return td;
         };
 
-        var addRow = function(row) {
-          return createTR(row.getCells());
-        };
-
-        var createTR = function(elements) {
-          var tr = $('<tr class="dialog-tr"></tr>');
-          tr.append(elements.map(createTD));
+        var createTR = function(elements, clazz, getValue) {
+          var tr = $('<tr class="' + clazz + '"></tr>');
+          tr.append(elements.map(createTD, getValue));
           return tr;
         };
 
-        body.append(createTR(self.columns));
+        var addRow = function(row) {
+          return createTR(row.getCells(), 'dialog-tr', getValue);
+        };
+
+        body.append(createTR(self.columns, 'dialog-th', getColumnTitle));
         body.append(self.rows.map(addRow));
 
         if(self.editEnabled && self.addEnabled) {
 
-          var addToEmptyRow = function(col, cells) {
+          var addToEmptyRow = function(col, index, cells) {
             var cell = cells.add();
-            //cell.setText(".");
           };
 
           var emptyRow = createRow();
           self.columns.each(addToEmptyRow, emptyRow.getCells());
-          body.append(createTR(emptyRow.getCells()));
+          body.append(createTR(emptyRow.getCells(), 'dialog-tr', getValue));
         }
       };
 
@@ -196,7 +234,7 @@
       that.setElement = function(element) {
         superSetElement(element);
         element.text(self.text);
-        element.addClass('dialog-grid table table-striped table-bordered');
+        element.addClass('dialog-grid table table-bordered');
         draw(element);
       };
 

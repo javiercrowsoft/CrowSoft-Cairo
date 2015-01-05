@@ -33,6 +33,8 @@
         var createColumn = function(col) {
           var c = columns.add();
           c.setText(col.getName());
+          c.setVisible(col.getVisible());
+          c.setType(col.getType());
         };
 
         if(!noChangeColumns || columns.count() !== grid.getColumns().count()) {
@@ -40,7 +42,7 @@
           grid.getColumns().each(createColumn);
         }
 
-        var createCell = function(cell, row) {
+        var createCell = function(cell, index, row) {
           var c = row.getCells().add();
           c.setText(cell.getValue());
         };
