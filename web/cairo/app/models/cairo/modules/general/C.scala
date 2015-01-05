@@ -1,5 +1,11 @@
 package models.cairo.modules.general
 
+import java.util.Date
+
+object U {
+  val NO_DATE = new Date(1900, 1, 1)
+}
+
 object C {
 
   // Provincia
@@ -835,11 +841,12 @@ object C {
 
   // Producto Proveedor
   val PRODUCTO_PROVEEDOR = "ProductoProveedor"
-  val PR_PROV_ID = "prprov_id"
-  val PR_PROV_FABRICANTE = "prprov_fabricante"
-  val PR_PROV_NAME = "prprov_nombre"
-  val PR_PROV_CODE = "prprov_codigo"
-  val PR_PROV_CODIGO_BARRA = "prprov_codigoBarra"
+  val PRPROV_ID = "prprov_id"
+  val PRPROV_FABRICANTE = "prprov_fabricante"
+  val PRPROV_NAME = "prprov_nombre"
+  val PRPROV_CODE = "prprov_codigo"
+  val PRPROV_CODIGO_BARRA = "prprov_codigoBarra"
+  val PRPROV_LPI_TOP = "lpi_top"
 
   // Producto Cliente
   val PRODUCTO_CLIENTE = "ProductoCliente"

@@ -422,6 +422,7 @@
         elem.setListWhoSetItem(Dialogs.ListWhoSetItem.itemData);
         elem.setListItemData(m_tipo);
 
+        // TODO: fix this: it uses a list. var elem is wrong. It must be var item = elem.getList().add( ...
         var elem = elem.add(null);
         elem.Id = csE_GastoTipo.cSEGTOTAEREO;
         // A�reo

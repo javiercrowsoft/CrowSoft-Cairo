@@ -658,10 +658,10 @@
               m_prov_id = Cairo.Constants.NO_ID;
               m_proveedor = "";
 
-              m_horario_m_desde = Cairo.Constants.cSNODATE;
-              m_horario_m_hasta = Cairo.Constants.cSNODATE;
-              m_horario_t_desde = Cairo.Constants.cSNODATE;
-              m_horario_t_hasta = Cairo.Constants.cSNODATE;
+              m_horario_m_desde = Cairo.Constants.NO_DATE;
+              m_horario_m_hasta = Cairo.Constants.NO_DATE;
+              m_horario_t_desde = Cairo.Constants.NO_DATE;
+              m_horario_t_hasta = Cairo.Constants.NO_DATE;
 
               m_pro_id = Cairo.Constants.NO_ID;
               m_provincia = "";

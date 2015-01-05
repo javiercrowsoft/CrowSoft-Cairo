@@ -895,11 +895,11 @@
 
       // Producto Proveedor
       PRODUCTO_PROVEEDOR: "ProductoProveedor",
-      PR_PROV_ID: "prprov_id",
-      PR_PROV_FABRICANTE: "prprov_fabricante",
-      PR_PROV_NAME: "prprov_nombre",
-      PR_PROV_CODE: "prprov_codigo",
-      PR_PROV_CODIGO_BARRA: "prprov_codigoBarra",
+      PRPROV_ID: "prprov_id",
+      PRPROV_FABRICANTE: "prprov_fabricante",
+      PRPROV_NAME: "prprov_nombre",
+      PRPROV_CODE: "prprov_codigo",
+      PRPROV_CODIGO_BARRA: "prprov_codigoBarra",
 
       // Producto Cliente
       PRODUCTO_CLIENTE: "ProductoCliente",

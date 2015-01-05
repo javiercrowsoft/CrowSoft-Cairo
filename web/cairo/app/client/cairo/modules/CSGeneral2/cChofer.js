@@ -604,7 +604,7 @@
               m_descrip = "";
               m_tipodni = csChofTipoDoc.cSCHOFTDDNI;
               m_dni = 0;
-              m_fechadenacimiento = Cairo.Constants.cSNODATE;
+              m_fechadenacimiento = Cairo.Constants.NO_DATE;
               m_direccion = "";
               m_telefono = "";
               m_active = true;

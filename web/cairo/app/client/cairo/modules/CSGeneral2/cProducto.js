@@ -11,6 +11,8 @@
       var C = Cairo.General.Constants;
       var Types = Cairo.Constants.Types;
       var bToI = Cairo.Util.boolToInt;
+      var valField = Cairo.Database.valField;
+      var getValue = Cairo.Database.getValue;
 
       var C_MODULE = "cProducto";
 
@@ -3005,8 +3007,8 @@
       var loadDataFromResponse = function(response) {
         var data = response.data;
 
-        data.proveedores = data.get('proveedor');
-        data.clientes = data.get('cliente');
+        data.proveedores = data.get('proveedores');
+        data.clientes = data.get('clientes');
         data.cmi = data.get('cmi');
         data.leyendas = data.get('leyendas');
         data.tags = data.get('tags');
@@ -3034,188 +3036,188 @@
 
               m_data = loadDataFromResponse(response);
 
-              m_id = Cairo.Database.valField(response.data, C.PR_ID);
-              m_purchaseName = Cairo.Database.valField(response.data, C.PR_NAME_COMPRA);
-              m_saleName = Cairo.Database.valField(response.data, C.PR_NAME_VENTA);
-              m_nombreFactura = Cairo.Database.valField(response.data, C.PR_NAME_FACTURA);
-              m_nombreWeb = Cairo.Database.valField(response.data, C.PR_NAME_WEB);
-              m_aliasWeb = Cairo.Database.valField(response.data, C.PR_ALIAS_WEB);
-              m_activoWeb = Cairo.Database.valField(response.data, C.PR_ACTIVO_WEB);
-              m_codigoHtml = Cairo.Database.valField(response.data, C.PR_CODIGO_HTML);
-              m_codigoHtmlDetalle = Cairo.Database.valField(response.data, C.PR_CODIGO_HTML_DETALLE);
-              m_code = Cairo.Database.valField(response.data, C.PR_CODE);
-              m_active = Cairo.Database.valField(response.data, Cairo.Constants.ACTIVE);
-              m_descripVenta = Cairo.Database.valField(response.data, C.PR_DESCRIP_VENTA);
-              m_descripCompra = Cairo.Database.valField(response.data, C.PR_DESCRIP_COMPRA);
-              m_compraVenta = Cairo.Database.valField(response.data, C.PR_VENTA_COMPRA);
-              m_ventaStock = Cairo.Database.valField(response.data, C.PR_VENTA_STOCK);
-              m_compraStock = Cairo.Database.valField(response.data, C.PR_STOCK_COMPRA);
-              m_llevaStock = Cairo.Database.valField(response.data, C.PR_LLEVA_STOCK);
-              m_seCompra = Cairo.Database.valField(response.data, C.PR_SE_COMPRA);
-              m_seVende = Cairo.Database.valField(response.data, C.PR_SE_VENDE);
-              m_dinerario = Cairo.Database.valField(response.data, C.PR_DINERARIO);
-              m_noRedondeo = Cairo.Database.valField(response.data, C.PR_NO_REDONDEO);
-              m_eskit = Cairo.Database.valField(response.data, C.PR_ES_KIT);
+              m_id = valField(response.data, C.PR_ID);
+              m_purchaseName = valField(response.data, C.PR_NAME_COMPRA);
+              m_saleName = valField(response.data, C.PR_NAME_VENTA);
+              m_nombreFactura = valField(response.data, C.PR_NAME_FACTURA);
+              m_nombreWeb = valField(response.data, C.PR_NAME_WEB);
+              m_aliasWeb = valField(response.data, C.PR_ALIAS_WEB);
+              m_activoWeb = valField(response.data, C.PR_ACTIVO_WEB);
+              m_codigoHtml = valField(response.data, C.PR_CODIGO_HTML);
+              m_codigoHtmlDetalle = valField(response.data, C.PR_CODIGO_HTML_DETALLE);
+              m_code = valField(response.data, C.PR_CODE);
+              m_active = valField(response.data, Cairo.Constants.ACTIVE);
+              m_descripVenta = valField(response.data, C.PR_DESCRIP_VENTA);
+              m_descripCompra = valField(response.data, C.PR_DESCRIP_COMPRA);
+              m_compraVenta = valField(response.data, C.PR_VENTA_COMPRA);
+              m_ventaStock = valField(response.data, C.PR_VENTA_STOCK);
+              m_compraStock = valField(response.data, C.PR_STOCK_COMPRA);
+              m_llevaStock = valField(response.data, C.PR_LLEVA_STOCK);
+              m_seCompra = valField(response.data, C.PR_SE_COMPRA);
+              m_seVende = valField(response.data, C.PR_SE_VENDE);
+              m_dinerario = valField(response.data, C.PR_DINERARIO);
+              m_noRedondeo = valField(response.data, C.PR_NO_REDONDEO);
+              m_eskit = valField(response.data, C.PR_ES_KIT);
 
-              m_kitResumido = Cairo.Database.valField(response.data, C.PR_KIT_RESUMIDO);
-              m_kitIdentidad = Cairo.Database.valField(response.data, C.PR_KIT_IDENTIDAD);
-              m_kitIdentidadXItem = Cairo.Database.valField(response.data, C.PR_KIT_IDENTIDAD_X_ITEM);
-              m_kitLote = Cairo.Database.valField(response.data, C.PR_KIT_LOTE);
-              m_kitLoteXItem = Cairo.Database.valField(response.data, C.PR_KIT_LOTE_X_ITEM);
-              m_talonarioKitSerie = Cairo.Database.valField(response.data, "TalonarioSerie");
-              m_talonarioKitLote = Cairo.Database.valField(response.data, "TalonarioLote");
-              m_ta_id_kitSerie = Cairo.Database.valField(response.data, C.TA_ID_KIT_SERIE);
-              m_ta_id_kitLote = Cairo.Database.valField(response.data, C.TA_ID_KIT_LOTE);
+              m_kitResumido = valField(response.data, C.PR_KIT_RESUMIDO);
+              m_kitIdentidad = valField(response.data, C.PR_KIT_IDENTIDAD);
+              m_kitIdentidadXItem = valField(response.data, C.PR_KIT_IDENTIDAD_X_ITEM);
+              m_kitLote = valField(response.data, C.PR_KIT_LOTE);
+              m_kitLoteXItem = valField(response.data, C.PR_KIT_LOTE_X_ITEM);
+              m_talonarioKitSerie = valField(response.data, "TalonarioSerie");
+              m_talonarioKitLote = valField(response.data, "TalonarioLote");
+              m_ta_id_kitSerie = valField(response.data, C.TA_ID_KIT_SERIE);
+              m_ta_id_kitLote = valField(response.data, C.TA_ID_KIT_LOTE);
 
-              m_kitStkXItem = Cairo.Database.valField(response.data, C.PR_KIT_STOCK_X_ITEM);
-              m_esLista = Cairo.Database.valField(response.data, C.PR_ES_LISTA);
+              m_kitStkXItem = valField(response.data, C.PR_KIT_STOCK_X_ITEM);
+              m_esLista = valField(response.data, C.PR_ES_LISTA);
 
-              m_un_id_compra = Cairo.Database.valField(response.data, C.UN_ID_COMPRA);
-              m_un_id_venta = Cairo.Database.valField(response.data, C.UN_ID_VENTA);
-              m_un_id_stock = Cairo.Database.valField(response.data, C.UN_ID_STOCK);
-              m_ti_id_IVA_RI_compra = Cairo.Database.valField(response.data, C.TI_ID_RI_COMPRA);
-              m_ti_id_ivarnicompra = Cairo.Database.valField(response.data, C.TI_ID_RNI_COMPRA);
-              m_ti_id_IVA_RI_venta = Cairo.Database.valField(response.data, C.TI_ID_RI_VENTA);
-              m_ti_id_ivarniventa = Cairo.Database.valField(response.data, C.TI_ID_RNI_VENTA);
-              m_ti_id_INTERNOS_v = Cairo.Database.valField(response.data, C.TI_ID_INTERNOS_VENTA);
-              m_ti_id_INTERNOS_c = Cairo.Database.valField(response.data, C.TI_ID_INTERNOS_COMPRA);
-              m_ibc_id = Cairo.Database.valField(response.data, C.IBC_ID);
-              m_cueg_id_compra = Cairo.Database.valField(response.data, C.CUEG_ID_COMPRA);
-              m_cueg_id_venta = Cairo.Database.valField(response.data, C.CUEG_ID_VENTA);
-              m_porcInternoC = Cairo.Database.valField(response.data, C.PR_PORC_INTERNO_C);
-              m_porcInternoV = Cairo.Database.valField(response.data, C.PR_PORC_INTERNO_V);
-              m_marca = Cairo.Database.valField(response.data, C.MARC_NAME);
-              m_marc_id = Cairo.Database.valField(response.data, C.MARC_ID);
+              m_un_id_compra = valField(response.data, C.UN_ID_COMPRA);
+              m_un_id_venta = valField(response.data, C.UN_ID_VENTA);
+              m_un_id_stock = valField(response.data, C.UN_ID_STOCK);
+              m_ti_id_IVA_RI_compra = valField(response.data, C.TI_ID_RI_COMPRA);
+              m_ti_id_ivarnicompra = valField(response.data, C.TI_ID_RNI_COMPRA);
+              m_ti_id_IVA_RI_venta = valField(response.data, C.TI_ID_RI_VENTA);
+              m_ti_id_ivarniventa = valField(response.data, C.TI_ID_RNI_VENTA);
+              m_ti_id_INTERNOS_v = valField(response.data, C.TI_ID_INTERNOS_VENTA);
+              m_ti_id_INTERNOS_c = valField(response.data, C.TI_ID_INTERNOS_COMPRA);
+              m_ibc_id = valField(response.data, C.IBC_ID);
+              m_cueg_id_compra = valField(response.data, C.CUEG_ID_COMPRA);
+              m_cueg_id_venta = valField(response.data, C.CUEG_ID_VENTA);
+              m_porcInternoC = valField(response.data, C.PR_PORC_INTERNO_C);
+              m_porcInternoV = valField(response.data, C.PR_PORC_INTERNO_V);
+              m_marca = valField(response.data, C.MARC_NAME);
+              m_marc_id = valField(response.data, C.MARC_ID);
 
-              m_tiIvaRiCompra = Cairo.Database.valField(response.data, "ric");
-              m_tiIvaRniCompra = Cairo.Database.valField(response.data, "rnic");
-              m_tiIvaRiVenta = Cairo.Database.valField(response.data, "riv");
-              m_tiIvaRniVenta = Cairo.Database.valField(response.data, "rniv");
-              m_tiInternosv = Cairo.Database.valField(response.data, "iv");
-              m_tiInternosc = Cairo.Database.valField(response.data, "ic");
-              m_ingresosBrutos = Cairo.Database.valField(response.data, C.IBC_NAME);
-              m_cuentaGCompra = Cairo.Database.valField(response.data, "cc");
-              m_cuentaGVenta = Cairo.Database.valField(response.data, "cv");
-              m_unidadCompra = Cairo.Database.valField(response.data, "uc");
-              m_unidadVenta = Cairo.Database.valField(response.data, "uv");
-              m_unidadStock = Cairo.Database.valField(response.data, "us");
+              m_tiIvaRiCompra = valField(response.data, "ric");
+              m_tiIvaRniCompra = valField(response.data, "rnic");
+              m_tiIvaRiVenta = valField(response.data, "riv");
+              m_tiIvaRniVenta = valField(response.data, "rniv");
+              m_tiInternosv = valField(response.data, "iv");
+              m_tiInternosc = valField(response.data, "ic");
+              m_ingresosBrutos = valField(response.data, C.IBC_NAME);
+              m_cuentaGCompra = valField(response.data, "cc");
+              m_cuentaGVenta = valField(response.data, "cv");
+              m_unidadCompra = valField(response.data, "uc");
+              m_unidadVenta = valField(response.data, "uv");
+              m_unidadStock = valField(response.data, "us");
 
-              m_x = Cairo.Database.valField(response.data, C.PR_X);
-              m_y = Cairo.Database.valField(response.data, C.PR_Y);
-              m_z = Cairo.Database.valField(response.data, C.PR_Z);
-              m_tieneHijo = Cairo.Database.valField(response.data, C.PR_TIENE_HIJO);
-              m_id_Padre = Cairo.Database.valField(response.data, C.PR_ID_PADRE);
-              m_editarPrecioHijo = Cairo.Database.valField(response.data, C.PR_EDITAR_PRECIO_HIJO);
-              m_permiteEdicion = Cairo.Database.valField(response.data, C.PR_PERMITE_EDICION);
-              m_borrado = Cairo.Database.valField(response.data, C.PR_BORRADO);
-              m_stockMinimo = Cairo.Database.valField(response.data, C.PR_STOCK_MINIMO);
-              m_stockMaximo = Cairo.Database.valField(response.data, C.PR_STOCK_MAXIMO);
-              m_codigoExterno = Cairo.Database.valField(response.data, C.PR_CODIGO_EXTERNO);
-              m_codigoBarra = Cairo.Database.valField(response.data, C.PR_CODIGO_BARRA);
-              m_codigoBarraNombre = Cairo.Database.valField(response.data, C.PR_CODIGO_BARRA_NAME);
-              m_reposicion = Cairo.Database.valField(response.data, C.PR_REPOSICION);
-              m_llevaNroLote = Cairo.Database.valField(response.data, C.PR_LLEVA_NRO_LOTE);
-              m_loteFifo = Cairo.Database.valField(response.data, C.PR_LOTE_FIFO);
-              m_esRepuesto = Cairo.Database.valField(response.data, C.PR_ES_REPUESTO);
-              m_llevaNroSerie = Cairo.Database.valField(response.data, C.PR_LLEVA_NRO_SERIE);
-              m_seProduce = Cairo.Database.valField(response.data, C.PR_SE_PRODUCE);
+              m_x = valField(response.data, C.PR_X);
+              m_y = valField(response.data, C.PR_Y);
+              m_z = valField(response.data, C.PR_Z);
+              m_tieneHijo = valField(response.data, C.PR_TIENE_HIJO);
+              m_id_Padre = valField(response.data, C.PR_ID_PADRE);
+              m_editarPrecioHijo = valField(response.data, C.PR_EDITAR_PRECIO_HIJO);
+              m_permiteEdicion = valField(response.data, C.PR_PERMITE_EDICION);
+              m_borrado = valField(response.data, C.PR_BORRADO);
+              m_stockMinimo = valField(response.data, C.PR_STOCK_MINIMO);
+              m_stockMaximo = valField(response.data, C.PR_STOCK_MAXIMO);
+              m_codigoExterno = valField(response.data, C.PR_CODIGO_EXTERNO);
+              m_codigoBarra = valField(response.data, C.PR_CODIGO_BARRA);
+              m_codigoBarraNombre = valField(response.data, C.PR_CODIGO_BARRA_NAME);
+              m_reposicion = valField(response.data, C.PR_REPOSICION);
+              m_llevaNroLote = valField(response.data, C.PR_LLEVA_NRO_LOTE);
+              m_loteFifo = valField(response.data, C.PR_LOTE_FIFO);
+              m_esRepuesto = valField(response.data, C.PR_ES_REPUESTO);
+              m_llevaNroSerie = valField(response.data, C.PR_LLEVA_NRO_SERIE);
+              m_seProduce = valField(response.data, C.PR_SE_PRODUCE);
 
-              m_pesoNeto = Cairo.Database.valField(response.data, C.PR_PESO_NETO);
-              m_pesoTotal = Cairo.Database.valField(response.data, C.PR_PESO_TOTAL);
+              m_pesoNeto = valField(response.data, C.PR_PESO_NETO);
+              m_pesoTotal = valField(response.data, C.PR_PESO_TOTAL);
 
-              m_fleteExpo = Cairo.Database.valField(response.data, C.PR_FLETE_EXPO);
+              m_fleteExpo = valField(response.data, C.PR_FLETE_EXPO);
 
-              m_egp_id = Cairo.Database.valField(response.data, C.EGP_ID);
-              m_grupoExpo = Cairo.Database.valField(response.data, C.EGP_NAME);
+              m_egp_id = valField(response.data, C.EGP_ID);
+              m_grupoExpo = valField(response.data, C.EGP_NAME);
 
-              m_efm_id = Cairo.Database.valField(response.data, C.EFM_ID);
-              m_familiaExpo = Cairo.Database.valField(response.data, C.EFM_NAME);
+              m_efm_id = valField(response.data, C.EFM_ID);
+              m_familiaExpo = valField(response.data, C.EFM_NAME);
 
-              m_cantXCajaExpo = Cairo.Database.valField(response.data, C.PR_CANT_X_CAJA_EXPO);
-              m_un_id_peso = Cairo.Database.valField(response.data, C.UN_ID_PESO);
-              m_unidadPeso = Cairo.Database.valField(response.data, "up");
+              m_cantXCajaExpo = valField(response.data, C.PR_CANT_X_CAJA_EXPO);
+              m_un_id_peso = valField(response.data, C.UN_ID_PESO);
+              m_unidadPeso = valField(response.data, "up");
 
-              m_embl_id = Cairo.Database.valField(response.data, C.EMBL_ID);
-              m_embalaje = Cairo.Database.valField(response.data, C.EMBL_NAME);
+              m_embl_id = valField(response.data, C.EMBL_ID);
+              m_embalaje = valField(response.data, C.EMBL_NAME);
 
-              m_expoCairo = Cairo.Database.valField(response.data, C.PR_EXPO_CAIRO);
-              m_expoWeb = Cairo.Database.valField(response.data, C.PR_EXPO_WEB);
-              m_ventaWebMaxima = Cairo.Database.valField(response.data, C.PR_VENTA_WEB_MAXIMA);
-              m_ley_id = Cairo.Database.valField(response.data, C.LEY_ID);
-              m_leyenda = Cairo.Database.valField(response.data, C.LEY_NAME);
-              m_webImageFolder = Cairo.Database.valField(response.data, C.PR_WEB_IMAGE_FOLDER);
-              m_webImageUpdate = Cairo.Database.valField(response.data, C.PR_WEB_IMAGE_UPDATE);
+              m_expoCairo = valField(response.data, C.PR_EXPO_CAIRO);
+              m_expoWeb = valField(response.data, C.PR_EXPO_WEB);
+              m_ventaWebMaxima = valField(response.data, C.PR_VENTA_WEB_MAXIMA);
+              m_ley_id = valField(response.data, C.LEY_ID);
+              m_leyenda = valField(response.data, C.LEY_NAME);
+              m_webImageFolder = valField(response.data, C.PR_WEB_IMAGE_FOLDER);
+              m_webImageUpdate = valField(response.data, C.PR_WEB_IMAGE_UPDATE);
 
-              m_centroCostoCompra = Cairo.Database.valField(response.data, "centro_costo_compra");
-              m_ccos_id_compra = Cairo.Database.valField(response.data, C.CCOS_ID_COMPRA);
+              m_centroCostoCompra = valField(response.data, "centro_costo_compra");
+              m_ccos_id_compra = valField(response.data, C.CCOS_ID_COMPRA);
 
-              m_centroCostoVenta = Cairo.Database.valField(response.data, "centro_costo_venta");
-              m_ccos_id_venta = Cairo.Database.valField(response.data, C.CCOS_ID_VENTA);
+              m_centroCostoVenta = valField(response.data, "centro_costo_venta");
+              m_ccos_id_venta = valField(response.data, C.CCOS_ID_VENTA);
 
-              m_isTemplate = Cairo.Database.valField(response.data, C.PR_ES_PLANTILLA);
-              m_cur_id = Cairo.Database.valField(response.data, C.CUR_ID);
-              m_curso = Cairo.Database.valField(response.data, C.CUR_NAME);
+              m_isTemplate = valField(response.data, C.PR_ES_PLANTILLA);
+              m_cur_id = valField(response.data, C.CUR_ID);
+              m_curso = valField(response.data, C.CUR_NAME);
 
-              m_rpt_id_nombreCompra = Cairo.Database.valField(response.data, C.RPT_ID_NOMBRE_COMPRA);
-              m_rpt_nombreCompra = Cairo.Database.valField(response.data, "rpt_nombreCompra");
+              m_rpt_id_nombreCompra = valField(response.data, C.RPT_ID_NOMBRE_COMPRA);
+              m_rpt_nombreCompra = valField(response.data, "rpt_nombreCompra");
 
-              m_rpt_id_nombreVenta = Cairo.Database.valField(response.data, C.RPT_ID_NOMBRE_VENTA);
-              m_rpt_nombreVenta = Cairo.Database.valField(response.data, "rpt_nombreVenta");
+              m_rpt_id_nombreVenta = valField(response.data, C.RPT_ID_NOMBRE_VENTA);
+              m_rpt_nombreVenta = valField(response.data, "rpt_nombreVenta");
 
-              m_rpt_id_nombrefactura = Cairo.Database.valField(response.data, C.RPT_ID_NOMBRE_FACTURA);
-              m_rpt_nombrefactura = Cairo.Database.valField(response.data, "rpt_nombrefactura");
+              m_rpt_id_nombrefactura = valField(response.data, C.RPT_ID_NOMBRE_FACTURA);
+              m_rpt_nombrefactura = valField(response.data, "rpt_nombrefactura");
 
-              m_rpt_id_nombreweb = Cairo.Database.valField(response.data, C.RPT_ID_NOMBRE_WEB);
-              m_rpt_nombreweb = Cairo.Database.valField(response.data, "rpt_nombreweb");
+              m_rpt_id_nombreweb = valField(response.data, C.RPT_ID_NOMBRE_WEB);
+              m_rpt_nombreweb = valField(response.data, "rpt_nombreweb");
 
-              m_rpt_id_nombreimg = Cairo.Database.valField(response.data, C.RPT_ID_NOMBRE_IMG);
-              m_rpt_nombreimg = Cairo.Database.valField(response.data, "rpt_nombreimg");
+              m_rpt_id_nombreimg = valField(response.data, C.RPT_ID_NOMBRE_IMG);
+              m_rpt_nombreimg = valField(response.data, "rpt_nombreimg");
 
-              m_rpt_id_nombreimgalt = Cairo.Database.valField(response.data, C.RPT_ID_NOMBRE_IMG_ALT);
-              m_rpt_nombreimgalt = Cairo.Database.valField(response.data, "rpt_nombreimgalt");
+              m_rpt_id_nombreimgalt = valField(response.data, C.RPT_ID_NOMBRE_IMG_ALT);
+              m_rpt_nombreimgalt = valField(response.data, "rpt_nombreimgalt");
 
-              m_ti_id_comex_ganancias = Cairo.Database.valField(response.data, C.TI_ID_COMEX_GANANCIAS);
-              m_ti_comex_ganancias = Cairo.Database.valField(response.data, "tiComexGanancias");
+              m_ti_id_comex_ganancias = valField(response.data, C.TI_ID_COMEX_GANANCIAS);
+              m_ti_comex_ganancias = valField(response.data, "tiComexGanancias");
 
-              m_ti_id_comex_igb = Cairo.Database.valField(response.data, C.TI_ID_COMEX_IGB);
-              m_ti_comex_igb = Cairo.Database.valField(response.data, "tiComexIGB");
+              m_ti_id_comex_igb = valField(response.data, C.TI_ID_COMEX_IGB);
+              m_ti_comex_igb = valField(response.data, "tiComexIGB");
 
-              m_ti_id_comex_iva = Cairo.Database.valField(response.data, C.TI_ID_COMEX_IVA);
-              m_ti_comex_iva = Cairo.Database.valField(response.data, "tiComexIVA");
+              m_ti_id_comex_iva = valField(response.data, C.TI_ID_COMEX_IVA);
+              m_ti_comex_iva = valField(response.data, "tiComexIVA");
 
-              m_poar_id = Cairo.Database.valField(response.data, C.POAR_ID);
-              m_posicionArancel = Cairo.Database.valField(response.data, C.POAR_NAME);
+              m_poar_id = valField(response.data, C.POAR_ID);
+              m_posicionArancel = valField(response.data, C.POAR_NAME);
 
-              m_productowebpadre = Cairo.Database.valField(response.data, "webpadre");
-              m_pr_id_webPadre = Cairo.Database.valField(response.data, C.PR_ID_WEB_PADRE);
+              m_productowebpadre = valField(response.data, "webpadre");
+              m_pr_id_webPadre = valField(response.data, C.PR_ID_WEB_PADRE);
 
               //
               // load rubro
               //
-              m_rub_id = Cairo.Database.valField(response.data, C.RUB_ID);
-              m_rubro = Cairo.Database.valField(response.data, C.RUB_NAME);
+              m_rub_id = valField(response.data, C.RUB_ID);
+              m_rubro = valField(response.data, C.RUB_NAME);
 
-              m_rubti_id1 = Cairo.Database.valField(response.data, C.RUBTI_ID_1);
-              m_rubti_id2 = Cairo.Database.valField(response.data, C.RUBTI_ID_2);
-              m_rubti_id3 = Cairo.Database.valField(response.data, C.RUBTI_ID_3);
-              m_rubti_id4 = Cairo.Database.valField(response.data, C.RUBTI_ID_4);
-              m_rubti_id5 = Cairo.Database.valField(response.data, C.RUBTI_ID_5);
-              m_rubti_id6 = Cairo.Database.valField(response.data, C.RUBTI_ID_6);
-              m_rubti_id7 = Cairo.Database.valField(response.data, C.RUBTI_ID_7);
-              m_rubti_id8 = Cairo.Database.valField(response.data, C.RUBTI_ID_8);
-              m_rubti_id9 = Cairo.Database.valField(response.data, C.RUBTI_ID_9);
-              m_rubti_id10 = Cairo.Database.valField(response.data, C.RUBTI_ID_10);
+              m_rubti_id1 = valField(response.data, C.RUBTI_ID_1);
+              m_rubti_id2 = valField(response.data, C.RUBTI_ID_2);
+              m_rubti_id3 = valField(response.data, C.RUBTI_ID_3);
+              m_rubti_id4 = valField(response.data, C.RUBTI_ID_4);
+              m_rubti_id5 = valField(response.data, C.RUBTI_ID_5);
+              m_rubti_id6 = valField(response.data, C.RUBTI_ID_6);
+              m_rubti_id7 = valField(response.data, C.RUBTI_ID_7);
+              m_rubti_id8 = valField(response.data, C.RUBTI_ID_8);
+              m_rubti_id9 = valField(response.data, C.RUBTI_ID_9);
+              m_rubti_id10 = valField(response.data, C.RUBTI_ID_10);
 
-              m_rubti_name1 = Cairo.Database.valField(response.data, C.RUBTI_NAME_1);
-              m_rubti_name2 = Cairo.Database.valField(response.data, C.RUBTI_NAME_2);
-              m_rubti_name3 = Cairo.Database.valField(response.data, C.RUBTI_NAME_3);
-              m_rubti_name4 = Cairo.Database.valField(response.data, C.RUBTI_NAME_4);
-              m_rubti_name5 = Cairo.Database.valField(response.data, C.RUBTI_NAME_5);
-              m_rubti_name6 = Cairo.Database.valField(response.data, C.RUBTI_NAME_6);
-              m_rubti_name7 = Cairo.Database.valField(response.data, C.RUBTI_NAME_7);
-              m_rubti_name8 = Cairo.Database.valField(response.data, C.RUBTI_NAME_8);
-              m_rubti_name9 = Cairo.Database.valField(response.data, C.RUBTI_NAME_9);
-              m_rubti_name10 = Cairo.Database.valField(response.data, C.RUBTI_NAME_10);
+              m_rubti_name1 = valField(response.data, C.RUBTI_NAME_1);
+              m_rubti_name2 = valField(response.data, C.RUBTI_NAME_2);
+              m_rubti_name3 = valField(response.data, C.RUBTI_NAME_3);
+              m_rubti_name4 = valField(response.data, C.RUBTI_NAME_4);
+              m_rubti_name5 = valField(response.data, C.RUBTI_NAME_5);
+              m_rubti_name6 = valField(response.data, C.RUBTI_NAME_6);
+              m_rubti_name7 = valField(response.data, C.RUBTI_NAME_7);
+              m_rubti_name8 = valField(response.data, C.RUBTI_NAME_8);
+              m_rubti_name9 = valField(response.data, C.RUBTI_NAME_9);
+              m_rubti_name10 = valField(response.data, C.RUBTI_NAME_10);
 
               m_data.rubro = Cairo.Rubro.Load.createRubro();
               m_data.rubro.loadFromData(response.data);
@@ -4153,7 +4155,7 @@
             var register = new Cairo.Database.Register();
 
             var fields = register.getFields();
-            register.setFieldId(C.PR_PROV_ID);
+            register.setFieldId(C.PRPROV_ID);
             register.setTable(C.PRODUCTO_PROVEEDOR);
             register.setId(Cairo.Constants.NEW_ID);
 
@@ -4173,19 +4175,19 @@
                   break;
 
                 case KIK_PROV_FABRICANTE:
-                  fields.add(C.PR_PROV_FABRICANTE, cell.getId(), Types.boolean);
+                  fields.add(C.PRPROV_FABRICANTE, cell.getId(), Types.boolean);
                   break;
 
                 case KIK_PROV_NOMBRE:
-                  fields.add(C.PR_PROV_NAME, cell.getValue(), Types.text);
+                  fields.add(C.PRPROV_NAME, cell.getValue(), Types.text);
                   break;
 
                 case KIK_PROV_CODIGO:
-                  fields.add(C.PR_PROV_CODE, cell.getValue(), Types.text);
+                  fields.add(C.PRPROV_CODE, cell.getValue(), Types.text);
                   break;
 
                 case KIK_PROV_CODBARRA:
-                  fields.add(C.PR_PROV_CODIGO_BARRA, cell.getValue(), Types.text);
+                  fields.add(C.PRPROV_CODIGO_BARRA, cell.getValue(), Types.text);
                   break;
 
                 case KIK_PA_ID:
@@ -4954,67 +4956,67 @@
 
         for(var _i = 0; _i < m_data.proveedores.length; _i += 1) {
 
-          var elem = w_rows.add(null);
+          var row = w_rows.add(null);
 
-          var elem = elem.add(null);
-          elem.setValue(Cairo.Database.valField(m_data.proveedores[_i], C.PR_PROV_ID));
+          var elem = row.add(null);
+          elem.setValue(getValue(m_data.proveedores[_i], C.PRPROV_ID));
           elem.setKey(KIK_PRPROV_ID);
 
-          var elem = elem.add(null);
-          elem.setValue(Cairo.Database.valField(m_data.proveedores[_i], C.PROV_NAME));
-          elem.setId(Cairo.Database.valField(m_data.proveedores[_i], C.PROV_ID));
+          var elem = row.add(null);
+          elem.setValue(getValue(m_data.proveedores[_i], C.PROV_NAME));
+          elem.setId(getValue(m_data.proveedores[_i], C.PROV_ID));
           elem.setKey(KIK_PROV_ID);
 
-          var elem = elem.add(null);
-          elem.setId(Cairo.Database.valField(m_data.proveedores[_i], C.PR_PROV_FABRICANTE));
+          var elem = row.add(null);
+          elem.setId(getValue(m_data.proveedores[_i], C.PRPROV_FABRICANTE));
           elem.setKey(KIK_PROV_FABRICANTE);
 
-          var elem = elem.add(null);
-          elem.setValue(Cairo.Database.valField(m_data.proveedores[_i], C.PR_PROV_NAME));
+          var elem = row.add(null);
+          elem.setValue(getValue(m_data.proveedores[_i], C.PRPROV_NAME));
           elem.setKey(KIK_PROV_NOMBRE);
 
-          var elem = elem.add(null);
-          elem.setValue(Cairo.Database.valField(m_data.proveedores[_i], C.PR_PROV_CODE));
+          var elem = row.add(null);
+          elem.setValue(getValue(m_data.proveedores[_i], C.PRPROV_CODE));
           elem.setKey(KIK_PROV_CODIGO);
 
-          var elem = elem.add(null);
-          elem.setValue(Cairo.Database.valField(m_data.proveedores[_i], C.PR_PROV_CODIGO_BARRA));
+          var elem = row.add(null);
+          elem.setValue(getValue(m_data.proveedores[_i], C.PRPROV_CODIGO_BARRA));
           elem.setKey(KIK_PROV_CODBARRA);
 
-          var elem = elem.add(null);
-          elem.setValue(Cairo.Database.valField(m_data.proveedores[_i], C.PA_NAME));
-          elem.setId(Cairo.Database.valField(m_data.proveedores[_i], C.PA_ID));
+          var elem = row.add(null);
+          elem.setValue(getValue(m_data.proveedores[_i], C.PA_NAME));
+          elem.setId(getValue(m_data.proveedores[_i], C.PA_ID));
           elem.setKey(KIK_PA_ID);
 
-          var elem = elem.add(null);
-          elem.setValue(Cairo.Database.valField(m_data.proveedores[_i], C.LP_NAME));
-          elem.setId(Cairo.Database.valField(m_data.proveedores[_i], C.LPI_ID));
+          var elem = row.add(null);
+          elem.setValue(getValue(m_data.proveedores[_i], C.LP_NAME));
+          elem.setId(getValue(m_data.proveedores[_i], C.LPI_ID));
           elem.setKey(KIK_PROV_LPI_ID);
 
-          precio = Cairo.Database.valField(m_data.proveedores[_i], C.LPI_PRECIO);
+          precio = getValue(m_data.proveedores[_i], C.LPI_PRECIO);
 
-          var elem = elem.add(null);
+          var elem = row.add(null);
           if(precio !== 0) {
             elem.setValue(precio);
           }
           elem.setKey(KIK_PROV_PRECIO);
 
-          var elem = elem.add(null);
+          var elem = row.add(null);
           if(precio !== 0) {
             elem.setValue(precio);
           }
           elem.setKey(KIK_PROV_PRECIO2);
 
-          fecha = Cairo.Database.valField(m_data.proveedores[_i], C.LPI_FECHA);
+          fecha = getValue(m_data.proveedores[_i], C.LPI_FECHA);
 
-          var elem = elem.add(null);
-          if(fecha !== Cairo.Constants.cSNODATE) {
+          var elem = row.add(null);
+          if(fecha !== Cairo.Constants.NO_DATE) {
             elem.setValue(fecha);
           }
           elem.setKey(KIK_PROV_PRECIO_FECHA);
 
-          var elem = elem.add(null);
-          elem.setId(Cairo.Database.valField(m_data.proveedores[_i], "lpi_top"));
+          var elem = row.add(null);
+          elem.setId(getValue(m_data.proveedores[_i], "lpi_top"));
           elem.setKey(KIK_PROV_PRECIO_DEFAULT);
 
         }
@@ -5068,27 +5070,27 @@
 
         for(var _i = 0; _i < m_data.clientes.length; _i += 1) {
 
-          var row = w_rows.add(null, Cairo.Database.valField(m_data.clientes[_i], C.PR_CLI_ID));
+          var row = w_rows.add(null, getValue(m_data.clientes[_i], C.PR_CLI_ID));
 
-          var elem = elem.add(null);
-          elem.setValue(Cairo.Database.valField(m_data.clientes[_i], C.PR_CLI_ID));
+          var elem = row.add(null);
+          elem.setValue(getValue(m_data.clientes[_i], C.PR_CLI_ID));
           elem.setKey(KIK_PRCLI_ID);
 
           var elem = row.add(null);
-          elem.setValue(Cairo.Database.valField(m_data.clientes[_i], C.CLI_NAME));
-          elem.setId(Cairo.Database.valField(m_data.clientes[_i], C.CLI_ID));
+          elem.setValue(getValue(m_data.clientes[_i], C.CLI_NAME));
+          elem.setId(getValue(m_data.clientes[_i], C.CLI_ID));
           elem.setKey(KIK_CLI_ID);
 
           var elem = row.add(null);
-          elem.setValue(Cairo.Database.valField(m_data.clientes[_i], C.PR_CLI_NAME));
+          elem.setValue(getValue(m_data.clientes[_i], C.PR_CLI_NAME));
           elem.setKey(KIK_CLI_NOMBRE);
 
           var elem = row.add(null);
-          elem.setValue(Cairo.Database.valField(m_data.clientes[_i], C.PR_CLI_CODE));
+          elem.setValue(getValue(m_data.clientes[_i], C.PR_CLI_CODE));
           elem.setKey(KIK_CLI_CODIGO);
 
           var elem = row.add(null);
-          elem.setValue(Cairo.Database.valField(m_data.clientes[_i], C.PR_CLI_CODIGO_BARRA));
+          elem.setValue(getValue(m_data.clientes[_i], C.PR_CLI_CODIGO_BARRA));
           elem.setKey(KIK_CLI_CODBARRA);
 
         }
@@ -5156,35 +5158,35 @@
 
         for(var _i = 0; _i < m_data.cmi.length; _i += 1) {
 
-          var row = w_rows.add(null, Cairo.Database.valField(m_data.cmi[_i], C.PRCMI_ID));
+          var row = w_rows.add(null, getValue(m_data.cmi[_i], C.PRCMI_ID));
 
           var elem = row.add(null);
-          elem.setValue(Cairo.Database.valField(m_data.cmi[_i], C.PRCMI_ID));
+          elem.setValue(getValue(m_data.cmi[_i], C.PRCMI_ID));
           elem.setKey(KICMI_ID);
 
           var elem = row.add(null);
-          elem.setValue(Cairo.Database.valField(m_data.cmi[_i], C.CMI_NAME));
-          elem.setId(Cairo.Database.valField(m_data.cmi[_i], C.CMI_ID));
+          elem.setValue(getValue(m_data.cmi[_i], C.CMI_NAME));
+          elem.setId(getValue(m_data.cmi[_i], C.CMI_ID));
           elem.setKey(KICMI_ID);
 
           var elem = row.add(null);
-          elem.setValue(Cairo.Database.valField(m_data.cmi[_i], C.PRCMI_CODE));
+          elem.setValue(getValue(m_data.cmi[_i], C.PRCMI_CODE));
           elem.setKey(KICMI_CODIGO);
 
           var elem = row.add(null);
-          elem.setValue(Cairo.Database.valField(m_data.cmi[_i], C.PRCMI_PRECIO));
+          elem.setValue(getValue(m_data.cmi[_i], C.PRCMI_PRECIO));
           elem.setKey(KICMI_PRECIO);
 
           var elem = row.add(null);
-          elem.setValue(Cairo.Database.valField(m_data.cmi[_i], C.PRCMI_FECHA_ALTA));
+          elem.setValue(getValue(m_data.cmi[_i], C.PRCMI_FECHA_ALTA));
           elem.setKey(KICMI_FECHAALTA);
 
           var elem = row.add(null);
-          elem.setValue(Cairo.Database.valField(m_data.cmi[_i], C.PRCMI_FECHA_VTO));
+          elem.setValue(getValue(m_data.cmi[_i], C.PRCMI_FECHA_VTO));
           elem.setKey(KICMI_FECHAVTO);
 
           var elem = row.add(null);
-          elem.setValue(Cairo.Database.valField(m_data.cmi[_i], C.PRCMI_DESCRIP));
+          elem.setValue(getValue(m_data.cmi[_i], C.PRCMI_DESCRIP));
           elem.setKey(KICMI_DESCRIP);
 
         }
@@ -5238,26 +5240,26 @@
 
         for(var _i = 0; _i < m_data.leyendas.length; _i += 1) {
 
-          var row = w_rows.add(null, Cairo.Database.valField(m_data.leyendas[_i], C.PRL_ID));
+          var row = w_rows.add(null, getValue(m_data.leyendas[_i], C.PRL_ID));
 
           var elem = row.add(null);
-          elem.setValue(Cairo.Database.valField(m_data.leyendas[_i], C.PRL_ID));
+          elem.setValue(getValue(m_data.leyendas[_i], C.PRL_ID));
           elem.setKey(KICMI_ID);
 
           var elem = row.add(null);
-          elem.setValue(Cairo.Database.valField(m_data.leyendas[_i], C.PRL_NAME));
+          elem.setValue(getValue(m_data.leyendas[_i], C.PRL_NAME));
           elem.setKey(KIPRL_NOMBRE);
 
           var elem = row.add(null);
-          elem.setValue(Cairo.Database.valField(m_data.leyendas[_i], C.PRL_TEXTO));
+          elem.setValue(getValue(m_data.leyendas[_i], C.PRL_TEXTO));
           elem.setKey(KIPRL_TEXTO);
 
           var elem = row.add(null);
-          elem.setValue(Cairo.Database.valField(m_data.leyendas[_i], C.PRL_TAG));
+          elem.setValue(getValue(m_data.leyendas[_i], C.PRL_TAG));
           elem.setKey(KIPRL_TAG);
 
           var elem = row.add(null);
-          elem.setValue(Cairo.Database.valField(m_data.leyendas[_i], C.PRL_ORDEN));
+          elem.setValue(getValue(m_data.leyendas[_i], C.PRL_ORDEN));
           elem.setKey(KIPRL_ORDEN);
 
         }
@@ -5287,11 +5289,11 @@
 
         for(var _i = 0; _i < m_data.bom.length; _i += 1) {
 
-          var row = w_rows.add(null, Cairo.Database.valField(m_data.bom[_i], C.PBM_ID));
+          var row = w_rows.add(null, getValue(m_data.bom[_i], C.PBM_ID));
 
           var elem = row.add(null);
-          elem.setValue(Cairo.Database.valField(m_data.bom[_i], C.PBM_NAME));
-          elem.setId(Cairo.Database.valField(m_data.bom[_i], C.PBM_ID));
+          elem.setValue(getValue(m_data.bom[_i], C.PBM_NAME));
+          elem.setId(getValue(m_data.bom[_i], C.PBM_ID));
           elem.setKey(KIK_PBM_ID);
 
         }
@@ -5359,30 +5361,30 @@
 
         for(var _i = 0; _i < m_data.tags.length; _i += 1) {
 
-          var elem = w_rows.add(null, Cairo.Database.valField(m_data.tags[_i], C.PRT_ID));
+          var elem = w_rows.add(null, getValue(m_data.tags[_i], C.PRT_ID));
 
-          var elem = elem.add(null);
-          elem.setValue(Cairo.Database.valField(m_data.tags[_i], C.PRT_ID));
+          var elem = row.add(null);
+          elem.setValue(getValue(m_data.tags[_i], C.PRT_ID));
           elem.setKey(KIT_PRT_ID);
 
-          var elem = elem.add(null);
-          elem.setValue(Cairo.Database.valField(m_data.tags[_i], C.PR_NAME_COMPRA));
-          elem.setId(Cairo.Database.valField(m_data.tags[_i], C.PR_ID_TAG));
+          var elem = row.add(null);
+          elem.setValue(getValue(m_data.tags[_i], C.PR_NAME_COMPRA));
+          elem.setId(getValue(m_data.tags[_i], C.PR_ID_TAG));
           elem.setKey(KIT_PR_ID_TAG);
 
-          var elem = elem.add(null);
-          elem.setValue(Cairo.Database.valField(m_data.tags[_i], "orden"));
+          var elem = row.add(null);
+          elem.setValue(getValue(m_data.tags[_i], "orden"));
 
-          var elem = elem.add(null);
-          elem.setValue(Cairo.Database.valField(m_data.tags[_i], C.PRT_TEXTO));
+          var elem = row.add(null);
+          elem.setValue(getValue(m_data.tags[_i], C.PRT_TEXTO));
           elem.setKey(KIT_TEXTO);
 
-          var elem = elem.add(null);
-          elem.setValue(Cairo.Database.valField(m_data.tags[_i], C.PRT_EXPO_WEB));
+          var elem = row.add(null);
+          elem.setValue(getValue(m_data.tags[_i], C.PRT_EXPO_WEB));
           elem.setKey(KIT_EXPOWEB);
 
-          var elem = elem.add(null);
-          elem.setValue(Cairo.Database.valField(m_data.tags[_i], C.PRT_EXPO_CAIRO));
+          var elem = row.add(null);
+          elem.setValue(getValue(m_data.tags[_i], C.PRT_EXPO_CAIRO));
           elem.setKey(KIT_EXPOCAIRO);
 
         }
@@ -5429,23 +5431,23 @@
 
         for(var _i = 0; _i < m_data.categoriasWeb.length; _i += 1) {
 
-          var elem = w_rows.add(null);
+          var row = w_rows.add(null);
 
-          var elem = elem.add(null);
-          elem.setValue(Cairo.Database.valField(m_data.categoriasWeb[_i], C.CATWCI_ID));
+          var elem = row.add(null);
+          elem.setValue(getValue(m_data.categoriasWeb[_i], C.CATWCI_ID));
           elem.setKey(KICWCI_ID);
 
-          var elem = elem.add(null);
-          elem.setValue(Cairo.Database.valField(m_data.categoriasWeb[_i], C.CATWC_NAME));
-          elem.setId(Cairo.Database.valField(m_data.categoriasWeb[_i], C.CATWC_ID));
+          var elem = row.add(null);
+          elem.setValue(getValue(m_data.categoriasWeb[_i], C.CATWC_NAME));
+          elem.setId(getValue(m_data.categoriasWeb[_i], C.CATWC_ID));
           elem.setKey(KICWC_ID);
 
-          var elem = elem.add(null);
-          elem.setId(Cairo.Database.valField(m_data.categoriasWeb[_i], C.CATWCI_ID));
+          var elem = row.add(null);
+          elem.setId(getValue(m_data.categoriasWeb[_i], C.CATWCI_ID));
           elem.setKey(KICWC_SELECT);
 
-          var elem = elem.add(null);
-          elem.setValue(Cairo.Database.valField(m_data.categoriasWeb[_i], C.CATWCI_POSICION));
+          var elem = row.add(null);
+          elem.setValue(getValue(m_data.categoriasWeb[_i], C.CATWCI_POSICION));
           elem.setKey(KICWCI_POSICION);
 
         }
@@ -5486,19 +5488,19 @@
 
         for(var _i = 0; _i < m_data.catalogosWeb.length; _i += 1) {
 
-          var elem = w_rows.add(null);
+          var row = w_rows.add(null);
 
-          var elem = elem.add(null);
-          elem.setValue(Cairo.Database.valField(m_data.catalogosWeb[_i], C.CATWI_ID));
+          var elem = row.add(null);
+          elem.setValue(getValue(m_data.catalogosWeb[_i], C.CATWI_ID));
           elem.setKey(KICWI_ID);
 
-          var elem = elem.add(null);
-          elem.setValue(Cairo.Database.valField(m_data.catalogosWeb[_i], C.CATW_NAME));
-          elem.setId(Cairo.Database.valField(m_data.catalogosWeb[_i], C.CATW_ID));
+          var elem = row.add(null);
+          elem.setValue(getValue(m_data.catalogosWeb[_i], C.CATW_NAME));
+          elem.setId(getValue(m_data.catalogosWeb[_i], C.CATW_ID));
           elem.setKey(KICW_ID);
 
-          var elem = elem.add(null);
-          elem.setId(Cairo.Database.valField(m_data.catalogosWeb[_i], C.CATWI_ID));
+          var elem = row.add(null);
+          elem.setId(getValue(m_data.catalogosWeb[_i], C.CATWI_ID));
           elem.setKey(KICW_SELECT);
 
         }
@@ -5566,26 +5568,26 @@
 
         for(var _i = 0; _i < m_data.webImages.length; _i += 1) {
 
-          var row = w_rows.add(null, Cairo.Database.valField(m_data.webImages[_i], C.PRWI_ID));
+          var row = w_rows.add(null, getValue(m_data.webImages[_i], C.PRWI_ID));
 
           var elem = row.add(null);
-          elem.setValue(Cairo.Database.valField(m_data.webImages[_i], C.PRWI_ID));
+          elem.setValue(getValue(m_data.webImages[_i], C.PRWI_ID));
           elem.setKey(KIWI_PRWI_ID);
 
           var elem = row.add(null);
-          elem.setValue(Cairo.Database.valField(m_data.webImages[_i], C.PRWI_ARCHIVO));
+          elem.setValue(getValue(m_data.webImages[_i], C.PRWI_ARCHIVO));
           elem.setKey(KIWI_IMAGE);
 
           var elem = row.add(null);
-          elem.setId(Cairo.Database.valField(m_data.webImages[_i], C.PRWI_TIPO));
+          elem.setId(getValue(m_data.webImages[_i], C.PRWI_TIPO));
           elem.setKey(KIWI_IMAGE_TYPE);
 
           var elem = row.add(null);
-          elem.setValue(Cairo.Database.valField(m_data.webImages[_i], C.PRWI_ALT));
+          elem.setValue(getValue(m_data.webImages[_i], C.PRWI_ALT));
           elem.setKey(KIWI_ALT);
 
           var elem = row.add(null);
-          elem.setValue(Cairo.Database.valField(m_data.webImages[_i], C.PRWI_POSICION));
+          elem.setValue(getValue(m_data.webImages[_i], C.PRWI_POSICION));
           elem.setKey(KIWI_POSICION);
 
         }
@@ -5621,15 +5623,15 @@
 
         for(var _i = 0; _i < m_data.kit.length; _i += 1) {
 
-          var row = w_rows.add(null, Cairo.Database.valField(m_data.kit[_i], C.PRFK_ID));
+          var row = w_rows.add(null, getValue(m_data.kit[_i], C.PRFK_ID));
 
           var elem = row.add(null);
-          elem.setValue(Cairo.Database.valField(m_data.kit[_i], C.PRFK_NAME));
-          elem.setId(Cairo.Database.valField(m_data.kit[_i], C.PRFK_ID));
+          elem.setValue(getValue(m_data.kit[_i], C.PRFK_NAME));
+          elem.setId(getValue(m_data.kit[_i], C.PRFK_ID));
           elem.setKey(KIK_PRFK_ID);
 
           var elem = row.add(null);
-          elem.setId(Cairo.Database.valField(m_data.kit[_i], C.PRFK_DEFAULT));
+          elem.setId(getValue(m_data.kit[_i], C.PRFK_DEFAULT));
           elem.setKey(KIK_PRFK_ID);
 
         }

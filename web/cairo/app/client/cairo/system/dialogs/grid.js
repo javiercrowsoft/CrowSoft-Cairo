@@ -53,7 +53,7 @@
 
         var createRow = function(row) {
           var r = rows.add();
-          row.each(createCell, r);
+          row.getCells().each(createCell, r);
         };
 
         rows.clear();
@@ -426,8 +426,14 @@
         return self.haveKey;
       };
 
+      that.add = self.cells.add;
+
       that.setHaveKey = function(haveKey) {
         self.haveKey = haveKey;
+      };
+
+      that.getCells = function() {
+        return self.cells;
       };
 
       return that;

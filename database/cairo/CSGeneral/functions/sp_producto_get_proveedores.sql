@@ -53,7 +53,7 @@ BEGIN
       lp_id integer,
       lpi_id integer,
       lpi_precio decimal(18,6),
-      lpi_top numeric(3,0),
+      lpi_top integer,
       lpi_fecha date,
       tran_id integer  NOT NULL
     ) on commit drop;

@@ -444,8 +444,8 @@ object Productos extends Controller with ProvidesUser {
       C.RPT_NAME -> Json.toJson(producto.names.rptNameImgAlt),
 
       // Items
-      "proveedor" -> Json.toJson(writeEmptyCols(List())),
-      "cliente" -> Json.toJson(writeEmptyCols(List())),
+      "proveedores" -> Json.toJson(writeProductoProveedores(producto.items.proveedores)),
+      "clientes" -> Json.toJson(writeEmptyCols(List())),
       "cmi" -> Json.toJson(writeEmptyCols(List())),
       "leyendas" -> Json.toJson(writeEmptyCols(List())),
       "tags" -> Json.toJson(writeEmptyCols(List())),
@@ -463,7 +463,23 @@ object Productos extends Controller with ProvidesUser {
     def itemWrites(item: Any) = Json.obj(
       "dummy" -> Json.toJson("")
     )
+    def productoProveedorWrites(p: ProductoProveedor) = Json.obj(
+      C.PRPROV_ID -> Json.toJson(p.id),
+      C.PRPROV_NAME -> Json.toJson(p.name),
+      C.PRPROV_CODE -> Json.toJson(p.code),
+      C.PRPROV_CODIGO_BARRA -> Json.toJson(p.barCode),
+      C.PRPROV_FABRICANTE -> Json.toJson(p.maker),
+      C.PROV_ID -> Json.toJson(p.provId),
+      C.PROV_NAME -> Json.toJson(p.provName),
+      C.PA_ID -> Json.toJson(p.paId),
+      C.PA_NAME -> Json.toJson(p.paName),
+      C.LP_NAME -> Json.toJson(p.lpName),
+      C.LPI_PRECIO -> Json.toJson(p.price),
+      C.LPI_FECHA -> Json.toJson(p.priceDate),
+      C.PRPROV_LPI_TOP -> Json.toJson(p.priceDefault)
+    )
     def writeEmptyCols(items: List[Any]) = items.map(item => itemWrites(item))
+    def writeProductoProveedores(items: List[ProductoProveedor]) = items.map(item => productoProveedorWrites(item))
   }
 
   def get(id: Int) = GetAction { implicit request =>

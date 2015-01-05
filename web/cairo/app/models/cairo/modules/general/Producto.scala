@@ -733,10 +733,18 @@ object ProductoNombres {
 
 case class ProductoProveedor(
                               id: Int,
-                              maker: String,
+                              provId: Int,
+                              provName: String,
+                              maker: Boolean,
                               name: String,
                               code: String,
-                              barCode: String
+                              barCode: String,
+                              paId: Int,
+                              paName: String,
+                              lpName: String,
+                              price: Double,
+                              priceDate: Date,
+                              priceDefault: Boolean
                               )
 
 case class ProductoCliente(
@@ -1117,461 +1125,506 @@ object Producto {
     )
   }
 
+  private val productoProveedorParser: RowParser[ProductoProveedor] = {
+    SqlParser.get[Int](C.PRPROV_ID) ~
+    SqlParser.get[Int](C.PROV_ID) ~
+    SqlParser.get[String](C.PROV_NAME) ~
+    SqlParser.get[Option[Int]](C.PRPROV_FABRICANTE) ~
+    SqlParser.get[Option[String]](C.PRPROV_NAME) ~
+    SqlParser.get[Option[String]](C.PRPROV_CODE) ~
+    SqlParser.get[Option[String]](C.PRPROV_CODIGO_BARRA) ~
+    SqlParser.get[Option[Int]](C.PA_ID) ~
+    SqlParser.get[Option[String]](C.PA_NAME) ~
+    SqlParser.get[Option[String]](C.LP_NAME) ~
+    SqlParser.get[Option[BigDecimal]](C.LPI_PRECIO) ~
+    SqlParser.get[Option[Date]](C.LPI_FECHA) ~
+    SqlParser.get[Option[Int]](C.PRPROV_LPI_TOP) map {
+    case
+      id ~
+      provId ~
+      provName ~
+      maker ~
+      name ~
+      code ~
+      barCode ~
+      paId ~
+      paName ~
+      lpName ~
+      price ~
+      priceDate ~
+      priceDefault =>
+      ProductoProveedor(
+        id,
+        provId,
+        provName,
+        (if(maker.getOrElse(0) != 0) true else false),
+        name.getOrElse(""),
+        code.getOrElse(""),
+        barCode.getOrElse(""),
+        paId.getOrElse(DBHelper.NoId),
+        paName.getOrElse(""),
+        lpName.getOrElse(""),
+        price match { case Some(p) => p.doubleValue() case None => 0.0 },
+        priceDate.getOrElse(U.NO_DATE),
+        (if(priceDefault != 0) true else false))
+    }
+  }
+
   private val productoParser: RowParser[Producto] = {
-      SqlParser.get[Int](C.PR_ID) ~
-      SqlParser.get[Int](DBHelper.ACTIVE) ~
-      SqlParser.get[String](C.PR_CODE) ~
-      SqlParser.get[String](C.PR_CODIGO_EXTERNO) ~
-      SqlParser.get[String](C.PR_CODIGO_BARRA) ~
-      SqlParser.get[String](C.PR_CODIGO_BARRA_NAME) ~
-      SqlParser.get[Option[Int]](C.IBC_ID) ~
-      SqlParser.get[Option[String]](C.IBC_NAME) ~
-      SqlParser.get[Option[Int]](C.MARC_ID) ~
-      SqlParser.get[Option[String]](C.MARC_NAME) ~
-      SqlParser.get[Int](C.PR_EXPO_CAIRO) ~
-      SqlParser.get[Int](C.PR_ES_PLANTILLA) ~
-      SqlParser.get[Option[Int]](C.CUR_ID) ~
-      SqlParser.get[Option[String]](C.CUR_NAME) ~
-      SqlParser.get[Int](C.PR_SE_COMPRA) ~
-      SqlParser.get[String](C.PR_NAME_COMPRA) ~
-      SqlParser.get[String](C.PR_DESCRIP_COMPRA) ~
-      SqlParser.get[Option[Int]](C.UN_ID_COMPRA) ~
-      SqlParser.get[Option[String]](C.UN_NAME_COMPRA) ~
-      SqlParser.get[Option[Int]](C.CUEG_ID_COMPRA) ~
-      SqlParser.get[Option[String]](C.CUEG_NAME_COMPRA) ~
-      SqlParser.get[Option[Int]](C.TI_ID_RI_COMPRA) ~
-      SqlParser.get[Option[String]](C.TI_NAME_RI_COMPRA) ~
-      SqlParser.get[Option[Int]](C.TI_ID_INTERNOS_COMPRA) ~
-      SqlParser.get[Option[String]](C.TI_NAME_INT_COMPRA) ~
-      SqlParser.get[Float](C.PR_PORC_INTERNO_C) ~
-      SqlParser.get[Option[Int]](C.CCOS_ID_COMPRA) ~
-      SqlParser.get[Option[String]](C.CCOS_NAME_COMPRA) ~
-      SqlParser.get[Int](C.PR_LLEVA_STOCK) ~
-      SqlParser.get[Option[Int]](C.UN_ID_STOCK) ~
-      SqlParser.get[Option[String]](C.UN_NAME_STOCK) ~
-      SqlParser.get[Float](C.PR_STOCK_COMPRA) ~
-      SqlParser.get[Int](C.PR_X) ~
-      SqlParser.get[Int](C.PR_Y) ~
-      SqlParser.get[Int](C.PR_Z) ~
-      SqlParser.get[Float](C.PR_STOCK_MINIMO) ~
-      SqlParser.get[Float](C.PR_REPOSICION) ~
-      SqlParser.get[Float](C.PR_STOCK_MAXIMO) ~
-      SqlParser.get[Int](C.PR_LLEVA_NRO_SERIE) ~
-      SqlParser.get[Int](C.PR_LLEVA_NRO_LOTE) ~
-      SqlParser.get[Int](C.PR_LOTE_FIFO) ~
-      SqlParser.get[Int](C.PR_SE_PRODUCE) ~
-      SqlParser.get[Int](C.PR_ES_REPUESTO) ~
-      SqlParser.get[Int](C.PR_SE_VENDE) ~
-      SqlParser.get[String](C.PR_NAME_VENTA) ~
-      SqlParser.get[String](C.PR_NAME_FACTURA) ~
-      SqlParser.get[String](C.PR_DESCRIP_VENTA) ~
-      SqlParser.get[Option[Int]](C.UN_ID_VENTA) ~
-      SqlParser.get[Option[String]](C.UN_NAME_VENTA) ~
-      SqlParser.get[Float](C.PR_VENTA_COMPRA) ~
-      SqlParser.get[Float](C.PR_VENTA_STOCK) ~
-      SqlParser.get[Option[Int]](C.CUEG_ID_VENTA) ~
-      SqlParser.get[Option[String]](C.CUEG_NAME_VENTA) ~
-      SqlParser.get[Int](C.PR_ES_LISTA) ~
-      SqlParser.get[Int](C.PR_DINERARIO) ~
-      SqlParser.get[Int](C.PR_NO_REDONDEO) ~
-      SqlParser.get[Option[Int]](C.TI_ID_RI_VENTA) ~
-      SqlParser.get[Option[String]](C.TI_NAME_RI_VENTA) ~
-      SqlParser.get[Option[Int]](C.TI_ID_INTERNOS_VENTA) ~
-      SqlParser.get[Option[String]](C.TI_NAME_INT_VENTA) ~
-      SqlParser.get[Float](C.PR_PORC_INTERNO_V) ~
-      SqlParser.get[Option[Int]](C.CCOS_ID_VENTA) ~
-      SqlParser.get[Option[String]](C.CCOS_NAME_VENTA) ~
-      SqlParser.get[Option[Int]](C.RUB_ID) ~
-      SqlParser.get[Option[String]](C.RUB_NAME) ~
-      SqlParser.get[Option[Int]](C.RUBTI_ID_1) ~
-      SqlParser.get[Option[String]](C.RUBTI_NAME_1) ~
-      SqlParser.get[Option[Int]](C.RUBTI_ID_2) ~
-      SqlParser.get[Option[String]](C.RUBTI_NAME_2) ~
-      SqlParser.get[Option[Int]](C.RUBTI_ID_3) ~
-      SqlParser.get[Option[String]](C.RUBTI_NAME_3) ~
-      SqlParser.get[Option[Int]](C.RUBTI_ID_4) ~
-      SqlParser.get[Option[String]](C.RUBTI_NAME_4) ~
-      SqlParser.get[Option[Int]](C.RUBTI_ID_5) ~
-      SqlParser.get[Option[String]](C.RUBTI_NAME_5) ~
-      SqlParser.get[Option[Int]](C.RUBTI_ID_6) ~
-      SqlParser.get[Option[String]](C.RUBTI_NAME_6) ~
-      SqlParser.get[Option[Int]](C.RUBTI_ID_7) ~
-      SqlParser.get[Option[String]](C.RUBTI_NAME_7) ~
-      SqlParser.get[Option[Int]](C.RUBTI_ID_8) ~
-      SqlParser.get[Option[String]](C.RUBTI_NAME_8) ~
-      SqlParser.get[Option[Int]](C.RUBTI_ID_9) ~
-      SqlParser.get[Option[String]](C.RUBTI_NAME_9) ~
-      SqlParser.get[Option[Int]](C.RUBTI_ID_10) ~
-      SqlParser.get[Option[String]](C.RUBTI_NAME_10) ~
-      SqlParser.get[Option[Int]](C.UN_ID_PESO) ~
-      SqlParser.get[Option[String]](C.UN_NAME_PESO) ~
-      SqlParser.get[BigDecimal](C.PR_PESO_NETO) ~
-      SqlParser.get[BigDecimal](C.PR_PESO_TOTAL) ~
-      SqlParser.get[Int](C.PR_CANT_X_CAJA_EXPO) ~
-      SqlParser.get[Option[Int]](C.EMBL_ID) ~
-      SqlParser.get[Option[String]](C.EMBL_NAME) ~
-      SqlParser.get[Int](C.PR_FLETE_EXPO) ~
-      SqlParser.get[Option[Int]](C.EGP_ID) ~
-      SqlParser.get[Option[String]](C.EGP_NAME) ~
-      SqlParser.get[Option[Int]](C.EFM_ID) ~
-      SqlParser.get[Option[String]](C.EFM_NAME) ~
-      SqlParser.get[Option[Int]](C.POAR_ID) ~
-      SqlParser.get[Option[String]](C.POAR_NAME) ~
-      SqlParser.get[Option[Int]](C.TI_ID_COMEX_GANANCIAS) ~
-      SqlParser.get[Option[String]](C.TI_NAME_COMEX_GANANCIAS) ~
-      SqlParser.get[Option[Int]](C.TI_ID_COMEX_IGB) ~
-      SqlParser.get[Option[String]](C.TI_NAME_COMEX_IGB) ~
-      SqlParser.get[Option[Int]](C.TI_ID_COMEX_IVA) ~
-      SqlParser.get[Option[String]](C.TI_NAME_COMEX_IVA) ~
-      SqlParser.get[Int](C.PR_ES_KIT) ~
-      SqlParser.get[Int](C.PR_KIT_STOCK_X_ITEM) ~
-      SqlParser.get[Int](C.PR_KIT_RESUMIDO) ~
-      SqlParser.get[Int](C.PR_KIT_IDENTIDAD) ~
-      SqlParser.get[Int](C.PR_KIT_IDENTIDAD_X_ITEM) ~
-      SqlParser.get[Option[Int]](C.TA_ID_KIT_SERIE) ~
-      SqlParser.get[Option[String]](C.TA_NAME_KIT_SERIE) ~
-      SqlParser.get[Int](C.PR_KIT_LOTE) ~
-      SqlParser.get[Int](C.PR_KIT_LOTE_X_ITEM) ~
-      SqlParser.get[Option[Int]](C.TA_ID_KIT_LOTE) ~
-      SqlParser.get[Option[String]](C.TA_NAME_KIT_LOTE) ~
-      SqlParser.get[String](C.PR_NAME_WEB) ~
-      SqlParser.get[String](C.PR_ALIAS_WEB) ~
-      SqlParser.get[Option[Int]](C.PR_ID_WEB_PADRE) ~
-      SqlParser.get[Option[String]](C.PR_NAME_WEB_PADRE) ~
-      SqlParser.get[Int](C.PR_ACTIVO_WEB) ~
-      SqlParser.get[Int](C.PR_WEB_IMAGE_UPDATE) ~
-      SqlParser.get[String](C.PR_CODIGO_HTML) ~
-      SqlParser.get[String](C.PR_CODIGO_HTML_DETALLE) ~
-      SqlParser.get[Int](C.PR_EXPO_WEB) ~
-      SqlParser.get[BigDecimal](C.PR_VENTA_WEB_MAXIMA) ~
-      SqlParser.get[Option[Int]](C.LEY_ID) ~
-      SqlParser.get[Option[String]](C.LEY_NAME) ~
-      SqlParser.get[String](C.PR_WEB_IMAGE_FOLDER) ~
-      SqlParser.get[Option[Int]](C.RPT_ID_NOMBRE_COMPRA) ~
-      SqlParser.get[Option[String]](C.RPT_NAME_COMPRA) ~
-      SqlParser.get[Option[Int]](C.RPT_ID_NOMBRE_VENTA) ~
-      SqlParser.get[Option[String]](C.RPT_NAME_VENTA) ~
-      SqlParser.get[Option[Int]](C.RPT_ID_NOMBRE_FACTURA) ~
-      SqlParser.get[Option[String]](C.RPT_NAME_FACTURA) ~
-      SqlParser.get[Option[Int]](C.RPT_ID_NOMBRE_WEB) ~
-      SqlParser.get[Option[String]](C.RPT_NAME_WEB) ~
-      SqlParser.get[Option[Int]](C.RPT_ID_NOMBRE_IMG) ~
-      SqlParser.get[Option[String]](C.RPT_NAME_IMG) ~
-      SqlParser.get[Option[Int]](C.RPT_ID_NOMBRE_IMG_ALT) ~
-      SqlParser.get[Option[String]](C.RPT_NAME_IMG_ALT) ~
-      SqlParser.get[Date](DBHelper.CREATED_AT) ~
-      SqlParser.get[Date](DBHelper.UPDATED_AT) ~
-      SqlParser.get[Int](DBHelper.UPDATED_BY) map {
-      case
-          id ~
-          active ~
-          code ~
-          codigoExterno ~
-          codigoBarra ~
-          codigoBarraName ~
-          ibcId ~
-          ibcName ~
-          marcId ~
-          marcName ~
-          expoCairo ~
-          esPlantilla ~
-          curId ~
-          curName ~
+    SqlParser.get[Int](C.PR_ID) ~
+    SqlParser.get[Int](DBHelper.ACTIVE) ~
+    SqlParser.get[String](C.PR_CODE) ~
+    SqlParser.get[String](C.PR_CODIGO_EXTERNO) ~
+    SqlParser.get[String](C.PR_CODIGO_BARRA) ~
+    SqlParser.get[String](C.PR_CODIGO_BARRA_NAME) ~
+    SqlParser.get[Option[Int]](C.IBC_ID) ~
+    SqlParser.get[Option[String]](C.IBC_NAME) ~
+    SqlParser.get[Option[Int]](C.MARC_ID) ~
+    SqlParser.get[Option[String]](C.MARC_NAME) ~
+    SqlParser.get[Int](C.PR_EXPO_CAIRO) ~
+    SqlParser.get[Int](C.PR_ES_PLANTILLA) ~
+    SqlParser.get[Option[Int]](C.CUR_ID) ~
+    SqlParser.get[Option[String]](C.CUR_NAME) ~
+    SqlParser.get[Int](C.PR_SE_COMPRA) ~
+    SqlParser.get[String](C.PR_NAME_COMPRA) ~
+    SqlParser.get[String](C.PR_DESCRIP_COMPRA) ~
+    SqlParser.get[Option[Int]](C.UN_ID_COMPRA) ~
+    SqlParser.get[Option[String]](C.UN_NAME_COMPRA) ~
+    SqlParser.get[Option[Int]](C.CUEG_ID_COMPRA) ~
+    SqlParser.get[Option[String]](C.CUEG_NAME_COMPRA) ~
+    SqlParser.get[Option[Int]](C.TI_ID_RI_COMPRA) ~
+    SqlParser.get[Option[String]](C.TI_NAME_RI_COMPRA) ~
+    SqlParser.get[Option[Int]](C.TI_ID_INTERNOS_COMPRA) ~
+    SqlParser.get[Option[String]](C.TI_NAME_INT_COMPRA) ~
+    SqlParser.get[Float](C.PR_PORC_INTERNO_C) ~
+    SqlParser.get[Option[Int]](C.CCOS_ID_COMPRA) ~
+    SqlParser.get[Option[String]](C.CCOS_NAME_COMPRA) ~
+    SqlParser.get[Int](C.PR_LLEVA_STOCK) ~
+    SqlParser.get[Option[Int]](C.UN_ID_STOCK) ~
+    SqlParser.get[Option[String]](C.UN_NAME_STOCK) ~
+    SqlParser.get[Float](C.PR_STOCK_COMPRA) ~
+    SqlParser.get[Int](C.PR_X) ~
+    SqlParser.get[Int](C.PR_Y) ~
+    SqlParser.get[Int](C.PR_Z) ~
+    SqlParser.get[Float](C.PR_STOCK_MINIMO) ~
+    SqlParser.get[Float](C.PR_REPOSICION) ~
+    SqlParser.get[Float](C.PR_STOCK_MAXIMO) ~
+    SqlParser.get[Int](C.PR_LLEVA_NRO_SERIE) ~
+    SqlParser.get[Int](C.PR_LLEVA_NRO_LOTE) ~
+    SqlParser.get[Int](C.PR_LOTE_FIFO) ~
+    SqlParser.get[Int](C.PR_SE_PRODUCE) ~
+    SqlParser.get[Int](C.PR_ES_REPUESTO) ~
+    SqlParser.get[Int](C.PR_SE_VENDE) ~
+    SqlParser.get[String](C.PR_NAME_VENTA) ~
+    SqlParser.get[String](C.PR_NAME_FACTURA) ~
+    SqlParser.get[String](C.PR_DESCRIP_VENTA) ~
+    SqlParser.get[Option[Int]](C.UN_ID_VENTA) ~
+    SqlParser.get[Option[String]](C.UN_NAME_VENTA) ~
+    SqlParser.get[Float](C.PR_VENTA_COMPRA) ~
+    SqlParser.get[Float](C.PR_VENTA_STOCK) ~
+    SqlParser.get[Option[Int]](C.CUEG_ID_VENTA) ~
+    SqlParser.get[Option[String]](C.CUEG_NAME_VENTA) ~
+    SqlParser.get[Int](C.PR_ES_LISTA) ~
+    SqlParser.get[Int](C.PR_DINERARIO) ~
+    SqlParser.get[Int](C.PR_NO_REDONDEO) ~
+    SqlParser.get[Option[Int]](C.TI_ID_RI_VENTA) ~
+    SqlParser.get[Option[String]](C.TI_NAME_RI_VENTA) ~
+    SqlParser.get[Option[Int]](C.TI_ID_INTERNOS_VENTA) ~
+    SqlParser.get[Option[String]](C.TI_NAME_INT_VENTA) ~
+    SqlParser.get[Float](C.PR_PORC_INTERNO_V) ~
+    SqlParser.get[Option[Int]](C.CCOS_ID_VENTA) ~
+    SqlParser.get[Option[String]](C.CCOS_NAME_VENTA) ~
+    SqlParser.get[Option[Int]](C.RUB_ID) ~
+    SqlParser.get[Option[String]](C.RUB_NAME) ~
+    SqlParser.get[Option[Int]](C.RUBTI_ID_1) ~
+    SqlParser.get[Option[String]](C.RUBTI_NAME_1) ~
+    SqlParser.get[Option[Int]](C.RUBTI_ID_2) ~
+    SqlParser.get[Option[String]](C.RUBTI_NAME_2) ~
+    SqlParser.get[Option[Int]](C.RUBTI_ID_3) ~
+    SqlParser.get[Option[String]](C.RUBTI_NAME_3) ~
+    SqlParser.get[Option[Int]](C.RUBTI_ID_4) ~
+    SqlParser.get[Option[String]](C.RUBTI_NAME_4) ~
+    SqlParser.get[Option[Int]](C.RUBTI_ID_5) ~
+    SqlParser.get[Option[String]](C.RUBTI_NAME_5) ~
+    SqlParser.get[Option[Int]](C.RUBTI_ID_6) ~
+    SqlParser.get[Option[String]](C.RUBTI_NAME_6) ~
+    SqlParser.get[Option[Int]](C.RUBTI_ID_7) ~
+    SqlParser.get[Option[String]](C.RUBTI_NAME_7) ~
+    SqlParser.get[Option[Int]](C.RUBTI_ID_8) ~
+    SqlParser.get[Option[String]](C.RUBTI_NAME_8) ~
+    SqlParser.get[Option[Int]](C.RUBTI_ID_9) ~
+    SqlParser.get[Option[String]](C.RUBTI_NAME_9) ~
+    SqlParser.get[Option[Int]](C.RUBTI_ID_10) ~
+    SqlParser.get[Option[String]](C.RUBTI_NAME_10) ~
+    SqlParser.get[Option[Int]](C.UN_ID_PESO) ~
+    SqlParser.get[Option[String]](C.UN_NAME_PESO) ~
+    SqlParser.get[BigDecimal](C.PR_PESO_NETO) ~
+    SqlParser.get[BigDecimal](C.PR_PESO_TOTAL) ~
+    SqlParser.get[Int](C.PR_CANT_X_CAJA_EXPO) ~
+    SqlParser.get[Option[Int]](C.EMBL_ID) ~
+    SqlParser.get[Option[String]](C.EMBL_NAME) ~
+    SqlParser.get[Int](C.PR_FLETE_EXPO) ~
+    SqlParser.get[Option[Int]](C.EGP_ID) ~
+    SqlParser.get[Option[String]](C.EGP_NAME) ~
+    SqlParser.get[Option[Int]](C.EFM_ID) ~
+    SqlParser.get[Option[String]](C.EFM_NAME) ~
+    SqlParser.get[Option[Int]](C.POAR_ID) ~
+    SqlParser.get[Option[String]](C.POAR_NAME) ~
+    SqlParser.get[Option[Int]](C.TI_ID_COMEX_GANANCIAS) ~
+    SqlParser.get[Option[String]](C.TI_NAME_COMEX_GANANCIAS) ~
+    SqlParser.get[Option[Int]](C.TI_ID_COMEX_IGB) ~
+    SqlParser.get[Option[String]](C.TI_NAME_COMEX_IGB) ~
+    SqlParser.get[Option[Int]](C.TI_ID_COMEX_IVA) ~
+    SqlParser.get[Option[String]](C.TI_NAME_COMEX_IVA) ~
+    SqlParser.get[Int](C.PR_ES_KIT) ~
+    SqlParser.get[Int](C.PR_KIT_STOCK_X_ITEM) ~
+    SqlParser.get[Int](C.PR_KIT_RESUMIDO) ~
+    SqlParser.get[Int](C.PR_KIT_IDENTIDAD) ~
+    SqlParser.get[Int](C.PR_KIT_IDENTIDAD_X_ITEM) ~
+    SqlParser.get[Option[Int]](C.TA_ID_KIT_SERIE) ~
+    SqlParser.get[Option[String]](C.TA_NAME_KIT_SERIE) ~
+    SqlParser.get[Int](C.PR_KIT_LOTE) ~
+    SqlParser.get[Int](C.PR_KIT_LOTE_X_ITEM) ~
+    SqlParser.get[Option[Int]](C.TA_ID_KIT_LOTE) ~
+    SqlParser.get[Option[String]](C.TA_NAME_KIT_LOTE) ~
+    SqlParser.get[String](C.PR_NAME_WEB) ~
+    SqlParser.get[String](C.PR_ALIAS_WEB) ~
+    SqlParser.get[Option[Int]](C.PR_ID_WEB_PADRE) ~
+    SqlParser.get[Option[String]](C.PR_NAME_WEB_PADRE) ~
+    SqlParser.get[Int](C.PR_ACTIVO_WEB) ~
+    SqlParser.get[Int](C.PR_WEB_IMAGE_UPDATE) ~
+    SqlParser.get[String](C.PR_CODIGO_HTML) ~
+    SqlParser.get[String](C.PR_CODIGO_HTML_DETALLE) ~
+    SqlParser.get[Int](C.PR_EXPO_WEB) ~
+    SqlParser.get[BigDecimal](C.PR_VENTA_WEB_MAXIMA) ~
+    SqlParser.get[Option[Int]](C.LEY_ID) ~
+    SqlParser.get[Option[String]](C.LEY_NAME) ~
+    SqlParser.get[String](C.PR_WEB_IMAGE_FOLDER) ~
+    SqlParser.get[Option[Int]](C.RPT_ID_NOMBRE_COMPRA) ~
+    SqlParser.get[Option[String]](C.RPT_NAME_COMPRA) ~
+    SqlParser.get[Option[Int]](C.RPT_ID_NOMBRE_VENTA) ~
+    SqlParser.get[Option[String]](C.RPT_NAME_VENTA) ~
+    SqlParser.get[Option[Int]](C.RPT_ID_NOMBRE_FACTURA) ~
+    SqlParser.get[Option[String]](C.RPT_NAME_FACTURA) ~
+    SqlParser.get[Option[Int]](C.RPT_ID_NOMBRE_WEB) ~
+    SqlParser.get[Option[String]](C.RPT_NAME_WEB) ~
+    SqlParser.get[Option[Int]](C.RPT_ID_NOMBRE_IMG) ~
+    SqlParser.get[Option[String]](C.RPT_NAME_IMG) ~
+    SqlParser.get[Option[Int]](C.RPT_ID_NOMBRE_IMG_ALT) ~
+    SqlParser.get[Option[String]](C.RPT_NAME_IMG_ALT) ~
+    SqlParser.get[Date](DBHelper.CREATED_AT) ~
+    SqlParser.get[Date](DBHelper.UPDATED_AT) ~
+    SqlParser.get[Int](DBHelper.UPDATED_BY) map {
+    case
+        id ~
+        active ~
+        code ~
+        codigoExterno ~
+        codigoBarra ~
+        codigoBarraName ~
+        ibcId ~
+        ibcName ~
+        marcId ~
+        marcName ~
+        expoCairo ~
+        esPlantilla ~
+        curId ~
+        curName ~
 
-          seCompra ~
-          nombreCompra ~
-          descripCompra ~
-          unIdCompra ~
-          unNameCompra ~
-          cuegIdCompra ~
-          cuegNameCompra ~
-          tiIdRiCompra ~
-          tiNameRiCompra ~
-          tiIdInternosCompra ~
-          tiNameIntCompra ~
-          porcInternoC ~
-          ccosIdCompra ~
-          ccosNameCompra ~
+        seCompra ~
+        nombreCompra ~
+        descripCompra ~
+        unIdCompra ~
+        unNameCompra ~
+        cuegIdCompra ~
+        cuegNameCompra ~
+        tiIdRiCompra ~
+        tiNameRiCompra ~
+        tiIdInternosCompra ~
+        tiNameIntCompra ~
+        porcInternoC ~
+        ccosIdCompra ~
+        ccosNameCompra ~
 
-          llevaStock ~
-          unIdStock ~
-          unNameStock ~
-          stockCompra ~
-          x ~
-          y ~
-          z ~
-          stockMinimo ~
-          reposicion ~
-          stockMaximo ~
-          llevaNroSerie ~
-          llevaNroLote ~
-          loteFifo ~
-          seProduce ~
-          esRepuesto ~
+        llevaStock ~
+        unIdStock ~
+        unNameStock ~
+        stockCompra ~
+        x ~
+        y ~
+        z ~
+        stockMinimo ~
+        reposicion ~
+        stockMaximo ~
+        llevaNroSerie ~
+        llevaNroLote ~
+        loteFifo ~
+        seProduce ~
+        esRepuesto ~
 
-          seVende ~
-          nombreVenta ~
-          nombreFactura ~
-          descripVenta ~
-          unIdVenta ~
-          unNameVenta ~
-          ventaCompra ~
-          ventaStock ~
-          cuegIdVenta ~
-          cuegNameVenta ~
-          esLista ~
-          dinerario ~
-          noRedondeo ~
-          tiIdRiVenta ~
-          tiNameRiVenta ~
-          tiIdInternosVenta ~
-          tiNameIntVenta ~
-          porcInternoV ~
-          ccosIdVenta ~
-          ccosNameVenta ~
+        seVende ~
+        nombreVenta ~
+        nombreFactura ~
+        descripVenta ~
+        unIdVenta ~
+        unNameVenta ~
+        ventaCompra ~
+        ventaStock ~
+        cuegIdVenta ~
+        cuegNameVenta ~
+        esLista ~
+        dinerario ~
+        noRedondeo ~
+        tiIdRiVenta ~
+        tiNameRiVenta ~
+        tiIdInternosVenta ~
+        tiNameIntVenta ~
+        porcInternoV ~
+        ccosIdVenta ~
+        ccosNameVenta ~
 
-          rubId ~
-          rubName ~
-          rubtiId1 ~
-          rubtiName1 ~
-          rubtiId2 ~
-          rubtiName2 ~
-          rubtiId3 ~
-          rubtiName3 ~
-          rubtiId4 ~
-          rubtiName4 ~
-          rubtiId5 ~
-          rubtiName5 ~
-          rubtiId6 ~
-          rubtiName6 ~
-          rubtiId7 ~
-          rubtiName7 ~
-          rubtiId8 ~
-          rubtiName8 ~
-          rubtiId9 ~
-          rubtiName9 ~
-          rubtiId10 ~
-          rubtiName10 ~
+        rubId ~
+        rubName ~
+        rubtiId1 ~
+        rubtiName1 ~
+        rubtiId2 ~
+        rubtiName2 ~
+        rubtiId3 ~
+        rubtiName3 ~
+        rubtiId4 ~
+        rubtiName4 ~
+        rubtiId5 ~
+        rubtiName5 ~
+        rubtiId6 ~
+        rubtiName6 ~
+        rubtiId7 ~
+        rubtiName7 ~
+        rubtiId8 ~
+        rubtiName8 ~
+        rubtiId9 ~
+        rubtiName9 ~
+        rubtiId10 ~
+        rubtiName10 ~
 
-          unIdPeso ~
-          unNamePeso ~
-          pesoNeto ~
-          pesoTotal ~
-          cantXCajaExpo ~
-          emblId ~
-          emblName ~
-          fleteExpo ~
-          egpId ~
-          egpName ~
-          efmId ~
-          efmName ~
-          poarId ~
-          poarName ~
-          tiIdComexGanancias ~
-          tiNameComexGanancias ~
-          tiIdComexIgb ~
-          tiNameComexIgb ~
-          tiIdComexIva ~
-          tiNameComexIva ~
+        unIdPeso ~
+        unNamePeso ~
+        pesoNeto ~
+        pesoTotal ~
+        cantXCajaExpo ~
+        emblId ~
+        emblName ~
+        fleteExpo ~
+        egpId ~
+        egpName ~
+        efmId ~
+        efmName ~
+        poarId ~
+        poarName ~
+        tiIdComexGanancias ~
+        tiNameComexGanancias ~
+        tiIdComexIgb ~
+        tiNameComexIgb ~
+        tiIdComexIva ~
+        tiNameComexIva ~
 
-          esKit ~
-          kitStockXItem ~
-          kitResumido ~
-          kitIdentidad ~
-          kitIdentidadXItem ~
-          taIdKitSerie ~
-          taNameKitSerie ~
-          kitLote ~
-          kitLoteXItem ~
-          taIdKitLote ~
-          taNameKitLote ~
+        esKit ~
+        kitStockXItem ~
+        kitResumido ~
+        kitIdentidad ~
+        kitIdentidadXItem ~
+        taIdKitSerie ~
+        taNameKitSerie ~
+        kitLote ~
+        kitLoteXItem ~
+        taIdKitLote ~
+        taNameKitLote ~
 
-          nombreWeb ~
-          aliasWeb ~
-          prIdWebPadre ~
-          prNameWebPadre ~
-          activoWeb ~
-          webImageUpdate ~
-          codigoHtml ~
-          codigoHtmlDetalle ~
-          expoWeb ~
-          ventaWebMaxima ~
-          leyId ~
-          leyName ~
-          webImageFolder  ~
+        nombreWeb ~
+        aliasWeb ~
+        prIdWebPadre ~
+        prNameWebPadre ~
+        activoWeb ~
+        webImageUpdate ~
+        codigoHtml ~
+        codigoHtmlDetalle ~
+        expoWeb ~
+        ventaWebMaxima ~
+        leyId ~
+        leyName ~
+        webImageFolder  ~
 
-          rptIdNombreCompra ~
-          rptNameCompra ~
-          rptIdNombreVenta ~
-          rptNameVenta ~
-          rptIdNombreFactura ~
-          rptNameFactura ~
-          rptIdNombreWeb ~
-          rptNameWeb ~
-          rptIdNombreImg ~
-          rptNameImg ~
-          rptIdNombreImgAlt ~
-          rptNameImgAlt ~
+        rptIdNombreCompra ~
+        rptNameCompra ~
+        rptIdNombreVenta ~
+        rptNameVenta ~
+        rptIdNombreFactura ~
+        rptNameFactura ~
+        rptIdNombreWeb ~
+        rptNameWeb ~
+        rptIdNombreImg ~
+        rptNameImg ~
+        rptIdNombreImgAlt ~
+        rptNameImgAlt ~
 
-          createdAt ~
-          updatedAt ~
-          updatedBy =>
-        Producto(
-          id,
-          (if(active != 0) true else false),
-          code,
-          ProductoBase(
-            codigoExterno,
-            codigoBarra,
-            codigoBarraName,
-            ibcId.getOrElse(DBHelper.NoId),
-            ibcName.getOrElse(""),
-            marcId.getOrElse(DBHelper.NoId),
-            marcName.getOrElse(""),
-            expoCairo,
-            (if(esPlantilla != 0) true else false),
-            curId.getOrElse(DBHelper.NoId),
-            curName.getOrElse("")
-          ),
-          ProductoCompra(
-            (if(seCompra != 0) true else false),
-            nombreCompra,
-            descripCompra,
-            unIdCompra.getOrElse(DBHelper.NoId),
-            unNameCompra.getOrElse(""),
-            cuegIdCompra.getOrElse(DBHelper.NoId),
-            cuegNameCompra.getOrElse(""),
-            tiIdRiCompra.getOrElse(DBHelper.NoId),
-            tiNameRiCompra.getOrElse(""),
-            tiIdInternosCompra.getOrElse(DBHelper.NoId),
-            tiNameIntCompra.getOrElse(""),
-            porcInternoC,
-            ccosIdCompra.getOrElse(DBHelper.NoId),
-            ccosNameCompra.getOrElse("")),
-          ProductoStock(
-            (if(llevaStock != 0) true else false),
-            unIdStock.getOrElse(DBHelper.NoId),
-            unNameStock.getOrElse(""),
-            stockCompra,
-            x,
-            y,
-            z,
-            stockMinimo,
-            reposicion,
-            stockMaximo,
-            (if(llevaNroSerie != 0) true else false),
-            (if(llevaNroLote != 0) true else false),
-            (if(loteFifo != 0) true else false),
-            (if(seProduce != 0) true else false),
-            (if(esRepuesto != 0) true else false)),
-          ProductoVenta(
-            (if(seVende != 0) true else false),
-            nombreVenta,
-            nombreFactura,
-            descripVenta,
-            unIdVenta.getOrElse(DBHelper.NoId),
-            unNameVenta.getOrElse(""),
-            ventaCompra,
-            ventaStock,
-            cuegIdVenta.getOrElse(DBHelper.NoId),
-            cuegNameVenta.getOrElse(""),
-            (if(esLista != 0) true else false),
-            (if(dinerario != 0) true else false),
-            (if(noRedondeo != 0) true else false),
-            tiIdRiVenta.getOrElse(DBHelper.NoId),
-            tiNameRiVenta.getOrElse(""),
-            tiIdInternosVenta.getOrElse(DBHelper.NoId),
-            tiNameIntVenta.getOrElse(""),
-            porcInternoV,
-            ccosIdVenta.getOrElse(DBHelper.NoId),
-            ccosNameVenta.getOrElse("")),
-          ProductoRubro(
-            rubId.getOrElse(DBHelper.NoId),
-            rubName.getOrElse(""),
-            rubtiId1.getOrElse(DBHelper.NoId),
-            rubtiName1.getOrElse(""),
-            rubtiId2.getOrElse(DBHelper.NoId),
-            rubtiName2.getOrElse(""),
-            rubtiId3.getOrElse(DBHelper.NoId),
-            rubtiName3.getOrElse(""),
-            rubtiId4.getOrElse(DBHelper.NoId),
-            rubtiName4.getOrElse(""),
-            rubtiId5.getOrElse(DBHelper.NoId),
-            rubtiName5.getOrElse(""),
-            rubtiId6.getOrElse(DBHelper.NoId),
-            rubtiName6.getOrElse(""),
-            rubtiId7.getOrElse(DBHelper.NoId),
-            rubtiName7.getOrElse(""),
-            rubtiId8.getOrElse(DBHelper.NoId),
-            rubtiName8.getOrElse(""),
-            rubtiId9.getOrElse(DBHelper.NoId),
-            rubtiName9.getOrElse(""),
-            rubtiId10.getOrElse(DBHelper.NoId),
-            rubtiName10.getOrElse("")),
-          ProductoComex(
-            unIdPeso.getOrElse(DBHelper.NoId),
-            unNamePeso.getOrElse(""),
-            pesoNeto.doubleValue,
-            pesoTotal.doubleValue,
-            cantXCajaExpo,
-            emblId.getOrElse(DBHelper.NoId),
-            emblName.getOrElse(""),
-            (if(fleteExpo != 0) true else false),
-            egpId.getOrElse(DBHelper.NoId),
-            egpName.getOrElse(""),
-            efmId.getOrElse(DBHelper.NoId),
-            efmName.getOrElse(""),
-            poarId.getOrElse(DBHelper.NoId),
-            poarName.getOrElse(""),
-            tiIdComexGanancias.getOrElse(DBHelper.NoId),
-            tiNameComexGanancias.getOrElse(""),
-            tiIdComexIgb.getOrElse(DBHelper.NoId),
-            tiNameComexIgb.getOrElse(""),
-            tiIdComexIva.getOrElse(DBHelper.NoId),
-            tiNameComexIva.getOrElse("")),
-          ProductoKit(
-            (if(esKit != 0) true else false),
-            (if(kitStockXItem != 0) true else false),
-            (if(kitResumido != 0) true else false),
-            (if(kitIdentidad != 0) true else false),
-            (if(kitIdentidadXItem != 0) true else false),
-            taIdKitSerie.getOrElse(DBHelper.NoId),
-            taNameKitSerie.getOrElse(""),
-            (if(kitLote != 0) true else false),
-            (if(kitLoteXItem != 0) true else false),
-            taIdKitLote.getOrElse(DBHelper.NoId),
-            taNameKitLote.getOrElse("")),
-          ProductoWeb(
-            nombreWeb,
-            aliasWeb,
-            prIdWebPadre.getOrElse(DBHelper.NoId),
-            prNameWebPadre.getOrElse(""),
-            (if(activoWeb != 0) true else false),
-            (if(webImageUpdate != 0) true else false),
-            codigoHtml,
-            codigoHtmlDetalle,
-            expoWeb,
-            ventaWebMaxima.doubleValue,
-            leyId.getOrElse(DBHelper.NoId),
-            leyName.getOrElse(""),
-            webImageFolder),
-          ProductoNombres(
-            rptIdNombreCompra.getOrElse(DBHelper.NoId),
-            rptNameCompra.getOrElse(""),
-            rptIdNombreVenta.getOrElse(DBHelper.NoId),
-            rptNameVenta.getOrElse(""),
-            rptIdNombreFactura.getOrElse(DBHelper.NoId),
-            rptNameFactura.getOrElse(""),
-            rptIdNombreWeb.getOrElse(DBHelper.NoId),
-            rptNameWeb.getOrElse(""),
-            rptIdNombreImg.getOrElse(DBHelper.NoId),
-            rptNameImg.getOrElse(""),
-            rptIdNombreImgAlt.getOrElse(DBHelper.NoId),
-            rptNameImgAlt.getOrElse("")),
-          emptyProductoItems,
-          createdAt,
-          updatedAt,
-          updatedBy)
+        createdAt ~
+        updatedAt ~
+        updatedBy =>
+      Producto(
+        id,
+        (if(active != 0) true else false),
+        code,
+        ProductoBase(
+          codigoExterno,
+          codigoBarra,
+          codigoBarraName,
+          ibcId.getOrElse(DBHelper.NoId),
+          ibcName.getOrElse(""),
+          marcId.getOrElse(DBHelper.NoId),
+          marcName.getOrElse(""),
+          expoCairo,
+          (if(esPlantilla != 0) true else false),
+          curId.getOrElse(DBHelper.NoId),
+          curName.getOrElse("")
+        ),
+        ProductoCompra(
+          (if(seCompra != 0) true else false),
+          nombreCompra,
+          descripCompra,
+          unIdCompra.getOrElse(DBHelper.NoId),
+          unNameCompra.getOrElse(""),
+          cuegIdCompra.getOrElse(DBHelper.NoId),
+          cuegNameCompra.getOrElse(""),
+          tiIdRiCompra.getOrElse(DBHelper.NoId),
+          tiNameRiCompra.getOrElse(""),
+          tiIdInternosCompra.getOrElse(DBHelper.NoId),
+          tiNameIntCompra.getOrElse(""),
+          porcInternoC,
+          ccosIdCompra.getOrElse(DBHelper.NoId),
+          ccosNameCompra.getOrElse("")),
+        ProductoStock(
+          (if(llevaStock != 0) true else false),
+          unIdStock.getOrElse(DBHelper.NoId),
+          unNameStock.getOrElse(""),
+          stockCompra,
+          x,
+          y,
+          z,
+          stockMinimo,
+          reposicion,
+          stockMaximo,
+          (if(llevaNroSerie != 0) true else false),
+          (if(llevaNroLote != 0) true else false),
+          (if(loteFifo != 0) true else false),
+          (if(seProduce != 0) true else false),
+          (if(esRepuesto != 0) true else false)),
+        ProductoVenta(
+          (if(seVende != 0) true else false),
+          nombreVenta,
+          nombreFactura,
+          descripVenta,
+          unIdVenta.getOrElse(DBHelper.NoId),
+          unNameVenta.getOrElse(""),
+          ventaCompra,
+          ventaStock,
+          cuegIdVenta.getOrElse(DBHelper.NoId),
+          cuegNameVenta.getOrElse(""),
+          (if(esLista != 0) true else false),
+          (if(dinerario != 0) true else false),
+          (if(noRedondeo != 0) true else false),
+          tiIdRiVenta.getOrElse(DBHelper.NoId),
+          tiNameRiVenta.getOrElse(""),
+          tiIdInternosVenta.getOrElse(DBHelper.NoId),
+          tiNameIntVenta.getOrElse(""),
+          porcInternoV,
+          ccosIdVenta.getOrElse(DBHelper.NoId),
+          ccosNameVenta.getOrElse("")),
+        ProductoRubro(
+          rubId.getOrElse(DBHelper.NoId),
+          rubName.getOrElse(""),
+          rubtiId1.getOrElse(DBHelper.NoId),
+          rubtiName1.getOrElse(""),
+          rubtiId2.getOrElse(DBHelper.NoId),
+          rubtiName2.getOrElse(""),
+          rubtiId3.getOrElse(DBHelper.NoId),
+          rubtiName3.getOrElse(""),
+          rubtiId4.getOrElse(DBHelper.NoId),
+          rubtiName4.getOrElse(""),
+          rubtiId5.getOrElse(DBHelper.NoId),
+          rubtiName5.getOrElse(""),
+          rubtiId6.getOrElse(DBHelper.NoId),
+          rubtiName6.getOrElse(""),
+          rubtiId7.getOrElse(DBHelper.NoId),
+          rubtiName7.getOrElse(""),
+          rubtiId8.getOrElse(DBHelper.NoId),
+          rubtiName8.getOrElse(""),
+          rubtiId9.getOrElse(DBHelper.NoId),
+          rubtiName9.getOrElse(""),
+          rubtiId10.getOrElse(DBHelper.NoId),
+          rubtiName10.getOrElse("")),
+        ProductoComex(
+          unIdPeso.getOrElse(DBHelper.NoId),
+          unNamePeso.getOrElse(""),
+          pesoNeto.doubleValue,
+          pesoTotal.doubleValue,
+          cantXCajaExpo,
+          emblId.getOrElse(DBHelper.NoId),
+          emblName.getOrElse(""),
+          (if(fleteExpo != 0) true else false),
+          egpId.getOrElse(DBHelper.NoId),
+          egpName.getOrElse(""),
+          efmId.getOrElse(DBHelper.NoId),
+          efmName.getOrElse(""),
+          poarId.getOrElse(DBHelper.NoId),
+          poarName.getOrElse(""),
+          tiIdComexGanancias.getOrElse(DBHelper.NoId),
+          tiNameComexGanancias.getOrElse(""),
+          tiIdComexIgb.getOrElse(DBHelper.NoId),
+          tiNameComexIgb.getOrElse(""),
+          tiIdComexIva.getOrElse(DBHelper.NoId),
+          tiNameComexIva.getOrElse("")),
+        ProductoKit(
+          (if(esKit != 0) true else false),
+          (if(kitStockXItem != 0) true else false),
+          (if(kitResumido != 0) true else false),
+          (if(kitIdentidad != 0) true else false),
+          (if(kitIdentidadXItem != 0) true else false),
+          taIdKitSerie.getOrElse(DBHelper.NoId),
+          taNameKitSerie.getOrElse(""),
+          (if(kitLote != 0) true else false),
+          (if(kitLoteXItem != 0) true else false),
+          taIdKitLote.getOrElse(DBHelper.NoId),
+          taNameKitLote.getOrElse("")),
+        ProductoWeb(
+          nombreWeb,
+          aliasWeb,
+          prIdWebPadre.getOrElse(DBHelper.NoId),
+          prNameWebPadre.getOrElse(""),
+          (if(activoWeb != 0) true else false),
+          (if(webImageUpdate != 0) true else false),
+          codigoHtml,
+          codigoHtmlDetalle,
+          expoWeb,
+          ventaWebMaxima.doubleValue,
+          leyId.getOrElse(DBHelper.NoId),
+          leyName.getOrElse(""),
+          webImageFolder),
+        ProductoNombres(
+          rptIdNombreCompra.getOrElse(DBHelper.NoId),
+          rptNameCompra.getOrElse(""),
+          rptIdNombreVenta.getOrElse(DBHelper.NoId),
+          rptNameVenta.getOrElse(""),
+          rptIdNombreFactura.getOrElse(DBHelper.NoId),
+          rptNameFactura.getOrElse(""),
+          rptIdNombreWeb.getOrElse(DBHelper.NoId),
+          rptNameWeb.getOrElse(""),
+          rptIdNombreImg.getOrElse(DBHelper.NoId),
+          rptNameImg.getOrElse(""),
+          rptIdNombreImgAlt.getOrElse(DBHelper.NoId),
+          rptNameImgAlt.getOrElse("")),
+        emptyProductoItems,
+        createdAt,
+        updatedAt,
+        updatedBy)
     }
   }
 
@@ -1742,6 +1795,39 @@ object Producto {
     }
   }
 
+  private def loadProductoItems(user: CompanyUser, id: Int) = {
+    ProductoItems(
+      loadProveedores(user, id),
+      List(), List(), List(), List(), List(), List(), List(), List(), List(), List())
+  }
+
+  private def loadProveedores(user: CompanyUser, id: Int) = {
+
+    DB.withTransaction(user.database.database) { implicit connection =>
+
+      val sql = "{call sp_producto_get_proveedores(?, ?)}"
+      val cs = connection.prepareCall(sql)
+
+      cs.setInt(1, id)
+      cs.registerOutParameter(2, Types.OTHER)
+
+      try {
+        cs.execute()
+
+        val rs = cs.getObject(2).asInstanceOf[java.sql.ResultSet]
+        Sql.as(productoProveedorParser.*, rs)
+
+      } catch {
+        case NonFatal(e) => {
+          Logger.error(s"can't get ${C.PRODUCTO} with id $id for user ${user.toString}. Error ${e.toString}")
+          throw e
+        }
+      } finally {
+        cs.close
+      }
+    }
+  }
+
   def delete(user: CompanyUser, id: Int) = {
     DB.withConnection(user.database.database) { implicit connection =>
       try {
@@ -1759,7 +1845,28 @@ object Producto {
 
   def get(user: CompanyUser, id: Int): Producto = {
     load(user, id) match {
-      case Some(p) => p
+      case Some(p) => {
+        Producto(
+          p.id,
+          p.active,
+          p.code,
+
+          p.base,
+
+          p.compra,
+          p.stock,
+          p.venta,
+
+          p.rubro,
+
+          p.comex,
+          p.kit,
+          p.web,
+          p.names,
+
+          loadProductoItems(user, id)
+        )
+      }
       case None => emptyProducto
     }
   }

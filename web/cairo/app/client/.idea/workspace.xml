@@ -23,17 +23,27 @@
     <favorites_list name="client" />
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.59177214">
+    <splitter split-orientation="horizontal" split-proportion="0.8101343">
       <split-first>
         <leaf>
           <file leaf-file-name="cProducto.js" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/cairo/modules/CSGeneral2/cProducto.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="-5.1551723" vertical-offset="96088" max-vertical-offset="114000">
-                  <caret line="5073" column="50" selection-start-line="5073" selection-start-column="50" selection-end-line="5073" selection-end-column="50" />
+                <state vertical-scroll-proportion="-7.206897" vertical-offset="0" max-vertical-offset="114038">
+                  <caret line="11" column="40" selection-start-line="11" selection-start-column="40" selection-end-line="11" selection-end-column="40" />
                   <folding>
-                    <element signature="e#206325#211349#0" expanded="false" />
+                    <element signature="e#203154#208178#0" expanded="false" />
                   </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="cGasto.js" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/cairo/modules/CSGeneral2/cGasto.js">
+              <provider selected="true" editor-type-id="text-editor">
+                <state vertical-scroll-proportion="0.0" vertical-offset="7794" max-vertical-offset="15181">
+                  <caret line="432" column="23" selection-start-line="432" selection-start-column="23" selection-end-line="432" selection-end-column="23" />
+                  <folding />
                 </state>
               </provider>
             </entry>
@@ -51,12 +61,24 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="constants.js" pinned="false" current-in-tab="true">
+          <file leaf-file-name="view.js" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/cairo/system/dialogs/view.js">
+              <provider selected="true" editor-type-id="text-editor">
+                <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="12084">
+                  <caret line="53" column="83" selection-start-line="53" selection-start-column="83" selection-end-line="53" selection-end-column="83" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="constants.js" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/cairo/modules/CSGeneral2/constants.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.84713376" vertical-offset="23693" max-vertical-offset="31863">
-                  <caret line="1275" column="33" selection-start-line="1254" selection-start-column="6" selection-end-line="1275" selection-end-column="33" />
-                  <folding />
+                <state vertical-scroll-proportion="0.0" vertical-offset="23693" max-vertical-offset="31863">
+                  <caret line="1263" column="46" selection-start-line="1263" selection-start-column="46" selection-end-line="1263" selection-end-column="46" />
+                  <folding>
+                    <marker date="1420426419000" expanded="true" signature="12:46061" placeholder="{...}" />
+                  </folding>
                 </state>
               </provider>
             </entry>
@@ -64,18 +86,18 @@
           <file leaf-file-name="dialog.js" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/cairo/system/dialogs/dialog.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="-10.724138" vertical-offset="31248" max-vertical-offset="137161">
+                <state vertical-scroll-proportion="0.0" vertical-offset="31248" max-vertical-offset="137161">
                   <caret line="1661" column="36" selection-start-line="1661" selection-start-column="36" selection-end-line="1661" selection-end-column="36" />
                   <folding />
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="grid.js" pinned="false" current-in-tab="false">
+          <file leaf-file-name="grid.js" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/cairo/system/dialogs/grid.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="9196">
-                  <caret line="13" column="32" selection-start-line="13" selection-start-column="4" selection-end-line="13" selection-end-column="32" />
+                <state vertical-scroll-proportion="0.8026999" vertical-offset="7473" max-vertical-offset="9310">
+                  <caret line="434" column="11" selection-start-line="434" selection-start-column="11" selection-end-line="434" selection-end-column="11" />
                   <folding />
                 </state>
               </provider>
@@ -84,8 +106,8 @@
           <file leaf-file-name="grid.js" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/cairo/system/controls/grid.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="-24.241379" vertical-offset="3059" max-vertical-offset="5491">
-                  <caret line="198" column="72" selection-start-line="198" selection-start-column="72" selection-end-line="198" selection-end-column="72" />
+                <state vertical-scroll-proportion="0.0" vertical-offset="1558" max-vertical-offset="5491">
+                  <caret line="118" column="8" selection-start-line="118" selection-start-column="8" selection-end-line="120" selection-end-column="9" />
                   <folding />
                 </state>
               </provider>
@@ -108,10 +130,10 @@
           <file leaf-file-name="grid.js" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/cairo/system/dialogs/grid.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.0" vertical-offset="253" max-vertical-offset="9196">
+                <state vertical-scroll-proportion="0.0" vertical-offset="253" max-vertical-offset="9310">
                   <caret line="34" column="31" selection-start-line="34" selection-start-column="31" selection-end-line="34" selection-end-column="31" />
                   <folding>
-                    <marker date="1420344006000" expanded="true" signature="1986:2021" placeholder="/*...*/" />
+                    <marker date="1420433459000" expanded="true" signature="10861:10902" placeholder="{...}" />
                   </folding>
                 </state>
               </provider>
@@ -130,7 +152,7 @@
           <file leaf-file-name="view.js" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/cairo/system/dialogs/view.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.9846416" vertical-offset="430" max-vertical-offset="12084">
+                <state vertical-scroll-proportion="0.59916925" vertical-offset="430" max-vertical-offset="12084">
                   <caret line="53" column="83" selection-start-line="53" selection-start-column="83" selection-end-line="53" selection-end-column="83" />
                   <folding />
                 </state>
@@ -159,7 +181,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/cairo/modules/CSGeneral2/cGasto.js" />
         <option value="$PROJECT_DIR$/cairo/modules/CSGeneral2/cLeyenda.js" />
         <option value="$PROJECT_DIR$/cairo/modules/CSGeneral2/cListaPrecioMarcado.js" />
         <option value="$PROJECT_DIR$/cairo/modules/CSGeneral2/cPais.js" />
@@ -207,9 +228,10 @@
         <option value="$PROJECT_DIR$/cairo/system/collections/collection.js" />
         <option value="$PROJECT_DIR$/cairo/system/dialogs/dialog.js" />
         <option value="$PROJECT_DIR$/cairo/system/dialogs/view.js" />
-        <option value="$PROJECT_DIR$/cairo/system/dialogs/grid.js" />
         <option value="$PROJECT_DIR$/cairo/system/controls/grid.js" />
+        <option value="$PROJECT_DIR$/cairo/modules/CSGeneral2/cGasto.js" />
         <option value="$PROJECT_DIR$/cairo/modules/CSGeneral2/cProducto.js" />
+        <option value="$PROJECT_DIR$/cairo/system/dialogs/grid.js" />
       </list>
     </option>
   </component>
@@ -464,14 +486,10 @@
       <ConfigurationWrapper RunnerId="Basic" />
       <method />
     </configuration>
-    <configuration default="true" type="DartCommandLineRunConfigurationType" factoryName="Dart Command Line Application">
-      <method />
-    </configuration>
     <configuration default="true" type="DartUnitRunConfigurationType" factoryName="DartUnit">
       <method />
     </configuration>
-    <configuration default="true" type="JavaScriptTestRunnerKarma" factoryName="Karma" config-file="">
-      <envs />
+    <configuration default="true" type="DartCommandLineRunConfigurationType" factoryName="Dart Command Line Application">
       <method />
     </configuration>
     <configuration default="true" type="JSTestDriver:ConfigurationType" factoryName="JsTestDriver">
@@ -479,6 +497,10 @@
       <setting name="settingsFile" value="" />
       <setting name="serverType" value="INTERNAL" />
       <setting name="preferredDebugBrowser" value="Chrome" />
+      <method />
+    </configuration>
+    <configuration default="true" type="JavaScriptTestRunnerKarma" factoryName="Karma" config-file="">
+      <envs />
       <method />
     </configuration>
     <configuration default="true" type="JavascriptDebugType" factoryName="JavaScript Debug">
@@ -551,10 +573,10 @@
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.77799803" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32903865" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.34489593" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.34489593" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.13607594" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2805907" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3298647" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
@@ -564,8 +586,8 @@
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
     </layout>
   </component>
   <component name="Vcs.Log.UiProperties">
@@ -592,13 +614,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/cairo/modules/CSGeneral2/cPosicionArancel.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="2304" max-vertical-offset="13243">
-          <caret line="128" column="16" selection-start-line="128" selection-start-column="16" selection-end-line="128" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/cairo/modules/CSGeneral2/cProductoHelpConfig.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="2171" max-vertical-offset="14345">
@@ -722,9 +737,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3325">
           <caret line="442" column="50" selection-start-line="5" selection-start-column="4" selection-end-line="442" selection-end-column="50" />
-          <folding>
-            <element signature="e#148#11605#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -732,7 +744,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="7423" max-vertical-offset="12939">
           <caret line="401" column="17" selection-start-line="401" selection-start-column="17" selection-end-line="401" selection-end-column="17" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -740,7 +751,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="9028" max-vertical-offset="17955">
           <caret line="480" column="4" selection-start-line="480" selection-start-column="4" selection-end-line="480" selection-end-column="4" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -748,7 +758,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="3005" max-vertical-offset="3306">
           <caret line="163" column="6" selection-start-line="163" selection-start-column="6" selection-end-line="163" selection-end-column="6" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -756,7 +765,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="782" max-vertical-offset="1083">
           <caret line="46" column="18" selection-start-line="46" selection-start-column="18" selection-end-line="46" selection-end-column="18" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -764,7 +772,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="1067" max-vertical-offset="1368">
           <caret line="61" column="18" selection-start-line="61" selection-start-column="18" selection-end-line="61" selection-end-column="18" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -772,7 +779,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="687" max-vertical-offset="988">
           <caret line="41" column="18" selection-start-line="41" selection-start-column="18" selection-end-line="41" selection-end-column="18" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -780,7 +786,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="915" max-vertical-offset="1216">
           <caret line="53" column="18" selection-start-line="53" selection-start-column="18" selection-end-line="53" selection-end-column="18" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -788,7 +793,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="497" max-vertical-offset="798">
           <caret line="31" column="18" selection-start-line="31" selection-start-column="18" selection-end-line="31" selection-end-column="18" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -796,7 +800,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="2036" max-vertical-offset="2337">
           <caret line="112" column="18" selection-start-line="112" selection-start-column="18" selection-end-line="112" selection-end-column="18" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -804,7 +807,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.33333334" vertical-offset="421" max-vertical-offset="722">
           <caret line="27" column="18" selection-start-line="27" selection-start-column="18" selection-end-line="27" selection-end-column="18" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -812,7 +814,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.33333334" vertical-offset="1010" max-vertical-offset="1311">
           <caret line="58" column="18" selection-start-line="58" selection-start-column="18" selection-end-line="58" selection-end-column="18" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -820,7 +821,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.33333334" vertical-offset="6178" max-vertical-offset="6555">
           <caret line="330" column="18" selection-start-line="330" selection-start-column="18" selection-end-line="330" selection-end-column="18" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -828,12 +828,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.33333334" vertical-offset="12809" max-vertical-offset="13110">
           <caret line="679" column="18" selection-start-line="679" selection-start-column="18" selection-end-line="679" selection-end-column="18" />
-          <folding>
-            <marker date="1420329083000" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1420329083000" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1420329083000" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1420329083000" expanded="true" signature="-1:-1" placeholder="..." />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -841,7 +835,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.33333334" vertical-offset="611" max-vertical-offset="912">
           <caret line="37" column="18" selection-start-line="37" selection-start-column="18" selection-end-line="37" selection-end-column="18" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -849,7 +842,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.33333334" vertical-offset="611" max-vertical-offset="912">
           <caret line="37" column="18" selection-start-line="37" selection-start-column="18" selection-end-line="37" selection-end-column="18" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -857,7 +849,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.33333334" vertical-offset="763" max-vertical-offset="1064">
           <caret line="45" column="18" selection-start-line="45" selection-start-column="18" selection-end-line="45" selection-end-column="18" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -873,7 +864,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.33333334" vertical-offset="896" max-vertical-offset="1197">
           <caret line="52" column="18" selection-start-line="52" selection-start-column="18" selection-end-line="52" selection-end-column="18" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -881,7 +871,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.33333334" vertical-offset="839" max-vertical-offset="1140">
           <caret line="49" column="18" selection-start-line="49" selection-start-column="18" selection-end-line="49" selection-end-column="18" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -889,7 +878,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.78586066" vertical-offset="544" max-vertical-offset="1520">
           <caret line="69" column="18" selection-start-line="69" selection-start-column="18" selection-end-line="69" selection-end-column="18" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -913,7 +901,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.3329918" vertical-offset="2278" max-vertical-offset="3743">
           <caret line="137" column="16" selection-start-line="137" selection-start-column="16" selection-end-line="137" selection-end-column="16" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -921,7 +908,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.33333334" vertical-offset="38458" max-vertical-offset="44707">
           <caret line="2041" column="19" selection-start-line="2041" selection-start-column="19" selection-end-line="2041" selection-end-column="19" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -933,45 +919,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/cairo/system/dialogs/view.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.9846416" vertical-offset="430" max-vertical-offset="12084">
-          <caret line="53" column="83" selection-start-line="53" selection-start-column="83" selection-end-line="53" selection-end-column="83" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/cairo/system/dialogs/dialog.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-10.724138" vertical-offset="31248" max-vertical-offset="137161">
+        <state vertical-scroll-proportion="0.0" vertical-offset="31248" max-vertical-offset="137161">
           <caret line="1661" column="36" selection-start-line="1661" selection-start-column="36" selection-end-line="1661" selection-end-column="36" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/cairo/system/dialogs/grid.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="9196">
-          <caret line="13" column="32" selection-start-line="13" selection-start-column="4" selection-end-line="13" selection-end-column="32" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/cairo/system/controls/grid.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-24.241379" vertical-offset="3059" max-vertical-offset="5491">
-          <caret line="198" column="72" selection-start-line="198" selection-start-column="72" selection-end-line="198" selection-end-column="72" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/cairo/modules/CSGeneral2/cProducto.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-5.1551723" vertical-offset="96088" max-vertical-offset="114000">
-          <caret line="5073" column="50" selection-start-line="5073" selection-start-column="50" selection-end-line="5073" selection-end-column="50" />
-          <folding>
-            <element signature="e#206325#211349#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -988,8 +940,52 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/cairo/modules/CSGeneral2/constants.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.84713376" vertical-offset="23693" max-vertical-offset="31863">
-          <caret line="1275" column="33" selection-start-line="1254" selection-start-column="6" selection-end-line="1275" selection-end-column="33" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="23693" max-vertical-offset="31863">
+          <caret line="1263" column="46" selection-start-line="1263" selection-start-column="46" selection-end-line="1263" selection-end-column="46" />
+          <folding>
+            <marker date="1420426419000" expanded="true" signature="12:46061" placeholder="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cairo/system/dialogs/view.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="12084">
+          <caret line="53" column="83" selection-start-line="53" selection-start-column="83" selection-end-line="53" selection-end-column="83" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cairo/modules/CSGeneral2/cGasto.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="7794" max-vertical-offset="15181">
+          <caret line="432" column="23" selection-start-line="432" selection-start-column="23" selection-end-line="432" selection-end-column="23" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cairo/modules/CSGeneral2/cProducto.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-7.206897" vertical-offset="0" max-vertical-offset="114038">
+          <caret line="11" column="40" selection-start-line="11" selection-start-column="40" selection-end-line="11" selection-end-column="40" />
+          <folding>
+            <element signature="e#203154#208178#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cairo/system/controls/grid.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="1558" max-vertical-offset="5491">
+          <caret line="118" column="8" selection-start-line="118" selection-start-column="8" selection-end-line="120" selection-end-column="9" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cairo/system/dialogs/grid.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.8026999" vertical-offset="7473" max-vertical-offset="9310">
+          <caret line="434" column="11" selection-start-line="434" selection-start-column="11" selection-end-line="434" selection-end-column="11" />
           <folding />
         </state>
       </provider>
