@@ -35,6 +35,8 @@
           c.setText(col.getName());
           c.setVisible(col.getVisible());
           c.setType(col.getType());
+          c.setIsEditable(col.isEditable());
+          c.setEnabled(col.getEnabled());
         };
 
         if(!noChangeColumns || columns.count() !== grid.getColumns().count()) {
@@ -238,7 +240,7 @@
 
         index: 0,
         isDetail: false,
-        isEditable: false,
+        isEditable: true,
 
         defaultValue: null /* is a Grids.Cell object */
       };
@@ -380,7 +382,7 @@
         self.isDetail = isDetail;
       };
 
-      that.getIsEditable = function() {
+      that.isEditable = function() {
         return self.isEditable;
       };
       that.setIsEditable = function(isEditable) {
@@ -402,13 +404,33 @@
       return Cairo.Collections.createCollection(Grids.createColumn);
     };
 
-    Grids.createRow = function() {
+    Grids.createRow = function(index) {
 
       var self = {
         cells: Grids.createCells(),
         isGroup: false,
         haveKey: false
       };
+
+      var addItemCell = function() {
+        var cell = self.cells.add();
+        cell.setValue(index);
+      };
+
+      addItemCell();
+
+      var clearCells = function(clear) {
+        return function() {
+          clear();
+          addItemCell();
+        };
+      };
+
+      //
+      // the clear of this collection adds an item cell
+      // after removing all cells
+      //
+      self.cells.clear = clearCells(self.cells.clear);
 
       var that = {};
 
@@ -452,6 +474,27 @@
         rows: Grids.createRows(),
         multiSelect: false
       };
+
+      var addItemColumn = function() {
+        var col = self.columns.add();
+        col.setName("Item");
+        col.setType(Dialogs.PropertyType.grid);
+      };
+
+      addItemColumn();
+
+      var clearColumns = function(clear) {
+        return function() {
+          clear();
+          addItemColumn();
+        };
+      };
+
+      //
+      // the clear of this collection adds an item column
+      // after removing all columns
+      //
+      self.columns.clear = clearColumns(self.columns.clear);
 
       var that = {};
 

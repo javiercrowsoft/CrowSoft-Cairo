@@ -10,6 +10,7 @@ import play.api.libs.json._
 import models.cairo.modules.general._
 import models.cairo.system.security.CairoSecurity
 import models.cairo.system.database.DBHelper
+import formatters.json.DateFormatter._
 
 
 case class ProductoBaseData(

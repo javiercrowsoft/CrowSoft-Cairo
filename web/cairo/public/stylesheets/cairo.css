@@ -269,9 +269,21 @@ div.tree-select-dialog.ui-widget-content {
 .dialog-th td {
   color: white;
   background: #303030;
+
+  border-left: 1px solid #464545 !important;
+  border-right: 1px solid #464545 !important;
+  border-bottom: 1px solid #464545 !important;
 }
 
 .dialog-td {
   color: black;
   background: white;
+
+  border-left: 1px solid #bbbbbb !important;
+  border-right: 1px solid #bbbbbb !important;
+  border-bottom: 1px solid #bbbbbb !important;
+}
+
+i.glyphicon-new {
+  font-size: 0.8em;
 }

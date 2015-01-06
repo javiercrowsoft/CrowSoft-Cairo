@@ -35,7 +35,7 @@
           }
           self.keys[key] = self.count;
         }
-        value = value || itemConstructor();
+        value = value || itemConstructor(self.count+1);
         if(key !== undefined && value.setKeyCol !== undefined) {
           value.setKeyCol(key);
         }
@@ -91,6 +91,11 @@
       that.item = function(indexOrKey) {
         var index = checkIndex(indexOrKey);
         return self.items[index];
+      };
+
+      that.getOrElse = function(indexOrKey, elseValue) {
+        var index = checkIndex(indexOrKey, true);
+        return index !== -1 ? self.items[index] : elseValue;
       };
 
       that.get = that.item;
