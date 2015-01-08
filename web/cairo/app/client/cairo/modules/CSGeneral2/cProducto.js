@@ -13,6 +13,7 @@
       var bToI = Cairo.Util.boolToInt;
       var valField = Cairo.Database.valField;
       var getValue = Cairo.Database.getValue;
+      var getDateValue = Cairo.Database.getDateValue;
 
       var C_MODULE = "cProducto";
 
@@ -5007,7 +5008,7 @@
           }
           elem.setKey(KIK_PROV_PRECIO2);
 
-          fecha = getValue(m_data.proveedores[_i], C.LPI_FECHA);
+          fecha = getDateValue(m_data.proveedores[_i], C.LPI_FECHA);
 
           var elem = row.add(null);
           if(fecha !== Cairo.Constants.NO_DATE) {

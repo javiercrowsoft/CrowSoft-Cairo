@@ -320,7 +320,7 @@ var Cairo = new Marionette.Application();
   Cairo.Constants = {
     NO_ID: 0,
     NEW_ID: 0,
-    NO_DATE: Date.parse("1900-01-01"),
+    NO_DATE: new Date("1900-01-01T00:00:00Z"),
     NUMBER_ID: '_number_id_',
     STATUS_ID: '_status_id_',
 

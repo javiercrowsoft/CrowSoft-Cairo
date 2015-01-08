@@ -1,3 +1,8 @@
+ALTER DATABASE postgres SET timezone TO 'UTC';
+
+esto esta a proposito para que de un error asi confirmamos que el timezone e sel correcto antes
+de crear la base
+
 CREATE TABLE Vuelo (
 	vue_id int NOT NULL,
 	vue_nombre varchar(100) NOT NULL,

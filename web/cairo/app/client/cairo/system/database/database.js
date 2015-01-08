@@ -155,6 +155,10 @@
       return object[attribute];
     },
 
+    getDateValue: function(object, attribute) {
+      return new Date(object[attribute]);
+    },
+
     Register: function() {
       var _fieldId, _table, _id;
       var __fields = [];

@@ -33,7 +33,7 @@
       var m_descrip = "";
       var m_tipodni;
       var m_dni = 0;
-      var m_fechadenacimiento = null;
+      var m_fechaNacimiento = null;
       var m_direccion = "";
       var m_telefono = "";
       var m_active;
@@ -477,7 +477,7 @@
         // Fecha de Nacimiento
         elem.setName(Cairo.Language.getText(1064, ""));
         elem.setKey(K_FECHADENACIMIENTO);
-        elem.setValue(m_fechadenacimiento);
+        elem.setValue(m_fechaNacimiento);
 
         var elem = properties.add(null, Cairo.General.Constants.CHOF_TELEFONO);
         elem.setType(Dialogs.PropertyType.text);
@@ -533,7 +533,7 @@
         elem.setValue(m_dni);
 
         var elem = properties.item(Cairo.General.Constants.CHOF_FECHA_NACIMIENTO);
-        elem.setValue(m_fechadenacimiento);
+        elem.setValue(m_fechaNacimiento);
 
         var elem = properties.item(Cairo.General.Constants.CHOF_TELEFONO);
         elem.setValue(m_telefono);
@@ -587,7 +587,7 @@
               m_descrip = Cairo.Database.valField(response.data, Cairo.General.Constants.CHOF_DESCRIP);
               m_tipodni = Cairo.Database.valField(response.data, Cairo.General.Constants.CHOF_TIPODNI);
               m_dni = Cairo.Database.valField(response.data, Cairo.General.Constants.CHOF_DNI);
-              m_fechadenacimiento = Cairo.Database.valField(response.data, Cairo.General.Constants.CHOF_FECHA_NACIMIENTO);
+              m_fechaNacimiento = Cairo.Database.getDateValue(response.data, Cairo.General.Constants.CHOF_FECHA_NACIMIENTO);
               m_direccion = Cairo.Database.valField(response.data, Cairo.General.Constants.CHOF_DIRECCION);
               m_telefono = Cairo.Database.valField(response.data, Cairo.General.Constants.CHOF_TELEFONO);
               m_active = Cairo.Database.valField(response.data, Cairo.Constants.ACTIVE);
@@ -604,7 +604,7 @@
               m_descrip = "";
               m_tipodni = csChofTipoDoc.cSCHOFTDDNI;
               m_dni = 0;
-              m_fechadenacimiento = Cairo.Constants.NO_DATE;
+              m_fechaNacimiento = Cairo.Constants.NO_DATE;
               m_direccion = "";
               m_telefono = "";
               m_active = true;

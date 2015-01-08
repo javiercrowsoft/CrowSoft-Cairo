@@ -1,0 +1,18 @@
+to create a database:
+
+1- create the database using pgAdmin
+
+2- before run the create tables scripts set the time zone
+
+ALTER DATABASE {database name} SET timezone TO 'UTC';
+
+3- run the scripts in:
+
+database/cairo/CSScript/postgresql/tables/cairo_script.sql
+
+run all functions and sequences (yes one by one ( O O )
+                                                   d
+                                                  ^^^
+
+very good explanation about time zone
+http://stackoverflow.com/questions/6151084/which-timestamp-type-to-choose-in-a-postgresql-database

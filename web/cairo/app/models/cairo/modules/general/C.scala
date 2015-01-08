@@ -1,9 +1,15 @@
 package models.cairo.modules.general
 
 import java.util.Date
+import java.util.Calendar
+import java.util.TimeZone
 
 object U {
-  val NO_DATE = new Date(1900, 1, 1)
+  val NO_DATE = {
+    val c = Calendar.getInstance(TimeZone.getTimeZone("GMT"))
+    c.set(1900, 0, 1, 0,0,0)
+    c.getTime
+  }
 }
 
 object C {

@@ -163,6 +163,7 @@
       var T = Cairo.Dialogs.PropertyType;
       var S = Cairo.Dialogs.PropertySubType;
       var val = Cairo.Util.val;
+      var NO_DATE = Cairo.Constants.NO_DATE;
 
       var self = {
         columns: Cairo.Collections.createCollection(createColumn),
@@ -180,17 +181,62 @@
           onColumnCancelEdit: null,
           onColumnButtonClick: null,
           onColumnClick: null,
-          onFillsListAdHok: null,
           onValidateRow: null,
           onNewRow: null,
           onDeleteRow: null,
           onRowWasDeleted: null,
           onDblClick: null,
           onSelectionChange: null,
-          onMouseDown: null,
           onSelectionRowChange: null,
           onSelectionColChange: null
         }
+      };
+
+      //
+      // events
+      //
+
+      //
+      // events
+      //
+      var addListener = function(eventName, functionHandler) {
+        switch(eventName) {
+          case "onColumnBeforeEdit":
+          case "onColumnAfterEdit":
+          case "onColumnCancelEdit":
+          case "onColumnButtonClick":
+          case "onColumnClick":
+          case "onValidateRow":
+          case "onNewRow":
+          case "onDeleteRow":
+          case "onRowWasDeleted":
+          case "onDblClick":
+          case "onSelectionChange":
+          case "onSelectionRowChange":
+          case "onSelectionColChange":
+            self.listeners[eventName] = functionHandler;
+            break;
+          default:
+            Cairo.logError(
+              'Invalid event listener registration. EventName: '
+              + eventName + ' - Handler: ' + functionHandler.toString());
+        }
+      };
+
+      var setListeners = function(view) {
+        addListener('onColumnBeforeEdit', view.onColumnBeforeEdit(that));
+        addListener('onColumnAfterEdit', view.onColumnAfterEdit(that));
+        addListener('onColumnCancelEdit', view.onColumnCancelEdit(that));
+        addListener('onColumnButtonClick', view.onColumnButtonClick(that));
+        addListener('onColumnClick', view.onColumnClick(that));
+        addListener('onValidateRow', view.onValidateRow(that));
+        addListener('onNewRow', view.onNewRow(that));
+        addListener('onDeleteRow', view.onDeleteRow(that));
+        addListener('onRowWasDeleted', view.onRowWasDeleted(that));
+        addListener('onDblClick', view.onDblClick(that));
+        addListener('onSelectionChange', view.onSelectionChange(that));
+        addListener('onSelectionRowChange', view.onSelectionRowChange(that));
+        addListener('onSelectionColChange', view.onSelectionColChange(that));
       };
 
       //
@@ -391,12 +437,18 @@
           return cell.getText();
         };
 
+        var getDateFormatted = function(date) {
+          return (new Date(date)).getTime() === NO_DATE.getTime() ? "" :  $.datepicker.formatDate("dd/mm/yy", date);
+        };
+
         var getValue = function(cell, col) {
-          if(col.getType() === T.check) {
-            return getCheckboxIcon(cell.getText());
-          }
-          else {
-            return cell.getText();
+          switch(col.getType()) {
+            case T.check:
+              return getCheckboxIcon(cell.getText());
+            case T.date:
+              return getDateFormatted(cell.getText());
+            default:
+              return cell.getText();
           }
         };
 
@@ -465,10 +517,11 @@
 
       var superSetElement = that.setElement;
 
-      that.setElement = function(element) {
+      that.setElement = function(element, view) {
         superSetElement(element);
         element.text(self.text);
         element.addClass('dialog-grid table table-bordered');
+        setListeners(view);
         draw(element);
       };
 
@@ -532,36 +585,6 @@
 
       that.unSelectRow = function(row) { /* TODO = implement this. */ };
       that.setNoSelectInGotFocus = function(value) { /* TODO = implement this. */ }
-
-      //
-      // events
-      //
-      that.addListener = function(eventName, functionHandler) {
-        switch(eventName) {
-          case "onColumnBeforeEdit":
-          case "onColumnAfterEdit":
-          case "onColumnCancelEdit":
-          case "onColumnButtonClick":
-          case "onColumnClick":
-          case "onFillsListAdHok":
-          case "onValidateRow":
-          case "onNewRow":
-          case "onDeleteRow":
-          case "onRowWasDeleted":
-          case "onDblClick":
-          case "onSelectionChange":
-          case "onMouseDown":
-          case "onSelectionRowChange":
-          case "onSelectionColChange":
-            self.listeners[eventName] = functionHandler;
-            break;
-          default:
-            Cairo.logError(
-              'Invalid event listener registration. EventName: '
-              + eventName + ' - Handler: ' + functionHandler.toString());
-        }
-      };
-
 
       return that;
     };

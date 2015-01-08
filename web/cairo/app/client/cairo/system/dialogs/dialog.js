@@ -3093,54 +3093,54 @@
 
         // TODO: refactor promise is returned by this function
         //
-        var masterHandlerGridColumnAfterEdit = function(index, rowIndex, colIndex, newValue, newValueID) {
-          return gridColumnEdit(true, index, rowIndex, colIndex, 0, newValue, newValueID);
+        var masterHandlerGridColumnAfterEdit = function(index, eventArgs) {
+          return gridColumnEdit(true, index, eventArgs.row, eventArgs.col, 0, eventArgs.newValue, eventArgs.newValueID);
         };
 
-        var masterHandlerGridColumnAfterUpdate = function(index, rowIndex, colIndex, newValue, newValueID) {
-          gridColumnAfterUpdate(index, rowIndex, colIndex, 0, newValue, newValueID);
+        var masterHandlerGridColumnAfterUpdate = function(index, eventArgs) {
+          gridColumnAfterUpdate(index, eventArgs.row, eventArgs.col, 0, eventArgs.newValue, eventArgs.newValueID);
         };
 
         // TODO: refactor promise is returned by this function
         //
-        var masterHandlerGridColumnBeforeEdit = function(index, rowIndex, colIndex, keyAscii) {
+        var masterHandlerGridColumnBeforeEdit = function(index, eventArgs) {
           // TODO: investigate why it calls gridColumnEdit instead of gridBeforeColumnEdit()
-          return gridColumnEdit(false, index, rowIndex, colIndex, keyAscii, 0, 0);
+          return gridColumnEdit(false, index, eventArgs.row, eventArgs.col, eventArgs.keyAscii, 0, 0);
         };
 
-        var masterHandlerGridColumnButtonClick = function(index, rowIndex, colIndex) {
-          return gridColumnButtonClick(index, rowIndex, colIndex);
+        var masterHandlerGridColumnButtonClick = function(index, eventArgs) {
+          return gridColumnButtonClick(index, eventArgs.row, eventArgs.col);
         };
 
-        var masterHandlerGridDblClick = function(index, rowIndex, colIndex) {
+        var masterHandlerGridDblClick = function(index, eventArgs) {
           if(m_clientManageGrid) {
             var property = getProperty(Dialogs.PropertyType.grid, index, 0);
-            m_client.gridDblClick(property.getKey(), rowIndex, colIndex);
+            m_client.gridDblClick(property.getKey(), eventArgs.row, eventArgs.col);
           }
         };
 
-        var masterHandlerGridDeleteRow = function(index, rowIndex) {
-          return gridDeleteRow(index, rowIndex);
+        var masterHandlerGridDeleteRow = function(index, eventArgs) {
+          return gridDeleteRow(index, eventArgs.row);
         };
 
-        var masterHandlerGridNewRow = function(index, rowIndex) {
-          gridNewRow(index, rowIndex);
+        var masterHandlerGridNewRow = function(index, eventArgs) {
+          gridNewRow(index, eventArgs.row);
         };
 
-        var masterHandlerGridAfterDeleteRow = function(index, rowIndex) {
-          gridAfterDeleteRow(index, rowIndex);
+        var masterHandlerGridAfterDeleteRow = function(index, eventArgs) {
+          gridAfterDeleteRow(index, eventArgs.row);
         };
 
-        var masterHandlerGridSelectionChange = function(index, rowIndex, colIndex) {
-          gridSelectionChange(index, rowIndex, colIndex, Dialogs.GridSelectChangeType.GRID_SELECTION_CHANGE);
+        var masterHandlerGridSelectionChange = function(index, eventArgs) {
+          gridSelectionChange(index, eventArgs.row, eventArgs.col, Dialogs.GridSelectChangeType.GRID_SELECTION_CHANGE);
         };
 
-        var masterHandlerGridSelectionRowChange = function(index, rowIndex, colIndex) {
-          gridSelectionChange(index, rowIndex, colIndex, Dialogs.GridSelectChangeType.GRID_ROW_CHANGE);
+        var masterHandlerGridSelectionRowChange = function(index, eventArgs) {
+          gridSelectionChange(index, eventArgs.row, eventArgs.col, Dialogs.GridSelectChangeType.GRID_ROW_CHANGE);
         };
 
-        var masterHandlerGridValidateRow = function(index, rowIndex) {
-          return gridValidateRow(index, rowIndex, true);
+        var masterHandlerGridValidateRow = function(index, eventArgs) {
+          return gridValidateRow(index, eventArgs.row, true);
         };
 
         var masterHandlerSelectChange = function(index) {

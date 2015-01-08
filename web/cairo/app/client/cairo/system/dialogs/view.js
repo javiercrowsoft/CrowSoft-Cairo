@@ -469,6 +469,15 @@
         }
       };
 
+      that.raiseEventWithPromise = function(eventName, eventData, eventArgs) {
+        for(var i = 0; i < self.listeners.length; i += 1) {
+          var listener = self.listeners[i];
+          if(listener[eventName] !== undefined) {
+            return listener[eventName](eventData, eventArgs);
+          }
+        }
+      };
+
       that.onMaskEditChange = function(control) {
         return function() {
           that.raiseEvent("maskEditChange", control.getIndex());
@@ -497,7 +506,76 @@
         return function() {
           that.raiseEvent("tabClick", control.getIndex());
         };
-      }
+      };
+
+      //
+      // grid
+      //
+      that.onGridDblClick = function(control) {
+        return function(eventArgs) {
+          that.raiseEventWithPromise("gridDblClick", control.getIndex(), eventArgs);
+        };
+      };
+
+      that.onGridAfterDeleteRow = function(control) {
+        return function(eventArgs) {
+          that.raiseEventWithPromise("gridAfterDeleteRow", control.getIndex(), eventArgs);
+        };
+      };
+
+      that.onGridDeleteRow = function(control) {
+        return function(eventArgs) {
+          that.raiseEventWithPromise("gridDeleteRow", control.getIndex(), eventArgs);
+        };
+      };
+
+      that.onGridNewRow = function(control) {
+        return function(eventArgs) {
+          that.raiseEventWithPromise("gridNewRow", control.getIndex(), eventArgs);
+        };
+      };
+
+      that.onGridValidateRow = function(control) {
+        return function(eventArgs) {
+          that.raiseEventWithPromise("gridValidateRow", control.getIndex(), eventArgs);
+        };
+      };
+
+      that.onGridColumnAfterEdit = function(control) {
+        return function(eventArgs) {
+          that.raiseEventWithPromise("gridColumnAfterEdit", control.getIndex(), eventArgs);
+        };
+      };
+
+      that.onGridColumnAfterUpdate = function(control) {
+        return function(eventArgs) {
+          that.raiseEventWithPromise("gridColumnAfterUpdate", control.getIndex(), eventArgs);
+        };
+      };
+
+      that.onGridColumnBeforeEdit = function(control) {
+        return function(eventArgs) {
+          that.raiseEventWithPromise("gridColumnBeforeEdit", control.getIndex(), eventArgs);
+        };
+      };
+
+      that.onGridColumnButtonClick = function(control) {
+        return function(eventArgs) {
+          that.raiseEventWithPromise("gridColumnButtonClick", control.getIndex(), eventArgs);
+        };
+      };
+
+      that.onGridSelectionChange = function(control) {
+        return function(eventArgs) {
+          that.raiseEventWithPromise("gridSelectionChange", control.getIndex(), eventArgs);
+        };
+      };
+
+      that.onGridSelectionRowChange = function(control) {
+        return function(eventArgs) {
+          that.raiseEventWithPromise("gridSelectionRowChange", control.getIndex(), eventArgs);
+        };
+      };
 
       return that;
     };
