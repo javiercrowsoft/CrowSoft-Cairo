@@ -3879,23 +3879,24 @@
       //
 
       self.columnAfterEdit = function(key,  lRow,  lCol,  newValue,  newValueID) {
-        return true;
+        return Cairo.Promises.resolvedPromise(true);
       };
 
       self.columnBeforeEdit = function(key,  lRow,  lCol,  iKeyAscii) {
-        var _rtn = null;
+        var rtn = null;
+
         switch (key) {
           case K_WEB_CATALOGOS:
           case K_WEB_CATEGORIAS:
-            _rtn = lCol === 4 || lCol === 5;
+            rtn = lCol === 4 || lCol === 5;
             break;
 
           default:
-            _rtn = true;
+            rtn = true;
             break;
         }
 
-        return _rtn;
+        return Cairo.Promises.resolvedPromise(rtn);
       };
 
       self.columnButtonClick = function(key,  lRow,  lCol,  iKeyAscii) {
@@ -3938,11 +3939,11 @@
             break;
         }
 
-        return true;
+        return Cairo.Promises.resolvedPromise(true);
       };
 
       self.newRow = function(key,  rows) {
-
+        return Cairo.Promises.resolvedPromise(true);
       };
 
       self.validateRow = function(key,  row,  rowIndex) {
@@ -3988,7 +3989,7 @@
       };
 
       self.columnAfterUpdate = function(key,  lRow,  lCol) {
-        return true;
+        return Cairo.Promises.resolvedPromise(true);
       };
 
       self.columnClick = function(key,  lRow,  lCol) {
@@ -4002,6 +4003,7 @@
             editPriceList(Dialogs.cell(property.getGrid().getRows().item(lRow), KIK_PROV_LPI_ID).getId());
             break;
         }
+        return Cairo.Promises.resolvedPromise(false);
       };
 
       self.isEmptyRow = function(key,  row,  rowIndex) {
@@ -5717,7 +5719,6 @@
 
       var pSetKitLoteEnabled = function(enabled) {
         var property = null;
-
         var properties = m_dialog.getProperties();
 
         /*

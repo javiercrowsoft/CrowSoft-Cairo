@@ -1511,13 +1511,15 @@
             case Dialogs.PropertyType.select:
 
               var c = view.getSelects().get(property.getIndex());
-              c.setId(property.getSelectId());
 
               if(m_useSelectIntValue) {
-                c.setIntValue((property.getSelectIntValue() !== "") ? property.getSelectIntValue() : property.getSelectId());
+                c.setId(
+                  (property.getSelectIntValue() !== "")
+                  ? property.getSelectIntValue()
+                  : property.getSelectId());
               }
               else {
-                c.setIntValue(property.getSelectId());
+                c.setId(property.getSelectId());
               }
 
               c.setValue(property.getValue());
@@ -2352,7 +2354,10 @@
           m_menu.showPopupMenu();
         };
 
-        var implementsGrid = function(obj) { /* TODO: implements this. */ };
+        var implementsGrid = function(obj) {
+          return obj.columnAfterEdit !== undefined;
+        };
+
         var loadView = function(view, id) { /* TODO: implements this. */ };
         var loadViewConfiguration = function(view, id) { /* TODO: implements this. */ };
         var viewIsMaster = function(view) { /* TODO: implements this. */ };
@@ -3941,7 +3946,7 @@
             var property = getProperty(Dialogs.PropertyType.grid, index, 0);
             if(property !== null) {
               m_client.newRow(getPropertyKey(property), rowIndex).then(
-                function(rowIndex) {
+                function() {
                   setDefaults(property, rowIndex);
                 }
               );

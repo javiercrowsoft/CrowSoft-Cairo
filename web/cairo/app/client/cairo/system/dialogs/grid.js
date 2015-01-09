@@ -37,6 +37,12 @@
           c.setType(col.getType());
           c.setIsEditable(col.isEditable());
           c.setEnabled(col.getEnabled());
+
+          c.setSelectIntValue(col.getSelectIntValue());
+          c.setSelectFieldIntValue(col.getSelectFieldIntValue());
+          c.setSelectFilter(col.getSelectFilter());
+          c.setSelectTable(col.getSelectTable());
+          c.setSelectNoUseActive(col.getSelectNoUseActive());
         };
 
         if(!noChangeColumns || columns.count() !== grid.getColumns().count()) {
@@ -307,6 +313,9 @@
 
       that.getSelectFieldIntValue = function() {
         return self.selectFieldIntValue;
+      };
+      that.setSelectFieldIntValue = function(value) {
+        self.selectFieldIntValue = value;
       };
 
       that.getSelectFilter = function() {

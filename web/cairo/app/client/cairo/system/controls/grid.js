@@ -78,6 +78,14 @@
         enabled: false,
         isEditable: false,
 
+        selectId: 0,
+        selectFilter: '',
+        selectFieldIntValue: '',
+        selectIntValue: '',
+        selectNoUseActive: false,
+        selectType: Cairo.Entities.Select.SelectType.normal,
+        selectTable: 0,        
+
         defaultValue: null /* is a Grids.Cell object */
       };
 
@@ -117,6 +125,59 @@
         setIsEditable: function(isEditable) {
           self.isEditable = isEditable;
         },
+
+        // select
+        //
+        getSelectTable: function() {
+          return self.selectTable;
+        },
+        setSelectTable: function(table) {
+          self.selectTable = table;
+        },
+
+        getSelectId: function() {
+          return self.selectId;
+        },
+        setSelectId: function(id) {
+          self.selectId = id;
+        },
+
+        getSelectIntValue: function() {
+          return self.selectIntValue;
+        },
+        setSelectIntValue: function(value) {
+          self.selectIntValue = value;
+        },
+
+        getSelectFieldIntValue: function() {
+          return self.selectFieldIntValue;
+        },
+        setSelectFieldIntValue: function(value) {
+          self.selectFieldIntValue = value;
+        },
+
+        getSelectFilter: function() {
+          return self.selectFilter;
+        },
+        setSelectFilter: function(filter) {
+          self.selectFilter = filter;
+        },
+
+        getSelectType: function() {
+          return self.selectType;
+        },
+        setSelectType: function(type) {
+          self.selectType = type;
+        },
+
+        getSelectNoUseActive: function() {
+          return self.selectNoUseActive;
+        },
+        setSelectNoUseActive: function(value) {
+          self.selectNoUseActive = value;
+        },
+
+        //
 
         getDefault: function() {
           return self.defaultValue;
@@ -184,11 +245,10 @@
           onValidateRow: null,
           onNewRow: null,
           onDeleteRow: null,
-          onRowWasDeleted: null,
+          onAfterDeleteRow: null,
           onDblClick: null,
           onSelectionChange: null,
-          onSelectionRowChange: null,
-          onSelectionColChange: null
+          onSelectionRowChange: null
         }
       };
 
@@ -209,11 +269,10 @@
           case "onValidateRow":
           case "onNewRow":
           case "onDeleteRow":
-          case "onRowWasDeleted":
+          case "onAfterDeleteRow":
           case "onDblClick":
           case "onSelectionChange":
           case "onSelectionRowChange":
-          case "onSelectionColChange":
             self.listeners[eventName] = functionHandler;
             break;
           default:
@@ -224,19 +283,16 @@
       };
 
       var setListeners = function(view) {
-        addListener('onColumnBeforeEdit', view.onColumnBeforeEdit(that));
-        addListener('onColumnAfterEdit', view.onColumnAfterEdit(that));
-        addListener('onColumnCancelEdit', view.onColumnCancelEdit(that));
-        addListener('onColumnButtonClick', view.onColumnButtonClick(that));
-        addListener('onColumnClick', view.onColumnClick(that));
-        addListener('onValidateRow', view.onValidateRow(that));
-        addListener('onNewRow', view.onNewRow(that));
-        addListener('onDeleteRow', view.onDeleteRow(that));
-        addListener('onRowWasDeleted', view.onRowWasDeleted(that));
-        addListener('onDblClick', view.onDblClick(that));
-        addListener('onSelectionChange', view.onSelectionChange(that));
-        addListener('onSelectionRowChange', view.onSelectionRowChange(that));
-        addListener('onSelectionColChange', view.onSelectionColChange(that));
+        addListener('onColumnBeforeEdit', view.onGridColumnBeforeEdit(that));
+        addListener('onColumnAfterEdit', view.onGridColumnAfterEdit(that));
+        addListener('onColumnButtonClick', view.onGridColumnButtonClick(that));
+        addListener('onValidateRow', view.onGridValidateRow(that));
+        addListener('onNewRow', view.onGridNewRow(that));
+        addListener('onDeleteRow', view.onGridDeleteRow(that));
+        addListener('onAfterDeleteRow', view.onGridAfterDeleteRow(that));
+        addListener('onDblClick', view.onGridDblClick(that));
+        addListener('onSelectionChange', view.onGridSelectionChange(that));
+        addListener('onSelectionRowChange', view.onGridSelectionRowChange(that));
       };
 
       //
@@ -262,18 +318,71 @@
         }
       };
 
+      //
+      // event handlers for edition
+      //
+
+      var eventHandler = { };
+
+      eventHandler.onMaskEditChange = function(control) {
+        return function() {
+
+        };
+      };
+
+      eventHandler.onTextChange = function(control) {
+        return function() {
+
+        };
+      };
+
+      eventHandler.onTextAreaChange = function(control) {
+        return function() {
+
+        };
+      };
+
+      eventHandler.onSelectChange = function(control) {
+        return function() {
+
+        };
+      };
+      //
+      // end event handlers for edition
+      //
+
+
+      var createHtmlElement = function(control) {
+        var element = $(control.htmlTag);
+        control.setElement(element, eventHandler);
+      };
+
       var inputCtrl = null;
       var getInputCtrl = function() {
         if(inputCtrl === null) {
           inputCtrl = Cairo.Controls.createInput();
+          createHtmlElement(inputCtrl);
         }
         return inputCtrl;
+      };
+
+      var selectCtrl = null;
+      var getSelectCtrl = function() {
+        if(selectCtrl === null) {
+          selectCtrl = Cairo.Controls.createSelect();
+          createHtmlElement(selectCtrl);
+        }
+        return selectCtrl;
       };
 
       var getControl = function(col) {
         var ctrl = null;
         switch(col.getType()) {
-          case T.input:
+          case T.select:
+            ctrl = getSelectCtrl();
+            break;
+
+          case T.text:
             ctrl = getInputCtrl();
             break;
         }
@@ -291,16 +400,35 @@
           newValue = key;
         }
         switch(col.getType()) {
-          case T.input:
+          case T.select:
+            ctrl.setValue(newValue.text);
+            ctrl.setId(newValue.id);
+            ctrl.setIntValue(col.getSelectIntValue());
+            ctrl.setFieldIntValue(col.getSelectFieldIntValue());
+            ctrl.setFilter(col.getSelectFilter());
+            ctrl.setTable(col.getSelectTable());
+            ctrl.setSelectNoUseActive(col.getSelectNoUseActive());
+            ctrl.updateDefinition();
+            break;
+
+          case T.text:
             ctrl.setText(newValue);
             break;
         }
       };
 
       var getCurrentValue = function(type, row, col) {
-        var cell = self.rows.get(col);
+        var cell = self.rows.get(row).get(col);
         var value = "";
         switch(type) {
+          case T.select:
+          case T.list:
+            value = {
+              text: cell.getText(),
+              id: cell.getItemData()
+            };
+            break;
+
           case T.percentage:
             value = val(cell.getText()) * 100;
             break;
@@ -336,7 +464,13 @@
               $(td).html = getCheckboxIcon(info.newValue);
               break;
 
-            case T.input:
+            case T.select:
+              cell.setText(info.newValue.text);
+              cell.setItemData(info.newValue.id)
+              $(td).html(info.newValue);
+              break;
+
+            case T.text:
               cell.setText(info.newValue);
               $(td).html(info.newValue);
               break;
@@ -378,17 +512,18 @@
             );
           }
           else {
-            var ctrl = getControl(info.col);
+            var ctrl = getControl(col);
             setValue(ctrl, col, info.key, getCurrentValue(col.getType(), info.row, info.col));
-            $(info.td).html(ctrl);
+            $(td).html(ctrl.getElement());
           }
         }
       };
 
       var thenIfSuccessCall = function(f) {
-        return function(cancel) {
-          if(cancel === false) {
-            f.apply(null, Array.prototype.slice.call(arguments, 1));
+        var args = arguments;
+        return function(success) {
+          if(success === true) {
+            f.apply(null, Array.prototype.slice.call(args, 1));
           }
         };
       };
@@ -396,7 +531,7 @@
       var tdClickListener = function(e) {
         var td = e.target;
         var args = {
-          row: td.parentNode.rowIndex,
+          row: td.parentNode.rowIndex-1, /* first row contains headers */
           col: td.cellIndex,
           key: 0
         };

@@ -417,24 +417,54 @@
           updateData({ data: data }, true);
         };
 
-        var setId = function(id) { /* TODO: implement this. */ };
-        var setValue = function(value) { /* TODO: implement this. */ };
-        var setIntValue = function(value) { /* TODO: implement this. */ };
-        var setFieldIntValue = function(field) { /* TODO: implement this. */ };
-        var setFilter = function(filter) { /* TODO: implement this. */ };
-        var setTable = function(table) { /* TODO: implement this. */ };
-        var setEnabled = function(enable) { /* TODO: implement this. */ };
+        //
+        // interfaz used by the control created by Cairo.Controls.createSelect()
+        //
+        var _table = 0;
+        var _noUseActive = false;
+        var _filter = "";
+
+        //var setId = function(id) { /* TODO: implement this. */ };
+        //var setValue = function(value) { /* TODO: implement this. */ };
+        //var setIntValue = function(value) { /* TODO: implement this. */ };
+        //var setFieldIntValue = function(field) { /* TODO: implement this. */ };
+
+        var setFilter = function(filter) {
+          _filter = filter;
+        };
+
+        var setTable = function(table) {
+          _table = table;
+        };
+
+        //var setEnabled = function(enable) { /* TODO: implement this. */ };
+
+        var setNoUseActive = function(noUseActive) {
+          _noUseActive = noUseActive;
+        };
+
+        //
+        // the select controls used in dialogs gird needs to be able to
+        // redefine the table, active and filter parameters for this select
+        //
+        var updateDefinition = function() {
+          source = getSelectSource(_table, _noUseActive === false, _filter);
+          validateSource = getValidateSource(_table, _noUseActive === false, _filter);
+        };
+
 
         return {
           addListener: addListener,
           setData: setData,
-          setId: setId,
-          setValue: setValue,
-          setIntValue: setIntValue,
-          setFieldIntValue: setFieldIntValue,
+          //setId: setId,
+          //setValue: setValue,
+          //setIntValue: setIntValue,
+          //setFieldIntValue: setFieldIntValue,
           setFilter: setFilter,
           setTable: setTable,
-          setEnabled: setEnabled
+          //setEnabled: setEnabled,
+          setNoUseActive: setNoUseActive,
+          updateDefinition: updateDefinition
         };
 
       };
@@ -446,19 +476,27 @@
           @internalFilter:  allows to define flags for especial cases
       */
       var createSelectControl = function(selector, tableId, active, internalFilter) {
-        return createControl(
+        var ctrl = createControl(
           selector,
           getSelectSource(tableId, active, internalFilter),
           getValidateSource(tableId, active, internalFilter)
         );
+        ctrl.setTable(tableId);
+        ctrl.setNoUseActive(active === false);
+        ctrl.setFilter(internalFilter);
+        return ctrl;
       };
 
       var createSearchControl = function(selector, tableId, active, internalFilter) {
-        return createControl(
+        var ctrl = createControl(
           selector,
           getSearchSource(tableId, active, internalFilter),
           getValidateSource(tableId, active, internalFilter)
         );
+        ctrl.setTable(tableId);
+        ctrl.setNoUseActive(active === false);
+        ctrl.setFilter(internalFilter);
+        return ctrl;
       };
 
       var validate = function(tableId, nameOrCode, id, active, internalFilter) {
@@ -641,9 +679,17 @@
       };
       that.setFilter = function(filter) {
         self.filter = filter !== "" ? filter : "-";
+        var element = self.select;
+        if(element) {
+          element.setFilter(self.filter);
+        }
       };
       that.setTable = function(table) {
         self.table = table;
+        var element = self.select;
+        if(element) {
+          element.setTable(self.table);
+        }
       };
       that.setEnabled = function(enabled) {
         self.enabled = enabled;
@@ -658,9 +704,28 @@
 
       that.setSelectNoUseActive = function(noUseActive) {
         self.noUseActive = noUseActive;
+        var element = self.select;
+        if(element) {
+          element.setNoUseActive(self.noUseActive);
+        }
       };
 
-      that.reset = function() { /* TODO: implement this. */ }
+      that.reset = function() {
+        self.id = 0;
+        self.value = "";
+        self.intValue = "";
+        var element = self.select;
+        if(element) {
+          element.setData(0, "", "");
+        }
+      };
+
+      that.updateDefinition = function() {
+        var element = self.select;
+        if(element) {
+          element.updateDefinition();
+        }
+      };
 
       return that;
     };
