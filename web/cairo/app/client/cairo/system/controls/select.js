@@ -31,7 +31,7 @@
                   jQuery UI requires that "items" has to be an array of objects {label, value}
                   and that is not what we want.
 
-                  we create items as an array of only one element with have an object with four
+                  we create items as an array of only one element which has an object with four
                   properties {label, value, columns, rows}. the label and value properties aren't
                   used.
 
@@ -52,6 +52,7 @@
                     // the first time the ul hasn't set the width property so we use the width of the input
                     //
                     var width = ul.width() === 0 ? self.element.width() : ul.width();
+                    width = width > 500 ? width : 500;
                     width = (width-50) / self.options.columns.length;
                     $.each(items[0].columns, function(index, item) {
                         table.append('<span class="capitalize" style="padding:0 4px;float:left;width:' + width + 'px;">' +
@@ -402,6 +403,10 @@
           }
         };
 
+        var focus = function() {
+          selectController.control.focus();
+        };
+
         var setData = function(id, text, code) {
           var data = id ? { id: id, values: [text || "", code || ""] } : null;
 
@@ -456,6 +461,7 @@
         return {
           addListener: addListener,
           setData: setData,
+          focus: focus,
           //setId: setId,
           //setValue: setValue,
           //setIntValue: setIntValue,
@@ -724,6 +730,13 @@
         var element = self.select;
         if(element) {
           element.updateDefinition();
+        }
+      };
+
+      that.focus = function() {
+        var element = self.select;
+        if(element) {
+          element.focus();
         }
       };
 

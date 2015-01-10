@@ -160,6 +160,21 @@ div.tree-select-dialog.ui-widget-content {
   border-left: 1px solid #464545 !important;
 }
 
+#tree-list-headers {
+  background-color: #353535;
+  border-top: 1px solid #505050;
+  border-left: 1px solid #505050;
+  border-right: 1px solid #505050;
+}
+
+#tree-list-headers th {
+  border-bottom: 1px solid #505050;
+}
+
+.dataTables_scrollHead {
+  padding-bottom: 10px;
+}
+
 .tree-select-control-search {
   padding-top: 5px;
   padding-right: 30px;

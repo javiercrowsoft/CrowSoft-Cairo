@@ -239,6 +239,7 @@
         listeners: {
           onColumnBeforeEdit: null,
           onColumnAfterEdit: null,
+          onColumnAfterUpdate: null,
           onColumnCancelEdit: null,
           onColumnButtonClick: null,
           onColumnClick: null,
@@ -249,7 +250,10 @@
           onDblClick: null,
           onSelectionChange: null,
           onSelectionRowChange: null
-        }
+        },
+
+        editInfo: null,
+        newRow: null
       };
 
       //
@@ -263,6 +267,7 @@
         switch(eventName) {
           case "onColumnBeforeEdit":
           case "onColumnAfterEdit":
+          case "onColumnAfterUpdate":
           case "onColumnCancelEdit":
           case "onColumnButtonClick":
           case "onColumnClick":
@@ -285,6 +290,7 @@
       var setListeners = function(view) {
         addListener('onColumnBeforeEdit', view.onGridColumnBeforeEdit(that));
         addListener('onColumnAfterEdit', view.onGridColumnAfterEdit(that));
+        addListener('onColumnAfterUpdate', view.onGridColumnAfterUpdate(that));
         addListener('onColumnButtonClick', view.onGridColumnButtonClick(that));
         addListener('onValidateRow', view.onGridValidateRow(that));
         addListener('onNewRow', view.onGridNewRow(that));
@@ -312,9 +318,12 @@
 
       var raiseEventAndThen = function(event, eventArg, thenCall) {
         if(self.listeners[event] !== null) {
-          self.listeners[event](eventArg).then(
+          return self.listeners[event](eventArg).then(
             thenCall
           );
+        }
+        else {
+          return Cairo.Promises.resolvedPromise(false);
         }
       };
 
@@ -347,6 +356,7 @@
 
         };
       };
+
       //
       // end event handlers for edition
       //
@@ -377,26 +387,85 @@
 
       var getControl = function(col) {
         var ctrl = null;
-        switch(col.getType()) {
-          case T.select:
-            ctrl = getSelectCtrl();
-            break;
+        try {
+          switch (col.getType()) {
+            case T.select:
+              ctrl = getSelectCtrl();
+              break;
 
-          case T.text:
-            ctrl = getInputCtrl();
-            break;
+            case T.text:
+              ctrl = getInputCtrl();
+              break;
+          }
+        }
+        catch(ignore) {
+          Cairo.log("Error when getting control for col\n\n" + ignore.message);
         }
         return ctrl;
       };
 
-      var endEdit = function() {
+      var getRow = function(row) {
+        if(self.rows.count() > row) {
+          return self.rows.get(row);
+        }
+        else {
+          return self.newRow;
+        }
+      };
 
+      //
+      // this function is called when the user clicks in any cell of the table
+      // if there was an edition in progress it completes the work
+      //
+      var endEdit = function() {
+        var p = null;
+        var info = self.editInfo;
+        if(info !== null) {
+          try {
+
+            var col = self.columns.getOrElse(info.col, null);
+            if (col !== null) {
+
+              var ctrl = getControl(col);
+              var td = info.td;
+              var newValue = "";
+
+              switch (col.getType()) {
+                case T.select:
+                  newValue = {
+                    text: ctrl.getValue(),
+                    id: ctrl.getId()
+                  };
+                  break;
+
+                case T.text:
+                  newValue = ctrl.getText();
+                  break;
+              }
+              var args = {
+                row: info.row,
+                col: info.col,
+                newValue: newValue
+              };
+              p = raiseEventAndThen(
+                'onColumnAfterEdit',
+                args,
+                thenIfSuccessCall(updateCell, args, td)
+              );
+            }
+          }
+          catch(ex) {
+            Cairo.manageErrorEx(ex.message, ex, "endEdit", "Cairo.Controls.Grid", "");
+          }
+          self.editInfo = null;
+        }
+        return p || Cairo.Promises.resolvedPromise(true);
       };
 
       var setValue = function(ctrl, col, key, currentValue) {
         var newValue = currentValue;
         var chars = "abcdefghijklmnopqrstuvwxyz�+-0123456789";
-        if(chars.indexOf(key) >= 0) {
+        if(key !== "" && chars.indexOf(key) >= 0) {
           newValue = key;
         }
         switch(col.getType()) {
@@ -418,7 +487,7 @@
       };
 
       var getCurrentValue = function(type, row, col) {
-        var cell = self.rows.get(row).get(col);
+        var cell = getRow(row).get(col);
         var value = "";
         switch(type) {
           case T.select:
@@ -449,41 +518,67 @@
         );
       };
 
-      var updateCell = function(info, td) {
-        var col = self.columns.getOrElse(info.col, null);
-
-        if(!validateCol(col)) {
-          endEdit();
-          return false;
+      var hideControlForCol = function(col) {
+        var ctrl = getControl(col);
+        if(ctrl !== null) {
+          $(ctrl.getElement()).detach();
         }
-        else {
-          var cell = self.rows.get(col);
-          switch(col.getType()) {
-            case T.check:
-              cell.setText(info.newValue);
-              $(td).html = getCheckboxIcon(info.newValue);
-              break;
+      };
 
-            case T.select:
-              cell.setText(info.newValue.text);
-              cell.setItemData(info.newValue.id)
-              $(td).html(info.newValue);
-              break;
+      var updateCell = function(info, td) {
+        try {
+          var col = self.columns.getOrElse(info.col, null);
 
-            case T.text:
-              cell.setText(info.newValue);
-              $(td).html(info.newValue);
-              break;
+          //
+          // if the column is not valid we do nothing but hide the edit control
+          //
+          if (!validateCol(col)) {
+            hideControlForCol(col);
+            return false;
           }
-          var args = {
-            row: info.row,
-            col: info.col,
-            newValue: info.newValue
-          };
-          raiseEvent(
-            'ColumnAfterUpdate',
-            args
-          );
+          //
+          // if the column is valid we update the cell and the TD
+          //
+          else {
+            //
+            // first hide the control
+            // then set td value
+            // and finally raise event ColumnAfterEdit
+            //
+            hideControlForCol(col);
+
+            var cell = getRow(info.row).get(info.col);
+            switch (col.getType()) {
+              case T.check:
+                cell.setText(info.newValue);
+                $(td).html = getCheckboxIcon(info.newValue);
+                break;
+
+              case T.select:
+                cell.setText(info.newValue.text);
+                cell.setItemData(info.newValue.id)
+                $(td).html(info.newValue.text);
+                break;
+
+              case T.text:
+                cell.setText(info.newValue);
+                $(td).html(info.newValue);
+                break;
+            }
+
+            var args = {
+              row: info.row,
+              col: info.col,
+              newValue: info.newValue
+            };
+            raiseEvent(
+              'onColumnAfterUpdate',
+              args
+            );
+          }
+        }
+        catch(ex) {
+          Cairo.manageErrorEx(ex.message, ex, "endEdit", "Cairo.Controls.Grid", "");
         }
 
       };
@@ -491,12 +586,23 @@
       var edit = function(info, td) {
         var col = self.columns.getOrElse(info.col, null);
 
-        if(!validateCol(col)) {
-          endEdit();
+        //
+        // if the column is not valid we do nothing but hide the edit control
+        //
+        if (!validateCol(col)) {
+          hideControlForCol(col);
           return false;
         }
+        //
+        // if the column is valid we have to cases:
+        // - boolean values are edited by the clic turning on/off the value of the cell
+        // - all other inputs are managed by an edit control (select, input text, input number, list, dates, etc)
+        //
         else {
           var type = col.getType();
+          //
+          // boolean cell
+          //
           if(type === T.check) {
             var curValue = val(getCurrentValue(type, info.row, info.col));
             var newValue = curValue !== 0 ? 0 : Cairo.boolToInt(true);
@@ -505,16 +611,33 @@
               col: info.col,
               newValue: newValue
             };
+            //
+            // first we raise ColumnAfterEdit then we update the cell
+            //
             raiseEventAndThen(
               'onColumnAfterEdit',
               args,
               thenIfSuccessCall(updateCell, args, td)
             );
           }
+          //
+          // all other columns
+          //
           else {
+            //
+            // get the edit control and start the edition
+            //
             var ctrl = getControl(col);
-            setValue(ctrl, col, info.key, getCurrentValue(col.getType(), info.row, info.col));
-            $(td).html(ctrl.getElement());
+            if(ctrl !== null) {
+              setValue(ctrl, col, info.key, getCurrentValue(col.getType(), info.row, info.col));
+              $(td).html(ctrl.getElement());
+              ctrl.focus();
+              self.editInfo = {
+                td: td,
+                row: info.row,
+                col: info.col
+              }
+            }
           }
         }
       };
@@ -528,18 +651,39 @@
         };
       };
 
+      var clickInSameColumn = function(info) {
+        return self.editInfo !== null && info.col === self.editInfo.col && info.row === self.editInfo.row;
+      };
+
       var tdClickListener = function(e) {
-        var td = e.target;
-        var args = {
-          row: td.parentNode.rowIndex-1, /* first row contains headers */
-          col: td.cellIndex,
-          key: 0
-        };
-        raiseEventAndThen(
-          'onColumnBeforeEdit',
-          args,
-          thenIfSuccessCall(edit, args, td)
-        );
+        //
+        // only clicks in TD elements
+        //
+        if(e.target.tagName === "TD") {
+          var td = e.target;
+          var args = {
+            row: td.parentNode.rowIndex - 1, /* first row contains headers */
+            col: td.cellIndex,
+            key: ""
+          };
+          if (!clickInSameColumn(args)) {
+            //
+            // first end any pending edition
+            //
+            endEdit().then(
+              function() {
+                //
+                // next prepare to start editing this cell
+                //
+                raiseEventAndThen(
+                  'onColumnBeforeEdit',
+                  args,
+                  thenIfSuccessCall(edit, args, td)
+                );
+              }
+            );
+          }
+        }
       };
 
       //
@@ -637,6 +781,8 @@
           self.columns.each(addToEmptyRow, emptyRow.getCells());
           emptyRow.getCells().get(0).setText("<i class='glyphicon glyphicon-asterisk glyphicon-new'></i>");
           body.append(createTR(emptyRow.getCells(), 'dialog-tr', getValue));
+
+          self.newRow = emptyRow;
         }
 
         $("tr td", body).on("click", tdClickListener);
@@ -693,10 +839,10 @@
       that.setRowMode = function(rowMode) { /* TODO = implement this. */ };
 
       that.cellText = function(row, col) {
-        return self.rows.get(row).get(col).getText();
+        return getRow(row).get(col).getText();
       };
       that.cell = function(row, col) {
-        return self.rows.get(row).get(col);
+        return getRow(row).get(col);
       };
 
       that.setColumnWidth = function(col, width) { /* TODO = implement this. */ };

@@ -53,6 +53,7 @@
         var createCell = function(cell, index, row) {
           var c = row.getCells().add();
           c.setText(cell.getValue());
+          c.setItemData(cell.getId());
         };
 
         //

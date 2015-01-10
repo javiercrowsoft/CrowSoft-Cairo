@@ -4035,7 +4035,7 @@
         };
 
         var columnIsEditable = function(property, colIndex) {
-          return property.getGrid().getColumns().get(colIndex).getColumnIsEditable();
+          return property.getGrid().getColumns().get(colIndex).isEditable();
         };
 
         var processVirtualRow = function(property, index, rowIndex, colIndex, propertyKey) {
@@ -4311,7 +4311,7 @@
 
         var createRowIfNotExists = function(property, index, rowIndex) {
           var rows = property.getGrid().getRows();
-          var row = rows.get(rowIndex);
+          var row = rows.getOrElse(rowIndex, null);
           if(row === null) {
             row = createRow(index, property, rowIndex);
             rows.add(row);
@@ -4504,7 +4504,7 @@
 
         var getKeyFromRowValue = function(rows, rowIndex, colIndex) {
           var key = "";
-          if(rows.count() >= rowIndex && rows.get(rowIndex).count() >= colIndex) {
+          if(rows.count() > rowIndex && rows.get(rowIndex).count() > colIndex) {
             var cell = rows.get(rowIndex).get(colIndex);
             if(cell !== null) {
               key = cell.getKey();
@@ -4514,20 +4514,22 @@
         };
 
         var createRow = function(index, property, rowIndex) {
-          var colIndex = 0;
           var row = Dialogs.Grids.createRow();
           var cell = null;
+          var columns = property.getGrid().getColumns();
+          var rows = property.getGrid().getRows();
+          var gridCtrl = getView().getGrids().get(index);
 
-          var count = property.getGrid().getColumns().count();
+          var count = columns.count();
           for(var _i = 0; _i < count; _i++) {
 
-            var col = property.getGrid().getColumns().get(_i);
-            colIndex = colIndex + 1;
-            if(colIndex === 1) {
+            var col = columns.get(_i);
+
+            if(_i === 0) {
               cell = row.add(null, Dialogs.Constants.keyRowItem);
             }
             else {
-              var key = getKeyFromRowValue(property.getGrid().getRows(), rowIndex, colIndex);
+              var key = getKeyFromRowValue(rows, rowIndex, _i);
               if(key !== "") {
                 cell = row.add(null, key);
               }
@@ -4536,7 +4538,7 @@
               }
             }
 
-            var gridCell = getView().getGrids().get(index).cell(rowIndex, colIndex);
+            var gridCell = gridCtrl.cell(rowIndex, _i);
             cell.setId(gridCell.getItemData());
             cell.setSelectIntValue(gridCell.getTag());
 
@@ -4549,7 +4551,7 @@
             else {
               cell.setValue(gridCell.getText());
             }
-            cell.Key = col.Key;
+            cell.setKey(col.getKey());
           }
 
           return row;

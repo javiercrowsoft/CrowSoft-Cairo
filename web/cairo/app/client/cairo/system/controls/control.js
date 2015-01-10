@@ -186,6 +186,10 @@
           self.fontItalic = italic;
         },
 
+        focus: function() {
+          $(self.element).focus().select();
+        },
+
         flash: function() {
           if(self.element) {
             self.element.delay(100).fadeOut().fadeIn('slow');
