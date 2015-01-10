@@ -6,7 +6,7 @@
     <ignored path=".idea/workspace.xml" />
     <file path="/grid.js" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1420850366103" ignored="false" />
     <file path="/control.js" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1420844552710" ignored="false" />
-    <file path="/select.js" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1420844176703" ignored="false" />
+    <file path="/select.js" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1420852887523" ignored="false" />
     <file path="/dialog.js" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1420852236234" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -35,26 +35,26 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="dialog.js" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="dialog.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/system/dialogs/dialog.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="4541" column="61" selection-start="145954" selection-end="145954" vertical-scroll-proportion="0.67625135">
+            <state line="4541" column="61" selection-start="145954" selection-end="145954" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="select.js" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="select.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/system/controls/select.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="359" column="29" selection-start="13770" selection-end="13770" vertical-scroll-proportion="-7.740741">
+            <state line="457" column="20" selection-start="17075" selection-end="17075" vertical-scroll-proportion="0.5833333">
               <folding>
-                <marker date="1420844180000" expanded="false" signature="1292:1302" placeholder="..." />
-                <marker date="1420844180000" expanded="false" signature="1555:1565" placeholder="..." />
-                <marker date="1420844180000" expanded="false" signature="2252:2283" placeholder="..." />
-                <marker date="1420844180000" expanded="false" signature="2425:2437" placeholder="..." />
-                <marker date="1420844180000" expanded="false" signature="3310:3341" placeholder="..." />
-                <marker date="1420844180000" expanded="false" signature="3664:3676" placeholder="..." />
+                <marker date="1420852891000" expanded="false" signature="1292:1302" placeholder="..." />
+                <marker date="1420852891000" expanded="false" signature="1555:1565" placeholder="..." />
+                <marker date="1420852891000" expanded="false" signature="2252:2283" placeholder="..." />
+                <marker date="1420852891000" expanded="false" signature="2425:2437" placeholder="..." />
+                <marker date="1420852891000" expanded="false" signature="3310:3341" placeholder="..." />
+                <marker date="1420852891000" expanded="false" signature="3664:3676" placeholder="..." />
               </folding>
             </state>
           </provider>
@@ -79,10 +79,10 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/system/controls/select.js" />
         <option value="$PROJECT_DIR$/system/controls/control.js" />
         <option value="$PROJECT_DIR$/system/controls/grid.js" />
         <option value="$PROJECT_DIR$/system/dialogs/dialog.js" />
+        <option value="$PROJECT_DIR$/system/controls/select.js" />
       </list>
     </option>
   </component>
@@ -314,20 +314,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/system/controls/select.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="359" column="29" selection-start="13770" selection-end="13770" vertical-scroll-proportion="-7.740741">
-          <folding>
-            <marker date="1420844180000" expanded="false" signature="1292:1302" placeholder="..." />
-            <marker date="1420844180000" expanded="false" signature="1555:1565" placeholder="..." />
-            <marker date="1420844180000" expanded="false" signature="2252:2283" placeholder="..." />
-            <marker date="1420844180000" expanded="false" signature="2425:2437" placeholder="..." />
-            <marker date="1420844180000" expanded="false" signature="3310:3341" placeholder="..." />
-            <marker date="1420844180000" expanded="false" signature="3664:3676" placeholder="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/system/controls/control.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="189" column="42" selection-start="4756" selection-end="4756" vertical-scroll-proportion="0.0">
@@ -351,8 +337,22 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/system/dialogs/dialog.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="4541" column="61" selection-start="145954" selection-end="145954" vertical-scroll-proportion="0.67625135">
+        <state line="4541" column="61" selection-start="145954" selection-end="145954" vertical-scroll-proportion="0.0">
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/system/controls/select.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="457" column="20" selection-start="17075" selection-end="17075" vertical-scroll-proportion="0.5833333">
+          <folding>
+            <marker date="1420852891000" expanded="false" signature="1292:1302" placeholder="..." />
+            <marker date="1420852891000" expanded="false" signature="1555:1565" placeholder="..." />
+            <marker date="1420852891000" expanded="false" signature="2252:2283" placeholder="..." />
+            <marker date="1420852891000" expanded="false" signature="2425:2437" placeholder="..." />
+            <marker date="1420852891000" expanded="false" signature="3310:3341" placeholder="..." />
+            <marker date="1420852891000" expanded="false" signature="3664:3676" placeholder="..." />
+          </folding>
         </state>
       </provider>
     </entry>
