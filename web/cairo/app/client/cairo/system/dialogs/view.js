@@ -484,6 +484,12 @@
         };
       };
 
+      that.onDateChange = function(control) {
+        return function() {
+          that.raiseEvent("dateChange", control.getIndex());
+        };
+      };
+
       that.onTextChange = function(control) {
         return function() {
           that.raiseEvent("textChange", control.getIndex());

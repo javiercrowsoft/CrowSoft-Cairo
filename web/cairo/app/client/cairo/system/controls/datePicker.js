@@ -9,21 +9,52 @@
     };
 
     var createDatePicker = function() {
+
+      var NO_DATE = Cairo.Constants.NO_DATE;
+
       var self = {
         urlRoot: "",
   
         defaults: {},
   
-        value: new Date(1990, 1, 1, 0, 0, 0, 0),
-        type: Controls.DatePickerType
+        value: Cairo.Constants.NO_DATE,
+        type: Controls.DatePickerType.date
       };
 
       var that = Controls.createControl();
 
-      that.htmlTag = "<input/>";
+      that.htmlTag = '<input class="datepicker">';
+
+      var superSetElement = that.setElement;
+
+      that.setElement = function(element, view) {
+        superSetElement(element);
+        element.val(self.value);
+        element.addClass("dialog-control dialog-input-control");
+        $(element).datepicker({
+          showButtonPanel: true,
+          beforeShow: function(input) {
+            window.setTimeout(function() {
+              $('.ui-datepicker-current').removeClass().addClass('btn btn-info pull-left');
+              $('.ui-datepicker-close').removeClass().addClass('btn btn-success');
+            }, 10);
+          }
+        });
+        var onChange = view.onDateChange(that);
+        element.change(function() {
+          that.setValue(element.val());
+          onChange();
+        });
+      };
+
+      var getDateFormatted = Cairo.Util.getDateFormatted;
 
       that.setValue = function(value) {
         self.value = value;
+        var element = that.getElement();
+        if(element) {
+          element.val(getDateFormatted(self.value));
+        }
       };
       that.getValue = function() {
         return self.value;

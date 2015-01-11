@@ -302,3 +302,49 @@ div.tree-select-dialog.ui-widget-content {
 i.glyphicon-new {
   font-size: 0.8em;
 }
+
+/*------- jQuery issues ------------*/
+.ui-datepicker{
+  position: relative;
+  z-index: 9999 !important;
+} /* to avoid the calendar to be overlaped by other elements */
+
+/* Interaction states
+----------------------------------*/
+/*
+.ui-state-default,
+.ui-widget-content .ui-state-default,
+.ui-widget-header .ui-state-default {
+	border: 1px solid #77d5f7;
+	background: white;
+	font-weight: normal;
+	color: black;
+}*/
+
+
+.ui-datepicker td span, .ui-datepicker td a {
+  color: black !important;
+  background: white !important;
+  border: none !important;
+}
+
+.ui-datepicker td a:hover {
+  color: black !important;
+  background: #cecece !important;
+  border: none !important;
+}
+
+/*
+.ui-datepicker td span, .ui-datepicker td a {
+  display: block;
+  padding: .2em;
+  text-align: right;
+  text-decoration: none;
+  color: black !important;
+  background: white !important;
+  border: none !important;
+}
+*/
+
+/*.ui-datepicker-calendar{ z-index: 9999 !important; } // to avoid the calendar to be overlaped by other elements
+.hasDatepicker { position: relative; z-index: 9999; }*/

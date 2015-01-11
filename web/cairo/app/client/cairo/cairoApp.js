@@ -317,10 +317,12 @@ var Cairo = new Marionette.Application();
 
   };
 
+  var NO_DATE = new Date("1900-01-01T00:00:00Z");
+
   Cairo.Constants = {
     NO_ID: 0,
     NEW_ID: 0,
-    NO_DATE: new Date("1900-01-01T00:00:00Z"),
+    NO_DATE: NO_DATE,
     NUMBER_ID: '_number_id_',
     STATUS_ID: '_status_id_',
 
@@ -373,16 +375,27 @@ var Cairo = new Marionette.Application();
     footer: 'Footer'
   };
 
+  var isDate = function(date) {
+    return (! isNaN(new Date(date).valueOf()));
+  };
+
   Cairo.Util = {
     sendKeys: function(key) { /* TODO: implement this. */ },
     getDateValueForGrid: function(value) { /* TODO: implement this. */ },
     getDateValueFromGrid: function(value) { /* TODO: implement this. */ },
+    getDateFormatted: function(date) {
+      if(date === "") {
+        return "";
+      }
+      else {
+        date = new Date(date);
+        return date.getTime() === NO_DATE.getTime() || !isDate(date) ? "" : $.datepicker.formatDate("dd/mm/yy", date);
+      }
+    },
     getDateValue: function(value) {
       return new Date(value.toString());
     },
-    isDate: function(date) {
-      return (! isNaN(new Date(date).valueOf()));
-    },
+    isDate: isDate,
     val: function(value) {
       try {
         return parseFloat(value);

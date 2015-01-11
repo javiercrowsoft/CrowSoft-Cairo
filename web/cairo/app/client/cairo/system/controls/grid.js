@@ -339,6 +339,12 @@
         };
       };
 
+      eventHandler.onDateChange = function(control) {
+        return function() {
+
+        };
+      };
+
       eventHandler.onTextChange = function(control) {
         return function() {
 
@@ -385,6 +391,15 @@
         return selectCtrl;
       };
 
+      var dateCtrl = null;
+      var getDateCtrl = function() {
+        if(dateCtrl === null) {
+          dateCtrl = Cairo.Controls.createDatePicker();
+          createHtmlElement(dateCtrl);
+        }
+        return dateCtrl;
+      };
+
       var getControl = function(col) {
         var ctrl = null;
         try {
@@ -396,10 +411,15 @@
             case T.text:
               ctrl = getInputCtrl();
               break;
+
+            case T.date:
+            case T.time:
+              ctrl = getDateCtrl();
+              break;
           }
         }
         catch(ignore) {
-          Cairo.log("Error when getting control for col\n\n" + ignore.message);
+          Cairo.logError("Error when getting control for col\n\n" + ignore.message, ignore);
         }
         return ctrl;
       };
@@ -440,6 +460,11 @@
 
                 case T.text:
                   newValue = ctrl.getText();
+                  break;
+
+                case T.date:
+                case T.time:
+                  newValue = ctrl.getValue();
                   break;
               }
               var args = {
@@ -482,6 +507,11 @@
 
           case T.text:
             ctrl.setText(newValue);
+            break;
+
+          case T.date:
+          case T.time:
+            ctrl.setValue(newValue);
             break;
         }
       };
@@ -551,7 +581,7 @@
             switch (col.getType()) {
               case T.check:
                 cell.setText(info.newValue);
-                $(td).html = getCheckboxIcon(info.newValue);
+                $(td).html(getCheckboxIcon(info.newValue));
                 break;
 
               case T.select:
@@ -561,6 +591,8 @@
                 break;
 
               case T.text:
+              case T.date:
+              case T.time:
                 cell.setText(info.newValue);
                 $(td).html(info.newValue);
                 break;
@@ -605,7 +637,7 @@
           //
           if(type === T.check) {
             var curValue = val(getCurrentValue(type, info.row, info.col));
-            var newValue = curValue !== 0 ? 0 : Cairo.boolToInt(true);
+            var newValue = curValue !== 0 ? 0 : Cairo.Util.boolToInt(true);
             var args = {
               row: info.row,
               col: info.col,
@@ -659,8 +691,9 @@
         //
         // only clicks in TD elements
         //
-        if(e.target.tagName === "TD") {
-          var td = e.target;
+        var tagName = e.target.tagName;
+        if(tagName === "TD" || tagName === "I") {
+          var td = tagName === "TD" ? e.target : e.target.parentNode;
           var args = {
             row: td.parentNode.rowIndex - 1, /* first row contains headers */
             col: td.cellIndex,
@@ -716,9 +749,7 @@
           return cell.getText();
         };
 
-        var getDateFormatted = function(date) {
-          return (new Date(date)).getTime() === NO_DATE.getTime() ? "" :  $.datepicker.formatDate("dd/mm/yy", date);
-        };
+        var getDateFormatted = Cairo.Util.getDateFormatted;
 
         var getValue = function(cell, col) {
           switch(col.getType()) {
