@@ -72,6 +72,10 @@
         }
       };
       that.getText = function() {
+        var element = that.getElement();
+        if(element) {
+          self.text = element.val();
+        }
         return self.text;
       };
 

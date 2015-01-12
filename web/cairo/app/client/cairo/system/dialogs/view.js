@@ -51,7 +51,7 @@
         var control = view.controls.item(i);
         if(!Controls.isTab(control)) {
           var element = $(control.htmlTag);
-          var clazz = control.getObjectType() === 'cairo.controls.grid' ? "col-lg-7 col-md-9 col-sm-12" : "col-lg-4 col-md-5 col-sm-7";
+          var clazz = control.getObjectType() === 'cairo.controls.grid' ? "col-lg-12 col-md-12 col-sm-12" : "col-lg-4 col-md-5 col-sm-7";
           control.setElement(element, viewManager);
           form.append(newRow(element, clazz));
         }

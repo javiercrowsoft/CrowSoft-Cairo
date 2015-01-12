@@ -134,7 +134,8 @@
            onValidate: []
           },
           data: null,
-          control: null
+          control: null,
+          listIsOpen: false
         };
 
         /*
@@ -254,8 +255,10 @@
           _.each(selectController.listeners.onValidate, raiseEvent(e));
         };
 
-        $(selector).blur(function() {
+        var validate = function() {
           var self = this;
+
+          var defer = null;
 
           var invalidateData = function(highlight) {
             if(highlight) {
@@ -321,6 +324,8 @@
                         );
               Cairo.log("validating: " + url);
 
+              defer = new Cairo.Promises.Defer();
+
               $.ajax({
                 url: url
                 ,cache: false
@@ -342,6 +347,11 @@
                   $(self).data("validating-data", null);
                   raiseOnValidate( { data: $(self).data("validated-data") } );
                   updateData( { data: $(self).data("validated-data") } );
+
+                  //
+                  // the promise is used to serialize the asynchronous call
+                  //
+                  defer.resolve();
                 }
                 ,error: function(request, status, error) {
                   invalidateData(true);
@@ -354,11 +364,28 @@
                   $(self).data("validating-data", null);
                   raiseOnValidate( { data: $(self).data("validated-data") } );
                   updateData( { data: $(self).data("validated-data") } );
+
+                  //
+                  // the promise is used to serialize the asynchronous call
+                  //
+                  defer.resolve();
                 }
               });
             }
           }
-        });
+
+          return (defer !== null ? defer.promise : Cairo.Promises.resolvedPromise());
+        };
+
+        var listIsOpen = function() {
+          return selectController.listIsOpen;
+        };
+
+        var setListIsOpen = function(isOpen) {
+          selectController.listIsOpen = isOpen;
+        };
+
+        $(selector).blur(validate);
 
         // create the select control
         //
@@ -386,6 +413,12 @@
               updateData( { data: null } );
             }
             return false;
+          },
+          close: function(event, ui) {
+            setListIsOpen(false);
+          },
+          open: function(event, ui) {
+            setListIsOpen(true);
           }
         });
 
@@ -407,6 +440,10 @@
           selectController.control.focus();
         };
 
+        var select = function() {
+          selectController.control.select();
+        };
+
         var setData = function(id, text, code) {
           var data = id ? { id: id, values: [text || "", code || ""] } : null;
 
@@ -417,9 +454,22 @@
           if(data) {
             value = data.values[0];
           }
+          else {
+            value = text;
+          }
           selectController.control.val(value);
 
           updateData({ data: data }, true);
+        };
+
+        var getValue = function() {
+          var data = selectController.control.data("validated-data");
+          return (data ? data.values[0] : "");
+        };
+
+        var getId = function() {
+          var data = selectController.control.data("validated-data");
+          return (data ? data.id : "0");
         };
 
         //
@@ -458,11 +508,13 @@
           $(selector).removeClass("select-invalid-input");
         };
 
-
         return {
           addListener: addListener,
           setData: setData,
+          getValue: getValue,
+          getId: getId,
           focus: focus,
+          select: select,
           //setId: setId,
           //setValue: setValue,
           //setIntValue: setIntValue,
@@ -471,7 +523,11 @@
           setTable: setTable,
           //setEnabled: setEnabled,
           setNoUseActive: setNoUseActive,
-          updateDefinition: updateDefinition
+          updateDefinition: updateDefinition,
+          validate: function() {
+            return validate.apply($(selector)[0]);
+          },
+          listIsOpen: listIsOpen
         };
 
       };
@@ -653,6 +709,10 @@
         }
       };
       that.getValue = function() {
+        var element = self.select;
+        if(element) {
+          self.value = element.getValue();
+        }
         return self.value;
       };
 
@@ -664,6 +724,10 @@
       };
 
       that.getId = function() {
+        var element = self.select;
+        if(element) {
+          self.id = element.getId();
+        }
         return self.id;
       };
       that.setId = function(id) {
@@ -734,10 +798,31 @@
         }
       };
 
+      that.validate = function() {
+        var p = null;
+        var element = self.select;
+        if(element) {
+          p = element.validate();
+        }
+        return p || Cairo.Promises.resolvedPromise();
+      };
+
+      that.listIsOpen = function() {
+        var element = self.select;
+        return element !== null ? element.listIsOpen() : false;
+      };
+
       that.focus = function() {
         var element = self.select;
         if(element) {
           element.focus();
+        }
+      };
+
+      that.select = function() {
+        var element = self.select;
+        if(element) {
+          element.select();
         }
       };
 

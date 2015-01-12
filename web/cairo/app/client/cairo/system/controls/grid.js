@@ -452,10 +452,14 @@
 
               switch (col.getType()) {
                 case T.select:
-                  newValue = {
-                    text: ctrl.getValue(),
-                    id: ctrl.getId()
-                  };
+                  p = ctrl.validate().then(
+                    function() {
+                      newValue = {
+                        text: ctrl.getValue(),
+                        id: ctrl.getId()
+                      };
+                    }
+                  );
                   break;
 
                 case T.text:
@@ -467,15 +471,20 @@
                   newValue = ctrl.getValue();
                   break;
               }
-              var args = {
-                row: info.row,
-                col: info.col,
-                newValue: newValue
-              };
-              p = raiseEventAndThen(
-                'onColumnAfterEdit',
-                args,
-                thenIfSuccessCall(updateCell, args, td)
+              p = p || Cairo.Promises.resolvedPromise();
+              p.then(
+                function() {
+                  var args = {
+                    row: info.row,
+                    col: info.col,
+                    newValue: newValue
+                  };
+                  return raiseEventAndThen(
+                    'onColumnAfterEdit',
+                    args,
+                    thenIfSuccessCall(updateCell, args, td)
+                  );
+                }
               );
             }
           }
@@ -495,8 +504,13 @@
         }
         switch(col.getType()) {
           case T.select:
-            ctrl.setValue(newValue.text);
-            ctrl.setId(newValue.id);
+            if(newValue.text !== undefined) {
+              ctrl.setValue(newValue.text);
+              ctrl.setId(newValue.id);
+            }
+            else {
+              ctrl.setValue(newValue);
+            }
             ctrl.setIntValue(col.getSelectIntValue());
             ctrl.setFieldIntValue(col.getSelectFieldIntValue());
             ctrl.setFilter(col.getSelectFilter());
@@ -663,7 +677,10 @@
             if(ctrl !== null) {
               setValue(ctrl, col, info.key, getCurrentValue(col.getType(), info.row, info.col));
               $(td).html(ctrl.getElement());
-              ctrl.focus();
+              ctrl.focus()
+              if(info.key === "") {
+                ctrl.select();
+              }
               self.editInfo = {
                 td: td,
                 row: info.row,
@@ -683,7 +700,7 @@
         };
       };
 
-      var clickInSameColumn = function(info) {
+      var clickInSameCell = function(info) {
         return self.editInfo !== null && info.col === self.editInfo.col && info.row === self.editInfo.row;
       };
 
@@ -699,7 +716,7 @@
             col: td.cellIndex,
             key: ""
           };
-          if (!clickInSameColumn(args)) {
+          if (!clickInSameCell(args)) {
             //
             // first end any pending edition
             //
@@ -717,6 +734,231 @@
             );
           }
         }
+      };
+
+      var nextVisibleTD = function(tds, currCol, moveTo) {
+        if(moveTo > 0) {
+          return nextRigthVisibleTD(tds, currCol + moveTo);
+        }
+        else {
+          return nextLeftVisibleTD(tds, currCol + moveTo);
+        }
+      };
+
+      var nextRigthVisibleTD = function(tds, moveTo) {
+        for(var i = moveTo; i < tds.length; i += 1) {
+          if(self.columns.get(i).getVisible()) {
+            return tds.item(i);
+          }
+        }
+      };
+
+      var nextLeftVisibleTD = function(tds, moveTo) {
+        for(var i = moveTo; i > -1; i -= 1) {
+          if(self.columns.get(i).getVisible()) {
+            return tds.item(i);
+          }
+        }
+      };
+
+      var nextEditableTD = function(tds, moveTo) {
+        for(var i = moveTo; i < tds.length; i += 1) {
+          var cell = self.columns.get(i);
+          if(cell.getVisible() && cell.isEditable()) {
+            return tds.item(i);
+          }
+        }
+        return null;
+      };
+
+      var tdKeyPressListener = function(e) {
+        Cairo.log("keypress: " + String.fromCharCode(e.keyCode));
+
+        var td = e.target;
+
+        var noKeyCodes = [13];
+
+        //
+        // only clicks in TD elements
+        //
+        if(td.tagName === "TD" && noKeyCodes.indexOf(e.keyCode) === -1) {
+
+          var args = {
+            row: td.parentNode.rowIndex - 1, /* first row contains headers */
+            col: td.cellIndex,
+            key: String.fromCharCode(e.keyCode)
+          };
+
+          //
+          // first end any pending edition
+          //
+          endEdit().then(
+            function() {
+              //
+              // next prepare to start editing this cell
+              //
+              raiseEventAndThen(
+                'onColumnBeforeEdit',
+                args,
+                thenIfSuccessCall(edit, args, td)
+              );
+            }
+          );
+        }
+      };
+
+      var tdKeyDownListener = function(e) {
+        Cairo.log("keydown: " + e.keyCode.toString());
+
+        var arrowKeyCodes = [37,38,39,40];
+
+        //
+        // the TD can contain other controls like inputs, selects, dates, checkboxes, etc.
+        //
+
+        var td = e.target;
+        if(td.tagName !== "TD") {
+          // checkbox are i into a td
+          if(td.parentNode.tagName === "TD") {
+            td = td.parentNode;
+          }
+          // selects are inputs into a div into a td
+          else if(td.parentNode.parentNode.tagName === "TD") {
+            td = td.parentNode.parentNode;
+          }
+        }
+
+        //
+        // arrow keys
+        //
+        if(td.tagName === "TD" && arrowKeyCodes.indexOf(e.keyCode) !== -1) {
+
+          //
+          // only stop propagation and prevent default if the target is a TD
+          //
+          if(e.target.tagName === "TD") {
+            e.stopPropagation();
+            e.preventDefault();
+          }
+
+          var moveToCol = 0;
+          var moveToRow = 0;
+
+          switch(e.keyCode) {
+            case 37:
+              moveToCol = -1;
+              break;
+            case 39:
+              moveToCol = 1;
+              break;
+
+            case 38:
+              moveToRow = -1;
+              break;
+            case 40:
+              moveToRow = 1;
+              break;
+          }
+
+          if(moveToCol !== 0) {
+            var index = td.cellIndex + moveToCol;
+            if(index > -1 && index < td.parentNode.childNodes.length) {
+              var selStart = -1;
+              var selEnd = -1;
+              var textLength = 0;
+              if(e.target.selectionStart) {
+                selStart = e.target.selectionStart;
+                selEnd = e.target.selectionEnd;
+                textLength = e.target.value.length;
+              }
+
+              if(selStart === -1
+                || (moveToCol < 0 && selStart === 0 && selEnd === 0)
+                || (moveToCol > 0 && selStart === textLength && selEnd === selStart)) {
+                endEdit();
+                var nextTD = nextVisibleTD(td.parentNode.childNodes, td.cellIndex, moveToCol);
+                nextTD.focus();
+              }
+            }
+          }
+          else if(moveToRow !== 0) {
+            var tr = td.parentNode;
+            var index = tr.rowIndex + moveToRow;
+            if(index > 0 && index < tr.parentNode.childNodes.length) {
+              var col = self.columns.get(td.cellIndex);
+              if(e.target.tagName === "TD"
+                || col.getType() !== T.select
+                || !getControl(col).listIsOpen()) {
+                endEdit();
+                tr.parentNode.childNodes.item(index).childNodes.item(td.cellIndex).focus();
+              }
+            }
+          }
+        }
+
+        //
+        // enter key
+        //
+        else if(e.keyCode === 13) {
+          endEdit();
+          var index = td.cellIndex + 1;
+          if(index > -1 && index < td.parentNode.childNodes.length) {
+            var nextTD = nextEditableTD(td.parentNode.childNodes, td.cellIndex+1);
+            if(nextTD !== null) {
+              nextTD.focus();
+            }
+          }
+          else if(index === td.parentNode.childNodes.length) {
+            var tr = td.parentNode;
+            var index = tr.rowIndex + 1;
+            if(index > 0 && index < tr.parentNode.childNodes.length) {
+              var nextTD = nextEditableTD(tr.parentNode.childNodes.item(index).childNodes, 1);
+              if(nextTD !== null) {
+                nextTD.focus();
+              }
+            }
+          }
+        }
+
+        //
+        // space key
+        //
+        else if(e.target.tagName === "TD" && e.keyCode === 32) {
+          //
+          // only stop propagation and prevent default if the target is a TD
+          //
+          if(e.target.tagName === "TD") {
+            e.stopPropagation();
+            e.preventDefault();
+          }
+
+          var args = {
+            row: td.parentNode.rowIndex - 1, /* first row contains headers */
+            col: td.cellIndex,
+            key: " "
+          };
+
+          //
+          // first end any pending edition
+          //
+          endEdit().then(
+            function() {
+              //
+              // next prepare to start editing this cell
+              //
+              raiseEventAndThen(
+                'onColumnBeforeEdit',
+                args,
+                thenIfSuccessCall(edit, args, td)
+              );
+            }
+          );
+        }
+
+        //
+        // function keys F2 = start edit like click, ctrl/cmd + delete = remove row, delete = clear cell
+        //
+        else if(false) {}
       };
 
       //
@@ -771,7 +1013,7 @@
         var createTD = function(item, i, getValue) {
           var col = self.columns.get(i);
           var hidden = hiddenStatus[i];
-          var td = $('<td class="dialog-td' + hidden + '"></td>');
+          var td = $('<td class="dialog-td' + hidden + '" tabindex="0"></td>');
           td.html(getValue(item, col));
           return td;
         };
@@ -817,6 +1059,8 @@
         }
 
         $("tr td", body).on("click", tdClickListener);
+        $("tr td", body).on("keydown", tdKeyDownListener);
+        $("tr td", body).on("keypress", tdKeyPressListener);
       };
 
       //

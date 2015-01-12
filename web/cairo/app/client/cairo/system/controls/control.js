@@ -187,7 +187,11 @@
         },
 
         focus: function() {
-          $(self.element).focus().select();
+          $(self.element).focus();
+        },
+
+        select: function() {
+          $(self.element).select();
         },
 
         flash: function() {

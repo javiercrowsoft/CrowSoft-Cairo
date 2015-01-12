@@ -169,7 +169,7 @@ object Pais {
 
   def loadWhere(user: CompanyUser, where: String, args : scala.Tuple2[scala.Any, anorm.ParameterValue[_]]*) = {
     DB.withConnection(user.database.database) { implicit connection =>
-      SQL(s"SELECT t1.*, FROM ${C.PAIS} t1 WHERE $where")
+      SQL(s"SELECT t1.* FROM ${C.PAIS} t1 WHERE $where")
         .on(args: _*)
         .as(paisParser.singleOpt)
     }

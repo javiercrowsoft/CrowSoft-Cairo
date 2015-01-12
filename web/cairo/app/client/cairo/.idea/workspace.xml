@@ -4,14 +4,15 @@
     <list default="true" id="af32f3fd-15e6-4891-af7d-2d04793b0899" name="Default" comment="" />
     <ignored path="cairo.iws" />
     <ignored path=".idea/workspace.xml" />
-    <file path="/grid.js" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1420933123770" ignored="false" />
+    <file path="/grid.js" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1421104606201" ignored="false" />
     <file path="/control.js" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1420844552710" ignored="false" />
-    <file path="/select.js" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1420852887523" ignored="false" />
+    <file path="/select.js" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1421104460722" ignored="false" />
     <file path="/dialog.js" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1420852236234" ignored="false" />
-    <file path="/a.dummy" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1420931135413" ignored="false" />
+    <file path="/a.dummy" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1421101474959" ignored="false" />
     <file path="/datePicker.js" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1420933385277" ignored="false" />
     <file path="/view.js" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1420926093686" ignored="false" />
     <file path="/cairoApp.js" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1420933962870" ignored="false" />
+    <file path="/cProducto.js" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1421095889912" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -33,61 +34,7 @@
       <file leaf-file-name="grid.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/system/controls/grid.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="752" column="0" selection-start="19765" selection-end="19765" vertical-scroll-proportion="0.3535135">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="view.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/system/dialogs/view.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="486" column="23" selection-start="13925" selection-end="13937" vertical-scroll-proportion="-9.555555">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="cairoApp.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/cairoApp.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="377" column="0" selection-start="9583" selection-end="9583" vertical-scroll-proportion="-6.3333335">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="datePicker.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/system/controls/datePicker.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="49" column="57" selection-start="1297" selection-end="1348" vertical-scroll-proportion="-27.148148">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="promise.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/system/promise.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="69" column="36" selection-start="1710" selection-end="1740" vertical-scroll-proportion="-22.222221">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="wizard.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/system/dialogs/wizard.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="DHTML.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="jar://$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/lib/JavascriptLanguage.jar!/com/intellij/lang/javascript/index/predefined/DHTML.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="972" column="0" selection-start="15468" selection-end="15468" vertical-scroll-proportion="0.0">
+            <state line="888" column="42" selection-start="23870" selection-end="23870" vertical-scroll-proportion="0.7643243">
               <folding />
             </state>
           </provider>
@@ -96,16 +43,76 @@
       <file leaf-file-name="input.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/system/controls/input.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="42" column="44" selection-start="751" selection-end="789" vertical-scroll-proportion="0.0">
+            <state line="76" column="54" selection-start="1874" selection-end="1874" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="property.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/system/dialogs/property.js">
+      <file leaf-file-name="dialog.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/system/dialogs/dialog.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="26" column="6" selection-start="481" selection-end="481" vertical-scroll-proportion="0.0">
+            <state line="5652" column="43" selection-start="183622" selection-end="183622" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="select.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/system/controls/select.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="427" column="44" selection-start="15860" selection-end="15860" vertical-scroll-proportion="-16.185184">
+              <folding>
+                <element signature="e#9296#14282#0" expanded="false" />
+                <element signature="e#9406#9708#0" expanded="false" />
+                <element signature="e#9784#9973#0" expanded="false" />
+                <element signature="e#9989#14185#0" expanded="false" />
+                <element signature="e#16239#16294#0" expanded="false" />
+                <element signature="e#16329#16385#0" expanded="false" />
+                <element signature="e#16435#16898#0" expanded="false" />
+                <element signature="e#16935#17063#0" expanded="false" />
+                <element signature="e#17097#17219#0" expanded="false" />
+                <element signature="e#17753#17792#0" expanded="false" />
+                <element signature="e#17834#17871#0" expanded="false" />
+                <element signature="e#18003#18052#0" expanded="false" />
+                <element signature="e#18267#18501#0" expanded="false" />
+                <element signature="e#19511#19846#0" expanded="false" />
+                <element signature="e#19933#20268#0" expanded="false" />
+                <element signature="e#20350#22093#0" expanded="false" />
+                <element signature="e#22109#22245#0" expanded="false" />
+                <marker date="1421104461000" expanded="false" signature="1292:1302" placeholder="..." />
+                <marker date="1421104461000" expanded="false" signature="1555:1565" placeholder="..." />
+                <marker date="1421104461000" expanded="false" signature="2252:2283" placeholder="..." />
+                <marker date="1421104461000" expanded="false" signature="2425:2437" placeholder="..." />
+                <marker date="1421104461000" expanded="false" signature="3310:3341" placeholder="..." />
+                <marker date="1421104461000" expanded="false" signature="3664:3676" placeholder="..." />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="promise.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/system/promise.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="117" column="17" selection-start="3017" selection-end="3017" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="cProducto.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/modules/CSGeneral2/cProducto.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="796" column="53" selection-start="21663" selection-end="21663" vertical-scroll-proportion="-21.814816">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="control.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/system/controls/control.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="189" column="33" selection-start="4747" selection-end="4747" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -121,12 +128,14 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/system/controls/control.js" />
         <option value="$PROJECT_DIR$/system/dialogs/dialog.js" />
-        <option value="$PROJECT_DIR$/system/controls/select.js" />
-        <option value="$PROJECT_DIR$/system/dialogs/view.js" />
         <option value="$PROJECT_DIR$/system/controls/datePicker.js" />
         <option value="$PROJECT_DIR$/cairoApp.js" />
+        <option value="$PROJECT_DIR$/system/dialogs/view.js" />
+        <option value="$PROJECT_DIR$/system/controls/input.js" />
+        <option value="$PROJECT_DIR$/modules/CSGeneral2/cProducto.js" />
+        <option value="$PROJECT_DIR$/system/controls/control.js" />
+        <option value="$PROJECT_DIR$/system/controls/select.js" />
         <option value="$PROJECT_DIR$/system/controls/grid.js" />
       </list>
     </option>
@@ -249,12 +258,45 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="cairo" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="cairo" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="modules" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="cairo" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="cairo" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="modules" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="CSGeneral2" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="FullScreen" value="false" />
   </component>
   <component name="RunManager">
     <list size="0" />
@@ -269,7 +311,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="22" width="1920" height="1054" extended-state="0" />
+    <frame x="0" y="22" width="1920" height="1054" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -277,7 +319,7 @@
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32994923" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.17933619" sideWeight="0.67005074" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.23286937" sideWeight="0.67005074" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
@@ -352,27 +394,6 @@
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/system/dialogs/dialog.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="4541" column="61" selection-start="145954" selection-end="145954" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/system/controls/select.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="457" column="20" selection-start="17075" selection-end="17075" vertical-scroll-proportion="0.0">
-          <folding>
-            <marker date="1420852891000" expanded="false" signature="-1:-1" placeholder="..." />
-            <marker date="1420852891000" expanded="false" signature="-1:-1" placeholder="..." />
-            <marker date="1420852891000" expanded="false" signature="-1:-1" placeholder="..." />
-            <marker date="1420852891000" expanded="false" signature="-1:-1" placeholder="..." />
-            <marker date="1420852891000" expanded="false" signature="-1:-1" placeholder="..." />
-            <marker date="1420852891000" expanded="false" signature="-1:-1" placeholder="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/system/controls/control.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="189" column="42" selection-start="4756" selection-end="4756" vertical-scroll-proportion="0.0">
@@ -387,34 +408,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/system/controls/control.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="189" column="42" selection-start="4756" selection-end="4756" vertical-scroll-proportion="0.56092435">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/system/controls/select.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="601" column="64" selection-start="21249" selection-end="21291" vertical-scroll-proportion="0.6357827">
-          <folding>
-            <marker date="1420852891000" expanded="false" signature="-1:-1" placeholder="..." />
-            <marker date="1420852891000" expanded="false" signature="-1:-1" placeholder="..." />
-            <marker date="1420852891000" expanded="false" signature="-1:-1" placeholder="..." />
-            <marker date="1420852891000" expanded="false" signature="-1:-1" placeholder="..." />
-            <marker date="1420852891000" expanded="false" signature="-1:-1" placeholder="..." />
-            <marker date="1420852891000" expanded="false" signature="-1:-1" placeholder="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/system/dialogs/dialog.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="730" column="26" selection-start="20259" selection-end="20269" vertical-scroll-proportion="0.6879659">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/system/dialogs/property.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="26" column="6" selection-start="481" selection-end="481" vertical-scroll-proportion="0.0">
@@ -422,23 +415,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/system/controls/input.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="42" column="44" selection-start="751" selection-end="789" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/system/dialogs/view.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="486" column="23" selection-start="13925" selection-end="13937" vertical-scroll-proportion="-9.555555">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/lib/JavascriptLanguage.jar!/com/intellij/lang/javascript/index/predefined/DHTML.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="972" column="0" selection-start="15468" selection-end="15468" vertical-scroll-proportion="0.0">
+        <state line="972" column="0" selection-start="15468" selection-end="15468" vertical-scroll-proportion="0.40850514">
           <folding />
         </state>
       </provider>
@@ -450,30 +429,103 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/system/promise.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="69" column="36" selection-start="1710" selection-end="1740" vertical-scroll-proportion="-22.222221">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/system/controls/datePicker.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="49" column="57" selection-start="1297" selection-end="1348" vertical-scroll-proportion="-27.148148">
+        <state line="49" column="57" selection-start="1297" selection-end="1348" vertical-scroll-proportion="0.9786382">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/cairoApp.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="377" column="0" selection-start="9583" selection-end="9583" vertical-scroll-proportion="-6.3333335">
+        <state line="377" column="0" selection-start="9583" selection-end="9583" vertical-scroll-proportion="0.2283044">
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/system/dialogs/view.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="53" column="84" selection-start="1648" selection-end="1648" vertical-scroll-proportion="-11.41522">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/system/controls/input.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="76" column="54" selection-start="1874" selection-end="1874" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/modules/CSGeneral2/cProducto.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="796" column="53" selection-start="21663" selection-end="21663" vertical-scroll-proportion="-21.814816">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/system/controls/control.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="189" column="33" selection-start="4747" selection-end="4747" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/system/dialogs/dialog.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="5652" column="43" selection-start="183622" selection-end="183622" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/system/promise.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="117" column="17" selection-start="3017" selection-end="3017" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/lib/JavascriptLanguage.jar!/com/intellij/lang/javascript/index/predefined/HTML5.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="2164" column="0" selection-start="38162" selection-end="38162" vertical-scroll-proportion="0.7804622">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/system/controls/select.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="427" column="44" selection-start="15860" selection-end="15860" vertical-scroll-proportion="-16.185184">
+          <folding>
+            <element signature="e#9296#14282#0" expanded="false" />
+            <element signature="e#9406#9708#0" expanded="false" />
+            <element signature="e#9784#9973#0" expanded="false" />
+            <element signature="e#9989#14185#0" expanded="false" />
+            <element signature="e#16239#16294#0" expanded="false" />
+            <element signature="e#16329#16385#0" expanded="false" />
+            <element signature="e#16435#16898#0" expanded="false" />
+            <element signature="e#16935#17063#0" expanded="false" />
+            <element signature="e#17097#17219#0" expanded="false" />
+            <element signature="e#17753#17792#0" expanded="false" />
+            <element signature="e#17834#17871#0" expanded="false" />
+            <element signature="e#18003#18052#0" expanded="false" />
+            <element signature="e#18267#18501#0" expanded="false" />
+            <element signature="e#19511#19846#0" expanded="false" />
+            <element signature="e#19933#20268#0" expanded="false" />
+            <element signature="e#20350#22093#0" expanded="false" />
+            <element signature="e#22109#22245#0" expanded="false" />
+            <marker date="1421104461000" expanded="false" signature="1292:1302" placeholder="..." />
+            <marker date="1421104461000" expanded="false" signature="1555:1565" placeholder="..." />
+            <marker date="1421104461000" expanded="false" signature="2252:2283" placeholder="..." />
+            <marker date="1421104461000" expanded="false" signature="2425:2437" placeholder="..." />
+            <marker date="1421104461000" expanded="false" signature="3310:3341" placeholder="..." />
+            <marker date="1421104461000" expanded="false" signature="3664:3676" placeholder="..." />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/system/controls/grid.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="752" column="0" selection-start="19765" selection-end="19765" vertical-scroll-proportion="0.3535135">
+        <state line="888" column="42" selection-start="23870" selection-end="23870" vertical-scroll-proportion="0.7643243">
           <folding />
         </state>
       </provider>

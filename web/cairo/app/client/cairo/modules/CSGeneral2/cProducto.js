@@ -669,7 +669,7 @@
         var bEnabled = null;
         var iProp = null;
         var bSeVende = null;
-        var _rtn = true;
+        var p = null;
 
         switch (key) {
           case K_SE_COMPRA:
@@ -735,7 +735,7 @@
 
             if(m_purchaseName !== nombre && nombre !== nombreVenta && bSeVende) {
 
-              Cairo.Modal.confirmViewYesDefault(
+              p = Cairo.Modal.confirmViewYesDefault(
                   "",
                   Cairo.Language.getText(1282, "") // Ha modificado el nombre de compras, desea aplicar el mismo nombre a ventas
                 ).then(
@@ -791,11 +791,10 @@
             break;
 
           default:
-            _rtn = false;
             break;
         }
 
-        return _rtn;
+        return Cairo.Promises.resolvedPromise(false);
       };
 
       self.save = function() {
