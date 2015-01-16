@@ -375,8 +375,293 @@ var Cairo = new Marionette.Application();
     footer: 'Footer'
   };
 
+  //
+  // util
+  //
+  var val = function(value) {
+    try {
+      return parseFloat(value);
+    }
+    catch(ignore) {
+      return 0;
+    }
+  };
+
+  var escapeRegExp =function(string) {
+    return string.replace(/([.*+?^=!:${}()|\[\]\/\\])/g, "\\$1");
+  };
+
+  var replaceAll = function(string, find, replace) {
+    return string.replace(new RegExp(escapeRegExp(find), 'g'), replace);
+  };
+
+  /*
+  *
+  * some times simple things get very complicated
+  * so for some reason I can't understand this:
+  * new Date("2") => Thu Feb 01 2001 00:00:00 GMT-0300 (ART)     // WAT
+  * new Date("2-1") => Thu Feb 01 2001 00:00:00 GMT-0300 (ART)   // WAT
+  * new Date("12-1") => Sat Dec 01 2001 00:00:00 GMT-0300 (ART)  // hooo, now I understand. I was confused because
+  *                                                                 I live in Argentina. Obviuslly that has to be the
+  *                                                                 reason. I am a dd/mm/yy person :D
+  *                                                                 BUTTTTT wait ... WHY 2001 !!! I am not in 2001
+  *                                                                 it is 2015 (at least when I was written this)
+  * Okay I will make my own function :(
+  *
+  * */
+
   var isDate = function(date) {
-    return (! isNaN(new Date(date).valueOf()));
+    if(date.length < 3) {
+      return false;
+    }
+    else {
+      return (! isNaN(new Date(date).valueOf()));
+    }
+  };
+
+  //
+  // date formats are YMD - DMY - MDY
+  //
+
+  var getLocaleMonthIndex = function() {
+    var d = new Date("11/12/10");
+    return d.getMonth() === 11 /* January is 0 :P */ ? 1 /* ?M? */ : 0 /* M?? */;
+  };
+  var localeMonthIndex = getLocaleMonthIndex();
+
+  var getLocaleYearIndex = function() {
+    var d = new Date("03/02/01");
+    return d.getFullYear() === 2003 ? /* YMD */ 0 : d.getFullYear() === 2001 ? /* DMY or MDY */ 2 : /* WAT ?Y? */ 1;
+  };
+  var localeYearIndex = getLocaleYearIndex();
+
+  var DATE_FORMAT = localeMonthIndex === 0 ? "mm/dd/yy" : localeYearIndex === 0 ? "yy/mm/dd" : "dd/mm/yy";
+
+  var validateStringDate = function(date) {
+
+    var _date = function(year, month, day) {
+      var d;
+      switch(localeYearIndex) {
+        case 0: /* YMD */
+          d = year.toString() + "/" + month.toString() + "/" + day.toString();
+          break;
+
+        case 2: /* ??Y */
+          if(localeMonthIndex === 0) {
+            d = month.toString() + "/" + day.toString() + "/" + year.toString();
+          }
+          else {
+            d = day.toString() + "/" + month.toString() + "/" + year.toString();
+          }
+          break;
+
+        default:
+          d = "";
+          break;
+      }
+      return d;
+    }
+
+    date = replaceAll(date, ".", "-");
+
+    if(date.length === 4 && date.indexOf('-') < 0 && date.indexOf('/') < 0 && /^[0-9]+$/.test(date)) {
+      date = date.substr(0,2) + "/" + date.substr(2,2);
+    }
+    else if(date.length === 6 && date.indexOf('-') < 0 && date.indexOf('/') < 0 && /^[0-9]+$/.test(date)) {
+      date = date.substr(0,2) + "/" + date.substr(2,2) + "/" + date.substr(4,2);
+    }
+    else if(date.length === 8 && date.indexOf('-') < 0 && date.indexOf('/') < 0 && /^[0-9]+$/.test(date)) {
+      date = date.substr(0,2) + "/" + date.substr(2,2) + "/" + date.substr(4,4);
+    }
+
+    //
+    // regular expressions are to smart for me
+    //
+    if(date.indexOf('-') > -1 || date.indexOf('/') > -1) {
+      date = replaceAll(date, "-", "/");
+      date = date.split("/");
+      if(date.length < 2) {
+        date = "";
+      }
+      else if(date.length < 3) {
+        if(date[0].length > 2) {
+          date = _date(val(date[0]), val(date[1]), 1);
+        }
+        else if(date[1].length > 2) {
+          date = _date(val(date[1]), val(date[0]), 1);
+        }
+        else {
+          var m = localeMonthIndex === 0 ? 0 : 1;
+          var d = m === 0 ? 1 : 0;
+          var month = val(date[m]);
+          var day = val(date[d]);
+          if(isNaN(month) || isNaN(day)) {
+            return "";
+          }
+          else if(month > 12) {
+            date = _date((new Date()).getFullYear(), day, month /* month is day */);
+          }
+          else {
+            date = _date((new Date()).getFullYear(), month, day);
+          }
+        }
+      }
+      else if(date.length > 3) {
+        date = "";
+      }
+      else {
+        var year = 0;
+        var yearIndex = -1;
+        if(date[0].length > 2) {
+          year = date[0];
+          yearIndex = 0;
+        }
+        else if(date[1].length > 2) {
+          year = date[1];
+          yearIndex = 1;
+        }
+        else if(date[2].length > 2) {
+          year = date[2];
+          yearIndex = 2;
+        }
+        else {
+          year = date[localeYearIndex];
+        }
+        var pos = localeMonthIndex;
+        var month = yearIndex !== pos ? val(date[pos]) : 0;
+        var monthIndex = -1;
+        if(month > 0 && month < 13) {
+          monthIndex = pos;
+        }
+        else {
+          pos = pos === 0 ? 1 : 0;
+          month = yearIndex !== pos ? val(date[pos]) : pos;
+          if(month > 0 && month < 13) {
+            monthIndex = pos;
+          }
+          else {
+            month = yearIndex !== 2 ? val(date[2]) : 0;
+            if(month > 0 && month < 13) {
+              monthIndex = 2;
+            }
+          }
+        }
+        var day = yearIndex !== 0 && monthIndex !== 0 ? val(date[0]) : 0;
+        if(day > 31 || day < 1) {
+          day = yearIndex !== 1 && monthIndex !== 1 ? val(date[1]) : 0;
+          if(day > 31 || day < 1) {
+            day = yearIndex !== 2 && monthIndex !== 2 ? val(date[2]) : 0;
+            if(day > 31 || day < 1) {
+              day = 0;
+            }
+          }
+        }
+
+        if(isNaN(month) || isNaN(day) || isNaN(year)) {
+          return "";
+        }
+        else {
+          if(month === 0) {
+            date = "";
+          }
+          else {
+            if(year === 0) {
+              year = (new Date()).getFullYear();
+            }
+            if(day === 0) {
+              day = 1;
+            }
+
+            date = _date(year, month, day);
+          }
+        }
+      }
+    }
+    else {
+      date = "";
+    }
+    return date;
+  };
+
+  /* TODO: use a test suit
+
+  var testDate = function(date) {
+    console.log("d: " + date);
+    date = validateStringDate(date);
+    console.log("v: " + date);
+    date = new Date(date);
+    console.log(date);
+    console.log("----------------");
+  };
+
+  var testDates = function() {
+    testDate("");
+    testDate("1");
+    testDate("2");
+    testDate("12");
+    testDate("33");
+    testDate("333");
+    testDate("123");
+    testDate("7/12/2001");
+    testDate("7/1/1/1/1");
+    testDate("7-1");
+    testDate("//145");
+    testDate("/7/7/1");
+    testDate("1/7/7");
+    testDate("12/12/12");
+    testDate("12/13/12");
+    testDate("1/1/1");
+    testDate("1-1/3");
+    testDate("1/1/8");
+    testDate("14/8/25");
+    testDate("17/9/7");
+    testDate("26/10/75");
+    testDate("3/3/336");
+    testDate("1/9/25");
+    testDate("7/1/1987");
+    testDate("7//2015");
+    testDate("11");
+    testDate("12/5");
+    testDate("13/9");
+    testDate("9/13");
+    testDate("209/13");
+    testDate("209/12");
+    testDate("20/128");
+    testDate("2/128");
+    testDate("17/17/1");
+    testDate("173/17/1");
+    testDate("17/173/1");
+    testDate("9999");
+    testDate("1111");
+    testDate("0408");
+    testDate("1408");
+    testDate("2508");
+    testDate("0814");
+    testDate("081408");
+    testDate("08142018");
+    testDate("1.1");
+    testDate("4.1");
+    testDate("3.1.1580");
+    testDate("3.15.1580");
+    testDate("31.15.1580");
+    testDate(".");
+    testDate("..");
+    testDate("....");
+    testDate("1.1.1..");
+    testDate("1.1.1");
+    testDate("1.1.1.");
+    testDate(".1.1.1");
+    testDate(".1.1.1.");
+  };
+  
+  testDates();
+  */
+
+  var getDateValue = function(value) {
+    if(typeof value === "string") {
+      value = validateStringDate(value);
+    }
+    return new Date(value.toString());
   };
 
   Cairo.Util = {
@@ -389,21 +674,12 @@ var Cairo = new Marionette.Application();
       }
       else {
         date = new Date(date);
-        return date.getTime() === NO_DATE.getTime() || !isDate(date) ? "" : $.datepicker.formatDate("dd/mm/yy", date);
+        return date.getTime() === NO_DATE.getTime() || !isDate(date) ? "" : $.datepicker.formatDate(DATE_FORMAT, date);
       }
     },
-    getDateValue: function(value) {
-      return new Date(value.toString());
-    },
+    getDateValue: getDateValue,
     isDate: isDate,
-    val: function(value) {
-      try {
-        return parseFloat(value);
-      }
-      catch(ignore) {
-        return 0;
-      }
-    },
+    val: val,
     valEmpty: function(value, type) {
       if(value === null || value === undefined) {
         return true;
@@ -420,7 +696,7 @@ var Cairo = new Marionette.Application();
           case Cairo.Constants.Types.single:
           case Cairo.Constants.Types.long:
           case Cairo.Constants.Types.id:
-            return this.val(value) === 0;
+            return val(value) === 0;
 
           case Cairo.Constants.Types.date:
           case Cairo.Constants.Types.dateOrNull:

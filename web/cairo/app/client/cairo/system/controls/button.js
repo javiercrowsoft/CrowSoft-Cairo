@@ -11,7 +11,7 @@
 
         text: "",
         isCancel: false
-      }
+      };
 
       var that = Controls.createControl();
 

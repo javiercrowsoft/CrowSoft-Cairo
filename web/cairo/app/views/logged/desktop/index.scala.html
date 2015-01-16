@@ -305,16 +305,6 @@
 <!-- trees -->
 
 <script type="text/template" id="tree-list-panel-template">
-  <% if(showTableButtons) { %>
-    <button class="btn btn-primary js-new"><%- entityName %></button>
-    <form id="filter-form" class="form-search form-inline pull-right">
-        <div class="input-append">
-            <button type="submit" class="btn btn-info"><i class="glyphicon glyphicon-search"></i> Search <%- entitiesName %></button>
-        </div>
-    </form>
-  <br>
-  <br>
-  <% } %>
 </script>
 
 <script type="text/template" id="tree-create-first-tree-template">
@@ -338,6 +328,9 @@
       </div>
       <div class="col-sm-7 col-md-7 tree-select-control-search">
         <div>
+  <% if(showTableButtons) { %>
+    <button class="btn btn-primary js-new"><%- entityName %></button>
+  <% } %>
           <% if(showSelectButton) { %>
           <div class="tree-select-button-select">
             <button class="btn btn-primary" id="tree-select-select-button"> Select </button>
@@ -361,14 +354,14 @@
 
     <div class="@if(requestOrigin.userAgent.isMobile) {container} else {desktop-big-container}">
         <div class="row">
-            <div class="col-sm-5 col-md-4">
+            <div class="col-sm-5 col-md-3 col-lg-2">
                 <ul class="nav noFocus">
                     <li><div id="trees"></div></li>
                     <li><div id="tree"></div></li>
                 </ul>
                 @if(requestOrigin.userAgent.isMobile){<br/>}
             </div>
-            <div id="tree-main-list-region" class="col-sm-7 col-md-8 tree-list-region">
+            <div id="tree-main-list-region" class="col-sm-7 col-md-9 col-lg-10 tree-list-region">
 
               <div class="col-sm-1 col-md-1"></div>
               <div class="col-sm-11 col-md-11" style="padding-right: 0px;">
@@ -395,10 +388,10 @@
 <script type="text/template" id="tree-list-template">
     <thead>
     <tr id="tree-list-headers">
+        <th></th>
         <% columns.forEach(function(column) { %>
             <th class="capitalize"><%- column.name %></th>
         <% }); %>
-        <th></th>
     </tr>
     </thead>
     <tbody>
@@ -418,25 +411,25 @@
 <script type="text/template" id="tree-list-item-template">
     <% leaves.forEach(function(leave) { %>
     <tr data-id="<%- leave.id %>" data-clientid="<%- leave.clientId %>">
+      <td>
+        <% if(showEditButton) { %>
+        <button class="btn btn-sm btn-info js-edit" type="button" data-row-id="<%- leave.clientId %>">
+          <i class="glyphicon glyphicon-pencil"></i>
+        </button>
+        <% }
+           if(showDeleteButton) {
+        %>
+        <button class="btn btn-sm btn-danger js-delete" type="button">
+          <i class="glyphicon glyphicon-remove"></i>
+        </button>
+        <% } %>
+      </td>
       <%
         var index;
         for (index = 0; index < columns.length; index++) {
       %>
         <td><%= Cairo.Tree.getColumnValue(columns[index], leave.values[index]) %></td>
       <% } %>
-    <td>
-      <% if(showEditButton) { %>
-      <button class="btn btn-sm btn-info js-edit" type="button" data-row-id="<%- leave.clientId %>">
-        <i class="glyphicon glyphicon-pencil"></i>
-      </button>
-      <% }
-         if(showDeleteButton) {
-      %>
-      <button class="btn btn-sm btn-danger js-delete" type="button">
-        <i class="glyphicon glyphicon-remove"></i>
-      </button>
-      <% } %>
-    </td>
     </tr>
     <% }); %>
 </script>
@@ -522,6 +515,7 @@
 <script src="@routes.Assets.at("javascripts/vendor/dataTables.tableTools.js")" type="text/javascript"></script>
 <script src="@routes.Assets.at("javascripts/vendor/jquery.contextmenu.js")" type="text/javascript"></script>
 <script src="@routes.Assets.at("javascripts/vendor/jquery.dataTables.plugins.js")" type="text/javascript"></script>
+<script src="@routes.Assets.at("javascripts/vendor/jquery.tabbable.js")" type="text/javascript"></script>
 
 <script src="./client/cairo/config/marionette/regions/dialog.js"></script>
 <script src="./client/cairo/cairoApp.js"></script>

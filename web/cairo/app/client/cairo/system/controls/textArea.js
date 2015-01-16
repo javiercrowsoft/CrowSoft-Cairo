@@ -22,7 +22,7 @@
         element.addClass("dialog-control dialog-input-control dialog-textarea-control");
         var onChange = view.onTextAreaChange(that);
         element.change(function() {
-          that.setText(element.val());
+          self.text = element.val();
           onChange();
         });
       };
@@ -40,6 +40,8 @@
 
       that.setMaxLength = function(length) { self.maxLength = length; };
       that.setInputDisabled = function(value) { self.inputDisabled = value; };
+
+      that.onKeyUp = function(e) {};
 
       return that;
     };

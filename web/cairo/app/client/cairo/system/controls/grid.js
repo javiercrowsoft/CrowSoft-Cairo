@@ -1140,7 +1140,9 @@
       };
 
       that.unSelectRow = function(row) { /* TODO = implement this. */ };
-      that.setNoSelectInGotFocus = function(value) { /* TODO = implement this. */ }
+      that.setNoSelectInGotFocus = function(value) { /* TODO = implement this. */ };
+
+      that.setSelectOnFocus = function(select) {};
 
       return that;
     };

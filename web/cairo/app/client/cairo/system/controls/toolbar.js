@@ -4,7 +4,7 @@
   Cairo.module("Controls", function(Controls, Cairo, Backbone, Marionette, $, _) {
 
     var createToolbar = function() {
-      var self = {}
+      var self = {};
 
       var that = Controls.createControl();
 

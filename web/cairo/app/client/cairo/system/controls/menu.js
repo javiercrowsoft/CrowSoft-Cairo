@@ -6,7 +6,7 @@
     var createMenu = function() {
       var self = {
         text: ""
-      }
+      };
 
       var that = Controls.createControl();
       

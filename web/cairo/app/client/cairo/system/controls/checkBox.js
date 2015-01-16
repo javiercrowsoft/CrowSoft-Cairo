@@ -11,7 +11,7 @@
 
         text: "",
         value: false
-      }
+      };
       
       var that = Controls.createControl();
 

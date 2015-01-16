@@ -53,6 +53,7 @@
           var element = $(control.htmlTag);
           var clazz = control.getObjectType() === 'cairo.controls.grid' ? "col-lg-12 col-md-12 col-sm-12" : "col-lg-4 col-md-5 col-sm-7";
           control.setElement(element, viewManager);
+          control.setSelectOnFocus(true);
           form.append(newRow(element, clazz));
         }
       }

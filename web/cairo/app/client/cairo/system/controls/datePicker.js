@@ -32,33 +32,49 @@
         element.val(self.value);
         element.addClass("dialog-control dialog-input-control");
         $(element).datepicker({
+          constrainInput: false,
           showButtonPanel: true,
           beforeShow: function(input) {
             window.setTimeout(function() {
               $('.ui-datepicker-current').removeClass().addClass('btn btn-info pull-left');
               $('.ui-datepicker-close').removeClass().addClass('btn btn-success');
-            }, 10);
+            }, 100);
           }
         });
         var onChange = view.onDateChange(that);
         element.change(function() {
-          that.setValue(element.val());
+          setValue(element.val());
           onChange();
         });
       };
 
       var getDateFormatted = Cairo.Util.getDateFormatted;
+      var getDateValue = Cairo.Util.getDateValue;
 
-      that.setValue = function(value) {
+      var setValue = function(value) {
+        if(typeof value === "string") {
+          if(value.length > 1) {
+            value = getDateFormatted(getDateValue(value));
+          }
+        }
         self.value = value;
         var element = that.getElement();
         if(element) {
-          element.val(getDateFormatted(self.value));
+          element.val(value);
         }
       };
+
       that.getValue = function() {
+        var element = that.getElement();
+        if(element) {
+          if(self.value !== element.val()) {
+            setValue(element.val());
+          }
+        }
         return self.value;
       };
+
+      that.setValue = setValue;
 
       that.getType = function() {
         return self.type;

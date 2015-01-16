@@ -672,7 +672,9 @@
         element.append(input);
 
         if(self.type === Cairo.Entities.Select.SelectType.normal) {
-          element.append('<button>+</button>');
+          var button = $('<button>+</button>');
+          button.attr('tabindex', -1);
+          element.append(button);
           select = Cairo.Select.Controller.createSelectControl(
             input,
             self.table,
@@ -680,7 +682,9 @@
             self.filter);
         }
         else if (self.type === Cairo.Entities.Select.SelectType.tree) {
-          element.append('<button>...</button>');
+          var button = $('<button>...</button>');
+          button.attr('tabindex', -1);
+          element.append(element);
           select = Cairo.TreeSelect.Controller.createSelectControl(
             input,
             self.table,

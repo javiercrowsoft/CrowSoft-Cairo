@@ -23,10 +23,7 @@
 
     var createInput = function() {
       var self = {
-        urlRoot: "",
-  
-        defaults: {},
-  
+
         text: "",
         enabledNoChangeBkColor: false,
         maxLength: 0,
@@ -34,7 +31,7 @@
         inputDisabled: false,
         type: Controls.InputType.text
 
-      }
+      };
 
       var that = Controls.createControl();
 
@@ -52,7 +49,26 @@
           || self.type === Controls.InputType.memo
         );
       }
-      
+
+      var keyPressListener = function(e) {
+        Cairo.log("keypress: " + String.fromCharCode(e.keyCode));
+
+        var keys = "0123456789.,-+*/";
+        var key = String.fromCharCode(e.keyCode);
+
+        var element = that.getElement();
+        if(key === "=" || (OPERATORS.test(element.val()) && OPERATORS.test(key))) {
+
+          that.setText(element.val());
+          if(key === "=") {
+            e.preventDefault();
+          }
+        }
+        else if(keys.indexOf(key) === -1) {
+          e.preventDefault();
+        }
+      };
+
       that.setElement = function(element, view) {
         superSetElement(element);
         element.val(self.text);
@@ -62,10 +78,81 @@
           that.setText(element.val());
           onChange();
         });
+        if(!isText()) {
+          element.on("keypress", keyPressListener);
+        }
+      };
+
+      var val = Cairo.Util.val;
+      var OPERATORS = /[\*\/\+\-]/;
+
+      var calculate = function(text) {
+        // keep it simple
+        // no parentheses
+        // first / then * then - then +
+        try {
+          var multiResult;
+          var subsResult;
+          var sumResult = 0;
+
+          if(OPERATORS.test(text.slice(-1))) {
+            text = text.substr(0, text.length-1);
+          }
+          if(OPERATORS.test(text.substr(0,1))) {
+            text = text.substring(1);
+          }
+
+          var sum = text.split("+");
+          for(var i = 0, countSum = sum.length; i < countSum; i++) {
+            var subs = sum[i].split("-");
+            subsResult = 0;
+            for(var j = 0, countSubs = subs.length; j < countSubs; j++) {
+              var multi = subs[j].split("*");
+              multiResult = 1;
+              for(var t = 0, countMulti = multi.length; t < countMulti; t++) {
+                var divs = multi[t].split("/");
+                if(divs.length > 2) {
+                  return "";
+                }
+                else if(divs.length > 1) {
+                  multi[t] = parseFloat(divs[0]) / parseFloat(divs[1]);
+                }
+                else {
+                  multi[t] = parseFloat(multi[t]);
+                }
+                multiResult = multiResult * multi[t];
+              }
+              if(j > 0) {
+                subsResult = subsResult - multiResult;
+              }
+              else {
+                subsResult = subsResult + multiResult;
+              }
+            }
+            sumResult = sumResult + subsResult;
+          }
+          text = sumResult;
+        }
+        catch(ignore) {
+          text = "";
+        }
+        return text;
+      };
+
+      var getValue = function(text) {
+        if(!isText()) {
+          if(OPERATORS.test(text)) {
+            text = calculate(text);
+          }
+          else {
+            text = val(text);
+          }
+        }
+        return text;
       };
 
       that.setText = function(text) {
-        self.text = text;
+        self.text = getValue(text);
         var element = that.getElement();
         if(element) {
           element.val(self.text);
