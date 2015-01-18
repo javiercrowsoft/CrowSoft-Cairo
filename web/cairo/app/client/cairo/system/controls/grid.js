@@ -771,6 +771,10 @@
         return null;
       };
 
+      var addRow = function() {
+
+      };
+
       var tdKeyPressListener = function(e) {
         Cairo.log("keypress: " + String.fromCharCode(e.keyCode));
 
@@ -893,6 +897,19 @@
                 tr.parentNode.childNodes.item(index).childNodes.item(td.cellIndex).focus();
               }
             }
+            else {
+              if(index > 0 && index >= tr.parentNode.childNodes.length) {
+                // request a new row
+                //
+                // next prepare to start editing this cell
+                //
+                raiseEventAndThen(
+                  'onValidateRow',
+                  args,
+                  thenIfSuccessCall(addRow, args, td)
+                );
+              }
+            }
           }
         }
 
@@ -979,14 +996,85 @@
         return child;
       };
 
-      var draw = function(element) {
-        if(self.redraw !== true || element === null) return;
+      //
+      // grid manager
+      //
 
-        var body = getTableSection(element, 'dialog-grid-body', 'tbody');
+        var getDateFormatted = Cairo.Util.getDateFormatted;
+
+        var gridManager = {
+          body: null,
+          hiddenStatus: []
+        };
 
         //
         // columns and cells
         //
+
+        gridManager.getColumnTitle = function(cell) {
+          return cell.getText();
+        };
+
+        gridManager.getValue = function(cell, col) {
+          switch(col.getType()) {
+            case T.check:
+              return getCheckboxIcon(cell.getText());
+            case T.date:
+              return getDateFormatted(cell.getText());
+            default:
+              return cell.getText();
+          }
+        };
+
+        gridManager.createTD = function(item, i, getValue) {
+          var col = self.columns.get(i);
+          var hidden = gridManager.hiddenStatus[i];
+          var td = $('<td class="dialog-td' + hidden + '" tabindex="0"></td>');
+          td.html(getValue(item, col));
+          return td;
+        };
+
+        //
+        // rows
+        //
+
+        gridManager.createTR = function(elements, clazz, getValue) {
+          var tr = $('<tr class="' + clazz + '"></tr>');
+          tr.append(elements.map(gridManager.createTD, getValue));
+          return tr;
+        };
+
+        gridManager.addRow = function(row) {
+          return gridManager.createTR(row.getCells(), 'dialog-tr', gridManager.getValue);
+        };
+
+        gridManager.addToEmptyRow = function(col, index, cells) {
+          var cell = cells.add();
+        };
+
+        gridManager.addNewRow = function() {
+          var emptyRow = createRow();
+          self.columns.each(gridManager.addToEmptyRow, emptyRow.getCells());
+          emptyRow.getCells().get(0).setText("<i class='glyphicon glyphicon-asterisk glyphicon-new'></i>");
+          gridManager.body.append(gridManager.createTR(emptyRow.getCells(), 'dialog-tr', gridManager.getValue));
+
+          self.newRow = emptyRow;
+        }
+      //
+      // end grid manager
+      //
+
+      var draw = function(element) {
+        if(self.redraw !== true || element === null) return;
+
+        //--remove-- var body = getTableSection(element, 'dialog-grid-body', 'tbody');
+        gridManager.body = getTableSection(element, 'dialog-grid-body', 'tbody');
+
+        //
+        // columns and cells
+        //
+        //--remove--
+        /*
         var getColumnTitle = function(cell) {
           return cell.getText();
         };
@@ -1005,11 +1093,14 @@
         };
 
         var hiddenStatus = [];
+        */
         var visibleToArray = function(col, i) {
-          hiddenStatus[i] = col.getVisible() === true ? "" : " hidden";
+          gridManager.hiddenStatus[i] = col.getVisible() === true ? "" : " hidden";
         };
         self.columns.each(visibleToArray);
 
+        //--remove--
+        /*
         var createTD = function(item, i, getValue) {
           var col = self.columns.get(i);
           var hidden = hiddenStatus[i];
@@ -1017,11 +1108,14 @@
           td.html(getValue(item, col));
           return td;
         };
+        */
 
         //
         // rows
         //
 
+        //--remove--
+        /*
         var createTR = function(elements, clazz, getValue) {
           var tr = $('<tr class="' + clazz + '"></tr>');
           tr.append(elements.map(createTD, getValue));
@@ -1031,21 +1125,24 @@
         var addRow = function(row) {
           return createTR(row.getCells(), 'dialog-tr', getValue);
         };
+        */
 
         //
         // add columns
         //
-        body.append(createTR(self.columns, 'dialog-th', getColumnTitle));
+        gridManager.body.append(gridManager.createTR(self.columns, 'dialog-th', gridManager.getColumnTitle));
         //
         // add rows
         //
-        body.append(self.rows.map(addRow));
+        gridManager.body.append(self.rows.map(gridManager.addRow));
 
         //
         // for grids with addEnabled === true we add an empty row at the bottom
         //
         if(self.editEnabled && self.addEnabled) {
 
+          //--remove--
+          /*
           var addToEmptyRow = function(col, index, cells) {
             var cell = cells.add();
           };
@@ -1056,11 +1153,13 @@
           body.append(createTR(emptyRow.getCells(), 'dialog-tr', getValue));
 
           self.newRow = emptyRow;
+          */
+          gridManager.addNewRow();
         }
 
-        $("tr td", body).on("click", tdClickListener);
-        $("tr td", body).on("keydown", tdKeyDownListener);
-        $("tr td", body).on("keypress", tdKeyPressListener);
+        $("tr td", gridManager.body).on("click", tdClickListener);
+        $("tr td", gridManager.body).on("keydown", tdKeyDownListener);
+        $("tr td", gridManager.body).on("keypress", tdKeyPressListener);
       };
 
       //
