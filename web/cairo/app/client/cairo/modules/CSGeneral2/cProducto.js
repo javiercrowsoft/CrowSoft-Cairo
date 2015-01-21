@@ -521,6 +521,8 @@
 
       self.messageEx = function(messageId,  info) {
         var _rtn = null;
+        var p = null;
+
         switch (messageId) {
 
           case Dialogs.Message.MSG_DOC_INFO:
@@ -531,7 +533,7 @@
 
           case Dialogs.Message.MSG_GRID_VIRTUAL_ROW:
 
-            _rtn = processMultiRow(info);
+            p = processMultiRow(info);
             break;
 
           default:
@@ -540,22 +542,22 @@
             break;
         }
 
-        return Cairo.Promises.resolvedPromise(_rtn);
+        return p || Cairo.Promises.resolvedPromise(_rtn);
       };
 
-      var processMultiRow = function(info) {
+      var processMultiRow = function(virtualRow) {
         var p = null;
 
-        info.bAddRows = false;
+        virtualRow.setSuccess(false);
 
-        switch (info.Key) {
+        switch (virtualRow.getInfo().key) {
           case K_TAGS:
             var w_pGetTags = getTags();
 
             var row = null;
-            row = w_pGetTags.getGrid().getRows(info.row);
+            row = w_pGetTags.getGrid().getRows().get(virtualRow.getInfo().row);
 
-            if(row.item(info.col).getKey() === KIT_PR_ID_TAG) {
+            if(row.item(virtualRow.getInfo().col).getKey() === KIT_PR_ID_TAG) {
 
               var cell = null;
 
@@ -563,14 +565,14 @@
 
               if(cell.getSelectIntValue() !== "") {
                 if(cell.getSelectIntValue().indexOf(",", 1) >= 0) {
-                  p = Cairo.Selections.addMultiRowsPurchase(cell.getSelectIntValue(), info, -1);
+                  p = Cairo.Selections.addMultiRowsPurchase(cell.getSelectIntValue(), virtualRow, -1);
                 }
               }
             }
             break;
         }
 
-        return p || Cairo.Promises.resolvedPromise(false);
+        return p || Cairo.Promises.resolvedPromise(virtualRow);
       };
 
       self.discardChanges = function() {
@@ -3877,7 +3879,7 @@
       // grid
       //
 
-      self.columnAfterEdit = function(key,  lRow,  lCol,  newValue,  newValueID) {
+      self.columnAfterEdit = function(key,  lRow,  lCol,  newValue,  newValueId) {
         return Cairo.Promises.resolvedPromise(true);
       };
 

@@ -1407,7 +1407,7 @@
                   gridCell.setBackColor(format.getBackColor());
                   gridCell.setTextAlign(format.getTextAlign());
 
-                  var font = new  Cairo.Font();
+                  var font = Cairo.createFont();
                   font.setName(format.getFontName());
                   font.setItalic(format.getItalic());
                   font.setBold(format.getBold());
@@ -3099,11 +3099,11 @@
         // TODO: refactor promise is returned by this function
         //
         var masterHandlerGridColumnAfterEdit = function(index, eventArgs) {
-          return gridColumnEdit(true, index, eventArgs.row, eventArgs.col, 0, eventArgs.newValue, eventArgs.newValueID);
+          return gridColumnEdit(true, index, eventArgs.row, eventArgs.col, 0, eventArgs.newValue, eventArgs.newValueId);
         };
 
         var masterHandlerGridColumnAfterUpdate = function(index, eventArgs) {
-          gridColumnAfterUpdate(index, eventArgs.row, eventArgs.col, 0, eventArgs.newValue, eventArgs.newValueID);
+          gridColumnAfterUpdate(index, eventArgs.row, eventArgs.col, 0, eventArgs.newValue, eventArgs.newValueId);
         };
 
         // TODO: refactor promise is returned by this function
@@ -3129,7 +3129,7 @@
         };
 
         var masterHandlerGridNewRow = function(index, eventArgs) {
-          gridNewRow(index, eventArgs.row);
+          return gridNewRow(index, eventArgs.row);
         };
 
         var masterHandlerGridAfterDeleteRow = function(index, eventArgs) {
@@ -3144,8 +3144,12 @@
           gridSelectionChange(index, eventArgs.row, eventArgs.col, Dialogs.GridSelectChangeType.GRID_ROW_CHANGE);
         };
 
+        var notCancel = function(result) {
+          return !result.cancel;
+        };
+
         var masterHandlerGridValidateRow = function(index, eventArgs) {
-          return gridValidateRow(index, eventArgs.row, true);
+          return gridValidateRow(index, eventArgs.row, true).then(notCancel);
         };
 
         var masterHandlerSelectChange = function(index) {
@@ -3592,12 +3596,12 @@
 
         // TODO: refactor promise is returned by this function
         //
-        var wizHandlerGridColumnAfterEdit = function(index, rowIndex, colIndex, newValue, newValueID) {
-          return gridColumnEdit(true, index, rowIndex, colIndex, 0, newValue, newValueID);
+        var wizHandlerGridColumnAfterEdit = function(index, rowIndex, colIndex, newValue, newValueId) {
+          return gridColumnEdit(true, index, rowIndex, colIndex, 0, newValue, newValueId);
         };
 
-        var wizHandlerGridColumnAfterUpdate = function(index, rowIndex, colIndex, newValue, newValueID) {
-          gridColumnAfterUpdate(index, rowIndex, colIndex, 0, newValue, newValueID);
+        var wizHandlerGridColumnAfterUpdate = function(index, rowIndex, colIndex, newValue, newValueId) {
+          gridColumnAfterUpdate(index, rowIndex, colIndex, 0, newValue, newValueId);
         };
 
         // TODO: refactor promise is returned by this function
@@ -3616,7 +3620,7 @@
         };
 
         var wizHandlerGridNewRow = function(index, rowIndex) {
-          gridNewRow(index, rowIndex);
+          return gridNewRow(index, rowIndex);
         };
 
         var wizHandlerGridAfterDeleteRow = function(index, rowIndex) {
@@ -3631,8 +3635,8 @@
           gridSelectionChange(index, rowIndex, colIndex, Dialogs.GridSelectChangeType.GRID_ROW_CHANGE);
         };
 
-        var wizHandlerGridValidateRow = function(index, rowIndex) {
-          return gridValidateRow(index, rowIndex, true);
+        var wizHandlerGridValidateRow = function(index, eventArgs) {
+          return gridValidateRow(index, eventArgs.row, true).then(notCancel);;
         };
 
         var wizHandlerSelectChange = function(index) {
@@ -3771,12 +3775,12 @@
           return gridColumnButtonClick(index, rowIndex, colIndex, keyAscii);
         };
 
-        var docHandlerGridColumnAfterEdit = function(index, rowIndex, colIndex, newValue, newValueID) {
-          return gridColumnEdit(true, index, rowIndex, colIndex, 0, newValue, newValueID);
+        var docHandlerGridColumnAfterEdit = function(index, rowIndex, colIndex, newValue, newValueId) {
+          return gridColumnEdit(true, index, rowIndex, colIndex, 0, newValue, newValueId);
         };
 
-        var docHandlerGridColumnAfterUpdate = function(index, rowIndex, colIndex, newValue, newValueID) {
-          gridColumnAfterUpdate(index, rowIndex, colIndex, 0, newValue, newValueID);
+        var docHandlerGridColumnAfterUpdate = function(index, rowIndex, colIndex, newValue, newValueId) {
+          gridColumnAfterUpdate(index, rowIndex, colIndex, 0, newValue, newValueId);
         };
 
         // TODO: refactor promise is returned by this function
@@ -3795,11 +3799,11 @@
         };
 
         var docHandlerGridNewRow = function(index, rowIndex) {
-          gridNewRow(index, rowIndex);
+          return gridNewRow(index, rowIndex);
         };
 
-        var docHandlerGridValidateRow = function(index, rowIndex) {
-          return gridValidateRow(index, rowIndex, true);
+        var docHandlerGridValidateRow = function(index, eventArgs) {
+          return gridValidateRow(index, eventArgs.row, true).then(notCancel);;
         };
 
         var docHandlerGridSelectionChange = function(index, rowIndex, colIndex) {
@@ -3904,7 +3908,7 @@
 
             var grid = property.getControl();
             if(rowIndex < grid.getRows().count()) {
-              grid.Cell(rowIndex, 1).getText() === rowIndex;
+              grid.cellText(rowIndex, 1) === rowIndex;
             }
 
           }
@@ -3942,22 +3946,24 @@
         };
 
         var gridNewRow = function(index, rowIndex) {
+          var p = null;
           if(m_clientManageGrid) {
             var property = getProperty(Dialogs.PropertyType.grid, index, 0);
             if(property !== null) {
-              m_client.newRow(getPropertyKey(property), rowIndex).then(
+              p = m_client.newRow(getPropertyKey(property), rowIndex).then(
                 function() {
                   setDefaults(property, rowIndex);
                 }
               );
             }
           }
+          return p || Cairo.Promises.resolvedPromise();
         };
 
         var setDefaults = function(property, rowIndex) {
 
           var row = createRow(property.getIndex(), property, rowIndex);
-          row.get(1).setValue(property.getGrid().getRows().count() + 1);
+          row.get(0).setValue(property.getGrid().getRows().count() + 1);
 
           var colIndex = 0;
           var columnsCount = property.getGrid().getColumns().count();
@@ -3977,7 +3983,7 @@
           }
         };
 
-        var gridColumnAfterUpdate = function(index, rowIndex, colIndex, keyAscii, newValue, newValueID) {
+        var gridColumnAfterUpdate = function(index, rowIndex, colIndex, keyAscii, newValue, newValueId) {
           try {
 
             if(m_clientManageGrid) {
@@ -3988,25 +3994,27 @@
 
                 var propertyKey = getPropertyKey(property);
 
-                // If the row not exists we have to create it because the client need it to hold
+                // If the row doesn't exist we have to create it because the client need it to hold
                 // calculated data
-                createRowIfNotExists(property, index, rowIndex);
+                createRowIfDoesntExist(property, index, rowIndex);
 
-                setColumnValueInProperty(property, index, rowIndex, colIndex, newValue, newValueID);
+                setColumnValueInProperty(property, index, rowIndex, colIndex, newValue, newValueId);
 
                 // Multi
                 // if virtual rows were not created in this call
                 // we update the grid
                 //
                 processVirtualRow(property, index, rowIndex, colIndex, propertyKey).then(
-                  function(result) {
+                  function(wasMultiRow) {
                     var p = null;
 
-                    if(result) {
+                    if(wasMultiRow === false) {
+                      //
                       // Let client one chance to calculate columns
+                      //
                       p = m_client.columnAfterUpdate(propertyKey, rowIndex, colIndex).then(
                         function() {
-                          setRowValueInGrid(index, property, rowIndex, property.getGrid().getRows(rowIndex));
+                          setRowValueInGrid(index, property, rowIndex, property.getGrid().getRows().get(rowIndex));
                         }
                       );
                     }
@@ -4038,70 +4046,163 @@
           return property.getGrid().getColumns().get(colIndex).isEditable();
         };
 
+        //
+        // multi rows let the user to select more than one FK in a single selection
+        // when the user does a multi row selection all events are managed by this function
+        //
+        // the return value is used to inform the type of selection
+        //
+        // true:    multi row selection
+        // false:   normal selection
+        //
         var processVirtualRow = function(property, index, rowIndex, colIndex, propertyKey) {
 
-          return addVirtualRows(getPropertyKey(property), rowIndex, colIndex).then(
-            function(info) {
-              if(info.success) {
+          return addVirtualRows(
+            getPropertyKey(property), rowIndex, colIndex
+          ).then(
+            function(virtualRow) {
+              //
+              // it is not a virtual row selection so we return false
+              //
+              if(virtualRow.getSuccess() === false) {
                 return false;
               }
               else {
-                var n = property.getGrid().getRows().count();
+                var rowsInGrid = property.getGrid().getRows().count();
+                var lastRow = rowsInGrid + virtualRow.getRowsToAdd();
 
-                property.getControl().getRows().setCount(n + info.getRowsToAdd());
-
-                var rowsToAdd = n + info.getRowsToAdd();
-
-                var colAmount = getColIndexFromKey(property, info.getColAmount());
+                var colAmount = getColIndexFromKey(property, virtualRow.getColAmount());
                 var q = 0;
 
-                for(var i = n; i < rowsToAdd; i++) {
-                  q = q + 1;
-                  gridNewRow(index, i);
-                  createRowIfNotExists(property, index, i);
+                var p = Cairo.Promises.resolvedPromise();
 
-                  if(i < rowsToAdd) {
-                    setColumnValueInProperty(property, index, i, colIndex, info.getNewValue(q), Cairo.Util.val(info.getNewId(q)));
-
-                    m_client.columnAfterEdit(propertyKey, i, colIndex, info.getNewValue(q), Cairo.Util.val(info.getNewId(q)));
-
-                    // Let client one chance to calculate columns
-                    m_client.columnAfterUpdate(propertyKey, i, colIndex);
-
-                    if(colAmount > 0) {
-                      setColumnValueInProperty(property, index, i, colAmount, info.getNewAmount(q), 0);
-
-                      m_client.columnAfterEdit(propertyKey, i, colAmount, info.getNewAmount(q), 0);
-
-                      // Let client one chance to calculate columns
-                      m_client.columnAfterUpdate(propertyKey, i, colAmount);
+                //
+                // for every new row we need to serialize
+                // two set of events ( columnAfterEdit, columnAfterUpdate )
+                // one set is to add the FK and the other is to calculate totals
+                // when there is an amount column in the grid
+                //
+                var addVirtualRow = function() {
+                  //
+                  // first inform the client we are adding a row
+                  //
+                  return gridNewRow(index, i).then(
+                    function() {
+                      createRowIfDoesntExist(property, index, i);
                     }
-                  }
+                  ).then(
+                    //
+                    // this function contains all the validations and calls to the client to let it calculate
+                    // and update cell's values.
+                    //
+                    function() {
+                      var p = null;
+                      //
+                      // all virtual rows but the last one fire ColumnAfterEdit - ColumnAfterUpdate
+                      //
+                      if(i < lastRow -1) {
+                        //
+                        // updte the property with the FK
+                        //
+                        setColumnValueInProperty(property, index, i, colIndex, virtualRow.getNewValue(q), Cairo.Util.val(virtualRow.getNewId(q)));
 
-                  setRowValueInGrid(index, property, i, property.getGrid().getRows(i));
+                        p = m_client.columnAfterEdit(
+                            propertyKey,
+                            i,
+                            colIndex,
+                            virtualRow.getNewValue(q),
+                            Cairo.Util.val(virtualRow.getNewId(q))
+                        ).then(
+                          function() {
+                            //
+                            // let client one chance to calculate cell's values
+                            //
+                            return m_client.columnAfterUpdate(
+                                propertyKey,
+                                i,
+                                colIndex
+                            ).then(
+                              function() {
+                                var p = null;
+                                if(colAmount > 0) {
+                                  //
+                                  // updte the property with the amount
+                                  //
+                                  setColumnValueInProperty(property, index, i, colAmount, virtualRow.getNewAmount(q), 0);
+
+                                  p = m_client.columnAfterEdit(
+                                      propertyKey,
+                                      i,
+                                      colAmount,
+                                      virtualRow.getNewAmount(q),
+                                      0
+                                  ).then(
+                                    function() {
+                                      //
+                                      // let client one chance to calculate columns
+                                      //
+                                      return m_client.columnAfterUpdate(propertyKey, i, colAmount);
+                                    }
+                                  );
+                                }
+                                return p || Cairo.Promises.resolvedPromise();
+                              }
+                            );
+                          }
+                        );
+                      }
+                      p = p || Cairo.Promises.resolvedPromise();
+                      return p.then(function() {
+                        //
+                        // finally we update the grid control
+                        //
+                        setRowValueInGrid(index, property, i, property.getGrid().getRows(i));
+                      });
+                    }
+                  );
+                };
+
+                //
+                // for every new row we need to serialize
+                // two set of events ( columnAfterEdit, columnAfterUpdate )
+                // one set is to add the FK and the other is to calculate totals
+                // when there is an amount column in the grid
+                //
+                for(var i = rowsInGrid; i < lastRow; i++) {
+                  p = p.then(addVirtualRow);
+                  q = q + 1;
                 }
-                return true;
+                //
+                // it was a multi row selection so we return true
+                //
+                return p.then(function() { return true; });
               }
             }
           );
         };
 
         var addVirtualRows = function(key, rowIndex, colIndex) {
+          var virtualRow = Cairo.Dialogs.Grids.createVirtualRow();
+          //
+          // if the client is null just return a succes with result in false to cancel the addition
+          //
           if(m_client === null) {
-            return Cairo.Promises.resolvedPromise(new Cairo.Dialogs.Grids.VirtualRow({
-              result: false,
-              info: null,
-              rowsToAdd: 0
-            }));
+            return Cairo.Promises.resolvedPromise(virtualRow);
           }
           else {
-            var info = {
+            //
+            // inform the client the row and column where the wirtual row addition originated
+            //
+            virtualRow.setInfo({
               key: key,
               row: rowIndex,
               col: colIndex
-            };
+            });
 
-            return m_client.messageEx(Dialogs.Message.MSG_GRID_VIRTUAL_ROW, info);
+            //
+            // the client will return a promise
+            //
+            return m_client.messageEx(Dialogs.Message.MSG_GRID_VIRTUAL_ROW, virtualRow);
           }
         };
 
@@ -4184,7 +4285,7 @@
           return !cancel;
         };
 
-        var gridColumnEdit = function(after, index, rowIndex, colIndex, keyAscii, newValue, newValueID) {
+        var gridColumnEdit = function(after, index, rowIndex, colIndex, keyAscii, newValue, newValueId) {
           var p = null;
           try {
 
@@ -4200,16 +4301,16 @@
 
                   // If the row doesn't exists we have to create it because the client need it to hold
                   // calculated data
-                  createRowIfNotExists(property, index, rowIndex);
+                  createRowIfDoesntExist(property, index, rowIndex);
 
-                  p = m_client.columnAfterEdit(propertyKey, rowIndex, colIndex, newValue, newValueID);
+                  p = m_client.columnAfterEdit(propertyKey, rowIndex, colIndex, newValue, newValueId);
                 }
                 else {
 
                   if(m_createRowInBeforeEdit) {
                     // If the row doesn't exists we have to create it because the client need it to hold
                     // calculated data
-                    createRowIfNotExists(property, index, rowIndex);
+                    createRowIfDoesntExist(property, index, rowIndex);
                   }
 
                   p = m_client.columnBeforeEdit(propertyKey, rowIndex, colIndex, keyAscii);
@@ -4252,7 +4353,7 @@
 
                 // If the row not exists we have to create it because the client need it to hold
                 // calculated data
-                createRowIfNotExists(property, index, rowIndex);
+                createRowIfDoesntExist(property, index, rowIndex);
 
                 p = m_client.columnButtonClick(propertyKey, rowIndex, colIndex, keyAscii).then(
                   function(mustHandleEvent) {
@@ -4309,7 +4410,7 @@
           return (p || Cairo.Promises.resolvedPromise(false));
         };
 
-        var createRowIfNotExists = function(property, index, rowIndex) {
+        var createRowIfDoesntExist = function(property, index, rowIndex) {
           var rows = property.getGrid().getRows();
           var row = rows.getOrElse(rowIndex, null);
           if(row === null) {
@@ -4336,7 +4437,7 @@
           return colIndex;
         };
 
-        var setColumnValueInProperty = function(property, index, rowIndex, colIndex, newValue, newValueID) {
+        var setColumnValueInProperty = function(property, index, rowIndex, colIndex, newValue, newValueId) {
           var rows = property.getGrid().getRows();
           var row = rows.get(rowIndex);
 
@@ -4348,7 +4449,7 @@
           var cell = row.get(colIndex);
 
           Cairo.safeExecute(function() {
-            cell.setId(newValueID);
+            cell.setId(newValueId);
             cell.setValue(newValue);
             cell.setSelectIntValue(property.getControl().cell(rowIndex, colIndex).getTag());
           });
@@ -4386,14 +4487,6 @@
                     return m_client.validateRow(propertyKey, row, rowIndex).then(
                       function(isValid) {
                         if(isValid) {
-                          return {
-                            cancel:  true,
-                            isEmpty: false,
-                            isValid: false // m_client set this row as invalid
-                          };
-                        }
-                        else {
-
                           // put client's values into the grid
                           setRowValueInGrid(index, property, rowIndex, row);
 
@@ -4403,7 +4496,7 @@
                             row.setIndex(rowIndex);
                             rows.add(row);
 
-                            if(!row.get(Dialogs.Constants.keyRowItem) === null) {
+                            if(row.get(Dialogs.Constants.keyRowItem) !== null) {
                               row.get(Dialogs.Constants.keyRowItem).setValue(rowIndex);
                             }
 
@@ -4420,6 +4513,13 @@
                               isValid: true // empty rows are valid
                             };
                           }
+                        }
+                        else {
+                          return {
+                            cancel:  true,
+                            isEmpty: false,
+                            isValid: false // m_client set this row as invalid
+                          };
                         }
                       }
                     );
@@ -4558,18 +4658,16 @@
         };
 
         var setRowValueInGrid = function(index, property, rowIndex, row) {
-          var colIndex = 0;
           var grid = getView().getGrids().get(index);
 
           grid.setRowBackColor(rowIndex, row.getBackColor());
           grid.setRowForeColor(rowIndex, row.getForeColor());
 
-          for(var _i = 0; _i < property.getGrid().getColumns().count(); _i++) {
+          for(var _i = 0, count = property.getGrid().getColumns().count(); _i < count; _i++) {
             var col = property.getGrid().getColumns().get(_i);
-            colIndex = colIndex + 1;
-            var cell = row.get(colIndex);
+            var cell = row.get(_i);
 
-            var gridCell = grid.Cell(rowIndex, colIndex);
+            var gridCell = grid.cell(rowIndex, _i);
             gridCell.setItemData(cell.getId());
 
             if(col.getType() === Dialogs.PropertyType.date) {

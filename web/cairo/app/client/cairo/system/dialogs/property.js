@@ -230,9 +230,14 @@
       that.getSelectedRow = function() {
         return self.gridSelectedRow;
       };
+
       that.getForeColor = function() {
         return self.foreColor;
       };
+      that.setForeColor = function(color) {
+        self.foreColor = color;
+      };
+
       that.getBackColor = function() {
         return self.backColor;
       };

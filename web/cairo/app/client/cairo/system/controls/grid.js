@@ -86,7 +86,9 @@
         selectType: Cairo.Entities.Select.SelectType.normal,
         selectTable: 0,        
 
-        defaultValue: null /* is a Grids.Cell object */
+        defaultValue: null, /* is a Grids.Cell object */
+
+        index: -1
       };
 
       var that = {
@@ -184,6 +186,13 @@
         },
         setDefault: function(value) {
           self.defaultValue = value;
+        },
+
+        getIndex: function() {
+          return self.index;
+        },
+        setIndex: function(index) {
+          self.index = index;
         }
 
       };
@@ -449,15 +458,15 @@
               var ctrl = getControl(col);
               var td = info.td;
               var newValue = "";
+              var newValueId = "";
 
               switch (col.getType()) {
                 case T.select:
+                case T.list:
                   p = ctrl.validate().then(
                     function() {
-                      newValue = {
-                        text: ctrl.getValue(),
-                        id: ctrl.getId()
-                      };
+                      newValue = ctrl.getValue();
+                      newValueId = ctrl.getId();
                     }
                   );
                   break;
@@ -477,7 +486,8 @@
                   var args = {
                     row: info.row,
                     col: info.col,
-                    newValue: newValue
+                    newValue: newValue,
+                    newValueId: newValueId
                   };
                   return raiseEventAndThen(
                     'onColumnAfterEdit',
@@ -518,6 +528,15 @@
             ctrl.setSelectNoUseActive(col.getSelectNoUseActive());
             ctrl.updateDefinition();
             break;
+
+          case T.list:
+            if(newValue.text !== undefined) {
+              ctrl.setValue(newValue.text);
+              ctrl.setId(newValue.id);
+            }
+            else {
+              ctrl.setValue(newValue);
+            }
 
           case T.text:
             ctrl.setText(newValue);
@@ -599,9 +618,10 @@
                 break;
 
               case T.select:
-                cell.setText(info.newValue.text);
-                cell.setItemData(info.newValue.id)
-                $(td).html(info.newValue.text);
+              case T.list:
+                cell.setText(info.newValue);
+                cell.setItemData(info.newValueId)
+                $(td).html(info.newValue);
                 break;
 
               case T.text:
@@ -615,7 +635,8 @@
             var args = {
               row: info.row,
               col: info.col,
-              newValue: info.newValue
+              newValue: info.newValue,
+              newValueId: info.newValueId
             };
             raiseEvent(
               'onColumnAfterUpdate',
@@ -771,8 +792,42 @@
         return null;
       };
 
-      var addRow = function() {
+      var colIsVisible = function(column) {
+        return column.getVisible();
+      };
 
+      var getIndexFirstCol = function() {
+        var column = self.columns.selectFirst(colIsVisible);
+        if(column !== null) {
+          return column.getIndex();
+        }
+        else {
+          return -1;
+        }
+      };
+
+      var newRow = function(tr, td) {
+        var index = getIndexFirstCol();
+        index = index < 0 ? td.cellIndex : index;
+        tr.childNodes.item(index).focus();
+      };
+
+      var addRow = function(td) {
+        var tr = gridManager.addNewRow();
+        gridManager.bindEvents("td", tr);
+
+        // request a new row
+        //
+        // next prepare to start editing this cell
+        //
+        var args = {
+          row: tr.rowIndex - 1 /* first row contains headers */
+        }
+        raiseEventAndThen(
+          'onNewRow',
+          args,
+          thenIfSuccessCall(newRow, tr, td)
+        );
       };
 
       var tdKeyPressListener = function(e) {
@@ -888,25 +943,32 @@
           else if(moveToRow !== 0) {
             var tr = td.parentNode;
             var index = tr.rowIndex + moveToRow;
-            if(index > 0 && index < tr.parentNode.childNodes.length) {
+            if(index > 0) {
               var col = self.columns.get(td.cellIndex);
               if(e.target.tagName === "TD"
                 || col.getType() !== T.select
                 || !getControl(col).listIsOpen()) {
-                endEdit();
-                tr.parentNode.childNodes.item(index).childNodes.item(td.cellIndex).focus();
-              }
-            }
-            else {
-              if(index > 0 && index >= tr.parentNode.childNodes.length) {
-                // request a new row
-                //
-                // next prepare to start editing this cell
-                //
-                raiseEventAndThen(
-                  'onValidateRow',
-                  args,
-                  thenIfSuccessCall(addRow, args, td)
+                endEdit().then(
+                  function() {
+                    if(index < tr.parentNode.childNodes.length) {
+                      tr.parentNode.childNodes.item(index).childNodes.item(td.cellIndex).focus();
+                    }
+                    else {
+                      // request a new row
+                      //
+                      // next prepare to start editing this cell
+                      //
+                      var args = {
+                        row: tr.rowIndex - 1, /* first row contains headers */
+                        col: td.cellIndex
+                      }
+                      raiseEventAndThen(
+                        'onValidateRow',
+                        args,
+                        thenIfSuccessCall(addRow, td)
+                      );
+                    }
+                  }
                 );
               }
             }
@@ -981,19 +1043,19 @@
       //
       // drawing
       //
+      var removeChildren = function(element) {
+        while (element.firstChild) {
+          element.removeChild(child.firstChild);
+        }
+      };
 
-      var getTableSection = function(element, section, tag) {
-        var child = $('.' + section, element);
-        if(child.length > 0) {
-          while (child.firstChild) {
-            child.removeChild(child.firstChild);
-          }
+      var getTableSection = function(parent, section, tag) {
+        var element = $('.' + section, parent);
+        if(element.length === 0) {
+          element = $('<' + tag + ' class="' + section + '"></' + tag + '>');
+          parent.append(element);
         }
-        else {
-          child = $('<' + tag + ' class="' + section + '"></' + tag + '>');
-          element.append(child);
-        }
-        return child;
+        return element;
       };
 
       //
@@ -1034,13 +1096,32 @@
           return td;
         };
 
+        gridManager.updateTD = function(item, i, tr, getValue) {
+          var col = self.columns.get(i);
+          var td = tr.childNodes.item(i);
+          td.html(getValue(item, col));
+        };
+
         //
         // rows
         //
 
-        gridManager.createTR = function(elements, clazz, getValue) {
+        gridManager.createTR = function(cellsOrColumns, clazz, getValue) {
+          //
+          // create a $TR element
+          //
           var tr = $('<tr class="' + clazz + '"></tr>');
-          tr.append(elements.map(gridManager.createTD, getValue));
+          //
+          // add all TDs from a collection of cells or columns
+          //
+          tr.append(cellsOrColumns.map(gridManager.createTD, getValue));
+          //
+          // apply format to every TD
+          //
+          gridManager.setFormatInRow(tr);
+          //
+          // finally we return the new $tr element
+          //
           return tr;
         };
 
@@ -1053,113 +1134,120 @@
         };
 
         gridManager.addNewRow = function() {
+          //
+          // create an empty row
+          //
           var emptyRow = createRow();
+          //
+          // for every column create a cell
+          //
           self.columns.each(gridManager.addToEmptyRow, emptyRow.getCells());
+          //
+          // show an asterisk to inform the user this is a new row
+          //
           emptyRow.getCells().get(0).setText("<i class='glyphicon glyphicon-asterisk glyphicon-new'></i>");
-          gridManager.body.append(gridManager.createTR(emptyRow.getCells(), 'dialog-tr', gridManager.getValue));
-
+          //
+          // create the $TR element with TDs from the new row
+          //
+          var tr = gridManager.createTR(emptyRow.getCells(), 'dialog-tr', gridManager.getValue);
+          //
+          // add the new row to the table
+          //
+          gridManager.body.append(tr);
+          //
+          // update the reference to the new row (this row is not in self.rows yet)
+          //
           self.newRow = emptyRow;
+          //
+          // apply format to every TD
+          //
+          gridManager.setFormatInRow(tr);
+          //
+          //
+          // finally we return the new tr element
+          //
+          return tr[0];
         }
+
+        gridManager.updateRow = function(rowIndex) {
+          var tr = gridManager.body.childNodes.item(rowIndex);
+          self.rows.each(gridManager.updateTD, tr, gridManager.getValue);
+        };
+
+        gridManager.bindEvents = function(parent, selector) {
+          $(selector, parent).on("click", tdClickListener);
+          $(selector, parent).on("keydown", tdKeyDownListener);
+          $(selector, parent).on("keypress", tdKeyPressListener);
+        };
+
+        gridManager.setFormatInRow = function(tr) {
+          // TODO: implement this.
+        };
+
       //
       // end grid manager
       //
 
-      var draw = function(element) {
+      var draw = function(element, rowIndex) {
         if(self.redraw !== true || element === null) return;
 
-        //--remove-- var body = getTableSection(element, 'dialog-grid-body', 'tbody');
-        gridManager.body = getTableSection(element, 'dialog-grid-body', 'tbody');
+        rowIndex = rowIndex === undefined ? -1 : rowIndex;
 
         //
-        // columns and cells
+        // if rowIndex == -1 we need to remove all rows and columns and then draw the entire grid
         //
-        //--remove--
-        /*
-        var getColumnTitle = function(cell) {
-          return cell.getText();
-        };
+        if(rowIndex === -1) {
 
-        var getDateFormatted = Cairo.Util.getDateFormatted;
+          //
+          // get the body of this table
+          //
+          gridManager.body = getTableSection(element, 'dialog-grid-body', 'tbody');
 
-        var getValue = function(cell, col) {
-          switch(col.getType()) {
-            case T.check:
-              return getCheckboxIcon(cell.getText());
-            case T.date:
-              return getDateFormatted(cell.getText());
-            default:
-              return cell.getText();
-          }
-        };
+          //
+          // remove all rows and columns
+          //
+          removeChildren(gridManager.body);
 
-        var hiddenStatus = [];
-        */
-        var visibleToArray = function(col, i) {
-          gridManager.hiddenStatus[i] = col.getVisible() === true ? "" : " hidden";
-        };
-        self.columns.each(visibleToArray);
-
-        //--remove--
-        /*
-        var createTD = function(item, i, getValue) {
-          var col = self.columns.get(i);
-          var hidden = hiddenStatus[i];
-          var td = $('<td class="dialog-td' + hidden + '" tabindex="0"></td>');
-          td.html(getValue(item, col));
-          return td;
-        };
-        */
-
-        //
-        // rows
-        //
-
-        //--remove--
-        /*
-        var createTR = function(elements, clazz, getValue) {
-          var tr = $('<tr class="' + clazz + '"></tr>');
-          tr.append(elements.map(createTD, getValue));
-          return tr;
-        };
-
-        var addRow = function(row) {
-          return createTR(row.getCells(), 'dialog-tr', getValue);
-        };
-        */
-
-        //
-        // add columns
-        //
-        gridManager.body.append(gridManager.createTR(self.columns, 'dialog-th', gridManager.getColumnTitle));
-        //
-        // add rows
-        //
-        gridManager.body.append(self.rows.map(gridManager.addRow));
-
-        //
-        // for grids with addEnabled === true we add an empty row at the bottom
-        //
-        if(self.editEnabled && self.addEnabled) {
-
-          //--remove--
-          /*
-          var addToEmptyRow = function(col, index, cells) {
-            var cell = cells.add();
+          //
+          // columns and cells
+          //
+          var visibleToArray = function(col, i) {
+            gridManager.hiddenStatus[i] = col.getVisible() === true ? "" : " hidden";
           };
+          self.columns.each(visibleToArray);
 
-          var emptyRow = createRow();
-          self.columns.each(addToEmptyRow, emptyRow.getCells());
-          emptyRow.getCells().get(0).setText("<i class='glyphicon glyphicon-asterisk glyphicon-new'></i>");
-          body.append(createTR(emptyRow.getCells(), 'dialog-tr', getValue));
+          //
+          // rows
+          //
 
-          self.newRow = emptyRow;
-          */
-          gridManager.addNewRow();
+          //
+          // add columns
+          //
+          gridManager.body.append(gridManager.createTR(self.columns, 'dialog-th', gridManager.getColumnTitle));
+
+          //
+          // add rows
+          //
+          gridManager.body.append(self.rows.map(gridManager.addRow));
+
+          //
+          // for grids with addEnabled === true we add an empty row at the bottom
+          //
+          if(self.editEnabled && self.addEnabled) {
+            gridManager.addNewRow();
+          }
+
+          //
+          // bind events to every row
+          //
+          gridManager.bindEvents(gridManager.body, "tr td");
         }
-
-        $("tr td", gridManager.body).on("click", tdClickListener);
-        $("tr td", gridManager.body).on("keydown", tdKeyDownListener);
-        $("tr td", gridManager.body).on("keypress", tdKeyPressListener);
+        else {
+          //
+          // just update the row
+          //
+          gridManager.updateRow(rowIndex);
+        }
       };
 
       //
@@ -1203,8 +1291,8 @@
         self.redraw = redraw;
       };
 
-      that.draw = function() {
-        draw(that.getElement());
+      that.draw = function(rowIndex) {
+        draw(that.getElement(), rowIndex);
       };
 
       that.rowIsGroup = function(row) { /* TODO = implement this. */ };
@@ -1241,7 +1329,11 @@
       that.unSelectRow = function(row) { /* TODO = implement this. */ };
       that.setNoSelectInGotFocus = function(value) { /* TODO = implement this. */ };
 
+      //
+      // overloaded methods - the default implementation in controls doesn't apply to grids
+      //
       that.setSelectOnFocus = function(select) {};
+      that.onKeyUp = function(e) {};
 
       return that;
     };

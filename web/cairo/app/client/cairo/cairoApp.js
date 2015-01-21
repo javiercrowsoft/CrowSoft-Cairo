@@ -715,6 +715,12 @@ var Cairo = new Marionette.Application();
     },
     boolToInt: function(value) {
       return value === true ? 1 : 0;
+    },
+    removeLastColon: function(str) {
+      if(str.length > 0 && str.slice(-1) === ",") {
+        str = str.substr(0, str.length-1);
+      }
+      return str;
     }
   };
 
@@ -783,26 +789,41 @@ var Cairo = new Marionette.Application();
     }
   };
 
-  Cairo.Font = Backbone.Model.extend({
-    urlRoot: "",
+  Cairo.createFont = function() {
 
-    defaults: {
+    var self = {
       name:           '',
       italic:         false,
       bold:           false,
       size:           0,
       strikeThrough:  false,
       underline:      false
-    },
+    };
 
-    setName: function(value) { /* TODO: implement this. */ },
-    setItalic: function(value) { /* TODO: implement this. */ },
-    setBold: function(value) { /* TODO: implement this. */ },
-    setSize: function(value) { /* TODO: implement this. */ },
-    setStrikeThrough: function(value) { /* TODO: implement this. */ },
-    setUnderline: function(value) { /* TODO: implement this. */ }
+    var that = {};
 
-  });
+    that.setName = function(value) {
+      self.name = value;
+    };
+    that.setItalic = function(value) {
+      self.italic = value;
+    };
+    that.setBold = function(value) {
+      self.bold = value;
+    };
+    that.setSize = function(value) {
+      self.size = value;
+    };
+    that.setStrikeThrough = function(value) {
+      self.strikeThrough = value;
+    };
+    that.setUnderline = function(value) {
+      self.underline = value;
+    };
+
+    return that;
+
+  };
 
   /*
     returns the execution of function f or errorValue if an error occurs

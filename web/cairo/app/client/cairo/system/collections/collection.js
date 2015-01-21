@@ -206,6 +206,19 @@
         return r;
       };
 
+      that.selectFirst = function(f) {
+        var args = Array.prototype.slice.call(arguments, 1);
+
+        for(var i = 0, count = self.items.length; i < count; i += 1) {
+          var item = self.items[i];
+          if(f.apply(null, [item, i].concat(args))) {
+            return item;
+          }
+        }
+
+        return null;
+      };
+
       return that;
     }
   };

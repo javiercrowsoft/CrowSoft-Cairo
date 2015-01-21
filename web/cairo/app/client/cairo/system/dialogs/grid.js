@@ -16,6 +16,11 @@
     var createManager = function() {
       
       var that = {};
+
+      var setGridCell = function(cell, gridCell, column) {
+        gridCell.setText(cell.getValue());
+        gridCell.setItemData(cell.getId());
+      };
       
       that.loadFromRows = function(gridControl, grid, noChangeColumns, name) {
 
@@ -51,9 +56,8 @@
         }
 
         var createCell = function(cell, index, row) {
-          var c = row.getCells().add();
-          c.setText(cell.getValue());
-          c.setItemData(cell.getId());
+          var gridCell = row.getCells().add();
+          setGridCell(cell, gridCell, columns.get(index));
         };
 
         //
@@ -78,7 +82,27 @@
         gridControl.draw();
       };
 
-      that.loadFromRow = function(gridControl, row, rowIndex, columns) { /* TODO = implement this. */ };
+      that.loadFromRow = function(gridControl, row, rowIndex, columns) {
+
+        //
+        // during this function the grid's DOM shouldn't be modified
+        //
+        gridControl.setRedraw(false);
+
+        var columns = gridControl.getColumns();
+
+        var updateCell = function(cell, index, row) {
+          var gridCell = row.getCells().get(index);
+          setGridCell(cell, gridCell, columns.get(index));
+        };
+
+        var r = gridControl.getRows().item(rowIndex);
+        row.getCells.each(updateCell, r);
+
+        gridControl.setRedraw(true);
+        gridControl.draw(rowIndex);
+      };
+
       that.setColumnProperties = function(grid, column, colGrid) { /* TODO = implement this. */ };
       that.saveColumnWidth = function(grid, name) { /* TODO = implement this. */ };
       that.saveColumnOrder = function(grid, name) { /* TODO = implement this. */ };
@@ -104,23 +128,73 @@
     Grids.createVirtualRow = function() {
       
       var self = {
-        result: false,
+        success: false,
         info: null,
-        rowsToAdd: 0
+        rowsToAdd: 0,
+        colAmountKey: -1,
+        newId: [],
+        newValue: [],
+        newAmount: []
       };
 
       var that = {};
 
+      that.getSuccess = function() {
+        return self.success;
+      };
+      that.setSuccess = function(value) {
+        self.success = value;
+      };
+
       that.getRowsToAdd = function() {
         return self.rowsToAdd;
       };
+      that.setRowsToAdd = function(rows) {
+        self.rowsToAdd = rows;
+      };
 
-      that.getColAmount = function() { /* TODO = implement this. */ };
-      that.getNewValue = function(rowIndex) { /* TODO = implement this. */ };
-      that.getNewId = function(rowIndex) { /* TODO = implement this. */ };
-      that.getNewAmount = function(rowIndex) { /* TODO = implement this. */ };
-      that.loadFromRow = function(gridControl, row, rowIndex, columns) { /* TODO = implement this. */ };
-      that.setColumnProperties = function(grid, column, colGrid) { /* TODO = implement this. */ };
+      that.getAddRows = function() {
+        return self.rowsToAdd > 0;
+      };
+
+      that.getColAmountKey = function() {
+        return self.colAmountKey;
+      };
+      that.setColAmountKey = function(value) {
+        self.colAmountKey = value;
+      };
+
+      that.getNewValue = function(rowIndex) {
+        if(rowIndex !== undefined) {
+          return self.newValue[rowIndex];
+        }
+        else {
+          return self.newValue;
+        }
+      };
+      that.getNewId = function(rowIndex) {
+        if(rowIndex !== undefined) {
+          return self.newId[rowIndex];
+        }
+        else {
+          return self.newId;
+        }
+      };
+      that.getNewAmount = function(rowIndex) {
+        if(rowIndex !== undefined) {
+          return self.newAmount[rowIndex];
+        }
+        else {
+          return self.newAmount;
+        }
+      };
+
+      that.getInfo = function() {
+        return self.colAmountKey;
+      };
+      that.setInfo = function(value) {
+        self.info = value;
+      };
 
       return that;
     };
@@ -209,6 +283,13 @@
       that.setSelectIntValue = function(value) {
         self.selectIntValue = value;
       };
+
+      that.getFormat = function() {
+        return self.format;
+      };
+      that.setFormat = function(format) {
+        self.format = format;
+      };
       
       return that;
     };
@@ -245,7 +326,11 @@
         format: "",
         size: 0,
 
-        index: 0,
+        foreColor: -1,
+        backColor: -1,
+
+        index: -1,
+
         isDetail: false,
         isEditable: true,
 
@@ -406,6 +491,20 @@
       that.getDefaultValue = function() {
         return self.defaultValue;
       };
+
+      that.getForeColor = function() {
+        return self.foreColor;
+      };
+      that.setForeColor = function(color) {
+        self.foreColor = color;
+      };
+
+      that.setBackColor = function(color) {
+        self.backColor = color;
+      };
+      that.getBackColor = function() {
+        return self.backColor;
+      };
       
       return that;
     };
@@ -419,12 +518,20 @@
       var self = {
         cells: Grids.createCells(),
         isGroup: false,
-        haveKey: false
+        haveKey: false,
+
+        index: -1,
+
+        foreColor: -1,
+        backColor: -1
+
       };
 
       var addItemCell = function() {
-        var cell = self.cells.add();
-        cell.setValue(index);
+        if(index !== undefined) {
+          var cell = self.cells.add(null, Dialogs.Constants.keyRowItem);
+          cell.setValue(index);
+        }
       };
 
       addItemCell();
@@ -456,6 +563,8 @@
         return self.cells.get(col);
       };
 
+      that.item = that.get;
+
       that.getHaveKey = function() {
         return self.haveKey;
       };
@@ -468,6 +577,33 @@
 
       that.getCells = function() {
         return self.cells;
+      };
+
+      that.count = function() {
+        return self.cells.count();
+      };
+
+      that.size = that.count;
+
+      that.getIndex = function() {
+        return self.index;
+      };
+      that.setIndex = function(index) {
+        self.index = index;
+      };
+
+      that.getForeColor = function() {
+        return self.foreColor;
+      };
+      that.setForeColor = function(color) {
+        self.foreColor = color;
+      };
+
+      that.setBackColor = function(color) {
+        self.backColor = color;
+      };
+      that.getBackColor = function() {
+        return self.backColor;
       };
 
       return that;
