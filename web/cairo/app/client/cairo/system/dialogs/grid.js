@@ -96,8 +96,8 @@
           setGridCell(cell, gridCell, columns.get(index));
         };
 
-        var r = gridControl.getRows().item(rowIndex);
-        row.getCells.each(updateCell, r);
+        var r = gridControl.getRow(rowIndex);
+        row.getCells().each(updateCell, r);
 
         gridControl.setRedraw(true);
         gridControl.draw(rowIndex);

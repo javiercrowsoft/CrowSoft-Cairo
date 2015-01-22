@@ -462,13 +462,17 @@
 
               switch (col.getType()) {
                 case T.select:
-                case T.list:
                   p = ctrl.validate().then(
                     function() {
                       newValue = ctrl.getValue();
                       newValueId = ctrl.getId();
                     }
                   );
+                  break;
+
+                case T.list:
+                  newValue = ctrl.getValue();
+                  newValueId = ctrl.getId();
                   break;
 
                 case T.text:
@@ -481,7 +485,7 @@
                   break;
               }
               p = p || Cairo.Promises.resolvedPromise();
-              p.then(
+              p = p.then(
                 function() {
                   var args = {
                     row: info.row,
@@ -792,12 +796,12 @@
         return null;
       };
 
-      var colIsVisible = function(column) {
-        return column.getVisible();
+      var colIsVisibleAndEditable = function(column) {
+        return column.getVisible() && column.isEditable() && column.getEnabled() && column.getType() !== T.grid;
       };
 
       var getIndexFirstCol = function() {
-        var column = self.columns.selectFirst(colIsVisible);
+        var column = self.columns.selectFirst(colIsVisibleAndEditable);
         if(column !== null) {
           return column.getIndex();
         }
@@ -813,12 +817,19 @@
       };
 
       var addRow = function(td) {
+        //
+        // add the last row to self.rows because it has passed the validations
+        //
+        self.rows.add(self.newRow);
+
+        //
+        // create a new row
+        //
         var tr = gridManager.addNewRow();
         gridManager.bindEvents("td", tr);
 
-        // request a new row
         //
-        // next prepare to start editing this cell
+        // request a new row to the client
         //
         var args = {
           row: tr.rowIndex - 1 /* first row contains headers */
@@ -934,9 +945,10 @@
               if(selStart === -1
                 || (moveToCol < 0 && selStart === 0 && selEnd === 0)
                 || (moveToCol > 0 && selStart === textLength && selEnd === selStart)) {
-                endEdit();
-                var nextTD = nextVisibleTD(td.parentNode.childNodes, td.cellIndex, moveToCol);
-                nextTD.focus();
+                endEdit().then(function() {
+                  var nextTD = nextVisibleTD(td.parentNode.childNodes, td.cellIndex, moveToCol);
+                  nextTD.focus();
+                })
               }
             }
           }
@@ -979,24 +991,25 @@
         // enter key
         //
         else if(e.keyCode === 13) {
-          endEdit();
-          var index = td.cellIndex + 1;
-          if(index > -1 && index < td.parentNode.childNodes.length) {
-            var nextTD = nextEditableTD(td.parentNode.childNodes, td.cellIndex+1);
-            if(nextTD !== null) {
-              nextTD.focus();
-            }
-          }
-          else if(index === td.parentNode.childNodes.length) {
-            var tr = td.parentNode;
-            var index = tr.rowIndex + 1;
-            if(index > 0 && index < tr.parentNode.childNodes.length) {
-              var nextTD = nextEditableTD(tr.parentNode.childNodes.item(index).childNodes, 1);
+          endEdit().then(function() {
+            var index = td.cellIndex + 1;
+            if(index > -1 && index < td.parentNode.childNodes.length) {
+              var nextTD = nextEditableTD(td.parentNode.childNodes, td.cellIndex+1);
               if(nextTD !== null) {
                 nextTD.focus();
               }
             }
-          }
+            else if(index === td.parentNode.childNodes.length) {
+              var tr = td.parentNode;
+              var index = tr.rowIndex + 1;
+              if(index > 0 && index < tr.parentNode.childNodes.length) {
+                var nextTD = nextEditableTD(tr.parentNode.childNodes.item(index).childNodes, 1);
+                if(nextTD !== null) {
+                  nextTD.focus();
+                }
+              }
+            }
+          });
         }
 
         //
@@ -1099,7 +1112,7 @@
         gridManager.updateTD = function(item, i, tr, getValue) {
           var col = self.columns.get(i);
           var td = tr.childNodes.item(i);
-          td.html(getValue(item, col));
+          $(td).html(getValue(item, col));
         };
 
         //
@@ -1170,8 +1183,8 @@
         }
 
         gridManager.updateRow = function(rowIndex) {
-          var tr = gridManager.body.childNodes.item(rowIndex);
-          self.rows.each(gridManager.updateTD, tr, gridManager.getValue);
+          var tr = gridManager.body[0].childNodes.item(rowIndex + 1 /* first row is for headers */);
+          getRow(rowIndex).getCells().each(gridManager.updateTD, tr, gridManager.getValue);
         };
 
         gridManager.bindEvents = function(parent, selector) {
@@ -1275,6 +1288,8 @@
       that.getRows = function() {
         return self.rows;
       };
+
+      that.getRow = getRow;
 
       that.selectRow = function(row) { /* TODO = implement this. */ };
       that.autoWidthColumns = function() { /* TODO = implement this. */ };

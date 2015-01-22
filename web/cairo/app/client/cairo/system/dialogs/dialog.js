@@ -3953,17 +3953,17 @@
               p = m_client.newRow(getPropertyKey(property), rowIndex).then(
                 function() {
                   setDefaults(property, rowIndex);
+                  return true;
                 }
               );
             }
           }
-          return p || Cairo.Promises.resolvedPromise();
+          return p || Cairo.Promises.resolvedPromise(true);
         };
 
         var setDefaults = function(property, rowIndex) {
 
           var row = createRow(property.getIndex(), property, rowIndex);
-          row.get(0).setValue(property.getGrid().getRows().count() + 1);
 
           var colIndex = 0;
           var columnsCount = property.getGrid().getColumns().count();
@@ -4487,7 +4487,10 @@
                     return m_client.validateRow(propertyKey, row, rowIndex).then(
                       function(isValid) {
                         if(isValid) {
+                          //
                           // put client's values into the grid
+                          //
+                          row.getCells().item(0).setValue(rowIndex + 1);
                           setRowValueInGrid(index, property, rowIndex, row);
 
                           if(bAddRow) {
@@ -4658,16 +4661,23 @@
         };
 
         var setRowValueInGrid = function(index, property, rowIndex, row) {
-          var grid = getView().getGrids().get(index);
+          var gridControl = getView().getGrids().get(index);
 
-          grid.setRowBackColor(rowIndex, row.getBackColor());
-          grid.setRowForeColor(rowIndex, row.getForeColor());
+          //
+          // during this function the grid's DOM shouldn't be modified
+          //
+          gridControl.setRedraw(false);
 
-          for(var _i = 0, count = property.getGrid().getColumns().count(); _i < count; _i++) {
-            var col = property.getGrid().getColumns().get(_i);
+          gridControl.setRowBackColor(rowIndex, row.getBackColor());
+          gridControl.setRowForeColor(rowIndex, row.getForeColor());
+
+          var columns = property.getGrid().getColumns();
+
+          for(var _i = 0, count = columns.count(); _i < count; _i++) {
+            var col = columns.get(_i);
             var cell = row.get(_i);
 
-            var gridCell = grid.cell(rowIndex, _i);
+            var gridCell = gridControl.cell(rowIndex, _i);
             gridCell.setItemData(cell.getId());
 
             if(col.getType() === Dialogs.PropertyType.date) {
@@ -4714,6 +4724,9 @@
               }
             }
           }
+
+          gridControl.setRedraw(true);
+          gridControl.draw(rowIndex);
         };
 
         var showView = function(tabIndex, noGrids, bSetFocus) {
