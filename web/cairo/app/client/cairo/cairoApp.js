@@ -380,7 +380,8 @@ var Cairo = new Marionette.Application();
   //
   var val = function(value) {
     try {
-      return parseFloat(value);
+      value = parseFloat(value);
+      return isNaN(value) ? 0 : value;
     }
     catch(ignore) {
       return 0;
@@ -664,19 +665,21 @@ var Cairo = new Marionette.Application();
     return new Date(value.toString());
   };
 
+  var getDateFormatted = function(date) {
+    if(date === "") {
+      return "";
+    }
+    else {
+      date = new Date(date);
+      return date.getTime() === NO_DATE.getTime() || !isDate(date) ? "" : $.datepicker.formatDate(DATE_FORMAT, date);
+    }
+  };
+
   Cairo.Util = {
     sendKeys: function(key) { /* TODO: implement this. */ },
-    getDateValueForGrid: function(value) { /* TODO: implement this. */ },
-    getDateValueFromGrid: function(value) { /* TODO: implement this. */ },
-    getDateFormatted: function(date) {
-      if(date === "") {
-        return "";
-      }
-      else {
-        date = new Date(date);
-        return date.getTime() === NO_DATE.getTime() || !isDate(date) ? "" : $.datepicker.formatDate(DATE_FORMAT, date);
-      }
-    },
+    getDateValueForGrid: getDateFormatted,
+    getDateValueFromGrid: getDateValue,
+    getDateFormatted: getDateFormatted,
     getDateValue: getDateValue,
     isDate: isDate,
     val: val,

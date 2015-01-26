@@ -277,6 +277,10 @@ div.tree-select-dialog.ui-widget-content {
   margin-top: 10px;
 }
 
+.dialog-grid tbody tr.highlight td {
+    background-color: #aaffaa;
+}
+
 .dialog-tr {
   height: 40px;
 }

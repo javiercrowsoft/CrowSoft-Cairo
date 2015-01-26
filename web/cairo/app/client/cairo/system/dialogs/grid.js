@@ -543,6 +543,17 @@
         };
       };
 
+      self.cells.inspect = function() {
+        var printToLog = function(cell, i) {
+          try {
+            Cairo.log("cell " + i.toString() + ": " + cell.getValue().toString() + " | id: " + cell.getId().toString() + " | key: " + cell.getKey().toString());
+          }
+          catch(ignore){}
+          return true;
+        };
+        self.cells.each(printToLog);
+      };
+
       //
       // the clear of this collection adds an item cell
       // after removing all cells

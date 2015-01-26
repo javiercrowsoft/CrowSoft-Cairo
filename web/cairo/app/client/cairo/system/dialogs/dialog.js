@@ -169,8 +169,13 @@
   ///////////////
 
   Cairo.module("Dialogs", function(Dialogs, Cairo, Backbone, Marionette, $, _) {
+
+    var hasKey = function(cell, index, key) {
+      return cell.getKey() === key;
+    };
+
     Dialogs.cell = function(row, key) {
-      // TODO: implement this.
+      return row.getCells().selectFirst(hasKey, key);
     };
   });
 
@@ -3858,24 +3863,26 @@
               var property = getProperty(Dialogs.PropertyType.grid, index, 0);
 
               if(property !== null) {
-                p = m_client.deleteRow(getPropertyKey(property), createRow(index, property, rowIndex), rowIndex).then(
-                  function(success) {
-                    if(success) {
-                      property.getGrid().getRows().remove(rowIndex);
-                      return m_client.messageEx(Dialogs.Message.MSG_GRID_ROW_DELETED, property.getKey()).then(
-                        function() {
-                          var grid = getView().getGrids().get(property.getIndex());
-                          if(grid.getRows().count() <= 1) {
-                            grid.getRows().setCount(2);
+                if(property.getGrid().getRows().count() > rowIndex) {
+                  p = m_client.deleteRow(getPropertyKey(property), createRow(index, property, rowIndex), rowIndex).then(
+                    function(success) {
+                      if(success) {
+                        property.getGrid().getRows().remove(rowIndex);
+                        return m_client.messageEx(Dialogs.Message.MSG_GRID_ROW_DELETED, property.getKey()).then(
+                          function() {
+                            return true;
                           }
-                          return true;
-                        }
-                      );
+                        );
+                      }
+                      else {
+                        return false;
+                      }
                     }
-                    else
-                      return false;
-                  }
-                );
+                  );
+                }
+                else {
+                  p = Cairo.Promises.resolvedPromise(true);
+                }
               }
             }
           }
@@ -4453,6 +4460,8 @@
             cell.setValue(newValue);
             cell.setSelectIntValue(property.getControl().cell(rowIndex, colIndex).getTag());
           });
+
+          row.getCells().inspect();
         };
 
         // TODO: refactor promise is returned by this function
