@@ -208,7 +208,7 @@
       var KICMI_DESCRIP = 4;
       var KICMI_PRECIO = 5;
       var KICMI_FECHAALTA = 6;
-      var KICMI_FECHAVTO = 7;
+      var KICMI_FECHA_VTO = 7;
 
       var KIPRL_ID = 1;
       var KIPRL_NOMBRE = 2;
@@ -4285,7 +4285,7 @@
                 fields.add(C.PRCMI_FECHA_ALTA, cell.getValue(), Types.date);
                 break;
 
-              case KICMI_FECHAVTO:
+              case KICMI_FECHA_VTO:
                 fields.add(C.PRCMI_FECHA_VTO, cell.getValue(), Types.date);
                 break;
             }
@@ -5141,7 +5141,7 @@
         elem.setName(Cairo.Language.getText(5027, "")); // Vence el
         elem.setType(Dialogs.PropertyType.date);
         elem.setWidth(2000);
-        elem.setKey(KICMI_FECHAVTO);
+        elem.setKey(KICMI_FECHA_VTO);
 
         var elem = w_columns.add(null);
         elem.setName(Cairo.Constants.DESCRIPTION_LABEL);
@@ -5187,7 +5187,7 @@
 
           var elem = row.add(null);
           elem.setValue(getValue(m_data.cmi[_i], C.PRCMI_FECHA_VTO));
-          elem.setKey(KICMI_FECHAVTO);
+          elem.setKey(KICMI_FECHA_VTO);
 
           var elem = row.add(null);
           elem.setValue(getValue(m_data.cmi[_i], C.PRCMI_DESCRIP));

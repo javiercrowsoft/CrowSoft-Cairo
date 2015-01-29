@@ -623,7 +623,7 @@
       PROVC_ID: "provc_id",
       PROVC_NUMERO: "provc_numero",
       PROVC_DESCRIP: "provc_descrip",
-      PROVC_FECHAVTO: "provc_fechavto",
+      PROVC_FECHA_VTO: "provc_fechavto",
       PROVC_SUCURSAL: "provc_sucursal",
 
       // Condicion Pago
@@ -1650,10 +1650,10 @@
     VENTA_FACTURA_ANULAR: 1996,
     VENTA_IMPORT_REMITO: 1995,
 
-    NEW_STOCKLOTE: 1994,
-    EDIT_STOCKLOTE: 1993,
-    DELETE_STOCKLOTE: 1992,
-    LIST_STOCKLOTE: 1991,
+    NEW_STOCK_LOTE: 1994,
+    EDIT_STOCK_LOTE: 1993,
+    DELETE_STOCK_LOTE: 1992,
+    LIST_STOCK_LOTE: 1991,
 
     SELECT_SERIE_EX: 1989,
 

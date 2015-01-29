@@ -1140,19 +1140,19 @@ object Producto {
     SqlParser.get[Option[Date]](C.LPI_FECHA) ~
     SqlParser.get[Option[Int]](C.PRPROV_LPI_TOP) map {
     case
-      id ~
-      provId ~
-      provName ~
-      maker ~
-      name ~
-      code ~
-      barCode ~
-      paId ~
-      paName ~
-      lpName ~
-      price ~
-      priceDate ~
-      priceDefault =>
+        id ~
+        provId ~
+        provName ~
+        maker ~
+        name ~
+        code ~
+        barCode ~
+        paId ~
+        paName ~
+        lpName ~
+        price ~
+        priceDate ~
+        priceDefault =>
       ProductoProveedor(
         id,
         provId,

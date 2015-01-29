@@ -524,7 +524,7 @@ object C {
   val PROVC_ID = "provc_id"
   val PROVC_NUMERO = "provc_numero"
   val PROVC_DESCRIP = "provc_descrip"
-  val PROVC_FECHAVTO = "provc_fechavto"
+  val PROVC_FECHA_VTO = "provc_fechavto"
   val PROVC_SUCURSAL = "provc_sucursal"
 
   // Condicion Pago
@@ -651,6 +651,7 @@ object C {
   //
   // Producto
   //
+  val PRODUCTO_BASE = "base"
   val PRODUCTO_COMPRA = "compra"
   val PRODUCTO_STOCK = "stock"
   val PRODUCTO_VENTA = "venta"

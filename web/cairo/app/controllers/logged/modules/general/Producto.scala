@@ -161,7 +161,7 @@ object Productos extends Controller with ProvidesUser {
       "id" -> optional(number),
       DBHelper.ACTIVE -> boolean,
       C.PR_CODE -> text,
-      C.PRODUCTO_COMPRA -> mapping(
+      C.PRODUCTO_BASE -> mapping(
         C.PR_CODIGO_EXTERNO -> text,
         C.PR_CODIGO_BARRA -> text,
         C.PR_CODIGO_BARRA_NAME -> text,
