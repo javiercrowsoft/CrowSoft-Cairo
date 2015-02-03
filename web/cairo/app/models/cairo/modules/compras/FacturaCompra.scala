@@ -6,6 +6,7 @@ import anorm._
 import services.DateUtil
 import services.db.DB
 import models.cairo.system.database.{DBHelper, Register, Field, FieldType, SaveResult}
+import java.math.BigDecimal
 import play.api.Play.current
 import models.domain.CompanyUser
 import java.util.Date
@@ -232,37 +233,44 @@ case class FacturaCompraTotals(
                                 totalOrigen: Double
                               )
 
+case class FacturaCompraItemBase(
+                                   descrip: String,
+                                   descuento: String,
+                                   prId: Int,
+                                   prName: String,
+                                   ccosId: Int,
+                                   ccosName: String,
+                                   toId: Int,
+                                   toName: String,
+                                   cueId: Int,
+                                   cueIdIvaRi: Int,
+                                   cueIdIvaRni: Int,
+                                   stlId: Int,
+                                   stlCode: String,
+                                   orden: Int,
+                                   llevaNroSerie: Boolean,
+                                   llevaNroLote: Boolean
+                                   )
+case class FacturaCompraItemTotals(
+                                    cantidad: Double,
+                                    precio: Double,
+                                    precioLista: Double,
+                                    precioUser: Double,
+                                    neto: Double,
+                                    ivaRi: Double,
+                                    ivaRni: Double,
+                                    internos: Double,
+                                    ivaRiPorc: Double,
+                                    ivaRniPorc: Double,
+                                    internosPorc: Double,
+                                    importe: Double,
+                                    importeOrigen: Double
+                                    )
+
 case class FacturaCompraItem(
                               id: Int,
-                              cantidad: Double,
-                              descrip: String,
-                              descuento: String,
-                              precio: Double,
-                              precio_lista: Double,
-                              precio_usr: Double,
-                              neto: Double,
-                              ivaRi: Double,
-                              ivaRni: Double,
-                              internos: Double,
-                              ivaRiPorc: Double,
-                              ivaRniPorc: Double,
-                              internosPorc: Double,
-                              prId: Int,
-                              prName: String,
-                              ccosId: Int,
-                              ccosName: String,
-                              toId: Int,
-                              toName: Int,
-                              cueId: Int,
-                              cueIdIvaRi: Int,
-                              cueIdIvaRni: Int,
-                              stlId: Int,
-                              stlCode: String,
-                              importe: Double,
-                              importeOrigen: Double,
-                              orden: Int,
-                              llevaNroSerie: Boolean,
-                              llevaNroLote: Boolean
+                              base: FacturaCompraItemBase,
+                              totals: FacturaCompraItemTotals
                             )
 
 case class FacturaCompraOtro(
@@ -281,7 +289,7 @@ case class FacturaCompraOtro(
 case class FacturaCompraLegajo(
                                 id: Int,
                                 lgjId: Int,
-                                lgjName: Int,
+                                lgjName: String,
                                 importe: Double,
                                 descrip: String,
                                 importeOrigen: Double,
@@ -291,6 +299,7 @@ case class FacturaCompraLegajo(
 case class FacturaCompraPercepcion(
                                     id: Int,
                                     percId: Int,
+                                    percName: String,
                                     base: Double,
                                     porcentaje: Double,
                                     importe: Double,
@@ -305,7 +314,7 @@ case class FacturaCompraItems(
                                 items: List[FacturaCompraItem],
                                 otros: List[FacturaCompraOtro],
                                 legajos: List[FacturaCompraLegajo],
-                                percepciones: List[FacturaCompra]
+                                percepciones: List[FacturaCompraPercepcion]
                              )
 
 case class FacturaCompra(
@@ -511,7 +520,7 @@ object FacturaCompra {
     SqlParser.get[Int](C.FCI_ID) ~
     SqlParser.get[BigDecimal](C.FCI_CANTIDAD) ~
     SqlParser.get[String](C.FCI_DESCRIP) ~
-    SqlParser.get[BigDecimal](C.FCI_DESCUENTO) ~
+    SqlParser.get[String](C.FCI_DESCUENTO) ~
     SqlParser.get[BigDecimal](C.FCI_PRECIO) ~
     SqlParser.get[BigDecimal](C.FCI_PRECIO_LISTA) ~
     SqlParser.get[BigDecimal](C.FCI_PRECIO_USR) ~
@@ -523,11 +532,11 @@ object FacturaCompra {
     SqlParser.get[BigDecimal](C.FCI_IVA_RNIPORC) ~
     SqlParser.get[BigDecimal](C.FCI_INTERNOS_PORC) ~
     SqlParser.get[Int](GC.PR_ID) ~
-    SqlParser.get[Option[String]](GC.PR_NAME_COMPRA) ~
+    SqlParser.get[String](GC.PR_NAME_COMPRA) ~
     SqlParser.get[Option[Int]](GC.CCOS_ID) ~
     SqlParser.get[Option[String]](GC.CCOS_NAME) ~
     SqlParser.get[Int](GC.TO_ID) ~
-    SqlParser.get[Option[String]](GC.TO_NAME) ~
+    SqlParser.get[String](GC.TO_NAME) ~
     SqlParser.get[Int](GC.CUE_ID) ~
     SqlParser.get[Option[Int]](C.CUE_ID_IVA_RI) ~
     SqlParser.get[Option[Int]](C.CUE_ID_IVA_RNI) ~
@@ -544,8 +553,8 @@ object FacturaCompra {
         descrip ~
         descuento ~
         precio ~
-        precio_lista ~
-        precio_usr ~
+        precioLista ~
+        precioUser ~
         neto ~
         ivaRi ~
         ivaRni ~
@@ -571,35 +580,39 @@ object FacturaCompra {
         llevaNroLote =>
       FacturaCompraItem(
         id,
-        cantidad.doubleValue(),
-        descrip,
-        descuento,
-        precio.doubleValue(),
-        precio_lista.doubleValue(),
-        precio_usr.doubleValue(),
-        neto.doubleValue(),
-        ivaRi.doubleValue(),
-        ivaRni.doubleValue(),
-        internos.doubleValue(),
-        ivaRiPorc.doubleValue(),
-        ivaRniPorc.doubleValue(),
-        internosPorc.doubleValue(),
-        prId,
-        prName,
-        ccosId.getOrElse(DBHelper.NoId),
-        ccosName.getOrElse(""),
-        toId,
-        toName,
-        cueId,
-        cueIdIvaRi.getOrElse(DBHelper.NoId),
-        cueIdIvaRni.getOrElse(DBHelper.NoId),
-        stlId.getOrElse(DBHelper.NoId),
-        stlCode.getOrElse(""),
-        importe.doubleValue(),
-        importeOrigen.doubleValue(),
-        orden,
-        llevaNroSerie,
-        llevaNroLote
+        FacturaCompraItemBase(
+          descrip,
+          descuento,
+          prId,
+          prName,
+          ccosId.getOrElse(DBHelper.NoId),
+          ccosName.getOrElse(""),
+          toId,
+          toName,
+          cueId,
+          cueIdIvaRi.getOrElse(DBHelper.NoId),
+          cueIdIvaRni.getOrElse(DBHelper.NoId),
+          stlId.getOrElse(DBHelper.NoId),
+          stlCode.getOrElse(""),
+          orden,
+          (llevaNroSerie != 0),
+          (llevaNroLote != 0)
+        ),
+        FacturaCompraItemTotals(
+          cantidad.doubleValue(),
+          precio.doubleValue(),
+          precioLista.doubleValue(),
+          precioUser.doubleValue(),
+          neto.doubleValue(),
+          ivaRi.doubleValue(),
+          ivaRni.doubleValue(),
+          internos.doubleValue(),
+          ivaRiPorc.doubleValue(),
+          ivaRniPorc.doubleValue(),
+          internosPorc.doubleValue(),
+          importe.doubleValue(),
+          importeOrigen.doubleValue()
+        )
       )
     }
   }
@@ -672,6 +685,7 @@ object FacturaCompra {
   private val facturaCompraPercepcionParser: RowParser[FacturaCompraPercepcion] = {
     SqlParser.get[Int](C.FCPERC_ID) ~
     SqlParser.get[Int](GC.PERC_ID) ~
+    SqlParser.get[String](GC.PERC_NAME) ~
     SqlParser.get[BigDecimal](C.FCPERC_BASE) ~
     SqlParser.get[BigDecimal](C.FCPERC_PORCENTAJE) ~
     SqlParser.get[BigDecimal](C.FCPERC_IMPORTE) ~
@@ -681,7 +695,9 @@ object FacturaCompra {
     SqlParser.get[BigDecimal](C.FCPERC_ORIGEN) ~
     SqlParser.get[Int](C.FCPERC_ORDEN) map {
     case
+        id ~
         percId ~
+        percName ~
         base ~
         porcentaje ~
         importe ~
@@ -691,7 +707,9 @@ object FacturaCompra {
         origen ~
         orden =>
       FacturaCompraPercepcion(
+        id,
         percId,
+        percName,
         base.doubleValue(),
         porcentaje.doubleValue(),
         importe.doubleValue(),
@@ -845,8 +863,8 @@ object FacturaCompra {
           fechaVto
         ),
         FacturaCompraPrecios(
-          desc1,
-          desc2,
+          desc1.doubleValue(),
+          desc2.doubleValue(),
           lpId.getOrElse(DBHelper.NoId),
           lpName.getOrElse(""),
           ldId.getOrElse(DBHelper.NoId),
@@ -895,25 +913,67 @@ object FacturaCompra {
   private def save(user: CompanyUser, facturaCompra: FacturaCompra, isNew: Boolean): FacturaCompra = {
     def getFields = {
       List(
+        Field(C.FC_ID, facturaCompra.id, FieldType.id),
+        Field(GC.DOC_ID, facturaCompra.ids.docId, FieldType.id),
+        Field(C.FC_NRODOC, facturaCompra.ids.nroDoc, FieldType.text),
+        Field(C.FC_NUMERO, facturaCompra.ids.numero, FieldType.number),
 
+        Field(GC.PROV_ID, facturaCompra.base.provId, FieldType.id),
+        Field(GC.EST_ID, facturaCompra.base.estId, FieldType.id),
+        Field(GC.CCOS_ID, facturaCompra.base.ccosId, FieldType.id),
+        Field(GC.SUC_ID, facturaCompra.base.sucId, FieldType.id),
+        Field(C.LGJ_ID, facturaCompra.base.lgjId, FieldType.id),
+        Field(GC.CPG_ID, facturaCompra.base.cpgId, FieldType.id),
+        Field(C.FC_CAI, facturaCompra.base.cai, FieldType.text),
+        Field(C.FC_TIPO_COMPROBANTE, facturaCompra.base.tipoComprobante, FieldType.number),
+        Field(C.FC_DESCRIP, facturaCompra.base.descrip, FieldType.text),
+        Field(C.FC_GRABAR_ASIENTO, (if(facturaCompra.base.grabarAsiento) 1 else 0), FieldType.boolean),
+
+        Field(C.FC_FECHA, facturaCompra.dates.fecha, FieldType.date),
+        Field(C.FC_FECHA_ENTREGA, facturaCompra.dates.fechaEntrega, FieldType.date),
+        Field(C.FC_FECHA_IVA, facturaCompra.dates.fechaIva, FieldType.date),
+        Field(C.FC_FECHA_VTO, facturaCompra.dates.fechaVto, FieldType.date),
+
+        Field(C.FC_DESCUENTO1, facturaCompra.precios.desc1, FieldType.currency),
+        Field(C.FC_DESCUENTO2, facturaCompra.precios.desc2, FieldType.currency),
+        Field(GC.LP_ID, facturaCompra.precios.lpId, FieldType.id),
+        Field(GC.LD_ID, facturaCompra.precios.ldId, FieldType.id),
+
+        Field(C.FC_COTIZACION, facturaCompra.cotizacion.cotizacion, FieldType.currency),
+        Field(C.FC_COTIZACION_PROV, facturaCompra.cotizacion.cotizacionProveedor, FieldType.currency),
+
+        Field(C.PRO_ID_ORIGEN, facturaCompra.stock.proIdOrigen, FieldType.id),
+        Field(C.PRO_ID_DESTINO, facturaCompra.stock.proIdDestino, FieldType.id),
+        Field(GC.DEPL_ID, facturaCompra.stock.deplId, FieldType.id),
+
+        Field(C.FC_NETO, facturaCompra.totals.neto, FieldType.currency),
+        Field(C.FC_IVA_RI, facturaCompra.totals.ivaRi, FieldType.currency),
+        Field(C.FC_IVA_RNI, facturaCompra.totals.ivaRni, FieldType.currency),
+        Field(C.FC_INTERNOS, facturaCompra.totals.internos, FieldType.currency),
+        Field(C.FC_SUBTOTAL, facturaCompra.totals.subTotal, FieldType.currency),
+        Field(C.FC_IMPORTE_DESC_1, facturaCompra.totals.importeDesc1, FieldType.currency),
+        Field(C.FC_IMPORTE_DESC_2, facturaCompra.totals.importeDesc2, FieldType.currency),
+        Field(C.FC_TOTAL_OTROS, facturaCompra.totals.totalOtros, FieldType.currency),
+        Field(C.FC_TOTAL_PERCEPCIONES, facturaCompra.totals.totalPercepciones, FieldType.currency),
+        Field(C.FC_TOTAL, facturaCompra.totals.total, FieldType.currency),
+        Field(C.FC_TOTAL_ORIGEN, facturaCompra.totals.totalOrigen, FieldType.currency)
       )
     }
     def throwException = {
       throw new RuntimeException(s"Error when saving ${C.FACTURA_COMPRA}")
     }
 
-    DBHelper.saveEx(
+    DBHelper.save(
       user,
       Register(
-        C.FACTURA_COMPRA,
-        C.ID,
-        facturaCompra.id,
+        C.FACTURA_COMPRA_TMP,
+        C.FC_TMPID,
+        DBHelper.NoId,
         false,
         true,
         true,
         getFields),
-      isNew,
-      C.CODE
+      isNew
     ) match {
       case SaveResult(true, id) => load(user, id).getOrElse(throwException)
       case SaveResult(false, id) => throwException
@@ -921,7 +981,32 @@ object FacturaCompra {
   }
 
   def load(user: CompanyUser, id: Int): Option[FacturaCompra] = {
-    loadWhere(user, s"${C.ID} = {id}", 'id -> id)
+
+    DB.withTransaction(user.database.database) { implicit connection =>
+
+      val sql = "{call sp_doc_factura_compra_get(?, ?, ?, ?)}"
+      val cs = connection.prepareCall(sql)
+
+      cs.setInt(1, user.cairoCompanyId)
+      cs.setInt(2, id)
+      cs.setInt(3, user.userId)
+      cs.registerOutParameter(4, Types.OTHER)
+
+      try {
+        cs.execute()
+
+        val rs = cs.getObject(2).asInstanceOf[java.sql.ResultSet]
+        Sql.as(facturaCompraParser.singleOpt, rs)
+
+      } catch {
+        case NonFatal(e) => {
+          Logger.error(s"can't get ${C.FACTURA_COMPRA} with id $id for user ${user.toString}. Error ${e.toString}")
+          throw e
+        }
+      } finally {
+        cs.close
+      }
+    }
   }
 
   private def loadFacturaCompraItems(user: CompanyUser, id: Int) = {
@@ -1043,12 +1128,12 @@ object FacturaCompra {
   def delete(user: CompanyUser, id: Int) = {
     DB.withConnection(user.database.database) { implicit connection =>
       try {
-        SQL("sp_docFacturaCompraDelete {id}, {empId}, {usId}")
+        SQL("sp_doc_factura_compra_delete {id}, {empId}, {usId}")
           .on('id -> id, 'empId -> user.cairoCompanyId, 'usId -> user.userId)
           .executeUpdate
       } catch {
         case NonFatal(e) => {
-          Logger.error(s"can't delete a ${C.FACTURA_COMPRA}. ${C.ID} id: $id. Error ${e.toString}")
+          Logger.error(s"can't delete a ${C.FACTURA_COMPRA}. ${C.FC_ID} id: $id. Error ${e.toString}")
           throw e
         }
       }

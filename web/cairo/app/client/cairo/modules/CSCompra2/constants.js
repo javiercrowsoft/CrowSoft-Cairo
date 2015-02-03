@@ -229,17 +229,6 @@
       PRO_ID_ORIGEN: "pro_id_origen",
       PRO_ID_DESTINO: "pro_id_destino",
 
-      // Moneda
-      MONEDA: "Moneda",
-      MON_ID: "mon_id",
-      MON_NAME: "mon_nombre",
-      MON_SIGNO: "mon_signo",
-
-      // Cuenta
-      CUENTA: "Cuenta",
-      CUE_ID: "cue_id",
-      CUE_NAME: "cue_nombre",
-
       // Iva
       BIVA_RI: "bIvaRi",
       BIVA_RNI: "bIvaRni",
