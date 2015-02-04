@@ -154,6 +154,7 @@ object C {
   val FACTURA_COTIZACION = "cotizacion"
   val FACTURA_STOCK = "stock"
   val FACTURA_TOTALS = "totals"
+  val FACTURA_ITEMS = "items"
 
   // FacturaCompra
   val FACTURA_COMPRA = "FacturaCompra"

@@ -72,6 +72,11 @@ case class FacturaCompraTotalsData(
                                     totalOrigen: Double
                                   )
 
+case class FacturaCompraItemData(
+                                    id: Int,
+                                    cantidad: Double
+                                  )
+
 case class FacturaCompraData(
                               id: Option[Int],
                               ids: FacturaCompraIdData,
@@ -80,14 +85,16 @@ case class FacturaCompraData(
                               precios: FacturaCompraPreciosData,
                               cotizacion: FacturaCompraCotizacionData,
                               stock: FacturaCompraStockData,
-                              totals: FacturaCompraTotalsData
+                              totals: FacturaCompraTotalsData,
+                              items: List[FacturaCompraItemData]
                             )
+
 
 object FacturaCompras extends Controller with ProvidesUser {
 
   val GC = models.cairo.modules.general.C
 
-  val facturaCompraForm = Form(
+  val facturaCompraForm: Form[FacturaCompraData] = Form(
     mapping(
       "id" -> optional(number),
       C.FACTURA_ID -> mapping(
@@ -140,8 +147,15 @@ object FacturaCompras extends Controller with ProvidesUser {
         C.FC_TOTAL_PERCEPCIONES -> of(Global.doubleFormat),
         C.FC_TOTAL -> of(Global.doubleFormat),
         C.FC_TOTAL_ORIGEN -> of(Global.doubleFormat)
-        )(FacturaCompraTotalsData.apply)(FacturaCompraTotalsData.unapply)
-    )(FacturaCompraData.apply)(FacturaCompraData.unapply))
+        )(FacturaCompraTotalsData.apply)(FacturaCompraTotalsData.unapply),
+      C.FACTURA_ITEMS -> Forms.list[FacturaCompraItemData](
+        mapping(
+          C.FCI_ID -> number,
+          C.FCI_CANTIDAD -> of(Global.doubleFormat))
+        (FacturaCompraItemData.apply)(FacturaCompraItemData.unapply)
+      )
+    )(FacturaCompraData.apply)(FacturaCompraData.unapply)
+  )
 
   implicit val facturaCompraWrites = new Writes[FacturaCompra] {
     def writes(facturaCompra: FacturaCompra) = Json.obj(
