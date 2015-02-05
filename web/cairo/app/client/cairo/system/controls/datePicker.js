@@ -81,7 +81,9 @@
       };
       that.setType = function(type) {
         self.type = type;
-      }
+      };
+
+      that.getDateName = function() { /* TODO: implement this. */ };
 
       return that;
     };

@@ -33,7 +33,9 @@
 
       that.getText = function() {
         return self.text;
-      }
+      };
+
+      that.clear = function() { /* TODO: implement this. */ };
 
       return that;
     };

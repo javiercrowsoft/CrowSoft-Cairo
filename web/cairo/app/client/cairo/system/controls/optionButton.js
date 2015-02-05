@@ -6,7 +6,8 @@
     var createOptionButton = function() {
       var self = {
         text: "",
-        value: false
+        value: false,
+        group: 0
       };  
 
       var that = Controls.createControl();
@@ -26,6 +27,10 @@
       };
       that.getValue = function() {
         return self.value;
+      };
+
+      that.setOptionGroup = function(group) {
+        self.group = group;
       };
       
       return that;

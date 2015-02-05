@@ -185,48 +185,6 @@
 
   Cairo.module("Dialogs.Views", function(Views, Cairo, Backbone, Marionette, $, _) {
 
-    Views.Document = Backbone.View.extend({
-      tagName: "select",
-      className: "form-control",
-
-      render: function() {
-          var template = _.template( $("#dialog-main-template").html(), {} );
-          this.$el.html( template );
-      }
-    });
-
-    Views.Wizard = Backbone.View.extend({
-      tagName: "select",
-      className: "form-control",
-
-      render: function() {
-          var template = _.template( $("#dialog-main-template").html(), {} );
-          this.$el.html( template );
-      }
-    });
-
-    Views.Master = Backbone.View.extend({
-      tagName: "select",
-      className: "form-control",
-
-      render: function() {
-          var template = _.template( $("#dialog-main-template").html(), {} );
-          this.$el.html( template );
-      }
-    });
-
-  });
-
-  ///////////////
-  // Controller
-  ///////////////
-
-  Cairo.module("Dialogs.Actions", function(Actions, Cairo, Backbone, Marionette, $, _) {
-
-  });
-
-  Cairo.module("Dialogs.Views", function(Views, Cairo, Backbone, Marionette, $, _) {
-
     Views.Controller = {
 
       newDialog: function() {
@@ -4856,7 +4814,7 @@
             case Dialogs.PropertyType.numeric:
 
               if(subType === 0) {
-                Cairo.raiseError("Dialogs.loadControl", "subType wasn't set for property: " + property.getName());
+                Cairo.raiseError("Dialog.loadControl", "subType wasn't set for property: " + property.getName());
               }
 
               c.setType(getInputType(subType));
@@ -6227,8 +6185,6 @@
           }
         };
 
-        // TODO: refactor promise is returned by this function
-        //
         var discardChanges = function(dontCallClient) {
           var p = null;
 
@@ -6249,8 +6205,6 @@
           return (p || Cairo.Promises.resolvedPromise(true));
         };
 
-        // TODO: refactor promise is returned by this function
-        //
         var validate = function() {
           //
           // ask the client to validate all input but grids
@@ -7300,6 +7254,10 @@
         };
 
         var groupGridEx = function(property, keyCol, keyColSort) {
+          // TODO: implement this.
+        };
+
+        var setToolbar = function() {
           // TODO: implement this.
         };
 
