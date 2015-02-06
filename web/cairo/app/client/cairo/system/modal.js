@@ -74,7 +74,9 @@
       Cairo.dialogRegion.show(view);
 
       return defer.promise;
-    }
+    },
+
+    showWarning: this.showInfo
 
   };
 

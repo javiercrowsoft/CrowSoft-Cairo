@@ -1194,6 +1194,8 @@ var Cairo = new Marionette.Application();
     var view = Cairo.infoView(title, message, closeHandler);
     Cairo.dialogRegion.show(view);
   };
+  
+  Cairo.warningViewShow = Cairo.infoViewShow;
 
   Cairo.manageErrorView = function(title, message, errorResponse, closeHandler) {
     var Model = Backbone.Model.extend({ urlRoot: "errorMessage" });

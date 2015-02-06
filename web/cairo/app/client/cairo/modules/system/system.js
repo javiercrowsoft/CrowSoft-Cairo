@@ -91,4 +91,33 @@
     return addMultiRows(ids, virtualRow, amountKey, C.PR_NAME_VENTA);
   };
 
+  var CC = Cairo.Compras.Constants;
+
+  Cairo.Documents = {};
+
+  Cairo.Documents.getDocNumberForProveedor = function(provId, docId, dialog) {
+    var apiPath = Cairo.Database.getAPIVersion();
+    return Cairo.Database.getData("load[" + apiPath + "documents/" + docId.toString() + "/proveedor]", provId).then(
+      function(response) {
+
+        var property = dialog.getProperties().item(CC.FC_NRODOC);
+        var number = "";
+        var mask = "";
+        var enabled = false;
+
+        if(response.success === true) {
+          number = Cairo.Database.valField(response.data, 'number');
+          mask = Cairo.Database.valField(response.data, 'mask');
+          enabled = Cairo.Database.valField(response.data, 'enabled');
+        }
+
+        property.setValue(number);
+        property.setTextMask(mask);
+        property.setEnabled(enabled);
+
+        return enabled;
+      }
+    );
+  };
+
 }());

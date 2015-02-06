@@ -16,9 +16,9 @@
       var valField = Cairo.Database.valField;
       var getValue = Cairo.Database.getValue;
       var getDateValue = Cairo.Database.getDateValue;
-      
+
       var C_MODULE = "cFacturaCompra";
-      
+
       var C_ITEMS = "ITEMS";
       var C_OTROS = "OTROS";
       var C_PERCEPCIONES = "PERCEPCIONES";
@@ -113,8 +113,6 @@
       var KIL_IMPORTE = 3;
       var KIL_DESCRIP = 4;
 
-      // Lote
-      //
       var KI_STL_ID = 26;
       var KI_STL_CODIGO = 29;
       var KI_PR_LLEVALOTE = 27;
@@ -180,8 +178,6 @@
 
       var m_lastFecha = null;
 
-      // associated documents
-      //
       var m_as_id = 0;
       var m_st_id = 0;
 
@@ -232,101 +228,98 @@
 
       var m_nrosSerie;
 
-      // Edit Apply
-      //
       self.refresh = function() {
         load(m_id);
-        pRefreshProperties();
+        refreshProperties();
       };
 
       self.terminateWizard = function(id) {
-        // **TODO:** on error resume next found !!!
         if(id != Cairo.Constants.NO_ID) {
           self.edit(id);
         }
       };
 
-      self.showFacturaRemito = function(provId,  vRcIds) { // TODO: Use of ByRef founded Public Sub ShowFacturaRemito(ByVal ProvId As Long, ByRef vRcIds() As Long)
+      self.showFacturaRemito = function(provId,  vRcIds) {
         try {
 
           m_prov_id = provId;
           Cairo.Database.getData(C.PROVEEDOR, C.PROV_ID, provId, C.PROV_NAME, m_proveedor);
 
-          var i = null;
-          G.redim(m_rcIds, vRcIds.Length + 1);
-          for (i = 1; i <= vRcIds.Length + 1; i++) {
-            m_rcIds[i] = vRcIds(i - 1);
+          m_rcIds = [];
+          for(var i = 1; i < vRcIds.length; i++) {
+            m_rcIds[i] = vRcIds[i];
           }
 
-          if(!pInitMembers()) {
+          if(!initMembers()) {
             return;
           }
 
-          pShowStartWizardRemito();
-
-          // **TODO:** goto found: GoTo ExitProc;
+          showStartWizardRemito();
         }
         catch (ex) {
-          Cairo.manageErrorEx(ex.message, "ShowFacturaRemito", C_MODULE, "");
-          // **TODO:** label found: ExitProc:;
+          Cairo.manageErrorEx(ex.message, ex, "showFacturaRemito", C_MODULE, "");
         }
-        // **TODO:** on error resume next found !!!
       };
 
-      var pInitMembers = function() {
-        self.setDialog(new cABMGeneric());
-        setCIEditGenericDoc_Footer(new cABMGeneric());
-        setCIEditGenericDoc_Items(new cABMGeneric());
+      var initMembers = function() {
+        self.setDialog(Cairo.Dialogs.Views.Controller.newDialog());
 
-        if(!DoCairo.Security.anAccess(CS.NEW_FACTURA, Cairo.Constants.NO_ID, csE_DocTypePrestacion.cSEDOCTPRENEW)) {
+        self.footer(Cairo.Dialogs.Views.Controller.newDialog());
+        self.items(Cairo.Dialogs.Views.Controller.newDialog());
+
+        if(Cairo.Security.docHasPermissionTo(
+            CS.NEW_FACTURA,
+            Cairo.Constants.NO_ID,
+            Cairo.Security.ActionTypes.create)) {
           return null;
         }
         return true;
       };
 
-      self.showFacturaOrden = function(provId,  vOcIds) { // TODO: Use of ByRef founded Public Sub ShowFacturaOrden(ByVal ProvId As Long, ByRef vOcIds() As Long)
+      self.showFacturaOrden = function(provId,  vOcIds) {
         try {
 
           m_prov_id = provId;
           Cairo.Database.getData(C.PROVEEDOR, C.PROV_ID, provId, C.PROV_NAME, m_proveedor);
 
-          var i = null;
-          G.redim(m_ocIds, vOcIds.Length + 1);
-          for (i = 1; i <= vOcIds.Length + 1; i++) {
-            m_ocIds[i] = vOcIds(i - 1);
+          m_ocIds = [];
+          for(var i = 1; i < vOcIds.length + 1; i++) {
+            m_ocIds[i] = vOcIds[i];
           }
 
-          if(!pInitMembers()) {
+          if(!initMembers()) {
             return;
           }
 
-          pShowStartWizard();
-
-          // **TODO:** goto found: GoTo ExitProc;
+          showStartWizard();
         }
         catch (ex) {
-          Cairo.manageErrorEx(ex.message, "ShowFacturaOrden", C_MODULE, "");
-          // **TODO:** label found: ExitProc:;
+          Cairo.manageErrorEx(ex.message, ex, "ShowFacturaOrden", C_MODULE, "");
         }
-        // **TODO:** on error resume next found !!!
       };
+        
       self.copy = function() {
 
-        if(!DoCairo.Security.anAccessEx(CS.NEW_FACTURA, m_doc_id, csE_DocTypePrestacion.cSEDOCTPRENEW, true)) { return false; }
+        if(!Cairo.Security.docHasPermissionTo(CS.NEW_FACTURA, m_doc_id, Cairo.Security.ActionTypes.create, true)) {
+          return false;
+        }
 
         updateList();
 
         m_isNew = true;
 
         m_listController.updateEditorKey(self, Cairo.Constants.NO_ID);
+          
         m_copy = true;
         m_docEditable = true;
         m_docEditMsg = "";
 
-        // Obtengo el numero para este comprobante
-        //
-        GetDocNumberForProveedor(m_lastProv, m_lastDoc, m_dialog, m_taPropuesto);
-        pSetEnabled();
+        Cairo.Documents.getDocNumberForProveedor(m_lastProv, m_lastDoc, m_dialog).then(
+          function(enabled) {
+            m_taPropuesto = enabled;
+            setEnabled();
+          }
+        );
       };
 
       self.editNew = function() {
@@ -339,32 +332,32 @@
 
         return load(Cairo.Constants.NO_ID).then(
           function(ignored) {
+            
+            m_lastProv = Cairo.Constants.NO_ID;
+
+            if(!m_docEditable) {
+              if(m_docEditMsg !== "") {
+                cWindow.msgWarning(m_docEditMsg);
+              }
+            }
+
+            if(m_dialog.getProperties().item(C.DOC_ID).getSelectId() == Cairo.Constants.NO_ID) {
+              //'Debe indicar un documento
+              cWindow.msgInfo(Cairo.Language.getText(1562, ""));
+            }
+
+            // Obtengo los datos por defecto del proveedor
+            //
+            pSetDatosProveedor();
+
+            // Obtengo el numero para este comprobante
+            //
+            GetDocNumberForProveedor(m_lastProv, m_lastDoc, m_dialog, m_taPropuesto);
+
+            pSetColorBackground();              
             return refreshCollection();
           }
         );
-        m_lastProv = Cairo.Constants.NO_ID;
-
-        if(!m_docEditable) {
-          if(LenB(m_docEditMsg)) {
-            cWindow.msgWarning(m_docEditMsg);
-          }
-        }
-
-        if(m_dialog.getProperties().item(C.DOC_ID).getSelectId() == Cairo.Constants.NO_ID) {
-          //'Debe indicar un documento
-          cWindow.msgInfo(Cairo.Language.getText(1562, ""));
-        }
-
-        // Obtengo los datos por defecto del proveedor
-        //
-        pSetDatosProveedor();
-
-        // Obtengo el numero para este comprobante
-        //
-        GetDocNumberForProveedor(m_lastProv, m_lastDoc, m_dialog, m_taPropuesto);
-
-        pSetColorBackground();
-
       };
 
       self.getApplication = function() {
@@ -398,7 +391,7 @@
 
         }
         catch (ex) {
-          Cairo.manageErrorEx(ex.message, "cIABMClient_ShowDocDigital", C_MODULE, "");
+          Cairo.manageErrorEx(ex.message, ex, "cIABMClient_ShowDocDigital", C_MODULE, "");
         }
 
         return _rtn;
@@ -448,13 +441,13 @@
 
           case Dialogs.Message.MSG_DOC_ANULAR:
             DocAnular(m_id, m_est_id, m_estado, CS.ANULAR_FACTURA, CS.DES_ANULAR_FACTURA, m_dialog, m_docEditable, m_docEditMsg, "sp_DocFacturaCompraAnular", "sp_DocFacturaCompraEditableGet");
-            pSetEnabled();
+            setEnabled();
 
             break;
 
           case Dialogs.Message.MSG_DOC_REFRESH:
             load(m_id);
-            pRefreshProperties();
+            refreshProperties();
 
             break;
 
@@ -644,7 +637,7 @@
             }
             // Defino el estado de edicion del comprobante
             //
-            pSetEnabled();
+            setEnabled();
 
             break;
 
@@ -1168,7 +1161,7 @@
                   // **TODO:** goto found: GoTo ExitProc;
                 }
                 catch (ex) {
-                  Cairo.manageErrorEx(ex.message, "pValidateCuit", C_MODULE, "");
+                  Cairo.manageErrorEx(ex.message, ex, "pValidateCuit", C_MODULE, "");
                   // **TODO:** label found: ExitProc:;
                 }
                 // **TODO:** on error resume next found !!!
@@ -1216,7 +1209,7 @@
                   // **TODO:** goto found: GoTo ExitProc;
                 }
                 catch (ex) {
-                  Cairo.manageErrorEx(ex.message, "validateRow", C_MODULE, "");
+                  Cairo.manageErrorEx(ex.message, ex, "validateRow", C_MODULE, "");
                   // **TODO:** label found: ExitProc:;
                 }
                 // **TODO:** on error resume next found !!!
@@ -1257,7 +1250,7 @@
                   // **TODO:** goto found: GoTo ExitProc;
                 }
                 catch (ex) {
-                  Cairo.manageErrorEx(ex.message, "cIDocumento_LoadForPrint", C_MODULE, "");
+                  Cairo.manageErrorEx(ex.message, ex, "cIDocumento_LoadForPrint", C_MODULE, "");
                   // **TODO:** label found: ExitProc:;
                 }
                 // **TODO:** on error resume next found !!!
@@ -1303,7 +1296,7 @@
                 var p = Cairo.Promises.resolvedPromise(false);
                 try {
 
-                  if(!DoCairo.Security.anAccess(CS.LIST_FACTURA, GetdocIdFromObjAbm(m_dialog), csE_DocTypePrestacion.cSEDOCTPRELIST)) { return p; }
+                  if(!DoCairo.Security.anAccess(CS.LIST_FACTURA, GetdocIdFromObjAbm(m_dialog), Cairo.Security.ActionTypes.cSEDOCTPRELIST)) { return p; }
 
                   // Id = csDocChanged esto significa que se cambio
                   //                   el documento estando en un
@@ -1319,7 +1312,7 @@
                           if(!loadCollection()) { return false; }
                         }
                         else {
-                          pRefreshProperties();
+                          refreshProperties();
                         }
 
                         var abmGen = null;
@@ -1331,12 +1324,12 @@
                         //
                         if(id != csDocChanged && m_isNew && pDocDesdeOrden()) {
 
-                          pShowStartWizard();
+                          showStartWizard();
 
                         }
                         else if(id != csDocChanged && m_isNew && pDocDesdeRemito()) {
 
-                          pShowStartWizardRemito();
+                          showStartWizardRemito();
 
                         }
                         else {
@@ -1353,7 +1346,7 @@
                   });
                 }
                 catch (ex) {
-                  Cairo.manageErrorEx(ex.message, "cIEditGeneric_Edit", C_MODULE, "");
+                  Cairo.manageErrorEx(ex.message, ex, "cIEditGeneric_Edit", C_MODULE, "");
               }
 
                 return p;
@@ -1412,7 +1405,7 @@
                   // **TODO:** goto found: GoTo ExitProc;
                 }
                 catch (ex) {
-                  Cairo.manageErrorEx(ex.message, "columnAfterUpdate", C_MODULE, "");
+                  Cairo.manageErrorEx(ex.message, ex, "columnAfterUpdate", C_MODULE, "");
                   // **TODO:** label found: ExitProc:;
                 }
                 // **TODO:** on error resume next found !!!
@@ -1445,7 +1438,7 @@
                   // **TODO:** goto found: GoTo ExitProc;
                 }
                 catch (ex) {
-                  Cairo.manageErrorEx(ex.message, "columnAfterEdit", C_MODULE, "");
+                  Cairo.manageErrorEx(ex.message, ex, "columnAfterEdit", C_MODULE, "");
                   // **TODO:** label found: ExitProc:;
                 }
                 // **TODO:** on error resume next found !!!
@@ -1478,7 +1471,7 @@
                   // **TODO:** goto found: GoTo ExitProc;
                 }
                 catch (ex) {
-                  Cairo.manageErrorEx(ex.message, "columnBeforeEdit", C_MODULE, "");
+                  Cairo.manageErrorEx(ex.message, ex, "columnBeforeEdit", C_MODULE, "");
                   // **TODO:** label found: ExitProc:;
                 }
                 // **TODO:** on error resume next found !!!
@@ -1701,7 +1694,7 @@
                   // **TODO:** goto found: GoTo ExitProc;
                 }
                 catch (ex) {
-                  Cairo.manageErrorEx(ex.message, "validateRow", C_MODULE, "");
+                  Cairo.manageErrorEx(ex.message, ex, "validateRow", C_MODULE, "");
                   // **TODO:** label found: ExitProc:;
                 }
                 // **TODO:** on error resume next found !!!
@@ -2602,7 +2595,7 @@
                 elem.setEnabled(false);
                 elem.setVisible(false);
 
-                pSetEnabled();
+                setEnabled();
 
                 if(!m_footer.show(self)) { return false; }
 
@@ -3678,7 +3671,7 @@
                 });
               };
 
-              var setCIEditGenericDoc_Footer = function(rhs) {
+              var self.Footer = function(rhs) {
                 m_footer = rhs;
 
                 if(rhs == null) { Exit Property; }
@@ -3688,7 +3681,7 @@
                 m_footer.setObjForm(m_dialog.getObjForm());
               };
 
-              var setCIEditGenericDoc_Items = function(rhs) {
+              var self.Items = function(rhs) {
                 m_items = rhs;
 
                 if(rhs == null) { Exit Property; }
@@ -4483,7 +4476,7 @@
 
               };
 
-              var pSetEnabled = function() {
+              var setEnabled = function() {
                 var bState = null;
 
                 // Si se genera desde una orden de compra y es nuevo
@@ -4502,10 +4495,10 @@
                   bState = false;
                 }
 
-                pSetEnabledAux(bState);
+                setEnabledAux(bState);
               };
 
-              var pSetEnabledAux = function(bState) {
+              var setEnabledAux = function(bState) {
                 var prop = null;
 
                 var _count = m_dialog.getProperties().size();
@@ -4760,20 +4753,20 @@
 
                       // Refresco el formulario
                       //
-                      pRefreshProperties();
+                      refreshProperties();
                       break;
                   }
                 }
                 else {
                   if(!load(Cairo.Database.valField(rs.getFields(), 0))) { return false; }
 
-                  pRefreshProperties();
+                  refreshProperties();
                 }
 
                 return true;
               };
 
-              var pRefreshProperties = function() {
+              var refreshProperties = function() {
                 var c = null;
                 #If PREPROC_SFS Then;
                 var abmGen = null;
@@ -4954,7 +4947,7 @@
                 abmGen = m_footer;
                 abmGen.showValues(m_footer.getProperties());
 
-                pSetEnabled();
+                setEnabled();
 
                 pShowCotizacion();
                 pShowFechaVto();
@@ -4970,7 +4963,7 @@
 
               var pShowApply = function() {
 
-                if(!DoCairo.Security.anAccess(CS.MODIFY_APLIC, m_doc_id, csE_DocTypePrestacion.cSEDOCTPREAPLICAR)) { return; }
+                if(!DoCairo.Security.anAccess(CS.MODIFY_APLIC, m_doc_id, Cairo.Security.ActionTypes.cSEDOCTPREAPLICAR)) { return; }
 
                 if(m_objApply == null) {
                   m_objApply = new cFacturaCompraAplic();
@@ -4994,7 +4987,7 @@
                 }
               };
 
-              var pShowStartWizardRemito = function() {
+              var showStartWizardRemito = function() {
                 try {
 
                   var oWizard = null;
@@ -5030,13 +5023,13 @@
                   // **TODO:** goto found: GoTo ExitProc;
                 }
                 catch (ex) {
-                  Cairo.manageErrorEx(ex.message, "pShowStartWizardRemito", C_MODULE, "");
+                  Cairo.manageErrorEx(ex.message, ex, "showStartWizardRemito", C_MODULE, "");
                   // **TODO:** label found: ExitProc:;
                 }
                 // **TODO:** on error resume next found !!!
               };
 
-              var pShowStartWizard = function() {
+              var showStartWizard = function() {
                 try {
 
                   var oWizard = null;
@@ -5072,7 +5065,7 @@
                   // **TODO:** goto found: GoTo ExitProc;
                 }
                 catch (ex) {
-                  Cairo.manageErrorEx(ex.message, "pShowStartWizard", C_MODULE, "");
+                  Cairo.manageErrorEx(ex.message, ex, "showStartWizard", C_MODULE, "");
                   // **TODO:** label found: ExitProc:;
                 }
                 // **TODO:** on error resume next found !!!
@@ -5095,7 +5088,7 @@
                   // **TODO:** goto found: GoTo ExitProc;
                 }
                 catch (ex) {
-                  Cairo.manageErrorEx(ex.message, "Class_Initialize", C_MODULE, "");
+                  Cairo.manageErrorEx(ex.message, ex, "Class_Initialize", C_MODULE, "");
                   // **TODO:** label found: ExitProc:;
                 }
                 // **TODO:** on error resume next found !!!
@@ -5116,7 +5109,7 @@
                   m_nrosSerie = null;
                 }
                 catch (ex) {
-                  Cairo.manageErrorEx(ex.message, "Class_Terminate", C_MODULE, "");
+                  Cairo.manageErrorEx(ex.message, ex, "Class_Terminate", C_MODULE, "");
                   // **TODO:** label found: ExitProc:;
                 }
                 // **TODO:** on error resume next found !!!
@@ -5280,7 +5273,7 @@
                   // **TODO:** goto found: GoTo ExitProc;
                 }
                 catch (ex) {
-                  Cairo.manageErrorEx(ex.message, "pShowCobranza", C_MODULE, "");
+                  Cairo.manageErrorEx(ex.message, ex, "pShowCobranza", C_MODULE, "");
                   // **TODO:** label found: ExitProc:;
                 }
                 // **TODO:** on error resume next found !!!
@@ -5546,7 +5539,7 @@
           // **TODO:** goto found: GoTo ExitProc;
         }
         catch (ex) {
-          Cairo.manageErrorEx(ex.message, "ProcessMenu", C_MODULE, "");
+          Cairo.manageErrorEx(ex.message, ex, "ProcessMenu", C_MODULE, "");
           // **TODO:** label found: ExitProc:;
         }
         // **TODO:** on error resume next found !!!
@@ -6165,7 +6158,7 @@
           return _rtn;
         }
         catch (ex) {
-          Cairo.manageErrorEx(ex.message, "cIEditGenericListDoc_ShowParams", C_MODULE, "");
+          Cairo.manageErrorEx(ex.message, ex, "cIEditGenericListDoc_ShowParams", C_MODULE, "");
       }
 
         return _rtn;
@@ -6351,7 +6344,7 @@
         docId = Cairo.Database.valField(rs.getFields(), C.DOC_ID);
         doctId = Cairo.Database.valField(rs.getFields(), C.DOCT_ID);
 
-        if(!DoCairo.Security.anAccess(MODIFY_APLIC, m_doc_id, csE_DocTypePrestacion.cSEDOCTPREAPLICAR)) { return; }
+        if(!DoCairo.Security.anAccess(MODIFY_APLIC, m_doc_id, Cairo.Security.ActionTypes.cSEDOCTPREAPLICAR)) { return; }
 
         if(m_objApply == null) {
           m_objApply = new cFacturaCompraAplic();
@@ -6383,7 +6376,7 @@
           // **TODO:** goto found: GoTo ExitProc;
         }
         catch (ex) {
-          Cairo.manageErrorEx(ex.message, "pShowCobranza", C_MODULE, "");
+          Cairo.manageErrorEx(ex.message, ex, "pShowCobranza", C_MODULE, "");
           // **TODO:** label found: ExitProc:;
         }
         // **TODO:** on error resume next found !!!
@@ -6434,7 +6427,7 @@
           // **TODO:** goto found: GoTo ExitProc;
         }
         catch (ex) {
-          Cairo.manageErrorEx(ex.message, "Class_Terminate", C_MODULE, "");
+          Cairo.manageErrorEx(ex.message, ex, "Class_Terminate", C_MODULE, "");
           // **TODO:** label found: ExitProc:;
         }
         // **TODO:** on error resume next found !!!
@@ -6450,7 +6443,7 @@
           // **TODO:** goto found: GoTo ExitProc;
         }
         catch (ex) {
-          Cairo.manageErrorEx(ex.message, "Class_Terminate", C_MODULE, "");
+          Cairo.manageErrorEx(ex.message, ex, "Class_Terminate", C_MODULE, "");
           // **TODO:** label found: ExitProc:;
         }
         // **TODO:** on error resume next found !!!
