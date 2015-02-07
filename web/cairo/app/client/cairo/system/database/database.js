@@ -271,6 +271,10 @@
 
     sqlString: function(string) {
       return "'" + string.toString().replace("'", "''") + "'";
+    },
+
+    sqlDate: function(date) {
+      return date;
     }
 
   };

@@ -520,6 +520,16 @@
 <script src="./client/cairo/config/marionette/regions/dialog.js"></script>
 <script src="./client/cairo/cairoApp.js"></script>
 <script>
+
+  //
+  //
+  // all this initialization should be moved to a function which will be called
+  // on document ready.
+  //
+  // here we just leave a token which can be used only one time to get the configuration
+  //
+  //
+
   Cairo.setAjax = function() {
       //Ajax Request Configuration
       //To Set The CSRF Token To Request Header
@@ -535,6 +545,10 @@
   };
 
   Cairo.User.setId(@{companyUser.userId});
+
+  // TODO: get this from company configuration
+  //
+  Cairo.Documents.setDefaultCurrency(2);
 
 </script>
 <script src="./client/cairo/session.js"></script>

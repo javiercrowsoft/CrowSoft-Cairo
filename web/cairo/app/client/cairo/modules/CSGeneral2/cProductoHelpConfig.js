@@ -278,21 +278,21 @@
             case K_TECLA:
               if(Cairo.Util.valEmpty(property.getValue(), Cairo.Constants.Types.text)) {
                 // Debe indicar una tecla
-                cWindow.msgInfo(Cairo.Language.getText(3905, ""));
+                Cairo.Modal.showInfo(Cairo.Language.getText(3905, ""));
               }
               break;
 
             case K_VALOR_CODIGO:
               if(Cairo.Util.valEmpty(property.getValue(), Cairo.Constants.Types.text)) {
                 // Debe indicar un valor para el c�digo
-                cWindow.msgInfo(Cairo.Language.getText(3906, ""));
+                Cairo.Modal.showInfo(Cairo.Language.getText(3906, ""));
               }
               break;
 
             case K_ATRIBUTO_INDICE:
               if(Cairo.Util.val(property.getValue()) <= 0 || Cairo.Util.val(property.getValue()) > 10) {
                 // Debe indicar el indice del atributo
-                cWindow.msgInfo(Cairo.Language.getText(3907, ""));
+                Cairo.Modal.showInfo(Cairo.Language.getText(3907, ""));
               }
               break;
           }

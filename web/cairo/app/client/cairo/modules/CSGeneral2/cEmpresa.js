@@ -368,35 +368,35 @@
             case K_NAME:
               if(Cairo.Util.valEmpty(property.getValue(), Cairo.Constants.Types.text)) {
                 // Debe indicar un nombre
-                cWindow.msgInfo(Cairo.Language.getText(1007, ""));
+                Cairo.Modal.showInfo(Cairo.Language.getText(1007, ""));
               }
               break;
 
             case K_CODE:
               if(Cairo.Util.valEmpty(property.getValue(), Cairo.Constants.Types.text)) {
                 // Debe indicar un c�digo
-                cWindow.msgInfo(Cairo.Language.getText(1008, ""));
+                Cairo.Modal.showInfo(Cairo.Language.getText(1008, ""));
               }
               break;
 
             case K_RAZONSOCIAL:
               if(Cairo.Util.valEmpty(property.getValue(), Cairo.Constants.Types.text)) {
                 // Debe indicar una raz�n social
-                cWindow.msgInfo(Cairo.Language.getText(1172, ""));
+                Cairo.Modal.showInfo(Cairo.Language.getText(1172, ""));
               }
               break;
 
             case K_CUIT:
               if(Cairo.Util.valEmpty(property.getValue(), Cairo.Constants.Types.text)) {
                 // Debe indicar un CUIT
-                cWindow.msgInfo(Cairo.Language.getText(1173, ""));
+                Cairo.Modal.showInfo(Cairo.Language.getText(1173, ""));
               }
               break;
 
             case K_CATFISCAL:
               if(Cairo.Util.valEmpty(property.getListItemData(), Cairo.Constants.Types.integer)) {
                 // Debe indicar un categor�a fiscal
-                cWindow.msgInfo(Cairo.Language.getText(1174, ""));
+                Cairo.Modal.showInfo(Cairo.Language.getText(1174, ""));
               }
               break;
           }

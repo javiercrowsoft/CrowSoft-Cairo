@@ -272,7 +272,7 @@
             case K_PRO_ID:
               if(Cairo.Util.valEmpty(property.getSelectId(), Cairo.Constants.Types.id)) {
                 // Debe indicar una provincia
-                cWindow.msgInfo(Cairo.Language.getText(1077, ""));
+                Cairo.Modal.showInfo(Cairo.Language.getText(1077, ""));
               }
               break;
           }

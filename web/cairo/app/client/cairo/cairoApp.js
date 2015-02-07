@@ -724,6 +724,9 @@ var Cairo = new Marionette.Application();
         str = str.substr(0, str.length-1);
       }
       return str;
+    },
+    bool: function(value) {
+      return (typeof value === 'boolean') ? value : val(value) !== 0;
     }
   };
 

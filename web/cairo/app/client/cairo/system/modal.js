@@ -76,7 +76,15 @@
       return defer.promise;
     },
 
-    showWarning: this.showInfo
+    showWarning: this.showInfo,
+
+    showWarningWithFail: function(message, title) {
+      return this.showWarning(message, title).then(Cairo.Promises.fail);
+    },
+
+    showWarningWithFalse: function(message, title) {
+      return this.showWarning(message, title).then(function() { return false; });
+    }
 
   };
 

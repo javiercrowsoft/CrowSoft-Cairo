@@ -5738,15 +5738,15 @@
           var p = null;
           if(m_isDocument) {
             p = m_client.messageEx(Dialogs.Message.MSG_DOC_EX_GET_ITEMS, null).then(
-              function(genDocEx) {
-                return genDocEx.validateEx();
+              function(dialog) {
+                return dialog.validateEx();
               }
             ).then(
               function(success) {
                 if(success) {
                   return m_client.messageEx(Dialogs.Message.MSG_DOC_EX_GET_FOOTERS, null).then(
-                    function(genDocEx) {
-                      return genDocEx.validateEx();
+                    function(dialog) {
+                      return dialog.validateEx();
                     }
                   )
                 }

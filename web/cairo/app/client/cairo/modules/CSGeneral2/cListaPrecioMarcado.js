@@ -316,7 +316,7 @@
             case K_MON_ID:
               if(Cairo.Util.valEmpty(property.getSelectId(), Cairo.Constants.Types.id)) {
                 // Debe indicar una moneda
-                cWindow.msgInfo(Cairo.Language.getText(1108, ""));
+                Cairo.Modal.showInfo(Cairo.Language.getText(1108, ""));
               }
               break;
           }

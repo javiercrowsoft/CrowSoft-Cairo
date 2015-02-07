@@ -292,14 +292,14 @@
             case K_TIPO:
               if(Cairo.Util.valEmpty(property.getListItemData(), Cairo.Constants.Types.integer)) {
                 // Debe indicar un tipo
-                cWindow.msgInfo(Cairo.Language.getText(1222, ""));
+                Cairo.Modal.showInfo(Cairo.Language.getText(1222, ""));
               }
               break;
 
             case K_MON_ID:
               if(Cairo.Util.valEmpty(property.getSelectId(), Cairo.Constants.Types.id)) {
                 // Debe indicar un moneda
-                cWindow.msgInfo(Cairo.Language.getText(1108, ""));
+                Cairo.Modal.showInfo(Cairo.Language.getText(1108, ""));
               }
               break;
           }

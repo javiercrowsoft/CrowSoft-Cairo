@@ -690,6 +690,11 @@
       GTO_IMPORTE: "gto_importe",
 
       // Documentos
+      DOCUMENTO_TIPO: "DocumentoTipo",
+      DOCT_ID: "doct_id",
+      DOCT_NAME: "doct_nombre",
+
+      // Documentos
       DOCUMENTO: "Documento",
       DOC_ID: "doc_id",
       DOC_NAME: "doc_nombre",

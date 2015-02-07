@@ -121,4 +121,14 @@
     return defer.promise;
   };
 
+  Cairo.Promises.failedPromise = function() {
+    var defer = new Cairo.Promises.Defer();
+    defer.resolve({ success: false });
+    return defer.promise;
+  };
+
+  Cairo.Promises.fail = function() {
+    return { success: false };
+  };
+
 }());

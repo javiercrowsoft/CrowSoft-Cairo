@@ -5,6 +5,8 @@
 
     Constants: {
 
+      PROVEEDOR_DATA_ADD: "ProveedorDataAdd",
+
       // Producto Numero Serie
       PRODUCTO_NUMERO_SERIE: "ProductoNumeroSerie",
       PRNS_ID: "prns_id",
@@ -12,6 +14,10 @@
       PRNS_DESCRIP: "prns_descrip",
       PRNS_FECHA_VTO: "prns_fechavto",
 
+      // Legajo
+      LEGAJO: "legajo",
+      LGJ_ID: "lgj_id",
+      LGJ_NAME: "lgj_nombre",
 
       // RemitoCompra
       REMITO_COMPRA: "RemitoCompra",
@@ -266,7 +272,6 @@
       // FacturaCompraPercepcion Borrado TMP
       FACTURA_COMPRA_LEGAJO_BORRADO_TMP: "FacturaCompraLegajoBorradoTMP",
       FC_LGJB_TMPID: "fclgjbTMP_id",
-
 
       // Stock
       DEPL_ID_ORIGEN: "depl_id_origen",

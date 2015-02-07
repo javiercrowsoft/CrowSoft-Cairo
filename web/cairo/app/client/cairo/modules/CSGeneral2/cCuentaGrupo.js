@@ -298,7 +298,7 @@
           case Cairo.General.Constants.AccountGroupType.creditor:
             if(cuec_id !== csECuentaCategoria.cSECUECACREEDORES && cuec_id !== csECuentaCategoria.cSECUECBANCOS) {
               // La cuenta debe ser de tipo acreedor por compras o banco.
-              cWindow.msgInfo(Cairo.Language.getText(3529, ""));
+              Cairo.Modal.showInfo(Cairo.Language.getText(3529, ""));
               return null;
             }
 
@@ -307,7 +307,7 @@
           case Cairo.General.Constants.AccountGroupType.debtor:
             if(cuec_id !== csECuentaCategoria.cSECUECDEUDPORVENTAS) {
               // La cuenta debe ser de tipo deudor por ventas.
-              cWindow.msgInfo(Cairo.Language.getText(3530, ""));
+              Cairo.Modal.showInfo(Cairo.Language.getText(3530, ""));
               return null;
             }
 
@@ -317,7 +317,7 @@
             if(cuec_id !== csECuentaCategoria.cSECUECINGRESOS && cuec_id !== csECuentaCategoria.cSECUECEGRESOS) {
               if(pCuentaForProducto(cue_id) === false) {
                 // La cuenta debe ser de tipo ingresos, o egresos o estar marcada como elegible para productos.
-                cWindow.msgInfo(Cairo.Language.getText(3531, ""));
+                Cairo.Modal.showInfo(Cairo.Language.getText(3531, ""));
                 return null;
               }
             }
@@ -330,7 +330,7 @@
               if(pCuentaForProducto(cue_id) === false) {
 
                 // La cuenta debe ser de tipo bienes de cambio, o bienes de uso, o estar marcada como elegible para productos.
-                cWindow.msgInfo(Cairo.Language.getText(3532, ""));
+                Cairo.Modal.showInfo(Cairo.Language.getText(3532, ""));
                 return null;
               }
             }
@@ -340,7 +340,7 @@
           case Cairo.General.Constants.AccountGroupType.directDebit:
             if(cuec_id !== csECuentaCategoria.cSECUECBANCOS) {
               // La cuenta debe ser de tipo banco
-              cWindow.msgInfo(Cairo.Language.getText(3571, ""));
+              Cairo.Modal.showInfo(Cairo.Language.getText(3571, ""));
               return null;
             }
 
@@ -349,7 +349,7 @@
           case Cairo.General.Constants.AccountGroupType.pettyCashFund:
             if(cuec_id !== csECuentaCategoria.cSECUECCAJA) {
               // La cuenta debe ser de tipo caja
-              cWindow.msgInfo(Cairo.Language.getText(3572, ""));
+              Cairo.Modal.showInfo(Cairo.Language.getText(3572, ""));
               return null;
             }
 
@@ -357,7 +357,7 @@
 
           default:
             // Debe seleccionar un tipo de grupo de cuenta.
-            cWindow.msgInfo(Cairo.Language.getText(3533, ""));
+            Cairo.Modal.showInfo(Cairo.Language.getText(3533, ""));
             return null;
             break;
         }

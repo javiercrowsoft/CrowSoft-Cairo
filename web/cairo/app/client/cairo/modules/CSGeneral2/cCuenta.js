@@ -423,7 +423,7 @@
             case K_MON_ID:
               if(Cairo.Util.valEmpty(property.getSelectId(), Cairo.Constants.Types.id)) {
                 // Debe indicar una moneda
-                cWindow.msgInfo(Cairo.Language.getText(1108, ""));
+                Cairo.Modal.showInfo(Cairo.Language.getText(1108, ""));
               }
               break;
 
@@ -436,7 +436,7 @@
             case K_CATEGORIA:
               if(Cairo.Util.valEmpty(property.getSelectId(), Cairo.Constants.Types.id)) {
                 // Debe indicar una categoría
-                cWindow.msgInfo(Cairo.Language.getText(1109, ""));
+                Cairo.Modal.showInfo(Cairo.Language.getText(1109, ""));
               }
               bHaveBco = property.getSelectId() === csECuentaCategoria.cSECUECBANCOS;
               break;
@@ -445,7 +445,7 @@
 
         if(bBcoEmpty && bHaveBco) {
           // Debe indicar un banco
-          cWindow.msgInfo(Cairo.Language.getText(1110, ""));
+          Cairo.Modal.showInfo(Cairo.Language.getText(1110, ""));
         }
 
         return Cairo.Promises.resolvedPromise(true);
