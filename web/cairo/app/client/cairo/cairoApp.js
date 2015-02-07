@@ -388,6 +388,16 @@ var Cairo = new Marionette.Application();
     }
   };
 
+  var isNumeric = function(value) {
+    try {
+      value = parseFloat(value);
+      return isNaN(value) ? false : true;
+    }
+    catch(ignore) {
+      return false;
+    }
+  };
+
   var escapeRegExp =function(string) {
     return string.replace(/([.*+?^=!:${}()|\[\]\/\\])/g, "\\$1");
   };
@@ -727,7 +737,8 @@ var Cairo = new Marionette.Application();
     },
     bool: function(value) {
       return (typeof value === 'boolean') ? value : val(value) !== 0;
-    }
+    },
+    isNumeric: isNumeric
   };
 
   var createCompany = function() {

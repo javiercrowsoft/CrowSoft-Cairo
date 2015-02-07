@@ -76,6 +76,10 @@
       return defer.promise;
     },
 
+    showInfoWithFalse: function(message, title) {
+      return this.showInfo(message, title).then(function() { return false; });
+    },
+
     showWarning: this.showInfo,
 
     showWarningWithFail: function(message, title) {

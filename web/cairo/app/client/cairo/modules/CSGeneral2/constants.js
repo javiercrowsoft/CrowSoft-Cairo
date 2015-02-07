@@ -309,7 +309,7 @@
       CLI_RAZONSOCIAL: "cli_razonsocial",
       CLI_CUIT: "cli_cuit",
       CLI_INGRESOSBRUTOS: "cli_ingresosbrutos",
-      CLI_CATFISCAL: "cli_catfiscal",
+      CLI_CAT_FISCAL: "cli_catfiscal",
       CLI_CHEQUEORDEN: "cli_chequeorden",
       CLI_CODPOSTAL: "cli_codpostal",
       CLI_LOCALIDAD: "cli_localidad",
@@ -348,7 +348,7 @@
       PROV_RAZONSOCIAL: "prov_razonsocial",
       PROV_CUIT: "prov_cuit",
       PROV_INGRESOSBRUTOS: "prov_ingresosbrutos",
-      PROV_CATFISCAL: "prov_catfiscal",
+      PROV_CAT_FISCAL: "prov_catfiscal",
       PROV_CHEQUEORDEN: "prov_chequeorden",
       PROV_CODPOSTAL: "prov_codpostal",
       PROV_LOCALIDAD: "prov_localidad",
@@ -1306,6 +1306,20 @@
         webImageThumbnail: 1,
         webImageMedium: 2,
         webImageBig: 3
+      },
+
+      CategoriaFiscal: {
+        inscripto: 1,
+        exento: 2,
+        noInscripto: 3,
+        consumidorFinal: 4,
+        extranjero: 5,
+        monotributo: 6,
+        extranjeroIva: 7,
+        noResponsable: 8,
+        noResponsableExento: 9,
+        noCategorizado: 10,
+        inscriptoM: 11
       }
     }
   };

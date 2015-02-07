@@ -556,58 +556,58 @@
 
         var w_list = elem.getList();
 
-        var elem = w_list.add(null, csCatFiscal.cSCATFCONSUMIDORFINAL);
-        elem.Id = csCatFiscal.cSCATFCONSUMIDORFINAL;
+        var elem = w_list.add(null, C.CategoriaFiscal.consumidorFinal);
+        elem.Id = C.CategoriaFiscal.consumidorFinal;
         // Consumidor final
         elem.setValue(Cairo.Language.getText(1182, ""));
 
-        var elem = w_list.add(null, csCatFiscal.cSCATFNOINSCRIPTO);
-        elem.Id = csCatFiscal.cSCATFNOINSCRIPTO;
+        var elem = w_list.add(null, C.CategoriaFiscal.noInscripto);
+        elem.Id = C.CategoriaFiscal.noInscripto;
         // No Inscripto
         elem.setValue(Cairo.Language.getText(1183, ""));
 
-        var elem = w_list.add(null, csCatFiscal.cSCATFINSCRIPTO);
-        elem.Id = csCatFiscal.cSCATFINSCRIPTO;
+        var elem = w_list.add(null, C.CategoriaFiscal.inscripto);
+        elem.Id = C.CategoriaFiscal.inscripto;
         // Inscripto
         elem.setValue(Cairo.Language.getText(1184, ""));
 
-        var elem = w_list.add(null, csCatFiscal.cSCATFEXTRANJERO);
-        elem.Id = csCatFiscal.cSCATFEXTRANJERO;
+        var elem = w_list.add(null, C.CategoriaFiscal.extranjero);
+        elem.Id = C.CategoriaFiscal.extranjero;
         // Extranjero
         elem.setValue(Cairo.Language.getText(1185, ""));
 
-        var elem = w_list.add(null, csCatFiscal.cSCATFEXENTO);
-        elem.Id = csCatFiscal.cSCATFEXENTO;
+        var elem = w_list.add(null, C.CategoriaFiscal.exento);
+        elem.Id = C.CategoriaFiscal.exento;
         // Exento
         elem.setValue(Cairo.Language.getText(1186, ""));
 
-        var elem = w_list.add(null, csCatFiscal.cSCATFMONOTRIBUTO);
-        elem.Id = csCatFiscal.cSCATFMONOTRIBUTO;
+        var elem = w_list.add(null, C.CategoriaFiscal.monotributo);
+        elem.Id = C.CategoriaFiscal.monotributo;
         // Monotributo
         elem.setValue(Cairo.Language.getText(1187, ""));
 
-        var elem = w_list.add(null, csCatFiscal.cSCATFEXTRANJEROIVA);
-        elem.Id = csCatFiscal.cSCATFEXTRANJEROIVA;
+        var elem = w_list.add(null, C.CategoriaFiscal.extranjeroIva);
+        elem.Id = C.CategoriaFiscal.extranjeroIva;
         // Extranjero con Iva
         elem.setValue(Cairo.Language.getText(1188, ""));
 
-        var elem = w_list.add(null, csCatFiscal.cSCATFNOCATEGORIZADO);
-        elem.Id = csCatFiscal.cSCATFNOCATEGORIZADO;
+        var elem = w_list.add(null, C.CategoriaFiscal.noCategorizado);
+        elem.Id = C.CategoriaFiscal.noCategorizado;
         // No categorizado
         elem.setValue(Cairo.Language.getText(1189, ""));
 
-        var elem = w_list.add(null, csCatFiscal.cSCATFNORESPONSABLE);
-        elem.Id = csCatFiscal.cSCATFNORESPONSABLE;
+        var elem = w_list.add(null, C.CategoriaFiscal.noResponsable);
+        elem.Id = C.CategoriaFiscal.noResponsable;
         // No responsable
         elem.setValue(Cairo.Language.getText(1190, ""));
 
-        var elem = w_list.add(null, csCatFiscal.cSCATFNORESPONSABLEEXENTO);
-        elem.Id = csCatFiscal.cSCATFNORESPONSABLEEXENTO;
+        var elem = w_list.add(null, C.CategoriaFiscal.noResponsableExento);
+        elem.Id = C.CategoriaFiscal.noResponsableExento;
         // No responsable exento
         elem.setValue(Cairo.Language.getText(1191, ""));
 
-        var elem = w_list.add(null, csCatFiscal.cSCATFINSCRIPTOM);
-        elem.Id = csCatFiscal.cSCATFINSCRIPTOM;
+        var elem = w_list.add(null, C.CategoriaFiscal.inscriptoM);
+        elem.Id = C.CategoriaFiscal.inscriptoM;
         // Inscripto M
         elem.setValue(Cairo.Language.getText(1192, ""));
 

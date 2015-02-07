@@ -183,10 +183,10 @@
     self.columnAfterEditPercepciones = function(property,  lRow,  lCol,  newValue,  newValueID) {
       var row = null;
 
-      var w_columns = property.getGrid().getColumns(lCol);
-      switch (w_columns.Key) {
+      var columns = property.getGrid().getColumns().item(lCol);
+      switch (columns.getKey()) {
         case KIP_BASE:
-          row = property.getGrid().getRows(lRow);
+          row = property.getGrid().getRows().item(lRow);
           var w_pCell = Dialogs.cell(row, KIP_BASE);
           if(Cairo.Util.val(newValue) < 0) {
             w_pCell.setValue(0);
@@ -197,7 +197,7 @@
           break;
 
         case KIP_IMPORTE:
-          row = property.getGrid().getRows(lRow);
+          row = property.getGrid().getRows().item(lRow);
           var w_pCell = Dialogs.cell(row, KIP_IMPORTE);
           if(Cairo.Util.val(newValue) < 0) {
             w_pCell.setValue(0);
@@ -214,7 +214,7 @@
           break;
 
         case KIP_PORCENTAJE:
-          row = property.getGrid().getRows(lRow);
+          row = property.getGrid().getRows().item(lRow);
           var w_pCell = Dialogs.cell(row, KIP_PORCENTAJE);
           if(Cairo.Util.val(newValue) < 0) {
             w_pCell.setValue(0);

@@ -62,6 +62,17 @@
       }, errorCallback);
     },
 
+    successWithResult: function(successCallback, falseReturnValue, errorCallback) {
+      return this.then(function(result) {
+        if(result.success) {
+          return successCallback(result);
+        }
+        else {
+          return Cairo.isFunction(falseReturnValue) ? falseReturnValue() : falseReturnValue || false;
+        }
+      }, errorCallback);
+    },
+
     successful: function() {
       return this.then(function(){ return true; });
     },
@@ -130,5 +141,13 @@
   Cairo.Promises.fail = function() {
     return { success: false };
   };
+
+  Cairo.Promises.call = function(f) {
+    var args = Array.prototype.slice.call(arguments, 1);
+    return function(result) {
+      args.push(result);
+      return f.apply(null, args);
+    };
+  }
 
 }());
