@@ -891,9 +891,12 @@ var Cairo = new Marionette.Application();
   /* TODO: this must to be read from Database */
   var loadSettings = function() {
     var quantityDecimals = 2;
+    var amountDecimals = 2;
     return {
       quantityDecimals: quantityDecimals,
-      quantityDecimalsFormat: "#,###,###,##0." + Array(quantityDecimals+1).join("0")
+      amountDecimals: amountDecimals,
+      quantityDecimalsFormat: "#,###,###,##0." + Array(quantityDecimals+1).join("0"),
+      amountDecimalsFormat: "#,###,###,##0." + Array(amountDecimals+1).join("0")
     }
   };
 
@@ -902,6 +905,10 @@ var Cairo = new Marionette.Application();
 
     Cairo.Settings.getQuantityDecimalsFormat = function() {
       return settings.quantityDecimalsFormat;
+    };
+
+    Cairo.Settings.getAmountDecimalsFormat = function() {
+      return settings.amountDecimalsFormat;
     };
 
   };

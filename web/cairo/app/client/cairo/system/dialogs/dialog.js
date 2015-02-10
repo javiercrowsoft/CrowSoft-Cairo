@@ -1087,7 +1087,7 @@
 
               // sort the property rows collection to match sort in control
               //
-              var sortedRows = new Dialogs.Grids.Rows();
+              var sortedRows = new Dialogs.Grids.createRows();
 
               var count = grid.getRows().count();
               for(var j = 0; j < count; j++) {
