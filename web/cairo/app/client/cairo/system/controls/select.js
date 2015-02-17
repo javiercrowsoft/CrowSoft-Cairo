@@ -4,20 +4,10 @@
   Cairo.module("Select", function(Select, Cairo, Backbone, Marionette, $, _) {
     "use strict";
 
-    ///////////////
-    // Entities
-    ///////////////
-
-    Cairo.module("Entities", function(Entities, Cairo, Backbone, Marionette, $, _) {
-
-        Entities.Select = {};
-
-        Entities.Select.SelectType = {
-          normal: 0,
-          tree: 1
-        };
-
-    });
+    Select.SelectType = {
+      normal: 0,
+      tree: 1
+    };
 
     /*
         implements an auto complete control which shows a table grid
@@ -647,7 +637,7 @@
         filter: "-",
         table: Cairo.Constants.NO_ID,
         enabled: true,
-        type: Cairo.Entities.Select.SelectType.normal,
+        type: Cairo.Select.SelectType.normal,
         noUseActive: false,
 
         select: null
@@ -665,13 +655,13 @@
         superSetElement(element);
         element.val(self.value);
 
-        if(self.type === Cairo.Entities.Select.SelectType.tree) {
+        if(self.type === Cairo.Select.SelectType.tree) {
           element.append('<span class="tree-select-control-folder-icon hidden"><i class="glyphicon glyphicon-folder-open"></i></span>');
         }
         var input = $('<input type="text" class="dialog-control dialog-input-control" autocomplete="off"/>');
         element.append(input);
 
-        if(self.type === Cairo.Entities.Select.SelectType.normal) {
+        if(self.type === Cairo.Select.SelectType.normal) {
           var button = $('<button>+</button>');
           button.attr('tabindex', -1);
           element.append(button);
@@ -681,7 +671,7 @@
             self.noUseActive === false,
             self.filter);
         }
-        else if (self.type === Cairo.Entities.Select.SelectType.tree) {
+        else if (self.type === Cairo.Select.SelectType.tree) {
           var button = $('<button>...</button>');
           button.attr('tabindex', -1);
           element.append(element);

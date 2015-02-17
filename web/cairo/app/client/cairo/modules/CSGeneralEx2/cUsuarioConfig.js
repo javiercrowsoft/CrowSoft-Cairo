@@ -2672,7 +2672,7 @@
         elem.setTabIndex(TAB_VENTAS);
         elem.setTopToPrevious(720);
 
-        elem.setSelectType(Cairo.Entities.Select.SelectType.tree);
+        elem.setSelectType(Cairo.Select.SelectType.tree);
         elem.setIsEditProperty(false);
 
         //
@@ -2822,7 +2822,7 @@
         elem.setValue(m_estadoPickingList);
         elem.setTabIndex(TAB_DESPACHO);
 
-        elem.setSelectType(Cairo.Entities.Select.SelectType.tree);
+        elem.setSelectType(Cairo.Select.SelectType.tree);
         elem.setIsEditProperty(false);
 
         var elem = properties.add(null, DOC_RV_C + "v");

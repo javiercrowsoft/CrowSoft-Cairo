@@ -143,7 +143,8 @@
       buttonFace: '#cecece',
       buttonShadow: '#cecece',
       tabBackColor: '#ffffff',
-      backgroundColor: '#cecece'
+      backgroundColor: '#cecece',
+      windowBackground: '#000000'
     };
 
     Dialogs.BackgroundType = {
@@ -739,6 +740,8 @@
             initVectorsPosition();
           }
         };
+
+        self.getView = getView;
 
         // hide tab buttons is used in wizards
         //

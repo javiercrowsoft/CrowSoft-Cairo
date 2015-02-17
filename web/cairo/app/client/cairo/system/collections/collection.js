@@ -25,12 +25,12 @@
         //
         // if a key is present we need to validate it
         //
-        if (key !== undefined) {
+        if(key !== undefined) {
           //
           // key is alwas string
           //
           key = key.toString();
-          if (self.keys[key] !== undefined) {
+          if(self.keys[key] !== undefined) {
             throw new Error("Can't add this item. There is already an object with this key [" + key + "] in the colletion.");
           }
           self.keys[key] = self.count;
@@ -220,6 +220,10 @@
       };
 
       return that;
+    },
+
+    getKey: function(text) {
+      return "k" + text.toString();
     }
   };
 

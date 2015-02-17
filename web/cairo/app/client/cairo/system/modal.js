@@ -80,7 +80,9 @@
       return this.showInfo(message, title).then(function() { return false; });
     },
 
-    showWarning: this.showInfo,
+    showWarning: function(message, title) {
+      return this.showInfo(message, title);
+    },
 
     showWarningWithFail: function(message, title) {
       return this.showWarning(message, title).then(Cairo.Promises.fail);

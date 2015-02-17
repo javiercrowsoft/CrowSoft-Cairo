@@ -321,16 +321,17 @@
     <div class="row">
       <div class="col-sm-4 col-md-4">
         <div class="@if(requestOrigin.userAgent.isMobile) {container} else {desktop-big-container}">
-            <h2 class="sub-header"><%- entitiesTitle %></h2>
+            <h3 class="sub-header"><%- entitiesTitle %></h3>
         </div>
       </div>
       <div class="col-sm-1 col-md-1">
       </div>
-      <div class="col-sm-7 col-md-7 tree-select-control-search">
+      <div class="col-sm-3 col-md-3"></div>
+      <div class="col-sm-4 col-md-4 tree-select-control-search">
         <div>
-  <% if(showTableButtons) { %>
-    <button class="btn btn-primary js-new"><%- entityName %></button>
-  <% } %>
+          <% if(showTableButtons) { %>
+            <button class="btn btn-primary js-new"><%- entityName %></button>
+          <% } %>
           <% if(showSelectButton) { %>
           <div class="tree-select-button-select">
             <button class="btn btn-primary" id="tree-select-select-button"> Select </button>
@@ -466,7 +467,7 @@
     <div class="row">
         <div class="col-sm-12 col-md-12">
             <div class="@if(requestOrigin.userAgent.isMobile) {container} else {desktop-big-container}">
-                <h2 class="sub-header dialog-subtitle"><%- entityTitle %></h2>
+                <h3 class="sub-header dialog-subtitle"><%- entityTitle %></h3>
             </div>
         </div>
     </div>
@@ -545,10 +546,12 @@
   };
 
   Cairo.User.setId(@{companyUser.userId});
+  Cairo.Company.setId(@{companyUser.cairoCompanyId});
+  Cairo.Company.setName('@{companyUser.cairoCompanyName}');
 
   // TODO: get this from company configuration
   //
-  Cairo.Documents.setDefaultCurrency(2);
+  Cairo.Company.setDefaultCurrency(2);
 
 </script>
 <script src="./client/cairo/session.js"></script>
@@ -565,6 +568,10 @@
 <script src="./client/cairo/system/security/security.js"></script>
 <script src="./client/cairo/system/language/language.js"></script>
 <script src="./client/cairo/system/documentation/documentation.js"></script>
+
+<script>
+  @languageGenerator(language)
+</script>
 
 <!-- controls -->
 
@@ -607,7 +614,7 @@
 
 <!-- TODO: this file is hardcoded for now but must be included in the router -->
 <script src="./client/cairo/modules/CSGeneral2/constants.js"></script>
-<script src="./client/cairo/modules/CSCompras2/constants.js"></script>
+<script src="./client/cairo/modules/CSCompra2/constants.js"></script>
 <script src="./client/cairo/modules/system/system.js"></script>
 <script src="./client/cairo/modules/CSGeneralEx2/cGenericEdit.js"></script>
 
@@ -622,7 +629,6 @@
 <script>
 
 @routerGenerator(router)
-@languageGenerator(language)
 
 </script>
 

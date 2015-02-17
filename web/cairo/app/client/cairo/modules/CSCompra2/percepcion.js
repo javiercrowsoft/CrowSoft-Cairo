@@ -9,6 +9,11 @@
     var val = Cairo.Util.val;
     var getCell = Dialogs.cell;
 
+    var valEmpty = Cairo.Util.valEmpty;
+    var zeroDiv = Cairo.Util.zeroDiv;
+
+    var CC = Cairo.Compras.Constants;
+
     var KI_CCOS_ID = 22;
     var KIP_IMPORTE = 1;
     var KIP_PERC_ID = 2;
@@ -19,8 +24,6 @@
 
     var c_Wiz_Key_percepciones = "PERCEP"
     var c_Wiz_Key_TotalPercepciones = "TotalPercep"
-        
-    var c_ErrorSave = Cairo.Language.getText(1907, ""); //'Error al grabar la factura de compra
 
     self.KI_CCOS_ID = KI_CCOS_ID;
     self.KIP_IMPORTE = KIP_IMPORTE;
@@ -82,13 +85,16 @@
     };
 
     self.validateRowPercepciones = function(row, rowIndex) {
-      var cell = null;
+
       var strRow = " (Fila "+ rowIndex.toString()+ ")";
 
       var _count = row.size();
       for (var _i = 0; _i < _count; _i++) {
-        cell = row.item(_i);
+
+        var cell = row.item(_i);
+
         switch (cell.getKey()) {
+
           case KIP_PERC_ID:
             if(valEmpty(cell.getId(), Cairo.Constants.Types.id)) {
               //'Debe indicar una percepcion
@@ -127,8 +133,11 @@
 
       var _count = row.size();
       for (var _i = 0; _i < _count; _i++) {
+
         var cell = row.item(_i);
+
         switch (cell.getKey()) {
+
           case KIP_IMPORTE:
             if(!valEmpty(cell.getValue(), Cairo.Constants.Types.currency)) {
               bRowIsEmpty = false;
@@ -177,7 +186,9 @@
     self.columnAfterEditPercepciones = function(property, lRow, lCol, newValue, newValueID) {
 
       var columns = property.getGrid().getColumns().item(lCol);
+
       switch (columns.getKey()) {
+
         case KIP_BASE:
           var row = property.getGrid().getRows().item(lRow);
           var cell = getCell(row, KIP_BASE);
@@ -202,7 +213,7 @@
               percent = 1;
               getCell(row, KIP_PORCENTAJE).setValue(1);
             }
-            getCell(row, KIP_BASE).setValue(cUtil.divideByCero(newValue, percent) * 100);
+            getCell(row, KIP_BASE).setValue(zeroDiv(newValue, percent) * 100);
           }
           break;
 
@@ -218,20 +229,26 @@
           break;
       }
 
-      return true;
+      return Cairo.Promises.resolvedPromise(true);
     };
 
-    self.savePercepciones = function(iProp, id, cotizacion, bMonedaLegal, copy, deleted, fcId, module) {
-      var iOrden = 0;
+    self.savePercepciones = function(
+      mainRegister, property, id, cotizacion, isDefaultCurrency, isCopy, deleted, fcId, module) {
+
+      var transaction = new Cairo.Database.Transaction();
+      transaction.setTable(CC.FACTURA_COMPRA_PERCEPCION_TMP);
+
       var origen = 0;
 
-      var _count = iProp.getGrid().getRows().size();
+      var _count = property.getGrid().getRows().size();
       for (var _i = 0; _i < _count; _i++) {
-        var row = iProp.getGrid().getRows().item(_i);
 
-        var register = new cRegister();
+        var row = property.getGrid().getRows().item(_i);
+
+        var register = new Cairo.Database.Register();
+        var fields = register.getFields();
         register.setFieldId(CC.FCPERC_TMPID);
-        register.setTable(CC.FACTURACOMPRAPERCEPCIONTMP);
+        register.setTable(CC.FACTURA_COMPRA_PERCEPCION_TMP);
         register.setId(Cairo.Constants.NEW_ID);
 
         var _count = row.size();
@@ -242,86 +259,57 @@
           switch (cell.getKey()) {
 
             case KIP_FCPERC_ID:
-              if(copy) {
-                register.getFields().add2(CC.FCPERC_ID, Cairo.Constants.NEW_ID, Cairo.Constants.Types.integer);
+              if(isCopy) {
+                fields.add(CC.FCPERC_ID, Cairo.Constants.NEW_ID, Cairo.Constants.Types.integer);
               }
               else {
-                register.getFields().add2(CC.FCPERC_ID, val(cell.getValue()), Cairo.Constants.Types.integer);
+                fields.add(CC.FCPERC_ID, val(cell.getValue()), Cairo.Constants.Types.integer);
               }
               break;
 
             case KIP_PERC_ID:
-              register.getFields().add2(CC.PERC_ID, cell.getId(), Cairo.Constants.Types.id);
+              fields.add(CC.PERC_ID, cell.getId(), Cairo.Constants.Types.id);
               break;
 
             case KIP_BASE:
-              register.getFields().add2(CC.FCPERC_BASE, val(cell.getValue()), Cairo.Constants.Types.currency);
+              fields.add(CC.FCPERC_BASE, val(cell.getValue()), Cairo.Constants.Types.currency);
               break;
 
             case KIP_PORCENTAJE:
-              register.getFields().add2(CC.FCPERC_PORCENTAJE, val(cell.getValue()), Cairo.Constants.Types.currency);
+              fields.add(CC.FCPERC_PORCENTAJE, val(cell.getValue()), Cairo.Constants.Types.currency);
               break;
 
             case KIP_IMPORTE:
               origen = val(cell.getValue());
-              register.getFields().add2(CC.FCPERC_IMPORTE, origen * cotizacion, Cairo.Constants.Types.currency);
+              fields.add(CC.FCPERC_IMPORTE, origen * cotizacion, Cairo.Constants.Types.currency);
               break;
 
             case KI_CCOS_ID:
-              register.getFields().add2(CC.CCOS_ID, cell.getId(), Cairo.Constants.Types.id);
+              fields.add(CC.CCOS_ID, cell.getId(), Cairo.Constants.Types.id);
               break;
 
             case KIP_DESCRIP:
-              register.getFields().add2(CC.FCPERC_DESCRIP, cell.getValue(), Cairo.Constants.Types.text);
+              fields.add(CC.FCPERC_DESCRIP, cell.getValue(), Cairo.Constants.Types.text);
               break;
           }
         }
 
-        if(bMonedaLegal) {
-          register.getFields().add2(CC.FCPERC_ORIGEN, 0, Cairo.Constants.Types.currency);
+        if(isDefaultCurrency) {
+          fields.add(CC.FCPERC_ORIGEN, 0, Cairo.Constants.Types.currency);
         }
         else {
-          register.getFields().add2(CC.FCPERC_ORIGEN, origen, Cairo.Constants.Types.currency);
+          fields.add(CC.FCPERC_ORIGEN, origen, Cairo.Constants.Types.currency);
         }
 
-        iOrden += 1;
-        register.getFields().add2(CC.FCPERC_ORDEN, iOrden, Cairo.Constants.Types.integer);
-        register.getFields().add2(CC.FC_TMPID, id, Cairo.Constants.Types.id);
-
-        register.getFields().setHaveLastUpdate(false);
-        register.getFields().setHaveWhoModify(false);
-
-        if(!Cairo.Database.save(register, , "pSavePercepciones", module, c_ErrorSave)) { return false; }
+        transaction.addRegister(register);
       }
 
-      var sqlstmt = null;
+      if(deleted != "" && fcId != Cairo.Constants.NO_ID && !isCopy) {
 
-      if(deleted != "" && fcId != Cairo.Constants.NO_ID) {
-
-        var vDeletes = null;
-        var i = null;
-
-        deleted = cUtil.removeLastColon(deleted);
-        vDeletes = Split(deleted, ",");
-
-        for (i = 0; i <= vDeletes.Length; i++) {
-
-          register = new cRegister();
-          register.setFieldId(CC.FC_PERCB_TMPID);
-          register.setTable(CC.FACTURACOMPRAPERCEPCIONBORRADOTMP);
-          register.setId(Cairo.Constants.NEW_ID);
-
-          register.getFields().add2(CC.FCPERC_ID, val(vDeletes(i)), Cairo.Constants.Types.integer);
-          register.getFields().add2(CC.FC_ID, fcId, Cairo.Constants.Types.id);
-          register.getFields().add2(CC.FC_TMPID, id, Cairo.Constants.Types.id);
-
-          register.getFields().setHaveLastUpdate(false);
-          register.getFields().setHaveWhoModify(false);
-
-          if(!Cairo.Database.save(register, , "pSavePercepciones", module, c_ErrorSave)) { return false; }
-        }
-
+        transaction.setDeletedList(deleted);
       }
+
+      mainRegister.addTransaction(transaction);
 
       return true;
     };

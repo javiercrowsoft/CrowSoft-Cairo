@@ -71,6 +71,7 @@
 
       that.setId = function(id) {
         self.id = id;
+        return that;
       };
       that.getId = function() {
         return self.id;
@@ -78,6 +79,7 @@
 
       that.setValue = function(value) {
         self.value = value;
+        return that;
       };
       that.getValue = function() {
         return self.value;
@@ -128,7 +130,7 @@
         selectFieldIntValue: '',
         selectIntValue: '',
         selectNoUseActive: false,
-        selectType: Cairo.Entities.Select.SelectType.normal,
+        selectType: Cairo.Select.SelectType.normal,
         selectTable: 0,
 
         top: -1,

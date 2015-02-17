@@ -254,6 +254,7 @@
       };
       that.setKeyCol = function(key) {
         self._keyCol = key;
+        return that;
       };
 
       that.getKey = function() {
@@ -261,6 +262,7 @@
       };
       that.setKey = function(key) {
         self.key = key;
+        return that;
       };
 
       that.getValue = function() {
@@ -268,13 +270,15 @@
       };
       that.setValue = function(value) {
         self.value = value;
+        return that;
       };
 
-      that.setId = function(id) {
-        self.id = id;
-      };
       that.getId = function() {
         return self.id;
+      };
+      that.setId = function(id) {
+        self.id = id;
+        return that;
       };
 
       that.getSelectIntValue = function() {
@@ -282,6 +286,7 @@
       };
       that.setSelectIntValue = function(value) {
         self.selectIntValue = value;
+        return that;
       };
 
       that.getFormat = function() {
@@ -289,6 +294,7 @@
       };
       that.setFormat = function(format) {
         self.format = format;
+        return that;
       };
       
       return that;
@@ -314,7 +320,7 @@
         selectFieldIntValue: '',
         selectIntValue: '',
         selectNoUseActive: false,
-        selectType: Cairo.Entities.Select.SelectType.normal,
+        selectType: Cairo.Select.SelectType.normal,
         selectTable: 0,
 
         enabled: true,

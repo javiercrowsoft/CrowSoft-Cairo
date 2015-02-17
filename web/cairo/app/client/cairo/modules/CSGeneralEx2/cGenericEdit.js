@@ -35,7 +35,7 @@
     var m_type = 0;
     var m_subType;
     var m_order = 0;
-    var m_selectType = Cairo.Entities.Select.SelectType.normal;
+    var m_selectType = Cairo.Select.SelectType.normal;
     var m_filter = "";
     var m_defaultValue = "";
     var m_minValue = "";

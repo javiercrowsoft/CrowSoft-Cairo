@@ -14,6 +14,7 @@ case class CompanyUser(user: User, company: Company, database: Database) {
   lazy val userId = { if(user == null) 0 else user.userId }
   lazy val domainCompanyId = { if(company == null) 0 else company.domainId}
   lazy val cairoCompanyId = { if(company == null) 0 else company.company_id}
+  lazy val cairoCompanyName = { if(company == null) "" else company.company_name}
 }
 
 object CompanyUser {

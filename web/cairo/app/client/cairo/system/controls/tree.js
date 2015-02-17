@@ -1614,13 +1614,14 @@
         if(!Cairo.isMobile()) {
           buttons = listController.Tree.getValue('showTableButtons') ? [ "select_all", "select_none", "print"] : [];
           scrollX = true;
-          scrollY = 350;
+          scrollY = 450;
           rowSelect = "os";
         }
 
         var getDataTableDomAttribute = function() {
-          var f = listController.Tree.getValue('showFilter') ? 'f' : '';
-          return 'T<"clear">l' + f + 'rtip';
+          /*var f = listController.Tree.getValue('showFilter') ? 'f' : '';
+          return 'T<"clear">l' + f + 'rtip';*/
+          return 'T<"clear">lrtip';
         };
 
         var dom = getDataTableDomAttribute();

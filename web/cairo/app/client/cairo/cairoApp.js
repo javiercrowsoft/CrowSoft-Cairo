@@ -20,6 +20,7 @@ var Cairo = new Marionette.Application();
 
   Cairo.Application = createApplication();
 
+  /* TODO: delete me
   var createUserConfig = function() {
 
     var self = {
@@ -40,6 +41,7 @@ var Cairo = new Marionette.Application();
   };
 
   Cairo.UserConfig = createUserConfig();
+  */
 
   Cairo.isFunction = function(object) {
     return !!(object && object.constructor && object.call && object.apply);
@@ -325,6 +327,8 @@ var Cairo = new Marionette.Application();
     NO_DATE: NO_DATE,
     NUMBER_ID: '_number_id_',
     STATUS_ID: '_status_id_',
+
+    HIDE_COLUMNS: 'HideCols',
 
     DELETE_FUNCTION: 'delete',
     EDIT_FUNCTION: "edit",
@@ -738,13 +742,22 @@ var Cairo = new Marionette.Application();
     bool: function(value) {
       return (typeof value === 'boolean') ? value : val(value) !== 0;
     },
-    isNumeric: isNumeric
+    isNumeric: isNumeric,
+    zeroDiv: function(dividen, divisor) {
+      try {
+        return dividen / divisor;
+      }
+      catch(ignore) {
+        return 0;
+      }
+    }
   };
 
   var createCompany = function() {
     var self = {
       name: '',
-      id: 0
+      id: 0,
+      currencyId: 0
     }
 
     var that = {};
@@ -762,6 +775,14 @@ var Cairo = new Marionette.Application();
     that.getId = function() {
       return self.id;
     };
+
+    that.getDefaultCurrency = function() {
+      return self.currencyId;
+    };
+    that.setDefaultCurrency = function(currencyId) {
+      self.currencyId = currencyId;
+    };
+
 
     return that;
   };
@@ -771,7 +792,9 @@ var Cairo = new Marionette.Application();
   var createUser = function() {
     var self = {
       name: '',
-      id: 0
+      id: 0,
+      sucId: 0,
+      sucName: ''
     }
 
     var that = {};
@@ -788,6 +811,20 @@ var Cairo = new Marionette.Application();
     };
     that.getId = function() {
       return self.id;
+    };
+
+    that.getSucId = function() {
+      return self.sucId;
+    };
+    that.setSucId = function(id) {
+      self.sucId = id;
+    };
+
+    that.getSucName = function() {
+      return self.sucName;
+    };
+    that.setSucName = function(name) {
+      self.sucName = name;
     };
 
     return that;
@@ -892,11 +929,14 @@ var Cairo = new Marionette.Application();
   var loadSettings = function() {
     var quantityDecimals = 2;
     var amountDecimals = 2;
+    var currencyRateDecimals = 3;
     return {
       quantityDecimals: quantityDecimals,
       amountDecimals: amountDecimals,
+      currencyRateDecimals: currencyRateDecimals,
       quantityDecimalsFormat: "#,###,###,##0." + Array(quantityDecimals+1).join("0"),
-      amountDecimalsFormat: "#,###,###,##0." + Array(amountDecimals+1).join("0")
+      amountDecimalsFormat: "#,###,###,##0." + Array(amountDecimals+1).join("0"),
+      currencyRateDecimalsFormat: "#,###,###,##0." + Array(currencyRateDecimals+1).join("0")
     }
   };
 
@@ -909,6 +949,14 @@ var Cairo = new Marionette.Application();
 
     Cairo.Settings.getAmountDecimalsFormat = function() {
       return settings.amountDecimalsFormat;
+    };
+
+    Cairo.Settings.getCurrencyRateDecimalsFormat = function() {
+      return settings.currencyRateDecimalsFormat;
+    };
+
+    Cairo.Settings.getCurrencyRateDecimals = function() {
+      return settings.currencyRateDecimals;
     };
 
   };

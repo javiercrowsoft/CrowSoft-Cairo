@@ -69,12 +69,12 @@
     </div>
     @content
     <div id="footer">
-      <div class="container">
+      <div class="@if(!requestOrigin.userAgent.isMobile) {desktop-big-container} else {container}">
         <div class="row">
-          <div class="col-md-8">
-            <p class="text-muted">&copy; Company 2014</p>
+          <div class="col-md-10">
+            <p class="text-muted">&copy; CrowSoft 2014</p>
           </div>
-          <div class="col-md-4">
+          <div class="col-md-2">
             <p class="text-muted">
               <a href="http://glyphicons.com/">http://glyphicons.com/</a>
             </p>

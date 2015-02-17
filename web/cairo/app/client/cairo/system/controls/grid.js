@@ -83,7 +83,7 @@
         selectFieldIntValue: '',
         selectIntValue: '',
         selectNoUseActive: false,
-        selectType: Cairo.Entities.Select.SelectType.normal,
+        selectType: Cairo.Select.SelectType.normal,
         selectTable: 0,        
 
         defaultValue: null, /* is a Grids.Cell object */

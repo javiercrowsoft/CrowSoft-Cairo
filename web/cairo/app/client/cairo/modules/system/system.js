@@ -96,10 +96,13 @@
   Cairo.Documents = {};
 
   Cairo.Documents.Constants = {
-    DOC_CHANGED: -2
+    DOC_CHANGED: -2,
+    TO_COMERCIAL_ID: 1,
+    TO_COMERCIAL: Cairo.Language.getText(1014, "") // Comercial
   }
 
   Cairo.Documents.Status = {
+    error: 0,
     pendiente: 1,
     pendienteDespacho: 2,
     pendienteCredito: 3,
@@ -166,12 +169,19 @@
     * in sp_doc_set_impreso
     * 
     * */
-  }
+  };
 
   Cairo.Documents.DialogKeys = {
     number: 'NUMBER_ID',
     status: 'STATUS_ID'
-  }
+  };
+
+  Cairo.Documents.ReceiptType = {
+    original: 1,
+    fax: 2,
+    photocopy: 3,
+    duplicate: 4
+  };
 
   Cairo.Documents.getDocNumberForProveedor = function(provId, docId, dialog) {
     var apiPath = Cairo.Database.getAPIVersion();
@@ -378,15 +388,9 @@
     })
   };
 
-  var defaultCurrency = Cairo.Constants.NO_ID;
+  Cairo.Documents.setDefaultCurrency = Cairo.Company.setDefaultCurrency;
 
-  Cairo.Documents.setDefaultCurrency = function(value) {
-    defaultCurrency = value;
-  };
-
-  Cairo.Documents.getDefaultCurrency = function() {
-    return defaultCurrency;
-  };
+  Cairo.Documents.getDefaultCurrency = Cairo.Company.getDefaultCurrency;
 
   Cairo.Documents.docHasChanged = function(dialog,  lastDoc) {
     var property = dialog.getProperties().item(C.DOC_ID);
@@ -445,7 +449,7 @@
     }
   };
 
-  Cairo.Documents.getItems = function(dialog, key) {
+  Cairo.Documents.getGrid = function(dialog, key) {
     return dialog.getProperties().item(key);
   };
 
@@ -462,6 +466,43 @@
             //Ud. puede modificar el documento
     }
   };
+
+  Cairo.Documents.getCurrencyRate = function(monId, date) {
+    var apiPath = Cairo.Database.getAPIVersion();
+    return Cairo.Database.getData("load[" + apiPath + "documents/currency" + monId.toString() + "/rate]", date).then(
+      function(response) {
+        var rate = 0;
+        if(response.success === true) {
+          rate = Cairo.Database.valField(response.data, C.MON_PRECIO);
+          rate = Cairo.Util.round(rate, Cairo.Settings.getCurrencyRateDecimals());
+        }
+        return rate;
+      }
+    );
+  };
+
+  Cairo.Documents.editableStatus = function(docId, actionId) {
+    var apiPath = Cairo.Database.getAPIVersion();
+    var p = Cairo.Database.getData("load[" + apiPath + "documento/" + docId.toString() + "/edit_status]", actionId)
+
+    return p.then(function(response) {
+
+      if(response.success === true) {
+        return {
+          status: valField(response.data, 'status'),
+          message: valField(response.data, 'status')
+        };
+      }
+      else {
+        return {
+          status: Cairo.Documents.Status.error,
+          message: ""
+        };
+      }
+    });
+  };
+
+  Cairo.Documents.getSelectFilterForCuenta = "(emp_id = " + Cairo.Company.getId().toString() + " or emp_id is null)";
 
   Cairo.History = {};
 
@@ -481,6 +522,126 @@
 
   Cairo.SerialNumber = {};
 
+  Cairo.SerialNumber.create = function() {
+
+    var self = {};
+
+    var m_prnsId = 0;
+    var m_prId = 0;
+    var m_code = "";
+    var m_code2 = "";
+    var m_code3 = "";
+    var m_descrip = "";
+    var m_fechaVto = null;
+    var m_prIdItem = 0;
+    var m_kitItem = "";
+    var m_prIdKit = 0;
+    var m_idGroup = 0;
+
+    // this flag defines if this number must be deleted in the database
+    // because the quantity has changed when editing purchase document
+    var m_deleted;
+
+    self.getPrnsId = function() {
+      return m_prnsId;
+    };
+
+    self.setPrnsId = function(rhs) {
+      m_prnsId = rhs;
+    };
+
+    self.getCode = function() {
+      return m_code;
+    };
+
+    self.setCode = function(rhs) {
+      m_code = rhs;
+    };
+
+    self.getCode2 = function() {
+      return m_code2;
+    };
+
+    self.setCode2 = function(rhs) {
+      m_code2 = rhs;
+    };
+
+    self.getCode3 = function() {
+      return m_code3;
+    };
+
+    self.setCode3 = function(rhs) {
+      m_code3 = rhs;
+    };
+
+    self.getDescrip = function() {
+      return m_descrip;
+    };
+
+    self.setDescrip = function(rhs) {
+      m_descrip = rhs;
+    };
+
+    self.getFechaVto = function() {
+      return m_fechaVto;
+    };
+
+    self.setFechaVto = function(rhs) {
+      m_fechaVto = rhs;
+    };
+
+    self.getPrId = function() {
+      return m_prId;
+    };
+
+    self.setPrId = function(rhs) {
+      m_prId = rhs;
+    };
+
+    self.getPrIdItem = function() {
+      return m_prIdItem;
+    };
+
+    self.setPrIdItem = function(rhs) {
+      m_prIdItem = rhs;
+    };
+
+    self.getKitItem = function() {
+      return m_kitItem;
+    };
+
+    self.setKitItem = function(rhs) {
+      m_kitItem = rhs;
+    };
+
+    self.getIdGroup = function() {
+      return m_idGroup;
+    };
+
+    self.setIdGroup = function(rhs) {
+      m_idGroup = rhs;
+    };
+
+    self.getPrIdKit = function() {
+      return m_prIdKit;
+    };
+
+    self.setPrIdKit = function(rhs) {
+      m_prIdKit = rhs;
+    };
+
+    self.getDeleted = function() {
+      return m_deleted;
+    };
+
+    self.setDeleted = function(rhs) {
+      m_deleted = rhs;
+    };
+
+    return self;
+
+  };
+
   Cairo.SerialNumber.getCount = function(nrosSerie, grupo) {
 
     /* TODO: complete this
@@ -488,7 +649,7 @@
     var pt = null;
     var rtn = null;
   
-    if(grupo == 0) { return 0; }
+    if(grupo === 0) { return 0; }
   
     if(mCollection.existsObjectInColl(nrosSerie, mCollection.getKey(grupo))) {
   
@@ -759,7 +920,7 @@
 
       cantidad = pGetCantidadForKit(collKitInfo, cantidad);
 
-      if(collKitInfo == null) {
+      if(collKitInfo === null) {
         cWindow.msgWarning(Cairo.Language.getText(2922, ""));
         //No se recibió la definición del kit. No se pueden editar los & _
         Números(de Serie);
@@ -841,10 +1002,10 @@
     // creo una nueva coleccion y la agrego a la coleccion de items
     // el grupo esta en negativo para indicar que son nuevos
     //
-    if(coll == null) {
+    if(coll === null) {
       grupo = lRow * -1;
       //'(NrosSerie.Count + 1) * -1
-      Dialogs.cell(row, kI_GRUPO).getID() == grupo;
+      Dialogs.cell(row, kI_GRUPO).getID() === grupo;
       coll = new Collection();
       nrosSerie.Add(coll, mCollection.getKey(grupo));
     }
@@ -882,10 +1043,10 @@
     idx = idx - 1;
     if(idx >= 0) {
       G.redimPreserve(vSeries, idx);
-      Dialogs.cell(row, kI_NROSERIE).getValue() == Join(vSeries, ",");
+      Dialogs.cell(row, kI_NROSERIE).getValue() === Join(vSeries, ",");
     }
     else {
-      Dialogs.cell(row, kI_NROSERIE).getValue() == "";
+      Dialogs.cell(row, kI_NROSERIE).getValue() === "";
     }
     */
 
@@ -914,7 +1075,7 @@
     if(bEditKit) {
       cantidad = pGetCantidadForKit(collKitInfo, cantidad);
 
-      if(collKitInfo == null) {
+      if(collKitInfo === null) {
         cWindow.msgWarning(Cairo.Language.getText(2922, ""));
         //No se recibio la definicion del kit. No se pueden editar los numeros de serie
         return null;
@@ -940,7 +1101,7 @@
 
       grupo = lRow * -1;
       //'(NrosSerie.Count + 1) * -1
-      Dialogs.cell(row, kI_GRUPO).getID() == grupo;
+      Dialogs.cell(row, kI_GRUPO).getID() === grupo;
       coll = new Collection();
       nrosSerie.Add(coll, mCollection.getKey(grupo));
 
@@ -1007,7 +1168,7 @@
       }
     }
 
-    Dialogs.cell(row, kI_NROSERIE).getValue() == cUtil.removeLastColon(nros);
+    Dialogs.cell(row, kI_NROSERIE).getValue() === cUtil.removeLastColon(nros);
     */
 
     return Cairo.Promises.resolvedPromise(true);
@@ -1031,4 +1192,417 @@
     */
   };  
   
-}());  
+}());
+
+(function() {
+  "use strict";
+
+  Cairo.Dates = {};
+
+  Cairo.Dates.VirtualDates = {
+    TODAY: 1,
+    YESTERDAY: 2,
+    TOMORROW: 3,
+    WEECK_FIRST_DAY: 4,
+    WEECK_LAST_DAY: 5,
+    WEECK_LAST_FIRST_DAY: 6,
+    WEECK_LAST_LAST_DAY: 7,
+    WEECK_NEXT_FIRST_DAY: 8,
+    WEECK_NEXT_LAST_DAY: 9,
+    MONTH_FIRST_DAY: 10,
+    MONTH_LAST_DAY: 11,
+    MONTH_LAST_FIRST_DAY: 12,
+    MONTH_LAST_LAST_DAY: 13,
+    MONTH_NEXT_FIRST_DAY: 14,
+    MONTH_NEXT_LAST_DAY: 15,
+    YEAR_FIRST_DAY: 16,
+    YEAR_LAST_DAY: 17,
+    YEAR_LAST_FIRST_DAY: 18,
+    YEAR_LAST_LAST_DAY: 19,
+    YEAR_NEXT_FIRST_DAY: 20,
+    YEAR_NEXT_LAST_DAY: 21
+  };
+
+  var createDateName = function() {
+
+    var self = {};
+
+    var m_id;
+    var m_name = "";
+    var m_code = "";
+    var m_group = "";
+
+    self.getId = function() {
+      return m_id;
+    };
+
+    self.setId = function(rhs) {
+      m_id = rhs;
+    };
+
+    self.getName = function() {
+      return m_name;
+    };
+
+    self.setName = function(rhs) {
+      m_name = rhs;
+    };
+
+    self.getCode = function() {
+      return m_code;
+    };
+
+    self.setCode = function(rhs) {
+      m_code = rhs;
+    };
+
+    self.getGroup = function() {
+      return m_group;
+    };
+
+    self.setGroup = function(rhs) {
+      m_group = rhs;
+    };
+
+    self.value = function(iniDate) {
+      return Cairo.Dates.DateNames.getDateById(m_id, iniDate);
+    };
+
+    return self;
+  };
+
+  var createDateNames = function() {
+
+    var self = {};
+
+    var m_dateNames;
+
+    self.getDateNames = function() {
+      return m_dateNames;
+    };
+    self.setDateNames = function(rhs) {
+      m_dateNames = rhs;
+    };
+
+    self.getDate = function(dateName,  iniDate) {
+      var date;
+      
+      if(Cairo.Util.isNumeric(dateName)) {
+        date = self.getDateById(dateName, iniDate);
+      }
+      else {
+        date = self.getDateByName(dateName, iniDate);
+      }
+
+      return date;
+    };
+
+    self.getDateByName = function(dateName,  iniDate) {
+      var date;
+
+      dateName = dateName.toLowerCase();
+
+      var _count = m_dateNames.size();
+      for (var _i = 0; _i < _count; _i++) {
+        var dn = m_dateNames.item(_i);
+        if(dn.getCode() === dateName || dn.getName() === dateName) {
+          date = self.getDateById(dn.getId(), iniDate);
+          break;
+        }
+      }
+
+      return date;
+    };
+
+    var addToDate = function(part, amount, date) {
+
+      switch (part) {
+        case "yyyy":
+          date = date.setYear(date.getFullYear() + amount);
+          break;
+        case "d":
+          date = date.setDate(date.getDate() + amount);
+          break;
+        case "m":
+          date = date.setMonth(date.getMonth() + amount);
+          break;
+      }
+
+      return date;
+    };
+
+    self.getDateById = function(dateIndex,  iniDate) {
+      if(iniDate === undefined) {
+        iniDate = new Date();
+      }
+
+      switch (dateIndex) {
+        case Cairo.Dates.VirtualDates.TODAY:
+          return iniDate;
+
+        case Cairo.Dates.VirtualDates.YESTERDAY:
+          return addToDate("d", -1, iniDate);
+
+        case Cairo.Dates.VirtualDates.TOMORROW:
+          return addToDate("d", 1, iniDate);
+      }
+
+      var date;
+      var dayNumber;
+
+      switch (dateIndex) {
+        case Cairo.Dates.VirtualDates.YEAR_LAST_FIRST_DAY:
+          iniDate = addToDate("yyyy", -1, iniDate);
+          dateIndex = Cairo.Dates.VirtualDates.YEAR_FIRST_DAY;
+          break;
+
+        case Cairo.Dates.VirtualDates.YEAR_LAST_LAST_DAY:
+          iniDate = addToDate("yyyy", -1, iniDate);
+          dateIndex = Cairo.Dates.VirtualDates.YEAR_LAST_DAY;
+          break;
+
+        case Cairo.Dates.VirtualDates.YEAR_NEXT_FIRST_DAY:
+          iniDate = addToDate("yyyy", 1, iniDate);
+          dateIndex = Cairo.Dates.VirtualDates.YEAR_FIRST_DAY;
+          break;
+
+        case Cairo.Dates.VirtualDates.YEAR_NEXT_LAST_DAY:
+          iniDate = addToDate("yyyy", 1, iniDate);
+          dateIndex = Cairo.Dates.VirtualDates.YEAR_LAST_DAY;
+          break;
+      }
+
+      switch (dateIndex) {
+        case Cairo.Dates.VirtualDates.WEECK_LAST_FIRST_DAY:
+          iniDate = addToDate("d", -7, iniDate);
+          dateIndex = Cairo.Dates.VirtualDates.WEECK_FIRST_DAY;
+          break;
+
+        case Cairo.Dates.VirtualDates.WEECK_LAST_LAST_DAY:
+          iniDate = addToDate("d", -7, iniDate);
+          dateIndex = Cairo.Dates.VirtualDates.WEECK_LAST_DAY;
+          break;
+
+        case Cairo.Dates.VirtualDates.WEECK_NEXT_FIRST_DAY:
+          iniDate = addToDate("d", 7, iniDate);
+          dateIndex = Cairo.Dates.VirtualDates.WEECK_FIRST_DAY;
+          break;
+
+        case Cairo.Dates.VirtualDates.WEECK_NEXT_LAST_DAY:
+          iniDate = addToDate("d", 7, iniDate);
+          dateIndex = Cairo.Dates.VirtualDates.WEECK_LAST_DAY;
+          break;
+
+        case Cairo.Dates.VirtualDates.MONTH_LAST_FIRST_DAY:
+          iniDate = addToDate("m", -1, iniDate);
+          dateIndex = Cairo.Dates.VirtualDates.MONTH_FIRST_DAY;
+          break;
+
+        case Cairo.Dates.VirtualDates.MONTH_LAST_LAST_DAY:
+          iniDate = addToDate("m", -1, iniDate);
+          dateIndex = Cairo.Dates.VirtualDates.MONTH_LAST_DAY;
+          break;
+
+        case Cairo.Dates.VirtualDates.MONTH_NEXT_FIRST_DAY:
+          iniDate = addToDate("m", 1, iniDate);
+          dateIndex = Cairo.Dates.VirtualDates.MONTH_FIRST_DAY;
+          break;
+
+        case Cairo.Dates.VirtualDates.MONTH_NEXT_LAST_DAY:
+          iniDate = addToDate("m", 1, iniDate);
+          dateIndex = Cairo.Dates.VirtualDates.MONTH_LAST_DAY;
+          break;
+
+        case Cairo.Dates.VirtualDates.YEAR_FIRST_DAY:
+          iniDate = addToDate("m", -iniDate.getMonth(), iniDate);
+          dateIndex = Cairo.Dates.VirtualDates.MONTH_FIRST_DAY;
+          break;
+
+        case Cairo.Dates.VirtualDates.YEAR_LAST_DAY:
+          iniDate = addToDate("yyyy", 1, iniDate);
+          iniDate = addToDate("m", -iniDate.getMonth(), iniDate);
+          dateIndex = Cairo.Dates.VirtualDates.MONTH_LAST_DAY;
+          break;
+      }
+
+      switch (dateIndex) {
+
+        case Cairo.Dates.VirtualDates.WEECK_FIRST_DAY:
+          dayNumber = iniDate.getDay();
+          date = addToDate("d", -dayNumber, iniDate);
+          break;
+
+        case Cairo.Dates.VirtualDates.WEECK_LAST_DAY:
+          dayNumber = iniDate.getDay() + 2;
+          date = addToDate("d", -dayNumber, iniDate);
+          break;
+
+        case Cairo.Dates.VirtualDates.MONTH_FIRST_DAY:
+          dayNumber = iniDate.getDate();
+          date = addToDate("d", -dayNumber + 1, iniDate);
+          break;
+
+        case Cairo.Dates.VirtualDates.MONTH_LAST_DAY:
+          iniDate = addToDate("m", 1, iniDate);
+          dayNumber = iniDate.getDate();
+          date = addToDate("d", -dayNumber, iniDate);
+          break;
+      }
+
+      return date;
+    };
+
+    self.initialize = function() {
+      try {
+
+        var dn;
+
+        m_dateNames = Cairo.Collections.createCollection(createDateName);
+
+        dn = m_dateNames.add(null, "a");
+        dn.setId(Cairo.Dates.VirtualDates.YESTERDAY);
+        dn.setName("Ayer");
+        dn.setCode("a");
+        dn.setGroup("Dias");
+
+        dn = m_dateNames.add(null, "h");
+        dn.setId(Cairo.Dates.VirtualDates.TODAY);
+        dn.setName("Hoy");
+        dn.setCode("h");
+        dn.setGroup("Dias");
+
+        dn = m_dateNames.add(null, "m");
+        dn.setId(Cairo.Dates.VirtualDates.TOMORROW);
+        dn.setName("Mañana");
+        dn.setCode("m");
+        dn.setGroup("Dias");
+
+        dn = m_dateNames.add(null, "psa");
+        dn.setId(Cairo.Dates.VirtualDates.WEECK_LAST_FIRST_DAY);
+        dn.setName("Primer dia de la semana anterior");
+        dn.setCode("psa");
+        dn.setGroup("Semana");
+
+        dn = m_dateNames.add(null, "usa");
+        dn.setId(Cairo.Dates.VirtualDates.WEECK_LAST_LAST_DAY);
+        dn.setName("Ultimo dia de la semana anterior");
+        dn.setCode("usa");
+        dn.setGroup("Semana");
+
+        dn = m_dateNames.add(null, "ps");
+        dn.setId(Cairo.Dates.VirtualDates.WEECK_FIRST_DAY);
+        dn.setName("Primer dia de la semana");
+        dn.setCode("ps");
+        dn.setGroup("Semana");
+
+        dn = m_dateNames.add(null, "us");
+        dn.setId(Cairo.Dates.VirtualDates.WEECK_LAST_DAY);
+        dn.setName("Ultimo dia de la semana");
+        dn.setCode("us");
+        dn.setGroup("Semana");
+
+        dn = m_dateNames.add(null, "psp");
+        dn.setId(Cairo.Dates.VirtualDates.WEECK_NEXT_FIRST_DAY);
+        dn.setName("Primer dia de la semana proxima");
+        dn.setCode("psp");
+        dn.setGroup("Semana");
+
+        dn = m_dateNames.add(null, "usp");
+        dn.setId(Cairo.Dates.VirtualDates.WEECK_NEXT_LAST_DAY);
+        dn.setName("Ultimo dia de la semana proxima");
+        dn.setCode("usp");
+        dn.setGroup("Semana");
+
+        dn = m_dateNames.add(null, "pma");
+        dn.setId(Cairo.Dates.VirtualDates.MONTH_LAST_FIRST_DAY);
+        dn.setName("Primer dia del mes anterior");
+        dn.setCode("pma");
+        dn.setGroup("Mes");                                    
+
+        dn = m_dateNames.add(null, "uma");
+        dn.setId(Cairo.Dates.VirtualDates.MONTH_LAST_LAST_DAY);
+        dn.setName("Ultimo dia del mes anterior");
+        dn.setCode("uma");
+        dn.setGroup("Mes");
+
+        dn = m_dateNames.add(null, "pm");
+        dn.setId(Cairo.Dates.VirtualDates.MONTH_FIRST_DAY);
+        dn.setName("Primer dia del mes");
+        dn.setCode("pm");
+        dn.setGroup("Mes");
+
+        dn = m_dateNames.add(null, "um");
+        dn.setId(Cairo.Dates.VirtualDates.MONTH_LAST_DAY);
+        dn.setName("Ultimo dia del mes");
+        dn.setCode("um");
+        dn.setGroup("Mes");
+
+        dn = m_dateNames.add(null, "pmp");
+        dn.setId(Cairo.Dates.VirtualDates.MONTH_NEXT_FIRST_DAY);
+        dn.setName("Primer dia del mes proximo");
+        dn.setCode("pmp");
+        dn.setGroup("Mes");
+
+        dn = m_dateNames.add(null, "ump");
+        dn.setId(Cairo.Dates.VirtualDates.MONTH_NEXT_LAST_DAY);
+        dn.setName("Ultimo dia del mes proximo");
+        dn.setCode("ump");
+        dn.setGroup("Mes");
+
+        dn = m_dateNames.add(null, "paa");                   
+        dn.setId(Cairo.Dates.VirtualDates.YEAR_LAST_FIRST_DAY);
+        dn.setName("Primer dia del año anterior");
+        dn.setCode("paa");
+        dn.setGroup("Año");
+                                                       
+        dn = m_dateNames.add(null, "uaa");
+        dn.setId(Cairo.Dates.VirtualDates.YEAR_LAST_LAST_DAY);
+        dn.setName("Ultimo dia del año anterior");
+        dn.setCode("uaa");
+        dn.setGroup("Año");                                      
+
+        dn = m_dateNames.add(null, "pa");
+        dn.setId(Cairo.Dates.VirtualDates.YEAR_FIRST_DAY);
+        dn.setName("Primer dia del año");
+        dn.setCode("pa");
+        dn.setGroup("Año");
+
+        dn = m_dateNames.add(null, "ua");
+        dn.setId(Cairo.Dates.VirtualDates.YEAR_LAST_DAY);
+        dn.setName("Ultimo dia del año");
+        dn.setCode("ua");
+        dn.setGroup("Año");                      
+
+        dn = m_dateNames.add(null, "pap");
+        dn.setId(Cairo.Dates.VirtualDates.YEAR_NEXT_FIRST_DAY);
+        dn.setName("Primer dia del año proximo");
+        dn.setCode("pap");
+        dn.setGroup("Año");
+
+        dn = m_dateNames.add(null, "uap");
+        dn.setId(Cairo.Dates.VirtualDates.YEAR_NEXT_LAST_DAY);
+        dn.setName("Ultimo dia del año proximo");
+        dn.setCode("uap");
+        dn.setGroup("Año");
+
+      }
+      catch (ex) {
+        Cairo.manageErrorEx(ex.message, ex, "initialize", "Dates", "");
+      }
+    };
+
+    return self;
+  };
+
+  Cairo.Dates.DateNames = createDateNames();
+
+  Cairo.Dates.today = function() {
+    return Cairo.Dates.DateNames.getDateById(Cairo.Dates.VirtualDates.TODAY);
+  };
+
+  Cairo.Dates.tomorrow = function() {
+    return Cairo.Dates.DateNames.getDateById(Cairo.Dates.VirtualDates.TOMORROW);
+  };
+
+
+}());

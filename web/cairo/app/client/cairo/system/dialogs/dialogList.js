@@ -3,7 +3,7 @@
 
   Cairo.module("Dialogs.Views", function(Views, Cairo, Backbone, Marionette, $, _) {
 
-    Views.Controller = {
+    Views.ListController = {
 
       newDialogList: function() {
 

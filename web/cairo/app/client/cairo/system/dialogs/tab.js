@@ -30,6 +30,7 @@
       };
       that.setName = function(name) {
         self.name = name;
+        return that;
       };
 
       that.getIndex = function() {
@@ -37,6 +38,7 @@
       };
       that.setIndex = function(index) {
         self.index = index;
+        return that;
       };
 
       that.getCtrlIndex = function() {
@@ -44,6 +46,7 @@
       };
       that.setCtrlIndex = function(index) {
         self.ctrlIndex = index;
+        return that;
       };
 
       that.getFatherTab = function() {
@@ -51,6 +54,7 @@
       };
       that.setFatherTab = function(father) {
         self.fatherTab = father;
+        return that;
       };
 
       that.setLeft = function(left) {
@@ -58,6 +62,7 @@
       };
       that.getLeft = function() {
         return self.left;
+        return that;
       };
 
       that.getTop = function() {
@@ -65,6 +70,7 @@
       };
       that.setTop = function(top) {
         self.top = top;
+        return that;
       };
 
       return that;
