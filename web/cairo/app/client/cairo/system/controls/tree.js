@@ -1017,7 +1017,7 @@
       for(var i=0; i<selectedItems.length; i+=1) {
         if(selectedItems[i]) {
           if(text === "") {
-            text = dataTable.fnGetData(selectedItems[i])[0];
+            text = dataTable.fnGetData(selectedItems[i])[1];
           }
           else {
             text = "Multi Selection";

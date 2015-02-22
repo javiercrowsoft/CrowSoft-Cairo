@@ -255,7 +255,7 @@
             <div class="tree-select-control cf">
               <input
                     type="text"
-                    class="form-control"
+                    class="form-control dialog-control"
                     id="desktop-select"
                     placeholder="Search for any city"
                     autocomplete="off"
@@ -266,7 +266,7 @@
             <div class="tree-select-control cf">
               <input
                     type="text"
-                    class="form-control"
+                    class="form-control dialog-control"
                     id="desktop-select2"
                     placeholder="Search for any action you want to make like create an invoice"
                     autocomplete="off"
@@ -278,7 +278,7 @@
                 <span class="tree-select-control-folder-icon hidden"><i class='glyphicon glyphicon-folder-open'></i></span>
             	<input
             	      type="text"
-            	      class="form-control"
+            	      class="form-control dialog-control"
             	      id="desktop-select3"
             	      placeholder="Search here..."
             	      autocomplete="off"
@@ -290,7 +290,7 @@
                 <span class="tree-select-control-folder-icon hidden"><i class='glyphicon glyphicon-folder-open'></i></span>
             	<input
             	      type="text"
-            	      class="form-control"
+            	      class="form-control dialog-control"
             	      id="desktop-select4"
             	      placeholder="Search here..."
             	      autocomplete="off"
@@ -326,22 +326,15 @@
       </div>
       <div class="col-sm-1 col-md-1">
       </div>
-      <div class="col-sm-3 col-md-3"></div>
-      <div class="col-sm-4 col-md-4 tree-select-control-search">
-        <div>
-          <% if(showTableButtons) { %>
-            <button class="btn btn-primary js-new"><%- entityName %></button>
-          <% } %>
+      <div class="col-sm-7 col-md-7 tree-select-control-search">
           <% if(showSelectButton) { %>
-          <div class="tree-select-button-select">
-            <button class="btn btn-primary" id="tree-select-select-button"> Select </button>
-          </div>
+            <button class="btn btn-primary align-right" id="tree-select-select-button"> Select </button>
           <% } %>
-          <div class="tree-select-input">
+          <div class="tree-select-input align-right">
             <div class="tree-select-control cf">
               <input
                     type="text"
-                    class="form-control"
+                    class="form-control dialog-control"
                     id="tree-search-control"
                     placeholder="Search for <%- entitiesName %>"
                     autocomplete="off"
@@ -349,20 +342,23 @@
               <button>+</button>
             </div>
           </div>
-        </div>
+          <% if(showTableButtons) { %>
+            <button class="btn btn-primary js-new align-right"><%- entityName %></button>
+          <% } %>
+
       </div>
     </div>
 
     <div class="@if(requestOrigin.userAgent.isMobile) {container} else {desktop-big-container}">
         <div class="row">
-            <div class="col-sm-5 col-md-3 col-lg-2">
+            <div class="col-sm-5 col-md-4 col-lg-3">
                 <ul class="nav noFocus">
                     <li><div id="trees"></div></li>
                     <li><div id="tree"></div></li>
                 </ul>
                 @if(requestOrigin.userAgent.isMobile){<br/>}
             </div>
-            <div id="tree-main-list-region" class="col-sm-7 col-md-9 col-lg-10 tree-list-region">
+            <div id="tree-main-list-region" class="col-sm-7 col-md-8 col-lg-9 tree-list-region">
 
               <div class="col-sm-1 col-md-1"></div>
               <div class="col-sm-11 col-md-11" style="padding-right: 0px;">

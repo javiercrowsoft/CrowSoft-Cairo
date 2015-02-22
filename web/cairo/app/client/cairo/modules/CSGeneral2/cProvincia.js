@@ -9,9 +9,6 @@
 
       var Dialogs = Cairo.Dialogs;
 
-      // cProvincia
-      // 31-07-00
-
       var C_MODULE = "cPronvincia";
 
       var K_NAME = 1;
@@ -389,8 +386,7 @@
         var elem = properties.add(null, Cairo.General.Constants.PA_ID);
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.PAIS);
-        // País
-        elem.setName(Cairo.Language.getText(1212, ""));
+        elem.setName(Cairo.Language.getText(1212, "")); // País
         elem.setKey(K_PA_ID);
         elem.setValue(m_pais);
         elem.setSelectId(m_pa_Id);

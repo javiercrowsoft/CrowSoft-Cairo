@@ -131,15 +131,21 @@
 }
 
 .tree-select-dialog div {
-    background-color: #222;
-    border-color: #222;
-    color: #fff;
+  /* black */
+  /*background-color: #222;*/
+  background-color: white;
+  /* black */
+  /*border-color: #222;
+  color: #fff;*/
 }
 
 .tree-select-dialog > div > span {
-    background-color: #222;
-    border-color: #222;
-    color: #fff !important;
+  /* black */
+  /*background-color: #222;*/
+  background-color: white;
+  /* black */
+  /*border-color: #222;
+  color: #fff !important;*/
 }
 
 .tree-select-dialog > .ui-widget-header {
@@ -153,22 +159,39 @@
 
 div.tree-select-dialog.ui-widget-content {
   background: none;
-  background-color: #222;
+  /* black */
+  /*background-color: #222;*/
+  background-color: white;
 }
 
 .tree-list-region {
   border-left: 1px solid #464545 !important;
 }
 
+/* black */
+/*
 #tree-list-headers {
   background-color: #353535;
   border-top: 1px solid #505050;
   border-left: 1px solid #505050;
   border-right: 1px solid #505050;
 }
+*/
+#tree-list-headers {
+  background-color: #fefefe;
+  border-top: 1px solid #eeeeee;
+  border-left: 1px solid #eeeeee;
+  border-right: 1px solid #eeeeee;
+}
 
+/* black */
+/*
 #tree-list-headers th {
   border-bottom: 1px solid #505050;
+}
+*/
+#tree-list-headers th {
+  border-bottom: 1px solid #eeeeee;
 }
 
 .dataTables_scrollHead {
@@ -285,6 +308,8 @@ div.tree-select-dialog.ui-widget-content {
   height: 40px;
 }
 
+/* black */
+/*
 .dialog-th td {
   color: white;
   background: #303030;
@@ -292,6 +317,15 @@ div.tree-select-dialog.ui-widget-content {
   border-left: 1px solid #464545 !important;
   border-right: 1px solid #464545 !important;
   border-bottom: 1px solid #464545 !important;
+}
+*/
+.dialog-th td {
+  color: black;
+  background: #eeeeee;
+
+  border-left: 1px solid #cccccc !important;
+  border-right: 1px solid #cccccc !important;
+  border-bottom: 1px solid #cccccc !important;
 }
 
 .dialog-td {
@@ -352,3 +386,13 @@ i.glyphicon-new {
 
 /*.ui-datepicker-calendar{ z-index: 9999 !important; } // to avoid the calendar to be overlaped by other elements
 .hasDatepicker { position: relative; z-index: 9999; }*/
+
+/* Footer */
+.row-footer {
+  margin-top: 20px;
+}
+
+.align-right {
+  float: right;
+  margin-right: 5px;
+}

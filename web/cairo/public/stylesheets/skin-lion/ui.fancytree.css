@@ -463,7 +463,9 @@ span.fancytree-focused span.fancytree-title {
 }
 span.fancytree-selected span.fancytree-title,
 span.fancytree-active span.fancytree-title {
-  background-color: #444444;
+  /* black */
+  /*background-color: #444444;*/
+  background-color: #cecece;
 }
 span.fancytree-selected span.fancytree-title {
   font-style: italic;

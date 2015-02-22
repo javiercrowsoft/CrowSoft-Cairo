@@ -50,7 +50,7 @@
           }
         </div>
         <div class="collapse navbar-collapse">
-            <div class="navbar-form navbar-left" style="padding: 11px"><span>@subtitle</span></div>
+            <div class="navbar-form navbar-left" style="padding: 7px"><span>@subtitle</span></div>
             @if(loggedUser.isLogged) {
                 <div class="navbar-form navbar-right" style="padding: 10px">
                   <a class="btn btn-danger btn-xs" href="/logout">
@@ -70,7 +70,7 @@
     @content
     <div id="footer">
       <div class="@if(!requestOrigin.userAgent.isMobile) {desktop-big-container} else {container}">
-        <div class="row">
+        <div class="row row-footer">
           <div class="col-md-10">
             <p class="text-muted">&copy; CrowSoft 2014</p>
           </div>
