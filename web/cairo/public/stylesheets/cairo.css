@@ -165,7 +165,7 @@ div.tree-select-dialog.ui-widget-content {
 }
 
 .tree-list-region {
-  border-left: 1px solid #464545 !important;
+  border-left: 1px solid #cecece !important; /*black #464545 !important; */
 }
 
 /* black */

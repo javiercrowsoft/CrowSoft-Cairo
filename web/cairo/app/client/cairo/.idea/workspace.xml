@@ -4,11 +4,11 @@
     <list default="true" id="af32f3fd-15e6-4891-af7d-2d04793b0899" name="Default" comment="" />
     <ignored path="cairo.iws" />
     <ignored path=".idea/workspace.xml" />
-    <file path="/grid.js" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1423860200886" ignored="false" />
+    <file path="/grid.js" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1424571380038" ignored="false" />
     <file path="/control.js" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1421444009340" ignored="false" />
     <file path="/select.js" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1421446012192" ignored="false" />
     <file path="/dialog.js" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1424093294869" ignored="false" />
-    <file path="/a.dummy" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1424175729472" ignored="false" />
+    <file path="/a.dummy" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1424570772715" ignored="false" />
     <file path="/datePicker.js" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1423090609117" ignored="false" />
     <file path="/view.js" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1421429708577" ignored="false" />
     <file path="/cairoApp.js" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1424176015152" ignored="false" />
@@ -54,35 +54,19 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="tree.js" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/system/controls/tree.js">
+      <file leaf-file-name="grid.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/system/dialogs/grid.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="1019" column="58" selection-start="32761" selection-end="32761" vertical-scroll-proportion="0.20327422">
+            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="select.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/system/controls/select.js">
+      <file leaf-file-name="grid.js" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/system/controls/grid.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-              <folding>
-                <marker date="1423857205000" expanded="false" signature="1084:1094" placeholder="..." />
-                <marker date="1423857205000" expanded="false" signature="1347:1357" placeholder="..." />
-                <marker date="1423857205000" expanded="false" signature="2044:2075" placeholder="..." />
-                <marker date="1423857205000" expanded="false" signature="2217:2229" placeholder="..." />
-                <marker date="1423857205000" expanded="false" signature="3102:3133" placeholder="..." />
-                <marker date="1423857205000" expanded="false" signature="3456:3468" placeholder="..." />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="treeSelect.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/system/controls/treeSelect.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="19" column="53" selection-start="759" selection-end="771" vertical-scroll-proportion="0.0">
+            <state line="1079" column="38" selection-start="29763" selection-end="29763" vertical-scroll-proportion="0.16027875">
               <folding />
             </state>
           </provider>
@@ -98,7 +82,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/system/dialogs/property.js" />
         <option value="$PROJECT_DIR$/modules/CSGeneral2/constants.js" />
         <option value="$PROJECT_DIR$/system/controls/select.js" />
         <option value="$PROJECT_DIR$/system/dialogs/grid.js" />
@@ -114,14 +97,15 @@
         <option value="$PROJECT_DIR$/system/dialogs/dialogList.js" />
         <option value="$PROJECT_DIR$/modules/CSGeneral2/cProvincia.js" />
         <option value="$PROJECT_DIR$/system/controls/tree.js" />
+        <option value="$PROJECT_DIR$/system/controls/grid.js" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="168" />
-    <option name="y" value="107" />
-    <option name="width" value="1763" />
-    <option name="height" value="875" />
+    <option name="x" value="37" />
+    <option name="y" value="30" />
+    <option name="width" value="1843" />
+    <option name="height" value="1003" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
     <OptionsSetting value="true" id="Add" />
@@ -452,14 +436,15 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="168" y="107" width="1763" height="875" extended-state="0" />
+    <frame x="37" y="30" width="1843" height="1003" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.41755888" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.1811806" sideWeight="0.5817259" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.17308766" sideWeight="0.5824411" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
@@ -468,7 +453,6 @@
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4182741" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
@@ -535,16 +519,6 @@
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/system/database/database.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="168" column="8" selection-start="5507" selection-end="5507" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/modules/CSCompra2/constants.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="20" column="27" selection-start="455" selection-end="455" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/system/collections/collection.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="5" column="4" selection-start="60" selection-end="60" vertical-scroll-proportion="0.0">
@@ -561,7 +535,9 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/modules/CSGeneralEx2/cUsuarioConfig.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="1537" column="22" selection-start="48818" selection-end="48818" vertical-scroll-proportion="0.0" />
+        <state line="1537" column="22" selection-start="48818" selection-end="48818" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/system/dialogs/dialog.js">
@@ -592,12 +568,16 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/system/dialogs/dialogList.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="668" column="76" selection-start="21260" selection-end="21260" vertical-scroll-proportion="0.0" />
+        <state line="668" column="76" selection-start="21260" selection-end="21260" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/modules/system/system.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="100" column="45" selection-start="3028" selection-end="3032" vertical-scroll-proportion="0.0" />
+        <state line="100" column="45" selection-start="3028" selection-end="3032" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/modules/CSGeneral2/cProvincia.js">
@@ -614,30 +594,44 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/system/controls/tree.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="1019" column="58" selection-start="32761" selection-end="32761" vertical-scroll-proportion="0.17305459">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/system/controls/select.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
           <folding>
-            <marker date="1423857205000" expanded="false" signature="1084:1094" placeholder="..." />
-            <marker date="1423857205000" expanded="false" signature="1347:1357" placeholder="..." />
-            <marker date="1423857205000" expanded="false" signature="2044:2075" placeholder="..." />
-            <marker date="1423857205000" expanded="false" signature="2217:2229" placeholder="..." />
-            <marker date="1423857205000" expanded="false" signature="3102:3133" placeholder="..." />
-            <marker date="1423857205000" expanded="false" signature="3456:3468" placeholder="..." />
+            <marker date="1423857205000" expanded="false" signature="-1:-1" placeholder="..." />
+            <marker date="1423857205000" expanded="false" signature="-1:-1" placeholder="..." />
+            <marker date="1423857205000" expanded="false" signature="-1:-1" placeholder="..." />
+            <marker date="1423857205000" expanded="false" signature="-1:-1" placeholder="..." />
+            <marker date="1423857205000" expanded="false" signature="-1:-1" placeholder="..." />
+            <marker date="1423857205000" expanded="false" signature="-1:-1" placeholder="..." />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/system/controls/treeSelect.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="19" column="53" selection-start="759" selection-end="771" vertical-scroll-proportion="0.0">
+        <state line="19" column="53" selection-start="759" selection-end="771" vertical-scroll-proportion="0.40066594">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/system/controls/tree.js">
+    <entry file="file://$PROJECT_DIR$/system/dialogs/grid.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="1019" column="58" selection-start="32761" selection-end="32761" vertical-scroll-proportion="0.20327422">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/system/controls/grid.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="1079" column="38" selection-start="29763" selection-end="29763" vertical-scroll-proportion="0.16027875">
           <folding />
         </state>
       </provider>

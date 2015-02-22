@@ -12,7 +12,7 @@
 
 .sub-header {
   padding-bottom: 10px;
-  border-bottom: 1px solid #464545;
+  border-bottom: 1px solid #cecece; /*black #464545; */
   margin-top: 5px;
 }
 

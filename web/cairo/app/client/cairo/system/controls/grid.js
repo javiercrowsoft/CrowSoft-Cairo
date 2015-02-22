@@ -1076,28 +1076,11 @@
         // delete key
         //
         else if(deleteKeyCodes.indexOf(e.keyCode) !== -1) {
-          if(e.ctrlKey) {
-            //
-            // only stop propagation and prevent default if the target is a TD
-            //
-            if(e.target.tagName === "TD") {
-              e.stopPropagation();
-              e.preventDefault();
-            }
-
-            var tr = td.parentNode;
-            var args = {
-              row: tr.rowIndex - 1, /* first row contains headers */
-              col: td.cellIndex
-            };
-            raiseEventAndThen(
-              'onDeleteRow',
-              args,
-              thenIfSuccessCall(deleteRow, args, td)
-            );
-          }
-          else {
-            if(td.cellIndex > 0 && colIsVisibleAndEditable(self.columns.get(td.cellIndex))) {
+          //
+          // only if we aren't editing
+          //
+          if(self.editInfo === null) {
+            if(e.ctrlKey) {
               //
               // only stop propagation and prevent default if the target is a TD
               //
@@ -1105,8 +1088,30 @@
                 e.stopPropagation();
                 e.preventDefault();
               }
-              var cell = setEmptyValue(td.parentNode.rowIndex -1, td.cellIndex);
-              gridManager.updateTD(cell, td.cellIndex, td.parentNode, gridManager.getValue);
+
+              var tr = td.parentNode;
+              var args = {
+                row: tr.rowIndex - 1, /* first row contains headers */
+                col: td.cellIndex
+              };
+              raiseEventAndThen(
+                'onDeleteRow',
+                args,
+                thenIfSuccessCall(deleteRow, args, td)
+              );
+            }
+            else {
+              if(td.cellIndex > 0 && colIsVisibleAndEditable(self.columns.get(td.cellIndex))) {
+                //
+                // only stop propagation and prevent default if the target is a TD
+                //
+                if(e.target.tagName === "TD") {
+                  e.stopPropagation();
+                  e.preventDefault();
+                }
+                var cell = setEmptyValue(td.parentNode.rowIndex -1, td.cellIndex);
+                gridManager.updateTD(cell, td.cellIndex, td.parentNode, gridManager.getValue);
+              }
             }
           }
         }
