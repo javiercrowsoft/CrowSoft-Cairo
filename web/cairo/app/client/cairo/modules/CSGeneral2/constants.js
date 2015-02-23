@@ -46,8 +46,8 @@
       // Edicion de documentos
       DOC_EDITABLE: "Editable",
       DOC_EDIT_MSG: "editMsg",
-      TA__PROPUESTO: "TaPropuesto",
-      TA__MASCARA: "TaMascara",
+      TA_PROPUESTO: "TaPropuesto",
+      TA_MASCARA: "TaMascara",
       
       // Empresa
       EMPRESA: "Empresa",
@@ -698,6 +698,7 @@
       DOCUMENTO: "Documento",
       DOC_ID: "doc_id",
       DOC_NAME: "doc_nombre",
+      DOC_TIPO_FACTURA: "doc_tipofactura",
 
       // Talonario
       TALONARIO: "Talonario",

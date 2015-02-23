@@ -171,13 +171,27 @@
 
   Cairo.module("Dialogs", function(Dialogs, Cairo, Backbone, Marionette, $, _) {
 
+    var val = Cairo.Util.val;
+
+    var cellVal = function(row, key) {
+      return Dialogs.cell(row, key).getValue();
+    };
+
+    var cell = function(row, key) {
+      return row.getCells().selectFirst(hasKey, key);
+    };
+
     var hasKey = function(cell, index, key) {
       return cell.getKey() === key;
     };
 
-    Dialogs.cell = function(row, key) {
-      return row.getCells().selectFirst(hasKey, key);
-    };
+    Dialogs.cell = cell;
+
+    Dialogs.cellVal = cellVal;
+
+    Dialogs.cellFloat = function(row, key) {
+      return val(cellVal(row, key));
+    }
   });
 
   ///////////////

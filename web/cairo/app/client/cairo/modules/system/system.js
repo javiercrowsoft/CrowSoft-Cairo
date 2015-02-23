@@ -170,6 +170,15 @@
     * 
     * */
   };
+  
+  Cairo.Documents.InvoiceWizardType = {
+    directa: 0,
+    pedido: 1,
+    remito: 2,
+    packingList: 3,
+    proyecto: 4,
+    orden: 5
+  };
 
   Cairo.Documents.DialogKeys = {
     number: 'NUMBER_ID',
