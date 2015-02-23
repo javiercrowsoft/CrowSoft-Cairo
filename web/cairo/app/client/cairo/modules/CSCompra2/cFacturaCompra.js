@@ -6314,3 +6314,14 @@
 }());
 
 
+/*
+*
+ search: val\(getCell\((.*?)\)\.getValue\(\)\)
+ replace: cellFloat($1)
+
+ search: getCell\((.*)?\)\.getValue\(\)
+ replace: cellVal($1)
+
+ search: getValue\(\) === (.*?);
+ repalce: setValue($1);
+* */

@@ -14,36 +14,102 @@
     var Controls = Cairo.Controls;
     
     var createControls = function(view, viewManager) {
-      var tabs = view.tabs.count();
+      var tabsCount = view.tabs.count();
       var count = view.controls.count();
       var form = $('<div class="dialog-form"></div>');
+      var tabs = [];
+      var row = null;
+      var column = null;
+      var lastTabIndex = -1;
+
+      //
+      // creates a tab definition object with
+      //    count: amount of controls,
+      //    columns: how many columns needed to show the controls,
+      //    colIndex: used to know in which column should the control be added
+      //
+      var setTabDefinition = function(i) {
+        tabs.push({ count: 0, columns: 0, colIndex: 0 });
+        for(var j = 0; j < count; j += 1) {
+          var c = view.controls.item(j);
+          if(c.getTabGroup() === i) {
+            tabs[i].count += 1;
+          }
+        }
+        var controlsByColumn = Math.ceil(tabs[i].count / 3)
+        tabs[i].columns = Math.floor(tabs[i].count / controlsByColumn);
+        tabs[i].columns += tabs[i].count % controlsByColumn ? 1 : 0;
+      }
+
       //
       // first tabs
       //
-      if(tabs > 1) {
-        var row = $('<div class="row"></div>');
-        var column = $('<div class="col-lg-12 col-md-12 col-sm-12"></div>');
+      if(tabsCount > 1) {
+
         var group = $('<div class="btn-group" role="group" aria-label="..."></div>')
-        for (var i = 0; i < tabs; i += 1) {
+
+        for(var i = 0; i < tabsCount; i += 1) {
           var control = view.controls.item(i);
           var element = $(control.htmlTag);
           control.setElement(element, viewManager);
           group.append(element);
-          row.append(column);
+
+          setTabDefinition(i);
         }
-        column.append(group);
-        form.append(row);
+
+        var tabColumn = $('<div class="col-lg-12 col-md-12 col-sm-12"></div>');
+        tabColumn.append(group);
+
+        var tabsRow = $('<div class="row"></div>');
+        tabsRow.append(tabColumn);
+
+        form.append(tabsRow);
+      }
+      else {
+        setTabDefinition(0);
       }
       //
       // add a row with one or more elements
       //
-      var newRow = function(elements, clazz) {
-        var row = $('<div class="row dialog-row"></div>');
-        var column = $('<div class="' + clazz + '"></div>');
+      var getRow = function(elements, clazz, tabIndex, isLabel, isBigColumn) {
+        if(row === null || tabs[tabIndex].colIndex >= tabs[tabIndex].columns || lastTabIndex !== tabIndex || isBigColumn) {
+          row = $('<div class="row dialog-row"></div>');
+          tabs[tabIndex].colIndex = 0;
+          lastTabIndex = tabIndex;
+        }
+        if(isLabel || column === null) {
+          column = $('<div class="' + clazz + '"></div>');
+        }
         column.append(elements);
         row.append(column);
+
+        if(! isLabel) {
+          tabs[tabIndex].colIndex += 1;
+          column = null;
+        }
+
+        if(isBigColumn) {
+          tabs[tabIndex].colIndex = tabs[tabIndex].columns;
+        }
+
         return row;
       };
+
+      var isLabelForControl = function(control) {
+        return control.getObjectType() === 'cairo.controls.label' ? control.getLabelFor() !== "" : false;
+      };
+
+      var checkBigColumn = function(control, index) {
+        if(isLabelForControl(control)) {
+          control = view.controls.item(index+1);
+        }
+        return (
+             control.getObjectType() === 'cairo.controls.textArea'
+          || control.getObjectType() === 'cairo.controls.grid'
+          || control.getObjectType() === 'cairo.controls.label'
+          );
+      };
+
       //
       // now controls
       //
@@ -51,10 +117,11 @@
         var control = view.controls.item(i);
         if(!Controls.isTab(control)) {
           var element = $(control.htmlTag);
-          var clazz = control.getObjectType() === 'cairo.controls.grid' ? "col-lg-12 col-md-12 col-sm-12" : "col-lg-4 col-md-5 col-sm-7";
+          var isBigColumn = checkBigColumn(control, i);
+          var clazz = isBigColumn ? "col-lg-12 col-md-12 col-sm-12" : "col-lg-4 col-md-5 col-sm-7";
           control.setElement(element, viewManager);
           control.setSelectOnFocus(true);
-          form.append(newRow(element, clazz));
+          form.append(getRow(element, clazz, control.getTabGroup(), isLabelForControl(control), isBigColumn));
         }
       }
       return form;

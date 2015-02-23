@@ -1638,6 +1638,16 @@
         elem.setKey(K_NOMBRE_COMPRA);
         elem.setValue(m_purchaseName);
 
+        elem = properties.add(null, C.PR_CODE);
+        elem.setType(Dialogs.PropertyType.text);
+        elem.setName(Cairo.Constants.CODE_LABEL);
+        elem.setLeftFromProperty(C.PR_NAME_COMPRA);
+        elem.setTopFromProperty(C.PR_NAME_COMPRA);
+        elem.setTopToPrevious(440);
+        elem.setSize(90);
+        elem.setKey(K_CODE);
+        elem.setValue(m_code);
+
         elem = properties.add(null, Cairo.Constants.ACTIVE);
         elem.setType(Dialogs.PropertyType.check);
         elem.setTopFromProperty(C.PR_NAME_COMPRA);
@@ -1650,16 +1660,6 @@
         elem.setName(Cairo.Constants.ACTIVE_LABEL);
         elem.setKey(K_ACTIVE);
         elem.setValue(m_active === true ? 1 : 0);
-
-        elem = properties.add(null, C.PR_CODE);
-        elem.setType(Dialogs.PropertyType.text);
-        elem.setName(Cairo.Constants.CODE_LABEL);
-        elem.setLeftFromProperty(C.PR_NAME_COMPRA);
-        elem.setTopFromProperty(C.PR_NAME_COMPRA);
-        elem.setTopToPrevious(440);
-        elem.setSize(90);
-        elem.setKey(K_CODE);
-        elem.setValue(m_code);
 
         elem = properties.add(null, C.PR_CODIGO_EXTERNO);
         elem.setType(Dialogs.PropertyType.text);
@@ -1752,7 +1752,7 @@
         elem = properties.add(null);
         elem.setType(Dialogs.PropertyType.label);
         elem.setFontBold(true);
-        elem.setValue(Cairo.Language.getText(4854, "")); // Curso
+        elem.setValue(Cairo.Language.getText(4854, "")); // Generación Automática de Nombres
         elem.setLeft(300);
         elem.setWidth(5000);
         elem.setTopToPrevious(140);

@@ -2344,10 +2344,10 @@
         var viewIsDocument = function(view) { /* TODO: implements this. */ };
         var viewIsWizard = function(view) { /* TODO: implements this. */ };
 
-        var showDialog = function(obj, indexTag) {
+        var showDialog = function(obj, tabIndex) {
           var success = false;
 
-          indexTag = indexTag || 0;
+          tabIndex = tabIndex || 0;
 
           if(obj !== null) {
 
@@ -2391,7 +2391,7 @@
               }
             }
 
-            showView(indexTag);
+            showView();
 
             view.setText(m_client.getTitle());
             view.setPath(m_client.getPath());
@@ -2466,10 +2466,27 @@
                   view.showDialog();
                 }
               }
-              success = true;
             }
+            selectTab(tabIndex);
+            success = true;
           }
           return success;
+        };
+
+        var selectTab = function(tabIndex) {
+          if(tabIndex !== -1) {
+            var view = getView();
+            if(m_isDocument) {
+              docTabClickEx(Cairo.Constants.DocumentSections.items, tabIndex);
+              docTabClickEx(Cairo.Constants.DocumentSections.footer, tabIndex);
+              docTabClickEx(Cairo.Constants.DocumentSections.header, tabIndex);
+              view.getTabs().get(tabIndex + m_firstTab).setTabSelected(true);
+            }
+            else {
+              self.tabClick(tabIndex);
+              view.getTabs().get(tabIndex).setTabSelected(true);
+            }
+          }
         };
 
         self.setHideTitle = function(value) {
@@ -2521,7 +2538,7 @@
 
         self.refreshControls = function(noGrids) {
           if(!m_unloading) {
-            showView(-1, noGrids, false);
+            showView(noGrids, false);
             try {
               var tab = getView().getTabs().get(m_currentTab);
               tab.virtualPush();
@@ -4713,7 +4730,7 @@
           gridControl.draw(rowIndex);
         };
 
-        var showView = function(tabIndex, noGrids, bSetFocus) {
+        var showView = function(noGrids, bSetFocus) {
           var tabs = 0;
           var property = null;
 
@@ -4753,19 +4770,6 @@
               view.getSaveButton().setTabIndex(lastTabIndex);
               view.getCancelButton().setTabIndex(lastTabIndex);
               view.getCloseButton().setTabIndex(lastTabIndex);
-            }
-          }
-
-          if(tabIndex !== -1) {
-            if(m_isDocument) {
-              docTabClickEx(Cairo.Constants.DocumentSections.items, tabIndex);
-              docTabClickEx(Cairo.Constants.DocumentSections.footer, tabIndex);
-              docTabClickEx(Cairo.Constants.DocumentSections.header, tabIndex);
-              view.getTabs().get(tabIndex + m_firstTab).setTabSelected(true);
-            }
-            else {
-              self.tabClick(tabIndex);
-              view.getTabs().get(tabIndex).setTabSelected(true);
             }
           }
 
@@ -4812,9 +4816,15 @@
             && property.getType() !== Dialogs.PropertyType.title) {
 
             label = addControl(view, Dialogs.PropertyType.controlLabel);
+            label.setTabGroup(nTabIndex); // tab index in a control is for tab key navigation
           }
 
           var c = addControl(view, controlType, subType);
+          c.setTabGroup(nTabIndex); // tab index in a control is for tab key navigation
+
+          if(label !== null) {
+            label.setLabelFor(c._ID_);
+          }
 
           switch(controlType) {
 

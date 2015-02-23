@@ -5,7 +5,8 @@
 
     var createLabel = function() {
       var self = {
-        text: ""
+        text: "",
+        labelFor: ""
       };
 
       var that = Controls.createControl();
@@ -30,7 +31,14 @@
 
       that.getText = function() {
         return self.text;
-      }
+      };
+
+      that.setLabelFor = function(labelFor) {
+        self.labelFor = labelFor;
+      };
+      that.getLabelFor = function() {
+        return self.labelFor;
+      };
 
       return that;
     };

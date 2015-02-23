@@ -5,12 +5,12 @@
     <ignored path="cairo.iws" />
     <ignored path=".idea/workspace.xml" />
     <file path="/grid.js" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1424571380038" ignored="false" />
-    <file path="/control.js" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1421444009340" ignored="false" />
+    <file path="/control.js" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1424704126986" ignored="false" />
     <file path="/select.js" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1421446012192" ignored="false" />
-    <file path="/dialog.js" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1424655745161" ignored="false" />
-    <file path="/a.dummy" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1424656663605" ignored="false" />
+    <file path="/dialog.js" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1424712679627" ignored="false" />
+    <file path="/a.dummy" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1424711999184" ignored="false" />
     <file path="/datePicker.js" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1423090609117" ignored="false" />
-    <file path="/view.js" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1421429708577" ignored="false" />
+    <file path="/view.js" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1424710248542" ignored="false" />
     <file path="/cairoApp.js" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1424176015152" ignored="false" />
     <file path="/cProducto.js" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1423861587759" ignored="false" />
     <file path="/Dummy.txt" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1421191290318" ignored="false" />
@@ -35,6 +35,7 @@
     <file path="/cEmpresa.js" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1423314405150" ignored="false" />
     <file path="/tab.js" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1423842990034" ignored="false" />
     <file path="/serialNumber.js" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1423871624252" ignored="false" />
+    <file path="/label.js" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1424705784306" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -54,55 +55,93 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="dialog.js" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="cProducto.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/modules/CSGeneral2/cProducto.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="1662" column="0" selection-start="50488" selection-end="50488" vertical-scroll-proportion="-30.481482">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="dialog.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/system/dialogs/dialog.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="191" column="21" selection-start="4003" selection-end="4012" vertical-scroll-proportion="-9.962963">
-              <folding />
+            <state line="2477" column="33" selection-start="77045" selection-end="77045" vertical-scroll-proportion="0.7084785">
+              <folding>
+                <element signature="e#73164#74210#0" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="cFacturaCompra.js" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="cFacturaCompra.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/modules/CSCompra2/cFacturaCompra.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="3996" column="86" selection-start="125129" selection-end="125129" vertical-scroll-proportion="16.646397">
+            <state line="2502" column="63" selection-start="75226" selection-end="75226" vertical-scroll-proportion="37.925926">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="constants.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/modules/CSGeneral2/constants.js">
+      <file leaf-file-name="view.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/system/dialogs/view.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="700" column="6" selection-start="19875" selection-end="19875" vertical-scroll-proportion="-10.777778">
+            <state line="465" column="11" selection-start="13468" selection-end="13468" vertical-scroll-proportion="-246.51852">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="system.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/modules/system/system.js">
+      <file leaf-file-name="textArea.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/system/controls/textArea.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="173" column="35" selection-start="4713" selection-end="4746" vertical-scroll-proportion="0.0">
+            <state line="51" column="44" selection-start="1316" selection-end="1339" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="cairoApp.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/cairoApp.js">
+      <file leaf-file-name="label.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/system/controls/label.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="386" column="17" selection-start="9717" selection-end="9717" vertical-scroll-proportion="0.0">
+            <state line="20" column="38" selection-start="479" selection-end="491" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="EcmaScript.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="jar://$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/lib/JavascriptLanguage.jar!/com/intellij/lang/javascript/index/predefined/EcmaScript.js">
+      <file leaf-file-name="control.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/system/controls/control.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="25" column="0" selection-start="280" selection-end="280" vertical-scroll-proportion="0.0">
+            <state line="185" column="31" selection-start="4263" selection-end="4263" vertical-scroll-proportion="-103.44444">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="property.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/system/dialogs/property.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="515" column="22" selection-start="11209" selection-end="11220" vertical-scroll-proportion="-34.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="collection.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/system/collections/collection.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="103" column="63" selection-start="2891" selection-end="2891" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="grid.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/system/controls/grid.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="209" column="17" selection-start="4808" selection-end="4808" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -118,10 +157,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/system/controls/select.js" />
-        <option value="$PROJECT_DIR$/system/dialogs/grid.js" />
-        <option value="$PROJECT_DIR$/modules/CSGeneral2/cProducto.js" />
-        <option value="$PROJECT_DIR$/system/collections/collection.js" />
         <option value="$PROJECT_DIR$/modules/CSCompra2/constants.js" />
         <option value="$PROJECT_DIR$/modules/CSStock2/serialNumber.js" />
         <option value="$PROJECT_DIR$/system/modal.js" />
@@ -132,14 +167,18 @@
         <option value="$PROJECT_DIR$/system/controls/grid.js" />
         <option value="$PROJECT_DIR$/modules/system/system.js" />
         <option value="$PROJECT_DIR$/modules/CSGeneral2/constants.js" />
-        <option value="$PROJECT_DIR$/system/dialogs/dialog.js" />
         <option value="$PROJECT_DIR$/modules/CSCompra2/cFacturaCompra.js" />
+        <option value="$PROJECT_DIR$/system/controls/control.js" />
+        <option value="$PROJECT_DIR$/system/controls/label.js" />
+        <option value="$PROJECT_DIR$/modules/CSGeneral2/cProducto.js" />
+        <option value="$PROJECT_DIR$/system/dialogs/view.js" />
+        <option value="$PROJECT_DIR$/system/dialogs/dialog.js" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="37" />
-    <option name="y" value="30" />
+    <option name="x" value="36" />
+    <option name="y" value="40" />
     <option name="width" value="1843" />
     <option name="height" value="1003" />
   </component>
@@ -490,7 +529,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="37" y="30" width="1843" height="1003" extended-state="0" />
+    <frame x="36" y="40" width="1843" height="1003" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -573,72 +612,9 @@
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/modules/CSGeneralEx2/cUsuarioConfig.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="1537" column="22" selection-start="48818" selection-end="48818" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/system/modal.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="72" column="48" selection-start="1681" selection-end="1681" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/system/dialogs/dialogList.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="668" column="76" selection-start="21260" selection-end="21260" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/modules/CSGeneral2/cProvincia.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="406" column="8" selection-start="11124" selection-end="11124" vertical-scroll-proportion="10.15">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/modules/CSGeneral2/cProducto.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="1564" column="13" selection-start="47343" selection-end="47343" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/system/controls/tree.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="1019" column="58" selection-start="32761" selection-end="32761" vertical-scroll-proportion="0.17305459">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/system/controls/select.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding>
-            <marker date="1423857205000" expanded="false" signature="-1:-1" placeholder="..." />
-            <marker date="1423857205000" expanded="false" signature="-1:-1" placeholder="..." />
-            <marker date="1423857205000" expanded="false" signature="-1:-1" placeholder="..." />
-            <marker date="1423857205000" expanded="false" signature="-1:-1" placeholder="..." />
-            <marker date="1423857205000" expanded="false" signature="-1:-1" placeholder="..." />
-            <marker date="1423857205000" expanded="false" signature="-1:-1" placeholder="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/system/controls/treeSelect.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="19" column="53" selection-start="759" selection-end="771" vertical-scroll-proportion="0.40066594">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/system/controls/grid.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="1079" column="38" selection-start="29763" selection-end="29763" vertical-scroll-proportion="0.16027875">
           <folding />
         </state>
       </provider>
@@ -678,17 +654,75 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/system/dialogs/dialog.js">
+    <entry file="file://$PROJECT_DIR$/modules/CSCompra2/cFacturaCompra.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="191" column="21" selection-start="4003" selection-end="4012" vertical-scroll-proportion="-9.962963">
+        <state line="2502" column="63" selection-start="75226" selection-end="75226" vertical-scroll-proportion="37.925926">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/modules/CSCompra2/cFacturaCompra.js">
+    <entry file="file://$PROJECT_DIR$/system/dialogs/property.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="3996" column="86" selection-start="125129" selection-end="125129" vertical-scroll-proportion="16.646397">
+        <state line="515" column="22" selection-start="11209" selection-end="11220" vertical-scroll-proportion="-34.0">
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/system/collections/collection.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="103" column="63" selection-start="2891" selection-end="2891" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/system/controls/grid.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="209" column="17" selection-start="4808" selection-end="4808" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/system/controls/control.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="185" column="31" selection-start="4263" selection-end="4263" vertical-scroll-proportion="-103.44444">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/system/controls/textArea.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="51" column="44" selection-start="1316" selection-end="1339" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/system/controls/label.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="20" column="38" selection-start="479" selection-end="491" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/modules/CSGeneral2/cProducto.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="1662" column="0" selection-start="50488" selection-end="50488" vertical-scroll-proportion="-30.481482">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/system/dialogs/view.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="465" column="11" selection-start="13468" selection-end="13468" vertical-scroll-proportion="-246.51852">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/system/dialogs/dialog.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="2477" column="33" selection-start="77045" selection-end="77045" vertical-scroll-proportion="0.7084785">
+          <folding>
+            <element signature="e#73164#74210#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>

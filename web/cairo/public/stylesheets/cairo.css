@@ -244,6 +244,7 @@ div.tree-select-dialog.ui-widget-content {
 
 .dialog-label {
     margin-top: 15px;
+    display: block !important;
 }
 
 .dialog-control {

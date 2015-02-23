@@ -33,7 +33,10 @@
         left: 0,
         width: 0,
         height: 0,
-  
+
+        tabIndex: 0, // this for tab key navigation
+        tabGroup: 0, // this is the index of this control in the dialog's tab collection
+
         visible: true,
   
         element: null,
@@ -172,8 +175,20 @@
         self.tag = tag.toString();
       };
 
-      that.setTabIndex = function(tabIndex) { /* TODO = implement this. */ };
-      that.setTabIndex2 = function(tabIndex2) { /* TODO = implement this. */ };
+      that.setTabIndex = function(tabIndex) {
+        self.tabIndex = tabIndex;
+      };
+      that.getTabIndex = function() {
+        return self.tabIndex;
+      };
+
+      that.setTabGroup = function(tabGroup) {
+        self.tabGroup = tabGroup;
+      };
+      that.getTabGroup = function() {
+        return self.tabGroup;
+      };
+
       that.setBackStyle = function(style) { /* TODO = implement this. */ };
 
       that.getTextAlign = function() { /* TODO = implement this. */ };
