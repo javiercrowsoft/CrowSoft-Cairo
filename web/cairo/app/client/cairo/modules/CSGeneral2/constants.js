@@ -627,7 +627,7 @@
       PROVC_SUCURSAL: "provc_sucursal",
 
       // Condicion Pago
-      CONDICIONPAGO: "CondicionPago",
+      CONDICION_PAGO: "CondicionPago",
       CPG_ID: "cpg_id",
       CPG_NAME: "cpg_nombre",
       CPG_CODE: "cpg_codigo",
@@ -638,7 +638,7 @@
       CPG_TIPO: "cpg_tipo",
 
       // Condicion Pago Item
-      CONDICIONPAGOITEM: "CondicionPagoItem",
+      CONDICION_PAGO_ITEM: "CondicionPagoItem",
       CPGI_ID: "cpgi_id",
       CPGI_DIAS: "cpgi_dias",
       CPGI_PORCENTAJE: "cpgi_porcentaje",
@@ -817,6 +817,8 @@
       TI_ID_INTERNOS_COMPRA: "ti_id_internosc",
       CUEG_ID_COMPRA: "cueg_id_compra",
       CUEG_ID_VENTA: "cueg_id_venta",
+      CUE_ID_COMPRA: "cue_id_compra",
+      CUE_ID_VENTA: "cue_id_venta",
       PR_PESO_TOTAL: "pr_pesototal",
       PR_PESO_NETO: "pr_pesoneto",
       UN_ID_PESO: "un_id_peso",
@@ -1468,10 +1470,10 @@
     DELETE_CHOFER: 1146,
     LIST_CHOFER: 1147,
 
-    NEW_CONDICIONPAGO: 1148,
-    EDIT_CONDICIONPAGO: 1149,
-    DELETE_CONDICIONPAGO: 1150,
-    LIST_CONDICIONPAGO: 1151,
+    NEW_CONDICION_PAGO: 1148,
+    EDIT_CONDICION_PAGO: 1149,
+    DELETE_CONDICION_PAGO: 1150,
+    LIST_CONDICION_PAGO: 1151,
 
     NEW_SUCURSAL: 1157,
     EDIT_SUCURSAL: 1158,

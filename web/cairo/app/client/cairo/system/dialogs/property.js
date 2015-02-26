@@ -189,6 +189,7 @@
       };
       that.setName = function(name) {
         self.name = name;
+        return that;
       };
 
       that.getControl = function() {
@@ -196,6 +197,7 @@
       };
       that.setControl = function(control) {
         self._ctl = control;
+        return that;
       };
 
       that.getControlLoaded = function() {
@@ -203,6 +205,7 @@
       };
       that.setControlLoaded = function(loaded) {
         self._controlLoaded = loaded;
+        return that;
       };
 
       that.getIndex = function() {
@@ -211,6 +214,7 @@
 
       that.setIndex = function(index) {
         self._index = index;
+        return that;
       };
 
       that.getGrid = function() {
@@ -224,10 +228,12 @@
       };
       that.setGridRemoveEnable = function(enabled) {
         self.gridRemoveEnabled = enabled;
+        return that;
       };
 
       that.setSelectedRow = function(row) {
         self.gridSelectedRow = row;
+        return that;
       };
       that.getSelectedRow = function() {
         return self.gridSelectedRow;
@@ -238,6 +244,7 @@
       };
       that.setForeColor = function(color) {
         self.foreColor = color;
+        return that;
       };
 
       that.getBackColor = function() {
@@ -245,9 +252,11 @@
       };
       that.setBackColor = function(color) {
         self.backColor = color;
+        return that;
       };
       that.setBackColorUnpressed = function(backColor) {
         self._unPressedBackColor = backColor;
+        return that;
       };
 
       that.getType = function() {
@@ -255,12 +264,14 @@
       };
       that.setType = function(type) {
         self.type = type;
+        return that;
       };
       that.getSubType = function() {
         return self.subType;
       };
       that.setSubType = function(subType) {
         self.subType = subType;
+        return that;
       };
 
       // list
@@ -275,6 +286,7 @@
 
       that.setListWhoSetItem = function(value) {
         self.listWhoSetItem = value;
+        return that;
       };
       that.getListWhoSetItem = function() {
         return self.listWhoSetItem;
@@ -285,6 +297,7 @@
       };
       that.setListItemData = function(index) {
         self.listItemData = index;
+        return that;
       };
 
       that.getListIndex = function() {
@@ -292,6 +305,7 @@
       };
       that.setListIndex = function(index) {
         self.listListIndex = index;
+        return that;
       };
 
       that.getListText = function() {
@@ -299,6 +313,7 @@
       };
       that.setListText = function(text) {
         self.listText = text;
+        return that;
       };
 
       // select
@@ -308,6 +323,7 @@
       };
       that.setSelectTable = function(table) {
         self.selectTable = table;
+        return that;
       };
 
       that.getSelectId = function() {
@@ -315,6 +331,7 @@
       };
       that.setSelectId = function(id) {
         self.selectId = id;
+        return that;
       };
 
       that.getSelectIntValue = function() {
@@ -322,6 +339,7 @@
       };
       that.setSelectIntValue = function(value) {
         self.selectIntValue = value;
+        return that;
       };
 
       that.getSelectFieldIntValue = function() {
@@ -333,6 +351,7 @@
       };
       that.setSelectFilter = function(filter) {
         self.selectFilter = filter;
+        return that;
       };
 
       that.getSelectType = function() {
@@ -340,6 +359,7 @@
       };
       that.setSelectType = function(type) {
         self.selectType = type;
+        return that;
       };
 
       that.getSelectNoUseActive = function() {
@@ -347,6 +367,7 @@
       };
       that.setSelectNoUseActive = function(value) {
         self.selectNoUseActive = value;
+        return that;
       };
 
       //
@@ -356,6 +377,7 @@
       };
       that.setValue = function(value) {
         self.value = value;
+        return that;
       };
 
       that.getTextMask = function() {
@@ -363,6 +385,7 @@
       };
       that.setTextMask = function(mask) {
         self.textMask = mask;
+        return that;
       };
 
       that.getImage = function() {
@@ -370,6 +393,7 @@
       };
       that.setImage = function(image) {
         self.image = image;
+        return that;
       };
 
       that.getGridAddEnabled = function() {
@@ -377,6 +401,7 @@
       };
       that.setGridAddEnabled = function(enabled) {
         self.gridAddEnabled = enabled;
+        return that;
       };
 
       that.getGridEditEnabled = function() {
@@ -384,6 +409,7 @@
       };
       that.setGridEditEnabled = function(enabled) {
         self.gridEditEnabled = enabled;
+        return that;
       };
 
       that.getGridRemoveEnabled = function() {
@@ -391,6 +417,7 @@
       };
       that.setGridRemoveEnabled = function(enabled) {
         self.gridRemoveEnabled = enabled;
+        return that;
       };
 
       that.getLabelIndex = function() {
@@ -398,6 +425,7 @@
       };
       that.setLabelIndex = function(labelIndex) {
         self._labelIndex = labelIndex;
+        return that;
       };
 
       that.getVisible = function() {
@@ -405,6 +433,7 @@
       };
       that.setVisible = function(visible) {
         self.visible = visible;
+        return that;
       };
 
       that.getKeyCol = function() {
@@ -412,6 +441,7 @@
       };
       that.setKeyCol = function(key) {
         self._keyCol = key;
+        return that;
       };
 
       that.getKey = function() {
@@ -419,6 +449,7 @@
       };
       that.setKey = function(key) {
         self.key = key;
+        return that;
       };
 
       that.getFormat = function() {
@@ -426,6 +457,7 @@
       };
       that.setFormat = function(format) {
         self.format = format;
+        return that;
       };
 
       that.getOptionGroup = function() {
@@ -435,12 +467,17 @@
       that.getTextAlign = function() {
         return self.textAlign;
       };
+      that.setTextAlign = function(align) {
+        self.textAlign = align;
+        return that;
+      };
 
       that.getSize = function() {
         return self.size;
       };
       that.setSize = function(size) {
         self.size = size;
+        return that;
       };
 
       that.getInputDisabled = function() {
@@ -448,6 +485,7 @@
       };
 
       that.setToolbar = function(c) {
+        return that;
       };
 
       that.getHeight = function() {
@@ -455,6 +493,7 @@
       };
       that.setHeight = function(height) {
         self.height = height;
+        return that;
       };
 
       that.getWidth = function() {
@@ -462,6 +501,7 @@
       };
       that.setWidth = function(width) {
         self.width = width;
+        return that;
       };
 
       that.getTopFromProperty = function() {
@@ -469,6 +509,7 @@
       };
       that.setTopFromProperty = function(key) {
         self.topFromProperty = key;
+        return that;
       };
 
       that.getTop = function() {
@@ -476,6 +517,7 @@
       };
       that.setTop = function(top) {
         self.top = top;
+        return that;
       };
 
       that.getTopToPrevious = function() {
@@ -483,6 +525,7 @@
       };
       that.setTopToPrevious = function(top) {
         self.topToPrevious = top;
+        return that;
       };
 
       that.getLeftFromProperty = function() {
@@ -490,10 +533,12 @@
       };
       that.setLeftFromProperty = function(key) {
         self.leftFromProperty = key;
+        return that;
       };
 
       that.setLeft = function(left) {
         self.left = left;
+        return that;
       };
       that.getLeft = function() {
         return self.left;
@@ -504,6 +549,7 @@
       };
       that.setLeftLabel = function(left) {
         self.leftLabel = left;
+        return that;
       };
 
       that.getLeftToPrevious = function() {
@@ -511,6 +557,7 @@
       };
       that.setLeftToPrevious = function(left) {
         self.leftToPrevious = left;
+        return that;
       };
 
       that.getTabIndex = function() {
@@ -518,6 +565,7 @@
       };
       that.setTabIndex = function(index) {
         self.tabIndex = index;
+        return that;
       };
 
       that.getTabIndex2 = function() {
@@ -525,6 +573,7 @@
       };
       that.setTabIndex2 = function(index) {
         self.tabIndex2 = index;
+        return that;
       };
 
       that.getTopFrame = function() {
@@ -543,12 +592,14 @@
       };
       that.setLeftNotChange = function(leftNotChange) {
         self.leftNotChange = leftNotChange;
+        return that;
       };
       that.getTopNotChange = function() {
         return self.topNotChange;
       };
       that.setTopNotChange = function(topNotChange) {
         self.topNotChange = topNotChange;
+        return that;
       };
 
       that.getToolbar = function() {
@@ -560,6 +611,7 @@
       };
       that.setIsEditProperty = function(isEditProperty) {
         self.isEditProperty = isEditProperty;
+        return that;
       };
 
       that.getNoShowButton = function() {
@@ -571,30 +623,35 @@
       };
       that.setFontName = function(name) {
         self.fontName = name;
+        return that;
       };
       that.getFontSize = function() {
         return self.fontSize;
       };
       that.setFontSize = function(size) {
         self.fontSize = size;
+        return that;
       };
       that.getFontUnderline = function() {
         return self.fontUnderline;
       };
       that.setFontUnderline = function(underline) {
         self.fontUnderline = underline;
+        return that;
       };
       that.getFontBold = function() {
         return self.fontBold;
       };
       that.setFontBold = function(bold) {
         self.fontBold = bold;
+        return that;
       };
       that.getFontItalic = function() {
         return self.fontItalic;
       };
       that.setFontItalic = function(italic) {
         self.fontItalic = italic;
+        return that;
       };
 
       that.getEnabled = function() {
@@ -602,6 +659,7 @@
       };
       that.setEnabled = function(enabled) {
         self.enabled = enabled;
+        return that;
       };
 
       return that;

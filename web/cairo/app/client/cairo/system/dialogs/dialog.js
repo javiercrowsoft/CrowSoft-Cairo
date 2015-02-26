@@ -173,16 +173,16 @@
 
     var val = Cairo.Util.val;
 
-    var cellVal = function(row, key) {
-      return Dialogs.cell(row, key).getValue();
+    var hasKey = function(cell, index, key) {
+      return cell.getKey() === key;
     };
 
     var cell = function(row, key) {
       return row.getCells().selectFirst(hasKey, key);
     };
 
-    var hasKey = function(cell, index, key) {
-      return cell.getKey() === key;
+    var cellVal = function(row, key) {
+      return cell(row, key).getValue();
     };
 
     Dialogs.cell = cell;
@@ -191,6 +191,10 @@
 
     Dialogs.cellFloat = function(row, key) {
       return val(cellVal(row, key));
+    };
+
+    Dialogs.cellId = function(row, key) {
+      return cell(row, key).getId();
     }
   });
 

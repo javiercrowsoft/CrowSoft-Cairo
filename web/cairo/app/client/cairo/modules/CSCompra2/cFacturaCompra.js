@@ -22,9 +22,11 @@
       var getDateValue = Cairo.Database.getDateValue;
       var Percepciones = Cairo.Compras.Percepciones;
       var call = Cairo.Promises.call;
-      var getGrid = Cairo.Documents.getGrid;
+      var D = Cairo.Documents; 
+      var getGrid = D.getGrid;
       var getCell = Dialogs.cell;
       var cellVal = Dialogs.cellVal;
+      var cellId = Dialogs.cellId;
       var cellFloat = Dialogs.cellFloat;
       var val = Cairo.Util.val;
 
@@ -188,8 +190,11 @@
       var m_editing;
 
       var m_footer;
+      var m_footerProps;
       var m_items;
+      var m_itemsProps;
       var m_dialog;
+      var m_properties;
       var m_listController = null;
 
       var m_lastDocId = 0;
@@ -228,7 +233,7 @@
 
       var m_serialNumbers;
 
-      var m_defaultCurrency = Cairo.Documents.getDefaultCurrency();
+      var m_defaultCurrency = D.getDefaultCurrency();
       var m_mon_id_document = 0;
 
       var m_apiPath = Cairo.Database.getAPIVersion();
@@ -362,7 +367,7 @@
         m_docEditable = true;
         m_docEditMsg = "";
 
-        Cairo.Documents.getDocNumberForProveedor(m_lastProvId, m_lastDocId, m_dialog).then(
+        D.getDocNumberForProveedor(m_lastProvId, m_lastDocId, m_dialog).then(
           function(enabled) {
             m_taPropuesto = enabled;
             setEnabled();
@@ -398,7 +403,7 @@
 
           var p = null;
 
-          var docId = m_dialog.getProperties().item(C.DOC_ID).getSelectId();
+          var docId = m_properties.item(C.DOC_ID).getSelectId();
 
           if(docId === Cairo.Constants.NO_ID) {
             p = Cairo.Modal.showInfo(Cairo.Language.getText(1562, ""));
@@ -409,7 +414,7 @@
         }).then(function(ignored){
 
           setDatosProveedor();
-          return Cairo.Documents.getDocNumberForProveedor(m_lastProvId, m_lastDocId, m_dialog)
+          return D.getDocNumberForProveedor(m_lastProvId, m_lastDocId, m_dialog)
 
         }).then(function(enabled) {
 
@@ -488,7 +493,7 @@
 
           case Dialogs.Message.MSG_DOC_EDIT_STATE:
 
-            Cairo.Documents.showEditStatus(m_docEditMsg, Cairo.Language.getText(1889, ""));
+            D.showEditStatus(m_docEditMsg, Cairo.Language.getText(1889, ""));
             break;
 
           case Dialogs.Message.MSG_DOC_DELETE:
@@ -500,7 +505,7 @@
 
           case Dialogs.Message.MSG_DOC_INVALIDATE:
 
-            p = Cairo.Documents.docInvalidate(m_doct_id, m_id, m_dialog).then(function(result) {
+            p = D.docInvalidate(m_doct_id, m_id, m_dialog).then(function(result) {
               if(result.success === true) {
                 m_est_id = result.estId;
                 m_estado = result.estado;
@@ -537,7 +542,7 @@
 
           case Dialogs.Message.MSG_DOC_SEARCH:
 
-            Cairo.Documents.search(Cairo.Documents.FACTURA_COMPRA, self, Cairo.bool(info));
+            D.search(D.FACTURA_COMPRA, self, Cairo.bool(info));
             break;
 
           case Dialogs.Message.MSG_DOC_DOC_AUX:
@@ -546,15 +551,15 @@
 
               if(m_showStockData) {
                 m_dialog.showPopMenu(Cairo.Language.getText(1890, "")+ "~1|"+ Cairo.Language.getText(1891, "")+ "~2");
-                                      //&Ver Asiento~1|Ver Transferencia de Stock~2
+                                      // &Ver Asiento~1|Ver Transferencia de Stock~2
               }
               else {
-                Cairo.Documents.showDocAux(m_as_id, "Asiento");
+                D.showDocAux(m_as_id, "Asiento");
               }
             }
             else {
               Cairo.Modal.showInfo(Cairo.Language.getText(1620, ""));
-                                    //Debe editar un comprobante guardado para poder ver los documentos auxiliares
+                                    // Debe editar un comprobante guardado para poder ver los documentos auxiliares
             }
             break;
 
@@ -565,11 +570,11 @@
               if(m_docEditable) {
 
                 Cairo.Modal.showInfo(Cairo.Language.getText(1555, ""));
-                                      //Este documento puede editarse normalmente
+                                      // Este documento puede editarse normalmente
               }
               else {
 
-                Cairo.Documents.docCanBeSaved(m_dialog, CC.FC_FECHA_IVA).then(function(canBeSaved) {
+                D.docCanBeSaved(m_dialog, CC.FC_FECHA_IVA).then(function(canBeSaved) {
                   if(canBeSaved) {
 
                     var docId = getDocId().getSelectId();
@@ -586,7 +591,7 @@
             }
             else {
               Cairo.Modal.showInfo(Cairo.Language.getText(1556, ""));
-                                    //Esta opción solo sirve para modificar documentos guardados y aplicados
+                                    // Esta opción solo sirve para modificar documentos guardados y aplicados
             }
             break;
 
@@ -595,11 +600,11 @@
             switch (val(info)) {
 
               case 1:
-                Cairo.Documents.showDocAux(m_as_id, "Asiento");
+                D.showDocAux(m_as_id, "Asiento");
                 break;
 
               case 2:
-                Cairo.Documents.showDocAux(m_st_id, "Stock");
+                D.showDocAux(m_st_id, "Stock");
                 break;
             }
             break;
@@ -629,8 +634,8 @@
 
           case Dialogs.Message.MSG_EXPORT_GET_EMAIL:
 
-            var property = m_dialog.getProperties().item(C.PROV_ID);
-            p = Cairo.Documents.getEmailFromProveedor(property.getSelectId());
+            var property = m_properties.item(C.PROV_ID);
+            p = D.getEmailFromProveedor(property.getSelectId());
 
             break;
 
@@ -663,8 +668,8 @@
           case K_DOC_ID:
 
             // if the document has changed
-            //
-            var changeInfo = Cairo.Documents.docHasChanged(m_dialog, m_lastDocId);
+            // 
+            var changeInfo = D.docHasChanged(m_dialog, m_lastDocId);
             if(changeInfo.changed) {
 
               m_lastDocId = changeInfo.docId;
@@ -685,15 +690,15 @@
 
                 // when the document property is changed and the dialog was
                 // editing a saved invoice we need to move to a new invoice
-                //
+                // 
                 if(m_id !== Cairo.Constants.NO_ID && m_doc_id !== m_lastDocId) {
-                  p = self.edit(Cairo.Documents.Constants.DOC_CHANGED);
+                  p = self.edit(D.Constants.DOC_CHANGED);
                 }
 
                 return p || Cairo.Promises.resolvedPromise(true);
 
               }).success(function() {
-                var p = Cairo.Documents.getDocNumberForProveedor(m_lastProvId, m_lastDocId, m_dialog);
+                var p = D.getDocNumberForProveedor(m_lastProvId, m_lastDocId, m_dialog);
                 p.then(function(enabled) {
 
                   m_taPropuesto = enabled;
@@ -718,11 +723,11 @@
           case K_PROV_ID:
 
             setDatosProveedor().success(function() {
-              Cairo.Documents.getDocNumberForProveedor(m_lastProvId, m_lastDocId, m_dialog)
+              D.getDocNumberForProveedor(m_lastProvId, m_lastDocId, m_dialog)
               .then(function(enabled) {
                 m_taPropuesto = enabled;
               }).then(function() {
-                Cairo.Documents.showDataAddProveedor(Cairo.UserConfig.getShowDataAddInCompras(), m_dialog);
+                D.showDataAddProveedor(Cairo.UserConfig.getShowDataAddInCompras(), m_dialog);
               });
             });
             break;
@@ -740,7 +745,7 @@
               m_lastMonIdCotizacion = Cairo.Constants.NO_ID;
 
               p = showCotizacion().then(function() {
-                var properties = m_dialog.getProperties();
+                var properties = m_properties;
                 properties.item(CC.FC_FECHA_IVA).setValue(properties.item(CC.FC_FECHA).getValue());
                 m_dialog.showValue(properties.item(CC.FC_FECHA_IVA));
               });
@@ -776,9 +781,9 @@
         var internos = null;
         var docId = null;
 
-        p = Cairo.Documents.docCanBeEdited(m_docEditable, m_docEditMsg)
+        p = D.docCanBeEdited(m_docEditable, m_docEditMsg)
           .success(function() {
-            return Cairo.Documents.docCanBeSaved(m_dialog, CC.FC_FECHA_IVA);
+            return D.docCanBeSaved(m_dialog, CC.FC_FECHA_IVA);
           })
           .success(function() {
             if(getItems().getGrid().getRows().count() === 0) {
@@ -809,13 +814,13 @@
             }
 
             if(register.getId() === Cairo.Constants.NEW_ID) {
-              m_est_id = Cairo.Documents.Status.pendiente;
+              m_est_id = D.Status.pendiente;
             }
 
-            var _count = m_dialog.getProperties().size();
+            var _count = m_properties.size();
             for(var _i = 0; _i < _count; _i++) {
 
-              var property = m_dialog.getProperties().item(_i);
+              var property = m_properties.item(_i);
 
               switch (property.getKey()) {
                 case K_NUMERO:
@@ -932,10 +937,10 @@
               }
             }
 
-            var _count = m_footer.getProperties().size();
+            var _count = m_footerProps.size();
             for(var _i = 0; _i < _count; _i++) {
 
-              property = m_footer.getProperties().item(_i);
+              property = m_footerProps.item(_i);
 
               switch (property.getKey()) {
 
@@ -1099,10 +1104,10 @@
 
       self.validate = function() {
 
-        var _count = m_dialog.getProperties().size();
+        var _count = m_properties.size();
         for(var _i = 0; _i < _count; _i++) {
 
-          var property = m_dialog.getProperties().item(_i);
+          var property = m_properties.item(_i);
 
           switch (property.getKey()) {
 
@@ -1201,7 +1206,7 @@
 
                     if(cuit.trim() === "") {
                       return Cairo.Modal.showWarningWithFalse(Cairo.Language.getText(1893, ""));
-                      //Para poder crear la factura debe dar de alta el CUIT del Proveedor
+                      // Para poder crear la factura debe dar de alta el CUIT del Proveedor
                     }
                     break;
                 }
@@ -1209,7 +1214,7 @@
               }
               else {
                 return Cairo.Modal.showWarningWithFalse(Cairo.Language.getText(1894, ""));
-                //No se pudo obtener el CUIT del Proveedor
+                // No se pudo obtener el CUIT del Proveedor
               }
             };
 
@@ -1255,7 +1260,7 @@
 
           if(result.monId !== m_mon_id_document) {
             return Cairo.Modal.showInfoWithFalse(Cairo.Language.getText(1895, ""));
-            //La cuenta asociada al Proveedor y la cuenta del documento tienen diferentes monedas
+            // La cuenta asociada al Proveedor y la cuenta del documento tienen diferentes monedas
           }
           return true;
         };
@@ -1340,6 +1345,7 @@
 
       self.setDialog = function(rhs) {
         m_dialog = rhs;
+        m_properties = m_dialog.getProperties();
         m_dialog.setIsDocument(true);
       };
 
@@ -1352,7 +1358,7 @@
         if(m_dialog !== null) {
           if(!Cairo.Security.docHasPermissionTo(
                 CS.DELETE_FACTURA,
-                Cairo.Documents.getdocIdFromDialog(m_dialog),
+                D.getdocIdFromDialog(m_dialog),
                 Cairo.Security.ActionTypes.destroy)) {
             return Cairo.Promises.resolvedPromise(false);
           }
@@ -1372,19 +1378,19 @@
 
           if(!Cairo.Security.docHasPermissionTo(
                 CS.LIST_FACTURA,
-                Cairo.Documents.getdocIdFromDialog(m_dialog),
+                D.getdocIdFromDialog(m_dialog),
                 Cairo.Security.ActionTypes.list)) {
             return Cairo.Promises.resolvedPromise(false);
           }
 
           // Id = DOC_CHANGED when the document is changed
           //                  when editing a document
-          //
+          // 
           m_isNew = (id === Cairo.Constants.NO_ID
-                      || id === Cairo.Documents.Constants.DOC_CHANGED);
+                      || id === D.Constants.DOC_CHANGED);
 
           var afterLoad = function() {
-            if(m_dialog.getProperties().count() === 0) {
+            if(m_properties.count() === 0) {
               if(!loadCollection()) { return false; }
             }
             else {
@@ -1395,13 +1401,13 @@
 
             // only show the wizard if the new action is not
             // originated by a change on document
-            //
-            if(id !== Cairo.Documents.Constants.DOC_CHANGED
+            // 
+            if(id !== D.Constants.DOC_CHANGED
                 && m_isNew && docDesdeOrden()) {
 
               showStartWizard();
             }
-            else if(id !== Cairo.Documents.Constants.DOC_CHANGED
+            else if(id !== D.Constants.DOC_CHANGED
                       && m_isNew && docDesdeRemito()) {
 
               showStartWizardRemito();
@@ -1439,7 +1445,7 @@
 
             case K_ITEMS:
 
-              var property = m_items.getProperties().item(C_ITEMS);
+              var property = m_itemsProps.item(C_ITEMS);
               var colKey = property.getGrid().getColumns().item(lCol).getKey();
 
               if(colKey === KI_IVA_RI) {
@@ -1484,12 +1490,12 @@
               break;
 
             case K_OTROS:
-              var property = m_items.getProperties().item(C_OTROS);
+              var property = m_itemsProps.item(C_OTROS);
               p = columnAfterEditOtros(property, lRow, lCol, newValue, newValueID);
               break;
 
             case K_PERCEPCIONES:
-              var property = m_items.getProperties().item(C_PERCEPCIONES);
+              var property = m_itemsProps.item(C_PERCEPCIONES);
               p = Percepciones.columnAfterEditPercepciones(property, lRow, lCol, newValue, newValueID);
               break;
           }
@@ -1515,7 +1521,7 @@
               break;
 
             case K_OTROS:
-              var property = m_items.getProperties().item(C_OTROS);
+              var property = m_itemsProps.item(C_OTROS);
               rtn = columnBeforeEditOtros(property, lRow, lCol, iKeyAscii);
               break;
 
@@ -1547,7 +1553,7 @@
 
             var row = property.getGrid().getRows().item(lRow);
             if(row !== null) {
-              rtn = getCell(row, KI_PR_LLEVA_NRO_SERIE).getId();
+              rtn = cellId(row, KI_PR_LLEVA_NRO_SERIE);
             }
             break;
 
@@ -1555,7 +1561,7 @@
 
             var row = grid.getRows().item(lRow);
             if(row !== null) {
-              rtn = getCell(row, KI_PR_LLEVALOTE).getId();
+              rtn = cellId(row, KI_PR_LLEVALOTE);
             }
             break;
 
@@ -1631,16 +1637,16 @@
           case KI_PRECIO_USR:
 
             var row = property.getGrid().getRows().item(lRow);
-            p = setDescuentos(row, getCell(row, KI_PR_ID).getId(), newValue);
+            p = setDescuentos(row, cellId(row, KI_PR_ID), newValue);
             break;
 
           case KI_CANTIDAD:
 
             var row = property.getGrid().getRows().item(lRow);
 
-            if(getCell(row, KI_PR_LLEVA_NRO_SERIE).getId()) {
+            if(cellId(row, KI_PR_LLEVA_NRO_SERIE)) {
 
-              var prId = getCell(row, KI_PR_ID).getId();
+              var prId = cellId(row, KI_PR_ID);
 
               p = Cairo.SerialNumber.quantityChange(
                 row, lRow, KI_CANTIDAD, newValue, KI_GRUPO, m_serialNumbers, KI_PR_ID, KI_NRO_SERIE,
@@ -1668,12 +1674,12 @@
 
                 var row = grid.getRows().item(lRow);
 
-                if(getCell(row, KI_PR_LLEVA_NRO_SERIE).getId() !== 0) {
+                if(cellId(row, KI_PR_LLEVA_NRO_SERIE) !== 0) {
 
-                  var prId = getCell(row, KI_PR_ID).getId();
+                  var prId = cellId(row, KI_PR_ID);
 
                   p = Cairo.SerialNumber.edit(
-                    getCell(row, KI_GRUPO).getId(), cellFloat(row, KI_CANTIDAD),
+                    cellId(row, KI_GRUPO), cellFloat(row, KI_CANTIDAD),
                     row, m_serialNumbers, KI_GRUPO, KI_NRO_SERIE, lRow, getPrId(prId), getDeplId(),
                     getIsInput(), false, false, null, getProvId(), Cairo.Constants.NO_ID);
                 }
@@ -1879,14 +1885,14 @@
             case KIL_LGJ_ID:
               if(Cairo.Util.valEmpty(cell.getId(), Types.id)) {
                 return Cairo.Modal.showInfo(Cairo.Language.getText(1896, "", strRow)).then(function() {return false;});
-                //Debe indicar un legajo (1)
+                // Debe indicar un legajo (1)
               }
               break;
 
             case KIL_IMPORTE:
               if(Cairo.Util.valEmpty(cell.getValue(), Types.currency)) {
                 return Cairo.Modal.showInfo(Cairo.Language.getText(1897, "", strRow)).then(function() {return false;});
-                //Debe indicar un importe (1)
+                // Debe indicar un importe (1)
               }
               break;
           }
@@ -1910,7 +1916,7 @@
             case KI_CUE_ID:
               if(Cairo.Util.valEmpty(cell.getId(), Types.id)) {
                 return Cairo.Modal.showInfo(Cairo.Language.getText(1388, "", strRow)).then(function() {return false;});
-                //Debe indicar una cuenta (1)
+                // Debe indicar una cuenta (1)
               }
               break;
 
@@ -1930,7 +1936,7 @@
 
         if(!bDebeHaber) {
           return Cairo.Modal.showInfo(Cairo.Language.getText(1898, "", strRow)).then(function() {return false;});
-          //Debe indicar un importe en el Debe o en el Haber (1)
+          // Debe indicar un importe en el Debe o en el Haber (1)
         }
 
         return Cairo.Promises.resolvedPromise(true);
@@ -1974,7 +1980,7 @@
               break;
 
             case KI_NRO_SERIE:
-              bLlevaNroSerie = getCell(row, KI_PR_LLEVA_NRO_SERIE).getId();
+              bLlevaNroSerie = cellId(row, KI_PR_LLEVA_NRO_SERIE);
               if(Cairo.Util.valEmpty(cell.getValue(), Types.text) && bLlevaNroSerie) {
                 // Debe indicar un numero de serie (1)
                 p = Cairo.Modal.showInfoWithFalse(Cairo.Language.getText(1630, "", strRow));
@@ -1983,7 +1989,7 @@
 
             case KI_STL_CODIGO:
               if(m_showStockData) {
-                if(Cairo.Util.valEmpty(cell.getValue(), Types.text) && getCell(row, KI_PR_LLEVALOTE).getId()) {
+                if(Cairo.Util.valEmpty(cell.getValue(), Types.text) && cellId(row, KI_PR_LLEVALOTE)) {
                   // Debe indicar un lote (1)
                   p = Cairo.Modal.showInfoWithFalse(Cairo.Language.getText(1632, "", strRow));
                 }
@@ -2002,10 +2008,10 @@
         // if the product has a serial number
         // we need validate quantity match the
         // count of serial numbers collection
-        //
+        // 
         if(bLlevaNroSerie && m_showStockData) {
 
-          var prId = getCell(row, KI_PR_ID).getId();
+          var prId = cellId(row, KI_PR_ID);
 
           p = Cairo.SerialNumber.quantityChange(
             row, KI_GRUPO, rowIndex, m_serialNumbers, cantidad, strRow,
@@ -2022,7 +2028,7 @@
         var elem, list;
 
         m_dialog.resetLayoutMembers();
-        m_dialog.getProperties().clear();
+        m_properties.clear();
 
         var tabs = m_dialog.getTabs();
         tabs.clear();
@@ -2030,7 +2036,7 @@
         tabs.add(null).setName(Cairo.Constants.TAB_GENERAL);
         tabs.add(null).setIndex(1).setName(Cairo.Language.getText(1566, "")); // Adicionales
 
-        var properties = m_dialog.getProperties();
+        var properties = m_properties;
 
         elem = properties.add(null, C.DOC_ID);
         elem.setType(Dialogs.PropertyType.select);
@@ -2044,7 +2050,7 @@
         }
         else {
           // user preferences
-          //
+          // 
           elem.setSelectId(Cairo.UserConfig.getDocFcId());
           elem.setValue(Cairo.UserConfig.getDocFcNombre());
 
@@ -2053,7 +2059,7 @@
 
         elem.setSelectFilter(pGetDocFilter());
 
-        elem = properties.add(null, Cairo.Documents.DialogKeys.number);
+        elem = properties.add(null, D.DialogKeys.number);
         elem.setType(Dialogs.PropertyType.numeric);
         elem.setSubType(Dialogs.PropertySubType.Integer);
         elem.setName(Cairo.Language.getText(1065, "")); // Número
@@ -2061,7 +2067,7 @@
         elem.setValue(m_numero);
         elem.setEnabled(false);
 
-        elem = properties.add(null, Cairo.Documents.DialogKeys.status);
+        elem = properties.add(null, D.DialogKeys.status);
         elem.setType(Dialogs.PropertyType.text);
         elem.setName(Cairo.Language.getText(1568, "")); // Estado
         elem.setKey(K_EST_ID);
@@ -2105,7 +2111,7 @@
 
         elem = properties.add(null, C.CPG_ID);
         elem.setType(Dialogs.PropertyType.select);
-        elem.setSelectTable(Cairo.Tables.CONDICIONPAGO);
+        elem.setSelectTable(Cairo.Tables.CONDICION_PAGO);
         elem.setName(Cairo.Language.getText(1835, "")); // C. pago
         elem.setTopFromProperty(CC.FC_FECHA);
         elem.setLeft(5900);
@@ -2176,7 +2182,7 @@
         }
         else {
           // user preferences
-          //
+          // 
           elem.setSelectId(Cairo.UserConfig.getDeplId());
           elem.setValue(Cairo.UserConfig.getDeplNombre());
         }
@@ -2193,19 +2199,19 @@
         list = elem.getList();
 
         list.add(null)
-          .setId(Cairo.Documents.ReceiptType.original)
+          .setId(D.ReceiptType.original)
           .setValue(Cairo.Language.getText(2090, "")); // Original
 
         list.add(null)
-          .setId(Cairo.Documents.ReceiptType.fax)
+          .setId(D.ReceiptType.fax)
           .setValue(Cairo.Language.getText(1200, "")); // Fax
 
         list.add(null)
-          .setId(Cairo.Documents.ReceiptType.photocopy)
+          .setId(D.ReceiptType.photocopy)
           .setValue(Cairo.Language.getText(2091, "")); // Fotocopia
 
         list.add(null)
-          .setId(Cairo.Documents.ReceiptType.duplicate)
+          .setId(D.ReceiptType.duplicate)
           .setValue(Cairo.Language.getText(2092, "")); // Duplicado
 
         elem.setListItemData(m_tipoComprobante);
@@ -2400,7 +2406,7 @@
 
         m_items.resetLayoutMembers();
 
-        var properties = m_items.getProperties();
+        var properties = m_itemsProps;
 
         properties.clear();
 
@@ -2464,7 +2470,7 @@
 
         m_footer.resetLayoutMembers();
 
-        var properties = m_footer.getProperties();
+        var properties = m_footerProps;
 
         properties.clear();
 
@@ -2570,7 +2576,7 @@
 
         showCotizacion();
 
-        Cairo.Documents.showDataAddProveedor(Cairo.UserConfig.getShowDataAddInCompras(), m_dialog);
+        D.showDataAddProveedor(Cairo.UserConfig.getShowDataAddInCompras(), m_dialog);
 
         setColorBackground();
 
@@ -2583,7 +2589,7 @@
 
         m_dialog.setTitle(m_name);
 
-        var properties = m_dialog.getProperties();
+        var properties = m_properties;
 
         elem = properties.item(C.DOC_ID);
         elem.setSelectId(m_doc_id);
@@ -2591,10 +2597,10 @@
         elem.setSelectId(Cairo.UserConfig.getDocFcId());
         elem.setValue(Cairo.UserConfig.getDocFcNombre());
 
-        elem = properties.item(Cairo.Documents.DialogKeys.number);
+        elem = properties.item(D.DialogKeys.number);
         elem.setValue(m_numero);
 
-        elem = properties.item(Cairo.Documents.DialogKeys.status);
+        elem = properties.item(D.DialogKeys.status);
         elem.setValue(m_estado);
 
         elem = properties.item(CC.FC_FECHA);
@@ -2714,12 +2720,12 @@
       };
 
       var getDocId = function() {
-        return m_dialog.getProperties().item(C.DOC_ID);
+        return m_properties.item(C.DOC_ID);
       };
 
       // Cotizacion
       var getCotizacion = function() {
-        return m_dialog.getProperties().item(CC.FC_COTIZACION);
+        return m_properties.item(CC.FC_COTIZACION);
       };
 
       var showCotizacion = function() {
@@ -2745,7 +2751,7 @@
           if(! Cairo.Util.isDate(date)) {
             date = new Date();
           }
-          p = Cairo.Documents.getCurrencyRate(monId, date).then(function(rate) {
+          p = D.getCurrencyRate(monId, date).then(function(rate) {
             property.setValue(rate);
             m_lastFecha = date;
             m_lastMonIdCotizacion = monId;
@@ -2762,7 +2768,7 @@
       };
 
       var getCondicionPago = function() {
-        return m_dialog.getProperties().item(C.CPG_ID);
+        return m_properties.item(C.CPG_ID);
       };
 
       var showFechaVto = function() {
@@ -2772,11 +2778,7 @@
           p = Cairo.Database.getData("load[" + m_apiPath + "condicionpago/info]", cpgId).then(
             function(response) {
               if(response.success === true) {
-                m_lastCpgId = cpgId;
-                var esLibre = valField(response.data, C.CPG_ES_LIBRE);
-                var property = m_dialog.getProperties().item(CC.FC_FECHA_VTO);
-                property.setVisible(esLibre);
-                m_dialog.showValue(property);
+                setFechaVto(cpgId, response);
               }
             }
           );
@@ -2784,10 +2786,18 @@
         return p || Cairo.Promises.resolvedPromise();
       };
 
+      var setFechaVto = function(cpgId, response) {
+        m_lastCpgId = cpgId;
+        var esLibre = valField(response.data, C.CPG_ES_LIBRE);
+        var property = m_properties.item(CC.FC_FECHA_VTO);
+        property.setVisible(esLibre);
+        m_dialog.showValue(property);
+      };
+
       var setGridItems = function(property) {
 
         var elem;
-        var hideColumns = m_dialog.getProperties().item(Cairo.General.Constants.HIDE_COLUMNS).getValue();
+        var hideColumns = m_properties.item(Cairo.General.Constants.HIDE_COLUMNS).getValue();
         var bColVisible = val(hideColumns) === 0;
 
         var grid = property.getGrid();
@@ -2981,7 +2991,7 @@
         elem.setWidth(1800);
         elem.setDefaultValue(Grids.createCell());
         elem.getDefaultValue()
-          .setId(Cairo.Documents.Constants.TO_COMERCIAL_ID)
+          .setId(D.Constants.TO_COMERCIAL_ID)
           .setValue(Cairo.Constants.TO_COMERCIAL);
         elem.setKey(KI_TO_ID);
         elem.setVisible(bColVisible);
@@ -3162,7 +3172,7 @@
         for(var _i = 0; _i < m_data.serialNumbers.length; _i += 1) {
 
           // check if the group has changed
-          //
+          // 
           if(curGroup !== getValue(m_data.serialNumbers[_i], CC.FCI_ID)) {
 
             setSerialNumberInRow(curGroup, serialNumbers);
@@ -3323,7 +3333,7 @@
         elem.setSelectTable(Cairo.Tables.CUENTA);
         elem.setWidth(1800);
         elem.setKey(KI_CUE_ID);
-        elem.setSelectFilter(Cairo.Documents.getSelectFilterForCuenta);
+        elem.setSelectFilter(D.getSelectFilterForCuenta);
 
         elem = columns.add(null);
         elem.setName(Cairo.Language.getText(1904, "")); // Debe
@@ -3407,7 +3417,7 @@
         for(var _i = 0; _i < _count; _i++) {
 
           var row = rows.item(_i);
-          if(getCell(row, KI_GRUPO).getId() === currGroup) {
+          if(cellId(row, KI_GRUPO) === currGroup) {
             getCell(row, KI_NRO_SERIE).setValue(Cairo.Util.removeLastColon(nroSerie));
             return;
           }
@@ -3574,7 +3584,7 @@
               m_depl_id = Cairo.Constants.NO_ID;
               m_deposito = "";
 
-              m_tipoComprobante = Cairo.Documents.ReceiptType.original;
+              m_tipoComprobante = D.ReceiptType.original;
 
               m_doc_id = m_lastDocId;
               m_doct_id = m_lastDoctId;
@@ -3597,7 +3607,7 @@
               m_lastFecha = Cairo.Constants.NO_DATE;
 
               if(m_doc_id !== Cairo.Constants.NO_ID) {
-                p = Cairo.Documents.getCurrencyRate(m_doc_id, m_fecha).then(function(rate) {
+                p = D.getCurrencyRate(m_doc_id, m_fecha).then(function(rate) {
                   m_cotizacion = rate;
                 });
               }
@@ -3605,7 +3615,7 @@
               p = p || Cairo.Promises.resolvedPromise();
 
               p = p
-                .then(Cairo.Promises.call(Cairo.Documents.editableStatus, m_doc_id, CS.NEW_FACTURA))
+                .then(Cairo.Promises.call(D.editableStatus, m_doc_id, CS.NEW_FACTURA))
                 .then(function(status) {
                   m_docEditable = status.editable;
                   m_docEditMsg = status.message;
@@ -3621,6 +3631,7 @@
 
       self.footer = function(footer) {
         m_footer = footer;
+        m_footerProps = m_footerProps;
 
         if(footer !== null) {
           m_footer.setIsDocument(true);
@@ -3631,6 +3642,7 @@
 
       self.items = function(items) {
         m_items = items;
+        m_itemsProps = m_items.getProperties();
 
         if(items === null) {
           m_items.setIsDocument(true);
@@ -3824,7 +3836,7 @@
         var transaction = new Cairo.Database.Transaction();
         var orden = 0;
         var origen = 0;
-        var property = m_items.getProperties().item(C_OTROS);
+        var property = m_itemsProps.item(C_OTROS);
 
         var _count = property.getGrid().getRows().size();
         for(var _i = 0; _i < _count; _i++) {
@@ -3907,7 +3919,7 @@
         var orden = 0;
         var origen = 0;
 
-        var property = m_items.getProperties().item(C_LEGAJOS);
+        var property = m_itemsProps.item(C_LEGAJOS);
 
         var _count = property.getGrid().getRows().size();
         for(var _i = 0; _i < _count; _i++) {
@@ -3985,11 +3997,11 @@
       };
 
       var docDesdeOrden = function() {
-        return docAsistTipo() === Cairo.Documents.InvoiceWizardType.orden;
+        return docAsistTipo() === D.InvoiceWizardType.orden;
       };
 
       var docDesdeRemito = function() {
-        return docAsistTipo() === Cairo.Documents.InvoiceWizardType.remito;
+        return docAsistTipo() === D.InvoiceWizardType.remito;
       };
 
       var showImporteAndIva = function(row) {
@@ -4086,11 +4098,11 @@
           percep = percep + cellFloat(row, Percepciones.KIP_IMPORTE);
         }
 
-        var properties = m_footer.getProperties();
+        var properties = m_footerProps;
         properties.item(CC.FC_SUBTOTAL).setValue(neto);
 
-        var desc1 = m_dialog.getProperties().item(CC.FC_DESCUENTO1).getValue();
-        var desc2 = m_dialog.getProperties().item(CC.FC_DESCUENTO2).getValue();
+        var desc1 = m_properties.item(CC.FC_DESCUENTO1).getValue();
+        var desc2 = m_properties.item(CC.FC_DESCUENTO2).getValue();
 
         ivaRi = ivaRi - (ivaRi * desc1 / 100);
         ivaRni = ivaRni - (ivaRni * desc1 / 100);
@@ -4114,176 +4126,148 @@
         properties.item(CC.FC_IVA_RI).setValue(ivaRi);
         properties.item(CC.FC_IVA_RNI).setValue(ivaRni);
 
-        // Internos
         properties.item(CC.FC_INTERNOS).setValue(internos);
         properties.item(CC.FC_TOTAL_OTROS).setValue(otros);
         properties.item(CC.FC_TOTAL_PERCEPCIONES).setValue(percep);
-
-        // Internos
         properties.item(CC.FC_TOTAL).setValue(neto + ivaRni + ivaRi + otros + percep + internos);
 
         m_footer.refreshControls();
       };
 
-      var setTasasImpositivas = function(row, pR_ID, pr_nombre) { // TODO: Use of ByRef founded Private Sub setTasasImpositivas(ByRef Row As CSInterfacesABM.cIABMGridRow, ByVal PR_ID As Long, ByVal pr_nombre As String)
-        var ti_ri = null;
-        var ti_rni = null;
-        //  Internos
-        var ti_internos = null;
-        var porc_internos = null;
+      var setTasasImpositivas = function(row, prId, pr_nombre) {
+        var p = null;
 
-        if(pR_ID === 0) { return; }
+        if(prId !== 0) {
 
-        // Internos
-        if(!GetTasaFromProductoEx(pR_ID, ti_ri, ti_rni, ti_internos, porc_internos, true)) { return; }
+        p = D.getTasaFromProducto(prId, true).successWithResult(function(data) {
 
-        if(ti_ri === 0) {
-          Cairo.Modal.showWarning(Cairo.Language.getText(1597, "", pr_nombre));
-          //El producto [" & pr_nombre & "] no tiene definida su tasa impositiva de Compras para el iva responsable inscripto
-          return;
-        }
-
-        if(ti_rni === 0) {
-          Cairo.Modal.showWarning(Cairo.Language.getText(1598, "", pr_nombre));
-          //El producto [" & pr_nombre & "] no tiene definida su tasa impositiva de Compras para el iva responsable no inscripto
-          return;
-        }
-
-        var sqlstmt = null;
-        var rs = null;
-
-        if(m_bIva) {
-          sqlstmt = "select ti_porcentaje,cue_id from tasaimpositiva where ti_id = "+ ti_ri.toString();
-          if(!Cairo.Database.openRs(sqlstmt, rs)) { return; }
-
-          if(!rs.isEOF()) {
-            getCell(row, KI_IVA_RI_PERCENT).setValue(valField(rs.getFields(), C.TI_PORCENTAJE));
-            getCell(row, KI_CUE_ID_IVA_RI).setValue(valField(rs.getFields(), C.CUE_ID));
+          if(data.ti_ri === 0) {
+            return Cairo.Modal.showWarningWithFalse(Cairo.Language.getText(1597, "", pr_nombre));
+            // El producto [" & pr_nombre & "] no tiene definida su tasa impositiva de Compras para el iva responsable inscripto
           }
-        }
-        else {
-          getCell(row, KI_IVA_RI_PERCENT).setValue(0);
-          getCell(row, KI_CUE_ID_IVA_RI).setValue(Cairo.Constants.NO_ID);
-        }
 
-        if(m_bIvaRni) {
-          sqlstmt = "select ti_porcentaje,cue_id from tasaimpositiva where ti_id = "+ ti_rni.toString();
-          if(!Cairo.Database.openRs(sqlstmt, rs)) { return; }
-
-          if(!rs.isEOF()) {
-            getCell(row, KI_IVA_RNI_PERCENT).setValue(valField(rs.getFields(), C.TI_PORCENTAJE));
-            getCell(row, KI_CUE_ID_IVA_RNI).setValue(valField(rs.getFields(), C.CUE_ID));
+          if(data.ti_rni === 0) {
+            return Cairo.Modal.showWarningWithFalse(Cairo.Language.getText(1598, "", pr_nombre));
+            // El producto [" & pr_nombre & "] no tiene definida su tasa impositiva de Compras para el iva responsable no inscripto
           }
-        }
-        else {
-          getCell(row, KI_IVA_RNI_PERCENT).setValue(0);
-          getCell(row, KI_CUE_ID_IVA_RNI).setValue(Cairo.Constants.NO_ID);
-        }
 
-        // Internos
-        sqlstmt = "select ti_porcentaje from tasaimpositiva where ti_id = "+ ti_internos.toString();
-        if(!Cairo.Database.openRs(sqlstmt, rs)) { return; }
-
-        if(!rs.isEOF()) {
-          // Internos
-          getCell(row, KI_INTERNOS_PERCENT).setValue(valField(rs.getFields(), C.TI_PORCENTAJE));
-          getCell(row, KI_INTERNOS_PORC).setValue(porc_internos);
-        }
-
-      };
-
-      var setDataProducto = function(row, pR_ID) { // TODO: Use of ByRef founded Private Sub setDataProducto(ByRef Row As CSInterfacesABM.cIABMGridRow, ByVal PR_ID As Long)
-        var sqlstmt = null;
-        var rs = null;
-
-        var bChanged = null;
-
-        bChanged = pR_ID !== getCell(row, KI_PR_ID).getId();
-
-        sqlstmt = "sp_StockProductoGetData "+ pR_ID.toString()+ ",Null,"+ getProvId().toString();
-
-        if(!Cairo.Database.openRs(sqlstmt, rs)) { return; }
-
-        if(!rs.isEOF()) {
-          getCell(row, KI_UNIDAD).setValue(valField(rs.getFields(), "unidadCompra"));
-
-          var w_pCell = getCell(row, Percepciones.KI_CCOS_ID);
-          w_pCell.setValue(valField(rs.getFields(), "centro_costo_compra"));
-          w_pCell.setID(valField(rs.getFields(), C.CCOS_ID_COMPRA));
-
-          getCell(row, KI_CUE_ID).setValue(valField(rs.getFields(), C.CUEID_COMPRA));
-
-          // Si el documento no mueve stock no se exigen los numeros de serie
-          //
-          if(m_showStockData) {
-            getCell(row, KI_PR_LLEVA_NRO_SERIE).getId() === valField(rs.getFields(), C.PR_LLEVA_NRO_SERIE);
-            // Lote
-            //
-            getCell(row, KI_PR_LLEVALOTE).getId() === valField(rs.getFields(), C.PR_LLEVA_NRO_LOTE);
+          if(m_bIva) {
+            getCell(row, KI_IVA_RI_PERCENT).setValue(data.ri_percent);
+            getCell(row, KI_CUE_ID_IVA_RI).setValue(data.ri_cue_id);
           }
           else {
-            getCell(row, KI_PR_LLEVA_NRO_SERIE).getId() === false;
-            getCell(row, KI_PR_LLEVALOTE).getId() === false;
+            getCell(row, KI_IVA_RI_PERCENT).setValue(0);
+            getCell(row, KI_CUE_ID_IVA_RI).setValue(Cairo.Constants.NO_ID);
           }
-        }
 
-        // Si cambio el producto borro los numeros de serie
-        //
-        if(bChanged || getCell(row, KI_PR_LLEVA_NRO_SERIE).getId() === 0) {
-
-          getCell(row, KI_NRO_SERIE).setValue("");
-          if(mCollection.existsObjectInColl(m_serialNumbers, Cairo.Collections.getKey(getCell(row, KI_GRUPO).getId()))) {
-
-            m_serialNumbers.remove(Cairo.Collections.getKey(getCell(row, KI_GRUPO).getId()));
+          if(m_bIvaRni) {
+            getCell(row, KI_IVA_RNI_PERCENT).setValue(data.rni_percent);
+            getCell(row, KI_CUE_ID_IVA_RNI).setValue(data.rni_cue_id);
           }
+          else {
+            getCell(row, KI_IVA_RNI_PERCENT).setValue(0);
+            getCell(row, KI_CUE_ID_IVA_RNI).setValue(Cairo.Constants.NO_ID);
+          }
+
+          getCell(row, KI_INTERNOS_PERCENT).setValue(data.int_percent);
+          getCell(row, KI_INTERNOS_PORC).setValue(data.porc_internos);
+
+          return true;
+
+        });
+
         }
+        return p || Cairo.Promises.resolvedPromise(false);
       };
 
-      var setPrecios = function(row, pR_ID) { // TODO: Use of ByRef founded Private Sub setPrecios(ByRef Row As CSInterfacesABM.cIABMGridRow, ByVal PR_ID As Long)
-        var lP = null;
-        var lp_id = null;
-        var precio = null;
+      var setDataProducto = function(row, prId) {
 
-        lp_id = m_dialog.getProperties().item(C.LP_ID).getSelectId();
+        var bChanged = prId !== cellId(row, KI_PR_ID);
 
-        if(lp_id !== Cairo.Constants.NO_ID) {
-          lP = new cListaPrecio();
-          precio = lP.getPrecio(lp_id, pR_ID);
-        }
+        var apiPath = Cairo.Database.getAPIVersion();
+        var p = Cairo.Database.getData("load[" + apiPath + "producto/" + prId.toString() + "/stock]", getProvId());
 
-        getCell(row, KI_PRECIO_LP).setValue(precio);
-        getCell(row, KI_PRECIO_USR).setValue(precio);
+        return p.successWithResult(function(response) {
+          getCell(row, KI_UNIDAD).setValue(valField(response.data, "unidadCompra"));
+
+          var cell = getCell(row, Percepciones.KI_CCOS_ID);
+          cell.setValue(valField(response.data, "centro_costo_compra"));
+          cell.setId(valField(response.data, C.CCOS_ID_COMPRA));
+
+          getCell(row, KI_CUE_ID).setValue(valField(response.data, C.CUE_ID_COMPRA));
+
+          // serial numbers are required only if the document generates an stock transaction
+          // 
+          if(m_showStockData) {
+            getCell(row, KI_PR_LLEVA_NRO_SERIE).setId(valField(response.data, C.PR_LLEVA_NRO_SERIE));
+            getCell(row, KI_PR_LLEVALOTE).setId(valField(response.data, C.PR_LLEVA_NRO_LOTE));
+          }
+          else {
+            getCell(row, KI_PR_LLEVA_NRO_SERIE).setId(0);
+            getCell(row, KI_PR_LLEVALOTE).setId(0);
+          }
+
+          // if the product has changed we remove all serial numbers
+          // 
+          if(bChanged || cellId(row, KI_PR_LLEVA_NRO_SERIE) === 0) {
+
+            getCell(row, KI_NRO_SERIE).setValue("");
+            if(m_serialNumbers.contains(Cairo.Collections.getKey(cellId(row, KI_GRUPO)))) {
+
+              m_serialNumbers.remove(Cairo.Collections.getKey(cellId(row, KI_GRUPO)));
+            }
+          }
+
+          return true;
+        });
       };
 
-      var setDescuentos = function(row, pR_ID, precio) { // TODO: Use of ByRef founded Private Sub setDescuentos(ByRef Row As CSInterfacesABM.cIABMGridRow, ByVal PR_ID As Long, ByVal Precio As Double)
-        var lD = null;
-        var ld_id = null;
-        var descuento = null;
+      var setPrecios = function(row, prId) {
+        var p;
+        var lpId = m_properties.item(C.LP_ID).getSelectId();
+        var price = 0;
 
-        ld_id = m_dialog.getProperties().item(C.LD_ID).getSelectId();
+        if(lpId !== Cairo.Constants.NO_ID) {
 
-        if(ld_id !== Cairo.Constants.NO_ID) {
-          lD = new cListaDescuento();
-
-          // En compras no utilizamos el precio, sino que
-          // calculamos el descuento en funcion de lo
-          // que se define en el string descuentos
-          //
-          precio = lD.GetPrecio(ld_id, pR_ID, precio);
-          descuento = lD.getDescuentoStr(ld_id, pR_ID);
-          descuento = descuento.Replace("$", "");
-          descuento = descuento.Replace("%", "");
-          getCell(row, KI_DESCUENTO).setValue(descuento);
+          var apiPath = Cairo.Database.getAPIVersion();
+          p = Cairo.Database.getData("load[" + apiPath + "producto/" + prId.toString() + "/price]", lpId);
+          p = p.successWithResult(function(response) {
+            price = response.data(response.data, 'price');
+          });
         }
 
+        p = p || Cairo.Promises.resolvedPromise();
+
+        return p.then(function() {
+          getCell(row, KI_PRECIO_LP).setValue(price);
+          getCell(row, KI_PRECIO_USR).setValue(price);
+        });
+      };
+
+      var setDescuentos = function(row, prId, precio) {
+        var p;
+        var ldId = m_properties.item(C.LD_ID).getSelectId();
+        var discount;
+
+        if(ldId !== Cairo.Constants.NO_ID) {
+
+          var apiPath = Cairo.Database.getAPIVersion();
+          p = Cairo.Database.getData("load[" + apiPath + "producto/" + prId.toString() + "/discount]", ldId);
+          p = p.successWithResult(function(response) {
+            discount = response.data(lpId, prId);
+          }).then(function() {
+            getCell(row, KI_DESCUENTO).setValue(discount);
+          });
+        }
+        return p || Cairo.Promises.resolvedPromise();
       };
 
       var setEnabled = function() {
         var bState = null;
 
-        // Si se genera desde una orden de compra y es nuevo
-        // no puede editar, tiene que hacer click en
-        // nuevo y llamar al asistente
+        // when the document requires base document like a purchase order or a delivery note
+        // it can't be edited. the user must click the new button and use the wizard.
+        // 
         if(docDesdeOrden() && m_id === Cairo.Constants.NO_ID) {
           bState = false;
         }
@@ -4303,11 +4287,13 @@
       var setEnabledAux = function(bState) {
         var prop = null;
 
-        var _count = m_dialog.getProperties().size();
+        var _count = m_properties.size();
         for(var _i = 0; _i < _count; _i++) {
-          prop = m_dialog.getProperties().item(_i);
-          // HIDECOLS
-          if(prop.getKey() !== K_DOC_ID && prop.getKey() !== K_NUMERO && prop.getKey() !== K_EST_ID && prop.getKey() !== K_HIDECOLS) {
+          prop = m_properties.item(_i);
+          if(prop.getKey() !== K_DOC_ID
+            && prop.getKey() !== K_NUMERO
+            && prop.getKey() !== K_EST_ID
+            && prop.getKey() !== K_HIDECOLS) {
 
             if(bState) {
               if(prop.getKey() !== K_NRODOC) {
@@ -4324,336 +4310,265 @@
         }
 
         if(bState) {
-          var properties = m_dialog.getProperties();
+          var properties = m_properties;
           properties.item(C.DEPL_ID_ORIGEN).setEnabled(m_showStockData);
         }
 
-        var _count = m_items.getProperties().size();
+        var _count = m_itemsProps.size();
         for(var _i = 0; _i < _count; _i++) {
-          prop = m_items.getProperties().item(_i);
+          prop = m_itemsProps.item(_i);
           prop.setEnabled(bState);
         }
 
-        m_items.refreshEnabledState(m_items.getProperties());
-        m_dialog.refreshEnabledState(m_dialog.getProperties());
+        m_items.refreshEnabledState(m_itemsProps);
+        m_dialog.refreshEnabledState(m_properties);
       };
 
       var setDatosProveedor = function() {
-        var _rtn = null;
-        var lp_id = null;
-        var ld_id = null;
-        var cpg_id = null;
-        var cpg_nombre = null;
-        var lP = null;
-        var lD = null;
-        var iProp = null;
-        var filter = null;
-        var bProveedorChange = null;
+        var p;
+        var property = m_properties.item(C.PROV_ID);
 
-        var property = m_dialog.getProperties().item(C.PROV_ID);
-        if(m_lastProvId === property.getSelectId()) {
-          return _rtn;
+        if(m_lastProvId !== property.getSelectId()) {
+
+          m_lastProvId = property.getSelectId();
+
+          var apiPath = Cairo.Database.getAPIVersion();
+          p = Cairo.Database.getData("load[" + apiPath + "proveedor/" + m_lastProvId.toString() + "/info]", m_lastDocId);
+          p = p.successWithResult(function(response) {
+
+            var lp_id = valField(response.data, 'lp_id');
+            var lp_name = valField(response.data, 'lp_name');
+            var ld_id = valField(response.data, 'ld_id');
+            var ld_name = valField(response.data, 'ld_name');
+            var cpg_id = valField(response.data, 'cpg_id');
+            var lp_filter = valField(response.data, 'lp_filter');
+            var ld_filter = valField(response.data, 'ld_filter');
+
+            if(cpg_id !== Cairo.Constants.NO_ID) {
+
+              var cpg_name = valField(response.data, 'cpg_name');
+
+              var prop = m_properties
+                .item(C.CPG_ID)
+                .setValue(cpg_name)
+                .setSelectId(cpg_id);
+
+              m_dialog.showValue(prop);
+            }
+
+            var prop = m_properties.item(C.LP_ID)
+              .setSelectFilter(lp_filter);
+
+            if(lp_id !== Cairo.Constants.NO_ID) {
+              prop.setValue(lp_name);
+              prop.setSelectId(lp_id);
+            }
+
+            m_dialog.showValue(prop);
+
+            prop = m_properties.item(C.LD_ID);
+            prop.setSelectFilter(ld_filter);
+
+            if(ld_id !== Cairo.Constants.NO_ID) {
+              prop.setValue(ld_name);
+              prop.setSelectId(ld_id);
+            }
+
+            m_dialog.showValue(prop);
+
+            var bLastIva = m_bIva;
+            var ivaChanged = false;
+            m_bIva = valField(response.data, 'bIva');
+            if(bLastIva !== m_bIva) { ivaChanged = true; }
+
+            bLastIva = m_bIvaRni;
+            m_bIvaRni = valField(response.data, 'bIvaRni');
+            if(bLastIva !== m_bIvaRni) { ivaChanged = true; }
+
+            if(ivaChanged) {
+              updateTotals();
+            }
+
+            setFechaVto(cpg_id, response)
+          });
+
+          return true;
         }
-        bProveedorChange = true;
-        m_lastProvId = property.getSelectId();
-
-        _rtn = bProveedorChange;
-
-        if(!GetProveedorDataEx(m_lastProvId, lp_id, ld_id, cpg_id, m_lastDocId)) { return _rtn; }
-
-        // Condicion de pago
-        if(cpg_id !== Cairo.Constants.NO_ID) {
-
-          if(!Cairo.Database.getData(C.CONDICIONPAGO, C.CPG_ID, cpg_id, C.CPG_NAME, cpg_nombre)) { return _rtn; }
-
-          iProp = m_dialog.getProperties().item(C.CPG_ID);
-          iProp.setValue(cpg_nombre);
-          iProp.setSelectId(cpg_id);
-          m_dialog.showValue(iProp);
-        }
-
-        // Lista de precios
-        iProp = m_dialog.getProperties().item(C.LP_ID);
-        iProp.setSelectFilter(GetListaPrecioGetXProveedor(m_lastDocId, m_lastProvId));
-
-        if(lp_id !== Cairo.Constants.NO_ID) {
-          lP = new cListaPrecio();
-          iProp.setValue(lP.GetData(lp_id, C.LP_NAME, Types.text));
-          iProp.setSelectId(lp_id);
-        }
-
-        m_dialog.showValue(iProp);
-
-        // Lista de descuentos
-        iProp = m_dialog.getProperties().item(C.LD_ID);
-        iProp.setSelectFilter(GetListaDescGetXProveedor(m_lastDocId, m_lastProvId));
-
-        if(ld_id !== Cairo.Constants.NO_ID) {
-          lD = new cListaDescuento();
-          iProp.setValue(lD.GetData(ld_id, C.LD_NAME, Types.text));
-          iProp.setSelectId(ld_id);
-        }
-
-        m_dialog.showValue(iProp);
-
-        // Talonario y Categoria fiscal
-        pGetIvaFromProveedor(m_lastProvId);
-
-        showFechaVto();
-
-        return _rtn;
-      };
-
-      var pGetIvaFromProveedor = function(prov_id) {
-        var sqlstmt = null;
-        var rs = null;
-        var bIvaChanged = null;
-        var bLastIva = null;
-
-        sqlstmt = "sp_ProveedorGetIva "+ prov_id.toString();
-        if(!Cairo.Database.openRs(sqlstmt, rs)) { return; }
-
-        if(rs.isEOF()) { return; }
-
-        bLastIva = m_bIva;
-        m_bIva = valField(rs.getFields(), "bIva");
-        if(bLastIva !== m_bIva) { bIvaChanged = true; }
-
-        bLastIva = m_bIvaRni;
-        m_bIvaRni = valField(rs.getFields(), "bIvaRni");
-        if(bLastIva !== m_bIvaRni) { bIvaChanged = true; }
-
-        if(bIvaChanged) {
-          updateTotals();
-        }
+        return p || Cairo.Promises.resolvedPromise(false);
       };
 
       var signDocument = function() {
-        var doc = null;
-        var us_id = null;
-
-        doc = new cDocumento();
 
         if(m_id === Cairo.Constants.NO_ID) {
-          Cairo.Modal.showWarning(Cairo.Language.getText(1592, ""));
-          //Antes de poder firmar el documento debe guardarlo.
-          return null;
+          return Cairo.Modal.showWarningWithFalse(Cairo.Language.getText(1592, ""));
+          // Antes de poder firmar el documento debe guardarlo.
         }
+
+        var refreshState = function(response) {
+
+          m_est_id = response.est_id;
+          m_estado = response.estado;
+          m_firmado = response.firmado;
+
+          var prop = m_properties.item(D.DialogKeys.status);
+
+          prop.setSelectId(m_est_id);
+          prop.setValue(m_estado);
+
+          m_dialog.showValue(prop);
+        };
+
+        var p = null;
 
         if(m_firmado) {
-          if(!cWindow.ask(Cairo.Language.getText(1593, ""), vbYes, Cairo.Language.getText(1594, ""))) {
-            //El documento ya ha sido firmado desea borrar la firma,Firmar
-            return null;
-          }
+          p = Cairo.Modal.confirmViewYesDefault(
+            Cairo.Language.getText(1593, ""), // El documento ya ha sido firmado desea borrar la firma
+            Cairo.Language.getText(1594, "")  // Firmar
+          );
         }
 
-        if(!doc.Firmar(m_doc_id, us_id)) { return false; }
+        p = p || Cairo.Promises.resolvedPromise(true);
 
-        var sqlstmt = null;
-        var rs = null;
+        p = p
+          .success(D.signDocument(m_doct_id, m_doc_id))
+          .successWithResult(refreshState);
 
-        sqlstmt = "sp_DocFacturaCompraFirmar "+ m_id+ ","+ us_id.toString();
-        if(!Cairo.Database.openRs(sqlstmt, rs)) { return false; }
-
-        m_est_id = valField(rs.getFields(), Cairo.Constants.EST_ID);
-        m_estado = valField(rs.getFields(), Cairo.Constants.EST_NAME);
-
-        var iProp = null;
-        iProp = m_dialog.getProperties().item(Cairo.Documents.DialogKeys.status);
-
-        iProp.setSelectId(m_est_id);
-        iProp.setValue(m_estado);
-
-        Cairo.Database.getData(C.FACTURA_COMPRA, CC.FC_ID, m_id, CC.FC_FIRMADO, m_firmado);
-
-        m_dialog.showValue(iProp);
-
-        return true;
+        return p;
       };
 
       var move = function(moveTo) {
-        var sqlstmt = null;
-        var rs = null;
-        var doc_id = null;
 
-        doc_id = getDocId().getSelectId();
+        var docId = getDocId().getSelectId();
 
-        // Debe seleccionar un documento
-        if(doc_id === Cairo.Constants.NO_ID) { Cairo.Modal.showInfo(Cairo.Language.getText(1595, "")); }
+        if(docId === Cairo.Constants.NO_ID) {
+          return Cairo.Modal.showInfoWithFalse(
+            Cairo.Language.getText(1595, "") // Debe seleccionar un documento
+          );
+        }
 
-        sqlstmt = "sp_DocFacturaCompraMover "+ moveTo+ ","+ m_numero+ ","+ doc_id.toString();
+        var completeMove = function(response) {
+          // id === NO_ID means this document doesn't have any transaction
+          //
+          if(response.id === Cairo.Constants.NO_ID) {
 
-        if(!Cairo.Database.openRs(sqlstmt, rs)) { return false; }
+            m_lastProvId = Cairo.Constants.NO_ID;
+            m_lastProvName = "";
 
-        // Si no obtuve ningun id al moverme
-        //
-        if(rs.isEOF()) {
-
-          switch (moveTo) {
-
-            // Si era siguiente ahora busco el ultimo
-            //
-            case Dialogs.Message.MSG_DOC_NEXT:
-              //  Llamada recursiva
-              move(Dialogs.Message.MSG_DOC_LAST);
-
-              // Si era anterior ahora busco el primero
-              //
-              break;
-
-            case Dialogs.Message.MSG_DOC_PREVIOUS:
-              //  Llamada recursiva
-              move(Dialogs.Message.MSG_DOC_FIRST);
-
-              // Si no encontre ni ultimo ni primero
-              // es por que no hay ningun comprobante para
-              // este documento
-              //
-              break;
-
-            case Dialogs.Message.MSG_DOC_FIRST:
-            case Dialogs.Message.MSG_DOC_LAST:
-
-              // Limpio incluso el ultimo proveedor
-              //
-              m_lastProvId = Cairo.Constants.NO_ID;
-              m_lastProvName = "";
-
-              // Cargo un registro vacio
-              //
-              load(Cairo.Constants.NO_ID);
-
-              // Obtengo un nuevo numero de comprobante
-              //
-              Cairo.Documents.getDocNumberForProveedor(m_lastProvId, m_lastDocId, m_dialog, m_taPropuesto);
-
-              // Refresco el formulario
-              //
-              refreshProperties();
-              break;
+            return load(Cairo.Constants.NO_ID)
+              .success(call(D.getDocNumberForProveedor, m_lastProvId, m_doc_id, m_dialog))
+              .then(function(enabled) { m_taPropuesto = enabled; })
+              .then(refreshProperties);
+          }
+          else {
+            return load(response.id)
+              .success(refreshProperties);
           }
         }
-        else {
-          if(!load(valField(rs.getFields(), 0))) { return false; }
-
-          refreshProperties();
-        }
-
-        return true;
+        return D.move(m_doc_id, moveTo)
+          .successWithResult(completeMove);
       };
 
       var refreshProperties = function() {
-        var c = null;
-                #If PREPROC_SFS Then;
-        var abmGen = null;
-                #Else;
-        var abmGen = null;
-                #End If;
-        var filter = null;
-        var cotizacion = null;
+        var c;
 
-        var properties = m_dialog.getProperties();
+        m_properties.item(C.DOC_ID)
+        .setSelectId(m_doc_id)
+        .setValue(m_documento);
 
-        c = properties.item(C.DOC_ID);
-        c.setSelectId(m_doc_id);
-        c.setValue(m_documento);
+        m_properties.item(CC.FC_FECHA)
+        .setValue(m_fecha);
 
-        c = properties.item(CC.FC_FECHA);
-        c.setValue(m_fecha);
+        m_properties.item(CC.FC_FECHA_ENTREGA)
+        .setValue(m_fechaentrega);
 
-        c = properties.item(CC.FC_FECHA_ENTREGA);
-        c.setValue(m_fechaentrega);
+        m_properties.item(CC.FC_FECHA_IVA)
+        .setValue(m_fechaIva);
 
-        c = properties.item(CC.FC_FECHA_IVA);
-        c.setValue(m_fechaIva);
+        m_properties.item(C.PROV_ID)
+        .setSelectId(m_prov_id)
+        .setValue(m_proveedor);
 
-        c = properties.item(C.PROV_ID);
-        c.setSelectId(m_prov_id);
-        c.setValue(m_proveedor);
+        m_properties.item(D.DialogKeys.number)
+        .setValue(m_numero);
 
-        c = properties.item(Cairo.Documents.DialogKeys.number);
-        c.setValue(m_numero);
+        m_properties.item(D.DialogKeys.status)
+        .setValue(m_estado);
 
-        c = properties.item(Cairo.Documents.DialogKeys.status);
-        c.setValue(m_estado);
+        m_properties.item(CC.FC_NRODOC)
+        .setValue(m_nrodoc)
+        .setTextMask(m_taMascara)
+        .setTextAlign(Dialogs.TextAlign.right);
 
-        c = properties.item(CC.FC_NRODOC);
-        c.setValue(m_nrodoc);
-        c.setTextMask(m_taMascara);
-        c.setTextAlign(vbRightJustify);
+        m_properties.item(CC.FC_DESCUENTO1)
+        .setValue(m_descuento1);
 
-        c = properties.item(CC.FC_DESCUENTO1);
-        c.setValue(m_descuento1);
+        m_properties.item(CC.FC_DESCUENTO2)
+        .setValue(m_descuento2);
 
-        c = properties.item(CC.FC_DESCUENTO2);
-        c.setValue(m_descuento2);
+        m_properties.item(C.CPG_ID)
+        .setSelectId(m_cpg_id)
+        .setValue(m_condicionPago);
 
-        c = properties.item(C.CPG_ID);
-        c.setSelectId(m_cpg_id);
-        c.setValue(m_condicionPago);
+        m_properties.item(CC.FC_FECHA_VTO)
+        .setValue(m_fechaVto);
 
-        c = properties.item(CC.FC_FECHA_VTO);
-        c.setValue(m_fechaVto);
+        m_properties.item(CC.FC_COTIZACION)
+        .setValue(m_cotizacion);
 
-        c = properties.item(CC.FC_COTIZACION);
-        c.setValue(m_cotizacion);
+        m_properties.item(C.LP_ID)
+        .setSelectFilter(GetListaPrecioGetXProveedor(m_doc_id, m_prov_id))
+        .setSelectId(m_lp_id)
+        .setValue(m_listaPrecio);
 
-        c = properties.item(C.LP_ID);
-        c.setSelectFilter(GetListaPrecioGetXProveedor(m_doc_id, m_prov_id));
-        c.setSelectId(m_lp_id);
-        c.setValue(m_listaPrecio);
+        m_properties.item(C.LD_ID)
+        .setSelectFilter(GetListaDescGetXProveedor(m_doc_id, m_prov_id))
+        .setSelectId(m_ld_id)
+        .setValue(m_listaDescuento);
 
-        c = properties.item(C.LD_ID);
-        c.setSelectFilter(GetListaDescGetXProveedor(m_doc_id, m_prov_id));
-        c.setSelectId(m_ld_id);
-        c.setValue(m_listaDescuento);
+        m_properties.item(C.CCOS_ID)
+        .setSelectId(m_ccos_id)
+        .setValue(m_centroCosto);
 
-        c = properties.item(C.CCOS_ID);
-        c.setSelectId(m_ccos_id);
-        c.setValue(m_centroCosto);
+        m_properties.item(C.SUC_ID)
+        .setSelectId(m_suc_id)
+        .setValue(m_sucursal);
 
-        c = properties.item(C.SUC_ID);
-        c.setSelectId(m_suc_id);
-        c.setValue(m_sucursal);
+        m_properties.item(CC.FC_DESCRIP)
+        .setValue(m_descrip);
 
-        c = properties.item(CC.FC_DESCRIP);
-        c.setValue(m_descrip);
+        m_properties.item(CC.FC_CAI)
+        .setValue(m_cai);
 
-        c = properties.item(CC.FC_CAI);
-        c.setValue(m_cai);
+        m_properties.item(C.LGJ_ID)
+        .setSelectId(m_lgj_id)
+        .setValue(m_legajo);
 
-        c = properties.item(C.LGJ_ID);
-        c.setSelectId(m_lgj_id);
-        c.setValue(m_legajo);
+        m_properties.item(C.PRO_ID_ORIGEN)
+        .setSelectId(m_pro_id_origen)
+        .setValue(m_proOrigen);
 
-        c = properties.item(C.PRO_ID_ORIGEN);
-        c.setSelectId(m_pro_id_origen);
-        c.setValue(m_proOrigen);
+        m_properties.item(C.PRO_ID_DESTINO)
+        .setSelectId(m_pro_id_destino)
+        .setValue(m_proDestino);
 
-        c = properties.item(C.PRO_ID_DESTINO);
-        c.setSelectId(m_pro_id_destino);
-        c.setValue(m_proDestino);
-
-        c = properties.item(C.DEPL_ID_ORIGEN);
+        c = m_properties.item(CC.DEPL_ID_ORIGEN);
         if(m_depl_id !== Cairo.Constants.NO_ID || !m_showStockData) {
           c.setSelectId(m_depl_id);
           c.setValue(m_deposito);
         }
         else {
-          // Preferencias del usuario
-          //
           c.setSelectId(Cairo.UserConfig.getDeplId());
           c.setValue(Cairo.UserConfig.getDeplNombre());
         }
 
-        c = properties.item(CC.FC_COTIZACION_PROV);
-        c.setValue(m_cotizacionProv);
+        m_properties.item(CC.FC_COTIZACION_PROV)
+        .setValue(m_cotizacionProv);
 
-        c = properties.item(CC.FC_TIPO_COMPROBANTE);
-        c.setListItemData(m_tipoComprobante);
+        m_properties.item(CC.FC_TIPO_COMPROBANTE)
+        .setListItemData(m_tipoComprobante);
 
         abmGen = m_dialog;
-        abmGen.showValues(m_dialog.getProperties());
+        abmGen.showValues(m_properties);
 
         abmGen.resetChanged();
 
@@ -4664,64 +4579,64 @@
           cotizacion = 1;
         }
 
-        c = getGrid(m_items, C_ITEMS);
+        getGrid(m_items, C_ITEMS);
         if(!pLoadItems(c, cotizacion)) { return; }
 
         m_itemsDeleted = "";
 
-        c = m_items.getProperties().item(C_OTROS);
+        m_itemsProps.item(C_OTROS);
         if(!pLoadOtros(c, cotizacion)) { return; }
 
         m_otrosDeleted = "";
 
-        c = m_items.getProperties().item(C_PERCEPCIONES);
+        m_itemsProps.item(C_PERCEPCIONES);
         if(!pLoadPercepciones(c, cotizacion)) { return; }
 
         m_percepcionesDeleted = "";
 
-        c = m_items.getProperties().item(C_LEGAJOS);
+        m_itemsProps.item(C_LEGAJOS);
         if(!loadLegajos(c, cotizacion)) { return; }
 
         m_legajosDeleted = "";
 
         abmGen = m_items;
-        abmGen.showValues(m_items.getProperties());
+        abmGen.showValues(m_itemsProps);
 
-        var properties = m_footer.getProperties();
+        var properties = m_footerProps;
 
-        c = properties.item(CC.FC_SUBTOTAL);
-        c.setValue(m_subTotal);
+        properties.item(CC.FC_SUBTOTAL)
+        .setValue(m_subTotal);
 
-        c = properties.item(CC.FC_IMPORTE_DESC_1);
-        c.setValue(m_importeDesc1);
+        properties.item(CC.FC_IMPORTE_DESC_1)
+        .setValue(m_importeDesc1);
 
-        c = properties.item(CC.FC_IMPORTE_DESC_2);
-        c.setValue(m_importeDesc2);
+        properties.item(CC.FC_IMPORTE_DESC_2)
+        .setValue(m_importeDesc2);
 
-        c = properties.item(CC.FC_NETO);
-        c.setValue(m_neto);
+        properties.item(CC.FC_NETO)
+        .setValue(m_neto);
 
-        c = properties.item(CC.FC_IVA_RI);
-        c.setValue(m_ivari);
+        properties.item(CC.FC_IVA_RI)
+        .setValue(m_ivari);
 
-        c = properties.item(CC.FC_IVA_RNI);
-        c.setValue(m_ivarni);
+        properties.item(CC.FC_IVA_RNI)
+        .setValue(m_ivarni);
 
         // Internos
-        c = properties.item(CC.FC_INTERNOS);
-        c.setValue(m_internos);
+        properties.item(CC.FC_INTERNOS)
+        .setValue(m_internos);
 
-        c = properties.item(CC.FC_TOTAL_OTROS);
-        c.setValue(m_totalOtros);
+        properties.item(CC.FC_TOTAL_OTROS)
+        .setValue(m_totalOtros);
 
-        c = properties.item(CC.FC_TOTAL_PERCEPCIONES);
-        c.setValue(m_totalPercepciones);
+        properties.item(CC.FC_TOTAL_PERCEPCIONES)
+        .setValue(m_totalPercepciones);
 
-        c = properties.item(CC.FC_TOTAL);
-        c.setValue(m_total);
+        properties.item(CC.FC_TOTAL)
+        .setValue(m_total);
 
         abmGen = m_footer;
-        abmGen.showValues(m_footer.getProperties());
+        abmGen.showValues(m_footerProps);
 
         setEnabled();
 
@@ -4745,7 +4660,7 @@
           m_objApply = new cFacturaCompraAplic();
 
           // Edit Apply
-          //
+          // 
         }
         else {
           if(m_objApply.self.getId() !== m_id) {
@@ -4755,7 +4670,7 @@
         }
 
         // Edit Apply
-        //
+        // 
         m_objApply.self.setObjectClient(self);
 
         if(!m_objApply.self.show(m_id, m_total * (m_cotizacion !== 0) ? m_cotizacion : 1), m_nrodoc, m_prov_id, m_proveedor, m_suc_id, m_doc_id, m_doct_id === csEDocumentoTipo.cSEDT_NOTACREDITOCOMPRA)) {
@@ -4843,9 +4758,12 @@
       self.destroy = function() {
         try {
           m_dialog = null;
+          m_properties = null;
           m_listController = null;
           m_footer = null;
+          m_footerProps = null;
           m_items = null;
+          m_itemsProps = null;
           m_ocIds = [];
           m_rcIds = [];
           m_serialNumbers = null;
@@ -4867,29 +4785,29 @@
         docId = getDocId().getSelectId();
 
         // Si la factura mueve stock
-        //
+        // 
         if(CBool(doc.GetData(docId, C.DOC_MUEVE_STOCK, Types.boolean))) {
           m_showStockData = true;
 
           // Verifico si genera remito que mueve stock
-          //
+          // 
         }
         else {
           // Si genera remito
-          //
+          // 
           if(CBool(doc.GetData(docId, C.DOC_GENERA_REMITO, Types.boolean))) {
             // Obtengo el docid del remito
-            //
+            // 
             docIdRto = doc.GetData(docId, C.DOC_ID_REMITO, Types.long);
 
             // Si el remito mueve stock
-            //
+            // 
             m_showStockData = CBool(doc.GetData(docIdRto, C.DOC_MUEVE_STOCK, Types.boolean));
           }
         }
 
         // HIDECOLS
-        //
+        // 
         if(!bInLoadCollection) { showHideCols(true); }
 
       };
@@ -4901,11 +4819,11 @@
         var register = null;
 
         // Si lleva numero de serie
-        //
-        if(getCell(row, KI_PR_LLEVA_NRO_SERIE).getId()) {
+        // 
+        if(cellId(row, KI_PR_LLEVA_NRO_SERIE)) {
 
           // Obtengo los numeros de serie y guardo un Item por cada uno
-          //
+          // 
           var _count = m_serialNumbers.get(Cairo.Collections.getKey(grupo)).size();
           for(var _i = 0; _i < _count; _i++) {
             pt = m_serialNumbers.get(Cairo.Collections.getKey(grupo)).item(_i);
@@ -4979,7 +4897,7 @@
         return m_lastDoctId !== csEDocumentoTipo.cSEDT_NOTACREDITOCOMPRA;
       };
 
-      //////////////////////////////////////////////////////////////////////////////////////////////////
+      ////////////////////////////////////////////////////////////////////////////////////////////////// 
       // nrs devolucion
       var getDeplId = function() {
         var _rtn = 0;
@@ -4987,18 +4905,18 @@
           _rtn = csE_DepositosInternos.cSEDEPLIDTERCERO;
         }
         else {
-          _rtn = m_dialog.getProperties().item(C.DEPL_ID_ORIGEN).getSelectId();
+          _rtn = m_properties.item(C.DEPL_ID_ORIGEN).getSelectId();
         }
 
         return _rtn;
       };
 
       var getProvId = function() {
-        return m_dialog.getProperties().item(C.PROV_ID).getSelectId();
+        return m_properties.item(C.PROV_ID).getSelectId();
       };
 
       var getFecha = function() {
-        return m_dialog.getProperties().item(CC.FC_FECHA).getValue();
+        return m_properties.item(CC.FC_FECHA).getValue();
       };
 
       var showOrdenPago = function() {
@@ -5053,11 +4971,11 @@
       };
 
       var getItems = function() {
-        return m_items.getProperties().item(C_ITEMS);
+        return m_itemsProps.item(C_ITEMS);
       };
 
       // HIDECOLS
-      //
+      // 
       var showHideCols = function(bOnlyStock) {
         var columns = null;
         var bVisible = null;
@@ -5066,7 +4984,7 @@
 
         if(abmObj.getInSave()) { return; }
 
-        bVisible = val(m_dialog.getProperties().item(c_HideCols).getValue()) === 0;
+        bVisible = val(m_properties.item(c_HideCols).getValue()) === 0;
 
         var iProp = null;
         iProp = getItems();
@@ -5087,7 +5005,7 @@
 
               // Solo si la llamada fue para todas las columnas
               // y no unicamente para las columnas de stock
-              //
+              // 
               if(!bOnlyStock) {
                 columns.item(i).setVisible(bVisible);
                 abmObj.refreshColumnPropertiesByIndex(iProp, i);
@@ -5099,7 +5017,7 @@
             case KI_STL_CODIGO:
 
               // Si mueve stock se ven siempre
-              //
+              // 
               columns.item(i).setVisible(m_showStockData);
               abmObj.refreshColumnPropertiesByIndex(iProp, i);
 
@@ -5113,7 +5031,7 @@
       var getFileNamePostFix = function() {
         var rtn = null;
 
-        rtn = m_dialog.getProperties().item(C.PROV_ID).getValue().Substring(0, 50)+ "-"+ m_dialog.getProperties().item(CC.FC_NRODOC).getValue();
+        rtn = m_properties.item(C.PROV_ID).getValue().Substring(0, 50)+ "-"+ m_properties.item(CC.FC_NRODOC).getValue();
 
         return rtn;
       };
@@ -5128,7 +5046,7 @@
         doc_id = getDocId().getSelectId();
         if(!Cairo.Database.getData(C.DOCUMENTO, C.DOC_ID, doc_id, C.DOCT_ID, doct_id)) { return; }
 
-        //c1c1f6
+        // c1c1f6
         if(Cairo.UserConfig.getUsarColoresEnDocumentos()) {
           if(doct_id === csEDocumentoTipo.cSEDT_NOTACREDITOCOMPRA) {
             abmGen.setBakcColorTagMain(RGB(&HF0, &H7F, &H7F));
@@ -5198,7 +5116,7 @@
 
       // ACA VAN LAS m_ GENERADAS POR EL ASISTENTE.
 
-      //OJO HASTA ACA
+      // OJO HASTA ACA
 
       var m_dialog;
       var m_objList = null;
@@ -5280,7 +5198,7 @@
         var value = null;
         var bExists = null;
 
-        var properties = m_dialog.getProperties();
+        var properties = m_properties;
         properties.clear();
 
         c = properties.add(null, C_FECHAINI);
@@ -5385,13 +5303,13 @@
 
         c = properties.add(null, C.CPG_ID);
         c.setType(Dialogs.PropertyType.select);
-        c.setTable(Cairo.Tables.CONDICIONPAGO);
+        c.setTable(Cairo.Tables.CONDICION_PAGO);
         // Condicion de pago
         c.setName(Cairo.Language.getText(1395, ""));
         c.setKey(K_CPG_ID);
         value = m_condicionPago;
         if(m_cpg_id.Substring(0, 1).toUpperCase() === KEY_NODO) {
-          value = GetNombreRama(Cairo.Tables.CONDICIONPAGO, val(m_cpg_id.Substring(2)), bExists);
+          value = GetNombreRama(Cairo.Tables.CONDICION_PAGO, val(m_cpg_id.Substring(2)), bExists);
           if(!bExists) { m_cpg_id = "0"; }
         }
         c.setValue(value);
@@ -5424,7 +5342,7 @@
 
         m_dialog.setTitle(m_name);
 
-        var properties = m_dialog.getProperties();
+        var properties = m_properties;
 
         return m_dialog.showValues(properties);
       };
@@ -5524,7 +5442,7 @@
               var strLoad = null;
 
               strLoad = Cairo.Language.getText(2179, "");
-              //Error al cargar los párametros de navegación de Facturas de Compra
+              // Error al cargar los párametros de navegación de Facturas de Compra
 
               m_fechaIni = (m_fechaIni !== Cairo.Constants.cSNODATE) ? m_fechaIni : Date);
               m_fechaFin = (m_fechaFin !== Cairo.Constants.cSNODATE) ? m_fechaFin : Date);
@@ -5550,7 +5468,7 @@
                 m_documento = data;
               }
               if(m_cpg_id.Substring(0, 1).toUpperCase() !== KEY_NODO) {
-                if(!Cairo.Database.getData(C.CONDICIONPAGO, C.CPG_ID, val(m_cpg_id), C.CPG_NAME, data, C_LoadFunction, C_MODULE, strLoad)) { return false; }
+                if(!Cairo.Database.getData(C.CONDICION_PAGO, C.CPG_ID, val(m_cpg_id), C.CPG_NAME, data, C_LoadFunction, C_MODULE, strLoad)) { return false; }
                 m_condicionPago = data;
               }
               // empid
@@ -5574,7 +5492,7 @@
       var cIABMListDocClient_PropertyChange = function(key) {
         var iProp = null;
 
-        var properties = m_dialog.getProperties();
+        var properties = m_properties;
 
         switch (key) {
 
@@ -5706,7 +5624,7 @@
         var strError = null;
 
         strError = Cairo.Language.getText(2179, "");
-        //Error al grabar los párametros de navegación de Facturas de Compra
+        // Error al grabar los párametros de navegación de Facturas de Compra
 
         var register = null;
         register = new Cairo.Database.Register();
@@ -5721,9 +5639,9 @@
         register.setUtilizaIdentity(true);
 
         var property = null;
-        var _count = m_dialog.getProperties().size();
+        var _count = m_properties.size();
         for(var _i = 0; _i < _count; _i++) {
-          property = m_dialog.getProperties().item(_i);
+          property = m_properties.item(_i);
 
           register.getFields().clear();
 
@@ -5928,12 +5846,12 @@
         var infodoc = null;
         var doctId = null;
 
-        doctId = valField(rs.getFields(), C.DOCT_ID);
-        infodoc = valField(rs.getFields(), "info_doc");
+        doctId = valField(response.data, C.DOCT_ID);
+        infodoc = valField(response.data, "info_doc");
 
         sqlstmt = "sp_PartesDiarioGetForDoc "+ Cairo.Database.getUserId().toString()+ ","+ cUtil.getEmpId().toString()+ ","+ doctId.toString()+ ","+ fcId.toString();
         ShowNotes(Cairo.Language.getText(1923, "", infodoc), sqlstmt);
-        //Notas sobre Factura  & infodoc, sqlstmt
+        // Notas sobre Factura  & infodoc, sqlstmt
       };
 
       var pAddMensaje = function() {
@@ -5958,7 +5876,7 @@
 
         if(firmado) {
           if(!cWindow.ask(Cairo.Language.getText(1593, ""), vbYes, Cairo.Language.getText(1594, ""))) {
-            //El documento ya ha sido firmado desea borrar la firma, Firmar
+            // El documento ya ha sido firmado desea borrar la firma, Firmar
             return;
           }
         }
@@ -6010,7 +5928,7 @@
           if(stId === Cairo.Constants.NO_ID) {
 
             Cairo.Modal.showInfo(Cairo.Language.getText(1693, ""));
-            //Este comprobante no tiene un documento de stock asociado.
+            // Este comprobante no tiene un documento de stock asociado.
           }
           else {
 
@@ -6045,14 +5963,14 @@
 
         if(rs.isEOF()) { return; }
 
-        total = valField(rs.getFields(), CC.FC_TOTAL);
-        cotiz = valField(rs.getFields(), CC.FC_COTIZACION);
-        nroDoc = valField(rs.getFields(), CC.FC_NRODOC);
-        provId = valField(rs.getFields(), C.PROV_ID);
-        proveedor = valField(rs.getFields(), C.PROV_NAME);
-        sucId = valField(rs.getFields(), C.SUC_ID);
-        docId = valField(rs.getFields(), C.DOC_ID);
-        doctId = valField(rs.getFields(), C.DOCT_ID);
+        total = valField(response.data, CC.FC_TOTAL);
+        cotiz = valField(response.data, CC.FC_COTIZACION);
+        nroDoc = valField(response.data, CC.FC_NRODOC);
+        provId = valField(response.data, C.PROV_ID);
+        proveedor = valField(response.data, C.PROV_NAME);
+        sucId = valField(response.data, C.SUC_ID);
+        docId = valField(response.data, C.DOC_ID);
+        doctId = valField(response.data, C.DOCT_ID);
 
         if(!DoCairo.Security.anAccess(MODIFY_APLIC, m_doc_id, Cairo.Security.ActionTypes.cSEDOCTPREAPLICAR)) { return; }
 
@@ -6060,7 +5978,7 @@
           m_objApply = new cFacturaCompraAplic();
 
           // Edit Apply
-          //
+          // 
         }
         else {
           if(m_objApply.self.getId() !== fcId) {
@@ -6171,7 +6089,7 @@
           Cairo.Editors.facturacompraEditors = editors;
 
           // ListController properties and methods
-          //
+          // 
           self.entityInfo = new Backbone.Model({
             entitiesTitle: "FacturaCompras",
             entityName: "facturacompra",
@@ -6278,15 +6196,15 @@
           };
 
           // progress message
-          //
+          // 
           Cairo.LoadingMessage.show("FacturaCompras", "Loading facturacompra from Crowsoft Cairo server.");
 
           // create the tree region
-          //
+          // 
           Cairo.addRegions({ facturacompraTreeRegion: tabId });
 
           // create the dialog
-          //
+          // 
           Cairo.Tree.List.Controller.list(
             Cairo.Tables.FACTURA_COMPRA,
             new Cairo.Tree.List.TreeLayout({ model: self.entityInfo }),
@@ -6304,7 +6222,7 @@
         }
 
         // create the tab
-        //
+        // 
         Cairo.mainTab.showTab("FacturaCompras", "facturacompraTreeRegion", "#general/facturacompras", createTreeDialog, closeTreeDialog, showTreeDialog);
 
       }

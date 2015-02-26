@@ -3,6 +3,8 @@
 
   var C = Cairo.General.Constants;
   var CC = Cairo.Compras.Constants;
+  var valField = Cairo.Database.valField;
+  var bToI = Cairo.Util.boolToInt;
 
   // this file will contain all the code translated from cPublicDoc
   // the functions in cPublicDoc will be grouped by functionality
@@ -203,9 +205,9 @@
         var enabled = false;
 
         if(response.success === true) {
-          number = Cairo.Database.valField(response.data, 'number');
-          mask = Cairo.Database.valField(response.data, 'mask');
-          enabled = Cairo.Database.valField(response.data, 'enabled');
+          number = valField(response.data, 'number');
+          mask = valField(response.data, 'mask');
+          enabled = valField(response.data, 'enabled');
         }
 
         property.setValue(number);
@@ -227,7 +229,7 @@
     else {
 
       var apiPath = Cairo.Database.getAPIVersion();
-      p = Cairo.Database.getData("load[" + apiPath + "documento/" + doctId.toString() + "/invalidate_status]", id)
+      p = Cairo.Database.getData("load[" + apiPath + "documento/" + doctId.toString() + "/invalidate_status]", id);
 
       p.then(function(response) {
 
@@ -235,11 +237,11 @@
 
           var p = null;
 
-          var isEditable = Cairo.Database.valField(response.data, Cairo.Constants.DOC_EDITABLE);
-          var estId = Cairo.Database.valField(response.data, Cairo.Constants.EST_ID);
-          var actionInvalidate =  Cairo.Database.valField(response.data, "actionInvalidate");
-          var actionValidate = Cairo.Database.valField(response.data, "actionValidate");
-          var docId = Cairo.Database.valField(response.data, Cairo.Constants.DOC_ID);
+          var isEditable = valField(response.data, Cairo.Constants.DOC_EDITABLE);
+          var estId = valField(response.data, Cairo.Constants.EST_ID);
+          var actionInvalidate =  valField(response.data, "actionInvalidate");
+          var actionValidate = valField(response.data, "actionValidate");
+          var docId = valField(response.data, Cairo.Constants.DOC_ID);
 
           if(isEditable) {
             //
@@ -286,8 +288,8 @@
 
                   if(response.success === true) {
 
-                    estId = Cairo.Database.valField(response.data, Cairo.Constants.EST_ID);
-                    estado = Cairo.Database.valField(response.data, Cairo.Constants.EST_NAME);
+                    estId = valField(response.data, Cairo.Constants.EST_ID);
+                    estado = valField(response.data, Cairo.Constants.EST_NAME);
 
                     var property = dialog.getProperties().item(Cairo.Documents.DialogKeys.status);
 
@@ -296,8 +298,8 @@
 
                     dialog.showValue(property);
 
-                    editable = Cairo.Database.valField(response.data, Cairo.Constants.DOC_EDITABLE);
-                    message = Cairo.Database.valField(response.data, Cairo.Constants.DOC_EDIT_MSG);
+                    editable = valField(response.data, Cairo.Constants.DOC_EDITABLE);
+                    message = valField(response.data, Cairo.Constants.DOC_EDIT_MSG);
 
                   }
 
@@ -313,7 +315,7 @@
 
           }
           else {
-            var message = Cairo.Database.valField(response.data, Cairo.Constants.DOC_EDIT_MSG)
+            var message = valField(response.data, Cairo.Constants.DOC_EDIT_MSG)
             p = Cairo.Modal.showWarningWithFail(message);
           }
 
@@ -325,7 +327,8 @@
       });
 
       return p;
-    }
+    };
+
   };
 
   var setGenericDoc = function(editor) {
@@ -366,8 +369,8 @@
         var isValid = false;
         var range = "";
         if(response.success === true) {
-          isValid = Cairo.Database.valField(response.data, 0);
-          range = Cairo.Database.valField(response.data, 1);
+          isValid = valField(response.data, 0);
+          range = valField(response.data, 1);
         }
 
         return { success: true, isValid: isValid, range: range};
@@ -418,7 +421,7 @@
     return Cairo.Database.getData("load[" + apiPath + "proveedor/email]", provId).then(
       function(response) {
         if(response.success === true) {
-          var email = Cairo.Database.valField(response.data, 'email');
+          var email = valField(response.data, 'email');
           return { success: true, email: email };
         }
         else {
@@ -437,7 +440,7 @@
         Cairo.Database.getData("load[" + apiPath + "proveedor/info]", provId).then(
           function(response) {
             if(response.success === true) {
-              var info = Cairo.Database.valField(response.data, 'info');
+              var info = valField(response.data, 'info');
               var property = dialog.getProperties().item(CC.PROVEEDOR_DATA_ADD);
               property.setValue(info);
               dialog.showValue(property);
@@ -478,11 +481,11 @@
 
   Cairo.Documents.getCurrencyRate = function(monId, date) {
     var apiPath = Cairo.Database.getAPIVersion();
-    return Cairo.Database.getData("load[" + apiPath + "documents/currency" + monId.toString() + "/rate]", date).then(
+    return Cairo.Database.getData("load[" + apiPath + "documento/currency" + monId.toString() + "/rate]", date).then(
       function(response) {
         var rate = 0;
         if(response.success === true) {
-          rate = Cairo.Database.valField(response.data, C.MON_PRECIO);
+          rate = valField(response.data, C.MON_PRECIO);
           rate = Cairo.Util.round(rate, Cairo.Settings.getCurrencyRateDecimals());
         }
         return rate;
@@ -492,7 +495,7 @@
 
   Cairo.Documents.editableStatus = function(docId, actionId) {
     var apiPath = Cairo.Database.getAPIVersion();
-    var p = Cairo.Database.getData("load[" + apiPath + "documento/" + docId.toString() + "/edit_status]", actionId)
+    var p = Cairo.Database.getData("load[" + apiPath + "documento/" + docId.toString() + "/edit_status]", actionId);
 
     return p.then(function(response) {
 
@@ -512,6 +515,97 @@
   };
 
   Cairo.Documents.getSelectFilterForCuenta = "(emp_id = " + Cairo.Company.getId().toString() + " or emp_id is null)";
+
+  Cairo.Documents.getTasaFromProducto = function(prId, isCompra) {
+    var apiPath = Cairo.Database.getAPIVersion();
+    var p = Cairo.Database.getData("load[" + apiPath + "producto/" + prId.toString() + "/taxes]", bToI(isCompra));
+
+    return p.then(function(response) {
+
+      if(response.success === true) {
+        return {
+          ti_ri: valField(response.data, 'ti_ri'),
+          ri_percent: valField(response.data, 'ri_percent'),
+          ri_cue_id: valField(response.data, 'ri_cue_id'),
+
+          ti_rni: valField(response.data, 'ti_rni'),
+          rni_percent: valField(response.data, 'rni_percent'),
+          rni_cue_id: valField(response.data, 'rni_cue_id'),
+
+          ti_internos: valField(response.data, 'ti_internos'),
+          porc_internos: valField(response.data, 'porc_internos'),
+          int_percent: valField(response.data, 'int_percent'),
+
+          success: true
+        };
+      }
+      else {
+        return {
+          success: false
+        };
+      }
+    });
+  };
+
+  Cairo.Documents.signDocument = function(doctId, docId) {
+
+    var register = new Cairo.Database.Register();
+    var fields = register.getFields();
+
+    register.setFieldId(C.DOC_ID);
+    register.setTable(C.DOCUMENTO);
+    register.setId(docId);
+
+    fields.add(C.DOCT_ID, doctId, Cairo.Constants.Types.id);
+
+    var apiPath = Cairo.Database.getAPIVersion();
+    register.setPath(apiPath + "document/sign");
+
+    var p = Cairo.Database.saveEx(
+      register,
+      false,
+      "",
+      'signDocument',
+      'Cairo.Documents',
+      Cairo.Language.getText(1594, ""))
+
+    return p.then(function(response) {
+
+      if(response.success === true) {
+        return {
+          est_id: valField(response.data, Cairo.Constants.EST_ID),
+          estado: valField(response.data, Cairo.Constants.EST_NAME),
+          firmado: valField(response.data, Cairo.Constants.FC_FIRMADO),
+          success: true
+        };
+      }
+      else {
+        return {
+          success: false
+        };
+      }
+    });
+  };
+
+  Cairo.move = function(docId, moveTo) {
+    var apiPath = Cairo.Database.getAPIVersion();
+    var p = Cairo.Database.getData("load[" + apiPath + "documento/" + docId.toString() + "/move]", moveTo);
+
+    return p.then(function(response) {
+
+      if(response.success === true) {
+        return {
+          id: valField(response.data, 'id'),
+          success: true
+        };
+      }
+      else {
+        return {
+          success: false
+        };
+      }
+    });
+  };
 
   Cairo.History = {};
 
@@ -1197,7 +1291,7 @@
       return null;
     }
 
-    return Cairo.Database.valField(rs.getFields(), 0);
+    return valField(rs.getFields(), 0);
     */
   };  
   
