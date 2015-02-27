@@ -461,8 +461,12 @@
     }
   };
 
-  Cairo.Documents.getGrid = function(dialog, key) {
+  Cairo.Documents.getProperty = function(dialog, key) {
     return dialog.getProperties().item(key);
+  };
+
+  Cairo.Documents.getGrid = function(dialog, key) {
+    return dialog.getProperties().item(key).getGrid();
   };
 
   Cairo.Documents.getdocIdFromDialog = function(dialog) {
@@ -587,7 +591,7 @@
     });
   };
 
-  Cairo.move = function(docId, moveTo) {
+  Cairo.Documents.move = function(docId, moveTo) {
     var apiPath = Cairo.Database.getAPIVersion();
     var p = Cairo.Database.getData("load[" + apiPath + "documento/" + docId.toString() + "/move]", moveTo);
 
@@ -605,6 +609,14 @@
         };
       }
     });
+  };
+
+  Cairo.Documents.getListaPrecioForProveedor = function(docId, provId) {
+    return "f:supplierListPrice|supplierId:" + provId.toString() + ",documentId:" + docId.toString();
+  };
+
+  Cairo.Documents.getListaDescuentoForProveedor = function(docId, provId) {
+    return "f:supplierListDiscount|supplierId:" + provId.toString() + ",documentId:" + docId.toString();
   };
 
   Cairo.History = {};

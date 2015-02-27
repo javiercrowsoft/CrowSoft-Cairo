@@ -872,7 +872,7 @@
           m_autoPrint = value;
         };
 
-        self.setBackColorTagMain = function(color) {
+        self.setBackColorTabMain = function(color) {
           if(m_documentView) {
             m_documentView.getTab().setBackColor(color);
             m_documentView.getTabFooter().setBackColor(color);
@@ -2781,9 +2781,9 @@
                 p = p || Cairo.Promises.resolvedPromise();
 
                 p.then(
-                  function(ignored) {
+                  function() {
                     m_client.editNew().then(
-                      function(ignored) {
+                      function() {
                         var p = null;
 
                         if(m_sendRefresh) {
@@ -2803,7 +2803,7 @@
                         p = p || Cairo.Promises.resolvedPromise();
 
                         return p.then(
-                          function(ignored) {
+                          function() {
                             var p = null;
 
                             self.setChanged(false);
@@ -2814,7 +2814,7 @@
                             else {
                               if(m_isDocument) {
                                 p = newWithWizard().then(
-                                  function(ignored) {
+                                  function() {
                                     view.setFocusFirstControl();
                                     return true;
                                   }
@@ -7160,11 +7160,11 @@
         // TODO: implement or remove
         var setBackgroundColor = function() {
           if(m_backgroundColor !== 0) {
-            self.setBackColorTagMainEx(Dialogs.Colors.backgroundColor);
+            self.setBackColorTabMainEx(Dialogs.Colors.backgroundColor);
           }
         };
 
-        self.setBackColorTagMainEx = function(color) {
+        self.setBackColorTabMainEx = function(color) {
           m_backgroundColor = color;
           if(m_masterView !== null) {
             m_masterView.getBackground().setBackColor(color);

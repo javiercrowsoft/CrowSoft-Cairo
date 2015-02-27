@@ -5,7 +5,6 @@
 
     Constants: {
 
-
       // Usuario
       USUARIO: "Usuario",
       US_ID: "us_id",
@@ -699,6 +698,7 @@
       DOC_ID: "doc_id",
       DOC_NAME: "doc_nombre",
       DOC_TIPO_FACTURA: "doc_tipofactura",
+      DOC_MUEVE_STOCK: "doc_muevestock",
 
       // Talonario
       TALONARIO: "Talonario",
@@ -1324,6 +1324,11 @@
         noResponsableExento: 9,
         noCategorizado: 10,
         inscriptoM: 11
+      },
+
+      DepositosInternos: {
+        deplIdInterno: -2,
+        deplIdTercero: -3
       }
     }
   };

@@ -82,7 +82,7 @@
         m_listController.updateEditorKey(self, Cairo.Constants.NO_ID);
 
         return load(Cairo.Constants.NO_ID).then(
-          function(ignored) {
+          function() {
             return refreshCollection();
           }
         );
