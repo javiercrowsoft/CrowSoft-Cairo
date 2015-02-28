@@ -16,10 +16,8 @@
       var CC = Cairo.Compras.Constants;
       var CS = Cairo.Security.Actions.Compras;
       var Types = Cairo.Constants.Types;
-      var bToI = Cairo.Util.boolToInt;
       var valField = Cairo.Database.valField;
       var getValue = Cairo.Database.getValue;
-      var getDateValue = Cairo.Database.getDateValue;
       var Percepciones = Cairo.Compras.Percepciones;
       var call = Cairo.Promises.call;
       var D = Cairo.Documents; 
@@ -37,8 +35,6 @@
       var C_OTROS = "OTROS";
       var C_PERCEPCIONES = "PERCEPCIONES";
       var C_LEGAJOS = "LEGAJOS";
-
-      var C_HIDECOLSFC = "HideColsFc";
 
       var K_NUMERO = 1;
       var K_NRODOC = 2;
@@ -1110,64 +1106,55 @@
 
             case K_FECHA:
               if(Cairo.Util.valEmpty(property.getValue(), Types.date)) {
-                // Debe indicar una fecha
-                return Cairo.Modal.showInfoWithFalse(Cairo.Language.getText(1558, ""));
+                return Cairo.Modal.showInfoWithFalse(Cairo.Language.getText(1558, "")); // Debe indicar una fecha
               }
               break;
 
             case K_FECHA_ENTREGA:
               if(Cairo.Util.valEmpty(property.getValue(), Types.date)) {
-                // Debe indicar una fecha de entrega
-                return Cairo.Modal.showInfoWithFalse(Cairo.Language.getText(1564, ""));
+                return Cairo.Modal.showInfoWithFalse(Cairo.Language.getText(1564, "")); // Debe indicar una fecha de entrega
               }
               break;
 
             case K_FECHA_VTO:
               if(Cairo.Util.valEmpty(property.getValue(), Types.date) && property.getVisible()) {
-                // Debe indicar una fecha de vencimiento
-                return Cairo.Modal.showInfoWithFalse(Cairo.Language.getText(1625, ""));
+                return Cairo.Modal.showInfoWithFalse(Cairo.Language.getText(1625, "")); // Debe indicar una fecha de vencimiento
               }
               break;
 
             case K_PROV_ID:
               if(Cairo.Util.valEmpty(property.getSelectId(), Types.id)) {
-                // Debe indicar un Proveedor
-                return Cairo.Modal.showInfoWithFalse(Cairo.Language.getText(1860, ""));
+                return Cairo.Modal.showInfoWithFalse(Cairo.Language.getText(1860, "")); // Debe indicar un Proveedor
               }
               break;
 
             case K_DOC_ID:
               if(Cairo.Util.valEmpty(property.getSelectId(), Types.id)) {
-                // Debe indicar un documento
-                return Cairo.Modal.showInfoWithFalse(Cairo.Language.getText(1562, ""));
+                return Cairo.Modal.showInfoWithFalse(Cairo.Language.getText(1562, "")); // Debe indicar un documento
               }
               break;
 
             case K_CPG_ID:
               if(Cairo.Util.valEmpty(property.getSelectId(), Types.id)) {
-                // Debe indicar una condición de pago
-                return Cairo.Modal.showInfoWithFalse(Cairo.Language.getText(1561, ""));
+                return Cairo.Modal.showInfoWithFalse(Cairo.Language.getText(1561, "")); // Debe indicar una condición de pago
               }
               break;
 
             case K_SUC_ID:
               if(Cairo.Util.valEmpty(property.getSelectId(), Types.id)) {
-                // Debe indicar una sucursal
-                return Cairo.Modal.showInfoWithFalse(Cairo.Language.getText(1560, ""));
+                return Cairo.Modal.showInfoWithFalse(Cairo.Language.getText(1560, "")); // Debe indicar una sucursal
               }
               break;
 
             case K_COTIZACION:
               if(Cairo.Util.valEmpty(property.getValue(), Types.double) && property.getVisible()) {
-                // Debe indicar una cotización
-                return Cairo.Modal.showInfoWithFalse(Cairo.Language.getText(1620, ""));
+                return Cairo.Modal.showInfoWithFalse(Cairo.Language.getText(1620, "")); // Debe indicar una cotización
               }
               break;
 
             case K_DEPL_ID:
               if(Cairo.Util.valEmpty(property.getSelectId(), Types.id) && m_showStockData) {
-                // Debe indicar un deposito
-                return Cairo.Modal.showInfoWithFalse(Cairo.Language.getText(1559, ""));
+                return Cairo.Modal.showInfoWithFalse(Cairo.Language.getText(1559, "")); // Debe indicar un deposito
               }
               break;
           }
@@ -1202,16 +1189,14 @@
                     // noInscripto, noResponsableExento, inscriptoM
 
                     if(cuit.trim() === "") {
-                      return Cairo.Modal.showWarningWithFalse(Cairo.Language.getText(1893, ""));
-                      // Para poder crear la factura debe dar de alta el CUIT del Proveedor
+                      return Cairo.Modal.showWarningWithFalse(Cairo.Language.getText(1893, "")); // Para poder crear la factura debe dar de alta el CUIT del Proveedor
                     }
                     break;
                 }
                 return true;
               }
               else {
-                return Cairo.Modal.showWarningWithFalse(Cairo.Language.getText(1894, ""));
-                // No se pudo obtener el CUIT del Proveedor
+                return Cairo.Modal.showWarningWithFalse(Cairo.Language.getText(1894, "")); // No se pudo obtener el CUIT del Proveedor
               }
             };
 
@@ -1256,8 +1241,7 @@
         var validate = function(result) {
 
           if(result.monId !== m_mon_id_document) {
-            return Cairo.Modal.showInfoWithFalse(Cairo.Language.getText(1895, ""));
-            // La cuenta asociada al Proveedor y la cuenta del documento tienen diferentes monedas
+            return Cairo.Modal.showInfoWithFalse(Cairo.Language.getText(1895, "")); // La cuenta asociada al Proveedor y la cuenta del documento tienen diferentes monedas
           }
           return true;
         };
@@ -1272,11 +1256,11 @@
 
           switch (key) {
             case K_ITEMS:
-              isEmpty = pIsEmptyRowItems(row, rowIndex);
+              isEmpty = isEmptyRowItems(row, rowIndex);
               break;
 
             case K_OTROS:
-              isEmpty = pIsEmptyRowOtros(row, rowIndex);
+              isEmpty = isEmptyRowOtros(row, rowIndex);
               break;
 
             case K_PERCEPCIONES:
@@ -1284,7 +1268,7 @@
               break;
 
             case K_LEGAJOS:
-              isEmpty = pIsEmptyRowLegajos(row, rowIndex);
+              isEmpty = isEmptyRowLegajos(row, rowIndex);
               break;
           }
 
@@ -1732,11 +1716,11 @@
           switch (key) {
 
             case K_ITEMS:
-              p = pValidateRowItems(row, rowIndex);
+              p = validateRowItems(row, rowIndex);
               break;
 
             case K_OTROS:
-              p = pValidateRowOtros(row, rowIndex);
+              p = validateRowOtros(row, rowIndex);
               break;
 
             case K_PERCEPCIONES:
@@ -1744,7 +1728,7 @@
               break;
 
             case K_LEGAJOS:
-              p = pValidateRowLegajos(row, rowIndex);
+              p = validateRowLegajos(row, rowIndex);
               break;
           }
 
@@ -1756,9 +1740,9 @@
         return p || Cairo.Promises.resolvedPromise(false);
       };
 
-      var pIsEmptyRowLegajos = function(row, rowIndex) {
+      var isEmptyRowLegajos = function(row, rowIndex) {
 
-        var bRowIsEmpty = true;
+        var rowIsEmpty = true;
 
         var _count = row.size();
         for(var _i = 0; _i < _count; _i++) {
@@ -1768,33 +1752,33 @@
           switch (cell.getKey()) {
             case KIL_IMPORTE:
               if(!Cairo.Util.valEmpty(cell.getValue(), Types.currency)) {
-                bRowIsEmpty = false;
+                rowIsEmpty = false;
                 break;
               }
               break;
 
             case KIL_LGJ_ID:
               if(!Cairo.Util.valEmpty(cell.getId(), Types.id)) {
-                bRowIsEmpty = false;
+                rowIsEmpty = false;
                 break;
               }
               break;
 
             case KIL_DESCRIP:
               if(!Cairo.Util.valEmpty(cell.getValue(), Types.text)) {
-                bRowIsEmpty = false;
+                rowIsEmpty = false;
                 break;
               }
               break;
           }
         }
 
-        return bRowIsEmpty;
+        return rowIsEmpty;
       };
 
-      var pIsEmptyRowOtros = function(row, rowIndex) {
+      var isEmptyRowOtros = function(row, rowIndex) {
 
-        var bRowIsEmpty = true;
+        var rowIsEmpty = true;
 
         var _count = row.size();
         for(var _i = 0; _i < _count; _i++) {
@@ -1805,33 +1789,33 @@
 
             case KI_DEBE:
               if(!Cairo.Util.valEmpty(cell.getValue(), Types.currency)) {
-                bRowIsEmpty = false;
+                rowIsEmpty = false;
                 break;
               }
               break;
 
             case KI_HABER:
               if(!Cairo.Util.valEmpty(cell.getValue(), Types.currency)) {
-                bRowIsEmpty = false;
+                rowIsEmpty = false;
                 break;
               }
               break;
 
             case KI_CUE_ID:
               if(!Cairo.Util.valEmpty(cell.getId(), Types.id)) {
-                bRowIsEmpty = false;
+                rowIsEmpty = false;
                 break;
               }
               break;
           }
         }
 
-        return bRowIsEmpty;
+        return rowIsEmpty;
       };
 
-      var pIsEmptyRowItems = function(row, rowIndex) {
+      var isEmptyRowItems = function(row, rowIndex) {
 
-        var bRowIsEmpty = true;
+        var rowIsEmpty = true;
 
         var _count = row.size();
         for(var _i = 0; _i < _count; _i++) {
@@ -1843,7 +1827,7 @@
             case KI_CANTIDAD:
               if(!Cairo.Util.valEmpty(cell.getValue(), Types.currency)) {
                 if(val(cell.getValue()) !== 1) {
-                  bRowIsEmpty = false;
+                  rowIsEmpty = false;
                   break;
                 }
               }
@@ -1851,24 +1835,24 @@
 
             case KI_PRECIO:
               if(!Cairo.Util.valEmpty(cell.getValue(), Types.currency)) {
-                bRowIsEmpty = false;
+                rowIsEmpty = false;
                 break;
               }
               break;
 
             case KI_PR_ID:
               if(!Cairo.Util.valEmpty(cell.getId(), Types.id)) {
-                bRowIsEmpty = false;
+                rowIsEmpty = false;
                 break;
               }
               break;
           }
         }
 
-        return bRowIsEmpty;
+        return rowIsEmpty;
       };
 
-      var pValidateRowLegajos = function(row, rowIndex) {
+      var validateRowLegajos = function(row, rowIndex) {
 
         var strRow = " (Row: " + rowIndex.toString() + ")";
 
@@ -1881,15 +1865,13 @@
 
             case KIL_LGJ_ID:
               if(Cairo.Util.valEmpty(cell.getId(), Types.id)) {
-                return Cairo.Modal.showInfo(Cairo.Language.getText(1896, "", strRow)).then(function() {return false;});
-                // Debe indicar un legajo (1)
+                return Cairo.Modal.showInfoWithFalse(Cairo.Language.getText(1896, "", strRow)); // Debe indicar un legajo (1)
               }
               break;
 
             case KIL_IMPORTE:
               if(Cairo.Util.valEmpty(cell.getValue(), Types.currency)) {
-                return Cairo.Modal.showInfo(Cairo.Language.getText(1897, "", strRow)).then(function() {return false;});
-                // Debe indicar un importe (1)
+                return Cairo.Modal.showInfoWithFalse(Cairo.Language.getText(1897, "", strRow)); // Debe indicar un importe (1)
               }
               break;
           }
@@ -1898,7 +1880,7 @@
         return Cairo.Promises.resolvedPromise(true);
       };
 
-      var pValidateRowOtros = function(row, rowIndex) {
+      var validateRowOtros = function(row, rowIndex) {
 
         var bDebeHaber = false;
         var strRow = " (Row: " + rowIndex.toString() + ")";
@@ -1912,8 +1894,7 @@
 
             case KI_CUE_ID:
               if(Cairo.Util.valEmpty(cell.getId(), Types.id)) {
-                return Cairo.Modal.showInfo(Cairo.Language.getText(1388, "", strRow)).then(function() {return false;});
-                // Debe indicar una cuenta (1)
+                return Cairo.Modal.showInfoWithFalse(Cairo.Language.getText(1388, "", strRow)); // Debe indicar una cuenta (1)
               }
               break;
 
@@ -1939,10 +1920,10 @@
         return Cairo.Promises.resolvedPromise(true);
       };
 
-      var pValidateRowItems = function(row, rowIndex) {
+      var validateRowItems = function(row, rowIndex) {
 
         var p = null;
-        var bLlevaNroSerie = false;
+        var llevaNroSerie = false;
         var cantidad = 0;
 
         var strRow = " (Row: " + rowIndex.toString() + ")";
@@ -1957,46 +1938,40 @@
             case KI_CANTIDAD:
               cantidad = val(cell.getValue());
               if(Cairo.Util.valEmpty(cell.getValue(), Types.currency)) {
-                // Debe indicar una cantidad (1)
-                p = Cairo.Modal.showInfoWithFalse(Cairo.Language.getText(1365, "", strRow));
+                p = Cairo.Modal.showInfoWithFalse(Cairo.Language.getText(1365, "", strRow)); // Debe indicar una cantidad (1)
               }
               break;
 
             case KI_PRECIO:
               if(Cairo.Util.valEmpty(cell.getValue(), Types.currency)) {
-                // Debe indicar un precio (1)
-                p = Cairo.Modal.showInfoWithFalse(Cairo.Language.getText(1631, "", strRow));
+                p = Cairo.Modal.showInfoWithFalse(Cairo.Language.getText(1631, "", strRow)); // Debe indicar un precio (1)
               }
               break;
 
             case KI_PR_ID:
               if(Cairo.Util.valEmpty(cell.getId(), Types.id)) {
-                // Debe indicar un producto de Compra (1)
-                p = Cairo.Modal.showInfoWithFalse(Cairo.Language.getText(1899, "", strRow));
+                p = Cairo.Modal.showInfoWithFalse(Cairo.Language.getText(1899, "", strRow)); // Debe indicar un producto de Compra (1)
               }
               break;
 
             case KI_NRO_SERIE:
-              bLlevaNroSerie = cellId(row, KI_PR_LLEVA_NRO_SERIE);
-              if(Cairo.Util.valEmpty(cell.getValue(), Types.text) && bLlevaNroSerie) {
-                // Debe indicar un numero de serie (1)
-                p = Cairo.Modal.showInfoWithFalse(Cairo.Language.getText(1630, "", strRow));
+              llevaNroSerie = cellId(row, KI_PR_LLEVA_NRO_SERIE);
+              if(Cairo.Util.valEmpty(cell.getValue(), Types.text) && llevaNroSerie) {
+                p = Cairo.Modal.showInfoWithFalse(Cairo.Language.getText(1630, "", strRow)); // Debe indicar un numero de serie (1)
               }
               break;
 
             case KI_STL_CODIGO:
               if(m_showStockData) {
                 if(Cairo.Util.valEmpty(cell.getValue(), Types.text) && cellId(row, KI_PR_LLEVALOTE)) {
-                  // Debe indicar un lote (1)
-                  p = Cairo.Modal.showInfoWithFalse(Cairo.Language.getText(1632, "", strRow));
+                  p = Cairo.Modal.showInfoWithFalse(Cairo.Language.getText(1632, "", strRow)); // Debe indicar un lote (1)
                 }
               }
               break;
 
             case KI_TO_ID:
               if(Cairo.Util.valEmpty(cell.getId(), Types.id)) {
-                // Debe indicar un tipo de operación (1)
-                p = Cairo.Modal.showInfoWithFalse(Cairo.Language.getText(1633, "", strRow));
+                p = Cairo.Modal.showInfoWithFalse(Cairo.Language.getText(1633, "", strRow)); // Debe indicar un tipo de operación (1)
               }
               break;
           }
@@ -2006,7 +1981,7 @@
         // we need validate quantity match the
         // count of serial numbers collection
         // 
-        if(bLlevaNroSerie && m_showStockData) {
+        if(llevaNroSerie && m_showStockData) {
 
           var prId = cellId(row, KI_PR_ID);
 
