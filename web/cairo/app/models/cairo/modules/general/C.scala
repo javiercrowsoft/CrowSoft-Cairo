@@ -14,6 +14,9 @@ object U {
 
 object C {
 
+  val FROM = "from"
+  val TO = "to"
+
   // Provincia
   val PROVINCIA = "Provincia"
   val PRO_ID = "pro_id"

@@ -93,7 +93,7 @@
       return p;
     },
 
-    getData: function(query, id) {
+    getData: function(query, id, params) {
       var getAction = function() {
         var p = query.indexOf("[");
         return p > 0 ? query.substring(0, p) : "";
@@ -133,7 +133,8 @@
                   response.responseText);
               }
               defer.resolve({success: false, data: data, response: response});
-            }
+            },
+            data: (params !== undefined ? $.param(params) : undefined)
           });
           p = defer.promise;
         }

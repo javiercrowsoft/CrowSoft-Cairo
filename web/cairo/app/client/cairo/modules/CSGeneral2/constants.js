@@ -5,6 +5,11 @@
 
     Constants: {
 
+      ID: "id",
+
+      FROM: "from",
+      TO: "to",
+
       // Usuario
       USUARIO: "Usuario",
       US_ID: "us_id",
@@ -78,7 +83,6 @@
       // Hoja
       HOJA: "Hoja",
       HOJA_ID: "hoja_Id",
-      ID: "id",
 
       /* TODO: end lines to be removed */
       

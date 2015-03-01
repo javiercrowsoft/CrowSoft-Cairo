@@ -21,13 +21,16 @@
         var m_showingForm;
         var m_refreshing = false;
 
+        var m_haveDetail = false;
+        var m_startRowText = 0;
+
         var getView = function() {
           return m_view;
         };
 
-        var init = function(view) {
+        var init = function() {
           try {
-            m_view = view;
+            m_view = Views.createDocumentListView();
             m_bIsParam = view.getType() === "ListDoc";
 
             m_view.addListener({
@@ -65,7 +68,7 @@
           return m_client.refresh();
         };
 
-        self.show = function(client,  view) {
+        self.show = function(client, view) {
           if(client !== null) {
 
             m_client = client;
@@ -236,6 +239,17 @@
           }
 
           return (p || Cairo.Promises.resolvedPromise(true));
+        };
+
+        self.clearMenu = function() { /* TODO: implement this. */};
+        self.addMenu = function() { /* TODO: implement this. */};
+
+        self.setHaveDetail = function(haveDetail) {
+          m_haveDetail = haveDetail;
+        };
+
+        self.setStartRowText = function(startRowText) {
+          m_startRowText = startRowText;
         };
 
         var refreshList = function() {
@@ -535,17 +549,10 @@
         };
 
         var refreshAux = function() {
-          var index = null;
-          var property = null;
-          var m_properties = null;
-          var i = null;
+          for(var i = 1, count = m_properties.count(); i <= count; i++) {
 
-          m_properties = m_properties;
-
-          for(i = 1; i <= m_properties.count(); i++) {
-
-            property = m_properties(i);
-            index = property.getIndex();
+            var property = m_properties(i);
+            var index = property.getIndex();
 
             switch (m_properties(i).PropertyType) {
 

@@ -778,6 +778,13 @@
       return that;
     };
 
+    Views.createDocumentListView = function() {
+
+      var that = Views.createView();
+
+      return that;
+    };
+
   });
 
 }());

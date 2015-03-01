@@ -338,6 +338,21 @@
     }
   };
 
+  Cairo.Documents.getAsientoId = function(doctId, id) {
+    /* TODO: implement this. */
+    return Cairo.Promises.resolvedPromise({ success: false });
+  };
+
+  Cairo.Documents.getStockId = function(doctId, id) {
+    /* TODO: implement this. */
+    return Cairo.Promises.resolvedPromise({ success: false });
+  };
+
+  Cairo.Documents.getDocumentInfo = function(doctId, id) {
+    /* TODO: implement this. */
+    return Cairo.Promises.resolvedPromise({ success: false });
+  };
+
   Cairo.Documents.showDocAux = function(id, objEditName) {
     try {
 
@@ -551,14 +566,19 @@
     });
   };
 
-  Cairo.Documents.signDocument = function(doctId, docId) {
+  Cairo.Documents.getDocumentSignStatus = function(doctId, id) {
+    /* TODO: implement this. */
+    return Cairo.Promises.resolvedPromise(false);
+  };
+
+  Cairo.Documents.signDocument = function(doctId, id) {
 
     var register = new Cairo.Database.Register();
     var fields = register.getFields();
 
-    register.setFieldId(C.DOC_ID);
+    register.setFieldId(C.ID);
     register.setTable(C.DOCUMENTO);
-    register.setId(docId);
+    register.setId(id);
 
     fields.add(C.DOCT_ID, doctId, Cairo.Constants.Types.id);
 
@@ -618,6 +638,24 @@
   Cairo.Documents.getListaDescuentoForProveedor = function(docId, provId) {
     return "f:supplierListDiscount|supplierId:" + provId.toString() + ",documentId:" + docId.toString();
   };
+
+  Cairo.Documents.FACTURA_COMPRAS_DOC_FILTER = "f:document|documentTypeId:"
+    + Cairo.Documents.Types.FACTURA_COMPRA.toString()
+    + "*" + Cairo.Documents.Types.NOTA_CREDITO_COMPRA.toString()
+    + "*" + Cairo.Documents.Types.NOTA_DEBITO_COMPRA.toString()
+  ;
+
+  Cairo.Documents.showNotes = function() {
+    /* TODO: implement this. */
+    return Cairo.Promises.resolvedPromise(false);
+  };
+
+  Cairo.Documents.addNote = function(doctId, id) {
+    /* TODO: implement this. */
+    return Cairo.Promises.resolvedPromise(false);
+  };
+
+  Cairo.Documents.FACTURA_COMPRAS_LIST_DOC_FILTER = Cairo.Documents.FACTURA_COMPRAS_DOC_FILTER + "|empId:0";
 
   Cairo.History = {};
 

@@ -349,7 +349,12 @@ var Cairo = new Marionette.Application();
     MUST_SET_A_NAME: "You must provide a name",
     MUST_SET_A_CODE: "You must provide a code",
     GENERAL: "General",
-    TAB_GENERAL: "General"
+    TAB_GENERAL: "General",
+
+    VIRTUAL_START_DATE: 'virtual_start_date',
+    VIRTUAL_END_DATE: 'virtual_end_date',
+    START_DATE: 'start_date',
+    END_DATE: 'end_date'
   };
 
   Cairo.Constants.Types = {

@@ -89,10 +89,36 @@ case class FacturaCompraData(
                               items: List[FacturaCompraItemData]
                             )
 
+case class FacturaCompraParamsData(
+                                from: Date,
+                                to: Date,
+                                provId: String,
+                                estId: String,
+                                ccosId: String,
+                                sucId: String,
+                                docId: String,
+                                cpgId: String,
+                                empId: String
+                                )
 
 object FacturaCompras extends Controller with ProvidesUser {
 
   val GC = models.cairo.modules.general.C
+
+  val facturaCompraParamsForm: Form[FacturaCompraParamsData] = Form(
+    mapping(
+      "id" -> optional(number),
+      GC.FROM -> date,
+      GC.TO -> date,
+      GC.PROV_ID -> text,
+      GC.EST_ID -> text,
+      GC.CCOS_ID -> text,
+      GC.SUC_ID -> text,
+      GC.DOC_ID -> text,
+      GC.CPG_ID -> text,
+      GC.EMP_ID -> text
+    )(FacturaCompraParamsData.apply)(FacturaCompraParamsData.unapply)
+  )
 
   val facturaCompraForm: Form[FacturaCompraData] = Form(
     mapping(
@@ -302,7 +328,7 @@ object FacturaCompras extends Controller with ProvidesUser {
   }
 
   def update(id: Int) = PostAction { implicit request =>
-    Logger.debug("in facturaCompras.update")
+    Logger.debug("in FacturaCompras.update")
     facturaCompraForm.bindFromRequest.fold(
       formWithErrors => {
         Logger.debug(s"invalid form: ${formWithErrors.toString}")
@@ -370,7 +396,7 @@ object FacturaCompras extends Controller with ProvidesUser {
   }
 
   def create = PostAction { implicit request =>
-    Logger.debug("in facturaCompras.create")
+    Logger.debug("in FacturaCompras.create")
     facturaCompraForm.bindFromRequest.fold(
       formWithErrors => {
         Logger.debug(s"invalid form: ${formWithErrors.toString}")
@@ -437,7 +463,7 @@ object FacturaCompras extends Controller with ProvidesUser {
   }
 
   def delete(id: Int) = PostAction { implicit request =>
-    Logger.debug("in facturaCompras.delete")
+    Logger.debug("in FacturaCompras.delete")
     LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.DELETE_FACTURA_COMPRA), { user =>
       FacturaCompra.delete(user, id)
       // Backbonejs requires at least an empty json object in the response
@@ -456,6 +482,50 @@ object FacturaCompras extends Controller with ProvidesUser {
             docId: Option[Int],
             cpgId: Option[Int]
     ) = GetAction { implicit request =>
+    LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.LIST_FACTURA_COMPRA), { user =>
+      Ok(Json.toJson(""))
+    })
+  }
+
+  def parameters = GetAction { implicit request =>
+    LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.LIST_FACTURA_COMPRA), { user =>
+      Ok(Json.toJson(""))
+    })
+  }
+
+  def saveParameters = PostAction { implicit request =>
+    Logger.debug("in FacturaCompras.saveParameters")
+    facturaCompraParamsForm.bindFromRequest.fold(
+      formWithErrors => {
+        Logger.debug(s"invalid form: ${formWithErrors.toString}")
+        BadRequest
+      },
+      facturaCompraParams => {
+        Logger.debug(s"form: ${facturaCompraParams.toString}")
+        LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.LIST_FACTURA_COMPRA), { user =>
+          Ok(
+            Json.toJson(
+              FacturaCompra.saveParams(user,
+                FacturaCompraParams(
+                    facturaCompraParams.from,
+                    facturaCompraParams.to,
+                    facturaCompraParams.provId,
+                    facturaCompraParams.estId,
+                    facturaCompraParams.ccosId,
+                    facturaCompraParams.sucId,
+                    facturaCompraParams.docId,
+                    facturaCompraParams.cpgId,
+                    facturaCompraParams.empId
+                )
+              )
+            )
+          )
+        })
+      }
+    )
+  }
+
+  def notes(id: Int) = GetAction { implicit request =>
     LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.LIST_FACTURA_COMPRA), { user =>
       Ok(Json.toJson(""))
     })

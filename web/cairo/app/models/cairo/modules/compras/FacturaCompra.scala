@@ -394,6 +394,18 @@ case class FacturaCompra(
 
 }
 
+case class FacturaCompraParams(
+                                from: Date,
+                                to: Date,
+                                provId: String,
+                                estId: String,
+                                ccosId: String,
+                                sucId: String,
+                                docId: String,
+                                cpgId: String,
+                                empId: String
+                                )
+
 object FacturaCompra {
 
   lazy val GC = models.cairo.modules.general.C
@@ -1159,5 +1171,44 @@ object FacturaCompra {
       }
       case None => emptyFacturaCompra
     }
+  }
+
+  def saveParams(user: CompanyUser, facturaCompraParams: FacturaCompraParams): FacturaCompraParams = {
+    def getFields = {
+      List(
+        Field(GC.FROM, facturaCompraParams.from, FieldType.text),
+        Field(GC.TO, facturaCompraParams.to, FieldType.text),
+        Field(GC.PROV_ID, facturaCompraParams.provId, FieldType.text),
+        Field(GC.EST_ID, facturaCompraParams.estId, FieldType.text),
+        Field(GC.CCOS_ID, facturaCompraParams.ccosId, FieldType.text),
+        Field(GC.SUC_ID, facturaCompraParams.sucId, FieldType.text),
+        Field(GC.DOC_ID, facturaCompraParams.docId, FieldType.text),
+        Field(GC.CPG_ID, facturaCompraParams.cpgId, FieldType.text),
+        Field(GC.EMP_ID, facturaCompraParams.empId, FieldType.text),
+      )
+    }
+    def throwException = {
+      throw new RuntimeException(s"Error when saving ${C.FACTURA_COMPRA}")
+    }
+
+    DBHelper.save(
+      user,
+      Register(
+        C.FACTURA_COMPRA_TMP,
+        C.FC_TMPID,
+        DBHelper.NoId,
+        false,
+        true,
+        true,
+        getFields),
+      true
+    ) match {
+      case SaveResult(true, id) => loadParams(user).getOrElse(throwException)
+      case SaveResult(false, id) => throwException
+    }
+  }
+
+  def loadParams(user: CompanyUser): Option[FacturaCompraParams] = {
+    FacturaCompraParams(DateUtil.currentTime, DateUtil.currentTime, '0, '0, '0, '0, '0, '0, '0)
   }
 }
