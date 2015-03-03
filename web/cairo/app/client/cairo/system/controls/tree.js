@@ -1625,6 +1625,13 @@
         };
 
         var dom = getDataTableDomAttribute();
+        var order;
+        if(Cairo.isMobile()) {
+          order = [[ 0, "asc" ]];
+        }
+        else {
+          order = (branch.models[0].attributes.leaves.length > 0 && listController.Tree.getValue('showEditButton') ? [[ 1, "asc" ]] : undefined);
+        }
 
         listController.Tree.dataTableSettings = {
           scrollY: scrollY,
@@ -1641,7 +1648,7 @@
           fnDrawCallback: function( oSettings ) {
             $(listController.Tree.dataTableId$ + " tbody tr").contextMenu(menu, {theme:'osx'});
           },
-          order: (branch.models[0].attributes.leaves.length > 0 && listController.Tree.getValue('showEditButton') ? [[ 1, "asc" ]] : undefined)
+          order: order
         };
 
         $(listController.Tree.dataTableId$).attr('width', '100%');

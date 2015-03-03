@@ -13,70 +13,70 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          @if(loggedUser.isLogged && requestOrigin.userAgent.isMobile) {
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".mobile-menu">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
+          @if(requestOrigin.userAgent.isMobile) {
+            <ul id="mainTabBar" class="nav nav-tabs">
+              <li class="active"><a href="#desktop-region" data-toggle="tab" data-route="#" id="link_desktop-region">!</a></li>
+            </ul>
           }
         </div>
 
-        <div class="collapse navbar-collapse">
-          <div class="navbar-form navbar-right" style="padding-top: 5px">
-            <a class="btn btn-danger btn-xs" href="/logout">
-              Logout
-            </a>
-          </div>
-          @if(!requestOrigin.userAgent.isMobile) {
+        @if(!requestOrigin.userAgent.isMobile) {
+          <div class="collapse navbar-collapse">
+            <div class="navbar-form navbar-right" style="padding-top: 5px;">
+              <a class="btn btn-danger btn-xs" href="/logout" style="margin-right: 10px;">
+                Logout
+              </a>
+            </div>
 
-
-                      <ul class="nav navbar-nav">
-                          @for(menu <- menus) { @htmlHelpers.menuItem(menu) }
-                          <li class="dropdown">
-                              <a href="#" class="dropdown-toggle menu" data-toggle="dropdown">Help <b class="caret"></b></a>
-                              <ul class="dropdown-menu multi-level">
-                                  <li><a href="#about" class="menu">About</a></li>
-                              </ul>
-                          </li>
-                      </ul>
-
-
-
-          }
-        </div><!--/.nav-collapse -->
+            <ul class="nav navbar-nav">
+                @for(menu <- menus) { @htmlHelpers.menuItem(menu) }
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle menu" data-toggle="dropdown">Help <b class="caret"></b></a>
+                    <ul class="dropdown-menu multi-level">
+                        <li><a href="#about" class="menu">About</a></li>
+                    </ul>
+                </li>
+            </ul>
+            <ul id="mainTabBar" class="nav nav-tabs">
+              <li class="active"><a href="#desktop-region" data-toggle="tab" data-route="#" id="link_desktop-region">Desktop</a></li>
+            </ul>
+          </div><!--/.nav-collapse -->
+        }
       </div>
     </div>
-@if(requestOrigin.userAgent.isMobile) {
-          <div class="collapse mobile-menu">
-              <div class="container">
-                  <div class="row">
-                      <div class="panel-group mobile-accordion-menu" id="mainMenu">
-                          @for(menu <- menus) { @htmlHelpers.menuItemMobile(menu) }
-                          <div class="panel panel-default">
-                              <div class="panel-heading">
-                                  <h4 class="panel-title">
-                                      <a data-toggle="collapse" data-parent="#mainMenu" href="#collapseHelp">
-                                          Help <b class="caret"></b>
-                                      </a>
-                                  </h4>
-                              </div>
+        @if(requestOrigin.userAgent.isMobile) {
+          <div class="collapse navbar-collapse" style="margin-top: 100px;">
+            <div class="navbar-form navbar-right" style="padding-top: 5px;">
+              <a class="btn btn-danger btn-xs" href="/logout" style="margin-right: 10px;">
+                Logout
+              </a>
+            </div>
+            <div class="container">
+                <div class="row">
+                    <div class="panel-group mobile-accordion-menu" id="mainMenu">
+                        @for(menu <- menus) { @htmlHelpers.menuItemMobile(menu) }
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4 class="panel-title">
+                                    <a data-toggle="collapse" data-parent="#mainMenu" href="#collapseHelp">
+                                        Help <b class="caret"></b>
+                                    </a>
+                                </h4>
+                            </div>
 
-                              <div id="collapseHelp" class="panel-collapse collapse menu-panel">
-                                  <div class="panel-body">
-                                      <ul class="list-group">
-                                          <li class="list-group-item"><a href="#about" class="menu">About</a></li>
-                                      </ul>
-                                  </div>
-                              </div>
-                          </div>
-                      </div>
-                  </div>
-              </div>
+                            <div id="collapseHelp" class="panel-collapse collapse menu-panel">
+                                <div class="panel-body">
+                                    <ul class="list-group">
+                                        <li class="list-group-item"><a href="#about" class="menu">About</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
           </div><!--/.nav-collapse -->
-          }
-<div style="margin-top:62px;"></div>
+        }
 <div class="container @if(requestOrigin.userAgent.isMobile){mobile-body} desktop-container">
     <div class="row">
         @flash.get("success").map { msg =>
@@ -88,10 +88,7 @@
 <div id="header-region"></div>
 <div id="loading-region" class="container"></div>
 
-<ul id="mainTabBar" class="nav nav-tabs">
-  <li class="active"><a href="#desktop-region" data-toggle="tab" data-route="#" id="link_desktop-region">Desktop</a></li>
-</ul>
-<div id="mainTabBody" class="tab-content">
+<div id="mainTabBody" class="tab-content" @if(requestOrigin.userAgent.isMobile) {style="margin-top: 45px;"}>
   <div class="tab-pane active" id="desktop-region">
   </div>
 </div>
@@ -280,11 +277,10 @@
     <div class="container">
         <h1>Welcome to your desktop 3 !!!</h1>
         <form>
-          <div class="input-text-form">
             <div class="tree-select-control cf">
               <input
                     type="text"
-                    class="form-control dialog-control"
+                    class="dialog-control dialog-input-control ui-autocomplete-input"
                     id="desktop-select"
                     placeholder="Search for any city"
                     autocomplete="off"
@@ -295,7 +291,7 @@
             <div class="tree-select-control cf">
               <input
                     type="text"
-                    class="form-control dialog-control"
+                    class="dialog-control dialog-input-control ui-autocomplete-input"
                     id="desktop-select2"
                     placeholder="Search for any action you want to make like create an invoice"
                     autocomplete="off"
@@ -307,7 +303,7 @@
                 <span class="tree-select-control-folder-icon hidden"><i class='glyphicon glyphicon-folder-open'></i></span>
             	<input
             	      type="text"
-            	      class="form-control dialog-control"
+            	      class="dialog-control dialog-input-control ui-autocomplete-input"
             	      id="desktop-select3"
             	      placeholder="Search here..."
             	      autocomplete="off"
@@ -319,14 +315,13 @@
                 <span class="tree-select-control-folder-icon hidden"><i class='glyphicon glyphicon-folder-open'></i></span>
             	<input
             	      type="text"
-            	      class="form-control dialog-control"
+            	      class="dialog-control dialog-input-control ui-autocomplete-input"
             	      id="desktop-select4"
             	      placeholder="Search here..."
             	      autocomplete="off"
             	      />
             	<button>...</button>
             </div>
-          </div>
         </form>
     </div>
 </script>
@@ -355,13 +350,13 @@
       </div>
     </div>
     <div class="row tree-layout-buttons-toolbar-row">
-      <div class="col-sm-5 col-md-5"></div>
-      <div class="col-sm-7 col-md-7 tree-select-control-search">
+      <div class="col-sm-5 col-md-6 col-lg-7"></div>
+      <div class="col-sm-7 col-md-6 col-lg-5 tree-select-control-search">
           <% if(showSelectButton) { %>
             <button class="btn btn-primary align-right" id="tree-select-select-button"> Select </button>
           <% } %>
-          <div class="tree-select-input align-right">
-            <div class="tree-select-control cf">
+          <div class="tree-select-input align-right-first">
+            <div class="tree-select-control cf search-select">
               <input
                     type="text"
                     class="form-control dialog-control"
@@ -490,7 +485,7 @@
 <!-- dialogs -->
 
 <script type="text/template" id="dialog-layout-template">
-    <div class="row">
+    <div class="row dialog-header">
         <div class="col-sm-12 col-md-12">
             <div class="@if(requestOrigin.userAgent.isMobile) {container} else {desktop-big-container}">
                 <h3 class="sub-header dialog-subtitle"><%- entityTitle %></h3>
@@ -584,7 +579,7 @@
 </script>
 
 <script type="text/template" id="document-list-layout-template">
-    <div class="row">
+    <div class="row document-list-header">
         <div class="col-sm-12 col-md-12">
             <div class="@if(requestOrigin.userAgent.isMobile) {container} else {desktop-big-container}">
                 <h3 class="sub-header dialog-subtitle"><%- entityTitle %></h3>
@@ -790,7 +785,7 @@
 <script>
   $(document).ready(function () {
       function closeNav() {
-          $(".mobile-menu").stop().css({ 'height': '1px' }).removeClass('in').addClass("collapse");
+          $(".navbar-collapse").stop().css({ 'height': '1px' }).removeClass('in').addClass("collapse");
           $(".menu-panel").stop().css({ 'height': '1px' }).removeClass('in').addClass("collapse");
       }
 
