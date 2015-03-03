@@ -25,7 +25,7 @@
       //
       // creates a tab definition object with
       //    count: amount of controls,
-      //    columns: how many columns needed to show the controls,
+      //    columns: how many columns this tab has,
       //    colIndex: used to know in which column should the control be added
       //
       var setTabDefinition = function(i) {
@@ -36,9 +36,12 @@
             tabs[i].count += 1;
           }
         }
-        var controlsByColumn = Math.ceil(tabs[i].count / 3)
-        tabs[i].columns = Math.floor(tabs[i].count / controlsByColumn);
-        tabs[i].columns += tabs[i].count % controlsByColumn ? 1 : 0;
+        if(view.type === 'ListDoc' || view.type === 'Params') {
+          tabs[i].columns = 1;
+        }
+        else {
+          tabs[i].columns = 3;
+        }
       }
 
       //
@@ -100,14 +103,19 @@
       };
 
       var checkBigColumn = function(control, index) {
-        if(isLabelForControl(control)) {
-          control = view.controls.item(index+1);
+        if(view.type === 'ListDoc' || view.type === 'Params') {
+          return true;
         }
-        return (
-             control.getObjectType() === 'cairo.controls.textArea'
-          || control.getObjectType() === 'cairo.controls.grid'
-          || control.getObjectType() === 'cairo.controls.label'
-          );
+        else {
+          if(isLabelForControl(control)) {
+            control = view.controls.item(index+1);
+          }
+          return (
+               control.getObjectType() === 'cairo.controls.textArea'
+            || control.getObjectType() === 'cairo.controls.grid'
+            || control.getObjectType() === 'cairo.controls.label'
+            );
+        }
       };
 
       //
@@ -143,13 +151,63 @@
 
     });
 
-    Views.createView = function() {
+    Views.DocumentLayout = Marionette.Layout.extend({
+      template: "#document-layout-template",
+
+      onRender: function(){
+        var viewManager = this.model.get('viewManager');
+        var viewDef = this.model.get('viewDef');
+        this.$("#formBody").append(createControls(viewDef, viewManager));
+        viewManager.bindView(this);
+      }
+
+    });
+
+    Views.WizardLayout = Marionette.Layout.extend({
+      template: "#wizard-layout-template",
+
+      onRender: function(){
+        var viewManager = this.model.get('viewManager');
+        var viewDef = this.model.get('viewDef');
+        this.$("#formBody").append(createControls(viewDef, viewManager));
+        viewManager.bindView(this);
+      }
+
+    });
+
+    Views.DocumentListLayout = Marionette.Layout.extend({
+      template: "#document-list-layout-template",
+
+      onRender: function(){
+        var viewManager = this.model.get('viewManager');
+        var viewDef = this.model.get('viewDef');
+        this.$("#formBody").append(createControls(viewDef, viewManager));
+        viewManager.bindView(this);
+      }
+
+    });
+
+    Views.ParamsLayout = Marionette.Layout.extend({
+      template: "#params-layout-template",
+
+      onRender: function(){
+        var viewManager = this.model.get('viewManager');
+        var viewDef = this.model.get('viewDef');
+        this.$("#formBody").append(createControls(viewDef, viewManager));
+        viewManager.bindView(this);
+      }
+
+    });
+
+    Views.createView = function(viewType) {
 
       var _viewId = "view" + (new Date).getTime().toString();
 
       var controls = Cairo.Collections.createCollection(null);
 
       var self = {
+        type: viewType,
+
         listeners: [],
 
         text: "",
@@ -193,6 +251,10 @@
       var that = {};
 
       self.tabs.add();
+
+      that.getType = function() {
+        return self.type;
+      };
 
       that.getText = function() {
         return self.text;
@@ -424,8 +486,27 @@
 
           // create the dialog
           //
+          var mainView;
+          switch(that.getType()) {
+            case 'Dialog':
+              mainView = new Cairo.Dialogs.Views.DialogLayout({ model: self.entityInfo });
+              break;
+            case 'Document':
+              mainView = new Cairo.Dialogs.Views.DocumentLayout({ model: self.entityInfo });
+              break;
+            case 'Wizard':
+              mainView = new Cairo.Dialogs.Views.WizardLayout({ model: self.entityInfo });
+              break;
+            case 'ListDoc':
+              mainView = new Cairo.Dialogs.Views.DocumentListLayout({ model: self.entityInfo });
+              break;
+            case 'Params':
+              mainView = new Cairo.Dialogs.Views.ParamsLayout({ model: self.entityInfo });
+              break;
+          }
+
           showView(
-            new Cairo.Dialogs.Views.DialogLayout({ model: self.entityInfo }),
+            mainView,
             Cairo[regionName],
             self);
         };
@@ -666,7 +747,7 @@
         saved: false
       };
 
-      var that = Views.createView();
+      var that = Views.createView('Dialog');
 
       that.getEditDocumentsButton = function() {
         return self.btnEditDocument;
@@ -718,6 +799,7 @@
 
       that.bindView = function(view) {
         supperBindView(view);
+
         self.btnEditDocument.setElement(view.$('.dialog-documents-button'));
         self.btnEditDocument.getElement().click(onEditDocumentClick);
 
@@ -742,7 +824,7 @@
 
     Views.createWizardView = function() {
 
-      var that = Views.createView();
+      var that = Views.createView('Wizard');
 
       that.getImgWiz1 = function() { /* TODO: implement this. */ };
       that.getImgWiz3 = function() { /* TODO: implement this. */ };
@@ -757,7 +839,7 @@
 
     Views.createDocumentView = function() {
 
-      var that = Views.createView();
+      var that = Views.createView('Document');
 
       that.setLoading = function(loading) { /* TODO: implement this. */ };
       that.getCancelUnload = function() { /* TODO: implement this. */ };
@@ -780,7 +862,14 @@
 
     Views.createDocumentListView = function() {
 
-      var that = Views.createView();
+      var that = Views.createView('ListDoc');
+
+      return that;
+    };
+
+    Views.createParametersView = function() {
+
+      var that = Views.createView('Params');
 
       return that;
     };

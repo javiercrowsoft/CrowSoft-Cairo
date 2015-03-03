@@ -85,6 +85,8 @@
 
       that.getDateName = function() { /* TODO: implement this. */ };
 
+      that.setButtonStyle = function(style) { /* TODO: implement this. */ };
+
       return that;
     };
 

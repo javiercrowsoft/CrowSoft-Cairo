@@ -12,6 +12,7 @@ import models.cairo.modules.compras._
 import models.cairo.system.security.CairoSecurity
 import models.cairo.system.database.DBHelper
 import java.util.Date
+import formatters.json.DateFormatter._
 
 
 case class FacturaCompraIdData(
@@ -107,7 +108,6 @@ object FacturaCompras extends Controller with ProvidesUser {
 
   val facturaCompraParamsForm: Form[FacturaCompraParamsData] = Form(
     mapping(
-      "id" -> optional(number),
       GC.FROM -> date,
       GC.TO -> date,
       GC.PROV_ID -> text,
@@ -182,6 +182,27 @@ object FacturaCompras extends Controller with ProvidesUser {
       )
     )(FacturaCompraData.apply)(FacturaCompraData.unapply)
   )
+
+  implicit val facturaCompraParamsWrites = new Writes[FacturaCompraParams] {
+    def writes(facturaCompraParams: FacturaCompraParams) = Json.obj(
+      GC.FROM -> Json.toJson(facturaCompraParams.from),
+      GC.TO -> Json.toJson(facturaCompraParams.to),
+      GC.PROV_ID -> Json.toJson(facturaCompraParams.provId),
+      GC.PROV_NAME -> Json.toJson(facturaCompraParams.provName),
+      GC.EST_ID -> Json.toJson(facturaCompraParams.estId),
+      GC.EST_NAME -> Json.toJson(facturaCompraParams.estName),
+      GC.CCOS_ID -> Json.toJson(facturaCompraParams.ccosId),
+      GC.CCOS_NAME -> Json.toJson(facturaCompraParams.ccosName),
+      GC.SUC_ID -> Json.toJson(facturaCompraParams.sucId),
+      GC.SUC_NAME -> Json.toJson(facturaCompraParams.sucName),
+      GC.DOC_ID -> Json.toJson(facturaCompraParams.docId),
+      GC.DOC_NAME -> Json.toJson(facturaCompraParams.docName),
+      GC.CPG_ID -> Json.toJson(facturaCompraParams.cpgId),
+      GC.CPG_NAME -> Json.toJson(facturaCompraParams.cpgName),
+      GC.EMP_ID -> Json.toJson(facturaCompraParams.empId),
+      GC.EMP_NAME -> Json.toJson(facturaCompraParams.empName)
+    )
+  }
 
   implicit val facturaCompraWrites = new Writes[FacturaCompra] {
     def writes(facturaCompra: FacturaCompra) = Json.obj(
@@ -489,7 +510,7 @@ object FacturaCompras extends Controller with ProvidesUser {
 
   def parameters = GetAction { implicit request =>
     LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.LIST_FACTURA_COMPRA), { user =>
-      Ok(Json.toJson(""))
+      Ok(Json.toJson(FacturaCompra.emptyFacturaCompraParams))
     })
   }
 

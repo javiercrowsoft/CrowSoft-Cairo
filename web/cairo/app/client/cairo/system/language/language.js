@@ -5,7 +5,7 @@
 
     Language.getText = function(code, defaultValue) {
       code = "code" + code.toString();
-      return this.texts[code] || defaultValue;
+      return Language.texts[code] || defaultValue;
     };
 
     // TODO: implement this. read this values from the user's language

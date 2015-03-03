@@ -115,8 +115,15 @@
           p = rp({success: false, message: "Invalid query: Path not defined."});
         }
         else {
-          var q = new Cairo.Entities.DatabaseQuery({id: id});
-          q.urlRoot = path;
+          var q;
+          if(id !== undefined) {
+            q = new Cairo.Entities.DatabaseQuery({id: id});
+            q.urlRoot = path;
+          }
+          else {
+            q = new Cairo.Entities.DatabaseQuery({});
+            q.url = path;
+          }
           var defer = new Cairo.Promises.Defer();
           q.fetch({
             success: function(data) {
@@ -149,7 +156,11 @@
     },
 
     valField: function(fields, fieldName) {
-      return fields.get(fieldName);
+      var value = fields.get(fieldName);
+      if(value === undefined) {
+        Cairo.log("Missing field: the field " + fieldName + " isn't present in this dataset");
+      }
+      return value;
     },
 
     getValue: function(object, attribute) {

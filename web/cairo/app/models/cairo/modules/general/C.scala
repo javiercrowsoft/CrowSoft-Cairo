@@ -877,6 +877,7 @@ object C {
   val EMP_ID = "emp_id"
   val EMP_DESCRIP = "emp_descrip"
   val EMP_RAZONSOCIAL = "emp_razonsocial"
+  val EMP_NAME = "emp_nombre"
   val EMP_CUIT = "emp_cuit"
   val EMP_INGRESOSBRUTOS = "emp_ingresosbrutos"
   val EMP_CATFISCAL = "emp_catfiscal"

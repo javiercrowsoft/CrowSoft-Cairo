@@ -4,51 +4,79 @@
 
 @main("Desktop", s"Welcome ${companyUser.user.username} to your ${companyUser.company.company_name}'s desktop!") {
 
-@if(!requestOrigin.userAgent.isMobile) {
-<div class="jumbotron desktop-menu">
-    <div class="desktop-big-container">
-        <div class="row">
-            <ul class="nav navbar-nav">
-                @for(menu <- menus) { @htmlHelpers.menuItem(menu) }
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle menu" data-toggle="dropdown">Help <b class="caret"></b></a>
-                    <ul class="dropdown-menu multi-level">
-                        <li><a href="#about" class="menu">About</a></li>
-                    </ul>
-                </li>
-            </ul>
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+      <div class="@if(loggedUser.isDesktop && !requestOrigin.userAgent.isMobile) {desktop-big-container} else {container}">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          @if(loggedUser.isLogged && requestOrigin.userAgent.isMobile) {
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".mobile-menu">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+          }
         </div>
-    </div>
-</div>
-} else {
-<div class="collapse mobile-menu">
-    <div class="container">
-        <div class="row">
-            <div class="panel-group mobile-accordion-menu" id="mainMenu">
-                @for(menu <- menus) { @htmlHelpers.menuItemMobile(menu) }
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h4 class="panel-title">
-                            <a data-toggle="collapse" data-parent="#mainMenu" href="#collapseHelp">
-                                Help <b class="caret"></b>
-                            </a>
-                        </h4>
-                    </div>
 
-                    <div id="collapseHelp" class="panel-collapse collapse menu-panel">
-                        <div class="panel-body">
-                            <ul class="list-group">
-                                <li class="list-group-item"><a href="#about" class="menu">About</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div><!--/.nav-collapse -->
-}
+        <div class="collapse navbar-collapse">
+          <div class="navbar-form navbar-right" style="padding-top: 5px">
+            <a class="btn btn-danger btn-xs" href="/logout">
+              Logout
+            </a>
+          </div>
+          @if(!requestOrigin.userAgent.isMobile) {
 
+
+                      <ul class="nav navbar-nav">
+                          @for(menu <- menus) { @htmlHelpers.menuItem(menu) }
+                          <li class="dropdown">
+                              <a href="#" class="dropdown-toggle menu" data-toggle="dropdown">Help <b class="caret"></b></a>
+                              <ul class="dropdown-menu multi-level">
+                                  <li><a href="#about" class="menu">About</a></li>
+                              </ul>
+                          </li>
+                      </ul>
+
+
+
+          }
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+@if(requestOrigin.userAgent.isMobile) {
+          <div class="collapse mobile-menu">
+              <div class="container">
+                  <div class="row">
+                      <div class="panel-group mobile-accordion-menu" id="mainMenu">
+                          @for(menu <- menus) { @htmlHelpers.menuItemMobile(menu) }
+                          <div class="panel panel-default">
+                              <div class="panel-heading">
+                                  <h4 class="panel-title">
+                                      <a data-toggle="collapse" data-parent="#mainMenu" href="#collapseHelp">
+                                          Help <b class="caret"></b>
+                                      </a>
+                                  </h4>
+                              </div>
+
+                              <div id="collapseHelp" class="panel-collapse collapse menu-panel">
+                                  <div class="panel-body">
+                                      <ul class="list-group">
+                                          <li class="list-group-item"><a href="#about" class="menu">About</a></li>
+                                      </ul>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div><!--/.nav-collapse -->
+          }
+<div style="margin-top:62px;"></div>
 <div class="container @if(requestOrigin.userAgent.isMobile){mobile-body} desktop-container">
     <div class="row">
         @flash.get("success").map { msg =>
@@ -91,15 +119,16 @@
 </script>
 
 <script type="text/template" id="loading-view">
+<div class="alert alert-info">
     <div class="row">
-        <div class="col-sm-4 col-md-3">
-            <h1><%- title %></h1>
-            <p><%- message %></p>
-        </div>
-        <div class="col-sm-8 col-md-9">
-            <div id="spinner"></div>
+        <div class="col-sm-12 col-md-12 col-lg-12">
+          <div id="spinner"></div>
+          <span style="margin-left: 50px;">
+            <%- message %>
+          </span>
         </div>
     </div>
+</div>
 </script>
 
 <script type="text/template" id="usuario-list">
@@ -318,14 +347,15 @@
 </script>
 
 <script type="text/template" id="tree-layout-template">
-    <div class="row">
-      <div class="col-sm-4 col-md-4">
+    <div class="row tree-header">
+      <div class="col-sm-12 col-md-12">
         <div class="@if(requestOrigin.userAgent.isMobile) {container} else {desktop-big-container}">
             <h3 class="sub-header"><%- entitiesTitle %></h3>
         </div>
       </div>
-      <div class="col-sm-1 col-md-1">
-      </div>
+    </div>
+    <div class="row tree-layout-buttons-toolbar-row">
+      <div class="col-sm-5 col-md-5"></div>
       <div class="col-sm-7 col-md-7 tree-select-control-search">
           <% if(showSelectButton) { %>
             <button class="btn btn-primary align-right" id="tree-select-select-button"> Select </button>
@@ -351,7 +381,7 @@
 
     <div class="@if(requestOrigin.userAgent.isMobile) {container} else {desktop-big-container}">
         <div class="row">
-            <div class="col-sm-5 col-md-4 col-lg-3">
+            <div class="col-sm-5 col-md-4 col-lg-3 tree-layout-tree-column">
                 <ul class="nav noFocus">
                     <li><div id="trees"></div></li>
                     <li><div id="tree"></div></li>
@@ -460,6 +490,135 @@
 <!-- dialogs -->
 
 <script type="text/template" id="dialog-layout-template">
+    <div class="row">
+        <div class="col-sm-12 col-md-12">
+            <div class="@if(requestOrigin.userAgent.isMobile) {container} else {desktop-big-container}">
+                <h3 class="sub-header dialog-subtitle"><%- entityTitle %></h3>
+            </div>
+        </div>
+    </div>
+    <div class="@if(requestOrigin.userAgent.isMobile) {container} else {dialog-container}">
+        <div class="row document-list-buttons-toolbar-row">
+          <div class="col-sm-3 col-md-3 col-lg-3">
+            <button class="btn btn-success dialog-button dialog-wide-button dialog-save-button">Save</button>
+          </div>
+          <div class="col-sm-8 col-md-8 col-lg-8">
+            <button class="btn btn-info dialog-button dialog-new-button">New</button>
+            <button class="btn btn-info dialog-button dialog-copy-button">Duplicate</button>
+            <button class="btn btn-warning dialog-button dialog-discard-button">Discard Changes</button>
+            <button class="btn btn-info dialog-button dialog-print-button">Print</button>
+            <button class="btn btn-info dialog-button dialog-permissions-button">Permissions</button>
+            <button class="btn btn-info dialog-button dialog-documents-button">Attached Files</button>
+          </div>
+          <div class="col-sm-1 col-md-1 col-lg-1">
+            <button class="btn btn-warning dialog-button dialog-close-button">Close</button>
+          </div>
+        </div>
+        <div class="dialog-form-box">
+          <div id="formBody">
+          </div>
+        </div>
+    </div>
+</script>
+
+<script type="text/template" id="document-layout-template">
+    <div class="row">
+        <div class="col-sm-12 col-md-12">
+            <div class="@if(requestOrigin.userAgent.isMobile) {container} else {desktop-big-container}">
+                <h3 class="sub-header dialog-subtitle"><%- entityTitle %></h3>
+            </div>
+        </div>
+    </div>
+    <div class="@if(requestOrigin.userAgent.isMobile) {container} else {dialog-container}">
+        <div id="formBody">
+        </div>
+        <div class="input-text-form">
+            <div class="row dialog-buttons-first-row">
+                <button class="btn btn-success dialog-button dialog-wide-button dialog-save-button">Save</button>
+                <button class="btn btn-warning dialog-button dialog-close-button">Close</button>
+            </div>
+            <div class="row dialog-buttons-row">
+                <button class="btn btn-info dialog-button dialog-new-button">New</button>
+                <button class="btn btn-info dialog-button dialog-copy-button">Duplicate</button>
+                <button class="btn btn-warning dialog-button dialog-discard-button">Discard Changes</button>
+            </div>
+            <div class="row dialog-buttons-last-row">
+                <button class="btn btn-info dialog-button dialog-print-button">Print</button>
+                <button class="btn btn-info dialog-button dialog-permissions-button">Permissions</button>
+                <button class="btn btn-info dialog-button dialog-documents-button">Attached Files</button>
+            </div>
+            <br/>
+        </div>
+    </div>
+</script>
+
+<script type="text/template" id="wizard-layout-template">
+    <div class="row">
+        <div class="col-sm-12 col-md-12">
+            <div class="@if(requestOrigin.userAgent.isMobile) {container} else {desktop-big-container}">
+                <h3 class="sub-header dialog-subtitle"><%- entityTitle %></h3>
+            </div>
+        </div>
+    </div>
+    <div class="@if(requestOrigin.userAgent.isMobile) {container} else {dialog-container}">
+        <div id="formBody">
+        </div>
+        <div class="input-text-form">
+            <div class="row dialog-buttons-first-row">
+                <button class="btn btn-success dialog-button dialog-wide-button dialog-save-button">Save</button>
+                <button class="btn btn-warning dialog-button dialog-close-button">Close</button>
+            </div>
+            <div class="row dialog-buttons-row">
+                <button class="btn btn-info dialog-button dialog-new-button">New</button>
+                <button class="btn btn-info dialog-button dialog-copy-button">Duplicate</button>
+                <button class="btn btn-warning dialog-button dialog-discard-button">Discard Changes</button>
+            </div>
+            <div class="row dialog-buttons-last-row">
+                <button class="btn btn-info dialog-button dialog-print-button">Print</button>
+                <button class="btn btn-info dialog-button dialog-permissions-button">Permissions</button>
+                <button class="btn btn-info dialog-button dialog-documents-button">Attached Files</button>
+            </div>
+            <br/>
+        </div>
+    </div>
+</script>
+
+<script type="text/template" id="document-list-layout-template">
+    <div class="row">
+        <div class="col-sm-12 col-md-12">
+            <div class="@if(requestOrigin.userAgent.isMobile) {container} else {desktop-big-container}">
+                <h3 class="sub-header dialog-subtitle"><%- entityTitle %></h3>
+            </div>
+        </div>
+    </div>
+    <div class="@if(requestOrigin.userAgent.isMobile) {container} else {dialog-container document-list-container}">
+      <div class="row document-list-buttons-toolbar-row">
+        <div class="col-sm-3 col-md-3 col-lg-3">
+          <button class="btn btn-success dialog-button dialog-wide-button dialog-save-button">Refresh</button>
+        </div>
+        <div class="col-sm-8 col-md-8 col-lg-8">
+          <button class="btn btn-info dialog-button dialog-print-button">Print</button>
+          <button class="btn btn-info dialog-button dialog-new-button">New</button>
+          <button class="btn btn-info dialog-button dialog-documents-button">Attached Files</button>
+        </div>
+        <div class="col-sm-1 col-md-1 col-lg-1">
+          <button class="btn btn-warning dialog-button dialog-close-button">Close</button>
+        </div>
+      </div>
+      <div class="row document-list-params-box">
+        <div class="col-sm-3 col-md-3 col-lg-3 document-list-params">
+          <div id="formBody">
+          </div>
+          <div class="document-list-save-params">
+            <button class="btn btn-success dialog-button dialog-wide-button dialog-save-button">Save</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+</script>
+
+<script type="text/template" id="params-layout-template">
     <div class="row">
         <div class="col-sm-12 col-md-12">
             <div class="@if(requestOrigin.userAgent.isMobile) {container} else {desktop-big-container}">

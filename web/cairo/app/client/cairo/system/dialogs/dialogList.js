@@ -10,6 +10,7 @@
         var self = {};
 
         var Dialogs = Cairo.Dialogs;
+        var Controls = Cairo.Controls;
 
         var C_MODULE = "DialogList";
 
@@ -28,10 +29,10 @@
           return m_view;
         };
 
-        var init = function() {
+        var init = function(view) {
           try {
-            m_view = Views.createDocumentListView();
-            m_bIsParam = view.getType() === "ListDoc";
+            m_view = view;
+            m_bIsParam = m_view.getType() === "ListDoc";
 
             m_view.addListener({
               newClick:                   newClick,
@@ -68,14 +69,14 @@
           return m_client.refresh();
         };
 
-        self.show = function(client, view) {
+        var show = function(client, view) {
           if(client !== null) {
 
             m_client = client;
 
             init(view);
 
-            if(showForm()) {
+            if(showDialog()) {
               getView().setTitle(m_client.getTitle());
               return true;
             }
@@ -87,6 +88,11 @@
             return false;
           }
         };
+
+        self.showDocumentList = function(client) {
+          return show(client, Views.createDocumentListView());
+        };
+
 
         self.showValue = function(property) {
           var item = null;
@@ -315,7 +321,7 @@
           changeProperty(Dialogs.PropertyType.password, index, getView().getPasswordInputs().item(index));
         };
 
-        var showForm = function() {
+        var showDialog = function() {
 
           m_showingForm = true;
 
@@ -331,8 +337,14 @@
             self.showValue(property);
           }
 
+          m_view.setText(m_client.getTitle());
+          m_view.setPath(m_client.getPath());
+          m_view.setName(m_client.getEditorName());
+          m_view.getSubTitle().setText(m_client.getTitle());
+
+          m_view.showDialog();
+
           getView().setFocusFirstControl();
-          getView().setNoUseActive();
 
           m_showingForm = false;
 
@@ -341,7 +353,9 @@
         
         var loadControl = function(property) {
 
+          var view = getView();
           var controlType = property.getType();
+          var subType = property.getSubType();
           var label = null;
 
           if(property.getType() !== Dialogs.PropertyType.option
@@ -362,13 +376,14 @@
 
             case Dialogs.PropertyType.select:
               property.setIndex(getView().getSelects().count() - 1);
-              c.HelpType = getView().HelpType;
-              c.Table = property.getSelectTable();
+              c.setSelectType(Cairo.Select.SelectType.tree);
+              c.setTable(property.getSelectTable());
+              c.setSelectNoUseActive(property.getSelectNoUseActive());
               break;
 
             case Dialogs.PropertyType.numeric:
               property.setIndex(getView().getMaskEdits().count() - 1);
-              c.csType = property.getSubType();
+              c.setType(property.getSubType());
               if(property.getSubType() === 0) {
                 Cairo.raiseError("DialogList.loadControl", "subType wasn't set for property: " + property.getName());
               }
@@ -438,14 +453,14 @@
               if(control.getEnabled()) {
 
                 if(property.getNoShowButton()) {
-                  control.ButtonStyle = Dialogs.ButtonStyle.none;
+                  control.setButtonStyle(Dialogs.ButtonStyle.none);
                 }
                 else {
-                  control.ButtonStyle = Dialogs.ButtonStyle.single;
+                  control.setButtonStyle(Dialogs.ButtonStyle.single);
                 }
               }
               else {
-                control.ButtonStyle = Dialogs.ButtonStyle.none;
+                control.setButtonStyle(Dialogs.ButtonStyle.none);
               }
             }
           }
@@ -496,11 +511,11 @@
                   case Dialogs.PropertyType.password:
                   case Dialogs.PropertyType.file:
                   case Dialogs.PropertyType.folder:
-                    property.setValue(c.Text);
+                    property.setValue(c.getText());
                     break;
 
                   case Dialogs.PropertyType.numeric:
-                    property.setValue(c.csValue);
+                    property.setValue(c.getValue());
                     break;
 
                   case Dialogs.PropertyType.date:
@@ -527,7 +542,7 @@
                     c.validate();
                     property.setValue(c.getValue());
                     property.setSelectId(Cairo.Util.val(c.getId()));
-                    property.setSelectIntValue(c.getId);
+                    property.setSelectIntValue(c.getId());
                     break;
 
                   case Dialogs.PropertyType.check:
@@ -536,7 +551,7 @@
                 }
 
                 m_client.propertyChange(property.getKey());
-                c.Enabled = property.getEnabled();
+                c.setEnabled(property.getEnabled());
 
                 self.showValue(property);
                 break;

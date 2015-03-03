@@ -674,7 +674,7 @@
         else if (self.type === Cairo.Select.SelectType.tree) {
           var button = $('<button>...</button>');
           button.attr('tabindex', -1);
-          element.append(element);
+          element.append(button);
           select = Cairo.TreeSelect.Controller.createSelectControl(
             input,
             self.table,

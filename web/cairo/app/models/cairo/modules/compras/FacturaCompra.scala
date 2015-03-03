@@ -398,13 +398,78 @@ case class FacturaCompraParams(
                                 from: Date,
                                 to: Date,
                                 provId: String,
+                                provName: String,
                                 estId: String,
+                                estName: String,
                                 ccosId: String,
+                                ccosName: String,
                                 sucId: String,
+                                sucName: String,
                                 docId: String,
+                                docName: String,
                                 cpgId: String,
-                                empId: String
-                                )
+                                cpgName: String,
+                                empId: String,
+                                empName: String
+                                ) {
+  def this(
+            from: Date,
+            to: Date,
+            provId: String,
+            estId: String,
+            ccosId: String,
+            sucId: String,
+            docId: String,
+            cpgId: String,
+            empId: String
+            ) = {
+    this(
+      from,
+      to,
+      provId,
+      "",
+      estId,
+      "",
+      ccosId,
+      "",
+      sucId,
+      "",
+      docId,
+      "",
+      cpgId,
+      "",
+      empId,
+      ""
+    )
+  }
+}
+
+object FacturaCompraParams {
+  def apply(
+             from: Date,
+             to: Date,
+             provId: String,
+             estId: String,
+             ccosId: String,
+             sucId: String,
+             docId: String,
+             cpgId: String,
+             empId: String
+             ) = {
+
+    new FacturaCompraParams(
+      from,
+      to,
+      provId,
+      estId,
+      ccosId,
+      sucId,
+      docId,
+      cpgId,
+      empId
+    )
+  }
+}
 
 object FacturaCompra {
 
@@ -422,6 +487,9 @@ object FacturaCompra {
     FacturaCompraTotals(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0),
     emptyFacturaCompraItems
   )
+
+  lazy val emptyFacturaCompraParams = FacturaCompraParams(
+    DateUtil.currentTime, DateUtil.currentTime, "0", "", "0", "", "0", "", "0", "", "0", "", "0", "", "0", "")
 
   def apply(
              id: Int,
@@ -1184,7 +1252,7 @@ object FacturaCompra {
         Field(GC.SUC_ID, facturaCompraParams.sucId, FieldType.text),
         Field(GC.DOC_ID, facturaCompraParams.docId, FieldType.text),
         Field(GC.CPG_ID, facturaCompraParams.cpgId, FieldType.text),
-        Field(GC.EMP_ID, facturaCompraParams.empId, FieldType.text),
+        Field(GC.EMP_ID, facturaCompraParams.empId, FieldType.text)
       )
     }
     def throwException = {
@@ -1209,6 +1277,6 @@ object FacturaCompra {
   }
 
   def loadParams(user: CompanyUser): Option[FacturaCompraParams] = {
-    FacturaCompraParams(DateUtil.currentTime, DateUtil.currentTime, '0, '0, '0, '0, '0, '0, '0)
+    Some(emptyFacturaCompraParams)
   }
 }

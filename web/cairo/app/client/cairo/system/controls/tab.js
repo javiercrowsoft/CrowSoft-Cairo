@@ -253,6 +253,7 @@
         superSetElement(element);
         element.html(self.text);
         element.addClass("btn btn-default");
+        element.attr('role', 'group');
         var onClick = view.onTabClick(that);
         element.click(function() {
           onClick();

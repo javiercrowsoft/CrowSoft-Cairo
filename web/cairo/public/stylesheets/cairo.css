@@ -31,22 +31,30 @@
 
 .tree-select-control {
     width: 100%;
-    background: #cecece;
-    -moz-border-radius: 10px;
-    -webkit-border-radius: 10px;
-    border-radius: 10px;
-    -moz-box-shadow: 0 1px 1px rgba(0,0,0,.4) inset, 0 1px 0 rgba(255,255,255,.2);
-    -webkit-box-shadow: 0 1px 1px rgba(0,0,0,.4) inset, 0 1px 0 rgba(255,255,255,.2);
-    box-shadow: 0 1px 1px rgba(0,0,0,.4) inset, 0 1px 0 rgba(255,255,255,.2);
+    background: #fff;
+    -moz-border-radius: 4px;
+    /*-webkit-border-radius: 10px;*/
+    /*border-radius: 10px;*/
+    /*-moz-box-shadow: 0 1px 1px rgba(0,0,0,.4) inset, 0 1px 0 rgba(255,255,255,.2);*/
+    /*-webkit-box-shadow: 0 1px 1px rgba(0,0,0,.4) inset, 0 1px 0 rgba(255,255,255,.2);*/
+    /*box-shadow: 0 1px 1px rgba(0,0,0,.4) inset, 0 1px 0 rgba(255,255,255,.2);*/
+
+    border: 1px solid #f1f1f1;
+    border-radius: 4px;
+    /*-webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,0.075);*/
+    /*box-shadow: inset 0 1px 1px rgba(0,0,0,0.075);*/
+    -webkit-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+    transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
 }
 
 .tree-select-control input {
     width: -moz-calc(100% - 40px);
     width: -webkit-calc(100% - 40px);
     width: calc(100% - 40px);
+    height: 42px;
     float: left;
     border: 0;
-    background: #eee;
+    background: #fff;
     -moz-border-radius: 3px 0 0 3px !important;
     -webkit-border-radius: 3px 0 0 3px !important;
     border-radius: 3px 0 0 3px !important;
@@ -164,8 +172,19 @@ div.tree-select-dialog.ui-widget-content {
   background-color: white;
 }
 
+.tree-header {
+    margin-top: 10px;
+}
+
+.tree-layout-tree-column {
+    padding-top: 15px;
+    min-height: 650px;
+    background: #E8F5E9;
+}
+
 .tree-list-region {
-  border-left: 1px solid #cecece !important; /*black #464545 !important; */
+  /*border-left: 1px solid #cecece !important;*/ /*black #464545 !important; */
+  padding-top: 10px;
 }
 
 /* black */
@@ -262,8 +281,8 @@ div.tree-select-dialog.ui-widget-content {
     background-image: none;
     border: 1px solid #f1f1f1;
     border-radius: 4px;
-    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,0.075);
-    box-shadow: inset 0 1px 1px rgba(0,0,0,0.075);
+    /*-webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,0.075);*/
+    /*box-shadow: inset 0 1px 1px rgba(0,0,0,0.075);*/
     -webkit-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
     transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
 }
@@ -273,12 +292,42 @@ div.tree-select-dialog.ui-widget-content {
 }
 
 .dialog-container {
-    padding-left: 50px;
-    padding-right: 50px;
+    padding: 0px;
+}
+
+.dialog-form-box {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  padding-left: 50px;
+  padding-right: 50px;
+  padding-bottom: 50px;
 }
 
 .dialog-buttons-first-row {
     margin-bottom: 20px;
+}
+
+.document-list-container {
+    padding: 0px;
+}
+
+.document-list-buttons-toolbar-row {
+    padding: 10px 15px 0px 15px;
+    background: #C8E6C9;
+}
+
+.tree-layout-buttons-toolbar-row {
+    padding: 10px 15px 10px 15px;
+    background: #C8E6C9;
+}
+
+.document-list-params {
+    background: #E8F5E9;
+    padding-bottom: 20px;
+}
+
+.document-list-params-box {
+    padding-left: 15px;
 }
 
 .dialog-buttons-row {
@@ -303,6 +352,10 @@ div.tree-select-dialog.ui-widget-content {
 
 .dialog-grid tbody tr.highlight td {
     background-color: #aaffaa;
+}
+
+.document-list-save-params {
+    margin-top: 20px;
 }
 
 .dialog-tr {
@@ -396,4 +449,13 @@ i.glyphicon-new {
 .align-right {
   float: right;
   margin-right: 5px;
+}
+
+/*menu*/
+.navbar-nav > li > a {
+  padding-left: 8px;
+}
+
+.navbar-nav > li > a:hover {
+  background: #eee !important;
 }

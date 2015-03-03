@@ -1420,8 +1420,8 @@
         return p || P.resolvedPromise(false);
       };
 
-      self.setListController = function(rhs) {
-        m_listController = rhs;
+      self.setListController = function(controller) {
+        m_listController = controller;
       };
 
       var columnAfterUpdate = function(key, lRow, lCol) {
@@ -2018,7 +2018,7 @@
 
         elem = properties.add(null, C.DOC_ID);
         elem.setType(T.select);
-        elem.setTable(Cairo.Tables.DOCUMENTO);
+        elem.setSelectTable(Cairo.Tables.DOCUMENTO);
         elem.setName(getText(1567, "")); // Documento
         elem.setKey(K_DOC_ID);
 
@@ -2107,7 +2107,7 @@
 
         elem = properties.add(null, C.LGJ_ID);
         elem.setType(T.select);
-        elem.setTable(Cairo.Tables.LEGAJOS);
+        elem.setSelectTable(Cairo.Tables.LEGAJOS);
         elem.setName(getText(1575, "")); // Legajo
         elem.setKey(K_LGJ_ID);
         elem.setSelectId(m_lgj_id);
@@ -2653,7 +2653,7 @@
 
         elem.setName(getText(1619, "")); // Producto
         elem.setType(T.select);
-        elem.setTable(Cairo.Tables.PRODUCTOS_DE_COMPRA);
+        elem.setSelectTable(Cairo.Tables.PRODUCTOS_DE_COMPRA);
         elem.setWidth(1800);
         elem.setKey(KI_PR_ID);
         if(Cairo.UserConfig.getMultiSelect()) {
@@ -3103,7 +3103,7 @@
         elem = columns.add(null);
         elem.setName(getText(1575, "")); // Legajo
         elem.setType(T.select);
-        elem.setTable(Cairo.Tables.LEGAJOS);
+        elem.setSelectTable(Cairo.Tables.LEGAJOS);
         elem.setWidth(1800);
         elem.setKey(KIL_LGJ_ID);
 
@@ -4781,7 +4781,7 @@
 
   });
 
-  Cairo.module("FacturaCpraListDoc.Edit", function(Edit, Cairo, Backbone, Marionette, $, _) {
+  Cairo.module("FacturaCompraListDoc.Edit", function(Edit, Cairo, Backbone, Marionette, $, _) {
 
     var createObject = function() {
 
@@ -4791,27 +4791,23 @@
       var P = Cairo.Promises;
       var NO_ID = Cairo.Constants.NO_ID;
       var DB = Cairo.Database;
-      var CC = Cairo.Compras.Constants;
       var D = Cairo.Documents;
       var M = Cairo.Modal;
       var C = Cairo.General.Constants;
       var Types = Cairo.Constants.Types;
       var Dialogs = Cairo.Dialogs;
       var T = Dialogs.PropertyType;
-      var D = Cairo.Documents;
       var val = Cairo.Util.val;
       var isDate = Cairo.Util.isDate;
       var getDateValue = Cairo.Util.getDateValue;
       var today = Cairo.Dates.today;
-      var valField = Cairo.General.valField;
+      var valField = DB.valField;
       var CS = Cairo.Security.Actions.Compras;
 
       var C_MODULE = "FacturaCpraListDoc";
 
       var C_FECHAINI = "FechaIni";
       var C_FECHAFIN = "FechaFin";
-
-      var C_IMG_TASK = 1;
 
       var K_FECHAINI = 1;
       var K_FECHAFIN = 2;
@@ -4845,6 +4841,8 @@
       var m_dialog;
       var m_properties;
 
+      var m_listController;
+
       var m_title = "";
 
       var m_menuLoaded;
@@ -4861,6 +4859,16 @@
 
       var m_apiPath = DB.getAPIVersion();
       var SAVE_ERROR = getText(2179, ""); // Error al grabar los párametros de navegación de Facturas de Compra
+
+      self.list = function() {
+        initialize();
+        load()
+          .success(loadCollection);
+      };
+
+      self.show = function() {
+
+      };
 
       self.processMenu = function(index) {
         try {
@@ -4925,7 +4933,7 @@
 
         c = m_properties.add(null, C.PROV_ID);
         c.setType(T.select);
-        c.setTable(Cairo.Tables.PROVEEDOR);
+        c.setSelectTable(Cairo.Tables.PROVEEDOR);
         c.setName(getText(1151, "")); // Proveedor
         c.setKey(K_PROV_ID);
         c.setValue(m_proveedor);
@@ -4934,7 +4942,7 @@
 
         c = m_properties.add(null, Cairo.Constants.EST_ID);
         c.setType(T.select);
-        c.setTable(Cairo.Tables.ESTADO);
+        c.setSelectTable(Cairo.Tables.ESTADO);
         c.setName(getText(1568, "")); // Estado
         c.setKey(K_EST_ID);
         c.setValue(m_estado);
@@ -4943,7 +4951,7 @@
 
         c = m_properties.add(null, C.CCOS_ID);
         c.setType(T.select);
-        c.setTable(Cairo.Tables.CENTRO_COSTO);
+        c.setSelectTable(Cairo.Tables.CENTRO_COSTO);
         c.setName(getText(1057, "")); // Centro de Costos
         c.setKey(K_CCOS_ID);
         c.setValue(m_centroCosto);
@@ -4952,7 +4960,7 @@
 
         c = m_properties.add(null, C.SUC_ID);
         c.setType(T.select);
-        c.setTable(Cairo.Tables.SUCURSAL);
+        c.setSelectTable(Cairo.Tables.SUCURSAL);
         c.setName(getText(1281, "")); // Sucursal
         c.setKey(K_SUC_ID);
         c.setValue(m_sucursal);
@@ -4961,7 +4969,7 @@
 
         c = m_properties.add(null, C.DOC_ID);
         c.setType(T.select);
-        c.setTable(Cairo.Tables.DOCUMENTO);
+        c.setSelectTable(Cairo.Tables.DOCUMENTO);
         c.setName(getText(1567, "")); // Documentos
         c.setKey(K_DOC_ID);
         c.setValue(m_documento);
@@ -4971,7 +4979,7 @@
 
         c = m_properties.add(null, C.CPG_ID);
         c.setType(T.select);
-        c.setTable(Cairo.Tables.CONDICION_PAGO);
+        c.setSelectTable(Cairo.Tables.CONDICION_PAGO);
         c.setName(getText(1395, "")); // Condicion de pago
         c.setKey(K_CPG_ID);
         c.setValue(m_condicionPago);
@@ -4980,7 +4988,7 @@
 
         c = m_properties.add(null, Cairo.Constants.EMP_ID);
         c.setType(T.select);
-        c.setTable(Cairo.Tables.EMPRESA);
+        c.setSelectTable(Cairo.Tables.EMPRESA);
         c.setName(getText(1114, "")); // Empresa
         c.setKey(K_EMP_ID);
         c.setValue(m_empresa);
@@ -4988,7 +4996,7 @@
         c.setSelectIntValue(m_emp_id);
 
         createMenu();
-        if(!m_dialog.show(self)) { return false; }
+        if(!m_dialog.showDocumentList(self)) { return false; }
 
         return true;
       };
@@ -5002,9 +5010,9 @@
         return m_dialog.showValues(properties);
       };
 
-      var load = function(usId) {
+      var load = function() {
 
-        return DB.getData("load[" + m_apiPath + "compras/facturacompras/parameters]", usId).then(
+        return DB.getData("load[" + m_apiPath + "compras/facturacompras/parameters]").then(
           function(response) {
 
             m_emp_id = Cairo.Company.getId();
@@ -5034,12 +5042,12 @@
             }
             else {
 
-              m_fechaIniV = valField(response.data, Cairo.Constants.VIRTUAL_START_DATE);
-              m_fechaIni = valField(response.data, Cairo.Constants.START_DATE);
+              m_fechaIniV = valField(response.data, C.FROM);
+              m_fechaIni = valField(response.data, C.FROM);
               m_fechaIni = isDate(m_fechaIni) ? getDateValue(m_fechaIni) : today();
 
-              m_fechaFinV = valField(response.data, Cairo.Constants.VIRTUAL_END_DATE);
-              m_fechaFin = valField(response.data, Cairo.Constants.END_DATE);
+              m_fechaFinV = valField(response.data, C.TO);
+              m_fechaFin = valField(response.data, C.TO);
               m_fechaFin = isDate(m_fechaFin) ? getDateValue(m_fechaFin) : today();
 
               m_prov_id = valField(response.data, C.PROV_ID);
@@ -5280,6 +5288,14 @@
         );
       };
 
+      self.getPath = function() {
+        return "#compras/facturacompras";
+      };
+
+      self.getEditorName = function() {
+        return "facturacompras";
+      };
+
       self.getTitle = function() {
         return m_title;
       };
@@ -5287,6 +5303,10 @@
       self.setDialog = function(dialog) {
         m_dialog = dialog;
         m_properties = dialog.getProperties();
+      };
+
+      self.setListController = function(controller) {
+        m_listController = controller;
       };
 
       var createMenu = function() {
@@ -5426,7 +5446,7 @@
         return m_dialog.getIds();
       };
 
-      self.initialize = function() {
+      var initialize = function() {
         try {
           m_title = getText(1892, ""); // Facturas de Compras
           m_dialog.setHaveDetail(true);
@@ -5441,6 +5461,7 @@
         try {
           m_dialog = null;
           m_properties = null;
+          m_listController = null;
         }
         catch(ex) {
           Cairo.manageErrorEx(ex.message, ex, "destroy", C_MODULE, "");
@@ -5456,6 +5477,10 @@
 
   Cairo.module("FacturaCompra.List", function(List, Cairo, Backbone, Marionette, $, _) {
 
+    var NO_ID = Cairo.Constants.NO_ID;
+    var DB = Cairo.Database;
+    var C_MODULE = "cFacturaCompra";
+
     List.Controller = {
       list: function() {
 
@@ -5466,7 +5491,7 @@
          view must be created. when the tab is not visible the tab manager
          will not call this function but only make the tab visible
          */
-        var createTreeDialog = function(tabId) {
+        var createListDialog = function(tabId) {
 
           var editors = Cairo.Editors.facturaCompraEditors || Cairo.Collections.createCollection(null);
           Cairo.Editors.facturaCompraEditors = editors;
@@ -5478,29 +5503,6 @@
             entityName: "facturacompra",
             entitiesName: "facturacompras"
           });
-
-          self.showBranch = function(branchId) {
-            Cairo.log("Loading nodeId: " + branchId);
-            Cairo.Tree.List.Controller.listBranch(branchId, Cairo.Tree.List.Controller.showItems, self);
-          };
-
-          self.addLeave = function(id, branchId) {
-            try {
-              Cairo.Tree.List.Controller.addLeave(branchId, id, self);
-            }
-            catch(ignore) {
-              Cairo.log("Error when adding this item to the branch\n\n" + ignore.message);
-            }
-          };
-
-          self.refreshBranch = function(id, branchId) {
-            try {
-              Cairo.Tree.List.Controller.refreshBranchIfActive(branchId, id, self);
-            }
-            catch(ignore) {
-              Cairo.log("Error when refreshing a branch\n\n" + ignore.message);
-            }
-          };
 
           var getIndexFromEditor = function(editor) {
             var count = editors.count();
@@ -5538,7 +5540,7 @@
             }
           };
 
-          self.edit = function(id, treeId, branchId) {
+          self.edit = function(id) {
             var key = getKey(id);
             if(editors.contains(key)) {
               editors.item(key).dialog.showDialog();
@@ -5555,8 +5557,8 @@
             }
           };
 
-          self.destroy = function(id, treeId, branchId) {
-            if(!Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.DELETE_FACTURA_COMPRA)) {
+          self.destroy = function(id) {
+            if(!Cairo.Security.hasPermissionTo(Cairo.Security.Actions.Compras.DELETE_FACTURA)) {
               return P.resolvedPromise(false);
             }
 
@@ -5574,40 +5576,32 @@
             };
 
             return DB.destroy(
-                m_apiPath + "compras/facturacompra", id,
+                DB.getAPIVersion() + "compras/facturacompra", id,
                 Cairo.Constants.DELETE_FUNCTION, C_MODULE).success(closeDialog, false);
           };
 
           // progress message
           // 
-          Cairo.LoadingMessage.show("FacturaCompras", "Loading facturacompra from Crowsoft Cairo server.");
+          Cairo.LoadingMessage.show("FacturaCompras", "Loading Factura de Compras from Crowsoft Cairo server.");
 
-          // create the tree region
-          // 
-          Cairo.addRegions({ facturacompraTreeRegion: tabId });
+          self.documentList = Cairo.FacturaCompraListDoc.Edit.Controller.getEditor();
+          var dialog = Cairo.Dialogs.Views.ListController.newDialogList();
 
-          // create the dialog
-          // 
-          Cairo.Tree.List.Controller.list(
-            Cairo.Tables.FACTURA_COMPRA,
-            new Cairo.Tree.List.TreeLayout({ model: self.entityInfo }),
-            Cairo.facturacompraTreeRegion,
-            self);
+          self.documentList.setListController(self);
+          self.documentList.setDialog(dialog);
+          self.documentList.list();
 
         };
 
-        var showTreeDialog = function() {
-          Cairo.Tree.List.Controller.showTreeDialog(self);
+        var showListDialog = function() {
+          self.documentList.show();
         };
 
-        var closeTreeDialog = function() {
+        var closeListDialog = function() {
 
         }
 
-        // create the tab
-        // 
-        Cairo.mainTab.showTab("FacturaCompras", "facturacompraTreeRegion", "#compras/facturacompras", createTreeDialog, closeTreeDialog, showTreeDialog);
-
+        createListDialog();
       }
     };
   });

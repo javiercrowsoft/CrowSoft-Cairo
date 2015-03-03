@@ -846,3 +846,15 @@ update sysMenu set me_path = 'informe/config' where me_id = 699;
 update sysMenu set me_path = 'general/calcularprecios' where me_id = 784;
                           
 
+INSERT INTO sysmenu (me_id, me_text, me_key, pre_id, me_father, me_position, me_is_last, me_is_separator, me_have_separator, me_is_main_menu, me_is_popup_menu, me_object_handler, me_package, me_file_path, me_id_father, me_action, me_path) VALUES (928, '3701', 'csOtrosModulos', NULL, '', 0, 1, 0, 1, 0, 0, '', 'CSGeneral', '', NULL, '', '');
+
+update sysmenu set me_id_father = 928 where me_id = 680;
+update sysmenu set me_id_father = 928 where me_id = 863;
+update sysmenu set me_id_father = 928 where me_id = 867;
+update sysmenu set me_id_father = 928 where me_id = 923;
+update sysmenu set me_id_father = 928 where me_id = 883;
+update sysmenu set me_id_father = 928 where me_id = 506;
+update sysmenu set me_id_father = 928 where me_id = 482;
+update sysmenu set me_id_father = 928 where me_id = 619;
+update sysmenu set me_id_father = 928 where me_id = 592;
+update sysmenu set me_id_father = 619 where me_id = 693;
