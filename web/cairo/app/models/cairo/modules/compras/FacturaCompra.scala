@@ -1279,4 +1279,14 @@ object FacturaCompra {
   def loadParams(user: CompanyUser): Option[FacturaCompraParams] = {
     Some(emptyFacturaCompraParams)
   }
+
+  def list(user: CompanyUser,
+           from: Option[String],
+           to: Option[String],
+           provId: Option[Int],
+           estId: Option[Int],
+           ccosId: Option[Int],
+           sucId: Option[Int],
+           docId: Option[Int],
+           cpgId: Option[Int]):
 }

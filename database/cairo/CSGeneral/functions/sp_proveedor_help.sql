@@ -28,7 +28,7 @@ http://www.crowsoft.com.ar
 
 javier at crowsoft.com.ar
 */
--- Function: sp_cuentahelp()
+-- Function: sp_proveedorhelp()
 
 -- DROP FUNCTION sp_proveedorhelp(integer, integer, integer, varchar, integer, integer, varchar);
 
@@ -39,12 +39,12 @@ CREATE OR REPLACE FUNCTION sp_proveedorhelp
   select * from usuario where us_nombre like '%ahidal%'
 */
 (
-  IN p_emp_id integer ,
-  IN p_us_id integer ,
-  IN p_bForAbm integer ,
-  IN p_filter varchar DEFAULT '' ,
-  IN p_check integer DEFAULT 0 ,
-  IN p_prov_id integer DEFAULT 0 ,
+  IN p_emp_id integer,
+  IN p_us_id integer,
+  IN p_bForAbm integer,
+  IN p_filter varchar DEFAULT '',
+  IN p_check integer DEFAULT 0,
+  IN p_prov_id integer DEFAULT 0,
   IN p_filter2 varchar DEFAULT '',
   out rtn refcursor)
   RETURNS refcursor AS

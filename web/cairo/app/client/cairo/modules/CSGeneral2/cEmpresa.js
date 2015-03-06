@@ -143,7 +143,7 @@
 
         }
         catch(ex) {
-          Cairo.manageErrorEx(ex.message, ex, "cIABMClient_ShowDocDigital", C_MODULE, "");
+          Cairo.manageErrorEx(ex.message, ex, "showDocDigital", C_MODULE, "");
         }
 
         return _rtn;

@@ -5,10 +5,6 @@
 
     var createCombo = function() {
       var self = {
-        urlRoot: "",
-
-        defaults: {},
-
         text: ""
       };
 

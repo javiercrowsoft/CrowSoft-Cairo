@@ -116,7 +116,7 @@
         }
         else {
           var q;
-          if(id !== undefined) {
+          if(id !== undefined && id !== null) {
             q = new Cairo.Entities.DatabaseQuery({id: id});
             q.urlRoot = path;
           }

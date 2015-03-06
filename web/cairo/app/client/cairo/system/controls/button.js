@@ -5,10 +5,6 @@
 
     var createButton = function() {
       var self = {
-        urlRoot: "",
-
-        defaults: {},
-
         text: "",
         isCancel: false
       };

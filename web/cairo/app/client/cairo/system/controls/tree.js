@@ -482,7 +482,11 @@
         this view is created by the tree client object
     */
     List.TreeLayout = Marionette.Layout.extend({
-      template: "#tree-layout-template"
+      template: "#tree-layout-template",
+
+      triggers: {
+        "click button.js-new": "tree:new"
+      }
     });
 
     /*
@@ -509,11 +513,7 @@
         every time a branch is selected this view is destroyed and created
     */
     List.Panel = Marionette.ItemView.extend({
-      template: "#tree-list-panel-template",
-
-      triggers: {
-        "click button.js-new": "tree:new"
-      }
+      template: "#tree-list-panel-template"
     });
 
     /*
@@ -1118,6 +1118,11 @@
         listController.Tree.treeSearchControlId = "#" + listController.Tree.treeSearchControlId;
         var searchCtrl = Cairo.Select.Controller.createSelectControl(listController.Tree.treeSearchControlId, tableId, false, "-");
 
+        mainView.on("tree:new", function() {
+          listController.edit(Cairo.Constants.NO_ID, listController.Tree.treeId, getActiveBranchId(listController));
+        });
+
+
         // this handler will request the branch id which contains the clientId
         // returned by the search control and then activate the correspondent
         // node in the tree control
@@ -1516,10 +1521,6 @@
           itemsListLayout.panelRegion.show(itemsListPanel);
           itemsListLayout.itemsRegion.reset();
           itemsListLayout.itemsRegion.show(itemsListView);
-        });
-
-        itemsListPanel.on("tree:new", function() {
-          listController.edit(Cairo.Constants.NO_ID, listController.Tree.treeId, getActiveBranchId(listController));
         });
 
         itemsListLayout.on("item:edit", function(childView, args) {

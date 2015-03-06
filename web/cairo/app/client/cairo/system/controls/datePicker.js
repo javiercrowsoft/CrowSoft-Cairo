@@ -13,12 +13,9 @@
       var NO_DATE = Cairo.Constants.NO_DATE;
 
       var self = {
-        urlRoot: "",
-  
-        defaults: {},
-  
         value: Cairo.Constants.NO_DATE,
-        type: Controls.DatePickerType.date
+        type: Controls.DatePickerType.date,
+        dateName: ''
       };
 
       var that = Controls.createControl();
@@ -83,7 +80,9 @@
         self.type = type;
       };
 
-      that.getDateName = function() { /* TODO: implement this. */ };
+      that.getDateName = function() {
+        return self.dateName;
+      };
 
       that.setButtonStyle = function(style) { /* TODO: implement this. */ };
 

@@ -462,7 +462,7 @@
 
         }
         catch(ex) {
-          Cairo.manageErrorEx(ex.message, ex, "cIABMClient_ShowDocDigital", C_MODULE, "");
+          Cairo.manageErrorEx(ex.message, ex, "showDocDigital", C_MODULE, "");
         }
 
         return _rtn;
@@ -999,7 +999,7 @@
 
             fields.add(CC.FC_TOTAL, totalOrigen * cotizacion, Types.currency);
             fields.add(CC.FC_GRABAR_ASIENTO, 1, Types.boolean);
-            fields.add(Cairo.Constants.EST_ID, m_est_id, Types.id);
+            fields.add(C.EST_ID, m_est_id, Types.id);
 
             if(isDefaultCurrency) {
               fields.add(CC.FC_TOTAL_ORIGEN, 0, Types.currency);
@@ -3342,8 +3342,8 @@
               m_proOrigen = valField(data, "ProOrigen");
               m_pro_id_destino = valField(data, C.PRO_ID_DESTINO);
               m_proDestino = valField(data, "ProDestino");
-              m_est_id = valField(data, Cairo.Constants.EST_ID);
-              m_estado = valField(data, Cairo.Constants.EST_NAME);
+              m_est_id = valField(data, C.EST_ID);
+              m_estado = valField(data, C.EST_NAME);
               m_firmado = valField(data, CC.FC_FIRMADO);
               m_mon_id = valField(data, C.MON_ID);
 
@@ -3363,12 +3363,12 @@
               m_as_id = valField(data, C.AS_ID);
               m_st_id = valField(data, C.ST_ID);
 
-              m_taMascara = valField(data, Cairo.Constants.TA_MASCARA);
-              m_taPropuesto = valField(data, Cairo.Constants.TA_PROPUESTO);
+              m_taMascara = valField(data, C.TA_MASCARA);
+              m_taPropuesto = valField(data, C.TA_PROPUESTO);
 
               m_lastDocId = m_doc_id;
               m_lastDoctId = m_doct_id;
-              m_lastDocTipoFactura = valField(data, Cairo.Constants.DOC_TIPO_FACTURA);
+              m_lastDocTipoFactura = valField(data, C.DOC_TIPO_FACTURA);
               m_lastProvId = m_prov_id;
               m_lastDocName = m_documento;
               m_lastProvName = m_proveedor;
@@ -4728,7 +4728,7 @@
 
           var columns = prop.getGrid().getColumns();
 
-          for(var i = 1, count = columns.count(); i <= count; i++) {
+          for(var i = 1, count = columns.count(); i < count; i++) {
             switch (columns.item(i).getKey()) {
 
               case KI_DESCUENTO:
@@ -4866,8 +4866,27 @@
           .success(loadCollection);
       };
 
-      self.show = function() {
+      self.showDocDigital = function() {
+        var _rtn = null;
 
+        try {
+
+          var fcId = m_dialog.getId();
+          if(fcId === NO_ID) { return _rtn; }
+
+          var doc = new Cairo.DocDigital();
+
+          doc.setClientTable(C.FACTURA_COMPRA);
+          doc.setClientTableID(fcId);
+
+          _rtn = doc.showDocs(Cairo.Database);
+
+        }
+        catch(ex) {
+          Cairo.manageErrorEx(ex.message, ex, "showDocDigital", C_MODULE, "");
+        }
+
+        return _rtn;
       };
 
       self.processMenu = function(index) {
@@ -4940,7 +4959,7 @@
         c.setSelectId(val(m_prov_id));
         c.setSelectIntValue(m_prov_id);
 
-        c = m_properties.add(null, Cairo.Constants.EST_ID);
+        c = m_properties.add(null, C.EST_ID);
         c.setType(T.select);
         c.setSelectTable(Cairo.Tables.ESTADO);
         c.setName(getText(1568, "")); // Estado
@@ -4986,7 +5005,7 @@
         c.setSelectId(val(m_cpg_id));
         c.setSelectIntValue(m_cpg_id);
 
-        c = m_properties.add(null, Cairo.Constants.EMP_ID);
+        c = m_properties.add(null, C.EMP_ID);
         c.setType(T.select);
         c.setSelectTable(Cairo.Tables.EMPRESA);
         c.setName(getText(1114, "")); // Empresa
@@ -5090,7 +5109,7 @@
 
             if(property.getSelectIntValue() !== "") {
               m_fechaIniV = property.getSelectIntValue();
-              m_fechaIni = Cairo.Dates.getDateByName(m_fechaIniV);
+              m_fechaIni = Cairo.Dates.DateNames.getDateByName(m_fechaIniV);
             }
             else if(isDate(property.getValue())) {
               m_fechaIniV = "";
@@ -5108,7 +5127,7 @@
 
             if(property.getSelectIntValue() !== "") {
               m_fechaFinV = property.getSelectIntValue();
-              m_fechaFin = Cairo.Dates.getDateByName(m_fechaFinV);
+              m_fechaFin = Cairo.Dates.DateNames.getDateByName(m_fechaFinV);
             }
             else if(isDate(property.getValue())) {
               m_fechaFinV = "";
@@ -5121,7 +5140,7 @@
             break;
 
           case K_EST_ID:
-            var property = properties.item(Cairo.Constants.EST_ID);
+            var property = properties.item(C.EST_ID);
             m_estado = property.getValue();
             m_est_id = property.getSelectIntValue();
             break;
@@ -5157,7 +5176,7 @@
             break;
 
           case K_EMP_ID:
-            var property = properties.item(Cairo.Constants.EMP_ID);
+            var property = properties.item(C.EMP_ID);
             m_empresa = property.getValue();
             m_emp_id = property.getSelectIntValue();
             break;
@@ -5169,16 +5188,16 @@
       self.refresh = function() {
 
         var startDate;
-        if(!Cairo.Dates.getDateNames().contains(m_fechaIniV)) {
-          startDate = Cairo.Dates.getDateByName(m_fechaIniV);
+        if(!Cairo.Dates.DateNames.getDateNames().contains(m_fechaIniV)) {
+          startDate = Cairo.Dates.DateNames.getDateByName(m_fechaIniV);
         }
         else {
           startDate = m_fechaIni
         }
 
         var endDate;
-        if(!Cairo.Dates.getDateNames().contains(m_fechaFinV)) {
-          endDate = Cairo.Dates.getDateByName(m_fechaFinV);
+        if(!Cairo.Dates.DateNames.getDateNames().contains(m_fechaFinV)) {
+          endDate = Cairo.Dates.DateNames.getDateByName(m_fechaFinV);
         }
         else {
           endDate = m_fechaFin
@@ -5196,7 +5215,7 @@
           empId: m_emp_id
         };
 
-        return params;
+        return DB.getData("load[" + m_apiPath + "compras/facturacompras]", null, params);
       };
 
       self.save = function() {
@@ -5289,7 +5308,7 @@
       };
 
       self.getPath = function() {
-        return "#compras/facturacompras";
+        return "#compra/facturasdecompra";
       };
 
       self.getEditorName = function() {

@@ -504,7 +504,7 @@ object FacturaCompras extends Controller with ProvidesUser {
             cpgId: Option[Int]
     ) = GetAction { implicit request =>
     LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.LIST_FACTURA_COMPRA), { user =>
-      Ok(Json.toJson(""))
+      Ok(Json.toJson(FacturaCompra.list(user, from, to, provId, estId, ccosId, sucId, docId, cpgId)))
     })
   }
 

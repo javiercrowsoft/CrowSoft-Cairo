@@ -773,7 +773,7 @@
       var supperBindView = that.bindView;
 
       var onEditDocumentClick = function() {
-        that.raiseEvent("saveClick");
+        that.raiseEvent("documentsClick");
       };
 
       var onPermissionClick = function() {
@@ -795,7 +795,6 @@
       var onNewClick = function() {
         that.raiseEvent("newClick");
       };
-
 
       that.bindView = function(view) {
         supperBindView(view);
@@ -862,7 +861,72 @@
 
     Views.createDocumentListView = function() {
 
+      var self = {
+        btnEditDocument: Controls.createButton(),
+        btnNew: Controls.createButton(),
+        btnPrint: Controls.createButton(),
+        btnRefresh: Controls.createButton(),
+        listGrid: Controls.createListGrid(),
+        saved: false
+      };
+
       var that = Views.createView('ListDoc');
+
+      that.getEditDocumentsButton = function() {
+        return self.btnEditDocument;
+      };
+      that.getNewButton = function() {
+        return self.btnNew;
+      };
+      that.getPrintButton = function() {
+        return self.btnPrint;
+      };
+      that.getRefreshButton = function() {
+        return self.btnRefresh;
+      };
+      that.getListGrid = function() {
+        return self.listGrid;
+      };
+      that.setSaved = function(saved) {
+        self.saved = saved;
+      };
+
+      var supperBindView = that.bindView;
+
+      var onEditDocumentClick = function() {
+        that.raiseEvent("documentsClick");
+      };
+
+      var onPrintClick = function() {
+        that.raiseEvent("printClick");
+      };
+
+      var onNewClick = function() {
+        that.raiseEvent("newClick");
+      };
+
+      var onRefreshClick = function() {
+        that.raiseEvent("refreshClick");
+      };
+
+      that.bindView = function(view) {
+        supperBindView(view);
+
+        self.btnEditDocument.setElement(view.$('.dialog-documents-button'));
+        self.btnEditDocument.getElement().click(onEditDocumentClick);
+
+        self.btnPrint.setElement(view.$('.dialog-print-button'));
+        self.btnPrint.getElement().click(onPrintClick);
+
+        self.btnNew.setElement(view.$('.dialog-new-button'));
+        self.btnNew.getElement().click(onNewClick);
+
+        self.btnRefresh.setElement(view.$('.dialog-refresh-button'));
+        self.btnRefresh.getElement().click(onRefreshClick);
+
+        self.listGrid.setElement(view.$('.document-list-grid'));
+
+      };
 
       return that;
     };

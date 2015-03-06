@@ -5,10 +5,6 @@
 
     var createCheckBox = function() {
       var self = {
-        urlRoot: "",
-  
-        defaults: {},
-
         text: "",
         value: false
       };

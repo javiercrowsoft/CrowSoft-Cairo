@@ -238,7 +238,7 @@
           var p = null;
 
           var isEditable = valField(response.data, Cairo.Constants.DOC_EDITABLE);
-          var estId = valField(response.data, Cairo.Constants.EST_ID);
+          var estId = valField(response.data, C.EST_ID);
           var actionInvalidate =  valField(response.data, "actionInvalidate");
           var actionValidate = valField(response.data, "actionValidate");
           var docId = valField(response.data, Cairo.Constants.DOC_ID);
@@ -288,8 +288,8 @@
 
                   if(response.success === true) {
 
-                    estId = valField(response.data, Cairo.Constants.EST_ID);
-                    estado = valField(response.data, Cairo.Constants.EST_NAME);
+                    estId = valField(response.data, C.EST_ID);
+                    estado = valField(response.data, C.EST_NAME);
 
                     var property = dialog.getProperties().item(Cairo.Documents.DialogKeys.status);
 
@@ -597,9 +597,9 @@
 
       if(response.success === true) {
         return {
-          est_id: valField(response.data, Cairo.Constants.EST_ID),
-          estado: valField(response.data, Cairo.Constants.EST_NAME),
-          firmado: valField(response.data, Cairo.Constants.FC_FIRMADO),
+          est_id: valField(response.data, C.EST_ID),
+          estado: valField(response.data, C.EST_NAME),
+          firmado: valField(response.data, CC.FC_FIRMADO),
           success: true
         };
       }
@@ -1605,7 +1605,7 @@
       return date;
     };
 
-    self.initialize = function() {
+    var initialize = function() {
       try {
 
         var dn;
@@ -1743,6 +1743,8 @@
         Cairo.manageErrorEx(ex.message, ex, "initialize", "Dates", "");
       }
     };
+
+    initialize();
 
     return self;
   };

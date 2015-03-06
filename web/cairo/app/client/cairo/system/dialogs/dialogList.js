@@ -35,12 +35,17 @@
             m_bIsParam = m_view.getType() === "ListDoc";
 
             m_view.addListener({
+
+              refreshClick:               refreshClick,
+
               newClick:                   newClick,
               deleteClick:                deleteClick,
               printClick:                 printClick,
 
               saveParamsClick:            saveParams,
               discardChangesClick:        discardChanges,
+              closeClick:                 closeClick,
+              documentsClick:             documentsClick,
 
               viewDestroy:                viewDestroy,
 
@@ -62,11 +67,6 @@
 
         self.getProperties = function() {
           return m_properties;
-        };
-
-        self.refresh = function() {
-          refreshAux();
-          return m_client.refresh();
         };
 
         var show = function(client, view) {
@@ -258,17 +258,6 @@
           m_startRowText = startRowText;
         };
 
-        var refreshList = function() {
-          try {
-            refreshAux();
-            m_client.refresh();
-            return;
-          }
-          catch (ex) {
-            Cairo.manageErrorEx(ex.message, ex, "refreshList", C_MODULE, "");
-          }
-        };
-
         var clientSaveParams = function() {
           return m_client.save();
         };
@@ -286,9 +275,34 @@
 
         var newClick = function() { /* TODO: implement this */ };
 
+        var refreshClick = function() {
+          var p;
+          try {
+            refreshAux();
+            p = m_client.refresh().successWithResult(function(response) {
+              m_view.getListGrid().load(response.data);
+            });
+            return;
+          }
+          catch (ex) {
+            Cairo.manageErrorEx(ex.message, ex, "refreshList", C_MODULE, "");
+          }
+          return p || Cairo.Promises.resolvedPromise(false);
+        };
+
         var deleteClick = function() { /* TODO: implement this */ };
 
         var printClick = function() { /* TODO: implement this */ };
+
+        var closeClick = function() {
+          if(m_view !== null) {
+            m_view.close();
+          }
+        };
+
+        var documentsClick = function() {
+          m_client.showDocDigital();
+        };
 
         var selectChange = function(index) {
           changeProperty(Dialogs.PropertyType.select, index, getView().getSelects().item(index));
@@ -564,12 +578,12 @@
         };
 
         var refreshAux = function() {
-          for(var i = 1, count = m_properties.count(); i <= count; i++) {
+          for(var i = 1, count = m_properties.count(); i < count; i++) {
 
-            var property = m_properties(i);
+            var property = m_properties.item(i);
             var index = property.getIndex();
 
-            switch (m_properties(i).PropertyType) {
+            switch (property.getType()) {
 
               case Dialogs.PropertyType.check:
                 changeProperty(Dialogs.PropertyType.check, index, getView().getCheckBoxes().item(index));
