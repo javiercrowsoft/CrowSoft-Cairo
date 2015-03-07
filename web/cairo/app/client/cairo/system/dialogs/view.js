@@ -924,7 +924,7 @@
         self.btnRefresh.setElement(view.$('.dialog-refresh-button'));
         self.btnRefresh.getElement().click(onRefreshClick);
 
-        self.listGrid.setElement(view.$('.document-list-grid'));
+        self.listGrid.setContainer(view.$('.document-list-grid-body'));
 
       };
 

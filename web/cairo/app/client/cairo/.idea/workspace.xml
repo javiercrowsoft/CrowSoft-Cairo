@@ -10,7 +10,7 @@
     <file path="/dialog.js" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1425696815400" ignored="false" />
     <file path="/a.dummy" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1425701468112" ignored="false" />
     <file path="/datePicker.js" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1425596722049" ignored="false" />
-    <file path="/view.js" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1425589668259" ignored="false" />
+    <file path="/view.js" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1425729336835" ignored="false" />
     <file path="/cairoApp.js" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1425697318716" ignored="false" />
     <file path="/cProducto.js" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1423861587759" ignored="false" />
     <file path="/Dummy.txt" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1425686638227" ignored="false" />
@@ -23,7 +23,7 @@
     <file path="/collection.js" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1423864219958" ignored="false" />
     <file path="/system.js" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1425597928228" ignored="false" />
     <file path="/cFacturaCompra.js" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1425695230708" ignored="false" />
-    <file path="/dialogList.js" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1425697400409" ignored="false" />
+    <file path="/dialogList.js" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1425728434979" ignored="false" />
     <file path="/optionButton.js" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1423089376621" ignored="false" />
     <file path="/list.js" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1423092259476" ignored="false" />
     <file path="/security.js" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1423190925962" ignored="false" />
@@ -66,7 +66,7 @@
     <file path="/deploy_notes.txt" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1425159678143" ignored="false" />
     <file path="/cairoModules.js" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1425254135220" ignored="false" />
     <file path="/treeSelect.js" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1425336019536" ignored="false" />
-    <file path="/listGrid.js" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1425703899223" ignored="false" />
+    <file path="/listGrid.js" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1425729703434" ignored="false" />
     <file path="$PROJECT_DIR$/../../../../../../../ArizonaBay/Intelimax/draftteam/CentralServer/app/models/context_roster_box.rb" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1425591258512" ignored="false" />
     <file path="$PROJECT_DIR$/../../../../../../../ArizonaBay/Intelimax/draftteam/CentralServer/app/helpers/www/contests_helper.rb" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1425591258512" ignored="false" />
     <file path="$PROJECT_DIR$/../../../../../../../ArizonaBay/Intelimax/draftteam/CentralServer/app/models/contest_entry.rb" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1425591258512" ignored="false" />
@@ -91,15 +91,6 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="cFacturaCompra.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/modules/CSCompra2/cFacturaCompra.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="5187" column="20" selection-start="155048" selection-end="155057" vertical-scroll-proportion="-5.6296296">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="cairoApp.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/cairoApp.js">
           <provider selected="true" editor-type-id="text-editor">
@@ -130,7 +121,16 @@
       <file leaf-file-name="dialogList.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/system/dialogs/dialogList.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="283" column="36" selection-start="8551" selection-end="8551" vertical-scroll-proportion="-13.518518">
+            <state line="283" column="0" selection-start="8515" selection-end="8515" vertical-scroll-proportion="-20.555555">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="view.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/system/dialogs/view.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="868" column="0" selection-start="26083" selection-end="26083" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -139,7 +139,7 @@
       <file leaf-file-name="listGrid.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/system/controls/listGrid.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="79" column="44" selection-start="2160" selection-end="2160" vertical-scroll-proportion="0.67783785">
+            <state line="193" column="91" selection-start="5369" selection-end="5369" vertical-scroll-proportion="0.6410811">
               <folding />
             </state>
           </provider>
@@ -148,7 +148,7 @@
       <file leaf-file-name="tree.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/system/controls/tree.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="1611" column="40" selection-start="57651" selection-end="57651" vertical-scroll-proportion="-14.074074">
+            <state line="1611" column="40" selection-start="57651" selection-end="57651" vertical-scroll-proportion="58.407406">
               <folding />
             </state>
           </provider>
@@ -172,15 +172,6 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="modal.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/system/modal.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="47" column="16" selection-start="1117" selection-end="1117" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
     </leaf>
   </component>
   <component name="FindManager">
@@ -194,7 +185,6 @@
         <option value="$PROJECT_DIR$/system/controls/select.js" />
         <option value="$PROJECT_DIR$/system/controls/tab.js" />
         <option value="$PROJECT_DIR$/system/controls/tree.js" />
-        <option value="$PROJECT_DIR$/system/dialogs/view.js" />
         <option value="$PROJECT_DIR$/system/controls/button.js" />
         <option value="$PROJECT_DIR$/system/controls/checkBox.js" />
         <option value="$PROJECT_DIR$/system/controls/combo.js" />
@@ -203,9 +193,10 @@
         <option value="$PROJECT_DIR$/system/database/database.js" />
         <option value="$PROJECT_DIR$/modules/CSCompra2/cFacturaCompra.js" />
         <option value="$PROJECT_DIR$/config/marionette/regions/dialog.js" />
-        <option value="$PROJECT_DIR$/system/dialogs/dialogList.js" />
         <option value="$PROJECT_DIR$/cairoApp.js" />
         <option value="$PROJECT_DIR$/system/controls/grid.js" />
+        <option value="$PROJECT_DIR$/system/dialogs/view.js" />
+        <option value="$PROJECT_DIR$/system/dialogs/dialogList.js" />
         <option value="$PROJECT_DIR$/system/controls/listGrid.js" />
       </list>
     </option>
@@ -612,20 +603,6 @@
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/modules/CSGeneral2/constants.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="57" column="6" selection-start="1280" selection-end="1280" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/modules/system/system.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="1746" column="17" selection-start="51144" selection-end="51144" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/modules/CSGeneral2/cUnidad.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="336" column="23" selection-start="8561" selection-end="8561" vertical-scroll-proportion="0.0">
@@ -757,13 +734,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/system/dialogs/dialogList.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="283" column="36" selection-start="8551" selection-end="8551" vertical-scroll-proportion="-13.518518">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/system/collections/collection.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="197" column="11" selection-start="5433" selection-end="5433" vertical-scroll-proportion="0.0">
@@ -780,14 +750,35 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/system/controls/tree.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="1611" column="40" selection-start="57651" selection-end="57651" vertical-scroll-proportion="-14.074074">
+        <state line="1611" column="40" selection-start="57651" selection-end="57651" vertical-scroll-proportion="58.407406">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/lib/JavascriptLanguage.jar!/com/intellij/lang/javascript/index/predefined/DOMCore.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="267" column="19" selection-start="5454" selection-end="5454" vertical-scroll-proportion="0.3329832">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/system/dialogs/view.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="868" column="0" selection-start="26083" selection-end="26083" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/system/dialogs/dialogList.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="283" column="0" selection-start="8515" selection-end="8515" vertical-scroll-proportion="-20.555555">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/system/controls/listGrid.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="79" column="44" selection-start="2160" selection-end="2160" vertical-scroll-proportion="0.67783785">
+        <state line="193" column="91" selection-start="5369" selection-end="5369" vertical-scroll-proportion="0.6410811">
           <folding />
         </state>
       </provider>

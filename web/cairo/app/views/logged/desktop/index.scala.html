@@ -443,7 +443,7 @@
 <script type="text/template" id="tree-list-item-template">
     <% leaves.forEach(function(leave) { %>
     <tr data-id="<%- leave.id %>" data-clientid="<%- leave.clientId %>">
-      <td>
+      <td nowrap>
         <% if(showEditButton) { %>
         <button class="btn btn-sm btn-info js-edit" type="button" data-row-id="<%- leave.clientId %>">
           <i class="glyphicon glyphicon-pencil"></i>
@@ -460,7 +460,7 @@
         var index;
         for (index = 0; index < columns.length; index++) {
       %>
-        <td><%= Cairo.Tree.getColumnValue(columns[index], leave.values[index]) %></td>
+        <td nowrap><%= Cairo.Tree.getColumnValue(columns[index], leave.values[index]) %></td>
       <% } %>
     </tr>
     <% }); %>
@@ -619,8 +619,7 @@
           </div>
         </div>
         <div class="col-sm-9 col-md-9 col-lg-9 document-list-list">
-          <div id="listBody">
-            <table class='document-list-grid'></table>
+          <div class="document-list-grid-body">
           </div>
         </div>
       </div>

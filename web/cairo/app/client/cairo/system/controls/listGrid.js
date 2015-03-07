@@ -5,6 +5,7 @@
 
     var createListGrid = function() {
       var self = {
+        container: null,
         columns: [],
         rows: []
       };
@@ -39,16 +40,18 @@
       };
 
       var removeChildren = function(element) {
-        while (element.firstChild) {
+        /*while (element.firstChild) {
           element.removeChild(element.firstChild);
-        }
+        }*/
+        $(element).empty();
       };
       /* end duplicated functions in grid.js */
 
       var gridManager = {
         head: null,
         body: null,
-        hiddenStatus: []
+        hiddenStatus: [],
+        dataTable: null
       };
 
       //
@@ -113,51 +116,7 @@
         // TODO: implement this.
       };
 
-      //
-      // end grid manager
-      //
-
-      that.load = function(data) {
-
-        self.columns = data.get('columns');
-        self.rows = data.get('rows');
-
-        gridManager.head = getTableSection(that.getElement(), 'list-dialog-grid-head', 'thead');
-        gridManager.body = getTableSection(that.getElement(), 'list-dialog-grid-body', 'tbody');
-
-        //
-        // remove all rows and columns
-        //
-        removeChildren(gridManager.head);
-        removeChildren(gridManager.body);
-
-        //
-        // columns and cells
-        //
-        var isHidden = function(col) {
-          var name = col.name.toLowerCase();
-          return name.indexOf('_id') > -1 || name === 'typetask';
-
-        }
-        var visibleToArray = function(col, i) {
-          gridManager.hiddenStatus[i] = isHidden(col) ? " hidden" : "";
-        };
-        self.columns.forEach(visibleToArray);
-
-        //
-        // add columns
-        //
-        gridManager.head.append(gridManager.createTR(self.columns, '', gridManager.createTD(gridManager.getColumnTitle, 'th')));
-
-        //
-        // add rows
-        //
-        gridManager.body.append(self.rows.map(gridManager.addRow));
-
-        //
-        // Datatables.net
-        //
-
+      gridManager.createDataTable = function() {
         var buttons = [];
         var scrollX = false;
         var scrollY = 0;
@@ -184,14 +143,81 @@
             "sRowSelect": rowSelect,
             "aButtons": buttons
           },/*
-          fnDrawCallback: function( oSettings ) {
-            $(listController.Tree.dataTableId$ + " tbody tr").contextMenu(menu, {theme:'osx'});
-          },*/
-          order: order
+           fnDrawCallback: function( oSettings ) {
+           $(listController.Tree.dataTableId$ + " tbody tr").contextMenu(menu, {theme:'osx'});
+           },*/
+          order: order,
+          destroy: true
         };
 
-        $(that.getElement()).dataTable(dataTableSettings);
+        gridManager.dataTable = $(that.getElement()).DataTable(dataTableSettings);
       };
+
+      //
+      // end grid manager
+      //
+
+      var createListGrid = function() {
+        if(gridManager.dataTable) {
+          gridManager.dataTable.destroy(true);
+        }
+        var oldGrid = that.getElement();
+        if(oldGrid) {
+          oldGrid.remove();
+        }
+        var newGrid = $("<table class='document-list-grid'></table>");
+        that.setElement(newGrid);
+        self.container.append(newGrid);
+      }
+
+      that.load = function(data) {
+
+        createListGrid();
+
+        self.columns = data.get('columns');
+        self.rows = data.get('rows');
+
+        gridManager.head = getTableSection(that.getElement(), 'list-dialog-grid-head', 'thead');
+        gridManager.body = getTableSection(that.getElement(), 'list-dialog-grid-body', 'tbody');
+
+        //
+        // remove all rows and columns
+        //
+        removeChildren(gridManager.head);
+        removeChildren(gridManager.body);
+
+        //
+        // columns and cells
+        //
+        var isHidden = function(col) {
+          var name = col.name.toLowerCase();
+          return name.indexOf('_id') > -1 || name === 'typetask' || name === 'observaciones';
+
+        }
+        var visibleToArray = function(col, i) {
+          gridManager.hiddenStatus[i] = isHidden(col) ? " hidden" : "";
+        };
+        self.columns.forEach(visibleToArray);
+
+        //
+        // add columns
+        //
+        gridManager.head.append(gridManager.createTR(self.columns, '', gridManager.createTD(gridManager.getColumnTitle, 'th')));
+
+        //
+        // add rows
+        //
+        gridManager.body.append(self.rows.map(gridManager.addRow));
+
+        //
+        // Datatables.net
+        //
+        gridManager.createDataTable();
+      };
+
+      that.setContainer = function(container) {
+        self.container = container;
+      }
 
       that.clear = function() { /* TODO: implement this. */ };
 

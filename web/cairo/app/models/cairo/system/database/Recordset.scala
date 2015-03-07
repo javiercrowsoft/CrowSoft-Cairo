@@ -43,7 +43,7 @@ object Recordset {
         Recordset(createColumns(), createRow() :: fillList())
       }
       else {
-        Recordset(List(), List())
+        Recordset(createColumns(), List())
       }
 
     } finally {
