@@ -1162,7 +1162,7 @@
       //
       var removeChildren = function(element) {
         while (element.firstChild) {
-          element.removeChild(child.firstChild);
+          element.removeChild(element.firstChild);
         }
       };
 

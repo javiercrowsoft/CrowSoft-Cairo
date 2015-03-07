@@ -5,7 +5,7 @@ import anorm.SqlParser._
 import anorm._
 import services.DateUtil
 import services.db.DB
-import models.cairo.system.database.{DBHelper, Register, Field, FieldType, SaveResult}
+import models.cairo.system.database.{DBHelper, Register, Field, FieldType, SaveResult, Recordset}
 import java.math.BigDecimal
 import play.api.Play.current
 import models.domain.CompanyUser
@@ -1281,12 +1281,47 @@ object FacturaCompra {
   }
 
   def list(user: CompanyUser,
-           from: Option[String],
-           to: Option[String],
-           provId: Option[Int],
-           estId: Option[Int],
-           ccosId: Option[Int],
-           sucId: Option[Int],
-           docId: Option[Int],
-           cpgId: Option[Int]):
+           from: Date,
+           to: Date,
+           provId: Option[String],
+           estId: Option[String],
+           ccosId: Option[String],
+           sucId: Option[String],
+           docId: Option[String],
+           cpgId: Option[String],
+           empId: Option[String]): Recordset = {
+
+    DB.withTransaction(user.database.database) { implicit connection =>
+
+      val sql = "{call sp_lsdoc_facturas_compra(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}"
+      val cs = connection.prepareCall(sql)
+
+      cs.setInt(1, user.userId)
+      cs.setDate(2, new java.sql.Date( from.getTime()))
+      cs.setDate(3, new java.sql.Date( to.getTime()))
+      cs.setString(4, provId.getOrElse("0"))
+      cs.setString(5, estId.getOrElse("0"))
+      cs.setString(6, ccosId.getOrElse("0"))
+      cs.setString(7, sucId.getOrElse("0"))
+      cs.setString(8, docId.getOrElse("0"))
+      cs.setString(9, cpgId.getOrElse("0"))
+      cs.setString(10, empId.getOrElse("0"))
+      cs.registerOutParameter(11, Types.OTHER)
+
+      try {
+        cs.execute()
+
+        val rs = cs.getObject(11).asInstanceOf[java.sql.ResultSet]
+        Recordset.load(rs)
+
+      } catch {
+        case NonFatal(e) => {
+          Logger.error(s"can't get listing of facturas de compra for user ${user.toString}. Error ${e.toString}")
+          throw e
+        }
+      } finally {
+        cs.close
+      }
+    }
+  }
 }

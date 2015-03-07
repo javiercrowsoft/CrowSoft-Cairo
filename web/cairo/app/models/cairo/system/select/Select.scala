@@ -110,7 +110,7 @@ object Select {
             case Nil => List()
             case columnDef :: tail => getColumn(columnDef) :: getColumns(tail)
           }
-          if (info.length == 1) (sqlstmt, List())
+          if(info.length == 1) (sqlstmt, List())
           else (sqlstmt, getColumns(info(1).split("[,]").toList))
         }
         catch {
@@ -123,7 +123,7 @@ object Select {
       }
 
       def getTop(top: Int): String = {
-        if (top > 0) " limit " + top.toString
+        if(top > 0) " limit " + top.toString
         else " limit 300" // TODO: this should be set in global and database configuration
       }
 
@@ -139,7 +139,7 @@ object Select {
       parseDefinition(sqlSelectDefinition) match {
         case (sql, columns) => {
           val sqlstmt = sql.toLowerCase()
-          if (sqlstmt.startsWith("select")) {
+          if(sqlstmt.startsWith("select")) {
             val select = DBHelper.removeTopClause(DBHelper.getSelectClause(sqlstmt))
             val from = DBHelper.getFromClause(sqlstmt)
             val where = DBHelper.getWhereClause(sqlstmt)
@@ -147,7 +147,7 @@ object Select {
             val orderBy = DBHelper.getOrderByClause(sqlstmt)
             val top = DBHelper.getTopValue(sqlstmt)
             val conditions = applyFilter(filter, columns, " like ")
-            val activeFilter = if (hasActive && useActive) s"(${tableName}.activo <> 0)" else ""
+            val activeFilter = if(hasActive && useActive) s"(${tableName}.activo <> 0)" else ""
             val statement = select +
               from +
               getWhere(where, conditions, activeFilter, getInternalFilter(internalFilter)) +
@@ -197,7 +197,7 @@ object Select {
 
             def processMacros(statement: String): String = {
               statement
-                .replaceAll("[@][@]bforabm", if (useActive) "0" else "1")
+                .replaceAll("[@][@]bforabm", if(useActive) "0" else "1")
                 .replaceAll("[@][@]filtertype", like.toString())
             }
             val function = processMacros(sqlstmt) + "?, 0, ?, ?, ?"
@@ -210,7 +210,7 @@ object Select {
     def createRecordSet(user: CompanyUser, tableId: Int, table: String)
                        (sqlstmt: String, filter: String, internalFilter: InternalFilter, paramCount: Int, isFunction: Boolean): RecordSet = {
       Logger.debug(s"table: ${table} tableId: ${tableId} filter: ${filter} isFunction: ${isFunction} internalFilter:${internalFilter.toString()}")
-      if (isFunction) executeStoredProcedure(user, tableId, table, getCallStatement(sqlstmt), filter.toLowerCase(), 0, internalFilter)
+      if(isFunction) executeStoredProcedure(user, tableId, table, getCallStatement(sqlstmt), filter.toLowerCase(), 0, internalFilter)
       else executeQuery(user, tableId, table, sqlstmt, filter.toLowerCase(), internalFilter, paramCount)
     }
 
@@ -424,9 +424,9 @@ object Select {
         parseDefinition(sqlSelectDefinition) match {
           case (sql, columns) => {
             val sqlstmt = sql.toLowerCase()
-            if (sqlstmt.startsWith("select")) {
+            if(sqlstmt.startsWith("select")) {
               val columns = getColumns
-              val activeFilter = if (table.hasActive) s"(${table.name}.activo <> 0)" else ""
+              val activeFilter = if(table.hasActive) s"(${table.name}.activo <> 0)" else ""
               val conditions = applyFilter(text, columns, " = ")
               val sql = getSqlstmt(sqlstmt)
               val select = DBHelper.removeTopClause(DBHelper.getSelectClause(sql))
@@ -483,7 +483,7 @@ object Select {
 
               def processMacros(statement: String): String = {
                 statement
-                  .replaceAll("[@][@]bforabm", if (useActive) "0" else "1")
+                  .replaceAll("[@][@]bforabm", if(useActive) "0" else "1")
                   .replaceAll("[@][@]filtertype", "0")
               }
               val function = processMacros(sqlstmt) + "?, 1, ?, ?, ?"
@@ -497,7 +497,7 @@ object Select {
     def createRecordSet(user: CompanyUser, tableId: Int, table: String)
                        (sqlstmt: String, text: String, id: Int, internalFilter: InternalFilter, paramCount: Int, isFunction: Boolean): RecordSet = {
       Logger.debug(s"table: ${table} tableId: ${tableId} text: ${text} id: ${id} isFunction: ${isFunction} internalFilter:${internalFilter.toString()}")
-      if (isFunction) executeStoredProcedure(user, tableId, table, getCallStatement(sqlstmt), text.toLowerCase(), id, internalFilter)
+      if(isFunction) executeStoredProcedure(user, tableId, table, getCallStatement(sqlstmt), text.toLowerCase(), id, internalFilter)
       else executeQuery(user, tableId, table, sqlstmt, text.toLowerCase(), internalFilter, paramCount)
     }
 
@@ -519,33 +519,33 @@ object Select {
 
   private def filterForColumn(column: Column, operator: String): String = {
     val columnName = {
-      if (column.columnType == "number") s"${column.name}::varchar "
+      if(column.columnType == "number") s"${column.name}::varchar "
       else s"lower(f_unaccent(${column.name})) "
     }
     columnName + operator + " lower(f_unaccent(?)) "
   }
 
   private def applyFilter(filter: String, columns: List[Column], operator: String): String = {
-    if (filter.isEmpty) ""
+    if(filter.isEmpty) ""
     else {
-      if (columns.length == 0) ""
+      if(columns.length == 0) ""
       else "(" + columns.map(filterForColumn(_, operator)).mkString(" or ") + ")"
     }
   }
 
   private def getFilter(condition: String, operator: String): String = {
-    if (condition.isEmpty) ""
+    if(condition.isEmpty) ""
     else s" ${operator} ${condition}"
   }
 
   private def getWhere(where: String, conditions: String, activeFilter: String, internalFilter: String): String = {
-    val wc = if (where.isEmpty) s" where ${conditions}" else where + getFilter(conditions, "and")
-    val wca = if (wc.isEmpty) s" where ${activeFilter}" else wc + getFilter(activeFilter, "and")
-    (if (wca.isEmpty) s" where ${internalFilter}" else wca + getFilter(internalFilter, "and")) + " "
+    val wc = if(where.isEmpty) s" where ${conditions}" else where + getFilter(conditions, "and")
+    val wca = if(wc.isEmpty) s" where ${activeFilter}" else wc + getFilter(activeFilter, "and")
+    (if(wca.isEmpty) s" where ${internalFilter}" else wca + getFilter(internalFilter, "and")) + " "
   }
 
   private def getInternalFilter(internalFilter: InternalFilter): String = {
-    if (internalFilter.isEmpty) ""
+    if(internalFilter.isEmpty) ""
     else s"(${internalFilter.query})"
   }
 
@@ -613,7 +613,7 @@ object Select {
 
       // internalFilter must be the last input parameter
       //
-      if (!internalFilter.isEmpty) DBHelper.applyParameters(ps, paramCount, internalFilter.filters)
+      if(!internalFilter.isEmpty) DBHelper.applyParameters(ps, paramCount, internalFilter.filters)
 
       try {
 
@@ -649,7 +649,7 @@ object Select {
       }
 
       def fillList(): List[Row] = {
-        if (rs.next()) {
+        if(rs.next()) {
           createRow() :: fillList()
         }
         else {
@@ -657,7 +657,7 @@ object Select {
         }
       }
 
-      if (rs.next) {
+      if(rs.next) {
         RecordSet(createRow() :: fillList(), createColumns())
       }
       else {

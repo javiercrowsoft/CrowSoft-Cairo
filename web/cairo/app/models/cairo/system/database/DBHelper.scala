@@ -43,7 +43,7 @@ object DBHelper {
     case Nil => sqlstmt
     case clause :: tail => {
       val j = sqlstmt.indexOf(clause)
-      if (j >= 0) sqlstmt.substring(0, j)
+      if(j >= 0) sqlstmt.substring(0, j)
       else getUntil(sqlstmt, tail)
     }
   }
@@ -104,8 +104,10 @@ object DBHelper {
       case "serial" => rs.getLong(i)
       case "bigserial" => rs.getLong(i)
       case "decimal" => rs.getBigDecimal(i)
+      case "numeric" => rs.getLong(i)
       case "real" => rs.getBigDecimal(i)
       case "timestamp" => rs.getDate(i)
+      case "timestamptz" => rs.getDate(i)
       case "date" => rs.getDate(i)
       case "time" => rs.getTime(i)
       case "character" => rs.getString(i)
@@ -113,7 +115,14 @@ object DBHelper {
       case "varchar" => rs.getString(i)
       case "text" => rs.getString(i)
       case "character varying" => rs.getString(i)
-      case other => s"unclassified type: $other val:${rs.getObject(i).toString}"
+      case other => {
+        if(metaData.getColumnClassName(i) == "java.lang.String") rs.getString(i)
+        else {
+          val value = s"unclassified type: $other for column ${metaData.getColumnName(i)} class: ${metaData.getColumnClassName(i)} val:${rs.getObject(i).toString}"
+          Logger.debug(value)
+          value
+        }
+      }
     }
     Option(value)
   }
@@ -167,7 +176,7 @@ object DBHelper {
 
         try {
 
-          if (rs.next) {
+          if(rs.next) {
             getValue(rs, rs.getMetaData(), 1)
           }
           else {

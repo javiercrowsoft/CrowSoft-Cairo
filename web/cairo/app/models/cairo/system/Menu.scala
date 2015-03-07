@@ -50,7 +50,7 @@ object Menu {
 
         try {
           def fillList(): List[Menu] = {
-            if (rs.next()) {
+            if(rs.next()) {
               Menu(
                 rs.getInt("pre_id"),
                 rs.getInt("me_id"),

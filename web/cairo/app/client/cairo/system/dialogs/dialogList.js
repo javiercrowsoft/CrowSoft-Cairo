@@ -278,10 +278,11 @@
         var refreshClick = function() {
           var p;
           try {
+            Cairo.LoadingMessage.show(m_client.getTitle(), "Loading data from Crowsoft Cairo server.");
             refreshAux();
             p = m_client.refresh().successWithResult(function(response) {
               m_view.getListGrid().load(response.data);
-            });
+            }).then(Cairo.LoadingMessage.close);
             return;
           }
           catch (ex) {
@@ -578,7 +579,7 @@
         };
 
         var refreshAux = function() {
-          for(var i = 1, count = m_properties.count(); i < count; i++) {
+          for(var i = 0, count = m_properties.count(); i < count; i++) {
 
             var property = m_properties.item(i);
             var index = property.getIndex();

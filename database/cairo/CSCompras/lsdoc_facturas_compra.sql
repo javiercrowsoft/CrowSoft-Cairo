@@ -87,6 +87,19 @@ INICIO PRIMERA PARTE DE ARBOLES
    v_IsRaiz numeric(3,0);
 BEGIN
 
+/*debug
+p_us_id := 1;
+p_Fini := '20000101'::date;
+p_Ffin := '20150101'::date;
+p_prov_id := '0';
+p_est_id := '0';
+p_ccos_id := '0';
+p_suc_id := '0';
+p_doc_id := '0';
+p_cpg_id := '0';
+p_emp_id := '0';
+end debug*/
+
    rtn := 'rtn';
 
    select * from sp_ArbConvertId(p_prov_id) into v_prov_id, v_ram_id_Proveedor;
@@ -263,7 +276,7 @@ FIN PRIMERA PARTE DE ARBOLES
 /////////////////////////////////////////////////////////////////////// */
       SELECT fc_id,
                      '' TypeTask,
-                     fc_numero N_mero,
+                     fc_numero Numero,
                      fc_nrodoc Comprobante,
                      prov_nombre Proveedor,
                      doc_nombre Documento,

@@ -286,7 +286,8 @@
     },
 
     sqlDate: function(date) {
-      return date;
+      var DATE_FORMAT = "yyyy-mm-dd'T'HH:mm:ss'Z'";
+      return Cairo.Util.getDateValue(date).toISOString();
     }
 
   };

@@ -4862,7 +4862,7 @@
 
       self.list = function() {
         initialize();
-        load()
+        return load()
           .success(loadCollection);
       };
 
@@ -5188,7 +5188,7 @@
       self.refresh = function() {
 
         var startDate;
-        if(!Cairo.Dates.DateNames.getDateNames().contains(m_fechaIniV)) {
+        if(Cairo.Dates.DateNames.getDateNames().contains(m_fechaIniV)) {
           startDate = Cairo.Dates.DateNames.getDateByName(m_fechaIniV);
         }
         else {
@@ -5196,12 +5196,15 @@
         }
 
         var endDate;
-        if(!Cairo.Dates.DateNames.getDateNames().contains(m_fechaFinV)) {
+        if(Cairo.Dates.DateNames.getDateNames().contains(m_fechaFinV)) {
           endDate = Cairo.Dates.DateNames.getDateByName(m_fechaFinV);
         }
         else {
           endDate = m_fechaFin
         }
+
+        startDate = DB.sqlDate(startDate);
+        endDate = DB.sqlDate(endDate);
 
         var params = {
           from: startDate,
@@ -5608,7 +5611,7 @@
 
           self.documentList.setListController(self);
           self.documentList.setDialog(dialog);
-          self.documentList.list();
+          self.documentList.list().then(Cairo.LoadingMessage.close);
 
         };
 

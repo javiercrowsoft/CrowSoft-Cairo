@@ -267,7 +267,7 @@ PUT     /api/v1/general/producto/:id              controllers.logged.modules.gen
 DELETE  /api/v1/general/producto/:id              controllers.logged.modules.general.Productos.delete(id: Int)
 
 
-GET     /api/v1/compras/facturacompras                 controllers.logged.modules.compras.FacturaCompras.list(from: Option[String], to: Option[String], provId: Option[Int], estId: Option[Int], ccosId: Option[Int], sucId: Option[Int], docId: Option[Int], cpgId: Option[Int])
+GET     /api/v1/compras/facturacompras                 controllers.logged.modules.compras.FacturaCompras.list(from: Option[String], to: Option[String], provId: Option[String], estId: Option[String], ccosId: Option[String], sucId: Option[String], docId: Option[String], cpgId: Option[String], empId: Option[String])
 GET     /api/v1/compras/facturacompras/parameters      controllers.logged.modules.compras.FacturaCompras.parameters()
 POST    /api/v1/compras/facturacompras                 controllers.logged.modules.compras.FacturaCompras.saveParameters
 

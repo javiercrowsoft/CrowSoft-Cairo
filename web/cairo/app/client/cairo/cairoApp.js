@@ -62,6 +62,19 @@ var Cairo = new Marionette.Application();
       }
     }),
 
+    dialogLoadingRegion: Marionette.Region.Dialog.extend({
+      el: "#dialog-region",
+      onCloseDialog: function() {
+        if(this.handler) {
+          this.handler.closeDialog();
+          this.handler = null;
+        }
+      },
+      dialogSettings: {
+        dialogClass: "no-close"
+      }
+    }),
+
     dialogSelectTreeRegion: Marionette.Region.Dialog.extend({
       el: "#dialog-select-tree-region",
       onCloseDialog: function() {
@@ -968,59 +981,58 @@ var Cairo = new Marionette.Application();
   };
 
   Cairo.LoadingMessage = (function() {
-      var workDone = false;
-      var view = null;
-      var message = null;
-      var title = null;
+    var workDone = false;
+    var view = null;
+    var message = null;
+    var title = null;
 
-      var showMessage = function() {
-          if(!workDone) {
-              if(!view) {
-                  view = new Cairo.Common.Views.Loading({
-                      title: title,
-                      message: message
-                  });
+    var showMessage = function() {
+      if(!workDone) {
+        if(!view) {
+          view = new Cairo.Common.Views.Loading({
+            title: title,
+            message: message
+          });
+          Cairo.dialogLoadingRegion.show(view);
+        }
+      }
+    };
 
-                  Cairo.loadingRegion.show(view);
-              }
-          }
-      };
-      
-      var closeView = function() {
-          Cairo.loadingRegion.close();
-          view = null;
-      };
+    var closeView = function() {
+      Cairo.dialogLoadingRegion.closeDialog();
+      view = null;
+    };
 
-      var close = function() {
-          workDone = true;
-          if(view) {
-            setTimeout(closeView, 300);
-          }
-      };
+    var close = function() {
+      workDone = true;
+      if(view) {
+        setTimeout(closeView, 300);
+      }
+    };
 
-      var show = function(title_, message_) {
-          if(!view) {
-              workDone = false;
-              message = message_ || message;
-              title = title_ || title;
-              setTimeout(showMessage, 300);
-          }
-      };
+    var show = function(title_, message_) {
+      if(!view) {
+        workDone = false;
+        message = message_ || message;
+        title = title_ || title;
+        setTimeout(showMessage, 300);
+      }
+    };
 
-      var showWait = function() {
-        show("processing", "please wait");
-      };
+    var showWait = function() {
+      show("processing", "please wait");
+    };
 
-      return {
-        close: close,
-        show: show,
-        showWait: showWait
-      };
+    return {
+      close: close,
+      show: show,
+      showWait: showWait
+    };
 
   }());
 
   Cairo.sleep = function(millis, callback) {
-      setTimeout(function() { callback(); }, millis);
+    setTimeout(function() { callback(); }, millis);
   };
 
   Cairo.logTreeEvent = function(event, data, msg) {

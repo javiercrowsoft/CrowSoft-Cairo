@@ -31,7 +31,7 @@ trait ProvidesUser {
     if(user.user != null) {
       val companyId = request.session.get("company").getOrElse("")
       def getCompanyUser(): CompanyUser = {
-        if (companyId.isEmpty)
+        if(companyId.isEmpty)
           CompanyUser(null, null, null)
         else
           CairoDB.connectCairoForUser(user.user, companyId.toInt)

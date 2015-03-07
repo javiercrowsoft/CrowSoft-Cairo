@@ -1,5 +1,6 @@
 package formatters.json
 
+import play.api.Logger
 import play.api.libs.json.Json.toJson
 import play.api.libs.json.JsValue
 import play.api.libs.json.Format
@@ -25,7 +26,7 @@ object DateFormatter {
 
     def reads(j: JsValue): JsResult[Date] = {
       try {
-        JsSuccess(dateFormat.parse(j.as[String]))
+        JsSuccess(parse(j.as[String]))
       } catch {
         case e: Exception => JsSuccess(U.NO_DATE)
       }
@@ -33,4 +34,15 @@ object DateFormatter {
 
   }
 
+  def parse(date: String): Date = {
+    try {
+      val calendar = javax.xml.bind.DatatypeConverter.parseDateTime(date)
+      calendar.getTime
+    } catch {
+      case e: Exception => {
+        Logger.debug(s"error ${e.getMessage}")
+        U.NO_DATE
+      }
+    }
+  }
 }

@@ -54,7 +54,7 @@ object Branch {
 
         try {
           def fillList(): List[Branch] = {
-            if (rs.next()) {
+            if(rs.next()) {
               Branch(rs.getInt("ram_id"), rs.getString("ram_nombre"), List(), List(), rs.getInt("ram_id_padre")) :: fillList()
             }
             else {
@@ -113,15 +113,15 @@ object Branch {
 
         try {
           lazy val metaData = rs.getMetaData()
-          lazy val columnIndex = 3.to(metaData.getColumnCount()).toList
+          lazy val columnIndexes = 3.to(metaData.getColumnCount()).toList
 
           def createLeave(): Leave = {
-            Leave(rs.getInt(1), rs.getInt(2), DBHelper.getValues(rs, metaData, columnIndex))
+            Leave(rs.getInt(1), rs.getInt(2), DBHelper.getValues(rs, metaData, columnIndexes))
           }
 
           def createColumns(): List[BranchColumn] = {
             val columns = for {
-              i <- columnIndex
+              i <- columnIndexes
             } yield {
               BranchColumn(metaData.getColumnName(i), metaData.getColumnTypeName(i))
             }
@@ -129,7 +129,7 @@ object Branch {
           }
 
           def fillList(): List[Leave] = {
-            if (rs.next()) {
+            if(rs.next()) {
               createLeave() :: fillList()
             }
             else {
@@ -137,7 +137,7 @@ object Branch {
             }
           }
 
-          if (rs.next) {
+          if(rs.next) {
             LoadedBranch(createLeave() :: fillList(), createColumns())
           }
           else {
@@ -177,7 +177,7 @@ object Branch {
         val rs = cs.getObject(5).asInstanceOf[java.sql.ResultSet]
 
         try {
-          if (rs.next) Branch(rs.getInt("ram_id"), rs.getString("ram_nombre"), List(), List(), rs.getInt("ram_id_padre"))
+          if(rs.next) Branch(rs.getInt("ram_id"), rs.getString("ram_nombre"), List(), List(), rs.getInt("ram_id_padre"))
           else emptyBranch
         }
         finally {
@@ -213,7 +213,7 @@ object Branch {
         val rs = cs.getObject(4).asInstanceOf[java.sql.ResultSet]
 
         try {
-          if (rs.next) Branch(rs.getInt("ram_id"), rs.getString("ram_nombre"), List(), List(), rs.getInt("ram_id_padre"))
+          if(rs.next) Branch(rs.getInt("ram_id"), rs.getString("ram_nombre"), List(), List(), rs.getInt("ram_id_padre"))
           else emptyBranch
         }
         finally {
@@ -270,14 +270,14 @@ object Branch {
 
     DB.withTransaction(user.database.database) { implicit connection =>
 
-      val sp = if (isCut) "SP_ArbCortarRama" else "SP_ArbCopiarRama"
+      val sp = if(isCut) "SP_ArbCortarRama" else "SP_ArbCopiarRama"
       val sql = s"{call $sp(?, ?, ?, ?, ?)}"
       val cs = connection.prepareCall(sql)
 
       cs.setInt(1, user.userId)
       cs.setInt(2, idFrom)
       cs.setInt(3, idTo)
-      cs.setShort(4, (if (onlyChildren) 1 else 0).toShort)
+      cs.setShort(4, (if(onlyChildren) 1 else 0).toShort)
       cs.registerOutParameter(5, Types.OTHER)
 
       try {
@@ -286,7 +286,7 @@ object Branch {
         val rs = cs.getObject(5).asInstanceOf[java.sql.ResultSet]
 
         try {
-          if (rs.next) Branch(rs.getInt("ram_id"), rs.getString("ram_nombre"), List(), List(), rs.getInt("ram_id_padre"))
+          if(rs.next) Branch(rs.getInt("ram_id"), rs.getString("ram_nombre"), List(), List(), rs.getInt("ram_id_padre"))
           else emptyBranch
         }
         finally {
@@ -328,7 +328,7 @@ object Branch {
         val rs = cs.getObject(3).asInstanceOf[java.sql.ResultSet]
 
         try {
-          if (rs.next) Branch(rs.getInt("ram_id"), rs.getString("ram_nombre"), List(), List(), rs.getInt("ram_id_padre"))
+          if(rs.next) Branch(rs.getInt("ram_id"), rs.getString("ram_nombre"), List(), List(), rs.getInt("ram_id_padre"))
           else emptyBranch
         }
         finally {
@@ -350,7 +350,7 @@ object Branch {
 
     DB.withTransaction(user.database.database) { implicit connection =>
 
-      val sp = if (isCut) "sp_arb_hoja_paste_cut" else "sp_arb_hoja_paste_copy"
+      val sp = if(isCut) "sp_arb_hoja_paste_cut" else "sp_arb_hoja_paste_copy"
       val sql = s"{call $sp(?, ?, ?, ?)}"
       val cs = connection.prepareCall(sql)
 
@@ -365,7 +365,7 @@ object Branch {
         val rs = cs.getObject(4).asInstanceOf[java.sql.ResultSet]
 
         try {
-          if (rs.next) Branch(rs.getInt("ram_id"), rs.getString("ram_nombre"), List(), List(), rs.getInt("ram_id_padre"))
+          if(rs.next) Branch(rs.getInt("ram_id"), rs.getString("ram_nombre"), List(), List(), rs.getInt("ram_id_padre"))
           else emptyBranch
         }
         finally {
@@ -415,7 +415,7 @@ object Branch {
         val rs = cs.getObject(3).asInstanceOf[java.sql.ResultSet]
 
         try {
-          if (rs.next) Branch(rs.getInt("ram_id"), rs.getString("ram_nombre"), List(), List(), rs.getInt("ram_id_padre"))
+          if(rs.next) Branch(rs.getInt("ram_id"), rs.getString("ram_nombre"), List(), List(), rs.getInt("ram_id_padre"))
           else emptyBranch
         }
         finally {

@@ -29,7 +29,7 @@ object Language {
 
         try {
           def fillList(): List[LanguageEntry] = {
-            if (rs.next()) {
+            if(rs.next()) {
               LanguageEntry(
                 rs.getString("sysl_code"),
                 rs.getString("sysl_text").replaceAll("\\&", "").replaceAll("[\\r\\n]", "\\\\n")

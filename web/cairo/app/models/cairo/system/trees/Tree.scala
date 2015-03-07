@@ -26,7 +26,7 @@ object Tree {
 
       val rs = cs.getObject(2).asInstanceOf[java.sql.ResultSet]
       def fillList(): List[Tree] = {
-        if (rs.next()) {
+        if(rs.next()) {
           Tree(rs.getInt("arb_id"), rs.getString("arb_nombre"), rs.getInt("ram_id")) :: fillList()
         }
         else {
@@ -57,7 +57,7 @@ object Tree {
         val rs = cs.getObject(4).asInstanceOf[java.sql.ResultSet]
 
         try {
-          if (rs.next) Tree(rs.getInt("arb_id"), rs.getString("arb_nombre"), rs.getInt("ram_id"))
+          if(rs.next) Tree(rs.getInt("arb_id"), rs.getString("arb_nombre"), rs.getInt("ram_id"))
           else Tree(0, "", 0)
         }
         finally {
@@ -93,7 +93,7 @@ object Tree {
         val rs = cs.getObject(4).asInstanceOf[java.sql.ResultSet]
 
         try {
-          if (rs.next) Branch(rs.getInt("ram_id"), rs.getString("ram_nombre"), List(), List(), rs.getInt("ram_id_padre"))
+          if(rs.next) Branch(rs.getInt("ram_id"), rs.getString("ram_nombre"), List(), List(), rs.getInt("ram_id_padre"))
           else Branch.emptyBranch
         }
         finally {

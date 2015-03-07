@@ -10,10 +10,10 @@ import play.api.Logger
 import play.api.libs.json._
 import models.cairo.modules.compras._
 import models.cairo.system.security.CairoSecurity
-import models.cairo.system.database.DBHelper
+import models.cairo.system.database.{Recordset, DBHelper}
 import java.util.Date
+import formatters.json.DateFormatter
 import formatters.json.DateFormatter._
-
 
 case class FacturaCompraIdData(
                                 docId: Int,
@@ -496,15 +496,22 @@ object FacturaCompras extends Controller with ProvidesUser {
   def list(
             from: Option[String],
             to: Option[String],
-            provId: Option[Int],
-            estId: Option[Int],
-            ccosId: Option[Int],
-            sucId: Option[Int],
-            docId: Option[Int],
-            cpgId: Option[Int]
+            provId: Option[String],
+            estId: Option[String],
+            ccosId: Option[String],
+            sucId: Option[String],
+            docId: Option[String],
+            cpgId: Option[String],
+            empId: Option[String]
     ) = GetAction { implicit request =>
     LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.LIST_FACTURA_COMPRA), { user =>
-      Ok(Json.toJson(FacturaCompra.list(user, from, to, provId, estId, ccosId, sucId, docId, cpgId)))
+      Ok(
+        Json.toJson(
+          Recordset.getAsJson(
+            FacturaCompra.list(
+              user,
+              DateFormatter.parse(from.getOrElse("")), DateFormatter.parse(to.getOrElse("")),
+              provId, estId, ccosId, sucId, docId, cpgId, empId))))
     })
   }
 

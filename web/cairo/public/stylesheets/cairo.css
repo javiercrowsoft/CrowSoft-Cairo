@@ -641,3 +641,7 @@ a.DTTT_button {
 }
 
 .nav>li>a:hover,.nav>li>a:focus{text-decoration:none;background-color:#cecece}
+
+.no-close .ui-dialog-titlebar-close {
+  display: none;
+}

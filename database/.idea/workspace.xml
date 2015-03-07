@@ -92,8 +92,8 @@
           <file leaf-file-name="lsdoc_facturas_compra.sql" pinned="false" current="true" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/cairo/CSCompras/lsdoc_facturas_compra.sql">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.30487806" vertical-offset="1416" max-vertical-offset="7733">
-                  <caret line="89" column="3" selection-start-line="89" selection-start-column="3" selection-end-line="89" selection-end-column="3" />
+                <state vertical-scroll-proportion="-0.011086474" vertical-offset="5292" max-vertical-offset="7980">
+                  <caret line="278" column="33" selection-start-line="278" selection-start-column="33" selection-end-line="278" selection-end-column="33" />
                   <folding />
                 </state>
               </provider>
@@ -882,8 +882,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/cairo/CSCompras/lsdoc_facturas_compra.sql">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.30487806" vertical-offset="1416" max-vertical-offset="7733">
-          <caret line="89" column="3" selection-start-line="89" selection-start-column="3" selection-end-line="89" selection-end-column="3" />
+        <state vertical-scroll-proportion="-0.011086474" vertical-offset="5292" max-vertical-offset="7980">
+          <caret line="278" column="33" selection-start-line="278" selection-start-column="33" selection-end-line="278" selection-end-column="33" />
           <folding />
         </state>
       </provider>
