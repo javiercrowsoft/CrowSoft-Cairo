@@ -8,7 +8,7 @@
     <file path="/control.js" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1424704126986" ignored="false" />
     <file path="/select.js" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1421446012192" ignored="false" />
     <file path="/dialog.js" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1425696815400" ignored="false" />
-    <file path="/a.dummy" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1425775254892" ignored="false" />
+    <file path="/a.dummy" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1425782167374" ignored="false" />
     <file path="/datePicker.js" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1425596722049" ignored="false" />
     <file path="/view.js" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1425729336835" ignored="false" />
     <file path="/cairoApp.js" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1425775278616" ignored="false" />
@@ -18,7 +18,7 @@
     <file path="/customer.rb" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1421191362562" ignored="false" />
     <file path="/input.js" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1421440634694" ignored="false" />
     <file path="/textArea.js" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1421275294092" ignored="false" />
-    <file path="/tree.js" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1425490904518" ignored="false" />
+    <file path="/tree.js" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1425782833471" ignored="false" />
     <file path="/property.js" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1424918608877" ignored="false" />
     <file path="/collection.js" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1423864219958" ignored="false" />
     <file path="/system.js" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1425597928228" ignored="false" />
@@ -194,10 +194,19 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="listGrid.js" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="listGrid.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/system/controls/listGrid.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="74" column="55" selection-start="2005" selection-end="2005" vertical-scroll-proportion="0.55133927">
+            <state line="163" column="44" selection-start="4391" selection-end="4415" vertical-scroll-proportion="-10.517858">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="tree.js" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/system/controls/tree.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="1624" column="80" selection-start="58220" selection-end="58220" vertical-scroll-proportion="0.33333334">
               <folding />
             </state>
           </provider>
@@ -224,7 +233,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/system/controls/button.js" />
         <option value="$PROJECT_DIR$/system/controls/checkBox.js" />
         <option value="$PROJECT_DIR$/system/controls/combo.js" />
         <option value="$PROJECT_DIR$/system/controls/datePicker.js" />
@@ -240,6 +248,7 @@
         <option value="$PROJECT_DIR$/system/controls/grid.js" />
         <option value="$PROJECT_DIR$/system/formatters/accounting.js" />
         <option value="$PROJECT_DIR$/system/controls/listGrid.js" />
+        <option value="$PROJECT_DIR$/system/controls/tree.js" />
       </list>
     </option>
   </component>
@@ -612,13 +621,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/system/controls/tree.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="1611" column="40" selection-start="57651" selection-end="57651" vertical-scroll-proportion="58.407406">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/lib/JavascriptLanguage.jar!/com/intellij/lang/javascript/index/predefined/DOMCore.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="267" column="19" selection-start="5454" selection-end="5454" vertical-scroll-proportion="0.3329832">
@@ -748,7 +750,14 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/system/controls/listGrid.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="74" column="55" selection-start="2005" selection-end="2005" vertical-scroll-proportion="0.55133927">
+        <state line="163" column="44" selection-start="4391" selection-end="4415" vertical-scroll-proportion="-10.517858">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/system/controls/tree.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="1624" column="80" selection-start="58220" selection-end="58220" vertical-scroll-proportion="0.33333334">
           <folding />
         </state>
       </provider>

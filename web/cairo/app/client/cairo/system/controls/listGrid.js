@@ -161,7 +161,7 @@
         if(!Cairo.isMobile()) {
           buttons = [ "select_all", "select_none"];
           scrollX = true;
-          scrollY = 430;
+          scrollY = $(window).height() - 330;
           rowSelect = "os";
         }
 

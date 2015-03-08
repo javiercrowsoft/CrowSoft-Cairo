@@ -1122,6 +1122,11 @@
           listController.edit(Cairo.Constants.NO_ID, listController.Tree.treeId, getActiveBranchId(listController));
         });
 
+        listController.treeColumn = $('.tree-layout-tree-column', mainView.$el);
+
+        if(!Cairo.isMobile()) {
+          listController.treeColumn.css('min-height', $(window).height() - 255);
+        }
 
         // this handler will request the branch id which contains the clientId
         // returned by the search control and then activate the correspondent
@@ -1615,8 +1620,9 @@
         if(!Cairo.isMobile()) {
           buttons = listController.Tree.getValue('showTableButtons') ? [ "select_all", "select_none", "print"] : [];
           scrollX = true;
-          scrollY = 450;
+          scrollY = $(window).height() - 420;
           rowSelect = "os";
+          listController.treeColumn.css('min-height', $(window).height() - 255);
         }
 
         var getDataTableDomAttribute = function() {
