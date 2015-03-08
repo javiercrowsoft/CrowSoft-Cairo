@@ -40,9 +40,6 @@
       };
 
       var removeChildren = function(element) {
-        /*while (element.firstChild) {
-          element.removeChild(element.firstChild);
-        }*/
         $(element).empty();
       };
       /* end duplicated functions in grid.js */
@@ -71,16 +68,52 @@
           case 'time':
           case 'date':
             return getDateFormatted(cell);
+          case 'decimal':
+          case 'numeric':
+          case 'real':
+          case 'double':
+            return Cairo.accounting.formatNumber(cell, 2);
+          case 'integer':
+          case 'int2':
+          case 'int4':
+          case 'smallint':
+          case 'biginteger':
+          case 'serial':
+          case 'bigserial':
+            return Cairo.accounting.formatNumber(cell);
           default:
             return cell;
         }
       };
 
-      gridManager.createTD = function(getValue, tdOrTh) {
+      gridManager.getClassForColumn = function(col) {
+        return "";
+      };
+
+      gridManager.getClassForCell = function(col) {
+        switch(col.columnType) {
+          case 'decimal':
+          case 'numeric':
+          case 'real':
+          case 'double':
+          case 'integer':
+          case 'int2':
+          case 'int4':
+          case 'smallint':
+          case 'biginteger':
+          case 'serial':
+          case 'bigserial':
+            return "cell-number-value";
+          default:
+            return "";
+        }
+      };
+
+      gridManager.createTD = function(getValue, tdOrTh, getClass) {
         return function(item, i) {
           var col = self.columns[i];
           var hidden = gridManager.hiddenStatus[i];
-          var td = $('<' + tdOrTh + ' nowrap class="' + hidden + '"></' + tdOrTh + '>');
+          var td = $('<' + tdOrTh + ' nowrap class="' + getClass(col) + " " + hidden + '"></' + tdOrTh + '>');
           td.html(getValue(item, col));
           return td;
         };
@@ -109,7 +142,10 @@
       };
 
       gridManager.addRow = function(row) {
-        return gridManager.createTR(row.values, '', gridManager.createTD(gridManager.getValue, 'td'));
+        return gridManager.createTR(
+          row.values,
+          '',
+          gridManager.createTD(gridManager.getValue, 'td', gridManager.getClassForCell));
       };
 
       gridManager.setFormatInRow = function(tr) {
@@ -123,9 +159,9 @@
         var rowSelect = "multi";
 
         if(!Cairo.isMobile()) {
-          buttons = [ "select_all", "select_none", "print"];
+          buttons = [ "select_all", "select_none"];
           scrollX = true;
-          scrollY = 450;
+          scrollY = 430;
           rowSelect = "os";
         }
 
@@ -202,7 +238,11 @@
         //
         // add columns
         //
-        gridManager.head.append(gridManager.createTR(self.columns, '', gridManager.createTD(gridManager.getColumnTitle, 'th')));
+        gridManager.head.append(
+          gridManager.createTR(
+            self.columns,
+            '',
+            gridManager.createTD(gridManager.getColumnTitle, 'th', gridManager.getClassForColumn)));
 
         //
         // add rows

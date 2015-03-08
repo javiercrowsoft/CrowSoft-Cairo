@@ -43,8 +43,9 @@
             Cairo.manageError(
               "Saving",
               "Can't save this record. An error has occurred in the server.",
-              response.responseText);
-            defer.resolve({success: false, data: data, response: response});
+              response.responseText).then(function() {
+                defer.resolve({success: false, data: data, response: response});
+              });
           }
         });
         p = defer.promise;
@@ -83,8 +84,9 @@
               Cairo.manageError(
                 "Deleting",
                 "Can't delete this record. An error has occurred in the server.",
-                response.responseText);
-              defer.resolve({success: false, data: data, response: response});
+                response.responseText).then(function() {
+                  defer.resolve({success: false, data: data, response: response});
+                });
             }
           });
           p = defer.promise;
@@ -130,16 +132,19 @@
               defer.resolve({success: true, data: data});
             },
             error: function(data, response) {
+              var p;
               if(response.status === 401) {
-                Cairo.infoViewShow("Unauthorized", "The server has denied access to this action.")
+                p = Cairo.Modal.showWarning("Unauthorized", "The server has denied access to this action.");
               }
               else if(response.status === 500) {
-                Cairo.manageError(
+                p = Cairo.manageError(
                   "Server Request [Get Data]",
-                  "Can't get data for query:[ " + query + " id: " + id.toString() + " ]. An error has occurred in the server.",
+                  "Can't get data for query:[ " + query + (id ? " id: " + id.toString() : "") + " ]. An error has occurred in the server.",
                   response.responseText);
               }
-              defer.resolve({success: false, data: data, response: response});
+              p.then(function() {
+                defer.resolve({success: false, data: data, response: response});
+              });
             },
             data: (params !== undefined ? $.param(params) : undefined)
           });

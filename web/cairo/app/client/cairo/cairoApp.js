@@ -999,7 +999,10 @@ var Cairo = new Marionette.Application();
     };
 
     var closeView = function() {
-      Cairo.dialogLoadingRegion.closeDialog();
+      try {
+        Cairo.dialogLoadingRegion.closeDialog();
+      }
+      catch(ignore) {}
       view = null;
     };
 
@@ -1300,18 +1303,32 @@ var Cairo = new Marionette.Application();
   };
 
   Cairo.manageError = function(title, message, errorResponse, exception, closeHandler) {
+    var defer = new Cairo.Promises.Defer();
     var errorDetails = errorResponse;
     if(exception) {
       errorDetails += "\n\n" + exception.stack.toString();
       errorDetails = errorDetails.replace(/\n/g, "<br>");
     }
-    var view = Cairo.manageErrorView(title, message, errorDetails, closeHandler);
+    var getCloseHandler = function() {
+      return function(args) {
+        var p = null;
+        if(closeHandler) {
+          p = closeHandler(args);
+        }
+        p = p || Cairo.Promises.resolvedPromise();
+        p.then(function() {
+          defer.resolve(true);
+        })
+      };
+    };
+    var view = Cairo.manageErrorView(title, message, errorDetails, getCloseHandler());
     Cairo.dialogRegion.show(view);
     Cairo.logError(message, exception);
+    return defer.promise;
   };
 
   Cairo.manageErrorEx = function(errorResponse, exception, functionName, className, infoAdd) {
-    Cairo.manageError(
+    return Cairo.manageError(
       "Error",
       "An error has occurred when calling this function: " + className + "." + functionName + "<br>" + infoAdd,
       errorResponse,
@@ -1322,7 +1339,7 @@ var Cairo = new Marionette.Application();
   Cairo.manageErrorHandler = function(title, message, closeHandler) {
     message = message || "";
     return function(errorResponse) {
-      Cairo.manageError(title, message, errorResponse, null, closeHandler);
+      return Cairo.manageError(title, message, errorResponse, null, closeHandler);
     };
   };
 

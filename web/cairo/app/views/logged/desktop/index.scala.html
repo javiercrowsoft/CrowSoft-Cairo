@@ -360,10 +360,16 @@
       </div>
     </div>
     <div class="row tree-layout-buttons-toolbar-row">
-      <div class="col-sm-5 col-md-6 col-lg-7"></div>
-      <div class="col-sm-7 col-md-6 col-lg-5 tree-select-control-search">
+      <% if(showSelectButton) { %>
+        <div class="col-sm-3 col-md-4 col-lg-5"></div>
+        <div class="col-sm-9 col-md-8 col-lg-7 tree-select-control-search">
+      <% }
+       else { %>
+        <div class="col-sm-5 col-md-6 col-lg-7"></div>
+        <div class="col-sm-7 col-md-6 col-lg-5 tree-select-control-search">
+      <% } %>
           <% if(showSelectButton) { %>
-            <button class="btn btn-primary align-right" id="tree-select-select-button"> Select </button>
+            <button class="btn btn-primary align-right tree-select-button" id="tree-select-select-button"> Select </button>
           <% } %>
           <div class="tree-select-input align-right-first">
             <div class="tree-select-control cf search-select">
@@ -736,6 +742,10 @@
 <script>
   @languageGenerator(language)
 </script>
+
+<!-- formatters -->
+
+<script src="./client/cairo/system/formatters/accounting.js"></script>
 
 <!-- controls -->
 

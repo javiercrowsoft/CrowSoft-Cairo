@@ -21,11 +21,18 @@ object Recordset {
         Row(getValues(rs, metaData, columnIndexes))
       }
 
+      def getTypeName(typeName: String, i: Int): String = typeName match {
+        case "numeric" => {
+          if(metaData.getScale(i) > 0) "decimal" else "integer"
+        }
+        case t => t
+      }
+
       def createColumns(): List[ColumnDef] = {
         val columns = for {
           i <- columnIndexes
         } yield {
-          ColumnDef(metaData.getColumnName(i), metaData.getColumnTypeName(i))
+          ColumnDef(metaData.getColumnName(i), getTypeName(metaData.getColumnTypeName(i), i))
         }
         columns
       }
@@ -81,6 +88,7 @@ object Recordset {
           case i: Int => Json.toJson(i)
           case l: Long => Json.toJson(l)
           case bg: BigDecimal => Json.toJson(bg)
+          case dbl: Double => Json.toJson(dbl)
           case d: java.sql.Date => Json.toJson(d)
           case t: java.sql.Timestamp => Json.toJson(t)
           case s: String => Json.toJson(s)

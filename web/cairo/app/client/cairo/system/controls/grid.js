@@ -212,7 +212,7 @@
           try {
             Cairo.log("cell " + i.toString() + ": " + cell.getText().toString() + " | item data: " + cell.getItemData().toString() + " | tag: " + cell.getTag().toString());
           }
-          catch(ignore){}
+          catch(ignore) {}
           return true;
         };
         self.cells.each(printToLog);
@@ -1161,9 +1161,7 @@
       // drawing
       //
       var removeChildren = function(element) {
-        while (element.firstChild) {
-          element.removeChild(element.firstChild);
-        }
+        $(element).empty();
       };
 
       var getTableSection = function(parent, section, tag) {

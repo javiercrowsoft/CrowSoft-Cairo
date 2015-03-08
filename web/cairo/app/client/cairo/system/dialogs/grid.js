@@ -554,7 +554,7 @@
           try {
             Cairo.log("cell " + i.toString() + ": " + cell.getValue().toString() + " | id: " + cell.getId().toString() + " | key: " + cell.getKey().toString());
           }
-          catch(ignore){}
+          catch(ignore) {}
           return true;
         };
         self.cells.each(printToLog);
