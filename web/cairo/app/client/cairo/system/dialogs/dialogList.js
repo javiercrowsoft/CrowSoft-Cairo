@@ -39,6 +39,7 @@
               refreshClick:               refreshClick,
 
               newClick:                   newClick,
+              editClick:                  editClick,
               deleteClick:                deleteClick,
               printClick:                 printClick,
 
@@ -273,8 +274,6 @@
           catch (ignore) {}
         };
 
-        var newClick = function() { /* TODO: implement this */ };
-
         var refreshClick = function() {
           var p;
           try {
@@ -291,7 +290,17 @@
           return p || Cairo.Promises.resolvedPromise(false);
         };
 
-        var deleteClick = function() { /* TODO: implement this */ };
+        var newClick = function() {
+          m_client.edit(Cairo.Constants.NO_ID);
+        };
+
+        var editClick = function(event, args) {
+          m_client.edit(args.id);
+        };
+
+        var deleteClick = function(event, args) {
+          return m_client.deleteItem(args.id);
+        };
 
         var printClick = function() { /* TODO: implement this */ };
 

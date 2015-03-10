@@ -32,7 +32,8 @@ javier at crowsoft.com.ar
 
 -- DROP FUNCTION sp_cuentahelpcliente(integer, integer, integer, varchar, integer, integer, varchar);
 
-CREATE OR REPLACE FUNCTION sp_cuentahelpcliente(
+CREATE OR REPLACE FUNCTION sp_cuentahelpcliente
+(
   IN p_emp_id integer ,
   IN p_us_id integer ,
   IN p_bForAbm integer ,
@@ -40,7 +41,8 @@ CREATE OR REPLACE FUNCTION sp_cuentahelpcliente(
   IN p_check integer DEFAULT 0 ,
   IN p_cue_id integer DEFAULT 0 ,
   IN p_filter2 varchar DEFAULT '', 
-  out rtn refcursor)
+  out rtn refcursor
+)
   RETURNS refcursor AS
 $BODY$
 BEGIN

@@ -37,9 +37,9 @@ CREATE OR REPLACE FUNCTION sp_lsdoc_facturas_compra
 select * from FacturaCompra
 
 select * from sp_lsdoc_facturas_compra(
-7,
-'20030101'::date,
-'20050101'::date,
+1,
+'20000101'::date,
+'20150101'::date,
 '0',
 '0',
 '0',

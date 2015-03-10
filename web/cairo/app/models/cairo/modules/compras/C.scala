@@ -2,25 +2,6 @@ package models.cairo.modules.compras
 
 object C {
 
-  // TODO: move this constants to a different module
-
-    // Producto Numero Serie
-    val PRODUCTO_NUMERO_SERIE = "ProductoNumeroSerie"
-    val PRNS_ID = "prns_id"
-    val PRNS_CODE = "prns_codigo"
-    val PRNS_DESCRIP = "prns_descrip"
-    val PRNS_FECHA_VTO = "prns_fechavto"
-
-    // Legajo
-    val LGJ_ID = "lgj_id"
-    val LGJ_NAME = "lgj_name"
-
-  // TODO: end move constants
-
-  val LLEVA_NRO_SERIE = "llevaNroSerie"
-  val LLEVA_NRO_LOTE = "llevaNroLote"
-
-
   // RemitoCompra
   val REMITO_COMPRA = "RemitoCompra"
   val RC_ID = "rc_id"

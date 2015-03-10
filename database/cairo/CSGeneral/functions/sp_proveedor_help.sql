@@ -46,7 +46,8 @@ CREATE OR REPLACE FUNCTION sp_proveedorhelp
   IN p_check integer DEFAULT 0,
   IN p_prov_id integer DEFAULT 0,
   IN p_filter2 varchar DEFAULT '',
-  out rtn refcursor)
+  out rtn refcursor
+)
   RETURNS refcursor AS
 $BODY$
 DECLARE

@@ -426,7 +426,7 @@
 <script type="text/template" id="tree-list-template">
     <thead>
     <tr id="tree-list-headers">
-        <th></th>
+        <th><i class="glyphicon glyphicon-pencil"></i></th>
         <% columns.forEach(function(column) { %>
             <th class="capitalize"><%- column.name %></th>
         <% }); %>
@@ -608,12 +608,12 @@
           <button class="btn btn-success dialog-button dialog-wide-button dialog-refresh-button">Refresh</button>
         </div>
         <div class="col-sm-8 col-md-8 col-lg-8">
-          <button class="btn btn-info dialog-button dialog-print-button">Print</button>
           <button class="btn btn-info dialog-button dialog-new-button">New</button>
+          <button class="btn btn-info dialog-button dialog-print-button">Print</button>
           <button class="btn btn-info dialog-button dialog-documents-button">Attached Files</button>
         </div>
-        <div class="col-sm-1 col-md-1 col-lg-1">
-          <button class="btn btn-warning dialog-button dialog-close-button">Close</button>
+        <div class="col-sm-1 col-md-1 col-lg-1" style="padding-right: 0;">
+          <button class="btn btn-warning dialog-button dialog-close-button align-right" style="margin-right: 0;">Close</button>
         </div>
       </div>
       <div class="row document-list-params-box">

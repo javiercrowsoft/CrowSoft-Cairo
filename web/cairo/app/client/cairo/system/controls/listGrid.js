@@ -7,7 +7,11 @@
       var self = {
         container: null,
         columns: [],
-        rows: []
+        rows: [],
+        listeners: {
+          onDeleteRow: null,
+          onEditRow: null
+        }
       };
 
       var that = Controls.createControl();
@@ -24,7 +28,52 @@
 
       var getDateFormatted = Cairo.Util.getDateFormatted;
 
+      var addListener = function(eventName, functionHandler) {
+        switch(eventName) {
+          case "onEditRow":
+          case "onDeleteRow":
+            self.listeners[eventName] = functionHandler;
+            break;
+          default:
+            Cairo.logError(
+              'Invalid event listener registration. EventName: '
+                + eventName + ' - Handler: ' + functionHandler.toString());
+        }
+      };
+
+      var setListeners = function(view) {
+        addListener('onEditRow', view.onListGridEditRow(that));
+        addListener('onDeleteRow', view.onListGridDeleteRow(that));
+      };
+
       /* TODO: FIX ME duplicated functions in grid.js */
+
+      var raiseEvent = function(event, eventArg) {
+        if(self.listeners[event] !== null) {
+          self.listeners[event](eventArg);
+        }
+      };
+
+      var raiseEventAndThen = function(event, eventArg, thenCall) {
+        if(self.listeners[event] !== null) {
+          return self.listeners[event](eventArg).then(
+            thenCall
+          );
+        }
+        else {
+          return Cairo.Promises.resolvedPromise(false);
+        }
+      };
+
+      var thenIfSuccessCall = function(f) {
+        var args = arguments;
+        return function(success) {
+          if(success === true) {
+            f.apply(null, Array.prototype.slice.call(args, 1));
+          }
+        };
+      };
+
       var getTableSection = function(parent, section, tag) {
         var element = $('.' + section, parent);
         if(element.length === 0) {
@@ -119,14 +168,33 @@
         };
       }
 
+      gridManager.getEditColumnTitle = function() {
+        return "<th><i class='glyphicon glyphicon-pencil'></i></td>";
+      };
+
+      gridManager.getEditRowButton = function(cells) {
+        var id = cells[0];
+        var editButton = $("<button class='btn btn-sm btn-info js-edit' type='button' data-row-id='" + id + "'>")
+        editButton.html("<i class='glyphicon glyphicon-pencil'></i>");
+        var deleteButton = $("<button class='btn btn-sm btn-danger js-delete' style='margin-left: 4px;' type='button' data-row-id='" + id + "'>")
+        deleteButton.html("<i class='glyphicon glyphicon-remove'></i>");
+        var td = $('<td nowrap ></td>');
+        td.append(editButton);
+        td.append(deleteButton);
+        return td;
+      };
+
       //
       // rows
       //
-      gridManager.createTR = function(cellsOrColumns, clazz, createTD) {
+      gridManager.createTR = function(cellsOrColumns, clazz, createTD, getEditColumn) {
         //
         // create a $TR element
         //
         var tr = $('<tr class="' + clazz + '"></tr>');
+
+        tr.append(getEditColumn(cellsOrColumns));
+
         //
         // add all TDs from a collection of cells or columns
         //
@@ -145,7 +213,9 @@
         return gridManager.createTR(
           row.values,
           '',
-          gridManager.createTD(gridManager.getValue, 'td', gridManager.getClassForCell));
+          gridManager.createTD(gridManager.getValue, 'td', gridManager.getClassForCell),
+          gridManager.getEditRowButton
+        );
       };
 
       gridManager.setFormatInRow = function(tr) {
@@ -242,7 +312,9 @@
           gridManager.createTR(
             self.columns,
             '',
-            gridManager.createTD(gridManager.getColumnTitle, 'th', gridManager.getClassForColumn)));
+            gridManager.createTD(gridManager.getColumnTitle, 'th', gridManager.getClassForColumn),
+            gridManager.getEditColumnTitle
+          ));
 
         //
         // add rows
@@ -253,10 +325,48 @@
         // Datatables.net
         //
         gridManager.createDataTable();
+
+        $('.js-edit', gridManager.body).click(onEdit);
+        $('.js-delete', gridManager.body).click(onDelete);
       };
 
-      that.setContainer = function(container) {
+      var onDelete = function(event) {
+        var button = $(event.currentTarget);
+        var args = {
+          id: button.data('row-id')
+        };
+        var row = gridManager.dataTable.row(button.closest('tr')[0])
+        raiseEventAndThen(
+          'onDeleteRow',
+          args,
+          thenIfSuccessCall(deleteRow, row)
+        );
+      };
+
+      var deleteRow = function(row) {
+        try {
+          row.remove().draw();
+        }
+        catch(ex) {
+          Cairo.manageErrorEx(ex.message, ex, "deleteRow", "listGrid", "");
+        }
+      };
+
+      var onEdit = function(event) {
+        var button = $(event.currentTarget);
+        var args = {
+          id: button.data('row-id')
+        };
+        var row = gridManager.dataTable.row(button.closest('tr')[0])
+        raiseEvent(
+          'onEditRow',
+          args
+        );
+      };
+
+      that.setContainer = function(container, view) {
         self.container = container;
+        setListeners(view);
       }
 
       that.clear = function() { /* TODO: implement this. */ };

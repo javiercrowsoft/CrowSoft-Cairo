@@ -1239,6 +1239,17 @@ object C {
   val RPT_ID = "rpt_id"
   val RPT_NAME = "rpt_nombre"
 
+  // Producto Numero Serie
+  val PRODUCTO_NUMERO_SERIE = "ProductoNumeroSerie"
+  val PRNS_ID = "prns_id"
+  val PRNS_CODE = "prns_codigo"
+  val PRNS_DESCRIP = "prns_descrip"
+  val PRNS_FECHA_VTO = "prns_fechavto"
+
+  // Legajo
+  val LGJ_ID = "lgj_id"
+  val LGJ_NAME = "lgj_name"
+  val LGJ_CODE = "lgj_codigo"
 }
 
 object S {

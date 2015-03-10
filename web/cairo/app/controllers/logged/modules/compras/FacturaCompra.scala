@@ -134,7 +134,7 @@ object FacturaCompras extends Controller with ProvidesUser {
         GC.CCOS_ID -> number,
         GC.SUC_ID -> number,
         GC.CPG_ID -> number,
-        C.LGJ_ID -> number,
+        GC.LGJ_ID -> number,
         C.FC_CAI -> text,
         C.FC_TIPO_COMPROBANTE -> number,
         C.FC_DESCRIP -> text,
@@ -229,8 +229,8 @@ object FacturaCompras extends Controller with ProvidesUser {
       GC.CPG_NAME -> Json.toJson(facturaCompra.base.cpgName),
       GC.CCOS_ID -> Json.toJson(facturaCompra.base.ccosId),
       GC.CCOS_NAME -> Json.toJson(facturaCompra.base.ccosName),
-      C.LGJ_ID -> Json.toJson(facturaCompra.base.lgjId),
-      C.LGJ_NAME -> Json.toJson(facturaCompra.base.lgjName),
+      GC.LGJ_ID -> Json.toJson(facturaCompra.base.lgjId),
+      GC.LGJ_CODE -> Json.toJson(facturaCompra.base.lgjCode),
       C.FC_CAI -> Json.toJson(facturaCompra.base.cai),
       C.FC_DESCRIP -> Json.toJson(facturaCompra.base.descrip),
       C.FC_TIPO_COMPROBANTE -> Json.toJson(facturaCompra.base.tipoComprobante),
@@ -266,6 +266,7 @@ object FacturaCompras extends Controller with ProvidesUser {
 
       // Items
       "items" -> Json.toJson(writeFacturaCompraItems(facturaCompra.items.items)),
+      "serialNumbers" -> Json.toJson(writeFacturaCompraItemSeries(facturaCompra.items.series)),
       "otros" -> Json.toJson(writeFacturaCompraOtros(facturaCompra.items.otros)),
       "legajos" -> Json.toJson(writeFacturaCompraLegajos(facturaCompra.items.legajos)),
       "percepciones" -> Json.toJson(writeFacturaCompraPercepciones(facturaCompra.items.percepciones))
@@ -286,8 +287,8 @@ object FacturaCompras extends Controller with ProvidesUser {
       C.STL_ID -> Json.toJson(i.base.stlId),
       C.STL_CODE -> Json.toJson(i.base.stlCode),
       C.FCI_ORDEN -> Json.toJson(i.base.orden),
-      C.LLEVA_NRO_SERIE -> Json.toJson(i.base.llevaNroSerie),
-      C.LLEVA_NRO_LOTE -> Json.toJson(i.base.llevaNroLote),
+      GC.PR_LLEVA_NRO_SERIE -> Json.toJson(i.base.llevaNroSerie),
+      GC.PR_LLEVA_NRO_LOTE -> Json.toJson(i.base.llevaNroLote),
       C.FCI_CANTIDAD -> Json.toJson(i.totals.cantidad),
       C.FCI_PRECIO -> Json.toJson(i.totals.precio),
       C.FCI_PRECIO_LISTA -> Json.toJson(i.totals.precioLista),
@@ -301,6 +302,13 @@ object FacturaCompras extends Controller with ProvidesUser {
       C.FCI_INTERNOS_PORC -> Json.toJson(i.totals.internosPorc),
       C.FCI_IMPORTE -> Json.toJson(i.totals.importe),
       C.FCI_IMPORTE_ORIGEN -> Json.toJson(i.totals.importeOrigen)
+    )
+    def facturaCompraItemSerieWrites(i: FacturaCompraItemSerie) = Json.obj(
+      C.FCI_ID -> Json.toJson(i.fciId),
+      GC.PRNS_ID -> Json.toJson(i.id),
+      GC.PRNS_CODE -> Json.toJson(i.code),
+      GC.PRNS_DESCRIP -> Json.toJson(i.descrip),
+      GC.PRNS_FECHA_VTO -> Json.toJson(i.fechaVto)
     )
     def facturaCompraOtroWrites(o: FacturaCompraOtro) = Json.obj(
       C.FCOT_ID -> Json.toJson(o.id),
@@ -316,8 +324,8 @@ object FacturaCompras extends Controller with ProvidesUser {
     )
     def facturaCompraLegajoWrites(l: FacturaCompraLegajo) = Json.obj(
       C.FCLGJ_ID -> Json.toJson(l.id),
-      C.LGJ_ID -> Json.toJson(l.lgjId),
-      C.LGJ_NAME -> Json.toJson(l.lgjName),
+      GC.LGJ_ID -> Json.toJson(l.lgjId),
+      GC.LGJ_CODE -> Json.toJson(l.lgjCode),
       C.FCLGJ_IMPORTE -> Json.toJson(l.importe),
       C.FCLGJ_DESCRIP -> Json.toJson(l.descrip),
       C.FCLGJ_IMPORTE_ORIGEN -> Json.toJson(l.importeOrigen),
@@ -337,6 +345,7 @@ object FacturaCompras extends Controller with ProvidesUser {
       C.FCPERC_ORDEN -> Json.toJson(p.orden)
     )
     def writeFacturaCompraItems(items: List[FacturaCompraItem]) = items.map(item => facturaCompraItemWrites(item))
+    def writeFacturaCompraItemSeries(items: List[FacturaCompraItemSerie]) = items.map(item => facturaCompraItemSerieWrites(item))
     def writeFacturaCompraOtros(items: List[FacturaCompraOtro]) = items.map(item => facturaCompraOtroWrites(item))
     def writeFacturaCompraLegajos(items: List[FacturaCompraLegajo]) = items.map(item => facturaCompraLegajoWrites(item))
     def writeFacturaCompraPercepciones(items: List[FacturaCompraPercepcion]) = items.map(item => facturaCompraPercepcionWrites(item))

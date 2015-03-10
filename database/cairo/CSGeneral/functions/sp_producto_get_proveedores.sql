@@ -32,9 +32,11 @@ javier at crowsoft.com.ar
 
 -- DROP FUNCTION sp_producto_get_proveedores(integer);
 
-CREATE OR REPLACE FUNCTION sp_producto_get_proveedores(
+CREATE OR REPLACE FUNCTION sp_producto_get_proveedores
+(
   IN p_pr_id integer ,
-  OUT rtn refcursor)
+  OUT rtn refcursor
+)
   RETURNS refcursor AS
 $BODY$
 DECLARE

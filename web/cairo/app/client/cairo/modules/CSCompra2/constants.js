@@ -17,7 +17,7 @@
       // Legajo
       LEGAJO: "legajo",
       LGJ_ID: "lgj_id",
-      LGJ_NAME: "lgj_nombre",
+      LGJ_TITLE: "lgj_titulo",
       LGJ_CODE: "lgj_codigo",
 
       // RemitoCompra

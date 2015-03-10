@@ -28,7 +28,7 @@ http://www.crowsoft.com.ar
 
 javier at crowsoft.com.ar
 */
-﻿-- Function: sp_dbgetnewid2(character varying, character varying, integer, integer, smallint)
+-- Function: sp_dbgetnewid2(character varying, character varying, integer, integer, smallint)
 
 -- DROP FUNCTION sp_dbgetnewid2(character varying, character varying, integer, integer, smallint);
 
@@ -38,8 +38,8 @@ $BODY$
 BEGIN
 
    IF p_bSelect <> 0 THEN
-      RAISE EXCEPTION '@@ERROR_SP:El procedimiento almacenado SP_DBGetNewId2 no puede ser llamado para obtener un cursor. Se debe usar SP_DBGetNewId2Rs.';
-			RETURN;
+      RAISE EXCEPTION '@@ERROR_SP:El procedimiento almacenado SP_DBGetNewId2 no puede ser llamado para obtener un cursor. El codigo Java o Scala debe usar parametros OUT.';
+	  RETURN;
    END IF;
 
    SELECT MAX(Id_NextId)

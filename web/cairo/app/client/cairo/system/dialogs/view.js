@@ -924,8 +924,20 @@
         self.btnRefresh.setElement(view.$('.dialog-refresh-button'));
         self.btnRefresh.getElement().click(onRefreshClick);
 
-        self.listGrid.setContainer(view.$('.document-list-grid-body'));
+        self.listGrid.setContainer(view.$('.document-list-grid-body'), that);
 
+      };
+
+      that.onListGridEditRow = function(control) {
+        return function(eventArgs) {
+          return that.raiseEventWithPromise("editClick", control.getIndex(), eventArgs);
+        };
+      };
+
+      that.onListGridDeleteRow = function(control) {
+        return function(eventArgs) {
+          return that.raiseEventWithPromise("deleteClick", control.getIndex(), eventArgs);
+        };
       };
 
       return that;

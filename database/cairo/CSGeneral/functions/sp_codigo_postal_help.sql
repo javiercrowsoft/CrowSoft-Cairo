@@ -32,7 +32,8 @@ javier at crowsoft.com.ar
 
 -- DROP FUNCTION sp_codigopostalhelp();
 
-CREATE OR REPLACE FUNCTION sp_codigopostalhelp(
+CREATE OR REPLACE FUNCTION sp_codigopostalhelp
+(
   IN p_emp_id integer ,
   IN p_us_id integer ,
   IN p_bForAbm integer ,
@@ -41,7 +42,8 @@ CREATE OR REPLACE FUNCTION sp_codigopostalhelp(
   IN p_check integer DEFAULT 0 ,
   IN ip_cpa_id integer DEFAULT 0 ,
   IN v_p_filter2 varchar DEFAULT '', 
-  out rtn refcursor)
+  out rtn refcursor
+)
   RETURNS refcursor AS
 $BODY$
 DECLARE

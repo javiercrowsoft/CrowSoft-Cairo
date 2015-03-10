@@ -1084,8 +1084,8 @@
             m_listController.removeEditor(self);
           }
         }
-        catch (ignored) {
-          Cairo.logError('Error in terminate', ignored);
+        catch (ignore) {
+          Cairo.logError('Error in terminate', ignore);
         }
       };
 
@@ -1346,7 +1346,7 @@
         if(m_dialog !== null) {
           if(!Cairo.Security.docHasPermissionTo(
                 CS.DELETE_FACTURA,
-                D.getdocIdFromDialog(m_dialog),
+                D.getDocIdFromDialog(m_dialog),
                 Cairo.Security.ActionTypes.destroy)) {
             return P.resolvedPromise(false);
           }
@@ -1366,7 +1366,7 @@
 
           if(!Cairo.Security.docHasPermissionTo(
                 CS.LIST_FACTURA,
-                D.getdocIdFromDialog(m_dialog),
+                D.getDocIdFromDialog(m_dialog),
                 Cairo.Security.ActionTypes.list)) {
             return P.resolvedPromise(false);
           }
@@ -4587,10 +4587,10 @@
 
       var saveItemNroSerie = function(mainRegister, row, order, prId, grupo) {
 
-        var transaction = new DB.Transaction();
-        var deleted = [];
-
         if(cellId(row, KI_PR_LLEVA_NRO_SERIE)) {
+
+          var transaction = new DB.Transaction();
+          var deleted = [];
 
           var _count = m_serialNumbers.get(Cairo.Collections.getKey(grupo)).size();
           for(var _i = 0; _i < _count; _i++) {
@@ -4631,11 +4631,11 @@
               transaction.addRegister(register);
             }
           }
+
+          transaction.setDeletedList(deleted.toString());
+
+          mainRegister.addTransaction(transaction);
         }
-
-        transaction.setDeletedList(deleted.toString());
-
-        mainRegister.addTransaction(transaction);
 
         return true;
       };
@@ -4864,6 +4864,14 @@
         initialize();
         return load()
           .success(loadCollection);
+      };
+
+      self.edit = function(fcId) {
+        m_listController.edit(fcId);
+      };
+
+      self.deleteItem = function(fcId) {
+        return m_listController.destroy(fcId);
       };
 
       self.showDocDigital = function() {
@@ -5502,6 +5510,7 @@
     var NO_ID = Cairo.Constants.NO_ID;
     var DB = Cairo.Database;
     var C_MODULE = "cFacturaCompra";
+    var P = Cairo.Promises;
 
     List.Controller = {
       list: function() {

@@ -40,8 +40,8 @@ DECLARE
 BEGIN
 
    IF p_bSelect <> 0 THEN
-      RAISE EXCEPTION '@@ERROR_SP:El procedimiento almacenado SP_DBGetNewId no puede ser llamado para obtener un cursor. Se debe usar SP_DBGetNewIdRs.';
-			RETURN;
+      RAISE EXCEPTION '@@ERROR_SP:El procedimiento almacenado SP_DBGetNewId no puede ser llamado para obtener un cursor. El codigo Java o Scala debe usar parametros OUT.';
+	  RETURN;
    END IF;
 
    IF LOWER(p_tabla) = 'stock'

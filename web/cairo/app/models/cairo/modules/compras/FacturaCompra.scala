@@ -61,7 +61,7 @@ case class FacturaCompraBase(
                               cpgId: Int,
                               cpgName: String,
                               lgjId: Int,
-                              lgjName: String,
+                              lgjCode: String,
                               cai: String,
                               tipoComprobante: Int,
                               descrip: String,
@@ -273,6 +273,14 @@ case class FacturaCompraItem(
                               totals: FacturaCompraItemTotals
                             )
 
+case class FacturaCompraItemSerie(
+                              id: Int,
+                              code: String,
+                              descrip: String,
+                              fechaVto: Date,
+                              fciId: Int
+                              )
+
 case class FacturaCompraOtro(
                               id: Int,
                               cueId: Int,
@@ -289,7 +297,7 @@ case class FacturaCompraOtro(
 case class FacturaCompraLegajo(
                                 id: Int,
                                 lgjId: Int,
-                                lgjName: String,
+                                lgjCode: String,
                                 importe: Double,
                                 descrip: String,
                                 importeOrigen: Double,
@@ -312,6 +320,7 @@ case class FacturaCompraPercepcion(
 
 case class FacturaCompraItems(
                                 items: List[FacturaCompraItem],
+                                series: List[FacturaCompraItemSerie],
                                 otros: List[FacturaCompraOtro],
                                 legajos: List[FacturaCompraLegajo],
                                 percepciones: List[FacturaCompraPercepcion]
@@ -475,7 +484,7 @@ object FacturaCompra {
 
   lazy val GC = models.cairo.modules.general.C
 
-  lazy val emptyFacturaCompraItems = FacturaCompraItems(List(), List(), List(), List())
+  lazy val emptyFacturaCompraItems = FacturaCompraItems(List(), List(), List(), List(), List())
 
   lazy val emptyFacturaCompra = FacturaCompra(
     FacturaCompraId(DBHelper.NoId, 0, ""),
@@ -625,8 +634,8 @@ object FacturaCompra {
     SqlParser.get[BigDecimal](C.FCI_IMPORTE) ~
     SqlParser.get[BigDecimal](C.FCI_IMPORTE_ORIGEN) ~
     SqlParser.get[Int](C.FCI_ORDEN) ~
-    SqlParser.get[Int](C.LLEVA_NRO_SERIE) ~
-    SqlParser.get[Int](C.LLEVA_NRO_LOTE) map {
+    SqlParser.get[Int](GC.PR_LLEVA_NRO_SERIE) ~
+    SqlParser.get[Int](GC.PR_LLEVA_NRO_LOTE) map {
     case
         id ~
         cantidad ~
@@ -697,6 +706,28 @@ object FacturaCompra {
     }
   }
 
+  private val facturaCompraItemSerieParser: RowParser[FacturaCompraItemSerie] = {
+    SqlParser.get[Int](GC.PRNS_ID) ~
+    SqlParser.get[String](GC.PRNS_CODE) ~
+    SqlParser.get[String](GC.PRNS_DESCRIP) ~
+    SqlParser.get[Date](GC.PRNS_FECHA_VTO) ~
+    SqlParser.get[Int](C.FCI_ID) map {
+    case
+        prnsId ~
+        prnsCode ~
+        prnsDescrip ~
+        prnsFechaVto ~
+        fcId =>
+      FacturaCompraItemSerie(
+        prnsId,
+        prnsCode,
+        prnsDescrip,
+        prnsFechaVto,
+        fcId
+      )
+    }
+  }
+
   private val facturaCompraOtroParser: RowParser[FacturaCompraOtro] = {
     SqlParser.get[Int](C.FCOT_ID) ~
     SqlParser.get[Int](GC.CUE_ID) ~
@@ -736,8 +767,8 @@ object FacturaCompra {
 
   private val facturaCompraLegajoParser: RowParser[FacturaCompraLegajo] = {
     SqlParser.get[Int](C.FCLGJ_ID) ~
-    SqlParser.get[Int](C.LGJ_ID) ~
-    SqlParser.get[String](C.LGJ_NAME) ~
+    SqlParser.get[Int](GC.LGJ_ID) ~
+    SqlParser.get[String](GC.LGJ_NAME) ~
     SqlParser.get[BigDecimal](C.FCLGJ_IMPORTE) ~
     SqlParser.get[String](C.FCLGJ_DESCRIP) ~
     SqlParser.get[BigDecimal](C.FCLGJ_IMPORTE_ORIGEN) ~
@@ -745,7 +776,7 @@ object FacturaCompra {
     case
         id ~
         lgjId ~
-        lgjName ~
+        lgjCode ~
         importe ~
         descrip ~
         importeOrigen ~
@@ -753,7 +784,7 @@ object FacturaCompra {
       FacturaCompraLegajo(
         id,
         lgjId,
-        lgjName,
+        lgjCode,
         importe.doubleValue(),
         descrip,
         importeOrigen.doubleValue(),
@@ -818,8 +849,8 @@ object FacturaCompra {
     SqlParser.get[String](GC.SUC_NAME) ~
     SqlParser.get[Int](GC.CPG_ID) ~
     SqlParser.get[String](GC.CPG_NAME) ~
-    SqlParser.get[Option[Int]](C.LGJ_ID) ~
-    SqlParser.get[Option[String]](C.LGJ_NAME) ~
+    SqlParser.get[Option[Int]](GC.LGJ_ID) ~
+    SqlParser.get[Option[String]](GC.LGJ_CODE) ~
     SqlParser.get[String](C.FC_CAI) ~
     SqlParser.get[Int](C.FC_TIPO_COMPROBANTE) ~
     SqlParser.get[String](C.FC_DESCRIP) ~
@@ -873,7 +904,7 @@ object FacturaCompra {
         cpgId ~
         cpgName ~
         lgjId ~
-        lgjName ~
+        lgjCode ~
         cai ~
         tipoComprobante ~
         descrip ~
@@ -930,7 +961,7 @@ object FacturaCompra {
           cpgId,
           cpgName,
           lgjId.getOrElse(DBHelper.NoId),
-          lgjName.getOrElse(""),
+          lgjCode.getOrElse(""),
           cai,
           tipoComprobante,
           descrip,
@@ -1002,7 +1033,7 @@ object FacturaCompra {
         Field(GC.EST_ID, facturaCompra.base.estId, FieldType.id),
         Field(GC.CCOS_ID, facturaCompra.base.ccosId, FieldType.id),
         Field(GC.SUC_ID, facturaCompra.base.sucId, FieldType.id),
-        Field(C.LGJ_ID, facturaCompra.base.lgjId, FieldType.id),
+        Field(GC.LGJ_ID, facturaCompra.base.lgjId, FieldType.id),
         Field(GC.CPG_ID, facturaCompra.base.cpgId, FieldType.id),
         Field(C.FC_CAI, facturaCompra.base.cai, FieldType.text),
         Field(C.FC_TIPO_COMPROBANTE, facturaCompra.base.tipoComprobante, FieldType.number),
@@ -1075,7 +1106,7 @@ object FacturaCompra {
       try {
         cs.execute()
 
-        val rs = cs.getObject(2).asInstanceOf[java.sql.ResultSet]
+        val rs = cs.getObject(4).asInstanceOf[java.sql.ResultSet]
         Sql.as(facturaCompraParser.singleOpt, rs)
 
       } catch {
@@ -1090,8 +1121,10 @@ object FacturaCompra {
   }
 
   private def loadFacturaCompraItems(user: CompanyUser, id: Int) = {
+    val items = loadItems(user, id)
     FacturaCompraItems(
-      loadItems(user, id),
+      items._1,
+      items._2,
       loadOtros(user, id),
       loadLegajos(user, id),
       loadPercepciones(user, id))
@@ -1101,17 +1134,20 @@ object FacturaCompra {
 
     DB.withTransaction(user.database.database) { implicit connection =>
 
-      val sql = "{call sp_factura_compra_get_items(?, ?)}"
+      val sql = "{call sp_doc_factura_compra_get_items(?, ?, ?)}"
       val cs = connection.prepareCall(sql)
 
       cs.setInt(1, id)
       cs.registerOutParameter(2, Types.OTHER)
+      cs.registerOutParameter(3, Types.OTHER)
 
       try {
         cs.execute()
 
         val rs = cs.getObject(2).asInstanceOf[java.sql.ResultSet]
-        Sql.as(facturaCompraItemParser.*, rs)
+        val rsSerie = cs.getObject(3).asInstanceOf[java.sql.ResultSet]
+
+        (Sql.as(facturaCompraItemParser.*, rs), Sql.as(facturaCompraItemSerieParser.*, rsSerie))
 
       } catch {
         case NonFatal(e) => {
@@ -1128,7 +1164,7 @@ object FacturaCompra {
 
     DB.withTransaction(user.database.database) { implicit connection =>
 
-      val sql = "{call sp_factura_compra_get_otros(?, ?)}"
+      val sql = "{call sp_doc_factura_compra_get_otros(?, ?)}"
       val cs = connection.prepareCall(sql)
 
       cs.setInt(1, id)
@@ -1155,7 +1191,7 @@ object FacturaCompra {
 
     DB.withTransaction(user.database.database) { implicit connection =>
 
-      val sql = "{call sp_factura_compra_get_legajos(?, ?)}"
+      val sql = "{call sp_doc_factura_compra_get_legajos(?, ?)}"
       val cs = connection.prepareCall(sql)
 
       cs.setInt(1, id)
@@ -1182,7 +1218,7 @@ object FacturaCompra {
 
     DB.withTransaction(user.database.database) { implicit connection =>
 
-      val sql = "{call sp_factura_compra_get_percepciones(?, ?)}"
+      val sql = "{call sp_doc_factura_compra_get_percepciones(?, ?)}"
       val cs = connection.prepareCall(sql)
 
       cs.setInt(1, id)

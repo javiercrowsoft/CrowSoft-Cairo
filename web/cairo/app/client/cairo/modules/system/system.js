@@ -484,8 +484,15 @@
     return dialog.getProperties().item(key).getGrid();
   };
 
-  Cairo.Documents.getdocIdFromDialog = function(dialog) {
-    return dialog.getProperties().item(Cairo.General.Constants.DOC_ID).getSelectId();
+  Cairo.Documents.getDocIdFromDialog = function(dialog) {
+    var properties = dialog.getProperties();
+    var keyDoc = Cairo.General.Constants.DOC_ID;
+    if(properties.contains(keyDoc)) {
+      return properties.item(keyDoc).getSelectId();
+    }
+    else {
+      return Cairo.Constants.NO_ID;
+    }
   };
 
   Cairo.Documents.showEditStatus = function(msg, title) {

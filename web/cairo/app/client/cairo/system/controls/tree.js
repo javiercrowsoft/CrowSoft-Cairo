@@ -1541,11 +1541,15 @@
         itemsListLayout.on("item:delete", function(childView, args) {
           try {
             var id = $(childView.event.currentTarget.parentElement.parentElement).data("clientid");
-            listController.destroy(id).success(
-              function() {
-                Cairo.Tree.List.Controller.refreshBranchIfActive(getActiveBranchId(listController), id, listController);
+            Cairo.Modal.confirmViewYesDanger("Delete", "Do you want delete this item ?").then(function(answer) {
+              if(answer === "yes") {
+                listController.destroy(id).success(
+                  function() {
+                    Cairo.Tree.List.Controller.refreshBranchIfActive(getActiveBranchId(listController), id, listController);
+                  }
+                );
               }
-            );
+            });
           }
           catch(ex) {
             Cairo.manageError("Edit Item", "Can't edit this item", ex.message, ex);
