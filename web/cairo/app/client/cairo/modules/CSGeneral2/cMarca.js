@@ -372,7 +372,6 @@
         elem.setSize(50);
         elem.setKey(K_NAME);
         elem.setValue(m_name);
-        elem.setWidth(6000);
 
         var elem = properties.add(null, Cairo.General.Constants.MARC_CODE);
         elem.setType(Dialogs.PropertyType.text);
@@ -390,8 +389,6 @@
         var elem = properties.add(null, Cairo.General.Constants.MARC_DESCRIP);
         elem.setType(Dialogs.PropertyType.text);
         elem.setSubType(Dialogs.PropertySubType.memo);
-        elem.setHeight(780);
-        elem.setWidth(6000);
         elem.setName(Cairo.Constants.DESCRIPTION_LABEL);
         elem.setSize(255);
         elem.setKey(K_DESCRIP);
@@ -400,15 +397,11 @@
         var elem = properties.add(null);
         elem.setType(Dialogs.PropertyType.label);
         elem.setValue(Cairo.Language.getText(4788, ""));
-        elem.setWidth(6000);
-        elem.setHeight(2500);
         elem.setTabIndex(1);
 
         var elem = properties.add(null, Cairo.General.Constants.MARC_TEXTO_WEB);
         elem.setType(Dialogs.PropertyType.text);
         elem.setSubType(Dialogs.PropertySubType.memo);
-        elem.setHeight(780);
-        elem.setWidth(6000);
         // Texto Web
         elem.setName(Cairo.Language.getText(4787, ""));
         elem.setSize(255);

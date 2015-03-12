@@ -372,7 +372,6 @@
         elem.setType(Dialogs.PropertyType.text);
         elem.setName(Cairo.Constants.NAME_LABEL);
         elem.setSize(100);
-        elem.setWidth(5000);
         elem.setKey(K_NAME);
         elem.setValue(m_name);
 
@@ -385,11 +384,6 @@
 
         var elem = properties.add(null, Cairo.Constants.ACTIVE);
         elem.setType(Dialogs.PropertyType.check);
-        elem.setTopFromProperty(Cairo.General.Constants.LEY_NAME);
-        elem.setLeftLabel(-800);
-        elem.setTopNotChange(true);
-        elem.setLeft(7500);
-        elem.setLeftNotChange(true);
         elem.setName(Cairo.Constants.ACTIVE_LABEL);
         elem.setKey(K_ACTIVE);
         elem.setValue(m_active === true ? 1 : 0);
@@ -408,8 +402,6 @@
         elem.setSubType(Dialogs.PropertySubType.memo);
         elem.setName(Cairo.Constants.DESCRIPTION_LABEL);
         elem.setKey(K_DESCRIPCION);
-        elem.setHeight(440);
-        elem.setWidth(6250);
         elem.setValue(m_descripcion);
 
         var elem = properties.add(null, Cairo.General.Constants.LEYTEXTO);
@@ -417,8 +409,6 @@
         // Leyenda
         elem.setName(Cairo.Language.getText(1240, ""));
         elem.setSubType(Dialogs.PropertySubType.memo);
-        elem.setHeight(880);
-        elem.setWidth(6250);
         elem.setKey(K_TEXTO);
         elem.setValue(m_texto);
 

@@ -43,10 +43,6 @@
     var m_textAlign;
     var m_textMask = "";
     var m_format = "";
-    var m_width = 0;
-    var m_height = 0;
-    var m_top = 0;
-    var m_left = 0;
     var m_noShowButton = false;
     var m_listSql = "";
 
@@ -192,38 +188,6 @@
       m_format = rhs;
     };
 
-    self.getWidth = function() {
-      return m_width;
-    };
-
-    self.setWidth = function(rhs) {
-      m_width = rhs;
-    };
-
-    self.getHeight = function() {
-      return m_height;
-    };
-
-    self.setHeight = function(rhs) {
-      m_height = rhs;
-    };
-
-    self.getTop = function() {
-      return m_top;
-    };
-
-    self.setTop = function(rhs) {
-      m_top = rhs;
-    };
-
-    self.getLeft = function() {
-      return m_left;
-    };
-
-    self.setLeft = function(rhs) {
-      m_left = rhs;
-    };
-
     self.getNoShowButton = function() {
       return m_noShowButton;
     };
@@ -308,10 +272,6 @@
           field.setTextAlign(valField(fields[_i], C.TBLI_TEXT_ALIGN));
           field.setTextMask(valField(fields[_i], C.TBLI_TEXT_MASK));
           field.setFormat(valField(fields[_i], C.TBLI_FORMAT));
-          field.setWidth(valField(fields[_i], C.TBLI_WIDTH));
-          field.setHeight(valField(fields[_i], C.TBLI_HEIGHT));
-          field.setTop(valField(fields[_i], C.TBLI_TOP));
-          field.setLeft(valField(fields[_i], C.TBLI_LEFT));
           field.setNoShowButton(valField(fields[_i], C.TBLI_NO_SHOW_BUTTON));
           field.setListSql(valField(fields[_i], C.TBLI_SQLSTMT));
         }

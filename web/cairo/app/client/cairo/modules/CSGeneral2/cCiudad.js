@@ -370,7 +370,6 @@
         var elem = properties.add(null, Cairo.General.Constants.CIU_NAME);
         elem.setType(Dialogs.PropertyType.text);
         elem.setName(Cairo.Constants.NAME_LABEL);
-        elem.setWidth(6200);
         elem.setSize(100);
         elem.setKey(K_NAME);
         elem.setValue(m_name);
@@ -396,21 +395,14 @@
         elem.setKey(K_PRO_ID);
         elem.setValue(m_provincia);
         elem.setSelectId(m_pro_id);
-        elem.setTopFromProperty(Cairo.General.Constants.CIU_CODE);
-        elem.setLeft(5480);
 
         var elem = properties.add(null, Cairo.General.Constants.CIU_DESCRIP);
         elem.setType(Dialogs.PropertyType.text);
-        elem.setLeftFromProperty(Cairo.Constants.ACTIVE);
-        elem.setTopFromProperty(Cairo.Constants.ACTIVE);
-        elem.setTopToPrevious(440);
         elem.setName(Cairo.Constants.DESCRIPTION_LABEL);
         elem.setSize(255);
         elem.setKey(K_DESCRIP);
         elem.setValue(m_descrip);
         elem.setSubType(Dialogs.PropertySubType.memo);
-        elem.setWidth(6200);
-        elem.setHeight(880);
 
         if(!m_dialog.show(self)) { return false; }
 

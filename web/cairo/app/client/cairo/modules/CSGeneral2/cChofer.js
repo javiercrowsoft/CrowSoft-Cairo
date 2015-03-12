@@ -9,9 +9,6 @@
 
       var Dialogs = Cairo.Dialogs;
 
-      // cChofer
-      // 21-06-03
-
       var C_MODULE = "cChofer";
 
       var K_NAME = 1;
@@ -26,7 +23,6 @@
       var K_ACTIVE = 10;
       var K_CAM_ID = 11;
 
-//*TODO:** enum is translated as a new class at the end of the file Public Enum csChofTipoDoc
       var m_id = 0;
       var m_name = "";
       var m_code = "";
@@ -131,7 +127,7 @@
         catch(ex) {
           Cairo.manageErrorEx(ex.message, ex, Cairo.Constants.SHOW_DOCUMENTS_FUNCTION, C_MODULE, "");
         }
-              
+
         return _rtn;
       };
 
@@ -149,7 +145,7 @@
             _rtn = true;
             break;
         }
-      
+
         return Cairo.Promises.resolvedPromise(_rtn);
       };
 
@@ -175,7 +171,7 @@
 
         if(m_copy) {
           register.setId(Cairo.Constants.NEW_ID);
-        } 
+        }
         else {
           register.setId(m_id);
         }
@@ -233,14 +229,14 @@
         return Cairo.Database.saveEx(
             register,
             false,
-            Cairo.General.Constants.CHOF_CODE, 
+            Cairo.General.Constants.CHOF_CODE,
             Cairo.Constants.CLIENT_SAVE_FUNCTION,
             C_MODULE,
             Cairo.Language.getText(1060, "")).then(
 
           function(result) {
             if(result.success) {
-                m_copy = false;
+              m_copy = false;
               return load(result.data.getId()).then(
                 function (success) {
                   if(success) {
@@ -255,7 +251,7 @@
             else {
               return false;
             }
-        });
+          });
       };
 
       var updateList = function() {
@@ -341,7 +337,7 @@
           if(id === Cairo.Constants.NO_ID) {
             m_isNew = true;
             if(!Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.NEW_CHOFER)) { return p; }
-          } 
+          }
           else {
             m_isNew = false;
             if(!Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.EDIT_CHOFER)) { return p; }
@@ -350,7 +346,7 @@
           m_dialog.setInModalWindow(inModalWindow);
 
           p = load(id).then(
-           function(success) {
+            function(success) {
               if(success) {
 
                 if(!loadCollection()) { return false; }
@@ -360,19 +356,19 @@
 
                 if(inModalWindow) {
                   success = m_id !== Cairo.Constants.NO_ID;
-                } 
+                }
                 else {
                   success = true;
                 }
 
               }
               return success;
-          });
+            });
         }
         catch(ex) {
           Cairo.manageErrorEx(ex.message, ex, Cairo.Constants.EDIT_FUNCTION, C_MODULE, "");
-      }
-      
+        }
+
         return p;
       };
 
@@ -403,7 +399,6 @@
         elem.setSize(50);
         elem.setKey(K_NAME);
         elem.setValue(m_name);
-        elem.setWidth(7500);
 
         var elem = properties.add(null, Cairo.General.Constants.CHOF_CODE);
         elem.setType(Dialogs.PropertyType.text);
@@ -411,18 +406,12 @@
         elem.setSize(50);
         elem.setKey(K_CODE);
         elem.setValue(m_code);
-        elem.setWidth(1400);
 
         var elem = properties.add(null, Cairo.Constants.ACTIVE);
         elem.setType(Dialogs.PropertyType.check);
         elem.setName(Cairo.Constants.ACTIVE_LABEL);
         elem.setKey(K_ACTIVE);
         elem.setValue(m_active === true ? 1 : 0);
-        elem.setTopFromProperty(Cairo.General.Constants.CHOF_CODE);
-        elem.setTopNotChange(true);
-        elem.setLeft(3700);
-        elem.setLeftLabel(-600);
-        elem.setLeftNotChange(true);
 
         var elem = properties.add(null, Cairo.General.Constants.TRANS_ID);
         elem.setType(Dialogs.PropertyType.select);
@@ -449,7 +438,6 @@
         elem.setSize(255);
         elem.setKey(K_DIRECCION);
         elem.setValue(m_direccion);
-        elem.setWidth(3700);
 
         c = properties.add(null, Cairo.General.Constants.CHOF_TIPODNI);
         c.setType(Dialogs.PropertyType.list);
@@ -460,15 +448,12 @@
         pLoadTipoDoc(c);
         c.setListItemData(m_tipodni);
         c.setListWhoSetItem(Dialogs.ListWhoSetItem.itemData);
-        c.setTopFromProperty(Cairo.General.Constants.CHOF_CODE);
-        c.setLeft(6600);
 
         var elem = properties.add(null, Cairo.General.Constants.CHOF_DNI);
         elem.setType(Dialogs.PropertyType.numeric);
         elem.setSubType(Dialogs.PropertySubType.Integer);
-        // N�mero
+        // Numero
         elem.setName(Cairo.Language.getText(1065, ""));
-        elem.setWidth(1200);
         elem.setKey(K_DNI);
         elem.setValue(m_dni);
 
@@ -491,9 +476,6 @@
         elem.setType(Dialogs.PropertyType.text);
         elem.setName(Cairo.Constants.DESCRIPTION_LABEL);
         elem.setSubType(Dialogs.PropertySubType.memo);
-        elem.setLeftFromProperty(Cairo.General.Constants.CHOF_NAME);
-        elem.setWidth(7500);
-        elem.setHeight(600);
         elem.setSize(255);
         elem.setKey(K_DESCRIP);
         elem.setValue(m_descrip);
@@ -596,7 +578,7 @@
               m_cam_id = Cairo.Database.valField(response.data, Cairo.General.Constants.CAM_ID);
               m_camion = Cairo.Database.valField(response.data, Cairo.General.Constants.CAM_PATENTE);
 
-            } 
+            }
             else {
               m_id = Cairo.Constants.NO_ID;
               m_name = "";
@@ -614,8 +596,8 @@
               m_camion = "";
             }
 
-          return true;
-        });
+            return true;
+          });
 
       };
 

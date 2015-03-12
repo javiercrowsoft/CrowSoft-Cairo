@@ -369,7 +369,6 @@
         elem.setSize(100);
         elem.setKey(K_NAME);
         elem.setValue(m_name);
-        elem.setWidth(6500);
 
         var elem = properties.add(null, Cairo.General.Constants.ZON_CODE);
         elem.setType(Dialogs.PropertyType.text);
@@ -392,7 +391,6 @@
         elem.setSize(15);
         elem.setValue(m_precio);
         elem.setKey(K_PRECIO);
-        elem.setWidth(1000);
 
         var elem = properties.add(null, Cairo.General.Constants.PR_ID);
         elem.setType(Dialogs.PropertyType.select);
@@ -403,14 +401,11 @@
         elem.setValue(m_producto);
         elem.setSelectId(m_pr_id);
         elem.setKey(K_PR_ID);
-        elem.setWidth(6500);
 
         var elem = properties.add(null, Cairo.General.Constants.ZON_DESCRIP);
         elem.setType(Dialogs.PropertyType.text);
         elem.setName(Cairo.Constants.DESCRIPTION_LABEL);
         elem.setSize(255);
-        elem.setHeight(660);
-        elem.setWidth(6500);
         elem.setSubType(Dialogs.PropertySubType.memo);
         elem.setValue(m_descrip);
         elem.setKey(K_DESCRIP);

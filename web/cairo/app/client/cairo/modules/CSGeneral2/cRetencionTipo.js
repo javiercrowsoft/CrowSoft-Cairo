@@ -423,8 +423,6 @@
 
         var elem = properties.add(null, Cairo.General.Constants.RETT_GENERA_SICORE);
         elem.setType(Dialogs.PropertyType.check);
-        elem.setTopFromProperty(Cairo.Constants.ACTIVE);
-        elem.setLeft(3500);
         // Genera Sicore
         elem.setName(Cairo.Language.getText(1266, ""));
         elem.setKey(K_GENERASICORE);
@@ -432,8 +430,6 @@
 
         var elem = properties.add(null, Cairo.General.Constants.RETT_CODIGO_SICORE);
         elem.setType(Dialogs.PropertyType.text);
-        elem.setTopFromProperty(Cairo.General.Constants.RETT_NAME);
-        elem.setLeft(5500);
         // C�digo Sicore
         elem.setName(Cairo.Language.getText(1265, ""));
         elem.setSize(50);
@@ -476,14 +472,9 @@
 
         var elem = properties.add(null, Cairo.General.Constants.RETT_DESCRIP);
         elem.setType(Dialogs.PropertyType.text);
-        elem.setLeftFromProperty(Cairo.General.Constants.RETT_CODE);
-        elem.setTopFromProperty(Cairo.Constants.ACTIVE);
-        elem.setTopToPrevious(440);
         elem.setSubType(Dialogs.PropertySubType.memo);
         elem.setName(Cairo.Constants.DESCRIPTION_LABEL);
         elem.setSize(255);
-        elem.setWidth(6250);
-        elem.setHeight(880);
         elem.setKey(K_DESCRIP);
         elem.setValue(m_descrip);
 

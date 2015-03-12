@@ -379,7 +379,6 @@
         elem.setType(Dialogs.PropertyType.numeric);
         // N�mero
         elem.setName(Cairo.Language.getText(1065, ""));
-        elem.setWidth(1000);
         elem.setSubType(Dialogs.PropertySubType.Integer);
         elem.setKey(K_NUMERO);
         elem.setValue(m_numero);
@@ -395,8 +394,6 @@
         elem.setName(Cairo.Constants.DESCRIPTION_LABEL);
         elem.setSize(255);
         elem.setSubType(Dialogs.PropertySubType.memo);
-        elem.setWidth(6200);
-        elem.setHeight(880);
         elem.setKey(K_DESCRIP);
         elem.setValue(m_descrip);
 

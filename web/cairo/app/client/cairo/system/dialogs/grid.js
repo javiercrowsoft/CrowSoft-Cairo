@@ -104,7 +104,6 @@
       };
 
       that.setColumnProperties = function(grid, column, colGrid) { /* TODO = implement this. */ };
-      that.saveColumnWidth = function(grid, name) { /* TODO = implement this. */ };
       that.saveColumnOrder = function(grid, name) { /* TODO = implement this. */ };
       that.setProperties = function(grid) { /* TODO = implement this. */ };
 
@@ -327,8 +326,6 @@
 
         list: null, /* is a Dialogs.ListItem */
 
-        width: 0,
-
         format: "",
         size: 0,
 
@@ -445,14 +442,6 @@
           self.list = Cairo.Collections.createCollection(Dialogs.ListItem.createListItem);
         }
         return self.list;
-      };
-
-      that.getWidth = function() {
-        return self.width;
-      };
-
-      that.setWidth = function(width) {
-        self.width = width;
       };
 
       that.getFormat = function() {
@@ -674,8 +663,6 @@
       };
 
       that.getRowMode = function() { /* TODO: implement this. */ };
-      that.getNoResize = function() { /* TODO: implement this. */ };
-      that.setNoResizeHeight = function() { /* TODO: implement this. */ };
       that.getNoSelectInGotFocus = function() { /* TODO = implement this. */ };
 
       that.getMultiSelect = function() {

@@ -2234,7 +2234,6 @@
         var elem = properties.add(null, DESKTOP);
         elem.setType(Dialogs.PropertyType.file);
         elem.setSelectFilter(Cairo.Language.getText(2936, "")); // Archivos de Escritorio|*.csd
-        elem.setWidth(6700);
         elem.setName(DESKTOP);
         elem.setKey(K_DESKTOP);
         elem.setValue(m_desktop);
@@ -2243,7 +2242,6 @@
         var elem = properties.add(null, LENGUAJE);
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.LENGUAJE);
-        elem.setWidth(4000);
         elem.setName(LENGUAJE);
         elem.setKey(K_LENGUAJE);
         elem.setSelectId(m_lengId);
@@ -2252,28 +2250,20 @@
 
         var elem = properties.add(null, AUTO_SIZE_COLS);
         elem.setType(Dialogs.PropertyType.check);
-        elem.setWidth(4000);
         elem.setName(AUTO_SIZE_COLS);
         elem.setKey(K_AUTO_SIZE_COLS);
         elem.setValue(Cairo.Util.boolToInt(m_autoSizeCols));
         elem.setTabIndex(TAB_GENERAL);
-        elem.setLeft(2360);
-        elem.setLeftLabel(-2000);
 
         var elem = properties.add(null, MULTI_SELECT);
         elem.setType(Dialogs.PropertyType.check);
-        elem.setWidth(4000);
         elem.setName(MULTI_SELECT);
         elem.setKey(K_MULTI_SELECT);
         elem.setValue(Cairo.Util.boolToInt(m_multiSelect));
         elem.setTabIndex(TAB_GENERAL);
-        elem.setLeft(2360);
-        elem.setLeftLabel(-2000);
 
         var elem = properties.add(null, USE_PRINTER_SIZE);
         elem.setType(Dialogs.PropertyType.check);
-        elem.setLeft(4150);
-        elem.setLeftLabel(-3800);
         elem.setName(USE_PRINTER_SIZE);
         elem.setKey(K_USE_PRINTER_SIZE);
         elem.setValue(Cairo.Util.boolToInt(m_usePrinterSize));
@@ -2284,62 +2274,43 @@
         elem.setName("Ver el nombre de los bótones en las barras de herramientas");
         elem.setKey(K_VIEW_NAMES_IN_TOOLBAR);
         elem.setValue(Cairo.Util.boolToInt(m_viewNamesInToolbar));
-        elem.setLeft(4660);
-        elem.setLeftLabel(-4300);
         elem.setTabIndex(TAB_GENERAL);
 
         var elem = properties.add(null, SHOW_SAVE_AS);
         elem.setType(Dialogs.PropertyType.check);
-        elem.setWidth(4000);
         elem.setName(SHOW_SAVE_AS);
         elem.setKey(K_SHOW_SAVE_AS);
         elem.setValue(Cairo.Util.boolToInt(m_showSaveAs));
         elem.setTabIndex(TAB_GENERAL);
-        elem.setLeft(2360);
-        elem.setLeftLabel(-2000);
 
         var elem = properties.add(null, SHOW_ALL_IN_WIZARD);
         elem.setType(Dialogs.PropertyType.check);
-        elem.setWidth(4000);
         elem.setName(SHOW_ALL_IN_WIZARD);
         elem.setKey(K_SHOW_ALL_IN_WIZARD);
         elem.setValue(Cairo.Util.boolToInt(m_showAllInWizard));
         elem.setTabIndex(TAB_GENERAL);
-        elem.setLeft(3860);
-        elem.setLeftLabel(-3500);
 
         var elem = properties.add(null, FOLDER_TO_EXPORT_PDF);
         elem.setType(Dialogs.PropertyType.folder);
-        elem.setWidth(6000);
         elem.setName(FOLDER_TO_EXPORT_PDF);
         elem.setKey(K_FOLDER_TO_EXPORT_PDF);
         elem.setValue(m_folderToExportPDF);
         elem.setTabIndex(TAB_GENERAL);
-        elem.setLeft(3200);
-        elem.setLeftLabel(-2830);
-        elem.setWidth(5000);
 
         var elem = properties.add(null, USAR_COLORES_EN_DOC);
         elem.setType(Dialogs.PropertyType.check);
-        elem.setWidth(6000);
         elem.setName(Cairo.Language.getText(4821, "")); // Usar colores en documentos
         elem.setKey(K_USAR_COLORES_EN_DOCUMENTOS);
         elem.setValue(m_usarColoresEnDocumentos);
         elem.setTabIndex(TAB_GENERAL);
-        elem.setLeft(3200);
-        elem.setLeftLabel(-2830);
 
         var elem = properties.add(null, COLOR_EN_EMPRESA);
         elem.setType(Dialogs.PropertyType.numeric);
         elem.setSubType(Dialogs.PropertySubType.Integer);
-        elem.setWidth(6000);
         elem.setName(Cairo.Language.getText(4915, "")); // Color en Empresa
         elem.setKey(K_COLOR_BACKGROUND);
         elem.setValue(m_colorEnEmpresa);
         elem.setTabIndex(TAB_GENERAL);
-        elem.setLeft(3200);
-        elem.setLeftLabel(-2830);
-        elem.setWidth(1500);
 
         //
         // purchase
@@ -2348,9 +2319,6 @@
         var elem = properties.add(null, DOC_PC);
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.DOCUMENTO);
-        elem.setLeft(2800);
-        elem.setWidth(4000);
-        elem.setLeftLabel(-2500);
         elem.setName(DOC_PC);
         elem.setKey(K_DOC_ID_PC);
         elem.setSelectId(m_docIdPc);
@@ -2361,9 +2329,6 @@
         var elem = properties.add(null, DOC_PREC);
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.DOCUMENTO);
-        elem.setLeft(2800);
-        elem.setWidth(4000);
-        elem.setLeftLabel(-2500);
         elem.setName(DOC_PREC);
         elem.setKey(K_DOC_ID_PREC);
         elem.setSelectId(m_docIdPrec);
@@ -2374,9 +2339,6 @@
         var elem = properties.add(null, DOC_COT);
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.DOCUMENTO);
-        elem.setLeft(2800);
-        elem.setWidth(4000);
-        elem.setLeftLabel(-2500);
         elem.setName(DOC_COT);
         elem.setKey(K_DOC_ID_COT);
         elem.setSelectId(m_docIdCot);
@@ -2387,9 +2349,6 @@
         var elem = properties.add(null, DOC_OC);
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.DOCUMENTO);
-        elem.setLeft(2800);
-        elem.setWidth(4000);
-        elem.setLeftLabel(-2500);
         elem.setName(DOC_OC);
         elem.setKey(K_DOC_ID_OC);
         elem.setSelectId(m_docIdOc);
@@ -2400,9 +2359,6 @@
         var elem = properties.add(null, DOC_RC);
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.DOCUMENTO);
-        elem.setLeft(2800);
-        elem.setWidth(4000);
-        elem.setLeftLabel(-2500);
         elem.setName(DOC_RC);
         elem.setKey(K_DOC_ID_RC);
         elem.setSelectId(m_docIdRc);
@@ -2413,9 +2369,6 @@
         var elem = properties.add(null, DOC_FC);
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.DOCUMENTO);
-        elem.setLeft(2800);
-        elem.setWidth(4000);
-        elem.setLeftLabel(-2500);
         elem.setName(DOC_FC);
         elem.setKey(K_DOC_ID_FC);
         elem.setSelectId(m_docIdFc);
@@ -2425,9 +2378,6 @@
 
         var elem = properties.add(null, SHOW_DATA_ADD_IN_COMPRAS);
         elem.setType(Dialogs.PropertyType.check);
-        elem.setLeft(2800);
-        elem.setWidth(400);
-        elem.setLeftLabel(-2500);
         elem.setName(Cairo.Language.getText(3914, "")); // Ver datos del proveedor
         elem.setKey(K_SHOWDATAADIC_IN_COMPRAS);
         elem.setValue(Cairo.Util.boolToInt(m_showDataAddInCompras));
@@ -2440,9 +2390,6 @@
         var elem = properties.add(null, DEPOSITO);
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.DEPOSITO_LOGICO);
-        elem.setLeft(1100);
-        elem.setWidth(4000);
-        elem.setLeftLabel(-800);
         elem.setName(DEPOSITO);
         elem.setKey(K_DEPL_ID);
         elem.setSelectId(m_deplId);
@@ -2452,9 +2399,6 @@
         var elem = properties.add(null, DEPOSITO_SRV);
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.DEPOSITO_LOGICO);
-        elem.setLeft(1100);
-        elem.setWidth(4000);
-        elem.setLeftLabel(-800);
         elem.setName(DEPOSITO_SRV);
         elem.setKey(K_DEPL_ID_SRV);
         elem.setSelectId(m_deplIdSrv);
@@ -2468,8 +2412,6 @@
         var elem = properties.add(null, INFORMAR_ANTICIPOS);
         elem.setType(Dialogs.PropertyType.check);
         elem.setName(Cairo.Language.getText(2937, "")); // Mostrar un mensaje al grabar las Facturas de venta informando si el cliente(tiene anticipos)
-        elem.setLeftLabel(-6450);
-        elem.setLeft(6750);
         elem.setKey(K_INFORMAR_ANTICIPOS);
         elem.setValue(Cairo.Util.boolToInt(m_informarAnticipos));
         elem.setTabIndex(TAB_VENTAS);
@@ -2477,198 +2419,136 @@
         var elem = properties.add(null, DOC_PREV + "v");
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.DOCUMENTO);
-        elem.setLeft(2800);
-        elem.setWidth(4000);
-        elem.setLeftLabel(-2500);
         elem.setName(DOC_PREV);
         elem.setKey(K_DOC_ID_PREV);
         elem.setSelectId(m_docIdPrev);
         elem.setSelectFilter("'doctId = 11'");
         elem.setValue(m_docPrevNombre);
         elem.setTabIndex(TAB_VENTAS);
-        elem.setTopToPrevious(400);
 
         var elem = properties.add(null, DOC_PV + "v");
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.DOCUMENTO);
-        elem.setLeft(2800);
-        elem.setWidth(4000);
-        elem.setLeftLabel(-2500);
         elem.setName(DOC_PV);
         elem.setKey(K_DOC_ID_PV);
         elem.setSelectId(m_docIdPv);
         elem.setSelectFilter("'doctId = 5'");
         elem.setValue(m_docPvNombre);
         elem.setTabIndex(TAB_VENTAS);
-        elem.setTopToPrevious(400);
 
         var elem = properties.add(null, DOC_RV + "v");
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.DOCUMENTO);
-        elem.setLeft(2800);
-        elem.setWidth(4000);
-        elem.setLeftLabel(-2500);
         elem.setName(DOC_RV);
         elem.setKey(K_DOC_ID_RV);
         elem.setSelectId(m_docIdRv);
         elem.setSelectFilter("'doctId = 3'");
         elem.setValue(m_docRvNombre);
         elem.setTabIndex(TAB_VENTAS);
-        elem.setTopToPrevious(400);
 
         var elem = properties.add(null, DOC_FV + "v");
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.DOCUMENTO);
-        elem.setLeft(2800);
-        elem.setWidth(4000);
-        elem.setLeftLabel(-2500);
         elem.setName(DOC_FV);
         elem.setKey(K_DOC_ID_FV);
         elem.setSelectId(m_docIdFv);
         elem.setSelectFilter("'doctId = 1'");
         elem.setValue(m_docFvNombre);
         elem.setTabIndex(TAB_VENTAS);
-        elem.setTopToPrevious(400);
 
         var elem = properties.add(null, DOC_COBZ);
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.DOCUMENTO);
-        elem.setLeft(2800);
-        elem.setWidth(4000);
-        elem.setLeftLabel(-2500);
         elem.setName(DOC_COBZ);
         elem.setKey(K_DOC_ID_COBZ);
         elem.setSelectId(m_docIdCobz);
         elem.setSelectFilter("'doctId = 13'");
         elem.setValue(m_docCobzNombre);
         elem.setTabIndex(TAB_VENTAS);
-        elem.setTopToPrevious(400);
 
         var elem = properties.add(null, SHOW_BARCODE_INPUT_CTRLS);
         elem.setType(Dialogs.PropertyType.check);
-        elem.setLeft(3300);
-        elem.setLeftLabel(-3000);
         elem.setName(SHOW_BARCODE_INPUT_CTRLS);
         elem.setKey(K_SHOW_BARCODE_INPUT_CTRLS);
         elem.setValue(Cairo.Util.boolToInt(m_showBarcodeInputCtrls));
         elem.setTabIndex(TAB_VENTAS);
-        elem.setTopToPrevious(400);
 
         var elem = properties.add(null, CUENTA_FVO_X_DEFECTO);
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.CUENTA);
-        elem.setLeft(3100);
-        elem.setWidth(3000);
-        elem.setLeftLabel(-2800);
         elem.setName(Cairo.Language.getText(3554, "")); // Cuenta efectivo de cobranza contado
         elem.setKey(K_CUENTA_FVO_X_DEFECTO);
         elem.setSelectId(m_cueIdFvoXDefecto);
         elem.setValue(m_cuentaFvoXDefecto);
         elem.setTabIndex(TAB_VENTAS);
-        elem.setTopToPrevious(400);
 
         var elem = properties.add(null, CLIENTE_X_DEFECTO);
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.CLIENTE);
-        elem.setLeft(3100);
-        elem.setWidth(3000);
-        elem.setLeftLabel(-2800);
         elem.setName(Cairo.Language.getText(3556, "")); // Cliente por defecto
         elem.setKey(K_CLIENTE_X_DEFECTO);
         elem.setSelectId(m_cliIdXDefecto);
         elem.setValue(m_clienteXDefecto);
         elem.setTabIndex(TAB_VENTAS);
-        elem.setTopToPrevious(400);
 
         var elem = properties.add(null, NUEVO_AL_GRABAR);
         elem.setType(Dialogs.PropertyType.check);
-        elem.setLeft(4050);
-        elem.setWidth(400);
-        elem.setLeftLabel(-3750);
         elem.setName(Cairo.Language.getText(3555, "")); // Presentar un nuevo documento despues de grabar
         elem.setKey(K_NUEVO_AL_GRABAR);
         elem.setValue(Cairo.Util.boolToInt(m_nuevoAlGrabar));
         elem.setTabIndex(TAB_VENTAS);
-        elem.setTopToPrevious(360);
 
         var elem = properties.add(null, PRINT_IN_NEW_FV);
         elem.setType(Dialogs.PropertyType.check);
-        elem.setLeft(4050);
-        elem.setWidth(400);
-        elem.setLeftLabel(-3750);
         elem.setName(Cairo.Language.getText(4837, "")); // Imprimir al grabar una nueva factura
         elem.setKey(K_PRINT_IN_NEW_FV);
         elem.setValue(Cairo.Util.boolToInt(m_printInNewFV));
         elem.setTabIndex(TAB_VENTAS);
-        elem.setTopToPrevious(360);
 
         var elem = properties.add(null, PRINT_IN_NEW_COBZ_CDO);
         elem.setType(Dialogs.PropertyType.check);
-        elem.setLeft(4050);
-        elem.setWidth(400);
-        elem.setLeftLabel(-3750);
         elem.setName(Cairo.Language.getText(4838, "")); // Imprimir recibo en cobranza contado
         elem.setKey(K_PRINT_IN_NEW_COBZ_CDO);
         elem.setValue(Cairo.Util.boolToInt(m_printInNewCobzCdo));
         elem.setTabIndex(TAB_VENTAS);
-        elem.setTopToPrevious(360);
 
         var elem = properties.add(null, NUEVO_PTD_AL_GRABAR);
         elem.setType(Dialogs.PropertyType.check);
-        elem.setLeft(4050);
-        elem.setWidth(400);
-        elem.setLeftLabel(-3750);
         elem.setName(Cairo.Language.getText(4836, "")); // Presentar un nuevo parte despues de grabar
         elem.setKey(K_NUEVO_PTD_AL_GRABAR);
         elem.setValue(Cairo.Util.boolToInt(m_nuevoPtdAlGrabar));
         elem.setTabIndex(TAB_VENTAS);
-        elem.setTopToPrevious(360);
 
         var elem = properties.add(null, SHOW_DATA_ADD_IN_VENTAS);
         elem.setType(Dialogs.PropertyType.check);
-        elem.setWidth(400);
-        elem.setLeftLabel(-2750);
         elem.setName(Cairo.Language.getText(3913, "")); // Ver datos del cliente
         elem.setKey(K_SHOWDATAADIC_IN_VENTAS);
         elem.setValue(Cairo.Util.boolToInt(m_showDataAddInVentas));
         elem.setTabIndex(TAB_VENTAS);
-        elem.setTopFromProperty(NUEVO_AL_GRABAR);
-        elem.setLeft(8000);
 
         var elem = properties.add(null, CLOSE_WIZARD);
         elem.setType(Dialogs.PropertyType.check);
-        elem.setWidth(400);
-        elem.setLeftLabel(-2750);
         elem.setName(Cairo.Language.getText(5079, "")); // Cerrar Asistente al Finalizar
         elem.setKey(K_CLOSE_WIZARD);
         elem.setValue(Cairo.Util.boolToInt(m_closeWizard));
         elem.setTabIndex(TAB_VENTAS);
-        elem.setTopToPrevious(360);
-        elem.setLeft(8000);
 
         var elem = properties.add(null, NO_ASK_IN_PRINT);
         elem.setType(Dialogs.PropertyType.check);
-        elem.setWidth(400);
-        elem.setLeftLabel(-2750);
         elem.setName(Cairo.Language.getText(5080, "")); // No Pedir Confirmar al Imprimir
         elem.setKey(K_NO_ASK_IN_PRINT);
         elem.setValue(Cairo.Util.boolToInt(m_noAskInPrint));
         elem.setTabIndex(TAB_VENTAS);
-        elem.setTopToPrevious(360);
-        elem.setLeft(8000);
 
         var elem = properties.add(null, ESTADO_HOJA_RUTA);
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.ESTADOS);
-        elem.setLeftFromProperty(DOC_COBZ);
-        elem.setLeftLabel(-2500);
         elem.setName(Cairo.Language.getText(4549, "")); // Estado en hojas de ruta
         elem.setKey(K_ESTADO_EN_HOJA_RUTA);
         elem.setSelectId(val(m_estIdHojaRuta));
         elem.setSelectIntValue(m_estIdHojaRuta);
         elem.setValue(m_estadoHojaRuta);
         elem.setTabIndex(TAB_VENTAS);
-        elem.setTopToPrevious(720);
 
         elem.setSelectType(Cairo.Select.SelectType.tree);
         elem.setIsEditProperty(false);
@@ -2680,9 +2560,6 @@
         var elem = properties.add(null, DOC_MF);
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.DOCUMENTO);
-        elem.setLeft(2800);
-        elem.setWidth(4000);
-        elem.setLeftLabel(-2500);
         elem.setName(DOC_MF);
         elem.setKey(K_DOC_ID_MF);
         elem.setSelectId(m_docIdMf);
@@ -2693,9 +2570,6 @@
         var elem = properties.add(null, DOC_DBCO);
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.DOCUMENTO);
-        elem.setLeft(2800);
-        elem.setWidth(4000);
-        elem.setLeftLabel(-2500);
         elem.setName(DOC_DBCO);
         elem.setKey(K_DOC_ID_DBCO);
         elem.setSelectId(m_docIdDbco);
@@ -2705,8 +2579,6 @@
 
         var elem = properties.add(null, DEBE_HABER_MF);
         elem.setType(Dialogs.PropertyType.check);
-        elem.setLeft(2800);
-        elem.setLeftLabel(-2500);
         elem.setName(DEBE_HABER_MF);
         elem.setKey(K_DEBE_HABER_MF);
         elem.setValue(m_debeHaberMf);
@@ -2719,9 +2591,6 @@
         var elem = properties.add(null, DOC_OS);
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.DOCUMENTO);
-        elem.setLeft(2800);
-        elem.setWidth(4000);
-        elem.setLeftLabel(-2650);
         elem.setName(DOC_OS);
         elem.setKey(K_DOC_ID_OS);
         elem.setSelectId(m_docIdOs);
@@ -2732,9 +2601,6 @@
         var elem = properties.add(null, DOC_PRP);
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.DOCUMENTO);
-        elem.setLeft(2800);
-        elem.setWidth(4000);
-        elem.setLeftLabel(-2650);
         elem.setName(DOC_PRP);
         elem.setKey(K_DOC_ID_PRP);
         elem.setSelectId(m_docIdPrp);
@@ -2744,9 +2610,6 @@
 
         var elem = properties.add(null, PTD_FECHA);
         elem.setType(Dialogs.PropertyType.check);
-        elem.setLeft(2800);
-        elem.setWidth(4000);
-        elem.setLeftLabel(-2650);
         elem.setName(PTD_FECHA);
         elem.setKey(K_PTD_FECHAINI);
         elem.setValue(Cairo.Util.boolToInt(m_ptdFecha));
@@ -2754,9 +2617,6 @@
 
         var elem = properties.add(null, PRP_ESTADO_X_DEF);
         elem.setType(Dialogs.PropertyType.check);
-        elem.setLeft(5500);
-        elem.setWidth(400);
-        elem.setLeftLabel(-5350);
         elem.setName(Cairo.Language.getText(3918, "")); // Estado Default en Parte Reparacion
         elem.setKey(K_PARTE_REPARACION_ESTADO_DEFAULT);
         elem.setValue(Cairo.Util.boolToInt(m_PrpEstadoDef));
@@ -2769,9 +2629,6 @@
         var elem = properties.add(null, DOC_LIQ);
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.DOCUMENTO);
-        elem.setLeft(2800);
-        elem.setWidth(4000);
-        elem.setLeftLabel(-2500);
         elem.setName(DOC_LIQ);
         elem.setKey(K_DOC_ID_LIQ);
         elem.setSelectId(m_docIdLiq);
@@ -2786,9 +2643,6 @@
         var elem = properties.add(null, PKL_DOC_FACTURA);
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.DOCUMENTO);
-        elem.setLeft(2800);
-        elem.setWidth(4000);
-        elem.setLeftLabel(-2500);
         elem.setName(PKL_DOC_FACTURA);
         elem.setKey(K_PICKINLIST_DOC_ID_FACTURA);
         elem.setSelectId(m_pklDocIdFactura);
@@ -2799,9 +2653,6 @@
         var elem = properties.add(null, PKL_DOC_INTERNO);
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.DOCUMENTO);
-        elem.setLeft(2800);
-        elem.setWidth(4000);
-        elem.setLeftLabel(-2500);
         elem.setName(PKL_DOC_INTERNO);
         elem.setKey(K_PICKINLIST_DOC_ID_INTERNO);
         elem.setSelectId(m_pklDocIdInterno);
@@ -2812,7 +2663,6 @@
         var elem = properties.add(null, ESTADO_PICKING_LIST);
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.ESTADOS);
-        elem.setLeftLabel(-2500);
         elem.setName(Cairo.Language.getText(4861, "")); // Estado en picking list
         elem.setKey(K_ESTADO_EN_PICKING_LIST);
         elem.setSelectId(val(m_estIdPickinglist));
@@ -2826,9 +2676,6 @@
         var elem = properties.add(null, DOC_RV_C + "v");
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.DOCUMENTO);
-        elem.setLeft(3300);
-        elem.setWidth(4000);
-        elem.setLeftLabel(-3000);
         elem.setName(DOC_RV_C);
         elem.setKey(K_DOC_ID_RV_C);
         elem.setSelectId(m_docIdRvC);

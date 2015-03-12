@@ -1405,8 +1405,6 @@
       that.getRow = getRow;
 
       that.selectRow = function(row) { /* TODO = implement this. */ };
-      that.autoWidthColumns = function() { /* TODO = implement this. */ };
-
       that.clearGroups = function() { /* TODO = implement this. */ };
       that.refreshGroupsAndFormulasEx = function() { /* TODO = implement this. */ };
       that.clearEx = function() { /* TODO = implement this. */ };
@@ -1434,8 +1432,6 @@
       that.cell = function(row, col) {
         return getRow(row).get(col);
       };
-
-      that.setColumnWidth = function(col, width) { /* TODO = implement this. */ };
 
       that.setRowBackColor = function(rowIndex, backColor) { /* TODO = implement this. */ };
       that.setRowForeColor = function(rowIndex, foreColor) { /* TODO = implement this. */ };

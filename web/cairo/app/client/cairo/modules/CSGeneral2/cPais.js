@@ -379,8 +379,6 @@
         elem.setKey(K_DESCRIP);
         elem.setValue(m_descrip);
         elem.setSubType(Dialogs.PropertySubType.memo);
-        elem.setWidth(6200);
-        elem.setHeight(880);
 
         if(!m_dialog.show(self)) { return false; }
 

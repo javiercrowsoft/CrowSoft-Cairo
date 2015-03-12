@@ -425,9 +425,6 @@
         elem.setName(Cairo.Language.getText(1049, ""));
         elem.setKey(K_TARA);
         elem.setValue(m_tara);
-        elem.setWidth(1300);
-        elem.setTopFromProperty(Cairo.General.Constants.CAM_CODE);
-        elem.setLeft(5500);
 
         var elem = properties.add(null, Cairo.General.Constants.TRANS_ID);
         elem.setType(Dialogs.PropertyType.select);
@@ -451,14 +448,9 @@
         elem.setType(Dialogs.PropertyType.text);
         elem.setName(Cairo.Constants.DESCRIPTION_LABEL);
         elem.setSubType(Dialogs.PropertySubType.memo);
-        elem.setWidth(6250);
-        elem.setHeight(660);
         elem.setSize(255);
         elem.setKey(K_DESCRIP);
         elem.setValue(m_descrip);
-        elem.setLeftFromProperty(Cairo.General.Constants.CAM_CODE);
-        elem.setTopFromProperty(Cairo.General.Constants.CAM_PATENTESEMI);
-        elem.setTopToPrevious(440);
 
         if(!m_dialog.show(self)) { return false; }
 

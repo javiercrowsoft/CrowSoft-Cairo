@@ -133,21 +133,7 @@
         selectType: Cairo.Select.SelectType.normal,
         selectTable: 0,
 
-        top: -1,
-        topToPrevious: 0,
-        topFrame: 0,
-        topFromProperty: '',
-        topNotChange: false,
-
-        left: -1,
-        leftToPrevious: 0,
-        leftLabel: 0,
-        leftFrame: 0,
-        leftNotChange: false,
-        leftFromProperty: '',
-
-        width: 0,
-        height: 0,
+        hideLabel: false,
 
         toolbar: null,
         buttons: '',
@@ -169,10 +155,6 @@
         hideButton: false,
 
         /* internal */
-        _top: 0,
-        _left: 0,
-        _width: 0,
-        _height: 0,
         _ctl: null,
         _controlLoaded: false,
         _index: 0,
@@ -488,76 +470,12 @@
         return that;
       };
 
-      that.getHeight = function() {
-        return self.height;
-      };
-      that.setHeight = function(height) {
-        self.height = height;
-        return that;
+      that.hideLabel = function() {
+        self.hideLabel = true;
       };
 
-      that.getWidth = function() {
-        return self.width;
-      };
-      that.setWidth = function(width) {
-        self.width = width;
-        return that;
-      };
-
-      that.getTopFromProperty = function() {
-        return self.topFromProperty;
-      };
-      that.setTopFromProperty = function(key) {
-        self.topFromProperty = key;
-        return that;
-      };
-
-      that.getTop = function() {
-        return self.top;
-      };
-      that.setTop = function(top) {
-        self.top = top;
-        return that;
-      };
-
-      that.getTopToPrevious = function() {
-        return self.topToPrevious;
-      };
-      that.setTopToPrevious = function(top) {
-        self.topToPrevious = top;
-        return that;
-      };
-
-      that.getLeftFromProperty = function() {
-        return self.leftFromProperty;
-      };
-      that.setLeftFromProperty = function(key) {
-        self.leftFromProperty = key;
-        return that;
-      };
-
-      that.setLeft = function(left) {
-        self.left = left;
-        return that;
-      };
-      that.getLeft = function() {
-        return self.left;
-      };
-
-      that.getLeftLabel = function() {
-        return self.leftLabel;
-      };
-      that.setLeftLabel = function(left) {
-        self.leftLabel = left;
-        return that;
-      };
-
-      that.getLeftToPrevious = function() {
-        return self.leftToPrevious;
-      };
-      that.setLeftToPrevious = function(left) {
-        self.leftToPrevious = left;
-        return that;
+      that.labelIsHided = function() {
+        return self.hideLabel;
       };
 
       that.getTabIndex = function() {
@@ -576,30 +494,8 @@
         return that;
       };
 
-      that.getTopFrame = function() {
-        return self.topFrame;
-      };
-      that.getLeftFrame = function() {
-        return self.leftFrame;
-      };
-
       that.getButtons = function() {
         return self.buttons;
-      };
-
-      that.getLeftNotChange = function() {
-        return self.leftNotChange;
-      };
-      that.setLeftNotChange = function(leftNotChange) {
-        self.leftNotChange = leftNotChange;
-        return that;
-      };
-      that.getTopNotChange = function() {
-        return self.topNotChange;
-      };
-      that.setTopNotChange = function(topNotChange) {
-        self.topNotChange = topNotChange;
-        return that;
       };
 
       that.getToolbar = function() {

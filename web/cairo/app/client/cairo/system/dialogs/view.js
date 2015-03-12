@@ -349,8 +349,6 @@
         btnClose: Controls.createControl(),
         form: null,
 
-        width: 320,
-        height: 480,
         visible: false,
         loading: true
       };
@@ -549,8 +547,6 @@
         }
       };
 
-      that.firstResize = function() { /* TODO: implement this. */ };
-
       var getRegion = function() {
         return _viewId + "DialogRegion";
       };
@@ -671,23 +667,6 @@
       that.getTextWidth = function(text) { /* TODO: implement this. */ };
 
       that.getIndexGrid = function(grid) { /* TODO: implement this. */ };
-      that.setNoResize = function(indexGrid, noResize) { /* TODO: implement this. */ };
-
-      that.getHeight = function() {
-        return self.height;
-      };
-
-      that.setHeight = function(height) {
-        self.height = height;
-      };
-
-      that.getWidth = function() {
-        return self.width;
-      };
-
-      that.setWidth = function(width) {
-        self.width = width;
-      };
 
       that.addListener = function(listenerDefinition) {
         self.listeners.push(listenerDefinition);
@@ -959,7 +938,6 @@
       that.setButtonsEx3 = function(buttons) { /* TODO: implement this. */ };
 
       that.setToolbarButtons = function() { /* TODO: implement this. */ };
-      that.setHeightToDocWithDescription = function() { /* TODO: implement this. */ };
 
       return that;
     };

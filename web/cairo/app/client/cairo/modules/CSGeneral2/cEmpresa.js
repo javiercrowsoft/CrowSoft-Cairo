@@ -537,8 +537,6 @@
 
         var elem = properties.add(null, Cairo.General.Constants.EMP_INGRESOSBRUTOS);
         elem.setType(Dialogs.PropertyType.text);
-        elem.setTopFromProperty(Cairo.Constants.EMP_NAME);
-        elem.setLeft(5300);
         // Ingresos brutos
         elem.setName(Cairo.Language.getText(1180, ""));
         elem.setSize(20);
@@ -699,12 +697,9 @@
         elem.setType(Dialogs.PropertyType.text);
         // E-Mail
         elem.setName(Cairo.Language.getText(1034, ""));
-        elem.setLeftLabel(-500);
         elem.setSize(100);
         elem.setKey(K_EMAIL);
         elem.setValue(m_email);
-        elem.setTopFromProperty(Cairo.Constants.EMP_NAME);
-        elem.setLeft(8200);
 
         var elem = properties.add(null, Cairo.General.Constants.EMP_WEB);
         elem.setType(Dialogs.PropertyType.text);
@@ -718,12 +713,7 @@
         elem.setType(Dialogs.PropertyType.text);
         elem.setName(Cairo.Constants.DESCRIPTION_LABEL);
         elem.setSize(255);
-        elem.setTopFromProperty(Cairo.General.Constants.EMP_CUIT);
-        elem.setTopToPrevious(440);
-        elem.setLeftFromProperty(Cairo.Constants.EMP_NAME);
         elem.setSubType(Dialogs.PropertySubType.memo);
-        elem.setHeight(880);
-        elem.setWidth(9000);
         elem.setKey(K_DESCRIP);
         elem.setValue(m_descrip);
 

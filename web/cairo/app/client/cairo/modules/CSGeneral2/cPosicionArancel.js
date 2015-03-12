@@ -376,7 +376,6 @@
         elem.setSize(50);
         elem.setKey(K_NAME);
         elem.setValue(m_name);
-        elem.setWidth(6000);
 
         var elem = properties.add(null, Cairo.General.Constants.POAR_CODE);
         elem.setType(Dialogs.PropertyType.text);
@@ -400,7 +399,6 @@
         elem.setSelectId(m_ti_id_derechos);
         elem.setValue(m_ti_derechos);
         elem.setKey(K_TI_ID_DERECHOS);
-        elem.setWidth(3500);
 
         var elem = properties.add(null, Cairo.General.Constants.TI_ID_ESTADISTICA);
         elem.setType(Dialogs.PropertyType.select);
@@ -411,13 +409,10 @@
         elem.setSelectId(m_ti_id_estadisticas);
         elem.setValue(m_ti_estadisticas);
         elem.setKey(K_TI_ID_ESTADISTICA);
-        elem.setWidth(3500);
 
         var elem = properties.add(null, Cairo.General.Constants.POAR_DESCRIP);
         elem.setType(Dialogs.PropertyType.text);
         elem.setSubType(Dialogs.PropertySubType.memo);
-        elem.setHeight(780);
-        elem.setWidth(6000);
         elem.setName(Cairo.Constants.DESCRIPTION_LABEL);
         elem.setSize(255);
         elem.setKey(K_DESCRIP);

@@ -422,7 +422,6 @@
         elem.setSize(100);
         elem.setKey(K_NAME);
         elem.setValue(m_name);
-        elem.setWidth(5900);
 
         var elem = properties.add(null, Cairo.General.Constants.TRANS_CODE);
         elem.setType(Dialogs.PropertyType.text);
@@ -436,10 +435,6 @@
         elem.setName(Cairo.Constants.ACTIVE_LABEL);
         elem.setKey(K_ACTIVE);
         elem.setValue(m_active === true ? 1 : 0);
-        elem.setTopFromProperty(Cairo.General.Constants.TRANS_CODE);
-        elem.setLeft(5500);
-        elem.setLeftLabel(-800);
-        elem.setLeftNotChange(true);
 
         var elem = properties.add(null, Cairo.General.Constants.TRANS_DIRECCION);
         elem.setType(Dialogs.PropertyType.text);
@@ -448,7 +443,6 @@
         elem.setSize(50);
         elem.setKey(K_DIRECCION);
         elem.setValue(m_direccion);
-        elem.setWidth(5900);
 
         var elem = properties.add(null, Cairo.General.Constants.TRANS_TELEFONO);
         elem.setType(Dialogs.PropertyType.text);
@@ -466,9 +460,6 @@
         elem.setKey(K_PRO_ID);
         elem.setValue(m_provincia);
         elem.setSelectId(m_pro_id);
-        elem.setTopFromProperty(Cairo.General.Constants.TRANS_TELEFONO);
-        elem.setLeft(5200);
-        elem.setLeftNotChange(true);
 
         var elem = properties.add(null, Cairo.General.Constants.TRANS_MAIL);
         elem.setType(Dialogs.PropertyType.text);
@@ -477,7 +468,6 @@
         elem.setSize(255);
         elem.setKey(K_MAIL);
         elem.setValue(m_mail);
-        elem.setWidth(5900);
 
         var elem = properties.add(null, Cairo.General.Constants.TRANS_WEB);
         elem.setType(Dialogs.PropertyType.text);
@@ -486,7 +476,6 @@
         elem.setSize(255);
         elem.setKey(K_WEB);
         elem.setValue(m_web);
-        elem.setWidth(5900);
 
         var elem = properties.add(null, Cairo.General.Constants.PROV_ID);
         elem.setType(Dialogs.PropertyType.select);
@@ -496,7 +485,6 @@
         elem.setKey(K_PROV_ID);
         elem.setValue(m_proveedor);
         elem.setSelectId(m_prov_id);
-        elem.setWidth(5900);
 
         var elem = properties.add(null, Cairo.General.Constants.TRANS_HORARIO_MDESDE);
         elem.setType(Dialogs.PropertyType.time);
@@ -504,7 +492,6 @@
         elem.setName(Cairo.Language.getText(4965, ""));
         elem.setValue(m_horario_m_desde);
         elem.setKey(K_HORARIO_M_DESDE);
-        elem.setLeftNotChange(true);
 
         var elem = properties.add(null, Cairo.General.Constants.TRANS_HORARIO_MHASTA);
         elem.setType(Dialogs.PropertyType.time);
@@ -512,11 +499,6 @@
         elem.setName(Cairo.Language.getText(4966, ""));
         elem.setValue(m_horario_m_hasta);
         elem.setKey(K_HORARIO_M_HASTA);
-        elem.setTopFromProperty(Cairo.General.Constants.TRANS_HORARIO_MDESDE);
-        elem.setLeft(3100);
-        elem.setLeftLabel(-500);
-        elem.setLeftNotChange(true);
-        elem.setTopNotChange(true);
 
         var elem = properties.add(null, Cairo.General.Constants.TRANS_HORARIO_TDESDE);
         elem.setType(Dialogs.PropertyType.time);
@@ -524,11 +506,6 @@
         elem.setName(Cairo.Language.getText(4967, ""));
         elem.setValue(m_horario_t_desde);
         elem.setKey(K_HORARIO_T_DESDE);
-        elem.setTopFromProperty(Cairo.General.Constants.TRANS_HORARIO_MDESDE);
-        elem.setLeft(4700);
-        elem.setLeftLabel(-500);
-        elem.setLeftNotChange(true);
-        elem.setTopNotChange(true);
 
         var elem = properties.add(null, Cairo.General.Constants.TRANS_HORARIO_THASTA);
         elem.setType(Dialogs.PropertyType.time);
@@ -536,22 +513,12 @@
         elem.setName(Cairo.Language.getText(4966, ""));
         elem.setValue(m_horario_t_hasta);
         elem.setKey(K_HORARIO_T_HASTA);
-        elem.setTopFromProperty(Cairo.General.Constants.TRANS_HORARIO_MDESDE);
-        elem.setLeft(6200);
-        elem.setLeftLabel(-500);
-        elem.setLeftNotChange(true);
-        elem.setTopNotChange(true);
 
         var elem = properties.add(null, Cairo.General.Constants.TRANS_DESCRIP);
         elem.setType(Dialogs.PropertyType.text);
         elem.setName(Cairo.Constants.DESCRIPTION_LABEL);
         elem.setSize(255);
         elem.setSubType(Dialogs.PropertySubType.memo);
-        elem.setLeftFromProperty(Cairo.General.Constants.TRANS_NAME);
-        elem.setTopFromProperty(Cairo.General.Constants.TRANS_HORARIO_THASTA);
-        elem.setTopToPrevious(440);
-        elem.setWidth(5900);
-        elem.setHeight(880);
         elem.setKey(K_DESCRIP);
         elem.setValue(m_descrip);
 

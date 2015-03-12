@@ -540,7 +540,6 @@
         var elem = properties.add(null, Cairo.General.Constants.CUE_NAME);
         elem.setType(Dialogs.PropertyType.text);
         elem.setName(Cairo.Constants.NAME_LABEL);
-        elem.setWidth(5000);
         elem.setSize(100);
         elem.setKey(K_NAME);
         elem.setValue(m_name);
@@ -554,7 +553,6 @@
 
         var elem = properties.add(null, Cairo.General.Constants.CUE_IDENTIFICACION_EXTERNA);
         elem.setType(Dialogs.PropertyType.text);
-        elem.setTopNotChange(true);
         // Identificación Externa
         elem.setName(Cairo.Language.getText(1112, ""));
         elem.setKey(K_IDENTIFICACIONEXTERNA);
@@ -562,23 +560,12 @@
 
         var elem = properties.add(null, Cairo.Constants.ACTIVE);
         elem.setType(Dialogs.PropertyType.check);
-        elem.setTopFromProperty(Cairo.General.Constants.CUE_NAME);
-        elem.setLeftFromProperty(Cairo.General.Constants.CUE_NAME);
-        elem.setLeftToPrevious(5900);
-        elem.setLeftLabel(-700);
-        elem.setLeftNotChange(true);
-        elem.setTopNotChange(true);
-        elem.setWidth(400);
-        elem.setLeftNotChange(true);
         elem.setName(Cairo.Constants.ACTIVE_LABEL);
         elem.setKey(K_ACTIVE);
         elem.setValue(m_active === true ? 1 : 0);
 
         var elem = properties.add(null, Cairo.General.Constants.MON_ID);
         elem.setType(Dialogs.PropertyType.select);
-        elem.setTopFromProperty(Cairo.General.Constants.CUE_CODE);
-        elem.setLeftFromProperty(Cairo.General.Constants.CUE_CODE);
-        elem.setLeftToPrevious(4230);
         elem.setSelectTable(Cairo.Tables.MONEDA);
         // Moneda
         elem.setName(Cairo.Language.getText(1113, ""));
@@ -588,7 +575,6 @@
 
         var elem = properties.add(null, Cairo.Constants.EMP_ID);
         elem.setType(Dialogs.PropertyType.select);
-        elem.setTopToPrevious(880);
         elem.setSelectTable(Cairo.Tables.EMPRESA);
         // Empresa
         elem.setName(Cairo.Language.getText(1114, ""));
@@ -598,13 +584,6 @@
 
         var elem = properties.add(null, Cairo.General.Constants.CUE_LLEVA_CENTRO_COSTO);
         elem.setType(Dialogs.PropertyType.check);
-        elem.setTopFromProperty(Cairo.General.Constants.CUE_CODE);
-        elem.setTopToPrevious(440);
-        elem.setLeftFromProperty(Cairo.General.Constants.CUE_CODE);
-        elem.setLeftToPrevious(6300);
-        elem.setLeftLabel(-1750);
-        elem.setLeftNotChange(true);
-        elem.setTopNotChange(true);
         // Exije centro de costo
         elem.setName(Cairo.Language.getText(1115, ""));
         elem.setKey(K_LLEVA_CENTRO_COSTO);
@@ -612,13 +591,6 @@
 
         var elem = properties.add(null, Cairo.General.Constants.CUE_PRODUCTO);
         elem.setType(Dialogs.PropertyType.check);
-        elem.setTopFromProperty(Cairo.General.Constants.CUE_LLEVA_CENTRO_COSTO);
-        elem.setTopToPrevious(440);
-        elem.setLeftFromProperty(Cairo.General.Constants.CUE_CODE);
-        elem.setLeftToPrevious(6300);
-        elem.setLeftLabel(-1750);
-        elem.setLeftNotChange(true);
-        elem.setTopNotChange(true);
         // Elegible para producto
         elem.setName(Cairo.Language.getText(1116, ""));
         elem.setKey(K_PRODUCTO);
@@ -632,13 +604,6 @@
         elem.setValue(Cairo.Util.boolToInt(m_esEfectivo));
         elem.setKey(K_ES_EFECTIVO);
 
-        elem.setTopFromProperty(Cairo.General.Constants.CUE_PRODUCTO);
-        elem.setTopToPrevious(440);
-        elem.setLeftFromProperty(Cairo.General.Constants.CUE_CODE);
-        elem.setLeftToPrevious(6300);
-        elem.setLeftLabel(-1750);
-        elem.setLeftNotChange(true);
-        elem.setTopNotChange(true);
 
         var elem = properties.add(null, Cairo.General.Constants.CUE_ES_TICKET);
         elem.setType(Dialogs.PropertyType.check);
@@ -648,13 +613,6 @@
         elem.setValue(Cairo.Util.boolToInt(m_esTicket));
         elem.setKey(K_ES_TICKET);
 
-        elem.setTopFromProperty(Cairo.General.Constants.CUE_ES_EFECTIVO);
-        elem.setTopToPrevious(440);
-        elem.setLeftFromProperty(Cairo.General.Constants.CUE_CODE);
-        elem.setLeftToPrevious(6300);
-        elem.setLeftLabel(-1750);
-        elem.setLeftNotChange(true);
-        elem.setTopNotChange(true);
 
         var elem = properties.add(null, "PATRIMONIAL");
         elem.setType(Dialogs.PropertyType.option);
@@ -666,7 +624,6 @@
 
         var elem = properties.add(null, "RESULTADO");
         elem.setType(Dialogs.PropertyType.option);
-        elem.setTopToPrevious(300);
         elem.setOptionGroup(0);
         // Resultado
         elem.setName(Cairo.Language.getText(1118, ""));
@@ -675,20 +632,14 @@
 
         var elem = properties.add(null, "OTROS");
         elem.setType(Dialogs.PropertyType.option);
-        elem.setTopToPrevious(300);
         elem.setOptionGroup(0);
         // Otros
         elem.setName(Cairo.Language.getText(1119, ""));
         elem.setKey(K_OTRO);
         elem.setValue(0);
-        elem.setTopFrame(2800);
 
         var elem = properties.add(null, Cairo.General.Constants.CUEC_ID);
         elem.setType(Dialogs.PropertyType.select);
-        elem.setLeftFromProperty(Cairo.General.Constants.CUE_IDENTIFICACION_EXTERNA);
-        elem.setTopFromProperty(Cairo.General.Constants.CUE_IDENTIFICACION_EXTERNA);
-        elem.setTopToPrevious(900);
-        elem.setLeftToPrevious(2000);
         elem.setSelectTable(Cairo.Tables.CUENTACATEGORIA);
         // Categoría
         elem.setName(Cairo.Language.getText(1120, ""));
@@ -726,7 +677,6 @@
         var elem = properties.add(null, Cairo.General.Constants.BCO_ID);
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.BANCO);
-        elem.setLeftFromProperty(Cairo.General.Constants.CUEC_ID);
         // Banco
         elem.setName(Cairo.Language.getText(1122, ""));
         elem.setKey(K_BCO_ID);
@@ -744,11 +694,6 @@
 
         var elem = properties.add(null, Cairo.General.Constants.CUEC_DESCRIP);
         elem.setType(Dialogs.PropertyType.text);
-        elem.setLeftFromProperty(Cairo.General.Constants.CUE_NAME);
-        elem.setTopFromProperty(Cairo.General.Constants.CUE_CODE);
-        elem.setTopToPrevious(2600);
-        elem.setHeight(640);
-        elem.setWidth(6100);
         elem.setSubType(Dialogs.PropertySubType.memo);
         elem.setName(Cairo.Constants.DESCRIPTION_LABEL);
         elem.setKey(K_DESCRIPCION);

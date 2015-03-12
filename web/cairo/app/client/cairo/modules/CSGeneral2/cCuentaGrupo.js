@@ -467,11 +467,9 @@
         var elem = properties.add(null, Cairo.General.Constants.CUEG_NAME);
         elem.setType(Dialogs.PropertyType.text);
         elem.setName(Cairo.Constants.NAME_LABEL);
-        elem.setWidth(6000);
         elem.setSize(100);
         elem.setKey(K_NAME);
         elem.setValue(m_name);
-        elem.setWidth(6000);
 
         var elem = properties.add(null, Cairo.General.Constants.CUEG_CODE);
         elem.setType(Dialogs.PropertyType.text);
@@ -522,7 +520,6 @@
         var elem = properties.add(null, Cairo.General.Constants.CUE_ID);
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.CUENTA);
-        elem.setWidth(6000);
         // Cuenta por defecto
         elem.setName(Cairo.Language.getText(1126, ""));
         elem.setKey(K_CUE_ID);
@@ -533,8 +530,6 @@
         var elem = properties.add(null, Cairo.General.Constants.CUEG_DESCRIP);
         elem.setType(Dialogs.PropertyType.text);
         elem.setSubType(Dialogs.PropertySubType.memo);
-        elem.setHeight(880);
-        elem.setWidth(6000);
         elem.setName(Cairo.Constants.DESCRIPTION_LABEL);
         elem.setSize(255);
         elem.setKey(K_DESCRIP);

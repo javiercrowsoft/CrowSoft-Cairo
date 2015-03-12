@@ -406,8 +406,6 @@
         var elem = properties.add(null, Cairo.General.Constants.COB_DESCRIP);
         elem.setType(Dialogs.PropertyType.text);
         elem.setSubType(Dialogs.PropertySubType.memo);
-        elem.setHeight(780);
-        elem.setWidth(6000);
         elem.setName(Cairo.Constants.DESCRIPTION_LABEL);
         elem.setSize(255);
         elem.setKey(K_DESCRIPCION);

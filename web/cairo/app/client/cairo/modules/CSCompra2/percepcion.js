@@ -44,7 +44,6 @@
       elem.setName(Cairo.Language.getText(1252, "")); //'Percepcion
       elem.setType(Dialogs.PropertyType.select);
       elem.setSelectTable(Cairo.Tables.PERCEPCION);
-      elem.setWidth(1800);
       elem.setKey(KIP_PERC_ID);
 
       var elem = w_columns.add(null);
@@ -52,14 +51,12 @@
       elem.setType(Dialogs.PropertyType.numeric);
       elem.setSubType(Dialogs.PropertySubType.money);
       elem.setFormat(Cairo.Settings.getAmountDecimalsFormat());
-      elem.setWidth(1200);
       elem.setKey(KIP_BASE);
 
       var elem = w_columns.add(null);
       elem.setName(Cairo.Language.getText(1105, "")); //'Porcentaje
       elem.setType(Dialogs.PropertyType.numeric);
       elem.setSubType(Dialogs.PropertySubType.percentage);
-      elem.setWidth(1200);
       elem.setKey(KIP_PORCENTAJE);
 
       var elem = w_columns.add(null);
@@ -67,20 +64,17 @@
       elem.setType(Dialogs.PropertyType.numeric);
       elem.setFormat(Cairo.Settings.getAmountDecimalsFormat());
       elem.setSubType(Dialogs.PropertySubType.money);
-      elem.setWidth(1200);
       elem.setKey(KIP_IMPORTE);
 
       var elem = w_columns.add(null);
       elem.setName(Cairo.Language.getText(1861, "")); //'Observaciones
       elem.setType(Dialogs.PropertyType.text);
-      elem.setWidth(1800);
       elem.setKey(KIP_DESCRIP);
 
       var elem = w_columns.add(null);
       elem.setName(Cairo.Language.getText(1057, "")); //'Centro de Costo
       elem.setType(Dialogs.PropertyType.select);
       elem.setSelectTable(Cairo.Tables.CENTRO_COSTO);
-      elem.setWidth(1800);
       elem.setKey(KI_CCOS_ID);
     };
 

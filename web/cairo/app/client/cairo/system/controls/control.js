@@ -28,11 +28,6 @@
   
         index: -1,
         text: "",
-  
-        top: 0,
-        left: 0,
-        width: 0,
-        height: 0,
 
         tabIndex: 0, // this for tab key navigation
 
@@ -126,34 +121,6 @@
       };
       that.setIndex = function(index) {
         self.index = index;
-      };
-
-      that.getLeft = function() {
-        return self.left;
-      };
-      that.setLeft = function(left) {
-        self.left = left;
-      };
-
-      that.getTop = function() {
-        return self.top;
-      };
-      that.setTop = function(top) {
-        self.top = top;
-      };
-
-      that.getHeight = function() {
-        return self.height;
-      };
-      that.setHeight = function(height) {
-        self.height = height;
-      };
-
-      that.getWidth = function() {
-        return self.width;
-      };
-      that.setWidth = function(width) {
-        self.width = width;
       };
 
       that.selStart = function(start) { /* TODO = implement this. */ };

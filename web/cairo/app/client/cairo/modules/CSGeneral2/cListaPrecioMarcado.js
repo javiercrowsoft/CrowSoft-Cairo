@@ -415,7 +415,6 @@
         elem.setType(Dialogs.PropertyType.text);
         elem.setName(Cairo.Constants.NAME_LABEL);
         elem.setSize(100);
-        elem.setWidth(5000);
         elem.setKey(K_NAME);
         elem.setValue(m_name);
 
@@ -428,11 +427,6 @@
 
         var elem = properties.add(null, Cairo.Constants.ACTIVE);
         elem.setType(Dialogs.PropertyType.check);
-        elem.setTopFromProperty(Cairo.General.Constants.LPM_NAME);
-        elem.setLeftLabel(-800);
-        elem.setTopNotChange(true);
-        elem.setLeft(7500);
-        elem.setLeftNotChange(true);
         elem.setName(Cairo.Constants.ACTIVE_LABEL);
         elem.setKey(K_ACTIVE);
         elem.setValue(m_active === true ? 1 : 0);
@@ -445,7 +439,6 @@
         elem.setName(Cairo.Language.getText(2550, ""));
         elem.setKey(K_BASE);
         elem.setValue(m_base);
-        elem.setWidth(1000);
 
         var elem = properties.add(null, Cairo.General.Constants.LPM_PORCENTAJE);
         elem.setType(Dialogs.PropertyType.numeric);
@@ -479,8 +472,6 @@
         elem.setName(Cairo.Language.getText(3511, ""));
         elem.setKey(K_PORCMINIMO);
         elem.setValue(m_porcminimo);
-        elem.setTopFromProperty(Cairo.General.Constants.LPM_BASE);
-        elem.setLeft(5500);
 
         var elem = properties.add(null, Cairo.General.Constants.LPM_PORCMAXIMO);
         elem.setType(Dialogs.PropertyType.numeric);
@@ -513,12 +504,7 @@
         elem.setSubType(Dialogs.PropertySubType.memo);
         elem.setName(Cairo.Constants.DESCRIPTION_LABEL);
         elem.setKey(K_DESCRIP);
-        elem.setHeight(440);
-        elem.setWidth(6250);
         elem.setValue(m_descrip);
-        elem.setLeftFromProperty(Cairo.General.Constants.LPM_NAME);
-        elem.setTopFromProperty(Cairo.General.Constants.LPM_DECREMENTO);
-        elem.setTopToPrevious(440);
 
         if(!m_dialog.show(self)) { return false; }
 

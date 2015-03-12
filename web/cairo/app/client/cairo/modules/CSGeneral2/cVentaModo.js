@@ -397,7 +397,6 @@
         elem.setSize(100);
         elem.setKey(K_NAME);
         elem.setValue(m_name);
-        elem.setWidth(6500);
 
         var elem = properties.add(null, Cairo.General.Constants.VM_CODE);
         elem.setType(Dialogs.PropertyType.text);
@@ -433,31 +432,16 @@
         // Cobranza por Facturador
         elem.setValue(Cairo.Language.getText(5108, ""));
         elem.setKey(K_CTACTE);
-        elem.setWidth(3000);
-        elem.setLeftNotChange(true);
-        elem.setLeft(5000);
-        elem.setLeftLabel(-1800);
-        elem.setTopFromProperty(Cairo.Constants.ACTIVE);
 
         var elem = properties.add(null);
         elem.setType(Dialogs.PropertyType.label);
-        elem.setHeight(20);
         elem.setBackColor("CECECE");
-        elem.setLeft(200);
-        elem.setWidth(8000);
-        elem.setLeftNotChange(true);
-        elem.setTopToPrevious(420);
-        elem.setTopNotChange(true);
 
         var elem = properties.add(null);
         elem.setType(Dialogs.PropertyType.label);
         // Se utiliza en:
         elem.setValue(Cairo.Language.getText(5081, ""));
-        elem.setHeight(285);
         elem.setFontBold(true);
-        elem.setLeft(360);
-        elem.setLeftNotChange(true);
-        elem.setTopToPrevious(160);
 
         var elem = properties.add(null, Cairo.General.Constants.VM_PV);
         elem.setType(Dialogs.PropertyType.check);
@@ -466,12 +450,6 @@
         elem.setSize(15);
         elem.setValue(Cairo.Util.boolToInt(m_pv));
         elem.setKey(K_PV);
-        elem.setWidth(1000);
-        elem.setLeftNotChange(true);
-        elem.setLeft(3000);
-        elem.setLeftLabel(-1800);
-        elem.setTopFromProperty(Cairo.Constants.ACTIVE);
-        elem.setTopToPrevious(880);
 
         var elem = properties.add(null, Cairo.General.Constants.VM_OS);
         elem.setType(Dialogs.PropertyType.check);
@@ -480,12 +458,6 @@
         elem.setSize(15);
         elem.setValue(Cairo.Util.boolToInt(m_os));
         elem.setKey(K_OS);
-        elem.setWidth(1000);
-        elem.setLeftNotChange(true);
-        elem.setLeft(7000);
-        elem.setLeftLabel(-1800);
-        elem.setTopFromProperty(Cairo.Constants.ACTIVE);
-        elem.setTopToPrevious(880);
 
         var elem = properties.add(null, Cairo.General.Constants.VM_COBZ);
         elem.setType(Dialogs.PropertyType.check);
@@ -494,12 +466,6 @@
         elem.setSize(15);
         elem.setValue(Cairo.Util.boolToInt(m_cobz));
         elem.setKey(K_COBZ);
-        elem.setWidth(1000);
-        elem.setLeftNotChange(true);
-        elem.setLeft(3000);
-        elem.setLeftLabel(-1800);
-        elem.setTopFromProperty(Cairo.Constants.ACTIVE);
-        elem.setTopToPrevious(1280);
 
         var elem = properties.add(null, Cairo.General.Constants.VM_CMVXI);
         elem.setType(Dialogs.PropertyType.check);
@@ -508,22 +474,10 @@
         elem.setSize(15);
         elem.setValue(Cairo.Util.boolToInt(m_cmvxi));
         elem.setKey(K_CMVXI);
-        elem.setWidth(1000);
-        elem.setLeftNotChange(true);
-        elem.setLeft(7000);
-        elem.setLeftLabel(-1800);
-        elem.setTopFromProperty(Cairo.Constants.ACTIVE);
-        elem.setTopToPrevious(1280);
 
         var elem = properties.add(null);
         elem.setType(Dialogs.PropertyType.label);
-        elem.setHeight(20);
         elem.setBackColor("CECECE");
-        elem.setLeft(200);
-        elem.setWidth(8000);
-        elem.setLeftNotChange(true);
-        elem.setTopToPrevious(590);
-        elem.setTopNotChange(true);
 
         var elem = properties.add(null, Cairo.General.Constants.CUE_ID);
         elem.setType(Dialogs.PropertyType.select);
@@ -535,15 +489,11 @@
         elem.setValue(m_cuenta);
         elem.setSelectId(m_cue_id);
         elem.setKey(K_CUE_ID);
-        elem.setWidth(6500);
-        elem.setTopToPrevious(520);
 
         var elem = properties.add(null, Cairo.General.Constants.VM_DESCRIP);
         elem.setType(Dialogs.PropertyType.text);
         elem.setName(Cairo.Constants.DESCRIPTION_LABEL);
         elem.setSize(255);
-        elem.setHeight(660);
-        elem.setWidth(6500);
         elem.setSubType(Dialogs.PropertySubType.memo);
         elem.setValue(m_descrip);
         elem.setKey(K_DESCRIP);

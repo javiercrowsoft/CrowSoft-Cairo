@@ -389,7 +389,6 @@
         elem.setName(Cairo.Constants.NAME_LABEL);
         elem.setKey(K_NAME);
         elem.setValue(m_name);
-        elem.setWidth(7000);
 
         var elem = properties.add(null, Cairo.General.Constants.PRHC_TECLA);
         elem.setType(Dialogs.PropertyType.text);
@@ -412,7 +411,6 @@
         elem.setName(Cairo.Language.getText(3908, ""));
         elem.setValue(m_atributo_indice);
         elem.setKey(K_ATRIBUTO_INDICE);
-        elem.setWidth(800);
 
         var elem = properties.add(null, Cairo.Constants.ACTIVE);
         elem.setType(Dialogs.PropertyType.check);
@@ -426,9 +424,6 @@
         elem.setName(Cairo.Language.getText(3919, ""));
         elem.setKey(K_DEFAULT);
         elem.setValue(m_default);
-        elem.setLeftNotChange(true);
-        elem.setLeft(2150);
-        elem.setLeftLabel(-1800);
 
         var elem = properties.add(null, Cairo.General.Constants.PRHC_DEFAULT_SRV);
         elem.setType(Dialogs.PropertyType.check);
@@ -436,10 +431,6 @@
         elem.setName(Cairo.Language.getText(3920, ""));
         elem.setKey(K_DEFAULT_SRV);
         elem.setValue(m_defaultSrv);
-        elem.setLeftNotChange(true);
-        elem.setLeft(4700);
-        elem.setLeftLabel(-1880);
-        elem.setTopFromProperty(Cairo.General.Constants.PRHC_DEFAULT);
 
         var elem = properties.add(null, Cairo.General.Constants.PRHC_DEFAULT_PRP);
         elem.setType(Dialogs.PropertyType.check);
@@ -447,10 +438,6 @@
         elem.setName(Cairo.Language.getText(3964, ""));
         elem.setKey(K_DEFAULT_PRP);
         elem.setValue(m_defaultPrp);
-        elem.setLeftNotChange(true);
-        elem.setLeft(8000);
-        elem.setLeftLabel(-2180);
-        elem.setTopFromProperty(Cairo.General.Constants.PRHC_DEFAULT);
 
         var elem = properties.add(null, Cairo.General.Constants.PRHC_DEFAULT_PRNS);
         elem.setType(Dialogs.PropertyType.check);
@@ -458,15 +445,10 @@
         elem.setName(Cairo.Language.getText(3965, ""));
         elem.setKey(K_DEFAULT_PRNS);
         elem.setValue(m_defaultPrns);
-        elem.setLeftNotChange(true);
-        elem.setLeft(2150);
-        elem.setLeftLabel(-1800);
 
         var elem = properties.add(null, Cairo.General.Constants.PRHC_DESCRIP);
         elem.setType(Dialogs.PropertyType.text);
         elem.setSubType(Dialogs.PropertySubType.memo);
-        elem.setWidth(7000);
-        elem.setHeight(880);
         elem.setName(Cairo.Constants.DESCRIPTION_LABEL);
         elem.setKey(K_DESCRIP);
         elem.setValue(m_descrip);

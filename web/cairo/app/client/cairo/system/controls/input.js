@@ -177,8 +177,7 @@
       that.setButtonStyle = function(style) { /* TODO: implement this. */ };
       that.setPasswordChar = function(char) { /* TODO: implement this. */ };
       that.setFormatNumber = function(format) { /* TODO: implement this. */ };
-      that.setEnabledNoChangeBkColor = function(value) { self.enabledNoChangeBkColor = value; };
-      that.setMaxLength = function(length) { self.maxLength = length; };                       
+      that.setMaxLength = function(length) { self.maxLength = length; };
       that.setInputDisabled = function(value) { self.inputDisabled = value; };
       that.setFileFilter = function(filter) { self.fileFilter = filter; };
 

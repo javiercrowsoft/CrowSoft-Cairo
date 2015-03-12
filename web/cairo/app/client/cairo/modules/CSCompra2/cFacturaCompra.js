@@ -2056,8 +2056,6 @@
         elem = properties.add(null, CC.FC_FECHA);
         elem.setType(T.date);
         elem.setName(getText(1569, "")); // Fecha
-        elem.setLeftLabel(-580);
-        elem.setLeft(700);
         elem.setKey(K_FECHA);
         elem.setValue(m_fecha);
 
@@ -2070,9 +2068,6 @@
         elem = properties.add(null, C.PROV_ID);
         elem.setType(T.select);
         elem.setSelectTable(Cairo.Tables.PROVEEDOR);
-        elem.setTopFromProperty(CC.FC_FECHA);
-        elem.setLeft(2900);
-        elem.setLeftLabel(-800);
         elem.setName(getText(1151, "")); // Proveedor
         elem.setKey(K_PROV_ID);
         elem.setSelectId(m_prov_id);
@@ -2092,9 +2087,6 @@
         elem.setType(T.select);
         elem.setSelectTable(Cairo.Tables.CONDICION_PAGO);
         elem.setName(getText(1835, "")); // C. pago
-        elem.setTopFromProperty(CC.FC_FECHA);
-        elem.setLeft(5900);
-        elem.setLeftLabel(-620);
         elem.setKey(K_CPG_ID);
         elem.setSelectId(m_cpg_id);
         elem.setValue(m_condicionPago);
@@ -2102,7 +2094,6 @@
         elem = properties.add(null, CC.FC_FECHA_VTO);
         elem.setType(T.date);
         elem.setName(getText(1634, "")); // Vto.
-        elem.setLeftLabel(-350);
         elem.setKey(K_FECHA_VTO);
         elem.setValue(m_fechaVto);
 
@@ -2143,7 +2134,6 @@
         elem = properties.add(null, CC.FC_FECHA_ENTREGA);
         elem.setType(T.date);
         elem.setName(getText(1570, "")); // Entrega
-        elem.setLeftLabel(-1080);
         elem.setKey(K_FECHA_ENTREGA);
         elem.setValue(m_fechaentrega);
         elem.setTabIndex(1);
@@ -2152,7 +2142,6 @@
         elem.setType(T.select);
         elem.setSelectTable(Cairo.Tables.DEPOSITO_LOGICO);
         elem.setName(getText(1574, "")); // Deposito
-        elem.setLeftLabel(-1080);
         elem.setKey(K_DEPL_ID);
 
         if(m_depl_id !== NO_ID || !m_showStockData) {
@@ -2172,7 +2161,6 @@
         elem = properties.add(null, CC.FC_TIPO_COMPROBANTE);
         elem.setType(T.list);
         elem.setName(getText(1903, "")); // Tipo Comprobante
-        elem.setLeftLabel(-1080);
         elem.setKey(K_TIPO_COMPRABANTE);
         elem.setListWhoSetItem(Dialogs.ListWhoSetItem.itemData);
         list = elem.getList();
@@ -2203,29 +2191,21 @@
         elem.setKey(K_COTIZACION_PROV);
         elem.setValue(m_cotizacionProv);
         elem.setTabIndex(1);
-        elem.setLeftLabel(-1100);
-        elem.setWidth(1000);
 
         elem = properties.add(null, CC.FC_DESCUENTO1);
         elem.setType(T.numeric);
         elem.setSubType(Dialogs.PropertySubType.percentage);
-        elem.setLeftLabel(-600);
         elem.setName(getText(1573, "")); // Desc. 1
         elem.setKey(K_DESCUENTO1);
         elem.setValue(m_descuento1);
-        elem.setWidth(1000);
         elem.setTabIndex(2);
 
         elem = properties.add(null, CC.FC_DESCUENTO2);
         elem.setType(T.numeric);
         elem.setSubType(Dialogs.PropertySubType.percentage);
-        elem.setTopFromProperty(CC.FC_DESCUENTO1);
-        elem.setLeft(7150);
-        elem.setLeftLabel(-150);
         elem.setName("2");
         elem.setKey(K_DESCUENTO2);
         elem.setValue(m_descuento2);
-        elem.setWidth(1000);
         elem.setTabIndex(2);
 
         elem = properties.add(null, C.LP_ID);
@@ -2233,8 +2213,6 @@
         elem.setSelectTable(Cairo.Tables.LISTAPRECIO);
         elem.setName(getText(1397, "")); // Lista de Precios
         elem.setSelectFilter(D.getListaPrecioForProveedor(m_doc_id, m_prov_id));
-        elem.setTopFromProperty(CC.FC_FECHA);
-        elem.setLeft(9400);
         elem.setKey(K_LP_ID);
         elem.setSelectId(m_lp_id);
         elem.setValue(m_listaPrecio);
@@ -2269,12 +2247,10 @@
         elem = properties.add(null, CC.FC_COTIZACION);
         elem.setType(T.numeric);
         elem.setSubType(Dialogs.PropertySubType.money);
-        elem.setLeftLabel(-600);
         elem.setName(getText(1650, "")); // Cotiz.
         elem.setFormat(Cairo.Settings.getCurrencyRateDecimalsFormat());
         elem.setKey(K_COTIZACION);
         elem.setValue(m_cotizacion);
-        elem.setWidth(1000);
 
         if(m_cotizacion !== 0) {
           cotizacion = m_cotizacion;
@@ -2287,15 +2263,9 @@
         elem.setType(T.text);
         elem.setSubType(Dialogs.PropertySubType.memo);
         elem.setName(getText(1211, "")); // Observ.
-        elem.setLeftLabel(-600);
         elem.setSize(5000);
         elem.setKey(K_DESCRIP);
         elem.setValue(m_descrip);
-        elem.setLeftFromProperty(CC.FC_FECHA);
-        elem.setTopFromProperty(CC.FC_NRODOC);
-        elem.setWidth(4480);
-        elem.setHeight(800);
-        elem.setTopToPrevious(440);
         elem.setTabIndex(3);
 
         if(Cairo.UserConfig.getShowDataAddInCompras()) {
@@ -2303,65 +2273,40 @@
           elem = properties.add(null, Cairo.Constants.PROVEEDOR_DATA_ADD);
           elem.setType(T.text);
           elem.setSubType(Dialogs.PropertySubType.memo);
-          elem.setWidth(10970);
-          elem.setTopFromProperty(CC.FC_DESCRIP);
-          elem.setTopToPrevious(860);
-          elem.setLeftFromProperty(CC.FC_DESCRIP);
-          elem.setHeight(600);
 
         }
 
         elem = properties.add(null);
         elem.setType(T.label);
         elem.setBackColor(Dialogs.Colors.buttonShadow);
-        elem.setWidth(2540);
-        elem.setTopNotChange(true);
-        elem.setLeftNotChange(true);
 
         if(Cairo.UserConfig.getShowDataAddInCompras()) {
-          elem.setTop(4000);
         }
         else {
-          elem.setTop(3460);
         }
 
-        elem.setLeft(9210);
-        elem.setHeight(330);
 
         elem = properties.add(null);
         elem.setType(T.label);
         elem.setBackColor(Dialogs.Colors.windowBackground);
-        elem.setWidth(2500);
-        elem.setTopNotChange(true);
-        elem.setLeftNotChange(true);
 
         if(Cairo.UserConfig.getShowDataAddInCompras()) {
-          elem.setTop(4020);
         }
         else {
-          elem.setTop(3480);
         }
 
-        elem.setLeft(9220);
-        elem.setHeight(300);
 
         elem = properties.add(null, Cairo.Constants.HIDE_COLUMNS);
         elem.setType(T.check);
         elem.setName(getText(3901, "")); // Ocultar Columnas
         elem.setKey(K_HIDECOLS);
         elem.setValue(false);
-        elem.setTopNotChange(true);
-        elem.setLeftNotChange(true);
 
         if(Cairo.UserConfig.getShowDataAddInCompras()) {
-          elem.setTop(4040);
         }
         else {
-          elem.setTop(3500);
         }
 
-        elem.setLeft(11120);
-        elem.setLeftLabel(-1500);
         elem.setIsEditProperty(false);
 
         if(!m_dialog.show(self)) { return false; }
@@ -2391,7 +2336,7 @@
 
         elem = properties.add(null, C_ITEMS);
         elem.setType(T.grid);
-        elem.setLeftLabel(-1);
+        elem.hideLabel();
         setGridItems(elem);
         loadItems(elem, cotizacion);
         elem.setName(C_ITEMS);
@@ -2405,7 +2350,7 @@
 
         elem = properties.add(null, C_OTROS);
         elem.setType(T.grid);
-        elem.setLeftLabel(-1);
+        elem.hideLabel();
         setGridOtros(elem);
         loadOtros(elem, cotizacion);
         elem.setName(C_OTROS);
@@ -2419,7 +2364,7 @@
 
         elem = properties.add(null, C_PERCEPCIONES);
         elem.setType(T.grid);
-        elem.setLeftLabel(-1);
+        elem.hideLabel();
         setGridPercepciones(elem);
         loadPercepciones(elem, cotizacion);
         elem.setName(C_PERCEPCIONES);
@@ -2433,7 +2378,7 @@
 
         elem = properties.add(null, C_LEGAJOS);
         elem.setType(T.grid);
-        elem.setLeftLabel(-1);
+        elem.hideLabel();
         setGridLegajos(elem);
         loadLegajos(elem, cotizacion);
         elem.setName(C_LEGAJOS);
@@ -2655,7 +2600,6 @@
         elem.setName(getText(1619, "")); // Producto
         elem.setType(T.select);
         elem.setSelectTable(Cairo.Tables.PRODUCTOS_DE_COMPRA);
-        elem.setWidth(1800);
         elem.setKey(KI_PR_ID);
         if(Cairo.UserConfig.getMultiSelect()) {
           elem.setSelectType(Cairo.Select.SelectType.tree);
@@ -2677,7 +2621,6 @@
         elem.setName(Cairo.Constants.DESCRIPTION_LABEL);
         elem.setType(T.text);
         elem.setSubType(Dialogs.PropertySubType.textButtonEx);
-        elem.setWidth(1200);
         elem.setKey(KI_DESCRIP);
 
         elem = columns.add(null);
@@ -2685,7 +2628,6 @@
         elem.setFormat(Cairo.Settings.getQuantityDecimalsFormat());
         elem.setType(T.numeric);
         elem.setSubType(Dialogs.PropertySubType.double);
-        elem.setWidth(1000);
         elem.setKey(KI_CANTIDAD);
 
         elem.setDefaultValue(Dialogs.Grids.createCell());
@@ -2695,14 +2637,12 @@
         elem.setName(getText(1639, "")); // Nro. Serie
         elem.setType(T.text);
         elem.setSubType(Dialogs.PropertySubType.textButton);
-        elem.setWidth(3000);
         elem.setKey(KI_NRO_SERIE);
         elem.setVisible(m_showStockData);
 
         elem = columns.add(null);
         elem.setName(getText(1640, "")); // Lote
         elem.setType(T.text);
-        elem.setWidth(2000);
         elem.setKey(KI_STL_CODIGO);
         elem.setVisible(m_showStockData);
 
@@ -2713,7 +2653,6 @@
         elem = columns.add(null);
         elem.setName(getText(1165, "")); // Unidad
         elem.setType(T.text);
-        elem.setWidth(1000);
         elem.setKey(KI_UNIDAD);
         elem.setEnabled(false);
         elem.setVisible(bColVisible);
@@ -2723,7 +2662,6 @@
         elem.setType(T.numeric);
         elem.setSubType(Dialogs.PropertySubType.money);
         elem.setFormat(Cairo.Settings.getAmountDecimalsFormat());
-        elem.setWidth(1200);
         elem.setKey(KI_PRECIO_LP);
         elem.setEnabled(false);
         elem.setVisible(bColVisible);
@@ -2732,14 +2670,12 @@
         elem.setName(getText(1586, "")); // Precio
         elem.setType(T.numeric);
         elem.setSubType(Dialogs.PropertySubType.money);
-        elem.setWidth(1200);
         elem.setFormat(Cairo.Settings.getAmountDecimalsFormat());
         elem.setKey(KI_PRECIO_USR);
 
         elem = columns.add(null);
         elem.setName(getText(1585, "")); // Descuento
         elem.setType(T.text);
-        elem.setWidth(1000);
         elem.setKey(KI_DESCUENTO);
         elem.setEnabled(true);
 
@@ -2747,7 +2683,6 @@
         elem.setName(getText(1588, "")); // Precio c/desc.
         elem.setType(T.numeric);
         elem.setSubType(Dialogs.PropertySubType.money);
-        elem.setWidth(1200);
         elem.setFormat(Cairo.Settings.getAmountDecimalsFormat());
         elem.setKey(KI_PRECIO);
         elem.setEnabled(false);
@@ -2757,7 +2692,6 @@
         elem.setType(T.numeric);
         elem.setSubType(Dialogs.PropertySubType.money);
         elem.setFormat(Cairo.Settings.getAmountDecimalsFormat());
-        elem.setWidth(1200);
         elem.setKey(KI_NETO);
         elem.setEnabled(false);
 
@@ -2766,7 +2700,6 @@
         elem.setType(T.numeric);
         elem.setSubType(Dialogs.PropertySubType.money);
         elem.setFormat(Cairo.Settings.getAmountDecimalsFormat());
-        elem.setWidth(1200);
         elem.setKey(KI_IVA_RI);
 
         elem = columns.add(null);
@@ -2774,7 +2707,6 @@
         elem.setType(T.numeric);
         elem.setFormat(Cairo.Settings.getAmountDecimalsFormat());
         elem.setSubType(Dialogs.PropertySubType.money);
-        elem.setWidth(1200);
         elem.setKey(KI_IVA_RNI);
         elem.setEnabled(false);
         elem.setVisible(bColVisible);
@@ -2784,7 +2716,6 @@
         elem.setType(T.numeric);
         elem.setFormat(Cairo.Settings.getAmountDecimalsFormat());
         elem.setSubType(Dialogs.PropertySubType.money);
-        elem.setWidth(1200);
         elem.setKey(KI_INTERNOS);
         elem.setEnabled(false);
 
@@ -2793,7 +2724,6 @@
         elem.setType(T.numeric);
         elem.setFormat(Cairo.Settings.getAmountDecimalsFormat());
         elem.setSubType(Dialogs.PropertySubType.money);
-        elem.setWidth(1200);
         elem.setKey(KI_IMPORTE);
         elem.setEnabled(false);
 
@@ -2817,7 +2747,6 @@
         elem.setName(getText(1057, "")); // Centro de Costo
         elem.setType(T.select);
         elem.setSelectTable(Cairo.Tables.CENTROS_DE_COSTO);
-        elem.setWidth(1800);
         elem.setKey(Percepciones.KI_CCOS_ID);
 
         elem = columns.add(null);
@@ -2828,7 +2757,6 @@
         elem.setName(getText(1661, "")); // Tipo Operación
         elem.setType(T.select);
         elem.setSelectTable(Cairo.Tables.TIPO_DE_OPERACION);
-        elem.setWidth(1800);
         elem.setDefaultValue(Grids.createCell());
         elem.getDefaultValue()
           .setId(D.Constants.TO_COMERCIAL_ID)
@@ -3105,7 +3033,6 @@
         elem.setName(getText(1575, "")); // Legajo
         elem.setType(T.select);
         elem.setSelectTable(Cairo.Tables.LEGAJOS);
-        elem.setWidth(1800);
         elem.setKey(KIL_LGJ_ID);
 
         elem = columns.add(null);
@@ -3113,13 +3040,11 @@
         elem.setType(T.numeric);
         elem.setSubType(Dialogs.PropertySubType.money);
         elem.setFormat(Cairo.Settings.getAmountDecimalsFormat());
-        elem.setWidth(1200);
         elem.setKey(KIL_IMPORTE);
 
         elem = columns.add(null);
         elem.setName(getText(1861, "")); // Observaciones
         elem.setType(T.text);
-        elem.setWidth(1800);
         elem.setKey(KIL_DESCRIP);
 
         grid.getRows().clear();
@@ -3171,7 +3096,6 @@
         elem.setName(getText(1267, "")); // Cuenta
         elem.setType(T.select);
         elem.setSelectTable(Cairo.Tables.CUENTA);
-        elem.setWidth(1800);
         elem.setKey(KI_CUE_ID);
         elem.setSelectFilter(D.getSelectFilterForCuenta);
 
@@ -3180,7 +3104,6 @@
         elem.setType(T.numeric);
         elem.setSubType(Dialogs.PropertySubType.money);
         elem.setFormat(Cairo.Settings.getAmountDecimalsFormat());
-        elem.setWidth(1200);
         elem.setKey(KI_DEBE);
 
         elem = columns.add(null);
@@ -3188,20 +3111,17 @@
         elem.setType(T.numeric);
         elem.setFormat(Cairo.Settings.getAmountDecimalsFormat());
         elem.setSubType(Dialogs.PropertySubType.money);
-        elem.setWidth(1200);
         elem.setKey(KI_HABER);
 
         elem = columns.add(null);
         elem.setName(getText(1861, "")); // Observaciones
         elem.setType(T.text);
-        elem.setWidth(1800);
         elem.setKey(KI_DESCRIP);
 
         elem = columns.add(null);
         elem.setName(getText(1057, "")); // Centro de Costo
         elem.setType(T.select);
         elem.setSelectTable(Cairo.Tables.CENTROS_DE_COSTO);
-        elem.setWidth(1800);
         elem.setKey(Percepciones.KI_CCOS_ID);
 
         grid.getRows().clear();
@@ -5659,4 +5579,7 @@
 
  search: getValue\(\) === (.*?);
  repalce: setValue($1);
+
+ search: .*elem\.set((Left)|(Top)|(Width)|(Height)).*?\(.+\n
+ replace:
 * */

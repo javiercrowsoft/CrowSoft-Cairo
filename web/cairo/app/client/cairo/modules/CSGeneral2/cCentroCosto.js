@@ -376,7 +376,6 @@
         elem.setSize(100);
         elem.setKey(K_NAME);
         elem.setValue(m_name);
-        elem.setWidth(6000);
 
         var elem = properties.add(null, Cairo.General.Constants.CCOS_CODE);
         elem.setType(Dialogs.PropertyType.text);
@@ -384,7 +383,6 @@
         elem.setSize(15);
         elem.setValue(m_code);
         elem.setKey(K_CODE);
-        elem.setWidth(1500);
 
         var elem = properties.add(null, Cairo.Constants.ACTIVE);
         elem.setType(Dialogs.PropertyType.check);
@@ -421,8 +419,6 @@
         elem.setName(Cairo.Constants.DESCRIPTION_LABEL);
         elem.setKey(K_DESCRIPCION);
         elem.setSubType(Dialogs.PropertySubType.memo);
-        elem.setHeight(880);
-        elem.setWidth(6000);
         elem.setSize(255);
         elem.setValue(m_descripcion);
 

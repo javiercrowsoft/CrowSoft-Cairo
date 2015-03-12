@@ -358,7 +358,6 @@
         elem.setSize(100);
         elem.setKey(K_NAME);
         elem.setValue(m_name);
-        elem.setWidth(6200);
 
         var elem = properties.add(null, Cairo.General.Constants.CICO_CODE);
         elem.setType(Dialogs.PropertyType.text);
@@ -380,8 +379,6 @@
         elem.setKey(K_DESCRIP);
         elem.setValue(m_descrip);
         elem.setSubType(Dialogs.PropertySubType.memo);
-        elem.setWidth(6200);
-        elem.setHeight(880);
 
         if(!m_dialog.show(self)) { return false; }
 

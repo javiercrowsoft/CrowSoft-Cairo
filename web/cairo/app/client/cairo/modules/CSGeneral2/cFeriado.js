@@ -472,12 +472,9 @@
         var elem = properties.add(null, Cairo.General.Constants.FE_NAME);
         elem.setType(Dialogs.PropertyType.text);
         elem.setName(Cairo.Constants.NAME_LABEL);
-        elem.setWidth(6200);
         elem.setSize(100);
         elem.setKey(K_NAME);
         elem.setValue(m_name);
-        elem.setLeftLabel(-800);
-        elem.setLeft(1300);
 
         var elem = properties.add(null, Cairo.General.Constants.FE_CODE);
         elem.setType(Dialogs.PropertyType.text);
@@ -493,7 +490,6 @@
         elem.setName(Cairo.Language.getText(1214, ""));
         elem.setKey(K_DIA);
         elem.setValue(m_dia);
-        elem.setWidth(700);
 
         var elem = properties.add(null, Cairo.General.Constants.FE_MES);
         elem.setType(Dialogs.PropertyType.numeric);
@@ -502,10 +498,6 @@
         elem.setName(Cairo.Language.getText(1215, ""));
         elem.setKey(K_MES);
         elem.setValue(m_mes);
-        elem.setTopFromProperty(Cairo.General.Constants.FE_DIA);
-        elem.setLeft(2500);
-        elem.setLeftLabel(-400);
-        elem.setWidth(700);
 
         var elem = properties.add(null, Cairo.General.Constants.FE_ANIO);
         elem.setType(Dialogs.PropertyType.numeric);
@@ -514,10 +506,6 @@
         elem.setName(Cairo.Language.getText(1216, ""));
         elem.setKey(K_ANIO);
         elem.setValue(m_anio);
-        elem.setTopFromProperty(Cairo.General.Constants.FE_DIA);
-        elem.setLeft(3800);
-        elem.setLeftLabel(-400);
-        elem.setWidth(1000);
 
         var elem = properties.add(null, Cairo.General.Constants.FE_RECURRENTE);
         elem.setType(Dialogs.PropertyType.check);
@@ -525,8 +513,6 @@
         elem.setName(Cairo.Language.getText(1217, ""));
         elem.setKey(K_RECURRENTE);
         elem.setValue(Cairo.Util.boolToInt(m_recurrente));
-        elem.setLeftFromProperty(Cairo.General.Constants.FE_NAME);
-        elem.setLeftToPrevious(380);
 
         var elem = properties.add(null, Cairo.General.Constants.FE_BANCO);
         elem.setType(Dialogs.PropertyType.check);
@@ -534,9 +520,6 @@
         elem.setName(Cairo.Language.getText(1218, ""));
         elem.setKey(K_BANCO);
         elem.setValue(Cairo.Util.boolToInt(m_banco));
-        elem.setTopFromProperty(Cairo.General.Constants.FE_RECURRENTE);
-        elem.setLeft(4000);
-        elem.setLeftLabel(-1450);
 
         var elem = properties.add(null, Cairo.General.Constants.FE_LABORAL);
         elem.setType(Dialogs.PropertyType.check);
@@ -544,9 +527,6 @@
         elem.setName(Cairo.Language.getText(1219, ""));
         elem.setKey(K_LABORAL);
         elem.setValue(Cairo.Util.boolToInt(m_laboral));
-        elem.setTopFromProperty(Cairo.General.Constants.FE_RECURRENTE);
-        elem.setLeft(6000);
-        elem.setLeftLabel(-1400);
 
         var elem = properties.add(null, Cairo.General.Constants.FE_LOCAL);
         elem.setType(Dialogs.PropertyType.check);
@@ -554,8 +534,6 @@
         elem.setName(Cairo.Language.getText(1213, ""));
         elem.setKey(K_LOCAL);
         elem.setValue(Cairo.Util.boolToInt(m_local));
-        elem.setLeftLabel(-1200);
-        elem.setLeft(1680);
 
         var elem = properties.add(null, Cairo.General.Constants.PA_ID);
         elem.setType(Dialogs.PropertyType.select);
@@ -566,8 +544,6 @@
         elem.setValue(m_pais);
         elem.setSelectId(m_pa_Id);
         elem.setEnabled(Cairo.Util.boolToInt(m_local));
-        elem.setLeft(1800);
-        elem.setLeftLabel(-800);
 
         var elem = properties.add(null, Cairo.General.Constants.PRO_ID);
         elem.setType(Dialogs.PropertyType.select);
@@ -578,22 +554,15 @@
         elem.setValue(m_provincia);
         elem.setSelectId(m_pro_id);
         elem.setEnabled(Cairo.Util.boolToInt(m_local));
-        elem.setLeft(1800);
-        elem.setLeftLabel(-800);
 
         var elem = properties.add(null, Cairo.General.Constants.FE_DESCRIP);
         elem.setType(Dialogs.PropertyType.text);
-        elem.setTopToPrevious(440);
         // Observ.
         elem.setName(Cairo.Language.getText(1211, ""));
         elem.setSize(255);
         elem.setKey(K_DESCRIP);
         elem.setValue(m_descrip);
         elem.setSubType(Dialogs.PropertySubType.memo);
-        elem.setWidth(6200);
-        elem.setHeight(880);
-        elem.setLeft(1300);
-        elem.setLeftLabel(-800);
 
         if(!m_dialog.show(self)) { return false; }
 

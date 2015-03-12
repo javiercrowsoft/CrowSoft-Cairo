@@ -396,8 +396,6 @@
         elem.setName(Cairo.Constants.DESCRIPTION_LABEL);
         elem.setSize(255);
         elem.setSubType(Dialogs.PropertySubType.memo);
-        elem.setWidth(5000);
-        elem.setHeight(880);
         elem.setValue(m_descrip);
         elem.setKey(K_DESCIP);
 

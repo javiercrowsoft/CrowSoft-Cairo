@@ -403,7 +403,6 @@
         elem.setSize(50);
         elem.setKey(K_NAME);
         elem.setValue(m_name);
-        elem.setWidth(6000);
 
         var elem = properties.add(null, Cairo.General.Constants.FP_CODE);
         elem.setType(Dialogs.PropertyType.text);
@@ -434,54 +433,39 @@
         elem.setType(Dialogs.PropertyType.check);
         elem.setValue(Cairo.Util.boolToInt(m_miercoles));
         elem.setName(Cairo.Language.getText(5065, ""));
-        elem.setTopFromProperty(Cairo.General.Constants.FP_LUNES);
         elem.setKey(K_MIERCOLES);
-        elem.setLeft(3300);
-        elem.setLeftLabel(-800);
 
         var elem = properties.add(null, Cairo.General.Constants.FP_JUEVES);
         elem.setType(Dialogs.PropertyType.check);
         elem.setValue(Cairo.Util.boolToInt(m_jueves));
         elem.setName(Cairo.Language.getText(5066, ""));
         elem.setKey(K_JUEVES);
-        elem.setLeftLabel(-800);
 
         var elem = properties.add(null, Cairo.General.Constants.FP_VIERNES);
         elem.setType(Dialogs.PropertyType.check);
         elem.setValue(Cairo.Util.boolToInt(m_viernes));
         elem.setName(Cairo.Language.getText(5067, ""));
         elem.setKey(K_VIERNES);
-        elem.setLeftLabel(-800);
-        elem.setTopFromProperty(Cairo.General.Constants.FP_LUNES);
-        elem.setLeft(5000);
 
         var elem = properties.add(null, Cairo.General.Constants.FP_SABADO);
         elem.setType(Dialogs.PropertyType.check);
         elem.setValue(Cairo.Util.boolToInt(m_sabado));
         elem.setName(Cairo.Language.getText(5068, ""));
         elem.setKey(K_SABADO);
-        elem.setLeftLabel(-800);
 
         var elem = properties.add(null, Cairo.General.Constants.FP_DOMINGO);
         elem.setType(Dialogs.PropertyType.check);
         elem.setValue(Cairo.Util.boolToInt(m_domingo));
         elem.setName(Cairo.Language.getText(5069, ""));
         elem.setKey(K_DOMINGO);
-        elem.setLeftLabel(-800);
-        elem.setTopFromProperty(Cairo.General.Constants.FP_LUNES);
-        elem.setLeft(6700);
 
         var elem = properties.add(null, Cairo.General.Constants.FP_DESCRIP);
         elem.setType(Dialogs.PropertyType.text);
         elem.setSubType(Dialogs.PropertySubType.memo);
-        elem.setHeight(780);
-        elem.setWidth(6000);
         elem.setName(Cairo.Constants.DESCRIPTION_LABEL);
         elem.setSize(255);
         elem.setKey(K_DESCRIP);
         elem.setValue(m_descrip);
-        elem.setLeftFromProperty(Cairo.General.Constants.FP_NAME);
-        elem.setTopToPrevious(880);
 
         if(!m_dialog.show(self)) { return false; }
 

@@ -414,7 +414,6 @@
         elem.setType(Dialogs.PropertyType.text);
         elem.setName(Cairo.Constants.NAME_LABEL);
         elem.setSize(100);
-        elem.setWidth(4500);
         elem.setKey(K_NAME);
         elem.setValue(m_name);
 
@@ -428,11 +427,6 @@
         var elem = properties.add(null, Cairo.Constants.ACTIVE);
         elem.setType(Dialogs.PropertyType.check);
         elem.setName(Cairo.Constants.ACTIVE_LABEL);
-        elem.setTopFromProperty(Cairo.General.Constants.TI_CODE);
-        elem.setTopNotChange(true);
-        elem.setLeft(5200);
-        elem.setLeftNotChange(true);
-        elem.setLeftLabel(-700);
         elem.setKey(K_ACTIVE);
         elem.setValue(m_active === true ? 1 : 0);
 
@@ -442,7 +436,6 @@
         // Porcentaje
         elem.setName(Cairo.Language.getText(1105, ""));
         elem.setKey(K_PORCENTAJE);
-        elem.setWidth(1000);
         elem.setValue(m_porcentaje);
 
         var elem = properties.add(null, Cairo.General.Constants.CUEC_ID);
@@ -459,7 +452,6 @@
         // Código DGI 1
         elem.setName(Cairo.Language.getText(1486, ""));
         elem.setSize(5);
-        elem.setWidth(1500);
         elem.setKey(K_CODIGODGI1);
         elem.setValue(m_codigoDGI1);
 
@@ -467,12 +459,7 @@
         elem.setType(Dialogs.PropertyType.text);
         // Código DGI 2
         elem.setName(Cairo.Language.getText(1487, ""));
-        elem.setTopFromProperty(Cairo.General.Constants.TI_CODIGO_DGI1);
-        elem.setTopNotChange(true);
-        elem.setLeft(4500);
-        elem.setLeftNotChange(true);
         elem.setSize(5);
-        elem.setWidth(1500);
         elem.setKey(K_CODIGODGI2);
         elem.setValue(m_codigoDGI2);
 

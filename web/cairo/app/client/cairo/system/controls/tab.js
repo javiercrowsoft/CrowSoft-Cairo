@@ -200,7 +200,6 @@
         var getFatherTab = function() { /* TODO: implement this. */ };
         var setTabStop = function(stop) { /* TODO: implement this. */ };
         var setBackColorPressed = function(color) { /* TODO: implement this. */ };
-        var getWidth = function() { /* TODO: implement this. */ };
 
         // we return a tab manager which can be use to create and show a tab
         //
@@ -215,8 +214,7 @@
           setTabSelected: setTabSelected,
           getFatherTab: getFatherTab,
           setTabStop: setTabStop,
-          setBackColorPressed: setBackColorPressed,
-          getWidth: getWidth
+          setBackColorPressed: setBackColorPressed
         };
       }
     };
@@ -237,7 +235,6 @@
         group: 0,
         tabStop: false,
         backColorPressed: 0,
-        width: 0,
         controlIndex: 0,
         columns: 1
       };
@@ -303,10 +300,6 @@
 
       that.setBackColorPressed = function(color) {
         self.color = color;
-      };
-
-      that.getWidth = function() {
-        return self.width;
       };
 
       that.getColumns = function() {

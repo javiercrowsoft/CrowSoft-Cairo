@@ -378,7 +378,6 @@
         elem.setType(Dialogs.PropertyType.text);
         elem.setName(Cairo.Constants.NAME_LABEL);
         elem.setSize(100);
-        elem.setWidth(4500);
         elem.setKey(K_NAME);
         elem.setValue(m_name);
 
@@ -391,12 +390,6 @@
 
         var elem = properties.add(null, Cairo.Constants.ACTIVE);
         elem.setType(Dialogs.PropertyType.check);
-        elem.setLeftNotChange(true);
-        elem.setLeft(7100);
-        elem.setWidth(500);
-        elem.setLeftLabel(-800);
-        elem.setTopFromProperty(Cairo.General.Constants.BCO_NAME);
-        elem.setTopNotChange(true);
         elem.setName(Cairo.Constants.ACTIVE_LABEL);
         elem.setKey(K_ACTIVE);
         elem.setValue(m_active === true ? 1 : 0);
@@ -408,19 +401,11 @@
         elem.setSize(255);
         elem.setKey(K_MAIL);
         elem.setValue(m_mail);
-        elem.setTopFromProperty(Cairo.General.Constants.BCO_CODE);
-        elem.setLeftNotChange(true);
-        elem.setTopNotChange(true);
-        elem.setLeftLabel(-500);
-        elem.setLeft(4500);
-        elem.setWidth(3550);
 
         var elem = properties.add(null, Cairo.General.Constants.BCO_CONTACTO);
         elem.setType(Dialogs.PropertyType.text);
         // contacto
         elem.setName(Cairo.Language.getText(1035, ""));
-        elem.setHeight(660);
-        elem.setWidth(6500);
         elem.setSubType(Dialogs.PropertySubType.memo);
         elem.setSize(500);
         elem.setKey(K_CONTACTO);
@@ -432,7 +417,6 @@
         elem.setName(Cairo.Language.getText(1036, ""));
         elem.setSize(255);
         elem.setKey(K_TELEFONO);
-        elem.setWidth(6500);
         elem.setValue(m_telefono);
 
         var elem = properties.add(null, Cairo.General.Constants.BCO_DIRECCION);
@@ -441,7 +425,6 @@
         elem.setName(Cairo.Language.getText(1037, ""));
         elem.setSize(255);
         elem.setKey(K_DIRECCION);
-        elem.setWidth(6500);
         elem.setValue(m_direccion);
 
         var elem = properties.add(null, Cairo.General.Constants.BCO_WEB);
@@ -450,7 +433,6 @@
         elem.setName(Cairo.Language.getText(1038, ""));
         elem.setSize(255);
         elem.setKey(K_WEB);
-        elem.setWidth(6500);
         elem.setValue(m_web);
 
         if(!m_dialog.show(self)) { return false; }

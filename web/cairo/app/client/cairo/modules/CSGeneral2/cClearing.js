@@ -360,7 +360,6 @@
         elem.setType(Dialogs.PropertyType.text);
         elem.setName(Cairo.Constants.NAME_LABEL);
         elem.setSize(100);
-        elem.setWidth(6500);
         elem.setKey(K_NAME);
         elem.setValue(m_name);
 
@@ -384,7 +383,6 @@
         elem.setName(Cairo.Language.getText(1085, ""));
         elem.setKey(K_DIAS);
         elem.setValue(m_dias);
-        elem.setWidth(800);
 
         var elem = properties.add(null, Cairo.General.Constants.CLE_DESCRIP);
         elem.setType(Dialogs.PropertyType.text);
@@ -392,8 +390,6 @@
         elem.setKey(K_DESCRIPCION);
         elem.setValue(m_descripcion);
         elem.setSubType(Dialogs.PropertySubType.memo);
-        elem.setWidth(6500);
-        elem.setHeight(780);
 
         if(!m_dialog.show(self)) { return false; }
 

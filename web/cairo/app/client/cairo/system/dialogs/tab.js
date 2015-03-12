@@ -18,9 +18,7 @@
         name: '',
         index: 0,
         ctrlIndex: 0,
-        fatherTab: "",
-        left: 0,
-        top: 0
+        fatherTab: ""
       };
 
       var that = {};
@@ -54,22 +52,6 @@
       };
       that.setFatherTab = function(father) {
         self.fatherTab = father;
-        return that;
-      };
-
-      that.setLeft = function(left) {
-        self.left = left;
-      };
-      that.getLeft = function() {
-        return self.left;
-        return that;
-      };
-
-      that.getTop = function() {
-        return self.top;
-      };
-      that.setTop = function(top) {
-        self.top = top;
         return that;
       };
 

@@ -233,10 +233,6 @@
 
         var m_gridManager = Cairo.Dialogs.Grids.Manager;
 
-        // text input box's width
-        //
-        var m_textOrigWidth = 0;
-
         // flag: avoid recursive refresh
         //
         var m_showingForm = false;
@@ -576,8 +572,6 @@
 
             popItemClick:              masterHandlerPopItemClick,
 
-            setResizeGrid:             masterHandlerSetResizeGrid,
-
             tabGetFirstCtrl:           masterHandlerTabGetFirstCtrl,
             tabClick:                  masterHandlerTabClick,
 
@@ -674,10 +668,7 @@
 
                 m_masterView.getCancelButton().setText("Cancel");
                 m_masterView.getCancelButton().setIsCancel(true);
-
                 m_masterView.getSaveButton().setText("Ok");
-                m_masterView.getCancelButton().setWidth(m_masterView.getSaveButton().getWidth());
-
                 m_masterView.getCloseButton().setVisible(false);
               }
 
@@ -861,17 +852,6 @@
           printManager.showPrint(id, tblId, Cairo.Constants.NO_ID);
         };
 
-        self.autoWidthColumn = function(property, keyCol) {
-          // if kyeCol was given we only apply to that column
-          //
-          if(keyCol) {
-            property.getControl().autoWidthColumn(property.getGrid().getColumns().get(keyCol).getIndex());
-          }
-          else {
-            property.getControl().autoWidthColumns();
-          }
-        };
-
         // allows to group the grid in edition
         //
         // IMPORTANT: this is a work in progress
@@ -976,7 +956,6 @@
               //
               grid.refreshGroupsAndFormulasEx(true);
               grid.expandAllGroups();
-              grid.autoWidthColumns();
               grid.setGridLines(true);
 
               // remove auxiliary rows added to property.getGrid().rows
@@ -1058,9 +1037,6 @@
                 grid.setSelectedRow(2);
                 grid.setSelectedCol(5);
               }
-
-              grid.setColumnWidth(1, 10);
-              grid.setColumnWidth(2, 10);
 
               grid.setRowMode(false);
 
@@ -1186,12 +1162,7 @@
         self.refreshColumnProperties = function(property, keyCol) {
           var column = property.getGrid().getColumns().get(keyCol);
           var grid = getView().getGrids().get(property.getIndex());
-
-          // this is to avoid losing the column's width when refreshing
-          //
           var colGrid = grid.getColumns().get(column.getIndex());
-          column.setWidth(colGrid.Width);
-
           m_gridManager.setColumnProperties(grid, column, colGrid);
         };
 
@@ -2294,8 +2265,6 @@
                     m_viewShowed = true;
                     if(viewIsMaster(view) || viewIsWizard(view)) {
                       view.showView();
-                      setNoResize();
-                      view.firstResize();
 
                       if(viewIsWizard(view)) {
                         loadViewConfiguration(getView(), "master_" + Cairo.Company.getName() + " - "+ m_client.getTitle());
@@ -2315,8 +2284,6 @@
                 else {
                   if(viewIsMaster(view) || viewIsWizard(view)) {
                     view.showView();
-                    setNoResize();
-                    view.firstResize();
 
                     if(viewIsWizard(view)) {
                       loadViewConfiguration(getView(), "master_" + Cairo.Company.getName() + " - "+ m_client.getTitle());
@@ -2453,10 +2420,6 @@
           return Cairo.safeExecute(function() {
             m_client.messageEx(Dialogs.Message.MSG_POP_MENU_ITEM, index);
           });
-        };
-
-        var masterHandlerSetResizeGrid = function() {
-          setNoResize();
         };
 
         var masterHandlerTabGetFirstCtrl = function(index) {
@@ -3319,10 +3282,7 @@
           doNew(m_documentView).then(hideMsg);
         };
 
-        // TODO: remove changeTop from all places which call this function
-        //       then remove this param :D
-        //
-        var showMsg = function(msg, changeTop) {
+        var showMsg = function(msg) {
           Cairo.LoadingMessage.show("Documents", msg);
         };
 
@@ -4705,12 +4665,6 @@
 
               c.setType(getInputType(subType));
 
-              if(m_isFooter) {
-                c.setWidth(1100);
-                // TODO: fix me
-                //c.setBackColor(view.getFooterBackground().getBackColor());
-                c.setEnabledNoChangeBkColor(true);
-              }
               setFont(c, property);
               c.setFormatNumber(property.getFormat());
               break;
@@ -4802,11 +4756,6 @@
               setFont(c, property);
               break;
 
-            case Dialogs.PropertyType.check:
-
-              c.setWidth(400);
-              break;
-
             case Dialogs.PropertyType.grid:
 
               c.setEnabled(property.getGridEditEnabled());
@@ -4831,16 +4780,6 @@
           m_tabIndex += 1;
 
           property.setControl(c);
-
-          // apply custom setings
-          //
-          if(property.getHeight() > 0) {
-            c.setHeight(property.getHeight());
-          }
-
-          if(property.getWidth() > 0) {
-            c.setWidth(property.getWidth());
-          }
 
           if(m_isDocument) {
             if(c.getTag() !== 'document_header') {
@@ -4883,7 +4822,6 @@
 
               c.setFontSize(11);
               c.setFontBold(true);
-              c.setEnabledNoChangeBkColor(true);
               c.setForeColor(Dialogs.Colors.white);
               c.setBackColor(Dialogs.Colors.buttonShadow);
               c.setBorderColor(Dialogs.Colors.buttonFace);
@@ -4918,7 +4856,7 @@
 
             // hide labels for grids, buttons and images
             //
-            if(property.getLeftLabel() === -1) {
+            if(property.labelIsHided()) {
               label.setVisible(false);
               // labels with tag == -1 aren't modified by showValue
               label.setTag("-1");
@@ -5681,7 +5619,6 @@
           for(var i = 0; i < count; i++) {
             var property = getProperty(Dialogs.PropertyType.grid, i, 0);
             if(property !== null) {
-              m_gridManager.saveColumnWidth(view.getGrids().get(i), getGridName(property));
               m_gridManager.saveColumnOrder(view.getGrids().get(i), getGridName(property));
             }
           }
@@ -5910,7 +5847,7 @@
               }
             }
             else {
-              tabCtrl.setColumns(3);
+              tabCtrl.setColumns(4);
             }
 
             var tab = m_tabs.get(k);
@@ -6375,52 +6312,6 @@
           }
         };
 
-        var setNoResize = function() {
-          var indexGrid = 0;
-          var i = 0;
-
-          var propertyCount = m_properties.count();
-          for(var _i = 0; _i < propertyCount; _i++) {
-
-            var property = m_properties.get(_i);
-            var view = getView();
-
-            if(property.getType() === Dialogs.PropertyType.grid) {
-
-              i += 1;
-              var grid = property.getGrid();
-
-              if(!property.getControl() === null && viewIsMaster(view)) {
-                indexGrid = getView().getIndexGrid(property.getControl());
-                if(indexGrid === 0) {
-                  indexGrid = i;
-                }
-              }
-              else {
-                indexGrid = i;
-              }
-
-              getView().setNoResize(indexGrid, grid.getNoResize());
-
-              if(grid.setNoResizeHeight()) {
-                getView().setNoResizeHeight(indexGrid, true);
-
-                if(!property.getControl() === null) {
-                  setGridHeight(property.getControl(), property.getHeight());
-                }
-              }
-            }
-          }
-        };
-
-        var setGridHeight = function(ctl, height) {
-          Cairo.safeExecute(function() {
-            if(height > 0) {
-               ctl.setHeight(height);
-            }
-          });
-        };
-
         var setEnabled = function(bEnabled) {
           var view = getView();
           var controlCount = view.getControls().count();
@@ -6456,7 +6347,6 @@
           var view = getView();
           if(m_title !== "") {
             var subTitle = view.getSubTitle();
-            var viewTitle = view.getTitle();
             subTitle.setText(m_client.getTitle() + " - "+ m_title);
             subTitle.flash();
           }
@@ -6472,7 +6362,9 @@
         };
 
         var getViewTitle = function() {
-          return m_viewText + Cairo.Company.getName() + " - " + m_client.getTitle() + " || Press F12 to see the a shortcut key list";
+          return m_viewText + Cairo.Company.getName()
+            + " - " + m_client.getTitle()
+            + " || Press F12 to see the a shortcut key list";
         };
 
         // TODO: implement or remove
@@ -6489,8 +6381,6 @@
           }
           else if(m_documentView !== null) {
             m_documentView.getBackground().setBackColor(color);
-            // TODO: fix me
-            //m_documentView.getFooterBackground().setBackColor(color);
             m_documentView.getTabItems().setBackColor(color);
           }
           else if(m_wizardView !== null) {

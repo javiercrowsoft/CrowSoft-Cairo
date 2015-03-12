@@ -450,8 +450,6 @@
         elem.setName(Cairo.Language.getText(1227, ""));
         elem.setKey(K_MINIMO);
         elem.setValue(m_minimo);
-        elem.setTopFromProperty(Cairo.General.Constants.GTO_NAME);
-        elem.setLeft(5800);
 
         var elem = properties.add(null, Cairo.General.Constants.GTO_PORCENTAJE);
         elem.setType(Dialogs.PropertyType.numeric);
@@ -490,11 +488,6 @@
         var elem = properties.add(null, Cairo.General.Constants.GTO_DESCRIP);
         elem.setType(Dialogs.PropertyType.text);
         elem.setName(Cairo.Constants.DESCRIPTION_LABEL);
-        elem.setLeftFromProperty(Cairo.General.Constants.GTO_NAME);
-        elem.setTopFromProperty(Cairo.General.Constants.GTO_FIJO);
-        elem.setTopToPrevious(440);
-        elem.setHeight(660);
-        elem.setWidth(6500);
         elem.setSize(255);
         elem.setSubType(Dialogs.PropertySubType.memo);
         elem.setKey(K_DESCRIP);

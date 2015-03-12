@@ -356,7 +356,6 @@
         elem.setSize(50);
         elem.setKey(K_NAME);
         elem.setValue(m_name);
-        elem.setWidth(6000);
 
         var elem = properties.add(null, Cairo.General.Constants.CLICT_CODE);
         elem.setType(Dialogs.PropertyType.text);
@@ -374,8 +373,6 @@
         var elem = properties.add(null, Cairo.General.Constants.CLICT_DESCRIP);
         elem.setType(Dialogs.PropertyType.text);
         elem.setSubType(Dialogs.PropertySubType.memo);
-        elem.setHeight(780);
-        elem.setWidth(6000);
         elem.setName(Cairo.Constants.DESCRIPTION_LABEL);
         elem.setSize(255);
         elem.setKey(K_DESCRIP);
