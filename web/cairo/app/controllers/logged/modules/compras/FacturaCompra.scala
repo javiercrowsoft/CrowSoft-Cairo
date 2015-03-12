@@ -236,6 +236,11 @@ object FacturaCompras extends Controller with ProvidesUser {
       C.FC_TIPO_COMPROBANTE -> Json.toJson(facturaCompra.base.tipoComprobante),
       C.FC_GRABAR_ASIENTO -> Json.toJson(facturaCompra.base.grabarAsiento),
 
+      GC.DOCT_ID -> Json.toJson(facturaCompra.references.doctId),
+      GC.DOCT_NAME -> Json.toJson(facturaCompra.references.doctName),
+      GC.MON_ID -> Json.toJson(facturaCompra.references.monId),
+      GC.MON_NAME -> Json.toJson(facturaCompra.references.monName),
+
       C.FC_COTIZACION -> Json.toJson(facturaCompra.cotizacion.cotizacion),
       C.FC_COTIZACION_PROV -> Json.toJson(facturaCompra.cotizacion.cotizacionProveedor),
 
@@ -387,6 +392,7 @@ object FacturaCompras extends Controller with ProvidesUser {
                     facturaCompra.base.tipoComprobante,
                     facturaCompra.base.descrip,
                     facturaCompra.base.grabarAsiento),
+                  FacturaCompra.emptyFacturaCompraReferences,
                   FacturaCompraDates(
                     facturaCompra.dates.fecha,
                     facturaCompra.dates.fechaEntrega,
@@ -454,6 +460,7 @@ object FacturaCompras extends Controller with ProvidesUser {
                     facturaCompra.base.tipoComprobante,
                     facturaCompra.base.descrip,
                     facturaCompra.base.grabarAsiento),
+                  FacturaCompra.emptyFacturaCompraReferences,
                   FacturaCompraDates(
                     facturaCompra.dates.fecha,
                     facturaCompra.dates.fechaEntrega,

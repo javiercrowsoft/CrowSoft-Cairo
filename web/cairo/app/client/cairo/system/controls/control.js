@@ -35,9 +35,17 @@
         height: 0,
 
         tabIndex: 0, // this for tab key navigation
-        tabGroup: 0, // this is the index of this control in the dialog's tab collection
+
+        // a dialog can contain many tab groups
+        // a tab group contains one or more tabs
+        // controls are always contained in a tab
+        // the tabGroupIndex starts in zero in every tab-group
+        //
+        tabGroup: 0, // this is the tab group (a number) which contains this control
+        tabGroupIndex: 0, // this is the index of this control in the dialog's tab collection
 
         visible: true,
+        enabled: true,
   
         element: null,
         selectOnFocus: false
@@ -51,15 +59,7 @@
           else {
             self.element.hide();
           }
-          // TODO: remove after testing
-          // try {console.log(that.getName() + " " + that.getObjectType() + ' visible:' + self.visible.toString());} catch(ignore) {}
         }
-        // TODO: remove after testing
-        /*
-        else {
-          console.log('element is not present');
-        }
-        */
       };
 
       var that = {};
@@ -83,6 +83,7 @@
         }
         $(self.element).keyup(that.onKeyUp);
         applyVisible();
+        that.setEnabled(self.enabled);
       };
       that.getElement = function() {
         return self.element;
@@ -189,13 +190,27 @@
         return self.tabGroup;
       };
 
+      that.setTabGroupIndex = function(index) {
+        self.tabGroupIndex = index;
+      };
+      that.getTabGroupIndex = function() {
+        return self.tabGroupIndex;
+      };
+
       that.setBackStyle = function(style) { /* TODO = implement this. */ };
 
       that.getTextAlign = function() { /* TODO = implement this. */ };
       that.setTextAlign = function(align) { /* TODO = implement this. */ };
 
-      that.getEnabled = function() { /* TODO = implement this. */ };
-      that.setEnabled = function() { /* TODO = implement this. */ };
+      that.getEnabled = function() {
+        return self.enabled;
+      };
+      that.setEnabled = function(enabled) {
+        self.enabled = enabled;
+        if(self.element) {
+          self.element.attr('disabled', !enabled);
+        }
+      };
       that.getEditEnabled = function() { /* TODO = implement this. */ };
       that.setEditEnabled = function(enabled) { /* TODO = implement this. */ };
 
@@ -242,6 +257,10 @@
         if(self.element) {
           self.element.delay(100).fadeOut().fadeIn('slow');
         }
+      };
+
+      that.toString = function() {
+        return that.getObjectType() + " - " + that.getName() + " - " + that.htmlTag;
       };
 
       return that;

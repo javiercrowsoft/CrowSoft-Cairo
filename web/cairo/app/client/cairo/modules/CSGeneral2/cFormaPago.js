@@ -391,8 +391,6 @@
         var abmGen = null;
         abmGen = m_dialog;
 
-        abmGen.setMinHeight(6000);
-
         m_dialog.setTitle(m_name);
 
         var properties = m_dialog.getProperties();

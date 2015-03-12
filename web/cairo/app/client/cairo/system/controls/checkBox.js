@@ -19,6 +19,7 @@
         superSetElement(element);
         element.attr('type', 'checkbox');
         element.prop('checked', self.value);
+        element.addClass('dialog-checkbox');
       };
 
       that.setText = function(text) {

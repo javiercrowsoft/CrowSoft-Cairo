@@ -2005,7 +2005,6 @@
         var validateDocDefault = false;
         var elem, list;
 
-        m_dialog.resetLayoutMembers();
         m_properties.clear();
 
         var tabs = m_dialog.getTabs();
@@ -2013,6 +2012,8 @@
 
         tabs.add(null).setName(Cairo.Constants.TAB_GENERAL);
         tabs.add(null).setIndex(1).setName(getText(1566, "")); // Adicionales
+        tabs.add(null).setIndex(2).setName(getText(4909, "")); // Descuentos
+        tabs.add(null).setIndex(3).setName(getText(1861, "")); // Observaciones
 
         var properties = m_properties;
 
@@ -2037,7 +2038,7 @@
 
         elem.setSelectFilter(D.FACTURA_COMPRAS_DOC_FILTER);
 
-        elem = properties.add(null, D.DialogKeys.number);
+        elem = properties.add(null, Cairo.Constants.NUMBER_ID);
         elem.setType(T.numeric);
         elem.setSubType(Dialogs.PropertySubType.integer);
         elem.setName(getText(1065, "")); // Número
@@ -2045,7 +2046,7 @@
         elem.setValue(m_numero);
         elem.setEnabled(false);
 
-        elem = properties.add(null, D.DialogKeys.status);
+        elem = properties.add(null, Cairo.Constants.STATUS_ID);
         elem.setType(T.text);
         elem.setName(getText(1568, "")); // Estado
         elem.setKey(K_EST_ID);
@@ -2198,13 +2199,72 @@
         elem = properties.add(null, CC.FC_COTIZACION_PROV);
         elem.setType(T.numeric);
         elem.setSubType(Dialogs.PropertySubType.double);
-
         elem.setName(getText(4653, "")); // Cotizacion Proveedor
         elem.setKey(K_COTIZACION_PROV);
         elem.setValue(m_cotizacionProv);
         elem.setTabIndex(1);
         elem.setLeftLabel(-1100);
         elem.setWidth(1000);
+
+        elem = properties.add(null, CC.FC_DESCUENTO1);
+        elem.setType(T.numeric);
+        elem.setSubType(Dialogs.PropertySubType.percentage);
+        elem.setLeftLabel(-600);
+        elem.setName(getText(1573, "")); // Desc. 1
+        elem.setKey(K_DESCUENTO1);
+        elem.setValue(m_descuento1);
+        elem.setWidth(1000);
+        elem.setTabIndex(2);
+
+        elem = properties.add(null, CC.FC_DESCUENTO2);
+        elem.setType(T.numeric);
+        elem.setSubType(Dialogs.PropertySubType.percentage);
+        elem.setTopFromProperty(CC.FC_DESCUENTO1);
+        elem.setLeft(7150);
+        elem.setLeftLabel(-150);
+        elem.setName("2");
+        elem.setKey(K_DESCUENTO2);
+        elem.setValue(m_descuento2);
+        elem.setWidth(1000);
+        elem.setTabIndex(2);
+
+        elem = properties.add(null, C.LP_ID);
+        elem.setType(T.select);
+        elem.setSelectTable(Cairo.Tables.LISTAPRECIO);
+        elem.setName(getText(1397, "")); // Lista de Precios
+        elem.setSelectFilter(D.getListaPrecioForProveedor(m_doc_id, m_prov_id));
+        elem.setTopFromProperty(CC.FC_FECHA);
+        elem.setLeft(9400);
+        elem.setKey(K_LP_ID);
+        elem.setSelectId(m_lp_id);
+        elem.setValue(m_listaPrecio);
+        elem.setTabIndex(2);
+
+        elem = properties.add(null, C.LD_ID);
+        elem.setType(T.select);
+        elem.setSelectTable(Cairo.Tables.LISTADESCUENTO);
+        elem.setName(getText(1398, "")); // Lista de Descuentos
+        elem.setSelectFilter(D.getListaDescuentoForProveedor(m_doc_id, m_prov_id));
+        elem.setKey(K_LD_ID);
+        elem.setSelectId(m_ld_id);
+        elem.setValue(m_listaDescuento);
+        elem.setTabIndex(2);
+
+        elem = properties.add(null, C.CCOS_ID);
+        elem.setType(T.select);
+        elem.setSelectTable(Cairo.Tables.CENTROS_DE_COSTO);
+        elem.setName(getText(1057, "")); // Centro de Costo
+        elem.setKey(K_CCOS_ID);
+        elem.setSelectId(m_ccos_id);
+        elem.setValue(m_centroCosto);
+
+        elem = properties.add(null, C.SUC_ID);
+        elem.setType(T.select);
+        elem.setSelectTable(Cairo.Tables.SUCURSAL);
+        elem.setName(getText(1281, "")); // Sucursal
+        elem.setKey(K_SUC_ID);
+        elem.setSelectId(m_suc_id);
+        elem.setValue(m_sucursal);
 
         elem = properties.add(null, CC.FC_COTIZACION);
         elem.setType(T.numeric);
@@ -2223,62 +2283,6 @@
           cotizacion = 1;
         }
 
-        elem = properties.add(null, CC.FC_DESCUENTO1);
-        elem.setType(T.numeric);
-        elem.setSubType(Dialogs.PropertySubType.percentage);
-        elem.setLeftLabel(-600);
-        elem.setName(getText(1573, "")); // Desc. 1
-        elem.setKey(K_DESCUENTO1);
-        elem.setValue(m_descuento1);
-        elem.setWidth(1000);
-
-        elem = properties.add(null, CC.FC_DESCUENTO2);
-        elem.setType(T.numeric);
-        elem.setSubType(Dialogs.PropertySubType.percentage);
-        elem.setTopFromProperty(CC.FC_DESCUENTO1);
-        elem.setLeft(7150);
-        elem.setLeftLabel(-150);
-        elem.setName("2");
-        elem.setKey(K_DESCUENTO2);
-        elem.setValue(m_descuento2);
-        elem.setWidth(1000);
-
-        elem = properties.add(null, C.LP_ID);
-        elem.setType(T.select);
-        elem.setSelectTable(Cairo.Tables.LISTAPRECIO);
-        elem.setName(getText(1397, "")); // Lista de Precios
-        elem.setSelectFilter(D.getListaPrecioForProveedor(m_doc_id, m_prov_id));
-        elem.setTopFromProperty(CC.FC_FECHA);
-        elem.setLeft(9400);
-        elem.setKey(K_LP_ID);
-        elem.setSelectId(m_lp_id);
-        elem.setValue(m_listaPrecio);
-
-        elem = properties.add(null, C.LD_ID);
-        elem.setType(T.select);
-        elem.setSelectTable(Cairo.Tables.LISTADESCUENTO);
-        elem.setName(getText(1398, "")); // Lista de Descuentos
-        elem.setSelectFilter(D.getListaDescuentoForProveedor(m_doc_id, m_prov_id));
-        elem.setKey(K_LD_ID);
-        elem.setSelectId(m_ld_id);
-        elem.setValue(m_listaDescuento);
-
-        elem = properties.add(null, C.CCOS_ID);
-        elem.setType(T.select);
-        elem.setSelectTable(Cairo.Tables.CENTROS_DE_COSTO);
-        elem.setName(getText(1057, "")); // Centro de Costo
-        elem.setKey(K_CCOS_ID);
-        elem.setSelectId(m_ccos_id);
-        elem.setValue(m_centroCosto);
-
-        elem = properties.add(null, C.SUC_ID);
-        elem.setType(T.select);
-        elem.setSelectTable(Cairo.Tables.SUCURSAL);
-        elem.setName(getText(1281, "")); // Sucursal
-        elem.setKey(K_SUC_ID);
-        elem.setSelectId(m_suc_id);
-        elem.setValue(m_sucursal);
-
         elem = properties.add(null, CC.FC_DESCRIP);
         elem.setType(T.text);
         elem.setSubType(Dialogs.PropertySubType.memo);
@@ -2292,6 +2296,7 @@
         elem.setWidth(4480);
         elem.setHeight(800);
         elem.setTopToPrevious(440);
+        elem.setTabIndex(3);
 
         if(Cairo.UserConfig.getShowDataAddInCompras()) {
 
@@ -2380,8 +2385,6 @@
         tab.setIndex(3);
         tab.setName(getText(1575, "")); // Legajos
 
-        m_items.resetLayoutMembers();
-
         var properties = m_itemsProps;
 
         properties.clear();
@@ -2443,8 +2446,6 @@
         m_legajosDeleted = "";
 
         if(!m_items.show(self)) { return false; }
-
-        m_footer.resetLayoutMembers();
 
         var properties = m_footerProps;
 
@@ -2636,7 +2637,7 @@
       var setGridItems = function(property) {
 
         var elem;
-        var hideColumns = m_properties.item(Cairo.General.Constants.HIDE_COLUMNS).getValue();
+        var hideColumns = m_properties.item(Cairo.Constants.HIDE_COLUMNS).getValue();
         var bColVisible = val(hideColumns) === 0;
 
         var grid = property.getGrid();
@@ -2687,7 +2688,7 @@
         elem.setWidth(1000);
         elem.setKey(KI_CANTIDAD);
 
-        elem.setDefaultValue(D.Grids.createCell());
+        elem.setDefaultValue(Dialogs.Grids.createCell());
         elem.getDefaultValue().setValue(1);
 
         elem = columns.add(null);
@@ -2854,22 +2855,22 @@
 
         for(var _i = 0; _i < m_data.items.length; _i += 1) {
 
-          elem = rows.add(null, getValue(m_data.items[_i], CC.FCI_ID));
+          var row = rows.add(null, getValue(m_data.items[_i], CC.FCI_ID));
 
-          elem = elem.add(null);
+          elem = row.add(null);
           elem.setValue(getValue(m_data.items[_i], CC.FCI_ID));
           elem.setKey(KI_FCI_ID);
 
-          elem = elem.add(null);
+          elem = row.add(null);
           elem.setValue(getValue(m_data.items[_i], C.PR_NAME_COMPRA));
           elem.setId(getValue(m_data.items[_i], C.PR_ID));
           elem.setKey(KI_PR_ID);
 
-          elem = elem.add(null);
+          elem = row.add(null);
           elem.setValue(getValue(m_data.items[_i], C.CUE_ID));
           elem.setKey(KI_CUE_ID);
 
-          elem = elem.add(null);
+          elem = row.add(null);
           if(m_bIva) {
             elem.setValue(getValue(m_data.items[_i], C.CUE_ID_IVA_RI));
           }
@@ -2878,7 +2879,7 @@
           }
           elem.setKey(KI_CUE_ID_IVA_RI);
 
-          elem = elem.add(null);
+          elem = row.add(null);
           if(m_bIvaRni) {
             elem.setValue(getValue(m_data.items[_i], C.CUE_ID_IVA_RNI));
           }
@@ -2887,67 +2888,67 @@
           }
           elem.setKey(KI_CUE_ID_IVA_RNI);
 
-          elem = elem.add(null);
+          elem = row.add(null);
           elem.setValue(getValue(m_data.items[_i], CC.FCI_DESCRIP));
           elem.setKey(KI_DESCRIP);
 
-          elem = elem.add(null);
+          elem = row.add(null);
           elem.setValue(getValue(m_data.items[_i], CC.FCI_CANTIDAD));
           elem.setKey(KI_CANTIDAD);
 
-          elem = elem.add(null);
+          elem = row.add(null);
           elem.setValue("");
           elem.setKey(KI_NRO_SERIE);
 
-          elem = elem.add(null);
+          elem = row.add(null);
           elem.setValue(getValue(m_data.items[_i], C.STL_CODE));
           elem.setKey(KI_STL_CODIGO);
 
-          elem = elem.add(null);
+          elem = row.add(null);
           elem.setId(getValue(m_data.items[_i], C.STL_ID));
           elem.setKey(KI_STL_ID);
 
-          elem = elem.add(null);
+          elem = row.add(null);
           elem.setValue(getValue(m_data.items[_i], C.UN_NAME));
           elem.setKey(KI_UNIDAD);
 
-          elem = elem.add(null);
+          elem = row.add(null);
           elem.setValue(getValue(m_data.items[_i], CC.FCI_PRECIO_LISTA) / cotizacion);
           elem.setKey(KI_PRECIO_LP);
 
-          elem = elem.add(null);
+          elem = row.add(null);
           elem.setValue(getValue(m_data.items[_i], CC.FCI_PRECIO_USR) / cotizacion);
           elem.setKey(KI_PRECIO_USR);
 
-          elem = elem.add(null);
+          elem = row.add(null);
           elem.setValue(getValue(m_data.items[_i], CC.FCI_DESCUENTO));
           elem.setKey(KI_DESCUENTO);
 
-          elem = elem.add(null);
+          elem = row.add(null);
           elem.setValue(getValue(m_data.items[_i], CC.FCI_PRECIO) / cotizacion);
           elem.setKey(KI_PRECIO);
 
-          elem = elem.add(null);
+          elem = row.add(null);
           elem.setValue(getValue(m_data.items[_i], CC.FCI_NETO) / cotizacion);
           elem.setKey(KI_NETO);
 
-          elem = elem.add(null);
+          elem = row.add(null);
           elem.setValue(getValue(m_data.items[_i], CC.FCI_IVA_RI) / cotizacion);
           elem.setKey(KI_IVA_RI);
 
-          elem = elem.add(null);
+          elem = row.add(null);
           elem.setValue(getValue(m_data.items[_i], CC.FCI_IVA_RNI) / cotizacion);
           elem.setKey(KI_IVA_RNI);
 
-          elem = elem.add(null);
+          elem = row.add(null);
           elem.setValue(getValue(m_data.items[_i], CC.FCI_INTERNOS) / cotizacion);
           elem.setKey(KI_INTERNOS);
 
-          elem = elem.add(null);
+          elem = row.add(null);
           elem.setValue(getValue(m_data.items[_i], CC.FCI_IMPORTE) / cotizacion);
           elem.setKey(KI_IMPORTE);
 
-          elem = elem.add(null);
+          elem = row.add(null);
           if(m_bIva) {
             elem.setValue(getValue(m_data.items[_i], "iva_ri_porcentaje"));
           }
@@ -2956,7 +2957,7 @@
           }
           elem.setKey(KI_IVA_RI_PERCENT);
 
-          elem = elem.add(null);
+          elem = row.add(null);
           if(m_bIvaRni) {
             elem.setValue(getValue(m_data.items[_i], "iva_rni_porcentaje"));
           }
@@ -2965,29 +2966,29 @@
           }
           elem.setKey(KI_IVA_RNI_PERCENT);
 
-          elem = elem.add(null);
+          elem = row.add(null);
           elem.setValue(getValue(m_data.items[_i], "internos_porcentaje"));
           elem.setKey(KI_INTERNOS_PERCENT);
 
-          elem = elem.add(null);
+          elem = row.add(null);
           elem.setValue(getValue(m_data.items[_i], C.PR_PORC_INTERNO_C));
           elem.setKey(KI_INTERNOS_PORC);
 
-          elem = elem.add(null);
+          elem = row.add(null);
           elem.setValue(getValue(m_data.items[_i], C.CCOS_NAME));
           elem.setId(getValue(m_data.items[_i], C.CCOS_ID));
           elem.setKey(Percepciones.KI_CCOS_ID);
 
-          elem = elem.add(null);
+          elem = row.add(null);
           elem.setId(getValue(m_data.items[_i], C.PR_LLEVA_NRO_LOTE));
           elem.setKey(KI_PR_LLEVALOTE);
 
-          elem = elem.add(null);
+          elem = row.add(null);
           elem.setValue(getValue(m_data.items[_i], C.TO_NAME));
           elem.setId(getValue(m_data.items[_i], C.TO_ID));
           elem.setKey(KI_TO_ID);
 
-          elem = elem.add(null);
+          elem = row.add(null);
           if(m_showStockData) {
             elem.setId(getValue(m_data.items[_i], C.PR_LLEVA_NRO_SERIE));
           }
@@ -2996,7 +2997,7 @@
           }
           elem.setKey(KI_PR_LLEVA_NRO_SERIE);
 
-          elem = elem.add(null);
+          elem = row.add(null);
           elem.setId(getValue(m_data.items[_i], CC.FCI_ID));
           elem.setKey(KI_GRUPO);
         }
@@ -3023,10 +3024,10 @@
           }
 
           serialNumber = coll.add(null);
-          serialNumber.setCodigo(getValue(m_data.serialNumbers[_i], C.PRNS_CODE));
-          serialNumber.setDescrip(getValue(m_data.serialNumbers[_i], C.PRNS_DESCRIP));
-          serialNumber.setFechaVto(getValue(m_data.serialNumbers[_i], C.PRNS_FECHA_VTO));
-          serialNumber.setPrnsId(getValue(m_data.serialNumbers[_i], C.PRNS_ID));
+          serialNumber.setCode(getValue(m_data.serialNumbers[_i], CC.PRNS_CODE));
+          serialNumber.setDescrip(getValue(m_data.serialNumbers[_i], CC.PRNS_DESCRIP));
+          serialNumber.setFechaVto(getValue(m_data.serialNumbers[_i], CC.PRNS_FECHA_VTO));
+          serialNumber.setPrnsId(getValue(m_data.serialNumbers[_i], CC.PRNS_ID));
 
           serialNumbers = serialNumbers + serialNumber.getCode() + ",";
 
@@ -3054,34 +3055,34 @@
 
         for(var _i = 0; _i < m_data.percepciones.length; _i += 1) {
 
-          elem = rows.add(null, getValue(m_data.percepciones[_i], CC.FCPERC_ID));
+          var row = rows.add(null, getValue(m_data.percepciones[_i], CC.FCPERC_ID));
 
-          elem = elem.add(null);
+          elem = row.add(null);
           elem.setValue(getValue(m_data.percepciones[_i], CC.FCPERC_ID));
           elem.setKey(Percepciones.KIP_FCPERC_ID);
 
-          elem = elem.add(null);
+          elem = row.add(null);
           elem.setValue(getValue(m_data.percepciones[_i], C.PERC_NAME));
           elem.setId(getValue(m_data.percepciones[_i], C.PERC_ID));
           elem.setKey(Percepciones.KIP_PERC_ID);
 
-          elem = elem.add(null);
+          elem = row.add(null);
           elem.setValue(getValue(m_data.percepciones[_i], CC.FCPERC_BASE) / cotizacion);
           elem.setKey(Percepciones.KIP_BASE);
 
-          elem = elem.add(null);
+          elem = row.add(null);
           elem.setValue(getValue(m_data.percepciones[_i], CC.FCPERC_PORCENTAJE));
           elem.setKey(Percepciones.KIP_PORCENTAJE);
 
-          elem = elem.add(null);
+          elem = row.add(null);
           elem.setValue(getValue(m_data.percepciones[_i], CC.FCPERC_IMPORTE) / cotizacion);
           elem.setKey(Percepciones.KIP_IMPORTE);
 
-          elem = elem.add(null);
+          elem = row.add(null);
           elem.setValue(getValue(m_data.percepciones[_i], CC.FCPERC_DESCRIP));
           elem.setKey(Percepciones.KIP_DESCRIP);
 
-          elem = elem.add(null);
+          elem = row.add(null);
           elem.setValue(getValue(m_data.percepciones[_i], C.CCOS_NAME));
           elem.setId(getValue(m_data.percepciones[_i], C.CCOS_ID));
           elem.setKey(Percepciones.KI_CCOS_ID);
@@ -3133,22 +3134,22 @@
 
         for(var _i = 0; _i < m_data.legajos.length; _i += 1) {
 
-          elem = rows.add(null, getValue(m_data.legajos[_i], CC.FCLGJ_ID));
+          var row = rows.add(null, getValue(m_data.legajos[_i], CC.FCLGJ_ID));
 
-          elem = elem.add(null);
+          elem = row.add(null);
           elem.setValue(getValue(m_data.legajos[_i], CC.FCLGJ_ID));
           elem.setKey(KIL_FCLGJ_ID);
 
-          elem = elem.add(null);
+          elem = row.add(null);
           elem.setValue(getValue(m_data.legajos[_i], C.LGJ_CODE));
           elem.setId(getValue(m_data.legajos[_i], C.LGJ_ID));
           elem.setKey(KIL_LGJ_ID);
 
-          elem = elem.add(null);
+          elem = row.add(null);
           elem.setValue(getValue(m_data.legajos[_i], CC.FCLGJ_IMPORTE) / cotizacion);
           elem.setKey(KIL_IMPORTE);
 
-          elem = elem.add(null);
+          elem = row.add(null);
           elem.setValue(getValue(m_data.legajos[_i], CC.FCLGJ_DESCRIP));
           elem.setKey(KIL_DESCRIP);
         }
@@ -3214,30 +3215,30 @@
 
         for(var _i = 0; _i < m_data.otros.length; _i += 1) {
 
-          elem = rows.add(null, getValue(m_data.otros[_i], C.FCOT_ID));
+          var row = rows.add(null, getValue(m_data.otros[_i], C.FCOT_ID));
 
-          elem = elem.add(null);
+          elem = row.add(null);
           elem.setValue(getValue(m_data.otros[_i], C.FCOT_ID));
           elem.setKey(KI_FCOT_ID);
 
-          elem = elem.add(null);
+          elem = row.add(null);
           elem.setValue(getValue(m_data.otros[_i], C.CUE_NAME));
           elem.setId(getValue(m_data.otros[_i], C.CUE_ID));
           elem.setKey(KI_CUE_ID);
 
-          elem = elem.add(null);
+          elem = row.add(null);
           elem.setValue(getValue(m_data.otros[_i], C.FCOT_DEBE) / cotizacion);
           elem.setKey(KI_DEBE);
 
-          elem = elem.add(null);
+          elem = row.add(null);
           elem.setValue(getValue(m_data.otros[_i], C.FCOT_HABER) / cotizacion);
           elem.setKey(KI_HABER);
 
-          elem = elem.add(null);
+          elem = row.add(null);
           elem.setValue(getValue(m_data.otros[_i], C.FCOT_DESCRIP));
           elem.setKey(KI_DESCRIP);
 
-          elem = elem.add(null);
+          elem = row.add(null);
           elem.setValue(getValue(m_data.otros[_i], C.CCOS_NAME));
           elem.setId(getValue(m_data.otros[_i], C.CCOS_ID));
           elem.setKey(Percepciones.KI_CCOS_ID);
@@ -3471,7 +3472,7 @@
 
       self.setFooter = function(footer) {
         m_footer = footer;
-        m_footerProps = m_footerProps;
+        m_footerProps = footer.getProperties();
 
         if(footer !== null) {
           m_footer.setIsDocument(true);
@@ -3484,7 +3485,7 @@
         m_items = items;
         m_itemsProps = m_items.getProperties();
 
-        if(items === null) {
+        if(items !== null) {
           m_items.setIsDocument(true);
           m_items.setIsItems(true);
           m_items.setView(m_dialog.getView());
@@ -4257,7 +4258,7 @@
           m_estado = response.estado;
           m_firmado = response.firmado;
 
-          var prop = m_properties.item(D.DialogKeys.status);
+          var prop = m_properties.item(Cairo.Constants.STATUS_ID);
 
           prop.setSelectId(m_est_id);
           prop.setValue(m_estado);
@@ -4335,10 +4336,10 @@
         .setSelectId(m_prov_id)
         .setValue(m_proveedor);
 
-        m_properties.item(D.DialogKeys.number)
+        m_properties.item(Cairo.Constants.NUMBER_ID)
         .setValue(m_numero);
 
-        m_properties.item(D.DialogKeys.status)
+        m_properties.item(Cairo.Constants.STATUS_ID)
         .setValue(m_estado);
 
         m_properties.item(CC.FC_NRODOC)
@@ -4554,16 +4555,16 @@
         }
       };
 
-      self.initialize = function() {
+      var initialize = function() {
         try {
 
-          m_serialNumbers = new Collection();
+          m_serialNumbers = Cairo.Collections.createCollection(null);
           m_ocIds = [];
           m_rcIds = [];
 
         }
         catch(ex) {
-          Cairo.manageErrorEx(ex.message, ex, "Class_Initialize", C_MODULE, "");
+          Cairo.manageErrorEx(ex.message, ex, "initialize", C_MODULE, "");
         }
       };
 
@@ -4615,15 +4616,15 @@
               fields.add(C.PR_ID, prId, Types.id);
 
               if(m_copy) {
-                fields.add(C.PRNS_ID, Cairo.Constants.NEW_ID, Types.integer);
+                fields.add(CC.PRNS_ID, Cairo.Constants.NEW_ID, Types.integer);
               }
               else {
-                fields.add(C.PRNS_ID, pt.getPrnsId(), Types.id);
+                fields.add(CC.PRNS_ID, pt.getPrnsId(), Types.id);
               }
 
-              fields.add(C.PRNS_CODE, pt.getCode(), Types.text);
-              fields.add(C.PRNS_DESCRIP, pt.getDescrip(), Types.text);
-              fields.add(C.PRNS_FECHA_VTO, pt.getFechaVto(), Types.date);
+              fields.add(CC.PRNS_CODE, pt.getCode(), Types.text);
+              fields.add(CC.PRNS_DESCRIP, pt.getDescrip(), Types.text);
+              fields.add(CC.PRNS_FECHA_VTO, pt.getFechaVto(), Types.date);
 
               order.n += 1;
               fields.add(C.FCIS_ORDEN, order.n, Types.integer);
@@ -4773,6 +4774,8 @@
         }
 
       };
+
+      initialize();
 
       return self;
     };
@@ -5577,12 +5580,18 @@
               editors.item(key).dialog.showDialog();
             }
             else {
+              Cairo.LoadingMessage.show("FacturaCompras", "Loading Factura de Compras from Crowsoft Cairo server.");
+
               var editor = Cairo.FacturaCompra.Edit.Controller.getEditor();
               var dialog = Cairo.Dialogs.Views.Controller.newDialog();
+              var dialogItems = Cairo.Dialogs.Views.Controller.newDialog();
+              var dialogFooter = Cairo.Dialogs.Views.Controller.newDialog();
 
               editor.setListController(self);
               editor.setDialog(dialog);
-              editor.edit(id);
+              editor.setItems(dialogItems);
+              editor.setFooter(dialogFooter);
+              editor.edit(id).then(Cairo.LoadingMessage.close);
 
               editors.add({editor: editor, dialog: dialog}, key);
             }

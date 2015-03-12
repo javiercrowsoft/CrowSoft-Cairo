@@ -366,6 +366,8 @@
           m_view.setName(m_client.getEditorName());
           m_view.getSubTitle().setText(m_client.getTitle());
 
+          m_view.getTabs().add();
+
           m_view.showDialog();
 
           getView().setFocusFirstControl();
@@ -453,7 +455,7 @@
           c.setVisible(true);
           c.setEnabled(property.getEnabled());
 
-          setButton(c);
+          setButton(c, property);
 
           property.setLabelIndex(label.getIndex());
           label.setText(property.getName());

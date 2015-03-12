@@ -219,12 +219,37 @@
         return null;
       };
 
+      that.select = function(f) {
+        var args = Array.prototype.slice.call(arguments, 1);
+        var selected = Cairo.Collections.createCollection(null);
+        for(var i = 0, count = self.items.length; i < count; i += 1) {
+          var item = self.items[i];
+          if(f.apply(null, [item, i].concat(args))) {
+            selected.add(item);
+          }
+        }
+
+        return selected;
+      };
+
+      that.inspect = function() {
+        var printToLog = function(item, i) {
+          try {
+            Cairo.log("item " + i.toString() + ": " + item.toString());
+          }
+          catch(ignore) {}
+          return true;
+        };
+        that.each(printToLog);
+      };
+
       return that;
     },
 
     getKey: function(text) {
       return "k" + text.toString();
     }
+
   };
 
 }());

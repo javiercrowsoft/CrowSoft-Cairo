@@ -140,6 +140,7 @@
     };
 
     Dialogs.Colors = {
+      white: '#ff',
       buttonFace: '#cecece',
       buttonShadow: '#cecece',
       tabBackColor: '#ffffff',
@@ -211,15 +212,6 @@
         var Dialogs = Cairo.Dialogs;
         var Controls = Cairo.Controls;
 
-        var C_OFFSET_V1 = 18;
-        var C_OFFSET_V3 = 15;
-        var C_OFFSET_H  = 79;
-        var C_OFFSET_H2 = 252;
-        var C_OFFSET_H3 = 86;
-
-        var C_LINE_HEIGHT = 25;
-        var C_LINE_LIGHT = 10;
-
         var K_W_CANCEL = -10;
 
         var m_enabledState = [];
@@ -239,24 +231,7 @@
         var m_currentTab = 0;
         var m_currentInnerTab = 0;
 
-        // controls position
-        //
-        var m_nextTop     = [];
-        var m_nextTopOp   = [];
-        var m_left        = [];
-        var m_leftOp      = [];
-        var m_lastTop     = 0;
-        var m_lastLeft    = 0;
-        var m_lastLeftOp  = 0;
-        var m_lastTopOp   = 0;
-        var m_labelLeft   = 0;
-
         var m_gridManager = Cairo.Dialogs.Grids.Manager;
-
-        // minimum size of the view
-        //
-        var m_minHeight = 0;
-        var m_minWidth = 0;
 
         // text input box's width
         //
@@ -326,7 +301,7 @@
 
         // first tab index
         //
-        var m_firstTab = 0;
+        var m_tabOffset = 0;
 
         // flag: show okay cancel instead of save cancel
         //
@@ -341,25 +316,12 @@
 
         var m_tabIndex = 0;
 
-        // controls position
-        //
-        var m_constLeft = 0;
-        var m_constLeftOp = 0;
-        var m_constTop = 0;
-        var m_constTopOp = 0;
-
         // flag: don't move the buttons save and cancel when resizing
         //
         var m_noMoveGenericButton = false;
 
         var m_cancelText = "";
         var m_saveText = "";
-
-        var m_saveWidth = 0;
-        var m_saveTop = 0;
-        var m_saveLeft = 0;
-        var m_cancelTop = 0;
-        var m_cancelLeft = 0;
 
         // key of the control to be activated when this dialog get focus
         // or the new button is clicked
@@ -403,8 +365,6 @@
         var m_noChangeBackColorCell = false;
 
         var m_autoPrint = false;
-
-        var m_tabTopHeight = 0;
 
         var m_tabHideControlsInAllTab = 0;
 
@@ -508,32 +468,167 @@
           m_saveText = value;
         };
 
-        self.setSaveWidth = function(value) {
-          m_saveWidth = value;
-        };
-
         self.setCancelText = function(value) {
           m_cancelText = value;
         };
 
-        self.setSaveTop = function(value) {
-          m_saveTop = value;
-        };
-
-        self.setSaveLeft = function(value) {
-          m_saveLeft = value;
-        };
-
-        self.setCancelTop = function(value) {
-          m_cancelTop = value;
-        };
-
-        self.setCancelLeft = function(value) {
-          m_cancelLeft = value;
-        };
-
         self.setSendRefresh = function(sendRefresh) {
           m_sendRefresh = sendRefresh;
+        };
+
+        var setDocumentListeners = function() {
+          m_documentView.addListener({
+            commandClick:               docHandlerCommandClick,
+            selectKeyDown:              docHandlerSelectKeyDown,
+
+            tabClick:                   docHandlerTabClick,
+            tabGetFirstCtrl:            docHandlerTabGetFirstCtrl,
+
+            viewLoad:                   docHandlerViewLoad,
+            viewBeforeDestroy:          docHandlerViewBeforeDestroy,
+            viewDestroy:                docHandlerViewDestroy,
+
+            toolBarClick:               docHandlerToolbarClick,
+            comboChange:                docHandlerComboChange,
+            checkBoxClick:              docHandlerCheckBoxClick,
+
+            gridDblClick:               docHandlerGridDblClick,
+            gridAfterDeleteRow:         docHandlerGridAfterDeleteRow,
+            gridDeleteRow:              docHandlerGridDeleteRow,
+            gridNewRow:                 docHandlerGridNewRow,
+            gridValidateRow:            docHandlerGridValidateRow,
+
+            gridColumnButtonClick:      docHandlerGridColumnButtonClick,
+            gridColumnAfterEdit:        docHandlerGridColumnAfterEdit,
+            gridColumnAfterUpdate:      docHandlerGridColumnAfterUpdate,
+            gridColumnBeforeEdit:       docHandlerGridColumnBeforeEdit,
+
+            gridSelectionChange:        docHandlerGridSelectionChange,
+            gridSelectionRowChange:     docHandlerGridSelectionRowChange,
+
+            selectChange:               docHandlerSelectChange,
+
+            maskEditChange:             docHandlerMaskEditChange,
+
+            dateChange:                 docHandlerDateChange,
+
+            optionButtonClick:          docHandlerOptionButtonClick,
+
+            textChange:                 docHandlerTextChange,
+            textAreaChange:             docHandlerTextAreaChange,
+            textPasswordChange:         docHandlerTextPasswordChange
+          });
+        };
+
+        var setWizardListeners = function() {
+          m_wizardView.addListener({
+            comboChange:              wizHandlerComboChange,
+
+            tabGetFirstCtrl:          wizHandlerTabGetFirstCtrl,
+            tabClick:                 wizHandlerTabClick,
+
+            checkBoxClick:            wizHandlerCheckBoxClick,
+
+            cancelClick:              wizHandlerCancelClick,
+            backClick:                wizHandlerBackClick,
+            commandClick:             wizHandlerCommandClick,
+            nextClick:                wizHandlerNextClick,
+
+            viewLoad:                 wizHandlerViewLoad,
+            viewBeforeDestroy:        wizHandlerViewBeforeDestroy,
+            viewDestroy:              wizHandlerViewDestroy,
+
+            gridDblClick:             wizHandlerGridDblClick,
+            gridAfterDeleteRow:       wizHandlerGridAfterDeleteRow,
+            gridDeleteRow:            wizHandlerGridDeleteRow,
+            gridNewRow:               wizHandlerGridNewRow,
+            gridValidateRow:          wizHandlerGridValidateRow,
+
+            gridColumnButtonClick:    wizHandlerGridColumnButtonClick,
+            gridColumnAfterEdit:      wizHandlerGridColumnAfterEdit,
+            gridColumnAfterUpdate:    wizHandlerGridColumnAfterUpdate,
+            gridColumnBeforeEdit:     wizHandlerGridColumnBeforeEdit,
+
+            gridSelectionChange:      wizHandlerGridSelectionChange,
+            gridSelectionRowChange:   wizHandlerGridSelectionRowChange,
+
+            selectChange:             wizHandlerSelectChange,
+
+            maskEditChange:           wizHandlerMaskEditChange,
+
+            dateChange:               wizHandlerDateChange,
+
+            optionButtonClick:        wizHandlerOptionButtonClick,
+
+            toolBarButtonClick:       wizHandlerToolbarButtonClick,
+
+            textChange:               wizHandlerTextChange,
+            textAreaChange:           wizHandlerTextAreaChange,
+            textPasswordChange:       wizHandlerTextPasswordChange
+          });
+        };
+
+        var setMasterListeners = function() {
+          m_masterView.addListener({
+            viewKeyDown:               masterHandlerViewKeyDown,
+
+            afterShowModal:            masterHandlerAfterShowModal,
+
+            popItemClick:              masterHandlerPopItemClick,
+
+            setResizeGrid:             masterHandlerSetResizeGrid,
+
+            tabGetFirstCtrl:           masterHandlerTabGetFirstCtrl,
+            tabClick:                  masterHandlerTabClick,
+
+            comboChange:               masterHandlerComboChange,
+            checkBoxClick:             masterHandlerCheckBoxClick,
+
+            commandClick:              masterHandlerCommandClick,
+            cancelClick:               masterHandlerCancelClick,
+            closeClick:                masterHandlerCloseClick,
+            copyClick:                 masterHandlerCopyClick,
+            documentsClick:            masterHandlerDocumentsClick,
+            newClick:                  masterHandlerNewClick,
+            printClick:                masterHandlerPrintClick,
+            permissionsClick:          masterHandlerPermissionsClick,
+            saveClick:                 masterHandlerSaveClick,
+
+            viewLoad:                  masterHandlerViewLoad,
+            viewBeforeDestroy:         masterHandlerViewBeforeDestroy,
+            viewDestroy:               masterHandlerViewDestroy,
+
+            gridDblClick:              masterHandlerGridDblClick,
+            gridAfterDeleteRow:        masterHandlerGridAfterDeleteRow,
+            gridDeleteRow:             masterHandlerGridDeleteRow,
+            gridNewRow:                masterHandlerGridNewRow,
+            gridValidateRow:           masterHandlerGridValidateRow,
+
+            gridColumnAfterEdit:       masterHandlerGridColumnAfterEdit,
+            gridColumnAfterUpdate:     masterHandlerGridColumnAfterUpdate,
+            gridColumnBeforeEdit:      masterHandlerGridColumnBeforeEdit,
+            gridColumnButtonClick:     masterHandlerGridColumnButtonClick,
+
+            gridSelectionChange:       masterHandlerGridSelectionChange,
+            gridSelectionRowChange:    masterHandlerGridSelectionRowChange,
+
+            showSelect:                masterHandlerShowSelect,
+
+            selectChange:              masterHandlerSelectChange,
+
+            maskEditChange:            masterHandlerMaskEditChange,
+
+            dateChange:                masterHandlerDateChange,
+
+            optionButtonClick:         masterHandlerOptionButtonClick,
+
+            toolBarButtonClick:        masterHandlerToolbarButtonClick,
+
+            textButtonClick:           masterHandlerTextButtonClick,
+            textChange:                masterHandlerTextChange,
+            textAreaChange:            masterHandlerTextAreaChange,
+            textPasswordChange:        masterHandlerTextPasswordChange
+          });
         };
 
         // returns the view
@@ -541,58 +636,13 @@
         // @return Dialogs.Views.View
         //
         var getView = function() {
-          var mustInitialize = false;
-
           // documents
           //
           if(m_isDocument) {
             if(m_documentView === null) {
               m_documentView = Views.createDocumentView();
-
-              m_documentView.addListener({
-                commandClick:               docHandlerCommandClick,
-                selectKeyDown:              docHandlerSelectKeyDown,
-
-                tabClick:                   docHandlerTabClick,
-                tabGetFirstCtrl:            docHandlerTabGetFirstCtrl,
-
-                viewLoad:                   docHandlerViewLoad,
-                viewBeforeDestroy:          docHandlerViewBeforeDestroy,
-                viewDestroy:                docHandlerViewDestroy,
-
-                toolBarClick:               docHandlerToolbarClick,
-                comboChange:                docHandlerComboChange,
-                checkBoxClick:              docHandlerCheckBoxClick,
-
-                gridDblClick:               docHandlerGridDblClick,
-                gridAfterDeleteRow:         docHandlerGridAfterDeleteRow,
-                gridDeleteRow:              docHandlerGridDeleteRow,
-                gridNewRow:                 docHandlerGridNewRow,
-                gridValidateRow:            docHandlerGridValidateRow,
-
-                gridColumnButtonClick:      docHandlerGridColumnButtonClick,
-                gridColumnAfterEdit:        docHandlerGridColumnAfterEdit,
-                gridColumnAfterUpdate:      docHandlerGridColumnAfterUpdate,
-                gridColumnBeforeEdit:       docHandlerGridColumnBeforeEdit,
-
-                gridSelectionChange:        docHandlerGridSelectionChange,
-                gridSelectionRowChange:     docHandlerGridSelectionRowChange,
-
-                selectChange:               docHandlerSelectChange,
-
-                maskEditChange:             docHandlerMaskEditChange,
-
-                dateChange:                 docHandlerDateChange,
-
-                optionButtonClick:          docHandlerOptionButtonClick,
-
-                textChange:                 docHandlerTextChange,
-                textAreaChange:             docHandlerTextAreaChange,
-                textPasswordChange:         docHandlerTextPasswordChange
-              });
-
+              setDocumentListeners();
               m_mustCompleteLoading = true;
-              mustInitialize = true;
             }
             return m_documentView;
           }
@@ -602,55 +652,8 @@
           else if(m_isWizard) {
             if(m_wizardView === null) {
               m_wizardView = Views.createWizardView();
-
-              m_wizardView.addListener({
-                comboChange:              wizHandlerComboChange,
-
-                tabGetFirstCtrl:          wizHandlerTabGetFirstCtrl,
-                tabClick:                 wizHandlerTabClick,
-
-                checkBoxClick:            wizHandlerCheckBoxClick,
-
-                cancelClick:              wizHandlerCancelClick,
-                backClick:                wizHandlerBackClick,
-                commandClick:             wizHandlerCommandClick,
-                nextClick:                wizHandlerNextClick,
-
-                viewLoad:                 wizHandlerViewLoad,
-                viewBeforeDestroy:        wizHandlerViewBeforeDestroy,
-                viewDestroy:              wizHandlerViewDestroy,
-
-                gridDblClick:             wizHandlerGridDblClick,
-                gridAfterDeleteRow:       wizHandlerGridAfterDeleteRow,
-                gridDeleteRow:            wizHandlerGridDeleteRow,
-                gridNewRow:               wizHandlerGridNewRow,
-                gridValidateRow:          wizHandlerGridValidateRow,
-
-                gridColumnButtonClick:    wizHandlerGridColumnButtonClick,
-                gridColumnAfterEdit:      wizHandlerGridColumnAfterEdit,
-                gridColumnAfterUpdate:    wizHandlerGridColumnAfterUpdate,
-                gridColumnBeforeEdit:     wizHandlerGridColumnBeforeEdit,
-
-                gridSelectionChange:      wizHandlerGridSelectionChange,
-                gridSelectionRowChange:   wizHandlerGridSelectionRowChange,
-
-                selectChange:             wizHandlerSelectChange,
-
-                maskEditChange:           wizHandlerMaskEditChange,
-
-                dateChange:               wizHandlerDateChange,
-
-                optionButtonClick:        wizHandlerOptionButtonClick,
-
-                toolBarButtonClick:       wizHandlerToolbarButtonClick,
-
-                textChange:               wizHandlerTextChange,
-                textAreaChange:           wizHandlerTextAreaChange,
-                textPasswordChange:       wizHandlerTextPasswordChange
-              });
-
+              setWizardListeners();
               m_mustCompleteLoading = true;
-              mustInitialize = true;
             }
             return m_wizardView;
           }
@@ -660,70 +663,8 @@
           else {
             if(m_masterView === null) {
               m_masterView = Views.createMasterView();
-
-              m_masterView.addListener({
-                viewKeyDown:               masterHandlerViewKeyDown,
-
-                afterShowModal:            masterHandlerAfterShowModal,
-
-                popItemClick:              masterHandlerPopItemClick,
-
-                setResizeGrid:             masterHandlerSetResizeGrid,
-
-                tabGetFirstCtrl:           masterHandlerTabGetFirstCtrl,
-                tabClick:                  masterHandlerTabClick,
-
-                comboChange:               masterHandlerComboChange,
-                checkBoxClick:             masterHandlerCheckBoxClick,
-
-                commandClick:              masterHandlerCommandClick,
-                cancelClick:               masterHandlerCancelClick,
-                closeClick:                masterHandlerCloseClick,
-                copyClick:                 masterHandlerCopyClick,
-                documentsClick:            masterHandlerDocumentsClick,
-                newClick:                  masterHandlerNewClick,
-                printClick:                masterHandlerPrintClick,
-                permissionsClick:          masterHandlerPermissionsClick,
-                saveClick:                 masterHandlerSaveClick,
-
-                viewLoad:                  masterHandlerViewLoad,
-                viewBeforeDestroy:         masterHandlerViewBeforeDestroy,
-                viewDestroy:               masterHandlerViewDestroy,
-
-                gridDblClick:              masterHandlerGridDblClick,
-                gridAfterDeleteRow:        masterHandlerGridAfterDeleteRow,
-                gridDeleteRow:             masterHandlerGridDeleteRow,
-                gridNewRow:                masterHandlerGridNewRow,
-                gridValidateRow:           masterHandlerGridValidateRow,
-
-                gridColumnAfterEdit:       masterHandlerGridColumnAfterEdit,
-                gridColumnAfterUpdate:     masterHandlerGridColumnAfterUpdate,
-                gridColumnBeforeEdit:      masterHandlerGridColumnBeforeEdit,
-                gridColumnButtonClick:     masterHandlerGridColumnButtonClick,
-
-                gridSelectionChange:       masterHandlerGridSelectionChange,
-                gridSelectionRowChange:    masterHandlerGridSelectionRowChange,
-
-                showSelect:                masterHandlerShowSelect,
-
-                selectChange:              masterHandlerSelectChange,
-
-                maskEditChange:            masterHandlerMaskEditChange,
-
-                dateChange:                masterHandlerDateChange,
-
-                optionButtonClick:         masterHandlerOptionButtonClick,
-
-                toolBarButtonClick:        masterHandlerToolbarButtonClick,
-
-                textButtonClick:           masterHandlerTextButtonClick,
-                textChange:                masterHandlerTextChange,
-                textAreaChange:            masterHandlerTextAreaChange,
-                textPasswordChange:        masterHandlerTextPasswordChange
-              });
-
+              setMasterListeners();
               m_mustCompleteLoading = true;
-              mustInitialize = true;
               setCanPrint();
               setShowPermissions();
 
@@ -741,21 +682,10 @@
               }
 
               if(m_saveText)  { m_masterView.getSaveButton().setText(m_saveText); }
-              if(m_saveWidth) { m_masterView.getSaveButton().setWidth(m_saveWidth); }
-              if(m_saveTop)   { m_masterView.getSaveButton().setTop(m_saveTop); }
-              if(m_saveLeft)  { m_masterView.getSaveButton().setLeft(m_saveLeft); }
-
               if(m_cancelText) { m_masterView.getCancelButton().setText(m_cancelText); }
-              if(m_cancelTop)  { m_masterView.getCancelButton().setTop(m_cancelTop); }
-              if(m_cancelLeft) { m_masterView.getCancelButton().setLeft(m_cancelLeft); }
             }
 
             return m_masterView;
-          }
-
-          if(mustInitialize) {
-            initCtrlPosition();
-            initVectorsPosition();
           }
         };
 
@@ -765,16 +695,6 @@
         //
         self.setHideTabButtons = function(value) {
           m_hideTabButtons = value;
-        };
-
-        // min size height of dialog's view
-        //
-        self.setMinHeight = function(value) {
-          m_minHeight = value;
-        };
-
-        self.setMinWidth = function(value) {
-          m_minWidth = value;
         };
 
         self.setOkCancelDialog = function(value) {
@@ -814,10 +734,6 @@
 
         self.getMngGrid = function() {
           return m_gridManager;
-        };
-
-        self.setTabTopHeight = function(value) {
-          m_tabTopHeight = value;
         };
 
         var getChanged = function() {
@@ -874,26 +790,11 @@
 
         self.setBackColorTabMain = function(color) {
           if(m_documentView) {
+            /* TODO: fix me this is used to identify NC in sales and purchases
             m_documentView.getTab().setBackColor(color);
             m_documentView.getTabFooter().setBackColor(color);
             m_documentView.getTabItems().setBackColor(color);
-          }
-        };
-
-        self.setHeightToDocWithDescription = function() {
-          if(m_documentView) {
-            if(m_isDocument && !m_isItems) {
-              m_documentView.setHeightToDocWithDescription();
-            }
-
-            if(m_isItems) {
-              m_constTop = m_documentView.getTabItems().getTop() + 100;
-
-              for(var q = 0; q < m_nextTop.length; q++) {
-                m_nextTop[q] = m_constTop;
-                m_left[q] = m_constLeft;
-              }
-            }
+            */
           }
         };
 
@@ -1057,7 +958,7 @@
               var group = grid.addGroup();
               group.setName(col.getName());
               group.setIndex(1);
-              group.setKey(Cairo.Util.val(col.Key) + 2);
+              group.setKey(Cairo.Util.val(col.getKey()) + 2);
               group.setSortType(Cairo.Constants.ShellSortOrder.ascending);
 
               // add sorting
@@ -1067,7 +968,7 @@
               group = grid.addGroup();
               group.setName(col.getName());
               group.setIndex(2);
-              group.setKey(Cairo.Util.val(col.Key) + offSetColSort);
+              group.setKey(Cairo.Util.val(col.getKey()) + offSetColSort);
               group.setSortType(Cairo.Constants.ShellSortOrder.ascending);
               group.setIsSortCol(true);
 
@@ -1419,31 +1320,6 @@
           }
         };
 
-        // initialize auxiliary variables
-        //
-        self.resetLayoutMembers = function() {
-          m_nextTop   = [];
-          m_nextTopOp = [];
-          m_left      = [];
-          m_leftOp    = [];
-
-          initVectorsPosition();
-
-          m_lastTop     = 0;
-          m_lastLeft    = 0;
-          m_lastLeftOp  = 0;
-          m_lastTopOp   = 0;
-          m_labelLeft   = 0;
-        };
-
-        // initialize tab's left and top
-        //
-        self.resetTabLeftTop = function(tabIndex) {
-          m_nextTop[tabIndex] = m_constTop;
-          m_left[tabIndex] = 2500;
-          m_labelLeft = C_OFFSET_H;
-        };
-
         // modify cell's content
         //
         self.showCellValue = function(property, row, col) {
@@ -1680,8 +1556,8 @@
 
             if(m_isDocument) {
 
-              if(m_currentTab < m_firstTab) {
-                m_currentTab = m_firstTab;
+              if(m_currentTab < m_tabOffset) {
+                m_currentTab = m_tabOffset;
               }
 
               // strTag is used to know if this tab is owned
@@ -1692,7 +1568,7 @@
                               && c.getTag() !== ""
                               //&& !("cbTab" === c.getName())// TODO: remove after testing
                               && !Controls.isTab(c)
-                              && (Cairo.Util.val(c.getTag().substring(lenStrTag + 1)) + m_firstTab) === m_currentTab);
+                              && (Cairo.Util.val(c.getTag().substring(lenStrTag + 1)) + m_tabOffset) === m_currentTab);
             }
             else {
               var valTag = Cairo.Util.val(c.getTag());
@@ -1811,8 +1687,6 @@
           if(property.getType() !== Dialogs.PropertyType.grid || !noGrids) {
             self.showValueEx(property, false, "");
           }
-
-          self.setTabIndexDescription();
           setBackgroundColor();
           return true;
         };
@@ -1917,12 +1791,24 @@
           removeControl(m_wizardView);
         };
 
-        var controlIsButton = function(control) { /* TODO: implement this. */ };
-        var controlIsLabel = function(control) { /* TODO: implement this. */ };
-        var controlIsToolbar = function(control) { /* TODO: implement this. */ };
-        var controlIsImage = function(control) { /* TODO: implement this. */ };
-        var controlIsGrid = function(control) { /* TODO: implement this. */ };
-        var controlIsCheckbox = function(control) { /* TODO: implement this. */ };
+        var controlIsButton = function(control) {
+          return control.getObjectType() === "cairo.controls.button";
+        };
+        var controlIsLabel = function(control) {
+          return control.getObjectType() === "cairo.controls.label";
+        };
+        var controlIsToolbar = function(control) {
+          return control.getObjectType() === "cairo.controls.toolbar";
+        };
+        var controlIsImage = function(control) {
+          return control.getObjectType() === "cairo.controls.image";
+        };
+        var controlIsGrid = function(control) {
+          return control.getObjectType() === "cairo.controls.grid";
+        };
+        var controlIsCheckbox = function(control) {
+          return control.getObjectType() === "cairo.controls.checkbox";
+        };
 
         self.tabGetFirstCtrl = function(index) {
 
@@ -1995,10 +1881,9 @@
             c = controls.get(_i);
             if(c.getTag().substring(0, strTag.length) === strTag
                 && c.getTag() !== ""
-                //&& !(c.getName() === "cbTab")) {// TODO: remove after testing
                 && !Controls.isTab(c)) {
 
-              var isVisible = Cairo.Util.val(c.getTag().substring(strTag.length + 1)) + m_firstTab === index;
+              var isVisible = Cairo.Util.val(c.getTag().substring(strTag.length)) + m_tabOffset === index;
 
               if(getControlVisible(c, isVisible)) {
                 if(!controlIsLabel(c) && !controlIsToolbar(c) && !controlIsImage(c)) {
@@ -2064,10 +1949,7 @@
               break;
 
             default:
-              if(m_isItems || m_isFooter) {
-                return null;
-              }
-              else {
+              if(!m_isItems && !m_isFooter) {
                 docTabClickEx(Cairo.Constants.DocumentSections.header, index);
               }
               break;
@@ -2087,10 +1969,9 @@
 
             if(c.getTag().substring(0, strTag.length) === strTag
                 && c.getTag() !== ""
-                //&& !(c.getName() === "cbTab")) {// TODO: remove after testing
                 && !Controls.isTab(c)) {
 
-              var isVisible = Cairo.Util.val(c.getTag().substring(strTag.length + 1)) + m_firstTab === index;
+              var isVisible = Cairo.Util.val(c.getTag().substring(strTag.length)) + m_tabOffset === index;
               c.setVisible(getControlVisible(c, isVisible));
 
               if(controlIsLabel(c)) {
@@ -2125,8 +2006,8 @@
               }
               break;
             }
-            else if(controlIsLabel(c)) {
-              if(!(ctl.getName().substring(0, 3) === "lb2")) {
+            else if(controlIsLabel(ctl)) {
+              if(ctl.getName() === "__labelForControl__") {
                 if(property.getLabelIndex() === ctl.getIndex()) {
                   if(!property.getVisible()) {
                     isVisible = false;
@@ -2147,10 +2028,6 @@
           var tab = view.getTabs().get(index);
           m_currentInnerTab = 0;
 
-          // TODO: remove after testing
-          // view.getControls().each(function(item) { console.log(item.getObjectType()); console.log(item.getTag()); })
-          //
-
           if(tab.getTag().indexOf(Dialogs.Constants.innerTab, 1) >= 0) {
 
             var childIndex = getTagChildIndex(tab.getTag());
@@ -2158,8 +2035,6 @@
 
             for(var _i = 0; _i < controlsCount; _i++) {
               var c = controls.get(_i);
-              // TODO: remove after testing
-              //if(!(controlIsButton(c) && c.getName().indexOf("cbTab", 1))) {
               if(!Controls.isTab(c)) {
                 if(c.getTag().trim() !== "") {
                   if(Cairo.Util.val(c.getTag()) !== fatherIndex) {
@@ -2179,8 +2054,6 @@
 
             for(var _i = 0; _i < controlsCount; _i++) {
               var c = controls.get(_i);
-              // TODO: remove after testing
-              //if(controlIsButton(c) && c.getName().indexOf("cbTab", 1)) {
               if(Controls.isTab(c)) {
                 if(c.getTag().indexOf(Dialogs.Constants.innerTab, 1) >= 0) {
                   var isVisible = getTagFatherIndex(c.getTag()) === index;
@@ -2364,15 +2237,6 @@
             if(m_mustCompleteLoading) {
               m_mustCompleteLoading = false;
 
-              if(m_owner === null) {
-                if(m_minHeight < view.getHeight()) {
-                  m_minHeight = view.getHeight();
-                }
-                if(m_minWidth < view.getWidth()) {
-                  m_minWidth = view.getWidth();
-                }
-              }
-
               if(viewIsMaster(view)) {
                 view.setNoMoveGenericButton(m_noMoveGenericButton);
                 view.setPopMenuClient(m_popMenuClient);
@@ -2383,15 +2247,6 @@
               }
               else {
                 loadView(getView(), "view_"+ m_client.getTitle());
-              }
-
-              if(viewIsMaster(view) || viewIsWizard(view)) {
-                if(view.getHeight() < m_minHeight) {
-                  view.setHeight(m_minHeight);
-                }
-                if(view.getWidth() < m_minWidth) {
-                  view.setWidth(m_minWidth);
-                }
               }
             }
 
@@ -2481,10 +2336,16 @@
           if(tabIndex !== -1) {
             var view = getView();
             if(m_isDocument) {
-              docTabClickEx(Cairo.Constants.DocumentSections.items, tabIndex);
-              docTabClickEx(Cairo.Constants.DocumentSections.footer, tabIndex);
-              docTabClickEx(Cairo.Constants.DocumentSections.header, tabIndex);
-              view.getTabs().get(tabIndex + m_firstTab).setTabSelected(true);
+              if(m_isItems) {
+                docTabClickEx(Cairo.Constants.DocumentSections.items, tabIndex + m_tabOffset);
+              }
+              else if(m_isFooter) {
+                docTabClickEx(Cairo.Constants.DocumentSections.footer, tabIndex + m_tabOffset);
+              }
+              else {
+                docTabClickEx(Cairo.Constants.DocumentSections.header, tabIndex);
+              }
+              view.getTabs().get(tabIndex + m_tabOffset).setTabSelected(true);
             }
             else {
               self.tabClick(tabIndex);
@@ -2518,18 +2379,9 @@
           m_isItems = value;
         };
 
-        self.setLeft = function(value) {
-          getView().setLeft(value);
-        };
-
-        self.getLeft = function() {
-          return getView().getLeft();
-        };
-
         self.setView = function(value) {
           m_documentView = value;
-          initCtrlPosition();
-          initVectorsPosition();
+          setDocumentListeners();
         };
 
         self.getViewMainImage = function() {
@@ -2585,14 +2437,6 @@
           m_title = value;
         };
 
-        self.setTop = function(value) {
-          getView().setTop(value);
-        };
-
-        self.getTop = function() {
-          return getView().getTop();
-        };
-
         var masterHandlerViewKeyDown = function(keyCode, shift) {
           return Cairo.safeExecute(function() {
             m_client.messageEx(Dialogs.Message.MSG_KEY_DOWN, keyCode);
@@ -2616,7 +2460,7 @@
         };
 
         var masterHandlerTabGetFirstCtrl = function(index) {
-          return tabGetFirstCtrl(index);
+          return self.tabGetFirstCtrl(index);
         };
 
         var docHandlerCommandClick = function(index) {
@@ -2681,8 +2525,8 @@
           comboChange(index);
         };
 
-        var masterHandlerTabClick = function(index) {
-          self.tabClick(index);
+        var masterHandlerTabClick = function(event) {
+          self.tabClick(event.index);
         };
 
         var masterHandlerCheckBoxClick = function(index) {
@@ -3193,8 +3037,8 @@
           textPasswordChange(index);
         };
 
-        var docHandlerTabClick = function(index, tag) {
-          self.docTabClick(index, tag);
+        var docHandlerTabClick = function(event) {
+          self.docTabClick(event.index, event.tag);
         };
 
         // only change ctrl if there is a control in this tab
@@ -3506,8 +3350,8 @@
           comboChange(index);
         };
 
-        var wizHandlerTabClick = function(index) {
-          self.tabClick(index);
+        var wizHandlerTabClick = function(event) {
+          self.tabClick(event.index);
         };
 
         var wizHandlerCheckBoxClick = function(index) {
@@ -3691,7 +3535,7 @@
         };
 
         //------------
-        // Documentos
+        // Documents
         var docHandlerComboChange = function(index) {
           comboChange(index);
         };
@@ -4738,8 +4582,6 @@
           var tabs = 0;
           var property = null;
 
-          m_labelLeft = C_OFFSET_H;
-
           var propertyCount = m_properties.count();
           for(var _i = 0; _i < propertyCount; _i++) {
             property = m_properties.get(_i);
@@ -4748,7 +4590,7 @@
             }
           }
 
-          showTabs(tabs);
+          showTabs(tabs + 1);
 
           m_showingForm = true;
           m_tabIndex = 0;
@@ -4757,6 +4599,8 @@
             property = m_properties.get(_i);
             self.loadControlEx(property, noGrids);
           }
+
+          self.setTabIndexDescription();
 
           m_showingForm = false;
 
@@ -4817,17 +4661,28 @@
           if(property.getType() !== Dialogs.PropertyType.option
             && property.getType() !== Dialogs.PropertyType.toolbar
             && property.getType() !== Dialogs.PropertyType.label
-            && property.getType() !== Dialogs.PropertyType.title) {
+            && property.getType() !== Dialogs.PropertyType.title
+            && ! (m_isDocument
+                  && (
+                       property.getSelectTable() === Cairo.Tables.DOCUMENTO
+                    || property.getKeyCol() === Cairo.Constants.NUMBER_ID
+                    || property.getKeyCol() === Cairo.Constants.STATUS_ID
+                   )
+                 )
+            ) {
 
             label = addControl(view, Dialogs.PropertyType.controlLabel);
-            label.setTabGroup(nTabIndex); // tab index in a control is for tab key navigation
+            label.setTabGroupIndex(nTabIndex); // tab index in a control is for tab key navigation
+            setTabGroup(label);
           }
 
           var c = addControl(view, controlType, subType);
-          c.setTabGroup(nTabIndex); // tab index in a control is for tab key navigation
+          c.setTabGroupIndex(nTabIndex); // tab index in a control is for tab key navigation
+          setTabGroup(c);
 
           if(label !== null) {
             label.setLabelFor(c._ID_);
+            label.setVisible(property.getVisible());
           }
 
           switch(controlType) {
@@ -4852,7 +4707,8 @@
 
               if(m_isFooter) {
                 c.setWidth(1100);
-                c.setBackColor(view.getFooterBackground().getBackColor());
+                // TODO: fix me
+                //c.setBackColor(view.getFooterBackground().getBackColor());
                 c.setEnabledNoChangeBkColor(true);
               }
               setFont(c, property);
@@ -4963,8 +4819,6 @@
 
             case Dialogs.PropertyType.toolbar:
 
-              c.setTop(0);
-              c.setLeft(0);
               property.setToolbar(c);
               break;
           }
@@ -4988,124 +4842,17 @@
             c.setWidth(property.getWidth());
           }
 
-          // top from property
-          //
-          if(property.getTopFromProperty() !== "") {
-            //
-            // update m_lastTop to be able to use
-            // topFromProperty and topToPrevious in the same call
-            //
-            m_lastTop = m_properties.get(property.getTopFromProperty()).getTop();
-            property.setTop(m_lastTop);
-          }
-
-          // top to previous
-          //
-          if(property.getTopToPrevious() !== 0) {
-
-            if(property.getType() === Dialogs.PropertyType.option) {
-              m_lastTop = m_lastTopOp;
-            }
-
-            // topToPrevious == 1 means same top than previous control
-            //
-            if(property.getTopToPrevious() === -1) {
-              property.setTop(m_lastTop);
-            }
-            else {
-              property.setTop(m_lastTop + property.getTopToPrevious());
-            }
-          }
-
-          // the client set a fixed top
-          //
-          if(property.getTop() !== -1) {
-            c.setTop(property.getTop());
-          }
-
-          // left from property
-          //
-          if(property.getLeftFromProperty() !== "") {
-
-            // update m_lastLeft to be able to use
-            // leftFromProperty and leftToPrevious in the same call
-            //
-            m_lastLeft = m_properties.get(property.getLeftFromProperty()).getLeft();
-            property.setLeft(m_lastLeft);
-
-            // if left is set but the client but the label'left hasn't be defined
-            // we use the default left
-            //
-            if(property.getLeftLabel() === 0) {
-              property.setLeftLabel(-C_OFFSET_H);
-            }
-          }
-
-          // left to previous
-          //
-          if(property.getLeftToPrevious() !== 0) {
-
-            if(property.getType() === Dialogs.PropertyType.option) {
-              m_lastLeft = m_lastLeftOp;
-            }
-
-            // leftToPrevious == 1 means same left than previous control
-            //
-            if(property.getLeftToPrevious() === -1) {
-              property.setLeft(m_lastLeft);
-            }
-            else {
-              property.setLeft(m_lastLeft + property.getLeftToPrevious());
-            }
-          }
-
-          if(property.getLeft() !== -1) {
-            // if left is set but the client but the label'left hasn't be defined
-            // we use the default left
-            //
-            if(property.getLeftLabel() === 0) {
-              property.setLeftLabel(-C_OFFSET_H);
-            }
-
-            c.setLeft(property.Left);
-          }
-
-          //
-          // if the control is going to be placed over the bottom
-          // line it is moved to the top in the next column
-          //
-
-          var view = getView();
-
-          if(m_isItems) {
-
-            var tabs = view.getTabItems();
-            if(m_nextTop[nTabIndex] + c.getHeight() > tabs.getTop() + tabs.getHeight() - 50) {
-              setNewTopAndLeft(property);
-            }
-          }
-          else if(m_isFooter) {
-
-            var footerTab = view.getTabFooter();
-            if(m_nextTop[nTabIndex] + c.getHeight() > footerTab.getTop() + footerTab.getHeight()) {
-              setNewTopAndLeft(property);
-            }
-          }
-          else {
-            if(m_nextTop[nTabIndex] + c.getHeight() + C_LINE_LIGHT + 50 > view.getBottomLine().getTop()) {
-              setNewTopAndLeft(property);
-            }
-          }
-
           if(m_isDocument) {
-            if(m_isItems) {
-              c.setTag(Cairo.Constants.DocumentSections.items + property.getTabIndex().toString());
-            }
-            else if(m_isFooter) {
-              c.setTag(Cairo.Constants.DocumentSections.footer + property.getTabIndex().toString());
-            }
-            else {
-              c.setTag(Cairo.Constants.DocumentSections.header + property.getTabIndex().toString());
+            if(c.getTag() !== 'document_header') {
+              if(m_isItems) {
+                c.setTag(Cairo.Constants.DocumentSections.items + property.getTabIndex().toString());
+              }
+              else if(m_isFooter) {
+                c.setTag(Cairo.Constants.DocumentSections.footer + property.getTabIndex().toString());
+              }
+              else {
+                c.setTag(Cairo.Constants.DocumentSections.header + property.getTabIndex().toString());
+              }
             }
           }
           else {
@@ -5122,104 +4869,49 @@
           setBackColor(c, property);
           setButton(c, property);
 
+          /* documents header */
+          if(m_isDocument) {
+
+            if(property.getSelectTable() === Cairo.Tables.DOCUMENTO) {
+
+              c.setFontSize(11);
+              c.setFontBold(true);
+              c.setTag("document_header");
+            }
+            else if(property.getKeyCol() === Cairo.Constants.NUMBER_ID
+                    || property.getKeyCol() === Cairo.Constants.STATUS_ID) {
+
+              c.setFontSize(11);
+              c.setFontBold(true);
+              c.setEnabledNoChangeBkColor(true);
+              c.setForeColor(Dialogs.Colors.white);
+              c.setBackColor(Dialogs.Colors.buttonShadow);
+              c.setBorderColor(Dialogs.Colors.buttonFace);
+              c.setTag("document_header");
+            }
+          }
+
+          /* label formatting */
+
           if(property.getType() === Dialogs.PropertyType.option) {
-            var r = 0;
-            var q = 0;
-            if(property.getOptionGroup() - 1 > m_leftOp.length) {
-              r = m_leftOp.length;
-              var view = getView();
-              for(q = r; q < m_leftOp.length; q++) {
-                m_leftOp[q] = view.getOptionButtons().get(0).getLeft();
-              }
-            }
-            if(property.getOptionGroup() - 1 > m_nextTopOp.length) {
-              r = m_nextTopOp.length;
-              var view = getView();
-              for(q = r; q < m_nextTopOp.length; q++) {
-                m_nextTopOp[q] = view.getOptionButtons().get(0).getTop();
-              }
-            }
-
-            if(property.getLeft() === -1) {
-              c.setLeft(m_leftOp[property.getOptionGroup()]);
-            }
-            if(property.getTop() === -1) {
-              c.setTop(m_nextTopOp[property.getOptionGroup()]);
-            }
-            if(property.getWidth() === 0) {
-              c.setWidth(1500);
-            }
             c.setText(property.getName());
-
-            // TODO: implement a main frame (it doesn't need to be a dom element)
-            var f = null;
-
-            // increase the with of this tab
-            //
-            if(c.getTop() + c.getHeight() > f.getHeight()) {
-              f.setHeight(c.getTop() + c.getHeight() + 50);
-            }
-
-            if(f.getHeight() + f.getTop() > getView().getBottomLine().getTop()) {
-              f.setTop(m_nextTop[nTabIndex] - 100);
-              f.setLeft(m_left[nTabIndex]);
-            }
-
-            if(c.getLeft() + c.getWidth() > f.getWidth()) {
-              f.setWidth(c.getLeft() + c.getWidth() + 20);
-            }
-
-            if(property.getTopFrame() !== 0) {
-              f.setTop(property.getTopFrame());
-            }
-            if(property.getLeftFrame() !== 0) {
-              f.setLeft(property.getLeftFrame());
-            }
-
-            m_nextTopOp[property.getOptionGroup()] = m_nextTopOp[property.getOptionGroup()] + C_LINE_HEIGHT;
           }
           else if(property.getType() === Dialogs.PropertyType.toolbar) {
 
             // TODO: implement frameToolbar
             //
             var frameToolbar = null;
-            frameToolbar.setWidth(property.getWidth());
-            frameToolbar.setTop(property.getTopFrame());
-            frameToolbar.setLeft(property.getLeftFrame());
-            if(property.getHeight() > 0) {
-              frameToolbar.setHeight(property.getHeight());
-            }
-            else {
-              frameToolbar.setHeight(c.getHeight());
-            }
             frameToolbar.setTag(property.getTabIndex());
-            frameToolbar.setBackColor(getView().getBackground().getBackColor());
-
             setToolbar(tbl, property.getButtons());
-
-            property.setLeftNotChange(true);
-            property.setTopNotChange(true);
-
           }
-          else if(property.getType() === Dialogs.PropertyType.label
-                  || property.getType() === Dialogs.PropertyType.title) {
-
-            if(property.getTop() === -1) {
-              c.setTop(m_nextTop[nTabIndex]);
-            }
-
-            if(property.getLeft() === -1) {
-              c.setLeft(m_left[nTabIndex] + m_labelLeft);
-            }
-          }
-          else {
+          else if(label !== null
+                  && property.getType() !== Dialogs.PropertyType.label
+                  && property.getType() !== Dialogs.PropertyType.title) {
 
             property.setLabelIndex(label.getIndex());
             label.setText(property.getName());
-            label.setLeft(m_left[nTabIndex]);
             label.setBackStyle(Dialogs.BackgroundType.transparent);
             label.setTag(c.getTag());
-            label.bringToFront();
             if(property.getType() === Dialogs.PropertyType.button) {
               label.setVisible(false);
             }
@@ -5235,247 +4927,26 @@
             // special formats for grids
             //
             if(property.getType() === Dialogs.PropertyType.grid) {
-              if(property.getLeft() === -1) {
-                c.setLeft(m_left[nTabIndex]);
-              }
 
               if(m_isItems) {
-                c.setTop(m_nextTop[nTabIndex]);
                 label.setVisible(false);
-                // labels with tag == -1 aren't modified by showValue
-                label.setTag("-1");
+                label.setVisible(false);
+                label.setTag("-1");      // labels with tag == -1 aren't modified by showValue
               }
-              else {
-                if(property.getTop() === 0) {
-                  c.setTop(m_nextTop[nTabIndex] + 300);
-                  label.setTop(m_nextTop[nTabIndex]);
-                  label.setWidth(c.getWidth());
-                }
-              }
-              if(property.getWidth() === -1 || property.getWidth() === 0) {
-                c.setWidth(getView().getWidth() - c.getLeft() - 300);
-              }
-
-            }
-            else if(m_isDocument && property.getSelectTable() === Cairo.Tables.DOCUMENTO) {
-
-              c.setLeft(3600);
-              c.setTop(80);
-              c.setWidth(3500);
-              c.setFontSize(11);
-              c.setFontBold(true);
-              c.setHeight(330);
-              c.setTag("");
-              c.setBorderColor(Dialogs.Colors.buttonFace);
-
-              label.setVisible(false);
-              label.setTag("-1");
-            }
-            else if(m_isDocument && (property.getKeyCol() === Cairo.Constants.NUMBER_ID || property.getKeyCol() === Cairo.Constants.STATUS_ID)) {
-
-              if(property.getKeyCol() === Cairo.Constants.NUMBER_ID) {
-                c.setLeft(7300);
-                c.setWidth(1200);
-              }
-              else {
-                c.setLeft(8700);
-                c.setWidth(3000);
-              }
-              c.setTop(80);
-              c.setFontSize(11);
-              c.setFontBold(true);
-              c.setHeight(330);
-              c.setEnabledNoChangeBkColor(true);
-              c.setForeColor(Dialogs.Colors.white);
-              c.setBackColor(Dialogs.Colors.buttonShadow);
-              c.setBorderColor(Dialogs.Colors.buttonFace);
-              label.setVisible(false);
-              label.setTag("-1");
-              c.setTag("");
-
             }
             else {
-
-              if(property.getTop() !== -1) {
-                label.setTop(property.getTop());
-              }
-              else {
-                // optionGroup is used to define an offeset
-                // when the property type !==  option
-                // allows a fine control over the label position
-                // ugly but legacy.
-                // TODO: fixme. use a new field like labelOffset or similar
-                //
-                label.setTop(m_nextTop[nTabIndex] + property.getOptionGroup());
-                c.setTop(m_nextTop[nTabIndex] + property.getOptionGroup());
-              }
-
-              switch(property.getType()) {
-                case Dialogs.PropertyType.date:
-                  c.setWidth(1400);
-                  break;
-                case Dialogs.PropertyType.time:
-                  c.setWidth(800);
-                  break;
-              }
 
               if(m_isFooter) {
-                if(property.getLeft() === -1) {
-                  c.setLeft(m_left[nTabIndex]);
-                }
-                label.setLeft(c.getLeft());
-                label.setTop(c.getTop() - C_OFFSET_V3);
-                label.setHeight(225);
                 label.setTextAlign(Dialogs.TextAlign.right);
-                label.setWidth(1000);
-              }
-              else {
-                if(property.getLeft() !== -1) {
-                  label.setLeft(c.getLeft() + property.getLeftLabel());
-                  label.setWidth(Math.abs(property.getLeftLabel()));
-                }
-                else {
-                  c.setLeft(m_left[nTabIndex] + m_labelLeft);
-                  if(property.getLeftLabel() !== 0) {
-                    label.setLeft(c.getLeft() + property.getLeftLabel());
-                    label.setWidth(Math.abs(property.getLeftLabel()));
-                  }
-                }
-              }
-
-            }
-          }
-
-          property.setTop(c.getTop());
-          property.setLeft(c.getLeft());
-          property.setWidth(c.getWidth());
-          property.setHeight(c.getHeight());
-
-          // only if this control changes the left of next controls
-          //
-          if(!property.getLeftNotChange()) {
-
-            //
-            if(property.getType() === Dialogs.PropertyType.option) {
-              if(property.getLeftFrame() !== 0  && !property.getLeftNotChange()) {
-                m_left[nTabIndex] = property.getLeft(); // TODO: check if there is a frame as in vb6
               }
             }
-            else {
-              if(property.getLeft() !== -1  && property.getLeftToPrevious() === 0) {
-                m_left[nTabIndex] = property.getLeft() + property.getLeftLabel();
-                m_labelLeft = Math.abs(property.getLeftLabel());
-              }
-            }
-          }
-
-          m_lastLeft = m_left[nTabIndex];
-          m_lastLeftOp = c.getLeft();
-
-          m_lastTop = m_nextTop[nTabIndex];
-          m_lastTopOp = c.getTop();
-
-          // define the top of next row
-
-          // only if this control changes the top of next controls
-          //
-          if(!property.getTopNotChange()) {
-
-            // if the control has set a custom top and it is not an option button
-            //
-            if(property.getTop() !== -1
-                && property.getType() !== Dialogs.PropertyType.option
-                && !property.getTopNotChange()) {
-
-              m_lastTop = property.getTop();
-
-              // if the control defines a custom height
-              //
-              if(property.getHeight() > 0) {
-                m_nextTop[nTabIndex] = property.getTop() + c.getHeight() + C_LINE_LIGHT;
-              }
-              else {
-                m_nextTop[nTabIndex] = property.getTop() + C_LINE_HEIGHT;
-              }
-            }
-            else {
-              // if the control defines a custom height and it is not an option button
-              //
-              if(property.getHeight() > 0 && property.getType() !== Dialogs.PropertyType.option) {
-                m_nextTop[nTabIndex] = m_nextTop[nTabIndex] + c.getHeight() + C_LINE_LIGHT;
-              }
-              else {
-                //
-                // nextTop is always updated. even when type == option group. this fails with grids (we need to fix it)
-                //
-                // exception: in documents the select for document is placed in the title bar
-                //
-                if(!(m_isDocument
-                    && (property.getSelectTable() === Cairo.Tables.DOCUMENTO
-                        || property.getKeyCol() === Cairo.Constants.NUMBER_ID
-                        || property.getKeyCol() === Cairo.Constants.STATUS_ID))) {
-                  m_nextTop[nTabIndex] = m_nextTop[nTabIndex] + C_LINE_HEIGHT;
-                }
-              }
-            }
-          }
-
-          if(property.getType() === Dialogs.PropertyType.option) {
-            setNewWidthForm(property, f.getWidth() + f.getLeft());
-          }
-          else {
-            setNewWidthForm(property, 0);
           }
 
           return true;
         };
 
-        var setNewTopAndLeft = function(property) {
-          var nTabIndex = getTabIndex(property);
-          var view = getView();
-          if(m_isItems) {
-            m_nextTop[nTabIndex] = view.getTabItems().getTop() + 100;
-            m_left[nTabIndex] = m_left[nTabIndex] + C_OFFSET_H2;
-
-          }
-          else if(m_isFooter) {
-            m_nextTop[nTabIndex] = view.getFooterBackground().getTop() + C_OFFSET_V1;
-            m_left[nTabIndex] = m_left[nTabIndex] + C_OFFSET_H3;
-
-          }
-          else {
-            m_nextTop[nTabIndex] = m_constTop;
-            m_left[nTabIndex] = m_left[nTabIndex] + C_OFFSET_H2;
-          }
-        }
-
         var setTabIndex = function(c) {
           Cairo.safeExecute(function() { c.setTabIndex(m_tabIndex); });
-        };
-
-        var setNewWidthForm = function(property, frameSize) {
-          var view = getView();
-          var offsetH = 0;
-
-          if(view.getBackground().getLeft() === 0) {
-            offsetH = 120;
-          }
-          else {
-            offsetH = 400;
-          }
-
-          if(frameSize > 0) {
-            if(view.getWidth() < frameSize + offsetH) {
-              view.setWidth(frameSize + offsetH);
-              view.getBackground().setWidth(view.getWidth() - view.getBackground().getLeft() * 2);
-            }
-          }
-          else {
-            if(view.getWidth() < property.getWidth() + property.getLeft() + offsetH) {
-              view.setWidth(property.getWidth() + property.getLeft() + offsetH);
-            }
-            view.getBackground().setWidth(view.getWidth() - view.getBackground().getLeft() * 2);
-          }
         };
 
         var getProperty = function(type, index, subType) {
@@ -6364,13 +5835,11 @@
 
         self.setTabCtlIndex = function() {
 
-          var index = 0;
           var propertyCount = m_properties.count();
           var tabCount = m_tabs.count();
 
           for(var _i = 0; _i < tabCount; _i++) {
-            m_tabs.get(_i).setControlIndex(index);
-            index = index + 1;
+            m_tabs.get(_i).setControlIndex(_i);
           }
 
           for(var _i = 0; _i < propertyCount; _i++) {
@@ -6399,177 +5868,78 @@
           }
         };
 
-        var showTabs = function(tabs) {
-          var tabTopHeight = 0;
-          var left = 90;
-          var top = 0;
-          var topItems = 0;
-          var noResize = false;
+        var createFirstTabIfNotExists = function() {
+          var tabs = self.getTabs();
+          if(tabs.count() === 0) {
+            tabs.add();
+          }
+        };
 
-          if(m_tabTopHeight === 0) {
-            tabTopHeight = 540;
-          }
-          else {
-            tabTopHeight = m_tabTopHeight;
-            getView().getBackground().setTop(m_tabTopHeight + getView().getTabs().get(0).getHeight() - 10);
-            m_constTop = getView().getBackground().getTop() + 200;
-          }
+        var showTabs = function(tabs) {
 
           var view = getView();
 
-          if(m_isItems) {
-            top = view.getTabItems().getTop() - view.getTabs().get(0).getHeight();
-            topItems = 10;
-          }
-          else if(m_isFooter) {
-            top = view.getFooterBackground().getTop() - view.getTabs().get(0).getHeight();
-          }
-          else {
-            if(m_isDocument) {
-              top = 1080;
-            }
-            else {
-              top = tabTopHeight;
-            }
-          }
+          createFirstTabIfNotExists();
 
           var tabCount = view.getTabs().count();
-          for(var i = 1; i < tabCount; i++) {
-            if(m_isItems) {
-              if(view.getTabs().get(i).getTag() === Cairo.Constants.DocumentSections.footer
-                || view.getTabs().get(i).getTag() === Cairo.Constants.DocumentSections.items) {
-                removeControl(view.getTabs().get(i));
+
+          tabs = (m_tabs.count() > tabs) ? m_tabs.count() : tabs;
+
+          var tabsCtrl = view.getTabs();
+
+          m_tabOffset = tabsCtrl.count();
+
+          for(var i = m_tabOffset, k = 0; i < tabs + m_tabOffset; i += 1, k += 1) {
+            view.getTabs().add();
+
+            var tabCtrl = view.getTabs().get(i);
+            if(m_isDocument) {
+              if(m_isItems) {
+                tabCtrl.setTag(Cairo.Constants.DocumentSections.items);
+                tabCtrl.setColumns(1);
+                tabCtrl.setTabGroup(1);
               }
-            }
-            else if(m_isFooter) {
-              if(view.getTabs().get(i).getTag() === Cairo.Constants.DocumentSections.footer) {
-                removeControl(view.getTabs().get(i));
+              else if(m_isFooter) {
+                tabCtrl.setTag(Cairo.Constants.DocumentSections.footer);
+                tabCtrl.setColumns(6);
+                tabCtrl.setTabGroup(2);
+              }
+              else {
+                tabCtrl.setTag(Cairo.Constants.DocumentSections.header);
+                tabCtrl.setColumns(4);
               }
             }
             else {
-              removeControl(view.getTabs().get(i));
+              tabCtrl.setColumns(3);
             }
+
+            var tab = m_tabs.get(k);
+            if(tab.getFatherTab() !== "") {
+              var fatherTab = m_tabs.get(tab.getFatherTab());
+              tabCtrl.setTag(tabCtrl.getTag()
+                            + Dialogs.Constants.innerTab
+                            + ((fatherTab.getIndex() * 100) + Math.abs(tab.getIndex())).toString());
+
+            }
+
+            tabCtrl.setText("Tab" + i.toString());
+            tabCtrl.setTabStop(false);
+            tabCtrl.setVisible(!m_hideTabButtons);
           }
 
           if(m_tabs !== null) {
-            tabs = (m_tabs.count() - 1 > tabs) ? m_tabs.count() - 1 : tabs;
-          }
 
-          if(tabs > 0) {
-            var tabsCtrl = view.getTabs();
-            if(tabsCtrl.count() === 1) {
-              m_firstTab = 0;
-            }
-            else {
-              m_firstTab = tabsCtrl.count();
-            }
-
-            for(var i = m_firstTab, k = 0; i <= tabs + m_firstTab; i++, k++) {
-              if(i > 0) {
-                view.getTabs().add();
-              }
-
-              var tabCtrl = view.getTabs().get(i);
-              if(m_isDocument) {
-                if(m_isItems) {
-                  tabCtrl.setTag(Cairo.Constants.DocumentSections.items);
-                  tabCtrl.setTabGroup(1);
-                }
-                else if(m_isFooter) {
-                  tabCtrl.setTag(Cairo.Constants.DocumentSections.footer);
-                  tabCtrl.setTabGroup(2);
-                }
-                else {
-                  tabCtrl.setTag(Cairo.Constants.DocumentSections.header);
-                  tabCtrl.setTabGroup(3);
-                }
-              }
-
-              var tab = m_tabs.get(k);
-              if(tab.getFatherTab() !== "") {
-                var fatherTab = m_tabs.get(tab.getFatherTab());
-                tabCtrl.setTag(tabCtrl.getTag()
-                              + Dialogs.Constants.innerTab
-                              + ((fatherTab.getIndex() * 100) + Math.abs(tab.getIndex())).toString());
-
-                if(tab.getLeft() !== 0) {
-                  noResize = true;
-                  left = tab.getLeft();
-                }
-                if(tab.getTop() !== 0) {
-                  noResize = true;
-                  top = tab.getTop();
-                }
-              }
-
-              tabCtrl.setText("Tab" + i.toString());
-              tabCtrl.setTabStop(false);
-              tabCtrl.setVisible(!m_hideTabButtons);
-              if(left + tabCtrl.getWidth() > getView().getWidth()) {
-                left = 90;
-                top = top + tabCtrl.getHeight() - 20;
-              }
-              tabCtrl.setTop(top + topItems);
-              tabCtrl.setLeft(left);
-              tabCtrl.bringToFront();
-              tabCtrl.setBackColorPressed(Dialogs.Colors.tabBackColor);
-              left = left + tabCtrl.getWidth() - 20;
-            }
-
-            m_left = [];
-            m_nextTop = [];
-
-            for(var q = 0; q < tabs; q++) {
-              m_nextTop[q] = m_constTop;
-              m_left[q] = m_constLeft;
-            }
-
-            if(m_tabs !== null) {
-
-              left = 90;
-              if(m_isItems) {
-                top = view.getTabItems().getTop() - view.getTabs().get(0).getHeight();
-                topItems = 10;
-              }
-              else if(m_isFooter) {
-                top = view.getFooterBackground().getTop() - view.getTabs().get(0).getHeight();
+            tabCount = m_tabs.count();
+            for(var _i = 0; _i < tabCount; _i++) {
+              tab = m_tabs.get(_i);
+              if(tab.getIndex() < 0) {
+                tabCtrl = view.getTabs().get(tab.getControlIndex() + m_tabOffset);
+                tabCtrl.setText(tab.getName());
               }
               else {
-                if(m_isDocument) {
-                  top = 1080;
-                }
-                else {
-                  top = tabTopHeight;
-                }
+                tabCtrl = view.getTabs().get(tab.getIndex() + m_tabOffset);
+                tabCtrl.setText(tab.getName());
               }
-
-              tabCount = m_tabs.count();
-              for(var _i = 0; _i < tabCount; _i++) {
-                tab = m_tabs.get(_i);
-                if(tab.getIndex() < 0) {
-                  tabCtrl = view.getTabs().get(tab.getControlIndex() + m_firstTab);
-                  //tabCtrl.setText("&" + Math.abs(tab.getIndex()).toString() + "-" + tab.getName());
-                  tabCtrl.setText(tab.getName());
-                }
-                else {
-                  tabCtrl = view.getTabs().get(tab.getIndex() + m_firstTab);
-                  //tabCtrl.setText("&" + tab.getIndex() + m_firstTab + 1 + "-" + tab.getName());
-                  tabCtrl.setText(tab.getName());
-                }
-
-                if(!noResize) {
-                  tabCtrl.setWidth(view.getTextWidth(tabCtrl.getText())) + 300;
-                  if(left + tabCtrl.getWidth() > view.getWidth()) {
-                    left = 100;
-                    top = top + tabCtrl.getHeight() - 20;
-                  }
-                  tabCtrl.setLeft(left);
-                  tabCtrl.setTop(top + topItems);
-                  left = left + tabCtrl.getWidth() - 20;
-                }
-              }
-
-              view.getBackground().bringToFront();
             }
           }
         };
@@ -6625,19 +5995,6 @@
           if(property.getControl() !== null) {
             setFont(property.getControl(), property);
           }
-        };
-
-        self.refreshPosition = function(property) {
-          try {
-            var c = property.getControl()
-            if(c !== null) {
-              c.setLeft(property.getLeft());
-              c.setTop(property.getTop());
-              c.setWidth(property.getWidth());
-              c.setHeight(property.getHeight());
-            }
-          }
-          catch(ignore) {}
         };
 
         var setFont = function(c, property) {
@@ -6957,32 +6314,6 @@
           return index;
         };
 
-        var initVectorsPosition = function() {
-          m_left[0] = m_constLeft;
-          m_leftOp[0] = m_constLeftOp;
-          m_nextTop[0] = m_constTop;
-          m_nextTopOp[0] = m_constTopOp;
-        };
-
-        var initCtrlPosition = function() {
-          m_constLeft = getView().getCtrlLabels().get(0).getLeft();
-          m_constLeftOp = getView().getOptionButtons().get(0).getLeft();
-          m_textOrigWidth = getView().getTextInputs().get(0).getWidth();
-
-          if(m_isItems) {
-            m_constTop = getView().getTabItems().getTop() + 100;
-          }
-          else if(m_isFooter) {
-            m_constTop = getView().getFooterBackground().getTop() + C_OFFSET_V1;
-            m_constLeft = getView().getFooterBackground().getLeft() + 200;
-          }
-          else {
-            m_constTop = getView().getSelects().get(0).getTop();
-          }
-
-          m_constTopOp = getView().getOptionButtons().get(0).getTop();
-        };
-
         self.initButtons = function() {
           var view = getView();
           if(viewIsDocument(view)) {
@@ -7005,27 +6336,15 @@
           m_isFooter   = false;
           m_isItems    = false;
           m_viewShowed = false;
-          m_minHeight  = 480;
-          m_minWidth   = 320;
 
           m_tabHideControlsInAllTab = -1;
 
           m_properties = new Dialogs.createProperties();
-
-          m_nextTop   = [0];
-          m_nextTopOp = [0];
-          m_left      = [0];
-          m_leftOp    = [0];
         };
 
         var destroy = function() {
 
           m_menu = null;
-
-          m_nextTop   = null;
-          m_nextTopOp = null;
-          m_left      = null;
-          m_leftOp    = null;
 
           m_properties  = null;
           m_client      = null;
@@ -7139,7 +6458,6 @@
             var subTitle = view.getSubTitle();
             var viewTitle = view.getTitle();
             subTitle.setText(m_client.getTitle() + " - "+ m_title);
-            subTitle.setLeft(viewTitle.getLeft() + viewTitle.getWidth() + 50);
             subTitle.flash();
           }
           else {
@@ -7171,7 +6489,8 @@
           }
           else if(m_documentView !== null) {
             m_documentView.getBackground().setBackColor(color);
-            m_documentView.getFooterBackground().setBackColor(color);
+            // TODO: fix me
+            //m_documentView.getFooterBackground().setBackColor(color);
             m_documentView.getTabItems().setBackColor(color);
           }
           else if(m_wizardView !== null) {
@@ -7278,6 +6597,7 @@
 
             case Dialogs.PropertyType.controlLabel:
               ctrl = view.getCtrlLabels().add();
+              ctrl.setName("__labelForControl__");
               break;
           }
 
@@ -7290,6 +6610,23 @@
 
         var setToolbar = function() {
           // TODO: implement this.
+        };
+
+        var setTabGroup = function(c) {
+          if(m_isDocument) {
+            if(m_isItems) {
+              c.setTabGroup(1);
+            }
+            else if(m_isFooter) {
+              c.setTabGroup(2);
+            }
+            else {
+              c.setTabGroup(0);
+            }
+          }
+          else {
+            c.setTabGroup(0);
+          }
         };
 
         var getTagChildIndex = function(tag) {

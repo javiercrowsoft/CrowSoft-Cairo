@@ -754,8 +754,6 @@
         elem.setKey(K_DESCRIPCION);
         elem.setValue(m_descripcion);
 
-        m_dialog.setMinHeight(6000);
-
         if(!m_dialog.show(self)) { return false; }
 
         return true;

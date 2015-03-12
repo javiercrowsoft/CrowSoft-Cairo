@@ -182,11 +182,6 @@
     orden: 5
   };
 
-  Cairo.Documents.DialogKeys = {
-    number: 'NUMBER_ID',
-    status: 'STATUS_ID'
-  };
-
   Cairo.Documents.ReceiptType = {
     original: 1,
     fax: 2,
@@ -291,7 +286,7 @@
                     estId = valField(response.data, C.EST_ID);
                     estado = valField(response.data, C.EST_NAME);
 
-                    var property = dialog.getProperties().item(Cairo.Documents.DialogKeys.status);
+                    var property = dialog.getProperties().item(Cairo.Constants.STATUS_ID);
 
                     property.setSelectId(estId);
                     property.setValue(estado);

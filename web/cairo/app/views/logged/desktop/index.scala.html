@@ -107,7 +107,7 @@
 </div>
 
 <div id="dialog-region"></div>
-
+<div id="dialog-loading-region"></div>
 <div id="dialog-select-tree-region"></div>
 
 <!-- Backbone templates -->
@@ -533,7 +533,7 @@
 </script>
 
 <script type="text/template" id="document-layout-template">
-    <div class="row">
+    <div class="row dialog-header">
         <div class="col-sm-12 col-md-12">
             <div class="@if(requestOrigin.userAgent.isMobile) {container} else {desktop-big-container}">
                 <h3 class="sub-header dialog-subtitle"><%- entityTitle %></h3>
@@ -541,24 +541,25 @@
         </div>
     </div>
     <div class="@if(requestOrigin.userAgent.isMobile) {container} else {dialog-container}">
-        <div id="formBody">
+        <div class="row document-list-buttons-toolbar-row">
+          <div class="col-sm-3 col-md-3 col-lg-3">
+            <button class="btn btn-success dialog-button dialog-wide-button dialog-save-button">Save</button>
+          </div>
+          <div class="col-sm-8 col-md-8 col-lg-8">
+            <button class="btn btn-info dialog-button dialog-new-button">New</button>
+            <button class="btn btn-info dialog-button dialog-copy-button">Duplicate</button>
+            <button class="btn btn-warning dialog-button dialog-discard-button">Discard Changes</button>
+            <button class="btn btn-info dialog-button dialog-print-button">Print</button>
+            <button class="btn btn-info dialog-button dialog-permissions-button">Permissions</button>
+            <button class="btn btn-info dialog-button dialog-documents-button">Attached Files</button>
+          </div>
+          <div class="col-sm-1 col-md-1 col-lg-1">
+            <button class="btn btn-warning dialog-button dialog-close-button">Close</button>
+          </div>
         </div>
-        <div class="input-text-form">
-            <div class="row dialog-buttons-first-row">
-                <button class="btn btn-success dialog-button dialog-wide-button dialog-save-button">Save</button>
-                <button class="btn btn-warning dialog-button dialog-close-button">Close</button>
-            </div>
-            <div class="row dialog-buttons-row">
-                <button class="btn btn-info dialog-button dialog-new-button">New</button>
-                <button class="btn btn-info dialog-button dialog-copy-button">Duplicate</button>
-                <button class="btn btn-warning dialog-button dialog-discard-button">Discard Changes</button>
-            </div>
-            <div class="row dialog-buttons-last-row">
-                <button class="btn btn-info dialog-button dialog-print-button">Print</button>
-                <button class="btn btn-info dialog-button dialog-permissions-button">Permissions</button>
-                <button class="btn btn-info dialog-button dialog-documents-button">Attached Files</button>
-            </div>
-            <br/>
+        <div class="dialog-form-box">
+          <div id="formBody">
+          </div>
         </div>
     </div>
 </script>
@@ -792,6 +793,7 @@
 <script src="./client/cairo/modules/CSCompra2/constants.js"></script>
 <script src="./client/cairo/modules/system/system.js"></script>
 <script src="./client/cairo/modules/CSGeneralEx2/cGenericEdit.js"></script>
+<script src="./client/cairo/modules/CSCompra2/percepcion.js"></script>
 
 @for(routerEntry <- router) {<script src="./client/cairo/modules/@{routerEntry.fileHandler}.js"></script>
 }

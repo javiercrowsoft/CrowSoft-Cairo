@@ -364,8 +364,6 @@
       };
 
       var loadCollection = function() {
-;
-        m_dialog.setMinHeight(6400);
         m_dialog.setTitle(m_name);
 
         var properties = m_dialog.getProperties();

@@ -19,6 +19,7 @@
         superSetElement(element);
         element.text(self.text);
         element.addClass('dialog-label');
+        applyVisible();
       };
 
       that.setText = function(text) {
@@ -38,6 +39,19 @@
       };
       that.getLabelFor = function() {
         return self.labelFor;
+      };
+
+      var superSetVisible = that.setVisible;
+
+      that.setVisible = function(visible) {
+        superSetVisible(visible);
+        applyVisible();
+      };
+
+      var applyVisible = function() {
+        if(that.getElement() && that.getVisible()) {
+          that.getElement().css('display', 'block');
+        }
       };
 
       return that;

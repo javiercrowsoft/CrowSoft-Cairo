@@ -2172,8 +2172,6 @@
 
       var loadCollection = function() {
 
-        m_dialog.setMinHeight(8400);
-        m_dialog.setMinWidth(11000);
         m_dialog.setUseSelectIntValue(true);
 
         var TAB_GENERAL = 0;

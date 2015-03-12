@@ -79,6 +79,7 @@
           onChange();
         });
         if(!isText()) {
+          element.addClass("dialog-input-control-number");
           element.on("keypress", keyPressListener);
         }
       };
@@ -147,6 +148,8 @@
           else {
             text = val(text);
           }
+          var decimals = self.type === Controls.InputType.integer ? 0 : 2;
+          text = Cairo.accounting.formatNumber(text, decimals);
         }
         return text;
       };

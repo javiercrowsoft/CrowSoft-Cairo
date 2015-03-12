@@ -49,6 +49,37 @@ object FacturaCompraId {
   }
 }
 
+case class FacturaCompraReferences(
+                              doctId: Int,
+                              doctName: String,
+                              monId: Int,
+                              monName: String
+                            ) {
+  def this(
+            doctId: Int,
+            monId: Int
+            ) = {
+    this(
+      doctId,
+      "",
+      monId,
+      ""
+    )
+  }
+}
+
+object FacturaCompraReferences {
+
+  def apply(
+             doctId: Int,
+             monId: Int) = {
+
+    new FacturaCompraReferences(
+      doctId,
+      monId)
+  }
+}
+
 case class FacturaCompraBase(
                               provId: Int,
                               provName: String,
@@ -331,6 +362,7 @@ case class FacturaCompra(
 
                           ids: FacturaCompraId,
                           base: FacturaCompraBase,
+                          references: FacturaCompraReferences,
                           dates: FacturaCompraDates,
                           precios: FacturaCompraPrecios,
                           cotizacion: FacturaCompraCotizacion,
@@ -349,6 +381,7 @@ case class FacturaCompra(
 
             ids: FacturaCompraId,
             base: FacturaCompraBase,
+            references: FacturaCompraReferences,
             dates: FacturaCompraDates,
             precios: FacturaCompraPrecios,
             cotizacion: FacturaCompraCotizacion,
@@ -362,6 +395,7 @@ case class FacturaCompra(
 
       ids,
       base,
+      references,
       dates,
       precios,
       cotizacion,
@@ -378,6 +412,7 @@ case class FacturaCompra(
   def this(
             ids: FacturaCompraId,
             base: FacturaCompraBase,
+            references: FacturaCompraReferences,
             dates: FacturaCompraDates,
             precios: FacturaCompraPrecios,
             cotizacion: FacturaCompraCotizacion,
@@ -391,6 +426,7 @@ case class FacturaCompra(
 
       ids,
       base,
+      references,
       dates,
       precios,
       cotizacion,
@@ -486,9 +522,12 @@ object FacturaCompra {
 
   lazy val emptyFacturaCompraItems = FacturaCompraItems(List(), List(), List(), List(), List())
 
+  lazy val emptyFacturaCompraReferences = FacturaCompraReferences(DBHelper.NoId, DBHelper.NoId)
+
   lazy val emptyFacturaCompra = FacturaCompra(
     FacturaCompraId(DBHelper.NoId, 0, ""),
     FacturaCompraBase(DBHelper.NoId, DBHelper.NoId, DBHelper.NoId, DBHelper.NoId, DBHelper.NoId, DBHelper.NoId, "", 0, "", false),
+    emptyFacturaCompraReferences,
     FacturaCompraDates(U.NO_DATE, U.NO_DATE, U.NO_DATE, U.NO_DATE),
     FacturaCompraPrecios(0.0, 0.0, DBHelper.NoId, DBHelper.NoId),
     FacturaCompraCotizacion(0,0),
@@ -505,6 +544,7 @@ object FacturaCompra {
 
              ids: FacturaCompraId,
              base: FacturaCompraBase,
+             references: FacturaCompraReferences,
              dates: FacturaCompraDates,
              precios: FacturaCompraPrecios,
              cotizacion: FacturaCompraCotizacion,
@@ -519,6 +559,7 @@ object FacturaCompra {
 
       ids,
       base,
+      references,
       dates,
       precios,
       cotizacion,
@@ -534,6 +575,7 @@ object FacturaCompra {
 
              ids: FacturaCompraId,
              base: FacturaCompraBase,
+             references: FacturaCompraReferences,
              dates: FacturaCompraDates,
              precios: FacturaCompraPrecios,
              cotizacion: FacturaCompraCotizacion,
@@ -546,6 +588,7 @@ object FacturaCompra {
 
       ids,
       base,
+      references,
       dates,
       precios,
       cotizacion,
@@ -559,6 +602,7 @@ object FacturaCompra {
   def apply(
              ids: FacturaCompraId,
              base: FacturaCompraBase,
+             references: FacturaCompraReferences,
              dates: FacturaCompraDates,
              precios: FacturaCompraPrecios,
              cotizacion: FacturaCompraCotizacion,
@@ -571,6 +615,7 @@ object FacturaCompra {
     new FacturaCompra(
       ids,
       base,
+      references,
       dates,
       precios,
       cotizacion,
@@ -584,6 +629,7 @@ object FacturaCompra {
   def apply(
              ids: FacturaCompraId,
              base: FacturaCompraBase,
+             references: FacturaCompraReferences,
              dates: FacturaCompraDates,
              precios: FacturaCompraPrecios,
              cotizacion: FacturaCompraCotizacion,
@@ -595,6 +641,7 @@ object FacturaCompra {
 
       ids,
       base,
+      references,
       dates,
       precios,
       cotizacion,
@@ -855,6 +902,10 @@ object FacturaCompra {
     SqlParser.get[Int](C.FC_TIPO_COMPROBANTE) ~
     SqlParser.get[String](C.FC_DESCRIP) ~
     SqlParser.get[Int](C.FC_GRABAR_ASIENTO) ~
+    SqlParser.get[Int](GC.DOCT_ID) ~
+    SqlParser.get[String](GC.DOCT_NAME) ~
+    SqlParser.get[Int](GC.MON_ID) ~
+    SqlParser.get[String](GC.MON_NAME) ~
     SqlParser.get[Date](C.FC_FECHA) ~
     SqlParser.get[Date](C.FC_FECHA_ENTREGA) ~
     SqlParser.get[Date](C.FC_FECHA_IVA) ~
@@ -909,6 +960,10 @@ object FacturaCompra {
         tipoComprobante ~
         descrip ~
         grabarAsiento ~
+        doctId ~
+        doctName ~
+        monId ~
+        monName ~
         fecha ~
         fechaEntrega ~
         fechaIva ~
@@ -966,6 +1021,12 @@ object FacturaCompra {
           tipoComprobante,
           descrip,
           (if(grabarAsiento != 0) true else false)
+        ),
+        FacturaCompraReferences(
+          doctId,
+          doctName,
+          monId,
+          monName
         ),
         FacturaCompraDates(
           fecha,
@@ -1264,6 +1325,7 @@ object FacturaCompra {
 
           p.ids,
           p.base,
+          p.references,
           p.dates,
           p.precios,
           p.cotizacion,

@@ -176,6 +176,8 @@ BEGIN
    OPEN rtn FOR
 
       SELECT FacturaCompra.*,
+             doct_nombre,
+             mon_nombre,
              prov_nombre,
              lp_nombre,
              ld_nombre,
@@ -201,6 +203,10 @@ BEGIN
         FROM FacturaCompra
                JOIN Documento
                 ON FacturaCompra.doc_id = Documento.doc_id
+               JOIN DocumentoTipo
+                ON FacturaCompra.doct_id = DocumentoTipo.doct_id
+               JOIN Moneda
+                ON FacturaCompra.mon_id = Moneda.mon_id
                JOIN CondicionPago
                 ON FacturaCompra.cpg_id = CondicionPago.cpg_id
                JOIN Estado

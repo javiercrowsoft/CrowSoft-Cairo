@@ -1565,8 +1565,6 @@
       var loadCollection = function() {
 
         var elem;
-        m_dialog.setMinHeight(8600);
-        m_dialog.setMinWidth(12000);
 
         var tab_general = 0;
         var tab_compra = 1;

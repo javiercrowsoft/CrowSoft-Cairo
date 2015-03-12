@@ -18,6 +18,7 @@
       var count = view.controls.count();
       var form = $('<div class="dialog-form"></div>');
       var tabs = [];
+      var tabGroups = [];
       var row = null;
       var column = null;
       var lastTabIndex = -1;
@@ -28,56 +29,84 @@
       //    columns: how many columns this tab has,
       //    colIndex: used to know in which column should the control be added
       //
-      var setTabDefinition = function(i) {
-        tabs.push({ count: 0, columns: 0, colIndex: 0 });
+      var setTabDefinition = function(index, group) {
+        if(tabs[group] === undefined) {
+          tabs[group]= [];
+        }
+        tabs[group].push({ count: 0, columns: 0, colIndex: 0 });
         for(var j = 0; j < count; j += 1) {
           var c = view.controls.item(j);
-          if(c.getTabGroup() === i) {
-            tabs[i].count += 1;
+          var tabIndex = getTabIndexInGroup(index, group);
+          if(c.getTabGroupIndex() === index && c.getTabGroup() === group) {
+            tabs[group][tabIndex].count += 1;
           }
         }
         if(view.type === 'ListDoc' || view.type === 'Params') {
-          tabs[i].columns = 1;
+          tabs[group][tabIndex].columns = 1;
         }
         else {
-          tabs[i].columns = 3;
+          tabs[group][tabIndex].columns = view.tabs.get(index).getColumns();
         }
       }
 
-      //
-      // first tabs
-      //
-      if(tabsCount > 1) {
-
-        var group = $('<div class="btn-group" role="group" aria-label="..."></div>')
-
-        for(var i = 0; i < tabsCount; i += 1) {
-          var control = view.controls.item(i);
-          var element = $(control.htmlTag);
-          control.setElement(element, viewManager);
-          group.append(element);
-
-          setTabDefinition(i);
+      var getTabIndexInGroup = function(index, group) {
+        if(group > 0) {
+          for(var i = 0; i < group; i += 1) {
+            index -= tabGroups[i];
+          }
         }
+        return index;
+      };
 
-        var tabColumn = $('<div class="col-lg-12 col-md-12 col-sm-12"></div>');
-        tabColumn.append(group);
+      var m_groupBox = null;
+      var m_lastTabIndex = -1;
 
-        var tabsRow = $('<div class="row"></div>');
-        tabsRow.append(tabColumn);
+      var getTabBox = function(index) {
+        var clazz = "";
+        if(index !== m_lastTabIndex + 1) {
+          m_groupBox = null;
+          clazz = " secondary-tab-box";
+        }
+        m_lastTabIndex = index;
+        if(m_groupBox === null) {
+          m_groupBox = $('<div class="btn-group" role="group" aria-label="..."></div>');
 
-        form.append(tabsRow);
+          var tabColumn = $('<div class="col-lg-12 col-md-12 col-sm-12' + clazz + '"></div>');
+          tabColumn.append(m_groupBox);
+
+          var tabsRow = $('<div class="row"></div>');
+          tabsRow.append(tabColumn);
+
+          form.append(tabsRow);
+        }
+        return m_groupBox;
+      };
+
+      if(tabsCount > 1) {
+        for(var i = 0; i < tabsCount; i += 1) {
+          var group = view.tabs.get(i).getTabGroup();
+          if(tabGroups[group] === undefined) {
+            tabGroups[group] = 1;
+          }
+          else {
+            tabGroups[group] += 1;
+          }
+        }
+        for(var i = 0; i < tabsCount; i += 1) {
+          setTabDefinition(i, view.tabs.get(i).getTabGroup());
+        }
       }
       else {
-        setTabDefinition(0);
+        setTabDefinition(0, 0);
       }
+
       //
       // add a row with one or more elements
       //
-      var getRow = function(elements, clazz, tabIndex, isLabel, isBigColumn) {
-        if(row === null || tabs[tabIndex].colIndex >= tabs[tabIndex].columns || lastTabIndex !== tabIndex || isBigColumn) {
+      var getRow = function(elements, clazz, tabIndex, tabGroup, isLabel, isBigColumn) {
+        if(row === null || tabs[tabGroup][tabIndex].colIndex >= tabs[tabGroup][tabIndex].columns || lastTabIndex !== tabIndex || isBigColumn) {
           row = $('<div class="row dialog-row"></div>');
-          tabs[tabIndex].colIndex = 0;
+          tabs[tabGroup][tabIndex].colIndex = 0;
           lastTabIndex = tabIndex;
         }
         if(isLabel || column === null) {
@@ -87,12 +116,12 @@
         row.append(column);
 
         if(! isLabel) {
-          tabs[tabIndex].colIndex += 1;
+          tabs[tabGroup][tabIndex].colIndex += 1;
           column = null;
         }
 
         if(isBigColumn) {
-          tabs[tabIndex].colIndex = tabs[tabIndex].columns;
+          tabs[tabGroup][tabIndex].colIndex = tabs[tabGroup][tabIndex].columns;
         }
 
         return row;
@@ -118,18 +147,96 @@
         }
       };
 
+      var getColumnClass = function(tabIndex, group) {
+        switch(tabs[group][tabIndex].columns) {
+          case 1: /* it is not a bug when 1 column per tab the class must be col-xx-12 */
+            return "col-lg-12 col-md-12 col-sm-12";
+          case 3:
+            return "col-lg-4 col-md-4 col-sm-6";
+          case 4:
+            return "col-lg-3 col-md-3 col-sm-6";
+          case 6:
+            return "col-lg-2 col-md-2 col-sm-2";
+          case 12: /* it is not a bug when 12 column per tab the class must be col-xx-1 */
+            return "col-lg-1 col-md-1 col-sm-1"
+        }
+      };
+
+      var m_documentHeader = null;
+      var m_headerColIndex = 0;
+
+      var getDocumentHeader = function() {
+        if(m_documentHeader === null) {
+          m_documentHeader = $('<div class="row document_header_box"></div>');
+          form.append(m_documentHeader);
+        }
+        return m_documentHeader;
+      };
+
+      var addToDocumentHeader = function(element) {
+        var clazz = "";
+        switch(m_headerColIndex) {
+          case 0:
+            clazz = "col-lg-3 col-md-4 col-sm-5";
+            break;
+          case 1:
+            clazz = "col-lg-1 col-md-2 col-sm-2";
+            break;
+          case 2:
+            clazz = "col-lg-3 col-md-4 col-sm-5";
+            break;
+        }
+        m_headerColIndex += 1;
+        var col = $('<div class="' + clazz + '"></div>');
+        col.append(element);
+        getDocumentHeader().append(col);
+      };
+
+      var inHeaderBox = function(control) {
+        return control.getTag() === 'document_header';
+      };
+
+      if(view.controls.selectFirst(inHeaderBox)) {
+        getDocumentHeader();
+      }
+
       //
       // now controls
       //
-      for(var i = 0; i < count; i += 1) {
-        var control = view.controls.item(i);
-        if(!Controls.isTab(control)) {
-          var element = $(control.htmlTag);
-          var isBigColumn = checkBigColumn(control, i);
-          var clazz = isBigColumn ? "col-lg-12 col-md-12 col-sm-12" : "col-lg-4 col-md-5 col-sm-7";
-          control.setElement(element, viewManager);
-          control.setSelectOnFocus(true);
-          form.append(getRow(element, clazz, control.getTabGroup(), isLabelForControl(control), isBigColumn));
+      if(tabsCount === 0) {
+        tabsCount = 1;
+      }
+
+      for(var j = 0; j < tabsCount; j++) {
+        var tab = view.tabs.get(j);
+        var tabGroup = tab.getTabGroup();
+        var tabIndex = getTabIndexInGroup(j, tabGroup);
+        for(var i = 0; i < count; i += 1) {
+          var control = view.controls.item(i);
+          if(control.getElement() === null) {
+            if(Controls.isTab(control)) {
+              if(tabGroups[control.getTabGroup()] > 1 && tabGroup === control.getTabGroup()) {
+                var element = $(control.htmlTag);
+                control.setElement(element, viewManager);
+                getTabBox(i).append(element);
+              }
+            }
+            else if(tabGroup === control.getTabGroup() && tabIndex === control.getTabGroupIndex()) {
+              var element = $(control.htmlTag);
+              control.setElement(element, viewManager);
+              control.setSelectOnFocus(true);
+              if(control.getTag() === 'document_header') {
+                addToDocumentHeader(element);
+              }
+              else {
+                var isBigColumn = checkBigColumn(control, i);
+                var tabGroup = control.getTabGroup();
+                var tabIndex = control.getTabGroupIndex();
+                var clazz = isBigColumn ? "col-lg-12 col-md-12 col-sm-12" : getColumnClass(tabIndex, tabGroup);
+                form.append(getRow(element, clazz, tabIndex, tabGroup, isLabelForControl(control), isBigColumn));
+              }
+            }
+          }
         }
       }
       return form;
@@ -249,8 +356,6 @@
       };
 
       var that = {};
-
-      self.tabs.add();
 
       that.getType = function() {
         return self.type;
@@ -659,7 +764,7 @@
 
       that.onTabClick = function(control) {
         return function() {
-          that.raiseEvent("tabClick", control.getIndex());
+          that.raiseEvent("tabClick", { index: control.getIndex(), tag: control.getTag() });
         };
       };
 

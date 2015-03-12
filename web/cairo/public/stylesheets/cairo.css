@@ -48,9 +48,9 @@
 }
 
 .tree-select-control input {
-    width: -moz-calc(100% - 40px);
-    width: -webkit-calc(100% - 40px);
-    width: calc(100% - 40px);
+    width: -moz-calc(100% - 23px);
+    width: -webkit-calc(100% - 23px);
+    width: calc(100% - 23px);
     height: 35px;
     float: left;
     border: 0;
@@ -88,8 +88,8 @@
     padding: 0;
     cursor: pointer;
     height: 36px;
-    width: 36px;
-    font: bold 15px/40px 'lucida sans', 'trebuchet MS', 'Tahoma';
+    width: 23px;
+    font: bold 15px/30px 'lucida sans', 'trebuchet MS', 'Tahoma';
     color: #fff;
     text-transform: uppercase;
     background: #3498db;
@@ -292,7 +292,7 @@ div.tree-select-dialog.ui-widget-content {
 
 .dialog-label {
     margin-top: 15px;
-    display: block !important;
+    display: block;
 }
 
 .dialog-control {
@@ -664,4 +664,30 @@ a.DTTT_button {
 
 .ui-widget-overlay .ui-front {
   z-index: 8999;
+}
+
+input[type="radio"].dialog-checkbox, input[type="checkbox"].dialog-checkbox {
+  margin-bottom: 20px;
+}
+
+.secondary-tab-box {
+  margin-top: 10px;
+}
+
+.dialog-input-control-number {
+  text-align: right;
+}
+
+.document_header_box {
+  margin-bottom: 20px;
+  background-color: #f8f8f8;
+  padding: 10px 10px 0px 10px;
+}
+
+.document_header_box div {
+  margin-bottom:5px;
+}
+
+html input[disabled] {
+  background: #eeeeee;
 }

@@ -580,6 +580,11 @@ object C {
   val GTO_IMPORTE = "gto_importe"
 
   // Documentos
+  val DOCUMENTO_TIPO = "DocumentoTipo"
+  val DOCT_ID = "doct_id"
+  val DOCT_NAME = "doct_nombre"
+
+  // Documentos
   val DOCUMENTO = "Documento"
   val DOC_ID = "doc_id"
   val DOC_NAME = "doc_nombre"

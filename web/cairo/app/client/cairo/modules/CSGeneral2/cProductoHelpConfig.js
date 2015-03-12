@@ -381,8 +381,6 @@
 
       var loadCollection = function() {
 
-        m_dialog.setMinHeight(6400);
-
         var properties = m_dialog.getProperties();
         properties.clear();
 

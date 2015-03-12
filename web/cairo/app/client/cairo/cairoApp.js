@@ -63,7 +63,7 @@ var Cairo = new Marionette.Application();
     }),
 
     dialogLoadingRegion: Marionette.Region.Dialog.extend({
-      el: "#dialog-region",
+      el: "#dialog-loading-region",
       onCloseDialog: function() {
         if(this.handler) {
           this.handler.closeDialog();
@@ -459,7 +459,11 @@ var Cairo = new Marionette.Application();
 
   var getLocaleYearIndex = function() {
     var d = new Date("03/02/01");
-    return d.getFullYear() === 2003 ? /* YMD */ 0 : d.getFullYear() === 2001 ? /* DMY or MDY */ 2 : /* WAT ?Y? */ 1;
+    var year = d.getFullYear();
+    return (year === 2003 || year === 1903)
+              ? /* YMD */ 0
+              : (year === 2001 || year === 1901)
+                  ? /* DMY or MDY */ 2 : /* WAT ?Y? */ 1;
   };
   var localeYearIndex = getLocaleYearIndex();
 

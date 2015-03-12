@@ -388,8 +388,6 @@
 
         m_dialog.setTitle(m_name);
 
-        abmGen.setMinHeight(6800);
-
         var properties = m_dialog.getProperties();
         properties.clear();
 

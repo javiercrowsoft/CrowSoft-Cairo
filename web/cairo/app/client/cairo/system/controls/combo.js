@@ -20,6 +20,13 @@
         return self.text;
       };
 
+      that.clear = function() { /* TODO: implement this. */ };
+      that.add = function() { /* TODO: implement this. */ };
+      that.setItemData = function() { /* TODO: implement this. */ };
+      that.getNewIndex = function() { /* TODO: implement this. */ };
+      that.getListIndex = function() { /* TODO: implement this. */ };
+      that.setListIndex = function() { /* TODO: implement this. */ };
+
       return that;
     };
 

@@ -473,7 +473,6 @@
 
       var loadCollection = function() {
 
-        m_dialog.setMinHeight(6400);
         m_dialog.setTitle(m_name);
 
         var w_tabs = m_dialog.getTabs();

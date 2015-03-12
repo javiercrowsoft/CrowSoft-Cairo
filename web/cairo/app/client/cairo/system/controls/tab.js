@@ -198,7 +198,6 @@
         var setControlIndex = function(index) { /* TODO: implement this. */ };
         var setTabSelected = function(selected) { /* TODO: implement this. */ };
         var getFatherTab = function() { /* TODO: implement this. */ };
-        var setTabGroup = function(group) { /* TODO: implement this. */ };
         var setTabStop = function(stop) { /* TODO: implement this. */ };
         var setBackColorPressed = function(color) { /* TODO: implement this. */ };
         var getWidth = function() { /* TODO: implement this. */ };
@@ -215,7 +214,6 @@
           setControlIndex: setControlIndex,
           setTabSelected: setTabSelected,
           getFatherTab: getFatherTab,
-          setTabGroup: setTabGroup,
           setTabStop: setTabStop,
           setBackColorPressed: setBackColorPressed,
           getWidth: getWidth
@@ -240,7 +238,8 @@
         tabStop: false,
         backColorPressed: 0,
         width: 0,
-        controlIndex: 0
+        controlIndex: 0,
+        columns: 1
       };
 
       var that = Controls.createControl();
@@ -298,10 +297,6 @@
         return self.father;
       };
 
-      that.setTabGroup = function(group) {
-        self.group = group;
-      };
-
       that.setTabStop = function(stop) {
         self.stop = stop;
       };
@@ -312,7 +307,15 @@
 
       that.getWidth = function() {
         return self.width;
-      }
+      };
+
+      that.getColumns = function() {
+        return self.columns;
+      };
+      that.setColumns = function(columns) {
+        self.columns = columns;
+        return that;
+      };
       
       return that;
     };
