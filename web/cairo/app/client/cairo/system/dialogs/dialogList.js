@@ -51,7 +51,7 @@
               viewDestroy:                viewDestroy,
 
               comboChange:                comboChange,
-              checkBoxClick:              checkBoxClick,
+              checkboxClick:              checkboxClick,
               selectChange:               selectChange,
               maskEditChange:             maskEditChange,
               dateChange:                 dateChange,
@@ -210,7 +210,7 @@
 
             case Dialogs.PropertyType.check:
 
-              var c = view.getCheckBoxes().get(property.getIndex());
+              var c = view.getCheckboxes().get(property.getIndex());
               c.setValue(Cairo.Util.val(property.getValue()) !== 0);
               c.setEnabled(property.getEnabled());
 
@@ -224,8 +224,8 @@
           changeProperty(Dialogs.PropertyType.list, index, getView().getCombos().item(index));
         };
 
-        var checkBoxClick = function(index) {
-          changeProperty(Dialogs.PropertyType.check, index, getView().getCheckBoxes().item(index));
+        var checkboxClick = function(index) {
+          changeProperty(Dialogs.PropertyType.check, index, getView().getCheckboxes().item(index));
         };
 
         var discardChanges = function(dontCallClient) {
@@ -448,7 +448,7 @@
               break;
 
             case Dialogs.PropertyType.check:
-              property.setIndex(getView().getCheckBoxes().count() - 1);
+              property.setIndex(getView().getCheckboxes().count() - 1);
               break;
           }
 
@@ -598,7 +598,7 @@
             switch (property.getType()) {
 
               case Dialogs.PropertyType.check:
-                changeProperty(Dialogs.PropertyType.check, index, getView().getCheckBoxes().item(index));
+                changeProperty(Dialogs.PropertyType.check, index, getView().getCheckboxes().item(index));
                 break;
 
               case Dialogs.PropertyType.date:
@@ -665,7 +665,7 @@
               break;
 
             case Dialogs.PropertyType.check:
-              ctrl = view.getCheckBoxes().add();
+              ctrl = view.getCheckboxes().add();
               break;
 
             case Dialogs.PropertyType.password:

@@ -3,7 +3,7 @@
 
   Cairo.module("Controls", function(Controls, Cairo, Backbone, Marionette, $, _) {
 
-    var createCheckBox = function() {
+    var createCheckbox = function() {
       var self = {
         text: "",
         value: false
@@ -15,11 +15,16 @@
 
       var superSetElement = that.setElement;
 
-      that.setElement = function(element) {
+      that.setElement = function(element, view) {
         superSetElement(element);
         element.attr('type', 'checkbox');
         element.prop('checked', self.value);
         element.addClass('dialog-checkbox');
+        var onClick = view.onCheckboxClick(that);
+        element.click(function() {
+          that.setValue(element.is(':checked'));
+          onClick();
+        });
       };
 
       that.setText = function(text) {
@@ -44,13 +49,13 @@
       return that;
     };
 
-    Controls.createCheckBox = function() {
+    Controls.createCheckbox = function() {
 
       var self = {
-        objectType: "cairo.controls.checkBox"
+        objectType: "cairo.controls.checkbox"
       };
 
-      var that = createCheckBox();
+      var that = createCheckbox();
 
       that.getObjectType = function() {
         return self.objectType;

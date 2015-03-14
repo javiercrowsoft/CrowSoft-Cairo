@@ -640,7 +640,9 @@
         type: Cairo.Select.SelectType.normal,
         noUseActive: false,
 
-        select: null
+        select: null,
+        input: null,
+        button: null
       };
       
       var that = Controls.createControl();
@@ -693,6 +695,18 @@
         });
 
         self.select = select;
+        self.input = input;
+        self.button = button;
+
+        that.setEnabled(that.getEnabled());
+      };
+
+      var superSetEnabled = that.setEnabled;
+
+      that.setEnabled = function(enabled) {
+        superSetEnabled(enabled);
+        if(self.input !== null) self.input.attr('disabled', !enabled);
+        if(self.button !== null) self.button.attr('disabled', !enabled);
       };
 
       that.setValue = function(value) {
@@ -756,9 +770,9 @@
           element.setTable(self.table);
         }
       };
-      that.setEnabled = function(enabled) {
-        self.enabled = enabled;
-      };
+      //that.setEnabled = function(enabled) {
+      //  self.enabled = enabled;
+      //};
 
       that.getSelectType = function() {
         return self.type;

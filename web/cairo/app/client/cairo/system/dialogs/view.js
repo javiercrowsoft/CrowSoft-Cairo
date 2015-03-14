@@ -330,7 +330,7 @@
         datePickers: Cairo.Collections.createCollection(Controls.createDatePicker, controls),
         selects: Cairo.Collections.createCollection(Controls.createSelect, controls),
         optionButtons: Cairo.Collections.createCollection(Controls.createOptionButton, controls),
-        checkBoxes: Cairo.Collections.createCollection(Controls.createCheckBox, controls),
+        checkboxes: Cairo.Collections.createCollection(Controls.createCheckbox, controls),
         buttons: Cairo.Collections.createCollection(Controls.createButton, controls),
         combos: Cairo.Collections.createCollection(Controls.createCombo, controls),
         passwords: Cairo.Collections.createCollection(Controls.createPassword, controls),
@@ -429,8 +429,8 @@
         return self.optionButtons;
       };
 
-      that.getCheckBoxes = function() {
-        return self.checkBoxes;
+      that.getCheckboxes = function() {
+        return self.checkboxes;
       };
 
       that.getButtons = function() {
@@ -738,6 +738,12 @@
       that.onSelectChange = function(control) {
         return function() {
           that.raiseEvent("selectChange", control.getIndex());
+        };
+      };
+
+      that.onCheckboxClick = function(control) {
+        return function() {
+          that.raiseEvent("checkboxClick", control.getIndex());
         };
       };
 

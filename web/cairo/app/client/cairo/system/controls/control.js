@@ -178,6 +178,7 @@
           self.element.attr('disabled', !enabled);
         }
       };
+
       that.getEditEnabled = function() { /* TODO = implement this. */ };
       that.setEditEnabled = function(enabled) { /* TODO = implement this. */ };
 

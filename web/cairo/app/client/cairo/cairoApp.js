@@ -397,8 +397,13 @@ var Cairo = new Marionette.Application();
   //
   var val = function(value) {
     try {
-      value = parseFloat(value);
-      return isNaN(value) ? 0 : value;
+      if(value === true) {
+        return -1;
+      }
+      else {
+        value = parseFloat(value);
+        return isNaN(value) ? 0 : value;
+      }
     }
     catch(ignore) {
       return 0;

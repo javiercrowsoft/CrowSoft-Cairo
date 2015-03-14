@@ -327,9 +327,9 @@ div.tree-select-dialog.ui-widget-content {
 .dialog-form-box {
   margin-top: 20px;
   margin-bottom: 20px;
-  padding-left: 50px;
-  padding-right: 50px;
-  padding-bottom: 50px;
+  padding-left: 15px;
+  padding-right: 15px;
+  padding-bottom: 20px;
 }
 
 .dialog-buttons-first-row {

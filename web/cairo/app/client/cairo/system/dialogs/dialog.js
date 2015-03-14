@@ -486,7 +486,7 @@
 
             toolBarClick:               docHandlerToolbarClick,
             comboChange:                docHandlerComboChange,
-            checkBoxClick:              docHandlerCheckBoxClick,
+            checkboxClick:              docHandlerCheckboxClick,
 
             gridDblClick:               docHandlerGridDblClick,
             gridAfterDeleteRow:         docHandlerGridAfterDeleteRow,
@@ -523,7 +523,7 @@
             tabGetFirstCtrl:          wizHandlerTabGetFirstCtrl,
             tabClick:                 wizHandlerTabClick,
 
-            checkBoxClick:            wizHandlerCheckBoxClick,
+            checkboxClick:            wizHandlerCheckboxClick,
 
             cancelClick:              wizHandlerCancelClick,
             backClick:                wizHandlerBackClick,
@@ -576,7 +576,7 @@
             tabClick:                  masterHandlerTabClick,
 
             comboChange:               masterHandlerComboChange,
-            checkBoxClick:             masterHandlerCheckBoxClick,
+            checkboxClick:             masterHandlerCheckboxClick,
 
             commandClick:              masterHandlerCommandClick,
             cancelClick:               masterHandlerCancelClick,
@@ -1425,7 +1425,7 @@
 
             case Dialogs.PropertyType.check:
 
-              var c = view.getCheckBoxes().get(property.getIndex());
+              var c = view.getCheckboxes().get(property.getIndex());
               c.setValue(Cairo.Util.val(property.getValue()) !== 0);
               c.setEnabled(property.getEnabled());
 
@@ -1631,7 +1631,7 @@
               break;
 
             case Dialogs.PropertyType.check:
-              view.getCheckBoxes().get(index).setEnabled(enabled);
+              view.getCheckboxes().get(index).setEnabled(enabled);
               break;
 
             case Dialogs.PropertyType.button:
@@ -1736,7 +1736,7 @@
 
               case Dialogs.PropertyType.check:
 
-                removeControl(view.getCheckBoxes().get(index));
+                removeControl(view.getCheckboxes().get(index));
                 break;
 
               case Dialogs.PropertyType.grid:
@@ -2492,8 +2492,8 @@
           self.tabClick(event.index);
         };
 
-        var masterHandlerCheckBoxClick = function(index) {
-          checkBoxClick(index);
+        var masterHandlerCheckboxClick = function(index) {
+          checkboxClick(index);
         };
 
         var masterHandlerCancelClick = function() {
@@ -3314,8 +3314,8 @@
           self.tabClick(event.index);
         };
 
-        var wizHandlerCheckBoxClick = function(index) {
-          checkBoxClick(index);
+        var wizHandlerCheckboxClick = function(index) {
+          checkboxClick(index);
         };
 
         var wizHandlerCancelClick = function() {
@@ -3500,8 +3500,8 @@
           comboChange(index);
         };
 
-        var docHandlerCheckBoxClick = function(index) {
-          checkBoxClick(index);
+        var docHandlerCheckboxClick = function(index) {
+          checkboxClick(index);
         };
 
         var formDocClose = function() {
@@ -3651,8 +3651,8 @@
           propertyHasChanged(Dialogs.PropertyType.list, index, getView().combos.get(index));
         };
 
-        var checkBoxClick = function(index) {
-          propertyHasChanged(Dialogs.PropertyType.check, index, getView().checkBoxes().get(index));
+        var checkboxClick = function(index) {
+          propertyHasChanged(Dialogs.PropertyType.check, index, getView().getCheckboxes().get(index));
         };
 
         var gridDeleteRow = function(index, rowIndex) {
@@ -5980,7 +5980,7 @@
             switch(m_properties.get(i).PropertyType) {
 
               case Dialogs.PropertyType.check:
-                propertyHasChanged(Dialogs.PropertyType.check, index, view.getCheckBoxes().get(index), true);
+                propertyHasChanged(Dialogs.PropertyType.check, index, view.getCheckboxes().get(index), true);
                 break;
 
               case Dialogs.PropertyType.date:
@@ -6453,7 +6453,7 @@
               break;
 
             case Dialogs.PropertyType.check:
-              ctrl = view.getCheckBoxes().add();
+              ctrl = view.getCheckboxes().add();
               break;
 
             case Dialogs.PropertyType.password:

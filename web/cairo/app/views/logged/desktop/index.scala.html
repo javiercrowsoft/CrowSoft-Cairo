@@ -384,7 +384,7 @@
             </div>
           </div>
           <% if(showTableButtons) { %>
-            <button class="btn btn-primary js-new align-right"><%- entityName %></button>
+            <button class="btn btn-primary js-new align-right"><i class='glyphicon glyphicon-file'></i> <%- entityName %></button>
           <% } %>
 
       </div>
@@ -510,16 +510,24 @@
     </div>
     <div class="@if(requestOrigin.userAgent.isMobile) {container} else {dialog-container}">
         <div class="row document-list-buttons-toolbar-row">
-          <div class="col-sm-3 col-md-3 col-lg-3">
-            <button class="btn btn-success dialog-button dialog-wide-button dialog-save-button">Save</button>
-          </div>
-          <div class="col-sm-8 col-md-8 col-lg-8">
-            <button class="btn btn-info dialog-button dialog-new-button">New</button>
+          <div class="col-sm-11 col-md-11 col-lg-11">
+            <div class="btn-group">
+            <button class="btn btn-info dialog-button dialog-new-button"><i class='glyphicon glyphicon-file'></i> New</button>
+            <button class="btn btn-success dialog-button dialog-save-button"><i class='glyphicon glyphicon-floppy-disk'></i> Save</button>
+            </div>
+            <div class="btn-group">
             <button class="btn btn-info dialog-button dialog-copy-button">Duplicate</button>
             <button class="btn btn-warning dialog-button dialog-discard-button">Discard Changes</button>
-            <button class="btn btn-info dialog-button dialog-print-button">Print</button>
+            </div>
+            <div class="btn-group">
+            <button class="btn btn-info dialog-button dialog-print-button"><i class='glyphicon glyphicon-print'></i> Print</button>
+            </div>
+            <div class="btn-group">
             <button class="btn btn-info dialog-button dialog-permissions-button">Permissions</button>
-            <button class="btn btn-info dialog-button dialog-documents-button">Attached Files</button>
+            </div>
+            <div class="btn-group">
+            <button class="btn btn-info dialog-button dialog-documents-button"><i class='glyphicon glyphicon-paper-clip'></i> Attached Files</button>
+            </div>
           </div>
           <div class="col-sm-1 col-md-1 col-lg-1">
             <button class="btn btn-warning dialog-button dialog-close-button">Close</button>
@@ -542,16 +550,50 @@
     </div>
     <div class="@if(requestOrigin.userAgent.isMobile) {container} else {dialog-container}">
         <div class="row document-list-buttons-toolbar-row">
-          <div class="col-sm-3 col-md-3 col-lg-3">
-            <button class="btn btn-success dialog-button dialog-wide-button dialog-save-button">Save</button>
-          </div>
-          <div class="col-sm-8 col-md-8 col-lg-8">
-            <button class="btn btn-info dialog-button dialog-new-button">New</button>
+          <div class="col-sm-11 col-md-11 col-lg-11">
+            <div class="btn-group">
+            <button class="btn btn-info dialog-button dialog-new-button"><i class='glyphicon glyphicon-file'></i> New</button>
+            <button class="btn btn-success dialog-button dialog-save-button"><i class='glyphicon glyphicon-floppy-disk'></i> Save</button>
+            </div>
+            <div class="btn-group">
             <button class="btn btn-info dialog-button dialog-copy-button">Duplicate</button>
             <button class="btn btn-warning dialog-button dialog-discard-button">Discard Changes</button>
-            <button class="btn btn-info dialog-button dialog-print-button">Print</button>
+            </div>
+            <div class="btn-group">
+            <button class="btn btn-info dialog-button dialog-search-button"><i class='glyphicon glyphicon-search'></i> Search</button>
+            </div>
+            <div class="btn-group">
+            <button class="btn btn-info dialog-button dialog-print-button"><i class='glyphicon glyphicon-print'></i> Print</button>
+            </div>
+            <div class="btn-group">
             <button class="btn btn-info dialog-button dialog-permissions-button">Permissions</button>
-            <button class="btn btn-info dialog-button dialog-documents-button">Attached Files</button>
+            <button class="btn btn-info dialog-button dialog-documents-button"><i class='glyphicon glyphicon-paper-clip'></i> Attached Files</button>
+            </div>
+            <div class="btn-group">
+            <button class="btn btn-info dialog-button dialog-permissions-button"><i class='glyphicon glyphicon-step-backward'></i></button>
+            <button class="btn btn-info dialog-button dialog-documents-button"><i class='glyphicon glyphicon-backward'></i></button>
+            <button class="btn btn-info dialog-button dialog-documents-button"><i class='glyphicon glyphicon-forward'></i></button>
+            <button class="btn btn-info dialog-button dialog-documents-button"><i class='glyphicon glyphicon-step-forward'></i></button>                        
+            </div>
+            
+            <div class="btn-group">
+              <button type="button" class="btn btn-default dropdown-toggle dialog-button" data-toggle="dropdown" aria-expanded="false">
+                More <span class="caret"></span>
+              </button>
+              <ul class="dropdown-menu" role="menu">
+                <li><a href="#">Edit</a></li>
+                <li class="divider"></li>
+                <li><a href="#">Invalidate</a></li>
+                <li class="divider"></li>
+                <li><a href="#"></i>Delete</a></li>
+                <li class="divider"></li>
+                <li><a href="#">View applications</a></li>
+                <li><a href="#">View associated documents</a></li>                
+                <li><a href="#">Explain status</a></li>                
+                <li><a href="#">Set/edit alarms</a></li>                
+                <li><a href="#">View edit history</a></li>                
+              </ul>
+            </div>
           </div>
           <div class="col-sm-1 col-md-1 col-lg-1">
             <button class="btn btn-warning dialog-button dialog-close-button">Close</button>
@@ -588,7 +630,7 @@
             <div class="row dialog-buttons-last-row">
                 <button class="btn btn-info dialog-button dialog-print-button">Print</button>
                 <button class="btn btn-info dialog-button dialog-permissions-button">Permissions</button>
-                <button class="btn btn-info dialog-button dialog-documents-button">Attached Files</button>
+                <button class="btn btn-info dialog-button dialog-documents-button"><i class='glyphicon glyphicon-paper-clip'></i> Attached Files</button>
             </div>
             <br/>
         </div>
@@ -605,27 +647,27 @@
     </div>
     <div class="@if(requestOrigin.userAgent.isMobile) {container} else {dialog-container document-list-container}">
       <div class="row document-list-buttons-toolbar-row">
-        <div class="col-sm-3 col-md-3 col-lg-3">
+        <div class="col-sm-3 col-md-3 col-lg-2">
           <button class="btn btn-success dialog-button dialog-wide-button dialog-refresh-button">Refresh</button>
         </div>
-        <div class="col-sm-8 col-md-8 col-lg-8">
-          <button class="btn btn-info dialog-button dialog-new-button">New</button>
-          <button class="btn btn-info dialog-button dialog-print-button">Print</button>
-          <button class="btn btn-info dialog-button dialog-documents-button">Attached Files</button>
+        <div class="col-sm-8 col-md-8 col-lg-9">
+          <div class="btn-group">
+          <button class="btn btn-info dialog-button dialog-new-button"><i class='glyphicon glyphicon-file'></i> New</button>
+          </div>
         </div>
         <div class="col-sm-1 col-md-1 col-lg-1" style="padding-right: 0;">
           <button class="btn btn-warning dialog-button dialog-close-button align-right" style="margin-right: 0;">Close</button>
         </div>
       </div>
       <div class="row document-list-params-box">
-        <div class="col-sm-3 col-md-3 col-lg-3 document-list-params">
+        <div class="col-sm-3 col-md-3 col-lg-2 document-list-params">
           <div id="formBody">
           </div>
           <div class="document-list-save-params">
-            <button class="btn btn-success dialog-button dialog-wide-button dialog-save-button">Save</button>
+            <button class="btn btn-success dialog-button dialog-save-button"><i class='glyphicon glyphicon-floppy-disk'></i> Save</button>
           </div>
         </div>
-        <div class="col-sm-9 col-md-9 col-lg-9 document-list-list">
+        <div class="col-sm-9 col-md-9 col-lg-10 document-list-list">
           <div class="document-list-grid-body">
           </div>
         </div>
