@@ -173,7 +173,7 @@ div.tree-select-dialog.ui-widget-content {
 }
 
 .tree-header {
-    padding-top: 5px;
+    padding-top: 7px;
     padding-bottom: 7px;
     background-color: #fff;
 }
@@ -184,7 +184,7 @@ div.tree-select-dialog.ui-widget-content {
 }
 
 .document-list-header {
-    padding-top: 5px;
+    padding-top: 7px;
     padding-bottom: 7px;
     background-color: #fff;
 }
@@ -195,7 +195,7 @@ div.tree-select-dialog.ui-widget-content {
 }
 
 .dialog-header  {
-   padding-top: 5px;
+   padding-top: 7px;
    padding-bottom: 7px;
    background-color: #fff;
 }
@@ -291,7 +291,8 @@ div.tree-select-dialog.ui-widget-content {
 /* -------------- dialogs ------------*/
 
 .dialog-label {
-    margin-top: 15px;
+    margin-top: 8px;
+    margin-bottom: 3px;
     display: block;
 }
 
@@ -377,6 +378,10 @@ div.tree-select-dialog.ui-widget-content {
 
 .dialog-grid {
   margin-top: 10px;
+}
+
+.dialog-tr td {
+    background-color: white;
 }
 
 .dialog-grid tbody tr.highlight td {
@@ -492,7 +497,7 @@ i.glyphicon-new {
 }
 
 .tab-content {
-  margin-top: 100px;
+  margin-top: 97px;
 }
 
 button.DTTT_button,
@@ -680,6 +685,7 @@ input[type="radio"].dialog-checkbox, input[type="checkbox"].dialog-checkbox {
 
 .document_header_box {
   margin-bottom: 20px;
+  margin-left: 5px;
   background-color: #f8f8f8;
   padding: 10px 10px 0px 10px;
 }
@@ -691,3 +697,42 @@ input[type="radio"].dialog-checkbox, input[type="checkbox"].dialog-checkbox {
 html input[disabled] {
   background: #eeeeee;
 }
+
+.cairo-background-image {
+}
+
+.cairo-background-image:before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  /*background: url(http://huayra.conectarigualdad.gob.ar/sites/default/files/bajar/wallpapers/burda_pueblito-bradbury_1920x1080_0.jpg);*/
+  /*background: url(http://ewallpaperhub.com/wp-content/uploads/2015/02/ocean-wallpaper.jpg);*/
+  /*background: url(http://crowsoft.com.ar/cairo_web_images/flower_orange_big.jpg);*/
+  /*background: url(http://crowsoft.com.ar/cairo_web_images/flower_orange_small.jpg);*/
+  opacity: 0.6;
+}
+
+/*
+div {
+  width: 200px;
+  height: 200px;
+  display: block;
+  position: relative;
+}
+
+div::after {
+  content: "";
+  background: url(image.jpg);
+  opacity: 0.5;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  position: absolute;
+  z-index: -1;
+}
+*/

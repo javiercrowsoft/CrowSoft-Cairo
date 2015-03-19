@@ -48,10 +48,10 @@
       LDP_ORDEN: "ldp_orden",
       
       // Edicion de documentos
-      DOC_EDITABLE: "Editable",
+      DOC_EDITABLE: "editable",
       DOC_EDIT_MSG: "editMsg",
-      TA_PROPUESTO: "TaPropuesto",
-      TA_MASCARA: "TaMascara",
+      TA_PROPUESTO: "ta_propuesto",
+      TA_MASCARA: "ta_mascara",
       
       // Empresa
       EMPRESA: "Empresa",

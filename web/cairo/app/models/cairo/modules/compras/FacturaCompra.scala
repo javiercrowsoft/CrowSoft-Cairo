@@ -53,17 +53,50 @@ case class FacturaCompraReferences(
                               doctId: Int,
                               doctName: String,
                               monId: Int,
-                              monName: String
+                              monName: String,
+                              taMascara: String,
+                              taPropuesto: Boolean,
+                              firmado: Boolean,
+                              docMueveStock: Boolean,
+                              docTipoFactura: Int,
+                              stId: Int,
+                              asId: Int,
+                              hasIvaRi: Boolean,
+                              hasIvaRni: Boolean,
+                              editable: Boolean,
+                              editMsg: String
                             ) {
   def this(
             doctId: Int,
-            monId: Int
+            monId: Int,
+            taMascara: String,
+            taPropuesto: Boolean,
+            firmado: Boolean,
+            docMueveStock: Boolean,
+            docTipoFactura: Int,
+            stId: Int,
+            asId: Int,
+            hasIvaRi: Boolean,
+            hasIvaRni: Boolean,
+            editable: Boolean,
+            editMsg: String
             ) = {
     this(
       doctId,
       "",
       monId,
-      ""
+      "",
+      taMascara,
+      taPropuesto,
+      firmado,
+      docMueveStock,
+      docTipoFactura,
+      stId,
+      asId,
+      hasIvaRi,
+      hasIvaRni,
+      editable,
+      editMsg
     )
   }
 }
@@ -72,11 +105,35 @@ object FacturaCompraReferences {
 
   def apply(
              doctId: Int,
-             monId: Int) = {
+             monId: Int,
+             taMascara: String,
+             taPropuesto: Boolean,
+             firmado: Boolean,
+             docMueveStock: Boolean,
+             docTipoFactura: Int,
+             stId: Int,
+             asId: Int,
+             hasIvaRi: Boolean,
+             hasIvaRni: Boolean,
+             editable: Boolean,
+             editMsg: String
+             ) = {
 
     new FacturaCompraReferences(
       doctId,
-      monId)
+      monId,
+      taMascara,
+      taPropuesto,
+      firmado,
+      docMueveStock,
+      docTipoFactura,
+      stId,
+      asId,
+      hasIvaRi,
+      hasIvaRni,
+      editable,
+      editMsg
+    )
   }
 }
 
@@ -522,7 +579,8 @@ object FacturaCompra {
 
   lazy val emptyFacturaCompraItems = FacturaCompraItems(List(), List(), List(), List(), List())
 
-  lazy val emptyFacturaCompraReferences = FacturaCompraReferences(DBHelper.NoId, DBHelper.NoId)
+  lazy val emptyFacturaCompraReferences = FacturaCompraReferences(
+    DBHelper.NoId, DBHelper.NoId, "", false, false, false, 0, DBHelper.NoId, DBHelper.NoId, false, false, false, "")
 
   lazy val emptyFacturaCompra = FacturaCompra(
     FacturaCompraId(DBHelper.NoId, 0, ""),
@@ -537,7 +595,7 @@ object FacturaCompra {
   )
 
   lazy val emptyFacturaCompraParams = FacturaCompraParams(
-    DateUtil.currentTime, DateUtil.currentTime, "0", "", "0", "", "0", "", "0", "", "0", "", "0", "", "0", "")
+    DateUtil.getDate(2000, 1, 1), DateUtil.currentTime, "0", "", "0", "", "0", "", "0", "", "0", "", "0", "", "0", "")
 
   def apply(
              id: Int,
@@ -906,6 +964,17 @@ object FacturaCompra {
     SqlParser.get[String](GC.DOCT_NAME) ~
     SqlParser.get[Int](GC.MON_ID) ~
     SqlParser.get[String](GC.MON_NAME) ~
+    SqlParser.get[String](GC.TA_MASCARA) ~
+    SqlParser.get[Int](GC.TA_PROPUESTO) ~
+    SqlParser.get[Int](C.FC_FIRMADO) ~
+    SqlParser.get[Int](GC.DOC_MUEVE_STOCK) ~
+    SqlParser.get[Int](GC.DOC_TIPO_FACTURA) ~
+    SqlParser.get[Option[Int]](C.AS_ID) ~
+    SqlParser.get[Option[Int]](C.ST_ID) ~
+    SqlParser.get[Int](GC.HAS_IVA_RI) ~
+    SqlParser.get[Int](GC.HAS_IVA_RNI) ~
+    SqlParser.get[Int](GC.EDITABLE) ~
+    SqlParser.get[String](GC.EDIT_MSG) ~
     SqlParser.get[Date](C.FC_FECHA) ~
     SqlParser.get[Date](C.FC_FECHA_ENTREGA) ~
     SqlParser.get[Date](C.FC_FECHA_IVA) ~
@@ -964,6 +1033,17 @@ object FacturaCompra {
         doctName ~
         monId ~
         monName ~
+        taMascara ~
+        taPropuesto ~
+        firmado ~
+        docMueveStock ~
+        docTipoFactura ~
+        asId ~
+        stId ~
+        hasIvaRi ~
+        hasIvaRni ~
+        editable ~
+        editMsg ~
         fecha ~
         fechaEntrega ~
         fechaIva ~
@@ -1026,7 +1106,18 @@ object FacturaCompra {
           doctId,
           doctName,
           monId,
-          monName
+          monName,
+          taMascara,
+          (if(taPropuesto != 0) true else false),
+          (if(firmado != 0) true else false),
+          (if(docMueveStock != 0) true else false),
+          docTipoFactura,
+          asId.getOrElse(DBHelper.NoId),
+          stId.getOrElse(DBHelper.NoId),
+          (if(hasIvaRi != 0) true else false),
+          (if(hasIvaRni != 0) true else false),
+          (if(editable != 0) true else false),
+          editMsg
         ),
         FacturaCompraDates(
           fecha,
@@ -1395,8 +1486,8 @@ object FacturaCompra {
       val cs = connection.prepareCall(sql)
 
       cs.setInt(1, user.userId)
-      cs.setDate(2, new java.sql.Date( from.getTime()))
-      cs.setDate(3, new java.sql.Date( to.getTime()))
+      cs.setDate(2, new java.sql.Date(from.getTime()))
+      cs.setDate(3, new java.sql.Date(to.getTime()))
       cs.setString(4, provId.getOrElse("0"))
       cs.setString(5, estId.getOrElse("0"))
       cs.setString(6, ccosId.getOrElse("0"))

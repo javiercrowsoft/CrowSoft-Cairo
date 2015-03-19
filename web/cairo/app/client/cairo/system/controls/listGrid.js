@@ -166,7 +166,10 @@
           td.html(getValue(item, col));
           return td;
         };
-      }
+      };
+
+      gridManager.createColumnTD = gridManager.createTD(gridManager.getColumnTitle, 'th', gridManager.getClassForColumn);
+      gridManager.createCellTD = gridManager.createTD(gridManager.getValue, 'td', gridManager.getClassForCell);
 
       gridManager.getEditColumnTitle = function() {
         return "<th><i class='glyphicon glyphicon-pencil'></i></td>";
@@ -213,7 +216,7 @@
         return gridManager.createTR(
           row.values,
           '',
-          gridManager.createTD(gridManager.getValue, 'td', gridManager.getClassForCell),
+          gridManager.createCellTD,
           gridManager.getEditRowButton
         );
       };
@@ -312,7 +315,7 @@
           gridManager.createTR(
             self.columns,
             '',
-            gridManager.createTD(gridManager.getColumnTitle, 'th', gridManager.getClassForColumn),
+            gridManager.createColumnTD,
             gridManager.getEditColumnTitle
           ));
 

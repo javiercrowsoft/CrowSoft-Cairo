@@ -232,7 +232,7 @@
 
           var p = null;
 
-          var isEditable = valField(response.data, Cairo.Constants.DOC_EDITABLE);
+          var isEditable = valField(response.data, C.DOC_EDITABLE);
           var estId = valField(response.data, C.EST_ID);
           var actionInvalidate =  valField(response.data, "actionInvalidate");
           var actionValidate = valField(response.data, "actionValidate");
@@ -293,8 +293,8 @@
 
                     dialog.showValue(property);
 
-                    editable = valField(response.data, Cairo.Constants.DOC_EDITABLE);
-                    message = valField(response.data, Cairo.Constants.DOC_EDIT_MSG);
+                    editable = valField(response.data, C.DOC_EDITABLE);
+                    message = valField(response.data, C.DOC_EDIT_MSG);
 
                   }
 
@@ -310,7 +310,7 @@
 
           }
           else {
-            var message = valField(response.data, Cairo.Constants.DOC_EDIT_MSG)
+            var message = valField(response.data, C.DOC_EDIT_MSG)
             p = Cairo.Modal.showWarningWithFail(message);
           }
 
@@ -502,7 +502,7 @@
 
   Cairo.Documents.getCurrencyRate = function(monId, date) {
     var apiPath = Cairo.Database.getAPIVersion();
-    return Cairo.Database.getData("load[" + apiPath + "documento/currency" + monId.toString() + "/rate]", date).then(
+    return Cairo.Database.getData("load[" + apiPath + "documento/currency/" + monId.toString() + "/rate]", date).then(
       function(response) {
         var rate = 0;
         if(response.success === true) {

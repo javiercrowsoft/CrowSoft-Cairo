@@ -45,16 +45,16 @@ CREATE OR REPLACE FUNCTION sp_doc_factura_compra_get
   RETURNS refcursor AS
 $BODY$
 DECLARE
-   v_bEditable numeric(3,0);
+   v_bEditable smallint;
    v_editMsg varchar(255);
    v_doc_id integer;
    v_doct_id integer;
    v_ta_Mascara varchar(100);
-   v_ta_Propuesto numeric(3,0);
+   v_ta_Propuesto smallint;
    v_DeplNombre varchar(255);
    v_DeplId integer;
-   v_bIvari numeric(3,0);
-   v_bIvarni numeric(3,0);
+   v_bIvari smallint;
+   v_bIvarni smallint;
    v_prov_id integer;
 
    dummyCur refcursor;
@@ -198,8 +198,10 @@ BEGIN
              v_bIvarni bIvaRni,
              v_bEditable editable,
              v_editMsg editMsg,
-             v_ta_Mascara TaMascara,
-             v_ta_Propuesto TaPropuesto
+             v_ta_Mascara ta_mascara,
+             v_ta_Propuesto ta_propuesto,
+             doc_muevestock,
+             doc_tipofactura
         FROM FacturaCompra
                JOIN Documento
                 ON FacturaCompra.doc_id = Documento.doc_id

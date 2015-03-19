@@ -74,6 +74,7 @@
         text:    '',
         visible: true,
         type: null,
+        subType: null,
 
         enabled: false,
         isEditable: false,
@@ -112,6 +113,13 @@
         },
         setType: function(type) {
           self.type = type;
+        },
+
+        getSubType: function() {
+          return self.subType;
+        },
+        setSubType: function(subType) {
+          self.subType = subType;
         },
 
         getEnabled: function() {
@@ -1198,18 +1206,43 @@
               return getCheckboxIcon(cell.getText());
             case T.date:
               return getDateFormatted(cell.getText());
+            case T.numeric:
+              if(col.getSubType() === S.integer) {
+                return Cairo.accounting.formatNumber(cell.getText(), 0);
+              }
+              else {
+                return Cairo.accounting.formatNumber(cell.getText(), 2);
+              }
             default:
               return cell.getText();
           }
         };
 
-        gridManager.createTD = function(item, i, getValue) {
-          var col = self.columns.get(i);
-          var hidden = gridManager.hiddenStatus[i];
-          var td = $('<td class="dialog-td' + hidden + '" tabindex="0"></td>');
-          td.html(getValue(item, col));
-          return td;
+        gridManager.getClassForColumn = function(col) {
+          return "";
         };
+
+        gridManager.getClassForCell = function(col) {
+          switch(col.getType()) {
+            case T.numeric:
+              return "cell-number-value";
+            default:
+              return "";
+          }
+        };
+
+        gridManager.createTD = function(getValue, getClass) {
+          return function(item, i) {
+            var col = self.columns.get(i);
+            var hidden = gridManager.hiddenStatus[i];
+            var td = $('<td nowrap class="' + getClass(col) + " " + hidden + '" tabindex="0"></td>');
+            td.html(getValue(item, col));
+            return td;
+          }
+        };
+
+        gridManager.createColumnTD = gridManager.createTD(gridManager.getColumnTitle, gridManager.getClassForColumn);
+        gridManager.createCellTD = gridManager.createTD(gridManager.getValue, gridManager.getClassForCell);
 
         gridManager.updateTD = function(cell, i, tr, getValue) {
           var col = self.columns.get(i);
@@ -1221,7 +1254,7 @@
         // rows
         //
 
-        gridManager.createTR = function(cellsOrColumns, clazz, getValue) {
+        gridManager.createTR = function(cellsOrColumns, clazz, createTD) {
           //
           // create a $TR element
           //
@@ -1229,7 +1262,7 @@
           //
           // add all TDs from a collection of cells or columns
           //
-          tr.append(cellsOrColumns.map(gridManager.createTD, getValue));
+          tr.append(cellsOrColumns.map(createTD));
           //
           // apply format to every TD
           //
@@ -1241,7 +1274,10 @@
         };
 
         gridManager.addRow = function(row) {
-          return gridManager.createTR(row.getCells(), 'dialog-tr', gridManager.getValue);
+          return gridManager.createTR(
+            row.getCells(),
+            'dialog-tr',
+            gridManager.createCellTD);
         };
 
         gridManager.addToEmptyRow = function(col, index, cells) {
@@ -1275,7 +1311,10 @@
           //
           // create the $TR element with TDs from the new row
           //
-          var tr = gridManager.createTR(emptyRow.getCells(), 'dialog-tr', gridManager.getValue);
+          var tr = gridManager.createTR(
+            emptyRow.getCells(),
+            'dialog-tr',
+            gridManager.createCellTD);
           //
           // add the new row to the table
           //
@@ -1349,7 +1388,11 @@
           //
           // add columns
           //
-          gridManager.body.append(gridManager.createTR(self.columns, 'dialog-th', gridManager.getColumnTitle));
+          gridManager.body.append(
+            gridManager.createTR(
+              self.columns,
+              'dialog-th',
+              gridManager.createColumnTD));
 
           //
           // add rows

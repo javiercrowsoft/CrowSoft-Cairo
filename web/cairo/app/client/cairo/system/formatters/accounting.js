@@ -411,3 +411,7 @@
 
   // Root will be `window` in browser or `global` on the server:
 }(Cairo));
+
+(function() {
+  Cairo.Util.round = Cairo.accounting.toFixed;
+}());

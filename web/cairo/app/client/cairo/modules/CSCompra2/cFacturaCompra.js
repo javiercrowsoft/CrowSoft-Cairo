@@ -202,6 +202,7 @@
       var m_listController = null;
 
       var m_lastDocId = 0;
+      var m_lastMonId = 0;
       var m_lastDocTipoFactura = 0;
       var m_lastDoctId = 0;
       var m_lastProvId = 0;
@@ -238,7 +239,6 @@
       var m_serialNumbers;
 
       var m_defaultCurrency = D.getDefaultCurrency();
-      var m_mon_id_document = 0;
 
       var m_apiPath = DB.getAPIVersion();
 
@@ -582,7 +582,7 @@
 
                     var editDoc = new Cairo.EditDocumento.Edit.Controller.getEditor();
                     editDoc.setClient(self);
-                    editDoc.setUseLegalCurrency(m_defaultCurrency === m_mon_id_document);
+                    editDoc.setUseLegalCurrency(m_defaultCurrency === m_lastMonId);
                     editDoc.setCotizacion(val(getCotizacion().getValue()));
                     return editDoc.edit(m_id, m_doct_id, true);
                   }
@@ -673,8 +673,8 @@
               p.then(function(response) {
 
                 if(response.success === true) {
+                  m_lastMonId = valField(response.data, C.MON_ID);
                   m_lastDoctId = valField(response.data, C.DOCT_ID);
-                  m_mon_id_document = valField(response.data, C.MON_ID);
                   m_lastDocTipoFactura = valField(response.data, C.DOC_TIPO_FACTURA);
                   m_showStockData = valField(response.data, C.DOC_MUEVE_STOCK);
                 }
@@ -906,11 +906,11 @@
                   break;
 
                 case K_PRO_ID_ORIGEN:
-                  fields.add(C.PRO_ID_ORIGEN, property.getSelectId(), Types.id);
+                  fields.add(CC.PRO_ID_ORIGEN, property.getSelectId(), Types.id);
                   break;
 
                 case K_PRO_ID_DESTINO:
-                  fields.add(C.PRO_ID_DESTINO, property.getSelectId(), Types.id);
+                  fields.add(CC.PRO_ID_DESTINO, property.getSelectId(), Types.id);
                   break;
 
                 case K_DEPL_ID:
@@ -927,7 +927,7 @@
               }
             }
 
-            isDefaultCurrency = m_defaultCurrency === m_mon_id_document;
+            isDefaultCurrency = m_defaultCurrency === m_lastMonId;
             if(isDefaultCurrency) {
               cotizacion = 1;
             }
@@ -1247,7 +1247,7 @@
 
         var validate = function(result) {
 
-          if(result.monId !== m_mon_id_document) {
+          if(result.monId !== m_lastMonId) {
             return M.showInfoWithFalse(getText(1895, "")); // La cuenta asociada al Proveedor y la cuenta del documento tienen diferentes monedas
           }
           return true;
@@ -2097,7 +2097,7 @@
         elem.setKey(K_FECHA_VTO);
         elem.setValue(m_fechaVto);
 
-        elem = properties.add(null, C.LGJ_ID);
+        elem = properties.add(null, CC.LGJ_ID);
         elem.setType(T.select);
         elem.setSelectTable(Cairo.Tables.LEGAJOS);
         elem.setName(getText(1575, "")); // Legajo
@@ -2106,7 +2106,7 @@
         elem.setValue(m_legajo);
         elem.setTabIndex(1);
 
-        elem = properties.add(null, C.PRO_ID_ORIGEN);
+        elem = properties.add(null, CC.PRO_ID_ORIGEN);
         elem.setType(T.select);
         elem.setSelectTable(Cairo.Tables.PROVINCIA);
         elem.setName(getText(1901, "")); // Origen
@@ -2115,7 +2115,7 @@
         elem.setValue(m_proOrigen);
         elem.setTabIndex(1);
 
-        elem = properties.add(null, C.PRO_ID_DESTINO);
+        elem = properties.add(null, CC.PRO_ID_DESTINO);
         elem.setType(T.select);
         elem.setSelectTable(Cairo.Tables.PROVINCIA);
         elem.setName(getText(1902, "")); // Destino
@@ -2520,7 +2520,7 @@
 
         if(m_id === NO_ID) {
           if(m_lastDocId === NO_ID) { return; }
-          monId = m_mon_id_document;
+          monId = m_lastMonId;
         }
         else {
           monId = m_mon_id;
@@ -2529,18 +2529,24 @@
         var property = getCotizacion();
         property.setVisible(monId !== m_defaultCurrency);
 
-        if(m_lastMonIdCotizacion !== monId || property.getValue() === 0) {
+        if(monId === m_defaultCurrency) {
+          property.setValue(0);
+          m_lastMonIdCotizacion = monId;
+        }
+        else {
+          if(m_lastMonIdCotizacion !== monId || property.getValue() === 0) {
 
-          var date = getFecha();
+            var date = getFecha();
+            if(! Cairo.Util.isDate(date)) {
+              date = new Date();
+            }
 
-          if(! Cairo.Util.isDate(date)) {
-            date = new Date();
+            p = D.getCurrencyRate(monId, date).then(function(rate) {
+              property.setValue(rate);
+              m_lastFecha = date;
+              m_lastMonIdCotizacion = monId;
+            });
           }
-          p = D.getCurrencyRate(monId, date).then(function(rate) {
-            property.setValue(rate);
-            m_lastFecha = date;
-            m_lastMonIdCotizacion = monId;
-          });
         }
 
         p = p || P.resolvedPromise(true);
@@ -3066,8 +3072,8 @@
           elem.setKey(KIL_FCLGJ_ID);
 
           elem = row.add(null);
-          elem.setValue(getValue(m_data.legajos[_i], C.LGJ_CODE));
-          elem.setId(getValue(m_data.legajos[_i], C.LGJ_ID));
+          elem.setValue(getValue(m_data.legajos[_i], CC.LGJ_CODE));
+          elem.setId(getValue(m_data.legajos[_i], CC.LGJ_ID));
           elem.setKey(KIL_LGJ_ID);
 
           elem = row.add(null);
@@ -3256,38 +3262,39 @@
               m_condicionPago = valField(data, C.CPG_NAME);
               m_ld_id = valField(data, C.LD_ID);
               m_listaDescuento = valField(data, C.LD_NAME);
-              m_lgj_id = valField(data, C.LGJ_ID);
-              m_legajo = valField(data, C.LGJ_CODE);
+              m_lgj_id = valField(data, CC.LGJ_ID);
+              m_legajo = valField(data, CC.LGJ_CODE);
               m_cai = valField(data, CC.FC_CAI);
-              m_pro_id_origen = valField(data, C.PRO_ID_ORIGEN);
+              m_pro_id_origen = valField(data, CC.PRO_ID_ORIGEN);
               m_proOrigen = valField(data, "ProOrigen");
-              m_pro_id_destino = valField(data, C.PRO_ID_DESTINO);
+              m_pro_id_destino = valField(data, CC.PRO_ID_DESTINO);
               m_proDestino = valField(data, "ProDestino");
               m_est_id = valField(data, C.EST_ID);
               m_estado = valField(data, C.EST_NAME);
               m_firmado = valField(data, CC.FC_FIRMADO);
               m_mon_id = valField(data, C.MON_ID);
 
-              m_docEditable = valField(data, Cairo.Constants.DOC_EDITABLE);
-              m_docEditMsg = valField(data, Cairo.Constants.DOC_EDIT_MSG);
+              m_docEditable = valField(data, C.DOC_EDITABLE);
+              m_docEditMsg = valField(data, C.DOC_EDIT_MSG);
 
               m_depl_id = valField(data, C.DEPL_ID);
               m_deposito = valField(data, C.DEPL_NAME);
 
               m_tipoComprobante = valField(data, CC.FC_TIPO_COMPROBANTE);
 
-              m_bIva = valField(data, C.BIVA_RI);
-              m_bIvaRni = valField(data, C.BIVA_RNI);
+              m_bIva = valField(data, CC.BIVA_RI);
+              m_bIvaRni = valField(data, CC.BIVA_RNI);
 
               m_cotizacionProv = valField(data, CC.FC_COTIZACION_PROV);
 
-              m_as_id = valField(data, C.AS_ID);
-              m_st_id = valField(data, C.ST_ID);
+              m_as_id = valField(data, CC.AS_ID);
+              m_st_id = valField(data, CC.ST_ID);
 
               m_taMascara = valField(data, C.TA_MASCARA);
               m_taPropuesto = valField(data, C.TA_PROPUESTO);
 
               m_lastDocId = m_doc_id;
+              m_lastMonId = m_mon_id;
               m_lastDoctId = m_doct_id;
               m_lastDocTipoFactura = valField(data, C.DOC_TIPO_FACTURA);
               m_lastProvId = m_prov_id;
@@ -3335,7 +3342,6 @@
               m_listaPrecio = "";
               m_listaDescuento = "";
               m_cotizacion = 0;
-              m_mon_id = NO_ID;
               m_est_id = NO_ID;
               m_estado = "";
               m_suc_id = Cairo.User.getSucId();
@@ -3348,6 +3354,7 @@
               m_tipoComprobante = D.ReceiptType.original;
 
               m_doc_id = m_lastDocId;
+              m_mon_id = m_lastMonId;
               m_doct_id = m_lastDoctId;
               m_prov_id = m_lastProvId;
               m_proveedor = m_lastProvName;
@@ -3364,13 +3371,22 @@
               m_bIvaRni = false;
               m_bIva = false;
 
-              m_lastMonIdCotizacion = NO_ID;
+              if(m_lastMonIdCotizacion !== m_lastMonId) {
+                m_lastMonIdCotizacion = NO_ID;
+              }
+
               m_lastFecha = Cairo.Constants.NO_DATE;
 
-              if(m_doc_id !== NO_ID) {
-                p = D.getCurrencyRate(m_doc_id, m_fecha).then(function(rate) {
-                  m_cotizacion = rate;
-                });
+              if(m_lastMonId === m_defaultCurrency) {
+                m_cotizacion = 0;
+                m_lastMonIdCotizacion = m_lastMonId;
+              }
+              else {
+                if(m_doc_id !== NO_ID && m_lastMonIdCotizacion === NO_ID) {
+                  p = D.getCurrencyRate(m_lastMonId, m_fecha).then(function(rate) {
+                    m_cotizacion = rate;
+                  });
+                }
               }
 
               p = p || P.resolvedPromise();
@@ -3383,8 +3399,6 @@
                   return true;
                 });
             }
-
-            m_mon_id_document = m_mon_id;
 
             return p || P.resolvedPromise(true);
           });
@@ -3711,7 +3725,7 @@
                 break;
 
               case KIL_LGJ_ID:
-                fields.add(C.LGJ_ID, cell.getId(), Types.id);
+                fields.add(CC.LGJ_ID, cell.getId(), Types.id);
                 break;
 
               case KIL_IMPORTE:
@@ -4307,15 +4321,15 @@
         m_properties.item(CC.FC_CAI)
         .setValue(m_cai);
 
-        m_properties.item(C.LGJ_ID)
+        m_properties.item(CC.LGJ_ID)
         .setSelectId(m_lgj_id)
         .setValue(m_legajo);
 
-        m_properties.item(C.PRO_ID_ORIGEN)
+        m_properties.item(CC.PRO_ID_ORIGEN)
         .setSelectId(m_pro_id_origen)
         .setValue(m_proOrigen);
 
-        m_properties.item(C.PRO_ID_DESTINO)
+        m_properties.item(CC.PRO_ID_DESTINO)
         .setSelectId(m_pro_id_destino)
         .setValue(m_proDestino);
 
@@ -4973,9 +4987,9 @@
             if(response.data.id === NO_ID) {
 
               m_fechaIniV = "";
-              m_fechaIni = Date;
+              m_fechaIni = Cairo.Dates.today();
               m_fechaFinV = "";
-              m_fechaFin = Date;
+              m_fechaFin = new Date("01/01/2000");
               m_prov_id = NO_ID;
               m_proveedor = "";
               m_est_id = NO_ID;

@@ -40,6 +40,7 @@
           c.setText(col.getName());
           c.setVisible(col.getVisible());
           c.setType(col.getType());
+          c.setSubType(col.getSubType());
           c.setIsEditable(col.isEditable());
           c.setEnabled(col.getEnabled());
 

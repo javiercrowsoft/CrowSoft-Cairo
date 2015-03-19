@@ -17,6 +17,11 @@ object C {
   val FROM = "from"
   val TO = "to"
 
+  val EDIT_MSG = "editMsg"
+  val EDITABLE = "editable"
+  val HAS_IVA_RI = "bIvaRi"
+  val HAS_IVA_RNI = "bIvaRni"
+
   // Provincia
   val PROVINCIA = "Provincia"
   val PRO_ID = "pro_id"
@@ -588,11 +593,15 @@ object C {
   val DOCUMENTO = "Documento"
   val DOC_ID = "doc_id"
   val DOC_NAME = "doc_nombre"
+  val DOC_MUEVE_STOCK = "doc_muevestock"
+  val DOC_TIPO_FACTURA = "doc_tipofactura"
 
   // Talonario
   val TALONARIO = "Talonario"
   val TA_ID = "ta_id"
   val TA_NAME = "ta_nombre"
+  val TA_MASCARA = "ta_mascara"
+  val TA_PROPUESTO = "ta_propuesto"
 
   // PercepcionTipo
   val PERCEPCIONTIPO = "PercepcionTipo"
@@ -655,6 +664,7 @@ object C {
   val MONEDA = "moneda"
   val MON_ID = "mon_id"
   val MON_NAME = "mon_nombre"
+  val MON_PRECIO = "mon_precio"
 
   //
   // Producto

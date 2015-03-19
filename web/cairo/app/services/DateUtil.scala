@@ -14,6 +14,8 @@ case class DateUtil(date: Date) {
 
 object DateUtil {
 
+  lazy val cal = Calendar.getInstance
+
   def formattedCurrentTime : String = {
     val today = Calendar.getInstance.getTime
     val curTimeFormat = new SimpleDateFormat("MMM d, yyyy hh:mm aaa z") // April 30, 2014 at 01:31pm ART
@@ -22,6 +24,11 @@ object DateUtil {
 
   def currentTime : Date = {
     Calendar.getInstance.getTime
+  }
+
+  def getDate(year: Int, month: Int, day: Int) : Date = {
+    cal.set(year, month -1, day)
+    cal.getTime
   }
 
   def plusDays(dateUtil: DateUtil, days: Int): Date = {

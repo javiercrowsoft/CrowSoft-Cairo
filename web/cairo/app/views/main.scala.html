@@ -28,6 +28,7 @@
 
     </head>
     <body>
+    <div class="cairo-background-image">
     @if(!loggedUser.isLogged){
     <div class="navbar navbar-default navbar-fixed-top" role="navigation">
       <div class="@if(loggedUser.isDesktop && !requestOrigin.userAgent.isMobile) {desktop-big-container} else {container}">
@@ -83,6 +84,7 @@
           </div>
         </div>
       </div>
+    </div>
     </div>
     </body>
 </html>
