@@ -1424,7 +1424,7 @@
         m_listController = controller;
       };
 
-      var columnAfterUpdate = function(key, lRow, lCol) {
+      self.columnAfterUpdate = function(key, lRow, lCol) {
         var p = null;
 
         try {
@@ -1465,7 +1465,15 @@
         return p || P.resolvedPromise(true);
       };
 
-      var columnAfterEdit = function(key, lRow, lCol, newValue, newValueID) {
+      self.columnClick = function(key,  lRow,  lCol) {
+
+      };
+
+      self.gridDblClick = function(key,  lRow,  lCol) {
+        return Cairo.Promises.resolvedPromise(false);
+      };
+
+      self.columnAfterEdit = function(key, lRow, lCol, newValue, newValueID) {
         var p = null;
 
         try {
@@ -1496,7 +1504,7 @@
         return p || P.resolvedPromise(true);
       };
 
-      var columnBeforeEdit = function(key, lRow, lCol, iKeyAscii) {
+      self.columnBeforeEdit = function(key, lRow, lCol, iKeyAscii) {
         var rtn = false;
 
         try {

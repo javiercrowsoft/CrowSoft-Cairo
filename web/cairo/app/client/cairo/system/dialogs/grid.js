@@ -41,7 +41,7 @@
           c.setVisible(col.getVisible());
           c.setType(col.getType());
           c.setSubType(col.getSubType());
-          c.setIsEditable(col.isEditable());
+          c.setEditable(col.isEditable());
           c.setEnabled(col.getEnabled());
 
           c.setSelectIntValue(col.getSelectIntValue());
@@ -476,7 +476,7 @@
       that.isEditable = function() {
         return self.isEditable;
       };
-      that.setIsEditable = function(isEditable) {
+      that.setEditable = function(isEditable) {
         self.isEditable = isEditable;
       };
       

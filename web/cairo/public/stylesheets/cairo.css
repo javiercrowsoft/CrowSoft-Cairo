@@ -393,7 +393,7 @@ div.tree-select-dialog.ui-widget-content {
 }
 
 .dialog-tr {
-  height: 40px;
+  height: 37px;
 }
 
 /* black */
@@ -736,3 +736,24 @@ div::after {
   z-index: -1;
 }
 */
+
+.grid-input-control {
+  border: none;
+  margin: 0px;
+}
+
+.grid-td-editing {
+  padding: 0px !important;
+}
+
+.grid-td-editing-number {
+  width: 100px;
+}
+
+.grid-td-editing-date {
+  width: 120px;
+}
+
+.grid-td-editing-text {
+  width: 250px;
+}

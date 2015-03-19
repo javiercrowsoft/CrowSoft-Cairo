@@ -29,7 +29,8 @@
         maxLength: 0,
         fileFilter: "",
         inputDisabled: false,
-        type: Controls.InputType.text
+        type: Controls.InputType.text,
+        clazz: ""
 
       };
 
@@ -82,6 +83,7 @@
           element.addClass("dialog-input-control-number");
           element.on("keypress", keyPressListener);
         }
+        addRemoveClazz('addClass');
       };
 
       var val = Cairo.Util.val;
@@ -140,7 +142,7 @@
         return text;
       };
 
-      var getValue = function(text) {
+      var getValue = function(text, format) {
         if(!isText()) {
           if(OPERATORS.test(text)) {
             text = calculate(text);
@@ -148,14 +150,16 @@
           else {
             text = val(text);
           }
-          var decimals = self.type === Controls.InputType.integer ? 0 : 2;
-          text = Cairo.accounting.formatNumber(text, decimals);
+          if(format) {
+            var decimals = self.type === Controls.InputType.integer ? 0 : 2;
+            text = Cairo.accounting.formatNumber(text, decimals);
+          }
         }
         return text;
       };
 
       that.setText = function(text) {
-        self.text = getValue(text);
+        self.text = getValue(text, true);
         var element = that.getElement();
         if(element) {
           element.val(self.text);
@@ -169,8 +173,29 @@
         return self.text;
       };
 
-      that.setValue = that.setText;
+      that.setValue = function(text) {
+        self.text = getValue(text, false);
+        var element = that.getElement();
+        if(element) {
+          element.val(self.text);
+        }
+      };
       that.getValue = that.getText;
+
+      var addRemoveClazz = function(f) {
+        if(self.clazz !== "") {
+          var element = that.getElement();
+          if(element !== null) {
+            element[f](self.clazz);
+          }
+        }
+      };
+
+      that.setClass = function(clazz) {
+        addRemoveClazz('removeClass');
+        self.clazz = clazz;
+        addRemoveClazz('addClass');
+      };
 
       that.getMask = function() { /* TODO: implement this. */ };
       that.setMask = function(mask) { /* TODO: implement this. */ };
@@ -186,6 +211,17 @@
       };
       that.setType = function(type) {
         self.type = type;
+        var element = that.getElement();
+        if(element !== null) {
+          element.off("keypress");
+          if(!isText()) {
+            element.addClass("dialog-input-control-number");
+            element.on("keypress", keyPressListener);
+          }
+          else {
+            element.removeClass("dialog-input-control-number");
+          }
+        }
       };
       
       return that;

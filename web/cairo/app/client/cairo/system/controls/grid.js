@@ -79,6 +79,9 @@
         enabled: false,
         isEditable: false,
 
+        size: 0,
+        format: null, /* is a Grids.CellFormat object */
+
         selectId: 0,
         selectFilter: '',
         selectFieldIntValue: '',
@@ -132,7 +135,7 @@
         isEditable: function() {
           return self.isEditable;
         },
-        setIsEditable: function(isEditable) {
+        setEditable: function(isEditable) {
           self.isEditable = isEditable;
         },
 
@@ -196,11 +199,28 @@
           self.defaultValue = value;
         },
 
+        setList: function(list) { /* TODO: implement this. */},
+
         getIndex: function() {
           return self.index;
         },
         setIndex: function(index) {
           self.index = index;
+        },
+
+        getSize: function() {
+          return self.size;
+        },
+        setSize: function(size) {
+          self.size = size;
+        },
+
+        getFormat: function() {
+          return self.format;
+        },
+        setFormat: function(format) {
+          self.format = format;
+          return that;
         }
 
       };
@@ -249,8 +269,10 @@
 
     var createGrid = function() {
 
-      var T = Cairo.Dialogs.PropertyType;
-      var S = Cairo.Dialogs.PropertySubType;
+      var D = Cairo.Dialogs;
+      var T = D.PropertyType;
+      var S = D.PropertySubType;
+      var CT = Cairo.Controls.InputType;
       var val = Cairo.Util.val;
       var NO_DATE = Cairo.Constants.NO_DATE;
 
@@ -408,6 +430,7 @@
       var getInputCtrl = function() {
         if(inputCtrl === null) {
           inputCtrl = Cairo.Controls.createInput();
+          inputCtrl.setClass('grid-input-control');
           createHtmlElement(inputCtrl);
         }
         return inputCtrl;
@@ -439,8 +462,14 @@
               ctrl = getSelectCtrl();
               break;
 
+            case T.numeric:
+              ctrl = getInputCtrl();
+              ctrl.setType(D.getCtrlType(col.getSubType()));
+              break;
+
             case T.text:
               ctrl = getInputCtrl();
+              ctrl.setType(CT.text);
               break;
 
             case T.date:
@@ -495,6 +524,10 @@
                 case T.list:
                   newValue = ctrl.getValue();
                   newValueId = ctrl.getId();
+                  break;
+
+                case T.numeric:
+                  newValue = ctrl.getValue();
                   break;
 
                 case T.text:
@@ -564,6 +597,10 @@
               ctrl.setValue(newValue);
             }
 
+          case T.numeric:
+            ctrl.setValue(newValue);
+            break;
+
           case T.text:
             ctrl.setText(newValue);
             break;
@@ -615,11 +652,12 @@
         );
       };
 
-      var hideControlForCol = function(col) {
+      var hideControlForCol = function(col, td) {
         var ctrl = getControl(col);
         if(ctrl !== null) {
           $(ctrl.getElement()).detach();
         }
+        $(td).removeClass('grid-td-editing grid-td-editing-number grid-td-editing-text grid-td-editing-date');
       };
 
       var updateCell = function(info, td) {
@@ -630,7 +668,7 @@
           // if the column is not valid we do nothing but hide the edit control
           //
           if (!validateCol(col)) {
-            hideControlForCol(col);
+            hideControlForCol(col, td);
             return false;
           }
           //
@@ -642,7 +680,7 @@
             // then set td value
             // and finally raise event ColumnAfterEdit
             //
-            hideControlForCol(col);
+            hideControlForCol(col, td);
 
             var cell = getRow(info.row).get(info.col);
             switch (col.getType()) {
@@ -691,7 +729,7 @@
         // if the column is not valid we do nothing but hide the edit control
         //
         if (!validateCol(col)) {
-          hideControlForCol(col);
+          hideControlForCol(col, td);
           return false;
         }
         //
@@ -731,7 +769,10 @@
             var ctrl = getControl(col);
             if(ctrl !== null) {
               setValue(ctrl, col, info.key, getCurrentValue(col.getType(), info.row, info.col));
-              $(td).html(ctrl.getElement());
+              var td$ = $(td);
+              td$.addClass('grid-td-editing');
+              td$.addClass(getClassForColType(type));
+              td$.html(ctrl.getElement());
               ctrl.focus()
               if(info.key === "") {
                 ctrl.select();
@@ -743,6 +784,17 @@
               }
             }
           }
+        }
+      };
+
+      var getClassForColType = function(type) {
+        switch(type) {
+          case T.numeric:
+            return 'grid-td-editing-number';
+          case T.text:
+            return 'grid-td-editing-text';
+          case T.date:
+            return 'grid-td-editing-date';
         }
       };
 

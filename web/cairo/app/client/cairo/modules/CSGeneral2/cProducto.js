@@ -3747,6 +3747,7 @@
 
       self.validateRow = function(key,  row,  rowIndex) {
         var p = null;
+
         try {
 
           switch (key) {

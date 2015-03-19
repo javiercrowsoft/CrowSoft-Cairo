@@ -34,7 +34,7 @@
       controlLabel: 21
     };
 
-    Dialogs.PropertySubType = {
+    var S = {
       money: 1,
       integer: 2,
       double: 3,
@@ -44,6 +44,34 @@
       memo: 7,
       textButton: 8,
       textButtonEx: 9
+    };
+
+    Dialogs.PropertySubType = S;
+
+    var CT = Cairo.Controls.InputType;
+
+    Dialogs.getCtrlType = function(subType) {
+      switch(subType) {
+        case S.money:
+          return CT.money;
+        case S.integer:
+          return CT.integer;
+        case S.double:
+          return CT.double;
+        case S.percentage:
+          return CT.percentage;
+        case S.mask:
+          return CT.mask;
+        case S.taxId:
+          return CT.taxId;
+        case S.memo:
+          return CT.memo;
+        case S.textButton:
+        case S.textButtonEx:
+          return CT.text;
+        default:
+          return CT.text;
+      }
     };
 
     Dialogs.TextAlign = {

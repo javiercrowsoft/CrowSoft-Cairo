@@ -1,6 +1,17 @@
 (function() {
   "use strict";
 
+  /*
+  * this file is only for documentation
+  *
+  * this file is here only to list the methods a client of dialog must implement
+  *
+  * this list is not complete. it must be fixed.
+  *
+  * this file is not included in the cairo ( no <script src= > in index.html )
+  *
+  * */
+
   Cairo.module("Dialogs.Views", function(Views, Cairo, Backbone, Marionette, $, _) {
 
     Views.DialogClient = {

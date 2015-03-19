@@ -512,7 +512,9 @@
 
             textChange:                 docHandlerTextChange,
             textAreaChange:             docHandlerTextAreaChange,
-            textPasswordChange:         docHandlerTextPasswordChange
+            textPasswordChange:         docHandlerTextPasswordChange,
+
+            containsProperty:           docHandlerContainsProperty
           });
         };
 
@@ -1365,7 +1367,7 @@
             case Dialogs.PropertyType.numeric:
 
               var c = view.getMaskEdits().get(property.getIndex());
-              c.setValue(property.getValue());
+              c.setText(property.getValue());
               c.setEnabled(property.getEnabled());
 
               break;
@@ -2426,15 +2428,24 @@
           return self.tabGetFirstCtrl(index);
         };
 
+        var docHandlerContainsProperty = function(control) {
+          for(var _i = 0, count = m_properties.count(); _i < count; _i++) {
+            if(m_properties.get(_i).getControl() === control) {
+              return true;
+            }
+          }
+          return false;
+        };
+
         var docHandlerCommandClick = function(index) {
           propertyHasChanged(Dialogs.PropertyType.button, index, getView().getButtons().get(index));
         };
 
-        var docHandlerGridDblClick = function(index, rowIndex, colIndex) {
+        var docHandlerGridDblClick = function(index, eventArgs) {
           if(m_isItems) {
             if(m_clientManageGrid) {
               var property = getProperty(Dialogs.PropertyType.grid, index, 0);
-              m_client.gridDblClick(property.getKey(), rowIndex, colIndex);
+              m_client.gridDblClick(property.getKey(), eventArgs.row, eventArgs.col);
             }
           }
         };
@@ -2451,10 +2462,10 @@
           }
         };
 
-        var wizHandlerGridDblClick = function(index, rowIndex, colIndex) {
+        var wizHandlerGridDblClick = function(index, eventArgs) {
           if(m_clientManageGrid) {
             var property = getProperty(Dialogs.PropertyType.grid, index, 0);
-            m_client.gridDblClick(property.getKey(), rowIndex, colIndex);
+            m_client.gridDblClick(property.getKey(), eventArgs.row, eventArgs.col);
           }
         };
 
@@ -3019,8 +3030,8 @@
           self.resetChanged();
         };
 
-        var docHandlerGridAfterDeleteRow = function(index, rowIndex) {
-            gridAfterDeleteRow(index, rowIndex);
+        var docHandlerGridAfterDeleteRow = function(index, eventArgs) {
+            gridAfterDeleteRow(index, eventArgs.row);
         };
 
         var docHandlerToolbarClick = function(button) {
@@ -3401,43 +3412,43 @@
 
         // TODO: refactor promise is returned by this function
         //
-        var wizHandlerGridColumnAfterEdit = function(index, rowIndex, colIndex, newValue, newValueId) {
-          return gridColumnEdit(true, index, rowIndex, colIndex, 0, newValue, newValueId);
+        var wizHandlerGridColumnAfterEdit = function(index, eventArgs) {
+          return gridColumnEdit(true, index, eventArgs.row, eventArgs.col, 0, eventArgs.newValue, eventArgs.newValueId);
         };
 
-        var wizHandlerGridColumnAfterUpdate = function(index, rowIndex, colIndex, newValue, newValueId) {
-          gridColumnAfterUpdate(index, rowIndex, colIndex, 0, newValue, newValueId);
+        var wizHandlerGridColumnAfterUpdate = function(index, eventArgs) {
+          gridColumnAfterUpdate(index, eventArgs.row, eventArgs.col, 0, eventArgs.newValue, eventArgs.newValueId);
         };
 
         // TODO: refactor promise is returned by this function
         //
-        var wizHandlerGridColumnBeforeEdit = function(index, rowIndex, colIndex, keyAscii) {
+        var wizHandlerGridColumnBeforeEdit = function(index, eventArgs) {
           // TODO: investigate why it calls gridColumnEdit instead of gridBeforeColumnEdit()
-          return gridColumnEdit(false, index, rowIndex, colIndex, keyAscii, 0, 0);
+          return gridColumnEdit(false, index, eventArgs.row, eventArgs.col, eventArgs.keyAscii, 0, 0);
         };
 
-        var wizHandlerGridColumnButtonClick = function(index, rowIndex, colIndex, keyAscii) {
-          return gridColumnButtonClick(index, rowIndex, colIndex, keyAscii);
+        var wizHandlerGridColumnButtonClick = function(index, eventArgs) {
+          return gridColumnButtonClick(index, eventArgs.row, eventArgs.col, eventArgs.keyAscii);
         };
 
-        var wizHandlerGridDeleteRow = function(index, rowIndex) {
-          return gridDeleteRow(index, rowIndex);
+        var wizHandlerGridDeleteRow = function(index, eventArgs) {
+          return gridDeleteRow(index, eventArgs.row);
         };
 
-        var wizHandlerGridNewRow = function(index, rowIndex) {
-          return gridNewRow(index, rowIndex);
+        var wizHandlerGridNewRow = function(index, eventArgs) {
+          return gridNewRow(index, eventArgs.row);
         };
 
-        var wizHandlerGridAfterDeleteRow = function(index, rowIndex) {
-          gridAfterDeleteRow(index, rowIndex);
+        var wizHandlerGridAfterDeleteRow = function(index, eventArgs) {
+          gridAfterDeleteRow(index, eventArgs.row);
         };
 
-        var wizHandlerGridSelectionChange = function(index, rowIndex, colIndex) {
-          gridSelectionChange(index, rowIndex, colIndex, Dialogs.GridSelectChangeType.GRID_SELECTION_CHANGE);
+        var wizHandlerGridSelectionChange = function(index, eventArgs) {
+          gridSelectionChange(index, eventArgs.row, eventArgs.col, Dialogs.GridSelectChangeType.GRID_SELECTION_CHANGE);
         };
 
-        var wizHandlerGridSelectionRowChange = function(index, rowIndex, colIndex) {
-          gridSelectionChange(index, rowIndex, colIndex, Dialogs.GridSelectChangeType.GRID_ROW_CHANGE);
+        var wizHandlerGridSelectionRowChange = function(index, eventArgs) {
+          gridSelectionChange(index, eventArgs.row, eventArgs.col, Dialogs.GridSelectChangeType.GRID_ROW_CHANGE);
         };
 
         var wizHandlerGridValidateRow = function(index, eventArgs) {
@@ -3576,47 +3587,47 @@
           }
         };
 
-        var docHandlerGridColumnButtonClick = function(index, rowIndex, colIndex, keyAscii) {
-          return gridColumnButtonClick(index, rowIndex, colIndex, keyAscii);
+        var docHandlerGridColumnButtonClick = function(index, eventArgs) {
+          return gridColumnButtonClick(index, eventArgs.row, eventArgs.col, eventArgs.keyAscii);
         };
 
-        var docHandlerGridColumnAfterEdit = function(index, rowIndex, colIndex, newValue, newValueId) {
-          return gridColumnEdit(true, index, rowIndex, colIndex, 0, newValue, newValueId);
+        var docHandlerGridColumnAfterEdit = function(index, eventArgs) {
+          return gridColumnEdit(true, index, eventArgs.row, eventArgs.col, 0, eventArgs.newValue, eventArgs.newValueId);
         };
 
-        var docHandlerGridColumnAfterUpdate = function(index, rowIndex, colIndex, newValue, newValueId) {
-          gridColumnAfterUpdate(index, rowIndex, colIndex, 0, newValue, newValueId);
+        var docHandlerGridColumnAfterUpdate = function(index, eventArgs) {
+          gridColumnAfterUpdate(index, eventArgs.row, eventArgs.col, 0, eventArgs.newValue, eventArgs.newValueId);
         };
 
         // TODO: refactor promise is returned by this function
         //
-        var docHandlerGridColumnBeforeEdit = function(index, rowIndex, colIndex, keyAscii) {
-          if(gridColumnBeforeEdit(index, rowIndex, colIndex)) {
-            return gridColumnEdit(false, index, rowIndex, colIndex, keyAscii, 0, 0);
+        var docHandlerGridColumnBeforeEdit = function(index, eventArgs) {
+          if(gridColumnBeforeEdit(index, eventArgs.row, eventArgs.col)) {
+            return gridColumnEdit(false, index, eventArgs.row, eventArgs.col, eventArgs.keyAscii, 0, 0);
           }
           else {
             return Cairo.Promises.resolvedPromise(false);
           }
         };
 
-        var docHandlerGridDeleteRow = function(index, rowIndex) {
-          return gridDeleteRow(index, rowIndex);
+        var docHandlerGridDeleteRow = function(index, eventArgs) {
+          return gridDeleteRow(index, eventArgs.row);
         };
 
-        var docHandlerGridNewRow = function(index, rowIndex) {
-          return gridNewRow(index, rowIndex);
+        var docHandlerGridNewRow = function(index, eventArgs) {
+          return gridNewRow(index, eventArgs.row);
         };
 
         var docHandlerGridValidateRow = function(index, eventArgs) {
           return gridValidateRow(index, eventArgs.row, true).then(notCancel);;
         };
 
-        var docHandlerGridSelectionChange = function(index, rowIndex, colIndex) {
-          gridSelectionChange(index, rowIndex, colIndex, Dialogs.GridSelectChangeType.GRID_SELECTION_CHANGE);
+        var docHandlerGridSelectionChange = function(index, eventArgs) {
+          gridSelectionChange(index, eventArgs.row, eventArgs.col, Dialogs.GridSelectChangeType.GRID_SELECTION_CHANGE);
         };
 
-        var docHandlerGridSelectionRowChange = function(index, rowIndex, colIndex) {
-          gridSelectionChange(index, rowIndex, colIndex, Dialogs.GridSelectChangeType.GRID_ROW_CHANGE);
+        var docHandlerGridSelectionRowChange = function(index, eventArgs) {
+          gridSelectionChange(index, eventArgs.row, eventArgs.col, Dialogs.GridSelectChangeType.GRID_ROW_CHANGE);
         };
 
         var docHandlerSelectChange = function(index) {
@@ -4016,7 +4027,7 @@
         // TODO: check uses of this function to refactor _cancel_
         //
         var gridColumnBeforeEdit = function(index, rowIndex, colIndex) {
-          var cancel = true;
+          var isEditable = false;
           try {
 
             if(m_clientManageGrid) {
@@ -4024,7 +4035,7 @@
               var property = getProperty(Dialogs.PropertyType.grid, index, 0);
 
               if(property !== null) {
-                if(rowIndex > property.getGrid().getRows().count()) {
+                if(rowIndex < property.getGrid().getRows().count()) {
 
                   var column = property.getGrid().getColumns().get(colIndex);
                   var col = getView().getGrids().get(property.getIndex()).getColumns().get(colIndex);
@@ -4034,8 +4045,8 @@
                   if(format === null) {
                     col.setType(column.getType());
                     col.setSubType(column.getSubType());
-                    col.setTable(column.getSelectTable());
-                    col.setEditEnabled(column.getEnabled());
+                    col.setSelectTable(column.getSelectTable());
+                    col.setEditable(column.getEnabled());
                     col.setEnabled(column.getEnabled());
                     col.setSelectFilter(column.getSelectFilter());
                     col.setSize(column.getSize());
@@ -4077,7 +4088,7 @@
                       }
                     }
                   }
-                  cancel = col.getEnabled() && col.getEditEnabled();
+                  isEditable = col.getEnabled() && col.isEditable();
                 }
               }
             }
@@ -4089,7 +4100,7 @@
               e.message,
               e);
           }
-          return !cancel;
+          return isEditable;
         };
 
         var gridColumnEdit = function(after, index, rowIndex, colIndex, keyAscii, newValue, newValueId) {
@@ -4889,7 +4900,7 @@
 
         var getProperty = function(type, index, subType) {
 
-          var property = null;
+          var property;
           var found = false;
           var propertyCount = m_properties.count();
 
@@ -4973,6 +4984,8 @@
               }
             }
           }
+
+          return null;
         };
 
         // TODO: refactor promise is returned by this function
@@ -5016,7 +5029,7 @@
 
                   case Dialogs.PropertyType.numeric:
 
-                    property.setValue(c.getValue());
+                    property.setText(c.getValue());
                     break;
 
                   case Dialogs.PropertyType.date:

@@ -702,11 +702,18 @@
         }
       };
 
-      that.raiseEventWithPromise = function(eventName, eventData, eventArgs) {
+      that.raiseEventWithPromise = function(eventName, eventData, eventArgs, control) {
         for(var i = 0; i < self.listeners.length; i += 1) {
           var listener = self.listeners[i];
           if(listener[eventName] !== undefined) {
-            return listener[eventName](eventData, eventArgs);
+            if(listener['containsProperty'] !== undefined) {
+              if(listener['containsProperty'](control)) {
+                return listener[eventName](eventData, eventArgs);
+              }
+            }
+            else {
+              return listener[eventName](eventData, eventArgs);
+            }
           }
         }
       };
@@ -758,67 +765,67 @@
       //
       that.onGridDblClick = function(control) {
         return function(eventArgs) {
-          return that.raiseEventWithPromise("gridDblClick", control.getIndex(), eventArgs);
+          return that.raiseEventWithPromise("gridDblClick", control.getIndex(), eventArgs, control);
         };
       };
 
       that.onGridAfterDeleteRow = function(control) {
         return function(eventArgs) {
-          return that.raiseEventWithPromise("gridAfterDeleteRow", control.getIndex(), eventArgs);
+          return that.raiseEventWithPromise("gridAfterDeleteRow", control.getIndex(), eventArgs, control);
         };
       };
 
       that.onGridDeleteRow = function(control) {
         return function(eventArgs) {
-          return that.raiseEventWithPromise("gridDeleteRow", control.getIndex(), eventArgs);
+          return that.raiseEventWithPromise("gridDeleteRow", control.getIndex(), eventArgs, control);
         };
       };
 
       that.onGridNewRow = function(control) {
         return function(eventArgs) {
-          return that.raiseEventWithPromise("gridNewRow", control.getIndex(), eventArgs);
+          return that.raiseEventWithPromise("gridNewRow", control.getIndex(), eventArgs, control);
         };
       };
 
       that.onGridValidateRow = function(control) {
         return function(eventArgs) {
-          return that.raiseEventWithPromise("gridValidateRow", control.getIndex(), eventArgs);
+          return that.raiseEventWithPromise("gridValidateRow", control.getIndex(), eventArgs, control);
         };
       };
 
       that.onGridColumnAfterEdit = function(control) {
         return function(eventArgs) {
-          return that.raiseEventWithPromise("gridColumnAfterEdit", control.getIndex(), eventArgs);
+          return that.raiseEventWithPromise("gridColumnAfterEdit", control.getIndex(), eventArgs, control);
         };
       };
 
       that.onGridColumnAfterUpdate = function(control) {
         return function(eventArgs) {
-          return that.raiseEventWithPromise("gridColumnAfterUpdate", control.getIndex(), eventArgs);
+          return that.raiseEventWithPromise("gridColumnAfterUpdate", control.getIndex(), eventArgs, control);
         };
       };
 
       that.onGridColumnBeforeEdit = function(control) {
         return function(eventArgs) {
-          return that.raiseEventWithPromise("gridColumnBeforeEdit", control.getIndex(), eventArgs);
+          return that.raiseEventWithPromise("gridColumnBeforeEdit", control.getIndex(), eventArgs, control);
         };
       };
 
       that.onGridColumnButtonClick = function(control) {
         return function(eventArgs) {
-          return that.raiseEventWithPromise("gridColumnButtonClick", control.getIndex(), eventArgs);
+          return that.raiseEventWithPromise("gridColumnButtonClick", control.getIndex(), eventArgs, control);
         };
       };
 
       that.onGridSelectionChange = function(control) {
         return function(eventArgs) {
-          return that.raiseEventWithPromise("gridSelectionChange", control.getIndex(), eventArgs);
+          return that.raiseEventWithPromise("gridSelectionChange", control.getIndex(), eventArgs, control);
         };
       };
 
       that.onGridSelectionRowChange = function(control) {
         return function(eventArgs) {
-          return that.raiseEventWithPromise("gridSelectionRowChange", control.getIndex(), eventArgs);
+          return that.raiseEventWithPromise("gridSelectionRowChange", control.getIndex(), eventArgs, control);
         };
       };
 
@@ -1019,13 +1026,13 @@
 
       that.onListGridEditRow = function(control) {
         return function(eventArgs) {
-          return that.raiseEventWithPromise("editClick", control.getIndex(), eventArgs);
+          return that.raiseEventWithPromise("editClick", control.getIndex(), eventArgs, control);
         };
       };
 
       that.onListGridDeleteRow = function(control) {
         return function(eventArgs) {
-          return that.raiseEventWithPromise("deleteClick", control.getIndex(), eventArgs);
+          return that.raiseEventWithPromise("deleteClick", control.getIndex(), eventArgs, control);
         };
       };
 
