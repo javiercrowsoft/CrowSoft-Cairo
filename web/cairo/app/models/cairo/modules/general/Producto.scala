@@ -937,6 +937,33 @@ case class Producto(
 
 }
 
+case class ProductoStockInfo(unName: String,
+                             unNameCompra: String,
+                             unNameVenta: String,
+                             llevaNroSerie: Boolean,
+                             llevaNroLote: Boolean,
+                             loteFifo: Boolean,
+                             esKit: Boolean,
+                             rubId: Int,
+                             cueIdCompra: Int,
+                             cueIdVenta: Int,
+                             ccosIdCompra: Int,
+                             ccosNameCompra: String,
+                             ccosIdVenta: Int,
+                             ccosNameVenta: String
+                           )
+
+case class ProductoTaxInfo(
+                            tiIdIvaRiCompra: Int,
+                            tiIdIvaRniCompra: Int,
+                            tiIdIvaRiVenta: Int,
+                            tiIdIvaRniVenta: Int,
+                            tiIdInternosC: Int,
+                            tiIdInternosV: Int,
+                            prPorcInternoC: Double,
+                            prPorcInternoV: Double
+                            )
+
 object Producto {
 
   lazy val emptyProductoItems = ProductoItems(List(), List(), List(), List(), List(), List(), List(), List(), List(), List(), List())
@@ -960,6 +987,9 @@ object Producto {
 
     emptyProductoItems
   )
+
+  lazy val emptyProductoStockInfo = ProductoStockInfo("", "", "", false, false, false, false, 0, 0, 0, 0, "", 0, "")
+  lazy val emptyProductoTaxInfo = ProductoTaxInfo(0, 0, 0, 0, 0, 0, 0, 0)
 
   def apply(
              id: Int,
@@ -1164,7 +1194,7 @@ object Producto {
         paId.getOrElse(DBHelper.NoId),
         paName.getOrElse(""),
         lpName.getOrElse(""),
-        price match { case Some(p) => p.doubleValue() case None => 0.0 },
+        price match { case Some(p) => p.doubleValue case None => 0.0 },
         priceDate.getOrElse(U.NO_DATE),
         (if(priceDefault != 0) true else false))
     }
@@ -1628,6 +1658,86 @@ object Producto {
     }
   }
 
+  private val productoStockInfoParser: RowParser[ProductoStockInfo] = {
+    SqlParser.get[Option[String]](C.UN_NAME_STOCK) ~
+    SqlParser.get[Option[String]](C.UN_NAME_COMPRA) ~
+    SqlParser.get[Option[String]](C.UN_NAME_VENTA) ~
+    SqlParser.get[Int](C.PR_LLEVA_NRO_SERIE) ~
+    SqlParser.get[Int](C.PR_LLEVA_NRO_LOTE) ~
+    SqlParser.get[Int](C.PR_LOTE_FIFO) ~
+    SqlParser.get[Int](C.PR_ES_KIT) ~
+    SqlParser.get[Option[Int]](C.RUB_ID) ~
+    SqlParser.get[Option[Int]](C.CUE_ID_COMPRA) ~
+    SqlParser.get[Option[Int]](C.CUE_ID_VENTA) ~
+    SqlParser.get[Option[Int]](C.CCOS_ID_COMPRA) ~
+    SqlParser.get[Option[String]](C.CCOS_NAME_COMPRA) ~
+    SqlParser.get[Option[Int]](C.CCOS_ID_VENTA) ~
+    SqlParser.get[Option[String]](C.CCOS_NAME_VENTA) map {
+    case
+      unName ~
+      unNameCompra ~
+      unNameVenta ~
+      llevaNroSerie ~
+      llevaNroLote ~
+      loteFifo ~
+      esKit ~
+      rubId ~
+      cueIdCompra ~
+      cueIdVenta ~
+      ccosIdCompra ~
+      ccosNameCompra ~
+      ccosIdVenta ~
+      ccosNameVenta =>
+      ProductoStockInfo(
+        unName.getOrElse(""),
+        unNameCompra.getOrElse(""),
+        unNameVenta.getOrElse(""),
+        (if(llevaNroSerie != 0) true else false),
+        (if(llevaNroLote != 0) true else false),
+        (if(loteFifo != 0) true else false),
+        (if(esKit != 0) true else false),
+        rubId.getOrElse(DBHelper.NoId),
+        cueIdCompra.getOrElse(DBHelper.NoId),
+        cueIdVenta.getOrElse(DBHelper.NoId),
+        ccosIdCompra.getOrElse(DBHelper.NoId),
+        ccosNameCompra.getOrElse(""),
+        ccosIdVenta.getOrElse(DBHelper.NoId),
+        ccosNameVenta.getOrElse("")
+      )
+    }
+  }
+
+  private val productoTaxInfoParser: RowParser[ProductoTaxInfo] = {
+      SqlParser.get[Option[Int]](C.TI_ID_RI_COMPRA) ~
+      SqlParser.get[Option[Int]](C.TI_ID_RNI_COMPRA) ~
+      SqlParser.get[Option[Int]](C.TI_ID_RI_VENTA) ~
+      SqlParser.get[Option[Int]](C.TI_ID_RNI_VENTA) ~
+      SqlParser.get[Option[Int]](C.TI_ID_INTERNOS_COMPRA) ~
+      SqlParser.get[Option[Int]](C.TI_ID_INTERNOS_VENTA) ~
+      SqlParser.get[Option[Float]](C.PR_PORC_INTERNO_C) ~
+      SqlParser.get[Option[Float]](C.PR_PORC_INTERNO_V) map {
+      case
+          tiIdIvaRiCompra ~
+          tiIdIvaRniCompra ~
+          tiIdIvaRiVenta ~
+          tiIdIvaRniVentA ~
+          tiIdInternosC ~
+          tiIdInternosV ~
+          prPorcInternoC ~
+          prPorcInternoV =>
+        ProductoTaxInfo(
+          tiIdIvaRiCompra.getOrElse(DBHelper.NoId),
+          tiIdIvaRniCompra.getOrElse(DBHelper.NoId),
+          tiIdIvaRiVenta.getOrElse(DBHelper.NoId),
+          tiIdIvaRniVentA.getOrElse(DBHelper.NoId),
+          tiIdInternosC.getOrElse(DBHelper.NoId),
+          tiIdInternosV.getOrElse(DBHelper.NoId),
+          prPorcInternoC match { case Some(d) => d case None => 0.0 },
+          prPorcInternoV match { case Some(d) => d case None => 0.0 }
+        )
+    }
+  }
+
   def create(user: CompanyUser, producto: Producto): Producto = {
     save(user, producto, true)
   }
@@ -1870,4 +1980,156 @@ object Producto {
       case None => emptyProducto
     }
   }
+
+  def getStockInfo(user: CompanyUser, id: Int, cliId: Option[Int], provId: Option[Int]): ProductoStockInfo = {
+    val stockInfo = {
+      DB.withTransaction(user.database.database) { implicit connection =>
+
+        val sql = "{call sp_producto_stock_get_data(?, ?, ?, ?)}"
+        val cs = connection.prepareCall(sql)
+
+        cs.setInt(1, id)
+        cliId match {
+          case Some(id) => cs.setInt(2, id)
+          case None => cs.setNull(2, Types.INTEGER)
+        }
+        provId match {
+          case Some(id) => cs.setInt(3, id)
+          case None => cs.setNull(3, Types.INTEGER)
+        }
+        cs.registerOutParameter(4, Types.OTHER)
+
+        try {
+          cs.execute()
+
+          val rs = cs.getObject(4).asInstanceOf[java.sql.ResultSet]
+          Sql.as(productoStockInfoParser.singleOpt, rs)
+
+        } catch {
+          case NonFatal(e) => {
+            Logger.error(s"can't get stock info with prId $id and cliId $cliId and provId $provId for user ${user.toString}. Error ${e.toString}")
+            throw e
+          }
+        } finally {
+          cs.close
+        }
+      }
+    }
+
+    stockInfo.getOrElse(emptyProductoStockInfo)
+  }
+
+  def getPrice(user: CompanyUser, id: Int, lpId: Int): Double = {
+
+    DB.withTransaction(user.database.database) { implicit connection =>
+
+      val sql = "{call sp_lp_get_precio(?, ?, ?)}"
+      val cs = connection.prepareCall(sql)
+
+      cs.setInt(1, id)
+      cs.setInt(2, lpId)
+      cs.registerOutParameter(3, Types.DECIMAL)
+
+      try {
+        cs.execute()
+
+        cs.getBigDecimal(3).doubleValue
+
+      } catch {
+        case NonFatal(e) => {
+          Logger.error(s"can't get price with prId $id and lpId $lpId for user ${user.toString}. Error ${e.toString}")
+          throw e
+        }
+      } finally {
+        cs.close
+      }
+    }
+  }
+
+  def getDiscount(user: CompanyUser, id: Int, ldId: Int, price: Double): Double = {
+
+    DB.withTransaction(user.database.database) { implicit connection =>
+
+      val sql = "{call sp_ld_get_descuento(?, ?, ?)}"
+      val cs = connection.prepareCall(sql)
+
+      cs.setInt(1, id)
+      cs.setInt(2, ldId)
+      cs.registerOutParameter(3, Types.DECIMAL)
+      cs.setDouble(3, price)
+
+      try {
+        cs.execute()
+
+        cs.getBigDecimal(3).doubleValue
+
+      } catch {
+        case NonFatal(e) => {
+          Logger.error(s"can't get discount with prId $id and ldId $ldId for user ${user.toString}. Error ${e.toString}")
+          throw e
+        }
+      } finally {
+        cs.close
+      }
+    }
+  }
+
+  def getDiscountDescription(user: CompanyUser, id: Int, ldId: Int): String = {
+
+    DB.withTransaction(user.database.database) { implicit connection =>
+
+      val sql = "{call sp_ld_get_descuento(?, ?, ?)}"
+      val cs = connection.prepareCall(sql)
+
+      cs.setInt(1, id)
+      cs.setInt(2, ldId)
+      cs.registerOutParameter(3, Types.VARCHAR)
+      cs.setString(3, "")
+
+      try {
+        cs.execute()
+
+        cs.getString(3)
+
+      } catch {
+        case NonFatal(e) => {
+          Logger.error(s"can't get discount with prId $id and ldId $ldId for user ${user.toString}. Error ${e.toString}")
+          throw e
+        }
+      } finally {
+        cs.close
+      }
+    }
+  }
+
+  def getTaxes(user: CompanyUser, id: Int): ProductoTaxInfo = {
+    val taxInfo = {
+      DB.withTransaction(user.database.database) { implicit connection =>
+
+        val sql = "{call sp_producto_get_tasas(?, ?)}"
+        val cs = connection.prepareCall(sql)
+
+        cs.setInt(1, id)
+        cs.registerOutParameter(2, Types.OTHER)
+
+        try {
+          cs.execute()
+
+          val rs = cs.getObject(2).asInstanceOf[java.sql.ResultSet]
+          Sql.as(productoTaxInfoParser.singleOpt, rs)
+
+        } catch {
+          case NonFatal(e) => {
+            Logger.error(s"can't get tax info with prId $id for user ${user.toString}. Error ${e.toString}")
+            throw e
+          }
+        } finally {
+          cs.close
+        }
+      }
+    }
+
+    taxInfo.getOrElse(emptyProductoTaxInfo)
+  }
+
 }

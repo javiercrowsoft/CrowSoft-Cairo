@@ -571,6 +571,10 @@ object Select {
 
       val cs = connection.prepareCall(sqlstmt)
 
+      Logger.info(s"filter $filter")
+      Logger.info(s"id $id")
+      Logger.info(s"internalFilter ${internalFilter.query}")
+
       cs.setString(1, filter)
       cs.setInt(2, id)
       cs.setString(3, internalFilter.query)

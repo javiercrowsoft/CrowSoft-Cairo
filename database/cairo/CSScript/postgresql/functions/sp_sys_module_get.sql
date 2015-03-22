@@ -13,7 +13,7 @@ the Free Software Foundation; either version 2 of the License, or
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+MERCHANTABILITY or FITNESS for A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License along
@@ -30,17 +30,17 @@ javier at crowsoft.com.ar
 */
 -- Function: sp_sys_module_get()
 
--- DROP FUNCTION sp_sys_module_get();
+-- drop function sp_sys_module_get();
 
-CREATE OR REPLACE FUNCTION sp_sys_module_get(IN p_us_id integer, out rtn refcursor)
-  RETURNS refcursor AS
+create or replace function sp_sys_module_get(in p_us_id integer, out rtn refcursor)
+  returns refcursor as
 $BODY$
-DECLARE
-BEGIN
+declare
+begin
         rtn := 'rtn';
         
         open rtn for
-        select distinct 
+        select distinct
 
 			s.sysm_id,
 			s.sysm_orden,
@@ -52,9 +52,9 @@ BEGIN
 
 	order by s.sysm_orden;
 
-END;
+end;
 $BODY$
-  LANGUAGE plpgsql VOLATILE
+  language plpgsql volatile
   COST 100;
-ALTER FUNCTION sp_sys_module_get(integer)
-  OWNER TO postgres;
+alter function sp_sys_module_get(integer)
+  owner to postgres;

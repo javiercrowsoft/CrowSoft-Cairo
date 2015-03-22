@@ -13,7 +13,7 @@ the Free Software Foundation; either version 2 of the License, or
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+MERCHANTABILITY or FITNESS for A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License along
@@ -30,22 +30,22 @@ javier at crowsoft.com.ar
 */
 ﻿-- Function: alr_dc_csc_srv_0010_r(integer, integer, integer)
 
-CREATE OR REPLACE FUNCTION alr_dc_csc_srv_0010_r(p_almr_id_mail integer, p_mail_id integer, p_maili_id integer)
-  RETURNS void AS
+create or replace function alr_dc_csc_srv_0010_r(p_almr_id_mail integer, p_mail_id integer, p_maili_id integer)
+  returns void as
 $BODY$
-DECLARE
+declare
    v_alm_id integer;
-BEGIN
+begin
 
    v_alm_id := 2;
 
-   INSERT INTO AlarmaMailResult
+   insert into AlarmaMailResult
      ( alm_id, almr_id_mail )
-     VALUES ( v_alm_id, p_almr_id_mail );
+     values ( v_alm_id, p_almr_id_mail );
 
-END;
+end;
 $BODY$
-  LANGUAGE plpgsql VOLATILE
+  language plpgsql volatile
   COST 100;
-ALTER FUNCTION alr_dc_csc_srv_0010_r(integer, integer, integer)
-  OWNER TO postgres;
+alter function alr_dc_csc_srv_0010_r(integer, integer, integer)
+  owner to postgres;

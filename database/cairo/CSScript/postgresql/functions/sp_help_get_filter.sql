@@ -13,7 +13,7 @@ the Free Software Foundation; either version 2 of the License, or
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+MERCHANTABILITY or FITNESS for A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License along
@@ -30,16 +30,16 @@ javier at crowsoft.com.ar
 */
 -- Function: sp_helpgetfilter()
 
--- DROP FUNCTION sp_helpgetfilter();
+-- drop function sp_helpgetfilter();
 
-CREATE OR REPLACE FUNCTION sp_helpgetfilter(
-  IN p_bFilterType integer ,
-  IN p_filter varchar)
-  RETURNS varchar AS
+create or replace function sp_helpgetfilter(
+  in p_bFilterType integer ,
+  in p_filter varchar)
+  returns varchar as
 $BODY$
-DECLARE
+declare
    
-BEGIN
+begin
 
   --/////////////////////////////////////////////////////////////////////////////////////
   /*
@@ -49,20 +49,20 @@ BEGIN
   Public Const c_HelpFilterEndLike = 4
   Public Const c_HelpFilterIsLike = 5
   */
-  return CASE p_bFilterType
-                 WHEN 1 THEN p_filter || '%'
-                 WHEN 3 THEN REPLACE(p_filter, '*', '%')
-                 WHEN 4 THEN '%' || p_filter
-                 WHEN 5 THEN p_filter
+  return case p_bFilterType
+                 when 1 then p_filter || '%'
+                 when 3 then REPLACE(p_filter, '*', '%')
+                 when 4 then '%' || p_filter
+                 when 5 then p_filter
                  -- Default
                  -- case 2 then '%' + @@filter + '%'
-                 ELSE '%' || p_filter || '%'
-         END;
+                 else '%' || p_filter || '%'
+         end;
    --/////////////////////////////////////////////////////////////////////////////////////
            
-END;
+end;
 $BODY$
-  LANGUAGE plpgsql VOLATILE
+  language plpgsql volatile
   COST 100;
-ALTER FUNCTION sp_helpgetfilter(integer, varchar)
-  OWNER TO postgres;
+alter function sp_helpgetfilter(integer, varchar)
+  owner to postgres;

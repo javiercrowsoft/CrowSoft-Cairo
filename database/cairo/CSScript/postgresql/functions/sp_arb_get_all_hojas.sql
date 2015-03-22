@@ -13,7 +13,7 @@ the Free Software Foundation; either version 2 of the License, or
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+MERCHANTABILITY or FITNESS for A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License along
@@ -30,31 +30,31 @@ javier at crowsoft.com.ar
 */
 -- Function: sp_arbgetallhojas(integer, integer, integer)
 
--- DROP FUNCTION sp_arbgetallhojas(integer, integer, integer);
+-- drop function sp_arbgetallhojas(integer, integer, integer);
 
-CREATE OR REPLACE FUNCTION sp_arbgetallhojas(p_ram_id integer, p_clienteid integer, p_tblidalias integer)
-  RETURNS void AS
+create or replace function sp_arbgetallhojas(p_ram_id integer, p_clienteid integer, p_tblidalias integer)
+  returns void as
 $BODY$
-DECLARE
+declare
    v_tot2 integer;
    v_tot1 integer;
    v_n integer;
-BEGIN
+begin
 
-   CREATE TEMPORARY TABLE tt_t_rama
+   create temporary table tt_t_rama
    (
-     ram_id integer  NOT NULL,
-     N integer  NOT NULL
-   ) ON COMMIT DROP;
+     ram_id integer  not null,
+     N integer  not null
+   ) on commit drop;
 
-   IF p_ram_id = 0 THEN
+   if p_ram_id = 0 then
       RETURN;
-   END IF;
+   end if;
 
-   IF p_clienteId = 0 THEN
-      RAISE EXCEPTION '@@ERROR_SP:El procedimiento almacenado sp_ArbGetAllHojas no puede ser llamado para obtener un cursor. Se debe usar sp_ArbGetAllHojasRs.';
+   if p_clienteId = 0 then
+      RAISE exception '@@ERROR_SP:El procedimiento almacenado sp_ArbGetAllHojas no puede ser llamado para obtener un cursor. Se debe usar sp_ArbGetAllHojasRs.';
       RETURN;
-   END IF;
+   end if;
 	 
    v_tot1 := -1;
 
@@ -62,60 +62,60 @@ BEGIN
 
    v_n := 1;
 
-   INSERT INTO tt_t_rama ( ram_id, N )
-                  VALUES ( p_ram_id, 0 );
+   insert into tt_t_rama ( ram_id, N )
+                  values ( p_ram_id, 0 );
 
-   WHILE v_tot1 < v_tot2
-   LOOP
-      BEGIN
+   while v_tot1 < v_tot2
+   loop
+      begin
          v_tot1 := v_tot2;
 
-         INSERT INTO tt_t_rama
+         insert into tt_t_rama
            ( ram_id, N )
-           ( SELECT r.ram_id,
+           ( select r.ram_id,
                     v_n
-             FROM Rama r,
+             from Rama r,
                   tt_t_rama t
-                WHERE r.ram_id_padre = t.ram_id
-                        AND t.N = v_n - 1
-                        AND r.ram_id <> t.ram_id );
+                where r.ram_id_padre = t.ram_id
+                        and t.N = v_n - 1
+                        and r.ram_id <> t.ram_id );
 
-         SELECT COUNT(*)
-         INTO v_tot2
-         FROM tt_t_rama;
+         select COUNT(*)
+         into v_tot2
+         from tt_t_rama;
 
          v_n := v_n + 1;
 
-      END;
-   END LOOP;
+      end;
+   end loop;
 
-   IF p_clienteId <> 0 THEN
-   DECLARE
+   if p_clienteId <> 0 then
+   declare
       v_tbl_id integer;
-   BEGIN
-      SELECT tbl_id
-        INTO v_tbl_id
-      FROM Arbol INNER JOIN Rama ON Arbol.arb_id = Rama.arb_id
-      WHERE Rama.ram_id = p_ram_id;
+   begin
+      select tbl_id
+        into v_tbl_id
+      from Arbol inner join Rama on Arbol.arb_id = Rama.arb_id
+      where Rama.ram_id = p_ram_id;
 
-      IF p_tblIdAlias <> 0 THEN
+      if p_tblIdAlias <> 0 then
          v_tbl_id := p_tblIdAlias;
-      END IF;
+      end if;
 
-      INSERT INTO rptArbolRamaHoja
+      insert into rptArbolRamaHoja
         ( rptarb_cliente, rptarb_hojaid, tbl_id, ram_id )
-        ( SELECT DISTINCT p_clienteId,
+        ( select DISTINCT p_clienteId,
                           h.id,
                           v_tbl_id,
                           t.ram_id
-          FROM Hoja h INNER JOIN tt_t_rama t ON h.ram_id = t.ram_id );
+          from Hoja h inner join tt_t_rama t on h.ram_id = t.ram_id );
 
-   END;
-   END IF;
+   end;
+   end if;
 
-END;
+end;
 $BODY$
-  LANGUAGE plpgsql VOLATILE
+  language plpgsql volatile
   COST 100;
-ALTER FUNCTION sp_arbgetallhojas(integer, integer, integer)
-  OWNER TO postgres;
+alter function sp_arbgetallhojas(integer, integer, integer)
+  owner to postgres;

@@ -13,7 +13,7 @@ the Free Software Foundation; either version 2 of the License, or
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+MERCHANTABILITY or FITNESS for A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License along
@@ -30,12 +30,12 @@ javier at crowsoft.com.ar
 */
 -- Function: alr_dc_csc_ven_0010_m()
 
--- DROP FUNCTION alr_dc_csc_ven_0010_m();
+-- drop function alr_dc_csc_ven_0010_m();
 
-CREATE OR REPLACE FUNCTION alr_dc_csc_ven_0010_m(OUT rtn refcursor)
-  RETURNS refcursor AS
+create or replace function alr_dc_csc_ven_0010_m(out rtn refcursor)
+  returns refcursor as
 $BODY$
-DECLARE
+declare
    v_alm_id integer;
    v_fecha date;
    -- Obtengo la direccion de email
@@ -44,7 +44,7 @@ DECLARE
    v_mail_emailCc varchar(1000);
    v_mail_id integer;
    v_temp numeric(1, 0) := 0;
-BEGIN
+begin
 
    rtn := 'rtn';
 
@@ -52,42 +52,42 @@ BEGIN
 
    v_fecha := dateadd('D', -30, CURRENT_TIMESTAMP);
 
-   SELECT alm_mails
-     INTO v_mail_emailTo
-     FROM AlarmaMail
-      WHERE alm_id = v_alm_id;
+   select alm_mails
+     into v_mail_emailTo
+     from AlarmaMail
+      where alm_id = v_alm_id;
 
-   BEGIN
-      SELECT 1 INTO v_temp
-        FROM DUAL
-       WHERE EXISTS ( SELECT *
-                      FROM Mail
-                         WHERE mail_codigo = v_mail_emailTo );
-   EXCEPTION
-      WHEN OTHERS THEN
-         NULL;
-   END;
+   begin
+      select 1 into v_temp
+        from DUAL
+       where exists ( select *
+                      from Mail
+                         where mail_codigo = v_mail_emailTo );
+   exception
+      when others then
+         null;
+   end;
 
-   IF v_temp = 1 THEN
-   BEGIN
-      SELECT mail_emailTo,
+   if v_temp = 1 then
+   begin
+      select mail_emailTo,
              mail_emailCc,
              mail_id
-        INTO v_mail_emailTo,
+        into v_mail_emailTo,
              v_mail_emailCc,
              v_mail_id
-        FROM Mail
-         WHERE mail_codigo = v_mail_emailTo;
+        from Mail
+         where mail_codigo = v_mail_emailTo;
 
-   END;
-   END IF;
+   end;
+   end if;
 
-   OPEN rtn FOR
+   open rtn for
       -- Facturas Vencidas por mas de 30 dias
       --
-      SELECT fvd.fvd_id almr_id_mail,
+      select fvd.fvd_id almr_id_mail,
                   v_mail_id mail_id,
-                  NULL maili_id,
+                  null maili_id,
                   v_mail_emailTo mail_emailTo,
                   v_mail_emailCc mail_emailCc,
                   'Facturas Vencidas por mas de 30 dias' almr_subject,
@@ -97,21 +97,21 @@ BEGIN
                   || ' ya posee ' 
                   || to_char(date_part('day', CURRENT_TIMESTAMP - fvd.fvd_fecha), '99')
                   || ' dias de vencida' msg
-        FROM (FacturaVentaDeuda fvd
-               JOIN FacturaVenta fv
-                ON fvd.fv_id = fv.fv_id
-               AND fvd.fvd_fecha < v_fecha
+        from (FacturaVentaDeuda fvd
+               join FacturaVenta fv
+                on fvd.fv_id = fv.fv_id
+               and fvd.fvd_fecha < v_fecha
               )
-               JOIN Cliente cli
-                ON fv.cli_id = cli.cli_id
-         WHERE NOT EXISTS ( SELECT *
-                            FROM AlarmaMailResult
-                               WHERE alm_id = v_alm_id
-                                       AND almr_id_mail = fvd.fvd_id );
+               join Cliente cli
+                on fv.cli_id = cli.cli_id
+         where not exists ( select *
+                            from AlarmaMailResult
+                               where alm_id = v_alm_id
+                                       and almr_id_mail = fvd.fvd_id );
 
-END;
+end;
 $BODY$
-  LANGUAGE plpgsql VOLATILE
+  language plpgsql volatile
   COST 100;
-ALTER FUNCTION alr_dc_csc_ven_0010_m()
-  OWNER TO postgres;
+alter function alr_dc_csc_ven_0010_m()
+  owner to postgres;

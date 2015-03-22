@@ -2,11 +2,11 @@ how to migrate an small database
 
 1- execute in the sql server database these script:
 
-Generate SQL Inserts.sql
+Generate SQL inserts.sql
 
 2- open this script in sql manager and set the output to a file
 
-Execute Generate SQL Inserts.sql
+Execute Generate SQL inserts.sql
 
 3- open the file with textmate and save it as UTF8 and using LF not CRLF
 

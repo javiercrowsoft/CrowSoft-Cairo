@@ -1,1 +1,1 @@
-CREATE SEQUENCE sys_language_sysl_id_seq;
+create SEQUENCE sys_language_sysl_id_seq;

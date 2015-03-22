@@ -835,18 +835,18 @@ update sysmenu set me_path = 'general/listaprecioconfig', me_path2 = '' where me
 
         update sysmenu set me_id_father = 848 where me_id = 784;
         update sysmenu set me_id_father = 848 where me_id = 702;
-        update sysmenu set me_id_father = 848 where me_id = 699;    
+        update sysmenu set me_id_father = 848 where me_id = 699;
             
-INSERT INTO sysmenu (me_id, me_text, me_key, pre_id, me_father, me_position, me_is_last, me_is_separator, me_have_separator, me_is_main_menu, me_is_popup_menu, me_object_handler, me_package, me_file_path, me_id_father, me_action, me_path) VALUES (927, '1028', 'csMenuConfig', NULL, '', 0, 1, 0, 1, 0, 0, '', 'CSGeneral', '', NULL, '', '');
+insert into sysmenu (me_id, me_text, me_key, pre_id, me_father, me_position, me_is_last, me_is_separator, me_have_separator, me_is_main_menu, me_is_popup_menu, me_object_handler, me_package, me_file_path, me_id_father, me_action, me_path) values (927, '1028', 'csMenuConfig', null, '', 0, 1, 0, 1, 0, 0, '', 'CSGeneral', '', null, '', '');
 
 update sysmenu set me_id_father = 656 where me_id = 555;
-update sysmenu set me_id_father = 678 where me_id = 869;  
+update sysmenu set me_id_father = 678 where me_id = 869;
     
 update sysMenu set me_path = 'informe/config' where me_id = 699;
 update sysMenu set me_path = 'general/calcularprecios' where me_id = 784;
                           
 
-INSERT INTO sysmenu (me_id, me_text, me_key, pre_id, me_father, me_position, me_is_last, me_is_separator, me_have_separator, me_is_main_menu, me_is_popup_menu, me_object_handler, me_package, me_file_path, me_id_father, me_action, me_path) VALUES (928, '3701', 'csOtrosModulos', NULL, '', 0, 1, 0, 1, 0, 0, '', 'CSGeneral', '', NULL, '', '');
+insert into sysmenu (me_id, me_text, me_key, pre_id, me_father, me_position, me_is_last, me_is_separator, me_have_separator, me_is_main_menu, me_is_popup_menu, me_object_handler, me_package, me_file_path, me_id_father, me_action, me_path) values (928, '3701', 'csOtrosModulos', null, '', 0, 1, 0, 1, 0, 0, '', 'CSGeneral', '', null, '', '');
 
 update sysmenu set me_id_father = 928 where me_id = 680;
 update sysmenu set me_id_father = 928 where me_id = 863;

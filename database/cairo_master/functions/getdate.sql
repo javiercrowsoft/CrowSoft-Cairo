@@ -13,7 +13,7 @@ the Free Software Foundation; either version 2 of the License, or
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+MERCHANTABILITY or FITNESS for A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License along
@@ -30,12 +30,12 @@ javier at crowsoft.com.ar
 */
 /* Function: getdate()
 
--- DROP FUNCTION getdate();
+-- drop function getdate();
 */
-CREATE OR REPLACE FUNCTION getdate()
-  RETURNS timestamp with time zone AS
+create or replace function getdate()
+  returns timestamp with time zone as
 'select now()'
-  LANGUAGE sql STABLE
+  language sql STABLE
   COST 100;
-ALTER FUNCTION getdate()
-  OWNER TO postgres;
+alter function getdate()
+  owner to postgres;

@@ -13,7 +13,7 @@ the Free Software Foundation; either version 2 of the License, or
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+MERCHANTABILITY or FITNESS for A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License along
@@ -30,25 +30,25 @@ javier at crowsoft.com.ar
 */
 -- Function: sp_doc_factura_compra_editable_get()
 
--- DROP FUNCTION sp_doc_factura_compra_editable_get(integer, integer, integer, smallint, smallint, smallint);
+-- drop function sp_doc_factura_compra_editable_get(integer, integer, integer, smallint, smallint, smallint);
 
-CREATE OR REPLACE FUNCTION sp_doc_factura_compra_editable_get
+create or replace function sp_doc_factura_compra_editable_get
 /*
 sp_doc_factura_compra_editable_get 57,7,0,'',1
 */
 (
-  IN p_emp_id integer,
-  IN p_fc_id integer,
-  IN p_us_id integer,
-  OUT p_bEditable smallint,
-  OUT p_editMsg varchar,
-  IN p_ShowMsg smallint DEFAULT 0,
-  IN p_bNoAnulado smallint DEFAULT 0,
-  IN p_bDelete smallint DEFAULT 0
+  in p_emp_id integer,
+  in p_fc_id integer,
+  in p_us_id integer,
+  out p_bEditable smallint,
+  out p_editMsg varchar,
+  in p_ShowMsg smallint default 0,
+  in p_bNoAnulado smallint default 0,
+  in p_bDelete smallint default 0
 )
-  RETURNS record AS
+  returns record as
 $BODY$
-DECLARE
+declare
    v_doc_id integer;
    v_fc_fecha date;
    v_estado integer;
@@ -59,150 +59,150 @@ DECLARE
    v_impreso numeric(3,0);
    v_csPreCpraEditFactura integer;
    v_csPreCpraDeleteFactura integer;
-BEGIN
+begin
 
-   IF p_ShowMsg <> 0 THEN
-      RAISE EXCEPTION '@@ERROR_SP:El procedimiento almacenado SP_DBGetNewId no puede ser llamado para obtener un cursor. El codigo Java o Scala debe usar parametros OUT.';
+   if p_ShowMsg <> 0 then
+      RAISE exception '@@ERROR_SP:El procedimiento almacenado SP_DBGetNewId no puede ser llamado para obtener un cursor. El codigo Java o Scala debe usar parametros out.';
 	  RETURN;
-   END IF;
+   end if;
 
    v_anulado := 7;
    v_csPreCpraEditFactura := 17003;
    v_csPreCpraDeleteFactura := 17004;
 
-   IF p_fc_id <> 0 THEN
-       DECLARE
+   if p_fc_id <> 0 then
+       declare
           v_pre_id integer;
           v_doc_nombre varchar(255);
           v_fca_id integer;
-       BEGIN
+       begin
 
-          SELECT D.doc_id,
+          select D.doc_id,
                  D.emp_id,
                  c.fc_fecha,
                  c.est_id,
                  c.impreso
-            INTO v_doc_id,
+            into v_doc_id,
                  v_emp_id,
                  v_fc_fecha,
                  v_estado,
                  v_impreso
-          FROM FacturaCompra c
-                   JOIN Documento D
-                    ON c.doc_id = D.doc_id
-          WHERE c.fc_id = p_fc_id;
+          from FacturaCompra c
+                   join Documento D
+                    on c.doc_id = D.doc_id
+          where c.fc_id = p_fc_id;
 
-          IF p_emp_id <> v_emp_id THEN
-          BEGIN
+          if p_emp_id <> v_emp_id then
+          begin
 
-             SELECT emp_nombre
-               INTO v_emp_nombre
-             FROM Empresa
-             WHERE emp_id = v_emp_id;
+             select emp_nombre
+               into v_emp_nombre
+             from Empresa
+             where emp_id = v_emp_id;
 
              p_bEditable := 0;
 
-             IF p_bDelete = 0 THEN
+             if p_bDelete = 0 then
                 p_editMsg := 'El comprobante pertenece a la empresa ' || v_emp_nombre || ', para editarlo debe ingresar al sistema indicando dicha empresa.';
-             ELSE
+             else
                 p_editMsg := 'El comprobante pertenece a la empresa ' || v_emp_nombre || ', para borrarlo debe ingresar al sistema indicando dicha empresa.';
-             END IF;
+             end if;
              RETURN;
 
-          END;
-          END IF;
+          end;
+          end if;
 
-          IF v_estado = v_anulado AND p_bNoAnulado = 0 THEN
-          BEGIN
+          if v_estado = v_anulado and p_bNoAnulado = 0 then
+          begin
              p_bEditable := 0;
              p_editMsg := 'El comprobante esta anulado';
              RETURN;
 
-          END;
-          END IF;
+          end;
+          end if;
 
-          IF p_bDelete = 0 THEN
+          if p_bDelete = 0 then
              v_pre_id := v_csPreCpraEditFactura;
-          ELSE
+          else
              v_pre_id := v_csPreCpraDeleteFactura;
-          END IF;
+          end if;
 
           -- Tiene permiso para editar facturas de compra
           --
-          IF NOT EXISTS ( SELECT per_id
-                          FROM Permiso
-                          WHERE pre_id = v_pre_id
-                            AND ( ( us_id = p_us_id )
-                                 OR EXISTS ( SELECT us_id
-                                             FROM UsuarioRol
-                                             WHERE us_id = p_us_id
-                                               AND rol_id = Permiso.rol_id ))) THEN
+          if not exists ( select per_id
+                          from Permiso
+                          where pre_id = v_pre_id
+                            and ( ( us_id = p_us_id )
+                                 or exists ( select us_id
+                                             from UsuarioRol
+                                             where us_id = p_us_id
+                                               and rol_id = Permiso.rol_id ))) then
 
              p_bEditable := 0;
 
-             IF p_bDelete = 0 THEN
+             if p_bDelete = 0 then
                 p_editMsg := 'Usted no tiene permiso para editar facturas de compra';
-             ELSE
+             else
                 p_editMsg := 'Usted no tiene permiso para borrar facturas de compra';
-             END IF;
+             end if;
              RETURN;
 
-          END IF;
+          end if;
 
-          v_pre_id := NULL;
+          v_pre_id := null;
 
-          SELECT CASE
-                   WHEN p_bDelete = 0 THEN pre_id_edit
-                   ELSE pre_id_delete
-                 END,
+          select case
+                   when p_bDelete = 0 then pre_id_edit
+                   else pre_id_delete
+                 end,
                  doc_nombre
-            INTO v_pre_id,
+            into v_pre_id,
                  v_doc_nombre
-          FROM Documento
-          WHERE doc_id = v_doc_id;
+          from Documento
+          where doc_id = v_doc_id;
 
-          IF NOT EXISTS ( SELECT per_id
-                          FROM Permiso
-                          WHERE pre_id = v_pre_id
-                            AND ( ( us_id = p_us_id )
-                                 OR EXISTS ( SELECT us_id
-                                             FROM UsuarioRol
-                                             WHERE us_id = p_us_id
-                                               AND rol_id = Permiso.rol_id))) THEN
+          if not exists ( select per_id
+                          from Permiso
+                          where pre_id = v_pre_id
+                            and ( ( us_id = p_us_id )
+                                 or exists ( select us_id
+                                             from UsuarioRol
+                                             where us_id = p_us_id
+                                               and rol_id = Permiso.rol_id))) then
              p_bEditable := 0;
 
-             IF p_bDelete = 0 THEN
+             if p_bDelete = 0 then
                 p_editMsg := 'Usted no tiene permiso para editar ' || v_doc_nombre;
-             ELSE
+             else
                 p_editMsg := 'Usted no tiene permiso para borrar ' || v_doc_nombre;
-             END IF;
+             end if;
              RETURN;
 
-          END IF;
+          end if;
 
           -- Fechas de control de Acceso
-          SELECT fca_id
-            INTO v_fca_id
-          FROM Documento
-          WHERE doc_id = v_doc_id;
+          select fca_id
+            into v_fca_id
+          from Documento
+          where doc_id = v_doc_id;
 
-          IF NOT v_fca_id IS NULL THEN
+          if not v_fca_id is null then
 
-             IF NOT EXISTS ( SELECT fca_id
-                             FROM FechaControlAcceso
-                             WHERE fca_id = v_fca_id
-                               AND v_fc_fecha BETWEEN fca_fechaDesde AND fca_fechaHasta ) THEN
-                 DECLARE
+             if not exists ( select fca_id
+                             from FechaControlAcceso
+                             where fca_id = v_fca_id
+                               and v_fc_fecha BETWEEN fca_fechaDesde and fca_fechaHasta ) then
+                 declare
                     v_fca_fechaDesde date;
                     v_fca_fechaHasta date;
-                 BEGIN
+                 begin
 
-                    SELECT fca_fechaDesde,
+                    select fca_fechaDesde,
                            fca_fechaHasta
-                      INTO v_fca_fechaDesde,
+                      into v_fca_fechaDesde,
                            v_fca_fechaHasta
-                    FROM FechaControlAcceso
-                    WHERE fca_id = v_fca_id;
+                    from FechaControlAcceso
+                    where fca_id = v_fca_id;
 
                     p_bEditable := 0;
 
@@ -213,103 +213,103 @@ BEGIN
                                     || ')';
                     RETURN;
 
-                 END;
-             END IF;
+                 end;
+             end if;
 
-          END IF;
+          end if;
 
-          IF EXISTS ( SELECT fc_id
-                      FROM FacturaCompraOrdenPago
-                      WHERE fc_id = p_fc_id ) THEN
+          if exists ( select fc_id
+                      from FacturaCompraOrdenPago
+                      where fc_id = p_fc_id ) then
 
              -- Si la condicion de pago es por debito automatico
              -- la aplicacion no impide la edicion
              --
-             IF NOT EXISTS ( SELECT fc.cpg_id
-                             FROM FacturaCompra fc
-                             JOIN CondicionPago cpg
-                               ON fc.cpg_id = cpg.cpg_id
-                              AND cpg.cpg_tipo IN ( 2,3 )
-                             WHERE fc.fc_id = p_fc_id ) THEN
+             if not exists ( select fc.cpg_id
+                             from FacturaCompra fc
+                             join CondicionPago cpg
+                               on fc.cpg_id = cpg.cpg_id
+                              and cpg.cpg_tipo in ( 2,3 )
+                             where fc.fc_id = p_fc_id ) then
                 p_bEditable := 0;
                 p_editMsg := 'El comprobante esta vinculado a una orden de pago';
                 RETURN;
 
-             END IF;
+             end if;
 
-          END IF;
+          end if;
 
-          IF EXISTS ( SELECT fc_id_factura
-                      FROM FacturaCompraNotaCredito
-                      WHERE fc_id_factura = p_fc_id
-                         OR fc_id_notacredito = p_fc_id ) THEN
+          if exists ( select fc_id_factura
+                      from FacturaCompraNotaCredito
+                      where fc_id_factura = p_fc_id
+                         or fc_id_notacredito = p_fc_id ) then
 
              p_bEditable := 0;
              p_editMsg := 'El comprobante esta vinculado a una factura o nota de credito';
              RETURN;
 
-          END IF;
+          end if;
 
 
-          IF EXISTS ( SELECT fci.fc_id
-                      FROM RemitoFacturaCompra r
-                      JOIN FacturaCompraItem fci
-                        ON r.fci_id = fci.fci_id
-                      WHERE fci.fc_id = p_fc_id ) THEN
+          if exists ( select fci.fc_id
+                      from RemitoFacturaCompra r
+                      join FacturaCompraItem fci
+                        on r.fci_id = fci.fci_id
+                      where fci.fc_id = p_fc_id ) then
 
              p_bEditable := 0;
              p_editMsg := 'El comprobante esta vinculado a un remito';
              RETURN;
 
-          END IF;
+          end if;
 
-          IF EXISTS ( SELECT fci.fc_id
-                      FROM OrdenFacturaCompra oc
-                      JOIN FacturaCompraItem fci
-                        ON oc.fci_id = fci.fci_id
-                      WHERE fci.fc_id = p_fc_id ) THEN
+          if exists ( select fci.fc_id
+                      from OrdenFacturaCompra oc
+                      join FacturaCompraItem fci
+                        on oc.fci_id = fci.fci_id
+                      where fci.fc_id = p_fc_id ) then
 
              p_bEditable := 0;
              p_editMsg := 'El comprobante esta vinculado a una orden de compra';
              RETURN;
 
-          END IF;
+          end if;
 
-          IF v_impreso <> 0 AND p_bNoAnulado = 0 THEN
-              DECLARE
+          if v_impreso <> 0 and p_bNoAnulado = 0 then
+              declare
                  v_doc_editarimpresos numeric(3,0);
-              BEGIN
+              begin
 
-                 SELECT doc_editarimpresos
-                   INTO v_doc_editarimpresos
-                 FROM Documento
-                 WHERE doc_id = v_doc_id;
+                 select doc_editarimpresos
+                   into v_doc_editarimpresos
+                 from Documento
+                 where doc_id = v_doc_id;
 
-                 IF v_doc_editarimpresos = 0 THEN
+                 if v_doc_editarimpresos = 0 then
 
                     p_bEditable := 0;
 
-                    IF p_bDelete = 0 THEN
+                    if p_bDelete = 0 then
                        p_editMsg := 'El comprobante esta impreso y la definición de su documento no permite la edición de comprobantes impresos.';
-                    ELSE
+                    else
                        p_editMsg := 'El comprobante esta impreso y la definición de su documento no permite eliminar comprobantes impresos.';
-                    END IF;
+                    end if;
                     RETURN;
 
-                 END IF;
+                 end if;
 
-              END;
-          END IF;
+              end;
+          end if;
 
-       END;
-   END IF;
+       end;
+   end if;
 
    p_bEditable := 1;
    p_editMsg := '';
 
-END;
+end;
 $BODY$
-  LANGUAGE plpgsql VOLATILE
+  language plpgsql volatile
   COST 100;
-ALTER FUNCTION sp_doc_factura_compra_editable_get(integer, integer, integer, smallint, smallint, smallint)
-  OWNER TO postgres;
+alter function sp_doc_factura_compra_editable_get(integer, integer, integer, smallint, smallint, smallint)
+  owner to postgres;

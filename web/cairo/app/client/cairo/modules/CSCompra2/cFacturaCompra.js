@@ -3969,7 +3969,7 @@
 
         var apiPath = DB.getAPIVersion();
         var p = DB.getData(
-          "load[" + apiPath + "producto/" + prId.toString() + "/stock]", getProvId());
+          "load[" + apiPath + "general/producto/" + prId.toString() + "/stock/proveedor]", getProvId());
 
         return p.successWithResult(function(response) {
           getCell(row, KI_UNIDAD).setValue(valField(response.data, "unidadCompra"));
@@ -4015,10 +4015,11 @@
 
           var apiPath = DB.getAPIVersion();
           p = DB.getData(
-            "load[" + apiPath + "producto/" + prId.toString() + "/price]", lpId);
+            "load[" + apiPath + "general/producto/" + prId.toString() + "/price]", lpId);
 
           p = p.successWithResult(function(response) {
-            price = response.data(response.data, 'price');
+            price = valField(response.data, 'price');
+            return true;
           });
         }
 
@@ -4027,27 +4028,31 @@
         return p.then(function() {
           getCell(row, KI_PRECIO_LP).setValue(price);
           getCell(row, KI_PRECIO_USR).setValue(price);
+          return true;
         });
       };
 
       var setDescuentos = function(row, prId, precio) {
         var p;
         var ldId = m_properties.item(C.LD_ID).getSelectId();
-        var discount;
+        var desc;
 
         if(ldId !== NO_ID) {
 
           var apiPath = DB.getAPIVersion();
           p = DB.getData(
-            "load[" + apiPath + "producto/" + prId.toString() + "/discount]", ldId);
+            "load[" + apiPath + "general/producto/" + prId.toString() + "/discount]", ldId);
 
           p = p.successWithResult(function(response) {
-            discount = response.data(lpId, prId);
+            desc = valField(response.data, 'desc');
+            desc = desc.replace(/\$/g, "").replace(/%/g, "");
+            return true;
           }).then(function() {
-            getCell(row, KI_DESCUENTO).setValue(discount);
+            getCell(row, KI_DESCUENTO).setValue(desc);
+            return true;
           });
         }
-        return p || P.resolvedPromise();
+        return p || P.resolvedPromise(true);
       };
 
       var setEnabled = function() {

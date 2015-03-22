@@ -13,7 +13,7 @@ the Free Software Foundation; either version 2 of the License, or
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+MERCHANTABILITY or FITNESS for A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License along
@@ -28,34 +28,34 @@ http://www.crowsoft.com.ar
 
 javier at crowsoft.com.ar
 */
-CREATE OR REPLACE FUNCTION function_name (OUT/IN parameter_name data_type, ...)
-RETURNS void/data_type AS
+create or replace function function_name (out/in parameter_name data_type, ...)
+returns void/data_type as
 $BODY$
-DECLARE
+declare
 	var_name data_type;
-BEGIN
+begin
 
-END;
+end;
 $BODY$
-  LANGUAGE plpgsql
+  language plpgsql
 ;
 
 
 -- to raise an exception
 
-RAISE EXCEPTION 'Error message';
+RAISE exception 'Error message';
 
 -- temporary tables
 
 ...
 
-BEGIN
+begin
 
-   CREATE TEMPORARY TABLE tt_t_rama
+   create temporary table tt_t_rama
    (
-     ram_id integer  NOT NULL,
-     N integer  NOT NULL
-   ) ON COMMIT DROP;
+     ram_id integer  not null,
+     N integer  not null
+   ) on commit drop;
 
 ...
 
@@ -83,7 +83,7 @@ fetch all from rtn;
 http://www.gskinner.com/RegExr/
 
 -- regular expression to replace calls to functions with out parameters
--- for 
+-- for
 sp_ArbIsRaiz(v_ram_id_Sucursal, 
                                    v_IsRaiz);
 -- gives
@@ -96,7 +96,7 @@ replace: select \1\2\) into \3
 --////////
 
 -- regular expression to replace calls to functions with out parameters
--- for 
+-- for
 sp_ArbConvertId(p_prov_id,
 			   v_prov_id,
 			   v_ram_id_Proveedor);

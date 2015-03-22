@@ -1,6 +1,6 @@
 /*
 
-THIS FUNCTION NEEDS unaccent.sql to be run in the database
+THIS function NEEDS unaccent.sql to be run in the database
 
 where to find that script for 9.0
 locate unaccent
@@ -8,7 +8,7 @@ locate unaccent
 
 from 9.1 and above you can use:
 
-CREATE EXTENSION unaccent;
+create EXTENSION unaccent;
 
 from: http://stackoverflow.com/questions/11005036/does-postgresql-support-accent-insensitive-collations
 
@@ -16,8 +16,8 @@ unaccent is a text search dictionary that removes accents (diacritic signs) from
 
 Index
 
-To use an index for that kind of query, create an index on the expression. However, Postgres only accepts 
-IMMUTABLE functions for functional indexes. If a function can return a different result under different 
+To use an index for that kind of query, create an index on the expression. However, Postgres only accepts
+IMMUTABLE functions for functional indexes. if a function can return a different result under different
 circumstances, the index could silently break.
 
 unaccent() only STABLE not IMMUTABLE
@@ -28,7 +28,7 @@ this is due to three reasons:
 It depends on the behavior of a dictionary.
 There is no hard-wired connection to this dictionary.
 It therefore also depends on the current search_path, which can change easily.
-Some tutorials on the web instruct to just alter the function and declare it IMMUTABLE. 
+Some tutorials on the web instruct to just alter the function and declare it IMMUTABLE.
 This is a brute-force method that might break under rare circumstances.
 
 Others suggest a simple IMMUTABLE wrapper function, like I did myself in the past.
@@ -49,24 +49,24 @@ Set the search_path to the schema where you install your extensions (default is 
 Why the dangling pg_temp? To rule out temporary objects coming first. More in the manual here.
 You can build a functional index using that, since it is declared IMMUTABLE.
 
-CREATE INDEX users_unaccent_name_idx ON users(f_unaccent(name));
+create INDEX users_unaccent_name_idx on users(f_unaccent(name));
 Adapt your query to use the index:
 
-SELECT *
+select *
 FROM   users
 WHERE  f_unaccent(name) = f_unaccent('João');
 
 Pattern matching
 
-If you want to use it with LIKE (and a pattern that is not left-anchored), you 
+if you want to use it with LIKE (and a pattern that is not left-anchored), you
 can combine this with the module pg_tgrm in PostgreSQL 9.1 or later. Create a 
 functional GIN or GIST index. Example for GIN:
 
-CREATE INDEX users_unaccent_name_trgm_idx ON users
+create INDEX users_unaccent_name_trgm_idx on users
 USING gin (f_unaccent(name) gin_trgm_ops);
 Be aware that GIN and GIST indexes are somewhat more expensive to maintain. Would be used in a query like:
 
-SELECT *
+select *
 FROM   users
 WHERE  f_unaccent(name) LIKE ('%' || f_unaccent('João') || '%');
 I have written a more detailed answer about pattern matching and performance in a recent answer on dba.SE.
@@ -75,8 +75,8 @@ pg_tgrm also provides very useful operators for "similarity" % and "distance" <-
 
 */
 
-CREATE OR REPLACE FUNCTION f_unaccent(text)
-  RETURNS text AS
+create or replace function f_unaccent(text)
+  returns text as
 $func$
-SELECT unaccent('unaccent', $1)
-$func$  LANGUAGE sql IMMUTABLE SET search_path = public, pg_temp;
+select unaccent('unaccent', $1)
+$func$  language sql IMMUTABLE set search_path = public, pg_temp;

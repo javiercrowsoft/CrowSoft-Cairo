@@ -13,7 +13,7 @@ the Free Software Foundation; either version 2 of the License, or
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+MERCHANTABILITY or FITNESS for A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License along
@@ -30,28 +30,28 @@ javier at crowsoft.com.ar
 */
 -- Function: sp_arb_rama_create()
 
--- DROP FUNCTION sp_arb_rama_create();
+-- drop function sp_arb_rama_create();
 
-CREATE OR REPLACE FUNCTION sp_arb_rama_create(
-  IN p_us_id integer,
-  IN p_arb_id integer,
-  IN p_ram_id_padre integer,
-  IN p_nombre varchar,
-  OUT rtn refcursor
+create or replace function sp_arb_rama_create(
+  in p_us_id integer,
+  in p_arb_id integer,
+  in p_ram_id_padre integer,
+  in p_nombre varchar,
+  out rtn refcursor
 )
-  RETURNS refcursor AS
+  returns refcursor as
 $BODY$
-DECLARE
+declare
         v_ram_id integer;
         v_is_temp boolean;
         v_max integer;
         v_orden integer;
         v_arb_id integer;
-BEGIN
+begin
 
-        SELECT SP_DBGetNewId('rama',
+        select SP_DBGetNewId('rama',
                               'ram_id',
-                              0::smallint) INTO v_ram_id;
+                              0::smallint) into v_ram_id;
 
         v_is_temp := p_ram_id_padre = -1000;
     
@@ -59,7 +59,7 @@ BEGIN
         ' - Si es una rama temporal le asigno como padre
         '   su propio ID para que quede huerfana
         */
-        IF v_is_temp THEN
+        if v_is_temp then
                 p_ram_id_padre = v_ram_id;
                 v_orden := 0;
         /*
@@ -67,27 +67,27 @@ BEGIN
         '   dentro del padre
         '
         */
-        ELSE
-                SELECT max(ram_orden) INTO v_max FROM rama WHERE ram_id_padre = p_ram_id_padre;
-                IF v_max IS NULL THEN
+        else
+                select max(ram_orden) into v_max from rama where ram_id_padre = p_ram_id_padre;
+                if v_max is null then
                         v_orden := 1;                        
-                ELSE
+                else
                         v_orden := v_max + 1;                        
-                END IF;
+                end if;
 
-                SELECT arb_id INTO p_arb_id FROM rama where ram_id = p_ram_id_padre;                
-        END IF;        
+                select arb_id into p_arb_id from rama where ram_id = p_ram_id_padre;
+        end if;
 
-        INSERT INTO rama (ram_id, ram_nombre, ram_id_padre, ram_orden, arb_id, modifico)
-        VALUES (v_ram_id, p_nombre, p_ram_id_padre, v_orden, p_arb_id, p_us_id);
+        insert into rama (ram_id, ram_nombre, ram_id_padre, ram_orden, arb_id, modifico)
+        values (v_ram_id, p_nombre, p_ram_id_padre, v_orden, p_arb_id, p_us_id);
 
         rtn := 'rtn';
 
-        OPEN rtn FOR SELECT * FROM rama WHERE ram_id = v_ram_id;
+        open rtn for select * from rama where ram_id = v_ram_id;
    
-END;
+end;
 $BODY$
-  LANGUAGE plpgsql VOLATILE
+  language plpgsql volatile
   COST 100;
-ALTER FUNCTION sp_arb_rama_create(integer, integer, integer, varchar)
-  OWNER TO postgres;
+alter function sp_arb_rama_create(integer, integer, integer, varchar)
+  owner to postgres;

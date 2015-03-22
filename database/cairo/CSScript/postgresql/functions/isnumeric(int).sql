@@ -13,7 +13,7 @@ the Free Software Foundation; either version 2 of the License, or
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+MERCHANTABILITY or FITNESS for A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License along
@@ -30,16 +30,16 @@ javier at crowsoft.com.ar
 */
 -- Function: isnumeric(integer)
 
--- DROP FUNCTION isnumeric(integer);
+-- drop function isnumeric(integer);
 
-CREATE OR REPLACE FUNCTION isnumeric(param integer)
-  RETURNS smallint AS
+create or replace function isnumeric(param integer)
+  returns smallint as
 $BODY$
 begin
 	return -1;
 end;
 $BODY$
-  LANGUAGE plpgsql VOLATILE
+  language plpgsql volatile
   COST 100;
-ALTER FUNCTION isnumeric(integer)
-  OWNER TO postgres;
+alter function isnumeric(integer)
+  owner to postgres;

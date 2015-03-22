@@ -1,1 +1,1 @@
-CREATE SEQUENCE t_rama_new_seq;
+create SEQUENCE t_rama_new_seq;

@@ -117,6 +117,10 @@ object C {
   val CUE_ID_PRESENTADO = "cue_id_presentado"
   val CUE_ID_RECHAZO = "cue_id_rechazo"
   val CUE_ID_COMISION = "cue_id_comision"
+  val CUE_ID_COMPRA = "cue_id_compra"
+  val CUE_NAME_COMPRA = "cue_name_compra"
+  val CUE_ID_VENTA = "cue_id_venta"
+  val CUE_NAME_VENTA = "cue_name_venta"
 
   // TarjetaCreditoCuota
   val TARJETACREDITOCUOTA = "TarjetaCreditoCuota"
@@ -782,14 +786,15 @@ object C {
   val RUBTI_NAME_9 = "rubti_name9"
   val RUBTI_NAME_10 = "rubti_name10"
 
+  val UN_NAME_STOCK = "un_name_stock"
   val UN_NAME_COMPRA = "un_name_compra"
+  val UN_NAME_VENTA = "un_name_venta"
+
   val CUEG_NAME_COMPRA = "cueg_name_compra"
   val TI_NAME_RI_COMPRA = "ti_name_ri_compra"
   val TI_NAME_INT_COMPRA = "ti_name_int_compra"
   val CCOS_NAME_COMPRA = "ccos_name_compra"
-  val UN_NAME_STOCK = "un_name_compra"
 
-  val UN_NAME_VENTA = "un_name_venta"
   val CUEG_NAME_VENTA = "cueg_name_venta"
   val TI_NAME_RI_VENTA = "ti_name_ri_venta"
   val TI_NAME_INT_VENTA = "ti_name_int_venta"

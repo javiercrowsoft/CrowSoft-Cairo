@@ -13,7 +13,7 @@ the Free Software Foundation; either version 2 of the License, or
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+MERCHANTABILITY or FITNESS for A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License along
@@ -30,15 +30,15 @@ javier at crowsoft.com.ar
 */
 -- Function: sp_arbborrarrama()
 
--- DROP FUNCTION sp_arbborrarrama(int, int);
+-- drop function sp_arbborrarrama(int, int);
 
-CREATE OR REPLACE FUNCTION sp_arbborrarrama(
-  IN p_us_id integer, 
-  IN p_ram_id integer
+create or replace function sp_arbborrarrama(
+  in p_us_id integer,
+  in p_ram_id integer
 )
-  RETURNS void AS
+  returns void as
 $BODY$
-DECLARE
+declare
    v_error_code varchar := '00';
    -- si la rama es raiz tengo que borrar el arbol
    v_arb_id integer;
@@ -48,98 +48,98 @@ DECLARE
    rtn refcursor;
    v_row record;
    v_tran_id integer;
-BEGIN
+begin
 
-          IF NOT EXISTS(SELECT 1 FROM rama WHERE ram_id = p_ram_id) THEN RETURN; END IF;
+          if not exists(select 1 from rama where ram_id = p_ram_id) then RETURN; end if;
 
    --------------------------------------------------------------------
 
-        CREATE TEMP TABLE tt_t_ramas_a_borrar
+        create TEMP table tt_t_ramas_a_borrar
         (
-          ram_id integer  NOT NULL,
-          tran_id integer  NOT NULL
+          ram_id integer  not null,
+          tran_id integer  not null
         ) on commit drop;
         
         v_tran_id := nextval('t_ramas_a_borrar_seq');
         
    --------------------------------------------------------------------
    
-   SET TRANSACTION READ WRITE;
+   set TRANSACTION READ WRITE;
 
-   IF p_ram_id = 0 THEN RETURN; END IF;
+   if p_ram_id = 0 then RETURN; end if;
 
-   SELECT arb_id,
+   select arb_id,
           ram_orden,
           ram_id_padre
-     INTO v_arb_id,
+     into v_arb_id,
           v_ram_orden,
           v_ram_id_padre
-     FROM Rama
-     WHERE ram_id = p_ram_id
-       AND ram_id_padre = 0;
+     from Rama
+     where ram_id = p_ram_id
+       and ram_id_padre = 0;
 
-   SELECT INTO rtn t.rtn FROM SP_ArbGetDecendencia(p_ram_id,1,0,0,0) t;
+   select into rtn t.rtn from SP_ArbGetDecendencia(p_ram_id,1,0,0,0) t;
 
-   LOOP
-          FETCH rtn INTO v_row;
-          EXIT WHEN NOT FOUND;
-          INSERT INTO tt_t_ramas_a_borrar(ram_id, tran_id) VALUES (v_row.ram_id, v_tran_id);
-   END LOOP;
-   CLOSE rtn;
+   loop
+          fetch rtn into v_row;
+          exit when not found;
+          insert into tt_t_ramas_a_borrar(ram_id, tran_id) values (v_row.ram_id, v_tran_id);
+   end loop;
+   close rtn;
 
-   BEGIN
+   begin
       -- primero las hojas
-      DELETE FROM Hoja WHERE EXISTS(SELECT 1 FROM tt_t_ramas_a_borrar WHERE Hoja.ram_id = tt_t_ramas_a_borrar.ram_id);
+      delete from Hoja where exists(select 1 from tt_t_ramas_a_borrar where Hoja.ram_id = tt_t_ramas_a_borrar.ram_id);
 
-   EXCEPTION
-      WHEN OTHERS THEN
+   exception
+      when others then
          v_error_code := SQLSTATE;
-   END;
+   end;
 
-   IF NOT is_error(v_error_code) THEN
+   if not is_error(v_error_code) then
 
-             BEGIN
+             begin
                 -- ahora las ramas
-                DELETE FROM Rama WHERE EXISTS (SELECT 1 FROM tt_t_ramas_a_borrar WHERE Rama.ram_id = tt_t_ramas_a_borrar.ram_id);
-             EXCEPTION
-                WHEN OTHERS THEN
+                delete from Rama where exists (select 1 from tt_t_ramas_a_borrar where Rama.ram_id = tt_t_ramas_a_borrar.ram_id);
+             exception
+                when others then
                    v_error_code := SQLSTATE;
-             END;
+             end;
 
-             IF NOT is_error(v_error_code) THEN
-             BEGIN      
+             if not is_error(v_error_code) then
+             begin
                        -- si era una raiz borro el arbol
-                       IF v_arb_id IS NOT NULL THEN
+                       if v_arb_id is not null then
 
-                          DELETE FROM Arbol WHERE arb_id = v_arb_id;
+                          delete from Arbol where arb_id = v_arb_id;
 
-                       ELSE
+                       else
                           -- sino, tengo que actualizar el orden de los que estaban bajo esta rama
-                          UPDATE rama
-                             SET ram_orden = ram_orden - 1
-                          WHERE ram_id_padre = v_ram_id_padre
-                            AND ram_orden < v_ram_orden;
+                          update rama
+                             set ram_orden = ram_orden - 1
+                          where ram_id_padre = v_ram_id_padre
+                            and ram_orden < v_ram_orden;
 
-                       END IF;
+                       end if;
 
                        RETURN;
 
-             EXCEPTION
-                WHEN OTHERS THEN
+             exception
+                when others then
                    v_error_code := SQLSTATE;
-             END;
-             END IF;
-   END IF;
+             end;
+             end if;
+   end if;
    
-   IF is_error(v_error_code) THEN
+   if is_error(v_error_code) then
 
-          RAISE EXCEPTION 'No se pude borrar la rama. % %', SQLSTATE, SQLERRM;   
+          RAISE exception 'No se pude borrar la rama. % %', SQLSTATE, SQLERRM;
           
-   END IF;
+   end if;
 
-END;
+end;
 $BODY$
-  LANGUAGE plpgsql VOLATILE
+  language plpgsql volatile
   COST 100;
-ALTER FUNCTION sp_arbborrarrama(integer, integer)
-  OWNER TO postgres;
+alter function sp_arbborrarrama(integer, integer)
+  owner to postgres;

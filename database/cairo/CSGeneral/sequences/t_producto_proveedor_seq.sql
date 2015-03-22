@@ -1,1 +1,1 @@
-CREATE SEQUENCE t_producto_proveedor_seq;
+create SEQUENCE t_producto_proveedor_seq;

@@ -13,7 +13,7 @@ the Free Software Foundation; either version 2 of the License, or
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+MERCHANTABILITY or FITNESS for A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License along
@@ -30,25 +30,25 @@ javier at crowsoft.com.ar
 */
 -- Function: sp_arb_rama_get_rama(integer)
 
--- DROP FUNCTION sp_arb_rama_get_rama(integer, integer);
+-- drop function sp_arb_rama_get_rama(integer, integer);
 
-CREATE OR REPLACE FUNCTION sp_arb_rama_get_rama(IN p_arb_id integer, IN p_client_id integer, OUT rtn refcursor)
-  RETURNS refcursor AS
+create or replace function sp_arb_rama_get_rama(in p_arb_id integer, in p_client_id integer, out rtn refcursor)
+  returns refcursor as
 $BODY$
-BEGIN
+begin
 
         rtn := 'rtn';
 
-        open rtn for 
-        SELECT rama.ram_id, ram_nombre, ram_id_padre 
-        FROM rama INNER JOIN hoja ON rama.ram_id = hoja.ram_id 
-        WHERE hoja.arb_id = p_arb_id 
-          AND hoja.id = p_client_id 
-          AND rama.ram_id <> rama.ram_id_padre; /* filter temp branches */
+        open rtn for
+        select rama.ram_id, ram_nombre, ram_id_padre
+        from rama inner join hoja on rama.ram_id = hoja.ram_id
+        where hoja.arb_id = p_arb_id
+          and hoja.id = p_client_id
+          and rama.ram_id <> rama.ram_id_padre; /* filter temp branches */
 
-END;
+end;
 $BODY$
-  LANGUAGE plpgsql VOLATILE
+  language plpgsql volatile
   COST 100;
-ALTER FUNCTION sp_arb_rama_get_rama(integer, integer)
-  OWNER TO postgres;
+alter function sp_arb_rama_get_rama(integer, integer)
+  owner to postgres;

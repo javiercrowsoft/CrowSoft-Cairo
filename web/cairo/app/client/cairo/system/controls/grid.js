@@ -275,6 +275,7 @@
       var CT = Cairo.Controls.InputType;
       var val = Cairo.Util.val;
       var NO_DATE = Cairo.Constants.NO_DATE;
+      var call = Cairo.Promises.call;
 
       var self = {
         columns: Cairo.Collections.createCollection(createColumn),
@@ -551,7 +552,7 @@
                   return raiseEventAndThen(
                     'onColumnAfterEdit',
                     args,
-                    thenIfSuccessCall(updateCell, args, td)
+                    thenCall(call(updateCell, args, td), call(hideControlOnError, args, td))
                   );
                 }
               );
@@ -563,6 +564,12 @@
           self.editInfo = null;
         }
         return p || Cairo.Promises.resolvedPromise(true);
+      };
+
+      var hideControlOnError = function(info, td) {
+        var col = self.columns.getOrElse(info.col, null);
+        hideControlForCol(col, td);
+        return false;
       };
 
       var setValue = function(ctrl, col, key, currentValue) {
@@ -798,6 +805,17 @@
         }
       };
 
+      var thenCall = function(onSuccess, onError) {
+        return function(success) {
+          if(success === true) {
+            onSuccess();
+          }
+          else {
+            onError();
+          }
+        };
+      };
+
       var thenIfSuccessCall = function(f) {
         var args = arguments;
         return function(success) {
@@ -873,8 +891,8 @@
 
       var nextEditableTD = function(tds, moveTo) {
         for(var i = moveTo; i < tds.length; i += 1) {
-          var cell = self.columns.get(i);
-          if(cell.getVisible() && cell.isEditable()) {
+          var col = self.columns.get(i);
+          if(col.getVisible() && col.isEditable()) {
             return tds.item(i);
           }
         }

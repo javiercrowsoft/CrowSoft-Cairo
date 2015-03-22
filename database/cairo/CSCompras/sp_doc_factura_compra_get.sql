@@ -13,7 +13,7 @@ the Free Software Foundation; either version 2 of the License, or
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+MERCHANTABILITY or FITNESS for A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License along
@@ -30,21 +30,21 @@ javier at crowsoft.com.ar
 */
 -- Function: sp_doc_factura_compra_get()
 
--- DROP FUNCTION sp_doc_factura_compra_get(integer, integer, integer);
+-- drop function sp_doc_factura_compra_get(integer, integer, integer);
 /*
 select * from sp_doc_factura_compra_get(1,1,1);
 fetch all from rtn;
 */
-CREATE OR REPLACE FUNCTION sp_doc_factura_compra_get
+create or replace function sp_doc_factura_compra_get
 (
-  IN p_emp_id integer,
-  IN p_fc_id integer,
-  IN p_us_id integer,
-  OUT rtn refcursor
+  in p_emp_id integer,
+  in p_fc_id integer,
+  in p_us_id integer,
+  out rtn refcursor
 )
-  RETURNS refcursor AS
+  returns refcursor as
 $BODY$
-DECLARE
+declare
    v_bEditable smallint;
    v_editMsg varchar(255);
    v_doc_id integer;
@@ -59,18 +59,18 @@ DECLARE
 
    dummyCur refcursor;
    dummyNumber integer;
-BEGIN
+begin
 
    rtn := 'rtn';
 
-   SELECT prov_id,
+   select prov_id,
           doc_id,
           doct_id
-   INTO v_prov_id,
+   into v_prov_id,
           v_doc_id,
           v_doct_id
-   FROM FacturaCompra
-   WHERE fc_id = p_fc_id;
+   from FacturaCompra
+   where fc_id = p_fc_id;
 
    select * from sp_talonario_get_propuesto(v_doc_id, 0, v_prov_id) into v_ta_Mascara, v_ta_Propuesto;
 
@@ -87,95 +87,95 @@ BEGIN
 */
     /*Factura de Compra*/
     /*Nota de Debito Compra*/
-   IF v_doct_id = 2
-     OR v_doct_id = 10 THEN
-   BEGIN
-      SELECT dDestino.depl_nombre,
+   if v_doct_id = 2
+     or v_doct_id = 10 then
+   begin
+      select dDestino.depl_nombre,
              depl_id_destino
-      INTO v_DeplNombre,
+      into v_DeplNombre,
            v_DeplId
-      FROM FacturaCompra
-               JOIN Stock
-                ON FacturaCompra.st_id = Stock.st_id
-               LEFT JOIN DepositoLogico dDestino
-                ON Stock.depl_id_destino = dDestino.depl_id
-      WHERE fc_id = p_fc_id;
+      from FacturaCompra
+               join Stock
+                on FacturaCompra.st_id = Stock.st_id
+               left join DepositoLogico dDestino
+                on Stock.depl_id_destino = dDestino.depl_id
+      where fc_id = p_fc_id;
 
       v_DeplNombre := coalesce(v_DeplNombre, '');
 
       v_DeplId := coalesce(v_DeplId, 0);
 
-      IF v_DeplId = 0 THEN
-      BEGIN
-         SELECT dDestino.depl_nombre,
+      if v_DeplId = 0 then
+      begin
+         select dDestino.depl_nombre,
                 depl_id_destino
-           INTO v_DeplNombre,
+           into v_DeplNombre,
                 v_DeplId
-           FROM FacturaCompra
-                  JOIN RemitoCompra
-                   ON FacturaCompra.rc_id = RemitoCompra.rc_id
-                  JOIN Stock
-                   ON RemitoCompra.st_id = Stock.st_id
-                  LEFT JOIN DepositoLogico dDestino
-                   ON Stock.depl_id_destino = dDestino.depl_id
-            WHERE fc_id = p_fc_id;
+           from FacturaCompra
+                  join RemitoCompra
+                   on FacturaCompra.rc_id = RemitoCompra.rc_id
+                  join Stock
+                   on RemitoCompra.st_id = Stock.st_id
+                  left join DepositoLogico dDestino
+                   on Stock.depl_id_destino = dDestino.depl_id
+            where fc_id = p_fc_id;
 
-      END;
-      END IF;
+      end;
+      end if;
 
-   END;
-   ELSE
-   BEGIN
+   end;
+   else
+   begin
       /*Nota de Credito Compra*/
-      IF v_doct_id = 8 THEN
-         SELECT dOrigen.depl_nombre,
+      if v_doct_id = 8 then
+         select dOrigen.depl_nombre,
                         depl_id_origen
-           INTO v_DeplNombre,
+           into v_DeplNombre,
                 v_DeplId
-           FROM FacturaCompra
-                  JOIN Stock
-                   ON FacturaCompra.st_id = Stock.st_id
-                  LEFT JOIN DepositoLogico dOrigen
-                   ON Stock.depl_id_origen = dOrigen.depl_id
-            WHERE fc_id = p_fc_id;
+           from FacturaCompra
+                  join Stock
+                   on FacturaCompra.st_id = Stock.st_id
+                  left join DepositoLogico dOrigen
+                   on Stock.depl_id_origen = dOrigen.depl_id
+            where fc_id = p_fc_id;
 
-      END IF;
+      end if;
 
       v_DeplNombre := coalesce(v_DeplNombre, '');
 
       v_DeplId := coalesce(v_DeplId, 0);
 
-      IF v_DeplId = 0 THEN
-      BEGIN
-         SELECT dOrigen.depl_nombre,
+      if v_DeplId = 0 then
+      begin
+         select dOrigen.depl_nombre,
                 depl_id_origen
-           INTO v_DeplNombre,
+           into v_DeplNombre,
                 v_DeplId
-           FROM FacturaCompra
-                  JOIN RemitoCompra
-                   ON FacturaCompra.rc_id = RemitoCompra.rc_id
-                  JOIN Stock
-                   ON RemitoCompra.st_id = Stock.st_id
-                  LEFT JOIN DepositoLogico dOrigen
-                   ON Stock.depl_id_origen = dOrigen.depl_id
-            WHERE fc_id = p_fc_id;
+           from FacturaCompra
+                  join RemitoCompra
+                   on FacturaCompra.rc_id = RemitoCompra.rc_id
+                  join Stock
+                   on RemitoCompra.st_id = Stock.st_id
+                  left join DepositoLogico dOrigen
+                   on Stock.depl_id_origen = dOrigen.depl_id
+            where fc_id = p_fc_id;
 
-      END;
-      END IF;
+      end;
+      end if;
 
-   END;
-   END IF;
+   end;
+   end if;
 
 /*
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //                                                                                                                    //
-//                             SELECT                                                                                 //
+//                             select                                                                                 //
 //                                                                                                                    //
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 */
-   OPEN rtn FOR
+   open rtn for
 
-      SELECT FacturaCompra.*,
+      select FacturaCompra.*,
              doct_nombre,
              mon_nombre,
              prov_nombre,
@@ -186,10 +186,10 @@ BEGIN
              ccos_nombre,
              suc_nombre,
              doc_nombre,
-             CASE
-                  WHEN lgj_titulo <> '' THEN lgj_titulo
-                  ELSE lgj_codigo
-             END lgj_codigo,
+             case
+                  when lgj_titulo <> '' then lgj_titulo
+                  else lgj_codigo
+             end lgj_codigo,
              pOrigen.pro_nombre ProOrigen,
              pDestino.pro_nombre ProDestino,
              v_DeplId depl_id,
@@ -202,38 +202,38 @@ BEGIN
              v_ta_Propuesto ta_propuesto,
              doc_muevestock,
              doc_tipofactura
-        FROM FacturaCompra
-               JOIN Documento
-                ON FacturaCompra.doc_id = Documento.doc_id
-               JOIN DocumentoTipo
-                ON FacturaCompra.doct_id = DocumentoTipo.doct_id
-               JOIN Moneda
-                ON FacturaCompra.mon_id = Moneda.mon_id
-               JOIN CondicionPago
-                ON FacturaCompra.cpg_id = CondicionPago.cpg_id
-               JOIN Estado
-                ON FacturaCompra.est_id = Estado.est_id
-               JOIN Sucursal
-                ON FacturaCompra.suc_id = Sucursal.suc_id
-               JOIN Proveedor
-                ON FacturaCompra.prov_id = Proveedor.prov_id
-               LEFT JOIN CentroCosto
-                ON FacturaCompra.ccos_id = CentroCosto.ccos_id
-               LEFT JOIN ListaPrecio
-                ON FacturaCompra.lp_id = ListaPrecio.lp_id
-               LEFT JOIN ListaDescuento
-                ON FacturaCompra.ld_id = ListaDescuento.ld_id
-               LEFT JOIN Legajo
-                ON FacturaCompra.lgj_id = Legajo.lgj_id
-               LEFT JOIN Provincia pOrigen
-                ON FacturaCompra.pro_id_origen = pOrigen.pro_id
-               LEFT JOIN Provincia pDestino
-                ON FacturaCompra.pro_id_destino = pDestino.pro_id
-         WHERE fc_id = p_fc_id;
+        from FacturaCompra
+               join Documento
+                on FacturaCompra.doc_id = Documento.doc_id
+               join DocumentoTipo
+                on FacturaCompra.doct_id = DocumentoTipo.doct_id
+               join Moneda
+                on FacturaCompra.mon_id = Moneda.mon_id
+               join CondicionPago
+                on FacturaCompra.cpg_id = CondicionPago.cpg_id
+               join Estado
+                on FacturaCompra.est_id = Estado.est_id
+               join Sucursal
+                on FacturaCompra.suc_id = Sucursal.suc_id
+               join Proveedor
+                on FacturaCompra.prov_id = Proveedor.prov_id
+               left join CentroCosto
+                on FacturaCompra.ccos_id = CentroCosto.ccos_id
+               left join ListaPrecio
+                on FacturaCompra.lp_id = ListaPrecio.lp_id
+               left join ListaDescuento
+                on FacturaCompra.ld_id = ListaDescuento.ld_id
+               left join Legajo
+                on FacturaCompra.lgj_id = Legajo.lgj_id
+               left join Provincia pOrigen
+                on FacturaCompra.pro_id_origen = pOrigen.pro_id
+               left join Provincia pDestino
+                on FacturaCompra.pro_id_destino = pDestino.pro_id
+         where fc_id = p_fc_id;
 
-END;
+end;
 $BODY$
-  LANGUAGE plpgsql VOLATILE
+  language plpgsql volatile
   COST 100;
-ALTER FUNCTION sp_doc_factura_compra_get(integer, integer, integer)
-  OWNER TO postgres;
+alter function sp_doc_factura_compra_get(integer, integer, integer)
+  owner to postgres;

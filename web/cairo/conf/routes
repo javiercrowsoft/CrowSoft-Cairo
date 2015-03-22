@@ -261,10 +261,15 @@ DELETE  /api/v1/general/zona/:id              controllers.logged.modules.general
 GET     /api/v1/general/usuarioconfig/:id              controllers.logged.modules.general.UserSettings.get(id: Int)
 PUT     /api/v1/general/usuarioconfig/:id              controllers.logged.modules.general.UserSettings.update(id: Int)
 
-GET     /api/v1/general/producto/:id              controllers.logged.modules.general.Productos.get(id: Int)
-POST    /api/v1/general/producto                  controllers.logged.modules.general.Productos.create
-PUT     /api/v1/general/producto/:id              controllers.logged.modules.general.Productos.update(id: Int)
-DELETE  /api/v1/general/producto/:id              controllers.logged.modules.general.Productos.delete(id: Int)
+GET     /api/v1/general/producto/:id                   controllers.logged.modules.general.Productos.get(id: Int)
+POST    /api/v1/general/producto                       controllers.logged.modules.general.Productos.create
+PUT     /api/v1/general/producto/:id                   controllers.logged.modules.general.Productos.update(id: Int)
+DELETE  /api/v1/general/producto/:id                   controllers.logged.modules.general.Productos.delete(id: Int)
+
+GET     /api/v1/general/producto/:id/stock/proveedor/:provId     controllers.logged.modules.general.Productos.getProveedorStockInfo(id: Int, provId: Int)
+GET     /api/v1/general/producto/:id/price/:lpId                 controllers.logged.modules.general.Productos.getPrice(id: Int, lpId: Int)
+GET     /api/v1/general/producto/:id/discount/:ldId/price/:price controllers.logged.modules.general.Productos.getDiscount(id: Int, ldId: Int, price: Double)
+GET     /api/v1/general/producto/:id/taxes             controllers.logged.modules.general.Productos.getTaxes(id: Int)
 
 
 GET     /api/v1/documento/currency/:id/rate/:date      controllers.logged.modules.documentos.Currencies.rate(id: Int, date: String)

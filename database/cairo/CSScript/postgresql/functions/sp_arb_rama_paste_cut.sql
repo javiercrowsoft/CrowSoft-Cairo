@@ -13,7 +13,7 @@ the Free Software Foundation; either version 2 of the License, or
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+MERCHANTABILITY or FITNESS for A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License along
@@ -30,81 +30,81 @@ javier at crowsoft.com.ar
 */
 -- Function: sp_arbcortarrama()
 
--- DROP FUNCTION sp_arbcortarrama();
+-- drop function sp_arbcortarrama();
 
-CREATE OR REPLACE FUNCTION sp_arbcortarrama
+create or replace function sp_arbcortarrama
 (
-  IN p_us_id integer,
-  IN p_ram_id_cut_from integer ,
-  IN p_ram_id_to_paste_in integer ,
-  IN p_solo_los_hijos smallint ,
-  OUT rtn refcursor
+  in p_us_id integer,
+  in p_ram_id_cut_from integer ,
+  in p_ram_id_to_paste_in integer ,
+  in p_solo_los_hijos smallint ,
+  out rtn refcursor
 )
-  RETURNS refcursor AS
+  returns refcursor as
 $BODY$
-DECLARE
+declare
    v_arb_id integer;
    v_incluir_ram_id_to_copy integer;
    v_orden integer;
 
    c_branches_to_copy refcursor;
    v_branch_row record;
-BEGIN
+begin
 
-   IF p_ram_id_cut_from = 0 THEN RETURN; END IF;
+   if p_ram_id_cut_from = 0 then RETURN; end if;
 
-   IF p_ram_id_to_paste_in = 0 THEN RETURN; END IF;
+   if p_ram_id_to_paste_in = 0 then RETURN; end if;
 
-   IF NOT EXISTS(SELECT 1 FROM rama WHERE ram_id = p_ram_id_cut_from) THEN RETURN; END IF;
+   if not exists(select 1 from rama where ram_id = p_ram_id_cut_from) then RETURN; end if;
 
-   IF NOT EXISTS(SELECT 1 FROM rama WHERE ram_id = p_ram_id_to_paste_in) THEN RETURN; END IF;
+   if not exists(select 1 from rama where ram_id = p_ram_id_to_paste_in) then RETURN; end if;
 
-   SELECT arb_id INTO v_arb_id FROM rama WHERE ram_id = p_ram_id_to_paste_in;
+   select arb_id into v_arb_id from rama where ram_id = p_ram_id_to_paste_in;
 
-   IF p_solo_los_hijos <> 0 THEN
+   if p_solo_los_hijos <> 0 then
       v_incluir_ram_id_to_copy := 0;
 
-      SELECT max(orden) INTO v_orden FROM rama WHERE ram_id_padre = p_ram_id_to_paste_in;
+      select max(orden) into v_orden from rama where ram_id_padre = p_ram_id_to_paste_in;
 
       v_orden := coalesce(v_orden+1,0);
 
-      UPDATE rama
-                  SET ram_id_padre = p_ram_id_to_paste_in, modifico = p_us_id, ram_orden = ram_orden + v_orden
-                  WHERE ram_id_padre = p_ram_id_cut_from;
+      update rama
+                  set ram_id_padre = p_ram_id_to_paste_in, modifico = p_us_id, ram_orden = ram_orden + v_orden
+                  where ram_id_padre = p_ram_id_cut_from;
 
-   ELSE
+   else
       v_incluir_ram_id_to_copy := 1;
 
-      UPDATE rama
-                  SET ram_id_padre = p_ram_id_to_paste_in, modifico = p_us_id, ram_orden = ram_orden + v_orden
-                  WHERE ram_id = p_ram_id_cut_from;
+      update rama
+                  set ram_id_padre = p_ram_id_to_paste_in, modifico = p_us_id, ram_orden = ram_orden + v_orden
+                  where ram_id = p_ram_id_cut_from;
 
-   END IF;
+   end if;
 
-   IF EXISTS(SELECT 1 FROM rama WHERE ram_id = p_ram_id_cut_from AND arb_id <> v_arb_id) THEN
+   if exists(select 1 from rama where ram_id = p_ram_id_cut_from and arb_id <> v_arb_id) then
 
-       SELECT INTO c_branches_to_copy t.rtn FROM SP_ArbGetDecendencia(p_ram_id_cut_from,v_incluir_ram_id_to_copy,0,0,0) t;
+       select into c_branches_to_copy t.rtn from SP_ArbGetDecendencia(p_ram_id_cut_from,v_incluir_ram_id_to_copy,0,0,0) t;
 
-       LOOP
-          FETCH c_branches_to_copy INTO v_branch_row;
-          EXIT WHEN NOT FOUND;
+       loop
+          fetch c_branches_to_copy into v_branch_row;
+          exit when not found;
 
-          UPDATE rama SET arb_id = v_arb_id, modifico = p_us_id WHERE rama.ram_id = v_branch_row.ram_id;
-          UPDATE hoja SET arb_id = v_arb_id, modifico = p_us_id WHERE hoja.ram_id = v_branch_row.ram_id;
+          update rama set arb_id = v_arb_id, modifico = p_us_id where rama.ram_id = v_branch_row.ram_id;
+          update hoja set arb_id = v_arb_id, modifico = p_us_id where hoja.ram_id = v_branch_row.ram_id;
 
-       END LOOP;
+       end loop;
 
-       CLOSE c_branches_to_copy;
+       close c_branches_to_copy;
 
-   END IF;
+   end if;
 
    rtn := 'rtn';
 
-   OPEN rtn FOR SELECT * FROM rama WHERE ram_id = p_ram_id_to_paste_in;
+   open rtn for select * from rama where ram_id = p_ram_id_to_paste_in;
 
-END;
+end;
 $BODY$
-  LANGUAGE plpgsql VOLATILE
+  language plpgsql volatile
   COST 100;
-ALTER FUNCTION sp_arbcortarrama(integer, integer, integer, smallint)
-  OWNER TO postgres;
+alter function sp_arbcortarrama(integer, integer, integer, smallint)
+  owner to postgres;

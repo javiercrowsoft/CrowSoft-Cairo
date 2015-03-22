@@ -13,7 +13,7 @@ the Free Software Foundation; either version 2 of the License, or
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+MERCHANTABILITY or FITNESS for A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License along
@@ -30,24 +30,24 @@ javier at crowsoft.com.ar
 */
 -- Function: sp_cols()
 
--- DROP FUNCTION sp_cols();
+-- drop function sp_cols();
 
-CREATE OR REPLACE FUNCTION sp_cols(IN tableName varchar, refcursor)
-  RETURNS refcursor AS
+create or replace function sp_cols(in tableName varchar, refcursor)
+  returns refcursor as
 $BODY$
-DECLARE
+declare
 v_leng_id integer;
-BEGIN
-        OPEN $2 FOR
-        SELECT *
-        FROM information_schema.columns
-        WHERE table_name = lower(tableName);
+begin
+        open $2 for
+        select *
+        from information_schema.columns
+        where table_name = lower(tableName);
 
         RETURN $2;
 
-END;
+end;
 $BODY$
-  LANGUAGE plpgsql VOLATILE
+  language plpgsql volatile
   COST 100;
-ALTER FUNCTION sp_cols(varchar, refcursor)
-  OWNER TO postgres;
+alter function sp_cols(varchar, refcursor)
+  owner to postgres;

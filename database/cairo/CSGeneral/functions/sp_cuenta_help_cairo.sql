@@ -13,7 +13,7 @@ the Free Software Foundation; either version 2 of the License, or
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+MERCHANTABILITY or FITNESS for A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License along
@@ -30,27 +30,27 @@ javier at crowsoft.com.ar
 */
 -- Function: sp_cuentahelpcairo()
 
--- DROP FUNCTION sp_cuentahelpcairo(integer, integer, integer, varchar, integer, integer, varchar);
+-- drop function sp_cuentahelpcairo(integer, integer, integer, varchar, integer, integer, varchar);
 
-CREATE OR REPLACE FUNCTION sp_cuentahelpcairo
+create or replace function sp_cuentahelpcairo
 (
-  IN p_emp_id integer ,
-  IN p_us_id integer ,
-  IN p_bForAbm integer ,
-  IN p_filter varchar DEFAULT '' ,
-  IN p_check integer DEFAULT 0 ,
-  IN p_cue_id integer DEFAULT 0 ,
-  IN p_filter2 varchar DEFAULT '', 
+  in p_emp_id integer ,
+  in p_us_id integer ,
+  in p_bForAbm integer ,
+  in p_filter varchar default '' ,
+  in p_check integer default 0 ,
+  in p_cue_id integer default 0 ,
+  in p_filter2 varchar default '',
   out rtn refcursor
 )
-  RETURNS refcursor AS
+  returns refcursor as
 $BODY$
-DECLARE
+declare
    v_sqlstmt varchar(8000);
-BEGIN
+begin
 
-   IF p_check <> 0 THEN
-   BEGIN
+   if p_check <> 0 then
+   begin
       v_sqlstmt := 'select  cue_id,
                             cue_nombre as Nombre,
                             cue_codigo as Codigo
@@ -61,10 +61,10 @@ BEGIN
                           )
                       and activo <> 0
                       and (cue_id = ' || to_char(p_cue_id) || ' or ' || to_char(p_cue_id) || '=0)';
-   END;
-   ELSE
-   BEGIN
-      v_sqlstmt := 'select 
+   end;
+   else
+   begin
+      v_sqlstmt := 'select
                            cue_id,
       		      cue_nombre as Nombre,
       		      cue_codigo as Codigo,
@@ -75,20 +75,20 @@ BEGIN
                            or (lower(f_unaccent(cue_identificacionexterna)) like ''%' || p_filter || '%'' and cue_identificacionexterna <> '''')
                            or (lower(f_unaccent(cue_descrip)) like ''%' || p_filter || '%'' and cue_descrip <> ''''))
                       and (' || to_char(p_bForAbm) || ' <> 0 or activo <> 0) limit 50';
-   END;
-   END IF;
+   end;
+   end if;
 
-   IF p_filter2 <> '' THEN
+   if p_filter2 <> '' then
       v_sqlstmt := v_sqlstmt || ' and (' || p_filter2 || ')';
-   END IF;
+   end if;
    
       rtn := 'rtn';        
-      open rtn for execute v_sqlstmt; 
+      open rtn for execute v_sqlstmt;
 
         
-END;
+end;
 $BODY$
-  LANGUAGE plpgsql VOLATILE
+  language plpgsql volatile
   COST 100;
-ALTER FUNCTION sp_cuentahelpcairo(integer, integer, integer, varchar, integer, integer, varchar)
-  OWNER TO postgres;
+alter function sp_cuentahelpcairo(integer, integer, integer, varchar, integer, integer, varchar)
+  owner to postgres;

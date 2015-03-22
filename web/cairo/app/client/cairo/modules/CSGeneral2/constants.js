@@ -436,7 +436,30 @@
       RUBTI_NAME_8: "rubti_name8",
       RUBTI_NAME_9: "rubti_name9",
       RUBTI_NAME_10: "rubti_name10",
-      
+
+      UN_NAME_STOCK: "un_name_stock",
+      UN_NAME_COMPRA: "un_name_compra",
+      UN_NAME_VENTA: "un_name_venta",
+
+      CUEG_NAME_COMPRA: "cueg_name_compra",
+      CUEG_NAME_VENTA: "cueg_name_venta",
+
+      TI_NAME_RI_VENTA: "ti_name_ri_venta",
+      TI_NAME_INT_VENTA: "ti_name_int_venta",
+      TI_NAME_RI_COMPRA: "ti_name_ri_compra",
+      TI_NAME_INT_COMPRA: "ti_name_int_compra",
+
+      CCOS_NAME_COMPRA: "ccos_name_compra",
+      CCOS_NAME_VENTA: "ccos_name_venta",
+
+      UN_NAME_PESO: "un_name_peso",
+
+      TI_NAME_COMEX_GANANCIAS: "ti_name_comex_ganancias",
+      TI_NAME_COMEX_IGB: "ti_name_comex_igb",
+      TI_NAME_COMEX_IVA: "ti_name_comex_iva",
+
+      PR_NAME_WEB_PADRE: "pr_nombre_web_padre",
+
       // Escala
       ESCALA: "Escala",
       ESC_ID: "esc_id",
@@ -853,6 +876,9 @@
 
       PR_ID_TAG: "pr_id_tag",
 
+      TA_NAME_KIT_SERIE: "ta_name_kit_serie",
+      TA_NAME_KIT_LOTE: "ta_name_kit_lote",
+
       TA_ID_KIT_SERIE: "ta_id_kitSerie",
       TA_ID_KIT_LOTE: "ta_id_kitLote",
 
@@ -867,6 +893,13 @@
       RPT_ID_NOMBRE_WEB: "rpt_id_nombreweb",
       RPT_ID_NOMBRE_IMG: "rpt_id_nombreimg",
       RPT_ID_NOMBRE_IMG_ALT: "rpt_id_nombreimgalt",
+
+      RPT_NAME_COMPRA: "rpt_name_compra",
+      RPT_NAME_VENTA: "rpt_name_venta",
+      RPT_NAME_FACTURA: "rpt_name_factura",
+      RPT_NAME_WEB: "rpt_name_web",
+      RPT_NAME_IMG: "rpt_name_img",
+      RPT_NAME_IMG_ALT: "rpt_name_img_alt",
 
       TI_ID_COMEX_GANANCIAS: "ti_id_comex_ganancias",
       TI_ID_COMEX_IGB: "ti_id_comex_igb",

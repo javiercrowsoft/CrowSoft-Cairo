@@ -13,7 +13,7 @@ the Free Software Foundation; either version 2 of the License, or
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+MERCHANTABILITY or FITNESS for A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License along
@@ -30,18 +30,18 @@ javier at crowsoft.com.ar
 */
 -- Function: sp_arb_hoja_paste_cut()
 
--- DROP FUNCTION sp_arb_hoja_paste_cut();
+-- drop function sp_arb_hoja_paste_cut();
 
-CREATE OR REPLACE FUNCTION sp_arb_hoja_paste_cut
+create or replace function sp_arb_hoja_paste_cut
 (
-  IN p_us_id integer,
-  IN p_ids varchar ,
-  IN p_ram_id_to_paste_in integer ,
-  OUT rtn refcursor
+  in p_us_id integer,
+  in p_ids varchar ,
+  in p_ram_id_to_paste_in integer ,
+  out rtn refcursor
 )
-  RETURNS refcursor AS
+  returns refcursor as
 $BODY$
-DECLARE
+declare
    v_new_hoja_id integer;
    v_arb_id integer;
 
@@ -51,66 +51,66 @@ DECLARE
    v_ids   varchar[];
    v_id    varchar;
    v_index integer;
-BEGIN
+begin
 
-    IF p_ids = '' THEN RETURN; END IF;
+    if p_ids = '' then RETURN; end if;
 
-    IF p_ram_id_to_paste_in = 0 THEN RETURN; END IF;
+    if p_ram_id_to_paste_in = 0 then RETURN; end if;
 
-    IF NOT EXISTS(SELECT 1 FROM rama WHERE ram_id = p_ram_id_to_paste_in) THEN RETURN; END IF;
+    if not exists(select 1 from rama where ram_id = p_ram_id_to_paste_in) then RETURN; end if;
 
-    SELECT arb_id INTO v_arb_id FROM rama WHERE ram_id = p_ram_id_to_paste_in;
+    select arb_id into v_arb_id from rama where ram_id = p_ram_id_to_paste_in;
 
 
     -- Creo un cursor para recorrer cada una de las hojas e insertarlas
-    OPEN c_leaves_to_copy FOR EXECUTE 'SELECT hoja_id, id, modifico FROM Hoja WHERE hoja_id in (' || p_ids ||')';
+    open c_leaves_to_copy for EXECUTE 'select hoja_id, id, modifico from Hoja where hoja_id in (' || p_ids ||')';
 
-    LOOP
-        FETCH c_leaves_to_copy INTO v_leave_row;
-        EXIT WHEN NOT FOUND;
-        BEGIN
+    loop
+        fetch c_leaves_to_copy into v_leave_row;
+        exit when not found;
+        begin
 
-           IF NOT EXISTS(SELECT 1 FROM hoja WHERE ram_id = p_ram_id_to_paste_in AND id = v_leave_row.id) THEN
+           if not exists(select 1 from hoja where ram_id = p_ram_id_to_paste_in and id = v_leave_row.id) then
 
-               UPDATE hoja SET ram_id = p_ram_id_to_paste_in, arb_id = v_arb_id WHERE hoja_id = v_leave_row.hoja_id;
+               update hoja set ram_id = p_ram_id_to_paste_in, arb_id = v_arb_id where hoja_id = v_leave_row.hoja_id;
 
-           ELSE
+           else
 
-               DELETE FROM hoja WHERE hoja_id = v_leave_row.hoja_id;
+               delete from hoja where hoja_id = v_leave_row.hoja_id;
 
-           END IF;
-        END;
-    END LOOP;
+           end if;
+        end;
+    end loop;
 
-    CLOSE c_leaves_to_copy;
+    close c_leaves_to_copy;
 
     v_ids := regexp_split_to_array(p_ids, ',');
 
-    FOR v_index IN 1 .. array_upper(v_ids, 1)
-    LOOP
+    for v_index in 1 .. array_upper(v_ids, 1)
+    loop
 
         v_id := v_ids[v_index];
 
-        IF v_id::integer < 0 THEN
+        if v_id::integer < 0 then
 
             -- Por cada hoja obtengo un id nuevo
-            SELECT SP_DBGetNewId('hoja',
+            select SP_DBGetNewId('hoja',
                                  'hoja_id',
-                                 0::smallint) INTO v_new_hoja_id;
+                                 0::smallint) into v_new_hoja_id;
 
-            INSERT INTO hoja ( hoja_id, id, modifico, ram_id, arb_id )
-            VALUES ( v_new_hoja_id, v_id::integer * -1, p_us_id, p_ram_id_to_paste_in, v_arb_id );
+            insert into hoja ( hoja_id, id, modifico, ram_id, arb_id )
+            values ( v_new_hoja_id, v_id::integer * -1, p_us_id, p_ram_id_to_paste_in, v_arb_id );
 
-        END IF;
-    END LOOP;
+        end if;
+    end loop;
 
     rtn := 'rtn';
 
-    OPEN rtn FOR SELECT * FROM rama WHERE ram_id = p_ram_id_to_paste_in;
+    open rtn for select * from rama where ram_id = p_ram_id_to_paste_in;
 
-END;
+end;
 $BODY$
-  LANGUAGE plpgsql VOLATILE
+  language plpgsql volatile
   COST 100;
-ALTER FUNCTION sp_arb_hoja_paste_cut(integer, varchar, integer)
-  OWNER TO postgres;
+alter function sp_arb_hoja_paste_cut(integer, varchar, integer)
+  owner to postgres;

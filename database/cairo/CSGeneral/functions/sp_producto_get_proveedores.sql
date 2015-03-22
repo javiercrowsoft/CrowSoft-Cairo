@@ -13,7 +13,7 @@ the Free Software Foundation; either version 2 of the License, or
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+MERCHANTABILITY or FITNESS for A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License along
@@ -30,26 +30,26 @@ javier at crowsoft.com.ar
 */
 -- Function: sp_producto_get_proveedores()
 
--- DROP FUNCTION sp_producto_get_proveedores(integer);
+-- drop function sp_producto_get_proveedores(integer);
 
-CREATE OR REPLACE FUNCTION sp_producto_get_proveedores
+create or replace function sp_producto_get_proveedores
 (
-  IN p_pr_id integer ,
-  OUT rtn refcursor
+  in p_pr_id integer ,
+  out rtn refcursor
 )
-  RETURNS refcursor AS
+  returns refcursor as
 $BODY$
-DECLARE
+declare
    -- Obtengo que precio es el preferido en ListaPrecioConfig
    --
    v_lp_id_top integer;
    v_orden numeric(3,0);
    v_tran_id integer;
-BEGIN
+begin
 
     --------------------------------------------------------------------
     
-    CREATE TEMP TABLE t_producto_proveedor
+    create TEMP table t_producto_proveedor
     (
       prov_id integer,
       lp_id integer,
@@ -57,49 +57,49 @@ BEGIN
       lpi_precio decimal(18,6),
       lpi_top integer,
       lpi_fecha date,
-      tran_id integer  NOT NULL
+      tran_id integer  not null
     ) on commit drop;
     
     v_tran_id := nextval('t_producto_proveedor_seq');
     
     --------------------------------------------------------------------
    
-   INSERT INTO t_producto_proveedor
+   insert into t_producto_proveedor
      ( prov_id, lp_id, lpi_id, lpi_precio, lpi_top, lpi_fecha, tran_id )
-     ( SELECT DISTINCT lpprov.prov_id,
+     ( select DISTINCT lpprov.prov_id,
                        lpi.lp_id,
                        lpi.lpi_id,
                        lpi.lpi_precio,
                        0,
                        lpi.lpi_fecha,
                        v_tran_id
-       FROM ListaPrecioItem lpi
-              LEFT JOIN ListaPrecioProveedor lpprov
-               ON lpi.lp_id = lpprov.lp_id
-          WHERE lpi.pr_id = p_pr_id );
+       from ListaPrecioItem lpi
+              left join ListaPrecioProveedor lpprov
+               on lpi.lp_id = lpprov.lp_id
+          where lpi.pr_id = p_pr_id );
 
-   SELECT MIN(lpc_orden)
-     INTO v_orden
-     FROM ListaPrecioConfig
-      WHERE pr_id = p_pr_id
-              AND lp_id IN ( SELECT lp_id
-                             FROM t_producto_proveedor  );
+   select min(lpc_orden)
+     into v_orden
+     from ListaPrecioConfig
+      where pr_id = p_pr_id
+              and lp_id in ( select lp_id
+                             from t_producto_proveedor  );
 
-   SELECT lp_id
-     INTO v_lp_id_top
-     FROM ListaPrecioConfig
-      WHERE pr_id = p_pr_id
-              AND lpc_orden = v_orden;
+   select lp_id
+     into v_lp_id_top
+     from ListaPrecioConfig
+      where pr_id = p_pr_id
+              and lpc_orden = v_orden;
 
-   UPDATE t_producto_proveedor
-      SET lpi_top = 1
-      WHERE tran_id = v_tran_id AND lp_id = v_lp_id_top;
+   update t_producto_proveedor
+      set lpi_top = 1
+      where tran_id = v_tran_id and lp_id = v_lp_id_top;
 
    rtn := 'rtn';
 
-   OPEN rtn FOR
+   open rtn for
       ----------------------------------------------------------------------------------------------
-      SELECT prprov.prprov_id,
+      select prprov.prprov_id,
                      prprov.prprov_codigo,
                      prprov.prprov_codigobarra,
                      prprov.prprov_fabricante,
@@ -119,19 +119,19 @@ BEGIN
                      t.lpi_precio,
                      t.lpi_fecha,
                      t.lpi_top
-        FROM ProductoProveedor prprov
-               LEFT JOIN Proveedor prov
-                ON prprov.prov_id = prov.prov_id
-               LEFT JOIN Pais pa
-                ON prprov.pa_id = pa.pa_id
-               LEFT JOIN t_producto_proveedor t
-                ON prprov.prov_id = t.prov_id
-                  AND t.tran_id = v_tran_id
-               LEFT JOIN ListaPrecio lp
-                ON t.lp_id = lp.lp_id
-         WHERE prprov.pr_id = p_pr_id
-      UNION ALL
-      SELECT -1 prprov_id,-- Si es un registro virtual lo identifico con un -1
+        from ProductoProveedor prprov
+               left join Proveedor prov
+                on prprov.prov_id = prov.prov_id
+               left join Pais pa
+                on prprov.pa_id = pa.pa_id
+               left join t_producto_proveedor t
+                on prprov.prov_id = t.prov_id
+                  and t.tran_id = v_tran_id
+               left join ListaPrecio lp
+                on t.lp_id = lp.lp_id
+         where prprov.pr_id = p_pr_id
+      union all
+      select -1 prprov_id,-- Si es un registro virtual lo identifico con un -1
 
              prprov.prprov_codigo,
              prprov.prprov_codigobarra,
@@ -153,26 +153,26 @@ BEGIN
              t.lpi_fecha,
              t.lpi_top
 
-        FROM t_producto_proveedor t
-               LEFT JOIN ProductoProveedor prprov
-                ON 1 = 2
-               LEFT JOIN Proveedor prov
-                ON t.prov_id = prov.prov_id
-               LEFT JOIN Pais pa
-                ON 1 = 2
-               LEFT JOIN ListaPrecio lp
-                ON t.lp_id = lp.lp_id
+        from t_producto_proveedor t
+               left join ProductoProveedor prprov
+                on 1 = 2
+               left join Proveedor prov
+                on t.prov_id = prov.prov_id
+               left join Pais pa
+                on 1 = 2
+               left join ListaPrecio lp
+                on t.lp_id = lp.lp_id
 
-        WHERE t.tran_id = v_tran_id
-           AND NOT EXISTS ( SELECT *
-                            FROM ProductoProveedor
-                               WHERE pr_id = p_pr_id
-                                       AND prov_id = t.prov_id )
-        ORDER BY prov_nombre;
+        where t.tran_id = v_tran_id
+           and not exists ( select *
+                            from ProductoProveedor
+                               where pr_id = p_pr_id
+                                       and prov_id = t.prov_id )
+        order by prov_nombre;
 
-END;
+end;
 $BODY$
-  LANGUAGE plpgsql VOLATILE
+  language plpgsql volatile
   COST 100;
-ALTER FUNCTION sp_producto_get_proveedores(integer)
-  OWNER TO postgres;
+alter function sp_producto_get_proveedores(integer)
+  owner to postgres;

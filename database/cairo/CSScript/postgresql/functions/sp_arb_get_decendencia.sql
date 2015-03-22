@@ -13,7 +13,7 @@ the Free Software Foundation; either version 2 of the License, or
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+MERCHANTABILITY or FITNESS for A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License along
@@ -30,18 +30,18 @@ javier at crowsoft.com.ar
 */
 -- Function: sp_arbgetdecendencia()
 
--- DROP FUNCTION sp_arbgetdecendencia();
+-- drop function sp_arbgetdecendencia();
 
-CREATE OR REPLACE FUNCTION sp_arbgetdecendencia(
-        IN p_ram_id integer DEFAULT NULL ,
-        IN p_incluir_ram_id integer DEFAULT 1 ,
-        IN p_incluir_ram_id_padre integer DEFAULT 0 , -- este default es necesario para: SP_ArbCopiarRama, SP_ArbBorrarRama
-        IN p_incluir_nombre integer DEFAULT 0 ,       -- este default es necesario para: SP_ArbCopiarRama, SP_ArbBorrarRama
-        IN p_incluir_arb_id integer DEFAULT 0,
-        OUT rtn refcursor)
-  RETURNS refcursor AS
+create or replace function sp_arbgetdecendencia(
+        in p_ram_id integer default null ,
+        in p_incluir_ram_id integer default 1 ,
+        in p_incluir_ram_id_padre integer default 0 , -- este default es necesario para: SP_ArbCopiarRama, SP_ArbBorrarRama
+        in p_incluir_nombre integer default 0 ,       -- este default es necesario para: SP_ArbCopiarRama, SP_ArbBorrarRama
+        in p_incluir_arb_id integer default 0,
+        out rtn refcursor)
+  returns refcursor as
 $BODY$
-DECLARE
+declare
    v_tot2 integer;
    v_tot1 integer;
    v_n integer;
@@ -50,20 +50,20 @@ DECLARE
    v_where varchar(255);
    v_sqlArbId varchar(50);
    v_tran_id integer;
-BEGIN
+begin
 
-        IF p_ram_id = 0 THEN
+        if p_ram_id = 0 then
                 RETURN;
-        END IF;
+        end if;
 
-        CREATE TEMP TABLE tt_t_rama2
+        create TEMP table tt_t_rama2
         (
-          tran_id integer NOT NULL,
-          ram_id integer  NOT NULL,
-          N integer  NOT NULL,
-          ram_id_padre integer  NOT NULL,
-          arb_id integer  NOT NULL,
-          orden integer  NOT NULL
+          tran_id integer not null,
+          ram_id integer  not null,
+          N integer  not null,
+          ram_id_padre integer  not null,
+          arb_id integer  not null,
+          orden integer  not null
         ) on commit drop;
 
         v_tran_id := nextval('t_rama2_seq');
@@ -74,105 +74,105 @@ BEGIN
 
         v_n := 1;
 
-        IF p_incluir_arb_id <> 0 THEN
-                SELECT arb_id
-                INTO v_arb_id
-                FROM Rama
-                WHERE ram_id = p_ram_id;
-        ELSE
+        if p_incluir_arb_id <> 0 then
+                select arb_id
+                into v_arb_id
+                from Rama
+                where ram_id = p_ram_id;
+        else
                 v_arb_id := 0;
-        END IF;
+        end if;
 
-        INSERT INTO tt_t_rama2
+        insert into tt_t_rama2
         (tran_id, ram_id, N, ram_id_padre, arb_id, orden)
-        (SELECT v_tran_id,
+        (select v_tran_id,
                 p_ram_id,
                 0,
                 ram_id_padre,
                 v_arb_id,
                 ram_orden
-        FROM Rama
-        WHERE ram_id = p_ram_id );
+        from Rama
+        where ram_id = p_ram_id );
 
-   WHILE v_tot1 < v_tot2
-   LOOP
-      BEGIN
+   while v_tot1 < v_tot2
+   loop
+      begin
          v_tot1 := v_tot2;
 
-         INSERT INTO tt_t_rama2
+         insert into tt_t_rama2
            ( tran_id, ram_id, N, ram_id_padre, arb_id, orden )
-           SELECT v_tran_id,
+           select v_tran_id,
                   r.ram_id,
                   v_n,
                   r.ram_id_padre,
                   v_arb_id,
                   r.ram_orden
-             FROM Rama r,
+             from Rama r,
                   tt_t_rama2 t
-              WHERE r.ram_id_padre = t.ram_id
-                      AND t.tran_id = v_tran_id
-                      AND t.N = v_n - 1
+              where r.ram_id_padre = t.ram_id
+                      and t.tran_id = v_tran_id
+                      and t.N = v_n - 1
                       -- esto chequea que no existan referencias circulares
-                      AND NOT EXISTS ( SELECT *
-                                       FROM tt_t_rama2
-                                          WHERE tt_t_rama2.ram_id = r.ram_id and tt_t_rama2.tran_id = v_tran_id )
-             ORDER BY r.ram_orden;
+                      and not exists ( select *
+                                       from tt_t_rama2
+                                          where tt_t_rama2.ram_id = r.ram_id and tt_t_rama2.tran_id = v_tran_id )
+             order by r.ram_orden;
 
-         SELECT COUNT(*) INTO v_tot2
-         FROM tt_t_rama2 t WHERE t.tran_id = v_tran_id;
+         select COUNT(*) into v_tot2
+         from tt_t_rama2 t where t.tran_id = v_tran_id;
 
          v_n := v_n + 1;
 
-      END;
-   END LOOP;
+      end;
+   end loop;
 
    v_where := ' where t.tran_id = ' || v_tran_id::varchar;
 
-   IF p_incluir_ram_id = 0 THEN
+   if p_incluir_ram_id = 0 then
       v_where := v_where || ' and t.ram_id <> ' || to_char(p_ram_id);
-   END IF;
+   end if;
 
-   IF p_incluir_arb_id <> 0 THEN
+   if p_incluir_arb_id <> 0 then
       v_sqlArbId := ',t.arb_id';
 
-   ELSE
+   else
       v_sqlArbId := '';
 
-   END IF;
+   end if;
 
-   IF p_incluir_ram_id_padre <> 0 THEN
-   BEGIN
-      IF p_incluir_nombre <> 0 THEN
+   if p_incluir_ram_id_padre <> 0 then
+   begin
+      if p_incluir_nombre <> 0 then
          v_sqlstmt := 'select t.ram_id,t.ram_id_padre,r.ram_nombre' || v_sqlArbId || ' from tt_t_rama2 t inner join rama r on t.ram_id = r.ram_id';
 
-      ELSE
+      else
          v_sqlstmt := 'select ram_id,ram_id_padre' || v_sqlArbId || ' from tt_t_rama2 t';
 
-      END IF;
+      end if;
 
-   END;
-   ELSE
-   BEGIN
-      IF p_incluir_nombre <> 0 THEN
+   end;
+   else
+   begin
+      if p_incluir_nombre <> 0 then
          v_sqlstmt := 'select t.ram_id,r.ram_nombre' || v_sqlArbId || ' from tt_t_rama2 t inner join rama r on t.ram_id = r.ram_id';
 
-      ELSE
+      else
          v_sqlstmt := 'select ram_id' || v_sqlArbId || ' from tt_t_rama2 t';
 
-      END IF;
+      end if;
 
-   END;
-   END IF;
+   end;
+   end if;
 
    v_sqlstmt := v_sqlstmt || v_where || ' order by n,orden';
 
    rtn := 'rtn';
 
-   OPEN rtn FOR EXECUTE v_sqlstmt;
+   open rtn for EXECUTE v_sqlstmt;
 
-END;
+end;
 $BODY$
-  LANGUAGE plpgsql VOLATILE
+  language plpgsql volatile
   COST 100;
-ALTER FUNCTION sp_arbgetdecendencia(integer, integer, integer, integer, integer)
-  OWNER TO postgres;
+alter function sp_arbgetdecendencia(integer, integer, integer, integer, integer)
+  owner to postgres;

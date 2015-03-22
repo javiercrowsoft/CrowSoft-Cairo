@@ -13,7 +13,7 @@ the Free Software Foundation; either version 2 of the License, or
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+MERCHANTABILITY or FITNESS for A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License along
@@ -30,34 +30,34 @@ javier at crowsoft.com.ar
 */
 -- Function: sp_strgetrealname()
 
--- DROP FUNCTION sp_strgetrealname();
+-- drop function sp_strgetrealname();
 
-CREATE OR REPLACE FUNCTION sp_strgetrealname
+create or replace function sp_strgetrealname
 (
-  IN p_prefix varchar,
-  IN p_campo varchar
+  in p_prefix varchar,
+  in p_campo varchar
 )
-RETURNS varchar AS
+returns varchar as
 $BODY$
-DECLARE
+declare
    v_j integer;
-BEGIN
+begin
 
    v_j := coalesce(strpos(p_campo, '='), 0);
 
-   IF v_j = 0 THEN
+   if v_j = 0 then
       p_campo := p_prefix || '.' || p_campo;
 
-   ELSE
+   else
       p_campo := SUBSTR(p_campo, 1, v_j) || p_prefix || '.' || LTRIM(SUBSTR(p_campo, v_j + 1, LENGTH(p_campo)));
 
-   END IF;
+   end if;
 
    return p_campo;
 
-END;
+end;
 $BODY$
-  LANGUAGE plpgsql VOLATILE
+  language plpgsql volatile
   COST 100;
-ALTER FUNCTION sp_strgetrealname(varchar, varchar)
-  OWNER TO postgres;
+alter function sp_strgetrealname(varchar, varchar)
+  owner to postgres;

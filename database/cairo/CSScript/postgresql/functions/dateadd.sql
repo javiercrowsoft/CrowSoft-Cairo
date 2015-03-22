@@ -13,7 +13,7 @@ the Free Software Foundation; either version 2 of the License, or
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+MERCHANTABILITY or FITNESS for A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License along
@@ -30,60 +30,60 @@ javier at crowsoft.com.ar
 */
 -- Function: dateadd(character varying, integer, timestamp with time zone)
 
--- DROP FUNCTION dateadd(character varying, integer, timestamp with time zone);
+-- drop function dateadd(character varying, integer, timestamp with time zone);
 
-CREATE OR REPLACE FUNCTION dateadd(p_interval character varying, p_interval_val integer, p_date timestamp with time zone)
-  RETURNS timestamp with time zone AS
+create or replace function dateadd(p_interval character varying, p_interval_val integer, p_date timestamp with time zone)
+  returns timestamp with time zone as
 $BODY$
-DECLARE
+declare
     v_ucase_interval varchar(10);
     v_date timestamp with time zone;
-BEGIN
+begin
     v_date := p_date;
     v_ucase_interval := UPPER(p_interval);
       
-    IF v_ucase_interval IN ('YEAR', 'YY', 'YYYY') 
-    THEN
+    if v_ucase_interval in ('YEAR', 'YY', 'YYYY')
+    then
       RETURN add_months(v_date, p_interval_val * 12);
       
-    ELSIF v_ucase_interval IN ('QUARTER', 'QQ', 'Q') 
-    THEN
+    ELSif v_ucase_interval in ('QUARTER', 'QQ', 'Q')
+    then
       RETURN add_months(v_date, p_interval_val * 3);
       
-    ELSIF v_ucase_interval IN ('MONTH', 'MM', 'M') 
-    THEN
+    ELSif v_ucase_interval in ('MONTH', 'MM', 'M')
+    then
       RETURN add_months(v_date, p_interval_val);
       
-    ElSIF v_ucase_interval IN ('DAYOFYEAR', 'DY', 'Y', 'DAY', 'DD', 'D', 'WEEKDAY', 'DW', 'W') 
-    THEN
+    ElSif v_ucase_interval in ('DAYOFYEAR', 'DY', 'Y', 'DAY', 'DD', 'D', 'WEEKDAY', 'DW', 'W')
+    then
       RETURN v_date + (p_interval_val * '1 day'::interval);
       
-    ElSIF v_ucase_interval IN ('WEEK', 'WK', 'WW') 
-    THEN
+    ElSif v_ucase_interval in ('WEEK', 'WK', 'WW')
+    then
       RETURN v_date + (p_interval_val * 7 * '1 day'::interval);
       
-    ElSIF v_ucase_interval IN ('HOUR', 'HH') 
-    THEN
+    ElSif v_ucase_interval in ('HOUR', 'HH')
+    then
       RETURN v_date + (p_interval_val * '1 hour'::interval);
       
-    ElSIF v_ucase_interval IN ('MINUTE', 'MI', 'N') 
-    THEN
+    ElSif v_ucase_interval in ('MINUTE', 'MI', 'N')
+    then
       RETURN v_date + (p_interval_val * '1 minute'::interval);
       
-    ElSIF v_ucase_interval IN ('SECOND', 'SS', 'S') 
-    THEN
+    ElSif v_ucase_interval in ('SECOND', 'SS', 'S')
+    then
       RETURN v_date + (p_interval_val * '1 second'::interval);
       
-    ElSIF v_ucase_interval IN ('MILLISECOND', 'MS') 
-    THEN
+    ElSif v_ucase_interval in ('MILLISECOND', 'MS')
+    then
       RETURN v_date + (p_interval_val * '1 millisecond'::interval);
       
-    ELSE
-      RETURN NULL;
-    END IF;
-END;
+    else
+      RETURN null;
+    end if;
+end;
 $BODY$
-  LANGUAGE plpgsql VOLATILE
+  language plpgsql volatile
   COST 100;
-ALTER FUNCTION dateadd(character varying, integer, timestamp with time zone)
-  OWNER TO postgres;
+alter function dateadd(character varying, integer, timestamp with time zone)
+  owner to postgres;

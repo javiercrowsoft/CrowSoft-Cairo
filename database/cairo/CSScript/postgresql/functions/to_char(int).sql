@@ -13,7 +13,7 @@ the Free Software Foundation; either version 2 of the License, or
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+MERCHANTABILITY or FITNESS for A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License along
@@ -30,16 +30,16 @@ javier at crowsoft.com.ar
 */
 ﻿-- Function: to_char(integer)
 
--- DROP FUNCTION to_char(integer);
+-- drop function to_char(integer);
 
-CREATE OR REPLACE FUNCTION to_char(param integer)
-  RETURNS varchar AS
+create or replace function to_char(param integer)
+  returns varchar as
 $BODY$
 begin
 	return to_char(param,'9999999999999');
 end;
 $BODY$
-  LANGUAGE plpgsql VOLATILE
+  language plpgsql volatile
   COST 100;
-ALTER FUNCTION to_char(integer)
-  OWNER TO postgres;
+alter function to_char(integer)
+  owner to postgres;

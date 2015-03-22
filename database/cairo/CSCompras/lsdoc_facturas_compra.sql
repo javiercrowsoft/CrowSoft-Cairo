@@ -13,7 +13,7 @@ the Free Software Foundation; either version 2 of the License, or
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+MERCHANTABILITY or FITNESS for A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License along
@@ -30,9 +30,9 @@ javier at crowsoft.com.ar
 */
 -- Function: sp_lsdoc_facturas_compra()
 
--- DROP FUNCTION sp_lsdoc_facturas_compra(integer, integer, integer, varchar, integer, integer, varchar);
+-- drop function sp_lsdoc_facturas_compra(integer, integer, integer, varchar, integer, integer, varchar);
 
-CREATE OR REPLACE FUNCTION sp_lsdoc_facturas_compra
+create or replace function sp_lsdoc_facturas_compra
 /*
 select * from FacturaCompra
 
@@ -50,24 +50,21 @@ select * from sp_lsdoc_facturas_compra(
 fetch all from rtn;
 */
 (
-  IN p_us_id integer,
-  IN p_Fini date,
-  IN p_Ffin date,
-  IN p_prov_id varchar,
-  IN p_est_id varchar,
-  IN p_ccos_id varchar,
-  IN p_suc_id varchar,
-  IN p_doc_id varchar,
-  IN p_cpg_id varchar,
-  IN p_emp_id varchar,
-  OUT rtn refcursor
+  in p_us_id integer,
+  in p_Fini date,
+  in p_Ffin date,
+  in p_prov_id varchar,
+  in p_est_id varchar,
+  in p_ccos_id varchar,
+  in p_suc_id varchar,
+  in p_doc_id varchar,
+  in p_cpg_id varchar,
+  in p_emp_id varchar,
+  out rtn refcursor
 )
-  RETURNS refcursor AS
+  returns refcursor as
 $BODY$
-DECLARE
-/*- ///////////////////////////////////////////////////////////////////////
-INICIO PRIMERA PARTE DE ARBOLES
-/////////////////////////////////////////////////////////////////////// */
+declare
    v_prov_id integer;
    v_ccos_id integer;
    v_suc_id integer;
@@ -85,7 +82,7 @@ INICIO PRIMERA PARTE DE ARBOLES
    v_ram_id_Empresa integer;
    v_clienteID integer;
    v_IsRaiz numeric(3,0);
-BEGIN
+begin
 
 /*debug
 p_us_id := 1;
@@ -101,6 +98,10 @@ p_emp_id := '0';
 end debug*/
 
    rtn := 'rtn';
+
+   /*- ///////////////////////////////////////////////////////////////////////
+    INICIO PRIMERA PARTE DE ARBOLES
+   /////////////////////////////////////////////////////////////////////// */
 
    select * from sp_ArbConvertId(p_prov_id) into v_prov_id, v_ram_id_Proveedor;
 
@@ -118,174 +119,177 @@ end debug*/
 
    select * from  sp_GetRptId() into v_clienteID;
 
-   IF v_ram_id_Proveedor <> 0 THEN
-   BEGIN
+   if v_ram_id_Proveedor <> 0 then
+   begin
       --	exec sp_ArbGetGroups @ram_id_Proveedor, @clienteID, @@us_id
       select sp_ArbIsRaiz(v_ram_id_Proveedor) into v_IsRaiz;
 
-      IF v_IsRaiz = 0 THEN
-      BEGIN
+      if v_IsRaiz = 0 then
+      begin
          perform sp_ArbGetAllHojas(v_ram_id_Proveedor,
                            v_clienteID);
 
-      END;
-      ELSE
+      end;
+      else
          v_ram_id_Proveedor := 0;
 
-      END IF;
+      end if;
 
-   END;
-   END IF;
+   end;
+   end if;
 
-   IF v_ram_id_CentroCosto <> 0 THEN
-   BEGIN
+   if v_ram_id_CentroCosto <> 0 then
+   begin
       --	exec sp_ArbGetGroups @ram_id_CentroCosto, @clienteID, @@us_id
       select sp_ArbIsRaiz(v_ram_id_CentroCosto) into v_IsRaiz;
 
-      IF v_IsRaiz = 0 THEN
-      BEGIN
+      if v_IsRaiz = 0 then
+      begin
          perform sp_ArbGetAllHojas(v_ram_id_CentroCosto,
                            v_clienteID);
 
-      END;
-      ELSE
+      end;
+      else
          v_ram_id_CentroCosto := 0;
 
-      END IF;
+      end if;
 
-   END;
-   END IF;
+   end;
+   end if;
 
-   IF v_ram_id_Estado <> 0 THEN
-   BEGIN
+   if v_ram_id_Estado <> 0 then
+   begin
       --	exec sp_ArbGetGroups @ram_id_Estado, @clienteID, @@us_id
       select sp_ArbIsRaiz(v_ram_id_Estado) into v_IsRaiz;
 
-      IF v_IsRaiz = 0 THEN
-      BEGIN
+      if v_IsRaiz = 0 then
+      begin
          perform sp_ArbGetAllHojas(v_ram_id_Estado,
                            v_clienteID);
 
-      END;
-      ELSE
+      end;
+      else
          v_ram_id_Estado := 0;
 
-      END IF;
+      end if;
 
-   END;
-   END IF;
+   end;
+   end if;
 
-   IF v_ram_id_Sucursal <> 0 THEN
-   BEGIN
+   if v_ram_id_Sucursal <> 0 then
+   begin
       --	exec sp_ArbGetGroups @ram_id_Sucursal, @clienteID, @@us_id
       select sp_ArbIsRaiz(v_ram_id_Sucursal) into v_IsRaiz;
 
-      IF v_IsRaiz = 0 THEN
-      BEGIN
+      if v_IsRaiz = 0 then
+      begin
          perform sp_ArbGetAllHojas(v_ram_id_Sucursal,
                            v_clienteID);
 
-      END;
-      ELSE
+      end;
+      else
          v_ram_id_Sucursal := 0;
 
-      END IF;
+      end if;
 
-   END;
-   END IF;
+   end;
+   end if;
 
-   IF v_ram_id_Vendedor <> 0 THEN
-   BEGIN
+   if v_ram_id_Vendedor <> 0 then
+   begin
       --	exec sp_ArbGetGroups @ram_id_Vendedor, @clienteID, @@us_id
       select sp_ArbIsRaiz(v_ram_id_Vendedor) into v_IsRaiz;
 
-      IF v_IsRaiz = 0 THEN
-      BEGIN
+      if v_IsRaiz = 0 then
+      begin
          perform sp_ArbGetAllHojas(v_ram_id_Vendedor,
                            v_clienteID);
 
-      END;
-      ELSE
+      end;
+      else
          v_ram_id_Vendedor := 0;
 
-      END IF;
+      end if;
 
-   END;
-   END IF;
+   end;
+   end if;
 
-   IF v_ram_id_Documento <> 0 THEN
-   BEGIN
+   if v_ram_id_Documento <> 0 then
+   begin
       --	exec sp_ArbGetGroups @ram_id_Documento, @clienteID, @@us_id
       select sp_ArbIsRaiz(v_ram_id_Documento) into v_IsRaiz;
 
-      IF v_IsRaiz = 0 THEN
-      BEGIN
+      if v_IsRaiz = 0 then
+      begin
          perform sp_ArbGetAllHojas(v_ram_id_Documento,
                            v_clienteID);
 
-      END;
-      ELSE
+      end;
+      else
          v_ram_id_Documento := 0;
 
-      END IF;
+      end if;
 
-   END;
-   END IF;
+   end;
+   end if;
 
-   IF v_ram_id_CondicionPago <> 0 THEN
-   BEGIN
+   if v_ram_id_CondicionPago <> 0 then
+   begin
       --	exec sp_ArbGetGroups @ram_id_CondicionPago, @clienteID, @@us_id
       select sp_ArbIsRaiz(v_ram_id_CondicionPago) into v_IsRaiz;
 
-      IF v_IsRaiz = 0 THEN
-      BEGIN
+      if v_IsRaiz = 0 then
+      begin
          perform sp_ArbGetAllHojas(v_ram_id_CondicionPago,
                            v_clienteID);
 
-      END;
-      ELSE
+      end;
+      else
          v_ram_id_CondicionPago := 0;
 
-      END IF;
+      end if;
 
-   END;
-   END IF;
+   end;
+   end if;
 
-   IF v_ram_id_Empresa <> 0 THEN
-   BEGIN
+   if v_ram_id_Empresa <> 0 then
+   begin
       --	exec sp_ArbGetGroups @ram_id_Empresa, @clienteID, @@us_id
       select sp_ArbIsRaiz(v_ram_id_Empresa) into v_IsRaiz;
 
-      IF v_IsRaiz = 0 THEN
-      BEGIN
+      if v_IsRaiz = 0 then
+      begin
          perform sp_ArbGetAllHojas(v_ram_id_Empresa,
                            v_clienteID);
 
-      END;
-      ELSE
+      end;
+      else
          v_ram_id_Empresa := 0;
 
-      END IF;
+      end if;
 
-   END;
-   END IF;
+   end;
+   end if;
 
-   OPEN rtn FOR
-/*- ///////////////////////////////////////////////////////////////////////
-FIN PRIMERA PARTE DE ARBOLES
-/////////////////////////////////////////////////////////////////////// */
-      SELECT fc_id,
+   /*- ///////////////////////////////////////////////////////////////////////
+    FIN PRIMERA PARTE DE ARBOLES
+   /////////////////////////////////////////////////////////////////////// */
+
+   open rtn for
+
+      select fc_id,
                      '' TypeTask,
                      fc_numero Numero,
                      fc_nrodoc Comprobante,
                      prov_nombre Proveedor,
                      doc_nombre Documento,
                      est_nombre Estado,
-                     CASE fc_tipocomprobante
-                                            WHEN 1 THEN 'Original'
-                                            WHEN 2 THEN 'Fax'
-                                            WHEN 3 THEN 'Fotocopia'
-                                            WHEN 4 THEN 'Duplicado'   END Tipo_Comprobante,
+                     case fc_tipocomprobante
+                        when 1 then 'Original'
+                        when 2 then 'Fax'
+                        when 3 then 'Fotocopia'
+                        when 4 then 'Duplicado'
+                     end Tipo_Comprobante,
                      fc_fecha Fecha,
                      fc_fechaentrega Fecha_de_entrega,
                      fc_fechaiva Fecha_IVA,
@@ -296,10 +300,10 @@ FIN PRIMERA PARTE DE ARBOLES
                      fc_subtotal Subtotal,
                      fc_total Total,
                      fc_pendiente Pendiente,
-                     CASE fc_firmado
-                                    WHEN 0 THEN 'No'
-                     ELSE 'Si'
-                        END Firmado,
+                     case fc_firmado
+                        when 0 then 'No'
+                        else 'Si'
+                     end Firmado,
                      fc_descuento1 Desc_1,
                      fc_descuento2 Desc_2,
                      fc_importedesc1 Desc_1,
@@ -314,102 +318,104 @@ FIN PRIMERA PARTE DE ARBOLES
                      FacturaCompra.modificado,
                      us_nombre Modifico,
                      fc_descrip Observaciones
-        FROM FacturaCompra
-               JOIN Documento
-                ON FacturaCompra.doc_id = Documento.doc_id
-               JOIN Empresa
-                ON Documento.emp_id = Empresa.emp_id
-               JOIN CondicionPago
-                ON FacturaCompra.cpg_id = CondicionPago.cpg_id
-               JOIN Estado
-                ON FacturaCompra.est_id = Estado.est_id
-               JOIN Sucursal
-                ON FacturaCompra.suc_id = Sucursal.suc_id
-               JOIN Proveedor
-                ON FacturaCompra.prov_id = Proveedor.prov_id
-               JOIN Usuario
-                ON FacturaCompra.modifico = Usuario.us_id
-               LEFT JOIN CentroCosto
-                ON FacturaCompra.ccos_id = CentroCosto.ccos_id
-               LEFT JOIN ListaPrecio
-                ON FacturaCompra.lp_id = ListaPrecio.lp_id
-               LEFT JOIN ListaDescuento
-                ON FacturaCompra.ld_id = ListaDescuento.ld_id
-         WHERE p_Fini <= fc_fecha
-                 AND p_Ffin >= fc_fecha
-/* -///////////////////////////////////////////////////////////////////////
-INICIO SEGUNDA PARTE DE ARBOLES
-/////////////////////////////////////////////////////////////////////// */
-                 AND ( Proveedor.prov_id = v_prov_id
-                 OR v_prov_id = 0 )
-                 AND ( Estado.est_id = v_est_id
-                 OR v_est_id = 0 )
-                 AND ( Sucursal.suc_id = v_suc_id
-                 OR v_suc_id = 0 )
-                 AND ( Documento.doc_id = v_doc_id
-                 OR v_doc_id = 0 )
-                 AND ( CondicionPago.cpg_id = v_cpg_id
-                 OR v_cpg_id = 0 )
-                 AND ( FacturaCompra.ccos_id = v_ccos_id
-                 OR v_ccos_id = 0
-                 OR EXISTS ( SELECT *
-                             FROM FacturaCompraItem fci
-                                WHERE fci.fc_id = FacturaCompra.fc_id
-                                        AND fci.ccos_id = v_ccos_id ) )
-                 AND ( Empresa.emp_id = v_emp_id
-                 OR v_emp_id = 0 )
-                 -- Arboles
-                 AND ( ( EXISTS ( SELECT rptarb_hojaid
-                                  FROM rptArbolRamaHoja
-                                     WHERE rptarb_cliente = v_clienteID
-                                             AND tbl_id = 29
-                                             AND rptarb_hojaid = Proveedor.prov_id ) )
-                 OR ( v_ram_id_Proveedor = 0 ) )
-                 AND ( ( EXISTS ( SELECT rptarb_hojaid
-                                  FROM rptArbolRamaHoja
-                                     WHERE rptarb_cliente = v_clienteID
-                                             AND tbl_id = 21
-                                             AND ( rptarb_hojaid = FacturaCompra.ccos_id
-                                             OR EXISTS ( SELECT *
-                                                         FROM FacturaCompraItem fci
-                                                            WHERE fci.fc_id = FacturaCompra.fc_id
-                                                                    AND fci.ccos_id = rptarb_hojaid ) ) ) )
-                 OR ( v_ram_id_CentroCosto = 0 ) )
-                 AND ( ( EXISTS ( SELECT rptarb_hojaid
-                                  FROM rptArbolRamaHoja
-                                     WHERE rptarb_cliente = v_clienteID
-                                             AND tbl_id = 4005
-                                             AND rptarb_hojaid = Estado.est_id ) )
-                 OR ( v_ram_id_Estado = 0 ) )
-                 AND ( ( EXISTS ( SELECT rptarb_hojaid
-                                  FROM rptArbolRamaHoja
-                                     WHERE rptarb_cliente = v_clienteID
-                                             AND tbl_id = 1007
-                                             AND rptarb_hojaid = Sucursal.suc_id ) )
-                 OR ( v_ram_id_Sucursal = 0 ) )
-                 AND ( ( EXISTS ( SELECT rptarb_hojaid
-                                  FROM rptArbolRamaHoja
-                                     WHERE rptarb_cliente = v_clienteID
-                                             AND tbl_id = 4001
-                                             AND rptarb_hojaid = Documento.doc_id ) )
-                 OR ( v_ram_id_Documento = 0 ) )
-                 AND ( ( EXISTS ( SELECT rptarb_hojaid
-                                  FROM rptArbolRamaHoja
-                                     WHERE rptarb_cliente = v_clienteID
-                                             AND tbl_id = 1005
-                                             AND rptarb_hojaid = CondicionPago.cpg_id ) )
-                 OR ( v_ram_id_CondicionPago = 0 ) )
-                 AND ( ( EXISTS ( SELECT rptarb_hojaid
-                                  FROM rptArbolRamaHoja
-                                     WHERE rptarb_cliente = v_clienteID
-                                             AND tbl_id = 1018
-                                             AND rptarb_hojaid = Empresa.emp_id ) )
-                 OR ( v_ram_id_Empresa = 0 ) )
-        ORDER BY fc_fecha;
+        from FacturaCompra
+               join Documento
+                on FacturaCompra.doc_id = Documento.doc_id
+               join Empresa
+                on Documento.emp_id = Empresa.emp_id
+               join CondicionPago
+                on FacturaCompra.cpg_id = CondicionPago.cpg_id
+               join Estado
+                on FacturaCompra.est_id = Estado.est_id
+               join Sucursal
+                on FacturaCompra.suc_id = Sucursal.suc_id
+               join Proveedor
+                on FacturaCompra.prov_id = Proveedor.prov_id
+               join Usuario
+                on FacturaCompra.modifico = Usuario.us_id
+               left join CentroCosto
+                on FacturaCompra.ccos_id = CentroCosto.ccos_id
+               left join ListaPrecio
+                on FacturaCompra.lp_id = ListaPrecio.lp_id
+               left join ListaDescuento
+                on FacturaCompra.ld_id = ListaDescuento.ld_id
+         where p_Fini <= fc_fecha
+                 and p_Ffin >= fc_fecha
 
-END;
+            /* -///////////////////////////////////////////////////////////////////////
+            INICIO SEGUNDA PARTE DE ARBOLES
+            /////////////////////////////////////////////////////////////////////// */
+
+                 and ( Proveedor.prov_id = v_prov_id
+                 or v_prov_id = 0 )
+                 and ( Estado.est_id = v_est_id
+                 or v_est_id = 0 )
+                 and ( Sucursal.suc_id = v_suc_id
+                 or v_suc_id = 0 )
+                 and ( Documento.doc_id = v_doc_id
+                 or v_doc_id = 0 )
+                 and ( CondicionPago.cpg_id = v_cpg_id
+                 or v_cpg_id = 0 )
+                 and ( FacturaCompra.ccos_id = v_ccos_id
+                 or v_ccos_id = 0
+                 or exists ( select *
+                             from FacturaCompraItem fci
+                                where fci.fc_id = FacturaCompra.fc_id
+                                        and fci.ccos_id = v_ccos_id ) )
+                 and ( Empresa.emp_id = v_emp_id
+                 or v_emp_id = 0 )
+                 -- Arboles
+                 and ( ( exists ( select rptarb_hojaid
+                                  from rptArbolRamaHoja
+                                     where rptarb_cliente = v_clienteID
+                                             and tbl_id = 29
+                                             and rptarb_hojaid = Proveedor.prov_id ) )
+                 or ( v_ram_id_Proveedor = 0 ) )
+                 and ( ( exists ( select rptarb_hojaid
+                                  from rptArbolRamaHoja
+                                     where rptarb_cliente = v_clienteID
+                                             and tbl_id = 21
+                                             and ( rptarb_hojaid = FacturaCompra.ccos_id
+                                             or exists ( select *
+                                                         from FacturaCompraItem fci
+                                                            where fci.fc_id = FacturaCompra.fc_id
+                                                                    and fci.ccos_id = rptarb_hojaid ) ) ) )
+                 or ( v_ram_id_CentroCosto = 0 ) )
+                 and ( ( exists ( select rptarb_hojaid
+                                  from rptArbolRamaHoja
+                                     where rptarb_cliente = v_clienteID
+                                             and tbl_id = 4005
+                                             and rptarb_hojaid = Estado.est_id ) )
+                 or ( v_ram_id_Estado = 0 ) )
+                 and ( ( exists ( select rptarb_hojaid
+                                  from rptArbolRamaHoja
+                                     where rptarb_cliente = v_clienteID
+                                             and tbl_id = 1007
+                                             and rptarb_hojaid = Sucursal.suc_id ) )
+                 or ( v_ram_id_Sucursal = 0 ) )
+                 and ( ( exists ( select rptarb_hojaid
+                                  from rptArbolRamaHoja
+                                     where rptarb_cliente = v_clienteID
+                                             and tbl_id = 4001
+                                             and rptarb_hojaid = Documento.doc_id ) )
+                 or ( v_ram_id_Documento = 0 ) )
+                 and ( ( exists ( select rptarb_hojaid
+                                  from rptArbolRamaHoja
+                                     where rptarb_cliente = v_clienteID
+                                             and tbl_id = 1005
+                                             and rptarb_hojaid = CondicionPago.cpg_id ) )
+                 or ( v_ram_id_CondicionPago = 0 ) )
+                 and ( ( exists ( select rptarb_hojaid
+                                  from rptArbolRamaHoja
+                                     where rptarb_cliente = v_clienteID
+                                             and tbl_id = 1018
+                                             and rptarb_hojaid = Empresa.emp_id ) )
+                 or ( v_ram_id_Empresa = 0 ) )
+        order by fc_fecha;
+
+end;
 $BODY$
-  LANGUAGE plpgsql VOLATILE
+  language plpgsql volatile
   COST 100;
-ALTER FUNCTION sp_lsdoc_facturas_compra(integer, date, date, varchar, varchar, varchar, varchar, varchar, varchar, varchar)
-  OWNER TO postgres;
+alter function sp_lsdoc_facturas_compra(integer, date, date, varchar, varchar, varchar, varchar, varchar, varchar, varchar)
+  owner to postgres;

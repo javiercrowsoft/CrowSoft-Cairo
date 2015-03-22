@@ -13,7 +13,7 @@ the Free Software Foundation; either version 2 of the License, or
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+MERCHANTABILITY or FITNESS for A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License along
@@ -30,36 +30,36 @@ javier at crowsoft.com.ar
 */
 -- Function: sp_doc_factura_compra_get_otros()
 
--- DROP FUNCTION sp_doc_factura_compra_get_otros(integer);
+-- drop function sp_doc_factura_compra_get_otros(integer);
 /*
 select * from sp_doc_factura_compra_get_otros(1);
 fetch all from rtn;
 fetch all from rtn_serie;
 */
-CREATE OR REPLACE FUNCTION sp_doc_factura_compra_get_otros
+create or replace function sp_doc_factura_compra_get_otros
 (
-  IN p_fc_id integer,
-  OUT rtn refcursor
+  in p_fc_id integer,
+  out rtn refcursor
 )
-  RETURNS refcursor AS
+  returns refcursor as
 $BODY$
-BEGIN
+begin
 
-   OPEN rtn FOR
-      SELECT FacturaCompraOtro.*,
+   open rtn for
+      select FacturaCompraOtro.*,
              cue_nombre,
              ccos.ccos_nombre
-      FROM FacturaCompraOtro
-        JOIN Cuenta
-                ON FacturaCompraOtro.cue_id = Cuenta.cue_id
-        LEFT JOIN CentroCosto ccos
-                ON FacturaCompraOtro.ccos_id = ccos.ccos_id
-      WHERE fc_id = p_fc_id
-      ORDER BY fcot_orden;
+      from FacturaCompraOtro
+        join Cuenta
+                on FacturaCompraOtro.cue_id = Cuenta.cue_id
+        left join CentroCosto ccos
+                on FacturaCompraOtro.ccos_id = ccos.ccos_id
+      where fc_id = p_fc_id
+      order by fcot_orden;
 
-END;
+end;
 $BODY$
-  LANGUAGE plpgsql VOLATILE
+  language plpgsql volatile
   COST 100;
-ALTER FUNCTION sp_doc_factura_compra_get_otros(integer)
-  OWNER TO postgres;
+alter function sp_doc_factura_compra_get_otros(integer)
+  owner to postgres;

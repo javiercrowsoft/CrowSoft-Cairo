@@ -432,17 +432,17 @@ object Productos extends Controller with ProvidesUser {
       C.PR_WEB_IMAGE_FOLDER -> Json.toJson(producto.web.webImageFolder),
 
       C.RPT_ID_NOMBRE_COMPRA -> Json.toJson(producto.names.rptIdNombreCompra),
-      C.RPT_NAME -> Json.toJson(producto.names.rptNameCompra),
+      C.RPT_NAME_COMPRA -> Json.toJson(producto.names.rptNameCompra),
       C.RPT_ID_NOMBRE_VENTA -> Json.toJson(producto.names.rptIdNombreVenta),
-      C.RPT_NAME -> Json.toJson(producto.names.rptNameVenta),
+      C.RPT_NAME_VENTA -> Json.toJson(producto.names.rptNameVenta),
       C.RPT_ID_NOMBRE_FACTURA -> Json.toJson(producto.names.rptIdNombreFactura),
-      C.RPT_NAME -> Json.toJson(producto.names.rptNameFactura),
+      C.RPT_NAME_FACTURA -> Json.toJson(producto.names.rptNameFactura),
       C.RPT_ID_NOMBRE_WEB -> Json.toJson(producto.names.rptIdNombreWeb),
-      C.RPT_NAME -> Json.toJson(producto.names.rptNameWeb),
+      C.RPT_NAME_WEB -> Json.toJson(producto.names.rptNameWeb),
       C.RPT_ID_NOMBRE_IMG -> Json.toJson(producto.names.rptIdNombreImg),
-      C.RPT_NAME -> Json.toJson(producto.names.rptNameImg),
+      C.RPT_NAME_IMG -> Json.toJson(producto.names.rptNameImg),
       C.RPT_ID_NOMBRE_IMG_ALT -> Json.toJson(producto.names.rptIdNombreImgAlt),
-      C.RPT_NAME -> Json.toJson(producto.names.rptNameImgAlt),
+      C.RPT_NAME_IMG_ALT -> Json.toJson(producto.names.rptNameImgAlt),
 
       // Items
       "proveedores" -> Json.toJson(writeProductoProveedores(producto.items.proveedores)),
@@ -751,6 +751,62 @@ object Productos extends Controller with ProvidesUser {
       // Backbonejs requires at least an empty json object in the response
       // if not it will call errorHandler even when we responded with 200 OK :P
       Ok(JsonUtil.emptyJson)
+    })
+  }
+
+  implicit val productoStockInfoWrites = new Writes[ProductoStockInfo] {
+    def writes(info: ProductoStockInfo) = Json.obj(
+
+      C.UN_NAME -> Json.toJson(info.unName),
+      C.UN_NAME_COMPRA -> Json.toJson(info.unNameCompra),
+      C.UN_NAME_VENTA -> Json.toJson(info.unNameVenta),
+      C.PR_LLEVA_NRO_SERIE -> Json.toJson(info.llevaNroSerie),
+      C.PR_LLEVA_NRO_LOTE -> Json.toJson(info.llevaNroLote),
+      C.PR_LOTE_FIFO -> Json.toJson(info.loteFifo),
+      C.PR_ES_KIT -> Json.toJson(info.loteFifo),
+      C.RUB_ID -> Json.toJson(info.rubId),
+      C.CUE_ID_COMPRA -> Json.toJson(info.cueIdCompra),
+      C.CUE_ID_VENTA -> Json.toJson(info.cueIdVenta),
+      C.CCOS_ID_COMPRA -> Json.toJson(info.ccosIdCompra),
+      C.CCOS_ID_VENTA -> Json.toJson(info.ccosIdVenta)
+    )
+  }
+
+  def getProveedorStockInfo(id: Int, provId: Int) = GetAction { implicit request =>
+    LoggedIntoCompanyResponse.getAction(request, { user =>
+      Ok(Json.toJson(Producto.getStockInfo(user, id, None, Some(provId))))
+    })
+  }
+
+  def getPrice(id: Int, lpId: Int) = GetAction { implicit request =>
+    LoggedIntoCompanyResponse.getAction(request, { user =>
+      val price = Producto.getPrice(user, id, lpId)
+      Ok(Json.toJson(Json.obj("price" -> Json.toJson(price))))
+    })
+  }
+
+  def getDiscount(id: Int, ldId: Int, price: Double) = GetAction { implicit request =>
+    LoggedIntoCompanyResponse.getAction(request, { user =>
+      val discount = Producto.getDiscount(user, id, ldId, price)
+      val discountDesc = Producto.getDiscountDescription(user, id, ldId)
+      Ok(Json.toJson(Json.obj("discount" -> Json.toJson(discount), "desc" -> Json.toJson(discountDesc))))
+    })
+  }
+
+  implicit val productoTaxInfoWrites = new Writes[ProductoTaxInfo] {
+    def writes(info: ProductoTaxInfo) = Json.obj(
+      C.TI_ID_RI_COMPRA -> Json.toJson(info.tiIdIvaRiCompra),
+      C.TI_ID_RNI_COMPRA -> Json.toJson(info.tiIdIvaRniCompra),
+      C.TI_ID_RI_VENTA -> Json.toJson(info.tiIdIvaRiVenta),
+      C.TI_ID_RNI_VENTA -> Json.toJson(info.tiIdIvaRniVenta),
+      C.TI_ID_INTERNOS_COMPRA -> Json.toJson(info.tiIdInternosC),
+      C.TI_ID_INTERNOS_VENTA -> Json.toJson(info.tiIdInternosV)
+    )
+  }
+
+  def getTaxes(id: Int) = GetAction { implicit request =>
+    LoggedIntoCompanyResponse.getAction(request, { user =>
+      Ok(Json.toJson(Producto.getTaxes(user, id)))
     })
   }
 

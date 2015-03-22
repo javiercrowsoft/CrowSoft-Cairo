@@ -13,7 +13,7 @@ the Free Software Foundation; either version 2 of the License, or
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+MERCHANTABILITY or FITNESS for A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License along
@@ -30,60 +30,58 @@ javier at crowsoft.com.ar
 */
 -- Function: sp_moneda_get_cotizacion()
 
--- DROP FUNCTION sp_moneda_get_cotizacion(integer, date, smallint);
+-- drop function sp_moneda_get_cotizacion(integer, date, smallint);
 -- select * from monedaitem
 -- select sp_moneda_get_cotizacion(3,'20041231', 0::smallint);
-CREATE OR REPLACE FUNCTION sp_moneda_get_cotizacion
+create or replace function sp_moneda_get_cotizacion
 (
-  IN p_mon_id integer,
-  IN p_fecha date,
-  IN p_bselect smallint,
-  OUT p_cotiz decimal(18,6)
+  in p_mon_id integer,
+  in p_fecha date,
+  in p_bselect smallint,
+  out p_cotiz decimal(18,6)
 )
-  RETURNS decimal AS
+  returns decimal as
 $BODY$
-BEGIN
+begin
 
-     IF p_bselect <> 0 THEN
-       RAISE EXCEPTION '@@ERROR_SP:El procedimiento almacenado sp_moneda_get_cotizacion no puede ser llamado para obtener un cursor. El codigo Java o Scala debe usar parametros OUT.';
+     if p_bselect <> 0 then
+       RAISE exception '@@ERROR_SP:El procedimiento almacenado sp_moneda_get_cotizacion no puede ser llamado para obtener un cursor. El codigo Java o Scala debe usar parametros out.';
        RETURN;
-     END IF;
+     end if;
 
-   DECLARE
+   declare
       v_cfg_valor varchar(5000);
-   BEGIN
+   begin
 
-      IF NOT EXISTS ( SELECT mon_id
-                      FROM Moneda
-                      WHERE mon_id = p_mon_id
-                        AND mon_legal <> 0 ) THEN
+      if not exists ( select mon_id
+                      from Moneda
+                      where mon_id = p_mon_id
+                        and mon_legal <> 0 ) then
 
-         select sp_Cfg_GetValor('General',
-                        'Decimales Cotización',
-                        0::smallint, null) into v_cfg_valor;
+         select sp_cfg_getValor('General', 'Decimales Cotización') into v_cfg_valor;
 
          v_cfg_valor := coalesce(v_cfg_valor, '3');
 
-         IF isnumeric(v_cfg_valor) = 0 THEN
+         if isnumeric(v_cfg_valor) = 0 then
             v_cfg_valor := '3';
-         END IF;
+         end if;
 
-         SELECT *
-           INTO p_cotiz
-         FROM ( SELECT moni_precio
-                FROM MonedaItem
-                WHERE mon_id = p_mon_id
-                  AND moni_fecha <= p_fecha
-                ORDER BY moni_fecha DESC ) t
+         select *
+           into p_cotiz
+         from ( select moni_precio
+                from MonedaItem
+                where mon_id = p_mon_id
+                  and moni_fecha <= p_fecha
+                order by moni_fecha DESC ) t
          LIMIT 1;
 
-      END IF;
+      end if;
 
       p_cotiz := coalesce(p_cotiz, 0);
-   END;
-END;
+   end;
+end;
 $BODY$
-  LANGUAGE plpgsql VOLATILE
+  language plpgsql volatile
   COST 100;
-ALTER FUNCTION sp_moneda_get_cotizacion(integer, date, smallint)
-  OWNER TO postgres;
+alter function sp_moneda_get_cotizacion(integer, date, smallint)
+  owner to postgres;

@@ -13,7 +13,7 @@ the Free Software Foundation; either version 2 of the License, or
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+MERCHANTABILITY or FITNESS for A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License along
@@ -30,42 +30,42 @@ javier at crowsoft.com.ar
 */
 -- Function: sp_arb_arbol_create()
 
--- DROP FUNCTION sp_arb_arbol_create();
+-- drop function sp_arb_arbol_create();
 
-CREATE OR REPLACE FUNCTION sp_arb_arbol_create(
-  IN p_us_id integer,
-  IN p_tbl_id integer,
-  IN p_nombre varchar,
-  OUT rtn refcursor
+create or replace function sp_arb_arbol_create(
+  in p_us_id integer,
+  in p_tbl_id integer,
+  in p_nombre varchar,
+  out rtn refcursor
 )
-  RETURNS refcursor AS
+  returns refcursor as
 $BODY$
-DECLARE
+declare
         v_arb_id integer;
         v_raiz_id integer;
-BEGIN
+begin
 
-        SELECT SP_DBGetNewId('arbol',
+        select SP_DBGetNewId('arbol',
                               'arb_id',
-                              0::smallint) INTO v_arb_id;
+                              0::smallint) into v_arb_id;
 
-        INSERT INTO arbol (arb_id, arb_nombre, tbl_id, modifico)
-        VALUES (v_arb_id, p_nombre, p_tbl_id, p_us_id);
+        insert into arbol (arb_id, arb_nombre, tbl_id, modifico)
+        values (v_arb_id, p_nombre, p_tbl_id, p_us_id);
 
-        SELECT SP_DBGetNewId('rama',
+        select SP_DBGetNewId('rama',
                              'ram_id',
-                             0::smallint) INTO v_raiz_id;
+                             0::smallint) into v_raiz_id;
 
-        INSERT INTO rama (ram_id, ram_nombre, ram_id_padre, ram_orden, arb_id, modifico)
-        VALUES (v_raiz_id, p_nombre, 0, 0, v_arb_id, p_us_id);
+        insert into rama (ram_id, ram_nombre, ram_id_padre, ram_orden, arb_id, modifico)
+        values (v_raiz_id, p_nombre, 0, 0, v_arb_id, p_us_id);
 
         rtn := 'rtn';
 
-        open rtn for SELECT arb_id, arb_nombre, v_raiz_id AS ram_id FROM arbol WHERE arb_id = v_arb_id;
+        open rtn for select arb_id, arb_nombre, v_raiz_id as ram_id from arbol where arb_id = v_arb_id;
 
-END;
+end;
 $BODY$
-  LANGUAGE plpgsql VOLATILE
+  language plpgsql volatile
   COST 100;
-ALTER FUNCTION sp_arb_arbol_create(integer, integer, varchar)
-  OWNER TO postgres;
+alter function sp_arb_arbol_create(integer, integer, varchar)
+  owner to postgres;

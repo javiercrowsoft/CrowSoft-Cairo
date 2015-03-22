@@ -1,1 +1,1 @@
-CREATE SEQUENCE sysmenu_me_id_seq;
+create SEQUENCE sysmenu_me_id_seq;

@@ -13,7 +13,7 @@ the Free Software Foundation; either version 2 of the License, or
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+MERCHANTABILITY or FITNESS for A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License along
@@ -30,22 +30,22 @@ javier at crowsoft.com.ar
 */
 -- Function: sp_cuentahelpcliente()
 
--- DROP FUNCTION sp_cuentahelpcliente(integer, integer, integer, varchar, integer, integer, varchar);
+-- drop function sp_cuentahelpcliente(integer, integer, integer, varchar, integer, integer, varchar);
 
-CREATE OR REPLACE FUNCTION sp_cuentahelpcliente
+create or replace function sp_cuentahelpcliente
 (
-  IN p_emp_id integer ,
-  IN p_us_id integer ,
-  IN p_bForAbm integer ,
-  IN p_filter varchar DEFAULT '' ,
-  IN p_check integer DEFAULT 0 ,
-  IN p_cue_id integer DEFAULT 0 ,
-  IN p_filter2 varchar DEFAULT '', 
+  in p_emp_id integer ,
+  in p_us_id integer ,
+  in p_bForAbm integer ,
+  in p_filter varchar default '' ,
+  in p_check integer default 0 ,
+  in p_cue_id integer default 0 ,
+  in p_filter2 varchar default '',
   out rtn refcursor
 )
-  RETURNS refcursor AS
+  returns refcursor as
 $BODY$
-BEGIN
+begin
    
   
 
@@ -56,9 +56,9 @@ BEGIN
                                           p_check,
                                           p_cue_id,
                                           p_filter2);        
-END;
+end;
 $BODY$
-  LANGUAGE plpgsql VOLATILE
+  language plpgsql volatile
   COST 100;
-ALTER FUNCTION sp_cuentahelpcliente(integer, integer, integer, varchar, integer, integer, varchar)
-  OWNER TO postgres;
+alter function sp_cuentahelpcliente(integer, integer, integer, varchar, integer, integer, varchar)
+  owner to postgres;

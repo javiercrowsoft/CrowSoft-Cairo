@@ -21,7 +21,22 @@
         gridCell.setText(cell.getValue());
         gridCell.setItemData(cell.getId());
       };
-      
+
+      var setColumnProperties = function(ctrlColumn, propertyColumn) {
+        ctrlColumn.setText(propertyColumn.getName());
+        ctrlColumn.setVisible(propertyColumn.getVisible());
+        ctrlColumn.setType(propertyColumn.getType());
+        ctrlColumn.setSubType(propertyColumn.getSubType());
+        ctrlColumn.setEditable(propertyColumn.isEditable());
+        ctrlColumn.setEnabled(propertyColumn.getEnabled());
+
+        ctrlColumn.setSelectIntValue(propertyColumn.getSelectIntValue());
+        ctrlColumn.setSelectFieldIntValue(propertyColumn.getSelectFieldIntValue());
+        ctrlColumn.setSelectFilter(propertyColumn.getSelectFilter());
+        ctrlColumn.setSelectTable(propertyColumn.getSelectTable());
+        ctrlColumn.setSelectNoUseActive(propertyColumn.getSelectNoUseActive());
+      };
+
       that.loadFromRows = function(gridControl, grid, noChangeColumns, name) {
 
         //
@@ -37,18 +52,7 @@
 
         var createColumn = function(col) {
           var c = columns.add();
-          c.setText(col.getName());
-          c.setVisible(col.getVisible());
-          c.setType(col.getType());
-          c.setSubType(col.getSubType());
-          c.setEditable(col.isEditable());
-          c.setEnabled(col.getEnabled());
-
-          c.setSelectIntValue(col.getSelectIntValue());
-          c.setSelectFieldIntValue(col.getSelectFieldIntValue());
-          c.setSelectFilter(col.getSelectFilter());
-          c.setSelectTable(col.getSelectTable());
-          c.setSelectNoUseActive(col.getSelectNoUseActive());
+          setColumnProperties(c, col)
         };
 
         if(!noChangeColumns || columns.count() !== grid.getColumns().count()) {
@@ -104,7 +108,10 @@
         gridControl.draw(rowIndex);
       };
 
-      that.setColumnProperties = function(grid, column, colGrid) { /* TODO = implement this. */ };
+      that.setColumnProperties = function(gridControl, column, colGrid) {
+        setColumnProperties(colGrid, column);
+      };
+
       that.saveColumnOrder = function(grid, name) { /* TODO = implement this. */ };
       that.setProperties = function(grid) { /* TODO = implement this. */ };
 
@@ -474,7 +481,7 @@
       };
 
       that.isEditable = function() {
-        return self.isEditable;
+        return self.isEditable && self.enabled;
       };
       that.setEditable = function(isEditable) {
         self.isEditable = isEditable;

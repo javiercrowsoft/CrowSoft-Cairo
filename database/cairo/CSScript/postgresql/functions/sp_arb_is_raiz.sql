@@ -13,7 +13,7 @@ the Free Software Foundation; either version 2 of the License, or
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+MERCHANTABILITY or FITNESS for A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License along
@@ -30,38 +30,38 @@ javier at crowsoft.com.ar
 */
 -- Function: sp_arbisraiz(integer)
 
--- DROP FUNCTION sp_arbisraiz(integer);
+-- drop function sp_arbisraiz(integer);
 
-CREATE OR REPLACE FUNCTION sp_arbisraiz(IN p_ram_id integer, OUT p_israiz smallint)
-  RETURNS smallint AS
+create or replace function sp_arbisraiz(in p_ram_id integer, out p_israiz smallint)
+  returns smallint as
 $BODY$
-DECLARE
+declare
    v_temp integer := 0;
-BEGIN
+begin
 
-   BEGIN
-      SELECT count(*) INTO v_temp
-      FROM Rama
-         WHERE ram_id = p_ram_id
-                 AND ram_id_padre = 0;
-   EXCEPTION
-      WHEN OTHERS THEN
-         NULL;
+   begin
+      select count(*) into v_temp
+      from Rama
+         where ram_id = p_ram_id
+                 and ram_id_padre = 0;
+   exception
+      when others then
+         null;
          raise info 'puto';
-   END;
+   end;
 
    -- Verifico que se trate de una raiz
-   IF v_temp = 1 THEN
+   if v_temp = 1 then
       p_IsRaiz := 1::smallint;
 
-   ELSE
+   else
       p_IsRaiz := 0::smallint;
 
-   END IF;
+   end if;
 
-END;
+end;
 $BODY$
-  LANGUAGE plpgsql VOLATILE
+  language plpgsql volatile
   COST 100;
-ALTER FUNCTION sp_arbisraiz(integer)
-  OWNER TO postgres;
+alter function sp_arbisraiz(integer)
+  owner to postgres;

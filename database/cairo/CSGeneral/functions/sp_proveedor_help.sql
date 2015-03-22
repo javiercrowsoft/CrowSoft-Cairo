@@ -13,7 +13,7 @@ the Free Software Foundation; either version 2 of the License, or
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+MERCHANTABILITY or FITNESS for A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License along
@@ -30,259 +30,258 @@ javier at crowsoft.com.ar
 */
 -- Function: sp_proveedorhelp()
 
--- DROP FUNCTION sp_proveedorhelp(integer, integer, integer, varchar, integer, integer, varchar);
+-- drop function sp_proveedorhelp(integer, integer, integer, varchar, integer, integer, varchar);
 
-CREATE OR REPLACE FUNCTION sp_proveedorhelp
+create or replace function sp_proveedorhelp
 /*
-  select sp_ProveedorHelp(1,1,1,'sp%',0,0); fetch all from rtn;
-  sp_ProveedorHelp 3,'',0,0,1
-  select * from usuario where us_nombre like '%ahidal%'
+  select sp_proveedorhelp(1,1,1,'hp%',0,0); fetch all from rtn;
+  select sp_proveedorhelp(1,1,0,?, 1, ?, ?, ?)
 */
 (
-  IN p_emp_id integer,
-  IN p_us_id integer,
-  IN p_bForAbm integer,
-  IN p_filter varchar DEFAULT '',
-  IN p_check integer DEFAULT 0,
-  IN p_prov_id integer DEFAULT 0,
-  IN p_filter2 varchar DEFAULT '',
+  in p_emp_id integer,
+  in p_us_id integer,
+  in p_bForAbm integer,
+  in p_filter varchar default '',
+  in p_check integer default 0,
+  in p_prov_id integer default 0,
+  in p_filter2 varchar default '',
   out rtn refcursor
 )
-  RETURNS refcursor AS
+  returns refcursor as
 $BODY$
-DECLARE
+declare
    v_us_EmpresaEx numeric(3,0);
    v_us_EmpXDpto numeric(3,0);
-BEGIN
+begin
 
-   SELECT us_empresaex,
+   select us_empresaex,
           us_empxdpto
-     INTO v_us_EmpresaEx,
+     into v_us_EmpresaEx,
           v_us_EmpXDpto
-     FROM Usuario
-      WHERE us_id = p_us_id;
+     from Usuario
+      where us_id = p_us_id;
 
    p_filter := lower(f_unaccent(p_filter));
 
    rtn := 'rtn';
 
-   IF v_us_EmpresaEx <> 0 THEN
-   BEGIN
-      IF p_check <> 0 THEN
-      BEGIN
-         OPEN rtn FOR
-            SELECT prov_id,
+   if v_us_EmpresaEx <> 0 then
+   begin
+      if p_check <> 0 then
+      begin
+         open rtn for
+            select prov_id,
                    prov_nombre Nombre,
                    prov_codigo Codigo
-            FROM Proveedor
-            WHERE ( lower(f_unaccent(prov_nombre)) = p_filter
-                   OR lower(f_unaccent(prov_codigo)) = p_filter )
-                   AND ( activo <> 0
-                   OR p_bForAbm <> 0 )
-                   AND ( prov_id = p_prov_id
-                   OR p_prov_id = 0 )
-                   AND ( p_bForAbm <> 0
-                   OR ( ( EXISTS ( SELECT *
-                                   FROM EmpresaProveedor
-                                      WHERE prov_id = Proveedor.prov_id
-                                              AND emp_id = p_emp_id ) )
-                   AND ( EXISTS ( SELECT *
-                                  FROM UsuarioEmpresa
-                                     WHERE prov_id = Proveedor.prov_id
-                                             AND us_id = p_us_id )
-                   OR p_us_id = 1 ) ) );
+            from Proveedor
+            where ( lower(f_unaccent(prov_nombre)) = p_filter
+                   or lower(f_unaccent(prov_codigo)) = p_filter )
+                   and ( activo <> 0
+                   or p_bForAbm <> 0 )
+                   and ( prov_id = p_prov_id
+                   or p_prov_id = 0 )
+                   and ( p_bForAbm <> 0
+                   or ( ( exists ( select *
+                                   from EmpresaProveedor
+                                      where prov_id = Proveedor.prov_id
+                                              and emp_id = p_emp_id ) )
+                   and ( exists ( select *
+                                  from UsuarioEmpresa
+                                     where prov_id = Proveedor.prov_id
+                                             and us_id = p_us_id )
+                   or p_us_id = 1 ) ) );
 
-      END;
-      ELSE
-      BEGIN
-         OPEN rtn FOR
-            SELECT prov_id,
+      end;
+      else
+      begin
+         open rtn for
+            select prov_id,
                    prov_nombre Nombre,
-                   prov_razonsocial AS "R. Social",
+                   prov_razonsocial as "R. Social",
                    prov_cuit CUIT,
                    prov_codigo Codigo,
-                   CASE prov_catfiscal
-                    WHEN 1 THEN 'Inscripto'
-                    WHEN 2 THEN 'Exento'
-                    WHEN 3 THEN 'No inscripto'
-                    WHEN 4 THEN 'Consumidor Final'
-                    WHEN 5 THEN 'Extranjero'
-                    WHEN 6 THEN 'Mono Tributo'
-                    WHEN 7 THEN 'Extranjero Iva'
-                    WHEN 8 THEN 'No responsable'
-                    WHEN 9 THEN 'No Responsable exento'
-                    WHEN 10 THEN 'No categorizado'
-                    ELSE 'Sin categorizar'
-                   END AS "Cat. Fiscal"
-            FROM Proveedor
-            WHERE ( lower(f_unaccent(prov_codigo)) LIKE '%' || p_filter || '%'
-                       OR lower(f_unaccent(prov_nombre)) LIKE '%' || p_filter || '%'
-                       OR lower(f_unaccent(prov_razonsocial)) LIKE '%' || p_filter || '%'
-                       OR prov_cuit LIKE '%' || p_filter || '%'
-                       OR p_filter IS NULL )
-                       AND ( p_bForAbm <> 0
-                       OR ( ( EXISTS ( SELECT *
-                                       FROM EmpresaProveedor
-                                          WHERE prov_id = Proveedor.prov_id
-                                                  AND emp_id = p_emp_id ) )
-                       AND ( EXISTS ( SELECT *
-                                      FROM UsuarioEmpresa
-                                         WHERE prov_id = Proveedor.prov_id
-                                                 AND us_id = p_us_id )
-                       OR p_us_id = 1 )
-                       AND activo <> 0 ) )
+                   case prov_catfiscal
+                    when 1 then 'Inscripto'
+                    when 2 then 'Exento'
+                    when 3 then 'No inscripto'
+                    when 4 then 'Consumidor Final'
+                    when 5 then 'Extranjero'
+                    when 6 then 'Mono Tributo'
+                    when 7 then 'Extranjero Iva'
+                    when 8 then 'No responsable'
+                    when 9 then 'No Responsable exento'
+                    when 10 then 'No categorizado'
+                    else 'Sin categorizar'
+                   end as "Cat. Fiscal"
+            from Proveedor
+            where ( lower(f_unaccent(prov_codigo)) LIKE '%' || p_filter || '%'
+                       or lower(f_unaccent(prov_nombre)) LIKE '%' || p_filter || '%'
+                       or lower(f_unaccent(prov_razonsocial)) LIKE '%' || p_filter || '%'
+                       or prov_cuit LIKE '%' || p_filter || '%'
+                       or p_filter is null )
+                       and ( p_bForAbm <> 0
+                       or ( ( exists ( select *
+                                       from EmpresaProveedor
+                                          where prov_id = Proveedor.prov_id
+                                                  and emp_id = p_emp_id ) )
+                       and ( exists ( select *
+                                      from UsuarioEmpresa
+                                         where prov_id = Proveedor.prov_id
+                                                 and us_id = p_us_id )
+                       or p_us_id = 1 )
+                       and activo <> 0 ) )
             LIMIT <= 50;
 
-      END;
-      END IF;
+      end;
+      end if;
 
-   END;
-   ELSE
-   BEGIN
-      IF v_us_EmpXDpto <> 0 THEN
-      BEGIN
-         IF p_check <> 0 THEN
-         BEGIN
-            OPEN rtn FOR
-               SELECT prov_id,
+   end;
+   else
+   begin
+      if v_us_EmpXDpto <> 0 then
+      begin
+         if p_check <> 0 then
+         begin
+            open rtn for
+               select prov_id,
                       prov_nombre Nombre,
                       prov_codigo Codigo
-               FROM Proveedor
-               WHERE ( lower(f_unaccent(prov_nombre)) = p_filter
-                          OR lower(f_unaccent(prov_codigo)) = p_filter )
-                          AND ( activo <> 0
-                          OR p_bForAbm <> 0 )
-                          AND ( prov_id = p_prov_id
-                          OR p_prov_id = 0 )
-                          AND ( p_bForAbm <> 0
-                          OR ( ( EXISTS ( SELECT *
-                                          FROM EmpresaProveedor
-                                             WHERE prov_id = Proveedor.prov_id
-                                                     AND emp_id = p_emp_id ) )
-                          AND ( EXISTS ( SELECT *
-                                         FROM DepartamentoProveedor dc
-                                                JOIN UsuarioDepartamento ud
-                                                 ON dc.dpto_id = ud.dpto_id
-                                            WHERE dc.prov_id = Proveedor.prov_id
-                                                    AND ud.us_id = p_us_id )
-                          OR p_us_id = 1 ) ) );
+               from Proveedor
+               where ( lower(f_unaccent(prov_nombre)) = p_filter
+                          or lower(f_unaccent(prov_codigo)) = p_filter )
+                          and ( activo <> 0
+                          or p_bForAbm <> 0 )
+                          and ( prov_id = p_prov_id
+                          or p_prov_id = 0 )
+                          and ( p_bForAbm <> 0
+                          or ( ( exists ( select *
+                                          from EmpresaProveedor
+                                             where prov_id = Proveedor.prov_id
+                                                     and emp_id = p_emp_id ) )
+                          and ( exists ( select *
+                                         from DepartamentoProveedor dc
+                                                join UsuarioDepartamento ud
+                                                 on dc.dpto_id = ud.dpto_id
+                                            where dc.prov_id = Proveedor.prov_id
+                                                    and ud.us_id = p_us_id )
+                          or p_us_id = 1 ) ) );
 
-         END;
-         ELSE
-         BEGIN
-            OPEN rtn FOR
-               SELECT prov_id,
+         end;
+         else
+         begin
+            open rtn for
+               select prov_id,
                       prov_nombre Nombre,
-                      prov_razonsocial AS "R. Social",
+                      prov_razonsocial as "R. Social",
                       prov_cuit CUIT,
                       prov_codigo Codigo,
-                      CASE prov_catfiscal
-                        WHEN 1 THEN 'Inscripto'
-                        WHEN 2 THEN 'Exento'
-                        WHEN 3 THEN 'No inscripto'
-                        WHEN 4 THEN 'Consumidor Final'
-                        WHEN 5 THEN 'Extranjero'
-                        WHEN 6 THEN 'Mono Tributo'
-                        WHEN 7 THEN 'Extranjero Iva'
-                        WHEN 8 THEN 'No responsable'
-                        WHEN 9 THEN 'No Responsable exento'
-                        WHEN 10 THEN 'No categorizado'
-                        ELSE 'Sin categorizar'
-                      END AS "Cat. Fiscal"
-               FROM Proveedor
-               WHERE ( lower(f_unaccent(prov_codigo)) LIKE '%' || p_filter || '%'
-                          OR lower(f_unaccent(prov_nombre)) LIKE '%' || p_filter || '%'
-                          OR lower(f_unaccent(prov_razonsocial)) LIKE '%' || p_filter || '%'
-                          OR prov_cuit LIKE '%' || p_filter || '%'
-                          OR p_filter IS NULL )
-                          AND ( p_bForAbm <> 0
-                          OR ( ( EXISTS ( SELECT *
-                                          FROM EmpresaProveedor
-                                             WHERE prov_id = Proveedor.prov_id
-                                                     AND emp_id = p_emp_id ) )
-                          AND ( EXISTS ( SELECT *
-                                         FROM DepartamentoProveedor dc
-                                                JOIN UsuarioDepartamento ud
-                                                 ON dc.dpto_id = ud.dpto_id
-                                            WHERE dc.prov_id = Proveedor.prov_id
-                                                    AND ud.us_id = p_us_id )
-                          OR p_us_id = 1 )
-                          AND activo <> 0 ) )
+                      case prov_catfiscal
+                        when 1 then 'Inscripto'
+                        when 2 then 'Exento'
+                        when 3 then 'No inscripto'
+                        when 4 then 'Consumidor Final'
+                        when 5 then 'Extranjero'
+                        when 6 then 'Mono Tributo'
+                        when 7 then 'Extranjero Iva'
+                        when 8 then 'No responsable'
+                        when 9 then 'No Responsable exento'
+                        when 10 then 'No categorizado'
+                        else 'Sin categorizar'
+                      end as "Cat. Fiscal"
+               from Proveedor
+               where ( lower(f_unaccent(prov_codigo)) LIKE '%' || p_filter || '%'
+                          or lower(f_unaccent(prov_nombre)) LIKE '%' || p_filter || '%'
+                          or lower(f_unaccent(prov_razonsocial)) LIKE '%' || p_filter || '%'
+                          or prov_cuit LIKE '%' || p_filter || '%'
+                          or p_filter is null )
+                          and ( p_bForAbm <> 0
+                          or ( ( exists ( select *
+                                          from EmpresaProveedor
+                                             where prov_id = Proveedor.prov_id
+                                                     and emp_id = p_emp_id ) )
+                          and ( exists ( select *
+                                         from DepartamentoProveedor dc
+                                                join UsuarioDepartamento ud
+                                                 on dc.dpto_id = ud.dpto_id
+                                            where dc.prov_id = Proveedor.prov_id
+                                                    and ud.us_id = p_us_id )
+                          or p_us_id = 1 )
+                          and activo <> 0 ) )
                LIMIT <= 50;
 
-         END;
-         END IF;
+         end;
+         end if;
 
-      END;
-      ELSE
-      BEGIN
-         IF p_check <> 0 THEN
-         BEGIN
-            OPEN rtn FOR
-               SELECT prov_id,
+      end;
+      else
+      begin
+         if p_check <> 0 then
+         begin
+            open rtn for
+               select prov_id,
                       prov_nombre Nombre,
                       prov_codigo Codigo
-               FROM Proveedor
-               WHERE ( lower(f_unaccent(prov_nombre)) = p_filter
-                          OR lower(f_unaccent(prov_codigo)) = p_filter )
-                          AND ( activo <> 0
-                          OR p_bForAbm <> 0 )
-                          AND ( prov_id = p_prov_id
-                          OR p_prov_id = 0 )
-                          AND ( p_bForAbm <> 0
-                          OR ( EXISTS ( SELECT *
-                                        FROM EmpresaProveedor
-                                           WHERE prov_id = Proveedor.prov_id
-                                                   AND emp_id = p_emp_id ) ) );
+               from Proveedor
+               where ( lower(f_unaccent(prov_nombre)) = p_filter
+                          or lower(f_unaccent(prov_codigo)) = p_filter )
+                          and ( activo <> 0
+                          or p_bForAbm <> 0 )
+                          and ( prov_id = p_prov_id
+                          or p_prov_id = 0 )
+                          and ( p_bForAbm <> 0
+                          or ( exists ( select *
+                                        from EmpresaProveedor
+                                           where prov_id = Proveedor.prov_id
+                                                   and emp_id = p_emp_id ) ) );
 
-         END;
-         ELSE
-         BEGIN
-            OPEN rtn FOR
-               SELECT prov_id,
+         end;
+         else
+         begin
+            open rtn for
+               select prov_id,
                       prov_nombre Nombre,
-                      prov_razonsocial AS "R. Social",
+                      prov_razonsocial as "R. Social",
                       prov_cuit CUIT,
                       prov_codigo Codigo,
-                      CASE prov_catfiscal
-                        WHEN 1 THEN 'Inscripto'
-                        WHEN 2 THEN 'Exento'
-                        WHEN 3 THEN 'No inscripto'
-                        WHEN 4 THEN 'Consumidor Final'
-                        WHEN 5 THEN 'Extranjero'
-                        WHEN 6 THEN 'Mono Tributo'
-                        WHEN 7 THEN 'Extranjero Iva'
-                        WHEN 8 THEN 'No responsable'
-                        WHEN 9 THEN 'No Responsable exento'
-                        WHEN 10 THEN 'No categorizado'
-                        ELSE 'Sin categorizar'
-                      END AS "Cat. Fiscal"
-               FROM Proveedor
-               WHERE ( lower(f_unaccent(prov_codigo)) LIKE '%' || p_filter || '%'
-                          OR lower(f_unaccent(prov_nombre)) LIKE '%' || p_filter || '%'
-                          OR lower(f_unaccent(prov_razonsocial)) LIKE '%' || p_filter || '%'
-                          OR prov_cuit LIKE '%' || p_filter || '%'
-                          OR p_filter IS NULL )
-                          AND ( p_bForAbm <> 0
-                          OR ( EXISTS ( SELECT *
-                                        FROM EmpresaProveedor
-                                           WHERE prov_id = Proveedor.prov_id
-                                                   AND emp_id = p_emp_id )
-                          AND activo <> 0 ) )
+                      case prov_catfiscal
+                        when 1 then 'Inscripto'
+                        when 2 then 'Exento'
+                        when 3 then 'No inscripto'
+                        when 4 then 'Consumidor Final'
+                        when 5 then 'Extranjero'
+                        when 6 then 'Mono Tributo'
+                        when 7 then 'Extranjero Iva'
+                        when 8 then 'No responsable'
+                        when 9 then 'No Responsable exento'
+                        when 10 then 'No categorizado'
+                        else 'Sin categorizar'
+                      end as "Cat. Fiscal"
+               from Proveedor
+               where ( lower(f_unaccent(prov_codigo)) LIKE '%' || p_filter || '%'
+                          or lower(f_unaccent(prov_nombre)) LIKE '%' || p_filter || '%'
+                          or lower(f_unaccent(prov_razonsocial)) LIKE '%' || p_filter || '%'
+                          or prov_cuit LIKE '%' || p_filter || '%'
+                          or p_filter is null )
+                          and ( p_bForAbm <> 0
+                          or ( exists ( select *
+                                        from EmpresaProveedor
+                                           where prov_id = Proveedor.prov_id
+                                                   and emp_id = p_emp_id )
+                          and activo <> 0 ) )
                LIMIT 50;
 
-         END;
-         END IF;
+         end;
+         end if;
 
-      END;
-      END IF;
+      end;
+      end if;
 
-   END;
-   END IF;
+   end;
+   end if;
 
-END;
+end;
 $BODY$
-  LANGUAGE plpgsql VOLATILE
+  language plpgsql volatile
   COST 100;
-ALTER FUNCTION sp_proveedorhelp(integer, integer, integer, varchar, integer, integer, varchar)
-  OWNER TO postgres;
+alter function sp_proveedorhelp(integer, integer, integer, varchar, integer, integer, varchar)
+  owner to postgres;

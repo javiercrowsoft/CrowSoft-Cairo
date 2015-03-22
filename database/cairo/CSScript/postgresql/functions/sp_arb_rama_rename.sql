@@ -13,7 +13,7 @@ the Free Software Foundation; either version 2 of the License, or
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+MERCHANTABILITY or FITNESS for A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License along
@@ -30,36 +30,36 @@ javier at crowsoft.com.ar
 */
 -- Function: sp_arb_rama_rename()
 
--- DROP FUNCTION sp_arb_rama_rename();
+-- drop function sp_arb_rama_rename();
 
-CREATE OR REPLACE FUNCTION sp_arb_rama_rename(
-  IN p_us_id integer,
-  IN p_ram_id integer,
-  IN p_nombre varchar,
-  OUT rtn refcursor
+create or replace function sp_arb_rama_rename(
+  in p_us_id integer,
+  in p_ram_id integer,
+  in p_nombre varchar,
+  out rtn refcursor
 )
-  RETURNS refcursor AS
+  returns refcursor as
 $BODY$
-BEGIN
+begin
 
-        UPDATE rama set ram_nombre = p_nombre WHERE ram_id = p_ram_id;
+        update rama set ram_nombre = p_nombre where ram_id = p_ram_id;
 
 
-        IF EXISTS(SELECT 1 FROM rama WHERE ram_id = p_ram_id AND ram_id_padre = 0)
-        THEN
+        if exists(select 1 from rama where ram_id = p_ram_id and ram_id_padre = 0)
+        then
 
-            UPDATE arbol set arb_nombre = p_nombre
-            WHERE arb_id = (SELECT arb_id FROM rama WHERE ram_id = p_ram_id);
+            update arbol set arb_nombre = p_nombre
+            where arb_id = (select arb_id from rama where ram_id = p_ram_id);
 
-        END IF;
+        end if;
 
         rtn := 'rtn';
 
-        OPEN rtn FOR SELECT * FROM rama WHERE ram_id = p_ram_id;
+        open rtn for select * from rama where ram_id = p_ram_id;
 
-END;
+end;
 $BODY$
-  LANGUAGE plpgsql VOLATILE
+  language plpgsql volatile
   COST 100;
-ALTER FUNCTION sp_arb_rama_rename(integer, integer, varchar)
-  OWNER TO postgres;
+alter function sp_arb_rama_rename(integer, integer, varchar)
+  owner to postgres;

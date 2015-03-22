@@ -13,7 +13,7 @@ the Free Software Foundation; either version 2 of the License, or
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+MERCHANTABILITY or FITNESS for A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License along
@@ -30,46 +30,46 @@ javier at crowsoft.com.ar
 */
 -- Function: sp_arb_rama_move_bottom()
 
--- DROP FUNCTION sp_arb_rama_move_bottom(int, int);
+-- drop function sp_arb_rama_move_bottom(int, int);
 
-CREATE OR REPLACE FUNCTION sp_arb_rama_move_bottom(
-  IN p_us_id integer,
-  IN p_ram_id integer,
-  OUT rtn refcursor
+create or replace function sp_arb_rama_move_bottom(
+  in p_us_id integer,
+  in p_ram_id integer,
+  out rtn refcursor
 )
-  RETURNS refcursor AS
+  returns refcursor as
 $BODY$
-DECLARE
+declare
    v_last integer;
    v_ram_orden integer;
-BEGIN
+begin
 
-   IF NOT EXISTS(SELECT 1 FROM rama WHERE ram_id = p_ram_id) THEN RETURN; END IF;
+   if not exists(select 1 from rama where ram_id = p_ram_id) then RETURN; end if;
 
-   SELECT MAX(ram_orden) INTO v_last FROM rama WHERE ram_id_padre = (SELECT ram_id_padre FROM rama WHERE ram_id = p_ram_id);
+   select max(ram_orden) into v_last from rama where ram_id_padre = (select ram_id_padre from rama where ram_id = p_ram_id);
 
-   SET TRANSACTION READ WRITE;
+   set TRANSACTION READ WRITE;
 
-   IF p_ram_id = 0 THEN RETURN; END IF;
+   if p_ram_id = 0 then RETURN; end if;
 
-   SELECT ram_orden INTO v_ram_orden FROM rama WHERE ram_id = p_ram_id;
+   select ram_orden into v_ram_orden from rama where ram_id = p_ram_id;
 
-   IF v_ram_orden = v_last THEN RETURN; END IF;
+   if v_ram_orden = v_last then RETURN; end if;
 
-   UPDATE rama
-    SET ram_orden = ram_orden - 1
-   WHERE ram_id_padre = (SELECT ram_id_padre FROM rama WHERE ram_id = p_ram_id)
-    AND ram_orden > v_ram_orden;
+   update rama
+    set ram_orden = ram_orden - 1
+   where ram_id_padre = (select ram_id_padre from rama where ram_id = p_ram_id)
+    and ram_orden > v_ram_orden;
 
-   UPDATE rama SET ram_orden = v_last WHERE ram_id = p_ram_id;
+   update rama set ram_orden = v_last where ram_id = p_ram_id;
 
    rtn := 'rtn';
 
-   OPEN rtn FOR SELECT * FROM rama WHERE ram_id = p_ram_id;
+   open rtn for select * from rama where ram_id = p_ram_id;
 
-END;
+end;
 $BODY$
-  LANGUAGE plpgsql VOLATILE
+  language plpgsql volatile
   COST 100;
-ALTER FUNCTION sp_arb_rama_move_bottom(integer, integer)
-  OWNER TO postgres;
+alter function sp_arb_rama_move_bottom(integer, integer)
+  owner to postgres;

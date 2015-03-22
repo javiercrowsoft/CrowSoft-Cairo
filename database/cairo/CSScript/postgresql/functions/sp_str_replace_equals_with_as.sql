@@ -13,7 +13,7 @@ the Free Software Foundation; either version 2 of the License, or
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+MERCHANTABILITY or FITNESS for A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License along
@@ -30,12 +30,12 @@ javier at crowsoft.com.ar
 */
 -- Function: sp_strreplaceequalswithas()
 
--- DROP FUNCTION sp_strreplaceequalswithas();
+-- drop function sp_strreplaceequalswithas();
 
-CREATE OR REPLACE FUNCTION sp_strreplaceequalswithas(p_campos character varying)
-  RETURNS character varying AS
+create or replace function sp_strreplaceequalswithas(p_campos character varying)
+  returns character varying as
 $BODY$
-DECLARE
+declare
    v_retval varchar(5000);
    v_campo varchar(5000);
    v_caracter varchar(1);
@@ -48,7 +48,7 @@ DECLARE
    v_p integer;
    v_n integer;
    v_work_done boolean;
-BEGIN
+begin
 
    v_i := 1;
 
@@ -63,11 +63,11 @@ BEGIN
    v_work_done := false;
 
    -- si no hay campos tampoco
-   IF p_campos IS NULL
-     OR p_campos IS NULL THEN
+   if p_campos is null
+     or p_campos is null then
       RETURN '';
 
-   END IF;
+   end if;
 
    --------------------------------------------
    v_j := coalesce(INSTR(p_campos, ',', v_j + 1), 0);
@@ -75,93 +75,93 @@ BEGIN
    v_z := coalesce(INSTR(p_campos, '(', v_z + 1), 0);
 
    --------------------------------------------
-   IF v_j = 0 THEN
-   BEGIN
-      IF v_i < v_z THEN
-      BEGIN
+   if v_j = 0 then
+   begin
+      if v_i < v_z then
+      begin
          v_retval := LTRIM(p_campos);
 
          v_i := INSTR(v_retval, '=', 1);
 
-         IF v_i < v_z AND v_i <> 0 THEN
-         BEGIN
-                v_retval := SUBSTR(v_retval, v_i +1) || ' AS ' || REPLACE(SUBSTR(v_retval, 1, v_i -1),'''', '"');
-         END;
-         END IF;
+         if v_i < v_z and v_i <> 0 then
+         begin
+                v_retval := SUBSTR(v_retval, v_i +1) || ' as ' || REPLACE(SUBSTR(v_retval, 1, v_i -1),'''', '"');
+         end;
+         end if;
 
-      END;
-      ELSE
+      end;
+      else
          v_i := INSTR(v_retval, '=', 1);
 
-         IF v_i <> 0 THEN
-         BEGIN
-                v_retval := SUBSTR(v_retval, v_i +1) || ' AS ' || REPLACE(SUBSTR(v_retval, 1, v_i -1),'''', '"');
+         if v_i <> 0 then
+         begin
+                v_retval := SUBSTR(v_retval, v_i +1) || ' as ' || REPLACE(SUBSTR(v_retval, 1, v_i -1),'''', '"');
          
-         END;
-         END IF;
+         end;
+         end if;
 
-      END IF;
+      end if;
 
-   END;
-   ELSE
-   BEGIN
-      WHILE v_j <> 0
-      LOOP
-         BEGIN
+   end;
+   else
+   begin
+      while v_j <> 0
+      loop
+         begin
             -- si hay un parentesis es por que hay un subselect, en cuyo caso no toco nada que este en
             -- el parentesis
-            IF v_i < v_z
-              AND v_z < v_j THEN
-            BEGIN
+            if v_i < v_z
+              and v_z < v_j then
+            begin
                --leeo caracter por caracter hasta encontrar el cierre del parentesis
                v_r := LENGTH(p_campos) + 1;
 
                v_t := v_z;
 
-               WHILE v_t < v_r
-               LOOP
-                  BEGIN
+               while v_t < v_r
+               loop
+                  begin
                      v_caracter := SUBSTR(p_campos, v_t, 1);
 
                      -- si encuentro un parentesis abierto, incremento un contador para buscar uno cerrado
-                     IF v_caracter = '(' THEN
+                     if v_caracter = '(' then
                         v_p := v_p + 1;
 
-                     END IF;
+                     end if;
 
-                     IF v_caracter = ')' THEN
-                     BEGIN
+                     if v_caracter = ')' then
+                     begin
                         v_p := v_p - 1;
                      
                         -- si encontre el cierre del primer parentesis termine con este campo
-                        IF v_p = 0 THEN
-                           EXIT;
+                        if v_p = 0 then
+                           exit;
                            
-                        END IF;
+                        end if;
 
-                     END;
-                     END IF;
+                     end;
+                     end if;
 
                      v_t := v_t + 1;
 
-                  END;
-               END LOOP;
+                  end;
+               end loop;
 
                -- ahora busco una coma a partir del ultimo parentesis
                v_j := INSTR(p_campos, ',', v_t);
 
                -- si la encuentro agrego el campo tal como esta a la sentencia
-               IF v_j > 0 THEN
-               BEGIN
+               if v_j > 0 then
+               begin
                   v_campo := LTRIM(SUBSTR(p_campos, v_i, v_j - v_i));
 
                   v_n := INSTR(v_campo, '=', 1);
 
-                  IF v_n < v_z AND v_n <> 0 THEN
-                  BEGIN
-                        v_campo := SUBSTR(v_campo, v_n +1) || ' AS ' || REPLACE(SUBSTR(v_campo, 1, v_n -1),'''', '"') || ',';
-                  END;
-                  END IF;
+                  if v_n < v_z and v_n <> 0 then
+                  begin
+                        v_campo := SUBSTR(v_campo, v_n +1) || ' as ' || REPLACE(SUBSTR(v_campo, 1, v_n -1),'''', '"') || ',';
+                  end;
+                  end if;
          
                   v_retval := v_retval || v_campo;
 
@@ -172,42 +172,42 @@ BEGIN
 
                   v_z := INSTR(p_campos, '(', v_i + 1);
 
-               END;
+               end;
                -- si no encuentro la coma es porque se terminaron los campos, asi que
                -- agrego el campo a la sentencia y termine
-               ELSE
-               BEGIN
+               else
+               begin
                   v_campo := LTRIM(SUBSTR(p_campos, v_i, LENGTH(p_campos)));
 
                   v_n := INSTR(v_campo, '=', 1);
 
-                  IF v_n < v_z AND v_n <> 0 THEN
-                  BEGIN
-                        v_campo := SUBSTR(v_campo, v_n +1) || ' AS ' || REPLACE(SUBSTR(v_campo, 1, v_n -1),'''', '"');
-                  END;
-                  END IF;
+                  if v_n < v_z and v_n <> 0 then
+                  begin
+                        v_campo := SUBSTR(v_campo, v_n +1) || ' as ' || REPLACE(SUBSTR(v_campo, 1, v_n -1),'''', '"');
+                  end;
+                  end if;
 
                   v_retval := v_retval || v_campo;
 
                   -- con esto voy al final
                   v_work_done:= true;
-                  EXIT;
+                  exit;
 
-               END;
-               END IF;
+               end;
+               end if;
 
-            END;
-            ELSE
-            BEGIN
+            end;
+            else
+            begin
                v_campo := LTRIM(SUBSTR(p_campos, v_i, v_j - v_i));
 
                v_n := INSTR(v_campo, '=', 1);
 
-               IF v_n <> 0 THEN
-               BEGIN
-                   v_campo := SUBSTR(v_campo, v_n +1) || ' AS ' || REPLACE(SUBSTR(v_campo, 1, v_n -1),'''', '"');
-               END;
-               END IF;
+               if v_n <> 0 then
+               begin
+                   v_campo := SUBSTR(v_campo, v_n +1) || ' as ' || REPLACE(SUBSTR(v_campo, 1, v_n -1),'''', '"');
+               end;
+               end if;
 
                v_retval := v_retval || v_campo || ',';
 
@@ -218,88 +218,88 @@ BEGIN
                -- busco el proximo parentesis
                v_z := INSTR(p_campos, '(', v_i + 1);
 
-            END;
-            END IF;
+            end;
+            end if;
 
-         END;
-      END LOOP;
-      IF NOT v_work_done THEN
-        BEGIN
-              IF v_i < v_z THEN
-              BEGIN
+         end;
+      end loop;
+      if not v_work_done then
+        begin
+              if v_i < v_z then
+              begin
                  --leeo caracter por caracter hasta encontrar el cierre del parentesis
                  v_r := LENGTH(p_campos) + 1;
 
                  v_t := v_z;
 
-                 WHILE v_t < v_r
-                 LOOP
-                    BEGIN
+                 while v_t < v_r
+                 loop
+                    begin
                        v_caracter := SUBSTR(p_campos, v_t, 1);
 
                        -- si encuentro un parentesis abierto, incremento un contador para buscar uno cerrado
-                       IF v_caracter = '(' THEN
+                       if v_caracter = '(' then
                           v_p := v_p + 1;
 
-                       END IF;
+                       end if;
 
-                       IF v_caracter = ')' THEN
-                       BEGIN
+                       if v_caracter = ')' then
+                       begin
                           v_p := v_p - 1;
                           
                           -- si encontre el cierre del primer parentesis termine con este campo
-                          IF v_p = 0 THEN
-                             EXIT;
+                          if v_p = 0 then
+                             exit;
 
-                          END IF;
+                          end if;
 
-                       END;
-                       END IF;
+                       end;
+                       end if;
 
                        v_t := v_t + 1;
 
-                    END;
-                 END LOOP;
+                    end;
+                 end loop;
 
                  v_campo := LTRIM(SUBSTR(p_campos, v_i, LENGTH(p_campos)));
 
                  v_n := INSTR(v_campo, '=', 1);
 
-                 IF v_n < v_z AND v_n <> 0 THEN
-                 BEGIN
-                        v_campo := SUBSTR(v_campo, v_n +1) || ' AS ' || REPLACE(SUBSTR(v_campo, 1, v_n -1),'''', '"');
-                 END;
-                 END IF;                 
+                 if v_n < v_z and v_n <> 0 then
+                 begin
+                        v_campo := SUBSTR(v_campo, v_n +1) || ' as ' || REPLACE(SUBSTR(v_campo, 1, v_n -1),'''', '"');
+                 end;
+                 end if;
 
                  v_retval := v_retval || v_campo;
 
-              END;
-              ELSE
-              BEGIN
+              end;
+              else
+              begin
                  v_campo := LTRIM(SUBSTR(p_campos, v_i, LENGTH(p_campos)));
 
                  v_n := INSTR(v_campo, '=', 1);
 
-                 IF v_n <> 0 THEN
-                 BEGIN
-                        v_campo := SUBSTR(v_campo, v_n +1) || ' AS ' || REPLACE(SUBSTR(v_campo, 1, v_n -1),'''', '"');
-                 END;
-                 END IF;
+                 if v_n <> 0 then
+                 begin
+                        v_campo := SUBSTR(v_campo, v_n +1) || ' as ' || REPLACE(SUBSTR(v_campo, 1, v_n -1),'''', '"');
+                 end;
+                 end if;
 
                  v_retval := v_retval || v_campo;
 
-              END;
-              END IF;
-        END;
-      END IF;
-   END;
-   END IF;
+              end;
+              end if;
+        end;
+      end if;
+   end;
+   end if;
 
    return v_retval;
    
-END;
+end;
 $BODY$
-  LANGUAGE plpgsql VOLATILE
+  language plpgsql volatile
   COST 100;
-ALTER FUNCTION sp_strreplaceequalswithas(character varying)
-  OWNER TO postgres;
+alter function sp_strreplaceequalswithas(character varying)
+  owner to postgres;

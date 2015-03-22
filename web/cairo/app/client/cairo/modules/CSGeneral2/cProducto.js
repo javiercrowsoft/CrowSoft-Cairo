@@ -248,17 +248,13 @@
       var m_eskit;
       var m_kitStkXItem;
       var m_esLista;
-      var m_ti_id_IVA_RI_compra = 0;
+      var m_ti_id_iva_ri_compra = 0;
       var m_tiIvaRiCompra = "";
-      var m_ti_id_ivarnicompra = 0;
-      var m_tiIvaRniCompra = "";
-      var m_ti_id_IVA_RI_venta = 0;
+      var m_ti_id_iva_ri_venta = 0;
       var m_tiIvaRiVenta = "";
-      var m_ti_id_ivarniventa = 0;
-      var m_tiIvaRniVenta = "";
-      var m_ti_id_INTERNOS_v = 0;
+      var m_ti_id_internos_v = 0;
       var m_tiInternosv = "";
-      var m_ti_id_INTERNOS_c = 0;
+      var m_ti_id_internos_c = 0;
       var m_tiInternosc = "";
       var m_porcInternoC = 0;
       var m_porcInternoV = 0;
@@ -559,9 +555,7 @@
 
             if(row.item(virtualRow.getInfo().col).getKey() === KIT_PR_ID_TAG) {
 
-              var cell = null;
-
-              cell = Dialogs.cell(row, KIT_PR_ID_TAG);
+              var cell = Dialogs.cell(row, KIT_PR_ID_TAG);
 
               if(cell.getSelectIntValue() !== "") {
                 if(cell.getSelectIntValue().indexOf(",", 1) >= 0) {
@@ -1807,7 +1801,7 @@
         elem.setName(Cairo.Language.getText(1317, "")); // IVA Resp. Ins.
         elem.setTabIndex(tab_compra);
         elem.setKey(K_TI_ID_IVA_RI_COMPRA);
-        elem.setSelectId(m_ti_id_IVA_RI_compra);
+        elem.setSelectId(m_ti_id_iva_ri_compra);
         elem.setValue(m_tiIvaRiCompra);
         elem.setSelectFilter(C.filterForPurchase);
 
@@ -1817,7 +1811,7 @@
         elem.setTabIndex(tab_compra);
         elem.setName(Cairo.Language.getText(1319, "")); // Tasa Internos
         elem.setKey(K_TI_ID_INTERNOS_C);
-        elem.setSelectId(m_ti_id_INTERNOS_c);
+        elem.setSelectId(m_ti_id_internos_c);
         elem.setValue(m_tiInternosc);
         elem.setSelectFilter(C.filterForPurchase);
 
@@ -2042,7 +2036,7 @@
         elem.setName(Cairo.Language.getText(1317, "")); // IVA Resp. Ins.
         elem.setTabIndex(tab_venta);
         elem.setKey(K_TI_ID_IVA_RI_VENTA);
-        elem.setSelectId(m_ti_id_IVA_RI_venta);
+        elem.setSelectId(m_ti_id_iva_ri_venta);
         elem.setValue(m_tiIvaRiVenta);
         elem.setSelectFilter(C.filterForSales);
 
@@ -2052,7 +2046,7 @@
         elem.setName(Cairo.Language.getText(1319, "")); // Tasa Internos
         elem.setKey(K_TI_ID_INTERNOS_V);
         elem.setTabIndex(tab_venta);
-        elem.setSelectId(m_ti_id_INTERNOS_v);
+        elem.setSelectId(m_ti_id_internos_v);
         elem.setValue(m_tiInternosv);
         elem.setSelectFilter(C.filterForSales);
 
@@ -2864,8 +2858,8 @@
               m_kitIdentidadXItem = valField(response.data, C.PR_KIT_IDENTIDAD_X_ITEM);
               m_kitLote = valField(response.data, C.PR_KIT_LOTE);
               m_kitLoteXItem = valField(response.data, C.PR_KIT_LOTE_X_ITEM);
-              m_talonarioKitSerie = valField(response.data, "TalonarioSerie");
-              m_talonarioKitLote = valField(response.data, "TalonarioLote");
+              m_talonarioKitSerie = valField(response.data, C.TA_NAME_KIT_SERIE);
+              m_talonarioKitLote = valField(response.data, C.TA_NAME_KIT_LOTE);
               m_ta_id_kitSerie = valField(response.data, C.TA_ID_KIT_SERIE);
               m_ta_id_kitLote = valField(response.data, C.TA_ID_KIT_LOTE);
 
@@ -2875,12 +2869,10 @@
               m_un_id_compra = valField(response.data, C.UN_ID_COMPRA);
               m_un_id_venta = valField(response.data, C.UN_ID_VENTA);
               m_un_id_stock = valField(response.data, C.UN_ID_STOCK);
-              m_ti_id_IVA_RI_compra = valField(response.data, C.TI_ID_RI_COMPRA);
-              m_ti_id_ivarnicompra = valField(response.data, C.TI_ID_RNI_COMPRA);
-              m_ti_id_IVA_RI_venta = valField(response.data, C.TI_ID_RI_VENTA);
-              m_ti_id_ivarniventa = valField(response.data, C.TI_ID_RNI_VENTA);
-              m_ti_id_INTERNOS_v = valField(response.data, C.TI_ID_INTERNOS_VENTA);
-              m_ti_id_INTERNOS_c = valField(response.data, C.TI_ID_INTERNOS_COMPRA);
+              m_ti_id_iva_ri_compra = valField(response.data, C.TI_ID_RI_COMPRA);
+              m_ti_id_iva_ri_venta = valField(response.data, C.TI_ID_RI_VENTA);
+              m_ti_id_internos_v = valField(response.data, C.TI_ID_INTERNOS_VENTA);
+              m_ti_id_internos_c = valField(response.data, C.TI_ID_INTERNOS_COMPRA);
               m_ibc_id = valField(response.data, C.IBC_ID);
               m_cueg_id_compra = valField(response.data, C.CUEG_ID_COMPRA);
               m_cueg_id_venta = valField(response.data, C.CUEG_ID_VENTA);
@@ -2889,18 +2881,16 @@
               m_marca = valField(response.data, C.MARC_NAME);
               m_marc_id = valField(response.data, C.MARC_ID);
 
-              m_tiIvaRiCompra = valField(response.data, "ric");
-              m_tiIvaRniCompra = valField(response.data, "rnic");
-              m_tiIvaRiVenta = valField(response.data, "riv");
-              m_tiIvaRniVenta = valField(response.data, "rniv");
-              m_tiInternosv = valField(response.data, "iv");
-              m_tiInternosc = valField(response.data, "ic");
+              m_tiIvaRiCompra = valField(response.data, C.TI_NAME_RI_COMPRA);
+              m_tiIvaRiVenta = valField(response.data, C.TI_NAME_RI_VENTA);
+              m_tiInternosv = valField(response.data, C.TI_NAME_INT_VENTA);
+              m_tiInternosc = valField(response.data, C.TI_NAME_INT_COMPRA);
               m_ingresosBrutos = valField(response.data, C.IBC_NAME);
-              m_cuentaGCompra = valField(response.data, "cc");
-              m_cuentaGVenta = valField(response.data, "cv");
-              m_unidadCompra = valField(response.data, "uc");
-              m_unidadVenta = valField(response.data, "uv");
-              m_unidadStock = valField(response.data, "us");
+              m_cuentaGCompra = valField(response.data, C.CUEG_NAME_COMPRA);
+              m_cuentaGVenta = valField(response.data, C.CUEG_NAME_VENTA);
+              m_unidadCompra = valField(response.data, C.UN_NAME_COMPRA);
+              m_unidadVenta = valField(response.data, C.UN_NAME_VENTA);
+              m_unidadStock = valField(response.data, C.UN_NAME_STOCK);
 
               m_x = valField(response.data, C.PR_X);
               m_y = valField(response.data, C.PR_Y);
@@ -2935,7 +2925,7 @@
 
               m_cantXCajaExpo = valField(response.data, C.PR_CANT_X_CAJA_EXPO);
               m_un_id_peso = valField(response.data, C.UN_ID_PESO);
-              m_unidadPeso = valField(response.data, "up");
+              m_unidadPeso = valField(response.data, C.UN_NAME_PESO);
 
               m_embl_id = valField(response.data, C.EMBL_ID);
               m_embalaje = valField(response.data, C.EMBL_NAME);
@@ -2948,10 +2938,10 @@
               m_webImageFolder = valField(response.data, C.PR_WEB_IMAGE_FOLDER);
               m_webImageUpdate = valField(response.data, C.PR_WEB_IMAGE_UPDATE);
 
-              m_centroCostoCompra = valField(response.data, "centro_costo_compra");
+              m_centroCostoCompra = valField(response.data, C.CCOS_NAME_COMPRA);
               m_ccos_id_compra = valField(response.data, C.CCOS_ID_COMPRA);
 
-              m_centroCostoVenta = valField(response.data, "centro_costo_venta");
+              m_centroCostoVenta = valField(response.data, C.CCOS_NAME_VENTA);
               m_ccos_id_venta = valField(response.data, C.CCOS_ID_VENTA);
 
               m_isTemplate = valField(response.data, C.PR_ES_PLANTILLA);
@@ -2959,36 +2949,36 @@
               m_curso = valField(response.data, C.CUR_NAME);
 
               m_rpt_id_nombreCompra = valField(response.data, C.RPT_ID_NOMBRE_COMPRA);
-              m_rpt_nombreCompra = valField(response.data, "rpt_nombreCompra");
+              m_rpt_nombreCompra = valField(response.data, C.RPT_NAME_COMPRA);
 
               m_rpt_id_nombreVenta = valField(response.data, C.RPT_ID_NOMBRE_VENTA);
-              m_rpt_nombreVenta = valField(response.data, "rpt_nombreVenta");
+              m_rpt_nombreVenta = valField(response.data, C.RPT_NAME_VENTA);
 
               m_rpt_id_nombrefactura = valField(response.data, C.RPT_ID_NOMBRE_FACTURA);
-              m_rpt_nombrefactura = valField(response.data, "rpt_nombrefactura");
+              m_rpt_nombrefactura = valField(response.data, C.RPT_NAME_FACTURA);
 
               m_rpt_id_nombreweb = valField(response.data, C.RPT_ID_NOMBRE_WEB);
-              m_rpt_nombreweb = valField(response.data, "rpt_nombreweb");
+              m_rpt_nombreweb = valField(response.data, C.RPT_NAME_WEB);
 
               m_rpt_id_nombreimg = valField(response.data, C.RPT_ID_NOMBRE_IMG);
-              m_rpt_nombreimg = valField(response.data, "rpt_nombreimg");
+              m_rpt_nombreimg = valField(response.data, C.RPT_NAME_IMG);
 
               m_rpt_id_nombreimgalt = valField(response.data, C.RPT_ID_NOMBRE_IMG_ALT);
-              m_rpt_nombreimgalt = valField(response.data, "rpt_nombreimgalt");
+              m_rpt_nombreimgalt = valField(response.data, C.RPT_NAME_IMG_ALT);
 
               m_ti_id_comex_ganancias = valField(response.data, C.TI_ID_COMEX_GANANCIAS);
-              m_ti_comex_ganancias = valField(response.data, "tiComexGanancias");
+              m_ti_comex_ganancias = valField(response.data, C.TI_NAME_COMEX_GANANCIAS);
 
               m_ti_id_comex_igb = valField(response.data, C.TI_ID_COMEX_IGB);
-              m_ti_comex_igb = valField(response.data, "tiComexIGB");
+              m_ti_comex_igb = valField(response.data, C.TI_NAME_COMEX_IGB);
 
               m_ti_id_comex_iva = valField(response.data, C.TI_ID_COMEX_IVA);
-              m_ti_comex_iva = valField(response.data, "tiComexIVA");
+              m_ti_comex_iva = valField(response.data, C.TI_NAME_COMEX_IVA);
 
               m_poar_id = valField(response.data, C.POAR_ID);
               m_posicionArancel = valField(response.data, C.POAR_NAME);
 
-              m_productowebpadre = valField(response.data, "webpadre");
+              m_productowebpadre = valField(response.data, C.PR_NAME_WEB_PADRE);
               m_pr_id_webPadre = valField(response.data, C.PR_ID_WEB_PADRE);
 
               //
@@ -3063,12 +3053,10 @@
 
               m_kitStkXItem = false;
               m_esLista = false;
-              m_ti_id_IVA_RI_compra = Cairo.Constants.NO_ID;
-              m_ti_id_ivarnicompra = Cairo.Constants.NO_ID;
-              m_ti_id_IVA_RI_venta = Cairo.Constants.NO_ID;
-              m_ti_id_ivarniventa = Cairo.Constants.NO_ID;
-              m_ti_id_INTERNOS_v = Cairo.Constants.NO_ID;
-              m_ti_id_INTERNOS_c = Cairo.Constants.NO_ID;
+              m_ti_id_iva_ri_compra = Cairo.Constants.NO_ID;
+              m_ti_id_iva_ri_venta = Cairo.Constants.NO_ID;
+              m_ti_id_internos_v = Cairo.Constants.NO_ID;
+              m_ti_id_internos_c = Cairo.Constants.NO_ID;
               m_porcInternoC = 0;
               m_porcInternoV = 0;
               m_ibc_id = Cairo.Constants.NO_ID;
@@ -3098,9 +3086,7 @@
               m_marc_id = Cairo.Constants.NO_ID;
 
               m_tiIvaRiCompra = "";
-              m_tiIvaRniCompra = "";
               m_tiIvaRiVenta = "";
-              m_tiIvaRniVenta = "";
               m_tiInternosv = "";
               m_tiInternosc = "";
               m_ingresosBrutos = "";
@@ -3363,11 +3349,11 @@
 
         var property = properties.item(C.TI_ID_RI_COMPRA);
         property.setValue(m_tiIvaRiCompra);
-        property.setSelectId(m_ti_id_IVA_RI_compra);
+        property.setSelectId(m_ti_id_iva_ri_compra);
 
         var property = properties.item(C.TI_ID_INTERNOS_COMPRA);
         property.setValue(m_tiInternosc);
-        property.setSelectId(m_ti_id_INTERNOS_c);
+        property.setSelectId(m_ti_id_internos_c);
 
         var property = properties.item(C.PR_PORC_INTERNO_C);
         property.setValue(m_porcInternoC);
@@ -3449,11 +3435,11 @@
 
         var property = properties.item(C.TI_ID_RI_VENTA);
         property.setValue(m_tiIvaRiVenta);
-        property.setSelectId(m_ti_id_IVA_RI_venta);
+        property.setSelectId(m_ti_id_iva_ri_venta);
 
         var property = properties.item(C.TI_ID_INTERNOS_VENTA);
         property.setValue(m_tiInternosv);
-        property.setSelectId(m_ti_id_INTERNOS_v);
+        property.setSelectId(m_ti_id_internos_v);
 
         var property = properties.item(C.PR_PORC_INTERNO_V);
         property.setValue(m_porcInternoV);

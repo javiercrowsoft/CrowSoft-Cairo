@@ -13,7 +13,7 @@ the Free Software Foundation; either version 2 of the License, or
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+MERCHANTABILITY or FITNESS for A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License along
@@ -30,17 +30,17 @@ javier at crowsoft.com.ar
 */
 -- Function: sp_arb_arbol_sort()
 
--- DROP FUNCTION sp_arb_arbol_sort(int, int);
+-- drop function sp_arb_arbol_sort(int, int);
 
-CREATE OR REPLACE FUNCTION sp_arb_arbol_sort(
-  IN p_us_id integer,
-  IN p_arb_id integer,
-  IN p_desc integer,
-  OUT rtn refcursor
+create or replace function sp_arb_arbol_sort(
+  in p_us_id integer,
+  in p_arb_id integer,
+  in p_desc integer,
+  out rtn refcursor
 )
-  RETURNS refcursor AS
+  returns refcursor as
 $BODY$
-DECLARE
+declare
    c_arbol refcursor;
    v_row record;
    v_ram_id integer;
@@ -48,47 +48,47 @@ DECLARE
    v_last_ram_id_padre integer;
    v_orden integer;
    v_sqlstmt varchar(1000);
-BEGIN
+begin
 
    v_last_ram_id_padre := -1;
 
-   v_sqlstmt := 'SELECT ram_id, ram_id_padre FROM Rama WHERE arb_id = ' || p_arb_id::varchar || ' ORDER BY ram_id_padre, ram_nombre';
+   v_sqlstmt := 'select ram_id, ram_id_padre from Rama where arb_id = ' || p_arb_id::varchar || ' order by ram_id_padre, ram_nombre';
 
-   IF p_desc <> 0 THEN
+   if p_desc <> 0 then
      v_sqlstmt := v_sqlstmt || ' desc';
-   END IF;
+   end if;
 
-   OPEN c_arbol FOR EXECUTE v_sqlstmt;
+   open c_arbol for EXECUTE v_sqlstmt;
 
-   LOOP
-      FETCH c_arbol INTO v_row;
-      EXIT WHEN NOT FOUND;
+   loop
+      fetch c_arbol into v_row;
+      exit when not found;
 
       v_ram_id := v_row.ram_id;
       v_ram_id_padre := v_row.ram_id_padre;
 
-      IF v_ram_id_padre <> v_last_ram_id_padre THEN
+      if v_ram_id_padre <> v_last_ram_id_padre then
         v_last_ram_id_padre := v_ram_id_padre;
 
         v_orden := 0;
 
-      END IF;
+      end if;
 
       v_orden := v_orden + 1;
 
-      UPDATE rama SET ram_orden = v_orden WHERE ram_id = v_ram_id;
+      update rama set ram_orden = v_orden where ram_id = v_ram_id;
 
-   END LOOP;
+   end loop;
 
-   CLOSE c_arbol;
+   close c_arbol;
 
    rtn := 'rtn';
 
-   OPEN rtn FOR SELECT * FROM rama WHERE ram_id = (SELECT ram_id FROM rama WHERE arb_id = p_arb_id AND ram_id_padre = 0);
+   open rtn for select * from rama where ram_id = (select ram_id from rama where arb_id = p_arb_id and ram_id_padre = 0);
 
-END;
+end;
 $BODY$
-  LANGUAGE plpgsql VOLATILE
+  language plpgsql volatile
   COST 100;
-ALTER FUNCTION sp_arb_arbol_sort(integer, integer, integer)
-  OWNER TO postgres;
+alter function sp_arb_arbol_sort(integer, integer, integer)
+  owner to postgres;

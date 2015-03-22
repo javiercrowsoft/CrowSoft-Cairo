@@ -13,7 +13,7 @@ the Free Software Foundation; either version 2 of the License, or
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+MERCHANTABILITY or FITNESS for A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License along
@@ -30,40 +30,40 @@ javier at crowsoft.com.ar
 */
 -- Function: sp_doc_factura_compra_get_legajos()
 
--- DROP FUNCTION sp_doc_factura_compra_get_legajos(integer);
+-- drop function sp_doc_factura_compra_get_legajos(integer);
 /*
 select * from sp_doc_factura_compra_get_legajos(1);
 fetch all from rtn;
 fetch all from rtn_serie;
 */
-CREATE OR REPLACE FUNCTION sp_doc_factura_compra_get_legajos
+create or replace function sp_doc_factura_compra_get_legajos
 /*
 sp_doc_factura_compra_get_legajos 1
 */
 (
-  IN p_fc_id integer,
-  OUT rtn refcursor
+  in p_fc_id integer,
+  out rtn refcursor
 )
-  RETURNS refcursor AS
+  returns refcursor as
 $BODY$
-BEGIN
+begin
 
    rtn := 'rtn';
 
-   OPEN rtn FOR
-      SELECT FacturaCompraLegajo.*,
-             CASE
-               WHEN lgj_titulo <> '' THEN lgj_titulo
-               ELSE lgj_codigo
-             END lgj_codigo
-      FROM FacturaCompraLegajo
-       JOIN Legajo ON FacturaCompraLegajo.lgj_id = Legajo.lgj_id
-      WHERE fc_id = p_fc_id
-      ORDER BY fclgj_orden;
+   open rtn for
+      select FacturaCompraLegajo.*,
+             case
+               when lgj_titulo <> '' then lgj_titulo
+               else lgj_codigo
+             end lgj_codigo
+      from FacturaCompraLegajo
+       join Legajo on FacturaCompraLegajo.lgj_id = Legajo.lgj_id
+      where fc_id = p_fc_id
+      order by fclgj_orden;
 
-END;
+end;
 $BODY$
-  LANGUAGE plpgsql VOLATILE
+  language plpgsql volatile
   COST 100;
-ALTER FUNCTION sp_doc_factura_compra_get_legajos(integer)
-  OWNER TO postgres;
+alter function sp_doc_factura_compra_get_legajos(integer)
+  owner to postgres;

@@ -1,24 +1,24 @@
 -- Table: user_logins
 
--- DROP TABLE user_logins;
+-- drop table user_logins;
 
-CREATE TABLE user_logins
+create table user_logins
 (
   usl_id serial primary key,
-  usl_username character varying(1000) NOT NULL,
-  usl_result_code character varying(1000) NOT NULL,    
+  usl_username character varying(1000) not null,
+  usl_result_code character varying(1000) not null,
 
-  usl_platform character varying(255) NOT NULL,
-  usl_ip_address character varying(255) NOT NULL,
-  usl_user_agent character varying(255) NOT NULL,
-  usl_accept_language character varying(255) NOT NULL,
-  usl_is_mobile smallint NOT NULL DEFAULT 0,
+  usl_platform character varying(255) not null,
+  usl_ip_address character varying(255) not null,
+  usl_user_agent character varying(255) not null,
+  usl_accept_language character varying(255) not null,
+  usl_is_mobile smallint not null default 0,
 
-  created_at timestamp with time zone NOT NULL DEFAULT getdate(),
-  updated_at timestamp with time zone NOT NULL DEFAULT getdate()
+  created_at timestamp with time zone not null default getdate(),
+  updated_at timestamp with time zone not null default getdate()
 )
 WITH (
   OIDS=FALSE
 );
-ALTER TABLE user_logins
-  OWNER TO postgres;
+alter table user_logins
+  owner to postgres;

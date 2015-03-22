@@ -1,1 +1,1 @@
-CREATE SEQUENCE t_hojaid_seq;
+create SEQUENCE t_hojaid_seq;

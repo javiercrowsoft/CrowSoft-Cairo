@@ -13,7 +13,7 @@ the Free Software Foundation; either version 2 of the License, or
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+MERCHANTABILITY or FITNESS for A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License along
@@ -30,78 +30,78 @@ javier at crowsoft.com.ar
 */
 -- Function: sp_dbgetnewid2(character varying, character varying, integer, integer, smallint)
 
--- DROP FUNCTION sp_dbgetnewid2(character varying, character varying, integer, integer, smallint);
+-- drop function sp_dbgetnewid2(character varying, character varying, integer, integer, smallint);
 
-CREATE OR REPLACE FUNCTION sp_dbgetnewid2(IN p_tabla character varying, IN p_pk character varying, IN p_min integer, IN p_max integer, OUT p_id integer, IN p_bselect smallint)
-  RETURNS integer AS
+create or replace function sp_dbgetnewid2(in p_tabla character varying, in p_pk character varying, in p_min integer, in p_max integer, out p_id integer, in p_bselect smallint)
+  returns integer as
 $BODY$
-BEGIN
+begin
 
-   IF p_bSelect <> 0 THEN
-      RAISE EXCEPTION '@@ERROR_SP:El procedimiento almacenado SP_DBGetNewId2 no puede ser llamado para obtener un cursor. El codigo Java o Scala debe usar parametros OUT.';
+   if p_bselect <> 0 then
+      RAISE exception '@@ERROR_SP:El procedimiento almacenado SP_DBGetNewId2 no puede ser llamado para obtener un cursor. El codigo Java o Scala debe usar parametros out.';
 	  RETURN;
-   END IF;
+   end if;
 
-   SELECT MAX(Id_NextId)
-     INTO p_id
-     FROM Id
-      WHERE Id_Tabla = p_tabla
-              AND Id_CampoId = p_pk
-              AND Id_Rango = p_min;
+   select max(Id_NextId)
+     into p_id
+     from Id
+      where Id_Tabla = p_tabla
+              and Id_CampoId = p_pk
+              and Id_Rango = p_min;
 
    -- si no existe en la tabla
-   IF coalesce(p_id, 0) = 0 THEN
-   DECLARE
+   if coalesce(p_id, 0) = 0 then
+   declare
       v_sqlstmt varchar(5000);
-   BEGIN
-      v_sqlstmt := 'insert into Id (Id_Tabla, Id_NextId, Id_CampoId, Id_Rango) select ''' 
+   begin
+      v_sqlstmt := 'insert into Id (Id_Tabla, Id_NextId, Id_CampoId, Id_Rango) select '''
                     || p_tabla || 
                     ''',coalesce(max(to_number(' || p_pk || ')),0)+1, ''' 
                     || p_pk || ''',' 
                     || to_char(p_min) || 
-                    ' from ' || p_tabla || 
-                    ' where isnumeric(' || p_pk || ')<>0 and (to_number(' || p_pk || ') >= ' 
+                    ' from ' || p_tabla ||
+                    ' where isnumeric(' || p_pk || ')<>0 and (to_number(' || p_pk || ') >= '
                     || to_char(p_min) 
                     || ' and ' || ' to_number(' || p_pk || ') <= ' || to_char(p_max) || ')';
 
       EXECUTE v_sqlstmt;
 
-      SELECT MAX(Id_NextId)
-        INTO p_id
-        FROM Id
-         WHERE Id_Tabla = p_tabla
-                 AND Id_CampoId = p_pk
-                 AND Id_Rango = p_min;
+      select max(Id_NextId)
+        into p_id
+        from Id
+         where Id_Tabla = p_tabla
+                 and Id_CampoId = p_pk
+                 and Id_Rango = p_min;
 
-   END;
-   END IF;
+   end;
+   end if;
 
    p_id := coalesce(p_id, 0);
 
-   IF p_id = 0 THEN
+   if p_id = 0 then
       p_id := p_min;
 
-   END IF;
+   end if;
 
-   IF p_id < p_min THEN
+   if p_id < p_min then
       p_id := p_min;
 
-   END IF;
+   end if;
 
-   IF p_id > p_max THEN
+   if p_id > p_max then
       p_id := p_max;
 
-   END IF;
+   end if;
 
-   UPDATE id
-      SET Id_NextId = p_id + 1
-      WHERE Id_Tabla = p_tabla
-     AND Id_CampoId = p_pk
-     AND Id_Rango = p_min;
+   update id
+      set Id_NextId = p_id + 1
+      where Id_Tabla = p_tabla
+     and Id_CampoId = p_pk
+     and Id_Rango = p_min;
 
-END;
+end;
 $BODY$
-  LANGUAGE plpgsql VOLATILE
+  language plpgsql volatile
   COST 100;
-ALTER FUNCTION sp_dbgetnewid2(character varying, character varying, integer, integer, smallint)
-  OWNER TO postgres;
+alter function sp_dbgetnewid2(character varying, character varying, integer, integer, smallint)
+  owner to postgres;

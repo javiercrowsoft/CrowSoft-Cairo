@@ -13,7 +13,7 @@ the Free Software Foundation; either version 2 of the License, or
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+MERCHANTABILITY or FITNESS for A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License along
@@ -30,189 +30,189 @@ javier at crowsoft.com.ar
 */
 -- Function: sp_talonario_get_propuesto()
 
--- DROP FUNCTION sp_talonario_get_propuesto(integer, integer, integer);
+-- drop function sp_talonario_get_propuesto(integer, integer, integer);
 
-CREATE OR REPLACE FUNCTION sp_talonario_get_propuesto
+create or replace function sp_talonario_get_propuesto
 /*
 */
 (
-  IN p_doc_id integer,
-  OUT p_ta_Mascara varchar,
-  OUT p_ta_Propuesto smallint,
-  IN p_cli_id integer DEFAULT 0,
-  IN p_prov_id integer DEFAULT 0,
-  OUT p_ta_id int,
-  OUT p_ta_tipo smallint
+  in p_doc_id integer,
+  out p_ta_Mascara varchar,
+  out p_ta_Propuesto smallint,
+  in p_cli_id integer default 0,
+  in p_prov_id integer default 0,
+  out p_ta_id int,
+  out p_ta_tipo smallint
 )
-  RETURNS record AS
+  returns record as
 $BODY$
-DECLARE
+declare
    v_ta_id integer;
    v_doct_id integer;
    v_cli_catfiscal integer;
    v_prov_catfiscal integer;
-BEGIN
+begin
 
-   IF coalesce(p_doc_id, 0) = 0 THEN
-       BEGIN
+   if coalesce(p_doc_id, 0) = 0 then
+       begin
           p_ta_Mascara := '';
 
           p_ta_Propuesto := 0;
 
           p_ta_tipo := 0;
 
-          p_ta_id := NULL;
+          p_ta_id := null;
 
-       END;
-   ELSE
-       BEGIN
-          SELECT ta_id,
+       end;
+   else
+       begin
+          select ta_id,
                  doct_id
-            INTO v_ta_id,
+            into v_ta_id,
                  v_doct_id
-          FROM Documento
-          WHERE doc_id = p_doc_id;
+          from Documento
+          where doc_id = p_doc_id;
 
-          IF v_doct_id IN (
+          if v_doct_id in (
                   1   --   Factura de Venta
                   ,2  --   Factura de Compra
                   ,7  --   Nota de Credito Venta
                   ,8  --   Nota de Credito Compra
                   ,9  --   Nota de Debito Venta
                   ,10 --   Nota de Debito Compra
-          ) THEN
+          ) then
 
-          BEGIN
-             IF v_doct_id IN ( 1--   Factura de Venta
+          begin
+             if v_doct_id in ( 1--   Factura de Venta
              ,7--   Nota de Credito Venta
-             ,9 ) THEN--   Nota de Debito Venta
+             ,9 ) then--   Nota de Debito Venta
 
-             BEGIN
-                SELECT cli_catfiscal
-                  INTO v_cli_catfiscal
-                  FROM Cliente
-                   WHERE cli_id = p_cli_id;
+             begin
+                select cli_catfiscal
+                  into v_cli_catfiscal
+                  from Cliente
+                   where cli_id = p_cli_id;
 
-                SELECT CASE v_cli_catfiscal
-                    WHEN 1 THEN ta_id_inscripto--'Inscripto'
+                select case v_cli_catfiscal
+                    when 1 then ta_id_inscripto--'Inscripto'
 
-                    WHEN 2 THEN ta_id_final--'Exento'
+                    when 2 then ta_id_final--'Exento'
 
-                    WHEN 3 THEN ta_id_inscripto--'No inscripto'
+                    when 3 then ta_id_inscripto--'No inscripto'
 
-                    WHEN 4 THEN ta_id_final--'Consumidor Final'
+                    when 4 then ta_id_final--'Consumidor Final'
 
-                    WHEN 5 THEN ta_id_externo--'Extranjero'
+                    when 5 then ta_id_externo--'Extranjero'
 
-                    WHEN 6 THEN ta_id_final--'Mono Tributo'
+                    when 6 then ta_id_final--'Mono Tributo'
 
-                    WHEN 7 THEN ta_id_externo--'Extranjero Iva'
+                    when 7 then ta_id_externo--'Extranjero Iva'
 
-                    WHEN 8 THEN ta_id_final--'No responsable'
+                    when 8 then ta_id_final--'No responsable'
 
-                    WHEN 9 THEN ta_id_final--'No Responsable exento'
+                    when 9 then ta_id_final--'No Responsable exento'
 
-                    WHEN 10 THEN ta_id_final--'No categorizado'
+                    when 10 then ta_id_final--'No categorizado'
 
-                    WHEN 11 THEN ta_id_inscripto--'Inscripto M'
+                    when 11 then ta_id_inscripto--'Inscripto M'
 
-                    ELSE -1--'Sin categorizar'
+                    else -1--'Sin categorizar'
 
-                  END
-                  INTO v_ta_id
-                FROM Documento
-                WHERE doc_id = p_doc_id;
+                  end
+                  into v_ta_id
+                from Documento
+                where doc_id = p_doc_id;
 
-             END;
-             ELSE
-             BEGIN
-                SELECT prov_catfiscal
-                  INTO v_prov_catfiscal
-                FROM Proveedor
-                WHERE prov_id = p_prov_id;
+             end;
+             else
+             begin
+                select prov_catfiscal
+                  into v_prov_catfiscal
+                from Proveedor
+                where prov_id = p_prov_id;
 
                 --2,--   Factura de Compra
                 --8,--   Nota de Credito Compra
                 --10--   Nota de Debito Compra
-                SELECT CASE v_prov_catfiscal
-                     WHEN 1 THEN ta_id_inscripto--'Inscripto'
+                select case v_prov_catfiscal
+                     when 1 then ta_id_inscripto--'Inscripto'
 
-                     WHEN 2 THEN ta_id_final--'Exento'
+                     when 2 then ta_id_final--'Exento'
 
-                     WHEN 3 THEN ta_id_final--'No inscripto'
+                     when 3 then ta_id_final--'No inscripto'
 
-                     WHEN 4 THEN ta_id_final--'Consumidor Final'
+                     when 4 then ta_id_final--'Consumidor Final'
 
-                     WHEN 5 THEN ta_id_externo--'Extranjero'
+                     when 5 then ta_id_externo--'Extranjero'
 
-                     WHEN 6 THEN ta_id_final--'Mono Tributo'
+                     when 6 then ta_id_final--'Mono Tributo'
 
-                     WHEN 7 THEN ta_id_externo--'Extranjero Iva'
+                     when 7 then ta_id_externo--'Extranjero Iva'
 
-                     WHEN 8 THEN ta_id_final--'No responsable'
+                     when 8 then ta_id_final--'No responsable'
 
-                     WHEN 9 THEN ta_id_final--'No Responsable exento'
+                     when 9 then ta_id_final--'No Responsable exento'
 
-                     WHEN 10 THEN ta_id_final--'No categorizado'
+                     when 10 then ta_id_final--'No categorizado'
 
-                     WHEN 11 THEN ta_id_inscriptom--'Inscripto M'
+                     when 11 then ta_id_inscriptom--'Inscripto M'
 
-                     ELSE -1--'Sin categorizar'
+                     else -1--'Sin categorizar'
 
-                  END
-                  INTO v_ta_id
-                FROM Documento
-                WHERE doc_id = p_doc_id;
+                  end
+                  into v_ta_id
+                from Documento
+                where doc_id = p_doc_id;
 
-             END;
-             END IF;
+             end;
+             end if;
 
-          END;
-          END IF;
+          end;
+          end if;
 
-          IF coalesce(v_ta_id, 0) = 0 THEN
-              BEGIN
+          if coalesce(v_ta_id, 0) = 0 then
+              begin
                  p_ta_Mascara := '';
 
                  p_ta_Propuesto := 0;
 
                  p_ta_tipo := 0;
 
-                 p_ta_id := NULL;
+                 p_ta_id := null;
 
-              END;
-          ELSE
-              BEGIN
-                 SELECT ta_mascara,
+              end;
+          else
+              begin
+                 select ta_mascara,
                         ta_tipo,
                         ta_tipo
-                   INTO p_ta_Mascara,
+                   into p_ta_Mascara,
                         p_ta_Propuesto,
                         p_ta_tipo
-                 FROM Talonario
-                 WHERE ta_id = v_ta_id;
+                 from Talonario
+                 where ta_id = v_ta_id;
 
-                 IF coalesce(p_ta_Propuesto, 0) <> 1 THEN
+                 if coalesce(p_ta_Propuesto, 0) <> 1 then
                     p_ta_Propuesto := 0;
 
-                 ELSE
+                 else
                     p_ta_Propuesto := 1;
 
-                 END IF;
+                 end if;
 
                  p_ta_Mascara := coalesce(p_ta_Mascara, '');
 
                  p_ta_id := v_ta_id;
 
-              END;
-          END IF;
+              end;
+          end if;
 
-       END;
-   END IF;
+       end;
+   end if;
 
-END;
+end;
 $BODY$
-  LANGUAGE plpgsql VOLATILE
+  language plpgsql volatile
   COST 100;
-ALTER FUNCTION sp_talonario_get_propuesto(integer, integer, integer)
-  OWNER TO postgres;
+alter function sp_talonario_get_propuesto(integer, integer, integer)
+  owner to postgres;

@@ -13,7 +13,7 @@ the Free Software Foundation; either version 2 of the License, or
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+MERCHANTABILITY or FITNESS for A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License along
@@ -30,21 +30,21 @@ javier at crowsoft.com.ar
 */
 -- Function: instr()
 
--- DROP FUNCTION instr();
+-- drop function instr();
 
 -- thanks to http://www.xzilla.net/blog/2006/Dec/sql-servers-instr-function-in-postgresql.html
 
-CREATE OR REPLACE FUNCTION instr(
+create or replace function instr(
         text, 
         text, 
         integer
 ) 
-RETURNS integer 
-AS 
+returns integer
+as
 $BODY$ 
-        SELECT CASE WHEN strpos(substr($1, $3+1), $2) = 0 THEN 0 ELSE strpos(substr($1, $3+1), $2) + $3
-END;
+        select case when strpos(substr($1, $3+1), $2) = 0 then 0 else strpos(substr($1, $3+1), $2) + $3
+end;
 $BODY$
-  LANGUAGE SQL IMMUTABLE RETURNS NULL ON NULL INPUT;
-ALTER FUNCTION instr(text, text, integer)
-  OWNER TO postgres;
+  language SQL IMMUTABLE returns null on null INPUT;
+alter function instr(text, text, integer)
+  owner to postgres;

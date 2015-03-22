@@ -13,7 +13,7 @@ the Free Software Foundation; either version 2 of the License, or
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+MERCHANTABILITY or FITNESS for A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License along
@@ -30,18 +30,18 @@ javier at crowsoft.com.ar
 */
 -- Function: sp_arbgethojas()
 
--- DROP FUNCTION sp_arbgethojas();
+-- drop function sp_arbgethojas();
 
-CREATE OR REPLACE FUNCTION sp_arbgethojas(
-  IN p_ram_id integer DEFAULT NULL ,
-  IN p_soloColumnas integer DEFAULT 0 ,
-  IN p_aBuscar varchar DEFAULT '' ,
-  IN p_top integer DEFAULT 3000,
-  OUT rtn refcursor
+create or replace function sp_arbgethojas(
+  in p_ram_id integer default null ,
+  in p_soloColumnas integer default 0 ,
+  in p_aBuscar varchar default '' ,
+  in p_top integer default 3000,
+  out rtn refcursor
 )
-  RETURNS refcursor AS
+  returns refcursor as
 $BODY$
-DECLARE
+declare
    -- 1 Averiguo de que tabla se trata
    v_tabla varchar(5000);
    v_campoId varchar(5000);
@@ -57,146 +57,146 @@ DECLARE
    v_esRaiz integer;
    v_arb_id integer;
    v_tran_id integer;
-BEGIN
+begin
 
-        CREATE TEMP TABLE tt_hojaid
+        create TEMP table tt_hojaid
         (
-          tran_id integer NOT NULL,
-          hoja_id integer NOT NULL,
-          id integer NOT NULL
+          tran_id integer not null,
+          hoja_id integer not null,
+          id integer not null
         ) on commit drop;
 
         v_tran_id := nextval('t_hojaid_seq');
         
    --------------------------------------------------------------------
    
-   SELECT ramc_valor
-     INTO v_camposRama
-     FROM RamaConfig
-      WHERE ram_id = p_ram_id
-              AND ramc_aspecto = 'Campos';
+   select ramc_valor
+     into v_camposRama
+     from RamaConfig
+      where ram_id = p_ram_id
+              and ramc_aspecto = 'Campos';
 
-   SELECT ramc_valor
-     INTO v_tablasRama
-     FROM RamaConfig
-      WHERE ram_id = p_ram_id
-              AND ramc_aspecto = 'Tablas';
+   select ramc_valor
+     into v_tablasRama
+     from RamaConfig
+      where ram_id = p_ram_id
+              and ramc_aspecto = 'Tablas';
 
-   SELECT ramc_valor
-     INTO v_prefix
-     FROM RamaConfig
-      WHERE ram_id = p_ram_id
-              AND ramc_aspecto = 'Prefix';
+   select ramc_valor
+     into v_prefix
+     from RamaConfig
+      where ram_id = p_ram_id
+              and ramc_aspecto = 'Prefix';
 
-   SELECT ramc_valor
-     INTO v_where
-     FROM RamaConfig
-      WHERE ram_id = p_ram_id
-              AND ramc_aspecto = 'where';
+   select ramc_valor
+     into v_where
+     from RamaConfig
+      where ram_id = p_ram_id
+              and ramc_aspecto = 'where';
 
-   IF v_camposRama IS NULL THEN
+   if v_camposRama is null then
       v_camposRama := '';
 
-   END IF;
+   end if;
 
-   IF v_tablasRama IS NULL THEN
+   if v_tablasRama is null then
       v_tablasRama := '';
 
-   END IF;
+   end if;
 
-   IF v_prefix IS NULL THEN
+   if v_prefix is null then
       v_prefix := '';
 
-   END IF;
+   end if;
 
-   IF v_where IS NULL THEN
+   if v_where is null then
       v_where := '';
 
-   END IF;
+   end if;
 
    --------------------------------------------------------------------
-   SELECT tbl_nombreFisico,
+   select tbl_nombreFisico,
           tbl_camposInView,
           tbl_campoId,
           tbl_campoNombre
-     INTO v_tabla,
+     into v_tabla,
           v_campos,
           v_campoId,
           v_campoNombre
-     FROM Arbol ,
+     from Arbol ,
           Rama ,
           Tabla
-      WHERE Arbol.arb_id = Rama.arb_id
-              AND Tabla.tbl_id = Arbol.tbl_Id
-              AND Rama.ram_id = p_ram_id;
+      where Arbol.arb_id = Rama.arb_id
+              and Tabla.tbl_id = Arbol.tbl_Id
+              and Rama.ram_id = p_ram_id;
 
    --------------------------------------------------------------------
-   IF LTRIM(v_camposRama) <> '' THEN
+   if LTRIM(v_camposRama) <> '' then
       v_campos := v_camposRama;
 
-   END IF;
+   end if;
 
-   IF LTRIM(v_prefix) = '' THEN
+   if LTRIM(v_prefix) = '' then
       v_prefix := v_tabla;
 
-   END IF;
+   end if;
 
    --------------------------------------------------------------------
    -- armo la sentencia sql
-   v_sqlstmt := 'SELECT hoja_id,';
+   v_sqlstmt := 'select hoja_id,';
 
-   v_sqlstmt := v_sqlstmt || v_prefix || '.' || v_campoId || ' AS ID,';
+   v_sqlstmt := v_sqlstmt || v_prefix || '.' || v_campoId || ' as ID,';
 
-   IF INSTR(v_campoNombre, 'codigo', 1) <> 0 THEN
-      v_sqlstmt := v_sqlstmt || v_prefix || '.' || v_campoNombre || ' AS Codigo';
+   if INSTR(v_campoNombre, 'codigo', 1) <> 0 then
+      v_sqlstmt := v_sqlstmt || v_prefix || '.' || v_campoNombre || ' as Codigo';
 
-   ELSE
-      IF INSTR(v_campoNombre, 'apellido', 1) <> 0 THEN
-         v_sqlstmt := v_sqlstmt || v_prefix || '.' || v_campoNombre || ' AS Apellido' ;
+   else
+      if INSTR(v_campoNombre, 'apellido', 1) <> 0 then
+         v_sqlstmt := v_sqlstmt || v_prefix || '.' || v_campoNombre || ' as Apellido' ;
 
-      ELSE
-         v_sqlstmt := v_sqlstmt || v_prefix || '.' || v_campoNombre || ' AS Nombre';
+      else
+         v_sqlstmt := v_sqlstmt || v_prefix || '.' || v_campoNombre || ' as Nombre';
 
-      END IF;
+      end if;
 
-   END IF;
+   end if;
 
    v_campos := sp_strSetPrefix(v_prefix, v_campos);
 
-   IF LTRIM(v_campos) <> '' THEN
+   if LTRIM(v_campos) <> '' then
       v_sqlstmt := v_sqlstmt || ',' || v_campos;
 
-   END IF;
+   end if;
 
    v_sqlstmt := v_sqlstmt || ' from ' || v_tabla || ' ' || v_prefix;
 
-   IF LTRIM(v_tablasRama) <> '' THEN
+   if LTRIM(v_tablasRama) <> '' then
       v_sqlstmt := v_sqlstmt || ',' || v_tablasRama;
 
-   END IF;
+   end if;
 
    v_sqlwhere := ' where Hoja.ram_id = ' || to_char(p_ram_id) || ' and Hoja.id = ' || v_prefix || '.' || v_campoId || v_where;
 
    -- si solo quieren las columnas
-   IF coalesce(p_soloColumnas, 0) <> 0 THEN
-   BEGIN
+   if coalesce(p_soloColumnas, 0) <> 0 then
+   begin
       v_sqlstmt := v_sqlstmt || ', Hoja ' || v_sqlwhere;
 
       v_sqlstmt := v_sqlstmt || ' and 1=2';
 
-   END;
-   ELSE
-   BEGIN
+   end;
+   else
+   begin
       -- si se trata de la raiz tambien entran los que no estan asignados a ninguna rama
-      SELECT ram_id_padre,
+      select ram_id_padre,
              arb_id
-        INTO v_esRaiz,
+        into v_esRaiz,
              v_arb_id
-        FROM Rama
-         WHERE ram_id = p_ram_id;
+        from Rama
+         where ram_id = p_ram_id;
 
-      IF v_esRaiz = 0 THEN
-      BEGIN
+      if v_esRaiz = 0 then
+      begin
          -- Ids de la raiz
          v_sqlstmt2 := ' insert into tt_hojaid select ' || v_tran_id::varchar || ', hoja_id,id from Hoja where ram_id = ' || to_char(p_ram_id);
 
@@ -212,25 +212,25 @@ BEGIN
          -- el filtro esta en tt_hojaid
          v_sqlstmt := v_sqlstmt || ', tt_hojaid where tt_hojaid.tran_id = ' || v_tran_id::varchar || ' and tt_hojaid.id = ' || v_prefix || '.' || v_campoId || v_where;
 
-      END;
-      ELSE
+      end;
+      else
          v_sqlstmt := v_sqlstmt || ', Hoja ' || v_sqlwhere;
 
-      END IF;
+      end if;
 
-   END;
-   END IF;
+   end;
+   end if;
 
    v_sqlstmt := v_sqlstmt || ' limit ' || p_top::varchar;
 
    rtn := 'rtn';
 
-   OPEN rtn FOR EXECUTE v_sqlstmt;
+   open rtn for EXECUTE v_sqlstmt;
    --print (@sqlstmt)--
    
-END;
+end;
 $BODY$
-  LANGUAGE plpgsql VOLATILE
+  language plpgsql volatile
   COST 100;
-ALTER FUNCTION sp_arbgethojas(integer, integer, varchar, integer)
-  OWNER TO postgres;
+alter function sp_arbgethojas(integer, integer, varchar, integer)
+  owner to postgres;

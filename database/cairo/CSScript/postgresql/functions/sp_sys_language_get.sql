@@ -13,7 +13,7 @@ the Free Software Foundation; either version 2 of the License, or
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+MERCHANTABILITY or FITNESS for A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License along
@@ -30,47 +30,47 @@ javier at crowsoft.com.ar
 */
 -- Function: sp_sys_language_get()
 
--- DROP FUNCTION sp_sys_language_get();
+-- drop function sp_sys_language_get();
 
-CREATE OR REPLACE FUNCTION sp_sys_language_get
+create or replace function sp_sys_language_get
 (
-  IN p_us_id integer,
-  OUT rtn refcursor
+  in p_us_id integer,
+  out rtn refcursor
 )
-  RETURNS refcursor AS
+  returns refcursor as
 $BODY$
-DECLARE
+declare
    v_leng_id integer;
-BEGIN
+begin
 
-   SELECT cfg_valor::integer
-     INTO v_leng_id
-     FROM Configuracion
-      WHERE cfg_grupo = 'Usuario-Config'
-        AND cfg_aspecto = 'Lenguaje Gral_' || p_us_id::varchar;
+   select cfg_valor::integer
+     into v_leng_id
+     from Configuracion
+      where cfg_grupo = 'Usuario-Config'
+        and cfg_aspecto = 'Lenguaje Gral_' || p_us_id::varchar;
 
-   IF coalesce(v_leng_id, 0) = 0 THEN
-   BEGIN
-      SELECT cfg_valor::integer
-        INTO v_leng_id
-        FROM Configuracion
-         WHERE cfg_grupo = 'general'
-           AND cfg_aspecto = 'lenguaje';
+   if coalesce(v_leng_id, 0) = 0 then
+   begin
+      select cfg_valor::integer
+        into v_leng_id
+        from Configuracion
+         where cfg_grupo = 'general'
+           and cfg_aspecto = 'lenguaje';
 
-   END;
-   END IF;
+   end;
+   end if;
 
-   IF coalesce(v_leng_id, 0) = 0 THEN
+   if coalesce(v_leng_id, 0) = 0 then
       v_leng_id := 1;-- CrowSoft default language (Castellano)
-   END IF;
+   end if;
 
    rtn := 'rtn';
 
-   OPEN rtn FOR SELECT sysl_code, sysl_text FROM sysLanguage WHERE leng_id = v_leng_id;
+   open rtn for select sysl_code, sysl_text from sysLanguage where leng_id = v_leng_id;
 
-END;
+end;
 $BODY$
-  LANGUAGE plpgsql VOLATILE
+  language plpgsql volatile
   COST 100;
-ALTER FUNCTION sp_sys_language_get(integer)
-  OWNER TO postgres;
+alter function sp_sys_language_get(integer)
+  owner to postgres;

@@ -13,7 +13,7 @@ the Free Software Foundation; either version 2 of the License, or
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+MERCHANTABILITY or FITNESS for A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License along
@@ -30,10 +30,10 @@ javier at crowsoft.com.ar
 */
 -- Function: isnumeric(character varying)
 
--- DROP FUNCTION isnumeric(character varying);
+-- drop function isnumeric(character varying);
 
-CREATE OR REPLACE FUNCTION isnumeric(param character varying)
-  RETURNS smallint AS
+create or replace function isnumeric(param character varying)
+  returns smallint as
 $BODY$
 begin
 	if (param ~ E'^[-+]?\\d*\\.?\\d+(?:[eE][-+]?\\d+)?$') then
@@ -43,7 +43,7 @@ begin
 	end if;
 end;
 $BODY$
-  LANGUAGE plpgsql VOLATILE
+  language plpgsql volatile
   COST 100;
-ALTER FUNCTION isnumeric(character varying)
-  OWNER TO postgres;
+alter function isnumeric(character varying)
+  owner to postgres;

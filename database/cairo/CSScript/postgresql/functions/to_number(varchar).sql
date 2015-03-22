@@ -13,7 +13,7 @@ the Free Software Foundation; either version 2 of the License, or
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+MERCHANTABILITY or FITNESS for A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License along
@@ -30,16 +30,16 @@ javier at crowsoft.com.ar
 */
 -- Function: to_number(character varying)
 
--- DROP FUNCTION to_number(character varying);
+-- drop function to_number(character varying);
 
-CREATE OR REPLACE FUNCTION to_number(param character varying)
-  RETURNS integer AS
+create or replace function to_number(param character varying)
+  returns integer as
 $BODY$
 begin
 	return to_number(param, '999999999');
 end;
 $BODY$
-  LANGUAGE plpgsql VOLATILE
+  language plpgsql volatile
   COST 100;
-ALTER FUNCTION to_number(character varying)
-  OWNER TO postgres;
+alter function to_number(character varying)
+  owner to postgres;

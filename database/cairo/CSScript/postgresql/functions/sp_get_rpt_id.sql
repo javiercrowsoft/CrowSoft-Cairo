@@ -13,7 +13,7 @@ the Free Software Foundation; either version 2 of the License, or
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+MERCHANTABILITY or FITNESS for A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License along
@@ -30,39 +30,39 @@ javier at crowsoft.com.ar
 */
 -- Function: sp_getrptid()
 
--- DROP FUNCTION sp_getrptid();
+-- drop function sp_getrptid();
 
-CREATE OR REPLACE FUNCTION sp_getrptid(OUT p_clienteid integer)
-  RETURNS integer AS
+create or replace function sp_getrptid(out p_clienteid integer)
+  returns integer as
 $BODY$
-DECLARE
-BEGIN
+declare
+begin
 
-   SELECT id_NextId
-     INTO p_ClienteID
-     FROM Id
-      WHERE Id_Tabla = 'rptArbolRamaHoja'
-              AND id_CampoId = 'rptarb_cliente';
+   select id_NextId
+     into p_ClienteID
+     from Id
+      where Id_Tabla = 'rptArbolRamaHoja'
+              and id_CampoId = 'rptarb_cliente';
 
-   IF coalesce(p_ClienteID, 0) = 0 THEN
-   BEGIN
-      INSERT INTO id
+   if coalesce(p_ClienteID, 0) = 0 then
+   begin
+      insert into id
         ( id_NextId, id_Tabla, id_CampoId )
-        VALUES ( 0, 'rptArbolRamaHoja', 'rptarb_cliente' );
+        values ( 0, 'rptArbolRamaHoja', 'rptarb_cliente' );
 
       p_ClienteID := 1;
 
-   END;
-   END IF;
+   end;
+   end if;
 
-   UPDATE id
-      SET id_NextId = p_ClienteID + 1
-      WHERE Id_Tabla = 'rptArbolRamaHoja'
-     AND id_CampoId = 'rptarb_cliente';
+   update id
+      set id_NextId = p_ClienteID + 1
+      where Id_Tabla = 'rptArbolRamaHoja'
+     and id_CampoId = 'rptarb_cliente';
 
-END;
+end;
 $BODY$
-  LANGUAGE plpgsql VOLATILE
+  language plpgsql volatile
   COST 100;
-ALTER FUNCTION sp_getrptid()
-  OWNER TO postgres;
+alter function sp_getrptid()
+  owner to postgres;

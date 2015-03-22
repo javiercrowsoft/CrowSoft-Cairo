@@ -13,7 +13,7 @@ the Free Software Foundation; either version 2 of the License, or
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+MERCHANTABILITY or FITNESS for A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License along
@@ -30,73 +30,73 @@ javier at crowsoft.com.ar
 */
 -- Function: sp_sys_language_update()
 
--- DROP FUNCTION sp_sys_language_update();
+-- drop function sp_sys_language_update();
 
-CREATE OR REPLACE FUNCTION sp_sys_language_update()
-  RETURNS void AS
+create or replace function sp_sys_language_update()
+  returns void as
 $BODY$
-DECLARE
+declare
    cur refcursor;
    v_row record;
-BEGIN
+begin
 
-   SET TRANSACTION READ WRITE;
+   set TRANSACTION READ WRITE;
 
    delete from sysLanguage;
 
-   OPEN cur FOR SELECT leng_id FROM lenguaje;
-   LOOP
-          FETCH cur INTO v_row;
-          EXIT WHEN NOT FOUND;
+   open cur for select leng_id from lenguaje;
+   loop
+          fetch cur into v_row;
+          exit when not found;
 
           perform sp_sys_language_update(v_row.leng_id);
           
-   END LOOP;
-   CLOSE cur;
+   end loop;
+   close cur;
 
-END;
+end;
 $BODY$
-  LANGUAGE plpgsql VOLATILE
+  language plpgsql volatile
   COST 100;
-ALTER FUNCTION sp_sys_language_update()
-  OWNER TO postgres;
+alter function sp_sys_language_update()
+  owner to postgres;
 
 
 -- Function: sp_sys_language_update(int)
 
--- DROP FUNCTION sp_sys_language_update(int);
+-- drop function sp_sys_language_update(int);
 
-CREATE OR REPLACE FUNCTION sp_sys_language_update(IN p_leng_id integer)
-  RETURNS void AS
+create or replace function sp_sys_language_update(in p_leng_id integer)
+  returns void as
 $BODY$
-DECLARE
+declare
    cur refcursor;
    v_row record;
    v_text varchar(5000);
-BEGIN
+begin
 
-   SET TRANSACTION READ WRITE;
+   set TRANSACTION READ WRITE;
 
-   OPEN cur FOR SELECT distinct(lengi_codigo) FROM lenguajeItem;
-   LOOP
-          FETCH cur INTO v_row;
-          EXIT WHEN NOT FOUND;
+   open cur for select distinct(lengi_codigo) from lenguajeItem;
+   loop
+          fetch cur into v_row;
+          exit when not found;
 
           v_text := sp_leng_get_text_aux(v_row.lengi_codigo, p_leng_id);
 
           if v_text <> '' then
 
-            INSERT INTO sysLanguage (leng_id, sysl_code, sysl_text) values(p_leng_id, v_row.lengi_codigo, v_text);
+            insert into sysLanguage (leng_id, sysl_code, sysl_text) values(p_leng_id, v_row.lengi_codigo, v_text);
           else
-            RAISE NOTICE 'CODE NOT FOUND: %', v_row.lengi_codigo;
+            raise notice 'CODE not found: %', v_row.lengi_codigo;
           end if;
 
-   END LOOP;
-   CLOSE cur;
+   end loop;
+   close cur;
 
-END;
+end;
 $BODY$
-  LANGUAGE plpgsql VOLATILE
+  language plpgsql volatile
   COST 100;
-ALTER FUNCTION sp_sys_language_update()
-  OWNER TO postgres;
+alter function sp_sys_language_update()
+  owner to postgres;

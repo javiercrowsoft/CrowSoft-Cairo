@@ -13,7 +13,7 @@ the Free Software Foundation; either version 2 of the License, or
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+MERCHANTABILITY or FITNESS for A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License along
@@ -30,30 +30,30 @@ javier at crowsoft.com.ar
 */
 -- Function: sp_arbgetarboles(integer)
 
--- DROP FUNCTION sp_arbgetarboles(integer);
+-- drop function sp_arbgetarboles(integer);
 
-CREATE OR REPLACE FUNCTION sp_arbgetarboles(IN p_tbl_id integer, OUT rtn refcursor)
-  RETURNS refcursor AS
+create or replace function sp_arbgetarboles(in p_tbl_id integer, out rtn refcursor)
+  returns refcursor as
 $BODY$
-DECLARE
-BEGIN
+declare
+begin
 
         rtn := 'rtn';
 
-        OPEN rtn FOR
-        SELECT  Arbol.arb_id,
+        open rtn for
+        select  Arbol.arb_id,
                 arb_Nombre,
                 ram_id
-        FROM Arbol,
+        from Arbol,
              Rama
-         WHERE Rama.ram_id_padre = 0
-                 AND Arbol.arb_id = Rama.arb_id
-                 AND tbl_id = p_tbl_id
-                 AND Rama.ram_id <> 0;
+         where Rama.ram_id_padre = 0
+                 and Arbol.arb_id = Rama.arb_id
+                 and tbl_id = p_tbl_id
+                 and Rama.ram_id <> 0;
 
-END;
+end;
 $BODY$
-  LANGUAGE plpgsql VOLATILE
+  language plpgsql volatile
   COST 100;
-ALTER FUNCTION sp_arbgetarboles(integer)
-  OWNER TO postgres;
+alter function sp_arbgetarboles(integer)
+  owner to postgres;

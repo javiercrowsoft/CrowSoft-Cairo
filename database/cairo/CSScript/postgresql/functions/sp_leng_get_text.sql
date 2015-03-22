@@ -13,7 +13,7 @@ the Free Software Foundation; either version 2 of the License, or
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+MERCHANTABILITY or FITNESS for A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License along
@@ -30,83 +30,83 @@ javier at crowsoft.com.ar
 */
 -- Function: sp_leng_get_text()
 
--- DROP FUNCTION sp_leng_get_text();
+-- drop function sp_leng_get_text();
 
-CREATE OR REPLACE FUNCTION sp_leng_get_text
+create or replace function sp_leng_get_text
 (
-  IN p_code varchar,
-  IN p_us_id integer,
-  OUT rtn refcursor
+  in p_code varchar,
+  in p_us_id integer,
+  out rtn refcursor
 )
-  RETURNS refcursor AS
+  returns refcursor as
 $BODY$
-DECLARE
+declare
    v_leng_id integer;
    v_rtn varchar(5000);
-BEGIN
+begin
 
    v_rtn := '';
 
-   SELECT cfg_valor::integer
-     INTO v_leng_id
-     FROM Configuracion
-      WHERE cfg_grupo = 'Usuario-Config'
-        AND cfg_aspecto = 'Lenguaje Gral_' || p_us_id::varchar;
+   select cfg_valor::integer
+     into v_leng_id
+     from Configuracion
+      where cfg_grupo = 'Usuario-Config'
+        and cfg_aspecto = 'Lenguaje Gral_' || p_us_id::varchar;
 
-   IF coalesce(v_leng_id, 0) = 0 THEN
-   BEGIN
-      SELECT cfg_valor::integer
-        INTO v_leng_id
-        FROM Configuracion
-         WHERE cfg_grupo = 'general'
-           AND cfg_aspecto = 'lenguaje';
+   if coalesce(v_leng_id, 0) = 0 then
+   begin
+      select cfg_valor::integer
+        into v_leng_id
+        from Configuracion
+         where cfg_grupo = 'general'
+           and cfg_aspecto = 'lenguaje';
 
-   END;
-   END IF;
+   end;
+   end if;
 
-   IF coalesce(v_leng_id, 0) = 0 THEN
+   if coalesce(v_leng_id, 0) = 0 then
       v_leng_id := 1;-- CrowSoft default language (Castellano)
-   END IF;
+   end if;
 
-   IF coalesce(v_leng_id, 0) <> 0 THEN
-   BEGIN
+   if coalesce(v_leng_id, 0) <> 0 then
+   begin
 
-      SELECT lengi_texto
-        INTO v_rtn
-        FROM LenguajeItem
-         WHERE leng_id = v_leng_id
-           AND lengi_codigo = p_code;
+      select lengi_texto
+        into v_rtn
+        from LenguajeItem
+         where leng_id = v_leng_id
+           and lengi_codigo = p_code;
 
       -- Si no lo encuentro veo si el lenguaje tiene un lenguaje padre
-      IF coalesce(v_rtn, '') = '' THEN
-      BEGIN
+      if coalesce(v_rtn, '') = '' then
+      begin
          -- Busco el lenguaje tiene un lenguaje padre
-         SELECT leng_id_padre
-           INTO v_leng_id
-           FROM Lenguaje
-            WHERE leng_id = v_leng_id;
+         select leng_id_padre
+           into v_leng_id
+           from Lenguaje
+            where leng_id = v_leng_id;
 
          -- Si hay un lenguaje padre le pido que me traiga el texto
-         IF coalesce(v_leng_id, 0) <> 0 THEN
-         BEGIN
+         if coalesce(v_leng_id, 0) <> 0 then
+         begin
             v_rtn := sp_leng_get_text_aux(p_code, v_leng_id);
 
-         END;
-         END IF;
+         end;
+         end if;
 
-      END;
-      END IF;
+      end;
+      end if;
 
-   END;
-   END IF;
+   end;
+   end if;
 
    rtn := 'rtn';
 
-   OPEN rtn FOR SELECT v_rtn;
+   open rtn for select v_rtn;
 
-END;
+end;
 $BODY$
-  LANGUAGE plpgsql VOLATILE
+  language plpgsql volatile
   COST 100;
-ALTER FUNCTION sp_leng_get_text(varchar, integer)
-  OWNER TO postgres;
+alter function sp_leng_get_text(varchar, integer)
+  owner to postgres;

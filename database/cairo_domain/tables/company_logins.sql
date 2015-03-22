@@ -1,25 +1,25 @@
 -- Table: company_logins
 
--- DROP TABLE company_logins;
+-- drop table company_logins;
 
-CREATE TABLE company_logins
+create table company_logins
 (
   col_id serial primary key,
-  co_id int NOT NULL,
-  us_id int NOT NULL,  
-  col_result_code character varying(1000) NOT NULL,    
+  co_id int not null,
+  us_id int not null,
+  col_result_code character varying(1000) not null,
 
-  col_platform character varying(255) NOT NULL,
-  col_ip_address character varying(255) NOT NULL,
-  col_user_agent character varying(255) NOT NULL,
-  col_accept_language character varying(255) NOT NULL,
-  col_is_mobile smallint NOT NULL DEFAULT 0,
+  col_platform character varying(255) not null,
+  col_ip_address character varying(255) not null,
+  col_user_agent character varying(255) not null,
+  col_accept_language character varying(255) not null,
+  col_is_mobile smallint not null default 0,
 
-  created_at timestamp with time zone NOT NULL DEFAULT getdate(),
-  updated_at timestamp with time zone NOT NULL DEFAULT getdate()
+  created_at timestamp with time zone not null default getdate(),
+  updated_at timestamp with time zone not null default getdate()
 )
 WITH (
   OIDS=FALSE
 );
-ALTER TABLE company_logins
-  OWNER TO postgres;
+alter table company_logins
+  owner to postgres;

@@ -13,7 +13,7 @@ the Free Software Foundation; either version 2 of the License, or
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+MERCHANTABILITY or FITNESS for A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License along
@@ -30,39 +30,39 @@ javier at crowsoft.com.ar
 */
 -- Function: sp_doc_factura_compra_get_percepciones()
 
--- DROP FUNCTION sp_doc_factura_compra_get_percepciones(integer);
+-- drop function sp_doc_factura_compra_get_percepciones(integer);
 /*
 select * from sp_doc_factura_compra_get_percepciones(1);
 fetch all from rtn;
 fetch all from rtn_serie;
 */
-CREATE OR REPLACE FUNCTION sp_doc_factura_compra_get_percepciones
+create or replace function sp_doc_factura_compra_get_percepciones
 /*
 sp_DocFacCpraGetPercepcionesones 1
 */
 (
-  IN p_fc_id integer,
-  OUT rtn refcursor
+  in p_fc_id integer,
+  out rtn refcursor
 )
-  RETURNS refcursor AS
+  returns refcursor as
 $BODY$
-BEGIN
+begin
 
-   OPEN rtn FOR
-      SELECT FacturaCompraPercepcion.*,
+   open rtn for
+      select FacturaCompraPercepcion.*,
              perc_nombre,
              ccos.ccos_nombre
-      FROM FacturaCompraPercepcion
-        JOIN Percepcion
-                ON FacturaCompraPercepcion.perc_id = Percepcion.perc_id
-        LEFT JOIN CentroCosto ccos
-                ON FacturaCompraPercepcion.ccos_id = ccos.ccos_id
-      WHERE fc_id = p_fc_id
-      ORDER BY fcperc_orden;
+      from FacturaCompraPercepcion
+        join Percepcion
+                on FacturaCompraPercepcion.perc_id = Percepcion.perc_id
+        left join CentroCosto ccos
+                on FacturaCompraPercepcion.ccos_id = ccos.ccos_id
+      where fc_id = p_fc_id
+      order by fcperc_orden;
 
-END;
+end;
 $BODY$
-  LANGUAGE plpgsql VOLATILE
+  language plpgsql volatile
   COST 100;
-ALTER FUNCTION sp_doc_factura_compra_get_percepciones(integer)
-  OWNER TO postgres;
+alter function sp_doc_factura_compra_get_percepciones(integer)
+  owner to postgres;

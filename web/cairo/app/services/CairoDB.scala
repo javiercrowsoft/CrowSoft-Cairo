@@ -10,6 +10,10 @@ import models.domain.{ Company, Database, CompanyUser }
 
 object CairoDB {
 
+  private lazy val cairoDblogStatements = {
+    play.Play.application().configuration.getString("cairoDblogStatements")
+  }
+
   var dataBases: List[String] = List()
 
   def connectDomainForUser(user: User): String = {
@@ -78,7 +82,8 @@ object CairoDB {
       "driver" -> driver,
       "url" -> url,
       "user" -> user,
-      "password" -> password
+      "password" -> password,
+      "logStatements" -> cairoDblogStatements
     )
     val javaMap = new java.util.HashMap[String, String](map)
     Configuration(ConfigFactory.parseMap(javaMap));

@@ -13,7 +13,7 @@ the Free Software Foundation; either version 2 of the License, or
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+MERCHANTABILITY or FITNESS for A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License along
@@ -30,37 +30,37 @@ javier at crowsoft.com.ar
 */
 -- Function: sp_leng_get_text_aux()
 
--- DROP FUNCTION sp_leng_get_text_aux();
+-- drop function sp_leng_get_text_aux();
 
-CREATE OR REPLACE FUNCTION sp_leng_get_text_aux
+create or replace function sp_leng_get_text_aux
 (
-  IN p_code varchar DEFAULT NULL ,
-  IN p_leng_id integer DEFAULT NULL
-) RETURNS varchar AS
+  in p_code varchar default null ,
+  in p_leng_id integer default null
+) returns varchar as
 $BODY$
-DECLARE
+declare
    v_leng_id integer;
    v_rtn varchar(5000);
-BEGIN
+begin
 
    v_leng_id := p_leng_id;
 
-   SELECT lengi_texto
-     INTO v_rtn
-     FROM LenguajeItem
-      WHERE leng_id = v_leng_id
-              AND lengi_codigo = p_code;
+   select lengi_texto
+     into v_rtn
+     from LenguajeItem
+      where leng_id = v_leng_id
+              and lengi_codigo = p_code;
 
    -- if this language doesn't contain a definition for this code
    -- and the language is not the main language ( Spanish )
    -- we use the parent language
    --
-   IF coalesce(v_rtn, '') = '' and v_leng_id <> 1 THEN
+   if coalesce(v_rtn, '') = '' and v_leng_id <> 1 then
 
-      SELECT leng_id_padre
-        INTO v_leng_id
-        FROM Lenguaje
-         WHERE leng_id = v_leng_id;
+      select leng_id_padre
+        into v_leng_id
+        from Lenguaje
+         where leng_id = v_leng_id;
 
       -- if the language doesn't have a parent
       -- we use 1 which is ( Spanish )
@@ -69,13 +69,13 @@ BEGIN
 
       v_rtn := sp_leng_get_text_aux(p_code, v_leng_id);
 
-   END IF;
+   end if;
 
    return v_rtn;
 
-END;
+end;
 $BODY$
-  LANGUAGE plpgsql VOLATILE
+  language plpgsql volatile
   COST 100;
-ALTER FUNCTION sp_leng_get_text_aux(varchar, integer)
-  OWNER TO postgres;
+alter function sp_leng_get_text_aux(varchar, integer)
+  owner to postgres;

@@ -142,6 +142,15 @@
                   "Can't get data for query:[ " + query + (id ? " id: " + id.toString() : "") + " ]. An error has occurred in the server.",
                   response.responseText);
               }
+              else if(response.status === 404) {
+                p = Cairo.manageError(
+                  "Server Request [Get Data]",
+                  "Can't get data for query:[ " + query + (id ? " id: " + id.toString() : "") + " ]. The server response the requested API doesn't exists.",
+                  response.responseText);
+              }
+              else {
+                p = Cairo.Promises.resolvedPromise(false);
+              }
               p.then(function() {
                 defer.resolve({success: false, data: data, response: response});
               });

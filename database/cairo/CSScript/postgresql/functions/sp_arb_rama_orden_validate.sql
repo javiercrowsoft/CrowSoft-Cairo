@@ -13,7 +13,7 @@ the Free Software Foundation; either version 2 of the License, or
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+MERCHANTABILITY or FITNESS for A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License along
@@ -30,48 +30,48 @@ javier at crowsoft.com.ar
 */
 -- Function: sp_arb_rama_orden_validate()
 
--- DROP FUNCTION sp_arb_rama_orden_validate(int, int);
+-- drop function sp_arb_rama_orden_validate(int, int);
 
-CREATE OR REPLACE FUNCTION sp_arb_rama_orden_validate(
-  IN p_us_id integer
+create or replace function sp_arb_rama_orden_validate(
+  in p_us_id integer
 )
-  RETURNS void AS
+  returns void as
 $BODY$
-DECLARE
+declare
    v_orden integer;
    c1 refcursor;
    c2 refcursor;
    v_row record;
    v_row2 record;
-BEGIN
+begin
 
-   SET TRANSACTION READ WRITE;
+   set TRANSACTION READ WRITE;
 
-   OPEN c1 FOR SELECT ram_id FROM rama WHERE ram_id <> 0;
-   LOOP
-          FETCH c1 INTO v_row;
-          EXIT WHEN NOT FOUND;
+   open c1 for select ram_id from rama where ram_id <> 0;
+   loop
+          fetch c1 into v_row;
+          exit when not found;
 
           v_orden := 0;
 
-          OPEN c2 FOR SELECT ram_id FROM rama WHERE ram_id_padre = v_row.ram_id ORDER BY ram_orden;
-          LOOP
+          open c2 for select ram_id from rama where ram_id_padre = v_row.ram_id order by ram_orden;
+          loop
 
-                FETCH c2 INTO v_row2;
-                EXIT WHEN NOT FOUND;
+                fetch c2 into v_row2;
+                exit when not found;
 
-                UPDATE rama SET ram_orden = v_orden WHERE ram_id = v_row2.ram_id;
+                update rama set ram_orden = v_orden where ram_id = v_row2.ram_id;
                 v_orden := v_orden +1;
 
-          END LOOP;
-          CLOSE c2;
+          end loop;
+          close c2;
 
-   END LOOP;
-   CLOSE c1;
+   end loop;
+   close c1;
 
-END;
+end;
 $BODY$
-  LANGUAGE plpgsql VOLATILE
+  language plpgsql volatile
   COST 100;
-ALTER FUNCTION sp_arb_rama_orden_validate(integer)
-  OWNER TO postgres;
+alter function sp_arb_rama_orden_validate(integer)
+  owner to postgres;

@@ -1,34 +1,34 @@
 /* $PostgreSQL: pgsql/contrib/unaccent/unaccent.sql.in,v 1.2 2009/11/14 18:24:32 tgl Exp $ */
 
 -- Adjust this setting to control where the objects get created.
-SET search_path = public;
+set search_path = public;
 
-CREATE OR REPLACE FUNCTION unaccent(regdictionary, text)
-	RETURNS text
-	AS '$libdir/unaccent', 'unaccent_dict'
-	LANGUAGE C STRICT;
+create or replace function unaccent(regdictionary, text)
+	returns text
+	as '$libdir/unaccent', 'unaccent_dict'
+	language C STRICT;
 
-CREATE OR REPLACE FUNCTION unaccent(text)
-	RETURNS text
-	AS '$libdir/unaccent', 'unaccent_dict'
-	LANGUAGE C STRICT;
+create or replace function unaccent(text)
+	returns text
+	as '$libdir/unaccent', 'unaccent_dict'
+	language C STRICT;
 
-CREATE OR REPLACE FUNCTION unaccent_init(internal)
-	RETURNS internal
-	AS '$libdir/unaccent', 'unaccent_init'
-	LANGUAGE C;
+create or replace function unaccent_init(internal)
+	returns internal
+	as '$libdir/unaccent', 'unaccent_init'
+	language C;
 
-CREATE OR REPLACE FUNCTION unaccent_lexize(internal,internal,internal,internal)
-	RETURNS internal
-	AS '$libdir/unaccent', 'unaccent_lexize'
-	LANGUAGE C;
+create or replace function unaccent_lexize(internal,internal,internal,internal)
+	returns internal
+	as '$libdir/unaccent', 'unaccent_lexize'
+	language C;
 
-CREATE TEXT SEARCH TEMPLATE unaccent (
+create TEXT SEARCH TEMPLATE unaccent (
 	INIT = unaccent_init,
 	LEXIZE = unaccent_lexize
 );
 
-CREATE TEXT SEARCH DICTIONARY unaccent (
+create TEXT SEARCH DICTIONARY unaccent (
 	TEMPLATE = unaccent,
 	RULES    = 'unaccent'
 );

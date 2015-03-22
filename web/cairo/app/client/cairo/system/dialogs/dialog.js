@@ -1152,6 +1152,7 @@
             var grid = getView().getGrids().get(property.getIndex());
             if(grid !== null) {
               grid.setRedraw(redraw);
+              grid.draw();
             }
           }
           catch(ignore) {}
@@ -4035,61 +4036,64 @@
               var property = getProperty(Dialogs.PropertyType.grid, index, 0);
 
               if(property !== null) {
-                if(rowIndex < property.getGrid().getRows().count()) {
 
-                  var column = property.getGrid().getColumns().get(colIndex);
-                  var col = getView().getGrids().get(property.getIndex()).getColumns().get(colIndex);
-                  var cell = property.getGrid().getRows().get(rowIndex).get(colIndex);
-                  var format = cell.getFormat();
+                var grid = property.getGrid();
+                var column = grid.getColumns().get(colIndex);
+                var col = getView().getGrids().get(property.getIndex()).getColumns().get(colIndex);
+                var rows = grid.getRows();
+                var format = null;
 
-                  if(format === null) {
-                    col.setType(column.getType());
-                    col.setSubType(column.getSubType());
-                    col.setSelectTable(column.getSelectTable());
-                    col.setEditable(column.getEnabled());
-                    col.setEnabled(column.getEnabled());
-                    col.setSelectFilter(column.getSelectFilter());
-                    col.setSize(column.getSize());
-                    col.setFormat(column.getFormat());
+                if(rowIndex < rows.count()) {
+                  format = rows.get(rowIndex).get(colIndex).getFormat();
+                }
 
-                    if(column.getType() === Dialogs.PropertyType.list) {
-                      col.setList(column.getList());
-                    }
-                    else {
-                      col.setList(null);
-                    }
+                if(format === null) {
+                  col.setType(column.getType());
+                  col.setSubType(column.getSubType());
+                  col.setSelectTable(column.getSelectTable());
+                  col.setEditable(column.getEnabled());
+                  col.setEnabled(column.getEnabled());
+                  col.setSelectFilter(column.getSelectFilter());
+                  col.setSize(column.getSize());
+                  col.setFormat(column.getFormat());
 
-                    if(column.getSubType() === Dialogs.PropertySubType.percentage) {
-                      if(column.getFormat() === "") {
-                        col.setFormat("0.00 %");
-                      }
-                    }
+                  if(column.getType() === Dialogs.PropertyType.list) {
+                    col.setList(column.getList());
                   }
                   else {
-                    col.setType(format.getType());
-                    col.setSubType(format.getSubType());
-                    col.setTable(format.getSelectTable());
-                    col.setEditEnabled(format.getEnabled());
-                    col.setEnabled(format.getEnabled());
-                    col.setSelectFilter(format.getSelectFilter());
-                    col.setSize(format.getSize());
-                    col.setFormat(format.getFormat());
+                    col.setList(null);
+                  }
 
-                    if(format.getType() === Dialogs.PropertyType.list) {
-                      col.setList(format.getList());
-                    }
-                    else {
-                      col.setList(null);
-                    }
-
-                    if(format.getSubType() === Dialogs.PropertySubType.percentage) {
-                      if(format.getFormat() === "") {
-                        col.setFormat("0.00 %");
-                      }
+                  if(column.getSubType() === Dialogs.PropertySubType.percentage) {
+                    if(column.getFormat() === "") {
+                      col.setFormat("0.00 %");
                     }
                   }
-                  isEditable = col.getEnabled() && col.isEditable();
                 }
+                else {
+                  col.setType(format.getType());
+                  col.setSubType(format.getSubType());
+                  col.setTable(format.getSelectTable());
+                  col.setEditEnabled(format.getEnabled());
+                  col.setEnabled(format.getEnabled());
+                  col.setSelectFilter(format.getSelectFilter());
+                  col.setSize(format.getSize());
+                  col.setFormat(format.getFormat());
+
+                  if(format.getType() === Dialogs.PropertyType.list) {
+                    col.setList(format.getList());
+                  }
+                  else {
+                    col.setList(null);
+                  }
+
+                  if(format.getSubType() === Dialogs.PropertySubType.percentage) {
+                    if(format.getFormat() === "") {
+                      col.setFormat("0.00 %");
+                    }
+                  }
+                }
+                isEditable = col.getEnabled() && col.isEditable();
               }
             }
           }

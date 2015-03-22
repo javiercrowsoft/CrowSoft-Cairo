@@ -13,7 +13,7 @@ the Free Software Foundation; either version 2 of the License, or
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+MERCHANTABILITY or FITNESS for A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License along
@@ -30,19 +30,19 @@ javier at crowsoft.com.ar
 */
 -- Function: sp_arbcopiarrama()
 
--- DROP FUNCTION sp_arbcopiarrama();
+-- drop function sp_arbcopiarrama();
 
-CREATE OR REPLACE FUNCTION sp_arbcopiarrama
+create or replace function sp_arbcopiarrama
 (
-  IN p_us_id integer,
-  IN p_ram_id_copy_from integer ,
-  IN p_ram_id_copy_to integer ,
-  IN p_solo_los_hijos smallint ,
-  OUT rtn refcursor
+  in p_us_id integer,
+  in p_ram_id_copy_from integer ,
+  in p_ram_id_copy_to integer ,
+  in p_solo_los_hijos smallint ,
+  out rtn refcursor
 )
-  RETURNS refcursor AS
+  returns refcursor as
 $BODY$
-DECLARE
+declare
    v_ram_id integer;
    v_new_ram_id integer;
    v_new_hoja_id integer;
@@ -56,143 +56,143 @@ DECLARE
    v_branch_row record;
    v_leave_row record;
    v_tran_id integer;
-BEGIN
+begin
 
-   IF p_ram_id_copy_from = 0 THEN RETURN; END IF;
+   if p_ram_id_copy_from = 0 then RETURN; end if;
 
-   IF p_ram_id_copy_to = 0 THEN RETURN; END IF;
+   if p_ram_id_copy_to = 0 then RETURN; end if;
 
-   IF NOT EXISTS(SELECT 1 FROM rama WHERE ram_id = p_ram_id_copy_from) THEN RETURN; END IF;
+   if not exists(select 1 from rama where ram_id = p_ram_id_copy_from) then RETURN; end if;
 
-   IF NOT EXISTS(SELECT 1 FROM rama WHERE ram_id = p_ram_id_copy_to) THEN RETURN; END IF;
+   if not exists(select 1 from rama where ram_id = p_ram_id_copy_to) then RETURN; end if;
 
    --------------------------------------------------------------------
 
-        CREATE TEMP TABLE t_rama_new
+        create TEMP table t_rama_new
         (
-          ram_id integer  NOT NULL,
-          ram_id_new integer  NOT NULL,
-          tran_id integer  NOT NULL
+          ram_id integer  not null,
+          ram_id_new integer  not null,
+          tran_id integer  not null
         ) on commit drop;
 
         v_tran_id := nextval('t_rama_new_seq');
 
    --------------------------------------------------------------------
 
-   SELECT arb_id INTO v_arb_id FROM rama WHERE ram_id = p_ram_id_copy_to;
+   select arb_id into v_arb_id from rama where ram_id = p_ram_id_copy_to;
 
-   IF p_solo_los_hijos <> 0 THEN
+   if p_solo_los_hijos <> 0 then
       v_incluir_ram_id_to_copy := 0;
 
-   ELSE
+   else
       v_incluir_ram_id_to_copy := 1;
 
-   END IF;
+   end if;
 
-   SELECT INTO c_branches_to_copy t.rtn FROM SP_ArbGetDecendencia(p_ram_id_copy_from,v_incluir_ram_id_to_copy,0,0,0) t;
+   select into c_branches_to_copy t.rtn from SP_ArbGetDecendencia(p_ram_id_copy_from,v_incluir_ram_id_to_copy,0,0,0) t;
 
-   LOOP
-      FETCH c_branches_to_copy INTO v_branch_row;
-      EXIT WHEN NOT FOUND;
+   loop
+      fetch c_branches_to_copy into v_branch_row;
+      exit when not found;
       
-      BEGIN
+      begin
 
          v_ram_id := v_branch_row.ram_id;
 
          -- si esta es la rama principal de la copia, su padre tiene que ser la rama en la que estoy pegando
-         IF v_ram_id = p_ram_id_copy_from THEN
+         if v_ram_id = p_ram_id_copy_from then
             v_ram_id_padre := p_ram_id_copy_to;
-            SELECT max(ram_orden) INTO v_orden FROM rama WHERE ram_id_padre = v_ram_id_padre;
+            select max(ram_orden) into v_orden from rama where ram_id_padre = v_ram_id_padre;
             v_orden := coalesce(v_orden + 1, 0); 
 
-         ELSE
-         BEGIN
+         else
+         begin
             -- Obtengo el padre de la rama que estoy copiando
-            SELECT ram_id_padre INTO v_ram_id_padre FROM rama WHERE ram_id = v_ram_id;
+            select ram_id_padre into v_ram_id_padre from rama where ram_id = v_ram_id;
 
             -- Si pedi copiar solo los hijos y la rama que estoy copiando es hija directa, 
             -- entonces su padre es la rama en la que estoy pegando
-            IF p_solo_los_hijos <> 0 AND v_ram_id_padre = p_ram_id_copy_from THEN
-            BEGIN
+            if p_solo_los_hijos <> 0 and v_ram_id_padre = p_ram_id_copy_from then
+            begin
                v_ram_id_padre := p_ram_id_copy_to;
-               SELECT max(ram_orden) INTO v_orden FROM rama WHERE ram_id_padre = v_ram_id_padre;
+               select max(ram_orden) into v_orden from rama where ram_id_padre = v_ram_id_padre;
                v_orden := coalesce(v_orden + 1, 0); 
 
-            END;
-            ELSE
-            BEGIN
+            end;
+            else
+            begin
                -- Obtengo el nuevo padre
-               SELECT ram_id_new INTO v_ram_id_padre
-               FROM rama 
-               INNER JOIN t_rama_new
-                    ON rama.ram_id = t_rama_new.ram_id
-                        AND rama.ram_id = v_ram_id_padre
-               WHERE tran_id = v_tran_id;
+               select ram_id_new into v_ram_id_padre
+               from rama
+               inner join t_rama_new
+                    on rama.ram_id = t_rama_new.ram_id
+                        and rama.ram_id = v_ram_id_padre
+               where tran_id = v_tran_id;
 
-               v_orden := NULL;
+               v_orden := null;
                
-            END;
-            END IF;
+            end;
+            end if;
 
-         END;
-         END IF;
+         end;
+         end if;
 
-         SELECT SP_DBGetNewId('rama',
+         select SP_DBGetNewId('rama',
                               'ram_id',
-                              0::smallint) INTO v_new_ram_id;
+                              0::smallint) into v_new_ram_id;
 
-         INSERT INTO rama
+         insert into rama
            ( ram_id, ram_nombre, arb_id, modifico, ram_id_padre, ram_orden )
-           ( SELECT v_new_ram_id,
+           ( select v_new_ram_id,
                     ram_nombre,
                     v_arb_id,
                     p_us_id,
                     v_ram_id_padre,
                     coalesce(v_orden, ram_orden)
-             FROM rama
-                WHERE ram_id = v_ram_id );
+             from rama
+                where ram_id = v_ram_id );
 
-         INSERT INTO t_rama_new ( ram_id, ram_id_new, tran_id ) VALUES ( v_ram_id, v_new_ram_id, v_tran_id );
+         insert into t_rama_new ( ram_id, ram_id_new, tran_id ) values ( v_ram_id, v_new_ram_id, v_tran_id );
 
          -- Creo un cursor para recorrer cada una de las hojas e insertarlas
-         OPEN c_leaves_to_copy FOR SELECT hoja_id FROM Hoja WHERE ram_id = v_ram_id;
+         open c_leaves_to_copy for select hoja_id from Hoja where ram_id = v_ram_id;
 
-         LOOP
-            FETCH c_leaves_to_copy INTO v_leave_row;
-            EXIT WHEN NOT FOUND;
-            BEGIN
+         loop
+            fetch c_leaves_to_copy into v_leave_row;
+            exit when not found;
+            begin
                -- Por cada hoja obtengo un id nuevo
-               SELECT SP_DBGetNewId('hoja',
+               select SP_DBGetNewId('hoja',
                                     'hoja_id',
-                                    0::smallint) INTO v_new_hoja_id;
+                                    0::smallint) into v_new_hoja_id;
 
-               INSERT INTO hoja
+               insert into hoja
                  ( hoja_id, id, modifico, ram_id, arb_id )
-                 ( SELECT v_new_hoja_id,
+                 ( select v_new_hoja_id,
                           id,
                           modifico,
                           v_new_ram_id,
                           v_arb_id
-                   FROM Hoja
-                      WHERE hoja_id = v_leave_row.hoja_id );
+                   from Hoja
+                      where hoja_id = v_leave_row.hoja_id );
 
-            END;
-         END LOOP;
+            end;
+         end loop;
 
-         CLOSE c_leaves_to_copy;
+         close c_leaves_to_copy;
 
-      END;
-   END LOOP;
+      end;
+   end loop;
 
-   CLOSE c_branches_to_copy;
+   close c_branches_to_copy;
 
    rtn := 'rtn';
 
-   OPEN rtn FOR SELECT * FROM rama WHERE ram_id = p_ram_id_copy_to;
+   open rtn for select * from rama where ram_id = p_ram_id_copy_to;
 
-END;
+end;
 $BODY$
-  LANGUAGE plpgsql VOLATILE
+  language plpgsql volatile
   COST 100;
-ALTER FUNCTION sp_arbcopiarrama(integer, integer, integer, smallint)
-  OWNER TO postgres;
+alter function sp_arbcopiarrama(integer, integer, integer, smallint)
+  owner to postgres;

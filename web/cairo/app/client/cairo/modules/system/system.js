@@ -539,7 +539,7 @@
 
   Cairo.Documents.getTasaFromProducto = function(prId, isCompra) {
     var apiPath = Cairo.Database.getAPIVersion();
-    var p = Cairo.Database.getData("load[" + apiPath + "producto/" + prId.toString() + "/taxes]", bToI(isCompra));
+    var p = Cairo.Database.getData("load[" + apiPath + "general/producto/" + prId.toString() + "/taxes]");
 
     return p.then(function(response) {
 

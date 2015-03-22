@@ -33,7 +33,7 @@ object Currency {
       try {
         cs.execute()
 
-        cs.getBigDecimal(4).doubleValue()
+        cs.getBigDecimal(4).doubleValue
 
       } catch {
         case NonFatal(e) => {

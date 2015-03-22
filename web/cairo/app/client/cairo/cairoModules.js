@@ -19,3 +19,6 @@ Cairo.Producto = {};
 Cairo.EditDocumento = {};
 Cairo.FacturaCompra = {};
 Cairo.FacturaCompraListDoc = {};
+
+Cairo.Rubro = {};
+Cairo.Rubro.Load = {};
