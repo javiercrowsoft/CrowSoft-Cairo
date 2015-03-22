@@ -104,52 +104,35 @@
     <favorites_list name="cairo" />
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.59261245">
-      <split-first>
-        <leaf>
-          <file leaf-file-name="cFacturaCompra.js" pinned="false" current="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/modules/CSCompra2/cFacturaCompra.js">
-              <provider selected="true" editor-type-id="text-editor">
-                <state line="4635" column="10" selection-start="138998" selection-end="138998" vertical-scroll-proportion="0.0">
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="cProducto.js" pinned="false" current="true" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/modules/CSGeneral2/cProducto.js">
-              <provider selected="true" editor-type-id="text-editor">
-                <state line="2978" column="65" selection-start="106113" selection-end="106113" vertical-scroll-proportion="0.53567624">
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="cRubro.js" pinned="false" current="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/modules/CSGeneral2/cRubro.js">
-              <provider selected="true" editor-type-id="text-editor">
-                <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-        </leaf>
-      </split-first>
-      <split-second>
-        <leaf>
-          <file leaf-file-name="constants.js" pinned="false" current="false" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/modules/CSGeneral2/constants.js">
-              <provider selected="true" editor-type-id="text-editor">
-                <state line="879" column="22" selection-start="25826" selection-end="25842" vertical-scroll-proportion="0.28947368">
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-        </leaf>
-      </split-second>
-    </splitter>
+    <leaf>
+      <file leaf-file-name="cFacturaCompra.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/modules/CSCompra2/cFacturaCompra.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="2046" column="43" selection-start="56680" selection-end="56680" vertical-scroll-proportion="-26.74074">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="system.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/modules/system/system.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="643" column="48" selection-start="19151" selection-end="19151" vertical-scroll-proportion="-20.444445">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="view.js" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/system/dialogs/view.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="718" column="14" selection-start="21819" selection-end="21819" vertical-scroll-proportion="0.6207983">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
   </component>
   <component name="FindManager">
     <FindUsagesManager>
@@ -161,7 +144,6 @@
       <list>
         <option value="$PROJECT_DIR$/cairoApp.js" />
         <option value="$PROJECT_DIR$/system/formatters/accounting.js" />
-        <option value="$PROJECT_DIR$/system/dialogs/view.js" />
         <option value="$PROJECT_DIR$/system/dialogs/dialogClient.js" />
         <option value="$PROJECT_DIR$/system/dialogs/property.js" />
         <option value="$PROJECT_DIR$/system/controls/input.js" />
@@ -170,11 +152,12 @@
         <option value="$PROJECT_DIR$/system/dialogs/dialog.js" />
         <option value="$PROJECT_DIR$/system/controls/grid.js" />
         <option value="$PROJECT_DIR$/system/database/database.js" />
-        <option value="$PROJECT_DIR$/modules/system/system.js" />
         <option value="$PROJECT_DIR$/modules/CSCompra2/cFacturaCompra.js" />
         <option value="$PROJECT_DIR$/cairoModules.js" />
         <option value="$PROJECT_DIR$/modules/CSGeneral2/constants.js" />
         <option value="$PROJECT_DIR$/modules/CSGeneral2/cProducto.js" />
+        <option value="$PROJECT_DIR$/modules/system/system.js" />
+        <option value="$PROJECT_DIR$/system/dialogs/view.js" />
       </list>
     </option>
   </component>
@@ -598,13 +581,6 @@
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/system/dialogs/property.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="52" column="23" selection-start="897" selection-end="916" vertical-scroll-proportion="0.019957984">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/system/controls/listGrid.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="170" column="120" selection-start="4772" selection-end="4772" vertical-scroll-proportion="0.020234292">
@@ -624,13 +600,6 @@
     <entry file="file://$PROJECT_DIR$/system/dialogs/dialogList.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="654" column="38" selection-start="21230" selection-end="21230" vertical-scroll-proportion="0.019957984">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/modules/system/system.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="541" column="29" selection-start="16296" selection-end="16296" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
@@ -677,25 +646,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/modules/CSCompra2/cFacturaCompra.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="4635" column="10" selection-start="138998" selection-end="138998" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/modules/CSGeneral2/cRubro.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/cairoModules.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="22" column="17" selection-start="461" selection-end="461" vertical-scroll-proportion="0.44515443">
           <folding>
-            <element signature="n#!!doc" expanded="true" />
+            <element signature="n#!!doc" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -707,9 +662,37 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/modules/CSGeneral2/cRubro.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/modules/CSGeneral2/cProducto.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="2978" column="65" selection-start="106113" selection-end="106113" vertical-scroll-proportion="0.53567624">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/modules/CSCompra2/cFacturaCompra.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="2046" column="43" selection-start="56680" selection-end="56680" vertical-scroll-proportion="-26.74074">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/modules/system/system.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="643" column="48" selection-start="19151" selection-end="19151" vertical-scroll-proportion="-20.444445">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/system/dialogs/view.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="718" column="14" selection-start="21819" selection-end="21819" vertical-scroll-proportion="0.6207983">
           <folding />
         </state>
       </provider>

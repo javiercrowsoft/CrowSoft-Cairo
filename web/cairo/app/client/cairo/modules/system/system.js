@@ -634,14 +634,14 @@
   };
 
   Cairo.Documents.getListaPrecioForProveedor = function(docId, provId) {
-    return "f:supplierListPrice|supplierId:" + provId.toString() + ",documentId:" + docId.toString();
+    return "supplier_list_price|supplierId:" + provId.toString() + ",documentId:" + docId.toString();
   };
 
   Cairo.Documents.getListaDescuentoForProveedor = function(docId, provId) {
-    return "f:supplierListDiscount|supplierId:" + provId.toString() + ",documentId:" + docId.toString();
+    return "supplier_list_discount|supplierId:" + provId.toString() + ",documentId:" + docId.toString();
   };
 
-  Cairo.Documents.FACTURA_COMPRAS_DOC_FILTER = "f:document|documentTypeId:"
+  Cairo.Documents.FACTURA_COMPRAS_DOC_FILTER = "document|documentTypeId:"
     + Cairo.Documents.Types.FACTURA_COMPRA.toString()
     + "*" + Cairo.Documents.Types.NOTA_CREDITO_COMPRA.toString()
     + "*" + Cairo.Documents.Types.NOTA_DEBITO_COMPRA.toString()

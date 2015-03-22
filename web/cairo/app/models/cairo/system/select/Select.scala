@@ -200,7 +200,7 @@ object Select {
                 .replaceAll("[@][@]bforabm", if(useActive) "0" else "1")
                 .replaceAll("[@][@]filtertype", like.toString())
             }
-            val function = processMacros(sqlstmt) + "?, 0, ?, ?, ?"
+            val function = processMacros(sqlstmt) + " ?, 0, ?, ?, ?"
             createRecordSet(function, filter, internalFilter, 1, true)
           }
         }
@@ -486,7 +486,7 @@ object Select {
                   .replaceAll("[@][@]bforabm", if(useActive) "0" else "1")
                   .replaceAll("[@][@]filtertype", "0")
               }
-              val function = processMacros(sqlstmt) + "?, 1, ?, ?, ?"
+              val function = processMacros(sqlstmt) + " ?, 1, ?, ?, ?"
               createRecordSet(function, text, id, internalFilter, 1, true)
             }
           }
@@ -570,10 +570,6 @@ object Select {
     DB.withTransaction(user.database.database) { implicit connection =>
 
       val cs = connection.prepareCall(sqlstmt)
-
-      Logger.info(s"filter $filter")
-      Logger.info(s"id $id")
-      Logger.info(s"internalFilter ${internalFilter.query}")
 
       cs.setString(1, filter)
       cs.setInt(2, id)

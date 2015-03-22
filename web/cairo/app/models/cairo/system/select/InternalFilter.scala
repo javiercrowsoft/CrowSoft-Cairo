@@ -22,7 +22,8 @@ case class InternalFilter(query: String, filters: List[QueryParameter]) {
 object InternalFilter {
 
   val filters = Map(
-    "supplier_list_price" -> "f:supplierListPrice"
+    "supplier_list_price" -> "f:supplierListPrice",
+    "document" -> "f:document"
   )
 
   val emptyFilter = InternalFilter("", List())
@@ -48,6 +49,7 @@ object InternalFilter {
         case (key, parameters) => {
           filters.getOrElse(key, "") match {
             case "f:supplierListPrice" => supplierListPrice(user, parameters)
+            case "f:document" => document(user, parameters)
             case _ => emptyFilter
           }
         }
@@ -95,6 +97,32 @@ object InternalFilter {
         QueryParameter(supplierId),
         QueryParameter(currencyId)
       )
+    )
+  }
+
+  /*
+  * IMPORTANT: there is no way to set parameters using the methods setInt, setString, etc, from
+  *            PreparedStatement when the parameter is a string containing other parameters
+  *
+  *            ex:   {call sp_documentohelp( 1, 1, 0, ?, 0, ?, 'doct_id = ? or doct_id = ? or doct_id = ?', ?)}
+  *
+  *            for PrepareStatement the above call has only 3 parameters
+  *
+  *            all the ? (question marks) surrounded by ' (apostrophe) are ignored by PrepareStatement
+  *
+  *            For this reason all internalFilters for stored procedures must try to avoid strings as parameters
+  *            and the parameters must be always cast to integer or any other number value like in the document
+  *            filter below. Notice it takes a list of doctIds and them are parsed to Int when mapped
+  *
+  * */
+
+  private def document(user: CompanyUser, parameters: List[String]): InternalFilter = {
+    val params = parseParameters(parameters)
+    val doctIds = params("documentTypeId").split("[*]")
+    val sqlstmt = doctIds.map(doctId => s"doct_id = ${doctId.toInt}").mkString(" or ")
+    InternalFilter(
+      sqlstmt,
+      List()
     )
   }
 

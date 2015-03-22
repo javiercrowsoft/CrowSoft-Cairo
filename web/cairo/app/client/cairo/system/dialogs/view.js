@@ -706,11 +706,30 @@
         for(var i = 0; i < self.listeners.length; i += 1) {
           var listener = self.listeners[i];
           if(listener[eventName] !== undefined) {
+            /*
+            *
+            * if the client has registered a containsProperty callback
+            * we call it to check if the listener is the owner of the property
+            * which has raised the event.
+            *
+            * this is needed because this raise only call one listener and returns
+            * the answer from that call.
+            *
+            * in the case of documents we have three listeners and we need to know
+            * to one of them we must call
+            *
+            * */
             if(listener['containsProperty'] !== undefined) {
               if(listener['containsProperty'](control)) {
                 return listener[eventName](eventData, eventArgs);
               }
             }
+            /*
+            *
+            * master and wizard don't register this containsProperty callback
+            * because there is only one listener
+            *
+            * */
             else {
               return listener[eventName](eventData, eventArgs);
             }

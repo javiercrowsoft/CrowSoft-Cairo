@@ -37,7 +37,7 @@ javier at crowsoft.com.ar
 create or replace function instr(
         text, 
         text, 
-        integer
+        integer default 0
 ) 
 returns integer
 as
