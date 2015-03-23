@@ -52,7 +52,10 @@
       DOC_EDIT_MSG: "editMsg",
       TA_PROPUESTO: "ta_propuesto",
       TA_MASCARA: "ta_mascara",
-      
+
+      TA_NUMBER: "ta_number",
+      TA_ENABLED: "ta_enabled",
+
       // Empresa
       EMPRESA: "Empresa",
       EMP_ID: "emp_id",

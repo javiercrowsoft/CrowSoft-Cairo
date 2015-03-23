@@ -688,7 +688,7 @@
         select.setData(self.id, self.value);
 
         var onChange = view.onSelectChange(that);
-        select.addListener('onUpdate', function(e) {
+        select.addListener('onValidate', function(e) {
           self.value = e.data.values[0];
           self.id = e.data.id;
           onChange();

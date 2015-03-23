@@ -45,4 +45,17 @@ object Documents extends Controller with ProvidesUser {
           )))
     })
   }
+
+  def supplierNextNumber(id: Int, provId: Int) = GetAction { implicit request =>
+    LoggedIntoCompanyResponse.getAction(request, { user =>
+      val nextNumber = Document.supplierNextNumber(user, id, provId)
+      Ok(
+        Json.toJson(
+          Json.obj(
+            GC.TA_NUMBER -> Json.toJson(nextNumber.number),
+            GC.TA_MASCARA -> Json.toJson(nextNumber.mask),
+            GC.TA_ENABLED -> Json.toJson(nextNumber.enabled)
+          )))
+    })
+  }
 }

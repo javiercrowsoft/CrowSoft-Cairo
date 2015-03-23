@@ -51,9 +51,10 @@
       var setValue = function(value) {
         if(typeof value === "string") {
           if(value.length > 1) {
-            value = getDateFormatted(getDateValue(value));
+            value = getDateValue(value);
           }
         }
+        value = getDateFormatted(value);
         self.value = value;
         var element = that.getElement();
         if(element) {

@@ -191,7 +191,7 @@
 
   Cairo.Documents.getDocNumberForProveedor = function(provId, docId, dialog) {
     var apiPath = Cairo.Database.getAPIVersion();
-    return Cairo.Database.getData("load[" + apiPath + "documento/" + docId.toString() + "/proveedor]", provId).then(
+    return Cairo.Database.getData("load[" + apiPath + "documento/" + docId.toString() + "/supplier/" + provId.toString() + "/next_number]").then(
       function(response) {
 
         var property = dialog.getProperties().item(CC.FC_NRODOC);
@@ -200,9 +200,9 @@
         var enabled = false;
 
         if(response.success === true) {
-          number = valField(response.data, 'number');
-          mask = valField(response.data, 'mask');
-          enabled = valField(response.data, 'enabled');
+          number = valField(response.data, C.TA_NUMBER);
+          mask = valField(response.data, C.TA_MASCARA);
+          enabled = valField(response.data, C.TA_ENABLED);
         }
 
         property.setValue(number);

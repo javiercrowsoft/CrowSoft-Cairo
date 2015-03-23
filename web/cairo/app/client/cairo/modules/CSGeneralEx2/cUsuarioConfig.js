@@ -1957,7 +1957,7 @@
                   case keyDocFc:
                     var doc = getValue(settings[_i], CONFIG_VALUE);
                     m_docIdFc = doc.id;
-                    m_docIdFc = doc.name;
+                    m_docFcNombre = doc.name;
                     break;
 
                   case keyDocPv:

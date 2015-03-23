@@ -15,6 +15,7 @@ import models.cairo.modules.general.U
 
 case class DocumentEditStatus(status: Int, message: String)
 case class DocumentInfo(monId: Int, doctId: Int, docTipoFactura: Int, mueveStock: Boolean)
+case class DocumentNumberInfo(number: Int, mask: String, enabled: Boolean)
 
 object Document {
 
@@ -71,6 +72,35 @@ object Document {
       } catch {
         case NonFatal(e) => {
           Logger.error(s"can't get document info with docId $id for user ${user.toString}. Error ${e.toString}")
+          throw e
+        }
+      } finally {
+        cs.close
+      }
+    }
+  }
+
+  def supplierNextNumber(user: CompanyUser, id: Int, provId: Int): DocumentNumberInfo = {
+
+    DB.withTransaction(user.database.database) { implicit connection =>
+
+      val sql = "{call sp_proveedor_get_next_number(?, ?, ?, ?, ?)}"
+      val cs = connection.prepareCall(sql)
+
+      cs.setInt(1, provId)
+      cs.setInt(2, id)
+      cs.registerOutParameter(3, Types.INTEGER)
+      cs.registerOutParameter(4, Types.VARCHAR)
+      cs.registerOutParameter(5, Types.INTEGER)
+
+      try {
+        cs.execute()
+
+        DocumentNumberInfo(cs.getInt(3), cs.getString(4), (if(cs.getInt(5) != 0) true else false))
+
+      } catch {
+        case NonFatal(e) => {
+          Logger.error(s"can't get document next number info for suppliers with docId $id and provId $provId for user ${user.toString}. Error ${e.toString}")
           throw e
         }
       } finally {

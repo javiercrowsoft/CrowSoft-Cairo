@@ -26,18 +26,38 @@
       <file leaf-file-name="004-generated-19941-sp-spaces.sql" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/migration_from_sqlserver/functions/004-generated-19941-sp-spaces.sql">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-4.526786" vertical-offset="4230831" max-vertical-offset="7295221">
-              <caret line="222702" column="35" selection-start-line="222702" selection-start-column="1" selection-end-line="222702" selection-end-column="1" />
+            <state vertical-scroll-proportion="-1.7857143" vertical-offset="7048116" max-vertical-offset="7295221">
+              <caret line="370964" column="4" selection-start-line="370882" selection-start-column="0" selection-end-line="370964" selection-end-column="4" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="sp_ld_get_descuento_str.sql" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/cairo/CSGeneral/functions/sp_ld_get_descuento_str.sql">
+      <file leaf-file-name="sp_proveedor_get_talonario.sql" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/cairo/CSGeneral/functions/sp_proveedor_get_talonario.sql">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-25.551723" vertical-offset="1482" max-vertical-offset="2584">
-              <caret line="117" column="74" selection-start-line="117" selection-start-column="74" selection-end-line="117" selection-end-column="74" />
+            <state vertical-scroll-proportion="-8.965517" vertical-offset="424" max-vertical-offset="2318">
+              <caret line="36" column="28" selection-start-line="0" selection-start-column="0" selection-end-line="116" selection-end-column="20" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="sp_proveedor_get_next_number.sql" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/cairo/CSGeneral/functions/sp_proveedor_get_next_number.sql">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.18915802" vertical-offset="805" max-vertical-offset="1672">
+              <caret line="51" column="28" selection-start-line="51" selection-start-column="6" selection-end-line="51" selection-end-column="6" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="sp_proveedor_get_iva.sql" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/cairo/CSGeneral/functions/sp_proveedor_get_iva.sql">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-27.51724" vertical-offset="1368" max-vertical-offset="2280">
+              <caret line="114" column="20" selection-start-line="110" selection-start-column="0" selection-end-line="114" selection-end-column="20" />
               <folding />
             </state>
           </provider>
@@ -46,81 +66,8 @@
       <file leaf-file-name="sp_talonario_get_propuesto.sql" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/cairo/CSGeneral/functions/sp_talonario_get_propuesto.sql">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-16.48276" vertical-offset="3645" max-vertical-offset="4237">
+            <state vertical-scroll-proportion="-28.965517" vertical-offset="3283" max-vertical-offset="4237">
               <caret line="217" column="20" selection-start-line="213" selection-start-column="0" selection-end-line="217" selection-end-column="20" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="sp_cuenta_help_client.sql" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/cairo/CSGeneral/functions/sp_cuenta_help_client.sql">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-16.172413" vertical-offset="386" max-vertical-offset="1311">
-              <caret line="45" column="0" selection-start-line="45" selection-start-column="0" selection-end-line="46" selection-end-column="6" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="sp_cuenta_help_cairo.sql" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/cairo/CSGeneral/functions/sp_cuenta_help_cairo.sql">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-17.034483" vertical-offset="323" max-vertical-offset="1900">
-              <caret line="43" column="33" selection-start-line="42" selection-start-column="33" selection-end-line="43" selection-end-column="19" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="sp_documento_help.sql" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/cairo/CSGeneral/functions/sp_documento_help.sql">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.43678162" vertical-offset="437" max-vertical-offset="3173">
-              <caret line="21" column="34" selection-start-line="21" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="sp_doc_get_info.sql" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/cairo/CSGeneral/functions/sp_doc_get_info.sql">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-7.3448277" vertical-offset="425" max-vertical-offset="1387">
-              <caret line="56" column="28" selection-start-line="56" selection-start-column="0" selection-end-line="56" selection-end-column="0" />
-              <folding>
-                <marker date="1427073187000" expanded="true" signature="1828:1874" placeholder="(...)" />
-                <marker date="1427073187000" expanded="true" signature="1828:1874" placeholder="(...)" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="sp_doc_get_editable.sql" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/cairo/CSGeneral/functions/sp_doc_get_editable.sql">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.7058824" vertical-offset="1934" max-vertical-offset="2812">
-              <caret line="134" column="101" selection-start-line="134" selection-start-column="101" selection-end-line="134" selection-end-column="101" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="sp_sys_language_update.sql" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/cairo/CSScript/postgresql/functions/sp_sys_language_update.sql">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-8.310345" vertical-offset="1431" max-vertical-offset="2052">
-              <caret line="88" column="23" selection-start-line="88" selection-start-column="23" selection-end-line="88" selection-end-column="23" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="sp_producto_compra_help.sql" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/cairo/CSGeneral/functions/sp_producto_compra_help.sql">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-9.827586" vertical-offset="779" max-vertical-offset="1900">
-              <caret line="56" column="16" selection-start-line="54" selection-start-column="3" selection-end-line="56" selection-end-column="16" />
               <folding />
             </state>
           </provider>
@@ -179,10 +126,12 @@
         <option value="$PROJECT_DIR$/cairo/CSGeneral/functions/sp_ld_get_descuento.sql" />
         <option value="$PROJECT_DIR$/cairo/CSGeneral/functions/sp_producto_compra_help.sql" />
         <option value="$PROJECT_DIR$/cairo/CSGeneral/functions/sp_documento_help.sql" />
-        <option value="$PROJECT_DIR$/migration_from_sqlserver/functions/004-generated-19941-sp-spaces.sql" />
         <option value="$PROJECT_DIR$/cairo/CSGeneral/functions/sp_doc_editable_get.sql" />
         <option value="$PROJECT_DIR$/cairo/CSGeneral/functions/sp_doc_get_info.sql" />
         <option value="$PROJECT_DIR$/cairo/CSGeneral/functions/sp_doc_get_editable.sql" />
+        <option value="$PROJECT_DIR$/migration_from_sqlserver/functions/004-generated-19941-sp-spaces.sql" />
+        <option value="$PROJECT_DIR$/cairo/CSGeneral/functions/sp_proveedor_get_talonario.sql" />
+        <option value="$PROJECT_DIR$/cairo/CSGeneral/functions/sp_proveedor_get_next_number.sql" />
       </list>
     </option>
   </component>
@@ -581,20 +530,6 @@
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/postgresql.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1002">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/cairo/CSScript/postgresql/functions/sp_arb_rama_paste_copy.sql">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-17.413794" vertical-offset="255" max-vertical-offset="3857">
-          <caret line="40" column="3" selection-start-line="40" selection-start-column="3" selection-end-line="40" selection-end-column="3" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/cairo/CSScript/postgresql/functions/sp_db_get_new_id2.sql">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.81145835" vertical-offset="0" max-vertical-offset="2147">
@@ -675,14 +610,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-141.65517" vertical-offset="414" max-vertical-offset="4636">
           <caret line="238" column="20" selection-start-line="233" selection-start-column="0" selection-end-line="238" selection-end-column="20" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/cairo/CSGeneral/functions/sp_proveedor_get_iva.sql">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-13.75862" vertical-offset="361" max-vertical-offset="2280">
-          <caret line="40" column="1" selection-start-line="40" selection-start-column="1" selection-end-line="40" selection-end-column="1" />
           <folding />
         </state>
       </provider>
@@ -901,14 +828,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/cairo/CSGeneral/functions/sp_cuenta_help_cairo.sql">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-17.034483" vertical-offset="323" max-vertical-offset="1900">
-          <caret line="43" column="33" selection-start-line="42" selection-start-column="33" selection-end-line="43" selection-end-column="19" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/cairo/CSGeneral/functions/sp_producto_compra_help.sql">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-9.827586" vertical-offset="779" max-vertical-offset="1900">
@@ -925,61 +844,90 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/cairo/CSGeneral/functions/sp_talonario_get_propuesto.sql">
+    <entry file="file://$PROJECT_DIR$/cairo/CSGeneral/functions/sp_doc_get_editable.sql">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-16.48276" vertical-offset="3645" max-vertical-offset="4237">
-          <caret line="217" column="20" selection-start-line="213" selection-start-column="0" selection-end-line="217" selection-end-column="20" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/cairo/CSGeneral/functions/sp_documento_help.sql">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.43678162" vertical-offset="437" max-vertical-offset="3173">
-          <caret line="21" column="34" selection-start-line="21" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/migration_from_sqlserver/functions/004-generated-19941-sp-spaces.sql">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-4.526786" vertical-offset="4230831" max-vertical-offset="7295221">
-          <caret line="222702" column="35" selection-start-line="222702" selection-start-column="1" selection-end-line="222702" selection-end-column="1" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/cairo/CSGeneral/functions/sp_ld_get_descuento_str.sql">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-25.551723" vertical-offset="1482" max-vertical-offset="2584">
-          <caret line="117" column="74" selection-start-line="117" selection-start-column="74" selection-end-line="117" selection-end-column="74" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/cairo/CSGeneral/functions/sp_cuenta_help_client.sql">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-16.172413" vertical-offset="386" max-vertical-offset="1311">
-          <caret line="45" column="0" selection-start-line="45" selection-start-column="0" selection-end-line="46" selection-end-column="6" />
+        <state vertical-scroll-proportion="0.7058824" vertical-offset="1934" max-vertical-offset="2812">
+          <caret line="134" column="101" selection-start-line="134" selection-start-column="101" selection-end-line="134" selection-end-column="101" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/cairo/CSGeneral/functions/sp_doc_get_info.sql">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-7.3448277" vertical-offset="425" max-vertical-offset="1387">
+        <state vertical-scroll-proportion="0.73702425" vertical-offset="425" max-vertical-offset="1387">
           <caret line="56" column="28" selection-start-line="56" selection-start-column="0" selection-end-line="56" selection-end-column="0" />
-          <folding>
-            <marker date="1427073187000" expanded="true" signature="1828:1874" placeholder="(...)" />
-            <marker date="1427073187000" expanded="true" signature="1828:1874" placeholder="(...)" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/cairo/CSGeneral/functions/sp_doc_get_editable.sql">
+    <entry file="file://$PROJECT_DIR$/cairo/CSGeneral/functions/sp_documento_help.sql">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.7058824" vertical-offset="1934" max-vertical-offset="2812">
-          <caret line="134" column="101" selection-start-line="134" selection-start-column="101" selection-end-line="134" selection-end-column="101" />
+        <state vertical-scroll-proportion="-0.043829296" vertical-offset="437" max-vertical-offset="3173">
+          <caret line="21" column="34" selection-start-line="21" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cairo/CSGeneral/functions/sp_cuenta_help_cairo.sql">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.5416667" vertical-offset="323" max-vertical-offset="1900">
+          <caret line="43" column="33" selection-start-line="42" selection-start-column="33" selection-end-line="43" selection-end-column="19" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cairo/CSGeneral/functions/sp_cuenta_help_client.sql">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.50702703" vertical-offset="386" max-vertical-offset="1311">
+          <caret line="45" column="0" selection-start-line="45" selection-start-column="0" selection-end-line="46" selection-end-column="6" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cairo/CSGeneral/functions/sp_ld_get_descuento_str.sql">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.80108106" vertical-offset="1482" max-vertical-offset="2584">
+          <caret line="117" column="74" selection-start-line="117" selection-start-column="74" selection-end-line="117" selection-end-column="74" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/migration_from_sqlserver/functions/004-generated-19941-sp-spaces.sql">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-1.7857143" vertical-offset="7048116" max-vertical-offset="7295221">
+          <caret line="370964" column="4" selection-start-line="370882" selection-start-column="0" selection-end-line="370964" selection-end-column="4" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cairo/CSGeneral/functions/sp_proveedor_get_iva.sql">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-27.51724" vertical-offset="1368" max-vertical-offset="2280">
+          <caret line="114" column="20" selection-start-line="110" selection-start-column="0" selection-end-line="114" selection-end-column="20" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cairo/CSGeneral/functions/sp_talonario_get_propuesto.sql">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-28.965517" vertical-offset="3283" max-vertical-offset="4237">
+          <caret line="217" column="20" selection-start-line="213" selection-start-column="0" selection-end-line="217" selection-end-column="20" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cairo/CSGeneral/functions/sp_proveedor_get_talonario.sql">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-8.965517" vertical-offset="424" max-vertical-offset="2318">
+          <caret line="36" column="28" selection-start-line="0" selection-start-column="0" selection-end-line="116" selection-end-column="20" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cairo/CSGeneral/functions/sp_proveedor_get_next_number.sql">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.18915802" vertical-offset="805" max-vertical-offset="1672">
+          <caret line="51" column="28" selection-start-line="51" selection-start-column="6" selection-end-line="51" selection-end-column="6" />
           <folding />
         </state>
       </provider>

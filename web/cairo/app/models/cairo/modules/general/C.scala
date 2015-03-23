@@ -610,6 +610,9 @@ object C {
   val TA_MASCARA = "ta_mascara"
   val TA_PROPUESTO = "ta_propuesto"
 
+  val TA_NUMBER = "ta_number"
+  val TA_ENABLED = "ta_enabled"
+
   // PercepcionTipo
   val PERCEPCIONTIPO = "PercepcionTipo"
   val PERCT_ID = "perct_id"
