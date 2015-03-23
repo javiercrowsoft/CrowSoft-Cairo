@@ -273,6 +273,8 @@ GET     /api/v1/general/producto/:id/taxes             controllers.logged.module
 
 
 GET     /api/v1/documento/currency/:id/rate/:date      controllers.logged.modules.documentos.Currencies.rate(id: Int, date: String)
+GET     /api/v1/documento/:id/edit_status/:preId       controllers.logged.modules.documentos.Documents.editStatus(id: Int, preId: Int)
+GET     /api/v1/documento/:id/info                     controllers.logged.modules.documentos.Documents.info(id: Int)
 
 GET     /api/v1/compras/facturacompras                 controllers.logged.modules.compras.FacturaCompras.list(from: Option[String], to: Option[String], provId: Option[String], estId: Option[String], ccosId: Option[String], sucId: Option[String], docId: Option[String], cpgId: Option[String], empId: Option[String])
 GET     /api/v1/compras/facturacompras/parameters      controllers.logged.modules.compras.FacturaCompras.parameters()

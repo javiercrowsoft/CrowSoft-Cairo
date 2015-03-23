@@ -40,6 +40,9 @@ create or replace function sp_documentohelp
           fetch all from rtn;
           select * from sp_documentohelp(2, 1, 0, '', 0, 0, 'doct_id = 1 or doct_id = 7');
           fetch all from rtn;
+          select * from sp_documentohelp(1, 1, 0, 'factur', 0, 0, 'doct_id = 2 or doct_id = 8 or doct_id = 10');
+          fetch all from rtn;
+          
           select * from empresa
           
 */

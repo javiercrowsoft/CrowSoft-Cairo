@@ -26,8 +26,28 @@
       <file leaf-file-name="004-generated-19941-sp-spaces.sql" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/migration_from_sqlserver/functions/004-generated-19941-sp-spaces.sql">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-350.0625" vertical-offset="7246875" max-vertical-offset="7295221">
-              <caret line="383478" column="26" selection-start-line="383478" selection-start-column="26" selection-end-line="383478" selection-end-column="26" />
+            <state vertical-scroll-proportion="-4.526786" vertical-offset="4230831" max-vertical-offset="7295221">
+              <caret line="222702" column="35" selection-start-line="222702" selection-start-column="1" selection-end-line="222702" selection-end-column="1" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="sp_ld_get_descuento_str.sql" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/cairo/CSGeneral/functions/sp_ld_get_descuento_str.sql">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-25.551723" vertical-offset="1482" max-vertical-offset="2584">
+              <caret line="117" column="74" selection-start-line="117" selection-start-column="74" selection-end-line="117" selection-end-column="74" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="sp_talonario_get_propuesto.sql" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/cairo/CSGeneral/functions/sp_talonario_get_propuesto.sql">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-16.48276" vertical-offset="3645" max-vertical-offset="4237">
+              <caret line="217" column="20" selection-start-line="213" selection-start-column="0" selection-end-line="217" selection-end-column="20" />
               <folding />
             </state>
           </provider>
@@ -36,8 +56,8 @@
       <file leaf-file-name="sp_cuenta_help_client.sql" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/cairo/CSGeneral/functions/sp_cuenta_help_client.sql">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-16.51724" vertical-offset="357" max-vertical-offset="1311">
-              <caret line="44" column="0" selection-start-line="44" selection-start-column="0" selection-end-line="44" selection-end-column="0" />
+            <state vertical-scroll-proportion="-16.172413" vertical-offset="386" max-vertical-offset="1311">
+              <caret line="45" column="0" selection-start-line="45" selection-start-column="0" selection-end-line="46" selection-end-column="6" />
               <folding />
             </state>
           </provider>
@@ -56,24 +76,41 @@
       <file leaf-file-name="sp_documento_help.sql" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/cairo/CSGeneral/functions/sp_documento_help.sql">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-3.8505747" vertical-offset="444" max-vertical-offset="3116">
-              <caret line="41" column="72" selection-start-line="41" selection-start-column="29" selection-end-line="41" selection-end-column="29" />
+            <state vertical-scroll-proportion="0.43678162" vertical-offset="437" max-vertical-offset="3173">
+              <caret line="21" column="34" selection-start-line="21" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="sp_doc_get_info.sql" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/cairo/CSGeneral/functions/sp_doc_get_info.sql">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-7.3448277" vertical-offset="425" max-vertical-offset="1387">
+              <caret line="56" column="28" selection-start-line="56" selection-start-column="0" selection-end-line="56" selection-end-column="0" />
               <folding>
-                <marker date="1427042117000" expanded="true" signature="1111:1294" placeholder="(...)" />
-                <marker date="1427042117000" expanded="true" signature="1131:1294" placeholder="(...)" />
-                <marker date="1427042117000" expanded="true" signature="1148:1294" placeholder="(...)" />
-                <marker date="1427042117000" expanded="true" signature="1152:1562" placeholder="/*...*/" />
-                <marker date="1427042117000" expanded="true" signature="2000:2495" placeholder="/*...*/" />
+                <marker date="1427073187000" expanded="true" signature="1828:1874" placeholder="(...)" />
+                <marker date="1427073187000" expanded="true" signature="1828:1874" placeholder="(...)" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="sp_sys_language_update.sql" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="sp_doc_get_editable.sql" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/cairo/CSGeneral/functions/sp_doc_get_editable.sql">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.7058824" vertical-offset="1934" max-vertical-offset="2812">
+              <caret line="134" column="101" selection-start-line="134" selection-start-column="101" selection-end-line="134" selection-end-column="101" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="sp_sys_language_update.sql" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/cairo/CSScript/postgresql/functions/sp_sys_language_update.sql">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.4712838" vertical-offset="1431" max-vertical-offset="2052">
-              <caret line="90" column="66" selection-start-line="90" selection-start-column="25" selection-end-line="90" selection-end-column="65" />
+            <state vertical-scroll-proportion="-8.310345" vertical-offset="1431" max-vertical-offset="2052">
+              <caret line="88" column="23" selection-start-line="88" selection-start-column="23" selection-end-line="88" selection-end-column="23" />
               <folding />
             </state>
           </provider>
@@ -84,26 +121,6 @@
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="-9.827586" vertical-offset="779" max-vertical-offset="1900">
               <caret line="56" column="16" selection-start-line="54" selection-start-column="3" selection-end-line="56" selection-end-column="16" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="sp_producto_get.sql" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/cairo/CSGeneral/functions/sp_producto_get.sql">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-1.4655173" vertical-offset="732" max-vertical-offset="4085">
-              <caret line="43" column="38" selection-start-line="43" selection-start-column="16" selection-end-line="43" selection-end-column="16" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="sp_producto_get_tasas.sql" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/cairo/CSGeneral/functions/sp_producto_get_tasas.sql">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-16.51724" vertical-offset="414" max-vertical-offset="1368">
-              <caret line="47" column="22" selection-start-line="47" selection-start-column="17" selection-end-line="47" selection-end-column="17" />
               <folding />
             </state>
           </provider>
@@ -161,8 +178,11 @@
         <option value="$PROJECT_DIR$/cairo/CSGeneral/functions/sp_ld_get_descuento_str.sql" />
         <option value="$PROJECT_DIR$/cairo/CSGeneral/functions/sp_ld_get_descuento.sql" />
         <option value="$PROJECT_DIR$/cairo/CSGeneral/functions/sp_producto_compra_help.sql" />
-        <option value="$PROJECT_DIR$/migration_from_sqlserver/functions/004-generated-19941-sp-spaces.sql" />
         <option value="$PROJECT_DIR$/cairo/CSGeneral/functions/sp_documento_help.sql" />
+        <option value="$PROJECT_DIR$/migration_from_sqlserver/functions/004-generated-19941-sp-spaces.sql" />
+        <option value="$PROJECT_DIR$/cairo/CSGeneral/functions/sp_doc_editable_get.sql" />
+        <option value="$PROJECT_DIR$/cairo/CSGeneral/functions/sp_doc_get_info.sql" />
+        <option value="$PROJECT_DIR$/cairo/CSGeneral/functions/sp_doc_get_editable.sql" />
       </list>
     </option>
   </component>
@@ -261,54 +281,6 @@
               <option name="myItemId" value="cairo" />
               <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
             </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="CSScript" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="postgresql" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="database" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="database" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="cairo" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="CSScript" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="postgresql" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="functions" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="database" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="database" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="cairo" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
           </PATH>
           <PATH>
             <PATH_ELEMENT>
@@ -347,24 +319,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="functions" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="database" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="database" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="cairo" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="CSCompras" />
               <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -590,7 +544,7 @@
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.337386" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.337386" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="true" content_ui="tabs" />
@@ -627,20 +581,6 @@
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/cairo/CSGeneral/sequences/t_producto_proveedor_seq.sql">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1002">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/cairo/CSScript/postgresql/tables/cairo_script.sql">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-1.9655173" vertical-offset="0" max-vertical-offset="486495">
-          <caret line="3" column="16" selection-start-line="3" selection-start-column="16" selection-end-line="3" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/postgresql.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1002">
@@ -695,14 +635,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="912" max-vertical-offset="6080">
           <caret line="48" column="2" selection-start-line="48" selection-start-column="2" selection-end-line="48" selection-end-column="2" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/cairo/CSGeneral/functions/sp_talonario_get_propuesto.sql">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="836" max-vertical-offset="4237">
-          <caret line="44" column="15" selection-start-line="44" selection-start-column="6" selection-end-line="44" selection-end-column="15" />
           <folding />
         </state>
       </provider>
@@ -937,14 +869,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/cairo/CSGeneral/functions/sp_ld_get_descuento_str.sql">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-8.5172415" vertical-offset="1482" max-vertical-offset="2584">
-          <caret line="117" column="74" selection-start-line="117" selection-start-column="74" selection-end-line="117" selection-end-column="74" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/cairo/CSGeneral/functions/sp_ld_get_descuento.sql">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-20.310345" vertical-offset="57" max-vertical-offset="2185">
@@ -977,22 +901,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/migration_from_sqlserver/functions/004-generated-19941-sp-spaces.sql">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-350.0625" vertical-offset="7246875" max-vertical-offset="7295221">
-          <caret line="383478" column="26" selection-start-line="383478" selection-start-column="26" selection-end-line="383478" selection-end-column="26" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/cairo/CSGeneral/functions/sp_cuenta_help_client.sql">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-16.51724" vertical-offset="357" max-vertical-offset="1311">
-          <caret line="44" column="0" selection-start-line="44" selection-start-column="0" selection-end-line="44" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/cairo/CSGeneral/functions/sp_cuenta_help_cairo.sql">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-17.034483" vertical-offset="323" max-vertical-offset="1900">
@@ -1009,24 +917,69 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/cairo/CSScript/postgresql/functions/sp_sys_language_update.sql">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-8.310345" vertical-offset="1431" max-vertical-offset="2052">
+          <caret line="88" column="23" selection-start-line="88" selection-start-column="23" selection-end-line="88" selection-end-column="23" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cairo/CSGeneral/functions/sp_talonario_get_propuesto.sql">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-16.48276" vertical-offset="3645" max-vertical-offset="4237">
+          <caret line="217" column="20" selection-start-line="213" selection-start-column="0" selection-end-line="217" selection-end-column="20" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/cairo/CSGeneral/functions/sp_documento_help.sql">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-3.8505747" vertical-offset="444" max-vertical-offset="3116">
-          <caret line="41" column="72" selection-start-line="41" selection-start-column="29" selection-end-line="41" selection-end-column="29" />
+        <state vertical-scroll-proportion="0.43678162" vertical-offset="437" max-vertical-offset="3173">
+          <caret line="21" column="34" selection-start-line="21" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/migration_from_sqlserver/functions/004-generated-19941-sp-spaces.sql">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-4.526786" vertical-offset="4230831" max-vertical-offset="7295221">
+          <caret line="222702" column="35" selection-start-line="222702" selection-start-column="1" selection-end-line="222702" selection-end-column="1" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cairo/CSGeneral/functions/sp_ld_get_descuento_str.sql">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-25.551723" vertical-offset="1482" max-vertical-offset="2584">
+          <caret line="117" column="74" selection-start-line="117" selection-start-column="74" selection-end-line="117" selection-end-column="74" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cairo/CSGeneral/functions/sp_cuenta_help_client.sql">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-16.172413" vertical-offset="386" max-vertical-offset="1311">
+          <caret line="45" column="0" selection-start-line="45" selection-start-column="0" selection-end-line="46" selection-end-column="6" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cairo/CSGeneral/functions/sp_doc_get_info.sql">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-7.3448277" vertical-offset="425" max-vertical-offset="1387">
+          <caret line="56" column="28" selection-start-line="56" selection-start-column="0" selection-end-line="56" selection-end-column="0" />
           <folding>
-            <marker date="1427042117000" expanded="true" signature="1111:1294" placeholder="(...)" />
-            <marker date="1427042117000" expanded="true" signature="1131:1294" placeholder="(...)" />
-            <marker date="1427042117000" expanded="true" signature="1148:1294" placeholder="(...)" />
-            <marker date="1427042117000" expanded="true" signature="1152:1562" placeholder="/*...*/" />
-            <marker date="1427042117000" expanded="true" signature="2000:2495" placeholder="/*...*/" />
+            <marker date="1427073187000" expanded="true" signature="1828:1874" placeholder="(...)" />
+            <marker date="1427073187000" expanded="true" signature="1828:1874" placeholder="(...)" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/cairo/CSScript/postgresql/functions/sp_sys_language_update.sql">
+    <entry file="file://$PROJECT_DIR$/cairo/CSGeneral/functions/sp_doc_get_editable.sql">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.4712838" vertical-offset="1431" max-vertical-offset="2052">
-          <caret line="90" column="66" selection-start-line="90" selection-start-column="25" selection-end-line="90" selection-end-column="65" />
+        <state vertical-scroll-proportion="0.7058824" vertical-offset="1934" max-vertical-offset="2812">
+          <caret line="134" column="101" selection-start-line="134" selection-start-column="101" selection-end-line="134" selection-end-column="101" />
           <folding />
         </state>
       </provider>

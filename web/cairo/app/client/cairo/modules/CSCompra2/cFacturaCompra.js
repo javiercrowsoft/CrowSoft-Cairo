@@ -668,7 +668,7 @@
               m_lastDocId = changeInfo.docId;
               m_lastDocName = changeInfo.docName;
 
-              p = DB.getData("load[" + m_apiPath + "documento/info]", m_lastDocId);
+              p = DB.getData("load[" + m_apiPath + "documento/" + m_lastDocId.toString() + "/info]");
 
               p.then(function(response) {
 

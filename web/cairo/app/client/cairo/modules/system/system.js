@@ -522,8 +522,8 @@
 
       if(response.success === true) {
         return {
-          status: valField(response.data, 'status'),
-          message: valField(response.data, 'status')
+          status: valField(response.data, 'doc_editable_status'),
+          message: valField(response.data, 'doc_editable_message')
         };
       }
       else {

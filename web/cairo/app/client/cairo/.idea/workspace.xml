@@ -8,7 +8,7 @@
     <file path="/control.js" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1426120309371" ignored="false" />
     <file path="/select.js" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1426292545861" ignored="false" />
     <file path="/dialog.js" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1426876827297" ignored="false" />
-    <file path="/a.dummy" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1426990098948" ignored="false" />
+    <file path="/a.dummy" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1427071317863" ignored="false" />
     <file path="/datePicker.js" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1425596722049" ignored="false" />
     <file path="/view.js" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1426776213029" ignored="false" />
     <file path="/cairoApp.js" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1426724605043" ignored="false" />
@@ -22,7 +22,7 @@
     <file path="/property.js" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1426785856137" ignored="false" />
     <file path="/collection.js" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1426014851927" ignored="false" />
     <file path="/system.js" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1426089321908" ignored="false" />
-    <file path="/cFacturaCompra.js" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1426987914258" ignored="false" />
+    <file path="/cFacturaCompra.js" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1427071437272" ignored="false" />
     <file path="/dialogList.js" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1426791767278" ignored="false" />
     <file path="/optionButton.js" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1423089376621" ignored="false" />
     <file path="/list.js" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1423092259476" ignored="false" />
@@ -108,25 +108,34 @@
       <file leaf-file-name="cFacturaCompra.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/modules/CSCompra2/cFacturaCompra.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="2046" column="43" selection-start="56680" selection-end="56680" vertical-scroll-proportion="-26.74074">
+            <state line="677" column="69" selection-start="17111" selection-end="17111" vertical-scroll-proportion="-9.444445">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="system.js" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="constants.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/modules/CSGeneral2/constants.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="726" column="6" selection-start="20624" selection-end="20624" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="system.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/modules/system/system.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="643" column="48" selection-start="19151" selection-end="19151" vertical-scroll-proportion="-20.444445">
+            <state line="106" column="4" selection-start="3166" selection-end="3166" vertical-scroll-proportion="0.33333334">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="view.js" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="view.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/system/dialogs/view.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="718" column="14" selection-start="21819" selection-end="21819" vertical-scroll-proportion="0.6207983">
+            <state line="718" column="14" selection-start="21819" selection-end="21819" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -152,12 +161,12 @@
         <option value="$PROJECT_DIR$/system/dialogs/dialog.js" />
         <option value="$PROJECT_DIR$/system/controls/grid.js" />
         <option value="$PROJECT_DIR$/system/database/database.js" />
-        <option value="$PROJECT_DIR$/modules/CSCompra2/cFacturaCompra.js" />
         <option value="$PROJECT_DIR$/cairoModules.js" />
         <option value="$PROJECT_DIR$/modules/CSGeneral2/constants.js" />
         <option value="$PROJECT_DIR$/modules/CSGeneral2/cProducto.js" />
-        <option value="$PROJECT_DIR$/modules/system/system.js" />
         <option value="$PROJECT_DIR$/system/dialogs/view.js" />
+        <option value="$PROJECT_DIR$/modules/system/system.js" />
+        <option value="$PROJECT_DIR$/modules/CSCompra2/cFacturaCompra.js" />
       </list>
     </option>
   </component>
@@ -655,13 +664,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/modules/CSGeneral2/constants.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="879" column="22" selection-start="25826" selection-end="25842" vertical-scroll-proportion="0.28947368">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/modules/CSGeneral2/cRubro.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
@@ -676,23 +678,30 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/system/dialogs/view.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="718" column="14" selection-start="21819" selection-end="21819" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/modules/CSGeneral2/constants.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="726" column="6" selection-start="20624" selection-end="20624" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/modules/CSCompra2/cFacturaCompra.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="2046" column="43" selection-start="56680" selection-end="56680" vertical-scroll-proportion="-26.74074">
+        <state line="677" column="69" selection-start="17111" selection-end="17111" vertical-scroll-proportion="-9.444445">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/modules/system/system.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="643" column="48" selection-start="19151" selection-end="19151" vertical-scroll-proportion="-20.444445">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/system/dialogs/view.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="718" column="14" selection-start="21819" selection-end="21819" vertical-scroll-proportion="0.6207983">
+        <state line="106" column="4" selection-start="3166" selection-end="3166" vertical-scroll-proportion="0.33333334">
           <folding />
         </state>
       </provider>

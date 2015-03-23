@@ -600,6 +600,9 @@ object C {
   val DOC_MUEVE_STOCK = "doc_muevestock"
   val DOC_TIPO_FACTURA = "doc_tipofactura"
 
+  val DOC_EDITABLE_STATUS = "doc_editable_status"
+  val DOC_EDITABLE_MESSAGE = "doc_editable_message"
+
   // Talonario
   val TALONARIO = "Talonario"
   val TA_ID = "ta_id"
