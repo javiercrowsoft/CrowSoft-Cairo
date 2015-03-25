@@ -472,9 +472,25 @@
           m_sendRefresh = sendRefresh;
         };
 
+        var docToolbarClick = function(key) {
+          var button = { key: key };
+          return function() {
+            return docHandlerToolbarClick(button);
+          };
+        };
+
+
         var setDocumentListeners = function() {
           m_documentView.addListener({
             commandClick:               docHandlerCommandClick,
+
+            closeClick:                 docToolbarClick(Dialogs.Constants.toolbarKeyClose),
+            copyClick:                  docToolbarClick(Dialogs.Constants.toolbarKeyCopy),
+            documentsClick:             docToolbarClick(Dialogs.Constants.toolbarKeyAttach),
+            newClick:                   docToolbarClick(Dialogs.Constants.toolbarKeyNew),
+            printClick:                 docToolbarClick(Dialogs.Constants.toolbarKeyPrint),
+            saveClick:                  docToolbarClick(Dialogs.Constants.toolbarKeySave),
+
             selectKeyDown:              docHandlerSelectKeyDown,
 
             tabClick:                   docHandlerTabClick,
@@ -484,7 +500,6 @@
             viewBeforeDestroy:          docHandlerViewBeforeDestroy,
             viewDestroy:                docHandlerViewDestroy,
 
-            toolBarClick:               docHandlerToolbarClick,
             comboChange:                docHandlerComboChange,
             checkboxClick:              docHandlerCheckboxClick,
 
@@ -1173,7 +1188,7 @@
         //
         self.refreshEnabledState = function(properties) {
           for(var _i = 0; _i < m_properties.count(); _i++) {
-            setEnabled(properties.get(_i));
+            self.setEnabled(properties.get(_i));
           }
           self.setTabIndexDescription();
         };
@@ -1540,9 +1555,8 @@
               //
               inCurrentTag = (c.getTag().substring(0, lenStrTag) === strTag
                               && c.getTag() !== ""
-                              //&& !("cbTab" === c.getName())// TODO: remove after testing
                               && !Controls.isTab(c)
-                              && (Cairo.Util.val(c.getTag().substring(lenStrTag + 1)) + m_tabOffset) === m_currentTab);
+                              && (Cairo.Util.val(c.getTag().substring(lenStrTag)) + m_tabOffset) === m_currentTab);
             }
             else {
               var valTag = Cairo.Util.val(c.getTag());
@@ -2376,17 +2390,17 @@
         self.showValue = function(property) {
           var strTag = "";
           if(m_isDocument) {
-            strTag = getStrTag(property);
+            strTag = getTag(property);
           }
           self.showValueEx(property, false, strTag);
         };
 
-        var getStrTag = function(property) {
+        var getTag = function(property) {
           return Cairo.safeExecute(
             function() {
               if(property.getControl() !== null) {
                 var tag = property.getControl().getTag();
-                return tag.substring(1, tag.length - 1);
+                return tag.substring(0, tag.length -1);
               }
               else {
                 return "";
@@ -2580,75 +2594,65 @@
         };
 
         var doNew = function(view) {
-          Cairo.LoadingMessage.showWait();
-
           var p = null;
 
           // only in master or header of documents
           //
           if(!m_isItems && !m_isFooter) {
-            p = saveChanges(false).then(
-              function() {
-                var p = null;
+            p = saveChanges(false).success(function() {
 
-                m_title = "";
+              var p = null;
 
-                if(!m_isDocument && !m_sendRefresh) {
-                  p = discardChanges(true);
-                }
+              Cairo.LoadingMessage.showWait();
 
-                p = p || Cairo.Promises.resolvedPromise();
+              m_title = "";
 
-                p.then(
-                  function() {
-                    m_client.editNew().then(
-                      function() {
-                        var p = null;
+              if(!m_isDocument && !m_sendRefresh) {
+                p = discardChanges(true);
+              }
 
-                        if(m_sendRefresh) {
-                          self.refreshTitle();
+              p = p || Cairo.Promises.resolvedPromise();
+
+              return p
+                .then(m_client.editNew)
+                .then(function() {
+                  var p = null;
+
+                  if(m_sendRefresh) {
+                    self.refreshTitle();
+                  }
+
+                  if(m_isDocument) {
+                    p = newWithWizard().then(
+                      function(newHandledByAWizard) {
+                        if(!newHandledByAWizard) {
+                          moveFocus();
                         }
-
-                        if(m_isDocument) {
-                          p = newWithWizard().then(
-                            function(newHandledByAWizard) {
-                              if(!newHandledByAWizard) {
-                                moveFocus();
-                              }
-                            }
-                          );
-                        }
-
-                        p = p || Cairo.Promises.resolvedPromise();
-
-                        return p.then(
-                          function() {
-                            var p = null;
-
-                            self.setChanged(false);
-
-                            if(m_newPropertyKeyFocus !== "") {
-                              self.setFocusFromPropertyKey(m_newPropertyKeyFocus);
-                            }
-                            else {
-                              if(m_isDocument) {
-                                p = newWithWizard().then(
-                                  function() {
-                                    view.setFocusFirstControl();
-                                    return true;
-                                  }
-                                );
-                              }
-                            }
-                            return (p || Cairo.Promises.resolvedPromise(true));
-                          }
-                        );
                       }
                     );
                   }
-                );
-              }
-            );
+
+                  return p || Cairo.Promises.resolvedPromise();
+                })
+                .then(function() {
+                  var p = null;
+
+                  self.setChanged(false);
+
+                  if(m_newPropertyKeyFocus !== "") {
+                    self.setFocusFromPropertyKey(m_newPropertyKeyFocus);
+                  }
+                  else {
+                    if(m_isDocument) {
+                      p = newWithWizard().then(function() {
+                        view.setFocusFirstControl();
+                        return true;
+                      });
+                    }
+                  }
+                  return p || Cairo.Promises.resolvedPromise(true);
+                });
+            });
           }
           return (p || Cairo.Promises.resolvedPromise(true)).then(
             function(success) {
@@ -3040,7 +3044,7 @@
 
             if(!m_isItems && !m_isFooter && button !== null) {
 
-              switch(button.getKey()) {
+              switch(button.key) {
 
                 case Dialogs.Constants.toolbarKeyNew:
 
@@ -3240,7 +3244,7 @@
 
                 default:
 
-                  m_client.messageEx(Dialogs.Message.MSG_TOOLBAR_BUTTON_CLICK, button.getKey());
+                  m_client.messageEx(Dialogs.Message.MSG_TOOLBAR_BUTTON_CLICK, button.key);
                   break;
               }
             }
@@ -3248,7 +3252,7 @@
           catch(e) {
             Cairo.manageError(
               "Error in Document Toolbar Click Handler",
-              "An error has occurred when processing '" + button.getName() + button.getKey().toString()  + "' action.",
+              "An error has occurred when processing '" + button.key + "' action.",
               e.message,
               e);
               hideMsg();
@@ -3291,11 +3295,15 @@
 
         var toolBarClickNew = function() {
           showMsg("Loading a new document ...");
-          doNew(m_documentView).then(hideMsg);
+          return doNew(m_documentView).then(hideMsg);
         };
 
         var showMsg = function(msg) {
-          Cairo.LoadingMessage.show("Documents", msg);
+          /* TODO: implement this with an alert or something similar in the document's view instead of using the generic
+           * LoadingMessage dialog which shows a modal dialog with a spinner and is shown on top of the question dialog
+           *
+           * */
+          //Cairo.LoadingMessage.show("Documents", msg);
         };
 
         var hideMsg = function() {
@@ -5260,8 +5268,6 @@
 
               m_inSave = true;
 
-              Cairo.LoadingMessage.showWait();
-
               //
               // first we need to take all input from the view's controls and update
               // the properties collection
@@ -5300,21 +5306,21 @@
               // now we need to validate
               // again validation could mean an ajax request
               //
-                function() {
-                  return validate();
-                }
+                validate
+
               ).success(
               //
               // if validation succeeded we check items and footers
               //
-                function() {
-                  return validateItemsAndFooters();
-                }
+                validateItemsAndFooters
+
               ).success(
               //
               // all validation succeeded, now we save
               //
                 function() {
+
+                  Cairo.LoadingMessage.showWait();
 
                   // standard document, wizard or master save
                   //

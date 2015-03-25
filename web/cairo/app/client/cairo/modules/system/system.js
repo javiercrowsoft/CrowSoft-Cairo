@@ -428,7 +428,7 @@
 
   Cairo.Documents.getEmailFromProveedor = function(provId) {
     var apiPath = Cairo.Database.getAPIVersion();
-    return Cairo.Database.getData("load[" + apiPath + "proveedor/email]", provId).then(
+    return Cairo.Database.getData("load[" + apiPath + "general/proveedor/" + provId.toString() + "/email]").then(
       function(response) {
         if(response.success === true) {
           var email = valField(response.data, 'email');
@@ -447,7 +447,7 @@
 
       if(provId !== Cairo.Constants.NO_ID) {
         var apiPath = Cairo.Database.getAPIVersion();
-        Cairo.Database.getData("load[" + apiPath + "proveedor/info]", provId).then(
+        Cairo.Database.getData("load[" + apiPath + "general/proveedor/" + provId.toString() + "/data_add]").then(
           function(response) {
             if(response.success === true) {
               var info = valField(response.data, 'info');
@@ -522,14 +522,14 @@
 
       if(response.success === true) {
         return {
-          status: valField(response.data, 'doc_editable_status'),
+          editableStatus: valField(response.data, 'doc_editable_status') !== 0,
           message: valField(response.data, 'doc_editable_message')
         };
       }
       else {
         return {
           status: Cairo.Documents.Status.error,
-          message: ""
+          message: "An error has occurred when requesting the editable status for this document."
         };
       }
     });

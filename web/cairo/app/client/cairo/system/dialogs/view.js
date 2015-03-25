@@ -954,8 +954,18 @@
 
     Views.createDocumentView = function() {
 
+      var self = {
+        btnEditDocument: Controls.createButton(),
+        btnNew: Controls.createButton(),
+        btnCopy: Controls.createButton(),
+        btnPrint: Controls.createButton(),
+        btnDiscardChanges: Controls.createButton(),
+        saved: false
+      };
+
       var that = Views.createView('Document');
 
+      /* TODO: some of this methods will be removed */
       that.setLoading = function(loading) { /* TODO: implement this. */ };
       that.getCancelUnload = function() { /* TODO: implement this. */ };
       that.setCancelUnload = function(loading) { /* TODO: implement this. */ };
@@ -970,6 +980,64 @@
       that.setButtonsEx3 = function(buttons) { /* TODO: implement this. */ };
 
       that.setToolbarButtons = function() { /* TODO: implement this. */ };
+      /* TODO: end => some of this methods will be removed */
+
+      that.getEditDocumentsButton = function() {
+        return self.btnEditDocument;
+      };
+      that.getNewButton = function() {
+        return self.btnNew;
+      };
+      that.getCopyButton = function() {
+        return self.btnCopy;
+      };
+      that.getPrintButton = function() {
+        return self.btnPrint;
+      };
+      that.setSaved = function(saved) {
+        self.saved = saved;
+      };
+
+      var supperBindView = that.bindView;
+
+      var onEditDocumentClick = function() {
+        that.raiseEvent("documentsClick");
+      };
+
+      var onPrintClick = function() {
+        that.raiseEvent("printClick");
+      };
+
+      var onDiscardChangesClick = function() {
+        that.raiseEvent("cancelClick");
+      };
+
+      var onCopyClick = function() {
+        that.raiseEvent("copyClick");
+      };
+
+      var onNewClick = function() {
+        that.raiseEvent("newClick");
+      };
+
+      that.bindView = function(view) {
+        supperBindView(view);
+
+        self.btnEditDocument.setElement(view.$('.dialog-documents-button'));
+        self.btnEditDocument.getElement().click(onEditDocumentClick);
+
+        self.btnPrint.setElement(view.$('.dialog-print-button'));
+        self.btnPrint.getElement().click(onPrintClick);
+
+        self.btnDiscardChanges.setElement(view.$('.dialog-discard-button'));
+        self.btnDiscardChanges.getElement().click(onDiscardChangesClick);
+
+        self.btnCopy.setElement(view.$('.dialog-copy-button'));
+        self.btnCopy.getElement().click(onCopyClick);
+
+        self.btnNew.setElement(view.$('.dialog-new-button'));
+        self.btnNew.getElement().click(onNewClick);
+      };
 
       return that;
     };

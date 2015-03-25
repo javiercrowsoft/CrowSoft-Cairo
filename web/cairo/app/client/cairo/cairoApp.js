@@ -1172,7 +1172,7 @@ var Cairo = new Marionette.Application();
   });
 
   Cairo.module("Common.Views", function(Views, Cairo, Backbone, Marionette, $, _) {
-    Views.InputText = Cairo.Common.Views.InputTextForm.extend({
+    Views.InputText = Views.InputTextForm.extend({
       initialize: function() {
         this.title = this.model.get("title");
       },
@@ -1187,7 +1187,7 @@ var Cairo = new Marionette.Application();
       }
     });
 
-    Views.Confirm = Cairo.Common.Views.ConfirmForm.extend({
+    Views.Confirm = Views.ConfirmForm.extend({
       initialize: function() {
         this.title = this.model.get("title");
       },
@@ -1200,7 +1200,7 @@ var Cairo = new Marionette.Application();
       }
     });
 
-    Views.ErrorMessage = Cairo.Common.Views.ErrorMessageView.extend({
+    Views.ErrorMessage = Views.ErrorMessageView.extend({
       initialize: function() {
         this.title = this.model.get("title");
       },
@@ -1213,7 +1213,7 @@ var Cairo = new Marionette.Application();
       }
     });
 
-    Views.InfoMessage = Cairo.Common.Views.InfoMessageView.extend({
+    Views.InfoMessage = Views.InfoMessageView.extend({
       initialize: function() {
         this.title = this.model.get("title");
       },
@@ -1246,7 +1246,7 @@ var Cairo = new Marionette.Application();
 
   Cairo.confirmViewWithClasses = function(title, message, yesClass, noClass, confirmHandler) {
     var Model = Backbone.Model.extend({ urlRoot: "inputForm" });
-    var model = new Model({ title: title, message: message, yesClass: yesClass, noClass: noClass });
+    var model = new Model({ title: title, message: message, yesClass: yesClass, noClass: noClass, cancelClass: 'hide' });
     var view = new Cairo.Common.Views.Confirm({
         model: model
       });
@@ -1258,6 +1258,30 @@ var Cairo = new Marionette.Application();
     });
 
     return view;
+  };
+
+  Cairo.confirmViewWithCancelAndClasses = function(title, message, yesClass, noClass, confirmHandler) {
+    var Model = Backbone.Model.extend({ urlRoot: "inputForm" });
+    var model = new Model({ title: title, message: message, yesClass: yesClass, noClass: noClass, cancelClass: '' });
+    var view = new Cairo.Common.Views.Confirm({
+      model: model
+    });
+
+    view.on("form:submit", function(data) {
+      Cairo.log("submit handled - Data: " + data);
+      view.trigger("dialog:close");
+      confirmHandler(data.answer);
+    });
+
+    return view;
+  };
+
+  Cairo.confirmViewWithCancelNoDanger = function(title, message, confirmHandler) {
+    return Cairo.confirmViewWithCancelAndClasses(title, message,  "btn-info", "btn-danger", confirmHandler);
+  };
+
+  Cairo.confirmViewWithCancelYesDanger = function(title, message, confirmHandler) {
+    return Cairo.confirmViewWithCancelAndClasses(title, message,  "btn-danger", "btn-info", confirmHandler);
   };
 
   Cairo.confirmViewYesDanger = function(title, message, confirmHandler) {

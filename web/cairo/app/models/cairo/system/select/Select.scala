@@ -221,7 +221,7 @@ object Select {
           parsedTable.selectStatement,
           table.hasActive,
           active,
-          table.name,
+          table.realName,
           filter,
           InternalFilter.getFilter(user, internalFilter),
           like,
@@ -426,7 +426,7 @@ object Select {
             val sqlstmt = sql.toLowerCase()
             if(sqlstmt.startsWith("select")) {
               val columns = getColumns
-              val activeFilter = if(table.hasActive) s"(${table.name}.activo <> 0)" else ""
+              val activeFilter = if(table.hasActive) s"(${table.realName}.activo <> 0)" else ""
               val conditions = applyFilter(text, columns, " = ")
               val sql = getSqlstmt(sqlstmt)
               val select = DBHelper.removeTopClause(DBHelper.getSelectClause(sql))

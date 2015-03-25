@@ -25,7 +25,10 @@
       CFG_GRUPO: "cfg_grupo",
       CFG_ASPECTO: "cfg_aspecto",
       CFG_VALOR: "cfg_valor",
-      
+
+      HAS_IVA_RI: "bIvaRi",
+      HAS_IVA_RNI: "bIvaRni",
+
       // Rol
       ROL: "Rol",
       ROL_ID: "rol_id",

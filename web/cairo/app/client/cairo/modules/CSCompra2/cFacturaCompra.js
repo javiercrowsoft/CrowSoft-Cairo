@@ -272,7 +272,7 @@
 
           m_prov_id = provId;
 
-          DB.getData("load[" + m_apiPath + "proveedor/info]", provId).then(function(response) {
+          DB.getData("load[" + m_apiPath + "general/proveedor/" + provId.toString() + "/name]").then(function(response) {
 
             try {
 
@@ -322,7 +322,7 @@
 
           m_prov_id = provId;
 
-          DB.getData("load[" + m_apiPath + "proveedor/info]", provId).then(function(response) {
+          DB.getData("load[" + m_apiPath + "general/proveedor/" + provId.toString() + "/name]").then(function(response) {
 
             try {
 
@@ -389,7 +389,8 @@
 
         m_listController.updateEditorKey(self, NO_ID);
 
-        p = load(NO_ID).then(function() {
+        // p = load(NO_ID).then(function() {
+        p = self.edit(NO_ID).then(function() {
 
           var p = null;
 
@@ -424,7 +425,7 @@
 
           m_taPropuesto = enabled;
           setColorBackground();
-          return refreshProperties();
+          return true;
 
         });
 
@@ -670,7 +671,7 @@
 
               p = DB.getData("load[" + m_apiPath + "documento/" + m_lastDocId.toString() + "/info]");
 
-              p.then(function(response) {
+              p = p.then(function(response) {
 
                 if(response.success === true) {
                   m_lastMonId = valField(response.data, C.MON_ID);
@@ -718,6 +719,7 @@
             p.then(function() {
               setEnabled();
             });
+
             break;
 
           case K_PROV_ID:
@@ -1207,7 +1209,7 @@
               }
             };
 
-            p = DB.getData("load[" + m_apiPath + "proveedor/info]", provId).then(validate);
+            p = DB.getData("load[" + m_apiPath + "general/proveedor/" + provId.toString() + "/cat_fiscal]").then(validate);
           }
         }
         catch(ex) {
@@ -2146,7 +2148,7 @@
         elem.setValue(m_fechaentrega);
         elem.setTabIndex(1);
 
-        elem = properties.add(null, C.DEPL_ID_ORIGEN);
+        elem = properties.add(null, CC.DEPL_ID_ORIGEN);
         elem.setType(T.select);
         elem.setSelectTable(Cairo.Tables.DEPOSITO_LOGICO);
         elem.setName(getText(1574, "")); // Deposito
@@ -2574,7 +2576,7 @@
         var p = null;
         var cpgId = getCondicionPago().getSelectId();
         if(cpgId !== m_lastCpgId) {
-          p = DB.getData("load[" + m_apiPath + "condicionpago/info]", cpgId).then(
+          p = DB.getData("load[" + m_apiPath + "general/condicionpago/" + cpgId.toString() + "/info]").then(
             function(response) {
               if(response.success === true) {
                 setFechaVto(cpgId, response);
@@ -3290,8 +3292,8 @@
 
               m_tipoComprobante = valField(data, CC.FC_TIPO_COMPROBANTE);
 
-              m_bIva = valField(data, CC.BIVA_RI);
-              m_bIvaRni = valField(data, CC.BIVA_RNI);
+              m_bIva = valField(data, C.HAS_IVA_RI);
+              m_bIvaRni = valField(data, C.HAS_IVA_RNI);
 
               m_cotizacionProv = valField(data, CC.FC_COTIZACION_PROV);
 
@@ -3402,7 +3404,7 @@
               p = p
                 .then(P.call(D.editableStatus, m_doc_id, CS.NEW_FACTURA))
                 .then(function(status) {
-                  m_docEditable = status.editable;
+                  m_docEditable = status.editableStatus;
                   m_docEditMsg = status.message;
                   return true;
                 });
@@ -4056,7 +4058,7 @@
       };
 
       var setEnabled = function() {
-        var bState = null;
+        var bState = false;
 
         // when the document requires base document like a purchase order or a delivery note
         // it can't be edited. the user must click the new button and use the wizard.
@@ -4090,7 +4092,7 @@
 
             if(bState) {
               if(prop.getKey() !== K_NRODOC) {
-                prop.setEnabled(bState);
+                prop.setEnabled(true);
               }
               else {
                 prop.setEnabled(m_taPropuesto);
@@ -4104,7 +4106,7 @@
 
         if(bState) {
           var properties = m_properties;
-          properties.item(C.DEPL_ID_ORIGEN).setEnabled(m_showStockData);
+          properties.item(CC.DEPL_ID_ORIGEN).setEnabled(m_showStockData);
         }
 
         var _count = m_itemsProps.size();
@@ -4127,21 +4129,21 @@
 
           var apiPath = DB.getAPIVersion();
           p = DB.getData(
-            "load[" + apiPath + "proveedor/" + m_lastProvId.toString() + "/info]", m_lastDocId);
+            "load[" + apiPath + "general/proveedor/" + m_lastProvId.toString() + "/info]", m_lastDocId);
 
           p = p.successWithResult(function(response) {
 
-            var lp_id = valField(response.data, 'lp_id');
-            var lp_name = valField(response.data, 'lp_name');
-            var ld_id = valField(response.data, 'ld_id');
-            var ld_name = valField(response.data, 'ld_name');
-            var cpg_id = valField(response.data, 'cpg_id');
-            var lp_filter = valField(response.data, 'lp_filter');
-            var ld_filter = valField(response.data, 'ld_filter');
+            var lp_id = valField(response.data, C.LP_ID);
+            var lp_name = valField(response.data, C.LP_NAME);
+            var ld_id = valField(response.data, C.LD_ID);
+            var ld_name = valField(response.data, C.LD_NAME);
+            var cpg_id = valField(response.data, C.CPG_ID);
+            var lp_filter = D.getListaPrecioForProveedor(m_doc_id, m_prov_id);
+            var ld_filter = D.getListaDescuentoForProveedor(m_doc_id, m_prov_id);
 
             if(cpg_id !== NO_ID) {
 
-              var cpg_name = valField(response.data, 'cpg_name');
+              var cpg_name = valField(response.data, C.CPG_NAME);
 
               var prop = m_properties
                 .item(C.CPG_ID)
@@ -4173,11 +4175,11 @@
 
             var bLastIva = m_bIva;
             var ivaChanged = false;
-            m_bIva = valField(response.data, 'bIva');
+            m_bIva = valField(response.data, C.HAS_IVA_RI);
             if(bLastIva !== m_bIva) { ivaChanged = true; }
 
             bLastIva = m_bIvaRni;
-            m_bIvaRni = valField(response.data, 'bIvaRni');
+            m_bIvaRni = valField(response.data, C.HAS_IVA_RNI);
             if(bLastIva !== m_bIvaRni) { ivaChanged = true; }
 
             if(ivaChanged) {
@@ -4186,8 +4188,6 @@
 
             setFechaVto(cpg_id, response)
           });
-
-          return true;
         }
         return p || P.resolvedPromise(false);
       };
@@ -4410,24 +4410,14 @@
 
         setEnabled();
 
-        loadItems(getProperty(m_items, C_ITEMS), cotizacion)
-          .success(
-            call(loadPercepciones, getProperty(m_items, C_OTROS), cotizacion)
-          )
-          .success(
-            call(loadOtros, getProperty(m_items, C_PERCEPCIONES), cotizacion)
-          )
-          .success(
-            call(loadLegajos, getProperty(m_items, C_LEGAJOS), cotizacion)
-          )
-          .success(
-            showCotizacion
-          )
-          .then(
-            showFechaVto
-          );
+        loadItems(getProperty(m_items, C_ITEMS), cotizacion);
+        loadPercepciones(getProperty(m_items, C_OTROS), cotizacion);
+        loadOtros(getProperty(m_items, C_PERCEPCIONES), cotizacion);
+        loadLegajos(getProperty(m_items, C_LEGAJOS), cotizacion);
 
-        D.showDataAddProveedor(Cairo.UserConfig.getShowDataAddInCompras(), m_dialog);
+        return showCotizacion()
+          .then(showFechaVto)
+          .then(call(D.showDataAddProveedor, Cairo.UserConfig.getShowDataAddInCompras(), m_dialog));
       };
 
       var showApplycation = function() {
@@ -4605,7 +4595,7 @@
           deplId = C.DepositosInternos.deplIdTercero;
         }
         else {
-          deplId = m_properties.item(C.DEPL_ID_ORIGEN).getSelectId();
+          deplId = m_properties.item(CC.DEPL_ID_ORIGEN).getSelectId();
         }
 
         return deplId;

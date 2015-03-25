@@ -17,11 +17,29 @@
     },
 
     confirmCancelViewNoDanger: function(title, message) {
-      /* TODO: implement this. */
+      var defer = new Cairo.Promises.Defer();
+
+      var view = Cairo.confirmViewWithCancelNoDanger(
+        title,
+        message,
+        function(answer) { defer.resolve(answer); }
+      );
+      Cairo.dialogRegion.show(view);
+
+      return defer.promise;
     },
 
     confirmCancelViewYesDanger: function(title, message) {
-      /* TODO: implement this. */
+      var defer = new Cairo.Promises.Defer();
+
+      var view = Cairo.confirmViewWithCancelYesDanger(
+        title,
+        message,
+        function(answer) { defer.resolve(answer); }
+      );
+      Cairo.dialogRegion.show(view);
+
+      return defer.promise;
     },
 
     confirmViewYesDefault: function(title, message) {

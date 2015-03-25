@@ -526,13 +526,13 @@ object C {
   val CALLE_DESCRIP = "calle_descrip"
 
   // Calle Altura
-  val CALLEALTURA = "CalleAltura"
+  val CALLE_ALTURA = "CalleAltura"
   val CALLEA_ID = "callea_id"
   val CALLEA_DESDE = "callea_desde"
   val CALLEA_HASTA = "callea_hasta"
 
   // Proveedores CAI
-  val PROVEEDORCAI = "ProveedorCAI"
+  val PROVEEDOR_CAI = "ProveedorCAI"
   val PROVC_ID = "provc_id"
   val PROVC_NUMERO = "provc_numero"
   val PROVC_DESCRIP = "provc_descrip"
@@ -540,7 +540,7 @@ object C {
   val PROVC_SUCURSAL = "provc_sucursal"
 
   // Condicion Pago
-  val CONDICIONPAGO = "CondicionPago"
+  val CONDICION_PAGO = "CondicionPago"
   val CPG_ID = "cpg_id"
   val CPG_NAME = "cpg_nombre"
   val CPG_CODE = "cpg_codigo"
@@ -551,7 +551,7 @@ object C {
   val CPG_TIPO = "cpg_tipo"
 
   // Condicion Pago Item
-  val CONDICIONPAGOITEM = "CondicionPagoItem"
+  val CONDICION_PAGO_ITEM = "CondicionPagoItem"
   val CPGI_ID = "cpgi_id"
   val CPGI_DIAS = "cpgi_dias"
   val CPGI_PORCENTAJE = "cpgi_porcentaje"

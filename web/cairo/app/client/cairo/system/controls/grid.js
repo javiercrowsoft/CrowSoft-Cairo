@@ -668,6 +668,10 @@
       };
 
       var updateCell = function(info, td) {
+        if(that.getEnabled() === false) {
+          return;
+        }
+
         try {
           var col = self.columns.getOrElse(info.col, null);
 
@@ -730,6 +734,10 @@
       };
 
       var edit = function(info, td) {
+        if(that.getEnabled() === false) {
+          return;
+        }
+
         var col = self.columns.getOrElse(info.col, null);
 
         //
@@ -947,6 +955,10 @@
       };
 
       var deleteRow = function(info, td) {
+        if(that.getEnabled() === false) {
+          return;
+        }
+
         var body = gridManager.body[0];
         var trs = body.childNodes;
         if(self.rows.count() > info.row) {

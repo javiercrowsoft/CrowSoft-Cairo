@@ -22,3 +22,12 @@ Cairo.FacturaCompraListDoc = {};
 
 Cairo.Rubro = {};
 Cairo.Rubro.Load = {};
+
+Cairo.Common = {};
+
+Marionette = {};
+Backbone = {};
+Marionette.Region = {};
+Backbone.Model = {};
+Backbone.history = {};
+Backbone.history.fragment = {};

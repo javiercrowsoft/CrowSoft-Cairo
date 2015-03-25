@@ -236,10 +236,6 @@
       PRO_ID_ORIGEN: "pro_id_origen",
       PRO_ID_DESTINO: "pro_id_destino",
 
-      // Iva
-      BIVA_RI: "bIvaRi",
-      BIVA_RNI: "bIvaRni",
-
       // FacturaCompraPercepcion
       FACTURA_COMPRA_PERCEPCION: "FacturaCompraPercepcion",
       FCPERC_ID: "fcperc_id",
