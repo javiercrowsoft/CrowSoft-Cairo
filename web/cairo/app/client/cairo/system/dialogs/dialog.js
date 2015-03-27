@@ -211,6 +211,8 @@
 
         var Dialogs = Cairo.Dialogs;
         var Controls = Cairo.Controls;
+        var P = Cairo.Promises;
+        var call = P.call;
 
         var K_W_CANCEL = -10;
 
@@ -2548,7 +2550,7 @@
               e.message,
               e);
           }
-          return (p || Cairo.Promises.resolvedPromise(true));
+          return (p || P.resolvedPromise(true));
         };
 
         var masterHandlerCommandClick = function(index) {
@@ -2611,7 +2613,7 @@
                 p = discardChanges(true);
               }
 
-              p = p || Cairo.Promises.resolvedPromise();
+              p = p || P.resolvedPromise();
 
               return p
                 .then(m_client.editNew)
@@ -2632,7 +2634,7 @@
                     );
                   }
 
-                  return p || Cairo.Promises.resolvedPromise();
+                  return p || P.resolvedPromise();
                 })
                 .then(function() {
                   var p = null;
@@ -2650,11 +2652,11 @@
                       });
                     }
                   }
-                  return p || Cairo.Promises.resolvedPromise(true);
+                  return p || P.resolvedPromise(true);
                 });
             });
           }
-          return (p || Cairo.Promises.resolvedPromise(true)).then(
+          return (p || P.resolvedPromise(true)).then(
             function(success) {
               Cairo.LoadingMessage.close();
               return success;
@@ -2895,7 +2897,7 @@
               );
             }
           }
-          return (p || Cairo.Promises.resolvedPromise(true));
+          return (p || P.resolvedPromise(true));
         };
 
         /*
@@ -3615,7 +3617,7 @@
             return gridColumnEdit(false, index, eventArgs.row, eventArgs.col, eventArgs.keyAscii, 0, 0);
           }
           else {
-            return Cairo.Promises.resolvedPromise(false);
+            return P.resolvedPromise(false);
           }
         };
 
@@ -3701,7 +3703,7 @@
                   );
                 }
                 else {
-                  p = Cairo.Promises.resolvedPromise(true);
+                  p = P.resolvedPromise(true);
                 }
               }
             }
@@ -3713,7 +3715,7 @@
               e.message,
               e);
           }
-          return (p || Cairo.Promises.resolvedPromise(false));
+          return (p || P.resolvedPromise(false));
         };
 
         var gridAfterDeleteRow = function(index, rowIndex) {
@@ -3745,7 +3747,7 @@
         var setRowBackground = function(index, property, rowIndex, colIndex) {
           try {
             var grid = getView().getGrids().get(index);
-            if(property.getGrid().getColumns(colIndex).getType() === Dialogs.PropertyType.grid) {
+            if(property.getGrid().getColumns().item(colIndex).getType() === Dialogs.PropertyType.grid) {
               grid.selectRow(rowIndex);
             }
             else {
@@ -3785,7 +3787,7 @@
               );
             }
           }
-          return p || Cairo.Promises.resolvedPromise(true);
+          return p || P.resolvedPromise(true);
         };
 
         var setDefaults = function(property, rowIndex) {
@@ -3846,7 +3848,7 @@
                       );
                     }
 
-                    p = p || Cairo.Promises.resolvedPromise();
+                    p = p || P.resolvedPromise();
 
                     p.then(
                       function() {
@@ -3901,7 +3903,7 @@
                 var colAmount = getColIndexFromKey(property, virtualRow.getColAmount());
                 var q = 0;
 
-                var p = Cairo.Promises.resolvedPromise();
+                var p = P.resolvedPromise();
 
                 //
                 // for every new row we need to serialize
@@ -3972,13 +3974,13 @@
                                     }
                                   );
                                 }
-                                return p || Cairo.Promises.resolvedPromise();
+                                return p || P.resolvedPromise();
                               }
                             );
                           }
                         );
                       }
-                      p = p || Cairo.Promises.resolvedPromise();
+                      p = p || P.resolvedPromise();
                       return p.then(function() {
                         //
                         // finally we update the grid control
@@ -4014,7 +4016,7 @@
           // if the client is null just return a succes with result in false to cancel the addition
           //
           if(m_client === null) {
-            return Cairo.Promises.resolvedPromise(virtualRow);
+            return P.resolvedPromise(virtualRow);
           }
           else {
             //
@@ -4155,7 +4157,7 @@
               e.message,
               e);
           }
-          return (p || Cairo.Promises.resolvedPromise(false));
+          return (p || P.resolvedPromise(false));
         };
 
         // TODO: refactor promise is returned by this function
@@ -4224,7 +4226,7 @@
                       updateCell();
                     }
 
-                    return (p || Cairo.Promises.resolvedPromise(mustHandleEvent));
+                    return (p || P.resolvedPromise(mustHandleEvent));
                   }
                 );
               }
@@ -4237,7 +4239,7 @@
               e.message,
               e);
           }
-          return (p || Cairo.Promises.resolvedPromise(false));
+          return (p || P.resolvedPromise(false));
         };
 
         var createRowIfDoesntExist = function(property, index, rowIndex) {
@@ -4344,8 +4346,8 @@
                           else {
                             return {
                               cancel:  true,
-                              isEmpty: true,
-                              isValid: true // empty rows are valid
+                              isEmpty: false,
+                              isValid: true
                             };
                           }
                         }
@@ -4364,7 +4366,7 @@
             }
           }
 
-          return (p || Cairo.Promises.resolvedPromise({
+          return (p || P.resolvedPromise({
             cancel:  true,
             isEmpty: false,
             isValid: false
@@ -4413,7 +4415,7 @@
               }
             );
           }
-          return p || Cairo.Promises.resolvedPromise();
+          return p || P.resolvedPromise();
         };
 
         var toolBarButtonClick = function(button) {
@@ -5105,7 +5107,7 @@
               // this code when property is null the original code was coded
               // this way. It should be refactored.
 
-              p = p || Cairo.Promises.resolvedPromise(true);
+              p = p || P.resolvedPromise(true);
 
               p.then(
                 function() {
@@ -5141,7 +5143,7 @@
                     }
                   }
 
-                  return (p || Cairo.Promises.resolvedPromise(true));
+                  return (p || P.resolvedPromise(true));
                 }
               );
             }
@@ -5222,7 +5224,7 @@
             );
           }
           else {
-            p = Cairo.Promises.resolvedPromise(true);
+            p = P.resolvedPromise(true);
           }
           return p;
         };
@@ -5252,7 +5254,7 @@
         // TODO: refactor promise is returned by this function
         //
         var saveDialog = function(unloading, saveAs) {
-          var defer = new Cairo.Promises.Defer();
+          var defer = new P.Defer();
           var success = function(success) { defer.resolve(success); };
           var error = function() { defer.resolve(false); }
           setTimeout(function(){ _saveDialog().then(success, error); }, 300);
@@ -5298,7 +5300,7 @@
                     p = m_client.messageEx(Dialogs.Message.MSG_DOC_EX_PRE_VALIDATE, null);
                   }
 
-                  return p || Cairo.Promises.resolvedPromise();
+                  return p || P.resolvedPromise();
                 },
                 false
               ).then(
@@ -5362,7 +5364,7 @@
                     }
                   }
 
-                  p = p || Cairo.Promises.resolvedPromise(true);
+                  p = p || P.resolvedPromise(true);
 
                   //
                   // this function always returns success
@@ -5406,7 +5408,7 @@
               e);
           }
 
-          p = p || Cairo.Promises.resolvedPromise(false);
+          p = p || P.resolvedPromise(false);
 
           return p.then(
             function(success) {
@@ -5441,7 +5443,7 @@
           //
           // this function is optimistic
           //
-          var p = Cairo.Promises.resolvedPromise(true);
+          var p = P.resolvedPromise(true);
 
           var view = getView();
           var gridCount = view.getGrids().count();
@@ -5474,7 +5476,7 @@
         // TODO: refactor promise is returned by this function
         //
         var fillRows = function(grid, gridCtrl) {
-          var p = null;
+          var p = P.resolvedPromise(result);
           var colIndex = 0;
           var rowIndex = 0;
           var rowCount = 0;
@@ -5517,17 +5519,12 @@
           ///////////////////////////////////////////////////////////////////////
 
           var fillRow = function(result) {
-            if(!result.cancel) {
-              if(!result.isEmpty) {
+            if(!result.isEmpty) {
 
-                if(haveKey) {
-                  if(rowIndex < keys.length) {
-                    if(keys[rowIndex][0] !== "") {
-                      row = grid.getRows().add(null, keys[rowIndex][0]);
-                    }
-                    else {
-                      row = grid.getRows().add(null);
-                    }
+              if(haveKey) {
+                if(rowIndex < keys.length) {
+                  if(keys[rowIndex][0] !== "") {
+                    row = grid.getRows().add(null, keys[rowIndex][0]);
                   }
                   else {
                     row = grid.getRows().add(null);
@@ -5536,33 +5533,33 @@
                 else {
                   row = grid.getRows().add(null);
                 }
+              }
+              else {
+                row = grid.getRows().add(null);
+              }
 
-                columnCount = grid.getColumns().count();
-                // column at zero only have row number
-                //
-                for(colIndex = 1; colIndex < columnCount; colIndex++) {
+              columnCount = grid.getColumns().count();
+              // column at zero only have row number
+              //
+              for(colIndex = 1; colIndex < columnCount; colIndex++) {
 
-                  var col = grid.getColumns(colIndex);
-                  var cellCtrl = gridCtrl.cell(rowIndex, colIndex);
-                  var cell = null;
+                var col = grid.getColumns().item(colIndex);
+                var cellCtrl = gridCtrl.cell(rowIndex, colIndex);
+                var cell = null;
 
-                  if(haveKey) {
-                    if(rowIndex < keys.length && colIndex < keys[rowIndex].length) {
-                      if(keys[rowIndex][colIndex] !== "") {
-                        if(keys[rowIndex][colIndex] === Dialogs.Constants.keyRowItem) {
-                          if(row.get(Dialogs.Constants.keyRowItem) === null) {
-                            cell = row.add(null, keys[rowIndex][colIndex]);
-                          }
-                          else {
-                            cell = row.add(null);
-                          }
+                if(haveKey) {
+                  if(rowIndex < keys.length && colIndex < keys[rowIndex].length) {
+                    if(keys[rowIndex][colIndex] !== "") {
+                      if(keys[rowIndex][colIndex] === Dialogs.Constants.keyRowItem) {
+                        if(row.get(Dialogs.Constants.keyRowItem) === null) {
+                          cell = row.add(null, keys[rowIndex][colIndex]);
                         }
                         else {
-                          cell = row.add(null, keys[rowIndex][colIndex]);
+                          cell = row.add(null);
                         }
                       }
                       else {
-                        cell = row.add(null);
+                        cell = row.add(null, keys[rowIndex][colIndex]);
                       }
                     }
                     else {
@@ -5572,24 +5569,28 @@
                   else {
                     cell = row.add(null);
                   }
-
-                  cell.setId(cellCtrl.getItemData());
-                  cell.setSelectIntValue(cellCtrl.getTag());
-
-                  if(col.getType() === Dialogs.PropertyType.date) {
-                    cell.setValue(Cairo.Util.getDateValueFromGrid(cellCtrl.getText()));
-                  }
-                  else if(col.getSubType() === Dialogs.PropertySubType.percentage) {
-                    cell.setValue(Cairo.Util.val(cellCtrl.getText()) * 100);
-                  }
-                  else {
-                    cell.setValue(cellCtrl.getText());
-                  }
-
-                  cell.setKey(col.getKey());
                 }
+                else {
+                  cell = row.add(null);
+                }
+
+                cell.setId(cellCtrl.getItemData());
+                cell.setSelectIntValue(cellCtrl.getTag());
+
+                if(col.getType() === Dialogs.PropertyType.date) {
+                  cell.setValue(Cairo.Util.getDateValueFromGrid(cellCtrl.getText()));
+                }
+                else if(col.getSubType() === Dialogs.PropertySubType.percentage) {
+                  cell.setValue(Cairo.Util.val(cellCtrl.getText()) * 100);
+                }
+                else {
+                  cell.setValue(cellCtrl.getText());
+                }
+
+                cell.setKey(col.getKey());
               }
             }
+
             return result;
           };
 
@@ -5618,7 +5619,7 @@
               //
               var property = getProperty(Dialogs.PropertyType.grid, gridCtrl.getIndex(), 0);
               if(property.getGridAddEnabled()) {
-                p = gridValidateRow(gridCtrl.getIndex(), rowIndex, false);
+                p = p.then(call(gridValidateRow, gridCtrl.getIndex(), rowIndex, false));
               }
             }
 
@@ -5626,21 +5627,13 @@
               fillRow(result);
             }
             else {
-              p.then(
-                function(result) {
-                  return fillRow(result);
-                }
-              );
+              p = p.then(fillRow);
             }
           }
 
-          p = (p || Cairo.Promises.resolvedPromise(result));
-
-          return p.then(
-            function(result) {
-              return !result.cancel;
-            }
-          );
+          return p.then(function(result) {
+            return result.isValid;
+          });
         };
 
         var saveColumnsGrids = function() {
@@ -5671,7 +5664,7 @@
               e);
           }
 
-          return (p || Cairo.Promises.resolvedPromise(true));
+          return (p || P.resolvedPromise(true));
         };
 
         var validate = function() {
@@ -5691,7 +5684,7 @@
                 // to this function is done only in the success callback
                 // of the promise
                 //
-                var p = Cairo.Promises.resolvedPromise(true);
+                var p = P.resolvedPromise(true);
                 //
                 // we have to validate all grids. that means all rows (for -> for)
                 //
@@ -6110,7 +6103,7 @@
 
         self.printDocWithResult = function(id, docId) {
           if(id === Cairo.Constants.NO_ID) {
-            return Cairo.Promises.resolvedPromise(false);
+            return P.resolvedPromise(false);
           }
           else {
             var config = Cairo.Settings;
@@ -6183,7 +6176,7 @@
                 p = saveChanges(false);
               }
 
-              p = p || Cairo.Promises.resolvedPromise(true);
+              p = p || P.resolvedPromise(true);
 
               p.then(
                 function() {
@@ -6249,7 +6242,7 @@
               e);
           }
 
-          return (p || Cairo.Promises.resolvedPromise(false));
+          return (p || P.resolvedPromise(false));
         };
 
         var getUserDescription = function() {
@@ -6270,7 +6263,7 @@
             p = m_client.messageEx(Dialogs.Message.MSG_DOC_NEW_WITH_WIZARD, null);
           }
           catch(ignore) {}
-          return (p || Cairo.Promises.resolvedPromise(false));
+          return (p || P.resolvedPromise(false));
         };
 
         var getTabIndex = function(property) {
