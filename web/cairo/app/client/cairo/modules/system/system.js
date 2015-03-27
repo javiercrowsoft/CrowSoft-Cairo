@@ -376,19 +376,17 @@
       var apiPath = Cairo.Database.getAPIVersion();
       var p = Cairo.Database.getData("load[" + apiPath + "documento/" + docId.toString() + "/is_valid_date]", Cairo.Database.sqlDate(date));
 
-      p.then(function(response) {
+      return p.then(function(response) {
 
         var isValid = false;
         var range = "";
         if(response.success === true) {
-          isValid = valField(response.data, 0);
-          range = valField(response.data, 1);
+          isValid = valField(response.data, "isvalid");
+          range = valField(response.data, "range");
         }
 
         return { success: true, isValid: isValid, range: range};
       });
-
-      return p;
     }
   };
 

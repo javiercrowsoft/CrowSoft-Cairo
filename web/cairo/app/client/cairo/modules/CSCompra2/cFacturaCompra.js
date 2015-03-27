@@ -1724,7 +1724,7 @@
         return P.resolvedPromise(true);
       };
 
-      var validateRow = function(key, row, rowIndex) {
+      self.validateRow = function(key, row, rowIndex) {
         var p = null;
 
         try {
@@ -2775,7 +2775,7 @@
         elem.setDefaultValue(Grids.createCell());
         elem.getDefaultValue()
           .setId(D.Constants.TO_COMERCIAL_ID)
-          .setValue(Cairo.Constants.TO_COMERCIAL);
+          .setValue(D.Constants.TO_COMERCIAL);
         elem.setKey(KI_TO_ID);
         elem.setVisible(bColVisible);
 
@@ -4042,7 +4042,7 @@
 
           var apiPath = DB.getAPIVersion();
           p = DB.getData(
-            "load[" + apiPath + "general/producto/" + prId.toString() + "/discount]", ldId);
+            "load[" + apiPath + "general/producto/" + prId.toString() + "/discount/" + ldId.toString() + "/price]", precio);
 
           p = p.successWithResult(function(response) {
             desc = valField(response.data, 'desc');

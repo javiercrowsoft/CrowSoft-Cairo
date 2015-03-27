@@ -35,6 +35,8 @@
         ctrlColumn.setSelectFilter(propertyColumn.getSelectFilter());
         ctrlColumn.setSelectTable(propertyColumn.getSelectTable());
         ctrlColumn.setSelectNoUseActive(propertyColumn.getSelectNoUseActive());
+
+        ctrlColumn.setDefault(propertyColumn.getDefaultValue());
       };
 
       that.loadFromRows = function(gridControl, grid, noChangeColumns, name) {

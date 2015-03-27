@@ -2056,7 +2056,7 @@ object Producto {
       cs.setInt(1, id)
       cs.setInt(2, ldId)
       cs.registerOutParameter(3, Types.DECIMAL)
-      cs.setDouble(3, price)
+      cs.setBigDecimal(3, new BigDecimal(price))
 
       try {
         cs.execute()
@@ -2078,7 +2078,7 @@ object Producto {
 
     DB.withTransaction(user.database.database) { implicit connection =>
 
-      val sql = "{call sp_ld_get_descuento(?, ?, ?)}"
+      val sql = "{call sp_ld_get_descuento_str(?, ?, ?)}"
       val cs = connection.prepareCall(sql)
 
       cs.setInt(1, id)

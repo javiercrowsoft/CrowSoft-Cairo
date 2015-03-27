@@ -90,7 +90,7 @@
         selectType: Cairo.Select.SelectType.normal,
         selectTable: 0,        
 
-        defaultValue: null, /* is a Grids.Cell object */
+        defaultValue: null, /* is a Dialogs.Grids.Cell object */
 
         index: -1
       };
@@ -1364,6 +1364,11 @@
 
         gridManager.addToEmptyRow = function(col, index, cells) {
           var cell = cells.add();
+          var dcell = col.getDefault();
+          if(dcell !== null) {
+            cell.setText(dcell.getValue());
+            cell.setItemData(dcell.getId());
+          }
         };
 
         gridManager.createEmptyRow = function() {
@@ -1526,6 +1531,15 @@
       that.getRows = function() {
         return self.rows;
       };
+
+      that.getRowCount = function() {
+        if(self.newRow !== null) {
+          return self.rows.count() + 1;
+        }
+        else {
+          return self.rows.count();
+        }
+      }
 
       that.getRow = getRow;
 

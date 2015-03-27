@@ -5601,7 +5601,11 @@
             isValid: true
           };
 
-          rowCount = gridCtrl.getRows().count();
+          // the grid's rows collection doesn't contain the new row
+          // not all grids allow to add new rows
+          // getRowCount contemplate all this cases
+          //
+          rowCount = gridCtrl.getRowCount();
           var lastRowIndex = rowCount -1;
           for(rowIndex = 0; rowIndex < rowCount; rowIndex++) {
 
