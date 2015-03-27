@@ -8,6 +8,7 @@ import services.db.DB
 import models.cairo.system.database.{DBHelper, Register, Field, FieldType, SaveResult, Recordset}
 import play.api.Play.current
 import models.domain.CompanyUser
+import java.util.Date
 import play.api.Logger
 import play.api.libs.json._
 import scala.util.control.NonFatal
@@ -16,6 +17,8 @@ import models.cairo.modules.general.U
 case class DocumentEditStatus(status: Int, message: String)
 case class DocumentInfo(monId: Int, doctId: Int, docTipoFactura: Int, mueveStock: Boolean)
 case class DocumentNumberInfo(number: Int, mask: String, enabled: Boolean)
+case class AccountInfo(cueId: Int, monId: Int)
+case class DateInfo(isValid: Boolean, range: String)
 
 object Document {
 
@@ -101,6 +104,62 @@ object Document {
       } catch {
         case NonFatal(e) => {
           Logger.error(s"can't get document next number info for suppliers with docId $id and provId $provId for user ${user.toString}. Error ${e.toString}")
+          throw e
+        }
+      } finally {
+        cs.close
+      }
+    }
+  }
+
+  def supplierAccount(user: CompanyUser, id: Int, provId: Int): AccountInfo = {
+
+    DB.withTransaction(user.database.database) { implicit connection =>
+
+      val sql = "{call sp_doc_get_cue_id(?, ?, ?, ?)}"
+      val cs = connection.prepareCall(sql)
+
+      cs.setInt(1, provId)
+      cs.setInt(2, id)
+      cs.registerOutParameter(3, Types.INTEGER)
+      cs.registerOutParameter(4, Types.INTEGER)
+
+      try {
+        cs.execute()
+
+        AccountInfo(cs.getInt(3), cs.getInt(4))
+
+      } catch {
+        case NonFatal(e) => {
+          Logger.error(s"can't get document account for suppliers with docId $id and provId $provId for user ${user.toString}. Error ${e.toString}")
+          throw e
+        }
+      } finally {
+        cs.close
+      }
+    }
+  }
+
+  def isValidDate(user: CompanyUser, id: Int, date: Date): DateInfo = {
+
+    DB.withTransaction(user.database.database) { implicit connection =>
+
+      val sql = "{call sp_doc_validate_date(?, ?, ?, ?)}"
+      val cs = connection.prepareCall(sql)
+
+      cs.setInt(1, id)
+      cs.setDate(2, new java.sql.Date(date.getTime()))
+      cs.registerOutParameter(3, Types.INTEGER)
+      cs.registerOutParameter(4, Types.VARCHAR)
+
+      try {
+        cs.execute()
+
+        DateInfo(cs.getInt(3) != 0, cs.getString(4))
+
+      } catch {
+        case NonFatal(e) => {
+          Logger.error(s"can't validate date for document with docId $id and date $date for user ${user.toString}. Error ${e.toString}")
           throw e
         }
       } finally {

@@ -209,6 +209,8 @@
         property.setTextMask(mask);
         property.setEnabled(enabled);
 
+        dialog.showValue(property);
+
         return enabled;
       }
     );
@@ -372,7 +374,7 @@
     }
     else {
       var apiPath = Cairo.Database.getAPIVersion();
-      var p = Cairo.Database.getData("load[" + apiPath + "documento/" + docId.toString() + "/is_date_valid]", Cairo.Database.sqlDate(date));
+      var p = Cairo.Database.getData("load[" + apiPath + "documento/" + docId.toString() + "/is_valid_date]", Cairo.Database.sqlDate(date));
 
       p.then(function(response) {
 
@@ -391,7 +393,7 @@
   };
 
   Cairo.Documents.docCanBeSaved = function(dialog, dateKey) {
-    return self.docCanBeSavedEx(dialog, dateKey, C.DOC_ID);
+    return Cairo.Documents.docCanBeSavedEx(dialog, dateKey, C.DOC_ID);
   };
 
   Cairo.Documents.docCanBeSavedEx = function(dialog, dateKey, documentKey) {

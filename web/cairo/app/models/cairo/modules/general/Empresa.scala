@@ -270,7 +270,7 @@ object Empresa {
               updatedBy =>
         Empresa(
               id,
-              (if(active != 0) true else false),
+              active != 0,
               razonsocial,
               cuit,
               ingresosbrutos,

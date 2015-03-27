@@ -237,7 +237,7 @@ object Cuenta {
               name,
               code,
               identificacionExterna,
-              (if(active != 0) true else false),
+              active != 0,
               monId,
               monName,
               llevaCentroCosto,

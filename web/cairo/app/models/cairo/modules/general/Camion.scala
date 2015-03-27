@@ -183,7 +183,7 @@ object Camion {
         Camion(
               id,
               code,
-              (if(active != 0) true else false),
+              active != 0,
               esSemi,
               patente,
               patentesemi,

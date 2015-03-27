@@ -1100,7 +1100,7 @@ object FacturaCompra {
           cai,
           tipoComprobante,
           descrip,
-          (if(grabarAsiento != 0) true else false)
+          grabarAsiento != 0
         ),
         FacturaCompraReferences(
           doctId,
@@ -1108,15 +1108,15 @@ object FacturaCompra {
           monId,
           monName,
           taMascara,
-          (if(taPropuesto != 0) true else false),
-          (if(firmado != 0) true else false),
-          (if(docMueveStock != 0) true else false),
+          taPropuesto != 0,
+          firmado != 0,
+          docMueveStock != 0,
           docTipoFactura,
           asId.getOrElse(DBHelper.NoId),
           stId.getOrElse(DBHelper.NoId),
-          (if(hasIvaRi != 0) true else false),
-          (if(hasIvaRni != 0) true else false),
-          (if(editable != 0) true else false),
+          hasIvaRi != 0,
+          hasIvaRni != 0,
+          editable != 0,
           editMsg
         ),
         FacturaCompraDates(

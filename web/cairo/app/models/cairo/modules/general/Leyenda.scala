@@ -144,7 +144,7 @@ object Leyenda {
               id,
               name,
               code,
-              (if(active != 0) true else false),
+              active != 0,
               idmId,
               idmName,
               descrip,

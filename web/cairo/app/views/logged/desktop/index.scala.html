@@ -712,6 +712,10 @@
   Cairo.User.setId(@{companyUser.userId});
   Cairo.Company.setId(@{companyUser.cairoCompanyId});
   Cairo.Company.setName('@{companyUser.cairoCompanyName}');
+  Cairo.User.setSucId(@{companyUser.cairoUser.branch.id});
+  Cairo.User.setSucName('@{companyUser.cairoUser.branch.name}');
+  Cairo.User.setPrsId(@{companyUser.cairoUser.person.id});
+  Cairo.User.setPrsName('@{companyUser.cairoUser.person.name}');
 
   // TODO: get this from company configuration
   //

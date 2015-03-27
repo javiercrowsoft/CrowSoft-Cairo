@@ -711,6 +711,30 @@ var Cairo = new Marionette.Application();
     }
   };
 
+  var left = function left(str, n){
+    if (n <= 0)
+      return "";
+    else if (n > String(str).length)
+      return str;
+    else
+      return String(str).substring(0,n);
+  };
+
+  var right = function right(str, n){
+    if (n <= 0)
+      return "";
+    else if (n > String(str).length)
+      return str;
+    else {
+      var iLen = String(str).length;
+      return String(str).substring(iLen, iLen - n);
+    }
+  };
+
+  var string = function string(length, character) {
+    return new Array(length + 1).join( character );
+  };
+
   Cairo.Util = {
     sendKeys: function(key) { /* TODO: implement this. */ },
     getDateValueForGrid: getDateFormatted,
@@ -772,7 +796,10 @@ var Cairo = new Marionette.Application();
       catch(ignore) {
         return 0;
       }
-    }
+    },
+    right: right,
+    left: left,
+    string: string
   };
 
   var createCompany = function() {
@@ -816,7 +843,9 @@ var Cairo = new Marionette.Application();
       name: '',
       id: 0,
       sucId: 0,
-      sucName: ''
+      sucName: '',
+      prsId: 0,
+      prsName: ''
     }
 
     var that = {};
@@ -847,6 +876,20 @@ var Cairo = new Marionette.Application();
     };
     that.setSucName = function(name) {
       self.sucName = name;
+    };
+
+    that.getPrsId = function() {
+      return self.prsId;
+    };
+    that.setPrsId = function(id) {
+      self.prsId = id;
+    };
+
+    that.getPrsName = function() {
+      return self.prsName;
+    };
+    that.setPrsName = function(name) {
+      self.prsName = name;
     };
 
     return that;

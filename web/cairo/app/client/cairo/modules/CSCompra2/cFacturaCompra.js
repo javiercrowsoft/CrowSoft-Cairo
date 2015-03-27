@@ -1238,8 +1238,7 @@
         };
 
         var p = DB.getData(
-            "load[" + m_apiPath + "documento/" + m_lastDocId.toString() + "/cuenta_proveedor/]",
-            m_lastProvId)
+            "load[" + m_apiPath + "documento/" + m_lastDocId.toString() + "/supplier/" + m_lastProvId.toString() + "/account]")
           .successWithResult(getCueId, false);
 
         return p;
@@ -4186,7 +4185,9 @@
               updateTotals();
             }
 
-            setFechaVto(cpg_id, response)
+            setFechaVto(cpg_id, response);
+
+            return true;
           });
         }
         return p || P.resolvedPromise(false);

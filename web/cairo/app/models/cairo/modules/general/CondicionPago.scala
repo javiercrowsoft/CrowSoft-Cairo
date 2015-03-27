@@ -122,8 +122,8 @@ object CondicionPago {
           id,
           name,
           code,
-          (if(esLibre != 0) true else false),
-          (if(active != 0) true else false),
+          esLibre != 0,
+          active != 0,
           createdAt,
           updatedAt,
           updatedBy)

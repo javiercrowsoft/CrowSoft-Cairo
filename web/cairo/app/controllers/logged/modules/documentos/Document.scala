@@ -58,4 +58,28 @@ object Documents extends Controller with ProvidesUser {
           )))
     })
   }
+
+  def supplierAccount(id: Int, provId: Int) = GetAction { implicit request =>
+    LoggedIntoCompanyResponse.getAction(request, { user =>
+      val accountInfo = Document.supplierAccount(user, id, provId)
+      Ok(
+        Json.toJson(
+          Json.obj(
+            GC.CUE_ID -> Json.toJson(accountInfo.cueId),
+            GC.MON_ID -> Json.toJson(accountInfo.monId)
+          )))
+    })
+  }
+
+  def isValidDate(id: Int, date: String) = GetAction { implicit request =>
+    LoggedIntoCompanyResponse.getAction(request, { user =>
+      val dateInfo = Document.isValidDate(user, id, DateFormatter.parse(date))
+      Ok(
+        Json.toJson(
+          Json.obj(
+            "isvalid" -> Json.toJson(dateInfo.isValid),
+            "range" -> Json.toJson(dateInfo.range)
+          )))
+    })
+  }
 }

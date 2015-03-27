@@ -7,22 +7,22 @@
     <file path="/grid.js" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1427229371616" ignored="false" />
     <file path="/control.js" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1426120309371" ignored="false" />
     <file path="/select.js" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1426292545861" ignored="false" />
-    <file path="/dialog.js" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1427253147733" ignored="false" />
-    <file path="/a.dummy" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1427251899754" ignored="false" />
+    <file path="/dialog.js" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1427411614049" ignored="false" />
+    <file path="/a.dummy" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1427413255893" ignored="false" />
     <file path="/datePicker.js" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1427130548174" ignored="false" />
     <file path="/view.js" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1426776213029" ignored="false" />
-    <file path="/cairoApp.js" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1427246192823" ignored="false" />
+    <file path="/cairoApp.js" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1427403250314" ignored="false" />
     <file path="/cProducto.js" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1426997127922" ignored="false" />
     <file path="/Dummy.txt" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1426878186346" ignored="false" />
     <file path="$PROJECT_DIR$/../../../../../../../ArizonaBay/Intelimax/draftteam/CentralServer/app/models/customer.rb" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1421191448893" ignored="false" />
     <file path="/customer.rb" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1421191362562" ignored="false" />
-    <file path="/input.js" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1426791363156" ignored="false" />
+    <file path="/input.js" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1427389338535" ignored="false" />
     <file path="/textArea.js" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1421275294092" ignored="false" />
     <file path="/tree.js" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1425852284117" ignored="false" />
     <file path="/property.js" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1426785856137" ignored="false" />
     <file path="/collection.js" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1426014851927" ignored="false" />
-    <file path="/system.js" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1427238874737" ignored="false" />
-    <file path="/cFacturaCompra.js" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1427238861438" ignored="false" />
+    <file path="/system.js" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1427377583987" ignored="false" />
+    <file path="/cFacturaCompra.js" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1427403711595" ignored="false" />
     <file path="/dialogList.js" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1426791767278" ignored="false" />
     <file path="/optionButton.js" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1423089376621" ignored="false" />
     <file path="/list.js" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1423092259476" ignored="false" />
@@ -44,18 +44,18 @@
     <file path="$PROJECT_DIR$/../../../../../../../ArizonaBay/Intelimax/draftteam/CentralServer/app/models/has_offers.rb" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1425158874978" ignored="false" />
     <file path="/has_offers.rb" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1425157876686" ignored="false" />
     <file path="$PROJECT_DIR$/../../../../../../../ArizonaBay/Intelimax/draftteam/CentralServer/doc/script_log.txt" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1426983567151" ignored="false" />
-    <file path="$PROJECT_DIR$/../../../../../../../ArizonaBay/Intelimax/draftteam/CentralServer/app/models/rotowire/mlb_player.rb" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1425591258512" ignored="false" />
+    <file path="$PROJECT_DIR$/../../../../../../../ArizonaBay/Intelimax/draftteam/CentralServer/app/models/rotowire/mlb_player.rb" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1427377644450" ignored="false" />
     <file path="$PROJECT_DIR$/../../../../../../../ArizonaBay/Intelimax/draftteam/CentralServer/doc/deploy_notes.txt" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1426983567151" ignored="false" />
     <file path="$PROJECT_DIR$/../../../../../../../ArizonaBay/Intelimax/draftteam/CentralServer/config/environments/staging-mobile.rb" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1425158816791" ignored="false" />
     <file path="$PROJECT_DIR$/../../../../../../../ArizonaBay/Intelimax/draftteam/CentralServer/app/views/shared/draft/_scripting.html.erb" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1426810535870" ignored="false" />
     <file path="$PROJECT_DIR$/../../../../../../../ArizonaBay/Intelimax/draftteam/CentralServer/app/views/fixtures/index.xml.erb" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1425158816791" ignored="false" />
     <file path="$PROJECT_DIR$/../../../../../../../ArizonaBay/Intelimax/draftteam/CentralServer/Gemfile" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1426810535870" ignored="false" />
-    <file path="$PROJECT_DIR$/../../../../../../../ArizonaBay/Intelimax/draftteam/CentralServer/app/views_mobile/www/contests/_scripting.html.erb" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1425591258512" ignored="false" />
+    <file path="$PROJECT_DIR$/../../../../../../../ArizonaBay/Intelimax/draftteam/CentralServer/app/views_mobile/www/contests/_scripting.html.erb" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1427377644450" ignored="false" />
     <file path="$PROJECT_DIR$/../../../../../../../ArizonaBay/Intelimax/draftteam/CentralServer/app/models/rotowire/nba_lineups.rb" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1425591258512" ignored="false" />
     <file path="$PROJECT_DIR$/../../../../../../../ArizonaBay/Intelimax/draftteam/CentralServer/app/models/rotowire/nfl_lineups.rb" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1425591258512" ignored="false" />
     <file path="$PROJECT_DIR$/../../../../../../../ArizonaBay/Intelimax/draftteam/CentralServer/app/models/player.rb" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1426810535870" ignored="false" />
     <file path="$PROJECT_DIR$/../../../../../../../ArizonaBay/Intelimax/draftteam/CentralServer/config/routes.rb" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1425591258512" ignored="false" />
-    <file path="$PROJECT_DIR$/../../../../../../../ArizonaBay/Intelimax/draftteam/CentralServer/app/models/rotowire/nba_player.rb" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1425591258512" ignored="false" />
+    <file path="$PROJECT_DIR$/../../../../../../../ArizonaBay/Intelimax/draftteam/CentralServer/app/models/rotowire/nba_player.rb" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1427377644450" ignored="false" />
     <file path="$PROJECT_DIR$/../../../../../../../ArizonaBay/Intelimax/draftteam/CentralServer/app/models/rotowire/nhl_lineups.rb" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1425591258512" ignored="false" />
     <file path="$PROJECT_DIR$/../../../../../../../ArizonaBay/Intelimax/draftteam/CentralServer/app/models/rotowire/rotowire_statistics.rb" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1425591258512" ignored="false" />
     <file path="$PROJECT_DIR$/../../../../../../../ArizonaBay/Intelimax/draftteam/CentralServer/app/models/rotowire/mlb_lineups.rb" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1425591258512" ignored="false" />
@@ -86,6 +86,18 @@
     <file path="$PROJECT_DIR$/../../../../../../../ArizonaBay/Intelimax/draftteam/CentralServer/app/models/contest_award.rb" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1426810535870" ignored="false" />
     <file path="/dialogClient.js" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1426777783866" ignored="false" />
     <file path="/seeds.rb" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1426803491196" ignored="false" />
+    <file path="$PROJECT_DIR$/../../../../../../../ArizonaBay/Intelimax/draftteam/CentralServer/app/helpers/bios_helper.rb" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1427377644450" ignored="false" />
+    <file path="$PROJECT_DIR$/../../../../../../../ArizonaBay/Intelimax/draftteam/CentralServer/app/views/bios/player.html.haml" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1427377644450" ignored="false" />
+    <file path="$PROJECT_DIR$/../../../../../../../ArizonaBay/Intelimax/draftteam/CentralServer/app/views/bios/ongoing.json.jbuilder" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1427377644450" ignored="false" />
+    <file path="$PROJECT_DIR$/../../../../../../../ArizonaBay/Intelimax/draftteam/WebClient/config/routes.rb" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1427377644450" ignored="false" />
+    <file path="$PROJECT_DIR$/../../../../../../../ArizonaBay/Intelimax/draftteam/CentralServer/app/views/team_player_salaries/index.html.haml" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1427377644450" ignored="false" />
+    <file path="$PROJECT_DIR$/../../../../../../../ArizonaBay/Intelimax/draftteam/CentralServer/app/views/bios/headshot_url.json.jbuilder" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1427377644450" ignored="false" />
+    <file path="$PROJECT_DIR$/../../../../../../../ArizonaBay/Intelimax/draftteam/CentralServer/app/models/stats/stats_entity.rb" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1427377644450" ignored="false" />
+    <file path="$PROJECT_DIR$/../../../../../../../ArizonaBay/Intelimax/draftteam/CentralServer/app/models/stats/player.rb" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1427377644450" ignored="false" />
+    <file path="$PROJECT_DIR$/../../../../../../../ArizonaBay/Intelimax/draftteam/CentralServer/app/views/www/players/scoring.html.erb" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1427377644450" ignored="false" />
+    <file path="$PROJECT_DIR$/../../../../../../../ArizonaBay/Intelimax/draftteam/CentralServer/app/models/rotowire/injury.rb" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1427377644450" ignored="false" />
+    <file path="$PROJECT_DIR$/../../../../../../../ArizonaBay/Intelimax/draftteam/CentralServer/lib/tasks/statsinc.rake" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1427377644450" ignored="false" />
+    <file path="$PROJECT_DIR$/../../../../../../../ArizonaBay/Intelimax/draftteam/WebClient/doc/deploy_notes.txt" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1427377644450" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -105,10 +117,19 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="dialog.js" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="dialog.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/system/dialogs/dialog.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="2403" column="21" selection-start="74585" selection-end="74585" vertical-scroll-proportion="0.45833334">
+            <state line="5522" column="78" selection-start="179387" selection-end="179387" vertical-scroll-proportion="-11.555555">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="cUsuarioConfig.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/modules/CSGeneralEx2/cUsuarioConfig.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -117,16 +138,7 @@
       <file leaf-file-name="cairoApp.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/cairoApp.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="1029" column="19" selection-start="25933" selection-end="25933" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="promise.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/system/promise.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+            <state line="861" column="46" selection-start="21950" selection-end="21950" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -135,61 +147,25 @@
       <file leaf-file-name="grid.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/system/dialogs/grid.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="102" column="8" selection-start="2903" selection-end="2903" vertical-scroll-proportion="0.0">
+            <state line="626" column="8" selection-start="15551" selection-end="15551" vertical-scroll-proportion="-5.2222223">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="system.js" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="system.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/modules/system/system.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="532" column="64" selection-start="16222" selection-end="16222" vertical-scroll-proportion="0.0">
+            <state line="369" column="6" selection-start="10773" selection-end="10773" vertical-scroll-proportion="0.03761062">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="modal.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/system/modal.js">
+      <file leaf-file-name="cFacturaCompra.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/modules/CSCompra2/cFacturaCompra.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="18" column="4" selection-start="366" selection-end="366" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="cairoModules.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/cairoModules.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="25" column="18" selection-start="504" selection-end="504" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="view.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/system/dialogs/view.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="982" column="61" selection-start="30591" selection-end="30591" vertical-scroll-proportion="-22.296297">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="grid.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/system/controls/grid.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="956" column="130" selection-start="25524" selection-end="25524" vertical-scroll-proportion="-10.555555">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="constants.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/modules/CSCompra2/constants.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="273" column="23" selection-start="8604" selection-end="8604" vertical-scroll-proportion="0.0">
+            <state line="787" column="21" selection-start="20094" selection-end="20094" vertical-scroll-proportion="-8.037037">
               <folding />
             </state>
           </provider>
@@ -205,8 +181,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/system/dialogs/grid.js" />
-        <option value="$PROJECT_DIR$/system/database/database.js" />
         <option value="$PROJECT_DIR$/modules/CSGeneral2/cProducto.js" />
         <option value="$PROJECT_DIR$/system/controls/datePicker.js" />
         <option value="$PROJECT_DIR$/system/controls/select.js" />
@@ -215,12 +189,14 @@
         <option value="$PROJECT_DIR$/modules/CSGeneral2/constants.js" />
         <option value="$PROJECT_DIR$/system/controls/grid.js" />
         <option value="$PROJECT_DIR$/system/dialogs/view.js" />
-        <option value="$PROJECT_DIR$/modules/CSCompra2/cFacturaCompra.js" />
-        <option value="$PROJECT_DIR$/modules/system/system.js" />
         <option value="$PROJECT_DIR$/cairoModules.js" />
-        <option value="$PROJECT_DIR$/cairoApp.js" />
         <option value="$PROJECT_DIR$/system/modal.js" />
+        <option value="$PROJECT_DIR$/system/controls/input.js" />
+        <option value="$PROJECT_DIR$/cairoApp.js" />
+        <option value="$PROJECT_DIR$/modules/CSCompra2/cFacturaCompra.js" />
+        <option value="$PROJECT_DIR$/system/dialogs/grid.js" />
         <option value="$PROJECT_DIR$/system/dialogs/dialog.js" />
+        <option value="$PROJECT_DIR$/modules/system/system.js" />
       </list>
     </option>
   </component>
@@ -302,79 +278,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="formatters" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="cairo" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="cairo" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="system" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
               <option name="myItemId" value="dialogs" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="cairo" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="cairo" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="system" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="database" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="cairo" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="cairo" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="system" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="controls" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="cairo" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="cairo" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="system" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="collections" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -425,24 +329,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="CSGeneralEx2" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="cairo" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="cairo" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="modules" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="CSGeneral2" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -584,10 +470,10 @@
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32994923" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.49441624" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.49441624" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.16434689" sideWeight="0.50558376" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.16648822" sideWeight="0.50558376" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
@@ -671,20 +557,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/system/controls/datePicker.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="61" column="51" selection-start="1748" selection-end="1748" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/modules/CSGeneralEx2/cUsuarioConfig.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="2016" column="78" selection-start="63808" selection-end="63808" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/system/database/database.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="174" column="62" selection-start="6147" selection-end="6147" vertical-scroll-proportion="0.0">
@@ -695,27 +567,13 @@
     <entry file="file://$PROJECT_DIR$/system/controls/select.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="690" column="38" selection-start="24177" selection-end="24177" vertical-scroll-proportion="0.0">
-          <folding>
-            <marker date="1427148233000" expanded="false" signature="-1:-1" placeholder="..." />
-            <marker date="1427148233000" expanded="false" signature="-1:-1" placeholder="..." />
-            <marker date="1427148233000" expanded="false" signature="-1:-1" placeholder="..." />
-            <marker date="1427148233000" expanded="false" signature="-1:-1" placeholder="..." />
-            <marker date="1427148233000" expanded="false" signature="-1:-1" placeholder="..." />
-            <marker date="1427148233000" expanded="false" signature="-1:-1" placeholder="..." />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/modules/CSGeneral2/constants.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="29" column="29" selection-start="602" selection-end="602" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/modules/CSCompra2/cFacturaCompra.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="3404" column="43" selection-start="102274" selection-end="102274" vertical-scroll-proportion="-30.962963">
           <folding />
         </state>
       </provider>
@@ -727,65 +585,86 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/system/dialogs/grid.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="102" column="8" selection-start="2903" selection-end="2903" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/system/modal.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="18" column="4" selection-start="366" selection-end="366" vertical-scroll-proportion="0.0">
+        <state line="18" column="4" selection-start="366" selection-end="366" vertical-scroll-proportion="0.019957984">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/cairoModules.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="25" column="18" selection-start="504" selection-end="504" vertical-scroll-proportion="0.0">
+        <state line="25" column="18" selection-start="504" selection-end="504" vertical-scroll-proportion="0.4989496">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/system/controls/grid.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="956" column="130" selection-start="25524" selection-end="25524" vertical-scroll-proportion="-10.555555">
+        <state line="956" column="130" selection-start="25524" selection-end="25524" vertical-scroll-proportion="0.020234292">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/modules/CSCompra2/constants.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="273" column="23" selection-start="8604" selection-end="8604" vertical-scroll-proportion="0.0">
+        <state line="273" column="23" selection-start="8604" selection-end="8604" vertical-scroll-proportion="0.019957984">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/system/dialogs/view.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="982" column="61" selection-start="30591" selection-end="30591" vertical-scroll-proportion="-22.296297">
+        <state line="982" column="61" selection-start="30591" selection-end="30591" vertical-scroll-proportion="0.019957984">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/modules/system/system.js">
+    <entry file="file://$PROJECT_DIR$/system/controls/input.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="532" column="64" selection-start="16222" selection-end="16222" vertical-scroll-proportion="0.0">
+        <state line="310" column="43" selection-start="8946" selection-end="8946" vertical-scroll-proportion="0.7027027">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/modules/CSGeneralEx2/cUsuarioConfig.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/cairoApp.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="1029" column="19" selection-start="25933" selection-end="25933" vertical-scroll-proportion="0.0">
+        <state line="861" column="46" selection-start="21950" selection-end="21950" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/system/dialogs/grid.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="626" column="8" selection-start="15551" selection-end="15551" vertical-scroll-proportion="-5.2222223">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/system/dialogs/dialog.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="2403" column="21" selection-start="74585" selection-end="74585" vertical-scroll-proportion="0.45833334">
+        <state line="5522" column="78" selection-start="179387" selection-end="179387" vertical-scroll-proportion="-11.555555">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/modules/CSCompra2/cFacturaCompra.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="787" column="21" selection-start="20094" selection-end="20094" vertical-scroll-proportion="-8.037037">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/modules/system/system.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="369" column="6" selection-start="10773" selection-end="10773" vertical-scroll-proportion="0.03761062">
           <folding />
         </state>
       </provider>

@@ -30,7 +30,8 @@
         fileFilter: "",
         inputDisabled: false,
         type: Controls.InputType.text,
-        clazz: ""
+        clazz: "",
+        mask: ""
 
       };
 
@@ -155,6 +156,9 @@
             text = Cairo.accounting.formatNumber(text, decimals);
           }
         }
+        else if(self.mask != "") {
+          text = applyMask(text.toString());
+        }
         return text;
       };
 
@@ -197,8 +201,12 @@
         addRemoveClazz('addClass');
       };
 
-      that.getMask = function() { /* TODO: implement this. */ };
-      that.setMask = function(mask) { /* TODO: implement this. */ };
+      that.getMask = function() {
+        return self.mask;
+      };
+      that.setMask = function(mask) {
+        self.mask = mask;
+      };
       that.setButtonStyle = function(style) { /* TODO: implement this. */ };
       that.setPasswordChar = function(char) { /* TODO: implement this. */ };
       that.setFormatNumber = function(format) { /* TODO: implement this. */ };
@@ -223,6 +231,120 @@
           }
         }
       };
+      
+      var applyMask = function(value) {
+        var rtn = "";
+
+        var mask = self.mask.split("-");
+        var text = value.split("-");
+
+        if(text.length > mask.length) {
+          var last = mask.length - 1;
+          for(var i = mask.length, count = text.length; i < count; i += 1) {
+            text[last] += text[i];
+          }
+          text.splice(mask.length, text.length - mask.length);
+        }
+        else if(text.length < mask.length) {
+          var j = text.length -1;
+          var aux = "";
+          var right = Cairo.Util.right;
+          var left = Cairo.Util.left;
+          for(var i = mask.length - 1; i > -1; i -= 1) {
+            if(j > -1) {
+              if(text[j] === undefined) {
+                text[j] = "";
+              }
+              if(mask[i].length < (text[j] + aux).length) {
+                var t = text[j] + aux;
+                text[i] = right(t, mask[i].length);
+                aux = left(t, t.length - mask[i].length);
+              }
+              else {
+                text[i] = text[j] + aux;
+                aux = "";
+              }
+            }
+            else {
+              if(mask[i].length < aux.length) {
+                text[i] = right(aux, mask[i].length);
+                aux = left(aux, aux.length - mask[i].length);
+              }
+              else {
+                text[i] = aux;
+                aux = "";
+              }
+            }
+            j -= 1;
+          }
+        }
+
+        var string = Cairo.Util.string;
+        for(var j = mask.length -1; j > -1; j -= 1) {
+
+          if(mask[j].length - text[j].length > 0) {
+            text[j] = string(mask[j].length - text[j].length, " ") + text[j];
+          }
+
+          var isNumeric = Cairo.Util.isNumeric;
+          for(var i = mask[j].length -1; i > -1; i -= 1) {
+
+            var s = mask[j].substr(i, 1);
+            var s2 = text[j].substr(i, 1);
+
+            switch(s) {
+              case "0":
+                if(! isNumeric(s2)) {
+                  s2 = "0";
+                }
+                break;
+
+              case "-":
+                if(isNumeric(s2)) {
+                  text[j] = text[j].substring(1);
+                }
+                s2 = "-";
+                break;
+
+              case "#":
+                // anything the user inputs
+                // except empty string
+                //
+                if(s2.trim() === "") {
+                  s2 = "#";
+                }
+                break;
+
+              case "%":
+                // anything the user inputs
+                // except empty string
+                //
+                if(s2.trim() === "") {
+                  s2 = "%";
+                }
+                else {
+                  s2 = s2.toUpperCase();
+                }
+                break;
+
+              case "*":
+                // anything the user inputs
+                // including empty string
+                //
+              default:
+                s2 = s;
+            }
+
+            rtn = s2 + rtn;
+          }
+
+          if(j > 0) {
+            rtn = "-" + rtn;
+          }
+        }
+
+        return rtn;
+      }
       
       return that;
     };

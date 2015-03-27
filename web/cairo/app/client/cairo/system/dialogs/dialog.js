@@ -5447,21 +5447,23 @@
           var gridCount = view.getGrids().count();
           var propertyCount = m_properties.count();
 
+          var callFillRow = function(property, index) {
+            return function(success) {
+              if(success) {
+                return fillRows(property.getGrid(), view.getGrids().get(index));
+              }
+              else {
+                return false; // cancel next promises
+              }
+            }
+          };
+
           for(var index = 0; index < gridCount; index++) {
             for(var _j = 0; _j < propertyCount; _j++) {
               var property = m_properties.get(_j);
               if(property.getType() === Dialogs.PropertyType.grid) {
                 if(property.getIndex() === index) {
-                  p = p.then(
-                    function(success) {
-                      if(success) {
-                        return fillRows(property.getGrid(), view.getGrids().get(index));
-                      }
-                      else {
-                        return false; // cancel next promises
-                      }
-                    }
-                  );
+                  p = p.then(callFillRow(property, index));
                 }
               }
             }
@@ -5487,7 +5489,8 @@
           //
           // make a copy of all the keys
           //
-          var haveKey = rows.getHaveKey();
+          var haveKey = grid.getHaveKey();
+
           if(haveKey) {
 
             rowCount = grid.getRows().count();
@@ -5508,7 +5511,7 @@
 
           grid.getRows().clear();
 
-          rows.setHaveKey(haveKey);
+          grid.setHaveKey(haveKey);
           //
           // end copy keys
           ///////////////////////////////////////////////////////////////////////
@@ -5775,6 +5778,7 @@
                       p = p.then(getGridCall(property, oldRedraw));
                     }
                   }
+                  return p;
                 }
                 //
                 // if the client doesn't has a grid the validation is completed

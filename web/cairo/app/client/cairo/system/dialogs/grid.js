@@ -521,7 +521,6 @@
       var self = {
         cells: Grids.createCells(),
         isGroup: false,
-        haveKey: false,
 
         index: -1,
 
@@ -579,15 +578,7 @@
 
       that.item = that.get;
 
-      that.getHaveKey = function() {
-        return self.haveKey;
-      };
-
       that.add = self.cells.add;
-
-      that.setHaveKey = function(haveKey) {
-        self.haveKey = haveKey;
-      };
 
       that.getCells = function() {
         return self.cells;
@@ -632,7 +623,8 @@
       var self = {
         columns: Grids.createColumns(),
         rows: Grids.createRows(),
-        multiSelect: false
+        multiSelect: false,
+        haveKey: false
       };
 
       var addItemColumn = function() {
@@ -678,6 +670,13 @@
       };
       that.setMultiSelect = function(value) {
         self.multiSelect = value;
+      };
+
+      that.getHaveKey = function() {
+        return self.haveKey;
+      };
+      that.setHaveKey = function(haveKey) {
+        self.haveKey = haveKey;
       };
 
       return that;

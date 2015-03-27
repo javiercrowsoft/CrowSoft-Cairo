@@ -53,13 +53,13 @@ object Proveedor {
         ProveedorInfo(
           cs.getInt(3),
           cs.getString(4),
-          (if(cs.getShort(5) != 0) true else false),
+          cs.getShort(5) != 0,
           cs.getInt(6),
           cs.getString(7),
           cs.getInt(8),
           cs.getString(9),
-          (if(cs.getShort(10) != 0) true else false),
-          (if(cs.getShort(11) != 0) true else false)
+          cs.getShort(10) != 0,
+          cs.getShort(11) != 0
         )
 
       } catch {

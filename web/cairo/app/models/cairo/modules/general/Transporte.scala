@@ -244,7 +244,7 @@ object Transporte {
               id,
               name,
               code,
-              (if(active != 0) true else false),
+              active != 0,
               direccion,
               telefono,
               proId,

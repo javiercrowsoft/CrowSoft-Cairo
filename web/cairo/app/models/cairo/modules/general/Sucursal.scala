@@ -129,7 +129,7 @@ object Sucursal {
               name,
               code,
               numero,
-              (if(active != 0) true else false),
+              active != 0,
               descrip,
               createdAt,
               updatedAt,
