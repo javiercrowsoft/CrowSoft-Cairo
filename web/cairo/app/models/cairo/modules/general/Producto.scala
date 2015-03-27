@@ -955,11 +955,25 @@ case class ProductoStockInfo(unName: String,
 
 case class ProductoTaxInfo(
                             tiIdIvaRiCompra: Int,
+                            cueIdIvaRiCompra: Int,
+                            tiPorcIvaRiCompra: Double,
+
                             tiIdIvaRniCompra: Int,
+                            cueIdIvaRniCompra: Int,
+                            tiPorcIvaRniCompra: Double,
+
                             tiIdIvaRiVenta: Int,
+                            cueIdIvaRiVenta: Int,
+                            tiPorcIvaRiVenta: Double,
+
                             tiIdIvaRniVenta: Int,
+                            cueIdIvaRniVenta: Int,
+                            tiPorcIvaRniVenta: Double,
+
                             tiIdInternosC: Int,
+                            tiPorcInternosC: Double,
                             tiIdInternosV: Int,
+                            tiPorcInternosV: Double,
                             prPorcInternoC: Double,
                             prPorcInternoV: Double
                             )
@@ -989,7 +1003,7 @@ object Producto {
   )
 
   lazy val emptyProductoStockInfo = ProductoStockInfo("", "", "", false, false, false, false, 0, 0, 0, 0, "", 0, "")
-  lazy val emptyProductoTaxInfo = ProductoTaxInfo(0, 0, 0, 0, 0, 0, 0, 0)
+  lazy val emptyProductoTaxInfo = ProductoTaxInfo(0, 0, 0.0, 0, 0, 0.0, 0, 0, 0.0, 0, 0, 0.0, 0, 0.0, 0, 0.0, 0.0, 0.0)
 
   def apply(
              id: Int,
@@ -1709,29 +1723,59 @@ object Producto {
 
   private val productoTaxInfoParser: RowParser[ProductoTaxInfo] = {
       SqlParser.get[Option[Int]](C.TI_ID_RI_COMPRA) ~
+      SqlParser.get[Option[Int]](C.CUE_ID_RI_COMPRA) ~
+      SqlParser.get[Option[BigDecimal]](C.TI_RI_PORC_COMPRA) ~
       SqlParser.get[Option[Int]](C.TI_ID_RNI_COMPRA) ~
+      SqlParser.get[Option[Int]](C.CUE_ID_RNI_COMPRA) ~
+      SqlParser.get[Option[BigDecimal]](C.TI_RNI_PORC_COMPRA) ~
       SqlParser.get[Option[Int]](C.TI_ID_RI_VENTA) ~
+      SqlParser.get[Option[Int]](C.CUE_ID_RI_VENTA) ~
+      SqlParser.get[Option[BigDecimal]](C.TI_RI_PORC_VENTA) ~
       SqlParser.get[Option[Int]](C.TI_ID_RNI_VENTA) ~
+      SqlParser.get[Option[Int]](C.CUE_ID_RNI_VENTA) ~
+      SqlParser.get[Option[BigDecimal]](C.TI_RNI_PORC_VENTA) ~
       SqlParser.get[Option[Int]](C.TI_ID_INTERNOS_COMPRA) ~
+      SqlParser.get[Option[BigDecimal]](C.TI_PORC_INTERNOS_COMPRA) ~
       SqlParser.get[Option[Int]](C.TI_ID_INTERNOS_VENTA) ~
+      SqlParser.get[Option[BigDecimal]](C.TI_PORC_INTERNOS_VENTA) ~
       SqlParser.get[Option[Float]](C.PR_PORC_INTERNO_C) ~
       SqlParser.get[Option[Float]](C.PR_PORC_INTERNO_V) map {
       case
           tiIdIvaRiCompra ~
+          cueIdIvaRiCompra ~
+          tiRiPorcCompra ~
           tiIdIvaRniCompra ~
+          cueIdIvaRniCompra ~
+          tiRniPorcCompra ~
           tiIdIvaRiVenta ~
-          tiIdIvaRniVentA ~
+          cueIdIvaRiVenta ~
+          tiRiPorcVenta ~
+          tiIdIvaRniVenta ~
+          cueIdIvaRniVenta ~
+          tiRniPorcVenta ~
           tiIdInternosC ~
+          tiPorcInternosC ~
           tiIdInternosV ~
+          tiPorcInternosV ~
           prPorcInternoC ~
           prPorcInternoV =>
         ProductoTaxInfo(
           tiIdIvaRiCompra.getOrElse(DBHelper.NoId),
+          cueIdIvaRiCompra.getOrElse(DBHelper.NoId),
+          tiRiPorcCompra match { case Some(d) => d.doubleValue() case None => 0.0 },
           tiIdIvaRniCompra.getOrElse(DBHelper.NoId),
+          cueIdIvaRniCompra.getOrElse(DBHelper.NoId),
+          tiRniPorcCompra match { case Some(d) => d.doubleValue() case None => 0.0 },
           tiIdIvaRiVenta.getOrElse(DBHelper.NoId),
-          tiIdIvaRniVentA.getOrElse(DBHelper.NoId),
+          cueIdIvaRiVenta.getOrElse(DBHelper.NoId),
+          tiRiPorcVenta match { case Some(d) => d.doubleValue() case None => 0.0 },
+          tiIdIvaRniVenta.getOrElse(DBHelper.NoId),
+          cueIdIvaRniVenta.getOrElse(DBHelper.NoId),
+          tiRniPorcVenta match { case Some(d) => d.doubleValue() case None => 0.0 },
           tiIdInternosC.getOrElse(DBHelper.NoId),
+          tiPorcInternosC match { case Some(d) => d.doubleValue() case None => 0.0 },
           tiIdInternosV.getOrElse(DBHelper.NoId),
+          tiPorcInternosV match { case Some(d) => d.doubleValue() case None => 0.0 },
           prPorcInternoC match { case Some(d) => d case None => 0.0 },
           prPorcInternoV match { case Some(d) => d case None => 0.0 }
         )

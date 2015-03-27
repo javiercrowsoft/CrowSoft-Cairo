@@ -229,7 +229,7 @@
     self.savePercepciones = function(
       mainRegister, property, id, cotizacion, isDefaultCurrency, isCopy, deleted, fcId, module) {
 
-      var transaction = new Cairo.Database.Transaction();
+      var transaction = Cairo.Database.createTransaction();
       transaction.setTable(CC.FACTURA_COMPRA_PERCEPCION_TMP);
 
       var origen = 0;
@@ -242,7 +242,6 @@
         var register = new Cairo.Database.Register();
         var fields = register.getFields();
         register.setFieldId(CC.FCPERC_TMPID);
-        register.setTable(CC.FACTURA_COMPRA_PERCEPCION_TMP);
         register.setId(Cairo.Constants.NEW_ID);
 
         var _count = row.size();

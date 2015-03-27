@@ -796,11 +796,31 @@ object Productos extends Controller with ProvidesUser {
   implicit val productoTaxInfoWrites = new Writes[ProductoTaxInfo] {
     def writes(info: ProductoTaxInfo) = Json.obj(
       C.TI_ID_RI_COMPRA -> Json.toJson(info.tiIdIvaRiCompra),
+      C.TI_RI_PORC_COMPRA -> Json.toJson(info.tiPorcIvaRiCompra),
+      C.CUE_ID_RI_COMPRA -> Json.toJson(info.cueIdIvaRiCompra),
+
       C.TI_ID_RNI_COMPRA -> Json.toJson(info.tiIdIvaRniCompra),
+      C.TI_RNI_PORC_COMPRA -> Json.toJson(info.tiPorcIvaRniCompra),
+      C.CUE_ID_RNI_COMPRA -> Json.toJson(info.cueIdIvaRiCompra),
+
+
       C.TI_ID_RI_VENTA -> Json.toJson(info.tiIdIvaRiVenta),
+      C.TI_RI_PORC_VENTA -> Json.toJson(info.tiPorcIvaRiVenta),
+      C.CUE_ID_RI_VENTA -> Json.toJson(info.cueIdIvaRiVenta),
+
       C.TI_ID_RNI_VENTA -> Json.toJson(info.tiIdIvaRniVenta),
+      C.TI_RNI_PORC_VENTA -> Json.toJson(info.tiPorcIvaRniVenta),
+      C.CUE_ID_RNI_VENTA -> Json.toJson(info.cueIdIvaRniVenta),
+
+
       C.TI_ID_INTERNOS_COMPRA -> Json.toJson(info.tiIdInternosC),
-      C.TI_ID_INTERNOS_VENTA -> Json.toJson(info.tiIdInternosV)
+      C.TI_PORC_INTERNOS_COMPRA -> Json.toJson(info.tiPorcInternosC),
+
+      C.TI_ID_INTERNOS_VENTA -> Json.toJson(info.tiIdInternosV),
+      C.TI_PORC_INTERNOS_VENTA -> Json.toJson(info.tiPorcInternosV),
+
+      C.PR_PORC_INTERNO_C -> Json.toJson(info.prPorcInternoC),
+      C.PR_PORC_INTERNO_V -> Json.toJson(info.prPorcInternoV)
     )
   }
 

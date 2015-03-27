@@ -57,6 +57,10 @@
       return this.saveEx(register, isNew, codeField, functionName, module, title);
     },
 
+    saveTransaction: function(register, isNew, codeField, functionName, module, title) {
+      return this.saveEx(register, isNew, codeField, functionName, module, title);
+    },
+
     execute: function() { /* TODO: implement this. */ },
 
     destroy: function(path, id, module, functionName) {
@@ -186,14 +190,19 @@
     },
 
     Register: function() {
-      var _fieldId, _table, _id;
-      var __fields = [];
-      var _data = null;
-      var _path = "";
-
-      var _fields = {
+      var self = {
+        fieldId: "", 
+        table: "", 
+        id: 0,
+        fields: [],
+        data: null,
+        path: "",
+        transactions: []
+      };
+      
+      var fields = {
         add: function(name, value, type) {
-          __fields.push({name: name, value: value, type: type});
+          self.fields.push({name: name, value: value, type: type});
         },
         asObject: function() {
           var getValue = function(value, type) {
@@ -206,93 +215,115 @@
             return value;
           };
           var obj = {};
-          for(var i = 0; i < __fields.length; i += 1) {
-            obj[__fields[i].name] = getValue(__fields[i].value, __fields[i].type);
+          for(var i = 0, count = self.fields.length; i < count; i += 1) {
+            obj[self.fields[i].name] = getValue(self.fields[i].value, self.fields[i].type);
+          }
+          for(var i = 0, count = self.transactions.length; i < count; i += 1) {
+            var items = [];
+            var transaction = self.transactions[i];
+            for(var j = 0, count = transaction.getRegistersCount(); j < count; j += 1) {
+              var register = transaction.getRegister(j);
+              items.push(register.getFields().asObject());
+            }
+            var tran = obj[transaction.getTable()] = {};
+            tran.items = items;
+            tran.deletedList = transaction.getDeletedList();
           }
           return obj;
         }
       };
 
-      this.getFields = function() {
-        return _fields;
+      var that = {};
+
+      that.getFields = function() {
+        return fields;
       };
 
-      this.setFieldId = function(fieldId) {
-        _fieldId = fieldId;
+      that.setFieldId = function(fieldId) {
+        self.fieldId = fieldId;
       };
 
-      this.setTable = function(table) {
-        _table = table;
+      that.setTable = function(table) {
+        self.table = table;
       };
 
-      this.setId = function(id) {
-        _id = id;
+      that.setId = function(id) {
+        self.id = id;
       };
-      this.getId = function() {
-        return _id;
-      };
-
-      this.setPath = function(path) {
-        _path = path;
-      };
-      this.getPath = function() {
-        return _path;
+      that.getId = function() {
+        return self.id;
       };
 
-      this.setData = function(data) {
-        _data = data;
+      that.setPath = function(path) {
+        self.path = path;
       };
-      this.getData = function() {
-        return _data;
+      that.getPath = function() {
+        return self.path;
+      };
+
+      that.setData = function(data) {
+        self.data = data;
+      };
+      that.getData = function() {
+        return self.data;
       };
 
       //
       // transactions
       //
-      this.prepareTransaction = function() {};
 
-      var __transactions = [];
+      // TODO: remove
+      //that.prepareTransaction = function() {};
 
-      var _transactions = {
+      var transactions = {
         add: function(transaction) {
-          __transactions.push(transaction);
+          self.transactions.push(transaction);
         }
       }
 
-      this.addTransaction = function(transaction) {
-        _transactions.add(transaction);
+      that.addTransaction = function(transaction) {
+        transactions.add(transaction);
       };
 
-      this.saveTransaction = function(register, isNew, codeField, functionName, module, title) {
-        /* TODO: implement this. */
-      };
-
-      return this;
+      return that;
     },
 
-    Transaction: function() {
-      var _table, _deletedList;
-      var __registers = [];
-
-      var _registers = {
-        add: function(register) {
-          __registers.push(register);
-        }
-      }
-
-      this.addRegister = function(register) {
-        _registers.add(register);
+    createTransaction: function createTransaction() {
+      var self = {
+        table: "",
+        deletedList: "",
+        registers: []
       };
 
-      this.setTable = function(table) {
-        _table = table;
+      var that = {};
+
+      that.addRegister = function(register) {
+        self.registers.push(register);
       };
 
-      this.setDeletedList = function(deletedList) {
-        _deletedList = deletedList;
+      that.setTable = function(table) {
+        self.table = table;
+      };
+      that.getTable = function() {
+        return self.table;
       };
 
-      return this;
+      that.setDeletedList = function(deletedList) {
+        self.deletedList = deletedList;
+      };
+      that.getDeletedList = function() {
+        return self.deletedList;
+      };
+
+      that.getRegistersCount = function() {
+        return self.registers.length;
+      };
+
+      that.getRegister = function(index) {
+        return self.registers[index];
+      };
+
+      return that;
     },
 
     sqlString: function(string) {

@@ -1245,7 +1245,8 @@
 
         m_genericEdit.save(m_dialog, register);
 
-        register.prepareTransaction();
+        // TODO: remove
+        //register.prepareTransaction();
 
         // save items
 
@@ -3831,7 +3832,7 @@
       };
 
       var saveItemsWebCatalogos = function(mainRegister) {
-        var transaction = new Cairo.Database.Transaction();
+        var transaction = Cairo.Database.createTransaction();
         transaction.setTable(C.CATALOGOWEBITEM);
 
         var property = m_dialog.getProperties().item(C_WEB_CATALOGS);
@@ -3875,7 +3876,7 @@
       };
 
       var saveItemsWebCategorias = function(mainRegister) {
-        var transaction = new Cairo.Database.Transaction();
+        var transaction = Cairo.Database.createTransaction();
         transaction.setTable(C.CATALOGOWEBCATEGORIAITEM);
 
         var property = m_dialog.getProperties().item(C_WEB_CATEGORIES);
@@ -3923,8 +3924,8 @@
       };
 
       var saveItemsProveedor = function(mainRegister) {
-        var transaction = new Cairo.Database.Transaction();
-        var updatePriceTransaction = new Cairo.Database.Transaction();
+        var transaction = Cairo.Database.createTransaction();
+        var updatePriceTransaction = Cairo.Database.createTransaction();
 
         transaction.setTable(C.PRODUCTO_PROVEEDOR);
         updatePriceTransaction.setTable("UPDATED_PRICES");
@@ -4019,7 +4020,7 @@
       };
 
       var saveItemsCMI = function(mainRegister) {
-        var transaction = new Cairo.Database.Transaction();
+        var transaction = Cairo.Database.createTransaction();
         transaction.setTable(C.PRODUCTO_COMUNIDAD_INTERNET);
 
         var property = m_dialog.getProperties().item(C_CMI);
@@ -4091,7 +4092,7 @@
       };
 
       var saveItemsLeyendas = function(mainRegister) {
-        var transaction = new Cairo.Database.Transaction();
+        var transaction = Cairo.Database.createTransaction();
         transaction.setTable(C.PRODUCTO_LEYENDA);
 
         var property = m_dialog.getProperties().item(C_LEYENDAS);
@@ -4155,7 +4156,7 @@
       };
 
       var saveItemsWebImages = function(mainRegister) {
-        var transaction = new Cairo.Database.Transaction();
+        var transaction = Cairo.Database.createTransaction();
         transaction.setTable(C.PRODUCTO_WEB_IMAGE);
 
         var property = m_dialog.getProperties().item(C_WEB_IMAGES);
@@ -4219,7 +4220,7 @@
       };
 
       var saveItemsCliente = function(mainRegister) {
-        var transaction = new Cairo.Database.Transaction();
+        var transaction = Cairo.Database.createTransaction();
         transaction.setTable(C.PRODUCTO_CLIENTE);
 
         var property = m_dialog.getProperties().item(C_CLIENTE);
@@ -4283,7 +4284,7 @@
       };
 
       var saveItemsTags = function(mainRegister) {
-        var transaction = new Cairo.Database.Transaction();
+        var transaction = Cairo.Database.createTransaction();
         transaction.setTable(C.PRODUCTO_TAG);
 
         var bPrIdTag = null;

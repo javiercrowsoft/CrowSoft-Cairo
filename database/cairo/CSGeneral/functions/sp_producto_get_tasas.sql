@@ -48,16 +48,35 @@ begin
     rtn := 'rtn';
 
     open rtn for
-         select ti_id_ivaricompra,
-                ti_id_ivarnicompra,
-                ti_id_ivariventa,
-                ti_id_ivarniventa,
-                ti_id_internosc,
-                ti_id_internosv,
-                pr_porcinternoc,
-                pr_porcinternov
-         from Producto
-         where pr_id = p_pr_id;
+         select pr.ti_id_ivaricompra,
+                pr.ti_id_ivarnicompra,
+                tiric.ti_porcentaje as ti_ri_porc_compra,
+                tirnic.ti_porcentaje as ti_rni_porc_compra,
+                tiric.cue_id as cue_id_ri_compra,
+                tirnic.cue_id as cue_id_rni_compra,
+
+                pr.ti_id_ivariventa,
+                pr.ti_id_ivarniventa,
+                tiriv.ti_porcentaje as ti_ri_porc_venta,
+                tirniv.ti_porcentaje as ti_rni_porc_venta,
+                tiriv.cue_id as cue_id_ri_venta,
+                tirniv.cue_id as cue_id_rni_venta,
+
+                pr.ti_id_internosc,
+                pr.ti_id_internosv,
+                tiintc.ti_porcentaje as ti_int_porc_compra,
+                tiintv.ti_porcentaje as ti_int_porc_venta,
+
+                pr.pr_porcinternoc,
+                pr.pr_porcinternov
+         from Producto pr
+         left join TasaImpositiva tiric  on pr.ti_id_ivaricompra = tiric.ti_id
+         left join TasaImpositiva tirnic on pr.ti_id_ivarnicompra = tirnic.ti_id
+         left join TasaImpositiva tiriv  on pr.ti_id_ivariventa = tiriv.ti_id
+         left join TasaImpositiva tirniv on pr.ti_id_ivarniventa = tirniv.ti_id
+         left join TasaImpositiva tiintc on pr.ti_id_internosc = tiintc.ti_id
+         left join TasaImpositiva tiintv on pr.ti_id_internosv = tiintv.ti_id
+         where pr.pr_id = p_pr_id;
 
 end;
 $BODY$

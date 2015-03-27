@@ -730,12 +730,29 @@ object C {
   val UN_ID_VENTA = "un_id_venta"
   val UN_ID_COMPRA = "un_id_compra"
   val UN_ID_STOCK = "un_id_stock"
-  val TI_ID_RI_VENTA = "ti_id_ivariventa"
-  val TI_ID_RNI_VENTA = "ti_id_ivarniventa"
+
   val TI_ID_RI_COMPRA = "ti_id_ivaricompra"
+  val TI_RI_PORC_COMPRA = "ti_ri_porc_compra"
+  val CUE_ID_RI_COMPRA = "cue_id_ri_compra"
+
   val TI_ID_RNI_COMPRA = "ti_id_ivarnicompra"
+  val TI_RNI_PORC_COMPRA = "ti_rni_porc_compra"
+  val CUE_ID_RNI_COMPRA = "cue_id_rni_compra"
+
+  val TI_ID_RI_VENTA = "ti_id_ivariventa"
+  val TI_RI_PORC_VENTA = "ti_ri_porc_venta"
+  val CUE_ID_RI_VENTA = "cue_id_ri_venta"
+
+  val TI_ID_RNI_VENTA = "ti_id_ivarniventa"
+  val TI_RNI_PORC_VENTA = "ti_rni_porc_venta"
+  val CUE_ID_RNI_VENTA = "cue_id_rni_venta"
+
   val TI_ID_INTERNOS_VENTA = "ti_id_internosv"
+  val TI_PORC_INTERNOS_VENTA = "ti_int_porc_venta"
+
   val TI_ID_INTERNOS_COMPRA = "ti_id_internosc"
+  val TI_PORC_INTERNOS_COMPRA = "ti_int_porc_compra"
+
   val CUEG_ID_COMPRA = "cueg_id_compra"
   val CUEG_ID_VENTA = "cueg_id_venta"
   val PR_PESO_TOTAL = "pr_pesototal"

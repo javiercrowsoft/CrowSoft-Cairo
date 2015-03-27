@@ -802,7 +802,7 @@
             var fields = register.getFields();
 
             register.setFieldId(CC.FC_TMPID);
-            register.setTable(C.FACTURA_COMPRA_TMP);
+            register.setTable(CC.FACTURA_COMPRA_TMP);
 
             register.setId(Cairo.Constants.NEW_ID);
 
@@ -1010,7 +1010,8 @@
               fields.add(CC.FC_TOTAL_ORIGEN, totalOrigen, Types.currency);
             }
 
-            register.prepareTransaction();
+            // TODO: remove
+            //register.prepareTransaction();
 
             saveItems(register, cotizacion, isDefaultCurrency);
             saveOtros(register, cotizacion, isDefaultCurrency);
@@ -3437,7 +3438,7 @@
 
       var saveItems = function(mainRegister, cotizacion, isDefaultCurrency) {
 
-        var transaction = new DB.Transaction();
+        var transaction = DB.createTransaction();
         var orden = 0;
         var origen = 0;
         var neto = 0;
@@ -3449,6 +3450,8 @@
         var grupo = 0;
         var prId = 0;
 
+        transaction.setTable(CC.FACTURA_COMPRA_ITEM_TMP);
+
         var _count = getGrid(m_items, C_ITEMS).getRows().size();
         for(var _i = 0; _i < _count; _i++) {
 
@@ -3456,13 +3459,12 @@
 
           var register = new DB.Register();
           register.setFieldId(CC.FCI_TMPID);
-          register.setTable(C.FACTURA_COMPRA_ITEM_TMP);
           register.setId(Cairo.Constants.NEW_ID);
 
           var fields = register.getFields();
 
-          var _count = row.size();
-          for(var _j = 0; _j < _count; _j++) {
+          var _countj = row.size();
+          for(var _j = 0; _j < _countj; _j++) {
 
             var cell = row.item(_j);
             switch (cell.getKey()) {
@@ -3617,10 +3619,12 @@
 
       var saveOtros = function(mainRegister, cotizacion, isDefaultCurrency) {
 
-        var transaction = new DB.Transaction();
+        var transaction = DB.createTransaction();
         var orden = 0;
         var origen = 0;
         var property = m_itemsProps.item(C_OTROS);
+
+        transaction.setTable(CC.FACTURA_COMPRA_OTRO_TMP);
 
         var _count = property.getGrid().getRows().size();
         for(var _i = 0; _i < _count; _i++) {
@@ -3629,13 +3633,12 @@
 
           var register = new DB.Register();
           register.setFieldId(C.FCOT_TMPID);
-          register.setTable(C.FACTURA_COMPRA_OTRO_TMP);
           register.setId(Cairo.Constants.NEW_ID);
 
           var fields = register.getFields();
 
-          var _count = row.size();
-          for(var _j = 0; _j < _count; _j++) {
+          var _countj = row.size();
+          for(var _j = 0; _j < _countj; _j++) {
 
             var cell = row.item(_j);
 
@@ -3699,11 +3702,12 @@
 
       var saveLegajos = function(mainRegister, cotizacion, isDefaultCurrency) {
 
-        var transaction = new DB.Transaction();
+        var transaction = DB.createTransaction();
         var orden = 0;
         var origen = 0;
-
         var property = m_itemsProps.item(C_LEGAJOS);
+
+        transaction.setTable(CC.FACTURA_COMPRA_LEGAJO_TMP);
 
         var _count = property.getGrid().getRows().size();
         for(var _i = 0; _i < _count; _i++) {
@@ -3712,13 +3716,12 @@
 
           var register = new DB.Register();
           register.setFieldId(CC.FCLGJ_TMPID);
-          register.setTable(C.FACTURA_COMPRA_LEGAJO_TMP);
           register.setId(Cairo.Constants.NEW_ID);
 
           var fields = register.getFields();
 
-          var _count = row.size();
-          for(var _j = 0; _j < _count; _j++) {
+          var _countj = row.size();
+          for(var _j = 0; _j < _countj; _j++) {
 
             var cell = row.item(_j);
 
@@ -3925,19 +3928,19 @@
 
         p = D.getTasaFromProducto(prId, true).successWithResult(function(data) {
 
-          if(data.ti_ri === 0) {
+          if(data.ti_ri_compra === 0) {
             return M.showWarningWithFalse(getText(1597, "", pr_nombre));
             // El producto [" & pr_nombre & "] no tiene definida su tasa impositiva de Compras para el iva responsable inscripto
           }
 
-          if(data.ti_rni === 0) {
+          if(data.ti_rni_compra === 0) {
             return M.showWarningWithFalse(getText(1598, "", pr_nombre));
             // El producto [" & pr_nombre & "] no tiene definida su tasa impositiva de Compras para el iva responsable no inscripto
           }
 
           if(m_bIva) {
-            getCell(row, KI_IVA_RI_PERCENT).setValue(data.ri_percent);
-            getCell(row, KI_CUE_ID_IVA_RI).setValue(data.ri_cue_id);
+            getCell(row, KI_IVA_RI_PERCENT).setValue(data.ri_percent_compra);
+            getCell(row, KI_CUE_ID_IVA_RI).setValue(data.ri_cue_id_compra);
           }
           else {
             getCell(row, KI_IVA_RI_PERCENT).setValue(0);
@@ -3945,16 +3948,16 @@
           }
 
           if(m_bIvaRni) {
-            getCell(row, KI_IVA_RNI_PERCENT).setValue(data.rni_percent);
-            getCell(row, KI_CUE_ID_IVA_RNI).setValue(data.rni_cue_id);
+            getCell(row, KI_IVA_RNI_PERCENT).setValue(data.rni_percent_compra);
+            getCell(row, KI_CUE_ID_IVA_RNI).setValue(data.rni_cue_id_compra);
           }
           else {
             getCell(row, KI_IVA_RNI_PERCENT).setValue(0);
             getCell(row, KI_CUE_ID_IVA_RNI).setValue(NO_ID);
           }
 
-          getCell(row, KI_INTERNOS_PERCENT).setValue(data.int_percent);
-          getCell(row, KI_INTERNOS_PORC).setValue(data.porc_internos);
+          getCell(row, KI_INTERNOS_PERCENT).setValue(data.int_percent_compra);
+          getCell(row, KI_INTERNOS_PORC).setValue(data.porc_internos_compra);
 
           return true;
 
@@ -4528,8 +4531,10 @@
 
         if(cellId(row, KI_PR_LLEVA_NRO_SERIE)) {
 
-          var transaction = new DB.Transaction();
+          var transaction = DB.createTransaction();
           var deleted = [];
+
+          transaction.setTable(CC.FACTURA_COMPRA_ITEMSERIETMP);
 
           var _count = m_serialNumbers.get(Cairo.Collections.getKey(grupo)).size();
           for(var _i = 0; _i < _count; _i++) {
@@ -4548,7 +4553,6 @@
               var fields = register.getFields();
 
               register.setFieldId(C.FCIS_TMPID);
-              register.setTable(C.FACTURA_COMPRA_ITEMSERIETMP);
               register.setId(Cairo.Constants.NEW_ID);
 
               fields.add(C.PR_ID, prId, Types.id);

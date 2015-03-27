@@ -545,18 +545,31 @@
 
       if(response.success === true) {
         return {
-          ti_ri: valField(response.data, 'ti_ri'),
-          ri_percent: valField(response.data, 'ri_percent'),
-          ri_cue_id: valField(response.data, 'ri_cue_id'),
+          
+          ti_ri_compra: valField(response.data, 'ti_id_ivaricompra'),
+          ri_percent_compra: valField(response.data, 'ti_ri_porc_compra'),
+          ri_cue_id_compra: valField(response.data, 'cue_id_ri_compra'),
 
-          ti_rni: valField(response.data, 'ti_rni'),
-          rni_percent: valField(response.data, 'rni_percent'),
-          rni_cue_id: valField(response.data, 'rni_cue_id'),
+          ti_rni_compra: valField(response.data, 'ti_id_ivarnicompra'),
+          rni_percent_compra: valField(response.data, 'ti_rni_porc_compra'),
+          rni_cue_id_compra: valField(response.data, 'cue_id_rni_compra'),
 
-          ti_internos: valField(response.data, 'ti_internos'),
-          porc_internos: valField(response.data, 'porc_internos'),
-          int_percent: valField(response.data, 'int_percent'),
+          ti_internos_compra: valField(response.data, 'ti_id_internosc'),
+          porc_internos_compra: valField(response.data, 'ti_int_porc_compra'),
+          int_percent_compra: valField(response.data, 'pr_porcinternoc'),
 
+          ti_ri_venta: valField(response.data, 'ti_id_ivariventa'),
+          ri_percent_venta: valField(response.data, 'ti_ri_porc_venta'),
+          ri_cue_id_venta: valField(response.data, 'cue_id_ri_venta'),
+
+          ti_rni_venta: valField(response.data, 'ti_id_ivarniventa'),
+          rni_percent_venta: valField(response.data, 'ti_rni_porc_venta'),
+          rni_cue_id_venta: valField(response.data, 'cue_id_rni_venta'),
+
+          ti_internos_venta: valField(response.data, 'ti_id_internosc'),
+          porc_internos_venta: valField(response.data, 'ti_int_porc_venta'),
+          int_percent_venta: valField(response.data, 'pr_porcinternov'),
+          
           success: true
         };
       }

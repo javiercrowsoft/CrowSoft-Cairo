@@ -24,6 +24,7 @@ Cairo.Rubro = {};
 Cairo.Rubro.Load = {};
 
 Cairo.Common = {};
+Cairo.Entities = {};
 
 Marionette = {};
 Backbone = {};

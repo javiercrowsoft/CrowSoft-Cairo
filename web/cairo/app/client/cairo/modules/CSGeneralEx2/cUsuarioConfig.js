@@ -786,7 +786,7 @@
         var register = null;
 
         var mainRegister = new Cairo.Database.Register();
-        var transaction = new Cairo.Database.Transaction();
+        var transaction = Cairo.Database.createTransaction();
 
         var companyId = Cairo.Company.getId().toString();
 
