@@ -43,7 +43,7 @@
 
       // RemitoCompraTMP
       REMITO_COMPRA_TMP: "RemitoCompraTMP",
-      RC_TMPID: "rcTMP_id",
+      RC_TMP_ID: "rcTMP_id",
 
       // RemitoCompraItem
       REMITO_COMPRA_ITEM: "RemitoCompraItem",
@@ -66,30 +66,30 @@
       RCI_IMPORTE: "rci_importe",
 
       // RemitoCompraItemTMP
-      REMITO_COMPRA_ITEMTMP: "RemitoCompraItemTMP",
-      RCI_TMPID: "rciTMP_id",
+      REMITO_COMPRA_ITEM_TMP: "RemitoCompraItemTMP",
+      RCI_TMP_ID: "rciTMP_id",
 
       // RemitoCompraItemBorradoTMP
-      REMITO_COMPRA_ITEMBORRADOTMP: "RemitoCompraItemBorradoTMP",
-      RCIB_TMPID: "rcibTMP_id",
+      REMITO_COMPRA_ITEM_BORRADO_TMP: "RemitoCompraItemBorradoTMP",
+      RCIB_TMP_ID: "rcibTMP_id",
 
       // Remito Compra Item Serie
-      REMITO_COMPRA_ITEMSERIETMP: "RemitoCompraItemSerieTMP",
-      RCIS_TMPID: "rcisTMP_id",
+      REMITO_COMPRA_ITEM_SERIE_TMP: "RemitoCompraItemSerieTMP",
+      RCIS_TMP_ID: "rcisTMP_id",
       RCIS_ORDEN: "rcis_orden",
 
       // Remito Compra Item Serie
-      REMITO_COMPRA_ITEMSERIEBTMP: "RemitoCompraItemSerieBTMP",
-      RCISB_TMPID: "rcisbTMP_id",
+      REMITO_COMPRA_ITEM_SERIE_B_TMP: "RemitoCompraItemSerieBTMP",
+      RCISB_TMP_ID: "rcisbTMP_id",
 
       // Factura Compra Item Serie
-      FACTURA_COMPRA_ITEMSERIETMP: "FacturaCompraItemSerieTMP",
-      FCIS_TMPID: "fcisTMP_id",
+      FACTURA_COMPRA_ITEM_SERIE_TMP: "FacturaCompraItemSerieTMP",
+      FCIS_TMP_ID: "fcisTMP_id",
       FCIS_ORDEN: "fcis_orden",
 
       // Factura Compra Item Serie
-      FACTURA_COMPRA_ITEMSERIEBTMP: "FacturaCompraItemSerieBTMP",
-      FCISB_TMPID: "fcisbTMP_id",
+      FACTURA_COMPRA_ITEM_SERIE_B_TMP: "FacturaCompraItemSerieBTMP",
+      FCISB_TMP_ID: "fcisbTMP_id",
 
 
       // PedidoCompra
@@ -110,14 +110,14 @@
 
       // PedidoCompraTMP
       PEDIDOCOMPRATMP: "PedidoCompraTMP",
-      PC_TMPID: "pcTMP_id",
+      PC_TMP_ID: "pcTMP_id",
 
       // PedidoCompraItem
       PEDIDOCOMPRAITEM: "PedidoCompraItem",
       PCI_ID: "pci_id",
       PCI_ORDEN: "pci_orden",
       PCI_CANTIDAD: "pci_cantidad",
-      PCI_CANTIDADAREMITIR: "pci_cantidadaremitir",
+      PCI_CANTIDAD_A_REMITIR: "pci_cantidadaremitir",
       PCI_DESCRIP: "pci_descrip",
       PCI_PRECIO: "pci_precio",
       PCI_PRECIO_USR: "pci_precioUsr",
@@ -131,16 +131,16 @@
       PCI_PENDIENTE: "pci_pendiente",
 
       // PedidoCompraItemTMP
-      PEDIDOCOMPRAITEMTMP: "PedidoCompraItemTMP",
-      PCI_TMPID: "pciTMP_id",
+      PEDIDOCOMPRAITEM_TMP: "PedidoCompraItemTMP",
+      PCI_TMP_ID: "pciTMP_id",
 
       // PedidoCompraItemBorradoTMP
-      PEDIDOCOMPRAITEMBORRADOTMP: "PedidoCompraItemBorradoTMP",
-      PCIB_TMPID: "pcibTMP_id",
+      PEDIDOCOMPRAITEM_BORRADO_TMP: "PedidoCompraItemBorradoTMP",
+      PCIB_TMP_ID: "pcibTMP_id",
 
       // Pedido Devolucion Compra TMP
       PEDIDODEVOLUCIONCOMPRATMP: "PedidoDevolucionCompraTMP",
-      PC_DC_TMPID: "pcdcTMP_id",
+      PC_DC_TMP_ID: "pcdcTMP_id",
       PC_DC_ID: "pcdc_id",
       PC_DC_CANTIDAD: "pcdc_cantidad",
       PCI_ID_DEVOLUCION: "pci_id_devolucion",
@@ -179,14 +179,14 @@
 
       // FacturaCompraTMP
       FACTURA_COMPRA_TMP: "FacturaCompraTMP",
-      FC_TMPID: "fcTMP_id",
+      FC_TMP_ID: "fcTMP_id",
 
       // FacturaCompraItem
       FACTURA_COMPRA_ITEM: "FacturaCompraItem",
       FCI_ID: "fci_id",
       FCI_ORDEN: "fci_orden",
       FCI_CANTIDAD: "fci_cantidad",
-      FCI_CANTIDADAREMITIR: "fci_cantidadaremitir",
+      FCI_CANTIDAD_A_REMITIR: "fci_cantidadaremitir",
       FCI_PENDIENTE: "fci_pendiente",
       FCI_DESCRIP: "fci_descrip",
       FCI_PRECIO: "fci_precio",
@@ -209,11 +209,11 @@
 
       // FacturaCompraItemTMP
       FACTURA_COMPRA_ITEM_TMP: "FacturaCompraItemTMP",
-      FCI_TMPID: "fciTMP_id",
+      FCI_TMP_ID: "fciTMP_id",
 
       // FacturaCompraOtroTMP
       FACTURA_COMPRA_OTRO_TMP: "FacturaCompraOtroTMP",
-      FCOT_TMPID: "fcotTMP_id",
+      FCOT_TMP_ID: "fcotTMP_id",
 
       // FacturaCompraOtro
       FACTURA_COMPRA_OTRO: "FacturaCompraOtro",
@@ -226,11 +226,11 @@
 
       // FacturaCompraOtroBorradoTMP
       FACTURA_COMPRA_OTRO_BORRADO_TMP: "FacturaCompraOtroBorradoTMP",
-      FCOTB_TMPID: "fcotbTMP_id",
+      FCOTB_TMP_ID: "fcotbTMP_id",
 
       // FacturaCompraItemBarradoTMP
       FACTURA_COMPRA_ITEMBORRADO_TMP: "FacturaCompraItemBorradoTMP",
-      FCIB_TMPID: "fcibTMP_id",
+      FCIB_TMP_ID: "fcibTMP_id",
 
       // Provincia
       PRO_ID_ORIGEN: "pro_id_origen",
@@ -256,19 +256,19 @@
 
       // FacturaCompraPercepcion TMP
       FACTURA_COMPRA_PERCEPCION_TMP: "FacturaCompraPercepcionTMP",
-      FCPERC_TMPID: "fcpercTMP_id",
+      FCPERC_TMP_ID: "fcpercTMP_id",
 
       // FacturaCompraLegajoTMP
       FACTURA_COMPRA_LEGAJO_TMP: "FacturaCompraLegajoTMP",
-      FCLGJ_TMPID: "fclgjTMP_id",
+      FCLGJ_TMP_ID: "fclgjTMP_id",
 
       // FacturaCompraPercepcion Borrado TMP
       FACTURA_COMPRA_PERCEPCION_BORRADO_TMP: "FacturaCompraPercepcionBorradoTMP",
-      FC_PERCB_TMPID: "fcpercbTMP_id",
+      FC_PERCB_TMP_ID: "fcpercbTMP_id",
 
       // FacturaCompraPercepcion Borrado TMP
       FACTURA_COMPRA_LEGAJO_BORRADO_TMP: "FacturaCompraLegajoBorradoTMP",
-      FC_LGJB_TMPID: "fclgjbTMP_id",
+      FC_LGJB_TMP_ID: "fclgjbTMP_id",
 
       // Stock
       DEPL_ID_ORIGEN: "depl_id_origen",
@@ -283,7 +283,7 @@
 
       // Remito Factura Compra TMP
       REMITO_FACTURA_COMPRA_TMP: "RemitoFacturaCompraTMP",
-      RC_FC_TMPID: "rcfcTMP_id",
+      RC_FC_TMP_ID: "rcfcTMP_id",
 
       // Remito Factura Compra
       REMITO_FACTURA_COMPRA: "RemitoFacturaCompra",
@@ -292,7 +292,7 @@
 
       // Remito Factura Compra TMP
       REMITO_DEVOLUCION_COMPRA_TMP: "RemitoDevolucionCompraTMP",
-      RC_DC_TMPID: "rcdcTMP_id",
+      RC_DC_TMP_ID: "rcdcTMP_id",
       RC_DC_ID: "rcdc_id",
       RC_DC_CANTIDAD: "rcdc_cantidad",
       RCI_ID_DEVOLUCION: "rci_id_devolucion",
@@ -330,14 +330,14 @@
 
       // OrdenCompraTMP
       ORDEN_COMPRA_TMP: "OrdenCompraTMP",
-      OC_TMPID: "ocTMP_id",
+      OC_TMP_ID: "ocTMP_id",
 
       // OrdenCompraItem
       ORDEN_COMPRA_ITEM: "OrdenCompraItem",
       OCI_ID: "oci_id",
       OCI_ORDEN: "oci_orden",
       OCI_CANTIDAD: "oci_cantidad",
-      OCI_CANTIDADAREMITIR: "oci_cantidadaremitir",
+      OCI_CANTIDAD_A_REMITIR: "oci_cantidadaremitir",
       OCI_DESCRIP: "oci_descrip",
       OCI_PRECIO: "oci_precio",
       OCI_PRECIO_USR: "oci_precioUsr",
@@ -353,16 +353,16 @@
       OCI_PENDIENTE_FAC: "oci_pendientefac",
 
       // OrdenCompraItemTMP
-      ORDEN_COMPRA_ITEMTMP: "OrdenCompraItemTMP",
-      OCI_TMPID: "ociTMP_id",
+      ORDEN_COMPRA_ITEM_TMP: "OrdenCompraItemTMP",
+      OCI_TMP_ID: "ociTMP_id",
 
       // OrdenCompraItemBorradoTMP
-      ORDEN_COMPRA_ITEMBORRADOTMP: "OrdenCompraItemBorradoTMP",
-      OCIB_TMPID: "ocibTMP_id",
+      ORDEN_COMPRA_ITEM_BORRADO_TMP: "OrdenCompraItemBorradoTMP",
+      OCIB_TMP_ID: "ocibTMP_id",
 
       // Orden Factura Compra TMP
       ORDENFACTURA_COMPRA_TMP: "OrdenFacturaCompraTMP",
-      OC_FC_TMPID: "ocfcTMP_id",
+      OC_FC_TMP_ID: "ocfcTMP_id",
 
       // Orden Factura Compra
       ORDENFACTURA_COMPRA: "OrdenFacturaCompra",
@@ -371,7 +371,7 @@
 
       // Devolucion Orden Compra TMP
       ORDENDEVOLUCIONCOMPRATMP: "OrdenDevolucionCompraTMP",
-      OC_DC_TMPID: "ocdcTMP_id",
+      OC_DC_TMP_ID: "ocdcTMP_id",
       OC_DC_ID: "ocdc_id",
       OC_DC_CANTIDAD: "ocdc_cantidad",
       OCI_ID_DEVOLUCION: "oci_id_devolucion",
@@ -384,7 +384,7 @@
 
       // Orden Remito Compra TMP
       ORDENREMITO_COMPRA_TMP: "OrdenRemitoCompraTMP",
-      OC_RC_TMPID: "ocrcTMP_id",
+      OC_RC_TMP_ID: "ocrcTMP_id",
 
       // Cotizacion
       COTIZACIONCOMPRA: "CotizacionCompra",
@@ -467,7 +467,7 @@
 
       // Pedido Orden de Compra TMP
       PEDIDOORDEN_COMPRA_TMP: "PedidoOrdenCompraTMP",
-      PC_OC_TMPID: "pcocTMP_id",
+      PC_OC_TMP_ID: "pcocTMP_id",
 
       // Pedido Cotizacion Compra
       PEDIDOCOTIZACIONCOMPRA: "PedidoCotizacionCompra",
@@ -476,7 +476,7 @@
 
       // Pedido Cotizacion Compra TMP
       PEDIDOCOTIZACIONCOMPRATMP: "PedidoCotizacionCompraTMP",
-      PCCOT_TMPID: "pccotTMP_id",
+      PCCOT_TMP_ID: "pccotTMP_id",
 
       // Asiento
       AS_ID: "as_id",

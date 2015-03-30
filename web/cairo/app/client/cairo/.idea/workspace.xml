@@ -8,7 +8,7 @@
     <file path="/control.js" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1426120309371" ignored="false" />
     <file path="/select.js" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1426292545861" ignored="false" />
     <file path="/dialog.js" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1427465649033" ignored="false" />
-    <file path="/a.dummy" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1427483392446" ignored="false" />
+    <file path="/a.dummy" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1427573823790" ignored="false" />
     <file path="/datePicker.js" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1427130548174" ignored="false" />
     <file path="/view.js" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1426776213029" ignored="false" />
     <file path="/cairoApp.js" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1427403250314" ignored="false" />
@@ -22,13 +22,13 @@
     <file path="/property.js" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1426785856137" ignored="false" />
     <file path="/collection.js" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1426014851927" ignored="false" />
     <file path="/system.js" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1427499352299" ignored="false" />
-    <file path="/cFacturaCompra.js" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1427499517426" ignored="false" />
+    <file path="/cFacturaCompra.js" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1427572992018" ignored="false" />
     <file path="/dialogList.js" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1426791767278" ignored="false" />
     <file path="/optionButton.js" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1423089376621" ignored="false" />
     <file path="/list.js" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1423092259476" ignored="false" />
     <file path="/security.js" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1423190925962" ignored="false" />
     <file path="/modal.js" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1427246231185" ignored="false" />
-    <file path="/database.js" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1427479337139" ignored="false" />
+    <file path="/database.js" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1427573121108" ignored="false" />
     <file path="/promise.js" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1423340029495" ignored="false" />
     <file path="/constants.js" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1427219205710" ignored="false" />
     <file path="/percepcion.js" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1423682845293" ignored="false" />
@@ -117,28 +117,19 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="dialog.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/system/dialogs/dialog.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="5634" column="12" selection-start="182853" selection-end="182853" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="promise.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/system/promise.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="144" column="17" selection-start="3776" selection-end="3776" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="system.js" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="system.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/modules/system/system.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="550" column="53" selection-start="16945" selection-end="16945" vertical-scroll-proportion="0.41902605">
+            <state line="1494" column="10" selection-start="43273" selection-end="43273" vertical-scroll-proportion="-8.642858">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="label.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/system/controls/label.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -147,7 +138,7 @@
       <file leaf-file-name="cFacturaCompra.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/modules/CSCompra2/cFacturaCompra.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="3935" column="31" selection-start="118692" selection-end="118692" vertical-scroll-proportion="-11.962963">
+            <state line="4579" column="31" selection-start="137938" selection-end="137938" vertical-scroll-proportion="-24.62963">
               <folding />
             </state>
           </provider>
@@ -156,7 +147,7 @@
       <file leaf-file-name="cairoApp.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/cairoApp.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="861" column="46" selection-start="21950" selection-end="21950" vertical-scroll-proportion="0.0">
+            <state line="430" column="77" selection-start="10648" selection-end="10648" vertical-scroll-proportion="-6.3333335">
               <folding />
             </state>
           </provider>
@@ -166,6 +157,15 @@
         <entry file="file://$PROJECT_DIR$/cairoModules.js">
           <provider selected="true" editor-type-id="text-editor">
             <state line="26" column="20" selection-start="525" selection-end="525" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="database.js" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/system/database/database.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="252" column="28" selection-start="8693" selection-end="8704" vertical-scroll-proportion="0.61661345">
               <folding />
             </state>
           </provider>
@@ -183,7 +183,7 @@
       <file leaf-file-name="percepcion.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/modules/CSCompra2/percepcion.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="244" column="0" selection-start="7582" selection-end="7582" vertical-scroll-proportion="0.0">
+            <state line="245" column="0" selection-start="7631" selection-end="7631" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -200,7 +200,6 @@
     <option name="changedFiles">
       <list>
         <option value="$PROJECT_DIR$/modules/CSGeneralEx2/cUsuarioConfig.js" />
-        <option value="$PROJECT_DIR$/modules/CSCompra2/constants.js" />
         <option value="$PROJECT_DIR$/modules/CSGeneral2/constants.js" />
         <option value="$PROJECT_DIR$/system/dialogs/view.js" />
         <option value="$PROJECT_DIR$/system/modal.js" />
@@ -214,6 +213,7 @@
         <option value="$PROJECT_DIR$/modules/CSCompra2/percepcion.js" />
         <option value="$PROJECT_DIR$/system/database/database.js" />
         <option value="$PROJECT_DIR$/modules/system/system.js" />
+        <option value="$PROJECT_DIR$/modules/CSCompra2/constants.js" />
         <option value="$PROJECT_DIR$/modules/CSCompra2/cFacturaCompra.js" />
       </list>
     </option>
@@ -560,10 +560,10 @@
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32994923" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32976446" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32762313" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.16862956" sideWeight="0.635533" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.10010707" sideWeight="0.635533" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
@@ -647,18 +647,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/system/dialogs/view.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="982" column="61" selection-start="30591" selection-end="30591" vertical-scroll-proportion="0.019957984">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/system/controls/input.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="310" column="43" selection-start="8946" selection-end="8946" vertical-scroll-proportion="0.7027027" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/modules/CSGeneralEx2/cUsuarioConfig.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
@@ -708,13 +696,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/cairoApp.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="861" column="46" selection-start="21950" selection-end="21950" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/cairoModules.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="26" column="20" selection-start="525" selection-end="525" vertical-scroll-proportion="0.0">
@@ -724,94 +705,56 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/modules/CSCompra2/percepcion.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="244" column="0" selection-start="7582" selection-end="7582" vertical-scroll-proportion="0.0">
+        <state line="245" column="0" selection-start="7631" selection-end="7631" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/modules/CSCompra2/constants.js">
+    <entry file="file://$PROJECT_DIR$/system/controls/label.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="180" column="6" selection-start="5544" selection-end="5544" vertical-scroll-proportion="0.0">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/system/database/database.js">
+    <entry file="file://$PROJECT_DIR$/cairoApp.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="293" column="22" selection-start="9210" selection-end="9210" vertical-scroll-proportion="-5.6296296">
-          <folding>
-            <element signature="e#31#46#0" expanded="false" />
-            <element signature="e#281#313#0" expanded="false" />
-            <element signature="e#981#1180#0" expanded="false" />
-            <element signature="e#1224#1651#0" expanded="false" />
-            <element signature="e#1539#1637#0" expanded="false" />
-            <element signature="e#2087#2114#0" expanded="false" />
-            <element signature="e#2173#3478#0" expanded="false" />
-            <element signature="e#2239#2355#0" expanded="false" />
-            <element signature="e#2367#3456#0" expanded="false" />
-            <element signature="e#2430#2550#0" expanded="false" />
-            <element signature="e#2564#3448#0" expanded="false" />
-            <element signature="e#2726#3407#0" expanded="false" />
-            <element signature="e#2788#2899#0" expanded="false" />
-            <element signature="e#2945#3395#0" expanded="false" />
-            <element signature="e#3277#3379#0" expanded="false" />
-            <element signature="e#3522#6145#0" expanded="false" />
-            <element signature="e#3557#3653#0" expanded="false" />
-            <element signature="e#3687#3836#0" expanded="false" />
-            <element signature="e#3967#5882#0" expanded="false" />
-            <element signature="e#4023#4115#0" expanded="false" />
-            <element signature="e#4129#5874#0" expanded="false" />
-            <element signature="e#4194#4297#0" expanded="false" />
-            <element signature="e#4313#4406#0" expanded="false" />
-            <element signature="e#4475#5833#0" expanded="false" />
-            <element signature="e#4513#4586#0" expanded="false" />
-            <element signature="e#4632#5749#0" expanded="false" />
-            <element signature="e#4697#4823#0" expanded="false" />
-            <element signature="e#4871#5156#0" expanded="false" />
-            <element signature="e#5204#5506#0" expanded="false" />
-            <element signature="e#5526#5602#0" expanded="false" />
-            <element signature="e#5635#5733#0" expanded="false" />
-            <element signature="e#5912#6002#0" expanded="false" />
-            <element signature="e#6014#6123#0" expanded="false" />
-            <element signature="e#6190#6393#0" expanded="false" />
-            <element signature="e#6263#6367#0" expanded="false" />
-            <element signature="e#6438#6477#0" expanded="false" />
-            <element signature="e#6526#6575#0" expanded="false" />
-            <element signature="e#6842#6921#0" expanded="false" />
-            <element signature="e#7001#7266#0" expanded="false" />
-            <element signature="e#7015#7228#0" expanded="false" />
-            <element signature="e#8109#8141#0" expanded="false" />
-            <element signature="e#8186#8227#0" expanded="false" />
-            <element signature="e#8268#8305#0" expanded="false" />
-            <element signature="e#8340#8371#0" expanded="false" />
-            <element signature="e#8403#8436#0" expanded="false" />
-            <element signature="e#8475#8510#0" expanded="false" />
-            <element signature="e#8544#8579#0" expanded="false" />
-            <element signature="e#8618#8653#0" expanded="false" />
-            <element signature="e#8687#8722#0" expanded="false" />
-            <element signature="e#8731#8733#0" expanded="false" />
-            <element signature="e#8772#8787#0" expanded="false" />
-            <element signature="e#8863#8966#0" expanded="false" />
-            <element signature="e#8900#8958#0" expanded="false" />
-            <element signature="e#9018#9066#0" expanded="false" />
-            <element signature="e#9311#9359#0" expanded="false" />
-            <element signature="e#9561#9610#0" expanded="false" />
-            <element signature="e#9938#10008#0" expanded="false" />
-            <element signature="e#10039#10156#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/modules/CSCompra2/cFacturaCompra.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="3935" column="31" selection-start="118692" selection-end="118692" vertical-scroll-proportion="-11.962963">
+        <state line="430" column="77" selection-start="10648" selection-end="10648" vertical-scroll-proportion="-6.3333335">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/modules/system/system.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="550" column="53" selection-start="16945" selection-end="16945" vertical-scroll-proportion="0.41902605">
+        <state line="1494" column="10" selection-start="43273" selection-end="43273" vertical-scroll-proportion="-8.642858">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/modules/CSCompra2/constants.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="76" column="32" selection-start="2213" selection-end="2217" vertical-scroll-proportion="0.1512247">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/system/controls/datePicker.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="48" column="42" selection-start="1393" selection-end="1393" vertical-scroll-proportion="0.46538872">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/modules/CSCompra2/cFacturaCompra.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="4579" column="31" selection-start="137938" selection-end="137938" vertical-scroll-proportion="-24.62963">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/system/database/database.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="252" column="28" selection-start="8693" selection-end="8704" vertical-scroll-proportion="0.61661345">
           <folding />
         </state>
       </provider>

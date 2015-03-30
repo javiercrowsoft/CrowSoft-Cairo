@@ -355,19 +355,21 @@ case class FacturaCompraItemTotals(
                                     importeOrigen: Double
                                     )
 
+case class FacturaCompraItemSerie(
+                                   id: Int,
+                                   code: String,
+                                   descrip: String,
+                                   fechaVto: Date,
+                                   fciId: Int
+                                   )
+
 case class FacturaCompraItem(
                               id: Int,
                               base: FacturaCompraItemBase,
-                              totals: FacturaCompraItemTotals
+                              totals: FacturaCompraItemTotals,
+                              series: List[FacturaCompraItemSerie], /* only used in save */
+                              serieDeleted: String /* only used in save */
                             )
-
-case class FacturaCompraItemSerie(
-                              id: Int,
-                              code: String,
-                              descrip: String,
-                              fechaVto: Date,
-                              fciId: Int
-                              )
 
 case class FacturaCompraOtro(
                               id: Int,
@@ -408,10 +410,16 @@ case class FacturaCompraPercepcion(
 
 case class FacturaCompraItems(
                                 items: List[FacturaCompraItem],
-                                series: List[FacturaCompraItemSerie],
+                                series: List[FacturaCompraItemSerie], /* only used when loading an invoice to respond a get FacturaCompra */
                                 otros: List[FacturaCompraOtro],
                                 legajos: List[FacturaCompraLegajo],
-                                percepciones: List[FacturaCompraPercepcion]
+                                percepciones: List[FacturaCompraPercepcion],
+
+                                /* only used in save */
+                                itemDeleted: String,
+                                otroDeleted: String,
+                                legajoDeleted: String,
+                                percepcionDeleted: String
                              )
 
 case class FacturaCompra(
@@ -577,7 +585,7 @@ object FacturaCompra {
 
   lazy val GC = models.cairo.modules.general.C
 
-  lazy val emptyFacturaCompraItems = FacturaCompraItems(List(), List(), List(), List(), List())
+  lazy val emptyFacturaCompraItems = FacturaCompraItems(List(), List(), List(), List(), List(), "", "", "", "")
 
   lazy val emptyFacturaCompraReferences = FacturaCompraReferences(
     DBHelper.NoId, DBHelper.NoId, "", false, false, false, 0, DBHelper.NoId, DBHelper.NoId, false, false, false, "")
@@ -806,7 +814,9 @@ object FacturaCompra {
           internosPorc.doubleValue(),
           importe.doubleValue(),
           importeOrigen.doubleValue()
-        )
+        ),
+        List(),
+        ""
       )
     }
   }
@@ -1166,14 +1176,14 @@ object FacturaCompra {
   }
 
   def create(user: CompanyUser, facturaCompra: FacturaCompra): FacturaCompra = {
-    save(user, facturaCompra, true)
+    save(user, facturaCompra)
   }
 
   def update(user: CompanyUser, facturaCompra: FacturaCompra): FacturaCompra = {
-    save(user, facturaCompra, false)
+    save(user, facturaCompra)
   }
 
-  private def save(user: CompanyUser, facturaCompra: FacturaCompra, isNew: Boolean): FacturaCompra = {
+  private def save(user: CompanyUser, facturaCompra: FacturaCompra): FacturaCompra = {
     def getFields = {
       List(
         Field(C.FC_ID, facturaCompra.id, FieldType.id),
@@ -1222,25 +1232,282 @@ object FacturaCompra {
         Field(C.FC_TOTAL_ORIGEN, facturaCompra.totals.totalOrigen, FieldType.currency)
       )
     }
-    def throwException = {
-      throw new RuntimeException(s"Error when saving ${C.FACTURA_COMPRA}")
+
+    def getItemFields(item: FacturaCompraItem, fcTMPId: Int) = {
+      List(
+        Field(C.FC_TMP_ID, fcTMPId, FieldType.id),
+        Field(C.FCI_ID, item.id, FieldType.id),
+        Field(C.FCI_DESCRIP, item.base.descrip, FieldType.text),
+        Field(C.FCI_DESCUENTO, item.base.descuento, FieldType.text),
+        Field(GC.PR_ID, item.base.prId, FieldType.id),
+        Field(GC.CCOS_ID, item.base.ccosId, FieldType.id),
+        Field(GC.TO_ID, item.base.toId, FieldType.id),
+        Field(GC.CUE_ID, item.base.cueId, FieldType.id),
+        Field(C.CUE_ID_IVA_RI, item.base.cueIdIvaRi, FieldType.id),
+        Field(C.CUE_ID_IVA_RNI, item.base.cueIdIvaRni, FieldType.id),
+        Field(C.STL_ID, item.base.stlCode, FieldType.text),
+        Field(C.STL_CODE, item.base.stlId, FieldType.id),
+        Field(C.FCI_ORDEN, item.base.orden, FieldType.integer),
+        Field(C.FCI_CANTIDAD, item.totals.cantidad, FieldType.currency),
+        Field(C.FCI_CANTIDAD_A_REMITIR, item.totals.cantidad, FieldType.currency),
+        Field(C.FCI_PRECIO, item.totals.precio, FieldType.currency),
+        Field(C.FCI_PRECIO_LISTA, item.totals.precioLista, FieldType.currency),
+        Field(C.FCI_PRECIO_USR, item.totals.precioUser, FieldType.currency),
+        Field(C.FCI_NETO, item.totals.neto, FieldType.currency),
+        Field(C.FCI_IVA_RI, item.totals.ivaRi, FieldType.currency),
+        Field(C.FCI_IVA_RNI, item.totals.ivaRni, FieldType.currency),
+        Field(C.FCI_INTERNOS, item.totals.internos, FieldType.currency),
+        Field(C.FCI_IVA_RIPORC, item.totals.ivaRiPorc, FieldType.double),
+        Field(C.FCI_IVA_RNIPORC, item.totals.ivaRniPorc, FieldType.double),
+        Field(C.FCI_INTERNOS_PORC, item.totals.internosPorc, FieldType.double),
+        Field(C.FCI_IMPORTE, item.totals.importe, FieldType.currency),
+        Field(C.FCI_IMPORTE_ORIGEN, item.totals.importeOrigen, FieldType.currency)
+      )
+    }
+
+    def getSerieFields(item: FacturaCompraItemSerie, fcTMPId: Int, fciTMPId: Int, prId: Int) = {
+      List(
+        Field(C.FC_TMP_ID, fcTMPId, FieldType.id),
+        Field(C.FCI_TMP_ID, fciTMPId, FieldType.id),
+        Field(GC.PR_ID, prId, FieldType.id),
+        Field(GC.PRNS_ID, item.id, FieldType.id),
+        Field(GC.PRNS_CODE, item.code, FieldType.text),
+        Field(GC.PRNS_DESCRIP, item.descrip, FieldType.text),
+        Field(GC.PRNS_FECHA_VTO, item.fechaVto, FieldType.date)
+      )
+    }
+
+    def getSerieDeletedFields(prnsId: Int, fcTMPId: Int) = {
+      List(
+        Field(C.FC_TMP_ID, fcTMPId, FieldType.id),
+        Field(GC.PRNS_ID, prnsId, FieldType.id)
+      )
+    }
+
+    def throwError = {
+      throwException(s"Error when saving ${C.FACTURA_COMPRA}")
+    }
+
+    def throwException(message: String) = {
+      throw new RuntimeException(message)
+    }
+
+    def saveItemSerie(fcTMPId: Int, fciTMPId: Int, prId: Int)(item: FacturaCompraItemSerie) = {
+      DBHelper.save(
+        user,
+        Register(
+          C.FACTURA_COMPRA_ITEM_SERIE_TMP,
+          C.FCIS_TMP_ID,
+          DBHelper.NoId,
+          false,
+          true,
+          true,
+          getSerieFields(item, fcTMPId, fciTMPId, prId)),
+        true
+      ) match {
+        case SaveResult(true, id) => true
+        case SaveResult(false, id) => throwError
+      }
+    }
+
+    def saveItemSerieDeleted(fcTMPId: Int)(prnsId: String) = {
+      DBHelper.save(
+        user,
+        Register(
+          C.FACTURA_COMPRA_ITEM_SERIE_B_TMP,
+          C.FCISB_TMP_ID,
+          DBHelper.NoId,
+          false,
+          true,
+          true,
+          getSerieDeletedFields(prnsId.toInt, fcTMPId)),
+        true
+      ) match {
+        case SaveResult(true, id) => true
+        case SaveResult(false, id) => throwError
+      }
+    }
+
+    case class FacturaCompraItemSerieInfo(
+                                           fcTMPId: Int,
+                                           fciTMPId: Int,
+                                           prId: Int,
+                                           series: List[FacturaCompraItemSerie],
+                                           deleted: String)
+
+    def saveItemSeries(serieInfo: FacturaCompraItemSerieInfo) = {
+      serieInfo.series.map(saveItemSerie(serieInfo.fcTMPId, serieInfo.fciTMPId, serieInfo.prId))
+      serieInfo.deleted.split(",").map(saveItemSerieDeleted(serieInfo.fcTMPId))
+    }
+
+    case class FacturaCompraItemInfo(fcTMPId: Int, item: FacturaCompraItem)
+
+    def saveItem(itemInfo: FacturaCompraItemInfo) = {
+      DBHelper.save(
+        user,
+        Register(
+          C.FACTURA_COMPRA_ITEM_TMP,
+          C.FCI_TMP_ID,
+          DBHelper.NoId,
+          false,
+          true,
+          true,
+          getItemFields(itemInfo.item, itemInfo.fcTMPId)),
+        true
+      ) match {
+        case SaveResult(true, id) => {
+          FacturaCompraItemSerieInfo(
+            itemInfo.fcTMPId, id, itemInfo.item.base.prId, itemInfo.item.series, itemInfo.item.serieDeleted)
+        }
+        case SaveResult(false, id) => throwError
+      }
+    }
+
+    def saveItems(fcTMPId: Int) = {
+      facturaCompra.items.items.map(item => saveItem(FacturaCompraItemInfo(fcTMPId, item))).map(saveItemSeries)
+    }
+
+    def saveOtros(fcTMPId: Int) = {
+
+    }
+
+    def savePercepciones(fcTMPId: Int) = {
+
+    }
+
+    def saveLegajos(fcTMPId: Int) = {
+
+    }
+
+    case class RowResult(rowType: String, id: Int, message: String)
+
+    def executeSave(fcTMPId: Int): List[RowResult] = {
+
+      DB.withTransaction(user.database.database) { implicit connection =>
+        val sql = "select * from sp_doc_factura_compra_save(?, ?)"
+        val cs = connection.prepareStatement(sql)
+
+        cs.setInt(1, user.userId)
+        cs.setInt(2, fcTMPId)
+
+        try {
+          val rs = cs.executeQuery()
+
+          /*
+          *
+          * all sp_doc_SOME_DOCUMENT_save must return a setof row_result
+          *
+          * row_result is a composite type in postgresql defined as:
+          *
+          * CREATE TYPE row_result AS (
+          *    type    varchar,
+          *    id      integer,
+          *    message varchar,
+          *    r       refcursor
+          * );
+          *
+          *
+          * ex: CREATE OR REPLACE FUNCTION sp_doc_factura_compra_save( params )
+          *     RETURNS SETOF row_result AS ...
+          *
+          * the field type is used to identify the value in the row. there are three
+          * kind of types: resultset, success, id
+          * for first two (resultset and success) the value of type is string with
+          * one of these two values ex: 'resultset' or 'success'
+          * when type == 'resultset' the field r must be not null and contain a ResultSet
+          * when type == 'success' the id field can contain 0 (False) or not 0 (-1,1 or any other number but NO 0) (True)
+          * the last kind of type is id. in this case the id must be the name of a column like fc_id, as_id, pr_id, etc
+          * it can be any column name. if the type is an integer like in fc_id, as_id or any other id column the field id
+          * is used to contain the returned value
+          * if the type is any other the column message is used
+          *
+          * there are two special types for id: 'INFO', 'ERROR'
+          * when type == 'ERROR' the system will raise an exception
+          * when type == 'INFO' the system will show an alert
+          * in both cases the field message contains the description
+          *
+          * this set must contain at least one row
+          *
+          * the field r (ResultSet) is not normally read in a save document operation.
+          *
+          * */
+
+          try {
+            def getIdOrMessage: RowResult = {
+              val rowType = rs.getString(1)
+
+              rowType match {
+                case "ERROR" => throwException(rs.getString(3))
+                case "INFO" => RowResult("INFO", 0, rs.getString(3))
+                case "fc_id" => RowResult("fc_id", rs.getInt(2), "")
+                case _ => RowResult("IGNORED", 0, "")
+              }
+            }
+
+            def getSaveResult: List[RowResult] = {
+              if(rs.next()) {
+                getIdOrMessage :: getSaveResult
+              }
+              else {
+                List()
+              }
+            }
+            getSaveResult
+
+          } finally {
+            rs.close
+          }
+
+        } catch {
+          case NonFatal(e) => {
+            Logger.error(s"can't save ${C.FACTURA_COMPRA} with id ${facturaCompra.id} for user ${user.toString}. Error ${e.toString}")
+            throw e
+          }
+        } finally {
+          cs.close
+        }
+      }
+    }
+
+    def getIdFromMessages(messages: List[RowResult]) = {
+      def findId(messages: List[RowResult], id: Int): Int = messages match {
+        case Nil => id
+        case h :: t => {
+          val _id = h match {
+            case RowResult("fc_id", id, m) => id
+            case _ => 0
+          }
+          findId(t, _id)
+        }
+      }
+      findId(messages, 0)
     }
 
     DBHelper.save(
       user,
       Register(
         C.FACTURA_COMPRA_TMP,
-        C.FC_TMPID,
+        C.FC_TMP_ID,
         DBHelper.NoId,
         false,
         true,
         true,
         getFields),
-      isNew
+      true
     ) match {
-      case SaveResult(true, id) => load(user, id).getOrElse(throwException)
-      case SaveResult(false, id) => throwException
+      case SaveResult(true, fcTMPId) => {
+        saveItems(fcTMPId)
+        saveOtros(fcTMPId)
+        savePercepciones(fcTMPId)
+        saveLegajos(fcTMPId)
+        val messagesAndId = executeSave(fcTMPId)
+        val id = getIdFromMessages(messagesAndId)
+        load(user, id).getOrElse(throwError)
+      }
+      case SaveResult(false, id) => throwError
     }
+
+
   }
 
   def load(user: CompanyUser, id: Int): Option[FacturaCompra] = {
@@ -1279,7 +1546,9 @@ object FacturaCompra {
       items._2,
       loadOtros(user, id),
       loadLegajos(user, id),
-      loadPercepciones(user, id))
+      loadPercepciones(user, id),
+      "", "", "", ""
+    )
   }
 
   private def loadItems(user: CompanyUser, id: Int) = {
@@ -1452,7 +1721,7 @@ object FacturaCompra {
       user,
       Register(
         C.FACTURA_COMPRA_TMP,
-        C.FC_TMPID,
+        C.FC_TMP_ID,
         DBHelper.NoId,
         false,
         true,
@@ -1513,4 +1782,74 @@ object FacturaCompra {
       }
     }
   }
+
+  /*
+  def test(user: CompanyUser) = {
+    DB.withTransaction(user.database.database) { implicit connection =>
+
+      val sql = "select * from testd(?)"
+      val cs = connection.prepareStatement(sql)
+      //val cs = connection.prepareCall(sql)
+
+      cs.setInt(1, user.userId)
+      //cs.registerOutParameter(2, Types.OTHER)
+
+      try {
+        val rs = cs.executeQuery()
+
+        //val rs = cs.getObject(2).asInstanceOf[java.sql.ResultSet]
+        if(rs.next) {
+          if(rs.getInt(1) == 2) {
+            val rsv = rs.getObject(3).asInstanceOf[java.sql.ResultSet]
+            if (rsv.next)
+              Logger.debug(s"rs1 has rows ${rsv.getString(1)}")
+            if (rsv.next)
+              Logger.debug(s"rs1 has rows ${rsv.getString(1)}")
+          }
+          else {
+            Logger.debug(s"ID: ${rs.getInt(2)}")
+          }
+        }
+        if(rs.next) {
+          if(rs.getInt(1) == 2) {
+            val rsv = rs.getObject(3).asInstanceOf[java.sql.ResultSet]
+            if (rsv.next)
+              Logger.debug(s"rs2 has rows ${rsv.getString(1)}")
+          }
+          else {
+            Logger.debug(s"ID: ${rs.getInt(2)}")
+          }
+        }
+        if(rs.next) {
+          if(rs.getInt(1) == 2) {
+            val rsv = rs.getObject(3).asInstanceOf[java.sql.ResultSet]
+            if (rsv.next)
+              Logger.debug(s"rs3 has rows ${rsv.getString(1)}")
+          }
+          else {
+            Logger.debug(s"ID: ${rs.getInt(2)}")
+          }
+        }
+        if(rs.next) {
+          if(rs.getInt(1) == 2) {
+            val rsv = rs.getObject(3).asInstanceOf[java.sql.ResultSet]
+            if (rsv.next)
+              Logger.debug(s"rs4 has rows ${rsv.getString(1)}")
+          }
+          else {
+            Logger.debug(s"ID: ${rs.getInt(2)}")
+          }
+        }
+
+      } catch {
+        case NonFatal(e) => {
+          Logger.error(s"can't test ${user.toString}. Error ${e.toString}")
+          throw e
+        }
+      } finally {
+        cs.close
+      }
+    }
+  }
+  */
 }

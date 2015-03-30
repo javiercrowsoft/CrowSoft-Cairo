@@ -1486,13 +1486,13 @@
 
       switch (part) {
         case "yyyy":
-          date = date.setYear(date.getFullYear() + amount);
+          date.setYear(date.getFullYear() + amount);
           break;
         case "d":
-          date = date.setDate(date.getDate() + amount);
+          date.setDate(date.getDate() + amount);
           break;
         case "m":
-          date = date.setMonth(date.getMonth() + amount);
+          date.setMonth(date.getMonth() + amount);
           break;
       }
 

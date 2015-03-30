@@ -47,10 +47,10 @@ case class FacturaCompraPreciosData(
                                    )
 
 case class FacturaCompraDatesData(
-                                    fecha: Date,
-                                    fechaEntrega: Date,
-                                    fechaIva: Date,
-                                    fechaVto: Date
+                                    fecha: String,
+                                    fechaEntrega: String,
+                                    fechaIva: String,
+                                    fechaVto: String
                                  )
 
 case class FacturaCompraStockData(
@@ -73,9 +73,49 @@ case class FacturaCompraTotalsData(
                                     totalOrigen: Double
                                   )
 
+case class FacturaCompraItemDataBase(
+                                  descrip: String,
+                                  descuento: String,
+                                  prId: Int,
+                                  ccosId: Int,
+                                  toId: Int,
+                                  cueId: Int,
+                                  cueIdIvaRi: Int,
+                                  cueIdIvaRni: Int,
+                                  stlId: Int,
+                                  stlCode: String,
+                                  orden: Int
+                                  )
+
+case class FacturaCompraItemDataTotals(
+                                    cantidad: Double,
+                                    precio: Double,
+                                    precioLista: Double,
+                                    precioUser: Double,
+                                    neto: Double,
+                                    ivaRi: Double,
+                                    ivaRni: Double,
+                                    internos: Double,
+                                    ivaRiPorc: Double,
+                                    ivaRniPorc: Double,
+                                    internosPorc: Double,
+                                    importe: Double,
+                                    importeOrigen: Double
+                                    )
+
+case class FacturaCompraItemDataSerie(
+                                   id: Int,
+                                   code: String,
+                                   descrip: String,
+                                   fechaVto: String
+                                   )
+
 case class FacturaCompraItemData(
                                     id: Int,
-                                    cantidad: Double
+                                    base: FacturaCompraItemDataBase,
+                                    totals: FacturaCompraItemDataTotals,
+                                    series: List[FacturaCompraItemDataSerie], /* only used in save */
+                                    serieDeleted: String /* only used in save */
                                   )
 
 case class FacturaCompraData(
@@ -120,6 +160,30 @@ object FacturaCompras extends Controller with ProvidesUser {
     )(FacturaCompraParamsData.apply)(FacturaCompraParamsData.unapply)
   )
 
+  val facturaIdFields = List(GC.DOC_ID, C.FC_NUMERO, C.FC_NRODOC)
+
+  val facturaBaseFields = List(GC.PROV_ID, GC.EST_ID, GC.CCOS_ID, GC.SUC_ID, GC.CPG_ID, GC.LGJ_ID,
+                               C.FC_CAI, C.FC_TIPO_COMPROBANTE, C.FC_DESCRIP, C.FC_GRABAR_ASIENTO)
+
+  val facturaDatesFields = List(C.FC_FECHA, C.FC_FECHA_ENTREGA, C.FC_FECHA_IVA, C.FC_FECHA_VTO)
+
+  val facturaPreciosFields = List(C.FC_DESCUENTO1, C.FC_DESCUENTO2, GC.LP_ID, GC.LD_ID)
+
+  val facturaCotizacionFields = List(C.FC_COTIZACION, C.FC_COTIZACION_PROV)
+
+  val facturaStockFields = List(C.PRO_ID_ORIGEN, C.PRO_ID_DESTINO, GC.DEPL_ID)
+
+  val facturaTotalsFields = List(C.FC_NETO, C.FC_IVA_RI, C.FC_IVA_RNI, C.FC_INTERNOS, C.FC_SUBTOTAL,
+                                 C.FC_IMPORTE_DESC_1, C.FC_IMPORTE_DESC_2, C.FC_TOTAL_OTROS,
+                                 C.FC_TOTAL_PERCEPCIONES, C.FC_TOTAL, C.FC_TOTAL_ORIGEN)
+
+  val facturaItemBase = List(C.FCI_DESCRIP, C.FCI_DESCUENTO, GC.PR_ID, GC.CCOS_ID, GC.TO_ID,
+                             GC.CUE_ID, C.CUE_ID_IVA_RI, C.CUE_ID_IVA_RNI, C.STL_ID, C.STL_CODE, C.FCI_ORDEN)
+
+  val facturaItemTotals = List(C.FCI_CANTIDAD, C.FCI_PRECIO, C.FCI_PRECIO_LISTA, C.FCI_PRECIO_USR, C.FCI_NETO,
+                               C.FCI_IVA_RI, C.FCI_IVA_RNI, C.FCI_INTERNOS, C.FCI_IVA_RIPORC, C.FCI_IVA_RNIPORC,
+                               C.FCI_INTERNOS_PORC, C.FCI_IMPORTE, C.FCI_IMPORTE_ORIGEN)
+
   val facturaCompraForm: Form[FacturaCompraData] = Form(
     mapping(
       "id" -> optional(number),
@@ -141,10 +205,10 @@ object FacturaCompras extends Controller with ProvidesUser {
         C.FC_GRABAR_ASIENTO -> boolean)
         (FacturaCompraBaseData.apply)(FacturaCompraBaseData.unapply),
       C.FACTURA_DATES -> mapping (
-        C.FC_FECHA -> date,
-        C.FC_FECHA_ENTREGA -> date,
-        C.FC_FECHA_IVA -> date,
-        C.FC_FECHA_VTO -> date)
+        C.FC_FECHA -> text,
+        C.FC_FECHA_ENTREGA -> text,
+        C.FC_FECHA_IVA -> text,
+        C.FC_FECHA_VTO -> text)
         (FacturaCompraDatesData.apply)(FacturaCompraDatesData.unapply),
       C.FACTURA_PRECIOS -> mapping (
         C.FC_DESCUENTO1 -> of(Global.doubleFormat),
@@ -174,10 +238,46 @@ object FacturaCompras extends Controller with ProvidesUser {
         C.FC_TOTAL -> of(Global.doubleFormat),
         C.FC_TOTAL_ORIGEN -> of(Global.doubleFormat)
         )(FacturaCompraTotalsData.apply)(FacturaCompraTotalsData.unapply),
-      C.FACTURA_ITEMS -> Forms.list[FacturaCompraItemData](
+      C.FACTURA_COMPRA_ITEM_TMP -> Forms.list[FacturaCompraItemData](
         mapping(
           C.FCI_ID -> number,
-          C.FCI_CANTIDAD -> of(Global.doubleFormat))
+          C.FACTURA_ITEM_BASE -> mapping (
+            C.FCI_DESCRIP -> text,
+            C.FCI_DESCUENTO -> text,
+            GC.PR_ID -> number,
+            GC.CCOS_ID -> number,
+            GC.TO_ID -> number,
+            GC.CUE_ID -> number,
+            C.CUE_ID_IVA_RI -> number,
+            C.CUE_ID_IVA_RNI -> number,
+            C.STL_ID -> number,
+            C.STL_CODE -> text,
+            C.FCI_ORDEN -> number)
+            (FacturaCompraItemDataBase.apply)(FacturaCompraItemDataBase.unapply),
+          C.FACTURA_ITEM_TOTALS -> mapping (
+            C.FCI_CANTIDAD -> of(Global.doubleFormat),
+            C.FCI_PRECIO -> of(Global.doubleFormat),
+            C.FCI_PRECIO_LISTA -> of(Global.doubleFormat),
+            C.FCI_PRECIO_USR -> of(Global.doubleFormat),
+            C.FCI_NETO -> of(Global.doubleFormat),
+            C.FCI_IVA_RI -> of(Global.doubleFormat),
+            C.FCI_IVA_RNI -> of(Global.doubleFormat),
+            C.FCI_INTERNOS -> of(Global.doubleFormat),
+            C.FCI_IVA_RIPORC -> of(Global.doubleFormat),
+            C.FCI_IVA_RNIPORC -> of(Global.doubleFormat),
+            C.FCI_INTERNOS_PORC -> of(Global.doubleFormat),
+            C.FCI_IMPORTE -> of(Global.doubleFormat),
+            C.FCI_IMPORTE_ORIGEN -> of(Global.doubleFormat))
+            (FacturaCompraItemDataTotals.apply)(FacturaCompraItemDataTotals.unapply),
+          C.FACTURA_COMPRA_ITEM_SERIE_TMP -> Forms.list[FacturaCompraItemDataSerie](
+            mapping (
+              GC.PRNS_ID -> number,
+              GC.PRNS_CODE -> text,
+              GC.PRNS_DESCRIP -> text,
+              GC.PRNS_FECHA_VTO -> text)
+              (FacturaCompraItemDataSerie.apply)(FacturaCompraItemDataSerie.unapply)
+          ),
+          C.FACTURA_ITEM_SERIE_DELETED -> text)
         (FacturaCompraItemData.apply)(FacturaCompraItemData.unapply)
       )
     )(FacturaCompraData.apply)(FacturaCompraData.unapply)
@@ -374,9 +474,62 @@ object FacturaCompras extends Controller with ProvidesUser {
     })
   }
 
+  private def preprocessParams(implicit request:Request[AnyContent]): JsObject = {
+
+    def preprocessItemParam(field: (String, JsValue)) = {
+      val params = field._2.as[Map[String, JsValue]]
+      val facturaItem = Global.preprocessFormParams(List(C.FCI_ID, C.FACTURA_COMPRA_ITEM_SERIE_TMP, C.FACTURA_ITEM_SERIE_DELETED), "", params)
+      val facturaItemBaseGroup = Global.preprocessFormParams(facturaItemBase, C.FACTURA_ITEM_BASE, params)
+      val facturaItemTotalsGroup = Global.preprocessFormParams(facturaItemTotals, C.FACTURA_ITEM_TOTALS, params)
+
+      val item = JsObject(
+        (facturaItem ++ facturaItemBaseGroup ++ facturaItemTotalsGroup).toSeq)
+      item
+    }
+
+    def preprocessItemsParam(items: JsValue, group: String): Map[String, JsValue] = items match {
+      case JsArray(arr) => Map(group -> JsArray(arr.flatMap(_.as[Map[String, JsValue]].map(preprocessItemParam))))
+      case _ => Map.empty
+    }
+
+    val params = Global.getParamsFromJsonRequest
+
+    val facturaId = Global.preprocessFormParams(List("id"), "", params)
+    val facturaIdGroup = Global.preprocessFormParams(facturaIdFields, C.FACTURA_ID, params)
+    val facturaBaseGroup = Global.preprocessFormParams(facturaBaseFields, C.FACTURA_BASE, params)
+    val facturaDatesGroup = Global.preprocessFormParams(facturaDatesFields, C.FACTURA_DATES, params)
+    val facturaPreciosGroup = Global.preprocessFormParams(facturaPreciosFields, C.FACTURA_PRECIOS, params)
+    val facturaCotizacionGroup = Global.preprocessFormParams(facturaCotizacionFields, C.FACTURA_COTIZACION, params)
+    val facturaStockGroup = Global.preprocessFormParams(facturaStockFields, C.FACTURA_STOCK, params)
+    val facturaTotalGroup = Global.preprocessFormParams(facturaTotalsFields, C.FACTURA_TOTALS, params)
+    val items = Global.getParamsJsonRequestFor(C.FACTURA_COMPRA_ITEM_TMP, C.FACTURA_TOTALS, params)
+    val facturaItems = preprocessItemsParam(items.head._2, C.FACTURA_COMPRA_ITEM_TMP)
+    val form = JsObject(
+                  (facturaId ++ facturaIdGroup ++ facturaBaseGroup ++ facturaDatesGroup ++ facturaPreciosGroup
+                    ++ facturaCotizacionGroup ++ facturaStockGroup ++ facturaTotalGroup ++ facturaItems).toSeq)
+
+    //Logger.debug(s"REQUEST-BODY: ${request.body.toString}")
+
+    //Logger.debug(s"FORM-1: ${request.body.asJson.toString}")
+
+    /*val fields = request.body.asJson match {
+      case Some(fields) => s"received object: ${fields.as[Map[String, JsValue]].toString}"
+      case _ => s"no json"
+    }*/
+
+    //Logger.debug(s"JSON TO MAP: ${fields}")
+
+    //Logger.debug(s"FORM-ID-2: ${request.body.asFormUrlEncoded.map( _.filterKeys( facturaIdFields.contains(_) )).toString}")
+
+    Logger.debug(s"FORM: ${form.toString}")
+
+    form
+  }
+
   def update(id: Int) = PostAction { implicit request =>
     Logger.debug("in FacturaCompras.update")
-    facturaCompraForm.bindFromRequest.fold(
+
+    facturaCompraForm.bind(preprocessParams).fold(
       formWithErrors => {
         Logger.debug(s"invalid form: ${formWithErrors.toString}")
         BadRequest
@@ -406,10 +559,10 @@ object FacturaCompras extends Controller with ProvidesUser {
                     facturaCompra.base.grabarAsiento),
                   FacturaCompra.emptyFacturaCompraReferences,
                   FacturaCompraDates(
-                    facturaCompra.dates.fecha,
-                    facturaCompra.dates.fechaEntrega,
-                    facturaCompra.dates.fechaIva,
-                    facturaCompra.dates.fechaVto),
+                    DateFormatter.parse(facturaCompra.dates.fecha),
+                    DateFormatter.parse(facturaCompra.dates.fechaEntrega),
+                    DateFormatter.parse(facturaCompra.dates.fechaIva),
+                    DateFormatter.parse(facturaCompra.dates.fechaVto)),
                   FacturaCompraPrecios(
                     facturaCompra.precios.desc1,
                     facturaCompra.precios.desc2,
@@ -445,7 +598,7 @@ object FacturaCompras extends Controller with ProvidesUser {
 
   def create = PostAction { implicit request =>
     Logger.debug("in FacturaCompras.create")
-    facturaCompraForm.bindFromRequest.fold(
+    facturaCompraForm.bind(preprocessParams).fold(
       formWithErrors => {
         Logger.debug(s"invalid form: ${formWithErrors.toString}")
         BadRequest
@@ -474,10 +627,10 @@ object FacturaCompras extends Controller with ProvidesUser {
                     facturaCompra.base.grabarAsiento),
                   FacturaCompra.emptyFacturaCompraReferences,
                   FacturaCompraDates(
-                    facturaCompra.dates.fecha,
-                    facturaCompra.dates.fechaEntrega,
-                    facturaCompra.dates.fechaIva,
-                    facturaCompra.dates.fechaVto),
+                    DateFormatter.parse(facturaCompra.dates.fecha),
+                    DateFormatter.parse(facturaCompra.dates.fechaEntrega),
+                    DateFormatter.parse(facturaCompra.dates.fechaIva),
+                    DateFormatter.parse(facturaCompra.dates.fechaVto)),
                   FacturaCompraPrecios(
                     facturaCompra.precios.desc1,
                     facturaCompra.precios.desc2,

@@ -11,6 +11,9 @@
 
   });
 
+  var T = Cairo.Constants.Types;
+  var val = Cairo.Util.val;
+  
   Cairo.Database = {
 
     getAPIVersion: function() {
@@ -137,7 +140,10 @@
             },
             error: function(data, response) {
               var p;
-              if(response.status === 401) {
+              if(response.status === 400) {
+                p = Cairo.Modal.showWarning("Bad Request", "The server has rejected the request because it is bad formed.");
+              }
+              else if(response.status === 401) {
                 p = Cairo.Modal.showWarning("Unauthorized", "The server has denied access to this action.");
               }
               else if(response.status === 500) {
@@ -207,10 +213,27 @@
         asObject: function() {
           var getValue = function(value, type) {
             switch(type) {
-              case Cairo.Constants.Types.boolean:
+              case T.boolean:
                 value = value ? true : false;
-              case Cairo.Constants.Types.text:
+                break;
+              case T.text:
                 value = value.toString();
+                break;
+              case T.dateOrNull:
+                if(value !== null) {
+                  value = Cairo.Database.sqlDate(value);
+                }
+                break;
+              case T.date:
+                value = Cairo.Database.sqlDate(value);
+                break;
+              case T.integer:
+              case T.long:
+              case T.single:
+              case T.double:
+              case T.currency:
+                value = val(value);
+                break;
             }
             return value;
           };
@@ -331,7 +354,7 @@
     },
 
     sqlDate: function(date) {
-      var DATE_FORMAT = "yyyy-mm-dd'T'HH:mm:ss'Z'";
+      // "yyyy-mm-dd'T'HH:mm:ss'Z'";
       return Cairo.Util.getDateValue(date).toISOString();
     }
 

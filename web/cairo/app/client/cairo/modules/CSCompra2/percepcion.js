@@ -241,7 +241,7 @@
 
         var register = new Cairo.Database.Register();
         var fields = register.getFields();
-        register.setFieldId(CC.FCPERC_TMPID);
+        register.setFieldId(CC.FCPERC_TMP_ID);
         register.setId(Cairo.Constants.NEW_ID);
 
         var _count = row.size();

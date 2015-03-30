@@ -801,7 +801,7 @@
             var register = new DB.Register();
             var fields = register.getFields();
 
-            register.setFieldId(CC.FC_TMPID);
+            register.setFieldId(CC.FC_TMP_ID);
             register.setTable(CC.FACTURA_COMPRA_TMP);
 
             register.setId(Cairo.Constants.NEW_ID);
@@ -963,7 +963,7 @@
 
                 case K_INTERNOS:
                   internos = val(property.getValue());
-                  fields.add(CC.FC_IVA_RNI, internos * cotizacion, Types.currency);
+                  fields.add(CC.FC_INTERNOS, internos * cotizacion, Types.currency);
                   break;
 
                 case K_SUBTOTAL:
@@ -3458,7 +3458,7 @@
           var row = getGrid(m_items, C_ITEMS).getRows().item(_i);
 
           var register = new DB.Register();
-          register.setFieldId(CC.FCI_TMPID);
+          register.setFieldId(CC.FCI_TMP_ID);
           register.setId(Cairo.Constants.NEW_ID);
 
           var fields = register.getFields();
@@ -3632,7 +3632,7 @@
           var row = property.getGrid().getRows().item(_i);
 
           var register = new DB.Register();
-          register.setFieldId(C.FCOT_TMPID);
+          register.setFieldId(C.FCOT_TMP_ID);
           register.setId(Cairo.Constants.NEW_ID);
 
           var fields = register.getFields();
@@ -3715,7 +3715,7 @@
           var row = property.getGrid().getRows().item(_i);
 
           var register = new DB.Register();
-          register.setFieldId(CC.FCLGJ_TMPID);
+          register.setFieldId(CC.FCLGJ_TMP_ID);
           register.setId(Cairo.Constants.NEW_ID);
 
           var fields = register.getFields();
@@ -4534,7 +4534,7 @@
           var transaction = DB.createTransaction();
           var deleted = [];
 
-          transaction.setTable(CC.FACTURA_COMPRA_ITEMSERIETMP);
+          transaction.setTable(CC.FACTURA_COMPRA_ITEM_SERIE_TMP);
 
           var _count = m_serialNumbers.get(Cairo.Collections.getKey(grupo)).size();
           for(var _i = 0; _i < _count; _i++) {
@@ -4552,7 +4552,7 @@
               var register = new DB.Register();
               var fields = register.getFields();
 
-              register.setFieldId(C.FCIS_TMPID);
+              register.setFieldId(C.FCIS_TMP_ID);
               register.setId(Cairo.Constants.NEW_ID);
 
               fields.add(C.PR_ID, prId, Types.id);

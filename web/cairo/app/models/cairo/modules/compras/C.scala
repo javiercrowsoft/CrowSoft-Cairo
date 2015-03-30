@@ -25,7 +25,7 @@ object C {
 
   // RemitoCompraTMP
   val REMITO_COMPRA_TMP = "RemitoCompraTMP"
-  val RC_TMPID = "rcTMP_id"
+  val RC_TMP_ID = "rcTMP_id"
 
   // RemitoCompraItem
   val REMITO_COMPRA_ITEM = "RemitoCompraItem"
@@ -48,30 +48,30 @@ object C {
   val RCI_IMPORTE = "rci_importe"
 
   // RemitoCompraItemTMP
-  val REMITO_COMPRA_ITEMTMP = "RemitoCompraItemTMP"
-  val RCI_TMPID = "rciTMP_id"
+  val REMITO_COMPRA_ITEM_TMP = "RemitoCompraItemTMP"
+  val RCI_TMP_ID = "rciTMP_id"
 
   // RemitoCompraItemBorradoTMP
-  val REMITO_COMPRA_ITEMBORRADOTMP = "RemitoCompraItemBorradoTMP"
-  val RCIB_TMPID = "rcibTMP_id"
+  val REMITO_COMPRA_ITEM_BORRADO_TMP = "RemitoCompraItemBorradoTMP"
+  val RCIB_TMP_ID = "rcibTMP_id"
 
   // Remito Compra Item Serie
-  val REMITO_COMPRA_ITEMSERIETMP = "RemitoCompraItemSerieTMP"
-  val RCIS_TMPID = "rcisTMP_id"
+  val REMITO_COMPRA_ITEM_SERIE_TMP = "RemitoCompraItemSerieTMP"
+  val RCIS_TMP_ID = "rcisTMP_id"
   val RCIS_ORDEN = "rcis_orden"
 
   // Remito Compra Item Serie
-  val REMITO_COMPRA_ITEMSERIEBTMP = "RemitoCompraItemSerieBTMP"
-  val RCISB_TMPID = "rcisbTMP_id"
+  val REMITO_COMPRA_ITEM_SERIE_B_TMP = "RemitoCompraItemSerieBTMP"
+  val RCISB_TMP_ID = "rcisbTMP_id"
 
   // Factura Compra Item Serie
-  val FACTURA_COMPRA_ITEMSERIETMP = "FacturaCompraItemSerieTMP"
-  val FCIS_TMPID = "fcisTMP_id"
+  val FACTURA_COMPRA_ITEM_SERIE_TMP = "FacturaCompraItemSerieTMP"
+  val FCIS_TMP_ID = "fcisTMP_id"
   val FCIS_ORDEN = "fcis_orden"
 
   // Factura Compra Item Serie
-  val FACTURA_COMPRA_ITEMSERIEBTMP = "FacturaCompraItemSerieBTMP"
-  val FCISB_TMPID = "fcisbTMP_id"
+  val FACTURA_COMPRA_ITEM_SERIE_B_TMP = "FacturaCompraItemSerieBTMP"
+  val FCISB_TMP_ID = "fcisbTMP_id"
 
 
   // PedidoCompra
@@ -92,14 +92,14 @@ object C {
 
   // PedidoCompraTMP
   val PEDIDOCOMPRATMP = "PedidoCompraTMP"
-  val PC_TMPID = "pcTMP_id"
+  val PC_TMP_ID = "pcTMP_id"
 
   // PedidoCompraItem
   val PEDIDOCOMPRAITEM = "PedidoCompraItem"
   val PCI_ID = "pci_id"
   val PCI_ORDEN = "pci_orden"
   val PCI_CANTIDAD = "pci_cantidad"
-  val PCI_CANTIDADAREMITIR = "pci_cantidadaremitir"
+  val PCI_CANTIDAD_A_REMITIR = "pci_cantidadaremitir"
   val PCI_DESCRIP = "pci_descrip"
   val PCI_PRECIO = "pci_precio"
   val PCI_PRECIO_USR = "pci_precioUsr"
@@ -113,29 +113,32 @@ object C {
   val PCI_PENDIENTE = "pci_pendiente"
 
   // PedidoCompraItemTMP
-  val PEDIDOCOMPRAITEMTMP = "PedidoCompraItemTMP"
-  val PCI_TMPID = "pciTMP_id"
+  val PEDIDOCOMPRAITEM_TMP = "PedidoCompraItemTMP"
+  val PCI_TMP_ID = "pciTMP_id"
 
   // PedidoCompraItemBorradoTMP
-  val PEDIDOCOMPRAITEMBORRADOTMP = "PedidoCompraItemBorradoTMP"
-  val PCIB_TMPID = "pcibTMP_id"
+  val PEDIDOCOMPRAITEM_BORRADO_TMP = "PedidoCompraItemBorradoTMP"
+  val PCIB_TMP_ID = "pcibTMP_id"
 
   // Pedido Devolucion Compra TMP
   val PEDIDODEVOLUCIONCOMPRATMP = "PedidoDevolucionCompraTMP"
-  val PC_DC_TMPID = "pcdcTMP_id"
+  val PC_DC_TMP_ID = "pcdcTMP_id"
   val PC_DC_ID = "pcdc_id"
   val PC_DC_CANTIDAD = "pcdc_cantidad"
   val PCI_ID_DEVOLUCION = "pci_id_devolucion"
   val PCI_ID_PEDIDO = "pci_id_pedido"
 
-  val FACTURA_ID = "id"
+  val FACTURA_ID = "ids"
   val FACTURA_BASE = "base"
   val FACTURA_DATES = "dates"
   val FACTURA_PRECIOS = "precios"
   val FACTURA_COTIZACION = "cotizacion"
   val FACTURA_STOCK = "stock"
   val FACTURA_TOTALS = "totals"
-  val FACTURA_ITEMS = "items"
+
+  val FACTURA_ITEM_BASE = "base"
+  val FACTURA_ITEM_TOTALS = "totals"
+  val FACTURA_ITEM_SERIE_DELETED = "deletedList"
 
   // FacturaCompra
   val FACTURA_COMPRA = "FacturaCompra"
@@ -170,14 +173,14 @@ object C {
 
   // FacturaCompraTMP
   val FACTURA_COMPRA_TMP = "FacturaCompraTMP"
-  val FC_TMPID = "fcTMP_id"
+  val FC_TMP_ID = "fcTMP_id"
 
   // FacturaCompraItem
   val FACTURA_COMPRA_ITEM = "FacturaCompraItem"
   val FCI_ID = "fci_id"
   val FCI_ORDEN = "fci_orden"
   val FCI_CANTIDAD = "fci_cantidad"
-  val FCI_CANTIDADAREMITIR = "fci_cantidadaremitir"
+  val FCI_CANTIDAD_A_REMITIR = "fci_cantidadaremitir"
   val FCI_PENDIENTE = "fci_pendiente"
   val FCI_DESCRIP = "fci_descrip"
   val FCI_PRECIO = "fci_precio"
@@ -200,11 +203,11 @@ object C {
 
   // FacturaCompraItemTMP
   val FACTURA_COMPRA_ITEM_TMP = "FacturaCompraItemTMP"
-  val FCI_TMPID = "fciTMP_id"
+  val FCI_TMP_ID = "fciTMP_id"
 
   // FacturaCompraOtroTMP
   val FACTURA_COMPRA_OTRO_TMP = "FacturaCompraOtroTMP"
-  val FCOT_TMPID = "fcotTMP_id"
+  val FCOT_TMP_ID = "fcotTMP_id"
 
   // FacturaCompraOtro
   val FACTURA_COMPRA_OTRO = "FacturaCompraOtro"
@@ -217,11 +220,11 @@ object C {
 
   // FacturaCompraOtroBorradoTMP
   val FACTURA_COMPRA_OTRO_BORRADO_TMP = "FacturaCompraOtroBorradoTMP"
-  val FCOTB_TMPID = "fcotbTMP_id"
+  val FCOTB_TMP_ID = "fcotbTMP_id"
 
   // FacturaCompraItemBarradoTMP
   val FACTURA_COMPRA_ITEMBORRADO_TMP = "FacturaCompraItemBorradoTMP"
-  val FCIB_TMPID = "fcibTMP_id"
+  val FCIB_TMP_ID = "fcibTMP_id"
 
   // Provincia
   val PRO_ID_ORIGEN = "pro_id_origen"
@@ -253,19 +256,19 @@ object C {
 
   // FacturaCompraPercepcion TMP
   val FACTURA_COMPRA_PERCEPCION_TMP = "FacturaCompraPercepcionTMP"
-  val FCPERC_TMPID = "fcpercTMP_id"
+  val FCPERC_TMP_ID = "fcpercTMP_id"
 
   // FacturaCompraLegajoTMP
   val FACTURA_COMPRA_LEGAJO_TMP = "FacturaCompraLegajoTMP"
-  val FCLGJ_TMPID = "fclgjTMP_id"
+  val FCLGJ_TMP_ID = "fclgjTMP_id"
 
   // FacturaCompraPercepcion Borrado TMP
   val FACTURA_COMPRA_PERCEPCION_BORRADO_TMP = "FacturaCompraPercepcionBorradoTMP"
-  val FC_PERCB_TMPID = "fcpercbTMP_id"
+  val FC_PERCB_TMP_ID = "fcpercbTMP_id"
 
   // FacturaCompraPercepcion Borrado TMP
   val FACTURA_COMPRA_LEGAJO_BORRADO_TMP = "FacturaCompraLegajoBorradoTMP"
-  val FC_LGJB_TMPID = "fclgjbTMP_id"
+  val FC_LGJB_TMP_ID = "fclgjbTMP_id"
 
   // Stock
   val DEPL_ID_ORIGEN = "depl_id_origen"
@@ -280,7 +283,7 @@ object C {
 
   // Remito Factura Compra TMP
   val REMITO_FACTURA_COMPRA_TMP = "RemitoFacturaCompraTMP"
-  val RC_FC_TMPID = "rcfcTMP_id"
+  val RC_FC_TMP_ID = "rcfcTMP_id"
 
   // Remito Factura Compra
   val REMITO_FACTURA_COMPRA = "RemitoFacturaCompra"
@@ -289,7 +292,7 @@ object C {
 
   // Remito Factura Compra TMP
   val REMITO_DEVOLUCION_COMPRA_TMP = "RemitoDevolucionCompraTMP"
-  val RC_DC_TMPID = "rcdcTMP_id"
+  val RC_DC_TMP_ID = "rcdcTMP_id"
   val RC_DC_ID = "rcdc_id"
   val RC_DC_CANTIDAD = "rcdc_cantidad"
   val RCI_ID_DEVOLUCION = "rci_id_devolucion"
@@ -327,14 +330,14 @@ object C {
 
   // OrdenCompraTMP
   val ORDEN_COMPRA_TMP = "OrdenCompraTMP"
-  val OC_TMPID = "ocTMP_id"
+  val OC_TMP_ID = "ocTMP_id"
 
   // OrdenCompraItem
   val ORDEN_COMPRA_ITEM = "OrdenCompraItem"
   val OCI_ID = "oci_id"
   val OCI_ORDEN = "oci_orden"
   val OCI_CANTIDAD = "oci_cantidad"
-  val OCI_CANTIDADAREMITIR = "oci_cantidadaremitir"
+  val OCI_CANTIDAD_A_REMITIR = "oci_cantidadaremitir"
   val OCI_DESCRIP = "oci_descrip"
   val OCI_PRECIO = "oci_precio"
   val OCI_PRECIO_USR = "oci_precioUsr"
@@ -350,16 +353,16 @@ object C {
   val OCI_PENDIENTE_FAC = "oci_pendientefac"
 
   // OrdenCompraItemTMP
-  val ORDEN_COMPRA_ITEMTMP = "OrdenCompraItemTMP"
-  val OCI_TMPID = "ociTMP_id"
+  val ORDEN_COMPRA_ITEM_TMP = "OrdenCompraItemTMP"
+  val OCI_TMP_ID = "ociTMP_id"
 
   // OrdenCompraItemBorradoTMP
-  val ORDEN_COMPRA_ITEMBORRADOTMP = "OrdenCompraItemBorradoTMP"
-  val OCIB_TMPID = "ocibTMP_id"
+  val ORDEN_COMPRA_ITEM_BORRADO_TMP = "OrdenCompraItemBorradoTMP"
+  val OCIB_TMP_ID = "ocibTMP_id"
 
   // Orden Factura Compra TMP
   val ORDENFACTURA_COMPRA_TMP = "OrdenFacturaCompraTMP"
-  val OC_FC_TMPID = "ocfcTMP_id"
+  val OC_FC_TMP_ID = "ocfcTMP_id"
 
   // Orden Factura Compra
   val ORDENFACTURA_COMPRA = "OrdenFacturaCompra"
@@ -368,7 +371,7 @@ object C {
 
   // Devolucion Orden Compra TMP
   val ORDENDEVOLUCIONCOMPRATMP = "OrdenDevolucionCompraTMP"
-  val OC_DC_TMPID = "ocdcTMP_id"
+  val OC_DC_TMP_ID = "ocdcTMP_id"
   val OC_DC_ID = "ocdc_id"
   val OC_DC_CANTIDAD = "ocdc_cantidad"
   val OCI_ID_DEVOLUCION = "oci_id_devolucion"
@@ -381,7 +384,7 @@ object C {
 
   // Orden Remito Compra TMP
   val ORDENREMITO_COMPRA_TMP = "OrdenRemitoCompraTMP"
-  val OC_RC_TMPID = "ocrcTMP_id"
+  val OC_RC_TMP_ID = "ocrcTMP_id"
 
   // Cotizacion
   val COTIZACIONCOMPRA = "CotizacionCompra"
@@ -464,7 +467,7 @@ object C {
 
   // Pedido Orden de Compra TMP
   val PEDIDOORDEN_COMPRA_TMP = "PedidoOrdenCompraTMP"
-  val PC_OC_TMPID = "pcocTMP_id"
+  val PC_OC_TMP_ID = "pcocTMP_id"
 
   // Pedido Cotizacion Compra
   val PEDIDOCOTIZACIONCOMPRA = "PedidoCotizacionCompra"
@@ -473,7 +476,7 @@ object C {
 
   // Pedido Cotizacion Compra TMP
   val PEDIDOCOTIZACIONCOMPRATMP = "PedidoCotizacionCompraTMP"
-  val PCCOT_TMPID = "pccotTMP_id"
+  val PCCOT_TMP_ID = "pccotTMP_id"
 
   // Asiento
   val AS_ID = "as_id"

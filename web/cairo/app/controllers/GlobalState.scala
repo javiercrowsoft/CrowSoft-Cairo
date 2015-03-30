@@ -1,6 +1,6 @@
 package controllers
 
-import play.api.libs.json.Json
+import play.api.libs.json.{JsValue, Json, JsObject}
 import play.api.mvc._
 import actions._
 import models.master.{ LoggedUser, User }
@@ -87,6 +87,19 @@ object Global {
     }
   }
 
+  implicit def getParamsFromJsonRequest(implicit request:Request[AnyContent]): Map[String, JsValue]  = request.body.asJson match {
+    case Some(fields) => fields.as[Map[String, JsValue]]
+    case _ => Map.empty
+  }
+
+  implicit def getParamsJsonRequestFor(
+     key: String, group: String, params: Map[String, JsValue]): Map[String, JsValue] = params.filterKeys(_.equals(key))
+
+  implicit def preprocessFormParams(fields: List[String], group: String, params: Map[String, JsValue]): Map[String, JsValue] = {
+    val filteredParams = params.filterKeys(fields.contains(_))
+    val fieldName = if(group.isEmpty) fields.head else group
+    Map(fieldName -> JsObject(filteredParams.toSeq))
+  }
 }
 
 object LoggedResponse extends Controller {
