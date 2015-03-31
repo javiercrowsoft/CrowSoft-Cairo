@@ -535,7 +535,7 @@
     });
   };
 
-  Cairo.Documents.getSelectFilterForCuenta = "(emp_id = " + Cairo.Company.getId().toString() + " or emp_id is null)";
+  Cairo.Documents.getSelectFilterForCuenta = "account_in_current_company";
 
   Cairo.Documents.getTasaFromProducto = function(prId, isCompra) {
     var apiPath = Cairo.Database.getAPIVersion();

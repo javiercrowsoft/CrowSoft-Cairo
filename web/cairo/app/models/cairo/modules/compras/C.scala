@@ -140,6 +140,11 @@ object C {
   val FACTURA_ITEM_TOTALS = "totals"
   val FACTURA_ITEM_SERIE_DELETED = "deletedList"
 
+  val FACTURA_ITEM_DELETED = "deletedItems"
+  val FACTURA_OTRO_DELETED = "deletedOtros"
+  val FACTURA_LEGAJO_DELETED = "deletedLegajos"
+  val FACTURA_PERCEPCION_DELETED = "deletedPercepciones"
+
   // FacturaCompra
   val FACTURA_COMPRA = "FacturaCompra"
   val FC_ID = "fc_id"

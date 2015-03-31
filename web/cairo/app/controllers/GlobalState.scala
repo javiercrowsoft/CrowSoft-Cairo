@@ -93,12 +93,14 @@ object Global {
   }
 
   implicit def getParamsJsonRequestFor(
-     key: String, group: String, params: Map[String, JsValue]): Map[String, JsValue] = params.filterKeys(_.equals(key))
+     key: String, params: Map[String, JsValue]): Map[String, JsValue] = params.filterKeys(_.equals(key))
 
   implicit def preprocessFormParams(fields: List[String], group: String, params: Map[String, JsValue]): Map[String, JsValue] = {
     val filteredParams = params.filterKeys(fields.contains(_))
-    val fieldName = if(group.isEmpty) fields.head else group
-    Map(fieldName -> JsObject(filteredParams.toSeq))
+    if(group.isEmpty)
+      filteredParams
+    else
+      Map(group -> JsObject(filteredParams.toSeq))
   }
 }
 

@@ -94,7 +94,7 @@ case class FacturaCompraItemDataTotals(
                                     precioUser: Double,
                                     neto: Double,
                                     ivaRi: Double,
-                                    ivaRni: Double,
+                                    ivaRni: Option[Double],
                                     internos: Double,
                                     ivaRiPorc: Double,
                                     ivaRniPorc: Double,
@@ -114,10 +114,43 @@ case class FacturaCompraItemData(
                                     id: Int,
                                     base: FacturaCompraItemDataBase,
                                     totals: FacturaCompraItemDataTotals,
-                                    series: List[FacturaCompraItemDataSerie], /* only used in save */
-                                    serieDeleted: String /* only used in save */
+
+                                    /* only used in save */
+                                    series: List[FacturaCompraItemDataSerie],
+                                    serieDeleted: String
                                   )
 
+case class FacturaCompraOtroData(
+                              id: Int,
+                              cueId: Int,
+                              debe: Double,
+                              haber: Double,
+                              ccosId: Int,
+                              descrip: String,
+                              origen: Double,
+                              orden: Int
+                              )
+
+case class FacturaCompraLegajoData(
+                                id: Int,
+                                lgjId: Int,
+                                importe: Double,
+                                descrip: String,
+                                importeOrigen: Double,
+                                orden: Int
+                                )
+
+case class FacturaCompraPercepcionData(
+                                    id: Int,
+                                    percId: Int,
+                                    base: Double,
+                                    porcentaje: Double,
+                                    importe: Double,
+                                    ccosId: Int,
+                                    descrip: String,
+                                    origen: Double,
+                                    orden: Int
+                                    )
 case class FacturaCompraData(
                               id: Option[Int],
                               ids: FacturaCompraIdData,
@@ -127,7 +160,16 @@ case class FacturaCompraData(
                               cotizacion: FacturaCompraCotizacionData,
                               stock: FacturaCompraStockData,
                               totals: FacturaCompraTotalsData,
-                              items: List[FacturaCompraItemData]
+                              items: List[FacturaCompraItemData],
+                              otros: List[FacturaCompraOtroData],
+                              legajos: List[FacturaCompraLegajoData],
+                              percepciones: List[FacturaCompraPercepcionData],
+
+                              /* only used in save */
+                              itemDeleted: String,
+                              otroDeleted: String,
+                              legajoDeleted: String,
+                              percepcionDeleted: String
                             )
 
 case class FacturaCompraParamsData(
@@ -261,7 +303,7 @@ object FacturaCompras extends Controller with ProvidesUser {
             C.FCI_PRECIO_USR -> of(Global.doubleFormat),
             C.FCI_NETO -> of(Global.doubleFormat),
             C.FCI_IVA_RI -> of(Global.doubleFormat),
-            C.FCI_IVA_RNI -> of(Global.doubleFormat),
+            C.FCI_IVA_RNI -> optional(of(Global.doubleFormat)),
             C.FCI_INTERNOS -> of(Global.doubleFormat),
             C.FCI_IVA_RIPORC -> of(Global.doubleFormat),
             C.FCI_IVA_RNIPORC -> of(Global.doubleFormat),
@@ -276,10 +318,49 @@ object FacturaCompras extends Controller with ProvidesUser {
               GC.PRNS_DESCRIP -> text,
               GC.PRNS_FECHA_VTO -> text)
               (FacturaCompraItemDataSerie.apply)(FacturaCompraItemDataSerie.unapply)
-          ),
+            ),
           C.FACTURA_ITEM_SERIE_DELETED -> text)
         (FacturaCompraItemData.apply)(FacturaCompraItemData.unapply)
-      )
+      ),
+      C.FACTURA_COMPRA_OTRO_TMP -> Forms.list[FacturaCompraOtroData](
+        mapping (
+          C.FCOT_ID -> number,
+          GC.CUE_ID -> number,
+          C.FCOT_DEBE -> of(Global.doubleFormat),
+          C.FCOT_HABER -> of(Global.doubleFormat),
+          GC.CCOS_ID -> number,
+          C.FCOT_DESCRIP -> text,
+          C.FCOT_ORIGEN -> of(Global.doubleFormat),
+          C.FCOT_ORDEN -> number)
+          (FacturaCompraOtroData.apply)(FacturaCompraOtroData.unapply)
+      ),
+      C.FACTURA_COMPRA_LEGAJO_TMP -> Forms.list[FacturaCompraLegajoData](
+        mapping (
+          C.FCLGJ_ID -> number,
+          GC.LGJ_ID -> number,
+          C.FCLGJ_IMPORTE -> of(Global.doubleFormat),
+          C.FCLGJ_DESCRIP -> text,
+          C.FCLGJ_IMPORTE_ORIGEN -> of(Global.doubleFormat),
+          C.FCLGJ_ORDEN -> number)
+          (FacturaCompraLegajoData.apply)(FacturaCompraLegajoData.unapply)
+      ),
+      C.FACTURA_COMPRA_PERCEPCION_TMP -> Forms.list[FacturaCompraPercepcionData](
+        mapping (
+          C.FCPERC_ID -> number,
+          GC.PERC_ID -> number,
+          C.FCPERC_BASE -> of(Global.doubleFormat),
+          C.FCPERC_PORCENTAJE -> of(Global.doubleFormat),
+          C.FCPERC_IMPORTE -> of(Global.doubleFormat),
+          GC.CCOS_ID -> number,
+          C.FCPERC_DESCRIP -> text,
+          C.FCPERC_ORIGEN -> of(Global.doubleFormat),
+          C.FCLGJ_ORDEN -> number)
+          (FacturaCompraPercepcionData.apply)(FacturaCompraPercepcionData.unapply)
+      ),
+      C.FACTURA_ITEM_DELETED -> text,
+      C.FACTURA_OTRO_DELETED -> text,
+      C.FACTURA_LEGAJO_DELETED -> text,
+      C.FACTURA_PERCEPCION_DELETED -> text
     )(FacturaCompraData.apply)(FacturaCompraData.unapply)
   )
 
@@ -474,26 +555,87 @@ object FacturaCompras extends Controller with ProvidesUser {
     })
   }
 
+  //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  //
+  // this functions convert the plain JSON received in CREATE and UPDATE into a FacturaData structure
+  //
+  // because the limitation to 18 fields in case class used for FORM mapping we have grouped the fields
+  // in FacturaCompra/Data, FacturaCompraItem/Data, etc
+  //
+  // the below routines group a flat JSON and in some cases rename the name of the fields or move
+  // fields to the parent node in the JSON structure to match the case class
+  //
+
   private def preprocessParams(implicit request:Request[AnyContent]): JsObject = {
 
-    def preprocessItemParam(field: (String, JsValue)) = {
-      val params = field._2.as[Map[String, JsValue]]
-      val facturaItem = Global.preprocessFormParams(List(C.FCI_ID, C.FACTURA_COMPRA_ITEM_SERIE_TMP, C.FACTURA_ITEM_SERIE_DELETED), "", params)
+    def getJsValueAsMap(list: Map[String, JsValue]): Map[String, JsValue] = list.toList match {
+      case (key: String, jsValue: JsValue) :: t => jsValue.as[Map[String, JsValue]]
+      case _ => Map.empty
+    }
+
+    def preprocessSeriesParam(items: JsValue, group: String): Map[String, JsValue] = items match {
+      case jsArray: JsArray => Map(group -> jsArray)
+      case _ => Map(group -> JsArray(List()))
+    }
+
+    def preprocessItemParam(field: JsValue) = {
+      val params = field.as[Map[String, JsValue]]
+
+      // groups for FacturaCompraItemData
+      //
+      val facturaItem = Global.preprocessFormParams(List(C.FCI_ID), "", params)
       val facturaItemBaseGroup = Global.preprocessFormParams(facturaItemBase, C.FACTURA_ITEM_BASE, params)
       val facturaItemTotalsGroup = Global.preprocessFormParams(facturaItemTotals, C.FACTURA_ITEM_TOTALS, params)
 
+      // in the POSTED JSON we have this sctructure:
+      //
+      //     FacturaCompraItemSerieTMP: {
+      //          items: [],
+      //          deletedList: ""
+      //      }
+      //
+      // we need to convert it into
+      //
+      //      deletedList: "",
+      //      FacturaCompraItemSerieTMP: []
+      //
+      // NOTICE that deletedList is a field of FacturaCompraItemSerieTMP but in the converted it is move
+      // up to the parent node ( the FacturaCompraItem )
+      //
+      // this is done because in database.js we have one Transaction object to manage items in a Master-Detail
+      // relation like FacturaCompraItem -> FacturaCompraItemSerie or FacturaCompra -> FacturaCompraItem
+      //
+      // this Transaction object is an intermediary object which doesn't exists here
+      //
+      // So FacturaCompraItemData has deletedList field called serieDeleted and FacturaCompraData has four deletedList
+      // fields: itemDeleted, otroDeleted, percepcionDeleted and legajoDeleted
+      //
+
+      val serieInfo = getJsValueAsMap(Global.getParamsJsonRequestFor(C.FACTURA_COMPRA_ITEM_SERIE_TMP, params))
+      val serieRows = Global.getParamsJsonRequestFor(GC.ITEMS, serieInfo)
+      val deletedList: Map[String, JsValue] = Global.getParamsJsonRequestFor(GC.DELETED_LIST, serieInfo).toList match {
+        case Nil => Map(GC.DELETED_LIST -> Json.toJson(""))
+        case deletedList :: t => Map(deletedList)
+      }
+      val serieItems = serieRows.toList match {
+        case (k: String, item: JsValue) :: t => preprocessSeriesParam(item, C.FACTURA_COMPRA_ITEM_SERIE_TMP)
+        case _ => Map(C.FACTURA_COMPRA_ITEM_SERIE_TMP -> JsArray(List()))
+      }
+
       val item = JsObject(
-        (facturaItem ++ facturaItemBaseGroup ++ facturaItemTotalsGroup).toSeq)
+        (facturaItem ++ facturaItemBaseGroup ++ facturaItemTotalsGroup ++ serieItems ++ deletedList).toSeq)
       item
     }
 
     def preprocessItemsParam(items: JsValue, group: String): Map[String, JsValue] = items match {
-      case JsArray(arr) => Map(group -> JsArray(arr.flatMap(_.as[Map[String, JsValue]].map(preprocessItemParam))))
+      case JsArray(arr) => Map(group -> JsArray(arr.map(preprocessItemParam(_))))
       case _ => Map.empty
     }
 
     val params = Global.getParamsFromJsonRequest
 
+    // groups for FacturaCompraData
+    //
     val facturaId = Global.preprocessFormParams(List("id"), "", params)
     val facturaIdGroup = Global.preprocessFormParams(facturaIdFields, C.FACTURA_ID, params)
     val facturaBaseGroup = Global.preprocessFormParams(facturaBaseFields, C.FACTURA_BASE, params)
@@ -502,28 +644,172 @@ object FacturaCompras extends Controller with ProvidesUser {
     val facturaCotizacionGroup = Global.preprocessFormParams(facturaCotizacionFields, C.FACTURA_COTIZACION, params)
     val facturaStockGroup = Global.preprocessFormParams(facturaStockFields, C.FACTURA_STOCK, params)
     val facturaTotalGroup = Global.preprocessFormParams(facturaTotalsFields, C.FACTURA_TOTALS, params)
-    val items = Global.getParamsJsonRequestFor(C.FACTURA_COMPRA_ITEM_TMP, C.FACTURA_TOTALS, params)
-    val facturaItems = preprocessItemsParam(items.head._2, C.FACTURA_COMPRA_ITEM_TMP)
-    val form = JsObject(
-                  (facturaId ++ facturaIdGroup ++ facturaBaseGroup ++ facturaDatesGroup ++ facturaPreciosGroup
-                    ++ facturaCotizacionGroup ++ facturaStockGroup ++ facturaTotalGroup ++ facturaItems).toSeq)
 
-    //Logger.debug(s"REQUEST-BODY: ${request.body.toString}")
+    // items
+    //
+    val itemsInfo = getJsValueAsMap(Global.getParamsJsonRequestFor(C.FACTURA_COMPRA_ITEM_TMP, params))
+    val itemRows = Global.getParamsJsonRequestFor(GC.ITEMS, itemsInfo)
+    val itemDeleted: Map[String, JsValue] = Global.getParamsJsonRequestFor(C.FACTURA_ITEM_DELETED, itemsInfo).toList match {
+      case Nil => Map(C.FACTURA_ITEM_DELETED -> Json.toJson(""))
+      case deletedList :: t => Map(deletedList)
+    }
+    val facturaItems = preprocessItemsParam(itemRows.head._2, C.FACTURA_COMPRA_ITEM_TMP)
 
-    //Logger.debug(s"FORM-1: ${request.body.asJson.toString}")
+    // otros
+    //
+    val otrosInfo = getJsValueAsMap(Global.getParamsJsonRequestFor(C.FACTURA_COMPRA_OTRO_TMP, params))
+    val otroRows = Global.getParamsJsonRequestFor(GC.ITEMS, otrosInfo)
+    val otroDeleted: Map[String, JsValue] = Global.getParamsJsonRequestFor(C.FACTURA_OTRO_DELETED, otrosInfo).toList match {
+      case Nil => Map(C.FACTURA_OTRO_DELETED -> Json.toJson(""))
+      case deletedList :: t => Map(deletedList)
+    }
+    val facturaOtros = otroRows.toList match {
+      case (k: String, item: JsValue) :: t => preprocessSeriesParam(item, C.FACTURA_COMPRA_OTRO_TMP)
+      case _ => Map(C.FACTURA_COMPRA_OTRO_TMP -> JsArray(List()))
+    }
 
-    /*val fields = request.body.asJson match {
-      case Some(fields) => s"received object: ${fields.as[Map[String, JsValue]].toString}"
-      case _ => s"no json"
-    }*/
+    // legajos
+    //
+    val legajosInfo = getJsValueAsMap(Global.getParamsJsonRequestFor(C.FACTURA_COMPRA_LEGAJO_TMP, params))
+    val legajoRows = Global.getParamsJsonRequestFor(GC.ITEMS, legajosInfo)
+    val legajoDeleted: Map[String, JsValue] = Global.getParamsJsonRequestFor(C.FACTURA_LEGAJO_DELETED, legajosInfo).toList match {
+      case Nil => Map(C.FACTURA_LEGAJO_DELETED -> Json.toJson(""))
+      case deletedList :: t => Map(deletedList)
+    }
+    val facturalegajos = legajoRows.toList match {
+      case (k: String, item: JsValue) :: t => preprocessSeriesParam(item, C.FACTURA_COMPRA_LEGAJO_TMP)
+      case _ => Map(C.FACTURA_COMPRA_LEGAJO_TMP -> JsArray(List()))
+    }
 
-    //Logger.debug(s"JSON TO MAP: ${fields}")
+    // percepciones
+    //
+    val percepcionesInfo = getJsValueAsMap(Global.getParamsJsonRequestFor(C.FACTURA_COMPRA_PERCEPCION_TMP, params))
+    val percepcionRows = Global.getParamsJsonRequestFor(GC.ITEMS, percepcionesInfo)
+    val percepcionDeleted: Map[String, JsValue] = Global.getParamsJsonRequestFor(C.FACTURA_PERCEPCION_DELETED, percepcionesInfo).toList match {
+      case Nil => Map(C.FACTURA_PERCEPCION_DELETED -> Json.toJson(""))
+      case deletedList :: t => Map(deletedList)
+    }
+    val facturaPercepciones = percepcionRows.toList match {
+      case (k: String, item: JsValue) :: t => preprocessSeriesParam(item, C.FACTURA_COMPRA_PERCEPCION_TMP)
+      case _ => Map(C.FACTURA_COMPRA_PERCEPCION_TMP -> JsArray(List()))
+    }
+    
+    JsObject(
+      (facturaId ++ facturaIdGroup ++ facturaBaseGroup ++ facturaDatesGroup ++ facturaPreciosGroup
+      ++ facturaCotizacionGroup ++ facturaStockGroup ++ facturaTotalGroup 
+      ++ facturaItems ++ itemDeleted ++ facturaOtros ++ otroDeleted
+      ++ facturalegajos ++ legajoDeleted ++ facturaPercepciones ++ percepcionDeleted).toSeq)
+  }
+  //
+  //
+  //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    //Logger.debug(s"FORM-ID-2: ${request.body.asFormUrlEncoded.map( _.filterKeys( facturaIdFields.contains(_) )).toString}")
+  def getItems(items: List[FacturaCompraItemData]): List[FacturaCompraItem] = {
+    items.map(item => {
+      FacturaCompraItem(
+        item.id,
+        FacturaCompraItemBase(
+          item.base.descrip,
+          item.base.descuento,
+          item.base.prId,
+          item.base.ccosId,
+          item.base.toId,
+          item.base.cueId,
+          item.base.cueIdIvaRi,
+          item.base.cueIdIvaRni,
+          item.base.stlId,
+          item.base.stlCode,
+          item.base.orden
+        ),
+        FacturaCompraItemTotals(
+          item.totals.cantidad,
+          item.totals.precio,
+          item.totals.precioLista,
+          item.totals.precioUser,
+          item.totals.neto,
+          item.totals.ivaRi,
+          item.totals.ivaRni.getOrElse(0.0),
+          item.totals.internos,
+          item.totals.ivaRiPorc,
+          item.totals.ivaRniPorc,
+          item.totals.internosPorc,
+          item.totals.importe,
+          item.totals.importeOrigen
+        ),
+        item.series.map(serie => {
+          FacturaCompraItemSerie(
+            serie.id,
+            serie.code,
+            serie.descrip,
+            DateFormatter.parse(serie.fechaVto),
+            DBHelper.NoId
+          )
+        }),
+        item.serieDeleted
+      )
+    })
+  }
 
-    Logger.debug(s"FORM: ${form.toString}")
+  def getOtros(otros: List[FacturaCompraOtroData]): List[FacturaCompraOtro] = {
+    otros.map(otro => {
+      FacturaCompraOtro(
+        otro.id,
+        otro.cueId,
+        otro.debe,
+        otro.haber,
+        otro.ccosId,
+        otro.descrip,
+        otro.origen,
+        otro.orden
+      )
+    })
+  }
 
-    form
+  def getLegajos(legajos: List[FacturaCompraLegajoData]): List[FacturaCompraLegajo] = {
+    legajos.map(legajo => {
+      FacturaCompraLegajo(
+        legajo.id,
+        legajo.lgjId,
+        legajo.importe,
+        legajo.descrip,
+        legajo.importeOrigen,
+        legajo.orden
+      )
+    })
+  }
+
+  def getPercepciones(percepciones: List[FacturaCompraPercepcionData]): List[FacturaCompraPercepcion] = {
+    percepciones.map(percepcion => {
+      FacturaCompraPercepcion(
+        percepcion.id,
+        percepcion.percId,
+        percepcion.base,
+        percepcion.porcentaje,
+        percepcion.importe,
+        percepcion.ccosId,
+        percepcion.descrip,
+        percepcion.origen,
+        percepcion.orden
+      )
+    })
+  }
+
+  def getFacturaCompraItems(facturaCompra: FacturaCompraData): FacturaCompraItems = {
+    FacturaCompraItems(
+      getItems(facturaCompra.items),
+
+      List(), /* only used when loading an invoice to respond a get FacturaCompra */
+
+      getOtros(facturaCompra.otros),
+      getLegajos(facturaCompra.legajos),
+      getPercepciones(facturaCompra.percepciones),
+
+      /* only used in save */
+      facturaCompra.itemDeleted: String,
+      facturaCompra.otroDeleted: String,
+      facturaCompra.legajoDeleted: String,
+      facturaCompra.percepcionDeleted: String
+    )
   }
 
   def update(id: Int) = PostAction { implicit request =>
@@ -654,7 +940,8 @@ object FacturaCompras extends Controller with ProvidesUser {
                     facturaCompra.totals.totalOtros,
                     facturaCompra.totals.totalPercepciones,
                     facturaCompra.totals.total,
-                    facturaCompra.totals.totalOrigen)
+                    facturaCompra.totals.totalOrigen),
+                  getFacturaCompraItems(facturaCompra)
                 )
               )
             )

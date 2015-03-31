@@ -339,6 +339,42 @@ case class FacturaCompraItemBase(
                                    llevaNroSerie: Boolean,
                                    llevaNroLote: Boolean
                                    )
+
+object FacturaCompraItemBase {
+
+  def apply(descrip: String,
+            descuento: String,
+            prId: Int,
+            ccosId: Int,
+            toId: Int,
+            cueId: Int,
+            cueIdIvaRi: Int,
+            cueIdIvaRni: Int,
+            stlId: Int,
+            stlCode: String,
+            orden: Int) = {
+
+    new FacturaCompraItemBase(
+      descrip,
+      descuento,
+      prId,
+      "",
+      ccosId,
+      "",
+      toId,
+      "",
+      cueId,
+      cueIdIvaRi,
+      cueIdIvaRni,
+      stlId,
+      stlCode,
+      orden,
+      false,
+      false
+    )
+  }
+}
+
 case class FacturaCompraItemTotals(
                                     cantidad: Double,
                                     precio: Double,
@@ -384,6 +420,32 @@ case class FacturaCompraOtro(
                               orden: Int
                             )
 
+object FacturaCompraOtro {
+
+  def apply(id: Int,
+            cueId: Int,
+            debe: Double,
+            haber: Double,
+            ccosId: Int,
+            descrip: String,
+            origen: Double,
+            orden: Int) = {
+
+    new FacturaCompraOtro(
+      id,
+      cueId,
+      "",
+      debe,
+      haber,
+      ccosId,
+      "",
+      descrip,
+      origen,
+      orden
+    )
+  }
+}
+
 case class FacturaCompraLegajo(
                                 id: Int,
                                 lgjId: Int,
@@ -391,8 +453,30 @@ case class FacturaCompraLegajo(
                                 importe: Double,
                                 descrip: String,
                                 importeOrigen: Double,
-                                orden: Double
+                                orden: Int
                               )
+
+object FacturaCompraLegajo {
+
+  def apply(
+             id: Int,
+             lgjId: Int,
+             importe: Double,
+             descrip: String,
+             importeOrigen: Double,
+             orden: Int) = {
+
+    new FacturaCompraLegajo(
+      id,
+      lgjId,
+      "",
+      importe,
+      descrip,
+      importeOrigen,
+      orden
+    )
+  }
+}
 
 case class FacturaCompraPercepcion(
                                     id: Int,
@@ -407,6 +491,35 @@ case class FacturaCompraPercepcion(
                                     origen: Double,
                                     orden: Int
                                   )
+
+object FacturaCompraPercepcion {
+
+  def apply(
+             id: Int,
+             percId: Int,
+             base: Double,
+             porcentaje: Double,
+             importe: Double,
+             ccosId: Int,
+             descrip: String,
+             origen: Double,
+             orden: Int) = {
+
+    new FacturaCompraPercepcion(
+      id,
+      percId,
+      "",
+      base,
+      porcentaje,
+      importe,
+      ccosId,
+      "",
+      descrip,
+      origen,
+      orden
+    )
+  }
+}
 
 case class FacturaCompraItems(
                                 items: List[FacturaCompraItem],
@@ -1245,8 +1358,8 @@ object FacturaCompra {
         Field(GC.CUE_ID, item.base.cueId, FieldType.id),
         Field(C.CUE_ID_IVA_RI, item.base.cueIdIvaRi, FieldType.id),
         Field(C.CUE_ID_IVA_RNI, item.base.cueIdIvaRni, FieldType.id),
-        Field(C.STL_ID, item.base.stlCode, FieldType.text),
-        Field(C.STL_CODE, item.base.stlId, FieldType.id),
+        Field(C.STL_ID, item.base.stlId, FieldType.id),
+        Field(C.STL_CODE, item.base.stlCode, FieldType.text),
         Field(C.FCI_ORDEN, item.base.orden, FieldType.integer),
         Field(C.FCI_CANTIDAD, item.totals.cantidad, FieldType.currency),
         Field(C.FCI_CANTIDAD_A_REMITIR, item.totals.cantidad, FieldType.currency),
@@ -1262,6 +1375,48 @@ object FacturaCompra {
         Field(C.FCI_INTERNOS_PORC, item.totals.internosPorc, FieldType.double),
         Field(C.FCI_IMPORTE, item.totals.importe, FieldType.currency),
         Field(C.FCI_IMPORTE_ORIGEN, item.totals.importeOrigen, FieldType.currency)
+      )
+    }
+
+    def getOtroFields(item: FacturaCompraOtro, fcTMPId: Int) = {
+      List(
+        Field(C.FC_TMP_ID, fcTMPId, FieldType.id),
+        Field(C.FCOT_ID, item.id, FieldType.id),
+        Field(GC.CUE_ID, item.cueId, FieldType.id),
+        Field(C.FCOT_DEBE, item.debe, FieldType.currency),
+        Field(C.FCOT_HABER, item.haber, FieldType.currency),
+        Field(GC.CCOS_ID, item.ccosId, FieldType.id),
+        Field(C.FCOT_DESCRIP, item.descrip, FieldType.text),
+        Field(C.FCOT_ORIGEN, item.origen, FieldType.currency),
+        Field(C.FCOT_ORDEN, item.orden, FieldType.integer)
+      )
+    }
+
+    def getLegajoFields(item: FacturaCompraLegajo, fcTMPId: Int) = {
+      List(
+        Field(C.FC_TMP_ID, fcTMPId, FieldType.id),
+        Field(C.FCLGJ_ID, item.id, FieldType.id),
+        Field(GC.LGJ_ID, item.lgjId, FieldType.id),
+        Field(GC.LGJ_CODE, item.lgjCode, FieldType.text),
+        Field(C.FCLGJ_IMPORTE, item.importe, FieldType.currency),
+        Field(C.FCLGJ_DESCRIP, item.descrip, FieldType.text),
+        Field(C.FCLGJ_IMPORTE_ORIGEN, item.importeOrigen, FieldType.currency),
+        Field(C.FCLGJ_ORDEN, item.orden, FieldType.integer)
+      )
+    }
+
+    def getPercepcionFields(item: FacturaCompraPercepcion, fcTMPId: Int) = {
+      List(
+        Field(C.FC_TMP_ID, fcTMPId, FieldType.id),
+        Field(C.FCPERC_ID, item.id, FieldType.id),
+        Field(GC.PERC_ID, item.percId, FieldType.id),
+        Field(C.FCPERC_BASE, item.base, FieldType.currency),
+        Field(C.FCPERC_PORCENTAJE, item.porcentaje, FieldType.currency),
+        Field(C.FCPERC_IMPORTE, item.importe, FieldType.currency),
+        Field(GC.CCOS_ID, item.percId, FieldType.id),
+        Field(C.FCPERC_DESCRIP, item.descrip, FieldType.text),
+        Field(C.FCPERC_ORIGEN, item.origen, FieldType.currency),
+        Field(C.FCPERC_ORDEN, item.orden, FieldType.integer)
       )
     }
 
@@ -1300,8 +1455,8 @@ object FacturaCompra {
           C.FCIS_TMP_ID,
           DBHelper.NoId,
           false,
-          true,
-          true,
+          false,
+          false,
           getSerieFields(item, fcTMPId, fciTMPId, prId)),
         true
       ) match {
@@ -1318,8 +1473,8 @@ object FacturaCompra {
           C.FCISB_TMP_ID,
           DBHelper.NoId,
           false,
-          true,
-          true,
+          false,
+          false,
           getSerieDeletedFields(prnsId.toInt, fcTMPId)),
         true
       ) match {
@@ -1337,7 +1492,7 @@ object FacturaCompra {
 
     def saveItemSeries(serieInfo: FacturaCompraItemSerieInfo) = {
       serieInfo.series.map(saveItemSerie(serieInfo.fcTMPId, serieInfo.fciTMPId, serieInfo.prId))
-      serieInfo.deleted.split(",").map(saveItemSerieDeleted(serieInfo.fcTMPId))
+      if(!serieInfo.deleted.isEmpty) serieInfo.deleted.split(",").map(saveItemSerieDeleted(serieInfo.fcTMPId))
     }
 
     case class FacturaCompraItemInfo(fcTMPId: Int, item: FacturaCompraItem)
@@ -1350,8 +1505,8 @@ object FacturaCompra {
           C.FCI_TMP_ID,
           DBHelper.NoId,
           false,
-          true,
-          true,
+          false,
+          false,
           getItemFields(itemInfo.item, itemInfo.fcTMPId)),
         true
       ) match {
@@ -1367,16 +1522,76 @@ object FacturaCompra {
       facturaCompra.items.items.map(item => saveItem(FacturaCompraItemInfo(fcTMPId, item))).map(saveItemSeries)
     }
 
-    def saveOtros(fcTMPId: Int) = {
+    case class FacturaCompraOtroInfo(fcTMPId: Int, item: FacturaCompraOtro)
 
+    def saveOtro(itemInfo: FacturaCompraOtroInfo) = {
+      DBHelper.save(
+        user,
+        Register(
+          C.FACTURA_COMPRA_OTRO_TMP,
+          C.FCOT_TMP_ID,
+          DBHelper.NoId,
+          false,
+          false,
+          false,
+          getOtroFields(itemInfo.item, itemInfo.fcTMPId)),
+        true
+      ) match {
+        case SaveResult(true, id) => true
+        case SaveResult(false, id) => throwError
+      }
+    }
+
+    def saveOtros(fcTMPId: Int) = {
+      facturaCompra.items.otros.map(otro => saveOtro(FacturaCompraOtroInfo(fcTMPId, otro)))
+    }
+
+    case class FacturaCompraPercepcionInfo(fcTMPId: Int, item: FacturaCompraPercepcion)
+
+    def savePercepcion(itemInfo: FacturaCompraPercepcionInfo) = {
+      DBHelper.save(
+        user,
+        Register(
+          C.FACTURA_COMPRA_PERCEPCION_TMP,
+          C.FCPERC_TMP_ID,
+          DBHelper.NoId,
+          false,
+          false,
+          false,
+          getPercepcionFields(itemInfo.item, itemInfo.fcTMPId)),
+        true
+      ) match {
+        case SaveResult(true, id) => true
+        case SaveResult(false, id) => throwError
+      }
     }
 
     def savePercepciones(fcTMPId: Int) = {
+      facturaCompra.items.percepciones.map(percepcion => savePercepcion(FacturaCompraPercepcionInfo(fcTMPId, percepcion)))
+    }
 
+    case class FacturaCompraLegajoInfo(fcTMPId: Int, item: FacturaCompraLegajo)
+
+    def saveLegajo(itemInfo: FacturaCompraLegajoInfo) = {
+      DBHelper.save(
+        user,
+        Register(
+          C.FACTURA_COMPRA_LEGAJO_TMP,
+          C.FCLGJ_TMP_ID,
+          DBHelper.NoId,
+          false,
+          false,
+          false,
+          getLegajoFields(itemInfo.item, itemInfo.fcTMPId)),
+        true
+      ) match {
+        case SaveResult(true, id) => true
+        case SaveResult(false, id) => throwError
+      }
     }
 
     def saveLegajos(fcTMPId: Int) = {
-
+      facturaCompra.items.legajos.map(legajo => saveLegajo(FacturaCompraLegajoInfo(fcTMPId, legajo)))
     }
 
     case class RowResult(rowType: String, id: Int, message: String)

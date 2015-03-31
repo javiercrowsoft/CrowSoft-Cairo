@@ -5476,6 +5476,15 @@
         // TODO: refactor promise is returned by this function
         //
         var fillRows = function(grid, gridCtrl) {
+
+          // by default all rows are valid and aren't empty
+          //
+          var result = {
+            cancel:  false,
+            isEmpty: false,
+            isValid: true
+          };
+
           var p = P.resolvedPromise(result);
           var colIndex = 0;
           var rowIndex = 0;
@@ -5483,7 +5492,6 @@
           var columnCount = 0;
 
           var keys = [];
-          var rows = grid.getRows();
 
           // TODO: check if when implement this clear method it is needed to clear haveKey
 
@@ -5592,14 +5600,6 @@
             }
 
             return result;
-          };
-
-          // by default all rows are valid and aren't empty
-          //
-          var result = {
-            cancel:  false,
-            isEmpty: false,
-            isValid: true
           };
 
           // the grid's rows collection doesn't contain the new row

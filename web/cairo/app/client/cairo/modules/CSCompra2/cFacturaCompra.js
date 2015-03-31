@@ -109,6 +109,7 @@
       var KI_UNIDAD = 19;
       var KI_PRECIO_LP = 20;
       var KI_PRECIO_USR = 21;
+      var KI_CCOS_ID = 22;
       var KI_CUE_ID = 23;
       var KI_CUE_ID_IVA_RI = 24;
       var KI_CUE_ID_IVA_RNI = 25;
@@ -1612,7 +1613,7 @@
             break;
         }
 
-        return true;
+        return Cairo.Promises.resolvedPromise(true);
       };
 
       var columnAfterEditItems = function(property, lRow, lCol, newValue, newValueID) {
@@ -2763,7 +2764,7 @@
         elem.setName(getText(1057, "")); // Centro de Costo
         elem.setType(T.select);
         elem.setSelectTable(Cairo.Tables.CENTROS_DE_COSTO);
-        elem.setKey(Percepciones.KI_CCOS_ID);
+        elem.setKey(KI_CCOS_ID);
 
         elem = columns.add(null);
         elem.setVisible(false);
@@ -2816,7 +2817,7 @@
 
           elem = row.add(null);
           if(m_bIva) {
-            elem.setValue(getValue(m_data.items[_i], C.CUE_ID_IVA_RI));
+            elem.setValue(getValue(m_data.items[_i], CC.CUE_ID_IVA_RI));
           }
           else {
             elem.setValue(NO_ID);
@@ -2825,7 +2826,7 @@
 
           elem = row.add(null);
           if(m_bIvaRni) {
-            elem.setValue(getValue(m_data.items[_i], C.CUE_ID_IVA_RNI));
+            elem.setValue(getValue(m_data.items[_i], CC.CUE_ID_IVA_RNI));
           }
           else {
             elem.setValue(NO_ID);
@@ -2921,7 +2922,7 @@
           elem = row.add(null);
           elem.setValue(getValue(m_data.items[_i], C.CCOS_NAME));
           elem.setId(getValue(m_data.items[_i], C.CCOS_ID));
-          elem.setKey(Percepciones.KI_CCOS_ID);
+          elem.setKey(KI_CCOS_ID);
 
           elem = row.add(null);
           elem.setId(getValue(m_data.items[_i], C.PR_LLEVA_NRO_LOTE));
@@ -3138,7 +3139,7 @@
         elem.setName(getText(1057, "")); // Centro de Costo
         elem.setType(T.select);
         elem.setSelectTable(Cairo.Tables.CENTROS_DE_COSTO);
-        elem.setKey(Percepciones.KI_CCOS_ID);
+        elem.setKey(KI_CCOS_ID);
 
         grid.getRows().clear();
       };
@@ -3151,10 +3152,10 @@
 
         for(var _i = 0; _i < m_data.otros.length; _i += 1) {
 
-          var row = rows.add(null, getValue(m_data.otros[_i], C.FCOT_ID));
+          var row = rows.add(null, getValue(m_data.otros[_i], CC.FCOT_ID));
 
           elem = row.add(null);
-          elem.setValue(getValue(m_data.otros[_i], C.FCOT_ID));
+          elem.setValue(getValue(m_data.otros[_i], CC.FCOT_ID));
           elem.setKey(KI_FCOT_ID);
 
           elem = row.add(null);
@@ -3163,21 +3164,21 @@
           elem.setKey(KI_CUE_ID);
 
           elem = row.add(null);
-          elem.setValue(getValue(m_data.otros[_i], C.FCOT_DEBE) / cotizacion);
+          elem.setValue(getValue(m_data.otros[_i], CC.FCOT_DEBE) / cotizacion);
           elem.setKey(KI_DEBE);
 
           elem = row.add(null);
-          elem.setValue(getValue(m_data.otros[_i], C.FCOT_HABER) / cotizacion);
+          elem.setValue(getValue(m_data.otros[_i], CC.FCOT_HABER) / cotizacion);
           elem.setKey(KI_HABER);
 
           elem = row.add(null);
-          elem.setValue(getValue(m_data.otros[_i], C.FCOT_DESCRIP));
+          elem.setValue(getValue(m_data.otros[_i], CC.FCOT_DESCRIP));
           elem.setKey(KI_DESCRIP);
 
           elem = row.add(null);
           elem.setValue(getValue(m_data.otros[_i], C.CCOS_NAME));
           elem.setId(getValue(m_data.otros[_i], C.CCOS_ID));
-          elem.setKey(Percepciones.KI_CCOS_ID);
+          elem.setKey(KI_CCOS_ID);
         }
 
         return true;
@@ -3545,7 +3546,7 @@
                 fields.add(C.PR_ID, prId, Types.id);
                 break;
 
-              case Percepciones.KI_CCOS_ID:
+              case KI_CCOS_ID:
                 fields.add(C.CCOS_ID, cell.getId(), Types.id);
                 break;
 
@@ -3558,11 +3559,11 @@
                 break;
 
               case KI_CUE_ID_IVA_RI:
-                fields.add(C.CUE_ID_IVA_RI, val(cell.getValue()), Types.id);
+                fields.add(CC.CUE_ID_IVA_RI, val(cell.getValue()), Types.id);
                 break;
 
               case KI_CUE_ID_IVA_RNI:
-                fields.add(C.CUE_ID_IVA_RNI, val(cell.getValue()), Types.id);
+                fields.add(CC.CUE_ID_IVA_RNI, val(cell.getValue()), Types.id);
                 break;
 
               case KI_GRUPO:
@@ -3570,11 +3571,11 @@
                 break;
 
               case KI_STL_CODIGO:
-                fields.add(C.STL_CODE, cell.getValue(), Types.text);
+                fields.add(CC.STL_CODE, cell.getValue(), Types.text);
                 break;
 
               case KI_STL_ID:
-                fields.add(C.STL_ID, cell.getId(), Types.id);
+                fields.add(CC.STL_ID, cell.getId(), Types.id);
                 break;
             }
           }
@@ -3632,7 +3633,7 @@
           var row = property.getGrid().getRows().item(_i);
 
           var register = new DB.Register();
-          register.setFieldId(C.FCOT_TMP_ID);
+          register.setFieldId(CC.FCOT_TMP_ID);
           register.setId(Cairo.Constants.NEW_ID);
 
           var fields = register.getFields();
@@ -3646,10 +3647,10 @@
 
               case KI_FCOT_ID:
                 if(m_copy) {
-                  fields.add(C.FCOT_ID, Cairo.Constants.NEW_ID, Types.integer);
+                  fields.add(CC.FCOT_ID, Cairo.Constants.NEW_ID, Types.integer);
                 }
                 else {
-                  fields.add(C.FCOT_ID, val(cell.getValue()), Types.integer);
+                  fields.add(CC.FCOT_ID, val(cell.getValue()), Types.integer);
                 }
                 break;
 
@@ -3659,33 +3660,33 @@
 
               case KI_DEBE:
                 if(val(cell.getValue()) > 0) { origen = val(cell.getValue()); }
-                fields.add(C.FCOT_DEBE, val(cell.getValue()) * cotizacion, Types.currency);
+                fields.add(CC.FCOT_DEBE, val(cell.getValue()) * cotizacion, Types.currency);
                 break;
 
               case KI_HABER:
                 if(val(cell.getValue()) > 0) { origen = val(cell.getValue()); }
-                fields.add(C.FCOT_HABER, val(cell.getValue()) * cotizacion, Types.currency);
+                fields.add(CC.FCOT_HABER, val(cell.getValue()) * cotizacion, Types.currency);
                 break;
 
-              case Percepciones.KI_CCOS_ID:
+              case KI_CCOS_ID:
                 fields.add(C.CCOS_ID, cell.getId(), Types.id);
                 break;
 
               case KI_DESCRIP:
-                fields.add(C.FCOT_DESCRIP, cell.getValue(), Types.text);
+                fields.add(CC.FCOT_DESCRIP, cell.getValue(), Types.text);
                 break;
             }
           }
 
           if(isDefaultCurrency) {
-            fields.add(C.FCOT_ORIGEN, 0, Types.currency);
+            fields.add(CC.FCOT_ORIGEN, 0, Types.currency);
           }
           else {
-            fields.add(C.FCOT_ORIGEN, origen, Types.currency);
+            fields.add(CC.FCOT_ORIGEN, origen, Types.currency);
           }
 
           orden = orden + 1;
-          fields.add(C.FCOT_ORDEN, orden, Types.integer);
+          fields.add(CC.FCOT_ORDEN, orden, Types.integer);
 
           transaction.addRegister(register);
         }
@@ -3743,10 +3744,6 @@
               case KIL_IMPORTE:
                 origen = val(cell.getValue());
                 fields.add(CC.FCLGJ_IMPORTE, origen * cotizacion, Types.currency);
-                break;
-
-              case Percepciones.KI_CCOS_ID:
-                fields.add(C.CCOS_ID, cell.getId(), Types.id);
                 break;
 
               case KIL_DESCRIP:
@@ -3978,7 +3975,7 @@
         return p.successWithResult(function(response) {
           getCell(row, KI_UNIDAD).setValue(valField(response.data, "unidadCompra"));
 
-          var cell = getCell(row, Percepciones.KI_CCOS_ID);
+          var cell = getCell(row, KI_CCOS_ID);
           cell.setValue(valField(response.data, "centro_costo_compra"));
           cell.setId(valField(response.data, C.CCOS_ID_COMPRA));
 

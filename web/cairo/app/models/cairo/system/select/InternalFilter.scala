@@ -23,7 +23,8 @@ object InternalFilter {
 
   val filters = Map(
     "supplier_list_price" -> "f:supplierListPrice",
-    "document" -> "f:document"
+    "document" -> "f:document",
+    "account_in_current_company" -> "f:accountInCurrentCompany"
   )
 
   val emptyFilter = InternalFilter("", List())
@@ -32,7 +33,12 @@ object InternalFilter {
     if(filterDefinition == "-") ("", List())
     else {
       val info = filterDefinition.split("[|]")
-      (info(0), info(1).split("[,]").toList)
+      if(info.length > 1) {
+         (info(0), info(1).split("[,]").toList)
+      }
+      else {
+        (info(0), List())
+      }
     }
   }
 
@@ -50,6 +56,7 @@ object InternalFilter {
           filters.getOrElse(key, "") match {
             case "f:supplierListPrice" => supplierListPrice(user, parameters)
             case "f:document" => document(user, parameters)
+            case "f:accountInCurrentCompany" => accountInCurrentCompany(user)
             case _ => emptyFilter
           }
         }
@@ -124,6 +131,10 @@ object InternalFilter {
       sqlstmt,
       List()
     )
+  }
+
+  private def accountInCurrentCompany(user: CompanyUser): InternalFilter = {
+    InternalFilter(s"(emp_id = ${user.cairoCompanyId} or emp_id is null)", List())
   }
 
 }

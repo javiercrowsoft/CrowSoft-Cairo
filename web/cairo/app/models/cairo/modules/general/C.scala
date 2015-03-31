@@ -17,6 +17,9 @@ object C {
   val FROM = "from"
   val TO = "to"
 
+  val ITEMS = "items"
+  val DELETED_LIST = "deletedList"
+
   val EDIT_MSG = "editMsg"
   val EDITABLE = "editable"
   val HAS_IVA_RI = "bIvaRi"

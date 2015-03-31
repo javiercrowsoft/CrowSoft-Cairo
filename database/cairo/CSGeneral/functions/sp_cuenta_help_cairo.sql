@@ -74,16 +74,18 @@ begin
                     where (lower(f_unaccent(cue_codigo)) like ''%' || p_filter || '%'' or lower(f_unaccent(cue_nombre)) like ''%' || p_filter || '%''
                            or (lower(f_unaccent(cue_identificacionexterna)) like ''%' || p_filter || '%'' and cue_identificacionexterna <> '''')
                            or (lower(f_unaccent(cue_descrip)) like ''%' || p_filter || '%'' and cue_descrip <> ''''))
-                      and (' || to_char(p_bForAbm) || ' <> 0 or activo <> 0) limit 50';
+                      and (' || to_char(p_bForAbm) || ' <> 0 or activo <> 0)';
    end;
    end if;
 
    if p_filter2 <> '' then
       v_sqlstmt := v_sqlstmt || ' and (' || p_filter2 || ')';
    end if;
+
+   v_sqlstmt := v_sqlstmt || ' limit 50;';
    
-      rtn := 'rtn';        
-      open rtn for execute v_sqlstmt;
+   rtn := 'rtn';        
+   open rtn for execute v_sqlstmt;
 
         
 end;
