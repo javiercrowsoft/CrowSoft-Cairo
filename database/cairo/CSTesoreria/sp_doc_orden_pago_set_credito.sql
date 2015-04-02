@@ -55,7 +55,7 @@ declare
    i integer;
 begin
 
-   -- Si no hay documento adios
+   -- si no hay documento adios
    --
    if p_opg_id = 0 then
       return;
@@ -63,7 +63,7 @@ begin
 
    SET TRANSACTION READ WRITE;
 
-   -- Datos del documento
+   -- datos del documento
    --
    select round(opg_pendiente, 2),
           prov_id,
@@ -74,10 +74,10 @@ begin
    from OrdenPago opg
    where opg_id = p_opg_id;
 
-   -- Borrar referencias a este documento por otro proveedor
+   -- borrar referencias a este documento por otro proveedor
    --
    
-   -- Siempre borro cualquier mencion a este documento en el cache de cualquier
+   -- siempre borro cualquier mencion a este documento en el cache de cualquier
    -- proveedor que no sea el indicado por el documento
    --
    if exists ( select prov_id
@@ -86,27 +86,27 @@ begin
                  and doct_id = v_doct_orden_pago
                  and id = p_opg_id ) then
 
-        select into v_old_prov_ids prov_id
-        from ProveedorCacheCredito
-        where prov_id <> v_prov_id
-         and doct_id = v_doct_orden_pago
-         and id = p_opg_id;
+      select into v_old_prov_ids prov_id
+      from ProveedorCacheCredito
+      where prov_id <> v_prov_id
+       and doct_id = v_doct_orden_pago
+       and id = p_opg_id;
 
-        delete from ProveedorCacheCredito
-        where prov_id <> v_prov_id
-          and doct_id = v_doct_orden_pago
-          and id = p_opg_id;
+      delete from ProveedorCacheCredito
+      where prov_id <> v_prov_id
+        and doct_id = v_doct_orden_pago
+        and id = p_opg_id;
 
-        for i in 1 .. array_upper(v_old_prov_ids, 1)
-        loop
+      for i in 1 .. array_upper(v_old_prov_ids, 1)
+      loop
 
-            perform sp_proveedor_update_credito(v_old_prov_ids[i], v_emp_id);
+          perform sp_proveedor_update_credito(v_old_prov_ids[i], v_emp_id);
 
-        end loop;
+      end loop;
 
    end if;
 
-   -- Borrar
+   -- borrar
    --
    if p_borrar <> 0 then
 
@@ -115,7 +115,7 @@ begin
         and doct_id = v_doct_orden_pago
         and id = p_opg_id;
 
-   -- Insert - Update
+   -- insert - update
    --
    else
 
@@ -133,7 +133,7 @@ begin
               and doct_id = v_doct_orden_pago
               and id = p_opg_id;
 
-         -- Si no hay nada pendiente lo saco del cache
+         -- si no hay nada pendiente lo saco del cache
          else
 
             delete from ProveedorCacheCredito
@@ -144,7 +144,7 @@ begin
          end if;
 
       else
-         -- Solo si hay algo pendiente
+         -- solo si hay algo pendiente
          if abs(v_pendiente) >= 0.01 then
 
             insert into ProveedorCacheCredito ( prov_id, doct_id, id, provcc_importe, emp_id )
@@ -156,11 +156,9 @@ begin
 
    end if;
 
-   -- Actualizo la deuda en la tabla Proveedor
+   -- actualizo la deuda en la tabla Proveedor
    --
    perform sp_proveedor_update_credito(v_prov_id, v_emp_id);
-
-   return;
 
 exception
     when others then

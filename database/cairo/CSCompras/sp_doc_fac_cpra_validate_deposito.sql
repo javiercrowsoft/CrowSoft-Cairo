@@ -133,7 +133,7 @@ begin
 
    end if;
 
-   -- No hubo errores asi que todo bien
+   -- no hubo errores asi que todo bien
    --
    if v_error = 0 then
       p_success := 1;

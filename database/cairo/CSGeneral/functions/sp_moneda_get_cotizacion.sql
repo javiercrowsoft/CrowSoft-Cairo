@@ -30,58 +30,51 @@ javier at crowsoft.com.ar
 */
 -- Function: sp_moneda_get_cotizacion()
 
--- drop function sp_moneda_get_cotizacion(integer, date, smallint);
+-- drop function sp_moneda_get_cotizacion(integer, date);
 -- select * from monedaitem
 -- select sp_moneda_get_cotizacion(3,'20041231', 0::smallint);
 create or replace function sp_moneda_get_cotizacion
 (
   in p_mon_id integer,
   in p_fecha date,
-  in p_bselect smallint,
   out p_cotiz decimal(18,6)
 )
   returns decimal as
 $BODY$
+declare
+      v_cfg_valor varchar(5000);
 begin
 
-     if p_bselect <> 0 then
-       raise exception '@@ERROR_SP:El procedimiento almacenado sp_moneda_get_cotizacion no puede ser llamado para obtener un cursor. El codigo Java o Scala debe usar parametros out.';
-       RETURN;
-     end if;
 
-   declare
-      v_cfg_valor varchar(5000);
-   begin
+   if not exists ( select mon_id
+                   from Moneda
+                   where mon_id = p_mon_id
+                     and mon_legal <> 0 ) then
 
-      if not exists ( select mon_id
-                      from Moneda
-                      where mon_id = p_mon_id
-                        and mon_legal <> 0 ) then
+      select sp_cfg_getValor('General', 'Decimales Cotización') into v_cfg_valor;
 
-         select sp_cfg_getValor('General', 'Decimales Cotización') into v_cfg_valor;
+      v_cfg_valor := coalesce(v_cfg_valor, '3');
 
-         v_cfg_valor := coalesce(v_cfg_valor, '3');
-
-         if isnumeric(v_cfg_valor) = 0 then
-            v_cfg_valor := '3';
-         end if;
-
-         select *
-           into p_cotiz
-         from ( select moni_precio
-                from MonedaItem
-                where mon_id = p_mon_id
-                  and moni_fecha <= p_fecha
-                order by moni_fecha DESC ) t
-         LIMIT 1;
-
+      if isnumeric(v_cfg_valor) = 0 then
+         v_cfg_valor := '3';
       end if;
 
-      p_cotiz := coalesce(p_cotiz, 0);
-   end;
+      select *
+        into p_cotiz
+      from ( select moni_precio
+             from MonedaItem
+             where mon_id = p_mon_id
+               and moni_fecha <= p_fecha
+             order by moni_fecha desc ) t
+      limit 1;
+
+   end if;
+
+   p_cotiz := coalesce(p_cotiz, 0);
+
 end;
 $BODY$
   language plpgsql volatile
   cost 100;
-alter function sp_moneda_get_cotizacion(integer, date, smallint)
+alter function sp_moneda_get_cotizacion(integer, date)
   owner to postgres;

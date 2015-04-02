@@ -112,7 +112,7 @@ begin
 
             -- Obtengo la cotizacion de la lista base
             --
-            select sp_moneda_get_cotizacion(v_mon_id_marcado, v_fecha, 0) into v_cotiz;
+            select sp_moneda_get_cotizacion(v_mon_id_marcado, v_fecha) into v_cotiz;
 
             -- Paso a Pesos el precio (sigo en argentino pue)
             --
@@ -137,7 +137,7 @@ begin
                -- Ok la base esta en pesos asi que obtengo la cotizacion de la lista
                -- para la que se me pidio el precio
                --
-               select sp_moneda_get_cotizacion(p_mon_id, v_fecha, 0) into v_cotiz;
+               select sp_moneda_get_cotizacion(p_mon_id, v_fecha) into v_cotiz;
 
                -- Si hay cotizacion, divido el precio y guala, tengo
                -- el precio expresado en dolares o yerbas similares
@@ -159,8 +159,8 @@ begin
                -- Ok, al chango se le ocurrio comprar en dolares y vender en reales
                -- entonces paso los dolares a pesos y luego los pesos a reales y listo
                --
-               select sp_moneda_get_cotizacion(v_mon_id_marcado, v_fecha, 0) into v_cotiz;
-               select sp_moneda_get_cotizacion(p_mon_id, v_fecha, 0) into v_cotiz2;
+               select sp_moneda_get_cotizacion(v_mon_id_marcado, v_fecha) into v_cotiz;
+               select sp_moneda_get_cotizacion(p_mon_id, v_fecha) into v_cotiz2;
 
                v_lpm_montominimo := v_lpm_montominimo * v_cotiz;
                v_lpm_base := v_lpm_base * v_cotiz;

@@ -22,18 +22,17 @@ object Currency {
 
     DB.withTransaction(user.database.database) { implicit connection =>
 
-      val sql = "{call sp_moneda_get_cotizacion(?, ?, ?, ?)}"
+      val sql = "{call sp_moneda_get_cotizacion(?, ?, ?)}"
       val cs = connection.prepareCall(sql)
 
       cs.setInt(1, id)
       cs.setDate(2, new java.sql.Date(date.getTime()))
-      cs.setShort(3, 0.toShort)
-      cs.registerOutParameter(4, Types.DECIMAL)
+      cs.registerOutParameter(3, Types.DECIMAL)
 
       try {
         cs.execute()
 
-        cs.getBigDecimal(4).doubleValue
+        cs.getBigDecimal(3).doubleValue
 
       } catch {
         case NonFatal(e) => {

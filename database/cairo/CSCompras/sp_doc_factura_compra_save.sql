@@ -194,7 +194,8 @@ begin
                     where ccos_id is null
                       and fcTMP_id = p_fcTMP_id ) then
 
-           raise exception '@@ERROR_SP:Debe indicar un centro de costo en cada item o un centro de costo en la cabecera del documento.';
+           raise exception '@@ERROR_SP: %',
+              'Debe indicar un centro de costo en cada item o un centro de costo en la cabecera del documento.';
 
         end if;
 
@@ -203,7 +204,8 @@ begin
                     where ccos_id is null
                       and fcTMP_id = p_fcTMP_id ) then
 
-           raise exception '@@ERROR_SP:Debe indicar un centro de costo en cada item de la solapa "Otros" o un centro de costo en la cabecera del documento.';
+           raise exception '@@ERROR_SP: %',
+              'Debe indicar un centro de costo en cada item de la solapa "Otros" o un centro de costo en la cabecera del documento.';
 
         end if;
 
@@ -212,7 +214,8 @@ begin
                     where ccos_id is null
                       and fcTMP_id = p_fcTMP_id ) then
 
-           raise exception '@@ERROR_SP:Debe indicar un centro de costo en cada item de percepciones o un centro de costo en la cabecera del documento.';
+           raise exception '@@ERROR_SP: %'
+              'Debe indicar un centro de costo en cada item de percepciones o un centro de costo en la cabecera del documento.';
 
         end if;
 
@@ -223,7 +226,6 @@ begin
   v_error_msg := '';
 
   select sp_doc_fac_cpra_validate_deposito(p_fcTMP_id) into v_success, v_error_msg;
-
   if coalesce(v_success, 0) = 0 then
      raise exception '%', v_error_msg;
   end if;
@@ -317,7 +319,7 @@ begin
      if v_ta_propuesto = 0 then
         if v_ta_tipo = 3 then /*Auto Impresor*/
 
-           select sp_talonarioGetNextNumber(v_ta_id) into v_ta_nrodoc;
+           select sp_talonario_get_next_number(v_ta_id) into v_ta_nrodoc;
 
            -- con esto evitamos que dos tomen el mismo Numero
            --
@@ -483,22 +485,19 @@ begin
 
      if v_opg_id is not null then
 
-        delete FacturaCompraOrdenPago where fc_id = v_fc_id;
+        delete from FacturaCompraOrdenPago where fc_id = v_fc_id;
 
         update FacturaCompra set opg_id = null where fc_id = v_fc_id;
 
         update OrdenPago set fc_id = null where fc_id = v_fc_id;
 
-        select emp_id
-          into v_emp_id
-        from OrdenPago
-        where opg_id = v_opg_id;
+        select emp_id into v_emp_id from OrdenPago where opg_id = v_opg_id;
 
         perform sp_doc_orden_pago_delete(v_opg_id, v_emp_id, v_modifico);
 
-        delete FacturaCompraDeuda where fc_id = v_fc_id;
+        delete from FacturaCompraDeuda where fc_id = v_fc_id;
 
-        delete FacturaCompraPago where fc_id = v_fc_id;
+        delete from FacturaCompraPago where fc_id = v_fc_id;
 
      end if;
 
@@ -659,7 +658,7 @@ begin
         -- cuando se actualiza se indica
         -- como pendiente la cantidad a remitir menos lo aplicado
         --
-        select SUM(ocfc_cantidad)
+        select sum(ocfc_cantidad)
           into v_fci_pendiente
         from OrdenFacturaCompra
         where fci_id = v_fci_id;
@@ -774,14 +773,14 @@ begin
   loop
 
      select fcperc_id,
-                    fcperc_orden,
-                    fcperc_base,
-                    fcperc_porcentaje,
-                    fcperc_importe,
-                    fcperc_origen,
-                    fcperc_descrip,
-                    perc_id,
-                    ccos_id
+            fcperc_orden,
+            fcperc_base,
+            fcperc_porcentaje,
+            fcperc_importe,
+            fcperc_origen,
+            fcperc_descrip,
+            perc_id,
+            ccos_id
        into v_fcperc_id,
             v_fcperc_orden,
             v_fcperc_base,
@@ -855,6 +854,7 @@ begin
         values ( v_fc_id, v_fclgj_id, v_fclgj_orden, v_fclgj_importe, v_fclgj_importeorigen,
                  v_fclgj_descrip, v_lgj_id );
      else
+
         update FacturaCompraLegajo
            set fc_id = v_fc_id,
                fclgj_orden = v_fclgj_orden,
@@ -874,7 +874,7 @@ begin
 /*
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //                                                                                                                    //
-//                                     ITEMS BORRADOS                                                                 //
+//                                     items borrados                                                                 //
 //                                                                                                                    //
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 */
@@ -883,39 +883,39 @@ begin
   --
   if v_is_new = 0 then
 
-     delete FacturaCompraItem
+     delete from FacturaCompraItem
      where exists ( select fci_id
                     from FacturaCompraItemBorradoTMP
                     where fc_id = v_fc_id
                       and fci_id = FacturaCompraItem.fci_id
                       and fcTMP_id = p_fcTMP_id );
 
-     delete FacturaCompraOtro
+     delete from FacturaCompraOtro
      where exists ( select fcot_id
                     from FacturaCompraOtroBorradoTMP
                     where fc_id = v_fc_id
                       and fcot_id = FacturaCompraOtro.fcot_id
                       and fcTMP_id = p_fcTMP_id );
 
-     delete FacturaCompraOtroBorradoTMP where fc_id = v_fc_id and fcTMP_id = p_fcTMP_id;
+     delete from FacturaCompraOtroBorradoTMP where fc_id = v_fc_id and fcTMP_id = p_fcTMP_id;
 
-     delete FacturaCompraPercepcion
+     delete from FacturaCompraPercepcion
      where exists ( select fcperc_id
-                    from FacturaCompraPercepcionBorrado
+                    from FacturaCompraPercepcionBorradoTMP
                     where fc_id = v_fc_id
                       and fcperc_id = FacturaCompraPercepcion.fcperc_id
                       and fcTMP_id = p_fcTMP_id );
 
-     delete FacturaCompraPercepcionBorrado where fc_id = v_fc_id and fcTMP_id = p_fcTMP_id;
+     delete from FacturaCompraPercepcionBorradoTMP where fc_id = v_fc_id and fcTMP_id = p_fcTMP_id;
 
-     delete FacturaCompraLegajo
+     delete from FacturaCompraLegajo
      where exists ( select fclgj_id
                     from FacturaCompraLegajoBorradoTMP
                     where fc_id = v_fc_id
                       and fclgj_id = FacturaCompraLegajo.fclgj_id
                       and fcTMP_id = p_fcTMP_id );
 
-     delete FacturaCompraLegajoBorradoTMP where fc_id = v_fc_id and fcTMP_id = p_fcTMP_id;
+     delete from FacturaCompraLegajoBorradoTMP where fc_id = v_fc_id and fcTMP_id = p_fcTMP_id;
 
   end if;
 
@@ -939,269 +939,173 @@ begin
 
   end if;
 
-  sp_doc_factura_compra_saveDeuda(v_fc_id,
-                               v_cpg_id,
-                               v_fc_fecha,
-                               v_fc_fechaVto,
-                               v_fc_totaldeuda,
-                               v_est_id,
-                               v_success);
-
-  -- Si fallo al guardar
-  if coalesce(v_success, 0) = 0 then
-     exit;
-
-  end if;
-
-  /*
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//                                                                                                               //
-//                                        APLICACION ORDEN - REMITO                                              //
-//                                                                                                               //
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-*/
-  sp_DocFacCpraOrdRtoSaveAplic(v_fc_id,
-                               p_fcTMP_id,
-                               0,
-                               v_success);
-
-  -- Si fallo al guardar
-  if coalesce(v_success, 0) = 0 then
-     exit;
-
-  end if;
-
-  /*
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//                                                                                                                    //
-//                                     TALONARIOS                                                                     //
-//                                                                                                                    //
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-*/
-  sp_Talonarioset(v_ta_id,
-                          v_fc_nrodoc);
-
-  if v_sys_error <> '' then
-     exit;
-
-  end if;
-
-  /*
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//                                                                                                                    //
-//                                     CREDITO Y ESTADO                                                               //
-//                                                                                                                    //
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-*/
-  sp_DocFacCprasetPendiente(v_fc_id,
-                                         v_success);
-
-  -- Si fallo al guardar
-  if coalesce(v_success, 0) = 0 then
-     exit;
-
-  end if;
-
-  sp_DocFacturaComprasetCredito(v_fc_id);
-
-  if v_sys_error <> '' then
-     exit;
-
-  end if;
-
-  sp_DocFacturaComprasetEstado(v_fc_id,
-                               p_est_id => dummyNumber,
-                               rtn => dummyCur);
-
-  if v_sys_error <> '' then
-     exit;
-
-  end if;
+  perform sp_doc_factura_compra_save_deuda(
+                         v_fc_id,
+                         v_cpg_id,
+                         v_fc_fecha,
+                         v_fc_fechaVto,
+                         v_fc_totaldeuda,
+                         v_est_id
+                         );
 
 /*
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //                                                                                                                    //
-//                                     ASIENTO                                                                        //
+//                                     aplicacion orden - remito                                                      //
 //                                                                                                                    //
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 */
-  v_cfg_valor := null;
 
-  sp_cfg_getValor('Compras-General',
-                  'Grabar Asiento',
-                  v_cfg_valor,
-                  0);
+  perform sp_doc_fac_cpra_ord_rto_save_aplic(v_fc_id, p_fcTMP_id, 0);
+
+/*
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//                                                                                                                    //
+//                                     talonarios                                                                     //
+//                                                                                                                    //
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+*/
+
+  sp_talonario_set(v_ta_id, v_fc_nrodoc);
+
+/*
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//                                                                                                                    //
+//                                     credito y estado                                                               //
+//                                                                                                                    //
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+*/
+
+  perform sp_DocFacCprasetPendiente(v_fc_id);
+
+  perform sp_DocFacturaComprasetCredito(v_fc_id);
+
+  perform sp_DocFacturaComprasetEstado(v_fc_id);
+
+/*
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//                                                                                                                    //
+//                                     asiento                                                                        //
+//                                                                                                                    //
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+*/
+
+  v_cfg_valor := null;
+  select sp_cfg_getValor('Compras-General', 'Grabar Asiento') into v_cfg_valor;
 
   v_cfg_valor := coalesce(v_cfg_valor, 0);
 
   if to_number(v_cfg_valor) <> 0 then
-  begin
-     sp_docFacturaCompraAsientoSave(v_fc_id,
-                                    0,
-                                    v_error,
-                                    v_error_msg,
-                                    p_as_id => dummyNumber);
 
-     if v_error <> 0 then
-        exit;
-
+     select * from sp_docFacturaCompraAsientoSave(v_fc_id, 0) into v_error, v_error_msg;
+     if coalesce(v_error, 0) <> 0 then
+        raise exception '%', v_error_msg;
      end if;
 
-  end;
   else
-  declare
-     v_temp numeric(1,0); := 0;
-  begin
-     begin
-        select 1 into v_temp
-          from DUAL
-         where not exists ( select fc_id
-                            from FacturaCompraAsiento
-                               where fc_id = v_fc_id );
-     exception
-        when others then
-           null;
-     end;
 
-     if v_temp = 1 then
-     begin
+     if not exists ( select fc_id
+                     from FacturaCompraAsiento
+                     where fc_id = v_fc_id ) then
+
         insert into FacturaCompraAsiento
           ( fc_id, fc_fecha )
           ( select fc_id,
                    fc_fecha
             from FacturaCompra
-               where fc_grabarAsiento <> 0
-                       and fc_id = v_fc_id );
-
-     end;
-     end if;
-
-  end;
-  end if;
-
-  /*
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//                                                                                                                    //
-//                                     STOCK                                                                          //
-//                                                                                                                    //
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-*/
-  if coalesce(v_doc_mueveStock, 0) <> 0 then
-  begin
-     sp_DocFacturaCompraStockSave(p_fcTMP_id,
-                                  v_fc_id,
-                                  v_depl_id,
-                                  0,
-                                  v_error,
-                                  v_error_msg);
-
-     -- Si fallo al guardar
-     if v_error <> 0 then
-        exit;
+            where fc_grabarAsiento <> 0
+              and fc_id = v_fc_id );
 
      end if;
-
-  end;
-  end if;
-
-  /*
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//                                                                                                                    //
-//                          TOTAL COMERCIAL - NECESARIO PARA LOS REPORTES DE CTA CTE                                  //
-//                                                                                                                    //
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-*/
-  update facturacompra
-     set fc_totalcomercial = coalesce(v_fc_totaldeuda, 0)
-     where fc_id = v_fc_id;
-
-  /*
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//                                                                                                                    //
-//                          GENERACION AUTOMATICA DE ORDEN DE PAGO																										//
-//                                                                                                                    //
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-*/
-  sp_DocFacCpraOrdenPagoSave(v_fc_id,
-                             p_success,
-                             v_error_msg);
-
-  -- Si fallo al guardar
-  if p_success = 0 then
-     exit;
-
-  end if;
-
-  /*
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//                                                                                                                    //
-//                                     VALIDACIONES AL DOCUMENTO                                                      //
-//                                                                                                                    //
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-*/
-  -- ESTADO
-  sp_AuditoriaEstadoCheckDocFC(v_fc_id,
-                                       v_success,
-                                       v_error_msg);
-
-  -- Si el documento no es valido
-  if coalesce(v_success, 0) = 0 then
-     exit;
-
-  end if;
-
-  -- FECHAS
-  -- STOCK
-  sp_AuditoriaStockCheckDocFC(v_fc_id,
-                                      v_success,
-                                      v_error_msg);
-
-  -- Si el documento no es valido
-  if coalesce(v_success, 0) = 0 then
-     exit;
-
-  end if;
-
-  -- TOTALES
-  sp_AuditoriaTotalesCheckDocFC(v_fc_id,
-                                        v_success,
-                                        v_error_msg);
-
-  -- Si el documento no es valido
-  if coalesce(v_success, 0) = 0 then
-     exit;
-
-  end if;
-
-  -- VTOS
-  sp_AuditoriaVtoCheckDocFC(v_fc_id,
-                                    v_success,
-                                    v_error_msg);
-
-  -- Si el documento no es valido
-  if coalesce(v_success, 0) = 0 then
-     exit;
-
-  end if;
-
-  -- CREDITO
-  sp_AuditoriaCreditoCheckDocFC(v_fc_id,
-                                        v_success,
-                                        v_error_msg);
-
-  -- Si el documento no es valido
-  if coalesce(v_success, 0) = 0 then
-     exit;
 
   end if;
 
 /*
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //                                                                                                                    //
-//                                     BORRAR TEMPORALES                                                              //
+//                                     stock                                                                          //
 //                                                                                                                    //
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 */
+
+  if coalesce(v_doc_mueveStock, 0) <> 0 then
+
+     select * from sp_DocFacturaCompraStockSave(p_fcTMP_id, v_fc_id, v_depl_id, 0) into v_error, v_error_msg;
+     if coalesce(v_error, 0) <> 0 then
+        raise exception '%', v_error_msg;
+     end if;
+
+  end if;
+
+/*
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//                                                                                                                    //
+//                          total comercial - necesario para los reportes de cta cte                                  //
+//                                                                                                                    //
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+*/
+
+  update facturacompra set fc_totalcomercial = coalesce(v_fc_totaldeuda, 0) where fc_id = v_fc_id;
+
+/*
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//                                                                                                                    //
+//                                     generacion automatica de orden de pago																										               //
+//                                                                                                                    //
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+*/
+
+  select * from sp_DocFacCpraOrdenPagoSave(v_fc_id) into v_success, v_error_msg;
+  if coalesce(v_success, 0) = 0 then
+     raise exception '%', v_error_msg;
+  end if;
+
+/*
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//                                                                                                                    //
+//                                     validaciones al documento                                                      //
+//                                                                                                                    //
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+*/
+
+  -- estado
+  select * from sp_AuditoriaEstadoCheckDocFC(v_fc_id) into v_success, v_error_msg;
+  if coalesce(v_success, 0) = 0 then
+     raise exception '%', v_error_msg;
+  end if;
+
+  -- stock
+  select * from sp_AuditoriaStockCheckDocFC(v_fc_id) v_success, v_error_msg;
+  if coalesce(v_success, 0) = 0 then
+     raise exception '%', v_error_msg;
+  end if;
+
+  -- totales
+  select * from sp_AuditoriaTotalesCheckDocFC(v_fc_id) into v_success, v_error_msg;
+  if coalesce(v_success, 0) = 0 then
+     raise exception '%', v_error_msg;
+  end if;
+
+  -- vtos
+  select * from sp_AuditoriaVtoCheckDocFC(v_fc_id) into v_success, v_error_msg;
+  if coalesce(v_success, 0) = 0 then
+     raise exception '%', v_error_msg;
+  end if;
+
+  -- credito
+  select * from sp_AuditoriaCreditoCheckDocFC(v_fc_id) into v_success, v_error_msg;
+  if coalesce(v_success, 0) = 0 then
+     raise exception '%', v_error_msg;
+  end if;
+
+/*
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//                                                                                                                    //
+//                                     borrar temporales                                                              //
+//                                                                                                                    //
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+*/
+
   delete RemitoFacturaCompraTMP where fcTMP_ID = p_fcTMP_ID;
   delete OrdenFacturaCompraTMP where fcTMP_ID = p_fcTMP_ID;
   delete FacturaCompraItemSerieTMP where fcTMP_id = p_fcTMP_id;
@@ -1224,64 +1128,33 @@ begin
 /*
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //                                                                                                                    //
-//                                     HISTORIAL DE MODIFICACIONES                                                    //
+//                                     historial de modificaciones                                                    //
 //                                                                                                                    //
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 */
-  select modifico
-    into v_modifico
-  from FacturaCompra
-  where fc_id = v_fc_id;
+
+  select modifico into v_modifico from FacturaCompra where fc_id = v_fc_id;
 
   if v_is_new <> 0 then
-
-     perform sp_HistoriaUpdate(17001,
-                       v_fc_id,
-                       v_modifico,
-                       1);
-
+     perform sp_HistoriaUpdate(17001, v_fc_id, v_modifico, 1);
   else
-
-     perform sp_HistoriaUpdate(17001,
-                       v_fc_id,
-                       v_modifico,
-                       3);
-
+     perform sp_HistoriaUpdate(17001, v_fc_id, v_modifico, 3);
   end if;
 
-  /*
+/*
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //                                                                                                                    //
-//                                     FIN                                                                            //
+//                                     fin                                                                            //
 //                                                                                                                    //
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 */
-  COMMIT;
 
-  p_fc_id := v_fc_id;
+  rtn.type = 'fc_id'
+  rtn.id = v_fc_id;
 
-  p_success := 1;
+  return next rtn;
 
-  begin
-     select 1 into v_temp
-       from DUAL
-      where p_bSelect <> 0;
-  exception
-     when others then
-        null;
-  end;
-
-  if v_temp = 1 then
-     open rtn for
-        select v_fc_id
-          from DUAL ;
-
-  end if;
-
-  sp_ListaPrecioSaveAuto(v_fc_id,
-                         v_doct_id,
-                         v_is_new,
-                         v_fc_fecha);
+  perform sp_ListaPrecioSaveAuto(v_fc_id, v_doct_id, v_is_new, v_fc_fecha);
 
 exception
    when others then
