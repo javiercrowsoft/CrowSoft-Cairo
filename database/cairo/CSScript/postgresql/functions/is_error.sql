@@ -46,6 +46,6 @@ begin
 end;
 $body$
   language plpgsql volatile
-  COST 100;
+  cost 100;
 alter function is_error(varchar)
   owner to postgres;

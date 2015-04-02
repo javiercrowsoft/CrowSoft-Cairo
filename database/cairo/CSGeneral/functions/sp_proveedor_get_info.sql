@@ -139,6 +139,6 @@ begin
 end;
 $BODY$
   language plpgsql volatile
-  COST 100;
+  cost 100;
 alter function sp_proveedor_get_info(integer, integer)
   owner to postgres;

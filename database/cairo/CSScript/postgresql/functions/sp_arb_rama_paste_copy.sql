@@ -138,8 +138,7 @@ begin
          end if;
 
          select SP_DBGetNewId('rama',
-                              'ram_id',
-                              0::smallint) into v_new_ram_id;
+                              'ram_id') into v_new_ram_id;
 
          insert into rama
            ( ram_id, ram_nombre, arb_id, modifico, ram_id_padre, ram_orden )
@@ -163,8 +162,7 @@ begin
             begin
                -- Por cada hoja obtengo un id nuevo
                select SP_DBGetNewId('hoja',
-                                    'hoja_id',
-                                    0::smallint) into v_new_hoja_id;
+                                    'hoja_id') into v_new_hoja_id;
 
                insert into hoja
                  ( hoja_id, id, modifico, ram_id, arb_id )
@@ -193,6 +191,6 @@ begin
 end;
 $BODY$
   language plpgsql volatile
-  COST 100;
+  cost 100;
 alter function sp_arbcopiarrama(integer, integer, integer, smallint)
   owner to postgres;

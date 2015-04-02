@@ -242,11 +242,9 @@ begin
             if v_almr_id_mail is null then
             begin
                select SP_DBGetNewId2('AlarmaMailStock',
-                              'almr_id_mail',
-                              v_offset_inicio,
-                              v_offset_inicio_e,
-                              v_almr_id_mail,
-                              0) into v_almr_id_mail;
+                                     'almr_id_mail',
+                                     v_offset_inicio,
+                                     v_offset_inicio_e) into v_almr_id_mail;
 
             end;
             end if;
@@ -339,6 +337,6 @@ begin
 end;
 $BODY$
   language plpgsql volatile
-  COST 100;
+  cost 100;
 alter function alr_dc_csc_stk_0010_m()
   owner to postgres;

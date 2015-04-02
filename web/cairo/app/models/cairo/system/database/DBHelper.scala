@@ -200,13 +200,12 @@ object DBHelper {
   def getNewId(user: CompanyUser, table: String, fieldId: String): Int = {
     DB.withTransaction(user.database.database) { implicit connection =>
 
-      val sql = s"{call SP_DBGetNewId(?, ?, ?, ?)}"
+      val sql = s"{call SP_DBGetNewId(?, ?, ?)}"
       val cs = connection.prepareCall(sql)
 
       cs.setString(1, table)
       cs.setString(2, fieldId)
       cs.registerOutParameter(3, Types.INTEGER)
-      cs.setShort(4, 0.toShort)
 
       try {
 

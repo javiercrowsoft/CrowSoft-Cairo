@@ -213,6 +213,6 @@ begin
 end;
 $BODY$
   language plpgsql volatile
-  COST 100;
+  cost 100;
 alter function sp_talonario_get_propuesto(integer, integer, integer)
   owner to postgres;

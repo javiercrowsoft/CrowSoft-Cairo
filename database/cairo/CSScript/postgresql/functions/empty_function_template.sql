@@ -43,7 +43,7 @@ $BODY$
 
 -- to raise an exception
 
-RAISE exception 'Error message';
+raise exception 'Error message';
 
 -- temporary tables
 

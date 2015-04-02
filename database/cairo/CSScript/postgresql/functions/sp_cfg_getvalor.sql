@@ -45,7 +45,7 @@ $BODY$
 begin
 
    if p_bShow <> 0 then
-    RAISE exception '@@ERROR_SP:El procedimiento almacenado sp_cfg_getvalor no puede ser llamado para obtener un cursor. Se debe usar sp_cfg_getvalorRs.';
+    raise exception '@@ERROR_SP:El procedimiento almacenado sp_cfg_getvalor no puede ser llamado para obtener un cursor. Se debe usar sp_cfg_getvalorRs.';
 		RETURN;
    end if;
 
@@ -60,6 +60,6 @@ begin
 end;
 $BODY$
   language plpgsql volatile
-  COST 100;
+  cost 100;
 alter function sp_cfg_getvalor(character varying, character varying, smallint, integer)
   owner to postgres;

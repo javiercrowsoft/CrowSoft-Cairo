@@ -28,127 +28,129 @@ http://www.crowsoft.com.ar
 
 javier at crowsoft.com.ar
 */
--- Function: sp_dbgetnewid(character varying, character varying, integer, integer, smallint)
+-- Function: sp_dbgetnewid(character varying, character varying, smallint)
 
--- drop function sp_dbgetnewid(character varying, character varying, integer, integer, smallint);
+-- drop function sp_dbgetnewid(character varying, character varying, smallint);
 
-create or replace function sp_dbgetnewid(in p_tabla character varying, in p_pk character varying, out p_id integer, in p_bselect smallint)
+-- select * from sp_dbgetnewid('asiento','as_id');
+
+create or replace function sp_dbgetnewid
+(
+ in p_tabla character varying,
+ in p_pk character varying,
+ out p_id integer
+)
   returns integer as
 $BODY$
 declare
-        v_sqlstmt varchar(255);
+  v_sqlstmt varchar(255);
 begin
 
-   if p_bselect <> 0 then
-      RAISE exception '@@ERROR_SP:El procedimiento almacenado SP_DBGetNewId no puede ser llamado para obtener un cursor. El codigo Java o Scala debe usar parametros out.';
-	  RETURN;
-   end if;
+   if lower(p_tabla) = 'stock' or lower(p_tabla) = 'stockitem' then
 
-   if LOWER(p_tabla) = 'stock'
-     or LOWER(p_tabla) = 'stockitem' then
-   begin
-      select max(Id_NextId)
+      select max(id_nextId)
         into p_id
-        from IdStock
-         where Id_Tabla = p_tabla
-                 and Id_CampoId = p_pk
-                 and Id_Rango = 0;
+      from IdStock
+      where id_tabla = p_tabla
+        and id_campoId = p_pk
+        and id_rango = 0;
 
       -- si no existe en la tabla
       if p_id is null then
-      begin
-         v_sqlstmt := 'insert into idStock (Id_Tabla, Id_NextId, Id_CampoId) select ''' || p_tabla || ''',coalesce(max(' || p_pk || '),0)+1, ''' || p_pk || ''' from ' || p_tabla || ' where isnumeric(' || p_pk || ')<>0';
 
-         EXECUTE v_sqlstmt;
+         v_sqlstmt := 'insert into IdStock (id_tabla, id_nextId, id_campoId) select ''' || p_tabla
+                      || ''',coalesce(max(' || p_pk || '),0)+1, ''' || p_pk
+                      || ''' from ' || p_tabla
+                      || ' where isnumeric(' || p_pk || ')<>0';
 
-         select max(Id_NextId)
+         execute v_sqlstmt;
+
+         select max(id_nextId)
            into p_id
-           from IdStock
-            where Id_Tabla = p_tabla
-                    and Id_CampoId = p_pk;
+         from IdStock
+         where id_tabla = p_tabla
+           and id_campoId = p_pk;
 
-      end;
       end if;
 
       update idStock
-         set Id_NextId = p_id + 1
-         where Id_Tabla = p_tabla
-        and Id_CampoId = p_pk;
+         set id_nextId = p_id + 1
+      where id_tabla = p_tabla
+        and id_campoId = p_pk;
 
-   end;
    else
-   begin
-      if LOWER(p_tabla) = 'asiento'
-        or LOWER(p_tabla) = 'asientoitem' then
-      begin
-         select max(Id_NextId)
+
+      if lower(p_tabla) = 'asiento' or lower(p_tabla) = 'asientoitem' then
+
+         select max(id_nextId)
            into p_id
-           from IdAsiento
-            where Id_Tabla = p_tabla
-                    and Id_CampoId = p_pk
-                    and Id_Rango = 0;
+         from IdAsiento
+         where id_tabla = p_tabla
+           and id_campoId = p_pk
+           and id_rango = 0;
 
          -- si no existe en la tabla
          if p_id is null then
-         begin
-            v_sqlstmt := 'insert into idAsiento (Id_Tabla, Id_NextId, Id_CampoId) select ''' || p_tabla || ''',coalesce(max(' || p_pk || '),0)+1, ''' || p_pk || ''' from ' || p_tabla || ' where isnumeric(' || p_pk || ')<>0';
 
-            EXECUTE v_sqlstmt;
+            v_sqlstmt := 'insert into IdAsiento (id_tabla, id_nextId, id_campoId) select ''' || p_tabla
+                         || ''',coalesce(max(' || p_pk || '),0)+1, ''' || p_pk
+                         || ''' from ' || p_tabla
+                         || ' where isnumeric(' || p_pk || ')<>0';
 
-            select max(Id_NextId)
+            execute v_sqlstmt;
+
+            select max(id_nextId)
               into p_id
-              from IdAsiento
-               where Id_Tabla = p_tabla
-                       and Id_CampoId = p_pk;
+            from IdAsiento
+            where id_tabla = p_tabla
+              and id_campoId = p_pk;
 
-         end;
          end if;
 
          update idAsiento
-            set Id_NextId = p_id + 1
-            where Id_Tabla = p_tabla
-           and Id_CampoId = p_pk;
+            set id_nextId = p_id + 1
+         where id_tabla = p_tabla
+           and id_campoId = p_pk;
 
-      end;
       else
-      begin
-         select max(Id_NextId)
+
+         select max(id_nextId)
            into p_id
-           from Id
-            where Id_Tabla = p_tabla
-                    and Id_CampoId = p_pk
-                    and Id_Rango = 0;
+         from Id
+         where id_tabla = p_tabla
+           and id_campoId = p_pk
+           and id_rango = 0;
 
          -- si no existe en la tabla
          if p_id is null then
-         begin
-            v_sqlstmt := 'insert into Id (Id_Tabla, Id_NextId, Id_CampoId) select ''' || p_tabla || ''',coalesce(max(' || p_pk || '),0)+1, ''' || p_pk || ''' from ' || p_tabla || ' where isnumeric(' || p_pk || ')<>0';
 
-            EXECUTE v_sqlstmt;
+            v_sqlstmt := 'insert into Id (id_tabla, id_nextId, id_campoId) select ''' || p_tabla
+                         || ''',coalesce(max(' || p_pk || '),0)+1, ''' || p_pk
+                         || ''' from ' || p_tabla
+                         || ' where isnumeric(' || p_pk || ')<>0';
 
-            select max(Id_NextId)
+            execute v_sqlstmt;
+
+            select max(id_nextId)
               into p_id
-              from Id
-               where Id_Tabla = p_tabla
-                       and Id_CampoId = p_pk;
+            from Id
+            where id_tabla = p_tabla
+              and id_campoId = p_pk;
 
-         end;
          end if;
 
          update id
-            set Id_NextId = p_id + 1
-            where Id_Tabla = p_tabla
-           and Id_CampoId = p_pk;
+            set id_nextId = p_id + 1
+         where id_tabla = p_tabla
+           and id_campoId = p_pk;
 
-      end;
       end if;
 
-   end;
    end if;
    
 end;
 $BODY$
   language plpgsql volatile
-  COST 100;
-alter function sp_dbgetnewid(character varying, character varying, smallint)
+  cost 100;
+alter function sp_dbgetnewid(character varying, character varying)
   owner to postgres;

@@ -36,6 +36,6 @@ create or replace function getdate()
   returns timestamp with time zone as
 'select now()'
   language sql STABLE
-  COST 100;
+  cost 100;
 alter function getdate()
   owner to postgres;

@@ -4,6 +4,8 @@ drop function testd(integer);
 drop type row_result;
 
 
+select abs(-1.3)
+
 CREATE TYPE row_result AS (
     type    varchar,
     id      integer,
@@ -19,9 +21,7 @@ CREATE TYPE row_result AS (
 
 
 /*
-          select * from testc(1);
-          fetch all from rtn;
-
+          select * from testd(1);
 */
 
 create or replace function testc(
@@ -31,14 +31,36 @@ $body$
 declare
   rtn row_result;
   rtn2 row_result;
+  rtn3 row_result;
+  v_smi smallint := 0;
 begin
-          rtn.type := 2;
+
+loop
+
+          rtn.type := 'resultset';
           open rtn.r for select 'C' union select 'C22';
           RETURN NEXT rtn;
 
-          rtn2.type := 2;
-          open rtn2.r for select 'C2';
-          RETURN NEXT rtn2;
+          begin
+
+                    rtn2.type := 'resultset';
+                    rtn2.message := 'rtn2';
+                    open rtn2.r for select 'C2';
+                    RETURN NEXT rtn2;
+
+                    exit;
+                    
+            
+          end;
+
+          rtn3.type := 'resultset';
+          open rtn3.r for select 'C222';
+          RETURN NEXT rtn3;
+          
+      exit;    
+end loop;          
+
+return;
 
 end;
 $body$
@@ -46,10 +68,6 @@ language 'plpgsql' volatile;
 alter function testc(integer) owner to postgres;
 
 /*
-          select * from testd(1);
-          fetch all from rtn2;
-
-
           drop function testd(integer)
 */
 
@@ -64,36 +82,50 @@ declare
   rsid row_result;
   newId integer;
   my_row_var row_result;
+  v_sys_error varchar := '';
+  v_error_msg varchar := '';
+  v_us_nombre varchar;
 begin
 
-FOR my_row_var IN
-    SELECT * FROM testc(1)
-LOOP
-          RETURN NEXT my_row_var;
-END LOOP;
-/*
-          select testc(1) into rtnC;
-          RETURN NEXT rtnC;
+          FOR my_row_var IN
+              SELECT * FROM testc(1)
+          LOOP
+                    RETURN NEXT my_row_var;
+          END LOOP;
 
-          RETURN QUERY FETCH ALL FROM rtn2;*/
-/*
-fetch childcursor into v_partid,v_partname,v_parttype;
-while Found LOOP
-    --Do stuff;
-    --Do More Stuff;
-    --Finish Doing Stuff;
-    fetch childcursor into v_partid,v_partname,v_parttype;
-END LOOP;          
-*/
+          select us_nombre into v_us_nombre from usuario where us_id = -65;
+
+          raise notice 'v_us_nombre %', v_us_nombre;
+
           newId:= 1;
+
+          begin
+
+                    newId := 1/0;
+
+          exception
+             when others then
+                    v_sys_error := sqlstate;
+                    v_error_msg := SQLERRM;
+                    raise notice 'sqlcode %', sqlstate;
+          end;
+
           
-          rtn.type := 2;
+          raise notice 'v_sys_error % %', v_sys_error, v_error_msg;
+
+          return query select * from result_success();
+          return query select * from result_error('test error');
+          return;
+          
+          rtn.type := 'resultset';
           open rtn.r for select 'D';
           RETURN NEXT rtn;
 
-          rsid.type := 1;
+          rsid.type := 'fc_id';
           rsid.id := newId;
           RETURN NEXT rsid;
+
+          
 
 end;
 $body$

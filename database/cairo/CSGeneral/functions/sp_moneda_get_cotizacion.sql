@@ -45,7 +45,7 @@ $BODY$
 begin
 
      if p_bselect <> 0 then
-       RAISE exception '@@ERROR_SP:El procedimiento almacenado sp_moneda_get_cotizacion no puede ser llamado para obtener un cursor. El codigo Java o Scala debe usar parametros out.';
+       raise exception '@@ERROR_SP:El procedimiento almacenado sp_moneda_get_cotizacion no puede ser llamado para obtener un cursor. El codigo Java o Scala debe usar parametros out.';
        RETURN;
      end if;
 
@@ -82,6 +82,6 @@ begin
 end;
 $BODY$
   language plpgsql volatile
-  COST 100;
+  cost 100;
 alter function sp_moneda_get_cotizacion(integer, date, smallint)
   owner to postgres;

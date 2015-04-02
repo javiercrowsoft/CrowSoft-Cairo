@@ -46,15 +46,13 @@ declare
 begin
 
         select SP_DBGetNewId('arbol',
-                              'arb_id',
-                              0::smallint) into v_arb_id;
+                              'arb_id') into v_arb_id;
 
         insert into arbol (arb_id, arb_nombre, tbl_id, modifico)
         values (v_arb_id, p_nombre, p_tbl_id, p_us_id);
 
         select SP_DBGetNewId('rama',
-                             'ram_id',
-                             0::smallint) into v_raiz_id;
+                             'ram_id') into v_raiz_id;
 
         insert into rama (ram_id, ram_nombre, ram_id_padre, ram_orden, arb_id, modifico)
         values (v_raiz_id, p_nombre, 0, 0, v_arb_id, p_us_id);
@@ -66,6 +64,6 @@ begin
 end;
 $BODY$
   language plpgsql volatile
-  COST 100;
+  cost 100;
 alter function sp_arb_arbol_create(integer, integer, varchar)
   owner to postgres;

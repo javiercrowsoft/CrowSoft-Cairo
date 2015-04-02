@@ -67,6 +67,6 @@ begin
 end;
 $BODY$
   language plpgsql volatile
-  COST 100;
+  cost 100;
 alter function sp_arb_rama_move_up(integer, integer)
   owner to postgres;

@@ -91,6 +91,6 @@ begin
 end;
 $BODY$
   language plpgsql volatile
-  COST 100;
+  cost 100;
 alter function sp_cuentahelpcairo(integer, integer, integer, varchar, integer, integer, varchar)
   owner to postgres;

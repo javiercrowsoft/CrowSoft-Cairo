@@ -723,6 +723,6 @@ begin
 end;
 $BODY$
   language plpgsql volatile
-  COST 100;
+  cost 100;
 alter function sp_lp_get_precio(integer, integer, integer, integer, integer, integer, integer, integer)
   owner to postgres;

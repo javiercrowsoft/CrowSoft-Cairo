@@ -76,6 +76,6 @@ begin
 end;
 $BODY$
   language plpgsql volatile
-  COST 100;
+  cost 100;
 alter function sp_leng_get_text_aux(varchar, integer)
   owner to postgres;

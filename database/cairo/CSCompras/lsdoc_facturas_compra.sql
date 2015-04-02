@@ -416,6 +416,6 @@ end debug*/
 end;
 $BODY$
   language plpgsql volatile
-  COST 100;
+  cost 100;
 alter function sp_lsdoc_facturas_compra(integer, date, date, varchar, varchar, varchar, varchar, varchar, varchar, varchar)
   owner to postgres;

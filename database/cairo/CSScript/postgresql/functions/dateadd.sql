@@ -84,6 +84,6 @@ begin
 end;
 $BODY$
   language plpgsql volatile
-  COST 100;
+  cost 100;
 alter function dateadd(character varying, integer, timestamp with time zone)
   owner to postgres;

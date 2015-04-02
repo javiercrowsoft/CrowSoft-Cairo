@@ -172,6 +172,6 @@ begin
 end;
 $BODY$
   language plpgsql volatile
-  COST 100;
+  cost 100;
 alter function sp_producto_stock_get_data(integer, integer, integer)
   owner to postgres;

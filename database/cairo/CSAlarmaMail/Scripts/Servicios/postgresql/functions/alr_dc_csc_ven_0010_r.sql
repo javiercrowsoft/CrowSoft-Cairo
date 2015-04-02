@@ -48,6 +48,6 @@ begin
 end;
 $BODY$
   language plpgsql volatile
-  COST 100;
+  cost 100;
 alter function alr_dc_csc_ven_0010_r(integer)
   owner to postgres;

@@ -40,6 +40,7 @@ create or replace function sp_arbborrarrama(
 $BODY$
 declare
    v_error_code varchar := '00';
+   v_error_msg varchar := '';
    -- si la rama es raiz tengo que borrar el arbol
    v_arb_id integer;
    -- para actulizar el orden
@@ -94,6 +95,7 @@ begin
    exception
       when others then
          v_error_code := SQLSTATE;
+         v_error_msg := SQLERRM;
    end;
 
    if not is_error(v_error_code) then
@@ -104,6 +106,7 @@ begin
              exception
                 when others then
                    v_error_code := SQLSTATE;
+                   v_error_msg := SQLERRM;
              end;
 
              if not is_error(v_error_code) then
@@ -127,19 +130,20 @@ begin
              exception
                 when others then
                    v_error_code := SQLSTATE;
+                   v_error_msg := SQLERRM;
              end;
              end if;
    end if;
    
    if is_error(v_error_code) then
 
-          RAISE exception 'No se pude borrar la rama. % %', SQLSTATE, SQLERRM;
+          raise exception 'No se pude borrar la rama. % %', v_error_code, v_error_msg;
           
    end if;
 
 end;
 $BODY$
   language plpgsql volatile
-  COST 100;
+  cost 100;
 alter function sp_arbborrarrama(integer, integer)
   owner to postgres;

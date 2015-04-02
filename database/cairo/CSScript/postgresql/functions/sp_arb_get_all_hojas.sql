@@ -52,7 +52,7 @@ begin
    end if;
 
    if p_clienteId = 0 then
-      RAISE exception '@@ERROR_SP:El procedimiento almacenado sp_ArbGetAllHojas no puede ser llamado para obtener un cursor. Se debe usar sp_ArbGetAllHojasRs.';
+      raise exception '@@ERROR_SP:El procedimiento almacenado sp_ArbGetAllHojas no puede ser llamado para obtener un cursor. Se debe usar sp_ArbGetAllHojasRs.';
       RETURN;
    end if;
 	 
@@ -116,6 +116,6 @@ begin
 end;
 $BODY$
   language plpgsql volatile
-  COST 100;
+  cost 100;
 alter function sp_arbgetallhojas(integer, integer, integer)
   owner to postgres;

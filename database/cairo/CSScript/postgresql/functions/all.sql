@@ -40,7 +40,7 @@ begin
 end;
 $BODY$
   language plpgsql volatile
-  COST 100;
+  cost 100;
 alter function add_months(timestamp with time zone, integer)
   owner to postgres;
 /*
@@ -129,7 +129,7 @@ begin
 end;
 $BODY$
   language plpgsql volatile
-  COST 100;
+  cost 100;
 alter function dateadd(character varying, integer, timestamp with time zone)
   owner to postgres;
 
@@ -171,7 +171,7 @@ create or replace function getdate()
   returns timestamp with time zone as
 'select now()'
   language sql STABLE
-  COST 100;
+  cost 100;
 alter function getdate()
   owner to postgres;
 /*
@@ -216,7 +216,7 @@ begin
 end;
 $BODY$
   language plpgsql volatile
-  COST 100;
+  cost 100;
 alter function isnumeric(integer)
   owner to postgres;
 /*
@@ -265,7 +265,7 @@ begin
 end;
 $BODY$
   language plpgsql volatile
-  COST 100;
+  cost 100;
 alter function isnumeric(character varying)
   owner to postgres;
 
@@ -325,7 +325,7 @@ begin
 end;
 $BODY$
   language plpgsql volatile
-  COST 100;
+  cost 100;
 alter function sp_arbconvertid(character varying)
   owner to postgres;
 /*
@@ -382,7 +382,7 @@ begin
    end if;
 
    if p_clienteId = 0 then
-      RAISE exception '@@ERROR_SP:El procedimiento almacenado sp_ArbGetAllHojas no puede ser llamado para obtener un cursor. Se debe usar sp_ArbGetAllHojasRs.';
+      raise exception '@@ERROR_SP:El procedimiento almacenado sp_ArbGetAllHojas no puede ser llamado para obtener un cursor. Se debe usar sp_ArbGetAllHojasRs.';
       RETURN;
    end if;
 	 
@@ -446,7 +446,7 @@ begin
 end;
 $BODY$
   language plpgsql volatile
-  COST 100;
+  cost 100;
 alter function sp_arbgetallhojas(integer, integer, integer)
   owner to postgres;
 /*
@@ -513,7 +513,7 @@ begin
 end;
 $BODY$
   language plpgsql volatile
-  COST 100;
+  cost 100;
 alter function sp_arbisraiz(integer)
   owner to postgres;
 /*
@@ -556,7 +556,7 @@ $BODY$
 begin
 
    if p_bShow <> 0 then
-    RAISE exception '@@ERROR_SP:El procedimiento almacenado sp_cfg_getValor no puede ser llamado para obtener un cursor. Se debe usar sp_cfg_getValorRs.';
+    raise exception '@@ERROR_SP:El procedimiento almacenado sp_cfg_getValor no puede ser llamado para obtener un cursor. Se debe usar sp_cfg_getValorRs.';
 		RETURN;
    end if;
 
@@ -571,7 +571,7 @@ begin
 end;
 $BODY$
   language plpgsql volatile
-  COST 100;
+  cost 100;
 alter function sp_cfg_getValor(character varying, character varying, smallint, integer)
   owner to postgres;
 /*
@@ -632,7 +632,7 @@ begin
 end;
 $BODY$
   language plpgsql volatile
-  COST 100;
+  cost 100;
 alter function sp_cfg_getValorrs(character varying, character varying, smallint, integer)
   owner to postgres;
 /*
@@ -675,7 +675,7 @@ $BODY$
 begin
 
    if p_bselect <> 0 then
-      RAISE exception '@@ERROR_SP:El procedimiento almacenado SP_DBGetNewId2 no puede ser llamado para obtener un cursor. Se debe usar SP_DBGetNewId2Rs.';
+      raise exception '@@ERROR_SP:El procedimiento almacenado SP_DBGetNewId2 no puede ser llamado para obtener un cursor. Se debe usar SP_DBGetNewId2Rs.';
 			RETURN;
    end if;
 
@@ -739,7 +739,7 @@ begin
 end;
 $BODY$
   language plpgsql volatile
-  COST 100;
+  cost 100;
 alter function sp_dbgetnewid2(character varying, character varying, integer, integer, smallint)
   owner to postgres;
 /*
@@ -807,7 +807,7 @@ begin
 end;
 $BODY$
   language plpgsql volatile
-  COST 100;
+  cost 100;
 alter function sp_getrptid()
   owner to postgres;
 /*
@@ -852,7 +852,7 @@ begin
 end;
 $BODY$
   language plpgsql volatile
-  COST 100;
+  cost 100;
 alter function to_char(integer)
   owner to postgres;
 /*
@@ -897,7 +897,7 @@ begin
 end;
 $BODY$
   language plpgsql volatile
-  COST 100;
+  cost 100;
 alter function to_number(integer)
   owner to postgres;
 /*
@@ -942,6 +942,6 @@ begin
 end;
 $BODY$
   language plpgsql volatile
-  COST 100;
+  cost 100;
 alter function to_number(character varying)
   owner to postgres;

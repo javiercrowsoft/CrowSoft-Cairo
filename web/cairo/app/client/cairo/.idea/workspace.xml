@@ -8,12 +8,12 @@
     <file path="/control.js" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1426120309371" ignored="false" />
     <file path="/select.js" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1426292545861" ignored="false" />
     <file path="/dialog.js" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1427465649033" ignored="false" />
-    <file path="/a.dummy" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1427757964127" ignored="false" />
+    <file path="/a.dummy" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1427841927452" ignored="false" />
     <file path="/datePicker.js" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1427130548174" ignored="false" />
     <file path="/view.js" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1426776213029" ignored="false" />
     <file path="/cairoApp.js" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1427403250314" ignored="false" />
     <file path="/cProducto.js" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1426997127922" ignored="false" />
-    <file path="/Dummy.txt" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1427771195818" ignored="false" />
+    <file path="/Dummy.txt" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1427834911017" ignored="false" />
     <file path="$PROJECT_DIR$/../../../../../../../ArizonaBay/Intelimax/draftteam/CentralServer/app/models/customer.rb" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1421191448893" ignored="false" />
     <file path="/customer.rb" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1421191362562" ignored="false" />
     <file path="/input.js" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1427389338535" ignored="false" />
@@ -45,7 +45,7 @@
     <file path="/has_offers.rb" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1425157876686" ignored="false" />
     <file path="$PROJECT_DIR$/../../../../../../../ArizonaBay/Intelimax/draftteam/CentralServer/doc/script_log.txt" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1426983567151" ignored="false" />
     <file path="$PROJECT_DIR$/../../../../../../../ArizonaBay/Intelimax/draftteam/CentralServer/app/models/rotowire/mlb_player.rb" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1427377644450" ignored="false" />
-    <file path="$PROJECT_DIR$/../../../../../../../ArizonaBay/Intelimax/draftteam/CentralServer/doc/deploy_notes.txt" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1427772898134" ignored="false" />
+    <file path="$PROJECT_DIR$/../../../../../../../ArizonaBay/Intelimax/draftteam/CentralServer/doc/deploy_notes.txt" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1427843731992" ignored="false" />
     <file path="$PROJECT_DIR$/../../../../../../../ArizonaBay/Intelimax/draftteam/CentralServer/config/environments/staging-mobile.rb" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1425158816791" ignored="false" />
     <file path="$PROJECT_DIR$/../../../../../../../ArizonaBay/Intelimax/draftteam/CentralServer/app/views/shared/draft/_scripting.html.erb" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1427771198619" ignored="false" />
     <file path="$PROJECT_DIR$/../../../../../../../ArizonaBay/Intelimax/draftteam/CentralServer/app/views/fixtures/index.xml.erb" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1425158816791" ignored="false" />
@@ -61,7 +61,7 @@
     <file path="$PROJECT_DIR$/../../../../../../../ArizonaBay/Intelimax/draftteam/CentralServer/app/models/rotowire/mlb_lineups.rb" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1425591258512" ignored="false" />
     <file path="$PROJECT_DIR$/../../../../../../../ArizonaBay/Intelimax/draftteam/CentralServer/app/models/rotowire/rotowire_parser.rb" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1426810535870" ignored="false" />
     <file path="$PROJECT_DIR$/../../../../../../../ArizonaBay/Intelimax/draftteam/CentralServer/app/models/rotowire/parser_context.rb" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1425591258512" ignored="false" />
-    <file path="$PROJECT_DIR$/../../../../../../../ArizonaBay/Intelimax/draftteam/CentralServer/lib/tasks/rotowire.rake" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1425591258512" ignored="false" />
+    <file path="$PROJECT_DIR$/../../../../../../../ArizonaBay/Intelimax/draftteam/CentralServer/lib/tasks/rotowire.rake" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1427837259338" ignored="false" />
     <file path="$PROJECT_DIR$/../../../../../../../ArizonaBay/Intelimax/draftteam/CentralServer/db/seeds.rb" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1426983567151" ignored="false" />
     <file path="/deploy_notes.txt" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1426810720965" ignored="false" />
     <file path="/cairoModules.js" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1427476965657" ignored="false" />
@@ -99,6 +99,9 @@
     <file path="$PROJECT_DIR$/../../../../../../../ArizonaBay/Intelimax/draftteam/CentralServer/lib/tasks/statsinc.rake" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1427377644450" ignored="false" />
     <file path="$PROJECT_DIR$/../../../../../../../ArizonaBay/Intelimax/draftteam/WebClient/doc/deploy_notes.txt" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1427377644450" ignored="false" />
     <file path="$PROJECT_DIR$/../../../../../../../ArizonaBay/Intelimax/draftteam/CentralServer/app/models/context_roster.rb" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1427771198619" ignored="false" />
+    <file path="$PROJECT_DIR$/../../../../../../../ArizonaBay/Intelimax/draftteam/CentralServer/app/controllers/fixtures_controller.rb" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1427816717867" ignored="false" />
+    <file path="/fixtures_controller.rb" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1427813863869" ignored="false" />
+    <file path="/rotowire.rake" changelist="af32f3fd-15e6-4891-af7d-2d04793b0899" time="1427837259338" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -539,7 +542,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="22" width="1920" height="1054" extended-state="6" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32994923" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />

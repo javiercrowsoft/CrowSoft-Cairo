@@ -1234,6 +1234,6 @@ begin
 end;
 $BODY$
   language plpgsql volatile
-  COST 100;
+  cost 100;
 alter function dc_csc_com_0010(integer, date, date, character varying, character varying, character varying, character varying, smallint, character varying, smallint, smallint, smallint)
   owner to postgres;

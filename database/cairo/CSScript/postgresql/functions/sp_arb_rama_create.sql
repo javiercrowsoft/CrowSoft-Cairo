@@ -50,8 +50,7 @@ declare
 begin
 
         select SP_DBGetNewId('rama',
-                              'ram_id',
-                              0::smallint) into v_ram_id;
+                              'ram_id') into v_ram_id;
 
         v_is_temp := p_ram_id_padre = -1000;
     
@@ -88,6 +87,6 @@ begin
 end;
 $BODY$
   language plpgsql volatile
-  COST 100;
+  cost 100;
 alter function sp_arb_rama_create(integer, integer, integer, varchar)
   owner to postgres;

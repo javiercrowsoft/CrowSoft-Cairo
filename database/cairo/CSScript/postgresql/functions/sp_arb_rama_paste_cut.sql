@@ -105,6 +105,6 @@ begin
 end;
 $BODY$
   language plpgsql volatile
-  COST 100;
+  cost 100;
 alter function sp_arbcortarrama(integer, integer, integer, smallint)
   owner to postgres;

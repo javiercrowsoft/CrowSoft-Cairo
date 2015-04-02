@@ -45,12 +45,12 @@ create or replace function sp_doc_factura_compra_get
   returns refcursor as
 $BODY$
 declare
-   v_bEditable smallint;
-   v_editMsg varchar(255);
+   v_editable smallint;
+   v_edit_msg varchar(255);
    v_doc_id integer;
    v_doct_id integer;
-   v_ta_Mascara varchar(100);
-   v_ta_Propuesto smallint;
+   v_ta_mascara varchar(100);
+   v_ta_propuesto smallint;
    v_DeplNombre varchar(255);
    v_DeplId integer;
    v_bIvari smallint;
@@ -72,11 +72,11 @@ begin
    from FacturaCompra
    where fc_id = p_fc_id;
 
-   select * from sp_talonario_get_propuesto(v_doc_id, 0, v_prov_id) into v_ta_Mascara, v_ta_Propuesto;
+   select * from sp_talonario_get_propuesto(v_doc_id, 0, v_prov_id) into v_ta_mascara, v_ta_propuesto;
 
    select * from sp_proveedor_get_iva(v_prov_id, 0::smallint) into v_bIvari, v_bIvarni;
 
-   select * from sp_doc_factura_compra_editable_get(p_emp_id, p_fc_id, p_us_id) into v_bEditable, v_editMsg;
+   select * from sp_doc_factura_compra_editable_get(p_emp_id, p_fc_id, p_us_id) into v_editable, v_edit_msg;
 
 /*
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -196,10 +196,10 @@ begin
              v_DeplNombre depl_nombre,
              v_bIvari bIvaRi,
              v_bIvarni bIvaRni,
-             v_bEditable editable,
-             v_editMsg editMsg,
-             v_ta_Mascara ta_mascara,
-             v_ta_Propuesto ta_propuesto,
+             v_editable editable,
+             v_edit_msg editMsg,
+             v_ta_mascara ta_mascara,
+             v_ta_propuesto ta_propuesto,
              doc_muevestock,
              doc_tipofactura
         from FacturaCompra
@@ -234,6 +234,6 @@ begin
 end;
 $BODY$
   language plpgsql volatile
-  COST 100;
+  cost 100;
 alter function sp_doc_factura_compra_get(integer, integer, integer)
   owner to postgres;
