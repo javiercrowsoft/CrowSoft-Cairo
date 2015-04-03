@@ -122,9 +122,9 @@ begin
       from ProveedorCacheCredito
       where prov_id <> v_prov_id
         and doct_id = v_doct_OrdenCompra
-        and id = p_oc_id
+        and id = p_oc_id;
 
-      delete ProveedorCacheCredito
+      delete from ProveedorCacheCredito
       where prov_id <> v_prov_id
         and doct_id = v_doct_OrdenCompra
         and id = p_oc_id;
@@ -142,7 +142,7 @@ begin
    --
    if p_borrar <> 0 then
 
-      delete ProveedorCacheCredito
+      delete from ProveedorCacheCredito
       where prov_id = v_prov_id
         and doct_id = v_doct_OrdenCompra
         and id = p_oc_id;
@@ -160,7 +160,7 @@ begin
                   where prov_id = v_prov_id
                     and doct_id = v_doct_OrdenCompra
                     and id = p_oc_id ) then
-      begin
+
          if abs(v_pendiente) >= 0.01 then
 
             update ProveedorCacheCredito
@@ -173,7 +173,7 @@ begin
          --
          else
 
-            delete ProveedorCacheCredito
+            delete from ProveedorCacheCredito
             where prov_id = v_prov_id
               and doct_id = v_doct_OrdenCompra
               and id = p_oc_id;

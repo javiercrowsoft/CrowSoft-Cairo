@@ -33,7 +33,7 @@ javier at crowsoft.com.ar
 -- drop function sp_doc_fac_cpra_ord_rto_save_aplic(integer, integer, integer);
 
 create or replace
-function sp_doc_fac_cpra_ord_rto_save_aplic
+function sp_doc_fac_cpra_orden_remito_save_aplic
 (
   in p_fc_id integer,
   in p_fcTMP_id integer,
@@ -200,12 +200,12 @@ begin
 exception
    when others then
 
-      raise exception 'Ha ocurrido un error al grabar la aplicacion de la factura de compra con las ordenes de compra y remitos. sp_doc_fac_cpra_ord_rto_save_aplicveAplic. %. %.',
+      raise exception 'Ha ocurrido un error al grabar la aplicacion de la factura de compra con las ordenes de compra y remitos. sp_doc_fac_cpra_orden_remito_save_aplic. %. %.',
                       sqlstate, sqlerrm;
 
 end;
 $BODY$
   language plpgsql volatile
   cost 100;
-alter function sp_doc_fac_cpra_ord_rto_save_aplic(integer, integer)
+alter function sp_doc_fac_cpra_orden_remito_save_aplic(integer, integer)
   owner to postgres;

@@ -45,7 +45,7 @@ declare
    v_oc_id integer;
 begin
 
-   for c_OrdenPendiente in
+   for v_oc_id in
         select distinct oc_id
         from OrdenFacturaCompra ocfc
         join FacturaCompraItem fci
@@ -60,11 +60,11 @@ begin
 
       -- actualizo la deuda de la factura
       --
-      sp_doc_orden_compra_set_pendiente(v_oc_id);
+      perform sp_doc_orden_compra_set_pendiente(v_oc_id);
 
       -- estado
       --
-      perform sp_doc_orden_compraSetCredito(v_oc_id);
+      perform sp_doc_orden_compra_set_credito(v_oc_id);
 
       perform sp_doc_orden_compra_set_estado(v_oc_id);
 
@@ -76,7 +76,7 @@ begin
       -- estado
       --
 
-      select * from sp_AuditoriaEstadoCheckDocOC(v_oc_id) into v_success, v_error_msg;
+      select * from sp_auditoria_estado_check_doc_oc(v_oc_id) into v_success, v_error_msg;
       if coalesce(v_success, 0) = 0 then
          raise exception '%', v_error_msg;
       end if;
@@ -86,7 +86,7 @@ begin
 exception
    when others then
 
-   raise exception 'Ha ocurrido un error al actualizar el pendiente de la orden de compra. sp_DocFacCpraOrden_set_pendienteente. %. %.'
+   raise exception 'Ha ocurrido un error al actualizar el pendiente de la orden de compra. sp_DocFacCpraOrden_set_pendienteente. %. %.',
                    sqlstate, sqlerrm;
 
 end;
