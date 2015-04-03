@@ -56,6 +56,19 @@ begin
 
    v_orden := 0;
 
+/*
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//                                                                                                                    //
+//                                        update pendiente en ordenes                                                 //
+//                                                                                                                    //
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+*/
+
+   create temporary table tt_OrdenCompraFac
+   (
+     oc_id integer
+   ) on commit drop;
+
    insert into tt_OrdenCompraFac( oc_id )
      ( select distinct oci.oc_id
        from OrdenFacturaCompra ocfc
@@ -72,7 +85,7 @@ begin
 
    -- borro toda la aplicacion actual de esta factura con ordenes
    --
-   delete OrdenFacturaCompra
+   delete from OrdenFacturaCompra
    where fci_id in ( select fci_id
                      from FacturaCompraItem
                      where fc_id = p_fc_id );
@@ -109,17 +122,22 @@ begin
 
    end loop;
 
+   perform sp_doc_fac_cpra_orden_set_pendiente(p_fc_id);
+
 /*
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //                                                                                                                    //
-//                                        update pendiente en ordenes                                                 //
+//                                        update pendiente en remitos                                                 //
 //                                                                                                                    //
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 */
 
-   perform sp_doc_fac_cpra_orden_set_pendiente(p_fc_id);
-
    v_orden := 0;
+
+   create temporary table tt_RemitoCompraFac
+   (
+     rc_id integer
+   ) on commit drop;
 
    insert into tt_RemitoCompraFac
      ( rc_id )
@@ -138,7 +156,7 @@ begin
 
    -- borro toda la aplicacion actual de esta factura con ordenes
    --
-   delete RemitoFacturaCompra
+   delete from RemitoFacturaCompra
    where fci_id in ( select fci_id
                      from FacturaCompraItem
                      where fc_id = p_fc_id );
@@ -175,14 +193,6 @@ begin
 
    end loop;
 
-/*
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//                                                                                                                    //
-//                                        update pendiente en remitos                                                 //
-//                                                                                                                    //
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-*/
-
    perform sp_DocFacCpraRto_set_pendiente(p_fc_id);
 
 /*
@@ -207,5 +217,5 @@ end;
 $BODY$
   language plpgsql volatile
   cost 100;
-alter function sp_doc_fac_cpra_orden_remito_save_aplic(integer, integer)
+alter function sp_doc_fac_cpra_orden_remito_save_aplic(integer, integer, integer)
   owner to postgres;

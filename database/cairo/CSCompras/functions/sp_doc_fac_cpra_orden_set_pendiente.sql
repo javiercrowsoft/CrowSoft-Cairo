@@ -32,6 +32,11 @@ javier at crowsoft.com.ar
 
 -- drop function sp_doc_fac_cpra_orden_set_pendiente(integer);
 
+/*
+          select * from facturacompra;
+          select sp_doc_fac_cpra_orden_set_pendiente(1);
+*/
+
 create or replace
 function sp_doc_fac_cpra_orden_set_pendiente
 (
@@ -75,7 +80,6 @@ begin
 
       -- estado
       --
-
       select * from sp_auditoria_estado_check_doc_oc(v_oc_id) into v_success, v_error_msg;
       if coalesce(v_success, 0) = 0 then
          raise exception '%', v_error_msg;
@@ -86,7 +90,7 @@ begin
 exception
    when others then
 
-   raise exception 'Ha ocurrido un error al actualizar el pendiente de la orden de compra. sp_DocFacCpraOrden_set_pendienteente. %. %.',
+   raise exception 'Ha ocurrido un error al actualizar el pendiente de la orden de compra. sp_doc_fac_cpra_orden_set_pendiente. %. %.',
                    sqlstate, sqlerrm;
 
 end;
