@@ -40,7 +40,6 @@ function sp_doc_orden_cpra_set_item_pendiente
   returns void as
 $BODY$
 declare
-
    v_oci_id integer;
    v_doct_id integer;
    v_est_id integer;

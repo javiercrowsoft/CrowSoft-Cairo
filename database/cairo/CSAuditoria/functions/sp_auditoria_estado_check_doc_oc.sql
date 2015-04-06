@@ -73,13 +73,13 @@ begin
                        + coalesce(( select sum(ocdc_cantidad)
                                     from OrdenDevolucionCompra
                                     where ( oci_id_Orden = oci.oci_id and v_doct_id = 35 )
-                                      or ( oci_id_devolucion = oci.oci_id and v_doct_id = 36 ) ), 0)
+                                       or ( oci_id_devolucion = oci.oci_id and v_doct_id = 36 ) ), 0)
                        + coalesce(( select sum(ocrc_cantidad)
                                     from OrdenRemitoCompra
                                     where oci_id = oci.oci_id ), 0)
                         )
                      ) <> oci.oci_cantidadaremitir
-               and oci.oc_id = p_oc_id ) then
+                 and oci.oc_id = p_oc_id ) then
 
       v_error := 1;
       p_error_msg := p_error_msg

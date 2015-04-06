@@ -193,7 +193,7 @@ begin
 
    end loop;
 
-   perform sp_DocFacCpraRto_set_pendiente(p_fc_id);
+   perform sp_doc_fac_cpra_remito_set_pendiente(p_fc_id);
 
 /*
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -205,7 +205,7 @@ begin
 
    -- Actualizo la deuda de la factura
    --
-   perform sp_DocFacCpraSetItemPendiente(p_fc_id);
+   perform sp_doc_factura_cpra_set_item_pendiente(p_fc_id);
 
 exception
    when others then

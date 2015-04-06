@@ -132,7 +132,7 @@ begin
       for i in 1 .. array_upper(v_old_prov_ids, 1)
       loop
 
-         perform sp_proveedor_update_orden_cpra_credito(v_oldprov, v_emp_id);
+         perform sp_proveedor_update_orden_cpra_credito(v_old_prov_ids[i], v_emp_id);
 
       end loop;
 
@@ -151,7 +151,7 @@ begin
    --
    else
 
-      if v_doct_id = 36 then /*cancelacion*/
+      if v_doct_id = 36 then /* cancelacion */
          v_pendiente := -v_pendiente;
       end if;
 

@@ -154,5 +154,5 @@ end;
 $BODY$
   language plpgsql volatile
   cost 100;
-alter function sp_doc_orden_compra_set_credito(integer, integer)
+alter function sp_doc_orden_compra_set_estado(integer)
   owner to postgres;

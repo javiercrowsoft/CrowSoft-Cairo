@@ -95,7 +95,7 @@ begin
         for i in 1 .. array_upper(v_old_prov_ids, 1)
         loop
 
-          perform sp_proveedor_update_credito(v_oldprov, v_emp_id);
+          perform sp_proveedor_update_credito(v_old_prov_ids[i], v_emp_id);
 
         end loop;
 

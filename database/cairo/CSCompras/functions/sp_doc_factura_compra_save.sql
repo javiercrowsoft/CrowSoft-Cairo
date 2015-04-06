@@ -976,11 +976,11 @@ begin
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 */
 
-  perform sp_DocFacCprasetPendiente(v_fc_id);
+  perform sp_doc_factura_compra_set_pendiente(v_fc_id);
 
-  perform sp_DocFacturaComprasetCredito(v_fc_id);
+  perform sp_doc_factura_compra_set_credito(v_fc_id);
 
-  perform sp_DocFacturaComprasetEstado(v_fc_id);
+  perform sp_doc_factura_compra_set_estado(v_fc_id);
 
 /*
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
