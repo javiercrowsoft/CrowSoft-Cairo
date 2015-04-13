@@ -157,7 +157,7 @@ begin
 
    select sp_cfg_getValor('Tesoreria-General', 'Exigir Centro Costo OPG') into v_cfg_valor;
 
-   v_cfg_valor := coalesce(v_cfg_valor, 0);
+   v_cfg_valor := coalesce(v_cfg_valor, '0');
 
    if to_number(v_cfg_valor) <> 0 then
 
@@ -959,7 +959,7 @@ begin
 
    select sp_cfg_getValor('Tesoreria-General', 'OrdenPago-Grabar Asiento') into v_cfg_valor;
 
-   v_cfg_valor := coalesce(v_cfg_valor, 0);
+   v_cfg_valor := coalesce(v_cfg_valor, '0');
 
    if to_number(v_cfg_valor) <> 0 then
 
@@ -1060,7 +1060,7 @@ exception
                          sqlstate, sqlerrm;
       else
 
-         v_error_msg := sqlerrm || '. sqlstate: ' || sqlstate
+         v_error_msg := sqlerrm || '. sqlstate: ' || sqlstate;
          return query select result_error(v_error_msg);
 
       end if;

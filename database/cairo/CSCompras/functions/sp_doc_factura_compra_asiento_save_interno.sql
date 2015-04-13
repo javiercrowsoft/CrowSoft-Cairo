@@ -103,7 +103,7 @@ begin
 
    loop
       fetch c_items into v_iva,v_fci_importe,v_fci_importeorigen,v_cue_id;
-      exit when c_items%notfound;
+      exit when not found;
 
       v_asi_id := null;
 

@@ -80,8 +80,18 @@ object Register {
     case h :: t => getParameter(h) :: getParameters(t)
   }
 
+  def getValue(field: Field): Any = field match {
+    case Field(name, value, FieldType.id) => {
+      value match {
+        case 0 => Option.empty[Int]
+        case _ => value
+      }
+    }
+    case _ => field.value
+  }
+
   def getParameter(field: Field): (scala.Any, anorm.ParameterValue[_]) = {
-    (field.name, toParameterValue(field.value))
+    (field.name, toParameterValue(getValue(field)))
   }
 
   def getSqlInsert(register: Register, fieldsWithoutId: List[Field], newId: Int): SqlStatement = {

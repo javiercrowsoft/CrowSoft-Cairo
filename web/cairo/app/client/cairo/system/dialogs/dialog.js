@@ -4289,6 +4289,47 @@
           row.getCells().inspect();
         };
 
+        var putClientValuesIntoGrid = function(index, property, row, rowIndex, bAddRow, isValid) {
+          if(isValid) {
+            //
+            // put client's values into the grid
+            //
+            row.getCells().item(0).setValue(rowIndex + 1);
+            setRowValueInGrid(index, property, rowIndex, row);
+
+            if(bAddRow) {
+              var rows = property.getGrid().getRows();
+              rows.remove(rowIndex);
+              row.setIndex(rowIndex);
+              rows.addBefore(rowIndex, row);
+
+              if(row.get(Dialogs.Constants.keyRowItem) !== null) {
+                row.get(Dialogs.Constants.keyRowItem).setValue(rowIndex);
+              }
+
+              return {
+                cancel:  !property.getGridAddEnabled(),
+                isEmpty: false,
+                isValid: true
+              };
+            }
+            else {
+              return {
+                cancel:  true,
+                isEmpty: false,
+                isValid: true
+              };
+            }
+          }
+          else {
+            return {
+              cancel:  true,
+              isEmpty: false,
+              isValid: false // m_client set this row as invalid
+            };
+          }
+        };
+
         // TODO: refactor promise is returned by this function
         //
         var gridValidateRow = function(index, rowIndex, bAddRow) {
@@ -4319,46 +4360,7 @@
                     // let the client one chance to validate and modify row values
                     //
                     return m_client.validateRow(propertyKey, row, rowIndex).then(
-                      function(isValid) {
-                        if(isValid) {
-                          //
-                          // put client's values into the grid
-                          //
-                          row.getCells().item(0).setValue(rowIndex + 1);
-                          setRowValueInGrid(index, property, rowIndex, row);
-
-                          if(bAddRow) {
-                            var rows = property.getGrid().getRows();
-                            rows.remove(rowIndex, false);
-                            row.setIndex(rowIndex);
-                            rows.add(row);
-
-                            if(row.get(Dialogs.Constants.keyRowItem) !== null) {
-                              row.get(Dialogs.Constants.keyRowItem).setValue(rowIndex);
-                            }
-
-                            return {
-                              cancel:  !property.getGridAddEnabled(),
-                              isEmpty: false,
-                              isValid: true
-                            };
-                          }
-                          else {
-                            return {
-                              cancel:  true,
-                              isEmpty: false,
-                              isValid: true
-                            };
-                          }
-                        }
-                        else {
-                          return {
-                            cancel:  true,
-                            isEmpty: false,
-                            isValid: false // m_client set this row as invalid
-                          };
-                        }
-                      }
+                      call(putClientValuesIntoGrid, index, property, row, rowIndex, bAddRow)
                     );
                   }
                 }
@@ -5526,7 +5528,7 @@
           // end copy keys
           ///////////////////////////////////////////////////////////////////////
 
-          var fillRow = function(result) {
+          var fillRow = function(rowIndex, result) {
             if(!result.isEmpty) {
 
               if(haveKey) {
@@ -5624,10 +5626,10 @@
             }
 
             if(p === null) {
-              fillRow(result);
+              fillRow(rowIndex, result);
             }
             else {
-              p = p.then(fillRow);
+              p = p.then(call(fillRow, rowIndex));
             }
           }
 

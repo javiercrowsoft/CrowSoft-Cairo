@@ -145,9 +145,7 @@ begin
    v_offset_inicio_e := 11000000;
 
    -- Tengo que validar segun lo que indique la configuracion de stock
-   select sp_cfg_getValor('Stock-General',
-                        'Tipo Control Stock',
-                        0::smallint, null) into v_cfg_valor;
+   select sp_cfg_getValor('Stock-General', 'Tipo Control Stock') into v_cfg_valor;
 
    v_cfg_valor := coalesce(v_cfg_valor, '0');
 

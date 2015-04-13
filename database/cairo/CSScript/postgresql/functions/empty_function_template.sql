@@ -103,7 +103,7 @@ sp_ArbConvertId(p_prov_id,
 
 -- gives
 
-select sp_ArbConvertId(p_prov_id) into v_prov_id, v_ram_id_Proveedor;
+select * from sp_ArbConvertId(p_prov_id) into v_prov_id, v_ram_id_Proveedor;
 
 search: (sp_ArbConvertId\()([a-zA-Z0-9_]*\s*),\s*([a-zA-Z0-9_]*),\s*([a-zA-Z0-9_]*)\)
 

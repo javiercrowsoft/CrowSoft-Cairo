@@ -21,7 +21,16 @@
 
       var that = {};
 
+      that.addBefore = function(index, value, key) {
+        return add(value, key, index);
+      };
+
       that.add = function(value, key) {
+        return add(value, key);
+      };
+
+      var add = function(value, key, index) {
+
         //
         // if a key is present we need to validate it
         //
@@ -33,18 +42,61 @@
           if(self.keys[key] !== undefined) {
             throw new Error("Can't add this item. There is already an object with this key [" + key + "] in the colletion.");
           }
-          self.keys[key] = self.count;
         }
-        value = value || itemConstructor(self.count+1);
+        //
+        // update operation
+        //
+        if(index === undefined || index > self.count) {
+          index = self.count;
+        }
+        //
+        // insert operation
+        //
+        else if(index < self.count){
+
+          var count = self.count;
+          //
+          // move all elements from index one position to the right
+          // to make room for the new element
+          //
+          for(var i = count; i > index ; i -= 1) {
+            self.items[i] = self.items[i-1];
+            setIndexInItem(self.items[i], i);
+          }
+          //
+          // update keys array
+          //
+          var keys = Object.keys(self.keys);
+          for(var i = 0; i < keys.length; i += 1) {
+            if(self.keys[keys[i]] !== undefined) {
+              //
+              // update index for every key which references an element
+              // moved in this add operation
+              //
+              if(self.keys[keys[i]] >= index) {
+                self.keys[keys[i]] += 1;
+              }
+            }
+          }
+        }
+
+        //
+        // now that we have made room for the element, if a key is present we need register it
+        //
+        if(key !== undefined) {
+          self.keys[key] = index;
+        }
+
+        value = value || itemConstructor(index+1);
         if(key !== undefined && value.setKeyCol !== undefined) {
           value.setKeyCol(key);
         }
-        self.items[self.count] = value;
-        setIndexInItem(value, self.count);
+        self.items[index] = value;
+        setIndexInItem(value, index);
         self.count += 1;
 
         if(parentCollection !== undefined) {
-          parentCollection.add(value);
+          parentCollection.add(value, key, index);
         }
 
         return value;

@@ -1299,7 +1299,7 @@ object FacturaCompra {
   private def save(user: CompanyUser, facturaCompra: FacturaCompra): FacturaCompra = {
     def getFields = {
       List(
-        Field(C.FC_ID, facturaCompra.id, FieldType.id),
+        Field(C.FC_ID, facturaCompra.id, FieldType.number),
         Field(GC.DOC_ID, facturaCompra.ids.docId, FieldType.id),
         Field(C.FC_NRODOC, facturaCompra.ids.nroDoc, FieldType.text),
         Field(C.FC_NUMERO, facturaCompra.ids.numero, FieldType.number),
@@ -1349,7 +1349,7 @@ object FacturaCompra {
     def getItemFields(item: FacturaCompraItem, fcTMPId: Int) = {
       List(
         Field(C.FC_TMP_ID, fcTMPId, FieldType.id),
-        Field(C.FCI_ID, item.id, FieldType.id),
+        Field(C.FCI_ID, item.id, FieldType.number),
         Field(C.FCI_DESCRIP, item.base.descrip, FieldType.text),
         Field(C.FCI_DESCUENTO, item.base.descuento, FieldType.text),
         Field(GC.PR_ID, item.base.prId, FieldType.id),
@@ -1381,7 +1381,7 @@ object FacturaCompra {
     def getOtroFields(item: FacturaCompraOtro, fcTMPId: Int) = {
       List(
         Field(C.FC_TMP_ID, fcTMPId, FieldType.id),
-        Field(C.FCOT_ID, item.id, FieldType.id),
+        Field(C.FCOT_ID, item.id, FieldType.number),
         Field(GC.CUE_ID, item.cueId, FieldType.id),
         Field(C.FCOT_DEBE, item.debe, FieldType.currency),
         Field(C.FCOT_HABER, item.haber, FieldType.currency),
@@ -1395,7 +1395,7 @@ object FacturaCompra {
     def getLegajoFields(item: FacturaCompraLegajo, fcTMPId: Int) = {
       List(
         Field(C.FC_TMP_ID, fcTMPId, FieldType.id),
-        Field(C.FCLGJ_ID, item.id, FieldType.id),
+        Field(C.FCLGJ_ID, item.id, FieldType.number),
         Field(GC.LGJ_ID, item.lgjId, FieldType.id),
         Field(GC.LGJ_CODE, item.lgjCode, FieldType.text),
         Field(C.FCLGJ_IMPORTE, item.importe, FieldType.currency),
@@ -1408,7 +1408,7 @@ object FacturaCompra {
     def getPercepcionFields(item: FacturaCompraPercepcion, fcTMPId: Int) = {
       List(
         Field(C.FC_TMP_ID, fcTMPId, FieldType.id),
-        Field(C.FCPERC_ID, item.id, FieldType.id),
+        Field(C.FCPERC_ID, item.id, FieldType.number),
         Field(GC.PERC_ID, item.percId, FieldType.id),
         Field(C.FCPERC_BASE, item.base, FieldType.currency),
         Field(C.FCPERC_PORCENTAJE, item.porcentaje, FieldType.currency),

@@ -134,7 +134,7 @@ begin
    --
    select sp_cfg_getValor('Stock-General', 'Tipo Control Stock') into v_cfg_valor;
 
-   v_cfg_valor := coalesce(v_cfg_valor, 0);
+   v_cfg_valor := coalesce(v_cfg_valor, '0');
 
    if to_number(v_cfg_valor) = 2 /* csENoControlaStock */ then
 
@@ -206,7 +206,7 @@ begin
             loop
 
                fetch c_productos into v_pr_nombrecompra,v_deposito,v_cantidad,v_prns_codigo,v_stl_codigo;
-               exit when c_productos%notfound;
+               exit when not found;
 
                if v_prns_codigo is null then
                   v_prns_codigo := '';
@@ -320,7 +320,7 @@ begin
                loop
 
                   fetch c_productos into v_pr_nombrecompra,v_deposito,v_cantidad,v_prns_codigo,v_stl_codigo;
-                  exit when c_productos%notfound;
+                  exit when not found;
 
                   if v_prns_codigo is null then
                      v_prns_codigo := '';

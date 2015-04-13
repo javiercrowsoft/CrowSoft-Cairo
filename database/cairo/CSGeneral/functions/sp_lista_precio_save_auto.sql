@@ -91,9 +91,9 @@ begin
             open c_items for
                select fvi.pr_id,
                       fvi.fvi_precio,
-                      fvi.fv_cotizacion,
-                      fvi.mon_id,
-                      fvi.fv_fecha
+                      fv.fv_cotizacion,
+                      fv.mon_id,
+                      fv.fv_fecha
                from FacturaVentaItem fvi
                join FacturaVenta fv
                  on fvi.fv_id = fv.fv_id
@@ -112,9 +112,9 @@ begin
             open c_items for
                select fci.pr_id,
                       fci.fci_precio,
-                      fci.fc_cotizacion,
-                      fci.mon_id,
-                      fci.fc_fecha
+                      fc.fc_cotizacion,
+                      fc.mon_id,
+                      fc.fc_fecha
                from FacturaCompraItem fci
                join FacturaCompra fc
                  on fci.fc_id = fc.fc_id
@@ -133,9 +133,9 @@ begin
             open c_items for
                select rvi.pr_id,
                       rvi.rvi_precio,
-                      rvi.rv_cotizacion,
+                      rv.rv_cotizacion,
                       doc.mon_id,
-                      rvi.rv_fecha
+                      rv.rv_fecha
                from RemitoVentaItem rvi
                join RemitoVenta rv
                  on rvi.rv_id = rv.rv_id
@@ -156,9 +156,9 @@ begin
             open c_items for
                select rci.pr_id,
                       rci.rci_precio,
-                      rci.rc_cotizacion,
+                      rc.rc_cotizacion,
                       doc.mon_id,
-                      rci.rc_fecha
+                      rc.rc_fecha
                from RemitoCompraItem rci
                join RemitoCompra rc
                  on rci.rc_id = rc.rc_id
@@ -181,9 +181,9 @@ begin
             open c_items for
                select fvi2.pr_id,
                       fvi2.fvi_precio,
-                      fvi2.fv_cotizacion,
-                      fvi2.mon_id,
-                      fvi2.fv_fecha
+                      fv.fv_cotizacion,
+                      fv.mon_id,
+                      fv.fv_fecha
                from FacturaVentaItem fvi2
                join FacturaVenta fv
                  on fvi2.fv_id = fv.fv_id
@@ -267,9 +267,9 @@ begin
             open c_items for
                select rci2.pr_id,
                       rci2.rci_precio,
-                      rci2.rc_cotizacion,
+                      rc.rc_cotizacion,
                       doc.mon_id,
-                      rci2.rc_fecha
+                      rc.rc_fecha
                from RemitoCompraItem rci2
                join RemitoCompra rc
                  on rci2.rc_id = rc.rc_id
@@ -297,7 +297,7 @@ begin
       loop
 
          fetch c_listas into v_lp_id;
-         exit when c_listas%notfound;
+         exit when not found;
 
          select mon_id
            into v_mon_id_lista
@@ -307,7 +307,7 @@ begin
          loop
 
             fetch c_items into v_pr_id,v_precio,v_cotiz,v_mon_id_precio,v_doc_fecha;
-            exit when c_items%notfound;
+            exit when not found;
 
             -- calculo el precio segun su moneda y cotizacion
             --

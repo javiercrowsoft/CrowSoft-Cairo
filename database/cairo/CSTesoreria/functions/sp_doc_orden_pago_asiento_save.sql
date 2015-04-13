@@ -131,7 +131,7 @@ begin
 
    select sp_cfg_getValor('Tesoreria-General', 'Asiento Agrupado') into v_cfg_valor;
 
-   v_cfg_valor := coalesce(v_cfg_valor, 0);
+   v_cfg_valor := coalesce(v_cfg_valor, '0');
    v_agrupar_asiento := to_number(v_cfg_valor);
 
    SET TRANSACTION READ WRITE;
@@ -467,7 +467,7 @@ begin
    loop
 
       fetch c_items into v_opgi_importe,v_opgi_importeorigen,v_cue_id,v_ccos_id,v_cheq_id,v_asi_descrip;
-      exit when c_items%notfound;
+      exit when not found;
 
       select mon_id
         into v_mon_id
@@ -518,7 +518,7 @@ begin
    loop
 
       fetch c_items into v_opgi_importe,v_opgi_importeorigen,v_cue_id,v_ccos_id;
-      exit when c_items%notfound;
+      exit when not found;
 
       select mon_id
         into v_mon_id

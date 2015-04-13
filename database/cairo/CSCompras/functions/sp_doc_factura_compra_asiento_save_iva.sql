@@ -146,7 +146,7 @@ begin
    loop
 
       fetch c_item into v_iva,v_fci_importe,v_fci_importeorigen,v_cue_id;
-      exit when c_item%notfound;
+      exit when not found;
 
       v_asi_id := null;
 
@@ -211,7 +211,7 @@ begin
 
       if v_asi_id = 0 then
 
-         perform sp_dbGetNewId('AsientoItem', 'asi_id') into v_asi_id;
+         select sp_dbGetNewId('AsientoItem', 'asi_id') into v_asi_id;
 
          v_asi_orden := v_asi_orden + 1;
 

@@ -38,7 +38,7 @@ function sp_doc_asiento_save_item
   in p_is_new integer,
   in p_asi_id integer,
   in p_as_id integer,
-  in p_as_orden integer,
+  in p_asi_orden integer,
   in p_asi_debe decimal(18,6),
   in p_asi_haber decimal(18,6),
   in p_asi_origen decimal(18,6),
@@ -60,7 +60,7 @@ begin
    v_asi_debe := p_asi_debe;
    v_asi_haber := p_asi_haber;
 
-   perform sp_dbGetNewId('AsientoItem', 'asi_id') into v_asi_id;
+   select sp_dbGetNewId('AsientoItem', 'asi_id') into v_asi_id;
 
    if p_asi_haber < 0 then
 

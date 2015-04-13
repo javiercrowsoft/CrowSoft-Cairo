@@ -56,7 +56,7 @@ declare
 
    v_p_fc_fechaVto date;
 
-   v_pago_item refcursor;
+   c_pago_item refcursor;
    v_cpgi_dias smallint;
    v_cpgi_porcentaje decimal(18,6);
    v_fcd_id integer;
@@ -97,15 +97,15 @@ begin
    if p_fc_total <> 0 and p_est_id <> 7 then
 
       if v_cpg_escontado <> 0 then
-         open v_pago_item for select 0 cpgi_dias, 100 cpgi_porcentaje;
+         open c_pago_item for select 0 cpgi_dias, 100 cpgi_porcentaje;
       else
          if v_cpg_eslibre <> 0 then
             if v_p_fc_fechaVto < p_fc_fecha then
                v_p_fc_fechaVto := dateadd('D', 1, p_fc_fecha);
             end if;
-            open v_pago_item for select datediff('D', p_fc_fecha, v_p_fc_fechaVto) cpgi_dias, 100 cpgi_porcentaje;
+            open c_pago_item for select datediff('D', p_fc_fecha, v_p_fc_fechaVto) cpgi_dias, 100 cpgi_porcentaje;
          else
-            open v_pago_item for select cpgi_dias, cpgi_porcentaje from CondicionPagoItem where cpg_id = v_cpg_id;
+            open c_pago_item for select cpgi_dias, cpgi_porcentaje from CondicionPagoItem where cpg_id = v_cpg_id;
          end if;
       end if;
 
@@ -119,8 +119,8 @@ begin
 
       loop
 
-         fetch v_pago_item into v_cpgi_dias,v_cpgi_porcentaje;
-         exit when v_pago_item%notfound;
+         fetch c_pago_item into v_cpgi_dias,v_cpgi_porcentaje;
+         exit when not found;
                   
          v_fcd_fecha := dateadd('D', v_cpgi_dias, v_fc_fecha);
          v_n := v_n + 1;
@@ -140,14 +140,14 @@ begin
 
          select sp_dbGetNewId('FacturaCompraDeuda', 'fcd_id') into v_fcd_id;
 
-         select sp_DocGetFecha2(v_fcd_fecha,0,null) into v_fcd_fecha2;
+         select sp_doc_get_fecha2(v_fcd_fecha, 0, null) into v_fcd_fecha2;
 
          insert into FacturaCompraDeuda( fcd_id, fcd_fecha, fcd_fecha2, fcd_importe, fcd_pendiente, fc_id )
          values ( v_fcd_id, v_fcd_fecha, v_fcd_fecha2, v_fcd_pendiente, v_fcd_pendiente, v_fc_id );
 
       end loop;
 
-      close v_pago_item;
+      close c_pago_item;
 
       select sum(fcd_pendiente)
         into v_fc_pendiente

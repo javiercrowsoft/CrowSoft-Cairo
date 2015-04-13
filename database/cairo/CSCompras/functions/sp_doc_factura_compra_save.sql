@@ -177,7 +177,7 @@ begin
 
    select sp_cfg_getValor('Compras-General', 'Exigir Centro Costo') into v_cfg_valor;
 
-   v_cfg_valor := coalesce(v_cfg_valor, 0);
+   v_cfg_valor := coalesce(v_cfg_valor, '0');
 
    if to_number(v_cfg_valor) <> 0 then
 
@@ -223,7 +223,7 @@ begin
 
    v_error_msg := '';
 
-   select sp_doc_fac_cpra_validate_deposito(p_fcTMP_id) into v_success, v_error_msg;
+   select * from sp_doc_fac_cpra_validate_deposito(p_fcTMP_id) into v_success, v_error_msg;
    if coalesce(v_success, 0) = 0 then
       raise exception '%', v_error_msg;
    end if;
@@ -312,7 +312,7 @@ begin
 
       select sp_dbGetNewId('FacturaCompra', 'fc_id') into v_fc_id;
       select sp_dbGetNewId('FacturaCompra', 'fc_numero') into v_fc_numero;
-      select sp_talonario_get_propuesto(v_doc_id, 0, v_prov_id) into dummyChar, v_ta_propuesto, v_ta_id, v_ta_tipo;
+      select * from sp_talonario_get_propuesto(v_doc_id, 0, v_prov_id) into dummyChar, v_ta_propuesto, v_ta_id, v_ta_tipo;
 
       if v_ta_propuesto = 0 then
          if v_ta_tipo = 3 then /*Auto Impresor*/
@@ -989,7 +989,7 @@ begin
    v_cfg_valor := null;
    select sp_cfg_getValor('Compras-General', 'Grabar Asiento') into v_cfg_valor;
 
-   v_cfg_valor := coalesce(v_cfg_valor, 0);
+   v_cfg_valor := coalesce(v_cfg_valor, '0');
 
    if to_number(v_cfg_valor) <> 0 then
 
@@ -1073,7 +1073,7 @@ begin
 
    -- stock
    --
-   select * from sp_auditoria_stock_check_doc_fc(v_fc_id) v_success, v_error_msg;
+   select * from sp_auditoria_stock_check_doc_fc(v_fc_id) into v_success, v_error_msg;
    if coalesce(v_success, 0) = 0 then
       raise exception '%', v_error_msg;
    end if;
@@ -1137,9 +1137,9 @@ begin
    select modifico into v_modifico from FacturaCompra where fc_id = v_fc_id;
 
    if v_is_new <> 0 then
-      perform sp_HistoriaUpdate(17001, v_fc_id, v_modifico, 1);
+      perform sp_historia_update(17001, v_fc_id, v_modifico, 1);
    else
-      perform sp_HistoriaUpdate(17001, v_fc_id, v_modifico, 3);
+      perform sp_historia_update(17001, v_fc_id, v_modifico, 3);
    end if;
 
 /*
@@ -1155,7 +1155,7 @@ begin
 
    return next rtn;
 
-   perform sp_ListaPrecioSaveAuto(v_fc_id, v_doct_id, v_is_new, v_fc_fecha);
+   perform sp_lista_precio_save_auto(v_fc_id, v_doct_id, v_is_new, v_fc_fecha);
 
 exception
    when others then

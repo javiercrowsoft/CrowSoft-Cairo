@@ -54,7 +54,7 @@ begin
 
   if p_no_check_access = 0 then
 
-     select sp_doc_asiento_editable_get(p_emp_id, p_as_id, p_us_id, 0, 1) into v_editable, v_edit_msg;
+     select * from sp_doc_asiento_editable_get(p_emp_id, p_as_id, p_us_id, 0, 1) into v_editable, v_edit_msg;
 
      if v_editable = 0 then
 

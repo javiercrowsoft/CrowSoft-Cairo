@@ -346,7 +346,7 @@ begin
    loop
 
       fetch c_items into v_fci_neto,v_fci_importe,v_fci_importeorigen,v_cue_id,v_ccos_id;
-      exit when c_items%notfound;
+      exit when not found;
 
       if v_doct_id_factura = 2 /* Factura */ or v_doct_id_factura = 10 /* Nota de Debito */ then
 
@@ -421,7 +421,7 @@ begin
    loop
 
       fetch c_items into v_asi_debe,v_asi_haber,v_asi_origen,v_cue_id,v_ccos_id;
-      exit when c_items%notfound;
+      exit when not found;
 
       if v_doct_id_factura = 8 /* Nota de Credito */ then
 
@@ -498,7 +498,7 @@ begin
    loop
 
       fetch c_items into v_asi_debe,v_asi_origen,v_cue_id,v_ccos_id;
-      exit when c_items%notfound;
+      exit when not found;
 
       if v_doct_id_factura = 8 /* Nota de Credito */ then
 
@@ -596,15 +596,17 @@ begin
    loop
 
       fetch c_items into v_fci_neto,v_fci_importe,v_fci_importeorigen,v_to_id;
-      exit when c_items%notfound;
+      exit when not found;
 
-      perform sp_doc_get_cue_id(
+      select * from sp_doc_get_cue_id
+                    (
                      v_prov_id,
                      v_doc_id_factura,
-                     0,
+                     v_to_id
+                    )
+               into
                      v_cue_id,
-                     v_mon_id,
-                     v_to_id);
+                     v_mon_id;
 
       if v_doct_id_factura = 8 /* Nota de Credito */ then
 

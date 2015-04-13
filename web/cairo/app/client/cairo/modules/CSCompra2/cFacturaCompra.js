@@ -3453,10 +3453,11 @@
 
         transaction.setTable(CC.FACTURA_COMPRA_ITEM_TMP);
 
-        var _count = getGrid(m_items, C_ITEMS).getRows().size();
+        var rows = getGrid(m_items, C_ITEMS).getRows();
+        var _count = rows.size();
         for(var _i = 0; _i < _count; _i++) {
 
-          var row = getGrid(m_items, C_ITEMS).getRows().item(_i);
+          var row = rows.item(_i);
 
           var register = new DB.Register();
           register.setFieldId(CC.FCI_TMP_ID);

@@ -282,7 +282,7 @@ begin
 
       -- quito de stockcache lo que se movio con los items de este movimiento
       --
-      select sp_doc_stock_cache_update(v_st_id, 1 /* restar */, 1 /* no update prns */) into v_message, v_success;
+      select * from sp_doc_stock_cache_update(v_st_id, 1 /* restar */, 1 /* no update prns */) into v_message, v_success;
 
       if coalesce(v_success, 0) = 0 then
          raise exception '%', v_message;
@@ -463,7 +463,7 @@ begin
 
    -- agrego a stockcache lo que se movio con los items de este movimiento
    --
-   select sp_doc_stock_cache_update(v_st_id, 0 /* sumar */) into v_message, v_success;
+   select * from sp_doc_stock_cache_update(v_st_id, 0 /* sumar */) into v_message, v_success;
 
    if coalesce(v_success, 0) = 0 then
       raise exception '%', v_message;
