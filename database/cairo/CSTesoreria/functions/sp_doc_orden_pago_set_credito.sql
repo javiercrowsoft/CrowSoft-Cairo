@@ -163,7 +163,7 @@ begin
 exception
     when others then
         raise exception 'Ha ocurrido un error al actualizar el estado de la orden de pago. sp_doc_orden_pago_set_credito. %. %.',
-                            sqlstate, sqlerrm;
+                         sqlstate, sqlerrm;
 
 end;
 $BODY$

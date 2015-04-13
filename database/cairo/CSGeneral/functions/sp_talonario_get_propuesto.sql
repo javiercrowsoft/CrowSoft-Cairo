@@ -37,10 +37,10 @@ create or replace function sp_talonario_get_propuesto
 */
 (
   in p_doc_id integer,
-  out p_ta_Mascara varchar,
-  out p_ta_Propuesto smallint,
   in p_cli_id integer default 0,
   in p_prov_id integer default 0,
+  out p_ta_Mascara varchar,
+  out p_ta_Propuesto smallint,
   out p_ta_id int,
   out p_ta_tipo smallint
 )
