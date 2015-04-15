@@ -26,7 +26,7 @@
       <file leaf-file-name="sp_doc_factura_compra_save.sql" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/cairo/CSCompras/functions/sp_doc_factura_compra_save.sql">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="21432" max-vertical-offset="22344">
+            <state vertical-scroll-proportion="-13.103448" vertical-offset="21432" max-vertical-offset="22344">
               <caret line="1148" column="12" selection-start-line="1148" selection-start-column="12" selection-end-line="1148" selection-end-column="12" />
               <folding />
             </state>
@@ -38,16 +38,6 @@
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="114">
               <caret line="0" column="28" selection-start-line="0" selection-start-column="16" selection-end-line="0" selection-end-column="28" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="t_rama_new_seq.sql" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/cairo/CSScript/postgresql/sequence/t_rama_new_seq.sql">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="114">
-              <caret line="0" column="30" selection-start-line="0" selection-start-column="16" selection-end-line="0" selection-end-column="30" />
               <folding />
             </state>
           </provider>
@@ -83,11 +73,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="sp_lista_precio_save_auto.sql" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="sp_lista_precio_save_auto.sql" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/cairo/CSGeneral/functions/sp_lista_precio_save_auto.sql">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-10.275862" vertical-offset="443" max-vertical-offset="8075">
-              <caret line="39" column="31" selection-start-line="39" selection-start-column="17" selection-end-line="39" selection-end-column="17" />
+            <state vertical-scroll-proportion="0.33236995" vertical-offset="4141" max-vertical-offset="8075">
+              <caret line="224" column="51" selection-start-line="224" selection-start-column="42" selection-end-line="224" selection-end-column="51" />
               <folding />
             </state>
           </provider>
@@ -103,11 +93,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="sp_doc_factura_compra_get_items.sql" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="sp_doc_factura_compra_get_items.sql" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/cairo/CSCompras/functions/sp_doc_factura_compra_get_items.sql">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.28756756" vertical-offset="779" max-vertical-offset="2261">
-              <caret line="55" column="28" selection-start-line="55" selection-start-column="13" selection-end-line="55" selection-end-column="28" />
+            <state vertical-scroll-proportion="-20.965517" vertical-offset="779" max-vertical-offset="2261">
+              <caret line="73" column="61" selection-start-line="73" selection-start-column="51" selection-end-line="73" selection-end-column="51" />
               <folding />
             </state>
           </provider>
@@ -182,8 +172,8 @@
         <option value="$PROJECT_DIR$/cairo/CSScript/postgresql/functions/sp_historia_update.sql" />
         <option value="$PROJECT_DIR$/cairo/CSScript/postgresql/sequence/t_historia_seq.sql" />
         <option value="$PROJECT_DIR$/cairo/CSCompras/functions/sp_doc_factura_compra_save.sql" />
-        <option value="$PROJECT_DIR$/cairo/CSGeneral/functions/sp_lista_precio_save_auto.sql" />
         <option value="$PROJECT_DIR$/migration_from_sqlserver/menu-cairo.sql" />
+        <option value="$PROJECT_DIR$/cairo/CSGeneral/functions/sp_lista_precio_save_auto.sql" />
       </list>
     </option>
   </component>
@@ -831,7 +821,7 @@
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.5866261" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.5866261" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32928064" sideWeight="0.5" order="0" side_tool="true" content_ui="tabs" />
@@ -868,13 +858,6 @@
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/cairo/CSTesoreria/functions/sp_doc_orden_pago_cheque_set_credito.sql">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-18.48276" vertical-offset="2447" max-vertical-offset="3401">
-          <caret line="157" column="10" selection-start-line="157" selection-start-column="0" selection-end-line="157" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/cairo/CSTesoreria/functions/sp_doc_orden_pago_editable_get.sql">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.875" vertical-offset="4560" max-vertical-offset="5472">
@@ -928,6 +911,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-21.62069" vertical-offset="0" max-vertical-offset="2280">
           <caret line="33" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="33" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -963,6 +947,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.7531144" vertical-offset="0" max-vertical-offset="5225">
           <caret line="35" column="40" selection-start-line="35" selection-start-column="9" selection-end-line="35" selection-end-column="40" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -984,6 +969,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-22.275862" vertical-offset="0" max-vertical-offset="4484">
           <caret line="34" column="56" selection-start-line="34" selection-start-column="27" selection-end-line="34" selection-end-column="56" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1026,6 +1012,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-3.8275862" vertical-offset="8724" max-vertical-offset="10032">
           <caret line="465" column="17" selection-start-line="465" selection-start-column="17" selection-end-line="465" selection-end-column="17" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1089,6 +1076,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-8.5172415" vertical-offset="3819" max-vertical-offset="4731">
           <caret line="214" column="10" selection-start-line="214" selection-start-column="0" selection-end-line="214" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1110,6 +1098,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.2883772" vertical-offset="11289" max-vertical-offset="18145">
           <caret line="608" column="29" selection-start-line="608" selection-start-column="29" selection-end-line="608" selection-end-column="29" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1117,6 +1106,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.13157895" vertical-offset="1875" max-vertical-offset="3819">
           <caret line="105" column="25" selection-start-line="105" selection-start-column="25" selection-end-line="105" selection-end-column="25" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1200,16 +1190,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/cairo/CSCompras/functions/sp_doc_factura_compra_save.sql">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="21432" max-vertical-offset="22344">
+        <state vertical-scroll-proportion="-13.103448" vertical-offset="21432" max-vertical-offset="22344">
           <caret line="1148" column="12" selection-start-line="1148" selection-start-column="12" selection-end-line="1148" selection-end-column="12" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/cairo/CSGeneral/functions/sp_lista_precio_save_auto.sql">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-10.275862" vertical-offset="443" max-vertical-offset="8075">
-          <caret line="39" column="31" selection-start-line="39" selection-start-column="17" selection-end-line="39" selection-end-column="17" />
           <folding />
         </state>
       </provider>
@@ -1232,8 +1214,24 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/cairo/CSCompras/functions/sp_doc_factura_compra_get_items.sql">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.28756756" vertical-offset="779" max-vertical-offset="2261">
-          <caret line="55" column="28" selection-start-line="55" selection-start-column="13" selection-end-line="55" selection-end-column="28" />
+        <state vertical-scroll-proportion="-20.965517" vertical-offset="779" max-vertical-offset="2261">
+          <caret line="73" column="61" selection-start-line="73" selection-start-column="51" selection-end-line="73" selection-end-column="51" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cairo/CSCompras/functions/sp_doc_factura_compra_editable_get.sql">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.24624625" vertical-offset="1362" max-vertical-offset="5909">
+          <caret line="76" column="14" selection-start-line="76" selection-start-column="14" selection-end-line="76" selection-end-column="14" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cairo/CSGeneral/functions/sp_lista_precio_save_auto.sql">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.33236995" vertical-offset="4141" max-vertical-offset="8075">
+          <caret line="224" column="51" selection-start-line="224" selection-start-column="42" selection-end-line="224" selection-end-column="51" />
           <folding />
         </state>
       </provider>

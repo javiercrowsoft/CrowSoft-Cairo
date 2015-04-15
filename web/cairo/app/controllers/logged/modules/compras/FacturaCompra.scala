@@ -880,7 +880,7 @@ object FacturaCompras extends Controller with ProvidesUser {
           Ok(
             Json.toJson(
               FacturaCompra.update(user,
-                getFacturaCompra(facturaCompra)
+                getFacturaCompra(facturaCompra, id)
               )
             )
           )
@@ -902,7 +902,8 @@ object FacturaCompras extends Controller with ProvidesUser {
           Ok(
             Json.toJson(
               FacturaCompra.create(user,
-                FacturaCompra(
+                getFacturaCompra(facturaCompra, DBHelper.NoId)
+                /*FacturaCompra(
                   FacturaCompraId(
                     facturaCompra.ids.docId,
                     facturaCompra.ids.numero,
@@ -949,7 +950,7 @@ object FacturaCompras extends Controller with ProvidesUser {
                     facturaCompra.totals.total,
                     facturaCompra.totals.totalOrigen),
                   getFacturaCompraItems(facturaCompra)
-                )
+                )*/
               )
             )
           )

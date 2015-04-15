@@ -222,7 +222,7 @@ begin
                                   join FacturaCompra fc
                                     on fci.fc_id = fc.fc_id
                                   where fc.fc_id <> p_doc_id
-                                    and fci.fc_fecha > p_fecha
+                                    and fc.fc_fecha > p_fecha
                                     and fci.pr_id = fci2.pr_id );
 
          end if;
