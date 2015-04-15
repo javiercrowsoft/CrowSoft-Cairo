@@ -6,6 +6,7 @@ import anorm._
 import services.DateUtil
 import services.db.DB
 import models.cairo.system.database.{DBHelper, Register, Field, FieldType, SaveResult, Recordset}
+import models.cairo.system.database.DBHelper.rowToFloat
 import java.math.BigDecimal
 import play.api.Play.current
 import models.domain.CompanyUser
@@ -337,7 +338,8 @@ case class FacturaCompraItemBase(
                                    stlCode: String,
                                    orden: Int,
                                    llevaNroSerie: Boolean,
-                                   llevaNroLote: Boolean
+                                   llevaNroLote: Boolean,
+                                   unName: String
                                    )
 
 object FacturaCompraItemBase {
@@ -370,7 +372,8 @@ object FacturaCompraItemBase {
       stlCode,
       orden,
       false,
-      false
+      false,
+      ""
     )
   }
 }
@@ -387,9 +390,45 @@ case class FacturaCompraItemTotals(
                                     ivaRiPorc: Double,
                                     ivaRniPorc: Double,
                                     internosPorc: Double,
+                                    prInternosPorc: Double,
                                     importe: Double,
                                     importeOrigen: Double
                                     )
+
+object FacturaCompraItemTotals {
+
+  def apply(cantidad: Double,
+            precio: Double,
+            precioLista: Double,
+            precioUser: Double,
+            neto: Double,
+            ivaRi: Double,
+            ivaRni: Double,
+            internos: Double,
+            ivaRiPorc: Double,
+            ivaRniPorc: Double,
+            internosPorc: Double,
+            importe: Double,
+            importeOrigen: Double) = {
+
+    new FacturaCompraItemTotals(
+      cantidad,
+      precio,
+      precioLista,
+      precioUser,
+      neto,
+      ivaRi,
+      ivaRni,
+      internos,
+      ivaRiPorc,
+      ivaRniPorc,
+      internosPorc,
+      0,
+      importe,
+      importeOrigen
+    )
+  }
+}
 
 case class FacturaCompraItemSerie(
                                    id: Int,
@@ -716,7 +755,7 @@ object FacturaCompra {
   )
 
   lazy val emptyFacturaCompraParams = FacturaCompraParams(
-    DateUtil.getDate(2000, 1, 1), DateUtil.currentTime, "0", "", "0", "", "0", "", "0", "", "0", "", "0", "", "0", "")
+    DateUtil.plusDays(DateUtil.currentTime, -60), DateUtil.currentTime, "0", "", "0", "", "0", "", "0", "", "0", "", "0", "", "0", "")
 
   def apply(
              id: Int,
@@ -846,6 +885,7 @@ object FacturaCompra {
     SqlParser.get[BigDecimal](C.FCI_IVA_RIPORC) ~
     SqlParser.get[BigDecimal](C.FCI_IVA_RNIPORC) ~
     SqlParser.get[BigDecimal](C.FCI_INTERNOS_PORC) ~
+    SqlParser.get[Float](GC.PR_PORC_INTERNO_C) ~
     SqlParser.get[Int](GC.PR_ID) ~
     SqlParser.get[String](GC.PR_NAME_COMPRA) ~
     SqlParser.get[Option[Int]](GC.CCOS_ID) ~
@@ -861,7 +901,8 @@ object FacturaCompra {
     SqlParser.get[BigDecimal](C.FCI_IMPORTE_ORIGEN) ~
     SqlParser.get[Int](C.FCI_ORDEN) ~
     SqlParser.get[Int](GC.PR_LLEVA_NRO_SERIE) ~
-    SqlParser.get[Int](GC.PR_LLEVA_NRO_LOTE) map {
+    SqlParser.get[Int](GC.PR_LLEVA_NRO_LOTE) ~
+    SqlParser.get[String](GC.UN_NAME)  map {
     case
         id ~
         cantidad ~
@@ -877,6 +918,7 @@ object FacturaCompra {
         ivaRiPorc ~
         ivaRniPorc ~
         internosPorc ~
+        prInternosPorc ~
         prId ~
         prName ~
         ccosId ~
@@ -892,7 +934,8 @@ object FacturaCompra {
         importeOrigen ~
         orden ~
         llevaNroSerie ~
-        llevaNroLote =>
+        llevaNroLote ~
+        unName =>
       FacturaCompraItem(
         id,
         FacturaCompraItemBase(
@@ -911,7 +954,8 @@ object FacturaCompra {
           stlCode.getOrElse(""),
           orden,
           (llevaNroSerie != 0),
-          (llevaNroLote != 0)
+          (llevaNroLote != 0),
+          unName
         ),
         FacturaCompraItemTotals(
           cantidad.doubleValue(),
@@ -925,6 +969,7 @@ object FacturaCompra {
           ivaRiPorc.doubleValue(),
           ivaRniPorc.doubleValue(),
           internosPorc.doubleValue(),
+          prInternosPorc,
           importe.doubleValue(),
           importeOrigen.doubleValue()
         ),

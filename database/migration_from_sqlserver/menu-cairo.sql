@@ -858,3 +858,10 @@ update sysmenu set me_id_father = 928 where me_id = 482;
 update sysmenu set me_id_father = 928 where me_id = 619;
 update sysmenu set me_id_father = 928 where me_id = 592;
 update sysmenu set me_id_father = 619 where me_id = 693;
+
+/*
+   TODO: this class has to be translated using cProductoCVXI but in VB6 it is cProducto and it is in the CVXI folder
+*/
+update sysmenu set me_file_path = E'C:\\proyectos\\CSCVXI\\Codigo\\cairo\\cProductoCVXI.cls' where me_id = 555;
+update sysmenu set me_object_handler = 'cProductoCVXI', me_action = 'edit', me_path = 'cvxi/productocvxi', me_file_path = E'C:\\proyectos\\CSCVXI\\Codigo\\cairo\\cProductoCVXI.cls' where me_id = 556;
+update sysmodulo set sysm_objetoedicion = 'CSCVXI.cProductoCVXI' where sysm_id = 39015;

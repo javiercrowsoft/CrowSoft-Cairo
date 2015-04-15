@@ -249,7 +249,7 @@
 
       var self = {
         key: 0,
-        value: 0,
+        value: "",
         id: 0,
         format: null, /* is a Grids.CellFormat object */
         selectIntValue: '',
@@ -278,6 +278,9 @@
         return self.value;
       };
       that.setValue = function(value) {
+        if(value === undefined) {
+          Cairo.raiseError("setValue", "undefined can not be used when calling setValue");
+        }
         self.value = value;
         return that;
       };

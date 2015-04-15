@@ -768,7 +768,9 @@ object Productos extends Controller with ProvidesUser {
       C.CUE_ID_COMPRA -> Json.toJson(info.cueIdCompra),
       C.CUE_ID_VENTA -> Json.toJson(info.cueIdVenta),
       C.CCOS_ID_COMPRA -> Json.toJson(info.ccosIdCompra),
-      C.CCOS_ID_VENTA -> Json.toJson(info.ccosIdVenta)
+      C.CCOS_NAME_COMPRA -> Json.toJson(info.ccosNameCompra),
+      C.CCOS_ID_VENTA -> Json.toJson(info.ccosIdVenta),
+      C.CCOS_NAME_VENTA -> Json.toJson(info.ccosNameVenta)
     )
   }
 

@@ -555,8 +555,8 @@
           rni_cue_id_compra: valField(response.data, 'cue_id_rni_compra'),
 
           ti_internos_compra: valField(response.data, 'ti_id_internosc'),
-          porc_internos_compra: valField(response.data, 'ti_int_porc_compra'),
-          int_percent_compra: valField(response.data, 'pr_porcinternoc'),
+          int_percent_compra: valField(response.data, 'ti_int_porc_compra'),
+          porc_internos_compra: valField(response.data, 'pr_porcinternoc'),
 
           ti_ri_venta: valField(response.data, 'ti_id_ivariventa'),
           ri_percent_venta: valField(response.data, 'ti_ri_porc_venta'),
@@ -567,9 +567,9 @@
           rni_cue_id_venta: valField(response.data, 'cue_id_rni_venta'),
 
           ti_internos_venta: valField(response.data, 'ti_id_internosc'),
-          porc_internos_venta: valField(response.data, 'ti_int_porc_venta'),
-          int_percent_venta: valField(response.data, 'pr_porcinternov'),
-          
+          int_percent_venta: valField(response.data, 'ti_int_porc_venta'),
+          porc_internos_venta: valField(response.data, 'pr_porcinternov'),
+
           success: true
         };
       }
@@ -1467,14 +1467,32 @@
 
     self.getDateByName = function(dateName,  iniDate) {
       var date;
+      var offset = 0;
 
       dateName = dateName.toLowerCase();
+      var t = dateName.indexOf("-");
+      if(t === -1) {
+        t = dateName.indexOf("+");
+      }
+      if(t > -1 ) {
+        if(t === 0) {
+          offset = Cairo.Util.val(dateName);
+          dateName = "h";
+        }
+        else {
+          offset = Cairo.Util.val(dateName.substr(t));
+          dateName = dateName.substr(0, t);
+        }
+      }
 
       var _count = m_dateNames.size();
       for (var _i = 0; _i < _count; _i++) {
         var dn = m_dateNames.item(_i);
         if(dn.getCode() === dateName || dn.getName() === dateName) {
           date = self.getDateById(dn.getId(), iniDate);
+          if(offset !== 0) {
+            date = addToDate('d', offset, date);
+          }
           break;
         }
       }
@@ -1483,6 +1501,9 @@
     };
 
     var addToDate = function(part, amount, date) {
+      if(typeof date === "string") {
+        date = Cairo.Util.getDateValue(date);
+      }
 
       switch (part) {
         case "yyyy":
@@ -1494,10 +1515,21 @@
         case "m":
           date.setMonth(date.getMonth() + amount);
           break;
+        case "h":
+          date.setHours(date.getHours() + amount);
+          break;
+        case "n":
+          date.setMinutes(date.getMinutes() + amount);
+          break;
+        case "s":
+          date.setSeconds(date.getSeconds() + amount);
+          break;
       }
 
       return date;
     };
+
+    self.addToDate = addToDate;
 
     self.getDateById = function(dateIndex,  iniDate) {
       if(iniDate === undefined) {

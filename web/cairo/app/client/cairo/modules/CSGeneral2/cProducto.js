@@ -5758,7 +5758,17 @@
       return self;
     };
 
-    Edit.Controller = { getEditor: createObject };
+    Edit.Controller = {};
+
+    Edit.Controller.getEditor = createObject;
+
+    Edit.Controller.edit = function(id) {
+      var editor = Cairo.Producto.Edit.Controller.getEditor();
+      var dialog = Cairo.Dialogs.Views.Controller.newDialog();
+
+      editor.setDialog(dialog);
+      editor.edit(id);
+    };
 
   });
 

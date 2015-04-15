@@ -182,12 +182,15 @@
     valField: function(fields, fieldName) {
       var value = fields.get(fieldName);
       if(value === undefined) {
-        Cairo.log("Missing field: the field " + fieldName + " isn't present in this dataset");
+        Cairo.raiseError("Missing field", "the field " + fieldName + " isn't present in this dataset");
       }
       return value;
     },
 
     getValue: function(object, attribute) {
+      if(attribute === undefined) {
+        Cairo.raiseError("Missing field", "the field " + attribute + " isn't present in this dataset");
+      }
       return object[attribute];
     },
 

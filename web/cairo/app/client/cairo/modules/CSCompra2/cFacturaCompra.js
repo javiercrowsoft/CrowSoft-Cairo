@@ -366,7 +366,9 @@
 
         m_isNew = true;
 
-        m_listController.updateEditorKey(self, NO_ID);
+        if(m_listController != null) {
+          m_listController.updateEditorKey(self, NO_ID);
+        }
           
         m_copy = true;
         m_docEditable = true;
@@ -388,7 +390,9 @@
 
         m_isNew = true;
 
-        m_listController.updateEditorKey(self, NO_ID);
+        if(m_listController != null) {
+          m_listController.updateEditorKey(self, NO_ID);
+        }
 
         // p = load(NO_ID).then(function() {
         p = self.edit(NO_ID).then(function() {
@@ -802,18 +806,16 @@
             var register = new DB.Register();
             var fields = register.getFields();
 
-            register.setFieldId(CC.FC_TMP_ID);
-            register.setTable(CC.FACTURA_COMPRA_TMP);
-
-            register.setId(Cairo.Constants.NEW_ID);
+            register.setFieldId(CC.FC_ID);
+            register.setTable(CC.FACTURA_COMPRA);
 
             register.setPath(m_apiPath + "compras/facturacompra");
 
             if(m_copy) {
-              fields.add(CC.FC_ID, Cairo.Constants.NEW_ID, Types.long);
+              register.setId(Cairo.Constants.NEW_ID);
             }
             else {
-              fields.add(CC.FC_ID, m_id, Types.long);
+              register.setId(m_id);
             }
 
             if(register.getId() === Cairo.Constants.NEW_ID) {
@@ -1047,8 +1049,10 @@
                     return load(result.data.getId()).then(
                       function(success) {
                         if(success) {
-                          updateList();
-                          m_listController.updateEditorKey(self, m_id);
+                          if(m_listController != null) {
+                            updateList();
+                            m_listController.updateEditorKey(self, m_id);
+                          }
                         };
                         m_isNew = false;
                         return success;
@@ -1067,14 +1071,19 @@
       };
 
       var updateList = function() {
-        if(m_id === NO_ID) { return; }
-        if(m_listController === null) { return; }
+        try {
+          if(m_id === NO_ID) { return; }
+          if(m_listController === null) { return; }
 
-        if(m_isNew) {
-          m_listController.addItem(m_id);
+          if(m_isNew) {
+            m_listController.addItem(m_id);
+          }
+          else {
+            m_listController.refreshItem(m_id);
+          }
         }
-        else {
-          m_listController.refreshItem(m_id);
+        catch(ignore) {
+          Cairo.logError("Can't update list", ignore);
         }
       };
 
@@ -1094,7 +1103,7 @@
       };
 
       self.getPath = function() {
-        return "#compras/facturacompra/" + m_id.toString();
+        return "#compra/facturadecompra/" + m_id.toString();
       };
 
       self.getEditorName = function() {
@@ -2846,11 +2855,11 @@
           elem.setKey(KI_NRO_SERIE);
 
           elem = row.add(null);
-          elem.setValue(getValue(m_data.items[_i], C.STL_CODE));
+          elem.setValue(getValue(m_data.items[_i], CC.STL_CODE));
           elem.setKey(KI_STL_CODIGO);
 
           elem = row.add(null);
-          elem.setId(getValue(m_data.items[_i], C.STL_ID));
+          elem.setId(getValue(m_data.items[_i], CC.STL_ID));
           elem.setKey(KI_STL_ID);
 
           elem = row.add(null);
@@ -2895,7 +2904,7 @@
 
           elem = row.add(null);
           if(m_bIva) {
-            elem.setValue(getValue(m_data.items[_i], "iva_ri_porcentaje"));
+            elem.setValue(getValue(m_data.items[_i], CC.FCI_IVA_RIPORC));
           }
           else {
             elem.setValue(0);
@@ -2904,7 +2913,7 @@
 
           elem = row.add(null);
           if(m_bIvaRni) {
-            elem.setValue(getValue(m_data.items[_i], "iva_rni_porcentaje"));
+            elem.setValue(getValue(m_data.items[_i], CC.FCI_IVA_RNIPORC));
           }
           else {
             elem.setValue(0);
@@ -2912,7 +2921,7 @@
           elem.setKey(KI_IVA_RNI_PERCENT);
 
           elem = row.add(null);
-          elem.setValue(getValue(m_data.items[_i], "internos_porcentaje"));
+          elem.setValue(getValue(m_data.items[_i], CC.FCI_INTERNOS_PORC));
           elem.setKey(KI_INTERNOS_PERCENT);
 
           elem = row.add(null);
@@ -3974,10 +3983,10 @@
           "load[" + apiPath + "general/producto/" + prId.toString() + "/stock/proveedor]", getProvId());
 
         return p.successWithResult(function(response) {
-          getCell(row, KI_UNIDAD).setValue(valField(response.data, "unidadCompra"));
+          getCell(row, KI_UNIDAD).setValue(valField(response.data, C.UN_NAME_COMPRA));
 
           var cell = getCell(row, KI_CCOS_ID);
-          cell.setValue(valField(response.data, "centro_costo_compra"));
+          cell.setValue(valField(response.data, C.CCOS_NAME_COMPRA));
           cell.setId(valField(response.data, C.CCOS_ID_COMPRA));
 
           getCell(row, KI_CUE_ID).setValue(valField(response.data, C.CUE_ID_COMPRA));
@@ -4722,6 +4731,20 @@
 
     Edit.Controller = { getEditor: createObject };
 
+    Edit.Controller.edit = function(id) {
+      Cairo.LoadingMessage.show("FacturaCompras", "Loading Factura de Compras from Crowsoft Cairo server.");
+
+      var editor = Cairo.FacturaCompra.Edit.Controller.getEditor();
+      var dialog = Cairo.Dialogs.Views.Controller.newDialog();
+      var dialogItems = Cairo.Dialogs.Views.Controller.newDialog();
+      var dialogFooter = Cairo.Dialogs.Views.Controller.newDialog();
+
+      editor.setDialog(dialog);
+      editor.setItems(dialogItems);
+      editor.setFooter(dialogFooter);
+      editor.edit(id).then(Cairo.LoadingMessage.close);
+    };
+
   });
 
   Cairo.module("FacturaCompraListDoc.Edit", function(Edit, Cairo, Backbone, Marionette, $, _) {
@@ -4995,7 +5018,7 @@
               m_fechaIniV = "";
               m_fechaIni = Cairo.Dates.today();
               m_fechaFinV = "";
-              m_fechaFin = new Date("01/01/2000");
+              m_fechaFin = Cairo.Dates.DateNames.getDateByName('h-60');
               m_prov_id = NO_ID;
               m_proveedor = "";
               m_est_id = NO_ID;
@@ -5153,6 +5176,8 @@
         else {
           endDate = m_fechaFin
         }
+
+        endDate = Cairo.Dates.DateNames.addToDate("d", 1, endDate);
 
         startDate = DB.sqlDate(startDate);
         endDate = DB.sqlDate(endDate);

@@ -487,6 +487,7 @@ object FacturaCompras extends Controller with ProvidesUser {
       C.FCI_ORDEN -> Json.toJson(i.base.orden),
       GC.PR_LLEVA_NRO_SERIE -> Json.toJson(i.base.llevaNroSerie),
       GC.PR_LLEVA_NRO_LOTE -> Json.toJson(i.base.llevaNroLote),
+      GC.UN_NAME -> Json.toJson(i.base.unName),
       C.FCI_CANTIDAD -> Json.toJson(i.totals.cantidad),
       C.FCI_PRECIO -> Json.toJson(i.totals.precio),
       C.FCI_PRECIO_LISTA -> Json.toJson(i.totals.precioLista),
@@ -498,6 +499,7 @@ object FacturaCompras extends Controller with ProvidesUser {
       C.FCI_IVA_RIPORC -> Json.toJson(i.totals.ivaRiPorc),
       C.FCI_IVA_RNIPORC -> Json.toJson(i.totals.ivaRniPorc),
       C.FCI_INTERNOS_PORC -> Json.toJson(i.totals.internosPorc),
+      GC.PR_PORC_INTERNO_C -> Json.toJson(i.totals.prInternosPorc),
       C.FCI_IMPORTE -> Json.toJson(i.totals.importe),
       C.FCI_IMPORTE_ORIGEN -> Json.toJson(i.totals.importeOrigen)
     )
@@ -812,6 +814,58 @@ object FacturaCompras extends Controller with ProvidesUser {
     )
   }
 
+  def getFacturaCompra(facturaCompra: FacturaCompraData, id: Int): FacturaCompra = {
+    FacturaCompra(
+      id,
+      FacturaCompraId(
+        facturaCompra.ids.docId,
+        facturaCompra.ids.numero,
+        facturaCompra.ids.nroDoc),
+      FacturaCompraBase(
+        facturaCompra.base.provId,
+        facturaCompra.base.estId,
+        facturaCompra.base.ccosId,
+        facturaCompra.base.sucId,
+        facturaCompra.base.cpgId,
+        facturaCompra.base.lgjId,
+        facturaCompra.base.cai,
+        facturaCompra.base.tipoComprobante,
+        facturaCompra.base.descrip,
+        facturaCompra.base.grabarAsiento),
+      FacturaCompra.emptyFacturaCompraReferences,
+      FacturaCompraDates(
+        DateFormatter.parse(facturaCompra.dates.fecha),
+        DateFormatter.parse(facturaCompra.dates.fechaEntrega),
+        DateFormatter.parse(facturaCompra.dates.fechaIva),
+        DateFormatter.parse(facturaCompra.dates.fechaVto)),
+      FacturaCompraPrecios(
+        facturaCompra.precios.desc1,
+        facturaCompra.precios.desc2,
+        facturaCompra.precios.lpId,
+        facturaCompra.precios.ldId),
+      FacturaCompraCotizacion(
+        facturaCompra.cotizacion.cotizacion,
+        facturaCompra.cotizacion.cotizacionProveedor),
+      FacturaCompraStock(
+        facturaCompra.stock.proIdOrigen,
+        facturaCompra.stock.proIdDestino,
+        facturaCompra.stock.deplId),
+      FacturaCompraTotals(
+        facturaCompra.totals.neto,
+        facturaCompra.totals.ivaRi,
+        facturaCompra.totals.ivaRni,
+        facturaCompra.totals.internos,
+        facturaCompra.totals.subTotal,
+        facturaCompra.totals.importeDesc1,
+        facturaCompra.totals.importeDesc2,
+        facturaCompra.totals.totalOtros,
+        facturaCompra.totals.totalPercepciones,
+        facturaCompra.totals.total,
+        facturaCompra.totals.totalOrigen),
+      getFacturaCompraItems(facturaCompra)
+    )
+  }
+
   def update(id: Int) = PostAction { implicit request =>
     Logger.debug("in FacturaCompras.update")
 
@@ -826,54 +880,7 @@ object FacturaCompras extends Controller with ProvidesUser {
           Ok(
             Json.toJson(
               FacturaCompra.update(user,
-                FacturaCompra(
-                  id,
-                  FacturaCompraId(
-                    facturaCompra.ids.docId,
-                    facturaCompra.ids.numero,
-                    facturaCompra.ids.nroDoc),
-                  FacturaCompraBase(
-                    facturaCompra.base.provId,
-                    facturaCompra.base.estId,
-                    facturaCompra.base.ccosId,
-                    facturaCompra.base.sucId,
-                    facturaCompra.base.cpgId,
-                    facturaCompra.base.lgjId,
-                    facturaCompra.base.cai,
-                    facturaCompra.base.tipoComprobante,
-                    facturaCompra.base.descrip,
-                    facturaCompra.base.grabarAsiento),
-                  FacturaCompra.emptyFacturaCompraReferences,
-                  FacturaCompraDates(
-                    DateFormatter.parse(facturaCompra.dates.fecha),
-                    DateFormatter.parse(facturaCompra.dates.fechaEntrega),
-                    DateFormatter.parse(facturaCompra.dates.fechaIva),
-                    DateFormatter.parse(facturaCompra.dates.fechaVto)),
-                  FacturaCompraPrecios(
-                    facturaCompra.precios.desc1,
-                    facturaCompra.precios.desc2,
-                    facturaCompra.precios.lpId,
-                    facturaCompra.precios.ldId),
-                  FacturaCompraCotizacion(
-                    facturaCompra.cotizacion.cotizacion,
-                    facturaCompra.cotizacion.cotizacionProveedor),
-                  FacturaCompraStock(
-                    facturaCompra.stock.proIdOrigen,
-                    facturaCompra.stock.proIdDestino,
-                    facturaCompra.stock.deplId),
-                  FacturaCompraTotals(
-                    facturaCompra.totals.neto,
-                    facturaCompra.totals.ivaRi,
-                    facturaCompra.totals.ivaRni,
-                    facturaCompra.totals.internos,
-                    facturaCompra.totals.subTotal,
-                    facturaCompra.totals.importeDesc1,
-                    facturaCompra.totals.importeDesc2,
-                    facturaCompra.totals.totalOtros,
-                    facturaCompra.totals.totalPercepciones,
-                    facturaCompra.totals.total,
-                    facturaCompra.totals.totalOrigen)
-                )
+                getFacturaCompra(facturaCompra)
               )
             )
           )

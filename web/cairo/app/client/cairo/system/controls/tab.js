@@ -132,6 +132,7 @@
           }
 
           $('#link_' + tabId.substring(1, tabId.length)).tab('show');
+          Cairo.navigate(route);
 
           if(showTabHandler) {
             showTabHandler();

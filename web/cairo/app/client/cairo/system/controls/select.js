@@ -710,6 +710,9 @@
       };
 
       that.setValue = function(value) {
+        if(value === undefined) {
+          Cairo.raiseError("setValue", "undefined can not be used when calling setValue");
+        }
         self.value = value;
         var element = self.select;
         if(element) {

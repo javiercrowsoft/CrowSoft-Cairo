@@ -4,6 +4,7 @@
   Cairo.Promises = {};
 
   Cairo.Promises.Promise = function() {
+    //Cairo.log("promise - created");
     this.successCallbacks = [];
     this.errorCallbacks = [];
   };
@@ -100,6 +101,7 @@
       var promise = this.promise;
       promise.data = data;
       promise.status = 'resolved';
+      //Cairo.log("promise - resolved");
       promise.successCallbacks.forEach(function(callbackData) {
         promise.executeCallback(callbackData, data);
       });
@@ -109,6 +111,7 @@
       var promise = this.promise;
       promise.error = error;
       promise.status = 'rejected';
+      //Cairo.log("promise - rejected");
       promise.errorCallbacks.forEach(function(callbackData) {
         promise.executeCallback(callbackData, error);
       });
