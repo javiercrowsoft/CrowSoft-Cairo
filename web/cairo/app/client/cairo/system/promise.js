@@ -151,6 +151,16 @@
       args.push(result);
       return f.apply(null, args);
     };
-  }
+  };
+
+  Cairo.Promises.throttleTime = 3000;
+
+  Cairo.Promises.throttle = function(result) {
+    var defer = new Cairo.Promises.Defer();
+    setTimeout(function() {
+      defer.resolve(result);
+    }, Cairo.Promises.throttleTime);
+    return defer.promise;
+  };
 
 }());

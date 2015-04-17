@@ -1037,6 +1037,7 @@ var Cairo = new Marionette.Application();
     var view = null;
     var message = null;
     var title = null;
+    var activeInput = null;
 
     var showMessage = function() {
       if(!workDone) {
@@ -1045,6 +1046,7 @@ var Cairo = new Marionette.Application();
             title: title,
             message: message
           });
+          activeInput = $(document.activeElement);
           Cairo.dialogLoadingRegion.show(view);
         }
       }
@@ -1053,6 +1055,10 @@ var Cairo = new Marionette.Application();
     var closeView = function() {
       try {
         Cairo.dialogLoadingRegion.closeDialog();
+      }
+      catch(ignore) {}
+      try {
+        activeInput.focus();
       }
       catch(ignore) {}
       view = null;

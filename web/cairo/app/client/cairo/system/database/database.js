@@ -176,6 +176,17 @@
       else {
         p = rp({success: false, message: "Invalid query: Action [" + action + "] not supported."});
       }
+
+      /*
+       *
+       * DEBUG - REMOVE WHEN IN PRODUCTION
+       *
+       *
+       *     p = p.then(Cairo.Promises.throttle);
+       *
+       *
+       * */
+
       return p;
     },
 

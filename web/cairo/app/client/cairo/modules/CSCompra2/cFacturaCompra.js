@@ -1634,11 +1634,14 @@
 
           case KI_PR_ID:
 
+            Cairo.LoadingMessage.show("FacturaCompras", "Loading data for product.");
+
             var row = property.getGrid().getRows().item(lRow);
             p = setDataProducto(row, newValueID)
               .success(call(setPrecios, row, newValueID))
               .success(call(setDescuentos, row, newValueID, getPrecioFromRow(row)))
               .success(call(setTasasImpositivas, row, newValueID, newValue))
+              .then(function(result) { Cairo.LoadingMessage.close(); return result; })
             ;
             break;
 
