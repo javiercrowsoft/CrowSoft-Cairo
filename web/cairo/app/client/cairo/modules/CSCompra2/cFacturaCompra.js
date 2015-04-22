@@ -552,7 +552,7 @@
 
           case Dialogs.Message.MSG_DOC_SEARCH:
 
-            D.search(D.FACTURA_COMPRA, self, Cairo.bool(info));
+            D.search(D.Types.FACTURA_COMPRA, self, Cairo.bool(info));
             break;
 
           case Dialogs.Message.MSG_DOC_DOC_AUX:
@@ -1293,7 +1293,7 @@
 
         }
         catch(ex) {
-          Cairo.manageErrorEx(ex.message, ex, "validateRow", C_MODULE, "");
+          Cairo.manageErrorEx(ex.message, ex, "isEmptyRow", C_MODULE, "");
         }
 
         return P.resolvedPromise(isEmpty);
@@ -1437,8 +1437,6 @@
       };
 
       self.columnAfterUpdate = function(key, lRow, lCol) {
-        var p = null;
-
         try {
 
           switch (key) {
@@ -1474,7 +1472,7 @@
           Cairo.manageErrorEx(ex.message, ex, "columnAfterUpdate", C_MODULE, "");
         }
 
-        return p || P.resolvedPromise(true);
+        return P.resolvedPromise(true);
       };
 
       self.columnClick = function(key,  lRow,  lCol) {

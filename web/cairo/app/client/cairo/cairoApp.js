@@ -338,12 +338,12 @@ var Cairo = new Marionette.Application();
     NO_ID: 0,
     NEW_ID: 0,
     NO_DATE: NO_DATE,
-    NUMBER_ID: '_number_id_',
-    STATUS_ID: '_status_id_',
+    NUMBER_ID: "_number_id_",
+    STATUS_ID: "_status_id_",
 
-    HIDE_COLUMNS: 'HideCols',
+    HIDE_COLUMNS: "HideCols",
 
-    DELETE_FUNCTION: 'delete',
+    DELETE_FUNCTION: "delete",
     EDIT_FUNCTION: "edit",
     VALIDATE_ROW_FUNCTION: "validateRow",
     IS_EMPTY_ROW_FUNCTION: "isEmptyRow",
@@ -354,7 +354,7 @@ var Cairo = new Marionette.Application();
     ACTIVE: "activo",
 
     // TODO: must be set from Language
-    COPY_OF: 'copy of ',
+    COPY_OF: "copy of ",
     ACTIVE_LABEL: "Active",
     NAME_LABEL: "Name",
     CODE_LABEL: "Code",
@@ -362,7 +362,25 @@ var Cairo = new Marionette.Application();
     MUST_SET_A_NAME: "You must provide a name",
     MUST_SET_A_CODE: "You must provide a code",
     GENERAL: "General",
-    TAB_GENERAL: "General"
+    TAB_GENERAL: "General",
+
+    SELECT_ALL_TEXT: "Select All",
+    UN_SELECT_ALL_TEXT: "Unselect All",
+    SELECT_ALL2_TEXT: "Select All",
+    UN_SELECT_ALL2_TEXT: "Unselect All",
+
+    NEXT_TEXT: "Next",
+    BACK_TEXT: "Back",
+    FINISH_TEXT: "Finish",
+    CLOSE_WIZARD_TEXT: "Close this assistant",
+    CANCEL_TEXT: "Cancel",
+
+    NEW_DOC_DESCRIP: "This document has been saved, You can create a new one or close this assistant",
+    PRINT_DOC_TEXT: "Print document [%1]",
+
+    APPLY_PRICE_TEXT: "Apply prices to all items",
+    APPLY_PRICE_ZERO_TEXT: "Apply prices only to items in zero"
+
   };
 
   Cairo.Constants.Types = {
@@ -392,6 +410,70 @@ var Cairo = new Marionette.Application();
     footer: 'Footer'
   };
 
+  Cairo.Constants.WizardSteps = {
+    WELCOME: 100,
+    SELECT_PROVEEDOR: 300,
+    SELECT_PEDIDO: 400,
+    SELECT_ORDEN_REMITO: 450,
+    SELECT_ITEMS: 600,
+    DATOS_GENERALES: 700,
+    PERCEPCIONES: 800
+  };
+
+  Cairo.Constants.WizardConstants = {
+    KW_CANCEL: -10,
+    KW_PRINT_DOC: -20,
+    KW_NEW_DOC: -21,
+    KW_CLOSE_WIZARD: -22,
+    KW_ACTION_BUTTON_DOC: -23,
+    KW_ACTION_BUTTON_DOC_AUTO: -24,
+    KW_ACTION_BUTTON_DOC_CANCEL_AUTO: -25,
+
+    KW_DOC_ID: 320,
+    KW_PROV_ID: 340,
+    KW_CPG_ID: 360,
+
+    KW_REMITOS: 1010,
+    KW_TODOS: 1110,
+
+    KW_ITEMS: 1120,
+    KW_TODOS_ITEMS: 1130,
+
+    KW_PERCEPCIONES: 1150,
+    KW_TOTAPERCEPCIONES: 160
+  };
+  
+  Cairo.Constants.WizardKeys = {
+    FECHA: "FECHA",
+    PROVEEDOR: "PROV",
+    PROVEEDOR2: "PROVEEDOR",
+    SUCURSAL: "SUCURSAL",
+    CONDICIONPAGO: "CONDICION DE PAGO",
+    OBSERVACIONES: "OBSERVACIONES",
+    COMPROBANTE: "COMPROBANTE",
+    LEGAJO: "LEGAJO",
+    CENTROCOSTO: "CENTRO DE COSTO",
+    LISTAPRECIO: "LISTA DE PRECIO",
+    LISTADESCUENTO: "LISTA DE DESCUENTO",
+    COTIZACION: "COTIZACION",
+    TIPOCOMPROBANTE: "TIPOCOMP",
+    DOC: "DOC",
+    RESULTTITLE: "RESULTT",
+    RESULT: "RESULT",
+    USUARIO: "US",
+    DEPOSITO: "DEP",
+    TODOS: "TODOS",
+    PEDIDOS: "PEDIDOS",
+    REMITOS: "REMITOS",
+    ORDENES: "ORDENES",
+    ITEMS: "ITEMS",
+    TODOSITEMS: "TODOS-ITEMS",
+    TOTAL: "TOTAL",
+    TOTALITEMS: "TOTALITEMS",
+    PENDIENTE: "PENDIENTE",
+    ONLYSELECTED: "ONLYSEL" // edit from listdoc
+  };
+
   //
   // util
   //
@@ -417,6 +499,15 @@ var Cairo = new Marionette.Application();
     }
     catch(ignore) {
       return false;
+    }
+  };
+
+  var getKey = function(key) {
+    if(isNumeric(key)) {
+      return "K" + key.toString();
+    }
+    else {
+      return key;
     }
   };
 
@@ -797,6 +888,7 @@ var Cairo = new Marionette.Application();
         return 0;
       }
     },
+    getKey: getKey,
     right: right,
     left: left,
     string: string

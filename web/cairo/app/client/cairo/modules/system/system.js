@@ -674,11 +674,52 @@
 
   Cairo.History = {};
 
-  Cairo.History.show = function (tableId, id, title) {
+  Cairo.History.show = function(tableId, id, title) {
 
   };
 
-    
+  Cairo.Documents.wizGetDeposito = function(objWiz,  keyStep, keyDeposito) {
+    return objWiz.getSteps().item(Cairo.Util.getKey(keyStep)).getProperties().item(keyDeposito).getSelectId();
+  };
+
+  Cairo.Documents.wizShowNewStep = function(wiz, key, nroDoc) {
+    Cairo.Documents.wizShowNewStepEx(wiz, key, nroDoc, false);
+  };
+
+  Cairo.Documents.wizShowNewStepEx = function(wiz, key, nroDoc, bShowActionButton) {
+
+    var iStep = wiz.getSteps().item(Cairo.Util.getKey(key));
+    var properties = iStep.getProperties();
+
+    properties.item(c_Wiz_Key_MainTitle).setValue(Cairo.Constants.NEW_DOC_DESCRIP);
+
+    var iPropPrint = prop.item(c_Wiz_Key_PrintDoc);
+    iPropPrint.setName(Cairo.Constants.PRINT_DOC_TEXT.replace("%1", nroDoc));
+    iPropPrint.setVisible(true);
+
+    properties.item(c_Wiz_Key_NewDoc).setVisible(true);
+    properties.item(c_Wiz_Key_CloseWizard).setVisible(true);
+
+    if(bShowActionButton) {
+      properties.item(c_Wiz_Key_ActionButton).setVisible(true);
+
+      properties.item(c_Wiz_Key_ActionButtonAuto).setVisible(true);
+      if(properties.contains(c_Wiz_Key_ActionCancelAuto)) {
+        properties.item(c_Wiz_Key_ActionCancelAuto).setVisible(true);
+      }
+    }
+
+    wiz.setCancelVisible(false);
+    wiz.setBackVisible(false);
+    wiz.setNextVisible(false);
+
+    wiz.getDialog().showValue(iPropPrint);
+    wiz.getDialog().resetChanged();
+
+    // this stop the automatic wizard
+    //
+    wiz.setPushVirtualNext(false);
+  };
 
 }());
 
