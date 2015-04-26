@@ -111,7 +111,7 @@ object InternalFilter {
   * IMPORTANT: there is no way to set parameters using the methods setInt, setString, etc, from
   *            PreparedStatement when the parameter is a string containing other parameters
   *
-  *            ex:   {call sp_documentohelp( 1, 1, 0, ?, 0, ?, 'doct_id = ? or doct_id = ? or doct_id = ?', ?)}
+  *            ex:   {call sp_documentohelp( 1, 1, 0, ?, 0, ?, 'doct_id = ? or doct_id = ? or doct_id = ?', ? )}
   *
   *            for PrepareStatement the above call has only 3 parameters
   *
@@ -125,8 +125,27 @@ object InternalFilter {
 
   private def document(user: CompanyUser, parameters: List[String]): InternalFilter = {
     val params = parseParameters(parameters)
-    val doctIds = params("documentTypeId").split("[*]")
-    val sqlstmt = doctIds.map(doctId => s"doct_id = ${doctId.toInt}").mkString(" or ")
+    val doctIds = {
+      if(params.contains("documentTypeId")) {
+        params("documentTypeId").split("[*]").map(doctId => s"doct_id = ${doctId.toInt}").mkString(" or ")
+      }
+      else ""
+    }
+    val invoiceTypes = {
+      if(params.contains("invoiceType")) {
+        params("invoiceType").split("[*]").map(invoiceType => s"doc_tipofactura = ${invoiceType.toInt}").mkString(" or ")
+      }
+      else ""
+    }
+    val sqlstmt = {
+      if(doctIds.isEmpty) {
+        invoiceTypes
+      }
+      else if(invoiceTypes.isEmpty) {
+        doctIds
+      }
+      else s"(($doctIds) and ($invoiceTypes))"
+    }
     InternalFilter(
       sqlstmt,
       List()

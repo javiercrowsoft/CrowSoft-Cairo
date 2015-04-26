@@ -21,6 +21,11 @@
       return true;
     },
 
+    silentHasPermissionTo: function(action) {
+      /* TODO: implement this. */
+      return true;
+    },
+
     docHasPermissionTo: function(action, docId, actionType, isForCopy) {
       isForCopy = isForCopy === undefined ? false : isForCopy;
       /* TODO: implement this. */

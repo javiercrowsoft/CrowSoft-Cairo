@@ -172,7 +172,8 @@
     * 
     * */
   };
-  
+
+  /* csETipoFactura */
   Cairo.Documents.InvoiceWizardType = {
     directa: 0,
     pedido: 1,
@@ -660,6 +661,11 @@
     + "*" + Cairo.Documents.Types.NOTA_DEBITO_COMPRA.toString()
   ;
 
+  Cairo.Documents.FACTURA_COMPRAS_REMITO_DOC_FILTER = "document|documentTypeId:"
+    + Cairo.Documents.Types.FACTURA_COMPRA.toString()
+    + "|invoiceType:" + Cairo.Documents.InvoiceWizardType.remito.toString()
+  ;
+
   Cairo.Documents.showNotes = function() {
     /* TODO: implement this. */
     return Cairo.Promises.resolvedPromise(false);
@@ -678,8 +684,10 @@
 
   };
 
+  var getKey = Cairo.Util.getKey;
+
   Cairo.Documents.wizGetDeposito = function(objWiz,  keyStep, keyDeposito) {
-    return objWiz.getSteps().item(Cairo.Util.getKey(keyStep)).getProperties().item(keyDeposito).getSelectId();
+    return objWiz.getSteps().item(getKey(keyStep)).getProperties().item(keyDeposito).getSelectId();
   };
 
   Cairo.Documents.wizShowNewStep = function(wiz, key, nroDoc) {
@@ -688,7 +696,7 @@
 
   Cairo.Documents.wizShowNewStepEx = function(wiz, key, nroDoc, bShowActionButton) {
 
-    var iStep = wiz.getSteps().item(Cairo.Util.getKey(key));
+    var iStep = wiz.getSteps().item(getKey(key));
     var properties = iStep.getProperties();
 
     properties.item(c_Wiz_Key_MainTitle).setValue(Cairo.Constants.NEW_DOC_DESCRIP);
@@ -720,6 +728,10 @@
     //
     wiz.setPushVirtualNext(false);
   };
+
+  Cairo.Documents.getWizProperty = function(objWiz, stepId, keyItem) {
+    return objWiz.getSteps().item(getKey(stepId)).getProperties().item(keyItem);
+  }
 
 }());
 
