@@ -23,6 +23,7 @@
       var Types = Cairo.Constants.Types;
       var valField = DB.valField;
       var getValue = DB.getValue;
+      var valEmpty = Cairo.Util.valEmpty;
       var Percepciones = Cairo.Compras.Percepciones;
       var call = P.call;
       var D = Cairo.Documents; 
@@ -374,7 +375,7 @@
         m_docEditable = true;
         m_docEditMsg = "";
 
-        D.getDocNumberForProveedor(m_lastProvId, m_lastDocId, m_dialog).then(
+        D.setDocNumberForProveedor(m_lastProvId, m_lastDocId, m_dialog).then(
           function(enabled) {
             m_taPropuesto = enabled;
             setEnabled();
@@ -424,7 +425,7 @@
         }).then(function() {
 
           setDatosProveedor();
-          return D.getDocNumberForProveedor(m_lastProvId, m_lastDocId, m_dialog)
+          return D.setDocNumberForProveedor(m_lastProvId, m_lastDocId, m_dialog)
 
         }).then(function(enabled) {
 
@@ -703,7 +704,7 @@
               })
               .success(function() {
 
-                return D.getDocNumberForProveedor(m_lastProvId, m_lastDocId, m_dialog)
+                return D.setDocNumberForProveedor(m_lastProvId, m_lastDocId, m_dialog)
                 .then(function(enabled) {
 
                   m_taPropuesto = enabled;
@@ -730,7 +731,7 @@
           case K_PROV_ID:
 
             setDatosProveedor().success(function() {
-              D.getDocNumberForProveedor(m_lastProvId, m_lastDocId, m_dialog)
+              D.setDocNumberForProveedor(m_lastProvId, m_lastDocId, m_dialog)
               .then(function(enabled) {
                 m_taPropuesto = enabled;
               }).then(function() {
@@ -777,16 +778,16 @@
 
         var p;
 
-        var cotizacion = null;
-        var totalOrigen = null;
-        var isDefaultCurrency = null;
-        var neto = null;
-        var totalOtros = null;
-        var totalPercep = null;
-        var ivaRi = null;
-        var ivaRni = null;
-        var internos = null;
-        var docId = null;
+        var cotizacion = 0;
+        var totalOrigen = 0;
+        var isDefaultCurrency = false;
+        var neto = 0;
+        var totalOtros = 0;
+        var totalPercep = 0;
+        var ivaRi = 0;
+        var ivaRni = 0;
+        var internos = 0;
+        var docId = 0;
 
         p = D.docCanBeEdited(m_docEditable, m_docEditMsg)
           .success(function() {
@@ -1013,9 +1014,6 @@
               fields.add(CC.FC_TOTAL_ORIGEN, totalOrigen, Types.currency);
             }
 
-            // TODO: remove
-            //register.prepareTransaction();
-
             saveItems(register, cotizacion, isDefaultCurrency);
             saveOtros(register, cotizacion, isDefaultCurrency);
             saveLegajos(register, cotizacion, isDefaultCurrency);
@@ -1125,55 +1123,55 @@
           switch (property.getKey()) {
 
             case K_FECHA:
-              if(Cairo.Util.valEmpty(property.getValue(), Types.date)) {
+              if(valEmpty(property.getValue(), Types.date)) {
                 return M.showInfoWithFalse(getText(1558, "")); // Debe indicar una fecha
               }
               break;
 
             case K_FECHA_ENTREGA:
-              if(Cairo.Util.valEmpty(property.getValue(), Types.date)) {
+              if(valEmpty(property.getValue(), Types.date)) {
                 return M.showInfoWithFalse(getText(1564, "")); // Debe indicar una fecha de entrega
               }
               break;
 
             case K_FECHA_VTO:
-              if(Cairo.Util.valEmpty(property.getValue(), Types.date) && property.getVisible()) {
+              if(valEmpty(property.getValue(), Types.date) && property.getVisible()) {
                 return M.showInfoWithFalse(getText(1625, "")); // Debe indicar una fecha de vencimiento
               }
               break;
 
             case K_PROV_ID:
-              if(Cairo.Util.valEmpty(property.getSelectId(), Types.id)) {
+              if(valEmpty(property.getSelectId(), Types.id)) {
                 return M.showInfoWithFalse(getText(1860, "")); // Debe indicar un Proveedor
               }
               break;
 
             case K_DOC_ID:
-              if(Cairo.Util.valEmpty(property.getSelectId(), Types.id)) {
+              if(valEmpty(property.getSelectId(), Types.id)) {
                 return M.showInfoWithFalse(getText(1562, "")); // Debe indicar un documento
               }
               break;
 
             case K_CPG_ID:
-              if(Cairo.Util.valEmpty(property.getSelectId(), Types.id)) {
+              if(valEmpty(property.getSelectId(), Types.id)) {
                 return M.showInfoWithFalse(getText(1561, "")); // Debe indicar una condición de pago
               }
               break;
 
             case K_SUC_ID:
-              if(Cairo.Util.valEmpty(property.getSelectId(), Types.id)) {
+              if(valEmpty(property.getSelectId(), Types.id)) {
                 return M.showInfoWithFalse(getText(1560, "")); // Debe indicar una sucursal
               }
               break;
 
             case K_COTIZACION:
-              if(Cairo.Util.valEmpty(property.getValue(), Types.double) && property.getVisible()) {
+              if(valEmpty(property.getValue(), Types.double) && property.getVisible()) {
                 return M.showInfoWithFalse(getText(1620, "")); // Debe indicar una cotización
               }
               break;
 
             case K_DEPL_ID:
-              if(Cairo.Util.valEmpty(property.getSelectId(), Types.id) && m_showStockData) {
+              if(valEmpty(property.getSelectId(), Types.id) && m_showStockData) {
                 return M.showInfoWithFalse(getText(1559, "")); // Debe indicar un deposito
               }
               break;
@@ -1779,21 +1777,21 @@
 
           switch (cell.getKey()) {
             case KIL_IMPORTE:
-              if(!Cairo.Util.valEmpty(cell.getValue(), Types.currency)) {
+              if(!valEmpty(cell.getValue(), Types.currency)) {
                 rowIsEmpty = false;
                 break;
               }
               break;
 
             case KIL_LGJ_ID:
-              if(!Cairo.Util.valEmpty(cell.getId(), Types.id)) {
+              if(!valEmpty(cell.getId(), Types.id)) {
                 rowIsEmpty = false;
                 break;
               }
               break;
 
             case KIL_DESCRIP:
-              if(!Cairo.Util.valEmpty(cell.getValue(), Types.text)) {
+              if(!valEmpty(cell.getValue(), Types.text)) {
                 rowIsEmpty = false;
                 break;
               }
@@ -1816,21 +1814,21 @@
           switch (cell.getKey()) {
 
             case KI_DEBE:
-              if(!Cairo.Util.valEmpty(cell.getValue(), Types.currency)) {
+              if(!valEmpty(cell.getValue(), Types.currency)) {
                 rowIsEmpty = false;
                 break;
               }
               break;
 
             case KI_HABER:
-              if(!Cairo.Util.valEmpty(cell.getValue(), Types.currency)) {
+              if(!valEmpty(cell.getValue(), Types.currency)) {
                 rowIsEmpty = false;
                 break;
               }
               break;
 
             case KI_CUE_ID:
-              if(!Cairo.Util.valEmpty(cell.getId(), Types.id)) {
+              if(!valEmpty(cell.getId(), Types.id)) {
                 rowIsEmpty = false;
                 break;
               }
@@ -1853,7 +1851,7 @@
           switch (cell.getKey()) {
 
             case KI_CANTIDAD:
-              if(!Cairo.Util.valEmpty(cell.getValue(), Types.currency)) {
+              if(!valEmpty(cell.getValue(), Types.currency)) {
                 if(val(cell.getValue()) !== 1) {
                   rowIsEmpty = false;
                   break;
@@ -1862,14 +1860,14 @@
               break;
 
             case KI_PRECIO:
-              if(!Cairo.Util.valEmpty(cell.getValue(), Types.currency)) {
+              if(!valEmpty(cell.getValue(), Types.currency)) {
                 rowIsEmpty = false;
                 break;
               }
               break;
 
             case KI_PR_ID:
-              if(!Cairo.Util.valEmpty(cell.getId(), Types.id)) {
+              if(!valEmpty(cell.getId(), Types.id)) {
                 rowIsEmpty = false;
                 break;
               }
@@ -1892,13 +1890,13 @@
           switch (cell.getKey()) {
 
             case KIL_LGJ_ID:
-              if(Cairo.Util.valEmpty(cell.getId(), Types.id)) {
+              if(valEmpty(cell.getId(), Types.id)) {
                 return M.showInfoWithFalse(getText(1896, "", strRow)); // Debe indicar un legajo (1)
               }
               break;
 
             case KIL_IMPORTE:
-              if(Cairo.Util.valEmpty(cell.getValue(), Types.currency)) {
+              if(valEmpty(cell.getValue(), Types.currency)) {
                 return M.showInfoWithFalse(getText(1897, "", strRow)); // Debe indicar un importe (1)
               }
               break;
@@ -1921,19 +1919,19 @@
           switch (cell.getKey()) {
 
             case KI_CUE_ID:
-              if(Cairo.Util.valEmpty(cell.getId(), Types.id)) {
+              if(valEmpty(cell.getId(), Types.id)) {
                 return M.showInfoWithFalse(getText(1388, "", strRow)); // Debe indicar una cuenta (1)
               }
               break;
 
             case KI_DEBE:
-              if(!Cairo.Util.valEmpty(cell.getValue(), Types.currency)) {
+              if(!valEmpty(cell.getValue(), Types.currency)) {
                 bDebeHaber = true;
               }
               break;
 
             case KI_HABER:
-              if(Cairo.Util.valEmpty(cell.getId(), Types.id)) {
+              if(valEmpty(cell.getId(), Types.id)) {
                 bDebeHaber = true;
               }
               break;
@@ -1964,40 +1962,40 @@
 
             case KI_CANTIDAD:
               cantidad = val(cell.getValue());
-              if(Cairo.Util.valEmpty(cell.getValue(), Types.currency)) {
+              if(valEmpty(cell.getValue(), Types.currency)) {
                 p = M.showInfoWithFalse(getText(1365, "", strRow)); // Debe indicar una cantidad (1)
               }
               break;
 
             case KI_PRECIO:
-              if(Cairo.Util.valEmpty(cell.getValue(), Types.currency)) {
+              if(valEmpty(cell.getValue(), Types.currency)) {
                 p = M.showInfoWithFalse(getText(1631, "", strRow)); // Debe indicar un precio (1)
               }
               break;
 
             case KI_PR_ID:
-              if(Cairo.Util.valEmpty(cell.getId(), Types.id)) {
+              if(valEmpty(cell.getId(), Types.id)) {
                 p = M.showInfoWithFalse(getText(1899, "", strRow)); // Debe indicar un producto de Compra (1)
               }
               break;
 
             case KI_NRO_SERIE:
               llevaNroSerie = cellId(row, KI_PR_LLEVA_NRO_SERIE);
-              if(Cairo.Util.valEmpty(cell.getValue(), Types.text) && llevaNroSerie) {
+              if(valEmpty(cell.getValue(), Types.text) && llevaNroSerie) {
                 p = M.showInfoWithFalse(getText(1630, "", strRow)); // Debe indicar un numero de serie (1)
               }
               break;
 
             case KI_STL_CODIGO:
               if(m_showStockData) {
-                if(Cairo.Util.valEmpty(cell.getValue(), Types.text) && cellId(row, KI_PR_LLEVALOTE)) {
+                if(valEmpty(cell.getValue(), Types.text) && cellId(row, KI_PR_LLEVALOTE)) {
                   p = M.showInfoWithFalse(getText(1632, "", strRow)); // Debe indicar un lote (1)
                 }
               }
               break;
 
             case KI_TO_ID:
-              if(Cairo.Util.valEmpty(cell.getId(), Types.id)) {
+              if(valEmpty(cell.getId(), Types.id)) {
                 p = M.showInfoWithFalse(getText(1633, "", strRow)); // Debe indicar un tipo de operación (1)
               }
               break;
@@ -3464,8 +3462,8 @@
         transaction.setTable(CC.FACTURA_COMPRA_ITEM_TMP);
 
         var rows = getGrid(m_items, C_ITEMS).getRows();
-        var _count = rows.size();
-        for(var _i = 0; _i < _count; _i++) {
+
+        for(var _i = 0, _count = rows.size(); _i < _count; _i++) {
 
           var row = rows.item(_i);
 
@@ -3482,8 +3480,6 @@
             switch (cell.getKey()) {
 
               case KI_FCI_ID:
-                register.setPath(m_apiPath + "compras/facturacompra");
-
                 if(m_copy) {
                   fields.add(CC.FCI_ID, Cairo.Constants.NEW_ID, Types.integer);
                 }
@@ -4137,9 +4133,8 @@
 
           m_lastProvId = property.getSelectId();
 
-          var apiPath = DB.getAPIVersion();
           p = DB.getData(
-            "load[" + apiPath + "general/proveedor/" + m_lastProvId.toString() + "/info]", m_lastDocId);
+            "load[" + m_apiPath + "general/proveedor/" + m_lastProvId.toString() + "/info]", m_lastDocId);
 
           p = p.successWithResult(function(response) {
 
@@ -4262,7 +4257,7 @@
             m_lastProvName = "";
 
             return load(NO_ID)
-              .success(call(D.getDocNumberForProveedor, m_lastProvId, m_doc_id, m_dialog))
+              .success(call(D.setDocNumberForProveedor, m_lastProvId, m_doc_id, m_dialog))
               .then(function(enabled) { m_taPropuesto = enabled; })
               .then(refreshProperties);
           }
@@ -4475,14 +4470,14 @@
         wizard.setDocumento(m_lastDocName);
         wizard.setObjClient(self);
 
-        var wizardDialog = Cairo.Dialogs.Views.Controller.newDialog();
+        var wizardDialog = Cairo.Dialogs.WizardViews.Controller.newDialog();
         wizardDialog.setObjClient(wizard);
         wizardDialog.show(wizardConstructor);
       };
 
       var showStartWizardRemito = function() {
         try {
-          var wizConstructor = Cairo.FacturaCompraRemitoWiz.createObject;
+          var wizConstructor = Cairo.FacturaCompraRemitoWiz.Edit.Controller.getEditor;
           var wizard = wizConstructor();
           wizard.setRcIds(m_rcIds);
           wizard.load().success(call(startWizard, wizard, wizConstructor));
@@ -4494,7 +4489,7 @@
 
       var showStartWizard = function() {
         try {
-          var wizConstructor = Cairo.FacturaCompraWiz.createObject;
+          var wizConstructor = Cairo.FacturaCompraWiz.Edit.Controller.getEditor;
           var wizard = wizConstructor();
           wizard.setOcIds(m_ocIds);
           wizard.load().success(call(startWizard, wizard, wizConstructor));

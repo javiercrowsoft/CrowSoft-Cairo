@@ -309,8 +309,8 @@
         return Cairo.Promises.resolvedPromise(true);
       };
 
-      self.setTreeId = function(rhs) {
-        m_treeId = rhs;
+      self.setTreeId = function(value) {
+        m_treeId = value;
       };
 
       self.getTreeId = function() {
@@ -325,8 +325,8 @@
         return m_dialog;
       };
 
-      self.setDialog = function(rhs) {
-        m_dialog = rhs;
+      self.setDialog = function(value) {
+        m_dialog = value;
       };
 
       self.isEditing = function() {
@@ -375,12 +375,12 @@
         return p;
       };
 
-      self.setTree = function(rhs) {
-        m_listController = rhs;
+      self.setTree = function(value) {
+        m_listController = value;
       };
 
-      self.setBranchId = function(rhs) {
-        m_branchId = rhs;
+      self.setBranchId = function(value) {
+        m_branchId = value;
       };
 
       self.getBranchId = function() {

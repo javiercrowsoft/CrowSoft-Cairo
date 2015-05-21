@@ -444,7 +444,7 @@ object Select {
             }
             else {
               /*
-            * when the query is an stored procedure it has to follow this conventions:
+            * when the query is a stored procedure it has to follow this conventions:
             *
             * - Macros can be declared: @@emp_id, @@us_id, @@bForABM, @@filterType
 

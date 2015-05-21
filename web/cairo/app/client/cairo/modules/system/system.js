@@ -190,9 +190,14 @@
     duplicate: 4
   };
 
-  Cairo.Documents.getDocNumberForProveedor = function(provId, docId, dialog) {
+  Cairo.Documents.getDocNumberForProveedor = function(provId, docId) {
     var apiPath = Cairo.Database.getAPIVersion();
-    return Cairo.Database.getData("load[" + apiPath + "documento/" + docId.toString() + "/supplier/" + provId.toString() + "/next_number]").then(
+    return Cairo.Database.getData(
+      "load[" + apiPath + "documento/" + docId.toString() + "/supplier/" + provId.toString() + "/next_number]");
+  };
+
+  Cairo.Documents.setDocNumberForProveedor = function(provId, docId, dialog) {
+    return Cairo.Documents.getDocNumberForProveedor(provId, docId).then(
       function(response) {
 
         var property = dialog.getProperties().item(CC.FC_NRODOC);
@@ -767,96 +772,96 @@
       return m_prnsId;
     };
 
-    self.setPrnsId = function(rhs) {
-      m_prnsId = rhs;
+    self.setPrnsId = function(value) {
+      m_prnsId = value;
     };
 
     self.getCode = function() {
       return m_code;
     };
 
-    self.setCode = function(rhs) {
-      m_code = rhs;
+    self.setCode = function(value) {
+      m_code = value;
     };
 
     self.getCode2 = function() {
       return m_code2;
     };
 
-    self.setCode2 = function(rhs) {
-      m_code2 = rhs;
+    self.setCode2 = function(value) {
+      m_code2 = value;
     };
 
     self.getCode3 = function() {
       return m_code3;
     };
 
-    self.setCode3 = function(rhs) {
-      m_code3 = rhs;
+    self.setCode3 = function(value) {
+      m_code3 = value;
     };
 
     self.getDescrip = function() {
       return m_descrip;
     };
 
-    self.setDescrip = function(rhs) {
-      m_descrip = rhs;
+    self.setDescrip = function(value) {
+      m_descrip = value;
     };
 
     self.getFechaVto = function() {
       return m_fechaVto;
     };
 
-    self.setFechaVto = function(rhs) {
-      m_fechaVto = rhs;
+    self.setFechaVto = function(value) {
+      m_fechaVto = value;
     };
 
     self.getPrId = function() {
       return m_prId;
     };
 
-    self.setPrId = function(rhs) {
-      m_prId = rhs;
+    self.setPrId = function(value) {
+      m_prId = value;
     };
 
     self.getPrIdItem = function() {
       return m_prIdItem;
     };
 
-    self.setPrIdItem = function(rhs) {
-      m_prIdItem = rhs;
+    self.setPrIdItem = function(value) {
+      m_prIdItem = value;
     };
 
     self.getKitItem = function() {
       return m_kitItem;
     };
 
-    self.setKitItem = function(rhs) {
-      m_kitItem = rhs;
+    self.setKitItem = function(value) {
+      m_kitItem = value;
     };
 
     self.getIdGroup = function() {
       return m_idGroup;
     };
 
-    self.setIdGroup = function(rhs) {
-      m_idGroup = rhs;
+    self.setIdGroup = function(value) {
+      m_idGroup = value;
     };
 
     self.getPrIdKit = function() {
       return m_prIdKit;
     };
 
-    self.setPrIdKit = function(rhs) {
-      m_prIdKit = rhs;
+    self.setPrIdKit = function(value) {
+      m_prIdKit = value;
     };
 
     self.getDeleted = function() {
       return m_deleted;
     };
 
-    self.setDeleted = function(rhs) {
-      m_deleted = rhs;
+    self.setDeleted = function(value) {
+      m_deleted = value;
     };
 
     return self;
@@ -1457,32 +1462,32 @@
       return m_id;
     };
 
-    self.setId = function(rhs) {
-      m_id = rhs;
+    self.setId = function(value) {
+      m_id = value;
     };
 
     self.getName = function() {
       return m_name;
     };
 
-    self.setName = function(rhs) {
-      m_name = rhs;
+    self.setName = function(value) {
+      m_name = value;
     };
 
     self.getCode = function() {
       return m_code;
     };
 
-    self.setCode = function(rhs) {
-      m_code = rhs;
+    self.setCode = function(value) {
+      m_code = value;
     };
 
     self.getGroup = function() {
       return m_group;
     };
 
-    self.setGroup = function(rhs) {
-      m_group = rhs;
+    self.setGroup = function(value) {
+      m_group = value;
     };
 
     self.value = function(iniDate) {
@@ -1501,8 +1506,8 @@
     self.getDateNames = function() {
       return m_dateNames;
     };
-    self.setDateNames = function(rhs) {
-      m_dateNames = rhs;
+    self.setDateNames = function(value) {
+      m_dateNames = value;
     };
 
     self.getDate = function(dateName,  iniDate) {

@@ -881,7 +881,7 @@ var Cairo = new Marionette.Application();
 
           case Cairo.Constants.Types.date:
           case Cairo.Constants.Types.dateOrNull:
-            return this.getDateValue(value) === Cairo.Constants.NO_DATE;
+            return getDateValue(value) === Cairo.Constants.NO_DATE;
         }
         return false;
       }

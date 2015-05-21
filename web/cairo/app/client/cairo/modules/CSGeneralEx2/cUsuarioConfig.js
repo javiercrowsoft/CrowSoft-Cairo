@@ -2136,8 +2136,8 @@
 
       self.load = load;
 
-      self.setDialog = function(rhs) {
-        m_dialog = rhs;
+      self.setDialog = function(value) {
+        m_dialog = value;
       };
 
       self.edit = function(id, inModalWindow) {
@@ -2166,8 +2166,8 @@
         return p;
       };
 
-      self.setTree = function(rhs) {
-        m_listController = rhs;
+      self.setTree = function(value) {
+        m_listController = value;
       };
 
       var loadCollection = function() {

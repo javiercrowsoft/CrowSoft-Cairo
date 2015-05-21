@@ -9,25 +9,75 @@
   // Entities
   ///////////////
 
-  Cairo.module("Dialogs", function(Dialogs, Cairo, Backbone, Marionette, $, _) {
+  Cairo.module("Dialogs.WizardViews", function(WizardViews, Cairo, Backbone, Marionette, $, _) {
 
-    Dialogs.Wizard = Backbone.Model.extend({
-      urlRoot: "",
+    WizardViews.Controller = {
 
-      defaults: {
-        steps: new Dialogs.WizardSteps()
-      },
+      newDialog: function() {
 
-      validate: function(attrs, options) {
-        var errors = {};
-        if(! attrs.name) {
-          errors.name = "can't be blank";
-        }
-        if( ! _.isEmpty(errors)) {
-          return errors;
-        }
+        var Dialogs = Cairo.Dialogs;
+
+        var m_dialog = null;
+        var m_steps = new Dialogs.createSteps();
+        var m_objClient = null;
+
+        var m_currentStep;
+        var m_wizardShowed = false;
+
+        var m_pushVirtualNext = false;
+        var m_closeWizardAfterSave = false;
+        var m_wizardClosed = false;
+        var m_restartVirtualPush = false;
+        
+        var self = {};
+
+        self.getDialog = function() {
+          return m_dialog;
+        };
+
+        self.setObjClient = function(value) {
+          m_objClient = value;
+        };
+
+        self.getObjClient = function() {
+          return m_objClient;
+        };
+
+        self.getPushVirtualNext = function() {
+          return m_pushVirtualNext;
+        };
+
+        self.setPushVirtualNext = function(value) {
+          m_pushVirtualNext = value;
+        };
+
+        self.setRestartVirtualPush = function(value) {
+          m_restartVirtualPush = value
+        };
+
+        self.getCloseWizardAfterSave = function() {
+          return m_closeWizardAfterSave;
+        };
+
+        self.setCloseWizardAfterSave = function(value) {
+          m_closeWizardAfterSave = value;
+        };
+
+        self.getWizardClosed = function() {
+          return m_wizardClosed;
+        };
+
+        var initialize = function() {
+
+        };
+
+        initialize();
+
+        return self;
+
       }
-    });
+
+    };
 
   });
 

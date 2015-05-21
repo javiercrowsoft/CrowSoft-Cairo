@@ -51,20 +51,20 @@
       self.getId = function() {
         return m_id;
       };
-      self.setId = function(rhs) {
-        m_id = rhs;
+      self.setId = function(value) {
+        m_id = value;
       };
       self.getName = function() {
         return m_name;
       };
-      self.setNombre = function(rhs) {
-        m_name = rhs;
+      self.setNombre = function(value) {
+        m_name = value;
       };
       self.getCode = function() {
         return m_code;
       };
-      self.setCodigo = function(rhs) {
-        m_code = rhs;
+      self.setCodigo = function(value) {
+        m_code = value;
       };
 
       self.data = function(id,  field) {
@@ -328,8 +328,8 @@
         return m_dialog;
       };
 
-      self.setTreeId = function(rhs) {
-        m_treeId = rhs;
+      self.setTreeId = function(value) {
+        m_treeId = value;
       };
 
       self.getTreeId = function() {
@@ -340,8 +340,8 @@
         return Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.LIST_TASA_IMPOSITIVA);
       };
 
-      self.setDialog = function(rhs) {
-        m_dialog = rhs;
+      self.setDialog = function(value) {
+        m_dialog = value;
       };
 
       self.isEditing = function() {
@@ -390,12 +390,12 @@
         return p;
       };
 
-      self.setTree = function(rhs) {
-        m_listController = rhs;
+      self.setTree = function(value) {
+        m_listController = value;
       };
 
-      self.setBranchId = function(rhs) {
-        m_branchId = rhs;
+      self.setBranchId = function(value) {
+        m_branchId = value;
       };
 
       self.getBranchId = function() {

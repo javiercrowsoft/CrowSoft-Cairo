@@ -54,48 +54,48 @@
       return m_tblId;
     };
 
-    self.setTblId = function(rhs) {
-      m_tblId = rhs;
+    self.setTblId = function(value) {
+      m_tblId = value;
     };
 
     self.getTabla = function() {
       return m_tabla;
     };
 
-    self.setTabla = function(rhs) {
-      m_tabla = rhs;
+    self.setTabla = function(value) {
+      m_tabla = value;
     };
 
     self.getId = function() {
       return m_id;
     };
 
-    self.setId = function(rhs) {
-      m_id = rhs;
+    self.setId = function(value) {
+      m_id = value;
     };
 
     self.getName = function() {
       return m_name;
     };
 
-    self.setName = function(rhs) {
-      m_name = rhs;
+    self.setName = function(value) {
+      m_name = value;
     };
 
     self.getRealName = function() {
       return m_realName;
     };
 
-    self.setRealName = function(rhs) {
-      m_realName = rhs;
+    self.setRealName = function(value) {
+      m_realName = value;
     };
 
     self.getType = function() {
       return m_type;
     };
 
-    self.setType = function(rhs) {
-      m_type = rhs;
+    self.setType = function(value) {
+      m_type = value;
     };
 
     self.getSubType = function() {
@@ -112,96 +112,96 @@
       }
     };
 
-    self.setSubType = function(rhs) {
-      m_subType = rhs;
+    self.setSubType = function(value) {
+      m_subType = value;
     };
 
     self.getOrder = function() {
       return m_order;
     };
 
-    self.setOrder = function(rhs) {
-      m_order = rhs;
+    self.setOrder = function(value) {
+      m_order = value;
     };
 
     self.getSelectType = function() {
       return m_selectType;
     };
 
-    self.setSelectType = function(rhs) {
-      m_selectType = rhs;
+    self.setSelectType = function(value) {
+      m_selectType = value;
     };
 
     self.getFilter = function() {
       return m_filter;
     };
 
-    self.setFilter = function(rhs) {
-      m_filter = replaceMacro(rhs);
+    self.setFilter = function(value) {
+      m_filter = replaceMacro(value);
     };
 
     self.getDefaultValue = function() {
       return m_defaultValue;
     };
 
-    self.setDefaultValue = function(rhs) {
-      m_defaultValue = rhs;
+    self.setDefaultValue = function(value) {
+      m_defaultValue = value;
     };
 
     self.getMinValue = function() {
       return m_minValue;
     };
 
-    self.setMinValue = function(rhs) {
-      m_minValue = rhs;
+    self.setMinValue = function(value) {
+      m_minValue = value;
     };
 
     self.getMaxValue = function() {
       return m_maxValue;
     };
 
-    self.setMaxValue = function(rhs) {
-      m_maxValue = rhs;
+    self.setMaxValue = function(value) {
+      m_maxValue = value;
     };
 
     self.getTextAlign = function() {
       return m_textAlign;
     };
 
-    self.setTextAlign = function(rhs) {
-      m_textAlign = rhs;
+    self.setTextAlign = function(value) {
+      m_textAlign = value;
     };
 
     self.getTextMask = function() {
       return m_textMask;
     };
 
-    self.setTextMask = function(rhs) {
-      m_textMask = rhs;
+    self.setTextMask = function(value) {
+      m_textMask = value;
     };
 
     self.getFormat = function() {
       return m_format;
     };
 
-    self.setFormat = function(rhs) {
-      m_format = rhs;
+    self.setFormat = function(value) {
+      m_format = value;
     };
 
     self.getNoShowButton = function() {
       return m_noShowButton;
     };
 
-    self.setNoShowButton = function(rhs) {
-      m_noShowButton = rhs;
+    self.setNoShowButton = function(value) {
+      m_noShowButton = value;
     };
 
     self.getListSql = function() {
       return m_listSql;
     };
 
-    self.setListSql = function(rhs) {
-      m_listSql = rhs;
+    self.setListSql = function(value) {
+      m_listSql = value;
     };
 
     self.getValue = function() {
@@ -213,20 +213,20 @@
       }
     };
 
-    self.setValue = function(rhs) {
-      m_value = rhs;
+    self.setValue = function(value) {
+      m_value = value;
     };
 
     self.getSelectIntValue = function() {
       return m_selectIntValue;
     };
 
-    self.setSelectIntValue = function(rhs) {
-      m_selectIntValue = rhs;
+    self.setSelectIntValue = function(value) {
+      m_selectIntValue = value;
     };
 
-    var replaceMacro = function(rhs) {
-      return ( rhs
+    var replaceMacro = function(value) {
+      return ( value
         .replace("@@emp_id", Cairo.Company.getId())
         .replace("@@us_id", Cairo.User.getId())
       );

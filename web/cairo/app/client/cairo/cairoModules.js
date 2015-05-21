@@ -10,6 +10,7 @@ Cairo.Controls = {};
 Cairo.Dialogs = {};
 Cairo.Dialogs.Grids = {};
 Cairo.Dialogs.Views = {};
+Cairo.Dialogs.WizardViews = {};
 Cairo.Select = {};
 
 Cairo.addRegions = function() {};
@@ -19,6 +20,8 @@ Cairo.Producto = {};
 Cairo.EditDocumento = {};
 Cairo.FacturaCompra = {};
 Cairo.FacturaCompraListDoc = {};
+Cairo.FacturaCompraRemitoWiz = {};
+Cairo.FacturaCompraWiz = {};
 
 Cairo.Rubro = {};
 Cairo.Rubro.Load = {};
