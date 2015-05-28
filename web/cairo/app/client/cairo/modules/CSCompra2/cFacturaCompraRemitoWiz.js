@@ -426,7 +426,7 @@
 
       self.load = function() {
         try {
-          m_objWizard.setHideTitle(true);
+          m_objWizard.getDialog().setHideTitle(true);
           return loadSteps();
         }
         catch (ex) {

@@ -702,7 +702,7 @@
         };
 
         var initialize = function() {
-          m_properties = new Dialogs.createProperties();
+          m_properties = Dialogs.createProperties();
         };
 
         var destroy = function() {

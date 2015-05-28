@@ -205,14 +205,14 @@
 
   Cairo.module("Dialogs.Views", function(Views, Cairo, Backbone, Marionette, $, _) {
 
+    var Dialogs = Cairo.Dialogs;
+    var Controls = Cairo.Controls;
+    var P = Cairo.Promises;
+    var call = P.call;
+
     Views.Controller = {
 
       newDialog: function() {
-
-        var Dialogs = Cairo.Dialogs;
-        var Controls = Cairo.Controls;
-        var P = Cairo.Promises;
-        var call = P.call;
 
         var K_W_CANCEL = -10;
 
@@ -6302,7 +6302,7 @@
 
           m_tabHideControlsInAllTab = -1;
 
-          m_properties = new Dialogs.createProperties();
+          m_properties = Dialogs.createProperties();
         };
 
         var destroy = function() {

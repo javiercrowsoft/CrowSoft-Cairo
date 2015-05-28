@@ -14,7 +14,7 @@
     Dialogs.createTab = function() {
 
       var self = {
-        key: 0,
+        keyTab: "",
         name: '',
         index: 0,
         ctrlIndex: 0,
@@ -52,6 +52,14 @@
       };
       that.setFatherTab = function(father) {
         self.fatherTab = father;
+        return that;
+      };
+
+      that.getKeyTab = function() {
+        return self.keyTab;
+      };
+      that.setKeyTab = function(keyTab) {
+        self.keyTab = keyTab;
         return that;
       };
 
