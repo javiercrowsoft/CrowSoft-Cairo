@@ -74,15 +74,15 @@
 
       var m_id = 0;
 
-      var m_prov_id = 0;
+      var m_provId = 0;
       var m_proveedor = "";
-      var m_doc_id = 0;
+      var m_docId = 0;
       var m_documento = "";
       var m_monId = 0;
       var m_rcIds = 0;
 
-      var m_bShowStockData;
-      var m_depl_id = 0;
+      var m_showStockData;
+      var m_deplId = 0;
       var m_deposito = "";
 
       var m_objClient = null;
@@ -105,19 +105,33 @@
       };
 
       self.setDocId = function(value) {
-        m_doc_id = value;
+        m_docId = value;
+        m_lastDocId = value;
       };
 
       self.setDocumento = function(value) {
         m_documento = value;
       };
 
+      self.setShowStockData = function(value) {
+        m_showStockData = value;
+      };
+
+      self.setMonId = function(value) {
+        m_monId = value;
+      };
+
       self.setProvId = function(value) {
-        m_prov_id = value;
+        m_provId = value;
       };
 
       self.setProveedor = function(value) {
         m_proveedor = value;
+      };
+
+      self.setIva = function(iva, ivarni) {
+        m_bIva = iva;
+        m_bIvaRni = ivarni;
       };
 
       self.setRcIds = function(value) {
@@ -132,7 +146,7 @@
       };
 
       self.loadWizard = function() {
-        return true;
+        return P.resolvedPromise(true);
       };
 
       self.isEmptyRow = function(key,  row,  rowIndex) {
@@ -349,8 +363,10 @@
             
             var row = grid.getRows().get(lRow);
             D.setPrecioIvaEx(
-              row, KII_PRECIO_SIN_IVA, KII_IVARIPERCENT, KII_IVARNIPERCENT,
-              KII_INTERNOSPERCENT, KII_INTERNOSPORC, KII_PRECIOIVA, m_bIva, m_bIvaRni
+              row,
+              KII_PRECIO_SIN_IVA, KII_IVARIPERCENT, KII_IVARNIPERCENT,
+              KII_INTERNOSPERCENT, KII_INTERNOSPORC, KII_PRECIOIVA,
+              m_bIva, m_bIvaRni
             );
             showTotalItems();
             D.setTotal(row, KII_TOTAL, KII_APLICAR, KII_PRECIOIVA);
@@ -431,7 +447,7 @@
         }
         catch (ex) {
           Cairo.manageErrorEx(ex.message, ex, "load", C_MODULE, "");
-          return false;
+          return P.resolvedPromise(false);
         }
       };
 
@@ -526,7 +542,7 @@
                 nextStep = WCS.SELECT_PROVEEDOR;
                 p = M.showWarningWithFalse(Cairo.Language.getText(1860, ""), Cairo.Language.getText(1607, "")); // Debe indicar un Proveedor, Facturas
               }
-              else if(D.wizGetDeposito(m_objWizard, WCS.SELECT_PROVEEDOR, DWC.DEPOSITO) === NO_ID && m_bShowStockData) {
+              else if(D.wizGetDeposito(m_objWizard, WCS.SELECT_PROVEEDOR, DWC.DEPOSITO) === NO_ID && m_showStockData) {
                 nextStep = WCS.SELECT_PROVEEDOR;
                 p = M.showWarningWithFalse(Cairo.Language.getText(1559, ""), Cairo.Language.getText(1722, "")); // Debe indicar un deposito, Remitos                                
               }
@@ -540,7 +556,7 @@
                     function() {
                       getTodos().setName(Cairo.Constants.SELECT_ALL_TEXT);
                       m_objWizard.showValue(getTodos());
-                      m_objWizard.setBackEnabled(true);
+                      m_objWizard.enableBack();
                       nextStep = WCS.SELECT_ORDEN_REMITO;
                       return true;
                     }
@@ -741,12 +757,31 @@
 
           case WC.KW_DOC_ID:
 
-            m_lastDocId = getDoc();
-            D.wizSetShowStockData(m_objWizard, WCS.SELECT_PROVEEDOR, m_bShowStockData);
-            var prop = D.wizGetDepositoProp(m_objWizard, WCS.SELECT_PROVEEDOR, DWC.DEPOSITO);
-            prop.setEnabled(m_bShowStockData);
-            m_objWizard.showValue(prop);
-            D.wizCompraShowCotizacion(m_objWizard, WCS.DATOS_GENERALES, m_lastDocId, true);
+            // if the document has changed
+            //
+            var changeInfo = D.wizDocHasChanged(m_objWizard, m_lastDocId);
+            if(changeInfo.changed) {
+
+              m_lastDocId = changeInfo.docId;
+
+              p = DB.getData("load[" + m_apiPath + "documento/" + m_lastDocId.toString() + "/info]")
+              .then(function(response) {
+                if(response.success === true) {
+                  m_monId = valField(response.data, C.MON_ID);
+                  m_showStockData = valField(response.data, C.DOC_MUEVE_STOCK);
+                }
+                return response.success;
+              })
+              .success(function() {
+                  return D.wizCompraShowCotizacion(m_objWizard, WCS.DATOS_GENERALES, m_monId, true);
+              })
+              .success(function() {
+                var prop = D.wizGetDepositoProp(m_objWizard, WCS.SELECT_PROVEEDOR, DWC.DEPOSITO);
+                prop.setEnabled(m_showStockData);
+                m_objWizard.showValue(prop);
+              });
+
+            }
             break;
 
           case WC.KW_PROV_ID:
@@ -772,14 +807,23 @@
         }
       };
 
+      self.getPath = function() {
+        return "#compra/facturadecompra/sobreremito";
+      };
+
+      self.getEditorName = function() {
+        var id = "N" + (new Date).getTime().toString();
+        return "facturacompra/sobreremito/" + id;
+      };
+
       self.getTitle = function() {
         return Cairo.Language.getText(2168, ""); // Asistente de Facturas de Compra
       };
 
       var loadSteps = function() {
 
-        m_lastDocId = m_doc_id;
-        m_lastProvId = m_prov_id;
+        m_lastDocId = m_docId;
+        m_lastProvId = m_provId;
 
         loadStepWelcome();
         loadStepSelectProveedor();
@@ -788,12 +832,9 @@
         loadStepPercepciones();
 
         D.wizCompraLoadStepDatosGenerales(
-          m_objWizard, null, m_doc_id, m_prov_id, Cairo.Settings.getCurrencyRateDecimalsFormat()
+          m_objWizard, null, m_docId, m_provId, Cairo.Settings.getCurrencyRateDecimalsFormat()
         );
-        D.wizCompraShowCotizacion(m_objWizard, WCS.DATOS_GENERALES, m_lastDocId, false);
-        D.getIvaFromProveedor(m_prov_id, m_bIva, m_bIvaRni);
-
-        return true;
+        return D.wizCompraShowCotizacion(m_objWizard, WCS.DATOS_GENERALES, m_lastDocId, false);
       };
 
       var loadStepWelcome = function() {
@@ -832,7 +873,7 @@
         elem.setSelectFilter(D.FACTURA_COMPRAS_REMITO_DOC_FILTER);
         elem.setSelectTable(Cairo.Tables.DOCUMENTO);
         elem.setValue(m_documento);
-        elem.setSelectId(m_doc_id);
+        elem.setSelectId(m_docId);
         elem.setKey(WC.KW_DOC_ID);
 
         var elem = properties.add(null, DWC.PROVEEDOR);
@@ -840,18 +881,16 @@
         elem.setType(T.select);
         elem.setSelectTable(Cairo.Tables.PROVEEDOR);
         elem.setValue(m_proveedor);
-        elem.setSelectId(m_prov_id);
+        elem.setSelectId(m_provId);
         elem.setKey(WC.KW_PROV_ID);
 
-        D.wizSetShowStockData(m_objWizard, WCS.SELECT_PROVEEDOR, m_bShowStockData);
-
-        var elem = properties.add(null, DWC.DEPOSITO);        
+        var elem = properties.add(null, DWC.DEPOSITO);
         elem.setName(Cairo.Language.getText(1574, "")); // Deposito
         elem.setType(T.select);
         elem.setSelectTable(Cairo.Tables.DEPOSITO_LOGICO);
         elem.setSelectId(Cairo.UserConfig.getDeplId());
         elem.setValue(Cairo.UserConfig.getDeplNombre());
-        elem.setEnabled(m_bShowStockData);
+        elem.setEnabled(m_showStockData);
 
         var elem = properties.add(null, DWC.ONLY_SELECTED);
         elem.setType(T.check);
@@ -2042,8 +2081,8 @@
             var ld_id = valField(response.data, C.LD_ID);
             var ld_name = valField(response.data, C.LD_NAME);
             var cpg_id = valField(response.data, C.CPG_ID);
-            var lp_filter = D.getListaPrecioForProveedor(m_doc_id, m_prov_id);
-            var ld_filter = D.getListaDescuentoForProveedor(m_doc_id, m_prov_id);
+            var lp_filter = D.getListaPrecioForProveedor(m_docId, m_provId);
+            var ld_filter = D.getListaDescuentoForProveedor(m_docId, m_provId);
 
             if(cpg_id != NO_ID) {
 
@@ -2210,6 +2249,10 @@
         var property = getFechaVto();
         property.setVisible(esLibre);
         m_objWizard.showValue(property);
+      };
+
+      self.getObjectType = function() {
+        return "cairo.modules.facturaCompraRemitoWiz";
       };
 
       initialize();

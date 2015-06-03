@@ -5686,7 +5686,7 @@
 
           var lp_id = null;
 
-          if(!Cairo.Database.getData(Constants.LISTAPRECIOITEM, Constants.LPI_ID, lpi_id, Constants.LP_ID, lp_id)) { return; }
+          if(!Cairo.Database.getData(Constants.LISTA_PRECIO_ITEM, Constants.LPI_ID, lpi_id, Constants.LP_ID, lp_id)) { return; }
 
           var obj = null;
           obj = CSKernelClient2.cUtil.createObject("CSArticulo.cListaPrecio");

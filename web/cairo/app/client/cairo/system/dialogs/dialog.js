@@ -1975,7 +1975,7 @@
                 }
               }
               else if(controlIsCheckbox(c)) {
-                c.BackColor = view.getBackground().getBackColor();
+                c.setBackColor(view.getBackground().getBackColor());
               }
               if(controlIsToolbar(c) && c.getVisible()) {
                 view.setToolbar(c);
@@ -2091,28 +2091,6 @@
           }
         };
 
-        /*
-        *
-        * TODO: confirm this function is not used
-        *
-        self.showEx = function(obj, indexTag, addProp) {
-          return showDialog(obj, indexTag, !addProp);
-        };
-        */
-
-        /* for debugging - it allows google web tools to spot the line with the error
-        *
-        *
-        */
-        /*
-        self.show = function(obj, indexTag) {
-          Cairo.LoadingMessage.showWait();
-          var succes = showDialog(obj, indexTag, true);
-          Cairo.LoadingMessage.close();
-          return succes;
-        };
-        */
-
         self.show = function(obj, indexTag) {
           try {
             Cairo.LoadingMessage.showWait();
@@ -2205,11 +2183,18 @@
           return obj.columnAfterEdit !== undefined;
         };
 
-        var loadView = function(view, id) { /* TODO: implements this. */ };
-        var loadViewConfiguration = function(view, id) { /* TODO: implements this. */ };
-        var viewIsMaster = function(view) { /* TODO: implements this. */ };
-        var viewIsDocument = function(view) { /* TODO: implements this. */ };
-        var viewIsWizard = function(view) { /* TODO: implements this. */ };
+        var loadView = function(view, id) {
+          /* TODO: implements this. */
+          return true;
+        };
+        var loadViewConfiguration = function(view, id) {
+          /* TODO: implements this. */
+          return true;
+        };
+
+        var viewIsMaster = function(view) { return view.getType() === 'Dialog'; };
+        var viewIsDocument = function(view) { return view.getType() === 'Document'; };
+        var viewIsWizard = function(view) { return view.getType() === 'Wizard'; };
 
         var showDialog = function(obj, tabIndex) {
           var success = false;
@@ -4611,6 +4596,21 @@
           if(bSetFocus) {
             view.setFocusFirstControl();
           }
+        };
+
+        //
+        // wizard buttons
+        //
+        self.getCmdBack = function() {
+          return getView().getBackButton();
+        };
+
+        self.getCmdCancel = function() {
+          return getView().getCancelButton();
+        };
+
+        self.getCmdNext = function() {
+          return getView().getNextButton();
         };
 
         var getInputType = function(subType) {

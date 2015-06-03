@@ -35,7 +35,7 @@
       var m_minimo = 0;
       var m_porcentaje = 0;
       var m_importe = 0;
-      var m_mon_id = 0;
+      var m_monId = 0;
       var m_moneda = "";
       var m_ti_id = 0;
       var m_tasaImpositiva = "";
@@ -474,7 +474,7 @@
         elem.setName(Cairo.Language.getText(1113, ""));
         elem.setKey(K_MON_ID);
         elem.setValue(m_moneda);
-        elem.setSelectId(m_mon_id);
+        elem.setSelectId(m_monId);
 
         var elem = properties.add(null, Cairo.General.Constants.TI_ID);
         elem.setType(Dialogs.PropertyType.select);
@@ -530,7 +530,7 @@
 
         var elem = properties.item(Cairo.General.Constants.MON_ID);
         elem.setValue(m_moneda);
-        elem.setSelectId(m_mon_id);
+        elem.setSelectId(m_monId);
 
         var elem = properties.item(Cairo.General.Constants.TI_ID);
         elem.setValue(m_tasaImpositiva);
@@ -562,7 +562,7 @@
               m_porcentaje = Cairo.Database.valField(response.data, Cairo.General.Constants.GTO_PORCENTAJE);
               m_importe = Cairo.Database.valField(response.data, Cairo.General.Constants.GTO_IMPORTE);
 
-              m_mon_id = Cairo.Database.valField(response.data, Cairo.General.Constants.MON_ID);
+              m_monId = Cairo.Database.valField(response.data, Cairo.General.Constants.MON_ID);
               m_moneda = Cairo.Database.valField(response.data, Cairo.General.Constants.MON_NAME);
 
               m_ti_id = Cairo.Database.valField(response.data, Cairo.General.Constants.TI_ID);
@@ -579,7 +579,7 @@
               m_fijo = 0;
               m_minimo = 0;
               m_porcentaje = 0;
-              m_mon_id = Cairo.Constants.NO_ID;
+              m_monId = Cairo.Constants.NO_ID;
               m_moneda = "";
               m_ti_id = Cairo.Constants.NO_ID;
               m_tasaImpositiva = "";

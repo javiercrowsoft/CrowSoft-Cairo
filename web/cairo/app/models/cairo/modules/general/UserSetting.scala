@@ -106,7 +106,7 @@ object UserSetting {
     }
 
     val PURCHASES = " Cpra_"
-    val STOCK = "-"
+    val STOCK = "_"
     val SALES = " Vta_"
     val GENERAL = " Gral_"
     val TREASURY = " Tsr_"

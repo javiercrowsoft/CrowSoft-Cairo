@@ -20,7 +20,7 @@
       var C_MODULE = "cWizardStep";
 
       var m_index = 0;
-      var m_properties = createProperties();
+      var m_properties = null;
       var m_tabIndex = 0;
       var m_key = "";
 
@@ -93,6 +93,12 @@
           Cairo.manageErrorEx(ex.message, "destroy", C_MODULE, "");
         }
       };
+
+      var initalize = function() {
+        m_properties = createProperties();
+      };
+
+      initalize();
 
       return self;
     };

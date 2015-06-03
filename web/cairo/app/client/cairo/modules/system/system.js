@@ -5,6 +5,10 @@
   var CC = Cairo.Compras.Constants;
   var valField = Cairo.Database.valField;
   var bToI = Cairo.Util.boolToInt;
+  var getText = Cairo.Language.getText;
+  var Dialogs = Cairo.Dialogs;
+  var val = Cairo.Util.val;
+  var P = Cairo.Promise;
 
   // this file will contain all the code translated from cPublicDoc
   // the functions in cPublicDoc will be grouped by functionality
@@ -71,7 +75,7 @@
             for(var j = 0, y = items.length; j < y; j += 1) {
               var prId = getValue(items[j], C.PR_ID);
               virtualRow.setColAmountKey(amountKey);
-              if(Cairo.Util.val(vIds[i]) === prId) {
+              if(val(vIds[i]) === prId) {
                 virtualRow.getNewId().push(prId);
                 virtualRow.getNewValue().push(getValue(items[j], columnName));
                 virtualRow.getNewAmount().push(getAmountForId(prId, vArrayInfo))
@@ -100,7 +104,7 @@
   Cairo.Documents.Constants = {
     DOC_CHANGED: -2,
     TO_COMERCIAL_ID: 1,
-    TO_COMERCIAL: Cairo.Language.getText(1014, "") // Comercial
+    TO_COMERCIAL: getText(1014, "") // Comercial
   }
 
   Cairo.Documents.Status = {
@@ -227,7 +231,7 @@
 
     if(id === Cairo.Constants.NO_ID) {
                                              // you must save before invalidate
-      return Cairo.Modal.showWarningWithFail(Cairo.Language.getText(2911, ""));
+      return Cairo.Modal.showWarningWithFail(getText(2911, ""));
     }
     else {
 
@@ -252,10 +256,10 @@
             // aka restore the status of the document to validated
             //
             if(estId === Cairo.Documents.Status.anulado) {
-              p = Cairo.Modal.confirmViewYesDanger(Cairo.Language.getText(2912, ""), Cairo.Language.getText(2617, ""));
+              p = Cairo.Modal.confirmViewYesDanger(getText(2912, ""), getText(2617, ""));
             }
 
-            p = p || Cairo.Promise.resolvedPromise(true);
+            p = p || P.resolvedPromise(true);
 
             p = p.then(function(result) {
 
@@ -336,8 +340,8 @@
 
   var setGenericDoc = function(editor) {
     if(editor.getEditorType() === "document") {
-      editor.setFooter(Cairo.Dialogs.Views.Controller.newDialog());
-      editor.setItems(Cairo.Dialogs.Views.Controller.newDialog());
+      editor.setFooter(Dialogs.Views.Controller.newDialog());
+      editor.setItems(Dialogs.Views.Controller.newDialog());
     }
   };
 
@@ -359,7 +363,7 @@
   Cairo.Documents.showDocAux = function(id, objEditName) {
     try {
 
-      var dialog = Cairo.Dialogs.Views.Controller.newDialog();
+      var dialog = Dialogs.Views.Controller.newDialog();
       var editor = Cairo[objEditName].Edit.Controller.getEditor();
       editor.setTree(null);
       editor.setDialog(dialog);
@@ -408,7 +412,7 @@
 
     return isValidDate(docId, date).then(function(result) {
       if(result.isValid !== true) {
-        Cairo.Modal.showWarningWithFail(Cairo.Language.getText(2914, "", result.range));
+        Cairo.Modal.showWarningWithFail(getText(2914, "", result.range));
         // La fecha del Documento está fuera del rango permitido & _
         // por(las Fechas de Control de Acceso;; rango permtido:+ rango);
       }
@@ -469,7 +473,7 @@
 
   Cairo.Documents.docCanBeEdited = function(canBeEdited, message) {
     if(canBeEdited !== true) {
-      return Cairo.Modal.showWarningWithFalse(Cairo.Language.getText(2913, "", message));
+      return Cairo.Modal.showWarningWithFalse(getText(2913, "", message));
                                               //Este documento no puede ser modificado debido a:;; & DocEditMsg
     }
     else {
@@ -501,7 +505,7 @@
       return Cairo.Modal.showInfo(msg, title);
     }
     else {
-      return Cairo.Modal.showInfo(Cairo.Language.getText(2920, ""), title);
+      return Cairo.Modal.showInfo(getText(2920, ""), title);
             //Ud. puede modificar el documento
     }
   };
@@ -612,7 +616,7 @@
       "",
       'signDocument',
       'Cairo.Documents',
-      Cairo.Language.getText(1594, ""))
+      getText(1594, ""))
 
     return p.then(function(response) {
 
@@ -690,6 +694,24 @@
   };
 
   var getKey = Cairo.Util.getKey;
+  var DWC = Cairo.Constants.WizardKeys;
+  var WCS = Cairo.Constants.WizardSteps;
+  var WCC = Cairo.Constants.WizardConstants;
+  var D = Cairo.Documents;
+  var T = Dialogs.PropertyType;
+  var ST = Dialogs.PropertySubType;
+
+  Cairo.Documents.wizDocHasChanged = function(wizard,  lastDoc) {
+    var property = Cairo.Documents.getWizProperty(wizard, WCS.SELECT_PROVEEDOR, DWC.DOC);
+    var docId = property.getSelectId();
+    var docName = property.getValue();
+
+    return {
+      changed: lastDoc !== docId,
+      docId: docId,
+      docName: docName
+    }
+  };
 
   Cairo.Documents.wizGetDeposito = function(objWiz,  keyStep, keyDeposito) {
     return objWiz.getSteps().item(getKey(keyStep)).getProperties().item(keyDeposito).getSelectId();
@@ -704,21 +726,21 @@
     var iStep = wiz.getSteps().item(getKey(key));
     var properties = iStep.getProperties();
 
-    properties.item(c_Wiz_Key_MainTitle).setValue(Cairo.Constants.NEW_DOC_DESCRIP);
+    properties.item(DWC.MAIN_TITLE).setValue(Cairo.Constants.NEW_DOC_DESCRIP);
 
-    var iPropPrint = prop.item(c_Wiz_Key_PrintDoc);
+    var iPropPrint = properties.item(DWC.PRINT_DOC);
     iPropPrint.setName(Cairo.Constants.PRINT_DOC_TEXT.replace("%1", nroDoc));
     iPropPrint.setVisible(true);
 
-    properties.item(c_Wiz_Key_NewDoc).setVisible(true);
-    properties.item(c_Wiz_Key_CloseWizard).setVisible(true);
+    properties.item(DWC.NEW_DOC).setVisible(true);
+    properties.item(DWC.CLOSE_WIZARD).setVisible(true);
 
     if(bShowActionButton) {
-      properties.item(c_Wiz_Key_ActionButton).setVisible(true);
+      properties.item(DWC.ACTION_BUTTON).setVisible(true);
 
-      properties.item(c_Wiz_Key_ActionButtonAuto).setVisible(true);
-      if(properties.contains(c_Wiz_Key_ActionCancelAuto)) {
-        properties.item(c_Wiz_Key_ActionCancelAuto).setVisible(true);
+      properties.item(DWC.ACTION_BUTTON_AUTO).setVisible(true);
+      if(properties.contains(DWC.ACTION_CANCEL_AUTO)) {
+        properties.item(DWC.ACTION_CANCEL_AUTO).setVisible(true);
       }
     }
 
@@ -736,7 +758,337 @@
 
   Cairo.Documents.getWizProperty = function(objWiz, stepId, keyItem) {
     return objWiz.getSteps().item(getKey(stepId)).getProperties().item(keyItem);
-  }
+  };
+
+  Cairo.Documents.wizAddNewDocProperties = function(wiz, key) {
+    Cairo.Documents.wizAddNewDocPropertiesEx(wiz, key, "", "");
+  };
+
+  Cairo.Documents.wizAddNewDocPropertiesEx = function(wiz, key, strActionButtonCaption, strActionButtonAutoCaption) {
+    Cairo.Documents.wizAddNewDocPropertiesEx2(wiz, key, strActionButtonCaption, strActionButtonAutoCaption, "");
+  };
+
+  Cairo.Documents.wizAddNewDocPropertiesEx2 = function(
+    wiz, key, strActionButtonCaption, strActionButtonAutoCaption, strActionButtonCancelCaption) {
+
+    var iStep = wiz.getSteps().item(getKey(key));
+
+    var properties = iStep.getProperties();
+
+    var elem = properties.add(null, DWC.PRINT_DOC);
+    elem.setName(Cairo.Constants.PRINT_DOC_TEXT);
+    elem.setType(T.button);
+    elem.setVisible(false);
+    elem.setFontBold(true);
+    elem.setKey(WCC.KW_PRINT_DOC);
+
+    elem = properties.add(null, DWC.NEW_DOC);
+    elem.setName(Cairo.Constants.NEW_DOC_DESCRIP);
+    elem.setType(T.button);
+    elem.setVisible(false);
+    elem.setFontBold(true);
+    elem.setKey(WCC.KW_NEW_DOC);
+
+    elem = properties.add(null, DWC.CLOSE_WIZARD);
+    elem.setName(Cairo.Constants.CLOSE_WIZARD_TEXT);
+    elem.setType(T.button);
+    elem.setVisible(false);
+    elem.setFontBold(true);
+    elem.setKey(WCC.KW_CLOSE_WIZARD);
+
+    elem = properties.add(null, DWC.ACTION_BUTTON);
+    elem.setName(strActionButtonCaption);
+    elem.setType(T.button);
+    elem.setVisible(false);
+    elem.setFontBold(true);
+    elem.setKey(WCC.KW_ACTION_BUTTON_DOC);
+
+    elem = properties.add(null, DWC.ACTION_BUTTON_AUTO);
+    elem.setName(strActionButtonAutoCaption);
+    elem.setType(T.button);
+    elem.setVisible(false);
+    elem.setFontBold(true);
+    elem.setKey(WCC.KW_ACTION_BUTTON_DOC_AUTO);
+
+    if(strActionButtonCancelCaption !== '') {
+      elem = properties.add(null, DWC.ACTION_CANCEL_AUTO);
+      elem.setName(strActionButtonCancelCaption);
+      elem.setType(T.button);
+      elem.setVisible(false);
+      elem.setFontBold(true);
+      elem.setKey(WCC.KW_ACTION_BUTTON_DOC_CANCEL_AUTO);
+    }
+  };
+
+  Cairo.Documents.wizShowNewStepEx = function(wiz, key, nroDoc, bShowActionButton) {
+    var iStep = wiz.getSteps().item(getKey(key));
+
+    var properties = iStep.getProperties();
+    var property = properties.item(DWC.MAIN_TITLE);
+    property.setValue(Cairo.Constants.NEW_DOC_DESCRIP);
+
+    var iPropPrint = properties.item(DWC.PRINT_DOC);
+    iPropPrint.setName(Cairo.Constants.PRINT_DOC_TEXT.replace("%1", nroDoc));
+    iPropPrint.setVisible(true);
+
+    var property = properties.item(DWC.NEW_DOC);
+    property.setVisible(true);
+
+    var property = properties.item(DWC.CLOSE_WIZARD);
+    property.setVisible(true);
+
+    if(bShowActionButton) {
+
+      var property = properties.item(DWC.ACTION_BUTTON);
+      property.setVisible(true);
+
+      var property = properties.item(DWC.ACTION_BUTTON_AUTO);
+      property.setVisible(true);
+
+      if(!properties.item(DWC.ACTION_CANCEL_AUTO) === null) {
+
+        var property = properties.item(DWC.ACTION_CANCEL_AUTO);
+        property.setVisible(true);
+      }
+    }
+
+    wiz.getCmdCancel().Visible = false;
+    wiz.getCmdBack().Visible = false;
+    wiz.getCmdNext().Visible = false;
+
+    var dialog = wiz.getDialog();
+    dialog.showValue(iPropPrint);
+    wiz.getDialog().resetChanged;
+
+    // stop the automatic wizard
+    //
+    wiz.setPushVirtualNext(false);
+  };
+
+  var m_defaultCurrency = Cairo.Documents.getDefaultCurrency();
+
+  Cairo.Documents.wizCompraShowCotizacion = function(wiz, stepId, monId, show) {
+    var p = null;
+
+    var property = Cairo.Documents.getWizProperty(wiz, stepId, DWC.COTIZACION);
+    property.setVisible(monId !== m_defaultCurrency);
+
+    if(monId === m_defaultCurrency) {
+      property.setValue(0);
+    }
+    else {
+      p = Cairo.Documents.getCurrencyRate(monId, Cairo.Dates.today()).then(function(rate) {
+        property.setValue(rate);
+      });
+    }
+
+    p = p || P.resolvedPromise(true);
+
+    p = p.then(function() {
+      if(show) {
+        wiz.showValue(property);
+      }
+      return true;
+    });
+
+    return p;
+  };
+
+  Cairo.Documents.wizGetDepositoProp = function(objWiz, keyStep, keyDeposito) {
+    return objWiz.getSteps().item(getKey(keyStep)).getProperties().item(keyDeposito);
+  };
+
+  Cairo.Documents.wizGetDeposito = function(objWiz, keyStep, keyDeposito) {
+    return Cairo.Documents.wizGetDepositoProp(objWiz, keyStep, keyDeposito).getSelectId();
+  };
+
+  Cairo.Documents.wizCompraLoadStepDatosGenerales = function(objWiz, resource, doc_id, prov_id, formatCotiz) {
+
+    var properties = objWiz.getSteps().add(null, getKey(WCS.DATOS_GENERALES)).getProperties();
+
+    var elem = properties.add(null);
+    elem.setType(T.label);
+    elem.setFontBold(true);
+    elem.setValue(getText(1663, "")); // Complete los siguientes datos de la factura
+
+    var elem = properties.add(null, DWC.FECHA);
+    elem.setType(T.date);
+    elem.setName(getText(1569, "")); // Fecha
+    elem.setValue(Cairo.Dates.today());
+
+    var elem = properties.add(null, DWC.FECHA_IVA);
+    elem.setType(T.date);
+    elem.setName(getText(1900, "")); // F. IVA
+    elem.setValue(Cairo.Dates.today());
+
+    var elem = properties.add(null, DWC.PROVEEDOR2);
+    elem.setType(T.select);
+    elem.setSelectTable(Cairo.Tables.PROVEEDOR);
+    elem.setEnabled(false);
+    elem.setName(getText(1151, "")); // Proveedor
+
+    var elem = properties.add(null, DWC.CONDICION_PAGO);
+    elem.setType(T.select);
+    elem.setSelectTable(Cairo.Tables.CONDICION_PAGO);
+    elem.setName(getText(1395, "")); // Condición de Pago
+    elem.setKey(WCC.KW_CPG_ID);
+
+    var elem = properties.add(null, DWC.FECHA_VTO);
+    elem.setType(T.date);
+    elem.setName(getText(1634, "")); // Vto.
+    elem.setValue(Cairo.Dates.today());
+    elem.setVisible(false);
+
+    var elem = properties.add(null, DWC.SUCURSAL);
+    elem.setType(T.select);
+    elem.setSelectTable(Cairo.Tables.SUCURSAL);
+    elem.setName(getText(1281, "")); // Sucursal
+    elem.setValue(Cairo.User.getSucName());
+    elem.setSelectId(Cairo.User.getSucId());
+
+    var elem = properties.add(null, DWC.COTIZACION);
+    elem.setType(T.numeric);
+    elem.setSubType(ST.money);
+    elem.setName(getText(1635, "")); // Cotización
+    elem.setFormat(formatCotiz);
+
+    var elem = properties.add(null, DWC.COMPROBANTE);
+    elem.setType(T.text);
+    elem.setName(getText(1610, "")); // Comprobante
+
+    var elem = properties.add(null, DWC.LISTA_PRECIO);
+    elem.setType(T.select);
+    elem.setSelectTable(Cairo.Tables.LISTA_PRECIO);
+    elem.setName(getText(1397, "")); // Lista de Precios
+    elem.setSelectFilter(Cairo.Documents.getListaPrecioForProveedor(doc_id, prov_id));
+
+    var elem = properties.add(null, DWC.LISTA_DESCUENTO);
+    elem.setType(T.select);
+    elem.setSelectTable(Cairo.Tables.LISTA_DESCUENTO);
+    elem.setName(getText(1398, "")); // Lista de Descuentos
+    elem.setSelectFilter(Cairo.Documents.getListaDescuentoForProveedor(doc_id, prov_id));
+
+    var elem = properties.add(null, DWC.LEGAJO);
+    elem.setType(T.select);
+    elem.setSelectTable(Cairo.Tables.LEGAJO);
+    elem.setName(getText(1575, "")); // Legajo
+
+    var elem = properties.add(null, DWC.CENTRO_COSTO);
+    elem.setType(T.select);
+    elem.setSelectTable(Cairo.Tables.CENTRO_COSTO);
+    elem.setName(getText(1057, "")); // Centro de Costo
+
+    var elem = properties.add(null, DWC.TIPO_COMPROBANTE);
+    elem.setType(T.list);
+    elem.setName(getText(1903, "")); // Tipo Comprobante
+    elem.setListWhoSetItem(Dialogs.ListWhoSetItem.itemData);
+    var list = elem.getList();
+
+    list.add(null)
+      .setId(D.ReceiptType.original)
+      .setValue(getText(2090, "")); // Original
+
+    list.add(null)
+      .setId(D.ReceiptType.fax)
+      .setValue(getText(1200, "")); // Fax
+
+    list.add(null)
+      .setId(D.ReceiptType.photocopy)
+      .setValue(getText(2091, "")); // Fotocopia
+
+    list.add(null)
+      .setId(D.ReceiptType.duplicate)
+      .setValue(getText(2092, "")); // Duplicado
+
+    var elem = properties.add(null, DWC.COTIZACION_PROV);
+    elem.setType(T.numeric);
+    elem.setSubType(T.money);
+    elem.setName(getText(4653, "")); // Cotización Proveedor
+    elem.setFormat(formatCotiz);
+
+    var elem = properties.add(null, DWC.OBSERVACIONES);
+    elem.setType(T.text);
+    elem.setSubType(ST.memo);
+    elem.setName(getText(1861, "")); // Observaciones
+  };
+
+  Cairo.Documents.setPrecioIvaEx = function(
+    row, kII_PRECIO_SIN_IVA, kII_IVARIPercent, kII_IVARNIPercent,
+    kII_INTERNOSPercent, kII_INTERNOSPorc, kII_PRECIOIVA, bIva, bIvaRni) {
+
+    var ivaRi = null;
+    var ivaRni = null;
+    var internos = null;
+    var int_porc = null;
+
+    var precio = val(Dialogs.cell(row, kII_PRECIO_SIN_IVA).getValue());
+    if(bIva) {
+      ivaRi = (precio * val(Dialogs.cell(row, kII_IVARIPercent).getValue())) / 100;
+    }
+    if(bIvaRni) {
+      ivaRni = (precio * val(Dialogs.cell(row, kII_IVARNIPercent).getValue())) / 100;
+    }
+
+    if(kII_INTERNOSPercent) {
+      int_porc = val(Dialogs.cell(row, kII_INTERNOSPorc).getValue());
+      internos = val(Dialogs.cell(row, kII_INTERNOSPercent).getValue());
+      internos = ((precio * int_porc / 100) * internos) / 100;
+    }
+
+    var precioIva = precio + ivaRi + ivaRni + internos;
+
+    Dialogs.cell(row, kII_PRECIOIVA).setValue(precioIva);
+  };
+
+  Cairo.Documents.setTotal = function(row, kII_TOTAL, kII_APLICAR, kII_PRECIOIVA) {
+    Dialogs.cell(row, kII_TOTAL).setValue(
+      val(Dialogs.cell(row, kII_APLICAR).getValue())  
+      * val(Dialogs.cell(row, kII_PRECIOIVA).getValue())
+    );
+  };
+
+  Cairo.Documents.wizNewDoc = function(wiz, iStep) {
+    wiz.getCmdCancel().setVisible(true);
+    wiz.getCmdBack().setVisible(true);
+    wiz.getCmdNext().setVisible(true);
+    wiz.doNextStep(iStep);
+  };
+
+  //-----------------------------------------------------------------------
+  // IdEx is used for sale delivery notices to indicate
+  // the document is based in bom documents and by sale
+  // invoices to indicate it is based in hours instead of
+  // orders or delivery notes
+  //
+  Cairo.Documents.setDocumentForDoctId = function(docProperty, wiz, doctId, doctIdApplic, vIds, idEx) {
+
+    var p = null;
+    
+    if(docProperty.getSelectId() === Cairo.Constants.NO_ID) { 
+
+      var id = 0;
+  
+      if(vIds.length > 0) { id = vIds(1); }
+  
+      var apiPath = Cairo.Database.getAPIVersion();
+      p = Cairo.Database.getData("load[" + apiPath + "documento/from_doct_id/"
+                  + doctId.toString() + "/" + doctIdApplic.toString()
+                  + "/" + id.toString() + "/" + idEx.toString() + "]")
+        .then(function(response) {
+          if(response.success === true) {
+            docProperty.setSelectId(valField(response.data, 'id'));
+            docProperty.setValue(valField(response.data, 'name'));
+            wiz.showValue(docProperty);
+            return true;
+          }
+          else {
+            return false;
+          }
+        });
+    }
+
+    return p || P.resolvedPromise(true);    
+  };
 
 }());
 
@@ -877,11 +1229,11 @@
   
     if(grupo === 0) { return 0; }
   
-    if(mCollection.existsObjectInColl(nrosSerie, mCollection.getKey(grupo))) {
+    if(mCollection.existsObjectInColl(nrosSerie, getKey(grupo))) {
   
-      var _count = nrosSerie.get(mCollection.getKey(grupo)).size();
+      var _count = nrosSerie.get(getKey(grupo)).size();
       for (var _i = 0; _i < _count; _i++) {
-        pt = nrosSerie.get(mCollection.getKey(grupo)).item(_i);
+        pt = nrosSerie.get(getKey(grupo)).item(_i);
         if(!pt.Cairo.SerialNumber.getDeleted()) {
           rtn = rtn + 1;
         }
@@ -934,7 +1286,7 @@
 
         if(! superSilent) {
 
-          if(!cWindow.ask(Cairo.Language.getText(2915, "", cantidad, nroSerieCount, strRow), vbYes)) {
+          if(!cWindow.ask(getText(2915, "", cantidad, nroSerieCount, strRow), vbYes)) {
             //"Ud ha indicado " & Cantidad & " items pero solo " & _
             nroSerieCount.toString()+ " Números de Serie"+ strRow+ ";;¿Desea que Cairo genere números auxiliares por Ud?;";
             return null;
@@ -948,13 +1300,13 @@
     }
     else if(cantidad < nroSerieCount) {
 
-      cWindow.msgInfo(Cairo.Language.getText(2916, "", rowIndex));
+      cWindow.msgInfo(getText(2916, "", rowIndex));
       //La cantidad del rénglon  & RowIndex &  es menor a la cantidad de & _
       números(de serie asociados. Indique el/los números de serie a eleminar.);
 
-      if(!Cairo.SerialNumber.destroy(Dialogs.cell(row, keyGroup).getID(), Cairo.Util.val(Dialogs.cell(row, keyCantidad).getValue()), row, nrosSerie, keyGroup, keyNSerie, rowIndex, prId, deplId, isInput, nroSerieCount - cantidad)) {
+      if(!Cairo.SerialNumber.destroy(Dialogs.cell(row, keyGroup).getID(), val(Dialogs.cell(row, keyCantidad).getValue()), row, nrosSerie, keyGroup, keyNSerie, rowIndex, prId, deplId, isInput, nroSerieCount - cantidad)) {
 
-        cWindow.msgWarning(Cairo.Language.getText(2917, "", rowIndex));
+        cWindow.msgWarning(getText(2917, "", rowIndex));
         //El documento no será guardado hasta que no indique los números de & _
         serie(a eliminar o modifique la cantidad indicada en el rénglon+ rowIndex.toString());
         return null;
@@ -978,20 +1330,20 @@
     nroSerieCount = Cairo.SerialNumber.getCount(nrosSerie, grupo);
 
     if(cantidad > nroSerieCount) {
-      cWindow.msgInfo(Cairo.Language.getText(2918, "", cantidad, nroSerieCount, strRow));
+      cWindow.msgInfo(getText(2918, "", cantidad, nroSerieCount, strRow));
       //Ud ha indicado  & Cantidad &  items pero solo  & nroSerieCount.toString()+ números de serie" & strRow;
       return null;
 
     }
     else if(cantidad < nroSerieCount) {
 
-      cWindow.msgInfo(Cairo.Language.getText(2916, "", rowIndex));
+      cWindow.msgInfo(getText(2916, "", rowIndex));
       //La cantidad del rénglon " & RowIndex & " es menor a la cantidad de & _
       números(de serie asociados. Indique el/los números de serie a eleminar.);
 
-      if(!Cairo.SerialNumber.destroy(Dialogs.cell(row, keyGroup).getID(), Cairo.Util.val(Dialogs.cell(row, keyCantidad).getValue()), row, nrosSerie, keyGroup, keyNSerie, rowIndex, prId, deplId, isInput, nroSerieCount - cantidad)) {
+      if(!Cairo.SerialNumber.destroy(Dialogs.cell(row, keyGroup).getID(), val(Dialogs.cell(row, keyCantidad).getValue()), row, nrosSerie, keyGroup, keyNSerie, rowIndex, prId, deplId, isInput, nroSerieCount - cantidad)) {
 
-        cWindow.msgWarning(Cairo.Language.getText(2917, "", rowIndex));
+        cWindow.msgWarning(getText(2917, "", rowIndex));
         //El documento no será guardado hasta que no indique los números de & _
         serie(a eliminar o modifique la cantidad indicada en el rénglon+ rowIndex.toString());
         return null;
@@ -1027,7 +1379,7 @@
     /* TODO: complete this
 
     var oldValue = null;
-    oldValue = Cairo.Util.val(Dialogs.cell(row, keyCantidad).getValue());
+    oldValue = val(Dialogs.cell(row, keyCantidad).getValue());
 
     if(oldValue != newValue && oldValue > 0) {
 
@@ -1049,13 +1401,13 @@
         if(nroSerieCount > newValue) {
 
           if(isParteProd && !isNewParteProd) {
-            cWindow.msgWarning(Cairo.Language.getText(3038, ""));
+            cWindow.msgWarning(getText(3038, ""));
             //"Solo se puede modificar la cantidad" & _
             " en MENOS, en un parte de producción, "(+ " cuando el parte es nuevo.;;Para partes ya guardados hay que hacer un ""Parte de Desarme"".");
             return null;
           }
           else {
-            if(!Cairo.SerialNumber.destroy(Dialogs.cell(row, keyGroup).getID(), Cairo.Util.val(Dialogs.cell(row, keyCantidad).getValue()), row, nrosSerie, keyGroup, keyNSerie, lRow, prId, deplId, isInput, nroSerieCount - newValue)) {
+            if(!Cairo.SerialNumber.destroy(Dialogs.cell(row, keyGroup).getID(), val(Dialogs.cell(row, keyCantidad).getValue()), row, nrosSerie, keyGroup, keyNSerie, lRow, prId, deplId, isInput, nroSerieCount - newValue)) {
               return null;
             }
           }
@@ -1133,7 +1485,7 @@
 
     if(cantidad < 1) {
       //'Debe indicar una cantidad
-      cWindow.msgWarning(Cairo.Language.getText(2921, ""));
+      cWindow.msgWarning(getText(2921, ""));
       return null;
     }
 
@@ -1147,7 +1499,7 @@
       cantidad = pGetCantidadForKit(collKitInfo, cantidad);
 
       if(collKitInfo === null) {
-        cWindow.msgWarning(Cairo.Language.getText(2922, ""));
+        cWindow.msgWarning(getText(2922, ""));
         //No se recibió la definición del kit. No se pueden editar los & _
         Números(de Serie);
         return null;
@@ -1156,11 +1508,11 @@
 
     // Si ya existen numeros de serie para este item
     //
-    if(mCollection.existsObjectInColl(nrosSerie, mCollection.getKey(grupo))) {
+    if(mCollection.existsObjectInColl(nrosSerie, getKey(grupo))) {
 
       // Paso de la coleccion a la ventana de edicion
       //
-      coll = nrosSerie.get(mCollection.getKey(grupo));
+      coll = nrosSerie.get(getKey(grupo));
       for (i = 1; i <= coll.size(); i++) {
         editSerie.self.addProductoSerie(coll.get(i));
       }
@@ -1233,7 +1585,7 @@
       //'(NrosSerie.Count + 1) * -1
       Dialogs.cell(row, kI_GRUPO).getID() === grupo;
       coll = new Collection();
-      nrosSerie.Add(coll, mCollection.getKey(grupo));
+      nrosSerie.Add(coll, getKey(grupo));
     }
 
     mCollection.collClear(coll);
@@ -1263,7 +1615,7 @@
 
       idx = idx + 1;
 
-      coll.Add(pt, mCollection.getKey(pt.self.getPrns_id()));
+      coll.Add(pt, getKey(pt.self.getPrns_id()));
     }
 
     idx = idx - 1;
@@ -1294,7 +1646,7 @@
 
     if(cantidad < 1) {
       //'Debe indicar una cantidad
-      cWindow.msgWarning(Cairo.Language.getText(2921, ""));
+      cWindow.msgWarning(getText(2921, ""));
       return null;
     }
 
@@ -1302,7 +1654,7 @@
       cantidad = pGetCantidadForKit(collKitInfo, cantidad);
 
       if(collKitInfo === null) {
-        cWindow.msgWarning(Cairo.Language.getText(2922, ""));
+        cWindow.msgWarning(getText(2922, ""));
         //No se recibio la definicion del kit. No se pueden editar los numeros de serie
         return null;
       }
@@ -1311,11 +1663,11 @@
 
     // Si ya existen numeros de serie para este item
     //
-    if(mCollection.existsObjectInColl(nrosSerie, mCollection.getKey(grupo))) {
+    if(mCollection.existsObjectInColl(nrosSerie, getKey(grupo))) {
 
       // Paso de la coleccion a la ventana de edicion
       //
-      coll = nrosSerie.get(mCollection.getKey(grupo));
+      coll = nrosSerie.get(getKey(grupo));
 
     }
     else {
@@ -1329,7 +1681,7 @@
       //'(NrosSerie.Count + 1) * -1
       Dialogs.cell(row, kI_GRUPO).getID() === grupo;
       coll = new Collection();
-      nrosSerie.Add(coll, mCollection.getKey(grupo));
+      nrosSerie.Add(coll, getKey(grupo));
 
     }
 
@@ -1351,7 +1703,7 @@
               // Creo filas para los nuevos numeros de serie
               //
               n = n + 1;
-              coll.Add(new cProductoSerieType(), mCollection.getKey(n * -1));
+              coll.Add(new cProductoSerieType(), getKey(n * -1));
               coll.Codigo = getNextNumber();
               coll.prns_id = n * -1;
               coll.pr_id = prId ? prId : prId2);
@@ -1368,7 +1720,7 @@
       // Creo filas para los nuevos numeros de serie
       //
       for (i = n + 1; i <= cantidad; i++) {
-        coll.Add(new cProductoSerieType(), mCollection.getKey(i * -1));
+        coll.Add(new cProductoSerieType(), getKey(i * -1));
         coll.Codigo = getNextNumber();
         coll.prns_id = i * -1;
         coll.pr_id = prId ? prId : prId2);
@@ -1409,7 +1761,7 @@
     if(!Cairo.Database.openRs(sqlstmt, rs)) { return ""; }
 
     if(rs.isEOF()) {
-      VBA.ex.Raise -1, , Cairo.Language.getText(2923, "");
+      VBA.ex.Raise -1, , getText(2923, "");
       //@@ERROR_SP:No se pudo obtener un Número de Serie auxiliar.
       return null;
     }
@@ -1534,11 +1886,11 @@
       }
       if(t > -1 ) {
         if(t === 0) {
-          offset = Cairo.Util.val(dateName);
+          offset = val(dateName);
           dateName = "h";
         }
         else {
-          offset = Cairo.Util.val(dateName.substr(t));
+          offset = val(dateName.substr(t));
           dateName = dateName.substr(0, t);
         }
       }

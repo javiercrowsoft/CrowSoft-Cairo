@@ -46,7 +46,7 @@
       var m_llevaCentroCosto;
       var m_producto;
       var m_identificacionExterna = "";
-      var m_mon_id = 0;
+      var m_monId = 0;
       var m_moneda = "";
       var m_bco_id = 0;
       var m_banco = "";
@@ -570,7 +570,7 @@
         // Moneda
         elem.setName(Cairo.Language.getText(1113, ""));
         elem.setKey(K_MON_ID);
-        elem.setSelectId(m_mon_id);
+        elem.setSelectId(m_monId);
         elem.setValue(m_moneda);
 
         var elem = properties.add(null, Cairo.Constants.EMP_ID);
@@ -723,7 +723,7 @@
         elem.setValue(m_active === true ? 1 : 0);
 
         var elem = properties.item(Cairo.General.Constants.MON_ID);
-        elem.setSelectId(m_mon_id);
+        elem.setSelectId(m_monId);
         elem.setValue(m_moneda);
 
         var elem = properties.item(Cairo.Constants.EMP_ID);
@@ -785,7 +785,7 @@
               m_identificacionExterna = "";
               m_categoria = "";
               m_categoriaId = Cairo.Constants.NO_ID;
-              m_mon_id = Cairo.Constants.NO_ID;
+              m_monId = Cairo.Constants.NO_ID;
               m_moneda = "";
               m_bco_id = Cairo.Constants.NO_ID;
               m_banco = "";
@@ -809,7 +809,7 @@
               m_identificacionExterna = Cairo.Database.valField(response.data, Cairo.General.Constants.CUE_IDENTIFICACION_EXTERNA);
               m_categoria = Cairo.Database.valField(response.data, Cairo.General.Constants.CUEC_NAME);
               m_categoriaId = Cairo.Database.valField(response.data, Cairo.General.Constants.CUEC_ID);
-              m_mon_id = Cairo.Database.valField(response.data, Cairo.General.Constants.MON_ID);
+              m_monId = Cairo.Database.valField(response.data, Cairo.General.Constants.MON_ID);
               m_moneda = Cairo.Database.valField(response.data, Cairo.General.Constants.MON_NAME);
               m_bco_id = Cairo.Database.valField(response.data, Cairo.General.Constants.BCO_ID);
               m_banco = Cairo.Database.valField(response.data, Cairo.General.Constants.BCO_NAME);

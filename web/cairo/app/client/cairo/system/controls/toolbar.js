@@ -13,7 +13,7 @@
       return that;
     };
 
-    Controls.createButton = function() {
+    Controls.createToolbar = function() {
 
       var self = {
         objectType: "cairo.controls.toolbar"

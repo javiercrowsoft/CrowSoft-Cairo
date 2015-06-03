@@ -20,7 +20,7 @@
         var Dialogs = Cairo.Dialogs;
 
         var m_dialog = null;
-        var m_steps = Cairo.Collections.createCollection(Dialogs.WizardSteps.createObject);
+        var m_steps = null;
         var m_client = null;
 
         var m_currentStep;
@@ -65,8 +65,40 @@
           m_closeWizardAfterSave = value;
         };
 
+        self.setCancelVisible = function(value) {
+          m_dialog.getCmdCancel().setVisible(value);
+        };
+
+        self.setBackVisible = function(value) {
+          m_dialog.getCmdBack().setVisible(value);
+        };
+
+        self.setNextVisible = function(value) {
+          m_dialog.getCmdNext().setVisible(value);
+        };
+
+        self.disableBack = function() {
+          m_dialog.getCmdBack().setEnabled(false);
+        };
+
+        self.enableBack = function() {
+          m_dialog.getCmdBack().setEnabled(true);
+        };
+
+        self.setNextText = function(text) {
+          m_dialog.getCmdNext().setText(text);
+        };
+
         self.getWizardClosed = function() {
           return m_wizardClosed;
+        };
+
+        self.getPath = function() {
+          return m_client.getPath();
+        };
+
+        self.getEditorName = function() {
+          return m_client.getEditorName();
         };
 
         self.copy = function() {
@@ -195,7 +227,6 @@
           if(m_steps.contains(stepIndex)) {
             var properties = m_steps.get(stepIndex).getProperties();
             for (var _i = 0, _count = properties.size(); _i < _count; _i++) {
-              var property = properties.item(_i);
               self.remove(_i, stepIndex);
             }
           }
@@ -348,6 +379,8 @@
         self.save = function() {
         };
 
+        self.wizPrintDocEx = function() { /* TODO: implement this. */ };
+
         var nextStep = function(currentStep) {
           m_restartVirtualPush = false;
 
@@ -389,28 +422,23 @@
         };
 
         var showStep = function(nStep) {
-          var p = null;
           var step = m_steps.get(Cairo.Util.getKey(nStep));
 
           if(m_wizardShowed) {
             m_dialog.tabClick(step.getTabIndex());
+            m_currentStep = nStep;
+            return true;
           }
           else {
-            p = m_dialog.show(self, step.getTabIndex()).success(function() {
-                m_wizardShowed = true;
-              },
-              false
-            );
-          }
-
-          p = p || P.resolvedPromise(true);
-
-          return p.success(function() {
+            if(m_dialog.show(self, step.getTabIndex())){
+              m_wizardShowed = true;
               m_currentStep = nStep;
               return true;
-            },
-            false
-          );
+            }
+            else {
+              return false;
+            }
+          }
         };
 
         var restartPushVirtualNext = function() {
@@ -446,8 +474,20 @@
           return doVirtualNext();
         };
 
+        var createSteps = function() {
+          var that = Cairo.Collections.createCollection(Dialogs.WizardSteps.createObject);
+          var superAdd = that.add;
+          that.add = function(value, key) {
+            var elem = superAdd(value, key);
+            elem.setKey(key);
+            return elem;
+          };
+          return that;
+        };
+
         var initialize = function() {
           try {
+            m_steps = createSteps();
             m_dialog = Cairo.Dialogs.Views.Controller.newDialog();
             m_dialog.setHideTabButtons(true);
             m_dialog.setIsWizard(true);
@@ -466,6 +506,10 @@
           catch (ex) {
             Cairo.manageErrorEx(ex.message, "destroy", Dialogs.WizardViews.Controller.newWizard, "");
           }
+        };
+
+        self.getObjectType = function() {
+          return "cairo.dialogs.wizard";
         };
 
         initialize();

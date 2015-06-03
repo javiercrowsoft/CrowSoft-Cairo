@@ -489,34 +489,34 @@
       TRANS_HORARIO_THASTA: "trans_horario_t_hasta",
 
       // Lista de Precios
-      LISTAPRECIO: "ListaPrecio",
+      LISTA_PRECIO: "ListaPrecio",
       LP_ID: "lp_id",
       LP_NAME: "lp_nombre",
 
       // Lista de Precios Items
-      LISTAPRECIOITEM: "ListaPrecioItem",
+      LISTA_PRECIO_ITEM: "ListaPrecioItem",
       LPI_ID: "lpi_id",
       LPI_PRECIO: "lpi_precio",
       LPI_PORCENTAJE: "lpi_porcentaje",
       LPI_FECHA: "lpi_fecha",
 
       // Lista de Descuentos
-      LISTADESCUENTO: "ListaDescuento",
+      LISTA_DESCUENTO: "ListaDescuento",
       LD_ID: "ld_id",
       LD_NAME: "ld_nombre",
 
       // Lista de Precios Clientes
-      LISTAPRECIOCLIENTE: "ListaPrecioCliente",
+      LISTA_PRECIOCLIENTE: "ListaPrecioCliente",
       LP_CLI_ID: "lpcli_id",
 
-      LISTAPRECIOPROVEEDOR: "ListaPrecioProveedor",
+      LISTA_PRECIOPROVEEDOR: "ListaPrecioProveedor",
       LP_PROV_ID: "lpprov_id",
 
       // Lista de Descuentos Clientes
-      LISTADESCUENTOCLIENTE: "ListaDescuentoCliente",
+      LISTA_DESCUENTOCLIENTE: "ListaDescuentoCliente",
       LD_CLI_ID: "ldcli_id",
 
-      LISTADESCUENTOPROVEEDOR: "ListaDescuentoProveedor",
+      LISTA_DESCUENTOPROVEEDOR: "ListaDescuentoProveedor",
       LD_PROV_ID: "ldprov_id",
 
       // Catalogo Web
@@ -1198,7 +1198,7 @@
       PRHC_DEFAULT_PRNS: "prhc_defaultprns",
 
       // ListaPrecioConfig
-      LISTAPRECIOCONFIG: "ListaPrecioConfig",
+      LISTA_PRECIOCONFIG: "ListaPrecioConfig",
       LPC_ID: "lpc_id",
       LPC_ORDEN: "lpc_orden",
 
@@ -1688,15 +1688,15 @@
     DELETE_CHEQUERA: 1130,
     LIST_CHEQUERA: 1131,
 
-    NEW_LISTAPRECIO: 1096,
-    EDIT_LISTAPRECIO: 1097,
-    DELETE_LISTAPRECIO: 1098,
-    LIST_LISTAPRECIO: 1099,
+    NEW_LISTA_PRECIO: 1096,
+    EDIT_LISTA_PRECIO: 1097,
+    DELETE_LISTA_PRECIO: 1098,
+    LIST_LISTA_PRECIO: 1099,
 
-    NEW_LISTADESCUENTO: 1152,
-    EDIT_LISTADESCUENTO: 1153,
-    DELETE_LISTADESCUENTO: 1154,
-    LIST_LISTADESCUENTO: 1155,
+    NEW_LISTA_DESCUENTO: 1152,
+    EDIT_LISTA_DESCUENTO: 1153,
+    DELETE_LISTA_DESCUENTO: 1154,
+    LIST_LISTA_DESCUENTO: 1155,
 
     MODIFY_CONFIG: 1156,
 

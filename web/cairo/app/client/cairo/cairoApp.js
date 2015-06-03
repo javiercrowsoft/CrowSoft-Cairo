@@ -353,7 +353,7 @@ var Cairo = new Marionette.Application();
     GET_CODE_FROM_ID: "'(@@get_code_from_id@@)'",
     ACTIVE: "activo",
 
-    // TODO: must be set from Language
+    // TODO: must be set from Language - translation of c_Wiz_Key
     COPY_OF: "copy of ",
     ACTIVE_LABEL: "Active",
     NAME_LABEL: "Name",
@@ -471,6 +471,13 @@ var Cairo = new Marionette.Application();
     LISTA_DESCUENTO: "LISTA DE DESCUENTO",
 
     MAIN_TITLE: "WIZ_MAIN_TITLE",
+
+    PRINT_DOC: "WIZ_PRINTDOC",
+    CLOSE_WIZARD: "WIZ_CLOSE",
+    NEW_DOC: "WIZ_NEWDOC",
+    ACTION_BUTTON: "WIZ_BUTTON_ACTION",
+    ACTION_BUTTON_AUTO: "WIZ_BUTTON_ACTION_AUTO",
+    ACTION_CANCEL_AUTO: "WIZ_BUTTON_CANCEL_AUTO",
 
     OBSERVACIONES: "OBSERVACIONES",
     ORDENES: "ORDENES",

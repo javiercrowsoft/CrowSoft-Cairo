@@ -757,3 +757,7 @@ div::after {
 .grid-td-editing-text {
   width: 250px;
 }
+
+.wizard-body {
+  min-height: 400px;
+}

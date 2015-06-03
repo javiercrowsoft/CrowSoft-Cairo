@@ -40,7 +40,7 @@
       var m_porcmaximo = 0;
       var m_montominimo = 0;
 
-      var m_mon_id = 0;
+      var m_monId = 0;
       var m_moneda = "";
 
       var m_editing;
@@ -496,7 +496,7 @@
         // Moneda
         elem.setName(Cairo.Language.getText(1113, ""));
         elem.setKey(K_MON_ID);
-        elem.setSelectId(m_mon_id);
+        elem.setSelectId(m_monId);
         elem.setValue(m_moneda);
 
         var elem = properties.add(null, Cairo.General.Constants.LPM_DESCRIP);
@@ -548,7 +548,7 @@
         elem.setValue(m_montominimo);
 
         var elem = properties.item(Cairo.General.Constants.MON_ID);
-        elem.setSelectId(m_mon_id);
+        elem.setSelectId(m_monId);
         elem.setValue(m_moneda);
 
         var elem = properties.item(Cairo.General.Constants.LPM_DESCRIP);
@@ -578,7 +578,7 @@
               m_porcmaximo = 0;
               m_montominimo = 0;
               m_descrip = "";
-              m_mon_id = Cairo.Constants.NO_ID;
+              m_monId = Cairo.Constants.NO_ID;
               m_moneda = "";
             } 
             else {
@@ -594,7 +594,7 @@
               m_porcmaximo = Cairo.Database.valField(response.data, Cairo.General.Constants.LPM_PORCMAXIMO);
               m_montominimo = Cairo.Database.valField(response.data, Cairo.General.Constants.LPM_MONTOMINIMO);
               m_descrip = Cairo.Database.valField(response.data, Cairo.General.Constants.LPM_DESCRIP);
-              m_mon_id = Cairo.Database.valField(response.data, Cairo.General.Constants.MON_ID);
+              m_monId = Cairo.Database.valField(response.data, Cairo.General.Constants.MON_ID);
               m_moneda = Cairo.Database.valField(response.data, Cairo.General.Constants.MON_NAME);
             }
 

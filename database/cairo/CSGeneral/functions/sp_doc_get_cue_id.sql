@@ -41,7 +41,7 @@ function sp_doc_get_cue_id
 	select * from sp_doc_get_cue_id(6, 12)
 */
 (
-  in p_tercero_id integer,       -- puede ser un cliente o un proveedor
+  in p_tercero_id integer,      -- puede ser un cliente o un proveedor
   in p_doc_id integer,
   in p_to_id integer default 1, -- Tipo de operacion
   out p_cue_id integer,
@@ -157,5 +157,5 @@ end;
 $BODY$
   language plpgsql volatile
   cost 100;
-alter function sp_doc_get_info(integer, integer, integer)
+alter function sp_doc_get_cue_id(integer, integer, integer)
   owner to postgres;

@@ -566,24 +566,18 @@
         </div>
     </div>
     <div class="@if(requestOrigin.userAgent.isMobile) {container} else {dialog-container}">
-        <div id="formBody">
+        <div class="dialog-form-box @if(!requestOrigin.userAgent.isMobile) {wizard-body}">
+          <div id="formBody">
+          </div>
         </div>
-        <div class="input-text-form">
-            <div class="row dialog-buttons-first-row">
-                <button class="btn btn-success dialog-button dialog-wide-button dialog-save-button">Save</button>
-                <button class="btn btn-warning dialog-button dialog-close-button">Close</button>
+        <div class="row document-list-buttons-toolbar-row">
+            <div class="col-sm-2 col-md-4 col-lg-4">
+                <button class="btn btn-info dialog-button dialog-wizard-cancel-button">Cancel</button>
             </div>
-            <div class="row dialog-buttons-row">
-                <button class="btn btn-info dialog-button dialog-new-button">New</button>
-                <button class="btn btn-info dialog-button dialog-copy-button">Duplicate</button>
-                <button class="btn btn-warning dialog-button dialog-discard-button">Discard Changes</button>
+            <div class="col-sm-10 col-md-8 col-lg-8">
+                <button class="btn btn-info dialog-button dialog-wizard-back-button">Back</button>
+                <button class="btn btn-info dialog-button dialog-wizard-next-button">Next</button>
             </div>
-            <div class="row dialog-buttons-last-row">
-                <button class="btn btn-info dialog-button dialog-print-button">Print</button>
-                <button class="btn btn-info dialog-button dialog-permissions-button">Permissions</button>
-                <button class="btn btn-info dialog-button dialog-documents-button"><i class='glyphicon glyphicon-paper-clip'></i> Attached Files</button>
-            </div>
-            <br/>
         </div>
     </div>
 </script>

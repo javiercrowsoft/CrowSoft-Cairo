@@ -82,4 +82,16 @@ object Documents extends Controller with ProvidesUser {
           )))
     })
   }
+
+  def fromDoctId(doctId: Int, doctIdApplic: Int, id: Int, idEx: Int) = GetAction { implicit request =>
+    LoggedIntoCompanyResponse.getAction(request, { user =>
+      val docInfo = Document.fromDoctId(user, doctId, doctIdApplic, id, idEx)
+      Ok(
+        Json.toJson(
+          Json.obj(
+            "id" -> Json.toJson(docInfo.id),
+            "name" -> Json.toJson(docInfo.name)
+          )))
+    })
+  }
 }

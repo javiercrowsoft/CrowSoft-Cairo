@@ -43,7 +43,7 @@
       var m_pro_id = 0;
       var m_provincia = "";
 
-      var m_prov_id = 0;
+      var m_provId = 0;
       var m_proveedor = "";
 
       var m_horario_m_desde = null;
@@ -484,7 +484,7 @@
         elem.setName(Cairo.Language.getText(1151, ""));
         elem.setKey(K_PROV_ID);
         elem.setValue(m_proveedor);
-        elem.setSelectId(m_prov_id);
+        elem.setSelectId(m_provId);
 
         var elem = properties.add(null, Cairo.General.Constants.TRANS_HORARIO_MDESDE);
         elem.setType(Dialogs.PropertyType.time);
@@ -560,7 +560,7 @@
 
         var elem = properties.item(Cairo.General.Constants.PROV_ID);
         elem.setValue(m_proveedor);
-        elem.setSelectId(m_prov_id);
+        elem.setSelectId(m_provId);
 
         var elem = properties.item(Cairo.General.Constants.TRANS_HORARIO_MDESDE);
         elem.setValue(m_horario_m_desde);
@@ -599,7 +599,7 @@
               m_web = Cairo.Database.valField(response.data, Cairo.General.Constants.TRANS_WEB);
               m_descrip = Cairo.Database.valField(response.data, Cairo.General.Constants.TRANS_DESCRIP);
               m_active = Cairo.Database.valField(response.data, Cairo.Constants.ACTIVE);
-              m_prov_id = Cairo.Database.valField(response.data, Cairo.General.Constants.PROV_ID);
+              m_provId = Cairo.Database.valField(response.data, Cairo.General.Constants.PROV_ID);
               m_proveedor = Cairo.Database.valField(response.data, Cairo.General.Constants.PROV_NAME);
 
               m_pro_id = Cairo.Database.valField(response.data, Cairo.General.Constants.PRO_ID);
@@ -621,7 +621,7 @@
               m_web = "";
               m_descrip = "";
               m_active = true;
-              m_prov_id = Cairo.Constants.NO_ID;
+              m_provId = Cairo.Constants.NO_ID;
               m_proveedor = "";
 
               m_horario_m_desde = Cairo.Constants.NO_DATE;

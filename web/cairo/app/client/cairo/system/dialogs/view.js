@@ -860,7 +860,9 @@
         btnPrint: Controls.createButton(),
         btnPermission: Controls.createButton(),
         btnDiscardChanges: Controls.createButton(),
-        saved: false
+        saved: false,
+        noMoveGenericButton: false,
+        popMenuClient: null
       };
 
       var that = Views.createView('Dialog');
@@ -885,8 +887,14 @@
       that.setSaved = function(saved) {
         self.saved = saved;
       };
+      that.setNoMoveGenericButton = function(value) {
+        self.noMoveGenericButton = value;
+      };
+      that.setPopMenuClient = function(value) {
+        self.popMenuClient = value;
+      };
 
-      var supperBindView = that.bindView;
+      var superBindView = that.bindView;
 
       var onEditDocumentClick = function() {
         that.raiseEvent("documentsClick");
@@ -913,7 +921,7 @@
       };
 
       that.bindView = function(view) {
-        supperBindView(view);
+        superBindView(view);
 
         self.btnEditDocument.setElement(view.$('.dialog-documents-button'));
         self.btnEditDocument.getElement().click(onEditDocumentClick);
@@ -939,15 +947,52 @@
 
     Views.createWizardView = function() {
 
+      var self = {
+        btnBack: Controls.createButton(),
+        btnNext: Controls.createButton(),
+        btnCancel: Controls.createButton()
+      };
+
       var that = Views.createView('Wizard');
 
-      that.getImgWiz1 = function() { /* TODO: implement this. */ };
-      that.getImgWiz3 = function() { /* TODO: implement this. */ };
-      that.getImgWiz5 = function() { /* TODO: implement this. */ };
-      that.getNextButton = function() { /* TODO: implement this. */ };
-      that.getBackButton = function() { /* TODO: implement this. */ };
-      that.getDialogBackground = function() { /* TODO: implement this. */ };
-      that.getTitleBackground = function() { /* TODO: implement this. */ };
+      that.getBackButton = function() {
+        return self.btnBack;
+      };
+
+      that.getNextButton = function() {
+        return self.btnNext;
+      };
+
+      that.getCancelButton = function() {
+        return self.btnCancel;
+      };
+
+      var superBindView = that.bindView;
+
+      var onBackClick = function() {
+        that.raiseEvent("backClick");
+      };
+
+      var onNextClick = function() {
+        that.raiseEvent("nextClick");
+      };
+
+      var onCancelClick = function() {
+        that.raiseEvent("cancelClick");
+      };
+
+      that.bindView = function(view) {
+        superBindView(view);
+
+        self.btnBack.setElement(view.$('.dialog-wizard-back-button'));
+        self.btnBack.getElement().click(onBackClick);
+
+        self.btnNext.setElement(view.$('.dialog-wizard-next-button'));
+        self.btnNext.getElement().click(onNextClick);
+
+        self.btnCancel.setElement(view.$('.dialog-wizard-cancel-button'));
+        self.btnCancel.getElement().click(onCancelClick);
+      };
 
       return that;
     };
@@ -998,7 +1043,7 @@
         self.saved = saved;
       };
 
-      var supperBindView = that.bindView;
+      var superBindView = that.bindView;
 
       var onEditDocumentClick = function() {
         that.raiseEvent("documentsClick");
@@ -1021,7 +1066,7 @@
       };
 
       that.bindView = function(view) {
-        supperBindView(view);
+        superBindView(view);
 
         self.btnEditDocument.setElement(view.$('.dialog-documents-button'));
         self.btnEditDocument.getElement().click(onEditDocumentClick);
@@ -1074,7 +1119,7 @@
         self.saved = saved;
       };
 
-      var supperBindView = that.bindView;
+      var superBindView = that.bindView;
 
       var onEditDocumentClick = function() {
         that.raiseEvent("documentsClick");
@@ -1093,7 +1138,7 @@
       };
 
       that.bindView = function(view) {
-        supperBindView(view);
+        superBindView(view);
 
         self.btnEditDocument.setElement(view.$('.dialog-documents-button'));
         self.btnEditDocument.getElement().click(onEditDocumentClick);

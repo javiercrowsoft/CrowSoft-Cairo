@@ -22,9 +22,6 @@
     var KIP_DESCRIP = 5;
     var KIP_FCPERC_ID = 7;
 
-    var c_Wiz_Key_percepciones = "PERCEP"
-    var c_Wiz_Key_TotalPercepciones = "TotalPercep"
-
     self.KI_CCOS_ID = KI_CCOS_ID;
     self.KIP_IMPORTE = KIP_IMPORTE;
     self.KIP_PERC_ID = KIP_PERC_ID;
