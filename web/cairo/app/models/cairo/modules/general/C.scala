@@ -694,8 +694,8 @@ object C {
 
   val PRODUCTO = "Producto"
   val PR_ID = "pr_id"
-  val PR_NAME_COMPRA = "pr_Nombrecompra"
-  val PR_NAME_VENTA = "pr_Nombreventa"
+  val PR_NAME_COMPRA = "pr_nombrecompra"
+  val PR_NAME_VENTA = "pr_nombreventa"
   val PR_CODE = "pr_codigo"
   val PR_DESCRIP_VENTA = "pr_descripventa"
   val PR_DESCRIP_COMPRA = "pr_descripcompra"

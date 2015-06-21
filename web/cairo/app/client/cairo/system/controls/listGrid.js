@@ -108,20 +108,20 @@
         return cell.name.replace(/_/g, ' ');
       };
 
-      gridManager.getValue = function(cell, col) {
+      gridManager.getValue = function(cellValue, col) {
         switch(col.columnType) {
           case 'boolean':
-            return getCheckboxIcon(cell);
+            return getCheckboxIcon(cellValue);
           case 'timestamp':
           case 'timestamptz':
           case 'time':
           case 'date':
-            return getDateFormatted(cell);
+            return getDateFormatted(cellValue);
           case 'decimal':
           case 'numeric':
           case 'real':
           case 'double':
-            return Cairo.accounting.formatNumber(cell, 2);
+            return Cairo.accounting.formatNumber(cellValue, 2);
           case 'integer':
           case 'int2':
           case 'int4':
@@ -129,9 +129,9 @@
           case 'biginteger':
           case 'serial':
           case 'bigserial':
-            return Cairo.accounting.formatNumber(cell);
+            return Cairo.accounting.formatNumber(cellValue);
           default:
-            return cell;
+            return cellValue;
         }
       };
 

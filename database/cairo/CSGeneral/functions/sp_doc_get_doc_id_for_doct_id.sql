@@ -47,7 +47,8 @@ create or replace function sp_doc_get_doc_id_for_doct_id
   in p_idEx integer,  -- -1 Factura de Venta sobre Horas
                       -- -2 Remito de venta basado en boms
   out p_doc_id integer,
-  out p_doc_name varchar
+  out p_doc_name varchar,
+  out p_mon_id integer
 )
   returns record as
 $BODY$
@@ -161,6 +162,10 @@ begin
                                       where us_id = p_us_id
                                         and rol_id = Permiso.rol_id ) ) )
      limit 1;
+
+   select mon_id into p_mon_id from Documento where doc_id = p_doc_id;
+
+   p_mon_id := coalesce(p_mon_id, 0);
 
 end;
 $BODY$

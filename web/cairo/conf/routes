@@ -292,8 +292,12 @@ GET     /api/v1/compras/facturacompras                 controllers.logged.module
 GET     /api/v1/compras/facturacompras/parameters      controllers.logged.modules.compras.FacturaCompras.parameters()
 POST    /api/v1/compras/facturacompras                 controllers.logged.modules.compras.FacturaCompras.saveParameters
 
+GET     /api/v1/compras/facturacompras/proveedor/:provId/remitos/:currencyId    controllers.logged.modules.compras.FacturaCompras.listRemitos(provId: Int, currencyId: Int)
+GET     /api/v1/compras/facturacompras/remitos/items   controllers.logged.modules.compras.FacturaCompras.listRemitosItems(ids: Option[String])
+
 GET     /api/v1/compras/facturacompra/:id              controllers.logged.modules.compras.FacturaCompras.get(id: Int)
 POST    /api/v1/compras/facturacompra                  controllers.logged.modules.compras.FacturaCompras.create
+POST    /api/v1/compras/facturacompra/from_remitos     controllers.logged.modules.compras.FacturaCompras.createFromRemito
 PUT     /api/v1/compras/facturacompra/:id              controllers.logged.modules.compras.FacturaCompras.update(id: Int)
 DELETE  /api/v1/compras/facturacompra/:id              controllers.logged.modules.compras.FacturaCompras.delete(id: Int)
 

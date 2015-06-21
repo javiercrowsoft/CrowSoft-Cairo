@@ -9,7 +9,7 @@
 
       var getText = Cairo.Language.getText;
       
-      var TITLE = getText(1892, ""); // Facturas de Compra
+      var TITLE = getText(1889, ""); // Facturas de Compra
       var SAVE_ERROR_MESSAGE = getText(1907, ""); // Error al grabar la factura de compra      
 
       var P = Cairo.Promises;
@@ -4978,7 +4978,7 @@
 
         c = m_properties.add(null, C.CCOS_ID);
         c.setType(T.select);
-        c.setSelectTable(Cairo.Tables.CENTRO_COSTO);
+        c.setSelectTable(Cairo.Tables.CENTROS_DE_COSTO);
         c.setName(getText(1057, "")); // Centro de Costos
         c.setKey(K_CCOS_ID);
         c.setValue(m_centroCosto);

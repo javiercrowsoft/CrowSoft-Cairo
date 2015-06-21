@@ -860,6 +860,10 @@ var Cairo = new Marionette.Application();
     return new Array(length + 1).join( character );
   };
 
+  var isObject = function(variable) {
+    return variable !== null && typeof variable === 'object';
+  };
+
   Cairo.Util = {
     sendKeys: function(key) { /* TODO: implement this. */ },
     getDateValueForGrid: getDateFormatted,
@@ -925,7 +929,8 @@ var Cairo = new Marionette.Application();
     getKey: getKey,
     right: right,
     left: left,
-    string: string
+    string: string,
+    isObject: isObject
   };
 
   var createCompany = function() {

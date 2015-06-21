@@ -25,6 +25,7 @@
       var valField = DB.valField;
       var getValue = DB.getValue;
       var valEmpty = Cairo.Util.valEmpty;
+      var call = P.call;
       var D = Cairo.Documents;
       var U = Cairo.Util;
       var Percepciones = Cairo.Compras.Percepciones;
@@ -149,7 +150,7 @@
         return P.resolvedPromise(true);
       };
 
-      self.isEmptyRow = function(key,  row,  rowIndex) {
+      self.isEmptyRow = function(key, row, rowIndex) {
         var isEmpty = null;
 
         try {
@@ -176,7 +177,7 @@
         return P.resolvedPromise(isEmpty);
       };
 
-      self.columnAfterUpdate = function(key,  lRow,  lCol) {
+      self.columnAfterUpdate = function(key, lRow, lCol) {
         try {
 
           switch (key) {
@@ -203,7 +204,7 @@
         return P.resolvedPromise(true);
       };
 
-      self.columnAfterEdit = function(key,  lRow,  lCol,  newValue,  newValueID) {
+      self.columnAfterEdit = function(key, lRow, lCol, newValue, newValueID) {
         var p = null;
 
         try {
@@ -223,7 +224,7 @@
         return p || P.resolvedPromise(true);
       };
 
-      self.columnBeforeEdit = function(key,  lRow,  lCol,  iKeyAscii) {
+      self.columnBeforeEdit = function(key, lRow, lCol, iKeyAscii) {
         var rtn = false;
         
         try {
@@ -251,23 +252,23 @@
         return P.resolvedPromise(rtn);
       };
 
-      self.columnButtonClick = function(key,  lRow,  lCol,  iKeyAscii) {
+      self.columnButtonClick = function(key, lRow, lCol, iKeyAscii) {
 
       };
 
-      self.columnClick = function(key,  lRow,  lCol) {
+      self.columnClick = function(key, lRow, lCol) {
 
       };
 
-      self.deleteRow = function(key,  row,  lRow) {
+      self.deleteRow = function(key, row, lRow) {
         return P.resolvedPromise(false);
       };
 
-      self.newRow = function(key,  rows) {
+      self.newRow = function(key, rows) {
         return P.resolvedPromise(false);
       };
 
-      self.validateRow = function(key,  row,  rowIndex) {
+      self.validateRow = function(key, row, rowIndex) {
         var p = null;
         
         try {
@@ -295,7 +296,7 @@
         return p || P.resolvedPromise(false);
       };
 
-      var columnBeforeEditItems = function(property,  lRow,  lCol,  iKeyAscii) {
+      var columnBeforeEditItems = function(property, lRow, lCol, iKeyAscii) {
 
         switch (property.getGrid().getColumns().item(lCol).getKey()) {
           
@@ -310,7 +311,7 @@
         }
       };
 
-      var columnBeforeEditRemitos = function(property,  lRow,  lCol,  iKeyAscii) {
+      var columnBeforeEditRemitos = function(property, lRow, lCol, iKeyAscii) {
         switch (property.getGrid().getColumns().item(lCol).getKey()) {
           
           case KI_SELECT:
@@ -321,7 +322,7 @@
         }
       };
 
-      var columnAfterUpdateRemito = function(property,  lRow,  lCol) {
+      var columnAfterUpdateRemito = function(property, lRow, lCol) {
         switch (property.getGrid().getColumns().get(lCol).getKey()) {
 
           case KI_SELECT:
@@ -332,7 +333,7 @@
         return true;
       };
 
-      var columnAfterUpdateItems = function(property,  lRow,  lCol) {
+      var columnAfterUpdateItems = function(property, lRow, lCol) {
         var maxVal = null;
 
         var grid = property.getGrid();
@@ -380,10 +381,10 @@
         var remitos = getRemitos();
         for (var _i = 0, _count = remitos.getRows().size(); _i < _count; _i++) {
           var row = remitos.getRows().item(_i);
-          getCell(row, KI_SELECT).getId() === bToI(bSelect);
+          getCell(row, KI_SELECT).setId(bToI(bSelect));
         }
 
-        m_objWizard.showValue(getRemitosProperty(), true);
+        m_objWizard.showValueEx(getRemitosProperty(), true);
       };
 
       var selectAllItems = function(bSelect) {
@@ -391,14 +392,14 @@
 
         for (var _i = 0, _count = items.getRows().size(); _i < _count; _i++) {
           var row = items.getRows().item(_i);
-          getCell(row, KII_SELECT).getId() === bToI(bSelect);
+          getCell(row, KII_SELECT).setId(bToI(bSelect));
           selectItem(row, items.getColumns());
         }
 
-        m_objWizard.showValue(getItemsProperty(), true);
+        m_objWizard.showValueEx(getItemsProperty(), true);
       };
 
-      var selectItem = function(row,  columns) {
+      var selectItem = function(row, columns) {
         var cell = getCell(row, KII_APLICAR);
         if(getCell(row, KII_SELECT).getId()) {
           if(val(cell.getValue()) === 0) {
@@ -459,7 +460,7 @@
         return m_objWizard;
       };
 
-      self.work = function(currentStep,  goingToNext) {
+      self.work = function(currentStep, goingToNext) {
         var p = null;
         
         try {
@@ -503,7 +504,7 @@
         return p || P.resolvedPromise(true);
       };
 
-      self.nextStep = function(currentStep,  nextStep) {
+      self.nextStep = function(currentStep, nextStep) {
         var p = null;
         
         try {
@@ -528,6 +529,13 @@
               setDatosProveedor();
               D.setDocumentForDoctId(
                 getDocProperty(), m_objWizard, D.Types.FACTURA_COMPRA, D.Types.REMITO_COMPRA, m_rcIds, 0
+              ).successWithResult(function(result) {
+                  if(result.info) {
+                    m_docId = result.info.id;
+                    m_documento = result.info.name;
+                    m_monId = result.info.monId;
+                  }
+                }
               );
               self.propertyChange(WC.KW_DOC_ID);
               break;
@@ -550,15 +558,15 @@
                 p = loadRemitosXProveedor()
                   .success(
                     function() {
-                      nextStep = WCS.SELECT_PROVEEDOR;
-                      return M.showWarningWithFalse(Cairo.Language.getText(1911, ""), Cairo.Language.getText(1607, "")); // No se pudieron cargar los Remitos para este Proveedor, Facturas                
-                    },
-                    function() {
                       getTodos().setName(Cairo.Constants.SELECT_ALL_TEXT);
                       m_objWizard.showValue(getTodos());
                       m_objWizard.enableBack();
                       nextStep = WCS.SELECT_ORDEN_REMITO;
                       return true;
+                    },
+                    function() {
+                      nextStep = WCS.SELECT_PROVEEDOR;
+                      return M.showWarningWithFalse(Cairo.Language.getText(1911, ""), Cairo.Language.getText(1607, "")); // No se pudieron cargar los Remitos para este Proveedor, Facturas
                     }
                 );
               }
@@ -568,33 +576,35 @@
 
               p = checkRemitos(                
                 ).success(
-                  loadItemsXRemitos,
+                  function() {
+                    return loadItemsXRemitos().success(
+                      function() {
+                        nextStep = WCS.SELECT_ITEMS;
+                        return true;
+                      },
+                      function() {
+                        nextStep = WCS.SELECT_ORDEN_REMITO;
+                        return M.showWarningWithFalse(Cairo.Language.getText(1912, ""), Cairo.Language.getText(1607, "")); // No se pudieron cargar los items de los remitos para este proveedor, Facturas
+                      }
+                    );
+                  },
                   function() { 
                     nextStep = WCS.SELECT_ORDEN_REMITO; 
-                    return false; 
+                    return false;
                   }
-                ).success(
-                  function() {
-                    nextStep = WCS.SELECT_ITEMS;
-                    return true;
-                  },
-                  function() {
-                    nextStep = WCS.SELECT_ORDEN_REMITO;
-                    return M.showWarningWithFalse(Cairo.Language.getText(1912, ""), Cairo.Language.getText(1607, "")); // No se pudieron cargar los items de los remitos para este proveedor, Facturas
-                  }
-              );
+                );
               break;
 
             case WCS.SELECT_ITEMS:
 
               p = checkItems().success(
                 function() {
-                  nextStep = WCS.SELECT_ITEMS;
-                  return false;
-                },
-                function() {
                   nextStep = WCS.PERCEPCIONES;
                   return true;
+                },
+                function() {
+                  nextStep = WCS.SELECT_ITEMS;
+                  return false;
                 }
               );
               break;
@@ -645,6 +655,7 @@
         }
         catch (ex) {
           Cairo.manageErrorEx(ex.message, ex, "nextStep", C_MODULE, "");
+          p = P.resolvedPromise(false);
         }
 
         return p.then(function(success) {
@@ -660,41 +671,50 @@
         });
       };
 
-      self.previousStep = function(nCurrentStep,  nNextStep) {
+      self.previousStep = function(nCurrentStep, nextStep) {
+        var p = null;
+
         switch (nCurrentStep) {
           case WCS.WELCOME:
-            nNextStep = WCS.WELCOME;
-
+            nextStep = WCS.WELCOME;
             break;
 
           case WCS.SELECT_PROVEEDOR:
-            nNextStep = WCS.SELECT_PROVEEDOR;
-
+            nextStep = WCS.SELECT_PROVEEDOR;
             break;
 
           case WCS.SELECT_ORDEN_REMITO:
             m_objWizard.disableBack();
-            nNextStep = WCS.SELECT_PROVEEDOR;
-
+            nextStep = WCS.SELECT_PROVEEDOR;
             break;
 
           case WCS.SELECT_ITEMS:
-            nNextStep = WCS.SELECT_ORDEN_REMITO;
-
+            nextStep = WCS.SELECT_ORDEN_REMITO;
             break;
 
           case WCS.PERCEPCIONES:
-            nNextStep = WCS.SELECT_ITEMS;
-
+            nextStep = WCS.SELECT_ITEMS;
             break;
 
           case WCS.DATOS_GENERALES:
             m_objWizard.setNextText(Cairo.Constants.NEXT_TEXT);
-            nNextStep = WCS.PERCEPCIONES;
+            nextStep = WCS.PERCEPCIONES;
             break;
         }
 
-        return true;
+        p = p || P.resolvedPromise(true);
+
+        return p.then(function(success) {
+          if(success) {
+            return {
+              success: true,
+              nextStep: nextStep
+            }
+          }
+          else {
+            return P.fail();
+          }
+        });
       };
 
       self.propertyChange = function(key) {
@@ -921,6 +941,7 @@
         elem.setName(Cairo.Constants.SELECT_ALL_TEXT);
         elem.setType(T.button);
         elem.setKey(WC.KW_TODOS);
+        elem.setNoShowLabel(true);
 
         var elem = properties.add(null, DWC.TOTAL);
         elem.setName(Cairo.Language.getText(1584, "")); // Total
@@ -951,6 +972,7 @@
         var elem = columns.add(null);
         elem.setName(Cairo.Language.getText(1065, "")); // Número
         elem.setType(Dialogs.PropertyType.numeric);
+        elem.setSubType(Dialogs.PropertySubType.integer);
         elem.setKey(KI_RC_ID);
 
         var elem = columns.add(null);
@@ -983,7 +1005,7 @@
         elem.setType(T.label);
         elem.setValue(Cairo.Language.getText(1676, "")); // Seleccione los items he indique las cantidades que facturará de cada una de ellos
 
-        var elem = properties.add(null, DWC.Items);
+        var elem = properties.add(null, DWC.ITEMS);
         elem.setType(T.grid);
         setGridItems(elem.getGrid());
         elem.setKey(WC.KW_ITEMS);
@@ -1053,6 +1075,7 @@
         var elem = columns.add(null);
         elem.setName(Cairo.Language.getText(1065, "")); // Número
         elem.setType(Dialogs.PropertyType.numeric);
+        elem.setSubType(Dialogs.PropertySubType.integer);
         elem.setKey(KI_RC_ID);
 
         var elem = columns.add(null);
@@ -1193,7 +1216,7 @@
       };
 
       var getProveedor2 = function() {
-        return D.getWizProperty(m_objWizard, WCS.DATOS_GENERALES, DWC.Proveedor2);
+        return D.getWizProperty(m_objWizard, WCS.DATOS_GENERALES, DWC.PROVEEDOR2);
       };
 
       var getProveedorProp = function() {
@@ -1237,11 +1260,11 @@
       };
 
       var refreshRemitos = function() {
-        m_objWizard.showValue(D.getWizProperty(m_objWizard, WCS.SELECT_ORDEN_REMITO, DWC.REMITOS), true);
+        m_objWizard.showValueEx(D.getWizProperty(m_objWizard, WCS.SELECT_ORDEN_REMITO, DWC.REMITOS), true);
       };
 
       var refreshItems = function() {
-        m_objWizard.showValue(D.getWizProperty(m_objWizard, WCS.SELECT_ITEMS, DWC.Items), true);
+        m_objWizard.showValueEx(D.getWizProperty(m_objWizard, WCS.SELECT_ITEMS, DWC.ITEMS), true);
       };
 
       var getComprobante = function() {
@@ -1320,13 +1343,14 @@
             if(!val(getCell(row, KII_PRECIO_SIN_IVA).getValue()) != 0) {
               return M.showWarningWithFalse(Cairo.Language.getText(1667, "", i + 1)); // Debe indicar un precio para el item (1)
             }
+            return true;
           });
         };
 
         for (var _i = 0, _count = getItems().getRows().size(); _i < _count; _i++) {
           var row = getItems().getRows().item(_i);
           if(val(getCell(row, KII_APLICAR).getValue()) > 0) {
-            p = p.success(checkItem(row, _i));
+            p = p.success(call(checkItem, row, _i));
           }
         }
 
@@ -1341,7 +1365,7 @@
         });
       };
 
-      var validateRowItems = function(row,  rowIndex) {
+      var validateRowItems = function(row, rowIndex) {
         var p = null;
         var strRow = " (Row: " + rowIndex.toString() + ")";
 
@@ -1367,13 +1391,13 @@
       var loadItemsXRemitos = function() {
 
         var ids = getRemitosIds();
-        return DB.getData("load[" + m_apiPath + "compras/facturacompras/items_remitos/" + ids + "]")
+        return DB.getData("load[" + m_apiPath + "compras/facturacompras/remitos/items?ids=" + ids + "]")
           .then(function(response) {
             try {
 
               if(response.success === true) {
 
-                var items = response.data.get('items');
+                var items = DB.getResultSetFromData(response.data);
                 var rows = getItems().getRows();
                 rows.clear();
 
@@ -1400,7 +1424,7 @@
 
                   var elem = row.add(null);
                   elem.setValue(valField(items[_i], C.PR_NAME_COMPRA));
-                  elem.setId(valField(items[_i], CC.PR_ID));
+                  elem.setId(valField(items[_i], C.PR_ID));
                   elem.setKey(KII_ARTICULO);
 
                   var elem = row.add(null);
@@ -1457,7 +1481,7 @@
                   elem.setKey(KII_INTERNOSPERCENT);
 
                   var elem = row.add(null);
-                  elem.setValue(valField(items[_i], CC.PR_PORC_INTERNO_C));
+                  elem.setValue(valField(items[_i], C.PR_PORC_INTERNO_C));
                   elem.setKey(KII_INTERNOSPORC);
 
                   var elem = row.add(null);
@@ -1465,7 +1489,7 @@
                   elem.setKey(KII_DESCUENTO);
 
                   var elem = row.add(null);
-                  elem.setId(valField(items[_i], CC.CCOS_ID));
+                  elem.setId(valField(items[_i], C.CCOS_ID));
                   elem.setKey(KII_CCOS_ID);
 
                 }
@@ -1487,9 +1511,9 @@
         var onlySelected = getOnlySelected().getValue();
 
         return DB.getData(
-            "load[" + m_apiPath + "compras/facturacompras/remitos_proveedor/"
-                    + Cairo.Company.getId().toString() + "/"
-                    + getProveedor().toString() + "/"
+            "load[" + m_apiPath + "compras/facturacompras/proveedor/"
+                    + getProveedor().toString()
+                    + "/remitos/"
                     + m_monId.toString()
               + "]"
           )
@@ -1498,7 +1522,7 @@
 
               if(response.success === true) {
 
-                var items = response.data.get('items');
+                var items = DB.getResultSetFromData(response.data);
                 var rows = getRemitos().getRows();
                 rows.clear();
 
@@ -1512,13 +1536,13 @@
                     var row = rows.add(null);
 
                     row.add(null);
-                    
+
                     var elem = row.add(null);
                     elem.setId(bToI(selected));
                     elem.setKey(KI_SELECT);
 
                     var elem = row.add(null);
-                    elem.setValue(valField(items[_i], CC.DOC_NAME));
+                    elem.setValue(valField(items[_i], C.DOC_NAME));
                     elem.setKey(KI_DOC);
 
                     var elem = row.add(null);
@@ -1541,7 +1565,7 @@
                     var elem = row.add(null);
                     elem.setValue(valField(items[_i], CC.RC_DESCRIP));
                     elem.setKey(KI_DESCRIP);
-                  }                  
+                  }
                 }
 
                 refreshRemitos();
@@ -1566,7 +1590,7 @@
         return false;
       };
 
-      var isEmptyRowItems = function(row,  rowIndex) {
+      var isEmptyRowItems = function(row, rowIndex) {
         var rowIsEmpty = true;
 
         for (var _i = 0, _count = row.size(); _i < _count; _i++) {
@@ -1687,7 +1711,7 @@
 
         register.setFieldId(CC.FC_ID);
         register.setTable(CC.FACTURA_COMPRA);
-        register.setPath(m_apiPath + "compras/facturacompra");
+        register.setPath(m_apiPath + "compras/facturacompra/from_remitos");
         register.setId(Cairo.Constants.NEW_ID);
 
         var fields = register.getFields();
@@ -1698,21 +1722,33 @@
         fields.add(CC.FC_FECHA, getFecha().getValue(), Types.date);
         fields.add(CC.FC_FECHA_IVA, getFechaIva().getValue(), Types.date);
         fields.add(CC.FC_FECHA_VTO, getFechaVto().getValue(), Types.date);
-        fields.add(CC.PROV_ID, getProveedor(), Types.id);
-        fields.add(CC.CCOS_ID, getCentroCosto().getSelectId(), Types.id);
-        fields.add(CC.SUC_ID, getSucursal().getSelectId(), Types.id);
-        fields.add(CC.CPG_ID, getCondicionPago().getSelectId(), Types.id);
-        fields.add(CC.LP_ID, getListaPrecio().getSelectId(), Types.id);
-        fields.add(CC.LD_ID, getListaDescuento().getSelectId(), Types.id);
-        fields.add(CC.DOC_ID, getDoc(), Types.id);
+        fields.add(C.PROV_ID, getProveedor(), Types.id);
+        fields.add(C.CCOS_ID, getCentroCosto().getSelectId(), Types.id);
+        fields.add(C.SUC_ID, getSucursal().getSelectId(), Types.id);
+        fields.add(C.CPG_ID, getCondicionPago().getSelectId(), Types.id);
+        fields.add(C.LP_ID, getListaPrecio().getSelectId(), Types.id);
+        fields.add(C.LD_ID, getListaDescuento().getSelectId(), Types.id);
+        fields.add(C.DOC_ID, getDoc(), Types.id);
         fields.add(CC.LGJ_ID, getLegajo().getSelectId(), Types.id);
         fields.add(CC.FC_GRABAR_ASIENTO, 1, Types.boolean);
         fields.add(CC.FC_TIPO_COMPROBANTE, getTipoComprobante().getListItemData(), Types.integer);
-        fields.add(CC.DEPL_ID, D.wizGetDeposito(m_objWizard, WCS.SELECT_PROVEEDOR, DWC.DEPOSITO), Types.id);
+        fields.add(C.DEPL_ID, D.wizGetDeposito(m_objWizard, WCS.SELECT_PROVEEDOR, DWC.DEPOSITO), Types.id);
         fields.add(CC.FC_COTIZACION_PROV, getCotizacionProv().getValue(), Types.double);
         fields.add(CC.FC_COTIZACION, cotizacion, Types.double);
-        fields.add(Cairo.Constants.EST_ID, D.Status.pendiente, Types.id);
+        fields.add(C.EST_ID, D.Status.pendiente, Types.id);
         fields.add(CC.FC_ID, Cairo.Constants.NEW_ID, Types.long);
+
+        // dummy fields
+        //
+        fields.add(CC.FC_FECHA_ENTREGA, Cairo.Constants.NO_DATE, Types.date);
+        fields.add(CC.FC_CAI, '', Types.text);
+        fields.add(CC.PRO_ID_ORIGEN, NO_ID, Types.id);
+        fields.add(CC.PRO_ID_DESTINO, NO_ID, Types.id);
+        fields.add(CC.FC_DESCUENTO1, 0, Types.currency);
+        fields.add(CC.FC_DESCUENTO2, 0, Types.currency);
+        fields.add(CC.FC_IMPORTE_DESC_1, 0, Types.currency);
+        fields.add(CC.FC_IMPORTE_DESC_2, 0, Types.currency);
+        fields.add(CC.FC_TOTAL_OTROS, 0, Types.currency);
 
         var footer = getFooter();
 
@@ -1806,7 +1842,7 @@
           );
       };
 
-      var saveItems = function(mainRegister,  cotizacion,  isDefaultCurrency) {
+      var saveItems = function(mainRegister, cotizacion, isDefaultCurrency) {
 
         var transaction = new DB.createTransaction();
         var orden = 0;
@@ -1834,6 +1870,8 @@
             register.setId(Cairo.Constants.NEW_ID);
 
             var fields = register.getFields();
+
+            fields.add(CC.FCI_ID, Cairo.Constants.NEW_ID, Types.integer);
             
             for (var _j = 0, _countj = row.size(); _j < _countj; _j++) {
 
@@ -1888,15 +1926,15 @@
                   break;
 
                 case KII_ARTICULO:
-                  fields.add(CC.PR_ID, cell.getId(), Types.id);
+                  fields.add(C.PR_ID, cell.getId(), Types.id);
                   break;
 
                 case KII_CCOS_ID:
-                  fields.add(CC.CCOS_ID, cell.getId(), Types.id);
+                  fields.add(C.CCOS_ID, cell.getId(), Types.id);
                   break;
 
                 case KII_TO_ID:
-                  fields.add(CC.TO_ID, cell.getId(), Types.id);
+                  fields.add(C.TO_ID, cell.getId(), Types.id);
                   break;
               }
             }
@@ -1922,6 +1960,14 @@
             else {
               fields.add(CC.FCI_IMPORTE_ORIGEN, Cairo.Util.zeroDiv(importe, cotizacion), Types.currency);
             }
+
+            // dummy fields
+            //
+            fields.add(CC.STL_CODE, '', Types.text);
+            fields.add(CC.STL_ID, NO_ID, Types.id);
+            fields.add(C.CUE_ID, -1, Types.id);
+            fields.add(CC.CUE_ID_IVA_RI, -1, Types.id);
+            fields.add(CC.CUE_ID_IVA_RNI, -1, Types.id);
 
             // this is very important. it is used to associate remitoCompraitem
             // with the new FacturaCompraitem
@@ -2014,8 +2060,8 @@
           var row = rows.item(_i);
 
           if(getCell(row, KII_SELECT).getId()) {
-            var _count = row.size();
-            for (var _j = 0; _j < _count; _j++) {
+
+            for (var _j = 0, _countj = row.size(); _j < _countj; _j++) {
               var cell = row.item(_j);
               switch (cell.getKey()) {
                 case KII_APLICAR:
@@ -2060,7 +2106,6 @@
           ivaRni: ivaRni,
           internos: internos
         }
-
       };
 
       var setDatosProveedor = function() {
@@ -2186,26 +2231,26 @@
                 for(var i = 0, count = items.length; i < count; i += 1) {
 
                   var prop = getSucursal();
-                  if(prop.getSelectId() === NO_ID && valField(items[i], CC.SUC_ID) != NO_ID) {
+                  if(prop.getSelectId() === NO_ID && valField(items[i], C.SUC_ID) != NO_ID) {
 
-                    prop.setSelectId(valField(items[i], CC.SUC_ID));
-                    prop.setValue(valField(items[i], CC.SUC_NAME));
+                    prop.setSelectId(valField(items[i], C.SUC_ID));
+                    prop.setValue(valField(items[i], C.SUC_NAME));
                     m_objWizard.showValue(prop);
                   }
 
                   prop = getCondicionPago();
-                  if(prop.getSelectId() === NO_ID && valField(items[i], CC.CPG_ID) != NO_ID) {
+                  if(prop.getSelectId() === NO_ID && valField(items[i], C.CPG_ID) != NO_ID) {
 
-                    prop.setSelectId(valField(items[i], CC.CPG_ID));
-                    prop.setValue(valField(items[i], CC.CPG_NAME));
+                    prop.setSelectId(valField(items[i], C.CPG_ID));
+                    prop.setValue(valField(items[i], C.CPG_NAME));
                     m_objWizard.showValue(prop);
                   }
 
                   prop = getCentroCosto();
-                  if(prop.getSelectId() === NO_ID && valField(items[i], CC.CCOS_ID) != NO_ID) {
+                  if(prop.getSelectId() === NO_ID && valField(items[i], C.CCOS_ID) != NO_ID) {
 
-                    prop.setSelectId(valField(items[i], CC.CCOS_ID));
-                    prop.setValue(valField(items[i], CC.CCOS_NAME));
+                    prop.setSelectId(valField(items[i], C.CCOS_ID));
+                    prop.setValue(valField(items[i], C.CCOS_NAME));
                     m_objWizard.showValue(prop);
                   }
 

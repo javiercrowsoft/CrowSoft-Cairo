@@ -8,7 +8,7 @@
   var getText = Cairo.Language.getText;
   var Dialogs = Cairo.Dialogs;
   var val = Cairo.Util.val;
-  var P = Cairo.Promise;
+  var P = Cairo.Promises;
 
   // this file will contain all the code translated from cPublicDoc
   // the functions in cPublicDoc will be grouped by functionality
@@ -781,6 +781,7 @@
     elem.setVisible(false);
     elem.setFontBold(true);
     elem.setKey(WCC.KW_PRINT_DOC);
+    elem.setNoShowLabel(true);
 
     elem = properties.add(null, DWC.NEW_DOC);
     elem.setName(Cairo.Constants.NEW_DOC_DESCRIP);
@@ -788,6 +789,7 @@
     elem.setVisible(false);
     elem.setFontBold(true);
     elem.setKey(WCC.KW_NEW_DOC);
+    elem.setNoShowLabel(true);
 
     elem = properties.add(null, DWC.CLOSE_WIZARD);
     elem.setName(Cairo.Constants.CLOSE_WIZARD_TEXT);
@@ -795,6 +797,7 @@
     elem.setVisible(false);
     elem.setFontBold(true);
     elem.setKey(WCC.KW_CLOSE_WIZARD);
+    elem.setNoShowLabel(true);
 
     elem = properties.add(null, DWC.ACTION_BUTTON);
     elem.setName(strActionButtonCaption);
@@ -802,6 +805,7 @@
     elem.setVisible(false);
     elem.setFontBold(true);
     elem.setKey(WCC.KW_ACTION_BUTTON_DOC);
+    elem.setNoShowLabel(true);
 
     elem = properties.add(null, DWC.ACTION_BUTTON_AUTO);
     elem.setName(strActionButtonAutoCaption);
@@ -809,6 +813,7 @@
     elem.setVisible(false);
     elem.setFontBold(true);
     elem.setKey(WCC.KW_ACTION_BUTTON_DOC_AUTO);
+    elem.setNoShowLabel(true);
 
     if(strActionButtonCancelCaption !== '') {
       elem = properties.add(null, DWC.ACTION_CANCEL_AUTO);
@@ -975,7 +980,7 @@
 
     var elem = properties.add(null, DWC.CENTRO_COSTO);
     elem.setType(T.select);
-    elem.setSelectTable(Cairo.Tables.CENTRO_COSTO);
+    elem.setSelectTable(Cairo.Tables.CENTROS_DE_COSTO);
     elem.setName(getText(1057, "")); // Centro de Costo
 
     var elem = properties.add(null, DWC.TIPO_COMPROBANTE);
@@ -1079,15 +1084,23 @@
             docProperty.setSelectId(valField(response.data, 'id'));
             docProperty.setValue(valField(response.data, 'name'));
             wiz.showValue(docProperty);
-            return true;
+            var result = {
+              success: true,
+              info: {
+                id: valField(response.data, 'id'),
+                name: valField(response.data, 'name'),
+                monId: valField(response.data, 'monId')
+              }
+            };
+            return result;
           }
           else {
-            return false;
+            return P.fail();
           }
         });
     }
 
-    return p || P.resolvedPromise(true);    
+    return p || P.resolvedPromise(P.success());
   };
 
 }());
@@ -1583,7 +1596,7 @@
     if(coll === null) {
       grupo = lRow * -1;
       //'(NrosSerie.Count + 1) * -1
-      Dialogs.cell(row, kI_GRUPO).getID() === grupo;
+      Dialogs.cell(row, kI_GRUPO).setID(grupo);
       coll = new Collection();
       nrosSerie.Add(coll, getKey(grupo));
     }
@@ -1679,7 +1692,7 @@
 
       grupo = lRow * -1;
       //'(NrosSerie.Count + 1) * -1
-      Dialogs.cell(row, kI_GRUPO).getID() === grupo;
+      Dialogs.cell(row, kI_GRUPO).setID(grupo);
       coll = new Collection();
       nrosSerie.Add(coll, getKey(grupo));
 

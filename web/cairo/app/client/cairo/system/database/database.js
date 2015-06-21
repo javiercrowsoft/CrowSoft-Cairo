@@ -133,6 +133,7 @@
             q = new Cairo.Entities.DatabaseQuery({});
             q.url = path;
           }
+          Cairo.log('requesting: ' + q.url);
           var defer = new Cairo.Promises.Defer();
           q.fetch({
             success: function(data) {
@@ -266,7 +267,7 @@
           for(var i = 0, count = self.transactions.length; i < count; i += 1) {
             var items = [];
             var transaction = self.transactions[i];
-            for(var j = 0, count = transaction.getRegistersCount(); j < count; j += 1) {
+            for(var j = 0, countj = transaction.getRegistersCount(); j < countj; j += 1) {
               var register = transaction.getRegister(j);
               items.push(register.getFields().asObject());
             }
@@ -378,6 +379,48 @@
     sqlDate: function(date) {
       // "yyyy-mm-dd'T'HH:mm:ss'Z'";
       return Cairo.Util.getDateValue(date).toISOString();
+    },
+
+    getResultSetFromData: function(data) {
+      var columns = data.get('columns');
+      if(columns === undefined) {
+        // Cairo.raiseError("Can't return a result set from this data because it doesn't contain columns");
+        //
+        // in development
+        //
+        Cairo.log("Can't return a result set from this data because it doesn't contain columns");
+      }
+      var rows = data.get('rows');
+      if(rows === undefined) {
+        // Cairo.raiseError("Can't return a result set from this data because it doesn't contain rows");
+        //
+        // in development
+        //
+        Cairo.log("Can't return a result set from this data because it doesn't contain rows");
+      }
+      var createColumns = function(columns) {
+        var cols = {};
+        for(var i = 0, count = columns.length; i < count; i += 1) {
+          cols[columns[i].name] = i;
+        }
+        return cols;
+      };
+
+      var createRow = function(row, columns) {
+        return function(fieldName) {
+          return row[columns[fieldName]];
+        };
+      };
+
+      var createResultSet = function(columns, rows) {
+        var cols = createColumns(columns);
+        for(var i = 0, count = rows.length; i < count; i += 1) {
+          rows[i].get = createRow(rows[i].values, cols);
+        }
+        return rows;
+      };
+
+      return createResultSet(columns, rows);
     }
 
   };

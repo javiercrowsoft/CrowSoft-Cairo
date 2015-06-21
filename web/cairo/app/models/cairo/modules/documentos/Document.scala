@@ -16,7 +16,7 @@ import models.cairo.modules.general.U
 
 case class DocumentEditStatus(status: Int, message: String)
 case class DocumentInfo(monId: Int, doctId: Int, docTipoFactura: Int, mueveStock: Boolean)
-case class DocInfo(id: Int, name: String)
+case class DocInfo(id: Int, name: String, monId: Int)
 case class DocumentNumberInfo(number: Int, mask: String, enabled: Boolean)
 case class AccountInfo(cueId: Int, monId: Int)
 case class DateInfo(isValid: Boolean, range: String)
@@ -173,7 +173,7 @@ object Document {
 
     DB.withTransaction(user.database.database) { implicit connection =>
 
-      val sql = "{call sp_doc_get_doc_id_for_doct_id(?, ?, ?, ?, ?, ?, ?, ?)}"
+      val sql = "{call sp_doc_get_doc_id_for_doct_id(?, ?, ?, ?, ?, ?, ?, ?, ?)}"
       val cs = connection.prepareCall(sql)
 
       cs.setInt(1, user.cairoCompanyId)
@@ -184,11 +184,12 @@ object Document {
       cs.setInt(6, idEx)
       cs.registerOutParameter(7, Types.INTEGER)
       cs.registerOutParameter(8, Types.VARCHAR)
+      cs.registerOutParameter(9, Types.INTEGER)
 
       try {
         cs.execute()
 
-        DocInfo(cs.getInt(7), cs.getString(8))
+        DocInfo(cs.getInt(7), cs.getString(8), cs.getInt(9))
 
       } catch {
         case NonFatal(e) => {

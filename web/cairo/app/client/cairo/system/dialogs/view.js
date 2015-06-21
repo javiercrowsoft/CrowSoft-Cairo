@@ -779,6 +779,12 @@
         };
       };
 
+      that.onButtonClick = function(control) {
+        return function() {
+          that.raiseEvent("buttonClick", control.getIndex());
+        };
+      };
+
       //
       // grid
       //

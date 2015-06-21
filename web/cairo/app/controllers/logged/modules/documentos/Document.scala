@@ -90,7 +90,8 @@ object Documents extends Controller with ProvidesUser {
         Json.toJson(
           Json.obj(
             "id" -> Json.toJson(docInfo.id),
-            "name" -> Json.toJson(docInfo.name)
+            "name" -> Json.toJson(docInfo.name),
+            "monId" -> Json.toJson(docInfo.monId)
           )))
     })
   }

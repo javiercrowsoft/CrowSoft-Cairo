@@ -13,8 +13,26 @@
 
       that.htmlTag = "<button/>";
 
+      var superSetElement = that.setElement;
+
+      that.setElement = function(element, view) {
+        superSetElement(element);
+        if(view !== undefined) {
+          element.text(self.text);
+          element.addClass("btn btn-info dialog-button");
+          var onClick = view.onButtonClick(that);
+          element.click(function() {
+            onClick();
+          });
+        }
+      };
+
       that.setText = function(text) {
         self.text = text;
+        var element = that.getElement();
+        if(element) {
+          element.text(self.text);
+        }
       };
 
       that.getText = function() {

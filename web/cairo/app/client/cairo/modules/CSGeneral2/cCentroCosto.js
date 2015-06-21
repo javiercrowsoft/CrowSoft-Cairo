@@ -406,7 +406,7 @@
 
         var elem = properties.add(null, Cairo.General.Constants.CCOS_ID_PADRE);
         elem.setType(Dialogs.PropertyType.select);
-        elem.setSelectTable(Cairo.Tables.CENTRO_COSTO);
+        elem.setSelectTable(Cairo.Tables.CENTROS_DE_COSTO);
         // Centro Costo Padre
         elem.setName(Cairo.Language.getText(3573, ""));
         elem.setKey(K_CCOS_ID_PADRE);
@@ -663,7 +663,7 @@
           // create the dialog
           //
           Cairo.Tree.List.Controller.list(
-            Cairo.Tables.CENTRO_COSTO,
+            Cairo.Tables.CENTROS_DE_COSTO,
             new Cairo.Tree.List.TreeLayout({ model: self.entityInfo }),
             Cairo.centroCostoTreeRegion,
             self);

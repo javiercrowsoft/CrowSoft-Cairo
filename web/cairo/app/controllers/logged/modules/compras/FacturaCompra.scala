@@ -169,8 +169,17 @@ case class FacturaCompraData(
                               itemDeleted: String,
                               otroDeleted: String,
                               legajoDeleted: String,
-                              percepcionDeleted: String
+                              percepcionDeleted: String,
+
+                              /* applications */
+                              remitos: List[FacturaCompraRemitoData]
                             )
+
+case class FacturaCompraRemitoData(
+                                    rciId: Int,
+                                    cantidad: Double,
+                                    fciId: Int
+                                    )
 
 case class FacturaCompraParamsData(
                                 from: Date,
@@ -225,6 +234,17 @@ object FacturaCompras extends Controller with ProvidesUser {
   val facturaItemTotals = List(C.FCI_CANTIDAD, C.FCI_PRECIO, C.FCI_PRECIO_LISTA, C.FCI_PRECIO_USR, C.FCI_NETO,
                                C.FCI_IVA_RI, C.FCI_IVA_RNI, C.FCI_INTERNOS, C.FCI_IVA_RIPORC, C.FCI_IVA_RNIPORC,
                                C.FCI_INTERNOS_PORC, C.FCI_IMPORTE, C.FCI_IMPORTE_ORIGEN)
+
+  val facturaOtro = List(C.FCOT_ID, GC.CUE_ID, C.FCOT_DEBE, C.FCOT_HABER, GC.CCOS_ID, C.FCOT_DESCRIP,
+                         C.FCOT_ORIGEN, C.FCOT_ORDEN)
+
+  val facturaLegajo = List(C.FCLGJ_ID, GC.LGJ_ID, C.FCLGJ_IMPORTE, C.FCLGJ_DESCRIP, C.FCLGJ_IMPORTE_ORIGEN,
+                           C.FCLGJ_ORDEN)
+
+  val facturaPercepcion = List(C.FCPERC_ID, GC.PERC_ID, C.FCPERC_BASE, C.FCPERC_PORCENTAJE, C.FCPERC_IMPORTE,
+                               GC.CCOS_ID, C.FCPERC_DESCRIP, C.FCPERC_ORIGEN, C.FCPERC_ORDEN)
+
+  val facturaRemito = List(C.RCI_ID, C.RC_FC_CANTIDAD, C.FCI_ID)
 
   val facturaCompraForm: Form[FacturaCompraData] = Form(
     mapping(
@@ -360,7 +380,14 @@ object FacturaCompras extends Controller with ProvidesUser {
       C.FACTURA_ITEM_DELETED -> text,
       C.FACTURA_OTRO_DELETED -> text,
       C.FACTURA_LEGAJO_DELETED -> text,
-      C.FACTURA_PERCEPCION_DELETED -> text
+      C.FACTURA_PERCEPCION_DELETED -> text,
+      C.REMITO_FACTURA_COMPRA_TMP -> Forms.list[FacturaCompraRemitoData](
+        mapping (
+          C.RCI_ID -> number,
+          C.RC_FC_CANTIDAD -> of(Global.doubleFormat),
+          C.FCI_ID -> number)
+          (FacturaCompraRemitoData.apply)(FacturaCompraRemitoData.unapply)
+      )
     )(FacturaCompraData.apply)(FacturaCompraData.unapply)
   )
 
@@ -609,7 +636,7 @@ object FacturaCompras extends Controller with ProvidesUser {
       //
       // this Transaction object is an intermediary object which doesn't exists here
       //
-      // So FacturaCompraItemData has deletedList field called serieDeleted and FacturaCompraData has four deletedList
+      // so FacturaCompraItemData has deletedList field called serieDeleted and FacturaCompraData has four deletedList
       // fields: itemDeleted, otroDeleted, percepcionDeleted and legajoDeleted
       //
 
@@ -629,8 +656,48 @@ object FacturaCompras extends Controller with ProvidesUser {
       item
     }
 
+    def preprocessOtroParam(field: JsValue) = {
+      val params = field.as[Map[String, JsValue]]
+      JsObject(Global.preprocessFormParams(facturaOtro, "", params).toSeq)
+    }
+
+    def preprocessPercepcionParam(field: JsValue) = {
+      val params = field.as[Map[String, JsValue]]
+      JsObject(Global.preprocessFormParams(facturaPercepcion, "", params).toSeq)
+    }
+
+    def preprocessLegajoParam(field: JsValue) = {
+      val params = field.as[Map[String, JsValue]]
+      JsObject(Global.preprocessFormParams(facturaLegajo, "", params).toSeq)
+    }
+
+    def preprocessRemitoParam(field: JsValue) = {
+      val params = field.as[Map[String, JsValue]]
+      JsObject(Global.preprocessFormParams(facturaRemito, "", params).toSeq)
+    }
+
     def preprocessItemsParam(items: JsValue, group: String): Map[String, JsValue] = items match {
       case JsArray(arr) => Map(group -> JsArray(arr.map(preprocessItemParam(_))))
+      case _ => Map.empty
+    }
+
+    def preprocessOtrosParam(items: JsValue, group: String): Map[String, JsValue] = items match {
+      case JsArray(arr) => Map(group -> JsArray(arr.map(preprocessOtroParam(_))))
+      case _ => Map.empty
+    }
+
+    def preprocessPercepcionesParam(items: JsValue, group: String): Map[String, JsValue] = items match {
+      case JsArray(arr) => Map(group -> JsArray(arr.map(preprocessPercepcionParam(_))))
+      case _ => Map.empty
+    }
+
+    def preprocessLegajosParam(items: JsValue, group: String): Map[String, JsValue] = items match {
+      case JsArray(arr) => Map(group -> JsArray(arr.map(preprocessLegajoParam(_))))
+      case _ => Map.empty
+    }
+
+    def preprocessRemitosParam(items: JsValue, group: String): Map[String, JsValue] = items match {
+      case JsArray(arr) => Map(group -> JsArray(arr.map(preprocessRemitoParam(_))))
       case _ => Map.empty
     }
 
@@ -666,7 +733,7 @@ object FacturaCompras extends Controller with ProvidesUser {
       case deletedList :: t => Map(deletedList)
     }
     val facturaOtros = otroRows.toList match {
-      case (k: String, item: JsValue) :: t => preprocessSeriesParam(item, C.FACTURA_COMPRA_OTRO_TMP)
+      case (k: String, item: JsValue) :: t => preprocessOtrosParam(item, C.FACTURA_COMPRA_OTRO_TMP)
       case _ => Map(C.FACTURA_COMPRA_OTRO_TMP -> JsArray(List()))
     }
 
@@ -679,7 +746,7 @@ object FacturaCompras extends Controller with ProvidesUser {
       case deletedList :: t => Map(deletedList)
     }
     val facturalegajos = legajoRows.toList match {
-      case (k: String, item: JsValue) :: t => preprocessSeriesParam(item, C.FACTURA_COMPRA_LEGAJO_TMP)
+      case (k: String, item: JsValue) :: t => preprocessLegajosParam(item, C.FACTURA_COMPRA_LEGAJO_TMP)
       case _ => Map(C.FACTURA_COMPRA_LEGAJO_TMP -> JsArray(List()))
     }
 
@@ -692,15 +759,24 @@ object FacturaCompras extends Controller with ProvidesUser {
       case deletedList :: t => Map(deletedList)
     }
     val facturaPercepciones = percepcionRows.toList match {
-      case (k: String, item: JsValue) :: t => preprocessSeriesParam(item, C.FACTURA_COMPRA_PERCEPCION_TMP)
+      case (k: String, item: JsValue) :: t => preprocessPercepcionesParam(item, C.FACTURA_COMPRA_PERCEPCION_TMP)
       case _ => Map(C.FACTURA_COMPRA_PERCEPCION_TMP -> JsArray(List()))
+    }
+
+    // remitos
+    //
+    val remitosInfo = getJsValueAsMap(Global.getParamsJsonRequestFor(C.REMITO_FACTURA_COMPRA_TMP, params))
+    val remitoRows = Global.getParamsJsonRequestFor(GC.ITEMS, remitosInfo)
+    val facturaRemitos = remitoRows.toList match {
+      case (k: String, item: JsValue) :: t => preprocessRemitosParam(item, C.REMITO_FACTURA_COMPRA_TMP)
+      case _ => Map(C.REMITO_FACTURA_COMPRA_TMP -> JsArray(List()))
     }
     
     JsObject(
       (facturaId ++ facturaIdGroup ++ facturaBaseGroup ++ facturaDatesGroup ++ facturaPreciosGroup
       ++ facturaCotizacionGroup ++ facturaStockGroup ++ facturaTotalGroup 
       ++ facturaItems ++ itemDeleted ++ facturaOtros ++ otroDeleted
-      ++ facturalegajos ++ legajoDeleted ++ facturaPercepciones ++ percepcionDeleted).toSeq)
+      ++ facturalegajos ++ legajoDeleted ++ facturaPercepciones ++ percepcionDeleted ++ facturaRemitos).toSeq)
   }
   //
   //
@@ -796,6 +872,16 @@ object FacturaCompras extends Controller with ProvidesUser {
     })
   }
 
+  def getRemitos(remitos: List[FacturaCompraRemitoData]): List[FacturaCompraRemito] = {
+    remitos.map(remito => {
+      FacturaCompraRemito(
+        remito.rciId,
+        remito.cantidad,
+        remito.fciId
+      )
+    })
+  }
+
   def getFacturaCompraItems(facturaCompra: FacturaCompraData): FacturaCompraItems = {
     FacturaCompraItems(
       getItems(facturaCompra.items),
@@ -807,10 +893,12 @@ object FacturaCompras extends Controller with ProvidesUser {
       getPercepciones(facturaCompra.percepciones),
 
       /* only used in save */
-      facturaCompra.itemDeleted: String,
-      facturaCompra.otroDeleted: String,
-      facturaCompra.legajoDeleted: String,
-      facturaCompra.percepcionDeleted: String
+      facturaCompra.itemDeleted,
+      facturaCompra.otroDeleted,
+      facturaCompra.legajoDeleted,
+      facturaCompra.percepcionDeleted,
+
+      getRemitos(facturaCompra.remitos)
     )
   }
 
@@ -881,6 +969,76 @@ object FacturaCompras extends Controller with ProvidesUser {
             Json.toJson(
               FacturaCompra.update(user,
                 getFacturaCompra(facturaCompra, id)
+              )
+            )
+          )
+        })
+      }
+    )
+  }
+
+  def createFromRemito = PostAction { implicit request =>
+    Logger.debug("in FacturaCompras.create")
+    facturaCompraForm.bind(preprocessParams).fold(
+      formWithErrors => {
+        Logger.debug(s"invalid form: ${formWithErrors.toString}")
+        BadRequest
+      },
+      facturaCompra => {
+        Logger.debug(s"form: ${facturaCompra.toString}")
+        LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.NEW_FACTURA_COMPRA), { user =>
+          Ok(
+            Json.toJson(
+              FacturaCompra.createFromRemito(user,
+                getFacturaCompra(facturaCompra, DBHelper.NoId)
+                /*FacturaCompra(
+                  FacturaCompraId(
+                    facturaCompra.ids.docId,
+                    facturaCompra.ids.numero,
+                    facturaCompra.ids.nroDoc),
+                  FacturaCompraBase(
+                    facturaCompra.base.provId,
+                    facturaCompra.base.estId,
+                    facturaCompra.base.ccosId,
+                    facturaCompra.base.sucId,
+                    facturaCompra.base.cpgId,
+                    facturaCompra.base.lgjId,
+                    facturaCompra.base.cai,
+                    facturaCompra.base.tipoComprobante,
+                    facturaCompra.base.descrip,
+                    facturaCompra.base.grabarAsiento),
+                  FacturaCompra.emptyFacturaCompraReferences,
+                  FacturaCompraDates(
+                    DateFormatter.parse(facturaCompra.dates.fecha),
+                    DateFormatter.parse(facturaCompra.dates.fechaEntrega),
+                    DateFormatter.parse(facturaCompra.dates.fechaIva),
+                    DateFormatter.parse(facturaCompra.dates.fechaVto)),
+                  FacturaCompraPrecios(
+                    facturaCompra.precios.desc1,
+                    facturaCompra.precios.desc2,
+                    facturaCompra.precios.lpId,
+                    facturaCompra.precios.ldId),
+                  FacturaCompraCotizacion(
+                    facturaCompra.cotizacion.cotizacion,
+                    facturaCompra.cotizacion.cotizacionProveedor),
+                  FacturaCompraStock(
+                    facturaCompra.stock.proIdOrigen,
+                    facturaCompra.stock.proIdDestino,
+                    facturaCompra.stock.deplId),
+                  FacturaCompraTotals(
+                    facturaCompra.totals.neto,
+                    facturaCompra.totals.ivaRi,
+                    facturaCompra.totals.ivaRni,
+                    facturaCompra.totals.internos,
+                    facturaCompra.totals.subTotal,
+                    facturaCompra.totals.importeDesc1,
+                    facturaCompra.totals.importeDesc2,
+                    facturaCompra.totals.totalOtros,
+                    facturaCompra.totals.totalPercepciones,
+                    facturaCompra.totals.total,
+                    facturaCompra.totals.totalOrigen),
+                  getFacturaCompraItems(facturaCompra)
+                )*/
               )
             )
           )
@@ -1035,4 +1193,15 @@ object FacturaCompras extends Controller with ProvidesUser {
     })
   }
 
+  def listRemitos(provId: Int, currencyId: Int) = GetAction { implicit request =>
+    LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.NEW_FACTURA_COMPRA), { user =>
+      Ok(Json.toJson(Recordset.getAsJson(FacturaCompra.listRemitos(user, provId, currencyId))))
+    })
+  }
+
+  def listRemitosItems(ids: Option[String]) = GetAction { implicit request =>
+    LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.NEW_FACTURA_COMPRA), { user =>
+      Ok(Json.toJson(Recordset.getAsJson(FacturaCompra.listRemitosItems(user, ids.getOrElse("")))))
+    })
+  }
 }

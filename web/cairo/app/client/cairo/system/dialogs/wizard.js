@@ -22,6 +22,7 @@
         var m_dialog = null;
         var m_steps = null;
         var m_client = null;
+        var m_clientObj = null;
 
         var m_currentStep;
         var m_wizardShowed = false;
@@ -43,6 +44,14 @@
 
         self.getClient = function() {
           return m_client;
+        };
+
+        self.setClientObj = function(value) {
+          m_clientObj = value;
+        };
+
+        self.getClientObj = function() {
+          return m_clientObj;
         };
 
         self.getPushVirtualNext = function() {
@@ -130,53 +139,61 @@
         self.showDocDigital = function() {
         };
 
-        self.messageEx = function(messageID,  info) {
-          if(m_client === null) {
-            return Cairo.Promises.resolvedPromise(true);
+        self.messageEx = function(messageID, info) {
+          if(m_clientObj === null) {
+            var p = null;
+
+            switch (messageID) {
+              case Dialogs.Message.MSG_GRID_VIRTUAL_ROW:
+
+                p = Cairo.Promises.resolvedPromise(info);
+                break;
+            }
+            return p || Cairo.Promises.resolvedPromise(true);
           }
           else {
-            return m_client.messageEx(messageID, info);
+            return m_clientObj.messageEx(messageID, info);
           }
         };
 
-        self.columnAfterEdit = function(key,  lRow,  lCol,  newValue,  newValueID) {
-          return m_client().columnAfterEdit(key, lRow, lCol, newValue, newValueID);
+        self.columnAfterEdit = function(key, lRow, lCol, newValue, newValueID) {
+          return m_client.columnAfterEdit(key, lRow, lCol, newValue, newValueID);
         };
 
-        self.columnAfterUpdate = function(key,  lRow,  lCol) {
-          return m_client().columnAfterUpdate(key, lRow, lCol);
+        self.columnAfterUpdate = function(key, lRow, lCol) {
+          return m_client.columnAfterUpdate(key, lRow, lCol);
         };
 
-        self.columnBeforeEdit = function(key,  lRow,  lCol,  iKeyAscii) {
-          return m_client().columnBeforeEdit(key, lRow, lCol, iKeyAscii);
+        self.columnBeforeEdit = function(key, lRow, lCol, iKeyAscii) {
+          return m_client.columnBeforeEdit(key, lRow, lCol, iKeyAscii);
         };
 
-        self.columnButtonClick = function(key,  lRow,  lCol,  iKeyAscii) {
-          return m_client().columnButtonClick(key, lRow, lCol, iKeyAscii);
+        self.columnButtonClick = function(key, lRow, lCol, iKeyAscii) {
+          return m_client.columnButtonClick(key, lRow, lCol, iKeyAscii);
         };
 
-        self.columnClick = function(key,  lRow,  lCol) {
-          m_client().columnClick(key, lRow, lCol);
+        self.columnClick = function(key, lRow, lCol) {
+          m_client.columnClick(key, lRow, lCol);
         };
 
-        self.dblClick = function(key,  lRow,  lCol) {
-          m_client().dblClick(key, lRow, lCol);
+        self.dblClick = function(key, lRow, lCol) {
+          m_client.dblClick(key, lRow, lCol);
         };
 
-        self.deleteRow = function(key,  row,  lRow) {
-          return m_client().deleteRow(key, row, lRow);
+        self.deleteRow = function(key, row, lRow) {
+          return m_client.deleteRow(key, row, lRow);
         };
 
-        self.isEmptyRow = function(key,  row,  rowIndex) {
-          return m_client().isEmptyRow(key, row, rowIndex);
+        self.isEmptyRow = function(key, row, rowIndex) {
+          return m_client.isEmptyRow(key, row, rowIndex);
         };
 
-        self.newRow = function(key,  rows) {
-          m_client().newRow(key, rows);
+        self.newRow = function(key, rows) {
+          m_client.newRow(key, rows);
         };
 
-        self.validateRow = function(key,  row,  rowIndex) {
-          return m_client().validateRow(key, row, rowIndex);
+        self.validateRow = function(key, row, rowIndex) {
+          return m_client.validateRow(key, row, rowIndex);
         };
 
         self.getCmdBack = function() {
@@ -204,7 +221,7 @@
         };
 
         self.showValue = function(property) {
-          m_dialog.showValue(property);
+          m_dialog.showValueEx(property);
         };
 
         self.setSteps = function(value) {
@@ -216,11 +233,11 @@
         };
         
         self.moveNext = function() {
-          nextStep(m_currentStep);
+          return nextStep(m_currentStep);
         };
         
         self.moveBack = function() {
-          previousStep(m_currentStep);
+          return previousStep(m_currentStep);
         };
 
         self.clear = function(stepIndex) {
@@ -232,12 +249,12 @@
           }
         };
 
-        self.add = function(property,  stepIndex) {
+        self.add = function(property, stepIndex) {
           m_dialog.getProperties().add(property);
           property.setTabIndex(m_steps.get(stepIndex).getTabIndex());
         };
 
-        self.remove = function(kItem,  stepIndex) {
+        self.remove = function(kItem, stepIndex) {
           if(m_steps.contains(stepIndex)) {
             var properties = m_steps.get(stepIndex).getProperties();
             if(properties.contains(kItem)) {
@@ -255,8 +272,9 @@
           }
         };
 
-        self.showValue = function(property,  noChangeColumns,  strTag) {
-          m_dialog.showValue(property, noChangeColumns, strTag);
+        self.showValueEx = function(property, noChangeColumns, strTag) {
+          strTag = strTag !== undefined ? strTag : "";
+          m_dialog.showValueEx(property, noChangeColumns, strTag);
         };
 
         self.doNextStep = function(currentStep) {
@@ -502,6 +520,7 @@
             m_dialog = null;
             m_steps = null;
             m_client = null;
+            m_clientObj = null;
           }
           catch (ex) {
             Cairo.manageErrorEx(ex.message, "destroy", Dialogs.WizardViews.Controller.newWizard, "");

@@ -484,7 +484,7 @@
 
         var setDocumentListeners = function() {
           m_documentView.addListener({
-            commandClick:               docHandlerCommandClick,
+            buttonClick:                docHandlerButtonClick,
 
             closeClick:                 docToolbarClick(Dialogs.Constants.toolbarKeyClose),
             copyClick:                  docToolbarClick(Dialogs.Constants.toolbarKeyCopy),
@@ -546,7 +546,7 @@
 
             cancelClick:              wizHandlerCancelClick,
             backClick:                wizHandlerBackClick,
-            commandClick:             wizHandlerCommandClick,
+            buttonClick:              wizHandlerButtonClick,
             nextClick:                wizHandlerNextClick,
 
             viewLoad:                 wizHandlerViewLoad,
@@ -597,7 +597,7 @@
             comboChange:               masterHandlerComboChange,
             checkboxClick:             masterHandlerCheckboxClick,
 
-            commandClick:              masterHandlerCommandClick,
+            buttonClick:               masterHandlerButtonClick,
             cancelClick:               masterHandlerCancelClick,
             closeClick:                masterHandlerCloseClick,
             copyClick:                 masterHandlerCopyClick,
@@ -2439,7 +2439,7 @@
           return false;
         };
 
-        var docHandlerCommandClick = function(index) {
+        var docHandlerButtonClick = function(index) {
           propertyHasChanged(Dialogs.PropertyType.button, index, getView().getButtons().get(index));
         };
 
@@ -2538,7 +2538,7 @@
           return (p || P.resolvedPromise(true));
         };
 
-        var masterHandlerCommandClick = function(index) {
+        var masterHandlerButtonClick = function(index) {
           propertyHasChanged(Dialogs.PropertyType.button, index, getView().getButtons().get(index));
         };
 
@@ -3353,7 +3353,7 @@
           catch(ignore) {}
         };
 
-        var wizHandlerCommandClick = function(index) {
+        var wizHandlerButtonClick = function(index) {
           propertyHasChanged(Dialogs.PropertyType.button, index, getView().getButtons().get(index));
         };
 
@@ -4649,6 +4649,7 @@
             && property.getType() !== Dialogs.PropertyType.toolbar
             && property.getType() !== Dialogs.PropertyType.label
             && property.getType() !== Dialogs.PropertyType.title
+            && property.getNoShowLabel() === false
             && ! (m_isDocument
                   && (
                        property.getSelectTable() === Cairo.Tables.DOCUMENTO
@@ -5938,20 +5939,30 @@
 
         var moveNext = function() {
           try {
-            m_client.moveNext();
-            return;
+            return m_client.moveNext();
           }
           catch(e) {
             Cairo.manageError(
               "Moving",
-              "An error has occurred when moving to the next document.",
+              "An error has occurred when moving to the next step.",
               e.message,
               e);
+            return P.resolvedPromise(false);
           }
         };
 
         var moveBack = function() {
-          m_client.moveBack();
+          try {
+            return m_client.moveBack();
+          }
+          catch(e) {
+            Cairo.manageError(
+              "Moving",
+              "An error has occurred when moving to the previous step.",
+              e.message,
+              e);
+            return P.resolvedPromise(false);
+          }
         };
 
         self.refreshFont = function(property) {

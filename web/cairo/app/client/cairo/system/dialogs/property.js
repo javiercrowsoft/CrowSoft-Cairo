@@ -185,6 +185,8 @@
 
         hideButton: false,
 
+        noShowLabel: false,
+
         /* internal */
         _ctl: null,
         _controlLoaded: false,
@@ -589,6 +591,14 @@
       };
       that.setEnabled = function(enabled) {
         self.enabled = enabled;
+        return that;
+      };
+
+      that.getNoShowLabel = function() {
+        return self.noShowLabel;
+      };
+      that.setNoShowLabel = function(noShowLabel) {
+        self.noShowLabel = noShowLabel;
         return that;
       };
 

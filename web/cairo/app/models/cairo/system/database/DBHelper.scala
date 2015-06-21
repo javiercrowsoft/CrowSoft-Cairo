@@ -95,6 +95,10 @@ object DBHelper {
   }
 
   def getValue(rs: ResultSet, metaData: ResultSetMetaData, i: Int): Option[Any] = {
+    def doubleValue =  {
+      val v = rs.getBigDecimal(i)
+      if(v == null) 0 else v.doubleValue()
+    }
     val value = metaData.getColumnTypeName(i).toLowerCase match {
       case "integer" => rs.getInt(i)
       case "int2" => rs.getInt(i)
@@ -103,8 +107,10 @@ object DBHelper {
       case "biginteger" => rs.getLong(i)
       case "serial" => rs.getLong(i)
       case "bigserial" => rs.getLong(i)
-      case "decimal" => rs.getBigDecimal(i).doubleValue()
-      case "numeric" => rs.getBigDecimal(i).doubleValue()
+      case "decimal" => doubleValue
+      case "numeric" => doubleValue
+      case "float8" => doubleValue
+      case "float4" => doubleValue
       case "real" => rs.getBigDecimal(i)
       case "timestamp" => rs.getDate(i)
       case "timestamptz" => rs.getDate(i)

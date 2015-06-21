@@ -560,6 +560,12 @@ object FacturaCompraPercepcion {
   }
 }
 
+case class FacturaCompraRemito(
+                                rciId: Int,
+                                cantidad: Double,
+                                fciId: Int
+                                )
+
 case class FacturaCompraItems(
                                 items: List[FacturaCompraItem],
                                 series: List[FacturaCompraItemSerie], /* only used when loading an invoice to respond a get FacturaCompra */
@@ -571,7 +577,9 @@ case class FacturaCompraItems(
                                 itemDeleted: String,
                                 otroDeleted: String,
                                 legajoDeleted: String,
-                                percepcionDeleted: String
+                                percepcionDeleted: String,
+
+                                remitos: List[FacturaCompraRemito]
                              )
 
 case class FacturaCompra(
@@ -737,7 +745,7 @@ object FacturaCompra {
 
   lazy val GC = models.cairo.modules.general.C
 
-  lazy val emptyFacturaCompraItems = FacturaCompraItems(List(), List(), List(), List(), List(), "", "", "", "")
+  lazy val emptyFacturaCompraItems = FacturaCompraItems(List(), List(), List(), List(), List(), "", "", "", "", List())
 
   lazy val emptyFacturaCompraReferences = FacturaCompraReferences(
     DBHelper.NoId, DBHelper.NoId, "", false, false, false, 0, DBHelper.NoId, DBHelper.NoId, false, false, false, "")
@@ -1333,15 +1341,19 @@ object FacturaCompra {
     }
   }
 
+  def createFromRemito(user: CompanyUser, facturaCompra: FacturaCompra): FacturaCompra = {
+    save(user, facturaCompra, true)
+  }
+
   def create(user: CompanyUser, facturaCompra: FacturaCompra): FacturaCompra = {
-    save(user, facturaCompra)
+    save(user, facturaCompra, false)
   }
 
   def update(user: CompanyUser, facturaCompra: FacturaCompra): FacturaCompra = {
-    save(user, facturaCompra)
+    save(user, facturaCompra, false)
   }
 
-  private def save(user: CompanyUser, facturaCompra: FacturaCompra): FacturaCompra = {
+  private def save(user: CompanyUser, facturaCompra: FacturaCompra, isFromWizard: Boolean): FacturaCompra = {
     def getFields = {
       List(
         Field(C.FC_ID, facturaCompra.id, FieldType.number),
@@ -1437,6 +1449,21 @@ object FacturaCompra {
       )
     }
 
+    def getPercepcionFields(item: FacturaCompraPercepcion, fcTMPId: Int) = {
+      List(
+        Field(C.FC_TMP_ID, fcTMPId, FieldType.id),
+        Field(C.FCPERC_ID, item.id, FieldType.number),
+        Field(GC.PERC_ID, item.percId, FieldType.id),
+        Field(C.FCPERC_BASE, item.base, FieldType.currency),
+        Field(C.FCPERC_PORCENTAJE, item.porcentaje, FieldType.currency),
+        Field(C.FCPERC_IMPORTE, item.importe, FieldType.currency),
+        Field(GC.CCOS_ID, item.percId, FieldType.id),
+        Field(C.FCPERC_DESCRIP, item.descrip, FieldType.text),
+        Field(C.FCPERC_ORIGEN, item.origen, FieldType.currency),
+        Field(C.FCPERC_ORDEN, item.orden, FieldType.integer)
+      )
+    }
+
     def getLegajoFields(item: FacturaCompraLegajo, fcTMPId: Int) = {
       List(
         Field(C.FC_TMP_ID, fcTMPId, FieldType.id),
@@ -1450,18 +1477,13 @@ object FacturaCompra {
       )
     }
 
-    def getPercepcionFields(item: FacturaCompraPercepcion, fcTMPId: Int) = {
+    def getRemitoFields(item: FacturaCompraRemito, fcTMPId: Int) = {
       List(
         Field(C.FC_TMP_ID, fcTMPId, FieldType.id),
-        Field(C.FCPERC_ID, item.id, FieldType.number),
-        Field(GC.PERC_ID, item.percId, FieldType.id),
-        Field(C.FCPERC_BASE, item.base, FieldType.currency),
-        Field(C.FCPERC_PORCENTAJE, item.porcentaje, FieldType.currency),
-        Field(C.FCPERC_IMPORTE, item.importe, FieldType.currency),
-        Field(GC.CCOS_ID, item.percId, FieldType.id),
-        Field(C.FCPERC_DESCRIP, item.descrip, FieldType.text),
-        Field(C.FCPERC_ORIGEN, item.origen, FieldType.currency),
-        Field(C.FCPERC_ORDEN, item.orden, FieldType.integer)
+        Field(C.RC_FC_ID, 0, FieldType.number),
+        Field(C.RCI_ID, item.rciId, FieldType.id),
+        Field(C.RC_FC_CANTIDAD, item.cantidad, FieldType.currency),
+        Field(C.FCI_ID, item.rciId, FieldType.id)
       )
     }
 
@@ -1639,7 +1661,52 @@ object FacturaCompra {
       facturaCompra.items.legajos.map(legajo => saveLegajo(FacturaCompraLegajoInfo(fcTMPId, legajo)))
     }
 
+    case class FacturaCompraRemitoInfo(fcTMPId: Int, item: FacturaCompraRemito)
+
+    def saveRemito(itemInfo: FacturaCompraRemitoInfo) = {
+      DBHelper.save(
+        user,
+        Register(
+          C.REMITO_FACTURA_COMPRA_TMP,
+          C.RC_FC_TMP_ID,
+          DBHelper.NoId,
+          false,
+          false,
+          false,
+          getRemitoFields(itemInfo.item, itemInfo.fcTMPId)),
+        true
+      ) match {
+        case SaveResult(true, id) => true
+        case SaveResult(false, id) => throwError
+      }
+    }
+
+    def saveRemitos(fcTMPId: Int) = {
+      facturaCompra.items.remitos.map(remito => saveRemito(FacturaCompraRemitoInfo(fcTMPId, remito)))
+    }
+
     case class RowResult(rowType: String, id: Int, message: String)
+
+    def saveFromWizard(fcTMPId: Int) = {
+
+      DB.withTransaction(user.database.database) { implicit connection =>
+        val sql = "select * from sp_doc_factura_compra_wizard_save(?)"
+        val cs = connection.prepareStatement(sql)
+
+        cs.setInt(1, fcTMPId)
+
+        try {
+          cs.executeQuery()
+        } catch {
+          case NonFatal(e) => {
+            Logger.error(s"can't save ${C.FACTURA_COMPRA} with id ${facturaCompra.id} for user ${user.toString}. Error ${e.toString}")
+            throw e
+          }
+        } finally {
+          cs.close
+        }
+      }
+    }
 
     def executeSave(fcTMPId: Int): List[RowResult] = {
 
@@ -1760,6 +1827,8 @@ object FacturaCompra {
         saveOtros(fcTMPId)
         savePercepciones(fcTMPId)
         saveLegajos(fcTMPId)
+        if(isFromWizard) saveFromWizard(fcTMPId)
+        saveRemitos(fcTMPId)
         val messagesAndId = executeSave(fcTMPId)
         val id = getIdFromMessages(messagesAndId)
         load(user, id).getOrElse(throwError)
@@ -1807,7 +1876,7 @@ object FacturaCompra {
       loadOtros(user, id),
       loadLegajos(user, id),
       loadPercepciones(user, id),
-      "", "", "", ""
+      "", "", "", "", List()
     )
   }
 
@@ -2035,6 +2104,62 @@ object FacturaCompra {
       } catch {
         case NonFatal(e) => {
           Logger.error(s"can't get listing of facturas de compra for user ${user.toString}. Error ${e.toString}")
+          throw e
+        }
+      } finally {
+        cs.close
+      }
+    }
+  }
+
+  def listRemitos(user: CompanyUser, provId: Int, currencyId: Int): Recordset = {
+
+    DB.withTransaction(user.database.database) { implicit connection =>
+
+      val sql = "{call sp_doc_factura_compra_get_remitos(?, ?, ?, ?)}"
+      val cs = connection.prepareCall(sql)
+
+      cs.setInt(1, user.cairoCompanyId)
+      cs.setInt(2, provId)
+      cs.setInt(3, currencyId)
+      cs.registerOutParameter(4, Types.OTHER)
+
+      try {
+        cs.execute()
+
+        val rs = cs.getObject(4).asInstanceOf[java.sql.ResultSet]
+        Recordset.load(rs)
+
+      } catch {
+        case NonFatal(e) => {
+          Logger.error(s"can't get listing of remitos de compra for provider [$provId] and currency [$currencyId] and user ${user.toString}. Error ${e.toString}")
+          throw e
+        }
+      } finally {
+        cs.close
+      }
+    }
+  }
+
+  def listRemitosItems(user: CompanyUser, ids: String): Recordset = {
+
+    DB.withTransaction(user.database.database) { implicit connection =>
+
+      val sql = "{call sp_doc_factura_compra_get_remitos_items(?, ?)}"
+      val cs = connection.prepareCall(sql)
+
+      cs.setString(1, ids)
+      cs.registerOutParameter(2, Types.OTHER)
+
+      try {
+        cs.execute()
+
+        val rs = cs.getObject(2).asInstanceOf[java.sql.ResultSet]
+        Recordset.load(rs)
+
+      } catch {
+        case NonFatal(e) => {
+          Logger.error(s"can't get listing of remitos de compra's items for list [$ids] and user ${user.toString}. Error ${e.toString}")
           throw e
         }
       } finally {

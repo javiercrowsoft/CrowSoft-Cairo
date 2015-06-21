@@ -803,8 +803,8 @@
       // Producto
       PRODUCTO: "Producto",
       PR_ID: "pr_id",
-      PR_NAME_COMPRA: "pr_Nombrecompra",
-      PR_NAME_VENTA: "pr_Nombreventa",
+      PR_NAME_COMPRA: "pr_nombrecompra",
+      PR_NAME_VENTA: "pr_nombreventa",
       PR_CODE: "pr_codigo",
       PR_DESCRIP_VENTA: "pr_descripventa",
       PR_DESCRIP_COMPRA: "pr_descripcompra",

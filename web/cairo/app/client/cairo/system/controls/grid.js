@@ -517,7 +517,7 @@
                   p = ctrl.validate().then(
                     function() {
                       newValue = ctrl.getValue();
-                      newValueId = ctrl.getId();
+                      newValueId = ctrl.getItemData();
                     }
                   );
                   break;
@@ -643,6 +643,10 @@
             value = val(cell.getText()) * 100;
             break;
 
+          case T.check:
+            value = cell.getItemData();
+            break;
+
           default:
             value = cell.getText();
         }
@@ -696,7 +700,7 @@
             var cell = getRow(info.row).get(info.col);
             switch (col.getType()) {
               case T.check:
-                cell.setText(info.newValue);
+                cell.setItemData(info.newValue);
                 $(td).html(getCheckboxIcon(info.newValue));
                 break;
 
@@ -763,7 +767,8 @@
             var args = {
               row: info.row,
               col: info.col,
-              newValue: newValue
+              newValue: newValue,
+              newValueId: newValue
             };
             //
             // first we raise ColumnAfterEdit then we update the cell
@@ -1285,7 +1290,7 @@
         gridManager.getValue = function(cell, col) {
           switch(col.getType()) {
             case T.check:
-              return getCheckboxIcon(cell.getText());
+              return getCheckboxIcon(cell.getItemData());
             case T.date:
               return getDateFormatted(cell.getText());
             case T.numeric:
