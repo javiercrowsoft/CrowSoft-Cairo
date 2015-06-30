@@ -74,7 +74,7 @@ begin
       --
       select * from sp_auditoria_estado_check_doc_rc(v_rc_id) into v_success, v_error_msg;
 
-      if coalesce(p_success, 0) = 0 then
+      if coalesce(v_success, 0) = 0 then
          raise exception '%', v_error_msg;
       end if;
 
