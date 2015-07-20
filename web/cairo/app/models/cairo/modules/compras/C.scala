@@ -228,7 +228,7 @@ object C {
   val FCOTB_TMP_ID = "fcotbTMP_id"
 
   // FacturaCompraItemBarradoTMP
-  val FACTURA_COMPRA_ITEMBORRADO_TMP = "FacturaCompraItemBorradoTMP"
+  val FACTURA_COMPRA_ITEM_BORRADO_TMP = "FacturaCompraItemBorradoTMP"
   val FCIB_TMP_ID = "fcibTMP_id"
 
   // Provincia

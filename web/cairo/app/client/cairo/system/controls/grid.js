@@ -517,7 +517,7 @@
                   p = ctrl.validate().then(
                     function() {
                       newValue = ctrl.getValue();
-                      newValueId = ctrl.getItemData();
+                      newValueId = ctrl.getId();
                     }
                   );
                   break;

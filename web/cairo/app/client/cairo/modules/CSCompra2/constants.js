@@ -229,7 +229,7 @@
       FCOTB_TMP_ID: "fcotbTMP_id",
 
       // FacturaCompraItemBarradoTMP
-      FACTURA_COMPRA_ITEMBORRADO_TMP: "FacturaCompraItemBorradoTMP",
+      FACTURA_COMPRA_ITEM_BORRADO_TMP: "FacturaCompraItemBorradoTMP",
       FCIB_TMP_ID: "fcibTMP_id",
 
       // Provincia

@@ -4289,7 +4289,7 @@
               rows.addBefore(rowIndex, row);
 
               if(row.get(Dialogs.Constants.keyRowItem) !== null) {
-                row.get(Dialogs.Constants.keyRowItem).setValue(rowIndex);
+                row.get(Dialogs.Constants.keyRowItem).setValue(rowIndex + 1);
               }
 
               return {

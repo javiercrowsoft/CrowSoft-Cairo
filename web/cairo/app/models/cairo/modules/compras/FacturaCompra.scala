@@ -3,7 +3,7 @@ package models.cairo.modules.compras
 import java.sql.{Connection, CallableStatement, ResultSet, Types, SQLException}
 import anorm.SqlParser._
 import anorm._
-import services.DateUtil
+import services.{G, DateUtil}
 import services.db.DB
 import models.cairo.system.database.{DBHelper, Register, Field, FieldType, SaveResult, Recordset}
 import models.cairo.system.database.DBHelper.rowToFloat
@@ -1435,6 +1435,14 @@ object FacturaCompra {
       )
     }
 
+    def getDeletedItemFields(fciId: Int, fcTMPId: Int) = {
+      List(
+        Field(C.FC_TMP_ID, fcTMPId, FieldType.id),
+        Field(C.FCI_ID, fciId, FieldType.number),
+        Field(C.FC_ID, facturaCompra.id, FieldType.id)
+      )
+    }
+
     def getOtroFields(item: FacturaCompraOtro, fcTMPId: Int) = {
       List(
         Field(C.FC_TMP_ID, fcTMPId, FieldType.id),
@@ -1585,8 +1593,30 @@ object FacturaCompra {
       }
     }
 
+    def saveDeletedItem(fcTMPId: Int)(fciId: String) = {
+      val id = G.getIntOrZero(fciId)
+      if(id != 0) {
+        DBHelper.save(
+          user,
+          Register(
+            C.FACTURA_COMPRA_ITEM_BORRADO_TMP,
+            C.FCIB_TMP_ID,
+            DBHelper.NoId,
+            false,
+            false,
+            false,
+            getDeletedItemFields(id, fcTMPId)),
+          true
+        ) match {
+          case SaveResult(false, id) => throwError
+          case _ =>
+        }
+      }
+    }
+
     def saveItems(fcTMPId: Int) = {
       facturaCompra.items.items.map(item => saveItem(FacturaCompraItemInfo(fcTMPId, item))).map(saveItemSeries)
+      facturaCompra.items.itemDeleted.split(",").map(saveDeletedItem(fcTMPId))
     }
 
     case class FacturaCompraOtroInfo(fcTMPId: Int, item: FacturaCompraOtro)

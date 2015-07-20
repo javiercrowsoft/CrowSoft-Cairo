@@ -1061,13 +1061,15 @@
                 if(result.success) {
 
                   if(result.errors) {
-                    return M.showWarningWithFalse(result.errors.message);
+                    return M.showWarningWithFalse(result.errors.getMessage());
                   }
                   else {
                     m_copy = false;
+                    Cairo.navigate(NO_ID);
                     return load(result.data.getId()).then(
                       function(success) {
                         if(success) {
+                          Cairo.navigate(self.getPath());
                           if(m_listController != null) {
                             updateList();
                             m_listController.updateEditorKey(self, m_id);
@@ -2827,6 +2829,8 @@
         var grid = property.getGrid();
         var rows = grid.getRows();
 
+        rows.clear();
+
         for(var _i = 0; _i < m_data.items.length; _i += 1) {
 
           var row = rows.add(null, getValue(m_data.items[_i], CC.FCI_ID));
@@ -3027,6 +3031,8 @@
         var elem;
         var rows = property.getGrid().getRows();
 
+        rows.clear()
+
         for(var _i = 0; _i < m_data.percepciones.length; _i += 1) {
 
           var row = rows.add(null, getValue(m_data.percepciones[_i], CC.FCPERC_ID));
@@ -3103,6 +3109,8 @@
         var grid = property.getGrid();
         var rows = grid.getRows();
 
+        rows.clear()
+
         for(var _i = 0; _i < m_data.legajos.length; _i += 1) {
 
           var row = rows.add(null, getValue(m_data.legajos[_i], CC.FCLGJ_ID));
@@ -3178,6 +3186,8 @@
         var elem;
         var grid = property.getGrid();
         var rows = grid.getRows();
+
+        rows.clear()
 
         for(var _i = 0; _i < m_data.otros.length; _i += 1) {
 

@@ -15,6 +15,8 @@ import java.util.Date
 import formatters.json.DateFormatter
 import formatters.json.DateFormatter._
 
+import scala.util.control.NonFatal
+
 case class FacturaCompraIdData(
                                 docId: Int,
                                 numero: Int,
@@ -628,8 +630,8 @@ object FacturaCompras extends Controller with ProvidesUser {
       //      deletedList: "",
       //      FacturaCompraItemSerieTMP: []
       //
-      // NOTICE that deletedList is a field of FacturaCompraItemSerieTMP but in the converted it is move
-      // up to the parent node ( the FacturaCompraItem )
+      // NOTICE that deletedList is a field of FacturaCompraItemSerieTMP but in the converted structure
+      // it is move up to the parent node ( the FacturaCompraItem )
       //
       // this is done because in database.js we have one Transaction object to manage items in a Master-Detail
       // relation like FacturaCompraItem -> FacturaCompraItemSerie or FacturaCompra -> FacturaCompraItem
@@ -718,9 +720,9 @@ object FacturaCompras extends Controller with ProvidesUser {
     //
     val itemsInfo = getJsValueAsMap(Global.getParamsJsonRequestFor(C.FACTURA_COMPRA_ITEM_TMP, params))
     val itemRows = Global.getParamsJsonRequestFor(GC.ITEMS, itemsInfo)
-    val itemDeleted: Map[String, JsValue] = Global.getParamsJsonRequestFor(C.FACTURA_ITEM_DELETED, itemsInfo).toList match {
+    val itemDeleted: Map[String, JsValue] = Global.getParamsJsonRequestFor(GC.DELETED_LIST, itemsInfo).toList match {
       case Nil => Map(C.FACTURA_ITEM_DELETED -> Json.toJson(""))
-      case deletedList :: t => Map(deletedList)
+      case deletedList :: t => Map(C.FACTURA_ITEM_DELETED -> Json.toJson(deletedList._2))
     }
     val facturaItems = preprocessItemsParam(itemRows.head._2, C.FACTURA_COMPRA_ITEM_TMP)
 
@@ -728,9 +730,9 @@ object FacturaCompras extends Controller with ProvidesUser {
     //
     val otrosInfo = getJsValueAsMap(Global.getParamsJsonRequestFor(C.FACTURA_COMPRA_OTRO_TMP, params))
     val otroRows = Global.getParamsJsonRequestFor(GC.ITEMS, otrosInfo)
-    val otroDeleted: Map[String, JsValue] = Global.getParamsJsonRequestFor(C.FACTURA_OTRO_DELETED, otrosInfo).toList match {
+    val otroDeleted: Map[String, JsValue] = Global.getParamsJsonRequestFor(GC.DELETED_LIST, otrosInfo).toList match {
       case Nil => Map(C.FACTURA_OTRO_DELETED -> Json.toJson(""))
-      case deletedList :: t => Map(deletedList)
+      case deletedList :: t => Map(C.FACTURA_OTRO_DELETED -> Json.toJson(deletedList._2))
     }
     val facturaOtros = otroRows.toList match {
       case (k: String, item: JsValue) :: t => preprocessOtrosParam(item, C.FACTURA_COMPRA_OTRO_TMP)
@@ -741,9 +743,9 @@ object FacturaCompras extends Controller with ProvidesUser {
     //
     val legajosInfo = getJsValueAsMap(Global.getParamsJsonRequestFor(C.FACTURA_COMPRA_LEGAJO_TMP, params))
     val legajoRows = Global.getParamsJsonRequestFor(GC.ITEMS, legajosInfo)
-    val legajoDeleted: Map[String, JsValue] = Global.getParamsJsonRequestFor(C.FACTURA_LEGAJO_DELETED, legajosInfo).toList match {
+    val legajoDeleted: Map[String, JsValue] = Global.getParamsJsonRequestFor(GC.DELETED_LIST, legajosInfo).toList match {
       case Nil => Map(C.FACTURA_LEGAJO_DELETED -> Json.toJson(""))
-      case deletedList :: t => Map(deletedList)
+      case deletedList :: t => Map(C.FACTURA_LEGAJO_DELETED -> Json.toJson(deletedList._2))
     }
     val facturalegajos = legajoRows.toList match {
       case (k: String, item: JsValue) :: t => preprocessLegajosParam(item, C.FACTURA_COMPRA_LEGAJO_TMP)
@@ -754,9 +756,9 @@ object FacturaCompras extends Controller with ProvidesUser {
     //
     val percepcionesInfo = getJsValueAsMap(Global.getParamsJsonRequestFor(C.FACTURA_COMPRA_PERCEPCION_TMP, params))
     val percepcionRows = Global.getParamsJsonRequestFor(GC.ITEMS, percepcionesInfo)
-    val percepcionDeleted: Map[String, JsValue] = Global.getParamsJsonRequestFor(C.FACTURA_PERCEPCION_DELETED, percepcionesInfo).toList match {
+    val percepcionDeleted: Map[String, JsValue] = Global.getParamsJsonRequestFor(GC.DELETED_LIST, percepcionesInfo).toList match {
       case Nil => Map(C.FACTURA_PERCEPCION_DELETED -> Json.toJson(""))
-      case deletedList :: t => Map(deletedList)
+      case deletedList :: t => Map(C.FACTURA_PERCEPCION_DELETED -> Json.toJson(deletedList._2))
     }
     val facturaPercepciones = percepcionRows.toList match {
       case (k: String, item: JsValue) :: t => preprocessPercepcionesParam(item, C.FACTURA_COMPRA_PERCEPCION_TMP)
@@ -965,13 +967,19 @@ object FacturaCompras extends Controller with ProvidesUser {
       facturaCompra => {
         Logger.debug(s"form: ${facturaCompra.toString}")
         LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.EDIT_FACTURA_COMPRA), { user =>
-          Ok(
-            Json.toJson(
-              FacturaCompra.update(user,
-                getFacturaCompra(facturaCompra, id)
+          try {
+            Ok(
+              Json.toJson(
+                FacturaCompra.update(user,
+                  getFacturaCompra(facturaCompra, id)
+                )
               )
             )
-          )
+          } catch {
+            case NonFatal(e) => {
+              responseError(e)
+            }
+          }
         })
       }
     )
@@ -987,61 +995,19 @@ object FacturaCompras extends Controller with ProvidesUser {
       facturaCompra => {
         Logger.debug(s"form: ${facturaCompra.toString}")
         LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.NEW_FACTURA_COMPRA), { user =>
-          Ok(
-            Json.toJson(
-              FacturaCompra.createFromRemito(user,
-                getFacturaCompra(facturaCompra, DBHelper.NoId)
-                /*FacturaCompra(
-                  FacturaCompraId(
-                    facturaCompra.ids.docId,
-                    facturaCompra.ids.numero,
-                    facturaCompra.ids.nroDoc),
-                  FacturaCompraBase(
-                    facturaCompra.base.provId,
-                    facturaCompra.base.estId,
-                    facturaCompra.base.ccosId,
-                    facturaCompra.base.sucId,
-                    facturaCompra.base.cpgId,
-                    facturaCompra.base.lgjId,
-                    facturaCompra.base.cai,
-                    facturaCompra.base.tipoComprobante,
-                    facturaCompra.base.descrip,
-                    facturaCompra.base.grabarAsiento),
-                  FacturaCompra.emptyFacturaCompraReferences,
-                  FacturaCompraDates(
-                    DateFormatter.parse(facturaCompra.dates.fecha),
-                    DateFormatter.parse(facturaCompra.dates.fechaEntrega),
-                    DateFormatter.parse(facturaCompra.dates.fechaIva),
-                    DateFormatter.parse(facturaCompra.dates.fechaVto)),
-                  FacturaCompraPrecios(
-                    facturaCompra.precios.desc1,
-                    facturaCompra.precios.desc2,
-                    facturaCompra.precios.lpId,
-                    facturaCompra.precios.ldId),
-                  FacturaCompraCotizacion(
-                    facturaCompra.cotizacion.cotizacion,
-                    facturaCompra.cotizacion.cotizacionProveedor),
-                  FacturaCompraStock(
-                    facturaCompra.stock.proIdOrigen,
-                    facturaCompra.stock.proIdDestino,
-                    facturaCompra.stock.deplId),
-                  FacturaCompraTotals(
-                    facturaCompra.totals.neto,
-                    facturaCompra.totals.ivaRi,
-                    facturaCompra.totals.ivaRni,
-                    facturaCompra.totals.internos,
-                    facturaCompra.totals.subTotal,
-                    facturaCompra.totals.importeDesc1,
-                    facturaCompra.totals.importeDesc2,
-                    facturaCompra.totals.totalOtros,
-                    facturaCompra.totals.totalPercepciones,
-                    facturaCompra.totals.total,
-                    facturaCompra.totals.totalOrigen),
-                  getFacturaCompraItems(facturaCompra)
-                )*/
+          try {
+            Ok(
+              Json.toJson(
+                FacturaCompra.createFromRemito(user,
+                  getFacturaCompra(facturaCompra, DBHelper.NoId)
+                )
               )
             )
-          )
+          } catch {
+            case NonFatal(e) => {
+              responseError(e)
+            }
+          }
         })
       }
     )
@@ -1057,73 +1023,49 @@ object FacturaCompras extends Controller with ProvidesUser {
       facturaCompra => {
         Logger.debug(s"form: ${facturaCompra.toString}")
         LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.NEW_FACTURA_COMPRA), { user =>
-          Ok(
-            Json.toJson(
-              FacturaCompra.create(user,
-                getFacturaCompra(facturaCompra, DBHelper.NoId)
-                /*FacturaCompra(
-                  FacturaCompraId(
-                    facturaCompra.ids.docId,
-                    facturaCompra.ids.numero,
-                    facturaCompra.ids.nroDoc),
-                  FacturaCompraBase(
-                    facturaCompra.base.provId,
-                    facturaCompra.base.estId,
-                    facturaCompra.base.ccosId,
-                    facturaCompra.base.sucId,
-                    facturaCompra.base.cpgId,
-                    facturaCompra.base.lgjId,
-                    facturaCompra.base.cai,
-                    facturaCompra.base.tipoComprobante,
-                    facturaCompra.base.descrip,
-                    facturaCompra.base.grabarAsiento),
-                  FacturaCompra.emptyFacturaCompraReferences,
-                  FacturaCompraDates(
-                    DateFormatter.parse(facturaCompra.dates.fecha),
-                    DateFormatter.parse(facturaCompra.dates.fechaEntrega),
-                    DateFormatter.parse(facturaCompra.dates.fechaIva),
-                    DateFormatter.parse(facturaCompra.dates.fechaVto)),
-                  FacturaCompraPrecios(
-                    facturaCompra.precios.desc1,
-                    facturaCompra.precios.desc2,
-                    facturaCompra.precios.lpId,
-                    facturaCompra.precios.ldId),
-                  FacturaCompraCotizacion(
-                    facturaCompra.cotizacion.cotizacion,
-                    facturaCompra.cotizacion.cotizacionProveedor),
-                  FacturaCompraStock(
-                    facturaCompra.stock.proIdOrigen,
-                    facturaCompra.stock.proIdDestino,
-                    facturaCompra.stock.deplId),
-                  FacturaCompraTotals(
-                    facturaCompra.totals.neto,
-                    facturaCompra.totals.ivaRi,
-                    facturaCompra.totals.ivaRni,
-                    facturaCompra.totals.internos,
-                    facturaCompra.totals.subTotal,
-                    facturaCompra.totals.importeDesc1,
-                    facturaCompra.totals.importeDesc2,
-                    facturaCompra.totals.totalOtros,
-                    facturaCompra.totals.totalPercepciones,
-                    facturaCompra.totals.total,
-                    facturaCompra.totals.totalOrigen),
-                  getFacturaCompraItems(facturaCompra)
-                )*/
+          try {
+            Ok(
+              Json.toJson(
+                FacturaCompra.create(user,
+                  getFacturaCompra(facturaCompra, DBHelper.NoId)
+                )
               )
             )
-          )
+          } catch {
+            case NonFatal(e) => {
+              responseError(e)
+            }
+          }
         })
       }
     )
   }
 
+  def responseError(e: Throwable): SimpleResult = {
+    if (e.getMessage.contains("@@ERROR_SP:"))
+      Ok(
+        Json.obj(
+          "id" -> 0,
+          "errors" -> Json.obj("message" -> e.getMessage.split("@@ERROR_SP:")(1))
+        )
+      )
+    else
+      throw e
+  }
+
   def delete(id: Int) = PostAction { implicit request =>
     Logger.debug("in FacturaCompras.delete")
     LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.DELETE_FACTURA_COMPRA), { user =>
-      FacturaCompra.delete(user, id)
-      // Backbonejs requires at least an empty json object in the response
-      // if not it will call errorHandler even when we responded with 200 OK :P
-      Ok(JsonUtil.emptyJson)
+      try {
+        FacturaCompra.delete(user, id)
+        // Backbonejs requires at least an empty json object in the response
+        // if not it will call errorHandler even when we responded with 200 OK :P
+        Ok(JsonUtil.emptyJson)
+      } catch {
+        case NonFatal(e) => {
+          responseError(e)
+        }
+      }
     })
   }
 

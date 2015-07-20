@@ -13,6 +13,21 @@
 
   var T = Cairo.Constants.Types;
   var val = Cairo.Util.val;
+
+  var getErrorsObject = function(errors) {
+    if(errors !== undefined) {
+      errors.getMessage = function() {
+        var trimMessage = function(message) {
+          if(message.slice(-2) === "..") {
+            message = message.substring(0, message.length -1);
+          }
+          return message.trim();
+        };
+        return errors.message ? trimMessage(errors.message) : "";
+      }
+    }
+    return errors;
+  };
   
   Cairo.Database = {
 
@@ -38,7 +53,7 @@
             Cairo.log("Successfully saved!");
             register.setId(data.get("id"));
             register.setData(data);
-            defer.resolve({success: true, data: register});
+            defer.resolve({success: true, data: register, errors: getErrorsObject(data.get("errors"))});
           },
           error: function(data, response) {
             Cairo.log("Failed in saveEx: " + module + "." + functionName + ".");

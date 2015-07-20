@@ -1826,7 +1826,7 @@
                   if(result.success) {
 
                     if(result.errors) {
-                      return M.showWarningWithFalse(result.errors.message);
+                      return M.showWarningWithFalse(result.errors.getMessage());
                     }
                     else {
                       m_id = result.data.getId();
