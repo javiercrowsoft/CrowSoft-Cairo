@@ -629,6 +629,7 @@
 
       var getCurrentValue = function(type, row, col) {
         var cell = getRow(row).get(col);
+        var column = self.columns.get(col);
         var value = "";
         switch(type) {
           case T.select:
@@ -639,8 +640,13 @@
             };
             break;
 
-          case T.percentage:
-            value = val(cell.getText()) * 100;
+          case T.numeric:
+            if(column.getSubType() === S.percentage) {
+              value = val(cell.getText()) * 100;
+            }
+            else {
+              value = cell.getText();
+            }
             break;
 
           case T.check:
@@ -1296,6 +1302,9 @@
             case T.numeric:
               if(col.getSubType() === S.integer) {
                 return Cairo.accounting.formatNumber(cell.getText(), 0);
+              }
+              if(col.getSubType() === S.percentage) {
+                return (Cairo.accounting.formatNumber(val(cell.getText()) * 100, 2)) + "%";
               }
               else {
                 return Cairo.accounting.formatNumber(cell.getText(), 2);

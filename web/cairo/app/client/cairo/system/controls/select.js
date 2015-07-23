@@ -74,6 +74,9 @@
               result = $('<li></li>').data('ui-autocomplete-item', { value: item.values[0], data: item }).append(
                             '<a class="mcacAnchor">' + t + '<div style="clear: both;"></div></a>').appendTo(ul);
               return result;
+          },
+          resetLastSearched: function() {
+            this.term = "";
           }
       });
     };
@@ -496,6 +499,7 @@
           source = getSelectSource(_table, _noUseActive === false, _filter);
           validateSource = getValidateSource(_table, _noUseActive === false, _filter);
           $(selector).removeClass("select-invalid-input");
+          $(selector).cautocomplete("resetLastSearched");
         };
 
         return {

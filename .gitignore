@@ -5,6 +5,7 @@
 *.war
 *.ear
 web/cairo/app/client/cairo/.idea
+web/cairo/public/javascripts/vendor/.idea
 
 *~
 production.conf

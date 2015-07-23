@@ -1457,6 +1457,14 @@ object FacturaCompra {
       )
     }
 
+    def getDeletedOtroFields(fcotId: Int, fcTMPId: Int) = {
+      List(
+        Field(C.FC_TMP_ID, fcTMPId, FieldType.id),
+        Field(C.FCOT_ID, fcotId, FieldType.number),
+        Field(C.FC_ID, facturaCompra.id, FieldType.id)
+      )
+    }
+
     def getPercepcionFields(item: FacturaCompraPercepcion, fcTMPId: Int) = {
       List(
         Field(C.FC_TMP_ID, fcTMPId, FieldType.id),
@@ -1472,6 +1480,14 @@ object FacturaCompra {
       )
     }
 
+    def getDeletedPercepcionFields(fcpercId: Int, fcTMPId: Int) = {
+      List(
+        Field(C.FC_TMP_ID, fcTMPId, FieldType.id),
+        Field(C.FCPERC_ID, fcpercId, FieldType.number),
+        Field(C.FC_ID, facturaCompra.id, FieldType.id)
+      )
+    }
+
     def getLegajoFields(item: FacturaCompraLegajo, fcTMPId: Int) = {
       List(
         Field(C.FC_TMP_ID, fcTMPId, FieldType.id),
@@ -1482,6 +1498,14 @@ object FacturaCompra {
         Field(C.FCLGJ_DESCRIP, item.descrip, FieldType.text),
         Field(C.FCLGJ_IMPORTE_ORIGEN, item.importeOrigen, FieldType.currency),
         Field(C.FCLGJ_ORDEN, item.orden, FieldType.integer)
+      )
+    }
+
+    def getDeletedLegajoFields(fclgjId: Int, fcTMPId: Int) = {
+      List(
+        Field(C.FC_TMP_ID, fcTMPId, FieldType.id),
+        Field(C.FCLGJ_ID, fclgjId, FieldType.number),
+        Field(C.FC_ID, facturaCompra.id, FieldType.id)
       )
     }
 
@@ -1639,8 +1663,30 @@ object FacturaCompra {
       }
     }
 
+    def saveDeletedOtro(fcTMPId: Int)(fcotId: String) = {
+      val id = G.getIntOrZero(fcotId)
+      if(id != 0) {
+        DBHelper.save(
+          user,
+          Register(
+            C.FACTURA_COMPRA_OTRO_BORRADO_TMP,
+            C.FCOTB_TMP_ID,
+            DBHelper.NoId,
+            false,
+            false,
+            false,
+            getDeletedOtroFields(id, fcTMPId)),
+          true
+        ) match {
+          case SaveResult(false, id) => throwError
+          case _ =>
+        }
+      }
+    }
+
     def saveOtros(fcTMPId: Int) = {
       facturaCompra.items.otros.map(otro => saveOtro(FacturaCompraOtroInfo(fcTMPId, otro)))
+      facturaCompra.items.otroDeleted.split(",").map(saveDeletedOtro(fcTMPId))
     }
 
     case class FacturaCompraPercepcionInfo(fcTMPId: Int, item: FacturaCompraPercepcion)
@@ -1663,8 +1709,30 @@ object FacturaCompra {
       }
     }
 
+    def saveDeletedPercepcion(fcTMPId: Int)(fcpercId: String) = {
+      val id = G.getIntOrZero(fcpercId)
+      if(id != 0) {
+        DBHelper.save(
+          user,
+          Register(
+            C.FACTURA_COMPRA_PERCEPCION_BORRADO_TMP,
+            C.FCPERCB_TMP_ID,
+            DBHelper.NoId,
+            false,
+            false,
+            false,
+            getDeletedPercepcionFields(id, fcTMPId)),
+          true
+        ) match {
+          case SaveResult(false, id) => throwError
+          case _ =>
+        }
+      }
+    }
+
     def savePercepciones(fcTMPId: Int) = {
       facturaCompra.items.percepciones.map(percepcion => savePercepcion(FacturaCompraPercepcionInfo(fcTMPId, percepcion)))
+      facturaCompra.items.percepcionDeleted.split(",").map(saveDeletedPercepcion(fcTMPId))
     }
 
     case class FacturaCompraLegajoInfo(fcTMPId: Int, item: FacturaCompraLegajo)
@@ -1687,8 +1755,30 @@ object FacturaCompra {
       }
     }
 
+    def saveDeletedLegajo(fcTMPId: Int)(fclgjId: String) = {
+      val id = G.getIntOrZero(fclgjId)
+      if(id != 0) {
+        DBHelper.save(
+          user,
+          Register(
+            C.FACTURA_COMPRA_LEGAJO_BORRADO_TMP,
+            C.FCLGJ_TMP_ID,
+            DBHelper.NoId,
+            false,
+            false,
+            false,
+            getDeletedLegajoFields(id, fcTMPId)),
+          true
+        ) match {
+          case SaveResult(false, id) => throwError
+          case _ =>
+        }
+      }
+    }
+
     def saveLegajos(fcTMPId: Int) = {
       facturaCompra.items.legajos.map(legajo => saveLegajo(FacturaCompraLegajoInfo(fcTMPId, legajo)))
+      facturaCompra.items.legajoDeleted.split(",").map(saveDeletedLegajo(fcTMPId))
     }
 
     case class FacturaCompraRemitoInfo(fcTMPId: Int, item: FacturaCompraRemito)

@@ -269,11 +269,11 @@ object C {
 
   // FacturaCompraPercepcion Borrado TMP
   val FACTURA_COMPRA_PERCEPCION_BORRADO_TMP = "FacturaCompraPercepcionBorradoTMP"
-  val FC_PERCB_TMP_ID = "fcpercbTMP_id"
+  val FCPERCB_TMP_ID = "fcpercbTMP_id"
 
   // FacturaCompraPercepcion Borrado TMP
   val FACTURA_COMPRA_LEGAJO_BORRADO_TMP = "FacturaCompraLegajoBorradoTMP"
-  val FC_LGJB_TMP_ID = "fclgjbTMP_id"
+  val FCLGJB_TMP_ID = "fclgjbTMP_id"
 
   // Stock
   val DEPL_ID_ORIGEN = "depl_id_origen"

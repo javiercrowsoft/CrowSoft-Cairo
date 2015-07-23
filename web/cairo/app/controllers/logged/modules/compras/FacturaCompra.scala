@@ -376,7 +376,7 @@ object FacturaCompras extends Controller with ProvidesUser {
           GC.CCOS_ID -> number,
           C.FCPERC_DESCRIP -> text,
           C.FCPERC_ORIGEN -> of(Global.doubleFormat),
-          C.FCLGJ_ORDEN -> number)
+          C.FCPERC_ORDEN -> number)
           (FacturaCompraPercepcionData.apply)(FacturaCompraPercepcionData.unapply)
       ),
       C.FACTURA_ITEM_DELETED -> text,

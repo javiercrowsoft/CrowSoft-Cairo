@@ -264,11 +264,11 @@
 
       // FacturaCompraPercepcion Borrado TMP
       FACTURA_COMPRA_PERCEPCION_BORRADO_TMP: "FacturaCompraPercepcionBorradoTMP",
-      FC_PERCB_TMP_ID: "fcpercbTMP_id",
+      FCPERCB_TMP_ID: "fcpercbTMP_id",
 
       // FacturaCompraPercepcion Borrado TMP
       FACTURA_COMPRA_LEGAJO_BORRADO_TMP: "FacturaCompraLegajoBorradoTMP",
-      FC_LGJB_TMP_ID: "fclgjbTMP_id",
+      FCLGJB_TMP_ID: "fclgjbTMP_id",
 
       // Stock
       DEPL_ID_ORIGEN: "depl_id_origen",

@@ -4470,7 +4470,7 @@
               cell.setValue(Cairo.Util.getDateValueFromGrid(gridCell.getText()));
             }
             else if(col.getSubType() === Dialogs.PropertySubType.percentage) {
-              cell.setValue(Cairo.Util.val(gridCell.getText())) * 100;
+              cell.setValue(Cairo.Util.val(gridCell.getText()) * 100);
             }
             else {
               cell.setValue(gridCell.getText());
