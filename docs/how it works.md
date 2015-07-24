@@ -75,3 +75,7 @@ NOTICE !!! :
         };
 
 Datatables.net used is 1.10.0
+
+jquery-ui-10.1.3,js
+NOTICE !!! :
+  this library has been modified at line 8448 and 8452: the jquery classes in the buttons close and today havr been removed and the boostrap classes has been added
