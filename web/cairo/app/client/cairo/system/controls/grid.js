@@ -275,7 +275,8 @@
       var CT = Cairo.Controls.InputType;
       var val = Cairo.Util.val;
       var NO_DATE = Cairo.Constants.NO_DATE;
-      var call = Cairo.Promises.call;
+      var P = Cairo.Promises;
+      var call = P.call;
 
       var self = {
         columns: Cairo.Collections.createCollection(createColumn),
@@ -374,7 +375,7 @@
           );
         }
         else {
-          return Cairo.Promises.resolvedPromise(false);
+          return P.resolvedPromise(false);
         }
       };
 
@@ -540,7 +541,7 @@
                   newValue = ctrl.getValue();
                   break;
               }
-              p = p || Cairo.Promises.resolvedPromise();
+              p = p || P.resolvedPromise();
               p = p.then(
                 function() {
                   var args = {
@@ -563,7 +564,7 @@
           }
           self.editInfo = null;
         }
-        return p || Cairo.Promises.resolvedPromise(true);
+        return p || P.resolvedPromise(true);
       };
 
       var hideControlOnError = function(info, td) {
@@ -642,7 +643,7 @@
 
           case T.numeric:
             if(column.getSubType() === S.percentage) {
-              value = val(cell.getText()) * 100;
+              value = Cairo.accounting.formatNumber(val(cell.getText()) * 100,2);
             }
             else {
               value = cell.getText();
@@ -678,9 +679,12 @@
       };
 
       var updateCell = function(info, td) {
+
         if(that.getEnabled() === false) {
-          return;
+          return P.resolvedPromise(false);
         }
+
+        var p = null;
 
         try {
           var col = self.columns.getOrElse(info.col, null);
@@ -714,14 +718,30 @@
               case T.list:
                 cell.setText(info.newValue);
                 cell.setItemData(info.newValueId)
-                $(td).html(info.newValue);
+                $(td).text(info.newValue);
                 break;
 
               case T.text:
               case T.date:
               case T.time:
                 cell.setText(info.newValue);
-                $(td).html(info.newValue);
+                $(td).text(info.newValue);
+                break;
+
+              case T.numeric:
+                var value = val(info.newValue);
+                if(col.getSubType() === S.integer) {
+                  cell.setText(value);
+                  $(td).text(Cairo.accounting.formatNumber(value, 0));
+                }
+                if(col.getSubType() === S.percentage) {
+                  cell.setText(value / 100);
+                  $(td).text((Cairo.accounting.formatNumber(value, 2)) + "%");
+                }
+                else {
+                  cell.setText(value);
+                  $(td).text(Cairo.accounting.formatNumber(value, 2));
+                }
                 break;
             }
 
@@ -731,16 +751,17 @@
               newValue: info.newValue,
               newValueId: info.newValueId
             };
-            raiseEvent(
+            p = raiseEvent(
               'onColumnAfterUpdate',
               args
             );
           }
         }
         catch(ex) {
-          Cairo.manageErrorEx(ex.message, ex, "endEdit", "Cairo.Controls.Grid", "");
+          Cairo.manageErrorEx(ex.message, ex, "updateCell", "Cairo.Controls.Grid", "");
         }
 
+        return p || P.resolvedPromise(false);
       };
 
       var edit = function(info, td) {
@@ -827,10 +848,10 @@
       var thenCall = function(onSuccess, onError) {
         return function(success) {
           if(success === true) {
-            onSuccess();
+            return onSuccess();
           }
           else {
-            onError();
+            return onError();
           }
         };
       };
@@ -839,7 +860,10 @@
         var args = arguments;
         return function(success) {
           if(success === true) {
-            f.apply(null, Array.prototype.slice.call(args, 1));
+            return f.apply(null, Array.prototype.slice.call(args, 1));
+          }
+          else {
+            return false;
           }
         };
       };
@@ -984,7 +1008,7 @@
           var index = i + 1;
           row.get(0).setText(index);
           td = trs.item(index).childNodes.item(0);
-          $(td).html(index);
+          $(td).text(index);
         }
         //
         // if the grid support add rows

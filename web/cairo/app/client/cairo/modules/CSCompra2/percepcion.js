@@ -90,29 +90,25 @@
 
           case KIP_PERC_ID:
             if(valEmpty(cell.getId(), Types.id)) {
-              //'Debe indicar una percepcion
-              return Cairo.Modal.showInfo(Cairo.Language.getText(1535, "", strRow));
+              return Cairo.Modal.showInfoWithFalse(Cairo.Language.getText(1535, "", strRow)); // Debe indicar una percepcion
             }
             break;
 
           case KIP_BASE:
             if(valEmpty(cell.getValue(), Types.currency)) {
-              //'Debe indicar una base imponible
-              return Cairo.Modal.showInfo(Cairo.Language.getText(2547, "", strRow));
+              return Cairo.Modal.showInfoWithFalse(Cairo.Language.getText(2547, "", strRow)); // Debe indicar una base imponible
             }
             break;
 
           case KIP_PORCENTAJE:
             if(valEmpty(cell.getValue(), Types.currency)) {
-              //'Debe indicar un porcentaje
-              return Cairo.Modal.showInfo(Cairo.Language.getText(1098, "", strRow));
+              return Cairo.Modal.showInfoWithFalse(Cairo.Language.getText(1098, "", strRow)); // Debe indicar un porcentaje
             }
             break;
 
           case KIP_IMPORTE:
             if(valEmpty(cell.getValue(), Types.currency)) {
-              //'Debe indicar un importe
-              return Cairo.Modal.showInfo(Cairo.Language.getText(1897, "", strRow));
+              return Cairo.Modal.showInfoWithFalse(Cairo.Language.getText(1897, "", strRow)); // Debe indicar un importe
             }
             break;
         }

@@ -2914,7 +2914,7 @@
         };
 
         var masterHandlerGridColumnAfterUpdate = function(index, eventArgs) {
-          gridColumnAfterUpdate(index, eventArgs.row, eventArgs.col, 0, eventArgs.newValue, eventArgs.newValueId);
+          return gridColumnAfterUpdate(index, eventArgs.row, eventArgs.col, 0, eventArgs.newValue, eventArgs.newValueId);
         };
 
         // TODO: refactor promise is returned by this function
@@ -3413,7 +3413,7 @@
         };
 
         var wizHandlerGridColumnAfterUpdate = function(index, eventArgs) {
-          gridColumnAfterUpdate(index, eventArgs.row, eventArgs.col, 0, eventArgs.newValue, eventArgs.newValueId);
+          return gridColumnAfterUpdate(index, eventArgs.row, eventArgs.col, 0, eventArgs.newValue, eventArgs.newValueId);
         };
 
         // TODO: refactor promise is returned by this function
@@ -3592,7 +3592,7 @@
         };
 
         var docHandlerGridColumnAfterUpdate = function(index, eventArgs) {
-          gridColumnAfterUpdate(index, eventArgs.row, eventArgs.col, 0, eventArgs.newValue, eventArgs.newValueId);
+          return gridColumnAfterUpdate(index, eventArgs.row, eventArgs.col, 0, eventArgs.newValue, eventArgs.newValueId);
         };
 
         // TODO: refactor promise is returned by this function
@@ -3798,6 +3798,8 @@
         };
 
         var gridColumnAfterUpdate = function(index, rowIndex, colIndex, keyAscii, newValue, newValueId) {
+          var p = null;
+
           try {
 
             if(m_clientManageGrid) {
@@ -3818,7 +3820,7 @@
                 // if virtual rows were not created in this call
                 // we update the grid
                 //
-                processVirtualRow(property, index, rowIndex, colIndex, propertyKey).then(
+                p = processVirtualRow(property, index, rowIndex, colIndex, propertyKey).then(
                   function(wasMultiRow) {
                     var p = null;
 
@@ -3829,17 +3831,19 @@
                       p = m_client.columnAfterUpdate(propertyKey, rowIndex, colIndex).then(
                         function() {
                           setRowValueInGrid(index, property, rowIndex, property.getGrid().getRows().get(rowIndex));
+                          return true;
                         }
                       );
                     }
 
-                    p = p || P.resolvedPromise();
+                    p = p || P.resolvedPromise(true);
 
-                    p.then(
+                    return p.then(
                       function() {
                         if(columnIsEditable(property, colIndex)) {
                           self.setChanged(true);
                         }
+                        return true;
                       }
                     );
                   }
@@ -3854,6 +3858,8 @@
               e.message,
               e);
           }
+
+          return p || P.resolvedPromise(false);
         };
 
         var columnIsEditable = function(property, colIndex) {
