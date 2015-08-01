@@ -44,6 +44,8 @@ declare
    v_n integer;
 begin
 
+   drop table if exists tt_t_rama;
+
    create temporary table tt_t_rama
    (
      ram_id integer  not null,

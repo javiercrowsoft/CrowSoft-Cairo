@@ -4979,7 +4979,7 @@
 
         c = m_properties.add(null, C.EST_ID);
         c.setType(T.select);
-        c.setSelectTable(Cairo.Tables.ESTADO);
+        c.setSelectTable(Cairo.Tables.ESTADOS);
         c.setName(getText(1568, "")); // Estado
         c.setKey(K_EST_ID);
         c.setValue(m_estado);
