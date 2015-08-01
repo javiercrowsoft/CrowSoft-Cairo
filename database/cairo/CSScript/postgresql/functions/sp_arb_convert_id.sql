@@ -1,4 +1,4 @@
-﻿/*
+/*
 CrowSoft-Cairo
 ==============
 
@@ -42,9 +42,9 @@ begin
 
    p_ram_id := 0;
 
-   if SUBSTR(p_id, 1, 1) = 'n' then-- esto significa que es un nodo
+   if lower(SUBSTR(p_id, 1, 1)) = 'n' then-- esto significa que es un nodo
    
-      p_ram_id := to_number(SUBSTR(p_id, 2, LENGTHB(p_id) - 1));
+      p_ram_id := to_number(SUBSTR(p_id, 2, LENGTH(p_id) - 1));
 
    else
       p_hoja_id := to_number(p_id);

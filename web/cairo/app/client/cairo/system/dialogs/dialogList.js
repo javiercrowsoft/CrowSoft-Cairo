@@ -43,7 +43,7 @@
               deleteClick:                deleteClick,
               printClick:                 printClick,
 
-              saveParamsClick:            saveParams,
+              saveClick:                  saveParams,
               discardChangesClick:        discardChanges,
               closeClick:                 closeClick,
               documentsClick:             documentsClick,
@@ -393,6 +393,8 @@
           }
 
           var c = addControl(view, controlType, subType);
+
+          c.setName(property.getName());
 
           switch (controlType) {
 

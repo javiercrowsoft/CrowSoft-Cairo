@@ -184,8 +184,8 @@ case class FacturaCompraRemitoData(
                                     )
 
 case class FacturaCompraParamsData(
-                                from: Date,
-                                to: Date,
+                                from: String,
+                                to: String,
                                 provId: String,
                                 estId: String,
                                 ccosId: String,
@@ -201,8 +201,8 @@ object FacturaCompras extends Controller with ProvidesUser {
 
   val facturaCompraParamsForm: Form[FacturaCompraParamsData] = Form(
     mapping(
-      GC.FROM -> date,
-      GC.TO -> date,
+      GC.FROM -> text,
+      GC.TO -> text,
       GC.PROV_ID -> text,
       GC.EST_ID -> text,
       GC.CCOS_ID -> text,
@@ -1093,7 +1093,7 @@ object FacturaCompras extends Controller with ProvidesUser {
 
   def parameters = GetAction { implicit request =>
     LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.LIST_FACTURA_COMPRA), { user =>
-      Ok(Json.toJson(FacturaCompra.emptyFacturaCompraParams))
+      Ok(Json.toJson(FacturaCompra.loadParams(user)))
     })
   }
 

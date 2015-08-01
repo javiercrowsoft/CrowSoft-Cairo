@@ -15,10 +15,10 @@ import models.cairo.modules.general.U
 
 object DateFormatter {
 
-  implicit object JsonDateFormatter extends Format[Date] {
+  val dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'")
+  dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"))
 
-    val dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'")
-    dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"))
+  implicit object JsonDateFormatter extends Format[Date] {
 
     def writes(date: Date): JsValue = {
       toJson(dateFormat.format(date))
@@ -44,5 +44,9 @@ object DateFormatter {
         U.NO_DATE
       }
     }
+  }
+
+  def format(date: Date): String = {
+    dateFormat.format(date)
   }
 }

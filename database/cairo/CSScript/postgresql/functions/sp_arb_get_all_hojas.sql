@@ -1,4 +1,4 @@
-﻿/*
+/*
 CrowSoft-Cairo
 ==============
 
@@ -32,7 +32,10 @@ javier at crowsoft.com.ar
 
 -- drop function sp_arbgetallhojas(integer, integer, integer);
 
-create or replace function sp_arbgetallhojas(p_ram_id integer, p_clienteid integer, p_tblidalias integer)
+create or replace function sp_arbgetallhojas(
+in p_ram_id integer, 
+in p_clienteid integer default 0, 
+in p_tblidalias integer default 0)
   returns void as
 $BODY$
 declare

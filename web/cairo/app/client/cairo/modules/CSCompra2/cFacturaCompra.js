@@ -5039,12 +5039,7 @@
       };
 
       var refreshCollection = function() {
-
-        m_dialog.setTitle(m_title);
-
-        var properties = m_properties;
-
-        return m_dialog.showValues(properties);
+        return m_dialog.showValues(m_properties);
       };
 
       var load = function() {
@@ -5508,6 +5503,10 @@
         catch(ex) {
           Cairo.manageErrorEx(ex.message, ex, "destroy", C_MODULE, "");
         }
+      };
+
+      self.validate = function() {
+        return P.resolvedPromise(true);
       };
 
       return self;

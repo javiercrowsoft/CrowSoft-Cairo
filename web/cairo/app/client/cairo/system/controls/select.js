@@ -264,7 +264,17 @@
             $(self).data("validated-data", null);
           };
 
-          if(self.value.trim() === "" && $(self).data("validated-data")) {
+          var validatedDataIsEmpty = function() {
+            var data = $(self).data("validated-data");
+            if(data === null) {
+              return true;
+            }
+            else {
+              return((data.id === "0" || data.id === 0) && (data.values && data.values[0] === '' && data.values[1] === '' ));
+            }
+          };
+
+          if(self.value.trim() === "" && !validatedDataIsEmpty()) {
             invalidateData(false);
             raiseOnValidate( { data: $(self).data("validated-data") } );
             updateData( { data: $(self).data("validated-data") } );
@@ -324,6 +334,15 @@
                 ,cache: false
                 ,success: function(data) {
                   if(data.rows.length > 0) {
+                    // the server always returns an string
+                    // that is needed to support a branche id
+                    // if the id is a number we convert it to number
+                    //
+                    var id = data.rows[0].id;
+                    if(id.toString().substring(0,1) !== 'N') {
+                      data.rows[0].id = Cairo.Util.val(id);
+                    }
+
                     self.value = data.rows[0].values[0]; // TODO: implement a more powerful mechanism to allow the text
                                                          //       to be set as a combination of columns
                                                          //       which is good for persons ( last name, first name )
@@ -437,6 +456,14 @@
           selectController.control.select();
         };
 
+        var setSelectedDataAndValidate = function(id, text, code) {
+          var data = id ? { id: id, values: [text || "", code || ""] } : null;
+          selectController.control.data("selected-data", data);
+          var self = $(selector)[0];
+          self.value = data.values[0];
+          validate.apply(self);
+        };
+
         var setData = function(id, text, code) {
           var data = id ? { id: id, values: [text || "", code || ""] } : null;
 
@@ -521,7 +548,8 @@
           validate: function() {
             return validate.apply($(selector)[0]);
           },
-          listIsOpen: listIsOpen
+          listIsOpen: listIsOpen,
+          setSelectedDataAndValidate: setSelectedDataAndValidate
         };
 
       };

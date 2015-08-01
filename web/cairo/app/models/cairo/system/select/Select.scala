@@ -12,7 +12,7 @@ import scala.util.control.NonFatal
 import models.cairo.system.database.{ParsedTable, Table, DBHelper}
 
 case class Column(name: String, columnType: String)
-case class Row(id: Int, values: List[String])
+case class Row(id: String, values: List[String])
 case class RecordSet(rows: List[Row], columns: List[Column])
 
 object Select {
@@ -411,7 +411,7 @@ object Select {
       if(nodeId != 0) {
         val statement =
           s"""
-             |select ram_id, ram_nombre
+             |select 'N' || ram_id::varchar, ram_nombre
              |from rama
              |inner join arbol on rama.arb_id = arbol.arb_id
              |where arbol.tbl_id = ${tableId} and ram_id = ${nodeId}
@@ -635,8 +635,12 @@ object Select {
       lazy val metaData = rs.getMetaData()
       lazy val columnIndex = 2.to(metaData.getColumnCount()).toList
 
+      def getId(): String = {
+        DBHelper.getValue(rs, metaData, 1).getOrElse("0").toString
+      }
+
       def createRow(): Row = {
-        Row(rs.getInt(1), DBHelper.getValues(rs, metaData, columnIndex))
+        Row(getId, DBHelper.getValues(rs, metaData, columnIndex))
       }
 
       def createColumns(): List[Column] = {

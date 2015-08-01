@@ -31,7 +31,7 @@ Cairo.module("TreeSelect", function(TreeSelect, Cairo, Backbone, Marionette, $, 
           // only if the dialog was closed using the select button or double click
           //
           if(data.isValid) {
-            selectCtrl.setData(data.id, data.text);
+            selectCtrl.setSelectedDataAndValidate(data.id, data.text);
             treeController.dialogIsVisible = false;
           }
         };

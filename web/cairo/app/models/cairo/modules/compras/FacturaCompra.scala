@@ -15,6 +15,8 @@ import play.api.Logger
 import play.api.libs.json._
 import scala.util.control.NonFatal
 import models.cairo.modules.general.U
+import formatters.json.DateFormatter
+import models.cairo.modules.general.DocumentListParam
 
 case class FacturaCompraId(
                             docId: Int,
@@ -665,8 +667,8 @@ case class FacturaCompra(
 }
 
 case class FacturaCompraParams(
-                                from: Date,
-                                to: Date,
+                                from: String,
+                                to: String,
                                 provId: String,
                                 provName: String,
                                 estId: String,
@@ -683,8 +685,8 @@ case class FacturaCompraParams(
                                 empName: String
                                 ) {
   def this(
-            from: Date,
-            to: Date,
+            from: String,
+            to: String,
             provId: String,
             estId: String,
             ccosId: String,
@@ -716,8 +718,8 @@ case class FacturaCompraParams(
 
 object FacturaCompraParams {
   def apply(
-             from: Date,
-             to: Date,
+             from: String,
+             to: String,
              provId: String,
              estId: String,
              ccosId: String,
@@ -763,7 +765,8 @@ object FacturaCompra {
   )
 
   lazy val emptyFacturaCompraParams = FacturaCompraParams(
-    DateUtil.plusDays(DateUtil.currentTime, -60), DateUtil.currentTime, "0", "", "0", "", "0", "", "0", "", "0", "", "0", "", "0", "")
+    DateFormatter.format(DateUtil.plusDays(DateUtil.currentTime, -60)),
+    DateFormatter.format(DateUtil.currentTime), "0", "", "0", "", "0", "", "0", "", "0", "", "0", "", "0", "")
 
   def apply(
              id: Int,
@@ -2148,43 +2151,176 @@ object FacturaCompra {
     }
   }
 
+  val K_FECHAINI  = 1
+  val K_FECHAFIN  = 2
+  val K_PROV_ID   = 4
+  val K_EST_ID    = 5
+  val K_CCOS_ID   = 6
+  val K_SUC_ID    = 7
+  val K_DOC_ID    = 9
+  val K_CPG_ID    = 10
+  val K_EMP_ID    = 100
+
   def saveParams(user: CompanyUser, facturaCompraParams: FacturaCompraParams): FacturaCompraParams = {
-    def getFields = {
-      List(
-        Field(GC.FROM, facturaCompraParams.from, FieldType.text),
-        Field(GC.TO, facturaCompraParams.to, FieldType.text),
-        Field(GC.PROV_ID, facturaCompraParams.provId, FieldType.text),
-        Field(GC.EST_ID, facturaCompraParams.estId, FieldType.text),
-        Field(GC.CCOS_ID, facturaCompraParams.ccosId, FieldType.text),
-        Field(GC.SUC_ID, facturaCompraParams.sucId, FieldType.text),
-        Field(GC.DOC_ID, facturaCompraParams.docId, FieldType.text),
-        Field(GC.CPG_ID, facturaCompraParams.cpgId, FieldType.text),
-        Field(GC.EMP_ID, facturaCompraParams.empId, FieldType.text)
-      )
-    }
+    val baseFields = List(
+      Field(GC.EMP_ID, user.cairoCompanyId, FieldType.id),
+      Field(GC.US_ID, user.userId, FieldType.id),
+      Field(GC.PRE_ID, S.LIST_FACTURA_COMPRA, FieldType.id)
+    )
+
     def throwException = {
       throw new RuntimeException(s"Error when saving ${C.FACTURA_COMPRA}")
     }
 
-    DBHelper.save(
-      user,
-      Register(
-        C.FACTURA_COMPRA_TMP,
-        C.FC_TMP_ID,
-        DBHelper.NoId,
-        false,
-        true,
-        true,
-        getFields),
-      true
-    ) match {
-      case SaveResult(true, id) => loadParams(user).getOrElse(throwException)
-      case SaveResult(false, id) => throwException
+    def saveParam(fields: List[Field]) = {
+      DBHelper.save(
+        user,
+        Register(
+          GC.LISTA_DOCUMENTO_PARAMETRO,
+          "",
+          DBHelper.NoId,
+          false,
+          false,
+          false,
+          fields),
+        true
+      ) match {
+        case SaveResult(true, id) =>
+        case SaveResult(false, id) => throwException
+      }
     }
+
+    val paramList = List(
+      List(
+        Field(GC.LDP_ID, K_FECHAINI, FieldType.integer),
+        Field(GC.LDP_ORDEN, 0, FieldType.integer),
+        Field(GC.LDP_VALOR, facturaCompraParams.from, FieldType.text)
+      ),
+      List(
+        Field(GC.LDP_ID, K_FECHAFIN, FieldType.integer),
+        Field(GC.LDP_ORDEN, 10, FieldType.integer),
+        Field(GC.LDP_VALOR, facturaCompraParams.to, FieldType.text)
+      ),
+      List(
+        Field(GC.LDP_ID, K_PROV_ID, FieldType.integer),
+        Field(GC.LDP_ORDEN, 20, FieldType.integer),
+        Field(GC.LDP_VALOR, facturaCompraParams.provId, FieldType.text)
+      ),
+      List(
+        Field(GC.LDP_ID, K_EST_ID, FieldType.integer),
+        Field(GC.LDP_ORDEN, 30, FieldType.integer),
+        Field(GC.LDP_VALOR, facturaCompraParams.estId, FieldType.text)
+      ),
+      List(
+        Field(GC.LDP_ID, K_CCOS_ID, FieldType.integer),
+        Field(GC.LDP_ORDEN, 40, FieldType.integer),
+        Field(GC.LDP_VALOR, facturaCompraParams.ccosId, FieldType.text)
+      ),
+      List(
+        Field(GC.LDP_ID, K_SUC_ID, FieldType.integer),
+        Field(GC.LDP_ORDEN, 50, FieldType.integer),
+        Field(GC.LDP_VALOR, facturaCompraParams.sucId, FieldType.text)
+      ),
+      List(
+        Field(GC.LDP_ID, K_DOC_ID, FieldType.integer),
+        Field(GC.LDP_ORDEN, 60, FieldType.integer),
+        Field(GC.LDP_VALOR, facturaCompraParams.docId, FieldType.text)
+      ),
+      List(
+        Field(GC.LDP_ID, K_CPG_ID, FieldType.integer),
+        Field(GC.LDP_ORDEN, 70, FieldType.integer),
+        Field(GC.LDP_VALOR, facturaCompraParams.cpgId, FieldType.text)
+      ),
+      List(
+        Field(GC.LDP_ID, K_EMP_ID, FieldType.integer),
+        Field(GC.LDP_ORDEN, 80, FieldType.integer),
+        Field(GC.LDP_VALOR, facturaCompraParams.empId, FieldType.text)
+      )
+    )
+
+    DB.withConnection(user.database.database) { implicit connection =>
+      try {
+        SQL(s"""DELETE FROM ListaDocumentoParametro
+              | WHERE pre_id = {preId}
+              | AND (emp_id is null or emp_id = {empId})
+              | AND us_id = {usId}""".stripMargin)
+          .on(
+            'preId -> S.LIST_FACTURA_COMPRA,
+            'empId -> user.cairoCompanyId,
+            'usId -> user.userId
+          )
+          .executeUpdate
+      } catch {
+        case NonFatal(e) => {
+          Logger.error(s"can't save parameters for FacturaCompra")
+          throw e
+        }
+      }
+    }
+
+    paramList.map(param => saveParam(baseFields ::: param))
+
+    loadParams(user).getOrElse(throwException)
   }
 
   def loadParams(user: CompanyUser): Option[FacturaCompraParams] = {
-    Some(emptyFacturaCompraParams)
+
+    val params = DocumentListParam.load(user, S.LIST_FACTURA_COMPRA)
+
+    if(params.isEmpty) {
+      Some(emptyFacturaCompraParams)
+    }
+    else {
+      val prov = DocumentListParam.getParamValue(
+        user, K_PROV_ID, params, emptyFacturaCompraParams.provId,
+        GC.PROVEEDOR, GC.PROV_ID, GC.PROV_NAME
+      )
+      val est = DocumentListParam.getParamValue(
+        user, K_EST_ID, params, emptyFacturaCompraParams.estId,
+        GC.ESTADO, GC.EST_ID, GC.EST_NAME
+      )
+      val ccos = DocumentListParam.getParamValue(
+        user, K_CCOS_ID, params, emptyFacturaCompraParams.ccosId,
+        GC.CENTRO_COSTO, GC.CCOS_ID, GC.CCOS_NAME
+      )
+      val suc = DocumentListParam.getParamValue(
+        user, K_SUC_ID, params, emptyFacturaCompraParams.sucId,
+        GC.SUCURSAL, GC.SUC_ID, GC.SUC_NAME
+      )
+      val doc = DocumentListParam.getParamValue(
+        user, K_DOC_ID, params, emptyFacturaCompraParams.docId,
+        GC.DOCUMENTO, GC.DOC_ID, GC.DOC_NAME
+      )
+      val cpg = DocumentListParam.getParamValue(
+        user, K_CPG_ID, params, emptyFacturaCompraParams.cpgId,
+        GC.CONDICION_PAGO, GC.CPG_ID, GC.CPG_NAME
+      )
+      val emp = DocumentListParam.getParamValue(
+        user, K_EMP_ID, params, emptyFacturaCompraParams.empId,
+        GC.EMPRESA, GC.EMP_ID, GC.EMP_NAME
+      )
+
+      Some(
+        FacturaCompraParams(
+          DocumentListParam.getParamValue(K_FECHAINI, params, emptyFacturaCompraParams.from),
+          DocumentListParam.getParamValue(K_FECHAFIN, params, emptyFacturaCompraParams.to),
+          prov.id,
+          prov.value,
+          est.id,
+          est.value,
+          ccos.id,
+          ccos.value,
+          suc.id,
+          suc.value,
+          doc.id,
+          doc.value,
+          cpg.id,
+          cpg.value,
+          emp.id,
+          emp.value
+        )
+      )
+    }
   }
 
   def list(user: CompanyUser,

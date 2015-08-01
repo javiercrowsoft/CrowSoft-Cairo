@@ -4,6 +4,12 @@ import java.util.Date
 import java.util.Calendar
 import java.util.TimeZone
 
+import play.api.Play.current
+
+import anorm._
+import models.domain.CompanyUser
+import services.db.DB
+
 object U {
   val NO_DATE = {
     val c = Calendar.getInstance(TimeZone.getTimeZone("GMT"))
@@ -918,6 +924,31 @@ object C {
   val PBM_CODE = "pbm_codigo"
   val PBM_FECHA = "pbm_fecha"
 
+  // Usuario
+  val USUARIO = "Usuario"
+  val US_ID = "us_id"
+  val US_NAME = "us_nombre"
+  val US_CLAVE = "us_clave"
+  val US_DESCRIP = "us_descrip"
+  val US_EXTERNO = "us_externo"
+  val US_EMP_X_DPTO = "us_empxdpto"
+  val US_EMPRESA_EX = "us_empresaex"
+
+  // Rol
+  val ROL = "Rol"
+  val ROL_ID = "rol_id"
+  val ROL_NAME = "rol_nombre"
+  val ROL_DESCRIP = "rol_descrip"
+
+  // usuarioRol
+  val USUARIO_ROL = "usuarioRol"
+
+  // Prestacion
+  val PRESTACION = "Prestacion"
+  val PRE_ID = "pre_id"
+  val PRE_NAME = "pre_nombre"
+  val PRE_GRUPO = "pre_grupo"
+  
   // Empresa
   val EMPRESA = "empresa"
   val EMP_ID = "emp_id"
@@ -1296,6 +1327,12 @@ object C {
   val LGJ_ID = "lgj_id"
   val LGJ_NAME = "lgj_name"
   val LGJ_CODE = "lgj_codigo"
+
+  // ListaDocumentoParametro
+  val LISTA_DOCUMENTO_PARAMETRO = "ListaDocumentoParametro"
+  val LDP_ID = "ldp_id"
+  val LDP_VALOR = "ldp_valor"
+  val LDP_ORDEN = "ldp_orden"
 }
 
 object S {
@@ -1604,4 +1641,104 @@ object S {
   val LIST_VENTAMODO = 1291
 
   val MODIFY_USER_SETTINGS = 1990
+}
+
+case class DocumentListParam(
+                             id: Int,
+                             value: String
+                              )
+
+case class DocumentListParamValue(
+                                  id: String,
+                                  value: String
+                                   )
+
+object DocumentListParam {
+
+  private val documentListParamParser: RowParser[DocumentListParam] = {
+    SqlParser.get[Int](C.LDP_ID) ~
+    SqlParser.get[String](C.LDP_VALOR) map {
+      case
+        ldpId ~
+        ldpValue =>
+        DocumentListParam(
+          ldpId,
+          ldpValue
+        )
+    }
+  }
+
+  def getParamValue(key: Int, params: Map[Int, String], default: String): String = {
+    params get (key) match {
+      case Some(value) => value
+      case None => default
+    }
+  }
+
+  def getParamValue(
+                     user: CompanyUser, key: Int, params: Map[Int, String], default: String,
+                     tableName: String, fieldId: String, fieldName: String): DocumentListParamValue = {
+
+    val nameParser: RowParser[String] = {
+      SqlParser.get[String]("name") map { case name => name }
+    }
+    def getName(table: String, fieldName: String, fieldId: String, id: Int) = {
+      DB.withConnection(user.database.database) { implicit connection =>
+        SQL(s"SELECT ${fieldName} AS name FROM ${table} WHERE ${fieldId} = {id}")
+          .on('id -> id)
+          .as(nameParser.singleOpt)
+      }
+    }
+    def getBranchName(id: Int) = {
+      getName(C.BRANCH, C.BRAN_NAME, C.BRAN_ID, id)
+    }
+    def getValue(id: String): String = {
+      if(id == "0") {
+        ""
+      }
+      else {
+        if(id.length > 0 && id.substring(0, 1) == "N") {
+          getBranchName(id.substring(1).toInt).getOrElse("")
+        }
+        else {
+          getName(tableName, fieldName, fieldId, id.toInt).getOrElse("")
+        }
+      }
+    }
+    val id = getParamValue(key, params, default)
+    val value = getValue(id)
+    DocumentListParamValue(id, value)
+  }
+
+  def load(user: CompanyUser, preId: Int): Map[Int, String] = {
+
+    def getMap(list: List[DocumentListParam]): Map[Int, String] = {
+      def buildMap(listParams: List[DocumentListParam]): Map[Int, String] = listParams match {
+        case Nil => Map()
+        case h :: t => Map(h.id -> h.value) ++ buildMap(t)
+      }
+      buildMap(list)
+    }
+
+    val params = loadWhere(
+      user,
+      s"""pre_id = {preId}
+        | AND (emp_id is null or emp_id = {empId})
+        | AND us_id = {usId}""".stripMargin
+      ,
+      'preId -> preId,
+      'empId -> user.cairoCompanyId,
+      'usId -> user.userId
+    )
+
+    getMap(params)
+  }
+
+  def loadWhere(user: CompanyUser, where: String, args : scala.Tuple2[scala.Any, anorm.ParameterValue[_]]*) = {
+    DB.withConnection(user.database.database) { implicit connection =>
+      SQL(s"SELECT t1.* FROM ${C.LISTA_DOCUMENTO_PARAMETRO} t1 WHERE $where")
+        .on(args: _*)
+        .as(documentListParamParser.*)
+    }
+  }
 }

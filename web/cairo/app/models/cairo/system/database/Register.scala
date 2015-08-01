@@ -95,7 +95,12 @@ object Register {
   }
 
   def getSqlInsert(register: Register, fieldsWithoutId: List[Field], newId: Int): SqlStatement = {
-    val fields = Field(register.fieldId, newId, FieldType.id) :: fieldsWithoutId
+    val fields = if(register.fieldId.isEmpty) {
+      fieldsWithoutId
+    }
+    else {
+      Field(register.fieldId, newId, FieldType.id) :: fieldsWithoutId
+    }
     def getSqlstmt = {
       val columns = fields.map( _.name ).mkString(",")
       val values = fields.map( f => s"{${f.name}}" ).mkString(",")
