@@ -5517,6 +5517,7 @@
   Cairo.module("FacturaCompra.List", function(List, Cairo, Backbone, Marionette, $, _) {
 
     var NO_ID = Cairo.Constants.NO_ID;
+    var CS = Cairo.Security.Actions.Compras;
     var DB = Cairo.Database;
     var C_MODULE = "cFacturaCompra";
     var P = Cairo.Promises;
@@ -5604,7 +5605,7 @@
           };
 
           self.destroy = function(id) {
-            if(!Cairo.Security.hasPermissionTo(Cairo.Security.Actions.Compras.DELETE_FACTURA)) {
+            if(!Cairo.Security.hasPermissionTo(CS.DELETE_FACTURA)) {
               return P.resolvedPromise(false);
             }
 

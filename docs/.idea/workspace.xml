@@ -4,21 +4,23 @@
     <list default="true" id="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" name="Default" comment="" />
     <ignored path="docs.iws" />
     <ignored path=".idea/workspace.xml" />
-    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSContabilidad2/cAsiento.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1438963023235" ignored="false" />
+    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSContabilidad2/cAsiento.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1438986156420" ignored="false" />
     <file path="/translate-todo-list.txt" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1438961541711" ignored="false" />
-    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSCompra2/cFacturaCompra.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1438961543141" ignored="false" />
-    <file path="/cAsiento.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1438962998408" ignored="false" />
-    <file path="/cFacturaCompra.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1438870832852" ignored="false" />
-    <file path="/a.dummy" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1438962013721" ignored="false" />
+    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSCompra2/cFacturaCompra.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1438963401390" ignored="false" />
+    <file path="/cAsiento.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1438983604990" ignored="false" />
+    <file path="/cFacturaCompra.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1438963401390" ignored="false" />
+    <file path="/a.dummy" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1438985340477" ignored="false" />
     <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSContabilidad2/constants.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1438962197915" ignored="false" />
     <file path="/constants.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1438962196251" ignored="false" />
-    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/system/system.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1438641330714" ignored="false" />
-    <file path="/system.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1438641307315" ignored="false" />
+    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/system/system.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1438985320904" ignored="false" />
+    <file path="/system.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1438985320904" ignored="false" />
     <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/system/dialogs/wizard.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1438871349706" ignored="false" />
     <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSCompra2/percepcion.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1438871349706" ignored="false" />
     <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSCompra2/cFacturaCompraRemitoWiz.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1438871349706" ignored="false" />
     <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/system/dialogs/dialog.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1438880337804" ignored="false" />
     <file path="/dialog.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1438880089909" ignored="false" />
+    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSGeneralEx2/cUsuarioConfig.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1438986012907" ignored="false" />
+    <file path="/cUsuarioConfig.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1438986008041" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -62,7 +64,7 @@
   </component>
   <component name="ProjectFrameBounds">
     <option name="x" value="-1440" />
-    <option name="y" value="63" />
+    <option name="y" value="243" />
     <option name="width" value="1440" />
     <option name="height" value="874" />
   </component>
@@ -132,7 +134,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-1440" y="63" width="1440" height="874" extended-state="7" />
+    <frame x="-1440" y="243" width="1440" height="874" extended-state="7" />
     <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />

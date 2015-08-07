@@ -73,8 +73,6 @@
 
       var self = {};
 
-      var Dialogs = Cairo.Dialogs;
-
       var getText = Cairo.Language.getText;
 
       var TITLE = getText(1955, ""); // Asientos Contables
@@ -210,7 +208,7 @@
         m_docEditable = true;
         m_docEditMsg = "";
 
-        D.setDocNumber(m_lastDocId, m_dialog).then(
+        D.setDocNumber(m_lastDocId, m_dialog, C.AS_NRODOC).then(
           function(enabled) {
             m_taPropuesto = enabled;
             setEnabled();
@@ -256,7 +254,7 @@
 
           }).then(function() {
 
-            return D.setDocNumber(m_lastDocId, m_dialog)
+            return D.setDocNumber(m_lastDocId, m_dialog, C.AS_NRODOC)
 
           }).then(function(enabled) {
 
@@ -433,7 +431,7 @@
                 })
                 .success(function() {
 
-                  return D.setDocNumber(m_lastDocId, m_dialog)
+                  return D.setDocNumber(m_lastDocId, m_dialog, C.AS_NRODOC)
                     .then(function(enabled) {
 
                       m_taPropuesto = enabled;
@@ -1427,7 +1425,6 @@
         return true;
       };
 
-      // Reglas del Objeto de Negocios
       var updateTotals = function() {
         var debe = 0;
         var haber = 0;
@@ -1507,7 +1504,7 @@
           if(response.id === NO_ID) {
 
             return load(NO_ID)
-              .success(call(D.setDocNumber, m_docId, m_dialog))
+              .success(call(D.setDocNumber, m_docId, m_dialog, C.AS_NRODOC))
               .then(function(enabled) { m_taPropuesto = enabled; })
               .then(refreshProperties);
           }
@@ -1623,7 +1620,6 @@
       var NO_ID = Cairo.Constants.NO_ID;
       var DB = Cairo.Database;
       var D = Cairo.Documents;
-      var M = Cairo.Modal;
       var C = Cairo.General.Constants;
       var CC = Cairo.Contabilidad.Constants;
       var Types = Cairo.Constants.Types;
@@ -2038,6 +2034,7 @@
   Cairo.module("Asiento.List", function(List, Cairo, Backbone, Marionette, $, _) {
 
     var NO_ID = Cairo.Constants.NO_ID;
+    var CS = Cairo.Security.Actions.Contabilidad;
     var DB = Cairo.Database;
     var C_MODULE = "cAsiento";
     var P = Cairo.Promises;
@@ -2125,7 +2122,7 @@
           };
 
           self.destroy = function(id) {
-            if(!Cairo.Security.hasPermissionTo(Cairo.Security.Actions.Contabilidad.DELETE_ASIENTO)) {
+            if(!Cairo.Security.hasPermissionTo(CS.DELETE_ASIENTO)) {
               return P.resolvedPromise(false);
             }
 

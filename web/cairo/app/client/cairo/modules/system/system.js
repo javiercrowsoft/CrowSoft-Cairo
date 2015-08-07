@@ -226,6 +226,44 @@
     );
   };
 
+  Cairo.Documents.getDocNumber = function(docId) {
+    var apiPath = Cairo.Database.getAPIVersion();
+    return Cairo.Database.getData(
+      "load[" + apiPath + "documento/" + docId.toString() + "/next_number]");
+  };
+
+  Cairo.Documents.setDocNumber = function(docId, dialog, key) {
+    return Cairo.Documents.getDocNumber(docId).then(
+      function(response) {
+
+        var property = dialog.getProperties().item(key);
+        var number = "";
+        var mask = "";
+        var enabled = false;
+
+        if(response.success === true) {
+          number = valField(response.data, C.TA_NUMBER);
+          mask = valField(response.data, C.TA_MASCARA);
+          enabled = valField(response.data, C.TA_ENABLED);
+        }
+
+        property.setValue(number);
+        property.setTextMask(mask);
+        property.setEnabled(enabled);
+
+        dialog.showValue(property);
+
+        return enabled;
+      }
+    );
+  };
+
+  Cairo.Documents.getDocCliente = function(doctId, id) {
+    var apiPath = Cairo.Database.getAPIVersion();
+    return Cairo.Database.getData(
+      "load[" + apiPath + "documento/" + doctId.toString() + "/doc_client]", id);
+  };
+
   Cairo.Documents.docInvalidate = function(doctId, id, dialog) {
     var p;
 
@@ -365,7 +403,6 @@
 
       var dialog = Dialogs.Views.Controller.newDialog();
       var editor = Cairo[objEditName].Edit.Controller.getEditor();
-      editor.setTree(null);
       editor.setDialog(dialog);
 
       setGenericDoc(editor);
