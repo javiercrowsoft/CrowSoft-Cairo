@@ -389,7 +389,7 @@
 
         m_isNew = true;
 
-        if(m_listController != null) {
+        if(m_listController !== null) {
           m_listController.updateEditorKey(self, NO_ID);
         }
           
@@ -413,7 +413,7 @@
 
         m_isNew = true;
 
-        if(m_listController != null) {
+        if(m_listController !== null) {
           m_listController.updateEditorKey(self, NO_ID);
         }
 
@@ -525,7 +525,7 @@
 
           case Dialogs.Message.MSG_DOC_EDIT_STATE:
 
-            D.showEditStatus(m_docEditMsg, getText(1889, ""));
+            D.showEditStatus(m_docEditMsg, TITLE);
             break;
 
           case Dialogs.Message.MSG_DOC_DELETE:
@@ -1070,7 +1070,7 @@
                       function(success) {
                         if(success) {
                           Cairo.navigate(self.getPath());
-                          if(m_listController != null) {
+                          if(m_listController !== null) {
                             updateList();
                             m_listController.updateEditorKey(self, m_id);
                           }
@@ -1138,8 +1138,7 @@
 
       self.validate = function() {
 
-        var _count = m_properties.size();
-        for(var _i = 0; _i < _count; _i++) {
+        for(var _i = 0, _count = m_properties.size(); _i < _count; _i++) {
 
           var property = m_properties.item(_i);
 
@@ -1496,15 +1495,15 @@
         return P.resolvedPromise(true);
       };
 
-      self.columnClick = function(key,  lRow,  lCol) {
+      self.columnClick = function(key, lRow, lCol) {
 
       };
 
-      self.gridDblClick = function(key,  lRow,  lCol) {
+      self.gridDblClick = function(key, lRow, lCol) {
         return Cairo.Promises.resolvedPromise(false);
       };
 
-      self.columnAfterEdit = function(key, lRow, lCol, newValue, newValueID) {
+      self.columnAfterEdit = function(key, lRow, lCol, newValue, newValueId) {
         var p = null;
 
         try {
@@ -1513,17 +1512,17 @@
 
             case K_ITEMS:
               var property = getProperty(m_items, C_ITEMS);
-              p = columnAfterEditItems(property, lRow, lCol, newValue, newValueID);
+              p = columnAfterEditItems(property, lRow, lCol, newValue, newValueId);
               break;
 
             case K_OTROS:
               var property = m_itemsProps.item(C_OTROS);
-              p = columnAfterEditOtros(property, lRow, lCol, newValue, newValueID);
+              p = columnAfterEditOtros(property, lRow, lCol, newValue, newValueId);
               break;
 
             case K_PERCEPCIONES:
               var property = m_itemsProps.item(C_PERCEPCIONES);
-              p = Percepciones.columnAfterEditPercepciones(property, lRow, lCol, newValue, newValueID);
+              p = Percepciones.columnAfterEditPercepciones(property, lRow, lCol, newValue, newValueId);
               break;
           }
 
@@ -1610,7 +1609,7 @@
         return val(cell.getValue());
       };
 
-      var columnAfterEditOtros = function(property, lRow, lCol, newValue, newValueID) {
+      var columnAfterEditOtros = function(property, lRow, lCol, newValue, newValueId) {
 
         var columns = property.getGrid().getColumns().item(lCol);
 
@@ -1644,7 +1643,7 @@
         return Cairo.Promises.resolvedPromise(true);
       };
 
-      var columnAfterEditItems = function(property, lRow, lCol, newValue, newValueID) {
+      var columnAfterEditItems = function(property, lRow, lCol, newValue, newValueId) {
 
         var p = null;
         var grid = property.getGrid();
@@ -1656,10 +1655,10 @@
             Cairo.LoadingMessage.show("FacturaCompras", "Loading data for product.");
 
             var row = property.getGrid().getRows().item(lRow);
-            p = setDataProducto(row, newValueID)
-              .success(call(setPrecios, row, newValueID))
-              .success(call(setDescuentos, row, newValueID, getPrecioFromRow(row)))
-              .success(call(setTasasImpositivas, row, newValueID, newValue))
+            p = setDataProducto(row, newValueId)
+              .success(call(setPrecios, row, newValueId))
+              .success(call(setDescuentos, row, newValueId, getPrecioFromRow(row)))
+              .success(call(setTasasImpositivas, row, newValueId, newValue))
               .then(function(result) { Cairo.LoadingMessage.close(); return result; })
             ;
             break;
@@ -1753,7 +1752,7 @@
         return P.resolvedPromise(true);
       };
 
-      self.newRow = function(key,  rows) {
+      self.newRow = function(key, rows) {
         return P.resolvedPromise(true);
       };
 
@@ -1986,40 +1985,40 @@
             case KI_CANTIDAD:
               cantidad = val(cell.getValue());
               if(valEmpty(cell.getValue(), Types.currency)) {
-                p = M.showInfoWithFalse(getText(1365, "", strRow)); // Debe indicar una cantidad (1)
+                return M.showInfoWithFalse(getText(1365, "", strRow)); // Debe indicar una cantidad (1)
               }
               break;
 
             case KI_PRECIO:
               if(valEmpty(cell.getValue(), Types.currency)) {
-                p = M.showInfoWithFalse(getText(1631, "", strRow)); // Debe indicar un precio (1)
+                return M.showInfoWithFalse(getText(1631, "", strRow)); // Debe indicar un precio (1)
               }
               break;
 
             case KI_PR_ID:
               if(valEmpty(cell.getId(), Types.id)) {
-                p = M.showInfoWithFalse(getText(1899, "", strRow)); // Debe indicar un producto de Compra (1)
+                return M.showInfoWithFalse(getText(1899, "", strRow)); // Debe indicar un producto de Compra (1)
               }
               break;
 
             case KI_NRO_SERIE:
               llevaNroSerie = cellId(row, KI_PR_LLEVA_NRO_SERIE);
               if(valEmpty(cell.getValue(), Types.text) && llevaNroSerie) {
-                p = M.showInfoWithFalse(getText(1630, "", strRow)); // Debe indicar un numero de serie (1)
+                return M.showInfoWithFalse(getText(1630, "", strRow)); // Debe indicar un numero de serie (1)
               }
               break;
 
             case KI_STL_CODIGO:
               if(m_showStockData) {
                 if(valEmpty(cell.getValue(), Types.text) && cellId(row, KI_PR_LLEVALOTE)) {
-                  p = M.showInfoWithFalse(getText(1632, "", strRow)); // Debe indicar un lote (1)
+                  return M.showInfoWithFalse(getText(1632, "", strRow)); // Debe indicar un lote (1)
                 }
               }
               break;
 
             case KI_TO_ID:
               if(valEmpty(cell.getId(), Types.id)) {
-                p = M.showInfoWithFalse(getText(1633, "", strRow)); // Debe indicar un tipo de operación (1)
+                return M.showInfoWithFalse(getText(1633, "", strRow)); // Debe indicar un tipo de operación (1)
               }
               break;
           }
@@ -2372,7 +2371,7 @@
         tab.setIndex(3);
         tab.setName(getText(1575, "")); // Legajos
 
-        var properties = m_itemsProps;
+        properties = m_itemsProps;
 
         properties.clear();
 
@@ -2434,7 +2433,7 @@
 
         if(!m_items.show(self)) { return false; }
 
-        var properties = m_footerProps;
+        properties = m_footerProps;
 
         properties.clear();
 
@@ -3142,6 +3141,7 @@
         grid.getRows().clear();
 
         var columns = grid.getColumns();
+
         elem = columns.add(null);
         elem.setVisible(false);
         elem.setKey(KI_FCOT_ID);
@@ -3178,7 +3178,6 @@
         elem.setSelectTable(Cairo.Tables.CENTROS_DE_COSTO);
         elem.setKey(KI_CCOS_ID);
 
-        grid.getRows().clear();
       };
 
       var loadOtros = function(property, cotizacion) {
@@ -4749,7 +4748,6 @@
             m_dialog.setBackColorTabMain("white");
           }
         }
-
       };
 
       self.getObjectType = function() {
@@ -4804,6 +4802,7 @@
       var D = Cairo.Documents;
       var M = Cairo.Modal;
       var C = Cairo.General.Constants;
+      var CC = Cairo.Compras.Constants;
       var Types = Cairo.Constants.Types;
       var Dialogs = Cairo.Dialogs;
       var T = Dialogs.PropertyType;
@@ -4843,7 +4842,7 @@
       var m_documento = "";
       var m_cpgId = "";
       var m_condicionPago = "";
-      var m_emp_id = "";
+      var m_empId = "";
       var m_empresa = "";
       var m_fechaIniV = "";
       var m_fechaFinV = "";
@@ -4861,7 +4860,7 @@
 
       var m_menuShowNotes = 0;
       var m_menuShowInfoProv = 0;
-      var m_menuAddMensaje = 0;
+      var m_menuAddNote = 0;
       var m_menuShowAplic = 0;
       var m_menuShowAsiento = 0;
       var m_menuShowDocAux = 0;
@@ -4894,7 +4893,7 @@
 
           var doc = new Cairo.DocDigital();
 
-          doc.setClientTable(C.FACTURA_COMPRA);
+          doc.setClientTable(CC.FACTURA_COMPRA);
           doc.setClientTableID(fcId);
 
           _rtn = doc.showDocs(Cairo.Database);
@@ -4924,8 +4923,8 @@
               showNotes();
               break;
 
-            case m_menuAddMensaje:
-              addMensaje();
+            case m_menuAddNote:
+              addNote();
               break;
 
             case m_menuShowAplic:
@@ -5029,8 +5028,8 @@
         c.setName(getText(1114, "")); // Empresa
         c.setKey(K_EMP_ID);
         c.setValue(m_empresa);
-        c.setSelectId(val(m_emp_id));
-        c.setSelectIntValue(m_emp_id);
+        c.setSelectId(val(m_empId));
+        c.setSelectIntValue(m_empId);
 
         createMenu();
         if(!m_dialog.showDocumentList(self)) { return false; }
@@ -5047,7 +5046,7 @@
         return DB.getData("load[" + m_apiPath + "compras/facturacompras/parameters]").then(
           function(response) {
 
-            m_emp_id = Cairo.Company.getId();
+            m_empId = Cairo.Company.getId();
             m_empresa = Cairo.Company.getName();
 
             if(response.success !== true) { return false; }
@@ -5088,7 +5087,7 @@
               m_sucId = valField(response.data, C.SUC_ID);
               m_docId = valField(response.data, C.DOC_ID);
               m_cpgId = valField(response.data, C.CPG_ID);
-              m_emp_id = valField(response.data, C.EMP_ID);
+              m_empId = valField(response.data, C.EMP_ID);
 
               m_proveedor = valField(response.data, C.PROV_NAME);
               m_estado = valField(response.data, C.EST_NAME);
@@ -5111,7 +5110,6 @@
       self.propertyChange = function(key) {
 
         var property;
-
         var properties = m_properties;
 
         switch (key) {
@@ -5153,45 +5151,45 @@
             break;
 
           case K_EST_ID:
-            var property = properties.item(C.EST_ID);
+            property = properties.item(C.EST_ID);
             m_estado = property.getValue();
             m_estId = property.getSelectIntValue();
             break;
 
           case K_PROV_ID:
-            var property = properties.item(C.PROV_ID);
+            property = properties.item(C.PROV_ID);
             m_proveedor = property.getValue();
             m_provId = property.getSelectIntValue();
             break;
 
           case K_CCOS_ID:
-            var property = properties.item(C.CCOS_ID);
+            property = properties.item(C.CCOS_ID);
             m_centroCosto = property.getValue();
             m_ccosId = property.getSelectIntValue();
             break;
 
           case K_SUC_ID:
-            var property = properties.item(C.SUC_ID);
+            property = properties.item(C.SUC_ID);
             m_sucursal = property.getValue();
             m_sucId = property.getSelectIntValue();
             break;
 
           case K_DOC_ID:
-            var property = properties.item(C.DOC_ID);
+            property = properties.item(C.DOC_ID);
             m_documento = property.getValue();
             m_docId = property.getSelectIntValue();
             break;
 
           case K_CPG_ID:
-            var property = properties.item(C.CPG_ID);
+            property = properties.item(C.CPG_ID);
             m_condicionPago = property.getValue();
             m_cpgId = property.getSelectIntValue();
             break;
 
           case K_EMP_ID:
-            var property = properties.item(C.EMP_ID);
+            property = properties.item(C.EMP_ID);
             m_empresa = property.getValue();
-            m_emp_id = property.getSelectIntValue();
+            m_empId = property.getSelectIntValue();
             break;
         }
 
@@ -5230,7 +5228,7 @@
           sucId: m_sucId,
           docId: m_docId,
           cpgId: m_cpgId,
-          empId: m_emp_id
+          empId: m_empId
         };
 
         return DB.getData("load[" + m_apiPath + "compras/facturacompras]", null, params);
@@ -5362,7 +5360,7 @@
         
         m_menuShowInfoProv = m_dialog.addMenu(getText(1887, "")); // Ver Info del Proveedor
         
-        m_menuAddMensaje = m_dialog.addMenu(getText(1615, "")); // Agregar Nota
+        m_menuAddNote = m_dialog.addMenu(getText(1615, "")); // Agregar Nota
         
         m_menuShowNotes = m_dialog.addMenu(getText(1616, "")); // Ver Notas
         m_dialog.addMenu("-");
@@ -5380,7 +5378,7 @@
           .successWithResult(D.showNotes);
       };
 
-      var addMensaje = function() {
+      var addNote = function() {
         var fcId = m_dialog.getId();
         return D.addNote(D.Types.FACTURA_COMPRA, fcId, false);
       };
@@ -5420,7 +5418,7 @@
 
       var showAsiento = function() {
         var fcId = m_dialog.getId();
-        if(fcId != NO_ID) {
+        if(fcId !== NO_ID) {
 
           D.getAsientoId(D.Types.FACTURA_COMPRA, fcId).successWithResult(function(response) {
             D.showDocAux(response.as_id, "Asiento");
@@ -5429,8 +5427,8 @@
       };
 
       var showDocAux = function() {
-        var fcId = m_dialog.Id;
-        if(fcId != NO_ID) {
+        var fcId = m_dialog.getId();
+        if(fcId !== NO_ID) {
 
           D.getStockId(D.Types.FACTURA_COMPRA, fcId).successWithResult(function(response) {
             D.showDocAux(response.st_id, "Stock");
@@ -5655,19 +5653,3 @@
   });
 
 }());
-
-
-/*
-*
- search: val\(getCell\((.*?)\)\.getValue\(\)\)
- replace: cellFloat($1)
-
- search: getCell\((.*)?\)\.getValue\(\)
- replace: cellVal($1)
-
- search: getValue\(\) === (.*?);
- repalce: setValue($1);
-
- search: .*elem\.set((Left)|(Top)|(Width)|(Height)).*?\(.+\n
- replace:
-* */

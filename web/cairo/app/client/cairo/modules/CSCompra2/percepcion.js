@@ -172,7 +172,7 @@
       property.setValue(percep);
     };
 
-    self.columnAfterEditPercepciones = function(property, lRow, lCol, newValue, newValueID) {
+    self.columnAfterEditPercepciones = function(property, lRow, lCol, newValue, newValueId) {
 
       var columns = property.getGrid().getColumns().item(lCol);
 

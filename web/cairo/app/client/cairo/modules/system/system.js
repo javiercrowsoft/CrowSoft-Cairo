@@ -664,6 +664,10 @@
     return "supplier_list_discount|supplierId:" + provId.toString() + ",documentId:" + docId.toString();
   };
 
+  Cairo.Documents.ASIENTOS_DOC_FILTER = "document|documentTypeId:"
+    + Cairo.Documents.Types.ASIENTO_CONTABLE.toString()
+  ;
+
   Cairo.Documents.FACTURA_COMPRAS_DOC_FILTER = "document|documentTypeId:"
     + Cairo.Documents.Types.FACTURA_COMPRA.toString()
     + "*" + Cairo.Documents.Types.NOTA_CREDITO_COMPRA.toString()
@@ -686,6 +690,7 @@
   };
 
   Cairo.Documents.FACTURA_COMPRAS_LIST_DOC_FILTER = Cairo.Documents.FACTURA_COMPRAS_DOC_FILTER + "|empId:0";
+  Cairo.Documents.ASIENTOS_LIST_DOC_FILTER = Cairo.Documents.ASIENTOS_LIST_DOC_FILTER + "|empId:0";
 
   Cairo.History = {};
 
