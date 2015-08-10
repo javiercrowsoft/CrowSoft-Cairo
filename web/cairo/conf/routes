@@ -288,6 +288,25 @@ GET     /api/v1/documento/:id/supplier/:provId/account        controllers.logged
 
 GET     /api/v1/documento/from_doct_id/:doctId/:doctIdApplic/:id/:idEx  controllers.logged.modules.documentos.Documents.fromDoctId(doctId: Int, doctIdApplic: Int, id: Int, idEx: Int)
 
+#
+# contabilidad
+#
+
+GET     /api/v1/contabilidad/asiento                 controllers.logged.modules.contabilidad.Asiento.list(from: Option[String], to: Option[String], docId: Option[String], empId: Option[String])
+GET     /api/v1/contabilidad/asiento/parameters      controllers.logged.modules.contabilidad.Asiento.parameters()
+POST    /api/v1/contabilidad/asiento                 controllers.logged.modules.contabilidad.Asiento.saveParameters
+
+GET     /api/v1/contabilidad/asiento/:id              controllers.logged.modules.contabilidad.Asiento.get(id: Int)
+POST    /api/v1/contabilidad/asiento                  controllers.logged.modules.contabilidad.Asiento.create
+PUT     /api/v1/contabilidad/asiento/:id              controllers.logged.modules.contabilidad.Asiento.update(id: Int)
+DELETE  /api/v1/contabilidad/asiento/:id              controllers.logged.modules.contabilidad.Asiento.delete(id: Int)
+
+GET     /api/v1/contabilidad/asiento/notes/:id        controllers.logged.modules.contabilidad.Asiento.notes(id: Int)
+
+#
+# compras
+#
+
 GET     /api/v1/compras/facturacompras                 controllers.logged.modules.compras.FacturaCompras.list(from: Option[String], to: Option[String], provId: Option[String], estId: Option[String], ccosId: Option[String], sucId: Option[String], docId: Option[String], cpgId: Option[String], empId: Option[String])
 GET     /api/v1/compras/facturacompras/parameters      controllers.logged.modules.compras.FacturaCompras.parameters()
 POST    /api/v1/compras/facturacompras                 controllers.logged.modules.compras.FacturaCompras.saveParameters

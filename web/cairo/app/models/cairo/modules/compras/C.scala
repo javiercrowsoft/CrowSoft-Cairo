@@ -483,9 +483,6 @@ object C {
   val PEDIDOCOTIZACIONCOMPRATMP = "PedidoCotizacionCompraTMP"
   val PCCOT_TMP_ID = "pccotTMP_id"
 
-  // Asiento
-  val AS_ID = "as_id"
-
   // Stock
   val ST_ID = "st_id"
 

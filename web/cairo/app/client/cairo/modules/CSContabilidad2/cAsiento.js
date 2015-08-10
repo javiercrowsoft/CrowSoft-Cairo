@@ -137,8 +137,8 @@
       var m_totalDebe = 0;
       var m_totalHaber = 0;
 
-      var m_id_cliente = 0;
-      var m_doctId_cliente = 0;
+      var m_idCliente = 0;
+      var m_doctIdCliente = 0;
 
       var m_doc_cliente = "";
 
@@ -1278,8 +1278,8 @@
               m_documento = getValue(data, C.DOC_NAME);
               m_doctId = getValue(data, C.DOCT_ID);
 
-              m_id_cliente = getValue(data, C.ID_CLIENTE);
-              m_doctId_cliente = getValue(data, C.DOCT_ID_CLIENTE);
+              m_idCliente = getValue(data, C.ID_CLIENTE);
+              m_doctIdCliente = getValue(data, C.DOCT_ID_CLIENTE);
 
               m_doc_cliente = getValue(data, C.DOC_CLIENTE);
 
@@ -1304,8 +1304,8 @@
               m_docId = m_lastDocId;
               m_documento = m_lastDocName;
 
-              m_id_cliente = NO_ID;
-              m_doctId_cliente = NO_ID;
+              m_idCliente = NO_ID;
+              m_doctIdCliente = NO_ID;
 
               m_doc_cliente = "";
 
@@ -1969,6 +1969,10 @@
       self.setDialog = function(dialog) {
         m_dialog = dialog;
         m_properties = dialog.getProperties();
+      };
+
+      self.setListController = function(controller) {
+        m_listController = controller;
       };
 
       var createMenu = function() {
