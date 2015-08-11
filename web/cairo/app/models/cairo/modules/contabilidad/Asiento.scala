@@ -704,119 +704,29 @@ object Asiento {
 
   private def loadAsientoItems(user: CompanyUser, id: Int) = {
     val items = loadItems(user, id)
-    AsientoItems(
-      items._1,
-      items._2,
-      loadOtros(user, id),
-      loadLegajos(user, id),
-      loadPercepciones(user, id),
-      "", "", "", "", List()
-    )
+    AsientoItems(items, "")
   }
 
   private def loadItems(user: CompanyUser, id: Int) = {
 
     DB.withTransaction(user.database.database) { implicit connection =>
 
-      val sql = "{call sp_doc_asiento_get_items(?, ?, ?)}"
+      val sql = "{call sp_doc_asiento_get_items(?, ?)}"
       val cs = connection.prepareCall(sql)
 
       cs.setInt(1, id)
       cs.registerOutParameter(2, Types.OTHER)
-      cs.registerOutParameter(3, Types.OTHER)
 
       try {
         cs.execute()
 
         val rs = cs.getObject(2).asInstanceOf[java.sql.ResultSet]
-        val rsSerie = cs.getObject(3).asInstanceOf[java.sql.ResultSet]
 
-        (Sql.as(asientoItemParser.*, rs), Sql.as(asientoItemSerieParser.*, rsSerie))
+        Sql.as(asientoItemParser.*, rs)
 
       } catch {
         case NonFatal(e) => {
           Logger.error(s"can't get ${C.ASIENTO_ITEM} with id $id for user ${user.toString}. Error ${e.toString}")
-          throw e
-        }
-      } finally {
-        cs.close
-      }
-    }
-  }
-
-  private def loadOtros(user: CompanyUser, id: Int) = {
-
-    DB.withTransaction(user.database.database) { implicit connection =>
-
-      val sql = "{call sp_doc_asiento_get_otros(?, ?)}"
-      val cs = connection.prepareCall(sql)
-
-      cs.setInt(1, id)
-      cs.registerOutParameter(2, Types.OTHER)
-
-      try {
-        cs.execute()
-
-        val rs = cs.getObject(2).asInstanceOf[java.sql.ResultSet]
-        Sql.as(asientoOtroParser.*, rs)
-
-      } catch {
-        case NonFatal(e) => {
-          Logger.error(s"can't get ${C.ASIENTO_OTRO} with id $id for user ${user.toString}. Error ${e.toString}")
-          throw e
-        }
-      } finally {
-        cs.close
-      }
-    }
-  }
-
-  private def loadLegajos(user: CompanyUser, id: Int) = {
-
-    DB.withTransaction(user.database.database) { implicit connection =>
-
-      val sql = "{call sp_doc_asiento_get_legajos(?, ?)}"
-      val cs = connection.prepareCall(sql)
-
-      cs.setInt(1, id)
-      cs.registerOutParameter(2, Types.OTHER)
-
-      try {
-        cs.execute()
-
-        val rs = cs.getObject(2).asInstanceOf[java.sql.ResultSet]
-        Sql.as(asientoLegajoParser.*, rs)
-
-      } catch {
-        case NonFatal(e) => {
-          Logger.error(s"can't get ${C.ASIENTO_LEGAJO} with id $id for user ${user.toString}. Error ${e.toString}")
-          throw e
-        }
-      } finally {
-        cs.close
-      }
-    }
-  }
-
-  private def loadPercepciones(user: CompanyUser, id: Int) = {
-
-    DB.withTransaction(user.database.database) { implicit connection =>
-
-      val sql = "{call sp_doc_asiento_get_percepciones(?, ?)}"
-      val cs = connection.prepareCall(sql)
-
-      cs.setInt(1, id)
-      cs.registerOutParameter(2, Types.OTHER)
-
-      try {
-        cs.execute()
-
-        val rs = cs.getObject(2).asInstanceOf[java.sql.ResultSet]
-        Sql.as(asientoPercepcionParser.*, rs)
-
-      } catch {
-        case NonFatal(e) => {
-          Logger.error(s"can't get ${C.ASIENTO_PERCEPCION} with id $id for user ${user.toString}. Error ${e.toString}")
           throw e
         }
       } finally {
@@ -849,11 +759,6 @@ object Asiento {
           p.ids,
           p.base,
           p.references,
-          p.dates,
-          p.precios,
-          p.cotizacion,
-          p.stock,
-          p.totals,
 
           loadAsientoItems(user, id)
         )
@@ -864,12 +769,7 @@ object Asiento {
 
   val K_FECHAINI  = 1
   val K_FECHAFIN  = 2
-  val K_PROV_ID   = 4
-  val K_EST_ID    = 5
-  val K_CCOS_ID   = 6
-  val K_SUC_ID    = 7
   val K_DOC_ID    = 9
-  val K_CPG_ID    = 10
   val K_EMP_ID    = 100
 
   def saveParams(user: CompanyUser, asientoParams: AsientoParams): AsientoParams = {
@@ -913,34 +813,9 @@ object Asiento {
         Field(GC.LDP_VALOR, asientoParams.to, FieldType.text)
       ),
       List(
-        Field(GC.LDP_ID, K_PROV_ID, FieldType.integer),
-        Field(GC.LDP_ORDEN, 20, FieldType.integer),
-        Field(GC.LDP_VALOR, asientoParams.provId, FieldType.text)
-      ),
-      List(
-        Field(GC.LDP_ID, K_EST_ID, FieldType.integer),
-        Field(GC.LDP_ORDEN, 30, FieldType.integer),
-        Field(GC.LDP_VALOR, asientoParams.estId, FieldType.text)
-      ),
-      List(
-        Field(GC.LDP_ID, K_CCOS_ID, FieldType.integer),
-        Field(GC.LDP_ORDEN, 40, FieldType.integer),
-        Field(GC.LDP_VALOR, asientoParams.ccosId, FieldType.text)
-      ),
-      List(
-        Field(GC.LDP_ID, K_SUC_ID, FieldType.integer),
-        Field(GC.LDP_ORDEN, 50, FieldType.integer),
-        Field(GC.LDP_VALOR, asientoParams.sucId, FieldType.text)
-      ),
-      List(
         Field(GC.LDP_ID, K_DOC_ID, FieldType.integer),
         Field(GC.LDP_ORDEN, 60, FieldType.integer),
         Field(GC.LDP_VALOR, asientoParams.docId, FieldType.text)
-      ),
-      List(
-        Field(GC.LDP_ID, K_CPG_ID, FieldType.integer),
-        Field(GC.LDP_ORDEN, 70, FieldType.integer),
-        Field(GC.LDP_VALOR, asientoParams.cpgId, FieldType.text)
       ),
       List(
         Field(GC.LDP_ID, K_EMP_ID, FieldType.integer),
@@ -982,29 +857,9 @@ object Asiento {
       Some(emptyAsientoParams)
     }
     else {
-      val prov = DocumentListParam.getParamValue(
-        user, K_PROV_ID, params, emptyAsientoParams.provId,
-        GC.PROVEEDOR, GC.PROV_ID, GC.PROV_NAME
-      )
-      val est = DocumentListParam.getParamValue(
-        user, K_EST_ID, params, emptyAsientoParams.estId,
-        GC.ESTADO, GC.EST_ID, GC.EST_NAME
-      )
-      val ccos = DocumentListParam.getParamValue(
-        user, K_CCOS_ID, params, emptyAsientoParams.ccosId,
-        GC.CENTRO_COSTO, GC.CCOS_ID, GC.CCOS_NAME
-      )
-      val suc = DocumentListParam.getParamValue(
-        user, K_SUC_ID, params, emptyAsientoParams.sucId,
-        GC.SUCURSAL, GC.SUC_ID, GC.SUC_NAME
-      )
       val doc = DocumentListParam.getParamValue(
         user, K_DOC_ID, params, emptyAsientoParams.docId,
         GC.DOCUMENTO, GC.DOC_ID, GC.DOC_NAME
-      )
-      val cpg = DocumentListParam.getParamValue(
-        user, K_CPG_ID, params, emptyAsientoParams.cpgId,
-        GC.CONDICION_PAGO, GC.CPG_ID, GC.CPG_NAME
       )
       val emp = DocumentListParam.getParamValue(
         user, K_EMP_ID, params, emptyAsientoParams.empId,
@@ -1015,18 +870,8 @@ object Asiento {
         AsientoParams(
           DocumentListParam.getParamValue(K_FECHAINI, params, emptyAsientoParams.from),
           DocumentListParam.getParamValue(K_FECHAFIN, params, emptyAsientoParams.to),
-          prov.id,
-          prov.value,
-          est.id,
-          est.value,
-          ccos.id,
-          ccos.value,
-          suc.id,
-          suc.value,
           doc.id,
           doc.value,
-          cpg.id,
-          cpg.value,
           emp.id,
           emp.value
         )
@@ -1037,96 +882,30 @@ object Asiento {
   def list(user: CompanyUser,
            from: Date,
            to: Date,
-           provId: Option[String],
-           estId: Option[String],
-           ccosId: Option[String],
-           sucId: Option[String],
            docId: Option[String],
-           cpgId: Option[String],
            empId: Option[String]): Recordset = {
 
     DB.withTransaction(user.database.database) { implicit connection =>
 
-      val sql = "{call sp_lsdoc_facturas_compra(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}"
+      val sql = "{call sp_lsdoc_asientos(?, ?, ?, ?, ?, ?)}"
       val cs = connection.prepareCall(sql)
 
       cs.setInt(1, user.userId)
       cs.setDate(2, new java.sql.Date(from.getTime()))
       cs.setDate(3, new java.sql.Date(to.getTime()))
-      cs.setString(4, provId.getOrElse("0"))
-      cs.setString(5, estId.getOrElse("0"))
-      cs.setString(6, ccosId.getOrElse("0"))
-      cs.setString(7, sucId.getOrElse("0"))
-      cs.setString(8, docId.getOrElse("0"))
-      cs.setString(9, cpgId.getOrElse("0"))
-      cs.setString(10, empId.getOrElse("0"))
-      cs.registerOutParameter(11, Types.OTHER)
+      cs.setString(4, docId.getOrElse("0"))
+      cs.setString(5, empId.getOrElse("0"))
+      cs.registerOutParameter(6, Types.OTHER)
 
       try {
         cs.execute()
 
-        val rs = cs.getObject(11).asInstanceOf[java.sql.ResultSet]
+        val rs = cs.getObject(6).asInstanceOf[java.sql.ResultSet]
         Recordset.load(rs)
 
       } catch {
         case NonFatal(e) => {
-          Logger.error(s"can't get listing of facturas de compra for user ${user.toString}. Error ${e.toString}")
-          throw e
-        }
-      } finally {
-        cs.close
-      }
-    }
-  }
-
-  def listRemitos(user: CompanyUser, provId: Int, currencyId: Int): Recordset = {
-
-    DB.withTransaction(user.database.database) { implicit connection =>
-
-      val sql = "{call sp_doc_asiento_get_remitos(?, ?, ?, ?)}"
-      val cs = connection.prepareCall(sql)
-
-      cs.setInt(1, user.cairoCompanyId)
-      cs.setInt(2, provId)
-      cs.setInt(3, currencyId)
-      cs.registerOutParameter(4, Types.OTHER)
-
-      try {
-        cs.execute()
-
-        val rs = cs.getObject(4).asInstanceOf[java.sql.ResultSet]
-        Recordset.load(rs)
-
-      } catch {
-        case NonFatal(e) => {
-          Logger.error(s"can't get listing of remitos de compra for provider [$provId] and currency [$currencyId] and user ${user.toString}. Error ${e.toString}")
-          throw e
-        }
-      } finally {
-        cs.close
-      }
-    }
-  }
-
-  def listRemitosItems(user: CompanyUser, ids: String): Recordset = {
-
-    DB.withTransaction(user.database.database) { implicit connection =>
-
-      val sql = "{call sp_doc_asiento_get_remitos_items(?, ?)}"
-      val cs = connection.prepareCall(sql)
-
-      cs.setString(1, ids)
-      cs.registerOutParameter(2, Types.OTHER)
-
-      try {
-        cs.execute()
-
-        val rs = cs.getObject(2).asInstanceOf[java.sql.ResultSet]
-        Recordset.load(rs)
-
-      } catch {
-        case NonFatal(e) => {
-          Logger.error(s"can't get listing of remitos de compra's items for list [$ids] and user ${user.toString}. Error ${e.toString}")
+          Logger.error(s"can't get listing of asientos for user ${user.toString}. Error ${e.toString}")
           throw e
         }
       } finally {

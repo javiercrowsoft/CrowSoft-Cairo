@@ -4,7 +4,7 @@
     <list default="true" id="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" name="Default" comment="" />
     <ignored path="docs.iws" />
     <ignored path=".idea/workspace.xml" />
-    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSContabilidad2/cAsiento.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1439075767422" ignored="false" />
+    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSContabilidad2/cAsiento.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1439245225341" ignored="false" />
     <file path="/translate-todo-list.txt" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1438961541711" ignored="false" />
     <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSCompra2/cFacturaCompra.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1438963401390" ignored="false" />
     <file path="/cAsiento.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1438983604990" ignored="false" />

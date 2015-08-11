@@ -1639,8 +1639,8 @@
       var K_FECHAINI = 1;
       var K_FECHAFIN = 2;
       var K_DOC_ID = 9;
-
       var K_EMP_ID = 100;
+
       var m_fechaIni = null;
       var m_fechaFin = null;
       var m_docId = "";
