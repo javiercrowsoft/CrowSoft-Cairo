@@ -258,6 +258,28 @@
     );
   };
 
+  Cairo.Documents.getCuentaInfo = function(cueId) {
+    var apiPath = Cairo.Database.getAPIVersion();
+    return Cairo.Database.getData(
+      "load[" + apiPath + "general/cuenta/" + cueId.toString() + "/info]").then(
+      function(response) {
+
+        var info = {}
+
+        if(response.success === true) {
+          info.monId = valField(response.data, C.MON_ID);
+          info.empId = valField(response.data, C.EMP_ID);
+          info.success = true;
+        }
+        else {
+          info.success = false;
+        }
+
+        return info;
+      }
+    );
+  };
+
   Cairo.Documents.getDocCliente = function(doctId, id) {
     var apiPath = Cairo.Database.getAPIVersion();
     return Cairo.Database.getData(

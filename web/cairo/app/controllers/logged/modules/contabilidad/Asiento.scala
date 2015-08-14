@@ -99,7 +99,6 @@ object Asientos extends Controller with ProvidesUser {
         (AsientoItemData.apply)(AsientoItemData.unapply)
       ),
       C.ASIENTO_ITEM_DELETED -> text
-      )
     )(AsientoData.apply)(AsientoData.unapply)
   )
 
@@ -123,11 +122,13 @@ object Asientos extends Controller with ProvidesUser {
       GC.DOC_NAME -> Json.toJson(asiento.ids.docName),
       C.AS_NRODOC -> Json.toJson(asiento.ids.nroDoc),
       C.AS_NUMERO -> Json.toJson(asiento.ids.numero),
-      C.AS_FECHA -> Json.toJson(asiento.dates.fecha),
+      C.AS_FECHA -> Json.toJson(asiento.base.fecha),
       C.AS_DESCRIP -> Json.toJson(asiento.base.descrip),
 
       GC.DOCT_ID -> Json.toJson(asiento.references.doctId),
-      GC.DOCT_NAME -> Json.toJson(asiento.references.doctName),
+      C.DOCT_ID_CLIENTE -> Json.toJson(asiento.references.doctIdCliente),
+      C.ID_CLIENTE -> Json.toJson(asiento.references.idCliente),
+      C.DOC_CLIENTE -> Json.toJson(asiento.references.docCliente),
       GC.TA_MASCARA -> Json.toJson(asiento.references.taMascara),
       GC.TA_PROPUESTO -> Json.toJson(asiento.references.taPropuesto),
       
@@ -139,15 +140,15 @@ object Asientos extends Controller with ProvidesUser {
     )
     def asientoItemWrites(i: AsientoItem) = Json.obj(
       C.ASI_ID -> Json.toJson(i.id),
-      C.ASI_DESCRIP -> Json.toJson(i.base.descrip),
-      GC.CUE_ID -> Json.toJson(i.base.cueId),
-      GC.CUE_NAME -> Json.toJson(i.base.cueName),
-      GC.CCOS_ID -> Json.toJson(i.base.ccosId),
-      GC.CCOS_NAME -> Json.toJson(i.base.ccosName),      
-      C.ASI_DEBE -> Json.toJson(i.totals.debe),
-      C.ASI_HABER -> Json.toJson(i.totals.haber),
-      C.ASI_ORIGEN -> Json.toJson(i.totals.origen),
-      C.ASI_ORDEN -> Json.toJson(i.base.orden)
+      C.ASI_DESCRIP -> Json.toJson(i.descrip),
+      GC.CUE_ID -> Json.toJson(i.cueId),
+      GC.CUE_NAME -> Json.toJson(i.cueName),
+      GC.CCOS_ID -> Json.toJson(i.ccosId),
+      GC.CCOS_NAME -> Json.toJson(i.ccosName),
+      C.ASI_DEBE -> Json.toJson(i.debe),
+      C.ASI_HABER -> Json.toJson(i.haber),
+      C.ASI_ORIGEN -> Json.toJson(i.origen),
+      C.ASI_ORDEN -> Json.toJson(i.orden)
     )
     def writeAsientoItems(items: List[AsientoItem]) = items.map(item => asientoItemWrites(item))
   }
@@ -239,8 +240,6 @@ object Asientos extends Controller with ProvidesUser {
     AsientoItems(
       getItems(asiento.items),
 
-      List(), /* only used when loading a document to respond a get Asiento */
-
       /* only used in save */
       asiento.itemDeleted
     )
@@ -256,6 +255,7 @@ object Asientos extends Controller with ProvidesUser {
       AsientoBase(
         DateFormatter.parse(asiento.base.fecha),
         asiento.base.descrip),
+      Asiento.emptyAsientoReferences,
       getAsientoItems(asiento)
     )
   }
@@ -276,34 +276,6 @@ object Asientos extends Controller with ProvidesUser {
               Json.toJson(
                 Asiento.update(user,
                   getAsiento(asiento, id)
-                )
-              )
-            )
-          } catch {
-            case NonFatal(e) => {
-              responseError(e)
-            }
-          }
-        })
-      }
-    )
-  }
-
-  def createFromRemito = PostAction { implicit request =>
-    Logger.debug("in Asientos.create")
-    asientoForm.bind(preprocessParams).fold(
-      formWithErrors => {
-        Logger.debug(s"invalid form: ${formWithErrors.toString}")
-        BadRequest
-      },
-      asiento => {
-        Logger.debug(s"form: ${asiento.toString}")
-        LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.NEW_ASIENTO), { user =>
-          try {
-            Ok(
-              Json.toJson(
-                Asiento.createFromRemito(user,
-                  getAsiento(asiento, DBHelper.NoId)
                 )
               )
             )

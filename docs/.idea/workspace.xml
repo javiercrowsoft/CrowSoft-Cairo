@@ -4,23 +4,35 @@
     <list default="true" id="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" name="Default" comment="" />
     <ignored path="docs.iws" />
     <ignored path=".idea/workspace.xml" />
-    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSContabilidad2/cAsiento.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1439245225341" ignored="false" />
+    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSContabilidad2/cAsiento.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1439582100415" ignored="false" />
     <file path="/translate-todo-list.txt" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1438961541711" ignored="false" />
-    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSCompra2/cFacturaCompra.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1438963401390" ignored="false" />
-    <file path="/cAsiento.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1438983604990" ignored="false" />
-    <file path="/cFacturaCompra.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1438963401390" ignored="false" />
-    <file path="/a.dummy" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1438985340477" ignored="false" />
+    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSCompra2/cFacturaCompra.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1439554933014" ignored="false" />
+    <file path="/cAsiento.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1439582100092" ignored="false" />
+    <file path="/cFacturaCompra.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1439554933520" ignored="false" />
+    <file path="/a.dummy" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1439575463739" ignored="false" />
     <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSContabilidad2/constants.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1438962197915" ignored="false" />
     <file path="/constants.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1438962196251" ignored="false" />
-    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/system/system.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1438985320904" ignored="false" />
-    <file path="/system.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1438985320904" ignored="false" />
+    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/system/system.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1439574465522" ignored="false" />
+    <file path="/system.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1439573866677" ignored="false" />
     <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/system/dialogs/wizard.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1438871349706" ignored="false" />
-    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSCompra2/percepcion.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1438871349706" ignored="false" />
+    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSCompra2/percepcion.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1439555709423" ignored="false" />
     <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSCompra2/cFacturaCompraRemitoWiz.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1438871349706" ignored="false" />
     <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/system/dialogs/dialog.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1438880337804" ignored="false" />
     <file path="/dialog.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1438880089909" ignored="false" />
     <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSGeneralEx2/cUsuarioConfig.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1438986012907" ignored="false" />
     <file path="/cUsuarioConfig.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1438986008041" ignored="false" />
+    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/system/dialogs/dialogList.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1439393931394" ignored="false" />
+    <file path="/dialogList.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1439393774979" ignored="false" />
+    <file path="/Dummy.txt" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1439403190857" ignored="false" />
+    <file path="$PROJECT_DIR$/../../../ArizonaBay/Intelimax/draftteam/CentralServer/app/assets/stylesheets/www/jumbotrons.scss" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1439404043380" ignored="false" />
+    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/system/language/language.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1439469382674" ignored="false" />
+    <file path="/language.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1439469277196" ignored="false" />
+    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/cairoApp.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1439491428193" ignored="false" />
+    <file path="/cairoApp.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1439470410196" ignored="false" />
+    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/common/views.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1439470352684" ignored="false" />
+    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/system/modal.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1439470488058" ignored="false" />
+    <file path="/modal.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1439470453019" ignored="false" />
+    <file path="/percepcion.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1439555681026" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -42,7 +54,7 @@
       <file leaf-file-name="translate-todo-list.txt" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/translate-todo-list.txt">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="1144" column="21" selection-start="31987" selection-end="31987" vertical-scroll-proportion="0.23855165">
+            <state line="1144" column="21" selection-start="31987" selection-end="31987" vertical-scroll-proportion="0.062909566">
               <folding />
             </state>
           </provider>
@@ -65,7 +77,7 @@
   <component name="ProjectFrameBounds">
     <option name="y" value="22" />
     <option name="width" value="1920" />
-    <option name="height" value="1054" />
+    <option name="height" value="878" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
     <OptionsSetting value="true" id="Add" />
@@ -93,6 +105,7 @@
       <sortByType />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -113,7 +126,6 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -134,14 +146,14 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="22" width="1920" height="1054" extended-state="6" />
+    <frame x="0" y="22" width="1920" height="878" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.23019272" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.23286937" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
@@ -219,7 +231,7 @@
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/translate-todo-list.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+        <state line="1144" column="21" selection-start="31987" selection-end="31987" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
@@ -233,7 +245,14 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/translate-todo-list.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="1144" column="21" selection-start="31987" selection-end="31987" vertical-scroll-proportion="0.23855165">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/translate-todo-list.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="1144" column="21" selection-start="31987" selection-end="31987" vertical-scroll-proportion="0.062909566">
           <folding />
         </state>
       </provider>

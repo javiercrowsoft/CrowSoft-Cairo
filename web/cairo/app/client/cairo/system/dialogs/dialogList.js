@@ -259,6 +259,12 @@
           m_startRowText = startRowText;
         };
 
+        self.showValues = function(properties) {
+          for(var _i = 0; _i < properties.count(); _i++) {
+            self.showValue(properties.get(_i));
+          }
+        };
+
         var clientSaveParams = function() {
           return m_client.save();
         };

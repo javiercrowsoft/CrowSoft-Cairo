@@ -174,12 +174,13 @@
 
     self.columnAfterEditPercepciones = function(property, lRow, lCol, newValue, newValueId) {
 
-      var columns = property.getGrid().getColumns().item(lCol);
+      var grid = property.getGrid();
+      var columns = grid.getColumns().item(lCol);
 
       switch (columns.getKey()) {
 
         case KIP_BASE:
-          var row = property.getGrid().getRows().item(lRow);
+          var row = grid.getRows().item(lRow);
           var cell = getCell(row, KIP_BASE);
           if(val(newValue) < 0) {
             cell.setValue(0);
@@ -190,7 +191,7 @@
           break;
 
         case KIP_IMPORTE:
-          var row = property.getGrid().getRows().item(lRow);
+          var row = grid.getRows().item(lRow);
           var cell = getCell(row, KIP_IMPORTE);
           if(val(newValue) < 0) {
             cell.setValue(0);
@@ -207,7 +208,7 @@
           break;
 
         case KIP_PORCENTAJE:
-          var row = property.getGrid().getRows().item(lRow);
+          var row = grid.getRows().item(lRow);
           var cell = getCell(row, KIP_PORCENTAJE);
           if(val(newValue) < 0) {
             cell.setValue(0);

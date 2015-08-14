@@ -32,8 +32,7 @@ javier at crowsoft.com.ar
 
 -- drop function sp_doc_factura_compra_save(integer, integer);
 
-create or replace
-function sp_doc_factura_compra_save
+create or replace function sp_doc_factura_compra_save
 (
   in p_us_id integer,
   in p_fcTMP_id integer
@@ -212,7 +211,7 @@ begin
                      where ccos_id is null
                        and fcTMP_id = p_fcTMP_id ) then
 
-            raise exception '@@ERROR_SP: %'
+            raise exception '@@ERROR_SP: %',
                'Debe indicar un centro de costo en cada item de percepciones o un centro de costo en la cabecera del documento.';
 
          end if;
@@ -1150,8 +1149,8 @@ begin
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 */
 
-   rtn.type = 'fc_id';
-   rtn.id = v_fc_id;
+   rtn.type := 'fc_id';
+   rtn.id := v_fc_id;
 
    return next rtn;
 

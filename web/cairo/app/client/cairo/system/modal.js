@@ -89,6 +89,13 @@
         message,
         function(ignore) { defer.resolve(true); }
       );
+      //
+      // close the loading message is it is open
+      //
+      Cairo.LoadingMessage.close();
+      //
+      // finally show the message
+      //
       Cairo.dialogRegion.show(view);
 
       return defer.promise;

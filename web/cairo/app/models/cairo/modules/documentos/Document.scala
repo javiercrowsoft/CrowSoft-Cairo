@@ -84,6 +84,34 @@ object Document {
     }
   }
 
+  def nextNumber(user: CompanyUser, id: Int): DocumentNumberInfo = {
+
+    DB.withTransaction(user.database.database) { implicit connection =>
+
+      val sql = "{call sp_document_get_next_number(?, ?, ?, ?)}"
+      val cs = connection.prepareCall(sql)
+
+      cs.setInt(1, id)
+      cs.registerOutParameter(2, Types.INTEGER)
+      cs.registerOutParameter(3, Types.VARCHAR)
+      cs.registerOutParameter(4, Types.INTEGER)
+
+      try {
+        cs.execute()
+
+        DocumentNumberInfo(cs.getInt(2), cs.getString(3), (if(cs.getInt(4) != 0) true else false))
+
+      } catch {
+        case NonFatal(e) => {
+          Logger.error(s"can't get document next number info for suppliers with docId $id for user ${user.toString}. Error ${e.toString}")
+          throw e
+        }
+      } finally {
+        cs.close
+      }
+    }
+  }
+
   def supplierNextNumber(user: CompanyUser, id: Int, provId: Int): DocumentNumberInfo = {
 
     DB.withTransaction(user.database.database) { implicit connection =>

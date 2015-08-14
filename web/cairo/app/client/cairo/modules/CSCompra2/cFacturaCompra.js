@@ -423,7 +423,7 @@
 
           m_lastProvId = NO_ID;
 
-          if(!m_docEditable) {
+          if(!m_docEditable && getDocId().getSelectId() !== NO_ID) {
             if(m_docEditMsg !== "") {
               p = M.showWarning(m_docEditMsg);
             }
@@ -435,7 +435,7 @@
 
           var p = null;
 
-          var docId = m_properties.item(C.DOC_ID).getSelectId();
+          var docId = getDocId().getSelectId();
 
           if(docId === NO_ID) {
             p = M.showInfo(getText(1562, ""));
@@ -1409,6 +1409,24 @@
           m_isNew = (id === NO_ID
                       || id === D.Constants.DOC_CHANGED);
 
+
+          var loadAllItems = function() {
+            if(m_itemsProps.count() > 0) {
+              var cotizacion = 0;
+              if(m_cotizacion !== 0) {
+                cotizacion = m_cotizacion;
+              }
+              else {
+                cotizacion = 1;
+              }
+              loadItems(getItems(), cotizacion);
+              loadOtros(getOtros(), cotizacion);
+              loadPercepciones(getPercepciones(), cotizacion);
+              loadLegajos(getLegajos(), cotizacion);
+            }
+            return P.resolvedPromise(true);
+          };
+
           var afterLoad = function() {
             if(m_properties.count() === 0) {
               if(!loadCollection()) { return false; }
@@ -1440,10 +1458,12 @@
             m_editing = true;
             m_copy = false;
 
+            Cairo.navigate(self.getPath());
+
             return true;
           };
 
-          p = load(id).success(afterLoad, false);
+          p = load(id).success(loadAllItems, false).success(afterLoad, false);
         }
         catch(ex) {
           Cairo.manageErrorEx(ex.message, ex, "edit", C_MODULE, "");
@@ -1464,13 +1484,14 @@
             case K_ITEMS:
 
               var property = m_itemsProps.item(C_ITEMS);
-              var colKey = property.getGrid().getColumns().item(lCol).getKey();
+              var grid = property.getGrid();
+              var colKey = grid.getColumns().item(lCol).getKey();
 
               if(colKey === KI_IVA_RI) {
-                showImporteAndIvaManual(property.getGrid().getRows().item(lRow));
+                showImporteAndIvaManual(grid.getRows().item(lRow));
               }
               else {
-                showImporteAndIva(property.getGrid().getRows().item(lRow));
+                showImporteAndIva(grid.getRows().item(lRow));
               }
 
               updateTotals();
@@ -1577,7 +1598,7 @@
 
           case KI_NRO_SERIE:
 
-            var row = property.getGrid().getRows().item(lRow);
+            var row = grid.getRows().item(lRow);
             if(row !== null) {
               rtn = cellId(row, KI_PR_LLEVA_NRO_SERIE);
             }
@@ -1611,14 +1632,15 @@
 
       var columnAfterEditOtros = function(property, lRow, lCol, newValue, newValueId) {
 
-        var columns = property.getGrid().getColumns().item(lCol);
+        var grid = property.getGrid();
+        var columns = grid.getColumns().item(lCol);
 
         switch (columns.getKey()) {
 
           case KI_DEBE:
           case KI_HABER:
 
-            var row = property.getGrid().getRows().item(lRow);
+            var row = grid.getRows().item(lRow);
             if(columns.getKey() === KI_DEBE) {
               var cell = getCell(row, KI_DEBE);
               if(val(newValue) < 0) {
@@ -1654,7 +1676,7 @@
 
             Cairo.LoadingMessage.show("FacturaCompras", "Loading data for product.");
 
-            var row = property.getGrid().getRows().item(lRow);
+            var row = grid.getRows().item(lRow);
             p = setDataProducto(row, newValueId)
               .success(call(setPrecios, row, newValueId))
               .success(call(setDescuentos, row, newValueId, getPrecioFromRow(row)))
@@ -1665,13 +1687,13 @@
 
           case KI_PRECIO_USR:
 
-            var row = property.getGrid().getRows().item(lRow);
+            var row = grid.getRows().item(lRow);
             p = setDescuentos(row, cellId(row, KI_PR_ID), newValue);
             break;
 
           case KI_CANTIDAD:
 
-            var row = property.getGrid().getRows().item(lRow);
+            var row = grid.getRows().item(lRow);
 
             if(cellId(row, KI_PR_LLEVA_NRO_SERIE)) {
 
@@ -3020,9 +3042,9 @@
         grid.getColumns().clear();
         grid.getRows().clear();
 
-        Percepciones.loadPercepciones(property.getGrid(), Cairo.Settings);
+        Percepciones.loadPercepciones(grid, Cairo.Settings);
 
-        property.getGrid().getRows().clear();
+        grid.getRows().clear();
       };
 
       var loadPercepciones = function(property, cotizacion) {
@@ -3436,6 +3458,8 @@
                 }
               }
 
+              m_data = emptyData;
+
               p = p || P.resolvedPromise();
 
               p = p
@@ -3659,13 +3683,14 @@
         var orden = 0;
         var origen = 0;
         var property = m_itemsProps.item(C_OTROS);
+        var rows = property.getGrid().grid.getRows();
 
         transaction.setTable(CC.FACTURA_COMPRA_OTRO_TMP);
 
-        var _count = property.getGrid().getRows().size();
+        var _count = rows.size();
         for(var _i = 0; _i < _count; _i++) {
 
-          var row = property.getGrid().getRows().item(_i);
+          var row = rows.item(_i);
 
           var register = new DB.Register();
           register.setFieldId(CC.FCOT_TMP_ID);
@@ -3742,13 +3767,14 @@
         var orden = 0;
         var origen = 0;
         var property = m_itemsProps.item(C_LEGAJOS);
+        var rows = property.getGrid().getRows();
 
         transaction.setTable(CC.FACTURA_COMPRA_LEGAJO_TMP);
 
-        var _count = property.getGrid().getRows().size();
+        var _count = rows.size();
         for(var _i = 0; _i < _count; _i++) {
 
-          var row = property.getGrid().getRows().item(_i);
+          var row = rows.item(_i);
 
           var register = new DB.Register();
           register.setFieldId(CC.FCLGJ_TMP_ID);
@@ -4692,6 +4718,18 @@
 
       var getItems = function() {
         return m_itemsProps.item(C_ITEMS);
+      };
+
+      var getOtros = function() {
+        return m_itemsProps.item(C_OTROS);
+      };
+
+      var getLegajos = function() {
+        return m_itemsProps.item(C_LEGAJOS);
+      };
+
+      var getPercepciones = function() {
+        return m_itemsProps.item(C_PERCEPCIONES);
       };
 
       var showHideCols = function(onlyStock) {

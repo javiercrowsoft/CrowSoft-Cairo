@@ -54,66 +54,19 @@ object AsientoId {
 
 case class AsientoReferences(
                               doctId: Int,
-                              doctName: String,
+                              idCliente: Int,
+                              doctIdCliente: Int,
+                              docCliente: String,
                               taMascara: String,
                               taPropuesto: Boolean,
                               editable: Boolean,
                               editMsg: String
-                            ) {
-  def this(
-            doctId: Int,
-            taMascara: String,
-            taPropuesto: Boolean,
-            editable: Boolean,
-            editMsg: String
-            ) = {
-    this(
-      doctId,
-      "",
-      taMascara,
-      taPropuesto,
-      editable,
-      editMsg
-    )
-  }
-}
-
-object AsientoReferences {
-
-  def apply(
-             doctId: Int,
-             taMascara: String,
-             taPropuesto: Boolean,
-             editable: Boolean,
-             editMsg: String
-             ) = {
-
-    new AsientoReferences(
-      doctId,
-      taMascara,
-      taPropuesto,
-      editable,
-      editMsg
-    )
-  }
-}
+                            )
 
 case class AsientoBase(
                         fecha: Date,
                         descrip: String
                       )
-
-object AsientoBase {
-
-  def apply(
-             fecha: Date,
-             descrip: String) = {
-
-    new AsientoBase(
-      fecha,
-      descrip)
-  }
-}
 
 case class AsientoItem(
                         id: Int,
@@ -263,10 +216,11 @@ object AsientoParams {
 object Asiento {
 
   lazy val GC = models.cairo.modules.general.C
+  lazy val DT = models.cairo.modules.documentos.DT
 
   lazy val emptyAsientoItems = AsientoItems(List(), "")
 
-  lazy val emptyAsientoReferences = AsientoReferences(DBHelper.NoId, "", false, false, "")
+  lazy val emptyAsientoReferences = AsientoReferences(0, 0, 0, "", "", false, false, "")
 
   lazy val emptyAsiento = Asiento(
     AsientoId(DBHelper.NoId, 0, ""),
@@ -381,9 +335,9 @@ object Asiento {
         cueName,
         ccosId.getOrElse(DBHelper.NoId),
         ccosName.getOrElse(""),
-        debe,
-        haber,
-        origen,
+        debe.doubleValue(),
+        haber.doubleValue(),
+        origen.doubleValue(),
         orden
       )
     }
@@ -397,7 +351,9 @@ object Asiento {
     SqlParser.get[String](C.AS_NRODOC) ~
     SqlParser.get[String](C.AS_DESCRIP) ~
     SqlParser.get[Int](GC.DOCT_ID) ~
-    SqlParser.get[String](GC.DOCT_NAME) ~
+    SqlParser.get[Option[Int]](C.DOCT_ID_CLIENTE) ~
+    SqlParser.get[Option[Int]](C.ID_CLIENTE) ~
+    SqlParser.get[Option[String]](C.DOC_CLIENTE) ~
     SqlParser.get[String](GC.TA_MASCARA) ~
     SqlParser.get[Int](GC.TA_PROPUESTO) ~
     SqlParser.get[Int](GC.EDITABLE) ~
@@ -414,7 +370,9 @@ object Asiento {
         nroDoc ~
         descrip ~
         doctId ~
-        doctName ~
+        doctIdCliente ~
+        idCliente ~
+        docCliente ~
         taMascara ~
         taPropuesto ~
         editable ~
@@ -437,7 +395,9 @@ object Asiento {
         ),
         AsientoReferences(
           doctId,
-          doctName,
+          doctIdCliente.getOrElse(0),
+          idCliente.getOrElse(0),
+          docCliente.getOrElse(""),
           taMascara,
           taPropuesto != 0,
           editable != 0,
@@ -463,6 +423,7 @@ object Asiento {
       List(
         Field(C.AS_ID, asiento.id, FieldType.number),
         Field(GC.DOC_ID, asiento.ids.docId, FieldType.id),
+        Field(GC.DOCT_ID, DT.ASIENTO_CONTABLE, FieldType.id),
         Field(C.AS_NRODOC, asiento.ids.nroDoc, FieldType.text),
         Field(C.AS_NUMERO, asiento.ids.numero, FieldType.number),
         Field(C.AS_DESCRIP, asiento.base.descrip, FieldType.text),

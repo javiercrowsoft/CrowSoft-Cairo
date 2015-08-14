@@ -171,6 +171,8 @@
 
       var m_apiPath = DB.getAPIVersion();
 
+      var m_defaultCurrency = D.getDefaultCurrency();
+
       var emptyData = {
         items: []
       };
@@ -208,7 +210,7 @@
         m_docEditable = true;
         m_docEditMsg = "";
 
-        D.setDocNumber(m_lastDocId, m_dialog, C.AS_NRODOC).then(
+        D.setDocNumber(m_lastDocId, m_dialog, CC.AS_NRODOC).then(
           function(enabled) {
             m_taPropuesto = enabled;
             setEnabled();
@@ -232,7 +234,7 @@
 
           var p = null;
 
-          if(!m_docEditable) {
+          if(!m_docEditable && getDocId().getSelectId() !== NO_ID) {
             if(m_docEditMsg !== "") {
               p = M.showWarning(m_docEditMsg);
             }
@@ -244,7 +246,7 @@
 
             var p = null;
 
-            var docId = m_properties.item(C.DOC_ID).getSelectId();
+            var docId = getDocId().getSelectId();
 
             if(docId === NO_ID) {
               p = M.showInfo(getText(1562, ""));
@@ -254,7 +256,7 @@
 
           }).then(function() {
 
-            return D.setDocNumber(m_lastDocId, m_dialog, C.AS_NRODOC)
+            return D.setDocNumber(m_lastDocId, m_dialog, CC.AS_NRODOC)
 
           }).then(function(enabled) {
 
@@ -290,7 +292,7 @@
 
           var doc = new Cairo.DocDigital();
 
-          doc.setClientTable(C.ASIENTO);
+          doc.setClientTable(CC.ASIENTO);
           doc.setClientTableID(m_id);
 
           _rtn = doc.showDocs(Cairo.Database);
@@ -380,6 +382,11 @@
               p = M.showInfo(getText(1552, "")); // El documento aun no ha sido guardado
             }
             break;
+
+          case Dialogs.Message.MSG_GRID_VIRTUAL_ROW:
+
+            p = P.resolvedPromise(info);
+            break;
         }
 
         return p || P.resolvedPromise();
@@ -431,7 +438,7 @@
                 })
                 .success(function() {
 
-                  return D.setDocNumber(m_lastDocId, m_dialog, C.AS_NRODOC)
+                  return D.setDocNumber(m_lastDocId, m_dialog, CC.AS_NRODOC)
                     .then(function(enabled) {
 
                       m_taPropuesto = enabled;
@@ -508,11 +515,11 @@
                   break;
 
                 case K_DOC_ID:
-                  fields.add(CC.DOC_ID, property.getSelectId(), Types.id);
+                  fields.add(C.DOC_ID, property.getSelectId(), Types.id);
                   break;
 
                 case K_NUMERO:
-                  fields.add(CC.FC_NUMERO, property.getValue(), Types.long);
+                  fields.add(CC.AS_NUMERO, property.getValue(), Types.long);
                   break;
               }
             }
@@ -729,6 +736,13 @@
           m_isNew = (id === NO_ID
             || id === D.Constants.DOC_CHANGED);
 
+          var loadAllItems = function() {
+            if(m_itemsProps.count() > 0) {
+              loadItems(getItems());
+            }
+            return P.resolvedPromise(true);
+          };
+
           var afterLoad = function() {
             if(m_properties.count() === 0) {
               if(!loadCollection()) { return false; }
@@ -740,10 +754,12 @@
             m_editing = true;
             m_copy = false;
 
+            Cairo.navigate(self.getPath());
+
             return true;
           };
 
-          p = load(id).success(afterLoad, false);
+          p = load(id).success(loadAllItems, false).success(afterLoad, false);
         }
         catch(ex) {
           Cairo.manageErrorEx(ex.message, ex, "edit", C_MODULE, "");
@@ -766,11 +782,12 @@
             case K_ITEMS:
 
               var property = m_itemsProps.item(C_ITEMS);
-              
-              switch (property.getGrid().getColumns().item(lCol).getKey()) {
+              var grid = property.getGrid();
+
+              switch (grid.getColumns().item(lCol).getKey()) {
                 
                 case KI_DEBE:
-                  row = property.getGrid().getRows(lRow);
+                  row = grid.getRows().get(lRow);
                   cellDebe = getCell(row, KI_DEBE);
                   cellHaber = getCell(row, KI_HABER);
                   if(Cairo.Util.val(cellDebe.getValue()) < 0) { cellDebe.setValue(0); }
@@ -778,7 +795,7 @@
                   break;
 
                 case KI_HABER:
-                  row = property.getGrid().getRows(lRow);
+                  row = grid.getRows().get(lRow);
                   cellDebe = getCell(row, KI_DEBE);
                   cellHaber = getCell(row, KI_HABER);
                   if(Cairo.Util.val(cellHaber.getValue()) < 0) { cellHaber.setValue(0); }
@@ -848,10 +865,12 @@
       };
 
       var columnAfterEdit = function(property, lRow, lCol, newValue, newValueId) {
-        var p = null;
-        var column = property.getGrid().getColumns().item(lCol).getKey();
 
-        switch (column.getKey()) {
+        var p = null;
+        var grid = property.getGrid();
+        var columnKey = grid.getColumns().item(lCol).getKey();
+
+        switch (columnKey) {
 
           case KI_CUE_ID:
             var cueId = newValueId;
@@ -860,7 +879,7 @@
 
               p = isMonDefault(cueId).then(function(isDefault) {
                 if(!isDefault) {
-                  property.getGrid().getColumns().item(C_ORIGEN).setVisible(true);
+                  grid.getColumns().item(C_ORIGEN).setVisible(true);
                   m_dialog.refreshColumnProperties(property, C_ORIGEN);
                 }
                 return true;
@@ -1061,7 +1080,7 @@
         elem.setTextMask(m_taMascara);
         elem.setTextAlign(Dialogs.TextAlign.right);
 
-        elem = properties.add(null, C.AS_DOC_CLIENTE);
+        elem = properties.add(null, CC.AS_DOC_CLIENTE);
         elem.setType(Dialogs.PropertyType.text);
         elem.setName(Cairo.Language.getText(1960, "")); // Generado Por
         elem.setKey(K_ID_CLIENTE);
@@ -1194,7 +1213,7 @@
 
       };
 
-      var loadItems = function(property, cotizacion) {
+      var loadItems = function(property) {
 
         var elem;
         var grid = property.getGrid();
@@ -1204,10 +1223,10 @@
 
         for(var _i = 0; _i < m_data.items.length; _i += 1) {
 
-          var row = rows.add(null, getValue(m_data.items[_i], C.ASI_ID));
+          var row = rows.add(null, getValue(m_data.items[_i], CC.ASI_ID));
 
           elem = row.add(null);
-          elem.setValue(getValue(m_data.items[_i], C.ASI_ID));
+          elem.setValue(getValue(m_data.items[_i], CC.ASI_ID));
           elem.setKey(KI_ASI_ID);
 
           elem = row.add(null);
@@ -1216,20 +1235,20 @@
           elem.setKey(KI_CUE_ID);
 
           elem = row.add(null);
-          elem.setValue(getValue(m_data.items[_i], C.ASI_DEBE));
+          elem.setValue(getValue(m_data.items[_i], CC.ASI_DEBE));
           elem.setKey(KI_DEBE);
 
           elem = row.add(null);
-          elem.setValue(getValue(m_data.items[_i], C.ASI_HABER));
+          elem.setValue(getValue(m_data.items[_i], CC.ASI_HABER));
           elem.setKey(KI_HABER);
 
-          var origen = getValue(m_data.items[_i], C.ASI_ORIGEN);
+          var origen = getValue(m_data.items[_i], CC.ASI_ORIGEN);
           elem = row.add(null);
           elem.setValue(origen);
           elem.setKey(KI_ORIGEN);
 
           elem = row.add(null);
-          elem.setValue(getValue(m_data.items[_i], C.ASI_DESCRIP));
+          elem.setValue(getValue(m_data.items[_i], CC.ASI_DESCRIP));
           elem.setKey(KI_DESCRIP);
 
           elem = row.add(null);
@@ -1237,8 +1256,8 @@
           elem.setId(getValue(m_data.items[_i], C.CCOS_ID));
           elem.setKey(KI_CCOS_ID);
 
-          m_totalDebe = m_totalDebe + getValue(m_data.items[_i], C.ASI_DEBE);
-          m_totalHaber = m_totalHaber + getValue(m_data.items[_i], C.ASI_HABER);
+          m_totalDebe = m_totalDebe + getValue(m_data.items[_i], CC.ASI_DEBE);
+          m_totalHaber = m_totalHaber + getValue(m_data.items[_i], CC.ASI_HABER);
 
           if(origen !== 0) { 
             grid.getColumns().get(C_ORIGEN).setVisible(true); 
@@ -1256,7 +1275,7 @@
 
       var load = function(id) {
 
-        return DB.getData("load[" + m_apiPath + "general/asiento]", id).then(
+        return DB.getData("load[" + m_apiPath + "contabilidad/asiento]", id).then(
           function(response) {
 
             var p = null;
@@ -1269,25 +1288,25 @@
 
               var data = response.data;
 
-              m_id = getValue(data, C.AS_ID);
-              m_numero = getValue(data, C.AS_NUMERO);
-              m_nrodoc = getValue(data, C.AS_NRODOC);
-              m_descrip = getValue(data, C.AS_DESCRIP);
-              m_fecha = getValue(data, C.AS_FECHA);
-              m_docId = getValue(data, C.DOC_ID);
-              m_documento = getValue(data, C.DOC_NAME);
-              m_doctId = getValue(data, C.DOCT_ID);
+              m_id = valField(data, CC.AS_ID);
+              m_numero = valField(data, CC.AS_NUMERO);
+              m_nrodoc = valField(data, CC.AS_NRODOC);
+              m_descrip = valField(data, CC.AS_DESCRIP);
+              m_fecha = valField(data, CC.AS_FECHA);
+              m_docId = valField(data, C.DOC_ID);
+              m_documento = valField(data, C.DOC_NAME);
+              m_doctId = valField(data, C.DOCT_ID);
 
-              m_idCliente = getValue(data, C.ID_CLIENTE);
-              m_doctIdCliente = getValue(data, C.DOCT_ID_CLIENTE);
+              m_idCliente = valField(data, CC.ID_CLIENTE);
+              m_doctIdCliente = valField(data, CC.DOCT_ID_CLIENTE);
 
-              m_doc_cliente = getValue(data, C.DOC_CLIENTE);
+              m_doc_cliente = valField(data, CC.DOC_CLIENTE);
 
-              m_taMascara = getValue(data, C.TA_MASCARA);
-              m_taPropuesto = getValue(data, C.TA_PROPUESTO);
+              m_taMascara = valField(data, C.TA_MASCARA);
+              m_taPropuesto = valField(data, C.TA_PROPUESTO);
 
-              m_docEditable = getValue(data, C.DOC_EDITABLE);
-              m_docEditMsg = getValue(data, C.DOC_EDIT_MSG);
+              m_docEditable = valField(data, C.DOC_EDITABLE);
+              m_docEditMsg = valField(data, C.DOC_EDIT_MSG);
 
               m_lastDocId = m_docId;
               m_lastDocName = m_documento;
@@ -1311,6 +1330,8 @@
 
               m_taPropuesto = false;
               m_taMascara = "";
+
+              m_data = emptyData;
 
               p = p || P.resolvedPromise();
 
@@ -1447,7 +1468,7 @@
         var prop = null;
 
         if(m_docEditable) {
-          bState = m_properties.item(C.DOC_ID).getSelectId() !== NO_ID;
+          bState = getDocId().getSelectId() !== NO_ID;
         }
         else {
           bState = false;
@@ -1504,7 +1525,7 @@
           if(response.id === NO_ID) {
 
             return load(NO_ID)
-              .success(call(D.setDocNumber, m_docId, m_dialog, C.AS_NRODOC))
+              .success(call(D.setDocNumber, m_docId, m_dialog, CC.AS_NRODOC))
               .then(function(enabled) { m_taPropuesto = enabled; })
               .then(refreshProperties);
           }
@@ -1518,34 +1539,32 @@
       };
       
       var refreshProperties = function() {
-        var c;
 
         m_properties.item(C.DOC_ID)
         .setSelectId(m_docId)
         .setValue(m_documento);
 
-        m_properties.item(C.AS_FECHA)
+        m_properties.item(CC.AS_FECHA)
         .setValue(m_fecha);
 
         m_properties.item(Cairo.Constants.NUMBER_ID)
         .setValue(m_numero);
 
-        m_properties.item(C.AS_NRODOC)
+        m_properties.item(CC.AS_NRODOC)
         .setValue(m_nrodoc)
         .setTextMask(m_taMascara)
         .setTextAlign(Dialogs.TextAlign.right);
 
-        m_properties.item(C.AS_DOC_CLIENTE)
+        m_properties.item(CC.AS_DOC_CLIENTE)
         .setValue(m_doc_cliente);
 
-        m_properties.item(C.AS_DESCRIP)
+        m_properties.item(CC.AS_DESCRIP)
         .setValue(m_descrip);
 
         m_dialog.showValues(m_dialog.getProperties());
         m_dialog.resetChanged();
 
-        m_itemsProps.item(C_ITEMS);
-        m_dialog.refreshColumnProperties(c, C_ORIGEN);
+        m_dialog.refreshColumnProperties(m_itemsProps.item(C_ITEMS), C_ORIGEN);
 
         m_itemsDeleted = "";
 
@@ -1564,8 +1583,15 @@
         setEnabled();
       };
 
-      var isMonDefault = function(cue_id) {
-        // TODO: complete this function
+      var isMonDefault = function(cueId) {
+        return D.getCuentaInfo(cueId).then(function(info) {
+          if(info.success) {
+            return info.monId === m_defaultCurrency;
+          }
+          else {
+            return false;
+          }
+        });
       };
 
       self.destroy = function() {
@@ -1960,6 +1986,14 @@
             }
           }
         );
+      };
+
+      self.getPath = function() {
+        return "#contabilidad/asientos";
+      };
+
+      self.getEditorName = function() {
+        return "asientos";
       };
 
       self.getTitle = function() {

@@ -2,6 +2,9 @@ package models.cairo.modules.compras
 
 object C {
 
+  // Asiento
+  val AS_ID = "as_id"
+
   // RemitoCompra
   val REMITO_COMPRA = "RemitoCompra"
   val RC_ID = "rc_id"

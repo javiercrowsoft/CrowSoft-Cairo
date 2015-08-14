@@ -1538,6 +1538,13 @@ var Cairo = new Marionette.Application();
       };
     };
     var view = Cairo.manageErrorView(title, message, errorDetails, getCloseHandler());
+    //
+    // close the loading message is it is open
+    //
+    Cairo.LoadingMessage.close();
+    //
+    // finally show the message
+    //
     Cairo.dialogRegion.show(view);
     Cairo.logError(message, exception);
     return defer.promise;
