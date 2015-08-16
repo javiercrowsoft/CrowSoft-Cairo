@@ -13,6 +13,10 @@ import play.api.Logger
 import play.api.libs.json._
 import scala.util.control.NonFatal
 
+case class CuentaInfo(
+                      monId: Int,
+                      empId: Int
+                     )
 case class Cuenta(
               id: Int,
               name: String,
@@ -340,6 +344,36 @@ object Cuenta {
     load(user, id) match {
       case Some(p) => p
       case None => emptyCuenta
+    }
+  }
+
+  def info(user: CompanyUser, id: Int): CuentaInfo = {
+
+    DB.withTransaction(user.database.database) { implicit connection =>
+
+      val sql = "{call sp_cuenta_get_info(?, ?, ?)}"
+      val cs = connection.prepareCall(sql)
+
+      cs.setInt(1, id)
+      cs.registerOutParameter(2, Types.INTEGER)
+      cs.registerOutParameter(3, Types.INTEGER)
+
+      try {
+        cs.execute()
+
+        CuentaInfo(
+          cs.getInt(2),
+          cs.getInt(3)
+        )
+
+      } catch {
+        case NonFatal(e) => {
+          Logger.error(s"can't get cuenta info with cueId $id for user ${user.toString}. Error ${e.toString}")
+          throw e
+        }
+      } finally {
+        cs.close
+      }
     }
   }
 }

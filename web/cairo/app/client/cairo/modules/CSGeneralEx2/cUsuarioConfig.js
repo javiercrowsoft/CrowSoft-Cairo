@@ -232,6 +232,9 @@
 
       var m_informarAnticipos;
 
+      var m_docIdAs = 0;
+      var m_docAsNombre = "";
+
       var m_docIdPc = 0;
       var m_docPcNombre = "";
       var m_docIdPrec = 0;
@@ -358,11 +361,11 @@
        self.getDocPreeId = function() {
 
        };
-
+      */
        self.getDocAsId = function() {
-
+         return m_docIdAs;
        };
-
+      /*
        self.getDocStId = function() {
 
        };
@@ -526,11 +529,11 @@
        self.getDocPreeNombre = function() {
 
        };
-
+      */
        self.getDocAsNombre = function() {
-
+         return m_docAsNombre;
        };
-
+      /*
        self.getDocStNombre = function() {
 
        };

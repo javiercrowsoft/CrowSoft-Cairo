@@ -30,7 +30,7 @@ javier at crowsoft.com.ar
 */
 -- Function: sp_proveedor_get_next_number()
 
--- drop function sp_proveedor_get_next_number(integer, smallint);
+-- drop function sp_proveedor_get_next_number(integer, integer);
 
 /*
 

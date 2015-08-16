@@ -155,4 +155,16 @@ object Cuentas extends Controller with ProvidesUser {
     })
   }
 
+  def info(id: Int) = GetAction { implicit request =>
+    LoggedIntoCompanyResponse.getAction(request, { user =>
+      val info = Cuenta.info(user, id)
+      Ok(
+        Json.toJson(
+          Json.obj(
+            C.MON_ID -> Json.toJson(info.monId),
+            C.EMP_ID -> Json.toJson(info.empId)
+          )))
+    })
+  }
+
 }

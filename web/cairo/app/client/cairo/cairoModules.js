@@ -23,6 +23,9 @@ Cairo.FacturaCompraListDoc = {};
 Cairo.FacturaCompraRemitoWiz = {};
 Cairo.FacturaCompraWiz = {};
 
+Cairo.Asiento = {};
+Cairo.AsientoListDoc = {};
+
 Cairo.Rubro = {};
 Cairo.Rubro.Load = {};
 

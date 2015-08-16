@@ -204,7 +204,7 @@
         return P.resolvedPromise(true);
       };
 
-      self.columnAfterEdit = function(key, lRow, lCol, newValue, newValueID) {
+      self.columnAfterEdit = function(key, lRow, lCol, newValue, newValueId) {
         var p = null;
 
         try {
@@ -212,7 +212,7 @@
           switch (key) {
 
             case WC.KW_PERCEPCIONES:
-              p = Percepciones.columnAfterEditPercepciones(getPercepcionesProperty(), lRow, lCol, newValue, newValueID);
+              p = Percepciones.columnAfterEditPercepciones(getPercepcionesProperty(), lRow, lCol, newValue, newValueId);
               break;
           }
 

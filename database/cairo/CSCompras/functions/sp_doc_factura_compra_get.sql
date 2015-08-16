@@ -56,12 +56,17 @@ declare
    v_bIvari smallint;
    v_bIvarni smallint;
    v_prov_id integer;
-
-   dummyCur refcursor;
-   dummyNumber integer;
 begin
 
    rtn := 'rtn';
+
+/*
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//                                                                                                                    //
+//                             TALONARIO Y ESTADO DE EDICION                                                          //
+//                                                                                                                    //
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+*/
 
    select prov_id,
           doc_id,

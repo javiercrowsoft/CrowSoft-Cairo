@@ -1,0 +1,1178 @@
+- create module folder if not present (ex CSModulexxxx2)
+
+- create file cXXXX.js (ex cXXXX.js)
+
+- copy:
+
+(function() {
+  "use strict";
+
+  Cairo.module("Xxxx.Edit", function(Edit, Cairo, Backbone, Marionette, $, _) {
+
+  });
+
+  Cairo.module("XxxxListDoc.Edit", function(Edit, Cairo, Backbone, Marionette, $, _) {
+
+  });
+
+  Cairo.module("Xxxx.List", function(List, Cairo, Backbone, Marionette, $, _) {
+
+    var NO_ID = Cairo.Constants.NO_ID;
+    var DB = Cairo.Database;
+    var C_MODULE = "cXxxx";
+    var P = Cairo.Promises;
+
+    List.Controller = {
+      list: function() {
+
+        var self = this;
+
+        /*
+         this function will be called by the tab manager every time the
+         view must be created. when the tab is not visible the tab manager
+         will not call this function but only make the tab visible
+         */
+        var createListDialog = function(tabId) {
+
+          var editors = Cairo.Editors.xxxxEditors || Cairo.Collections.createCollection(null);
+          Cairo.Editors.xxxxEditors = editors;
+
+          // ListController properties and methods
+          //
+          self.entityInfo = new Backbone.Model({
+            entitiesTitle: "Xxxx",
+            entityName: "xxxx",
+            entitiesName: "xxxxs"
+          });
+
+          var getIndexFromEditor = function(editor) {
+            var count = editors.count();
+            for(var i = 0; i < count; i += 1) {
+              if(editors.item(i).editor === editor) {
+                return i;
+              }
+            }
+            return -1;
+          };
+
+          self.removeEditor = function(editor) {
+            var index = getIndexFromEditor(editor);
+            if(index >= 0) {
+              editors.remove(index);
+            }
+          };
+
+          var getKey = function(id) {
+            if(id === NO_ID) {
+              return "new-id:" + (new Date).getTime().toString()
+            }
+            else {
+              return "k:" + id.toString();
+            }
+          };
+
+          self.updateEditorKey = function(editor, newId) {
+            var index = getIndexFromEditor(editor);
+            if(index >= 0) {
+              var editor = editors.item(index);
+              editors.remove(index);
+              var key = getKey(newId);
+              editors.add(editor, key);
+            }
+          };
+
+          self.edit = function(id) {
+            var key = getKey(id);
+            if(editors.contains(key)) {
+              editors.item(key).dialog.showDialog();
+            }
+            else {
+              Cairo.LoadingMessage.show("Xxxx", "Loading Xxxxs from Crowsoft Cairo server.");
+
+              var editor = Cairo.Xxxx.Edit.Controller.getEditor();
+              var dialog = Cairo.Dialogs.Views.Controller.newDialog();
+              var dialogItems = Cairo.Dialogs.Views.Controller.newDialog();
+              var dialogFooter = Cairo.Dialogs.Views.Controller.newDialog();
+
+              editor.setListController(self);
+              editor.setDialog(dialog);
+              editor.setItems(dialogItems);
+              editor.setFooter(dialogFooter);
+              editor.edit(id).then(Cairo.LoadingMessage.close);
+
+              editors.add({editor: editor, dialog: dialog}, key);
+            }
+          };
+
+          self.destroy = function(id) {
+            if(!Cairo.Security.hasPermissionTo(Cairo.Security.Actions.Modulexxxx.DELETE_XXXX)) {
+              return P.resolvedPromise(false);
+            }
+
+            var closeDialog = function() {
+              try {
+                var key = getKey(id);
+                if(editors.contains(key)) {
+                  editors.item(key).dialog.closeDialog();
+                }
+              }
+              catch(ignore) {
+                Cairo.log('Error closing dialog after delete');
+              }
+              return true;
+            };
+
+            return DB.destroy(
+              DB.getAPIVersion() + "modulexxxx/xxxx", id,
+              Cairo.Constants.DELETE_FUNCTION, C_MODULE).success(closeDialog, false);
+          };
+
+          // progress message
+          //
+          Cairo.LoadingMessage.show("Xxxx", "Loading Xxxxs from Crowsoft Cairo server.");
+
+          self.documentList = Cairo.XxxxListDoc.Edit.Controller.getEditor();
+          var dialog = Cairo.Dialogs.Views.ListController.newDialogList();
+
+          self.documentList.setListController(self);
+          self.documentList.setDialog(dialog);
+          self.documentList.list().then(Cairo.LoadingMessage.close);
+
+        };
+
+        var showListDialog = function() {
+          self.documentList.show();
+        };
+
+        var closeListDialog = function() {
+
+        }
+
+        createListDialog();
+      }
+    };
+  });
+
+}());
+  
+- copy from TRANSLATED listDoc code:
+
+- after self = {}; add
+
+      var getText = Cairo.Language.getText;
+      var P = Cairo.Promises;
+      var NO_ID = Cairo.Constants.NO_ID;
+      var DB = Cairo.Database;
+      var D = Cairo.Documents;
+      var M = Cairo.Modal;
+      var C = Cairo.General.Constants;
+      var Types = Cairo.Constants.Types;
+      var Dialogs = Cairo.Dialogs;
+      var T = Dialogs.PropertyType;
+      var val = Cairo.Util.val;
+      var isDate = Cairo.Util.isDate;
+      var getDateValue = Cairo.Util.getDateValue;
+      var today = Cairo.Dates.today;
+      var valField = DB.valField;
+      var CS = Cairo.Security.Actions.Compras;
+      
+- replace m_objList.AddMenu with m_dialog.addMenu
+
+- remove 
+
+      ////////////////////////////////
+      //  Codigo estandar de errores
+      //  On Error GoTo ControlError
+      //
+      //  GoTo ExitProc
+      //ControlError:
+      //  MngError err,"", C_Module, ""
+      //  If Err.Number Then Resume ExitProc
+      //ExitProc:
+      //  On Error Resume Next
+      
+- replace function pShowMensajes with
+
+      var showNotes = function() {
+        var fcId = m_dialog.getId();
+        return DB.getData("load[" + m_apiPath + "modulexxxx/xxxx/notes]", fcId)
+          .successWithResult(D.showNotes);
+      };
+
+- replace function pAddMensaje
+
+      var addNote = function() {
+        var xxId = m_dialog.getId();
+        return D.addNote(D.Types.TYPEXXXX, xxId, false);
+      };
+
+- remove all references to m_objList
+
+- search and replace
+
+       search: // Properties publicas
+               // Properties privadas
+               // funciones privadas
+       replace:
+
+       search: m_menuAddMensaje
+       replace: m_menuAddNote
+
+       search: addMensaje
+       replace: addNote
+
+       search: pShowMensajes
+       replace: showNotes
+
+       search: createMenu
+       replace: pCreateMenu
+
+       search: m_objList.ID
+       replace: m_objList.ID
+
+       search: var getCIABMListDocClient_
+       replace: self.get
+
+
+- replace "var cIABMListDocClient_Validate = function() {" with
+
+      self.validate = function() {
+        return P.resolvedPromise(true);
+      };
+
+  * add this function to the end of the class just before "return self"
+
+- remove method "var cIABMListDocClient_DiscardChanges = function() {"
+- remove method "var cIABMListDocClient_ListAdHock = function(list) {"
+- remove method "var cIABMListDocClient_Load = function() {"
+
+- replace "VDGetDateByName" with "Cairo.Dates.DateNames.getDateByName("
+
+- replace "cIABMListDocClient_PropertyChange" with "self.propertyChange"
+
+- replace "var self.propertyChange" with "self.propertyChange"
+
+- remove us_id parameter from method load
+
+      var load = function(us_id)
+
+- remove "var apiPath = Cairo.Database.getAPIVersion();" and replace the use of this variable with m_apiPath
+
+- replace "Cairo.Database.getData(" with "DB.getData("
+
+- remove the id from the call to load parameters in the API
+
+    ex:
+
+        return Cairo.Database.getData("load[" + apiPath + "general/asientolistdoc]", id).then(
+
+        should by
+
+        return Cairo.Database.getData("load[" + m_apiPath + "contabilidad/asientos/parameters]").then(
+
+    replace
+
+            m_emp_id = cUtil.getEmpId();
+            m_empresa = cUtil.getEmpNombre();
+    with
+
+            m_emp_id = Cairo.Company.getId();
+            m_empresa = Cairo.Company.getName();
+
+    replace
+
+              m_fechaIni = Date;
+              m_fechaFin = Date;
+
+    with
+
+              m_fechaIniV = "";
+              m_fechaIni = Cairo.Dates.today();
+              m_fechaFinV = "";
+              m_fechaFin = Cairo.Dates.DateNames.getDateByName('h-60');
+
+    replace
+
+              Cairo.Constants.NO_ID
+
+    with
+
+              NO_ID
+
+
+- replace
+
+      var setCIEditGenericListDoc_ObjABM = function(rhs) {
+        m_dialog = rhs;
+      };
+
+  with
+
+      self.setDialog = function(dialog) {
+        m_dialog = dialog;
+        m_properties = dialog.getProperties();
+      };
+
+[avanced]
+
+  replace code in load
+
+              rs.MoveLast;
+              rs.MoveFirst;
+
+              var i = null;
+              while (!rs.isEOF()) {
+
+                ...
+              }
+
+              var data = null;
+              var strLoad = null;
+
+              //  Error al cargar los parámetros de navegación de Asientos Contables
+              strLoad = Cairo.Language.getText(2294, "");
+
+              m_fechaIni = (m_fechaIni != Cairo.Constants.cSNODATE) ? m_fechaIni : Date);
+              m_fechaFin = (m_fechaFin != Cairo.Constants.cSNODATE) ? m_fechaFin : Date);
+
+              // OJO: EL ASISTENTE ESTO LO HACE MAL, YA QUE EL CODIGO QUE GENERA NO SOPORTA ARBOLES
+              //      USEN ESTE CODIGO COMO EJ. OJO!!! CAMBIEN LOS NOMBRES DE LAS TABLAS Y LOS CAMPOS NOMBRES DE DICHAS TABLAS.
+              if(m_doc_id.Substring(0, 1).toUpperCase() != KEY_NODO) {
+                if(!Cairo.Database.getData(mContabilidadConstantes.DOCUMENTO, mContabilidadConstantes.DOC_ID, Cairo.Util.val(m_doc_id), mContabilidadConstantes.DOC_NAME, data, C_LoadFunction, C_MODULE, strLoad)) { return false; }
+                m_documento = data;
+              }
+              // empid
+              if(m_emp_id.Substring(0, 1).toUpperCase() != KEY_NODO) {
+                if(!Cairo.Database.getData(Cairo.Constants.EMPRESA, Cairo.Constants.EMP_ID, Cairo.Util.val(m_emp_id), Cairo.Constants.EMP_NAME, data, C_LoadFunction, C_MODULE, strLoad)) { return false; }
+                m_empresa = data;
+              }
+
+  with
+
+              m_fechaIniV = valField(response.data, C.FROM);
+              m_fechaIni = valField(response.data, C.FROM);
+              m_fechaIni = isDate(m_fechaIni) ? getDateValue(m_fechaIni) : today();
+
+              m_fechaFinV = valField(response.data, C.TO);
+              m_fechaFin = valField(response.data, C.TO);
+              m_fechaFin = isDate(m_fechaFin) ? getDateValue(m_fechaFin) : today();
+
+              m_provId = valField(response.data, C.PROV_ID);
+              m_estId = valField(response.data, C.EST_ID);
+              m_ccosId = valField(response.data, C.CCOS_ID);
+              m_sucId = valField(response.data, C.SUC_ID);
+              m_docId = valField(response.data, C.DOC_ID);
+              m_cpgId = valField(response.data, C.CPG_ID);
+              m_emp_id = valField(response.data, C.EMP_ID);
+
+              m_proveedor = valField(response.data, C.PROV_NAME);
+              m_estado = valField(response.data, C.EST_NAME);
+              m_centroCosto = valField(response.data, C.CCOS_NAME);
+              m_sucursal = valField(response.data, C.SUC_NAME);
+              m_documento = valField(response.data, C.DOC_NAME);
+              m_condicionPago = valField(response.data, C.CPG_NAME);
+              m_empresa = valField(response.data, C.EMP_NAME);
+
+
+  cIABMListDocClient_Refresh must be refactored, use this as an example:
+
+      self.refresh = function() {
+
+        var startDate;
+        if(Cairo.Dates.DateNames.getDateNames().contains(m_fechaIniV)) {
+          startDate = Cairo.Dates.DateNames.getDateByName(m_fechaIniV);
+        }
+        else {
+          startDate = m_fechaIni
+        }
+
+        var endDate;
+        if(Cairo.Dates.DateNames.getDateNames().contains(m_fechaFinV)) {
+          endDate = Cairo.Dates.DateNames.getDateByName(m_fechaFinV);
+        }
+        else {
+          endDate = m_fechaFin
+        }
+
+        endDate = Cairo.Dates.DateNames.addToDate("d", 1, endDate);
+
+        startDate = DB.sqlDate(startDate);
+        endDate = DB.sqlDate(endDate);
+
+        var params = {
+          from: startDate,
+          to: endDate,
+          provId: m_provId,
+          estId: m_estId,
+          ccosId: m_ccosId,
+          sucId: m_sucId,
+          docId: m_docId,
+          cpgId: m_cpgId,
+          empId: m_empId
+        };
+
+        return DB.getData("load[" + m_apiPath + "compras/facturacompras]", null, params);
+      };
+
+
+  cIABMListDocClient_Save must be refactored, use this as an example:
+
+      self.save = function() {
+
+        var register = new DB.Register();
+        var fields = register.getFields();
+
+        register.setFieldId(C.LDP_ID);
+        register.setTable(C.LISTA_DOCUMENTO_PARAMETRO);
+
+        var apiPath = DB.getAPIVersion();
+        register.setPath(apiPath + "compras/facturacompras");
+
+        register.setId(Cairo.Constants.NEW_ID);
+
+        var _count = m_dialog.getProperties().size();
+        for (var _i = 0; _i < _count; _i++) {
+
+          var property = m_dialog.getProperties().item(_i);
+
+          switch (property.getKey()) {
+
+            case K_FECHAINI:
+              var value = property.getSelectIntValue();
+              if(value === "") { value = property.getValue(); }
+              fields.add(C.FROM, value, Types.text);
+              break;
+
+            case K_FECHAFIN:
+              var value = property.getSelectIntValue();
+              if(value === "") { value = property.getValue(); }
+              fields.add(C.TO, value, Types.text);
+              break;
+
+            case K_PROV_ID:
+              fields.add(C.PROV_ID, property.getSelectIntValue(), Types.text);
+              break;
+
+            case K_EST_ID:
+              fields.add(C.EST_ID, property.getSelectIntValue(), Types.text);
+              break;
+
+            case K_CCOS_ID:
+              fields.add(C.CCOS_ID, property.getSelectIntValue(), Types.text);
+              break;
+
+            case K_SUC_ID:
+              fields.add(C.SUC_ID, property.getSelectIntValue(), Types.text);
+              break;
+
+            case K_DOC_ID:
+              fields.add(C.DOC_ID, property.getSelectIntValue(), Types.text);
+              break;
+
+            case K_CPG_ID:
+              fields.add(C.CPG_ID, property.getSelectIntValue(), Types.text);
+              break;
+
+            case K_EMP_ID:
+              fields.add(C.EMP_ID, property.getSelectIntValue(), Types.text);
+              break;
+
+          }
+        }
+
+        return DB.saveEx(
+            register,
+            false,
+            "",
+            Cairo.Constants.CLIENT_SAVE_FUNCTION,
+            C_MODULE,
+            SAVE_ERROR).then(
+
+          function(result) {
+            if(result.success) {
+              return load(result.data.getId()).then(
+                function (success) {
+                  if(success) {
+                    refreshCollection();
+                  };
+                  return success;
+                }
+              );
+            }
+            else {
+              return false;
+            }
+          }
+        );
+      };
+
+- replace pShowDocAux with
+
+      var showDocAux = function() {
+        var fcId = m_dialog.getId();
+        if(fcId != NO_ID) {
+
+          D.getStockId(D.Types.TYPE_XXXX, xxId).successWithResult(function(response) {
+            D.showDocAux(response.st_id, "Stock");
+          });
+        }
+      };
+
+- change initialize from public ( self.initialize ) to private ( var initialize )
+
+use this function but replace the LNG_ID
+
+      var initialize = function() {
+        try {
+          m_title = getText(1892, ""); // Facturas de Compras
+          m_dialog.setHaveDetail(true);
+          m_dialog.setStartRowText(4);
+        }
+        catch(ex) {
+          Cairo.manageErrorEx(ex.message, ex, "initialize", C_MODULE, "");
+        }
+      };
+
+- edit self.destroy use this function ( add m_listController declaration )
+
+      self.destroy = function() {
+        try {
+          m_dialog = null;
+          m_properties = null;
+          m_listController = null;
+        }
+        catch (ex) {
+          Cairo.manageErrorEx(ex.message, "destroy", C_MODULE, "");
+        }
+      };
+
+ * add this declaration to the memebers section of this class
+
+      var m_listController;
+
+ * add this declaration between this lines
+
+      var m_dialog;
+      var m_us_id = 0;
+      var m_properties;
+
+ * remove the m_us_id declaration
+
+
+- remove method "var cIABMListDocClient_Terminate = function() {"
+                "var cIEditGenericListDoc_GridAdd = function(keyProperty) {"
+                "var cIEditGenericListDoc_GridEdit = function(keyProperty) {"
+                "var cIEditGenericListDoc_GridRemove = function(keyProperty) {"
+                "var cIEditGenericListDoc_PropertyChange = function(key) {"
+                "var cIEditGenericListDoc_ShowParams = function(us_id) {"
+                "var cIEditGenericListDoc_TabClick = function(index) {"
+
+- add this method as the first, second, third and fourth methods of this object
+
+      self.list = function() {
+        initialize();
+        return load()
+          .success(loadCollection);
+      };
+
+      self.edit = function(xxId) {
+        m_listController.edit(xxId);
+      };
+
+      self.deleteItem = function(xxId) {
+        return m_listController.destroy(xxId);
+      };
+
+      self.showDocDigital = function() {
+        var _rtn = null;
+
+        try {
+
+          var xxId = m_dialog.getId();
+          if(xxId === NO_ID) { return _rtn; }
+
+          var doc = new Cairo.DocDigital();
+
+          doc.setClientTable(CX.TABLE_NAME_XXXX);
+          doc.setClientTableID(xxId);
+
+          _rtn = doc.showDocs(Cairo.Database);
+
+        }
+        catch(ex) {
+          Cairo.manageErrorEx(ex.message, ex, "showDocDigital", C_MODULE, "");
+        }
+
+        return _rtn;
+      };
+
+- add declarations for m_apiPath y SAVE_ERROR
+
+      var m_apiPath = DB.getAPIVersion();
+      var SAVE_ERROR = getText(2179, ""); // Error al grabar los párametros de navegación de Facturas de Compra
+
+- replace method "var loadCollection = function() {" with a loadCollection from Compras or Ventas
+
+    - don't forget to set the filter for Documento
+
+
+- replace method "var refreshCollection = function() {"
+
+    with:
+
+      var refreshCollection = function() {
+        return m_dialog.showValues(m_properties);
+      };
+
+
+
+- replace with case sensitive and words flags set on
+
+        Xxxx              FacturaCompra / Asiento
+        Modulexxxx        Compras / Contabilidad
+        modulexxxx        contabilidad / compras
+        xxxx              asiento / facturacompra
+        xxId              fcId / asId
+        TYPEXXXX          FACTURA_COMPRA / ASIENTO
+
+        ZZZZ_ZZZZ         Factura de Compras / Asientos
+
+        NEW_XXXX          FACTURA / ASIENTO
+
+        TABLE_XXXX        FACTURAS_DE_COMPRA / ASIENTOS_CONTABLES
+
+--------------------------------------------------------------------------------------------------
+--
+--          NOW THE BIG FILE
+--
+--------------------------------------------------------------------------------------------------
+
+- copy from TRANSLATED XXXX code
+
+- after the end createObject method add
+
+    Edit.Controller = { getEditor: createObject };
+
+    Edit.Controller.edit = function(id) {
+
+      Cairo.LoadingMessage.show("Factura de Compras", "Loading ZZZZ_ZZZZ from Crowsoft Cairo server.");
+      var editor = Cairo.Xxxx.Edit.Controller.getEditor();
+
+      this needs some atention. not every object has wizards.
+
+      //
+      // wizards
+      //
+      if(id === 'sobreremito') {
+        return editor.showWizardX-X-X-X-X-X-X();
+      }
+      else if(id === 'sobreorden') {
+        return editor.showWizardX-X-X-X-X-X-X();
+      }
+      else {
+
+        var dialog = Cairo.Dialogs.Views.Controller.newDialog();
+        var dialogItems = Cairo.Dialogs.Views.Controller.newDialog();
+        var dialogFooter = Cairo.Dialogs.Views.Controller.newDialog();
+
+        editor.setDialog(dialog);
+        editor.setItems(dialogItems);
+        editor.setFooter(dialogFooter);
+        editor.edit(id).then(Cairo.LoadingMessage.close);
+      }
+    };
+
+- remove:
+
+      // pseudo-constantes
+      var c_ErrorSave = "";
+      var c_strTitle = "";
+
+      // Preferencias del Usuario
+      //
+      var m_userCfg;
+
+- replace:
+
+         var Dialogs = Cairo.Dialogs;
+
+     with:
+
+      var getText = Cairo.Language.getText;
+
+      var TITLE = getText(1889, ""); // Facturas de Compra
+      var SAVE_ERROR_MESSAGE = getText(1907, ""); // Error al grabar la factura de compra
+
+      var P = Cairo.Promises;
+      var NO_ID = Cairo.Constants.NO_ID;
+      var DB = Cairo.Database;
+      var Dialogs = Cairo.Dialogs;
+      var Grids = Cairo.Dialogs.Grids;
+      var C = Cairo.General.Constants;
+      var CC = Cairo.Modulexxxx.Constants;
+      var CS = Cairo.Security.Actions.Modulexxxx;
+      var Types = Cairo.Constants.Types;
+      var valField = DB.valField;
+      var getValue = DB.getValue;
+      var valEmpty = Cairo.Util.valEmpty;
+      var Percepciones = Cairo.Modulexxxx.Percepciones;
+      var call = P.call;
+      var D = Cairo.Documents;
+      var getProperty = D.getProperty;
+      var getGrid = D.getGrid;
+      var getCell = Dialogs.cell;
+      var cellVal = Dialogs.cellVal;
+      var cellId = Dialogs.cellId;
+      var cellFloat = Dialogs.cellFloat;
+      var val = Cairo.Util.val;
+      var M = Cairo.Modal;
+      var T = Dialogs.PropertyType;
+
+
+- replace:
+
+      var m_footer;
+      var m_items;
+      var m_dialog;
+      var m_listController = null;
+
+    with:
+
+      var m_footer;
+      var m_footerProps;
+      var m_items;
+      var m_itemsProps;
+      var m_dialog;
+      var m_properties;
+      var m_listController = null;
+
+
+- before the first method add:
+
+      var m_apiPath = DB.getAPIVersion();
+
+      var emptyData = {
+        items: [],
+        otros: [],
+        percepciones: [],
+        legajos: [],
+        serialNumbers: []
+      };
+
+      var m_data = emptyData;
+
+      self.getEditorType = function() {
+        return "document"
+      };
+
+      self.refresh = function() {
+        load(m_id);
+        refreshProperties();
+      };
+
+- replace copy method with:
+
+      self.copy = function() {
+
+        if(!Cairo.Security.docHasPermissionTo(
+            CS.NEW_XXXX,
+            m_docId,
+            Cairo.Security.ActionTypes.create,
+            true)) {
+          return false;
+        }
+
+        updateList();
+
+        m_isNew = true;
+
+        if(m_listController !== null) {
+          m_listController.updateEditorKey(self, NO_ID);
+        }
+
+        m_copy = true;
+        m_docEditable = true;
+        m_docEditMsg = "";
+
+        USE FOR PROVEEDOR OR CLIENTE OR setDocNumber
+
+        D.setDocNumberForProveedor(m_lastProvId, m_lastDocId, m_dialog).then(
+          function(enabled) {
+            m_taPropuesto = enabled;
+            setEnabled();
+          }
+        );
+      };
+
+
+- replace method editNew with:
+
+      self.editNew = function() {
+
+        var p;
+
+        updateList();
+
+        m_isNew = true;
+
+        if(m_listController !== null) {
+          m_listController.updateEditorKey(self, NO_ID);
+        }
+
+        p = self.edit(NO_ID).then(function() {
+
+          var p = null;
+
+          m_lastProvId = NO_ID; can be lasCLiId or nothing
+
+          if(!m_docEditable) {
+            if(m_docEditMsg !== "") {
+              p = M.showWarning(m_docEditMsg);
+            }
+          }
+
+          return p || P.resolvedPromise();
+
+        }).then(function() {
+
+          var p = null;
+
+          var docId = m_properties.item(C.DOC_ID).getSelectId();
+
+          if(docId === NO_ID) {
+            p = M.showInfo(getText(1562, ""));
+          }
+
+          return p || P.resolvedPromise();
+
+        }).then(function() {
+
+          setDatosProveedor();  can be setDatosCliente or nothing
+          *
+          can be setDocNumberForCliente or setDocNumber
+          *
+          return D.setDocNumberForProveedor(m_lastProvId, m_lastDocId, m_dialog)
+
+        }).then(function(enabled) {
+
+          m_taPropuesto = enabled;
+          setColorBackground();
+          return true;
+
+        });
+
+        return p;
+      };
+
+
+- in method "self.messageEx = function(messageID,  info) {" the return must be:
+
+      return p || P.resolvedPromise();
+
+      instead of
+
+      return Cairo.Promises.resolvedPromise(p);
+
+- in method "self.propertyChange = function(key) {" use FacturaCompra/Venta or similar to fix it
+- in method "self.validate = function() {" use FacturaCompra/Venta or similar to fix it
+
+- replace method "self.discardChanges = function() {" with:
+
+      self.discardChanges = function() {
+        Cairo.raiseError("XXXX", "DiscardChanges was called");
+      };
+
+- replace method "var updateList = function() {" with:
+
+      var updateList = function() {
+        try {
+          if(m_id === NO_ID) { return; }
+          if(m_listController === null) { return; }
+
+          if(m_isNew) {
+            m_listController.addItem(m_id);
+          }
+          else {
+            m_listController.refreshItem(m_id);
+          }
+        }
+        catch(ignore) {
+          Cairo.logError("Can't update list", ignore);
+        }
+      };
+
+- replace method " != " with: " !== "
+- replace method " == " with: " === "
+- replace method "var isEmptyRow" with: "self.isEmptyRow
+- replace method "getCIDocumento_DocId" with: "self.docId"
+- replace method "getCIDocumento_DocTId" with: "self.doctId"
+- replace method "getCIDocumento_Id" with: "self.id"
+- replace method "var cIDocumento_LoadForPrint = function(iD) {" with:
+
+      self.loadForPrint = function(id) {
+        var loadData = function(response) {
+          try {
+
+            m_id = id;
+            m_docId = valField(response.data, C.DOC_ID);
+            m_doctId = valField(response.data, C.DOCT_ID);
+
+            return true;
+
+          }
+          catch(ex) {
+            Cairo.manageErrorEx(ex.message, ex, "loadForPrint", C_MODULE, "");
+          }
+
+          return false;
+        };
+
+        var p = DB.getData("load[" + m_apiPath + "modulexxxx/xxxx/info]",id)
+          .successWithResult(loadData, false);
+
+        return p;
+      };
+
+- replace method "self.setDialog = function(rhs) {" with:
+
+      self.setDialog = function(dialog) {
+        m_dialog = dialog;
+        m_properties = m_dialog.getProperties();
+        m_dialog.setIsDocument(true);
+      };
+
+- replace method "self.setTree = function(rhs) {" with:
+
+      self.setListController = function(controller) {
+        m_listController = controller;
+      };
+
+- replace method "self.edit = function(iD,  inModalWindow) {" use FacturaCompra/Venta or similar to fix it
+- replace method "var pIsEmptyRow = function(row, rowIndex) {" use FacturaCompra/Venta or similar to fix it
+- replace method "var pValidateRow = function(row, rowIndex) {" use FacturaCompra/Venta or similar to fix it
+
+- replace method "var columnAfterUpdate = function(key,  lRow,  lCol) {" use FacturaCompra/Venta or similar to fix it
+    NOTICE it must be self.column...
+
+- replace method "var columnAfterEdit = function(key,  lRow,  lCol,  newValue,  newValueID) {" use FacturaCompra/Venta or similar to fix it
+    NOTICE it must be self.column...
+
+- replace method "var columnBeforeEdit = function(key,  lRow,  lCol,  iKeyAscii) {" use FacturaCompra/Venta or similar to fix it
+    NOTICE it must be self.column...
+
+- replace method "var columnButtonClick = function(key, lRow, lCol, iKeyAscii) {" use FacturaCompra/Venta or similar to fix it
+    NOTICE it must be self.column...
+
+- replace method "var deleteRow = function(key, row, lRow) {" use FacturaCompra/Venta or similar to fix it
+    NOTICE it must be self.column...
+
+- replace method "var validateRow = function(key, row, rowIndex) {" use FacturaCompra/Venta or similar to fix it
+    NOTICE it must be self.column...
+
+- replace method "Cairo.manageErrorEx(ex.message, "" with: "Cairo.manageErrorEx(ex.message, ex, ""
+- replace method "" with:
+- replace method "" with:
+- replace method "" with:
+- replace method "" with:
+- replace method "" with:
+- replace method "" with:
+- replace method "" with:
+- replace method "" with:
+- replace method "" with:
+- replace method "" with:
+
+- remove method "var listAdHock = function(key, row, colIndex, list) {"
+
+- remove methods "self.setTreeId = function(rhs) {" and  "self.getTreeId = function() {"
+- remove variables "var m_branchId = 0;" and "var m_treeId = 0;"
+
+- search and replace
+
+       search: val\(getCell\((.*?)\)\.getValue\(\)\)
+       replace: cellFloat($1)
+
+       search: getCell\((.*)?\)\.getValue\(\)
+       replace: cellVal($1)
+
+       search: getValue\(\) === (.*?);
+       repalce: setValue($1);
+
+       search: .*elem\.set((Left)|(Top)|(Width)|(Height)).*?\(.+\n
+       replace:
+
+       search: m_objList.ObjClientMenu = self;
+       replace:
+
+       search: // **TODO:** on error resume next found !!!
+       replace:
+
+       search: //'
+       replace: //
+
+       search: // **TODO:** label found: ExitProc:;
+       replace:
+
+       search: // **TODO:** goto found: GoTo ExitProc;
+       replace:
+
+       search: m_doc_id
+       replace: m_docId
+
+       search: m_doct_id
+       replace: m_doctId
+
+       search: m_lastDoc
+       replace: m_lastDocId
+
+       search: pMove
+       replace: move
+
+       search: pShowTotales
+       replace: updateTotals
+
+       search: ShowEditState(m_docEditMsg, c_strTitle);
+       replace: D.showEditStatus(m_docEditMsg, TITLE);
+
+       search:
+       replace:
+
+       search:
+
+            if(self.delete(m_id)) {
+              p = true;
+              pMove(Dialogs.Message.MSG_DOC_NEXT);
+            }
+            break;
+
+       replace:
+
+            p = self.deleteDocument(m_id).success(function() {
+              return move(Dialogs.Message.MSG_DOC_NEXT);
+            });
+            break;
+
+       search: MSG_DOC_ANULAR
+       replace: MSG_DOC_INVALIDATE
+
+       search:
+
+            load(m_id);
+            pRefreshProperties();
+
+            break;
+
+       replace:
+
+            p = load(m_id).then(function(success) {
+              if(success === true) {
+                refreshProperties();
+              }
+            });
+            break;
+
+       search:
+
+          case Dialogs.Message.MSG_DOC_EX_GET_ITEMS:
+            p = m_items;
+
+            break;
+
+          case Dialogs.Message.MSG_DOC_EX_GET_FOOTERS:
+            p = m_footer;
+
+            //' En info cABMInteface nos
+            break;
+
+       replace:
+
+          case Dialogs.Message.MSG_DOC_EX_GET_ITEMS:
+
+            p = P.resolvedPromise(m_items);
+            break;
+
+          case Dialogs.Message.MSG_DOC_EX_GET_FOOTERS:
+
+            p = P.resolvedPromise(m_footer);
+            break;
+
+       search:
+
+            // indica si hay cambios sin
+            // guardar
+            cPublicDoc.documentSearch(csEDocumentoTipo.cSEDT_ASIENTOCONTABLE, self, !CBool(info));
+
+            break;
+
+       replace:
+
+            D.search(D.Types.FACTURA_COMPRA, self, Cairo.bool(info));
+            break;
+
+       search:
+
+            if(m_id != Cairo.Constants.NO_ID) {
+
+              ShowHistory(csETablesContabilidad.cSASIENTO, m_id, m_documento+ " "+ m_nrodoc);
+            }
+            else {
+
+              //'El documento aun no ha sido guardado
+              MsgInfo(Cairo.Language.getText(1552, ""));
+            }
+
+            break;
+
+       replace:
+
+            if(m_id !== NO_ID) {
+              p = Cairo.History.show(Cairo.Tables.TABLE_XXXX, m_id, m_documento + " " + m_nrodoc);
+            }
+            else {
+              p = M.showInfo(getText(1552, "")); // El documento aun no ha sido guardado
+            }
+            break;
+
+       search: pIsEmptyRow
+       replace: isEmptyRow
+
+       search: elem.setSelectFilter(GetHelpFilterCuenta());
+       replace: elem.setSelectFilter(D.getSelectFilterForCuenta);
+
+       search: m_generalConfig.getFormatDecImporte()
+       replace: Cairo.Settings.getAmountDecimalsFormat()
+
+       search: Cairo.Constants.NO_ID
+       replace: NO_ID
+
+       search:
+       replace:
+
+       search:
+       replace:
+
+       search:
+       replace:
+
+       search:
+       replace:
+
+       search:
+       replace:
+
+       search:
+       replace:
+
+       search:
+       replace:
+
+       search:
+       replace:
+
+       search:
+       replace:
+
+       search:
+       replace:
+
+       search:
+       replace:

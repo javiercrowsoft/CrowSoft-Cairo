@@ -226,6 +226,66 @@
     );
   };
 
+  Cairo.Documents.getDocNumber = function(docId) {
+    var apiPath = Cairo.Database.getAPIVersion();
+    return Cairo.Database.getData(
+      "load[" + apiPath + "documento/" + docId.toString() + "/next_number]");
+  };
+
+  Cairo.Documents.setDocNumber = function(docId, dialog, key) {
+    return Cairo.Documents.getDocNumber(docId).then(
+      function(response) {
+
+        var property = dialog.getProperties().item(key);
+        var number = "";
+        var mask = "";
+        var enabled = false;
+
+        if(response.success === true) {
+          number = valField(response.data, C.TA_NUMBER);
+          mask = valField(response.data, C.TA_MASCARA);
+          enabled = valField(response.data, C.TA_ENABLED);
+        }
+
+        property.setValue(number);
+        property.setTextMask(mask);
+        property.setEnabled(enabled);
+
+        dialog.showValue(property);
+
+        return enabled;
+      }
+    );
+  };
+
+  Cairo.Documents.getCuentaInfo = function(cueId) {
+    var apiPath = Cairo.Database.getAPIVersion();
+    return Cairo.Database.getData(
+      "load[" + apiPath + "general/cuenta/" + cueId.toString() + "/info]").then(
+      function(response) {
+
+        var info = {}
+
+        if(response.success === true) {
+          info.monId = valField(response.data, C.MON_ID);
+          info.empId = valField(response.data, C.EMP_ID);
+          info.success = true;
+        }
+        else {
+          info.success = false;
+        }
+
+        return info;
+      }
+    );
+  };
+
+  Cairo.Documents.getDocCliente = function(doctId, id) {
+    var apiPath = Cairo.Database.getAPIVersion();
+    return Cairo.Database.getData(
+      "load[" + apiPath + "documento/" + doctId.toString() + "/doc_client]", id);
+  };
+
   Cairo.Documents.docInvalidate = function(doctId, id, dialog) {
     var p;
 
@@ -365,7 +425,6 @@
 
       var dialog = Dialogs.Views.Controller.newDialog();
       var editor = Cairo[objEditName].Edit.Controller.getEditor();
-      editor.setTree(null);
       editor.setDialog(dialog);
 
       setGenericDoc(editor);
@@ -664,6 +723,10 @@
     return "supplier_list_discount|supplierId:" + provId.toString() + ",documentId:" + docId.toString();
   };
 
+  Cairo.Documents.ASIENTOS_DOC_FILTER = "document|documentTypeId:"
+    + Cairo.Documents.Types.ASIENTO_CONTABLE.toString()
+  ;
+
   Cairo.Documents.FACTURA_COMPRAS_DOC_FILTER = "document|documentTypeId:"
     + Cairo.Documents.Types.FACTURA_COMPRA.toString()
     + "*" + Cairo.Documents.Types.NOTA_CREDITO_COMPRA.toString()
@@ -686,6 +749,7 @@
   };
 
   Cairo.Documents.FACTURA_COMPRAS_LIST_DOC_FILTER = Cairo.Documents.FACTURA_COMPRAS_DOC_FILTER + "|empId:0";
+  Cairo.Documents.ASIENTOS_LIST_DOC_FILTER = Cairo.Documents.ASIENTOS_LIST_DOC_FILTER + "|empId:0";
 
   Cairo.History = {};
 

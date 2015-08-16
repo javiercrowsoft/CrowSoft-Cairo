@@ -913,7 +913,7 @@ object FacturaCompra {
     SqlParser.get[Int](C.FCI_ORDEN) ~
     SqlParser.get[Int](GC.PR_LLEVA_NRO_SERIE) ~
     SqlParser.get[Int](GC.PR_LLEVA_NRO_LOTE) ~
-    SqlParser.get[String](GC.UN_NAME)  map {
+    SqlParser.get[String](GC.UN_NAME) map {
     case
         id ~
         cantidad ~
@@ -1958,7 +1958,6 @@ object FacturaCompra {
       }
       case SaveResult(false, id) => throwError
     }
-
 
   }
 

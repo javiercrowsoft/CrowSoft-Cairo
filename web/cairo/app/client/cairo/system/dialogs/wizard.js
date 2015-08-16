@@ -156,8 +156,8 @@
           }
         };
 
-        self.columnAfterEdit = function(key, lRow, lCol, newValue, newValueID) {
-          return m_client.columnAfterEdit(key, lRow, lCol, newValue, newValueID);
+        self.columnAfterEdit = function(key, lRow, lCol, newValue, newValueId) {
+          return m_client.columnAfterEdit(key, lRow, lCol, newValue, newValueId);
         };
 
         self.columnAfterUpdate = function(key, lRow, lCol) {
