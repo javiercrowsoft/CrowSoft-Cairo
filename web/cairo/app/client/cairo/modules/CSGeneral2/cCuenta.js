@@ -70,6 +70,8 @@
 
       var m_copy;
 
+      var m_apiPath = Cairo.Database.getAPIVersion();
+
       self.getId = function() {
         return m_id;
       };
@@ -273,8 +275,7 @@
         register.setFieldId(Cairo.General.Constants.CUE_ID);
         register.setTable(Cairo.General.Constants.CUENTA);
 
-        var apiPath = Cairo.Database.getAPIVersion();
-        register.setPath(apiPath + "general/cuenta");
+        register.setPath(m_apiPath + "general/cuenta");
 
         if(m_copy) {
           register.setId(Cairo.Constants.NEW_ID);
@@ -770,8 +771,7 @@
 
       var load = function(id) {
 
-        var apiPath = Cairo.Database.getAPIVersion();
-        return Cairo.Database.getData("load[" + apiPath + "general/cuenta]", id).then(
+        return Cairo.Database.getData("load[" + m_apiPath + "general/cuenta]", id).then(
           function(response) {
 
             if(response.success !== true) { return false; }
@@ -977,8 +977,7 @@
             if(!Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.DELETE_CUENTA)) {
               return Cairo.Promises.resolvedPromise(false);
             }
-            var apiPath = Cairo.Database.getAPIVersion();
-            return Cairo.Database.destroy(apiPath + "general/cuenta", id, Cairo.Constants.DELETE_FUNCTION, "Cuenta").success(
+            return Cairo.Database.destroy(m_apiPath + "general/cuenta", id, Cairo.Constants.DELETE_FUNCTION, "Cuenta").success(
               function() {
                 try {
                   var key = getKey(id);

@@ -4029,9 +4029,9 @@
 
         var bChanged = prId !== cellId(row, KI_PR_ID);
 
-        var apiPath = DB.getAPIVersion();
+        var m_apiPath = DB.getAPIVersion();
         var p = DB.getData(
-          "load[" + apiPath + "general/producto/" + prId.toString() + "/stock/proveedor]", getProvId());
+          "load[" + m_apiPath + "general/producto/" + prId.toString() + "/stock/proveedor]", getProvId());
 
         return p.successWithResult(function(response) {
           getCell(row, KI_UNIDAD).setValue(valField(response.data, C.UN_NAME_COMPRA));
@@ -4075,9 +4075,9 @@
 
         if(lpId !== NO_ID) {
 
-          var apiPath = DB.getAPIVersion();
+          var m_apiPath = DB.getAPIVersion();
           p = DB.getData(
-            "load[" + apiPath + "general/producto/" + prId.toString() + "/price]", lpId);
+            "load[" + m_apiPath + "general/producto/" + prId.toString() + "/price]", lpId);
 
           p = p.successWithResult(function(response) {
             price = valField(response.data, 'price');
@@ -4101,9 +4101,9 @@
 
         if(ldId !== NO_ID) {
 
-          var apiPath = DB.getAPIVersion();
+          var m_apiPath = DB.getAPIVersion();
           p = DB.getData(
-            "load[" + apiPath + "general/producto/" + prId.toString() + "/discount/" + ldId.toString() + "/price]", precio);
+            "load[" + m_apiPath + "general/producto/" + prId.toString() + "/discount/" + ldId.toString() + "/price]", precio);
 
           p = p.successWithResult(function(response) {
             desc = valField(response.data, 'desc');
@@ -5280,8 +5280,8 @@
         register.setFieldId(C.LDP_ID);
         register.setTable(C.LISTA_DOCUMENTO_PARAMETRO);
 
-        var apiPath = DB.getAPIVersion();
-        register.setPath(apiPath + "compras/facturacompras");
+        var m_apiPath = DB.getAPIVersion();
+        register.setPath(m_apiPath + "compras/facturacompras");
 
         register.setId(Cairo.Constants.NEW_ID);
 

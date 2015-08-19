@@ -11,10 +11,22 @@
 
       var self = {};
 
+      var getText = Cairo.Language.getText;
+      var P = Cairo.Promises;
+      var NO_ID = Cairo.Constants.NO_ID;
+      var DB = Cairo.Database;
+      var D = Cairo.Documents;
+      var M = Cairo.Modal;
+      var C = Cairo.General.Constants;
+      var Types = Cairo.Constants.Types;
       var Dialogs = Cairo.Dialogs;
-
-      // cEmpleadoPeriodoListDoc
-      // 21-09-2008
+      var T = Dialogs.PropertyType;
+      var val = Cairo.Util.val;
+      var isDate = Cairo.Util.isDate;
+      var getDateValue = Cairo.Util.getDateValue;
+      var today = Cairo.Dates.today;
+      var valField = DB.valField;
+      var CS = Cairo.Security.Actions.Compras;
 
       var C_MODULE = "cEmpleadoPeriodoListDoc";
 
@@ -48,29 +60,29 @@
       var m_menuLoaded;
 
       var m_menuShowMensajes = 0;
-      var m_menuAddMensaje = 0;
+      var m_menuAddNote = 0;
 
       //OJO HASTA ACA
       var m_dialog;
-      var m_objList = null;
 
       var m_us_id = 0;
 
       var m_properties;
-      // Properties publicas
-      // Properties privadas
+
+      var m_apiPath = DB.getAPIVersion();
+
       self.processMenu = function(index) {
         try {
 
           switch (index) {
 
             case m_menuShowMensajes:
-              pShowMensajes();
+              showNotes();
 
               break;
 
-            case m_menuAddMensaje:
-              pAddMensaje();
+            case m_menuAddNote:
+              addNote();
 
               break;
           }
@@ -86,27 +98,15 @@
       //-------------------------------------------------------------------------------------
       // Interfaz cliente de List de documentos
 
-      var getCIABMListDocClient_Aplication = function() {
+      self.getAplication = function() {
         return Cairo.appName;
       };
 
-      var cIABMListDocClient_DiscardChanges = function() {
-        loadCollection();
-      };
-
-      var cIABMListDocClient_ListAdHock = function(list) {
-
-      };
-
-      var cIABMListDocClient_Load = function() {
-
-      };
-
-      var getCIABMListDocClient_Properties = function() {
+      self.getProperties = function() {
         return m_properties;
       };
 
-      var cIABMListDocClient_PropertyChange = function(key) {
+      self.propertyChange = function(key) {
         var iProp = null;
 
         switch (key) {
@@ -116,7 +116,7 @@
 
             if(LenB(iProp.getSelectIntValue())) {
               m_fechaDesdeV = iProp.getSelectIntValue();
-              m_fechaDesde = VDGetDateByName(m_fechaDesdeV);
+              m_fechaDesde = Cairo.Dates.DateNames.getDateByName(m_fechaDesdeV);
             }
             else if(IsDate(iProp.getValue())) {
               m_fechaDesdeV = "";
@@ -135,7 +135,7 @@
 
             if(LenB(iProp.getSelectIntValue())) {
               m_fechaHastaV = iProp.getSelectIntValue();
-              m_fechaHasta = VDGetDateByName(m_fechaHastaV);
+              m_fechaHasta = Cairo.Dates.DateNames.getDateByName(m_fechaHastaV);
             }
             else if(IsDate(iProp.getValue())) {
               m_fechaHastaV = "";
@@ -167,14 +167,14 @@
         sqlstmt = sqlstmt+ Cairo.Database.getUserId().toString()+ ",";
 
         if(!cDate.getDateNames(m_fechaDesdeV) == null) {
-          sqlstmt = sqlstmt+ Cairo.Database.sqlDate(VDGetDateByName(m_fechaDesdeV))+ ",";
+          sqlstmt = sqlstmt+ Cairo.Database.sqlDate(Cairo.Dates.DateNames.getDateByName(m_fechaDesdeV))+ ",";
         }
         else {
           sqlstmt = sqlstmt+ Cairo.Database.sqlDate(m_fechaDesde)+ ",";
         }
 
         if(!cDate.getDateNames(m_fechaHastaV) == null) {
-          sqlstmt = sqlstmt+ Cairo.Database.sqlDate(VDGetDateByName(m_fechaHastaV))+ ",";
+          sqlstmt = sqlstmt+ Cairo.Database.sqlDate(Cairo.Dates.DateNames.getDateByName(m_fechaHastaV))+ ",";
         }
         else {
           sqlstmt = sqlstmt+ Cairo.Database.sqlDate(m_fechaHasta)+ ",";
@@ -196,14 +196,14 @@
         var fhasta = null;
 
         if(!cDate.getDateNames(m_fechaDesdeV) == null) {
-          fdesde = VDGetDateByName(m_fechaDesdeV);
+          fdesde = Cairo.Dates.DateNames.getDateByName(m_fechaDesdeV);
         }
         else {
           fdesde = m_fechaDesde;
         }
 
         if(!cDate.getDateNames(m_fechaHastaV) == null) {
-          fhasta = VDGetDateByName(m_fechaHastaV);
+          fhasta = Cairo.Dates.DateNames.getDateByName(m_fechaHastaV);
         }
         else {
           fhasta = m_fechaHasta;
@@ -299,16 +299,16 @@
         return true;
       };
 
-      var getCIABMListDocClient_Title = function() {
+      self.getTitle = function() {
         //'Presentismo y Asistencia
         return Cairo.Language.getText(4578, "");
       };
 
-      var cIABMListDocClient_Validate = function() {
-        return true;
+      self.validate = function() {
+        return P.resolvedPromise(true);
       };
 
-      // funciones privadas
+
       var loadCollection = function() {
         var c = null;
         var o = null;
@@ -380,8 +380,8 @@
         c.setSelectId(Cairo.Util.val(m_em_id));
         c.setHelpValueProcess(m_em_id);
 
-        pCreateMenu();
-        if(!m_dialog.show(self, m_objList)) { return false; }
+        createMenu();
+        if(!m_dialog.showDocumentList(self)) { return false; }
 
         return true;
       };
@@ -395,10 +395,9 @@
         return m_dialog.showValues(properties);
       };
 
-      var load = function(us_id) {
+      var load = function() {
 
-        var apiPath = Cairo.Database.getAPIVersion();
-        return Cairo.Database.getData("load[" + apiPath + "general/empleadoperiodolistdoc]", id).then(
+        return Cairo.Database.getData("load[" + m_apiPath + "general/empleadoperiodolistdoc]", id).then(
           function(response) {
 
             if(response.success !== true) { return false; }
@@ -513,10 +512,6 @@
         return _rtn;
       };
 
-      var setCIEditGenericListDoc_ObjList = function(rhs) {
-        m_objList = rhs;
-      };
-
       var cIEditGenericListDoc_PropertyChange = function(key) {
 
       };
@@ -525,7 +520,7 @@
 
       };
 
-      var pCreateMenu = function() {
+      var createMenu = function() {
         // **TODO:** on error resume next found !!!
 
         if(m_menuLoaded) { return; }
@@ -535,40 +530,20 @@
         m_objList.ObjClientMenu = self;
         m_objList.ClearMenu;
         //'Agregar Nota
-        m_menuAddMensaje = m_objList.AddMenu(Cairo.Language.getText(1615, ""));
+        m_menuAddNote = m_objList.AddMenu(Cairo.Language.getText(1615, ""));
         //'Ver Notas
         m_menuShowMensajes = m_objList.AddMenu(Cairo.Language.getText(1616, ""));
       };
 
-      var pShowMensajes = function() {
-        var sqlstmt = null;
-        var empeId = null;
-        var rs = null;
-
-        empeId = m_objList.Id;
-
-        sqlstmt = "sp_ParteDiarioGetTitleForDoc " && ","+ empeId.toString();
-
-        if(!Cairo.Database.openRs(sqlstmt, rs)) { return; }
-
-        if(rs.isEOF()) { return; }
-
-        var infodoc = null;
-        var doctId = null;
-
-        doctId = csETablesPersonal.cSEMPLEADOPERIODO;
-        infodoc = Cairo.Database.valField(rs.getFields(), "info_doc");
-
-        sqlstmt = "sp_PartesDiarioGetForDoc "+ Cairo.Database.getUserId().toString()+ ","+ cUtil.getEmpId().toString()+ ","+ doctId.toString()+ ","+ empeId.toString();
-        ShowNotes(Cairo.Language.getText(4579, "", infodoc), sqlstmt);
-        //Notas sobre presentismo y asistencia & infodoc
+      var showNotes = function() {
+        var fcId = m_dialog.getId();
+        return DB.getData("load[" + m_apiPath + "modulexxxx/xxxx/notes]", fcId)
+          .successWithResult(D.showNotes);
       };
 
-      var pAddMensaje = function() {
-        var parte = null;
-        parte = CSKernelClient2.CreateObject("CSEnvio2.cParteDiario");
-
-        parte.AddParteToDoc(csETablesPersonal.cSEMPLEADOPERIODO, m_objList.Id, false);
+      var addNote = function() {
+        var xxId = m_dialog.getId();
+        return D.addNote(D.Types.TYPEXXXX, xxId, false);
       };
 
       var pGetEmpeIds = function() {
@@ -616,7 +591,6 @@
         try {
 
           m_dialog = null;
-          m_objList = null;
           m_properties = null;
 
           // **TODO:** goto found: GoTo ExitProc;

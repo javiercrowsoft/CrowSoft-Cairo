@@ -49,6 +49,8 @@
 
       var m_copy;
 
+      var m_apiPath = Cairo.Database.getAPIVersion();
+
       self.copy = function() {
 
         updateList();
@@ -151,8 +153,7 @@
         register.setFieldId(Cairo.General.Constants.PRHC_ID);
         register.setTable(Cairo.General.Constants.PRODUCTO_HELP_CONFIG);
 
-        var apiPath = Cairo.Database.getAPIVersion();
-        register.setPath(apiPath + "general/productohelpconfig");
+        register.setPath(m_apiPath + "general/productohelpconfig");
 
         if(m_copy) {
           register.setId(Cairo.Constants.NEW_ID);
@@ -499,8 +500,7 @@
 
       var load = function(id) {
 
-        var apiPath = Cairo.Database.getAPIVersion();
-        return Cairo.Database.getData("load[" + apiPath + "general/productohelpconfig]", id).then(
+        return Cairo.Database.getData("load[" + m_apiPath + "general/productohelpconfig]", id).then(
           function(response) {
 
             if(response.success !== true) { return false; }
@@ -574,6 +574,7 @@
       list: function() {
 
         var self = this;
+        var m_apiPath = Cairo.Database.getAPIVersion();
 
         /*
          this function will be called by the tab manager every time the
@@ -675,8 +676,7 @@
             if(!Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.DELETE_PRODUCTO_HELP_CONFIG)) {
               return Cairo.Promises.resolvedPromise(false);
             }
-            var apiPath = Cairo.Database.getAPIVersion();
-            return Cairo.Database.destroy(apiPath + "general/productohelpconfig", id, Cairo.Constants.DELETE_FUNCTION, "ProductoHelpConfig").success(
+            return Cairo.Database.destroy(m_apiPath + "general/productohelpconfig", id, Cairo.Constants.DELETE_FUNCTION, "ProductoHelpConfig").success(
               function() {
                 try {
                   var key = getKey(id);

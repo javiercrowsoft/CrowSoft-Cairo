@@ -38,6 +38,8 @@
       var m_treeId = 0;
       var m_copy;
 
+      var m_apiPath = Cairo.Database.getAPIVersion();
+
       self.getId = function() {
         return m_id;
       };
@@ -154,8 +156,7 @@
         register.setFieldId(Cairo.General.Constants.SUC_ID);
         register.setTable(Cairo.General.Constants.SUCURSAL);
 
-        var apiPath = Cairo.Database.getAPIVersion();
-        register.setPath(apiPath + "general/sucursal");
+        register.setPath(m_apiPath + "general/sucursal");
 
         if(m_copy) {
           register.setId(Cairo.Constants.NEW_ID);
@@ -428,8 +429,7 @@
 
       var load = function(id) {
 
-        var apiPath = Cairo.Database.getAPIVersion();
-        return Cairo.Database.getData("load[" + apiPath + "general/sucursal]", id).then(
+        return Cairo.Database.getData("load[" + m_apiPath + "general/sucursal]", id).then(
           function(response) {
 
             if(response.success !== true) { return false; }
@@ -497,6 +497,7 @@
       list: function() {
 
         var self = this;
+        var m_apiPath = Cairo.Database.getAPIVersion();
 
         /*
          this function will be called by the tab manager every time the
@@ -598,8 +599,7 @@
             if(!Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.DELETE_SUCURSAL)) {
               return Cairo.Promises.resolvedPromise(false);
             }
-            var apiPath = Cairo.Database.getAPIVersion();
-            return Cairo.Database.destroy(apiPath + "general/sucursal", id, Cairo.Constants.DELETE_FUNCTION, "Sucursal").success(
+            return Cairo.Database.destroy(m_apiPath + "general/sucursal", id, Cairo.Constants.DELETE_FUNCTION, "Sucursal").success(
               function() {
                 try {
                   var key = getKey(id);

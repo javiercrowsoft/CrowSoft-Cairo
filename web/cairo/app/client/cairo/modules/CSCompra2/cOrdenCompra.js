@@ -198,6 +198,8 @@
 
       var m_objApply;
 
+      var m_apiPath = DB.getAPIVersion();
+
       // Preferencias del Usuario
       //
       var m_userCfg;
@@ -590,8 +592,7 @@
 
         register.setId(Cairo.Constants.NEW_ID);
 
-        var apiPath = Cairo.Database.getAPIVersion();
-        register.setPath(apiPath + "general/ordencompra");
+        register.setPath(m_apiPath + "general/ordencompra");
 
         if(m_copy) {
           register.getFields().add2(mComprasConstantes.OC_ID, Cairo.Constants.NEW_ID, Cairo.Constants.Types.long);
@@ -1272,7 +1273,7 @@
         return Cairo.Promises.resolvedPromise(true);
       };
 
-      // funciones privadas
+
       var loadCollection = function() {
         var filter = null;
         var c = null;
@@ -2203,8 +2204,7 @@
 
       var load = function(id) {
 
-        var apiPath = Cairo.Database.getAPIVersion();
-        return Cairo.Database.getData("load[" + apiPath + "general/ordencompra]", id).then(
+        return Cairo.Database.getData("load[" + m_apiPath + "general/ordencompra]", id).then(
           function(response) {
 
             if(response.success !== true) { return false; }
@@ -2394,8 +2394,7 @@
             switch (cell.getKey()) {
 
               case KI_OCI_ID:
-                var apiPath = Cairo.Database.getAPIVersion();
-                register.setPath(apiPath + "general/ordencompra");
+                register.setPath(m_apiPath + "general/ordencompra");
 
                 if(m_copy) {
                   register.getFields().add2(mComprasConstantes.OCI_ID, Cairo.Constants.NEW_ID, Cairo.Constants.Types.integer);

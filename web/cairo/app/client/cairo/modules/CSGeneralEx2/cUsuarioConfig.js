@@ -339,6 +339,8 @@
       var m_dialog;
       var m_listController = null;
 
+      var m_apiPath = Cairo.Database.getAPIVersion();
+
       var valField = Cairo.Database.valField;
       var getValue = Cairo.Database.getValue;
       var val = Cairo.Util.val;
@@ -1800,8 +1802,7 @@
 
         m_userId = id;
 
-        var apiPath = Cairo.Database.getAPIVersion();
-        return Cairo.Database.getData("load[" + apiPath + "general/usuarioconfig]", m_userId).then(
+        return Cairo.Database.getData("load[" + m_apiPath + "general/usuarioconfig]", m_userId).then(
           function (response) {
 
             if(response.success === true) {

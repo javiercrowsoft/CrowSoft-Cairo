@@ -39,6 +39,8 @@
       var m_treeId = 0;
       var m_copy;
 
+      var m_apiPath = Cairo.Database.getAPIVersion();
+
       self.getId = function() {
         return m_id;
       };
@@ -159,8 +161,7 @@
         register.setFieldId(Cairo.General.Constants.CIU_ID);
         register.setTable(Cairo.General.Constants.CIUDAD);
 
-        var apiPath = Cairo.Database.getAPIVersion();
-        register.setPath(apiPath + "general/ciudad");
+        register.setPath(m_apiPath + "general/ciudad");
 
         if(m_copy) {
           register.setId(Cairo.Constants.NEW_ID);
@@ -436,8 +437,7 @@
 
       var load = function(id) {
 
-        var apiPath = Cairo.Database.getAPIVersion();
-        return Cairo.Database.getData("load[" + apiPath + "general/ciudad]", id).then(
+        return Cairo.Database.getData("load[" + m_apiPath + "general/ciudad]", id).then(
           function(response) {
 
             if(response.success !== true) { return false; }
@@ -508,6 +508,7 @@
       list: function() {
 
         var self = this;
+        var m_apiPath = Cairo.Database.getAPIVersion();
 
         /*
          this function will be called by the tab manager every time the
@@ -609,8 +610,7 @@
             if(!Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.DELETE_CIUDAD)) {
               return Cairo.Promises.resolvedPromise(false);
             }
-            var apiPath = Cairo.Database.getAPIVersion();
-            return Cairo.Database.destroy(apiPath + "general/ciudad", id, Cairo.Constants.DELETE_FUNCTION, "Ciudad").success(
+            return Cairo.Database.destroy(m_apiPath + "general/ciudad", id, Cairo.Constants.DELETE_FUNCTION, "Ciudad").success(
               function() {
                 try {
                   var key = getKey(id);

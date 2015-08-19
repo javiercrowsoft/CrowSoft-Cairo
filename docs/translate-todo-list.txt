@@ -224,8 +224,8 @@
        search: pShowMensajes
        replace: showNotes
 
-       search: createMenu
-       replace: pCreateMenu
+       search: pCreateMenu
+       replace: createMenu
 
        search: m_objList.ID
        replace: m_objList.ID

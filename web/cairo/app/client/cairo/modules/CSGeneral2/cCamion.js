@@ -49,6 +49,8 @@
 
       var m_copy;
 
+      var m_apiPath = Cairo.Database.getAPIVersion();
+
       self.getId = function() {
         return m_id;
       };
@@ -171,8 +173,7 @@
         register.setFieldId(Cairo.General.Constants.CAM_ID);
         register.setTable(Cairo.General.Constants.CAMION);
 
-        var apiPath = Cairo.Database.getAPIVersion();
-        register.setPath(apiPath + "general/camion");
+        register.setPath(m_apiPath + "general/camion");
 
         if(m_copy) {
           register.setId(Cairo.Constants.NEW_ID);
@@ -497,8 +498,7 @@
 
       var load = function(id) {
 
-        var apiPath = Cairo.Database.getAPIVersion();
-        return Cairo.Database.getData("load[" + apiPath + "general/camion]", id).then(
+        return Cairo.Database.getData("load[" + m_apiPath + "general/camion]", id).then(
           function(response) {
 
             if(response.success !== true) { return false; }
@@ -579,6 +579,7 @@
       list: function() {
 
         var self = this;
+        var m_apiPath = Cairo.Database.getAPIVersion();
 
         /*
          this function will be called by the tab manager every time the
@@ -680,8 +681,7 @@
             if(!Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.DELETE_CAMION)) {
               return Cairo.Promises.resolvedPromise(false);
             }
-            var apiPath = Cairo.Database.getAPIVersion();
-            return Cairo.Database.destroy(apiPath + "general/camion", id, Cairo.Constants.DELETE_FUNCTION, "Camion").success(
+            return Cairo.Database.destroy(m_apiPath + "general/camion", id, Cairo.Constants.DELETE_FUNCTION, "Camion").success(
               function() {
                 try {
                   var key = getKey(id);

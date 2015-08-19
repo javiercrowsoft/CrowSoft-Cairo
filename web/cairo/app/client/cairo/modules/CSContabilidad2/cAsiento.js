@@ -1687,7 +1687,7 @@
       var m_menuLoaded;
 
       var m_menuShowMensajes = 0;
-      var m_menuAddMensaje = 0;
+      var m_menuAddNote = 0;
       var m_menuShowDocAux = 0;
       var m_menuFirmar = 0;
 
@@ -2018,7 +2018,7 @@
         m_menuFirmar = m_dialog.addMenu(Cairo.Language.getText(1594, "")); // Firmar
         m_dialog.addMenu("-");
 
-        m_menuAddMensaje = m_dialog.addMenu(Cairo.Language.getText(1615, "")); // Agregar Nota
+        m_menuAddNote = m_dialog.addMenu(Cairo.Language.getText(1615, "")); // Agregar Nota
         m_menuShowMensajes = m_dialog.addMenu(Cairo.Language.getText(1616, "")); // Ver Notas
         m_dialog.addMenu("-");
 

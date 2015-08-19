@@ -408,6 +408,8 @@
 
       var m_genericEdit = null;
 
+      var m_apiPath = Cairo.Database.getAPIVersion();
+
       var emptyData = {
         proveedores: [],
         clientes: [],
@@ -813,8 +815,7 @@
         register.setFieldId(C.PR_ID);
         register.setTable(C.PRODUCTO);
 
-        var apiPath = Cairo.Database.getAPIVersion();
-        register.setPath(apiPath + "general/producto");
+        register.setPath(m_apiPath + "general/producto");
 
         if(m_copy) {
           register.setId(Cairo.Constants.NEW_ID);
@@ -2821,8 +2822,7 @@
 
         m_data = emptyData;
 
-        var apiPath = Cairo.Database.getAPIVersion();
-        return Cairo.Database.getData("load[" + apiPath + "general/producto]", id).then(
+        return Cairo.Database.getData("load[" + m_apiPath + "general/producto]", id).then(
           function(response) {
 
             if(response.success !== true) { return false; }
@@ -5777,6 +5777,7 @@
       list: function() {
 
         var self = this;
+        var m_apiPath = Cairo.Database.getAPIVersion();
 
         /*
          this function will be called by the tab manager every time the
@@ -5878,8 +5879,7 @@
             if(!Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.DELETE_PRODUCTO)) {
               return Cairo.Promises.resolvedPromise(false);
             }
-            var apiPath = Cairo.Database.getAPIVersion();
-            return Cairo.Database.destroy(apiPath + "general/producto", id, Cairo.Constants.DELETE_FUNCTION, "Producto").success(
+            return Cairo.Database.destroy(m_apiPath + "general/producto", id, Cairo.Constants.DELETE_FUNCTION, "Producto").success(
               function() {
                 try {
                   var key = getKey(id);

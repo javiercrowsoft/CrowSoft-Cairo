@@ -11,10 +11,22 @@
 
       var self = {};
 
+      var getText = Cairo.Language.getText;
+      var P = Cairo.Promises;
+      var NO_ID = Cairo.Constants.NO_ID;
+      var DB = Cairo.Database;
+      var D = Cairo.Documents;
+      var M = Cairo.Modal;
+      var C = Cairo.General.Constants;
+      var Types = Cairo.Constants.Types;
       var Dialogs = Cairo.Dialogs;
-
-      // cPedidoVtaListDoc
-      // 03-01-04
+      var T = Dialogs.PropertyType;
+      var val = Cairo.Util.val;
+      var isDate = Cairo.Util.isDate;
+      var getDateValue = Cairo.Util.getDateValue;
+      var today = Cairo.Dates.today;
+      var valField = DB.valField;
+      var CS = Cairo.Security.Actions.Compras;
 
       var C_MODULE = "cPedidoVtaListDoc";
 
@@ -67,7 +79,6 @@
       //OJO HASTA ACA
 
       var m_dialog;
-      var m_objList = null;
       var m_us_id = 0;
       var m_properties;
 
@@ -81,7 +92,7 @@
 
       var m_menuShowMensajes = 0;
       var m_menuShowInfoCli = 0;
-      var m_menuAddMensaje = 0;
+      var m_menuAddNote = 0;
       var m_menuShowAplic = 0;
       var m_menuFirmar = 0;
       var m_menuShowFacturaAuto = 0;
@@ -91,7 +102,8 @@
 
       var m_objApply;
 
-      // Properties publicas
+      var m_apiPath = DB.getAPIVersion();
+
       self.getEnabledSearchParam = function() {
         return true;
       };
@@ -104,7 +116,7 @@
         return RGB(&HFF, &HAA, &H0);
       };
 
-      // Properties privadas
+
       self.setSearchParam = function(id,  name) {
         // **TODO:** on error resume next found !!!
         var property = m_dialog.getProperties().item(mPedidoConstantes.CLI_ID);
@@ -147,12 +159,12 @@
               break;
 
             case m_menuShowMensajes:
-              pShowMensajes();
+              showNotes();
 
               break;
 
-            case m_menuAddMensaje:
-              pAddMensaje();
+            case m_menuAddNote:
+              addNote();
 
               break;
 
@@ -186,7 +198,7 @@
         // **TODO:** on error resume next found !!!
       };
 
-      // funciones privadas
+
 
       var loadCollection = function() {
         var c = null;
@@ -342,8 +354,8 @@
         c.setSelectId(Cairo.Util.val(m_emp_id));
         c.setHelpValueProcess(m_emp_id);
 
-        pCreateMenu();
-        if(!m_dialog.show(self, m_objList)) { return false; }
+        createMenu();
+        if(!m_dialog.showDocumentList(self)) { return false; }
 
         return true;
       };
@@ -357,10 +369,9 @@
         return m_dialog.showValues(properties);
       };
 
-      var load = function(us_id) {
+      var load = function() {
 
-        var apiPath = Cairo.Database.getAPIVersion();
-        return Cairo.Database.getData("load[" + apiPath + "general/pedidoventalistdoc]", id).then(
+        return Cairo.Database.getData("load[" + m_apiPath + "general/pedidoventalistdoc]", id).then(
           function(response) {
 
             // empid
@@ -506,29 +517,17 @@
           });
       };
 
-      var getCIABMListDocClient_Aplication = function() {
+      self.getAplication = function() {
         return Cairo.appName;
       };
 
-      var cIABMListDocClient_DiscardChanges = function() {
-        loadCollection();
-      };
-
-      var cIABMListDocClient_ListAdHock = function(list) {
-
-      };
-
-      var cIABMListDocClient_Load = function() {
-
-      };
-
-      var getCIABMListDocClient_Properties = function() {
+      self.getProperties = function() {
         return m_properties;
       };
 
       // OJO: NUEVAMENTE LA EXISTENCIA DE FECHAS VIRTUALES HACE QUE EL CODIGO GENERADO POR EL ASISTENTE ESTE MAL
       //      CORRIJALO UTILIZANDO ESTE CODIGO COMO EJEMPLO.
-      var cIABMListDocClient_PropertyChange = function(key) {
+      self.propertyChange = function(key) {
         var iProp = null;
 
         switch (key) {
@@ -539,7 +538,7 @@
 
             if(LenB(iProp.getSelectIntValue())) {
               m_fechaIniV = iProp.getSelectIntValue();
-              m_fechaIni = VDGetDateByName(m_fechaIniV);
+              m_fechaIni = Cairo.Dates.DateNames.getDateByName(m_fechaIniV);
             }
             else if(IsDate(iProp.getValue())) {
               m_fechaIniV = "";
@@ -558,7 +557,7 @@
 
             if(LenB(iProp.getSelectIntValue())) {
               m_fechaFinV = iProp.getSelectIntValue();
-              m_fechaFin = VDGetDateByName(m_fechaFinV);
+              m_fechaFin = Cairo.Dates.DateNames.getDateByName(m_fechaFinV);
             }
             else if(IsDate(iProp.getValue())) {
               m_fechaFinV = "";
@@ -639,14 +638,14 @@
         sqlstmt = sqlstmt+ Cairo.Database.getUserId().toString()+ ",";
 
         if(!cDate.getDateNames(m_fechaIniV) == null) {
-          sqlstmt = sqlstmt+ Cairo.Database.sqlDate(VDGetDateByName(m_fechaIniV))+ ",";
+          sqlstmt = sqlstmt+ Cairo.Database.sqlDate(Cairo.Dates.DateNames.getDateByName(m_fechaIniV))+ ",";
         }
         else {
           sqlstmt = sqlstmt+ Cairo.Database.sqlDate(m_fechaIni)+ ",";
         }
 
         if(!cDate.getDateNames(m_fechaFinV) == null) {
-          sqlstmt = sqlstmt+ Cairo.Database.sqlDate(VDGetDateByName(m_fechaFinV))+ ",";
+          sqlstmt = sqlstmt+ Cairo.Database.sqlDate(Cairo.Dates.DateNames.getDateByName(m_fechaFinV))+ ",";
         }
         else {
           sqlstmt = sqlstmt+ Cairo.Database.sqlDate(m_fechaFin)+ ",";
@@ -789,12 +788,12 @@
         return true;
       };
 
-      var getCIABMListDocClient_Title = function() {
+      self.getTitle = function() {
         return m_title;
       };
 
-      var cIABMListDocClient_Validate = function() {
-        return true;
+      self.validate = function() {
+        return P.resolvedPromise(true);
       };
 
       var cIEditGenericListDoc_GridAdd = function(keyProperty) {
@@ -811,10 +810,6 @@
 
       var setCIEditGenericListDoc_ObjABM = function(rhs) {
         m_dialog = rhs;
-      };
-
-      var setCIEditGenericListDoc_ObjList = function(rhs) {
-        m_objList = rhs;
       };
 
       var cIEditGenericListDoc_PropertyChange = function(key) {
@@ -851,14 +846,13 @@
         return "'{emp_id=0}doct_id = "+ csEDocumentoTipo.cSEDT_PEDIDOVENTA.toString()+ " or doct_id = "+ csEDocumentoTipo.cSEDT_DEVOLUCIONPEDIDOVTA.toString()+ "'";
       };
 
-      var pCreateMenu = function() {
+      var createMenu = function() {
         // **TODO:** on error resume next found !!!
 
         if(m_menuLoaded) { return; }
 
         m_menuLoaded = true;
 
-        m_objList.ObjClientMenu = self;
         m_objList.ClearMenu;
         //'Editar Cliente
         m_menuEditCliente = m_objList.AddMenu(Cairo.Language.getText(5038, ""));
@@ -880,7 +874,7 @@
         //'Ver Info del Cliente
         m_menuShowInfoCli = m_objList.AddMenu(Cairo.Language.getText(1614, ""));
         //'Agregar Nota
-        m_menuAddMensaje = m_objList.AddMenu(Cairo.Language.getText(1615, ""));
+        m_menuAddNote = m_objList.AddMenu(Cairo.Language.getText(1615, ""));
         //'Ver Notas
         m_menuShowMensajes = m_objList.AddMenu(Cairo.Language.getText(1616, ""));
         m_objList.AddMenu("-");
@@ -940,34 +934,15 @@
         }
       };
 
-      var pShowMensajes = function() {
-        var sqlstmt = null;
-        var pvId = null;
-        var rs = null;
-
-        pvId = m_objList.Id;
-
-        sqlstmt = "sp_ParteDiarioGetTitleForDoc "+ csEDocumentoTipo.cSEDT_PEDIDOVENTA.toString()+ ","+ pvId.toString();
-
-        if(!Cairo.Database.openRs(sqlstmt, rs)) { return; }
-
-        if(rs.isEOF()) { return; }
-
-        var infodoc = null;
-        var doctId = null;
-
-        doctId = Cairo.Database.valField(rs.getFields(), mPedidoConstantes.DOCT_ID);
-        infodoc = Cairo.Database.valField(rs.getFields(), "info_doc");
-
-        sqlstmt = "sp_PartesDiarioGetForDoc "+ Cairo.Database.getUserId().toString()+ ","+ cUtil.getEmpId().toString()+ ","+ doctId.toString()+ ","+ pvId.toString();
-        ShowNotes("Notas sobre Pedidos de Venta "+ infodoc, sqlstmt);
+      var showNotes = function() {
+        var fcId = m_dialog.getId();
+        return DB.getData("load[" + m_apiPath + "modulexxxx/xxxx/notes]", fcId)
+          .successWithResult(D.showNotes);
       };
 
-      var pAddMensaje = function() {
-        var parte = null;
-        parte = CSKernelClient2.CreateObject("CSEnvio2.cParteDiario");
-
-        parte.AddParteToDoc(csEDocumentoTipo.cSEDT_PEDIDOVENTA, m_objList.Id, false);
+      var addNote = function() {
+        var xxId = m_dialog.getId();
+        return D.addNote(D.Types.TYPEXXXX, xxId, false);
       };
 
       var pEditCliente = function() {
@@ -985,7 +960,7 @@
       var pFirmar = function() {
 
         var pvId = null;
-        pvId = m_objList.Id;
+        pvId = m_dialog.getId();
 
         if(pvId == Cairo.Constants.NO_ID) { return; }
 
@@ -1024,7 +999,7 @@
       var pShowApply = function() {
 
         var pvId = null;
-        pvId = m_objList.Id;
+        pvId = m_dialog.getId();
 
         if(pvId == Cairo.Constants.NO_ID) { return; }
 
@@ -1136,7 +1111,7 @@
         var pvId = null;
         var cliId = null;
 
-        pvId = m_objList.Id;
+        pvId = m_dialog.getId();
         Cairo.Database.getData(mPedidoConstantes.PEDIDOVENTA, mPedidoConstantes.PV_ID, pvId, mPedidoConstantes.CLI_ID, cliId);
 
         return cliId;
@@ -1185,7 +1160,6 @@
         try {
 
           m_dialog = null;
-          m_objList = null;
           m_properties = null;
 
           // **TODO:** goto found: GoTo ExitProc;
@@ -1196,18 +1170,6 @@
         }
         // **TODO:** on error resume next found !!!
       };
-
-      ////////////////////////////////
-      //  Codigo estandar de errores
-      //  On Error GoTo ControlError
-      //
-      //  GoTo ExitProc
-      //ControlError:
-      //  MngError err,"", C_Module, ""
-      //  If Err.Number Then Resume ExitProc
-      //ExitProc:
-      //  On Error Resume Next
-
 
       return self;
     };

@@ -11,10 +11,22 @@
 
       var self = {};
 
+      var getText = Cairo.Language.getText;
+      var P = Cairo.Promises;
+      var NO_ID = Cairo.Constants.NO_ID;
+      var DB = Cairo.Database;
+      var D = Cairo.Documents;
+      var M = Cairo.Modal;
+      var C = Cairo.General.Constants;
+      var Types = Cairo.Constants.Types;
       var Dialogs = Cairo.Dialogs;
-
-      // cEjercicioListDoc
-      // 30-01-04
+      var T = Dialogs.PropertyType;
+      var val = Cairo.Util.val;
+      var isDate = Cairo.Util.isDate;
+      var getDateValue = Cairo.Util.getDateValue;
+      var today = Cairo.Dates.today;
+      var valField = DB.valField;
+      var CS = Cairo.Security.Actions.Compras;
 
       var C_MODULE = "cEjercicioListDoc";
 
@@ -38,16 +50,12 @@
       //OJO HASTA ACA
 
       var m_dialog;
-      var m_objList = null;
       var m_us_id = 0;
       var m_properties;
 
       var m_title = "";
 
-      // Properties publicas
-      // Properties privadas
-
-      // funciones privadas
+      var m_apiPath = DB.getAPIVersion();
 
       var loadCollection = function() {
         var c = null;
@@ -72,7 +80,7 @@
         c.setSelectId(Cairo.Util.val(m_emp_id));
         c.setHelpValueProcess(m_emp_id);
 
-        if(!m_dialog.show(self, m_objList)) { return false; }
+        if(!m_dialog.showDocumentList(self)) { return false; }
 
         return true;
       };
@@ -86,10 +94,9 @@
         return m_dialog.showValues(properties);
       };
 
-      var load = function(us_id) {
+      var load = function() {
 
-        var apiPath = Cairo.Database.getAPIVersion();
-        return Cairo.Database.getData("load[" + apiPath + "general/ejerciciolistdoc]", id).then(
+        return Cairo.Database.getData("load[" + m_apiPath + "general/ejerciciolistdoc]", id).then(
           function(response) {
 
             // empid
@@ -135,27 +142,15 @@
           });
       };
 
-      var getCIABMListDocClient_Aplication = function() {
+      self.getAplication = function() {
         return Cairo.appName;
       };
 
-      var cIABMListDocClient_DiscardChanges = function() {
-        loadCollection();
-      };
-
-      var cIABMListDocClient_ListAdHock = function(list) {
-
-      };
-
-      var cIABMListDocClient_Load = function() {
-
-      };
-
-      var getCIABMListDocClient_Properties = function() {
+      self.getProperties = function() {
         return m_properties;
       };
 
-      var cIABMListDocClient_PropertyChange = function(key) {
+      self.propertyChange = function(key) {
         var iProp = null;
 
         switch (key) {
@@ -237,12 +232,12 @@
         return true;
       };
 
-      var getCIABMListDocClient_Title = function() {
+      self.getTitle = function() {
         return m_title;
       };
 
-      var cIABMListDocClient_Validate = function() {
-        return true;
+      self.validate = function() {
+        return P.resolvedPromise(true);
       };
 
       var cIEditGenericListDoc_GridAdd = function(keyProperty) {
@@ -259,10 +254,6 @@
 
       var setCIEditGenericListDoc_ObjABM = function(rhs) {
         m_dialog = rhs;
-      };
-
-      var setCIEditGenericListDoc_ObjList = function(rhs) {
-        m_objList = rhs;
       };
 
       var cIEditGenericListDoc_PropertyChange = function(key) {
@@ -333,7 +324,6 @@
         try {
 
           m_dialog = null;
-          m_objList = null;
           m_properties = null;
 
           // **TODO:** goto found: GoTo ExitProc;
@@ -344,17 +334,6 @@
         }
         // **TODO:** on error resume next found !!!
       };
-
-      ////////////////////////////////
-      //  Codigo estandar de errores
-      //  On Error GoTo ControlError
-      //
-      //  GoTo ExitProc
-      //ControlError:
-      //  MngError err,"", C_Module, ""
-      //  If Err.Number Then Resume ExitProc
-      //ExitProc:
-      //  On Error Resume Next
 
       return self;
     };

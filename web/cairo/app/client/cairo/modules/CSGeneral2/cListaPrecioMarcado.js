@@ -57,6 +57,8 @@
 
       var m_ventaConfig;
 
+      var m_apiPath = Cairo.Database.getAPIVersion();
+
       self.getId = function() {
         return m_id;
       };
@@ -173,8 +175,7 @@
         register.setFieldId(Cairo.General.Constants.LPM_ID);
         register.setTable(Cairo.General.Constants.LISTA_PRECIO_MARCADO);
 
-        var apiPath = Cairo.Database.getAPIVersion();
-        register.setPath(apiPath + "general/listapreciomarcado");
+        register.setPath(m_apiPath + "general/listapreciomarcado");
 
         if(m_copy) {
           register.setId(Cairo.Constants.NEW_ID);
@@ -559,8 +560,7 @@
 
       var load = function(id) {
 
-        var apiPath = Cairo.Database.getAPIVersion();
-        return Cairo.Database.getData("load[" + apiPath + "general/listapreciomarcado]", id).then(
+        return Cairo.Database.getData("load[" + m_apiPath + "general/listapreciomarcado]", id).then(
           function(response) {
 
             if(response.success !== true) { return false; }
@@ -667,6 +667,7 @@
       list: function() {
 
         var self = this;
+        var m_apiPath = Cairo.Database.getAPIVersion();
 
         /*
          this function will be called by the tab manager every time the
@@ -768,8 +769,7 @@
             if(!Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.DELETE_LISTA_PRECIO_MARCADO)) {
               return Cairo.Promises.resolvedPromise(false);
             }
-            var apiPath = Cairo.Database.getAPIVersion();
-            return Cairo.Database.destroy(apiPath + "general/listapreciomarcado", id, Cairo.Constants.DELETE_FUNCTION, "ListaPrecioMarcado").success(
+            return Cairo.Database.destroy(m_apiPath + "general/listapreciomarcado", id, Cairo.Constants.DELETE_FUNCTION, "ListaPrecioMarcado").success(
               function() {
                 try {
                   var key = getKey(id);

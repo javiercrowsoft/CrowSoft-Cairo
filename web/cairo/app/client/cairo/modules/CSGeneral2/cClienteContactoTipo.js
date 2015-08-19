@@ -36,6 +36,8 @@
 
       var m_copy;
 
+      var m_apiPath = Cairo.Database.getAPIVersion();
+
       self.getId = function() {
         return m_id;
       };
@@ -152,8 +154,7 @@
         register.setFieldId(Cairo.General.Constants.CLICT_ID);
         register.setTable(Cairo.General.Constants.CLIENTE_CONTACTO_TIPO);
 
-        var apiPath = Cairo.Database.getAPIVersion();
-        register.setPath(apiPath + "general/clientecontactotipo");
+        register.setPath(m_apiPath + "general/clientecontactotipo");
 
         if(m_copy) {
           register.setId(Cairo.Constants.NEW_ID);
@@ -406,8 +407,7 @@
 
       var load = function(id) {
 
-        var apiPath = Cairo.Database.getAPIVersion();
-        return Cairo.Database.getData("load[" + apiPath + "general/clientecontactotipo]", id).then(
+        return Cairo.Database.getData("load[" + m_apiPath + "general/clientecontactotipo]", id).then(
           function(response) {
 
             if(response.success !== true) { return false; }
@@ -474,6 +474,7 @@
       list: function() {
 
         var self = this;
+        var m_apiPath = Cairo.Database.getAPIVersion();
 
         /*
          this function will be called by the tab manager every time the
@@ -575,8 +576,7 @@
             if(!Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.DELETE_CLIENTE_CONTACTO_TIPO)) {
               return Cairo.Promises.resolvedPromise(false);
             }
-            var apiPath = Cairo.Database.getAPIVersion();
-            return Cairo.Database.destroy(apiPath + "general/clientecontactotipo", id, Cairo.Constants.DELETE_FUNCTION, "ClienteContactoTipo").success(
+            return Cairo.Database.destroy(m_apiPath + "general/clientecontactotipo", id, Cairo.Constants.DELETE_FUNCTION, "ClienteContactoTipo").success(
               function() {
                 try {
                   var key = getKey(id);

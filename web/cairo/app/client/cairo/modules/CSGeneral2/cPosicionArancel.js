@@ -43,6 +43,8 @@
 
       var m_copy;
 
+      var m_apiPath = Cairo.Database.getAPIVersion();
+
       self.getId = function() {
         return m_id;
       };
@@ -159,8 +161,7 @@
         register.setFieldId(Cairo.General.Constants.POAR_ID);
         register.setTable(Cairo.General.Constants.POSICION_ARANCEL);
 
-        var apiPath = Cairo.Database.getAPIVersion();
-        register.setPath(apiPath + "general/posicionarancel");
+        register.setPath(m_apiPath + "general/posicionarancel");
 
         if(m_copy) {
           register.setId(Cairo.Constants.NEW_ID);
@@ -454,8 +455,7 @@
 
       var load = function(id) {
 
-        var apiPath = Cairo.Database.getAPIVersion();
-        return Cairo.Database.getData("load[" + apiPath + "general/posicionarancel]", id).then(
+        return Cairo.Database.getData("load[" + m_apiPath + "general/posicionarancel]", id).then(
           function(response) {
 
             if(response.success !== true) { return false; }
@@ -530,6 +530,7 @@
       list: function() {
 
         var self = this;
+        var m_apiPath = Cairo.Database.getAPIVersion();
 
         /*
          this function will be called by the tab manager every time the
@@ -631,8 +632,7 @@
             if(!Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.DELETE_POSICION_ARANCEL)) {
               return Cairo.Promises.resolvedPromise(false);
             }
-            var apiPath = Cairo.Database.getAPIVersion();
-            return Cairo.Database.destroy(apiPath + "general/posicionarancel", id, Cairo.Constants.DELETE_FUNCTION, "PosicionArancel").success(
+            return Cairo.Database.destroy(m_apiPath + "general/posicionarancel", id, Cairo.Constants.DELETE_FUNCTION, "PosicionArancel").success(
               function() {
                 try {
                   var key = getKey(id);

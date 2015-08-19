@@ -63,6 +63,8 @@
 
       var m_copy;
 
+      var m_apiPath = Cairo.Database.getAPIVersion();
+
       self.getId = function() {
         return m_id;
       };
@@ -179,8 +181,7 @@
         register.setFieldId(Cairo.General.Constants.TRANS_ID);
         register.setTable(Cairo.General.Constants.TRANSPORTE);
 
-        var apiPath = Cairo.Database.getAPIVersion();
-        register.setPath(apiPath + "general/transporte");
+        register.setPath(m_apiPath + "general/transporte");
 
         if(m_copy) {
           register.setId(Cairo.Constants.NEW_ID);
@@ -582,8 +583,7 @@
 
       var load = function(id) {
 
-        var apiPath = Cairo.Database.getAPIVersion();
-        return Cairo.Database.getData("load[" + apiPath + "general/transporte]", id).then(
+        return Cairo.Database.getData("load[" + m_apiPath + "general/transporte]", id).then(
           function(response) {
 
             if(response.success !== true) { return false; }
@@ -676,6 +676,7 @@
       list: function() {
 
         var self = this;
+        var m_apiPath = Cairo.Database.getAPIVersion();
 
         /*
          this function will be called by the tab manager every time the
@@ -777,8 +778,7 @@
             if(!Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.DELETE_TRANSPORTE)) {
               return Cairo.Promises.resolvedPromise(false);
             }
-            var apiPath = Cairo.Database.getAPIVersion();
-            return Cairo.Database.destroy(apiPath + "general/transporte", id, Cairo.Constants.DELETE_FUNCTION, "Transporte").success(
+            return Cairo.Database.destroy(m_apiPath + "general/transporte", id, Cairo.Constants.DELETE_FUNCTION, "Transporte").success(
               function() {
                 try {
                   var key = getKey(id);
