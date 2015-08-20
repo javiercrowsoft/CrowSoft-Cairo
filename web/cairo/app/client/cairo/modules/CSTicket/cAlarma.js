@@ -39,7 +39,7 @@
       var m_proyecto = "";
       var m_cliente = "";
       var m_proy_id = "";
-      var m_cli_id = "";
+      var m_cliId = "";
 
       var m_descrip = "";
       var m_titulo = "";
@@ -106,7 +106,7 @@
             break;
 
           case K_CLIENTE:
-            m_cli_id = m_dialog.getProperties().item(mTicketConstantes.CLI_ID).getSelectIntValue();
+            m_cliId = m_dialog.getProperties().item(mTicketConstantes.CLI_ID).getSelectIntValue();
 
             break;
         }
@@ -121,7 +121,7 @@
 
         sqlstmt = sqlstmt+ Cairo.Database.getUserId().toString()+ ",";
 
-        sqlstmt = sqlstmt+ Cairo.Database.sqlString(m_cli_id)+ ",";
+        sqlstmt = sqlstmt+ Cairo.Database.sqlString(m_cliId)+ ",";
         sqlstmt = sqlstmt+ Cairo.Database.sqlString(m_proy_id);
 
         return sqlstmt;
@@ -203,13 +203,13 @@
         c.setName(Cairo.Language.getText(1150, ""));
         c.setKey(K_CLIENTE);
         value = m_cliente;
-        if(m_cli_id.Substring(0, 1).toUpperCase() == KEY_NODO) {
-          value = GetNombreRama(Cairo.Tables.CLIENTE, Cairo.Util.val(m_cli_id.Substring(2)), bExists);
-          if(!bExists) { m_cli_id = "0"; }
+        if(m_cliId.Substring(0, 1).toUpperCase() == KEY_NODO) {
+          value = GetNombreRama(Cairo.Tables.CLIENTE, Cairo.Util.val(m_cliId.Substring(2)), bExists);
+          if(!bExists) { m_cliId = "0"; }
         }
         c.setValue(value);
-        c.setSelectId(Cairo.Util.val(m_cli_id));
-        c.setHelpValueProcess(m_cli_id);
+        c.setSelectId(Cairo.Util.val(m_cliId));
+        c.setHelpValueProcess(m_cliId);
 
         c = m_dialog.getProperties().add(null, mTicketConstantes.PROY_ID);
         c.setType(Dialogs.PropertyType.select);
@@ -243,16 +243,16 @@
 
       var load = function() {
 
-        return Cairo.Database.getData("load[" + m_apiPath + "general/alarmalistdoc]", id).then(
+        return DB.getData("load[" + m_apiPath + "general/alarmalistdoc]", id).then(
           function(response) {
 
             if(response.success !== true) { return false; }
 
-            if(response.data.id === Cairo.Constants.NO_ID) {
+            if(response.data.id === NO_ID) {
 
-              m_cli_id = Cairo.Constants.NO_ID;
+              m_cliId = NO_ID;
               m_cliente = "";
-              m_proy_id = Cairo.Constants.NO_ID;
+              m_proy_id = NO_ID;
               m_proyecto = "";
             }
             else {
@@ -274,7 +274,7 @@
                     break;
 
                   case K_CLIENTE:
-                    m_cli_id = Cairo.Database.valField(response.data, Cairo.Constants.LDP_VALOR);
+                    m_cliId = Cairo.Database.valField(response.data, Cairo.Constants.LDP_VALOR);
                     break;
                 }
 
@@ -284,12 +284,12 @@
               var data = null;
 
               if(m_proy_id.Substring(0, 1).toUpperCase() != KEY_NODO) {
-                if(!Cairo.Database.getData(mTicketConstantes.PROYECTO, mTicketConstantes.PROY_ID, Cairo.Util.val(m_proy_id), mTicketConstantes.PROY_NAME, data, C_LoadFunction, C_MODULE, strLoad)) { return false; }
+                if(!DB.getData(mTicketConstantes.PROYECTO, mTicketConstantes.PROY_ID, Cairo.Util.val(m_proy_id), mTicketConstantes.PROY_NAME, data, C_LoadFunction, C_MODULE, strLoad)) { return false; }
                 m_proyecto = data;
               }
 
-              if(m_cli_id.Substring(0, 1).toUpperCase() != KEY_NODO) {
-                if(!Cairo.Database.getData(mTicketConstantes.CLIENTE, mTicketConstantes.CLI_ID, Cairo.Util.val(m_cli_id), mTicketConstantes.CLI_NAME, data, C_LoadFunction, C_MODULE, strLoad)) { return false; }
+              if(m_cliId.Substring(0, 1).toUpperCase() != KEY_NODO) {
+                if(!DB.getData(mTicketConstantes.CLIENTE, mTicketConstantes.CLI_ID, Cairo.Util.val(m_cliId), mTicketConstantes.CLI_NAME, data, C_LoadFunction, C_MODULE, strLoad)) { return false; }
                 m_cliente = data;
               }
 
@@ -313,15 +313,16 @@
 
       };
 
-      var setCIEditGenericListDoc_ObjABM = function(rhs) {
-        m_dialog = rhs;
+      self.setDialog = function(dialog) {
+        m_dialog = dialog;
+        m_properties = dialog.getProperties();
       };
 
       var cIEditGenericListDoc_ShowParams = function(us_id) {
         var _rtn = null;
         try {
 
-          if(us_id == Cairo.Constants.NO_ID) { return _rtn; }
+          if(us_id == NO_ID) { return _rtn; }
 
           m_us_id = us_id;
 

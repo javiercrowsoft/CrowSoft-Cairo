@@ -8,9 +8,7 @@
       var self = {};
 
       var Dialogs = Cairo.Dialogs;
-
-      // cCuentaGrupo
-      // 16-02-03
+      var DB = Cairo.Database;
 
       var C_MODULE = "cCuentaGrupo";
 
@@ -59,7 +57,7 @@
       };
 
       self.editDocumentsEnabled = function() {
-        return m_id !== Cairo.Constants.NO_ID;
+        return m_id !== NO_ID;
       };
 
       self.copyEnabled = function() {
@@ -74,7 +72,7 @@
         var _rtn = null;
         try {
 
-          if(m_id === Cairo.Constants.NO_ID) { return _rtn; }
+          if(m_id === NO_ID) { return _rtn; }
 
           var doc = new Cairo.DocDigital();
 
@@ -97,9 +95,9 @@
 
         m_isNew = true;
 
-        m_listController.updateEditorKey(self, Cairo.Constants.NO_ID);
+        m_listController.updateEditorKey(self, NO_ID);
 
-        return load(Cairo.Constants.NO_ID).then(
+        return load(NO_ID).then(
           function() {
             return refreshCollection();
           }
@@ -134,7 +132,7 @@
 
         m_isNew = true;
 
-        m_listController.updateEditorKey(self, Cairo.Constants.NO_ID);
+        m_listController.updateEditorKey(self, NO_ID);
 
         var property = m_dialog.getProperties().item(Cairo.General.Constants.CUEG_CODE);
         property.setValue(Cairo.Constants.COPY_OF + property.getValue());
@@ -232,7 +230,7 @@
       };
 
       var updateList = function() {
-        if(m_id === Cairo.Constants.NO_ID) { return; }
+        if(m_id === NO_ID) { return; }
         if(m_listController === null) { return; }
 
         if(m_isNew) {
@@ -367,9 +365,9 @@
 
       var pCuentaForProducto = function(cue_id) {
         var _rtn = null;
-        if(cue_id !== Cairo.Constants.NO_ID) {
+        if(cue_id !== NO_ID) {
           var bProducto = null;
-          if(!Cairo.Database.getData(Cairo.General.Constants.CUENTA, Cairo.General.Constants.CUE_ID, cue_id, Cairo.General.Constants.CUE_PRODUCTO, bProducto)) { return _rtn; }
+          if(!DB.getData(Cairo.General.Constants.CUENTA, Cairo.General.Constants.CUE_ID, cue_id, Cairo.General.Constants.CUE_PRODUCTO, bProducto)) { return _rtn; }
           _rtn = bProducto;
         }
         else {
@@ -407,7 +405,7 @@
         var p = Cairo.Promises.resolvedPromise(false);
         try {
 
-          if(id === Cairo.Constants.NO_ID) {
+          if(id === NO_ID) {
             m_isNew = true;
             if(!Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.NEW_CUENTAGRUPO)) { return p; }
           }
@@ -428,7 +426,7 @@
                 m_copy = false;
 
                 if(inModalWindow) {
-                  success = m_id !== Cairo.Constants.NO_ID;
+                  success = m_id !== NO_ID;
                 }
                 else {
                   success = true;
@@ -570,12 +568,12 @@
 
       var load = function(id) {
 
-        return Cairo.Database.getData("load[" + m_apiPath + "general/cuentagrupo]", id).then(
+        return DB.getData("load[" + m_apiPath + "general/cuentagrupo]", id).then(
           function(response) {
 
             if(response.success !== true) { return false; }
 
-            if(response.data.id !== Cairo.Constants.NO_ID) {
+            if(response.data.id !== NO_ID) {
 
               m_id = Cairo.Database.valField(response.data, Cairo.General.Constants.CUEG_ID);
               m_name = Cairo.Database.valField(response.data, Cairo.General.Constants.CUEG_NAME);
@@ -589,11 +587,11 @@
             }
             else {
 
-              m_id = Cairo.Constants.NO_ID;
+              m_id = NO_ID;
               m_name = "";
               m_code = "";
               m_descrip = "";
-              m_cue_id = Cairo.Constants.NO_ID;
+              m_cue_id = NO_ID;
               m_cuenta = "";
               m_tipo = Cairo.General.Constants.AccountGroupType.creditor;
               m_active = true;
@@ -704,7 +702,7 @@
           };
 
           var getKey = function(id) {
-            if(id === Cairo.Constants.NO_ID) {
+            if(id === NO_ID) {
               return "new-id:" + (new Date).getTime().toString()
             }
             else {

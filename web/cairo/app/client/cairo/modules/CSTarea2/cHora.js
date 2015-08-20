@@ -48,8 +48,8 @@
       var m_fechaDesdeV = "";
       var m_fechaHastaV = "";
 
-      var m_fechaDesde = null;
-      var m_fechaHasta = null;
+      var m_fechaIni = null;
+      var m_fechaFin = null;
 
       var m_proyecto = "";
       var m_proyectoItem = "";
@@ -61,7 +61,7 @@
       var m_proy_id = "";
       var m_proyi_id = "";
       var m_obje_id = "";
-      var m_cli_id = "";
+      var m_cliId = "";
       var m_us_id2 = "";
       var m_tar_id = "";
       var m_descrip = "";
@@ -139,15 +139,15 @@
 
             if(LenB(iProp.getSelectIntValue())) {
               m_fechaDesdeV = iProp.getSelectIntValue();
-              m_fechaDesde = Cairo.Dates.DateNames.getDateByName(m_fechaDesdeV);
+              m_fechaIni = Cairo.Dates.DateNames.getDateByName(m_fechaDesdeV);
             }
             else if(IsDate(iProp.getValue())) {
               m_fechaDesdeV = "";
-              m_fechaDesde = iProp.getValue();
+              m_fechaIni = iProp.getValue();
             }
             else {
               m_fechaDesdeV = "";
-              iProp.setValue(m_fechaDesde);
+              iProp.setValue(m_fechaIni);
             }
 
             break;
@@ -158,15 +158,15 @@
 
             if(LenB(iProp.getSelectIntValue())) {
               m_fechaHastaV = iProp.getSelectIntValue();
-              m_fechaHasta = Cairo.Dates.DateNames.getDateByName(m_fechaHastaV);
+              m_fechaFin = Cairo.Dates.DateNames.getDateByName(m_fechaHastaV);
             }
             else if(IsDate(iProp.getValue())) {
               m_fechaHastaV = "";
-              m_fechaHasta = iProp.getValue();
+              m_fechaFin = iProp.getValue();
             }
             else {
               m_fechaHastaV = "";
-              iProp.setValue(m_fechaHasta);
+              iProp.setValue(m_fechaFin);
             }
 
             break;
@@ -187,7 +187,7 @@
             break;
 
           case K_CLIENTE:
-            m_cli_id = m_dialog.getProperties().item(mTareaConstantes.CLI_ID).getSelectIntValue();
+            m_cliId = m_dialog.getProperties().item(mTareaConstantes.CLI_ID).getSelectIntValue();
 
             break;
 
@@ -226,17 +226,17 @@
           sqlstmt = sqlstmt+ Cairo.Database.sqlDate(Cairo.Dates.DateNames.getDateByName(m_fechaDesdeV))+ ",";
         }
         else {
-          sqlstmt = sqlstmt+ Cairo.Database.sqlDate(m_fechaDesde)+ ",";
+          sqlstmt = sqlstmt+ Cairo.Database.sqlDate(m_fechaIni)+ ",";
         }
 
         if(!cDate.getDateNames(m_fechaHastaV) == null) {
           sqlstmt = sqlstmt+ Cairo.Database.sqlDate(Cairo.Dates.DateNames.getDateByName(m_fechaHastaV))+ ",";
         }
         else {
-          sqlstmt = sqlstmt+ Cairo.Database.sqlDate(m_fechaHasta)+ ",";
+          sqlstmt = sqlstmt+ Cairo.Database.sqlDate(m_fechaFin)+ ",";
         }
 
-        sqlstmt = sqlstmt+ Cairo.Database.sqlString(m_cli_id)+ ",";
+        sqlstmt = sqlstmt+ Cairo.Database.sqlString(m_cliId)+ ",";
         sqlstmt = sqlstmt+ Cairo.Database.sqlString(m_proy_id)+ ",";
         sqlstmt = sqlstmt+ Cairo.Database.sqlString(m_proyi_id)+ ",";
         sqlstmt = sqlstmt+ Cairo.Database.sqlString(m_obje_id)+ ",";
@@ -383,7 +383,7 @@
           c.setValue(m_fechaDesdeV);
         }
         else {
-          c.setValue(m_fechaDesde);
+          c.setValue(m_fechaIni);
         }
 
         c = m_dialog.getProperties().add(null, mTareaConstantes.HORA_HASTA);
@@ -395,7 +395,7 @@
           c.setValue(m_fechaHastaV);
         }
         else {
-          c.setValue(m_fechaHasta);
+          c.setValue(m_fechaFin);
         }
 
         c = m_dialog.getProperties().add(null, mTareaConstantes.CLI_ID);
@@ -405,13 +405,13 @@
         c.setName(Cairo.Language.getText(1150, ""));
         c.setKey(K_CLIENTE);
         value = m_cliente;
-        if(m_cli_id.Substring(0, 1).toUpperCase() == KEY_NODO) {
-          value = GetNombreRama(Cairo.Tables.CLIENTE, Cairo.Util.val(m_cli_id.Substring(2)), bExists);
-          if(!bExists) { m_cli_id = "0"; }
+        if(m_cliId.Substring(0, 1).toUpperCase() == KEY_NODO) {
+          value = GetNombreRama(Cairo.Tables.CLIENTE, Cairo.Util.val(m_cliId.Substring(2)), bExists);
+          if(!bExists) { m_cliId = "0"; }
         }
         c.setValue(value);
-        c.setSelectId(Cairo.Util.val(m_cli_id));
-        c.setHelpValueProcess(m_cli_id);
+        c.setSelectId(Cairo.Util.val(m_cliId));
+        c.setHelpValueProcess(m_cliId);
 
         c = m_dialog.getProperties().add(null, mTareaConstantes.PROY_ID);
         c.setType(Dialogs.PropertyType.select);
@@ -521,28 +521,28 @@
 
       var load = function() {
 
-        return Cairo.Database.getData("load[" + m_apiPath + "general/horalistdoc]", id).then(
+        return DB.getData("load[" + m_apiPath + "general/horalistdoc]", id).then(
           function(response) {
 
             if(response.success !== true) { return false; }
 
-            if(response.data.id === Cairo.Constants.NO_ID) {
+            if(response.data.id === NO_ID) {
 
-              m_fechaDesde = Date;
-              m_fechaHasta = Date;
+              m_fechaIni = Date;
+              m_fechaFin = Date;
               m_fechaDesdeV = "";
               m_fechaHastaV = "";
-              m_cli_id = Cairo.Constants.NO_ID;
+              m_cliId = NO_ID;
               m_cliente = "";
-              m_proy_id = Cairo.Constants.NO_ID;
+              m_proy_id = NO_ID;
               m_proyecto = "";
-              m_proyi_id = Cairo.Constants.NO_ID;
+              m_proyi_id = NO_ID;
               m_proyectoItem = "";
-              m_obje_id = Cairo.Constants.NO_ID;
+              m_obje_id = NO_ID;
               m_objetivo = "";
               m_us_id2 = cUtil.getUser().getId();
               m_usuario = cUtil.getUser().getName();
-              m_tar_id = Cairo.Constants.NO_ID;
+              m_tar_id = NO_ID;
               m_tarea = "";
               m_descrip = "";
               m_titulo = "";
@@ -559,12 +559,12 @@
 
                   case K_FECHADESDE:
                     m_fechaDesdeV = Cairo.Database.valField(response.data, Cairo.Constants.LDP_VALOR);
-                    m_fechaDesde = IsDate(Cairo.Database.valField(response.data, Cairo.Constants.LDP_VALOR)) ? Cairo.Database.valField(response.data, Cairo.Constants.LDP_VALOR) : Date);
+                    m_fechaIni = IsDate(Cairo.Database.valField(response.data, Cairo.Constants.LDP_VALOR)) ? Cairo.Database.valField(response.data, Cairo.Constants.LDP_VALOR) : Date);
                     break;
 
                   case K_FECHAHASTA:
                     m_fechaHastaV = Cairo.Database.valField(response.data, Cairo.Constants.LDP_VALOR);
-                    m_fechaHasta = IsDate(Cairo.Database.valField(response.data, Cairo.Constants.LDP_VALOR)) ? Cairo.Database.valField(response.data, Cairo.Constants.LDP_VALOR) : Date);
+                    m_fechaFin = IsDate(Cairo.Database.valField(response.data, Cairo.Constants.LDP_VALOR)) ? Cairo.Database.valField(response.data, Cairo.Constants.LDP_VALOR) : Date);
                     break;
 
                   case K_PROYECTO:
@@ -576,7 +576,7 @@
                     break;
 
                   case K_CLIENTE:
-                    m_cli_id = Cairo.Database.valField(response.data, Cairo.Constants.LDP_VALOR);
+                    m_cliId = Cairo.Database.valField(response.data, Cairo.Constants.LDP_VALOR);
                     break;
 
                   case K_OBJETIVO:
@@ -605,36 +605,36 @@
 
               var data = null;
 
-              m_fechaDesde = (m_fechaDesde != Cairo.Constants.cSNODATE) ? m_fechaDesde : Date);
-              m_fechaHasta = (m_fechaHasta != Cairo.Constants.cSNODATE) ? m_fechaHasta : Date);
+              m_fechaIni = (m_fechaIni != Cairo.Constants.cSNODATE) ? m_fechaIni : Date);
+              m_fechaFin = (m_fechaFin != Cairo.Constants.cSNODATE) ? m_fechaFin : Date);
 
               if(m_proy_id.Substring(0, 1).toUpperCase() != KEY_NODO) {
-                if(!Cairo.Database.getData(mTareaConstantes.PROYECTO, mTareaConstantes.PROY_ID, Cairo.Util.val(m_proy_id), mTareaConstantes.PROY_NAME, data, C_LoadFunction, C_MODULE, c_strLoad)) { return false; }
+                if(!DB.getData(mTareaConstantes.PROYECTO, mTareaConstantes.PROY_ID, Cairo.Util.val(m_proy_id), mTareaConstantes.PROY_NAME, data, C_LoadFunction, C_MODULE, c_strLoad)) { return false; }
                 m_proyecto = data;
               }
 
               if(m_proyi_id.Substring(0, 1).toUpperCase() != KEY_NODO) {
-                if(!Cairo.Database.getData(mTareaConstantes.PROYECTOITEM, mTareaConstantes.PROY_IID, Cairo.Util.val(m_proyi_id), mTareaConstantes.PROY_INAME, data, C_LoadFunction, C_MODULE, c_strLoad)) { return false; }
+                if(!DB.getData(mTareaConstantes.PROYECTOITEM, mTareaConstantes.PROY_IID, Cairo.Util.val(m_proyi_id), mTareaConstantes.PROY_INAME, data, C_LoadFunction, C_MODULE, c_strLoad)) { return false; }
                 m_proyectoItem = data;
               }
 
-              if(m_cli_id.Substring(0, 1).toUpperCase() != KEY_NODO) {
-                if(!Cairo.Database.getData(mTareaConstantes.CLIENTE, mTareaConstantes.CLI_ID, Cairo.Util.val(m_cli_id), mTareaConstantes.CLI_NAME, data, C_LoadFunction, C_MODULE, c_strLoad)) { return false; }
+              if(m_cliId.Substring(0, 1).toUpperCase() != KEY_NODO) {
+                if(!DB.getData(mTareaConstantes.CLIENTE, mTareaConstantes.CLI_ID, Cairo.Util.val(m_cliId), mTareaConstantes.CLI_NAME, data, C_LoadFunction, C_MODULE, c_strLoad)) { return false; }
                 m_cliente = data;
               }
 
               if(m_obje_id.Substring(0, 1).toUpperCase() != KEY_NODO) {
-                if(!Cairo.Database.getData(mTareaConstantes.OBJETIVO, mTareaConstantes.OBJE_ID, Cairo.Util.val(m_obje_id), mTareaConstantes.OBJE_NAME, data, C_LoadFunction, C_MODULE, c_strLoad)) { return false; }
+                if(!DB.getData(mTareaConstantes.OBJETIVO, mTareaConstantes.OBJE_ID, Cairo.Util.val(m_obje_id), mTareaConstantes.OBJE_NAME, data, C_LoadFunction, C_MODULE, c_strLoad)) { return false; }
                 m_objetivo = data;
               }
 
               if(m_us_id2.Substring(0, 1).toUpperCase() != KEY_NODO) {
-                if(!Cairo.Database.getData(Cairo.Constants.USUARIO, Cairo.Constants.US_ID, Cairo.Util.val(m_us_id2), Cairo.Constants.US_NAME, data, C_LoadFunction, C_MODULE, c_strLoad)) { return false; }
+                if(!DB.getData(Cairo.Constants.USUARIO, Cairo.Constants.US_ID, Cairo.Util.val(m_us_id2), Cairo.Constants.US_NAME, data, C_LoadFunction, C_MODULE, c_strLoad)) { return false; }
                 m_usuario = data;
               }
 
               if(m_tar_id.Substring(0, 1).toUpperCase() != KEY_NODO) {
-                if(!Cairo.Database.getData(mTareaConstantes.TAREA, mTareaConstantes.TAR_ID, Cairo.Util.val(m_tar_id), mTareaConstantes.TAR_NAME, data, C_LoadFunction, C_MODULE, c_strLoad)) { return false; }
+                if(!DB.getData(mTareaConstantes.TAREA, mTareaConstantes.TAR_ID, Cairo.Util.val(m_tar_id), mTareaConstantes.TAR_NAME, data, C_LoadFunction, C_MODULE, c_strLoad)) { return false; }
                 m_tarea = data;
               }
 
@@ -666,7 +666,7 @@
         var _rtn = null;
         try {
 
-          if(us_id == Cairo.Constants.NO_ID) { return _rtn; }
+          if(us_id == NO_ID) { return _rtn; }
 
           m_us_id = us_id;
 
@@ -747,7 +747,7 @@
         var cliId = null;
 
         horaId = m_dialog.getId();
-        Cairo.Database.getData(mTareaConstantes.HORA, mTareaConstantes.HORA_ID, horaId, mTareaConstantes.CLI_ID, cliId);
+        DB.getData(mTareaConstantes.HORA, mTareaConstantes.HORA_ID, horaId, mTareaConstantes.CLI_ID, cliId);
 
         return cliId;
       };

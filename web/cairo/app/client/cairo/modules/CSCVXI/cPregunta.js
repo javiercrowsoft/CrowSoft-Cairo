@@ -52,7 +52,7 @@
       var m_fechaIni = null;
       var m_fechaFin = null;
       var m_us_id_respondio = "";
-      var m_cli_id = "";
+      var m_cliId = "";
 
       var m_modifico = "";
       var m_contacto = "";
@@ -121,13 +121,13 @@
         c.setName(Cairo.Language.getText(1150, ""));
         c.setKey(K_CLI_ID);
         value = m_cliente;
-        if(m_cli_id.Substring(0, 1).toUpperCase() == KEY_NODO) {
-          value = GetNombreRama(Cairo.Tables.CLIENTE, Cairo.Util.val(m_cli_id.Substring(2)), bExists);
-          if(!bExists) { m_cli_id = "0"; }
+        if(m_cliId.Substring(0, 1).toUpperCase() == KEY_NODO) {
+          value = GetNombreRama(Cairo.Tables.CLIENTE, Cairo.Util.val(m_cliId.Substring(2)), bExists);
+          if(!bExists) { m_cliId = "0"; }
         }
         c.setValue(value);
-        c.setSelectId(Cairo.Util.val(m_cli_id));
-        c.setHelpValueProcess(m_cli_id);
+        c.setSelectId(Cairo.Util.val(m_cliId));
+        c.setHelpValueProcess(m_cliId);
 
         c = m_dialog.getProperties().add(null, mCVXIConstantes.CMIP_NICK);
         c.setType(Dialogs.PropertyType.text);
@@ -167,20 +167,21 @@
 
       var load = function() {
 
-        return Cairo.Database.getData("load[" + m_apiPath + "general/preguntalistdoc]", id).then(
+        return DB.getData("load[" + m_apiPath + "general/preguntalistdoc]", id).then(
           function(response) {
 
             if(response.success !== true) { return false; }
 
-            if(response.data.id === Cairo.Constants.NO_ID) {
+            if(response.data.id === NO_ID) {
 
               m_fechaIniV = "";
+              m_fechaIni = Cairo.Dates.today();
               m_fechaFinV = "";
-              m_fechaIni = Date;
-              m_fechaFin = Date;
-              m_us_id_respondio = Cairo.Constants.NO_ID;
+              m_fechaFin = Cairo.Dates.DateNames.getDateByName('h-60');
+
+              m_us_id_respondio = NO_ID;
               m_modifico = "";
-              m_cli_id = Cairo.Constants.NO_ID;
+              m_cliId = NO_ID;
               m_cliente = "";
               m_pregunta = "";
               m_nick = "";
@@ -189,69 +190,16 @@
             }
             else {
 
-              rs.MoveLast;
-              rs.MoveFirst;
+              m_fechaIniV = valField(response.data, C.FROM);
+              m_fechaIni = valField(response.data, C.FROM);
+              m_fechaIni = isDate(m_fechaIni) ? getDateValue(m_fechaIni) : today();
 
-              var i = null;
-              while (!rs.isEOF()) {
+              m_fechaFinV = valField(response.data, C.TO);
+              m_fechaFin = valField(response.data, C.TO);
+              m_fechaFin = isDate(m_fechaFin) ? getDateValue(m_fechaFin) : today();
 
-                switch (Cairo.Database.valField(response.data, Cairo.Constants.LDP_ID)) {
-
-                  // OJO: EL ASISTENTE GENERA MAL LAS FECHAS Y LOS TEXTOS (A LOS TEXTOS LES PONE VAL)
-                  //      CORREGIR ESTOS ERRORES Y EL COD. DE ABAJO LES SIRVE DE EJ.
-                  case K_FECHAINI:
-                    m_fechaIniV = Cairo.Database.valField(response.data, Cairo.Constants.LDP_VALOR);
-                    m_fechaIni = IsDate(Cairo.Database.valField(response.data, Cairo.Constants.LDP_VALOR)) ? Cairo.Database.valField(response.data, Cairo.Constants.LDP_VALOR) : Date);
-                    break;
-
-                  case K_FECHAFIN:
-                    m_fechaFinV = Cairo.Database.valField(response.data, Cairo.Constants.LDP_VALOR);
-                    m_fechaFin = IsDate(Cairo.Database.valField(response.data, Cairo.Constants.LDP_VALOR)) ? Cairo.Database.valField(response.data, Cairo.Constants.LDP_VALOR) : Date);
-                    break;
-
-                  case K_RESPONDIO:
-                    m_us_id_respondio = Cairo.Database.valField(response.data, Cairo.Constants.LDP_VALOR);
-                    break;
-
-                  case K_CLI_ID:
-                    m_cli_id = Cairo.Database.valField(response.data, Cairo.Constants.LDP_VALOR);
-                    break;
-
-                  case K_PREGUNTA:
-                    m_pregunta = Cairo.Database.valField(response.data, Cairo.Constants.LDP_VALOR);
-                    break;
-
-                  case K_NICK:
-                    m_nick = Cairo.Database.valField(response.data, Cairo.Constants.LDP_VALOR);
-                    break;
-
-                  case K_OBSERVADAS:
-                    m_observadas = Cairo.Database.valField(response.data, Cairo.Constants.LDP_VALOR);
-
-                    break;
-                }
-
-                rs.MoveNext;
-              }
-
-              var data = null;
-              var strLoad = null;
-
-              //'Error al cargar preguntas
-              strLoad = Cairo.Language.getText(5100, "");
-
-              m_fechaIni = (m_fechaIni != Cairo.Constants.cSNODATE) ? m_fechaIni : Date);
-              m_fechaFin = (m_fechaFin != Cairo.Constants.cSNODATE) ? m_fechaFin : Date);
-
-              if(m_us_id_respondio.Substring(0, 1).toUpperCase() != KEY_NODO) {
-                if(!Cairo.Database.getData(Cairo.Constants.USUARIO, Cairo.Constants.US_ID, Cairo.Util.val(m_us_id_respondio), Cairo.Constants.US_NAME, data, C_LoadFunction, C_MODULE, strLoad)) { return false; }
-                m_modifico = data;
-              }
-
-              if(m_cli_id.Substring(0, 1).toUpperCase() != KEY_NODO) {
-                if(!Cairo.Database.getData(mCVXIConstantes.CLIENTE, mCVXIConstantes.CLI_ID, Cairo.Util.val(m_cli_id), mCVXIConstantes.CLI_NAME, data, C_LoadFunction, C_MODULE, strLoad)) { return false; }
-                m_cliente = data;
-              }
+              m_cliId = valField(response.data, C.CLI_ID);
+              m_cliente = valField(response.data, C.CLI_NAME);
 
             }
 
@@ -319,7 +267,7 @@
           case K_CLI_ID:
             var property = m_dialog.getProperties().item(mCVXIConstantes.CLI_ID);
             m_cliente = property.getValue();
-            m_cli_id = property.getSelectIntValue();
+            m_cliId = property.getSelectIntValue();
 
             break;
 
@@ -364,7 +312,7 @@
         }
 
         sqlstmt = sqlstmt+ Cairo.Database.sqlString(m_us_id_respondio)+ ",";
-        sqlstmt = sqlstmt+ Cairo.Database.sqlString(m_cli_id)+ ",";
+        sqlstmt = sqlstmt+ Cairo.Database.sqlString(m_cliId)+ ",";
         sqlstmt = sqlstmt+ Cairo.Database.sqlString(m_nick)+ ",";
         sqlstmt = sqlstmt+ Cairo.Database.sqlString(m_pregunta)+ ",";
         sqlstmt = sqlstmt+ m_observadas ? 1 : 0);
@@ -502,8 +450,9 @@
 
       };
 
-      var setCIEditGenericListDoc_ObjABM = function(rhs) {
-        m_dialog = rhs;
+      self.setDialog = function(dialog) {
+        m_dialog = dialog;
+        m_properties = dialog.getProperties();
       };
 
       var cIEditGenericListDoc_PropertyChange = function(key) {
@@ -513,7 +462,7 @@
         var _rtn = null;
         try {
 
-          if(us_id == Cairo.Constants.NO_ID) { return _rtn; }
+          if(us_id == NO_ID) { return _rtn; }
 
           m_us_id = us_id;
 

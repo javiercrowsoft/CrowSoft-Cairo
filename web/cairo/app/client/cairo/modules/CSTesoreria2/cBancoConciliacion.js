@@ -49,7 +49,7 @@
       var m_bco_id = "";
       var m_banco = "";
       // empid
-      var m_emp_id = "";
+      var m_empId = "";
       var m_empresa = "";
       var m_fechaIniV = "";
       var m_fechaFinV = "";
@@ -168,13 +168,13 @@
         c.setName(Cairo.Language.getText(1114, ""));
         c.setKey(K_EMP_ID);
         value = m_empresa;
-        if(m_emp_id.Substring(0, 1).toUpperCase() == KEY_NODO) {
-          value = GetNombreRama(Cairo.Tables.EMPRESA, Cairo.Util.val(m_emp_id.Substring(2)), bExists);
-          if(!bExists) { m_emp_id = "0"; }
+        if(m_empId.Substring(0, 1).toUpperCase() == KEY_NODO) {
+          value = GetNombreRama(Cairo.Tables.EMPRESA, Cairo.Util.val(m_empId.Substring(2)), bExists);
+          if(!bExists) { m_empId = "0"; }
         }
         c.setValue(value);
-        c.setSelectId(Cairo.Util.val(m_emp_id));
-        c.setHelpValueProcess(m_emp_id);
+        c.setSelectId(Cairo.Util.val(m_empId));
+        c.setHelpValueProcess(m_empId);
 
         createMenu();
         if(!m_dialog.showDocumentList(self)) { return false; }
@@ -193,22 +193,25 @@
 
       var load = function() {
 
-        return Cairo.Database.getData("load[" + m_apiPath + "general/bancoconciliacionlistdoc]", id).then(
+        return DB.getData("load[" + m_apiPath + "general/bancoconciliacionlistdoc]", id).then(
           function(response) {
 
             // empid
-            m_emp_id = cUtil.getEmpId();
-            m_empresa = cUtil.getEmpNombre();
+            m_empId = Cairo.Company.getId();
+            m_empresa = Cairo.Company.getName();
 
             if(response.success !== true) { return false; }
 
-            if(response.data.id === Cairo.Constants.NO_ID) {
+            if(response.data.id === NO_ID) {
 
-              m_fechaIni = Date;
-              m_fechaFin = Date;
-              m_cue_id = Cairo.Constants.NO_ID;
+              m_fechaIniV = "";
+              m_fechaIni = Cairo.Dates.today();
+              m_fechaFinV = "";
+              m_fechaFin = Cairo.Dates.DateNames.getDateByName('h-60');
+
+              m_cue_id = NO_ID;
               m_cuenta = "";
-              m_bco_id = Cairo.Constants.NO_ID;
+              m_bco_id = NO_ID;
               m_banco = "";
 
             }
@@ -246,7 +249,7 @@
                     break;
 
                   case K_EMP_ID:
-                    m_emp_id = Cairo.Database.valField(response.data, Cairo.Constants.LDP_VALOR);
+                    m_empId = Cairo.Database.valField(response.data, Cairo.Constants.LDP_VALOR);
 
                     break;
                 }
@@ -266,16 +269,16 @@
               // OJO: EL ASISTENTE ESTO LO HACE MAL, YA QUE EL CODIGO QUE GENERA NO SOPORTA ARBOLES
               //      USEN ESTE CODIGO COMO EJ. OJO!!! CAMBIEN LOS NOMBRES DE LAS TABLAS Y LOS CAMPOS NOMBRES DE DICHAS TABLAS.
               if(m_cue_id.Substring(0, 1).toUpperCase() != KEY_NODO) {
-                if(!Cairo.Database.getData(mTesoreriaConstantes.CUENTA, mTesoreriaConstantes.CUE_ID, Cairo.Util.val(m_cue_id), mTesoreriaConstantes.CUE_NAME, data, C_LoadFunction, C_MODULE, strLoad)) { return false; }
+                if(!DB.getData(mTesoreriaConstantes.CUENTA, mTesoreriaConstantes.CUE_ID, Cairo.Util.val(m_cue_id), mTesoreriaConstantes.CUE_NAME, data, C_LoadFunction, C_MODULE, strLoad)) { return false; }
                 m_cuenta = data;
               }
               if(m_bco_id.Substring(0, 1).toUpperCase() != KEY_NODO) {
-                if(!Cairo.Database.getData(mTesoreriaConstantes.BANCO, mTesoreriaConstantes.BCO_ID, Cairo.Util.val(m_bco_id), mTesoreriaConstantes.BCO_NAME, data, C_LoadFunction, C_MODULE, strLoad)) { return false; }
+                if(!DB.getData(mTesoreriaConstantes.BANCO, mTesoreriaConstantes.BCO_ID, Cairo.Util.val(m_bco_id), mTesoreriaConstantes.BCO_NAME, data, C_LoadFunction, C_MODULE, strLoad)) { return false; }
                 m_banco = data;
               }
               // empid
-              if(m_emp_id.Substring(0, 1).toUpperCase() != KEY_NODO) {
-                if(!Cairo.Database.getData(Cairo.Constants.EMPRESA, Cairo.Constants.EMP_ID, Cairo.Util.val(m_emp_id), Cairo.Constants.EMP_NAME, data, C_LoadFunction, C_MODULE, strLoad)) { return false; }
+              if(m_empId.Substring(0, 1).toUpperCase() != KEY_NODO) {
+                if(!DB.getData(Cairo.Constants.EMPRESA, Cairo.Constants.EMP_ID, Cairo.Util.val(m_empId), Cairo.Constants.EMP_NAME, data, C_LoadFunction, C_MODULE, strLoad)) { return false; }
                 m_empresa = data;
               }
 
@@ -293,8 +296,6 @@
         return m_properties;
       };
 
-      // OJO: NUEVAMENTE LA EXISTENCIA DE FECHAS VIRTUALES HACE QUE EL CODIGO GENERADO POR EL ASISTENTE ESTE MAL
-      //      CORRIJALO UTILIZANDO ESTE CODIGO COMO EJEMPLO.
       self.propertyChange = function(key) {
         var iProp = null;
 
@@ -356,7 +357,7 @@
           case K_EMP_ID:
             var property = m_dialog.getProperties().item(Cairo.Constants.EMP_ID);
             m_empresa = property.getValue();
-            m_emp_id = property.getSelectIntValue();
+            m_empId = property.getSelectIntValue();
             break;
         }
 
@@ -386,7 +387,7 @@
 
         sqlstmt = sqlstmt+ Cairo.Database.sqlString(m_cue_id)+ ",";
         sqlstmt = sqlstmt+ Cairo.Database.sqlString(m_bco_id)+ ",";
-        sqlstmt = sqlstmt+ Cairo.Database.sqlString(m_emp_id);
+        sqlstmt = sqlstmt+ Cairo.Database.sqlString(m_empId);
 
         return sqlstmt;
       };
@@ -519,7 +520,7 @@
         var _rtn = null;
         try {
 
-          if(us_id == Cairo.Constants.NO_ID) { return _rtn; }
+          if(us_id == NO_ID) { return _rtn; }
 
           m_us_id = us_id;
 

@@ -51,8 +51,8 @@
       var m_fechaFin = null;
       var m_estado = "";
       var m_cliente = "";
-      var m_est_id = "";
-      var m_cli_id = "";
+      var m_estId = "";
+      var m_cliId = "";
       var m_titulo = "";
       var m_descrip = "";
       var m_code = "";
@@ -111,13 +111,13 @@
         c.setName(Cairo.Language.getText(1568, ""));
         c.setKey(K_ESTADO);
         value = m_estado;
-        if(m_est_id.Substring(0, 1).toUpperCase() == KEY_NODO) {
-          value = GetNombreRama(csEstado, Cairo.Util.val(m_est_id.Substring(2)), bExists);
-          if(!bExists) { m_est_id = "0"; }
+        if(m_estId.Substring(0, 1).toUpperCase() == KEY_NODO) {
+          value = GetNombreRama(csEstado, Cairo.Util.val(m_estId.Substring(2)), bExists);
+          if(!bExists) { m_estId = "0"; }
         }
         c.setValue(value);
-        c.setSelectId(Cairo.Util.val(m_est_id));
-        c.setHelpValueProcess(m_est_id);
+        c.setSelectId(Cairo.Util.val(m_estId));
+        c.setHelpValueProcess(m_estId);
 
         c = m_dialog.getProperties().add(null, mEnvioConstantes.CLI_ID);
         c.setType(Dialogs.PropertyType.select);
@@ -126,13 +126,13 @@
         c.setName(Cairo.Language.getText(1150, ""));
         c.setKey(K_CLIENTE);
         value = m_cliente;
-        if(m_cli_id.Substring(0, 1).toUpperCase() == KEY_NODO) {
-          value = GetNombreRama(Cairo.Tables.CLIENTE, Cairo.Util.val(m_cli_id.Substring(2)), bExists);
-          if(!bExists) { m_cli_id = "0"; }
+        if(m_cliId.Substring(0, 1).toUpperCase() == KEY_NODO) {
+          value = GetNombreRama(Cairo.Tables.CLIENTE, Cairo.Util.val(m_cliId.Substring(2)), bExists);
+          if(!bExists) { m_cliId = "0"; }
         }
         c.setValue(value);
-        c.setSelectId(Cairo.Util.val(m_cli_id));
-        c.setHelpValueProcess(m_cli_id);
+        c.setSelectId(Cairo.Util.val(m_cliId));
+        c.setHelpValueProcess(m_cliId);
 
         c = m_dialog.getProperties().add(null, mEnvioConstantes.LGJ_TITULO);
         c.setType(Dialogs.PropertyType.text);
@@ -170,20 +170,21 @@
 
       var load = function() {
 
-        return Cairo.Database.getData("load[" + m_apiPath + "general/legajolistdoc]", id).then(
+        return DB.getData("load[" + m_apiPath + "general/legajolistdoc]", id).then(
           function(response) {
 
             if(response.success !== true) { return false; }
 
-            if(response.data.id === Cairo.Constants.NO_ID) {
+            if(response.data.id === NO_ID) {
 
-              m_fechaIni = Date;
-              m_fechaFin = Date;
               m_fechaIniV = "";
+              m_fechaIni = Cairo.Dates.today();
               m_fechaFinV = "";
-              m_estado = Cairo.Constants.NO_ID;
+              m_fechaFin = Cairo.Dates.DateNames.getDateByName('h-60');
+
+              m_estId = NO_ID;
               m_estado = "";
-              m_cliente = Cairo.Constants.NO_ID;
+              m_cliId = NO_ID;
               m_cliente = "";
               m_titulo = "";
               m_descrip = "";
@@ -191,65 +192,19 @@
             }
             else {
 
-              rs.MoveLast;
-              rs.MoveFirst;
+              m_fechaIniV = valField(response.data, C.FROM);
+              m_fechaIni = valField(response.data, C.FROM);
+              m_fechaIni = isDate(m_fechaIni) ? getDateValue(m_fechaIni) : today();
 
-              var i = null;
-              while (!rs.isEOF()) {
+              m_fechaFinV = valField(response.data, C.TO);
+              m_fechaFin = valField(response.data, C.TO);
+              m_fechaFin = isDate(m_fechaFin) ? getDateValue(m_fechaFin) : today();
 
-                switch (Cairo.Database.valField(response.data, Cairo.Constants.LDP_ID)) {
+              m_cliId = valField(response.data, C.CLI_ID);
+              m_estId = valField(response.data, C.EST_ID);
 
-                  case K_FECHAINI:
-                    m_fechaIniV = Cairo.Database.valField(response.data, Cairo.Constants.LDP_VALOR);
-                    m_fechaIni = IsDate(Cairo.Database.valField(response.data, Cairo.Constants.LDP_VALOR)) ? Cairo.Database.valField(response.data, Cairo.Constants.LDP_VALOR) : Date);
-                    break;
-
-                  case K_FECHAFIN:
-                    m_fechaFinV = Cairo.Database.valField(response.data, Cairo.Constants.LDP_VALOR);
-                    m_fechaFin = IsDate(Cairo.Database.valField(response.data, Cairo.Constants.LDP_VALOR)) ? Cairo.Database.valField(response.data, Cairo.Constants.LDP_VALOR) : Date);
-                    break;
-
-                  case K_ESTADO:
-                    m_est_id = Cairo.Database.valField(response.data, Cairo.Constants.LDP_VALOR);
-                    break;
-
-                  case K_CLIENTE:
-                    m_cli_id = Cairo.Database.valField(response.data, Cairo.Constants.LDP_VALOR);
-                    break;
-
-                  case K_TITULO:
-                    m_titulo = Cairo.Database.valField(response.data, Cairo.Constants.LDP_VALOR);
-                    break;
-
-                  case K_DESCRIP:
-                    m_descrip = Cairo.Database.valField(response.data, Cairo.Constants.LDP_VALOR);
-                    break;
-
-                  case K_CODE:
-                    m_code = Cairo.Database.valField(response.data, Cairo.Constants.LDP_VALOR);
-                    break;
-                }
-
-                rs.MoveNext;
-              }
-
-              var data = null;
-              var strLoad = null;
-
-              //'Error al cargar legajos
-              strLoad = Cairo.Language.getText(2341, "");
-
-              m_fechaIni = (m_fechaIni != Cairo.Constants.cSNODATE) ? m_fechaIni : Date);
-              m_fechaFin = (m_fechaFin != Cairo.Constants.cSNODATE) ? m_fechaFin : Date);
-
-              if(m_est_id.Substring(0, 1).toUpperCase() != KEY_NODO) {
-                if(!Cairo.Database.getData(Cairo.Constants.ESTADO, Cairo.Constants.EST_ID, Cairo.Util.val(m_est_id), Cairo.Constants.EST_NAME, data, C_LoadFunction, C_MODULE, strLoad)) { return false; }
-                m_estado = data;
-              }
-              if(m_cli_id.Substring(0, 1).toUpperCase() != KEY_NODO) {
-                if(!Cairo.Database.getData(mEnvioConstantes.CLIENTE, mEnvioConstantes.CLI_ID, Cairo.Util.val(m_cli_id), mEnvioConstantes.CLI_NAME, data, C_LoadFunction, C_MODULE, strLoad)) { return false; }
-                m_cliente = data;
-              }
+              m_cliente = valField(response.data, C.CLI_NAME);
+              m_estado = valField(response.data, C.EST_NAME);
 
             }
 
@@ -311,14 +266,14 @@
           case K_ESTADO:
             var property = m_dialog.getProperties().item(Cairo.Constants.EST_ID);
             m_estado = property.getValue();
-            m_est_id = property.getSelectIntValue();
+            m_estId = property.getSelectIntValue();
 
             break;
 
           case K_CLIENTE:
             var property = m_dialog.getProperties().item(mEnvioConstantes.CLI_ID);
             m_cliente = property.getValue();
-            m_cli_id = property.getSelectIntValue();
+            m_cliId = property.getSelectIntValue();
 
             break;
 
@@ -362,8 +317,8 @@
           sqlstmt = sqlstmt+ Cairo.Database.sqlDate(m_fechaFin)+ ",";
         }
 
-        sqlstmt = sqlstmt+ Cairo.Database.sqlString(m_est_id)+ ",";
-        sqlstmt = sqlstmt+ Cairo.Database.sqlString(m_cli_id)+ ",";
+        sqlstmt = sqlstmt+ Cairo.Database.sqlString(m_estId)+ ",";
+        sqlstmt = sqlstmt+ Cairo.Database.sqlString(m_cliId)+ ",";
         sqlstmt = sqlstmt+ Cairo.Database.sqlString(m_titulo)+ ",";
         sqlstmt = sqlstmt+ Cairo.Database.sqlString(m_descrip)+ ",";
         sqlstmt = sqlstmt+ Cairo.Database.sqlString(m_code);
@@ -503,8 +458,9 @@
 
       };
 
-      var setCIEditGenericListDoc_ObjABM = function(rhs) {
-        m_dialog = rhs;
+      self.setDialog = function(dialog) {
+        m_dialog = dialog;
+        m_properties = dialog.getProperties();
       };
 
       var cIEditGenericListDoc_PropertyChange = function(key) {
@@ -514,7 +470,7 @@
         var _rtn = null;
         try {
 
-          if(us_id == Cairo.Constants.NO_ID) { return _rtn; }
+          if(us_id == NO_ID) { return _rtn; }
 
           m_us_id = us_id;
 

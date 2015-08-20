@@ -18,6 +18,7 @@
       var self = {};
 
       var Dialogs = Cairo.Dialogs;
+      var DB = Cairo.Database;
 
       var C_MODULE = "cUsuarioConfig";
 
@@ -1773,7 +1774,7 @@
             }
             else {
               m_deplNombre = "";
-              m_deplId = Cairo.Constants.NO_ID;
+              m_deplId = NO_ID;
             }
           }
         );
@@ -1791,7 +1792,7 @@
             else {
               return {
                 name: "",
-                id: Cairo.Constants.NO_ID
+                id: NO_ID
               };
             }
           }
@@ -1802,7 +1803,7 @@
 
         m_userId = id;
 
-        return Cairo.Database.getData("load[" + m_apiPath + "general/usuarioconfig]", m_userId).then(
+        return DB.getData("load[" + m_apiPath + "general/usuarioconfig]", m_userId).then(
           function (response) {
 
             if(response.success === true) {
@@ -1873,7 +1874,7 @@
 
               m_showBarcodeInputCtrls = false;
 
-              m_docIdPv = Cairo.Constants.NO_ID;
+              m_docIdPv = NO_ID;
               m_docPvNombre = "";
               
               var settings = response.data.get('settings')
@@ -3003,7 +3004,7 @@
           };
 
           var getKey = function(id) {
-            if(id === Cairo.Constants.NO_ID) {
+            if(id === NO_ID) {
               return "new-id:" + (new Date).getTime().toString()
             }
             else {

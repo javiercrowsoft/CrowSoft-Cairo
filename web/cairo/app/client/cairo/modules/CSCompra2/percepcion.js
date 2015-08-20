@@ -295,7 +295,7 @@
         transaction.addRegister(register);
       }
 
-      if(deleted != "" && fcId != Cairo.Constants.NO_ID && !isCopy) {
+      if(deleted != "" && fcId != NO_ID && !isCopy) {
 
         transaction.setDeletedList(deleted);
       }

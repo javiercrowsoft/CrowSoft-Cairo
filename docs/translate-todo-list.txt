@@ -228,7 +228,7 @@
        replace: createMenu
 
        search: m_objList.ID
-       replace: m_objList.ID
+       replace: m_dialog.getId()
 
        search: var getCIABMListDocClient_
        replace: self.get
@@ -363,7 +363,7 @@
               m_sucId = valField(response.data, C.SUC_ID);
               m_docId = valField(response.data, C.DOC_ID);
               m_cpgId = valField(response.data, C.CPG_ID);
-              m_emp_id = valField(response.data, C.EMP_ID);
+              m_empId = valField(response.data, C.EMP_ID);
 
               m_proveedor = valField(response.data, C.PROV_NAME);
               m_estado = valField(response.data, C.EST_NAME);

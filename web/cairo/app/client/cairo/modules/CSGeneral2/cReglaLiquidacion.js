@@ -8,9 +8,7 @@
       var self = {};
 
       var Dialogs = Cairo.Dialogs;
-
-      // cReglaLiquidacion
-      // 08-02-01
+      var DB = Cairo.Database;
 
       var C_MODULE = "cReglaLiquidacion";
 
@@ -56,7 +54,7 @@
 
         m_isNew = true;
 
-        m_listController.updateEditorKey(self, Cairo.Constants.NO_ID);
+        m_listController.updateEditorKey(self, NO_ID);
 
         var property = m_dialog.getProperties().item(Cairo.General.Constants.REL_CODE);
         property.setValue(Cairo.Constants.COPY_OF + property.getValue());
@@ -73,9 +71,9 @@
 
         m_isNew = true;
 
-        m_listController.updateEditorKey(self, Cairo.Constants.NO_ID);
+        m_listController.updateEditorKey(self, NO_ID);
 
-        return load(Cairo.Constants.NO_ID).then(
+        return load(NO_ID).then(
           function() {
             return refreshCollection();
           }
@@ -87,7 +85,7 @@
       };
 
       self.editDocumentsEnabled = function() {
-        return m_id !== Cairo.Constants.NO_ID;
+        return m_id !== NO_ID;
       };
 
       self.copyEnabled = function() {
@@ -102,7 +100,7 @@
         var _rtn = null;
         try {
 
-          if(m_id === Cairo.Constants.NO_ID) { return _rtn; }
+          if(m_id === NO_ID) { return _rtn; }
 
           var doc = new Cairo.DocDigital();
 
@@ -214,7 +212,7 @@
       };
 
       var updateList = function() {
-        if(m_id === Cairo.Constants.NO_ID) { return; }
+        if(m_id === NO_ID) { return; }
         if(m_listController === null) { return; }
 
         if(m_isNew) {
@@ -294,7 +292,7 @@
         var p = Cairo.Promises.resolvedPromise(false);
         try {
 
-          if(id === Cairo.Constants.NO_ID) {
+          if(id === NO_ID) {
             m_isNew = true;
             if(!Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.NEW_REGLALIQUIDACION)) { return p; }
           } 
@@ -315,7 +313,7 @@
                 m_copy = false;
 
                 if(inModalWindow) {
-                  success = m_id !== Cairo.Constants.NO_ID;
+                  success = m_id !== NO_ID;
                 } 
                 else {
                   success = true;
@@ -408,16 +406,16 @@
 
       var load = function(id) {
 
-        return Cairo.Database.getData("load[" + m_apiPath + "general/reglaliquidacion]", id).then(
+        return DB.getData("load[" + m_apiPath + "general/reglaliquidacion]", id).then(
           function(response) {
 
             if(response.success !== true) { return false; }
 
-            if(response.data.id === Cairo.Constants.NO_ID) {
+            if(response.data.id === NO_ID) {
               m_active = true;
               m_name = "";
               m_code = "";
-              m_id = Cairo.Constants.NO_ID;
+              m_id = NO_ID;
               m_descripcion = "";
             } 
             else {
@@ -532,7 +530,7 @@
           };
 
           var getKey = function(id) {
-            if(id === Cairo.Constants.NO_ID) {
+            if(id === NO_ID) {
               return "new-id:" + (new Date).getTime().toString()
             }
             else {

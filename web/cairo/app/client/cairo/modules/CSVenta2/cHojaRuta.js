@@ -48,8 +48,8 @@
       var m_fechaDesdeV = "";
       var m_fechaHastaV = "";
 
-      var m_fechaDesde = null;
-      var m_fechaHasta = null;
+      var m_fechaIni = null;
+      var m_fechaFin = null;
 
       var m_nrodoc = "";
       var m_per_id = "";
@@ -116,15 +116,15 @@
 
             if(LenB(iProp.getSelectIntValue())) {
               m_fechaDesdeV = iProp.getSelectIntValue();
-              m_fechaDesde = Cairo.Dates.DateNames.getDateByName(m_fechaDesdeV);
+              m_fechaIni = Cairo.Dates.DateNames.getDateByName(m_fechaDesdeV);
             }
             else if(IsDate(iProp.getValue())) {
               m_fechaDesdeV = "";
-              m_fechaDesde = iProp.getValue();
+              m_fechaIni = iProp.getValue();
             }
             else {
               m_fechaDesdeV = "";
-              iProp.setValue(m_fechaDesde);
+              iProp.setValue(m_fechaIni);
             }
 
             break;
@@ -135,15 +135,15 @@
 
             if(LenB(iProp.getSelectIntValue())) {
               m_fechaHastaV = iProp.getSelectIntValue();
-              m_fechaHasta = Cairo.Dates.DateNames.getDateByName(m_fechaHastaV);
+              m_fechaFin = Cairo.Dates.DateNames.getDateByName(m_fechaHastaV);
             }
             else if(IsDate(iProp.getValue())) {
               m_fechaHastaV = "";
-              m_fechaHasta = iProp.getValue();
+              m_fechaFin = iProp.getValue();
             }
             else {
               m_fechaHastaV = "";
-              iProp.setValue(m_fechaHasta);
+              iProp.setValue(m_fechaFin);
             }
 
             break;
@@ -170,14 +170,14 @@
           sqlstmt = sqlstmt+ Cairo.Database.sqlDate(Cairo.Dates.DateNames.getDateByName(m_fechaDesdeV))+ ",";
         }
         else {
-          sqlstmt = sqlstmt+ Cairo.Database.sqlDate(m_fechaDesde)+ ",";
+          sqlstmt = sqlstmt+ Cairo.Database.sqlDate(m_fechaIni)+ ",";
         }
 
         if(!cDate.getDateNames(m_fechaHastaV) == null) {
           sqlstmt = sqlstmt+ Cairo.Database.sqlDate(Cairo.Dates.DateNames.getDateByName(m_fechaHastaV))+ ",";
         }
         else {
-          sqlstmt = sqlstmt+ Cairo.Database.sqlDate(m_fechaHasta)+ ",";
+          sqlstmt = sqlstmt+ Cairo.Database.sqlDate(m_fechaFin)+ ",";
         }
 
         sqlstmt = sqlstmt+ Cairo.Database.sqlString(m_nrodoc)+ ",";
@@ -199,14 +199,14 @@
           fdesde = Cairo.Dates.DateNames.getDateByName(m_fechaDesdeV);
         }
         else {
-          fdesde = m_fechaDesde;
+          fdesde = m_fechaIni;
         }
 
         if(!cDate.getDateNames(m_fechaHastaV) == null) {
           fhasta = Cairo.Dates.DateNames.getDateByName(m_fechaHastaV);
         }
         else {
-          fhasta = m_fechaHasta;
+          fhasta = m_fechaFin;
         }
 
         if(DateDiff("m", fdesde, fhasta) <= 6) { return; }
@@ -326,7 +326,7 @@
           c.setValue(m_fechaDesdeV);
         }
         else {
-          c.setValue(m_fechaDesde);
+          c.setValue(m_fechaIni);
         }
 
         c = m_dialog.getProperties().add(null, C_FECHAFIN);
@@ -338,7 +338,7 @@
           c.setValue(m_fechaHastaV);
         }
         else {
-          c.setValue(m_fechaHasta);
+          c.setValue(m_fechaFin);
         }
 
         c = m_dialog.getProperties().add(null, mVentaConstantes.HR_NRODOC);
@@ -396,15 +396,15 @@
 
       var load = function() {
 
-        return Cairo.Database.getData("load[" + m_apiPath + "general/hojarutalistdoc]", id).then(
+        return DB.getData("load[" + m_apiPath + "general/hojarutalistdoc]", id).then(
           function(response) {
 
             if(response.success !== true) { return false; }
 
-            if(response.data.id === Cairo.Constants.NO_ID) {
+            if(response.data.id === NO_ID) {
 
-              m_fechaDesde = Date;
-              m_fechaHasta = Date;
+              m_fechaIni = Date;
+              m_fechaFin = Date;
               m_fechaDesdeV = "";
               m_fechaHastaV = "";
               m_nrodoc = "";
@@ -426,12 +426,12 @@
 
                   case K_FECHADESDE:
                     m_fechaDesdeV = Cairo.Database.valField(response.data, Cairo.Constants.LDP_VALOR);
-                    m_fechaDesde = IsDate(Cairo.Database.valField(response.data, Cairo.Constants.LDP_VALOR)) ? Cairo.Database.valField(response.data, Cairo.Constants.LDP_VALOR) : Date);
+                    m_fechaIni = IsDate(Cairo.Database.valField(response.data, Cairo.Constants.LDP_VALOR)) ? Cairo.Database.valField(response.data, Cairo.Constants.LDP_VALOR) : Date);
                     break;
 
                   case K_FECHAHASTA:
                     m_fechaHastaV = Cairo.Database.valField(response.data, Cairo.Constants.LDP_VALOR);
-                    m_fechaHasta = IsDate(Cairo.Database.valField(response.data, Cairo.Constants.LDP_VALOR)) ? Cairo.Database.valField(response.data, Cairo.Constants.LDP_VALOR) : Date);
+                    m_fechaFin = IsDate(Cairo.Database.valField(response.data, Cairo.Constants.LDP_VALOR)) ? Cairo.Database.valField(response.data, Cairo.Constants.LDP_VALOR) : Date);
                     break;
 
                   case K_NRODOC:
@@ -454,12 +454,12 @@
               var data = null;
 
               if(m_per_id.Substring(0, 1).toUpperCase() != KEY_NODO) {
-                if(!Cairo.Database.getData(mVentaConstantes.PERSONA, mVentaConstantes.PRS_ID, Cairo.Util.val(m_per_id), mVentaConstantes.PRS_NAME, data, C_LoadFunction, C_MODULE, c_strLoad)) { return false; }
+                if(!DB.getData(mVentaConstantes.PERSONA, mVentaConstantes.PRS_ID, Cairo.Util.val(m_per_id), mVentaConstantes.PRS_NAME, data, C_LoadFunction, C_MODULE, c_strLoad)) { return false; }
                 m_persona = data;
               }
 
               if(m_cam_id.Substring(0, 1).toUpperCase() != KEY_NODO) {
-                if(!Cairo.Database.getData(mVentaConstantes.CAMION, mVentaConstantes.CAM_ID, Cairo.Util.val(m_cam_id), mVentaConstantes.CAM_PATENTE, data, C_LoadFunction, C_MODULE, c_strLoad)) { return false; }
+                if(!DB.getData(mVentaConstantes.CAMION, mVentaConstantes.CAM_ID, Cairo.Util.val(m_cam_id), mVentaConstantes.CAM_PATENTE, data, C_LoadFunction, C_MODULE, c_strLoad)) { return false; }
                 m_camion = data;
               }
 
@@ -483,15 +483,16 @@
 
       };
 
-      var setCIEditGenericListDoc_ObjABM = function(rhs) {
-        m_dialog = rhs;
+      self.setDialog = function(dialog) {
+        m_dialog = dialog;
+        m_properties = dialog.getProperties();
       };
 
       var cIEditGenericListDoc_ShowParams = function(us_id) {
         var _rtn = null;
         try {
 
-          if(us_id == Cairo.Constants.NO_ID) { return _rtn; }
+          if(us_id == NO_ID) { return _rtn; }
 
           m_us_id = us_id;
 

@@ -920,7 +920,7 @@
           printManager.setCommandTimeout(U.val(C.get(R.reportSection, R.commandTimeOut, 0)));
           printManager.setConnectionTimeout(U.val(C.get(R.reportSection, R.connectionTimeOut, 0)));
 
-          printManager.showPrint(id, tblId, Cairo.Constants.NO_ID);
+          printManager.showPrint(id, tblId, NO_ID);
         };
 
         // allows to group the grid in edition
@@ -6173,7 +6173,7 @@
         };
 
         self.printDocWithResult = function(id, docId) {
-          if(id === Cairo.Constants.NO_ID) {
+          if(id === NO_ID) {
             return P.resolvedPromise(false);
           }
           else {
@@ -6218,7 +6218,7 @@
             ).then(
               function(title) {
                 printManager.setTitle(title);
-                return printManager.showPrint(id, Cairo.Constants.NO_ID, docId);
+                return printManager.showPrint(id, NO_ID, docId);
               }
             ).then(
               function(result) {
@@ -6235,11 +6235,11 @@
           try {
             if(m_client.isDocument === true) {
 
-              if(id === Cairo.Constants.NO_ID) {
+              if(id === NO_ID) {
                 id = m_client.getId();
               }
 
-              if(id === Cairo.Constants.NO_ID) {
+              if(id === NO_ID) {
                 Cairo.infoViewShow("Printing", "The document must be saved before printing");
               }
 
@@ -6291,7 +6291,7 @@
                   ).then(
                     function() {
                       printManager.setAutoPrint(m_autoPrint);
-                      return printManager.showPrint(id, Cairo.Constants.NO_ID, m_client.getDocumentId())
+                      return printManager.showPrint(id, NO_ID, m_client.getDocumentId())
                     }
                   ).then(
                     function(result) {

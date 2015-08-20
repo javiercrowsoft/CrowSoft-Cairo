@@ -297,7 +297,7 @@
         };
 
         var newClick = function() {
-          m_client.edit(Cairo.Constants.NO_ID);
+          m_client.edit(NO_ID);
         };
 
         var editClick = function(event, args) {

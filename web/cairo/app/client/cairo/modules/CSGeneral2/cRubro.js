@@ -64,7 +64,7 @@
 
       that.loadFromData = function(data) {
 
-        if(data.id === Cairo.Constants.NO_ID) {
+        if(data.id === NO_ID) {
           self = init;
         }
         else {

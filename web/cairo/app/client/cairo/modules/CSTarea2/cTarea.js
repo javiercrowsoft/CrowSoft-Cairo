@@ -420,7 +420,7 @@
         var _rtn = null;
         try {
 
-          if(us_id == Cairo.Constants.NO_ID) { return _rtn; }
+          if(us_id == NO_ID) { return _rtn; }
 
           m_us_id = us_id;
 
@@ -690,26 +690,29 @@
 
       var load = function() {
 
-        return Cairo.Database.getData("load[" + m_apiPath + "general/tarealistdoc]", id).then(
+        return DB.getData("load[" + m_apiPath + "general/tarealistdoc]", id).then(
           function(response) {
 
             if(response.success !== true) { return false; }
 
-            if(response.data.id === Cairo.Constants.NO_ID) {
+            if(response.data.id === NO_ID) {
 
-              m_fechaIni = Date;
-              m_fechaFin = Date;
+              m_fechaIniV = "";
+              m_fechaIni = Cairo.Dates.today();
+              m_fechaFinV = "";
+              m_fechaFin = Cairo.Dates.DateNames.getDateByName('h-60');
+
               m_fechaIniV = "";
               m_fechaFinV = "";
               m_finalizada = csTriLogicState.cSTLBOTH;
               m_cumplida = csTriLogicState.cSTLBOTH;
               m_rechazada = csTriLogicState.cSTLBOTH;
-              m_us_id_responsable = Cairo.Constants.NO_ID;
-              m_us_id_asignador = Cairo.Constants.NO_ID;
-              m_cont_id = Cairo.Constants.NO_ID;
-              m_tarest_id = Cairo.Constants.NO_ID;
-              m_prio_id = Cairo.Constants.NO_ID;
-              m_proy_id = Cairo.Constants.NO_ID;
+              m_us_id_responsable = NO_ID;
+              m_us_id_asignador = NO_ID;
+              m_cont_id = NO_ID;
+              m_tarest_id = NO_ID;
+              m_prio_id = NO_ID;
+              m_proy_id = NO_ID;
               m_active = csTriLogicState.cSTLBOTH;
               m_estado = "";
               m_responsable = "";
@@ -788,32 +791,32 @@
               m_fechaIni = (m_fechaIni != Cairo.Constants.cSNODATE) ? m_fechaIni : Date);
 
               if(m_tarest_id.Substring(0, 1).toUpperCase() != KEY_NODO) {
-                if(!Cairo.Database.getData(mTareaConstantes.TAREAESTADO, mTareaConstantes.TAREST_ID, Cairo.Util.val(m_tarest_id), mTareaConstantes.TAREST_NAME, data, C_LoadFunction, C_MODULE, c_strLoad)) { return false; }
+                if(!DB.getData(mTareaConstantes.TAREAESTADO, mTareaConstantes.TAREST_ID, Cairo.Util.val(m_tarest_id), mTareaConstantes.TAREST_NAME, data, C_LoadFunction, C_MODULE, c_strLoad)) { return false; }
                 m_estado = data;
               }
 
               if(m_us_id_responsable.Substring(0, 1).toUpperCase() != KEY_NODO) {
-                if(!Cairo.Database.getData(Cairo.Constants.USUARIO, Cairo.Constants.US_ID, Cairo.Util.val(m_us_id_responsable), Cairo.Constants.US_NAME, data, C_LoadFunction, C_MODULE, c_strLoad)) { return false; }
+                if(!DB.getData(Cairo.Constants.USUARIO, Cairo.Constants.US_ID, Cairo.Util.val(m_us_id_responsable), Cairo.Constants.US_NAME, data, C_LoadFunction, C_MODULE, c_strLoad)) { return false; }
                 m_responsable = data;
               }
 
               if(m_us_id_asignador.Substring(0, 1).toUpperCase() != KEY_NODO) {
-                if(!Cairo.Database.getData(Cairo.Constants.USUARIO, Cairo.Constants.US_ID, Cairo.Util.val(m_us_id_asignador), Cairo.Constants.US_NAME, data, C_LoadFunction, C_MODULE, c_strLoad)) { return false; }
+                if(!DB.getData(Cairo.Constants.USUARIO, Cairo.Constants.US_ID, Cairo.Util.val(m_us_id_asignador), Cairo.Constants.US_NAME, data, C_LoadFunction, C_MODULE, c_strLoad)) { return false; }
                 m_asignador = data;
               }
 
               if(m_cont_id.Substring(0, 1).toUpperCase() != KEY_NODO) {
-                if(!Cairo.Database.getData(mTareaConstantes.CONTACTO, mTareaConstantes.CONT_ID, Cairo.Util.val(m_cont_id), mTareaConstantes.CONT_NAME, data, C_LoadFunction, C_MODULE, c_strLoad)) { return false; }
+                if(!DB.getData(mTareaConstantes.CONTACTO, mTareaConstantes.CONT_ID, Cairo.Util.val(m_cont_id), mTareaConstantes.CONT_NAME, data, C_LoadFunction, C_MODULE, c_strLoad)) { return false; }
                 m_contacto = data;
               }
 
               if(m_prio_id.Substring(0, 1).toUpperCase() != KEY_NODO) {
-                if(!Cairo.Database.getData(mTareaConstantes.PRIORIDAD, mTareaConstantes.PRIO_ID, Cairo.Util.val(m_prio_id), mTareaConstantes.PRIO_NAME, data, C_LoadFunction, C_MODULE, c_strLoad)) { return false; }
+                if(!DB.getData(mTareaConstantes.PRIORIDAD, mTareaConstantes.PRIO_ID, Cairo.Util.val(m_prio_id), mTareaConstantes.PRIO_NAME, data, C_LoadFunction, C_MODULE, c_strLoad)) { return false; }
                 m_prioridad = data;
               }
 
               if(m_proy_id.Substring(0, 1).toUpperCase() != KEY_NODO) {
-                if(!Cairo.Database.getData(mTareaConstantes.PROYECTO, mTareaConstantes.PROY_ID, Cairo.Util.val(m_proy_id), mTareaConstantes.PROY_NAME, data, C_LoadFunction, C_MODULE, c_strLoad)) { return false; }
+                if(!DB.getData(mTareaConstantes.PROYECTO, mTareaConstantes.PROY_ID, Cairo.Util.val(m_proy_id), mTareaConstantes.PROY_NAME, data, C_LoadFunction, C_MODULE, c_strLoad)) { return false; }
                 m_proyecto = data;
               }
             }
@@ -910,7 +913,7 @@
         var cliId = null;
 
         horaId = m_dialog.getId();
-        Cairo.Database.getData(mTareaConstantes.HORA, mTareaConstantes.HORA_ID, horaId, mTareaConstantes.CLI_ID, cliId);
+        DB.getData(mTareaConstantes.HORA, mTareaConstantes.HORA_ID, horaId, mTareaConstantes.CLI_ID, cliId);
 
         return cliId;
       };

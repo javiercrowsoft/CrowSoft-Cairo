@@ -42,7 +42,7 @@
       }
       else {
         var id = register.getId();
-        var options = id !== Cairo.Constants.NO_ID ? {id: register.getId()} : {};
+        var options = id !== NO_ID ? {id: register.getId()} : {};
         var q = new Cairo.Entities.DatabaseQuery(options);
         var fields = register.getFields().asObject();
         q.urlRoot = register.getPath();
@@ -87,7 +87,7 @@
         p = Cairo.Promises.resolvedPromise({success: false, message: "Invalid query: Path not defined."});
       }
       else {
-        if(id === Cairo.Constants.NO_ID || id === undefined) {
+        if(id === NO_ID || id === undefined) {
           p = Cairo.Promises.resolvedPromise({success: false, message: "Invalid query: Id not undefined."});
         }
         else {

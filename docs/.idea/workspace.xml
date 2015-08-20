@@ -4,24 +4,24 @@
     <list default="true" id="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" name="Default" comment="" />
     <ignored path="docs.iws" />
     <ignored path=".idea/workspace.xml" />
-    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSContabilidad2/cAsiento.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1439947927978" ignored="false" />
-    <file path="/translate-todo-list.txt" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1438961541711" ignored="false" />
-    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSCompra2/cFacturaCompra.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440009787091" ignored="false" />
+    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSContabilidad2/cAsiento.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440081861348" ignored="false" />
+    <file path="/translate-todo-list.txt" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440085580037" ignored="false" />
+    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSCompra2/cFacturaCompra.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440094618204" ignored="false" />
     <file path="/cAsiento.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1439582100092" ignored="false" />
     <file path="/cFacturaCompra.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1439554933520" ignored="false" />
-    <file path="/a.dummy" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440012936564" ignored="false" />
+    <file path="/a.dummy" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440094710511" ignored="false" />
     <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSContabilidad2/constants.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1438962197915" ignored="false" />
     <file path="/constants.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1438962196251" ignored="false" />
-    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/system/system.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440013386963" ignored="false" />
+    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/system/system.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440081978501" ignored="false" />
     <file path="/system.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1439573866677" ignored="false" />
     <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/system/dialogs/wizard.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1438871349706" ignored="false" />
-    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSCompra2/percepcion.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1439555709423" ignored="false" />
-    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSCompra2/cFacturaCompraRemitoWiz.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1438871349706" ignored="false" />
-    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/system/dialogs/dialog.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1438880337804" ignored="false" />
+    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSCompra2/percepcion.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440081818686" ignored="false" />
+    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSCompra2/cFacturaCompraRemitoWiz.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440081861348" ignored="false" />
+    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/system/dialogs/dialog.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440081819178" ignored="false" />
     <file path="/dialog.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1438880089909" ignored="false" />
-    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSGeneralEx2/cUsuarioConfig.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440013306555" ignored="false" />
+    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSGeneralEx2/cUsuarioConfig.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440081818816" ignored="false" />
     <file path="/cUsuarioConfig.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1438986008041" ignored="false" />
-    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/system/dialogs/dialogList.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1439393931394" ignored="false" />
+    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/system/dialogs/dialogList.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440081819178" ignored="false" />
     <file path="/dialogList.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1439393774979" ignored="false" />
     <file path="/Dummy.txt" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1439403190857" ignored="false" />
     <file path="$PROJECT_DIR$/../../../ArizonaBay/Intelimax/draftteam/CentralServer/app/assets/stylesheets/www/jumbotrons.scss" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1439404043380" ignored="false" />
@@ -33,84 +33,96 @@
     <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/system/modal.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1439470488058" ignored="false" />
     <file path="/modal.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1439470453019" ignored="false" />
     <file path="/percepcion.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1439555681026" ignored="false" />
-    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSCompra2/cDespachoImpCalculo.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440009855628" ignored="false" />
-    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSCompra2/cOrdenCompra.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440009919314" ignored="false" />
-    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSCompra2/cPedidoCompra.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440009933697" ignored="false" />
-    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSCompra2/cRemitoCompra.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440009945878" ignored="false" />
-    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSContabilidad2/cEjercicioContable.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440009959375" ignored="false" />
-    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSEnvio2/cParteDiario.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440009995173" ignored="false" />
-    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSEnvio2/cLegajo.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440009982720" ignored="false" />
-    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSExport2/cEmbarque.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1439760095353" ignored="false" />
-    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSExport2/cGarantia.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1439760099011" ignored="false" />
-    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSExport2/cImportacionTemporal.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1439760101718" ignored="false" />
-    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSExport2/cManifiestoCarga.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1439760104322" ignored="false" />
-    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSExport2/cPackingList.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1439760107555" ignored="false" />
-    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSExport2/cPermisoEmbarque.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1439760110300" ignored="false" />
-    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSPedidoVenta2/cPedidoVenta.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440012330649" ignored="false" />
-    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSStock2/cOrdenProdKit.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440012386136" ignored="false" />
-    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSStock2/cParteProdKit.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440012403536" ignored="false" />
-    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSStock2/cRecuentoStock.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440012414744" ignored="false" />
-    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSStock2/cStock.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440012424521" ignored="false" />
-    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSStock2/cStockCliente.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440012434243" ignored="false" />
-    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSStock2/cStockProveedor.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440012456976" ignored="false" />
-    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSTarea2/cHora.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440012525155" ignored="false" />
-    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSTarea2/cTarea.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440012541777" ignored="false" />
-    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSTesoreria2/cCobranza.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440012693814" ignored="false" />
-    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSTesoreria2/cCashFlow.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440012682058" ignored="false" />
-    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSTesoreria2/cBancoConciliacion.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440012672395" ignored="false" />
-    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSTesoreria2/cDepositoBanco.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440012704213" ignored="false" />
-    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSTesoreria2/cDepositoCupon.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440012714803" ignored="false" />
-    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSTesoreria2/cMovimientoFondo.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440012724252" ignored="false" />
-    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSTesoreria2/cOrdenPago.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440012734579" ignored="false" />
-    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSTesoreria2/cResolucionCupon.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440012746224" ignored="false" />
-    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSTicket/cOrdenServicio.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440013395639" ignored="false" />
-    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSTicket/cEquipo.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440012774538" ignored="false" />
-    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSTicket/cAlarma.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440012768842" ignored="false" />
-    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSVenta2/cFacturaVenta.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440012826688" ignored="false" />
-    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSVenta2/cHojaRuta.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440012835142" ignored="false" />
-    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSVenta2/cRemitoVenta.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440012871226" ignored="false" />
-    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSVenta2/cPresupuestoVenta.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440012856587" ignored="false" />
-    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSVenta2/cPickingList.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440012843231" ignored="false" />
-    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSCVXI/cPregunta.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440009972671" ignored="false" />
-    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSPersonal/cEmpleadoPeriodo.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440012352813" ignored="false" />
-    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSPersonal/cLiquidacion.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440012374413" ignored="false" />
-    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSStock2/cStockLote.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440012446967" ignored="false" />
-    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSTicket/cParteReparacion.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440012817370" ignored="false" />
-    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSGeneral2/cBanco.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440012990912" ignored="false" />
-    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSGeneral2/cCalidad.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440013000456" ignored="false" />
-    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSGeneral2/cCamion.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440013010059" ignored="false" />
-    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSGeneral2/cCentroCosto.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440013020370" ignored="false" />
-    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSGeneral2/cChofer.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440013029267" ignored="false" />
-    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSGeneral2/cCircuitoContable.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440013039408" ignored="false" />
-    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSGeneral2/cCiudad.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440013049046" ignored="false" />
-    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSGeneral2/cClearing.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440013058526" ignored="false" />
-    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSGeneral2/cClienteContactoTipo.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440013066710" ignored="false" />
-    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSGeneral2/cCobrador.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440013074480" ignored="false" />
-    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSGeneral2/cCuenta.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440013083108" ignored="false" />
-    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSGeneral2/cCuentaGrupo.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440013097277" ignored="false" />
-    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSGeneral2/cEmpresa.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440013109168" ignored="false" />
-    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSGeneral2/cEscala.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440013117701" ignored="false" />
-    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSGeneral2/cFeriado.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440013125756" ignored="false" />
-    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSGeneral2/cFormaPago.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440013134123" ignored="false" />
-    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSGeneral2/cGasto.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440013144468" ignored="false" />
-    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSGeneral2/cLeyenda.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440013153969" ignored="false" />
-    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSGeneral2/cListaPrecioMarcado.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440013161192" ignored="false" />
-    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSGeneral2/cMarca.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440013168029" ignored="false" />
-    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSGeneral2/cPais.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440013175111" ignored="false" />
-    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSGeneral2/cPercepcionTipo.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440013198555" ignored="false" />
-    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSGeneral2/cPersonaDocumentoTipo.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440013205962" ignored="false" />
-    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSGeneral2/cPosicionArancel.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440013213683" ignored="false" />
-    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSGeneral2/cProducto.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440013222054" ignored="false" />
-    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSGeneral2/cProductoHelpConfig.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440013234665" ignored="false" />
-    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSGeneral2/cProvincia.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440013241530" ignored="false" />
-    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSGeneral2/cReglaLiquidacion.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440013248829" ignored="false" />
-    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSGeneral2/cRetencionTipo.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440013256578" ignored="false" />
-    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSGeneral2/cSucursal.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440013264314" ignored="false" />
-    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSGeneral2/cTasaImpositiva.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440013272175" ignored="false" />
-    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSGeneral2/cTransporte.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440013279556" ignored="false" />
-    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSGeneral2/cUnidad.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440013286537" ignored="false" />
-    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSGeneral2/cVentaModo.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440013293945" ignored="false" />
-    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSGeneral2/cZona.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440013301228" ignored="false" />
+    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSCompra2/cDespachoImpCalculo.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440085260246" ignored="false" />
+    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSCompra2/cOrdenCompra.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440094618204" ignored="false" />
+    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSCompra2/cPedidoCompra.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440094618204" ignored="false" />
+    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSCompra2/cRemitoCompra.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440094618204" ignored="false" />
+    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSContabilidad2/cEjercicioContable.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440094618204" ignored="false" />
+    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSEnvio2/cParteDiario.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440094527383" ignored="false" />
+    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSEnvio2/cLegajo.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440092930896" ignored="false" />
+    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSExport2/cEmbarque.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440081861348" ignored="false" />
+    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSExport2/cGarantia.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440081861348" ignored="false" />
+    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSExport2/cImportacionTemporal.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440081861348" ignored="false" />
+    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSExport2/cManifiestoCarga.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440081861348" ignored="false" />
+    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSExport2/cPackingList.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440081861348" ignored="false" />
+    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSExport2/cPermisoEmbarque.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440081861348" ignored="false" />
+    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSPedidoVenta2/cPedidoVenta.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440094618204" ignored="false" />
+    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSStock2/cOrdenProdKit.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440085337511" ignored="false" />
+    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSStock2/cParteProdKit.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440085337511" ignored="false" />
+    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSStock2/cRecuentoStock.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440085337511" ignored="false" />
+    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSStock2/cStock.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440085337511" ignored="false" />
+    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSStock2/cStockCliente.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440085337511" ignored="false" />
+    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSStock2/cStockProveedor.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440085337511" ignored="false" />
+    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSTarea2/cHora.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440094713830" ignored="false" />
+    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSTarea2/cTarea.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440081861348" ignored="false" />
+    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSTesoreria2/cCobranza.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440094618204" ignored="false" />
+    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSTesoreria2/cCashFlow.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440081861348" ignored="false" />
+    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSTesoreria2/cBancoConciliacion.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440085288163" ignored="false" />
+    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSTesoreria2/cDepositoBanco.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440085386054" ignored="false" />
+    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSTesoreria2/cDepositoCupon.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440085386054" ignored="false" />
+    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSTesoreria2/cMovimientoFondo.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440094618204" ignored="false" />
+    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSTesoreria2/cOrdenPago.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440094618204" ignored="false" />
+    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSTesoreria2/cResolucionCupon.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440093166290" ignored="false" />
+    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSTicket/cOrdenServicio.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440094618204" ignored="false" />
+    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSTicket/cEquipo.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440085337511" ignored="false" />
+    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSTicket/cAlarma.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440085304296" ignored="false" />
+    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSVenta2/cFacturaVenta.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440094618204" ignored="false" />
+    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSVenta2/cHojaRuta.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440094713830" ignored="false" />
+    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSVenta2/cRemitoVenta.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440094618204" ignored="false" />
+    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSVenta2/cPresupuestoVenta.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440094618204" ignored="false" />
+    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSVenta2/cPickingList.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440094713830" ignored="false" />
+    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSCVXI/cPregunta.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440092780237" ignored="false" />
+    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSPersonal/cEmpleadoPeriodo.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440094667409" ignored="false" />
+    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSPersonal/cLiquidacion.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440094713830" ignored="false" />
+    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSStock2/cStockLote.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440084598237" ignored="false" />
+    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSTicket/cParteReparacion.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440094618204" ignored="false" />
+    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSGeneral2/cBanco.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440081818686" ignored="false" />
+    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSGeneral2/cCalidad.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440081818686" ignored="false" />
+    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSGeneral2/cCamion.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440081818686" ignored="false" />
+    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSGeneral2/cCentroCosto.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440081818686" ignored="false" />
+    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSGeneral2/cChofer.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440081818686" ignored="false" />
+    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSGeneral2/cCircuitoContable.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440081818686" ignored="false" />
+    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSGeneral2/cCiudad.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440081818686" ignored="false" />
+    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSGeneral2/cClearing.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440081818686" ignored="false" />
+    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSGeneral2/cClienteContactoTipo.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440081818686" ignored="false" />
+    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSGeneral2/cCobrador.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440081818685" ignored="false" />
+    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSGeneral2/cCuenta.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440085288163" ignored="false" />
+    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSGeneral2/cCuentaGrupo.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440081818686" ignored="false" />
+    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSGeneral2/cEmpresa.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440081818686" ignored="false" />
+    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSGeneral2/cEscala.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440081818686" ignored="false" />
+    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSGeneral2/cFeriado.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440081818686" ignored="false" />
+    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSGeneral2/cFormaPago.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440081818688" ignored="false" />
+    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSGeneral2/cGasto.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440081818688" ignored="false" />
+    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSGeneral2/cLeyenda.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440081818688" ignored="false" />
+    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSGeneral2/cListaPrecioMarcado.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440081818688" ignored="false" />
+    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSGeneral2/cMarca.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440081818688" ignored="false" />
+    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSGeneral2/cPais.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440081818688" ignored="false" />
+    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSGeneral2/cPercepcionTipo.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440081818688" ignored="false" />
+    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSGeneral2/cPersonaDocumentoTipo.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440081818688" ignored="false" />
+    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSGeneral2/cPosicionArancel.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440081818688" ignored="false" />
+    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSGeneral2/cProducto.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440081818688" ignored="false" />
+    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSGeneral2/cProductoHelpConfig.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440081818688" ignored="false" />
+    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSGeneral2/cProvincia.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440081818688" ignored="false" />
+    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSGeneral2/cReglaLiquidacion.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440081818688" ignored="false" />
+    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSGeneral2/cRetencionTipo.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440081818688" ignored="false" />
+    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSGeneral2/cSucursal.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440081818688" ignored="false" />
+    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSGeneral2/cTasaImpositiva.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440081818688" ignored="false" />
+    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSGeneral2/cTransporte.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440081818816" ignored="false" />
+    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSGeneral2/cUnidad.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440081818816" ignored="false" />
+    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSGeneral2/cVentaModo.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440081818816" ignored="false" />
+    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSGeneral2/cZona.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440081818816" ignored="false" />
+    <file path="/cEmpresa.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440074981597" ignored="false" />
+    <file path="/cOrdenCompra.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440085572093" ignored="false" />
+    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSGeneral2/cRubro.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440081818688" ignored="false" />
+    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/system/database/database.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440081819178" ignored="false" />
+    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/system/controls/select.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440081819178" ignored="false" />
+    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/system/controls/tree.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440081819178" ignored="false" />
+    <file path="/cPregunta.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440092766764" ignored="false" />
+    <file path="/cLegajo.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440092923228" ignored="false" />
+    <file path="/cResolucionCupon.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440093124062" ignored="false" />
+    <file path="/cParteDiario.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440093831035" ignored="false" />
+    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSCompra2/constants.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440093920233" ignored="false" />
+    <file path="$PROJECT_DIR$/../web/cairo/app/client/cairo/modules/CSTarea2/constants.js" changelist="ca223ee8-0503-4e7c-8572-66e32ff4d7ca" time="1440094492705" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -132,7 +144,7 @@
       <file leaf-file-name="translate-todo-list.txt" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/translate-todo-list.txt">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="258" column="108" selection-start="7487" selection-end="7496" vertical-scroll-proportion="0.5058573">
+            <state line="358" column="23" selection-start="10184" selection-end="11452" vertical-scroll-proportion="0.34252387">
               <folding />
             </state>
           </provider>
@@ -153,9 +165,10 @@
     </option>
   </component>
   <component name="ProjectFrameBounds">
+    <option name="x" value="1920" />
     <option name="y" value="22" />
     <option name="width" value="1920" />
-    <option name="height" value="1054" />
+    <option name="height" value="1058" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
     <OptionsSetting value="true" id="Add" />
@@ -224,7 +237,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="22" width="1920" height="1054" extended-state="6" />
+    <frame x="1920" y="22" width="1920" height="1058" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -344,7 +357,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/translate-todo-list.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="258" column="108" selection-start="7487" selection-end="7496" vertical-scroll-proportion="0.5058573">
+        <state line="358" column="23" selection-start="10184" selection-end="11452" vertical-scroll-proportion="0.34252387">
           <folding />
         </state>
       </provider>

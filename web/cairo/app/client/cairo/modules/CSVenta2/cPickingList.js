@@ -49,11 +49,11 @@
       var m_fechaDesdeV = "";
       var m_fechaHastaV = "";
 
-      var m_fechaDesde = null;
-      var m_fechaHasta = null;
+      var m_fechaIni = null;
+      var m_fechaFin = null;
 
       var m_nrodoc = "";
-      var m_cli_id = "";
+      var m_cliId = "";
       var m_cliente = "";
       var m_ven_id = "";
       var m_vendedor = "";
@@ -119,15 +119,15 @@
 
             if(LenB(iProp.getSelectIntValue())) {
               m_fechaDesdeV = iProp.getSelectIntValue();
-              m_fechaDesde = Cairo.Dates.DateNames.getDateByName(m_fechaDesdeV);
+              m_fechaIni = Cairo.Dates.DateNames.getDateByName(m_fechaDesdeV);
             }
             else if(IsDate(iProp.getValue())) {
               m_fechaDesdeV = "";
-              m_fechaDesde = iProp.getValue();
+              m_fechaIni = iProp.getValue();
             }
             else {
               m_fechaDesdeV = "";
-              iProp.setValue(m_fechaDesde);
+              iProp.setValue(m_fechaIni);
             }
 
             break;
@@ -138,15 +138,15 @@
 
             if(LenB(iProp.getSelectIntValue())) {
               m_fechaHastaV = iProp.getSelectIntValue();
-              m_fechaHasta = Cairo.Dates.DateNames.getDateByName(m_fechaHastaV);
+              m_fechaFin = Cairo.Dates.DateNames.getDateByName(m_fechaHastaV);
             }
             else if(IsDate(iProp.getValue())) {
               m_fechaHastaV = "";
-              m_fechaHasta = iProp.getValue();
+              m_fechaFin = iProp.getValue();
             }
             else {
               m_fechaHastaV = "";
-              iProp.setValue(m_fechaHasta);
+              iProp.setValue(m_fechaFin);
             }
 
             break;
@@ -173,18 +173,18 @@
           sqlstmt = sqlstmt+ Cairo.Database.sqlDate(Cairo.Dates.DateNames.getDateByName(m_fechaDesdeV))+ ",";
         }
         else {
-          sqlstmt = sqlstmt+ Cairo.Database.sqlDate(m_fechaDesde)+ ",";
+          sqlstmt = sqlstmt+ Cairo.Database.sqlDate(m_fechaIni)+ ",";
         }
 
         if(!cDate.getDateNames(m_fechaHastaV) == null) {
           sqlstmt = sqlstmt+ Cairo.Database.sqlDate(Cairo.Dates.DateNames.getDateByName(m_fechaHastaV))+ ",";
         }
         else {
-          sqlstmt = sqlstmt+ Cairo.Database.sqlDate(m_fechaHasta)+ ",";
+          sqlstmt = sqlstmt+ Cairo.Database.sqlDate(m_fechaFin)+ ",";
         }
 
         sqlstmt = sqlstmt+ Cairo.Database.sqlString(m_nrodoc)+ ",";
-        sqlstmt = sqlstmt+ Cairo.Database.sqlString(m_cli_id)+ ",";
+        sqlstmt = sqlstmt+ Cairo.Database.sqlString(m_cliId)+ ",";
         sqlstmt = sqlstmt+ Cairo.Database.sqlString(m_ven_id)+ ",";
         sqlstmt = sqlstmt+ Cairo.Database.sqlString(m_zon_id);
 
@@ -193,7 +193,7 @@
 
       var pValidateFilters = function() {
         if(LenB(m_nrodoc)) { return; }
-        if(LenB(m_cli_id) && m_cli_id != "0") { return; }
+        if(LenB(m_cliId) && m_cliId != "0") { return; }
         if(LenB(m_ven_id) && m_ven_id != "0") { return; }
         if(LenB(m_zon_id) && m_zon_id != "0") { return; }
 
@@ -204,20 +204,20 @@
           fdesde = Cairo.Dates.DateNames.getDateByName(m_fechaDesdeV);
         }
         else {
-          fdesde = m_fechaDesde;
+          fdesde = m_fechaIni;
         }
 
         if(!cDate.getDateNames(m_fechaHastaV) == null) {
           fhasta = Cairo.Dates.DateNames.getDateByName(m_fechaHastaV);
         }
         else {
-          fhasta = m_fechaHasta;
+          fhasta = m_fechaFin;
         }
 
         if(DateDiff("m", fdesde, fhasta) <= 6) { return; }
 
         if(!Ask(Cairo.Language.getText(3664, ""), vbNo)) {
-          m_cli_id = -1;
+          m_cliId = -1;
         }
 
       };
@@ -338,7 +338,7 @@
           c.setValue(m_fechaDesdeV);
         }
         else {
-          c.setValue(m_fechaDesde);
+          c.setValue(m_fechaIni);
         }
 
         c = m_dialog.getProperties().add(null, C_FECHAFIN);
@@ -350,7 +350,7 @@
           c.setValue(m_fechaHastaV);
         }
         else {
-          c.setValue(m_fechaHasta);
+          c.setValue(m_fechaFin);
         }
 
         c = m_dialog.getProperties().add(null, mVentaConstantes.PKL_NRODOC);
@@ -368,13 +368,13 @@
         c.setName(Cairo.Language.getText(1150, ""));
         c.setKey(K_CLI_ID);
         value = m_cliente;
-        if(m_cli_id.Substring(0, 1).toUpperCase() == KEY_NODO) {
-          value = GetNombreRama(Cairo.Tables.CLIENTE, Cairo.Util.val(m_cli_id.Substring(2)), bExists);
-          if(!bExists) { m_cli_id = "0"; }
+        if(m_cliId.Substring(0, 1).toUpperCase() == KEY_NODO) {
+          value = GetNombreRama(Cairo.Tables.CLIENTE, Cairo.Util.val(m_cliId.Substring(2)), bExists);
+          if(!bExists) { m_cliId = "0"; }
         }
         c.setValue(value);
-        c.setSelectId(Cairo.Util.val(m_cli_id));
-        c.setHelpValueProcess(m_cli_id);
+        c.setSelectId(Cairo.Util.val(m_cliId));
+        c.setHelpValueProcess(m_cliId);
 
         c = m_dialog.getProperties().add(null, mVentaConstantes.VEN_ID);
         c.setType(Dialogs.PropertyType.select);
@@ -423,19 +423,19 @@
 
       var load = function() {
 
-        return Cairo.Database.getData("load[" + m_apiPath + "general/pickinglistlistdoc]", id).then(
+        return DB.getData("load[" + m_apiPath + "general/pickinglistlistdoc]", id).then(
           function(response) {
 
             if(response.success !== true) { return false; }
 
-            if(response.data.id === Cairo.Constants.NO_ID) {
+            if(response.data.id === NO_ID) {
 
-              m_fechaDesde = Date;
-              m_fechaHasta = Date;
+              m_fechaIni = Date;
+              m_fechaFin = Date;
               m_fechaDesdeV = "";
               m_fechaHastaV = "";
               m_nrodoc = "";
-              m_cli_id = "";
+              m_cliId = "";
               m_cliente = "";
               m_ven_id = "";
               m_vendedor = "";
@@ -455,12 +455,12 @@
 
                   case K_FECHADESDE:
                     m_fechaDesdeV = Cairo.Database.valField(response.data, Cairo.Constants.LDP_VALOR);
-                    m_fechaDesde = IsDate(Cairo.Database.valField(response.data, Cairo.Constants.LDP_VALOR)) ? Cairo.Database.valField(response.data, Cairo.Constants.LDP_VALOR) : Date);
+                    m_fechaIni = IsDate(Cairo.Database.valField(response.data, Cairo.Constants.LDP_VALOR)) ? Cairo.Database.valField(response.data, Cairo.Constants.LDP_VALOR) : Date);
                     break;
 
                   case K_FECHAHASTA:
                     m_fechaHastaV = Cairo.Database.valField(response.data, Cairo.Constants.LDP_VALOR);
-                    m_fechaHasta = IsDate(Cairo.Database.valField(response.data, Cairo.Constants.LDP_VALOR)) ? Cairo.Database.valField(response.data, Cairo.Constants.LDP_VALOR) : Date);
+                    m_fechaFin = IsDate(Cairo.Database.valField(response.data, Cairo.Constants.LDP_VALOR)) ? Cairo.Database.valField(response.data, Cairo.Constants.LDP_VALOR) : Date);
                     break;
 
                   case K_NRODOC:
@@ -468,7 +468,7 @@
                     break;
 
                   case K_CLI_ID:
-                    m_cli_id = Cairo.Database.valField(response.data, Cairo.Constants.LDP_VALOR);
+                    m_cliId = Cairo.Database.valField(response.data, Cairo.Constants.LDP_VALOR);
                     break;
 
                   case K_VEN_ID:
@@ -486,18 +486,18 @@
 
               var data = null;
 
-              if(m_cli_id.Substring(0, 1).toUpperCase() != KEY_NODO) {
-                if(!Cairo.Database.getData(mVentaConstantes.CLIENTE, mVentaConstantes.CLI_ID, Cairo.Util.val(m_cli_id), mVentaConstantes.CLI_NAME, data, C_LoadFunction, C_MODULE, c_strLoad)) { return false; }
+              if(m_cliId.Substring(0, 1).toUpperCase() != KEY_NODO) {
+                if(!DB.getData(mVentaConstantes.CLIENTE, mVentaConstantes.CLI_ID, Cairo.Util.val(m_cliId), mVentaConstantes.CLI_NAME, data, C_LoadFunction, C_MODULE, c_strLoad)) { return false; }
                 m_cliente = data;
               }
 
               if(m_ven_id.Substring(0, 1).toUpperCase() != KEY_NODO) {
-                if(!Cairo.Database.getData(mVentaConstantes.VENDEDOR, mVentaConstantes.VEN_ID, Cairo.Util.val(m_ven_id), mVentaConstantes.VEN_NAME, data, C_LoadFunction, C_MODULE, c_strLoad)) { return false; }
+                if(!DB.getData(mVentaConstantes.VENDEDOR, mVentaConstantes.VEN_ID, Cairo.Util.val(m_ven_id), mVentaConstantes.VEN_NAME, data, C_LoadFunction, C_MODULE, c_strLoad)) { return false; }
                 m_vendedor = data;
               }
 
               if(m_zon_id.Substring(0, 1).toUpperCase() != KEY_NODO) {
-                if(!Cairo.Database.getData(mVentaConstantes.ZONA, mVentaConstantes.ZON_ID, Cairo.Util.val(m_zon_id), mVentaConstantes.ZON_NAME, data, C_LoadFunction, C_MODULE, c_strLoad)) { return false; }
+                if(!DB.getData(mVentaConstantes.ZONA, mVentaConstantes.ZON_ID, Cairo.Util.val(m_zon_id), mVentaConstantes.ZON_NAME, data, C_LoadFunction, C_MODULE, c_strLoad)) { return false; }
                 m_zona = data;
               }
 
@@ -521,15 +521,16 @@
 
       };
 
-      var setCIEditGenericListDoc_ObjABM = function(rhs) {
-        m_dialog = rhs;
+      self.setDialog = function(dialog) {
+        m_dialog = dialog;
+        m_properties = dialog.getProperties();
       };
 
       var cIEditGenericListDoc_ShowParams = function(us_id) {
         var _rtn = null;
         try {
 
-          if(us_id == Cairo.Constants.NO_ID) { return _rtn; }
+          if(us_id == NO_ID) { return _rtn; }
 
           m_us_id = us_id;
 

@@ -8,6 +8,7 @@
       var self = {};
 
       var Dialogs = Cairo.Dialogs;
+      var DB = Cairo.Database;
       var C = Cairo.General.Constants;
       var Types = Cairo.Constants.Types;
       var bToI = Cairo.Util.boolToInt;
@@ -453,7 +454,7 @@
 
         m_isNew = true;
 
-        m_listController.updateEditorKey(self, Cairo.Constants.NO_ID);
+        m_listController.updateEditorKey(self, NO_ID);
 
         var property = m_dialog.getProperties().item(C.PR_CODE);
         property.setValue(Cairo.Constants.COPY_OF + property.getValue());
@@ -469,11 +470,11 @@
 
         m_isNew = true;
 
-        if(!validateAccessNewEdit(Cairo.Constants.NO_ID)) { return false; }
+        if(!validateAccessNewEdit(NO_ID)) { return false; }
 
-        m_listController.updateEditorKey(self, Cairo.Constants.NO_ID);
+        m_listController.updateEditorKey(self, NO_ID);
 
-        return load(Cairo.Constants.NO_ID).then(
+        return load(NO_ID).then(
           function() {
             return refreshCollection();
           }
@@ -485,7 +486,7 @@
       };
 
       self.editDocumentsEnabled = function() {
-        return m_id !== Cairo.Constants.NO_ID;
+        return m_id !== NO_ID;
       };
 
       self.copyEnabled = function() {
@@ -500,7 +501,7 @@
         var _rtn = null;
         try {
 
-          if(m_id === Cairo.Constants.NO_ID) { return _rtn; }
+          if(m_id === NO_ID) { return _rtn; }
 
           var doc = new Cairo.DocDigital();
 
@@ -658,7 +659,7 @@
         }
 
         m_dialog.getProperties().item(C.PR_ES_PLANTILLA).setEnabled(true);
-        getTags().setEnabled(m_pr_id_webPadre === Cairo.Constants.NO_ID);
+        getTags().setEnabled(m_pr_id_webPadre === NO_ID);
 
       };
 
@@ -784,7 +785,7 @@
           case K_PR_ID_WEB_PADRE:
             
             var tabs = getTags();
-            tabs.setEnabled(m_dialog.getProperties().item(C.PR_ID_WEB_PADRE).getSelectId() === Cairo.Constants.NO_ID);
+            tabs.setEnabled(m_dialog.getProperties().item(C.PR_ID_WEB_PADRE).getSelectId() === NO_ID);
             m_dialog.showValue(tabs, true);
             break;
 
@@ -1296,7 +1297,7 @@
       };
 
       var updateList = function() {
-        if(m_id === Cairo.Constants.NO_ID) { return; }
+        if(m_id === NO_ID) { return; }
         if(m_listController === null) { return; }
 
         if(m_isNew) {
@@ -1449,11 +1450,11 @@
               break;
 
             case K_TA_ID_KITSERIE:
-              bHaveTalIdentidad = property.getSelectId() !== Cairo.Constants.NO_ID;
+              bHaveTalIdentidad = property.getSelectId() !== NO_ID;
               break;
 
             case K_TA_ID_KITLOTE:
-              bHaveTalLote = property.getSelectId() !== Cairo.Constants.NO_ID;
+              bHaveTalLote = property.getSelectId() !== NO_ID;
               break;
           }
         }
@@ -1517,7 +1518,7 @@
                 m_copy = false;
 
                 if(inModalWindow) {
-                  success = m_id !== Cairo.Constants.NO_ID;
+                  success = m_id !== NO_ID;
                 }
                 else {
                   success = true;
@@ -1547,7 +1548,7 @@
       };
 
       var validateAccessNewEdit = function(id) {
-        if(id === Cairo.Constants.NO_ID) {
+        if(id === NO_ID) {
           m_isNew = true;
           if(!Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.NEW_PRODUCTO)) { return false; }
         }
@@ -2589,7 +2590,7 @@
         var rubro = m_data.rubro;
         var tab_rubro = TAB_RUBRO;
 
-        if(rubro.getRubtId1() !== Cairo.Constants.NO_ID) {
+        if(rubro.getRubtId1() !== NO_ID) {
           elem = properties.add(null, C.RUBTI_ID_1);
           elem.setType(Dialogs.PropertyType.select);
           elem.setSelectTable(Cairo.Tables.ITEMS_DE_TABLAS_DE_RUBROS);
@@ -2599,7 +2600,7 @@
           elem.setKey(K_RUBTI_ID1);
 
 
-          if(rubro.getRubtiId1() !== Cairo.Constants.NO_ID) {
+          if(rubro.getRubtiId1() !== NO_ID) {
             elem.setValue(rubro.getRubtiName1());
             elem.setSelectId(rubro.getRubtiId1());
             elem.setEnabled(false);
@@ -2610,7 +2611,7 @@
           }
         }
 
-        if(rubro.getRubtId2() !== Cairo.Constants.NO_ID) {
+        if(rubro.getRubtId2() !== NO_ID) {
           elem = properties.add(null, C.RUBTI_ID_2);
           elem.setType(Dialogs.PropertyType.select);
           elem.setSelectTable(Cairo.Tables.ITEMS_DE_TABLAS_DE_RUBROS);
@@ -2620,7 +2621,7 @@
           elem.setKey(K_RUBTI_ID2);
 
 
-          if(rubro.getRubtiId2() !== Cairo.Constants.NO_ID) {
+          if(rubro.getRubtiId2() !== NO_ID) {
             elem.setValue(rubro.getRubtiName2());
             elem.setSelectId(rubro.getRubtiId2());
             elem.setEnabled(false);
@@ -2631,7 +2632,7 @@
           }
         }
 
-        if(rubro.getRubtId3() !== Cairo.Constants.NO_ID) {
+        if(rubro.getRubtId3() !== NO_ID) {
           elem = properties.add(null, C.RUBTI_ID_3);
           elem.setType(Dialogs.PropertyType.select);
           elem.setSelectTable(Cairo.Tables.ITEMS_DE_TABLAS_DE_RUBROS);
@@ -2641,7 +2642,7 @@
           elem.setKey(K_RUBTI_ID3);
 
 
-          if(rubro.getRubtiId3() !== Cairo.Constants.NO_ID) {
+          if(rubro.getRubtiId3() !== NO_ID) {
             elem.setValue(rubro.getRubtiName3());
             elem.setSelectId(rubro.getRubtiId3());
             elem.setEnabled(false);
@@ -2652,7 +2653,7 @@
           }
         }
 
-        if(rubro.getRubtId4() !== Cairo.Constants.NO_ID) {
+        if(rubro.getRubtId4() !== NO_ID) {
           elem = properties.add(null, C.RUBTI_ID_4);
           elem.setType(Dialogs.PropertyType.select);
           elem.setSelectTable(Cairo.Tables.ITEMS_DE_TABLAS_DE_RUBROS);
@@ -2662,7 +2663,7 @@
           elem.setKey(K_RUBTI_ID4);
 
 
-          if(rubro.getRubtiId4() !== Cairo.Constants.NO_ID) {
+          if(rubro.getRubtiId4() !== NO_ID) {
             elem.setValue(rubro.getRubtiName4());
             elem.setSelectId(rubro.getRubtiId4());
             elem.setEnabled(false);
@@ -2673,7 +2674,7 @@
           }
         }
 
-        if(rubro.getRubtId5() !== Cairo.Constants.NO_ID) {
+        if(rubro.getRubtId5() !== NO_ID) {
           elem = properties.add(null, C.RUBTI_ID_5);
           elem.setType(Dialogs.PropertyType.select);
           elem.setSelectTable(Cairo.Tables.ITEMS_DE_TABLAS_DE_RUBROS);
@@ -2683,7 +2684,7 @@
           elem.setKey(K_RUBTI_ID5);
 
 
-          if(rubro.getRubtiId5() !== Cairo.Constants.NO_ID) {
+          if(rubro.getRubtiId5() !== NO_ID) {
             elem.setValue(rubro.getRubtiName5());
             elem.setSelectId(rubro.getRubtiId5());
             elem.setEnabled(false);
@@ -2694,7 +2695,7 @@
           }
         }
 
-        if(rubro.getRubtId6() !== Cairo.Constants.NO_ID) {
+        if(rubro.getRubtId6() !== NO_ID) {
           elem = properties.add(null, C.RUBTI_ID_6);
           elem.setType(Dialogs.PropertyType.select);
           elem.setSelectTable(Cairo.Tables.ITEMS_DE_TABLAS_DE_RUBROS);
@@ -2704,7 +2705,7 @@
           elem.setKey(K_RUBTI_ID6);
 
 
-          if(rubro.getRubtiId6() !== Cairo.Constants.NO_ID) {
+          if(rubro.getRubtiId6() !== NO_ID) {
             elem.setValue(rubro.getRubtiName6());
             elem.setSelectId(rubro.getRubtiId6());
             elem.setEnabled(false);
@@ -2715,7 +2716,7 @@
           }
         }
 
-        if(rubro.getRubtId7() !== Cairo.Constants.NO_ID) {
+        if(rubro.getRubtId7() !== NO_ID) {
           elem = properties.add(null, C.RUBTI_ID_7);
           elem.setType(Dialogs.PropertyType.select);
           elem.setSelectTable(Cairo.Tables.ITEMS_DE_TABLAS_DE_RUBROS);
@@ -2725,7 +2726,7 @@
           elem.setKey(K_RUBTI_ID7);
 
 
-          if(rubro.getRubtiId7() !== Cairo.Constants.NO_ID) {
+          if(rubro.getRubtiId7() !== NO_ID) {
             elem.setValue(rubro.getRubtiName7());
             elem.setSelectId(rubro.getRubtiId7());
             elem.setEnabled(false);
@@ -2736,7 +2737,7 @@
           }
         }
 
-        if(rubro.getRubtId8() !== Cairo.Constants.NO_ID) {
+        if(rubro.getRubtId8() !== NO_ID) {
           elem = properties.add(null, C.RUBTI_ID_8);
           elem.setType(Dialogs.PropertyType.select);
           elem.setSelectTable(Cairo.Tables.ITEMS_DE_TABLAS_DE_RUBROS);
@@ -2746,7 +2747,7 @@
           elem.setKey(K_RUBTI_ID8);
 
 
-          if(rubro.getRubtiId8() !== Cairo.Constants.NO_ID) {
+          if(rubro.getRubtiId8() !== NO_ID) {
             elem.setValue(rubro.getRubtiName8());
             elem.setSelectId(rubro.getRubtiId8());
             elem.setEnabled(false);
@@ -2757,7 +2758,7 @@
           }
         }
 
-        if(rubro.getRubtId9() !== Cairo.Constants.NO_ID) {
+        if(rubro.getRubtId9() !== NO_ID) {
           elem = properties.add(null, C.RUBTI_ID_9);
           elem.setType(Dialogs.PropertyType.select);
           elem.setSelectTable(Cairo.Tables.ITEMS_DE_TABLAS_DE_RUBROS);
@@ -2767,7 +2768,7 @@
           elem.setKey(K_RUBTI_ID9);
 
 
-          if(rubro.getRubtiId9() !== Cairo.Constants.NO_ID) {
+          if(rubro.getRubtiId9() !== NO_ID) {
             elem.setValue(rubro.getRubtiName9());
             elem.setSelectId(rubro.getRubtiId9());
             elem.setEnabled(false);
@@ -2778,7 +2779,7 @@
           }
         }
 
-        if(rubro.getRubtId10() !== Cairo.Constants.NO_ID) {
+        if(rubro.getRubtId10() !== NO_ID) {
           elem = properties.add(null, C.RUBTI_ID_10);
           elem.setType(Dialogs.PropertyType.select);
           elem.setSelectTable(Cairo.Tables.ITEMS_DE_TABLAS_DE_RUBROS);
@@ -2788,7 +2789,7 @@
           elem.setKey(K_RUBTI_ID10);
 
 
-          if(rubro.getRubtiId10() !== Cairo.Constants.NO_ID) {
+          if(rubro.getRubtiId10() !== NO_ID) {
             elem.setValue(rubro.getRubtiName10());
             elem.setSelectId(rubro.getRubtiId10());
             elem.setEnabled(false);
@@ -2822,12 +2823,12 @@
 
         m_data = emptyData;
 
-        return Cairo.Database.getData("load[" + m_apiPath + "general/producto]", id).then(
+        return DB.getData("load[" + m_apiPath + "general/producto]", id).then(
           function(response) {
 
             if(response.success !== true) { return false; }
 
-            if(response.data.id !== Cairo.Constants.NO_ID) {
+            if(response.data.id !== NO_ID) {
 
               m_data = loadDataFromResponse(response);
 
@@ -3016,7 +3017,7 @@
             }
             else {
 
-              m_id = Cairo.Constants.NO_ID;
+              m_id = NO_ID;
               m_purchaseName = "";
               m_saleName = "";
               m_nombreFactura = "";
@@ -3029,9 +3030,9 @@
               m_active = true;
               m_descripVenta = "";
               m_descripCompra = "";
-              m_un_id_compra = Cairo.Constants.NO_ID;
-              m_un_id_venta = Cairo.Constants.NO_ID;
-              m_un_id_stock = Cairo.Constants.NO_ID;
+              m_un_id_compra = NO_ID;
+              m_un_id_venta = NO_ID;
+              m_un_id_stock = NO_ID;
               m_compraVenta = 0;
               m_ventaStock = 0;
               m_compraStock = 0;
@@ -3049,25 +3050,25 @@
               m_kitLoteXItem = false;
               m_talonarioKitSerie = "";
               m_talonarioKitLote = "";
-              m_ta_id_kitSerie = Cairo.Constants.NO_ID;
-              m_ta_id_kitLote = Cairo.Constants.NO_ID;
+              m_ta_id_kitSerie = NO_ID;
+              m_ta_id_kitLote = NO_ID;
 
               m_kitStkXItem = false;
               m_esLista = false;
-              m_ti_id_iva_ri_compra = Cairo.Constants.NO_ID;
-              m_ti_id_iva_ri_venta = Cairo.Constants.NO_ID;
-              m_ti_id_internos_v = Cairo.Constants.NO_ID;
-              m_ti_id_internos_c = Cairo.Constants.NO_ID;
+              m_ti_id_iva_ri_compra = NO_ID;
+              m_ti_id_iva_ri_venta = NO_ID;
+              m_ti_id_internos_v = NO_ID;
+              m_ti_id_internos_c = NO_ID;
               m_porcInternoC = 0;
               m_porcInternoV = 0;
-              m_ibc_id = Cairo.Constants.NO_ID;
-              m_cueg_id_compra = Cairo.Constants.NO_ID;
-              m_cueg_id_venta = Cairo.Constants.NO_ID;
+              m_ibc_id = NO_ID;
+              m_cueg_id_compra = NO_ID;
+              m_cueg_id_venta = NO_ID;
               m_x = 0;
               m_y = 0;
               m_z = 0;
               m_tieneHijo = false;
-              m_id_Padre = Cairo.Constants.NO_ID;
+              m_id_Padre = NO_ID;
               m_editarPrecioHijo = false;
               m_permiteEdicion = false;
               m_borrado = false;
@@ -3084,7 +3085,7 @@
               m_esRepuesto = 0;
 
               m_marca = "";
-              m_marc_id = Cairo.Constants.NO_ID;
+              m_marc_id = NO_ID;
 
               m_tiIvaRiCompra = "";
               m_tiIvaRiVenta = "";
@@ -3097,19 +3098,19 @@
               m_unidadVenta = "";
               m_unidadStock = "";
 
-              m_rub_id = Cairo.Constants.NO_ID;
+              m_rub_id = NO_ID;
               m_rubro = "";
 
-              m_rubti_id1 = Cairo.Constants.NO_ID;
-              m_rubti_id2 = Cairo.Constants.NO_ID;
-              m_rubti_id3 = Cairo.Constants.NO_ID;
-              m_rubti_id4 = Cairo.Constants.NO_ID;
-              m_rubti_id5 = Cairo.Constants.NO_ID;
-              m_rubti_id6 = Cairo.Constants.NO_ID;
-              m_rubti_id7 = Cairo.Constants.NO_ID;
-              m_rubti_id8 = Cairo.Constants.NO_ID;
-              m_rubti_id9 = Cairo.Constants.NO_ID;
-              m_rubti_id10 = Cairo.Constants.NO_ID;
+              m_rubti_id1 = NO_ID;
+              m_rubti_id2 = NO_ID;
+              m_rubti_id3 = NO_ID;
+              m_rubti_id4 = NO_ID;
+              m_rubti_id5 = NO_ID;
+              m_rubti_id6 = NO_ID;
+              m_rubti_id7 = NO_ID;
+              m_rubti_id8 = NO_ID;
+              m_rubti_id9 = NO_ID;
+              m_rubti_id10 = NO_ID;
 
               m_rubti_name1 = "";
               m_rubti_name2 = "";
@@ -3125,68 +3126,68 @@
               m_pesoNeto = 0;
               m_pesoTotal = 0;
               m_fleteExpo = false;
-              m_egp_id = Cairo.Constants.NO_ID;
+              m_egp_id = NO_ID;
               m_grupoExpo = "";
-              m_efm_id = Cairo.Constants.NO_ID;
+              m_efm_id = NO_ID;
               m_familiaExpo = "";
               m_cantXCajaExpo = 0;
-              m_un_id_peso = Cairo.Constants.NO_ID;
+              m_un_id_peso = NO_ID;
               m_unidadPeso = "";
 
-              m_embl_id = Cairo.Constants.NO_ID;
+              m_embl_id = NO_ID;
               m_embalaje = "";
 
               m_expoCairo = 50;
               m_expoWeb = 50;
               m_ventaWebMaxima = 99999;
-              m_ley_id = Cairo.Constants.NO_ID;
+              m_ley_id = NO_ID;
               m_leyenda = "";
 
               m_webImageFolder = "";
               m_webImageUpdate = true;
 
               m_centroCostoCompra = "";
-              m_ccos_id_compra = Cairo.Constants.NO_ID;
+              m_ccos_id_compra = NO_ID;
 
               m_centroCostoVenta = "";
-              m_ccos_id_venta = Cairo.Constants.NO_ID;
+              m_ccos_id_venta = NO_ID;
 
               m_isTemplate = 0;
-              m_cur_id = Cairo.Constants.NO_ID;
+              m_cur_id = NO_ID;
               m_curso = "";
 
-              m_rpt_id_nombreCompra = Cairo.Constants.NO_ID;
+              m_rpt_id_nombreCompra = NO_ID;
               m_rpt_nombreCompra = "";
 
-              m_rpt_id_nombreVenta = Cairo.Constants.NO_ID;
+              m_rpt_id_nombreVenta = NO_ID;
               m_rpt_nombreVenta = "";
 
-              m_rpt_id_nombrefactura = Cairo.Constants.NO_ID;
+              m_rpt_id_nombrefactura = NO_ID;
               m_rpt_nombrefactura = "";
 
-              m_rpt_id_nombreweb = Cairo.Constants.NO_ID;
+              m_rpt_id_nombreweb = NO_ID;
               m_rpt_nombreweb = "";
 
-              m_rpt_id_nombreimg = Cairo.Constants.NO_ID;
+              m_rpt_id_nombreimg = NO_ID;
               m_rpt_nombreimg = "";
 
-              m_rpt_id_nombreimgalt = Cairo.Constants.NO_ID;
+              m_rpt_id_nombreimgalt = NO_ID;
               m_rpt_nombreimgalt = "";
 
-              m_ti_id_comex_ganancias = Cairo.Constants.NO_ID;
+              m_ti_id_comex_ganancias = NO_ID;
               m_ti_comex_ganancias = "";
 
-              m_ti_id_comex_igb = Cairo.Constants.NO_ID;
+              m_ti_id_comex_igb = NO_ID;
               m_ti_comex_igb = "";
 
-              m_ti_id_comex_iva = Cairo.Constants.NO_ID;
+              m_ti_id_comex_iva = NO_ID;
               m_ti_comex_iva = "";
 
-              m_poar_id = Cairo.Constants.NO_ID;
+              m_poar_id = NO_ID;
               m_posicionArancel = "";
 
               m_productowebpadre = "";
-              m_pr_id_webPadre = Cairo.Constants.NO_ID;
+              m_pr_id_webPadre = NO_ID;
 
             }
 
@@ -3598,61 +3599,61 @@
 
         var properties = m_dialog.getProperties();
 
-        if(rubro.getRubtId1() !== Cairo.Constants.NO_ID) {
+        if(rubro.getRubtId1() !== NO_ID) {
           var property = properties.item(C.RUBTI_ID_1);
           property.setValue(m_rubti_name1);
           property.setSelectId(m_rubti_id1);
         }
 
-        if(rubro.getRubtId2() !== Cairo.Constants.NO_ID) {
+        if(rubro.getRubtId2() !== NO_ID) {
           var property = properties.item(C.RUBTI_ID_2);
           property.setValue(m_rubti_name2);
           property.setSelectId(m_rubti_id2);
         }
 
-        if(rubro.getRubtId3() !== Cairo.Constants.NO_ID) {
+        if(rubro.getRubtId3() !== NO_ID) {
           var property = properties.item(C.RUBTI_ID_3);
           property.setValue(m_rubti_name3);
           property.setSelectId(m_rubti_id3);
         }
 
-        if(rubro.getRubtId4() !== Cairo.Constants.NO_ID) {
+        if(rubro.getRubtId4() !== NO_ID) {
           var property = properties.item(C.RUBTI_ID_4);
           property.setValue(m_rubti_name4);
           property.setSelectId(m_rubti_id4);
         }
 
-        if(rubro.getRubtId5() !== Cairo.Constants.NO_ID) {
+        if(rubro.getRubtId5() !== NO_ID) {
           var property = properties.item(C.RUBTI_ID_5);
           property.setValue(m_rubti_name5);
           property.setSelectId(m_rubti_id5);
         }
 
-        if(rubro.getRubtId6() !== Cairo.Constants.NO_ID) {
+        if(rubro.getRubtId6() !== NO_ID) {
           var property = properties.item(C.RUBTI_ID_6);
           property.setValue(m_rubti_name6);
           property.setSelectId(m_rubti_id6);
         }
 
-        if(rubro.getRubtId7() !== Cairo.Constants.NO_ID) {
+        if(rubro.getRubtId7() !== NO_ID) {
           var property = properties.item(C.RUBTI_ID_7);
           property.setValue(m_rubti_name7);
           property.setSelectId(m_rubti_id7);
         }
 
-        if(rubro.getRubtId8() !== Cairo.Constants.NO_ID) {
+        if(rubro.getRubtId8() !== NO_ID) {
           var property = properties.item(C.RUBTI_ID_8);
           property.setValue(m_rubti_name8);
           property.setSelectId(m_rubti_id8);
         }
 
-        if(rubro.getRubtId9() !== Cairo.Constants.NO_ID) {
+        if(rubro.getRubtId9() !== NO_ID) {
           var property = properties.item(C.RUBTI_ID_9);
           property.setValue(m_rubti_name9);
           property.setSelectId(m_rubti_id9);
         }
 
-        if(rubro.getRubtId10() !== Cairo.Constants.NO_ID) {
+        if(rubro.getRubtId10() !== NO_ID) {
           var property = properties.item(C.RUBTI_ID_10);
           property.setValue(m_rubti_name10);
           property.setSelectId(m_rubti_id10);
@@ -3696,32 +3697,32 @@
 
           case K_PROVEEDOR:
             id = Cairo.Util.val(Dialogs.cell(row, KIK_PRPROV_ID).getValue());
-            if(id !== Cairo.Constants.NO_ID) { m_itemsDeletedProveedor = m_itemsDeletedProveedor + id.toString() + ","; }
+            if(id !== NO_ID) { m_itemsDeletedProveedor = m_itemsDeletedProveedor + id.toString() + ","; }
             break;
 
           case K_CLIENTE:
             id = Cairo.Util.val(Dialogs.cell(row, KIK_PRCLI_ID).getValue());
-            if(id !== Cairo.Constants.NO_ID) { m_itemsDeletedCliente = m_itemsDeletedCliente + id.toString() + ","; }
+            if(id !== NO_ID) { m_itemsDeletedCliente = m_itemsDeletedCliente + id.toString() + ","; }
             break;
 
           case K_TAGS:
             id = Cairo.Util.val(Dialogs.cell(row, KIT_PRT_ID).getValue());
-            if(id !== Cairo.Constants.NO_ID) { m_itemsDeletedTag = m_itemsDeletedTag + id.toString() + ","; }
+            if(id !== NO_ID) { m_itemsDeletedTag = m_itemsDeletedTag + id.toString() + ","; }
             break;
 
           case K_WEB_IMAGES:
             id = Cairo.Util.val(Dialogs.cell(row, KIWI_PRWI_ID).getValue());
-            if(id !== Cairo.Constants.NO_ID) { m_itemsDeletedWebImages = m_itemsDeletedWebImages + id.toString() + ","; }
+            if(id !== NO_ID) { m_itemsDeletedWebImages = m_itemsDeletedWebImages + id.toString() + ","; }
             break;
 
           case K_CMI:
             id = Cairo.Util.val(Dialogs.cell(row, KICMI_ID).getValue());
-            if(id !== Cairo.Constants.NO_ID) { m_itemsDeletedCMI = m_itemsDeletedCMI + id.toString() + ","; }
+            if(id !== NO_ID) { m_itemsDeletedCMI = m_itemsDeletedCMI + id.toString() + ","; }
             break;
 
           case K_LEYENDAS:
             id = Cairo.Util.val(Dialogs.cell(row, KIPRL_ID).getValue());
-            if(id !== Cairo.Constants.NO_ID) { m_itemsDeletedLeyendas = m_itemsDeletedLeyendas + id.toString() + ","; }
+            if(id !== NO_ID) { m_itemsDeletedLeyendas = m_itemsDeletedLeyendas + id.toString() + ","; }
             break;
         }
 
@@ -3991,7 +3992,7 @@
           }
 
           if(Dialogs.cell(row, KIK_PROV_PRECIO).getValue() !== Dialogs.cell(row, KIK_PROV_PRECIO2).getValue()
-            && Dialogs.cell(row, KIK_PROV_LPI_ID).getId() !== Cairo.Constants.NO_ID) {
+            && Dialogs.cell(row, KIK_PROV_LPI_ID).getId() !== NO_ID) {
 
             var register = new Cairo.Database.Register();
             register.setFieldId(C.PR_ID);
@@ -4317,7 +4318,7 @@
                 break;
 
               case KIT_PR_ID_TAG:
-                bPrIdTag = cell.getId() !== Cairo.Constants.NO_ID;
+                bPrIdTag = cell.getId() !== NO_ID;
                 fields.add(C.PR_ID_TAG, cell.getId(), Types.id);
                 break;
 
@@ -5548,26 +5549,26 @@
             if(kitInfo.kitIdentidad) {
 
               if(kitInfo.kitIdentidadXItem) {
-                kitInfo.taIdKitSerie = Cairo.Constants.NO_ID;
+                kitInfo.taIdKitSerie = NO_ID;
               }
               
               if(kitInfo.kitLote) {
                 
                 if(kitInfo.kitLoteXItem) {
-                  kitInfo.taIdKitLote = Cairo.Constants.NO_ID;
+                  kitInfo.taIdKitLote = NO_ID;
                 }
               }
               else {
                 kitInfo.kitLoteXItem = false;
-                kitInfo.taIdKitLote = Cairo.Constants.NO_ID;
+                kitInfo.taIdKitLote = NO_ID;
               }
             }
             else {
               kitInfo.kitIdentidadXItem = false;
               kitInfo.kitLote = false;
               kitInfo.kitLoteXItem = false;
-              kitInfo.taIdKitSerie = Cairo.Constants.NO_ID;
-              kitInfo.taIdKitLote = Cairo.Constants.NO_ID;
+              kitInfo.taIdKitSerie = NO_ID;
+              kitInfo.taIdKitLote = NO_ID;
             }
           }
           else {
@@ -5575,8 +5576,8 @@
             kitInfo.kitIdentidadXItem = false;
             kitInfo.kitLote = false;
             kitInfo.kitLoteXItem = false;
-            kitInfo.taIdKitSerie = Cairo.Constants.NO_ID;
-            kitInfo.taIdKitLote = Cairo.Constants.NO_ID;
+            kitInfo.taIdKitSerie = NO_ID;
+            kitInfo.taIdKitLote = NO_ID;
           }
 
         }
@@ -5587,14 +5588,14 @@
           kitInfo.kitIdentidadXItem = false;
           kitInfo.kitLote = false;
           kitInfo.kitLoteXItem = false;
-          kitInfo.taIdKitSerie = Cairo.Constants.NO_ID;
-          kitInfo.taIdKitLote = Cairo.Constants.NO_ID;
+          kitInfo.taIdKitSerie = NO_ID;
+          kitInfo.taIdKitLote = NO_ID;
         }
       };
 
       var createNameFromRubro = function() {
 
-        if(getRubId() === Cairo.Constants.NO_ID) {
+        if(getRubId() === NO_ID) {
 
           return Cairo.Promises.resolvedPromise(false);
         }
@@ -5686,7 +5687,7 @@
 
           var lp_id = null;
 
-          if(!Cairo.Database.getData(Constants.LISTA_PRECIO_ITEM, Constants.LPI_ID, lpi_id, Constants.LP_ID, lp_id)) { return; }
+          if(!DB.getData(Constants.LISTA_PRECIO_ITEM, Constants.LPI_ID, lpi_id, Constants.LP_ID, lp_id)) { return; }
 
           var obj = null;
           obj = CSKernelClient2.cUtil.createObject("CSArticulo.cListaPrecio");
@@ -5711,7 +5712,7 @@
         if(Dialogs.cell(row, KIK_PROV_NOMBRE).getValue() !== "") { return true; }
         if(Dialogs.cell(row, KIK_PROV_CODIGO).getValue() !== "") { return true; }
         if(Dialogs.cell(row, KIK_PROV_CODBARRA).getValue() !== "") { return true; }
-        if(Dialogs.cell(row, KIK_PA_ID).getId() !== Cairo.Constants.NO_ID) { return true; }
+        if(Dialogs.cell(row, KIK_PA_ID).getId() !== NO_ID) { return true; }
 
         return false;
       };
@@ -5838,7 +5839,7 @@
           };
 
           var getKey = function(id) {
-            if(id === Cairo.Constants.NO_ID) {
+            if(id === NO_ID) {
               return "new-id:" + (new Date).getTime().toString()
             }
             else {

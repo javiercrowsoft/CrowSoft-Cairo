@@ -290,7 +290,7 @@
         var _rtn = null;
         try {
 
-          if(us_id == Cairo.Constants.NO_ID) { return _rtn; }
+          if(us_id == NO_ID) { return _rtn; }
 
           m_us_id = us_id;
 
@@ -382,15 +382,18 @@
 
       var load = function() {
 
-        return Cairo.Database.getData("load[" + m_apiPath + "general/cashflowlistdoc]", id).then(
+        return DB.getData("load[" + m_apiPath + "general/cashflowlistdoc]", id).then(
           function(response) {
 
             if(response.success !== true) { return false; }
 
-            if(response.data.id === Cairo.Constants.NO_ID) {
+            if(response.data.id === NO_ID) {
 
-              m_fechaIni = Date;
-              m_fechaFin = Date;
+              m_fechaIniV = "";
+              m_fechaIni = Cairo.Dates.today();
+              m_fechaFinV = "";
+              m_fechaFin = Cairo.Dates.DateNames.getDateByName('h-60');
+
               m_fechaIniV = "";
               m_fechaFinV = "";
               m_titulo = "";

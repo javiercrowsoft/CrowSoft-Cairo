@@ -9,6 +9,7 @@
   var Dialogs = Cairo.Dialogs;
   var val = Cairo.Util.val;
   var P = Cairo.Promises;
+  var DB = Cairo.Database;
 
   var m_apiPath = Cairo.Database.getAPIVersion();
 
@@ -41,7 +42,7 @@
 
     ids = Cairo.Util.removeLastColon(ids);
 
-    return Cairo.Database.getData("load[" + m_apiPath + "general/producto/list]", ids).then(
+    return DB.getData("load[" + m_apiPath + "general/producto/list]", ids).then(
       function(response) {
 
         if(response.success === true) {
@@ -196,7 +197,7 @@
   };
 
   Cairo.Documents.getDocNumberForProveedor = function(provId, docId) {
-    return Cairo.Database.getData(
+    return DB.getData(
       "load[" + m_apiPath + "documento/" + docId.toString() + "/supplier/" + provId.toString() + "/next_number]");
   };
 
@@ -227,7 +228,7 @@
   };
 
   Cairo.Documents.getDocNumber = function(docId) {
-    return Cairo.Database.getData(
+    return DB.getData(
       "load[" + m_apiPath + "documento/" + docId.toString() + "/next_number]");
   };
 
@@ -258,7 +259,7 @@
   };
 
   Cairo.Documents.getCuentaInfo = function(cueId) {
-    return Cairo.Database.getData(
+    return DB.getData(
       "load[" + m_apiPath + "general/cuenta/" + cueId.toString() + "/info]").then(
       function(response) {
 
@@ -279,20 +280,20 @@
   };
 
   Cairo.Documents.getDocCliente = function(doctId, id) {
-    return Cairo.Database.getData(
+    return DB.getData(
       "load[" + m_apiPath + "documento/" + doctId.toString() + "/doc_client]", id);
   };
 
   Cairo.Documents.docInvalidate = function(doctId, id, dialog) {
     var p;
 
-    if(id === Cairo.Constants.NO_ID) {
+    if(id === NO_ID) {
                                              // you must save before invalidate
       return Cairo.Modal.showWarningWithFail(getText(2911, ""));
     }
     else {
 
-      p = Cairo.Database.getData("load[" + m_apiPath + "documento/" + doctId.toString() + "/invalidate_status]", id);
+      p = DB.getData("load[" + m_apiPath + "documento/" + doctId.toString() + "/invalidate_status]", id);
 
       p.then(function(response) {
 
@@ -339,7 +340,7 @@
 
                 var p;
 
-                var estId = Cairo.Constants.NO_ID;
+                var estId = NO_ID;
                 var estado = "";
                 var editable = "";
                 var message = "";
@@ -434,11 +435,11 @@
 
   var isValidDate = function(docId, date) {
 
-    if(docId === Cairo.Constants.NO_ID) {
+    if(docId === NO_ID) {
       return Cairo.Promises.failedPromise();
     }
     else {
-      var p = Cairo.Database.getData("load[" + m_apiPath + "documento/" + docId.toString() + "/is_valid_date]", Cairo.Database.sqlDate(date));
+      var p = DB.getData("load[" + m_apiPath + "documento/" + docId.toString() + "/is_valid_date]", Cairo.Database.sqlDate(date));
 
       return p.then(function(response) {
 
@@ -491,7 +492,7 @@
   };
 
   Cairo.Documents.getEmailFromProveedor = function(provId) {
-    return Cairo.Database.getData("load[" + m_apiPath + "general/proveedor/" + provId.toString() + "/email]").then(
+    return DB.getData("load[" + m_apiPath + "general/proveedor/" + provId.toString() + "/email]").then(
       function(response) {
         if(response.success === true) {
           var email = valField(response.data, 'email');
@@ -508,8 +509,8 @@
     if(showData) {
       var provId = dialog.getProperties().item(C.PROV_ID).getSelectId();
 
-      if(provId !== Cairo.Constants.NO_ID) {
-        Cairo.Database.getData("load[" + m_apiPath + "general/proveedor/" + provId.toString() + "/data_add]").then(
+      if(provId !== NO_ID) {
+        DB.getData("load[" + m_apiPath + "general/proveedor/" + provId.toString() + "/data_add]").then(
           function(response) {
             if(response.success === true) {
               var info = valField(response.data, 'info');
@@ -548,7 +549,7 @@
       return properties.item(keyDoc).getSelectId();
     }
     else {
-      return Cairo.Constants.NO_ID;
+      return NO_ID;
     }
   };
 
@@ -563,7 +564,7 @@
   };
 
   Cairo.Documents.getCurrencyRate = function(monId, date) {
-    return Cairo.Database.getData("load[" + m_apiPath + "documento/currency/" + monId.toString() + "/rate]", date).then(
+    return DB.getData("load[" + m_apiPath + "documento/currency/" + monId.toString() + "/rate]", date).then(
       function(response) {
         var rate = 0;
         if(response.success === true) {
@@ -576,7 +577,7 @@
   };
 
   Cairo.Documents.editableStatus = function(docId, actionId) {
-    var p = Cairo.Database.getData("load[" + m_apiPath + "documento/" + docId.toString() + "/edit_status]", actionId);
+    var p = DB.getData("load[" + m_apiPath + "documento/" + docId.toString() + "/edit_status]", actionId);
 
     return p.then(function(response) {
 
@@ -598,7 +599,7 @@
   Cairo.Documents.getSelectFilterForCuenta = "account_in_current_company";
 
   Cairo.Documents.getTasaFromProducto = function(prId, isCompra) {
-    var p = Cairo.Database.getData("load[" + m_apiPath + "general/producto/" + prId.toString() + "/taxes]");
+    var p = DB.getData("load[" + m_apiPath + "general/producto/" + prId.toString() + "/taxes]");
 
     return p.then(function(response) {
 
@@ -685,7 +686,7 @@
   };
 
   Cairo.Documents.move = function(docId, moveTo) {
-    var p = Cairo.Database.getData("load[" + m_apiPath + "documento/" + docId.toString() + "/move]", moveTo);
+    var p = DB.getData("load[" + m_apiPath + "documento/" + docId.toString() + "/move]", moveTo);
 
     return p.then(function(response) {
 
@@ -1121,13 +1122,13 @@
 
     var p = null;
     
-    if(docProperty.getSelectId() === Cairo.Constants.NO_ID) { 
+    if(docProperty.getSelectId() === NO_ID) {
 
       var id = 0;
   
       if(vIds.length > 0) { id = vIds(1); }
   
-      p = Cairo.Database.getData("load[" + m_apiPath + "documento/from_doct_id/"
+      p = DB.getData("load[" + m_apiPath + "documento/from_doct_id/"
                   + doctId.toString() + "/" + doctIdApplic.toString()
                   + "/" + id.toString() + "/" + idEx.toString() + "]")
         .then(function(response) {
@@ -1359,7 +1360,7 @@
         }
       }
 
-      if(!create(Dialogs.cell(row, keyGroup).getID(), cantidad, row, nrosSerie, keyGroup, keyNSerie, rowIndex, prId, deplId, isInput, false, false,, null, Cairo.Constants.NO_ID, Cairo.Constants.NO_ID, 0, Cairo.Constants.NO_ID)) { return false; }
+      if(!create(Dialogs.cell(row, keyGroup).getID(), cantidad, row, nrosSerie, keyGroup, keyNSerie, rowIndex, prId, deplId, isInput, false, false,, null, NO_ID, NO_ID, 0, NO_ID)) { return false; }
 
     }
     else if(cantidad < nroSerieCount) {
@@ -1424,7 +1425,7 @@
 
     return quantityChange(
       row, lRow, keyCantidad, newValue, keyGroup, nrosSerie, keyPrId, keyNSerie,
-      prId, deplId, false, Cairo.Constants.NO_ID, true, isNew);
+      prId, deplId, false, NO_ID, true, isNew);
   };
 
   Cairo.SerialNumber.quantityChange = function(
@@ -1479,7 +1480,7 @@
         }
         else if(nroSerieCount < newValue) {
 
-          if(!Cairo.SerialNumber.edit(Dialogs.cell(row, keyGroup).getID(), newValue, row, nrosSerie, keyGroup, keyNSerie, lRow, prId, deplId, isInput, false,, null, provId, Cairo.Constants.NO_ID)) {
+          if(!Cairo.SerialNumber.edit(Dialogs.cell(row, keyGroup).getID(), newValue, row, nrosSerie, keyGroup, keyNSerie, lRow, prId, deplId, isInput, false,, null, provId, NO_ID)) {
             return null;
           }
 
@@ -1497,7 +1498,7 @@
 
     return edit (
       grupo, cantidad, row, nrosSerie, keyGroup, keyNSerie, lRow,
-      Cairo.Constants.NO_ID, deplId, isInput, bEditKit, false, collKitInfo, prov_id, cli_id, 0, prId);
+      NO_ID, deplId, isInput, bEditKit, false, collKitInfo, prov_id, cli_id, 0, prId);
   };
 
   Cairo.SerialNumber.edit = function(
@@ -1514,7 +1515,7 @@
 
     return edit (
       grupo, cantidad, row, nrosSerie, keyGroup, keyNSerie, lRow,
-      prId, deplId, isInput, false, false, null, Cairo.Constants.NO_ID, Cairo.Constants.NO_ID, deleteCount, 0);
+      prId, deplId, isInput, false, false, null, NO_ID, NO_ID, deleteCount, 0);
   };
 
   Cairo.SerialNumber.editPPK = function(

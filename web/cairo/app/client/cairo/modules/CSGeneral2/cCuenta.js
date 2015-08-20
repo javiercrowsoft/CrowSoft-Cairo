@@ -8,9 +8,7 @@
       var self = {};
 
       var Dialogs = Cairo.Dialogs;
-
-      // cCuenta
-      // 02-02-01
+      var DB = Cairo.Database;
 
       var C_MODULE = "cCuenta";
 
@@ -50,7 +48,7 @@
       var m_moneda = "";
       var m_bco_id = 0;
       var m_banco = "";
-      var m_emp_id = 0;
+      var m_empId = 0;
       var m_empresa = "";
       var m_codigoRPT = "";
       var m_esEfectivo;
@@ -90,7 +88,7 @@
 
         m_isNew = true;
 
-        m_listController.updateEditorKey(self, Cairo.Constants.NO_ID);
+        m_listController.updateEditorKey(self, NO_ID);
 
         var property = m_dialog.getProperties().item(Cairo.General.Constants.CUE_CODE);
         property.setValue(Cairo.Constants.COPY_OF + property.getValue());
@@ -107,9 +105,9 @@
 
         m_isNew = true;
 
-        m_listController.updateEditorKey(self, Cairo.Constants.NO_ID);
+        m_listController.updateEditorKey(self, NO_ID);
 
-        return load(Cairo.Constants.NO_ID).then(
+        return load(NO_ID).then(
           function() {
             return refreshCollection();
           }
@@ -121,7 +119,7 @@
       };
 
       self.editDocumentsEnabled = function() {
-        return m_id !== Cairo.Constants.NO_ID;
+        return m_id !== NO_ID;
       };
 
       self.copyEnabled = function() {
@@ -136,7 +134,7 @@
         var _rtn = null;
         try {
 
-          if(m_id === Cairo.Constants.NO_ID) { return _rtn; }
+          if(m_id === NO_ID) { return _rtn; }
 
           var doc = new Cairo.DocDigital();
 
@@ -260,7 +258,7 @@
       var limpiarCategorias = function() {
 
         var properties = m_dialog.getProperties();
-        properties.item(Cairo.General.Constants.CUEC_ID).setSelectId(Cairo.Constants.NO_ID);
+        properties.item(Cairo.General.Constants.CUEC_ID).setSelectId(NO_ID);
         properties.item(Cairo.General.Constants.CUEC_ID).setSelectIntValue("");
         properties.item(Cairo.General.Constants.CUEC_ID).setValue("");
 
@@ -375,7 +373,7 @@
       };
 
       var updateList = function() {
-        if(m_id === Cairo.Constants.NO_ID) { return; }
+        if(m_id === NO_ID) { return; }
         if(m_listController === null) { return; }
 
         if(m_isNew) {
@@ -480,7 +478,7 @@
         var p = Cairo.Promises.resolvedPromise(false);
         try {
 
-          if(id === Cairo.Constants.NO_ID) {
+          if(id === NO_ID) {
             m_isNew = true;
             if(!Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.NEW_CUENTA)) { return p; }
           } 
@@ -501,7 +499,7 @@
                 m_copy = false;
 
                 if(inModalWindow) {
-                  success = m_id !== Cairo.Constants.NO_ID;
+                  success = m_id !== NO_ID;
                 } 
                 else {
                   success = true;
@@ -580,7 +578,7 @@
         // Empresa
         elem.setName(Cairo.Language.getText(1114, ""));
         elem.setKey(K_EMP_ID);
-        elem.setSelectId(m_emp_id);
+        elem.setSelectId(m_empId);
         elem.setValue(m_empresa);
 
         var elem = properties.add(null, Cairo.General.Constants.CUE_LLEVA_CENTRO_COSTO);
@@ -728,7 +726,7 @@
         elem.setValue(m_moneda);
 
         var elem = properties.item(Cairo.Constants.EMP_ID);
-        elem.setSelectId(m_emp_id);
+        elem.setSelectId(m_empId);
         elem.setValue(m_empresa);
 
         var elem = properties.item(Cairo.General.Constants.CUE_LLEVA_CENTRO_COSTO);
@@ -771,25 +769,25 @@
 
       var load = function(id) {
 
-        return Cairo.Database.getData("load[" + m_apiPath + "general/cuenta]", id).then(
+        return DB.getData("load[" + m_apiPath + "general/cuenta]", id).then(
           function(response) {
 
             if(response.success !== true) { return false; }
 
-            if(response.data.id === Cairo.Constants.NO_ID) {
+            if(response.data.id === NO_ID) {
               m_active = true;
               m_name = "";
               m_code = "";
-              m_id = Cairo.Constants.NO_ID;
+              m_id = NO_ID;
               m_descripcion = "";
               m_identificacionExterna = "";
               m_categoria = "";
-              m_categoriaId = Cairo.Constants.NO_ID;
-              m_monId = Cairo.Constants.NO_ID;
+              m_categoriaId = NO_ID;
+              m_monId = NO_ID;
               m_moneda = "";
-              m_bco_id = Cairo.Constants.NO_ID;
+              m_bco_id = NO_ID;
               m_banco = "";
-              m_emp_id = Cairo.Constants.NO_ID;
+              m_empId = NO_ID;
               m_empresa = "";
               m_categoriaTipo = csECuentaCategoriaTipo.cSETCUECPATRIMONIAL;
               m_llevaCentroCosto = false;
@@ -816,7 +814,7 @@
               m_categoriaTipo = Cairo.Database.valField(response.data, Cairo.General.Constants.CUEC_TIPO);
               m_llevaCentroCosto = Cairo.Database.valField(response.data, Cairo.General.Constants.CUE_LLEVA_CENTRO_COSTO);
               m_producto = Cairo.Database.valField(response.data, Cairo.General.Constants.CUE_PRODUCTO);
-              m_emp_id = Cairo.Database.valField(response.data, Cairo.Constants.EMP_ID);
+              m_empId = Cairo.Database.valField(response.data, Cairo.Constants.EMP_ID);
               m_empresa = Cairo.Database.valField(response.data, Cairo.Constants.EMP_NAME);
               m_codigoRPT = Cairo.Database.valField(response.data, Cairo.General.Constants.CUE_CODIGO_RPT);
               m_esEfectivo = Cairo.Database.valField(response.data, Cairo.General.Constants.CUE_ES_EFECTIVO);
@@ -936,7 +934,7 @@
           };
 
           var getKey = function(id) {
-            if(id === Cairo.Constants.NO_ID) {
+            if(id === NO_ID) {
               return "new-id:" + (new Date).getTime().toString()
             }
             else {

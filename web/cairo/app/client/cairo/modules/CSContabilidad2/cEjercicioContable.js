@@ -42,7 +42,7 @@
       // empid
       var K_EMP_ID = 100;
 
-      var m_emp_id = "";
+      var m_empId = "";
       var m_empresa = "";
 
       // ACA VAN LAS m_ GENERADAS POR EL ASISTENTE.
@@ -72,13 +72,13 @@
         c.setName(Cairo.Language.getText(1114, ""));
         c.setKey(K_EMP_ID);
         value = m_empresa;
-        if(m_emp_id.Substring(0, 1).toUpperCase() == KEY_NODO) {
-          value = mPublic.self.getNameRama(Cairo.Tables.EMPRESA, Cairo.Util.val(m_emp_id.Substring(2)), bExists);
-          if(!bExists) { m_emp_id = "0"; }
+        if(m_empId.Substring(0, 1).toUpperCase() == KEY_NODO) {
+          value = mPublic.self.getNameRama(Cairo.Tables.EMPRESA, Cairo.Util.val(m_empId.Substring(2)), bExists);
+          if(!bExists) { m_empId = "0"; }
         }
         c.setValue(value);
-        c.setSelectId(Cairo.Util.val(m_emp_id));
-        c.setHelpValueProcess(m_emp_id);
+        c.setSelectId(Cairo.Util.val(m_empId));
+        c.setHelpValueProcess(m_empId);
 
         if(!m_dialog.showDocumentList(self)) { return false; }
 
@@ -96,45 +96,40 @@
 
       var load = function() {
 
-        return Cairo.Database.getData("load[" + m_apiPath + "general/ejerciciolistdoc]", id).then(
+        return DB.getData("load[" + m_apiPath + "general/ejerciciolistdoc]", id).then(
           function(response) {
 
             // empid
-            m_emp_id = cUtil.getEmpId();
-            m_empresa = cUtil.getEmpNombre();
+            m_empId = Cairo.Company.getId();
+            m_empresa = Cairo.Company.getName();
 
             if(response.success !== true) { return false; }
 
-            if(response.data.id !== Cairo.Constants.NO_ID) {
+            if(response.data.id !== NO_ID) {
 
-              rs.MoveLast;
-              rs.MoveFirst;
+              m_fechaIniV = valField(response.data, C.FROM);
+              m_fechaIni = valField(response.data, C.FROM);
+              m_fechaIni = isDate(m_fechaIni) ? getDateValue(m_fechaIni) : today();
 
-              var i = null;
-              while (!rs.isEOF()) {
+              m_fechaFinV = valField(response.data, C.TO);
+              m_fechaFin = valField(response.data, C.TO);
+              m_fechaFin = isDate(m_fechaFin) ? getDateValue(m_fechaFin) : today();
 
-                switch (Cairo.Database.valField(response.data, Cairo.Constants.LDP_ID)) {
+              m_provId = valField(response.data, C.PROV_ID);
+              m_estId = valField(response.data, C.EST_ID);
+              m_ccosId = valField(response.data, C.CCOS_ID);
+              m_sucId = valField(response.data, C.SUC_ID);
+              m_docId = valField(response.data, C.DOC_ID);
+              m_cpgId = valField(response.data, C.CPG_ID);
+              m_empId = valField(response.data, C.EMP_ID);
 
-                  // empid
-                  case K_EMP_ID:
-                    m_emp_id = Cairo.Database.valField(response.data, Cairo.Constants.LDP_VALOR);
-
-                    break;
-                }
-
-                rs.MoveNext;
-              }
-
-              var data = null;
-              var strLoad = null;
-
-              //'Error al cargar los parámetros de navegación de Ejercicios Contables
-              strLoad = Cairo.Language.getText(2299, "");
-
-              if(m_emp_id.Substring(0, 1).toUpperCase() != KEY_NODO) {
-                if(!Cairo.Database.getData(Cairo.Constants.EMPRESA, Cairo.Constants.EMP_ID, Cairo.Util.val(m_emp_id), Cairo.Constants.EMP_NAME, data, C_LoadFunction, C_MODULE, strLoad)) { return false; }
-                m_empresa = data;
-              }
+              m_proveedor = valField(response.data, C.PROV_NAME);
+              m_estado = valField(response.data, C.EST_NAME);
+              m_centroCosto = valField(response.data, C.CCOS_NAME);
+              m_sucursal = valField(response.data, C.SUC_NAME);
+              m_documento = valField(response.data, C.DOC_NAME);
+              m_condicionPago = valField(response.data, C.CPG_NAME);
+              m_empresa = valField(response.data, C.EMP_NAME);
 
             }
 
@@ -158,7 +153,7 @@
           case K_EMP_ID:
             var property = m_dialog.getProperties().item(Cairo.Constants.EMP_ID);
             m_empresa = property.getValue();
-            m_emp_id = property.getSelectIntValue();
+            m_empId = property.getSelectIntValue();
             break;
         }
 
@@ -172,7 +167,7 @@
 
         sqlstmt = sqlstmt+ Cairo.Database.getUserId().toString()+ ",";
 
-        sqlstmt = sqlstmt+ Cairo.Database.sqlString(m_emp_id);
+        sqlstmt = sqlstmt+ Cairo.Database.sqlString(m_empId);
 
         return sqlstmt;
       };
@@ -252,8 +247,9 @@
 
       };
 
-      var setCIEditGenericListDoc_ObjABM = function(rhs) {
-        m_dialog = rhs;
+      self.setDialog = function(dialog) {
+        m_dialog = dialog;
+        m_properties = dialog.getProperties();
       };
 
       var cIEditGenericListDoc_PropertyChange = function(key) {
@@ -263,7 +259,7 @@
         var _rtn = null;
         try {
 
-          if(us_id == Cairo.Constants.NO_ID) { return _rtn; }
+          if(us_id == NO_ID) { return _rtn; }
 
           m_us_id = us_id;
 

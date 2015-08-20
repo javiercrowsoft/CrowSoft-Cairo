@@ -8,9 +8,7 @@
       var self = {};
 
       var Dialogs = Cairo.Dialogs;
-
-      // cTransporte
-      // 23-03-02
+      var DB = Cairo.Database;
 
       var C_MODULE = "cTransporte";
 
@@ -83,7 +81,7 @@
 
         m_isNew = true;
 
-        m_listController.updateEditorKey(self, Cairo.Constants.NO_ID);
+        m_listController.updateEditorKey(self, NO_ID);
 
         var property = m_dialog.getProperties().item(Cairo.General.Constants.TRANS_CODE);
         property.setValue(Cairo.Constants.COPY_OF + property.getValue());
@@ -100,9 +98,9 @@
 
         m_isNew = true;
 
-        m_listController.updateEditorKey(self, Cairo.Constants.NO_ID);
+        m_listController.updateEditorKey(self, NO_ID);
 
-        return load(Cairo.Constants.NO_ID).then(
+        return load(NO_ID).then(
           function() {
             return refreshCollection();
           }
@@ -114,7 +112,7 @@
       };
 
       self.editDocumentsEnabled = function() {
-        return m_id !== Cairo.Constants.NO_ID;
+        return m_id !== NO_ID;
       };
 
       self.copyEnabled = function() {
@@ -129,7 +127,7 @@
         var _rtn = null;
         try {
 
-          if(m_id === Cairo.Constants.NO_ID) { return _rtn; }
+          if(m_id === NO_ID) { return _rtn; }
 
           var doc = new Cairo.DocDigital();
 
@@ -282,7 +280,7 @@
         });
       };
       var updateList = function() {
-        if(m_id === Cairo.Constants.NO_ID) { return; }
+        if(m_id === NO_ID) { return; }
         if(m_listController === null) { return; }
 
         if(m_isNew) {
@@ -360,7 +358,7 @@
         var p = Cairo.Promises.resolvedPromise(false);
         try {
 
-          if(id === Cairo.Constants.NO_ID) {
+          if(id === NO_ID) {
             m_isNew = true;
             if(!Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.NEW_TRANSPORTE)) { return p; }
           } 
@@ -381,7 +379,7 @@
                 m_copy = false;
 
                 if(inModalWindow) {
-                  success = m_id !== Cairo.Constants.NO_ID;
+                  success = m_id !== NO_ID;
                 } 
                 else {
                   success = true;
@@ -583,12 +581,12 @@
 
       var load = function(id) {
 
-        return Cairo.Database.getData("load[" + m_apiPath + "general/transporte]", id).then(
+        return DB.getData("load[" + m_apiPath + "general/transporte]", id).then(
           function(response) {
 
             if(response.success !== true) { return false; }
 
-            if(response.data.id !== Cairo.Constants.NO_ID) {
+            if(response.data.id !== NO_ID) {
 
               m_id = Cairo.Database.valField(response.data, Cairo.General.Constants.TRANS_ID);
               m_name = Cairo.Database.valField(response.data, Cairo.General.Constants.TRANS_NAME);
@@ -612,7 +610,7 @@
 
             } 
             else {
-              m_id = Cairo.Constants.NO_ID;
+              m_id = NO_ID;
               m_name = "";
               m_code = "";
               m_telefono = "";
@@ -621,7 +619,7 @@
               m_web = "";
               m_descrip = "";
               m_active = true;
-              m_provId = Cairo.Constants.NO_ID;
+              m_provId = NO_ID;
               m_proveedor = "";
 
               m_horario_m_desde = Cairo.Constants.NO_DATE;
@@ -629,7 +627,7 @@
               m_horario_t_desde = Cairo.Constants.NO_DATE;
               m_horario_t_hasta = Cairo.Constants.NO_DATE;
 
-              m_pro_id = Cairo.Constants.NO_ID;
+              m_pro_id = NO_ID;
               m_provincia = "";
             }
 
@@ -737,7 +735,7 @@
           };
 
           var getKey = function(id) {
-            if(id === Cairo.Constants.NO_ID) {
+            if(id === NO_ID) {
               return "new-id:" + (new Date).getTime().toString()
             }
             else {

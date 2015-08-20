@@ -1119,7 +1119,7 @@
         var searchCtrl = Cairo.Select.Controller.createSelectControl(listController.Tree.treeSearchControlId, tableId, false, "-");
 
         mainView.on("tree:new", function() {
-          listController.edit(Cairo.Constants.NO_ID, listController.Tree.treeId, getActiveBranchId(listController));
+          listController.edit(NO_ID, listController.Tree.treeId, getActiveBranchId(listController));
         });
 
         listController.treeColumn = $('.tree-layout-tree-column', mainView.$el);

@@ -52,21 +52,21 @@
       var m_fechaDesdeV = "";
       var m_fechaHastaV = "";
 
-      var m_fechaDesde = null;
-      var m_fechaHasta = null;
+      var m_fechaIni = null;
+      var m_fechaFin = null;
 
-      var m_ccos_id = "";
+      var m_ccosId = "";
       var m_centroCosto = "";
       var m_em_id = "";
       var m_empleado = "";
-      var m_est_id = "";
+      var m_estId = "";
       var m_estado = "";
-      var m_suc_id = "";
+      var m_sucId = "";
       var m_sucursal = "";
-      var m_doc_id = "";
+      var m_docId = "";
       var m_documento = "";
       // empid
-      var m_emp_id = "";
+      var m_empId = "";
       var m_empresa = "";
 
       var m_menuLoaded;
@@ -128,15 +128,15 @@
 
             if(LenB(iProp.getSelectIntValue())) {
               m_fechaDesdeV = iProp.getSelectIntValue();
-              m_fechaDesde = Cairo.Dates.DateNames.getDateByName(m_fechaDesdeV);
+              m_fechaIni = Cairo.Dates.DateNames.getDateByName(m_fechaDesdeV);
             }
             else if(IsDate(iProp.getValue())) {
               m_fechaDesdeV = "";
-              m_fechaDesde = iProp.getValue();
+              m_fechaIni = iProp.getValue();
             }
             else {
               m_fechaDesdeV = "";
-              iProp.setValue(m_fechaDesde);
+              iProp.setValue(m_fechaIni);
             }
 
             break;
@@ -147,15 +147,15 @@
 
             if(LenB(iProp.getSelectIntValue())) {
               m_fechaHastaV = iProp.getSelectIntValue();
-              m_fechaHasta = Cairo.Dates.DateNames.getDateByName(m_fechaHastaV);
+              m_fechaFin = Cairo.Dates.DateNames.getDateByName(m_fechaHastaV);
             }
             else if(IsDate(iProp.getValue())) {
               m_fechaHastaV = "";
-              m_fechaHasta = iProp.getValue();
+              m_fechaFin = iProp.getValue();
             }
             else {
               m_fechaHastaV = "";
-              iProp.setValue(m_fechaHasta);
+              iProp.setValue(m_fechaFin);
             }
 
             break;
@@ -177,29 +177,29 @@
           sqlstmt = sqlstmt+ Cairo.Database.sqlDate(Cairo.Dates.DateNames.getDateByName(m_fechaDesdeV))+ ",";
         }
         else {
-          sqlstmt = sqlstmt+ Cairo.Database.sqlDate(m_fechaDesde)+ ",";
+          sqlstmt = sqlstmt+ Cairo.Database.sqlDate(m_fechaIni)+ ",";
         }
 
         if(!cDate.getDateNames(m_fechaHastaV) == null) {
           sqlstmt = sqlstmt+ Cairo.Database.sqlDate(Cairo.Dates.DateNames.getDateByName(m_fechaHastaV))+ ",";
         }
         else {
-          sqlstmt = sqlstmt+ Cairo.Database.sqlDate(m_fechaHasta)+ ",";
+          sqlstmt = sqlstmt+ Cairo.Database.sqlDate(m_fechaFin)+ ",";
         }
 
-        sqlstmt = sqlstmt+ Cairo.Database.sqlString(m_ccos_id)+ ",";
+        sqlstmt = sqlstmt+ Cairo.Database.sqlString(m_ccosId)+ ",";
         sqlstmt = sqlstmt+ Cairo.Database.sqlString(m_em_id)+ ",";
-        sqlstmt = sqlstmt+ Cairo.Database.sqlString(m_est_id)+ ",";
-        sqlstmt = sqlstmt+ Cairo.Database.sqlString(m_suc_id)+ ",";
-        sqlstmt = sqlstmt+ Cairo.Database.sqlString(m_doc_id)+ ",";
-        sqlstmt = sqlstmt+ Cairo.Database.sqlString(m_emp_id);
+        sqlstmt = sqlstmt+ Cairo.Database.sqlString(m_estId)+ ",";
+        sqlstmt = sqlstmt+ Cairo.Database.sqlString(m_sucId)+ ",";
+        sqlstmt = sqlstmt+ Cairo.Database.sqlString(m_docId)+ ",";
+        sqlstmt = sqlstmt+ Cairo.Database.sqlString(m_empId);
 
         return sqlstmt;
       };
 
       var pValidateFilters = function() {
 
-        if(LenB(m_ccos_id) && m_ccos_id != "0") { return; }
+        if(LenB(m_ccosId) && m_ccosId != "0") { return; }
         if(LenB(m_em_id) && m_em_id != "0") { return; }
 
         var fdesde = null;
@@ -209,20 +209,20 @@
           fdesde = Cairo.Dates.DateNames.getDateByName(m_fechaDesdeV);
         }
         else {
-          fdesde = m_fechaDesde;
+          fdesde = m_fechaIni;
         }
 
         if(!cDate.getDateNames(m_fechaHastaV) == null) {
           fhasta = Cairo.Dates.DateNames.getDateByName(m_fechaHastaV);
         }
         else {
-          fhasta = m_fechaHasta;
+          fhasta = m_fechaFin;
         }
 
         if(DateDiff("m", fdesde, fhasta) <= 6) { return; }
 
         if(!Ask(Cairo.Language.getText(3664, ""), vbNo)) {
-          m_ccos_id = -1;
+          m_ccosId = -1;
         }
 
       };
@@ -359,7 +359,7 @@
           c.setValue(m_fechaDesdeV);
         }
         else {
-          c.setValue(m_fechaDesde);
+          c.setValue(m_fechaIni);
         }
 
         c = properties.add(null, C_FECHAFIN);
@@ -371,7 +371,7 @@
           c.setValue(m_fechaHastaV);
         }
         else {
-          c.setValue(m_fechaHasta);
+          c.setValue(m_fechaFin);
         }
 
         c = properties.add(null, mPersonalConstantes.CCOS_ID);
@@ -381,13 +381,13 @@
         c.setName(Cairo.Language.getText(1057, ""));
         c.setKey(K_CCOS_ID);
         value = m_centroCosto;
-        if(m_ccos_id.Substring(0, 1).toUpperCase() == KEY_NODO) {
-          value = GetNombreRama(Cairo.Tables.CENTROCOSTO, Cairo.Util.val(m_ccos_id.Substring(2)), bExists);
-          if(!bExists) { m_ccos_id = "0"; }
+        if(m_ccosId.Substring(0, 1).toUpperCase() == KEY_NODO) {
+          value = GetNombreRama(Cairo.Tables.CENTROCOSTO, Cairo.Util.val(m_ccosId.Substring(2)), bExists);
+          if(!bExists) { m_ccosId = "0"; }
         }
         c.setValue(value);
-        c.setSelectId(Cairo.Util.val(m_ccos_id));
-        c.setHelpValueProcess(m_ccos_id);
+        c.setSelectId(Cairo.Util.val(m_ccosId));
+        c.setHelpValueProcess(m_ccosId);
 
         c = properties.add(null, mPersonalConstantes.EM_ID);
         c.setType(Dialogs.PropertyType.select);
@@ -411,13 +411,13 @@
         c.setName(Cairo.Language.getText(1568, ""));
         c.setKey(K_EST_ID);
         value = m_estado;
-        if(m_est_id.Substring(0, 1).toUpperCase() == KEY_NODO) {
-          value = GetNombreRama(csEstado, Cairo.Util.val(m_est_id.Substring(2)), bExists);
-          if(!bExists) { m_est_id = "0"; }
+        if(m_estId.Substring(0, 1).toUpperCase() == KEY_NODO) {
+          value = GetNombreRama(csEstado, Cairo.Util.val(m_estId.Substring(2)), bExists);
+          if(!bExists) { m_estId = "0"; }
         }
         c.setValue(value);
-        c.setSelectId(Cairo.Util.val(m_est_id));
-        c.setHelpValueProcess(m_est_id);
+        c.setSelectId(Cairo.Util.val(m_estId));
+        c.setHelpValueProcess(m_estId);
 
         c = properties.add(null, mPersonalConstantes.SUC_ID);
         c.setType(Dialogs.PropertyType.select);
@@ -426,13 +426,13 @@
         c.setName(Cairo.Language.getText(1281, ""));
         c.setKey(K_SUC_ID);
         value = m_sucursal;
-        if(m_suc_id.Substring(0, 1).toUpperCase() == KEY_NODO) {
-          value = GetNombreRama(Cairo.Tables.SUCURSAL, Cairo.Util.val(m_suc_id.Substring(2)), bExists);
-          if(!bExists) { m_suc_id = "0"; }
+        if(m_sucId.Substring(0, 1).toUpperCase() == KEY_NODO) {
+          value = GetNombreRama(Cairo.Tables.SUCURSAL, Cairo.Util.val(m_sucId.Substring(2)), bExists);
+          if(!bExists) { m_sucId = "0"; }
         }
         c.setValue(value);
-        c.setSelectId(Cairo.Util.val(m_suc_id));
-        c.setHelpValueProcess(m_suc_id);
+        c.setSelectId(Cairo.Util.val(m_sucId));
+        c.setHelpValueProcess(m_sucId);
 
         c = properties.add(null, mPersonalConstantes.DOC_ID);
         c.setType(Dialogs.PropertyType.select);
@@ -441,13 +441,13 @@
         c.setName(Cairo.Language.getText(1611, ""));
         c.setKey(K_DOC_ID);
         value = m_documento;
-        if(m_doc_id.Substring(0, 1).toUpperCase() == KEY_NODO) {
-          value = GetNombreRama(csETablasDocumento.CSDocumento, Cairo.Util.val(m_doc_id.Substring(2)), bExists);
-          if(!bExists) { m_doc_id = "0"; }
+        if(m_docId.Substring(0, 1).toUpperCase() == KEY_NODO) {
+          value = GetNombreRama(csETablasDocumento.CSDocumento, Cairo.Util.val(m_docId.Substring(2)), bExists);
+          if(!bExists) { m_docId = "0"; }
         }
         c.setValue(value);
-        c.setSelectId(Cairo.Util.val(m_doc_id));
-        c.setHelpValueProcess(m_doc_id);
+        c.setSelectId(Cairo.Util.val(m_docId));
+        c.setHelpValueProcess(m_docId);
         c.setSelectFilter(pGetDocFilter());
 
         // empid
@@ -458,13 +458,13 @@
         c.setName(Cairo.Language.getText(1114, ""));
         c.setKey(K_EMP_ID);
         value = m_empresa;
-        if(m_emp_id.Substring(0, 1).toUpperCase() == KEY_NODO) {
-          value = GetNombreRama(Cairo.Tables.EMPRESA, Cairo.Util.val(m_emp_id.Substring(2)), bExists);
-          if(!bExists) { m_emp_id = "0"; }
+        if(m_empId.Substring(0, 1).toUpperCase() == KEY_NODO) {
+          value = GetNombreRama(Cairo.Tables.EMPRESA, Cairo.Util.val(m_empId.Substring(2)), bExists);
+          if(!bExists) { m_empId = "0"; }
         }
         c.setValue(value);
-        c.setSelectId(Cairo.Util.val(m_emp_id));
-        c.setHelpValueProcess(m_emp_id);
+        c.setSelectId(Cairo.Util.val(m_empId));
+        c.setHelpValueProcess(m_empId);
 
         createMenu();
         if(!m_dialog.showDocumentList(self)) { return false; }
@@ -483,18 +483,18 @@
 
       var load = function() {
 
-        return Cairo.Database.getData("load[" + m_apiPath + "general/liquidacionlistdoc]", id).then(
+        return DB.getData("load[" + m_apiPath + "general/liquidacionlistdoc]", id).then(
           function(response) {
 
             if(response.success !== true) { return false; }
 
-            if(response.data.id === Cairo.Constants.NO_ID) {
+            if(response.data.id === NO_ID) {
 
-              m_fechaDesde = Date;
-              m_fechaHasta = Date;
+              m_fechaIni = Date;
+              m_fechaFin = Date;
               m_fechaDesdeV = "";
               m_fechaHastaV = "";
-              m_ccos_id = "";
+              m_ccosId = "";
               m_centroCosto = "";
               m_em_id = "";
               m_empleado = "";
@@ -502,50 +502,29 @@
             }
             else {
 
-              rs.MoveLast;
-              rs.MoveFirst;
+              m_fechaIniV = valField(response.data, C.FROM);
+              m_fechaIni = valField(response.data, C.FROM);
+              m_fechaIni = isDate(m_fechaIni) ? getDateValue(m_fechaIni) : today();
 
-              var i = null;
-              while (!rs.isEOF()) {
+              m_fechaFinV = valField(response.data, C.TO);
+              m_fechaFin = valField(response.data, C.TO);
+              m_fechaFin = isDate(m_fechaFin) ? getDateValue(m_fechaFin) : today();
 
-                switch (Cairo.Database.valField(response.data, Cairo.Constants.LDP_ID)) {
+              m_provId = valField(response.data, C.PROV_ID);
+              m_estId = valField(response.data, C.EST_ID);
+              m_ccosId = valField(response.data, C.CCOS_ID);
+              m_sucId = valField(response.data, C.SUC_ID);
+              m_docId = valField(response.data, C.DOC_ID);
+              m_cpgId = valField(response.data, C.CPG_ID);
+              m_empId = valField(response.data, C.EMP_ID);
 
-                  case K_FECHADESDE:
-                    m_fechaDesdeV = Cairo.Database.valField(response.data, Cairo.Constants.LDP_VALOR);
-                    m_fechaDesde = cLiquidacionClient.self.iIf(IsDate(Cairo.Database.valField(response.data, Cairo.Constants.LDP_VALOR)), Cairo.Database.valField(response.data, Cairo.Constants.LDP_VALOR), Date);
-                    break;
-
-                  case K_FECHAHASTA:
-                    m_fechaHastaV = Cairo.Database.valField(response.data, Cairo.Constants.LDP_VALOR);
-                    m_fechaHasta = cLiquidacionClient.self.iIf(IsDate(Cairo.Database.valField(response.data, Cairo.Constants.LDP_VALOR)), Cairo.Database.valField(response.data, Cairo.Constants.LDP_VALOR), Date);
-                    break;
-
-                  case K_CCOS_ID:
-                    m_ccos_id = Cairo.Database.valField(response.data, Cairo.Constants.LDP_VALOR);
-                    break;
-
-                  case K_EM_ID:
-                    m_em_id = Cairo.Database.valField(response.data, Cairo.Constants.LDP_VALOR);
-
-                    break;
-                }
-
-                rs.MoveNext;
-              }
-
-              var data = null;
-
-              if(m_ccos_id.Substring(0, 1).toUpperCase() != KEY_NODO) {
-                if(!Cairo.Database.getData(mPersonalConstantes.CENTROCOSTO, mPersonalConstantes.CCOS_ID, Cairo.Util.val(m_ccos_id), mPersonalConstantes.CCOS_NAME, data, C_LoadFunction, C_MODULE, c_strLoad)) { return false; }
-                m_centroCosto = data;
-              }
-
-              if(m_em_id.Substring(0, 1).toUpperCase() != KEY_NODO) {
-                if(!Cairo.Database.getData(mPersonalConstantes.EMPLEADO, mPersonalConstantes.EM_ID, Cairo.Util.val(m_em_id), mPersonalConstantes.EM_APELLIDO, data, C_LoadFunction, C_MODULE, c_strLoad)) { return false; }
-                m_empleado = data;
-                if(!Cairo.Database.getData(mPersonalConstantes.EMPLEADO, mPersonalConstantes.EM_ID, Cairo.Util.val(m_em_id), mPersonalConstantes.EM_NAME, data, C_LoadFunction, C_MODULE, c_strLoad)) { return false; }
-                m_empleado = m_empleado+ ", "+ data;
-              }
+              m_proveedor = valField(response.data, C.PROV_NAME);
+              m_estado = valField(response.data, C.EST_NAME);
+              m_centroCosto = valField(response.data, C.CCOS_NAME);
+              m_sucursal = valField(response.data, C.SUC_NAME);
+              m_documento = valField(response.data, C.DOC_NAME);
+              m_condicionPago = valField(response.data, C.CPG_NAME);
+              m_empresa = valField(response.data, C.EMP_NAME);
 
             }
 
@@ -567,15 +546,16 @@
 
       };
 
-      var setCIEditGenericListDoc_ObjABM = function(rhs) {
-        m_dialog = rhs;
+      self.setDialog = function(dialog) {
+        m_dialog = dialog;
+        m_properties = dialog.getProperties();
       };
 
       var cIEditGenericListDoc_ShowParams = function(us_id) {
         var _rtn = null;
         try {
 
-          if(us_id == Cairo.Constants.NO_ID) { return _rtn; }
+          if(us_id == NO_ID) { return _rtn; }
 
           m_us_id = us_id;
 

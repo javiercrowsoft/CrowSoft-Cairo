@@ -168,16 +168,19 @@
 
       var load = function() {
 
-        return Cairo.Database.getData("load[" + m_apiPath + "general/stocklotelistdoc]", id).then(
+        return DB.getData("load[" + m_apiPath + "general/stocklotelistdoc]", id).then(
           function(response) {
 
             if(response.success !== true) { return false; }
 
-            if(response.data.id === Cairo.Constants.NO_ID) {
+            if(response.data.id === NO_ID) {
 
-              m_fechaIni = Date;
-              m_fechaFin = Date;
-              m_pr_id = Cairo.Constants.NO_ID;
+              m_fechaIniV = "";
+              m_fechaIni = Cairo.Dates.today();
+              m_fechaFinV = "";
+              m_fechaFin = Cairo.Dates.DateNames.getDateByName('h-60');
+
+              m_pr_id = NO_ID;
               m_producto = "";
 
             }
@@ -224,7 +227,7 @@
               // OJO: EL ASISTENTE ESTO LO HACE MAL, YA QUE EL CODIGO QUE GENERA NO SOPORTA ARBOLES
               //      USEN ESTE CODIGO COMO EJ. OJO!!! CAMBIEN LOS NOMBRES DE LAS TABLAS Y LOS CAMPOS NOMBRES DE DICHAS TABLAS.
               if(m_pr_id.Substring(0, 1).toUpperCase() != KEY_NODO) {
-                if(!Cairo.Database.getData(mStockConstantes.PRODUCTO, mStockConstantes.PR_ID, Cairo.Util.val(m_pr_id), mStockConstantes.PR_NOMBRECOMPRA, data, C_LoadFunction, C_MODULE, strLoad)) { return false; }
+                if(!DB.getData(mStockConstantes.PRODUCTO, mStockConstantes.PR_ID, Cairo.Util.val(m_pr_id), mStockConstantes.PR_NOMBRECOMPRA, data, C_LoadFunction, C_MODULE, strLoad)) { return false; }
                 m_producto = data;
               }
 
@@ -242,8 +245,6 @@
         return m_properties;
       };
 
-      // OJO: NUEVAMENTE LA EXISTENCIA DE FECHAS VIRTUALES HACE QUE EL CODIGO GENERADO POR EL ASISTENTE ESTE MAL
-      //      CORRIJALO UTILIZANDO ESTE CODIGO COMO EJEMPLO.
       self.propertyChange = function(key) {
         var iProp = null;
 
@@ -423,8 +424,9 @@
 
       };
 
-      var setCIEditGenericListDoc_ObjABM = function(rhs) {
-        m_dialog = rhs;
+      self.setDialog = function(dialog) {
+        m_dialog = dialog;
+        m_properties = dialog.getProperties();
       };
 
       var cIEditGenericListDoc_PropertyChange = function(key) {
@@ -434,7 +436,7 @@
         var _rtn = null;
         try {
 
-          if(us_id == Cairo.Constants.NO_ID) { return _rtn; }
+          if(us_id == NO_ID) { return _rtn; }
 
           m_us_id = us_id;
 

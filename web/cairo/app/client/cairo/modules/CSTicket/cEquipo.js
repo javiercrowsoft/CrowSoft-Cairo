@@ -94,13 +94,13 @@
       var m_proy_id = "";
       var m_proyecto = "";
 
-      var m_cli_id = "";
+      var m_cliId = "";
       var m_cliente = "";
-      var m_suc_id = "";
+      var m_sucId = "";
       var m_sucursal = "";
 
       // empid
-      var m_emp_id = "";
+      var m_empId = "";
       var m_empresa = "";
       var m_fechaIniV = "";
       var m_fechaFinV = "";
@@ -387,13 +387,13 @@
         c.setName(Cairo.Language.getText(1150, ""));
         c.setKey(K_CLI_ID);
         value = m_cliente;
-        if(m_cli_id.Substring(0, 1).toUpperCase() == KEY_NODO) {
-          value = GetNombreRama(Cairo.Tables.CLIENTE, Cairo.Util.val(m_cli_id.Substring(2)), bExists);
-          if(!bExists) { m_cli_id = "0"; }
+        if(m_cliId.Substring(0, 1).toUpperCase() == KEY_NODO) {
+          value = GetNombreRama(Cairo.Tables.CLIENTE, Cairo.Util.val(m_cliId.Substring(2)), bExists);
+          if(!bExists) { m_cliId = "0"; }
         }
         c.setValue(value);
-        c.setSelectId(Cairo.Util.val(m_cli_id));
-        c.setHelpValueProcess(m_cli_id);
+        c.setSelectId(Cairo.Util.val(m_cliId));
+        c.setHelpValueProcess(m_cliId);
 
         c = properties.add(null, mTicketConstantes.SUC_ID);
         c.setType(Dialogs.PropertyType.select);
@@ -402,13 +402,13 @@
         c.setName(Cairo.Language.getText(1281, ""));
         c.setKey(K_SUC_ID);
         value = m_sucursal;
-        if(m_suc_id.Substring(0, 1).toUpperCase() == KEY_NODO) {
-          value = GetNombreRama(Cairo.Tables.SUCURSAL, Cairo.Util.val(m_suc_id.Substring(2)), bExists);
-          if(!bExists) { m_suc_id = "0"; }
+        if(m_sucId.Substring(0, 1).toUpperCase() == KEY_NODO) {
+          value = GetNombreRama(Cairo.Tables.SUCURSAL, Cairo.Util.val(m_sucId.Substring(2)), bExists);
+          if(!bExists) { m_sucId = "0"; }
         }
         c.setValue(value);
-        c.setSelectId(Cairo.Util.val(m_suc_id));
-        c.setHelpValueProcess(m_suc_id);
+        c.setSelectId(Cairo.Util.val(m_sucId));
+        c.setHelpValueProcess(m_sucId);
 
         // empid
         c = properties.add(null, Cairo.Constants.EMP_ID);
@@ -418,13 +418,13 @@
         c.setName(Cairo.Language.getText(1114, ""));
         c.setKey(K_EMP_ID);
         value = m_empresa;
-        if(m_emp_id.Substring(0, 1).toUpperCase() == KEY_NODO) {
-          value = GetNombreRama(Cairo.Tables.EMPRESA, Cairo.Util.val(m_emp_id.Substring(2)), bExists);
-          if(!bExists) { m_emp_id = "0"; }
+        if(m_empId.Substring(0, 1).toUpperCase() == KEY_NODO) {
+          value = GetNombreRama(Cairo.Tables.EMPRESA, Cairo.Util.val(m_empId.Substring(2)), bExists);
+          if(!bExists) { m_empId = "0"; }
         }
         c.setValue(value);
-        c.setSelectId(Cairo.Util.val(m_emp_id));
-        c.setHelpValueProcess(m_emp_id);
+        c.setSelectId(Cairo.Util.val(m_empId));
+        c.setHelpValueProcess(m_empId);
 
         createMenu();
         if(!m_dialog.showDocumentList(self)) { return false; }
@@ -443,40 +443,43 @@
 
       var load = function() {
 
-        return Cairo.Database.getData("load[" + m_apiPath + "general/equipolistdoc]", id).then(
+        return DB.getData("load[" + m_apiPath + "general/equipolistdoc]", id).then(
           function(response) {
 
             // empid
-            m_emp_id = cUtil.getEmpId();
-            m_empresa = cUtil.getEmpNombre();
+            m_empId = Cairo.Company.getId();
+            m_empresa = Cairo.Company.getName();
 
             if(response.success !== true) { return false; }
 
-            if(response.data.id === Cairo.Constants.NO_ID) {
+            if(response.data.id === NO_ID) {
+
+              m_fechaIniV = "";
+              m_fechaIni = Cairo.Dates.today();
+              m_fechaFinV = "";
+              m_fechaFin = Cairo.Dates.DateNames.getDateByName('h-60');
 
               m_bFiltrarFechas = false;
               m_bSinAsignar = true;
               m_bSoloEnEmpresa = true;
-              m_prns_id = Cairo.Constants.NO_ID;
-              m_rub_id = Cairo.Constants.NO_ID;
-              m_pr_id = Cairo.Constants.NO_ID;
-              m_depl_id = Cairo.Constants.NO_ID;
+              m_prns_id = NO_ID;
+              m_rub_id = NO_ID;
+              m_pr_id = NO_ID;
+              m_depl_id = NO_ID;
               m_series = "";
               m_rubro = "";
               m_producto = "";
               m_deposito = "";
-              m_fechaIni = Date;
-              m_fechaFin = Date;
-              m_cli_id = Cairo.Constants.NO_ID;
+              m_cliId = NO_ID;
               m_cliente = "";
-              m_suc_id = Cairo.Constants.NO_ID;
+              m_sucId = NO_ID;
               m_sucursal = "";
-              m_us_id_responsable = Cairo.Constants.NO_ID;
-              m_us_id_asignador = Cairo.Constants.NO_ID;
-              m_cont_id = Cairo.Constants.NO_ID;
-              m_tarest_id = Cairo.Constants.NO_ID;
-              m_prio_id = Cairo.Constants.NO_ID;
-              m_proy_id = Cairo.Constants.NO_ID;
+              m_us_id_responsable = NO_ID;
+              m_us_id_asignador = NO_ID;
+              m_cont_id = NO_ID;
+              m_tarest_id = NO_ID;
+              m_prio_id = NO_ID;
+              m_proy_id = NO_ID;
               m_estado = "";
               m_responsable = "";
               m_asignador = "";
@@ -543,12 +546,12 @@
                     break;
 
                   case K_CLI_ID:
-                    m_cli_id = Cairo.Database.valField(response.data, Cairo.Constants.LDP_VALOR);
+                    m_cliId = Cairo.Database.valField(response.data, Cairo.Constants.LDP_VALOR);
 
                     break;
 
                   case K_SUC_ID:
-                    m_suc_id = Cairo.Database.valField(response.data, Cairo.Constants.LDP_VALOR);
+                    m_sucId = Cairo.Database.valField(response.data, Cairo.Constants.LDP_VALOR);
 
                     break;
 
@@ -584,7 +587,7 @@
                     break;
 
                   case K_EMP_ID:
-                    m_emp_id = Cairo.Database.valField(response.data, Cairo.Constants.LDP_VALOR);
+                    m_empId = Cairo.Database.valField(response.data, Cairo.Constants.LDP_VALOR);
 
                     break;
                 }
@@ -602,64 +605,64 @@
               m_fechaFin = (m_fechaFin != Cairo.Constants.cSNODATE) ? m_fechaFin : Date);
 
               if(m_prns_id.Substring(0, 1).toUpperCase() != KEY_NODO) {
-                if(!Cairo.Database.getData(mTicketConstantes.PRODUCTONUMEROSERIE, mTicketConstantes.PRNS_ID, Cairo.Util.val(m_prns_id), mTicketConstantes.PRNS_CODE, data, C_LoadFunction, C_MODULE, strLoad)) { return false; }
+                if(!DB.getData(mTicketConstantes.PRODUCTONUMEROSERIE, mTicketConstantes.PRNS_ID, Cairo.Util.val(m_prns_id), mTicketConstantes.PRNS_CODE, data, C_LoadFunction, C_MODULE, strLoad)) { return false; }
                 m_series = data;
               }
               if(m_rub_id.Substring(0, 1).toUpperCase() != KEY_NODO) {
-                if(!Cairo.Database.getData(mTicketConstantes.RUBRO, mTicketConstantes.RUB_ID, Cairo.Util.val(m_rub_id), mTicketConstantes.RUB_NAME, data, C_LoadFunction, C_MODULE, strLoad)) { return false; }
+                if(!DB.getData(mTicketConstantes.RUBRO, mTicketConstantes.RUB_ID, Cairo.Util.val(m_rub_id), mTicketConstantes.RUB_NAME, data, C_LoadFunction, C_MODULE, strLoad)) { return false; }
                 m_rubro = data;
               }
               if(m_pr_id.Substring(0, 1).toUpperCase() != KEY_NODO) {
-                if(!Cairo.Database.getData(mTicketConstantes.PRODUCTO, mTicketConstantes.PR_ID, Cairo.Util.val(m_pr_id), mTicketConstantes.PR_NOMBREVENTA, data, C_LoadFunction, C_MODULE, strLoad)) { return false; }
+                if(!DB.getData(mTicketConstantes.PRODUCTO, mTicketConstantes.PR_ID, Cairo.Util.val(m_pr_id), mTicketConstantes.PR_NOMBREVENTA, data, C_LoadFunction, C_MODULE, strLoad)) { return false; }
                 m_producto = data;
               }
               if(m_depl_id.Substring(0, 1).toUpperCase() != KEY_NODO) {
-                if(!Cairo.Database.getData(mTicketConstantes.DEPOSITOLOGICO, mTicketConstantes.DEPL_ID, Cairo.Util.val(m_depl_id), mTicketConstantes.DEPL_NAME, data, C_LoadFunction, C_MODULE, strLoad)) { return false; }
+                if(!DB.getData(mTicketConstantes.DEPOSITOLOGICO, mTicketConstantes.DEPL_ID, Cairo.Util.val(m_depl_id), mTicketConstantes.DEPL_NAME, data, C_LoadFunction, C_MODULE, strLoad)) { return false; }
                 m_deposito = data;
               }
 
-              if(m_cli_id.Substring(0, 1).toUpperCase() != KEY_NODO) {
-                if(!Cairo.Database.getData(mTicketConstantes.CLIENTE, mTicketConstantes.CLI_ID, Cairo.Util.val(m_cli_id), mTicketConstantes.CLI_NAME, data, C_LoadFunction, C_MODULE, strLoad)) { return false; }
+              if(m_cliId.Substring(0, 1).toUpperCase() != KEY_NODO) {
+                if(!DB.getData(mTicketConstantes.CLIENTE, mTicketConstantes.CLI_ID, Cairo.Util.val(m_cliId), mTicketConstantes.CLI_NAME, data, C_LoadFunction, C_MODULE, strLoad)) { return false; }
                 m_cliente = data;
               }
-              if(m_suc_id.Substring(0, 1).toUpperCase() != KEY_NODO) {
-                if(!Cairo.Database.getData(mTicketConstantes.SUCURSAL, mTicketConstantes.SUC_ID, Cairo.Util.val(m_suc_id), mTicketConstantes.SUC_NAME, data, C_LoadFunction, C_MODULE, strLoad)) { return false; }
+              if(m_sucId.Substring(0, 1).toUpperCase() != KEY_NODO) {
+                if(!DB.getData(mTicketConstantes.SUCURSAL, mTicketConstantes.SUC_ID, Cairo.Util.val(m_sucId), mTicketConstantes.SUC_NAME, data, C_LoadFunction, C_MODULE, strLoad)) { return false; }
                 m_sucursal = data;
               }
 
               if(m_tarest_id.Substring(0, 1).toUpperCase() != KEY_NODO) {
-                if(!Cairo.Database.getData(mTicketConstantes.TAREAESTADO, mTicketConstantes.TAREST_ID, Cairo.Util.val(m_tarest_id), mTicketConstantes.TAREST_NAME, data, C_LoadFunction, C_MODULE, strLoad)) { return false; }
+                if(!DB.getData(mTicketConstantes.TAREAESTADO, mTicketConstantes.TAREST_ID, Cairo.Util.val(m_tarest_id), mTicketConstantes.TAREST_NAME, data, C_LoadFunction, C_MODULE, strLoad)) { return false; }
                 m_estado = data;
               }
 
               if(m_us_id_responsable.Substring(0, 1).toUpperCase() != KEY_NODO) {
-                if(!Cairo.Database.getData(Cairo.Constants.USUARIO, Cairo.Constants.US_ID, Cairo.Util.val(m_us_id_responsable), Cairo.Constants.US_NAME, data, C_LoadFunction, C_MODULE, strLoad)) { return false; }
+                if(!DB.getData(Cairo.Constants.USUARIO, Cairo.Constants.US_ID, Cairo.Util.val(m_us_id_responsable), Cairo.Constants.US_NAME, data, C_LoadFunction, C_MODULE, strLoad)) { return false; }
                 m_responsable = data;
               }
 
               if(m_us_id_asignador.Substring(0, 1).toUpperCase() != KEY_NODO) {
-                if(!Cairo.Database.getData(Cairo.Constants.USUARIO, Cairo.Constants.US_ID, Cairo.Util.val(m_us_id_asignador), Cairo.Constants.US_NAME, data, C_LoadFunction, C_MODULE, strLoad)) { return false; }
+                if(!DB.getData(Cairo.Constants.USUARIO, Cairo.Constants.US_ID, Cairo.Util.val(m_us_id_asignador), Cairo.Constants.US_NAME, data, C_LoadFunction, C_MODULE, strLoad)) { return false; }
                 m_asignador = data;
               }
 
               if(m_cont_id.Substring(0, 1).toUpperCase() != KEY_NODO) {
-                if(!Cairo.Database.getData(mTicketConstantes.CONTACTO, mTicketConstantes.CONT_ID, Cairo.Util.val(m_cont_id), mTicketConstantes.CONT_NAME, data, C_LoadFunction, C_MODULE, strLoad)) { return false; }
+                if(!DB.getData(mTicketConstantes.CONTACTO, mTicketConstantes.CONT_ID, Cairo.Util.val(m_cont_id), mTicketConstantes.CONT_NAME, data, C_LoadFunction, C_MODULE, strLoad)) { return false; }
                 m_contacto = data;
               }
 
               if(m_prio_id.Substring(0, 1).toUpperCase() != KEY_NODO) {
-                if(!Cairo.Database.getData(mTicketConstantes.PRIORIDAD, mTicketConstantes.PRIO_ID, Cairo.Util.val(m_prio_id), mTicketConstantes.PRIO_NAME, data, C_LoadFunction, C_MODULE, strLoad)) { return false; }
+                if(!DB.getData(mTicketConstantes.PRIORIDAD, mTicketConstantes.PRIO_ID, Cairo.Util.val(m_prio_id), mTicketConstantes.PRIO_NAME, data, C_LoadFunction, C_MODULE, strLoad)) { return false; }
                 m_prioridad = data;
               }
 
               if(m_proy_id.Substring(0, 1).toUpperCase() != KEY_NODO) {
-                if(!Cairo.Database.getData(mTicketConstantes.PROYECTO, mTicketConstantes.PROY_ID, Cairo.Util.val(m_proy_id), mTicketConstantes.PROY_NAME, data, C_LoadFunction, C_MODULE, strLoad)) { return false; }
+                if(!DB.getData(mTicketConstantes.PROYECTO, mTicketConstantes.PROY_ID, Cairo.Util.val(m_proy_id), mTicketConstantes.PROY_NAME, data, C_LoadFunction, C_MODULE, strLoad)) { return false; }
                 m_proyecto = data;
               }
 
               // empid
-              if(m_emp_id.Substring(0, 1).toUpperCase() != KEY_NODO) {
-                if(!Cairo.Database.getData(Cairo.Constants.EMPRESA, Cairo.Constants.EMP_ID, Cairo.Util.val(m_emp_id), Cairo.Constants.EMP_NAME, data, C_LoadFunction, C_MODULE, strLoad)) { return false; }
+              if(m_empId.Substring(0, 1).toUpperCase() != KEY_NODO) {
+                if(!DB.getData(Cairo.Constants.EMPRESA, Cairo.Constants.EMP_ID, Cairo.Util.val(m_empId), Cairo.Constants.EMP_NAME, data, C_LoadFunction, C_MODULE, strLoad)) { return false; }
                 m_empresa = data;
               }
 
@@ -677,8 +680,6 @@
         return m_properties;
       };
 
-      // OJO: NUEVAMENTE LA EXISTENCIA DE FECHAS VIRTUALES HACE QUE EL CODIGO GENERADO POR EL ASISTENTE ESTE MAL
-      //      CORRIJALO UTILIZANDO ESTE CODIGO COMO EJEMPLO.
       self.propertyChange = function(key) {
         var iProp = null;
 
@@ -770,14 +771,14 @@
           case K_CLI_ID:
             var property = properties.item(mTicketConstantes.CLI_ID);
             m_cliente = property.getValue();
-            m_cli_id = property.getSelectIntValue();
+            m_cliId = property.getSelectIntValue();
 
             break;
 
           case K_SUC_ID:
             var property = properties.item(mTicketConstantes.SUC_ID);
             m_sucursal = property.getValue();
-            m_suc_id = property.getSelectIntValue();
+            m_sucId = property.getSelectIntValue();
 
             break;
 
@@ -827,7 +828,7 @@
           case K_EMP_ID:
             var property = properties.item(Cairo.Constants.EMP_ID);
             m_empresa = property.getValue();
-            m_emp_id = property.getSelectIntValue();
+            m_empId = property.getSelectIntValue();
             break;
         }
 
@@ -863,8 +864,8 @@
         sqlstmt = sqlstmt+ Cairo.Database.sqlString(m_pr_id)+ ",";
         sqlstmt = sqlstmt+ Cairo.Database.sqlString(m_depl_id)+ ",";
 
-        sqlstmt = sqlstmt+ Cairo.Database.sqlString(m_cli_id)+ ",";
-        sqlstmt = sqlstmt+ Cairo.Database.sqlString(m_suc_id)+ ",";
+        sqlstmt = sqlstmt+ Cairo.Database.sqlString(m_cliId)+ ",";
+        sqlstmt = sqlstmt+ Cairo.Database.sqlString(m_sucId)+ ",";
 
         sqlstmt = sqlstmt+ Cairo.Database.sqlString(m_us_id_responsable)+ ",";
         sqlstmt = sqlstmt+ Cairo.Database.sqlString(m_us_id_asignador)+ ",";
@@ -875,7 +876,7 @@
 
         sqlstmt = sqlstmt+ Integer.parseInt(m_bSoloEnEmpresa)+ ",";
 
-        sqlstmt = sqlstmt+ Cairo.Database.sqlString(m_emp_id);
+        sqlstmt = sqlstmt+ Cairo.Database.sqlString(m_empId);
 
         return sqlstmt;
       };
@@ -1088,8 +1089,9 @@
 
       };
 
-      var setCIEditGenericListDoc_ObjABM = function(rhs) {
-        m_dialog = rhs;
+      self.setDialog = function(dialog) {
+        m_dialog = dialog;
+        m_properties = dialog.getProperties();
       };
 
       var cIEditGenericListDoc_PropertyChange = function(key) {
@@ -1099,7 +1101,7 @@
         var _rtn = null;
         try {
 
-          if(us_id == Cairo.Constants.NO_ID) { return _rtn; }
+          if(us_id == NO_ID) { return _rtn; }
 
           m_us_id = us_id;
 
