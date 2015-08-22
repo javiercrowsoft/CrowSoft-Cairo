@@ -313,7 +313,7 @@
         m_properties = dialog.getProperties();
       };
 
-[avanced]
+[advanced]
 
   replace code in load
 
