@@ -615,7 +615,18 @@
         return "'{emp_id=0}doct_id = "+ csEDocumentoTipo.cSEDT_LIQUIDACION.toString()+ " or doct_id = "+ csEDocumentoTipo.cSEDT_NOTACREDITOVENTA.toString()+ " or doct_id = "+ csEDocumentoTipo.cSEDT_NOTADEBITOVENTA.toString()+ "'";
       };
 
-      self.initialize = function() {
+      var initialize = function() {
+        try {
+          m_title = getText(1892, ""); // Facturas de Compras
+          m_dialog.setHaveDetail(true);
+          m_dialog.setStartRowText(4);
+        }
+        catch(ex) {
+          Cairo.manageErrorEx(ex.message, ex, "initialize", C_MODULE, "");
+        }
+      };
+
+      var initialize = function() {
         try {
 
           c_strLoad = Cairo.Language.getText(4605, "");
@@ -650,6 +661,17 @@
           // **TODO:** label found: ExitProc:;
         }
         // **TODO:** on error resume next found !!!
+      };
+
+      self.destroy = function() {
+        try {
+          m_dialog = null;
+          m_properties = null;
+          m_listController = null;
+        }
+        catch (ex) {
+          Cairo.manageErrorEx(ex.message, "destroy", C_MODULE, "");
+        }
       };
 
       self.destroy = function() {

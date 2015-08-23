@@ -791,7 +791,18 @@
         return m_objList.SelectedItems;
       };
 
-      self.initialize = function() {
+      var initialize = function() {
+        try {
+          m_title = getText(1892, ""); // Facturas de Compras
+          m_dialog.setHaveDetail(true);
+          m_dialog.setStartRowText(4);
+        }
+        catch(ex) {
+          Cairo.manageErrorEx(ex.message, ex, "initialize", C_MODULE, "");
+        }
+      };
+
+      var initialize = function() {
         try {
 
           //'Pedidos de Compras
@@ -824,6 +835,17 @@
           // **TODO:** label found: ExitProc:;
         }
         // **TODO:** on error resume next found !!!
+      };
+
+      self.destroy = function() {
+        try {
+          m_dialog = null;
+          m_properties = null;
+          m_listController = null;
+        }
+        catch (ex) {
+          Cairo.manageErrorEx(ex.message, "destroy", C_MODULE, "");
+        }
       };
 
       self.destroy = function() {

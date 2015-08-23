@@ -41,6 +41,17 @@ Cairo.module("Entities", function(Entities, Cairo, Backbone, Marionette, $, _) {
 
   //Entities.configureStorage(Entities.UsuarioCollection);
 
+      var initialize = function() {
+        try {
+          m_title = getText(1892, ""); // Facturas de Compras
+          m_dialog.setHaveDetail(true);
+          m_dialog.setStartRowText(4);
+        }
+        catch(ex) {
+          Cairo.manageErrorEx(ex.message, ex, "initialize", C_MODULE, "");
+        }
+      };
+
   var initializeUsuarios = function() {
     usuarios = new Entities.UsuarioCollection([
       { id: 1, firstName: "Alice", lastName: "Arten", phoneNumber: "555-0184" },

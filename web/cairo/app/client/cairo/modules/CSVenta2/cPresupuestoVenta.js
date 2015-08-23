@@ -367,114 +367,29 @@
             }
             else {
 
-              rs.MoveLast;
-              rs.MoveFirst;
+              m_fechaIniV = valField(response.data, C.FROM);
+              m_fechaIni = valField(response.data, C.FROM);
+              m_fechaIni = isDate(m_fechaIni) ? getDateValue(m_fechaIni) : today();
 
-              var i = null;
-              while (!rs.isEOF()) {
+              m_fechaFinV = valField(response.data, C.TO);
+              m_fechaFin = valField(response.data, C.TO);
+              m_fechaFin = isDate(m_fechaFin) ? getDateValue(m_fechaFin) : today();
 
-                switch (Cairo.Database.valField(response.data, Cairo.Constants.LDP_ID)) {
+              m_provId = valField(response.data, C.PROV_ID);
+              m_estId = valField(response.data, C.EST_ID);
+              m_ccosId = valField(response.data, C.CCOS_ID);
+              m_sucId = valField(response.data, C.SUC_ID);
+              m_docId = valField(response.data, C.DOC_ID);
+              m_cpgId = valField(response.data, C.CPG_ID);
+              m_empId = valField(response.data, C.EMP_ID);
 
-                  case K_FECHAINI:
-                    m_fechaIniV = Cairo.Database.valField(response.data, Cairo.Constants.LDP_VALOR);
-                    m_fechaIni = IsDate(Cairo.Database.valField(response.data, Cairo.Constants.LDP_VALOR)) ? Cairo.Database.valField(response.data, Cairo.Constants.LDP_VALOR) : Date);
-
-                    break;
-
-                  case K_FECHAFIN:
-                    m_fechaFinV = Cairo.Database.valField(response.data, Cairo.Constants.LDP_VALOR);
-                    m_fechaFin = IsDate(Cairo.Database.valField(response.data, Cairo.Constants.LDP_VALOR)) ? Cairo.Database.valField(response.data, Cairo.Constants.LDP_VALOR) : Date);
-
-                    break;
-
-                  case K_CLI_ID:
-                    m_cliId = Cairo.Database.valField(response.data, Cairo.Constants.LDP_VALOR);
-
-                    break;
-
-                  case K_EST_ID:
-                    m_estId = Cairo.Database.valField(response.data, Cairo.Constants.LDP_VALOR);
-
-                    break;
-
-                  case K_CCOS_ID:
-                    m_ccosId = Cairo.Database.valField(response.data, Cairo.Constants.LDP_VALOR);
-
-                    break;
-
-                  case K_SUC_ID:
-                    m_sucId = Cairo.Database.valField(response.data, Cairo.Constants.LDP_VALOR);
-
-                    break;
-
-                  case K_VEN_ID:
-                    m_ven_id = Cairo.Database.valField(response.data, Cairo.Constants.LDP_VALOR);
-
-                    break;
-
-                  case K_DOC_ID:
-                    m_docId = Cairo.Database.valField(response.data, Cairo.Constants.LDP_VALOR);
-
-                    break;
-
-                  case K_CPG_ID:
-                    m_cpgId = Cairo.Database.valField(response.data, Cairo.Constants.LDP_VALOR);
-
-                    // empid
-                    break;
-
-                  case K_EMP_ID:
-                    m_empId = Cairo.Database.valField(response.data, Cairo.Constants.LDP_VALOR);
-
-                    break;
-                }
-
-                rs.MoveNext;
-              }
-
-              var data = null;
-              var strLoad = null;
-
-              //'Error al carga los párametros de navegación de Presupuestos de Venta
-              strLoad = Cairo.Language.getText(2224, "");
-
-              m_fechaIni = (m_fechaIni != Cairo.Constants.cSNODATE) ? m_fechaIni : Date);
-              m_fechaFin = (m_fechaFin != Cairo.Constants.cSNODATE) ? m_fechaFin : Date);
-
-              if(m_cliId.Substring(0, 1).toUpperCase() != KEY_NODO) {
-                if(!DB.getData(mVentaConstantes.CLIENTE, mVentaConstantes.CLI_ID, Cairo.Util.val(m_cliId), mVentaConstantes.CLI_NAME, data, C_LoadFunction, C_MODULE, strLoad)) { return false; }
-                m_cliente = data;
-              }
-              if(m_estId.Substring(0, 1).toUpperCase() != KEY_NODO) {
-                if(!DB.getData(Cairo.Constants.ESTADO, Cairo.Constants.EST_ID, Cairo.Util.val(m_estId), Cairo.Constants.EST_NAME, data, C_LoadFunction, C_MODULE, strLoad)) { return false; }
-                m_estado = data;
-              }
-              if(m_ccosId.Substring(0, 1).toUpperCase() != KEY_NODO) {
-                if(!DB.getData(mVentaConstantes.CENTROCOSTO, mVentaConstantes.CCOS_ID, Cairo.Util.val(m_ccosId), mVentaConstantes.CCOS_NAME, data, C_LoadFunction, C_MODULE, strLoad)) { return false; }
-                m_centroCosto = data;
-              }
-              if(m_sucId.Substring(0, 1).toUpperCase() != KEY_NODO) {
-                if(!DB.getData(mVentaConstantes.SUCURSAL, mVentaConstantes.SUC_ID, Cairo.Util.val(m_sucId), mVentaConstantes.SUC_NAME, data, C_LoadFunction, C_MODULE, strLoad)) { return false; }
-                m_sucursal = data;
-              }
-              if(m_ven_id.Substring(0, 1).toUpperCase() != KEY_NODO) {
-                if(!DB.getData(mVentaConstantes.VENDEDOR, mVentaConstantes.VEN_ID, Cairo.Util.val(m_ven_id), mVentaConstantes.VEN_NAME, data, C_LoadFunction, C_MODULE, strLoad)) { return false; }
-                m_vendedor = data;
-              }
-              if(m_docId.Substring(0, 1).toUpperCase() != KEY_NODO) {
-                if(!DB.getData(mVentaConstantes.DOCUMENTO, mVentaConstantes.DOC_ID, Cairo.Util.val(m_docId), mVentaConstantes.DOC_NAME, data, C_LoadFunction, C_MODULE, strLoad)) { return false; }
-                m_documento = data;
-              }
-              if(m_cpgId.Substring(0, 1).toUpperCase() != KEY_NODO) {
-                if(!DB.getData(mVentaConstantes.CONDICIONPAGO, mVentaConstantes.CPG_ID, Cairo.Util.val(m_cpgId), mVentaConstantes.CPG_NAME, data, C_LoadFunction, C_MODULE, strLoad)) { return false; }
-                m_condicionPago = data;
-              }
-              // empid
-              if(m_empId.Substring(0, 1).toUpperCase() != KEY_NODO) {
-                if(!DB.getData(Cairo.Constants.EMPRESA, Cairo.Constants.EMP_ID, Cairo.Util.val(m_empId), Cairo.Constants.EMP_NAME, data, C_LoadFunction, C_MODULE, strLoad)) { return false; }
-                m_empresa = data;
-              }
-
+              m_proveedor = valField(response.data, C.PROV_NAME);
+              m_estado = valField(response.data, C.EST_NAME);
+              m_centroCosto = valField(response.data, C.CCOS_NAME);
+              m_sucursal = valField(response.data, C.SUC_NAME);
+              m_documento = valField(response.data, C.DOC_NAME);
+              m_condicionPago = valField(response.data, C.CPG_NAME);
+              m_empresa = valField(response.data, C.EMP_NAME);
             }
 
             return true;
@@ -971,7 +886,18 @@
         return m_objList.SelectedItems;
       };
 
-      self.initialize = function() {
+      var initialize = function() {
+        try {
+          m_title = getText(1892, ""); // Facturas de Compras
+          m_dialog.setHaveDetail(true);
+          m_dialog.setStartRowText(4);
+        }
+        catch(ex) {
+          Cairo.manageErrorEx(ex.message, ex, "initialize", C_MODULE, "");
+        }
+      };
+
+      var initialize = function() {
         try {
 
           //'Presupuestos de Venta
@@ -1004,6 +930,17 @@
           // **TODO:** label found: ExitProc:;
         }
         // **TODO:** on error resume next found !!!
+      };
+
+      self.destroy = function() {
+        try {
+          m_dialog = null;
+          m_properties = null;
+          m_listController = null;
+        }
+        catch (ex) {
+          Cairo.manageErrorEx(ex.message, "destroy", C_MODULE, "");
+        }
       };
 
       self.destroy = function() {

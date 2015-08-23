@@ -98,6 +98,17 @@
             }
           };
 
+            self.destroy = function() {
+              try {
+                m_dialog = null;
+                m_properties = null;
+                m_listController = null;
+              }
+              catch (ex) {
+                Cairo.manageErrorEx(ex.message, "destroy", C_MODULE, "");
+              }
+            };
+
           self.destroy = function(id) {
             if(!Cairo.Security.hasPermissionTo(Cairo.Security.Actions.Modulexxxx.DELETE_XXXX)) {
               return P.resolvedPromise(false);

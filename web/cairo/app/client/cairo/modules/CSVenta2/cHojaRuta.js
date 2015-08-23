@@ -416,53 +416,29 @@
             }
             else {
 
-              rs.MoveLast;
-              rs.MoveFirst;
+              m_fechaIniV = valField(response.data, C.FROM);
+              m_fechaIni = valField(response.data, C.FROM);
+              m_fechaIni = isDate(m_fechaIni) ? getDateValue(m_fechaIni) : today();
 
-              var i = null;
-              while (!rs.isEOF()) {
+              m_fechaFinV = valField(response.data, C.TO);
+              m_fechaFin = valField(response.data, C.TO);
+              m_fechaFin = isDate(m_fechaFin) ? getDateValue(m_fechaFin) : today();
 
-                switch (Cairo.Database.valField(response.data, Cairo.Constants.LDP_ID)) {
+              m_provId = valField(response.data, C.PROV_ID);
+              m_estId = valField(response.data, C.EST_ID);
+              m_ccosId = valField(response.data, C.CCOS_ID);
+              m_sucId = valField(response.data, C.SUC_ID);
+              m_docId = valField(response.data, C.DOC_ID);
+              m_cpgId = valField(response.data, C.CPG_ID);
+              m_empId = valField(response.data, C.EMP_ID);
 
-                  case K_FECHADESDE:
-                    m_fechaDesdeV = Cairo.Database.valField(response.data, Cairo.Constants.LDP_VALOR);
-                    m_fechaIni = IsDate(Cairo.Database.valField(response.data, Cairo.Constants.LDP_VALOR)) ? Cairo.Database.valField(response.data, Cairo.Constants.LDP_VALOR) : Date);
-                    break;
-
-                  case K_FECHAHASTA:
-                    m_fechaHastaV = Cairo.Database.valField(response.data, Cairo.Constants.LDP_VALOR);
-                    m_fechaFin = IsDate(Cairo.Database.valField(response.data, Cairo.Constants.LDP_VALOR)) ? Cairo.Database.valField(response.data, Cairo.Constants.LDP_VALOR) : Date);
-                    break;
-
-                  case K_NRODOC:
-                    m_nrodoc = Cairo.Database.valField(response.data, Cairo.Constants.LDP_VALOR);
-                    break;
-
-                  case K_PER_ID:
-                    m_per_id = Cairo.Database.valField(response.data, Cairo.Constants.LDP_VALOR);
-                    break;
-
-                  case K_CAM_ID:
-                    m_cam_id = Cairo.Database.valField(response.data, Cairo.Constants.LDP_VALOR);
-
-                    break;
-                }
-
-                rs.MoveNext;
-              }
-
-              var data = null;
-
-              if(m_per_id.Substring(0, 1).toUpperCase() != KEY_NODO) {
-                if(!DB.getData(mVentaConstantes.PERSONA, mVentaConstantes.PRS_ID, Cairo.Util.val(m_per_id), mVentaConstantes.PRS_NAME, data, C_LoadFunction, C_MODULE, c_strLoad)) { return false; }
-                m_persona = data;
-              }
-
-              if(m_cam_id.Substring(0, 1).toUpperCase() != KEY_NODO) {
-                if(!DB.getData(mVentaConstantes.CAMION, mVentaConstantes.CAM_ID, Cairo.Util.val(m_cam_id), mVentaConstantes.CAM_PATENTE, data, C_LoadFunction, C_MODULE, c_strLoad)) { return false; }
-                m_camion = data;
-              }
-
+              m_proveedor = valField(response.data, C.PROV_NAME);
+              m_estado = valField(response.data, C.EST_NAME);
+              m_centroCosto = valField(response.data, C.CCOS_NAME);
+              m_sucursal = valField(response.data, C.SUC_NAME);
+              m_documento = valField(response.data, C.DOC_NAME);
+              m_condicionPago = valField(response.data, C.CPG_NAME);
+              m_empresa = valField(response.data, C.EMP_NAME);
             }
 
             return true;
@@ -548,7 +524,18 @@
         return m_objList.SelectedItems;
       };
 
-      self.initialize = function() {
+      var initialize = function() {
+        try {
+          m_title = getText(1892, ""); // Facturas de Compras
+          m_dialog.setHaveDetail(true);
+          m_dialog.setStartRowText(4);
+        }
+        catch(ex) {
+          Cairo.manageErrorEx(ex.message, ex, "initialize", C_MODULE, "");
+        }
+      };
+
+      var initialize = function() {
         try {
 
           c_strLoad = Cairo.Language.getText(3754, "");
@@ -583,6 +570,17 @@
           // **TODO:** label found: ExitProc:;
         }
         // **TODO:** on error resume next found !!!
+      };
+
+      self.destroy = function() {
+        try {
+          m_dialog = null;
+          m_properties = null;
+          m_listController = null;
+        }
+        catch (ex) {
+          Cairo.manageErrorEx(ex.message, "destroy", C_MODULE, "");
+        }
       };
 
       self.destroy = function() {

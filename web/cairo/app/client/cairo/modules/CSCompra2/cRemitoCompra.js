@@ -753,28 +753,16 @@
 
       };
 
-      var pShowDocAux = function() {
+      var showDocAux = function() {
+        var fcId = m_dialog.getId();
+        if(fcId != NO_ID) {
 
-        var rcId = null;
-        rcId = m_dialog.getId();
-
-        if(rcId) {
-
-          var stId = null;
-          if(!DB.getData(mComprasConstantes.REMITOCOMPRA, mComprasConstantes.RC_ID, rcId, mComprasConstantes.ST_ID, stId)) { return; }
-
-          if(stId == NO_ID) {
-
-            MsgInfo(Cairo.Language.getText(1693, ""));
-            //Este comprobante no tiene un documento de stock asociado.
-          }
-          else {
-
-            ShowDocAux(stId, "CSStock2.cStock", "CSABMInterface2.cABMGeneric");
-          }
+          D.getStockId(D.Types.TYPE_XXXX, xxId).successWithResult(function(response) {
+            D.showDocAux(response.st_id, "Stock");
+          });
         }
-
       };
+
 
       var pShowApply = function() {
 
@@ -863,7 +851,18 @@
         return m_objList.SelectedItems;
       };
 
-      self.initialize = function() {
+      var initialize = function() {
+        try {
+          m_title = getText(1892, ""); // Facturas de Compras
+          m_dialog.setHaveDetail(true);
+          m_dialog.setStartRowText(4);
+        }
+        catch(ex) {
+          Cairo.manageErrorEx(ex.message, ex, "initialize", C_MODULE, "");
+        }
+      };
+
+      var initialize = function() {
         try {
 
           //'Remitos de Compras
@@ -896,6 +895,17 @@
           // **TODO:** label found: ExitProc:;
         }
         // **TODO:** on error resume next found !!!
+      };
+
+      self.destroy = function() {
+        try {
+          m_dialog = null;
+          m_properties = null;
+          m_listController = null;
+        }
+        catch (ex) {
+          Cairo.manageErrorEx(ex.message, "destroy", C_MODULE, "");
+        }
       };
 
       self.destroy = function() {
