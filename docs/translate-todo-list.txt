@@ -635,6 +635,11 @@ use this function but replace the LNG_ID
         xxId              fcId / asId
         TYPEXXXX          FACTURA_COMPRA / ASIENTO
 
+        xxxxEditors       facturaCompraEditors
+        xxxxs             facturaventas
+        Xxxxs             Factura de Ventas
+        DELETE_XXXX       DELETE_FACTURA
+
         ZZZZ_ZZZZ         Factura de Compras / Asientos
 
         NEW_XXXX          FACTURA / ASIENTO

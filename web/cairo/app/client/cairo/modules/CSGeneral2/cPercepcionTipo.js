@@ -9,6 +9,8 @@
 
       var Dialogs = Cairo.Dialogs;
       var DB = Cairo.Database;
+      var C = Cairo.General.Constants;
+      var NO_ID = Cairo.Constants.NO_ID;
 
       var C_MODULE = "cPercepcionTipo";
 
@@ -79,7 +81,7 @@
 
           var doc = new Cairo.DocDigital();
 
-          doc.setClientTable(Cairo.General.Constants.PERCEPCIONTIPO);
+          doc.setClientTable(C.PERCEPCIONTIPO);
           doc.setClientTableID(m_id);
 
           _rtn = doc.showDocs(Cairo.Database);
@@ -137,11 +139,11 @@
 
         m_listController.updateEditorKey(self, NO_ID);
 
-        var property = m_dialog.getProperties().item(Cairo.General.Constants.PERCT_CODE);
+        var property = m_dialog.getProperties().item(C.PERCT_CODE);
         property.setValue(Cairo.Constants.COPY_OF + property.getValue());
 
-        m_dialog.showValue(m_dialog.getProperties().item(Cairo.General.Constants.PERCT_CODE));
-        m_dialog.showValue(m_dialog.getProperties().item(Cairo.General.Constants.PERCT_NAME));
+        m_dialog.showValue(m_dialog.getProperties().item(C.PERCT_CODE));
+        m_dialog.showValue(m_dialog.getProperties().item(C.PERCT_NAME));
 
         m_copy = true;
       };
@@ -156,8 +158,8 @@
         var register = new Cairo.Database.Register();
         var fields = register.getFields();
 
-        register.setFieldId(Cairo.General.Constants.PERCT_ID);
-        register.setTable(Cairo.General.Constants.PERCEPCIONTIPO);
+        register.setFieldId(C.PERCT_ID);
+        register.setTable(C.PERCEPCIONTIPO);
 
         register.setPath(m_apiPath + "general/percepciontipo");
 
@@ -173,27 +175,27 @@
           var property = m_dialog.getProperties().item(_i);
           switch (property.getKey()) {
             case K_NAME:
-              fields.add(Cairo.General.Constants.PERCT_NAME, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.PERCT_NAME, property.getValue(), Cairo.Constants.Types.text);
               break;
 
             case K_CODE:
-              fields.add(Cairo.General.Constants.PERCT_CODE, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.PERCT_CODE, property.getValue(), Cairo.Constants.Types.text);
               break;
 
             case K_DESCRIP:
-              fields.add(Cairo.General.Constants.PERCT_DESCRIP, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.PERCT_DESCRIP, property.getValue(), Cairo.Constants.Types.text);
               break;
 
             case K_GENERASICORE:
-              fields.add(Cairo.General.Constants.PERCT_GENERA_SICORE, property.getValue(), Cairo.Constants.Types.boolean);
+              fields.add(C.PERCT_GENERA_SICORE, property.getValue(), Cairo.Constants.Types.boolean);
               break;
 
             case K_CODIGOSICORE:
-              fields.add(Cairo.General.Constants.PERCT_CODIGO_SICORE, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.PERCT_CODIGO_SICORE, property.getValue(), Cairo.Constants.Types.text);
               break;
 
             case K_CUE_ID:
-              fields.add(Cairo.General.Constants.CUE_ID, property.getSelectId(), Cairo.Constants.Types.id);
+              fields.add(C.CUE_ID, property.getSelectId(), Cairo.Constants.Types.id);
               break;
 
             case K_ACTIVE:
@@ -205,10 +207,10 @@
         return Cairo.Database.saveEx(
             register,
             false,
-            Cairo.General.Constants.PERCT_CODE, 
+            C.PERCT_CODE,
             Cairo.Constants.CLIENT_SAVE_FUNCTION,
             C_MODULE,
-            Cairo.Language.getText(1268, "")).then(
+            getText(1268, "")).then(
 
           function(result) {
             if(result.success) {
@@ -253,7 +255,7 @@
 
       self.getTitle = function() {
         //Tipos de Percepci�n
-        return Cairo.Language.getText(1262, "");
+        return getText(1262, "");
       };
 
       self.validate = function() {
@@ -292,7 +294,7 @@
 
             case K_CUE_ID:
               if(Cairo.Util.valEmpty(property.getSelectId(), Cairo.Constants.Types.id)) {
-                return Cairo.Modal.showInfo(Cairo.Language.getText(1261, "")).then(function() {return false;});
+                return Cairo.Modal.showInfo(getText(1261, "")).then(function() {return false;});
                 // Debe indicar una cuenta
               }
 
@@ -301,7 +303,7 @@
         }
 
         if(bCodigoSicore && !bHaveSicore) {
-          return Cairo.Modal.showInfo(Cairo.Language.getText(1263, "")).then(function() {return false;});
+          return Cairo.Modal.showInfo(getText(1263, "")).then(function() {return false;});
           // Debe indicar un c�digo sicore
         }
 
@@ -394,14 +396,14 @@
 
         properties.clear();
 
-        var elem = properties.add(null, Cairo.General.Constants.PERCT_NAME);
+        var elem = properties.add(null, C.PERCT_NAME);
         elem.setType(Dialogs.PropertyType.text);
         elem.setName(Cairo.Constants.NAME_LABEL);
         elem.setSize(100);
         elem.setKey(K_NAME);
         elem.setValue(m_name);
 
-        var elem = properties.add(null, Cairo.General.Constants.PERCT_CODE);
+        var elem = properties.add(null, C.PERCT_CODE);
         elem.setType(Dialogs.PropertyType.text);
         elem.setName(Cairo.Constants.CODE_LABEL);
         elem.setSize(15);
@@ -414,31 +416,31 @@
         elem.setKey(K_ACTIVE);
         elem.setValue(m_active === true ? 1 : 0);
 
-        var elem = properties.add(null, Cairo.General.Constants.PERCT_GENERA_SICORE);
+        var elem = properties.add(null, C.PERCT_GENERA_SICORE);
         elem.setType(Dialogs.PropertyType.check);
         // Genera Sicore
-        elem.setName(Cairo.Language.getText(1266, ""));
+        elem.setName(getText(1266, ""));
         elem.setKey(K_GENERASICORE);
         elem.setValue(Cairo.Util.boolToInt(m_generaSicore));
 
-        var elem = properties.add(null, Cairo.General.Constants.PERCT_CODIGO_SICORE);
+        var elem = properties.add(null, C.PERCT_CODIGO_SICORE);
         elem.setType(Dialogs.PropertyType.text);
         // C�digo Sicore
-        elem.setName(Cairo.Language.getText(1265, ""));
+        elem.setName(getText(1265, ""));
         elem.setSize(50);
         elem.setKey(K_CODIGOSICORE);
         elem.setValue(m_codigoSicore);
 
-        var elem = properties.add(null, Cairo.General.Constants.CUE_ID);
+        var elem = properties.add(null, C.CUE_ID);
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.CUENTA);
         // Cuenta
-        elem.setName(Cairo.Language.getText(1267, ""));
+        elem.setName(getText(1267, ""));
         elem.setKey(K_CUE_ID);
         elem.setValue(m_cuenta);
         elem.setSelectId(m_cue_id);
 
-        var elem = properties.add(null, Cairo.General.Constants.PERCT_DESCRIP);
+        var elem = properties.add(null, C.PERCT_DESCRIP);
         elem.setType(Dialogs.PropertyType.text);
         elem.setSubType(Dialogs.PropertySubType.memo);
         elem.setName(Cairo.Constants.DESCRIPTION_LABEL);
@@ -457,26 +459,26 @@
 
         var properties = m_dialog.getProperties();
 
-        var elem = properties.item(Cairo.General.Constants.PERCT_NAME);
+        var elem = properties.item(C.PERCT_NAME);
         elem.setValue(m_name);
 
-        var elem = properties.item(Cairo.General.Constants.PERCT_CODE);
+        var elem = properties.item(C.PERCT_CODE);
         elem.setValue(m_code);
 
         var elem = properties.item(Cairo.Constants.ACTIVE);
         elem.setValue(m_active === true ? 1 : 0);
 
-        var elem = properties.item(Cairo.General.Constants.PERCT_GENERA_SICORE);
+        var elem = properties.item(C.PERCT_GENERA_SICORE);
         elem.setValue(Cairo.Util.boolToInt(m_generaSicore));
 
-        var elem = properties.item(Cairo.General.Constants.PERCT_CODIGO_SICORE);
+        var elem = properties.item(C.PERCT_CODIGO_SICORE);
         elem.setValue(m_codigoSicore);
 
-        var elem = properties.item(Cairo.General.Constants.CUE_ID);
+        var elem = properties.item(C.CUE_ID);
         elem.setValue(m_cuenta);
         elem.setSelectId(m_cue_id);
 
-        var elem = properties.item(Cairo.General.Constants.PERCT_DESCRIP);
+        var elem = properties.item(C.PERCT_DESCRIP);
         elem.setValue(m_descrip);
 
         return m_dialog.showValues(properties);
@@ -491,14 +493,14 @@
 
             if(response.data.id !== NO_ID) {
 
-              m_id = Cairo.Database.valField(response.data, Cairo.General.Constants.PERCT_ID);
-              m_name = Cairo.Database.valField(response.data, Cairo.General.Constants.PERCT_NAME);
-              m_code = Cairo.Database.valField(response.data, Cairo.General.Constants.PERCT_CODE);
-              m_descrip = Cairo.Database.valField(response.data, Cairo.General.Constants.PERCT_DESCRIP);
-              m_generaSicore = Cairo.Database.valField(response.data, Cairo.General.Constants.PERCT_GENERA_SICORE);
-              m_codigoSicore = Cairo.Database.valField(response.data, Cairo.General.Constants.PERCT_CODIGO_SICORE);
-              m_cue_id = Cairo.Database.valField(response.data, Cairo.General.Constants.CUE_ID);
-              m_cuenta = Cairo.Database.valField(response.data, Cairo.General.Constants.CUE_NAME);
+              m_id = Cairo.Database.valField(response.data, C.PERCT_ID);
+              m_name = Cairo.Database.valField(response.data, C.PERCT_NAME);
+              m_code = Cairo.Database.valField(response.data, C.PERCT_CODE);
+              m_descrip = Cairo.Database.valField(response.data, C.PERCT_DESCRIP);
+              m_generaSicore = Cairo.Database.valField(response.data, C.PERCT_GENERA_SICORE);
+              m_codigoSicore = Cairo.Database.valField(response.data, C.PERCT_CODIGO_SICORE);
+              m_cue_id = Cairo.Database.valField(response.data, C.CUE_ID);
+              m_cuenta = Cairo.Database.valField(response.data, C.CUE_NAME);
               m_active = Cairo.Database.valField(response.data, Cairo.Constants.ACTIVE);
 
             } 
@@ -554,6 +556,9 @@
   });
 
   Cairo.module("PercepcionTipo.List", function(List, Cairo, Backbone, Marionette, $, _) {
+
+    var NO_ID = Cairo.Constants.NO_ID;
+
     List.Controller = {
       list: function() {
 

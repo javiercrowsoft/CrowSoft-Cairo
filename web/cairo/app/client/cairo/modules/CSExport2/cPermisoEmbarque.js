@@ -134,14 +134,6 @@
 
         };
 
-        var showListDialog = function() {
-          self.documentList.show();
-        };
-
-        var closeListDialog = function() {
-
-        }
-
         createListDialog();
       }
     };

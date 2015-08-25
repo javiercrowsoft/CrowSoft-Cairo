@@ -315,7 +315,7 @@
         var tab = dialog.getTabs().add(null);
         var tabIndex = dialog.getTabs().count() - 1;
 
-        tab.setName(Cairo.Language.getText(4786, "")); // Campos Adicionales
+        tab.setName(getText(4786, "")); // Campos Adicionales
         tab.setIndex(tabIndex);
 
         var _count = m_fields.size();
@@ -540,7 +540,7 @@
       var getLabelName = function(name) {
         if(name.substr(0, 6) === "@@lng:") {
           var code = name.substring(7);
-          return Cairo.Language.getText(code, name);
+          return getText(code, name);
         }
         else {
           return name;

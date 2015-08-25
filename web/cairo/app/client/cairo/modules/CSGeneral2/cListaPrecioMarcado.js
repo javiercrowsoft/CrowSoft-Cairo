@@ -9,6 +9,8 @@
 
       var Dialogs = Cairo.Dialogs;
       var DB = Cairo.Database;
+      var C = Cairo.General.Constants;
+      var NO_ID = Cairo.Constants.NO_ID;
 
       var C_MODULE = "cListaPrecioMarcado";
 
@@ -77,11 +79,11 @@
 
         m_listController.updateEditorKey(self, NO_ID);
 
-        var property = m_dialog.getProperties().item(Cairo.General.Constants.LPM_CODE);
+        var property = m_dialog.getProperties().item(C.LPM_CODE);
         property.setValue(Cairo.Constants.COPY_OF + property.getValue());
 
-        m_dialog.showValue(m_dialog.getProperties().item(Cairo.General.Constants.LPM_CODE));
-        m_dialog.showValue(m_dialog.getProperties().item(Cairo.General.Constants.LPM_NAME));
+        m_dialog.showValue(m_dialog.getProperties().item(C.LPM_CODE));
+        m_dialog.showValue(m_dialog.getProperties().item(C.LPM_NAME));
 
         m_copy = true;
       };
@@ -125,7 +127,7 @@
 
           var doc = new Cairo.DocDigital();
 
-          doc.setClientTable(Cairo.General.Constants.LISTA_PRECIO_MARCADO);
+          doc.setClientTable(C.LISTA_PRECIO_MARCADO);
           doc.setClientTableID(m_id);
 
           _rtn = doc.showDocs(Cairo.Database);
@@ -170,8 +172,8 @@
         var register = new Cairo.Database.Register();
         var fields = register.getFields();
 
-        register.setFieldId(Cairo.General.Constants.LPM_ID);
-        register.setTable(Cairo.General.Constants.LISTA_PRECIO_MARCADO);
+        register.setFieldId(C.LPM_ID);
+        register.setTable(C.LISTA_PRECIO_MARCADO);
 
         register.setPath(m_apiPath + "general/listapreciomarcado");
 
@@ -187,11 +189,11 @@
           var property = m_dialog.getProperties().item(_i);
           switch (property.getKey()) {
             case K_NAME:
-              fields.add(Cairo.General.Constants.LPM_NAME, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.LPM_NAME, property.getValue(), Cairo.Constants.Types.text);
               break;
 
             case K_CODE:
-              fields.add(Cairo.General.Constants.LPM_CODE, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.LPM_CODE, property.getValue(), Cairo.Constants.Types.text);
               break;
 
             case K_ACTIVE:
@@ -199,39 +201,39 @@
               break;
 
             case K_DESCRIP:
-              fields.add(Cairo.General.Constants.LPM_DESCRIP, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.LPM_DESCRIP, property.getValue(), Cairo.Constants.Types.text);
               break;
 
             case K_BASE:
-              fields.add(Cairo.General.Constants.LPM_BASE, property.getValue(), Cairo.Constants.Types.currency);
+              fields.add(C.LPM_BASE, property.getValue(), Cairo.Constants.Types.currency);
               break;
 
             case K_PORCENTAJE:
-              fields.add(Cairo.General.Constants.LPM_PORCENTAJE, property.getValue(), Cairo.Constants.Types.currency);
+              fields.add(C.LPM_PORCENTAJE, property.getValue(), Cairo.Constants.Types.currency);
               break;
 
             case K_SALTO:
-              fields.add(Cairo.General.Constants.LPM_SALTO, property.getValue(), Cairo.Constants.Types.currency);
+              fields.add(C.LPM_SALTO, property.getValue(), Cairo.Constants.Types.currency);
               break;
 
             case K_DECREMENTO:
-              fields.add(Cairo.General.Constants.LPM_DECREMENTO, property.getValue(), Cairo.Constants.Types.currency);
+              fields.add(C.LPM_DECREMENTO, property.getValue(), Cairo.Constants.Types.currency);
               break;
 
             case K_PORCMINIMO:
-              fields.add(Cairo.General.Constants.LPM_PORCMINIMO, property.getValue(), Cairo.Constants.Types.currency);
+              fields.add(C.LPM_PORCMINIMO, property.getValue(), Cairo.Constants.Types.currency);
               break;
 
             case K_PORCMAXIMO:
-              fields.add(Cairo.General.Constants.LPM_PORCMAXIMO, property.getValue(), Cairo.Constants.Types.currency);
+              fields.add(C.LPM_PORCMAXIMO, property.getValue(), Cairo.Constants.Types.currency);
               break;
 
             case K_MONTOMINIMO:
-              fields.add(Cairo.General.Constants.LPM_MONTOMINIMO, property.getValue(), Cairo.Constants.Types.currency);
+              fields.add(C.LPM_MONTOMINIMO, property.getValue(), Cairo.Constants.Types.currency);
               break;
 
             case K_MON_ID:
-              fields.add(Cairo.General.Constants.MON_ID, property.getSelectId(), Cairo.Constants.Types.id);
+              fields.add(C.MON_ID, property.getSelectId(), Cairo.Constants.Types.id);
               break;
           }
         }
@@ -240,14 +242,14 @@
         return Cairo.Database.saveEx(
             register,
             false,
-            Cairo.General.Constants.LPM_CODE, 
+            C.LPM_CODE,
             Cairo.Constants.CLIENT_SAVE_FUNCTION,
             C_MODULE,
-            Cairo.Language.getText(3505, "")).then(
+            getText(3505, "")).then(
 
           function(result) {
             if(result.success) {
-                pUpdateListaPrecioPrecio();
+                updateListaPrecioPrecio();
 
                 m_copy = false;
               return load(result.data.getId()).then(
@@ -290,7 +292,7 @@
 
       self.getTitle = function() {
         // Tabla de Marcado de Precios
-        return Cairo.Language.getText(3506, "");
+        return getText(3506, "");
       };
 
       self.validate = function() {
@@ -315,7 +317,7 @@
             case K_MON_ID:
               if(Cairo.Util.valEmpty(property.getSelectId(), Cairo.Constants.Types.id)) {
                 // Debe indicar una moneda
-                Cairo.Modal.showInfo(Cairo.Language.getText(1108, ""));
+                Cairo.Modal.showInfo(getText(1108, ""));
               }
               break;
           }
@@ -410,14 +412,14 @@
 
         properties.clear();
 
-        var elem = properties.add(null, Cairo.General.Constants.LPM_NAME);
+        var elem = properties.add(null, C.LPM_NAME);
         elem.setType(Dialogs.PropertyType.text);
         elem.setName(Cairo.Constants.NAME_LABEL);
         elem.setSize(100);
         elem.setKey(K_NAME);
         elem.setValue(m_name);
 
-        var elem = properties.add(null, Cairo.General.Constants.LPM_CODE);
+        var elem = properties.add(null, C.LPM_CODE);
         elem.setType(Dialogs.PropertyType.text);
         elem.setName(Cairo.Constants.CODE_LABEL);
         elem.setSize(15);
@@ -430,75 +432,75 @@
         elem.setKey(K_ACTIVE);
         elem.setValue(m_active === true ? 1 : 0);
 
-        var elem = properties.add(null, Cairo.General.Constants.LPM_BASE);
+        var elem = properties.add(null, C.LPM_BASE);
         elem.setType(Dialogs.PropertyType.numeric);
         elem.setSubType(Dialogs.PropertySubType.double);
         elem.setFormat(Cairo.Settings.getQuantityDecimalsFormat());
         // Base
-        elem.setName(Cairo.Language.getText(2550, ""));
+        elem.setName(getText(2550, ""));
         elem.setKey(K_BASE);
         elem.setValue(m_base);
 
-        var elem = properties.add(null, Cairo.General.Constants.LPM_PORCENTAJE);
+        var elem = properties.add(null, C.LPM_PORCENTAJE);
         elem.setType(Dialogs.PropertyType.numeric);
         elem.setSubType(Dialogs.PropertySubType.percentage);
         // porcentaje
-        elem.setName(Cairo.Language.getText(1105, ""));
+        elem.setName(getText(1105, ""));
         elem.setKey(K_PORCENTAJE);
         elem.setValue(m_porcentaje);
 
-        var elem = properties.add(null, Cairo.General.Constants.LPM_SALTO);
+        var elem = properties.add(null, C.LPM_SALTO);
         elem.setType(Dialogs.PropertyType.numeric);
         elem.setSubType(Dialogs.PropertySubType.double);
         elem.setFormat(Cairo.Settings.getQuantityDecimalsFormat());
         // Salto
-        elem.setName(Cairo.Language.getText(3509, ""));
+        elem.setName(getText(3509, ""));
         elem.setKey(K_SALTO);
         elem.setValue(m_salto);
 
-        var elem = properties.add(null, Cairo.General.Constants.LPM_DECREMENTO);
+        var elem = properties.add(null, C.LPM_DECREMENTO);
         elem.setType(Dialogs.PropertyType.numeric);
         elem.setSubType(Dialogs.PropertySubType.percentage);
         // Decremento
-        elem.setName(Cairo.Language.getText(3510, ""));
+        elem.setName(getText(3510, ""));
         elem.setKey(K_DECREMENTO);
         elem.setValue(m_decremento);
 
-        var elem = properties.add(null, Cairo.General.Constants.LPM_PORCMINIMO);
+        var elem = properties.add(null, C.LPM_PORCMINIMO);
         elem.setType(Dialogs.PropertyType.numeric);
         elem.setSubType(Dialogs.PropertySubType.percentage);
         // Porc. Minimo
-        elem.setName(Cairo.Language.getText(3511, ""));
+        elem.setName(getText(3511, ""));
         elem.setKey(K_PORCMINIMO);
         elem.setValue(m_porcminimo);
 
-        var elem = properties.add(null, Cairo.General.Constants.LPM_PORCMAXIMO);
+        var elem = properties.add(null, C.LPM_PORCMAXIMO);
         elem.setType(Dialogs.PropertyType.numeric);
         elem.setSubType(Dialogs.PropertySubType.percentage);
         // Porc. Maximo
-        elem.setName(Cairo.Language.getText(3512, ""));
+        elem.setName(getText(3512, ""));
         elem.setKey(K_PORCMAXIMO);
         elem.setValue(m_porcmaximo);
 
-        var elem = properties.add(null, Cairo.General.Constants.LPM_MONTOMINIMO);
+        var elem = properties.add(null, C.LPM_MONTOMINIMO);
         elem.setType(Dialogs.PropertyType.numeric);
         elem.setSubType(Dialogs.PropertySubType.double);
         elem.setFormat(Cairo.Settings.getQuantityDecimalsFormat());
         // Monto Minimo
-        elem.setName(Cairo.Language.getText(3513, ""));
+        elem.setName(getText(3513, ""));
         elem.setKey(K_MONTOMINIMO);
         elem.setValue(m_montominimo);
 
-        var elem = properties.add(null, Cairo.General.Constants.MON_ID);
+        var elem = properties.add(null, C.MON_ID);
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.MONEDA);
         // Moneda
-        elem.setName(Cairo.Language.getText(1113, ""));
+        elem.setName(getText(1113, ""));
         elem.setKey(K_MON_ID);
         elem.setSelectId(m_monId);
         elem.setValue(m_moneda);
 
-        var elem = properties.add(null, Cairo.General.Constants.LPM_DESCRIP);
+        var elem = properties.add(null, C.LPM_DESCRIP);
         elem.setType(Dialogs.PropertyType.text);
         elem.setSubType(Dialogs.PropertySubType.memo);
         elem.setName(Cairo.Constants.DESCRIPTION_LABEL);
@@ -516,41 +518,41 @@
 
         var properties = m_dialog.getProperties();
 
-        var elem = properties.item(Cairo.General.Constants.LPM_NAME);
+        var elem = properties.item(C.LPM_NAME);
         elem.setValue(m_name);
 
-        var elem = properties.item(Cairo.General.Constants.LPM_CODE);
+        var elem = properties.item(C.LPM_CODE);
         elem.setValue(m_code);
 
         var elem = properties.item(Cairo.Constants.ACTIVE);
         elem.setValue(m_active === true ? 1 : 0);
 
-        var elem = properties.item(Cairo.General.Constants.LPM_BASE);
+        var elem = properties.item(C.LPM_BASE);
         elem.setValue(m_base);
 
-        var elem = properties.item(Cairo.General.Constants.LPM_PORCENTAJE);
+        var elem = properties.item(C.LPM_PORCENTAJE);
         elem.setValue(m_porcentaje);
 
-        var elem = properties.item(Cairo.General.Constants.LPM_SALTO);
+        var elem = properties.item(C.LPM_SALTO);
         elem.setValue(m_salto);
 
-        var elem = properties.item(Cairo.General.Constants.LPM_DECREMENTO);
+        var elem = properties.item(C.LPM_DECREMENTO);
         elem.setValue(m_decremento);
 
-        var elem = properties.item(Cairo.General.Constants.LPM_PORCMINIMO);
+        var elem = properties.item(C.LPM_PORCMINIMO);
         elem.setValue(m_porcminimo);
 
-        var elem = properties.item(Cairo.General.Constants.LPM_PORCMAXIMO);
+        var elem = properties.item(C.LPM_PORCMAXIMO);
         elem.setValue(m_porcmaximo);
 
-        var elem = properties.item(Cairo.General.Constants.LPM_MONTOMINIMO);
+        var elem = properties.item(C.LPM_MONTOMINIMO);
         elem.setValue(m_montominimo);
 
-        var elem = properties.item(Cairo.General.Constants.MON_ID);
+        var elem = properties.item(C.MON_ID);
         elem.setSelectId(m_monId);
         elem.setValue(m_moneda);
 
-        var elem = properties.item(Cairo.General.Constants.LPM_DESCRIP);
+        var elem = properties.item(C.LPM_DESCRIP);
         elem.setValue(m_descrip);
 
         return m_dialog.showValues(properties);
@@ -581,30 +583,30 @@
             } 
             else {
               m_active = Cairo.Database.valField(response.data, Cairo.Constants.ACTIVE);
-              m_name = Cairo.Database.valField(response.data, Cairo.General.Constants.LPM_NAME);
-              m_code = Cairo.Database.valField(response.data, Cairo.General.Constants.LPM_CODE);
-              m_id = Cairo.Database.valField(response.data, Cairo.General.Constants.LPM_ID);
-              m_base = Cairo.Database.valField(response.data, Cairo.General.Constants.LPM_BASE);
-              m_porcentaje = Cairo.Database.valField(response.data, Cairo.General.Constants.LPM_PORCENTAJE);
-              m_salto = Cairo.Database.valField(response.data, Cairo.General.Constants.LPM_SALTO);
-              m_decremento = Cairo.Database.valField(response.data, Cairo.General.Constants.LPM_DECREMENTO);
-              m_porcminimo = Cairo.Database.valField(response.data, Cairo.General.Constants.LPM_PORCMINIMO);
-              m_porcmaximo = Cairo.Database.valField(response.data, Cairo.General.Constants.LPM_PORCMAXIMO);
-              m_montominimo = Cairo.Database.valField(response.data, Cairo.General.Constants.LPM_MONTOMINIMO);
-              m_descrip = Cairo.Database.valField(response.data, Cairo.General.Constants.LPM_DESCRIP);
-              m_monId = Cairo.Database.valField(response.data, Cairo.General.Constants.MON_ID);
-              m_moneda = Cairo.Database.valField(response.data, Cairo.General.Constants.MON_NAME);
+              m_name = Cairo.Database.valField(response.data, C.LPM_NAME);
+              m_code = Cairo.Database.valField(response.data, C.LPM_CODE);
+              m_id = Cairo.Database.valField(response.data, C.LPM_ID);
+              m_base = Cairo.Database.valField(response.data, C.LPM_BASE);
+              m_porcentaje = Cairo.Database.valField(response.data, C.LPM_PORCENTAJE);
+              m_salto = Cairo.Database.valField(response.data, C.LPM_SALTO);
+              m_decremento = Cairo.Database.valField(response.data, C.LPM_DECREMENTO);
+              m_porcminimo = Cairo.Database.valField(response.data, C.LPM_PORCMINIMO);
+              m_porcmaximo = Cairo.Database.valField(response.data, C.LPM_PORCMAXIMO);
+              m_montominimo = Cairo.Database.valField(response.data, C.LPM_MONTOMINIMO);
+              m_descrip = Cairo.Database.valField(response.data, C.LPM_DESCRIP);
+              m_monId = Cairo.Database.valField(response.data, C.MON_ID);
+              m_moneda = Cairo.Database.valField(response.data, C.MON_NAME);
             }
 
           return true;
         });
       };
 
-      var pUpdateListaPrecioPrecio = function() {
+      var updateListaPrecioPrecio = function() {
 
         if(!m_ventaConfig.getUsarListaPrecioPrecio()) { return; }
 
-        if(cWindow.ask(Cairo.Language.getText(3600, ""), vbYes)) {
+        if(cWindow.ask(getText(3600, ""), vbYes)) {
 
           var sqlstmt = null;
           var oldTimeOut = null;
@@ -672,6 +674,9 @@
   });
 
   Cairo.module("ListaPrecioMarcado.List", function(List, Cairo, Backbone, Marionette, $, _) {
+
+    var NO_ID = Cairo.Constants.NO_ID;
+
     List.Controller = {
       list: function() {
 

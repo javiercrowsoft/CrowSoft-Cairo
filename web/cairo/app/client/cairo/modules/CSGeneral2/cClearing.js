@@ -9,6 +9,8 @@
 
       var Dialogs = Cairo.Dialogs;
       var DB = Cairo.Database;
+      var C = Cairo.General.Constants;
+      var NO_ID = Cairo.Constants.NO_ID;
 
       var C_MODULE = "cClearing";
 
@@ -57,11 +59,11 @@
 
         m_listController.updateEditorKey(self, NO_ID);
 
-        var property = m_dialog.getProperties().item(Cairo.General.Constants.CLE_CODE);
+        var property = m_dialog.getProperties().item(C.CLE_CODE);
         property.setValue(Cairo.Constants.COPY_OF + property.getValue());
 
-        m_dialog.showValue(m_dialog.getProperties().item(Cairo.General.Constants.CLE_CODE));
-        m_dialog.showValue(m_dialog.getProperties().item(Cairo.General.Constants.CLE_NAME));
+        m_dialog.showValue(m_dialog.getProperties().item(C.CLE_CODE));
+        m_dialog.showValue(m_dialog.getProperties().item(C.CLE_NAME));
 
         m_copy = true;
       };
@@ -105,7 +107,7 @@
 
           var doc = new Cairo.DocDigital();
 
-          doc.setClientTable(Cairo.General.Constants.CLEARING);
+          doc.setClientTable(C.CLEARING);
           doc.setClientTableID(m_id);
 
           _rtn = doc.showDocs(Cairo.Database);
@@ -150,8 +152,8 @@
         var register = new Cairo.Database.Register();
         var fields = register.getFields();
 
-        register.setFieldId(Cairo.General.Constants.CLE_ID);
-        register.setTable(Cairo.General.Constants.CLEARING);
+        register.setFieldId(C.CLE_ID);
+        register.setTable(C.CLEARING);
 
         register.setPath(m_apiPath + "general/clearing");
 
@@ -167,11 +169,11 @@
           var property = m_dialog.getProperties().item(_i);
           switch (property.getKey()) {
             case K_NAME:
-              fields.add(Cairo.General.Constants.CLE_NAME, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.CLE_NAME, property.getValue(), Cairo.Constants.Types.text);
               break;
 
             case K_CODE:
-              fields.add(Cairo.General.Constants.CLE_CODE, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.CLE_CODE, property.getValue(), Cairo.Constants.Types.text);
               break;
 
             case K_ACTIVE:
@@ -179,11 +181,11 @@
               break;
 
             case K_DESCRIPCION:
-              fields.add(Cairo.General.Constants.CLE_DESCRIP, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.CLE_DESCRIP, property.getValue(), Cairo.Constants.Types.text);
               break;
 
             case K_DIAS:
-              fields.add(Cairo.General.Constants.CLE_DIAS, property.getValue(), Cairo.Constants.Types.integer);
+              fields.add(C.CLE_DIAS, property.getValue(), Cairo.Constants.Types.integer);
               break;
           }
         }
@@ -191,10 +193,10 @@
         return Cairo.Database.saveEx(
             register,
             false,
-            Cairo.General.Constants.CLE_CODE, 
+            C.CLE_CODE,
             Cairo.Constants.CLIENT_SAVE_FUNCTION,
             C_MODULE,
-            Cairo.Language.getText(1081, "")).then(
+            getText(1081, "")).then(
 
           function(result) {
             if(result.success) {
@@ -239,7 +241,7 @@
 
       self.getTitle = function() {
         // Clearings
-        return Cairo.Language.getText(1084, "");
+        return getText(1084, "");
       };
 
       self.validate = function() {
@@ -355,14 +357,14 @@
 
         properties.clear();
 
-        var elem = properties.add(null, Cairo.General.Constants.CLE_NAME);
+        var elem = properties.add(null, C.CLE_NAME);
         elem.setType(Dialogs.PropertyType.text);
         elem.setName(Cairo.Constants.NAME_LABEL);
         elem.setSize(100);
         elem.setKey(K_NAME);
         elem.setValue(m_name);
 
-        var elem = properties.add(null, Cairo.General.Constants.CLE_CODE);
+        var elem = properties.add(null, C.CLE_CODE);
         elem.setType(Dialogs.PropertyType.text);
         elem.setName(Cairo.Constants.CODE_LABEL);
         elem.setSize(15);
@@ -375,15 +377,15 @@
         elem.setKey(K_ACTIVE);
         elem.setValue(m_active === true ? 1 : 0);
 
-        var elem = properties.add(null, Cairo.General.Constants.CLE_DIAS);
+        var elem = properties.add(null, C.CLE_DIAS);
         elem.setType(Dialogs.PropertyType.numeric);
         elem.setSubType(Dialogs.PropertySubType.Integer);
         // Días
-        elem.setName(Cairo.Language.getText(1085, ""));
+        elem.setName(getText(1085, ""));
         elem.setKey(K_DIAS);
         elem.setValue(m_dias);
 
-        var elem = properties.add(null, Cairo.General.Constants.CLE_DESCRIP);
+        var elem = properties.add(null, C.CLE_DESCRIP);
         elem.setType(Dialogs.PropertyType.text);
         elem.setName(Cairo.Constants.DESCRIPTION_LABEL);
         elem.setKey(K_DESCRIPCION);
@@ -401,19 +403,19 @@
 
         var properties = m_dialog.getProperties();
 
-        var elem = properties.item(Cairo.General.Constants.CLE_NAME);
+        var elem = properties.item(C.CLE_NAME);
         elem.setValue(m_name);
 
-        var elem = properties.item(Cairo.General.Constants.CLE_CODE);
+        var elem = properties.item(C.CLE_CODE);
         elem.setValue(m_code);
 
         var elem = properties.item(Cairo.Constants.ACTIVE);
         elem.setValue(m_active === true ? 1 : 0);
 
-        var elem = properties.item(Cairo.General.Constants.CLE_DIAS);
+        var elem = properties.item(C.CLE_DIAS);
         elem.setValue(m_dias);
 
-        var elem = properties.item(Cairo.General.Constants.CLE_DESCRIP);
+        var elem = properties.item(C.CLE_DESCRIP);
         elem.setValue(m_descripcion);
 
         return m_dialog.showValues(properties);
@@ -436,11 +438,11 @@
             } 
             else {
               m_active = Cairo.Database.valField(response.data, Cairo.Constants.ACTIVE);
-              m_name = Cairo.Database.valField(response.data, Cairo.General.Constants.CLE_NAME);
-              m_code = Cairo.Database.valField(response.data, Cairo.General.Constants.CLE_CODE);
-              m_id = Cairo.Database.valField(response.data, Cairo.General.Constants.CLE_ID);
-              m_descripcion = Cairo.Database.valField(response.data, Cairo.General.Constants.CLE_DESCRIP);
-              m_dias = Cairo.Database.valField(response.data, Cairo.General.Constants.CLE_DIAS);
+              m_name = Cairo.Database.valField(response.data, C.CLE_NAME);
+              m_code = Cairo.Database.valField(response.data, C.CLE_CODE);
+              m_id = Cairo.Database.valField(response.data, C.CLE_ID);
+              m_descripcion = Cairo.Database.valField(response.data, C.CLE_DESCRIP);
+              m_dias = Cairo.Database.valField(response.data, C.CLE_DIAS);
             }
 
           return true;
@@ -483,6 +485,9 @@
   });
 
   Cairo.module("Clearing.List", function(List, Cairo, Backbone, Marionette, $, _) {
+
+    var NO_ID = Cairo.Constants.NO_ID;
+
     List.Controller = {
       list: function() {
 

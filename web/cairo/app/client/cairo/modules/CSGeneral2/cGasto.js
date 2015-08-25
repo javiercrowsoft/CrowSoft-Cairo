@@ -9,6 +9,8 @@
 
       var Dialogs = Cairo.Dialogs;
       var DB = Cairo.Database;
+      var C = Cairo.General.Constants;
+      var NO_ID = Cairo.Constants.NO_ID;
 
       var C_MODULE = "cGasto";
 
@@ -88,7 +90,7 @@
 
           var doc = new Cairo.DocDigital();
 
-          doc.setClientTable(Cairo.General.Constants.GASTO);
+          doc.setClientTable(C.GASTO);
           doc.setClientTableID(m_id);
 
           _rtn = doc.showDocs(Cairo.Database);
@@ -132,11 +134,11 @@
 
         m_listController.updateEditorKey(self, NO_ID);
 
-        var property = m_dialog.getProperties().item(Cairo.General.Constants.GTO_CODE);
+        var property = m_dialog.getProperties().item(C.GTO_CODE);
         property.setValue(Cairo.Constants.COPY_OF + property.getValue());
 
-        m_dialog.showValue(m_dialog.getProperties().item(Cairo.General.Constants.GTO_CODE));
-        m_dialog.showValue(m_dialog.getProperties().item(Cairo.General.Constants.GTO_NAME));
+        m_dialog.showValue(m_dialog.getProperties().item(C.GTO_CODE));
+        m_dialog.showValue(m_dialog.getProperties().item(C.GTO_NAME));
 
         m_copy = true;
       };
@@ -151,8 +153,8 @@
         var register = new Cairo.Database.Register();
         var fields = register.getFields();
 
-        register.setFieldId(Cairo.General.Constants.GTO_ID);
-        register.setTable(Cairo.General.Constants.GASTO);
+        register.setFieldId(C.GTO_ID);
+        register.setTable(C.GASTO);
 
         register.setPath(m_apiPath + "general/gasto");
 
@@ -168,43 +170,43 @@
           var property = m_dialog.getProperties().item(_i);
           switch (property.getKey()) {
             case K_NAME:
-              fields.add(Cairo.General.Constants.GTO_NAME, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.GTO_NAME, property.getValue(), Cairo.Constants.Types.text);
               break;
 
             case K_CODE:
-              fields.add(Cairo.General.Constants.GTO_CODE, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.GTO_CODE, property.getValue(), Cairo.Constants.Types.text);
               break;
 
             case K_DESCRIP:
-              fields.add(Cairo.General.Constants.GTO_DESCRIP, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.GTO_DESCRIP, property.getValue(), Cairo.Constants.Types.text);
               break;
 
             case K_TIPO:
-              fields.add(Cairo.General.Constants.GTO_TIPO, property.getListItemData(), Cairo.Constants.Types.integer);
+              fields.add(C.GTO_TIPO, property.getListItemData(), Cairo.Constants.Types.integer);
               break;
 
             case K_FIJO:
-              fields.add(Cairo.General.Constants.GTO_FIJO, property.getValue(), Cairo.Constants.Types.currency);
+              fields.add(C.GTO_FIJO, property.getValue(), Cairo.Constants.Types.currency);
               break;
 
             case K_MINIMO:
-              fields.add(Cairo.General.Constants.GTO_MINIMO, property.getValue(), Cairo.Constants.Types.currency);
+              fields.add(C.GTO_MINIMO, property.getValue(), Cairo.Constants.Types.currency);
               break;
 
             case K_PORCENTAJE:
-              fields.add(Cairo.General.Constants.GTO_PORCENTAJE, property.getValue(), Cairo.Constants.Types.currency);
+              fields.add(C.GTO_PORCENTAJE, property.getValue(), Cairo.Constants.Types.currency);
               break;
 
             case K_IMPORTE:
-              fields.add(Cairo.General.Constants.GTO_IMPORTE, property.getValue(), Cairo.Constants.Types.currency);
+              fields.add(C.GTO_IMPORTE, property.getValue(), Cairo.Constants.Types.currency);
               break;
 
             case K_MON_ID:
-              fields.add(Cairo.General.Constants.MON_ID, property.getSelectId(), Cairo.Constants.Types.id);
+              fields.add(C.MON_ID, property.getSelectId(), Cairo.Constants.Types.id);
               break;
 
             case K_TI_ID:
-              fields.add(Cairo.General.Constants.TI_ID, property.getSelectId(), Cairo.Constants.Types.id);
+              fields.add(C.TI_ID, property.getSelectId(), Cairo.Constants.Types.id);
               break;
 
             case K_ACTIVE:
@@ -217,10 +219,10 @@
         return Cairo.Database.saveEx(
             register,
             false,
-            Cairo.General.Constants.GTO_CODE, 
+            C.GTO_CODE,
             Cairo.Constants.CLIENT_SAVE_FUNCTION,
             C_MODULE,
-            Cairo.Language.getText(1220, "")).then(
+            getText(1220, "")).then(
 
           function(result) {
             if(result.success) {
@@ -265,7 +267,7 @@
 
       self.getTitle = function() {
         //Gastos
-        return Cairo.Language.getText(1221, "");
+        return getText(1221, "");
       };
 
       self.validate = function() {
@@ -291,14 +293,14 @@
             case K_TIPO:
               if(Cairo.Util.valEmpty(property.getListItemData(), Cairo.Constants.Types.integer)) {
                 // Debe indicar un tipo
-                Cairo.Modal.showInfo(Cairo.Language.getText(1222, ""));
+                Cairo.Modal.showInfo(getText(1222, ""));
               }
               break;
 
             case K_MON_ID:
               if(Cairo.Util.valEmpty(property.getSelectId(), Cairo.Constants.Types.id)) {
                 // Debe indicar un moneda
-                Cairo.Modal.showInfo(Cairo.Language.getText(1108, ""));
+                Cairo.Modal.showInfo(getText(1108, ""));
               }
               break;
           }
@@ -393,14 +395,14 @@
 
         properties.clear();
 
-        var elem = properties.add(null, Cairo.General.Constants.GTO_NAME);
+        var elem = properties.add(null, C.GTO_NAME);
         elem.setType(Dialogs.PropertyType.text);
         elem.setName(Cairo.Constants.NAME_LABEL);
         elem.setSize(100);
         elem.setKey(K_NAME);
         elem.setValue(m_name);
 
-        var elem = properties.add(null, Cairo.General.Constants.GTO_CODE);
+        var elem = properties.add(null, C.GTO_CODE);
         elem.setType(Dialogs.PropertyType.text);
         elem.setName(Cairo.Constants.CODE_LABEL);
         elem.setSize(15);
@@ -413,10 +415,10 @@
         elem.setKey(K_ACTIVE);
         elem.setValue(m_active === true ? 1 : 0);
 
-        var elem = properties.add(null, Cairo.General.Constants.GTO_TIPO);
+        var elem = properties.add(null, C.GTO_TIPO);
         elem.setType(Dialogs.PropertyType.list);
         // Tipo
-        elem.setName(Cairo.Language.getText(1223, ""));
+        elem.setName(getText(1223, ""));
         elem.setKey(K_TIPO);
         elem.setListWhoSetItem(Dialogs.ListWhoSetItem.itemData);
         elem.setListItemData(m_tipo);
@@ -425,66 +427,66 @@
         var elem = elem.add(null);
         elem.Id = csE_GastoTipo.cSEGTOTAEREO;
         // A�reo
-        elem.setValue(Cairo.Language.getText(1224, ""));
+        elem.setValue(getText(1224, ""));
         var elem = elem.add(null);
         elem.Id = csE_GastoTipo.cSEGTOTGENERAL;
         elem.setValue(Cairo.Constants.TAB_GENERAL);
         var elem = elem.add(null);
         elem.Id = csE_GastoTipo.cSEGTOTMARITIMO;
         // Mar�timo
-        elem.setValue(Cairo.Language.getText(1225, ""));
+        elem.setValue(getText(1225, ""));
 
-        var elem = properties.add(null, Cairo.General.Constants.GTO_FIJO);
+        var elem = properties.add(null, C.GTO_FIJO);
         elem.setType(Dialogs.PropertyType.numeric);
         elem.setSubType(Dialogs.PropertySubType.money);
         // Fijo
-        elem.setName(Cairo.Language.getText(1226, ""));
+        elem.setName(getText(1226, ""));
         elem.setKey(K_FIJO);
         elem.setValue(m_fijo);
 
-        var elem = properties.add(null, Cairo.General.Constants.GTO_MINIMO);
+        var elem = properties.add(null, C.GTO_MINIMO);
         elem.setType(Dialogs.PropertyType.numeric);
         elem.setSubType(Dialogs.PropertySubType.money);
         // M�nimo
-        elem.setName(Cairo.Language.getText(1227, ""));
+        elem.setName(getText(1227, ""));
         elem.setKey(K_MINIMO);
         elem.setValue(m_minimo);
 
-        var elem = properties.add(null, Cairo.General.Constants.GTO_PORCENTAJE);
+        var elem = properties.add(null, C.GTO_PORCENTAJE);
         elem.setType(Dialogs.PropertyType.numeric);
         elem.setSubType(Dialogs.PropertySubType.percentage);
         // Porcentaje
-        elem.setName(Cairo.Language.getText(1105, ""));
+        elem.setName(getText(1105, ""));
         elem.setKey(K_PORCENTAJE);
         elem.setValue(m_porcentaje);
 
-        var elem = properties.add(null, Cairo.General.Constants.GTO_IMPORTE);
+        var elem = properties.add(null, C.GTO_IMPORTE);
         elem.setType(Dialogs.PropertyType.numeric);
         elem.setSubType(Dialogs.PropertySubType.money);
         // Importe
-        elem.setName(Cairo.Language.getText(1228, ""));
+        elem.setName(getText(1228, ""));
         elem.setKey(K_IMPORTE);
         elem.setValue(m_importe);
 
-        var elem = properties.add(null, Cairo.General.Constants.MON_ID);
+        var elem = properties.add(null, C.MON_ID);
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.MONEDA);
         // Moneda
-        elem.setName(Cairo.Language.getText(1113, ""));
+        elem.setName(getText(1113, ""));
         elem.setKey(K_MON_ID);
         elem.setValue(m_moneda);
         elem.setSelectId(m_monId);
 
-        var elem = properties.add(null, Cairo.General.Constants.TI_ID);
+        var elem = properties.add(null, C.TI_ID);
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.TASA_IMPOSITIVA);
         // Tasa Impositiva
-        elem.setName(Cairo.Language.getText(1229, ""));
+        elem.setName(getText(1229, ""));
         elem.setKey(K_TI_ID);
         elem.setValue(m_tasaImpositiva);
         elem.setSelectId(m_ti_id);
 
-        var elem = properties.add(null, Cairo.General.Constants.GTO_DESCRIP);
+        var elem = properties.add(null, C.GTO_DESCRIP);
         elem.setType(Dialogs.PropertyType.text);
         elem.setName(Cairo.Constants.DESCRIPTION_LABEL);
         elem.setSize(255);
@@ -503,39 +505,39 @@
 
         var properties = m_dialog.getProperties();
 
-        var elem = properties.item(Cairo.General.Constants.GTO_NAME);
+        var elem = properties.item(C.GTO_NAME);
         elem.setValue(m_name);
 
-        var elem = properties.item(Cairo.General.Constants.GTO_CODE);
+        var elem = properties.item(C.GTO_CODE);
         elem.setValue(m_code);
 
         var elem = properties.item(Cairo.Constants.ACTIVE);
         elem.setValue(m_active === true ? 1 : 0);
 
-        var elem = properties.item(Cairo.General.Constants.GTO_TIPO);
+        var elem = properties.item(C.GTO_TIPO);
         elem.setValue(Cairo.Constants.TAB_GENERAL);
 
-        var elem = properties.item(Cairo.General.Constants.GTO_FIJO);
+        var elem = properties.item(C.GTO_FIJO);
         elem.setValue(m_fijo);
 
-        var elem = properties.item(Cairo.General.Constants.GTO_MINIMO);
+        var elem = properties.item(C.GTO_MINIMO);
         elem.setValue(m_minimo);
 
-        var elem = properties.item(Cairo.General.Constants.GTO_PORCENTAJE);
+        var elem = properties.item(C.GTO_PORCENTAJE);
         elem.setValue(m_porcentaje);
 
-        var elem = properties.item(Cairo.General.Constants.GTO_IMPORTE);
+        var elem = properties.item(C.GTO_IMPORTE);
         elem.setValue(m_importe);
 
-        var elem = properties.item(Cairo.General.Constants.MON_ID);
+        var elem = properties.item(C.MON_ID);
         elem.setValue(m_moneda);
         elem.setSelectId(m_monId);
 
-        var elem = properties.item(Cairo.General.Constants.TI_ID);
+        var elem = properties.item(C.TI_ID);
         elem.setValue(m_tasaImpositiva);
         elem.setSelectId(m_ti_id);
 
-        var elem = properties.item(Cairo.General.Constants.GTO_DESCRIP);
+        var elem = properties.item(C.GTO_DESCRIP);
         elem.setValue(m_descrip);
 
         return m_dialog.showValues(properties);
@@ -550,21 +552,21 @@
 
             if(response.data.id !== NO_ID) {
 
-              m_id = Cairo.Database.valField(response.data, Cairo.General.Constants.GTO_ID);
-              m_name = Cairo.Database.valField(response.data, Cairo.General.Constants.GTO_NAME);
-              m_code = Cairo.Database.valField(response.data, Cairo.General.Constants.GTO_CODE);
-              m_descrip = Cairo.Database.valField(response.data, Cairo.General.Constants.GTO_DESCRIP);
-              m_tipo = Cairo.Database.valField(response.data, Cairo.General.Constants.GTO_TIPO);
-              m_fijo = Cairo.Database.valField(response.data, Cairo.General.Constants.GTO_FIJO);
-              m_minimo = Cairo.Database.valField(response.data, Cairo.General.Constants.GTO_MINIMO);
-              m_porcentaje = Cairo.Database.valField(response.data, Cairo.General.Constants.GTO_PORCENTAJE);
-              m_importe = Cairo.Database.valField(response.data, Cairo.General.Constants.GTO_IMPORTE);
+              m_id = Cairo.Database.valField(response.data, C.GTO_ID);
+              m_name = Cairo.Database.valField(response.data, C.GTO_NAME);
+              m_code = Cairo.Database.valField(response.data, C.GTO_CODE);
+              m_descrip = Cairo.Database.valField(response.data, C.GTO_DESCRIP);
+              m_tipo = Cairo.Database.valField(response.data, C.GTO_TIPO);
+              m_fijo = Cairo.Database.valField(response.data, C.GTO_FIJO);
+              m_minimo = Cairo.Database.valField(response.data, C.GTO_MINIMO);
+              m_porcentaje = Cairo.Database.valField(response.data, C.GTO_PORCENTAJE);
+              m_importe = Cairo.Database.valField(response.data, C.GTO_IMPORTE);
 
-              m_monId = Cairo.Database.valField(response.data, Cairo.General.Constants.MON_ID);
-              m_moneda = Cairo.Database.valField(response.data, Cairo.General.Constants.MON_NAME);
+              m_monId = Cairo.Database.valField(response.data, C.MON_ID);
+              m_moneda = Cairo.Database.valField(response.data, C.MON_NAME);
 
-              m_ti_id = Cairo.Database.valField(response.data, Cairo.General.Constants.TI_ID);
-              m_tasaImpositiva = Cairo.Database.valField(response.data, Cairo.General.Constants.TI_NAME);
+              m_ti_id = Cairo.Database.valField(response.data, C.TI_ID);
+              m_tasaImpositiva = Cairo.Database.valField(response.data, C.TI_NAME);
               m_active = Cairo.Database.valField(response.data, Cairo.Constants.ACTIVE);
 
             } 
@@ -625,6 +627,9 @@
   });
 
   Cairo.module("Gasto.List", function(List, Cairo, Backbone, Marionette, $, _) {
+
+    var NO_ID = Cairo.Constants.NO_ID;
+
     List.Controller = {
       list: function() {
 

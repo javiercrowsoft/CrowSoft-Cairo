@@ -544,15 +544,15 @@
 
               if(getDoc() === NO_ID) {
                 nextStep = WCS.SELECT_PROVEEDOR;
-                p = M.showWarningWithFalse(Cairo.Language.getText(1562, ""), Cairo.Language.getText(1607, "")); // Debe indicar un documento, Facturas
+                p = M.showWarningWithFalse(getText(1562, ""), getText(1607, "")); // Debe indicar un documento, Facturas
               }
               else if(getProveedor() === NO_ID) {
                 nextStep = WCS.SELECT_PROVEEDOR;
-                p = M.showWarningWithFalse(Cairo.Language.getText(1860, ""), Cairo.Language.getText(1607, "")); // Debe indicar un Proveedor, Facturas
+                p = M.showWarningWithFalse(getText(1860, ""), getText(1607, "")); // Debe indicar un Proveedor, Facturas
               }
               else if(D.wizGetDeposito(m_objWizard, WCS.SELECT_PROVEEDOR, DWC.DEPOSITO) === NO_ID && m_showStockData) {
                 nextStep = WCS.SELECT_PROVEEDOR;
-                p = M.showWarningWithFalse(Cairo.Language.getText(1559, ""), Cairo.Language.getText(1722, "")); // Debe indicar un deposito, Remitos                                
+                p = M.showWarningWithFalse(getText(1559, ""), getText(1722, "")); // Debe indicar un deposito, Remitos
               }
               else {
                 p = loadRemitosXProveedor()
@@ -566,7 +566,7 @@
                     },
                     function() {
                       nextStep = WCS.SELECT_PROVEEDOR;
-                      return M.showWarningWithFalse(Cairo.Language.getText(1911, ""), Cairo.Language.getText(1607, "")); // No se pudieron cargar los Remitos para este Proveedor, Facturas
+                      return M.showWarningWithFalse(getText(1911, ""), getText(1607, "")); // No se pudieron cargar los Remitos para este Proveedor, Facturas
                     }
                 );
               }
@@ -584,7 +584,7 @@
                       },
                       function() {
                         nextStep = WCS.SELECT_ORDEN_REMITO;
-                        return M.showWarningWithFalse(Cairo.Language.getText(1912, ""), Cairo.Language.getText(1607, "")); // No se pudieron cargar los items de los remitos para este proveedor, Facturas
+                        return M.showWarningWithFalse(getText(1912, ""), getText(1607, "")); // No se pudieron cargar los items de los remitos para este proveedor, Facturas
                       }
                     );
                   },
@@ -837,7 +837,7 @@
       };
 
       self.getTitle = function() {
-        return Cairo.Language.getText(2168, ""); // Asistente de Facturas de Compra
+        return getText(2168, ""); // Asistente de Facturas de Compra
       };
 
       var loadSteps = function() {
@@ -866,11 +866,11 @@
 
         var elem = properties.add(null, DWC.TITLE);
         elem.setType(T.title);        
-        elem.setValue(Cairo.Language.getText(1913, "")); // Bienvenido al Asistente de Facturas de Compra
+        elem.setValue(getText(1913, "")); // Bienvenido al Asistente de Facturas de Compra
 
         var elem = properties.add(null, DWC.MAIN_TITLE);
         elem.setType(T.label);
-        elem.setValue(Cairo.Language.getText(1681, "")); // Con este asistente usted podra generar las facturas sobre remitos.
+        elem.setValue(getText(1681, "")); // Con este asistente usted podra generar las facturas sobre remitos.
 
         D.wizAddNewDocProperties(m_objWizard, WCS.WELCOME);
 
@@ -885,10 +885,10 @@
 
         var elem = properties.add(null);
         elem.setType(T.label);
-        elem.setValue(Cairo.Language.getText(1914, "")); // Indique el documento a utilizar y el Proveedor al que se le emitirá la Factura
+        elem.setValue(getText(1914, "")); // Indique el documento a utilizar y el Proveedor al que se le emitirá la Factura
 
         var elem = properties.add(null, DWC.DOC);
-        elem.setName(Cairo.Language.getText(1567, "")); // Documento
+        elem.setName(getText(1567, "")); // Documento
         elem.setType(T.select);
         elem.setSelectFilter(D.FACTURA_COMPRAS_REMITO_DOC_FILTER);
         elem.setSelectTable(Cairo.Tables.DOCUMENTO);
@@ -897,7 +897,7 @@
         elem.setKey(WC.KW_DOC_ID);
 
         var elem = properties.add(null, DWC.PROVEEDOR);
-        elem.setName(Cairo.Language.getText(1151, "")); // Proveedor
+        elem.setName(getText(1151, "")); // Proveedor
         elem.setType(T.select);
         elem.setSelectTable(Cairo.Tables.PROVEEDOR);
         elem.setValue(m_proveedor);
@@ -905,7 +905,7 @@
         elem.setKey(WC.KW_PROV_ID);
 
         var elem = properties.add(null, DWC.DEPOSITO);
-        elem.setName(Cairo.Language.getText(1574, "")); // Deposito
+        elem.setName(getText(1574, "")); // Deposito
         elem.setType(T.select);
         elem.setSelectTable(Cairo.Tables.DEPOSITO_LOGICO);
         elem.setSelectId(Cairo.UserConfig.getDeplId());
@@ -914,7 +914,7 @@
 
         var elem = properties.add(null, DWC.ONLY_SELECTED);
         elem.setType(T.check);
-        elem.setName(Cairo.Language.getText(1682, "")); // Cargar solo remitos seleccionados
+        elem.setName(getText(1682, "")); // Cargar solo remitos seleccionados
         elem.setValue(m_rcIds.length > 0);
       };
 
@@ -927,7 +927,7 @@
 
         var elem = properties.add(null);
         elem.setType(T.label);        
-        elem.setValue(Cairo.Language.getText(1683, "")); // Seleccione los remitos
+        elem.setValue(getText(1683, "")); // Seleccione los remitos
 
         var elem = properties.add(null, DWC.REMITOS);
         elem.setType(T.grid);
@@ -944,7 +944,7 @@
         elem.setNoShowLabel(true);
 
         var elem = properties.add(null, DWC.TOTAL);
-        elem.setName(Cairo.Language.getText(1584, "")); // Total
+        elem.setName(getText(1584, "")); // Total
         elem.setType(T.numeric);
         elem.setSubType(T.money);
         elem.setFormat(Cairo.Settings.getAmountDecimalsFormat());
@@ -960,29 +960,29 @@
         elem.setKey(KI_SELECT);
 
         var elem = columns.add(null);
-        elem.setName(Cairo.Language.getText(1223, "")); // Tipo
+        elem.setName(getText(1223, "")); // Tipo
         elem.setType(Dialogs.PropertyType.text);
         elem.setKey(KI_DOC);
 
         var elem = columns.add(null);
-        elem.setName(Cairo.Language.getText(1567, "")); // Documento
+        elem.setName(getText(1567, "")); // Documento
         elem.setType(Dialogs.PropertyType.text);
         elem.setKey(KI_NRODOC);
 
         var elem = columns.add(null);
-        elem.setName(Cairo.Language.getText(1065, "")); // Número
+        elem.setName(getText(1065, "")); // Número
         elem.setType(Dialogs.PropertyType.numeric);
         elem.setSubType(Dialogs.PropertySubType.integer);
         elem.setKey(KI_RC_ID);
 
         var elem = columns.add(null);
-        elem.setName(Cairo.Language.getText(1569, "")); // Fecha
+        elem.setName(getText(1569, "")); // Fecha
         elem.setType(Dialogs.PropertyType.date);
         elem.setFormat("dd/mm/yy");
         elem.setKey(KI_FECHA);
 
         var elem = columns.add(null);
-        elem.setName(Cairo.Language.getText(1584, "")); // Total
+        elem.setName(getText(1584, "")); // Total
         elem.setType(Dialogs.PropertyType.numeric);
         elem.setSubType(Dialogs.PropertySubType.money);
         elem.setKey(KI_TOTAL);
@@ -1003,7 +1003,7 @@
 
         var elem = properties.add(null);
         elem.setType(T.label);
-        elem.setValue(Cairo.Language.getText(1676, "")); // Seleccione los items he indique las cantidades que facturará de cada una de ellos
+        elem.setValue(getText(1676, "")); // Seleccione los items he indique las cantidades que facturará de cada una de ellos
 
         var elem = properties.add(null, DWC.ITEMS);
         elem.setType(T.grid);
@@ -1019,7 +1019,7 @@
         elem.setKey(WC.KW_TODOS_ITEMS);
 
         var elem = properties.add(null, DWC.TOTAL_ITEMS);
-        elem.setName(Cairo.Language.getText(1584, "")); // Total
+        elem.setName(getText(1584, "")); // Total
         elem.setType(T.numeric);
         elem.setSubType(T.money);
         elem.setFormat(Cairo.Settings.getAmountDecimalsFormat());
@@ -1034,7 +1034,7 @@
 
         var elem = properties.add(null);
         elem.setType(T.label);
-        elem.setValue(Cairo.Language.getText(1915, "")); // Indique las percepciones si corresponde
+        elem.setValue(getText(1915, "")); // Indique las percepciones si corresponde
 
         var elem = properties.add(null, DWC.PERCEPCIONES);
         elem.setType(T.grid);
@@ -1045,7 +1045,7 @@
         elem.setGridRemoveEnabled(true);
 
         var elem = properties.add(null, DWC.TOTAL_PERCEPCIONES);
-        elem.setName(Cairo.Language.getText(1584, "")); // Total
+        elem.setName(getText(1584, "")); // Total
         elem.setType(T.numeric);
         elem.setSubType(T.money);
         elem.setFormat(Cairo.Settings.getAmountDecimalsFormat());
@@ -1068,23 +1068,23 @@
         elem.setKey(KII_SELECT);
 
         var elem = columns.add(null);
-        elem.setName(Cairo.Language.getText(1567, "")); // Documento
+        elem.setName(getText(1567, "")); // Documento
         elem.setType(Dialogs.PropertyType.text);
         elem.setKey(KI_NRODOC);
 
         var elem = columns.add(null);
-        elem.setName(Cairo.Language.getText(1065, "")); // Número
+        elem.setName(getText(1065, "")); // Número
         elem.setType(Dialogs.PropertyType.numeric);
         elem.setSubType(Dialogs.PropertySubType.integer);
         elem.setKey(KI_RC_ID);
 
         var elem = columns.add(null);
-        elem.setName(Cairo.Language.getText(1367, "")); // Articulo
+        elem.setName(getText(1367, "")); // Articulo
         elem.setType(Dialogs.PropertyType.text);
         elem.setKey(KII_ARTICULO);
 
         var elem = columns.add(null);
-        elem.setName(Cairo.Language.getText(1586, "")); // Precio
+        elem.setName(getText(1586, "")); // Precio
         elem.setType(Dialogs.PropertyType.numeric);
         elem.setSubType(Dialogs.PropertySubType.money);
         elem.setKey(KII_PRECIO_SIN_IVA);
@@ -1092,35 +1092,35 @@
         elem.setEnabled(Cairo.Security.silentHasPermissionTo(Cairo.Security.Actions.Compras.EDIT_PRICE_FAC));
 
         var elem = columns.add(null);
-        elem.setName(Cairo.Language.getText(1374, "")); // Cantidad
+        elem.setName(getText(1374, "")); // Cantidad
         elem.setType(Dialogs.PropertyType.numeric);
         elem.setSubType(Dialogs.PropertySubType.double);
         elem.setKey(KII_CANTIDAD);
         elem.setFormat(Cairo.Settings.getQuantityDecimalsFormat());
 
         var elem = columns.add(null, DWC.PENDIENTE);
-        elem.setName(Cairo.Language.getText(1609, "")); // Pendiente
+        elem.setName(getText(1609, "")); // Pendiente
         elem.setType(Dialogs.PropertyType.numeric);
         elem.setSubType(Dialogs.PropertySubType.double);
         elem.setKey(KII_PENDIENTE);
         elem.setFormat(Cairo.Settings.getQuantityDecimalsFormat());
 
         var elem = columns.add(null);
-        elem.setName(Cairo.Language.getText(1662, "")); // Aplicar
+        elem.setName(getText(1662, "")); // Aplicar
         elem.setType(Dialogs.PropertyType.numeric);
         elem.setSubType(Dialogs.PropertySubType.double);
         elem.setKey(KII_APLICAR);
         elem.setFormat(Cairo.Settings.getQuantityDecimalsFormat());
 
         var elem = columns.add(null, DWC.TOTAL_ITEMS);
-        elem.setName(Cairo.Language.getText(1584, "")); // Total
+        elem.setName(getText(1584, "")); // Total
         elem.setType(Dialogs.PropertyType.numeric);
         elem.setSubType(Dialogs.PropertySubType.money);
         elem.setKey(KII_TOTAL);
         elem.setFormat(Cairo.Settings.getQuantityDecimalsFormat());
 
         var elem = columns.add(null);        
-        elem.setName(Cairo.Language.getText(1661, "")); // Tipo Operación
+        elem.setName(getText(1661, "")); // Tipo Operación
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.TIPOOPERACION);
         elem.setKey(KII_TO_ID);
@@ -1171,7 +1171,7 @@
         var p = null;
 
         if(m_wizardCancel) {
-          p = M.confirmViewYesDanger("", Cairo.Language.getText(1665, "")) //Desea cancelar el proceso
+          p = M.confirmViewYesDanger("", getText(1665, "")) //Desea cancelar el proceso
                   .then(function(answer) { return answer === "yes"; });
         }
         m_wizardCancel = false;
@@ -1326,7 +1326,7 @@
             return P.resolvedPromise(true);
           }
         }
-        return M.showWarningWithFalse(Cairo.Language.getText(1677, "")); // Debe indicar uno o más remitos.
+        return M.showWarningWithFalse(getText(1677, "")); // Debe indicar uno o más remitos.
       };
 
       var checkPercepciones = function() {
@@ -1341,7 +1341,7 @@
           return validateRowItems(row, i).success(function() {
             existsSelected = true;
             if(!val(getCell(row, KII_PRECIO_SIN_IVA).getValue()) != 0) {
-              return M.showWarningWithFalse(Cairo.Language.getText(1667, "", i + 1)); // Debe indicar un precio para el item (1)
+              return M.showWarningWithFalse(getText(1667, "", i + 1)); // Debe indicar un precio para el item (1)
             }
             return true;
           });
@@ -1356,10 +1356,10 @@
 
         return p.success(function() {
           if(!existsSelected) {
-            return M.showWarningWithFalse(Cairo.Language.getText(1678, "")); // Debe indicar uno o más items.
+            return M.showWarningWithFalse(getText(1678, "")); // Debe indicar uno o más items.
           }
           if(!val(getTotalItems().getValue()) > 0) {
-            return M.showWarningWithFalse(Cairo.Language.getText(1678, "")); // Debe indicar uno o más items.
+            return M.showWarningWithFalse(getText(1678, "")); // Debe indicar uno o más items.
           }
           return true;
         });
@@ -1370,7 +1370,7 @@
         var strRow = " (Row: " + rowIndex.toString() + ")";
 
         if(valEmpty(getCell(row, KII_TO_ID).getId(), Types.id)) {
-          p = M.showInfo(Cairo.Language.getText(1633, "", strRow)); //Debe indicar un tipo de operación (1)
+          p = M.showInfo(getText(1633, "", strRow)); //Debe indicar un tipo de operación (1)
         }
 
         return p || Cairo.Promises.resolvedPromise(true);
@@ -1665,20 +1665,20 @@
 
       var validateDatosGenerales = function() {
         if(valEmpty(getFecha().getValue(), Types.date)) {
-          return M.showWarningWithFalse(Cairo.Language.getText(1669, "")); // Debe indicar la fecha de la factura
+          return M.showWarningWithFalse(getText(1669, "")); // Debe indicar la fecha de la factura
         }
 
         if(valEmpty(getCondicionPago().getSelectId(), Types.id)) {
-          return M.showWarningWithFalse(Cairo.Language.getText(1561, "")); // Debe indicar la condicion de pago
+          return M.showWarningWithFalse(getText(1561, "")); // Debe indicar la condicion de pago
         }
 
         var fechaVto = getFechaVto();
         if(valEmpty(fechaVto.getValue(), Types.date) && fechaVto.getVisible()) {
-          return M.showWarningWithFalse(Cairo.Language.getText(1625, "")); // Debe indicar una fecha de vencimiento
+          return M.showWarningWithFalse(getText(1625, "")); // Debe indicar una fecha de vencimiento
         }
 
         if(valEmpty(getSucursal().getSelectId(), Types.id)) {
-          return M.showWarningWithFalse(Cairo.Language.getText(1560, "")); // Debe indicar la sucursal
+          return M.showWarningWithFalse(getText(1560, "")); // Debe indicar la sucursal
         }
 
         return P.resolvedPromise(true);

@@ -13,7 +13,7 @@
         D.getDocCliente(D.Types.ASIENTO_CONTABLE, asId).successWithResult(function(response) {
 
           if(response.id === NO_ID) {
-            M.showInfo(Cairo.Language.getText(1693, "")); // Este comprobante no tiene un documento de stock asociado.
+            M.showInfo(getText(1693, "")); // Este comprobante no tiene un documento de stock asociado.
           }
 
           var objEditName = "";
@@ -59,7 +59,7 @@
           if(objEditName === "") {
             // No hay un documento asociado al doct_id #{ response.doctId }
             // ;;Comuniquese con soporte de CrowSoft para obtener asistencia técnica.
-            M.showWarning(Cairo.Language.getText(1956, "", response.doctId));
+            M.showWarning(getText(1956, "", response.doctId));
             return;
           }
           else {
@@ -1014,7 +1014,7 @@
         }
 
         if(bDebe && bHaber) {
-          return M.showInfoWithFalse(Cairo.Language.getText(1959, "", strRow)); // Debe indicar un importe en el Debe o en el Haber, no en ambas columnas (1)
+          return M.showInfoWithFalse(getText(1959, "", strRow)); // Debe indicar un importe en el Debe o en el Haber, no en ambas columnas (1)
         }
 
         return p || P.resolvedPromise(true);
@@ -1082,7 +1082,7 @@
 
         elem = properties.add(null, CC.AS_DOC_CLIENTE);
         elem.setType(Dialogs.PropertyType.text);
-        elem.setName(Cairo.Language.getText(1960, "")); // Generado Por
+        elem.setName(getText(1960, "")); // Generado Por
         elem.setKey(K_ID_CLIENTE);
         elem.setValue(m_doc_cliente);
         elem.setEnabled(false);
@@ -1131,7 +1131,7 @@
         var elem = properties.add(null, C_ASTOTALDEBE);
         elem.setType(Dialogs.PropertyType.numeric);
         elem.setSubType(Dialogs.PropertySubType.money);
-        elem.setName(Cairo.Language.getText(1961, "")); // Total Debe
+        elem.setName(getText(1961, "")); // Total Debe
         elem.setKey(K_TOTAL_DEBE);
         elem.setValue(m_totalDebe);
         elem.setFormat(Cairo.Settings.getAmountDecimalsFormat());
@@ -1140,7 +1140,7 @@
         var elem = properties.add(null, C_ASTOTALHABER);
         elem.setType(Dialogs.PropertyType.numeric);
         elem.setSubType(Dialogs.PropertySubType.money);
-        elem.setName(Cairo.Language.getText(1962, "")); // Total Haber
+        elem.setName(getText(1962, "")); // Total Haber
         elem.setKey(K_TOTAL_HABER);
         elem.setValue(m_totalHaber);
         elem.setFormat(Cairo.Settings.getAmountDecimalsFormat());
@@ -1171,28 +1171,28 @@
         elem.setKey(KI_ASI_ID);
 
         elem = columns.add(null);
-        elem.setName(Cairo.Language.getText(1267, "")); // Cuenta
+        elem.setName(getText(1267, "")); // Cuenta
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.CUENTA);
         elem.setKey(KI_CUE_ID);
         elem.setSelectFilter(D.getSelectFilterForCuenta);
 
         elem = columns.add(null);
-        elem.setName(Cairo.Language.getText(1904, "")); // Debe
+        elem.setName(getText(1904, "")); // Debe
         elem.setFormat(Cairo.Settings.getAmountDecimalsFormat());
         elem.setType(Dialogs.PropertyType.numeric);
         elem.setSubType(Dialogs.PropertySubType.money);
         elem.setKey(KI_DEBE);
 
         elem = columns.add(null);
-        elem.setName(Cairo.Language.getText(1905, "")); // Haber
+        elem.setName(getText(1905, "")); // Haber
         elem.setFormat(Cairo.Settings.getAmountDecimalsFormat());
         elem.setType(Dialogs.PropertyType.numeric);
         elem.setSubType(Dialogs.PropertySubType.money);
         elem.setKey(KI_HABER);
 
         elem = columns.add(null, C_ORIGEN);
-        elem.setName(Cairo.Language.getText(1963, "")); // Moneda Origen
+        elem.setName(getText(1963, "")); // Moneda Origen
         elem.setFormat(Cairo.Settings.getAmountDecimalsFormat());
         elem.setType(Dialogs.PropertyType.numeric);
         elem.setSubType(Dialogs.PropertySubType.money);
@@ -1206,7 +1206,7 @@
         elem.setKey(KI_DESCRIP);
 
         elem = columns.add(null);
-        elem.setName(Cairo.Language.getText(1057, "")); // Centro de Costo
+        elem.setName(getText(1057, "")); // Centro de Costo
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.CENTROS_DE_COSTO);
         elem.setKey(KI_CCOS_ID);        
@@ -2015,14 +2015,14 @@
 
         m_menuLoaded = true;
 
-        m_menuFirmar = m_dialog.addMenu(Cairo.Language.getText(1594, "")); // Firmar
+        m_menuFirmar = m_dialog.addMenu(getText(1594, "")); // Firmar
         m_dialog.addMenu("-");
 
-        m_menuAddNote = m_dialog.addMenu(Cairo.Language.getText(1615, "")); // Agregar Nota
-        m_menuShowMensajes = m_dialog.addMenu(Cairo.Language.getText(1616, "")); // Ver Notas
+        m_menuAddNote = m_dialog.addMenu(getText(1615, "")); // Agregar Nota
+        m_menuShowMensajes = m_dialog.addMenu(getText(1616, "")); // Ver Notas
         m_dialog.addMenu("-");
 
-        m_menuShowDocAux = m_dialog.addMenu(Cairo.Language.getText(1691, "")); // Ver Documento Asociado
+        m_menuShowDocAux = m_dialog.addMenu(getText(1691, "")); // Ver Documento Asociado
       };
 
       var showNotes = function() {
@@ -2194,14 +2194,6 @@
           self.documentList.list().then(Cairo.LoadingMessage.close);
 
         };
-
-        var showListDialog = function() {
-          self.documentList.show();
-        };
-
-        var closeListDialog = function() {
-
-        }
 
         createListDialog();
       }

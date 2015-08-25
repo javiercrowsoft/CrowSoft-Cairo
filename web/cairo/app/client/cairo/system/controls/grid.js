@@ -1012,7 +1012,7 @@
         }
         //
         // if the grid support add rows
-        // the new row has index == count
+        // the new row has index === count
         //
         if(self.editEnabled && self.addEnabled) {
           gridManager.updateRow(count);
@@ -1484,7 +1484,7 @@
         rowIndex = rowIndex === undefined ? -1 : rowIndex;
 
         //
-        // if rowIndex == -1 we need to remove all rows and columns and then draw the entire grid
+        // if rowIndex === -1 we need to remove all rows and columns and then draw the entire grid
         //
         if(rowIndex === -1) {
 

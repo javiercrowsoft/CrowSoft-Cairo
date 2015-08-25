@@ -9,6 +9,8 @@
 
       var Dialogs = Cairo.Dialogs;
       var DB = Cairo.Database;
+      var C = Cairo.General.Constants;
+      var NO_ID = Cairo.Constants.NO_ID;
 
       var C_MODULE = "cCobrador";
 
@@ -62,11 +64,11 @@
 
         m_listController.updateEditorKey(self, NO_ID);
 
-        var property = m_dialog.getProperties().item(Cairo.General.Constants.COB_CODE);
+        var property = m_dialog.getProperties().item(C.COB_CODE);
         property.setValue(Cairo.Constants.COPY_OF + property.getValue());
 
-        m_dialog.showValue(m_dialog.getProperties().item(Cairo.General.Constants.COB_CODE));
-        m_dialog.showValue(m_dialog.getProperties().item(Cairo.General.Constants.COB_NAME));
+        m_dialog.showValue(m_dialog.getProperties().item(C.COB_CODE));
+        m_dialog.showValue(m_dialog.getProperties().item(C.COB_NAME));
 
         m_copy = true;
       };
@@ -110,7 +112,7 @@
 
           var doc = new Cairo.DocDigital();
 
-          doc.setClientTable(Cairo.General.Constants.COBRADOR);
+          doc.setClientTable(C.COBRADOR);
           doc.setClientTableID(m_id);
 
           _rtn = doc.showDocs(Cairo.Database);
@@ -155,8 +157,8 @@
         var register = new Cairo.Database.Register();
         var fields = register.getFields();
 
-        register.setFieldId(Cairo.General.Constants.COB_ID);
-        register.setTable(Cairo.General.Constants.COBRADOR);
+        register.setFieldId(C.COB_ID);
+        register.setTable(C.COBRADOR);
 
         register.setPath(m_apiPath + "general/cobrador");
 
@@ -172,11 +174,11 @@
           var property = m_dialog.getProperties().item(_i);
           switch (property.getKey()) {
             case K_NAME:
-              fields.add(Cairo.General.Constants.COB_NAME, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.COB_NAME, property.getValue(), Cairo.Constants.Types.text);
               break;
 
             case K_CODE:
-              fields.add(Cairo.General.Constants.COB_CODE, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.COB_CODE, property.getValue(), Cairo.Constants.Types.text);
               break;
 
             case K_ACTIVE:
@@ -184,15 +186,15 @@
               break;
 
             case K_DESCRIPCION:
-              fields.add(Cairo.General.Constants.COB_DESCRIP, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.COB_DESCRIP, property.getValue(), Cairo.Constants.Types.text);
               break;
 
             case K_COMISION:
-              fields.add(Cairo.General.Constants.COB_COMISION, Cairo.Util.val(property.getValue()), Cairo.Constants.Types.double);
+              fields.add(C.COB_COMISION, Cairo.Util.val(property.getValue()), Cairo.Constants.Types.double);
               break;
 
             case K_REL_ID:
-              fields.add(Cairo.General.Constants.REL_ID, Cairo.Util.val(property.getSelectId()), Cairo.Constants.Types.id);
+              fields.add(C.REL_ID, Cairo.Util.val(property.getSelectId()), Cairo.Constants.Types.id);
               break;
           }
         }
@@ -200,10 +202,10 @@
         return Cairo.Database.saveEx(
             register,
             false,
-            Cairo.General.Constants.COB_CODE, 
+            C.COB_CODE,
             Cairo.Constants.CLIENT_SAVE_FUNCTION,
             C_MODULE,
-            Cairo.Language.getText(1087, "")).then(
+            getText(1087, "")).then(
 
           function(result) {
             if(result.success) {
@@ -248,7 +250,7 @@
 
       self.getTitle = function() {
         // Cobrador
-        return Cairo.Language.getText(1088, "");
+        return getText(1088, "");
       };
 
       self.validate = function() {
@@ -364,14 +366,14 @@
 
         properties.clear();
 
-        var elem = properties.add(null, Cairo.General.Constants.COB_NAME);
+        var elem = properties.add(null, C.COB_NAME);
         elem.setType(Dialogs.PropertyType.text);
         elem.setName(Cairo.Constants.NAME_LABEL);
         elem.setSize(100);
         elem.setKey(K_NAME);
         elem.setValue(m_name);
 
-        var elem = properties.add(null, Cairo.General.Constants.COB_CODE);
+        var elem = properties.add(null, C.COB_CODE);
         elem.setType(Dialogs.PropertyType.text);
         elem.setName(Cairo.Constants.CODE_LABEL);
         elem.setSize(15);
@@ -384,25 +386,25 @@
         elem.setKey(K_ACTIVE);
         elem.setValue(m_active === true ? 1 : 0);
 
-        var elem = properties.add(null, Cairo.General.Constants.REL_ID);
+        var elem = properties.add(null, C.REL_ID);
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.REGLALIQUIDACION);
         // Reg. Liq.
-        elem.setName(Cairo.Language.getText(1090, ""));
+        elem.setName(getText(1090, ""));
         elem.setKey(K_REL_ID);
         elem.setValue(m_relNombre);
         elem.setSelectId(m_relId);
 
-        var elem = properties.add(null, Cairo.General.Constants.COB_COMISION);
+        var elem = properties.add(null, C.COB_COMISION);
         elem.setType(Dialogs.PropertyType.numeric);
         elem.setSubType(Dialogs.PropertySubType.double);
         elem.setFormat(Cairo.Settings.getQuantityDecimalsFormat());
         // Comisi�n
-        elem.setName(Cairo.Language.getText(1091, ""));
+        elem.setName(getText(1091, ""));
         elem.setKey(K_COMISION);
         elem.setValue(m_comision);
 
-        var elem = properties.add(null, Cairo.General.Constants.COB_DESCRIP);
+        var elem = properties.add(null, C.COB_DESCRIP);
         elem.setType(Dialogs.PropertyType.text);
         elem.setSubType(Dialogs.PropertySubType.memo);
         elem.setName(Cairo.Constants.DESCRIPTION_LABEL);
@@ -421,23 +423,23 @@
 
         var properties = m_dialog.getProperties();
 
-        var elem = properties.item(Cairo.General.Constants.COB_NAME);
+        var elem = properties.item(C.COB_NAME);
         elem.setValue(m_name);
 
-        var elem = properties.item(Cairo.General.Constants.COB_CODE);
+        var elem = properties.item(C.COB_CODE);
         elem.setValue(m_code);
 
         var elem = properties.item(Cairo.Constants.ACTIVE);
         elem.setValue(m_active === true ? 1 : 0);
 
-        var elem = properties.item(Cairo.General.Constants.REL_ID);
+        var elem = properties.item(C.REL_ID);
         elem.setValue(m_relNombre);
         elem.setSelectId(m_relId);
 
-        var elem = properties.item(Cairo.General.Constants.COB_COMISION);
+        var elem = properties.item(C.COB_COMISION);
         elem.setValue(m_comision);
 
-        var elem = properties.item(Cairo.General.Constants.COB_DESCRIP);
+        var elem = properties.item(C.COB_DESCRIP);
         elem.setValue(m_descripcion);
 
         return m_dialog.showValues(properties);
@@ -462,13 +464,13 @@
             } 
             else {
               m_active = Cairo.Database.valField(response.data, Cairo.Constants.ACTIVE);
-              m_name = Cairo.Database.valField(response.data, Cairo.General.Constants.COB_NAME);
-              m_code = Cairo.Database.valField(response.data, Cairo.General.Constants.COB_CODE);
-              m_id = Cairo.Database.valField(response.data, Cairo.General.Constants.COB_ID);
-              m_descripcion = Cairo.Database.valField(response.data, Cairo.General.Constants.COB_DESCRIP);
-              m_relId = Cairo.Database.valField(response.data, Cairo.General.Constants.REL_ID);
-              m_relNombre = Cairo.Database.valField(response.data, Cairo.General.Constants.REL_NAME);
-              m_comision = Cairo.Database.valField(response.data, Cairo.General.Constants.COB_COMISION);
+              m_name = Cairo.Database.valField(response.data, C.COB_NAME);
+              m_code = Cairo.Database.valField(response.data, C.COB_CODE);
+              m_id = Cairo.Database.valField(response.data, C.COB_ID);
+              m_descripcion = Cairo.Database.valField(response.data, C.COB_DESCRIP);
+              m_relId = Cairo.Database.valField(response.data, C.REL_ID);
+              m_relNombre = Cairo.Database.valField(response.data, C.REL_NAME);
+              m_comision = Cairo.Database.valField(response.data, C.COB_COMISION);
             }
           return true;
         });
@@ -509,6 +511,9 @@
   });
 
   Cairo.module("Cobrador.List", function(List, Cairo, Backbone, Marionette, $, _) {
+
+    var NO_ID = Cairo.Constants.NO_ID;
+
     List.Controller = {
       list: function() {
 

@@ -9,6 +9,8 @@
 
       var Dialogs = Cairo.Dialogs;
       var DB = Cairo.Database;
+      var C = Cairo.General.Constants;
+      var NO_ID = Cairo.Constants.NO_ID;
 
       var C_MODULE = "cChofer";
 
@@ -73,11 +75,11 @@
 
         m_listController.updateEditorKey(self, NO_ID);
 
-        var property = m_dialog.getProperties().item(Cairo.General.Constants.CHOF_CODE);
+        var property = m_dialog.getProperties().item(C.CHOF_CODE);
         property.setValue(Cairo.Constants.COPY_OF + property.getValue());
 
-        m_dialog.showValue(m_dialog.getProperties().item(Cairo.General.Constants.CHOF_CODE));
-        m_dialog.showValue(m_dialog.getProperties().item(Cairo.General.Constants.CHOF_NAME));
+        m_dialog.showValue(m_dialog.getProperties().item(C.CHOF_CODE));
+        m_dialog.showValue(m_dialog.getProperties().item(C.CHOF_NAME));
 
         m_copy = true;
       };
@@ -121,7 +123,7 @@
 
           var doc = new Cairo.DocDigital();
 
-          doc.setClientTable(Cairo.General.Constants.CHOFER);
+          doc.setClientTable(C.CHOFER);
           doc.setClientTableID(m_id);
 
           _rtn = doc.showDocs(Cairo.Database);
@@ -166,8 +168,8 @@
         var register = new Cairo.Database.Register();
         var fields = register.getFields();
 
-        register.setFieldId(Cairo.General.Constants.CHOF_ID);
-        register.setTable(Cairo.General.Constants.CHOFER);
+        register.setFieldId(C.CHOF_ID);
+        register.setTable(C.CHOFER);
 
         register.setPath(m_apiPath + "general/chofer");
 
@@ -183,35 +185,35 @@
           var property = m_dialog.getProperties().item(_i);
           switch (property.getKey()) {
             case K_NAME:
-              fields.add(Cairo.General.Constants.CHOF_NAME, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.CHOF_NAME, property.getValue(), Cairo.Constants.Types.text);
               break;
 
             case K_CODE:
-              fields.add(Cairo.General.Constants.CHOF_CODE, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.CHOF_CODE, property.getValue(), Cairo.Constants.Types.text);
               break;
 
             case K_DESCRIP:
-              fields.add(Cairo.General.Constants.CHOF_DESCRIP, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.CHOF_DESCRIP, property.getValue(), Cairo.Constants.Types.text);
               break;
 
             case K_TIPODNI:
-              fields.add(Cairo.General.Constants.CHOF_TIPODNI, property.getListItemData(), Cairo.Constants.Types.text);
+              fields.add(C.CHOF_TIPODNI, property.getListItemData(), Cairo.Constants.Types.text);
               break;
 
             case K_DNI:
-              fields.add(Cairo.General.Constants.CHOF_DNI, property.getValue(), Cairo.Constants.Types.long);
+              fields.add(C.CHOF_DNI, property.getValue(), Cairo.Constants.Types.long);
               break;
 
             case K_FECHADENACIMIENTO:
-              fields.add(Cairo.General.Constants.CHOF_FECHA_NACIMIENTO, property.getValue(), Cairo.Constants.Types.date);
+              fields.add(C.CHOF_FECHA_NACIMIENTO, property.getValue(), Cairo.Constants.Types.date);
               break;
 
             case K_DIRECCION:
-              fields.add(Cairo.General.Constants.CHOF_DIRECCION, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.CHOF_DIRECCION, property.getValue(), Cairo.Constants.Types.text);
               break;
 
             case K_TELEFONO:
-              fields.add(Cairo.General.Constants.CHOF_TELEFONO, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.CHOF_TELEFONO, property.getValue(), Cairo.Constants.Types.text);
               break;
 
             case K_ACTIVE:
@@ -219,11 +221,11 @@
               break;
 
             case K_TRANS_ID:
-              fields.add(Cairo.General.Constants.TRANS_ID, property.getSelectId(), Cairo.Constants.Types.id);
+              fields.add(C.TRANS_ID, property.getSelectId(), Cairo.Constants.Types.id);
               break;
 
             case K_CAM_ID:
-              fields.add(Cairo.General.Constants.CAM_ID, property.getSelectId(), Cairo.Constants.Types.id);
+              fields.add(C.CAM_ID, property.getSelectId(), Cairo.Constants.Types.id);
               break;
           }
         }
@@ -231,10 +233,10 @@
         return Cairo.Database.saveEx(
             register,
             false,
-            Cairo.General.Constants.CHOF_CODE,
+            C.CHOF_CODE,
             Cairo.Constants.CLIENT_SAVE_FUNCTION,
             C_MODULE,
-            Cairo.Language.getText(1060, "")).then(
+            getText(1060, "")).then(
 
           function(result) {
             if(result.success) {
@@ -279,7 +281,7 @@
 
       self.getTitle = function() {
         // Choferes
-        return Cairo.Language.getText(1061, "");
+        return getText(1061, "");
       };
 
       self.validate = function() {
@@ -395,14 +397,14 @@
 
         properties.clear();
 
-        var elem = properties.add(null, Cairo.General.Constants.CHOF_NAME);
+        var elem = properties.add(null, C.CHOF_NAME);
         elem.setType(Dialogs.PropertyType.text);
         elem.setName(Cairo.Constants.NAME_LABEL);
         elem.setSize(50);
         elem.setKey(K_NAME);
         elem.setValue(m_name);
 
-        var elem = properties.add(null, Cairo.General.Constants.CHOF_CODE);
+        var elem = properties.add(null, C.CHOF_CODE);
         elem.setType(Dialogs.PropertyType.text);
         elem.setName(Cairo.Constants.CODE_LABEL);
         elem.setSize(50);
@@ -415,66 +417,66 @@
         elem.setKey(K_ACTIVE);
         elem.setValue(m_active === true ? 1 : 0);
 
-        var elem = properties.add(null, Cairo.General.Constants.TRANS_ID);
+        var elem = properties.add(null, C.TRANS_ID);
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.TRANSPORTE);
         // Transporte
-        elem.setName(Cairo.Language.getText(1050, ""));
+        elem.setName(getText(1050, ""));
         elem.setKey(K_TRANS_ID);
         elem.setValue(m_transporte);
         elem.setSelectId(m_trans_id);
 
-        var elem = properties.add(null, Cairo.General.Constants.CAM_ID);
+        var elem = properties.add(null, C.CAM_ID);
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.CAMION);
         // Camion
-        elem.setName(Cairo.Language.getText(3489, ""));
+        elem.setName(getText(3489, ""));
         elem.setKey(K_CAM_ID);
         elem.setValue(m_camion);
         elem.setSelectId(m_cam_id);
 
-        var elem = properties.add(null, Cairo.General.Constants.CHOF_DIRECCION);
+        var elem = properties.add(null, C.CHOF_DIRECCION);
         elem.setType(Dialogs.PropertyType.text);
         // Direcci�n
-        elem.setName(Cairo.Language.getText(1037, ""));
+        elem.setName(getText(1037, ""));
         elem.setSize(255);
         elem.setKey(K_DIRECCION);
         elem.setValue(m_direccion);
 
-        c = properties.add(null, Cairo.General.Constants.CHOF_TIPODNI);
+        c = properties.add(null, C.CHOF_TIPODNI);
         c.setType(Dialogs.PropertyType.list);
         // Tipo Doc.
-        c.setName(Cairo.Language.getText(1063, ""));
+        c.setName(getText(1063, ""));
         c.setSize(10);
         c.setKey(K_TIPODNI);
         pLoadTipoDoc(c);
         c.setListItemData(m_tipodni);
         c.setListWhoSetItem(Dialogs.ListWhoSetItem.itemData);
 
-        var elem = properties.add(null, Cairo.General.Constants.CHOF_DNI);
+        var elem = properties.add(null, C.CHOF_DNI);
         elem.setType(Dialogs.PropertyType.numeric);
         elem.setSubType(Dialogs.PropertySubType.Integer);
         // Numero
-        elem.setName(Cairo.Language.getText(1065, ""));
+        elem.setName(getText(1065, ""));
         elem.setKey(K_DNI);
         elem.setValue(m_dni);
 
-        var elem = properties.add(null, Cairo.General.Constants.CHOF_FECHA_NACIMIENTO);
+        var elem = properties.add(null, C.CHOF_FECHA_NACIMIENTO);
         elem.setType(Dialogs.PropertyType.date);
         // Fecha de Nacimiento
-        elem.setName(Cairo.Language.getText(1064, ""));
+        elem.setName(getText(1064, ""));
         elem.setKey(K_FECHADENACIMIENTO);
         elem.setValue(m_fechaNacimiento);
 
-        var elem = properties.add(null, Cairo.General.Constants.CHOF_TELEFONO);
+        var elem = properties.add(null, C.CHOF_TELEFONO);
         elem.setType(Dialogs.PropertyType.text);
         // Tel�fono
-        elem.setName(Cairo.Language.getText(1036, ""));
+        elem.setName(getText(1036, ""));
         elem.setSize(50);
         elem.setKey(K_TELEFONO);
         elem.setValue(m_telefono);
 
-        var elem = properties.add(null, Cairo.General.Constants.CHOF_DESCRIP);
+        var elem = properties.add(null, C.CHOF_DESCRIP);
         elem.setType(Dialogs.PropertyType.text);
         elem.setName(Cairo.Constants.DESCRIPTION_LABEL);
         elem.setSubType(Dialogs.PropertySubType.memo);
@@ -493,36 +495,36 @@
 
         var properties = m_dialog.getProperties();
 
-        var elem = properties.item(Cairo.General.Constants.CHOF_NAME);
+        var elem = properties.item(C.CHOF_NAME);
         elem.setValue(m_name);
 
-        var elem = properties.item(Cairo.General.Constants.CHOF_CODE);
+        var elem = properties.item(C.CHOF_CODE);
         elem.setValue(m_code);
 
         var elem = properties.item(Cairo.Constants.ACTIVE);
         elem.setValue(m_active === true ? 1 : 0);
 
-        var elem = properties.item(Cairo.General.Constants.TRANS_ID);
+        var elem = properties.item(C.TRANS_ID);
         elem.setValue(m_transporte);
         elem.setSelectId(m_trans_id);
 
-        var elem = properties.item(Cairo.General.Constants.CAM_ID);
+        var elem = properties.item(C.CAM_ID);
         elem.setValue(m_camion);
         elem.setSelectId(m_cam_id);
 
-        var elem = properties.item(Cairo.General.Constants.CHOF_DIRECCION);
+        var elem = properties.item(C.CHOF_DIRECCION);
         elem.setValue(m_direccion);
 
-        var elem = properties.item(Cairo.General.Constants.CHOF_DNI);
+        var elem = properties.item(C.CHOF_DNI);
         elem.setValue(m_dni);
 
-        var elem = properties.item(Cairo.General.Constants.CHOF_FECHA_NACIMIENTO);
+        var elem = properties.item(C.CHOF_FECHA_NACIMIENTO);
         elem.setValue(m_fechaNacimiento);
 
-        var elem = properties.item(Cairo.General.Constants.CHOF_TELEFONO);
+        var elem = properties.item(C.CHOF_TELEFONO);
         elem.setValue(m_telefono);
 
-        var elem = properties.item(Cairo.General.Constants.CHOF_DESCRIP);
+        var elem = properties.item(C.CHOF_DESCRIP);
         elem.setValue(m_descrip);
 
         return m_dialog.showValues(properties);
@@ -532,27 +534,27 @@
         var elem = c.getList().add(null);
         elem.setID(csChofTipoDoc.cSCHOFTDCI);
         // C.I.
-        elem.setValue(Cairo.Language.getText(1066, ""));
+        elem.setValue(getText(1066, ""));
         var elem = c.getList().add(null);
         elem.setID(csChofTipoDoc.cSCHOFTDDNI);
         // D.N.I.
-        elem.setValue(Cairo.Language.getText(1067, ""));
+        elem.setValue(getText(1067, ""));
         var elem = c.getList().add(null);
         elem.setID(csChofTipoDoc.cSCHOFTDLC);
         // L.C.
-        elem.setValue(Cairo.Language.getText(1068, ""));
+        elem.setValue(getText(1068, ""));
         var elem = c.getList().add(null);
         elem.setID(csChofTipoDoc.cSCHOFTDLE);
         // L.E.
-        elem.setValue(Cairo.Language.getText(1069, ""));
+        elem.setValue(getText(1069, ""));
         var elem = c.getList().add(null);
         elem.setID(csChofTipoDoc.cSCHOFTDOTRO);
         // Otros
-        elem.setValue(Cairo.Language.getText(1070, ""));
+        elem.setValue(getText(1070, ""));
         var elem = c.getList().add(null);
         elem.setID(csChofTipoDoc.cSCHOFTDPASS);
         // Pasaporte
-        elem.setValue(Cairo.Language.getText(1071, ""));
+        elem.setValue(getText(1071, ""));
       };
 
       var load = function(id) {
@@ -564,20 +566,20 @@
 
             if(response.data.id !== NO_ID) {
 
-              m_id = Cairo.Database.valField(response.data, Cairo.General.Constants.CHOF_ID);
-              m_name = Cairo.Database.valField(response.data, Cairo.General.Constants.CHOF_NAME);
-              m_code = Cairo.Database.valField(response.data, Cairo.General.Constants.CHOF_CODE);
-              m_descrip = Cairo.Database.valField(response.data, Cairo.General.Constants.CHOF_DESCRIP);
-              m_tipodni = Cairo.Database.valField(response.data, Cairo.General.Constants.CHOF_TIPODNI);
-              m_dni = Cairo.Database.valField(response.data, Cairo.General.Constants.CHOF_DNI);
-              m_fechaNacimiento = Cairo.Database.getDateValue(response.data, Cairo.General.Constants.CHOF_FECHA_NACIMIENTO);
-              m_direccion = Cairo.Database.valField(response.data, Cairo.General.Constants.CHOF_DIRECCION);
-              m_telefono = Cairo.Database.valField(response.data, Cairo.General.Constants.CHOF_TELEFONO);
+              m_id = Cairo.Database.valField(response.data, C.CHOF_ID);
+              m_name = Cairo.Database.valField(response.data, C.CHOF_NAME);
+              m_code = Cairo.Database.valField(response.data, C.CHOF_CODE);
+              m_descrip = Cairo.Database.valField(response.data, C.CHOF_DESCRIP);
+              m_tipodni = Cairo.Database.valField(response.data, C.CHOF_TIPODNI);
+              m_dni = Cairo.Database.valField(response.data, C.CHOF_DNI);
+              m_fechaNacimiento = Cairo.Database.getDateValue(response.data, C.CHOF_FECHA_NACIMIENTO);
+              m_direccion = Cairo.Database.valField(response.data, C.CHOF_DIRECCION);
+              m_telefono = Cairo.Database.valField(response.data, C.CHOF_TELEFONO);
               m_active = Cairo.Database.valField(response.data, Cairo.Constants.ACTIVE);
-              m_trans_id = Cairo.Database.valField(response.data, Cairo.General.Constants.TRANS_ID);
-              m_transporte = Cairo.Database.valField(response.data, Cairo.General.Constants.TRANS_NAME);
-              m_cam_id = Cairo.Database.valField(response.data, Cairo.General.Constants.CAM_ID);
-              m_camion = Cairo.Database.valField(response.data, Cairo.General.Constants.CAM_PATENTE);
+              m_trans_id = Cairo.Database.valField(response.data, C.TRANS_ID);
+              m_transporte = Cairo.Database.valField(response.data, C.TRANS_NAME);
+              m_cam_id = Cairo.Database.valField(response.data, C.CAM_ID);
+              m_camion = Cairo.Database.valField(response.data, C.CAM_PATENTE);
 
             }
             else {
@@ -637,6 +639,9 @@
   });
 
   Cairo.module("Chofer.List", function(List, Cairo, Backbone, Marionette, $, _) {
+
+    var NO_ID = Cairo.Constants.NO_ID;
+
     List.Controller = {
       list: function() {
 

@@ -23,6 +23,11 @@ Cairo.FacturaCompraListDoc = {};
 Cairo.FacturaCompraRemitoWiz = {};
 Cairo.FacturaCompraWiz = {};
 
+Cairo.FacturaVenta = {};
+Cairo.FacturaVentaListDoc = {};
+Cairo.FacturaVentaRemitoWiz = {};
+Cairo.FacturaVentaWiz = {};
+
 Cairo.Asiento = {};
 Cairo.AsientoListDoc = {};
 

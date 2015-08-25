@@ -9,6 +9,8 @@
 
       var Dialogs = Cairo.Dialogs;
       var DB = Cairo.Database;
+      var C = Cairo.General.Constants;
+      var NO_ID = Cairo.Constants.NO_ID;
 
       var C_MODULE = "cSucursal";
 
@@ -74,7 +76,7 @@
 
           var doc = new Cairo.DocDigital();
 
-          doc.setClientTable(Cairo.General.Constants.SUCURSAL);
+          doc.setClientTable(C.SUCURSAL);
           doc.setClientTableID(m_id);
 
           _rtn = doc.showDocs(Cairo.Database);
@@ -132,11 +134,11 @@
 
         m_listController.updateEditorKey(self, NO_ID);
 
-        var property = m_dialog.getProperties().item(Cairo.General.Constants.SUC_CODE);
+        var property = m_dialog.getProperties().item(C.SUC_CODE);
         property.setValue(Cairo.Constants.COPY_OF + property.getValue());
 
-        m_dialog.showValue(m_dialog.getProperties().item(Cairo.General.Constants.SUC_CODE));
-        m_dialog.showValue(m_dialog.getProperties().item(Cairo.General.Constants.SUC_NAME));
+        m_dialog.showValue(m_dialog.getProperties().item(C.SUC_CODE));
+        m_dialog.showValue(m_dialog.getProperties().item(C.SUC_NAME));
 
         m_copy = true;
       };
@@ -151,8 +153,8 @@
         var register = new Cairo.Database.Register();
         var fields = register.getFields();
 
-        register.setFieldId(Cairo.General.Constants.SUC_ID);
-        register.setTable(Cairo.General.Constants.SUCURSAL);
+        register.setFieldId(C.SUC_ID);
+        register.setTable(C.SUCURSAL);
 
         register.setPath(m_apiPath + "general/sucursal");
 
@@ -168,19 +170,19 @@
           var property = m_dialog.getProperties().item(_i);
           switch (property.getKey()) {
             case K_NAME:
-              fields.add(Cairo.General.Constants.SUC_NAME, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.SUC_NAME, property.getValue(), Cairo.Constants.Types.text);
               break;
 
             case K_CODE:
-              fields.add(Cairo.General.Constants.SUC_CODE, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.SUC_CODE, property.getValue(), Cairo.Constants.Types.text);
               break;
 
             case K_DESCRIP:
-              fields.add(Cairo.General.Constants.SUC_DESCRIP, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.SUC_DESCRIP, property.getValue(), Cairo.Constants.Types.text);
               break;
 
             case K_NUMERO:
-              fields.add(Cairo.General.Constants.SUC_NUMERO, property.getValue(), Cairo.Constants.Types.long);
+              fields.add(C.SUC_NUMERO, property.getValue(), Cairo.Constants.Types.long);
               break;
 
             case K_ACTIVE:
@@ -192,10 +194,10 @@
         return Cairo.Database.saveEx(
             register,
             false,
-            Cairo.General.Constants.SUC_CODE, 
+            C.SUC_CODE,
             Cairo.Constants.CLIENT_SAVE_FUNCTION,
             C_MODULE,
-            Cairo.Language.getText(1458, "")).then(
+            getText(1458, "")).then(
 
           function(result) {
             if(result.success) {
@@ -240,7 +242,7 @@
 
       self.getTitle = function() {
         // Sucursales
-        return Cairo.Language.getText(1459, "");
+        return getText(1459, "");
       };
 
       self.validate = function() {
@@ -265,7 +267,7 @@
 
             case K_NUMERO:
               if(Cairo.Util.valEmpty(property.getValue(), Cairo.Constants.Types.long)) {
-                return Cairo.Modal.showInfo(Cairo.Language.getText(1461, "")).then(function() {return false;});
+                return Cairo.Modal.showInfo(getText(1461, "")).then(function() {return false;});
                 // Debe indicar un n�mero
               }
 
@@ -360,24 +362,24 @@
         var properties = m_dialog.getProperties();
         properties.clear();
 
-        var elem = properties.add(null, Cairo.General.Constants.SUC_NAME);
+        var elem = properties.add(null, C.SUC_NAME);
         elem.setType(Dialogs.PropertyType.text);
         elem.setName(Cairo.Constants.NAME_LABEL);
         elem.setSize(100);
         elem.setKey(K_NAME);
         elem.setValue(m_name);
 
-        var elem = properties.add(null, Cairo.General.Constants.SUC_CODE);
+        var elem = properties.add(null, C.SUC_CODE);
         elem.setType(Dialogs.PropertyType.text);
         elem.setName(Cairo.Constants.CODE_LABEL);
         elem.setSize(15);
         elem.setKey(K_CODE);
         elem.setValue(m_code);
 
-        var elem = properties.add(null, Cairo.General.Constants.SUC_NUMERO);
+        var elem = properties.add(null, C.SUC_NUMERO);
         elem.setType(Dialogs.PropertyType.numeric);
         // N�mero
-        elem.setName(Cairo.Language.getText(1065, ""));
+        elem.setName(getText(1065, ""));
         elem.setSubType(Dialogs.PropertySubType.Integer);
         elem.setKey(K_NUMERO);
         elem.setValue(m_numero);
@@ -388,7 +390,7 @@
         elem.setKey(K_ACTIVE);
         elem.setValue(m_active === true ? 1 : 0);
 
-        var elem = properties.add(null, Cairo.General.Constants.SUC_DESCRIP);
+        var elem = properties.add(null, C.SUC_DESCRIP);
         elem.setType(Dialogs.PropertyType.text);
         elem.setName(Cairo.Constants.DESCRIPTION_LABEL);
         elem.setSize(255);
@@ -407,19 +409,19 @@
 
         var properties = m_dialog.getProperties();
 
-        var elem = properties.item(Cairo.General.Constants.SUC_NAME);
+        var elem = properties.item(C.SUC_NAME);
         elem.setValue(m_name);
 
-        var elem = properties.item(Cairo.General.Constants.SUC_CODE);
+        var elem = properties.item(C.SUC_CODE);
         elem.setValue(m_code);
 
-        var elem = properties.item(Cairo.General.Constants.SUC_NUMERO);
+        var elem = properties.item(C.SUC_NUMERO);
         elem.setValue(m_numero);
 
         var elem = properties.item(Cairo.Constants.ACTIVE);
         elem.setValue(m_active === true ? 1 : 0);
 
-        var elem = properties.item(Cairo.General.Constants.SUC_DESCRIP);
+        var elem = properties.item(C.SUC_DESCRIP);
         elem.setValue(m_descrip);
 
         return m_dialog.showValues(properties);
@@ -434,11 +436,11 @@
 
             if(response.data.id !== NO_ID) {
 
-              m_id = Cairo.Database.valField(response.data, Cairo.General.Constants.SUC_ID);
-              m_name = Cairo.Database.valField(response.data, Cairo.General.Constants.SUC_NAME);
-              m_code = Cairo.Database.valField(response.data, Cairo.General.Constants.SUC_CODE);
-              m_descrip = Cairo.Database.valField(response.data, Cairo.General.Constants.SUC_DESCRIP);
-              m_numero = Cairo.Database.valField(response.data, Cairo.General.Constants.SUC_NUMERO);
+              m_id = Cairo.Database.valField(response.data, C.SUC_ID);
+              m_name = Cairo.Database.valField(response.data, C.SUC_NAME);
+              m_code = Cairo.Database.valField(response.data, C.SUC_CODE);
+              m_descrip = Cairo.Database.valField(response.data, C.SUC_DESCRIP);
+              m_numero = Cairo.Database.valField(response.data, C.SUC_NUMERO);
               m_active = Cairo.Database.valField(response.data, Cairo.Constants.ACTIVE);
 
             } 
@@ -491,6 +493,9 @@
   });
 
   Cairo.module("Sucursal.List", function(List, Cairo, Backbone, Marionette, $, _) {
+
+    var NO_ID = Cairo.Constants.NO_ID;
+
     List.Controller = {
       list: function() {
 

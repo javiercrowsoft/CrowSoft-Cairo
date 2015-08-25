@@ -9,6 +9,8 @@
 
       var Dialogs = Cairo.Dialogs;
       var DB = Cairo.Database;
+      var C = Cairo.General.Constants;
+      var NO_ID = Cairo.Constants.NO_ID;
 
       var C_MODULE = "cTransporte";
 
@@ -83,11 +85,11 @@
 
         m_listController.updateEditorKey(self, NO_ID);
 
-        var property = m_dialog.getProperties().item(Cairo.General.Constants.TRANS_CODE);
+        var property = m_dialog.getProperties().item(C.TRANS_CODE);
         property.setValue(Cairo.Constants.COPY_OF + property.getValue());
 
-        m_dialog.showValue(m_dialog.getProperties().item(Cairo.General.Constants.TRANS_CODE));
-        m_dialog.showValue(m_dialog.getProperties().item(Cairo.General.Constants.TRANS_NAME));
+        m_dialog.showValue(m_dialog.getProperties().item(C.TRANS_CODE));
+        m_dialog.showValue(m_dialog.getProperties().item(C.TRANS_NAME));
 
         m_copy = true;
       };
@@ -131,7 +133,7 @@
 
           var doc = new Cairo.DocDigital();
 
-          doc.setClientTable(Cairo.General.Constants.TRANSPORTE);
+          doc.setClientTable(C.TRANSPORTE);
           doc.setClientTableID(m_id);
 
           _rtn = doc.showDocs(Cairo.Database);
@@ -176,8 +178,8 @@
         var register = new Cairo.Database.Register();
         var fields = register.getFields();
 
-        register.setFieldId(Cairo.General.Constants.TRANS_ID);
-        register.setTable(Cairo.General.Constants.TRANSPORTE);
+        register.setFieldId(C.TRANS_ID);
+        register.setTable(C.TRANSPORTE);
 
         register.setPath(m_apiPath + "general/transporte");
 
@@ -193,19 +195,19 @@
           var property = m_dialog.getProperties().item(_i);
           switch (property.getKey()) {
             case K_NAME:
-              fields.add(Cairo.General.Constants.TRANS_NAME, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.TRANS_NAME, property.getValue(), Cairo.Constants.Types.text);
               break;
 
             case K_CODE:
-              fields.add(Cairo.General.Constants.TRANS_CODE, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.TRANS_CODE, property.getValue(), Cairo.Constants.Types.text);
               break;
 
             case K_TELEFONO:
-              fields.add(Cairo.General.Constants.TRANS_TELEFONO, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.TRANS_TELEFONO, property.getValue(), Cairo.Constants.Types.text);
               break;
 
             case K_DIRECCION:
-              fields.add(Cairo.General.Constants.TRANS_DIRECCION, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.TRANS_DIRECCION, property.getValue(), Cairo.Constants.Types.text);
               break;
 
             case K_ACTIVE:
@@ -213,40 +215,40 @@
               break;
 
             case K_MAIL:
-              fields.add(Cairo.General.Constants.TRANS_MAIL, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.TRANS_MAIL, property.getValue(), Cairo.Constants.Types.text);
               break;
 
             case K_WEB:
-              fields.add(Cairo.General.Constants.TRANS_WEB, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.TRANS_WEB, property.getValue(), Cairo.Constants.Types.text);
               break;
 
             case K_DESCRIP:
-              fields.add(Cairo.General.Constants.TRANS_DESCRIP, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.TRANS_DESCRIP, property.getValue(), Cairo.Constants.Types.text);
               break;
 
             case K_PROV_ID:
-              fields.add(Cairo.General.Constants.PROV_ID, property.getSelectId(), Cairo.Constants.Types.id);
+              fields.add(C.PROV_ID, property.getSelectId(), Cairo.Constants.Types.id);
               break;
 
             case K_PRO_ID:
-              fields.add(Cairo.General.Constants.PRO_ID, property.getSelectId(), Cairo.Constants.Types.id);
+              fields.add(C.PRO_ID, property.getSelectId(), Cairo.Constants.Types.id);
 
               break;
 
             case K_HORARIO_M_DESDE:
-              fields.add(Cairo.General.Constants.TRANS_HORARIO_MDESDE, property.getValue(), Cairo.Constants.Types.date);
+              fields.add(C.TRANS_HORARIO_MDESDE, property.getValue(), Cairo.Constants.Types.date);
               break;
 
             case K_HORARIO_M_HASTA:
-              fields.add(Cairo.General.Constants.TRANS_HORARIO_MHASTA, property.getValue(), Cairo.Constants.Types.date);
+              fields.add(C.TRANS_HORARIO_MHASTA, property.getValue(), Cairo.Constants.Types.date);
               break;
 
             case K_HORARIO_T_DESDE:
-              fields.add(Cairo.General.Constants.TRANS_HORARIO_TDESDE, property.getValue(), Cairo.Constants.Types.date);
+              fields.add(C.TRANS_HORARIO_TDESDE, property.getValue(), Cairo.Constants.Types.date);
               break;
 
             case K_HORARIO_T_HASTA:
-              fields.add(Cairo.General.Constants.TRANS_HORARIO_THASTA, property.getValue(), Cairo.Constants.Types.date);
+              fields.add(C.TRANS_HORARIO_THASTA, property.getValue(), Cairo.Constants.Types.date);
 
               break;
           }
@@ -255,10 +257,10 @@
         return Cairo.Database.saveEx(
             register,
             false,
-            Cairo.General.Constants.TRANS_CODE, 
+            C.TRANS_CODE,
             Cairo.Constants.CLIENT_SAVE_FUNCTION,
             C_MODULE,
-            Cairo.Language.getText(1495, "")).then(
+            getText(1495, "")).then(
 
           function(result) {
             if(result.success) {
@@ -302,7 +304,7 @@
 
       self.getTitle = function() {
         // Transportes
-        return Cairo.Language.getText(1496, "");
+        return getText(1496, "");
       };
 
       self.validate = function() {
@@ -415,14 +417,14 @@
         var properties = m_dialog.getProperties();
         properties.clear();
 
-        var elem = properties.add(null, Cairo.General.Constants.TRANS_NAME);
+        var elem = properties.add(null, C.TRANS_NAME);
         elem.setType(Dialogs.PropertyType.text);
         elem.setName(Cairo.Constants.NAME_LABEL);
         elem.setSize(100);
         elem.setKey(K_NAME);
         elem.setValue(m_name);
 
-        var elem = properties.add(null, Cairo.General.Constants.TRANS_CODE);
+        var elem = properties.add(null, C.TRANS_CODE);
         elem.setType(Dialogs.PropertyType.text);
         elem.setName(Cairo.Constants.CODE_LABEL);
         elem.setSize(15);
@@ -435,85 +437,85 @@
         elem.setKey(K_ACTIVE);
         elem.setValue(m_active === true ? 1 : 0);
 
-        var elem = properties.add(null, Cairo.General.Constants.TRANS_DIRECCION);
+        var elem = properties.add(null, C.TRANS_DIRECCION);
         elem.setType(Dialogs.PropertyType.text);
         // Direcci�n
-        elem.setName(Cairo.Language.getText(1037, ""));
+        elem.setName(getText(1037, ""));
         elem.setSize(50);
         elem.setKey(K_DIRECCION);
         elem.setValue(m_direccion);
 
-        var elem = properties.add(null, Cairo.General.Constants.TRANS_TELEFONO);
+        var elem = properties.add(null, C.TRANS_TELEFONO);
         elem.setType(Dialogs.PropertyType.text);
         // Tel�fono
-        elem.setName(Cairo.Language.getText(1036, ""));
+        elem.setName(getText(1036, ""));
         elem.setSize(50);
         elem.setKey(K_TELEFONO);
         elem.setValue(m_telefono);
 
-        var elem = properties.add(null, Cairo.General.Constants.PRO_ID);
+        var elem = properties.add(null, C.PRO_ID);
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.PROVINCIA);
         // Provincia
-        elem.setName(Cairo.Language.getText(1080, ""));
+        elem.setName(getText(1080, ""));
         elem.setKey(K_PRO_ID);
         elem.setValue(m_provincia);
         elem.setSelectId(m_pro_id);
 
-        var elem = properties.add(null, Cairo.General.Constants.TRANS_MAIL);
+        var elem = properties.add(null, C.TRANS_MAIL);
         elem.setType(Dialogs.PropertyType.text);
         // Mail
-        elem.setName(Cairo.Language.getText(1034, ""));
+        elem.setName(getText(1034, ""));
         elem.setSize(255);
         elem.setKey(K_MAIL);
         elem.setValue(m_mail);
 
-        var elem = properties.add(null, Cairo.General.Constants.TRANS_WEB);
+        var elem = properties.add(null, C.TRANS_WEB);
         elem.setType(Dialogs.PropertyType.text);
         // P�gina Web
-        elem.setName(Cairo.Language.getText(1038, ""));
+        elem.setName(getText(1038, ""));
         elem.setSize(255);
         elem.setKey(K_WEB);
         elem.setValue(m_web);
 
-        var elem = properties.add(null, Cairo.General.Constants.PROV_ID);
+        var elem = properties.add(null, C.PROV_ID);
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.PROVEEDOR);
         // Proveedor
-        elem.setName(Cairo.Language.getText(1151, ""));
+        elem.setName(getText(1151, ""));
         elem.setKey(K_PROV_ID);
         elem.setValue(m_proveedor);
         elem.setSelectId(m_provId);
 
-        var elem = properties.add(null, Cairo.General.Constants.TRANS_HORARIO_MDESDE);
+        var elem = properties.add(null, C.TRANS_HORARIO_MDESDE);
         elem.setType(Dialogs.PropertyType.time);
         // Horario desde
-        elem.setName(Cairo.Language.getText(4965, ""));
+        elem.setName(getText(4965, ""));
         elem.setValue(m_horario_m_desde);
         elem.setKey(K_HORARIO_M_DESDE);
 
-        var elem = properties.add(null, Cairo.General.Constants.TRANS_HORARIO_MHASTA);
+        var elem = properties.add(null, C.TRANS_HORARIO_MHASTA);
         elem.setType(Dialogs.PropertyType.time);
         // Hasta
-        elem.setName(Cairo.Language.getText(4966, ""));
+        elem.setName(getText(4966, ""));
         elem.setValue(m_horario_m_hasta);
         elem.setKey(K_HORARIO_M_HASTA);
 
-        var elem = properties.add(null, Cairo.General.Constants.TRANS_HORARIO_TDESDE);
+        var elem = properties.add(null, C.TRANS_HORARIO_TDESDE);
         elem.setType(Dialogs.PropertyType.time);
         // Desde
-        elem.setName(Cairo.Language.getText(4967, ""));
+        elem.setName(getText(4967, ""));
         elem.setValue(m_horario_t_desde);
         elem.setKey(K_HORARIO_T_DESDE);
 
-        var elem = properties.add(null, Cairo.General.Constants.TRANS_HORARIO_THASTA);
+        var elem = properties.add(null, C.TRANS_HORARIO_THASTA);
         elem.setType(Dialogs.PropertyType.time);
         // Hasta
-        elem.setName(Cairo.Language.getText(4966, ""));
+        elem.setName(getText(4966, ""));
         elem.setValue(m_horario_t_hasta);
         elem.setKey(K_HORARIO_T_HASTA);
 
-        var elem = properties.add(null, Cairo.General.Constants.TRANS_DESCRIP);
+        var elem = properties.add(null, C.TRANS_DESCRIP);
         elem.setType(Dialogs.PropertyType.text);
         elem.setName(Cairo.Constants.DESCRIPTION_LABEL);
         elem.setSize(255);
@@ -532,48 +534,48 @@
 
         var properties = m_dialog.getProperties();
 
-        var elem = properties.item(Cairo.General.Constants.TRANS_NAME);
+        var elem = properties.item(C.TRANS_NAME);
         elem.setValue(m_name);
 
-        var elem = properties.item(Cairo.General.Constants.TRANS_CODE);
+        var elem = properties.item(C.TRANS_CODE);
         elem.setValue(m_code);
 
         var elem = properties.item(Cairo.Constants.ACTIVE);
         elem.setValue(m_active === true ? 1 : 0);
 
-        var elem = properties.item(Cairo.General.Constants.TRANS_DIRECCION);
+        var elem = properties.item(C.TRANS_DIRECCION);
         elem.setValue(m_direccion);
 
-        var elem = properties.item(Cairo.General.Constants.TRANS_TELEFONO);
+        var elem = properties.item(C.TRANS_TELEFONO);
         elem.setValue(m_telefono);
 
-        var elem = properties.item(Cairo.General.Constants.PRO_ID);
+        var elem = properties.item(C.PRO_ID);
         elem.setValue(m_provincia);
         elem.setSelectId(m_pro_id);
 
-        var elem = properties.item(Cairo.General.Constants.TRANS_MAIL);
+        var elem = properties.item(C.TRANS_MAIL);
         elem.setValue(m_mail);
 
-        var elem = properties.item(Cairo.General.Constants.TRANS_WEB);
+        var elem = properties.item(C.TRANS_WEB);
         elem.setValue(m_web);
 
-        var elem = properties.item(Cairo.General.Constants.PROV_ID);
+        var elem = properties.item(C.PROV_ID);
         elem.setValue(m_proveedor);
         elem.setSelectId(m_provId);
 
-        var elem = properties.item(Cairo.General.Constants.TRANS_HORARIO_MDESDE);
+        var elem = properties.item(C.TRANS_HORARIO_MDESDE);
         elem.setValue(m_horario_m_desde);
 
-        var elem = properties.item(Cairo.General.Constants.TRANS_HORARIO_MHASTA);
+        var elem = properties.item(C.TRANS_HORARIO_MHASTA);
         elem.setValue(m_horario_m_hasta);
 
-        var elem = properties.item(Cairo.General.Constants.TRANS_HORARIO_TDESDE);
+        var elem = properties.item(C.TRANS_HORARIO_TDESDE);
         elem.setValue(m_horario_t_desde);
 
-        var elem = properties.item(Cairo.General.Constants.TRANS_HORARIO_THASTA);
+        var elem = properties.item(C.TRANS_HORARIO_THASTA);
         elem.setValue(m_horario_t_hasta);
 
-        var elem = properties.item(Cairo.General.Constants.TRANS_DESCRIP);
+        var elem = properties.item(C.TRANS_DESCRIP);
         elem.setValue(m_descrip);
 
         return m_dialog.showValues(properties);
@@ -588,25 +590,25 @@
 
             if(response.data.id !== NO_ID) {
 
-              m_id = Cairo.Database.valField(response.data, Cairo.General.Constants.TRANS_ID);
-              m_name = Cairo.Database.valField(response.data, Cairo.General.Constants.TRANS_NAME);
-              m_code = Cairo.Database.valField(response.data, Cairo.General.Constants.TRANS_CODE);
-              m_telefono = Cairo.Database.valField(response.data, Cairo.General.Constants.TRANS_TELEFONO);
-              m_direccion = Cairo.Database.valField(response.data, Cairo.General.Constants.TRANS_DIRECCION);
-              m_mail = Cairo.Database.valField(response.data, Cairo.General.Constants.TRANS_MAIL);
-              m_web = Cairo.Database.valField(response.data, Cairo.General.Constants.TRANS_WEB);
-              m_descrip = Cairo.Database.valField(response.data, Cairo.General.Constants.TRANS_DESCRIP);
+              m_id = Cairo.Database.valField(response.data, C.TRANS_ID);
+              m_name = Cairo.Database.valField(response.data, C.TRANS_NAME);
+              m_code = Cairo.Database.valField(response.data, C.TRANS_CODE);
+              m_telefono = Cairo.Database.valField(response.data, C.TRANS_TELEFONO);
+              m_direccion = Cairo.Database.valField(response.data, C.TRANS_DIRECCION);
+              m_mail = Cairo.Database.valField(response.data, C.TRANS_MAIL);
+              m_web = Cairo.Database.valField(response.data, C.TRANS_WEB);
+              m_descrip = Cairo.Database.valField(response.data, C.TRANS_DESCRIP);
               m_active = Cairo.Database.valField(response.data, Cairo.Constants.ACTIVE);
-              m_provId = Cairo.Database.valField(response.data, Cairo.General.Constants.PROV_ID);
-              m_proveedor = Cairo.Database.valField(response.data, Cairo.General.Constants.PROV_NAME);
+              m_provId = Cairo.Database.valField(response.data, C.PROV_ID);
+              m_proveedor = Cairo.Database.valField(response.data, C.PROV_NAME);
 
-              m_pro_id = Cairo.Database.valField(response.data, Cairo.General.Constants.PRO_ID);
-              m_provincia = Cairo.Database.valField(response.data, Cairo.General.Constants.PRO_NAME);
+              m_pro_id = Cairo.Database.valField(response.data, C.PRO_ID);
+              m_provincia = Cairo.Database.valField(response.data, C.PRO_NAME);
 
-              m_horario_m_desde = Cairo.Database.valField(response.data, Cairo.General.Constants.TRANS_HORARIO_MDESDE);
-              m_horario_m_hasta = Cairo.Database.valField(response.data, Cairo.General.Constants.TRANS_HORARIO_MHASTA);
-              m_horario_t_desde = Cairo.Database.valField(response.data, Cairo.General.Constants.TRANS_HORARIO_TDESDE);
-              m_horario_t_hasta = Cairo.Database.valField(response.data, Cairo.General.Constants.TRANS_HORARIO_THASTA);
+              m_horario_m_desde = Cairo.Database.valField(response.data, C.TRANS_HORARIO_MDESDE);
+              m_horario_m_hasta = Cairo.Database.valField(response.data, C.TRANS_HORARIO_MHASTA);
+              m_horario_t_desde = Cairo.Database.valField(response.data, C.TRANS_HORARIO_TDESDE);
+              m_horario_t_hasta = Cairo.Database.valField(response.data, C.TRANS_HORARIO_THASTA);
 
             } 
             else {
@@ -670,6 +672,9 @@
   });
 
   Cairo.module("Transporte.List", function(List, Cairo, Backbone, Marionette, $, _) {
+
+    var NO_ID = Cairo.Constants.NO_ID;
+
     List.Controller = {
       list: function() {
 

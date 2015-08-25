@@ -9,6 +9,8 @@
 
       var Dialogs = Cairo.Dialogs;
       var DB = Cairo.Database;
+      var C = Cairo.General.Constants;
+      var NO_ID = Cairo.Constants.NO_ID;
 
       var C_MODULE = "cCentroCosto";
 
@@ -64,11 +66,11 @@
 
         m_listController.updateEditorKey(self, NO_ID);
 
-        var property = m_dialog.getProperties().item(Cairo.General.Constants.CCOS_CODE);
+        var property = m_dialog.getProperties().item(C.CCOS_CODE);
         property.setValue(Cairo.Constants.COPY_OF + property.getValue());
 
-        m_dialog.showValue(m_dialog.getProperties().item(Cairo.General.Constants.CCOS_CODE));
-        m_dialog.showValue(m_dialog.getProperties().item(Cairo.General.Constants.CCOS_NAME));
+        m_dialog.showValue(m_dialog.getProperties().item(C.CCOS_CODE));
+        m_dialog.showValue(m_dialog.getProperties().item(C.CCOS_NAME));
 
         m_copy = true;
       };
@@ -112,7 +114,7 @@
 
           var doc = new Cairo.DocDigital();
 
-          doc.setClientTable(Cairo.General.Constants.CENTRO_COSTO);
+          doc.setClientTable(C.CENTRO_COSTO);
           doc.setClientTableID(m_id);
 
           _rtn = doc.showDocs(Cairo.Database);
@@ -157,8 +159,8 @@
         var register = new Cairo.Database.Register();
         var fields = register.getFields();
 
-        register.setFieldId(Cairo.General.Constants.CCOS_ID);
-        register.setTable(Cairo.General.Constants.CENTRO_COSTO);
+        register.setFieldId(C.CCOS_ID);
+        register.setTable(C.CENTRO_COSTO);
 
         register.setPath(m_apiPath + "general/centrodecosto");
 
@@ -174,11 +176,11 @@
           var property = m_dialog.getProperties().item(_i);
           switch (property.getKey()) {
             case K_NAME:
-              fields.add(Cairo.General.Constants.CCOS_NAME, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.CCOS_NAME, property.getValue(), Cairo.Constants.Types.text);
               break;
 
             case K_CODE:
-              fields.add(Cairo.General.Constants.CCOS_CODE, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.CCOS_CODE, property.getValue(), Cairo.Constants.Types.text);
               break;
 
             case K_ACTIVE:
@@ -186,19 +188,19 @@
               break;
 
             case K_DESCRIPCION:
-              fields.add(Cairo.General.Constants.CCOS_DESCRIP, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.CCOS_DESCRIP, property.getValue(), Cairo.Constants.Types.text);
               break;
 
             case K_COMPRA:
-              fields.add(Cairo.General.Constants.CCOS_COMPRA, Cairo.Util.val(property.getValue()), Cairo.Constants.Types.boolean);
+              fields.add(C.CCOS_COMPRA, Cairo.Util.val(property.getValue()), Cairo.Constants.Types.boolean);
               break;
 
             case K_VENTA:
-              fields.add(Cairo.General.Constants.CCOS_VENTA, Cairo.Util.val(property.getValue()), Cairo.Constants.Types.boolean);
+              fields.add(C.CCOS_VENTA, Cairo.Util.val(property.getValue()), Cairo.Constants.Types.boolean);
               break;
 
             case K_CCOS_ID_PADRE:
-              fields.add(Cairo.General.Constants.CCOS_ID_PADRE, property.getSelectId(), Cairo.Constants.Types.id);
+              fields.add(C.CCOS_ID_PADRE, property.getSelectId(), Cairo.Constants.Types.id);
               break;
           }
         }
@@ -206,10 +208,10 @@
         return Cairo.Database.saveEx(
             register,
             false,
-            Cairo.General.Constants.CCOS_CODE, 
+            C.CCOS_CODE,
             Cairo.Constants.CLIENT_SAVE_FUNCTION,
             C_MODULE,
-            Cairo.Language.getText(1054, "")).then(
+            getText(1054, "")).then(
 
           function(result) {
             if(result.success) {
@@ -254,7 +256,7 @@
 
       self.getTitle = function() {
         // CentroCosto
-        return Cairo.Language.getText(1055, "");
+        return getText(1055, "");
       };
 
       self.validate = function() {
@@ -369,14 +371,14 @@
 
         properties.clear();
 
-        var elem = properties.add(null, Cairo.General.Constants.CCOS_NAME);
+        var elem = properties.add(null, C.CCOS_NAME);
         elem.setType(Dialogs.PropertyType.text);
         elem.setName(Cairo.Constants.NAME_LABEL);
         elem.setSize(100);
         elem.setKey(K_NAME);
         elem.setValue(m_name);
 
-        var elem = properties.add(null, Cairo.General.Constants.CCOS_CODE);
+        var elem = properties.add(null, C.CCOS_CODE);
         elem.setType(Dialogs.PropertyType.text);
         elem.setName(Cairo.Constants.CODE_LABEL);
         elem.setSize(15);
@@ -389,31 +391,31 @@
         elem.setKey(K_ACTIVE);
         elem.setValue(m_active === true ? 1 : 0);
 
-        var elem = properties.add(null, Cairo.General.Constants.CCOS_COMPRA);
+        var elem = properties.add(null, C.CCOS_COMPRA);
         elem.setType(Dialogs.PropertyType.check);
         // Compra
-        elem.setName(Cairo.Language.getText(1058, ""));
+        elem.setName(getText(1058, ""));
         elem.setKey(K_COMPRA);
         elem.setValue(Cairo.Util.boolToInt(m_compra));
 
-        var elem = properties.add(null, Cairo.General.Constants.CCOS_VENTA);
+        var elem = properties.add(null, C.CCOS_VENTA);
         elem.setType(Dialogs.PropertyType.check);
         // Venta
-        elem.setName(Cairo.Language.getText(1059, ""));
+        elem.setName(getText(1059, ""));
         elem.setKey(K_VENTA);
         elem.setValue(Cairo.Util.boolToInt(m_venta));
 
-        var elem = properties.add(null, Cairo.General.Constants.CCOS_ID_PADRE);
+        var elem = properties.add(null, C.CCOS_ID_PADRE);
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.CENTROS_DE_COSTO);
         // Centro Costo Padre
-        elem.setName(Cairo.Language.getText(3573, ""));
+        elem.setName(getText(3573, ""));
         elem.setKey(K_CCOS_ID_PADRE);
         elem.setValue(m_padre);
         elem.setSelectId(m_ccos_id_padre);
         elem.setSelectFilter("ccos_id <> "+ m_id);
 
-        var elem = properties.add(null, Cairo.General.Constants.CCOS_DESCRIP);
+        var elem = properties.add(null, C.CCOS_DESCRIP);
         elem.setType(Dialogs.PropertyType.text);
         elem.setName(Cairo.Constants.DESCRIPTION_LABEL);
         elem.setKey(K_DESCRIPCION);
@@ -433,26 +435,26 @@
 
         var properties = m_dialog.getProperties();
 
-        var elem = properties.item(Cairo.General.Constants.CCOS_NAME);
+        var elem = properties.item(C.CCOS_NAME);
         elem.setValue(m_name);
 
-        var elem = properties.item(Cairo.General.Constants.CCOS_CODE);
+        var elem = properties.item(C.CCOS_CODE);
         elem.setValue(m_code);
 
         var elem = properties.item(Cairo.Constants.ACTIVE);
         elem.setValue(m_active === true ? 1 : 0);
 
-        var elem = properties.item(Cairo.General.Constants.CCOS_COMPRA);
+        var elem = properties.item(C.CCOS_COMPRA);
         elem.setValue(Cairo.Util.boolToInt(m_compra));
 
-        var elem = properties.item(Cairo.General.Constants.CCOS_VENTA);
+        var elem = properties.item(C.CCOS_VENTA);
         elem.setValue(Cairo.Util.boolToInt(m_venta));
 
-        var elem = properties.item(Cairo.General.Constants.CCOS_ID_PADRE);
+        var elem = properties.item(C.CCOS_ID_PADRE);
         elem.setValue(m_padre);
         elem.setSelectId(m_ccos_id_padre);
 
-        var elem = properties.item(Cairo.General.Constants.CCOS_DESCRIP);
+        var elem = properties.item(C.CCOS_DESCRIP);
         elem.setValue(m_descripcion);
 
         return m_dialog.showValues(properties);
@@ -478,13 +480,13 @@
             } 
             else {
               m_active = Cairo.Database.valField(response.data, Cairo.Constants.ACTIVE);
-              m_name = Cairo.Database.valField(response.data, Cairo.General.Constants.CCOS_NAME);
-              m_code = Cairo.Database.valField(response.data, Cairo.General.Constants.CCOS_CODE);
-              m_id = Cairo.Database.valField(response.data, Cairo.General.Constants.CCOS_ID);
-              m_descripcion = Cairo.Database.valField(response.data, Cairo.General.Constants.CCOS_DESCRIP);
-              m_compra = Cairo.Database.valField(response.data, Cairo.General.Constants.CCOS_COMPRA);
-              m_venta = Cairo.Database.valField(response.data, Cairo.General.Constants.CCOS_VENTA);
-              m_ccos_id_padre = Cairo.Database.valField(response.data, Cairo.General.Constants.CCOS_ID_PADRE);
+              m_name = Cairo.Database.valField(response.data, C.CCOS_NAME);
+              m_code = Cairo.Database.valField(response.data, C.CCOS_CODE);
+              m_id = Cairo.Database.valField(response.data, C.CCOS_ID);
+              m_descripcion = Cairo.Database.valField(response.data, C.CCOS_DESCRIP);
+              m_compra = Cairo.Database.valField(response.data, C.CCOS_COMPRA);
+              m_venta = Cairo.Database.valField(response.data, C.CCOS_VENTA);
+              m_ccos_id_padre = Cairo.Database.valField(response.data, C.CCOS_ID_PADRE);
               m_padre = Cairo.Database.valField(response.data, "padre");
             }
 
@@ -528,6 +530,9 @@
   });
 
   Cairo.module("CentroCosto.List", function(List, Cairo, Backbone, Marionette, $, _) {
+
+    var NO_ID = Cairo.Constants.NO_ID;
+
     List.Controller = {
       list: function() {
 

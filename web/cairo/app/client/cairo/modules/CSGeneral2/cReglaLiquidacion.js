@@ -9,6 +9,8 @@
 
       var Dialogs = Cairo.Dialogs;
       var DB = Cairo.Database;
+      var C = Cairo.General.Constants;
+      var NO_ID = Cairo.Constants.NO_ID;
 
       var C_MODULE = "cReglaLiquidacion";
 
@@ -56,11 +58,11 @@
 
         m_listController.updateEditorKey(self, NO_ID);
 
-        var property = m_dialog.getProperties().item(Cairo.General.Constants.REL_CODE);
+        var property = m_dialog.getProperties().item(C.REL_CODE);
         property.setValue(Cairo.Constants.COPY_OF + property.getValue());
 
-        m_dialog.showValue(m_dialog.getProperties().item(Cairo.General.Constants.REL_CODE));
-        m_dialog.showValue(m_dialog.getProperties().item(Cairo.General.Constants.REL_NAME));
+        m_dialog.showValue(m_dialog.getProperties().item(C.REL_CODE));
+        m_dialog.showValue(m_dialog.getProperties().item(C.REL_NAME));
 
         m_copy = true;
       };
@@ -104,7 +106,7 @@
 
           var doc = new Cairo.DocDigital();
 
-          doc.setClientTable(Cairo.General.Constants.REGLALIQUIDACION);
+          doc.setClientTable(C.REGLALIQUIDACION);
           doc.setClientTableID(m_id);
 
           _rtn = doc.showDocs(Cairo.Database);
@@ -149,8 +151,8 @@
         var register = new Cairo.Database.Register();
         var fields = register.getFields();
 
-        register.setFieldId(Cairo.General.Constants.REL_ID);
-        register.setTable(Cairo.General.Constants.REGLALIQUIDACION);
+        register.setFieldId(C.REL_ID);
+        register.setTable(C.REGLALIQUIDACION);
 
         register.setPath(m_apiPath + "general/reglaliquidacion");
 
@@ -166,11 +168,11 @@
           var property = m_dialog.getProperties().item(_i);
           switch (property.getKey()) {
             case K_NAME:
-              fields.add(Cairo.General.Constants.REL_NAME, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.REL_NAME, property.getValue(), Cairo.Constants.Types.text);
               break;
 
             case K_CODE:
-              fields.add(Cairo.General.Constants.REL_CODE, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.REL_CODE, property.getValue(), Cairo.Constants.Types.text);
               break;
 
             case K_ACTIVE:
@@ -178,7 +180,7 @@
               break;
 
             case K_DESCRIPCION:
-              fields.add(Cairo.General.Constants.REL_DESCRIP, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.REL_DESCRIP, property.getValue(), Cairo.Constants.Types.text);
               break;
           }
         }
@@ -186,10 +188,10 @@
         return Cairo.Database.saveEx(
             register,
             false,
-            Cairo.General.Constants.REL_CODE, 
+            C.REL_CODE,
             Cairo.Constants.CLIENT_SAVE_FUNCTION,
             C_MODULE,
-            Cairo.Language.getText(1413, "")).then(
+            getText(1413, "")).then(
 
           function(result) {
             if(result.success) {
@@ -234,7 +236,7 @@
 
       self.getTitle = function() {
         // ReglaLiquidacion
-        return Cairo.Language.getText(1414, "");
+        return getText(1414, "");
       };
 
       self.validate = function() {
@@ -350,14 +352,14 @@
 
         properties.clear();
 
-        var elem = properties.add(null, Cairo.General.Constants.REL_NAME);
+        var elem = properties.add(null, C.REL_NAME);
         elem.setType(Dialogs.PropertyType.text);
         elem.setName(Cairo.Constants.NAME_LABEL);
         elem.setSize(30);
         elem.setKey(K_NAME);
         elem.setValue(m_name);
 
-        var elem = properties.add(null, Cairo.General.Constants.REL_CODE);
+        var elem = properties.add(null, C.REL_CODE);
         elem.setType(Dialogs.PropertyType.text);
         elem.setName(Cairo.Constants.CODE_LABEL);
         elem.setSize(15);
@@ -370,7 +372,7 @@
         elem.setKey(K_ACTIVE);
         elem.setValue(m_active === true ? 1 : 0);
 
-        var elem = properties.add(null, Cairo.General.Constants.REL_DESCRIP);
+        var elem = properties.add(null, C.REL_DESCRIP);
         elem.setType(Dialogs.PropertyType.text);
         elem.setSubType(Dialogs.PropertySubType.memo);
         elem.setName(Cairo.Constants.DESCRIPTION_LABEL);
@@ -389,16 +391,16 @@
 
         var properties = m_dialog.getProperties();
 
-        var elem = properties.item(Cairo.General.Constants.REL_NAME);
+        var elem = properties.item(C.REL_NAME);
         elem.setValue(m_name);
 
-        var elem = properties.item(Cairo.General.Constants.REL_CODE);
+        var elem = properties.item(C.REL_CODE);
         elem.setValue(m_code);
 
         var elem = properties.item(Cairo.Constants.ACTIVE);
         elem.setValue(m_active === true ? 1 : 0);
 
-        var elem = properties.item(Cairo.General.Constants.REL_DESCRIP);
+        var elem = properties.item(C.REL_DESCRIP);
         elem.setValue(m_descripcion);
 
         return m_dialog.showValues(properties);
@@ -420,10 +422,10 @@
             } 
             else {
               m_active = Cairo.Database.valField(response.data, Cairo.Constants.ACTIVE);
-              m_name = Cairo.Database.valField(response.data, Cairo.General.Constants.REL_NAME);
-              m_code = Cairo.Database.valField(response.data, Cairo.General.Constants.REL_CODE);
-              m_id = Cairo.Database.valField(response.data, Cairo.General.Constants.REL_ID);
-              m_descripcion = Cairo.Database.valField(response.data, Cairo.General.Constants.REL_DESCRIP);
+              m_name = Cairo.Database.valField(response.data, C.REL_NAME);
+              m_code = Cairo.Database.valField(response.data, C.REL_CODE);
+              m_id = Cairo.Database.valField(response.data, C.REL_ID);
+              m_descripcion = Cairo.Database.valField(response.data, C.REL_DESCRIP);
             }
 
           return true;
@@ -465,6 +467,9 @@
   });
 
   Cairo.module("ReglaLiquidacion.List", function(List, Cairo, Backbone, Marionette, $, _) {
+
+    var NO_ID = Cairo.Constants.NO_ID;
+
     List.Controller = {
       list: function() {
 

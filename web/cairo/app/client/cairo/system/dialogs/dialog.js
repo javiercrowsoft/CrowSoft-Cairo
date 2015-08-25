@@ -4212,7 +4212,7 @@
         // this function is returning true to indicate the button
         // has to be handle by the grid (calculator in numeric columns, date picker in date columns, etc)
         // and false is returned when the event has ben handle by m_client or by
-        // this function (when column.subType == textButtonEx)
+        // this function (when column.subType === textButtonEx)
         //
         var gridColumnButtonClick = function(index, rowIndex, colIndex, keyAscii) {
           var p = null;
@@ -4237,7 +4237,7 @@
 
                     //
                     // the mustHandleEvent is passed to the grid to inform that the client has handled the button
-                    // this code is executed either mustHandleEvent == true or false
+                    // this code is executed either mustHandleEvent === true or false
                     //
                     var updateCell = function() {
                       setRowValueInGrid(index, property, rowIndex, grid.getRows(rowIndex));
@@ -4944,7 +4944,7 @@
             //
             if(property.labelIsHided()) {
               label.setVisible(false);
-              // labels with tag == -1 aren't modified by showValue
+              // labels with tag === -1 aren't modified by showValue
               label.setTag("-1");
             }
 
@@ -4955,7 +4955,7 @@
               if(m_isItems) {
                 label.setVisible(false);
                 label.setVisible(false);
-                label.setTag("-1");      // labels with tag == -1 aren't modified by showValue
+                label.setTag("-1");      // labels with tag === -1 aren't modified by showValue
               }
             }
             else {
@@ -5025,7 +5025,7 @@
                       found = true;
                     }
                     // finally it can be a text with a button
-                    //   subType == Dialogs.PropertyType.textButton or Dialogs.PropertyType.textButtonEx
+                    //   subType === Dialogs.PropertyType.textButton or Dialogs.PropertyType.textButtonEx
                     // textButtonClick call will pass 0 as subType
                     //
                     // so this if handles text controls which has a button and aren't file or folder

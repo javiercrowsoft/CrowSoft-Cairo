@@ -10,6 +10,7 @@
       var Dialogs = Cairo.Dialogs;
       var DB = Cairo.Database;
       var C = Cairo.General.Constants;
+      var NO_ID = Cairo.Constants.NO_ID;
       var Types = Cairo.Constants.Types;
       var bToI = Cairo.Util.boolToInt;
       var valField = Cairo.Database.valField;
@@ -551,10 +552,10 @@
 
         switch (virtualRow.getInfo().key) {
           case K_TAGS:
-            var w_pGetTags = getTags();
+            var w_getTags = getTags();
 
             var row = null;
-            row = w_pGetTags.getGrid().getRows().get(virtualRow.getInfo().row);
+            row = w_getTags.getGrid().getRows().get(virtualRow.getInfo().row);
 
             if(row.item(virtualRow.getInfo().col).getKey() === KIT_PR_ID_TAG) {
 
@@ -736,7 +737,7 @@
 
               p = Cairo.Modal.confirmViewYesDefault(
                   "",
-                  Cairo.Language.getText(1282, "") // Ha modificado el nombre de compras, desea aplicar el mismo nombre a ventas
+                  getText(1282, "") // Ha modificado el nombre de compras, desea aplicar el mismo nombre a ventas
                 ).then(
                 function(answer) {
                   if(answer === "yes") {
@@ -1271,7 +1272,7 @@
             C.PR_CODE,
             Cairo.Constants.CLIENT_SAVE_FUNCTION,
             C_MODULE,
-            Cairo.Language.getText(1352, "") // Error al grabar el Artículo
+            getText(1352, "") // Error al grabar el Artículo
 
         ).then(
 
@@ -1318,7 +1319,7 @@
       };
 
       self.getTitle = function() {
-        return Cairo.Language.getText(1283, ""); // Artículos
+        return getText(1283, ""); // Artículos
       };
 
       self.validate = function() {
@@ -1359,7 +1360,7 @@
 
             case K_NOMBRE_VENTA:
               if(Cairo.Util.valEmpty(property.getValue(), Types.text) && m_seVende) {
-                return Cairo.Modal.showInfo(Cairo.Language.getText(1293, "")).then(function() {return false;}); // Debe indicar un nombre de venta
+                return Cairo.Modal.showInfo(getText(1293, "")).then(function() {return false;}); // Debe indicar un nombre de venta
               }
               break;
 
@@ -1371,61 +1372,61 @@
 
             case K_UN_ID_COMPRA:
               if(Cairo.Util.valEmpty(property.getSelectId(), Types.id) && m_seCompra) {
-                return Cairo.Modal.showInfo(Cairo.Language.getText(1284, "")).then(function() {return false;}); // Debe indicar una unidad de compra
+                return Cairo.Modal.showInfo(getText(1284, "")).then(function() {return false;}); // Debe indicar una unidad de compra
               }
               break;
 
             case K_UN_ID_VENTA:
               if(Cairo.Util.valEmpty(property.getSelectId(), Types.id) && m_seVende) {
-                return Cairo.Modal.showInfo(Cairo.Language.getText(1285, "")).then(function() {return false;}); // Debe indicar una unidad de venta
+                return Cairo.Modal.showInfo(getText(1285, "")).then(function() {return false;}); // Debe indicar una unidad de venta
               }
               break;
 
             case K_UN_ID_STOCK:
               if(Cairo.Util.valEmpty(property.getSelectId(), Types.id) && m_llevaStock) {
-                return Cairo.Modal.showInfo(Cairo.Language.getText(1286, "")).then(function() {return false;}); // Debe indicar una unidad de stock
+                return Cairo.Modal.showInfo(getText(1286, "")).then(function() {return false;}); // Debe indicar una unidad de stock
               }
               break;
 
             case K_COMPRA_VENTA:
               if(Cairo.Util.valEmpty(property.getValue(), Types.double) && m_seVende && m_seCompra) {
-                return Cairo.Modal.showInfo(Cairo.Language.getText(1287, "")).then(function() {return false;}); // Debe indicar una relación entre la unidad de compra y la unidad de venta
+                return Cairo.Modal.showInfo(getText(1287, "")).then(function() {return false;}); // Debe indicar una relación entre la unidad de compra y la unidad de venta
               }
               break;
 
             case K_VENTA_STOCK:
               if(Cairo.Util.valEmpty(property.getValue(), Types.double) && m_seVende && m_llevaStock) {
-                return Cairo.Modal.showInfo(Cairo.Language.getText(1288, "")).then(function() {return false;}); // Debe indicar una relación entre la unidad de venta y la unidad de stock
+                return Cairo.Modal.showInfo(getText(1288, "")).then(function() {return false;}); // Debe indicar una relación entre la unidad de venta y la unidad de stock
               }
               break;
 
             case K_COMPRA_STOCK:
               if(Cairo.Util.valEmpty(property.getValue(), Types.double) && m_llevaStock && m_seCompra) {
-                return Cairo.Modal.showInfo(Cairo.Language.getText(1294, "")).then(function() {return false;}); // Debe indicar una relación entre la unidad de compra y la unidad de stock
+                return Cairo.Modal.showInfo(getText(1294, "")).then(function() {return false;}); // Debe indicar una relación entre la unidad de compra y la unidad de stock
               }
               break;
 
             case K_TI_ID_IVA_RI_COMPRA:
               if(Cairo.Util.valEmpty(property.getSelectId(), Types.id) && m_seCompra) {
-                return Cairo.Modal.showInfo(Cairo.Language.getText(1289, "")).then(function() {return false;}); // Debe indicar una tasa impositiva de compras para Responsables Inscriptos
+                return Cairo.Modal.showInfo(getText(1289, "")).then(function() {return false;}); // Debe indicar una tasa impositiva de compras para Responsables Inscriptos
               }
               break;
 
             case K_TI_ID_IVA_RI_VENTA:
               if(Cairo.Util.valEmpty(property.getSelectId(), Types.id) && m_seVende) {
-                return Cairo.Modal.showInfo(Cairo.Language.getText(1291, "")).then(function() {return false;}); // Debe indicar una tasa impositiva de ventas para Responsables Inscriptos
+                return Cairo.Modal.showInfo(getText(1291, "")).then(function() {return false;}); // Debe indicar una tasa impositiva de ventas para Responsables Inscriptos
               }
               break;
 
             case K_CUEG_ID_COMPRA:
               if(Cairo.Util.valEmpty(property.getSelectId(), Types.id) && m_seCompra) {
-                return Cairo.Modal.showInfo(Cairo.Language.getText(1295, "")).then(function() {return false;}); // Debe indicar un grupo de cuentas para compras
+                return Cairo.Modal.showInfo(getText(1295, "")).then(function() {return false;}); // Debe indicar un grupo de cuentas para compras
               }
               break;
 
             case K_CUEG_ID_VENTA:
               if(Cairo.Util.valEmpty(property.getSelectId(), Types.id) && m_seVende) {
-                return Cairo.Modal.showInfo(Cairo.Language.getText(1296, "")).then(function() {return false;}); // Debe indicar un grupo de cuentas para ventas
+                return Cairo.Modal.showInfo(getText(1296, "")).then(function() {return false;}); // Debe indicar un grupo de cuentas para ventas
               }
               break;
 
@@ -1462,11 +1463,11 @@
         if(bIsResumido) {
 
           if(bValidateIdentidad && bNeedTalIdentidad && !bHaveTalIdentidad) {
-            return Cairo.Modal.showInfo(Cairo.Language.getText(1297, "")).then(function() {return false;}); // Debe indicar un talonario para la identidad del Kit
+            return Cairo.Modal.showInfo(getText(1297, "")).then(function() {return false;}); // Debe indicar un talonario para la identidad del Kit
           }
 
           if(bValidateLote && bNeedTalLote && !bHaveTalLote) {
-            return Cairo.Modal.showInfo(Cairo.Language.getText(1353, "")).then(function() {return false;}); // Debe indicar un talonario para el lote del Kit
+            return Cairo.Modal.showInfo(getText(1353, "")).then(function() {return false;}); // Debe indicar un talonario para el lote del Kit
           }
         }
         p = p || Cairo.Promises.resolvedPromise(true);
@@ -1582,40 +1583,40 @@
         tab.setName(Cairo.Constants.TAB_GENERAL);
 
         var tab = w_tabs.add(null);
-        tab.setName(Cairo.Language.getText(1489, "")); // Compras
+        tab.setName(getText(1489, "")); // Compras
         tab.setIndex(tab_compra);
 
         var tab = w_tabs.add(null);
         tab.setIndex(tab_stock);
-        tab.setName(Cairo.Language.getText(1298, "")); // Stock
+        tab.setName(getText(1298, "")); // Stock
 
         var tab = w_tabs.add(null);
         tab.setIndex(tab_venta);
-        tab.setName(Cairo.Language.getText(1059, "")); // Venta
+        tab.setName(getText(1059, "")); // Venta
 
         var tab = w_tabs.add(null);
         tab.setIndex(tab_rubro);
-        tab.setName(Cairo.Language.getText(1299, "")); // Rubro
+        tab.setName(getText(1299, "")); // Rubro
 
         var tab = w_tabs.add(null);
         tab.setIndex(tab_comex);
-        tab.setName(Cairo.Language.getText(3523, "")); // COMEX
+        tab.setName(getText(3523, "")); // COMEX
 
         var tab = w_tabs.add(null);
         tab.setIndex(tab_kit);
-        tab.setName(Cairo.Language.getText(1301, "")); // Kit
+        tab.setName(getText(1301, "")); // Kit
 
         var tab = w_tabs.add(null);
         tab.setIndex(tab_proveedor);
-        tab.setName(Cairo.Language.getText(4595, "")); // Terceros
+        tab.setName(getText(4595, "")); // Terceros
 
         var tab = w_tabs.add(null);
         tab.setIndex(tab_Web);
-        tab.setName(Cairo.Language.getText(1038, "")); // Web
+        tab.setName(getText(1038, "")); // Web
 
         var tab = w_tabs.add(null);
         tab.setIndex(tab_web2);
-        tab.setName(Cairo.Language.getText(4792, "")); // Cat. Web
+        tab.setName(getText(4792, "")); // Cat. Web
 
         m_dialog.setTitle(m_purchaseName);
 
@@ -1647,21 +1648,21 @@
 
         elem = properties.add(null, C.PR_CODIGO_EXTERNO);
         elem.setType(Dialogs.PropertyType.text);
-        elem.setName(Cairo.Language.getText(1305, "")); // Código Externo
+        elem.setName(getText(1305, "")); // Código Externo
         elem.setSize(30);
         elem.setKey(K_CODIGO_EXTERNO);
         elem.setValue(m_codigoExterno);
 
         elem = properties.add(null, C.PR_CODIGO_BARRA);
         elem.setType(Dialogs.PropertyType.text);
-        elem.setName(Cairo.Language.getText(1177, "")); // Código de Barras
+        elem.setName(getText(1177, "")); // Código de Barras
         elem.setSize(255);
         elem.setKey(K_CODIGO_BARRA);
         elem.setValue(m_codigoBarra);
 
         elem = properties.add(null, C.PR_CODIGO_BARRA_NAME);
         elem.setType(Dialogs.PropertyType.text);
-        elem.setName(Cairo.Language.getText(1307, "")); // Nombre Código de Barras
+        elem.setName(getText(1307, "")); // Nombre Código de Barras
         elem.setSize(255);
         elem.setKey(K_CODIGO_BARRA_NOMBRE);
         elem.setValue(m_codigoBarraNombre);
@@ -1669,7 +1670,7 @@
         elem = properties.add(null, C.IBC_ID);
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.INGRESOSBRUTOSCATEGORIA);
-        elem.setName(Cairo.Language.getText(1308, "")); // Categoría Ingresos Brutos
+        elem.setName(getText(1308, "")); // Categoría Ingresos Brutos
         elem.setKey(K_IBC_ID);
         elem.setSelectId(m_ibc_id);
         elem.setValue(m_ingresosBrutos);
@@ -1677,7 +1678,7 @@
         elem = properties.add(null, C.MARC_ID);
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.MARCA);
-        elem.setName(Cairo.Language.getText(1310, "")); // Marca
+        elem.setName(getText(1310, "")); // Marca
         elem.setKey(K_MARC_ID);
         elem.setValue(m_marca);
         elem.setSelectId(m_marc_id);
@@ -1685,20 +1686,20 @@
         elem = properties.add(null, C.PR_EXPO_CAIRO);
         elem.setType(Dialogs.PropertyType.numeric);
         elem.setSubType(Dialogs.PropertySubType.integer);
-        elem.setName(Cairo.Language.getText(3898, "")); // Expo cairo
+        elem.setName(getText(3898, "")); // Expo cairo
         elem.setKey(K_EXPOCAIRO);
         elem.setValue(m_expoCairo);
 
         elem = properties.add(null, C.PR_ES_PLANTILLA);
         elem.setType(Dialogs.PropertyType.check);
-        elem.setName(Cairo.Language.getText(4829, "")); // Es Plantilla
+        elem.setName(getText(4829, "")); // Es Plantilla
         elem.setKey(K_ESPLANTILLA);
         elem.setValue(bToI(m_isTemplate));
 
         elem = properties.add(null, C.CUR_ID);
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.CURSOS);
-        elem.setName(Cairo.Language.getText(4828, "")); // Curso
+        elem.setName(getText(4828, "")); // Curso
         elem.setKey(K_CUR_ID);
         elem.setValue(m_curso);
         elem.setSelectId(m_cur_id);
@@ -1720,12 +1721,12 @@
         elem = properties.add(null);
         elem.setType(Dialogs.PropertyType.label);
         elem.setFontBold(true);
-        elem.setValue(Cairo.Language.getText(4854, "")); // Generación Automática de Nombres
+        elem.setValue(getText(4854, "")); // Generación Automática de Nombres
 
         elem = properties.add(null, C.RPT_ID_NOMBRE_COMPRA);
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.PROCESOS);
-        elem.setName(Cairo.Language.getText(4848, "")); // Proceso Nombre Compra
+        elem.setName(getText(4848, "")); // Proceso Nombre Compra
         elem.setKey(K_RPT_ID_NOMBRE_COMPRA);
         elem.setValue(m_rpt_nombreCompra);
         elem.setSelectId(m_rpt_id_nombreCompra);
@@ -1733,7 +1734,7 @@
         elem = properties.add(null, C.RPT_ID_NOMBRE_VENTA);
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.PROCESOS);
-        elem.setName(Cairo.Language.getText(4849, "")); // Proceso Nombre Venta
+        elem.setName(getText(4849, "")); // Proceso Nombre Venta
         elem.setKey(K_RPT_ID_NOMBRE_VENTA);
         elem.setValue(m_rpt_nombreVenta);
         elem.setSelectId(m_rpt_id_nombreVenta);
@@ -1741,7 +1742,7 @@
         elem = properties.add(null, C.RPT_ID_NOMBRE_FACTURA);
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.PROCESOS);
-        elem.setName(Cairo.Language.getText(4850, "")); // Proceso Nombre Factura
+        elem.setName(getText(4850, "")); // Proceso Nombre Factura
         elem.setKey(K_RPT_ID_NOMBRE_FACTURA);
         elem.setValue(m_rpt_nombrefactura);
         elem.setSelectId(m_rpt_id_nombrefactura);
@@ -1749,7 +1750,7 @@
         elem = properties.add(null, C.RPT_ID_NOMBRE_WEB);
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.PROCESOS);
-        elem.setName(Cairo.Language.getText(4851, "")); // Proceso Nombre Web
+        elem.setName(getText(4851, "")); // Proceso Nombre Web
         elem.setKey(K_RPT_ID_NOMBRE_WEB);
         elem.setValue(m_rpt_nombreweb);
         elem.setSelectId(m_rpt_id_nombreweb);
@@ -1757,7 +1758,7 @@
         elem = properties.add(null, C.RPT_ID_NOMBRE_IMG);
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.PROCESOS);
-        elem.setName(Cairo.Language.getText(4852, "")); // Proceso Nombre Imagen
+        elem.setName(getText(4852, "")); // Proceso Nombre Imagen
         elem.setKey(K_RPT_ID_NOMBRE_IMG);
         elem.setValue(m_rpt_nombreimg);
         elem.setSelectId(m_rpt_id_nombreimg);
@@ -1765,7 +1766,7 @@
         elem = properties.add(null, C.RPT_ID_NOMBRE_IMG_ALT);
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.PROCESOS);
-        elem.setName(Cairo.Language.getText(4853, "")); // Proceso Nombre Imagen Alternativa
+        elem.setName(getText(4853, "")); // Proceso Nombre Imagen Alternativa
         elem.setKey(K_RPT_ID_NOMBRE_IMG_ALT);
         elem.setValue(m_rpt_nombreimgalt);
         elem.setSelectId(m_rpt_id_nombreimgalt);
@@ -1775,14 +1776,14 @@
         elem = properties.add(null, C.PR_SE_COMPRA);
         elem.setType(Dialogs.PropertyType.check);
         elem.setTabIndex(tab_compra);
-        elem.setName(Cairo.Language.getText(1309, "")); // Se Compra
+        elem.setName(getText(1309, "")); // Se Compra
         elem.setKey(K_SE_COMPRA);
         elem.setValue(bToI(m_seCompra));
 
         elem = properties.add(null, C.UN_ID_COMPRA);
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.UNIDAD);
-        elem.setName(Cairo.Language.getText(1165, "")); // Unidad
+        elem.setName(getText(1165, "")); // Unidad
         elem.setTabIndex(tab_compra);
         elem.setKey(K_UN_ID_COMPRA);
         elem.setSelectId(m_un_id_compra);
@@ -1792,7 +1793,7 @@
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.GRUPO_DE_CUENTA);
         elem.setTabIndex(tab_compra);
-        elem.setName(Cairo.Language.getText(1516, "")); // Grupo de Cuenta
+        elem.setName(getText(1516, "")); // Grupo de Cuenta
         elem.setKey(K_CUEG_ID_COMPRA);
         elem.setSelectId(m_cueg_id_compra);
         elem.setValue(m_cuentaGCompra);
@@ -1801,7 +1802,7 @@
         elem = properties.add(null, C.TI_ID_RI_COMPRA);
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.TASA_IMPOSITIVA);
-        elem.setName(Cairo.Language.getText(1317, "")); // IVA Resp. Ins.
+        elem.setName(getText(1317, "")); // IVA Resp. Ins.
         elem.setTabIndex(tab_compra);
         elem.setKey(K_TI_ID_IVA_RI_COMPRA);
         elem.setSelectId(m_ti_id_iva_ri_compra);
@@ -1812,7 +1813,7 @@
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.TASA_IMPOSITIVA);
         elem.setTabIndex(tab_compra);
-        elem.setName(Cairo.Language.getText(1319, "")); // Tasa Internos
+        elem.setName(getText(1319, "")); // Tasa Internos
         elem.setKey(K_TI_ID_INTERNOS_C);
         elem.setSelectId(m_ti_id_internos_c);
         elem.setValue(m_tiInternosc);
@@ -1821,7 +1822,7 @@
         elem = properties.add(null, C.PR_PORC_INTERNO_C);
         elem.setType(Dialogs.PropertyType.numeric);
         elem.setTabIndex(tab_compra);
-        elem.setName(Cairo.Language.getText(1320, "")); // Porcentaje Internos
+        elem.setName(getText(1320, "")); // Porcentaje Internos
         elem.setSubType(Dialogs.PropertySubType.percentage);
         elem.setKey(K_PORC_INTERNO_C);
         elem.setValue(m_porcInternoC);
@@ -1830,7 +1831,7 @@
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.CENTROS_DE_COSTO);
         elem.setTabIndex(tab_compra);
-        elem.setName(Cairo.Language.getText(1057, "")); // Centro de Costo
+        elem.setName(getText(1057, "")); // Centro de Costo
         elem.setKey(K_CCOS_ID_COMPRA);
         elem.setValue(m_centroCostoCompra);
         elem.setSelectId(m_ccos_id_compra);
@@ -1840,7 +1841,7 @@
         //
         elem = properties.add(null, C.PR_LLEVA_STOCK);
         elem.setType(Dialogs.PropertyType.check);
-        elem.setName(Cairo.Language.getText(1321, "")); // Se tiene en Stock
+        elem.setName(getText(1321, "")); // Se tiene en Stock
         elem.setTabIndex(tab_stock);
         elem.setKey(K_LLEVA_STOCK);
         elem.setValue(bToI(m_llevaStock));
@@ -1849,14 +1850,14 @@
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.UNIDAD);
         elem.setTabIndex(tab_stock);
-        elem.setName(Cairo.Language.getText(1165, "")); // Unidad
+        elem.setName(getText(1165, "")); // Unidad
         elem.setKey(K_UN_ID_STOCK);
         elem.setSelectId(m_un_id_stock);
         elem.setValue(m_unidadStock);
 
         elem = properties.add(null, C.PR_STOCK_COMPRA);
         elem.setType(Dialogs.PropertyType.numeric);
-        elem.setName(Cairo.Language.getText(1322, "")); // Relación Stock-Compra
+        elem.setName(getText(1322, "")); // Relación Stock-Compra
         elem.setTabIndex(tab_stock);
         elem.setKey(K_COMPRA_STOCK);
         elem.setValue(m_compraStock);
@@ -1866,7 +1867,7 @@
         elem = properties.add(null, C.PR_X);
         elem.setType(Dialogs.PropertyType.numeric);
         elem.setTabIndex(tab_stock);
-        elem.setName(Cairo.Language.getText(1323, "")); // Posición x
+        elem.setName(getText(1323, "")); // Posición x
         elem.setKey(K_X);
         elem.setValue(m_x);
         elem.setSubType(Dialogs.PropertySubType.integer);
@@ -1874,7 +1875,7 @@
         elem = properties.add(null, C.PR_Y);
         elem.setType(Dialogs.PropertyType.numeric);
         elem.setTabIndex(tab_stock);
-        elem.setName(Cairo.Language.getText(1324, "")); // Posición y
+        elem.setName(getText(1324, "")); // Posición y
         elem.setKey(K_Y);
         elem.setValue(m_y);
         elem.setSubType(Dialogs.PropertySubType.integer);
@@ -1882,7 +1883,7 @@
         elem = properties.add(null, C.PR_Z);
         elem.setType(Dialogs.PropertyType.numeric);
         elem.setTabIndex(tab_stock);
-        elem.setName(Cairo.Language.getText(1325, "")); // Posición z
+        elem.setName(getText(1325, "")); // Posición z
         elem.setKey(K_Z);
         elem.setValue(m_z);
         elem.setSubType(Dialogs.PropertySubType.integer);
@@ -1890,7 +1891,7 @@
         elem = properties.add(null, C.PR_STOCK_MINIMO);
         elem.setType(Dialogs.PropertyType.numeric);
         elem.setTabIndex(tab_stock);
-        elem.setName(Cairo.Language.getText(1326, "")); // Stock Mínimo
+        elem.setName(getText(1326, "")); // Stock Mínimo
         elem.setKey(K_STOCK_MINIMO);
         elem.setValue(m_stockMinimo);
         elem.setSubType(Dialogs.PropertySubType.double);
@@ -1899,7 +1900,7 @@
         elem = properties.add(null, C.PR_REPOSICION);
         elem.setType(Dialogs.PropertyType.numeric);
         elem.setTabIndex(tab_stock);
-        elem.setName(Cairo.Language.getText(1328, "")); // Punto de Reposición
+        elem.setName(getText(1328, "")); // Punto de Reposición
         elem.setKey(K_REPOSICION);
         elem.setValue(m_reposicion);
         elem.setSubType(Dialogs.PropertySubType.double);
@@ -1908,7 +1909,7 @@
         elem = properties.add(null, C.PR_STOCK_MAXIMO);
         elem.setType(Dialogs.PropertyType.numeric);
         elem.setTabIndex(tab_stock);
-        elem.setName(Cairo.Language.getText(1327, "")); // Stock Máximo
+        elem.setName(getText(1327, "")); // Stock Máximo
         elem.setKey(K_STOCK_MAXIMO);
         elem.setValue(m_stockMaximo);
         elem.setSubType(Dialogs.PropertySubType.double);
@@ -1917,35 +1918,35 @@
         elem = properties.add(null, C.PR_LLEVA_NRO_SERIE);
         elem.setType(Dialogs.PropertyType.check);
         elem.setTabIndex(tab_stock);
-        elem.setName(Cairo.Language.getText(1329, "")); // Lleva Nro Serie
+        elem.setName(getText(1329, "")); // Lleva Nro Serie
         elem.setKey(K_LLEVA_NRO_SERIE);
         elem.setValue(bToI(m_llevaNroSerie));
 
         elem = properties.add(null, C.PR_LLEVA_NRO_LOTE);
         elem.setType(Dialogs.PropertyType.check);
         elem.setTabIndex(tab_stock);
-        elem.setName(Cairo.Language.getText(1330, "")); // Lleva Nro. Lote
+        elem.setName(getText(1330, "")); // Lleva Nro. Lote
         elem.setKey(K_LLEVA_NRO_LOTE);
         elem.setValue(bToI(m_llevaNroLote));
 
         elem = properties.add(null, C.PR_LOTE_FIFO);
         elem.setType(Dialogs.PropertyType.check);
         elem.setTabIndex(tab_stock);
-        elem.setName(Cairo.Language.getText(1331, "")); // Consume Lotes X FIFO
+        elem.setName(getText(1331, "")); // Consume Lotes X FIFO
         elem.setKey(K_LOTEFIFO);
         elem.setValue(bToI(m_loteFifo));
 
         elem = properties.add(null, C.PR_SE_PRODUCE);
         elem.setType(Dialogs.PropertyType.check);
         elem.setTabIndex(tab_stock);
-        elem.setName(Cairo.Language.getText(1332, "")); // Se Produce
+        elem.setName(getText(1332, "")); // Se Produce
         elem.setKey(K_SEPRODUCE);
         elem.setValue(bToI(m_seProduce));
 
         elem = properties.add(null, C.PR_ES_REPUESTO);
         elem.setType(Dialogs.PropertyType.check);
         elem.setTabIndex(tab_stock);
-        elem.setName(Cairo.Language.getText(1333, "")); // Es un Repuesto
+        elem.setName(getText(1333, "")); // Es un Repuesto
         elem.setKey(K_ESREPUESTO);
         elem.setValue(bToI(m_esRepuesto));
 
@@ -1955,7 +1956,7 @@
         elem = properties.add(null, C.PR_SE_VENDE);
         elem.setType(Dialogs.PropertyType.check);
         elem.setTabIndex(tab_venta);
-        elem.setName(Cairo.Language.getText(1334, "")); // Se Vende
+        elem.setName(getText(1334, "")); // Se Vende
         elem.setKey(K_SE_VENDE);
         elem.setValue(bToI(m_seVende));
 
@@ -1970,7 +1971,7 @@
         elem = properties.add(null, C.PR_NAME_FACTURA);
         elem.setType(Dialogs.PropertyType.text);
         elem.setTabIndex(tab_venta);
-        elem.setName(Cairo.Language.getText(3521, "")); // Nombre Factura
+        elem.setName(getText(3521, "")); // Nombre Factura
         elem.setSize(255);
         elem.setKey(K_NOMBRE_FACTURA);
         elem.setValue(m_nombreFactura);
@@ -1979,7 +1980,7 @@
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.UNIDAD);
         elem.setTabIndex(tab_venta);
-        elem.setName(Cairo.Language.getText(1165, "")); // Unidad
+        elem.setName(getText(1165, "")); // Unidad
         elem.setKey(K_UN_ID_VENTA);
         elem.setSelectId(m_un_id_venta);
         elem.setValue(m_unidadVenta);
@@ -1987,7 +1988,7 @@
         elem = properties.add(null, C.PR_VENTA_COMPRA);
         elem.setType(Dialogs.PropertyType.numeric);
         elem.setTabIndex(tab_venta);
-        elem.setName(Cairo.Language.getText(1335, "")); // Relación Venta-Compra
+        elem.setName(getText(1335, "")); // Relación Venta-Compra
         elem.setKey(K_COMPRA_VENTA);
         elem.setValue(m_compraVenta);
         elem.setSubType(Dialogs.PropertySubType.double);
@@ -1996,7 +1997,7 @@
         elem = properties.add(null, C.PR_VENTA_STOCK);
         elem.setType(Dialogs.PropertyType.numeric);
         elem.setTabIndex(tab_venta);
-        elem.setName(Cairo.Language.getText(1336, "")); // Relación Venta-Stock
+        elem.setName(getText(1336, "")); // Relación Venta-Stock
         elem.setKey(K_VENTA_STOCK);
         elem.setValue(m_ventaStock);
         elem.setSubType(Dialogs.PropertySubType.double);
@@ -2005,7 +2006,7 @@
         elem = properties.add(null, C.CUEG_ID_VENTA);
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.GRUPO_DE_CUENTA);
-        elem.setName(Cairo.Language.getText(1516, "")); // Grupo de Cuenta
+        elem.setName(getText(1516, "")); // Grupo de Cuenta
         elem.setKey(K_CUEG_ID_VENTA);
         elem.setTabIndex(tab_venta);
         elem.setSelectId(m_cueg_id_venta);
@@ -2015,28 +2016,28 @@
         elem = properties.add(null, C.PR_ES_LISTA);
         elem.setType(Dialogs.PropertyType.check);
         elem.setTabIndex(tab_venta);
-        elem.setName(Cairo.Language.getText(1337, "")); // Es una Lista
+        elem.setName(getText(1337, "")); // Es una Lista
         elem.setKey(K_ES_LISTA);
         elem.setValue(bToI(m_esLista));
 
         elem = properties.add(null, C.PR_DINERARIO);
         elem.setType(Dialogs.PropertyType.check);
         elem.setTabIndex(tab_venta);
-        elem.setName(Cairo.Language.getText(2552, "")); // Concepto Dinerario
+        elem.setName(getText(2552, "")); // Concepto Dinerario
         elem.setKey(K_DINERARIO);
         elem.setValue(bToI(m_dinerario));
 
         elem = properties.add(null, C.PR_NO_REDONDEO);
         elem.setType(Dialogs.PropertyType.check);
         elem.setTabIndex(tab_venta);
-        elem.setName(Cairo.Language.getText(3651, "")); // No Redondear
+        elem.setName(getText(3651, "")); // No Redondear
         elem.setKey(K_NO_REDONDEO);
         elem.setValue(bToI(m_noRedondeo));
 
         elem = properties.add(null, C.TI_ID_RI_VENTA);
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.TASA_IMPOSITIVA);
-        elem.setName(Cairo.Language.getText(1317, "")); // IVA Resp. Ins.
+        elem.setName(getText(1317, "")); // IVA Resp. Ins.
         elem.setTabIndex(tab_venta);
         elem.setKey(K_TI_ID_IVA_RI_VENTA);
         elem.setSelectId(m_ti_id_iva_ri_venta);
@@ -2046,7 +2047,7 @@
         elem = properties.add(null, C.TI_ID_INTERNOS_VENTA);
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.TASA_IMPOSITIVA);
-        elem.setName(Cairo.Language.getText(1319, "")); // Tasa Internos
+        elem.setName(getText(1319, "")); // Tasa Internos
         elem.setKey(K_TI_ID_INTERNOS_V);
         elem.setTabIndex(tab_venta);
         elem.setSelectId(m_ti_id_internos_v);
@@ -2055,7 +2056,7 @@
 
         elem = properties.add(null, C.PR_PORC_INTERNO_V);
         elem.setType(Dialogs.PropertyType.numeric);
-        elem.setName(Cairo.Language.getText(1320, "")); // Porcentaje Internos
+        elem.setName(getText(1320, "")); // Porcentaje Internos
         elem.setSubType(Dialogs.PropertySubType.percentage);
         elem.setKey(K_PORC_INTERNO_V);
         elem.setTabIndex(tab_venta);
@@ -2065,7 +2066,7 @@
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.CENTROS_DE_COSTO);
         elem.setTabIndex(tab_venta);
-        elem.setName(Cairo.Language.getText(1057, "")); // Centro de Costo
+        elem.setName(getText(1057, "")); // Centro de Costo
         elem.setKey(K_CCOS_ID_VENTA);
         elem.setValue(m_centroCostoVenta);
         elem.setSelectId(m_ccos_id_venta);
@@ -2083,7 +2084,7 @@
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.RUBRO);
         elem.setTabIndex(tab_rubro);
-        elem.setName(Cairo.Language.getText(1299, "")); // Rubro
+        elem.setName(getText(1299, "")); // Rubro
         elem.setKey(K_RUB_ID);
         elem.setValue(m_rubro);
         elem.setSelectId(m_rub_id);
@@ -2096,7 +2097,7 @@
         elem = properties.add(null, C.UN_ID_PESO);
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.UNIDAD);
-        elem.setName(Cairo.Language.getText(1165, "")); // Unidad
+        elem.setName(getText(1165, "")); // Unidad
         elem.setKey(K_UN_ID_PESO);
         elem.setValue(m_unidadPeso);
         elem.setSelectId(m_un_id_peso);
@@ -2106,7 +2107,7 @@
         elem.setType(Dialogs.PropertyType.numeric);
         elem.setSubType(Dialogs.PropertySubType.double);
         elem.setFormat(Cairo.Settings.getQuantityDecimalsFormat());
-        elem.setName(Cairo.Language.getText(1311, "")); // Peso Neto
+        elem.setName(getText(1311, "")); // Peso Neto
         elem.setKey(K_PESO_NETO);
         elem.setValue(m_pesoNeto);
         elem.setTabIndex(tab_comex);
@@ -2115,7 +2116,7 @@
         elem.setType(Dialogs.PropertyType.numeric);
         elem.setSubType(Dialogs.PropertySubType.double);
         elem.setFormat(Cairo.Settings.getQuantityDecimalsFormat());
-        elem.setName(Cairo.Language.getText(1312, "")); // Peso Total
+        elem.setName(getText(1312, "")); // Peso Total
         elem.setKey(K_PESO_TOTAL);
         elem.setValue(m_pesoTotal);
         elem.setTabIndex(tab_comex);
@@ -2123,7 +2124,7 @@
         elem = properties.add(null, C.PR_CANT_X_CAJA_EXPO);
         elem.setType(Dialogs.PropertyType.numeric);
         elem.setSubType(Dialogs.PropertySubType.integer);
-        elem.setName(Cairo.Language.getText(1316, "")); // Cantidad x Caja
+        elem.setName(getText(1316, "")); // Cantidad x Caja
         elem.setKey(K_CANTIDAD_X_CAJA_EXPO);
         elem.setValue(m_cantXCajaExpo);
         elem.setTabIndex(tab_comex);
@@ -2131,7 +2132,7 @@
         elem = properties.add(null, C.EMBL_ID);
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.EMBALAJE);
-        elem.setName(Cairo.Language.getText(1163, "")); // Embalaje
+        elem.setName(getText(1163, "")); // Embalaje
         elem.setKey(K_EMBL_ID);
         elem.setValue(m_embalaje);
         elem.setSelectId(m_embl_id);
@@ -2139,7 +2140,7 @@
 
         elem = properties.add(null, C.PR_FLETE_EXPO);
         elem.setType(Dialogs.PropertyType.check);
-        elem.setName(Cairo.Language.getText(1315, "")); // Flete Expo
+        elem.setName(getText(1315, "")); // Flete Expo
         elem.setKey(K_FLETEEXPO);
         elem.setValue(bToI(m_fleteExpo));
         elem.setTabIndex(tab_comex);
@@ -2147,7 +2148,7 @@
         elem = properties.add(null, C.EGP_ID);
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.GRUPOS_DE_PRECIOS_DE_EXPORTACION);
-        elem.setName(Cairo.Language.getText(1313, "")); // Grupo Exportación
+        elem.setName(getText(1313, "")); // Grupo Exportación
         elem.setKey(K_EGP_ID);
         elem.setValue(m_grupoExpo);
         elem.setSelectId(m_egp_id);
@@ -2156,7 +2157,7 @@
         elem = properties.add(null, C.EFM_ID);
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.FAMILIA_DE_EXPORTACION);
-        elem.setName(Cairo.Language.getText(1314, "")); // Familia de Exportación
+        elem.setName(getText(1314, "")); // Familia de Exportación
         elem.setKey(K_EFM_ID);
         elem.setValue(m_familiaExpo);
         elem.setSelectId(m_efm_id);
@@ -2165,7 +2166,7 @@
         elem = properties.add(null, C.POAR_ID);
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.POSICION_ARANCEL);
-        elem.setName(Cairo.Language.getText(3275, "")); // Posición Arancelaria
+        elem.setName(getText(3275, "")); // Posición Arancelaria
         elem.setSelectId(m_poar_id);
         elem.setValue(m_posicionArancel);
         elem.setKey(K_POAR_ID);
@@ -2174,7 +2175,7 @@
         elem = properties.add(null, C.TI_ID_COMEX_GANANCIAS);
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.TASA_IMPOSITIVA);
-        elem.setName(Cairo.Language.getText(4974, "")); // Tasa Ganacias 3543/92
+        elem.setName(getText(4974, "")); // Tasa Ganacias 3543/92
         elem.setSelectId(m_ti_id_comex_ganancias);
         elem.setValue(m_ti_comex_ganancias);
         elem.setKey(K_TI_COMEX_GANANCIAS);
@@ -2184,7 +2185,7 @@
         elem = properties.add(null, C.TI_ID_COMEX_IGB);
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.TASA_IMPOSITIVA);
-        elem.setName(Cairo.Language.getText(4975, "")); // Ingresos Brutos Importaciones
+        elem.setName(getText(4975, "")); // Ingresos Brutos Importaciones
         elem.setSelectId(m_ti_id_comex_igb);
         elem.setValue(m_ti_comex_igb);
         elem.setKey(K_TI_COMEX_IGB);
@@ -2194,7 +2195,7 @@
         elem = properties.add(null, C.TI_ID_COMEX_IVA);
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.TASA_IMPOSITIVA);
-        elem.setName(Cairo.Language.getText(4976, "")); // Tasa IVA 3431/91
+        elem.setName(getText(4976, "")); // Tasa IVA 3431/91
         elem.setSelectId(m_ti_id_comex_iva);
         elem.setValue(m_ti_comex_iva);
         elem.setKey(K_TI_COMEX_IVA);
@@ -2207,28 +2208,28 @@
         elem = properties.add(null, C.PR_ES_KIT);
         elem.setType(Dialogs.PropertyType.check);
         elem.setTabIndex(tab_kit);
-        elem.setName(Cairo.Language.getText(1338, "")); // Es un Kit
+        elem.setName(getText(1338, "")); // Es un Kit
         elem.setKey(K_ES_KIT);
         elem.setValue(bToI(m_eskit));
 
         elem = properties.add(null, C.PR_KIT_STOCK_X_ITEM);
         elem.setType(Dialogs.PropertyType.check);
         elem.setTabIndex(tab_kit);
-        elem.setName(Cairo.Language.getText(1339, "")); // Kit Stock x Item
+        elem.setName(getText(1339, "")); // Kit Stock x Item
         elem.setKey(K_KIT_STK_X_ITEM);
         elem.setValue(bToI(m_kitStkXItem));
 
         elem = properties.add(null, C.PR_KIT_RESUMIDO);
         elem.setType(Dialogs.PropertyType.check);
         elem.setTabIndex(tab_kit);
-        elem.setName(Cairo.Language.getText(1340, "")); // Producción Resumida
+        elem.setName(getText(1340, "")); // Producción Resumida
         elem.setKey(K_KIT_RESUMIDO);
         elem.setValue(bToI(m_kitResumido));
 
         elem = properties.add(null, C.PR_KIT_IDENTIDAD);
         elem.setType(Dialogs.PropertyType.check);
         elem.setTabIndex(tab_kit);
-        elem.setName(Cairo.Language.getText(1341, "")); // Posee Identidad
+        elem.setName(getText(1341, "")); // Posee Identidad
         elem.setKey(K_KIT_IDENTIDAD);
         elem.setValue(bToI(m_kitIdentidad));
         elem.setEnabled(bToI(m_kitResumido));
@@ -2236,7 +2237,7 @@
         elem = properties.add(null, C.PR_KIT_IDENTIDAD_X_ITEM);
         elem.setType(Dialogs.PropertyType.check);
         elem.setTabIndex(tab_kit);
-        elem.setName(Cairo.Language.getText(1342, "")); // Identidad por Item
+        elem.setName(getText(1342, "")); // Identidad por Item
         elem.setKey(K_KIT_IDENTIDADXITEM);
         elem.setValue(bToI(m_kitIdentidadXItem));
         elem.setEnabled(bToI(m_kitIdentidad));
@@ -2245,7 +2246,7 @@
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.TALONARIO);
         elem.setTabIndex(tab_kit);
-        elem.setName(Cairo.Language.getText(1343, "")); // Talonario Serie
+        elem.setName(getText(1343, "")); // Talonario Serie
         elem.setKey(K_TA_ID_KITSERIE);
         elem.setValue(m_talonarioKitSerie);
         elem.setSelectId(m_ta_id_kitSerie);
@@ -2254,7 +2255,7 @@
         elem = properties.add(null, C.PR_KIT_LOTE);
         elem.setType(Dialogs.PropertyType.check);
         elem.setTabIndex(tab_kit);
-        elem.setName(Cairo.Language.getText(1344, "")); // Posee Lote
+        elem.setName(getText(1344, "")); // Posee Lote
         elem.setKey(K_KIT_LOTE);
         elem.setValue(bToI(m_kitLote));
         elem.setEnabled(bToI(m_kitResumido));
@@ -2262,7 +2263,7 @@
         elem = properties.add(null, C.PR_KIT_LOTE_X_ITEM);
         elem.setType(Dialogs.PropertyType.check);
         elem.setTabIndex(tab_kit);
-        elem.setName(Cairo.Language.getText(1345, "")); // Lote por Item
+        elem.setName(getText(1345, "")); // Lote por Item
         elem.setKey(K_KIT_LOTEXITEM);
         elem.setValue(bToI(m_kitLoteXItem));
         elem.setEnabled(bToI(m_kitLote));
@@ -2272,7 +2273,7 @@
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.TALONARIO);
         elem.setTabIndex(tab_kit);
-        elem.setName(Cairo.Language.getText(1346, "")); // Talonario Lote
+        elem.setName(getText(1346, "")); // Talonario Lote
         elem.setKey(K_TA_ID_KITLOTE);
         elem.setValue(m_talonarioKitLote);
         elem.setSelectId(m_ta_id_kitLote);
@@ -2281,7 +2282,7 @@
         elem = properties.add(null);
         elem.hideLabel();
         elem.setType(Dialogs.PropertyType.label);
-        elem.setValue(Cairo.Language.getText(1347, "")); // Fórmulas de Producción
+        elem.setValue(getText(1347, "")); // Fórmulas de Producción
         elem.setTabIndex(tab_kit);
 
         elem = properties.add(null, C_PRODUCTO_KIT);
@@ -2381,7 +2382,7 @@
         //
         elem = properties.add(null, C.PR_NAME_WEB);
         elem.setType(Dialogs.PropertyType.text);
-        elem.setName(Cairo.Language.getText(3522, "")); // Nombre Web
+        elem.setName(getText(3522, "")); // Nombre Web
         elem.setSize(255);
         elem.setKey(K_NOMBRE_WEB);
         elem.setTabIndex(tab_Web);
@@ -2389,7 +2390,7 @@
 
         elem = properties.add(null, C.PR_ALIAS_WEB);
         elem.setType(Dialogs.PropertyType.text);
-        elem.setName(Cairo.Language.getText(3539, "")); // Alias Web
+        elem.setName(getText(3539, "")); // Alias Web
         elem.setSize(255);
         elem.setKey(K_ALIAS_WEB);
         elem.setTabIndex(tab_Web);
@@ -2398,7 +2399,7 @@
         elem = properties.add(null, C.PR_ID_WEB_PADRE);
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.PRODUCTO);
-        elem.setName(Cairo.Language.getText(5047, "")); // Producto Padre Web
+        elem.setName(getText(5047, "")); // Producto Padre Web
         elem.setKey(K_PR_ID_WEB_PADRE);
         elem.setTabIndex(tab_Web);
         elem.setValue(m_productowebpadre);
@@ -2406,14 +2407,14 @@
 
         elem = properties.add(null, C.PR_ACTIVO_WEB);
         elem.setType(Dialogs.PropertyType.check);
-        elem.setName(Cairo.Language.getText(3557, "")); // Activo Web
+        elem.setName(getText(3557, "")); // Activo Web
         elem.setKey(K_ACTIVOWEB);
         elem.setTabIndex(tab_Web);
         elem.setValue(bToI(m_activoWeb));
 
         elem = properties.add(null, C.PR_WEB_IMAGE_UPDATE);
         elem.setType(Dialogs.PropertyType.check);
-        elem.setName(Cairo.Language.getText(4576, "")); // Actualizar Imagenes
+        elem.setName(getText(4576, "")); // Actualizar Imagenes
         elem.setKey(K_WEB_IMAGE_UPDATE);
         elem.setTabIndex(tab_Web);
         elem.setValue(bToI(m_webImageUpdate));
@@ -2421,7 +2422,7 @@
         elem = properties.add(null, C.PR_CODIGO_HTML);
         elem.setType(Dialogs.PropertyType.text);
         elem.setSubType(Dialogs.PropertySubType.textButtonEx);
-        elem.setName(Cairo.Language.getText(3538, "")); // Codigo Html Detalle
+        elem.setName(getText(3538, "")); // Codigo Html Detalle
         elem.setSize(255);
         elem.setKey(K_CODIGO_HTML);
         elem.setTabIndex(tab_Web);
@@ -2430,7 +2431,7 @@
         elem = properties.add(null, C.PR_CODIGO_HTML_DETALLE);
         elem.setType(Dialogs.PropertyType.text);
         elem.setSubType(Dialogs.PropertySubType.textButtonEx);
-        elem.setName(Cairo.Language.getText(3900, "")); // Codigo Html Detalle
+        elem.setName(getText(3900, "")); // Codigo Html Detalle
         elem.setSize(255);
         elem.setKey(K_CODIGO_HTML_DETALLE);
         elem.setTabIndex(tab_Web);
@@ -2439,7 +2440,7 @@
         elem = properties.add(null, C.PR_EXPO_WEB);
         elem.setType(Dialogs.PropertyType.numeric);
         elem.setSubType(Dialogs.PropertySubType.integer);
-        elem.setName(Cairo.Language.getText(3897, "")); // Expo Web
+        elem.setName(getText(3897, "")); // Expo Web
         elem.setKey(K_EXPOWEB);
         elem.setTabIndex(tab_Web);
         elem.setValue(m_expoWeb);
@@ -2447,7 +2448,7 @@
         elem = properties.add(null, C.PR_VENTA_WEB_MAXIMA);
         elem.setType(Dialogs.PropertyType.numeric);
         elem.setSubType(Dialogs.PropertySubType.double);
-        elem.setName(Cairo.Language.getText(3899, "")); // Venta Máxima
+        elem.setName(getText(3899, "")); // Venta Máxima
         elem.setKey(K_VENTA_WEB_MAXIMA);
         elem.setTabIndex(tab_Web);
         elem.setValue(m_ventaWebMaxima);
@@ -2455,7 +2456,7 @@
         elem = properties.add(null, C.LEY_ID);
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.LEYENDA);
-        elem.setName(Cairo.Language.getText(1240, "")); // Leyenda
+        elem.setName(getText(1240, "")); // Leyenda
         elem.setKey(K_LEY_ID);
         elem.setTabIndex(tab_Web);
         elem.setSelectId(m_ley_id);
@@ -2463,7 +2464,7 @@
 
         elem = properties.add(null, C.PR_WEB_IMAGE_FOLDER);
         elem.setType(Dialogs.PropertyType.folder);
-        elem.setName(Cairo.Language.getText(3587, "")); // Carpeta de Imagenes
+        elem.setName(getText(3587, "")); // Carpeta de Imagenes
         elem.setKey(K_WEB_IMAGE_FOLDER);
         elem.setTabIndex(tab_Web);
         elem.setValue(m_webImageFolder);
@@ -4367,7 +4368,7 @@
           switch (cell.getKey()) {
             case KIK_PROV_ID:
               if(Cairo.Util.valEmpty(cell.getId(), Types.id)) {
-                return Cairo.Modal.showInfo(Cairo.Language.getText(1349, "", strRow)).then(function() {return false;}); // Debe indicar un proveedor
+                return Cairo.Modal.showInfo(getText(1349, "", strRow)).then(function() {return false;}); // Debe indicar un proveedor
               }
               break;
           }
@@ -4392,7 +4393,7 @@
 
             case KIPRL_TEXTO:
               if(Cairo.Util.valEmpty(cell.getValue(), Types.text)) {
-                return Cairo.Modal.showInfo(Cairo.Language.getText(5037, "", strRow)).then(function() {return false;}); // Debe indicar una texto
+                return Cairo.Modal.showInfo(getText(5037, "", strRow)).then(function() {return false;}); // Debe indicar una texto
               }
               break;
           }
@@ -4411,7 +4412,7 @@
           switch (cell.getKey()) {
             case KICMI_CMI_ID:
               if(Cairo.Util.valEmpty(cell.getId(), Types.integer)) {
-                return Cairo.Modal.showInfo(Cairo.Language.getText(5028, "", strRow)).then(function() {return false;}); // Debe indicar una comunidad
+                return Cairo.Modal.showInfo(getText(5028, "", strRow)).then(function() {return false;}); // Debe indicar una comunidad
               }
               break;
 
@@ -4436,13 +4437,13 @@
           switch (cell.getKey()) {
             case KIWI_IMAGE:
               if(Cairo.Util.valEmpty(cell.getValue(), Types.text)) {
-                return Cairo.Modal.showInfo(Cairo.Language.getText(4574, "", strRow)).then(function() {return false;}); // Debe indicar el nombre de un archivo de imagen
+                return Cairo.Modal.showInfo(getText(4574, "", strRow)).then(function() {return false;}); // Debe indicar el nombre de un archivo de imagen
               }
               break;
 
             case KIWI_IMAGE_TYPE:
               if(Cairo.Util.valEmpty(cell.getId(), Types.integer)) {
-                return Cairo.Modal.showInfo(Cairo.Language.getText(4575, "", strRow)).then(function() {return false;}); // Debe indicar el tipo de imagen
+                return Cairo.Modal.showInfo(getText(4575, "", strRow)).then(function() {return false;}); // Debe indicar el tipo de imagen
               }
               break;
           }
@@ -4461,7 +4462,7 @@
           switch (cell.getKey()) {
             case KIK_CLI_ID:
               if(Cairo.Util.valEmpty(cell.getId(), Types.id)) {
-                return Cairo.Modal.showInfo(Cairo.Language.getText(1351, "", strRow)).then(function() {return false;}); // Debe indicar un cliente
+                return Cairo.Modal.showInfo(getText(1351, "", strRow)).then(function() {return false;}); // Debe indicar un cliente
               }
               break;
           }
@@ -4672,13 +4673,13 @@
         elem.setKey(KIK_PRPROV_ID);
 
         elem = w_columns.add(null);
-        elem.setName(Cairo.Language.getText(1151, "")); // Proveedor
+        elem.setName(getText(1151, "")); // Proveedor
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.PROVEEDOR);
         elem.setKey(KIK_PROV_ID);
 
         elem = w_columns.add(null);
-        elem.setName(Cairo.Language.getText(1356, "")); // Fabricante
+        elem.setName(getText(1356, "")); // Fabricante
         elem.setType(Dialogs.PropertyType.check);
         elem.setKey(KIK_PROV_FABRICANTE);
 
@@ -4693,22 +4694,22 @@
         elem.setKey(KIK_PROV_CODIGO);
 
         elem = w_columns.add(null);
-        elem.setName(Cairo.Language.getText(1306, "")); // Cód. Barra
+        elem.setName(getText(1306, "")); // Cód. Barra
         elem.setType(Dialogs.PropertyType.text);
         elem.setKey(KIK_PROV_CODBARRA);
 
         elem = w_columns.add(null);
-        elem.setName(Cairo.Language.getText(1212, "")); // País
+        elem.setName(getText(1212, "")); // País
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.PAIS);
         elem.setKey(KIK_PA_ID);
 
         elem = w_columns.add(null);
-        elem.setName(Cairo.Language.getText(2273, "")); // Lista de Precios
+        elem.setName(getText(2273, "")); // Lista de Precios
         elem.setKey(KIK_PROV_LPI_ID);
 
         elem = w_columns.add(null);
-        elem.setName(Cairo.Language.getText(1586, "")); // Precio
+        elem.setName(getText(1586, "")); // Precio
         elem.setType(Dialogs.PropertyType.numeric);
         elem.setFormat("0.000");
         elem.setKey(KIK_PROV_PRECIO);
@@ -4718,7 +4719,7 @@
         elem.setVisible(false);
 
         elem = w_columns.add(null);
-        elem.setName(Cairo.Language.getText(1569, "")); // Fecha
+        elem.setName(getText(1569, "")); // Fecha
         elem.setType(Dialogs.PropertyType.date);
         elem.setKey(KIK_PROV_PRECIO_FECHA);
 
@@ -4820,7 +4821,7 @@
         elem.setKey(KIK_PRCLI_ID);
 
         elem = w_columns.add(null);
-        elem.setName(Cairo.Language.getText(1150, "")); // Cliente
+        elem.setName(getText(1150, "")); // Cliente
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.CLIENTE);
         elem.setKey(KIK_CLI_ID);
@@ -4836,7 +4837,7 @@
         elem.setKey(KIK_CLI_CODIGO);
 
         elem = w_columns.add(null);
-        elem.setName(Cairo.Language.getText(1306, "")); // Cód. Barra
+        elem.setName(getText(1306, "")); // Cód. Barra
         elem.setType(Dialogs.PropertyType.text);
         elem.setKey(KIK_CLI_CODBARRA);
 
@@ -4892,7 +4893,7 @@
         elem.setVisible(false);
 
         elem = w_columns.add(null);
-        elem.setName(Cairo.Language.getText(5017, "")); // Comunidad
+        elem.setName(getText(5017, "")); // Comunidad
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.COMUNIDAD_DE_INTERNET);
         elem.setKey(KICMI_CMI_ID);
@@ -4903,18 +4904,18 @@
         elem.setKey(KICMI_CODIGO);
 
         elem = w_columns.add(null);
-        elem.setName(Cairo.Language.getText(1586, "")); // Precio
+        elem.setName(getText(1586, "")); // Precio
         elem.setType(Dialogs.PropertyType.numeric);
         elem.setFormat("0.00");
         elem.setKey(KICMI_PRECIO);
 
         elem = w_columns.add(null);
-        elem.setName(Cairo.Language.getText(5026, "")); // Publicado el
+        elem.setName(getText(5026, "")); // Publicado el
         elem.setType(Dialogs.PropertyType.date);
         elem.setKey(KICMI_FECHAALTA);
 
         elem = w_columns.add(null);
-        elem.setName(Cairo.Language.getText(5027, "")); // Vence el
+        elem.setName(getText(5027, "")); // Vence el
         elem.setType(Dialogs.PropertyType.date);
         elem.setKey(KICMI_FECHA_VTO);
 
@@ -4989,18 +4990,18 @@
         elem.setKey(KIPRL_NOMBRE);
 
         elem = w_columns.add(null);
-        elem.setName(Cairo.Language.getText(5003, "")); // Texto
+        elem.setName(getText(5003, "")); // Texto
         elem.setType(Dialogs.PropertyType.text);
         elem.setSubType(Dialogs.PropertySubType.textButtonEx);
         elem.setKey(KIPRL_TEXTO);
 
         elem = w_columns.add(null);
-        elem.setName(Cairo.Language.getText(5036, "")); // Tag
+        elem.setName(getText(5036, "")); // Tag
         elem.setType(Dialogs.PropertyType.text);
         elem.setKey(KIPRL_TAG);
 
         elem = w_columns.add(null);
-        elem.setName(Cairo.Language.getText(5016, "")); // Orden
+        elem.setName(getText(5016, "")); // Orden
         elem.setType(Dialogs.PropertyType.text);
         elem.setKey(KIPRL_ORDEN);
 
@@ -5051,7 +5052,7 @@
         w_columns.clear();
 
         elem = w_columns.add(null);
-        elem.setName(Cairo.Language.getText(1304, "")); // B.O.M.
+        elem.setName(getText(1304, "")); // B.O.M.
         elem.setKey(KIK_PBM_ID);
 
         var w_rows = w_grid.getRows();
@@ -5090,7 +5091,7 @@
         elem.setKey(KIT_PRT_ID);
 
         elem = w_columns.add(null);
-        elem.setName(Cairo.Language.getText(1619, "")); // Producto
+        elem.setName(getText(1619, "")); // Producto
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.PRODUCTO);
         elem.setKey(KIT_PR_ID_TAG);
@@ -5099,17 +5100,17 @@
         }
 
         elem = w_columns.add(null);
-        elem.setName(Cairo.Language.getText(5016, "")); // Orden
+        elem.setName(getText(5016, "")); // Orden
         elem.setType(Dialogs.PropertyType.text);
         elem.setEnabled(false);
 
         elem = w_columns.add(null);
-        elem.setName(Cairo.Language.getText(3968, "")); // Texto
+        elem.setName(getText(3968, "")); // Texto
         elem.setType(Dialogs.PropertyType.text);
         elem.setKey(KIT_TEXTO);
 
         elem = w_columns.add(null);
-        elem.setName(Cairo.Language.getText(3897, "")); // Expo Web
+        elem.setName(getText(3897, "")); // Expo Web
         elem.setType(Dialogs.PropertyType.text);
         elem.setKey(KIT_EXPOWEB);
         elem.setFormat("0");
@@ -5117,7 +5118,7 @@
         elem.getDefaultValue().setValue(50);
 
         elem = w_columns.add(null);
-        elem.setName(Cairo.Language.getText(3898, "")); // Expo Cairo
+        elem.setName(getText(3898, "")); // Expo Cairo
         elem.setType(Dialogs.PropertyType.text);
         elem.setKey(KIT_EXPOCAIRO);
         elem.setFormat("0");
@@ -5179,7 +5180,7 @@
         elem.setKey(KICWCI_ID);
 
         elem = w_columns.add(null);
-        elem.setName(Cairo.Language.getText(4597, "")); // Categoria de Catalogo Web
+        elem.setName(getText(4597, "")); // Categoria de Catalogo Web
         elem.setType(Dialogs.PropertyType.text);
         elem.setKey(KICWC_ID);
 
@@ -5189,7 +5190,7 @@
         elem.setKey(KICWC_SELECT);
 
         elem = w_columns.add(null);
-        elem.setName(Cairo.Language.getText(3268, "")); // Posición
+        elem.setName(getText(3268, "")); // Posición
         elem.setType(Dialogs.PropertyType.numeric);
         elem.setSubType(Dialogs.PropertySubType.integer);
         elem.setKey(KICWCI_POSICION);
@@ -5242,7 +5243,7 @@
         elem.setKey(KICWI_ID);
 
         elem = w_columns.add(null);
-        elem.setName(Cairo.Language.getText(4598, "")); // Catalogo Web
+        elem.setName(getText(4598, "")); // Catalogo Web
         elem.setType(Dialogs.PropertyType.text);
         elem.setKey(KICW_ID);
 
@@ -5295,12 +5296,12 @@
         elem.setKey(KIWI_PRWI_ID);
 
         elem = columns.add(null);
-        elem.setName(Cairo.Language.getText(4573, "")); // Imagen
+        elem.setName(getText(4573, "")); // Imagen
         elem.setType(Dialogs.PropertyType.text);
         elem.setKey(KIWI_IMAGE);
 
         elem = columns.add(null);
-        elem.setName(Cairo.Language.getText(1223, "")); // Tipo
+        elem.setName(getText(1223, "")); // Tipo
         elem.setType(Dialogs.PropertyType.list);
         elem.setKey(KIWI_IMAGE_TYPE);
 
@@ -5308,23 +5309,23 @@
 
         elem = w_list.add(null);
         elem.setId(C.ProductoWebImageType.webImageThumbnail);
-        elem.setValue(Cairo.Language.getText(4572, "")); // Pequeña Principal
+        elem.setValue(getText(4572, "")); // Pequeña Principal
 
         elem = w_list.add(null);
         elem.setId(C.ProductoWebImageType.webImageMedium);
-        elem.setValue(Cairo.Language.getText(4571, "")); // Pequeña
+        elem.setValue(getText(4571, "")); // Pequeña
 
         elem = w_list.add(null);
         elem.setId(C.ProductoWebImageType.webImageBig);
-        elem.setValue(Cairo.Language.getText(4570, "")); // Grande
+        elem.setValue(getText(4570, "")); // Grande
 
         elem = columns.add(null);
-        elem.setName(Cairo.Language.getText(4569, "")); // Texto Alternativo
+        elem.setName(getText(4569, "")); // Texto Alternativo
         elem.setType(Dialogs.PropertyType.text);
         elem.setKey(KIWI_ALT);
 
         elem = columns.add(null);
-        elem.setName(Cairo.Language.getText(3268, "")); // Posición
+        elem.setName(getText(3268, "")); // Posición
         elem.setType(Dialogs.PropertyType.numeric);
         elem.setSubType(Dialogs.PropertySubType.integer);
         elem.setKey(KIWI_POSICION);
@@ -5375,11 +5376,11 @@
         w_columns.clear();
 
         elem = w_columns.add(null);
-        elem.setName(Cairo.Language.getText(1354, "")); // Fórmula
+        elem.setName(getText(1354, "")); // Fórmula
         elem.setKey(KIK_PRFK_ID);
 
         elem = w_columns.add(null);
-        elem.setName(Cairo.Language.getText(1355, "")); // x Defecto
+        elem.setName(getText(1355, "")); // x Defecto
         elem.setType(Dialogs.PropertyType.check);
         elem.setKey(KIK_PRFK_DEFAULT);
 
@@ -5603,7 +5604,7 @@
 
           return Cairo.Modal.confirmViewYesDefault(
             "",
-            Cairo.Language.getText(2539, "")
+            getText(2539, "")
           ).then(
             function (answer) {
               if (answer === "yes") {
@@ -5785,6 +5786,9 @@
   });
 
   Cairo.module("Producto.List", function(List, Cairo, Backbone, Marionette, $, _) {
+
+    var NO_ID = Cairo.Constants.NO_ID;
+
     List.Controller = {
       list: function() {
 

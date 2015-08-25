@@ -9,6 +9,8 @@
 
       var Dialogs = Cairo.Dialogs;
       var DB = Cairo.Database;
+      var C = Cairo.General.Constants;
+      var NO_ID = Cairo.Constants.NO_ID;
 
       var C_MODULE = "cLeyenda";
 
@@ -60,11 +62,11 @@
 
         m_listController.updateEditorKey(self, NO_ID);
 
-        var property = m_dialog.getProperties().item(Cairo.General.Constants.LEY_CODE);
+        var property = m_dialog.getProperties().item(C.LEY_CODE);
         property.setValue(Cairo.Constants.COPY_OF + property.getValue());
 
-        m_dialog.showValue(m_dialog.getProperties().item(Cairo.General.Constants.LEY_CODE));
-        m_dialog.showValue(m_dialog.getProperties().item(Cairo.General.Constants.LEY_NAME));
+        m_dialog.showValue(m_dialog.getProperties().item(C.LEY_CODE));
+        m_dialog.showValue(m_dialog.getProperties().item(C.LEY_NAME));
 
         m_copy = true;
       };
@@ -108,7 +110,7 @@
 
           var doc = new Cairo.DocDigital();
 
-          doc.setClientTable(Cairo.General.Constants.LEYENDA);
+          doc.setClientTable(C.LEYENDA);
           doc.setClientTableID(m_id);
 
           _rtn = doc.showDocs(Cairo.Database);
@@ -153,8 +155,8 @@
         var register = new Cairo.Database.Register();
         var fields = register.getFields();
 
-        register.setFieldId(Cairo.General.Constants.LEY_ID);
-        register.setTable(Cairo.General.Constants.LEYENDA);
+        register.setFieldId(C.LEY_ID);
+        register.setTable(C.LEYENDA);
 
         register.setPath(m_apiPath + "general/leyenda");
 
@@ -170,11 +172,11 @@
           var property = m_dialog.getProperties().item(_i);
           switch (property.getKey()) {
             case K_NAME:
-              fields.add(Cairo.General.Constants.LEY_NAME, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.LEY_NAME, property.getValue(), Cairo.Constants.Types.text);
               break;
 
             case K_CODE:
-              fields.add(Cairo.General.Constants.LEY_CODE, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.LEY_CODE, property.getValue(), Cairo.Constants.Types.text);
               break;
 
             case K_ACTIVE:
@@ -182,15 +184,15 @@
               break;
 
             case K_IDM_ID:
-              fields.add(Cairo.General.Constants.IDM_ID, property.getSelectId(), Cairo.Constants.Types.id);
+              fields.add(C.IDM_ID, property.getSelectId(), Cairo.Constants.Types.id);
               break;
 
             case K_DESCRIPCION:
-              fields.add(Cairo.General.Constants.LEY_DESCRIP, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.LEY_DESCRIP, property.getValue(), Cairo.Constants.Types.text);
               break;
 
             case K_TEXTO:
-              fields.add(Cairo.General.Constants.LEYTEXTO, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.LEYTEXTO, property.getValue(), Cairo.Constants.Types.text);
               break;
           }
         }
@@ -198,10 +200,10 @@
         return Cairo.Database.saveEx(
             register,
             false,
-            Cairo.General.Constants.LEY_CODE, 
+            C.LEY_CODE,
             Cairo.Constants.CLIENT_SAVE_FUNCTION,
             C_MODULE,
-            Cairo.Language.getText(1235, "")).then(
+            getText(1235, "")).then(
 
           function(result) {
             if(result.success) {
@@ -246,7 +248,7 @@
 
       self.getTitle = function() {
         //Leyendas
-        return Cairo.Language.getText(1236, "");
+        return getText(1236, "");
       };
 
       self.validate = function() {
@@ -270,7 +272,7 @@
 
             case K_TEXTO:
               if(Cairo.Util.valEmpty(property.getValue(), Cairo.Constants.Types.text)) {
-                return Cairo.Modal.showInfo(Cairo.Language.getText(1237, "")).then(function() {return false;});
+                return Cairo.Modal.showInfo(getText(1237, "")).then(function() {return false;});
                 // Debe indicar un texto para la leyenda
               }
               break;
@@ -366,14 +368,14 @@
 
         properties.clear();
 
-        var elem = properties.add(null, Cairo.General.Constants.LEY_NAME);
+        var elem = properties.add(null, C.LEY_NAME);
         elem.setType(Dialogs.PropertyType.text);
         elem.setName(Cairo.Constants.NAME_LABEL);
         elem.setSize(100);
         elem.setKey(K_NAME);
         elem.setValue(m_name);
 
-        var elem = properties.add(null, Cairo.General.Constants.LEY_CODE);
+        var elem = properties.add(null, C.LEY_CODE);
         elem.setType(Dialogs.PropertyType.text);
         elem.setName(Cairo.Constants.CODE_LABEL);
         elem.setSize(15);
@@ -386,26 +388,26 @@
         elem.setKey(K_ACTIVE);
         elem.setValue(m_active === true ? 1 : 0);
 
-        var elem = properties.add(null, Cairo.General.Constants.IDM_ID);
+        var elem = properties.add(null, C.IDM_ID);
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.IDIOMA);
         // Idioma
-        elem.setName(Cairo.Language.getText(1239, ""));
+        elem.setName(getText(1239, ""));
         elem.setKey(K_IDM_ID);
         elem.setSelectId(m_idm_id);
         elem.setValue(m_idioma);
 
-        var elem = properties.add(null, Cairo.General.Constants.LEY_DESCRIP);
+        var elem = properties.add(null, C.LEY_DESCRIP);
         elem.setType(Dialogs.PropertyType.text);
         elem.setSubType(Dialogs.PropertySubType.memo);
         elem.setName(Cairo.Constants.DESCRIPTION_LABEL);
         elem.setKey(K_DESCRIPCION);
         elem.setValue(m_descripcion);
 
-        var elem = properties.add(null, Cairo.General.Constants.LEYTEXTO);
+        var elem = properties.add(null, C.LEYTEXTO);
         elem.setType(Dialogs.PropertyType.text);
         // Leyenda
-        elem.setName(Cairo.Language.getText(1240, ""));
+        elem.setName(getText(1240, ""));
         elem.setSubType(Dialogs.PropertySubType.memo);
         elem.setKey(K_TEXTO);
         elem.setValue(m_texto);
@@ -421,23 +423,23 @@
 
         var properties = m_dialog.getProperties();
 
-        var elem = properties.item(Cairo.General.Constants.LEY_NAME);
+        var elem = properties.item(C.LEY_NAME);
         elem.setValue(m_name);
 
-        var elem = properties.item(Cairo.General.Constants.LEY_CODE);
+        var elem = properties.item(C.LEY_CODE);
         elem.setValue(m_code);
 
         var elem = properties.item(Cairo.Constants.ACTIVE);
         elem.setValue(m_active === true ? 1 : 0);
 
-        var elem = properties.item(Cairo.General.Constants.IDM_ID);
+        var elem = properties.item(C.IDM_ID);
         elem.setSelectId(m_idm_id);
         elem.setValue(m_idioma);
 
-        var elem = properties.item(Cairo.General.Constants.LEY_DESCRIP);
+        var elem = properties.item(C.LEY_DESCRIP);
         elem.setValue(m_descripcion);
 
-        var elem = properties.item(Cairo.General.Constants.LEYTEXTO);
+        var elem = properties.item(C.LEYTEXTO);
         elem.setValue(m_texto);
 
         return m_dialog.showValues(properties);
@@ -462,13 +464,13 @@
             } 
             else {
               m_active = Cairo.Database.valField(response.data, Cairo.Constants.ACTIVE);
-              m_name = Cairo.Database.valField(response.data, Cairo.General.Constants.LEY_NAME);
-              m_code = Cairo.Database.valField(response.data, Cairo.General.Constants.LEY_CODE);
-              m_id = Cairo.Database.valField(response.data, Cairo.General.Constants.LEY_ID);
-              m_descripcion = Cairo.Database.valField(response.data, Cairo.General.Constants.LEY_DESCRIP);
-              m_texto = Cairo.Database.valField(response.data, Cairo.General.Constants.LEYTEXTO);
-              m_idm_id = Cairo.Database.valField(response.data, Cairo.General.Constants.IDM_ID);
-              m_idioma = Cairo.Database.valField(response.data, Cairo.General.Constants.IDM_NAME);
+              m_name = Cairo.Database.valField(response.data, C.LEY_NAME);
+              m_code = Cairo.Database.valField(response.data, C.LEY_CODE);
+              m_id = Cairo.Database.valField(response.data, C.LEY_ID);
+              m_descripcion = Cairo.Database.valField(response.data, C.LEY_DESCRIP);
+              m_texto = Cairo.Database.valField(response.data, C.LEYTEXTO);
+              m_idm_id = Cairo.Database.valField(response.data, C.IDM_ID);
+              m_idioma = Cairo.Database.valField(response.data, C.IDM_NAME);
             }
 
           return true;
@@ -510,6 +512,9 @@
   });
 
   Cairo.module("Leyenda.List", function(List, Cairo, Backbone, Marionette, $, _) {
+
+    var NO_ID = Cairo.Constants.NO_ID;
+
     List.Controller = {
       list: function() {
 

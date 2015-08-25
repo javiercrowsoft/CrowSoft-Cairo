@@ -9,6 +9,8 @@
 
       var Dialogs = Cairo.Dialogs;
       var DB = Cairo.Database;
+      var C = Cairo.General.Constants;
+      var NO_ID = Cairo.Constants.NO_ID;
 
       var C_MODULE = "cFormaPago";
 
@@ -73,11 +75,11 @@
 
         m_listController.updateEditorKey(self, NO_ID);
 
-        var property = m_dialog.getProperties().item(Cairo.General.Constants.FP_CODE);
+        var property = m_dialog.getProperties().item(C.FP_CODE);
         property.setValue(Cairo.Constants.COPY_OF + property.getValue());
 
-        m_dialog.showValue(m_dialog.getProperties().item(Cairo.General.Constants.FP_CODE));
-        m_dialog.showValue(m_dialog.getProperties().item(Cairo.General.Constants.FP_NAME));
+        m_dialog.showValue(m_dialog.getProperties().item(C.FP_CODE));
+        m_dialog.showValue(m_dialog.getProperties().item(C.FP_NAME));
 
         m_copy = true;
       };
@@ -121,7 +123,7 @@
 
           var doc = new Cairo.DocDigital();
 
-          doc.setClientTable(Cairo.General.Constants.FORMAPAGO);
+          doc.setClientTable(C.FORMAPAGO);
           doc.setClientTableID(m_id);
 
           _rtn = doc.showDocs(Cairo.Database);
@@ -166,8 +168,8 @@
         var register = new Cairo.Database.Register();
         var fields = register.getFields();
 
-        register.setFieldId(Cairo.General.Constants.FP_ID);
-        register.setTable(Cairo.General.Constants.FORMAPAGO);
+        register.setFieldId(C.FP_ID);
+        register.setTable(C.FORMAPAGO);
 
         register.setPath(m_apiPath + "general/formapago");
 
@@ -183,15 +185,15 @@
           var property = m_dialog.getProperties().item(_i);
           switch (property.getKey()) {
             case K_NAME:
-              fields.add(Cairo.General.Constants.FP_NAME, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.FP_NAME, property.getValue(), Cairo.Constants.Types.text);
               break;
 
             case K_CODE:
-              fields.add(Cairo.General.Constants.FP_CODE, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.FP_CODE, property.getValue(), Cairo.Constants.Types.text);
               break;
 
             case K_DESCRIP:
-              fields.add(Cairo.General.Constants.FP_DESCRIP, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.FP_DESCRIP, property.getValue(), Cairo.Constants.Types.text);
               break;
 
             case K_ACTIVE:
@@ -199,31 +201,31 @@
               break;
 
             case K_LUNES:
-              fields.add(Cairo.General.Constants.FP_LUNES, property.getValue(), Cairo.Constants.Types.boolean);
+              fields.add(C.FP_LUNES, property.getValue(), Cairo.Constants.Types.boolean);
               break;
 
             case K_MARTES:
-              fields.add(Cairo.General.Constants.FP_MARTES, property.getValue(), Cairo.Constants.Types.boolean);
+              fields.add(C.FP_MARTES, property.getValue(), Cairo.Constants.Types.boolean);
               break;
 
             case K_MIERCOLES:
-              fields.add(Cairo.General.Constants.FP_MIERCOLES, property.getValue(), Cairo.Constants.Types.boolean);
+              fields.add(C.FP_MIERCOLES, property.getValue(), Cairo.Constants.Types.boolean);
               break;
 
             case K_JUEVES:
-              fields.add(Cairo.General.Constants.FP_JUEVES, property.getValue(), Cairo.Constants.Types.boolean);
+              fields.add(C.FP_JUEVES, property.getValue(), Cairo.Constants.Types.boolean);
               break;
 
             case K_VIERNES:
-              fields.add(Cairo.General.Constants.FP_VIERNES, property.getValue(), Cairo.Constants.Types.boolean);
+              fields.add(C.FP_VIERNES, property.getValue(), Cairo.Constants.Types.boolean);
               break;
 
             case K_SABADO:
-              fields.add(Cairo.General.Constants.FP_SABADO, property.getValue(), Cairo.Constants.Types.boolean);
+              fields.add(C.FP_SABADO, property.getValue(), Cairo.Constants.Types.boolean);
               break;
 
             case K_DOMINGO:
-              fields.add(Cairo.General.Constants.FP_DOMINGO, property.getValue(), Cairo.Constants.Types.boolean);
+              fields.add(C.FP_DOMINGO, property.getValue(), Cairo.Constants.Types.boolean);
               break;
           }
         }
@@ -231,10 +233,10 @@
         return Cairo.Database.saveEx(
             register,
             false,
-            Cairo.General.Constants.FP_CODE, 
+            C.FP_CODE,
             Cairo.Constants.CLIENT_SAVE_FUNCTION,
             C_MODULE,
-            Cairo.Language.getText(5060, "")).then(
+            getText(5060, "")).then(
 
           function(result) {
             if(result.success) {
@@ -278,7 +280,7 @@
       };
 
       self.getTitle = function() {
-        return Cairo.Language.getText(5059, "");
+        return getText(5059, "");
       };
 
       self.validate = function() {
@@ -387,23 +389,20 @@
 
       var loadCollection = function() {
 
-        var abmGen = null;
-        abmGen = m_dialog;
-
         m_dialog.setTitle(m_name);
 
         var properties = m_dialog.getProperties();
 
         properties.clear();
 
-        var elem = properties.add(null, Cairo.General.Constants.FP_NAME);
+        var elem = properties.add(null, C.FP_NAME);
         elem.setType(Dialogs.PropertyType.text);
         elem.setName(Cairo.Constants.NAME_LABEL);
         elem.setSize(50);
         elem.setKey(K_NAME);
         elem.setValue(m_name);
 
-        var elem = properties.add(null, Cairo.General.Constants.FP_CODE);
+        var elem = properties.add(null, C.FP_CODE);
         elem.setType(Dialogs.PropertyType.text);
         elem.setName(Cairo.Constants.CODE_LABEL);
         elem.setSize(10);
@@ -416,49 +415,49 @@
         elem.setKey(K_ACTIVE);
         elem.setValue(m_active === true ? 1 : 0);
 
-        var elem = properties.add(null, Cairo.General.Constants.FP_LUNES);
+        var elem = properties.add(null, C.FP_LUNES);
         elem.setType(Dialogs.PropertyType.check);
         elem.setValue(Cairo.Util.boolToInt(m_lunes));
-        elem.setName(Cairo.Language.getText(5063, ""));
+        elem.setName(getText(5063, ""));
         elem.setKey(K_LUNES);
 
-        var elem = properties.add(null, Cairo.General.Constants.FP_MARTES);
+        var elem = properties.add(null, C.FP_MARTES);
         elem.setType(Dialogs.PropertyType.check);
         elem.setValue(Cairo.Util.boolToInt(m_martes));
-        elem.setName(Cairo.Language.getText(5064, ""));
+        elem.setName(getText(5064, ""));
         elem.setKey(K_MARTES);
 
-        var elem = properties.add(null, Cairo.General.Constants.FP_MIERCOLES);
+        var elem = properties.add(null, C.FP_MIERCOLES);
         elem.setType(Dialogs.PropertyType.check);
         elem.setValue(Cairo.Util.boolToInt(m_miercoles));
-        elem.setName(Cairo.Language.getText(5065, ""));
+        elem.setName(getText(5065, ""));
         elem.setKey(K_MIERCOLES);
 
-        var elem = properties.add(null, Cairo.General.Constants.FP_JUEVES);
+        var elem = properties.add(null, C.FP_JUEVES);
         elem.setType(Dialogs.PropertyType.check);
         elem.setValue(Cairo.Util.boolToInt(m_jueves));
-        elem.setName(Cairo.Language.getText(5066, ""));
+        elem.setName(getText(5066, ""));
         elem.setKey(K_JUEVES);
 
-        var elem = properties.add(null, Cairo.General.Constants.FP_VIERNES);
+        var elem = properties.add(null, C.FP_VIERNES);
         elem.setType(Dialogs.PropertyType.check);
         elem.setValue(Cairo.Util.boolToInt(m_viernes));
-        elem.setName(Cairo.Language.getText(5067, ""));
+        elem.setName(getText(5067, ""));
         elem.setKey(K_VIERNES);
 
-        var elem = properties.add(null, Cairo.General.Constants.FP_SABADO);
+        var elem = properties.add(null, C.FP_SABADO);
         elem.setType(Dialogs.PropertyType.check);
         elem.setValue(Cairo.Util.boolToInt(m_sabado));
-        elem.setName(Cairo.Language.getText(5068, ""));
+        elem.setName(getText(5068, ""));
         elem.setKey(K_SABADO);
 
-        var elem = properties.add(null, Cairo.General.Constants.FP_DOMINGO);
+        var elem = properties.add(null, C.FP_DOMINGO);
         elem.setType(Dialogs.PropertyType.check);
         elem.setValue(Cairo.Util.boolToInt(m_domingo));
-        elem.setName(Cairo.Language.getText(5069, ""));
+        elem.setName(getText(5069, ""));
         elem.setKey(K_DOMINGO);
 
-        var elem = properties.add(null, Cairo.General.Constants.FP_DESCRIP);
+        var elem = properties.add(null, C.FP_DESCRIP);
         elem.setType(Dialogs.PropertyType.text);
         elem.setSubType(Dialogs.PropertySubType.memo);
         elem.setName(Cairo.Constants.DESCRIPTION_LABEL);
@@ -477,37 +476,37 @@
 
         var properties = m_dialog.getProperties();
 
-        var elem = properties.item(Cairo.General.Constants.FP_NAME);
+        var elem = properties.item(C.FP_NAME);
         elem.setValue(m_name);
 
-        var elem = properties.item(Cairo.General.Constants.FP_CODE);
+        var elem = properties.item(C.FP_CODE);
         elem.setValue(m_code);
 
         var elem = properties.item(Cairo.Constants.ACTIVE);
         elem.setValue(m_active === true ? 1 : 0);
 
-        var elem = properties.item(Cairo.General.Constants.FP_LUNES);
+        var elem = properties.item(C.FP_LUNES);
         elem.setValue(Cairo.Util.boolToInt(m_lunes));
 
-        var elem = properties.item(Cairo.General.Constants.FP_MARTES);
+        var elem = properties.item(C.FP_MARTES);
         elem.setValue(Cairo.Util.boolToInt(m_martes));
 
-        var elem = properties.item(Cairo.General.Constants.FP_MIERCOLES);
+        var elem = properties.item(C.FP_MIERCOLES);
         elem.setValue(Cairo.Util.boolToInt(m_miercoles));
 
-        var elem = properties.item(Cairo.General.Constants.FP_JUEVES);
+        var elem = properties.item(C.FP_JUEVES);
         elem.setValue(Cairo.Util.boolToInt(m_jueves));
 
-        var elem = properties.item(Cairo.General.Constants.FP_VIERNES);
+        var elem = properties.item(C.FP_VIERNES);
         elem.setValue(Cairo.Util.boolToInt(m_viernes));
 
-        var elem = properties.item(Cairo.General.Constants.FP_SABADO);
+        var elem = properties.item(C.FP_SABADO);
         elem.setValue(Cairo.Util.boolToInt(m_sabado));
 
-        var elem = properties.item(Cairo.General.Constants.FP_DOMINGO);
+        var elem = properties.item(C.FP_DOMINGO);
         elem.setValue(Cairo.Util.boolToInt(m_domingo));
 
-        var elem = properties.item(Cairo.General.Constants.FP_DESCRIP);
+        var elem = properties.item(C.FP_DESCRIP);
         elem.setValue(m_descrip);
 
         return m_dialog.showValues(properties);
@@ -522,19 +521,19 @@
 
             if(response.data.id !== NO_ID) {
 
-              m_id = Cairo.Database.valField(response.data, Cairo.General.Constants.FP_ID);
-              m_name = Cairo.Database.valField(response.data, Cairo.General.Constants.FP_NAME);
-              m_code = Cairo.Database.valField(response.data, Cairo.General.Constants.FP_CODE);
-              m_descrip = Cairo.Database.valField(response.data, Cairo.General.Constants.FP_DESCRIP);
+              m_id = Cairo.Database.valField(response.data, C.FP_ID);
+              m_name = Cairo.Database.valField(response.data, C.FP_NAME);
+              m_code = Cairo.Database.valField(response.data, C.FP_CODE);
+              m_descrip = Cairo.Database.valField(response.data, C.FP_DESCRIP);
               m_active = Cairo.Database.valField(response.data, Cairo.Constants.ACTIVE);
 
-              m_lunes = Cairo.Database.valField(response.data, Cairo.General.Constants.FP_LUNES);
-              m_martes = Cairo.Database.valField(response.data, Cairo.General.Constants.FP_MARTES);
-              m_miercoles = Cairo.Database.valField(response.data, Cairo.General.Constants.FP_MIERCOLES);
-              m_jueves = Cairo.Database.valField(response.data, Cairo.General.Constants.FP_JUEVES);
-              m_viernes = Cairo.Database.valField(response.data, Cairo.General.Constants.FP_VIERNES);
-              m_sabado = Cairo.Database.valField(response.data, Cairo.General.Constants.FP_SABADO);
-              m_domingo = Cairo.Database.valField(response.data, Cairo.General.Constants.FP_DOMINGO);
+              m_lunes = Cairo.Database.valField(response.data, C.FP_LUNES);
+              m_martes = Cairo.Database.valField(response.data, C.FP_MARTES);
+              m_miercoles = Cairo.Database.valField(response.data, C.FP_MIERCOLES);
+              m_jueves = Cairo.Database.valField(response.data, C.FP_JUEVES);
+              m_viernes = Cairo.Database.valField(response.data, C.FP_VIERNES);
+              m_sabado = Cairo.Database.valField(response.data, C.FP_SABADO);
+              m_domingo = Cairo.Database.valField(response.data, C.FP_DOMINGO);
 
             } 
             else {
@@ -595,6 +594,9 @@
   });
 
   Cairo.module("FormaPago.List", function(List, Cairo, Backbone, Marionette, $, _) {
+
+    var NO_ID = Cairo.Constants.NO_ID;
+
     List.Controller = {
       list: function() {
 

@@ -9,6 +9,8 @@
 
       var Dialogs = Cairo.Dialogs;
       var DB = Cairo.Database;
+      var C = Cairo.General.Constants;
+      var NO_ID = Cairo.Constants.NO_ID;
 
       var C_MODULE = "cVentaModo";
 
@@ -70,11 +72,11 @@
 
         m_listController.updateEditorKey(self, NO_ID);
 
-        var property = m_dialog.getProperties().item(Cairo.General.Constants.VM_CODE);
+        var property = m_dialog.getProperties().item(C.VM_CODE);
         property.setValue(Cairo.Constants.COPY_OF + property.getValue());
 
-        m_dialog.showValue(m_dialog.getProperties().item(Cairo.General.Constants.VM_CODE));
-        m_dialog.showValue(m_dialog.getProperties().item(Cairo.General.Constants.VM_NAME));
+        m_dialog.showValue(m_dialog.getProperties().item(C.VM_CODE));
+        m_dialog.showValue(m_dialog.getProperties().item(C.VM_NAME));
 
         m_copy = true;
       };
@@ -118,7 +120,7 @@
 
           var doc = new Cairo.DocDigital();
 
-          doc.setClientTable(Cairo.General.Constants.VENTAMODO);
+          doc.setClientTable(C.VENTAMODO);
           doc.setClientTableID(m_id);
 
           _rtn = doc.showDocs(Cairo.Database);
@@ -163,8 +165,8 @@
         var register = new Cairo.Database.Register();
         var fields = register.getFields();
 
-        register.setFieldId(Cairo.General.Constants.VM_ID);
-        register.setTable(Cairo.General.Constants.VENTAMODO);
+        register.setFieldId(C.VM_ID);
+        register.setTable(C.VENTAMODO);
 
         register.setPath(m_apiPath + "general/ventamodo");
 
@@ -180,11 +182,11 @@
           var property = m_dialog.getProperties().item(_i);
           switch (property.getKey()) {
             case K_NAME:
-              fields.add(Cairo.General.Constants.VM_NAME, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.VM_NAME, property.getValue(), Cairo.Constants.Types.text);
               break;
 
             case K_CODE:
-              fields.add(Cairo.General.Constants.VM_CODE, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.VM_CODE, property.getValue(), Cairo.Constants.Types.text);
               break;
 
             case K_ACTIVE:
@@ -192,31 +194,31 @@
               break;
 
             case K_DESCRIP:
-              fields.add(Cairo.General.Constants.VM_DESCRIP, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.VM_DESCRIP, property.getValue(), Cairo.Constants.Types.text);
               break;
 
             case K_CTACTE:
-              fields.add(Cairo.General.Constants.VM_CTA_CTE, property.getListItemData(), Cairo.Constants.Types.integer);
+              fields.add(C.VM_CTA_CTE, property.getListItemData(), Cairo.Constants.Types.integer);
               break;
 
             case K_CUE_ID:
-              fields.add(Cairo.General.Constants.CUE_ID, property.getSelectId(), Cairo.Constants.Types.id);
+              fields.add(C.CUE_ID, property.getSelectId(), Cairo.Constants.Types.id);
               break;
 
             case K_OS:
-              fields.add(Cairo.General.Constants.VM_OS, Cairo.Util.val(property.getValue()), Cairo.Constants.Types.boolean);
+              fields.add(C.VM_OS, Cairo.Util.val(property.getValue()), Cairo.Constants.Types.boolean);
               break;
 
             case K_PV:
-              fields.add(Cairo.General.Constants.VM_PV, Cairo.Util.val(property.getValue()), Cairo.Constants.Types.boolean);
+              fields.add(C.VM_PV, Cairo.Util.val(property.getValue()), Cairo.Constants.Types.boolean);
               break;
 
             case K_COBZ:
-              fields.add(Cairo.General.Constants.VM_COBZ, Cairo.Util.val(property.getValue()), Cairo.Constants.Types.boolean);
+              fields.add(C.VM_COBZ, Cairo.Util.val(property.getValue()), Cairo.Constants.Types.boolean);
               break;
 
             case K_CMVXI:
-              fields.add(Cairo.General.Constants.VM_CMVXI, Cairo.Util.val(property.getValue()), Cairo.Constants.Types.boolean);
+              fields.add(C.VM_CMVXI, Cairo.Util.val(property.getValue()), Cairo.Constants.Types.boolean);
               break;
           }
         }
@@ -224,10 +226,10 @@
         return Cairo.Database.saveEx(
             register,
             false,
-            Cairo.General.Constants.VM_CODE, 
+            C.VM_CODE,
             Cairo.Constants.CLIENT_SAVE_FUNCTION,
             C_MODULE,
-            Cairo.Language.getText(5075, "")).then(
+            getText(5075, "")).then(
 
           function(result) {
             if(result.success) {
@@ -272,7 +274,7 @@
 
       self.getTitle = function() {
         // Modos de Venta
-        return Cairo.Language.getText(5078, "");
+        return getText(5078, "");
       };
 
       self.validate = function() {
@@ -382,22 +384,19 @@
 
       var loadCollection = function() {
 
-        var abmGen = null;
-        abmGen = m_dialog;
-
         m_dialog.setTitle(m_name);
 
         var properties = m_dialog.getProperties();
         properties.clear();
 
-        var elem = properties.add(null, Cairo.General.Constants.VM_NAME);
+        var elem = properties.add(null, C.VM_NAME);
         elem.setType(Dialogs.PropertyType.text);
         elem.setName(Cairo.Constants.NAME_LABEL);
         elem.setSize(100);
         elem.setKey(K_NAME);
         elem.setValue(m_name);
 
-        var elem = properties.add(null, Cairo.General.Constants.VM_CODE);
+        var elem = properties.add(null, C.VM_CODE);
         elem.setType(Dialogs.PropertyType.text);
         elem.setName(Cairo.Constants.CODE_LABEL);
         elem.setSize(15);
@@ -410,10 +409,10 @@
         elem.setKey(K_ACTIVE);
         elem.setValue(m_active === true ? 1 : 0);
 
-        var elem = properties.add(null, Cairo.General.Constants.VM_CTA_CTE);
+        var elem = properties.add(null, C.VM_CTA_CTE);
         elem.setType(Dialogs.PropertyType.list);
         // Tipo de Cobranza
-        elem.setName(Cairo.Language.getText(5104, ""));
+        elem.setName(getText(5104, ""));
         elem.setSize(15);
         elem.setListItemData(m_ctacte);
         elem.setListWhoSetItem(Dialogs.ListWhoSetItem.itemData);
@@ -421,15 +420,15 @@
         var elem = w_list.add(null);
         elem.Id = csE_VentaModoCtaCte.cSVM_CTACTEHOJARUTA;
         // Hoja de Ruta
-        elem.setValue(Cairo.Language.getText(5106, ""));
+        elem.setValue(getText(5106, ""));
         var elem = w_list.add(null);
         elem.Id = csE_VentaModoCtaCte.cSVM_CTACTEMOSTRADOR;
         // Cobranza por Mostrador
-        elem.setValue(Cairo.Language.getText(5107, ""));
+        elem.setValue(getText(5107, ""));
         var elem = w_list.add(null);
         elem.Id = csE_VentaModoCtaCte.cSVM_CTACTEMOSTRADOFACTURA;
         // Cobranza por Facturador
-        elem.setValue(Cairo.Language.getText(5108, ""));
+        elem.setValue(getText(5108, ""));
         elem.setKey(K_CTACTE);
 
         var elem = properties.add(null);
@@ -439,37 +438,37 @@
         var elem = properties.add(null);
         elem.setType(Dialogs.PropertyType.label);
         // Se utiliza en:
-        elem.setValue(Cairo.Language.getText(5081, ""));
+        elem.setValue(getText(5081, ""));
         elem.setFontBold(true);
 
-        var elem = properties.add(null, Cairo.General.Constants.VM_PV);
+        var elem = properties.add(null, C.VM_PV);
         elem.setType(Dialogs.PropertyType.check);
         // Pedidos de Venta
-        elem.setName(Cairo.Language.getText(5082, ""));
+        elem.setName(getText(5082, ""));
         elem.setSize(15);
         elem.setValue(Cairo.Util.boolToInt(m_pv));
         elem.setKey(K_PV);
 
-        var elem = properties.add(null, Cairo.General.Constants.VM_OS);
+        var elem = properties.add(null, C.VM_OS);
         elem.setType(Dialogs.PropertyType.check);
         // Ordenes de Servicio
-        elem.setName(Cairo.Language.getText(5083, ""));
+        elem.setName(getText(5083, ""));
         elem.setSize(15);
         elem.setValue(Cairo.Util.boolToInt(m_os));
         elem.setKey(K_OS);
 
-        var elem = properties.add(null, Cairo.General.Constants.VM_COBZ);
+        var elem = properties.add(null, C.VM_COBZ);
         elem.setType(Dialogs.PropertyType.check);
         // Cobranzas
-        elem.setName(Cairo.Language.getText(2128, ""));
+        elem.setName(getText(2128, ""));
         elem.setSize(15);
         elem.setValue(Cairo.Util.boolToInt(m_cobz));
         elem.setKey(K_COBZ);
 
-        var elem = properties.add(null, Cairo.General.Constants.VM_CMVXI);
+        var elem = properties.add(null, C.VM_CMVXI);
         elem.setType(Dialogs.PropertyType.check);
         // Cobro por Internet
-        elem.setName(Cairo.Language.getText(5105, ""));
+        elem.setName(getText(5105, ""));
         elem.setSize(15);
         elem.setValue(Cairo.Util.boolToInt(m_cmvxi));
         elem.setKey(K_CMVXI);
@@ -478,18 +477,18 @@
         elem.setType(Dialogs.PropertyType.label);
         elem.setBackColor("CECECE");
 
-        var elem = properties.add(null, Cairo.General.Constants.CUE_ID);
+        var elem = properties.add(null, C.CUE_ID);
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.CUENTA);
         elem.setSelectFilter("cuec_id = "+ csECuentaCategoria.cSECUECCAJA.toString());
         // Cuenta
-        elem.setName(Cairo.Language.getText(1267, ""));
+        elem.setName(getText(1267, ""));
         elem.setSize(15);
         elem.setValue(m_cuenta);
         elem.setSelectId(m_cue_id);
         elem.setKey(K_CUE_ID);
 
-        var elem = properties.add(null, Cairo.General.Constants.VM_DESCRIP);
+        var elem = properties.add(null, C.VM_DESCRIP);
         elem.setType(Dialogs.PropertyType.text);
         elem.setName(Cairo.Constants.DESCRIPTION_LABEL);
         elem.setSize(255);
@@ -508,40 +507,40 @@
 
         var properties = m_dialog.getProperties();
 
-        var elem = properties.item(Cairo.General.Constants.VM_NAME);
+        var elem = properties.item(C.VM_NAME);
         elem.setValue(m_name);
 
-        var elem = properties.item(Cairo.General.Constants.VM_CODE);
+        var elem = properties.item(C.VM_CODE);
         elem.setValue(m_code);
 
         var elem = properties.item(Cairo.Constants.ACTIVE);
         elem.setValue(m_active === true ? 1 : 0);
 
-        var elem = properties.item(Cairo.General.Constants.VM_CTA_CTE);
+        var elem = properties.item(C.VM_CTA_CTE);
 
         var elem = properties.add(null);
 
         var elem = properties.add(null);
 
-        var elem = properties.item(Cairo.General.Constants.VM_PV);
+        var elem = properties.item(C.VM_PV);
         elem.setValue(Cairo.Util.boolToInt(m_pv));
 
-        var elem = properties.item(Cairo.General.Constants.VM_OS);
+        var elem = properties.item(C.VM_OS);
         elem.setValue(Cairo.Util.boolToInt(m_os));
 
-        var elem = properties.item(Cairo.General.Constants.VM_COBZ);
+        var elem = properties.item(C.VM_COBZ);
         elem.setValue(Cairo.Util.boolToInt(m_cobz));
 
-        var elem = properties.item(Cairo.General.Constants.VM_CMVXI);
+        var elem = properties.item(C.VM_CMVXI);
         elem.setValue(Cairo.Util.boolToInt(m_cmvxi));
 
         var elem = properties.add(null);
 
-        var elem = properties.item(Cairo.General.Constants.CUE_ID);
+        var elem = properties.item(C.CUE_ID);
         elem.setValue(m_cuenta);
         elem.setSelectId(m_cue_id);
 
-        var elem = properties.item(Cairo.General.Constants.VM_DESCRIP);
+        var elem = properties.item(C.VM_DESCRIP);
         elem.setValue(m_descrip);
 
         return m_dialog.showValues(properties);
@@ -570,17 +569,17 @@
             } 
             else {
               m_active = Cairo.Database.valField(response.data, Cairo.Constants.ACTIVE);
-              m_name = Cairo.Database.valField(response.data, Cairo.General.Constants.VM_NAME);
-              m_code = Cairo.Database.valField(response.data, Cairo.General.Constants.VM_CODE);
-              m_descrip = Cairo.Database.valField(response.data, Cairo.General.Constants.VM_DESCRIP);
-              m_id = Cairo.Database.valField(response.data, Cairo.General.Constants.VM_ID);
-              m_ctacte = Cairo.Database.valField(response.data, Cairo.General.Constants.VM_CTA_CTE);
-              m_pv = Cairo.Database.valField(response.data, Cairo.General.Constants.VM_PV);
-              m_os = Cairo.Database.valField(response.data, Cairo.General.Constants.VM_OS);
-              m_cmvxi = Cairo.Database.valField(response.data, Cairo.General.Constants.VM_CMVXI);
-              m_cobz = Cairo.Database.valField(response.data, Cairo.General.Constants.VM_COBZ);
-              m_cuenta = Cairo.Database.valField(response.data, Cairo.General.Constants.CUE_NAME);
-              m_cue_id = Cairo.Database.valField(response.data, Cairo.General.Constants.CUE_ID);
+              m_name = Cairo.Database.valField(response.data, C.VM_NAME);
+              m_code = Cairo.Database.valField(response.data, C.VM_CODE);
+              m_descrip = Cairo.Database.valField(response.data, C.VM_DESCRIP);
+              m_id = Cairo.Database.valField(response.data, C.VM_ID);
+              m_ctacte = Cairo.Database.valField(response.data, C.VM_CTA_CTE);
+              m_pv = Cairo.Database.valField(response.data, C.VM_PV);
+              m_os = Cairo.Database.valField(response.data, C.VM_OS);
+              m_cmvxi = Cairo.Database.valField(response.data, C.VM_CMVXI);
+              m_cobz = Cairo.Database.valField(response.data, C.VM_COBZ);
+              m_cuenta = Cairo.Database.valField(response.data, C.CUE_NAME);
+              m_cue_id = Cairo.Database.valField(response.data, C.CUE_ID);
             }
           return true;
         });
@@ -621,6 +620,9 @@
   });
 
   Cairo.module("VentaModo.List", function(List, Cairo, Backbone, Marionette, $, _) {
+
+    var NO_ID = Cairo.Constants.NO_ID;
+
     List.Controller = {
       list: function() {
 

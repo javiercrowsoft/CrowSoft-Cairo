@@ -9,6 +9,8 @@
 
       var Dialogs = Cairo.Dialogs;
       var DB = Cairo.Database;
+      var C = Cairo.General.Constants;
+      var NO_ID = Cairo.Constants.NO_ID;
 
       var C_MODULE = "cZona";
 
@@ -62,11 +64,11 @@
 
         m_listController.updateEditorKey(self, NO_ID);
 
-        var property = m_dialog.getProperties().item(Cairo.General.Constants.ZON_CODE);
+        var property = m_dialog.getProperties().item(C.ZON_CODE);
         property.setValue(Cairo.Constants.COPY_OF + property.getValue());
 
-        m_dialog.showValue(m_dialog.getProperties().item(Cairo.General.Constants.ZON_CODE));
-        m_dialog.showValue(m_dialog.getProperties().item(Cairo.General.Constants.ZON_NAME));
+        m_dialog.showValue(m_dialog.getProperties().item(C.ZON_CODE));
+        m_dialog.showValue(m_dialog.getProperties().item(C.ZON_NAME));
 
         m_copy = true;
       };
@@ -110,7 +112,7 @@
 
           var doc = new Cairo.DocDigital();
 
-          doc.setClientTable(Cairo.General.Constants.ZONA);
+          doc.setClientTable(C.ZONA);
           doc.setClientTableID(m_id);
 
           _rtn = doc.showDocs(Cairo.Database);
@@ -155,8 +157,8 @@
         var register = new Cairo.Database.Register();
         var fields = register.getFields();
 
-        register.setFieldId(Cairo.General.Constants.ZON_ID);
-        register.setTable(Cairo.General.Constants.ZONA);
+        register.setFieldId(C.ZON_ID);
+        register.setTable(C.ZONA);
 
         register.setPath(m_apiPath + "general/zona");
 
@@ -172,11 +174,11 @@
           var property = m_dialog.getProperties().item(_i);
           switch (property.getKey()) {
             case K_NAME:
-              fields.add(Cairo.General.Constants.ZON_NAME, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.ZON_NAME, property.getValue(), Cairo.Constants.Types.text);
               break;
 
             case K_CODE:
-              fields.add(Cairo.General.Constants.ZON_CODE, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.ZON_CODE, property.getValue(), Cairo.Constants.Types.text);
               break;
 
             case K_ACTIVE:
@@ -184,15 +186,15 @@
               break;
 
             case K_DESCRIP:
-              fields.add(Cairo.General.Constants.ZON_DESCRIP, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.ZON_DESCRIP, property.getValue(), Cairo.Constants.Types.text);
               break;
 
             case K_PRECIO:
-              fields.add(Cairo.General.Constants.ZON_PRECIO, property.getValue(), Cairo.Constants.Types.double);
+              fields.add(C.ZON_PRECIO, property.getValue(), Cairo.Constants.Types.double);
               break;
 
             case K_PR_ID:
-              fields.add(Cairo.General.Constants.PR_ID, property.getSelectId(), Cairo.Constants.Types.id);
+              fields.add(C.PR_ID, property.getSelectId(), Cairo.Constants.Types.id);
               break;
           }
         }
@@ -200,10 +202,10 @@
         return Cairo.Database.saveEx(
           register,
           false,
-          Cairo.General.Constants.ZON_CODE,
+          C.ZON_CODE,
           Cairo.Constants.CLIENT_SAVE_FUNCTION,
           C_MODULE,
-          Cairo.Language.getText(1504, "")).then(
+          getText(1504, "")).then(
 
           function(result) {
             if(result.success) {
@@ -248,7 +250,7 @@
 
       self.getTitle = function() {
         // Zonas
-        return Cairo.Language.getText(1505, "");
+        return getText(1505, "");
       };
 
       self.validate = function() {
@@ -362,14 +364,14 @@
         var properties = m_dialog.getProperties();
         properties.clear();
 
-        var elem = properties.add(null, Cairo.General.Constants.ZON_NAME);
+        var elem = properties.add(null, C.ZON_NAME);
         elem.setType(Dialogs.PropertyType.text);
         elem.setName(Cairo.Constants.NAME_LABEL);
         elem.setSize(100);
         elem.setKey(K_NAME);
         elem.setValue(m_name);
 
-        var elem = properties.add(null, Cairo.General.Constants.ZON_CODE);
+        var elem = properties.add(null, C.ZON_CODE);
         elem.setType(Dialogs.PropertyType.text);
         elem.setName(Cairo.Constants.CODE_LABEL);
         elem.setSize(15);
@@ -382,26 +384,26 @@
         elem.setKey(K_ACTIVE);
         elem.setValue(m_active === true ? 1 : 0);
 
-        var elem = properties.add(null, Cairo.General.Constants.ZON_PRECIO);
+        var elem = properties.add(null, C.ZON_PRECIO);
         elem.setType(Dialogs.PropertyType.numeric);
         elem.setSubType(Dialogs.PropertySubType.double);
         // Precio
-        elem.setName(Cairo.Language.getText(1586, ""));
+        elem.setName(getText(1586, ""));
         elem.setSize(15);
         elem.setValue(m_precio);
         elem.setKey(K_PRECIO);
 
-        var elem = properties.add(null, Cairo.General.Constants.PR_ID);
+        var elem = properties.add(null, C.PR_ID);
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.PRODUCTO);
         // Articulo
-        elem.setName(Cairo.Language.getText(1367, ""));
+        elem.setName(getText(1367, ""));
         elem.setSize(15);
         elem.setValue(m_producto);
         elem.setSelectId(m_pr_id);
         elem.setKey(K_PR_ID);
 
-        var elem = properties.add(null, Cairo.General.Constants.ZON_DESCRIP);
+        var elem = properties.add(null, C.ZON_DESCRIP);
         elem.setType(Dialogs.PropertyType.text);
         elem.setName(Cairo.Constants.DESCRIPTION_LABEL);
         elem.setSize(255);
@@ -420,23 +422,23 @@
 
         var properties = m_dialog.getProperties();
 
-        var elem = properties.item(Cairo.General.Constants.ZON_NAME);
+        var elem = properties.item(C.ZON_NAME);
         elem.setValue(m_name);
 
-        var elem = properties.item(Cairo.General.Constants.ZON_CODE);
+        var elem = properties.item(C.ZON_CODE);
         elem.setValue(m_code);
 
         var elem = properties.item(Cairo.Constants.ACTIVE);
         elem.setValue(m_active === true ? 1 : 0);
 
-        var elem = properties.item(Cairo.General.Constants.ZON_PRECIO);
+        var elem = properties.item(C.ZON_PRECIO);
         elem.setValue(m_precio);
 
-        var elem = properties.item(Cairo.General.Constants.PR_ID);
+        var elem = properties.item(C.PR_ID);
         elem.setValue(m_producto);
         elem.setSelectId(m_pr_id);
 
-        var elem = properties.item(Cairo.General.Constants.ZON_DESCRIP);
+        var elem = properties.item(C.ZON_DESCRIP);
         elem.setValue(m_descrip);
 
         return m_dialog.showValues(properties);
@@ -461,13 +463,13 @@
             }
             else {
               m_active = Cairo.Database.valField(response.data, Cairo.Constants.ACTIVE);
-              m_name = Cairo.Database.valField(response.data, Cairo.General.Constants.ZON_NAME);
-              m_code = Cairo.Database.valField(response.data, Cairo.General.Constants.ZON_CODE);
-              m_descrip = Cairo.Database.valField(response.data, Cairo.General.Constants.ZON_DESCRIP);
-              m_id = Cairo.Database.valField(response.data, Cairo.General.Constants.ZON_ID);
-              m_precio = Cairo.Database.valField(response.data, Cairo.General.Constants.ZON_PRECIO);
-              m_producto = Cairo.Database.valField(response.data, Cairo.General.Constants.PR_NAME_VENTA);
-              m_pr_id = Cairo.Database.valField(response.data, Cairo.General.Constants.PR_ID);
+              m_name = Cairo.Database.valField(response.data, C.ZON_NAME);
+              m_code = Cairo.Database.valField(response.data, C.ZON_CODE);
+              m_descrip = Cairo.Database.valField(response.data, C.ZON_DESCRIP);
+              m_id = Cairo.Database.valField(response.data, C.ZON_ID);
+              m_precio = Cairo.Database.valField(response.data, C.ZON_PRECIO);
+              m_producto = Cairo.Database.valField(response.data, C.PR_NAME_VENTA);
+              m_pr_id = Cairo.Database.valField(response.data, C.PR_ID);
             }
             return true;
           });
@@ -508,6 +510,9 @@
   });
 
   Cairo.module("Zona.List", function(List, Cairo, Backbone, Marionette, $, _) {
+
+    var NO_ID = Cairo.Constants.NO_ID;
+
     List.Controller = {
       list: function() {
 

@@ -349,7 +349,7 @@
       var ucs = UserConfigSection;
 
       var CFG_GRUPO = Cairo.General.Constants.CFG_GRUPO;
-      var EMP_ID = Cairo.Constants.EMP_ID;
+      var EMP_ID = C.EMP_ID;
       var TEXT = Cairo.Constants.Types.text;
       var ID = Cairo.Constants.Types.id;
 
@@ -1536,7 +1536,7 @@
           "",
           Cairo.Constants.CLIENT_SAVE_FUNCTION,
           C_MODULE,
-          Cairo.Language.getText(2938, "") // Error al grabar la Configuración del Usuario
+          getText(2938, "") // Error al grabar la Configuración del Usuario
 
         ).then(
 
@@ -1571,7 +1571,7 @@
       };
 
       self.getTitle = function() {
-        return Cairo.Language.getText(2933, ""); // Configuración del Usuario
+        return getText(2933, ""); // Configuración del Usuario
       };
 
       self.validate = function() {
@@ -2198,35 +2198,35 @@
 
         var tab = w_tabs.add(null);
         tab.setIndex(TAB_COMPRAS);
-        tab.setName(Cairo.Language.getText(1489, "")); // Compras
+        tab.setName(getText(1489, "")); // Compras
 
         var tab = w_tabs.add(null);
         tab.setIndex(TAB_STOCK);
-        tab.setName(Cairo.Language.getText(1298, "")); // Stock
+        tab.setName(getText(1298, "")); // Stock
 
         var tab = w_tabs.add(null);
         tab.setIndex(TAB_VENTAS);
-        tab.setName(Cairo.Language.getText(1488, "")); // Ventas
+        tab.setName(getText(1488, "")); // Ventas
 
         var tab = w_tabs.add(null);
         tab.setIndex(TAB_TESORERIA);
-        tab.setName(Cairo.Language.getText(2935, "")); // Tesoreria
+        tab.setName(getText(2935, "")); // Tesoreria
 
         var tab = w_tabs.add(null);
         tab.setIndex(TAB_SERVICIOS);
-        tab.setName(Cairo.Language.getText(2676, "")); // Servicios
+        tab.setName(getText(2676, "")); // Servicios
 
         var tab = w_tabs.add(null);
         tab.setIndex(TAB_PERSONAL);
-        tab.setName(Cairo.Language.getText(3880, "")); // Personal
+        tab.setName(getText(3880, "")); // Personal
 
         var tab = w_tabs.add(null);
         tab.setIndex(TAB_DESPACHO);
-        tab.setName(Cairo.Language.getText(4885, "")); // Depachos
+        tab.setName(getText(4885, "")); // Depachos
 
         var tab = w_tabs.add(null);
         tab.setIndex(TAB_CANCELACION);
-        tab.setName(Cairo.Language.getText(4959, "")); // Cancelacion
+        tab.setName(getText(4959, "")); // Cancelacion
 
         var properties = m_dialog.getProperties();
 
@@ -2238,7 +2238,7 @@
 
         var elem = properties.add(null, DESKTOP);
         elem.setType(Dialogs.PropertyType.file);
-        elem.setSelectFilter(Cairo.Language.getText(2936, "")); // Archivos de Escritorio|*.csd
+        elem.setSelectFilter(getText(2936, "")); // Archivos de Escritorio|*.csd
         elem.setName(DESKTOP);
         elem.setKey(K_DESKTOP);
         elem.setValue(m_desktop);
@@ -2304,7 +2304,7 @@
 
         var elem = properties.add(null, USAR_COLORES_EN_DOC);
         elem.setType(Dialogs.PropertyType.check);
-        elem.setName(Cairo.Language.getText(4821, "")); // Usar colores en documentos
+        elem.setName(getText(4821, "")); // Usar colores en documentos
         elem.setKey(K_USAR_COLORES_EN_DOCUMENTOS);
         elem.setValue(m_usarColoresEnDocumentos);
         elem.setTabIndex(TAB_GENERAL);
@@ -2312,7 +2312,7 @@
         var elem = properties.add(null, COLOR_EN_EMPRESA);
         elem.setType(Dialogs.PropertyType.numeric);
         elem.setSubType(Dialogs.PropertySubType.Integer);
-        elem.setName(Cairo.Language.getText(4915, "")); // Color en Empresa
+        elem.setName(getText(4915, "")); // Color en Empresa
         elem.setKey(K_COLOR_BACKGROUND);
         elem.setValue(m_colorEnEmpresa);
         elem.setTabIndex(TAB_GENERAL);
@@ -2383,7 +2383,7 @@
 
         var elem = properties.add(null, SHOW_DATA_ADD_IN_COMPRAS);
         elem.setType(Dialogs.PropertyType.check);
-        elem.setName(Cairo.Language.getText(3914, "")); // Ver datos del proveedor
+        elem.setName(getText(3914, "")); // Ver datos del proveedor
         elem.setKey(K_SHOWDATAADIC_IN_COMPRAS);
         elem.setValue(Cairo.Util.boolToInt(m_showDataAddInCompras));
         elem.setTabIndex(TAB_COMPRAS);
@@ -2416,7 +2416,7 @@
 
         var elem = properties.add(null, INFORMAR_ANTICIPOS);
         elem.setType(Dialogs.PropertyType.check);
-        elem.setName(Cairo.Language.getText(2937, "")); // Mostrar un mensaje al grabar las Facturas de venta informando si el cliente(tiene anticipos)
+        elem.setName(getText(2937, "")); // Mostrar un mensaje al grabar las Facturas de venta informando si el cliente(tiene anticipos)
         elem.setKey(K_INFORMAR_ANTICIPOS);
         elem.setValue(Cairo.Util.boolToInt(m_informarAnticipos));
         elem.setTabIndex(TAB_VENTAS);
@@ -2481,7 +2481,7 @@
         var elem = properties.add(null, CUENTA_FVO_X_DEFECTO);
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.CUENTA);
-        elem.setName(Cairo.Language.getText(3554, "")); // Cuenta efectivo de cobranza contado
+        elem.setName(getText(3554, "")); // Cuenta efectivo de cobranza contado
         elem.setKey(K_CUENTA_FVO_X_DEFECTO);
         elem.setSelectId(m_cueIdFvoXDefecto);
         elem.setValue(m_cuentaFvoXDefecto);
@@ -2490,7 +2490,7 @@
         var elem = properties.add(null, CLIENTE_X_DEFECTO);
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.CLIENTE);
-        elem.setName(Cairo.Language.getText(3556, "")); // Cliente por defecto
+        elem.setName(getText(3556, "")); // Cliente por defecto
         elem.setKey(K_CLIENTE_X_DEFECTO);
         elem.setSelectId(m_cliIdXDefecto);
         elem.setValue(m_clienteXDefecto);
@@ -2498,49 +2498,49 @@
 
         var elem = properties.add(null, NUEVO_AL_GRABAR);
         elem.setType(Dialogs.PropertyType.check);
-        elem.setName(Cairo.Language.getText(3555, "")); // Presentar un nuevo documento despues de grabar
+        elem.setName(getText(3555, "")); // Presentar un nuevo documento despues de grabar
         elem.setKey(K_NUEVO_AL_GRABAR);
         elem.setValue(Cairo.Util.boolToInt(m_nuevoAlGrabar));
         elem.setTabIndex(TAB_VENTAS);
 
         var elem = properties.add(null, PRINT_IN_NEW_FV);
         elem.setType(Dialogs.PropertyType.check);
-        elem.setName(Cairo.Language.getText(4837, "")); // Imprimir al grabar una nueva factura
+        elem.setName(getText(4837, "")); // Imprimir al grabar una nueva factura
         elem.setKey(K_PRINT_IN_NEW_FV);
         elem.setValue(Cairo.Util.boolToInt(m_printInNewFV));
         elem.setTabIndex(TAB_VENTAS);
 
         var elem = properties.add(null, PRINT_IN_NEW_COBZ_CDO);
         elem.setType(Dialogs.PropertyType.check);
-        elem.setName(Cairo.Language.getText(4838, "")); // Imprimir recibo en cobranza contado
+        elem.setName(getText(4838, "")); // Imprimir recibo en cobranza contado
         elem.setKey(K_PRINT_IN_NEW_COBZ_CDO);
         elem.setValue(Cairo.Util.boolToInt(m_printInNewCobzCdo));
         elem.setTabIndex(TAB_VENTAS);
 
         var elem = properties.add(null, NUEVO_PTD_AL_GRABAR);
         elem.setType(Dialogs.PropertyType.check);
-        elem.setName(Cairo.Language.getText(4836, "")); // Presentar un nuevo parte despues de grabar
+        elem.setName(getText(4836, "")); // Presentar un nuevo parte despues de grabar
         elem.setKey(K_NUEVO_PTD_AL_GRABAR);
         elem.setValue(Cairo.Util.boolToInt(m_nuevoPtdAlGrabar));
         elem.setTabIndex(TAB_VENTAS);
 
         var elem = properties.add(null, SHOW_DATA_ADD_IN_VENTAS);
         elem.setType(Dialogs.PropertyType.check);
-        elem.setName(Cairo.Language.getText(3913, "")); // Ver datos del cliente
+        elem.setName(getText(3913, "")); // Ver datos del cliente
         elem.setKey(K_SHOWDATAADIC_IN_VENTAS);
         elem.setValue(Cairo.Util.boolToInt(m_showDataAddInVentas));
         elem.setTabIndex(TAB_VENTAS);
 
         var elem = properties.add(null, CLOSE_WIZARD);
         elem.setType(Dialogs.PropertyType.check);
-        elem.setName(Cairo.Language.getText(5079, "")); // Cerrar Asistente al Finalizar
+        elem.setName(getText(5079, "")); // Cerrar Asistente al Finalizar
         elem.setKey(K_CLOSE_WIZARD);
         elem.setValue(Cairo.Util.boolToInt(m_closeWizard));
         elem.setTabIndex(TAB_VENTAS);
 
         var elem = properties.add(null, NO_ASK_IN_PRINT);
         elem.setType(Dialogs.PropertyType.check);
-        elem.setName(Cairo.Language.getText(5080, "")); // No Pedir Confirmar al Imprimir
+        elem.setName(getText(5080, "")); // No Pedir Confirmar al Imprimir
         elem.setKey(K_NO_ASK_IN_PRINT);
         elem.setValue(Cairo.Util.boolToInt(m_noAskInPrint));
         elem.setTabIndex(TAB_VENTAS);
@@ -2548,7 +2548,7 @@
         var elem = properties.add(null, ESTADO_HOJA_RUTA);
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.ESTADOS);
-        elem.setName(Cairo.Language.getText(4549, "")); // Estado en hojas de ruta
+        elem.setName(getText(4549, "")); // Estado en hojas de ruta
         elem.setKey(K_ESTADO_EN_HOJA_RUTA);
         elem.setSelectId(val(m_estIdHojaRuta));
         elem.setSelectIntValue(m_estIdHojaRuta);
@@ -2622,7 +2622,7 @@
 
         var elem = properties.add(null, PRP_ESTADO_X_DEF);
         elem.setType(Dialogs.PropertyType.check);
-        elem.setName(Cairo.Language.getText(3918, "")); // Estado Default en Parte Reparacion
+        elem.setName(getText(3918, "")); // Estado Default en Parte Reparacion
         elem.setKey(K_PARTE_REPARACION_ESTADO_DEFAULT);
         elem.setValue(Cairo.Util.boolToInt(m_PrpEstadoDef));
         elem.setTabIndex(TAB_SERVICIOS);
@@ -2668,7 +2668,7 @@
         var elem = properties.add(null, ESTADO_PICKING_LIST);
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.ESTADOS);
-        elem.setName(Cairo.Language.getText(4861, "")); // Estado en picking list
+        elem.setName(getText(4861, "")); // Estado en picking list
         elem.setKey(K_ESTADO_EN_PICKING_LIST);
         elem.setSelectId(val(m_estIdPickinglist));
         elem.setSelectIntValue(m_estIdPickinglist);

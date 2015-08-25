@@ -55,6 +55,7 @@
       var self = init();
 
       var C = Cairo.General.Constants;
+      var NO_ID = Cairo.Constants.NO_ID;
 
       var that = {};
 

@@ -9,6 +9,8 @@
 
       var Dialogs = Cairo.Dialogs;
       var DB = Cairo.Database;
+      var C = Cairo.General.Constants;
+      var NO_ID = Cairo.Constants.NO_ID;
 
       var C_MODULE = "cCamion";
 
@@ -69,10 +71,10 @@
 
         m_listController.updateEditorKey(self, NO_ID);
 
-        var property = m_dialog.getProperties().item(Cairo.General.Constants.CAM_CODE);
+        var property = m_dialog.getProperties().item(C.CAM_CODE);
         property.setValue(Cairo.Constants.COPY_OF + property.getValue());
 
-        m_dialog.showValue(m_dialog.getProperties().item(Cairo.General.Constants.CAM_CODE));
+        m_dialog.showValue(m_dialog.getProperties().item(C.CAM_CODE));
 
         m_copy = true;
       };
@@ -116,7 +118,7 @@
 
           var doc = new Cairo.DocDigital();
 
-          doc.setClientTable(Cairo.General.Constants.CAMION);
+          doc.setClientTable(C.CAMION);
           doc.setClientTableID(m_id);
 
           _rtn = doc.showDocs(Cairo.Database);
@@ -156,8 +158,8 @@
         switch (key) {
           case K_ESSEMI:
             var properties = m_dialog.getProperties();
-            iProp = properties.item(Cairo.General.Constants.CAM_PATENTESEMI);
-            iProp.setEnabled(Cairo.Util.val(properties.item(Cairo.General.Constants.CAM_ES_SEMI).getValue()) === 0);
+            iProp = properties.item(C.CAM_PATENTESEMI);
+            iProp.setEnabled(Cairo.Util.val(properties.item(C.CAM_ES_SEMI).getValue()) === 0);
             m_dialog.showValue(iProp);
             break;
         }
@@ -168,8 +170,8 @@
         var register = new Cairo.Database.Register();
         var fields = register.getFields();
 
-        register.setFieldId(Cairo.General.Constants.CAM_ID);
-        register.setTable(Cairo.General.Constants.CAMION);
+        register.setFieldId(C.CAM_ID);
+        register.setTable(C.CAMION);
 
         register.setPath(m_apiPath + "general/camion");
 
@@ -185,23 +187,23 @@
           var property = m_dialog.getProperties().item(_i);
           switch (property.getKey()) {
             case K_CODE:
-              fields.add(Cairo.General.Constants.CAM_CODE, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.CAM_CODE, property.getValue(), Cairo.Constants.Types.text);
               break;
 
             case K_DESCRIP:
-              fields.add(Cairo.General.Constants.CAM_DESCRIP, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.CAM_DESCRIP, property.getValue(), Cairo.Constants.Types.text);
               break;
 
             case K_PATENTE:
-              fields.add(Cairo.General.Constants.CAM_PATENTE, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.CAM_PATENTE, property.getValue(), Cairo.Constants.Types.text);
               break;
 
             case K_PATENTESEMI:
-              fields.add(Cairo.General.Constants.CAM_PATENTESEMI, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.CAM_PATENTESEMI, property.getValue(), Cairo.Constants.Types.text);
               break;
 
             case K_TARA:
-              fields.add(Cairo.General.Constants.CAM_TARA, property.getValue(), Cairo.Constants.Types.long);
+              fields.add(C.CAM_TARA, property.getValue(), Cairo.Constants.Types.long);
               break;
 
             case K_ACTIVE:
@@ -209,15 +211,15 @@
               break;
 
             case K_ESSEMI:
-              fields.add(Cairo.General.Constants.CAM_ES_SEMI, Cairo.Util.val(property.getValue()), Cairo.Constants.Types.boolean);
+              fields.add(C.CAM_ES_SEMI, Cairo.Util.val(property.getValue()), Cairo.Constants.Types.boolean);
               break;
 
             case K_TRANS_ID:
-              fields.add(Cairo.General.Constants.TRANS_ID, property.getSelectId(), Cairo.Constants.Types.id);
+              fields.add(C.TRANS_ID, property.getSelectId(), Cairo.Constants.Types.id);
               break;
 
             case K_CHOF_ID:
-              fields.add(Cairo.General.Constants.CHOF_ID, property.getSelectId(), Cairo.Constants.Types.id);
+              fields.add(C.CHOF_ID, property.getSelectId(), Cairo.Constants.Types.id);
               break;
           }
         }
@@ -225,10 +227,10 @@
         return Cairo.Database.saveEx(
             register,
             false,
-            Cairo.General.Constants.CAM_CODE, 
+            C.CAM_CODE,
             Cairo.Constants.CLIENT_SAVE_FUNCTION,
             C_MODULE,
-            Cairo.Language.getText(1045, "")).then(
+            getText(1045, "")).then(
 
           function(result) {
             if(result.success) {
@@ -273,7 +275,7 @@
 
       self.getTitle = function() {
         // Camiones
-        return Cairo.Language.getText(1046, "");
+        return getText(1046, "");
       };
 
       self.validate = function() {
@@ -380,7 +382,7 @@
 
         properties.clear();
 
-        var elem = properties.add(null, Cairo.General.Constants.CAM_CODE);
+        var elem = properties.add(null, C.CAM_CODE);
         elem.setType(Dialogs.PropertyType.text);
         elem.setName(Cairo.Constants.CODE_LABEL);
         elem.setSize(10);
@@ -393,57 +395,57 @@
         elem.setKey(K_ACTIVE);
         elem.setValue(m_active === true ? 1 : 0);
 
-        var elem = properties.add(null, Cairo.General.Constants.CAM_ES_SEMI);
+        var elem = properties.add(null, C.CAM_ES_SEMI);
         elem.setType(Dialogs.PropertyType.check);
         // Es la Pantente del Semi
-        elem.setName(Cairo.Language.getText(3492, ""));
+        elem.setName(getText(3492, ""));
         elem.setKey(K_ESSEMI);
         elem.setValue(Cairo.Util.boolToInt(m_esSemi));
 
-        var elem = properties.add(null, Cairo.General.Constants.CAM_PATENTE);
+        var elem = properties.add(null, C.CAM_PATENTE);
         elem.setType(Dialogs.PropertyType.text);
         // Patente
-        elem.setName(Cairo.Language.getText(1047, ""));
+        elem.setName(getText(1047, ""));
         elem.setSize(20);
         elem.setKey(K_PATENTE);
         elem.setValue(m_patente);
 
-        var elem = properties.add(null, Cairo.General.Constants.CAM_PATENTESEMI);
+        var elem = properties.add(null, C.CAM_PATENTESEMI);
         elem.setType(Dialogs.PropertyType.text);
         // Patente Semi
-        elem.setName(Cairo.Language.getText(1048, ""));
+        elem.setName(getText(1048, ""));
         elem.setSize(20);
         elem.setKey(K_PATENTESEMI);
         elem.setValue(m_patentesemi);
         elem.setEnabled(m_esSemi === false);
 
-        var elem = properties.add(null, Cairo.General.Constants.CAM_TARA);
+        var elem = properties.add(null, C.CAM_TARA);
         elem.setType(Dialogs.PropertyType.numeric);
         elem.setSubType(Dialogs.PropertySubType.Integer);
         // Tara
-        elem.setName(Cairo.Language.getText(1049, ""));
+        elem.setName(getText(1049, ""));
         elem.setKey(K_TARA);
         elem.setValue(m_tara);
 
-        var elem = properties.add(null, Cairo.General.Constants.TRANS_ID);
+        var elem = properties.add(null, C.TRANS_ID);
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.TRANSPORTE);
         // Transporte
-        elem.setName(Cairo.Language.getText(1050, ""));
+        elem.setName(getText(1050, ""));
         elem.setKey(K_TRANS_ID);
         elem.setValue(m_transporte);
         elem.setSelectId(m_trans_id);
 
-        var elem = properties.add(null, Cairo.General.Constants.CHOF_ID);
+        var elem = properties.add(null, C.CHOF_ID);
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.CHOFER);
         // Chofer
-        elem.setName(Cairo.Language.getText(1051, ""));
+        elem.setName(getText(1051, ""));
         elem.setKey(K_CHOF_ID);
         elem.setValue(m_chofer);
         elem.setSelectId(m_chof_id);
 
-        var elem = properties.add(null, Cairo.General.Constants.CAM_DESCRIP);
+        var elem = properties.add(null, C.CAM_DESCRIP);
         elem.setType(Dialogs.PropertyType.text);
         elem.setName(Cairo.Constants.DESCRIPTION_LABEL);
         elem.setSubType(Dialogs.PropertySubType.memo);
@@ -462,33 +464,33 @@
 
         var properties = m_dialog.getProperties();
 
-        var elem = properties.item(Cairo.General.Constants.CAM_CODE);
+        var elem = properties.item(C.CAM_CODE);
         elem.setValue(m_code);
 
         var elem = properties.item(Cairo.Constants.ACTIVE);
         elem.setValue(m_active === true ? 1 : 0);
 
-        var elem = properties.item(Cairo.General.Constants.CAM_ES_SEMI);
+        var elem = properties.item(C.CAM_ES_SEMI);
         elem.setValue(Cairo.Util.boolToInt(m_esSemi));
 
-        var elem = properties.item(Cairo.General.Constants.CAM_PATENTE);
+        var elem = properties.item(C.CAM_PATENTE);
         elem.setValue(m_patente);
 
-        var elem = properties.item(Cairo.General.Constants.CAM_PATENTESEMI);
+        var elem = properties.item(C.CAM_PATENTESEMI);
         elem.setValue(m_patentesemi);
 
-        var elem = properties.item(Cairo.General.Constants.CAM_TARA);
+        var elem = properties.item(C.CAM_TARA);
         elem.setValue(m_tara);
 
-        var elem = properties.item(Cairo.General.Constants.TRANS_ID);
+        var elem = properties.item(C.TRANS_ID);
         elem.setValue(m_transporte);
         elem.setSelectId(m_trans_id);
 
-        var elem = properties.item(Cairo.General.Constants.CHOF_ID);
+        var elem = properties.item(C.CHOF_ID);
         elem.setValue(m_chofer);
         elem.setSelectId(m_chof_id);
 
-        var elem = properties.item(Cairo.General.Constants.CAM_DESCRIP);
+        var elem = properties.item(C.CAM_DESCRIP);
         elem.setValue(m_descrip);
 
         return m_dialog.showValues(properties);
@@ -503,18 +505,18 @@
 
             if(response.data.id !== NO_ID) {
 
-              m_id = Cairo.Database.valField(response.data, Cairo.General.Constants.CAM_ID);
-              m_code = Cairo.Database.valField(response.data, Cairo.General.Constants.CAM_CODE);
-              m_descrip = Cairo.Database.valField(response.data, Cairo.General.Constants.CAM_DESCRIP);
-              m_patente = Cairo.Database.valField(response.data, Cairo.General.Constants.CAM_PATENTE);
-              m_patentesemi = Cairo.Database.valField(response.data, Cairo.General.Constants.CAM_PATENTESEMI);
-              m_tara = Cairo.Database.valField(response.data, Cairo.General.Constants.CAM_TARA);
+              m_id = Cairo.Database.valField(response.data, C.CAM_ID);
+              m_code = Cairo.Database.valField(response.data, C.CAM_CODE);
+              m_descrip = Cairo.Database.valField(response.data, C.CAM_DESCRIP);
+              m_patente = Cairo.Database.valField(response.data, C.CAM_PATENTE);
+              m_patentesemi = Cairo.Database.valField(response.data, C.CAM_PATENTESEMI);
+              m_tara = Cairo.Database.valField(response.data, C.CAM_TARA);
               m_active = Cairo.Database.valField(response.data, Cairo.Constants.ACTIVE);
-              m_esSemi = Cairo.Database.valField(response.data, Cairo.General.Constants.CAM_ES_SEMI);
-              m_transporte = Cairo.Database.valField(response.data, Cairo.General.Constants.TRANS_NAME);
-              m_chofer = Cairo.Database.valField(response.data, Cairo.General.Constants.CHOF_NAME);
-              m_trans_id = Cairo.Database.valField(response.data, Cairo.General.Constants.TRANS_ID);
-              m_chof_id = Cairo.Database.valField(response.data, Cairo.General.Constants.CHOF_ID);
+              m_esSemi = Cairo.Database.valField(response.data, C.CAM_ES_SEMI);
+              m_transporte = Cairo.Database.valField(response.data, C.TRANS_NAME);
+              m_chofer = Cairo.Database.valField(response.data, C.CHOF_NAME);
+              m_trans_id = Cairo.Database.valField(response.data, C.TRANS_ID);
+              m_chof_id = Cairo.Database.valField(response.data, C.CHOF_ID);
 
             } 
             else {
@@ -573,6 +575,9 @@
   });
 
   Cairo.module("Camion.List", function(List, Cairo, Backbone, Marionette, $, _) {
+
+    var NO_ID = Cairo.Constants.NO_ID;
+
     List.Controller = {
       list: function() {
 

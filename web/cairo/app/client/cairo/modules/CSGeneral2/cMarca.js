@@ -9,6 +9,8 @@
 
       var Dialogs = Cairo.Dialogs;
       var DB = Cairo.Database;
+      var C = Cairo.General.Constants;
+      var NO_ID = Cairo.Constants.NO_ID;
 
       var C_MODULE = "cMarca";
 
@@ -58,11 +60,11 @@
 
         m_listController.updateEditorKey(self, NO_ID);
 
-        var property = m_dialog.getProperties().item(Cairo.General.Constants.MARC_CODE);
+        var property = m_dialog.getProperties().item(C.MARC_CODE);
         property.setValue(Cairo.Constants.COPY_OF + property.getValue());
 
-        m_dialog.showValue(m_dialog.getProperties().item(Cairo.General.Constants.MARC_CODE));
-        m_dialog.showValue(m_dialog.getProperties().item(Cairo.General.Constants.MARC_NAME));
+        m_dialog.showValue(m_dialog.getProperties().item(C.MARC_CODE));
+        m_dialog.showValue(m_dialog.getProperties().item(C.MARC_NAME));
 
         m_copy = true;
       };
@@ -106,7 +108,7 @@
 
           var doc = new Cairo.DocDigital();
 
-          doc.setClientTable(Cairo.General.Constants.MARCA);
+          doc.setClientTable(C.MARCA);
           doc.setClientTableID(m_id);
 
           _rtn = doc.showDocs(Cairo.Database);
@@ -151,8 +153,8 @@
         var register = new Cairo.Database.Register();
         var fields = register.getFields();
 
-        register.setFieldId(Cairo.General.Constants.MARC_ID);
-        register.setTable(Cairo.General.Constants.MARCA);
+        register.setFieldId(C.MARC_ID);
+        register.setTable(C.MARCA);
 
         register.setPath(m_apiPath + "general/marca");
 
@@ -168,15 +170,15 @@
           var property = m_dialog.getProperties().item(_i);
           switch (property.getKey()) {
             case K_NAME:
-              fields.add(Cairo.General.Constants.MARC_NAME, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.MARC_NAME, property.getValue(), Cairo.Constants.Types.text);
               break;
 
             case K_CODE:
-              fields.add(Cairo.General.Constants.MARC_CODE, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.MARC_CODE, property.getValue(), Cairo.Constants.Types.text);
               break;
 
             case K_DESCRIP:
-              fields.add(Cairo.General.Constants.MARC_DESCRIP, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.MARC_DESCRIP, property.getValue(), Cairo.Constants.Types.text);
               break;
 
             case K_ACTIVE:
@@ -184,7 +186,7 @@
               break;
 
             case K_TEXTO_WEB:
-              fields.add(Cairo.General.Constants.MARC_TEXTO_WEB, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.MARC_TEXTO_WEB, property.getValue(), Cairo.Constants.Types.text);
               break;
           }
         }
@@ -192,10 +194,10 @@
         return Cairo.Database.saveEx(
             register,
             false,
-            Cairo.General.Constants.MARC_CODE, 
+            C.MARC_CODE,
             Cairo.Constants.CLIENT_SAVE_FUNCTION,
             C_MODULE,
-            Cairo.Language.getText(1241, "")).then(
+            getText(1241, "")).then(
 
           function(result) {
             if(result.success) {
@@ -240,7 +242,7 @@
 
       self.getTitle = function() {
         //Marcas
-        return Cairo.Language.getText(1242, "");
+        return getText(1242, "");
       };
 
       self.validate = function() {
@@ -358,21 +360,21 @@
 
         var tab = w_tabs.add(null);
         // Web
-        tab.setName(Cairo.Language.getText(1038, ""));
+        tab.setName(getText(1038, ""));
         tab.setIndex(1);
 
         var properties = m_dialog.getProperties();
 
         properties.clear();
 
-        var elem = properties.add(null, Cairo.General.Constants.MARC_NAME);
+        var elem = properties.add(null, C.MARC_NAME);
         elem.setType(Dialogs.PropertyType.text);
         elem.setName(Cairo.Constants.NAME_LABEL);
         elem.setSize(50);
         elem.setKey(K_NAME);
         elem.setValue(m_name);
 
-        var elem = properties.add(null, Cairo.General.Constants.MARC_CODE);
+        var elem = properties.add(null, C.MARC_CODE);
         elem.setType(Dialogs.PropertyType.text);
         elem.setName(Cairo.Constants.CODE_LABEL);
         elem.setSize(10);
@@ -385,7 +387,7 @@
         elem.setKey(K_ACTIVE);
         elem.setValue(m_active === true ? 1 : 0);
 
-        var elem = properties.add(null, Cairo.General.Constants.MARC_DESCRIP);
+        var elem = properties.add(null, C.MARC_DESCRIP);
         elem.setType(Dialogs.PropertyType.text);
         elem.setSubType(Dialogs.PropertySubType.memo);
         elem.setName(Cairo.Constants.DESCRIPTION_LABEL);
@@ -395,14 +397,14 @@
 
         var elem = properties.add(null);
         elem.setType(Dialogs.PropertyType.label);
-        elem.setValue(Cairo.Language.getText(4788, ""));
+        elem.setValue(getText(4788, ""));
         elem.setTabIndex(1);
 
-        var elem = properties.add(null, Cairo.General.Constants.MARC_TEXTO_WEB);
+        var elem = properties.add(null, C.MARC_TEXTO_WEB);
         elem.setType(Dialogs.PropertyType.text);
         elem.setSubType(Dialogs.PropertySubType.memo);
         // Texto Web
-        elem.setName(Cairo.Language.getText(4787, ""));
+        elem.setName(getText(4787, ""));
         elem.setSize(255);
         elem.setKey(K_TEXTO_WEB);
         elem.setValue(m_textoWeb);
@@ -419,22 +421,22 @@
 
         var properties = m_dialog.getProperties();
 
-        var elem = properties.item(Cairo.General.Constants.MARC_NAME);
+        var elem = properties.item(C.MARC_NAME);
         elem.setValue(m_name);
 
-        var elem = properties.item(Cairo.General.Constants.MARC_CODE);
+        var elem = properties.item(C.MARC_CODE);
         elem.setValue(m_code);
 
         var elem = properties.item(Cairo.Constants.ACTIVE);
         elem.setValue(m_active === true ? 1 : 0);
 
-        var elem = properties.item(Cairo.General.Constants.MARC_DESCRIP);
+        var elem = properties.item(C.MARC_DESCRIP);
         elem.setValue(m_descrip);
 
         var elem = properties.add(null);
-        elem.setValue(Cairo.Language.getText(4788, ""));
+        elem.setValue(getText(4788, ""));
 
-        var elem = properties.item(Cairo.General.Constants.MARC_TEXTO_WEB);
+        var elem = properties.item(C.MARC_TEXTO_WEB);
         elem.setValue(m_textoWeb);
 
         return m_dialog.showValues(properties);
@@ -449,12 +451,12 @@
 
             if(response.data.id !== NO_ID) {
 
-              m_id = Cairo.Database.valField(response.data, Cairo.General.Constants.MARC_ID);
-              m_name = Cairo.Database.valField(response.data, Cairo.General.Constants.MARC_NAME);
-              m_code = Cairo.Database.valField(response.data, Cairo.General.Constants.MARC_CODE);
-              m_descrip = Cairo.Database.valField(response.data, Cairo.General.Constants.MARC_DESCRIP);
+              m_id = Cairo.Database.valField(response.data, C.MARC_ID);
+              m_name = Cairo.Database.valField(response.data, C.MARC_NAME);
+              m_code = Cairo.Database.valField(response.data, C.MARC_CODE);
+              m_descrip = Cairo.Database.valField(response.data, C.MARC_DESCRIP);
               m_active = Cairo.Database.valField(response.data, Cairo.Constants.ACTIVE);
-              m_textoWeb = Cairo.Database.valField(response.data, Cairo.General.Constants.MARC_TEXTO_WEB);
+              m_textoWeb = Cairo.Database.valField(response.data, C.MARC_TEXTO_WEB);
 
             } 
             else {
@@ -506,6 +508,9 @@
   });
 
   Cairo.module("Marca.List", function(List, Cairo, Backbone, Marionette, $, _) {
+
+    var NO_ID = Cairo.Constants.NO_ID;
+
     List.Controller = {
       list: function() {
 

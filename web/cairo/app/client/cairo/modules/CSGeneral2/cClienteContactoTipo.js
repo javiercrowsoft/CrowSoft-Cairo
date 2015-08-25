@@ -9,6 +9,8 @@
 
       var Dialogs = Cairo.Dialogs;
       var DB = Cairo.Database;
+      var C = Cairo.General.Constants;
+      var NO_ID = Cairo.Constants.NO_ID;
 
       var C_MODULE = "cClienteContactoTipo";
 
@@ -56,11 +58,11 @@
 
         m_listController.updateEditorKey(self, NO_ID);
 
-        var property = m_dialog.getProperties().item(Cairo.General.Constants.CLICT_CODE);
+        var property = m_dialog.getProperties().item(C.CLICT_CODE);
         property.setValue(Cairo.Constants.COPY_OF + property.getValue());
 
-        m_dialog.showValue(m_dialog.getProperties().item(Cairo.General.Constants.CLICT_CODE));
-        m_dialog.showValue(m_dialog.getProperties().item(Cairo.General.Constants.CLICT_NAME));
+        m_dialog.showValue(m_dialog.getProperties().item(C.CLICT_CODE));
+        m_dialog.showValue(m_dialog.getProperties().item(C.CLICT_NAME));
 
         m_copy = true;
       };
@@ -104,7 +106,7 @@
 
           var doc = new Cairo.DocDigital();
 
-          doc.setClientTable(Cairo.General.Constants.CLIENTE_CONTACTO_TIPO);
+          doc.setClientTable(C.CLIENTE_CONTACTO_TIPO);
           doc.setClientTableID(m_id);
 
           _rtn = doc.showDocs(Cairo.Database);
@@ -149,8 +151,8 @@
         var register = new Cairo.Database.Register();
         var fields = register.getFields();
 
-        register.setFieldId(Cairo.General.Constants.CLICT_ID);
-        register.setTable(Cairo.General.Constants.CLIENTE_CONTACTO_TIPO);
+        register.setFieldId(C.CLICT_ID);
+        register.setTable(C.CLIENTE_CONTACTO_TIPO);
 
         register.setPath(m_apiPath + "general/clientecontactotipo");
 
@@ -166,15 +168,15 @@
           var property = m_dialog.getProperties().item(_i);
           switch (property.getKey()) {
             case K_NAME:
-              fields.add(Cairo.General.Constants.CLICT_NAME, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.CLICT_NAME, property.getValue(), Cairo.Constants.Types.text);
               break;
 
             case K_CODE:
-              fields.add(Cairo.General.Constants.CLICT_CODE, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.CLICT_CODE, property.getValue(), Cairo.Constants.Types.text);
               break;
 
             case K_DESCRIP:
-              fields.add(Cairo.General.Constants.CLICT_DESCRIP, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.CLICT_DESCRIP, property.getValue(), Cairo.Constants.Types.text);
               break;
 
             case K_ACTIVE:
@@ -186,10 +188,10 @@
         return Cairo.Database.saveEx(
             register,
             false,
-            Cairo.General.Constants.CLICT_CODE, 
+            C.CLICT_CODE,
             Cairo.Constants.CLIENT_SAVE_FUNCTION,
             C_MODULE,
-            Cairo.Language.getText(4656, "")).then(
+            getText(4656, "")).then(
 
           function(result) {
             if(result.success) {
@@ -234,7 +236,7 @@
 
       self.getTitle = function() {
         // Tipos de Contacto
-        return Cairo.Language.getText(4657, "");
+        return getText(4657, "");
       };
 
       self.validate = function() {
@@ -349,14 +351,14 @@
 
         properties.clear();
 
-        var elem = properties.add(null, Cairo.General.Constants.CLICT_NAME);
+        var elem = properties.add(null, C.CLICT_NAME);
         elem.setType(Dialogs.PropertyType.text);
         elem.setName(Cairo.Constants.NAME_LABEL);
         elem.setSize(50);
         elem.setKey(K_NAME);
         elem.setValue(m_name);
 
-        var elem = properties.add(null, Cairo.General.Constants.CLICT_CODE);
+        var elem = properties.add(null, C.CLICT_CODE);
         elem.setType(Dialogs.PropertyType.text);
         elem.setName(Cairo.Constants.CODE_LABEL);
         elem.setSize(10);
@@ -369,7 +371,7 @@
         elem.setKey(K_ACTIVE);
         elem.setValue(m_active === true ? 1 : 0);
 
-        var elem = properties.add(null, Cairo.General.Constants.CLICT_DESCRIP);
+        var elem = properties.add(null, C.CLICT_DESCRIP);
         elem.setType(Dialogs.PropertyType.text);
         elem.setSubType(Dialogs.PropertySubType.memo);
         elem.setName(Cairo.Constants.DESCRIPTION_LABEL);
@@ -388,16 +390,16 @@
 
         var properties = m_dialog.getProperties();
 
-        var elem = properties.item(Cairo.General.Constants.CLICT_NAME);
+        var elem = properties.item(C.CLICT_NAME);
         elem.setValue(m_name);
 
-        var elem = properties.item(Cairo.General.Constants.CLICT_CODE);
+        var elem = properties.item(C.CLICT_CODE);
         elem.setValue(m_code);
 
         var elem = properties.item(Cairo.Constants.ACTIVE);
         elem.setValue(m_active === true ? 1 : 0);
 
-        var elem = properties.item(Cairo.General.Constants.CLICT_DESCRIP);
+        var elem = properties.item(C.CLICT_DESCRIP);
         elem.setValue(m_descrip);
 
         return m_dialog.showValues(properties);
@@ -412,10 +414,10 @@
 
             if(response.data.id !== NO_ID) {
 
-              m_id = Cairo.Database.valField(response.data, Cairo.General.Constants.CLICT_ID);
-              m_name = Cairo.Database.valField(response.data, Cairo.General.Constants.CLICT_NAME);
-              m_code = Cairo.Database.valField(response.data, Cairo.General.Constants.CLICT_CODE);
-              m_descrip = Cairo.Database.valField(response.data, Cairo.General.Constants.CLICT_DESCRIP);
+              m_id = Cairo.Database.valField(response.data, C.CLICT_ID);
+              m_name = Cairo.Database.valField(response.data, C.CLICT_NAME);
+              m_code = Cairo.Database.valField(response.data, C.CLICT_CODE);
+              m_descrip = Cairo.Database.valField(response.data, C.CLICT_DESCRIP);
               m_active = Cairo.Database.valField(response.data, Cairo.Constants.ACTIVE);
 
             } 
@@ -468,6 +470,9 @@
   });
 
   Cairo.module("ClienteContactoTipo.List", function(List, Cairo, Backbone, Marionette, $, _) {
+
+    var NO_ID = Cairo.Constants.NO_ID;
+
     List.Controller = {
       list: function() {
 

@@ -40,38 +40,38 @@
       elem.setKey(KIP_FCPERC_ID);
 
       var elem = w_columns.add(null);
-      elem.setName(Cairo.Language.getText(1252, "")); //'Percepcion
+      elem.setName(getText(1252, "")); // Percepcion
       elem.setType(Dialogs.PropertyType.select);
       elem.setSelectTable(Cairo.Tables.PERCEPCION);
       elem.setKey(KIP_PERC_ID);
 
       var elem = w_columns.add(null);
-      elem.setName(Cairo.Language.getText(2546, "")); //'Base Imponible
+      elem.setName(getText(2546, "")); // Base Imponible
       elem.setType(Dialogs.PropertyType.numeric);
       elem.setSubType(Dialogs.PropertySubType.money);
       elem.setFormat(Cairo.Settings.getAmountDecimalsFormat());
       elem.setKey(KIP_BASE);
 
       var elem = w_columns.add(null);
-      elem.setName(Cairo.Language.getText(1105, "")); //'Porcentaje
+      elem.setName(getText(1105, "")); // Porcentaje
       elem.setType(Dialogs.PropertyType.numeric);
       elem.setSubType(Dialogs.PropertySubType.percentage);
       elem.setKey(KIP_PORCENTAJE);
 
       var elem = w_columns.add(null);
-      elem.setName(Cairo.Language.getText(1228, "")); //'Importe
+      elem.setName(getText(1228, "")); // Importe
       elem.setType(Dialogs.PropertyType.numeric);
       elem.setFormat(Cairo.Settings.getAmountDecimalsFormat());
       elem.setSubType(Dialogs.PropertySubType.money);
       elem.setKey(KIP_IMPORTE);
 
       var elem = w_columns.add(null);
-      elem.setName(Cairo.Language.getText(1861, "")); //'Observaciones
+      elem.setName(getText(1861, "")); // Observaciones
       elem.setType(Dialogs.PropertyType.text);
       elem.setKey(KIP_DESCRIP);
 
       var elem = w_columns.add(null);
-      elem.setName(Cairo.Language.getText(1057, "")); //'Centro de Costo
+      elem.setName(getText(1057, "")); // Centro de Costo
       elem.setType(Dialogs.PropertyType.select);
       elem.setSelectTable(Cairo.Tables.CENTROS_DE_COSTO);
       elem.setKey(KI_CCOS_ID);
@@ -90,25 +90,25 @@
 
           case KIP_PERC_ID:
             if(valEmpty(cell.getId(), Types.id)) {
-              return Cairo.Modal.showInfoWithFalse(Cairo.Language.getText(1535, "", strRow)); // Debe indicar una percepcion
+              return Cairo.Modal.showInfoWithFalse(getText(1535, "", strRow)); // Debe indicar una percepcion
             }
             break;
 
           case KIP_BASE:
             if(valEmpty(cell.getValue(), Types.currency)) {
-              return Cairo.Modal.showInfoWithFalse(Cairo.Language.getText(2547, "", strRow)); // Debe indicar una base imponible
+              return Cairo.Modal.showInfoWithFalse(getText(2547, "", strRow)); // Debe indicar una base imponible
             }
             break;
 
           case KIP_PORCENTAJE:
             if(valEmpty(cell.getValue(), Types.currency)) {
-              return Cairo.Modal.showInfoWithFalse(Cairo.Language.getText(1098, "", strRow)); // Debe indicar un porcentaje
+              return Cairo.Modal.showInfoWithFalse(getText(1098, "", strRow)); // Debe indicar un porcentaje
             }
             break;
 
           case KIP_IMPORTE:
             if(valEmpty(cell.getValue(), Types.currency)) {
-              return Cairo.Modal.showInfoWithFalse(Cairo.Language.getText(1897, "", strRow)); // Debe indicar un importe
+              return Cairo.Modal.showInfoWithFalse(getText(1897, "", strRow)); // Debe indicar un importe
             }
             break;
         }
@@ -199,7 +199,7 @@
           else if(val(newValue) > 0) {
             var percent = null;
             percent = val(getCell(row, KIP_PORCENTAJE).getValue());
-            if(percent == 0) {
+            if(percent === 0) {
               percent = 1;
               getCell(row, KIP_PORCENTAJE).setValue(1);
             }

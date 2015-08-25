@@ -9,6 +9,8 @@
 
       var Dialogs = Cairo.Dialogs;
       var DB = Cairo.Database;
+      var C = Cairo.General.Constants;
+      var NO_ID = Cairo.Constants.NO_ID;
 
       var C_MODULE = "cProductoHelpConfig";
 
@@ -57,10 +59,10 @@
 
         m_listController.updateEditorKey(self, NO_ID);
 
-        var property = m_dialog.getProperties().item(Cairo.General.Constants.PRHC_TECLA);
+        var property = m_dialog.getProperties().item(C.PRHC_TECLA);
         property.setValue(Cairo.Constants.COPY_OF + property.getValue());
 
-        m_dialog.showValue(m_dialog.getProperties().item(Cairo.General.Constants.PRHC_TECLA));
+        m_dialog.showValue(m_dialog.getProperties().item(C.PRHC_TECLA));
 
         m_copy = true;
       };
@@ -104,7 +106,7 @@
 
           var doc = new Cairo.DocDigital();
 
-          doc.setClientTable(Cairo.General.Constants.PRODUCTO_HELP_CONFIG);
+          doc.setClientTable(C.PRODUCTO_HELP_CONFIG);
           doc.setClientTableID(m_id);
 
           _rtn = doc.showDocs(Cairo.Database);
@@ -148,8 +150,8 @@
         var register = new Cairo.Database.Register();
         var fields = register.getFields();
 
-        register.setFieldId(Cairo.General.Constants.PRHC_ID);
-        register.setTable(Cairo.General.Constants.PRODUCTO_HELP_CONFIG);
+        register.setFieldId(C.PRHC_ID);
+        register.setTable(C.PRODUCTO_HELP_CONFIG);
 
         register.setPath(m_apiPath + "general/productohelpconfig");
 
@@ -165,19 +167,19 @@
           var property = m_dialog.getProperties().item(_i);
           switch (property.getKey()) {
             case K_NAME:
-              fields.add(Cairo.General.Constants.PRHC_NAME, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.PRHC_NAME, property.getValue(), Cairo.Constants.Types.text);
               break;
 
             case K_TECLA:
-              fields.add(Cairo.General.Constants.PRHC_TECLA, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.PRHC_TECLA, property.getValue(), Cairo.Constants.Types.text);
               break;
 
             case K_ATRIBUTO_INDICE:
-              fields.add(Cairo.General.Constants.PRHC_ATRIBUTO_INDICE, property.getValue(), Cairo.Constants.Types.integer);
+              fields.add(C.PRHC_ATRIBUTO_INDICE, property.getValue(), Cairo.Constants.Types.integer);
               break;
 
             case K_VALOR_CODIGO:
-              fields.add(Cairo.General.Constants.PRHC_VALOR_CODE, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.PRHC_VALOR_CODE, property.getValue(), Cairo.Constants.Types.text);
               break;
 
             case K_ACTIVE:
@@ -185,23 +187,23 @@
               break;
 
             case K_DESCRIP:
-              fields.add(Cairo.General.Constants.PRHC_DESCRIP, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.PRHC_DESCRIP, property.getValue(), Cairo.Constants.Types.text);
               break;
 
             case K_DEFAULT:
-              fields.add(Cairo.General.Constants.PRHC_DEFAULT, Cairo.Util.val(property.getValue()), Cairo.Constants.Types.boolean);
+              fields.add(C.PRHC_DEFAULT, Cairo.Util.val(property.getValue()), Cairo.Constants.Types.boolean);
               break;
 
             case K_DEFAULT_SRV:
-              fields.add(Cairo.General.Constants.PRHC_DEFAULT_SRV, Cairo.Util.val(property.getValue()), Cairo.Constants.Types.boolean);
+              fields.add(C.PRHC_DEFAULT_SRV, Cairo.Util.val(property.getValue()), Cairo.Constants.Types.boolean);
               break;
 
             case K_DEFAULT_PRP:
-              fields.add(Cairo.General.Constants.PRHC_DEFAULT_PRP, Cairo.Util.val(property.getValue()), Cairo.Constants.Types.boolean);
+              fields.add(C.PRHC_DEFAULT_PRP, Cairo.Util.val(property.getValue()), Cairo.Constants.Types.boolean);
               break;
 
             case K_DEFAULT_PRNS:
-              fields.add(Cairo.General.Constants.PRHC_DEFAULT_PRNS, Cairo.Util.val(property.getValue()), Cairo.Constants.Types.boolean);
+              fields.add(C.PRHC_DEFAULT_PRNS, Cairo.Util.val(property.getValue()), Cairo.Constants.Types.boolean);
               break;
           }
         }
@@ -211,7 +213,7 @@
           false,
           Cairo.Constants.CLIENT_SAVE_FUNCTION,
           C_MODULE,
-          Cairo.Language.getText(3911, "")).then(
+          getText(3911, "")).then(
 
           function(result) {
             if(result.success) {
@@ -258,7 +260,7 @@
 
       self.getTitle = function() {
         // Configuraci�n del Help de Articulos
-        return Cairo.Language.getText(3912, "");
+        return getText(3912, "");
       };
 
       self.validate = function() {
@@ -277,21 +279,21 @@
             case K_TECLA:
               if(Cairo.Util.valEmpty(property.getValue(), Cairo.Constants.Types.text)) {
                 // Debe indicar una tecla
-                Cairo.Modal.showInfo(Cairo.Language.getText(3905, ""));
+                Cairo.Modal.showInfo(getText(3905, ""));
               }
               break;
 
             case K_VALOR_CODIGO:
               if(Cairo.Util.valEmpty(property.getValue(), Cairo.Constants.Types.text)) {
                 // Debe indicar un valor para el c�digo
-                Cairo.Modal.showInfo(Cairo.Language.getText(3906, ""));
+                Cairo.Modal.showInfo(getText(3906, ""));
               }
               break;
 
             case K_ATRIBUTO_INDICE:
               if(Cairo.Util.val(property.getValue()) <= 0 || Cairo.Util.val(property.getValue()) > 10) {
                 // Debe indicar el indice del atributo
-                Cairo.Modal.showInfo(Cairo.Language.getText(3907, ""));
+                Cairo.Modal.showInfo(getText(3907, ""));
               }
               break;
           }
@@ -383,31 +385,31 @@
         var properties = m_dialog.getProperties();
         properties.clear();
 
-        var elem = properties.add(null, Cairo.General.Constants.PRHC_NAME);
+        var elem = properties.add(null, C.PRHC_NAME);
         elem.setType(Dialogs.PropertyType.text);
         elem.setName(Cairo.Constants.NAME_LABEL);
         elem.setKey(K_NAME);
         elem.setValue(m_name);
 
-        var elem = properties.add(null, Cairo.General.Constants.PRHC_TECLA);
+        var elem = properties.add(null, C.PRHC_TECLA);
         elem.setType(Dialogs.PropertyType.text);
         // Tecla
-        elem.setName(Cairo.Language.getText(3904, ""));
+        elem.setName(getText(3904, ""));
         elem.setKey(K_TECLA);
         elem.setValue(m_tecla);
 
-        var elem = properties.add(null, Cairo.General.Constants.PRHC_VALOR_CODE);
+        var elem = properties.add(null, C.PRHC_VALOR_CODE);
         elem.setType(Dialogs.PropertyType.text);
         // Valor C�digo
-        elem.setName(Cairo.Language.getText(3909, ""));
+        elem.setName(getText(3909, ""));
         elem.setKey(K_VALOR_CODIGO);
         elem.setValue(m_valor_codigo);
 
-        var elem = properties.add(null, Cairo.General.Constants.PRHC_ATRIBUTO_INDICE);
+        var elem = properties.add(null, C.PRHC_ATRIBUTO_INDICE);
         elem.setType(Dialogs.PropertyType.numeric);
         elem.setSubType(Dialogs.PropertySubType.Integer);
         // Indice del Atributo
-        elem.setName(Cairo.Language.getText(3908, ""));
+        elem.setName(getText(3908, ""));
         elem.setValue(m_atributo_indice);
         elem.setKey(K_ATRIBUTO_INDICE);
 
@@ -417,35 +419,35 @@
         elem.setKey(K_ACTIVE);
         elem.setValue(m_active);
 
-        var elem = properties.add(null, Cairo.General.Constants.PRHC_DEFAULT);
+        var elem = properties.add(null, C.PRHC_DEFAULT);
         elem.setType(Dialogs.PropertyType.check);
         // Default Ventas
-        elem.setName(Cairo.Language.getText(3919, ""));
+        elem.setName(getText(3919, ""));
         elem.setKey(K_DEFAULT);
         elem.setValue(m_default);
 
-        var elem = properties.add(null, Cairo.General.Constants.PRHC_DEFAULT_SRV);
+        var elem = properties.add(null, C.PRHC_DEFAULT_SRV);
         elem.setType(Dialogs.PropertyType.check);
         // Default Servicios
-        elem.setName(Cairo.Language.getText(3920, ""));
+        elem.setName(getText(3920, ""));
         elem.setKey(K_DEFAULT_SRV);
         elem.setValue(m_defaultSrv);
 
-        var elem = properties.add(null, Cairo.General.Constants.PRHC_DEFAULT_PRP);
+        var elem = properties.add(null, C.PRHC_DEFAULT_PRP);
         elem.setType(Dialogs.PropertyType.check);
         // Default Parte de Reparaci�n
-        elem.setName(Cairo.Language.getText(3964, ""));
+        elem.setName(getText(3964, ""));
         elem.setKey(K_DEFAULT_PRP);
         elem.setValue(m_defaultPrp);
 
-        var elem = properties.add(null, Cairo.General.Constants.PRHC_DEFAULT_PRNS);
+        var elem = properties.add(null, C.PRHC_DEFAULT_PRNS);
         elem.setType(Dialogs.PropertyType.check);
         // Default en Equipos
-        elem.setName(Cairo.Language.getText(3965, ""));
+        elem.setName(getText(3965, ""));
         elem.setKey(K_DEFAULT_PRNS);
         elem.setValue(m_defaultPrns);
 
-        var elem = properties.add(null, Cairo.General.Constants.PRHC_DESCRIP);
+        var elem = properties.add(null, C.PRHC_DESCRIP);
         elem.setType(Dialogs.PropertyType.text);
         elem.setSubType(Dialogs.PropertySubType.memo);
         elem.setName(Cairo.Constants.DESCRIPTION_LABEL);
@@ -463,34 +465,34 @@
 
         var properties = m_dialog.getProperties();
 
-        var elem = properties.item(Cairo.General.Constants.PRHC_NAME);
+        var elem = properties.item(C.PRHC_NAME);
         elem.setValue(m_name);
 
-        var elem = properties.item(Cairo.General.Constants.PRHC_TECLA);
+        var elem = properties.item(C.PRHC_TECLA);
         elem.setValue(m_tecla);
 
-        var elem = properties.item(Cairo.General.Constants.PRHC_VALOR_CODE);
+        var elem = properties.item(C.PRHC_VALOR_CODE);
         elem.setValue(m_valor_codigo);
 
-        var elem = properties.item(Cairo.General.Constants.PRHC_ATRIBUTO_INDICE);
+        var elem = properties.item(C.PRHC_ATRIBUTO_INDICE);
         elem.setValue(m_atributo_indice);
 
         var elem = properties.item(Cairo.Constants.ACTIVE);
         elem.setValue(m_active);
 
-        var elem = properties.item(Cairo.General.Constants.PRHC_DEFAULT);
+        var elem = properties.item(C.PRHC_DEFAULT);
         elem.setValue(m_default);
 
-        var elem = properties.item(Cairo.General.Constants.PRHC_DEFAULT_SRV);
+        var elem = properties.item(C.PRHC_DEFAULT_SRV);
         elem.setValue(m_defaultSrv);
 
-        var elem = properties.item(Cairo.General.Constants.PRHC_DEFAULT_PRP);
+        var elem = properties.item(C.PRHC_DEFAULT_PRP);
         elem.setValue(m_defaultPrp);
 
-        var elem = properties.item(Cairo.General.Constants.PRHC_DEFAULT_PRNS);
+        var elem = properties.item(C.PRHC_DEFAULT_PRNS);
         elem.setValue(m_defaultPrns);
 
-        var elem = properties.item(Cairo.General.Constants.PRHC_DESCRIP);
+        var elem = properties.item(C.PRHC_DESCRIP);
         elem.setValue(m_descrip);
 
         return m_dialog.showValues(properties);
@@ -517,17 +519,17 @@
               m_descrip = "";
             }
             else {
-              m_tecla = Cairo.Database.valField(response.data, Cairo.General.Constants.PRHC_TECLA);
-              m_name = Cairo.Database.valField(response.data, Cairo.General.Constants.PRHC_NAME);
-              m_atributo_indice = Cairo.Database.valField(response.data, Cairo.General.Constants.PRHC_ATRIBUTO_INDICE);
-              m_valor_codigo = Cairo.Database.valField(response.data, Cairo.General.Constants.PRHC_VALOR_CODE);
-              m_id = Cairo.Database.valField(response.data, Cairo.General.Constants.PRHC_ID);
+              m_tecla = Cairo.Database.valField(response.data, C.PRHC_TECLA);
+              m_name = Cairo.Database.valField(response.data, C.PRHC_NAME);
+              m_atributo_indice = Cairo.Database.valField(response.data, C.PRHC_ATRIBUTO_INDICE);
+              m_valor_codigo = Cairo.Database.valField(response.data, C.PRHC_VALOR_CODE);
+              m_id = Cairo.Database.valField(response.data, C.PRHC_ID);
               m_active = Cairo.Database.valField(response.data, Cairo.Constants.ACTIVE);
-              m_default = Cairo.Database.valField(response.data, Cairo.General.Constants.PRHC_DEFAULT);
-              m_defaultSrv = Cairo.Database.valField(response.data, Cairo.General.Constants.PRHC_DEFAULT_SRV);
-              m_defaultPrp = Cairo.Database.valField(response.data, Cairo.General.Constants.PRHC_DEFAULT_PRP);
-              m_defaultPrns = Cairo.Database.valField(response.data, Cairo.General.Constants.PRHC_DEFAULT_PRNS);
-              m_descrip = Cairo.Database.valField(response.data, Cairo.General.Constants.PRHC_DESCRIP);
+              m_default = Cairo.Database.valField(response.data, C.PRHC_DEFAULT);
+              m_defaultSrv = Cairo.Database.valField(response.data, C.PRHC_DEFAULT_SRV);
+              m_defaultPrp = Cairo.Database.valField(response.data, C.PRHC_DEFAULT_PRP);
+              m_defaultPrns = Cairo.Database.valField(response.data, C.PRHC_DEFAULT_PRNS);
+              m_descrip = Cairo.Database.valField(response.data, C.PRHC_DESCRIP);
             }
             return true;
           });
@@ -568,6 +570,9 @@
   });
 
   Cairo.module("ProductoHelpConfig.List", function(List, Cairo, Backbone, Marionette, $, _) {
+
+    var NO_ID = Cairo.Constants.NO_ID;
+
     List.Controller = {
       list: function() {
 

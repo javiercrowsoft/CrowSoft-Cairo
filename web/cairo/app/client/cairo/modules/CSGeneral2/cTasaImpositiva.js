@@ -9,6 +9,8 @@
 
       var Dialogs = Cairo.Dialogs;
       var DB = Cairo.Database;
+      var C = Cairo.General.Constants;
+      var NO_ID = Cairo.Constants.NO_ID;
 
       var C_MODULE = "cTasaImpositiva";
 
@@ -20,8 +22,6 @@
       var K_CODIGODGI2 = 6;
       var K_CUE_ID = 7;
       var K_TIPO = 8;
-
-//*TODO:** enum is translated as a new class at the end of the file Public Enum csE_TasaImpositivaTipo
 
       var m_id = 0;
       var m_name = "";
@@ -70,7 +70,7 @@
       self.data = function(id,  field) {
         var rtn = null;
 
-        if(!DB.getData(Cairo.General.Constants.TASA_IMPOSITIVA, Cairo.General.Constants.TI_ID, id, field, rtn, "Data", C_MODULE)) { return null; }
+        if(!DB.getData(C.TASA_IMPOSITIVA, C.TI_ID, id, field, rtn, "Data", C_MODULE)) { return null; }
         return rtn;
       };
 
@@ -82,11 +82,11 @@
 
         m_listController.updateEditorKey(self, NO_ID);
 
-        var property = m_dialog.getProperties().item(Cairo.General.Constants.TI_CODE);
+        var property = m_dialog.getProperties().item(C.TI_CODE);
         property.setValue(Cairo.Constants.COPY_OF + property.getValue());
 
-        m_dialog.showValue(m_dialog.getProperties().item(Cairo.General.Constants.TI_CODE));
-        m_dialog.showValue(m_dialog.getProperties().item(Cairo.General.Constants.TI_NAME));
+        m_dialog.showValue(m_dialog.getProperties().item(C.TI_CODE));
+        m_dialog.showValue(m_dialog.getProperties().item(C.TI_NAME));
 
         m_copy = true;
       };
@@ -130,7 +130,7 @@
 
           var doc = new Cairo.DocDigital();
 
-          doc.setClientTable(Cairo.General.Constants.TASA_IMPOSITIVA);
+          doc.setClientTable(C.TASA_IMPOSITIVA);
           doc.setClientTableID(m_id);
 
           _rtn = doc.showDocs(Cairo.Database);
@@ -175,8 +175,8 @@
         var register = new Cairo.Database.Register();
         var fields = register.getFields();
 
-        register.setFieldId(Cairo.General.Constants.TI_ID);
-        register.setTable(Cairo.General.Constants.TASA_IMPOSITIVA);
+        register.setFieldId(C.TI_ID);
+        register.setTable(C.TASA_IMPOSITIVA);
 
         register.setPath(m_apiPath + "general/tasaimpositiva");
 
@@ -192,11 +192,11 @@
           var property = m_dialog.getProperties().item(_i);
           switch (property.getKey()) {
             case K_NAME:
-              fields.add(Cairo.General.Constants.TI_NAME, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.TI_NAME, property.getValue(), Cairo.Constants.Types.text);
               break;
 
             case K_CODE:
-              fields.add(Cairo.General.Constants.TI_CODE, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.TI_CODE, property.getValue(), Cairo.Constants.Types.text);
               break;
 
             case K_ACTIVE:
@@ -204,23 +204,23 @@
               break;
 
             case K_PORCENTAJE:
-              fields.add(Cairo.General.Constants.TI_PORCENTAJE, property.getValue(), Cairo.Constants.Types.currency);
+              fields.add(C.TI_PORCENTAJE, property.getValue(), Cairo.Constants.Types.currency);
               break;
 
             case K_CODIGODGI1:
-              fields.add(Cairo.General.Constants.TI_CODIGO_DGI1, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.TI_CODIGO_DGI1, property.getValue(), Cairo.Constants.Types.text);
               break;
 
             case K_CODIGODGI2:
-              fields.add(Cairo.General.Constants.TI_CODIGO_DGI2, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.TI_CODIGO_DGI2, property.getValue(), Cairo.Constants.Types.text);
               break;
 
             case K_CUE_ID:
-              fields.add(Cairo.General.Constants.CUE_ID, property.getSelectId(), Cairo.Constants.Types.text);
+              fields.add(C.CUE_ID, property.getSelectId(), Cairo.Constants.Types.text);
               break;
 
             case K_TIPO:
-              fields.add(Cairo.General.Constants.TI_TIPO, property.getListItemData(), Cairo.Constants.Types.integer);
+              fields.add(C.TI_TIPO, property.getListItemData(), Cairo.Constants.Types.integer);
               break;
           }
         }
@@ -228,10 +228,10 @@
         return Cairo.Database.saveEx(
             register,
             false,
-            Cairo.General.Constants.TI_CODE, 
+            C.TI_CODE,
             Cairo.Constants.CLIENT_SAVE_FUNCTION,
             C_MODULE,
-            Cairo.Language.getText(1481, "")).then(
+            getText(1481, "")).then(
 
           function(result) {
             if(result.success) {
@@ -276,7 +276,7 @@
 
       self.getTitle = function() {
         // Tasas Impositivas
-        return Cairo.Language.getText(1482, "");
+        return getText(1482, "");
       };
 
       self.validate = function() {
@@ -300,7 +300,7 @@
 
             case K_CUE_ID:
               if(Cairo.Util.valEmpty(property.getSelectId(), Cairo.Constants.Types.id)) {
-                return Cairo.Modal.showInfo(Cairo.Language.getText(1261, "")).then(function() {return false;});
+                return Cairo.Modal.showInfo(getText(1261, "")).then(function() {return false;});
                 // Debe indicar una cuenta
               }
 
@@ -308,11 +308,11 @@
 
             case K_PORCENTAJE:
               if(!IsNumeric(property.getValue())) {
-                return Cairo.Modal.showInfo(Cairo.Language.getText(1484, "")).then(function() {return false;});
+                return Cairo.Modal.showInfo(getText(1484, "")).then(function() {return false;});
                 //El porcentaje debe ser un número de -200.00 a 200.00
               }
               if(property.getValue() < -200 || property.getValue() > 200) {
-                return Cairo.Modal.showInfo(Cairo.Language.getText(1483, "")).then(function() {return false;});
+                return Cairo.Modal.showInfo(getText(1483, "")).then(function() {return false;});
                 //El porcentaje esta fuera del rango permitido (-200.00 a 200.00)
               }
 
@@ -409,14 +409,14 @@
 
         properties.clear();
 
-        var elem = properties.add(null, Cairo.General.Constants.TI_NAME);
+        var elem = properties.add(null, C.TI_NAME);
         elem.setType(Dialogs.PropertyType.text);
         elem.setName(Cairo.Constants.NAME_LABEL);
         elem.setSize(100);
         elem.setKey(K_NAME);
         elem.setValue(m_name);
 
-        var elem = properties.add(null, Cairo.General.Constants.TI_CODE);
+        var elem = properties.add(null, C.TI_CODE);
         elem.setType(Dialogs.PropertyType.text);
         elem.setName(Cairo.Constants.CODE_LABEL);
         elem.setSize(15);
@@ -429,43 +429,43 @@
         elem.setKey(K_ACTIVE);
         elem.setValue(m_active === true ? 1 : 0);
 
-        var elem = properties.add(null, Cairo.General.Constants.TI_PORCENTAJE);
+        var elem = properties.add(null, C.TI_PORCENTAJE);
         elem.setType(Dialogs.PropertyType.numeric);
         elem.setSubType(Dialogs.PropertySubType.percentage);
         // Porcentaje
-        elem.setName(Cairo.Language.getText(1105, ""));
+        elem.setName(getText(1105, ""));
         elem.setKey(K_PORCENTAJE);
         elem.setValue(m_porcentaje);
 
-        var elem = properties.add(null, Cairo.General.Constants.CUEC_ID);
+        var elem = properties.add(null, C.CUEC_ID);
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.CUENTA);
         // Cuenta
-        elem.setName(Cairo.Language.getText(1267, ""));
+        elem.setName(getText(1267, ""));
         elem.setKey(K_CUE_ID);
         elem.setValue(m_cuenta);
         elem.setSelectId(m_cue_id);
 
-        var elem = properties.add(null, Cairo.General.Constants.TI_CODIGO_DGI1);
+        var elem = properties.add(null, C.TI_CODIGO_DGI1);
         elem.setType(Dialogs.PropertyType.text);
         // Código DGI 1
-        elem.setName(Cairo.Language.getText(1486, ""));
+        elem.setName(getText(1486, ""));
         elem.setSize(5);
         elem.setKey(K_CODIGODGI1);
         elem.setValue(m_codigoDGI1);
 
-        var elem = properties.add(null, Cairo.General.Constants.TI_CODIGO_DGI2);
+        var elem = properties.add(null, C.TI_CODIGO_DGI2);
         elem.setType(Dialogs.PropertyType.text);
         // Código DGI 2
-        elem.setName(Cairo.Language.getText(1487, ""));
+        elem.setName(getText(1487, ""));
         elem.setSize(5);
         elem.setKey(K_CODIGODGI2);
         elem.setValue(m_codigoDGI2);
 
-        var elem = properties.add(null, Cairo.General.Constants.TI_TIPO);
+        var elem = properties.add(null, C.TI_TIPO);
         elem.setType(Dialogs.PropertyType.list);
         // Tipo
-        elem.setName(Cairo.Language.getText(1223, ""));
+        elem.setName(getText(1223, ""));
         elem.setSize(5);
         elem.setKey(K_TIPO);
         elem.setListWhoSetItem(Dialogs.ListWhoSetItem.itemData);
@@ -475,12 +475,12 @@
         var elem = w_list.add(null, csE_TasaImpositivaTipo.cSTI_VENTAS);
         elem.Id = csE_TasaImpositivaTipo.cSTI_VENTAS;
         // Ventas
-        elem.setValue(Cairo.Language.getText(1488, ""));
+        elem.setValue(getText(1488, ""));
 
         var elem = w_list.add(null, csE_TasaImpositivaTipo.cSTI_COMPRAS);
         elem.Id = csE_TasaImpositivaTipo.cSTI_COMPRAS;
         // Compras
-        elem.setValue(Cairo.Language.getText(1489, ""));
+        elem.setValue(getText(1489, ""));
 
         if(!m_dialog.show(self)) { return false; }
 
@@ -493,29 +493,29 @@
 
         var properties = m_dialog.getProperties();
 
-        var elem = properties.item(Cairo.General.Constants.TI_NAME);
+        var elem = properties.item(C.TI_NAME);
         elem.setValue(m_name);
 
-        var elem = properties.item(Cairo.General.Constants.TI_CODE);
+        var elem = properties.item(C.TI_CODE);
         elem.setValue(m_code);
 
         var elem = properties.item(Cairo.Constants.ACTIVE);
         elem.setValue(m_active === true ? 1 : 0);
 
-        var elem = properties.item(Cairo.General.Constants.TI_PORCENTAJE);
+        var elem = properties.item(C.TI_PORCENTAJE);
         elem.setValue(m_porcentaje);
 
-        var elem = properties.item(Cairo.General.Constants.CUEC_ID);
+        var elem = properties.item(C.CUEC_ID);
         elem.setValue(m_cuenta);
         elem.setSelectId(m_cue_id);
 
-        var elem = properties.item(Cairo.General.Constants.TI_CODIGO_DGI1);
+        var elem = properties.item(C.TI_CODIGO_DGI1);
         elem.setValue(m_codigoDGI1);
 
-        var elem = properties.item(Cairo.General.Constants.TI_CODIGO_DGI2);
+        var elem = properties.item(C.TI_CODIGO_DGI2);
         elem.setValue(m_codigoDGI2);
 
-        var elem = properties.item(Cairo.General.Constants.TI_TIPO);
+        var elem = properties.item(C.TI_TIPO);
 
         return m_dialog.showValues(properties);
       };
@@ -541,15 +541,15 @@
             } 
             else {
               m_active = Cairo.Database.valField(response.data, Cairo.Constants.ACTIVE);
-              m_name = Cairo.Database.valField(response.data, Cairo.General.Constants.TI_NAME);
-              m_code = Cairo.Database.valField(response.data, Cairo.General.Constants.TI_CODE);
-              m_id = Cairo.Database.valField(response.data, Cairo.General.Constants.TI_ID);
-              m_porcentaje = Cairo.Database.valField(response.data, Cairo.General.Constants.TI_PORCENTAJE);
-              m_codigoDGI1 = Cairo.Database.valField(response.data, Cairo.General.Constants.TI_CODIGO_DGI1);
-              m_codigoDGI2 = Cairo.Database.valField(response.data, Cairo.General.Constants.TI_CODIGO_DGI2);
-              m_cue_id = Cairo.Database.valField(response.data, Cairo.General.Constants.CUE_ID);
-              m_cuenta = Cairo.Database.valField(response.data, Cairo.General.Constants.CUE_NAME);
-              m_tipo = Cairo.Database.valField(response.data, Cairo.General.Constants.TI_TIPO);
+              m_name = Cairo.Database.valField(response.data, C.TI_NAME);
+              m_code = Cairo.Database.valField(response.data, C.TI_CODE);
+              m_id = Cairo.Database.valField(response.data, C.TI_ID);
+              m_porcentaje = Cairo.Database.valField(response.data, C.TI_PORCENTAJE);
+              m_codigoDGI1 = Cairo.Database.valField(response.data, C.TI_CODIGO_DGI1);
+              m_codigoDGI2 = Cairo.Database.valField(response.data, C.TI_CODIGO_DGI2);
+              m_cue_id = Cairo.Database.valField(response.data, C.CUE_ID);
+              m_cuenta = Cairo.Database.valField(response.data, C.CUE_NAME);
+              m_tipo = Cairo.Database.valField(response.data, C.TI_TIPO);
             }
           return true;
         });
@@ -590,6 +590,9 @@
   });
 
   Cairo.module("TasaImpositiva.List", function(List, Cairo, Backbone, Marionette, $, _) {
+
+    var NO_ID = Cairo.Constants.NO_ID;
+
     List.Controller = {
       list: function() {
 

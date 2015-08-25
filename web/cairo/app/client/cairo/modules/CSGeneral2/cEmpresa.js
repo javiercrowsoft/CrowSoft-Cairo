@@ -9,6 +9,8 @@
 
       var Dialogs = Cairo.Dialogs;
       var DB = Cairo.Database;
+      var C = Cairo.General.Constants;
+      var NO_ID = Cairo.Constants.NO_ID;
 
       var C_MODULE = "cEmpresa";
 
@@ -199,7 +201,7 @@
         var register = new Cairo.Database.Register();
         var fields = register.getFields();
 
-        register.setFieldId(Cairo.Constants.EMP_ID);
+        register.setFieldId(C.EMP_ID);
         register.setTable(Cairo.Constants.EMPRESA);
 
         register.setPath(m_apiPath + "general/empresa");
@@ -232,67 +234,67 @@
               break;
 
             case K_DESCRIP:
-              fields.add(Cairo.General.Constants.EMP_DESCRIP, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.EMP_DESCRIP, property.getValue(), Cairo.Constants.Types.text);
               break;
 
             case K_RAZONSOCIAL:
-              fields.add(Cairo.General.Constants.EMP_RAZONSOCIAL, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.EMP_RAZONSOCIAL, property.getValue(), Cairo.Constants.Types.text);
               break;
 
             case K_CUIT:
-              fields.add(Cairo.General.Constants.EMP_CUIT, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.EMP_CUIT, property.getValue(), Cairo.Constants.Types.text);
               break;
 
             case K_INGRESOSBRUTOS:
-              fields.add(Cairo.General.Constants.EMP_INGRESOSBRUTOS, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.EMP_INGRESOSBRUTOS, property.getValue(), Cairo.Constants.Types.text);
               break;
 
             case K_CATFISCAL:
-              fields.add(Cairo.General.Constants.EMP_CATFISCAL, property.getListItemData(), Cairo.Constants.Types.integer);
+              fields.add(C.EMP_CATFISCAL, property.getListItemData(), Cairo.Constants.Types.integer);
               break;
 
             case K_CHEQUEORDEN:
-              fields.add(Cairo.General.Constants.EMP_CHEQUEORDEN, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.EMP_CHEQUEORDEN, property.getValue(), Cairo.Constants.Types.text);
               break;
 
             case K_CODPOSTAL:
-              fields.add(Cairo.General.Constants.EMP_CODPOSTAL, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.EMP_CODPOSTAL, property.getValue(), Cairo.Constants.Types.text);
               break;
 
             case K_LOCALIDAD:
-              fields.add(Cairo.General.Constants.EMP_LOCALIDAD, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.EMP_LOCALIDAD, property.getValue(), Cairo.Constants.Types.text);
               break;
 
             case K_CALLE:
-              fields.add(Cairo.General.Constants.EMP_CALLE, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.EMP_CALLE, property.getValue(), Cairo.Constants.Types.text);
               break;
 
             case K_CALLENUMERO:
-              fields.add(Cairo.General.Constants.EMP_CALLENUMERO, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.EMP_CALLENUMERO, property.getValue(), Cairo.Constants.Types.text);
               break;
 
             case K_PISO:
-              fields.add(Cairo.General.Constants.EMP_PISO, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.EMP_PISO, property.getValue(), Cairo.Constants.Types.text);
               break;
 
             case K_DEPTO:
-              fields.add(Cairo.General.Constants.EMP_DEPTO, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.EMP_DEPTO, property.getValue(), Cairo.Constants.Types.text);
               break;
 
             case K_TEL:
-              fields.add(Cairo.General.Constants.EMP_TEL, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.EMP_TEL, property.getValue(), Cairo.Constants.Types.text);
               break;
 
             case K_FAX:
-              fields.add(Cairo.General.Constants.EMP_FAX, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.EMP_FAX, property.getValue(), Cairo.Constants.Types.text);
               break;
 
             case K_EMAIL:
-              fields.add(Cairo.General.Constants.EMP_EMAIL, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.EMP_EMAIL, property.getValue(), Cairo.Constants.Types.text);
               break;
 
             case K_WEB:
-              fields.add(Cairo.General.Constants.EMP_WEB, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.EMP_WEB, property.getValue(), Cairo.Constants.Types.text);
               break;
 
             case K_ACTIVE:
@@ -304,10 +306,10 @@
         return Cairo.Database.saveEx(
           register,
           false,
-          Cairo.General.Constants.EMP_CODE,
+          C.EMP_CODE,
           Cairo.Constants.CLIENT_SAVE_FUNCTION,
           C_MODULE,
-          Cairo.Language.getText(1170, "")).then(
+          getText(1170, "")).then(
 
           function(result) {
             if(result.success) {
@@ -353,7 +355,7 @@
 
       self.getTitle = function() {
         // Empresas
-        return Cairo.Language.getText(1171, "");
+        return getText(1171, "");
       };
 
       self.validate = function() {
@@ -367,35 +369,35 @@
             case K_NAME:
               if(Cairo.Util.valEmpty(property.getValue(), Cairo.Constants.Types.text)) {
                 // Debe indicar un nombre
-                Cairo.Modal.showInfo(Cairo.Language.getText(1007, ""));
+                Cairo.Modal.showInfo(getText(1007, ""));
               }
               break;
 
             case K_CODE:
               if(Cairo.Util.valEmpty(property.getValue(), Cairo.Constants.Types.text)) {
                 // Debe indicar un c�digo
-                Cairo.Modal.showInfo(Cairo.Language.getText(1008, ""));
+                Cairo.Modal.showInfo(getText(1008, ""));
               }
               break;
 
             case K_RAZONSOCIAL:
               if(Cairo.Util.valEmpty(property.getValue(), Cairo.Constants.Types.text)) {
                 // Debe indicar una raz�n social
-                Cairo.Modal.showInfo(Cairo.Language.getText(1172, ""));
+                Cairo.Modal.showInfo(getText(1172, ""));
               }
               break;
 
             case K_CUIT:
               if(Cairo.Util.valEmpty(property.getValue(), Cairo.Constants.Types.text)) {
                 // Debe indicar un CUIT
-                Cairo.Modal.showInfo(Cairo.Language.getText(1173, ""));
+                Cairo.Modal.showInfo(getText(1173, ""));
               }
               break;
 
             case K_CATFISCAL:
               if(Cairo.Util.valEmpty(property.getListItemData(), Cairo.Constants.Types.integer)) {
                 // Debe indicar un categor�a fiscal
-                Cairo.Modal.showInfo(Cairo.Language.getText(1174, ""));
+                Cairo.Modal.showInfo(getText(1174, ""));
               }
               break;
           }
@@ -484,7 +486,7 @@
         var tab = w_tabs.add(null);
         tab.setIndex(1);
         // Direcci�n
-        tab.setName(Cairo.Language.getText(1037, ""));
+        tab.setName(getText(1037, ""));
 
         var properties = m_dialog.getProperties();
 
@@ -513,39 +515,39 @@
         var elem = properties.add(null, Cairo.Constants.EMP_CODIGO_BARRA);
         elem.setType(Dialogs.PropertyType.text);
         // C�digo de Barras
-        elem.setName(Cairo.Language.getText(1177, ""));
+        elem.setName(getText(1177, ""));
         elem.setSize(15);
         elem.setKey(K_CODIGO_BARRA);
         elem.setValue(m_codigoBarra);
 
-        var elem = properties.add(null, Cairo.General.Constants.EMP_RAZONSOCIAL);
+        var elem = properties.add(null, C.EMP_RAZONSOCIAL);
         elem.setType(Dialogs.PropertyType.text);
         // Raz�n Social
-        elem.setName(Cairo.Language.getText(1178, ""));
+        elem.setName(getText(1178, ""));
         elem.setSize(255);
         elem.setKey(K_RAZONSOCIAL);
         elem.setValue(m_razonsocial);
 
-        var elem = properties.add(null, Cairo.General.Constants.EMP_CUIT);
+        var elem = properties.add(null, C.EMP_CUIT);
         elem.setType(Dialogs.PropertyType.text);
         // Cuit
-        elem.setName(Cairo.Language.getText(1179, ""));
+        elem.setName(getText(1179, ""));
         elem.setSize(50);
         elem.setKey(K_CUIT);
         elem.setValue(m_cuit);
 
-        var elem = properties.add(null, Cairo.General.Constants.EMP_INGRESOSBRUTOS);
+        var elem = properties.add(null, C.EMP_INGRESOSBRUTOS);
         elem.setType(Dialogs.PropertyType.text);
         // Ingresos brutos
-        elem.setName(Cairo.Language.getText(1180, ""));
+        elem.setName(getText(1180, ""));
         elem.setSize(20);
         elem.setKey(K_INGRESOSBRUTOS);
         elem.setValue(m_ingresosbrutos);
 
-        var elem = properties.add(null, Cairo.General.Constants.EMP_CATFISCAL);
+        var elem = properties.add(null, C.EMP_CATFISCAL);
         elem.setType(Dialogs.PropertyType.list);
         // Categoria Fiscal
-        elem.setName(Cairo.Language.getText(1181, ""));
+        elem.setName(getText(1181, ""));
         elem.setKey(K_CATFISCAL);
         elem.setListWhoSetItem(Dialogs.ListWhoSetItem.itemData);
         elem.setListItemData(m_catFiscal);
@@ -555,160 +557,160 @@
         var elem = w_list.add(null, C.CategoriaFiscal.consumidorFinal);
         elem.Id = C.CategoriaFiscal.consumidorFinal;
         // Consumidor final
-        elem.setValue(Cairo.Language.getText(1182, ""));
+        elem.setValue(getText(1182, ""));
 
         var elem = w_list.add(null, C.CategoriaFiscal.noInscripto);
         elem.Id = C.CategoriaFiscal.noInscripto;
         // No Inscripto
-        elem.setValue(Cairo.Language.getText(1183, ""));
+        elem.setValue(getText(1183, ""));
 
         var elem = w_list.add(null, C.CategoriaFiscal.inscripto);
         elem.Id = C.CategoriaFiscal.inscripto;
         // Inscripto
-        elem.setValue(Cairo.Language.getText(1184, ""));
+        elem.setValue(getText(1184, ""));
 
         var elem = w_list.add(null, C.CategoriaFiscal.extranjero);
         elem.Id = C.CategoriaFiscal.extranjero;
         // Extranjero
-        elem.setValue(Cairo.Language.getText(1185, ""));
+        elem.setValue(getText(1185, ""));
 
         var elem = w_list.add(null, C.CategoriaFiscal.exento);
         elem.Id = C.CategoriaFiscal.exento;
         // Exento
-        elem.setValue(Cairo.Language.getText(1186, ""));
+        elem.setValue(getText(1186, ""));
 
         var elem = w_list.add(null, C.CategoriaFiscal.monotributo);
         elem.Id = C.CategoriaFiscal.monotributo;
         // Monotributo
-        elem.setValue(Cairo.Language.getText(1187, ""));
+        elem.setValue(getText(1187, ""));
 
         var elem = w_list.add(null, C.CategoriaFiscal.extranjeroIva);
         elem.Id = C.CategoriaFiscal.extranjeroIva;
         // Extranjero con Iva
-        elem.setValue(Cairo.Language.getText(1188, ""));
+        elem.setValue(getText(1188, ""));
 
         var elem = w_list.add(null, C.CategoriaFiscal.noCategorizado);
         elem.Id = C.CategoriaFiscal.noCategorizado;
         // No categorizado
-        elem.setValue(Cairo.Language.getText(1189, ""));
+        elem.setValue(getText(1189, ""));
 
         var elem = w_list.add(null, C.CategoriaFiscal.noResponsable);
         elem.Id = C.CategoriaFiscal.noResponsable;
         // No responsable
-        elem.setValue(Cairo.Language.getText(1190, ""));
+        elem.setValue(getText(1190, ""));
 
         var elem = w_list.add(null, C.CategoriaFiscal.noResponsableExento);
         elem.Id = C.CategoriaFiscal.noResponsableExento;
         // No responsable exento
-        elem.setValue(Cairo.Language.getText(1191, ""));
+        elem.setValue(getText(1191, ""));
 
         var elem = w_list.add(null, C.CategoriaFiscal.inscriptoM);
         elem.Id = C.CategoriaFiscal.inscriptoM;
         // Inscripto M
-        elem.setValue(Cairo.Language.getText(1192, ""));
+        elem.setValue(getText(1192, ""));
 
         var elem = properties.add(null, Cairo.Constants.EMP_ES_SUCURSAL);
         elem.setType(Dialogs.PropertyType.check);
         // Es Sucursal
-        elem.setName(Cairo.Language.getText(4654, ""));
+        elem.setName(getText(4654, ""));
         elem.setKey(K_ES_SUCURSAL);
         elem.setValue(Cairo.Util.boolToInt(m_esSucursal));
 
-        var elem = properties.add(null, Cairo.General.Constants.EMP_CHEQUEORDEN);
+        var elem = properties.add(null, C.EMP_CHEQUEORDEN);
         elem.setType(Dialogs.PropertyType.text);
         // Cheque Orden
-        elem.setName(Cairo.Language.getText(1193, ""));
+        elem.setName(getText(1193, ""));
         elem.setSize(100);
         elem.setKey(K_CHEQUEORDEN);
         elem.setValue(m_chequeorden);
 
-        var elem = properties.add(null, Cairo.General.Constants.EMP_CALLE);
+        var elem = properties.add(null, C.EMP_CALLE);
         elem.setType(Dialogs.PropertyType.text);
         // Calle
-        elem.setName(Cairo.Language.getText(1194, ""));
+        elem.setName(getText(1194, ""));
         elem.setSize(100);
         elem.setKey(K_CALLE);
         elem.setTabIndex(1);
         elem.setValue(m_calle);
 
-        var elem = properties.add(null, Cairo.General.Constants.EMP_CALLENUMERO);
+        var elem = properties.add(null, C.EMP_CALLENUMERO);
         elem.setType(Dialogs.PropertyType.text);
         // Calle N�mero
-        elem.setName(Cairo.Language.getText(1195, ""));
+        elem.setName(getText(1195, ""));
         elem.setSize(100);
         elem.setKey(K_CALLENUMERO);
         elem.setTabIndex(1);
         elem.setValue(m_callenumero);
 
-        var elem = properties.add(null, Cairo.General.Constants.EMP_PISO);
+        var elem = properties.add(null, C.EMP_PISO);
         elem.setType(Dialogs.PropertyType.text);
         // Piso
-        elem.setName(Cairo.Language.getText(1196, ""));
+        elem.setName(getText(1196, ""));
         elem.setSize(100);
         elem.setKey(K_PISO);
         elem.setTabIndex(1);
         elem.setValue(m_piso);
 
-        var elem = properties.add(null, Cairo.General.Constants.EMP_DEPTO);
+        var elem = properties.add(null, C.EMP_DEPTO);
         elem.setType(Dialogs.PropertyType.text);
         // Depto
-        elem.setName(Cairo.Language.getText(1197, ""));
+        elem.setName(getText(1197, ""));
         elem.setSize(100);
         elem.setKey(K_DEPTO);
         elem.setValue(m_depto);
         elem.setTabIndex(1);
 
-        var elem = properties.add(null, Cairo.General.Constants.EMP_LOCALIDAD);
+        var elem = properties.add(null, C.EMP_LOCALIDAD);
         elem.setType(Dialogs.PropertyType.text);
         // Localidad
-        elem.setName(Cairo.Language.getText(1198, ""));
+        elem.setName(getText(1198, ""));
         elem.setSize(100);
         elem.setKey(K_LOCALIDAD);
         elem.setValue(m_localidad);
         elem.setTabIndex(1);
 
-        var elem = properties.add(null, Cairo.General.Constants.EMP_CODPOSTAL);
+        var elem = properties.add(null, C.EMP_CODPOSTAL);
         elem.setType(Dialogs.PropertyType.text);
         // C�digo Postal
-        elem.setName(Cairo.Language.getText(1199, ""));
+        elem.setName(getText(1199, ""));
         elem.setSize(50);
         elem.setKey(K_CODPOSTAL);
         elem.setValue(m_codpostal);
         elem.setTabIndex(1);
 
-        var elem = properties.add(null, Cairo.General.Constants.EMP_TEL);
+        var elem = properties.add(null, C.EMP_TEL);
         elem.setType(Dialogs.PropertyType.text);
         // Telefono
-        elem.setName(Cairo.Language.getText(1036, ""));
+        elem.setName(getText(1036, ""));
         elem.setSize(100);
         elem.setKey(K_TEL);
         elem.setValue(m_tel);
 
-        var elem = properties.add(null, Cairo.General.Constants.EMP_FAX);
+        var elem = properties.add(null, C.EMP_FAX);
         elem.setType(Dialogs.PropertyType.text);
         // Fax
-        elem.setName(Cairo.Language.getText(1200, ""));
+        elem.setName(getText(1200, ""));
         elem.setSize(100);
         elem.setKey(K_FAX);
         elem.setValue(m_fax);
 
-        var elem = properties.add(null, Cairo.General.Constants.EMP_EMAIL);
+        var elem = properties.add(null, C.EMP_EMAIL);
         elem.setType(Dialogs.PropertyType.text);
         // E-Mail
-        elem.setName(Cairo.Language.getText(1034, ""));
+        elem.setName(getText(1034, ""));
         elem.setSize(100);
         elem.setKey(K_EMAIL);
         elem.setValue(m_email);
 
-        var elem = properties.add(null, Cairo.General.Constants.EMP_WEB);
+        var elem = properties.add(null, C.EMP_WEB);
         elem.setType(Dialogs.PropertyType.text);
         // Web
-        elem.setName(Cairo.Language.getText(1038, ""));
+        elem.setName(getText(1038, ""));
         elem.setSize(100);
         elem.setKey(K_WEB);
         elem.setValue(m_web);
 
-        var elem = properties.add(null, Cairo.General.Constants.EMP_DESCRIP);
+        var elem = properties.add(null, C.EMP_DESCRIP);
         elem.setType(Dialogs.PropertyType.text);
         elem.setName(Cairo.Constants.DESCRIPTION_LABEL);
         elem.setSize(255);
@@ -739,54 +741,54 @@
         var elem = properties.item(Cairo.Constants.EMP_CODIGO_BARRA);
         elem.setValue(m_codigoBarra);
 
-        var elem = properties.item(Cairo.General.Constants.EMP_RAZONSOCIAL);
+        var elem = properties.item(C.EMP_RAZONSOCIAL);
         elem.setValue(m_razonsocial);
 
-        var elem = properties.item(Cairo.General.Constants.EMP_CUIT);
+        var elem = properties.item(C.EMP_CUIT);
         elem.setValue(m_cuit);
 
-        var elem = properties.item(Cairo.General.Constants.EMP_INGRESOSBRUTOS);
+        var elem = properties.item(C.EMP_INGRESOSBRUTOS);
         elem.setValue(m_ingresosbrutos);
 
-        var elem = properties.item(Cairo.General.Constants.EMP_CATFISCAL);
+        var elem = properties.item(C.EMP_CATFISCAL);
 
         var elem = properties.item(Cairo.Constants.EMP_ES_SUCURSAL);
         elem.setValue(Cairo.Util.boolToInt(m_esSucursal));
 
-        var elem = properties.item(Cairo.General.Constants.EMP_CHEQUEORDEN);
+        var elem = properties.item(C.EMP_CHEQUEORDEN);
         elem.setValue(m_chequeorden);
 
-        var elem = properties.item(Cairo.General.Constants.EMP_CALLE);
+        var elem = properties.item(C.EMP_CALLE);
         elem.setValue(m_calle);
 
-        var elem = properties.item(Cairo.General.Constants.EMP_CALLENUMERO);
+        var elem = properties.item(C.EMP_CALLENUMERO);
         elem.setValue(m_callenumero);
 
-        var elem = properties.item(Cairo.General.Constants.EMP_PISO);
+        var elem = properties.item(C.EMP_PISO);
         elem.setValue(m_piso);
 
-        var elem = properties.item(Cairo.General.Constants.EMP_DEPTO);
+        var elem = properties.item(C.EMP_DEPTO);
         elem.setValue(m_depto);
 
-        var elem = properties.item(Cairo.General.Constants.EMP_LOCALIDAD);
+        var elem = properties.item(C.EMP_LOCALIDAD);
         elem.setValue(m_localidad);
 
-        var elem = properties.item(Cairo.General.Constants.EMP_CODPOSTAL);
+        var elem = properties.item(C.EMP_CODPOSTAL);
         elem.setValue(m_codpostal);
 
-        var elem = properties.item(Cairo.General.Constants.EMP_TEL);
+        var elem = properties.item(C.EMP_TEL);
         elem.setValue(m_tel);
 
-        var elem = properties.item(Cairo.General.Constants.EMP_FAX);
+        var elem = properties.item(C.EMP_FAX);
         elem.setValue(m_fax);
 
-        var elem = properties.item(Cairo.General.Constants.EMP_EMAIL);
+        var elem = properties.item(C.EMP_EMAIL);
         elem.setValue(m_email);
 
-        var elem = properties.item(Cairo.General.Constants.EMP_WEB);
+        var elem = properties.item(C.EMP_WEB);
         elem.setValue(m_web);
 
-        var elem = properties.item(Cairo.General.Constants.EMP_DESCRIP);
+        var elem = properties.item(C.EMP_DESCRIP);
         elem.setValue(m_descrip);
 
         return m_dialog.showValues(properties);
@@ -801,26 +803,26 @@
 
             if(response.data.id !== NO_ID) {
 
-              m_id = Cairo.Database.valField(response.data, Cairo.Constants.EMP_ID);
+              m_id = Cairo.Database.valField(response.data, C.EMP_ID);
               m_name = Cairo.Database.valField(response.data, Cairo.Constants.EMP_NAME);
               m_code = Cairo.Database.valField(response.data, Cairo.Constants.EMP_CODE);
               m_codigoBarra = Cairo.Database.valField(response.data, Cairo.Constants.EMP_CODIGO_BARRA);
-              m_descrip = Cairo.Database.valField(response.data, Cairo.General.Constants.EMP_DESCRIP);
-              m_razonsocial = Cairo.Database.valField(response.data, Cairo.General.Constants.EMP_RAZONSOCIAL);
-              m_cuit = Cairo.Database.valField(response.data, Cairo.General.Constants.EMP_CUIT);
-              m_ingresosbrutos = Cairo.Database.valField(response.data, Cairo.General.Constants.EMP_INGRESOSBRUTOS);
-              m_catFiscal = Cairo.Database.valField(response.data, Cairo.General.Constants.EMP_CATFISCAL);
-              m_chequeorden = Cairo.Database.valField(response.data, Cairo.General.Constants.EMP_CHEQUEORDEN);
-              m_codpostal = Cairo.Database.valField(response.data, Cairo.General.Constants.EMP_CODPOSTAL);
-              m_localidad = Cairo.Database.valField(response.data, Cairo.General.Constants.EMP_LOCALIDAD);
-              m_calle = Cairo.Database.valField(response.data, Cairo.General.Constants.EMP_CALLE);
-              m_callenumero = Cairo.Database.valField(response.data, Cairo.General.Constants.EMP_CALLENUMERO);
-              m_piso = Cairo.Database.valField(response.data, Cairo.General.Constants.EMP_PISO);
-              m_depto = Cairo.Database.valField(response.data, Cairo.General.Constants.EMP_DEPTO);
-              m_tel = Cairo.Database.valField(response.data, Cairo.General.Constants.EMP_TEL);
-              m_fax = Cairo.Database.valField(response.data, Cairo.General.Constants.EMP_FAX);
-              m_email = Cairo.Database.valField(response.data, Cairo.General.Constants.EMP_EMAIL);
-              m_web = Cairo.Database.valField(response.data, Cairo.General.Constants.EMP_WEB);
+              m_descrip = Cairo.Database.valField(response.data, C.EMP_DESCRIP);
+              m_razonsocial = Cairo.Database.valField(response.data, C.EMP_RAZONSOCIAL);
+              m_cuit = Cairo.Database.valField(response.data, C.EMP_CUIT);
+              m_ingresosbrutos = Cairo.Database.valField(response.data, C.EMP_INGRESOSBRUTOS);
+              m_catFiscal = Cairo.Database.valField(response.data, C.EMP_CATFISCAL);
+              m_chequeorden = Cairo.Database.valField(response.data, C.EMP_CHEQUEORDEN);
+              m_codpostal = Cairo.Database.valField(response.data, C.EMP_CODPOSTAL);
+              m_localidad = Cairo.Database.valField(response.data, C.EMP_LOCALIDAD);
+              m_calle = Cairo.Database.valField(response.data, C.EMP_CALLE);
+              m_callenumero = Cairo.Database.valField(response.data, C.EMP_CALLENUMERO);
+              m_piso = Cairo.Database.valField(response.data, C.EMP_PISO);
+              m_depto = Cairo.Database.valField(response.data, C.EMP_DEPTO);
+              m_tel = Cairo.Database.valField(response.data, C.EMP_TEL);
+              m_fax = Cairo.Database.valField(response.data, C.EMP_FAX);
+              m_email = Cairo.Database.valField(response.data, C.EMP_EMAIL);
+              m_web = Cairo.Database.valField(response.data, C.EMP_WEB);
               m_esSucursal = Cairo.Database.valField(response.data, Cairo.Constants.EMP_ES_SUCURSAL);
               m_active = Cairo.Database.valField(response.data, Cairo.Constants.ACTIVE);
 
@@ -890,6 +892,9 @@
   });
 
   Cairo.module("Empresa.List", function(List, Cairo, Backbone, Marionette, $, _) {
+
+    var NO_ID = Cairo.Constants.NO_ID;
+
     List.Controller = {
       list: function() {
 

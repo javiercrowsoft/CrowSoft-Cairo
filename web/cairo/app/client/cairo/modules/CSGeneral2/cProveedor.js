@@ -2,6 +2,9 @@
   "use strict";
 
   Cairo.module("Proveedor.List", function(List, Cairo, Backbone, Marionette, $, _) {
+
+    var NO_ID = Cairo.Constants.NO_ID;
+
     List.Controller = {
       list: function() {
 

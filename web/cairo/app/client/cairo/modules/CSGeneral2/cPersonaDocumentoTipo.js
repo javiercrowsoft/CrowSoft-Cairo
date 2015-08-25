@@ -9,6 +9,8 @@
 
       var Dialogs = Cairo.Dialogs;
       var DB = Cairo.Database;
+      var C = Cairo.General.Constants;
+      var NO_ID = Cairo.Constants.NO_ID;
 
       var C_MODULE = "cPersonaDocumentoTipo";
 
@@ -56,11 +58,11 @@
 
         m_listController.updateEditorKey(self, NO_ID);
 
-        var property = m_dialog.getProperties().item(Cairo.General.Constants.PRSDT_CODE);
+        var property = m_dialog.getProperties().item(C.PRSDT_CODE);
         property.setValue(Cairo.Constants.COPY_OF + property.getValue());
 
-        m_dialog.showValue(m_dialog.getProperties().item(Cairo.General.Constants.PRSDT_CODE));
-        m_dialog.showValue(m_dialog.getProperties().item(Cairo.General.Constants.PRSDT_NAME));
+        m_dialog.showValue(m_dialog.getProperties().item(C.PRSDT_CODE));
+        m_dialog.showValue(m_dialog.getProperties().item(C.PRSDT_NAME));
 
         m_copy = true;
       };
@@ -104,7 +106,7 @@
 
           var doc = new Cairo.DocDigital();
 
-          doc.setClientTable(Cairo.General.Constants.PERSONADOCUMENTOTIPO);
+          doc.setClientTable(C.PERSONADOCUMENTOTIPO);
           doc.setClientTableID(m_id);
 
           _rtn = doc.showDocs(Cairo.Database);
@@ -149,8 +151,8 @@
         var register = new Cairo.Database.Register();
         var fields = register.getFields();
 
-        register.setFieldId(Cairo.General.Constants.PRSDT_ID);
-        register.setTable(Cairo.General.Constants.PERSONADOCUMENTOTIPO);
+        register.setFieldId(C.PRSDT_ID);
+        register.setTable(C.PERSONADOCUMENTOTIPO);
 
         register.setPath(m_apiPath + "general/personadocumentotipo");
 
@@ -166,15 +168,15 @@
           var property = m_dialog.getProperties().item(_i);
           switch (property.getKey()) {
             case K_NAME:
-              fields.add(Cairo.General.Constants.PRSDT_NAME, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.PRSDT_NAME, property.getValue(), Cairo.Constants.Types.text);
               break;
 
             case K_CODE:
-              fields.add(Cairo.General.Constants.PRSDT_CODE, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.PRSDT_CODE, property.getValue(), Cairo.Constants.Types.text);
               break;
 
             case K_DESCRIP:
-              fields.add(Cairo.General.Constants.PRSDT_DESCRIP, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.PRSDT_DESCRIP, property.getValue(), Cairo.Constants.Types.text);
               break;
 
             case K_ACTIVE:
@@ -186,10 +188,10 @@
         return Cairo.Database.saveEx(
             register,
             false,
-            Cairo.General.Constants.PRSDT_CODE, 
+            C.PRSDT_CODE,
             Cairo.Constants.CLIENT_SAVE_FUNCTION,
             C_MODULE,
-            Cairo.Language.getText(4672, "")).then(
+            getText(4672, "")).then(
 
           function(result) {
             if(result.success) {
@@ -233,7 +235,7 @@
       };
 
       self.getTitle = function() {
-        return Cairo.Language.getText(4671, "");
+        return getText(4671, "");
       };
 
       self.validate = function() {
@@ -348,14 +350,14 @@
 
         properties.clear();
 
-        var elem = properties.add(null, Cairo.General.Constants.PRSDT_NAME);
+        var elem = properties.add(null, C.PRSDT_NAME);
         elem.setType(Dialogs.PropertyType.text);
         elem.setName(Cairo.Constants.NAME_LABEL);
         elem.setSize(50);
         elem.setKey(K_NAME);
         elem.setValue(m_name);
 
-        var elem = properties.add(null, Cairo.General.Constants.PRSDT_CODE);
+        var elem = properties.add(null, C.PRSDT_CODE);
         elem.setType(Dialogs.PropertyType.text);
         elem.setName(Cairo.Constants.CODE_LABEL);
         elem.setSize(10);
@@ -368,7 +370,7 @@
         elem.setKey(K_ACTIVE);
         elem.setValue(m_active === true ? 1 : 0);
 
-        var elem = properties.add(null, Cairo.General.Constants.PRSDT_DESCRIP);
+        var elem = properties.add(null, C.PRSDT_DESCRIP);
         elem.setType(Dialogs.PropertyType.text);
         elem.setSubType(Dialogs.PropertySubType.memo);
         elem.setName(Cairo.Constants.DESCRIPTION_LABEL);
@@ -387,16 +389,16 @@
 
         var properties = m_dialog.getProperties();
 
-        var elem = properties.item(Cairo.General.Constants.PRSDT_NAME);
+        var elem = properties.item(C.PRSDT_NAME);
         elem.setValue(m_name);
 
-        var elem = properties.item(Cairo.General.Constants.PRSDT_CODE);
+        var elem = properties.item(C.PRSDT_CODE);
         elem.setValue(m_code);
 
         var elem = properties.item(Cairo.Constants.ACTIVE);
         elem.setValue(m_active === true ? 1 : 0);
 
-        var elem = properties.item(Cairo.General.Constants.PRSDT_DESCRIP);
+        var elem = properties.item(C.PRSDT_DESCRIP);
         elem.setValue(m_descrip);
 
         return m_dialog.showValues(properties);
@@ -411,10 +413,10 @@
 
             if(response.data.id !== NO_ID) {
 
-              m_id = Cairo.Database.valField(response.data, Cairo.General.Constants.PRSDT_ID);
-              m_name = Cairo.Database.valField(response.data, Cairo.General.Constants.PRSDT_NAME);
-              m_code = Cairo.Database.valField(response.data, Cairo.General.Constants.PRSDT_CODE);
-              m_descrip = Cairo.Database.valField(response.data, Cairo.General.Constants.PRSDT_DESCRIP);
+              m_id = Cairo.Database.valField(response.data, C.PRSDT_ID);
+              m_name = Cairo.Database.valField(response.data, C.PRSDT_NAME);
+              m_code = Cairo.Database.valField(response.data, C.PRSDT_CODE);
+              m_descrip = Cairo.Database.valField(response.data, C.PRSDT_DESCRIP);
               m_active = Cairo.Database.valField(response.data, Cairo.Constants.ACTIVE);
 
             } 
@@ -467,6 +469,9 @@
   });
 
   Cairo.module("PersonaDocumentoTipo.List", function(List, Cairo, Backbone, Marionette, $, _) {
+
+    var NO_ID = Cairo.Constants.NO_ID;
+
     List.Controller = {
       list: function() {
 

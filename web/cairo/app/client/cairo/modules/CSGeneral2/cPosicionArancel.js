@@ -9,6 +9,8 @@
 
       var Dialogs = Cairo.Dialogs;
       var DB = Cairo.Database;
+      var C = Cairo.General.Constants;
+      var NO_ID = Cairo.Constants.NO_ID;
 
       var C_MODULE = "cPosicionArancel";
 
@@ -63,11 +65,11 @@
 
         m_listController.updateEditorKey(self, NO_ID);
 
-        var property = m_dialog.getProperties().item(Cairo.General.Constants.POAR_CODE);
+        var property = m_dialog.getProperties().item(C.POAR_CODE);
         property.setValue(Cairo.Constants.COPY_OF + property.getValue());
 
-        m_dialog.showValue(m_dialog.getProperties().item(Cairo.General.Constants.POAR_CODE));
-        m_dialog.showValue(m_dialog.getProperties().item(Cairo.General.Constants.POAR_NAME));
+        m_dialog.showValue(m_dialog.getProperties().item(C.POAR_CODE));
+        m_dialog.showValue(m_dialog.getProperties().item(C.POAR_NAME));
 
         m_copy = true;
       };
@@ -111,7 +113,7 @@
 
           var doc = new Cairo.DocDigital();
 
-          doc.setClientTable(Cairo.General.Constants.POSICION_ARANCEL);
+          doc.setClientTable(C.POSICION_ARANCEL);
           doc.setClientTableID(m_id);
 
           _rtn = doc.showDocs(Cairo.Database);
@@ -156,8 +158,8 @@
         var register = new Cairo.Database.Register();
         var fields = register.getFields();
 
-        register.setFieldId(Cairo.General.Constants.POAR_ID);
-        register.setTable(Cairo.General.Constants.POSICION_ARANCEL);
+        register.setFieldId(C.POAR_ID);
+        register.setTable(C.POSICION_ARANCEL);
 
         register.setPath(m_apiPath + "general/posicionarancel");
 
@@ -173,15 +175,15 @@
           var property = m_dialog.getProperties().item(_i);
           switch (property.getKey()) {
             case K_NAME:
-              fields.add(Cairo.General.Constants.POAR_NAME, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.POAR_NAME, property.getValue(), Cairo.Constants.Types.text);
               break;
 
             case K_CODE:
-              fields.add(Cairo.General.Constants.POAR_CODE, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.POAR_CODE, property.getValue(), Cairo.Constants.Types.text);
               break;
 
             case K_DESCRIP:
-              fields.add(Cairo.General.Constants.POAR_DESCRIP, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.POAR_DESCRIP, property.getValue(), Cairo.Constants.Types.text);
               break;
 
             case K_ACTIVE:
@@ -189,11 +191,11 @@
               break;
 
             case K_TI_ID_DERECHOS:
-              fields.add(Cairo.General.Constants.TI_ID_DERECHOS, property.getSelectId(), Cairo.Constants.Types.id);
+              fields.add(C.TI_ID_DERECHOS, property.getSelectId(), Cairo.Constants.Types.id);
               break;
 
             case K_TI_ID_ESTADISTICA:
-              fields.add(Cairo.General.Constants.TI_ID_ESTADISTICA, property.getSelectId(), Cairo.Constants.Types.id);
+              fields.add(C.TI_ID_ESTADISTICA, property.getSelectId(), Cairo.Constants.Types.id);
               break;
           }
         }
@@ -201,10 +203,10 @@
         return Cairo.Database.saveEx(
             register,
             false,
-            Cairo.General.Constants.POAR_CODE, 
+            C.POAR_CODE,
             Cairo.Constants.CLIENT_SAVE_FUNCTION,
             C_MODULE,
-            Cairo.Language.getText(4968, "")).then(
+            getText(4968, "")).then(
 
           function(result) {
             if(result.success) {
@@ -249,7 +251,7 @@
 
       self.getTitle = function() {
         //Posiciones Arancelarias
-        return Cairo.Language.getText(4969, "");
+        return getText(4969, "");
       };
 
       self.validate = function() {
@@ -369,14 +371,14 @@
 
         properties.clear();
 
-        var elem = properties.add(null, Cairo.General.Constants.POAR_NAME);
+        var elem = properties.add(null, C.POAR_NAME);
         elem.setType(Dialogs.PropertyType.text);
         elem.setName(Cairo.Constants.NAME_LABEL);
         elem.setSize(50);
         elem.setKey(K_NAME);
         elem.setValue(m_name);
 
-        var elem = properties.add(null, Cairo.General.Constants.POAR_CODE);
+        var elem = properties.add(null, C.POAR_CODE);
         elem.setType(Dialogs.PropertyType.text);
         elem.setName(Cairo.Constants.CODE_LABEL);
         elem.setSize(10);
@@ -389,27 +391,27 @@
         elem.setKey(K_ACTIVE);
         elem.setValue(m_active === true ? 1 : 0);
 
-        var elem = properties.add(null, Cairo.General.Constants.TI_ID_DERECHOS);
+        var elem = properties.add(null, C.TI_ID_DERECHOS);
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.TASA_IMPOSITIVA);
-        elem.setSelectFilter(Cairo.General.Constants.filterForPurchase);
+        elem.setSelectFilter(C.filterForPurchase);
         // Derechos
-        elem.setName(Cairo.Language.getText(4973, ""));
+        elem.setName(getText(4973, ""));
         elem.setSelectId(m_ti_id_derechos);
         elem.setValue(m_ti_derechos);
         elem.setKey(K_TI_ID_DERECHOS);
 
-        var elem = properties.add(null, Cairo.General.Constants.TI_ID_ESTADISTICA);
+        var elem = properties.add(null, C.TI_ID_ESTADISTICA);
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.TASA_IMPOSITIVA);
-        elem.setSelectFilter(Cairo.General.Constants.filterForPurchase);
+        elem.setSelectFilter(C.filterForPurchase);
         // Estadisticas
-        elem.setName(Cairo.Language.getText(4972, ""));
+        elem.setName(getText(4972, ""));
         elem.setSelectId(m_ti_id_estadisticas);
         elem.setValue(m_ti_estadisticas);
         elem.setKey(K_TI_ID_ESTADISTICA);
 
-        var elem = properties.add(null, Cairo.General.Constants.POAR_DESCRIP);
+        var elem = properties.add(null, C.POAR_DESCRIP);
         elem.setType(Dialogs.PropertyType.text);
         elem.setSubType(Dialogs.PropertySubType.memo);
         elem.setName(Cairo.Constants.DESCRIPTION_LABEL);
@@ -428,24 +430,24 @@
 
         var properties = m_dialog.getProperties();
 
-        var elem = properties.item(Cairo.General.Constants.POAR_NAME);
+        var elem = properties.item(C.POAR_NAME);
         elem.setValue(m_name);
 
-        var elem = properties.item(Cairo.General.Constants.POAR_CODE);
+        var elem = properties.item(C.POAR_CODE);
         elem.setValue(m_code);
 
         var elem = properties.item(Cairo.Constants.ACTIVE);
         elem.setValue(m_active === true ? 1 : 0);
 
-        var elem = properties.item(Cairo.General.Constants.TI_ID_DERECHOS);
+        var elem = properties.item(C.TI_ID_DERECHOS);
         elem.setSelectId(m_ti_id_derechos);
         elem.setValue(m_ti_derechos);
 
-        var elem = properties.item(Cairo.General.Constants.TI_ID_ESTADISTICA);
+        var elem = properties.item(C.TI_ID_ESTADISTICA);
         elem.setSelectId(m_ti_id_estadisticas);
         elem.setValue(m_ti_estadisticas);
 
-        var elem = properties.item(Cairo.General.Constants.POAR_DESCRIP);
+        var elem = properties.item(C.POAR_DESCRIP);
         elem.setValue(m_descrip);
 
         return m_dialog.showValues(properties);
@@ -460,14 +462,14 @@
 
             if(response.data.id !== NO_ID) {
 
-              m_id = Cairo.Database.valField(response.data, Cairo.General.Constants.POAR_ID);
-              m_name = Cairo.Database.valField(response.data, Cairo.General.Constants.POAR_NAME);
-              m_code = Cairo.Database.valField(response.data, Cairo.General.Constants.POAR_CODE);
-              m_descrip = Cairo.Database.valField(response.data, Cairo.General.Constants.POAR_DESCRIP);
+              m_id = Cairo.Database.valField(response.data, C.POAR_ID);
+              m_name = Cairo.Database.valField(response.data, C.POAR_NAME);
+              m_code = Cairo.Database.valField(response.data, C.POAR_CODE);
+              m_descrip = Cairo.Database.valField(response.data, C.POAR_DESCRIP);
               m_active = Cairo.Database.valField(response.data, Cairo.Constants.ACTIVE);
-              m_ti_id_derechos = Cairo.Database.valField(response.data, Cairo.General.Constants.TI_ID_DERECHOS);
+              m_ti_id_derechos = Cairo.Database.valField(response.data, C.TI_ID_DERECHOS);
               m_ti_derechos = Cairo.Database.valField(response.data, "derechos");
-              m_ti_id_estadisticas = Cairo.Database.valField(response.data, Cairo.General.Constants.TI_ID_ESTADISTICA);
+              m_ti_id_estadisticas = Cairo.Database.valField(response.data, C.TI_ID_ESTADISTICA);
               m_ti_estadisticas = Cairo.Database.valField(response.data, "estadisticas");
 
             } 
@@ -524,6 +526,9 @@
   });
 
   Cairo.module("PosicionArancel.List", function(List, Cairo, Backbone, Marionette, $, _) {
+
+    var NO_ID = Cairo.Constants.NO_ID;
+
     List.Controller = {
       list: function() {
 

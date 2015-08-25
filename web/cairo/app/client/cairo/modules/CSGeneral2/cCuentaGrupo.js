@@ -9,6 +9,8 @@
 
       var Dialogs = Cairo.Dialogs;
       var DB = Cairo.Database;
+      var C = Cairo.General.Constants;
+      var NO_ID = Cairo.Constants.NO_ID;
 
       var C_MODULE = "cCuentaGrupo";
 
@@ -76,7 +78,7 @@
 
           var doc = new Cairo.DocDigital();
 
-          doc.setClientTable(Cairo.General.Constants.CUENTAGRUPO);
+          doc.setClientTable(C.CUENTAGRUPO);
           doc.setClientTableID(m_id);
 
           _rtn = doc.showDocs(Cairo.Database);
@@ -134,11 +136,11 @@
 
         m_listController.updateEditorKey(self, NO_ID);
 
-        var property = m_dialog.getProperties().item(Cairo.General.Constants.CUEG_CODE);
+        var property = m_dialog.getProperties().item(C.CUEG_CODE);
         property.setValue(Cairo.Constants.COPY_OF + property.getValue());
 
-        m_dialog.showValue(m_dialog.getProperties().item(Cairo.General.Constants.CUEG_CODE));
-        m_dialog.showValue(m_dialog.getProperties().item(Cairo.General.Constants.CUEG_NAME));
+        m_dialog.showValue(m_dialog.getProperties().item(C.CUEG_CODE));
+        m_dialog.showValue(m_dialog.getProperties().item(C.CUEG_NAME));
 
         m_copy = true;
       };
@@ -148,8 +150,8 @@
           case K_TIPO:
 
             var properties = m_dialog.getProperties();
-            properties.item(Cairo.General.Constants.CUE_ID).setSelectFilter(mPublic.self.getCtaGrupoFilter( properties.item(Cairo.General.Constants.CUEG_TIPO).getListItemData()));
-            m_dialog.showValue(properties.item(Cairo.General.Constants.CUE_ID));
+            properties.item(C.CUE_ID).setSelectFilter(mPublic.self.getCtaGrupoFilter( properties.item(C.CUEG_TIPO).getListItemData()));
+            m_dialog.showValue(properties.item(C.CUE_ID));
             break;
         }
       };
@@ -159,8 +161,8 @@
         var register = new Cairo.Database.Register();
         var fields = register.getFields();
 
-        register.setFieldId(Cairo.General.Constants.CUEG_ID);
-        register.setTable(Cairo.General.Constants.CUENTAGRUPO);
+        register.setFieldId(C.CUEG_ID);
+        register.setTable(C.CUENTAGRUPO);
 
         register.setPath(m_apiPath + "general/cuentagrupo");
 
@@ -176,23 +178,23 @@
           var property = m_dialog.getProperties().item(_i);
           switch (property.getKey()) {
             case K_NAME:
-              fields.add(Cairo.General.Constants.CUEG_NAME, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.CUEG_NAME, property.getValue(), Cairo.Constants.Types.text);
               break;
 
             case K_CODE:
-              fields.add(Cairo.General.Constants.CUEG_CODE, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.CUEG_CODE, property.getValue(), Cairo.Constants.Types.text);
               break;
 
             case K_DESCRIP:
-              fields.add(Cairo.General.Constants.CUEG_DESCRIP, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.CUEG_DESCRIP, property.getValue(), Cairo.Constants.Types.text);
               break;
 
             case K_CUE_ID:
-              fields.add(Cairo.General.Constants.CUE_ID, property.getSelectId(), Cairo.Constants.Types.id);
+              fields.add(C.CUE_ID, property.getSelectId(), Cairo.Constants.Types.id);
               break;
 
             case K_TIPO:
-              fields.add(Cairo.General.Constants.CUEG_TIPO, property.getListItemData(), Cairo.Constants.Types.integer);
+              fields.add(C.CUEG_TIPO, property.getListItemData(), Cairo.Constants.Types.integer);
               break;
 
             case K_ACTIVE:
@@ -204,10 +206,10 @@
         return Cairo.Database.saveEx(
           register,
           false,
-          Cairo.General.Constants.CUEG_CODE,
+          C.CUEG_CODE,
           Cairo.Constants.CLIENT_SAVE_FUNCTION,
           C_MODULE,
-          Cairo.Language.getText(1123, "")).then(
+          getText(1123, "")).then(
 
           function(result) {
             if(result.success) {
@@ -252,7 +254,7 @@
 
       self.getTitle = function() {
         //Grupos de cuentas
-        return Cairo.Language.getText(1124, "");
+        return getText(1124, "");
       };
 
       self.validate = function() {
@@ -288,67 +290,67 @@
         var cue_id = null;
 
         var properties = m_dialog.getProperties();
-        cue_id = properties.item(Cairo.General.Constants.CUE_ID).getSelectId();
-        tipo = properties.item(Cairo.General.Constants.CUEG_TIPO).getListItemData();
+        cue_id = properties.item(C.CUE_ID).getSelectId();
+        tipo = properties.item(C.CUEG_TIPO).getListItemData();
 
         cuec_id = mPublic.self.getCuecIdFromCueId(cue_id);
 
         switch (tipo) {
-          case Cairo.General.Constants.AccountGroupType.creditor:
+          case C.AccountGroupType.creditor:
             if(cuec_id !== csECuentaCategoria.cSECUECACREEDORES && cuec_id !== csECuentaCategoria.cSECUECBANCOS) {
               // La cuenta debe ser de tipo acreedor por compras o banco.
-              Cairo.Modal.showInfo(Cairo.Language.getText(3529, ""));
+              Cairo.Modal.showInfo(getText(3529, ""));
               return null;
             }
 
             break;
 
-          case Cairo.General.Constants.AccountGroupType.debtor:
+          case C.AccountGroupType.debtor:
             if(cuec_id !== csECuentaCategoria.cSECUECDEUDPORVENTAS) {
               // La cuenta debe ser de tipo deudor por ventas.
-              Cairo.Modal.showInfo(Cairo.Language.getText(3530, ""));
+              Cairo.Modal.showInfo(getText(3530, ""));
               return null;
             }
 
             break;
 
-          case Cairo.General.Constants.AccountGroupType.productForSale:
+          case C.AccountGroupType.productForSale:
             if(cuec_id !== csECuentaCategoria.cSECUECINGRESOS && cuec_id !== csECuentaCategoria.cSECUECEGRESOS) {
               if(pCuentaForProducto(cue_id) === false) {
                 // La cuenta debe ser de tipo ingresos, o egresos o estar marcada como elegible para productos.
-                Cairo.Modal.showInfo(Cairo.Language.getText(3531, ""));
+                Cairo.Modal.showInfo(getText(3531, ""));
                 return null;
               }
             }
 
             break;
 
-          case Cairo.General.Constants.AccountGroupType.productForPurchase:
+          case C.AccountGroupType.productForPurchase:
             if(cuec_id !== csECuentaCategoria.cSECUECBIENESDEUSO && cuec_id !== csECuentaCategoria.cSECUECBIENESDECAMBIO && cuec_id !== csECuentaCategoria.cSECUECINGRESOS && cuec_id !== csECuentaCategoria.cSECUECEGRESOS) {
 
               if(pCuentaForProducto(cue_id) === false) {
 
                 // La cuenta debe ser de tipo bienes de cambio, o bienes de uso, o estar marcada como elegible para productos.
-                Cairo.Modal.showInfo(Cairo.Language.getText(3532, ""));
+                Cairo.Modal.showInfo(getText(3532, ""));
                 return null;
               }
             }
 
             break;
 
-          case Cairo.General.Constants.AccountGroupType.directDebit:
+          case C.AccountGroupType.directDebit:
             if(cuec_id !== csECuentaCategoria.cSECUECBANCOS) {
               // La cuenta debe ser de tipo banco
-              Cairo.Modal.showInfo(Cairo.Language.getText(3571, ""));
+              Cairo.Modal.showInfo(getText(3571, ""));
               return null;
             }
 
             break;
 
-          case Cairo.General.Constants.AccountGroupType.pettyCashFund:
+          case C.AccountGroupType.pettyCashFund:
             if(cuec_id !== csECuentaCategoria.cSECUECCAJA) {
               // La cuenta debe ser de tipo caja
-              Cairo.Modal.showInfo(Cairo.Language.getText(3572, ""));
+              Cairo.Modal.showInfo(getText(3572, ""));
               return null;
             }
 
@@ -356,7 +358,7 @@
 
           default:
             // Debe seleccionar un tipo de grupo de cuenta.
-            Cairo.Modal.showInfo(Cairo.Language.getText(3533, ""));
+            Cairo.Modal.showInfo(getText(3533, ""));
             return null;
             break;
         }
@@ -367,7 +369,7 @@
         var _rtn = null;
         if(cue_id !== NO_ID) {
           var bProducto = null;
-          if(!DB.getData(Cairo.General.Constants.CUENTA, Cairo.General.Constants.CUE_ID, cue_id, Cairo.General.Constants.CUE_PRODUCTO, bProducto)) { return _rtn; }
+          if(!DB.getData(C.CUENTA, C.CUE_ID, cue_id, C.CUE_PRODUCTO, bProducto)) { return _rtn; }
           _rtn = bProducto;
         }
         else {
@@ -463,14 +465,14 @@
 
         properties.clear();
 
-        var elem = properties.add(null, Cairo.General.Constants.CUEG_NAME);
+        var elem = properties.add(null, C.CUEG_NAME);
         elem.setType(Dialogs.PropertyType.text);
         elem.setName(Cairo.Constants.NAME_LABEL);
         elem.setSize(100);
         elem.setKey(K_NAME);
         elem.setValue(m_name);
 
-        var elem = properties.add(null, Cairo.General.Constants.CUEG_CODE);
+        var elem = properties.add(null, C.CUEG_CODE);
         elem.setType(Dialogs.PropertyType.text);
         elem.setName(Cairo.Constants.CODE_LABEL);
         elem.setSize(15);
@@ -483,50 +485,50 @@
         elem.setKey(K_ACTIVE);
         elem.setValue(m_active === true ? 1 : 0);
 
-        var elem = properties.add(null, Cairo.General.Constants.CUEG_TIPO);
+        var elem = properties.add(null, C.CUEG_TIPO);
         elem.setType(Dialogs.PropertyType.list);
         // Tipo
-        elem.setName(Cairo.Language.getText(1223, ""));
+        elem.setName(getText(1223, ""));
         elem.setListWhoSetItem(Dialogs.ListWhoSetItem.itemData);
         elem.setListItemData(m_tipo);
         var w_list = elem.getList();
         var elem = w_list.add(null);
-        elem.Id = Cairo.General.Constants.AccountGroupType.creditor;
+        elem.Id = C.AccountGroupType.creditor;
         // Acreedor
-        elem.setValue(Cairo.Language.getText(3534, ""));
+        elem.setValue(getText(3534, ""));
         var elem = w_list.add(null);
-        elem.Id = Cairo.General.Constants.AccountGroupType.debtor;
+        elem.Id = C.AccountGroupType.debtor;
         // Deudor
-        elem.setValue(Cairo.Language.getText(3535, ""));
+        elem.setValue(getText(3535, ""));
         var elem = w_list.add(null);
-        elem.Id = Cairo.General.Constants.AccountGroupType.productForPurchase;
+        elem.Id = C.AccountGroupType.productForPurchase;
         // Articulos de Compra
-        elem.setValue(Cairo.Language.getText(3536, ""));
+        elem.setValue(getText(3536, ""));
         var elem = w_list.add(null);
-        elem.Id = Cairo.General.Constants.AccountGroupType.productForSale;
+        elem.Id = C.AccountGroupType.productForSale;
         // Articulos de Venta
-        elem.setValue(Cairo.Language.getText(3537, ""));
+        elem.setValue(getText(3537, ""));
         var elem = w_list.add(null);
-        elem.Id = Cairo.General.Constants.AccountGroupType.directDebit;
+        elem.Id = C.AccountGroupType.directDebit;
         // Debito Automatico
-        elem.setValue(Cairo.Language.getText(3569, ""));
+        elem.setValue(getText(3569, ""));
         var elem = w_list.add(null);
-        elem.Id = Cairo.General.Constants.AccountGroupType.pettyCashFund;
+        elem.Id = C.AccountGroupType.pettyCashFund;
         // Fondo Fijo
-        elem.setValue(Cairo.Language.getText(3570, ""));
+        elem.setValue(getText(3570, ""));
         elem.setKey(K_TIPO);
 
-        var elem = properties.add(null, Cairo.General.Constants.CUE_ID);
+        var elem = properties.add(null, C.CUE_ID);
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.CUENTA);
         // Cuenta por defecto
-        elem.setName(Cairo.Language.getText(1126, ""));
+        elem.setName(getText(1126, ""));
         elem.setKey(K_CUE_ID);
         elem.setValue(m_cuenta);
         elem.setSelectId(m_cue_id);
         elem.setSelectFilter(mPublic.self.getCtaGrupoFilter(m_tipo));
 
-        var elem = properties.add(null, Cairo.General.Constants.CUEG_DESCRIP);
+        var elem = properties.add(null, C.CUEG_DESCRIP);
         elem.setType(Dialogs.PropertyType.text);
         elem.setSubType(Dialogs.PropertySubType.memo);
         elem.setName(Cairo.Constants.DESCRIPTION_LABEL);
@@ -545,22 +547,22 @@
 
         var properties = m_dialog.getProperties();
 
-        var elem = properties.item(Cairo.General.Constants.CUEG_NAME);
+        var elem = properties.item(C.CUEG_NAME);
         elem.setValue(m_name);
 
-        var elem = properties.item(Cairo.General.Constants.CUEG_CODE);
+        var elem = properties.item(C.CUEG_CODE);
         elem.setValue(m_code);
 
         var elem = properties.item(Cairo.Constants.ACTIVE);
         elem.setValue(m_active === true ? 1 : 0);
 
-        var elem = properties.item(Cairo.General.Constants.CUEG_TIPO);
+        var elem = properties.item(C.CUEG_TIPO);
 
-        var elem = properties.item(Cairo.General.Constants.CUE_ID);
+        var elem = properties.item(C.CUE_ID);
         elem.setValue(m_cuenta);
         elem.setSelectId(m_cue_id);
 
-        var elem = properties.item(Cairo.General.Constants.CUEG_DESCRIP);
+        var elem = properties.item(C.CUEG_DESCRIP);
         elem.setValue(m_descrip);
 
         return m_dialog.showValues(properties);
@@ -575,13 +577,13 @@
 
             if(response.data.id !== NO_ID) {
 
-              m_id = Cairo.Database.valField(response.data, Cairo.General.Constants.CUEG_ID);
-              m_name = Cairo.Database.valField(response.data, Cairo.General.Constants.CUEG_NAME);
-              m_code = Cairo.Database.valField(response.data, Cairo.General.Constants.CUEG_CODE);
-              m_descrip = Cairo.Database.valField(response.data, Cairo.General.Constants.CUEG_DESCRIP);
-              m_cue_id = Cairo.Database.valField(response.data, Cairo.General.Constants.CUE_ID);
-              m_cuenta = Cairo.Database.valField(response.data, Cairo.General.Constants.CUE_NAME);
-              m_tipo = Cairo.Database.valField(response.data, Cairo.General.Constants.CUEG_TIPO);
+              m_id = Cairo.Database.valField(response.data, C.CUEG_ID);
+              m_name = Cairo.Database.valField(response.data, C.CUEG_NAME);
+              m_code = Cairo.Database.valField(response.data, C.CUEG_CODE);
+              m_descrip = Cairo.Database.valField(response.data, C.CUEG_DESCRIP);
+              m_cue_id = Cairo.Database.valField(response.data, C.CUE_ID);
+              m_cuenta = Cairo.Database.valField(response.data, C.CUE_NAME);
+              m_tipo = Cairo.Database.valField(response.data, C.CUEG_TIPO);
               m_active = Cairo.Database.valField(response.data, Cairo.Constants.ACTIVE);
 
             }
@@ -593,7 +595,7 @@
               m_descrip = "";
               m_cue_id = NO_ID;
               m_cuenta = "";
-              m_tipo = Cairo.General.Constants.AccountGroupType.creditor;
+              m_tipo = C.AccountGroupType.creditor;
               m_active = true;
 
             }
@@ -637,6 +639,9 @@
   });
 
   Cairo.module("CuentaGrupo.List", function(List, Cairo, Backbone, Marionette, $, _) {
+
+    var NO_ID = Cairo.Constants.NO_ID;
+
     List.Controller = {
       list: function() {
 

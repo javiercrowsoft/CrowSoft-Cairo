@@ -10,7 +10,7 @@ Cairo.module("Entities", function(Entities, Cairo, Backbone, Marionette, $, _) {
     var applyFilter = function(filterCriterion, filterStrategy, collection) {
       var collection = collection || original;
       var criterion;
-      if(filterStrategy == "filter") {
+      if(filterStrategy === "filter") {
         criterion = filterCriterion.trim();
       }
       else{
@@ -19,7 +19,7 @@ Cairo.module("Entities", function(Entities, Cairo, Backbone, Marionette, $, _) {
 
       var items = [];
       if(criterion) {
-        if(filterStrategy == "filter") {
+        if(filterStrategy === "filter") {
           if( ! filtered.filterFunction) {
             throw("Attempted to use 'filter' function, but none was defined");
           }

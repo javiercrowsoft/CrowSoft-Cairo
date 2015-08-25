@@ -4905,7 +4905,7 @@
       var m_menuFirmar = 0;
 
       var m_apiPath = DB.getAPIVersion();
-      var SAVE_ERROR = getText(2179, ""); // Error al grabar los párametros de navegación de Facturas de Compra
+      var SAVE_ERROR = getText(2179, ""); // Error al grabar los párametros de navegación de Factura de Compras
 
       self.list = function() {
         initialize();
@@ -5095,6 +5095,7 @@
               m_fechaIni = Cairo.Dates.today();
               m_fechaFinV = "";
               m_fechaFin = Cairo.Dates.DateNames.getDateByName('h-60');
+
               m_provId = NO_ID;
               m_proveedor = "";
               m_estId = NO_ID;
@@ -5677,14 +5678,6 @@
           self.documentList.list().then(Cairo.LoadingMessage.close);
 
         };
-
-        var showListDialog = function() {
-          self.documentList.show();
-        };
-
-        var closeListDialog = function() {
-
-        }
 
         createListDialog();
       }

@@ -9,6 +9,8 @@
 
       var Dialogs = Cairo.Dialogs;
       var DB = Cairo.Database;
+      var C = Cairo.General.Constants;
+      var NO_ID = Cairo.Constants.NO_ID;
 
       var C_MODULE = "cFeriado";
 
@@ -90,7 +92,7 @@
 
           var doc = new Cairo.DocDigital();
 
-          doc.setClientTable(Cairo.General.Constants.FERIADO);
+          doc.setClientTable(C.FERIADO);
           doc.setClientTableID(m_id);
 
           _rtn = doc.showDocs(Cairo.Database);
@@ -132,8 +134,8 @@
         switch (key) {
           case K_LOCAL:
 
-            properties.item(Cairo.General.Constants.PRO_ID).setEnabled(Cairo.Util.val(properties.item(Cairo.General.Constants.FE_LOCAL).getValue()));
-            properties.item(Cairo.General.Constants.PA_ID).setEnabled(Cairo.Util.val(properties.item(Cairo.General.Constants.FE_LOCAL).getValue()));
+            properties.item(C.PRO_ID).setEnabled(Cairo.Util.val(properties.item(C.FE_LOCAL).getValue()));
+            properties.item(C.PA_ID).setEnabled(Cairo.Util.val(properties.item(C.FE_LOCAL).getValue()));
 
             break;
         }
@@ -149,11 +151,11 @@
 
         m_listController.updateEditorKey(self, NO_ID);
 
-        var property = m_dialog.getProperties().item(Cairo.General.Constants.FE_CODE);
+        var property = m_dialog.getProperties().item(C.FE_CODE);
         property.setValue(Cairo.Constants.COPY_OF + property.getValue());
 
-        m_dialog.showValue(m_dialog.getProperties().item(Cairo.General.Constants.FE_CODE));
-        m_dialog.showValue(m_dialog.getProperties().item(Cairo.General.Constants.FE_NAME));
+        m_dialog.showValue(m_dialog.getProperties().item(C.FE_CODE));
+        m_dialog.showValue(m_dialog.getProperties().item(C.FE_NAME));
 
         m_copy = true;
       };
@@ -179,8 +181,8 @@
         var register = new Cairo.Database.Register();
         var fields = register.getFields();
 
-        register.setFieldId(Cairo.General.Constants.FE_ID);
-        register.setTable(Cairo.General.Constants.FERIADO);
+        register.setFieldId(C.FE_ID);
+        register.setTable(C.FERIADO);
 
         register.setPath(m_apiPath + "general/feriado");
 
@@ -196,51 +198,51 @@
           var property = m_dialog.getProperties().item(_i);
           switch (property.getKey()) {
             case K_NAME:
-              fields.add(Cairo.General.Constants.FE_NAME, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.FE_NAME, property.getValue(), Cairo.Constants.Types.text);
               break;
 
             case K_CODE:
-              fields.add(Cairo.General.Constants.FE_CODE, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.FE_CODE, property.getValue(), Cairo.Constants.Types.text);
               break;
 
             case K_DESCRIP:
-              fields.add(Cairo.General.Constants.FE_DESCRIP, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.FE_DESCRIP, property.getValue(), Cairo.Constants.Types.text);
               break;
 
             case K_DIA:
-              fields.add(Cairo.General.Constants.FE_DIA, property.getValue(), Cairo.Constants.Types.integer);
+              fields.add(C.FE_DIA, property.getValue(), Cairo.Constants.Types.integer);
               break;
 
             case K_MES:
-              fields.add(Cairo.General.Constants.FE_MES, property.getValue(), Cairo.Constants.Types.integer);
+              fields.add(C.FE_MES, property.getValue(), Cairo.Constants.Types.integer);
               break;
 
             case K_ANIO:
-              fields.add(Cairo.General.Constants.FE_ANIO, property.getValue(), Cairo.Constants.Types.integer);
+              fields.add(C.FE_ANIO, property.getValue(), Cairo.Constants.Types.integer);
               break;
 
             case K_BANCO:
-              fields.add(Cairo.General.Constants.FE_BANCO, property.getValue(), Cairo.Constants.Types.boolean);
+              fields.add(C.FE_BANCO, property.getValue(), Cairo.Constants.Types.boolean);
               break;
 
             case K_LABORAL:
-              fields.add(Cairo.General.Constants.FE_LABORAL, property.getValue(), Cairo.Constants.Types.boolean);
+              fields.add(C.FE_LABORAL, property.getValue(), Cairo.Constants.Types.boolean);
               break;
 
             case K_LOCAL:
-              fields.add(Cairo.General.Constants.FE_LOCAL, property.getValue(), Cairo.Constants.Types.boolean);
+              fields.add(C.FE_LOCAL, property.getValue(), Cairo.Constants.Types.boolean);
               break;
 
             case K_PA_ID:
-              fields.add(Cairo.General.Constants.PA_ID, property.getSelectId(), Cairo.Constants.Types.id);
+              fields.add(C.PA_ID, property.getSelectId(), Cairo.Constants.Types.id);
               break;
 
             case K_PRO_ID:
-              fields.add(Cairo.General.Constants.PRO_ID, property.getSelectId(), Cairo.Constants.Types.id);
+              fields.add(C.PRO_ID, property.getSelectId(), Cairo.Constants.Types.id);
               break;
 
             case K_RECURRENTE:
-              fields.add(Cairo.General.Constants.FE_RECURRENTE, property.getValue(), Cairo.Constants.Types.boolean);
+              fields.add(C.FE_RECURRENTE, property.getValue(), Cairo.Constants.Types.boolean);
               break;
           }
         }
@@ -249,10 +251,10 @@
         return Cairo.Database.saveEx(
             register,
             false,
-            Cairo.General.Constants.FE_CODE, 
+            C.FE_CODE,
             Cairo.Constants.CLIENT_SAVE_FUNCTION,
             C_MODULE,
-            Cairo.Language.getText(1543, "")).then(
+            getText(1543, "")).then(
 
           function(result) {
             if(result.success) {
@@ -302,7 +304,7 @@
 
       self.getTitle = function() {
         // Feriados
-        return Cairo.Language.getText(1544, "");
+        return getText(1544, "");
       };
 
       self.validate = function() {
@@ -317,14 +319,14 @@
           switch (property.getKey()) {
             case K_NAME:
               if(Cairo.Util.valEmpty(property.getValue(), Cairo.Constants.Types.text)) {
-                return Cairo.Modal.showInfo(Cairo.Language.getText(1007, "")).then(function() {return false;});
+                return Cairo.Modal.showInfo(getText(1007, "")).then(function() {return false;});
                 // Debe indicar un Nombre
               }
               break;
 
             case K_CODE:
               if(Cairo.Util.valEmpty(property.getValue(), Cairo.Constants.Types.text)) {
-                return Cairo.Modal.showInfo(Cairo.Language.getText(1008, "")).then(function() {return false;});
+                return Cairo.Modal.showInfo(getText(1008, "")).then(function() {return false;});
                 // Debe indicar un C�digo"
               }
               break;
@@ -332,7 +334,7 @@
             case K_DIA:
               dia = Cairo.Util.val(property.getValue());
               if(dia < 1 || dia > 31) {
-                return Cairo.Modal.showInfo(Cairo.Language.getText(1545, "")).then(function() {return false;});
+                return Cairo.Modal.showInfo(getText(1545, "")).then(function() {return false;});
                 // Debe indicar un d�a entre 1 y 31
               }
               break;
@@ -340,7 +342,7 @@
             case K_MES:
               mes = Cairo.Util.val(property.getValue());
               if(mes < 1 || mes > 12) {
-                return Cairo.Modal.showInfo(Cairo.Language.getText(1546, "")).then(function() {return false;});
+                return Cairo.Modal.showInfo(getText(1546, "")).then(function() {return false;});
                 // Debe indicar un mes entre 1 y 12
               } 
               else {
@@ -350,14 +352,14 @@
                   case 9:
                   case 11:
                     if(dia > 30) {
-                      return Cairo.Modal.showInfo(Cairo.Language.getText(1547, "")).then(function() {return false;});
+                      return Cairo.Modal.showInfo(getText(1547, "")).then(function() {return false;});
                       // Debe indicar un d�a entre 1 y 30
                     }
                     break;
 
                   case 2:
                     if(dia > 29) {
-                      return Cairo.Modal.showInfo(Cairo.Language.getText(1548, "")).then(function() {return false;});
+                      return Cairo.Modal.showInfo(getText(1548, "")).then(function() {return false;});
                       // Debe indicar un d�a entre 1 y 29
                     }
                     break;
@@ -369,8 +371,8 @@
               anio = Cairo.Util.val(property.getValue());
               if(anio !== 0) {
                 if(mes === 2 && dia > 28) {
-                  if(IsDate(Format$(dia, "00")+ "-"+ Format$(mes, "00")+ "-"+ Format$(anio, "0000"))) {
-                    return Cairo.Modal.showInfo(Cairo.Language.getText(1549, "")).then(function() {return false;});
+                  if(isDate(Format$(dia, "00")+ "-"+ Format$(mes, "00")+ "-"+ Format$(anio, "0000"))) {
+                    return Cairo.Modal.showInfo(getText(1549, "")).then(function() {return false;});
                     //La fecha no es v�lida
                   }
                 }
@@ -468,96 +470,96 @@
 
         properties.clear();
 
-        var elem = properties.add(null, Cairo.General.Constants.FE_NAME);
+        var elem = properties.add(null, C.FE_NAME);
         elem.setType(Dialogs.PropertyType.text);
         elem.setName(Cairo.Constants.NAME_LABEL);
         elem.setSize(100);
         elem.setKey(K_NAME);
         elem.setValue(m_name);
 
-        var elem = properties.add(null, Cairo.General.Constants.FE_CODE);
+        var elem = properties.add(null, C.FE_CODE);
         elem.setType(Dialogs.PropertyType.text);
         elem.setName(Cairo.Constants.CODE_LABEL);
         elem.setSize(15);
         elem.setKey(K_CODE);
         elem.setValue(m_code);
 
-        var elem = properties.add(null, Cairo.General.Constants.FE_DIA);
+        var elem = properties.add(null, C.FE_DIA);
         elem.setType(Dialogs.PropertyType.numeric);
         elem.setSubType(Dialogs.PropertySubType.Integer);
         // D�a
-        elem.setName(Cairo.Language.getText(1214, ""));
+        elem.setName(getText(1214, ""));
         elem.setKey(K_DIA);
         elem.setValue(m_dia);
 
-        var elem = properties.add(null, Cairo.General.Constants.FE_MES);
+        var elem = properties.add(null, C.FE_MES);
         elem.setType(Dialogs.PropertyType.numeric);
         elem.setSubType(Dialogs.PropertySubType.Integer);
         // Mes
-        elem.setName(Cairo.Language.getText(1215, ""));
+        elem.setName(getText(1215, ""));
         elem.setKey(K_MES);
         elem.setValue(m_mes);
 
-        var elem = properties.add(null, Cairo.General.Constants.FE_ANIO);
+        var elem = properties.add(null, C.FE_ANIO);
         elem.setType(Dialogs.PropertyType.numeric);
         elem.setSubType(Dialogs.PropertySubType.Integer);
         // A�o
-        elem.setName(Cairo.Language.getText(1216, ""));
+        elem.setName(getText(1216, ""));
         elem.setKey(K_ANIO);
         elem.setValue(m_anio);
 
-        var elem = properties.add(null, Cairo.General.Constants.FE_RECURRENTE);
+        var elem = properties.add(null, C.FE_RECURRENTE);
         elem.setType(Dialogs.PropertyType.check);
         // Recurrente
-        elem.setName(Cairo.Language.getText(1217, ""));
+        elem.setName(getText(1217, ""));
         elem.setKey(K_RECURRENTE);
         elem.setValue(Cairo.Util.boolToInt(m_recurrente));
 
-        var elem = properties.add(null, Cairo.General.Constants.FE_BANCO);
+        var elem = properties.add(null, C.FE_BANCO);
         elem.setType(Dialogs.PropertyType.check);
         // Feriado Bancario
-        elem.setName(Cairo.Language.getText(1218, ""));
+        elem.setName(getText(1218, ""));
         elem.setKey(K_BANCO);
         elem.setValue(Cairo.Util.boolToInt(m_banco));
 
-        var elem = properties.add(null, Cairo.General.Constants.FE_LABORAL);
+        var elem = properties.add(null, C.FE_LABORAL);
         elem.setType(Dialogs.PropertyType.check);
         // Feriado Laboral
-        elem.setName(Cairo.Language.getText(1219, ""));
+        elem.setName(getText(1219, ""));
         elem.setKey(K_LABORAL);
         elem.setValue(Cairo.Util.boolToInt(m_laboral));
 
-        var elem = properties.add(null, Cairo.General.Constants.FE_LOCAL);
+        var elem = properties.add(null, C.FE_LOCAL);
         elem.setType(Dialogs.PropertyType.check);
         // Feriado Local
-        elem.setName(Cairo.Language.getText(1213, ""));
+        elem.setName(getText(1213, ""));
         elem.setKey(K_LOCAL);
         elem.setValue(Cairo.Util.boolToInt(m_local));
 
-        var elem = properties.add(null, Cairo.General.Constants.PA_ID);
+        var elem = properties.add(null, C.PA_ID);
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.PAIS);
         // Pa�s
-        elem.setName(Cairo.Language.getText(1212, ""));
+        elem.setName(getText(1212, ""));
         elem.setKey(K_PA_ID);
         elem.setValue(m_pais);
         elem.setSelectId(m_pa_Id);
         elem.setEnabled(Cairo.Util.boolToInt(m_local));
 
-        var elem = properties.add(null, Cairo.General.Constants.PRO_ID);
+        var elem = properties.add(null, C.PRO_ID);
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.PROVINCIA);
         // Provincia
-        elem.setName(Cairo.Language.getText(1080, ""));
+        elem.setName(getText(1080, ""));
         elem.setKey(K_PRO_ID);
         elem.setValue(m_provincia);
         elem.setSelectId(m_pro_id);
         elem.setEnabled(Cairo.Util.boolToInt(m_local));
 
-        var elem = properties.add(null, Cairo.General.Constants.FE_DESCRIP);
+        var elem = properties.add(null, C.FE_DESCRIP);
         elem.setType(Dialogs.PropertyType.text);
         // Observ.
-        elem.setName(Cairo.Language.getText(1211, ""));
+        elem.setName(getText(1211, ""));
         elem.setSize(255);
         elem.setKey(K_DESCRIP);
         elem.setValue(m_descrip);
@@ -574,42 +576,42 @@
 
         var properties = m_dialog.getProperties();
 
-        var elem = properties.item(Cairo.General.Constants.FE_NAME);
+        var elem = properties.item(C.FE_NAME);
         elem.setValue(m_name);
 
-        var elem = properties.item(Cairo.General.Constants.FE_CODE);
+        var elem = properties.item(C.FE_CODE);
         elem.setValue(m_code);
 
-        var elem = properties.item(Cairo.General.Constants.FE_DIA);
+        var elem = properties.item(C.FE_DIA);
         elem.setValue(m_dia);
 
-        var elem = properties.item(Cairo.General.Constants.FE_MES);
+        var elem = properties.item(C.FE_MES);
         elem.setValue(m_mes);
 
-        var elem = properties.item(Cairo.General.Constants.FE_ANIO);
+        var elem = properties.item(C.FE_ANIO);
         elem.setValue(m_anio);
 
-        var elem = properties.item(Cairo.General.Constants.FE_RECURRENTE);
+        var elem = properties.item(C.FE_RECURRENTE);
         elem.setValue(Cairo.Util.boolToInt(m_recurrente));
 
-        var elem = properties.item(Cairo.General.Constants.FE_BANCO);
+        var elem = properties.item(C.FE_BANCO);
         elem.setValue(Cairo.Util.boolToInt(m_banco));
 
-        var elem = properties.item(Cairo.General.Constants.FE_LABORAL);
+        var elem = properties.item(C.FE_LABORAL);
         elem.setValue(Cairo.Util.boolToInt(m_laboral));
 
-        var elem = properties.item(Cairo.General.Constants.FE_LOCAL);
+        var elem = properties.item(C.FE_LOCAL);
         elem.setValue(Cairo.Util.boolToInt(m_local));
 
-        var elem = properties.item(Cairo.General.Constants.PA_ID);
+        var elem = properties.item(C.PA_ID);
         elem.setValue(m_pais);
         elem.setSelectId(m_pa_Id);
 
-        var elem = properties.item(Cairo.General.Constants.PRO_ID);
+        var elem = properties.item(C.PRO_ID);
         elem.setValue(m_provincia);
         elem.setSelectId(m_pro_id);
 
-        var elem = properties.item(Cairo.General.Constants.FE_DESCRIP);
+        var elem = properties.item(C.FE_DESCRIP);
         elem.setValue(m_descrip);
 
         return m_dialog.showValues(properties);
@@ -624,21 +626,21 @@
 
             if(response.data.id !== NO_ID) {
 
-              m_id = Cairo.Database.valField(response.data, Cairo.General.Constants.FE_ID);
-              m_name = Cairo.Database.valField(response.data, Cairo.General.Constants.FE_NAME);
-              m_code = Cairo.Database.valField(response.data, Cairo.General.Constants.FE_CODE);
-              m_descrip = Cairo.Database.valField(response.data, Cairo.General.Constants.FE_DESCRIP);
-              m_dia = Cairo.Database.valField(response.data, Cairo.General.Constants.FE_DIA);
-              m_mes = Cairo.Database.valField(response.data, Cairo.General.Constants.FE_MES);
-              m_anio = Cairo.Database.valField(response.data, Cairo.General.Constants.FE_ANIO);
-              m_banco = Cairo.Database.valField(response.data, Cairo.General.Constants.FE_BANCO);
-              m_laboral = Cairo.Database.valField(response.data, Cairo.General.Constants.FE_LABORAL);
-              m_local = Cairo.Database.valField(response.data, Cairo.General.Constants.FE_LOCAL);
-              m_pa_Id = Cairo.Database.valField(response.data, Cairo.General.Constants.PA_ID);
-              m_pais = Cairo.Database.valField(response.data, Cairo.General.Constants.PA_NAME);
-              m_pro_id = Cairo.Database.valField(response.data, Cairo.General.Constants.PRO_ID);
-              m_provincia = Cairo.Database.valField(response.data, Cairo.General.Constants.PRO_NAME);
-              m_recurrente = Cairo.Database.valField(response.data, Cairo.General.Constants.FE_RECURRENTE);
+              m_id = Cairo.Database.valField(response.data, C.FE_ID);
+              m_name = Cairo.Database.valField(response.data, C.FE_NAME);
+              m_code = Cairo.Database.valField(response.data, C.FE_CODE);
+              m_descrip = Cairo.Database.valField(response.data, C.FE_DESCRIP);
+              m_dia = Cairo.Database.valField(response.data, C.FE_DIA);
+              m_mes = Cairo.Database.valField(response.data, C.FE_MES);
+              m_anio = Cairo.Database.valField(response.data, C.FE_ANIO);
+              m_banco = Cairo.Database.valField(response.data, C.FE_BANCO);
+              m_laboral = Cairo.Database.valField(response.data, C.FE_LABORAL);
+              m_local = Cairo.Database.valField(response.data, C.FE_LOCAL);
+              m_pa_Id = Cairo.Database.valField(response.data, C.PA_ID);
+              m_pais = Cairo.Database.valField(response.data, C.PA_NAME);
+              m_pro_id = Cairo.Database.valField(response.data, C.PRO_ID);
+              m_provincia = Cairo.Database.valField(response.data, C.PRO_NAME);
+              m_recurrente = Cairo.Database.valField(response.data, C.FE_RECURRENTE);
 
             } 
             else {
@@ -700,6 +702,9 @@
   });
 
   Cairo.module("Feriado.List", function(List, Cairo, Backbone, Marionette, $, _) {
+
+    var NO_ID = Cairo.Constants.NO_ID;
+
     List.Controller = {
       list: function() {
 

@@ -9,6 +9,8 @@
 
       var Dialogs = Cairo.Dialogs;
       var DB = Cairo.Database;
+      var C = Cairo.General.Constants;
+      var NO_ID = Cairo.Constants.NO_ID;
 
       var C_MODULE = "cEscala";
 
@@ -54,11 +56,11 @@
 
         m_listController.updateEditorKey(self, NO_ID);
 
-        var property = m_dialog.getProperties().item(Cairo.General.Constants.ESC_CODE);
+        var property = m_dialog.getProperties().item(C.ESC_CODE);
         property.setValue(Cairo.Constants.COPY_OF + property.getValue());
 
-        m_dialog.showValue(m_dialog.getProperties().item(Cairo.General.Constants.ESC_CODE));
-        m_dialog.showValue(m_dialog.getProperties().item(Cairo.General.Constants.ESC_NAME));
+        m_dialog.showValue(m_dialog.getProperties().item(C.ESC_CODE));
+        m_dialog.showValue(m_dialog.getProperties().item(C.ESC_NAME));
 
         m_copy = true;
       };
@@ -101,7 +103,7 @@
 
           var doc = new Cairo.DocDigital();
 
-          doc.setClientTable(Cairo.General.Constants.ESCALA);
+          doc.setClientTable(C.ESCALA);
           doc.setClientTableID(m_id);
 
           _rtn = doc.showDocs(Cairo.Database);
@@ -146,8 +148,8 @@
         var register = new Cairo.Database.Register();
         var fields = register.getFields();
 
-        register.setFieldId(Cairo.General.Constants.ESC_ID);
-        register.setTable(Cairo.General.Constants.ESCALA);
+        register.setFieldId(C.ESC_ID);
+        register.setTable(C.ESCALA);
 
         register.setPath(m_apiPath + "general/escala");
 
@@ -163,11 +165,11 @@
           var property = m_dialog.getProperties().item(_i);
           switch (property.getKey()) {
             case K_NAME:
-              fields.add(Cairo.General.Constants.ESC_NAME, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.ESC_NAME, property.getValue(), Cairo.Constants.Types.text);
               break;
 
             case K_CODE:
-              fields.add(Cairo.General.Constants.ESC_CODE, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.ESC_CODE, property.getValue(), Cairo.Constants.Types.text);
               break;
 
             case K_ACTIVE:
@@ -179,10 +181,10 @@
         return Cairo.Database.saveEx(
             register,
             false,
-            Cairo.General.Constants.ESC_CODE, 
+            C.ESC_CODE,
             Cairo.Constants.CLIENT_SAVE_FUNCTION,
             C_MODULE,
-            Cairo.Language.getText(1206, "")).then(
+            getText(1206, "")).then(
 
           function(result) {
             if(result.success) {
@@ -227,7 +229,7 @@
 
       self.getTitle = function() {
         //Escalas
-        return Cairo.Language.getText(1207, "");
+        return getText(1207, "");
       };
 
       self.validate = function() {
@@ -343,14 +345,14 @@
 
         properties.clear();
 
-        var elem = properties.add(null, Cairo.General.Constants.ESC_NAME);
+        var elem = properties.add(null, C.ESC_NAME);
         elem.setType(Dialogs.PropertyType.text);
         elem.setName(Cairo.Constants.NAME_LABEL);
         elem.setSize(100);
         elem.setKey(K_NAME);
         elem.setValue(m_name);
 
-        var elem = properties.add(null, Cairo.General.Constants.ESC_CODE);
+        var elem = properties.add(null, C.ESC_CODE);
         elem.setType(Dialogs.PropertyType.text);
         elem.setName(Cairo.Constants.CODE_LABEL);
         elem.setSize(15);
@@ -374,10 +376,10 @@
 
         var properties = m_dialog.getProperties();
 
-        var elem = properties.item(Cairo.General.Constants.ESC_NAME);
+        var elem = properties.item(C.ESC_NAME);
         elem.setValue(m_name);
 
-        var elem = properties.item(Cairo.General.Constants.ESC_CODE);
+        var elem = properties.item(C.ESC_CODE);
         elem.setValue(m_code);
 
         var elem = properties.item(Cairo.Constants.ACTIVE);
@@ -401,9 +403,9 @@
             } 
             else {
               m_active = Cairo.Database.valField(response.data, Cairo.Constants.ACTIVE);
-              m_name = Cairo.Database.valField(response.data, Cairo.General.Constants.ESC_NAME);
-              m_code = Cairo.Database.valField(response.data, Cairo.General.Constants.ESC_CODE);
-              m_id = Cairo.Database.valField(response.data, Cairo.General.Constants.ESC_ID);
+              m_name = Cairo.Database.valField(response.data, C.ESC_NAME);
+              m_code = Cairo.Database.valField(response.data, C.ESC_CODE);
+              m_id = Cairo.Database.valField(response.data, C.ESC_ID);
             }
 
           return true;
@@ -445,6 +447,9 @@
   });
 
   Cairo.module("Escala.List", function(List, Cairo, Backbone, Marionette, $, _) {
+
+    var NO_ID = Cairo.Constants.NO_ID;
+
     List.Controller = {
       list: function() {
 

@@ -727,6 +727,17 @@
     + "|invoiceType:" + Cairo.Documents.InvoiceWizardType.remito.toString()
   ;
 
+  Cairo.Documents.FACTURA_VENTAS_DOC_FILTER = "document|documentTypeId:"
+    + Cairo.Documents.Types.FACTURA_VENTA.toString()
+    + "*" + Cairo.Documents.Types.NOTA_CREDITO_VENTA.toString()
+    + "*" + Cairo.Documents.Types.NOTA_DEBITO_VENTA.toString()
+  ;
+
+  Cairo.Documents.FACTURA_VENTAS_REMITO_DOC_FILTER = "document|documentTypeId:"
+    + Cairo.Documents.Types.FACTURA_VENTA.toString()
+    + "|invoiceType:" + Cairo.Documents.InvoiceWizardType.remito.toString()
+  ;
+
   Cairo.Documents.showNotes = function() {
     /* TODO: implement this. */
     return Cairo.Promises.resolvedPromise(false);
@@ -738,6 +749,7 @@
   };
 
   Cairo.Documents.FACTURA_COMPRAS_LIST_DOC_FILTER = Cairo.Documents.FACTURA_COMPRAS_DOC_FILTER + "|empId:0";
+  Cairo.Documents.FACTURA_VENTAS_LIST_DOC_FILTER = Cairo.Documents.FACTURA_VENTAS_DOC_FILTER + "|empId:0";
   Cairo.Documents.ASIENTOS_LIST_DOC_FILTER = Cairo.Documents.ASIENTOS_LIST_DOC_FILTER + "|empId:0";
 
   Cairo.History = {};
@@ -1549,7 +1561,7 @@
     var coll = null;
 
     if(cantidad < 1) {
-      //'Debe indicar una cantidad
+      // Debe indicar una cantidad
       cWindow.msgWarning(getText(2921, ""));
       return null;
     }
@@ -1561,7 +1573,7 @@
 
     if(bEditKit) {
 
-      cantidad = pGetCantidadForKit(collKitInfo, cantidad);
+      cantidad = getCantidadForKit(collKitInfo, cantidad);
 
       if(collKitInfo === null) {
         cWindow.msgWarning(getText(2922, ""));
@@ -1647,7 +1659,7 @@
     //
     if(coll === null) {
       grupo = lRow * -1;
-      //'(NrosSerie.Count + 1) * -1
+      // (NrosSerie.Count + 1) * -1
       Dialogs.cell(row, kI_GRUPO).setID(grupo);
       coll = new Collection();
       nrosSerie.Add(coll, getKey(grupo));
@@ -1710,13 +1722,13 @@
     var nros = null;
 
     if(cantidad < 1) {
-      //'Debe indicar una cantidad
+      // Debe indicar una cantidad
       cWindow.msgWarning(getText(2921, ""));
       return null;
     }
 
     if(bEditKit) {
-      cantidad = pGetCantidadForKit(collKitInfo, cantidad);
+      cantidad = getCantidadForKit(collKitInfo, cantidad);
 
       if(collKitInfo === null) {
         cWindow.msgWarning(getText(2922, ""));
@@ -1743,7 +1755,7 @@
       //
 
       grupo = lRow * -1;
-      //'(NrosSerie.Count + 1) * -1
+      // (NrosSerie.Count + 1) * -1
       Dialogs.cell(row, kI_GRUPO).setID(grupo);
       coll = new Collection();
       nrosSerie.Add(coll, getKey(grupo));

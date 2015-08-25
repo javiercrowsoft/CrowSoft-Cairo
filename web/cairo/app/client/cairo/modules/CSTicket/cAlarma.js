@@ -47,10 +47,9 @@
       //OJO HASTA ACA
 
       var m_dialog;
-
-      var m_us_id = 0;
-
       var m_properties;
+
+      var m_listController;
 
       var m_menuLoaded;
 
@@ -58,6 +57,44 @@
       var m_menuAddNote = 0;
 
       var m_apiPath = DB.getAPIVersion();
+      var SAVE_ERROR = getText(2179, ""); // Error al grabar los párametros de navegación de Xxxx
+
+      self.list = function() {
+        initialize();
+        return load()
+          .success(loadCollection);
+      };
+
+      self.edit = function(xxId) {
+        m_listController.edit(xxId);
+      };
+
+      self.deleteItem = function(xxId) {
+        return m_listController.destroy(xxId);
+      };
+
+      self.showDocDigital = function() {
+        var _rtn = null;
+
+        try {
+
+          var xxId = m_dialog.getId();
+          if(xxId === NO_ID) { return _rtn; }
+
+          var doc = new Cairo.DocDigital();
+
+          doc.setClientTable(CX.TABLE_NAME_XXXX);
+          doc.setClientTableID(xxId);
+
+          _rtn = doc.showDocs(Cairo.Database);
+
+        }
+        catch(ex) {
+          Cairo.manageErrorEx(ex.message, ex, "showDocDigital", C_MODULE, "");
+        }
+
+        return _rtn;
+      };
 
       self.processMenu = function(index) {
         try {
@@ -75,13 +112,13 @@
               break;
           }
 
-          // **TODO:** goto found: GoTo ExitProc;
+
         }
         catch (ex) {
           Cairo.manageErrorEx(ex.message, "ProcessMenu", C_MODULE, "");
-          // **TODO:** label found: ExitProc:;
+
         }
-        // **TODO:** on error resume next found !!!
+
       };
 
       //-------------------------------------------------------------------------------------
@@ -114,6 +151,43 @@
         return true;
       };
 
+      self.refresh = function() {
+
+        var startDate;
+        if(Cairo.Dates.DateNames.getDateNames().contains(m_fechaIniV)) {
+          startDate = Cairo.Dates.DateNames.getDateByName(m_fechaIniV);
+        }
+        else {
+          startDate = m_fechaIni
+        }
+
+        var endDate;
+        if(Cairo.Dates.DateNames.getDateNames().contains(m_fechaFinV)) {
+          endDate = Cairo.Dates.DateNames.getDateByName(m_fechaFinV);
+        }
+        else {
+          endDate = m_fechaFin
+        }
+
+        endDate = Cairo.Dates.DateNames.addToDate("d", 1, endDate);
+
+        startDate = DB.sqlDate(startDate);
+        endDate = DB.sqlDate(endDate);
+
+        var params = {
+          from: startDate,
+          to: endDate,
+          provId: m_provId,
+          estId: m_estId,
+          ccosId: m_ccosId,
+          sucId: m_sucId,
+          docId: m_docId,
+          cpgId: m_cpgId,
+          empId: m_empId
+        };
+
+        return DB.getData("load[" + m_apiPath + "compras/facturacompras]", null, params);
+      };
       var cIABMListDocClient_Refresh = function() {
         var sqlstmt = null;
 
@@ -125,6 +199,95 @@
         sqlstmt = sqlstmt+ Cairo.Database.sqlString(m_proy_id);
 
         return sqlstmt;
+      };
+
+      self.save = function() {
+
+        var register = new DB.Register();
+        var fields = register.getFields();
+
+        register.setFieldId(C.LDP_ID);
+        register.setTable(C.LISTA_DOCUMENTO_PARAMETRO);
+
+        var apiPath = DB.getAPIVersion();
+        register.setPath(apiPath + "compras/facturacompras");
+
+        register.setId(Cairo.Constants.NEW_ID);
+
+        var _count = m_dialog.getProperties().size();
+        for (var _i = 0; _i < _count; _i++) {
+
+          var property = m_dialog.getProperties().item(_i);
+
+          switch (property.getKey()) {
+
+            case K_FECHAINI:
+              var value = property.getSelectIntValue();
+              if(value === "") { value = property.getValue(); }
+              fields.add(C.FROM, value, Types.text);
+              break;
+
+            case K_FECHAFIN:
+              var value = property.getSelectIntValue();
+              if(value === "") { value = property.getValue(); }
+              fields.add(C.TO, value, Types.text);
+              break;
+
+            case K_PROV_ID:
+              fields.add(C.PROV_ID, property.getSelectIntValue(), Types.text);
+              break;
+
+            case K_EST_ID:
+              fields.add(C.EST_ID, property.getSelectIntValue(), Types.text);
+              break;
+
+            case K_CCOS_ID:
+              fields.add(C.CCOS_ID, property.getSelectIntValue(), Types.text);
+              break;
+
+            case K_SUC_ID:
+              fields.add(C.SUC_ID, property.getSelectIntValue(), Types.text);
+              break;
+
+            case K_DOC_ID:
+              fields.add(C.DOC_ID, property.getSelectIntValue(), Types.text);
+              break;
+
+            case K_CPG_ID:
+              fields.add(C.CPG_ID, property.getSelectIntValue(), Types.text);
+              break;
+
+            case K_EMP_ID:
+              fields.add(C.EMP_ID, property.getSelectIntValue(), Types.text);
+              break;
+
+          }
+        }
+
+        return DB.saveEx(
+            register,
+            false,
+            "",
+            Cairo.Constants.CLIENT_SAVE_FUNCTION,
+            C_MODULE,
+            SAVE_ERROR).then(
+
+          function(result) {
+            if(result.success) {
+              return load(result.data.getId()).then(
+                function (success) {
+                  if(success) {
+                    refreshCollection();
+                  };
+                  return success;
+                }
+              );
+            }
+            else {
+              return false;
+            }
+          }
+        );
       };
 
       var cIABMListDocClient_Save = function() {
@@ -174,20 +337,101 @@
         return true;
       };
 
-      var cIABMListDocClient_Terminate = function() {
-        return true;
-      };
-
       self.getTitle = function() {
-        //'Tareas
-        return Cairo.Language.getText(1795, "");
+        // Tareas
+        return getText(1795, "");
       };
 
       self.validate = function() {
         return P.resolvedPromise(true);
       };
 
+      var loadCollection = function() {
+        var c;
 
+        m_properties.clear();
+
+        c = m_properties.add(null, C_FECHAINI);
+        c.setType(T.date);
+        c.setName(getText(1203, "")); // Fecha desde
+        c.setKey(K_FECHAINI);
+        c.setValue((m_fechaIniV !== "") ? m_fechaIniV : m_fechaIni);
+
+        c = m_properties.add(null, C_FECHAFIN);
+        c.setType(T.date);
+        c.setName(getText(1204, "")); // Fecha hasta
+        c.setKey(K_FECHAFIN);
+        c.setValue((m_fechaFinV !== "") ? m_fechaFinV : m_fechaFin);
+
+        c = m_properties.add(null, C.CLI_ID);
+        c.setType(T.select);
+        c.setSelectTable(Cairo.Tables.CLIENTE);
+        c.setName(getText(1150, "")); // Proveedor
+        c.setKey(K_CLI_ID);
+        c.setValue(m_cliente);
+        c.setSelectId(val(m_cliId));
+        c.setSelectIntValue(m_cliId);
+
+        c = m_properties.add(null, C.EST_ID);
+        c.setType(T.select);
+        c.setSelectTable(Cairo.Tables.ESTADOS);
+        c.setName(getText(1568, "")); // Estado
+        c.setKey(K_EST_ID);
+        c.setValue(m_estado);
+        c.setSelectId(val(m_estId));
+        c.setSelectIntValue(m_estId);
+
+        c = m_properties.add(null, C.CCOS_ID);
+        c.setType(T.select);
+        c.setSelectTable(Cairo.Tables.CENTROS_DE_COSTO);
+        c.setName(getText(1057, "")); // Centro de Costos
+        c.setKey(K_CCOS_ID);
+        c.setValue(m_centroCosto);
+        c.setSelectId(val(m_ccosId));
+        c.setSelectIntValue(m_ccosId);
+
+        c = m_properties.add(null, C.SUC_ID);
+        c.setType(T.select);
+        c.setSelectTable(Cairo.Tables.SUCURSAL);
+        c.setName(getText(1281, "")); // Sucursal
+        c.setKey(K_SUC_ID);
+        c.setValue(m_sucursal);
+        c.setSelectId(val(m_sucId));
+        c.setSelectIntValue(m_sucId);
+
+        c = m_properties.add(null, C.DOC_ID);
+        c.setType(T.select);
+        c.setSelectTable(Cairo.Tables.DOCUMENTO);
+        c.setName(getText(1567, "")); // Documentos
+        c.setKey(K_DOC_ID);
+        c.setValue(m_documento);
+        c.setSelectId(val(m_docId));
+        c.setSelectIntValue(m_docId);
+        c.setSelectFilter(D.FACTURA_COMPRAS_LIST_DOC_FILTER);
+
+        c = m_properties.add(null, C.CPG_ID);
+        c.setType(T.select);
+        c.setSelectTable(Cairo.Tables.CONDICION_PAGO);
+        c.setName(getText(1395, "")); // Condicion de pago
+        c.setKey(K_CPG_ID);
+        c.setValue(m_condicionPago);
+        c.setSelectId(val(m_cpgId));
+        c.setSelectIntValue(m_cpgId);
+
+        c = m_properties.add(null, C.EMP_ID);
+        c.setType(T.select);
+        c.setSelectTable(Cairo.Tables.EMPRESA);
+        c.setName(getText(1114, "")); // Empresa
+        c.setKey(K_EMP_ID);
+        c.setValue(m_empresa);
+        c.setSelectId(val(m_empId));
+        c.setSelectIntValue(m_empId);
+
+        createMenu();
+        if(!m_dialog.showDocumentList(self)) { return false; }
+
+        return true;
+      };
       var loadCollection = function() {
         var c = null;
         var o = null;
@@ -199,32 +443,32 @@
         c = m_dialog.getProperties().add(null, mTicketConstantes.CLI_ID);
         c.setType(Dialogs.PropertyType.select);
         c.setTable(Cairo.Tables.CLIENTE);
-        //'Cliente
-        c.setName(Cairo.Language.getText(1150, ""));
+        // Cliente
+        c.setName(getText(1150, ""));
         c.setKey(K_CLIENTE);
         value = m_cliente;
-        if(m_cliId.Substring(0, 1).toUpperCase() == KEY_NODO) {
+        if(m_cliId.Substring(0, 1).toUpperCase() === KEY_NODO) {
           value = GetNombreRama(Cairo.Tables.CLIENTE, Cairo.Util.val(m_cliId.Substring(2)), bExists);
           if(!bExists) { m_cliId = "0"; }
         }
         c.setValue(value);
         c.setSelectId(Cairo.Util.val(m_cliId));
-        c.setHelpValueProcess(m_cliId);
+        c.setSelectIntValue(m_cliId);
 
         c = m_dialog.getProperties().add(null, mTicketConstantes.PROY_ID);
         c.setType(Dialogs.PropertyType.select);
         c.setTable(csETablesTask.cSPROYECTO);
-        //'Proyecto
-        c.setName(Cairo.Language.getText(1658, ""));
+        // Proyecto
+        c.setName(getText(1658, ""));
         c.setKey(K_PROYECTO);
         value = m_proyecto;
-        if(m_proy_id.Substring(0, 1).toUpperCase() == KEY_NODO) {
+        if(m_proy_id.Substring(0, 1).toUpperCase() === KEY_NODO) {
           value = GetNombreRama(csETablesTask.cSPROYECTO, Cairo.Util.val(m_proy_id.Substring(2)), bExists);
           if(!bExists) { m_proy_id = "0"; }
         }
         c.setValue(value);
         c.setSelectId(Cairo.Util.val(m_proy_id));
-        c.setHelpValueProcess(m_proy_id);
+        c.setSelectIntValue(m_proy_id);
 
         createMenu();
         if(!m_dialog.showDocumentList(self)) { return false; }
@@ -233,12 +477,7 @@
       };
 
       var refreshCollection = function() {
-
-        m_dialog.setTitle(m_name);
-
-        var properties = m_dialog.getProperties();
-
-        return m_dialog.showValues(properties);
+        return m_dialog.showValues(m_properties);
       };
 
       var load = function() {
@@ -305,36 +544,6 @@
         m_properties = dialog.getProperties();
       };
 
-      var cIEditGenericListDoc_ShowParams = function(us_id) {
-        var _rtn = null;
-        try {
-
-          if(us_id == NO_ID) { return _rtn; }
-
-          m_us_id = us_id;
-
-          if(!load(us_id)) { return _rtn; }
-
-          if(!loadCollection()) { return _rtn; }
-
-          _rtn = true;
-          return _rtn;
-        }
-        catch (ex) {
-          Cairo.manageErrorEx(ex.message, "cIEditGenericListDoc_ShowParams", C_MODULE, "");
-        }
-
-        return _rtn;
-      };
-
-      var cIEditGenericListDoc_PropertyChange = function(key) {
-
-      };
-
-      var cIEditGenericListDoc_TabClick = function(index) {
-
-      };
-
       var initialize = function() {
         try {
           m_title = getText(1892, ""); // Facturas de Compras
@@ -349,7 +558,7 @@
       var initialize = function() {
         try {
 
-          c_ErrorSave = Cairo.Language.getText(2302, "");
+          c_ErrorSave = getText(2302, "");
           //Error al grabar los párametros de navegación de Alarma
 
           m_properties = new cABMDocProperties();
@@ -372,13 +581,13 @@
           elem.setFontSize(8);
           elem.setForeColor(vbBlue);
 
-          // **TODO:** goto found: GoTo ExitProc;
+
         }
         catch (ex) {
           Cairo.manageErrorEx(ex.message, "Class_Terminate", C_MODULE, "");
-          // **TODO:** label found: ExitProc:;
+
         }
-        // **TODO:** on error resume next found !!!
+
       };
 
       self.destroy = function() {
@@ -398,17 +607,17 @@
           m_dialog = null;
           m_properties = null;
 
-          // **TODO:** goto found: GoTo ExitProc;
+
         }
         catch (ex) {
           Cairo.manageErrorEx(ex.message, "Class_Terminate", C_MODULE, "");
-          // **TODO:** label found: ExitProc:;
+
         }
-        // **TODO:** on error resume next found !!!
+
       };
 
       var createMenu = function() {
-        // **TODO:** on error resume next found !!!
+
 
         if(m_menuLoaded) { return; }
 
@@ -416,10 +625,10 @@
 
         m_objList.ObjClientMenu = self;
         m_objList.ClearMenu;
-        //'Agregar Nota
-        m_menuAddNote = m_objList.AddMenu(Cairo.Language.getText(1615, ""));
-        //'Ver Notas
-        m_menuShowMensajes = m_objList.AddMenu(Cairo.Language.getText(1616, ""));
+        // Agregar Nota
+        m_menuAddNote = m_objList.addMenu(getText(1615, ""));
+        // Ver Notas
+        m_menuShowMensajes = m_objList.addMenu(getText(1616, ""));
       };
 
       var showNotes = function() {
@@ -564,14 +773,6 @@
           self.documentList.list().then(Cairo.LoadingMessage.close);
 
         };
-
-        var showListDialog = function() {
-          self.documentList.show();
-        };
-
-        var closeListDialog = function() {
-
-        }
 
         createListDialog();
       }

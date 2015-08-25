@@ -9,6 +9,8 @@
 
       var Dialogs = Cairo.Dialogs;
       var DB = Cairo.Database;
+      var C = Cairo.General.Constants;
+      var NO_ID = Cairo.Constants.NO_ID;
 
       var C_MODULE = "cUnidad";
 
@@ -54,11 +56,11 @@
 
         m_listController.updateEditorKey(self, NO_ID);
 
-        var property = m_dialog.getProperties().item(Cairo.General.Constants.UN_CODE);
+        var property = m_dialog.getProperties().item(C.UN_CODE);
         property.setValue(Cairo.Constants.COPY_OF + property.getValue());
 
-        m_dialog.showValue(m_dialog.getProperties().item(Cairo.General.Constants.UN_CODE));
-        m_dialog.showValue(m_dialog.getProperties().item(Cairo.General.Constants.UN_NAME));
+        m_dialog.showValue(m_dialog.getProperties().item(C.UN_CODE));
+        m_dialog.showValue(m_dialog.getProperties().item(C.UN_NAME));
 
         m_copy = true;
       };
@@ -102,7 +104,7 @@
 
           var doc = new Cairo.DocDigital();
 
-          doc.setClientTable(Cairo.General.Constants.UNIDAD);
+          doc.setClientTable(C.UNIDAD);
           doc.setClientTableID(m_id);
 
           _rtn = doc.showDocs(Cairo.Database);
@@ -146,8 +148,8 @@
         var register = new Cairo.Database.Register();
         var fields = register.getFields();
 
-        register.setFieldId(Cairo.General.Constants.UN_ID);
-        register.setTable(Cairo.General.Constants.UNIDAD);
+        register.setFieldId(C.UN_ID);
+        register.setTable(C.UNIDAD);
 
         register.setPath(m_apiPath + "general/unidad");
 
@@ -163,11 +165,11 @@
           var property = m_dialog.getProperties().item(_i);
           switch (property.getKey()) {
             case K_NAME:
-              fields.add(Cairo.General.Constants.UN_NAME, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.UN_NAME, property.getValue(), Cairo.Constants.Types.text);
               break;
 
             case K_CODE:
-              fields.add(Cairo.General.Constants.UN_CODE, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.UN_CODE, property.getValue(), Cairo.Constants.Types.text);
               break;
 
             case K_ACTIVE:
@@ -179,10 +181,10 @@
         return Cairo.Database.saveEx(
             register,
             false,
-            Cairo.General.Constants.UN_CODE, 
+            C.UN_CODE,
             Cairo.Constants.CLIENT_SAVE_FUNCTION,
             C_MODULE,
-            Cairo.Language.getText(1498, "")).then(
+            getText(1498, "")).then(
 
           function(result) {
             if(result.success) {
@@ -227,7 +229,7 @@
 
       self.getTitle = function() {
         // Unidades
-        return Cairo.Language.getText(1499, "");
+        return getText(1499, "");
       };
 
       self.validate = function() {
@@ -342,14 +344,14 @@
         var properties = m_dialog.getProperties();
         properties.clear();
 
-        var elem = properties.add(null, Cairo.General.Constants.UN_NAME);
+        var elem = properties.add(null, C.UN_NAME);
         elem.setType(Dialogs.PropertyType.text);
         elem.setName(Cairo.Constants.NAME_LABEL);
         elem.setSize(100);
         elem.setKey(K_NAME);
         elem.setValue(m_name);
 
-        var elem = properties.add(null, Cairo.General.Constants.UN_CODE);
+        var elem = properties.add(null, C.UN_CODE);
         elem.setType(Dialogs.PropertyType.text);
         elem.setName(Cairo.Constants.CODE_LABEL);
         elem.setSize(15);
@@ -373,10 +375,10 @@
 
         var properties = m_dialog.getProperties();
 
-        var elem = properties.item(Cairo.General.Constants.UN_NAME);
+        var elem = properties.item(C.UN_NAME);
         elem.setValue(m_name);
 
-        var elem = properties.item(Cairo.General.Constants.UN_CODE);
+        var elem = properties.item(C.UN_CODE);
         elem.setValue(m_code);
 
         var elem = properties.item(Cairo.Constants.ACTIVE);
@@ -400,9 +402,9 @@
             } 
             else {
               m_active = Cairo.Database.valField(response.data, Cairo.Constants.ACTIVE);
-              m_name = Cairo.Database.valField(response.data, Cairo.General.Constants.UN_NAME);
-              m_code = Cairo.Database.valField(response.data, Cairo.General.Constants.UN_CODE);
-              m_id = Cairo.Database.valField(response.data, Cairo.General.Constants.UN_ID);
+              m_name = Cairo.Database.valField(response.data, C.UN_NAME);
+              m_code = Cairo.Database.valField(response.data, C.UN_CODE);
+              m_id = Cairo.Database.valField(response.data, C.UN_ID);
             }
           return true;
         });
@@ -443,6 +445,9 @@
   });
 
   Cairo.module("Unidad.List", function(List, Cairo, Backbone, Marionette, $, _) {
+
+    var NO_ID = Cairo.Constants.NO_ID;
+
     List.Controller = {
       list: function() {
 

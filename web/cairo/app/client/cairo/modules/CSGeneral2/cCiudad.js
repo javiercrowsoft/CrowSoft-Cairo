@@ -9,6 +9,8 @@
 
       var Dialogs = Cairo.Dialogs;
       var DB = Cairo.Database;
+      var C = Cairo.General.Constants;
+      var NO_ID = Cairo.Constants.NO_ID;
 
       var C_MODULE = "cCiudad";
 
@@ -79,7 +81,7 @@
 
           var doc = new Cairo.DocDigital();
 
-          doc.setClientTable(Cairo.General.Constants.CIUDAD);
+          doc.setClientTable(C.CIUDAD);
           doc.setClientTableID(m_id);
 
           _rtn = doc.showDocs(Cairo.Database);
@@ -127,11 +129,11 @@
 
         m_listController.updateEditorKey(self, NO_ID);
 
-        var property = m_dialog.getProperties().item(Cairo.General.Constants.CIU_CODE);
+        var property = m_dialog.getProperties().item(C.CIU_CODE);
         property.setValue(Cairo.Constants.COPY_OF + property.getValue());
 
-        m_dialog.showValue(m_dialog.getProperties().item(Cairo.General.Constants.CIU_CODE));
-        m_dialog.showValue(m_dialog.getProperties().item(Cairo.General.Constants.CIU_NAME));
+        m_dialog.showValue(m_dialog.getProperties().item(C.CIU_CODE));
+        m_dialog.showValue(m_dialog.getProperties().item(C.CIU_NAME));
 
         m_copy = true;
       };
@@ -156,8 +158,8 @@
         var register = new Cairo.Database.Register();
         var fields = register.getFields();
 
-        register.setFieldId(Cairo.General.Constants.CIU_ID);
-        register.setTable(Cairo.General.Constants.CIUDAD);
+        register.setFieldId(C.CIU_ID);
+        register.setTable(C.CIUDAD);
 
         register.setPath(m_apiPath + "general/ciudad");
 
@@ -173,19 +175,19 @@
           var property = m_dialog.getProperties().item(_i);
           switch (property.getKey()) {
             case K_NAME:
-              fields.add(Cairo.General.Constants.CIU_NAME, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.CIU_NAME, property.getValue(), Cairo.Constants.Types.text);
               break;
 
             case K_CODE:
-              fields.add(Cairo.General.Constants.CIU_CODE, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.CIU_CODE, property.getValue(), Cairo.Constants.Types.text);
               break;
 
             case K_DESCRIP:
-              fields.add(Cairo.General.Constants.CIU_DESCRIP, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.CIU_DESCRIP, property.getValue(), Cairo.Constants.Types.text);
               break;
 
             case K_PRO_ID:
-              fields.add(Cairo.General.Constants.PRO_ID, property.getSelectId(), Cairo.Constants.Types.id);
+              fields.add(C.PRO_ID, property.getSelectId(), Cairo.Constants.Types.id);
               break;
 
             case K_ACTIVE:
@@ -197,10 +199,10 @@
         return Cairo.Database.saveEx(
             register,
             false,
-            Cairo.General.Constants.CIU_CODE, 
+            C.CIU_CODE,
             Cairo.Constants.CLIENT_SAVE_FUNCTION,
             C_MODULE,
-            Cairo.Language.getText(1075, "")).then(
+            getText(1075, "")).then(
 
           function(result) {
             if(result.success) {
@@ -245,7 +247,7 @@
 
       self.getTitle = function() {
         // Ciudades
-        return Cairo.Language.getText(1076, "");
+        return getText(1076, "");
       };
 
       self.validate = function() {
@@ -271,7 +273,7 @@
             case K_PRO_ID:
               if(Cairo.Util.valEmpty(property.getSelectId(), Cairo.Constants.Types.id)) {
                 // Debe indicar una provincia
-                Cairo.Modal.showInfo(Cairo.Language.getText(1077, ""));
+                Cairo.Modal.showInfo(getText(1077, ""));
               }
               break;
           }
@@ -366,14 +368,14 @@
 
         properties.clear();
 
-        var elem = properties.add(null, Cairo.General.Constants.CIU_NAME);
+        var elem = properties.add(null, C.CIU_NAME);
         elem.setType(Dialogs.PropertyType.text);
         elem.setName(Cairo.Constants.NAME_LABEL);
         elem.setSize(100);
         elem.setKey(K_NAME);
         elem.setValue(m_name);
 
-        var elem = properties.add(null, Cairo.General.Constants.CIU_CODE);
+        var elem = properties.add(null, C.CIU_CODE);
         elem.setType(Dialogs.PropertyType.text);
         elem.setName(Cairo.Constants.CODE_LABEL);
         elem.setSize(15);
@@ -386,16 +388,16 @@
         elem.setKey(K_ACTIVE);
         elem.setValue(m_active === true ? 1 : 0);
 
-        var elem = properties.add(null, Cairo.General.Constants.PRO_ID);
+        var elem = properties.add(null, C.PRO_ID);
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.PROVINCIA);
         // Provincia
-        elem.setName(Cairo.Language.getText(1080, ""));
+        elem.setName(getText(1080, ""));
         elem.setKey(K_PRO_ID);
         elem.setValue(m_provincia);
         elem.setSelectId(m_pro_id);
 
-        var elem = properties.add(null, Cairo.General.Constants.CIU_DESCRIP);
+        var elem = properties.add(null, C.CIU_DESCRIP);
         elem.setType(Dialogs.PropertyType.text);
         elem.setName(Cairo.Constants.DESCRIPTION_LABEL);
         elem.setSize(255);
@@ -414,20 +416,20 @@
 
         var properties = m_dialog.getProperties();
 
-        var elem = properties.item(Cairo.General.Constants.CIU_NAME);
+        var elem = properties.item(C.CIU_NAME);
         elem.setValue(m_name);
 
-        var elem = properties.item(Cairo.General.Constants.CIU_CODE);
+        var elem = properties.item(C.CIU_CODE);
         elem.setValue(m_code);
 
         var elem = properties.item(Cairo.Constants.ACTIVE);
         elem.setValue(m_active === true ? 1 : 0);
 
-        var elem = properties.item(Cairo.General.Constants.PRO_ID);
+        var elem = properties.item(C.PRO_ID);
         elem.setValue(m_provincia);
         elem.setSelectId(m_pro_id);
 
-        var elem = properties.item(Cairo.General.Constants.CIU_DESCRIP);
+        var elem = properties.item(C.CIU_DESCRIP);
         elem.setValue(m_descrip);
 
         return m_dialog.showValues(properties);
@@ -442,12 +444,12 @@
 
             if(response.data.id !== NO_ID) {
 
-              m_id = Cairo.Database.valField(response.data, Cairo.General.Constants.CIU_ID);
-              m_name = Cairo.Database.valField(response.data, Cairo.General.Constants.CIU_NAME);
-              m_code = Cairo.Database.valField(response.data, Cairo.General.Constants.CIU_CODE);
-              m_descrip = Cairo.Database.valField(response.data, Cairo.General.Constants.CIU_DESCRIP);
-              m_pro_id = Cairo.Database.valField(response.data, Cairo.General.Constants.PRO_ID);
-              m_provincia = Cairo.Database.valField(response.data, Cairo.General.Constants.PRO_NAME);
+              m_id = Cairo.Database.valField(response.data, C.CIU_ID);
+              m_name = Cairo.Database.valField(response.data, C.CIU_NAME);
+              m_code = Cairo.Database.valField(response.data, C.CIU_CODE);
+              m_descrip = Cairo.Database.valField(response.data, C.CIU_DESCRIP);
+              m_pro_id = Cairo.Database.valField(response.data, C.PRO_ID);
+              m_provincia = Cairo.Database.valField(response.data, C.PRO_NAME);
               m_active = Cairo.Database.valField(response.data, Cairo.Constants.ACTIVE);
 
             } 
@@ -502,6 +504,9 @@
   });
 
   Cairo.module("Ciudad.List", function(List, Cairo, Backbone, Marionette, $, _) {
+
+    var NO_ID = Cairo.Constants.NO_ID;
+
     List.Controller = {
       list: function() {
 

@@ -9,6 +9,8 @@
 
       var Dialogs = Cairo.Dialogs;
       var DB = Cairo.Database;
+      var C = Cairo.General.Constants;
+      var NO_ID = Cairo.Constants.NO_ID;
 
       var C_MODULE = "cBanco";
 
@@ -80,7 +82,7 @@
 
           var doc = new Cairo.DocDigital();
 
-          doc.setClientTable(Cairo.General.Constants.BANCO);
+          doc.setClientTable(C.BANCO);
           doc.setClientTableID(m_id);
 
           _rtn = doc.showDocs(Cairo.Database);
@@ -119,11 +121,11 @@
 
         m_listController.updateEditorKey(self, NO_ID);
 
-        var property = m_dialog.getProperties().item(Cairo.General.Constants.BCO_CODE);
+        var property = m_dialog.getProperties().item(C.BCO_CODE);
         property.setValue(Cairo.Constants.COPY_OF + property.getValue());
 
-        m_dialog.showValue(m_dialog.getProperties().item(Cairo.General.Constants.BCO_CODE));
-        m_dialog.showValue(m_dialog.getProperties().item(Cairo.General.Constants.BCO_NAME));
+        m_dialog.showValue(m_dialog.getProperties().item(C.BCO_CODE));
+        m_dialog.showValue(m_dialog.getProperties().item(C.BCO_NAME));
 
         m_copy = true;
       };
@@ -157,8 +159,8 @@
         var register = new Cairo.Database.Register();
         var fields = register.getFields();
 
-        register.setFieldId(Cairo.General.Constants.BCO_ID);
-        register.setTable(Cairo.General.Constants.BANCO);
+        register.setFieldId(C.BCO_ID);
+        register.setTable(C.BANCO);
 
         register.setPath(m_apiPath + "general/banco");
 
@@ -174,11 +176,11 @@
           var property = m_dialog.getProperties().item(_i);
           switch (property.getKey()) {
             case K_NAME:
-              fields.add(Cairo.General.Constants.BCO_NAME, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.BCO_NAME, property.getValue(), Cairo.Constants.Types.text);
               break;
 
             case K_CODE:
-              fields.add(Cairo.General.Constants.BCO_CODE, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.BCO_CODE, property.getValue(), Cairo.Constants.Types.text);
               break;
 
             case K_ACTIVE:
@@ -186,23 +188,23 @@
               break;
 
             case K_CONTACTO:
-              fields.add(Cairo.General.Constants.BCO_CONTACTO, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.BCO_CONTACTO, property.getValue(), Cairo.Constants.Types.text);
               break;
 
             case K_TELEFONO:
-              fields.add(Cairo.General.Constants.BCO_TELEFONO, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.BCO_TELEFONO, property.getValue(), Cairo.Constants.Types.text);
               break;
 
             case K_DIRECCION:
-              fields.add(Cairo.General.Constants.BCO_DIRECCION, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.BCO_DIRECCION, property.getValue(), Cairo.Constants.Types.text);
               break;
 
             case K_WEB:
-              fields.add(Cairo.General.Constants.BCO_WEB, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.BCO_WEB, property.getValue(), Cairo.Constants.Types.text);
               break;
 
             case K_MAIL:
-              fields.add(Cairo.General.Constants.BCO_MAIL, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.BCO_MAIL, property.getValue(), Cairo.Constants.Types.text);
               break;
           }
         }
@@ -210,10 +212,10 @@
         return Cairo.Database.saveEx(
             register,
             false,
-            Cairo.General.Constants.BCO_CODE,
+            C.BCO_CODE,
             Cairo.Constants.CLIENT_SAVE_FUNCTION,
             C_MODULE,
-            Cairo.Language.getText(1039, "")).then(
+            getText(1039, "")).then(
 
           function(result) {
             if(result.success) {
@@ -257,7 +259,7 @@
       };
 
       self.getTitle = function() {
-        return Cairo.Language.getText(1040, "");
+        return getText(1040, "");
       };
 
       self.validate = function() {
@@ -373,14 +375,14 @@
 
         properties.clear();
 
-        var elem = properties.add(null, Cairo.General.Constants.BCO_NAME);
+        var elem = properties.add(null, C.BCO_NAME);
         elem.setType(Dialogs.PropertyType.text);
         elem.setName(Cairo.Constants.NAME_LABEL);
         elem.setSize(100);
         elem.setKey(K_NAME);
         elem.setValue(m_name);
 
-        var elem = properties.add(null, Cairo.General.Constants.BCO_CODE);
+        var elem = properties.add(null, C.BCO_CODE);
         elem.setType(Dialogs.PropertyType.text);
         elem.setName(Cairo.Constants.CODE_LABEL);
         elem.setSize(15);
@@ -393,43 +395,43 @@
         elem.setKey(K_ACTIVE);
         elem.setValue(m_active === true ? 1 : 0);
 
-        var elem = properties.add(null, Cairo.General.Constants.BCO_MAIL);
+        var elem = properties.add(null, C.BCO_MAIL);
         elem.setType(Dialogs.PropertyType.text);
         // mail
-        elem.setName(Cairo.Language.getText(1034, ""));
+        elem.setName(getText(1034, ""));
         elem.setSize(255);
         elem.setKey(K_MAIL);
         elem.setValue(m_mail);
 
-        var elem = properties.add(null, Cairo.General.Constants.BCO_CONTACTO);
+        var elem = properties.add(null, C.BCO_CONTACTO);
         elem.setType(Dialogs.PropertyType.text);
         // contacto
-        elem.setName(Cairo.Language.getText(1035, ""));
+        elem.setName(getText(1035, ""));
         elem.setSubType(Dialogs.PropertySubType.memo);
         elem.setSize(500);
         elem.setKey(K_CONTACTO);
         elem.setValue(m_contacto);
 
-        var elem = properties.add(null, Cairo.General.Constants.BCO_TELEFONO);
+        var elem = properties.add(null, C.BCO_TELEFONO);
         elem.setType(Dialogs.PropertyType.text);
         // telefono
-        elem.setName(Cairo.Language.getText(1036, ""));
+        elem.setName(getText(1036, ""));
         elem.setSize(255);
         elem.setKey(K_TELEFONO);
         elem.setValue(m_telefono);
 
-        var elem = properties.add(null, Cairo.General.Constants.BCO_DIRECCION);
+        var elem = properties.add(null, C.BCO_DIRECCION);
         elem.setType(Dialogs.PropertyType.text);
         // Dirección
-        elem.setName(Cairo.Language.getText(1037, ""));
+        elem.setName(getText(1037, ""));
         elem.setSize(255);
         elem.setKey(K_DIRECCION);
         elem.setValue(m_direccion);
 
-        var elem = properties.add(null, Cairo.General.Constants.BCO_WEB);
+        var elem = properties.add(null, C.BCO_WEB);
         elem.setType(Dialogs.PropertyType.text);
         // Web
-        elem.setName(Cairo.Language.getText(1038, ""));
+        elem.setName(getText(1038, ""));
         elem.setSize(255);
         elem.setKey(K_WEB);
         elem.setValue(m_web);
@@ -445,28 +447,28 @@
 
         var properties = m_dialog.getProperties();
 
-        var elem = properties.item(Cairo.General.Constants.BCO_NAME);
+        var elem = properties.item(C.BCO_NAME);
         elem.setValue(m_name);
 
-        var elem = properties.item(Cairo.General.Constants.BCO_CODE);
+        var elem = properties.item(C.BCO_CODE);
         elem.setValue(m_code);
 
         var elem = properties.item(Cairo.Constants.ACTIVE);
         elem.setValue(m_active === true ? 1 : 0);
 
-        var elem = properties.item(Cairo.General.Constants.BCO_MAIL);
+        var elem = properties.item(C.BCO_MAIL);
         elem.setValue(m_mail);
 
-        var elem = properties.item(Cairo.General.Constants.BCO_CONTACTO);
+        var elem = properties.item(C.BCO_CONTACTO);
         elem.setValue(m_contacto);
 
-        var elem = properties.item(Cairo.General.Constants.BCO_TELEFONO);
+        var elem = properties.item(C.BCO_TELEFONO);
         elem.setValue(m_telefono);
 
-        var elem = properties.item(Cairo.General.Constants.BCO_DIRECCION);
+        var elem = properties.item(C.BCO_DIRECCION);
         elem.setValue(m_direccion);
 
-        var elem = properties.item(Cairo.General.Constants.BCO_WEB);
+        var elem = properties.item(C.BCO_WEB);
         elem.setValue(m_web);
 
         return m_dialog.showValues(properties);
@@ -492,14 +494,14 @@
             }
             else {
               m_active = Cairo.Database.valField(response.data, Cairo.Constants.ACTIVE);
-              m_name = Cairo.Database.valField(response.data, Cairo.General.Constants.BCO_NAME);
-              m_code = Cairo.Database.valField(response.data, Cairo.General.Constants.BCO_CODE);
-              m_id = Cairo.Database.valField(response.data, Cairo.General.Constants.BCO_ID);
-              m_contacto = Cairo.Database.valField(response.data, Cairo.General.Constants.BCO_CONTACTO);
-              m_telefono = Cairo.Database.valField(response.data, Cairo.General.Constants.BCO_TELEFONO);
-              m_direccion = Cairo.Database.valField(response.data, Cairo.General.Constants.BCO_DIRECCION);
-              m_web = Cairo.Database.valField(response.data, Cairo.General.Constants.BCO_WEB);
-              m_mail = Cairo.Database.valField(response.data, Cairo.General.Constants.BCO_MAIL);
+              m_name = Cairo.Database.valField(response.data, C.BCO_NAME);
+              m_code = Cairo.Database.valField(response.data, C.BCO_CODE);
+              m_id = Cairo.Database.valField(response.data, C.BCO_ID);
+              m_contacto = Cairo.Database.valField(response.data, C.BCO_CONTACTO);
+              m_telefono = Cairo.Database.valField(response.data, C.BCO_TELEFONO);
+              m_direccion = Cairo.Database.valField(response.data, C.BCO_DIRECCION);
+              m_web = Cairo.Database.valField(response.data, C.BCO_WEB);
+              m_mail = Cairo.Database.valField(response.data, C.BCO_MAIL);
             }
 
             return true;
@@ -542,6 +544,9 @@
   });
 
   Cairo.module("Banco.List", function(List, Cairo, Backbone, Marionette, $, _) {
+
+    var NO_ID = Cairo.Constants.NO_ID;
+
     List.Controller = {
       list: function() {
 
