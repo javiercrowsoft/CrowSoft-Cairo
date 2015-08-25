@@ -663,11 +663,11 @@
       var self = {
         name: "",
         value: "",
-        id: NO_ID,
+        id: Cairo.Constants.NO_ID,
         intValue: "",
         fieldIntValue: "",
         filter: "-",
-        table: NO_ID,
+        table: Cairo.Constants.NO_ID,
         enabled: true,
         type: Cairo.Select.SelectType.normal,
         noUseActive: false,

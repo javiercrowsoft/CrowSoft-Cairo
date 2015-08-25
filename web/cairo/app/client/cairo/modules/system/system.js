@@ -3,6 +3,7 @@
 
   var C = Cairo.General.Constants;
   var CC = Cairo.Compras.Constants;
+  var NO_ID = Cairo.Constants.NO_ID;
   var valField = Cairo.Database.valField;
   var bToI = Cairo.Util.boolToInt;
   var getText = Cairo.Language.getText;
@@ -1174,6 +1175,7 @@
 
   var C = Cairo.General.Constants;
   var CC = Cairo.Compras.Constants;
+  var NO_ID = Cairo.Constants.NO_ID;
 
   Cairo.SerialNumber = {};
 

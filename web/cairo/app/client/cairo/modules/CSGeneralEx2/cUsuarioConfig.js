@@ -19,6 +19,7 @@
 
       var Dialogs = Cairo.Dialogs;
       var DB = Cairo.Database;
+      var C = Cairo.General.Constants;
 
       var C_MODULE = "cUsuarioConfig";
 
@@ -348,7 +349,7 @@
       var sq = Cairo.Database.sqlString;
       var ucs = UserConfigSection;
 
-      var CFG_GRUPO = Cairo.General.Constants.CFG_GRUPO;
+      var CFG_GRUPO = C.CFG_GRUPO;
       var EMP_ID = C.EMP_ID;
       var TEXT = Cairo.Constants.Types.text;
       var ID = Cairo.Constants.Types.id;
@@ -796,11 +797,11 @@
 
         var companyId = Cairo.Company.getId().toString();
 
-        transaction.setTable(Cairo.General.Constants.CONFIGURACION)
+        transaction.setTable(C.CONFIGURACION)
 
         var createRegister = function() {
           var register = new Cairo.Database.Register();
-          register.setTable(Cairo.General.Constants.CONFIGURACION);
+          register.setTable(C.CONFIGURACION);
           return register;
         };
 

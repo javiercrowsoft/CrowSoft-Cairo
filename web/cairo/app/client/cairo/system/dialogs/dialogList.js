@@ -11,6 +11,7 @@
 
         var Dialogs = Cairo.Dialogs;
         var Controls = Cairo.Controls;
+        var NO_ID = Cairo.Constants.NO_ID;
 
         var C_MODULE = "DialogList";
 

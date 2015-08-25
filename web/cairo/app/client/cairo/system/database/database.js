@@ -13,6 +13,7 @@
 
   var T = Cairo.Constants.Types;
   var val = Cairo.Util.val;
+  var NO_ID = Cairo.Constants.NO_ID;
 
   var getErrorsObject = function(errors) {
     if(errors !== undefined) {

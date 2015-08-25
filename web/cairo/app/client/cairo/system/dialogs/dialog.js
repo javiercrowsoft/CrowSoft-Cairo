@@ -259,6 +259,7 @@
 
     var Dialogs = Cairo.Dialogs;
     var Controls = Cairo.Controls;
+    var NO_ID = Cairo.Constants.NO_ID;
     var P = Cairo.Promises;
     var call = P.call;
 

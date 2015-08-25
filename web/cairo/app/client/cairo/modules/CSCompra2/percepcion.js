@@ -5,6 +5,8 @@
 
     var self = {};
 
+    var getText = Cairo.Language.getText;
+
     var Dialogs = Cairo.Dialogs;
     var val = Cairo.Util.val;
     var getCell = Dialogs.cell;
