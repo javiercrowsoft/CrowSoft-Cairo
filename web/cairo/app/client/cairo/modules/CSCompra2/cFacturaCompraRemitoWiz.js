@@ -1340,7 +1340,7 @@
         var checkItem = function(row, i) {
           return validateRowItems(row, i).success(function() {
             existsSelected = true;
-            if(!val(getCell(row, KII_PRECIO_SIN_IVA).getValue()) != 0) {
+            if(!val(getCell(row, KII_PRECIO_SIN_IVA).getValue()) !== 0) {
               return M.showWarningWithFalse(getText(1667, "", i + 1)); // Debe indicar un precio para el item (1)
             }
             return true;
@@ -1629,7 +1629,7 @@
       var getDocNumber = function() {
         var p = null;
 
-        if(getComprobante().getValue() != "") {
+        if(getComprobante().getValue() !== "") {
           p = P.resolvedPromise(true);
         }
         else {
@@ -2129,7 +2129,7 @@
             var lp_filter = D.getListaPrecioForProveedor(m_docId, m_provId);
             var ld_filter = D.getListaDescuentoForProveedor(m_docId, m_provId);
 
-            if(cpg_id != NO_ID) {
+            if(cpg_id !== NO_ID) {
 
               var cpg_name = valField(response.data, C.CPG_NAME);
 
@@ -2143,7 +2143,7 @@
             var prop = getListaPrecio()
               .setSelectFilter(lp_filter);
 
-            if(lp_id != NO_ID) {
+            if(lp_id !== NO_ID) {
               prop.setValue(lp_name);
               prop.setSelectId(lp_id);
             }
@@ -2153,7 +2153,7 @@
             prop = getListaDescuento()
               .setSelectFilter(ld_filter);
 
-            if(ld_id != NO_ID) {
+            if(ld_id !== NO_ID) {
               prop.setValue(ld_name);
               prop.setSelectId(ld_id);
             }
@@ -2217,7 +2217,7 @@
       var setDatosFromAplic = function() {
         var p = null;
 
-        if(getComprobante().getValue() != "") {
+        if(getComprobante().getValue() !== "") {
           p = P.resolvedPromise(true);
         }
         else {
@@ -2231,7 +2231,7 @@
                 for(var i = 0, count = items.length; i < count; i += 1) {
 
                   var prop = getSucursal();
-                  if(prop.getSelectId() === NO_ID && valField(items[i], C.SUC_ID) != NO_ID) {
+                  if(prop.getSelectId() === NO_ID && valField(items[i], C.SUC_ID) !== NO_ID) {
 
                     prop.setSelectId(valField(items[i], C.SUC_ID));
                     prop.setValue(valField(items[i], C.SUC_NAME));
@@ -2239,7 +2239,7 @@
                   }
 
                   prop = getCondicionPago();
-                  if(prop.getSelectId() === NO_ID && valField(items[i], C.CPG_ID) != NO_ID) {
+                  if(prop.getSelectId() === NO_ID && valField(items[i], C.CPG_ID) !== NO_ID) {
 
                     prop.setSelectId(valField(items[i], C.CPG_ID));
                     prop.setValue(valField(items[i], C.CPG_NAME));
@@ -2247,7 +2247,7 @@
                   }
 
                   prop = getCentroCosto();
-                  if(prop.getSelectId() === NO_ID && valField(items[i], C.CCOS_ID) != NO_ID) {
+                  if(prop.getSelectId() === NO_ID && valField(items[i], C.CCOS_ID) !== NO_ID) {
 
                     prop.setSelectId(valField(items[i], C.CCOS_ID));
                     prop.setValue(valField(items[i], C.CCOS_NAME));
@@ -2255,7 +2255,7 @@
                   }
 
                   prop = getLegajo();
-                  if(prop.getSelectId() === NO_ID && valField(items[i], CC.LGJ_ID) != NO_ID) {
+                  if(prop.getSelectId() === NO_ID && valField(items[i], CC.LGJ_ID) !== NO_ID) {
 
                     prop.setSelectId(valField(items[i], CC.LGJ_ID));
                     prop.setValue(valField(items[i], CC.LGJ_TITLE));

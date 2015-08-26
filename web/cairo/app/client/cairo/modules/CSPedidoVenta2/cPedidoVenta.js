@@ -327,7 +327,7 @@
         // Fecha desde
         c.setName(getText(1203, ""));
         c.setKey(K_FECHAINI);
-        if(m_fechaIniV != "") {
+        if(m_fechaIniV !== "") {
           c.setValue(m_fechaIniV);
         }
         else {
@@ -339,7 +339,7 @@
         // Fecha hasta
         c.setName(getText(1204, ""));
         c.setKey(K_FECHAFIN);
-        if(m_fechaFinV != "") {
+        if(m_fechaFinV !== "") {
           c.setValue(m_fechaFinV);
         }
         else {
@@ -1016,7 +1016,7 @@
           i = i + 1;
           m_vMenuModoPago[C_VM_ID, i] === Cairo.Database.valField(rs.getFields(), "vm_id");
           m_vMenuModoPago[C_VM_MENU_ID, i] === m_objList.addMenu(Cairo.Database.valField(rs.getFields(), "vm_nombre"));
-          m_vMenuModoPago[C_VM_IS_CONTADO, i] === Cairo.Database.valField(rs.getFields(), "vm_ctacte") != csE_VentaModoCtaCte.cSVM_CTACTEHOJARUTA;
+          m_vMenuModoPago[C_VM_IS_CONTADO, i] === Cairo.Database.valField(rs.getFields(), "vm_ctacte") !== csE_VentaModoCtaCte.cSVM_CTACTEHOJARUTA;
           m_vMenuModoPago[C_VM_CUE_ID, i] === Cairo.Database.valField(rs.getFields(), "cue_id");
 
           m_objList.addMenu("-");
@@ -1066,41 +1066,35 @@
 
       var signDocument = function() {
 
-        var pvId = null;
-        pvId = m_dialog.getId();
+        var fcId = m_dialog.getId();
 
-        if(pvId === NO_ID) { return; }
-
-        var firmado = null;
-        var docId = null;
-
-        if(!DB.getData(mPedidoConstantes.PEDIDOVENTA, mPedidoConstantes.PV_ID, pvId, mPedidoConstantes.PV_FIRMADO, firmado)) { return; }
-        if(!DB.getData(mPedidoConstantes.PEDIDOVENTA, mPedidoConstantes.PV_ID, pvId, mPedidoConstantes.DOC_ID, docId)) { return; }
-
-        if(firmado) {
-          if(!Ask(getText(1593, ""), vbYes, getText(1594, ""))) {
-            //If Not Ask("El documento ya ha sido firmado desea borrar la firma", vbYes, "Firmar") Then
-            return;
-          }
+        if(fcId === NO_ID) {
+          return P.resolvedPromise();
         }
 
-        var doc = null;
-        var us_id = null;
+        var refreshRow = function(response) {
+          m_dialog.refreshRow(response.data);
+        };
 
-        doc = new cDocumento();
+        var getAction = function(response) {
+          var p = null;
 
-        if(!doc.Firmar(docId, us_id)) { return; }
+          if(response.signed) {
+            p = M.confirmViewYesDefault(
+              getText(1593, ""), // El documento ya ha sido firmado desea borrar la firma
+              getText(1594, "")  // Firmar
+            );
+          }
+          return p || P.resolvedPromise(true);
+        };
 
-        var sqlstmt = null;
-        var rs = null;
+        var p = D.getDocumentSignStatus(D.Types.FACTURA_COMPRA, fcId)
+            .successWithResult(getAction)
+            .success(D.signDocument(D.Types.FACTURA_COMPRA, fcId))
+            .successWithResult(refreshRow)
+          ;
 
-        sqlstmt = "sp_DocPedidoVentaFirmar "+ pvId.toString()+ ","+ us_id.toString();
-        if(!Cairo.Database.openRs(sqlstmt, rs)) { return; }
-
-        m_objList.sqlstmt = "sp_lsdoc_PedidoVenta";
-
-        m_objList.RefreshLine(pvId);
-
+        return p;
       };
 
       var showApply = function() {
@@ -1145,7 +1139,7 @@
           //
         }
         else {
-          if(m_objApply.self.getId() != pvId) {
+          if(m_objApply.self.getId() !== pvId) {
             m_objApply = new cPedidoVentaAplic();
           }
         }
@@ -1225,7 +1219,7 @@
       };
 
       var getPvIds = function() {
-        return m_objList.SelectedItems;
+        return m_dialog.getIds();
       };
 
       var initialize = function() {

@@ -5,6 +5,23 @@ object C {
   // Asiento
   val AS_ID = "as_id"
 
+  val FACTURA_ID = "ids"
+  val FACTURA_BASE = "base"
+  val FACTURA_DATES = "dates"
+  val FACTURA_PRECIOS = "precios"
+  val FACTURA_COTIZACION = "cotizacion"
+  val FACTURA_STOCK = "stock"
+  val FACTURA_TOTALS = "totals"
+
+  val FACTURA_ITEM_BASE = "base"
+  val FACTURA_ITEM_TOTALS = "totals"
+  val FACTURA_ITEM_SERIE_DELETED = "deletedList"
+
+  val FACTURA_ITEM_DELETED = "deletedItems"
+  val FACTURA_OTRO_DELETED = "deletedOtros"
+  val FACTURA_LEGAJO_DELETED = "deletedLegajos"
+  val FACTURA_PERCEPCION_DELETED = "deletedPercepciones"
+
   // RemitoCompra
   val REMITO_COMPRA = "RemitoCompra"
   val RC_ID = "rc_id"
@@ -130,23 +147,6 @@ object C {
   val PC_DC_CANTIDAD = "pcdc_cantidad"
   val PCI_ID_DEVOLUCION = "pci_id_devolucion"
   val PCI_ID_PEDIDO = "pci_id_pedido"
-
-  val FACTURA_ID = "ids"
-  val FACTURA_BASE = "base"
-  val FACTURA_DATES = "dates"
-  val FACTURA_PRECIOS = "precios"
-  val FACTURA_COTIZACION = "cotizacion"
-  val FACTURA_STOCK = "stock"
-  val FACTURA_TOTALS = "totals"
-
-  val FACTURA_ITEM_BASE = "base"
-  val FACTURA_ITEM_TOTALS = "totals"
-  val FACTURA_ITEM_SERIE_DELETED = "deletedList"
-
-  val FACTURA_ITEM_DELETED = "deletedItems"
-  val FACTURA_OTRO_DELETED = "deletedOtros"
-  val FACTURA_LEGAJO_DELETED = "deletedLegajos"
-  val FACTURA_PERCEPCION_DELETED = "deletedPercepciones"
 
   // FacturaCompra
   val FACTURA_COMPRA = "FacturaCompra"
@@ -542,41 +542,49 @@ object S {
   val LIST_FACTURA_COMPRA = 17005
   val DES_ANULAR_FACTURA_COMPRA = 17010
   val ANULAR_FACTURA_COMPRA = 17011
+
   val NEW_REMITO_COMPRA = 17006
   val EDIT_REMITO_COMPRA = 17007
   val DELETE_REMITO_COMPRA = 17008
   val LIST_REMITO_COMPRA = 17009
   val DES_ANULAR_REMITO_COMPRA = 17012
   val ANULAR_REMITO_COMPRA = 17013
+
   val NEW_PEDIDO_COMPRA = 17014
   val EDIT_PEDIDO_COMPRA = 17015
   val DELETE_PEDIDO_COMPRA = 17016
   val LIST_PEDIDO_COMPRA = 17017
   val DES_ANULAR_PEDIDO_COMPRA = 17018
   val ANULAR_PEDIDO_COMPRA = 17019
+
   val MODIFY_APLIC_COMPRA = 17020
+
   val NEW_ORDEN_COMPRA = 17021
   val EDIT_ORDEN_COMPRA = 17022
   val DELETE_ORDEN_COMPRA = 17023
   val LIST_ORDEN_COMPRA = 17024
   val DES_ANULAR_ORDEN_COMPRA = 17025
   val ANULAR_ORDEN_COMPRA = 17026
+
   val NEW_COTIZACION = 17027
   val EDIT_COTIZACION = 17028
   val DELETE_COTIZACION = 17029
   val LIST_COTIZACION = 17030
   val DES_ANULAR_COTIZACION = 17031
   val ANULAR_COTIZACION = 17032
+
   val NEW_PRESUPUESTO_COMPRA = 17033
   val EDIT_PRESUPUESTO_COMPRA = 17034
   val DELETE_PRESUPUESTO_COMPRA = 17035
   val LIST_PRESUPUESTO_COMPRA = 17036
   val DES_ANULAR_PRESUPUESTO_COMPRA = 17037
   val ANULAR_PRESUPUESTO_COMPRA = 17038
+
   val EDIT_PRICE_PED = 17041
   val EDIT_PRICE_ORD = 17042
   val EDIT_PRICE_REM = 17039
   val EDIT_PRICE_FAC = 17040
+
   val NEW_DESP_IMPO_CALC = 17043
   val EDIT_DESP_IMPO_CALC = 17044
   val DELETE_DESP_IMPO_CALC = 17045

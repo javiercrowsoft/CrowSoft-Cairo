@@ -896,7 +896,7 @@
       };
 
       var getHoraIds = function() {
-        return m_objList.SelectedItems;
+        return m_dialog.getIds();
       };
 
       var initialize = function() {

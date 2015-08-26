@@ -156,7 +156,7 @@
             text = Cairo.accounting.formatNumber(text, decimals);
           }
         }
-        else if(self.mask != "") {
+        else if(self.mask !== "") {
           text = applyMask(text.toString());
         }
         return text;

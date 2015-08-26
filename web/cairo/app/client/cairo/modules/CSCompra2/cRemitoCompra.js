@@ -497,7 +497,7 @@
 
             iProp = properties.item(C_FECHAINI);
 
-            if(iProp.getSelectIntValue() != "") {
+            if(iProp.getSelectIntValue() !== "") {
               m_fechaIniV = iProp.getSelectIntValue();
               m_fechaIni = Cairo.Dates.DateNames.getDateByName(m_fechaIniV);
             }
@@ -516,7 +516,7 @@
 
             iProp = properties.item(C_FECHAFIN);
 
-            if(iProp.getSelectIntValue() != "") {
+            if(iProp.getSelectIntValue() !== "") {
               m_fechaFinV = iProp.getSelectIntValue();
               m_fechaFin = Cairo.Dates.DateNames.getDateByName(m_fechaFinV);
             }
@@ -771,7 +771,7 @@
           switch (property.getKey()) {
 
             case K_FECHAINI:
-              if(property.getSelectIntValue() != "") {
+              if(property.getSelectIntValue() !== "") {
                 register.getFields().add2(Cairo.Constants.LDP_VALOR, property.getSelectIntValue(), Cairo.Constants.Types.text);
               }
               else {
@@ -784,7 +784,7 @@
 
             case K_FECHAFIN:
 
-              if(property.getSelectIntValue() != "") {
+              if(property.getSelectIntValue() !== "") {
                 register.getFields().add2(Cairo.Constants.LDP_VALOR, property.getSelectIntValue(), Cairo.Constants.Types.text);
               }
               else {
@@ -916,46 +916,40 @@
 
       var signDocument = function() {
 
-        var rcId = null;
-        rcId = m_dialog.getId();
+        var fcId = m_dialog.getId();
 
-        if(rcId === NO_ID) { return; }
-
-        var firmado = null;
-        var docId = null;
-
-        if(!DB.getData(mComprasConstantes.REMITOCOMPRA, mComprasConstantes.RC_ID, rcId, mComprasConstantes.RC_FIRMADO, firmado)) { return; }
-        if(!DB.getData(mComprasConstantes.REMITOCOMPRA, mComprasConstantes.RC_ID, rcId, mComprasConstantes.DOC_ID, docId)) { return; }
-
-        if(firmado) {
-          if(!Ask(getText(1593, ""), vbYes, getText(1594, ""))) {
-            //El documento ya ha sido firmado desea borrar la firma, Firmar
-            return;
-          }
+        if(fcId === NO_ID) {
+          return P.resolvedPromise();
         }
 
-        var doc = null;
-        var us_id = null;
+        var refreshRow = function(response) {
+          m_dialog.refreshRow(response.data);
+        };
 
-        doc = new cDocumento();
+        var getAction = function(response) {
+          var p = null;
 
-        if(!doc.Firmar(docId, us_id)) { return; }
+          if(response.signed) {
+            p = M.confirmViewYesDefault(
+              getText(1593, ""), // El documento ya ha sido firmado desea borrar la firma
+              getText(1594, "")  // Firmar
+            );
+          }
+          return p || P.resolvedPromise(true);
+        };
 
-        var sqlstmt = null;
-        var rs = null;
+        var p = D.getDocumentSignStatus(D.Types.FACTURA_COMPRA, fcId)
+            .successWithResult(getAction)
+            .success(D.signDocument(D.Types.FACTURA_COMPRA, fcId))
+            .successWithResult(refreshRow)
+          ;
 
-        sqlstmt = "sp_DocRemitoCompraFirmar "+ rcId.toString()+ ","+ us_id.toString();
-        if(!Cairo.Database.openRs(sqlstmt, rs)) { return; }
-
-        m_objList.sqlstmt = "sp_lsdoc_RemitoCompra";
-
-        m_objList.RefreshLine(rcId);
-
+        return p;
       };
 
       var showDocAux = function() {
         var fcId = m_dialog.getId();
-        if(fcId != NO_ID) {
+        if(fcId !== NO_ID) {
 
           D.getStockId(D.Types.TYPE_XXXX, xxId).successWithResult(function(response) {
             D.showDocAux(response.st_id, "Stock");
@@ -1007,7 +1001,7 @@
           //
         }
         else {
-          if(m_objApply.self.getId() != rcId) {
+          if(m_objApply.self.getId() !== rcId) {
             m_objApply = new cRemitoCompraAplic();
           }
         }
@@ -1048,7 +1042,7 @@
       };
 
       var getRcIds = function() {
-        return m_objList.SelectedItems;
+        return m_dialog.getIds();
       };
 
       var initialize = function() {

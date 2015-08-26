@@ -1154,7 +1154,7 @@
               try {
                 var branchId = branches.models[0].id;
                 var root = $(listController.Tree.treeControlId).fancytree("getRootNode").tree.getFirstChild();
-                var node = branchId != 0 ? root.tree.getNodeByKey(branchId) : root;
+                var node = branchId !== 0 ? root.tree.getNodeByKey(branchId) : root;
                 var activeNode = $(listController.Tree.treeControlId).fancytree("getActiveNode");
                 if(activeNode !== node) {
                   node.setActive();

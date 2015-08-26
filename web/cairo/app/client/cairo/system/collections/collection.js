@@ -103,7 +103,7 @@
       };
 
       var setIndexInItem = function(value, index) {
-        if(value !== undefined && value != null && itemConstructor !== null) {
+        if(value !== undefined && value !== null && itemConstructor !== null) {
           if(value.setIndex !== undefined) {
             value.setIndex(index);
           }

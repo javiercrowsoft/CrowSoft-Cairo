@@ -435,7 +435,7 @@
 
             iProp = m_dialog.getProperties().item(C_FECHAINI);
 
-            if(iProp.getSelectIntValue() != "") {
+            if(iProp.getSelectIntValue() !== "") {
               m_fechaIniV = iProp.getSelectIntValue();
               m_fechaIni = Cairo.Dates.DateNames.getDateByName(m_fechaIniV);
             }
@@ -454,7 +454,7 @@
 
             iProp = m_dialog.getProperties().item(C_FECHAFIN);
 
-            if(iProp.getSelectIntValue() != "") {
+            if(iProp.getSelectIntValue() !== "") {
               m_fechaFinV = iProp.getSelectIntValue();
               m_fechaFin = Cairo.Dates.DateNames.getDateByName(m_fechaFinV);
             }
@@ -709,7 +709,7 @@
           switch (property.getKey()) {
 
             case K_FECHAINI:
-              if(property.getSelectIntValue() != "") {
+              if(property.getSelectIntValue() !== "") {
                 register.getFields().add2(Cairo.Constants.LDP_VALOR, property.getSelectIntValue(), Cairo.Constants.Types.text);
               }
               else {
@@ -723,7 +723,7 @@
 
             case K_FECHAFIN:
 
-              if(property.getSelectIntValue() != "") {
+              if(property.getSelectIntValue() !== "") {
                 register.getFields().add2(Cairo.Constants.LDP_VALOR, property.getSelectIntValue(), Cairo.Constants.Types.text);
               }
               else {
@@ -916,58 +916,46 @@
 
       var signDocument = function() {
 
-        var dcupId = null;
-        dcupId = m_dialog.getId();
+        var fcId = m_dialog.getId();
 
-        if(dcupId === NO_ID) { return; }
-
-        var firmado = null;
-        var docId = null;
-
-        if(!DB.getData(mTesoreriaConstantes.DEPOSITOBANCO, mTesoreriaConstantes.DCUP_ID, dcupId, mTesoreriaConstantes.DCUP_FIRMADO, firmado)) { return; }
-        if(!DB.getData(mTesoreriaConstantes.DEPOSITOBANCO, mTesoreriaConstantes.DCUP_ID, dcupId, mTesoreriaConstantes.DOC_ID, docId)) { return; }
-
-        if(firmado) {
-          if(!Ask(getText(1593, ""), vbYes, getText(1594, ""))) {
-            //El documento ya ha sido firmado desea borrar la firma, Firmar
-            return;
-          }
+        if(fcId === NO_ID) {
+          return P.resolvedPromise();
         }
 
-        var doc = null;
-        var us_id = null;
+        var refreshRow = function(response) {
+          m_dialog.refreshRow(response.data);
+        };
 
-        doc = new cDocumento();
+        var getAction = function(response) {
+          var p = null;
 
-        if(!doc.Firmar(docId, us_id)) { return; }
+          if(response.signed) {
+            p = M.confirmViewYesDefault(
+              getText(1593, ""), // El documento ya ha sido firmado desea borrar la firma
+              getText(1594, "")  // Firmar
+            );
+          }
+          return p || P.resolvedPromise(true);
+        };
 
-        var sqlstmt = null;
-        var rs = null;
+        var p = D.getDocumentSignStatus(D.Types.FACTURA_COMPRA, fcId)
+            .successWithResult(getAction)
+            .success(D.signDocument(D.Types.FACTURA_COMPRA, fcId))
+            .successWithResult(refreshRow)
+          ;
 
-        sqlstmt = "sp_DocDepositoCuponFirmar "+ dcupId.toString()+ ","+ us_id.toString();
-        if(!Cairo.Database.openRs(sqlstmt, rs)) { return; }
-
-        m_objList.sqlstmt = "sp_lsdoc_DepositoCupon";
-
-        m_objList.RefreshLine(dcupId);
-
+        return p;
       };
 
       var showAsiento = function() {
+        var fcId = m_dialog.getId();
+        if(fcId !== NO_ID) {
 
-        var dcupId = null;
-        dcupId = m_dialog.getId();
-
-        if(dcupId) {
-
-          var asId = null;
-          if(!DB.getData(mTesoreriaConstantes.DEPOSITOCUPON, mTesoreriaConstantes.DCUP_ID, dcupId, mTesoreriaConstantes.AS_ID, asId)) { return; }
-
-          ShowDocAux(asId, "CSContabilidad2.cAsiento", "CSABMInterface2.cABMGeneric");
+          D.getAsientoId(D.Types.FACTURA_COMPRA, fcId).successWithResult(function(response) {
+            D.showDocAux(response.as_id, "Asiento");
+          });
         }
-
       };
-
 
       return self;
     };

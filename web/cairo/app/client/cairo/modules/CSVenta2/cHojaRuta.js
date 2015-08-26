@@ -263,8 +263,8 @@
 
       var pValidateFilters = function() {
         if(LenB(m_nrodoc)) { return; }
-        if(LenB(m_per_id) && m_per_id != "0") { return; }
-        if(LenB(m_cam_id) && m_cam_id != "0") { return; }
+        if(LenB(m_per_id) && m_per_id !== "0") { return; }
+        if(LenB(m_cam_id) && m_cam_id !== "0") { return; }
 
         var fdesde = null;
         var fhasta = null;
@@ -608,7 +608,7 @@
         c.setSelectId(Cairo.Util.val(m_per_id));
         c.setSelectIntValue(m_per_id);
 
-        c = m_dialog.getProperties().add(null, CV.CAM_ID);
+        c = m_dialog.getProperties().add(null, C.CAM_ID);
         c.setType(Dialogs.PropertyType.select);
         c.setTable(Cairo.Tables.CAMION);
         // Camion
@@ -730,7 +730,7 @@
       };
 
       var getLqdIds = function() {
-        return m_objList.SelectedItems;
+        return m_dialog.getIds();
       };
 
       var initialize = function() {

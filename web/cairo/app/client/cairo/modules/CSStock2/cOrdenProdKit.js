@@ -401,7 +401,7 @@
 
             iProp = m_dialog.getProperties().item(C_FECHAINI);
 
-            if(iProp.getSelectIntValue() != "") {
+            if(iProp.getSelectIntValue() !== "") {
               m_fechaIniV = iProp.getSelectIntValue();
               m_fechaIni = Cairo.Dates.DateNames.getDateByName(m_fechaIniV);
             }
@@ -420,7 +420,7 @@
 
             iProp = m_dialog.getProperties().item(C_FECHAFIN);
 
-            if(iProp.getSelectIntValue() != "") {
+            if(iProp.getSelectIntValue() !== "") {
               m_fechaFinV = iProp.getSelectIntValue();
               m_fechaFin = Cairo.Dates.DateNames.getDateByName(m_fechaFinV);
             }
@@ -651,7 +651,7 @@
           switch (property.getKey()) {
 
             case K_FECHAINI:
-              if(property.getSelectIntValue() != "") {
+              if(property.getSelectIntValue() !== "") {
                 register.getFields().add2(Cairo.Constants.LDP_VALOR, property.getSelectIntValue(), Cairo.Constants.Types.text);
               }
               else {
@@ -664,7 +664,7 @@
 
             case K_FECHAFIN:
 
-              if(property.getSelectIntValue() != "") {
+              if(property.getSelectIntValue() !== "") {
                 register.getFields().add2(Cairo.Constants.LDP_VALOR, property.getSelectIntValue(), Cairo.Constants.Types.text);
               }
               else {

@@ -709,36 +709,36 @@
                 return response.success;
 
               })
-              .success(function() {
+                .success(function() {
 
-                var p = null;
+                  var p = null;
 
-                // when the document property is changed and the dialog was
-                // editing a saved invoice we need to move to a new invoice
-                // 
-                if(m_id !== NO_ID && m_docId !== m_lastDocId) {
-                  p = self.edit(D.Constants.DOC_CHANGED);
-                }
+                  // when the document property is changed and the dialog was
+                  // editing a saved invoice we need to move to a new invoice
+                  //
+                  if(m_id !== NO_ID && m_docId !== m_lastDocId) {
+                    p = self.edit(D.Constants.DOC_CHANGED);
+                  }
 
-                return p || P.resolvedPromise(true);
-
-              })
-              .success(function() {
-
-                return D.setDocNumberForProveedor(m_lastProvId, m_lastDocId, m_dialog)
-                .then(function(enabled) {
-
-                  m_taPropuesto = enabled;
-                  return showCotizacion();
+                  return p || P.resolvedPromise(true);
 
                 })
-                .then(function() {
+                .success(function() {
 
-                  showHideCols(true);
-                  setColorBackground();
+                  return D.setDocNumberForProveedor(m_lastProvId, m_lastDocId, m_dialog)
+                    .then(function(enabled) {
 
+                      m_taPropuesto = enabled;
+                      return showCotizacion();
+
+                    })
+                    .then(function() {
+
+                      showHideCols(true);
+                      setColorBackground();
+
+                    });
                 });
-              });
             }
 
             p = p || P.resolvedPromise();
@@ -5514,6 +5514,12 @@
         catch(ex) {
           Cairo.manageErrorEx(ex.message, ex, "showOrdenPago", C_MODULE, "");
         }
+      };
+
+      // TODO: complete
+      //
+      var getProvId = function() {
+
       };
 
       var getFcIds = function() {

@@ -95,7 +95,6 @@
           return show(client, Views.createDocumentListView());
         };
 
-
         self.showValue = function(property) {
           var item = null;
           var view = getView();
@@ -266,6 +265,16 @@
           }
         };
 
+        // TODO: complete
+        self.getId = function() {
+          return NO_ID;
+        };
+
+        // TODO: complete
+        self.getIds = function() {
+          return [];
+        };
+
         var clientSaveParams = function() {
           return m_client.save();
         };
@@ -295,6 +304,13 @@
             Cairo.manageErrorEx(ex.message, ex, "refreshList", C_MODULE, "");
           }
           return p || Cairo.Promises.resolvedPromise(false);
+        };
+
+        // TODO: implement grid.getSelectedRow()
+        //
+        self.refreshRow = function(data) {
+          var grid = m_view.getListGrid();
+          grid.refreshRow(grid.getSelectedRow(), data);
         };
 
         var newClick = function() {

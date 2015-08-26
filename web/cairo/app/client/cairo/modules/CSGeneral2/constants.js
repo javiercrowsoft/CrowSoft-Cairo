@@ -732,6 +732,7 @@
       DOC_NAME: "doc_nombre",
       DOC_TIPO_FACTURA: "doc_tipofactura",
       DOC_MUEVE_STOCK: "doc_muevestock",
+      DOC_SIN_PERC: "doc_sin_perc",
 
       // Talonario
       TALONARIO: "Talonario",

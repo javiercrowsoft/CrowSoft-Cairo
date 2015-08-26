@@ -381,7 +381,7 @@
         };
 
         self.closeWizard = function() {
-          if(m_dialog != null) {
+          if(m_dialog !== null) {
             m_dialog.closeWizard();
           }
           m_wizardClosed = true;

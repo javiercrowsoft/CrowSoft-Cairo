@@ -1168,6 +1168,24 @@
     return p || P.resolvedPromise(P.success());
   };
 
+  // TODO: complete
+  //
+  Cairo.Documents.getCAE = function(fvId) {
+    return P.resolvedPromise(true);
+  };
+
+  // TODO: complete
+  //
+  Cairo.Documents.updateTalonariosAFIP = function() {
+    return P.resolvedPromise(true);
+  };
+
+  // TODO: complete
+  //
+  Cairo.Documents.sendCAEByEmail = function(fvId) {
+    return P.resolvedPromise(true);
+  };
+
 }());
 
 (function() {
@@ -1460,7 +1478,7 @@
     var oldValue = null;
     oldValue = val(Dialogs.cell(row, keyCantidad).getValue());
 
-    if(oldValue != newValue && oldValue > 0) {
+    if(oldValue !== newValue && oldValue > 0) {
 
       var grupo = null;
       var nroSerieCount = null;

@@ -273,8 +273,8 @@
 
       var pValidateFilters = function() {
 
-        if(LenB(m_ccosId) && m_ccosId != "0") { return; }
-        if(LenB(m_em_id) && m_em_id != "0") { return; }
+        if(LenB(m_ccosId) && m_ccosId !== "0") { return; }
+        if(LenB(m_em_id) && m_em_id !== "0") { return; }
 
         var fdesde = null;
         var fhasta = null;
@@ -818,7 +818,7 @@
       };
 
       var getEmpeIds = function() {
-        return m_objList.SelectedItems;
+        return m_dialog.getIds();
       };
 
       var getDocFilter = function() {

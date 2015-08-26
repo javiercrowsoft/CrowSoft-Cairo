@@ -267,9 +267,9 @@
 
       var pValidateFilters = function() {
         if(LenB(m_nrodoc)) { return; }
-        if(LenB(m_cliId) && m_cliId != "0") { return; }
-        if(LenB(m_venId) && m_venId != "0") { return; }
-        if(LenB(m_zon_id) && m_zon_id != "0") { return; }
+        if(LenB(m_cliId) && m_cliId !== "0") { return; }
+        if(LenB(m_venId) && m_venId !== "0") { return; }
+        if(LenB(m_zon_id) && m_zon_id !== "0") { return; }
 
         var fdesde = null;
         var fhasta = null;
@@ -605,7 +605,7 @@
         c.setKey(K_NRODOC);
         c.setValue(m_nrodoc);
 
-        c = m_dialog.getProperties().add(null, CV.CLI_ID);
+        c = m_dialog.getProperties().add(null, C.CLI_ID);
         c.setType(Dialogs.PropertyType.select);
         c.setTable(Cairo.Tables.CLIENTE);
         // Cliente
@@ -620,7 +620,7 @@
         c.setSelectId(Cairo.Util.val(m_cliId));
         c.setSelectIntValue(m_cliId);
 
-        c = m_dialog.getProperties().add(null, CV.VEN_ID);
+        c = m_dialog.getProperties().add(null, C.VEN_ID);
         c.setType(Dialogs.PropertyType.select);
         c.setTable(Cairo.Tables.VENDEDORES);
         // Vendedor
@@ -635,7 +635,7 @@
         c.setSelectId(Cairo.Util.val(m_venId));
         c.setSelectIntValue(m_venId);
 
-        c = m_dialog.getProperties().add(null, CV.ZON_ID);
+        c = m_dialog.getProperties().add(null, C.ZON_ID);
         c.setType(Dialogs.PropertyType.select);
         c.setTable(Cairo.Tables.ZONA);
         // Zona
@@ -759,7 +759,7 @@
       };
 
       var getLqdIds = function() {
-        return m_objList.SelectedItems;
+        return m_dialog.getIds();
       };
 
       var initialize = function() {

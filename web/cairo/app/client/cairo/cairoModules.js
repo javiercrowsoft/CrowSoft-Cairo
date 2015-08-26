@@ -16,6 +16,7 @@ Cairo.Select = {};
 Cairo.addRegions = function() {};
 
 Cairo.Producto = {};
+Cairo.Cliente = {};
 
 Cairo.EditDocumento = {};
 Cairo.FacturaCompra = {};

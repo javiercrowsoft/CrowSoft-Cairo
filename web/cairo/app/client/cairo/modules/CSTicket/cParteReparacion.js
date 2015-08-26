@@ -268,7 +268,7 @@
         // Fecha desde
         c.setName(getText(1203, ""));
         c.setKey(K_FECHAINI);
-        if(m_fechaIniV != "") {
+        if(m_fechaIniV !== "") {
           c.setValue(m_fechaIniV);
         }
         else {
@@ -280,7 +280,7 @@
         // Fecha hasta
         c.setName(getText(1204, ""));
         c.setKey(K_FECHAFIN);
-        if(m_fechaFinV != "") {
+        if(m_fechaFinV !== "") {
           c.setValue(m_fechaFinV);
         }
         else {
@@ -538,7 +538,7 @@
 
             iProp = properties.item(C_FECHAINI);
 
-            if(iProp.getSelectIntValue() != "") {
+            if(iProp.getSelectIntValue() !== "") {
               m_fechaIniV = iProp.getSelectIntValue();
               m_fechaIni = Cairo.Dates.DateNames.getDateByName(m_fechaIniV);
             }
@@ -557,7 +557,7 @@
 
             iProp = properties.item(C_FECHAFIN);
 
-            if(iProp.getSelectIntValue() != "") {
+            if(iProp.getSelectIntValue() !== "") {
               m_fechaFinV = iProp.getSelectIntValue();
               m_fechaFin = Cairo.Dates.DateNames.getDateByName(m_fechaFinV);
             }
@@ -836,7 +836,7 @@
           switch (property.getKey()) {
 
             case K_FECHAINI:
-              if(property.getSelectIntValue() != "") {
+              if(property.getSelectIntValue() !== "") {
                 register.getFields().add2(Cairo.Constants.LDP_VALOR, property.getSelectIntValue(), Cairo.Constants.Types.text);
               }
               else {
@@ -850,7 +850,7 @@
 
             case K_FECHAFIN:
 
-              if(property.getSelectIntValue() != "") {
+              if(property.getSelectIntValue() !== "") {
                 register.getFields().add2(Cairo.Constants.LDP_VALOR, property.getSelectIntValue(), Cairo.Constants.Types.text);
               }
               else {
@@ -974,7 +974,7 @@
       };
 
       var getPrpIds = function() {
-        return m_objList.SelectedItems;
+        return m_dialog.getIds();
       };
 
       var initialize = function() {
@@ -1106,7 +1106,7 @@
 
       var showDocAux = function() {
         var fcId = m_dialog.getId();
-        if(fcId != NO_ID) {
+        if(fcId !== NO_ID) {
 
           D.getStockId(D.Types.TYPE_XXXX, xxId).successWithResult(function(response) {
             D.showDocAux(response.st_id, "Stock");

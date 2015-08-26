@@ -1004,7 +1004,7 @@
           i = i + 1;
           m_vMenuModoPago[C_VM_ID, i] === Cairo.Database.valField(rs.getFields(), "vm_id");
           m_vMenuModoPago[C_VM_MENU_ID, i] === m_objList.addMenu(Cairo.Database.valField(rs.getFields(), "vm_nombre"));
-          m_vMenuModoPago[C_VM_IS_CONTADO, i] === Cairo.Database.valField(rs.getFields(), "vm_ctacte") != csE_VentaModoCtaCte.cSVM_CTACTEHOJARUTA;
+          m_vMenuModoPago[C_VM_IS_CONTADO, i] === Cairo.Database.valField(rs.getFields(), "vm_ctacte") !== csE_VentaModoCtaCte.cSVM_CTACTEHOJARUTA;
           m_vMenuModoPago[C_VM_CUE_ID, i] === Cairo.Database.valField(rs.getFields(), "cue_id");
 
           m_objList.addMenu("-");
@@ -1042,41 +1042,35 @@
 
       var signDocument = function() {
 
-        var osId = null;
-        osId = m_dialog.getId();
+        var fcId = m_dialog.getId();
 
-        if(osId === NO_ID) { return; }
-
-        var firmado = null;
-        var docId = null;
-
-        if(!DB.getData(mTicketConstantes.ORDENSERVICIO, mTicketConstantes.OS_ID, osId, mTicketConstantes.OS_FIRMADO, firmado)) { return; }
-        if(!DB.getData(mTicketConstantes.ORDENSERVICIO, mTicketConstantes.OS_ID, osId, mTicketConstantes.DOC_ID, docId)) { return; }
-
-        if(firmado) {
-          if(!Ask(getText(1593, ""), vbYes, getText(1594, ""))) {
-            //El documento ya ha sido firmado desea borrar la firma, vbYes, Firmar
-            return;
-          }
+        if(fcId === NO_ID) {
+          return P.resolvedPromise();
         }
 
-        var doc = null;
-        var us_id = null;
+        var refreshRow = function(response) {
+          m_dialog.refreshRow(response.data);
+        };
 
-        doc = new cDocumento();
+        var getAction = function(response) {
+          var p = null;
 
-        if(!doc.Firmar(docId, us_id)) { return; }
+          if(response.signed) {
+            p = M.confirmViewYesDefault(
+              getText(1593, ""), // El documento ya ha sido firmado desea borrar la firma
+              getText(1594, "")  // Firmar
+            );
+          }
+          return p || P.resolvedPromise(true);
+        };
 
-        var sqlstmt = null;
-        var rs = null;
+        var p = D.getDocumentSignStatus(D.Types.FACTURA_COMPRA, fcId)
+            .successWithResult(getAction)
+            .success(D.signDocument(D.Types.FACTURA_COMPRA, fcId))
+            .successWithResult(refreshRow)
+          ;
 
-        sqlstmt = "sp_DocOrdenServicioFirmar "+ osId.toString()+ ","+ us_id.toString();
-        if(!Cairo.Database.openRs(sqlstmt, rs)) { return; }
-
-        m_objList.sqlstmt = "sp_lsdoc_OrdenServicio";
-
-        m_objList.RefreshLine(osId);
-
+        return p;
       };
 
       var showDocAux = function() {
@@ -1104,7 +1098,7 @@
 
       var showDocAux = function() {
         var fcId = m_dialog.getId();
-        if(fcId != NO_ID) {
+        if(fcId !== NO_ID) {
 
           D.getStockId(D.Types.TYPE_XXXX, xxId).successWithResult(function(response) {
             D.showDocAux(response.st_id, "Stock");
@@ -1155,12 +1149,12 @@
           //
         }
         else {
-          if(m_objApply.self.getId() != osId) {
+          if(m_objApply.self.getId() !== osId) {
             m_objApply = new cOrdenServicioAplic();
           }
         }
 
-        if(!m_objApply.self.show(osId, total * (cotiz != 0) ? cotiz : 1), nroDoc, cliId, cliente, sucId, docId)) {
+        if(!m_objApply.self.show(osId, total * (cotiz !== 0) ? cotiz : 1), nroDoc, cliId, cliente, sucId, docId)) {
           m_objApply = null;
         }
 
@@ -1219,11 +1213,11 @@
       };
 
       var getOsIds = function() {
-        return m_objList.SelectedItems;
+        return m_dialog.getIds();
       };
 
       var getPrnsIds = function() {
-        return m_objList.SelectedItemsLongColumn(mTicketConstantes.PRNS_ID);
+        return m_dialog.getIds()LongColumn(mTicketConstantes.PRNS_ID);
       };
 
       var initialize = function() {

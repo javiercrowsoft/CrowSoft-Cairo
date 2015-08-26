@@ -17,63 +17,71 @@
   <component name="DaemonCodeAnalyzer">
     <disable_hints />
   </component>
-  <component name="DockManager">
-    <window id="2">
-      <content type="file-editors">
-        <state>
-          <leaf>
-            <file leaf-file-name="sp_doc_factura_compra_get.sql" pinned="false" current="false" current-in-tab="false">
-              <entry file="file://$PROJECT_DIR$/cairo/CSCompras/functions/sp_doc_factura_compra_get.sql">
-                <provider selected="true" editor-type-id="text-editor">
-                  <state vertical-scroll-proportion="0.0" vertical-offset="3477" max-vertical-offset="4731">
-                    <caret line="183" column="24" selection-start-line="183" selection-start-column="13" selection-end-line="183" selection-end-column="24" />
-                    <folding />
-                  </state>
-                </provider>
-              </entry>
-            </file>
-            <file leaf-file-name="sp_doc_factura_compra_get_items.sql" pinned="false" current="false" current-in-tab="true">
-              <entry file="file://$PROJECT_DIR$/cairo/CSCompras/functions/sp_doc_factura_compra_get_items.sql">
-                <provider selected="true" editor-type-id="text-editor">
-                  <state vertical-scroll-proportion="0.0" vertical-offset="836" max-vertical-offset="2261">
-                    <caret line="44" column="0" selection-start-line="44" selection-start-column="0" selection-end-line="50" selection-end-column="15" />
-                    <folding />
-                  </state>
-                </provider>
-              </entry>
-            </file>
-          </leaf>
-        </state>
-      </content>
-    </window>
-  </component>
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FavoritesManager">
     <favorites_list name="database" />
   </component>
   <component name="FileEditorManager">
-    <leaf>
-      <file leaf-file-name="004-generated-19941-sp-spaces.sql" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/migration_from_sqlserver/functions/004-generated-19941-sp-spaces.sql">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="6929831" max-vertical-offset="7295202">
-              <caret line="364742" column="4" selection-start-line="364384" selection-start-column="0" selection-end-line="364742" selection-end-column="4" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="sp_lsdoc_presupuestos_venta.sql" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/cairo/CSVentas/functions/sp_lsdoc_presupuestos_venta.sql">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.9027027" vertical-offset="5967" max-vertical-offset="6916">
-              <caret line="358" column="4" selection-start-line="358" selection-start-column="4" selection-end-line="358" selection-end-column="4" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
+    <splitter split-orientation="horizontal" split-proportion="0.5">
+      <split-first>
+        <leaf>
+          <file leaf-file-name="004-generated-19941-sp-spaces.sql" pinned="false" current="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/migration_from_sqlserver/functions/004-generated-19941-sp-spaces.sql">
+              <provider selected="true" editor-type-id="text-editor">
+                <state vertical-scroll-proportion="0.0" vertical-offset="6929831" max-vertical-offset="7295202">
+                  <caret line="364742" column="4" selection-start-line="364384" selection-start-column="0" selection-end-line="364742" selection-end-column="4" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="sp_lsdoc_presupuestos_venta.sql" pinned="false" current="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/cairo/CSVentas/functions/sp_lsdoc_presupuestos_venta.sql">
+              <provider selected="true" editor-type-id="text-editor">
+                <state vertical-scroll-proportion="-28.793104" vertical-offset="5967" max-vertical-offset="6916">
+                  <caret line="358" column="4" selection-start-line="358" selection-start-column="4" selection-end-line="358" selection-end-column="4" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="sp_lsdoc_facturas_venta.sql" pinned="false" current="true" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/cairo/CSVentas/functions/sp_lsdoc_facturas_venta.sql">
+              <provider selected="true" editor-type-id="text-editor">
+                <state vertical-scroll-proportion="0.4449649" vertical-offset="0" max-vertical-offset="7600">
+                  <caret line="20" column="45" selection-start-line="20" selection-start-column="45" selection-end-line="20" selection-end-column="45" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="sp_lsdoc_facturas_compra.sql" pinned="false" current="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/cairo/CSCompras/functions/sp_lsdoc_facturas_compra.sql">
+              <provider selected="true" editor-type-id="text-editor">
+                <state vertical-scroll-proportion="-20.965517" vertical-offset="646" max-vertical-offset="8113">
+                  <caret line="66" column="7" selection-start-line="51" selection-start-column="0" selection-end-line="66" selection-end-column="7" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+        </leaf>
+      </split-first>
+      <split-second>
+        <leaf>
+          <file leaf-file-name="sp_lsdoc_facturas_compra.sql" pinned="false" current="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/cairo/CSCompras/functions/sp_lsdoc_facturas_compra.sql">
+              <provider selected="true" editor-type-id="text-editor">
+                <state vertical-scroll-proportion="0.7916667" vertical-offset="7201" max-vertical-offset="8113">
+                  <caret line="417" column="0" selection-start-line="417" selection-start-column="0" selection-end-line="421" selection-end-column="20" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+        </leaf>
+      </split-second>
+    </splitter>
   </component>
   <component name="FindManager">
     <FindUsagesManager>
@@ -111,7 +119,6 @@
         <option value="$PROJECT_DIR$/migration_from_sqlserver/functions/004-generated-19941-sp-spaces.sql" />
         <option value="$PROJECT_DIR$/cairo/CSCompras/functions/sp_doc_factura_compra_save.sql" />
         <option value="$PROJECT_DIR$/cairo/CSContabilidad/functions/sp_doc_asiento_save.sql" />
-        <option value="$PROJECT_DIR$/cairo/CSVentas/functions/sp_lsdoc_facturas_venta.sql" />
         <option value="$PROJECT_DIR$/cairo/CSVentas/functions/sp_lsdoc_remitos_venta.sql" />
         <option value="$PROJECT_DIR$/cairo/CSStock/functions/sp_lsdoc_stocks.sql" />
         <option value="$PROJECT_DIR$/cairo/CSStock/functions/sp_lsdoc_stocks_cliente.sql" />
@@ -134,6 +141,7 @@
         <option value="$PROJECT_DIR$/cairo/CSCompras/functions/sp_lsdoc_ordenes_compra.sql" />
         <option value="$PROJECT_DIR$/cairo/CSCompras/functions/sp_lsdoc_pedidos_compra.sql" />
         <option value="$PROJECT_DIR$/cairo/CSVentas/functions/sp_lsdoc_presupuestos_venta.sql" />
+        <option value="$PROJECT_DIR$/cairo/CSVentas/functions/sp_lsdoc_facturas_venta.sql" />
       </list>
     </option>
   </component>
@@ -642,7 +650,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="22" width="1920" height="1054" extended-state="6" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -659,7 +667,7 @@
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.26709402" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.26709402" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="DB Browser" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.19391026" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="DB Execution Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -847,13 +855,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/cairo/CSCompras/functions/sp_lsdoc_facturas_compra.sql">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-0.6551724" vertical-offset="2413" max-vertical-offset="8113">
-          <caret line="128" column="17" selection-start-line="128" selection-start-column="9" selection-end-line="128" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/cairo/CSCompras/functions/sp_lsdoc_ordenes_compra.sql">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-30.586206" vertical-offset="5098" max-vertical-offset="6099">
@@ -980,13 +981,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/cairo/CSVentas/functions/sp_lsdoc_facturas_venta.sql">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-30.586206" vertical-offset="5915" max-vertical-offset="6916">
-          <caret line="358" column="6" selection-start-line="358" selection-start-column="6" selection-end-line="358" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/cairo/CSVentas/functions/sp_lsdoc_hojas_ruta.sql">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-30.586206" vertical-offset="1450" max-vertical-offset="2451">
@@ -1023,14 +1017,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/cairo/CSVentas/functions/sp_lsdoc_presupuestos_venta.sql">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.9027027" vertical-offset="5967" max-vertical-offset="6916">
-          <caret line="358" column="4" selection-start-line="358" selection-start-column="4" selection-end-line="358" selection-end-column="4" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/cairo/CSCompras/functions/sp_doc_factura_compra_get.sql">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="3477" max-vertical-offset="4731">
@@ -1043,6 +1029,30 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="836" max-vertical-offset="2261">
           <caret line="44" column="0" selection-start-line="44" selection-start-column="0" selection-end-line="50" selection-end-column="15" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cairo/CSVentas/functions/sp_lsdoc_presupuestos_venta.sql">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-28.793104" vertical-offset="5967" max-vertical-offset="6916">
+          <caret line="358" column="4" selection-start-line="358" selection-start-column="4" selection-end-line="358" selection-end-column="4" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cairo/CSCompras/functions/sp_lsdoc_facturas_compra.sql">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-20.965517" vertical-offset="646" max-vertical-offset="8113">
+          <caret line="66" column="7" selection-start-line="51" selection-start-column="0" selection-end-line="66" selection-end-column="7" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cairo/CSVentas/functions/sp_lsdoc_facturas_venta.sql">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.4449649" vertical-offset="0" max-vertical-offset="7600">
+          <caret line="20" column="45" selection-start-line="20" selection-start-column="45" selection-end-line="20" selection-end-column="45" />
           <folding />
         </state>
       </provider>

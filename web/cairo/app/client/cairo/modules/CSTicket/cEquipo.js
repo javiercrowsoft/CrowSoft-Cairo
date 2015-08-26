@@ -1020,7 +1020,7 @@
               break;
 
             case K_FECHAINI:
-              if(property.getSelectIntValue() != "") {
+              if(property.getSelectIntValue() !== "") {
                 register.getFields().add2(Cairo.Constants.LDP_VALOR, property.getSelectIntValue(), Cairo.Constants.Types.text);
               }
               else {
@@ -1399,7 +1399,7 @@
       };
 
       var getPrnsIds = function() {
-        return m_objList.SelectedItems;
+        return m_dialog.getIds();
       };
 
       var showNotes = function() {
