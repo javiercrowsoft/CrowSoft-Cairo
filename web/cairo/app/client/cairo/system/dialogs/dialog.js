@@ -499,7 +499,7 @@
           return m_inSave;
         };
 
-        self.getBSavingAs = function() {
+        self.getSavingAs = function() {
           return m_savingAs;
         };
 

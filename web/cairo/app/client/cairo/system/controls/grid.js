@@ -88,7 +88,7 @@
         selectIntValue: '',
         selectNoUseActive: false,
         selectType: Cairo.Select.SelectType.normal,
-        selectTable: 0,        
+        selectTable: 0,
 
         defaultValue: null, /* is a Dialogs.Grids.Cell object */
 

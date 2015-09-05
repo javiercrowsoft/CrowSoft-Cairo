@@ -35,8 +35,8 @@
       ROL_NAME: "rol_nombre",
       ROL_DESCRIP: "rol_descrip",
       
-      // usuarioRol
-      USUARIO_ROL: "usuarioRol",
+      // UsuarioRol
+      USUARIO_ROL: "UsuarioRol",
       
       // Prestacion
       PRESTACION: "Prestacion",
@@ -123,6 +123,12 @@
       PRO_CODE: "pro_codigo",
       PRO_DESCRIP: "pro_descrip",
 
+      // Provincia
+      PRO_ID_ORIGEN: "pro_id_origen",
+      PRO_ORIGEN_NAME: "ProOrigen",
+      PRO_ID_DESTINO: "pro_id_destino",
+      PRO_DESTINO_NAME: "ProDestino",
+
       // Unidad
       UNIDAD: "Unidad",
       UN_ID: "un_id",
@@ -146,6 +152,15 @@
       DEPL_DESCRIP: "depl_descrip",
       DEPL_ES_TEMP: "depl_estemp",
 
+      // Stock
+      DEPL_ID_ORIGEN: "depl_id_origen",
+      DEPL_ID_DESTINO: "depl_id_destino",
+
+      // StockLote
+      STOCK_LOTE: "StockLote",
+      STL_ID: "stl_id",
+      STL_CODE: "stl_codigo",
+
       // Zona
       ZONA: "Zona",
       ZON_ID: "zon_id",
@@ -165,21 +180,21 @@
       TI_TIPO: "ti_tipo",
 
       // SucursalCliente
-      CLIENTESUCURSAL: "ClienteSucursal",
-      CLISID: "clis_id",
-      CLISNAME: "clis_nombre",
-      CLISCODE: "clis_codigo",
-      CLISDESCRIP: "clis_descrip",
-      CLISLOCALIDAD: "clis_localidad",
-      CLISCALLE: "clis_calle",
-      CLISCALLENUMERO: "clis_callenumero",
-      CLISPISO: "clis_piso",
-      CLISDEPTO: "clis_depto",
-      CLISTEL: "clis_tel",
-      CLISFAX: "clis_fax",
-      CLISEMAIL: "clis_email",
-      CLISCOD_POSTAL: "clis_codpostal",
-      CLISCONTACTO: "clis_contacto",
+      CLIENTE_SUCURSAL: "ClienteSucursal",
+      CLIS_ID: "clis_id",
+      CLIS_NAME: "clis_nombre",
+      CLIS_CODE: "clis_codigo",
+      CLIS_DESCRIP: "clis_descrip",
+      CLIS_LOCALIDAD: "clis_localidad",
+      CLIS_CALLE: "clis_calle",
+      CLIS_CALLENUMERO: "clis_callenumero",
+      CLIS_PISO: "clis_piso",
+      CLIS_DEPTO: "clis_depto",
+      CLIS_TEL: "clis_tel",
+      CLIS_FAX: "clis_fax",
+      CLIS_EMAIL: "clis_email",
+      CLIS_COD_POSTAL: "clis_codpostal",
+      CLIS_CONTACTO: "clis_contacto",
 
       // Banco
       BANCO: "Banco",

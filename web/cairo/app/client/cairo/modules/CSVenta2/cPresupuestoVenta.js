@@ -142,7 +142,7 @@
       };
 
 
-      self.setSearchParam = function(id,  name) {
+      self.setSearchParam = function(id, name) {
 
         var property = m_dialog.getProperties().item(C.CLI_ID);
         property.setValue(name);
@@ -1010,7 +1010,7 @@
         var sqlstmt = null;
         var rs = null;
 
-        sqlstmt = "select prv_total,  prv_nrodoc, prv.cli_id, cli_nombre, prv.suc_id, prv.doc_id, prv.doct_id from PresupuestoVenta prv inner join Cliente cli  on prv.cli_id = cli.cli_id where prv_id = "+ prvId.toString();
+        sqlstmt = "select prv_total, prv_nrodoc, prv.cli_id, cli_nombre, prv.suc_id, prv.doc_id, prv.doct_id from PresupuestoVenta prv inner join Cliente cli  on prv.cli_id = cli.cli_id where prv_id = "+ prvId.toString();
 
         if(!Cairo.Database.openRs(sqlstmt, rs)) { return; }
 

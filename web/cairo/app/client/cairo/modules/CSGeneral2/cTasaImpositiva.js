@@ -67,7 +67,7 @@
         m_code = value;
       };
 
-      self.data = function(id,  field) {
+      self.data = function(id, field) {
         var rtn = null;
 
         if(!DB.getData(C.TASA_IMPOSITIVA, C.TI_ID, id, field, rtn, "Data", C_MODULE)) { return null; }
@@ -143,7 +143,7 @@
         return _rtn;
       };
 
-      self.messageEx = function(messageId,  info) {
+      self.messageEx = function(messageId, info) {
         var _rtn = null;
         switch (messageId) {
 
@@ -347,7 +347,7 @@
         return m_editing;
       };
 
-      self.edit = function(id,  inModalWindow) {
+      self.edit = function(id, inModalWindow) {
         var p = Cairo.Promises.resolvedPromise(false);
         try {
 

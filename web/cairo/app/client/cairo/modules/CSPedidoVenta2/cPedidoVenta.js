@@ -152,7 +152,7 @@
       };
 
 
-      self.setSearchParam = function(id,  name) {
+      self.setSearchParam = function(id, name) {
 
         var property = m_dialog.getProperties().item(mPedidoConstantes.CLI_ID);
         property.setValue(name);
@@ -1150,7 +1150,7 @@
 
       };
 
-      var showFactura = function(bPushVirtualNext,  bAutoPago,  cue_id,  bModoVentaCtaCte) {
+      var showFactura = function(bPushVirtualNext, bAutoPago, cue_id, bModoVentaCtaCte) {
         try {
 
           var o = null;

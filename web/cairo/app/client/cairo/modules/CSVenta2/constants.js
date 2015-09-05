@@ -5,6 +5,10 @@
 
     Constants: {
 
+      CLIENTE_DATA_ADD: "ClienteDataAdd",
+
+      RV_TA_PROPUESTO: "rv_ta_propuesto",
+
       // RemitoVenta
       REMITO_VENTA: "RemitoVenta",
       RV_ID: "rv_id",
@@ -69,12 +73,12 @@
       FV_NRODOC: "fv_nrodoc",
       FV_DESCRIP: "fv_descrip",
       FV_FECHA: "fv_fecha",
-      FV_FECHAENTREGA: "fv_fechaentrega",
+      FV_FECHA_ENTREGA: "fv_fechaentrega",
       FV_FECHA_VTO: "fv_fechaVto",
       FV_FECHA_IVA: "fv_fechaIva",
       FV_NETO: "fv_neto",
-      FV_IVARI: "fv_ivari",
-      FV_IVARNI: "fv_ivarni",
+      FV_IVA_RI: "fv_ivari",
+      FV_IVA_RNI: "fv_ivarni",
       FV_INTERNOS: "fv_internos",
       FV_SUBTOTAL: "fv_subtotal",
       FV_TOTAL: "fv_total",
@@ -83,8 +87,8 @@
       FV_FIRMADO: "fv_firmado",
       FV_DESCUENTO1: "fv_descuento1",
       FV_DESCUENTO2: "fv_descuento2",
-      FV_IMPORTEDESC1: "fv_importedesc1",
-      FV_IMPORTEDESC2: "fv_importedesc2",
+      FV_IMPORTE_DESC_1: "fv_importedesc1",
+      FV_IMPORTE_DESC_2: "fv_importedesc2",
       FV_GRABAR_ASIENTO: "fv_grabarasiento",
       FV_COTIZACION: "fv_cotizacion",
       FV_CAI: "fv_cai",
@@ -112,8 +116,8 @@
       FVI_IVARI: "fvi_ivari",
       FVI_IVARNI: "fvi_ivarni",
       FVI_INTERNOS: "fvi_internos",
-      FVI_IVARIPORC: "fvi_ivariporc",
-      FVI_IVARNIPORC: "fvi_ivarniporc",
+      FVI_IVA_RIPORC: "fvi_ivariporc",
+      FVI_IVA_RNIPORC: "fvi_ivarniporc",
       FVI_INTERNOS_PORC: "fvi_internosporc",
       FVI_IMPORTE_ORIGEN: "fvi_importeorigen",
       FVI_IMPORTE: "fvi_importe",
@@ -122,7 +126,7 @@
       FVI_NO_STOCK: "fvi_nostock",
 
       // FacturaVentaItemTMP
-      FACTURA_VENTA_ITEMTMP: "FacturaVentaItemTMP",
+      FACTURA_VENTA_ITEM_TMP: "FacturaVentaItemTMP",
       FVI_TMP_ID: "fviTMP_id",
 
       // FacturaVentaItemBarradoTMP
@@ -184,26 +188,27 @@
       RV_FV_CANTIDAD: "rvfv_cantidad",
 
       // Remito Venta Item Serie
-      REMITO_VENTA_ITEMSERIETMP: "RemitoVentaItemSerieTMP",
+      REMITO_VENTA_ITEM_SERIE_TMP: "RemitoVentaItemSerieTMP",
       RVIS_TMP_ID: "rvisTMP_id",
       RVIS_ORDEN: "rvis_orden",
 
       // Remito Venta Item Insumo
-      REMITO_VENTA_ITEMINSUMOTMP: "RemitoVentaItemInsumoTMP",
+      REMITO_VENTA_ITEM_INSUMO_TMP: "RemitoVentaItemInsumoTMP",
       RVII_TMP_ID: "rviiTMP_id",
       RVII_TMPCANTIDAD: "rviiTMP_cantidad",
       RVII_TMPCANTIDAD_AUX: "rviiTMP_cantidadAux",
       RVII_TMPTEMP: "rviiTMP_temp",
 
       // Factura Venta Item Serie
-      FACTURA_VENTA_ITEMSERIETMP: "FacturaVentaItemSerieTMP",
+      FACTURA_VENTA_ITEM_SERIE_TMP: "FacturaVentaItemSerieTMP",
       FVIS_TMP_ID: "fvisTMP_id",
       FVIS_ORDEN: "fvis_orden",
 
       // Presupuesto de Venta
       PRESUPUESTO_VENTA_TMP: "PresupuestoVentaTMP",
       PRV_TMP_ID: "prvtmp_id",
-      PRESUPUESTOVENTA: "presupuestoVenta",
+
+      PRESUPUESTO_VENTA: "presupuestoVenta",
       PRV_ID: "prv_id",
       PRV_NUMERO: "prv_numero",
       PRV_NRODOC: "prv_nrodoc",
@@ -222,9 +227,10 @@
       PRV_IMPORTE_DESC2: "prv_importedesc2",
 
       // PresupuestoVentaItem
-      PRESUPUESTOVENTAITEMTMP: "PresupuestoVentaItemTMP",
+      PRESUPUESTO_VENTA_ITEM_TMP: "PresupuestoVentaItemTMP",
       PRVI_TMP_ID: "prvitmp_id",
-      PRESUPUESTOVENTAITEM: "PresupuestoVentaItem",
+
+      PRESUPUESTO_VENTA_ITEM: "PresupuestoVentaItem",
       PRVI_ID: "prvi_id",
       PRVI_ORDEN: "prvi_orden",
       PRVI_CANTIDAD: "prvi_cantidad",
@@ -248,16 +254,16 @@
       PRVIB_TMP_ID: "prvibTMP_id",
 
       // Presupuesto Pedido Venta
-      PRESUPUESTOPEDIDOVENTA: "PresupuestoPedidoVenta",
+      PRESUPUESTO_PEDIDO_VENTA: "PresupuestoPedidoVenta",
       PRV_PV_ID: "prvpv_id",
       PRV_PV_CANTIDAD: "prvpv_cantidad",
 
       // Presupuesto Pedido Venta TMP
-      PRESUPUESTOPEDIDO_VENTA_TMP: "PresupuestoPedidoVentaTMP",
+      PRESUPUESTO_PEDIDO_VENTA_TMP: "PresupuestoPedidoVentaTMP",
       PRV_PV_TMP_ID: "prvpvTMP_id",
 
       // Presupuesto Devolucion Venta TMP
-      PRESUPUESTODEVOLUCION_VENTA_TMP: "PresupuestoDevolucionVentaTMP",
+      PRESUPUESTO_DEVOLUCION_VENTA_TMP: "PresupuestoDevolucionVentaTMP",
       PRV_DV_TMP_ID: "prvdvTMP_id",
       PRV_DV_ID: "prvdv_id",
       PRV_DV_CANTIDAD: "prvdv_cantidad",

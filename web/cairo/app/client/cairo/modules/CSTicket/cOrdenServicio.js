@@ -149,7 +149,7 @@
       };
 
 
-      self.setSearchParam = function(id,  name) {
+      self.setSearchParam = function(id, name) {
 
         var property = m_dialog.getProperties().item(mTicketConstantes.PRNS_ID);
         property.setValue(name);
@@ -1160,7 +1160,7 @@
 
       };
 
-      var showRemito = function(bPushVirtualNext,  bAutoFactura,  bAutoPago,  cue_id,  bModoVentaCtaCte) {
+      var showRemito = function(bPushVirtualNext, bAutoFactura, bAutoPago, cue_id, bModoVentaCtaCte) {
         try {
 
           var o = null;

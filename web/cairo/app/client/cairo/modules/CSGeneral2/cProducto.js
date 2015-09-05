@@ -519,7 +519,7 @@
         return _rtn;
       };
 
-      self.messageEx = function(messageId,  info) {
+      self.messageEx = function(messageId, info) {
         var _rtn = null;
         var p = null;
 
@@ -1498,7 +1498,7 @@
         return m_editing;
       };
 
-      self.edit = function(id,  inModalWindow) {
+      self.edit = function(id, inModalWindow) {
         var p = Cairo.Promises.resolvedPromise(false);
         
         try {
@@ -3666,11 +3666,11 @@
       // grid
       //
 
-      self.columnAfterEdit = function(key,  lRow,  lCol,  newValue,  newValueId) {
+      self.columnAfterEdit = function(key, lRow, lCol, newValue, newValueId) {
         return Cairo.Promises.resolvedPromise(true);
       };
 
-      self.columnBeforeEdit = function(key,  lRow,  lCol,  iKeyAscii) {
+      self.columnBeforeEdit = function(key, lRow, lCol, iKeyAscii) {
         var rtn = null;
 
         switch (key) {
@@ -3687,11 +3687,11 @@
         return Cairo.Promises.resolvedPromise(rtn);
       };
 
-      self.columnButtonClick = function(key,  lRow,  lCol,  iKeyAscii) {
+      self.columnButtonClick = function(key, lRow, lCol, iKeyAscii) {
 
       };
 
-      self.deleteRow = function(key,  row,  lRow) {
+      self.deleteRow = function(key, row, lRow) {
         var id = null;
 
         switch (key) {
@@ -3730,11 +3730,11 @@
         return Cairo.Promises.resolvedPromise(true);
       };
 
-      self.newRow = function(key,  rows) {
+      self.newRow = function(key, rows) {
         return Cairo.Promises.resolvedPromise(true);
       };
 
-      self.validateRow = function(key,  row,  rowIndex) {
+      self.validateRow = function(key, row, rowIndex) {
         var p = null;
 
         try {
@@ -3777,15 +3777,15 @@
         return p || Cairo.Promises.resolvedPromise(false);
       };
 
-      self.columnAfterUpdate = function(key,  lRow,  lCol) {
+      self.columnAfterUpdate = function(key, lRow, lCol) {
         return Cairo.Promises.resolvedPromise(true);
       };
 
-      self.columnClick = function(key,  lRow,  lCol) {
+      self.columnClick = function(key, lRow, lCol) {
 
       };
 
-      self.gridDblClick = function(key,  lRow,  lCol) {
+      self.gridDblClick = function(key, lRow, lCol) {
         switch (key) {
           case K_PROVEEDOR:
             var property = m_dialog.getProperties().item(C_PROVEEDOR);
@@ -3795,7 +3795,7 @@
         return Cairo.Promises.resolvedPromise(false);
       };
 
-      self.isEmptyRow = function(key,  row,  rowIndex) {
+      self.isEmptyRow = function(key, row, rowIndex) {
         var isEmpty = true;
 
         try {
@@ -4358,7 +4358,7 @@
         return true;
       };
 
-      var validateRowProveedor = function(row,  rowIndex) {
+      var validateRowProveedor = function(row, rowIndex) {
         var cell = null;
         var strRow = " (Row: " + rowIndex.toString() + ")";
 
@@ -4377,7 +4377,7 @@
         return Cairo.Promises.resolvedPromise(true);
       };
 
-      var validateRowLeyendas = function(row,  rowIndex) {
+      var validateRowLeyendas = function(row, rowIndex) {
         var cell = null;
         var strRow = " (Row: " + rowIndex.toString() + ")";
 
@@ -4402,7 +4402,7 @@
         return Cairo.Promises.resolvedPromise(true);
       };
 
-      var validateRowCMI = function(row,  rowIndex) {
+      var validateRowCMI = function(row, rowIndex) {
         var cell = null;
         var strRow = " (Row: " + rowIndex.toString() + ")";
 
@@ -4427,7 +4427,7 @@
         return Cairo.Promises.resolvedPromise(true);
       };
 
-      var validateRowWebImage = function(row,  rowIndex) {
+      var validateRowWebImage = function(row, rowIndex) {
         var cell = null;
         var strRow = " (Row: " + rowIndex.toString() + ")";
 
@@ -4452,7 +4452,7 @@
         return Cairo.Promises.resolvedPromise(true);
       };
 
-      var validateRowCliente = function(row,  rowIndex) {
+      var validateRowCliente = function(row, rowIndex) {
         var cell = null;
         var strRow = " (Row: " + rowIndex.toString() + ")";
 
@@ -4471,7 +4471,7 @@
         return Cairo.Promises.resolvedPromise(true);
       };
 
-      var isEmptyRowProveedor = function(row,  rowIndex) {
+      var isEmptyRowProveedor = function(row, rowIndex) {
         var cell = null;
         var bRowIsEmpty = true;
 
@@ -4514,7 +4514,7 @@
         return bRowIsEmpty;
       };
 
-      var isEmptyRowCliente = function(row,  rowIndex) {
+      var isEmptyRowCliente = function(row, rowIndex) {
         var cell = null;
         var bRowIsEmpty = true;
 
@@ -4551,7 +4551,7 @@
         return bRowIsEmpty;
       };
 
-      var isEmptyRowLeyendas = function(row,  rowIndex) {
+      var isEmptyRowLeyendas = function(row, rowIndex) {
         var cell = null;
         var bRowIsEmpty = true;
 
@@ -4576,7 +4576,7 @@
         return bRowIsEmpty;
       };
 
-      var isEmptyRowCMI = function(row,  rowIndex) {
+      var isEmptyRowCMI = function(row, rowIndex) {
         var cell = null;
         var bRowIsEmpty = true;
 
@@ -4601,7 +4601,7 @@
         return bRowIsEmpty;
       };
 
-      var isEmptyRowWebImages = function(row,  rowIndex) {
+      var isEmptyRowWebImages = function(row, rowIndex) {
         var cell = null;
         var bRowIsEmpty = true;
 
@@ -4626,7 +4626,7 @@
         return bRowIsEmpty;
       };
 
-      var isEmptyRowTags = function(row,  rowIndex) {
+      var isEmptyRowTags = function(row, rowIndex) {
         var cell = null;
         var bRowIsEmpty = true;
 

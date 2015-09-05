@@ -480,7 +480,7 @@
 
   Cairo.Documents.getDefaultCurrency = Cairo.Company.getDefaultCurrency;
 
-  Cairo.Documents.docHasChanged = function(dialog,  lastDoc) {
+  Cairo.Documents.docHasChanged = function(dialog, lastDoc) {
     var property = dialog.getProperties().item(C.DOC_ID);
     var docId = property.getSelectId();
     var docName = property.getValue();
@@ -767,7 +767,7 @@
   var T = Dialogs.PropertyType;
   var ST = Dialogs.PropertySubType;
 
-  Cairo.Documents.wizDocHasChanged = function(wizard,  lastDoc) {
+  Cairo.Documents.wizDocHasChanged = function(wizard, lastDoc) {
     var property = Cairo.Documents.getWizProperty(wizard, WCS.SELECT_PROVEEDOR, DWC.DOC);
     var docId = property.getSelectId();
     var docName = property.getValue();
@@ -779,7 +779,7 @@
     }
   };
 
-  Cairo.Documents.wizGetDeposito = function(objWiz,  keyStep, keyDeposito) {
+  Cairo.Documents.wizGetDeposito = function(objWiz, keyStep, keyDeposito) {
     return objWiz.getSteps().item(getKey(keyStep)).getProperties().item(keyDeposito).getSelectId();
   };
 
@@ -1184,6 +1184,26 @@
   //
   Cairo.Documents.sendCAEByEmail = function(fvId) {
     return P.resolvedPromise(true);
+  };
+
+  Cairo.Documents.loadPercepcionesForCliente = function(cliId, fecha) {
+
+    var p = DB.getData("load[" + m_apiPath + "general/cliente/" + cliId.toString() + "/percepciones]", fecha);
+
+    return p.then(function(response) {
+
+      if(response.success === true) {
+        return {
+          success: false,
+          percepciones: response.percepciones
+        };
+      }
+      else {
+        return {
+          success: false
+        };
+      }
+    });
   };
 
 }());
@@ -1865,8 +1885,101 @@
 
     return valField(rs.getFields(), 0);
     */
-  };  
+  };
   
+}());
+
+(function() {
+  "use strict";
+
+  var C = Cairo.General.Constants;
+  var CC = Cairo.Compras.Constants;
+  var NO_ID = Cairo.Constants.NO_ID;
+  var U = Cairo.Util;
+
+  Cairo.KitInfo = {};
+
+  Cairo.KitInfo.create = function() {
+    var self = {
+      prId: NO_ID,
+      name: "",
+      amount: 0,
+      hasSerial: false
+    };
+    
+    var that = {};
+    
+    that.setPrId = function(prId) {
+      self.prId = prId;
+    };
+    that.getPrId = function() {
+      return self.prId;
+    };
+
+    that.setName = function(name) {
+      self.name = name;
+    };
+    that.getName = function() {
+      return self.name;
+    };
+
+    that.setAmount = function(amount) {
+      self.amount = amount;
+    };
+    that.getAmount = function() {
+      return self.amount;
+    };
+
+    that.setHasSerial = function(hasSerial) {
+      self.hasSerial = hasSerial;
+    };
+    that.getHasSerial = function() {
+      return self.hasSerial;
+    };
+
+    return that;
+  };
+
+  Cairo.KitDefinition = {};
+
+  Cairo.KitDefinition.create = function() {
+    return Cairo.Collections.createCollection(Cairo.KitInfo.create);
+  }
+
+  Cairo.Kit = {};
+
+  Cairo.Kit.getKitDefinition = function(key, kitDefinition) {
+    return kitDefinition.getOrElse(key, null);
+  };
+
+  Cairo.Kit.getKitDefinitionForPrId = function(prId, kitDefinitions) {
+
+    var key = U.getKey(prId);
+    var kitDefinition = Cairo.Kit.getKitDefinition(key, kitDefinitions)
+
+    if(kitDefinition === null) {
+      kitDefinition = kitDefinitions.add(null, key);
+    }
+
+    return kitDefinition;
+  };
+
+  Cairo.Kit.getKitInfo = function(key, kitDefinition) {
+    return kitDefinition.getOrElse(key)
+  };
+
+  Cairo.Kit.getKitInfoForPrId = function(prId, kitDefinition) {
+
+    var key = U.getKey(prId);
+    var kitInfo = Cairo.Kit.getKitInfo(key, kitDefinition);
+
+    if(kitInfo === null) {
+      kitInfo = kitDefinition.add(null, key);
+    }
+
+    return kitInfo;
+  };
+
 }());
 
 (function() {
@@ -1959,7 +2072,7 @@
       m_dateNames = value;
     };
 
-    self.getDate = function(dateName,  iniDate) {
+    self.getDate = function(dateName, iniDate) {
       var date;
       
       if(Cairo.Util.isNumeric(dateName)) {
@@ -1972,7 +2085,7 @@
       return date;
     };
 
-    self.getDateByName = function(dateName,  iniDate) {
+    self.getDateByName = function(dateName, iniDate) {
       var date;
       var offset = 0;
 
@@ -2038,7 +2151,7 @@
 
     self.addToDate = addToDate;
 
-    self.getDateById = function(dateIndex,  iniDate) {
+    self.getDateById = function(dateIndex, iniDate) {
       if(iniDate === undefined) {
         iniDate = new Date();
       }

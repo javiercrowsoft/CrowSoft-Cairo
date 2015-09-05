@@ -517,7 +517,7 @@
           }
         };
 
-        var changeProperty = function(nType,  index,  c) {
+        var changeProperty = function(nType, index, c) {
 
           if(m_refreshing || m_showingForm) {
             m_refreshing = false;

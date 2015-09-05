@@ -775,7 +775,7 @@
         return false;
       };
 
-      self.messageEx = function(messageId,  info) {
+      self.messageEx = function(messageId, info) {
         return true;
       };
 
@@ -1604,7 +1604,7 @@
       };
 
       self.validateMF = function() {
-        pValidate(m_docIdMf, m_docMfNombre).then(
+        validate(m_docIdMf, m_docMfNombre).then(
           function(info) {
             m_docMfNombre = info.name;
             m_docIdMf = info.id;
@@ -1613,7 +1613,7 @@
       };
 
       self.validateDBCO = function() {
-        pValidate(m_docIdDbco, m_docDbcoNombre).then(
+        validate(m_docIdDbco, m_docDbcoNombre).then(
           function(info) {
             m_docDbcoNombre = info.name;
             m_docIdDbco = info.id;
@@ -1642,7 +1642,7 @@
       };
 
       self.validatePC = function() {
-        pValidate(m_docIdPc, m_docPcNombre).then(
+        validate(m_docIdPc, m_docPcNombre).then(
           function(info) {
             m_docPcNombre = info.name;
             m_docIdPc = info.id;
@@ -1651,7 +1651,7 @@
       };
 
       self.validateOC = function() {
-        pValidate(m_docIdOc, m_docOcNombre).then(
+        validate(m_docIdOc, m_docOcNombre).then(
           function(info) {
             m_docOcNombre = info.name;
             m_docIdOc = info.id;
@@ -1660,7 +1660,7 @@
       };
 
       self.validateRC = function() {
-        pValidate(m_docIdRc, m_docRcNombre).then(
+        validate(m_docIdRc, m_docRcNombre).then(
           function(info) {
             m_docRcNombre = info.name;
             m_docIdRc = info.id;
@@ -1670,7 +1670,7 @@
       };
 
       self.validateFC = function() {
-        pValidate(m_docIdFc, m_docFcNombre).then(
+        validate(m_docIdFc, m_docFcNombre).then(
           function(info) {
             m_docFcNombre = info.name;
             m_docIdFc = info.id;
@@ -1680,7 +1680,7 @@
       };
 
       self.validatePV = function() {
-        pValidate(m_docIdPv, m_docPvNombre).then(
+        validate(m_docIdPv, m_docPvNombre).then(
           function(info) {
             m_docPvNombre = info.name;
             m_docIdPv = info.id;
@@ -1690,7 +1690,7 @@
       };
 
       self.validateRV = function() {
-        pValidate(m_docIdRv, m_docRvNombre).then(
+        validate(m_docIdRv, m_docRvNombre).then(
           function(info) {
             m_docRvNombre = info.name;
             m_docIdRv = info.id;
@@ -1700,7 +1700,7 @@
       };
 
       self.validateRVC = function() {
-        pValidate(m_docIdRvC, m_docRvNombreC).then(
+        validate(m_docIdRvC, m_docRvNombreC).then(
           function(info) {
             m_docRvNombreC = info.name;
             m_docIdRvC = info.id;
@@ -1710,7 +1710,7 @@
       };
 
       self.validateOS = function() {
-        pValidate(m_docIdOs, m_docOSNombre).then(
+        validate(m_docIdOs, m_docOSNombre).then(
           function(info) {
             m_docOSNombre = info.name;
             m_docIdOs = info.id;
@@ -1720,7 +1720,7 @@
       };
 
       self.validatePRP = function() {
-        pValidate(m_docIdPrp, m_docPRPNombre).then(
+        validate(m_docIdPrp, m_docPRPNombre).then(
           function(info) {
             m_docPRPNombre = info.name;
             m_docIdPrp = info.id;
@@ -1730,7 +1730,7 @@
       };
 
       self.validateFV = function() {
-        pValidate(m_docIdFv, m_docFvNombre).then(
+        validate(m_docIdFv, m_docFvNombre).then(
           function(info) {
             m_docFvNombre = info.name;
             m_docIdFv = info.id;
@@ -1740,7 +1740,7 @@
       };
 
       self.validatePklFactura = function() {
-        pValidate(m_pklDocIdFactura, m_pklDocFactura).then(
+        validate(m_pklDocIdFactura, m_pklDocFactura).then(
           function(info) {
             m_pklDocFactura = info.name;
             m_pklDocIdFactura = info.id;
@@ -1749,7 +1749,7 @@
       };
 
       self.validatePklInterno = function() {
-        pValidate(m_pklDocIdInterno, m_pklDocInterno).then(
+        validate(m_pklDocIdInterno, m_pklDocInterno).then(
           function(info) {
             m_pklDocInterno = info.name;
             m_pklDocIdInterno = info.id;
@@ -1758,7 +1758,7 @@
       };
 
       self.validateLIQ = function() {
-        pValidate(m_docIdLiq, m_docLiqNombre).then(
+        validate(m_docIdLiq, m_docLiqNombre).then(
           function(info) {
             m_docLiqNombre = info.name;
             m_docIdLiq = info.id;
@@ -1781,7 +1781,7 @@
         );
       };
 
-      var pValidate = function(id,  name) {
+      var validate = function(id, name) {
         return Cairo.Select.Controller.validate(Cairo.Tables.DOCUMENTO, name, id).then(
           function(result) {
             if(result.success) {
@@ -2866,7 +2866,7 @@
         return m_dialog.showValues(properties);
       };
 
-      var ck = function(key,  iModule) {
+      var ck = function(key, iModule) {
 
         switch (iModule) {
           case ucs.purchases:

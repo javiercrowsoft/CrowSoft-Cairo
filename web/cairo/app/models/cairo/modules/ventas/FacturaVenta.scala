@@ -1204,6 +1204,9 @@ object FacturaVenta {
     save(user, facturaVenta, false)
   }
 
+  // TODO: this function must call sp_DocNCFacturaVentaSaveAplic and call showFacturaDuplicada
+  //       to return info about this error use the field factura_duplicada to return the info
+
   private def save(user: CompanyUser, facturaVenta: FacturaVenta, isFromWizard: Boolean): FacturaVenta = {
     def getFields = {
       List(

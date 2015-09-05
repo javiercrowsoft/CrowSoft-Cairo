@@ -144,7 +144,7 @@
         return RGB(&HC8, &HF6, &HC1);
       };
 
-      self.setSearchParam = function(id,  name) {
+      self.setSearchParam = function(id, name) {
 
         var property = m_dialog.getProperties().item(C.CLI_ID);
         property.setValue(name);
@@ -1102,7 +1102,7 @@
         var sqlstmt = null;
         var rs = null;
 
-        sqlstmt = "select rv_total,  rv_nrodoc, rv.cli_id, cli_nombre, rv.suc_id, rv.doc_id, rv.doct_id from RemitoVenta rv inner join Cliente cli  on rv.cli_id = cli.cli_id where rv_id = "+ rvId.toString();
+        sqlstmt = "select rv_total, rv_nrodoc, rv.cli_id, cli_nombre, rv.suc_id, rv.doc_id, rv.doct_id from RemitoVenta rv inner join Cliente cli  on rv.cli_id = cli.cli_id where rv_id = "+ rvId.toString();
 
         if(!Cairo.Database.openRs(sqlstmt, rs)) { return; }
 

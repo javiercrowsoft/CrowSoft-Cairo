@@ -1742,8 +1742,8 @@
         //
         fields.add(CC.FC_FECHA_ENTREGA, Cairo.Constants.NO_DATE, Types.date);
         fields.add(CC.FC_CAI, '', Types.text);
-        fields.add(CC.PRO_ID_ORIGEN, NO_ID, Types.id);
-        fields.add(CC.PRO_ID_DESTINO, NO_ID, Types.id);
+        fields.add(C.PRO_ID_ORIGEN, NO_ID, Types.id);
+        fields.add(C.PRO_ID_DESTINO, NO_ID, Types.id);
         fields.add(CC.FC_DESCUENTO1, 0, Types.currency);
         fields.add(CC.FC_DESCUENTO2, 0, Types.currency);
         fields.add(CC.FC_IMPORTE_DESC_1, 0, Types.currency);
@@ -1963,8 +1963,8 @@
 
             // dummy fields
             //
-            fields.add(CC.STL_CODE, '', Types.text);
-            fields.add(CC.STL_ID, NO_ID, Types.id);
+            fields.add(C.STL_CODE, '', Types.text);
+            fields.add(C.STL_ID, NO_ID, Types.id);
             fields.add(C.CUE_ID, -1, Types.id);
             fields.add(CC.CUE_ID_IVA_RI, -1, Types.id);
             fields.add(CC.CUE_ID_IVA_RNI, -1, Types.id);

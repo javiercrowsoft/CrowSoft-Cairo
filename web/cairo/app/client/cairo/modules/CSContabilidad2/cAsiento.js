@@ -693,7 +693,7 @@
           return false;
         };
 
-        var p = DB.getData("load[" + m_apiPath + "contabilidad/asiento/info]",id)
+        var p = DB.getData("load[" + m_apiPath + "contabilidad/asiento/info]", id)
           .successWithResult(loadData, false);
 
         return p;

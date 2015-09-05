@@ -20,29 +20,6 @@ var Cairo = new Marionette.Application();
 
   Cairo.Application = createApplication();
 
-  /* TODO: delete me
-  var createUserConfig = function() {
-
-    var self = {
-      autoSizeCols: false
-    };
-
-    var that = {};
-
-    that.getAutoSizeCols = function() {
-      return self.autoSizeCols;
-    };
-
-    that.setAutoSizeCols = function(value) {
-      self.autoSizeCols = value;
-    };
-
-    return that;
-  };
-
-  Cairo.UserConfig = createUserConfig();
-  */
-
   Cairo.isFunction = function(object) {
     return !!(object && object.constructor && object.call && object.apply);
   };
@@ -86,7 +63,7 @@ var Cairo = new Marionette.Application();
     })
   });
 
-  Cairo.navigate = function(route,  options) {
+  Cairo.navigate = function(route, options) {
     options = options || {};
     Backbone.history.navigate(route, options);
   };
@@ -1457,11 +1434,11 @@ var Cairo = new Marionette.Application();
   };
 
   Cairo.confirmViewWithCancelNoDanger = function(title, message, confirmHandler) {
-    return Cairo.confirmViewWithCancelAndClasses(title, message,  "btn-info", "btn-danger", confirmHandler);
+    return Cairo.confirmViewWithCancelAndClasses(title, message, "btn-info", "btn-danger", confirmHandler);
   };
 
   Cairo.confirmViewWithCancelYesDanger = function(title, message, confirmHandler) {
-    return Cairo.confirmViewWithCancelAndClasses(title, message,  "btn-danger", "btn-info", confirmHandler);
+    return Cairo.confirmViewWithCancelAndClasses(title, message, "btn-danger", "btn-info", confirmHandler);
   };
 
   Cairo.confirmViewYesDanger = function(title, message, confirmHandler) {
@@ -1473,6 +1450,7 @@ var Cairo = new Marionette.Application();
   };
 
   Cairo.confirmViewYesDefault = Cairo.confirmView;
+  Cairo.confirmViewNoDefault = Cairo.confirmView;
 
   Cairo.infoView = function(title, message, closeHandler) {
     var Model = Backbone.Model.extend({ urlRoot: "infoMessage" });

@@ -118,7 +118,7 @@
         );
       };
 
-      self.messageEx = function(messageId,  info) {
+      self.messageEx = function(messageId, info) {
         return true;
       };
 
@@ -333,7 +333,7 @@
         return m_editing;
       };
 
-      self.edit = function(id,  inModalWindow) {
+      self.edit = function(id, inModalWindow) {
         var p = Cairo.Promises.resolvedPromise(false);
         try {
 

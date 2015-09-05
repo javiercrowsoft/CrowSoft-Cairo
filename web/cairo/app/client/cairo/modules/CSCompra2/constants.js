@@ -232,10 +232,6 @@
       FACTURA_COMPRA_ITEM_BORRADO_TMP: "FacturaCompraItemBorradoTMP",
       FCIB_TMP_ID: "fcibTMP_id",
 
-      // Provincia
-      PRO_ID_ORIGEN: "pro_id_origen",
-      PRO_ID_DESTINO: "pro_id_destino",
-
       // FacturaCompraPercepcion
       FACTURA_COMPRA_PERCEPCION: "FacturaCompraPercepcion",
       FCPERC_ID: "fcperc_id",
@@ -269,17 +265,6 @@
       // FacturaCompraPercepcion Borrado TMP
       FACTURA_COMPRA_LEGAJO_BORRADO_TMP: "FacturaCompraLegajoBorradoTMP",
       FCLGJB_TMP_ID: "fclgjbTMP_id",
-
-      // Stock
-      DEPL_ID_ORIGEN: "depl_id_origen",
-      DEPL_ID_DESTINO: "depl_id_destino",
-      DEPL_ID: "depl_id",
-      DEPL_NAME: "depl_nombre",
-
-      // StockLote
-      STOCK_LOTE: "StockLote",
-      STL_ID: "stl_id",
-      STL_CODE: "stl_codigo",
 
       // Remito Factura Compra TMP
       REMITO_FACTURA_COMPRA_TMP: "RemitoFacturaCompraTMP",

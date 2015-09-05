@@ -445,7 +445,7 @@
 
         }).then(function() {
 
-          setDatosProveedor();
+          setDataProveedor();
           return D.setDocNumberForProveedor(m_lastProvId, m_lastDocId, m_dialog)
 
         }).then(function(enabled) {
@@ -496,16 +496,16 @@
         return _rtn;
       };
 
-      self.messageEx = function(messageID, info) {
+      self.messageEx = function(messageId, info) {
         var p = null;
 
-        switch (messageID) {
+        switch (messageId) {
           case Dialogs.Message.MSG_DOC_FIRST:
           case Dialogs.Message.MSG_DOC_PREVIOUS:
           case Dialogs.Message.MSG_DOC_NEXT:
           case Dialogs.Message.MSG_DOC_LAST:
 
-            p = move(messageID);
+            p = move(messageId);
             break;
 
           case Dialogs.Message.MSG_DOC_SIGNATURE:
@@ -751,7 +751,7 @@
 
           case K_PROV_ID:
 
-            setDatosProveedor().success(function() {
+            setDataProveedor().success(function() {
               D.setDocNumberForProveedor(m_lastProvId, m_lastDocId, m_dialog)
               .then(function(enabled) {
                 m_taPropuesto = enabled;
@@ -920,10 +920,6 @@
                   fields.add(CC.FC_COTIZACION, property.getValue(), Types.double);
                   break;
 
-                case K_PROV_ID:
-                  fields.add(C.PROV_ID, property.getSelectId(), Types.id);
-                  break;
-
                 case K_LGJ_ID:
                   fields.add(CC.LGJ_ID, property.getSelectId(), Types.id);
                   break;
@@ -933,11 +929,11 @@
                   break;
 
                 case K_PRO_ID_ORIGEN:
-                  fields.add(CC.PRO_ID_ORIGEN, property.getSelectId(), Types.id);
+                  fields.add(C.PRO_ID_ORIGEN, property.getSelectId(), Types.id);
                   break;
 
                 case K_PRO_ID_DESTINO:
-                  fields.add(CC.PRO_ID_DESTINO, property.getSelectId(), Types.id);
+                  fields.add(C.PRO_ID_DESTINO, property.getSelectId(), Types.id);
                   break;
 
                 case K_DEPL_ID:
@@ -1349,7 +1345,7 @@
           return false;
         };
 
-        var p = DB.getData("load[" + m_apiPath + "compras/facturacompra/info]",id)
+        var p = DB.getData("load[" + m_apiPath + "compras/facturacompra/info]", id)
           .successWithResult(loadData, false);
 
         return p;
@@ -1600,7 +1596,7 @@
 
             var row = grid.getRows().item(lRow);
             if(row !== null) {
-              rtn = cellId(row, KI_PR_LLEVA_NRO_SERIE);
+              rtn = cellId(row, KI_PR_LLEVA_NRO_SERIE) !== 0;
             }
             break;
 
@@ -1695,7 +1691,7 @@
 
             var row = grid.getRows().item(lRow);
 
-            if(cellId(row, KI_PR_LLEVA_NRO_SERIE)) {
+            if(cellId(row, KI_PR_LLEVA_NRO_SERIE) !== 0) {
 
               var prId = cellId(row, KI_PR_ID);
 
@@ -2024,7 +2020,7 @@
               break;
 
             case KI_NRO_SERIE:
-              llevaNroSerie = cellId(row, KI_PR_LLEVA_NRO_SERIE);
+              llevaNroSerie = cellId(row, KI_PR_LLEVA_NRO_SERIE) !== 0;
               if(valEmpty(cell.getValue(), Types.text) && llevaNroSerie) {
                 return M.showInfoWithFalse(getText(1630, "", strRow)); // Debe indicar un numero de serie (1)
               }
@@ -2073,7 +2069,7 @@
         var tabs = m_dialog.getTabs();
         tabs.clear();
 
-        tabs.add(null).setName(Cairo.Constants.TAB_GENERAL);
+        tabs.add(null).setIndex(0).setName(Cairo.Constants.TAB_GENERAL);
         tabs.add(null).setIndex(1).setName(getText(1566, "")); // Adicionales
         tabs.add(null).setIndex(2).setName(getText(4909, "")); // Descuentos
         tabs.add(null).setIndex(3).setName(getText(1861, "")); // Observaciones
@@ -2169,7 +2165,7 @@
         elem.setValue(m_legajo);
         elem.setTabIndex(1);
 
-        elem = properties.add(null, CC.PRO_ID_ORIGEN);
+        elem = properties.add(null, C.PRO_ID_ORIGEN);
         elem.setType(T.select);
         elem.setSelectTable(Cairo.Tables.PROVINCIA);
         elem.setName(getText(1901, "")); // Origen
@@ -2178,7 +2174,7 @@
         elem.setValue(m_proOrigen);
         elem.setTabIndex(1);
 
-        elem = properties.add(null, CC.PRO_ID_DESTINO);
+        elem = properties.add(null, C.PRO_ID_DESTINO);
         elem.setType(T.select);
         elem.setSelectTable(Cairo.Tables.PROVINCIA);
         elem.setName(getText(1902, "")); // Destino
@@ -2201,7 +2197,7 @@
         elem.setValue(m_fechaentrega);
         elem.setTabIndex(1);
 
-        elem = properties.add(null, CC.DEPL_ID_ORIGEN);
+        elem = properties.add(null, C.DEPL_ID_ORIGEN);
         elem.setType(T.select);
         elem.setSelectTable(Cairo.Tables.DEPOSITO_LOGICO);
         elem.setName(getText(1574, "")); // Deposito
@@ -2343,33 +2339,15 @@
         elem.setType(T.label);
         elem.setBackColor(Dialogs.Colors.buttonShadow);
 
-        if(Cairo.UserConfig.getShowDataAddInCompras()) {
-        }
-        else {
-        }
-
-
         elem = properties.add(null);
         elem.setType(T.label);
         elem.setBackColor(Dialogs.Colors.windowBackground);
-
-        if(Cairo.UserConfig.getShowDataAddInCompras()) {
-        }
-        else {
-        }
-
 
         elem = properties.add(null, Cairo.Constants.HIDE_COLUMNS);
         elem.setType(T.check);
         elem.setName(getText(3901, "")); // Ocultar Columnas
         elem.setKey(K_HIDECOLS);
         elem.setValue(false);
-
-        if(Cairo.UserConfig.getShowDataAddInCompras()) {
-        }
-        else {
-        }
-
         elem.setIsEditProperty(false);
 
         if(!m_dialog.show(self)) { return false; }
@@ -2503,7 +2481,6 @@
         elem.setValue(m_ivari);
         elem.setFormat(Cairo.Settings.getAmountDecimalsFormat());
         elem.setEnabled(false);
-
 
         elem = properties.add(null, CC.FC_INTERNOS);
         elem.setType(T.numeric);
@@ -2660,12 +2637,12 @@
         grid.getRows().clear();
 
         var columns = grid.getColumns();
+
         elem = columns.add(null);
         elem.setVisible(false);
         elem.setKey(KI_FCI_ID);
 
         elem = columns.add(null);
-
         elem.setName(getText(1619, "")); // Producto
         elem.setType(T.select);
         elem.setSelectTable(Cairo.Tables.PRODUCTOS_DE_COMPRA);
@@ -2900,11 +2877,11 @@
           elem.setKey(KI_NRO_SERIE);
 
           elem = row.add(null);
-          elem.setValue(getValue(m_data.items[_i], CC.STL_CODE));
+          elem.setValue(getValue(m_data.items[_i], C.STL_CODE));
           elem.setKey(KI_STL_CODIGO);
 
           elem = row.add(null);
-          elem.setId(getValue(m_data.items[_i], CC.STL_ID));
+          elem.setId(getValue(m_data.items[_i], C.STL_ID));
           elem.setKey(KI_STL_ID);
 
           elem = row.add(null);
@@ -3002,7 +2979,7 @@
         }
 
         var serialNumber;
-        var curGroup = "";
+        var curGroup = 0;
         var coll = null;
         var serialNumbers = "";
 
@@ -3022,15 +2999,15 @@
             m_serialNumbers.add(coll, Cairo.Collections.getKey(curGroup));
           }
 
-          serialNumber = coll.add(null);
-          serialNumber.setCode(getValue(m_data.serialNumbers[_i], CC.PRNS_CODE));
-          serialNumber.setDescrip(getValue(m_data.serialNumbers[_i], CC.PRNS_DESCRIP));
-          serialNumber.setFechaVto(getValue(m_data.serialNumbers[_i], CC.PRNS_FECHA_VTO));
-          serialNumber.setPrnsId(getValue(m_data.serialNumbers[_i], CC.PRNS_ID));
+          var prnsId = getValue(m_data.serialNumbers[_i], C.PRNS_ID);
+
+          serialNumber = coll.add(null, Cairo.Collections.getKey(prnsId));
+          serialNumber.setPrnsId(prnsId);
+          serialNumber.setCode(getValue(m_data.serialNumbers[_i], C.PRNS_CODE));
+          serialNumber.setDescrip(getValue(m_data.serialNumbers[_i], C.PRNS_DESCRIP));
+          serialNumber.setFechaVto(getValue(m_data.serialNumbers[_i], C.PRNS_FECHA_VTO));
 
           serialNumbers = serialNumbers + serialNumber.getCode() + ",";
-
-          coll.add(serialNumber, Cairo.Collections.getKey(serialNumber.getPrnsId()));
         }
 
         setSerialNumberInRow(curGroup, serialNumbers);
@@ -3334,10 +3311,10 @@
               m_lgjId = valField(data, CC.LGJ_ID);
               m_legajo = valField(data, CC.LGJ_CODE);
               m_cai = valField(data, CC.FC_CAI);
-              m_proIdOrigen = valField(data, CC.PRO_ID_ORIGEN);
-              m_proOrigen = valField(data, "ProOrigen");
-              m_proIdDestino = valField(data, CC.PRO_ID_DESTINO);
-              m_proDestino = valField(data, "ProDestino");
+              m_proIdOrigen = valField(data, C.PRO_ID_ORIGEN);
+              m_proOrigen = valField(data, C.PRO_ORIGEN_NAME);
+              m_proIdDestino = valField(data, C.PRO_ID_DESTINO);
+              m_proDestino = valField(data, C.PRO_DESTINO_NAME);
               m_estId = valField(data, C.EST_ID);
               m_estado = valField(data, C.EST_NAME);
               m_firmado = valField(data, CC.FC_FIRMADO);
@@ -3630,11 +3607,11 @@
                 break;
 
               case KI_STL_CODIGO:
-                fields.add(CC.STL_CODE, cell.getValue(), Types.text);
+                fields.add(C.STL_CODE, cell.getValue(), Types.text);
                 break;
 
               case KI_STL_ID:
-                fields.add(CC.STL_ID, cell.getId(), Types.id);
+                fields.add(C.STL_ID, cell.getId(), Types.id);
                 break;
             }
           }
@@ -3984,42 +3961,42 @@
 
         if(prId !== 0) {
 
-        p = D.getTasaFromProducto(prId, true).successWithResult(function(data) {
+          p = D.getTasaFromProducto(prId, true).successWithResult(function(data) {
 
-          if(data.ti_ri_compra === 0) {
-            return M.showWarningWithFalse(getText(1597, "", pr_nombre));
-            // El producto [" & pr_nombre & "] no tiene definida su tasa impositiva de Compras para el iva responsable inscripto
-          }
+            if(data.ti_ri_compra === 0) {
+              return M.showWarningWithFalse(getText(1597, "", pr_nombre));
+              // El producto [" & pr_nombre & "] no tiene definida su tasa impositiva de Compras para el iva responsable inscripto
+            }
 
-          if(data.ti_rni_compra === 0) {
-            return M.showWarningWithFalse(getText(1598, "", pr_nombre));
-            // El producto [" & pr_nombre & "] no tiene definida su tasa impositiva de Compras para el iva responsable no inscripto
-          }
+            if(data.ti_rni_compra === 0) {
+              return M.showWarningWithFalse(getText(1598, "", pr_nombre));
+              // El producto [" & pr_nombre & "] no tiene definida su tasa impositiva de Compras para el iva responsable no inscripto
+            }
 
-          if(m_bIva) {
-            getCell(row, KI_IVA_RI_PERCENT).setValue(data.ri_percent_compra);
-            getCell(row, KI_CUE_ID_IVA_RI).setValue(data.ri_cue_id_compra);
-          }
-          else {
-            getCell(row, KI_IVA_RI_PERCENT).setValue(0);
-            getCell(row, KI_CUE_ID_IVA_RI).setValue(NO_ID);
-          }
+            if(m_bIva) {
+              getCell(row, KI_IVA_RI_PERCENT).setValue(data.ri_percent_compra);
+              getCell(row, KI_CUE_ID_IVA_RI).setValue(data.ri_cue_id_compra);
+            }
+            else {
+              getCell(row, KI_IVA_RI_PERCENT).setValue(0);
+              getCell(row, KI_CUE_ID_IVA_RI).setValue(NO_ID);
+            }
 
-          if(m_bIvaRni) {
-            getCell(row, KI_IVA_RNI_PERCENT).setValue(data.rni_percent_compra);
-            getCell(row, KI_CUE_ID_IVA_RNI).setValue(data.rni_cue_id_compra);
-          }
-          else {
-            getCell(row, KI_IVA_RNI_PERCENT).setValue(0);
-            getCell(row, KI_CUE_ID_IVA_RNI).setValue(NO_ID);
-          }
+            if(m_bIvaRni) {
+              getCell(row, KI_IVA_RNI_PERCENT).setValue(data.rni_percent_compra);
+              getCell(row, KI_CUE_ID_IVA_RNI).setValue(data.rni_cue_id_compra);
+            }
+            else {
+              getCell(row, KI_IVA_RNI_PERCENT).setValue(0);
+              getCell(row, KI_CUE_ID_IVA_RNI).setValue(NO_ID);
+            }
 
-          getCell(row, KI_INTERNOS_PERCENT).setValue(data.int_percent_compra);
-          getCell(row, KI_INTERNOS_PORC).setValue(data.porc_internos_compra);
+            getCell(row, KI_INTERNOS_PERCENT).setValue(data.int_percent_compra);
+            getCell(row, KI_INTERNOS_PORC).setValue(data.porc_internos_compra);
 
-          return true;
+            return true;
 
-        });
+          });
 
         }
         return p || P.resolvedPromise(false);
@@ -4029,7 +4006,6 @@
 
         var bChanged = prId !== cellId(row, KI_PR_ID);
 
-        var m_apiPath = DB.getAPIVersion();
         var p = DB.getData(
           "load[" + m_apiPath + "general/producto/" + prId.toString() + "/stock/proveedor]", getProvId());
 
@@ -4166,7 +4142,7 @@
 
         if(bState) {
           var properties = m_properties;
-          properties.item(CC.DEPL_ID_ORIGEN).setEnabled(m_showStockData);
+          properties.item(C.DEPL_ID_ORIGEN).setEnabled(m_showStockData);
         }
 
         var _count = m_itemsProps.size();
@@ -4179,7 +4155,7 @@
         m_dialog.refreshEnabledState(m_properties);
       };
 
-      var setDatosProveedor = function() {
+      var setDataProveedor = function() {
         var p;
         var property = m_properties.item(C.PROV_ID);
 
@@ -4192,42 +4168,42 @@
 
           p = p.successWithResult(function(response) {
 
-            var lp_id = valField(response.data, C.LP_ID);
-            var lp_name = valField(response.data, C.LP_NAME);
-            var ld_id = valField(response.data, C.LD_ID);
-            var ld_name = valField(response.data, C.LD_NAME);
-            var cpg_id = valField(response.data, C.CPG_ID);
-            var lp_filter = D.getListaPrecioForProveedor(m_docId, m_provId);
-            var ld_filter = D.getListaDescuentoForProveedor(m_docId, m_provId);
+            var lpId = valField(response.data, C.LP_ID);
+            var lpName = valField(response.data, C.LP_NAME);
+            var ldId = valField(response.data, C.LD_ID);
+            var ldName = valField(response.data, C.LD_NAME);
+            var cpgId = valField(response.data, C.CPG_ID);
+            var lpFilter = D.getListaPrecioForProveedor(m_docId, m_provId);
+            var ldFilter = D.getListaDescuentoForProveedor(m_docId, m_provId);
 
-            if(cpg_id !== NO_ID) {
+            if(cpgId !== NO_ID) {
 
-              var cpg_name = valField(response.data, C.CPG_NAME);
+              var cpgName = valField(response.data, C.CPG_NAME);
 
               var prop = m_properties
                 .item(C.CPG_ID)
-                .setValue(cpg_name)
-                .setSelectId(cpg_id);
+                .setValue(cpgName)
+                .setSelectId(cpgId);
 
               m_dialog.showValue(prop);
             }
 
             var prop = m_properties.item(C.LP_ID)
-              .setSelectFilter(lp_filter);
+              .setSelectFilter(lpFilter);
 
-            if(lp_id !== NO_ID) {
-              prop.setValue(lp_name);
-              prop.setSelectId(lp_id);
+            if(lpId !== NO_ID) {
+              prop.setValue(lpName);
+              prop.setSelectId(lpId);
             }
 
             m_dialog.showValue(prop);
 
             prop = m_properties.item(C.LD_ID);
-            prop.setSelectFilter(ld_filter);
+            prop.setSelectFilter(ldFilter);
 
-            if(ld_id !== NO_ID) {
-              prop.setValue(ld_name);
-              prop.setSelectId(ld_id);
+            if(ldId !== NO_ID) {
+              prop.setValue(ldName);
+              prop.setSelectId(ldId);
             }
 
             m_dialog.showValue(prop);
@@ -4245,7 +4221,7 @@
               updateTotals();
             }
 
-            setFechaVto(cpg_id, response);
+            setFechaVto(cpgId, response);
 
             return true;
           });
@@ -4399,15 +4375,15 @@
         .setSelectId(m_lgjId)
         .setValue(m_legajo);
 
-        m_properties.item(CC.PRO_ID_ORIGEN)
+        m_properties.item(C.PRO_ID_ORIGEN)
         .setSelectId(m_proIdOrigen)
         .setValue(m_proOrigen);
 
-        m_properties.item(CC.PRO_ID_DESTINO)
+        m_properties.item(C.PRO_ID_DESTINO)
         .setSelectId(m_proIdDestino)
         .setValue(m_proDestino);
 
-        c = m_properties.item(CC.DEPL_ID_ORIGEN);
+        c = m_properties.item(C.DEPL_ID_ORIGEN);
         if(m_deplId !== NO_ID || !m_showStockData) {
           c.setSelectId(m_deplId);
           c.setValue(m_deposito);
@@ -4433,48 +4409,46 @@
         m_percepcionesDeleted = "";
         m_legajosDeleted = "";
 
+        loadItems(getProperty(m_items, C_ITEMS), cotizacion);
+        loadPercepciones(getProperty(m_items, C_PERCEPCIONES), cotizacion);
+        loadOtros(getProperty(m_items, C_OTROS), cotizacion);
+        loadLegajos(getProperty(m_items, C_LEGAJOS), cotizacion);
+
         m_items.showValues(m_itemsProps);
 
-        var properties = m_footerProps;
-
-        properties.item(CC.FC_SUBTOTAL)
+        m_footerProps.item(CC.FC_SUBTOTAL)
         .setValue(m_subTotal);
 
-        properties.item(CC.FC_IMPORTE_DESC_1)
+        m_footerProps.item(CC.FC_IMPORTE_DESC_1)
         .setValue(m_importeDesc1);
 
-        properties.item(CC.FC_IMPORTE_DESC_2)
+        m_footerProps.item(CC.FC_IMPORTE_DESC_2)
         .setValue(m_importeDesc2);
 
-        properties.item(CC.FC_NETO)
+        m_footerProps.item(CC.FC_NETO)
         .setValue(m_neto);
 
-        properties.item(CC.FC_IVA_RI)
+        m_footerProps.item(CC.FC_IVA_RI)
         .setValue(m_ivari);
 
-        properties.item(CC.FC_IVA_RNI)
+        m_footerProps.item(CC.FC_IVA_RNI)
         .setValue(m_ivarni);
 
-        properties.item(CC.FC_INTERNOS)
+        m_footerProps.item(CC.FC_INTERNOS)
         .setValue(m_internos);
 
-        properties.item(CC.FC_TOTAL_OTROS)
+        m_footerProps.item(CC.FC_TOTAL_OTROS)
         .setValue(m_totalOtros);
 
-        properties.item(CC.FC_TOTAL_PERCEPCIONES)
+        m_footerProps.item(CC.FC_TOTAL_PERCEPCIONES)
         .setValue(m_totalPercepciones);
 
-        properties.item(CC.FC_TOTAL)
+        m_footerProps.item(CC.FC_TOTAL)
         .setValue(m_total);
 
         m_footer.showValues(m_footerProps);
 
         setEnabled();
-
-        loadItems(getProperty(m_items, C_ITEMS), cotizacion);
-        loadPercepciones(getProperty(m_items, C_OTROS), cotizacion);
-        loadOtros(getProperty(m_items, C_PERCEPCIONES), cotizacion);
-        loadLegajos(getProperty(m_items, C_LEGAJOS), cotizacion);
 
         return showCotizacion()
           .then(showFechaVto)
@@ -4589,7 +4563,7 @@
 
       var saveItemNroSerie = function(mainRegister, row, order, prId, grupo) {
 
-        if(cellId(row, KI_PR_LLEVA_NRO_SERIE)) {
+        if(cellId(row, KI_PR_LLEVA_NRO_SERIE) !== 0 && m_showStockData) {
 
           var transaction = DB.createTransaction();
           var deleted = [];
@@ -4618,18 +4592,18 @@
               fields.add(C.PR_ID, prId, Types.id);
 
               if(m_copy) {
-                fields.add(CC.PRNS_ID, Cairo.Constants.NEW_ID, Types.integer);
+                fields.add(C.PRNS_ID, Cairo.Constants.NEW_ID, Types.integer);
               }
               else {
-                fields.add(CC.PRNS_ID, pt.getPrnsId(), Types.id);
+                fields.add(C.PRNS_ID, pt.getPrnsId(), Types.id);
               }
 
-              fields.add(CC.PRNS_CODE, pt.getCode(), Types.text);
-              fields.add(CC.PRNS_DESCRIP, pt.getDescrip(), Types.text);
-              fields.add(CC.PRNS_FECHA_VTO, pt.getFechaVto(), Types.date);
+              fields.add(C.PRNS_CODE, pt.getCode(), Types.text);
+              fields.add(C.PRNS_DESCRIP, pt.getDescrip(), Types.text);
+              fields.add(C.PRNS_FECHA_VTO, pt.getFechaVto(), Types.date);
 
               order.n += 1;
-              fields.add(C.FCIS_ORDEN, order.n, Types.integer);
+              fields.add(CC.FCIS_ORDEN, order.n, Types.integer);
 
               transaction.addRegister(register);
             }
@@ -4651,8 +4625,6 @@
         return m_lastDoctId !== D.Types.NOTA_CREDITO_COMPRA;
       };
 
-      ////////////////////////////////////////////////////////////////////////////////////////////////// 
-      // nrs devolucion
       var getDeplId = function() {
         var deplId = 0;
 
@@ -4660,7 +4632,7 @@
           deplId = C.DepositosInternos.deplIdTercero;
         }
         else {
-          deplId = m_properties.item(CC.DEPL_ID_ORIGEN).getSelectId();
+          deplId = m_properties.item(C.DEPL_ID_ORIGEN).getSelectId();
         }
 
         return deplId;

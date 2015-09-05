@@ -38,6 +38,16 @@ Cairo.Rubro.Load = {};
 Cairo.Common = {};
 Cairo.Entities = {};
 
+PercepcionType = {
+  tipoBase: 0,
+  minimo: 0,
+  desde: 0,
+  hasta: 0,
+  fijo: 0,
+  porc: 0,
+  percId: 0
+};
+
 Marionette = {};
 Backbone = {};
 Marionette.Region = {};

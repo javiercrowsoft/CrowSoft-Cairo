@@ -425,7 +425,7 @@
         return true;
       };
 
-      self.save = function(dialog,  register) {
+      self.save = function(dialog, register) {
 
         var field = null;
         var property = null;

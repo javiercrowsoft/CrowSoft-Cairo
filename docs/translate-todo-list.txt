@@ -1149,17 +1149,17 @@ use this function but replace the LNG_ID
        search: Cairo.Constants.NO_ID
        replace: NO_ID
 
-       search:
+       search: m_userCfg.
+       replace: Cairo.UserConfig.
+
+       search: Cairo.UserConfig.Load;
        replace:
 
-       search:
+       search: m_userCfg = new cUsuarioConfig();
        replace:
 
-       search:
-       replace:
-
-       search:
-       replace:
+       search: m_userCfg
+       replace: OJO uno por uno hay que eliminarlo
 
        search:
        replace:

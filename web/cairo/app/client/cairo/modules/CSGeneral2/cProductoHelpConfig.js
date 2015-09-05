@@ -119,7 +119,7 @@
         return _rtn;
       };
 
-      self.messageEx = function(messageId,  info) {
+      self.messageEx = function(messageId, info) {
         var _rtn = null;
         switch (messageId) {
 
@@ -326,7 +326,7 @@
         return m_editing;
       };
 
-      self.edit = function(id,  inModalWindow) {
+      self.edit = function(id, inModalWindow) {
         var p = Cairo.Promises.resolvedPromise(false);
         try {
 
