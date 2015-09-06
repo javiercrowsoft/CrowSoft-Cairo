@@ -15,6 +15,12 @@ Cairo.Select = {};
 
 Cairo.addRegions = function() {};
 
+Cairo.UsuarioConfig = {};
+Cairo.StockConfig = {};
+Cairo.VentaConfig = {};
+
+Cairo.SearchZona = {};
+
 Cairo.Producto = {};
 Cairo.Cliente = {};
 

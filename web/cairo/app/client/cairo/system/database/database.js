@@ -149,7 +149,12 @@
             q = new Cairo.Entities.DatabaseQuery({});
             q.url = path;
           }
-          Cairo.log('requesting: ' + q.url);
+          if(Cairo.isFunction(q.url)) {
+            Cairo.log('requesting: ' + q.url());
+          }
+          else {
+            Cairo.log('requesting: ' + q.url);
+          }
           var defer = new Cairo.Promises.Defer();
           q.fetch({
             success: function(data) {

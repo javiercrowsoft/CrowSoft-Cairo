@@ -604,7 +604,7 @@
             break;
 
           case K_CPG_ID:
-            var property = m_dialog.getProperties().item(CV.CPG_ID);
+            var property = m_dialog.getProperties().item(C.CPG_ID);
             m_condicionPago = property.getValue();
             m_cpgId = property.getSelectIntValue();
 

@@ -246,6 +246,9 @@
       CUE_ES_EFECTIVO: "cue_esefectivo",
       CUE_ES_TICKET: "cue_esticket",
 
+      CUE_ID_IVA_RI: "cue_id_IvaRI",
+      CUE_ID_IVA_RNI: "cue_id_IvaRNI",
+
       // Cuenta Grupo
       CUENTAGRUPO: "CuentaGrupo",
       CUEG_ID: "cueg_id",

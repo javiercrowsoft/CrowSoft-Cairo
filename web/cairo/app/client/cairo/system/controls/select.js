@@ -368,7 +368,6 @@
                 ,error: function(request, status, error) {
                   invalidateData(true);
                   Cairo.log("Failed to validate a select.");
-                  Cairo.log(request.responseText);
                   Cairo.manageError(
                     "Select Validate",
                     "Can't validate this input. An error has occurred in the server.",
@@ -630,7 +629,6 @@
           }
           ,error: function(request, status, error) {
             Cairo.log("Failed to validate a select.");
-            Cairo.log(request.responseText);
             Cairo.manageError(
               "Select Validate",
               "Can't validate this input. An error has occurred in the server.",

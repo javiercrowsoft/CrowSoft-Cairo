@@ -1674,8 +1674,8 @@
 
             var row = grid.getRows().item(lRow);
             p = setDataProducto(row, newValueId)
-              .success(call(setPrecios, row, newValueId))
-              .success(call(setDescuentos, row, newValueId, getPrecioFromRow(row)))
+              .success(call(D.setPrecios, row, newValueId, KI_PRECIO_LP, KI_PRECIO_USR))
+              .success(call(D.setDescuentos, row, newValueId, getPrecioFromRow(row), KI_DESCUENTO))
               .success(call(setTasasImpositivas, row, newValueId, newValue))
               .then(function(result) { Cairo.LoadingMessage.close(); return result; })
             ;
@@ -1684,7 +1684,7 @@
           case KI_PRECIO_USR:
 
             var row = grid.getRows().item(lRow);
-            p = setDescuentos(row, cellId(row, KI_PR_ID), newValue);
+            p = D.setDescuentos(row, cellId(row, KI_PR_ID), newValue, KI_DESCUENTO);
             break;
 
           case KI_CANTIDAD:
@@ -2676,7 +2676,7 @@
         elem.setSubType(Dialogs.PropertySubType.double);
         elem.setKey(KI_CANTIDAD);
 
-        elem.setDefaultValue(Dialogs.Grids.createCell());
+        elem.setDefaultValue(Grids.createCell());
         elem.getDefaultValue().setValue(1);
 
         elem = columns.add(null);
@@ -4044,55 +4044,6 @@
         });
       };
 
-      var setPrecios = function(row, prId) {
-        var p;
-        var lpId = m_properties.item(C.LP_ID).getSelectId();
-        var price = 0;
-
-        if(lpId !== NO_ID) {
-
-          var m_apiPath = DB.getAPIVersion();
-          p = DB.getData(
-            "load[" + m_apiPath + "general/producto/" + prId.toString() + "/price]", lpId);
-
-          p = p.successWithResult(function(response) {
-            price = valField(response.data, 'price');
-            return true;
-          });
-        }
-
-        p = p || P.resolvedPromise();
-
-        return p.then(function() {
-          getCell(row, KI_PRECIO_LP).setValue(price);
-          getCell(row, KI_PRECIO_USR).setValue(price);
-          return true;
-        });
-      };
-
-      var setDescuentos = function(row, prId, precio) {
-        var p;
-        var ldId = m_properties.item(C.LD_ID).getSelectId();
-        var desc;
-
-        if(ldId !== NO_ID) {
-
-          var m_apiPath = DB.getAPIVersion();
-          p = DB.getData(
-            "load[" + m_apiPath + "general/producto/" + prId.toString() + "/discount/" + ldId.toString() + "/price]", precio);
-
-          p = p.successWithResult(function(response) {
-            desc = valField(response.data, 'desc');
-            desc = desc.replace(/\$/g, "").replace(/%/g, "");
-            return true;
-          }).then(function() {
-            getCell(row, KI_DESCUENTO).setValue(desc);
-            return true;
-          });
-        }
-        return p || P.resolvedPromise(true);
-      };
-
       var setEnabled = function() {
         var bState = false;
 
@@ -5253,7 +5204,6 @@
         register.setFieldId(C.LDP_ID);
         register.setTable(C.LISTA_DOCUMENTO_PARAMETRO);
 
-        var m_apiPath = DB.getAPIVersion();
         register.setPath(m_apiPath + "compras/facturacompras");
 
         register.setId(Cairo.Constants.NEW_ID);

@@ -204,8 +204,6 @@
 
       FCI_IMPORTE_ORIGEN: "fci_importeorigen",
       FCI_IMPORTE: "fci_importe",
-      CUE_ID_IVA_RI: "cue_id_IvaRI",
-      CUE_ID_IVA_RNI: "cue_id_IvaRNI",
 
       // FacturaCompraItemTMP
       FACTURA_COMPRA_ITEM_TMP: "FacturaCompraItemTMP",

@@ -17,9 +17,12 @@
 
       var self = {};
 
+      var getText = Cairo.Language.getText;
+
       var Dialogs = Cairo.Dialogs;
       var DB = Cairo.Database;
       var C = Cairo.General.Constants;
+      var NO_ID = Cairo.Constants.NO_ID;
 
       var C_MODULE = "cUsuarioConfig";
 
@@ -2898,7 +2901,6 @@
 
       var initialize = function() {
         try {
-          m_title = getText(1892, ""); // Facturas de Compras
           m_dialog.setHaveDetail(true);
           m_dialog.setStartRowText(4);
         }

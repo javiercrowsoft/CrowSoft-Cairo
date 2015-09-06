@@ -1549,6 +1549,33 @@ var Cairo = new Marionette.Application();
     $('#errorDetailIFrame').show();
   };
 
+  // global business objects
+  //
+  var createConfigObjects = function() {
+    var m_ventasConfig;
+    var m_stockConfig;
+
+    Cairo.getVentasConfig = function() {
+      if(m_ventasConfig === null) {
+        m_ventasConfig = Cairo.VentaConfig.Edit.Controller.getEditor();
+        m_ventasConfig.load(Cairo.User.getId());
+      }
+      return m_ventasConfig;
+    };
+
+    Cairo.getStockConfig = function() {
+      if(m_stockConfig === null) {
+        m_stockConfig = Cairo.StockConfig.Edit.Controller.getEditor();
+        m_stockConfig.load(Cairo.User.getId());
+      }
+      return m_stockConfig;
+    };
+  };
+
+  createConfigObjects();
+
+  //------------------------
+
   Cairo.Editors = {};
 
 }());

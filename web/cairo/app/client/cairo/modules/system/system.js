@@ -3,11 +3,13 @@
 
   var C = Cairo.General.Constants;
   var CC = Cairo.Compras.Constants;
+  var CV = Cairo.Ventas.Constants;
   var NO_ID = Cairo.Constants.NO_ID;
   var valField = Cairo.Database.valField;
   var bToI = Cairo.Util.boolToInt;
   var getText = Cairo.Language.getText;
   var Dialogs = Cairo.Dialogs;
+  var getCell = Dialogs.cell;
   var val = Cairo.Util.val;
   var P = Cairo.Promises;
   var DB = Cairo.Database;
@@ -207,6 +209,37 @@
       function(response) {
 
         var property = dialog.getProperties().item(CC.FC_NRODOC);
+        var number = "";
+        var mask = "";
+        var enabled = false;
+
+        if(response.success === true) {
+          number = valField(response.data, C.TA_NUMBER);
+          mask = valField(response.data, C.TA_MASCARA);
+          enabled = valField(response.data, C.TA_ENABLED);
+        }
+
+        property.setValue(number);
+        property.setTextMask(mask);
+        property.setEnabled(enabled);
+
+        dialog.showValue(property);
+
+        return enabled;
+      }
+    );
+  };
+
+  Cairo.Documents.getDocNumberForCliente = function(cliId, docId) {
+    return DB.getData(
+      "load[" + m_apiPath + "documento/" + docId.toString() + "/customer/" + cliId.toString() + "/next_number]");
+  };
+
+  Cairo.Documents.setDocNumberForCliente = function(cliId, docId, dialog) {
+    return Cairo.Documents.getDocNumberForCliente(cliId, docId).then(
+      function(response) {
+
+        var property = dialog.getProperties().item(CV.FV_NRODOC);
         var number = "";
         var mask = "";
         var enabled = false;
@@ -506,6 +539,20 @@
     );
   };
 
+  Cairo.Documents.getEmailFromCliente = function(provId) {
+    return DB.getData("load[" + m_apiPath + "general/cliente/" + provId.toString() + "/email]").then(
+      function(response) {
+        if(response.success === true) {
+          var email = valField(response.data, 'email');
+          return { success: true, email: email };
+        }
+        else {
+          return { success: false };
+        }
+      }
+    );
+  };
+
   Cairo.Documents.showDataAddProveedor = function(showData, dialog) {
     if(showData) {
       var provId = dialog.getProperties().item(C.PROV_ID).getSelectId();
@@ -514,15 +561,54 @@
         DB.getData("load[" + m_apiPath + "general/proveedor/" + provId.toString() + "/data_add]").then(
           function(response) {
             if(response.success === true) {
-              var info = valField(response.data, 'info');
-              var property = dialog.getProperties().item(CC.PROVEEDOR_DATA_ADD);
-              property.setValue(info);
-              dialog.showValue(property);
+              try {
+                var info = valField(response.data, 'info');
+                var property = dialog.getProperties().item(CC.PROVEEDOR_DATA_ADD);
+                property.setValue(info);
+                dialog.showValue(property);
+              }
+              catch(ignore) {}
             }
           }
         );
       }
     }
+  };
+
+  Cairo.Documents.showDataAddCliente = function(showData, dialog) {
+    if(showData) {
+      var cliId = dialog.getProperties().item(C.CLI_ID).getSelectId();
+
+      if(cliId !== NO_ID) {
+        DB.getData("load[" + m_apiPath + "general/cliente/" + cliId.toString() + "/data_add]").then(
+          function(response) {
+            if(response.success === true) {
+              try {
+                var info = valField(response.data, 'info');
+                var property = dialog.getProperties().item(CV.CLIENTE_DATA_ADD);
+                property.setValue(info);
+                dialog.showValue(property);
+              }
+              catch(ignore) {}
+            }
+          }
+        );
+      }
+    }
+  };
+
+  Cairo.Documents.getDepositoFisicoForLogico = function(deplId) {
+    return DB.getData("load[" + m_apiPath + "general/deposito_logico/" + deplId.toString() + "/info]").then(
+      function(response) {
+        if(response.success === true) {
+          var info = valField(response.data, 'info');
+          return info.depf_id;
+        }
+        else {
+          return NO_ID;
+        }
+      }
+    );
   };
 
   Cairo.Documents.docCanBeEdited = function(canBeEdited, message) {
@@ -713,6 +799,18 @@
     return "supplier_list_discount|supplierId:" + provId.toString() + ",documentId:" + docId.toString();
   };
 
+  Cairo.Documents.getListaPrecioForCliente = function(docId, cliId) {
+    return "customer_list_price|customerId:" + cliId.toString() + ",documentId:" + docId.toString();
+  };
+
+  Cairo.Documents.getListaDescuentoForCliente = function(docId, cliId) {
+    return "customer_list_discount|customerId:" + cliId.toString() + ",documentId:" + docId.toString();
+  };
+
+  Cairo.Documents.getSelectFilterSucursalCliente = function(cliId) {
+    return "customer_branch|customerId:" + cliId.toString();
+  };
+
   Cairo.Documents.ASIENTOS_DOC_FILTER = "document|documentTypeId:"
     + Cairo.Documents.Types.ASIENTO_CONTABLE.toString()
   ;
@@ -738,6 +836,20 @@
     + Cairo.Documents.Types.FACTURA_VENTA.toString()
     + "|invoiceType:" + Cairo.Documents.InvoiceWizardType.remito.toString()
   ;
+
+  Cairo.getStockLoteFilterEx = function(deplId,
+                                        stockFisico,
+                                        prIdKit,
+                                        depfId,
+                                        cliId,
+                                        provId) {
+    return "stock_lote:deplId:" + deplId.toString()
+      + ",stockFisico:" + stockFisico.toString()
+      + ",prIdKit:" + prIdKit.toString()
+      + ",depfId:" + depfId.toString()
+      + ",cliId:" + cliId.toString()
+      + ",provId:" + provId.toString();
+  };
 
   Cairo.Documents.showNotes = function() {
     /* TODO: implement this. */
@@ -1111,6 +1223,53 @@
     Dialogs.cell(row, kII_PRECIOIVA).setValue(precioIva);
   };
 
+  Cairo.Documents.setPrecios = function(row, prId, KI_PRECIO_LP, KI_PRECIO_USR) {
+    var p;
+    var lpId = m_properties.item(C.LP_ID).getSelectId();
+    var price = 0;
+
+    if(lpId !== NO_ID) {
+
+      p = DB.getData(
+        "load[" + m_apiPath + "general/producto/" + prId.toString() + "/price]", lpId);
+
+      p = p.successWithResult(function(response) {
+        price = valField(response.data, 'price');
+        return true;
+      });
+    }
+
+    p = p || P.resolvedPromise();
+
+    return p.then(function() {
+      getCell(row, KI_PRECIO_LP).setValue(price);
+      getCell(row, KI_PRECIO_USR).setValue(price);
+      return true;
+    });
+  };
+
+  Cairo.Documents.setDescuentos = function(row, prId, precio, KI_DESCUENTO) {
+    var p;
+    var ldId = m_properties.item(C.LD_ID).getSelectId();
+    var desc;
+
+    if(ldId !== NO_ID) {
+
+      p = DB.getData(
+        "load[" + m_apiPath + "general/producto/" + prId.toString() + "/discount/" + ldId.toString() + "/price]", precio);
+
+      p = p.successWithResult(function(response) {
+        desc = valField(response.data, 'desc');
+        desc = desc.replace(/\$/g, "").replace(/%/g, "");
+        return true;
+      }).then(function() {
+          getCell(row, KI_DESCUENTO).setValue(desc);
+          return true;
+        });
+    }
+    return p || P.resolvedPromise(true);
+  };
+
   Cairo.Documents.setTotal = function(row, kII_TOTAL, kII_APLICAR, kII_PRECIOIVA) {
     Dialogs.cell(row, kII_TOTAL).setValue(
       val(Dialogs.cell(row, kII_APLICAR).getValue())  
@@ -1196,6 +1355,26 @@
         return {
           success: false,
           percepciones: response.percepciones
+        };
+      }
+      else {
+        return {
+          success: false
+        };
+      }
+    });
+  };
+
+  Cairo.Documents.loadCajaForCurrentUser = function() {
+
+    var p = DB.getData("load[" + m_apiPath + "general/usuarioconfig/caja_info]");
+
+    return p.then(function(response) {
+
+      if(response.success === true) {
+        return {
+          success: false,
+          cajaInfo: response.caja_info
         };
       }
       else {

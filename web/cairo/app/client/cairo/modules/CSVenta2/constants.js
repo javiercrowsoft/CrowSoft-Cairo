@@ -121,8 +121,6 @@
       FVI_INTERNOS_PORC: "fvi_internosporc",
       FVI_IMPORTE_ORIGEN: "fvi_importeorigen",
       FVI_IMPORTE: "fvi_importe",
-      CUE_ID_IVA_RI: "cue_id_IvaRI",
-      CUE_ID_IVA_RNI: "cue_id_IvaRNI",
       FVI_NO_STOCK: "fvi_nostock",
 
       // FacturaVentaItemTMP
