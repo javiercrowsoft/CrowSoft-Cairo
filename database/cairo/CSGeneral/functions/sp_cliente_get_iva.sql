@@ -28,13 +28,13 @@ http://www.crowsoft.com.ar
 
 javier at crowsoft.com.ar
 */
--- Function: sp_proveedor_get_iva()
+-- Function: sp_cliente_get_iva()
 
--- drop function sp_proveedor_get_iva(integer, smallint);
+-- drop function sp_cliente_get_iva(integer);
 
-create or replace function sp_proveedor_get_iva
+create or replace function sp_cliente_get_iva
 (
-  in p_prov_id integer,
+  in p_cli_id integer,
   out p_bIvari smallint,
   out p_bIvarni smallint
 )
@@ -42,6 +42,7 @@ create or replace function sp_proveedor_get_iva
 $BODY$
 declare
    v_tipoIva smallint;
+   v_cli_catfiscal integer;
    v_bIva smallint;
    v_bIvaRni smallint;
    v_bSinIva smallint;
@@ -51,23 +52,25 @@ begin
    v_bIvaRni := -2;
    v_bSinIva := -3;
 
-   select case prov_catfiscal
-             when 1 then v_bIva      --'Inscripto'
-             when 2 then v_bSinIva   --'Exento'
-             when 3 then v_bSinIva   --'No inscripto'
-             when 4 then v_bIva      --'Consumidor Final'
-             when 5 then v_bSinIva   --'Extranjero'
-             when 6 then v_bSinIva   --'Mono Tributo'
-             when 7 then v_bIva      --'Extranjero Iva'
-             when 8 then v_bIva      --'No responsable'
-             when 9 then v_bIva      --'No Responsable exento'
-             when 10 then v_bIvaRni  --'No categorizado'
-             when 11 then v_bIva     --'Inscripto M'
-             else 0                  --'Sin categorizar'
-          end
-     into v_tipoIva
-   from Proveedor
-   where prov_id = p_prov_id;
+   select case cli_catfiscal
+            when 1 then v_bIva       --'Inscripto'
+            when 2 then v_bIva       -- FALTA VERIFICAR QUE SEA ASI --'Exento'
+            when 3 then v_bIvaRni    --'No inscripto'
+            when 4 then v_bIva       --'Consumidor Final'
+            when 5 then v_bSinIva    --'Extranjero'
+            when 6 then v_bIva       --'Mono Tributo'
+            when 7 then v_bIva       --'Extranjero Iva'
+            when 8 then v_bIva       --'No responsable'
+            when 9 then v_bIva       -- FALTA VERIFICAR QUE SEA ASI --'No Responsable exento'
+            when 10 then v_bIvaRni   --'No categorizado'
+            when 11 then v_bIva      --'InscriptoM'
+            else 0                   --'Sin categorizar'
+          end,
+          cli_catfiscal
+     into v_tipoIva,
+          v_cli_catfiscal
+   from Cliente
+   where cli_id = p_cli_id;
 
    v_tipoIva := coalesce(v_tipoIva, v_bSinIva);
 
@@ -103,5 +106,5 @@ end;
 $BODY$
   language plpgsql volatile
   cost 100;
-alter function sp_proveedor_get_iva(integer)
+alter function sp_cliente_get_iva(integer)
   owner to postgres;

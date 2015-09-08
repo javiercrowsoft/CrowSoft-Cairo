@@ -28,20 +28,20 @@ http://www.crowsoft.com.ar
 
 javier at crowsoft.com.ar
 */
--- Function: sp_doc_factura_compra_get_percepciones()
+-- Function: sp_doc_factura_venta_get_percepciones()
 
--- drop function sp_doc_factura_compra_get_percepciones(integer);
+-- drop function sp_doc_factura_venta_get_percepciones(integer);
 /*
-select * from sp_doc_factura_compra_get_percepciones(1);
+select * from sp_doc_factura_venta_get_percepciones(1);
 fetch all from rtn;
 fetch all from rtn_serie;
 */
-create or replace function sp_doc_factura_compra_get_percepciones
+create or replace function sp_doc_factura_venta_get_percepciones
 /*
 sp_DocFacCpraGetPercepcionesones 1
 */
 (
-  in p_fc_id integer,
+  in p_fv_id integer,
   out rtn refcursor
 )
   returns refcursor as
@@ -51,20 +51,20 @@ begin
    rtn := 'rtn';
 
    open rtn for
-      select FacturaCompraPercepcion.*,
+      select FacturaVentaPercepcion.*,
              perc_nombre,
              ccos.ccos_nombre
-      from FacturaCompraPercepcion
-        join Percepcion
-                on FacturaCompraPercepcion.perc_id = Percepcion.perc_id
-        left join CentroCosto ccos
-                on FacturaCompraPercepcion.ccos_id = ccos.ccos_id
-      where fc_id = p_fc_id
-      order by fcperc_orden;
+      from FacturaVentaPercepcion
+      join Percepcion
+        on FacturaVentaPercepcion.perc_id = Percepcion.perc_id
+      left join CentroCosto ccos
+        on FacturaVentaPercepcion.ccos_id = ccos.ccos_id
+      where fv_id = p_fv_id
+      order by fvperc_orden;
 
 end;
 $BODY$
   language plpgsql volatile
   cost 100;
-alter function sp_doc_factura_compra_get_percepciones(integer)
+alter function sp_doc_factura_venta_get_percepciones(integer)
   owner to postgres;

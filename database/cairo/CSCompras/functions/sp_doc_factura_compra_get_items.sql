@@ -49,6 +49,7 @@ begin
    rtn := 'rtn';
 
    open rtn for
+
       select fci.*,
              pr_nombreCompra,
              pr_llevanroserie,
@@ -62,22 +63,22 @@ begin
              to_nombre,
              stl.stl_codigo
       from FacturaCompraItem fci
-       join Producto
-        on fci.pr_id = Producto.pr_id
-       join Unidad
-        on Producto.un_id_compra = Unidad.un_id
-       join TipoOperacion
-        on fci.to_id = TipoOperacion.to_id
-       left join TasaImpositiva tri
-        on Producto.ti_id_ivaricompra = tri.ti_id
-       left join TasaImpositiva trni
-        on Producto.ti_id_ivarnicompra = trni.ti_id
-       left join TasaImpositiva tint
-        on Producto.ti_id_internosc = tint.ti_id
-       left join CentroCosto ccos
-        on fci.ccos_id = ccos.ccos_id
-       left join StockLote stl
-        on fci.stl_id = stl.stl_id
+      join Producto
+       on fci.pr_id = Producto.pr_id
+      join Unidad
+       on Producto.un_id_compra = Unidad.un_id
+      join TipoOperacion
+       on fci.to_id = TipoOperacion.to_id
+      left join TasaImpositiva tri
+       on Producto.ti_id_ivaricompra = tri.ti_id
+      left join TasaImpositiva trni
+       on Producto.ti_id_ivarnicompra = trni.ti_id
+      left join TasaImpositiva tint
+       on Producto.ti_id_internosc = tint.ti_id
+      left join CentroCosto ccos
+       on fci.ccos_id = ccos.ccos_id
+      left join StockLote stl
+       on fci.stl_id = stl.stl_id
       where fci.fc_id = p_fc_id
       order by fci.fci_orden;
 
@@ -90,6 +91,7 @@ begin
    rtn_serie := 'rtn_serie';
 
    open rtn_serie for
+
       select prns.prns_id,
              prns.prns_codigo,
              prns.prns_descrip,

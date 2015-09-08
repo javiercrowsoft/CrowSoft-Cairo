@@ -819,7 +819,7 @@ object FacturaVenta {
     SqlParser.get[BigDecimal](C.FVI_IVA_RIPORC) ~
     SqlParser.get[BigDecimal](C.FVI_IVA_RNIPORC) ~
     SqlParser.get[BigDecimal](C.FVI_INTERNOS_PORC) ~
-    SqlParser.get[Float](GC.PR_PORC_INTERNO_C) ~
+    SqlParser.get[Float](GC.PR_PORC_INTERNO_V) ~
     SqlParser.get[Int](GC.PR_ID) ~
     SqlParser.get[String](GC.PR_NAME_VENTA) ~
     SqlParser.get[Option[Int]](GC.CCOS_ID) ~
@@ -1695,18 +1695,20 @@ object FacturaVenta {
 
     DB.withTransaction(user.database.database) { implicit connection =>
 
-      val sql = "{call sp_doc_factura_venta_get_items(?, ?, ?)}"
+      val sql = "{call sp_doc_factura_venta_get_items(?, ?, ?, ?)}"
       val cs = connection.prepareCall(sql)
 
       cs.setInt(1, id)
       cs.registerOutParameter(2, Types.OTHER)
       cs.registerOutParameter(3, Types.OTHER)
+      cs.registerOutParameter(4, Types.OTHER)
 
       try {
         cs.execute()
 
         val rs = cs.getObject(2).asInstanceOf[java.sql.ResultSet]
         val rsSerie = cs.getObject(3).asInstanceOf[java.sql.ResultSet]
+        val rsKit = cs.getObject(4).asInstanceOf[java.sql.ResultSet]
 
         (Sql.as(facturaVentaItemParser.*, rs), Sql.as(facturaVentaItemSerieParser.*, rsSerie))
 

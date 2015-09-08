@@ -3243,7 +3243,7 @@
               m_lastMonIdCotizacion = m_monId;
               m_lastFecha = m_fecha;
 
-              p = Percepciones.loadPercepcionesForCliente(m_lastCliId, m_fecha).successWithResult(function(response) {
+              p = D.loadPercepcionesForCliente(m_lastCliId, m_fecha).successWithResult(function(response) {
                 m_percepciones = response.percepciones;
               });
 

@@ -270,7 +270,7 @@
     }
   };
 
-  Cairo.Security.Actions.Compras = {
+  Cairo.Security.Actions.Ventas = {
     
     NEW_FACTURA: 16002,
     EDIT_FACTURA: 16003,

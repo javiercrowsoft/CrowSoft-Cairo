@@ -28,18 +28,18 @@ http://www.crowsoft.com.ar
 
 javier at crowsoft.com.ar
 */
--- Function: sp_proveedor_get_info()
+-- Function: sp_cliente_get_info()
 
--- drop function sp_proveedor_get_info(integer, integer);
+-- drop function sp_cliente_get_info(integer, integer);
 
-create or replace function sp_proveedor_get_info
+create or replace function sp_cliente_get_info
 /*
     select * from documento where doct_id in (2,8,10);
-    select * from sp_proveedor_get_info(2,20);
-    select * from sp_proveedor_get_iva(2,0::smallint);
+    select * from sp_cliente_get_info(2,20);
+    select * from sp_cliente_get_iva(2,0::smallint);
 */
 (
-  in p_prov_id integer,
+  in p_cli_id integer,
   in p_doc_id integer,
 
   out p_cpg_id integer,
@@ -72,8 +72,8 @@ begin
         into v_lp_id,
              v_ld_id,
              v_cpg_id
-      from Proveedor
-      where prov_id = p_prov_id;
+      from cliente
+      where cli_id = p_cli_id;
 
       select mon_id into v_mon_id from Documento where doc_id = p_doc_id;
 
@@ -83,7 +83,7 @@ begin
                          from ListaPrecio
                          where lp_id = v_lp_id
                            and mon_id = v_mon_id
-                           and lp_tipo in ( 2,3 ) ) then
+                           and lp_tipo = 1 ) then
             v_lp_id := null;
          end if;
 
@@ -95,7 +95,7 @@ begin
            into v_lp_id
          from ListaPrecio
          where mon_id = v_mon_id
-           and lp_tipo in ( 2,3 )
+           and lp_tipo = 1
            and lp_default <> 0;
 
       end if;
@@ -106,7 +106,7 @@ begin
                          from ListaDescuento
                          where ld_id = v_ld_id
                            and mon_id = v_mon_id
-                           and ld_tipo = 2 ) then
+                           and ld_tipo = 1 ) then
 
             v_ld_id := null;
 
@@ -126,7 +126,7 @@ begin
         select cpg_nombre, cpg_eslibre into v_cpg_name, v_cpg_eslibre from condicionpago where cpg_id = v_cpg_id;
       end if;
 
-      select * from sp_proveedor_get_iva(p_prov_id) into p_bIvari, p_bIvarni;
+      select * from sp_cliente_get_iva(p_cli_id) into p_bIvari, p_bIvarni;
 
       p_lp_id := coalesce(v_lp_id, 0);
       p_lp_name := coalesce(v_lp_name, '');
@@ -140,5 +140,5 @@ end;
 $BODY$
   language plpgsql volatile
   cost 100;
-alter function sp_proveedor_get_info(integer, integer)
+alter function sp_cliente_get_info(integer, integer)
   owner to postgres;
