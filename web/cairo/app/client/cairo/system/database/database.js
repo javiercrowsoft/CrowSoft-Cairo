@@ -149,12 +149,16 @@
             q = new Cairo.Entities.DatabaseQuery({});
             q.url = path;
           }
+
+          var urlToRequest = "";
           if(Cairo.isFunction(q.url)) {
-            Cairo.log('requesting: ' + q.url());
+            urlToRequest = q.url();
           }
           else {
-            Cairo.log('requesting: ' + q.url);
+            urlToRequest = q.url;
           }
+          Cairo.log('requesting: ' + urlToRequest);
+
           var defer = new Cairo.Promises.Defer();
           q.fetch({
             success: function(data) {
@@ -163,7 +167,7 @@
             error: function(data, response) {
               var p;
               if(response.status === 400) {
-                p = Cairo.Modal.showWarning("Bad Request", "The server has rejected the request because it is bad formed.");
+                p = Cairo.Modal.showWarning("Bad Request.<br>" + urlToRequest, "The server has rejected the request because it is bad formed");
               }
               else if(response.status === 401) {
                 p = Cairo.Modal.showWarning("Unauthorized", "The server has denied access to this action.");

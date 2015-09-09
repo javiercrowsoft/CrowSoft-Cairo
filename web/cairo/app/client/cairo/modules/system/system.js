@@ -1353,7 +1353,7 @@
 
       if(response.success === true) {
         return {
-          success: false,
+          success: true,
           percepciones: response.percepciones
         };
       }
@@ -1373,7 +1373,7 @@
 
       if(response.success === true) {
         return {
-          success: false,
+          success: true,
           cajaInfo: response.caja_info
         };
       }

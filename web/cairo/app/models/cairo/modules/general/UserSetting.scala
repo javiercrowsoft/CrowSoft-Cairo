@@ -5,7 +5,7 @@ import anorm.SqlParser._
 import anorm._
 import services.DateUtil
 import services.db.DB
-import models.cairo.system.database.{DBHelper, Register, Field, FieldType, SaveResult}
+import models.cairo.system.database._
 import play.api.Play.current
 import models.domain.CompanyUser
 import java.util.Date
@@ -528,6 +528,34 @@ object UserSetting {
     load(user, id) match {
       case Some(p) => p
       case None => emptyUserSetting
+    }
+  }
+
+  def getCajaInfo(user: CompanyUser): Recordset = {
+
+    DB.withTransaction(user.database.database) { implicit connection =>
+
+      val sql = "{call sp_movimiento_caja_get_caja_for_user(?, ?, ?)}"
+      val cs = connection.prepareCall(sql)
+
+      cs.setInt(1, user.userId)
+      cs.setInt(2, user.cairoCompanyId)
+      cs.registerOutParameter(3, Types.OTHER)
+
+      try {
+        cs.execute()
+
+        val rs = cs.getObject(3).asInstanceOf[java.sql.ResultSet]
+        Recordset.load(rs)
+
+      } catch {
+        case NonFatal(e) => {
+          Logger.error(s"can't get caja for user with usId $user.userId and empId ${user.cairoCompanyId} for user ${user.toString}. Error ${e.toString}")
+          throw e
+        }
+      } finally {
+        cs.close
+      }
     }
   }
 }

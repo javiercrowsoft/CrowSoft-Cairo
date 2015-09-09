@@ -42,8 +42,8 @@ create or replace function sp_cliente_get_percepciones
   returns refcursor as
 $BODY$
 declare
- v_catf_id  int;
- v_pro_id   int;
+ v_catf_id  integer;
+ v_pro_id   integer;
 begin
 
    select cli_catFiscal,

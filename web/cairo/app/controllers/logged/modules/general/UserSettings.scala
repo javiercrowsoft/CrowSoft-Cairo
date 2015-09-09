@@ -1,6 +1,7 @@
 package controllers.logged.modules.general
 
 import controllers._
+import formatters.json.DateFormatter
 import play.api.mvc._
 import play.api.data._
 import play.api.data.Forms._
@@ -9,7 +10,7 @@ import play.api.Logger
 import play.api.libs.json._
 import models.cairo.modules.general._
 import models.cairo.system.security.CairoSecurity
-import models.cairo.system.database.DBHelper
+import models.cairo.system.database.{Recordset, DBHelper}
 
 
 case class UserSettingData(id: Option[Int])
@@ -48,6 +49,8 @@ object UserSettings extends Controller with ProvidesUser {
     })
   }
 
+  // TODO: this method is not completed. It is not saving the form
+  //
   def update(id: Int) = PostAction { implicit request =>
     Logger.debug("in UserSettings.update")
     userSettingForm.bindFromRequest.fold(
@@ -67,6 +70,12 @@ object UserSettings extends Controller with ProvidesUser {
         })
       }
     )
+  }
+
+  def getCajaInfo() = GetAction { implicit request =>
+    LoggedIntoCompanyResponse.getAction(request, { user =>
+      Ok(Json.toJson(Recordset.getAsJson(UserSetting.getCajaInfo(user))))
+    })
   }
 
 }

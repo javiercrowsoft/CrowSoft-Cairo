@@ -258,6 +258,7 @@ POST    /api/v1/general/zona                  controllers.logged.modules.general
 PUT     /api/v1/general/zona/:id              controllers.logged.modules.general.Zonas.update(id: Int)
 DELETE  /api/v1/general/zona/:id              controllers.logged.modules.general.Zonas.delete(id: Int)
 
+GET     /api/v1/general/usuarioconfig/caja_info        controllers.logged.modules.general.UserSettings.getCajaInfo
 GET     /api/v1/general/usuarioconfig/:id              controllers.logged.modules.general.UserSettings.get(id: Int)
 PUT     /api/v1/general/usuarioconfig/:id              controllers.logged.modules.general.UserSettings.update(id: Int)
 
@@ -276,11 +277,11 @@ GET     /api/v1/general/proveedor/:id/name             controllers.logged.module
 GET     /api/v1/general/proveedor/:id/cat_fiscal       controllers.logged.modules.general.Proveedores.catFiscal(id: Int)
 GET     /api/v1/general/proveedor/:id/data_add         controllers.logged.modules.general.Proveedores.dataAdd(id: Int)
 
-GET     /api/v1/general/cliente/:id/info/:docId      controllers.logged.modules.general.Clientes.info(id: Int, docId: Int)
-GET     /api/v1/general/cliente/:id/name             controllers.logged.modules.general.Clientes.name(id: Int)
-GET     /api/v1/general/cliente/:id/cat_fiscal       controllers.logged.modules.general.Clientes.catFiscal(id: Int)
-GET     /api/v1/general/cliente/:id/data_add         controllers.logged.modules.general.Clientes.dataAdd(id: Int)
-GET     /api/v1/general/cliente/:id/percepciones     controllers.logged.modules.general.Clientes.getPercepciones(id: Int)
+GET     /api/v1/general/cliente/:id/info/:docId             controllers.logged.modules.general.Clientes.info(id: Int, docId: Int)
+GET     /api/v1/general/cliente/:id/name                    controllers.logged.modules.general.Clientes.name(id: Int)
+GET     /api/v1/general/cliente/:id/cat_fiscal              controllers.logged.modules.general.Clientes.catFiscal(id: Int)
+GET     /api/v1/general/cliente/:id/data_add                controllers.logged.modules.general.Clientes.dataAdd(id: Int)
+GET     /api/v1/general/cliente/:id/percepciones/:fecha     controllers.logged.modules.general.Clientes.getPercepciones(id: Int, fecha: String)
 
 
 GET     /api/v1/general/cuenta/:id/info                controllers.logged.modules.general.Cuentas.info(id: Int)

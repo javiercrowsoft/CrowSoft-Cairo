@@ -93,7 +93,7 @@ object Cliente {
 
       } catch {
         case NonFatal(e) => {
-          Logger.error(s"can't get cliente percepciones with cliId $id and docId $docId for user ${user.toString}. Error ${e.toString}")
+          Logger.error(s"can't get cliente percepciones with cliId $id and empId ${user.cairoCompanyId} for user ${user.toString}. Error ${e.toString}")
           throw e
         }
       } finally {
