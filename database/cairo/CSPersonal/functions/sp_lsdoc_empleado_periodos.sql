@@ -1,11 +1,11 @@
 create or replace function sp_lsdoc_EmpleadoPeriodos
 (
   in p_us_id integer,
-  p_Fini in date default null ,
-  p_Ffin in date default null ,
-  p_empe_numero in NUMBER default null ,
-  p_ccos_id in varchar default null ,
-  p_em_id in varchar default null ,
+  p_Fini in date default null,
+  p_Ffin in date default null,
+  p_empe_numero in NUMBER default null,
+  p_ccos_id in varchar default null,
+  p_em_id in varchar default null,
   out rtn refcursor
 )
 as

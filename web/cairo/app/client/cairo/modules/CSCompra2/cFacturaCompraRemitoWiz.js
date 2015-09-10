@@ -1729,7 +1729,7 @@
         fields.add(C.LP_ID, getListaPrecio().getSelectId(), Types.id);
         fields.add(C.LD_ID, getListaDescuento().getSelectId(), Types.id);
         fields.add(C.DOC_ID, getDoc(), Types.id);
-        fields.add(CC.LGJ_ID, getLegajo().getSelectId(), Types.id);
+        fields.add(C.LGJ_ID, getLegajo().getSelectId(), Types.id);
         fields.add(CC.FC_GRABAR_ASIENTO, 1, Types.boolean);
         fields.add(CC.FC_TIPO_COMPROBANTE, getTipoComprobante().getListItemData(), Types.integer);
         fields.add(C.DEPL_ID, D.wizGetDeposito(m_objWizard, WCS.SELECT_PROVEEDOR, DWC.DEPOSITO), Types.id);
@@ -1966,8 +1966,8 @@
             fields.add(C.STL_CODE, '', Types.text);
             fields.add(C.STL_ID, NO_ID, Types.id);
             fields.add(C.CUE_ID, -1, Types.id);
-            fields.add(CC.CUE_ID_IVA_RI, -1, Types.id);
-            fields.add(CC.CUE_ID_IVA_RNI, -1, Types.id);
+            fields.add(C.CUE_ID_IVA_RI, -1, Types.id);
+            fields.add(C.CUE_ID_IVA_RNI, -1, Types.id);
 
             // this is very important. it is used to associate remitoCompraitem
             // with the new FacturaCompraitem
@@ -2255,10 +2255,10 @@
                   }
 
                   prop = getLegajo();
-                  if(prop.getSelectId() === NO_ID && valField(items[i], CC.LGJ_ID) !== NO_ID) {
+                  if(prop.getSelectId() === NO_ID && valField(items[i], C.LGJ_ID) !== NO_ID) {
 
-                    prop.setSelectId(valField(items[i], CC.LGJ_ID));
-                    prop.setValue(valField(items[i], CC.LGJ_TITLE));
+                    prop.setSelectId(valField(items[i], C.LGJ_ID));
+                    prop.setValue(valField(items[i], C.LGJ_TITLE));
                     m_objWizard.showValue(prop);
                   }
                 }

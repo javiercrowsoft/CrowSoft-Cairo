@@ -644,7 +644,7 @@
 
         c = m_dialog.getProperties().add(null, mTareaConstantes.CLI_ID);
         c.setType(Dialogs.PropertyType.select);
-        c.setTable(Cairo.Tables.CLIENTE);
+        c.setSelectTable(Cairo.Tables.CLIENTE);
         // Cliente
         c.setName(getText(1150, ""));
         c.setKey(K_CLIENTE);
@@ -659,7 +659,7 @@
 
         c = m_dialog.getProperties().add(null, mTareaConstantes.PROY_ID);
         c.setType(Dialogs.PropertyType.select);
-        c.setTable(csETablesTask.cSPROYECTO);
+        c.setSelectTable(csETablesTask.cSPROYECTO);
         // Proyecto
         c.setName(getText(1658, ""));
         c.setKey(K_PROYECTO);
@@ -674,7 +674,7 @@
 
         c = m_dialog.getProperties().add(null, mTareaConstantes.PROY_IID);
         c.setType(Dialogs.PropertyType.select);
-        c.setTable(csETablesTask.cSPROYECTOITEM);
+        c.setSelectTable(csETablesTask.cSPROYECTOITEM);
         // Proyecto Item
         c.setName(getText(2657, ""));
         c.setKey(K_PROYECTOITEM);
@@ -689,7 +689,7 @@
 
         c = m_dialog.getProperties().add(null, mTareaConstantes.OBJE_ID);
         c.setType(Dialogs.PropertyType.select);
-        c.setTable(csETablesTask.cSOBJETIVO);
+        c.setSelectTable(csETablesTask.cSOBJETIVO);
         // Objetivo
         c.setName(getText(2651, ""));
         c.setKey(K_OBJETIVO);
@@ -704,7 +704,7 @@
 
         c = m_dialog.getProperties().add(null, mTareaConstantes.TAR_ID);
         c.setType(Dialogs.PropertyType.select);
-        c.setTable(csETablesTask.cSTBLTAREA);
+        c.setSelectTable(csETablesTask.cSTBLTAREA);
         // Tarea
         c.setName(getText(1836, ""));
         c.setKey(K_TAREA);
@@ -719,7 +719,7 @@
 
         c = m_dialog.getProperties().add(null, Cairo.Constants.US_ID);
         c.setType(Dialogs.PropertyType.select);
-        c.setTable(csUsuario);
+        c.setSelectTable(csUsuario);
         // Usuario
         c.setName(getText(1137, ""));
         c.setKey(K_USUARIO);

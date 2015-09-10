@@ -442,7 +442,7 @@
 
         c = m_dialog.getProperties().add(null, mTicketConstantes.CLI_ID);
         c.setType(Dialogs.PropertyType.select);
-        c.setTable(Cairo.Tables.CLIENTE);
+        c.setSelectTable(Cairo.Tables.CLIENTE);
         // Cliente
         c.setName(getText(1150, ""));
         c.setKey(K_CLIENTE);
@@ -457,7 +457,7 @@
 
         c = m_dialog.getProperties().add(null, mTicketConstantes.PROY_ID);
         c.setType(Dialogs.PropertyType.select);
-        c.setTable(csETablesTask.cSPROYECTO);
+        c.setSelectTable(csETablesTask.cSPROYECTO);
         // Proyecto
         c.setName(getText(1658, ""));
         c.setKey(K_PROYECTO);

@@ -184,7 +184,7 @@
 
         c = m_dialog.getProperties().add(null, mEnvioConstantes.USIDRESPONSABLE);
         c.setType(Dialogs.PropertyType.select);
-        c.setTable(csUsuario);
+        c.setSelectTable(csUsuario);
         // Responsable
         c.setName(getText(1822, ""));
         c.setKey(K_US_ID_RESPONSABLE);
@@ -200,7 +200,7 @@
 
         c = m_dialog.getProperties().add(null, mEnvioConstantes.USIDASIGNADOR);
         c.setType(Dialogs.PropertyType.select);
-        c.setTable(csUsuario);
+        c.setSelectTable(csUsuario);
         // Generado por
         c.setName(getText(1960, ""));
         c.setKey(K_US_ID_ASIGNADOR);
@@ -215,7 +215,7 @@
 
         c = m_dialog.getProperties().add(null, mEnvioConstantes.CONT_ID);
         c.setType(Dialogs.PropertyType.select);
-        c.setTable(csContacto);
+        c.setSelectTable(csContacto);
         // Contacto
         c.setName(getText(1035, ""));
         c.setKey(K_CONT_ID);
@@ -230,7 +230,7 @@
 
         c = m_dialog.getProperties().add(null, mEnvioConstantes.LGJ_ID);
         c.setType(Dialogs.PropertyType.select);
-        c.setTable(csETablesEnvio.cSLEGAJO);
+        c.setSelectTable(csETablesEnvio.cSLEGAJO);
         // Legajo
         c.setName(getText(1575, ""));
         c.setKey(K_LGJ_ID);
@@ -245,7 +245,7 @@
 
         c = m_dialog.getProperties().add(null, mEnvioConstantes.CLI_ID);
         c.setType(Dialogs.PropertyType.select);
-        c.setTable(Cairo.Tables.CLIENTE);
+        c.setSelectTable(Cairo.Tables.CLIENTE);
         // Cliente
         c.setName(getText(1150, ""));
         c.setKey(K_CLI_ID);
@@ -260,7 +260,7 @@
 
         c = m_dialog.getProperties().add(null, mEnvioConstantes.TAREST_ID);
         c.setType(Dialogs.PropertyType.select);
-        c.setTable(csTareaEstado);
+        c.setSelectTable(csTareaEstado);
         // Estado
         c.setName(getText(1568, ""));
         c.setKey(K_TAREST_ID);
@@ -275,7 +275,7 @@
 
         c = m_dialog.getProperties().add(null, mEnvioConstantes.PRIO_ID);
         c.setType(Dialogs.PropertyType.select);
-        c.setTable(csPrioridad);
+        c.setSelectTable(csPrioridad);
         // Prioridad
         c.setName(getText(1825, ""));
         c.setKey(K_PRIO_ID);

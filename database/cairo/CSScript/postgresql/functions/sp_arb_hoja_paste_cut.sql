@@ -35,8 +35,8 @@ javier at crowsoft.com.ar
 create or replace function sp_arb_hoja_paste_cut
 (
   in p_us_id integer,
-  in p_ids varchar ,
-  in p_ram_id_to_paste_in integer ,
+  in p_ids varchar,
+  in p_ram_id_to_paste_in integer,
   out rtn refcursor
 )
   returns refcursor as

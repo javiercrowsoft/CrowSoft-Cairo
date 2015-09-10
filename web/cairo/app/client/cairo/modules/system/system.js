@@ -1223,9 +1223,8 @@
     Dialogs.cell(row, kII_PRECIOIVA).setValue(precioIva);
   };
 
-  Cairo.Documents.setPrecios = function(row, prId, KI_PRECIO_LP, KI_PRECIO_USR) {
+  Cairo.Documents.setPrecios = function(row, prId, lpId, KI_PRECIO_LP, KI_PRECIO_USR) {
     var p;
-    var lpId = m_properties.item(C.LP_ID).getSelectId();
     var price = 0;
 
     if(lpId !== NO_ID) {
@@ -1248,9 +1247,8 @@
     });
   };
 
-  Cairo.Documents.setDescuentos = function(row, prId, precio, KI_DESCUENTO) {
+  Cairo.Documents.setDescuentos = function(row, prId, precio, ldId, KI_DESCUENTO) {
     var p;
-    var ldId = m_properties.item(C.LD_ID).getSelectId();
     var desc;
 
     if(ldId !== NO_ID) {
@@ -1354,7 +1352,7 @@
       if(response.success === true) {
         return {
           success: true,
-          percepciones: response.percepciones
+          percepciones: DB.getResultSetFromData(response.data)[0]
         };
       }
       else {
@@ -1374,7 +1372,7 @@
       if(response.success === true) {
         return {
           success: true,
-          cajaInfo: response.caja_info
+          cajaInfo: DB.getResultSetFromData(response.data)[0]
         };
       }
       else {

@@ -190,7 +190,7 @@
 
         c = m_dialog.getProperties().add(null, C.EMP_ID);
         c.setType(Dialogs.PropertyType.select);
-        c.setTable(Cairo.Tables.EMPRESA);
+        c.setSelectTable(Cairo.Tables.EMPRESA);
         // Empresa
         c.setName(getText(1114, ""));
         c.setKey(K_EMP_ID);

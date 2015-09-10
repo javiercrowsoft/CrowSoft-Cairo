@@ -34,7 +34,7 @@ javier at crowsoft.com.ar
 
 create or replace function sp_producto_get_proveedores
 (
-  in p_pr_id integer ,
+  in p_pr_id integer,
   out rtn refcursor
 )
   returns refcursor as

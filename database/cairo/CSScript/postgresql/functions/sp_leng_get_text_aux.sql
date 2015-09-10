@@ -34,7 +34,7 @@ javier at crowsoft.com.ar
 
 create or replace function sp_leng_get_text_aux
 (
-  in p_code varchar default null ,
+  in p_code varchar default null,
   in p_leng_id integer default null
 ) returns varchar as
 $BODY$

@@ -1,7 +1,7 @@
 create or replace function sp_lsdoc_Ejercicios
 (
   in p_us_id integer,
-  p_emp_id in varchar default null ,
+  p_emp_id in varchar default null,
   out rtn refcursor
 )
 as

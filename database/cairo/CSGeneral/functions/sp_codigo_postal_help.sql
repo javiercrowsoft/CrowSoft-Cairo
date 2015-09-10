@@ -34,13 +34,13 @@ javier at crowsoft.com.ar
 
 create or replace function sp_codigopostalhelp
 (
-  in p_emp_id integer ,
-  in p_us_id integer ,
-  in p_bForAbm integer ,
-  in p_bFilterType integer ,
-  in p_filter varchar default '' ,
-  in p_check integer default 0 ,
-  in ip_cpa_id integer default 0 ,
+  in p_emp_id integer,
+  in p_us_id integer,
+  in p_bForAbm integer,
+  in p_bFilterType integer,
+  in p_filter varchar default '',
+  in p_check integer default 0,
+  in ip_cpa_id integer default 0,
   in v_p_filter2 varchar default '',
   out rtn refcursor
 )

@@ -3,11 +3,11 @@ create or replace function sp_lsdoc_BancosConciliacion
 */
 (
   in p_us_id integer,
-  p_Fini in date default null ,
-  p_Ffin in date default null ,
-  p_cue_id in varchar default null ,
-  p_bco_id in varchar default null ,
-  p_emp_id in varchar default null ,
+  p_Fini in date default null,
+  p_Ffin in date default null,
+  p_cue_id in varchar default null,
+  p_bco_id in varchar default null,
+  p_emp_id in varchar default null,
   out rtn refcursor
 )
 as

@@ -258,7 +258,7 @@
 
         var elem = properties.add(null, mStockConstantes.DOC_ID);
         elem.setType(Dialogs.PropertyType.select);
-        elem.setTable(csETablasDocumento.CSDocumento);
+        elem.setSelectTable(csETablasDocumento.CSDocumento);
         // Documentos
         elem.setName(getText(1611, ""));
         elem.setKey(K_DOC_ID);
@@ -289,7 +289,7 @@
 
         var elem = properties.add(null, mStockConstantes.LGJ_ID);
         elem.setType(Dialogs.PropertyType.select);
-        elem.setTable(mStockConstantes.cSLEGAJO);
+        elem.setSelectTable(mStockConstantes.cSLEGAJO);
         // Legajo
         elem.setName(getText(1575, ""));
         elem.setKey(K_LGJ_ID);

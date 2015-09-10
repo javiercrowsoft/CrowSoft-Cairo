@@ -780,6 +780,12 @@ object Productos extends Controller with ProvidesUser {
     })
   }
 
+  def getClienteStockInfo(id: Int, cliId: Int) = GetAction { implicit request =>
+    LoggedIntoCompanyResponse.getAction(request, { user =>
+      Ok(Json.toJson(Producto.getStockInfo(user, id, Some(cliId), None)))
+    })
+  }
+  
   def getPrice(id: Int, lpId: Int) = GetAction { implicit request =>
     LoggedIntoCompanyResponse.getAction(request, { user =>
       val price = Producto.getPrice(user, id, lpId)

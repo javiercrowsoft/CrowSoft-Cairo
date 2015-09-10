@@ -269,7 +269,7 @@
 
         c = properties.add(null, mStockConstantes.CLI_ID);
         c.setType(Dialogs.PropertyType.select);
-        c.setTable(Cairo.Tables.CLIENTE);
+        c.setSelectTable(Cairo.Tables.CLIENTE);
         // Cliente
         c.setName(getText(1150, ""));
         c.setKey(K_CLI_ID);
@@ -284,7 +284,7 @@
 
         c = properties.add(null, mStockConstantes.SUC_ID);
         c.setType(Dialogs.PropertyType.select);
-        c.setTable(Cairo.Tables.SUCURSAL);
+        c.setSelectTable(Cairo.Tables.SUCURSAL);
         // Sucursal
         c.setName(getText(1281, ""));
         c.setKey(K_SUC_ID);
@@ -299,7 +299,7 @@
 
         c = properties.add(null, mStockConstantes.DOC_ID);
         c.setType(Dialogs.PropertyType.select);
-        c.setTable(csETablasDocumento.CSDocumento);
+        c.setSelectTable(csETablasDocumento.CSDocumento);
         // Documentos
         c.setName(getText(1611, ""));
         c.setKey(K_DOC_ID);
@@ -316,7 +316,7 @@
 
         c = properties.add(null, C.EMP_ID);
         c.setType(Dialogs.PropertyType.select);
-        c.setTable(Cairo.Tables.EMPRESA);
+        c.setSelectTable(Cairo.Tables.EMPRESA);
         // Empresa
         c.setName(getText(1114, ""));
         c.setKey(K_EMP_ID);

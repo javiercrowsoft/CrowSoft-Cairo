@@ -34,12 +34,12 @@ javier at crowsoft.com.ar
 
 create or replace function sp_cuentahelp
 (
-  in p_emp_id integer ,
-  in p_us_id integer ,
-  in p_bForAbm integer ,
-  in p_filter varchar default '' ,
-  in p_check integer default 0 ,
-  in p_cue_id integer default 0 ,
+  in p_emp_id integer,
+  in p_us_id integer,
+  in p_bForAbm integer,
+  in p_filter varchar default '',
+  in p_check integer default 0,
+  in p_cue_id integer default 0,
   in p_filter2 varchar default '',
   out rtn refcursor
 )

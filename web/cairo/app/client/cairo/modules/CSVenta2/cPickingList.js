@@ -607,7 +607,7 @@
 
         c = m_dialog.getProperties().add(null, C.CLI_ID);
         c.setType(Dialogs.PropertyType.select);
-        c.setTable(Cairo.Tables.CLIENTE);
+        c.setSelectTable(Cairo.Tables.CLIENTE);
         // Cliente
         c.setName(getText(1150, ""));
         c.setKey(K_CLI_ID);
@@ -622,7 +622,7 @@
 
         c = m_dialog.getProperties().add(null, C.VEN_ID);
         c.setType(Dialogs.PropertyType.select);
-        c.setTable(Cairo.Tables.VENDEDORES);
+        c.setSelectTable(Cairo.Tables.VENDEDORES);
         // Vendedor
         c.setName(getText(1510, ""));
         c.setKey(K_VEN_ID);
@@ -637,7 +637,7 @@
 
         c = m_dialog.getProperties().add(null, C.ZON_ID);
         c.setType(Dialogs.PropertyType.select);
-        c.setTable(Cairo.Tables.ZONA);
+        c.setSelectTable(Cairo.Tables.ZONA);
         // Zona
         c.setName(getText(1402, ""));
         c.setKey(K_ZON_ID);

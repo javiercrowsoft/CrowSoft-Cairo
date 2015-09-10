@@ -6,15 +6,15 @@ sp_lsdoc_OrdenesCompra  1,	'20030101',	'20051001',		'0',		'0',		'0',		'0',		'0',
 */
 (
   in p_us_id integer,
-  p_Fini in date default null ,
-  p_Ffin in date default null ,
-  p_prov_id in varchar default null ,
-  p_est_id in varchar default null ,
-  p_ccos_id in varchar default null ,
-  p_suc_id in varchar default null ,
-  p_doc_id in varchar default null ,
-  p_cpg_id in varchar default null ,
-  p_emp_id in varchar default null ,
+  p_Fini in date default null,
+  p_Ffin in date default null,
+  p_prov_id in varchar default null,
+  p_est_id in varchar default null,
+  p_ccos_id in varchar default null,
+  p_suc_id in varchar default null,
+  p_doc_id in varchar default null,
+  p_cpg_id in varchar default null,
+  p_emp_id in varchar default null,
   out rtn refcursor
 )
 as

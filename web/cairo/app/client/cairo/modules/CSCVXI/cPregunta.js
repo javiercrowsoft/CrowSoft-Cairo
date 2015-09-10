@@ -227,7 +227,7 @@
 
         c = m_dialog.getProperties().add(null, Cairo.Constants.MODIFICO);
         c.setType(Dialogs.PropertyType.select);
-        c.setTable(csUsuario);
+        c.setSelectTable(csUsuario);
         // Respondido por
         c.setName(getText(5098, ""));
         c.setKey(K_RESPONDIO);
@@ -242,7 +242,7 @@
 
         c = m_dialog.getProperties().add(null, mCVXIConstantes.CLI_ID);
         c.setType(Dialogs.PropertyType.select);
-        c.setTable(Cairo.Tables.CLIENTE);
+        c.setSelectTable(Cairo.Tables.CLIENTE);
         // Cliente
         c.setName(getText(1150, ""));
         c.setKey(K_CLI_ID);

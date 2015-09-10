@@ -688,7 +688,7 @@
 
         c = m_dialog.getProperties().add(null, mTareaConstantes.PROY_ID);
         c.setType(Dialogs.PropertyType.select);
-        c.setTable(csETablesTask.cSPROYECTO);
+        c.setSelectTable(csETablesTask.cSPROYECTO);
         // Proyecto
         c.setName(getText(1658, ""));
         c.setKey(K_PROY_ID);
@@ -703,7 +703,7 @@
 
         c = m_dialog.getProperties().add(null, mTareaConstantes.US_ID_RESPONSABLE);
         c.setType(Dialogs.PropertyType.select);
-        c.setTable(csUsuario);
+        c.setSelectTable(csUsuario);
         // Responsable
         c.setName(getText(1822, ""));
         c.setKey(K_US_ID_RESPONSABLE);
@@ -718,7 +718,7 @@
 
         c = m_dialog.getProperties().add(null, mTareaConstantes.US_ID_ASIGNADOR);
         c.setType(Dialogs.PropertyType.select);
-        c.setTable(csUsuario);
+        c.setSelectTable(csUsuario);
         // Asignada por
         c.setName(getText(1824, ""));
         c.setKey(K_US_ID_ASIGNADOR);
@@ -733,7 +733,7 @@
 
         c = m_dialog.getProperties().add(null, mTareaConstantes.CONT_ID);
         c.setType(Dialogs.PropertyType.select);
-        c.setTable(csETablesTask.cSCONTACTO);
+        c.setSelectTable(csETablesTask.cSCONTACTO);
         // Contacto
         c.setName(getText(1035, ""));
         c.setKey(K_CONT_ID);
@@ -748,7 +748,7 @@
 
         c = m_dialog.getProperties().add(null, mTareaConstantes.TAREST_ID);
         c.setType(Dialogs.PropertyType.select);
-        c.setTable(csETablesTask.cSTAREAESTADO);
+        c.setSelectTable(csETablesTask.cSTAREAESTADO);
         // Estado
         c.setName(getText(1568, ""));
         c.setKey(K_TAREST_ID);
@@ -763,7 +763,7 @@
 
         c = m_dialog.getProperties().add(null, mTareaConstantes.PRIO_ID);
         c.setType(Dialogs.PropertyType.select);
-        c.setTable(csETablesTask.cSPRIORIDAD);
+        c.setSelectTable(csETablesTask.cSPRIORIDAD);
         // Prioridad
         c.setName(getText(1825, ""));
         c.setKey(K_PRIO_ID);

@@ -84,6 +84,31 @@ object Documents extends Controller with ProvidesUser {
     })
   }
 
+  def customerNextNumber(id: Int, cliId: Int) = GetAction { implicit request =>
+    LoggedIntoCompanyResponse.getAction(request, { user =>
+      val nextNumber = Document.customerNextNumber(user, id, cliId)
+      Ok(
+        Json.toJson(
+          Json.obj(
+            GC.TA_NUMBER -> Json.toJson(nextNumber.number),
+            GC.TA_MASCARA -> Json.toJson(nextNumber.mask),
+            GC.TA_ENABLED -> Json.toJson(nextNumber.enabled)
+          )))
+    })
+  }
+
+  def customerAccount(id: Int, cliId: Int) = GetAction { implicit request =>
+    LoggedIntoCompanyResponse.getAction(request, { user =>
+      val accountInfo = Document.customerAccount(user, id, cliId)
+      Ok(
+        Json.toJson(
+          Json.obj(
+            GC.CUE_ID -> Json.toJson(accountInfo.cueId),
+            GC.MON_ID -> Json.toJson(accountInfo.monId)
+          )))
+    })
+  }
+
   def isValidDate(id: Int, date: String) = GetAction { implicit request =>
     LoggedIntoCompanyResponse.getAction(request, { user =>
       val dateInfo = Document.isValidDate(user, id, DateFormatter.parse(date))

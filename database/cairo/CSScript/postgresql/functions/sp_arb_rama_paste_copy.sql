@@ -35,9 +35,9 @@ javier at crowsoft.com.ar
 create or replace function sp_arbcopiarrama
 (
   in p_us_id integer,
-  in p_ram_id_copy_from integer ,
-  in p_ram_id_copy_to integer ,
-  in p_solo_los_hijos smallint ,
+  in p_ram_id_copy_from integer,
+  in p_ram_id_copy_to integer,
+  in p_solo_los_hijos smallint,
   out rtn refcursor
 )
   returns refcursor as

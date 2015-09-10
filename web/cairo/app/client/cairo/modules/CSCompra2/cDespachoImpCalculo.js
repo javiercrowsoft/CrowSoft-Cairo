@@ -640,7 +640,7 @@
 
         c = m_dialog.getProperties().add(null, mComprasConstantes.PROV_ID);
         c.setType(Dialogs.PropertyType.select);
-        c.setTable(Cairo.Tables.PROVEEDOR);
+        c.setSelectTable(Cairo.Tables.PROVEEDOR);
         // Proveedor
         c.setName(getText(1151, ""));
         c.setKey(K_PROV_ID);

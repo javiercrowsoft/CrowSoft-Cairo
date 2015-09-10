@@ -32,6 +32,11 @@ javier at crowsoft.com.ar
 
 -- drop function sp_cliente_get_percepciones(integer, integer, date);
 
+/*
+          select * from sp_cliente_get_percepciones(1,1,'2015-01-01');
+          fetch all from rtn;
+*/
+
 create or replace function sp_cliente_get_percepciones
 (
   in p_cli_id integer,
@@ -70,7 +75,7 @@ begin
            and exists(select * from Configuracion
                       where cfg_grupo = 'Ventas-General'
                        and cfg_aspecto = 'Percepcion'
-                       and convert(int, cfg_valor) = perc.perc_id
+                       and cfg_valor::integer = perc.perc_id
                      )
            and not exists(select * from ClientePercepcion where cli_id = p_cli_id and perc_id = perc.perc_id)
           )

@@ -338,7 +338,7 @@
 
         c = properties.add(null, mTicketConstantes.PRNS_ID);
         c.setType(Dialogs.PropertyType.select);
-        c.setTable(Cairo.Tables.PRODUCTOSERIE);
+        c.setSelectTable(Cairo.Tables.PRODUCTOSERIE);
         // Número de Serie
         c.setName(getText(1820, ""));
         c.setKey(K_PRNS_ID);
@@ -353,7 +353,7 @@
 
         c = properties.add(null, mTicketConstantes.RUB_ID);
         c.setType(Dialogs.PropertyType.select);
-        c.setTable(Cairo.Tables.RUBRO);
+        c.setSelectTable(Cairo.Tables.RUBRO);
         // Rubro
         c.setName(getText(1299, ""));
         c.setKey(K_RUB_ID);
@@ -368,7 +368,7 @@
 
         c = properties.add(null, mTicketConstantes.PR_ID);
         c.setType(Dialogs.PropertyType.select);
-        c.setTable(Cairo.Tables.PRODUCTO);
+        c.setSelectTable(Cairo.Tables.PRODUCTO);
         // Equipo
         c.setName(getText(1801, ""));
         c.setKey(K_PR_ID);
@@ -383,7 +383,7 @@
 
         c = properties.add(null, mTicketConstantes.DEPL_ID);
         c.setType(Dialogs.PropertyType.select);
-        c.setTable(Cairo.Tables.DEPOSITOLOGICO);
+        c.setSelectTable(Cairo.Tables.DEPOSITOLOGICO);
         // Deposito
         c.setName(getText(1574, ""));
         c.setKey(K_DEPL_ID);
@@ -405,7 +405,7 @@
 
         c = m_dialog.getProperties().add(null, mTicketConstantes.PROY_ID);
         c.setType(Dialogs.PropertyType.select);
-        c.setTable(csETablesTask.cSPROYECTO);
+        c.setSelectTable(csETablesTask.cSPROYECTO);
         // Proyecto
         c.setName(getText(1658, ""));
         c.setKey(K_PROY_ID);
@@ -420,7 +420,7 @@
 
         c = m_dialog.getProperties().add(null, mTicketConstantes.US_ID_RESPONSABLE);
         c.setType(Dialogs.PropertyType.select);
-        c.setTable(csUsuario);
+        c.setSelectTable(csUsuario);
         // Responsable
         c.setName(getText(1822, ""));
         c.setKey(K_US_ID_RESPONSABLE);
@@ -442,7 +442,7 @@
 
         c = m_dialog.getProperties().add(null, mTicketConstantes.US_ID_ASIGNADOR);
         c.setType(Dialogs.PropertyType.select);
-        c.setTable(csUsuario);
+        c.setSelectTable(csUsuario);
         // Asignada por
         c.setName(getText(1824, ""));
         c.setKey(K_US_ID_ASIGNADOR);
@@ -457,7 +457,7 @@
 
         c = m_dialog.getProperties().add(null, mTicketConstantes.CONT_ID);
         c.setType(Dialogs.PropertyType.select);
-        c.setTable(csETablesTask.cSCONTACTO);
+        c.setSelectTable(csETablesTask.cSCONTACTO);
         // Contacto
         c.setName(getText(1035, ""));
         c.setKey(K_CONT_ID);
@@ -472,7 +472,7 @@
 
         c = m_dialog.getProperties().add(null, mTicketConstantes.TAREST_ID);
         c.setType(Dialogs.PropertyType.select);
-        c.setTable(csETablesTask.cSTAREAESTADO);
+        c.setSelectTable(csETablesTask.cSTAREAESTADO);
         // Estado
         c.setName(getText(1568, ""));
         c.setKey(K_TAREST_ID);
@@ -487,7 +487,7 @@
 
         c = m_dialog.getProperties().add(null, mTicketConstantes.PRIO_ID);
         c.setType(Dialogs.PropertyType.select);
-        c.setTable(csETablesTask.cSPRIORIDAD);
+        c.setSelectTable(csETablesTask.cSPRIORIDAD);
         // Prioridad
         c.setName(getText(1825, ""));
         c.setKey(K_PRIO_ID);
@@ -503,7 +503,7 @@
 
         c = properties.add(null, mTicketConstantes.CLI_ID);
         c.setType(Dialogs.PropertyType.select);
-        c.setTable(Cairo.Tables.CLIENTE);
+        c.setSelectTable(Cairo.Tables.CLIENTE);
         // Cliente
         c.setName(getText(1150, ""));
         c.setKey(K_CLI_ID);
@@ -518,7 +518,7 @@
 
         c = properties.add(null, mTicketConstantes.SUC_ID);
         c.setType(Dialogs.PropertyType.select);
-        c.setTable(Cairo.Tables.SUCURSAL);
+        c.setSelectTable(Cairo.Tables.SUCURSAL);
         // Sucursal
         c.setName(getText(1281, ""));
         c.setKey(K_SUC_ID);
@@ -534,7 +534,7 @@
 
         c = properties.add(null, C.EMP_ID);
         c.setType(Dialogs.PropertyType.select);
-        c.setTable(Cairo.Tables.EMPRESA);
+        c.setSelectTable(Cairo.Tables.EMPRESA);
         // Empresa
         c.setName(getText(1114, ""));
         c.setKey(K_EMP_ID);

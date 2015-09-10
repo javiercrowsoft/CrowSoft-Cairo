@@ -153,6 +153,11 @@ case class FacturaVentaBase(
                               cpgName: String,
                               lgjId: Int,
                               lgjCode: String,
+                              venId: Int,
+                              venName: String,
+                              clisId: Int,
+                              clisName: String,
+                              ordenCompra: String,
                               cai: String,
                               descrip: String,
                               grabarAsiento: Boolean
@@ -164,6 +169,9 @@ case class FacturaVentaBase(
             sucId: Int,
             cpgId: Int,
             lgjId: Int,
+            venId: Int,
+            clisId: Int,
+            ordenCompra: String,
             cai: String,
             descrip: String,
             grabarAsiento: Boolean
@@ -181,6 +189,11 @@ case class FacturaVentaBase(
       "",
       lgjId,
       "",
+      venId,
+      "",
+      clisId,
+      "",
+      "",
       cai,
       descrip,
       grabarAsiento
@@ -197,6 +210,9 @@ object FacturaVentaBase {
              sucId: Int,
              cpgId: Int,
              lgjId: Int,
+             venId: Int,
+             clisId: Int,
+             ordenCompra: String,
              cai: String,
              descrip: String,
              grabarAsiento: Boolean) = {
@@ -208,6 +224,9 @@ object FacturaVentaBase {
       sucId,
       cpgId,
       lgjId,
+      venId,
+      clisId,
+      ordenCompra,
       cai,
       descrip,
       grabarAsiento)
@@ -272,12 +291,15 @@ case class FacturaVentaStock(
                                proIdDestino: Int,
                                proNameDestino: String,
                                deplId: Int,
-                               deplName: String
+                               deplName: String,
+                               transId: Int,
+                               transName: String
                              ) {
   def this(
             proIdOrigen: Int,
             proIdDestino: Int,
-            deplId: Int
+            deplId: Int,
+            transId: Int
             ) = {
     this(
       proIdOrigen,
@@ -285,6 +307,8 @@ case class FacturaVentaStock(
       proIdDestino,
       "",
       deplId,
+      "",
+      transId,
       ""
     )
   }
@@ -295,12 +319,14 @@ object FacturaVentaStock {
   def apply(
              proIdOrigen: Int,
              proIdDestino: Int,
-             deplId: Int) = {
+             deplId: Int,
+             transId: Int) = {
 
     new FacturaVentaStock(
       proIdOrigen,
       proIdDestino,
-      deplId)
+      deplId,
+      transId)
   }
 }
 
@@ -432,6 +458,13 @@ case class FacturaVentaItemSerie(
                                    fviId: Int
                                    )
 
+case class FacturaVentaItemKit(
+                                  id: Int,
+                                  name: String,
+                                  amount: Double,
+                                  hasSerial: Boolean
+                                  )
+
 case class FacturaVentaItem(
                               id: Int,
                               base: FacturaVentaItemBase,
@@ -491,6 +524,7 @@ case class FacturaVentaRemito(
 case class FacturaVentaItems(
                                 items: List[FacturaVentaItem],
                                 series: List[FacturaVentaItemSerie], /* only used when loading an invoice to respond a get FacturaVenta */
+                                kits: List[FacturaVentaItemKit],  /* only used when loading an invoice to respond a get FacturaVenta */
                                 percepciones: List[FacturaVentaPercepcion],
 
                                 /* only used in save */
@@ -670,19 +704,19 @@ object FacturaVenta {
 
   lazy val GC = models.cairo.modules.general.C
 
-  lazy val emptyFacturaVentaItems = FacturaVentaItems(List(), List(), List(), "", "", List())
+  lazy val emptyFacturaVentaItems = FacturaVentaItems(List(), List(), List(), List(), "", "", List())
 
   lazy val emptyFacturaVentaReferences = FacturaVentaReferences(
     DBHelper.NoId, DBHelper.NoId, "", false, false, false, 0, DBHelper.NoId, DBHelper.NoId, false, false, false, "")
 
   lazy val emptyFacturaVenta = FacturaVenta(
     FacturaVentaId(DBHelper.NoId, 0, ""),
-    FacturaVentaBase(DBHelper.NoId, DBHelper.NoId, DBHelper.NoId, DBHelper.NoId, DBHelper.NoId, DBHelper.NoId, "", "", false),
+    FacturaVentaBase(DBHelper.NoId, DBHelper.NoId, DBHelper.NoId, DBHelper.NoId, DBHelper.NoId, DBHelper.NoId, DBHelper.NoId, DBHelper.NoId, "", "", "", false),
     emptyFacturaVentaReferences,
     FacturaVentaDates(U.NO_DATE, U.NO_DATE, U.NO_DATE, U.NO_DATE),
     FacturaVentaPrecios(0.0, 0.0, DBHelper.NoId, DBHelper.NoId),
     FacturaVentaCotizacion(0),
-    FacturaVentaStock(DBHelper.NoId, DBHelper.NoId, DBHelper.NoId),
+    FacturaVentaStock(DBHelper.NoId, DBHelper.NoId, DBHelper.NoId, DBHelper.NoId),
     FacturaVentaTotals(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0),
     emptyFacturaVentaItems
   )
@@ -934,6 +968,25 @@ object FacturaVenta {
     }
   }
 
+  private val facturaVentaItemKitParser: RowParser[FacturaVentaItemKit] = {
+    SqlParser.get[Int](GC.PR_ID) ~
+    SqlParser.get[String](GC.PR_NAME_COMPRA) ~
+    SqlParser.get[BigDecimal](GC.PRK_CANTIDAD) ~
+    SqlParser.get[Int](GC.PR_LLEVA_NRO_SERIE) map {
+    case
+        prId ~
+        name ~
+        amount ~
+        hasSerial =>
+      FacturaVentaItemKit(
+        prId,
+        name,
+        amount.doubleValue(),
+        (hasSerial != 0)
+      )
+    }
+  }
+
   private val facturaVentaPercepcionParser: RowParser[FacturaVentaPercepcion] = {
     SqlParser.get[Int](C.FVPERC_ID) ~
     SqlParser.get[Int](GC.PERC_ID) ~
@@ -992,6 +1045,11 @@ object FacturaVenta {
     SqlParser.get[String](GC.CPG_NAME) ~
     SqlParser.get[Option[Int]](GC.LGJ_ID) ~
     SqlParser.get[Option[String]](GC.LGJ_CODE) ~
+    SqlParser.get[Option[Int]](GC.VEN_ID) ~
+    SqlParser.get[Option[String]](GC.VEN_NAME) ~
+    SqlParser.get[Option[Int]](GC.CLIS_ID) ~
+    SqlParser.get[Option[String]](GC.CLIS_NAME) ~
+    SqlParser.get[String](C.FV_ORDEN_COMPRA) ~
     SqlParser.get[String](C.FV_CAI) ~
     SqlParser.get[String](C.FV_DESCRIP) ~
     SqlParser.get[Int](C.FV_GRABAR_ASIENTO) ~
@@ -1027,6 +1085,8 @@ object FacturaVenta {
     SqlParser.get[Option[String]](C.PRO_DESTINO_NAME) ~
     SqlParser.get[Option[Int]](GC.DEPL_ID) ~
     SqlParser.get[Option[String]](GC.DEPL_NAME) ~
+    SqlParser.get[Option[Int]](GC.TRANS_ID) ~
+    SqlParser.get[Option[String]](GC.TRANS_NAME) ~
     SqlParser.get[BigDecimal](C.FV_NETO) ~
     SqlParser.get[BigDecimal](C.FV_IVA_RI) ~
     SqlParser.get[BigDecimal](C.FV_IVA_RNI) ~
@@ -1058,6 +1118,11 @@ object FacturaVenta {
         cpgName ~
         lgjId ~
         lgjCode ~
+        venId ~
+        venName ~
+        clisId ~
+        clisName ~
+        ordenCompra ~
         cai ~
         descrip ~
         grabarAsiento ~
@@ -1093,6 +1158,8 @@ object FacturaVenta {
         proNameDestino ~
         deplId ~
         deplName ~
+        transId ~
+        transName ~
         neto ~
         ivaRi ~
         ivaRni ~
@@ -1127,6 +1194,11 @@ object FacturaVenta {
           cpgName,
           lgjId.getOrElse(DBHelper.NoId),
           lgjCode.getOrElse(""),
+          venId.getOrElse(DBHelper.NoId),
+          venName.getOrElse(""),
+          clisId.getOrElse(DBHelper.NoId),
+          clisName.getOrElse(""),
+          ordenCompra,
           cai,
           descrip,
           grabarAsiento != 0
@@ -1171,7 +1243,9 @@ object FacturaVenta {
           proIdDestino.getOrElse(DBHelper.NoId),
           proNameDestino.getOrElse(""),
           deplId.getOrElse(DBHelper.NoId),
-          deplName.getOrElse("")
+          deplName.getOrElse(""),
+          transId.getOrElse(DBHelper.NoId),
+          transName.getOrElse("")
         ),
         FacturaVentaTotals(
           neto.doubleValue(),
@@ -1219,8 +1293,11 @@ object FacturaVenta {
         Field(GC.EST_ID, facturaVenta.base.estId, FieldType.id),
         Field(GC.CCOS_ID, facturaVenta.base.ccosId, FieldType.id),
         Field(GC.SUC_ID, facturaVenta.base.sucId, FieldType.id),
-        Field(GC.LGJ_ID, facturaVenta.base.lgjId, FieldType.id),
         Field(GC.CPG_ID, facturaVenta.base.cpgId, FieldType.id),
+        Field(GC.LGJ_ID, facturaVenta.base.lgjId, FieldType.id),
+        Field(GC.VEN_ID, facturaVenta.base.venId, FieldType.id),
+        Field(GC.CLIS_ID, facturaVenta.base.clisId, FieldType.id),
+        Field(C.FV_ORDEN_COMPRA, facturaVenta.base.ordenCompra, FieldType.text),
         Field(C.FV_CAI, facturaVenta.base.cai, FieldType.text),
         Field(C.FV_DESCRIP, facturaVenta.base.descrip, FieldType.text),
         Field(C.FV_GRABAR_ASIENTO, (if(facturaVenta.base.grabarAsiento) 1 else 0), FieldType.boolean),
@@ -1240,6 +1317,7 @@ object FacturaVenta {
         Field(C.PRO_ID_ORIGEN, facturaVenta.stock.proIdOrigen, FieldType.id),
         Field(C.PRO_ID_DESTINO, facturaVenta.stock.proIdDestino, FieldType.id),
         Field(GC.DEPL_ID, facturaVenta.stock.deplId, FieldType.id),
+        Field(GC.TRANS_ID, facturaVenta.stock.transId, FieldType.id),
 
         Field(C.FV_NETO, facturaVenta.totals.neto, FieldType.currency),
         Field(C.FV_IVA_RI, facturaVenta.totals.ivaRi, FieldType.currency),
@@ -1686,6 +1764,7 @@ object FacturaVenta {
     FacturaVentaItems(
       items._1,
       items._2,
+      items._3,
       loadPercepciones(user, id),
       "", "", List()
     )
@@ -1710,7 +1789,11 @@ object FacturaVenta {
         val rsSerie = cs.getObject(3).asInstanceOf[java.sql.ResultSet]
         val rsKit = cs.getObject(4).asInstanceOf[java.sql.ResultSet]
 
-        (Sql.as(facturaVentaItemParser.*, rs), Sql.as(facturaVentaItemSerieParser.*, rsSerie))
+        (
+          Sql.as(facturaVentaItemParser.*, rs),
+          Sql.as(facturaVentaItemSerieParser.*, rsSerie),
+          Sql.as(facturaVentaItemKitParser.*, rsKit)
+        )
 
       } catch {
         case NonFatal(e) => {

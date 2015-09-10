@@ -28,29 +28,29 @@ http://www.crowsoft.com.ar
 
 javier at crowsoft.com.ar
 */
--- Function: sp_proveedor_get_talonario()
+-- Function: sp_cliente_get_talonario()
 
--- drop function sp_proveedor_get_talonario(integer, smallint);
+-- drop function sp_cliente_get_talonario(integer, smallint);
 
 /*
 
           select * from documento where doct_id = 8;
-          select * from proveedor;
+          select * from cliente;
           select * from talonario where ta_id = 10;
-          select * from sp_proveedor_get_talonario(1, 169);
+          select * from sp_cliente_get_talonario(1, 169);
 
 */
 
-create or replace function sp_proveedor_get_talonario
+create or replace function sp_cliente_get_talonario
 (
-  in p_prov_id integer,
+  in p_cli_id integer,
   in p_doc_id integer default null,
   out p_ta_id integer
 )
   returns integer as
 $BODY$
 declare
-   v_prov_catfiscal smallint;
+   v_cli_catfiscal smallint;
    v_doct_id integer;
    v_doct_id_facturavta integer;
    v_doct_id_facturacpra integer;
@@ -76,14 +76,14 @@ begin
                         v_doct_id_facturavta, v_doct_id_facturacpra, v_doct_id_notadebitovta,
                         v_doct_id_notacreditovta, v_doct_id_notadebitocpra, v_doct_id_notacreditocpra ) then
 
-        select prov_catfiscal
-          into v_prov_catfiscal
-        from Proveedor
-        where prov_id = p_prov_id;
+        select cli_catfiscal
+          into v_cli_catfiscal
+        from Cliente
+        where cli_id = p_cli_id;
 
 
         select
-            case v_prov_catfiscal
+            case v_cli_catfiscal
                 when 1  then ta_id_inscripto--'Inscripto'
                 when 2  then ta_id_final--'Exento'
                 when 3  then ta_id_final--'No inscripto'
@@ -114,5 +114,5 @@ end;
 $BODY$
   language plpgsql volatile
   cost 100;
-alter function sp_proveedor_get_talonario(integer, integer)
+alter function sp_cliente_get_talonario(integer, integer)
   owner to postgres;

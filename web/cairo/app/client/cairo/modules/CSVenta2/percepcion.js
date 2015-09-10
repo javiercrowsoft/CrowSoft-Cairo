@@ -334,7 +334,7 @@
 
       var itemRows = items.getGrid().getRows();
 
-      for (i = 0, _count = percepciones.size(); i < _count; i++) {
+      for (var i = 0, _count = percepciones.length; i < _count; i++) {
 
         percepciones[i].base = 0;
 
@@ -369,7 +369,7 @@
 
       rows.clear();
 
-      for (i = 0, _count = percepciones.size(); i < _count; i++) {
+      for (var i = 0, _count = percepciones.length; i < _count; i++) {
 
         if(percepciones[i].percepcion > 0) {
 

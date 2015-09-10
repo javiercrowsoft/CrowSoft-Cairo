@@ -348,7 +348,7 @@
 
         c = m_dialog.getProperties().add(null, mPedidoConstantes.CLI_ID);
         c.setType(Dialogs.PropertyType.select);
-        c.setTable(Cairo.Tables.CLIENTE);
+        c.setSelectTable(Cairo.Tables.CLIENTE);
         // Cliente
         c.setName(getText(1150, ""));
         c.setKey(K_CLI_ID);
@@ -363,7 +363,7 @@
 
         c = m_dialog.getProperties().add(null, C.EST_ID);
         c.setType(Dialogs.PropertyType.select);
-        c.setTable(csEstado);
+        c.setSelectTable(csEstado);
         // Estado
         c.setName(getText(1568, ""));
         c.setKey(K_EST_ID);
@@ -378,7 +378,7 @@
 
         c = m_dialog.getProperties().add(null, mPedidoConstantes.CCOS_ID);
         c.setType(Dialogs.PropertyType.select);
-        c.setTable(Cairo.Tables.CENTROCOSTO);
+        c.setSelectTable(Cairo.Tables.CENTROCOSTO);
         // Centro de Costos
         c.setName(getText(1057, ""));
         c.setKey(K_CCOS_ID);
@@ -393,7 +393,7 @@
 
         c = m_dialog.getProperties().add(null, mPedidoConstantes.SUC_ID);
         c.setType(Dialogs.PropertyType.select);
-        c.setTable(Cairo.Tables.SUCURSAL);
+        c.setSelectTable(Cairo.Tables.SUCURSAL);
         // Sucursal
         c.setName(getText(1281, ""));
         c.setKey(K_SUC_ID);
@@ -408,7 +408,7 @@
 
         c = m_dialog.getProperties().add(null, mPedidoConstantes.VEN_ID);
         c.setType(Dialogs.PropertyType.select);
-        c.setTable(Cairo.Tables.VENDEDORES);
+        c.setSelectTable(Cairo.Tables.VENDEDORES);
         // Vendedores
         c.setName(getText(1502, ""));
         c.setKey(K_VEN_ID);
@@ -423,7 +423,7 @@
 
         c = m_dialog.getProperties().add(null, mPedidoConstantes.DOC_ID);
         c.setType(Dialogs.PropertyType.select);
-        c.setTable(csETablasDocumento.CSDocumento);
+        c.setSelectTable(csETablasDocumento.CSDocumento);
         // Documentos
         c.setName(getText(1611, ""));
         c.setKey(K_DOC_ID);
@@ -439,7 +439,7 @@
 
         c = m_dialog.getProperties().add(null, mPedidoConstantes.CPG_ID);
         c.setType(Dialogs.PropertyType.select);
-        c.setTable(Cairo.Tables.CONDICIONPAGO);
+        c.setSelectTable(Cairo.Tables.CONDICIONPAGO);
         // Condicion de pago
         c.setName(getText(1395, ""));
         c.setKey(K_CPG_ID);
@@ -455,7 +455,7 @@
 
         c = m_dialog.getProperties().add(null, C.EMP_ID);
         c.setType(Dialogs.PropertyType.select);
-        c.setTable(Cairo.Tables.EMPRESA);
+        c.setSelectTable(Cairo.Tables.EMPRESA);
         // Empresa
         c.setName(getText(1114, ""));
         c.setKey(K_EMP_ID);
@@ -1027,8 +1027,7 @@
       };
 
       var processModoPago = function(idMenu) {
-        var i = null;
-        for (i = 1; i <= (m_vMenuModoPago, 2).Length; i++) {
+        for (var i = 1; i <= (m_vMenuModoPago, 2).Length; i++) {
           if(m_vMenuModoPago[C_VM_MENU_ID, i] === idMenu) {
 
             if(m_vMenuModoPago[C_VM_IS_CONTADO, i]) {

@@ -42,7 +42,7 @@ javier at crowsoft.com.ar
 
 create or replace function sp_document_get_next_number
 (
-  in p_doc_id integer default null ,
+  in p_doc_id integer default null,
   out p_number integer,
   out p_mask varchar,
   out p_enabled integer

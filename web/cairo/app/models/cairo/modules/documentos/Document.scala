@@ -169,6 +169,63 @@ object Document {
     }
   }
 
+  def customerNextNumber(user: CompanyUser, id: Int, cliId: Int): DocumentNumberInfo = {
+
+    DB.withTransaction(user.database.database) { implicit connection =>
+
+      val sql = "{call sp_cliente_get_next_number(?, ?, ?, ?, ?)}"
+      val cs = connection.prepareCall(sql)
+
+      cs.setInt(1, cliId)
+      cs.setInt(2, id)
+      cs.registerOutParameter(3, Types.INTEGER)
+      cs.registerOutParameter(4, Types.VARCHAR)
+      cs.registerOutParameter(5, Types.INTEGER)
+
+      try {
+        cs.execute()
+
+        DocumentNumberInfo(cs.getInt(3), cs.getString(4), (if(cs.getInt(5) != 0) true else false))
+
+      } catch {
+        case NonFatal(e) => {
+          Logger.error(s"can't get document next number info for customers with docId $id and provId $cliId for user ${user.toString}. Error ${e.toString}")
+          throw e
+        }
+      } finally {
+        cs.close
+      }
+    }
+  }
+
+  def customerAccount(user: CompanyUser, id: Int, cliId: Int): AccountInfo = {
+
+    DB.withTransaction(user.database.database) { implicit connection =>
+
+      val sql = "{call sp_doc_get_cue_id(?, ?, ?, ?)}"
+      val cs = connection.prepareCall(sql)
+
+      cs.setInt(1, cliId)
+      cs.setInt(2, id)
+      cs.registerOutParameter(3, Types.INTEGER)
+      cs.registerOutParameter(4, Types.INTEGER)
+
+      try {
+        cs.execute()
+
+        AccountInfo(cs.getInt(3), cs.getInt(4))
+
+      } catch {
+        case NonFatal(e) => {
+          Logger.error(s"can't get document account for suppliers with docId $id and cliId $cliId for user ${user.toString}. Error ${e.toString}")
+          throw e
+        }
+      } finally {
+        cs.close
+      }
+    }
+  }
+
   def isValidDate(user: CompanyUser, id: Int, date: Date): DateInfo = {
 
     DB.withTransaction(user.database.database) { implicit connection =>

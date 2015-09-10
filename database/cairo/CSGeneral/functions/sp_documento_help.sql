@@ -65,10 +65,10 @@ declare
    v_permisos varchar(1000);
 begin
 
-   /*------------------------------------------
-	Este codigo es el que se asigna a @permiso.
-	Se asigna en una sola linea para que sea mas rapida la sentencia
-	and exists( select * from Permiso
+ /*------------------------------------------
+           Este codigo es el que se asigna a @permiso.
+           Se asigna en una sola linea para que sea mas rapida la sentencia
+           and exists( select * from Permiso
                        where pre_id = Documento.pre_id_list
                          and (
                                   us_id = @@us_id

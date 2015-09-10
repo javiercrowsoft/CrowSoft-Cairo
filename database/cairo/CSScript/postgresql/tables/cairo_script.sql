@@ -713,9 +713,9 @@ create table ListaDocumentoParametro(
 	ldp_orden smallint not null CONSTRAINT DF_ListaDocumentoParametro_ldp_orden  default (0),
  CONSTRAINT PK_ListaDocumentoParametro PRIMARY KEY  
 (
-	pre_id ,
-	us_id ,
-	ldp_id ,
+	pre_id,
+	us_id,
+	ldp_id,
 	emp_id 
 ) 
 ) 
@@ -812,15 +812,15 @@ create table FacturaVenta(
  CONSTRAINT PK_FacturaVenta PRIMARY KEY  
 (
 	fv_id 
-) ,
+),
  CONSTRAINT IX_FacturaVenta UNIQUE  
 (
 	fv_numero 
-) ,
+),
  CONSTRAINT IX_FacturaVentaNroDoc UNIQUE  
 (
-	emp_id ,
-	fv_nrodoc ,
+	emp_id,
+	fv_nrodoc,
 	doct_id 
 ) 
 ) 
@@ -990,7 +990,7 @@ create table CatalogoWebCategoriaItemLink(
 	catwci_id int not null,
  CONSTRAINT PK_CatalogoWebCategoriaItemLink PRIMARY KEY  
 (
-	catw_id ,
+	catw_id,
 	catwci_id 
 ) 
 ) 
@@ -1505,7 +1505,7 @@ create table ListaPrecioPrecio(
 	modificado timestamptz not null CONSTRAINT DF_ListaPrecioPrecio_modificado  default (getdate()),
  CONSTRAINT PK_ListaPrecioPrecio PRIMARY KEY  
 (
-	lp_id ,
+	lp_id,
 	pr_id 
 ) 
 ) 
@@ -1538,9 +1538,9 @@ create table rptArbolRamaHoja(
 	ram_id int not null CONSTRAINT DF_rptArbolRamaHoja_ram_id  default (0),
  CONSTRAINT PK_rtpArbolRamaHoja PRIMARY KEY  
 (
-	rptarb_cliente ,
-	rptarb_hojaid ,
-	tbl_id ,
+	rptarb_cliente,
+	rptarb_hojaid,
+	tbl_id,
 	ram_id 
 ) 
 ) 
@@ -2254,8 +2254,8 @@ create table LiquidacionItemCodigoTMP(
 	liqic_unidades decimal(18, 6) not null CONSTRAINT DF_LiquidacionItemCodigoTMP_liqic_unidades  default (0),
  CONSTRAINT PK_LiquidacionItemCodigoTMP PRIMARY KEY  
 (
-	liqcTMP_id ,
-	liqi_id ,
+	liqcTMP_id,
+	liqi_id,
 	liqfi_id 
 ) 
 ) 
@@ -2613,14 +2613,14 @@ create table OrdenCompra(
  CONSTRAINT PK_OrdenCompra PRIMARY KEY  
 (
 	oc_id 
-) ,
+),
  CONSTRAINT IX_OrdenCompra UNIQUE  
 (
 	oc_numero 
-) ,
+),
  CONSTRAINT IX_OrdenCompraNroDoc UNIQUE  
 (
-	emp_id ,
+	emp_id,
 	oc_nrodoc 
 ) 
 ) 
@@ -3238,7 +3238,7 @@ create table CatalogoWebProductoTag(
 	prt_id int not null,
  CONSTRAINT PK_CatalogoWebProductoTag PRIMARY KEY  
 (
-	catw_id ,
+	catw_id,
 	prt_id 
 ) 
 ) 
@@ -3732,7 +3732,7 @@ create table sysModuloUser(
 	sysm_id int not null,
  CONSTRAINT PK_sysModuloUser PRIMARY KEY  
 (
-	us_id ,
+	us_id,
 	sysm_id 
 ) 
 ) 
@@ -4203,7 +4203,7 @@ create table HistoriaOperacion(
 	hsto_nombre varchar(5000) not null,
  CONSTRAINT PK_HistoriaOperacion PRIMARY KEY  
 (
-	hsto_id ,
+	hsto_id,
 	tbl_id 
 ) 
 ) 
@@ -5039,14 +5039,14 @@ create table OrdenServicio(
  CONSTRAINT PK_OrdenServicio PRIMARY KEY  
 (
 	os_id 
-) ,
+),
  CONSTRAINT IX_OrdenServicio UNIQUE  
 (
 	os_numero 
-) ,
+),
  CONSTRAINT IX_OrdenServicioNroDoc UNIQUE  
 (
-	emp_id ,
+	emp_id,
 	os_nrodoc 
 ) 
 ) 
@@ -5255,7 +5255,7 @@ create table Cliente(
 
 ;
 ;
---, @value=N'' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'table',@level1name=N'Cliente', @level2type=N'COLUMN',@level2name=N'cli_ingresosbrutos'
+--, @value=N'', @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'table',@level1name=N'Cliente', @level2type=N'COLUMN',@level2name=N'cli_ingresosbrutos'
 ;
 /****** Object:  Table ListaDescuentoProveedor    Script Date: 07/30/2012 17:16:02 ******/
 
@@ -5320,14 +5320,14 @@ create table RemitoCompra(
  CONSTRAINT PK_RemitoCompra PRIMARY KEY  
 (
 	rc_id 
-) ,
+),
  CONSTRAINT IX_RemitoCompra UNIQUE  
 (
 	rc_numero 
-) ,
+),
  CONSTRAINT IX_RemitoCompraNroDoc UNIQUE  
 (
-	rc_nrodoc ,
+	rc_nrodoc,
 	prov_id 
 ) 
 ) 
@@ -5411,14 +5411,14 @@ create table PedidoVenta(
  CONSTRAINT PK_PedidoVenta PRIMARY KEY  
 (
 	pv_id 
-) ,
+),
  CONSTRAINT IX_PedidoVenta UNIQUE  
 (
 	pv_numero 
-) ,
+),
  CONSTRAINT IX_PedidoVentaNroDoc UNIQUE  
 (
-	emp_id ,
+	emp_id,
 	pv_nrodoc 
 ) 
 ) 
@@ -5487,12 +5487,12 @@ create table RemitoVenta(
  CONSTRAINT PK_RemitoVenta PRIMARY KEY  
 (
 	rv_id 
-) ,
+),
  CONSTRAINT IX_RemitoVentaNroDocEmpresa UNIQUE  
 (
-	emp_id ,
+	emp_id,
 	rv_nrodoc 
-) ,
+),
  CONSTRAINT IX_RemitoVentaNumero UNIQUE  
 (
 	rv_numero 
@@ -5564,9 +5564,9 @@ create table Proveedor(
 ;
 
 ;
---, @value=N'' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'table',@level1name=N'Proveedor', @level2type=N'COLUMN',@level2name=N'prov_cuit'
+--, @value=N'', @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'table',@level1name=N'Proveedor', @level2type=N'COLUMN',@level2name=N'prov_cuit'
 ;
---, @value=N'' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'table',@level1name=N'Proveedor', @level2type=N'COLUMN',@level2name=N'prov_ingresosbrutos'
+--, @value=N'', @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'table',@level1name=N'Proveedor', @level2type=N'COLUMN',@level2name=N'prov_ingresosbrutos'
 ;
 /****** Object:  Table ParteReparacion    Script Date: 07/30/2012 17:20:51 ******/
 
@@ -5619,12 +5619,12 @@ create table ParteReparacion(
  CONSTRAINT PK_ParteReparacion PRIMARY KEY  
 (
 	prp_id 
-) ,
+),
  CONSTRAINT IX_ParteReparacionNroDocEmpresa UNIQUE  
 (
-	emp_id ,
+	emp_id,
 	prp_nrodoc 
-) ,
+),
  CONSTRAINT IX_ParteReparacionNumero UNIQUE  
 (
 	prp_numero 
@@ -5763,10 +5763,10 @@ create table PresupuestoVenta(
  CONSTRAINT PK_PresupuestoVenta PRIMARY KEY  
 (
 	prv_id 
-) ,
+),
  CONSTRAINT IX_PresupuestoVentaNroDoc UNIQUE  
 (
-	emp_id ,
+	emp_id,
 	prv_nrodoc 
 ) 
 ) 
@@ -5835,15 +5835,15 @@ create table FacturaCompra(
  CONSTRAINT PK_FacturaCompra PRIMARY KEY  
 (
 	fc_id 
-) ,
+),
  CONSTRAINT IX_FacturaCompra UNIQUE  
 (
 	fc_numero 
-) ,
+),
  CONSTRAINT IX_FacturaCompraNroDoc UNIQUE  
 (
-	fc_nrodoc ,
-	prov_id ,
+	fc_nrodoc,
+	prov_id,
 	doct_id 
 ) 
 ) 
@@ -6526,11 +6526,11 @@ create table Cheque(
  CONSTRAINT PK_Cheque PRIMARY KEY  
 (
 	cheq_id 
-) ,
+),
  CONSTRAINT IX_Cheque UNIQUE  
 (
-	emp_id ,
-	bco_id ,
+	emp_id,
+	bco_id,
 	cheq_numerodoc 
 ) 
 ) 
@@ -7251,7 +7251,7 @@ create table UsuarioRol(
 	modifico int not null,
  CONSTRAINT PK_UsuarioRol PRIMARY KEY  
 (
-	rol_id ,
+	rol_id,
 	us_id 
 ) 
 ) 
@@ -7807,7 +7807,7 @@ create table Producto(
 ;
 
 ;
---, @value=N'' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'table',@level1name=N'Producto', @level2type=N'COLUMN',@level2name=N'pr_llevanroserie'
+--, @value=N'', @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'table',@level1name=N'Producto', @level2type=N'COLUMN',@level2name=N'pr_llevanroserie'
 ;
 /****** Object:  Table Retencion    Script Date: 07/30/2012 17:29:27 ******/
 
@@ -8849,14 +8849,14 @@ create table OrdenPago(
  CONSTRAINT PK_OrdenPago PRIMARY KEY  
 (
 	opg_id 
-) ,
+),
  CONSTRAINT IX_OrdenPago UNIQUE  
 (
 	opg_numero 
-) ,
+),
  CONSTRAINT IX_OrdenPagoNroDoc UNIQUE  
 (
-	emp_id ,
+	emp_id,
 	opg_nrodoc 
 ) 
 ) 
@@ -8926,8 +8926,8 @@ create table ClienteCacheCredito(
 	emp_id int not null,
  CONSTRAINT PK_ClienteCacheCredito PRIMARY KEY  
 (
-	cli_id ,
-	doct_id ,
+	cli_id,
+	doct_id,
 	id 
 ) 
 ) 
@@ -8990,7 +8990,7 @@ create table EjercicioContableEmpresa(
 	emp_id int not null,
  CONSTRAINT PK_EjercicioContableEmpresa PRIMARY KEY  
 (
-	ejc_id ,
+	ejc_id,
 	emp_id 
 ) 
 ) 
@@ -9163,8 +9163,8 @@ create table ProveedorCacheCredito(
 	emp_id int not null,
  CONSTRAINT PK_ProveedorCacheCredito PRIMARY KEY  
 (
-	prov_id ,
-	doct_id ,
+	prov_id,
+	doct_id,
 	id 
 ) 
 ) 
@@ -10195,7 +10195,7 @@ create table PedidoCompra(
  CONSTRAINT PK_PedidoCompra PRIMARY KEY  
 (
 	pc_id 
-) ,
+),
  CONSTRAINT IX_PedidoCompra UNIQUE  
 (
 	pc_numero 
@@ -10433,14 +10433,14 @@ create table Cobranza(
  CONSTRAINT PK_Cobranza PRIMARY KEY  
 (
 	cobz_id 
-) ,
+),
  CONSTRAINT IX_Cobranza UNIQUE  
 (
 	cobz_numero 
-) ,
+),
  CONSTRAINT IX_CobranzaNroDoc UNIQUE  
 (
-	emp_id ,
+	emp_id,
 	cobz_nrodoc 
 ) 
 ) 
@@ -11282,7 +11282,7 @@ create table Hoja(
 	arb_id int not null,
  CONSTRAINT PK_Hoja PRIMARY KEY  
 (
-	hoja_id ,
+	hoja_id,
 	ram_id 
 ) 
 ) 
@@ -12056,7 +12056,7 @@ create table StockItemTMP(
 ;
 
 ;
---, @value=N'' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'table',@level1name=N'StockItemTMP', @level2type=N'COLUMN',@level2name=N'sti_descrip'
+--, @value=N'', @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'table',@level1name=N'StockItemTMP', @level2type=N'COLUMN',@level2name=N'sti_descrip'
 ;
 /****** Object:  Table CatalogoWebProductoImage    Script Date: 07/30/2012 17:04:27 ******/
 
@@ -12068,7 +12068,7 @@ create table CatalogoWebProductoImage(
 	prwi_id int not null,
  CONSTRAINT PK_CatalogoWebProductoImage PRIMARY KEY  
 (
-	catw_id ,
+	catw_id,
 	prwi_id 
 ) 
 ) 
@@ -12083,7 +12083,7 @@ create table CatalogoWebProductoImageLink(
 	prwi_id int not null,
  CONSTRAINT PK_CatalogoWebProductoImageLink PRIMARY KEY  
 (
-	catw_id ,
+	catw_id,
 	prwi_id 
 ) 
 ) 
@@ -13063,7 +13063,7 @@ create table EjercicioContableCircuitoContable(
 	cico_id int not null,
  CONSTRAINT PK_EjercicioContableCircuitoContable PRIMARY KEY  
 (
-	ejc_id ,
+	ejc_id,
 	cico_id 
 ) 
 ) 
@@ -14108,7 +14108,7 @@ create table Sucursal(
  CONSTRAINT PK_Sucursal PRIMARY KEY  
 (
 	suc_id 
-) ,
+),
  CONSTRAINT IX_SucursalNumero UNIQUE  
 (
 	suc_numero 

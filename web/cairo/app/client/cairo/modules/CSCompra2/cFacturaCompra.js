@@ -921,7 +921,7 @@
                   break;
 
                 case K_LGJ_ID:
-                  fields.add(CC.LGJ_ID, property.getSelectId(), Types.id);
+                  fields.add(C.LGJ_ID, property.getSelectId(), Types.id);
                   break;
 
                 case K_CAI:
@@ -1670,12 +1670,12 @@
 
           case KI_PR_ID:
 
-            Cairo.LoadingMessage.show("FacturaCompras", "Loading data for product.");
+            Cairo.LoadingMessage.show("Factura de Compras", "Loading data for product.");
 
             var row = grid.getRows().item(lRow);
             p = setDataProducto(row, newValueId)
-              .success(call(D.setPrecios, row, newValueId, KI_PRECIO_LP, KI_PRECIO_USR))
-              .success(call(D.setDescuentos, row, newValueId, getPrecioFromRow(row), KI_DESCUENTO))
+              .success(call(D.setPrecios, row, newValueId, m_properties.item(C.LP_ID).getSelectId(), KI_PRECIO_LP, KI_PRECIO_USR))
+              .success(call(D.setDescuentos, row, newValueId, getPrecioFromRow(row), m_properties.item(C.LD_ID).getSelectId(), KI_DESCUENTO))
               .success(call(setTasasImpositivas, row, newValueId, newValue))
               .then(function(result) { Cairo.LoadingMessage.close(); return result; })
             ;
@@ -1684,7 +1684,7 @@
           case KI_PRECIO_USR:
 
             var row = grid.getRows().item(lRow);
-            p = D.setDescuentos(row, cellId(row, KI_PR_ID), newValue, KI_DESCUENTO);
+            p = D.setDescuentos(row, cellId(row, KI_PR_ID), newValue, m_properties.item(C.LD_ID).getSelectId(), KI_DESCUENTO);
             break;
 
           case KI_CANTIDAD:
@@ -2156,7 +2156,7 @@
         elem.setKey(K_FECHA_VTO);
         elem.setValue(m_fechaVto);
 
-        elem = properties.add(null, CC.LGJ_ID);
+        elem = properties.add(null, C.LGJ_ID);
         elem.setType(T.select);
         elem.setSelectTable(Cairo.Tables.LEGAJOS);
         elem.setName(getText(1575, "")); // Legajo
@@ -2848,7 +2848,7 @@
 
           elem = row.add(null);
           if(m_bIva) {
-            elem.setValue(getValue(m_data.items[_i], CC.CUE_ID_IVA_RI));
+            elem.setValue(getValue(m_data.items[_i], C.CUE_ID_IVA_RI));
           }
           else {
             elem.setValue(NO_ID);
@@ -2857,7 +2857,7 @@
 
           elem = row.add(null);
           if(m_bIvaRni) {
-            elem.setValue(getValue(m_data.items[_i], CC.CUE_ID_IVA_RNI));
+            elem.setValue(getValue(m_data.items[_i], C.CUE_ID_IVA_RNI));
           }
           else {
             elem.setValue(NO_ID);
@@ -3118,8 +3118,8 @@
           elem.setKey(KIL_FCLGJ_ID);
 
           elem = row.add(null);
-          elem.setValue(getValue(m_data.legajos[_i], CC.LGJ_CODE));
-          elem.setId(getValue(m_data.legajos[_i], CC.LGJ_ID));
+          elem.setValue(getValue(m_data.legajos[_i], C.LGJ_CODE));
+          elem.setId(getValue(m_data.legajos[_i], C.LGJ_ID));
           elem.setKey(KIL_LGJ_ID);
 
           elem = row.add(null);
@@ -3308,8 +3308,8 @@
               m_condicionPago = valField(data, C.CPG_NAME);
               m_ldId = valField(data, C.LD_ID);
               m_listaDescuento = valField(data, C.LD_NAME);
-              m_lgjId = valField(data, CC.LGJ_ID);
-              m_legajo = valField(data, CC.LGJ_CODE);
+              m_lgjId = valField(data, C.LGJ_ID);
+              m_legajo = valField(data, C.LGJ_CODE);
               m_cai = valField(data, CC.FC_CAI);
               m_proIdOrigen = valField(data, C.PRO_ID_ORIGEN);
               m_proOrigen = valField(data, C.PRO_ORIGEN_NAME);
@@ -3595,11 +3595,11 @@
                 break;
 
               case KI_CUE_ID_IVA_RI:
-                fields.add(CC.CUE_ID_IVA_RI, val(cell.getValue()), Types.id);
+                fields.add(C.CUE_ID_IVA_RI, val(cell.getValue()), Types.id);
                 break;
 
               case KI_CUE_ID_IVA_RNI:
-                fields.add(CC.CUE_ID_IVA_RNI, val(cell.getValue()), Types.id);
+                fields.add(C.CUE_ID_IVA_RNI, val(cell.getValue()), Types.id);
                 break;
 
               case KI_GRUPO:
@@ -3776,7 +3776,7 @@
                 break;
 
               case KIL_LGJ_ID:
-                fields.add(CC.LGJ_ID, cell.getId(), Types.id);
+                fields.add(C.LGJ_ID, cell.getId(), Types.id);
                 break;
 
               case KIL_IMPORTE:
@@ -4322,7 +4322,7 @@
         m_properties.item(CC.FC_CAI)
         .setValue(m_cai);
 
-        m_properties.item(CC.LGJ_ID)
+        m_properties.item(C.LGJ_ID)
         .setSelectId(m_lgjId)
         .setValue(m_legajo);
 

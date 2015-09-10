@@ -1350,6 +1350,18 @@
       TBL_CAMPO_NAME: "tbl_camponombre",
       TBL_CAMPO_ID: "tbl_campoid",
 
+      // Producto Numero Serie
+      PRODUCTO_NUMERO_SERIE: "ProductoNumeroSerie",
+      PRNS_ID: "prns_id",
+      PRNS_CODE: "prns_codigo",
+      PRNS_DESCRIP: "prns_descrip",
+      PRNS_FECHA_VTO: "prns_fechavto",
+
+      // Legajo
+      LEGAJO: "legajo",
+      LGJ_ID: "lgj_id",
+      LGJ_TITLE: "lgj_titulo",
+      LGJ_CODE: "lgj_codigo",
 
       // Accounting
       filterForSales: "ti_tipo: 1",

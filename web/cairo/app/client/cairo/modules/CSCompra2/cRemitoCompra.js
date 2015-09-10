@@ -299,7 +299,7 @@
 
         c = properties.add(null, mComprasConstantes.PROV_ID);
         c.setType(Dialogs.PropertyType.select);
-        c.setTable(Cairo.Tables.PROVEEDOR);
+        c.setSelectTable(Cairo.Tables.PROVEEDOR);
         // Proveedor
         c.setName(getText(1151, ""));
         c.setKey(K_PROV_ID);
@@ -314,7 +314,7 @@
 
         c = properties.add(null, C.EST_ID);
         c.setType(Dialogs.PropertyType.select);
-        c.setTable(csEstado);
+        c.setSelectTable(csEstado);
         // Estado
         c.setName(getText(1568, ""));
         c.setKey(K_EST_ID);
@@ -329,7 +329,7 @@
 
         c = properties.add(null, mComprasConstantes.CCOS_ID);
         c.setType(Dialogs.PropertyType.select);
-        c.setTable(Cairo.Tables.CENTROCOSTO);
+        c.setSelectTable(Cairo.Tables.CENTROCOSTO);
         // Centro de Costos
         c.setName(getText(1057, ""));
         c.setKey(K_CCOS_ID);
@@ -344,7 +344,7 @@
 
         c = properties.add(null, mComprasConstantes.SUC_ID);
         c.setType(Dialogs.PropertyType.select);
-        c.setTable(Cairo.Tables.SUCURSAL);
+        c.setSelectTable(Cairo.Tables.SUCURSAL);
         // Sucursal
         c.setName(getText(1281, ""));
         c.setKey(K_SUC_ID);
@@ -359,7 +359,7 @@
 
         c = properties.add(null, mComprasConstantes.DOC_ID);
         c.setType(Dialogs.PropertyType.select);
-        c.setTable(csETablasDocumento.CSDocumento);
+        c.setSelectTable(csETablasDocumento.CSDocumento);
         // Documentos
         c.setName(getText(1611, ""));
         c.setKey(K_DOC_ID);
@@ -375,7 +375,7 @@
 
         c = properties.add(null, mComprasConstantes.CPG_ID);
         c.setType(Dialogs.PropertyType.select);
-        c.setTable(Cairo.Tables.CONDICIONPAGO);
+        c.setSelectTable(Cairo.Tables.CONDICIONPAGO);
         // Condicion de pago
         c.setName(getText(1395, ""));
         c.setKey(K_CPG_ID);
@@ -391,7 +391,7 @@
 
         c = properties.add(null, C.EMP_ID);
         c.setType(Dialogs.PropertyType.select);
-        c.setTable(Cairo.Tables.EMPRESA);
+        c.setSelectTable(Cairo.Tables.EMPRESA);
         // Empresa
         c.setName(getText(1114, ""));
         c.setKey(K_EMP_ID);

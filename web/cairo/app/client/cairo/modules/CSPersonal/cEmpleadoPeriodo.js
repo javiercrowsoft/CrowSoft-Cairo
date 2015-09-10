@@ -597,7 +597,7 @@
 
         c = m_dialog.getProperties().add(null, mPersonalConstantes.CCOS_ID);
         c.setType(Dialogs.PropertyType.select);
-        c.setTable(Cairo.Tables.CENTROCOSTO);
+        c.setSelectTable(Cairo.Tables.CENTROCOSTO);
         // Centro de Costo
         c.setName(getText(1057, ""));
         c.setKey(K_CCOS_ID);
@@ -612,7 +612,7 @@
 
         c = m_dialog.getProperties().add(null, mPersonalConstantes.EM_ID);
         c.setType(Dialogs.PropertyType.select);
-        c.setTable(csETablesPersonal.cSEMPLEADO);
+        c.setSelectTable(csETablesPersonal.cSEMPLEADO);
         // Empleado
         c.setName(getText(4555, ""));
         c.setKey(K_EM_ID);

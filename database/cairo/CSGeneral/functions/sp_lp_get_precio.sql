@@ -220,7 +220,7 @@ begin
 
                         create temporary table tt_listas_padre
                         (
-                          lp_id integer ,
+                          lp_id integer,
                           k integer
                         ) on commit drop;
 
@@ -373,19 +373,19 @@ begin
 
                     create temporary table tt_precios
                     (
-                      lpi_precio decimal(18,6) ,
-                      lpi_porcentaje decimal(18,6) ,
-                      lp_id_padre integer ,
-                      lp_id integer ,
+                      lpi_precio decimal(18,6),
+                      lpi_porcentaje decimal(18,6),
+                      lp_id_padre integer,
+                      lp_id integer,
                       lpm_id integer
                     ) on commit drop;
 
                     create temporary table tt_listas
                     (
                       lp_id integer  not null,
-                      lp_porcglobal decimal(18,6) ,
-                      N integer ,
-                      mon_id integer ,
+                      lp_porcglobal decimal(18,6),
+                      N integer,
+                      mon_id integer,
                       lpm_id integer
                     ) on commit drop;
 

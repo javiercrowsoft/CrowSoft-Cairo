@@ -268,6 +268,7 @@ PUT     /api/v1/general/producto/:id                   controllers.logged.module
 DELETE  /api/v1/general/producto/:id                   controllers.logged.modules.general.Productos.delete(id: Int)
 
 GET     /api/v1/general/producto/:id/stock/proveedor/:provId     controllers.logged.modules.general.Productos.getProveedorStockInfo(id: Int, provId: Int)
+GET     /api/v1/general/producto/:id/stock/cliente/:cliId        controllers.logged.modules.general.Productos.getClienteStockInfo(id: Int, cliId: Int)
 GET     /api/v1/general/producto/:id/price/:lpId                 controllers.logged.modules.general.Productos.getPrice(id: Int, lpId: Int)
 GET     /api/v1/general/producto/:id/discount/:ldId/price/:price controllers.logged.modules.general.Productos.getDiscount(id: Int, ldId: Int, price: Double)
 GET     /api/v1/general/producto/:id/taxes                       controllers.logged.modules.general.Productos.getTaxes(id: Int)
@@ -296,6 +297,8 @@ GET     /api/v1/documento/:id/next_number                     controllers.logged
 GET     /api/v1/documento/:id/is_valid_date/:date             controllers.logged.modules.documentos.Documents.isValidDate(id: Int, date: String)
 GET     /api/v1/documento/:id/supplier/:provId/next_number    controllers.logged.modules.documentos.Documents.supplierNextNumber(id: Int, provId: Int)
 GET     /api/v1/documento/:id/supplier/:provId/account        controllers.logged.modules.documentos.Documents.supplierAccount(id: Int, provId: Int)
+GET     /api/v1/documento/:id/customer/:cliId/next_number     controllers.logged.modules.documentos.Documents.customerNextNumber(id: Int, cliId: Int)
+GET     /api/v1/documento/:id/customer/:cliId/account         controllers.logged.modules.documentos.Documents.customerAccount(id: Int, cliId: Int)
 
 GET     /api/v1/documento/from_doct_id/:doctId/:doctIdApplic/:id/:idEx  controllers.logged.modules.documentos.Documents.fromDoctId(doctId: Int, doctIdApplic: Int, id: Int, idEx: Int)
 

@@ -35,9 +35,9 @@ javier at crowsoft.com.ar
 create or replace function sp_arbcortarrama
 (
   in p_us_id integer,
-  in p_ram_id_cut_from integer ,
-  in p_ram_id_to_paste_in integer ,
-  in p_solo_los_hijos smallint ,
+  in p_ram_id_cut_from integer,
+  in p_ram_id_to_paste_in integer,
+  in p_solo_los_hijos smallint,
   out rtn refcursor
 )
   returns refcursor as

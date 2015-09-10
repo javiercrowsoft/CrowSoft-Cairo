@@ -56,22 +56,22 @@ begin
    
         create temporary table tt_dc_csc_com_0010
         (
-          prov_id integer  not null,
-          cue_id integer  ,
-          emp_id integer  not null,
-          suc_id integer  not null,
+          prov_id integer not null,
+          cue_id integer,
+          emp_id integer not null,
+          suc_id integer not null,
           neto decimal(18,6) 
-           default (0) not null ,
+           default (0) not null,
           descuento decimal(18,6) 
-           default (0) not null ,
+           default (0) not null,
           subtotal decimal(18,6) 
-           default (0) not null ,
+           default (0) not null,
           iva decimal(18,6) 
-           default (0) not null ,
+           default (0) not null,
           total decimal(18,6) 
-           default (0) not null ,
+           default (0) not null,
           pago decimal(18,6) 
-           default (0) not null ,
+           default (0) not null,
           pendiente decimal(18,6)  not null
         ) on commit drop;
 

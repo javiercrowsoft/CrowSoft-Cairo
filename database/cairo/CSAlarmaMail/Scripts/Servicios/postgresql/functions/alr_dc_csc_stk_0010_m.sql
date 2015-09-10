@@ -129,10 +129,10 @@ begin
     (
     almr_id_mail integer  not null,
     pr_id integer  not null,
-    depl_id integer  ,
-    depf_id integer  ,
-    reposicion decimal(18,2) default (0) not null ,
-    stock decimal(18,2) default (0) not null ,
+    depl_id integer,
+    depf_id integer,
+    reposicion decimal(18,2) default (0) not null,
+    stock decimal(18,2) default (0) not null,
     pedidos decimal(18,2) default (0) not null
     ) on commit drop;
 

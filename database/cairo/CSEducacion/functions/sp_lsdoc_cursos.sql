@@ -1,11 +1,11 @@
 create or replace function sp_lsdoc_Cursos
 (
   in p_us_id integer,
-  p_Fini in date default null ,
-  p_Ffin in date default null ,
-  p_prof_id in varchar default null ,
-  p_mat_id in varchar default null ,
-  p_alum_id in varchar default null ,
+  p_Fini in date default null,
+  p_Ffin in date default null,
+  p_prof_id in varchar default null,
+  p_mat_id in varchar default null,
+  p_alum_id in varchar default null,
   out rtn refcursor
 )
 as

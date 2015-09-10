@@ -28,37 +28,56 @@ http://www.crowsoft.com.ar
 
 javier at crowsoft.com.ar
 */
--- Function: sp_cuentahelpcliente()
+-- Function: sp_cliente_get_next_number()
 
--- drop function sp_cuentahelpcliente(integer, integer, integer, varchar, integer, integer, varchar);
+-- drop function sp_cliente_get_next_number(integer, integer);
 
-create or replace function sp_cuentahelpcliente
+/*
+
+          select * from documento where doct_id = 8;
+          select * from cliente;
+          select * from sp_cliente_get_next_number(1, 169);
+
+*/
+
+create or replace function sp_cliente_get_next_number
 (
-  in p_emp_id integer,
-  in p_us_id integer,
-  in p_bForAbm integer,
-  in p_filter varchar default '',
-  in p_check integer default 0,
-  in p_cue_id integer default 0,
-  in p_filter2 varchar default '',
-  out rtn refcursor
+  in p_cli_id integer,
+  in p_doc_id integer default null,
+  out p_number integer,
+  out p_mask varchar,
+  out p_enabled integer
 )
-  returns refcursor as
+  returns record as
 $BODY$
+declare
+    v_ta_id integer;
 begin
-   
-  
 
-         rtn := sp_cuentaHelpCairo(p_emp_id,
-                                          p_us_id,
-                                          p_bForAbm,
-                                          p_filter,
-                                          p_check,
-                                          p_cue_id,
-                                          p_filter2);        
+    select sp_cliente_get_talonario(p_cli_id, p_doc_id) into v_ta_id;
+
+    if v_ta_id is not null then
+
+        select ta_ultimonro, ta_mascara, ta_tipo
+          into p_number, p_mask, p_enabled
+        from talonario
+        where ta_id = v_ta_id;
+
+    end if;
+
+    p_number := coalesce(p_number, 0) + 1;
+    p_mask := coalesce(p_mask, '');
+    p_enabled := coalesce(p_enabled, 0);
+
+    if(p_enabled != 1 /* suggested */) then
+
+        p_enabled := 0;
+
+    end if;
+
 end;
 $BODY$
   language plpgsql volatile
   cost 100;
-alter function sp_cuentahelpcliente(integer, integer, integer, varchar, integer, integer, varchar)
+alter function sp_cliente_get_next_number(integer, integer)
   owner to postgres;

@@ -33,10 +33,10 @@ javier at crowsoft.com.ar
 -- drop function sp_arbgetdecendencia();
 
 create or replace function sp_arbgetdecendencia(
-        in p_ram_id integer default null ,
-        in p_incluir_ram_id integer default 1 ,
-        in p_incluir_ram_id_padre integer default 0 , -- este default es necesario para: SP_ArbCopiarRama, SP_ArbBorrarRama
-        in p_incluir_nombre integer default 0 ,       -- este default es necesario para: SP_ArbCopiarRama, SP_ArbBorrarRama
+        in p_ram_id integer default null,
+        in p_incluir_ram_id integer default 1,
+        in p_incluir_ram_id_padre integer default 0, -- este default es necesario para: SP_ArbCopiarRama, SP_ArbBorrarRama
+        in p_incluir_nombre integer default 0,       -- este default es necesario para: SP_ArbCopiarRama, SP_ArbBorrarRama
         in p_incluir_arb_id integer default 0,
         out rtn refcursor)
   returns refcursor as

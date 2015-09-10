@@ -43,7 +43,7 @@ javier at crowsoft.com.ar
 create or replace function sp_proveedor_get_next_number
 (
   in p_prov_id integer,
-  in p_doc_id integer default null ,
+  in p_doc_id integer default null,
   out p_number integer,
   out p_mask varchar,
   out p_enabled integer

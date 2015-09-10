@@ -16,15 +16,15 @@ sp_lsdoc_MovimientoFondos
 */
 (
   in p_us_id integer,
-  p_Fini in date default null ,
-  p_Ffin in date default null ,
-  p_cli_id in varchar default null ,
-  p_est_id in varchar default null ,
-  p_ccos_id in varchar default null ,
-  p_suc_id in varchar default null ,
-  p_us_id_responsable in varchar default null ,
-  p_doc_id in varchar default null ,
-  p_emp_id in varchar default null ,
+  p_Fini in date default null,
+  p_Ffin in date default null,
+  p_cli_id in varchar default null,
+  p_est_id in varchar default null,
+  p_ccos_id in varchar default null,
+  p_suc_id in varchar default null,
+  p_us_id_responsable in varchar default null,
+  p_doc_id in varchar default null,
+  p_emp_id in varchar default null,
   out rtn refcursor
 )
 as

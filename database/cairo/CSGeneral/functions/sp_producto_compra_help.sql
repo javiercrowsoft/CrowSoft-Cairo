@@ -38,14 +38,14 @@ create or replace function sp_productocomprahelp
           select * from sp_ProductoCompraHelp(1,1,0,'Impresora Deskjet 450ci',1,26); fetch all from rtn;
 */
 (
-  in p_emp_id integer ,
-  in p_us_id integer ,
-  in p_bForAbm integer ,
-  in p_filter varchar default '' ,
-  in p_check integer default 0 ,
-  in p_pr_id integer default 0 ,
-  in p_filter2 varchar default '' ,
-  in p_prhc_id integer default 0 ,
+  in p_emp_id integer,
+  in p_us_id integer,
+  in p_bForAbm integer,
+  in p_filter varchar default '',
+  in p_check integer default 0,
+  in p_pr_id integer default 0,
+  in p_filter2 varchar default '',
+  in p_prhc_id integer default 0,
   out rtn refcursor
 )
   returns refcursor as
@@ -77,13 +77,13 @@ begin
                 pr_descripcompra Observaciones,
                 pr_codigo Codigo
          from Producto
-         where ( lower(f_unaccent(pr_codigo)) LIKE '%' || p_filter || '%'
-                 or lower(f_unaccent(pr_nombrecompra)) LIKE '%' || p_filter || '%'
-                 or lower(f_unaccent(pr_descripcompra)) LIKE '%' || p_filter || '%'
+         where ( lower(f_unaccent(pr_codigo)) like '%' || p_filter || '%'
+                 or lower(f_unaccent(pr_nombrecompra)) like '%' || p_filter || '%'
+                 or lower(f_unaccent(pr_descripcompra)) like '%' || p_filter || '%'
                  or p_filter is null )
            and ( activo <> 0 or p_bForAbm <> 0 )
            and pr_secompra <> 0
-         LIMIT 50;
+         limit 50;
 
    end if;
 

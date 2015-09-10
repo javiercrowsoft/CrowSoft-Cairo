@@ -262,7 +262,7 @@
 
         c = m_dialog.getProperties().add(null, mStockConstantes.DOC_ID);
         c.setType(Dialogs.PropertyType.select);
-        c.setTable(csETablasDocumento.CSDocumento);
+        c.setSelectTable(csETablasDocumento.CSDocumento);
         // Documentos
         c.setName(getText(1611, ""));
         c.setKey(K_DOC_ID);
@@ -278,7 +278,7 @@
 
         c = m_dialog.getProperties().add(null, mStockConstantes.SUC_ID);
         c.setType(Dialogs.PropertyType.select);
-        c.setTable(Cairo.Tables.SUCURSAL);
+        c.setSelectTable(Cairo.Tables.SUCURSAL);
         // Sucursal
         c.setName(getText(1281, ""));
         c.setKey(K_SUC_ID);
@@ -293,7 +293,7 @@
 
         c = m_dialog.getProperties().add(null, mStockConstantes.LGJ_ID);
         c.setType(Dialogs.PropertyType.select);
-        c.setTable(mStockConstantes.cSLEGAJO);
+        c.setSelectTable(mStockConstantes.cSLEGAJO);
         // Legajo
         c.setName(getText(1575, ""));
         c.setKey(K_LGJ_ID);
@@ -309,7 +309,7 @@
 
         c = m_dialog.getProperties().add(null, C.EMP_ID);
         c.setType(Dialogs.PropertyType.select);
-        c.setTable(Cairo.Tables.EMPRESA);
+        c.setSelectTable(Cairo.Tables.EMPRESA);
         // Empresa
         c.setName(getText(1114, ""));
         c.setKey(K_EMP_ID);

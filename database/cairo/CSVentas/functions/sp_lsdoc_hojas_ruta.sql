@@ -1,11 +1,11 @@
 create or replace function sp_lsdoc_HojasRuta
 (
   in p_us_id integer,
-  p_Fini in date default null ,
-  p_Ffin in date default null ,
-  p_hr_nrodoc in varchar default null ,
-  p_cam_id in varchar default null ,
-  p_prs_id in varchar default null ,
+  p_Fini in date default null,
+  p_Ffin in date default null,
+  p_hr_nrodoc in varchar default null,
+  p_cam_id in varchar default null,
+  p_prs_id in varchar default null,
   out rtn refcursor
 )
 as

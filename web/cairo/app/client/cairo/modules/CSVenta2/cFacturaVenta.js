@@ -563,7 +563,7 @@
           }).then(function() {
 
             setDataCliente();
-            return D.setDocNumberForProveedor(m_lastCliId, m_lastDocId, m_dialog)
+            return D.setDocNumberForCliente(m_lastCliId, m_lastDocId, m_dialog)
 
           }).then(function(enabled) {
 
@@ -1453,7 +1453,7 @@
       };
 
       self.getPath = function() {
-        return "#general/facturaventa/" + m_id.toString();
+        return "#venta/facturadeventa/" + m_id.toString();
       };
 
       self.getEditorName = function() {
@@ -1939,12 +1939,12 @@
 
           case KI_PR_ID:
 
-            Cairo.LoadingMessage.show("FacturaCompras", "Loading data for product.");
+            Cairo.LoadingMessage.show("Factura de Ventas", "Loading data for product.");
 
             var row = grid.getRows().item(lRow);
             p = setDataProducto(row, newValueId)
-              .success(call(D.setPrecios, row, newValueId, KI_PRECIO_LP, KI_PRECIO_USR))
-              .success(call(D.setDescuentos, row, newValueId, getPrecioFromRow(row), KI_DESCUENTO))
+              .success(call(D.setPrecios, row, newValueId, m_properties.item(C.LP_ID).getSelectId(), KI_PRECIO_LP, KI_PRECIO_USR))
+              .success(call(D.setDescuentos, row, newValueId, getPrecioFromRow(row), m_properties.item(C.LD_ID).getSelectId(), KI_DESCUENTO))
               .success(call(setTasasImpositivas, row, newValueId, newValue))
               .then(function(result) { Cairo.LoadingMessage.close(); return result; })
             ;
@@ -1953,7 +1953,7 @@
           case KI_PRECIO_USR:
 
             var row = grid.getRows().item(lRow);
-            p = D.setDescuentos(row, cellId(row, KI_PR_ID), newValue, KI_DESCUENTO);
+            p = D.setDescuentos(row, cellId(row, KI_PR_ID), newValue, m_properties.item(C.LD_ID).getSelectId(), KI_DESCUENTO);
             break;
 
         }
@@ -2188,6 +2188,8 @@
 
         tabs.add(null).setIndex(0).setName(Cairo.Constants.TAB_GENERAL);
         tabs.add(null).setIndex(1).setName(getText(1566, "")); // Adicionales
+        tabs.add(null).setIndex(2).setName(getText(4909, "")); // Descuentos
+        tabs.add(null).setIndex(3).setName(getText(1861, "")); // Observaciones
 
         var properties = m_properties;
 
@@ -2292,6 +2294,7 @@
         elem.setName(getText(1573, "")); // Desc. 1
         elem.setKey(K_DESCUENTO1);
         elem.setValue(m_descuento1);
+        elem.setTabIndex(2);
 
         elem = properties.add(null, CV.FV_DESCUENTO2);
         elem.setType(T.numeric);
@@ -2299,6 +2302,7 @@
         elem.setName("2");
         elem.setKey(K_DESCUENTO2);
         elem.setValue(m_descuento2);
+        elem.setTabIndex(2);
 
         elem = properties.add(null, C.LP_ID);
         elem.setType(T.select);
@@ -2308,6 +2312,7 @@
         elem.setKey(K_LP_ID);
         elem.setSelectId(m_lpId);
         elem.setValue(m_listaPrecio);
+        elem.setTabIndex(2);
 
         elem = properties.add(null, C.LD_ID);
         elem.setType(T.select);
@@ -2317,6 +2322,7 @@
         elem.setKey(K_LD_ID);
         elem.setSelectId(m_ldId);
         elem.setValue(m_listaDescuento);
+        elem.setTabIndex(2);
 
         elem = properties.add(null, C.VEN_ID);
         elem.setType(T.select);
@@ -2325,6 +2331,7 @@
         elem.setKey(K_VEN_ID);
         elem.setSelectId(m_venId);
         elem.setValue(m_vendedor);
+        elem.setTabIndex(1);
 
         elem = properties.add(null, C.SUC_ID);
         elem.setType(T.select);
@@ -2341,10 +2348,11 @@
         elem.setSize(5000);
         elem.setKey(K_DESCRIP);
         elem.setValue(m_descrip);
+        elem.setTabIndex(3);
 
         elem = properties.add(null, C.LGJ_ID);
         elem.setType(T.select);
-        elem.setTable(CSLEGAJO);
+        elem.setSelectTable(CSLEGAJO);
         elem.setName(getText(1575, "")); // Legajo
         elem.setKey(K_LGJ_ID);
         elem.setSelectId(m_lgjId);
@@ -2451,6 +2459,7 @@
           elem = properties.add(null, CV.CLIENTE_DATA_ADD);
           elem.setType(T.text);
           elem.setSubType(Dialogs.PropertySubType.memo);
+          elem.setTabIndex(3);
 
         }
 
@@ -2718,7 +2727,7 @@
         elem = columns.add(null);
         elem.setName(getText(1367, "")); // Articulo
         elem.setType(T.select);
-        elem.setTable(Cairo.Tables.PRODUCTOS_DE_VENTA);
+        elem.setSelectTable(Cairo.Tables.PRODUCTOS_DE_VENTA);
         elem.setKey(KI_PR_ID);
         if(Cairo.UserConfig.getMultiSelect()) {
           elem.setSelectType(Cairo.Select.SelectType.tree);
@@ -2971,7 +2980,7 @@
           elem.setKey(KI_DESCUENTO);
 
           elem = row.add(null);
-          elem.setValue(getValue(m_data.items[_i], CV.UN_NAME));
+          elem.setValue(getValue(m_data.items[_i], C.UN_NAME));
           elem.setKey(KI_UNIDAD);
 
           elem = row.add(null);
@@ -3228,8 +3237,8 @@
               m_bIva = valField(data, C.HAS_IVA_RI);
               m_bIvaRni = valField(data, C.HAS_IVA_RNI);
 
-              m_taPropuesto = valField(data, C.TA_MASCARA);
-              m_taMascara = valField(data, C.TA_PROPUESTO);
+              m_taPropuesto = valField(data, C.TA_PROPUESTO);
+              m_taMascara = valField(data, C.TA_MASCARA);
               m_rvTaPropuesto = valField(data, CV.RV_TA_PROPUESTO);
 
               m_lastDocId = m_docId;
@@ -3245,6 +3254,7 @@
 
               p = D.loadPercepcionesForCliente(m_lastCliId, m_fecha).successWithResult(function(response) {
                 m_percepciones = response.percepciones;
+                return true;
               });
 
             }
@@ -3418,7 +3428,7 @@
 
               case KI_FVI_ID:
                 var apiPath = Cairo.Database.getAPIVersion();
-                register.setPath(apiPath + "general/facturaventa");
+                register.setPath(apiPath + "venta/facturaventa");
 
                 if(m_copy) {
                   fields.add(CV.FVI_ID, Cairo.Constants.NEW_ID, Types.integer);
@@ -3680,12 +3690,12 @@
 
             if(data.ti_ri_compra === 0) {
               return M.showWarningWithFalse(getText(1597, "", prName));
-              // El producto [" & prName & "] no tiene definida su tasa impositiva de Compras para el iva responsable inscripto
+              // El producto [" & prName & "] no tiene definida su tasa impositiva de ventas para el iva responsable inscripto
             }
 
             if(data.ti_rni_compra === 0) {
               return M.showWarningWithFalse(getText(1598, "", prName));
-              // El producto [" & prName & "] no tiene definida su tasa impositiva de Compras para el iva responsable no inscripto
+              // El producto [" & prName & "] no tiene definida su tasa impositiva de ventas para el iva responsable no inscripto
             }
 
             if(m_bIva) {
@@ -3848,7 +3858,7 @@
 
       var setDataCliente = function() {
         var p;
-        var property = m_properties.item(C.PROV_ID);
+        var property = m_properties.item(C.CLI_ID);
 
         if(m_lastCliId !== property.getSelectId()) {
 
@@ -3867,9 +3877,9 @@
             var transId = valField(response.data, C.TRANS_ID);
             var proId = valField(response.data, C.PRO_ID);
             var cpgId = valField(response.data, C.CPG_ID);
-            var lpFilter = D.getListaPrecioForProveedor(m_docId, m_cliId);
-            var ldFilter = D.getListaDescuentoForProveedor(m_docId, m_cliId);
-            var clisFilter = D.getListaDescuentoForProveedor(m_docId, m_cliId);
+            var lpFilter = D.getListaPrecioForCliente(m_docId, m_cliId);
+            var ldFilter = D.getListaDescuentoForCliente(m_docId, m_cliId);
+            var clisFilter = D.getListaDescuentoForCliente(m_docId, m_cliId);
 
             if(cpgId !== NO_ID) {
 
@@ -4271,8 +4281,8 @@
       };
 
       var startWizard = function(wizard, wizardConstructor) {
-        wizard.setCliId(m_provId);
-        wizard.setCliente(m_proveedor);
+        wizard.setCliId(m_cliId);
+        wizard.setCliente(m_cliente);
         wizard.setDocId(m_lastDocId);
         wizard.setMonId(m_lastMonId);
         wizard.setIva(m_bIva, m_bIvaRni);
@@ -5083,16 +5093,16 @@
         return D.loadCajaForCurrentUser().then(
           function(result) {
             if(result.success) {
-              m_cajaMsg = Cairo.Database.valField(result.cajaInfo, "info");
+              m_cajaMsg = valField(result.cajaInfo, "info");
               m_bCajaError = false;
-              var warningMessage = Cairo.Database.valField(result.cajaInfo, "warning");
+              var warningMessage = valField(result.cajaInfo, "warning");
               if(warningMessage !== "") {
                 m_cajaMsg = warningMessage;
                 m_bCajaError = true;
                 return M.showWarningWithFalse(warningMessage);
               }
               else {
-                m_cjId = Cairo.Database.valField(result.cajaInfo, C.CJ_ID);
+                m_cjId = valField(result.cajaInfo, C.CJ_ID);
                 return P.resolvedPromise(true);
               }
             }
@@ -5127,7 +5137,7 @@
 
     Edit.Controller.edit = function(id) {
 
-      Cairo.LoadingMessage.show("Factura de Compras", "Loading Factura de Venta from Crowsoft Cairo server.");
+      Cairo.LoadingMessage.show("Factura de Ventas", "Loading Factura de Venta from Crowsoft Cairo server.");
       var editor = Cairo.FacturaVenta.Edit.Controller.getEditor();
       //
       // wizards
@@ -5386,7 +5396,7 @@
         c = m_properties.add(null, C.CLI_ID);
         c.setType(T.select);
         c.setSelectTable(Cairo.Tables.CLIENTE);
-        c.setName(getText(1150, "")); // Proveedor
+        c.setName(getText(1150, "")); // Cliente
         c.setKey(K_CLI_ID);
         c.setValue(m_cliente);
         c.setSelectId(val(m_cliId));

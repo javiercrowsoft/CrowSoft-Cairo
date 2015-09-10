@@ -231,7 +231,7 @@
 
         c = m_dialog.getProperties().add(null, C.EST_ID);
         c.setType(Dialogs.PropertyType.select);
-        c.setTable(csEstado);
+        c.setSelectTable(csEstado);
         // Estado
         c.setName(getText(1568, ""));
         c.setKey(K_ESTADO);
@@ -246,7 +246,7 @@
 
         c = m_dialog.getProperties().add(null, mEnvioConstantes.CLI_ID);
         c.setType(Dialogs.PropertyType.select);
-        c.setTable(Cairo.Tables.CLIENTE);
+        c.setSelectTable(Cairo.Tables.CLIENTE);
         // Cliente
         c.setName(getText(1150, ""));
         c.setKey(K_CLIENTE);

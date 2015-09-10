@@ -33,9 +33,9 @@ javier at crowsoft.com.ar
 -- drop function sp_arbgethojas();
 
 create or replace function sp_arbgethojas(
-  in p_ram_id integer default null ,
-  in p_soloColumnas integer default 0 ,
-  in p_aBuscar varchar default '' ,
+  in p_ram_id integer default null,
+  in p_soloColumnas integer default 0,
+  in p_aBuscar varchar default '',
   in p_top integer default 3000,
   out rtn refcursor
 )
@@ -123,12 +123,9 @@ begin
           v_campos,
           v_campoId,
           v_campoNombre
-     from Arbol ,
-          Rama ,
-          Tabla
-      where Arbol.arb_id = Rama.arb_id
-              and Tabla.tbl_id = Arbol.tbl_Id
-              and Rama.ram_id = p_ram_id;
+     from arbol inner join rama on arbol.arb_id = rama.arb_id
+                inner join tabla on tabla.tbl_id = arbol.tbl_id
+     where rama.ram_id = p_ram_id;
 
    --------------------------------------------------------------------
    if LTRIM(v_camposRama) <> '' then

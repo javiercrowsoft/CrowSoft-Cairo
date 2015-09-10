@@ -4,13 +4,13 @@ sp_lsdoc_Emails 1,'20090101','20091231','0','0','0','0','0'
 */
 (
   in p_us_id integer,
-  p_Fini in date default null ,
-  p_Ffin in date default null ,
-  p_cli_id in varchar default null ,
-  p_est_id in varchar default null ,
-  p_cmi_id in varchar default null ,
-  p_cmia_id in varchar default null ,
-  p_cmiea_id in varchar default null ,
+  p_Fini in date default null,
+  p_Ffin in date default null,
+  p_cli_id in varchar default null,
+  p_est_id in varchar default null,
+  p_cmi_id in varchar default null,
+  p_cmia_id in varchar default null,
+  p_cmiea_id in varchar default null,
   out rtn refcursor
 )
 as

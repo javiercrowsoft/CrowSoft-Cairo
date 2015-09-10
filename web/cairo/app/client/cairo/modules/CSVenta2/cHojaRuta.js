@@ -595,7 +595,7 @@
 
         c = m_dialog.getProperties().add(null, CV.PRS_ID);
         c.setType(Dialogs.PropertyType.select);
-        c.setTable(Cairo.Tables.PERSONA);
+        c.setSelectTable(Cairo.Tables.PERSONA);
         // Responsable
         c.setName(getText(1822, ""));
         c.setKey(K_PER_ID);
@@ -610,7 +610,7 @@
 
         c = m_dialog.getProperties().add(null, C.CAM_ID);
         c.setType(Dialogs.PropertyType.select);
-        c.setTable(Cairo.Tables.CAMION);
+        c.setSelectTable(Cairo.Tables.CAMION);
         // Camion
         c.setName(getText(3489, ""));
         c.setKey(K_CAM_ID);

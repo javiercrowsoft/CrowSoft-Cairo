@@ -29,6 +29,9 @@ case class FacturaVentaBaseData(
                                   sucId: Int,
                                   cpgId: Int,
                                   lgjId: Int,
+                                  venId: Int,
+                                  clisId: Int,
+                                  ordenCompra: String,
                                   cai: String,
                                   descrip: String,
                                   grabarAsiento: Boolean
@@ -55,7 +58,8 @@ case class FacturaVentaDatesData(
 case class FacturaVentaStockData(
                                    proIdOrigen: Int,
                                    proIdDestino: Int,
-                                   deplId: Int
+                                   deplId: Int,
+                                   transId: Int
                                    )
 
 case class FacturaVentaTotalsData(
@@ -229,6 +233,9 @@ object FacturaVentas extends Controller with ProvidesUser {
         GC.SUC_ID -> number,
         GC.CPG_ID -> number,
         GC.LGJ_ID -> number,
+        GC.VEN_ID -> number,
+        GC.CLIS_ID -> number,
+        C.FV_ORDEN_COMPRA -> text,
         C.FV_CAI -> text,
         C.FV_DESCRIP -> text,
         C.FV_GRABAR_ASIENTO -> boolean)
@@ -251,7 +258,8 @@ object FacturaVentas extends Controller with ProvidesUser {
       C.FACTURA_STOCK -> mapping (
         C.PRO_ID_ORIGEN -> number,
         C.PRO_ID_DESTINO -> number,
-        GC.DEPL_ID -> number)
+        GC.DEPL_ID -> number,
+        GC.TRANS_ID -> number)
         (FacturaVentaStockData.apply)(FacturaVentaStockData.unapply),
       C.FACTURA_TOTALS -> mapping (
         C.FV_NETO -> of(Global.doubleFormat),
@@ -380,6 +388,11 @@ object FacturaVentas extends Controller with ProvidesUser {
       GC.CCOS_NAME -> Json.toJson(facturaVenta.base.ccosName),
       GC.LGJ_ID -> Json.toJson(facturaVenta.base.lgjId),
       GC.LGJ_CODE -> Json.toJson(facturaVenta.base.lgjCode),
+      GC.VEN_ID -> Json.toJson(facturaVenta.base.venId),
+      GC.VEN_NAME -> Json.toJson(facturaVenta.base.venName),
+      GC.CLIS_ID -> Json.toJson(facturaVenta.base.clisId),
+      GC.CLIS_NAME -> Json.toJson(facturaVenta.base.clisName),
+      C.FV_ORDEN_COMPRA -> Json.toJson(facturaVenta.base.ordenCompra),
       C.FV_CAI -> Json.toJson(facturaVenta.base.cai),
       C.FV_DESCRIP -> Json.toJson(facturaVenta.base.descrip),
       C.FV_GRABAR_ASIENTO -> Json.toJson(facturaVenta.base.grabarAsiento),
@@ -411,6 +424,8 @@ object FacturaVentas extends Controller with ProvidesUser {
 
       GC.DEPL_ID -> Json.toJson(facturaVenta.stock.deplId),
       GC.DEPL_NAME -> Json.toJson(facturaVenta.stock.deplName),
+      GC.TRANS_ID -> Json.toJson(facturaVenta.stock.transId),
+      GC.TRANS_NAME -> Json.toJson(facturaVenta.stock.transName),
       C.PRO_ID_ORIGEN -> Json.toJson(facturaVenta.stock.proIdOrigen),
       C.PRO_ORIGEN_NAME -> Json.toJson(facturaVenta.stock.proNameOrigen),
       C.PRO_ID_DESTINO -> Json.toJson(facturaVenta.stock.proIdOrigen),
@@ -430,7 +445,8 @@ object FacturaVentas extends Controller with ProvidesUser {
       // Items
       "items" -> Json.toJson(writeFacturaVentaItems(facturaVenta.items.items)),
       "serialNumbers" -> Json.toJson(writeFacturaVentaItemSeries(facturaVenta.items.series)),
-      "percepciones" -> Json.toJson(writeFacturaVentaPercepciones(facturaVenta.items.percepciones))
+      "percepciones" -> Json.toJson(writeFacturaVentaPercepciones(facturaVenta.items.percepciones)),
+      "kitDefinitions" -> Json.toJson(writeFacturaVentaItemKits(facturaVenta.items.kits))
     )
     def facturaVentaItemWrites(i: FacturaVentaItem) = Json.obj(
       C.FVI_ID -> Json.toJson(i.id),
@@ -446,6 +462,7 @@ object FacturaVentas extends Controller with ProvidesUser {
       C.CUE_ID_IVA_RI -> Json.toJson(i.base.cueIdIvaRi),
       C.CUE_ID_IVA_RNI -> Json.toJson(i.base.cueIdIvaRni),
       C.STL_ID -> Json.toJson(i.base.stlId),
+      C.STL_CODE -> Json.toJson(i.base.stlCode),
       C.FVI_ORDEN -> Json.toJson(i.base.orden),
       GC.PR_LLEVA_NRO_SERIE -> Json.toJson(i.base.llevaNroSerie),
       GC.PR_LLEVA_NRO_LOTE -> Json.toJson(i.base.llevaNroLote),
@@ -461,7 +478,7 @@ object FacturaVentas extends Controller with ProvidesUser {
       C.FVI_IVA_RIPORC -> Json.toJson(i.totals.ivaRiPorc),
       C.FVI_IVA_RNIPORC -> Json.toJson(i.totals.ivaRniPorc),
       C.FVI_INTERNOS_PORC -> Json.toJson(i.totals.internosPorc),
-      GC.PR_PORC_INTERNO_C -> Json.toJson(i.totals.prInternosPorc),
+      GC.PR_PORC_INTERNO_V -> Json.toJson(i.totals.prInternosPorc),
       C.FVI_IMPORTE -> Json.toJson(i.totals.importe),
       C.FVI_IMPORTE_ORIGEN -> Json.toJson(i.totals.importeOrigen)
     )
@@ -485,9 +502,16 @@ object FacturaVentas extends Controller with ProvidesUser {
       C.FVPERC_ORIGEN -> Json.toJson(p.origen),
       C.FVPERC_ORDEN -> Json.toJson(p.orden)
     )
+    def facturaVentaItemKitWrites(p: FacturaVentaItemKit) = Json.obj(
+      GC.PR_ID -> Json.toJson(p.id),
+      GC.PR_NAME_COMPRA -> Json.toJson(p.name),
+      GC.PRK_CANTIDAD -> Json.toJson(p.amount),
+      GC.PR_LLEVA_NRO_SERIE -> Json.toJson(p.hasSerial)
+    )
     def writeFacturaVentaItems(items: List[FacturaVentaItem]) = items.map(item => facturaVentaItemWrites(item))
     def writeFacturaVentaItemSeries(items: List[FacturaVentaItemSerie]) = items.map(item => facturaVentaItemSerieWrites(item))
     def writeFacturaVentaPercepciones(items: List[FacturaVentaPercepcion]) = items.map(item => facturaVentaPercepcionWrites(item))
+    def writeFacturaVentaItemKits(items: List[FacturaVentaItemKit]) = items.map(item => facturaVentaItemKitWrites(item))
   }
 
   def get(id: Int) = GetAction { implicit request =>
@@ -723,6 +747,8 @@ object FacturaVentas extends Controller with ProvidesUser {
 
       List(), /* only used when loading an invoice to respond a get FacturaVenta */
 
+      List(), /* only used when loading an invoice to respond a get FacturaVenta */
+
       getPercepciones(facturaVenta.percepciones),
 
       /* only used in save */
@@ -747,6 +773,9 @@ object FacturaVentas extends Controller with ProvidesUser {
         facturaVenta.base.sucId,
         facturaVenta.base.cpgId,
         facturaVenta.base.lgjId,
+        facturaVenta.base.venId,
+        facturaVenta.base.clisId,
+        facturaVenta.base.ordenCompra,
         facturaVenta.base.cai,
         facturaVenta.base.descrip,
         facturaVenta.base.grabarAsiento),
@@ -766,7 +795,8 @@ object FacturaVentas extends Controller with ProvidesUser {
       FacturaVentaStock(
         facturaVenta.stock.proIdOrigen,
         facturaVenta.stock.proIdDestino,
-        facturaVenta.stock.deplId),
+        facturaVenta.stock.deplId,
+        facturaVenta.stock.transId),
       FacturaVentaTotals(
         facturaVenta.totals.neto,
         facturaVenta.totals.ivaRi,

@@ -13,12 +13,12 @@ sp_lsdoc_StocksProveedor
 */
 (
   in p_us_id integer,
-  p_Fini in date default null ,
-  p_Ffin in date default null ,
-  p_prov_id in varchar default null ,
-  p_suc_id in varchar default null ,
-  p_doc_id in varchar default null ,
-  p_emp_id in varchar default null ,
+  p_Fini in date default null,
+  p_Ffin in date default null,
+  p_prov_id in varchar default null,
+  p_suc_id in varchar default null,
+  p_doc_id in varchar default null,
+  p_emp_id in varchar default null,
   out rtn refcursor
 )
 as

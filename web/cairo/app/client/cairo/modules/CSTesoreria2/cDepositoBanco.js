@@ -237,7 +237,7 @@
 
         c = m_dialog.getProperties().add(null, mTesoreriaConstantes.BCO_ID);
         c.setType(Dialogs.PropertyType.select);
-        c.setTable(Cairo.Tables.BANCO);
+        c.setSelectTable(Cairo.Tables.BANCO);
         // Banco
         c.setName(getText(1122, ""));
         c.setKey(K_BCO_ID);
@@ -252,7 +252,7 @@
 
         c = m_dialog.getProperties().add(null, mTesoreriaConstantes.CUE_ID);
         c.setType(Dialogs.PropertyType.select);
-        c.setTable(Cairo.Tables.CUENTA);
+        c.setSelectTable(Cairo.Tables.CUENTA);
         // Cuenta
         c.setName(getText(1267, ""));
         c.setKey(K_CUE_ID);
@@ -267,7 +267,7 @@
 
         c = m_dialog.getProperties().add(null, C.EST_ID);
         c.setType(Dialogs.PropertyType.select);
-        c.setTable(csEstado);
+        c.setSelectTable(csEstado);
         // Estado
         c.setName(getText(1568, ""));
         c.setKey(K_EST_ID);
@@ -282,7 +282,7 @@
 
         c = m_dialog.getProperties().add(null, mTesoreriaConstantes.SUC_ID);
         c.setType(Dialogs.PropertyType.select);
-        c.setTable(Cairo.Tables.SUCURSAL);
+        c.setSelectTable(Cairo.Tables.SUCURSAL);
         // Sucursal
         c.setName(getText(1281, ""));
         c.setKey(K_SUC_ID);
@@ -297,7 +297,7 @@
 
         c = m_dialog.getProperties().add(null, mTesoreriaConstantes.DOC_ID);
         c.setType(Dialogs.PropertyType.select);
-        c.setTable(csETablasDocumento.CSDocumento);
+        c.setSelectTable(csETablasDocumento.CSDocumento);
         // Documentos
         c.setName(getText(1567, ""));
         c.setKey(K_DOC_ID);
@@ -314,7 +314,7 @@
 
         c = m_dialog.getProperties().add(null, C.EMP_ID);
         c.setType(Dialogs.PropertyType.select);
-        c.setTable(Cairo.Tables.EMPRESA);
+        c.setSelectTable(Cairo.Tables.EMPRESA);
         // Empresa
         c.setName(getText(1114, ""));
         c.setKey(K_EMP_ID);

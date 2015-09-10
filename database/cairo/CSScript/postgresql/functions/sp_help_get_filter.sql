@@ -33,7 +33,7 @@ javier at crowsoft.com.ar
 -- drop function sp_helpgetfilter();
 
 create or replace function sp_helpgetfilter(
-  in p_bFilterType integer ,
+  in p_bFilterType integer,
   in p_filter varchar)
   returns varchar as
 $BODY$

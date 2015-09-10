@@ -253,7 +253,7 @@
 
         c = m_dialog.getProperties().add(null, mTesoreriaConstantes.CUE_ID);
         c.setType(Dialogs.PropertyType.select);
-        c.setTable(Cairo.Tables.CUENTA);
+        c.setSelectTable(Cairo.Tables.CUENTA);
         // Cuenta
         c.setName(getText(1267, ""));
         c.setKey(K_CUE_ID);
@@ -268,7 +268,7 @@
 
         c = m_dialog.getProperties().add(null, mTesoreriaConstantes.BCO_ID);
         c.setType(Dialogs.PropertyType.select);
-        c.setTable(Cairo.Tables.BANCO);
+        c.setSelectTable(Cairo.Tables.BANCO);
         // Banco
         c.setName(getText(1122, ""));
         c.setKey(K_BCO_ID);
@@ -284,7 +284,7 @@
 
         c = m_dialog.getProperties().add(null, C.EMP_ID);
         c.setType(Dialogs.PropertyType.select);
-        c.setTable(Cairo.Tables.EMPRESA);
+        c.setSelectTable(Cairo.Tables.EMPRESA);
         // Empresa
         c.setName(getText(1114, ""));
         c.setKey(K_EMP_ID);

@@ -28,37 +28,41 @@ http://www.crowsoft.com.ar
 
 javier at crowsoft.com.ar
 */
--- Function: sp_cuentahelpcliente()
+-- Function: sp_productoventahelp()
 
--- drop function sp_cuentahelpcliente(integer, integer, integer, varchar, integer, integer, varchar);
+-- drop function sp_help_get_filter(integer, varchar);
 
-create or replace function sp_cuentahelpcliente
+create or replace function sp_help_get_filter
 (
-  in p_emp_id integer,
-  in p_us_id integer,
-  in p_bForAbm integer,
-  in p_filter varchar default '',
-  in p_check integer default 0,
-  in p_cue_id integer default 0,
-  in p_filter2 varchar default '',
-  out rtn refcursor
+  in p_bFilterType integer,
+  in p_filter varchar
 )
-  returns refcursor as
+  returns varchar as
 $BODY$
 begin
-   
-  
 
-         rtn := sp_cuentaHelpCairo(p_emp_id,
-                                          p_us_id,
-                                          p_bForAbm,
-                                          p_filter,
-                                          p_check,
-                                          p_cue_id,
-                                          p_filter2);        
+  /*
+  HelpFilterBeginLike = 1
+  HelpFilterHaveTo = 2
+  HelpFilterWildcard = 3
+  HelpFilterEndLike = 4
+  HelpFilterIsLike = 5
+  */
+   case p_bFilterType 
+      when 1 then p_filter := p_filter || '%';
+      when 3 then p_filter := replace(p_filter, '*', '%');
+      when 4 then p_filter := '%' || p_filter;
+      when 5 then p_filter := p_filter;
+      -- Default
+      -- case 2 then '%' + @@filter + '%'
+      else p_filter := '%' || p_filter || '%';
+   end case;
+
+   return p_filter;
+
 end;
 $BODY$
   language plpgsql volatile
   cost 100;
-alter function sp_cuentahelpcliente(integer, integer, integer, varchar, integer, integer, varchar)
+alter function sp_help_get_filter(integer, varchar)
   owner to postgres;

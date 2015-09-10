@@ -16,14 +16,14 @@ sp_lsdoc_DespachoImpCalculos
 */
 (
   in p_us_id integer,
-  p_Fini in date default null ,
-  p_Ffin in date default null ,
-  p_prov_id in varchar default null ,
-  p_dic_titulo in varchar default null ,
-  p_dic_via in varchar default null ,
-  p_dic_viaempresa in varchar default null ,
-  p_dic_factura in varchar default null ,
-  p_dic_descrip in varchar default null ,
+  p_Fini in date default null,
+  p_Ffin in date default null,
+  p_prov_id in varchar default null,
+  p_dic_titulo in varchar default null,
+  p_dic_via in varchar default null,
+  p_dic_viaempresa in varchar default null,
+  p_dic_factura in varchar default null,
+  p_dic_descrip in varchar default null,
   out rtn refcursor
 )
 as
