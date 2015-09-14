@@ -7,6 +7,8 @@
 
       var self = {};
 
+      var getText = Cairo.Language.getText;
+
       var Dialogs = Cairo.Dialogs;
       var DB = Cairo.Database;
       var C = Cairo.General.Constants;
