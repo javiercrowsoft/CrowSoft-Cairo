@@ -134,6 +134,17 @@ Example 14: 	To exclude computed columns from the insert statement:
 
 set NOCOUNT on
 
+DECLARE @SQLString nvarchar(500);
+DECLARE @ParmDefinition nvarchar(500);
+declare @has_rows int
+
+SET @SQLString = N'select @has_rowsOUT = case when count(*) > 0 then 1 else 0 end from ' + @table_name;
+SET @ParmDefinition = N'@has_rowsOUT int OUTPUT';
+
+EXECUTE sp_executesql @SQLString, @ParmDefinition, @has_rowsOUT=@has_rows OUTPUT;
+
+if @has_rows = 0 return
+
 --Making sure user only uses either @cols_to_include or @cols_to_exclude
 if ((@cols_to_include is not null) and (@cols_to_exclude is not null))
 	begin
@@ -478,7 +489,7 @@ PRINT ''
 --print len(@Actual_Values)
 --print len(@Actual_Values2)
 --print (@Actual_Values)
---PRINT (@Actual_Values2)
+--PRINT (@Actual_Values+@Actual_Values2)
 EXEC (@Actual_Values+@Actual_Values2)
 
 --PRINT 'PRINT ''Done'''

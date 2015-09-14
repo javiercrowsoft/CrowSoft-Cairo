@@ -28,7 +28,7 @@ http://www.crowsoft.com.ar
 
 javier at crowsoft.com.ar
 */
-﻿-- Function: to_number(integer)
+-- Function: to_number(integer)
 
 -- drop function to_number(integer);
 

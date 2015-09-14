@@ -28,7 +28,7 @@ http://www.crowsoft.com.ar
 
 javier at crowsoft.com.ar
 */
-﻿-- Function: sp_cfg_getvalorrs(character varying, character varying, smallint, integer)
+-- Function: sp_cfg_getvalorrs(character varying, character varying, smallint, integer)
 
 -- drop function sp_cfg_getvalorrs(character varying, character varying, smallint, integer);
 

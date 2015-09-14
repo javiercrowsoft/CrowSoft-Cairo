@@ -28,7 +28,7 @@ http://www.crowsoft.com.ar
 
 javier at crowsoft.com.ar
 */
-﻿-- Function: to_char(integer)
+-- Function: to_char(integer)
 
 -- drop function to_char(integer);
 

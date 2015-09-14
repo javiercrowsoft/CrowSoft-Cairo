@@ -28,7 +28,7 @@ http://www.crowsoft.com.ar
 
 javier at crowsoft.com.ar
 */
-﻿-- Function: alr_dc_csc_srv_0010_r(integer, integer, integer)
+-- Function: alr_dc_csc_srv_0010_r(integer, integer, integer)
 
 create or replace function alr_dc_csc_srv_0010_r(p_almr_id_mail integer, p_mail_id integer, p_maili_id integer)
   returns void as

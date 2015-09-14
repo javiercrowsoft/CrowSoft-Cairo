@@ -482,7 +482,7 @@ object UserSetting {
     val selectList = getSelectForSettings(companySettings).filter(q => q != "")
     val sqlstmt = selectList.mkString(" UNION ")
 
-    val names = loadSql(user, sqlstmt)
+    val names: List[Setting] = if(sqlstmt.isEmpty) List() else loadSql(user, sqlstmt)
 
     def getNameForKey(key: String, names: List[Setting]): Option[String] = names match {
       case Nil => None
