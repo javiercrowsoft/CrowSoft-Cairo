@@ -304,6 +304,10 @@ object C {
   val PROV_HORARIO_TDESDE = "prov_horario_t_desde"
   val PROV_HORARIO_THASTA = "prov_horario_t_hasta"
 
+  val PROVEEDOR_BASE = "base"
+  val PROVEEDOR_REFERENCES = "references"
+  val PROVEEDOR_ADDRESS = "address"
+
   // Ingresos brutos categoria
   val INGRESOSBRUTOSCATEGORIA = "IngresosBrutosCategoria"
   val IBC_ID = "ibc_id"

@@ -278,6 +278,11 @@ GET     /api/v1/general/proveedor/:id/name             controllers.logged.module
 GET     /api/v1/general/proveedor/:id/cat_fiscal       controllers.logged.modules.general.Proveedores.catFiscal(id: Int)
 GET     /api/v1/general/proveedor/:id/data_add         controllers.logged.modules.general.Proveedores.dataAdd(id: Int)
 
+GET     /api/v1/general/proveedor/:id                  controllers.logged.modules.general.Proveedores.get(id: Int)
+POST    /api/v1/general/proveedor                      controllers.logged.modules.general.Proveedores.create
+PUT     /api/v1/general/proveedor/:id                  controllers.logged.modules.general.Proveedores.update(id: Int)
+DELETE  /api/v1/general/proveedor/:id                  controllers.logged.modules.general.Proveedores.delete(id: Int)
+
 GET     /api/v1/general/cliente/:id/info/:docId             controllers.logged.modules.general.Clientes.info(id: Int, docId: Int)
 GET     /api/v1/general/cliente/:id/name                    controllers.logged.modules.general.Clientes.name(id: Int)
 GET     /api/v1/general/cliente/:id/cat_fiscal              controllers.logged.modules.general.Clientes.catFiscal(id: Int)
