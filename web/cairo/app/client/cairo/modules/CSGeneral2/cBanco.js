@@ -24,6 +24,7 @@
       var K_WEB = 6;
       var K_MAIL = 7;
       var K_ACTIVE = 8;
+
       var m_id = 0;
       var m_name = "";
       var m_code = "";
@@ -225,8 +226,10 @@
               return load(result.data.getId()).then(
                 function (success) {
                   if(success) {
-                    updateList();
-                    m_listController.updateEditorKey(self, m_id);
+                    if(m_listController !== null) {
+                      updateList();
+                      m_listController.updateEditorKey(self, m_id);
+                    }
                   };
                   m_isNew = false;
                   return success;
@@ -273,7 +276,7 @@
           switch (property.getKey()) {
             case K_NAME:
               if(Cairo.Util.valEmpty(property.getValue(), Cairo.Constants.Types.text)) {
-                return Cairo.Modal.showInfo(Cairo.Constants.MUST_SET_A_NAME).then(function() {return false;});
+                return Cairo.Modal.showInfoWithFalse(Cairo.Constants.MUST_SET_A_NAME);
               }
               break;
 
@@ -399,16 +402,14 @@
 
         var elem = properties.add(null, C.BCO_MAIL);
         elem.setType(Dialogs.PropertyType.text);
-        // mail
-        elem.setName(getText(1034, ""));
+        elem.setName(getText(1034, "")); // mail
         elem.setSize(255);
         elem.setKey(K_MAIL);
         elem.setValue(m_mail);
 
         var elem = properties.add(null, C.BCO_CONTACTO);
         elem.setType(Dialogs.PropertyType.text);
-        // contacto
-        elem.setName(getText(1035, ""));
+        elem.setName(getText(1035, "")); // contacto
         elem.setSubType(Dialogs.PropertySubType.memo);
         elem.setSize(500);
         elem.setKey(K_CONTACTO);
@@ -416,24 +417,21 @@
 
         var elem = properties.add(null, C.BCO_TELEFONO);
         elem.setType(Dialogs.PropertyType.text);
-        // telefono
-        elem.setName(getText(1036, ""));
+        elem.setName(getText(1036, "")); // telefono
         elem.setSize(255);
         elem.setKey(K_TELEFONO);
         elem.setValue(m_telefono);
 
         var elem = properties.add(null, C.BCO_DIRECCION);
         elem.setType(Dialogs.PropertyType.text);
-        // Dirección
-        elem.setName(getText(1037, ""));
+        elem.setName(getText(1037, "")); // Dirección
         elem.setSize(255);
         elem.setKey(K_DIRECCION);
         elem.setValue(m_direccion);
 
         var elem = properties.add(null, C.BCO_WEB);
         elem.setType(Dialogs.PropertyType.text);
-        // Web
-        elem.setName(getText(1038, ""));
+        elem.setName(getText(1038, "")); // Web
         elem.setSize(255);
         elem.setKey(K_WEB);
         elem.setValue(m_web);
@@ -542,6 +540,14 @@
     };
 
     Edit.Controller = { getEditor: createObject };
+
+    Edit.Controller.edit = function(id) {
+      var editor = Cairo.Banco.Edit.Controller.getEditor();
+      var dialog = Cairo.Dialogs.Views.Controller.newDialog();
+
+      editor.setDialog(dialog);
+      editor.edit(id);
+    };
 
   });
 

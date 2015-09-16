@@ -883,6 +883,14 @@
 
     Edit.Controller = { getEditor: createObject };
 
+    Edit.Controller.edit = function(id) {
+      var editor = Cairo.Xxxx.Edit.Controller.getEditor();
+      var dialog = Cairo.Dialogs.Views.Controller.newDialog();
+
+      editor.setDialog(dialog);
+      editor.edit(id);
+    };
+
   });
 
   Cairo.module("Xxxx.List", function(List, Cairo, Backbone, Marionette, $, _) {

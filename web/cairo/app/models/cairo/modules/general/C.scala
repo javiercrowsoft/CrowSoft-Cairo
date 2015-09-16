@@ -1337,6 +1337,14 @@ object C {
   val LDP_ID = "ldp_id"
   val LDP_VALOR = "ldp_valor"
   val LDP_ORDEN = "ldp_orden"
+
+  // FechaControlAcceso
+  val FECHA_CONTROL_ACCESO = "FechaControlAcceso"
+  val FCA_ID = "fca_id"
+  val FCA_NAME = "fca_nombre"
+  val FCA_CODE = "fca_codigo"
+  val FCA_FECHA_HASTA = "fca_Fechahasta"
+  val FCA_FECHA_DESDE = "fca_Fechadesde"
 }
 
 object S {
@@ -1645,6 +1653,30 @@ object S {
   val LIST_VENTAMODO = 1291
 
   val MODIFY_USER_SETTINGS = 1990
+
+  val NEW_DOCUMENTO = 4000
+  val EDIT_DOCUMENTO = 4001
+  val DELETE_DOCUMENTO = 4002
+  val LIST_DOCUMENTO = 4003
+
+  val NEW_FECHA_CONTROL_ACCESO = 4004
+  val EDIT_FECHA_CONTROL_ACCESO = 4005
+  val DELETE_FECHA_CONTROL_ACCESO = 4006
+  val LIST_FECHA_CONTROL_ACCESO = 4007
+
+  val NEW_TALONARIO = 4008
+  val EDIT_TALONARIO = 4009
+  val DELETE_TALONARIO = 4010
+  val LIST_TALONARIO = 4011
+
+  val LOAD_DOCUMENTS = 4012
+
+  val EDIT_DOCUMENTO_IMPRESORA = 4013
+
+  val NEW_DOCUMENTO_GRUPO = 4014
+  val EDIT_DOCUMENTO_GRUPO = 4015
+  val DELETE_DOCUMENTO_GRUPO = 4016
+  val LIST_DOCUMENTO_GRUPO = 4017
 }
 
 case class DocumentListParam(

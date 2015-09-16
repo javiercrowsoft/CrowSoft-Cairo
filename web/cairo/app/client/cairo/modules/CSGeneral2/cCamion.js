@@ -240,8 +240,10 @@
               return load(result.data.getId()).then(
                 function (success) {
                   if(success) {
-                    updateList();
-                    m_listController.updateEditorKey(self, m_id);
+                    if(m_listController !== null) {
+                      updateList();
+                      m_listController.updateEditorKey(self, m_id);
+                    }
                   };
                   m_isNew = false;
                   return success;
@@ -573,6 +575,14 @@
     };
 
     Edit.Controller = { getEditor: createObject };
+
+    Edit.Controller.edit = function(id) {
+      var editor = Cairo.Camion.Edit.Controller.getEditor();
+      var dialog = Cairo.Dialogs.Views.Controller.newDialog();
+
+      editor.setDialog(dialog);
+      editor.edit(id);
+    };
 
   });
 

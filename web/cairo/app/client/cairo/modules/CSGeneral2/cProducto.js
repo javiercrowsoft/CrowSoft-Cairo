@@ -1284,8 +1284,10 @@
               return load(result.data.getId()).then(
                 function (success) {
                   if(success) {
-                    updateList();
-                    m_listController.updateEditorKey(self, m_id);
+                    if(m_listController !== null) {
+                      updateList();
+                      m_listController.updateEditorKey(self, m_id);
+                    }
                   };
                   m_isNew = false;
                   return success;
@@ -1362,7 +1364,7 @@
 
             case K_NOMBRE_VENTA:
               if(Cairo.Util.valEmpty(property.getValue(), Types.text) && m_seVende) {
-                return Cairo.Modal.showInfo(getText(1293, "")).then(function() {return false;}); // Debe indicar un nombre de venta
+                return Cairo.Modal.showInfoWithFalse(getText(1293, "")); // Debe indicar un nombre de venta
               }
               break;
 
@@ -1374,61 +1376,61 @@
 
             case K_UN_ID_COMPRA:
               if(Cairo.Util.valEmpty(property.getSelectId(), Types.id) && m_seCompra) {
-                return Cairo.Modal.showInfo(getText(1284, "")).then(function() {return false;}); // Debe indicar una unidad de compra
+                return Cairo.Modal.showInfoWithFalse(getText(1284, "")); // Debe indicar una unidad de compra
               }
               break;
 
             case K_UN_ID_VENTA:
               if(Cairo.Util.valEmpty(property.getSelectId(), Types.id) && m_seVende) {
-                return Cairo.Modal.showInfo(getText(1285, "")).then(function() {return false;}); // Debe indicar una unidad de venta
+                return Cairo.Modal.showInfoWithFalse(getText(1285, "")); // Debe indicar una unidad de venta
               }
               break;
 
             case K_UN_ID_STOCK:
               if(Cairo.Util.valEmpty(property.getSelectId(), Types.id) && m_llevaStock) {
-                return Cairo.Modal.showInfo(getText(1286, "")).then(function() {return false;}); // Debe indicar una unidad de stock
+                return Cairo.Modal.showInfoWithFalse(getText(1286, "")); // Debe indicar una unidad de stock
               }
               break;
 
             case K_COMPRA_VENTA:
               if(Cairo.Util.valEmpty(property.getValue(), Types.double) && m_seVende && m_seCompra) {
-                return Cairo.Modal.showInfo(getText(1287, "")).then(function() {return false;}); // Debe indicar una relación entre la unidad de compra y la unidad de venta
+                return Cairo.Modal.showInfoWithFalse(getText(1287, "")); // Debe indicar una relación entre la unidad de compra y la unidad de venta
               }
               break;
 
             case K_VENTA_STOCK:
               if(Cairo.Util.valEmpty(property.getValue(), Types.double) && m_seVende && m_llevaStock) {
-                return Cairo.Modal.showInfo(getText(1288, "")).then(function() {return false;}); // Debe indicar una relación entre la unidad de venta y la unidad de stock
+                return Cairo.Modal.showInfoWithFalse(getText(1288, "")); // Debe indicar una relación entre la unidad de venta y la unidad de stock
               }
               break;
 
             case K_COMPRA_STOCK:
               if(Cairo.Util.valEmpty(property.getValue(), Types.double) && m_llevaStock && m_seCompra) {
-                return Cairo.Modal.showInfo(getText(1294, "")).then(function() {return false;}); // Debe indicar una relación entre la unidad de compra y la unidad de stock
+                return Cairo.Modal.showInfoWithFalse(getText(1294, "")); // Debe indicar una relación entre la unidad de compra y la unidad de stock
               }
               break;
 
             case K_TI_ID_IVA_RI_COMPRA:
               if(Cairo.Util.valEmpty(property.getSelectId(), Types.id) && m_seCompra) {
-                return Cairo.Modal.showInfo(getText(1289, "")).then(function() {return false;}); // Debe indicar una tasa impositiva de compras para Responsables Inscriptos
+                return Cairo.Modal.showInfoWithFalse(getText(1289, "")); // Debe indicar una tasa impositiva de compras para Responsables Inscriptos
               }
               break;
 
             case K_TI_ID_IVA_RI_VENTA:
               if(Cairo.Util.valEmpty(property.getSelectId(), Types.id) && m_seVende) {
-                return Cairo.Modal.showInfo(getText(1291, "")).then(function() {return false;}); // Debe indicar una tasa impositiva de ventas para Responsables Inscriptos
+                return Cairo.Modal.showInfoWithFalse(getText(1291, "")); // Debe indicar una tasa impositiva de ventas para Responsables Inscriptos
               }
               break;
 
             case K_CUEG_ID_COMPRA:
               if(Cairo.Util.valEmpty(property.getSelectId(), Types.id) && m_seCompra) {
-                return Cairo.Modal.showInfo(getText(1295, "")).then(function() {return false;}); // Debe indicar un grupo de cuentas para compras
+                return Cairo.Modal.showInfoWithFalse(getText(1295, "")); // Debe indicar un grupo de cuentas para compras
               }
               break;
 
             case K_CUEG_ID_VENTA:
               if(Cairo.Util.valEmpty(property.getSelectId(), Types.id) && m_seVende) {
-                return Cairo.Modal.showInfo(getText(1296, "")).then(function() {return false;}); // Debe indicar un grupo de cuentas para ventas
+                return Cairo.Modal.showInfoWithFalse(getText(1296, "")); // Debe indicar un grupo de cuentas para ventas
               }
               break;
 
@@ -1465,11 +1467,11 @@
         if(bIsResumido) {
 
           if(bValidateIdentidad && bNeedTalIdentidad && !bHaveTalIdentidad) {
-            return Cairo.Modal.showInfo(getText(1297, "")).then(function() {return false;}); // Debe indicar un talonario para la identidad del Kit
+            return Cairo.Modal.showInfoWithFalse(getText(1297, "")); // Debe indicar un talonario para la identidad del Kit
           }
 
           if(bValidateLote && bNeedTalLote && !bHaveTalLote) {
-            return Cairo.Modal.showInfo(getText(1353, "")).then(function() {return false;}); // Debe indicar un talonario para el lote del Kit
+            return Cairo.Modal.showInfoWithFalse(getText(1353, "")); // Debe indicar un talonario para el lote del Kit
           }
         }
         p = p || Cairo.Promises.resolvedPromise(true);
@@ -4370,7 +4372,7 @@
           switch (cell.getKey()) {
             case KIK_PROV_ID:
               if(Cairo.Util.valEmpty(cell.getId(), Types.id)) {
-                return Cairo.Modal.showInfo(getText(1349, "", strRow)).then(function() {return false;}); // Debe indicar un proveedor
+                return Cairo.Modal.showInfoWithFalse(getText(1349, "", strRow)); // Debe indicar un proveedor
               }
               break;
           }
@@ -4389,13 +4391,13 @@
           switch (cell.getKey()) {
             case KIPRL_NOMBRE:
               if(Cairo.Util.valEmpty(cell.getValue(), Types.text)) {
-                return Cairo.Modal.showInfo(Cairo.Constants.MUST_SET_A_NAME).then(function() {return false;});
+                return Cairo.Modal.showInfoWithFalse(Cairo.Constants.MUST_SET_A_NAME);
               }
               break;
 
             case KIPRL_TEXTO:
               if(Cairo.Util.valEmpty(cell.getValue(), Types.text)) {
-                return Cairo.Modal.showInfo(getText(5037, "", strRow)).then(function() {return false;}); // Debe indicar una texto
+                return Cairo.Modal.showInfoWithFalse(getText(5037, "", strRow)); // Debe indicar una texto
               }
               break;
           }
@@ -4414,13 +4416,13 @@
           switch (cell.getKey()) {
             case KICMI_CMI_ID:
               if(Cairo.Util.valEmpty(cell.getId(), Types.integer)) {
-                return Cairo.Modal.showInfo(getText(5028, "", strRow)).then(function() {return false;}); // Debe indicar una comunidad
+                return Cairo.Modal.showInfoWithFalse(getText(5028, "", strRow)); // Debe indicar una comunidad
               }
               break;
 
             case KICMI_CODIGO:
               if(Cairo.Util.valEmpty(cell.getValue(), Types.text)) {
-                return Cairo.Modal.showInfo(Cairo.Constants.MUST_SET_A_CODE).then(function() {return false;});
+                return Cairo.Modal.showInfoWithFalse(Cairo.Constants.MUST_SET_A_CODE);
               }
               break;
           }
@@ -4439,13 +4441,13 @@
           switch (cell.getKey()) {
             case KIWI_IMAGE:
               if(Cairo.Util.valEmpty(cell.getValue(), Types.text)) {
-                return Cairo.Modal.showInfo(getText(4574, "", strRow)).then(function() {return false;}); // Debe indicar el nombre de un archivo de imagen
+                return Cairo.Modal.showInfoWithFalse(getText(4574, "", strRow)); // Debe indicar el nombre de un archivo de imagen
               }
               break;
 
             case KIWI_IMAGE_TYPE:
               if(Cairo.Util.valEmpty(cell.getId(), Types.integer)) {
-                return Cairo.Modal.showInfo(getText(4575, "", strRow)).then(function() {return false;}); // Debe indicar el tipo de imagen
+                return Cairo.Modal.showInfoWithFalse(getText(4575, "", strRow)); // Debe indicar el tipo de imagen
               }
               break;
           }
@@ -4464,7 +4466,7 @@
           switch (cell.getKey()) {
             case KIK_CLI_ID:
               if(Cairo.Util.valEmpty(cell.getId(), Types.id)) {
-                return Cairo.Modal.showInfo(getText(1351, "", strRow)).then(function() {return false;}); // Debe indicar un cliente
+                return Cairo.Modal.showInfoWithFalse(getText(1351, "", strRow)); // Debe indicar un cliente
               }
               break;
           }

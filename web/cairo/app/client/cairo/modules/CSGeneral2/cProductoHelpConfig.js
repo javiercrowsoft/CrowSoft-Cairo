@@ -223,8 +223,10 @@
               return load(result.data.getId()).then(
                 function (success) {
                   if(success) {
-                    updateList();
-                    m_listController.updateEditorKey(self, m_id);
+                    if(m_listController !== null) {
+                      updateList();
+                      m_listController.updateEditorKey(self, m_id);
+                    }
                   };
                   m_isNew = false;
                   return success;
@@ -274,7 +276,7 @@
           switch (property.getKey()) {
             case K_NAME:
               if(Cairo.Util.valEmpty(property.getValue(), Cairo.Constants.Types.text)) {
-                return Cairo.Modal.showInfo(Cairo.Constants.MUST_SET_A_NAME).then(function() {return false;});
+                return Cairo.Modal.showInfoWithFalse(Cairo.Constants.MUST_SET_A_NAME);
               }
               break;
 
@@ -568,6 +570,14 @@
     };
 
     Edit.Controller = { getEditor: createObject };
+
+    Edit.Controller.edit = function(id) {
+      var editor = Cairo.ProductoHelpConfig.Edit.Controller.getEditor();
+      var dialog = Cairo.Dialogs.Views.Controller.newDialog();
+
+      editor.setDialog(dialog);
+      editor.edit(id);
+    };
 
   });
 

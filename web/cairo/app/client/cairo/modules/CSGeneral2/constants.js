@@ -752,6 +752,14 @@
       DOC_MUEVE_STOCK: "doc_muevestock",
       DOC_SIN_PERC: "doc_sin_perc",
 
+      // fecha Control de Acceso
+      FECHA_CONTROL_ACCESO: "FechaControlAcceso",
+      FCA_ID: "fca_id",
+      FCA_NAME: "fca_nombre",
+      FCA_CODE: "fca_codigo",
+      FCA_FECHA_HASTA: "fca_Fechahasta",
+      FCA_FECHA_DESDE: "fca_Fechadesde",
+
       // Talonario
       TALONARIO: "Talonario",
       TA_ID: "ta_id",
@@ -1763,8 +1771,31 @@
     LIST_APRECIOCALC: 1983,
 
     CONT_IMPORT_PADRON_EMBARGO: 1982,
-    VENTA_IMPORT_OS: 1981    
+    VENTA_IMPORT_OS: 1981,
 
+    NEW_DOCUMENTO: 4000,
+    EDIT_DOCUMENTO: 4001,
+    DELETE_DOCUMENTO: 4002,
+    LIST_DOCUMENTO: 4003,
+
+    NEW_FECHA_CONTROL_ACCESO: 4004,
+    EDIT_FECHA_CONTROL_ACCESO: 4005,
+    DELETE_FECHA_CONTROL_ACCESO: 4006,
+    LIST_FECHA_CONTROL_ACCESO: 4007,
+
+    NEW_TALONARIO: 4008,
+    EDIT_TALONARIO: 4009,
+    DELETE_TALONARIO: 4010,
+    LIST_TALONARIO: 4011,
+
+    LOAD_DOCUMENTS: 4012,
+
+    EDIT_DOCUMENTO_IMPRESORA: 4013,
+
+    NEW_DOCUMENTO_GRUPO: 4014,
+    EDIT_DOCUMENTO_GRUPO: 4015,
+    DELETE_DOCUMENTO_GRUPO: 4016,
+    LIST_DOCUMENTO_GRUPO: 4017
   }                                                                    
                                                                         
 }());

@@ -241,8 +241,10 @@
               return load(result.data.getId()).then(
                 function (success) {
                   if(success) {
-                    updateList();
-                    m_listController.updateEditorKey(self, m_id);
+                    if(m_listController !== null) {
+                      updateList();
+                      m_listController.updateEditorKey(self, m_id);
+                    }
                   };
                   m_isNew = false;
                   return success;
@@ -290,7 +292,7 @@
           switch (property.getKey()) {
             case K_NAME:
               if(Cairo.Util.valEmpty(property.getValue(), Cairo.Constants.Types.text)) {
-                return Cairo.Modal.showInfo(Cairo.Constants.MUST_SET_A_NAME).then(function() {return false;});
+                return Cairo.Modal.showInfoWithFalse(Cairo.Constants.MUST_SET_A_NAME);
               }
               break;
 
@@ -302,19 +304,19 @@
 
             case K_CUE_ID:
               if(Cairo.Util.valEmpty(property.getSelectId(), Cairo.Constants.Types.id)) {
-                return Cairo.Modal.showInfo(getText(1261, "")).then(function() {return false;});
+                return Cairo.Modal.showInfoWithFalse(getText(1261, ""));
                 // Debe indicar una cuenta
               }
 
               break;
 
             case K_PORCENTAJE:
-              if(!IsNumeric(property.getValue())) {
-                return Cairo.Modal.showInfo(getText(1484, "")).then(function() {return false;});
+              if(!Cairo.Util.isNumeric(property.getValue())) {
+                return Cairo.Modal.showInfoWithFalse(getText(1484, ""));
                 //El porcentaje debe ser un número de -200.00 a 200.00
               }
               if(property.getValue() < -200 || property.getValue() > 200) {
-                return Cairo.Modal.showInfo(getText(1483, "")).then(function() {return false;});
+                return Cairo.Modal.showInfoWithFalse(getText(1483, ""));
                 //El porcentaje esta fuera del rango permitido (-200.00 a 200.00)
               }
 
@@ -588,6 +590,14 @@
     };
 
     Edit.Controller = { getEditor: createObject };
+
+    Edit.Controller.edit = function(id) {
+      var editor = Cairo.TasaImpositiva.Edit.Controller.getEditor();
+      var dialog = Cairo.Dialogs.Views.Controller.newDialog();
+
+      editor.setDialog(dialog);
+      editor.edit(id);
+    };
 
   });
 

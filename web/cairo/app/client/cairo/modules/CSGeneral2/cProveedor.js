@@ -3128,6 +3128,14 @@
 
     Edit.Controller = { getEditor: createObject };
 
+    Edit.Controller.edit = function(id) {
+      var editor = Cairo.Proveedor.Edit.Controller.getEditor();
+      var dialog = Cairo.Dialogs.Views.Controller.newDialog();
+
+      editor.setDialog(dialog);
+      editor.edit(id);
+    };
+
   });
 
   Cairo.module("Proveedor.List", function(List, Cairo, Backbone, Marionette, $, _) {

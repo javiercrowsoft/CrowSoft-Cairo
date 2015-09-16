@@ -269,8 +269,10 @@
               return load(result.data.getId()).then(
                 function (success) {
                   if(success) {
-                    updateList();
-                    m_listController.updateEditorKey(self, m_id);
+                    if(m_listController !== null) {
+                      updateList();
+                      m_listController.updateEditorKey(self, m_id);
+                    }
                   };
                   m_isNew = false;
                   return success;
@@ -321,14 +323,14 @@
           switch (property.getKey()) {
             case K_NAME:
               if(Cairo.Util.valEmpty(property.getValue(), Cairo.Constants.Types.text)) {
-                return Cairo.Modal.showInfo(getText(1007, "")).then(function() {return false;});
+                return Cairo.Modal.showInfoWithFalse(getText(1007, ""));
                 // Debe indicar un Nombre
               }
               break;
 
             case K_CODE:
               if(Cairo.Util.valEmpty(property.getValue(), Cairo.Constants.Types.text)) {
-                return Cairo.Modal.showInfo(getText(1008, "")).then(function() {return false;});
+                return Cairo.Modal.showInfoWithFalse(getText(1008, ""));
                 // Debe indicar un C�digo"
               }
               break;
@@ -336,7 +338,7 @@
             case K_DIA:
               dia = Cairo.Util.val(property.getValue());
               if(dia < 1 || dia > 31) {
-                return Cairo.Modal.showInfo(getText(1545, "")).then(function() {return false;});
+                return Cairo.Modal.showInfoWithFalse(getText(1545, ""));
                 // Debe indicar un d�a entre 1 y 31
               }
               break;
@@ -344,7 +346,7 @@
             case K_MES:
               mes = Cairo.Util.val(property.getValue());
               if(mes < 1 || mes > 12) {
-                return Cairo.Modal.showInfo(getText(1546, "")).then(function() {return false;});
+                return Cairo.Modal.showInfoWithFalse(getText(1546, ""));
                 // Debe indicar un mes entre 1 y 12
               } 
               else {
@@ -354,14 +356,14 @@
                   case 9:
                   case 11:
                     if(dia > 30) {
-                      return Cairo.Modal.showInfo(getText(1547, "")).then(function() {return false;});
+                      return Cairo.Modal.showInfoWithFalse(getText(1547, ""));
                       // Debe indicar un d�a entre 1 y 30
                     }
                     break;
 
                   case 2:
                     if(dia > 29) {
-                      return Cairo.Modal.showInfo(getText(1548, "")).then(function() {return false;});
+                      return Cairo.Modal.showInfoWithFalse(getText(1548, ""));
                       // Debe indicar un d�a entre 1 y 29
                     }
                     break;
@@ -374,7 +376,7 @@
               if(anio !== 0) {
                 if(mes === 2 && dia > 28) {
                   if(isDate(Format$(dia, "00")+ "-"+ Format$(mes, "00")+ "-"+ Format$(anio, "0000"))) {
-                    return Cairo.Modal.showInfo(getText(1549, "")).then(function() {return false;});
+                    return Cairo.Modal.showInfoWithFalse(getText(1549, ""));
                     //La fecha no es v�lida
                   }
                 }
@@ -700,6 +702,14 @@
     };
 
     Edit.Controller = { getEditor: createObject };
+
+    Edit.Controller.edit = function(id) {
+      var editor = Cairo.Feriado.Edit.Controller.getEditor();
+      var dialog = Cairo.Dialogs.Views.Controller.newDialog();
+
+      editor.setDialog(dialog);
+      editor.edit(id);
+    };
 
   });
 

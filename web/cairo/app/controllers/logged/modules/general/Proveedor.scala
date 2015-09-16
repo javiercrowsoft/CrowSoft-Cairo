@@ -1,6 +1,7 @@
 package controllers.logged.modules.general
 
 import controllers._
+import formatters.json.DateFormatter
 import play.api.mvc._
 import play.api.data._
 import play.api.data.Forms._
@@ -42,10 +43,10 @@ case class ProveedorAddressData(
                                  fax: String,
                                  email: String,
                                  web: String,
-                                 horarioMDesde: Date,
-                                 horarioMHasta: Date,
-                                 horarioTDesde: Date,
-                                 horarioTHasta: Date
+                                 horarioMDesde: String,
+                                 horarioMHasta: String,
+                                 horarioTDesde: String,
+                                 horarioTHasta: String
                                  )
 
 case class ProveedorReferencesData(
@@ -86,8 +87,8 @@ object Proveedores extends Controller with ProvidesUser {
         C.PROV_NRO_CTA_BANCO -> text,
         C.PROV_CBU -> text,
         C.PROV_NRO_CLIENTE -> text,
-        C.PROV_CREDITOCTACTE -> number,
-        C.PROV_CREDITOTOTAL -> number,
+        C.PROV_CREDITOCTACTE -> of(Global.doubleFormat),
+        C.PROV_CREDITOTOTAL -> of(Global.doubleFormat),
         C.PROV_CREDITOACTIVO -> boolean,
         C.PROV_DESCRIP -> text)(ProveedorBaseData.apply)(ProveedorBaseData.unapply),
       C.PROVEEDOR_ADDRESS -> mapping(
@@ -97,10 +98,10 @@ object Proveedores extends Controller with ProvidesUser {
         C.PROV_DEPTO -> text,
         C.PROV_CODPOSTAL -> text,
         C.PROV_LOCALIDAD -> text,
-        C.PROV_HORARIO_MDESDE -> number,
-        C.PROV_HORARIO_MHASTA -> number,
-        C.PROV_HORARIO_TDESDE -> number,
-        C.PROV_HORARIO_THASTA -> number,
+        C.PROV_HORARIO_MDESDE -> text,
+        C.PROV_HORARIO_MHASTA -> text,
+        C.PROV_HORARIO_TDESDE -> text,
+        C.PROV_HORARIO_THASTA -> text,
         C.PROV_TEL -> text,
         C.PROV_FAX -> text,
         C.PROV_EMAIL -> text,
@@ -172,7 +173,7 @@ object Proveedores extends Controller with ProvidesUser {
   }
 
   def update(id: Int) = PostAction { implicit request =>
-    Logger.debug("in proveedoress.update")
+    Logger.debug("in proveedores.update")
     proveedorForm.bindFromRequest.fold(
       formWithErrors => {
         Logger.debug(s"invalid form: ${formWithErrors.toString}")
@@ -213,14 +214,14 @@ object Proveedores extends Controller with ProvidesUser {
                     proveedor.address.depto,
                     proveedor.address.codPostal,
                     proveedor.address.localidad,
-                    proveedor.address.horarioMDesde,
-                    proveedor.address.horarioMHasta,
-                    proveedor.address.horarioTDesde,
-                    proveedor.address.horarioTHasta,
                     proveedor.address.tel,
                     proveedor.address.fax,
                     proveedor.address.email,
-                    proveedor.address.web),
+                    proveedor.address.web,
+                    DateFormatter.parse(proveedor.address.horarioMDesde),
+                    DateFormatter.parse(proveedor.address.horarioMHasta),
+                    DateFormatter.parse(proveedor.address.horarioTDesde),
+                    DateFormatter.parse(proveedor.address.horarioTHasta)),
                   ProveedorReferences(
                     proveedor.references.lpId,
                     proveedor.references.ldId,
@@ -235,7 +236,7 @@ object Proveedores extends Controller with ProvidesUser {
   }
 
   def create = PostAction { implicit request =>
-    Logger.debug("in proveedoress.create")
+    Logger.debug("in proveedores.create")
     proveedorForm.bindFromRequest.fold(
       formWithErrors => {
         Logger.debug(s"invalid form: ${formWithErrors.toString}")
@@ -246,7 +247,7 @@ object Proveedores extends Controller with ProvidesUser {
         LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.NEW_PROVEEDOR), { user =>
           Ok(
             Json.toJson(
-              Proveedor.create(
+              Proveedor.create(user,
                 Proveedor(
                   proveedor.active,
                   proveedor.code,
@@ -275,14 +276,14 @@ object Proveedores extends Controller with ProvidesUser {
                     proveedor.address.depto,
                     proveedor.address.codPostal,
                     proveedor.address.localidad,
-                    proveedor.address.horarioMDesde,
-                    proveedor.address.horarioMHasta,
-                    proveedor.address.horarioTDesde,
-                    proveedor.address.horarioTHasta,
                     proveedor.address.tel,
                     proveedor.address.fax,
                     proveedor.address.email,
-                    proveedor.address.web),
+                    proveedor.address.web,
+                    DateFormatter.parse(proveedor.address.horarioMDesde),
+                    DateFormatter.parse(proveedor.address.horarioMHasta),
+                    DateFormatter.parse(proveedor.address.horarioTDesde),
+                    DateFormatter.parse(proveedor.address.horarioTHasta)),
                   ProveedorReferences(
                     proveedor.references.lpId,
                     proveedor.references.ldId,
@@ -296,7 +297,7 @@ object Proveedores extends Controller with ProvidesUser {
   }
 
   def delete(id: Int) = PostAction { implicit request =>
-    Logger.debug("in proveedoress.delete")
+    Logger.debug("in proveedores.delete")
     LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.DELETE_PROVEEDOR), { user =>
       Proveedor.delete(user, id)
       // Backbonejs requires at least an empty json object in the response

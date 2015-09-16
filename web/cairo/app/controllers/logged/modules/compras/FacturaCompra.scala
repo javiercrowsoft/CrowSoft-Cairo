@@ -11,7 +11,6 @@ import play.api.libs.json._
 import models.cairo.modules.compras._
 import models.cairo.system.security.CairoSecurity
 import models.cairo.system.database.{Recordset, DBHelper}
-import java.util.Date
 import formatters.json.DateFormatter
 import formatters.json.DateFormatter._
 

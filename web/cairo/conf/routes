@@ -289,11 +289,14 @@ GET     /api/v1/general/cliente/:id/cat_fiscal              controllers.logged.m
 GET     /api/v1/general/cliente/:id/data_add                controllers.logged.modules.general.Clientes.dataAdd(id: Int)
 GET     /api/v1/general/cliente/:id/percepciones/:fecha     controllers.logged.modules.general.Clientes.getPercepciones(id: Int, fecha: String)
 
+GET     /api/v1/general/fechacontrolacceso/:id              controllers.logged.modules.general.FechaControlAccesos.get(id: Int)
+POST    /api/v1/general/fechacontrolacceso                  controllers.logged.modules.general.FechaControlAccesos.create
+PUT     /api/v1/general/fechacontrolacceso/:id              controllers.logged.modules.general.FechaControlAccesos.update(id: Int)
+DELETE  /api/v1/general/fechacontrolacceso/:id              controllers.logged.modules.general.FechaControlAccesos.delete(id: Int)
 
 GET     /api/v1/general/cuenta/:id/info                controllers.logged.modules.general.Cuentas.info(id: Int)
 
 GET     /api/v1/general/condicionpago/:id/info         controllers.logged.modules.general.CondicionesPago.info(id: Int)
-
 
 GET     /api/v1/documento/currency/:id/rate/:date             controllers.logged.modules.documentos.Currencies.rate(id: Int, date: String)
 GET     /api/v1/documento/:id/edit_status/:preId              controllers.logged.modules.documentos.Documents.editStatus(id: Int, preId: Int)

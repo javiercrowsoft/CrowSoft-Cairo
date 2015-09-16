@@ -243,14 +243,14 @@ object Proveedor {
     SqlParser.get[String](C.PROV_DEPTO) ~
     SqlParser.get[String](C.PROV_CODPOSTAL) ~
     SqlParser.get[String](C.PROV_LOCALIDAD) ~
-    SqlParser.get[Date](C.PROV_HORARIO_MDESDE) ~
-    SqlParser.get[Date](C.PROV_HORARIO_MHASTA) ~
-    SqlParser.get[Date](C.PROV_HORARIO_TDESDE) ~
-    SqlParser.get[Date](C.PROV_HORARIO_THASTA) ~
     SqlParser.get[String](C.PROV_TEL) ~
     SqlParser.get[String](C.PROV_FAX) ~
     SqlParser.get[String](C.PROV_EMAIL) ~
     SqlParser.get[String](C.PROV_WEB) ~
+    SqlParser.get[Date](C.PROV_HORARIO_MDESDE) ~
+    SqlParser.get[Date](C.PROV_HORARIO_MHASTA) ~
+    SqlParser.get[Date](C.PROV_HORARIO_TDESDE) ~
+    SqlParser.get[Date](C.PROV_HORARIO_THASTA) ~
     SqlParser.get[Option[Int]](C.LP_ID) ~
     SqlParser.get[Option[String]](C.LP_NAME) ~
     SqlParser.get[Option[Int]](C.LD_ID) ~
@@ -291,14 +291,14 @@ object Proveedor {
           depto ~
           codPostal ~
           localidad ~
-          horarioMDesde ~
-          horarioMHasta ~
-          horarioTDesde ~
-          horarioTHasta ~
           tel ~
           fax ~
           email ~
           web  ~
+          horarioMDesde ~
+          horarioMHasta ~
+          horarioTDesde ~
+          horarioTHasta ~
 
           lpId ~
           lpName ~
@@ -342,14 +342,14 @@ object Proveedor {
             depto,
             codPostal,
             localidad,
-            horarioMDesde,
-            horarioMHasta,
-            horarioTDesde,
-            horarioTHasta,
             tel,
             fax,
             email,
-            web),
+            web,
+            horarioMDesde,
+            horarioMHasta,
+            horarioTDesde,
+            horarioTHasta),
           ProveedorReferences(
             lpId.getOrElse(DBHelper.NoId),
             lpName.getOrElse(""),
@@ -381,42 +381,42 @@ object Proveedor {
         Field(DBHelper.ACTIVE, (if(proveedor.active) 1 else 0), FieldType.boolean),
         Field(C.PROV_CODE, proveedor.code, FieldType.text),
 
-        Field(C.PROV_NAME, proveedor.name, FieldType.text),
-        Field(C.PROV_RAZONSOCIAL, proveedor.razonsocial, FieldType.text),
-        Field(C.PROV_IMPRIME_TICKET, proveedor.imprimeTicket, FieldType.boolean),
-        Field(C.PROV_CONTACTO, proveedor.contacto, FieldType.text),
-        Field(C.PROV_CUIT, proveedor.cuit, FieldType.text),
-        Field(C.PROV_INGRESOSBRUTOS, proveedor.ingresosbrutos, FieldType.text),
-        Field(C.PROV_CHEQUEORDEN, proveedor.chequeorden, FieldType.text),
-        Field(C.PROV_BANCO, proveedor.banco, FieldType.text),
-        Field(C.PROV_NRO_CTA_BANCO, proveedor.nroCtaBanco, FieldType.text),
-        Field(C.PROV_CBU, proveedor.cbu, FieldType.text),
-        Field(C.PROV_NRO_CLIENTE, proveedor.nroCliente, FieldType.text),
-        Field(C.PROV_CREDITOCTACTE, proveedor.creditoctacte, FieldType.number),
-        Field(C.PROV_CREDITOTOTAL, proveedor.creditototal, FieldType.number),
-        Field(C.PROV_CREDITOACTIVO, proveedor.creditoactivo, FieldType.boolean),
-        Field(C.PROV_DESCRIP, proveedor.descrip, FieldType.text),
+        Field(C.PROV_NAME, proveedor.base.name, FieldType.text),
+        Field(C.PROV_RAZONSOCIAL, proveedor.base.razonSocial, FieldType.text),
+        Field(C.PROV_IMPRIME_TICKET, proveedor.base.imprimeTicket, FieldType.boolean),
+        Field(C.PROV_CONTACTO, proveedor.base.contacto, FieldType.text),
+        Field(C.PROV_CUIT, proveedor.base.cuit, FieldType.text),
+        Field(C.PROV_INGRESOSBRUTOS, proveedor.base.ingresosBrutos, FieldType.text),
+        Field(C.PROV_CHEQUEORDEN, proveedor.base.chequeOrden, FieldType.text),
+        Field(C.PROV_BANCO, proveedor.base.banco, FieldType.text),
+        Field(C.PROV_NRO_CTA_BANCO, proveedor.base.nroCtaBanco, FieldType.text),
+        Field(C.PROV_CBU, proveedor.base.cbu, FieldType.text),
+        Field(C.PROV_NRO_CLIENTE, proveedor.base.nroCliente, FieldType.text),
+        Field(C.PROV_CREDITOCTACTE, proveedor.base.creditoCtaCte, FieldType.number),
+        Field(C.PROV_CREDITOTOTAL, proveedor.base.creditoTotal, FieldType.number),
+        Field(C.PROV_CREDITOACTIVO, proveedor.base.creditoActivo, FieldType.boolean),
+        Field(C.PROV_DESCRIP, proveedor.base.descrip, FieldType.text),
 
-        Field(C.PROV_CALLE, proveedor.calle, FieldType.text),
-        Field(C.PROV_CALLENUMERO, proveedor.callenumero, FieldType.text),
-        Field(C.PROV_PISO, proveedor.piso, FieldType.text),
-        Field(C.PROV_DEPTO, proveedor.depto, FieldType.text),
-        Field(C.PROV_CODPOSTAL, proveedor.codpostal, FieldType.text),
-        Field(C.PROV_LOCALIDAD, proveedor.localidad, FieldType.text),
-        Field(C.PROV_HORARIO_MDESDE, proveedor.horarioMdesde, FieldType.number),
-        Field(C.PROV_HORARIO_MHASTA, proveedor.horarioMhasta, FieldType.number),
-        Field(C.PROV_HORARIO_TDESDE, proveedor.horarioTdesde, FieldType.number),
-        Field(C.PROV_HORARIO_THASTA, proveedor.horarioThasta, FieldType.number),
-        Field(C.PROV_TEL, proveedor.tel, FieldType.text),
-        Field(C.PROV_FAX, proveedor.fax, FieldType.text),
-        Field(C.PROV_EMAIL, proveedor.email, FieldType.text),
-        Field(C.PROV_WEB, proveedor.web, FieldType.text),
+        Field(C.PROV_CALLE, proveedor.address.calle, FieldType.text),
+        Field(C.PROV_CALLENUMERO, proveedor.address.calleNumero, FieldType.text),
+        Field(C.PROV_PISO, proveedor.address.piso, FieldType.text),
+        Field(C.PROV_DEPTO, proveedor.address.depto, FieldType.text),
+        Field(C.PROV_CODPOSTAL, proveedor.address.codPostal, FieldType.text),
+        Field(C.PROV_LOCALIDAD, proveedor.address.localidad, FieldType.text),
+        Field(C.PROV_HORARIO_MDESDE, proveedor.address.horarioMDesde, FieldType.number),
+        Field(C.PROV_HORARIO_MHASTA, proveedor.address.horarioMHasta, FieldType.number),
+        Field(C.PROV_HORARIO_TDESDE, proveedor.address.horarioTDesde, FieldType.number),
+        Field(C.PROV_HORARIO_THASTA, proveedor.address.horarioTHasta, FieldType.number),
+        Field(C.PROV_TEL, proveedor.address.tel, FieldType.text),
+        Field(C.PROV_FAX, proveedor.address.fax, FieldType.text),
+        Field(C.PROV_EMAIL, proveedor.address.email, FieldType.text),
+        Field(C.PROV_WEB, proveedor.address.web, FieldType.text),
 
-        Field(C.LP_ID, proveedor.lpId, FieldType.id),
-        Field(C.LD_ID, proveedor.ldId, FieldType.id),
-        Field(C.CPG_ID, proveedor.cpgId, FieldType.id),
-        Field(C.PRO_ID, proveedor.proId, FieldType.id),
-        Field(C.ZON_ID, proveedor.zonId, FieldType.id)
+        Field(C.LP_ID, proveedor.references.lpId, FieldType.id),
+        Field(C.LD_ID, proveedor.references.ldId, FieldType.id),
+        Field(C.CPG_ID, proveedor.references.cpgId, FieldType.id),
+        Field(C.PRO_ID, proveedor.references.proId, FieldType.id),
+        Field(C.ZON_ID, proveedor.references.zonId, FieldType.id)
       )
     }
     def throwException = {
