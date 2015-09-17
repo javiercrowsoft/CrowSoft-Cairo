@@ -913,8 +913,9 @@
                         //         - the date must be in the range defined by control dates
                         //
                         p = M.confirmViewYesDefault(
-                            getText(1621, ""), // Ud. ha cambiado el documento.;;¿Desea utilizar los datos ya cargados en el formulario para el nuevo comprobante?
-                            getText(1622, "")  // CrowSoft
+                            getText(1622, ""), // CrowSoft
+                            getText(1621, "")  // Ud. ha cambiado el documento.;;¿Desea utilizar los datos ya cargados en el formulario para el nuevo comprobante?
+
                           ).success(function() {
                             return self.edit(D.Constants.DOC_CHANGED);
                           });
@@ -1334,7 +1335,7 @@
                                 var ctaCte = false;
 
                                 if(Cairo.getVentasConfig().ventasPorHojadeRuta()) {
-                                  p = M.confirmViewNoDefault(getText(5112, "")) // Envia la factura a una Hoja de Ruta
+                                  p = M.confirmViewNoDefault("", getText(5112, "")) // Envia la factura a una Hoja de Ruta
                                     .then(function(answer) {
                                       ctaCte = answer;
                                     });
@@ -4037,8 +4038,8 @@
 
         if(m_firmado) {
           p = M.confirmViewYesDefault(
-            getText(1593, ""), // El documento ya ha sido firmado desea borrar la firma
-            getText(1594, "")  // Firmar
+            getText(1594, ""), // Firmar
+            getText(1593, "")  // El documento ya ha sido firmado desea borrar la firma
           );
         }
 
@@ -5872,8 +5873,8 @@
 
           if(response.signed) {
             p = M.confirmViewYesDefault(
-              getText(1593, ""), // El documento ya ha sido firmado desea borrar la firma
-              getText(1594, "")  // Firmar
+              getText(1594, ""), // Firmar
+              getText(1593, "")  // El documento ya ha sido firmado desea borrar la firma
             );
           }
           return p || P.resolvedPromise(true);

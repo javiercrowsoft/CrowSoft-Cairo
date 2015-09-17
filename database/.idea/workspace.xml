@@ -33,20 +33,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="sys_lenguaje.backup" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/backup/sys_lenguaje.backup">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.12752391" vertical-offset="2160" max-vertical-offset="152608">
-              <caret line="120" column="12" selection-start-line="120" selection-start-column="12" selection-end-line="120" selection-end-column="12" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="cairo_script.sql" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/cairo/CSScript/postgresql/tables/cairo_script.sql">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-39.827587" vertical-offset="94662" max-vertical-offset="486495">
+            <state vertical-scroll-proportion="0.0" vertical-offset="94662" max-vertical-offset="486495">
               <caret line="5043" column="19" selection-start-line="5043" selection-start-column="1" selection-end-line="5043" selection-end-column="1" />
               <folding />
             </state>
@@ -56,7 +46,7 @@
       <file leaf-file-name="crowsoft_com_ar_cairo-sysmenu.sql" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/backup/crowsoft_com_ar_cairo-sysmenu.sql">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="28.62069" vertical-offset="1305" max-vertical-offset="6156">
+            <state vertical-scroll-proportion="0.0" vertical-offset="1305" max-vertical-offset="6156">
               <caret line="25" column="35" selection-start-line="25" selection-start-column="2" selection-end-line="25" selection-end-column="2" />
               <folding />
             </state>
@@ -73,21 +63,31 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="menu-cairo.sql" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/migration_from_sqlserver/menu-cairo.sql">
+      <file leaf-file-name="sp_doc_factura_compra_get.sql" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/cairo/CSCompras/functions/sp_doc_factura_compra_get.sql">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-0.0" vertical-offset="0" max-vertical-offset="16606">
-              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+            <state vertical-scroll-proportion="-4.3103447" vertical-offset="1452" max-vertical-offset="4731">
+              <caret line="83" column="17" selection-start-line="83" selection-start-column="17" selection-end-line="83" selection-end-column="17" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="t_configuracion_seq.sql" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/cairo/CSScript/postgresql/sequence/t_configuracion_seq.sql">
+      <file leaf-file-name="sp_doc_factura_compra_editable_get.sql" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/cairo/CSCompras/functions/sp_doc_factura_compra_editable_get.sql">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-0.0" vertical-offset="0" max-vertical-offset="133">
-              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="1" selection-end-column="82" />
+            <state vertical-scroll-proportion="0.7291667" vertical-offset="3192" max-vertical-offset="5909">
+              <caret line="203" column="77" selection-start-line="203" selection-start-column="77" selection-end-line="203" selection-end-column="77" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="sys_lenguaje.backup" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/backup/sys_lenguaje.backup">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="2160" max-vertical-offset="152608">
+              <caret line="120" column="12" selection-start-line="120" selection-start-column="12" selection-end-line="120" selection-end-column="12" />
               <folding />
             </state>
           </provider>
@@ -96,7 +96,7 @@
       <file leaf-file-name="t_sys_language_seq.sql" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/cairo/CSScript/postgresql/sequence/t_sys_language_seq.sql">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-0.0" vertical-offset="0" max-vertical-offset="114">
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="114">
               <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
               <folding />
             </state>
@@ -106,7 +106,7 @@
       <file leaf-file-name="t_sys_menu_seq.sql" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/cairo/CSScript/postgresql/sequence/t_sys_menu_seq.sql">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-0.0" vertical-offset="0" max-vertical-offset="114">
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="114">
               <caret line="0" column="33" selection-start-line="0" selection-start-column="16" selection-end-line="0" selection-end-column="33" />
               <folding />
             </state>
@@ -116,7 +116,7 @@
       <file leaf-file-name="update_tabla.sql" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/migration_from_sqlserver/update_tabla.sql">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-0.0" vertical-offset="0" max-vertical-offset="627">
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="627">
               <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
               <folding />
             </state>
@@ -133,7 +133,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/cairo/CSTesoreria/functions/sp_lsdoc_resoluciones_cupon.sql" />
         <option value="$PROJECT_DIR$/cairo/CSCompras/functions/sp_lsdoc_ordenes_compra.sql" />
         <option value="$PROJECT_DIR$/cairo/CSCompras/functions/sp_lsdoc_pedidos_compra.sql" />
         <option value="$PROJECT_DIR$/cairo/CSVentas/functions/sp_lsdoc_presupuestos_venta.sql" />
@@ -184,6 +183,7 @@
         <option value="$PROJECT_DIR$/cairo/CSCompras/functions/sp_lsdoc_remitos_compra.sql" />
         <option value="$PROJECT_DIR$/all_functions.txt" />
         <option value="$PROJECT_DIR$/cairo/CSScript/postgresql/sequence/t_configuracion_seq.sql" />
+        <option value="$PROJECT_DIR$/cairo/CSCompras/functions/sp_doc_factura_compra_editable_get.sql" />
       </list>
     </option>
   </component>
@@ -246,6 +246,7 @@
       <sortByType />
     </navigator>
     <panes>
+      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -264,10 +265,59 @@
               <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="database" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="database" />
+              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="cairo" />
+              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="database" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="database" />
+              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="cairo" />
+              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="CSCompras" />
+              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="functions" />
+              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="database" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="database" />
+              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="backup" />
+              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
       <pane id="Scope" />
-      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -312,14 +362,6 @@
       <option name="FILTER_LOGCAT_AUTOMATICALLY" value="true" />
       <method />
     </configuration>
-    <configuration default="true" type="Remote" factoryName="Remote">
-      <option name="USE_SOCKET_TRANSPORT" value="true" />
-      <option name="SERVER_MODE" value="false" />
-      <option name="SHMEM_ADDRESS" value="javadebug" />
-      <option name="HOST" value="localhost" />
-      <option name="PORT" value="5005" />
-      <method />
-    </configuration>
     <configuration default="true" type="Specs2RunConfiguration" factoryName="Specs2">
       <module name="" />
       <setting name="path" value="" />
@@ -333,17 +375,12 @@
       <setting name="showProgressMessages" value="true" />
       <method />
     </configuration>
-    <configuration default="true" type="Applet" factoryName="Applet">
-      <module name="" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="HTML_FILE_NAME" />
-      <option name="HTML_USED" value="false" />
-      <option name="WIDTH" value="400" />
-      <option name="HEIGHT" value="300" />
-      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
-      <option name="VM_PARAMETERS" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
+    <configuration default="true" type="Remote" factoryName="Remote">
+      <option name="USE_SOCKET_TRANSPORT" value="true" />
+      <option name="SERVER_MODE" value="false" />
+      <option name="SHMEM_ADDRESS" value="javadebug" />
+      <option name="HOST" value="localhost" />
+      <option name="PORT" value="5005" />
       <method />
     </configuration>
     <configuration default="true" type="TestNG" factoryName="TestNG">
@@ -371,6 +408,19 @@
       <envs />
       <properties />
       <listeners />
+      <method />
+    </configuration>
+    <configuration default="true" type="Applet" factoryName="Applet">
+      <module name="" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="HTML_FILE_NAME" />
+      <option name="HTML_USED" value="false" />
+      <option name="WIDTH" value="400" />
+      <option name="HEIGHT" value="300" />
+      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
+      <option name="VM_PARAMETERS" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
       <method />
     </configuration>
     <configuration default="true" type="Application" factoryName="Application">
@@ -420,6 +470,19 @@
       <patterns />
       <method />
     </configuration>
+    <configuration default="true" type="ScalaTestRunConfiguration" factoryName="ScalaTest">
+      <module name="" />
+      <setting name="path" value="" />
+      <setting name="package" value="" />
+      <setting name="vmparams" value="" />
+      <setting name="params" value="" />
+      <setting name="workingDirectory" value="$PROJECT_DIR$" />
+      <setting name="searchForTest" value="Across module dependencies" />
+      <setting name="testName" value="" />
+      <setting name="testKind" value="Class" />
+      <setting name="showProgressMessages" value="true" />
+      <method />
+    </configuration>
     <configuration default="true" type="AndroidRunConfigurationType" factoryName="Android Application">
       <module name="" />
       <option name="ACTIVITY_CLASS" value="" />
@@ -440,19 +503,6 @@
       <option name="FILTER_LOGCAT_AUTOMATICALLY" value="true" />
       <method />
     </configuration>
-    <configuration default="true" type="ScalaTestRunConfiguration" factoryName="ScalaTest">
-      <module name="" />
-      <setting name="path" value="" />
-      <setting name="package" value="" />
-      <setting name="vmparams" value="" />
-      <setting name="params" value="" />
-      <setting name="workingDirectory" value="$PROJECT_DIR$" />
-      <setting name="searchForTest" value="Across module dependencies" />
-      <setting name="testName" value="" />
-      <setting name="testKind" value="Class" />
-      <setting name="showProgressMessages" value="true" />
-      <method />
-    </configuration>
     <list size="0" />
     <configuration name="&lt;template&gt;" type="WebApp" default="true" selected="false">
       <Host>localhost</Host>
@@ -470,7 +520,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="22" width="1920" height="1054" extended-state="6" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -488,7 +538,7 @@
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.21955128" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.21955128" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="DB Browser" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.19391026" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="DB Execution Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -514,20 +564,6 @@
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/cairo/CSScript/postgresql/functions/sp_arb_get_hojas.sql">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.3903904" vertical-offset="2283" max-vertical-offset="4522">
-          <caret line="127" column="10" selection-start-line="127" selection-start-column="10" selection-end-line="127" selection-end-column="10" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/cairo/CSGeneral/functions/sp_proveedor_update_remito_credito.sql">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2280">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/cairo/CSGeneral/functions/sp_cuenta_help.sql">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-16.827587" vertical-offset="348" max-vertical-offset="1273">
@@ -673,7 +709,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.65081084" vertical-offset="44" max-vertical-offset="969">
           <caret line="34" column="8" selection-start-line="34" selection-start-column="8" selection-end-line="34" selection-end-column="8" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -681,7 +716,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="3378" max-vertical-offset="3724">
           <caret line="190" column="0" selection-start-line="190" selection-start-column="0" selection-end-line="190" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -689,11 +723,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="589" max-vertical-offset="1083">
           <caret line="31" column="0" selection-start-line="31" selection-start-column="0" selection-end-line="31" selection-end-column="0" />
-          <folding>
-            <marker date="1442184477000" expanded="true" signature="-1:-1" placeholder="DBN-PSQL block" />
-            <marker date="1442184477000" expanded="true" signature="-1:-1" placeholder="(...)" />
-            <marker date="1442184477000" expanded="true" signature="-1:-1" placeholder="(...)" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -701,10 +730,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="6460" max-vertical-offset="6574">
           <caret line="340" column="0" selection-start-line="340" selection-start-column="0" selection-end-line="340" selection-end-column="0" />
-          <folding>
-            <marker date="1442184458000" expanded="true" signature="-1:-1" placeholder="DBN-PSQL block" />
-            <marker date="1442184458000" expanded="true" signature="-1:-1" placeholder="(...)" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -712,11 +738,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="1007" max-vertical-offset="1121">
           <caret line="53" column="0" selection-start-line="53" selection-start-column="0" selection-end-line="53" selection-end-column="0" />
-          <folding>
-            <marker date="1442184465000" expanded="true" signature="-1:-1" placeholder="DBN-PSQL block" />
-            <marker date="1442184465000" expanded="true" signature="-1:-1" placeholder="(...)" />
-            <marker date="1442184465000" expanded="true" signature="-1:-1" placeholder="(...)" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -724,11 +745,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="2223" max-vertical-offset="2337">
           <caret line="117" column="0" selection-start-line="117" selection-start-column="0" selection-end-line="117" selection-end-column="0" />
-          <folding>
-            <marker date="1442184473000" expanded="true" signature="-1:-1" placeholder="DBN-PSQL block" />
-            <marker date="1442184473000" expanded="true" signature="-1:-1" placeholder="(...)" />
-            <marker date="1442184473000" expanded="true" signature="-1:-1" placeholder="(...)" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -736,11 +753,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="1007" max-vertical-offset="1121">
           <caret line="53" column="0" selection-start-line="53" selection-start-column="0" selection-end-line="53" selection-end-column="0" />
-          <folding>
-            <marker date="1442184485000" expanded="true" signature="-1:-1" placeholder="DBN-PSQL block" />
-            <marker date="1442184485000" expanded="true" signature="-1:-1" placeholder="(...)" />
-            <marker date="1442184485000" expanded="true" signature="-1:-1" placeholder="(...)" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -756,7 +768,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.18486486" vertical-offset="0" max-vertical-offset="6251">
           <caret line="9" column="14" selection-start-line="9" selection-start-column="6" selection-end-line="9" selection-end-column="6" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -764,7 +775,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="5415">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -772,7 +782,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="6099">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -780,7 +789,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-0.6551724" vertical-offset="0" max-vertical-offset="1653">
           <caret line="1" column="41" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -788,7 +796,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.5135135" vertical-offset="0" max-vertical-offset="925">
           <caret line="25" column="36" selection-start-line="25" selection-start-column="0" selection-end-line="25" selection-end-column="36" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -796,7 +803,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="954">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -804,7 +810,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-13.103448" vertical-offset="0" max-vertical-offset="1026">
           <caret line="20" column="36" selection-start-line="20" selection-start-column="36" selection-end-line="20" selection-end-column="36" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -812,7 +817,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="100">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -820,7 +824,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-4.586207" vertical-offset="0" max-vertical-offset="570">
           <caret line="7" column="2" selection-start-line="7" selection-start-column="2" selection-end-line="7" selection-end-column="2" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -828,7 +831,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-19.655172" vertical-offset="513" max-vertical-offset="1539">
           <caret line="57" column="40" selection-start-line="45" selection-start-column="3" selection-end-line="57" selection-end-column="40" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -836,7 +838,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-0.0" vertical-offset="0" max-vertical-offset="133">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="1" selection-end-column="72" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -874,7 +875,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/cairo/CSScript/postgresql/tables/cairo_script.sql">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-39.827587" vertical-offset="94662" max-vertical-offset="486495">
+        <state vertical-scroll-proportion="0.0" vertical-offset="94662" max-vertical-offset="486495">
           <caret line="5043" column="19" selection-start-line="5043" selection-start-column="1" selection-end-line="5043" selection-end-column="1" />
           <folding />
         </state>
@@ -898,7 +899,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/backup/crowsoft_com_ar_cairo-sysmenu.sql">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="28.62069" vertical-offset="1305" max-vertical-offset="6156">
+        <state vertical-scroll-proportion="0.0" vertical-offset="1305" max-vertical-offset="6156">
           <caret line="25" column="35" selection-start-line="25" selection-start-column="2" selection-end-line="25" selection-end-column="2" />
           <folding />
         </state>
@@ -914,8 +915,24 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/backup/sys_lenguaje.backup">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.12752391" vertical-offset="2160" max-vertical-offset="152608">
+        <state vertical-scroll-proportion="0.0" vertical-offset="2160" max-vertical-offset="152608">
           <caret line="120" column="12" selection-start-line="120" selection-start-column="12" selection-end-line="120" selection-end-column="12" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cairo/CSCompras/functions/sp_doc_factura_compra_get.sql">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-4.3103447" vertical-offset="1452" max-vertical-offset="4731">
+          <caret line="83" column="17" selection-start-line="83" selection-start-column="17" selection-end-line="83" selection-end-column="17" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cairo/CSCompras/functions/sp_doc_factura_compra_editable_get.sql">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.7291667" vertical-offset="3192" max-vertical-offset="5909">
+          <caret line="203" column="77" selection-start-line="203" selection-start-column="77" selection-end-line="203" selection-end-column="77" />
           <folding />
         </state>
       </provider>

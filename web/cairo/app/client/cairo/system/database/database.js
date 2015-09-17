@@ -343,9 +343,6 @@
       // transactions
       //
 
-      // TODO: remove
-      //that.prepareTransaction = function() {};
-
       var transactions = {
         add: function(transaction) {
           self.transactions.push(transaction);

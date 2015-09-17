@@ -199,9 +199,9 @@ begin
             p_editable := 0;
 
             p_edit_msg := 'La fecha del comprobante esta fuera del intervalo definido por las fechas de control de acceso ('
-                            || to_char(coalesce(v_fca_fechaDesde, ''), 'dd-mm-yyyy')
+                            || to_char(coalesce(v_fca_fechaDesde, '1900-01-01'), 'dd-mm-yyyy')
                             || ' - '
-                            || to_char(coalesce(v_fca_fechaHasta, ''), 'dd-mm-yyyy')
+                            || to_char(coalesce(v_fca_fechaHasta, '1900-01-01'), 'dd-mm-yyyy')
                             || ')';
             return;
 

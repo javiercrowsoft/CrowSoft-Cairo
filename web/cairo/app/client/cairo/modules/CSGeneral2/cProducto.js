@@ -1250,9 +1250,6 @@
 
         m_genericEdit.save(m_dialog, register);
 
-        // TODO: remove
-        //register.prepareTransaction();
-
         // save items
 
         //
@@ -1330,13 +1327,13 @@
 
         var p = null;
         var property = null;
-        var bIsResumido = null;
-        var bValidateIdentidad = null;
-        var bValidateLote = null;
-        var bNeedTalIdentidad = null;
-        var bNeedTalLote = null;
-        var bHaveTalIdentidad = null;
-        var bHaveTalLote = null;
+        var bIsResumido = false;
+        var bValidateIdentidad = false;
+        var bValidateLote = false;
+        var bNeedTalIdentidad = false;
+        var bNeedTalLote = false;
+        var bHaveTalIdentidad = false;
+        var bHaveTalLote = false;
 
         var _count = m_dialog.getProperties().size();
         for (var _i = 0; _i < _count; _i++) {
@@ -3581,7 +3578,6 @@
 
         m_genericEdit.refreshProperties(m_dialog);
 
-
         if(m_rubroHasChanged) {
           // if rubro has changed setRubro needs to call Dialog.show so
           // controls are loaded
@@ -5728,17 +5724,11 @@
 
       var initialize = function() {
         try {
-          m_title = getText(1892, ""); // Facturas de Compras
-          m_dialog.setHaveDetail(true);
-          m_dialog.setStartRowText(4);
+          m_genericEdit = Cairo.GenericEdit.Edit.Controller.getEditor();
         }
         catch(ex) {
           Cairo.manageErrorEx(ex.message, ex, "initialize", C_MODULE, "");
         }
-      };
-
-      var initialize = function() {
-        m_genericEdit = Cairo.GenericEdit.Edit.Controller.getEditor();
       };
 
       var destroy = function() {

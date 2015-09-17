@@ -529,9 +529,9 @@
           // ListController properties and methods
           //
           self.entityInfo = new Backbone.Model({
-            entitiesTitle: "FechaControlAccesos",
-            entityName: "fechacontrolacceso",
-            entitiesName: "fechacontrolaccesos"
+            entitiesTitle: "Fechas de Control de Acceso",
+            entityName: "fecha de control de acceso",
+            entitiesName: "fechas de control de acceso"
           });
 
           self.showBranch = function(branchId) {

@@ -996,8 +996,8 @@
 
           if(response.signed) {
             p = M.confirmViewYesDefault(
-              getText(1593, ""), // El documento ya ha sido firmado desea borrar la firma
-              getText(1594, "")  // Firmar
+              getText(1594, ""), // Firmar
+              getText(1593, "")  // El documento ya ha sido firmado desea borrar la firma
             );
           }
           return p || P.resolvedPromise(true);
