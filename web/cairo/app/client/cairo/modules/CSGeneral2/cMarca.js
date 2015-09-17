@@ -629,7 +629,7 @@
             if(!Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.DELETE_MARCA)) {
               return Cairo.Promises.resolvedPromise(false);
             }
-            return Cairo.Database.destroy(m_apiPath + "general/marca", id, Cairo.Constants.DELETE_FUNCTION, "Marca").success(
+            return Cairo.Database.destroy(m_apiPath + "general/marca", id, Cairo.Constants.DELETE_FUNCTION, "Marca").whenSuccess(
               function() {
                 try {
                   var key = getKey(id);

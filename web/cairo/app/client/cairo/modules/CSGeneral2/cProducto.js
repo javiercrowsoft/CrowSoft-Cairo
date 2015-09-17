@@ -714,7 +714,7 @@
             if(m_lastRubId !== rubId) {
               m_rubroHasChanged = true;
               var rubro = Cairo.Rubro.Load.createRubro();
-              rubro.load(rubId).success(
+              rubro.load(rubId).whenSuccess(
                 function() {
                   m_data.rubro = rubro;
                   setRubro();
@@ -1472,7 +1472,7 @@
           }
         }
         p = p || Cairo.Promises.resolvedPromise(true);
-        return p.success(function() { return m_genericEdit.validate(m_dialog); });
+        return p.whenSuccess(function() { return m_genericEdit.validate(m_dialog); });
       };
 
       self.getDialog = function() {
@@ -5889,7 +5889,7 @@
             if(!Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.DELETE_PRODUCTO)) {
               return Cairo.Promises.resolvedPromise(false);
             }
-            return Cairo.Database.destroy(m_apiPath + "general/producto", id, Cairo.Constants.DELETE_FUNCTION, "Producto").success(
+            return Cairo.Database.destroy(m_apiPath + "general/producto", id, Cairo.Constants.DELETE_FUNCTION, "Producto").whenSuccess(
               function() {
                 try {
                   var key = getKey(id);

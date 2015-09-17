@@ -334,7 +334,7 @@
 
           case Dialogs.Message.MSG_DOC_DELETE:
 
-            p = self.deleteDocument(m_id).success(function() {
+            p = self.deleteDocument(m_id).whenSuccess(function() {
               return move(Dialogs.Message.MSG_DOC_NEXT);
             });
             break;
@@ -422,7 +422,7 @@
                 return response.success;
 
               })
-                .success(function() {
+                .whenSuccess(function() {
 
                   var p = null;
 
@@ -436,7 +436,7 @@
                   return p || P.resolvedPromise(true);
 
                 })
-                .success(function() {
+                .whenSuccess(function() {
 
                   return D.setDocNumber(m_lastDocId, m_dialog, CC.AS_NRODOC)
                     .then(function(enabled) {
@@ -462,10 +462,10 @@
         var p;
 
         p = D.docCanBeEdited(m_docEditable, m_docEditMsg)
-          .success(function() {
+          .whenSuccess(function() {
             return D.docCanBeSaved(m_dialog, CC.AS_FECHA);
           })
-          .success(function() {
+          .whenSuccess(function() {
             if(getItems().getGrid().getRows().count() < 2) {
               M.showWarning(getText(3903, "")); // El documento debe contener al menos un item
               return false;
@@ -474,7 +474,7 @@
               return true;
             }
           })
-          .success(function() {
+          .whenSuccess(function() {
 
             var register = new DB.Register();
             var fields = register.getFields();
@@ -759,7 +759,7 @@
             return true;
           };
 
-          p = load(id).success(loadAllItems, false).success(afterLoad, false);
+          p = load(id).whenSuccess(loadAllItems, false).whenSuccess(afterLoad, false);
         }
         catch(ex) {
           Cairo.manageErrorEx(ex.message, ex, "edit", C_MODULE, "");
@@ -1525,13 +1525,13 @@
           if(response.id === NO_ID) {
 
             return load(NO_ID)
-              .success(call(D.setDocNumber, m_docId, m_dialog, CC.AS_NRODOC))
+              .whenSuccess(call(D.setDocNumber, m_docId, m_dialog, CC.AS_NRODOC))
               .then(function(enabled) { m_taPropuesto = enabled; })
               .then(refreshProperties);
           }
           else {
             return load(response.id)
-              .success(refreshProperties);
+              .whenSuccess(refreshProperties);
           }
         }
         return D.move(m_docId, moveTo)
@@ -1697,7 +1697,7 @@
       self.list = function() {
         initialize();
         return load()
-          .success(loadCollection);
+          .whenSuccess(loadCollection);
       };
 
       self.edit = function(asId) {
@@ -2179,7 +2179,7 @@
 
             return DB.destroy(
               DB.getAPIVersion() + "contabilidad/asiento", id,
-              Cairo.Constants.DELETE_FUNCTION, C_MODULE).success(closeDialog, false);
+              Cairo.Constants.DELETE_FUNCTION, C_MODULE).whenSuccess(closeDialog, false);
           };
 
           // progress message

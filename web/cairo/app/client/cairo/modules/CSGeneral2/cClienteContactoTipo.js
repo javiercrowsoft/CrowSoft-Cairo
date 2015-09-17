@@ -591,7 +591,7 @@
             if(!Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.DELETE_CLIENTE_CONTACTO_TIPO)) {
               return Cairo.Promises.resolvedPromise(false);
             }
-            return Cairo.Database.destroy(m_apiPath + "general/clientecontactotipo", id, Cairo.Constants.DELETE_FUNCTION, "ClienteContactoTipo").success(
+            return Cairo.Database.destroy(m_apiPath + "general/clientecontactotipo", id, Cairo.Constants.DELETE_FUNCTION, "ClienteContactoTipo").whenSuccess(
               function() {
                 try {
                   var key = getKey(id);

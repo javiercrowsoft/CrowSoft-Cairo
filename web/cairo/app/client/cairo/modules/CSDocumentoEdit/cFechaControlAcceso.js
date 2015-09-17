@@ -617,7 +617,7 @@
               return Cairo.Promises.resolvedPromise(false);
             }
 
-            return Cairo.Database.destroy(m_apiPath + "general/fechacontrolacceso", id, Cairo.Constants.DELETE_FUNCTION, "FechaControlAcceso").success(
+            return Cairo.Database.destroy(m_apiPath + "general/fechacontrolacceso", id, Cairo.Constants.DELETE_FUNCTION, "FechaControlAcceso").whenSuccess(
               function() {
                 try {
                   var key = getKey(id);

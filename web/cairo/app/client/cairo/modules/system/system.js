@@ -1322,7 +1322,7 @@
         });
     }
 
-    return p || P.resolvedPromise(P.success());
+    return p || P.resolvedPromise(P.getSuccess());
   };
 
   // TODO: complete

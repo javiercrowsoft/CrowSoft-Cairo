@@ -651,7 +651,7 @@
 
           case Dialogs.Message.MSG_DOC_DELETE:
 
-            p = self.deleteDocument(m_id).success(function() {
+            p = self.deleteDocument(m_id).whenSuccess(function() {
               return move(Dialogs.Message.MSG_DOC_NEXT);
             });
             break;
@@ -887,7 +887,7 @@
                 return response.success;
 
               })
-                .success(function() {
+                .whenSuccess(function() {
 
                   var p = null;
 
@@ -916,7 +916,7 @@
                             getText(1622, ""), // CrowSoft
                             getText(1621, "")  // Ud. ha cambiado el documento.;;¿Desea utilizar los datos ya cargados en el formulario para el nuevo comprobante?
 
-                          ).success(function() {
+                          ).whenSuccess(function() {
                             return self.edit(D.Constants.DOC_CHANGED);
                           });
                       }
@@ -930,7 +930,7 @@
                   return p || P.resolvedPromise(true);
 
                 })
-                .success(function() {
+                .whenSuccess(function() {
 
                   return D.setDocNumberForCliente(m_lastCliId, m_lastDocId, m_dialog)
                     .then(function(info) {
@@ -959,7 +959,7 @@
 
           case K_CLI_ID:
 
-            setDataCliente().success(function() {
+            setDataCliente().whenSuccess(function() {
 
               calcularPercepciones();
               updateTotals();
@@ -1042,13 +1042,13 @@
         var isNew = false;
 
         p = validateCajaState()
-          .success(
+          .whenSuccess(
             call(D.docCanBeEdited, m_docEditable, m_docEditMsg)
           )
-          .success(
+          .whenSuccess(
             call(D.docCanBeSaved, m_dialog, CV.FV_FECHA_IVA)
           )
-          .success(function() {
+          .whenSuccess(function() {
             if(getItems().getGrid().getRows().count() === 0) {
               M.showWarning(getText(3903, "")); // El documento debe contener al menos un item
               return false;
@@ -1057,7 +1057,7 @@
               return true;
             }
           })
-          .success(function() {
+          .whenSuccess(function() {
 
             var register = new DB.Register();
             var fields = register.getFields();
@@ -1530,7 +1530,7 @@
           }
         }
 
-        return validateCuentaMoneda().success(function() {
+        return validateCuentaMoneda().whenSuccess(function() {
           if(m_dialog.getSavingAs() !== true) {
             return validateCuit(getCliId());
           }
@@ -1740,7 +1740,7 @@
             return true;
           };
 
-          p = load(id).success(loadAllItems, false).success(afterLoad, false);
+          p = load(id).whenSuccess(loadAllItems, false).whenSuccess(afterLoad, false);
         }
         catch(ex) {
           Cairo.manageErrorEx(ex.message, ex, "edit", C_MODULE, "");
@@ -1944,9 +1944,9 @@
 
             var row = grid.getRows().item(lRow);
             p = setDataProducto(row, newValueId)
-              .success(call(D.setPrecios, row, newValueId, m_properties.item(C.LP_ID).getSelectId(), KI_PRECIO_LP, KI_PRECIO_USR))
-              .success(call(D.setDescuentos, row, newValueId, getPrecioFromRow(row), m_properties.item(C.LD_ID).getSelectId(), KI_DESCUENTO))
-              .success(call(setTasasImpositivas, row, newValueId, newValue))
+              .whenSuccess(call(D.setPrecios, row, newValueId, m_properties.item(C.LP_ID).getSelectId(), KI_PRECIO_LP, KI_PRECIO_USR))
+              .whenSuccess(call(D.setDescuentos, row, newValueId, getPrecioFromRow(row), m_properties.item(C.LD_ID).getSelectId(), KI_DESCUENTO))
+              .whenSuccess(call(setTasasImpositivas, row, newValueId, newValue))
               .then(function(result) { Cairo.LoadingMessage.close(); return result; })
             ;
             break;
@@ -4046,7 +4046,7 @@
         p = p || P.resolvedPromise(true);
 
         p = p
-          .success(D.signDocument(m_doctId, m_id))
+          .whenSuccess(D.signDocument(m_doctId, m_id))
           .successWithResult(refreshState);
 
         return p;
@@ -4071,13 +4071,13 @@
             m_lastCliName = "";
 
             return load(NO_ID)
-              .success(call(D.setDocNumberForCliente, m_lastCliId, m_docId, m_dialog))
+              .whenSuccess(call(D.setDocNumberForCliente, m_lastCliId, m_docId, m_dialog))
               .then(function(enabled) { m_taPropuesto = enabled; })
               .then(refreshProperties);
           }
           else {
             return load(response.id)
-              .success(refreshProperties);
+              .whenSuccess(refreshProperties);
           }
         }
         return D.move(m_docId, moveTo)
@@ -4303,7 +4303,7 @@
           var wizConstructor = Cairo.FacturaVentaProyectoWiz.Edit.Controller.getEditor;
           var wizard = wizConstructor();
           wizard.setHoraIds(m_horaIds);
-          wizard.loadWizard().success(call(startWizard, wizard, wizConstructor));
+          wizard.loadWizard().whenSuccess(call(startWizard, wizard, wizConstructor));
         }
         catch(ex) {
           Cairo.manageErrorEx(ex.message, ex, "showStartWizardProyecto", C_MODULE, "");
@@ -4315,7 +4315,7 @@
           var wizConstructor = Cairo.FacturaCompraPackingWiz.Edit.Controller.getEditor;
           var wizard = wizConstructor();
           wizard.setPklstIds(m_pklstIds);
-          wizard.loadWizard().success(call(startWizard, wizard, wizConstructor));
+          wizard.loadWizard().whenSuccess(call(startWizard, wizard, wizConstructor));
         }
         catch(ex) {
           Cairo.manageErrorEx(ex.message, ex, "showStartWizardPackingList", C_MODULE, "");
@@ -4330,7 +4330,7 @@
           wizard.setAutoPago(m_bAutoPago);
           wizard.setCueIdAutoPago(m_cueIdAutoPago);
           wizard.setModoVentaCtaCte(m_modoVentaCtaCte);
-          wizard.loadWizard().success(call(startWizard, wizard, wizConstructor));
+          wizard.loadWizard().whenSuccess(call(startWizard, wizard, wizConstructor));
         }
         catch(ex) {
           Cairo.manageErrorEx(ex.message, ex, "showStartWizardRemito", C_MODULE, "");
@@ -4348,7 +4348,7 @@
           wizard.setAutoPago(m_bAutoPago);
           wizard.setCueIdAutoPago(m_cueIdAutoPago);
           wizard.setModoVentaCtaCte(m_modoVentaCtaCte);
-          wizard.loadWizard().success(call(startWizard, wizard, wizConstructor));
+          wizard.loadWizard().whenSuccess(call(startWizard, wizard, wizConstructor));
         }
         catch(ex) {
           Cairo.manageErrorEx(ex.message, ex, "showStartWizardPedido", C_MODULE, "");
@@ -5018,7 +5018,7 @@
 
         if(Cairo.getVentasConfig().getExigirCaja() && (m_cjId !== NO_ID || m_bCajaError)) {
 
-          p = loadCajaForCurrentUser(true).success(function() {
+          p = loadCajaForCurrentUser(true).whenSuccess(function() {
             var property = m_properties.item(C_CAJAMSG);
             property.setValue(m_cajaMsg);
 
@@ -5083,8 +5083,8 @@
 
       var getCAE = function() {
         return D.getCAE(m_id)
-          .success(call(load, m_id))
-          .success(call(refreshProperties));
+          .whenSuccess(call(load, m_id))
+          .whenSuccess(call(refreshProperties));
       };
 
       var loadCajaForCurrentUser = function(silent) {
@@ -5263,7 +5263,7 @@
       self.list = function() {
         initialize();
         return load()
-          .success(loadCollection);
+          .whenSuccess(loadCollection);
       };
 
       self.edit = function(fvId) {
@@ -5882,7 +5882,7 @@
 
         var p = D.getDocumentSignStatus(D.Types.FACTURA_VENTA, fvId)
             .successWithResult(getAction)
-            .success(D.signDocument(D.Types.FACTURA_VENTA, fvId))
+            .whenSuccess(D.signDocument(D.Types.FACTURA_VENTA, fvId))
             .successWithResult(refreshRow)
           ;
 
@@ -6133,7 +6133,7 @@
 
             return DB.destroy(
               DB.getAPIVersion() + "ventas/facturaventa", id,
-              Cairo.Constants.DELETE_FUNCTION, C_MODULE).success(closeDialog, false);
+              Cairo.Constants.DELETE_FUNCTION, C_MODULE).whenSuccess(closeDialog, false);
           };
 
           // progress message

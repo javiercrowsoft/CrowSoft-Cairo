@@ -619,7 +619,7 @@
             if(!Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.DELETE_PROVINCIA)) {
               return Cairo.Promises.resolvedPromise(false);
             }
-            return Cairo.Database.destroy(m_apiPath + "general/provincia", id, Cairo.Constants.DELETE_FUNCTION, "Provincia").success(
+            return Cairo.Database.destroy(m_apiPath + "general/provincia", id, Cairo.Constants.DELETE_FUNCTION, "Provincia").whenSuccess(
               function() {
                 try {
                   var key = getKey(id);

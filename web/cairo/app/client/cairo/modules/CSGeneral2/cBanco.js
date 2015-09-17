@@ -661,7 +661,7 @@
             if(!Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.DELETE_BANCO)) {
               return Cairo.Promises.resolvedPromise(false);
             }
-            return Cairo.Database.destroy(m_apiPath + "general/banco", id, Cairo.Constants.DELETE_FUNCTION, "Banco").success(
+            return Cairo.Database.destroy(m_apiPath + "general/banco", id, Cairo.Constants.DELETE_FUNCTION, "Banco").whenSuccess(
               function() {
                 try {
                   var key = getKey(id);

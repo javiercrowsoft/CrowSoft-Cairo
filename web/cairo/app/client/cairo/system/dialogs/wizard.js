@@ -294,7 +294,7 @@
 
           m_client.setObjWizard(self);
 
-          return m_client.load().success(function() {
+          return m_client.load().whenSuccess(function() {
 
             var properties = m_dialog.getProperties();
             var tabs = m_dialog.getTabs();
@@ -342,7 +342,7 @@
               //
               // move to the first step
               //
-              return nextStep(-1).success(function() {
+              return nextStep(-1).whenSuccess(function() {
                 var lastCurrentStep = m_currentStep;
 
                 //
@@ -362,13 +362,13 @@
                   //
                   // we made a recursive call until nextStep returns false
                   //
-                  return nextStep(m_currentStep).success(doVirtualNext, true);
+                  return nextStep(m_currentStep).whenSuccess(doVirtualNext, true);
                 };
 
                 //
                 // first step
                 //
-                return nextStep(m_currentStep).success(doVirtualNext, true);
+                return nextStep(m_currentStep).whenSuccess(doVirtualNext, true);
               });
             }
             else {
@@ -412,11 +412,11 @@
               }
             },
             false
-          ).success(function() {
+          ).whenSuccess(function() {
               return m_client.work(m_currentStep, true);
             },
             false
-          ).success(function() {
+          ).whenSuccess(function() {
               if(m_restartVirtualPush) {
                 restartPushVirtualNext();
               }
@@ -432,7 +432,7 @@
               return showStep(result.nextStep);
             },
             false
-          ).success(function() {
+          ).whenSuccess(function() {
               return m_client.work(m_currentStep, false);
             },
             false
@@ -474,7 +474,7 @@
             // returns a promises that will make recursive call
             // if it success
             //
-            return nextStep(m_currentStep).success(function() {
+            return nextStep(m_currentStep).whenSuccess(function() {
                 if(m_currentStep === lastCurrentStep) {
                   return false;
                 }

@@ -691,7 +691,7 @@
             if(!Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.DELETE_PRODUCTO_HELP_CONFIG)) {
               return Cairo.Promises.resolvedPromise(false);
             }
-            return Cairo.Database.destroy(m_apiPath + "general/productohelpconfig", id, Cairo.Constants.DELETE_FUNCTION, "ProductoHelpConfig").success(
+            return Cairo.Database.destroy(m_apiPath + "general/productohelpconfig", id, Cairo.Constants.DELETE_FUNCTION, "ProductoHelpConfig").whenSuccess(
               function() {
                 try {
                   var key = getKey(id);

@@ -71,7 +71,7 @@
       self.list = function() {
         initialize();
         return load()
-          .success(loadCollection);
+          .whenSuccess(loadCollection);
       };
 
       self.edit = function(xxId) {
@@ -840,7 +840,7 @@
 
             return DB.destroy(
               DB.getAPIVersion() + "modulexxxx/xxxx", id,
-              Cairo.Constants.DELETE_FUNCTION, C_MODULE).success(closeDialog, false);
+              Cairo.Constants.DELETE_FUNCTION, C_MODULE).whenSuccess(closeDialog, false);
           };
 
           // progress message

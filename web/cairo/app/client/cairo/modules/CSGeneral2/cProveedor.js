@@ -612,7 +612,7 @@
 
         p = p || P.resolvedPromise(true);
 
-        p = p.success(function() {
+        p = p.whenSuccess(function() {
           if(!validateCuitProveedor(m_dialog.getProperties().item(C.PROV_CUIT).getValue().trim())) {
             return false;
           }

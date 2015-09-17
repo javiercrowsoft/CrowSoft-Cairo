@@ -711,7 +711,7 @@
             if(!Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.DELETE_TASA_IMPOSITIVA)) {
               return Cairo.Promises.resolvedPromise(false);
             }
-            return Cairo.Database.destroy(m_apiPath + "general/tasaimpositiva", id, Cairo.Constants.DELETE_FUNCTION, "TasaImpositiva").success(
+            return Cairo.Database.destroy(m_apiPath + "general/tasaimpositiva", id, Cairo.Constants.DELETE_FUNCTION, "TasaImpositiva").whenSuccess(
               function() {
                 try {
                   var key = getKey(id);

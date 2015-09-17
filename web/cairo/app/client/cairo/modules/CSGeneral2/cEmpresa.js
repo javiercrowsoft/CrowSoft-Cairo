@@ -1013,7 +1013,7 @@
             if(!Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.DELETE_EMPRESA)) {
               return Cairo.Promises.resolvedPromise(false);
             }
-            return Cairo.Database.destroy(m_apiPath + "general/empresa", id, Cairo.Constants.DELETE_FUNCTION, "Empresa").success(
+            return Cairo.Database.destroy(m_apiPath + "general/empresa", id, Cairo.Constants.DELETE_FUNCTION, "Empresa").whenSuccess(
               function() {
                 try {
                   var key = getKey(id);

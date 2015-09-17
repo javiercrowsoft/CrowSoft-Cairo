@@ -285,7 +285,7 @@
 
         var saveParams = function() {
           try {
-            validateParams().success(clientSaveParams);
+            validateParams().whenSuccess(clientSaveParams);
           }
           catch (ignore) {}
         };

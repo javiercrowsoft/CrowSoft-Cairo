@@ -795,7 +795,7 @@
             if(!Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.DELETE_LISTA_PRECIO_MARCADO)) {
               return Cairo.Promises.resolvedPromise(false);
             }
-            return Cairo.Database.destroy(m_apiPath + "general/listapreciomarcado", id, Cairo.Constants.DELETE_FUNCTION, "ListaPrecioMarcado").success(
+            return Cairo.Database.destroy(m_apiPath + "general/listapreciomarcado", id, Cairo.Constants.DELETE_FUNCTION, "ListaPrecioMarcado").whenSuccess(
               function() {
                 try {
                   var key = getKey(id);

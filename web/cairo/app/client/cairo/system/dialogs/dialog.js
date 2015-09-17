@@ -2639,7 +2639,7 @@
           // only in master or header of documents
           //
           if(!m_isItems && !m_isFooter) {
-            p = saveChanges(false).success(function() {
+            p = saveChanges(false).whenSuccess(function() {
 
               var p = null;
 
@@ -5343,7 +5343,7 @@
               // with grids we need to call the client so it could mean an ajax request
               // that is why we use promises
               //
-              p = fillGrids().success(
+              p = fillGrids().whenSuccess(
               //
               //  if there aren't errors just disabled all controls so the user can't
               //  input anything until we have finished with saving
@@ -5372,13 +5372,13 @@
               //
                 validate
 
-              ).success(
+              ).whenSuccess(
               //
               // if validation succeeded we check items and footers
               //
                 validateItemsAndFooters
 
-              ).success(
+              ).whenSuccess(
               //
               // all validation succeeded, now we save
               //
@@ -5399,7 +5399,7 @@
                     return m_client.messageEx(Dialogs.Message.MSG_SAVE_AS, null);
                   }
                 }
-              ).success(
+              ).whenSuccess(
               //
               // if save has succeeded we need to refresh some parts of the view
               //
@@ -5433,7 +5433,7 @@
                   //
                   return p.successful;
                 }
-              ).success(
+              ).whenSuccess(
                 /*
 
                   save has SUCCEEDED

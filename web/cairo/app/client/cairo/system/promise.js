@@ -52,7 +52,7 @@
       return defer.promise;
     },
 
-    success: function(successCallback, falseReturnValue, errorCallback) {
+    whenSuccess: function(successCallback, falseReturnValue, errorCallback) {
       if(!Cairo.isFunction(successCallback)) {
         Cairo.raiseError("Invalid argument", "Argument successCallback must be a function");
       }
@@ -148,7 +148,7 @@
     return { success: false };
   };
 
-  Cairo.Promises.success = function() {
+  Cairo.Promises.getSuccess = function() {
     return { success: true };
   };
 

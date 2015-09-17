@@ -590,7 +590,7 @@
             if(!Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.DELETE_CALIDAD)) {
               return Cairo.Promises.resolvedPromise(false);
             }
-            return Cairo.Database.destroy(m_apiPath + "general/calidad", id, Cairo.Constants.DELETE_FUNCTION, "Calidad").success(
+            return Cairo.Database.destroy(m_apiPath + "general/calidad", id, Cairo.Constants.DELETE_FUNCTION, "Calidad").whenSuccess(
               function() {
                 try {
                   var key = getKey(id);

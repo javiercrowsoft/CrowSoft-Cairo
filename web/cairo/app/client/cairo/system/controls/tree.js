@@ -1543,7 +1543,7 @@
             var id = $(childView.event.currentTarget.parentElement.parentElement).data("clientid");
             Cairo.Modal.confirmViewYesDanger("Delete", "Do you want delete this item ?").then(function(answer) {
               if(answer === "yes") {
-                listController.destroy(id).success(
+                listController.destroy(id).whenSuccess(
                   function() {
                     Cairo.Tree.List.Controller.refreshBranchIfActive(getActiveBranchId(listController), id, listController);
                   }

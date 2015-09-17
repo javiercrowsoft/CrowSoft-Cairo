@@ -748,7 +748,7 @@
             if(!Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.DELETE_GASTO)) {
               return Cairo.Promises.resolvedPromise(false);
             }
-            return Cairo.Database.destroy(m_apiPath + "general/gasto", id, Cairo.Constants.DELETE_FUNCTION, "Gasto").success(
+            return Cairo.Database.destroy(m_apiPath + "general/gasto", id, Cairo.Constants.DELETE_FUNCTION, "Gasto").whenSuccess(
               function() {
                 try {
                   var key = getKey(id);

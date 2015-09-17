@@ -556,7 +556,7 @@
               }
               else {
                 p = loadRemitosXProveedor()
-                  .success(
+                  .whenSuccess(
                     function() {
                       getTodos().setName(Cairo.Constants.SELECT_ALL_TEXT);
                       m_objWizard.showValue(getTodos());
@@ -575,9 +575,9 @@
             case WCS.SELECT_ORDEN_REMITO:
 
               p = checkRemitos(                
-                ).success(
+                ).whenSuccess(
                   function() {
-                    return loadItemsXRemitos().success(
+                    return loadItemsXRemitos().whenSuccess(
                       function() {
                         nextStep = WCS.SELECT_ITEMS;
                         return true;
@@ -597,7 +597,7 @@
 
             case WCS.SELECT_ITEMS:
 
-              p = checkItems().success(
+              p = checkItems().whenSuccess(
                 function() {
                   nextStep = WCS.PERCEPCIONES;
                   return true;
@@ -628,10 +628,10 @@
 
             case WCS.DATOS_GENERALES:
 
-              p = validateDatosGenerales().success(
+              p = validateDatosGenerales().whenSuccess(
                 function() {
 
-                  return save().success(
+                  return save().whenSuccess(
                     function() {
                       D.wizShowNewStep(m_objWizard, WCS.WELCOME, m_lastNroDoc);
                       nextStep = WCS.WELCOME;
@@ -792,10 +792,10 @@
                 }
                 return response.success;
               })
-              .success(function() {
+              .whenSuccess(function() {
                   return D.wizCompraShowCotizacion(m_objWizard, WCS.DATOS_GENERALES, m_monId, true);
               })
-              .success(function() {
+              .whenSuccess(function() {
                 var prop = D.wizGetDepositoProp(m_objWizard, WCS.SELECT_PROVEEDOR, DWC.DEPOSITO);
                 prop.setEnabled(m_showStockData);
                 m_objWizard.showValue(prop);
@@ -1338,7 +1338,7 @@
         var existsSelected = false;
 
         var checkItem = function(row, i) {
-          return validateRowItems(row, i).success(function() {
+          return validateRowItems(row, i).whenSuccess(function() {
             existsSelected = true;
             if(!val(getCell(row, KII_PRECIO_SIN_IVA).getValue()) !== 0) {
               return M.showWarningWithFalse(getText(1667, "", i + 1)); // Debe indicar un precio para el item (1)
@@ -1350,11 +1350,11 @@
         for (var _i = 0, _count = getItems().getRows().size(); _i < _count; _i++) {
           var row = getItems().getRows().item(_i);
           if(val(getCell(row, KII_APLICAR).getValue()) > 0) {
-            p = p.success(call(checkItem, row, _i));
+            p = p.whenSuccess(call(checkItem, row, _i));
           }
         }
 
-        return p.success(function() {
+        return p.whenSuccess(function() {
           if(!existsSelected) {
             return M.showWarningWithFalse(getText(1678, "")); // Debe indicar uno o más items.
           }
@@ -1784,7 +1784,7 @@
       var save = function() {
 
         return D.docCanBeSavedEx(m_objWizard.getDialog(), DWC.FECHA_IVA, DWC.DOC)
-          .success(function() {
+          .whenSuccess(function() {
 
             var register = new DB.Register();
 

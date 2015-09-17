@@ -568,7 +568,7 @@
             if(!Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.DELETE_ESCALA)) {
               return Cairo.Promises.resolvedPromise(false);
             }
-            return Cairo.Database.destroy(m_apiPath + "general/escala", id, Cairo.Constants.DELETE_FUNCTION, "Escala").success(
+            return Cairo.Database.destroy(m_apiPath + "general/escala", id, Cairo.Constants.DELETE_FUNCTION, "Escala").whenSuccess(
               function() {
                 try {
                   var key = getKey(id);

@@ -741,7 +741,7 @@
             if(!Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.DELETE_VENTAMODO)) {
               return Cairo.Promises.resolvedPromise(false);
             }
-            return Cairo.Database.destroy(m_apiPath + "general/ventamodo", id, Cairo.Constants.DELETE_FUNCTION, "VentaModo").success(
+            return Cairo.Database.destroy(m_apiPath + "general/ventamodo", id, Cairo.Constants.DELETE_FUNCTION, "VentaModo").whenSuccess(
               function() {
                 try {
                   var key = getKey(id);

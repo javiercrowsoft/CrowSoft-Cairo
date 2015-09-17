@@ -530,7 +530,7 @@
 
           case Dialogs.Message.MSG_DOC_DELETE:
 
-            p = self.deleteDocument(m_id).success(function() {
+            p = self.deleteDocument(m_id).whenSuccess(function() {
               return move(Dialogs.Message.MSG_DOC_NEXT);
             });            
             break;
@@ -709,7 +709,7 @@
                 return response.success;
 
               })
-                .success(function() {
+                .whenSuccess(function() {
 
                   var p = null;
 
@@ -723,7 +723,7 @@
                   return p || P.resolvedPromise(true);
 
                 })
-                .success(function() {
+                .whenSuccess(function() {
 
                   return D.setDocNumberForProveedor(m_lastProvId, m_lastDocId, m_dialog)
                     .then(function(enabled) {
@@ -751,7 +751,7 @@
 
           case K_PROV_ID:
 
-            setDataProveedor().success(function() {
+            setDataProveedor().whenSuccess(function() {
               D.setDocNumberForProveedor(m_lastProvId, m_lastDocId, m_dialog)
               .then(function(enabled) {
                 m_taPropuesto = enabled;
@@ -811,10 +811,10 @@
         var docId = 0;
 
         p = D.docCanBeEdited(m_docEditable, m_docEditMsg)
-          .success(function() {
+          .whenSuccess(function() {
             return D.docCanBeSaved(m_dialog, CC.FC_FECHA_IVA);
           })
-          .success(function() {
+          .whenSuccess(function() {
             if(getItems().getGrid().getRows().count() === 0) {
               M.showWarning(getText(3903, "")); // El documento debe contener al menos un item
               return false;
@@ -823,7 +823,7 @@
               return true;
             }
           })
-          .success(function() {
+          .whenSuccess(function() {
 
             var register = new DB.Register();
             var fields = register.getFields();
@@ -1459,7 +1459,7 @@
             return true;
           };
 
-          p = load(id).success(loadAllItems, false).success(afterLoad, false);
+          p = load(id).whenSuccess(loadAllItems, false).whenSuccess(afterLoad, false);
         }
         catch(ex) {
           Cairo.manageErrorEx(ex.message, ex, "edit", C_MODULE, "");
@@ -1674,9 +1674,9 @@
 
             var row = grid.getRows().item(lRow);
             p = setDataProducto(row, newValueId)
-              .success(call(D.setPrecios, row, newValueId, m_properties.item(C.LP_ID).getSelectId(), KI_PRECIO_LP, KI_PRECIO_USR))
-              .success(call(D.setDescuentos, row, newValueId, getPrecioFromRow(row), m_properties.item(C.LD_ID).getSelectId(), KI_DESCUENTO))
-              .success(call(setTasasImpositivas, row, newValueId, newValue))
+              .whenSuccess(call(D.setPrecios, row, newValueId, m_properties.item(C.LP_ID).getSelectId(), KI_PRECIO_LP, KI_PRECIO_USR))
+              .whenSuccess(call(D.setDescuentos, row, newValueId, getPrecioFromRow(row), m_properties.item(C.LD_ID).getSelectId(), KI_DESCUENTO))
+              .whenSuccess(call(setTasasImpositivas, row, newValueId, newValue))
               .then(function(result) { Cairo.LoadingMessage.close(); return result; })
             ;
             break;
@@ -4213,7 +4213,7 @@
         p = p || P.resolvedPromise(true);
 
         p = p
-          .success(D.signDocument(m_doctId, m_id))
+          .whenSuccess(D.signDocument(m_doctId, m_id))
           .successWithResult(refreshState);
 
         return p;
@@ -4238,13 +4238,13 @@
             m_lastProvName = "";
 
             return load(NO_ID)
-              .success(call(D.setDocNumberForProveedor, m_lastProvId, m_docId, m_dialog))
+              .whenSuccess(call(D.setDocNumberForProveedor, m_lastProvId, m_docId, m_dialog))
               .then(function(enabled) { m_taPropuesto = enabled; })
               .then(refreshProperties);
           }
           else {
             return load(response.id)
-              .success(refreshProperties);
+              .whenSuccess(refreshProperties);
           }
         }
         return D.move(m_docId, moveTo)
@@ -4462,7 +4462,7 @@
           var wizConstructor = Cairo.FacturaCompraRemitoWiz.Edit.Controller.getEditor;
           var wizard = wizConstructor();
           wizard.setRcIds(m_rcIds);
-          wizard.loadWizard().success(call(startWizard, wizard, wizConstructor));
+          wizard.loadWizard().whenSuccess(call(startWizard, wizard, wizConstructor));
         }
         catch(ex) {
           Cairo.manageErrorEx(ex.message, ex, "showStartWizardRemito", C_MODULE, "");
@@ -4474,7 +4474,7 @@
           var wizConstructor = Cairo.FacturaCompraWiz.Edit.Controller.getEditor;
           var wizard = wizConstructor();
           wizard.setOcIds(m_ocIds);
-          wizard.loadWizard().success(call(startWizard, wizard, wizConstructor));
+          wizard.loadWizard().whenSuccess(call(startWizard, wizard, wizConstructor));
         }
         catch(ex) {
           Cairo.manageErrorEx(ex.message, ex, "showStartWizardOrden", C_MODULE, "");
@@ -4833,7 +4833,7 @@
       self.list = function() {
         initialize();
         return load()
-          .success(loadCollection);
+          .whenSuccess(loadCollection);
       };
 
       self.edit = function(fcId) {
@@ -5370,7 +5370,7 @@
 
         var p = D.getDocumentSignStatus(D.Types.FACTURA_COMPRA, fcId)
           .successWithResult(getAction)
-          .success(D.signDocument(D.Types.FACTURA_COMPRA, fcId))
+          .whenSuccess(D.signDocument(D.Types.FACTURA_COMPRA, fcId))
           .successWithResult(refreshRow)
         ;
 
@@ -5591,7 +5591,7 @@
 
             return DB.destroy(
                 DB.getAPIVersion() + "compras/facturacompra", id,
-                Cairo.Constants.DELETE_FUNCTION, C_MODULE).success(closeDialog, false);
+                Cairo.Constants.DELETE_FUNCTION, C_MODULE).whenSuccess(closeDialog, false);
           };
 
           // progress message

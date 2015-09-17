@@ -677,7 +677,7 @@
             if(!Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.DELETE_PERCEPCIONTIPO)) {
               return Cairo.Promises.resolvedPromise(false);
             }
-            return Cairo.Database.destroy(m_apiPath + "general/percepciontipo", id, Cairo.Constants.DELETE_FUNCTION, "PercepcionTipo").success(
+            return Cairo.Database.destroy(m_apiPath + "general/percepciontipo", id, Cairo.Constants.DELETE_FUNCTION, "PercepcionTipo").whenSuccess(
               function() {
                 try {
                   var key = getKey(id);

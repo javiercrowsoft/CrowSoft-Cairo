@@ -696,7 +696,7 @@
             if(!Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.DELETE_CAMION)) {
               return Cairo.Promises.resolvedPromise(false);
             }
-            return Cairo.Database.destroy(m_apiPath + "general/camion", id, Cairo.Constants.DELETE_FUNCTION, "Camion").success(
+            return Cairo.Database.destroy(m_apiPath + "general/camion", id, Cairo.Constants.DELETE_FUNCTION, "Camion").whenSuccess(
               function() {
                 try {
                   var key = getKey(id);

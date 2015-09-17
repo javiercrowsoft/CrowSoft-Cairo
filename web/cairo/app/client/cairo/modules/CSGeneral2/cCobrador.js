@@ -632,7 +632,7 @@
             if(!Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.DELETE_COBRADOR)) {
               return Cairo.Promises.resolvedPromise(false);
             }
-            return Cairo.Database.destroy(m_apiPath + "general/cobrador", id, Cairo.Constants.DELETE_FUNCTION, "Cobrador").success(
+            return Cairo.Database.destroy(m_apiPath + "general/cobrador", id, Cairo.Constants.DELETE_FUNCTION, "Cobrador").whenSuccess(
               function() {
                 try {
                   var key = getKey(id);

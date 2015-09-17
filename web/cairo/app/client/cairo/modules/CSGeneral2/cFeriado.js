@@ -823,7 +823,7 @@
             if(!Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.DELETE_FERIADO)) {
               return Cairo.Promises.resolvedPromise(false);
             }
-            return Cairo.Database.destroy(m_apiPath + "general/feriado", id, Cairo.Constants.DELETE_FUNCTION, "Feriado").success(
+            return Cairo.Database.destroy(m_apiPath + "general/feriado", id, Cairo.Constants.DELETE_FUNCTION, "Feriado").whenSuccess(
               function() {
                 try {
                   var key = getKey(id);

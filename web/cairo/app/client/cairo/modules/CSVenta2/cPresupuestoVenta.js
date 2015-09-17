@@ -95,7 +95,7 @@
       self.list = function() {
         initialize();
         return load()
-          .success(loadCollection);
+          .whenSuccess(loadCollection);
       };
 
       self.edit = function(xxId) {
@@ -985,7 +985,7 @@
 
         var p = D.getDocumentSignStatus(D.Types.FACTURA_COMPRA, fcId)
             .successWithResult(getAction)
-            .success(D.signDocument(D.Types.FACTURA_COMPRA, fcId))
+            .whenSuccess(D.signDocument(D.Types.FACTURA_COMPRA, fcId))
             .successWithResult(refreshRow)
           ;
 
@@ -1266,7 +1266,7 @@
 
             return DB.destroy(
               DB.getAPIVersion() + "modulexxxx/xxxx", id,
-              Cairo.Constants.DELETE_FUNCTION, C_MODULE).success(closeDialog, false);
+              Cairo.Constants.DELETE_FUNCTION, C_MODULE).whenSuccess(closeDialog, false);
           };
 
           // progress message

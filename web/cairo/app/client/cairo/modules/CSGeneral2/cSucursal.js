@@ -614,7 +614,7 @@
             if(!Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.DELETE_SUCURSAL)) {
               return Cairo.Promises.resolvedPromise(false);
             }
-            return Cairo.Database.destroy(m_apiPath + "general/sucursal", id, Cairo.Constants.DELETE_FUNCTION, "Sucursal").success(
+            return Cairo.Database.destroy(m_apiPath + "general/sucursal", id, Cairo.Constants.DELETE_FUNCTION, "Sucursal").whenSuccess(
               function() {
                 try {
                   var key = getKey(id);

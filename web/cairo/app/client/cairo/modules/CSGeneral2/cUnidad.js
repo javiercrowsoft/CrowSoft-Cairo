@@ -566,7 +566,7 @@
             if(!Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.DELETE_UNIDAD)) {
               return Cairo.Promises.resolvedPromise(false);
             }
-            return Cairo.Database.destroy(m_apiPath + "general/unidad", id, Cairo.Constants.DELETE_FUNCTION, "Unidad").success(
+            return Cairo.Database.destroy(m_apiPath + "general/unidad", id, Cairo.Constants.DELETE_FUNCTION, "Unidad").whenSuccess(
               function() {
                 try {
                   var key = getKey(id);

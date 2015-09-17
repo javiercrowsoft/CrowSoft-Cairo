@@ -647,7 +647,7 @@
             if(!Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.DELETE_POSICION_ARANCEL)) {
               return Cairo.Promises.resolvedPromise(false);
             }
-            return Cairo.Database.destroy(m_apiPath + "general/posicionarancel", id, Cairo.Constants.DELETE_FUNCTION, "PosicionArancel").success(
+            return Cairo.Database.destroy(m_apiPath + "general/posicionarancel", id, Cairo.Constants.DELETE_FUNCTION, "PosicionArancel").whenSuccess(
               function() {
                 try {
                   var key = getKey(id);

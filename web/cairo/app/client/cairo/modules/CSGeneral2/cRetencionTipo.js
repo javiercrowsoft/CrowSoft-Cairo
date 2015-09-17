@@ -712,7 +712,7 @@
             if(!Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.DELETE_RETENCIONTIPO)) {
               return Cairo.Promises.resolvedPromise(false);
             }
-            return Cairo.Database.destroy(m_apiPath + "general/retenciontipo", id, Cairo.Constants.DELETE_FUNCTION, "RetencionTipo").success(
+            return Cairo.Database.destroy(m_apiPath + "general/retenciontipo", id, Cairo.Constants.DELETE_FUNCTION, "RetencionTipo").whenSuccess(
               function() {
                 try {
                   var key = getKey(id);

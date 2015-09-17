@@ -760,7 +760,7 @@
             if(!Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.DELETE_CUENTAGRUPO)) {
               return Cairo.Promises.resolvedPromise(false);
             }
-            return Cairo.Database.destroy(m_apiPath + "general/cuentagrupo", id, Cairo.Constants.DELETE_FUNCTION, "CuentaGrupo").success(
+            return Cairo.Database.destroy(m_apiPath + "general/cuentagrupo", id, Cairo.Constants.DELETE_FUNCTION, "CuentaGrupo").whenSuccess(
               function() {
                 try {
                   var key = getKey(id);

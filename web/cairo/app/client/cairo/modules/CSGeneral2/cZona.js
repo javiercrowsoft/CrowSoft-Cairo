@@ -631,7 +631,7 @@
             if(!Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.DELETE_ZONA)) {
               return Cairo.Promises.resolvedPromise(false);
             }
-            return Cairo.Database.destroy(m_apiPath + "general/zona", id, Cairo.Constants.DELETE_FUNCTION, "Zona").success(
+            return Cairo.Database.destroy(m_apiPath + "general/zona", id, Cairo.Constants.DELETE_FUNCTION, "Zona").whenSuccess(
               function() {
                 try {
                   var key = getKey(id);

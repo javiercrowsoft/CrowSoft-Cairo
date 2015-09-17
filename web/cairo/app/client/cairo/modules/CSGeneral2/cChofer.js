@@ -760,7 +760,7 @@
             if(!Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.DELETE_CHOFER)) {
               return Cairo.Promises.resolvedPromise(false);
             }
-            return Cairo.Database.destroy(m_apiPath + "general/chofer", id, Cairo.Constants.DELETE_FUNCTION, "Chofer").success(
+            return Cairo.Database.destroy(m_apiPath + "general/chofer", id, Cairo.Constants.DELETE_FUNCTION, "Chofer").whenSuccess(
               function() {
                 try {
                   var key = getKey(id);

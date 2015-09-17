@@ -793,7 +793,7 @@
             if(!Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.DELETE_TRANSPORTE)) {
               return Cairo.Promises.resolvedPromise(false);
             }
-            return Cairo.Database.destroy(m_apiPath + "general/transporte", id, Cairo.Constants.DELETE_FUNCTION, "Transporte").success(
+            return Cairo.Database.destroy(m_apiPath + "general/transporte", id, Cairo.Constants.DELETE_FUNCTION, "Transporte").whenSuccess(
               function() {
                 try {
                   var key = getKey(id);
