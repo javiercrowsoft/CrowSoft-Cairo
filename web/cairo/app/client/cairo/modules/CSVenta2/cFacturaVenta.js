@@ -4603,7 +4603,7 @@
         var p = P.resolvedPromise(true);
         var rows = getItems().getGrid().getRows();
 
-        for (var _i = 0, _count = rows.size(); _i < _count; _i++) {
+        for(var _i = 0, _count = rows.size(); _i < _count; _i++) {
           var row = rows.item(_i);
           var cell = getCell(row, KI_PR_ID);
           p = p
@@ -4660,7 +4660,7 @@
 
        var property = null;
        var _count = m_dialog.getProperties().size();
-       for (var _i = 0; _i < _count; _i++) {
+       for(var _i = 0; _i < _count; _i++) {
        property = m_dialog.getProperties().item(_i);
        switch (property.getKey()) {
        case K_NUMERO:
@@ -4746,7 +4746,7 @@
        }
 
        var _count = m_footer.getProperties().size();
-       for (var _i = 0; _i < _count; _i++) {
+       for(var _i = 0; _i < _count; _i++) {
        property = m_footer.getProperties().item(_i);
        switch (property.getKey()) {
        case K_TOTAL:
@@ -4823,7 +4823,7 @@
        var cell = null;
 
        var _count = m_items.getProperties().item(C_ITEMS).getGrid().getRows().size();
-       for (var _i = 0; _i < _count; _i++) {
+       for(var _i = 0; _i < _count; _i++) {
        row = m_items.getProperties().item(C_ITEMS).getGrid().getRows().item(_i);
 
        var register = new Cairo.Database.Register();
@@ -4831,8 +4831,8 @@
        register.setTable(CV.PRESUPUESTOVENTAITEMTMP);
        register.setId(Cairo.Constants.NEW_ID);
 
-       var _count = row.size();
-       for (var _j = 0; _j < _count; _j++) {
+       var _countj = row.size();
+       for(var _j = 0; _j < _countj; _j++) {
        cell = row.item(_j);
        switch (cell.getKey()) {
 
@@ -5697,7 +5697,7 @@
         register.setId(Cairo.Constants.NEW_ID);
 
         var _count = m_dialog.getProperties().size();
-        for (var _i = 0; _i < _count; _i++) {
+        for(var _i = 0; _i < _count; _i++) {
 
           var property = m_dialog.getProperties().item(_i);
 
@@ -5894,7 +5894,7 @@
         var p = P.resolvedPromise(true);
         var ids = m_dialog.getIds();
 
-        for (var i = 0, count = ids.length; i < count; i++) {
+        for(var i = 0, count = ids.length; i < count; i++) {
 
           var fvId = ids[i];
           if(fvId !== NO_ID) {
@@ -5910,7 +5910,7 @@
         var p = P.resolvedPromise(true);
         var ids = m_dialog.getIds();
 
-        for (var i = 0, count = ids.length; i < count; i++) {
+        for(var i = 0, count = ids.length; i < count; i++) {
 
           var fvId = ids[i];
           if(fvId !== NO_ID) {

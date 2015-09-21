@@ -287,7 +287,7 @@
         }
 
         var _count = m_dialog.getProperties().size();
-        for (var _i = 0; _i < _count; _i++) {
+        for(var _i = 0; _i < _count; _i++) {
           var property = m_dialog.getProperties().item(_i);
           switch (property.getKey()) {
             case K_NAME:
@@ -410,7 +410,7 @@
         var bHaveBco = null;
 
         var _count = m_dialog.getProperties().size();
-        for (var _i = 0; _i < _count; _i++) {
+        for(var _i = 0; _i < _count; _i++) {
           property = m_dialog.getProperties().item(_i);
           switch (property.getKey()) {
             case K_NAME:
@@ -821,7 +821,7 @@
               m_llevaCentroCosto = Cairo.Database.valField(response.data, C.CUE_LLEVA_CENTRO_COSTO);
               m_producto = Cairo.Database.valField(response.data, C.CUE_PRODUCTO);
               m_empId = Cairo.Database.valField(response.data, C.EMP_ID);
-              m_empresa = Cairo.Database.valField(response.data, Cairo.Constants.EMP_NAME);
+              m_empresa = Cairo.Database.valField(response.data, C.EMP_NAME);
               m_codigoRPT = Cairo.Database.valField(response.data, C.CUE_CODIGO_RPT);
               m_esEfectivo = Cairo.Database.valField(response.data, C.CUE_ES_EFECTIVO);
               m_esTicket = Cairo.Database.valField(response.data, C.CUE_ES_TICKET);
@@ -857,14 +857,14 @@
           }
         }
         catch(ex) {
-          Cairo.manageErrorEx(ex.message, "terminate", C_MODULE, "");
+          Cairo.manageErrorEx(ex.message, ex, "terminate", C_MODULE, "");
         }
 
         try {
           destroy();
         }
         catch(ex) {
-          Cairo.manageErrorEx(ex.message, "terminate", C_MODULE, "");
+          Cairo.manageErrorEx(ex.message, ex, "terminate", C_MODULE, "");
         }
       };
 

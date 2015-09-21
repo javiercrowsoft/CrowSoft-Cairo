@@ -809,7 +809,7 @@
         };
 
         var _count = m_dialog.getProperties().size();
-        for (var _i = 0; _i < _count; _i++) {
+        for(var _i = 0; _i < _count; _i++) {
 
           var property = m_dialog.getProperties().item(_i);
 
@@ -1883,7 +1883,7 @@
               
               var settings = response.data.get('settings')
 
-              for (var _i = 0; _i < settings.length; _i += 1) {
+              for(var _i = 0; _i < settings.length; _i += 1) {
                 switch (getValue(settings[_i], CONFIG_KEY)) {
                   case keyInfAnticipos:
                     m_informarAnticipos = val(getValue(settings[_i], CONFIG_VALUE));
@@ -2927,14 +2927,14 @@
           }
         }
         catch(ex) {
-          Cairo.manageErrorEx(ex.message, "terminate", C_MODULE, "");
+          Cairo.manageErrorEx(ex.message, ex, "terminate", C_MODULE, "");
         }
 
         try {
           destroy();
         }
         catch(ex) {
-          Cairo.manageErrorEx(ex.message, "terminate", C_MODULE, "");
+          Cairo.manageErrorEx(ex.message, ex, "terminate", C_MODULE, "");
         }
       };
 

@@ -877,11 +877,12 @@ var Cairo = new Marionette.Application();
     sendEmailToCrowSoft: function(subject, section) { /* TODO: implement this. */ },
     newArray: function(length, val) {
       var array = [];
-      for (var i = 0; i < length; i++) {
+      for(var i = 0; i < length; i++) {
         array[i] = val;
       }
       return array;
     },
+    toInt: function(value) { return ~~value; },
     boolToInt: function(value) {
       return value === true ? 1 : 0;
     },
@@ -907,7 +908,8 @@ var Cairo = new Marionette.Application();
     right: right,
     left: left,
     string: string,
-    isObject: isObject
+    isObject: isObject,
+    replaceAll: replaceAll
   };
 
   var createCompany = function() {
@@ -1511,7 +1513,7 @@ var Cairo = new Marionette.Application();
         }
         p = p || Cairo.Promises.resolvedPromise();
         p.then(function() {
-          defer.resolve(true);
+          defer.resolve(false);
         })
       };
     };
@@ -1554,6 +1556,7 @@ var Cairo = new Marionette.Application();
   var createConfigObjects = function() {
     var m_ventasConfig;
     var m_stockConfig;
+    var m_contabilidadConfig;
 
     Cairo.getVentasConfig = function() {
       if(m_ventasConfig === null) {
@@ -1569,6 +1572,14 @@ var Cairo = new Marionette.Application();
         m_stockConfig.load(Cairo.User.getId());
       }
       return m_stockConfig;
+    };
+
+    Cairo.getContabilidadConfig = function() {
+      if(m_contabilidadConfig === null) {
+        m_contabilidadConfig = Cairo.ContabilidadConfig.Edit.Controller.getEditor();
+        m_contabilidadConfig.load(Cairo.User.getId());
+      }
+      return m_contabilidadConfig;
     };
   };
 

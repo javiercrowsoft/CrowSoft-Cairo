@@ -90,21 +90,37 @@ object InternalFilter {
   private def supplierListPrice(user: CompanyUser, parameters: List[String]): InternalFilter = {
     val params = parseParameters(parameters)
     val documentId = params("documentId").toInt
-    val currencyId = documentCurrencyId(user, documentId)
     val supplierId = params("supplierId").toInt
-    val sqlstmt =
-      """
+
+    if(documentId == 0) {
+      val sqlstmt = """
+        |(exists(select lp_id from ListaPrecioProveedor where prov_id = ? and lp_id = ListaPrecio.lp_id)
+        | or (lp_default <> 0 and lp_tipo in (2,3))
+        |)
+      """.stripMargin
+      InternalFilter(
+        sqlstmt,
+        List(
+          QueryParameter(supplierId)
+        )
+      )
+    }
+    else {
+      val currencyId = documentCurrencyId(user, documentId)
+      val sqlstmt = """
         |(exists(select lp_id from ListaPrecioProveedor where prov_id = ? and lp_id = ListaPrecio.lp_id)
         | or (lp_default <> 0 and lp_tipo in (2,3))
         |) and mon_id = ?
       """.stripMargin
-    InternalFilter(
-      sqlstmt,
-      List(
-        QueryParameter(supplierId),
-        QueryParameter(currencyId)
+
+      InternalFilter(
+        sqlstmt,
+        List(
+          QueryParameter(supplierId),
+          QueryParameter(currencyId)
+        )
       )
-    )
+    }
   }
 
   /*

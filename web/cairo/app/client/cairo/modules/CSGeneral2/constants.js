@@ -262,7 +262,7 @@
       CLI_CUEG_ID: "clicueg_id",
 
       // Cuenta Grupo Proveedor
-      PROVEEDORCUENTAGRUPO: "ProveedorCuentaGrupo",
+      PROVEEDOR_CUENTA_GRUPO: "ProveedorCuentaGrupo",
       PROV_CUEG_ID: "provcueg_id",
 
       // Percepcion Cliente
@@ -272,7 +272,7 @@
       CLI_PERC_HASTA: "cliperc_hasta",
 
       // Retencion Proveedor
-      PROVEEDORRETENCION: "ProveedorRetencion",
+      PROVEEDOR_RETENCION: "ProveedorRetencion",
       PROV_RET_ID: "provret_id",
       PROV_RET_DESDE: "provret_desde",
       PROV_RET_HASTA: "provret_hasta",
@@ -615,11 +615,11 @@
       DPTO_ID_PADRE: "dpto_id_padre",
 
       // DepartamentoProveedor
-      DEPARTAMENTOPROVEEDOR: "DepartamentoProveedor",
+      DEPARTAMENTO_PROVEEDOR: "DepartamentoProveedor",
       DPTO_PROV_ID: "dptoprov_id",
 
       // ProveedorCentroCosto
-      PROVEEDORCENTRO_COSTO: "ProveedorCentroCosto",
+      PROVEEDOR_CENTRO_COSTO: "ProveedorCentroCosto",
       PROV_CCOS_ID: "provccos_id",
 
       // DepartamentoCliente
@@ -669,7 +669,7 @@
       CALLEA_HASTA: "callea_hasta",
 
       // Proveedores CAI
-      PROVEEDORCAI: "ProveedorCAI",
+      PROVEEDOR_CAI: "ProveedorCAI",
       PROVC_ID: "provc_id",
       PROVC_NUMERO: "provc_numero",
       PROVC_DESCRIP: "provc_descrip",
@@ -1044,7 +1044,7 @@
       EMP_CLI_ID: "empcli_id",
 
       // Empresa Proveedor
-      EMPRESAPROVEEDOR: "EmpresaProveedor",
+      EMPRESA_PROVEEDOR: "EmpresaProveedor",
       EMP_PROV_ID: "empprov_id",
 
       // Idioma
@@ -1407,8 +1407,14 @@
       DepositosInternos: {
         deplIdInterno: -2,
         deplIdTercero: -3
+      },
+
+      ClaveFiscalType: {
+        cuit: 1,
+        rut: 2
       }
     }
+
   };
 
   Cairo.Security.Actions.General = {

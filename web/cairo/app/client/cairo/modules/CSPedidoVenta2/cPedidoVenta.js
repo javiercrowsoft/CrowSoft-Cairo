@@ -220,7 +220,7 @@
 
         }
         catch (ex) {
-          Cairo.manageErrorEx(ex.message, "ProcessMenu", C_MODULE, "");
+          Cairo.manageErrorEx(ex.message, ex, "ProcessMenu", C_MODULE, "");
 
         }
 
@@ -739,7 +739,7 @@
         register.setId(Cairo.Constants.NEW_ID);
 
         var _count = m_dialog.getProperties().size();
-        for (var _i = 0; _i < _count; _i++) {
+        for(var _i = 0; _i < _count; _i++) {
 
           var property = m_dialog.getProperties().item(_i);
 
@@ -834,7 +834,7 @@
 
         var property = null;
         var _count = m_dialog.getProperties().size();
-        for (var _i = 0; _i < _count; _i++) {
+        for(var _i = 0; _i < _count; _i++) {
           property = m_dialog.getProperties().item(_i);
 
           register.getFields().clear();
@@ -1027,7 +1027,7 @@
       };
 
       var processModoPago = function(idMenu) {
-        for (var i = 1; i <= (m_vMenuModoPago, 2).Length; i++) {
+        for(var i = 1; i <= (m_vMenuModoPago, 2).Length; i++) {
           if(m_vMenuModoPago[C_VM_MENU_ID, i] === idMenu) {
 
             if(m_vMenuModoPago[C_VM_IS_CONTADO, i]) {
@@ -1165,7 +1165,7 @@
 
         }
         catch (ex) {
-          Cairo.manageErrorEx(ex.message, "showFactura", C_MODULE, "");
+          Cairo.manageErrorEx(ex.message, ex, "showFactura", C_MODULE, "");
 
         }
 
@@ -1182,7 +1182,7 @@
 
         }
         catch (ex) {
-          Cairo.manageErrorEx(ex.message, "showRemito", C_MODULE, "");
+          Cairo.manageErrorEx(ex.message, ex, "showRemito", C_MODULE, "");
 
         }
 
@@ -1199,7 +1199,7 @@
 
         }
         catch (ex) {
-          Cairo.manageErrorEx(ex.message, "showPacking", C_MODULE, "");
+          Cairo.manageErrorEx(ex.message, ex, "showPacking", C_MODULE, "");
 
         }
 
@@ -1261,7 +1261,7 @@
 
         }
         catch (ex) {
-          Cairo.manageErrorEx(ex.message, "Class_Terminate", C_MODULE, "");
+          Cairo.manageErrorEx(ex.message, ex, "Class_Terminate", C_MODULE, "");
 
         }
 
@@ -1274,7 +1274,7 @@
           m_listController = null;
         }
         catch (ex) {
-          Cairo.manageErrorEx(ex.message, "destroy", C_MODULE, "");
+          Cairo.manageErrorEx(ex.message, ex, "destroy", C_MODULE, "");
         }
       };
 
@@ -1287,7 +1287,7 @@
 
         }
         catch (ex) {
-          Cairo.manageErrorEx(ex.message, "Class_Terminate", C_MODULE, "");
+          Cairo.manageErrorEx(ex.message, ex, "Class_Terminate", C_MODULE, "");
 
         }
 

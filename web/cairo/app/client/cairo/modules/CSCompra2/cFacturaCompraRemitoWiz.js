@@ -137,7 +137,7 @@
 
       self.setRcIds = function(value) {
         m_rcIds = [];
-        for (var i = 0; i < value.length; i++) {
+        for(var i = 0; i < value.length; i++) {
           m_rcIds[i] = value[i];
         }
       };
@@ -379,7 +379,7 @@
 
       var selectAllRemitos = function(bSelect) {
         var remitos = getRemitos();
-        for (var _i = 0, _count = remitos.getRows().size(); _i < _count; _i++) {
+        for(var _i = 0, _count = remitos.getRows().size(); _i < _count; _i++) {
           var row = remitos.getRows().item(_i);
           getCell(row, KI_SELECT).setId(bToI(bSelect));
         }
@@ -390,7 +390,7 @@
       var selectAllItems = function(bSelect) {
         var items = getItems();
 
-        for (var _i = 0, _count = items.getRows().size(); _i < _count; _i++) {
+        for(var _i = 0, _count = items.getRows().size(); _i < _count; _i++) {
           var row = items.getRows().item(_i);
           getCell(row, KII_SELECT).setId(bToI(bSelect));
           selectItem(row, items.getColumns());
@@ -414,7 +414,7 @@
       var showTotalRemitos = function() {
         var total = 0;
 
-        for (var _i = 0, _count = getRemitos().getRows().size(); _i < _count; _i++) {
+        for(var _i = 0, _count = getRemitos().getRows().size(); _i < _count; _i++) {
           var row = getRemitos().getRows().item(_i);
           if(getCell(row, KI_SELECT).getId()) {
             total = total + val(getCell(row, KI_TOTAL).getValue());
@@ -428,7 +428,7 @@
       var showTotalItems = function() {
         var total = 0;
 
-        for (var _i = 0, _count = getItems().getRows().size(); _i < _count; _i++) {
+        for(var _i = 0, _count = getItems().getRows().size(); _i < _count; _i++) {
           var row = getItems().getRows().item(_i);
           total = total + val(getCell(row, KII_APLICAR).getValue()) * val(getCell(row, KII_PRECIOIVA).getValue());
         }
@@ -1320,7 +1320,7 @@
       };
 
       var checkRemitos = function() {
-        for (var _i = 0, _count = getRemitos().getRows().size(); _i < _count; _i++) {
+        for(var _i = 0, _count = getRemitos().getRows().size(); _i < _count; _i++) {
           var row = getRemitos().getRows().item(_i);
           if(getCell(row, KI_SELECT).getId()) {
             return P.resolvedPromise(true);
@@ -1347,7 +1347,7 @@
           });
         };
 
-        for (var _i = 0, _count = getItems().getRows().size(); _i < _count; _i++) {
+        for(var _i = 0, _count = getItems().getRows().size(); _i < _count; _i++) {
           var row = getItems().getRows().item(_i);
           if(val(getCell(row, KII_APLICAR).getValue()) > 0) {
             p = p.whenSuccess(call(checkItem, row, _i));
@@ -1378,7 +1378,7 @@
 
       var getRemitosIds = function() {
         var ids = "";
-        for (var _i = 0, _count = getRemitos().getRows().size(); _i < _count; _i++) {
+        for(var _i = 0, _count = getRemitos().getRows().size(); _i < _count; _i++) {
           var row = getRemitos().getRows().item(_i);
           if(getCell(row, KI_SELECT).getId()) {
             ids = ids + getCell(row, KI_RC_ID).getId().toString() + ",";
@@ -1582,7 +1582,7 @@
       };
 
       var getApply = function(rcId) {
-        for (var i = 1, count = m_rcIds.length; i <= count; i++) {
+        for(var i = 1, count = m_rcIds.length; i <= count; i++) {
           if(m_rcIds[i] === rcId) {
             return true;
           }
@@ -1593,7 +1593,7 @@
       var isEmptyRowItems = function(row, rowIndex) {
         var rowIsEmpty = true;
 
-        for (var _i = 0, _count = row.size(); _i < _count; _i++) {
+        for(var _i = 0, _count = row.size(); _i < _count; _i++) {
           var cell = row.item(_i);
 
           switch (cell.getKey()) {
@@ -1859,7 +1859,7 @@
 
         var rows = getItems().getRows();
 
-        for (var _i = 0, _count = rows.size(); _i < _count; _i++) {
+        for(var _i = 0, _count = rows.size(); _i < _count; _i++) {
 
           var row = rows.item(_i);
 
@@ -1873,7 +1873,7 @@
 
             fields.add(CC.FCI_ID, Cairo.Constants.NEW_ID, Types.integer);
             
-            for (var _j = 0, _countj = row.size(); _j < _countj; _j++) {
+            for(var _j = 0, _countj = row.size(); _j < _countj; _j++) {
 
               var cell = row.item(_j);
               switch (cell.getKey()) {
@@ -1994,7 +1994,7 @@
 
         var rows = getItems().getRows();
 
-        for (var _i = 0, _count = rows.size(); _i < _count; _i++) {
+        for(var _i = 0, _count = rows.size(); _i < _count; _i++) {
 
           var row = rows.item(_i);
 
@@ -2003,7 +2003,7 @@
           register.setId(Cairo.Constants.NEW_ID);
 
           bSave = false;
-          for (var _j = 0, _countj = row.size(); _j < _countj; _j++) {
+          for(var _j = 0, _countj = row.size(); _j < _countj; _j++) {
 
             var cell = row.item(_j);
 
@@ -2055,13 +2055,13 @@
 
         var rows = getItems().getRows();
 
-        for (var _i = 0, _count = rows.size(); _i < _count; _i++) {
+        for(var _i = 0, _count = rows.size(); _i < _count; _i++) {
 
           var row = rows.item(_i);
 
           if(getCell(row, KII_SELECT).getId()) {
 
-            for (var _j = 0, _countj = row.size(); _j < _countj; _j++) {
+            for(var _j = 0, _countj = row.size(); _j < _countj; _j++) {
               var cell = row.item(_j);
               switch (cell.getKey()) {
                 case KII_APLICAR:

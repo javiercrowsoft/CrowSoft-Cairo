@@ -492,7 +492,7 @@
         register.setId(Cairo.Constants.NEW_ID);
 
         var _count = m_dialog.getProperties().size();
-        for (var _i = 0; _i < _count; _i++) {
+        for(var _i = 0; _i < _count; _i++) {
 
           var property = m_dialog.getProperties().item(_i);
 
@@ -590,7 +590,7 @@
 
         var property = null;
         var _count = m_dialog.getProperties().size();
-        for (var _i = 0; _i < _count; _i++) {
+        for(var _i = 0; _i < _count; _i++) {
           property = m_dialog.getProperties().item(_i);
 
           fields.clear();
@@ -725,7 +725,7 @@
 
         }
         catch (ex) {
-          Cairo.manageErrorEx(ex.message, "Class_Terminate", C_MODULE, "");
+          Cairo.manageErrorEx(ex.message, ex, "Class_Terminate", C_MODULE, "");
 
         }
 
@@ -738,7 +738,7 @@
           m_listController = null;
         }
         catch (ex) {
-          Cairo.manageErrorEx(ex.message, "destroy", C_MODULE, "");
+          Cairo.manageErrorEx(ex.message, ex, "destroy", C_MODULE, "");
         }
       };
 
@@ -751,7 +751,7 @@
 
         }
         catch (ex) {
-          Cairo.manageErrorEx(ex.message, "Class_Terminate", C_MODULE, "");
+          Cairo.manageErrorEx(ex.message, ex, "Class_Terminate", C_MODULE, "");
 
         }
 

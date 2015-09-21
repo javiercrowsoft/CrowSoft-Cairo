@@ -243,7 +243,7 @@
         self.clear = function(stepIndex) {
           if(m_steps.contains(stepIndex)) {
             var properties = m_steps.get(stepIndex).getProperties();
-            for (var _i = 0, _count = properties.size(); _i < _count; _i++) {
+            for(var _i = 0, _count = properties.size(); _i < _count; _i++) {
               self.remove(_i, stepIndex);
             }
           }
@@ -260,7 +260,7 @@
             if(properties.contains(kItem)) {
               var propertyRemoved = properties.item(kItem);
               var dialogProperties = m_dialog.getProperties();
-              for (var _i = 0, _count = dialogProperties.size(); _i < _count; _i++) {
+              for(var _i = 0, _count = dialogProperties.size(); _i < _count; _i++) {
                 var property = dialogProperties.item(_i);
                 if(property === propertyRemoved) {
                   m_dialog.unloadControl(property);
@@ -300,7 +300,7 @@
             var tabs = m_dialog.getTabs();
             m_dialog.setTabs(Cairo.Collections.createCollection(Cairo.Dialogs.createTab));
 
-            for (var _i = 0, _count = m_steps.size(); _i < _count; _i++) {
+            for(var _i = 0, _count = m_steps.size(); _i < _count; _i++) {
               var step = m_steps.item(_i);
               var tab = m_dialog.getTabs().add(null, Cairo.Util.getKey(step.getKey()));
 
@@ -314,7 +314,7 @@
               stepProperties.setWizard(self);
               stepProperties.setStepIndex(_i);
 
-              for (var _j = 0, _countj = step.getProperties().size(); _j < _countj; _j++) {
+              for(var _j = 0, _countj = step.getProperties().size(); _j < _countj; _j++) {
                 var property = step.getProperties().item(_j);
                 property.setTabIndex2(property.getTabIndex());
                 property.setTabIndex(tab.getIndex());
@@ -327,7 +327,7 @@
               }
             }
 
-            for (var _i = 0, _count = tabs.size(); _i < _count; _i++) {
+            for(var _i = 0, _count = tabs.size(); _i < _count; _i++) {
               tab = tabs.item(_i);
               m_dialog.getTabs().add(tab);
               tab.setControlIndex(m_dialog.getTabs().count()-1);
@@ -523,7 +523,7 @@
             m_clientObj = null;
           }
           catch (ex) {
-            Cairo.manageErrorEx(ex.message, "destroy", Dialogs.WizardViews.Controller.newWizard, "");
+            Cairo.manageErrorEx(ex.message, ex, "destroy", Dialogs.WizardViews.Controller.newWizard, "");
           }
         };
 

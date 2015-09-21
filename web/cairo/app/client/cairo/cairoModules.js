@@ -17,6 +17,7 @@ Cairo.addRegions = function() {};
 
 Cairo.UsuarioConfig = {};
 Cairo.StockConfig = {};
+Cairo.ContabilidadConfig = {};
 Cairo.VentaConfig = {};
 
 Cairo.SearchZona = {};

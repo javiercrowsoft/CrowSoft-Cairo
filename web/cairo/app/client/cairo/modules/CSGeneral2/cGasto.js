@@ -168,7 +168,7 @@
         }
 
         var _count = m_dialog.getProperties().size();
-        for (var _i = 0; _i < _count; _i++) {
+        for(var _i = 0; _i < _count; _i++) {
           var property = m_dialog.getProperties().item(_i);
           switch (property.getKey()) {
             case K_NAME:
@@ -279,7 +279,7 @@
         var property = null;
 
         var _count = m_dialog.getProperties().size();
-        for (var _i = 0; _i < _count; _i++) {
+        for(var _i = 0; _i < _count; _i++) {
           property = m_dialog.getProperties().item(_i);
           switch (property.getKey()) {
             case K_NAME:
@@ -612,14 +612,14 @@
           }
         }
         catch(ex) {
-          Cairo.manageErrorEx(ex.message, "terminate", C_MODULE, "");
+          Cairo.manageErrorEx(ex.message, ex, "terminate", C_MODULE, "");
         }
 
         try {
           destroy();
         }
         catch(ex) {
-          Cairo.manageErrorEx(ex.message, "terminate", C_MODULE, "");
+          Cairo.manageErrorEx(ex.message, ex, "terminate", C_MODULE, "");
         }
       };
 

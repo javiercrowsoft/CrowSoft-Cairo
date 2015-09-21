@@ -2144,10 +2144,10 @@
           }
         };
 
-        self.show = function(obj, indexTag) {
+        self.show = function(obj, tabIndex) {
           try {
             Cairo.LoadingMessage.showWait();
-            return showDialog(obj, indexTag);
+            return showDialog(obj, tabIndex);
           }
           catch(e) {
             Cairo.manageError(

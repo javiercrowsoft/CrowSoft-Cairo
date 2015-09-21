@@ -105,7 +105,7 @@
                 m_listController = null;
               }
               catch (ex) {
-                Cairo.manageErrorEx(ex.message, "destroy", C_MODULE, "");
+                Cairo.manageErrorEx(ex.message, ex, "destroy", C_MODULE, "");
               }
             };
 

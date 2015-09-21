@@ -92,7 +92,7 @@
       var strRow = " (Fila "+ rowIndex.toString()+ ")";
 
       var _count = row.size();
-      for (var _i = 0; _i < _count; _i++) {
+      for(var _i = 0; _i < _count; _i++) {
 
         var cell = row.item(_i);
 
@@ -131,7 +131,7 @@
       var bRowIsEmpty = true;
 
       var _count = row.size();
-      for (var _i = 0; _i < _count; _i++) {
+      for(var _i = 0; _i < _count; _i++) {
 
         var cell = row.item(_i);
 
@@ -174,7 +174,7 @@
       var percep = 0;
 
       var _count = rows.size();
-      for (var _i = 0; _i < _count; _i++) {
+      for(var _i = 0; _i < _count; _i++) {
         var row = rows.item(_i);
         percep += val(getCell(row, KIP_IMPORTE).getValue());
       }
@@ -241,7 +241,7 @@
       var origen = 0;
       var rows = property.getGrid().getRows()
 
-      for (var _i = 0, _count = rows.size(); _i < _count; _i++) {
+      for(var _i = 0, _count = rows.size(); _i < _count; _i++) {
 
         var row = rows.item(_i);
 
@@ -250,7 +250,7 @@
         register.setFieldId(CV.FVPERC_TMP_ID);
         register.setId(Cairo.Constants.NEW_ID);
 
-        for (var _j = 0, _countj = row.size(); _j < _countj; _j++) {
+        for(var _j = 0, _countj = row.size(); _j < _countj; _j++) {
 
           var cell = row.item(_j);
 
@@ -325,7 +325,7 @@
 
       var percepcionesDeleted = "";
 
-      for (var _i = 0, _count = rows.size(); _i < _count; _i++) {
+      for(var _i = 0, _count = rows.size(); _i < _count; _i++) {
         var percId = cellFloat(rows.item(_i), self.KIP_FVPERC_ID);
         if(percId) {
           percepcionesDeleted = percepcionesDeleted + percId.toString() + ",";
@@ -334,11 +334,11 @@
 
       var itemRows = items.getGrid().getRows();
 
-      for (var i = 0, _count = percepciones.length; i < _count; i++) {
+      for(var i = 0, _count = percepciones.length; i < _count; i++) {
 
         percepciones[i].base = 0;
 
-        for (var _j = 0, _countj = itemRows.size(); _j < _countj; _j++) {
+        for(var _j = 0, _countj = itemRows.size(); _j < _countj; _j++) {
 
           switch (percepciones[i].tipoBase) {
             case self.BaseType.NETO:
@@ -369,7 +369,7 @@
 
       rows.clear();
 
-      for (var i = 0, _count = percepciones.length; i < _count; i++) {
+      for(var i = 0, _count = percepciones.length; i < _count; i++) {
 
         if(percepciones[i].percepcion > 0) {
 

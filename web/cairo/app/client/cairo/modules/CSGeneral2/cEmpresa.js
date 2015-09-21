@@ -180,14 +180,14 @@
 
         m_listController.updateEditorKey(self, NO_ID);
 
-        var property = m_dialog.getProperties().item(Cairo.Constants.EMP_CODE);
+        var property = m_dialog.getProperties().item(C.EMP_CODE);
         property.setValue("C-"+ property.getValue());
 
-        var property = m_dialog.getProperties().item(Cairo.Constants.EMP_NAME);
+        var property = m_dialog.getProperties().item(C.EMP_NAME);
         property.setValue("Copia de "+ property.getValue());
 
-        m_dialog.showValue(m_dialog.getProperties().item(Cairo.Constants.EMP_CODE));
-        m_dialog.showValue(m_dialog.getProperties().item(Cairo.Constants.EMP_NAME));
+        m_dialog.showValue(m_dialog.getProperties().item(C.EMP_CODE));
+        m_dialog.showValue(m_dialog.getProperties().item(C.EMP_NAME));
 
         m_copy = true;
       };
@@ -216,23 +216,23 @@
         }
 
         var _count = m_dialog.getProperties().size();
-        for (var _i = 0; _i < _count; _i++) {
+        for(var _i = 0; _i < _count; _i++) {
           var property = m_dialog.getProperties().item(_i);
           switch (property.getKey()) {
             case K_NAME:
-              fields.add(Cairo.Constants.EMP_NAME, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.EMP_NAME, property.getValue(), Cairo.Constants.Types.text);
               break;
 
             case K_CODE:
-              fields.add(Cairo.Constants.EMP_CODE, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.EMP_CODE, property.getValue(), Cairo.Constants.Types.text);
               break;
 
             case K_CODIGO_BARRA:
-              fields.add(Cairo.Constants.EMP_CODIGO_BARRA, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.EMP_CODIGO_BARRA, property.getValue(), Cairo.Constants.Types.text);
               break;
 
             case K_ES_SUCURSAL:
-              fields.add(Cairo.Constants.EMP_ES_SUCURSAL, property.getValue(), Cairo.Constants.Types.boolean);
+              fields.add(C.EMP_ES_SUCURSAL, property.getValue(), Cairo.Constants.Types.boolean);
               break;
 
             case K_DESCRIP:
@@ -367,7 +367,7 @@
         var property = null;
 
         var _count = m_dialog.getProperties().size();
-        for (var _i = 0; _i < _count; _i++) {
+        for(var _i = 0; _i < _count; _i++) {
           property = m_dialog.getProperties().item(_i);
           switch (property.getKey()) {
             case K_NAME:
@@ -496,14 +496,14 @@
 
         properties.clear();
 
-        var elem = properties.add(null, Cairo.Constants.EMP_NAME);
+        var elem = properties.add(null, C.EMP_NAME);
         elem.setType(Dialogs.PropertyType.text);
         elem.setName(Cairo.Constants.NAME_LABEL);
         elem.setSize(255);
         elem.setKey(K_NAME);
         elem.setValue(m_name);
 
-        var elem = properties.add(null, Cairo.Constants.EMP_CODE);
+        var elem = properties.add(null, C.EMP_CODE);
         elem.setType(Dialogs.PropertyType.text);
         elem.setName(Cairo.Constants.CODE_LABEL);
         elem.setSize(15);
@@ -516,7 +516,7 @@
         elem.setKey(K_ACTIVE);
         elem.setValue(m_active === true ? 1 : 0);
 
-        var elem = properties.add(null, Cairo.Constants.EMP_CODIGO_BARRA);
+        var elem = properties.add(null, C.EMP_CODIGO_BARRA);
         elem.setType(Dialogs.PropertyType.text);
         // C�digo de Barras
         elem.setName(getText(1177, ""));
@@ -556,64 +556,53 @@
         elem.setListWhoSetItem(Dialogs.ListWhoSetItem.itemData);
         elem.setListItemData(m_catFiscal);
 
-        var w_list = elem.getList();
+        var list = elem.getList();
 
-        var elem = w_list.add(null, C.CategoriaFiscal.consumidorFinal);
-        elem.Id = C.CategoriaFiscal.consumidorFinal;
-        // Consumidor final
-        elem.setValue(getText(1182, ""));
+        var elem = list.add(null, C.CategoriaFiscal.consumidorFinal);
+        elem.setId(C.CategoriaFiscal.consumidorFinal);
+        elem.setValue(getText(1182, "")); // Consumidor final
 
-        var elem = w_list.add(null, C.CategoriaFiscal.noInscripto);
-        elem.Id = C.CategoriaFiscal.noInscripto;
-        // No Inscripto
-        elem.setValue(getText(1183, ""));
+        var elem = list.add(null, C.CategoriaFiscal.noInscripto);
+        elem.setId(C.CategoriaFiscal.noInscripto);
+        elem.setValue(getText(1183, "")); // No Inscripto
 
-        var elem = w_list.add(null, C.CategoriaFiscal.inscripto);
-        elem.Id = C.CategoriaFiscal.inscripto;
-        // Inscripto
-        elem.setValue(getText(1184, ""));
+        var elem = list.add(null, C.CategoriaFiscal.inscripto);
+        elem.setId(C.CategoriaFiscal.inscripto);
+        elem.setValue(getText(1184, "")); // Inscripto
 
-        var elem = w_list.add(null, C.CategoriaFiscal.extranjero);
-        elem.Id = C.CategoriaFiscal.extranjero;
-        // Extranjero
-        elem.setValue(getText(1185, ""));
+        var elem = list.add(null, C.CategoriaFiscal.extranjero);
+        elem.setId(C.CategoriaFiscal.extranjero);
+        elem.setValue(getText(1185, "")); // Extranjero
 
-        var elem = w_list.add(null, C.CategoriaFiscal.exento);
-        elem.Id = C.CategoriaFiscal.exento;
-        // Exento
-        elem.setValue(getText(1186, ""));
+        var elem = list.add(null, C.CategoriaFiscal.exento);
+        elem.setId(C.CategoriaFiscal.exento);
+        elem.setValue(getText(1186, "")); // Exento
 
-        var elem = w_list.add(null, C.CategoriaFiscal.monotributo);
-        elem.Id = C.CategoriaFiscal.monotributo;
-        // Monotributo
-        elem.setValue(getText(1187, ""));
+        var elem = list.add(null, C.CategoriaFiscal.monotributo);
+        elem.setId(C.CategoriaFiscal.monotributo);
+        elem.setValue(getText(1187, "")); // Monotributo
 
-        var elem = w_list.add(null, C.CategoriaFiscal.extranjeroIva);
-        elem.Id = C.CategoriaFiscal.extranjeroIva;
-        // Extranjero con Iva
-        elem.setValue(getText(1188, ""));
+        var elem = list.add(null, C.CategoriaFiscal.extranjeroIva);
+        elem.setId(C.CategoriaFiscal.extranjeroIva);
+        elem.setValue(getText(1188, "")); // Extranjero con Iva
 
-        var elem = w_list.add(null, C.CategoriaFiscal.noCategorizado);
-        elem.Id = C.CategoriaFiscal.noCategorizado;
-        // No categorizado
-        elem.setValue(getText(1189, ""));
+        var elem = list.add(null, C.CategoriaFiscal.noCategorizado);
+        elem.setId(C.CategoriaFiscal.noCategorizado);
+        elem.setValue(getText(1189, "")); // No categorizado
 
-        var elem = w_list.add(null, C.CategoriaFiscal.noResponsable);
-        elem.Id = C.CategoriaFiscal.noResponsable;
-        // No responsable
-        elem.setValue(getText(1190, ""));
+        var elem = list.add(null, C.CategoriaFiscal.noResponsable);
+        elem.setId(C.CategoriaFiscal.noResponsable);
+        elem.setValue(getText(1190, "")); // No responsable
 
-        var elem = w_list.add(null, C.CategoriaFiscal.noResponsableExento);
-        elem.Id = C.CategoriaFiscal.noResponsableExento;
-        // No responsable exento
-        elem.setValue(getText(1191, ""));
+        var elem = list.add(null, C.CategoriaFiscal.noResponsableExento);
+        elem.setId(C.CategoriaFiscal.noResponsableExento);
+        elem.setValue(getText(1191, "")); // No responsable exento
 
-        var elem = w_list.add(null, C.CategoriaFiscal.inscriptoM);
-        elem.Id = C.CategoriaFiscal.inscriptoM;
-        // Inscripto M
-        elem.setValue(getText(1192, ""));
+        var elem = list.add(null, C.CategoriaFiscal.inscriptoM);
+        elem.setId(C.CategoriaFiscal.inscriptoM);
+        elem.setValue(getText(1192, "")); // Inscripto M
 
-        var elem = properties.add(null, Cairo.Constants.EMP_ES_SUCURSAL);
+        var elem = properties.add(null, C.EMP_ES_SUCURSAL);
         elem.setType(Dialogs.PropertyType.check);
         // Es Sucursal
         elem.setName(getText(4654, ""));
@@ -733,16 +722,16 @@
 
         var properties = m_dialog.getProperties();
 
-        var elem = properties.item(Cairo.Constants.EMP_NAME);
+        var elem = properties.item(C.EMP_NAME);
         elem.setValue(m_name);
 
-        var elem = properties.item(Cairo.Constants.EMP_CODE);
+        var elem = properties.item(C.EMP_CODE);
         elem.setValue(m_code);
 
         var elem = properties.item(Cairo.Constants.ACTIVE);
         elem.setValue(m_active === true ? 1 : 0);
 
-        var elem = properties.item(Cairo.Constants.EMP_CODIGO_BARRA);
+        var elem = properties.item(C.EMP_CODIGO_BARRA);
         elem.setValue(m_codigoBarra);
 
         var elem = properties.item(C.EMP_RAZONSOCIAL);
@@ -756,7 +745,7 @@
 
         var elem = properties.item(C.EMP_CATFISCAL);
 
-        var elem = properties.item(Cairo.Constants.EMP_ES_SUCURSAL);
+        var elem = properties.item(C.EMP_ES_SUCURSAL);
         elem.setValue(Cairo.Util.boolToInt(m_esSucursal));
 
         var elem = properties.item(C.EMP_CHEQUEORDEN);
@@ -808,9 +797,9 @@
             if(response.data.id !== NO_ID) {
 
               m_id = Cairo.Database.valField(response.data, C.EMP_ID);
-              m_name = Cairo.Database.valField(response.data, Cairo.Constants.EMP_NAME);
-              m_code = Cairo.Database.valField(response.data, Cairo.Constants.EMP_CODE);
-              m_codigoBarra = Cairo.Database.valField(response.data, Cairo.Constants.EMP_CODIGO_BARRA);
+              m_name = Cairo.Database.valField(response.data, C.EMP_NAME);
+              m_code = Cairo.Database.valField(response.data, C.EMP_CODE);
+              m_codigoBarra = Cairo.Database.valField(response.data, C.EMP_CODIGO_BARRA);
               m_descrip = Cairo.Database.valField(response.data, C.EMP_DESCRIP);
               m_razonsocial = Cairo.Database.valField(response.data, C.EMP_RAZONSOCIAL);
               m_cuit = Cairo.Database.valField(response.data, C.EMP_CUIT);
@@ -827,7 +816,7 @@
               m_fax = Cairo.Database.valField(response.data, C.EMP_FAX);
               m_email = Cairo.Database.valField(response.data, C.EMP_EMAIL);
               m_web = Cairo.Database.valField(response.data, C.EMP_WEB);
-              m_esSucursal = Cairo.Database.valField(response.data, Cairo.Constants.EMP_ES_SUCURSAL);
+              m_esSucursal = Cairo.Database.valField(response.data, C.EMP_ES_SUCURSAL);
               m_active = Cairo.Database.valField(response.data, Cairo.Constants.ACTIVE);
 
             }
@@ -877,14 +866,14 @@
           }
         }
         catch(ex) {
-          Cairo.manageErrorEx(ex.message, "terminate", C_MODULE, "");
+          Cairo.manageErrorEx(ex.message, ex, "terminate", C_MODULE, "");
         }
 
         try {
           destroy();
         }
         catch(ex) {
-          Cairo.manageErrorEx(ex.message, "terminate", C_MODULE, "");
+          Cairo.manageErrorEx(ex.message, ex, "terminate", C_MODULE, "");
         }
       };
 

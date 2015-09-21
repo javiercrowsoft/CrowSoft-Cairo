@@ -284,7 +284,7 @@
         var i = 0;
 
         var _count = m_fields.size();
-        for (var _i = 0; _i < _count; _i++) {
+        for(var _i = 0; _i < _count; _i++) {
 
           var field = m_fields.item(_i);
           if(field.getType() === FieldType.select) {
@@ -319,7 +319,7 @@
         tab.setIndex(tabIndex);
 
         var _count = m_fields.size();
-        for (var _i = 0; _i < _count; _i++) {
+        for(var _i = 0; _i < _count; _i++) {
           var field = m_fields.item(_i);
 
           i += 1;
@@ -362,7 +362,7 @@
               property.setListItemData(Cairo.Util.val(field.getValue()));
               var list = field.getListSql().split("|");
 
-              for (var k = 0; k <= list.length; k += 2) {
+              for(var k = 0; k <= list.length; k += 2) {
 
                 var elem = property.getList().add(null);
                 elem.setId(Cairo.Util.val(list(k + 1)));
@@ -431,7 +431,7 @@
         var property = null;
 
         var _count = m_fields.size();
-        for (var _i = 0; _i < _count; _i++) {
+        for(var _i = 0; _i < _count; _i++) {
 
           field = m_fields.item(_i);
           property = dialog.getProperties().item(getKey(_i));
@@ -482,7 +482,7 @@
       self.refreshProperties = function(dialog) {
 
         var _count = m_fields.size();
-        for (var _i = 0; _i < _count; _i++) {
+        for(var _i = 0; _i < _count; _i++) {
 
           var field = m_fields.item(_i);
           var property = dialog.getProperties().item(getKey(_i));
@@ -555,7 +555,7 @@
 
         }
         catch(ex) {
-          Cairo.manageErrorEx(ex.message, "terminate", C_MODULE, "");
+          Cairo.manageErrorEx(ex.message, ex, "terminate", C_MODULE, "");
         }
       };
 

@@ -811,6 +811,10 @@
     return "customer_branch|customerId:" + cliId.toString();
   };
 
+  Cairo.Documents.getCuentaGrupoFilterForProveedor = function() {
+    return "suplier_account_group"; // ACREEDORES DEPOSITO_CUPONES BANCOS BIENES_DE_CAMBIO
+  };
+
   Cairo.Documents.ASIENTOS_DOC_FILTER = "document|documentTypeId:"
     + Cairo.Documents.Types.ASIENTO_CONTABLE.toString()
   ;
@@ -1363,6 +1367,28 @@
     });
   };
 
+  Cairo.Documents.checkCuitIsNotAlreadyUsed = function(cuit, provId) {
+
+    var p = DB.getData("load[" + m_apiPath + "general/proveedor/validate_cuit]", cuit);
+
+    return p.then(function(response) {
+
+      if(response.success === true) {
+        if(response.info.prov_id !== 0 && response.info.prov_id !== provId) {
+          return Cairo.Modal.showInfoWithFalse(getText(1452, "", response.info.razon_social), getText(1453, ""));
+              // El CUIT ya esta usado por el proveedor (1)
+              // C.U.I.T. Proveedor
+        }
+        else {
+          return true;
+        }
+      }
+      else {
+        return false;
+      }
+    });
+  };
+
   Cairo.Documents.loadCajaForCurrentUser = function() {
 
     var p = DB.getData("load[" + m_apiPath + "general/usuarioconfig/caja_info]");
@@ -1381,6 +1407,148 @@
         };
       }
     });
+  };
+
+  Cairo.Documents.validateNroCuit = function(cuit, bMustByRight) {
+    var p;
+
+    switch (Cairo.getContabilidadConfig().getClaveFiscal()) {
+
+      case C.ClaveFiscalType.cuit:
+        p = self.validateNroCuitEx(cuit, bMustByRight);
+        break;
+
+      case C.ClaveFiscalType.rut:
+        p = self.validateRutEx(cuit, bMustByRight);
+        break;
+    }
+
+    return p || P.resolvedPromise(false);
+  };
+
+  Cairo.Documents.validateNroCuitEx = function(cuit, bMustByRight) {
+    try {
+
+      // the word cuit is allowed as valid cuit
+      //
+      if(cuit.toLowerCase() === "cuit") {
+        return P.resolvedPromise(true);
+      }
+
+      var msg = Cairo.Language.getText(2925, ""); // El número de CUIT no es válido
+
+      if(cuit.trim() === "") {
+        return Cairo.Modal.showWarningWithFalse(msg);
+      }
+
+      var ask = false;
+      if(cuit.trim().length < 11) {
+        ask = true;
+      }
+      else {
+        cuit = Cairo.Util.replaceAll(cuit, "-", "");
+        var sum = Cairo.Util.val(cuit.substring(0, 1)) * 5;
+        sum = sum + Cairo.Util.val(cuit.substring(1, 1)) * 4;
+        sum = sum + Cairo.Util.val(cuit.substring(2, 1)) * 3;
+        sum = sum + Cairo.Util.val(cuit.substring(3, 1)) * 2;
+        sum = sum + Cairo.Util.val(cuit.substring(4, 1)) * 7;
+        sum = sum + Cairo.Util.val(cuit.substring(5, 1)) * 6;
+        sum = sum + Cairo.Util.val(cuit.substring(6, 1)) * 5;
+        sum = sum + Cairo.Util.val(cuit.substring(7, 1)) * 4;
+        sum = sum + Cairo.Util.val(cuit.substring(8, 1)) * 3;
+        sum = sum + Cairo.Util.val(cuit.substring(9, 1)) * 2;
+        var rest = sum % 11;
+
+        var digit = 11 - rest;
+        digit = (digit === 11) ? 0 : digit;
+        digit = (digit === 10) ? 1 : digit;
+
+        if(digit !== Cairo.Util.val(cuit.substring(10, 1))) {
+          ask = true;
+        }
+      }
+
+      if(ask) {
+        if(!bMustByRight) {
+          return Cairo.Modal.confirmViewYesDanger("", msg + "<br><br>" + Cairo.Language.getText(1529, "")); // ¿Desea guardar los cambios de todas formas?
+        }
+        else {
+          return Cairo.Modal.showWarningWithFalse(msg);
+        }
+      }
+
+      return P.resolvedPromise(true);
+    }
+    catch (ex) {
+      return Cairo.manageErrorEx(ex.message, ex, "validateNroCuitEx", "Documents", "");
+    }
+  };
+
+  Cairo.Documents.validateRutEx = function(rut,  bMustByRight) {
+    try {
+
+      var suma = 0;
+      var cuenta = 2;
+      var rut = Cairo.Util.replaceAll(rut, ".", "");
+
+      var msg = Cairo.Language.getText(2919, ""); // El número de RUT no es válido
+
+      if(rut.trim().length < 10 || Cairo.Util.isNumeric(rut.substring(0, 8))) {
+        return Cairo.Modal.showWarningWithFalse(msg);
+      }
+
+      var dv = rut.substring(rut.length - 1);
+      var numRut = rut.substring(0, 8);
+
+      do {
+        var dig = numRut % 10;
+        numRut = Cairo.Util.toInt(numRut / 10);
+        suma = suma + (dig * cuenta);
+        cuenta = cuenta + 1;
+        if(cuenta === 8) {
+          cuenta = 2;
+        }
+      } while (numRut > 0);
+
+      var resto = suma % 11;
+      var digito = 11 - resto;
+
+      var rutDigito = null;
+
+      switch (digito) {
+        case 10:
+          rutDigito = "K";
+          break;
+
+        case 11:
+          rutDigito = "0";
+          break;
+
+        default:
+          rutDigito = digito.toString().trim();
+          break;
+      }
+
+      var ask = false;
+
+      if(rutDigito !== dv) {
+        ask = true;
+      }
+
+      if(ask) {
+        if(!bMustByRight) {
+          return Cairo.Modal.confirmViewYesDanger("", msg + "<br><br>" + Cairo.Language.getText(1529, "")); // ¿Desea guardar los cambios de todas formas?
+        }
+        else {
+          return Cairo.Modal.showWarningWithFalse(msg);
+        }
+      }
+
+      return P.resolvedPromise(true);
+    }
+    catch (ex) {
+      return Cairo.manageErrorEx(ex.message, ex, "validateRutEx", "Documents", "");
+    }
   };
 
 }());
@@ -1526,7 +1694,7 @@
     if(mCollection.existsObjectInColl(nrosSerie, getKey(grupo))) {
   
       var _count = nrosSerie.get(getKey(grupo)).size();
-      for (var _i = 0; _i < _count; _i++) {
+      for(var _i = 0; _i < _count; _i++) {
         pt = nrosSerie.get(getKey(grupo)).item(_i);
         if(!pt.Cairo.SerialNumber.getDeleted()) {
           rtn = rtn + 1;
@@ -1807,7 +1975,7 @@
       // Paso de la coleccion a la ventana de edicion
       //
       coll = nrosSerie.get(getKey(grupo));
-      for (i = 1; i <= coll.size(); i++) {
+      for(i = 1; i <= coll.size(); i++) {
         editSerie.self.addProductoSerie(coll.get(i));
       }
       n = editSerie.self.getColl().size();
@@ -1819,12 +1987,12 @@
 
       while (n < cantidad) {
         var _count = collKitInfo.size();
-        for (var _i = 0; _i < _count; _i++) {
+        for(var _i = 0; _i < _count; _i++) {
           kitS = collKitInfo.item(_i);
 
           if(kitS.self.getLlevaNroSerie()) {
 
-            for (i = 1; i <= kitS.self.getCantidad(); i++) {
+            for(i = 1; i <= kitS.self.getCantidad(); i++) {
 
               // Creo filas para los nuevos numeros de serie
               //
@@ -1845,7 +2013,7 @@
 
       // Creo filas para los nuevos numeros de serie
       //
-      for (i = n + 1; i <= cantidad; i++) {
+      for(i = n + 1; i <= cantidad; i++) {
         editSerie.self.addProductoSerie(new cProductoSerieType());
         editSerie.self.getColl(i).prns_id = i * -1;
         editSerie.self.getColl(i).pr_id = prId ? prId : prId2);
@@ -1886,7 +2054,7 @@
 
     // Paso de la ventana a la coleccion del item
     //
-    for (i = 1; i <= editSerie.self.getColl().size(); i++) {
+    for(i = 1; i <= editSerie.self.getColl().size(); i++) {
 
       var pt = null;
       var delCount = null;
@@ -1987,12 +2155,12 @@
 
       while (n < cantidad) {
         var _count = collKitInfo.size();
-        for (var _i = 0; _i < _count; _i++) {
+        for(var _i = 0; _i < _count; _i++) {
           kitS = collKitInfo.item(_i);
 
           if(kitS.self.getLlevaNroSerie()) {
 
-            for (i = 1; i <= kitS.self.getCantidad(); i++) {
+            for(i = 1; i <= kitS.self.getCantidad(); i++) {
 
               // Creo filas para los nuevos numeros de serie
               //
@@ -2013,7 +2181,7 @@
 
       // Creo filas para los nuevos numeros de serie
       //
-      for (i = n + 1; i <= cantidad; i++) {
+      for(i = n + 1; i <= cantidad; i++) {
         coll.Add(new cProductoSerieType(), getKey(i * -1));
         coll.Codigo = getNextNumber();
         coll.prns_id = i * -1;
@@ -2024,7 +2192,7 @@
 
     // Paso de la ventana a la coleccion del item
     //
-    for (i = 1; i <= coll.size(); i++) {
+    for(i = 1; i <= coll.size(); i++) {
 
       var pt = null;
       var delCount = null;
@@ -2283,7 +2451,7 @@
       }
 
       var _count = m_dateNames.size();
-      for (var _i = 0; _i < _count; _i++) {
+      for(var _i = 0; _i < _count; _i++) {
         var dn = m_dateNames.item(_i);
         if(dn.getCode() === dateName || dn.getName() === dateName) {
           date = self.getDateById(dn.getId(), iniDate);

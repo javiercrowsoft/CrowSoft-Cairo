@@ -85,7 +85,7 @@
       var strRow = " (Fila "+ rowIndex.toString()+ ")";
 
       var _count = row.size();
-      for (var _i = 0; _i < _count; _i++) {
+      for(var _i = 0; _i < _count; _i++) {
 
         var cell = row.item(_i);
 
@@ -124,7 +124,7 @@
       var bRowIsEmpty = true;
 
       var _count = row.size();
-      for (var _i = 0; _i < _count; _i++) {
+      for(var _i = 0; _i < _count; _i++) {
 
         var cell = row.item(_i);
 
@@ -167,7 +167,7 @@
       var percep = 0;
 
       var _count = rows.size();
-      for (var _i = 0; _i < _count; _i++) {
+      for(var _i = 0; _i < _count; _i++) {
         var row = rows.item(_i);
         percep += val(getCell(row, KIP_IMPORTE).getValue());
       }
@@ -234,7 +234,7 @@
       var origen = 0;
       var rows = property.getGrid().getRows()
 
-      for (var _i = 0, _count = rows.size(); _i < _count; _i++) {
+      for(var _i = 0, _count = rows.size(); _i < _count; _i++) {
 
         var row = rows.item(_i);
 
@@ -243,7 +243,7 @@
         register.setFieldId(CC.FCPERC_TMP_ID);
         register.setId(Cairo.Constants.NEW_ID);
 
-        for (var _j = 0, _countj = row.size(); _j < _countj; _j++) {
+        for(var _j = 0, _countj = row.size(); _j < _countj; _j++) {
           
           var cell = row.item(_j);
           

@@ -576,7 +576,7 @@
 
                   case Dialogs.PropertyType.option:
 
-                    for(var _j = 0, _count = m_properties.size(); _j < _count; _j++) {
+                    for(var _j = 0, _countj = m_properties.size(); _j < _countj; _j++) {
                       var p = m_properties.item(_j);
                       if(p !== property) {
                         if(p.getType() === Dialogs.PropertyType.option

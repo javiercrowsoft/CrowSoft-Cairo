@@ -149,7 +149,7 @@
 
         }
         catch (ex) {
-          Cairo.manageErrorEx(ex.message, "ProcessMenu", C_MODULE, "");
+          Cairo.manageErrorEx(ex.message, ex, "ProcessMenu", C_MODULE, "");
 
         }
 
@@ -338,7 +338,7 @@
         register.setId(Cairo.Constants.NEW_ID);
 
         var _count = m_dialog.getProperties().size();
-        for (var _i = 0; _i < _count; _i++) {
+        for(var _i = 0; _i < _count; _i++) {
 
           var property = m_dialog.getProperties().item(_i);
 
@@ -427,7 +427,7 @@
 
         var property = null;
         var _count = m_dialog.getProperties().size();
-        for (var _i = 0; _i < _count; _i++) {
+        for(var _i = 0; _i < _count; _i++) {
           property = m_dialog.getProperties().item(_i);
 
           register.getFields().clear();
@@ -613,7 +613,7 @@
         // Finalizada
         c.setName(getText(2680, ""));
         c.setKey(K_FINALIZADA);
-        c.setListWhoSetItem(csListItemData);
+        c.setListWhoSetItem(Dialogs.ListWhoSetItem.itemData);
         c.setListItemData(m_finalizada);
 
         o = new CSABMInterface2.cABMListItem();
@@ -639,7 +639,7 @@
         // Cumplida
         c.setName(getText(2363, ""));
         c.setKey(K_CUMPLIDA);
-        c.setListWhoSetItem(csListItemData);
+        c.setListWhoSetItem(Dialogs.ListWhoSetItem.itemData);
         c.setListItemData(m_cumplida);
 
         o = new CSABMInterface2.cABMListItem();
@@ -665,7 +665,7 @@
         // Rechazada
         c.setName(getText(2681, ""));
         c.setKey(K_RECHAZADA);
-        c.setListWhoSetItem(csListItemData);
+        c.setListWhoSetItem(Dialogs.ListWhoSetItem.itemData);
         c.setListItemData(m_rechazada);
 
         o = new CSABMInterface2.cABMListItem();
@@ -781,7 +781,7 @@
         c.setType(Dialogs.PropertyType.list);
         c.setName(Cairo.Constants.ACTIVE_LABEL);
         c.setKey(K_ACTIVE);
-        c.setListWhoSetItem(csListItemData);
+        c.setListWhoSetItem(Dialogs.ListWhoSetItem.itemData);
         c.setListItemData(m_active);
 
         o = new CSABMInterface2.cABMListItem();
@@ -920,7 +920,7 @@
 
         }
         catch (ex) {
-          Cairo.manageErrorEx(ex.message, "Class_Terminate", C_MODULE, "");
+          Cairo.manageErrorEx(ex.message, ex, "Class_Terminate", C_MODULE, "");
 
         }
 
@@ -933,7 +933,7 @@
           m_listController = null;
         }
         catch (ex) {
-          Cairo.manageErrorEx(ex.message, "destroy", C_MODULE, "");
+          Cairo.manageErrorEx(ex.message, ex, "destroy", C_MODULE, "");
         }
       };
 
@@ -946,7 +946,7 @@
 
         }
         catch (ex) {
-          Cairo.manageErrorEx(ex.message, "Class_Terminate", C_MODULE, "");
+          Cairo.manageErrorEx(ex.message, ex, "Class_Terminate", C_MODULE, "");
 
         }
 

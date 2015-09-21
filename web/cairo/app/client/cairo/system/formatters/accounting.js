@@ -82,7 +82,7 @@
     object = object || {};
     defs = defs || {};
     // Iterate over object non-prototype properties:
-    for (key in defs) {
+    for(key in defs) {
       if (defs.hasOwnProperty(key)) {
         // Replace values with defaults only if undefined (allow empty/zero values):
         if (object[key] == null) object[key] = defs[key];
@@ -106,7 +106,7 @@
     if (nativeMap && obj.map === nativeMap) return obj.map(iterator, context);
 
     // Fallback for native .map:
-    for (i = 0, j = obj.length; i < j; i++ ) {
+    for(i = 0, j = obj.length; i < j; i++ ) {
       results[i] = iterator.call(context, obj[i], i, obj);
     }
     return results;

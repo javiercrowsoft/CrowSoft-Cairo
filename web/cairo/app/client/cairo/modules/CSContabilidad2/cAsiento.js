@@ -617,7 +617,7 @@
 
       self.validate = function() {
 
-        for (var _i = 0, _count = m_properties.size(); _i < _count; _i++) {
+        for(var _i = 0, _count = m_properties.size(); _i < _count; _i++) {
 
           var property = m_properties.item(_i);
 
@@ -1451,7 +1451,7 @@
         var haber = 0;
         var rows = getGrid(m_items, C_ITEMS).getRows();
 
-        for (var _i = 0, _count = rows.size(); _i < _count; _i++) {
+        for(var _i = 0, _count = rows.size(); _i < _count; _i++) {
           var row = rows.item(_i);
           debe = debe + Cairo.Util.val(getCell(row, KI_DEBE).getValue());
           haber = haber + Cairo.Util.val(getCell(row, KI_HABER).getValue());
@@ -1475,7 +1475,7 @@
         }
 
         var _count = m_properties.size();
-        for (var _i = 0; _i < _count; _i++) {
+        for(var _i = 0; _i < _count; _i++) {
           prop = m_properties.item(_i);
           if(prop.getKey() !== K_DOC_ID
             && prop.getKey() !== K_NUMERO
@@ -1496,7 +1496,7 @@
         }
 
         var _count = m_itemsProps.size();
-        for (var _i = 0; _i < _count; _i++) {
+        for(var _i = 0; _i < _count; _i++) {
           prop = m_itemsProps.item(_i);
           prop.setEnabled(bState);
         }
@@ -1933,7 +1933,7 @@
         register.setId(Cairo.Constants.NEW_ID);
 
         var _count = m_properties.size();
-        for (var _i = 0; _i < _count; _i++) {
+        for(var _i = 0; _i < _count; _i++) {
 
           var property = m_properties.item(_i);
 

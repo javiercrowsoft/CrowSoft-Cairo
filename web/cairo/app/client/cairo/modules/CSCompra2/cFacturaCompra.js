@@ -5209,7 +5209,7 @@
         register.setId(Cairo.Constants.NEW_ID);
 
         var _count = m_dialog.getProperties().size();
-        for (var _i = 0; _i < _count; _i++) {
+        for(var _i = 0; _i < _count; _i++) {
 
           var property = m_dialog.getProperties().item(_i);
 

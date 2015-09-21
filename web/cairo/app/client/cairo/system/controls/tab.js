@@ -37,7 +37,7 @@
         */
         var tabs = {
           find: function(tabId) {
-            for (var property in this) {
+            for(var property in this) {
               if (this.hasOwnProperty(property)) {
                 if(this[property] !== undefined && this[property].tabId === tabId) {
                     return property;
