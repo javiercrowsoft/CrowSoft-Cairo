@@ -495,7 +495,18 @@ object UserSetting {
           setting.group,
           ComplexSetting(getStringFromAny(setting.value, "0"), name),
           setting.empId)
-        case None => setting
+        case None => {
+          if(getSelectForKey(setting.key, "") == "") {
+            setting
+          }
+          else {
+            Setting(
+              setting.key,
+              setting.group,
+              ComplexSetting("0", ""),
+              setting.empId)
+          }
+        }
       }
     }
     val complexSettings = companySettings.map(setting => getComplexSetting(setting, names))

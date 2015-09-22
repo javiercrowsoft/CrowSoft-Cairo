@@ -107,7 +107,7 @@
       };
 
       self.getApplication = function() {
-        return Cairo.appName;
+        return Cairo.Application.getName();
       };
 
       self.editDocumentsEnabled = function() {
@@ -464,7 +464,7 @@
 
         var elem = properties.add(null, C.CHOF_DNI);
         elem.setType(Dialogs.PropertyType.numeric);
-        elem.setSubType(Dialogs.PropertySubType.Integer);
+        elem.setSubType(Dialogs.PropertySubType.integer);
         // Numero
         elem.setName(getText(1065, ""));
         elem.setKey(K_DNI);

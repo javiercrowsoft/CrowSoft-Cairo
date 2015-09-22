@@ -136,7 +136,7 @@
       // Interfaz cliente de List de documentos
 
       self.getAplication = function() {
-        return Cairo.appName;
+        return Cairo.Application.getName();
       };
 
       self.getProperties = function() {
@@ -588,7 +588,7 @@
 
         c = m_dialog.getProperties().add(null, mPersonalConstantes.EMPE_NUMERO);
         c.setType(Dialogs.PropertyType.numeric);
-        c.setSubType(Dialogs.PropertySubType.Integer);
+        c.setSubType(Dialogs.PropertySubType.integer);
         // Numero
         c.setName(getText(1065, ""));
         c.setSize(255);

@@ -376,6 +376,84 @@ object Proveedor {
     }
   }
 
+  private val proveedorCuentaGrupoParser: RowParser[ProveedorCuentaGrupo] = {
+    SqlParser.get[Int](C.PROV_CUEG_ID) ~
+    SqlParser.get[Int](C.CUEG_ID) ~
+    SqlParser.get[String](C.CUEG_NAME) ~
+    SqlParser.get[Int](C.CUE_ID) ~
+    SqlParser.get[String](C.CUE_NAME) map {
+    case
+        id ~
+        cuegId ~
+        cuegName ~
+        cueId ~
+        cueName =>
+        ProveedorCuentaGrupo(
+          id,
+          cuegId,
+          cuegName,
+          cueId,
+          cueName)
+    }
+  }
+
+  private val proveedorRetencionParser: RowParser[ProveedorRetencion] = {
+    SqlParser.get[Int](C.PROV_RET_ID) ~
+    SqlParser.get[Int](C.RET_ID) ~
+    SqlParser.get[String](C.RET_NAME) ~
+    SqlParser.get[Date](C.PROV_RET_DESDE) ~
+    SqlParser.get[Date](C.PROV_RET_HASTA) map {
+    case
+        id ~
+        retId ~
+        retName ~
+        desde ~
+        hasta =>
+        ProveedorRetencion(
+          id,
+          retId,
+          retName,
+          desde,
+          hasta)
+    }
+  }
+
+  private val proveedorDptoParser: RowParser[ProveedorDepartamento] = {
+    SqlParser.get[Int](C.DPTO_PROV_ID) ~
+    SqlParser.get[Int](C.DPTO_ID) ~
+    SqlParser.get[String](C.DPTO_NAME) map {
+    case
+        id ~
+        dptoId ~
+        dptoName =>
+        ProveedorDepartamento(
+          id,
+          dptoId,
+          dptoName)
+    }
+  }
+
+  private val proveedorCentroCostoParser: RowParser[ProveedorCentroCosto] = {
+    SqlParser.get[Int](C.PROV_CCOS_ID) ~
+    SqlParser.get[Int](C.CCOS_ID) ~
+    SqlParser.get[String](C.CCOS_NAME) ~
+    SqlParser.get[Option[Int]](C.PR_ID) ~
+    SqlParser.get[Option[String]](C.PR_NAME_COMPRA) map {
+    case
+        id ~
+        ccosId ~
+        ccosName ~
+        prId ~
+        prName =>
+        ProveedorCentroCosto(
+          id,
+          ccosId,
+          ccosName,
+          prId.getOrElse(DBHelper.NoId),
+          prName.getOrElse(""))
+    }
+  }
+
   private val proveedorParser: RowParser[Proveedor] = {
     SqlParser.get[Int](C.PROV_ID) ~
     SqlParser.get[Int](DBHelper.ACTIVE) ~
@@ -632,7 +710,11 @@ object Proveedor {
     ProveedorItems(
       loadCai(user, id),
       loadEmpresas(user, id),
-      List(), List(), List(), List(), List())
+      loadCuentasGrupo(user, id),
+      loadRetenciones(user, id),
+      loadDptos(user, id),
+      loadCentrosCosto(user, id),
+      List())
   }
 
   private def loadCai(user: CompanyUser, id: Int) = {
@@ -681,6 +763,114 @@ object Proveedor {
       } catch {
         case NonFatal(e) => {
           Logger.error(s"can't get ${C.EMPRESA_PROVEEDOR} with id $id for user ${user.toString}. Error ${e.toString}")
+          throw e
+        }
+      } finally {
+        cs.close
+      }
+    }
+  }
+
+  private def loadCuentasGrupo(user: CompanyUser, id: Int) = {
+
+    DB.withTransaction(user.database.database) { implicit connection =>
+
+      val sql = "{call sp_proveedor_get_cuentas_grupo(?, ?)}"
+      val cs = connection.prepareCall(sql)
+
+      cs.setInt(1, id)
+      cs.registerOutParameter(2, Types.OTHER)
+
+      try {
+        cs.execute()
+
+        val rs = cs.getObject(2).asInstanceOf[java.sql.ResultSet]
+        Sql.as(proveedorCuentaGrupoParser.*, rs)
+
+      } catch {
+        case NonFatal(e) => {
+          Logger.error(s"can't get ${C.PROVEEDOR_CUENTA_GRUPO} with id $id for user ${user.toString}. Error ${e.toString}")
+          throw e
+        }
+      } finally {
+        cs.close
+      }
+    }
+  }
+
+  private def loadRetenciones(user: CompanyUser, id: Int) = {
+
+    DB.withTransaction(user.database.database) { implicit connection =>
+
+      val sql = "{call sp_proveedor_get_retenciones(?, ?)}"
+      val cs = connection.prepareCall(sql)
+
+      cs.setInt(1, id)
+      cs.registerOutParameter(2, Types.OTHER)
+
+      try {
+        cs.execute()
+
+        val rs = cs.getObject(2).asInstanceOf[java.sql.ResultSet]
+        Sql.as(proveedorRetencionParser.*, rs)
+
+      } catch {
+        case NonFatal(e) => {
+          Logger.error(s"can't get ${C.PROVEEDOR_RETENCION} with id $id for user ${user.toString}. Error ${e.toString}")
+          throw e
+        }
+      } finally {
+        cs.close
+      }
+    }
+  }
+
+  private def loadDptos(user: CompanyUser, id: Int) = {
+
+    DB.withTransaction(user.database.database) { implicit connection =>
+
+      val sql = "{call sp_proveedor_get_dptos(?, ?)}"
+      val cs = connection.prepareCall(sql)
+
+      cs.setInt(1, id)
+      cs.registerOutParameter(2, Types.OTHER)
+
+      try {
+        cs.execute()
+
+        val rs = cs.getObject(2).asInstanceOf[java.sql.ResultSet]
+        Sql.as(proveedorDptoParser.*, rs)
+
+      } catch {
+        case NonFatal(e) => {
+          Logger.error(s"can't get ${C.DEPARTAMENTO_PROVEEDOR} with id $id for user ${user.toString}. Error ${e.toString}")
+          throw e
+        }
+      } finally {
+        cs.close
+      }
+    }
+  }
+
+  private def loadCentrosCosto(user: CompanyUser, id: Int) = {
+
+    DB.withTransaction(user.database.database) { implicit connection =>
+
+      val sql = "{call sp_proveedor_get_centros_costo(?, ?)}"
+      val cs = connection.prepareCall(sql)
+
+      cs.setInt(1, id)
+      cs.registerOutParameter(2, Types.OTHER)
+
+      try {
+        cs.execute()
+
+        val rs = cs.getObject(2).asInstanceOf[java.sql.ResultSet]
+        Sql.as(proveedorCentroCostoParser.*, rs)
+
+      } catch {
+        case NonFatal(e) => {
+          Logger.error(s"can't get ${C.PROVEEDOR_CENTRO_COSTO} with id $id for user ${user.toString}. Error ${e.toString}")
           throw e
         }
       } finally {

@@ -102,7 +102,7 @@
       };
 
       self.getApplication = function() {
-        return Cairo.appName;
+        return Cairo.Application.getName();
       };
 
       self.editDocumentsEnabled = function() {
@@ -430,7 +430,7 @@
 
         var elem = properties.add(null, C.CAM_TARA);
         elem.setType(Dialogs.PropertyType.numeric);
-        elem.setSubType(Dialogs.PropertySubType.Integer);
+        elem.setSubType(Dialogs.PropertySubType.integer);
         // Tara
         elem.setName(getText(1049, ""));
         elem.setKey(K_TARA);

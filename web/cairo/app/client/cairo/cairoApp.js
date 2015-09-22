@@ -800,7 +800,11 @@ var Cairo = new Marionette.Application();
     if(typeof value === "string") {
       value = validateStringDate(value);
     }
-    return new Date(value.toString());
+    value = new Date(value.toString());
+    if(isNaN(value.getTime())) {
+      value = NO_DATE;
+    }
+    return value;
   };
 
   var getDateFormatted = function(date) {
@@ -869,7 +873,7 @@ var Cairo = new Marionette.Application();
 
           case Cairo.Constants.Types.date:
           case Cairo.Constants.Types.dateOrNull:
-            return getDateValue(value) === Cairo.Constants.NO_DATE;
+            return getDateValue(value).getTime() === Cairo.Constants.NO_DATE.getTime();
         }
         return false;
       }
@@ -1078,7 +1082,7 @@ var Cairo = new Marionette.Application();
       c.selectByText(text);
     },
     getListId: function(c) {
-      c.getItemData();
+      return c.getItemData();
     }
   };
 
@@ -1562,9 +1566,9 @@ var Cairo = new Marionette.Application();
   // global business objects
   //
   var createConfigObjects = function() {
-    var m_ventasConfig;
-    var m_stockConfig;
-    var m_contabilidadConfig;
+    var m_ventasConfig = null;
+    var m_stockConfig = null;
+    var m_contabilidadConfig = null;
 
     Cairo.getVentasConfig = function() {
       if(m_ventasConfig === null) {
@@ -1584,7 +1588,7 @@ var Cairo = new Marionette.Application();
 
     Cairo.getContabilidadConfig = function() {
       if(m_contabilidadConfig === null) {
-        m_contabilidadConfig = Cairo.ContabilidadConfig.Edit.Controller.getEditor();
+        m_contabilidadConfig = Cairo.ContConfig.Edit.Controller.getEditor();
         m_contabilidadConfig.load(Cairo.User.getId());
       }
       return m_contabilidadConfig;

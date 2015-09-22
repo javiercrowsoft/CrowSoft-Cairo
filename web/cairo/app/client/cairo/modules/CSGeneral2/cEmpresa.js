@@ -99,7 +99,7 @@
       };
 
       self.getApplication = function() {
-        return Cairo.appName;
+        return Cairo.Application.getName();
       };
 
       self.editDocumentsEnabled = function() {

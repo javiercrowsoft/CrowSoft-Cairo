@@ -55,7 +55,7 @@
       };
 
       self.getApplication = function() {
-        return Cairo.appName;
+        return Cairo.Application.getName();
       };
 
       self.editDocumentsEnabled = function() {
@@ -389,7 +389,7 @@
         elem.setType(Dialogs.PropertyType.numeric);
         // N�mero
         elem.setName(getText(1065, ""));
-        elem.setSubType(Dialogs.PropertySubType.Integer);
+        elem.setSubType(Dialogs.PropertySubType.integer);
         elem.setKey(K_NUMERO);
         elem.setValue(m_numero);
 

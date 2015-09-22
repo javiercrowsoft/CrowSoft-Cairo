@@ -90,7 +90,7 @@
       };
 
       self.getApplication = function() {
-        return Cairo.appName;
+        return Cairo.Application.getName();
       };
 
       self.editDocumentsEnabled = function() {
@@ -416,7 +416,7 @@
 
         var elem = properties.add(null, C.PRHC_ATRIBUTO_INDICE);
         elem.setType(Dialogs.PropertyType.numeric);
-        elem.setSubType(Dialogs.PropertySubType.Integer);
+        elem.setSubType(Dialogs.PropertySubType.integer);
         // Indice del Atributo
         elem.setName(getText(3908, ""));
         elem.setValue(m_atributo_indice);

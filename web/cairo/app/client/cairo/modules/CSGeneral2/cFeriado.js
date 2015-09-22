@@ -71,7 +71,7 @@
       };
 
       self.getApplication = function() {
-        return Cairo.appName;
+        return Cairo.Application.getName();
       };
 
       self.editDocumentsEnabled = function() {
@@ -495,7 +495,7 @@
 
         var elem = properties.add(null, C.FE_DIA);
         elem.setType(Dialogs.PropertyType.numeric);
-        elem.setSubType(Dialogs.PropertySubType.Integer);
+        elem.setSubType(Dialogs.PropertySubType.integer);
         // D�a
         elem.setName(getText(1214, ""));
         elem.setKey(K_DIA);
@@ -503,7 +503,7 @@
 
         var elem = properties.add(null, C.FE_MES);
         elem.setType(Dialogs.PropertyType.numeric);
-        elem.setSubType(Dialogs.PropertySubType.Integer);
+        elem.setSubType(Dialogs.PropertySubType.integer);
         // Mes
         elem.setName(getText(1215, ""));
         elem.setKey(K_MES);
@@ -511,7 +511,7 @@
 
         var elem = properties.add(null, C.FE_ANIO);
         elem.setType(Dialogs.PropertyType.numeric);
-        elem.setSubType(Dialogs.PropertySubType.Integer);
+        elem.setSubType(Dialogs.PropertySubType.integer);
         // A�o
         elem.setName(getText(1216, ""));
         elem.setKey(K_ANIO);

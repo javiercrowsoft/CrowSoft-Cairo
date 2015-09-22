@@ -165,12 +165,12 @@ object Proveedores extends Controller with ProvidesUser {
       C.ZON_NAME -> Json.toJson(proveedor.references.zonName),
 
       // Items
-      "cais" -> Json.toJson(writeEmptyCols(List())),
+      "cais" -> Json.toJson(writeProveedorCai(proveedor.items.cais)),
       "empresas" -> Json.toJson(writeProveedorEmpresas(proveedor.items.empresas)),
-      "cuentasGrupo" -> Json.toJson(writeEmptyCols(List())),
-      "retenciones" -> Json.toJson(writeEmptyCols(List())),
-      "dptos" -> Json.toJson(writeEmptyCols(List())),
-      "centrosCosto" -> Json.toJson(writeEmptyCols(List())),
+      "cuentasGrupo" -> Json.toJson(writeProveedorCuentasGrupo(proveedor.items.cuentasGrupo)),
+      "retenciones" -> Json.toJson(writeProveedorRetenciones(proveedor.items.retenciones)),
+      "dptos" -> Json.toJson(writeProveedorDptos(proveedor.items.dptos)),
+      "centrosCosto" -> Json.toJson(writeProveedorCentrosCosto(proveedor.items.centrosCosto)),
       "additionalFields" -> Json.toJson(additionalFieldsWrites)
     )
     def additionalFieldsWrites() = Json.obj(
@@ -180,13 +180,51 @@ object Proveedores extends Controller with ProvidesUser {
     def itemWrites(item: Any) = Json.obj(
       "dummy" -> Json.toJson("")
     )
+    def proveedorCaiWrite(p: ProveedorCai) = Json.obj(
+      C.PROVC_ID -> Json.toJson(p.id),
+      C.PROVC_NUMERO -> Json.toJson(p.numero),
+      C.PROVC_SUCURSAL -> Json.toJson(p.sucursal),
+      C.PROVC_FECHA_VTO -> Json.toJson(p.fechaVto),
+      C.PROVC_DESCRIP -> Json.toJson(p.descrip)
+    )
     def proveedorEmpresaWrite(p: ProveedorEmpresa) = Json.obj(
       C.EMP_PROV_ID -> Json.toJson(p.id),
       C.EMP_ID -> Json.toJson(p.empId),
       C.EMP_NAME -> Json.toJson(p.empName)
     )
+    def proveedorCuentaGrupoWrite(p: ProveedorCuentaGrupo) = Json.obj(
+      C.PROV_CUEG_ID -> Json.toJson(p.id),
+      C.CUEG_ID -> Json.toJson(p.cuegId),
+      C.CUEG_NAME -> Json.toJson(p.cuegName),
+      C.CUE_ID -> Json.toJson(p.cueId),
+      C.CUE_NAME -> Json.toJson(p.cueName)
+    )
+    def proveedorRetencionWrite(p: ProveedorRetencion) = Json.obj(
+      C.PROV_RET_ID -> Json.toJson(p.id),
+      C.RET_ID -> Json.toJson(p.retId),
+      C.RET_NAME -> Json.toJson(p.retName),
+      C.PROV_RET_DESDE -> Json.toJson(p.desde),
+      C.PROV_RET_HASTA -> Json.toJson(p.hasta)
+    )
+    def proveedorDptoWrite(p: ProveedorDepartamento) = Json.obj(
+      C.DPTO_PROV_ID -> Json.toJson(p.id),
+      C.DPTO_ID -> Json.toJson(p.dptoId),
+      C.DPTO_NAME -> Json.toJson(p.dptoName)
+    )
+    def proveedorCentroCostoWrite(p: ProveedorCentroCosto) = Json.obj(
+      C.PROV_CCOS_ID -> Json.toJson(p.id),
+      C.CCOS_ID -> Json.toJson(p.ccosId),
+      C.CCOS_NAME -> Json.toJson(p.ccosName),
+      C.PR_ID -> Json.toJson(p.prId),
+      C.PR_NAME_COMPRA -> Json.toJson(p.prName)
+    )
     def writeEmptyCols(items: List[Any]) = items.map(item => itemWrites(item))
+    def writeProveedorCai(items: List[ProveedorCai]) = items.map(item => proveedorCaiWrite(item))
     def writeProveedorEmpresas(items: List[ProveedorEmpresa]) = items.map(item => proveedorEmpresaWrite(item))
+    def writeProveedorCuentasGrupo(items: List[ProveedorCuentaGrupo]) = items.map(item => proveedorCuentaGrupoWrite(item))
+    def writeProveedorRetenciones(items: List[ProveedorRetencion]) = items.map(item => proveedorRetencionWrite(item))
+    def writeProveedorDptos(items: List[ProveedorDepartamento]) = items.map(item => proveedorDptoWrite(item))
+    def writeProveedorCentrosCosto(items: List[ProveedorCentroCosto]) = items.map(item => proveedorCentroCostoWrite(item))
   }
 
   def get(id: Int) = GetAction { implicit request =>

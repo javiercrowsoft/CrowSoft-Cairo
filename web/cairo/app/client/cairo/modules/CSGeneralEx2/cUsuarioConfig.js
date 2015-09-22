@@ -346,7 +346,6 @@
 
       var m_apiPath = Cairo.Database.getAPIVersion();
 
-      var valField = Cairo.Database.valField;
       var getValue = Cairo.Database.getValue;
       var val = Cairo.Util.val;
       var sq = Cairo.Database.sqlString;
@@ -749,6 +748,7 @@
         return m_noAskInPrint;
       };
 
+      //--------------------------------------
 
       self.copy = function() {
 
@@ -792,7 +792,6 @@
 
       self.save = function() {
 
-        var bAutoSize = null;
         var register = null;
 
         var mainRegister = new Cairo.Database.Register();
@@ -1237,8 +1236,6 @@
 
             case K_AUTO_SIZE_COLS:
 
-              bAutoSize = val(property.getValue());
-
               register = createRegister();
 
               register.setFilter("cfg_grupo:" + sq(GRUPO_USUARIO_CONFIG) + ", cfg_aspecto:" + sq(ck(AUTO_SIZE_COLS, ucs.general)) + ", emp_id:" + companyId);
@@ -1246,15 +1243,13 @@
               var w_fields = register.getFields();
               w_fields.add(CFG_GRUPO, GRUPO_USUARIO_CONFIG, TEXT);
               w_fields.add(CONFIG_KEY, ck(AUTO_SIZE_COLS, ucs.general), TEXT);
-              w_fields.add(CONFIG_VALUE, bAutoSize, TEXT);
+              w_fields.add(CONFIG_VALUE, val(property.getValue()), TEXT);
               w_fields.add(EMP_ID, Cairo.Company.getId(), ID);
 
               transaction.addRegister(register);
               break;
 
             case K_MULTI_SELECT:
-
-              bAutoSize = val(property.getValue());
 
               register = createRegister();
 
@@ -1531,8 +1526,6 @@
         }
 
         mainRegister.addTransaction(transaction);
-
-        Cairo.UserConfig.setAutoSizeCols(bAutoSize);
 
         return Cairo.Database.saveTransaction(
           register,
@@ -1884,6 +1877,7 @@
               var settings = response.data.get('settings')
 
               for(var _i = 0; _i < settings.length; _i += 1) {
+
                 switch (getValue(settings[_i], CONFIG_KEY)) {
                   case keyInfAnticipos:
                     m_informarAnticipos = val(getValue(settings[_i], CONFIG_VALUE));
@@ -2315,7 +2309,7 @@
 
         var elem = properties.add(null, COLOR_EN_EMPRESA);
         elem.setType(Dialogs.PropertyType.numeric);
-        elem.setSubType(Dialogs.PropertySubType.Integer);
+        elem.setSubType(Dialogs.PropertySubType.integer);
         elem.setName(getText(4915, "")); // Color en Empresa
         elem.setKey(K_COLOR_BACKGROUND);
         elem.setValue(m_colorEnEmpresa);
@@ -2900,16 +2894,6 @@
       };
 
       var initialize = function() {
-        try {
-          m_dialog.setHaveDetail(true);
-          m_dialog.setStartRowText(4);
-        }
-        catch(ex) {
-          Cairo.manageErrorEx(ex.message, ex, "initialize", C_MODULE, "");
-        }
-      };
-
-      var initialize = function() {
 
       };
 
@@ -2954,6 +2938,8 @@
   });
 
   Cairo.module("UsuarioConfig.List", function(List, Cairo, Backbone, Marionette, $, _) {
+    var NO_ID = Cairo.Constants.NO_ID;
+
     List.Controller = {
       list: function() {
 
@@ -2974,7 +2960,7 @@
           self.entityInfo = new Backbone.Model({
             entitiesTitle: "User Settings",
             entityName: "user settings",
-            entitiesName: "users settings"
+            entitiesName: "user settings"
           });
 
           self.showBranch = function(branchId) {
@@ -3067,7 +3053,7 @@
           // create the dialog
           //
           Cairo.Tree.List.Controller.list(
-            Cairo.Tables.USUARIO,
+            Cairo.Tables.CONFIGURACION,
             new Cairo.Tree.List.TreeLayout({ model: self.entityInfo }),
             Cairo.usuarioConfigTreeRegion,
             self);

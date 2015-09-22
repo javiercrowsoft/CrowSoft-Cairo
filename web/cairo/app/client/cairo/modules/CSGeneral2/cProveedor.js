@@ -244,7 +244,7 @@
       };
 
       self.getApplication = function() {
-        return Cairo.appName;
+        return Cairo.Application.getName();
       };
 
       self.editDocumentsEnabled = function() {
@@ -594,7 +594,7 @@
 
             case K_CATFISCAL:
               if(valEmpty(property.getListItemData(), Types.integer)) {
-                return Cairo.Modal.showInfoWithFalse(getText(1174, "")); // Debe indicar un categoría fiscal
+                return Cairo.Modal.showInfoWithFalse(getText(1174, "")); // Debe indicar una categoría fiscal
               }
               break;
 
@@ -1313,7 +1313,7 @@
 
           switch (key) {
             case K_CAIS:
-              isEmpty = isEmptyRowItem(row, rowIndex);
+              isEmpty = isEmptyRowCai(row, rowIndex);
               break;
 
             case K_CUENTAGRUPO:
@@ -1878,7 +1878,7 @@
 
           elem = row.add(null);
           elem.setValue(getValue(m_data.centrosCosto[_i], C.CCOS_NAME));
-          elem.setId(getValue(C.CCOS_ID));
+          elem.setId(getValue(m_data.centrosCosto[_i], C.CCOS_ID));
           elem.setKey(KI_CCOS_ID);
 
           elem = row.add(null);
@@ -2236,7 +2236,7 @@
         return bRowIsEmpty;
       };
 
-      var isEmptyRowItem = function(row, rowIndex) {
+      var isEmptyRowCai = function(row, rowIndex) {
         var cell = null;
         var bRowIsEmpty = true;
 

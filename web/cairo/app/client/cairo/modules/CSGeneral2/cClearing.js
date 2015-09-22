@@ -91,7 +91,7 @@
       };
 
       self.getApplication = function() {
-        return Cairo.appName;
+        return Cairo.Application.getName();
       };
 
       self.editDocumentsEnabled = function() {
@@ -388,7 +388,7 @@
 
         var elem = properties.add(null, C.CLE_DIAS);
         elem.setType(Dialogs.PropertyType.numeric);
-        elem.setSubType(Dialogs.PropertySubType.Integer);
+        elem.setSubType(Dialogs.PropertySubType.integer);
         // Días
         elem.setName(getText(1085, ""));
         elem.setKey(K_DIAS);

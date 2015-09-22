@@ -28,15 +28,17 @@ http://www.crowsoft.com.ar
 
 javier at crowsoft.com.ar
 */
--- Function: sp_proveedor_get_empresas()
+-- Function: sp_proveedor_get_centros_costo()
 
--- drop function sp_proveedor_get_empresas(integer);
+-- drop function sp_proveedor_get_centros_costo(integer);
 /*
-          select * from sp_proveedor_get_empresas(3);
+          select * from ProveedorCentroCosto;
+          select * from proveedor where prov_id = 44
+          select * from sp_proveedor_get_centros_costo(44);
           fetch all from rtn;
 */
 
-create or replace function sp_proveedor_get_empresas
+create or replace function sp_proveedor_get_centros_costo
 (
   in p_prov_id integer,
   out rtn refcursor
@@ -50,16 +52,20 @@ begin
 
    open rtn for
       ----------------------------------------------------------------------------------------------
-      select coalesce(empprov.empprov_id, 0) as empprov_id,
-             emp.emp_id,
-             emp.emp_nombre
-      from Empresa emp
-      left join EmpresaProveedor empprov on emp.emp_id = empprov.emp_id and empprov.prov_id = p_prov_id
-      order by empprov.empprov_id;
+      select
+             provccos_id,
+             provccos.ccos_id,
+             provccos.pr_id,
+             ccos_nombre,
+             pr_nombrecompra
+      from ProveedorCentroCosto provccos
+      inner join CentroCosto ccos on provccos.ccos_id = ccos.ccos_id
+      left join Producto pr on provccos.pr_id = pr.pr_id
+      where provccos.prov_id = p_prov_id;
 
 end;
 $BODY$
   language plpgsql volatile
   cost 100;
-alter function sp_proveedor_get_empresas(integer)
+alter function sp_proveedor_get_centros_costo(integer)
   owner to postgres;

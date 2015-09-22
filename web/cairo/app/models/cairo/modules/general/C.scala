@@ -159,11 +159,11 @@ object C {
   val CUEG_TIPO = "cueg_tipo"
 
   // Cuenta Grupo Cliente
-  val CLIENTECUENTAGRUPO = "ClienteCuentaGrupo"
+  val CLIENTE_CUENTA_GRUPO = "ClienteCuentaGrupo"
   val CLI_CUEG_ID = "clicueg_id"
 
   // Cuenta Grupo Proveedor
-  val PROVEEDORCUENTAGRUPO = "ProveedorCuentaGrupo"
+  val PROVEEDOR_CUENTA_GRUPO = "ProveedorCuentaGrupo"
   val PROV_CUEG_ID = "provcueg_id"
 
   // Percepcion Cliente
@@ -173,7 +173,7 @@ object C {
   val CLI_PERC_HASTA = "cliperc_hasta"
 
   // Retencion Proveedor
-  val PROVEEDORRETENCION = "ProveedorRetencion"
+  val PROVEEDOR_RETENCION = "ProveedorRetencion"
   val PROV_RET_ID = "provret_id"
   val PROV_RET_DESDE = "provret_desde"
   val PROV_RET_HASTA = "provret_hasta"
@@ -490,15 +490,15 @@ object C {
   val DPTO_ID_PADRE = "dpto_id_padre"
 
   // DepartamentoProveedor
-  val DEPARTAMENTOPROVEEDOR = "DepartamentoProveedor"
+  val DEPARTAMENTO_PROVEEDOR = "DepartamentoProveedor"
   val DPTO_PROV_ID = "dptoprov_id"
 
   // ProveedorCentroCosto
-  val PROVEEDORCENTRO_COSTO = "ProveedorCentroCosto"
+  val PROVEEDOR_CENTRO_COSTO = "ProveedorCentroCosto"
   val PROV_CCOS_ID = "provccos_id"
 
   // DepartamentoCliente
-  val DEPARTAMENTOCLIENTE = "DepartamentoCliente"
+  val DEPARTAMENTO_CLIENTE = "DepartamentoCliente"
   val DPTO_CLI_ID = "dptocli_id"
 
   // Camion
