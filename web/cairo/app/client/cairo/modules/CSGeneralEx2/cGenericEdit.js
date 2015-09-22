@@ -241,6 +241,9 @@
 
       var self = {};
 
+      var getText = Cairo.Language.getText;
+      var Dialogs = Cairo.Dialogs;
+
       var C_MODULE = "cGenericEdit";
 
       var C = Cairo.General.Constants;
@@ -325,7 +328,7 @@
           i += 1;
 
           var property = dialog.getProperties().add(null, getKey(i));
-          property.setType(field.getType() === FieldType.listSql ? FildType.list : field.getType());
+          property.setType(field.getType() === FieldType.listSql ? FieldType.list : field.getType());
           property.setSubType(field.getSubType());
           property.setTabIndex(tabIndex);
           property.setName(getLabelName(field.getName()));

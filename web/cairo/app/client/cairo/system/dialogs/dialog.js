@@ -1388,8 +1388,7 @@
 
               for(var _i = 0; _i < property.getList().count(); _i++) {
                 var item = property.getList().get(_i);
-                c.add(item.getValue());
-                c.setItemData(c.getNewIndex(), item.getId());
+                c.add(item.getValue(), item.getId());
               }
 
               switch(property.getListWhoSetItem()) {

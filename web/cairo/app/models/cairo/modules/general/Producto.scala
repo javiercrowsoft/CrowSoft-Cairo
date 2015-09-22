@@ -1973,7 +1973,7 @@ object Producto {
 
       } catch {
         case NonFatal(e) => {
-          Logger.error(s"can't get ${C.PRODUCTO} with id $id for user ${user.toString}. Error ${e.toString}")
+          Logger.error(s"can't get ${C.PRODUCTO_PROVEEDOR} with id $id for user ${user.toString}. Error ${e.toString}")
           throw e
         }
       } finally {

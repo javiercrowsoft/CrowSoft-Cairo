@@ -97,10 +97,13 @@
 
         m_isNew = true;
 
-        m_listController.updateEditorKey(self, NO_ID);
+        if(m_listController !== null) {
+          m_listController.updateEditorKey(self, NO_ID);
+        }
 
         return load(NO_ID).then(
           function() {
+            Cairo.navigate(self.getPath());
             return refreshCollection();
           }
         );
@@ -134,7 +137,9 @@
 
         m_isNew = true;
 
-        m_listController.updateEditorKey(self, NO_ID);
+        if(m_listController !== null) {
+          m_listController.updateEditorKey(self, NO_ID);
+        }
 
         var property = m_dialog.getProperties().item(C.SUC_CODE);
         property.setValue(Cairo.Constants.COPY_OF + property.getValue());

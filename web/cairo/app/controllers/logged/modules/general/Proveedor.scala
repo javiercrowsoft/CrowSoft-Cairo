@@ -162,8 +162,31 @@ object Proveedores extends Controller with ProvidesUser {
       C.PRO_ID -> Json.toJson(proveedor.references.proId),
       C.PRO_NAME -> Json.toJson(proveedor.references.proName),
       C.ZON_ID -> Json.toJson(proveedor.references.zonId),
-      C.ZON_NAME -> Json.toJson(proveedor.references.zonName)
+      C.ZON_NAME -> Json.toJson(proveedor.references.zonName),
+
+      // Items
+      "cais" -> Json.toJson(writeEmptyCols(List())),
+      "empresas" -> Json.toJson(writeProveedorEmpresas(proveedor.items.empresas)),
+      "cuentasGrupo" -> Json.toJson(writeEmptyCols(List())),
+      "retenciones" -> Json.toJson(writeEmptyCols(List())),
+      "dptos" -> Json.toJson(writeEmptyCols(List())),
+      "centrosCosto" -> Json.toJson(writeEmptyCols(List())),
+      "additionalFields" -> Json.toJson(additionalFieldsWrites)
     )
+    def additionalFieldsWrites() = Json.obj(
+      "fields" -> Json.toJson(writeEmptyCols(List())),
+      "values" -> Json.toJson(writeEmptyCols(List()))
+    )
+    def itemWrites(item: Any) = Json.obj(
+      "dummy" -> Json.toJson("")
+    )
+    def proveedorEmpresaWrite(p: ProveedorEmpresa) = Json.obj(
+      C.EMP_PROV_ID -> Json.toJson(p.id),
+      C.EMP_ID -> Json.toJson(p.empId),
+      C.EMP_NAME -> Json.toJson(p.empName)
+    )
+    def writeEmptyCols(items: List[Any]) = items.map(item => itemWrites(item))
+    def writeProveedorEmpresas(items: List[ProveedorEmpresa]) = items.map(item => proveedorEmpresaWrite(item))
   }
 
   def get(id: Int) = GetAction { implicit request =>

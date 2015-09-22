@@ -100,6 +100,60 @@ object ProveedorReferences {
   }
 }
 
+case class ProveedorCai(
+                         id: Int,
+                         numero: String,
+                         sucursal: String,
+                         fechaVto: Date,
+                         descrip: String
+                       )
+
+case class ProveedorEmpresa(
+                              id: Int,
+                              empId: Int,
+                              empName: String
+                             )
+
+case class ProveedorCuentaGrupo(
+                                  id: Int,
+                                  cuegId: Int,
+                                  cuegName: String,
+                                  cueId: Int,
+                                  cueName: String
+                                 )
+
+case class ProveedorRetencion(
+                               id: Int,
+                               retId: Int,
+                               retName: String,
+                               desde: Date,
+                               hasta: Date
+                               )
+
+case class ProveedorDepartamento(
+                                  id: Int,
+                                  dptoId: Int,
+                                  dptoName: String
+                                  )
+
+case class ProveedorCentroCosto(
+                                 id: Int,
+                                 ccosId: Int,
+                                 ccosName: String,
+                                 prId: Int,
+                                 prName: String
+                                 )
+
+case class ProveedorItems(
+                          cais: List[ProveedorCai],
+                          empresas: List[ProveedorEmpresa],
+                          cuentasGrupo: List[ProveedorCuentaGrupo],
+                          retenciones: List[ProveedorRetencion],
+                          dptos: List[ProveedorDepartamento],
+                          centrosCosto: List[ProveedorCentroCosto],
+                          additionalFields: List[AdditionalFields]
+                          )
+
 case class Proveedor(
                       id: Int,
                       active: Boolean,
@@ -108,6 +162,8 @@ case class Proveedor(
                       base: ProveedorBase,
                       address: ProveedorAddress,
                       references: ProveedorReferences,
+
+                      items: ProveedorItems,
 
                       createdAt: Date,
                       updatedAt: Date,
@@ -120,7 +176,9 @@ case class Proveedor(
 
             base: ProveedorBase,
             address: ProveedorAddress,
-            references: ProveedorReferences) = {
+            references: ProveedorReferences,
+
+            items: ProveedorItems) = {
 
     this(
       id,
@@ -130,6 +188,8 @@ case class Proveedor(
       base,
       address,
       references,
+
+      items,
 
       DateUtil.currentTime,
       DateUtil.currentTime,
@@ -142,7 +202,9 @@ case class Proveedor(
 
             base: ProveedorBase,
             address: ProveedorAddress,
-            references: ProveedorReferences) = {
+            references: ProveedorReferences,
+
+            items: ProveedorItems) = {
 
     this(
       DBHelper.NoId,
@@ -151,7 +213,9 @@ case class Proveedor(
 
       base,
       address,
-      references
+      references,
+
+      items
     )
   }
 
@@ -171,13 +235,17 @@ case class ProveedorInfo(
 
 object Proveedor {
 
+  lazy val emptyProveedorItems = ProveedorItems(List(), List(), List(), List(), List(), List(), List())
+
   lazy val emptyProveedor = Proveedor(
     false,
     "",
 
     ProveedorBase("", "", false, "", 0, "", "", "", "", "", "", "", 0, 0, false, ""),
     ProveedorAddress("", "", "", "", "", "", "", "", "", "", U.NO_DATE, U.NO_DATE, U.NO_DATE, U.NO_DATE),
-    ProveedorReferences(DBHelper.NoId, DBHelper.NoId, DBHelper.NoId, DBHelper.NoId, DBHelper.NoId)
+    ProveedorReferences(DBHelper.NoId, DBHelper.NoId, DBHelper.NoId, DBHelper.NoId, DBHelper.NoId),
+
+    emptyProveedorItems
   )
 
   def apply(
@@ -187,7 +255,10 @@ object Proveedor {
 
             base: ProveedorBase,
             address: ProveedorAddress,
-            references: ProveedorReferences) = {
+            references: ProveedorReferences,
+
+            items: ProveedorItems
+            ) = {
 
     new Proveedor(
       id,
@@ -196,16 +267,45 @@ object Proveedor {
 
       base,
       address,
-      references)
+      references,
+
+      items
+    )
   }
 
   def apply(
-            active: Boolean,
-            code: String,
+             id: Int,
+             active: Boolean,
+             code: String,
 
-            base: ProveedorBase,
-            address: ProveedorAddress,
-            references: ProveedorReferences) = {
+             base: ProveedorBase,
+             address: ProveedorAddress,
+             references: ProveedorReferences
+             ) = {
+
+    new Proveedor(
+      id,
+      active,
+      code,
+
+      base,
+      address,
+      references,
+
+      emptyProveedorItems
+    )
+  }
+
+  def apply(
+             active: Boolean,
+             code: String,
+
+             base: ProveedorBase,
+             address: ProveedorAddress,
+             references: ProveedorReferences,
+
+             items: ProveedorItems
+             ) = {
 
     new Proveedor(
       active,
@@ -213,8 +313,67 @@ object Proveedor {
 
       base,
       address,
-      references
+      references,
+
+      items
     )
+  }
+
+  def apply(
+             active: Boolean,
+             code: String,
+
+             base: ProveedorBase,
+             address: ProveedorAddress,
+             references: ProveedorReferences
+             ) = {
+
+    new Proveedor(
+      active,
+      code,
+
+      base,
+      address,
+      references,
+
+      emptyProveedorItems
+    )
+  }
+
+  private val proveedorCaiParser: RowParser[ProveedorCai] = {
+    SqlParser.get[Int](C.PROVC_ID) ~
+    SqlParser.get[String](C.PROVC_NUMERO) ~
+    SqlParser.get[String](C.PROVC_SUCURSAL) ~
+    SqlParser.get[Date](C.PROVC_FECHA_VTO) ~
+    SqlParser.get[String](C.PROVC_DESCRIP) map {
+    case
+        id ~
+        numero ~
+        sucursal ~
+        fechaVto ~
+        descrip =>
+        ProveedorCai(
+          id,
+          numero,
+          sucursal,
+          fechaVto,
+          descrip)
+    }
+  }
+
+  private val proveedorEmpresaParser: RowParser[ProveedorEmpresa] = {
+    SqlParser.get[Int](C.EMP_PROV_ID) ~
+    SqlParser.get[Int](C.EMP_ID) ~
+    SqlParser.get[String](C.EMP_NAME) map {
+    case
+        id ~
+        empId ~
+        empName =>
+        ProveedorEmpresa(
+          id,
+          empId,
+          empName)
+    }
   }
 
   private val proveedorParser: RowParser[Proveedor] = {
@@ -361,6 +520,7 @@ object Proveedor {
             proName.getOrElse(""),
             zonId.getOrElse(DBHelper.NoId),
             zonName.getOrElse("")),
+          emptyProveedorItems,
           createdAt,
           updatedAt,
           updatedBy)
@@ -468,6 +628,67 @@ object Proveedor {
     }
   }
 
+  private def loadProveedorItems(user: CompanyUser, id: Int) = {
+    ProveedorItems(
+      loadCai(user, id),
+      loadEmpresas(user, id),
+      List(), List(), List(), List(), List())
+  }
+
+  private def loadCai(user: CompanyUser, id: Int) = {
+
+    DB.withTransaction(user.database.database) { implicit connection =>
+
+      val sql = "{call sp_proveedor_get_cai(?, ?)}"
+      val cs = connection.prepareCall(sql)
+
+      cs.setInt(1, id)
+      cs.registerOutParameter(2, Types.OTHER)
+
+      try {
+        cs.execute()
+
+        val rs = cs.getObject(2).asInstanceOf[java.sql.ResultSet]
+        Sql.as(proveedorCaiParser.*, rs)
+
+      } catch {
+        case NonFatal(e) => {
+          Logger.error(s"can't get ${C.PROVEEDOR_CAI} with id $id for user ${user.toString}. Error ${e.toString}")
+          throw e
+        }
+      } finally {
+        cs.close
+      }
+    }
+  }
+
+  private def loadEmpresas(user: CompanyUser, id: Int) = {
+
+    DB.withTransaction(user.database.database) { implicit connection =>
+
+      val sql = "{call sp_proveedor_get_empresas(?, ?)}"
+      val cs = connection.prepareCall(sql)
+
+      cs.setInt(1, id)
+      cs.registerOutParameter(2, Types.OTHER)
+
+      try {
+        cs.execute()
+
+        val rs = cs.getObject(2).asInstanceOf[java.sql.ResultSet]
+        Sql.as(proveedorEmpresaParser.*, rs)
+
+      } catch {
+        case NonFatal(e) => {
+          Logger.error(s"can't get ${C.EMPRESA_PROVEEDOR} with id $id for user ${user.toString}. Error ${e.toString}")
+          throw e
+        }
+      } finally {
+        cs.close
+      }
+    }
+  }
+
   def delete(user: CompanyUser, id: Int) = {
     DB.withConnection(user.database.database) { implicit connection =>
       try {
@@ -485,7 +706,20 @@ object Proveedor {
 
   def get(user: CompanyUser, id: Int): Proveedor = {
     load(user, id) match {
-      case Some(p) => p
+      case Some(p) => {
+        Proveedor(
+          p.id,
+          p.active,
+          p.code,
+
+          p.base,
+
+          p.address,
+          p.references,
+
+          loadProveedorItems(user, id)
+        )
+      }
       case None => emptyProveedor
     }
   }

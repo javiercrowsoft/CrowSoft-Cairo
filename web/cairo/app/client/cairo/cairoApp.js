@@ -1068,10 +1068,18 @@ var Cairo = new Marionette.Application();
   };
 
   Cairo.Util.List = {
-    setListIndexForId: function(c, id) { /* TODO: implement this. */ },
-    setListIndex: function(c, index) { /* TODO: implement this. */ },
-    setListIndexForText: function(c, text) { /* TODO: implement this. */ },
-    getListId: function(c) { /* TODO: implement this. */ }
+    setListIndexForId: function(c, id) {
+      c.selectById(id);
+    },
+    setListIndex: function(c, index) {
+      c.selectByIndex(index);
+    },
+    setListIndexForText: function(c, text) {
+      c.selectByText(text);
+    },
+    getListId: function(c) {
+      c.getItemData();
+    }
   };
 
   Cairo.Util.File = {

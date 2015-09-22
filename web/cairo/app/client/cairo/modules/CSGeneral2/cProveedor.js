@@ -211,7 +211,9 @@
 
         m_isNew = true;
 
-        m_listController.updateEditorKey(self, NO_ID);
+        if(m_listController !== null) {
+          m_listController.updateEditorKey(self, NO_ID);
+        }
 
         var property = m_dialog.getProperties().item(C.PROV_CODE);
         property.setValue(Cairo.Constants.COPY_OF + property.getValue());
@@ -229,10 +231,13 @@
 
         if(!validateAccessNewEdit(NO_ID)) { return false; }
 
-        m_listController.updateEditorKey(self, NO_ID);
+        if(m_listController !== null) {
+          m_listController.updateEditorKey(self, NO_ID);
+        }
 
         return load(NO_ID).then(
           function() {
+            Cairo.navigate(self.getPath());
             return refreshCollection();
           }
         );
@@ -1519,7 +1524,7 @@
         data.cais = data.get('cais');
         data.empresas = data.get('empresas');
         data.cuentasGrupo = data.get('cuentasGrupo');
-        data.retencioneses = data.get('retenciones');
+        data.retenciones = data.get('retenciones');
         data.dptos = data.get('dptos');
         data.centrosCosto = data.get('centrosCosto');
         data.additionalFields = data.get('additionalFields');
@@ -1635,7 +1640,7 @@
 
             }
 
-            if(!m_genericEdit.Load(m_id)) { return false; }
+            if(!m_genericEdit.load(m_id)) { return false; }
 
             return true;
           });
@@ -1935,7 +1940,7 @@
           else {
             elem.setId(getValue(m_data.empresas[_i], C.EMP_PROV_ID));
           }
-          elem.setValue(elem.Id);
+          elem.setValue(elem.getId());
           elem.setKey(KI_EMPPROV_ID);
         }
       };

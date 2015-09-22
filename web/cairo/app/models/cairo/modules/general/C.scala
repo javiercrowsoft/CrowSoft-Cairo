@@ -1003,11 +1003,11 @@ object C {
   val PRS_ES_EMPLEADO = "prs_esempleado"
 
   // Empresa Cliente
-  val EMPRESACLIENTE = "EmpresaCliente"
+  val EMPRESA_CLIENTE = "EmpresaCliente"
   val EMP_CLI_ID = "empcli_id"
 
   // Empresa Proveedor
-  val EMPRESAPROVEEDOR = "EmpresaProveedor"
+  val EMPRESA_PROVEEDOR = "EmpresaProveedor"
   val EMP_PROV_ID = "empprov_id"
 
   // Idioma
