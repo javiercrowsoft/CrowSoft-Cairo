@@ -54,6 +54,10 @@
       var CONFIG_KEY = "cfg_aspecto";
       var CONFIG_VALUE = "cfg_valor";
 
+      self.getClaveFiscal = function() {
+        return m_claveFiscal;
+      };
+
       self.copy = function() {
 
       };
@@ -199,7 +203,7 @@
       };
 
       self.getPath = function() {
-        return "#general/contconfig";
+        return "#contabilidad/contconfig";
       };
 
       self.getEditorName = function() {
@@ -207,7 +211,7 @@
       };
 
       self.getTitle = function() {
-        return Cairo.Language.getText(2682, ""); // Configuración General
+        return Cairo.Language.getText(2862, ""); // Configuración General
       };
 
       self.validate = function() {
@@ -229,7 +233,7 @@
 
       var load = function() {
 
-        return Cairo.Database.getData("load[" + m_apiPath + "general/contconfig]").then(
+        return Cairo.Database.getData("load[" + m_apiPath + "general/contconfig]", NO_ID).then(
           function(response) {
 
             if(response.success === true) {
@@ -254,7 +258,7 @@
                     break;
 
                   case C_TAIDPREFACTURA:
-                    var value = val(getValue(settings[_i], CONFIG_VALUE));
+                    var value = getValue(settings[_i], CONFIG_VALUE);
                     m_ta_id = value.id;
                     m_talonario = value.name;
                     break;
@@ -283,7 +287,7 @@
 
           m_dialog.setInModalWindow(inModalWindow);
 
-          p = load(id).then(
+          p = load().then(
             function(success) {
               if(success) {
 
@@ -317,6 +321,8 @@
         elem.setType(Dialogs.PropertyType.list);
         elem.setName(Cairo.Language.getText(3097, "")); // Tipo de Clave Fiscal
         elem.setKey(K_CLAVE_FISCAL);
+        elem.setListWhoSetItem(Dialogs.ListWhoSetItem.itemData);
+        elem.setListItemData(m_claveFiscal);
         var list = elem.getList();
         var elem = list.add(null);
         elem.setId(C.ClaveFiscalType.cuit); 
@@ -324,8 +330,6 @@
         var elem = list.add(null);
         elem.setId(C.ClaveFiscalType.rut);
         elem.setValue(Cairo.Language.getText(3099, "")); // R.U.T.
-        elem.setListWhoSetItem(Dialogs.ListWhoSetItem.itemData);
-        elem.setListItemData(m_claveFiscal);
 
         var elem = properties.add(null, C_PUNTOVENTAFE);
         elem.setType(Dialogs.PropertyType.numeric);
@@ -333,13 +337,11 @@
         elem.setName(Cairo.Language.getText(5126, "")); // Punto de Venta Factura Electronica
         elem.setKey(K_FE_PUNTO_VENTA);
         elem.setValue(m_puntoVentaFe);
-        var o = null;
-        o = elem;
-        o.setNoShowButton(true);
+        //elem.setNoShowButton(true);
 
         var elem = properties.add(null, C_TAIDPREFACTURA);
         elem.setType(Dialogs.PropertyType.select);
-        elem.setTable(Cairo.Tables.TALONARIOS);
+        elem.setSelectTable(Cairo.Tables.TALONARIOS);
         elem.setName(Cairo.Language.getText(5127, "")); // Talonario pre-facturas Factura Electronica
         elem.setKey(K_TA_ID_PREFACTURA);
         elem.setValue(m_talonario);
@@ -405,149 +407,16 @@
       return self;
     };
 
-    Edit.Controller = { getEditor: createObject };
+    var showEditor = function() {
+      var editor = Cairo.ContConfig.Edit.Controller.getEditor();
+      var dialog = Cairo.Dialogs.Views.Controller.newDialog();
 
-  });
-
-  Cairo.module("ContConfig.List", function(List, Cairo, Backbone, Marionette, $, _) {
-    List.Controller = {
-      list: function() {
-
-        var self = this;
-
-        /*
-         this function will be called by the tab manager every time the
-         view must be created. when the tab is not visible the tab manager
-         will not call this function but only make the tab visible
-         */
-        var createTreeDialog = function(tabId) {
-
-          var editors = Cairo.Editors.contConfigEditors || Cairo.Collections.createCollection(null);
-          Cairo.Editors.contConfigEditors = editors;
-
-          // ListController properties and methods
-          //
-          self.entityInfo = new Backbone.Model({
-            entitiesTitle: "Configuracion de Contabilidad",
-            entityName: "configuracion de contabilidad",
-            entitiesName: "configuracion de contabilidad"
-          });
-
-          self.showBranch = function(branchId) {
-            Cairo.log("Loading nodeId: " + branchId);
-            Cairo.Tree.List.Controller.listBranch(branchId, Cairo.Tree.List.Controller.showItems, self);
-          };
-
-          self.addLeave = function(id, branchId) {
-            try {
-              Cairo.Tree.List.Controller.addLeave(branchId, id, self);
-            }
-            catch(ignore) {
-              Cairo.log("Error when adding this item to the branch\n\n" + ignore.message);
-            }
-          };
-
-          self.refreshBranch = function(id, branchId) {
-            try {
-              Cairo.Tree.List.Controller.refreshBranchIfActive(branchId, id, self);
-            }
-            catch(ignore) {
-              Cairo.log("Error when refreshing a branch\n\n" + ignore.message);
-            }
-          };
-
-          var getIndexFromEditor = function(editor) {
-            var count = editors.count();
-            for(var i = 0; i < count; i += 1) {
-              if(editors.item(i).editor === editor) {
-                return i;
-              }
-            }
-            return -1;
-          };
-
-          self.removeEditor = function(editor) {
-            var index = getIndexFromEditor(editor);
-            if(index >= 0) {
-              editors.remove(index);
-            }
-          };
-
-          var getKey = function(id) {
-            if(id === Cairo.Constants.NO_ID) {
-              return "new-id:" + (new Date).getTime().toString()
-            }
-            else {
-              return "k:" + id.toString();
-            }
-          };
-
-          self.updateEditorKey = function(editor, newId) {
-            var index = getIndexFromEditor(editor);
-            if(index >= 0) {
-              var editor = editors.item(index);
-              editors.remove(index);
-              var key = getKey(newId);
-              editors.add(editor, key);
-            }
-          };
-
-          self.edit = function(id, treeId, branchId) {
-            var key = getKey(id);
-            if(editors.contains(key)) {
-              editors.item(key).dialog.showDialog();
-            }
-            else {
-              var editor = Cairo.ContConfig.Edit.Controller.getEditor();
-              var dialog = Cairo.Dialogs.Views.Controller.newDialog();
-
-              editor.setTree(self);
-              editor.setDialog(dialog);
-              editor.setTreeId(treeId);
-              editor.setBranchId(branchId);
-              editor.edit(id);
-
-              editors.add({editor: editor, dialog: dialog}, key);
-            }
-          };
-
-          self.destroy = function(id, treeId, branchId) {
-            
-          };
-
-          // progress message
-          //
-          Cairo.LoadingMessage.show("ContConfigs", "Loading Configuracion de Contabilidad from Crowsoft Cairo server.");
-
-          // create the tree region
-          //
-          Cairo.addRegions({ contConfigTreeRegion: tabId });
-
-          // create the dialog
-          //
-          Cairo.Tree.List.Controller.list(
-            Cairo.Tables.CONFIGURACION,
-            new Cairo.Tree.List.TreeLayout({ model: self.entityInfo }),
-            Cairo.contConfigTreeRegion,
-            self);
-
-        };
-
-        var showTreeDialog = function() {
-          Cairo.Tree.List.Controller.showTreeDialog(self);
-        };
-
-        var closeTreeDialog = function() {
-
-        }
-
-        // create the tab
-        //
-        Cairo.mainTab.showTab("ContConfigs", "contConfigTreeRegion", "#general/contconfigs", createTreeDialog, closeTreeDialog, showTreeDialog);
-
-      }
+      editor.setDialog(dialog);
+      editor.edit();
     };
-  });
 
+    Edit.Controller = { getEditor: createObject, edit: showEditor };
+
+  });
 
 }());

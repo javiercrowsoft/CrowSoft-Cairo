@@ -723,7 +723,7 @@
       var showNotes = function() {
         var fcId = m_dialog.getId();
         return DB.getData("load[" + m_apiPath + "modulexxxx/xxxx/notes]", fcId)
-          .successWithResult(D.showNotes);
+          .whenSuccessWithResult(D.showNotes);
       };
 
       var addNote = function() {

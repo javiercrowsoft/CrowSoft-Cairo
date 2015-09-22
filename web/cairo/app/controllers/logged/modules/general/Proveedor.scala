@@ -404,4 +404,18 @@ object Proveedores extends Controller with ProvidesUser {
     })
   }
 
+  def validateCuit(cuit: String) = GetAction { implicit request =>
+    LoggedIntoCompanyResponse.getAction(request, { user =>
+      LoggedIntoCompanyResponse.getAction(request, { user =>
+        val info = Proveedor.validateCuit(user, cuit)
+        Ok(
+          Json.toJson(
+            Json.obj(
+              C.PROV_ID -> Json.toJson(info.provId),
+              C.PROV_CODE -> Json.toJson(info.code),
+              C.PROV_RAZONSOCIAL -> Json.toJson(info.razonSocial)
+            )))
+      })
+    })
+  }
 }

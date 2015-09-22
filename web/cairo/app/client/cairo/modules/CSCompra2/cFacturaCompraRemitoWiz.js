@@ -529,7 +529,7 @@
               setDatosProveedor();
               D.setDocumentForDoctId(
                 getDocProperty(), m_objWizard, D.Types.FACTURA_COMPRA, D.Types.REMITO_COMPRA, m_rcIds, 0
-              ).successWithResult(function(result) {
+              ).whenSuccessWithResult(function(result) {
                   if(result.info) {
                     m_docId = result.info.id;
                     m_documento = result.info.name;
@@ -2119,7 +2119,7 @@
           p = DB.getData(
             "load[" + m_apiPath + "general/proveedor/" + m_lastProvId.toString() + "/info]", m_lastDocId);
 
-          p = p.successWithResult(function(response) {
+          p = p.whenSuccessWithResult(function(response) {
 
             var lp_id = valField(response.data, C.LP_ID);
             var lp_name = valField(response.data, C.LP_NAME);

@@ -994,7 +994,7 @@
                 m_dialog.showValue(properties.item(CV.FV_FECHA_IVA));
 
                 return D.loadPercepcionesForCliente(m_lastCliId, getFecha())
-                  .successWithResult(function(result) {
+                  .whenSuccessWithResult(function(result) {
                     m_percepciones = result.percepciones;
                     calcularPercepciones();
                     updateTotals();
@@ -1577,7 +1577,7 @@
           return true;
         };
 
-        return getCueIdCliente().successWithResult(validate, false);
+        return getCueIdCliente().whenSuccessWithResult(validate, false);
       };
 
       self.isEmptyRow = function(key, row, rowIndex) {
@@ -1636,7 +1636,7 @@
         };
 
         var p = DB.getData("load[" + m_apiPath + "ventas/facturaventa/info]",id)
-          .successWithResult(loadData, false);
+          .whenSuccessWithResult(loadData, false);
 
         return p;
       };
@@ -3253,7 +3253,7 @@
               m_lastMonIdCotizacion = m_monId;
               m_lastFecha = m_fecha;
 
-              p = D.loadPercepcionesForCliente(m_lastCliId, m_fecha).successWithResult(function(response) {
+              p = D.loadPercepcionesForCliente(m_lastCliId, m_fecha).whenSuccessWithResult(function(response) {
                 m_percepciones = response.percepciones;
                 return true;
               });
@@ -3687,7 +3687,7 @@
 
         if(prId !== 0) {
 
-          p = D.getTasaFromProducto(prId, true).successWithResult(function(data) {
+          p = D.getTasaFromProducto(prId, true).whenSuccessWithResult(function(data) {
 
             if(data.ti_ri_compra === 0) {
               return M.showWarningWithFalse(getText(1597, "", prName));
@@ -3735,7 +3735,7 @@
         var p = DB.getData(
           "load[" + m_apiPath + "general/producto/" + prId.toString() + "/stock/cliente]", getCliId());
 
-        return p.successWithResult(function(response) {
+        return p.whenSuccessWithResult(function(response) {
           var isKit = valField(response.data, C.PR_ES_KIT);
 
           getCell(row, KI_UNIDAD).setValue(valField(response.data, C.UN_NAME_VENTA));
@@ -3868,7 +3868,7 @@
           p = DB.getData(
             "load[" + m_apiPath + "general/cliente/" + m_lastCliId.toString() + "/info]", m_lastDocId);
 
-          p = p.successWithResult(function(response) {
+          p = p.whenSuccessWithResult(function(response) {
 
             var lpId = valField(response.data, C.LP_ID);
             var lpName = valField(response.data, C.LP_NAME);
@@ -3976,7 +3976,7 @@
               setFechaVto(cpgId, response);
 
               return D.loadPercepcionesForCliente(m_lastCliId, getFecha())
-                .successWithResult(function(result) {
+                .whenSuccessWithResult(function(result) {
                   m_percepciones = result.percepciones;
                   calcularPercepciones();
                   updateTotals();
@@ -4008,7 +4008,7 @@
 
         var p = DB.getData(
             "load[" + m_apiPath + "documento/" + m_lastDocId.toString() + "/customer/" + m_lastCliId.toString() + "/account]")
-          .successWithResult(getCueId, false);
+          .whenSuccessWithResult(getCueId, false);
 
         return p;
       };
@@ -4047,7 +4047,7 @@
 
         p = p
           .whenSuccess(D.signDocument(m_doctId, m_id))
-          .successWithResult(refreshState);
+          .whenSuccessWithResult(refreshState);
 
         return p;
       };
@@ -4081,7 +4081,7 @@
           }
         }
         return D.move(m_docId, moveTo)
-          .successWithResult(completeMove);
+          .whenSuccessWithResult(completeMove);
       };
 
       var refreshProperties = function() {
@@ -5842,7 +5842,7 @@
       var showNotes = function() {
         var fcId = m_dialog.getId();
         return DB.getData("load[" + m_apiPath + "ventas/facturaventa/notes]", fcId)
-          .successWithResult(D.showNotes);
+          .whenSuccessWithResult(D.showNotes);
       };
 
       var addNote = function() {
@@ -5881,9 +5881,9 @@
         };
 
         var p = D.getDocumentSignStatus(D.Types.FACTURA_VENTA, fvId)
-            .successWithResult(getAction)
+            .whenSuccessWithResult(getAction)
             .whenSuccess(D.signDocument(D.Types.FACTURA_VENTA, fvId))
-            .successWithResult(refreshRow)
+            .whenSuccessWithResult(refreshRow)
           ;
 
         return p;
@@ -5925,7 +5925,7 @@
         var fvId = m_dialog.getId();
         if(fvId !== NO_ID) {
 
-          D.getAsientoId(D.Types.FACTURA_VENTA, fvId).successWithResult(function(response) {
+          D.getAsientoId(D.Types.FACTURA_VENTA, fvId).whenSuccessWithResult(function(response) {
             D.showDocAux(response.as_id, "Asiento");
           });
         }
@@ -5935,7 +5935,7 @@
         var fvId = m_dialog.getId();
         if(fvId !== NO_ID) {
 
-          D.getStockId(D.Types.FACTURA_VENTA, fvId).successWithResult(function(response) {
+          D.getStockId(D.Types.FACTURA_VENTA, fvId).whenSuccessWithResult(function(response) {
             D.showDocAux(response.st_id, "Stock");
           });
         }
@@ -5968,7 +5968,7 @@
 
         var fvId = m_dialog.getId();
         if(fvId !== NO_ID) {
-          D.getDocumentInfo(D.Types.FACTURA_VENTA, fvId).successWithResult(showEditor);
+          D.getDocumentInfo(D.Types.FACTURA_VENTA, fvId).whenSuccessWithResult(showEditor);
         }
       };
 

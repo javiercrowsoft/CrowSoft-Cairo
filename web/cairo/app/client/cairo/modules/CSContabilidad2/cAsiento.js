@@ -10,7 +10,7 @@
 
       if(asId !== NO_ID) {
 
-        D.getDocCliente(D.Types.ASIENTO_CONTABLE, asId).successWithResult(function(response) {
+        D.getDocCliente(D.Types.ASIENTO_CONTABLE, asId).whenSuccessWithResult(function(response) {
 
           if(response.id === NO_ID) {
             M.showInfo(getText(1693, "")); // Este comprobante no tiene un documento de stock asociado.
@@ -694,7 +694,7 @@
         };
 
         var p = DB.getData("load[" + m_apiPath + "contabilidad/asiento/info]", id)
-          .successWithResult(loadData, false);
+          .whenSuccessWithResult(loadData, false);
 
         return p;
       };
@@ -1535,7 +1535,7 @@
           }
         }
         return D.move(m_docId, moveTo)
-          .successWithResult(completeMove);
+          .whenSuccessWithResult(completeMove);
       };
       
       var refreshProperties = function() {
@@ -2028,7 +2028,7 @@
       var showNotes = function() {
         var asId = m_dialog.getId();
         return DB.getData("load[" + m_apiPath + "contabilidad/asiento/notes]", asId)
-          .successWithResult(D.showNotes);
+          .whenSuccessWithResult(D.showNotes);
       };
 
       var addNote = function() {

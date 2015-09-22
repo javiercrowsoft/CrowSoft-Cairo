@@ -43,21 +43,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="sp_proveedor_get_centros_costo.sql" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="sp_proveedor_get_centros_costo.sql" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/cairo/CSGeneral/functions/sp_proveedor_get_centros_costo.sql">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.065972224" vertical-offset="38" max-vertical-offset="1444">
+            <state vertical-scroll-proportion="-0.21839081" vertical-offset="38" max-vertical-offset="1444">
               <caret line="3" column="14" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="sp_proveedor_get_dptos.sql" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/cairo/CSGeneral/functions/sp_proveedor_get_dptos.sql">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-0.21839081" vertical-offset="0" max-vertical-offset="1368">
-              <caret line="1" column="14" selection-start-line="1" selection-start-column="14" selection-end-line="1" selection-end-column="14" />
               <folding />
             </state>
           </provider>
@@ -73,11 +63,41 @@
           </provider>
         </entry>
       </file>
+      <file leaf-file-name="sp_proveedor_get_dptos.sql" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/cairo/CSGeneral/functions/sp_proveedor_get_dptos.sql">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-0.21839081" vertical-offset="0" max-vertical-offset="1368">
+              <caret line="1" column="14" selection-start-line="1" selection-start-column="14" selection-end-line="1" selection-end-column="14" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="sp_proveedor_get_empresas.sql" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/cairo/CSGeneral/functions/sp_proveedor_get_empresas.sql">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="-0.21839081" vertical-offset="0" max-vertical-offset="1330">
               <caret line="1" column="14" selection-start-line="1" selection-start-column="14" selection-end-line="1" selection-end-column="14" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="sp_proveedor_get_info.sql" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/cairo/CSGeneral/functions/sp_proveedor_get_info.sql">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-5.551724" vertical-offset="1948" max-vertical-offset="2831">
+              <caret line="111" column="20" selection-start-line="0" selection-start-column="0" selection-end-line="143" selection-end-column="20" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="sp_proveedor_get_cuit_info.sql" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/cairo/CSGeneral/functions/sp_proveedor_get_cuit_info.sql">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="1.3806229" vertical-offset="0" max-vertical-offset="1425">
+              <caret line="63" column="0" selection-start-line="63" selection-start-column="0" selection-end-line="63" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -103,7 +123,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/cairo/CSGeneral/functions/sp_proveedor_get_iva.sql" />
         <option value="$PROJECT_DIR$/cairo/CSGeneral/functions/sp_cliente_get_iva.sql" />
         <option value="$PROJECT_DIR$/cairo/CSVentas/functions/sp_doc_factura_venta_get.sql" />
         <option value="$PROJECT_DIR$/cairo/CSCompras/functions/sp_doc_factura_compra_get_items.sql" />
@@ -154,6 +173,7 @@
         <option value="$PROJECT_DIR$/cairo/CSGeneral/functions/sp_proveedor_get_dptos.sql" />
         <option value="$PROJECT_DIR$/cairo/CSGeneral/functions/sp_proveedor_get_cuentas_grupo.sql" />
         <option value="$PROJECT_DIR$/cairo/CSGeneral/functions/sp_proveedor_get_centros_costo.sql" />
+        <option value="$PROJECT_DIR$/cairo/CSGeneral/functions/sp_proveedor_get_cuit_info.sql" />
       </list>
     </option>
   </component>
@@ -643,7 +663,7 @@
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.5866261" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.5866261" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32928064" sideWeight="0.5" order="0" side_tool="true" content_ui="tabs" />
@@ -680,13 +700,6 @@
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/cairo/CSGeneral/functions/sp_cliente_get_next_number.sql">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-6.4712644" vertical-offset="501" max-vertical-offset="1672">
-          <caret line="56" column="43" selection-start-line="56" selection-start-column="43" selection-end-line="56" selection-end-column="43" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/cairo/CSGeneral/functions/sp_doc_get_cue_id.sql">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-2.4097297" vertical-offset="2229" max-vertical-offset="3154">
@@ -911,14 +924,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/cairo/CSGeneral/functions/sp_proveedor_get_info.sql">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.68458277" vertical-offset="1948" max-vertical-offset="2831">
-          <caret line="128" column="40" selection-start-line="128" selection-start-column="20" selection-end-line="128" selection-end-column="40" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/cairo/CSGeneral/functions/sp_proveedor_get_iva.sql">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-0.10146862" vertical-offset="76" max-vertical-offset="2128">
@@ -1065,8 +1070,24 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/cairo/CSGeneral/functions/sp_proveedor_get_centros_costo.sql">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.065972224" vertical-offset="38" max-vertical-offset="1444">
+        <state vertical-scroll-proportion="-0.21839081" vertical-offset="38" max-vertical-offset="1444">
           <caret line="3" column="14" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cairo/CSGeneral/functions/sp_proveedor_get_info.sql">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-5.551724" vertical-offset="1948" max-vertical-offset="2831">
+          <caret line="111" column="20" selection-start-line="0" selection-start-column="0" selection-end-line="143" selection-end-column="20" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cairo/CSGeneral/functions/sp_proveedor_get_cuit_info.sql">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="1.3806229" vertical-offset="0" max-vertical-offset="1425">
+          <caret line="63" column="0" selection-start-line="63" selection-start-column="0" selection-end-line="63" selection-end-column="0" />
           <folding />
         </state>
       </provider>

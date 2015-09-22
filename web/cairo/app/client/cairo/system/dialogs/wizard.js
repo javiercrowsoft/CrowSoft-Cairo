@@ -402,7 +402,7 @@
         var nextStep = function(currentStep) {
           m_restartVirtualPush = false;
 
-          return m_client.nextStep(currentStep).successWithResult(
+          return m_client.nextStep(currentStep).whenSuccessWithResult(
             function(result) {
               if(m_wizardClosed) {
                 return false;
@@ -427,7 +427,7 @@
         };
 
         var previousStep = function(currentStep) {
-          return m_client.previousStep(currentStep).successWithResult(
+          return m_client.previousStep(currentStep).whenSuccessWithResult(
             function(result) {
               return showStep(result.nextStep);
             },

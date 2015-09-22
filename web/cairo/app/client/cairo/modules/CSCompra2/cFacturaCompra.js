@@ -1266,7 +1266,7 @@
 
         var p = DB.getData(
             "load[" + m_apiPath + "documento/" + m_lastDocId.toString() + "/supplier/" + m_lastProvId.toString() + "/account]")
-          .successWithResult(getCueId, false);
+          .whenSuccessWithResult(getCueId, false);
 
         return p;
       };
@@ -1281,7 +1281,7 @@
           return true;
         };
 
-        return getCueIdProveedor().successWithResult(validate, false);
+        return getCueIdProveedor().whenSuccessWithResult(validate, false);
       };
 
       self.isEmptyRow = function(key, row, rowIndex) {
@@ -1346,7 +1346,7 @@
         };
 
         var p = DB.getData("load[" + m_apiPath + "compras/facturacompra/info]", id)
-          .successWithResult(loadData, false);
+          .whenSuccessWithResult(loadData, false);
 
         return p;
       };
@@ -3961,7 +3961,7 @@
 
         if(prId !== 0) {
 
-          p = D.getTasaFromProducto(prId, true).successWithResult(function(data) {
+          p = D.getTasaFromProducto(prId, true).whenSuccessWithResult(function(data) {
 
             if(data.ti_ri_compra === 0) {
               return M.showWarningWithFalse(getText(1597, "", pr_nombre));
@@ -4009,7 +4009,7 @@
         var p = DB.getData(
           "load[" + m_apiPath + "general/producto/" + prId.toString() + "/stock/proveedor]", getProvId());
 
-        return p.successWithResult(function(response) {
+        return p.whenSuccessWithResult(function(response) {
           getCell(row, KI_UNIDAD).setValue(valField(response.data, C.UN_NAME_COMPRA));
 
           var cell = getCell(row, KI_CCOS_ID);
@@ -4117,7 +4117,7 @@
           p = DB.getData(
             "load[" + m_apiPath + "general/proveedor/" + m_lastProvId.toString() + "/info]", m_lastDocId);
 
-          p = p.successWithResult(function(response) {
+          p = p.whenSuccessWithResult(function(response) {
 
             var lpId = valField(response.data, C.LP_ID);
             var lpName = valField(response.data, C.LP_NAME);
@@ -4214,7 +4214,7 @@
 
         p = p
           .whenSuccess(D.signDocument(m_doctId, m_id))
-          .successWithResult(refreshState);
+          .whenSuccessWithResult(refreshState);
 
         return p;
       };
@@ -4248,7 +4248,7 @@
           }
         }
         return D.move(m_docId, moveTo)
-          .successWithResult(completeMove);
+          .whenSuccessWithResult(completeMove);
       };
 
       var refreshProperties = function() {
@@ -5336,7 +5336,7 @@
       var showNotes = function() {
         var fcId = m_dialog.getId();
         return DB.getData("load[" + m_apiPath + "compras/facturacompra/notes]", fcId)
-          .successWithResult(D.showNotes);
+          .whenSuccessWithResult(D.showNotes);
       };
 
       var addNote = function() {
@@ -5369,9 +5369,9 @@
         };
 
         var p = D.getDocumentSignStatus(D.Types.FACTURA_COMPRA, fcId)
-          .successWithResult(getAction)
+          .whenSuccessWithResult(getAction)
           .whenSuccess(D.signDocument(D.Types.FACTURA_COMPRA, fcId))
-          .successWithResult(refreshRow)
+          .whenSuccessWithResult(refreshRow)
         ;
 
         return p;
@@ -5381,7 +5381,7 @@
         var fcId = m_dialog.getId();
         if(fcId !== NO_ID) {
 
-          D.getAsientoId(D.Types.FACTURA_COMPRA, fcId).successWithResult(function(response) {
+          D.getAsientoId(D.Types.FACTURA_COMPRA, fcId).whenSuccessWithResult(function(response) {
             D.showDocAux(response.as_id, "Asiento");
           });
         }
@@ -5391,7 +5391,7 @@
         var fcId = m_dialog.getId();
         if(fcId !== NO_ID) {
 
-          D.getStockId(D.Types.FACTURA_COMPRA, fcId).successWithResult(function(response) {
+          D.getStockId(D.Types.FACTURA_COMPRA, fcId).whenSuccessWithResult(function(response) {
             D.showDocAux(response.st_id, "Stock");
           });
         }
@@ -5424,7 +5424,7 @@
         
         var fcId = m_dialog.getId();
         if(fcId !== NO_ID) {
-          D.getDocumentInfo(D.Types.FACTURA_COMPRA, fcId).successWithResult(showEditor);
+          D.getDocumentInfo(D.Types.FACTURA_COMPRA, fcId).whenSuccessWithResult(showEditor);
         }
       };
 

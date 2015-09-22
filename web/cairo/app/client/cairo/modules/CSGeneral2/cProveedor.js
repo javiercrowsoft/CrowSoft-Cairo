@@ -2538,7 +2538,7 @@
         var rtn = "";
 
         for(var i = 0; i < source.length; i++) {
-          var c = source.substring(i, 1);
+          var c = source.substr(i, 1);
           if(toSearch.indexOf(c, 1)) {
             c = value;
           }
@@ -2554,8 +2554,8 @@
 
         if(cbu.length === 22) {
 
-          var block1 = cbu.substring(0, 8);
-          var block2 = cbu.substring(8, 14);
+          var block1 = cbu.substr(0, 8);
+          var block2 = cbu.substr(8, 14);
 
           if(!(validateDigit(block1) && validateDigit(block2))) {
             return M.showWarningWithFalse(getText(4712, "")); // El CBU ingresado no es valido
@@ -2574,10 +2574,10 @@
 
         var sum = 0;
         var size = code.length;
-        var digit = code.substring(size, 1);
-        var number = code.substring(1, size - 1);
+        var digit = code.substr(size, 1);
+        var number = code.substr(1, size - 1);
         for(var i = 0; i < size - 1; i++) {
-          sum = sum + val(number.substring(size - i, 1)) * val(pond.substring(4 - i % 4 + 1, 1));
+          sum = sum + val(number.substr(size - i, 1)) * val(pond.substr(4 - i % 4 + 1, 1));
         }
 
         return (digit === Cairo.Util.right((10 - sum % 10).toString(), 1));

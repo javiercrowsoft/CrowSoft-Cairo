@@ -250,7 +250,7 @@
   <form>
     <div class="input-text-form">
       <div class="control-group">
-        <p><%- message %></p>
+        <p><%= message %></p>
       </div>
     </div>
     <button class="btn js-submit-yes <%- yesClass %> btn-small">Yes</button>
@@ -815,6 +815,10 @@
       $('.menu').click(function (event) {
           closeNav();
       });
+
+      // load general settings
+      //
+      Cairo.Configuration.createConfigObjects();
   });
 </script>
 

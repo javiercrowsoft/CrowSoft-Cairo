@@ -233,6 +233,12 @@ case class ProveedorInfo(
                           ivaRni: Boolean
                         )
 
+case class ProveedorCuitInfo(
+                              provId: Int,
+                              code: String,
+                              razonSocial: String
+                              )
+
 object Proveedor {
 
   lazy val emptyProveedorItems = ProveedorItems(List(), List(), List(), List(), List(), List(), List())
@@ -951,6 +957,38 @@ object Proveedor {
       } catch {
         case NonFatal(e) => {
           Logger.error(s"can't get proveedor info with provId $id and docId $docId for user ${user.toString}. Error ${e.toString}")
+          throw e
+        }
+      } finally {
+        cs.close
+      }
+    }
+  }
+
+  def validateCuit(user: CompanyUser, cuit: String): ProveedorCuitInfo = {
+
+    DB.withTransaction(user.database.database) { implicit connection =>
+
+      val sql = "{call sp_proveedor_get_cuit_info(?, ?, ?, ?)}"
+      val cs = connection.prepareCall(sql)
+
+      cs.setString(1, cuit)
+      cs.registerOutParameter(2, Types.INTEGER)
+      cs.registerOutParameter(3, Types.VARCHAR)
+      cs.registerOutParameter(4, Types.VARCHAR)
+
+      try {
+        cs.execute()
+
+        ProveedorCuitInfo(
+          cs.getInt(2),
+          cs.getString(3),
+          cs.getString(4)
+        )
+
+      } catch {
+        case NonFatal(e) => {
+          Logger.error(s"can't get cuit info with cuit $cuit for user ${user.toString}. Error ${e.toString}")
           throw e
         }
       } finally {

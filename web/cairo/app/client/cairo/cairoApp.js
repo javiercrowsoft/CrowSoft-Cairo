@@ -1401,6 +1401,7 @@ var Cairo = new Marionette.Application();
 
   Cairo.inputFormView = function(title, label, defaultValue, inputHandler) {
     var Model = Backbone.Model.extend({ urlRoot: "inputForm" });
+    if(title === "") title = Cairo.Application.getName();
     var model = new Model({ title: title, label: label, text: defaultValue });
     var view = new Cairo.Common.Views.InputText({
         model: model
@@ -1417,6 +1418,7 @@ var Cairo = new Marionette.Application();
 
   Cairo.confirmViewWithClasses = function(title, message, yesClass, noClass, confirmHandler) {
     var Model = Backbone.Model.extend({ urlRoot: "inputForm" });
+    if(title === "") title = Cairo.Application.getName();
     var model = new Model({ title: title, message: message, yesClass: yesClass, noClass: noClass, cancelClass: 'hide' });
     var view = new Cairo.Common.Views.Confirm({
         model: model
@@ -1433,6 +1435,7 @@ var Cairo = new Marionette.Application();
 
   Cairo.confirmViewWithCancelAndClasses = function(title, message, yesClass, noClass, confirmHandler) {
     var Model = Backbone.Model.extend({ urlRoot: "inputForm" });
+    if(title === "") title = Cairo.Application.getName();
     var model = new Model({ title: title, message: message, yesClass: yesClass, noClass: noClass, cancelClass: '' });
     var view = new Cairo.Common.Views.Confirm({
       model: model
@@ -1563,42 +1566,8 @@ var Cairo = new Marionette.Application();
     $('#errorDetailIFrame').show();
   };
 
-  // global business objects
-  //
-  var createConfigObjects = function() {
-    var m_ventasConfig = null;
-    var m_stockConfig = null;
-    var m_contabilidadConfig = null;
-
-    Cairo.getVentasConfig = function() {
-      if(m_ventasConfig === null) {
-        m_ventasConfig = Cairo.VentaConfig.Edit.Controller.getEditor();
-        m_ventasConfig.load(Cairo.User.getId());
-      }
-      return m_ventasConfig;
-    };
-
-    Cairo.getStockConfig = function() {
-      if(m_stockConfig === null) {
-        m_stockConfig = Cairo.StockConfig.Edit.Controller.getEditor();
-        m_stockConfig.load(Cairo.User.getId());
-      }
-      return m_stockConfig;
-    };
-
-    Cairo.getContabilidadConfig = function() {
-      if(m_contabilidadConfig === null) {
-        m_contabilidadConfig = Cairo.ContConfig.Edit.Controller.getEditor();
-        m_contabilidadConfig.load(Cairo.User.getId());
-      }
-      return m_contabilidadConfig;
-    };
-  };
-
-  createConfigObjects();
-
-  //------------------------
-
   Cairo.Editors = {};
+
+  Cairo.LoadingMessage.show(Cairo.Application.getName(), "Loading General Settings");
 
 }());

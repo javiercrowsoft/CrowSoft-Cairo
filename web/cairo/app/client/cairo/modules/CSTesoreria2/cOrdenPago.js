@@ -967,7 +967,7 @@
       var showNotes = function() {
         var fcId = m_dialog.getId();
         return DB.getData("load[" + m_apiPath + "modulexxxx/xxxx/notes]", fcId)
-          .successWithResult(D.showNotes);
+          .whenSuccessWithResult(D.showNotes);
       };
 
       var addNote = function() {
@@ -1000,9 +1000,9 @@
         };
 
         var p = D.getDocumentSignStatus(D.Types.FACTURA_COMPRA, fcId)
-            .successWithResult(getAction)
+            .whenSuccessWithResult(getAction)
             .whenSuccess(D.signDocument(D.Types.FACTURA_COMPRA, fcId))
-            .successWithResult(refreshRow)
+            .whenSuccessWithResult(refreshRow)
           ;
 
         return p;
@@ -1012,7 +1012,7 @@
         var fcId = m_dialog.getId();
         if(fcId !== NO_ID) {
 
-          D.getAsientoId(D.Types.FACTURA_COMPRA, fcId).successWithResult(function(response) {
+          D.getAsientoId(D.Types.FACTURA_COMPRA, fcId).whenSuccessWithResult(function(response) {
             D.showDocAux(response.as_id, "Asiento");
           });
         }

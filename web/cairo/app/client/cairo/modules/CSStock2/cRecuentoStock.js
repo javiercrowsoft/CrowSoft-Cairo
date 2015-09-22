@@ -832,7 +832,7 @@
       var showNotes = function() {
         var fcId = m_dialog.getId();
         return DB.getData("load[" + m_apiPath + "modulexxxx/xxxx/notes]", fcId)
-          .successWithResult(D.showNotes);
+          .whenSuccessWithResult(D.showNotes);
       };
 
       var addNote = function() {
@@ -844,7 +844,7 @@
         var fcId = m_dialog.getId();
         if(fcId !== NO_ID) {
 
-          D.getStockId(D.Types.TYPE_XXXX, xxId).successWithResult(function(response) {
+          D.getStockId(D.Types.TYPE_XXXX, xxId).whenSuccessWithResult(function(response) {
             D.showDocAux(response.st_id, "Stock");
           });
         }

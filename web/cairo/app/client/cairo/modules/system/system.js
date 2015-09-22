@@ -1,3 +1,5 @@
+// document management
+//
 (function() {
   "use strict";
 
@@ -573,6 +575,7 @@
         );
       }
     }
+    return true;
   };
 
   Cairo.Documents.showDataAddCliente = function(showData, dialog) {
@@ -595,6 +598,7 @@
         );
       }
     }
+    return true;
   };
 
   Cairo.Documents.getDepositoFisicoForLogico = function(deplId) {
@@ -1236,7 +1240,7 @@
       p = DB.getData(
         "load[" + m_apiPath + "general/producto/" + prId.toString() + "/price]", lpId);
 
-      p = p.successWithResult(function(response) {
+      p = p.whenSuccessWithResult(function(response) {
         price = valField(response.data, 'price');
         return true;
       });
@@ -1260,7 +1264,7 @@
       p = DB.getData(
         "load[" + m_apiPath + "general/producto/" + prId.toString() + "/discount/" + ldId.toString() + "/price]", precio);
 
-      p = p.successWithResult(function(response) {
+      p = p.whenSuccessWithResult(function(response) {
         desc = valField(response.data, 'desc');
         desc = desc.replace(/\$/g, "").replace(/%/g, "");
         return true;
@@ -1374,8 +1378,11 @@
     return p.then(function(response) {
 
       if(response.success === true) {
-        if(response.info.prov_id !== 0 && response.info.prov_id !== provId) {
-          return Cairo.Modal.showInfoWithFalse(getText(1452, "", response.info.razon_social), getText(1453, ""));
+        var prov_id = valField(response.data, C.PROV_ID);
+        var code = valField(response.data, C.PROV_CODE);
+        var razonSocial = valField(response.data, C.PROV_RAZONSOCIAL);
+        if(prov_id !== 0 && prov_id !== provId) {
+          return Cairo.Modal.showInfoWithFalse(getText(1452, "", "[" + code + "] " + razonSocial), getText(1453, ""));
               // El CUIT ya esta usado por el proveedor (1)
               // C.U.I.T. Proveedor
         }
@@ -1415,11 +1422,11 @@
     switch (Cairo.getContabilidadConfig().getClaveFiscal()) {
 
       case C.ClaveFiscalType.cuit:
-        p = self.validateNroCuitEx(cuit, bMustByRight);
+        p = Cairo.Documents.validateNroCuitEx(cuit, bMustByRight);
         break;
 
       case C.ClaveFiscalType.rut:
-        p = self.validateRutEx(cuit, bMustByRight);
+        p = Cairo.Documents.validateRutEx(cuit, bMustByRight);
         break;
     }
 
@@ -1447,23 +1454,23 @@
       }
       else {
         cuit = Cairo.Util.replaceAll(cuit, "-", "");
-        var sum = Cairo.Util.val(cuit.substring(0, 1)) * 5;
-        sum = sum + Cairo.Util.val(cuit.substring(1, 1)) * 4;
-        sum = sum + Cairo.Util.val(cuit.substring(2, 1)) * 3;
-        sum = sum + Cairo.Util.val(cuit.substring(3, 1)) * 2;
-        sum = sum + Cairo.Util.val(cuit.substring(4, 1)) * 7;
-        sum = sum + Cairo.Util.val(cuit.substring(5, 1)) * 6;
-        sum = sum + Cairo.Util.val(cuit.substring(6, 1)) * 5;
-        sum = sum + Cairo.Util.val(cuit.substring(7, 1)) * 4;
-        sum = sum + Cairo.Util.val(cuit.substring(8, 1)) * 3;
-        sum = sum + Cairo.Util.val(cuit.substring(9, 1)) * 2;
+        var sum = Cairo.Util.val(cuit.substr(0, 1)) * 5;
+        sum = sum + Cairo.Util.val(cuit.substr(1, 1)) * 4;
+        sum = sum + Cairo.Util.val(cuit.substr(2, 1)) * 3;
+        sum = sum + Cairo.Util.val(cuit.substr(3, 1)) * 2;
+        sum = sum + Cairo.Util.val(cuit.substr(4, 1)) * 7;
+        sum = sum + Cairo.Util.val(cuit.substr(5, 1)) * 6;
+        sum = sum + Cairo.Util.val(cuit.substr(6, 1)) * 5;
+        sum = sum + Cairo.Util.val(cuit.substr(7, 1)) * 4;
+        sum = sum + Cairo.Util.val(cuit.substr(8, 1)) * 3;
+        sum = sum + Cairo.Util.val(cuit.substr(9, 1)) * 2;
         var rest = sum % 11;
 
         var digit = 11 - rest;
         digit = (digit === 11) ? 0 : digit;
         digit = (digit === 10) ? 1 : digit;
 
-        if(digit !== Cairo.Util.val(cuit.substring(10, 1))) {
+        if(digit !== Cairo.Util.val(cuit.substr(10, 1))) {
           ask = true;
         }
       }
@@ -1493,12 +1500,12 @@
 
       var msg = Cairo.Language.getText(2919, ""); // El número de RUT no es válido
 
-      if(rut.trim().length < 10 || Cairo.Util.isNumeric(rut.substring(0, 8))) {
+      if(rut.trim().length < 10 || Cairo.Util.isNumeric(rut.substr(0, 8))) {
         return Cairo.Modal.showWarningWithFalse(msg);
       }
 
-      var dv = rut.substring(rut.length - 1);
-      var numRut = rut.substring(0, 8);
+      var dv = rut.substr(rut.length - 1);
+      var numRut = rut.substr(0, 8);
 
       do {
         var dig = numRut % 10;
@@ -1553,6 +1560,8 @@
 
 }());
 
+// serial number managment
+//
 (function() {
   "use strict";
 
@@ -2234,6 +2243,8 @@
   
 }());
 
+// kit management
+//
 (function() {
   "use strict";
 
@@ -2327,6 +2338,8 @@
 
 }());
 
+// virtual dates management
+//
 (function() {
   "use strict";
 
@@ -2773,3 +2786,55 @@
 
 
 }());
+
+// global business objects
+//
+(function() {
+  "use strict";
+
+  Cairo.Configuration = {};
+
+  Cairo.Configuration.createConfigObjects = function() {
+    var m_ventasConfig = null;
+    var m_stockConfig = null;
+    var m_contabilidadConfig = null;
+
+    Cairo.getVentasConfig = function() {
+      return m_ventasConfig;
+    };
+
+    Cairo.getStockConfig = function() {
+      return m_stockConfig;
+    };
+
+    Cairo.getContabilidadConfig = function() {
+      return m_contabilidadConfig;
+    };
+
+    var initVentasConfig = function() {
+      // TODO: implement
+      return true; // remove this line
+      m_ventasConfig = Cairo.VentaConfig.Edit.Controller.getEditor();
+      return m_ventasConfig.load(Cairo.User.getId());
+    };
+
+    var initStockConfig = function() {
+      // TODO: implement
+      return true; // remove this line
+      m_stockConfig = Cairo.StockConfig.Edit.Controller.getEditor();
+      return m_stockConfig.load(Cairo.User.getId());
+    };
+
+    var initContabilidadConfig = function() {
+      m_contabilidadConfig = Cairo.ContConfig.Edit.Controller.getEditor();
+      return m_contabilidadConfig.load(Cairo.User.getId());
+    };
+
+    Cairo.Promises.resolvedPromise(true)
+      .whenSuccess(initContabilidadConfig)
+      .whenSuccess(initStockConfig)
+      .whenSuccess(initVentasConfig)
+      .then(Cairo.LoadingMessage.close);
+  };
+
+}())

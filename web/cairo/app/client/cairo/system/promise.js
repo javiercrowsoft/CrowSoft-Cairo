@@ -56,8 +56,8 @@
       if(!Cairo.isFunction(successCallback)) {
         Cairo.raiseError("Invalid argument", "Argument successCallback must be a function");
       }
-      return this.then(function(success) {
-        if(success) {
+      return this.then(function(result) {
+        if(result !== undefined && (result === true || result === 'yes' || result.success === true)) {
           return successCallback();
         }
         else {
@@ -66,7 +66,7 @@
       }, errorCallback);
     },
 
-    successWithResult: function(successCallback, falseReturnValue, errorCallback) {
+    whenSuccessWithResult: function(successCallback, falseReturnValue, errorCallback) {
       return this.then(function(result) {
         if(result.success) {
           return successCallback(result);

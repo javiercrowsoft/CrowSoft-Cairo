@@ -13,9 +13,6 @@ import play.api.Logger
 import play.api.libs.json._
 import scala.util.control.NonFatal
 
-case class ComplexSetting(id: String, name: String)
-case class Setting(key: String, group: String, value: Any, empId: Int)
-
 case class UserSetting(userId: Int, settings: List[Setting])
 
 object UserSetting {

@@ -262,6 +262,9 @@ GET     /api/v1/general/usuarioconfig/caja_info        controllers.logged.module
 GET     /api/v1/general/usuarioconfig/:id              controllers.logged.modules.general.UserSettings.get(id: Int)
 PUT     /api/v1/general/usuarioconfig/:id              controllers.logged.modules.general.UserSettings.update(id: Int)
 
+GET     /api/v1/general/contconfig/:id              controllers.logged.modules.general.ContabilidadSettings.get(id: Int)
+PUT     /api/v1/general/contconfig/:id              controllers.logged.modules.general.ContabilidadSettings.update(id: Int)
+
 GET     /api/v1/general/producto/:id                   controllers.logged.modules.general.Productos.get(id: Int)
 POST    /api/v1/general/producto                       controllers.logged.modules.general.Productos.create
 PUT     /api/v1/general/producto/:id                   controllers.logged.modules.general.Productos.update(id: Int)
@@ -277,6 +280,7 @@ GET     /api/v1/general/proveedor/:id/info/:docId      controllers.logged.module
 GET     /api/v1/general/proveedor/:id/name             controllers.logged.modules.general.Proveedores.name(id: Int)
 GET     /api/v1/general/proveedor/:id/cat_fiscal       controllers.logged.modules.general.Proveedores.catFiscal(id: Int)
 GET     /api/v1/general/proveedor/:id/data_add         controllers.logged.modules.general.Proveedores.dataAdd(id: Int)
+GET     /api/v1/general/proveedor/validate_cuit/:cuit  controllers.logged.modules.general.Proveedores.validateCuit(cuit: String)
 
 GET     /api/v1/general/proveedor/:id                  controllers.logged.modules.general.Proveedores.get(id: Int)
 POST    /api/v1/general/proveedor                      controllers.logged.modules.general.Proveedores.create

@@ -294,7 +294,7 @@
           try {
             Cairo.LoadingMessage.show(m_client.getTitle(), "Loading data from Crowsoft Cairo server.");
             refreshAux();
-            p = m_client.refresh().successWithResult(function(response) {
+            p = m_client.refresh().whenSuccessWithResult(function(response) {
               m_view.getListGrid().load(response.data);
             }).then(Cairo.LoadingMessage.close);
             return;
