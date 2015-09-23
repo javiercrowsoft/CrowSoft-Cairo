@@ -17,6 +17,7 @@ case class SaveResult(success: Boolean, id: Int)
 object DBHelper {
 
   val NoId = 0
+  val NewId = 0
 
   val CREATED_AT = "creado"
   val UPDATED_AT = "modificado"
@@ -316,6 +317,24 @@ object DBHelper {
       val s = Register.getSqlDelete(register)
       SQL(s.sqlstmt).on(s.parameters: _*).executeUpdate
     }
+  }
+
+  def deleteItems(user: CompanyUser, table: String, pk: String, toDelete: String, where: String) = {
+    def deleteItem(id: Int) = {
+      DB.withConnection(user.database.database) { implicit connection =>
+        try {
+          SQL(s"DELETE FROM ${table} WHERE ${pk} = {id} ${where}")
+            .on('id -> id)
+            .executeUpdate
+        } catch {
+          case NonFatal(e) => {
+            Logger.error(s"can't delete a ${table}. ${pk} id: $id and where ${where}. Error ${e.toString}")
+            throw e
+          }
+        }
+      }
+    }
+    if(!toDelete.isEmpty) toDelete.split(",").map(id => deleteItem(id.toInt))
   }
 
   implicit def rowToFloat: Column[Float] = Column.nonNull { (value, meta) =>

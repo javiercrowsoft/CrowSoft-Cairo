@@ -55,7 +55,7 @@ begin
              emp.emp_nombre
       from Empresa emp
       left join EmpresaProveedor empprov on emp.emp_id = empprov.emp_id and empprov.prov_id = p_prov_id
-      order by empprov.empprov_id;
+      order by emp.emp_nombre;
 
 end;
 $BODY$

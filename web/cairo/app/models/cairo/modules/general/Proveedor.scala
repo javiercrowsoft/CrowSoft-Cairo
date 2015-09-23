@@ -706,10 +706,210 @@ object Proveedor {
         Field(C.ZON_ID, proveedor.references.zonId, FieldType.id)
       )
     }
+
+    def getCaiFields(cai: ProveedorCai, provId: Int) = {
+      List(
+        Field(C.PROV_ID, provId, FieldType.id),
+        Field(C.PROVC_NUMERO, cai.numero, FieldType.text),
+        Field(C.PROVC_SUCURSAL, cai.numero, FieldType.text),
+        Field(C.PROVC_FECHA_VTO, cai.numero, FieldType.date),
+        Field(C.PROVC_DESCRIP, cai.numero, FieldType.text)
+      )
+    }
+
+    def getEmpresaFields(empresa: ProveedorEmpresa, provId: Int) = {
+      List(
+        Field(C.PROV_ID, provId, FieldType.id),
+        Field(C.EMP_ID, empresa.empId, FieldType.id)
+      )
+    }
+
+    def getCuentaGrupoFields(cuentaGrupo: ProveedorCuentaGrupo, provId: Int) = {
+      List(
+        Field(C.PROV_ID, provId, FieldType.id),
+        Field(C.CUEG_ID, cuentaGrupo.cuegId, FieldType.id),
+        Field(C.CUE_ID, cuentaGrupo.cueId, FieldType.id)
+      )
+    }
+
+    def getRetencionFields(retencion: ProveedorRetencion, provId: Int) = {
+      List(
+        Field(C.PROV_ID, provId, FieldType.id),
+        Field(C.RET_ID, retencion.retId, FieldType.id),
+        Field(C.PROV_RET_DESDE, retencion.desde, FieldType.date),
+        Field(C.PROV_RET_HASTA, retencion.hasta, FieldType.date)
+      )
+    }
+
+    def getDepartamentoFields(departamento: ProveedorDepartamento, provId: Int) = {
+      List(
+        Field(C.PROV_ID, provId, FieldType.id),
+        Field(C.DPTO_ID, departamento.dptoId, FieldType.id)
+      )
+    }
+
+    def getCentroCostoFields(centroCosto: ProveedorCentroCosto, provId: Int) = {
+      List(
+        Field(C.PROV_ID, provId, FieldType.id),
+        Field(C.CCOS_ID, centroCosto.ccosId, FieldType.id),
+        Field(C.PR_ID, centroCosto.prId, FieldType.id)
+      )
+    }
+
     def throwException = {
       throw new RuntimeException(s"Error when saving ${C.PROVEEDOR}")
     }
 
+    case class ProveedorCaiInfo(provId: Int, item: ProveedorCai)
+
+    def saveCai(itemInfo: ProveedorCaiInfo) = {
+      DBHelper.save(
+        user,
+        Register(
+          C.PROVEEDOR_CAI,
+          C.PROVC_ID,
+          itemInfo.item.id,
+          false,
+          true,
+          true,
+          getCaiFields(itemInfo.item, itemInfo.provId)),
+        itemInfo.item.id == DBHelper.NewId
+      ) match {
+        case SaveResult(true, id) => true
+        case SaveResult(false, id) => throwException
+      }
+    }
+
+    def saveCais(provId: Int) = {
+      DBHelper.deleteItems(user, C.PROVEEDOR_CAI, C.PROVC_ID, proveedor.items.caiDeleted, s" AND prov_id = ${provId}")
+      proveedor.items.cais.map(cai => saveCai(ProveedorCaiInfo(provId, cai)))
+    }
+
+    case class ProveedorEmpresaInfo(provId: Int, item: ProveedorEmpresa)
+
+    def saveEmpresa(itemInfo: ProveedorEmpresaInfo) = {
+      DBHelper.save(
+        user,
+        Register(
+          C.EMPRESA_PROVEEDOR,
+          C.EMP_PROV_ID,
+          DBHelper.NoId,
+          false,
+          true,
+          true,
+          getEmpresaFields(itemInfo.item, itemInfo.provId)),
+        true
+      ) match {
+        case SaveResult(true, id) => true
+        case SaveResult(false, id) => throwException
+      }
+    }
+
+    def saveEmpresas(provId: Int) = {
+      DBHelper.deleteItems(user, C.EMPRESA_PROVEEDOR, C.PROV_ID, provId.toString, "")
+      proveedor.items.empresas.map(empresa => saveEmpresa(ProveedorEmpresaInfo(provId, empresa)))
+    }
+
+    case class ProveedorCuentaGrupoInfo(provId: Int, item: ProveedorCuentaGrupo)
+
+    def saveCuentaGrupo(itemInfo: ProveedorCuentaGrupoInfo) = {
+      DBHelper.save(
+        user,
+        Register(
+          C.PROVEEDOR_CUENTA_GRUPO,
+          C.PROV_CUEG_ID,
+          itemInfo.item.id,
+          false,
+          true,
+          true,
+          getCuentaGrupoFields(itemInfo.item, itemInfo.provId)),
+        itemInfo.item.id == DBHelper.NewId
+      ) match {
+        case SaveResult(true, id) => true
+        case SaveResult(false, id) => throwException
+      }
+    }
+
+    def saveCuentasGrupo(provId: Int) = {
+      proveedor.items.cuentasGrupo.map(cuentaGrupo => saveCuentaGrupo(ProveedorCuentaGrupoInfo(provId, cuentaGrupo)))
+      DBHelper.deleteItems(user, C.PROVEEDOR_CUENTA_GRUPO, C.PROV_CUEG_ID, proveedor.items.cuentaGrupoDeleted, s" AND prov_id = ${provId}")
+    }
+
+    case class ProveedorRetencionInfo(provId: Int, item: ProveedorRetencion)
+
+    def saveRetencion(itemInfo: ProveedorRetencionInfo) = {
+      DBHelper.save(
+        user,
+        Register(
+          C.PROVEEDOR_RETENCION,
+          C.PROV_RET_ID,
+          itemInfo.item.id,
+          false,
+          true,
+          true,
+          getRetencionFields(itemInfo.item, itemInfo.provId)),
+        itemInfo.item.id == DBHelper.NewId
+      ) match {
+        case SaveResult(true, id) => true
+        case SaveResult(false, id) => throwException
+      }
+    }
+
+    def saveRetenciones(provId: Int) = {
+      DBHelper.deleteItems(user, C.PROVEEDOR_RETENCION, C.PROV_RET_ID, proveedor.items.retencionDeleted, s" AND prov_id = ${provId}")
+      proveedor.items.retenciones.map(retencion => saveRetencion(ProveedorRetencionInfo(provId, retencion)))
+    }
+
+    case class ProveedorDepartamentoInfo(provId: Int, item: ProveedorDepartamento)
+
+    def saveDepartamento(itemInfo: ProveedorDepartamentoInfo) = {
+      DBHelper.save(
+        user,
+        Register(
+          C.DEPARTAMENTO_PROVEEDOR,
+          C.DPTO_PROV_ID,
+          itemInfo.item.id,
+          false,
+          false,
+          false,
+          getDepartamentoFields(itemInfo.item, itemInfo.provId)),
+        itemInfo.item.id == DBHelper.NewId
+      ) match {
+        case SaveResult(true, id) => true
+        case SaveResult(false, id) => throwException
+      }
+    }
+
+    def saveDepartamentos(provId: Int) = {
+      DBHelper.deleteItems(user, C.DEPARTAMENTO_PROVEEDOR, C.DPTO_PROV_ID, proveedor.items.departamentoDeleted, s" AND prov_id = ${provId}")
+      proveedor.items.dptos.map(departamento => saveDepartamento(ProveedorDepartamentoInfo(provId, departamento)))
+    }
+
+    case class ProveedorCentroCostoInfo(provId: Int, item: ProveedorCentroCosto)
+
+    def saveCentroCosto(itemInfo: ProveedorCentroCostoInfo) = {
+      DBHelper.save(
+        user,
+        Register(
+          C.PROVEEDOR_CENTRO_COSTO,
+          C.PROV_CCOS_ID,
+          itemInfo.item.id,
+          false,
+          false,
+          false,
+          getCentroCostoFields(itemInfo.item, itemInfo.provId)),
+        itemInfo.item.id == DBHelper.NewId
+      ) match {
+        case SaveResult(true, id) => true
+        case SaveResult(false, id) => throwException
+      }
+    }
+
+    def saveCentrosCosto(provId: Int) = {
+      DBHelper.deleteItems(user, C.PROVEEDOR_CENTRO_COSTO, C.PROV_CCOS_ID, proveedor.items.centroCostoDeleted, s" AND prov_id = ${provId}")
+      proveedor.items.centrosCosto.map(centroCosto => saveCentroCosto(ProveedorCentroCostoInfo(provId, centroCosto)))
+    }
+    
     DBHelper.saveEx(
       user,
       Register(
@@ -723,7 +923,15 @@ object Proveedor {
       isNew,
       C.PROV_CODE
     ) match {
-      case SaveResult(true, id) => load(user, id).getOrElse(throwException)
+      case SaveResult(true, id) => {
+        saveCais(id)
+        saveEmpresas(id)
+        saveCuentasGrupo(id)
+        saveRetenciones(id)
+        saveDepartamentos(id)
+        saveCentrosCosto(id)
+        load(user, id).getOrElse(throwException)
+      }
       case SaveResult(false, id) => throwException
     }
   }

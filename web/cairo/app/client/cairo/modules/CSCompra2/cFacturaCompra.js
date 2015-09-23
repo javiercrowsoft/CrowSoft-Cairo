@@ -1762,7 +1762,7 @@
 
           case K_LEGAJOS:
 
-            id = cellFloat(row, KIL_FCLGJ_ID);
+            var id = cellFloat(row, KIL_FCLGJ_ID);
             if(id !== NO_ID) { m_legajosDeleted = m_legajosDeleted+ id.toString()+ ","; }
             break;
         }

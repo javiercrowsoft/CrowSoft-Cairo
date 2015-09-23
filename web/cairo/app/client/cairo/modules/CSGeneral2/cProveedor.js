@@ -496,7 +496,7 @@
         saveItemsRetencion(register);
         saveItemsEmpresa(register);
         saveItemsDpto(register);
-        saveItemsCcos(register);
+        saveItemsCentrosCosto(register);
 
         return DB.saveTransaction(
             register,
@@ -1113,8 +1113,8 @@
         elem = properties.add(null, C_CUENTAGRUPO);
         elem.setType(Dialogs.PropertyType.grid);
         elem.hideLabel();
-        setGridCuentaGrupo(elem);
-        loadCuentaGrupo(elem);
+        setGridCuentasGrupo(elem);
+        loadCuentasGrupo(elem);
         elem.setName(C_CUENTAGRUPO);
         elem.setKey(K_CUENTAGRUPO);
         elem.setTabIndex(tab_cuentagrupo);
@@ -1127,8 +1127,8 @@
         elem = properties.add(null, C_RETENCION);
         elem.setType(Dialogs.PropertyType.grid);
         elem.hideLabel();
-        setGridRetencion(elem);
-        loadRetencion(elem);
+        setGridRetenciones(elem);
+        loadRetenciones(elem);
         elem.setName(C_RETENCION);
         elem.setKey(K_RETENCION);
         elem.setTabIndex(tab_retencion);
@@ -1153,8 +1153,8 @@
         elem = properties.add(null, C_DPTO);
         elem.setType(Dialogs.PropertyType.grid);
         elem.hideLabel();
-        setGridDpto(elem);
-        loadDpto(elem);
+        setGridDepartamentos(elem);
+        loadDepartamentos(elem);
         elem.setName(C_DPTO);
         elem.setKey(K_DEPARTAMENTOS);
         elem.setTabIndex(tab_dpto);
@@ -1167,8 +1167,8 @@
         elem = properties.add(null, C_CCOS);
         elem.setType(Dialogs.PropertyType.grid);
         elem.hideLabel();
-        setGridCcos(elem);
-        loadCcos(elem);
+        setGridCentrosCosto(elem);
+        loadCentrosCosto(elem);
         elem.setName(C_CCOS);
         elem.setKey(K_CENTROS_DE_COSTO);
         elem.setTabIndex(tab_ccos);
@@ -1214,37 +1214,40 @@
       };
 
       self.deleteRow = function(key, row, lRow) {
-        var _rtn = null;
-        var id = null;
 
         switch (key) {
           case K_CAIS:
-            id = Cairo.Util.val(Dialogs.cell(row, KI_PROVC_ID).getValue());
+
+            var id = Cairo.Util.val(Dialogs.cell(row, KI_PROVC_ID).getValue());
             if(id != NO_ID) { m_itemsDeletedCAIS = m_itemsDeletedCAIS + id.toString() + ","; }
             break;
 
           case K_CUENTAGRUPO:
-            id = Cairo.Util.val(Dialogs.cell(row, KI_PROVCUEG_ID).getValue());
+
+            var id = Cairo.Util.val(Dialogs.cell(row, KI_PROVCUEG_ID).getValue());
             if(id != NO_ID) { m_itemsDeletedCuentaGrupo = m_itemsDeletedCuentaGrupo + id.toString() + ","; }
             break;
 
           case K_EMPRESAS:
-            _rtn = false;
-            return _rtn;
+
+            return P.resolvedPromise(false);
             break;
 
           case K_DEPARTAMENTOS:
-            id = Cairo.Util.val(Dialogs.cell(row, KI_DPTOPROV_ID).getValue());
+
+            var id = Cairo.Util.val(Dialogs.cell(row, KI_DPTOPROV_ID).getValue());
             if(id != NO_ID) { m_itemsDeletedDptos = m_itemsDeletedDptos+ id.toString() + ","; }
             break;
 
           case K_CENTROS_DE_COSTO:
-            id = Cairo.Util.val(Dialogs.cell(row, KI_PROVCCOS_ID).getValue());
+
+            var id = Cairo.Util.val(Dialogs.cell(row, KI_PROVCCOS_ID).getValue());
             if(id != NO_ID) { m_itemsDeletedCcos = m_itemsDeletedCcos+ id.toString() + ","; }
             break;
 
           case K_RETENCION:
-            id = Cairo.Util.val(Dialogs.cell(row, KI_PROVRET_ID).getValue());
+
+            var id = Cairo.Util.val(Dialogs.cell(row, KI_PROVRET_ID).getValue());
             if(id != NO_ID) { m_itemsDeletedRetenciones = m_itemsDeletedRetenciones + id.toString() + ","; }
             break;
         }
@@ -1766,22 +1769,22 @@
         m_itemsDeletedCAIS = "";
 
         property = properties.item(C_CUENTAGRUPO);
-        loadCuentaGrupo(property);
+        loadCuentasGrupo(property);
         m_itemsDeletedCuentaGrupo = "";
 
         property = properties.item(C_RETENCION);
-        loadRetencion(property)
+        loadRetenciones(property)
         m_itemsDeletedRetenciones = "";
 
         property = properties.item(C_EMPRESAS);
         loadEmpresas(property);
 
         property = properties.item(C_DPTO);
-        loadDpto(property);
+        loadDepartamentos(property);
         m_itemsDeletedDptos = "";
 
         property = properties.item(C_CCOS);
-        loadCcos(property);
+        loadCentrosCosto(property);
         m_itemsDeletedCcos = "";
 
         m_genericEdit.refreshProperties(m_dialog);
@@ -1790,7 +1793,7 @@
 
       };
 
-      var setGridDpto = function(property) {
+      var setGridDepartamentos = function(property) {
 
         var elem ;
         var grid = property.getGrid();
@@ -1814,7 +1817,7 @@
         rows.clear();
       };
 
-      var loadDpto = function(property) {
+      var loadDepartamentos = function(property) {
 
         var elem;
         var grid = property.getGrid();
@@ -1836,7 +1839,7 @@
         }
       };
 
-      var setGridCcos = function(property) {
+      var setGridCentrosCosto = function(property) {
 
         var elem;
         var grid = property.getGrid();
@@ -1865,11 +1868,13 @@
         rows.clear();
       };
 
-      var loadCcos = function(property) {
+      var loadCentrosCosto = function(property) {
 
         var elem;
         var grid = property.getGrid();
         var rows = grid.getRows();
+
+        rows.clear();
         
         for(var _i = 0; _i < m_data.centrosCosto.length; _i += 1) {
 
@@ -1923,6 +1928,8 @@
         var grid = property.getGrid();
         var rows = grid.getRows();
         var bSelect = m_data.empresas.length === 1;
+
+        rows.clear();
         
         for(var _i = 0; _i < m_data.empresas.length; _i += 1) {
 
@@ -1948,7 +1955,7 @@
         }
       };
 
-      var setGridRetencion = function(property) {
+      var setGridRetenciones = function(property) {
 
         var elem;
         var grid = property.getGrid();
@@ -1987,11 +1994,13 @@
         rows.clear();
       };
 
-      var loadRetencion = function(property) {
+      var loadRetenciones = function(property) {
 
         var elem;
         var grid = property.getGrid();
         var rows = grid.getRows();
+
+        rows.clear();
         
         for(var _i = 0; _i < m_data.retenciones.length; _i += 1) {
 
@@ -2022,7 +2031,7 @@
         }
       };
 
-      var setGridCuentaGrupo = function(property) {
+      var setGridCuentasGrupo = function(property) {
 
         var elem;
         var grid = property.getGrid();
@@ -2054,11 +2063,13 @@
         rows.clear();
       };
 
-      var loadCuentaGrupo = function(property) {
+      var loadCuentasGrupo = function(property) {
 
         var elem;
         var grid = property.getGrid();
         var rows = grid.getRows();
+
+        rows.clear();
         
         for(var _i = 0; _i < m_data.cuentasGrupo.length; _i += 1) {
 
@@ -2123,6 +2134,8 @@
         var elem;
         var grid = property.getGrid();
         var rows = grid.getRows();
+
+        rows.clear();
 
         for(var _i = 0; _i < m_data.cais.length; _i += 1) {
 
@@ -2385,7 +2398,7 @@
         return true;
       };
 
-      var saveItemsCcos = function(mainRegister) {
+      var saveItemsCentrosCosto = function(mainRegister) {
         var transaction = DB.createTransaction();
         transaction.setTable(C.PROVEEDOR_CENTRO_COSTO);
 
@@ -2464,7 +2477,7 @@
             register.setTable(C.EMPRESA_PROVEEDOR);
             register.setId(Cairo.Constants.NEW_ID);
 
-            fields.add(C.EMP_ID, val(Dialogs.cell(row, KI_EMPPROV_ID).getId()), Types.id);
+            fields.add(C.EMP_ID, val(Dialogs.cell(row, KI_EMP_ID).getId()), Types.id);
 
             transaction.addRegister(register);
           }

@@ -36,6 +36,7 @@ javier at crowsoft.com.ar
           select * from proveedor where prov_id = 44
           select * from sp_proveedor_get_centros_costo(44);
           fetch all from rtn;
+          delete from proveedorcentrocosto where provccos_id > 3 and prov_id = 44;
 */
 
 create or replace function sp_proveedor_get_centros_costo
@@ -61,7 +62,8 @@ begin
       from ProveedorCentroCosto provccos
       inner join CentroCosto ccos on provccos.ccos_id = ccos.ccos_id
       left join Producto pr on provccos.pr_id = pr.pr_id
-      where provccos.prov_id = p_prov_id;
+      where provccos.prov_id = p_prov_id
+      order by ccos_nombre;
 
 end;
 $BODY$
