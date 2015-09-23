@@ -26,6 +26,12 @@ object C {
   val ITEMS = "items"
   val DELETED_LIST = "deletedList"
 
+  val PROVEEDOR_CAI_DELETED = "deletedCais"
+  val PROVEEDOR_CUENTA_GRUPO_DELETED = "deletedCuentaGrupo"
+  val PROVEEDOR_RETENCIONES_DELETED = "deletedRetenciones"
+  val PROVEEDOR_CENTRO_COSTO_DELETED = "deletedCentroCosto"
+  val PROVEEDOR_DEPARTAMENTO_DELETED = "deletedDepartamentos"
+
   val EDIT_MSG = "editMsg"
   val EDITABLE = "editable"
   val HAS_IVA_RI = "bIvaRi"

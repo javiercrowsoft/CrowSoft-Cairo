@@ -57,6 +57,42 @@ case class ProveedorReferencesData(
                                     zonId: Int
                                     )
 
+case class ProveedorCaiData(
+                         id: Int,
+                         numero: String,
+                         sucursal: String,
+                         fechaVto: String,
+                         descrip: String
+                         )
+
+case class ProveedorEmpresaData(
+                             empId: Int
+                             )
+
+case class ProveedorCuentaGrupoData(
+                                 id: Int,
+                                 cuegId: Int,
+                                 cueId: Int
+                                 )
+
+case class ProveedorRetencionData(
+                               id: Int,
+                               retId: Int,
+                               desde: String,
+                               hasta: String
+                               )
+
+case class ProveedorDepartamentoData(
+                                  id: Int,
+                                  dptoId: Int
+                                  )
+
+case class ProveedorCentroCostoData(
+                                 id: Int,
+                                 ccosId: Int,
+                                 prId: Int
+                                 )
+
 case class ProveedorData(
                           id: Option[Int],
                           active: Boolean,
@@ -64,11 +100,49 @@ case class ProveedorData(
 
                           base: ProveedorBaseData,
                           address: ProveedorAddressData,
-                          references: ProveedorReferencesData
+                          references: ProveedorReferencesData,
+
+                          cais: List[ProveedorCaiData],
+                          empresas: List[ProveedorEmpresaData],
+                          cuentasGrupo: List[ProveedorCuentaGrupoData],
+                          retenciones: List[ProveedorRetencionData],
+                          dptos: List[ProveedorDepartamentoData],
+                          centrosCosto: List[ProveedorCentroCostoData],
+
+                          /* only used in save */
+                          caiDeleted: String,
+                          cuentaGrupoDeleted: String,
+                          retencionDeleted: String,
+                          departamentoDeleted: String,
+                          centroCostoDeleted: String
                           )
 
 object Proveedores extends Controller with ProvidesUser {
 
+  val proveedorBaseFields = List(C.PROV_NAME, C.PROV_RAZONSOCIAL, C.PROV_IMPRIME_TICKET, C.PROV_CONTACTO, 
+                                  C.PROV_CATFISCAL, C.PROV_CUIT, C.PROV_INGRESOSBRUTOS, C.PROV_CHEQUEORDEN, 
+                                  C.PROV_BANCO, C.PROV_NRO_CTA_BANCO, C.PROV_CBU, C.PROV_NRO_CLIENTE, 
+                                  C.PROV_CREDITOCTACTE, C.PROV_CREDITOTOTAL, C.PROV_CREDITOACTIVO, C.PROV_DESCRIP)
+  
+  val proveedorAddressFields = List(C.PROV_CALLE, C.PROV_CALLENUMERO, C.PROV_PISO, C.PROV_DEPTO, C.PROV_CODPOSTAL,
+                                    C.PROV_LOCALIDAD, C.PROV_TEL, C.PROV_FAX, C.PROV_EMAIL, C.PROV_WEB,
+                                    C.PROV_HORARIO_MDESDE, C.PROV_HORARIO_MHASTA, C.PROV_HORARIO_TDESDE,
+                                    C.PROV_HORARIO_THASTA)
+  
+  val proveedorReferencesFields = List(C.LP_ID, C.LD_ID, C.CPG_ID, C.PRO_ID, C.ZON_ID)
+  
+  val proveedorCai = List(C.PROVC_ID, C.PROVC_NUMERO, C.PROVC_SUCURSAL, C.PROVC_FECHA_VTO, C.PROVC_DESCRIP)
+  
+  val proveedorEmpresa = List(C.EMP_PROV_ID, C.EMP_ID)
+  
+  val proveedorCuentaGrupo = List(C.PROV_CUEG_ID, C.CUEG_ID, C.CUE_ID)
+  
+  val proveedorRetencion = List(C.PROV_RET_ID, C.RET_ID, C.PROV_RET_DESDE, C.PROV_RET_HASTA)
+  
+  val proveedorDepartamento = List(C.DPTO_PROV_ID, C.DPTO_ID)
+  
+  val proveedorCentroCosto = List(C.PROV_CCOS_ID, C.CCOS_ID, C.PR_ID)
+  
   val proveedorForm = Form(
     mapping(
       "id" -> optional(number),
@@ -111,7 +185,47 @@ object Proveedores extends Controller with ProvidesUser {
         C.LD_ID -> number,
         C.CPG_ID -> number,
         C.PRO_ID -> number,
-        C.ZON_ID -> number)(ProveedorReferencesData.apply)(ProveedorReferencesData.unapply)
+        C.ZON_ID -> number)(ProveedorReferencesData.apply)(ProveedorReferencesData.unapply),
+      C.PROVEEDOR_CAI -> Forms.list[ProveedorCaiData](
+        mapping (
+          C.PROVC_ID -> number,
+          C.PROVC_NUMERO -> text,
+          C.PROVC_SUCURSAL -> text,
+          C.PROVC_FECHA_VTO -> text,
+          C.PROVC_DESCRIP -> text)(ProveedorCaiData.apply)(ProveedorCaiData.unapply)
+      ),
+      C.EMPRESA_PROVEEDOR -> Forms.list[ProveedorEmpresaData](
+        mapping (C.EMP_ID -> number)(ProveedorEmpresaData.apply)(ProveedorEmpresaData.unapply)
+      ),
+      C.PROVEEDOR_CUENTA_GRUPO -> Forms.list[ProveedorCuentaGrupoData](
+        mapping (
+          C.PROV_CUEG_ID -> number,
+          C.CUEG_ID -> number,
+          C.CUE_ID -> number)(ProveedorCuentaGrupoData.apply)(ProveedorCuentaGrupoData.unapply)
+      ),
+      C.PROVEEDOR_RETENCION -> Forms.list[ProveedorRetencionData](
+        mapping (
+          C.PROV_RET_ID -> number,
+          C.RET_ID -> number,
+          C.PROV_RET_DESDE -> text,
+          C.PROV_RET_HASTA -> text)(ProveedorRetencionData.apply)(ProveedorRetencionData.unapply)
+      ),
+      C.DEPARTAMENTO_PROVEEDOR -> Forms.list[ProveedorDepartamentoData](
+        mapping (
+          C.DPTO_PROV_ID -> number,
+          C.DPTO_ID -> number)(ProveedorDepartamentoData.apply)(ProveedorDepartamentoData.unapply)
+      ),
+      C.PROVEEDOR_CENTRO_COSTO -> Forms.list[ProveedorCentroCostoData](
+        mapping (
+          C.PROV_CCOS_ID -> number,
+          C.CCOS_ID -> number,
+          C.PR_ID -> number)(ProveedorCentroCostoData.apply)(ProveedorCentroCostoData.unapply)
+      ),
+      C.PROVEEDOR_CAI_DELETED -> text,
+      C.PROVEEDOR_CUENTA_GRUPO_DELETED -> text,
+      C.PROVEEDOR_RETENCIONES_DELETED -> text,
+      C.PROVEEDOR_DEPARTAMENTO_DELETED -> text,
+      C.PROVEEDOR_CENTRO_COSTO_DELETED -> text
     )(ProveedorData.apply)(ProveedorData.unapply))
 
   implicit val proveedorWrites = new Writes[Proveedor] {
@@ -232,10 +346,306 @@ object Proveedores extends Controller with ProvidesUser {
       Ok(Json.toJson(Proveedor.get(user, id)))
     })
   }
+  
+  //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  //
+  // this functions convert the plain JSON received in CREATE and UPDATE into a ProveedorData structure
+  //
+  // because the limitation to 18 fields in case class used for FORM mapping we have grouped the fields
+  // in Proveedor/Data, ProveedorItem/Data, etc
+  //
+  // the below routines group a flat JSON and in some cases rename the name of the fields or move
+  // fields to the parent node in the JSON structure to match the case class
+  //
+
+  private def preprocessParams(implicit request:Request[AnyContent]): JsObject = {
+
+    def getJsValueAsMap(list: Map[String, JsValue]): Map[String, JsValue] = list.toList match {
+      case (key: String, jsValue: JsValue) :: t => jsValue.as[Map[String, JsValue]]
+      case _ => Map.empty
+    }
+   
+    def preprocessCaiParam(field: JsValue) = {
+      val params = field.as[Map[String, JsValue]]
+      JsObject(Global.preprocessFormParams(proveedorCai, "", params).toSeq)
+    }
+
+    def preprocessEmpresaParam(field: JsValue) = {
+      val params = field.as[Map[String, JsValue]]
+      JsObject(Global.preprocessFormParams(proveedorEmpresa, "", params).toSeq)
+    }
+
+    def preprocessCuentaGrupoParam(field: JsValue) = {
+      val params = field.as[Map[String, JsValue]]
+      JsObject(Global.preprocessFormParams(proveedorCuentaGrupo, "", params).toSeq)
+    }
+
+    def preprocessRetencionParam(field: JsValue) = {
+      val params = field.as[Map[String, JsValue]]
+      JsObject(Global.preprocessFormParams(proveedorRetencion, "", params).toSeq)
+    }
+
+    def preprocessDepartamentoParam(field: JsValue) = {
+      val params = field.as[Map[String, JsValue]]
+      JsObject(Global.preprocessFormParams(proveedorDepartamento, "", params).toSeq)
+    }
+
+    def preprocessCentroCostoParam(field: JsValue) = {
+      val params = field.as[Map[String, JsValue]]
+      JsObject(Global.preprocessFormParams(proveedorCentroCosto, "", params).toSeq)
+    }
+
+    def preprocessCaisParam(items: JsValue, group: String): Map[String, JsValue] = items match {
+      case JsArray(arr) => Map(group -> JsArray(arr.map(preprocessCaiParam(_))))
+      case _ => Map.empty
+    }
+
+    def preprocessEmpresasParam(items: JsValue, group: String): Map[String, JsValue] = items match {
+      case JsArray(arr) => Map(group -> JsArray(arr.map(preprocessEmpresaParam(_))))
+      case _ => Map.empty
+    }
+
+    def preprocessCuentasGrupoParam(items: JsValue, group: String): Map[String, JsValue] = items match {
+      case JsArray(arr) => Map(group -> JsArray(arr.map(preprocessCuentaGrupoParam(_))))
+      case _ => Map.empty
+    }
+
+    def preprocessRetencionesParam(items: JsValue, group: String): Map[String, JsValue] = items match {
+      case JsArray(arr) => Map(group -> JsArray(arr.map(preprocessRetencionParam(_))))
+      case _ => Map.empty
+    }
+
+    def preprocessDepartamentosParam(items: JsValue, group: String): Map[String, JsValue] = items match {
+      case JsArray(arr) => Map(group -> JsArray(arr.map(preprocessDepartamentoParam(_))))
+      case _ => Map.empty
+    }
+
+    def preprocessCentrosCostoParam(items: JsValue, group: String): Map[String, JsValue] = items match {
+      case JsArray(arr) => Map(group -> JsArray(arr.map(preprocessCentroCostoParam(_))))
+      case _ => Map.empty
+    }
+    
+    val params = Global.getParamsFromJsonRequest
+
+    // groups for ProveedorData
+    //
+    val proveedorId = Global.preprocessFormParams(List("id", DBHelper.ACTIVE, C.PROV_CODE), "", params)
+    val proveedorBaseGroup = Global.preprocessFormParams(proveedorBaseFields, C.PROVEEDOR_BASE, params)
+    val proveedorAddressGroup = Global.preprocessFormParams(proveedorAddressFields, C.PROVEEDOR_ADDRESS, params)
+    val proveedorReferencesGroup = Global.preprocessFormParams(proveedorReferencesFields, C.PROVEEDOR_REFERENCES, params)
+
+    // cais
+    //
+    val caisInfo = getJsValueAsMap(Global.getParamsJsonRequestFor(C.PROVEEDOR_CAI, params))
+    val caiRows = Global.getParamsJsonRequestFor(C.ITEMS, caisInfo)
+    val caiDeleted: Map[String, JsValue] = Global.getParamsJsonRequestFor(C.DELETED_LIST, caisInfo).toList match {
+      case Nil => Map(C.PROVEEDOR_CAI_DELETED -> Json.toJson(""))
+      case deletedList :: t => Map(C.PROVEEDOR_CAI_DELETED -> Json.toJson(deletedList._2))
+    }
+    val proveedorCais = caiRows.toList match {
+      case (k: String, item: JsValue) :: t => preprocessCaisParam(item, C.PROVEEDOR_CAI)
+      case _ => Map(C.PROVEEDOR_CAI -> JsArray(List()))
+    }
+
+    // empresas
+    //
+    val empresasInfo = getJsValueAsMap(Global.getParamsJsonRequestFor(C.EMPRESA_PROVEEDOR, params))
+    val empresaRows = Global.getParamsJsonRequestFor(C.ITEMS, empresasInfo)
+    val proveedorEmpresas = empresaRows.toList match {
+      case (k: String, item: JsValue) :: t => preprocessEmpresasParam(item, C.EMPRESA_PROVEEDOR)
+      case _ => Map(C.EMPRESA_PROVEEDOR -> JsArray(List()))
+    }
+    
+    // cuenta grupo
+    //
+    val cuentasGrupoInfo = getJsValueAsMap(Global.getParamsJsonRequestFor(C.PROVEEDOR_CUENTA_GRUPO, params))
+    val cuentaGrupoRows = Global.getParamsJsonRequestFor(C.ITEMS, cuentasGrupoInfo)
+    val cuentaGrupoDeleted: Map[String, JsValue] = Global.getParamsJsonRequestFor(C.DELETED_LIST, cuentasGrupoInfo).toList match {
+      case Nil => Map(C.PROVEEDOR_CUENTA_GRUPO_DELETED -> Json.toJson(""))
+      case deletedList :: t => Map(C.PROVEEDOR_CUENTA_GRUPO_DELETED -> Json.toJson(deletedList._2))
+    }
+    val proveedorCuentasGrupo = cuentaGrupoRows.toList match {
+      case (k: String, item: JsValue) :: t => preprocessCuentasGrupoParam(item, C.PROVEEDOR_CUENTA_GRUPO)
+      case _ => Map(C.PROVEEDOR_CUENTA_GRUPO -> JsArray(List()))
+    }
+
+    // retenciones
+    //
+    val retencionesInfo = getJsValueAsMap(Global.getParamsJsonRequestFor(C.PROVEEDOR_RETENCION, params))
+    val retencionRows = Global.getParamsJsonRequestFor(C.ITEMS, retencionesInfo)
+    val retencionDeleted: Map[String, JsValue] = Global.getParamsJsonRequestFor(C.DELETED_LIST, retencionesInfo).toList match {
+      case Nil => Map(C.PROVEEDOR_RETENCIONES_DELETED -> Json.toJson(""))
+      case deletedList :: t => Map(C.PROVEEDOR_RETENCIONES_DELETED -> Json.toJson(deletedList._2))
+    }
+    val proveedorRetenciones = retencionRows.toList match {
+      case (k: String, item: JsValue) :: t => preprocessRetencionesParam(item, C.PROVEEDOR_RETENCION)
+      case _ => Map(C.PROVEEDOR_RETENCION -> JsArray(List()))
+    }
+
+    // departamentos
+    //
+    val departamentosInfo = getJsValueAsMap(Global.getParamsJsonRequestFor(C.DEPARTAMENTO_PROVEEDOR, params))
+    val departamentoRows = Global.getParamsJsonRequestFor(C.ITEMS, departamentosInfo)
+    val departamentoDeleted: Map[String, JsValue] = Global.getParamsJsonRequestFor(C.DELETED_LIST, departamentosInfo).toList match {
+      case Nil => Map(C.PROVEEDOR_DEPARTAMENTO_DELETED -> Json.toJson(""))
+      case deletedList :: t => Map(C.PROVEEDOR_DEPARTAMENTO_DELETED -> Json.toJson(deletedList._2))
+    }
+    val proveedorDepartamentos = departamentoRows.toList match {
+      case (k: String, item: JsValue) :: t => preprocessDepartamentosParam(item, C.DEPARTAMENTO_PROVEEDOR)
+      case _ => Map(C.DEPARTAMENTO_PROVEEDOR -> JsArray(List()))
+    }
+
+    // centros de costo
+    //
+    val centrosCostoInfo = getJsValueAsMap(Global.getParamsJsonRequestFor(C.PROVEEDOR_CENTRO_COSTO, params))
+    val centroCostoRows = Global.getParamsJsonRequestFor(C.ITEMS, centrosCostoInfo)
+    val centroCostoDeleted: Map[String, JsValue] = Global.getParamsJsonRequestFor(C.DELETED_LIST, centrosCostoInfo).toList match {
+      case Nil => Map(C.PROVEEDOR_CENTRO_COSTO_DELETED -> Json.toJson(""))
+      case deletedList :: t => Map(C.PROVEEDOR_CENTRO_COSTO_DELETED -> Json.toJson(deletedList._2))
+    }
+    val proveedorCentrosCosto = centroCostoRows.toList match {
+      case (k: String, item: JsValue) :: t => preprocessCentrosCostoParam(item, C.PROVEEDOR_CENTRO_COSTO)
+      case _ => Map(C.PROVEEDOR_CENTRO_COSTO -> JsArray(List()))
+    }    
+    
+    JsObject(
+      (proveedorId ++ proveedorBaseGroup ++ proveedorAddressGroup ++ proveedorReferencesGroup
+        ++ proveedorCais ++ caiDeleted ++ proveedorCuentasGrupo ++ cuentaGrupoDeleted ++ proveedorEmpresas 
+        ++ proveedorRetenciones ++ retencionDeleted ++ proveedorDepartamentos ++ departamentoDeleted
+        ++ proveedorCentrosCosto ++ centroCostoDeleted).toSeq)
+  }
+  //
+  //
+  //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+  def getCais(cais: List[ProveedorCaiData]): List[ProveedorCai] = {
+    cais.map(cai => {
+      ProveedorCai(
+        cai.id,
+        cai.numero,
+        cai.sucursal,
+        DateFormatter.parse(cai.fechaVto),
+        cai.descrip
+      )
+    })
+  }
+
+  def getEmpresas(empresas: List[ProveedorEmpresaData]): List[ProveedorEmpresa] = {
+    empresas.map(empresa => {
+      ProveedorEmpresa(
+        DBHelper.NoId,
+        empresa.empId
+      )
+    })
+  }
+
+  def getCuentasGrupo(cuentasGrupo: List[ProveedorCuentaGrupoData]): List[ProveedorCuentaGrupo] = {
+    cuentasGrupo.map(cuentaGrupo => {
+      ProveedorCuentaGrupo(
+        cuentaGrupo.id,
+        cuentaGrupo.cuegId,
+        cuentaGrupo.cueId
+      )
+    })
+  }
+
+  def getRetenciones(retenciones: List[ProveedorRetencionData]): List[ProveedorRetencion] = {
+    retenciones.map(retencion => {
+      ProveedorRetencion(
+        retencion.id,
+        retencion.retId,
+        DateFormatter.parse(retencion.desde),
+        DateFormatter.parse(retencion.hasta)
+      )
+    })
+  }
+
+  def getDepartamentos(departamentos: List[ProveedorDepartamentoData]): List[ProveedorDepartamento] = {
+    departamentos.map(departamento => {
+      ProveedorDepartamento(
+        departamento.id,
+        departamento.dptoId
+      )
+    })
+  }
+
+  def getCentrosCosto(centrosCosto: List[ProveedorCentroCostoData]): List[ProveedorCentroCosto] = {
+    centrosCosto.map(centroCosto => {
+      ProveedorCentroCosto(
+        centroCosto.id,
+        centroCosto.ccosId,
+        centroCosto.prId
+      )
+    })
+  }
+
+  def getProveedorItems(proveedor: ProveedorData): ProveedorItems = {
+    ProveedorItems(
+      getCais(proveedor.cais),
+      getEmpresas(proveedor.empresas),
+      getCuentasGrupo(proveedor.cuentasGrupo),
+      getRetenciones(proveedor.retenciones),
+      getDepartamentos(proveedor.dptos),
+      getCentrosCosto(proveedor.centrosCosto),
+      List(),
+      proveedor.caiDeleted,
+      proveedor.cuentaGrupoDeleted,
+      proveedor.retencionDeleted,
+      proveedor.departamentoDeleted,
+      proveedor.centroCostoDeleted
+    )
+  }
+
+  def getProveedor(proveedor: ProveedorData, id: Int): Proveedor = {
+    Proveedor(
+      id,
+      proveedor.active,
+      proveedor.code,
+      ProveedorBase(
+        proveedor.base.name,
+        proveedor.base.razonSocial,
+        proveedor.base.imprimeTicket,
+        proveedor.base.contacto,
+        proveedor.base.catFiscal,
+        proveedor.base.cuit,
+        proveedor.base.ingresosBrutos,
+        proveedor.base.chequeOrden,
+        proveedor.base.banco,
+        proveedor.base.nroCtaBanco,
+        proveedor.base.cbu,
+        proveedor.base.nroCliente,
+        proveedor.base.creditoCtaCte,
+        proveedor.base.creditoTotal,
+        proveedor.base.creditoActivo,
+        proveedor.base.descrip),
+      ProveedorAddress(
+        proveedor.address.calle,
+        proveedor.address.calleNumero,
+        proveedor.address.piso,
+        proveedor.address.depto,
+        proveedor.address.codPostal,
+        proveedor.address.localidad,
+        proveedor.address.tel,
+        proveedor.address.fax,
+        proveedor.address.email,
+        proveedor.address.web,
+        DateFormatter.parse(proveedor.address.horarioMDesde),
+        DateFormatter.parse(proveedor.address.horarioMHasta),
+        DateFormatter.parse(proveedor.address.horarioTDesde),
+        DateFormatter.parse(proveedor.address.horarioTHasta)),
+      ProveedorReferences(
+        proveedor.references.lpId,
+        proveedor.references.ldId,
+        proveedor.references.cpgId,
+        proveedor.references.proId,
+        proveedor.references.zonId),
+      getProveedorItems(proveedor)
+    )
+  }
 
   def update(id: Int) = PostAction { implicit request =>
     Logger.debug("in proveedores.update")
-    proveedorForm.bindFromRequest.fold(
+    proveedorForm.bind(preprocessParams).fold(
       formWithErrors => {
         Logger.debug(s"invalid form: ${formWithErrors.toString}")
         BadRequest
@@ -246,51 +656,10 @@ object Proveedores extends Controller with ProvidesUser {
           Ok(
             Json.toJson(
               Proveedor.update(user,
-                Proveedor(
-                  id,
-                  proveedor.active,
-                  proveedor.code,
-
-                  ProveedorBase(
-                    proveedor.base.name,
-                    proveedor.base.razonSocial,
-                    proveedor.base.imprimeTicket,
-                    proveedor.base.contacto,
-                    proveedor.base.catFiscal,
-                    proveedor.base.cuit,
-                    proveedor.base.ingresosBrutos,
-                    proveedor.base.chequeOrden,
-                    proveedor.base.banco,
-                    proveedor.base.nroCtaBanco,
-                    proveedor.base.cbu,
-                    proveedor.base.nroCliente,
-                    proveedor.base.creditoCtaCte,
-                    proveedor.base.creditoTotal,
-                    proveedor.base.creditoActivo,
-                    proveedor.base.descrip),
-                  ProveedorAddress(
-                    proveedor.address.calle,
-                    proveedor.address.calleNumero,
-                    proveedor.address.piso,
-                    proveedor.address.depto,
-                    proveedor.address.codPostal,
-                    proveedor.address.localidad,
-                    proveedor.address.tel,
-                    proveedor.address.fax,
-                    proveedor.address.email,
-                    proveedor.address.web,
-                    DateFormatter.parse(proveedor.address.horarioMDesde),
-                    DateFormatter.parse(proveedor.address.horarioMHasta),
-                    DateFormatter.parse(proveedor.address.horarioTDesde),
-                    DateFormatter.parse(proveedor.address.horarioTHasta)),
-                  ProveedorReferences(
-                    proveedor.references.lpId,
-                    proveedor.references.ldId,
-                    proveedor.references.cpgId,
-                    proveedor.references.proId,
-                    proveedor.references.zonId
-                  )
-                ))))
+                getProveedor(proveedor, id)
+              )
+            )
+          )
         })
       }
     )
@@ -298,7 +667,7 @@ object Proveedores extends Controller with ProvidesUser {
 
   def create = PostAction { implicit request =>
     Logger.debug("in proveedores.create")
-    proveedorForm.bindFromRequest.fold(
+    proveedorForm.bind(preprocessParams).fold(
       formWithErrors => {
         Logger.debug(s"invalid form: ${formWithErrors.toString}")
         BadRequest
@@ -309,49 +678,10 @@ object Proveedores extends Controller with ProvidesUser {
           Ok(
             Json.toJson(
               Proveedor.create(user,
-                Proveedor(
-                  proveedor.active,
-                  proveedor.code,
-
-                  ProveedorBase(
-                    proveedor.base.name,
-                    proveedor.base.razonSocial,
-                    proveedor.base.imprimeTicket,
-                    proveedor.base.contacto,
-                    proveedor.base.catFiscal,
-                    proveedor.base.cuit,
-                    proveedor.base.ingresosBrutos,
-                    proveedor.base.chequeOrden,
-                    proveedor.base.banco,
-                    proveedor.base.nroCtaBanco,
-                    proveedor.base.cbu,
-                    proveedor.base.nroCliente,
-                    proveedor.base.creditoCtaCte,
-                    proveedor.base.creditoTotal,
-                    proveedor.base.creditoActivo,
-                    proveedor.base.descrip),
-                  ProveedorAddress(
-                    proveedor.address.calle,
-                    proveedor.address.calleNumero,
-                    proveedor.address.piso,
-                    proveedor.address.depto,
-                    proveedor.address.codPostal,
-                    proveedor.address.localidad,
-                    proveedor.address.tel,
-                    proveedor.address.fax,
-                    proveedor.address.email,
-                    proveedor.address.web,
-                    DateFormatter.parse(proveedor.address.horarioMDesde),
-                    DateFormatter.parse(proveedor.address.horarioMHasta),
-                    DateFormatter.parse(proveedor.address.horarioTDesde),
-                    DateFormatter.parse(proveedor.address.horarioTHasta)),
-                  ProveedorReferences(
-                    proveedor.references.lpId,
-                    proveedor.references.ldId,
-                    proveedor.references.cpgId,
-                    proveedor.references.proId,
-                    proveedor.references.zonId)
-              ))))
+              getProveedor(proveedor, DBHelper.NoId)
+              )
+            )
+          )
         })
       }
     )

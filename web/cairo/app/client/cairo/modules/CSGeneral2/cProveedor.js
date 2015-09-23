@@ -1476,8 +1476,11 @@
             switch (cell.getKey()) {
 
               case KI_PROVC_ID:
-                if(!m_copy) {
-                  register.setId(Cairo.Util.val(cell.getValue()));
+                if(m_copy) {
+                  fields.add(C.PROVC_ID, Cairo.Constants.NEW_ID, Types.integer);
+                }
+                else {
+                  fields.add(C.PROVC_ID, val(cell.getValue()), Types.integer);
                 }
                 break;
 
@@ -2288,8 +2291,11 @@
             switch (cell.getKey()) {
 
               case KI_PROVRET_ID:
-                if(!m_copy) {
-                  register.setId(Cairo.Util.val(cell.getValue()));
+                if(m_copy) {
+                  fields.add(C.PROV_RET_ID, Cairo.Constants.NEW_ID, Types.integer);
+                }
+                else {
+                  fields.add(C.PROV_RET_ID, val(cell.getValue()), Types.integer);
                 }
                 break;
 
@@ -2350,8 +2356,11 @@
             switch (cell.getKey()) {
 
               case KI_DPTOPROV_ID:
-                if(!m_copy) {
-                  register.setId(Cairo.Util.val(cell.getValue()));
+                if(m_copy) {
+                  fields.add(C.DPTO_PROV_ID, Cairo.Constants.NEW_ID, Types.integer);
+                }
+                else {
+                  fields.add(C.DPTO_PROV_ID, val(cell.getValue()), Types.integer);
                 }
                 break;
 
@@ -2402,8 +2411,11 @@
             switch (cell.getKey()) {
 
               case KI_PROVCCOS_ID:
-                if(!m_copy) {
-                  register.setId(Cairo.Util.val(cell.getValue()));
+                if(m_copy) {
+                  fields.add(C.PROV_CCOS_ID, Cairo.Constants.NEW_ID, Types.integer);
+                }
+                else {
+                  fields.add(C.PROV_CCOS_ID, val(cell.getValue()), Types.integer);
                 }
                 break;
 
@@ -2453,7 +2465,6 @@
             register.setId(Cairo.Constants.NEW_ID);
 
             fields.add(C.EMP_ID, val(Dialogs.cell(row, KI_EMPPROV_ID).getId()), Types.id);
-            fields.add(C.PROV_ID, m_id, Types.id);
 
             transaction.addRegister(register);
           }
@@ -2490,8 +2501,11 @@
             switch (cell.getKey()) {
 
               case KI_PROVCUEG_ID:
-                if(!m_copy) {
-                  register.setId(Cairo.Util.val(cell.getValue()));
+                if(m_copy) {
+                  fields.add(C.PROV_CUEG_ID, Cairo.Constants.NEW_ID, Types.integer);
+                }
+                else {
+                  fields.add(C.PROV_CUEG_ID, val(cell.getValue()), Types.integer);
                 }
                 break;
 

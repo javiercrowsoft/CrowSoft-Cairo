@@ -738,19 +738,6 @@ object FacturaCompras extends Controller with ProvidesUser {
       case _ => Map(C.FACTURA_COMPRA_OTRO_TMP -> JsArray(List()))
     }
 
-    // legajos
-    //
-    val legajosInfo = getJsValueAsMap(Global.getParamsJsonRequestFor(C.FACTURA_COMPRA_LEGAJO_TMP, params))
-    val legajoRows = Global.getParamsJsonRequestFor(GC.ITEMS, legajosInfo)
-    val legajoDeleted: Map[String, JsValue] = Global.getParamsJsonRequestFor(GC.DELETED_LIST, legajosInfo).toList match {
-      case Nil => Map(C.FACTURA_LEGAJO_DELETED -> Json.toJson(""))
-      case deletedList :: t => Map(C.FACTURA_LEGAJO_DELETED -> Json.toJson(deletedList._2))
-    }
-    val facturalegajos = legajoRows.toList match {
-      case (k: String, item: JsValue) :: t => preprocessLegajosParam(item, C.FACTURA_COMPRA_LEGAJO_TMP)
-      case _ => Map(C.FACTURA_COMPRA_LEGAJO_TMP -> JsArray(List()))
-    }
-
     // percepciones
     //
     val percepcionesInfo = getJsValueAsMap(Global.getParamsJsonRequestFor(C.FACTURA_COMPRA_PERCEPCION_TMP, params))
@@ -762,6 +749,19 @@ object FacturaCompras extends Controller with ProvidesUser {
     val facturaPercepciones = percepcionRows.toList match {
       case (k: String, item: JsValue) :: t => preprocessPercepcionesParam(item, C.FACTURA_COMPRA_PERCEPCION_TMP)
       case _ => Map(C.FACTURA_COMPRA_PERCEPCION_TMP -> JsArray(List()))
+    }
+
+    // legajos
+    //
+    val legajosInfo = getJsValueAsMap(Global.getParamsJsonRequestFor(C.FACTURA_COMPRA_LEGAJO_TMP, params))
+    val legajoRows = Global.getParamsJsonRequestFor(GC.ITEMS, legajosInfo)
+    val legajoDeleted: Map[String, JsValue] = Global.getParamsJsonRequestFor(GC.DELETED_LIST, legajosInfo).toList match {
+      case Nil => Map(C.FACTURA_LEGAJO_DELETED -> Json.toJson(""))
+      case deletedList :: t => Map(C.FACTURA_LEGAJO_DELETED -> Json.toJson(deletedList._2))
+    }
+    val facturaLegajos = legajoRows.toList match {
+      case (k: String, item: JsValue) :: t => preprocessLegajosParam(item, C.FACTURA_COMPRA_LEGAJO_TMP)
+      case _ => Map(C.FACTURA_COMPRA_LEGAJO_TMP -> JsArray(List()))
     }
 
     // remitos
@@ -777,7 +777,7 @@ object FacturaCompras extends Controller with ProvidesUser {
       (facturaId ++ facturaIdGroup ++ facturaBaseGroup ++ facturaDatesGroup ++ facturaPreciosGroup
       ++ facturaCotizacionGroup ++ facturaStockGroup ++ facturaTotalGroup 
       ++ facturaItems ++ itemDeleted ++ facturaOtros ++ otroDeleted
-      ++ facturalegajos ++ legajoDeleted ++ facturaPercepciones ++ percepcionDeleted ++ facturaRemitos).toSeq)
+      ++ facturaLegajos ++ legajoDeleted ++ facturaPercepciones ++ percepcionDeleted ++ facturaRemitos).toSeq)
   }
   //
   //

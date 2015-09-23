@@ -114,6 +114,13 @@ case class ProveedorEmpresa(
                               empName: String
                              )
 
+object ProveedorEmpresa {
+
+  def apply(id: Int, empId: Int) = {
+    new ProveedorEmpresa(id, empId, "")
+  }
+}
+
 case class ProveedorCuentaGrupo(
                                   id: Int,
                                   cuegId: Int,
@@ -121,6 +128,14 @@ case class ProveedorCuentaGrupo(
                                   cueId: Int,
                                   cueName: String
                                  )
+
+object ProveedorCuentaGrupo {
+
+  def apply(id: Int, cuegId: Int, cueId: Int) = {
+    new ProveedorCuentaGrupo(id, cuegId, "", cueId, "")
+  }
+}
+
 
 case class ProveedorRetencion(
                                id: Int,
@@ -130,11 +145,25 @@ case class ProveedorRetencion(
                                hasta: Date
                                )
 
+object ProveedorRetencion {
+
+  def apply(id: Int, retId: Int, desde: Date, hasta: Date) = {
+    new ProveedorRetencion(id, retId, "", desde, hasta)
+  }
+}
+
 case class ProveedorDepartamento(
                                   id: Int,
                                   dptoId: Int,
                                   dptoName: String
                                   )
+
+object ProveedorDepartamento {
+
+  def apply(id: Int, dptoId: Int) = {
+    new ProveedorDepartamento(id, dptoId, "")
+  }
+}
 
 case class ProveedorCentroCosto(
                                  id: Int,
@@ -144,6 +173,13 @@ case class ProveedorCentroCosto(
                                  prName: String
                                  )
 
+object ProveedorCentroCosto {
+
+  def apply(id: Int, ccosId: Int, prId: Int) = {
+    new ProveedorCentroCosto(id, ccosId, "", prId, "")
+  }
+}
+
 case class ProveedorItems(
                           cais: List[ProveedorCai],
                           empresas: List[ProveedorEmpresa],
@@ -151,7 +187,14 @@ case class ProveedorItems(
                           retenciones: List[ProveedorRetencion],
                           dptos: List[ProveedorDepartamento],
                           centrosCosto: List[ProveedorCentroCosto],
-                          additionalFields: List[AdditionalFields]
+                          additionalFields: List[AdditionalFields],
+
+                          /* only used in save */
+                          caiDeleted: String,
+                          cuentaGrupoDeleted: String,
+                          retencionDeleted: String,
+                          departamentoDeleted: String,
+                          centroCostoDeleted: String
                           )
 
 case class Proveedor(
@@ -241,7 +284,7 @@ case class ProveedorCuitInfo(
 
 object Proveedor {
 
-  lazy val emptyProveedorItems = ProveedorItems(List(), List(), List(), List(), List(), List(), List())
+  lazy val emptyProveedorItems = ProveedorItems(List(), List(), List(), List(), List(), List(), List(), "", "", "", "", "")
 
   lazy val emptyProveedor = Proveedor(
     false,
@@ -627,7 +670,7 @@ object Proveedor {
 
         Field(C.PROV_NAME, proveedor.base.name, FieldType.text),
         Field(C.PROV_RAZONSOCIAL, proveedor.base.razonSocial, FieldType.text),
-        Field(C.PROV_IMPRIME_TICKET, proveedor.base.imprimeTicket, FieldType.boolean),
+        Field(C.PROV_IMPRIME_TICKET, (if(proveedor.base.imprimeTicket) 1 else 0), FieldType.boolean),
         Field(C.PROV_CONTACTO, proveedor.base.contacto, FieldType.text),
         Field(C.PROV_CUIT, proveedor.base.cuit, FieldType.text),
         Field(C.PROV_INGRESOSBRUTOS, proveedor.base.ingresosBrutos, FieldType.text),
@@ -638,7 +681,7 @@ object Proveedor {
         Field(C.PROV_NRO_CLIENTE, proveedor.base.nroCliente, FieldType.text),
         Field(C.PROV_CREDITOCTACTE, proveedor.base.creditoCtaCte, FieldType.number),
         Field(C.PROV_CREDITOTOTAL, proveedor.base.creditoTotal, FieldType.number),
-        Field(C.PROV_CREDITOACTIVO, proveedor.base.creditoActivo, FieldType.boolean),
+        Field(C.PROV_CREDITOACTIVO, (if(proveedor.base.creditoActivo) 1 else 0), FieldType.boolean),
         Field(C.PROV_DESCRIP, proveedor.base.descrip, FieldType.text),
 
         Field(C.PROV_CALLE, proveedor.address.calle, FieldType.text),
@@ -647,10 +690,10 @@ object Proveedor {
         Field(C.PROV_DEPTO, proveedor.address.depto, FieldType.text),
         Field(C.PROV_CODPOSTAL, proveedor.address.codPostal, FieldType.text),
         Field(C.PROV_LOCALIDAD, proveedor.address.localidad, FieldType.text),
-        Field(C.PROV_HORARIO_MDESDE, proveedor.address.horarioMDesde, FieldType.number),
-        Field(C.PROV_HORARIO_MHASTA, proveedor.address.horarioMHasta, FieldType.number),
-        Field(C.PROV_HORARIO_TDESDE, proveedor.address.horarioTDesde, FieldType.number),
-        Field(C.PROV_HORARIO_THASTA, proveedor.address.horarioTHasta, FieldType.number),
+        Field(C.PROV_HORARIO_MDESDE, proveedor.address.horarioMDesde, FieldType.date),
+        Field(C.PROV_HORARIO_MHASTA, proveedor.address.horarioMHasta, FieldType.date),
+        Field(C.PROV_HORARIO_TDESDE, proveedor.address.horarioTDesde, FieldType.date),
+        Field(C.PROV_HORARIO_THASTA, proveedor.address.horarioTHasta, FieldType.date),
         Field(C.PROV_TEL, proveedor.address.tel, FieldType.text),
         Field(C.PROV_FAX, proveedor.address.fax, FieldType.text),
         Field(C.PROV_EMAIL, proveedor.address.email, FieldType.text),
@@ -720,7 +763,7 @@ object Proveedor {
       loadRetenciones(user, id),
       loadDptos(user, id),
       loadCentrosCosto(user, id),
-      List())
+      List(), "", "", "", "", "")
   }
 
   private def loadCai(user: CompanyUser, id: Int) = {
