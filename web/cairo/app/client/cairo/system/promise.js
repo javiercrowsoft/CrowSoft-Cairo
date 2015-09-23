@@ -57,7 +57,20 @@
         Cairo.raiseError("Invalid argument", "Argument successCallback must be a function");
       }
       return this.then(function(result) {
-        if(result !== undefined && (result === true || result === 'yes' || result.success === true)) {
+        //
+        // result is true if it is:
+        //
+        //      - not empty or null
+        //      - not false
+        //      - not result.success === false
+        //      - not 'no'
+        //
+        // because if it is an object and doesn't has a success field set to false
+        // it is success
+        //
+        // so basically result has to be an explicit false to not be SUCCESS
+        //
+        if(result !== undefined && result !== null && result !== false && result !== 'no' && result.success !== false) {
           return successCallback();
         }
         else {
@@ -152,6 +165,22 @@
     return { success: true };
   };
 
+  // returns a function which will call the f function
+  // passing all arguments to call plus the result
+  // argument of the returned function.
+  // AGAIN: the returned function is in the third line
+  //          {{ return function(result) }}
+  //        the f function is in the first line
+  //          {{ Cairo.Promises.call = function(<< f >>) {
+  //        the arguments to call are optionals so call has
+  //        only one explicit parameter << f >>
+  //        when the function returned by call is invoqued
+  //        it will be called with one argument named result
+  //        this argument is passed at the end of the arguments
+  //        to the f function
+  //        so the list of arguments is:
+  //          << all arguments to call >> plus << result >>
+  //
   Cairo.Promises.call = function(f) {
     var args = Array.prototype.slice.call(arguments, 1);
     return function(result) {

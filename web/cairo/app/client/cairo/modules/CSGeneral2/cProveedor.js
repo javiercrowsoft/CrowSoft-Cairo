@@ -487,7 +487,7 @@
           }
         }
 
-        if(!m_genericEdit.Save(m_dialog, register)) { return _rtn; }
+        if(!m_genericEdit.save(m_dialog, register)) { return _rtn; }
 
         // save items
 
@@ -1271,7 +1271,7 @@
               break;
 
             case K_EMPRESAS:
-              p = true;
+              p = P.resolvedPromise(true);
               break;
 
             case K_DEPARTAMENTOS:
