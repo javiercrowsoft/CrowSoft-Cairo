@@ -62,7 +62,7 @@
       var K_CAIS = 26;
       var K_LP_ID = 27;
       var K_LD_ID = 28;
-      var K_CUENTAGRUPO = 34;
+      var K_CUENTA_GRUPO = 34;
       var K_RETENCION = 35;
       var K_EMPRESAS = 36;
       var K_DEPARTAMENTOS = 37;
@@ -1116,7 +1116,7 @@
         setGridCuentasGrupo(elem);
         loadCuentasGrupo(elem);
         elem.setName(C_CUENTAGRUPO);
-        elem.setKey(K_CUENTAGRUPO);
+        elem.setKey(K_CUENTA_GRUPO);
         elem.setTabIndex(tab_cuentagrupo);
         elem.setGridAddEnabled(true);
         elem.setGridEditEnabled(true);
@@ -1197,8 +1197,8 @@
         var rtn = false;
 
         switch (key) {
-          case K_CUENTAGRUPO:
-            return D.colAUpdateCtaGrupo(getCtaGrupo(), lRow, lCol, m_dialog, KI_CUEG_ID, KI_CUE_ID);
+          case K_CUENTA_GRUPO:
+            return D.colUpdateCuentaFilterForCuentaGrupo(getCtaGrupo(), lRow, lCol, m_dialog, KI_CUEG_ID, KI_CUE_ID);
             break;
 
           default:
@@ -1222,7 +1222,7 @@
             if(id != NO_ID) { m_itemsDeletedCAIS = m_itemsDeletedCAIS + id.toString() + ","; }
             break;
 
-          case K_CUENTAGRUPO:
+          case K_CUENTA_GRUPO:
 
             var id = Cairo.Util.val(Dialogs.cell(row, KI_PROVCUEG_ID).getValue());
             if(id != NO_ID) { m_itemsDeletedCuentaGrupo = m_itemsDeletedCuentaGrupo + id.toString() + ","; }
@@ -1269,7 +1269,7 @@
               p = validateRowCAIs(row, rowIndex);
               break;
 
-            case K_CUENTAGRUPO:
+            case K_CUENTA_GRUPO:
               p = validateRowCuentaGrupo(row, rowIndex);
               break;
 
@@ -1319,7 +1319,7 @@
               isEmpty = isEmptyRowCai(row, rowIndex);
               break;
 
-            case K_CUENTAGRUPO:
+            case K_CUENTA_GRUPO:
               isEmpty = isEmptyRowCuentaGrupo(row, rowIndex);
               break;
 

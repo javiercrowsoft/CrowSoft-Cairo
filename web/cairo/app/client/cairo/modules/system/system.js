@@ -1558,6 +1558,80 @@
     }
   };
 
+  // TODO: remove this comment after all code is translated getCtaGrupoFilter
+  Cairo.Documents.getCuentaGrupoFilter = function(cuentaGrupoType) {
+    var filter = "";
+
+    switch (cuentaGrupoType) {
+      case C.CuentaGrupoType.acreedor:
+        filter = "2*8"; // Bancos y Acreedores
+        break;
+      case C.CuentaGrupoType.deudor:
+        filter = "4" // Deudores
+        break;
+      case C.CuentaGrupoType.productoCompra:
+        filter = "5*6*9*10"; // Bienes de cambio y de uso, y Egresos e Ingresos (para descuentos obtenidos)
+        break;
+      case C.CuentaGrupoType.productoVenta:
+        filter = "9*10"; // Ingresos y Egresos (para descuentos cedidos)
+        break;
+      case C.CuentaGrupoType:
+        filter = "2"; // Bancos
+        break;
+      case C.CuentaGrupoType:
+        filter = "14"; // Caja
+        break;
+      default:
+        filter = "-1"
+        break;
+    }
+    return "account|cuecId:" + filter;
+  }
+
+  var getCuentaGrupoType = function(cuegId) {
+    return DB.getData("load[" + m_apiPath + "general/cuentagrupo]", cuegId).then(
+      function(response) {
+        if(response.success === true) {
+          var cuentaGrupoType = valField(response.data, C.CUEG_TIPO);
+          return { success: true, cuentaGrupoType: cuentaGrupoType };
+        }
+        else {
+          return { success: false };
+        }
+      }
+    );
+  };
+
+  Cairo.Documents.getCol = function(columns, key) {
+    var hasKey = function(col) {
+      return col.getKey() === key;
+    };
+    return columns.selectFirst(hasKey);
+  };
+
+  // TODO: remove this comment after all code is translated colUpdateCuentaFilterForCuentaGrupo
+  Cairo.Documents.colUpdateCuentaFilterForCuentaGrupo = function(property, row, col, dialog, KI_CUEG_ID, KI_CUE_ID) {
+    var p = null;
+    var grid = property.getGrid();
+    var columns = grid.getColumns();
+
+    switch(columns.item(col).getKey()) {
+      case KI_CUE_ID:
+        var cuegId = getCell(grid.getRows().item(row), KI_CUEG_ID).getId();
+
+        p = getCuentaGrupoType(cuegId)
+          .whenSuccessWithResult(function(result) {
+            var filter = Cairo.Documents.getCuentaGrupoFilter(result.cuentaGrupoType);
+            Cairo.Documents.getCol(columns, KI_CUE_ID).setSelectFilter(filter);
+            dialog.refreshColumnProperties(property, C.CUE_ID);
+            return true;
+          });
+        break;
+    }
+
+    return p || P.resolvedPromise(true);
+  }
+
 }());
 
 // serial number managment

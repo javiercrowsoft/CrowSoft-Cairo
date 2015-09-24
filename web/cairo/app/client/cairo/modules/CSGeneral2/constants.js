@@ -1412,6 +1412,36 @@
       ClaveFiscalType: {
         cuit: 1,
         rut: 2
+      },
+
+      CuentaCategoria: {
+        docEnCartera: 1,
+        bancos: 2,
+        patrimoniales: 3,
+        deudPorVentas: 4,
+        bienesDeUso: 5,
+        bienesDeCambio: 6,
+        cuentasFiscales: 7,
+        acreedores: 8,
+        ingresos: 9,
+        egresos: 10,
+        costoMercVend: 12,
+        otros: 13,
+        caja: 14,
+        IVABinesDeUso: 15,
+        IVALocaciones: 16,
+        IVAServicios: 17,
+        IVABienes: 18,
+        depositoCupones: 19
+      },
+
+      CuentaGrupoType: {
+        productoVenta: 1,
+        productoCompra: 2,
+        acreedor: 3,
+        deudor: 4,
+        debitoAutomatico: 5,
+        fondoFijo: 6
       }
     }
 
