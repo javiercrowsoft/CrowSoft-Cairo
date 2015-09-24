@@ -1545,9 +1545,9 @@
 
             if(response.success !== true) { return false; }
 
-            if(response.data.id !== NO_ID) {
+            m_data = loadDataFromResponse(response);
 
-              m_data = loadDataFromResponse(response);
+            if(response.data.id !== NO_ID) {
 
               m_id = valField(response.data, C.PROV_ID);
               m_name = valField(response.data, C.PROV_NAME);

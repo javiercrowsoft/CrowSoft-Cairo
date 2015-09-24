@@ -1373,6 +1373,10 @@
 
   Cairo.Documents.checkCuitIsNotAlreadyUsed = function(cuit, provId) {
 
+    if(cuit === "cuit") {
+      return P.resolvedPromise(true);
+    }
+
     var p = DB.getData("load[" + m_apiPath + "general/proveedor/validate_cuit]", cuit);
 
     return p.then(function(response) {
