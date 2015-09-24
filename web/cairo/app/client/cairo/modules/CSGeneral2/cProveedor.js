@@ -2553,7 +2553,7 @@
             .whenSuccess(call(D.checkCuitIsNotAlreadyUsed, cuit, m_id));
         }
         else {
-          return D.showWarningWithFalse(getText(1173)); // Debe indicar un CUIT
+          return M.showWarningWithFalse(getText(1173)); // Debe indicar un CUIT
         }
       };
 

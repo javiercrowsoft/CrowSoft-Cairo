@@ -214,6 +214,10 @@ object Select {
       else executeQuery(user, tableId, table, sqlstmt, filter.toLowerCase(), internalFilter, paramCount)
     }
 
+    def getFilter = {
+      if(filter == "**") "%" else filter
+    }
+
     Table.load(user, tableId) match {
       case Some(table) => {
         val parsedTable = ParsedTable(user.userId, user.cairoCompanyId, table)
@@ -222,7 +226,7 @@ object Select {
           table.hasActive,
           active,
           table.realName,
-          filter,
+          getFilter,
           InternalFilter.getFilter(user, internalFilter),
           like,
           createRecordSet(user, tableId, table.name))

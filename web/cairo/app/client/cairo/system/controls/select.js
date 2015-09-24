@@ -398,6 +398,17 @@
 
         $(selector).blur(validate);
 
+        var search = function() {
+          $(selector).cautocomplete("search", "**");
+        };
+
+        var keyDownHandler = function(e) {
+          if(e.keyCode === 115) {
+            search()
+          }
+        };
+        $(selector).on('keydown', keyDownHandler);
+
         // create the select control
         //
         selectController.control = $(selector)
@@ -548,7 +559,8 @@
             return validate.apply($(selector)[0]);
           },
           listIsOpen: listIsOpen,
-          setSelectedDataAndValidate: setSelectedDataAndValidate
+          setSelectedDataAndValidate: setSelectedDataAndValidate,
+          search: search
         };
 
       };
@@ -849,6 +861,13 @@
         var element = self.select;
         if(element) {
           element.updateDefinition();
+        }
+      };
+
+      that.search = function() {
+        var element = self.select;
+        if(element) {
+          element.search();
         }
       };
 

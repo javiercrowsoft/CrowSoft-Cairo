@@ -824,6 +824,9 @@
               if(info.key === "") {
                 ctrl.select();
               }
+              if(info.doSearch && col.getType() === T.select) {
+                ctrl.search();
+              }
               self.editInfo = {
                 td: td,
                 row: info.row,
@@ -1023,6 +1026,7 @@
       };
 
       var tdKeyPressListener = function(e) {
+        Cairo.log("keypress: " + e.keyCode.toString());
         Cairo.log("keypress: " + String.fromCharCode(e.keyCode));
 
         var td = e.target;
@@ -1277,7 +1281,36 @@
         }
 
         //
-        // function keys F2 = start edit like click, ctrl/cmd + delete = remove row, delete = clear cell
+        // function key F2 start edit like click
+        // function key F4 do a search when the column type is a select
+        //
+        else if(e.target.tagName === "TD" && (e.keyCode === 113 || e.keyCode === 115)) {
+          var args = {
+            row: td.parentNode.rowIndex - 1, /* first row contains headers */
+            col: td.cellIndex,
+            key: "",
+            doSearch: e.keyCode === 115
+          };
+
+          //
+          // first end any pending edition
+          //
+          endEdit().then(
+            function() {
+              //
+              // next prepare to start editing this cell
+              //
+              raiseEventAndThen(
+                'onColumnBeforeEdit',
+                args,
+                thenIfSuccessCall(edit, args, td)
+              );
+            }
+          );
+        }
+
+        //
+        // ctrl/cmd + delete = remove row, delete = clear cell
         //
         else if(false) {}
       };
