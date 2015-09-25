@@ -31,12 +31,11 @@ javier at crowsoft.com.ar
 -- Function: sp_proveedorhelp()
 
 -- drop function sp_proveedorhelp(integer, integer, integer, varchar, integer, integer, varchar);
-
-create or replace function sp_proveedorhelp
 /*
   select sp_proveedorhelp(1,1,1,'hp%',0,0); fetch all from rtn;
   select sp_proveedorhelp(1,1,0,?, 1, ?, ?, ?)
 */
+create or replace function sp_proveedorhelp
 (
   in p_emp_id integer,
   in p_us_id integer,
@@ -130,7 +129,7 @@ begin
                                                  and us_id = p_us_id )
                        or p_us_id = 1 )
                        and activo <> 0 ) )
-            LIMIT <= 50;
+            limit 50;
 
       end;
       end if;
@@ -207,7 +206,7 @@ begin
                                                     and ud.us_id = p_us_id )
                           or p_us_id = 1 )
                           and activo <> 0 ) )
-               LIMIT <= 50;
+               limit 50;
 
          end;
          end if;
@@ -268,7 +267,7 @@ begin
                                            where prov_id = Proveedor.prov_id
                                                    and emp_id = p_emp_id )
                           and activo <> 0 ) )
-               LIMIT 50;
+               limit 50;
 
          end;
          end if;

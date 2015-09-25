@@ -7393,7 +7393,7 @@ begin
                     or v_altura = 0 )
                     and ( p_bForAbm <> 0
                     or cpa.activo <> 0 )
-           LIMIT 50;
+           limit 50;
 
    end;
    end if;
@@ -12090,7 +12090,7 @@ begin
                                                  and us_id = p_us_id )
                        or p_us_id = 1 )
                        and activo <> 0 ) )
-            LIMIT <= 50;
+            limit 50;
 
       end;
       end if;
@@ -12167,7 +12167,7 @@ begin
                                                     and ud.us_id = p_us_id )
                           or p_us_id = 1 )
                           and activo <> 0 ) )
-               LIMIT <= 50;
+               limit 50;
 
          end;
          end if;
@@ -12228,7 +12228,7 @@ begin
                                            where prov_id = Proveedor.prov_id
                                                    and emp_id = p_emp_id )
                           and activo <> 0 ) )
-               LIMIT 50;
+               limit 50;
 
          end;
          end if;

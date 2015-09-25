@@ -24,7 +24,10 @@ object InternalFilter {
   val filters = Map(
     "supplier_list_price" -> "f:supplierListPrice",
     "document" -> "f:document",
-    "account_in_current_company" -> "f:accountInCurrentCompany"
+    "account_in_current_company" -> "f:accountInCurrentCompany",
+    "supplier_account_group" -> "f:supplierAccountGroup",
+    "supplier_account" -> "f:supplierAccount",
+    "account_for_cuec_id" -> "f:accountForCuecId"
   )
 
   val emptyFilter = InternalFilter("", List())
@@ -57,6 +60,9 @@ object InternalFilter {
             case "f:supplierListPrice" => supplierListPrice(user, parameters)
             case "f:document" => document(user, parameters)
             case "f:accountInCurrentCompany" => accountInCurrentCompany(user)
+            case "f:supplierAccountGroup" => supplierAccountGroup(user)
+            case "f:supplierAccount" => supplierAccount(user)
+            case "f:accountForCuecId" => accountForCuecId(user, parameters)
             case _ => emptyFilter
           }
         }
@@ -170,6 +176,36 @@ object InternalFilter {
 
   private def accountInCurrentCompany(user: CompanyUser): InternalFilter = {
     InternalFilter(s"(emp_id = ${user.cairoCompanyId} or emp_id is null)", List())
+  }
+
+  private def supplierAccountGroup(user: CompanyUser): InternalFilter = {
+    InternalFilter("(cueg_tipo in (2,3))", List()) // productoCompra: 2, acreedor: 3
+  }
+
+  private def supplierAccount(user: CompanyUser): InternalFilter = {
+    InternalFilter("(cuec_id in (8,19,2,6) or cue_producto <> 0)", List()) // acreedores: 8, depositoCupones: 19, bancos: 2, bienesDeCambio: 6
+  }
+
+  private def accountForCuecId(user: CompanyUser, parameters: List[String]): InternalFilter = {
+    val params = parseParameters(parameters)
+    val cuecIds = {
+      if(params.contains("cuecId")) {
+        params("cuecId").split("[*]").map(cuecId => s"cuec_id = ${cuecId.toInt}").mkString(" or ")
+      }
+      else ""
+    }
+    val sqlstmt = {
+      if(cuecIds.isEmpty) {
+        ""
+      }
+      else {
+        cuecIds
+      }
+    }
+    InternalFilter(
+      sqlstmt,
+      List()
+    )
   }
 
 }

@@ -816,7 +816,10 @@
   };
 
   Cairo.Documents.getCuentaGrupoFilterForProveedor = function() {
-    return "suplier_account_group"; // ACREEDORES DEPOSITO_CUPONES BANCOS BIENES_DE_CAMBIO
+    return "supplier_account_group"; // ACREEDORES DEPOSITO_CUPONES BANCOS BIENES_DE_CAMBIO
+  };
+  Cairo.Documents.getCuentaFilterForProveedor = function() {
+    return "supplier_account_filter"; // ACREEDORES DEPOSITO_CUPONES BANCOS BIENES_DE_CAMBIO
   };
 
   Cairo.Documents.ASIENTOS_DOC_FILTER = "document|documentTypeId:"
@@ -1589,7 +1592,7 @@
         filter = "-1"
         break;
     }
-    return "account|cuecId:" + filter;
+    return "account_for_cuec_id|cuecId:" + filter;
   }
 
   var getCuentaGrupoType = function(cuegId) {

@@ -30,8 +30,10 @@ javier at crowsoft.com.ar
 */
 -- Function: sp_codigopostalhelp()
 
--- drop function sp_codigopostalhelp();
-
+-- drop function sp_codigopostalhelp(integer, integer, integer, integer, varchar, integer, integer, varchar);
+/*
+  select sp_codigopostalhelp(1,1,1,1,'caba',0,0); fetch all from rtn;
+*/
 create or replace function sp_codigopostalhelp
 (
   in p_emp_id integer,
@@ -40,14 +42,13 @@ create or replace function sp_codigopostalhelp
   in p_bFilterType integer,
   in p_filter varchar default '',
   in p_check integer default 0,
-  in ip_cpa_id integer default 0,
-  in v_p_filter2 varchar default '',
+  in p_cpa_id integer default 0,
+  in p_filter2 varchar default '',
   out rtn refcursor
 )
   returns refcursor as
 $BODY$
 declare
-   p_cpa_id integer := ip_cpa_id;
    v_altura integer;
    v_n integer;
    v_s varchar(50);
@@ -91,18 +92,19 @@ begin
    v_filter := sp_HelpGetFilter(p_bFilterType, v_filter);
 
    --/////////////////////////////////////////////////////////////////////////////////////
+
    if p_check <> 0 then
-   begin
+
       if p_cpa_id < 0 then
-      begin
+
          select cpa_id
            into p_cpa_id
            from CodigoPostalItem
             where cpai_id = p_cpa_id * -1;
 
-      end;
       end if;
 
+      rtn := 'rtn';
       open rtn for
          select cpa_id,
                 cpa_codigo Nombre,
@@ -114,10 +116,8 @@ begin
                     and ( p_bForAbm <> 0
                     or cpa.activo <> 0 );
 
-   end;
    else
-   begin
-   
+
       rtn := 'rtn';        
       open rtn for
 
@@ -146,9 +146,8 @@ begin
                     or v_altura = 0 )
                     and ( p_bForAbm <> 0
                     or cpa.activo <> 0 )
-           LIMIT 50;
+           limit 50;
 
-   end;
    end if;
         
 end;

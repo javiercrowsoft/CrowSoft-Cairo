@@ -403,7 +403,7 @@
       PROV_HORARIO_THASTA: "prov_horario_t_hasta",
 
       // Ingresos brutos categoria
-      INGRESOSBRUTOSCATEGORIA: "IngresosBrutosCategoria",
+      INGRESOS_BRUTOS_CATEGORIA: "IngresosBrutosCategoria",
       IBC_ID: "ibc_id",
       IBC_NAME: "ibc_nombre",
       IBC_CODE: "ibc_codigo",
