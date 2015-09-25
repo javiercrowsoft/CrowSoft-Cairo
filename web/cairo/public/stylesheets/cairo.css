@@ -765,3 +765,23 @@ div::after {
 .wizard-right-buttons {
   text-align: right;
 }
+
+.grid-column-item {
+  width: 20px;
+}
+
+.grid-column-number {
+  width: 100px;
+}
+
+.grid-column-date {
+  width: 120px;
+}
+
+.grid-column-text {
+  width: 250px;
+}
+
+.grid-column-select {
+  width: 250px;
+}

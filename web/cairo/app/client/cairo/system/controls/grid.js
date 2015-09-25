@@ -1372,7 +1372,27 @@
         };
 
         gridManager.getClassForColumn = function(col) {
-          return "";
+          var clazz = "";
+          if(col.getIndex() === 0) {
+            clazz = "grid-column-item";
+          }
+          else {
+            switch(col.getType()) {
+              case T.numeric:
+                clazz = 'grid-column-numeric';
+                break;
+              case T.text:
+                clazz = 'grid-column-text';
+                break;
+              case T.date:
+                clazz = 'grid-column-date';
+                break;
+              case T.select:
+                clazz = 'grid-column-select';
+                break;
+            }
+          }
+          return clazz;
         };
 
         gridManager.getClassForCell = function(col) {
