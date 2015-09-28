@@ -1,834 +1,739 @@
-"The wizard now has all the information you need click on the Finish button to save the report." "2755"
-"Roles", "2756"
-"Permissions", "2757"
-"Users", "2758"
-"The permission% 1 belongs to a Department.
-
-Do you want to apply this permission to departments that depend on it? "" 2759 "
-"The use of cICheckedList_Remove cPermisos method in class is not allowed"; "2760"
-"The use of cICheckedList_Clear cPermisos method in class is not allowed"; "2761"
-"Error writing permissions," "2762"
-"Error loading Permits", "2763"
-"Definition"; "2764"
-"Error writing Roles", "2765"
-"Sysmodulo" "2766"
-"You must enter an ID," "2767"
-"Please indicate Object Initialization", "2768"
-"Enter a Edition Object", "2769"
-"You must enter an order"; "2770"
-"Provision should indicate" "2771"
-"Sysmodulo" "2772"
-"ID", "2773"
-"Object Initialization", "2774"
-"Edit Object", "2775"
-"Provision", "2776"
-"Error writing sysModulo" "2777"
-"SysModuloTCP" "2778"
-"SysModulo TCP", "2779"
-"Error writing sysModuloTCP" "2780"
-"You must enter a physical name"; "2781"
-"You must enter an ID field"; "2782"
-"You must enter a field code"; "2783"
-"Enter a name field", "2784"
-"Tables", "2785"
-"View" "2786"
-"Physical Name", "2787"
-"Field ID", "2788"
-"Field Code"; "2789"
-"Field Name", "2790"
-"ABM Object", "2791"
-"SP Info", "2792"
-"Have Tree", "2793"
-"Has Active", "2794"
-"A sp or a full select statement should be indicated.
-Important: If a value for SQLHelp indicated, the WHERE field is not used to compose the sentence help ";" 2795 ".
-"SQLHelp" "2796"
-"SqlHelpWeb" "2797"
-"It is used to compose the select statement of helps.
-The code form:
-"Select {field id}, {field name}, {country code} {physicist from where {name}} Where" "" 2798 "
-"Where", "2799"
-"Top", "2800"
-"Golf View", "2801"
-"Reports | * .csr" "2802"
-"Failed to record Table", "2803"
-"The key and its confirmation do not match"; "2804"
-"Validating Ranks # 1 #", "2805"
-"Customer / Supplier", "2806"
-"Key", "2807"
-"This user does not specify working Deposits", "2808"
-"Customers / Suppliers Department", "2809"
-"External", "2810"
-"Customers / Suppliers by User", "2811"
-"Person"; "2812"
-"Failed to record the User", "2813"
-"The use of property in the cUsuarioRol cICheckedListItem_UsId class is not allowed"; "2814"
-"The use of cICheckedList_Remove cUsuarioRoles method in class is not allowed"; "2815"
-"The use of cICheckedList_Clear cUsuarioRoles method in class is not allowed"; "2816"
-"Error writing to a User Roles", "2817"
-"Error loading the Roles" "2818"
-"Search Documents", "2819"
-"Search" "2820"
-"Contains"; "2821"
-"Start with"; "2822"
-"Just", "2823"
-"Select", "2824"
-"Fields"; "2825"
-"Filter" "2826"
-"You must select an item," "2827"
-"No data found"; "2828"
-"This document was created in the company # 1 # to edit should enter the company." "2829"
-"Customer Data", "2830"
-"Order of Service"; "2831"
-"| Client:" "2832"
-"| Tel:" "2833"
-"| Cel:" "2834"
-"| City:" "2835"
-"Fault", "2836"
-"| Date Entry:" "2837"
-"Extreme Team", "2838"
-"Series"; "2839"
-"Battery Series:" "2840"
-"| F11:" "2841"
-"| Third," "2842"
-"OT"; "2843"
-"Part of the Laboratory", "2844"
-"Work Done"; "2845"
-"Process Forward:" "2846"
-"State and Location Team", "2847"
-"State", "2848"
-"| Deposit"; "2849"
-"| Technician:" "2850"
-"| Budget:" "2851"
-"Retired for:" "2852"
-"| Transport:" "2853"
-"| Guide"; "2854"
-"Part of the Call Center", "2855"
-"Comments:" "2856"
-"Part of Directors"; "2857"
-"View Detail income"; "2858"
-"No. Series 2." "2859"
-"No. 3 Series." "2860"
-"Failed to save the document"; "2861"
-"General Settings", "2862"
-"The number of decimal places for the amount can not be greater than 6 or less than 0." "2863"
-"The number of decimal places for the amounts can not be more than 6 or less than 0." "2864"
-"The key to the e-mail account conicide no confirmation." "2865"
-"Mi_casilla@server.com" "2866"
-"Decimal", "2867"
-"Email", "2868"
-"Decimal Quantities", "2869"
-"Decimals in amounts"; "2870"
-"Decimal in foreign currency quotation", "2871"
-"Server", "2872"
-"Port", "2873"
-"Email to Test", "2874"
-"Test", "2875"
-"Confirm", "2876"
-"CrowSoft Cairo - Test Email", "2877"
-"Public", "2878"
-"Auto Adjust column width", "2879"
-"Failed to save the View," "2880"
-"Print Price Lists," "2881"
-"Select list and can select multiple items ready to be printed on separate sheets.."; "2882"
-"Retired by"; "2883"
-"Delivery Guide," "2884"
-"Include VAT", "2885"
-"No Customers"; "2886"
-"No Bases", "2887"
-"Open Report", "2888"
-"The file
-# 1 # does not exist.
-Check the location of the reports. "" 2889 "
-"Serial Number"; "2890"
-"You. Has scored more serial numbers required.
-Only the first # 1 is deleted # marked counting from row 1. "" 2891 "
-"You. Has scored more serial numbers required.
-Only the first number is dialed eliminate counting from row 1. "" 2892 "
-"You must check the numbers to be deleted."; "2893"
-"You must specify a number of existing Series # 1 #", "2894"
-"Load range numbers"; "2895"
-"No Filter Deposits", "2896"
-"Indicate the # 1 # Serial Numbers to remove" "2897"
-"Indicate the number to delete"; "2898"
-"Item", "2899"
-"Number 2", "2900"
-"Number 3", "2901"
-"Date Vto." "2902"
-"The serial numbers # 1 # is indicated more than once", "2903"
-"The Serial Number # 1 # is indicated more than once", "2904"
-"Serial number range", "2905"
-"Please specify a starting number" "2906"
-"You must enter a final number" "2907"
-"Increasing Alphabetically", "2908"
-"The serial number may contain numbers and letters.
-. The system can generate the serial numbers within the range you indicated in two ways:
-  Numerically 1-
-  2- Alphabetically
-When it increases alphabetical Cairo uses the numbers 0 through 9 and the letters of the English alphabet az in lowercase.
-Ex. From: ab1 To: Cairo generates Ba1: ab1, ab2 .. ab9, aba, abb, .., ABZ, AC0, AC1, b01 .. .. Ba1 "," 2909 "
-"This document belongs to the company # 1 #
-In order to modify your application must enter 1 #. "" 2910 "
-"Before you can revoke the document should keep it." "2911"
-"The document has already been canceled.
-Do you want to un-cancel it? "" 2912 "
-"This document can not be modified due to:
-# 1 # "," 2913 "
-"The date of the document is outside the range allowed by the access control dates.
-Permtido Rank: # 1 # "," 2914 "
-"You. # 1 # indicated items but only # 2 # Serial Number # 3 #
-Cairo Do you want to generate auxiliary numbers for you? ";" 2915 "
-"The amount of line # 1 # is less than the number of serial numbers associated Indicate the / serial numbers to sign remove.."; "2916"
-"The document will not be saved until you enter the serial numbers to delete or modify the amount shown on Line # 1 #." "2917"
-. "You indicated items # 1 # 2 # # but only serial numbers # 3 #," "2918"
-"The number of RUT is invalid"; "2919"
-. "You can modify the Document," "2920"
-"You must enter an amount," "2921"
-"The definition of the kit did not received can not edit the Serial Numbers.."; "2922"
-"@@ERROR_SP. Could not get a number of assistant Series", "2923"
-"The document does not belong to the company # 1 #
-You must enter the # 2 # to duplicate it. "" 2924 "
-"The Tax ID number is invalid"; "2925"
-"Lots", "2926"
-"Stock", "2927"
-"Lots", "2928"
-"No. Lot." "2929"
-"Lot Father"; "2930"
-"Country of Origin", "2931"
-"Error writing StockLote" "2932"
-"User Settings", "2933"
-"Preferences", "2934"
-"Cash", "2935"
-"Desktop Files | * .csd" "2936"
-"Show a message when recording sales invoices if the customer has informed advances"; "2937"
-"Failed to save user settings"; "2938"
-"Accumulates" "2939"
-"Not Collect", "2940"
-"Error writing the report", "2941"
-"The first two letter must be:
-DC to develop Cairo
-DT for developing Third
-IC for implementing Cairo
-Third IT Deployment
-CL Customer
-
-Then an underscore as a separator followed by three letters of the project where Cairo is the CSC project (the three letters out of the customer name being used in each project the first 3 consonants such serious Construcciones Benito Rogio BRC, Clements CLM)
-Then an underscore as a separator followed by three letters of the module to which the report belongs. Example An accounting report carry with one shop and one COM VEN sales
-
-Then another underscore as separator and four digits which should be used to separate ranges 10 reports and should be used only units in the case of very similar versions of reports.
-For example, a report developed by development Cairo belonging to bear the sales module DC_CSC_VEN_0010 code. "" 2942 "
-"The code must meet the standard:
-# 1 # "," 2943 "
-"Logo # 1 # of the company that appears on all reports footnotes." "2944"
-"#1#
-- Report: # 2 #
-- Report: # 3 #, "" 2945 "
-"Could not load the report # 1 #, # 2 #", "2946"
-"Could not load the report
-# 1 #. "" 2947 "
-"It does not exist." "2948"
-"Errors", "2949"
-"Could not load the report
-#1#
-Contact Manager Cairo. "" 2950 "
-"The report has # 1 # parameters and the definition indicates # 2 #
-You must require systems to correct this error to run the report. "" 2951 "
-"Location: # 1 #
-Execution: # 2 # seconds
-Connection: # 3 # seconds
-# 4 # "" 2952 "
-"Parameters - # 1 #", "2953"
-"Failed to save Report", "2954"
-"CDTeka" "2955"
-"CDROM", "2956"
-"CDRoms" "2957"
-"Scan CD", "2958"
-"Cancel" "2959"
-"You must enter a description," "2960"
-"Save CD," "2961"
-"The CD was saved successfully." "2962"
-"Enter the drive to read," "2963"
-"Failed to burn CD-Rom", "2964"
-"CDROM's" "2965"
-"File", "2966"
-"Search" "2967"
-"Error while writing parameters CDRoms navigation", "2968"
-"Minimum Type", "2969"
-"Taxable" "2970"
-"Nontaxable"; "2971"
-"Base # 1 #", "2972"
-"Sure you want to cancel", "2973"
-"Get Certificate of Registration AFIP" "2974"
-"Please specify a file for the log of operations." "2975"
-"You must specify a folder to store the records." "2976"
-"You must select at least suppliers or customers." "2977"
-"Get Constancia AFIP" "2978"
-"AFIP" "2979"
-"Include Customers"; "2980"
-"Include Providers"; "2981"
-"Log File", "2982"
-"Show Browser window", "2983"
-"Progress", "2984"
-"Cancel Import", "2985"
-"Starting the process of obtaining Constancias" "2986"
-"Number of rows: 1 #", "2987"
-"Process canceled", "2988"
-"Log File | * .log" "2989"
-"Warning: # 1 #", "2990"
-"Van # 1 # 2 # # Looking record for # 3 # ...." "2991"
-"Evidence obtained for the Tax ID # 1 #", "2992"
-"Could not get the record for the Tax ID # 1 # (# 2 #) # 3 # (# 4 #)"; "2993"
-"Van # 1 # 2 # #" "2994"
-"No Cuits were indicated to process" "2995"
-"Process Finished", "2996"
-"Get Certificates of AFIP" "2997"
-"AFIP" "2998"
-"Alsas" "2999"
-"Please specify a type of wood" "3000"
-"Please specify a type of camera", "3001"
-"Please specify a type of Alsa", "3002"
-"Beekeeping", "3003"
-"Alsa", "3004"
-"Alsa", "3005"
-"Hive", "3006"
-"Calden" "3007"
-"Pino" "3008"
-"Saligna" "3009"
-"Type of Wood", "3010"
-"Breeding", "3011"
-"Melaria" "3012"
-"Camera Type", "3013"
-"Media Alsa", "3014"
-"Alsa type", "3015"
-"Error writing Alsa", "3016"
-"Beehives", "3017"
-"You must enter a date," "3018"
-"Beehives", "3019"
-"Date Added", "3020"
-"It Zanganera" "3021"
-"Population", "3022"
-"Food", "3023"
-"Breeding Egg", "3024"
-"Open Breeding", "3025"
-"Raising capped", "3026"
-"Error writing Hive", "3027"
-"Queens," "3028"
-"You must enter a Nativity", "3029"
-"Quality must indicate" "3030"
-"Queen," "3031"
-"Birth", "3032"
-"Good," "3033"
-"Bad", "3034"
-"Regular", "3035"
-"Quality", "3036"
-"Error writing Queen"; "3037"
-"You can only change the number at least at the production side, when the part is new.
-For parts already stored there to make a "Part of disarmament".
-"" 3038 "
-"Error writing project", "3039"
-"Project / Groups / Contracts", "3040"
-"Production", "3041"
-"Machine", "3042"
-"Error writing machine", "3043"
-"Before you can specify alternative products should save the BOM," "3044"
-"Processed", "3045"
-"Approval Date", "3046"
-"Shrinkage", "3047"
-"Change Type", "3048"
-"Positive Change", "3049"
-"Negative Variation", "3050"
-"Cant type." "3051"
-"Var +."; "3052"
-"Var -." "3053"
-"Var type." "3054"
-"It's Base", "3055"
-"X Temporary import", "3056"
-"Normal", "3057"
-"Error writing Product BOM", "3058"
-"Alternative Input", "3059"
-"Error while writing supplies," "3060"
-"# 1 # Constancias_Afip" "3061"
-"Public", "3062"
-"This team has no associated service order", "3063"
-"This team does not have an associated repair part"; "3064"
-"Other parts"; "3065"
-"The use of property in the cPermiso cICheckedListItem_Id class is not permitted." "3066"
-"Discount Schedules" "3067"
-"Enter a Product # 1 #", "3068"
-"The percentage may not exceed 100.00% # 1 #", "3069"
-"You must enter a discount or a Percentage # 1 #", "3070"
-"Discount Schedules" "3071"
-"Discounts Base List", "3072"
-"Percentage s / Base", "3073"
-"Error writing Discount List," "3074"
-"You. Has published these prices if it continues to lose changes.
-To keep press 'NO' and then the 'Save' button.
-
-¿Discard changes? ";" 3075 "
-"You. Edited lose customers if you continue these changes.
-To keep press 'NO' and then the 'Save' button.
-
-¿Discards changes. ";" 3076 "
-"The following lists generated cross-references that are not allowed
-"" 3077 "
-"Price Lists", "3078"
-"You must enter a price or a Percentage # 1 #", "3079"
-"You must enter a price list # 1 #", "3080"
-";; The list must be purchases", "3081"
-"
-The list must be purchases or costs. "" 3082 "
-"The price list # 1 # invalid # 2 #." "3083"
-"Price Lists", "3084"
-"Default list", "3085"
-"Automatic X Purchase / Sale"; "3086"
-"Base Price List," "3087"
-"Cost", "3088"
-"Products"; "3089"
-"No filter x row." "3090"
-"Base List", "3091"
-"Failed to record Price List", "3092"
-"You must enter an account for discounts" "3093"
-"Account overall discount", "3094"
-"Record to record the invoice seat", "3095"
-"Please specify what kind of tax code works Cairo." "3096"
-"Fiscal Code Type", "3097"
-"C.U.I.T" "3098"
-"R.U.T." "3099"
-"Show Price", "3100"
-"Indicate a price", "3101"
-"The price must be greater than zero"; "3102"
-"Prices were assigned successfully," "3103"
-"Filters", "3104"
-"Could not load the report # 1 #
-(# 2 #) ";" 3105 "
-"Enter a Stored Procedure to control the stock"; "3106"
-"Fixed Length", "3107"
-"Variable separated by a character" "3108"
-"Checkbooks", "3109"
-"Checkbooks", "3110"
-"You must enter a number from" "3111"
-"You must enter a number up," "3112"
-"Number From", "3113"
-"Number Up", "3114"
-"Last check issued", "3115"
-"Suggested Checkbook", "3116"
-"Failed to save the checkbook," "3117"
-"Coins", "3118"
-"You must enter a Sign", "3119"
-"Currency", "3120"
-"Quotes", "3121"
-"Sign", "3122"
-"Legal Tender", "3123"
-"Accounting", "3124"
-"Difference change"; "3125"
-"Record Collection seat when recording", "3126"
-"Burn seat to record the Payment Order," "3127"
-"Burn seat to record the movement of funds", "3128"
-"Burn seat when recording Surrender", "3129"
-"Record to record the seat Bank Deposit" "3130"
-"Record to record the presentation seat Stamp", "3131"
-"Record Resolution seat when recording Stamp", "3132"
-"Could not get the tax and accounting information related to Article # 1 #", "3133"
-"Could not find the definition of VAT for the Customer", "3134"
-"You must enter a" number from "greater than zero"; "3135"
-"Must indicate a 'number up' greater than zero"; "3136"
-"The bills were canceled successfully", "3137"
-"Cancel Massive Bill," "3138"
-"Import Initial Balances", "3139"
-"You must enter a document to the positive balances", "3140"
-"You must enter an item to save Movements"; "3141"
-"The price can not be less than zero if this is legal tender documents indicate one.."; "3142"
-"You must enter a branch to save movements", "3143"
-"Cancel Invoice"; "3144"
-"The bill # 1 # belongs Customer # 2 # in the generated document # 3 # # 4 #" "3145"
-"This process only cancels new invoices.
-If the bill already exists process will not change.
-For recorded documents and delete them from the window must Billing.
-Upon completion of this process, check the status of Checkbook.
-During this process should not generate invoices from other jobs. "" 3146 "
-"Sure you want to cancel the import of Delivery Notes," "3147"
-"Starting import of Sale Delivery Notes", "3148"
-"Document: # 1 #", "3149"
-"File: # 1 #", "3150"
-"Branch: # 1 #", "3151"
-"Date: # 1 #", "3152"
-"Creating Excel object"; "3153"
-"Opening Excel File: # 1 #", "3154"
-"Getting sheet 1: # 1 #", "3155"
-"Getting the number of rows"; "3156"
-"The file analysis completed successfully.
-Import you sure? "" 3157 "
-"Unable to start importing that could not get an ID import." "3158"
-"Import finished with some errors.
-See the log file to see that we imported records. "" 3159 "
-"Records," "3354"
-"Import successfully completed", "3160"
-"Could not get the cli_id for Customer # 1 #", "3161"
-"Could not find the definition of VAT for the Client # 1 #", "3162"
-"Import Sales Delivery Notes", "3163"
-"You must enter a document for Delivery Notes", "3164"
-"You must enter an Excel file with the Delivery Notes", "3165"
-"Import Delivery Notes", "3166"
-"The file should contain a single sheet.
-And the following columns in this order:
-- Business, customer, refer, date, product,
-  descrip, code and amount. "" 3167 "
-"Excel | * .xls", "3168"
-"The # 1 # refer customer belongs at # 2 # 3 # generated document # # 4 #" "3169"
-"The second column of the file must be named balance", "3170"
-"File: # 1 # - Lot # 2 #", "3171"
-"The first column should be called client or cuit.
-If you call customer must indicate the code, but the CUIT "" 3172 "
-"The column # 1 # to be called Date," "3173"
-"The column must be named # 1 # Product", "3174"
-"The column must be named # 1 # Descrip" "3175"
-"The column must be named # 1 # Amount", "3176"
-"The column # 1 # to be called Company", "3177"
-"The column must be named # 1 # I refer," "3178"
-"The column # 1 # to be called Code"; "3179"
-"The date of this registration will not coincide with you. Indicated in the import parameters
-Are you sure importing this record? ";" 3180 "
-"The refer # 1 # did not matter that no conicidio date as indicated on the import parameters." "3181"
-"Movement generated: # 1 #", "3182"
-"Could not find the product associated with the code # 1 #", "3183"
-"The product code # 1 # does not exist in Cairo." "3184"
-"Could not find a code associated with the No. 1 Company #" "3185"
-"The Company Code # 1 # does not exist in Cairo." "3186"
-"The business of this record does not match the active company (registration: # 1 # | active company # 2 #)"; "3187"
-"You must select a Folder," "3231"
-"This document does not require signature." "3232"
-"This document has no associated user signature right Contact Manager Cairo.."; "3233"
-"Failed to store the last number used"; "3234"
-"Against Marks"; "3235"
-"Packaging", "3236"
-"Against Marks"; "3237"
-"Error writing Contra Marks"; "3238"
-"Setting Calibradoras" "3239"
-"Setting Calibradoras" "3240"
-"Error writing settings Calibrating" "3241"
-"Species", "3242"
-"Species", "3243"
-"Failed to save species," "3244"
-"Ports" "3245"
-"You must enter a City", "3246"
-"Port", "3247"
-"Error writing Port", "3248"
-"Ships," "3249"
-"Ships," "3250"
-"Error writing Boat," "3251"
-"Calibrating", "3252"
-"Calibrating", "3253"
-"Error writing grader", "3254"
-"Recipient / s", "3255"
-"Copy to", "3256"
-"Everyone must answer"; "3257"
-"At least one should answer", "3258"
-"You must enter an email for the item # 1 #", "3259"
-"You must enter a time for item # 1 #", "3260"
-"Mails" "3261"
-"Mails" "3262"
-"Failed to save the Mail", "3263"
-"Product Family", "3264"
-"Product Families"; "3265"
-"Product Families"; "3266"
-"Error writing ExpoFamilia" "3267"
-"Position", "3268"
-"Price groups", "3269"
-"You must enter a tariff position", "3270"
-"You must enter a tariff position # 1 #", "3271"
-"You must enter a Country # 1 #", "3272"
-"Enter a language # 1 #", "3273"
-"Price groups", "3274"
-"Tariff Position", "3275"
-"Error writing ExpoGrupoPrecio" "3276"
-"ExportPrint Export Invoice"; "3277"
-"Enter a language"; "3278"
-"Select a language, then you can modify the text of the bill on the Items tab", "3279"
-"You must enter a text for # 1 # 2 # #" "3280"
-"ExportPrint Packing List", "3281"
-"Select a language, then you can amend the texts in the Packing List Items tab," "3282"
-"Generic", "3283"
-"Approval"; "3284"
-"Replacement" "3285"
-"Email Done", "3286"
-"Implementation", "3287"
-"Import", "3288"
-"Imports", "3289"
-"Do you want to reload the source tables?" "3290"
-"Getting Data", "3291"
-"Specify the column in the source code that corresponds to the field." "3292"
-"Importing records", "3293"
-"Registration without ID (# 1 #)"; "3294"
-"Failed to register (# 1 #) original error: # 2 #", "3295"
-"Proceed with import?" "3296"
-"The process took # 1 #", "3297"
-"Were imported records # 1 #", "3298"
-"There was # 1 # records that failed and were not imported" "3299"
-"There was # 1 # records giving warnings and imported" "3300"
-"The process was completed successfully." "3301"
-"Loading data from Excel", "3302"
-"Resulado import Teacher", "3303"
-"Welcome to the Import Assistant Teacher", "3304"
-"With this wizard you import teachers from Excel, Access or Dbase files." "3305"
-"Enter a name for this import, specify the location of the import file and the target table", "3306"
-"Source File"; "3307"
-"Files | * .mdb, * .xls, * dbf | Access | * .mdb | Excel | * .xls | DBase | * .dbf | OLEDB | * .udl.."; "3308"
-"Source Table"; "3309"
-"Target table", "3310"
-". Link the fields of the target table to table origin may indicate defaults, leaving columns unmapped destination and indicate a source column more than once." "3311"
-"Default", "3312"
-"Column origin" "3313"
-"Column Destination", "3314"
-"Save" "3315"
-"Save As", "3316"
-"Importing Data," "3317"
-"Son," "3318"
-"View Log"; "3319"
-"The file format is invalid.
-The files must be Excel, Access or dBase format. ";" 3320 "
-"You can include an ORDER BY or GROUP BY statement on origin" "3321"
-"Import Registry Error", "3322"
-"Warning !!!" "3323"
-"End Error"; "3324"
-"End Warning !!!" "3325"
-"Opening connection"; "3326"
-"Successful Connection"; "3327"
-"Successful implementation", "3328"
-"After successfully RS", "3329"
-"There was spent Internal error field." "3330"
-"This tool allows you to directly modify the system tables.
-Use with extreme caution because it changes you. Click on these tables can not be undone. In addition the system will not be able to validate these changes before they take effect.
-Note that incorrect use of this tool may corrupt the system. "" 3331 "
-"Edit System Tables", "3332"
-"Import Process", "3333"
-"You must enter a process of import"; "3334"
-"Import", "3335"
-"Run Import", "3336"
-"Import", "3337"
-"Import Processes", "3338"
-"Import Processes", "3339"
-"Processes", "3340"
-"Object", "3341"
-"Last Import" "3342"
-"You must enter an Object # 1 #", "3343"
-"Failed to save the import process"; "3344"
-"Could not get the ID of the target table." "3345"
-"Registration Code"; "3346"
-"There was a record yield mistake and was not imported."; "3347"
-"There was a record that gave a warning and care." "3349"
-"Error importing record"; "3350"
-"AFIP Files", "3351"
-"You must enter an input object", "3352"
-"You must enter a process object # 1 #", "3353"
-"Record Separator", "3355"
-"Input object", "3356"
-"Toolbar", "3357"
-"Object Process"; "3358"
-"Error writing AFIPArchivo" "3359"
-"Please specify a schema" "3360"
-"AFIP Schemes", "3361"
-"Reports", "3362"
-"Define AFIP Report", "3363"
-"AFIP Process Report", "3364"
-"You must enter a subtype # 1 #", "3365"
-"Enter a Tablahelp # 1 #", "3366"
-"You must specify a value # 1 #", "3367"
-"You must enter an input object # 1 #", "3368"
-"Welcome to the Report Wizard AFIP" "3369"
-"With this wizard you create files for various reports AFIP." "3370"
-"- Resolution 1631 (Electronic copy of documents on CD)"; "3371"
-"-. S.I.C.O.R.E" "3372"
-"- C.I.T.I." "3373"
-"- S.I.A.P." "3374"
-"Select a report outline AFIP to generate" "3375"
-"Outline", "3376"
-"The wizard makes the report with the following parameters", "3377"
-"Creating object client DLL initialization"; "3378"
-"Failed to create object initialization.
-Error: # 1 # "," 3379 "
-"Failed to initialize the DLL.
-Error: # 1 # "," 3380 "
-"Loading files Scheme", "3381"
-"Failed to load schema files
-Error: # 1 # "," 3382 "
-"Files to Process"; "3383"
-"File # 1 #", "3384"
-"Creating Object Input: # 1 #", "3385"
-"Failed to create object Entry
-Error: # 1 # "," 3386 "
-"Loading records ...", "3387"
-"Failed to load the file records
-Error: # 1 # "," 3388 "
-'Records to process ";" 3389 "
-"Record # 1 #", "3390"
-"Creating Object Process: # 1 #", "3391"
-"Failed to create object Process
-Error: # 1 # "," 3392 "
-"Failed to load the record fields
-Error: # 1 # "," 3393 "
-"Name of file to create: # 1 #", "3394"
-"Failed to create output file: # 1 #
-Error: # 2 # "," 3395 "
-"Loading Data"; "3396"
-"Invoking the Object GetRecordset input method"; "3397"
-"Failed to invoke the method GetRecordset
-Error: # 1 #
-# 2 # "," 3398 "
-"Error processing registration: # 1 #
-Error: # 2 #
-# 3 #, "" 3399 "
-"Error writing to output file: # 1 #
-Error: # 2 # "," 3400 "
-"Error while processing the report
-Error: # 1 # "," 3401 "
-"By calling the Terminate method of the object initialization Dll customer." "3402"
-"Failed to call the Dll Terminate method.
-Error: # 1 # "," 3403 "
-"Time used: 1 #", "3404"
-"Canceled by the User Process"; "3405"
-"Processing the report # 1 #", "3406"
-"Resulado report # 1 #", "3407"
-". You have completed the steps to create the report # 1 #", "3408"
-"Advanced", "3409"
-"Load the following parameters", "3410"
-"Files", "3411"
-"Object DLL," "3412"
-"Sep. Registration"; "3413"
-"Sub type" "3414"
-"Advanced", "3415"
-"Error writing AFIPEsquema" "3416"
-"AFIP Parameters", "3417"
-"Table Help", "3418"
-"Error writing AFIPParametro" "3419"
-"AFIP records", "3420"
-"You must enter a process object", "3421"
-"You must enter a Position # 1 #", "3422"
-"You must enter an alignment # 1 #", "3423"
-"You must enter a field size # 1 #", "3424"
-"Index", "3425"
-"Filler", "3426"
-"Decimal Sep.", "3427"
-"Whole", "3428"
-"Alignment", "3429"
-"Object Processing", "3430"
-"Error writing AFIPRegistro" "3431"
-"Filter" "3432"
-"Error writing language"; "3433"
-"Type Doc." "1063"
-"Date of Birth", "1064"
-"Number", "1065"
-"C.I.." "1066"
-"D.N.I." "1067"
-"L.C." "1068"
-"L.E." "1069"
-"Other", "1070"
-"Passport," "1071"
-"Error writing CircuitoContable" "1072"
-"Accounting Circuit", "1073"
-"Accounting Circuit", "1074"
-"Error writing City"; "1075"
-"Cities", "1076"
-"You must enter a province", "1077"
-"City", "1078"
-"City", "1079"
-"Province", "1080"
-"Error writing Clearings", "1081"
-"Clearing"; "1082"
-"Clearing"; "1083"
-"Clearinghouse", "1084"
-"Days"; "1085"
-. "You have edited lose items if you continue to keep these changes ;; press 'NO' and then the 'Save' button Discards changes ;; ¿..?" "1086"
-"Error writing Collector"; "1087"
-"Collector", "1088"
-"Collector", "1089"
-"Reg Liq.."; "1090"
-"Commission"; "1091"
-"Error writing CondicionPago" "1092"
-"Terms of Payment"; "1093"
-"The sum of the percentages of the items of the payment condition must total 100.
-
-Entered add items # 1 #. "" 1094 "
-"Please specify in 'Items' the timing of the payment term," "1095"
-"Condition of payment"; "1096"
-"Please specify the number of days # 1 #", "1097"
-"You must enter a percentage # 1 #", "1098"
-"This payment condition is internal to the system can not be modified.."; "1099"
-"This payment condition is internal to the system can not be eliminated.."; "1100"
-"This payment condition is internal to the system can not be edited.."; "1101"
-"It is counted"; "1102"
-"It Free," "1103"
-"Seat by Maturity", "1104"
-"Percentage", "1105"
-"Error writing accounts" "1106"
-"Accounts", "1107"
-"You must enter a coin", "1108"
-"You must enter a category"; "1109"
-"You must enter a bank", "1110"
-"Accounts", "1111"
-"External ID", "1112"
-"Currency", "1113"
-"Company", "1114"
-"REQUIRES cost center", "1115"
-"Eligible Product", "1116"
-"Heritage", "1117"
-"Result", "1118"
-"Other", "1119"
-"Category", "1120"
-"Category Iva Book"; "1121"
-"Bank", "1122"
-"Error recording Account Groups"; "1123"
-"Failed to record the Stock", "2017"
-"Stock Transfer to Customer", "2018"
-"Transfer to Customer", "2019"
-"The Depot # 1 # belongs to another customer." "2020"
-"At least one of the two deposits (source or destination) must belong to the Customer." "2021"
-"Transfers of customer Stock", "2022"
-"Error writing Stock Transfer to Customer", "2023"
-"Stock Transfer Notes client # 1 #", "2024"
-"Notes Stock Lot # 1 #", "2025"
-"Stock Transfer Supplier", "2026"
-"Transfer Supplier", "2027"
-"The Depot # 1 # belongs to another provider." "2028"
-"At least one of the two deposits (source or destination) must belong to the Provider." "2029"
-"Stock Transfer Supplier", "2030"
-"Error writing Stock Transfer Supplier", "2031"
-"Error writing Stock Transfer", "2032"
-"Notes on Stock Transfer Supplier # 1 #", "2033"
-"You must enter a Serial Number for # 1 # 2 # #" "2034"
-"You did not give him an amount for item with variable amount
-# 1 # in row # 2 #
-
-Are you sure you load the kit is correct? "" 2035 "
-"He has not indicated serial numbers for the item # 1 # in row # 2 #
-
-Are you sure you load the kit is correct? "" 2036 "
-"He has not indicated lot numbers for item # 1 # in row # 2 #
-
-
-Are you sure you load the kit is correct? "" 2037 "
-"He has not indicated lot numbers for item # 1 # in row # 2 #
-
-Want to use the lot of the first row for all Kits? "" 2038 "
-"You must enter at least one batch number for # 1 # in row # 2 #", "2039"
-"He has not indicated alternatives for item # 1 # in row # 2 #
-
-
-Are you sure you load the kit is correct? "" 2040 "
-"You must enter the serial number for Item # 1 # identifying the Kit in row # 2 #", "2041"
-"Please state the Lot for item # 1 # Kit for identifying the row # 2 #", "2042"
-"Van", "2043"
-"Down one line (# 1 #)"; "2044"
-"Add a row (# 1 #)"; "2045"
-"Save changes?"; "2046"
-"Bank Reconciliation", "2047"
-"Cash", "2048"
-"Bank Reconciliation", "2049"
-"Take the date of collection of checks," "2050"
-"S. Earring", "2051"
-"S. Reconciled," "2052"
-"S. Rejected", "2053"
-"Initial balance", "2054"
-"Rejected", "2055"
-"Reconciled" "2056"
-"Load", "2057"
-"Cheque", "2058"
+update lenguajeitem set lengi_texto = 'The wizard now has all the information you need click on the Finish button to save the report.' where lengi_codigo ='2755' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Roles' where lengi_codigo = '2756' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Permissions' where lengi_codigo = '2757' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Users' where lengi_codigo = '2758' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'The permission% 1 belongs to a Department.;;Do you want to apply this permission to departments that depend on it?' where lengi_codigo = '2759' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'The use of cICheckedList_Remove cPermisos method in class is not allowed' where lengi_codigo = '2760' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'The use of cICheckedList_Clear cPermisos method in class is not allowed' where lengi_codigo = '2761' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Error writing permissions,' where lengi_codigo ='2762' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Error loading Permits' where lengi_codigo = '2763' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Definition' where lengi_codigo = '2764' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Error writing Roles' where lengi_codigo = '2765' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Sysmodulo' where lengi_codigo ='2766' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'You must enter an ID,' where lengi_codigo ='2767' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Please indicate Object Initialization' where lengi_codigo = '2768' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Enter a Edition Object' where lengi_codigo = '2769' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'You must enter an order' where lengi_codigo = '2770' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Provision should indicate' where lengi_codigo ='2771' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Sysmodulo' where lengi_codigo ='2772' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'ID' where lengi_codigo = '2773' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Object Initialization' where lengi_codigo = '2774' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Edit Object' where lengi_codigo = '2775' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Provision' where lengi_codigo = '2776' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Error writing sysModulo' where lengi_codigo ='2777' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'SysModuloTCP' where lengi_codigo ='2778' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'SysModulo TCP' where lengi_codigo = '2779' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Error writing sysModuloTCP' where lengi_codigo = '2780' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'You must enter a physical name' where lengi_codigo = '2781' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'You must enter an ID field' where lengi_codigo = '2782' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'You must enter a field code' where lengi_codigo = '2783' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Enter a name field' where lengi_codigo = '2784' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Tables' where lengi_codigo = '2785' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'View' where lengi_codigo ='2786' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Physical Name' where lengi_codigo = '2787' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Field ID' where lengi_codigo = '2788' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Field Code' where lengi_codigo = '2789' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Field Name' where lengi_codigo = '2790' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'ABM Object' where lengi_codigo = '2791' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'SP Info' where lengi_codigo = '2792' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Have Tree' where lengi_codigo = '2793' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Has Active' where lengi_codigo = '2794' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'A sp or a full select statement should be indicated.;Important: If a value for SQLHelp indicated, the WHERE field is not used to compose the sentence help' where lengi_codigo = '2795' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'SQLHelp' where lengi_codigo ='2796' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'SqlHelpWeb' where lengi_codigo ='2797' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'It is used to compose the select statement of helps.;The code form:;;Select {field id}, {field name}, {country code} {physicist from where {name}} Where' where lengi_codigo = '2798' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Where' where lengi_codigo = '2799' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Top' where lengi_codigo = '2800' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Golf View' where lengi_codigo = '2801' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Reports | * .csr' where lengi_codigo = '2802' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Failed to record Table' where lengi_codigo = '2803' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'The key and its confirmation do not match' where lengi_codigo = '2804' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Validating Ranks #1#' where lengi_codigo = '2805' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Customer / Supplier' where lengi_codigo = '2806' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Key' where lengi_codigo = '2807' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'This user does not specify working Deposits' where lengi_codigo = '2808' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Customers / Suppliers Department' where lengi_codigo = '2809' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'External' where lengi_codigo = '2810' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Customers / Suppliers by User' where lengi_codigo = '2811' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Person' where lengi_codigo = '2812' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Failed to record the User' where lengi_codigo = '2813' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'The use of property in the cUsuarioRol cICheckedListItem_UsId class is not allowed' where lengi_codigo = '2814' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'The use of cICheckedList_Remove cUsuarioRoles method in class is not allowed' where lengi_codigo = '2815' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'The use of cICheckedList_Clear cUsuarioRoles method in class is not allowed' where lengi_codigo = '2816' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Error writing to a User Roles' where lengi_codigo = '2817' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Error loading the Roles' where lengi_codigo ='2818' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Search Documents' where lengi_codigo = '2819' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Search' where lengi_codigo = '2820' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Contains' where lengi_codigo = '2821' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Start with' where lengi_codigo = '2822' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Just' where lengi_codigo = '2823' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Select' where lengi_codigo = '2824' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Fields' where lengi_codigo = '2825' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Filter' where lengi_codigo ='2826' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'You must select an item,' where lengi_codigo ='2827' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'No data found' where lengi_codigo = '2828' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'This document was created in the company #1# to edit should enter the company.' where lengi_codigo ='2829' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Customer Data' where lengi_codigo = '2830' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Order of Service' where lengi_codigo = '2831' and leng_id = 3;
+update lenguajeitem set lengi_texto = '| Client:' where lengi_codigo ='2832' and leng_id = 3;
+update lenguajeitem set lengi_texto = '| Tel:' where lengi_codigo ='2833' and leng_id = 3;
+update lenguajeitem set lengi_texto = '| Cel:' where lengi_codigo ='2834' and leng_id = 3;
+update lenguajeitem set lengi_texto = '| City:' where lengi_codigo ='2835' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Fault' where lengi_codigo = '2836' and leng_id = 3;
+update lenguajeitem set lengi_texto = '| Date Entry:' where lengi_codigo ='2837' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Extreme Team' where lengi_codigo = '2838' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Series' where lengi_codigo = '2839' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Battery Series:' where lengi_codigo = '2840' and leng_id = 3;
+update lenguajeitem set lengi_texto = '| F11:' where lengi_codigo ='2841' and leng_id = 3;
+update lenguajeitem set lengi_texto = '| Third,' where lengi_codigo ='2842' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'OT' where lengi_codigo = '2843' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Part of the Laboratory' where lengi_codigo = '2844' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Work Done' where lengi_codigo = '2845' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Process Forward:' where lengi_codigo ='2846' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'State and Location Team' where lengi_codigo = '2847' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'State' where lengi_codigo = '2848' and leng_id = 3;
+update lenguajeitem set lengi_texto = '| Deposit' where lengi_codigo = '2849' and leng_id = 3;
+update lenguajeitem set lengi_texto = '| Technician:' where lengi_codigo = '2850' and leng_id = 3;
+update lenguajeitem set lengi_texto = '| Budget:' where lengi_codigo ='2851' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Retired for:' where lengi_codigo ='2852' and leng_id = 3;
+update lenguajeitem set lengi_texto = '| Transport:' where lengi_codigo ='2853' and leng_id = 3;
+update lenguajeitem set lengi_texto = '| Guide' where lengi_codigo = '2854' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Part of the Call Center' where lengi_codigo = '2855' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Comments:' where lengi_codigo ='2856' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Part of Directors' where lengi_codigo = '2857' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'View Detail income' where lengi_codigo = '2858' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'No. Series 2.' where lengi_codigo ='2859' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'No. 3 Series.' where lengi_codigo = '2860' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Failed to save the document' where lengi_codigo = '2861' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'General Settings' where lengi_codigo = '2862' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'The number of decimal places for the amount can not be greater than 6 or less than 0.' where lengi_codigo ='2863' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'The number of decimal places for the amounts can not be more than 6 or less than 0.' where lengi_codigo ='2864' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'The key to the e-mail account conicide no confirmation.' where lengi_codigo ='2865' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Mi_casilla@server.com' where lengi_codigo ='2866' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Decimal' where lengi_codigo = '2867' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Email' where lengi_codigo = '2868' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Decimal Quantities' where lengi_codigo = '2869' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Decimals in amounts' where lengi_codigo = '2870' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Decimal in foreign currency quotation' where lengi_codigo = '2871' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Server' where lengi_codigo = '2872' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Port' where lengi_codigo = '2873' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Email to Test' where lengi_codigo = '2874' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Test' where lengi_codigo = '2875' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Confirm' where lengi_codigo = '2876' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'CrowSoft Cairo - Test Email' where lengi_codigo = '2877' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Public' where lengi_codigo = '2878' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Auto Adjust column width' where lengi_codigo = '2879' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Failed to save the View,' where lengi_codigo = '2880' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Print Price Lists,' where lengi_codigo ='2881' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Select list and can select multiple items ready to be printed on separate sheets..' where lengi_codigo = '2882' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Retired by' where lengi_codigo = '2883' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Delivery Guide,' where lengi_codigo ='2884' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Include VAT' where lengi_codigo = '2885' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'No Customers' where lengi_codigo = '2886' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'No Bases' where lengi_codigo = '2887' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Open Report' where lengi_codigo = '2888' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'The file;#1# does not exist.;Check the location of the reports' where lengi_codigo = '2889' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Serial Number' where lengi_codigo = '2890' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'You. Has scored more serial numbers required.;Only the first # 1 is deleted # marked counting from row 1' where lengi_codigo = '2891' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'You. Has scored more serial numbers required.;Only the first number is dialed eliminate counting from row 1' where lengi_codigo = '2892' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'You must check the numbers to be deleted.' where lengi_codigo = '2893' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'You must specify a number of existing Series #1#' where lengi_codigo = '2894' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Load range numbers' where lengi_codigo = '2895' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'No Filter Deposits' where lengi_codigo = '2896' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Indicate the #1# Serial Numbers to remove' where lengi_codigo ='2897' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Indicate the number to delete' where lengi_codigo = '2898' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Item' where lengi_codigo = '2899' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Number 2' where lengi_codigo = '2900' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Number 3' where lengi_codigo = '2901' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Date Vto.' where lengi_codigo = '2902' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'The serial numbers #1# is indicated more than once' where lengi_codigo = '2903' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'The Serial Number #1# is indicated more than once' where lengi_codigo = '2904' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Serial number range' where lengi_codigo = '2905' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Please specify a starting number' where lengi_codigo = '2906' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'You must enter a final number' where lengi_codigo = '2907' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Increasing Alphabetically' where lengi_codigo = '2908' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'The serial number may contain numbers and letters.;The system can generate the serial numbers within the range you indicated in two ways:;; Numerically 1-;  2- Alphabetically;When it increases alphabetical Cairo uses the numbers 0 through 9 and the letters of the English alphabet az in lowercase.;Ex. From: ab1 To: Cairo generates Ba1: ab1, ab2 .. ab9, aba, abb, .., ABZ, AC0, AC1, b01 .. .. Ba1' where lengi_codigo = '2909' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'This document belongs to the company #1#;In order to modify your application must enter 1 #' where lengi_codigo = '2910' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Before you can revoke the document should keep it.' where lengi_codigo ='2911' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'The document has already been canceled.;Do you want to un-cancel it?' where lengi_codigo = '2912' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'This document can not be modified due to:;#1#' where lengi_codigo = '2913' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'The date of the document is outside the range allowed by the access control dates.;Permtido Rank: #1#' where lengi_codigo = '2914' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'You. #1# indicated items but only #2# Serial Number #3#;Cairo Do you want to generate auxiliary numbers for you?' where lengi_codigo = '2915' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'The amount of line #1# is less than the number of serial numbers associated Indicate the / serial numbers to sign remove.' where lengi_codigo = '2916' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'The document will not be saved until you enter the serial numbers to delete or modify the amount shown on Line #1#' where lengi_codigo = '2917' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'You indicated items #1# 2 # # but only serial numbers #3#' where lengi_codigo = '2918' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'The RUT number is invalid' where lengi_codigo = '2919' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'You can modify the Document' where lengi_codigo = '2920' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'You must enter an amount' where lengi_codigo = '2921' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'The definition of the kit did not received can not edit the serial numbers.' where lengi_codigo = '2922' and leng_id = 3;
+update lenguajeitem set lengi_texto = '@@ERROR_SP. Could not get a number of assistant series' where lengi_codigo = '2923' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'The document does not belong to the company #1#.;You must enter the #2# to duplicate it' where lengi_codigo = '2924' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'The Tax ID number is invalid' where lengi_codigo = '2925' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Lots' where lengi_codigo = '2926' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Stock' where lengi_codigo = '2927' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Lots' where lengi_codigo = '2928' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'No. Lot.' where lengi_codigo ='2929' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Lot Father' where lengi_codigo = '2930' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Country of Origin' where lengi_codigo = '2931' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Error writing StockLote' where lengi_codigo ='2932' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'User Settings' where lengi_codigo = '2933' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Preferences' where lengi_codigo = '2934' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Cash' where lengi_codigo = '2935' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Desktop Files | * .csd' where lengi_codigo ='2936' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Show a message when recording sales invoices if the customer has informed advances' where lengi_codigo = '2937' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Failed to save user settings' where lengi_codigo = '2938' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Accumulates' where lengi_codigo ='2939' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Not Collect' where lengi_codigo = '2940' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Error writing the report' where lengi_codigo = '2941' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'The first two letter must be:;DC to develop Cairo;DT for developing Third;IC for implementing Cairo;Third IT Deployment;CL Customer;;Then an underscore as a separator followed by three letters of the project where Cairo is the CSC project (the three letters out of the customer name being used in each project the first 3 consonants such serious Construcciones Benito Rogio BRC, Clements CLM);Then an underscore as a separator followed by three letters of the module to which the report belongs. Example An accounting report carry with one shop and one COM VEN sales;;Then another underscore as separator and four digits which should be used to separate ranges 10 reports and should be used only units in the case of very similar versions of reports.;For example, a report developed by development Cairo belonging to bear the sales module DC_CSC_VEN_0010 code' where lengi_codigo = '2942' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'The code must meet the standard:;#1#.' where lengi_codigo = '2943' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Logo #1# of the company that appears on all reports footnotes.' where lengi_codigo = '2944' and leng_id = 3;
+update lenguajeitem set lengi_texto = '#1#;- Report: #2#;- Report: #3#' where lengi_codigo = '2945' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Could not load the report #1#, #2#' where lengi_codigo = '2946' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Could not load the report;#1#' where lengi_codigo = '2947' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'It does not exist.' where lengi_codigo ='2948' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Errors' where lengi_codigo = '2949' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Could not load the report;#1#;Contact Manager Cairo' where lengi_codigo = '2950' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'The report has #1# parameters and the definition indicates #2#;You must require systems to correct this error to run the report' where lengi_codigo = '2951' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Location: #1#;Execution: #2# seconds;Connection: #3# seconds;#4#' where lengi_codigo = '2952' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Parameters - #1#' where lengi_codigo = '2953' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Failed to save Report' where lengi_codigo = '2954' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'CDTeka' where lengi_codigo = '2955' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'CDROM' where lengi_codigo = '2956' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'CDRoms' where lengi_codigo = '2957' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Scan CD' where lengi_codigo = '2958' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Cancel' where lengi_codigo = '2959' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'You must enter a description' where lengi_codigo = '2960' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Save CD' where lengi_codigo = '2961' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'The CD was saved successfully.' where lengi_codigo = '2962' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Enter the drive to read' where lengi_codigo = '2963' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Failed to burn CD-Rom' where lengi_codigo = '2964' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'CDROM''s' where lengi_codigo = '2965' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'File' where lengi_codigo = '2966' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Search' where lengi_codigo ='2967' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Error while writing parameters CDRoms navigation' where lengi_codigo = '2968' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Minimum Type' where lengi_codigo = '2969' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Taxable' where lengi_codigo = '2970' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Nontaxable' where lengi_codigo = '2971' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Base #1#' where lengi_codigo = '2972' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Sure you want to cancel' where lengi_codigo = '2973' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Get Certificate of Registration AFIP' where lengi_codigo ='2974' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Please specify a file for the log of operations.' where lengi_codigo ='2975' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'You must specify a folder to store the records.' where lengi_codigo ='2976' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'You must select at least suppliers or customers.' where lengi_codigo ='2977' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Get Constancia AFIP' where lengi_codigo ='2978' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'AFIP' where lengi_codigo ='2979' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Include Customers' where lengi_codigo = '2980' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Include Providers' where lengi_codigo = '2981' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Log File' where lengi_codigo = '2982' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Show Browser window' where lengi_codigo = '2983' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Progress' where lengi_codigo = '2984' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Cancel Import' where lengi_codigo = '2985' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Starting the process of obtaining Constancias' where lengi_codigo ='2986' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Number of rows: 1 #' where lengi_codigo = '2987' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Process canceled' where lengi_codigo = '2988' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Log File | * .log' where lengi_codigo ='2989' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Warning: #1#' where lengi_codigo = '2990' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Van #1# 2 # # Looking record for #3# ....' where lengi_codigo ='2991' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Evidence obtained for the Tax ID #1#' where lengi_codigo = '2992' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Could not get the record for the Tax ID #1# (#2#) #3# (#4#)' where lengi_codigo = '2993' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Van #1# 2 # #' where lengi_codigo ='2994' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'No Cuits were indicated to process' where lengi_codigo ='2995' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Process Finished' where lengi_codigo = '2996' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Get Certificates of AFIP' where lengi_codigo ='2997' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'AFIP' where lengi_codigo ='2998' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Alsas' where lengi_codigo ='2999' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Please specify a type of wood' where lengi_codigo = '3000' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Please specify a type of camera' where lengi_codigo = '3001' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Please specify a type of Alsa' where lengi_codigo = '3002' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Beekeeping' where lengi_codigo = '3003' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Alsa' where lengi_codigo = '3004' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Alsa' where lengi_codigo = '3005' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Hive' where lengi_codigo = '3006' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Calden' where lengi_codigo = '3007' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Pino' where lengi_codigo = '3008' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Saligna' where lengi_codigo = '3009' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Type of Wood' where lengi_codigo = '3010' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Breeding' where lengi_codigo = '3011' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Melaria' where lengi_codigo = '3012' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Camera Type' where lengi_codigo = '3013' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Media Alsa' where lengi_codigo = '3014' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Alsa type' where lengi_codigo = '3015' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Error writing Alsa' where lengi_codigo = '3016' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Beehives' where lengi_codigo = '3017' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'You must enter a date,' where lengi_codigo = '3018' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Beehives' where lengi_codigo = '3019' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Date Added' where lengi_codigo = '3020' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'It Zanganera' where lengi_codigo = '3021' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Population' where lengi_codigo = '3022' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Food' where lengi_codigo = '3023' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Breeding Egg' where lengi_codigo = '3024' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Open Breeding' where lengi_codigo = '3025' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Raising capped' where lengi_codigo = '3026' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Error writing Hive' where lengi_codigo = '3027' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Queens,' where lengi_codigo = '3028' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'You must enter a Nativity' where lengi_codigo = '3029' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Quality must indicate' where lengi_codigo = '3030' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Queen,' where lengi_codigo = '3031' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Birth' where lengi_codigo = '3032' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Good,' where lengi_codigo = '3033' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Bad' where lengi_codigo = '3034' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Regular' where lengi_codigo = '3035' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Quality' where lengi_codigo = '3036' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Error writing Queen' where lengi_codigo = '3037' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'You can only change the number at least at the production side, when the part is new.;For parts already stored there to make a "Part of disarmament".' where lengi_texto = '3038' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Error writing project' where lengi_codigo = '3039' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Project / Groups / Contracts' where lengi_codigo = '3040' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Production' where lengi_codigo = '3041' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Machine' where lengi_codigo = '3042' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Error writing machine' where lengi_codigo = '3043' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Before you can specify alternative products should save the BOM' where lengi_codigo = '3044' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Processed' where lengi_codigo = '3045' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Approval Date' where lengi_codigo = '3046' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Shrinkage' where lengi_codigo = '3047' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Change Type' where lengi_codigo = '3048' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Positive Change' where lengi_codigo = '3049' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Negative Variation' where lengi_codigo = '3050' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Cant type.' where lengi_codigo = '3051' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Var +.' where lengi_codigo = '3052' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Var -.' where lengi_codigo = '3053' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Var type.' where lengi_codigo = '3054' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'It''s Base' where lengi_codigo = '3055' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'X Temporary import' where lengi_codigo = '3056' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Normal' where lengi_codigo = '3057' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Error writing Product BOM' where lengi_codigo = '3058' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Alternative Input' where lengi_codigo = '3059' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Error while writing supplies' where lengi_codigo = '3060' and leng_id = 3;
+update lenguajeitem set lengi_texto = '#1# Constancias_Afip' where lengi_codigo = '3061' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Public' where lengi_codigo = '3062' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'This team has no associated service order' where lengi_codigo = '3063' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'This team does not have an associated repair part' where lengi_codigo = '3064' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Other parts' where lengi_codigo = '3065' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'The use of property in the cPermiso cICheckedListItem_Id class is not permitted.' where lengi_codigo = '3066' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Discount Schedules' where lengi_codigo = '3067' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Enter a Product #1#' where lengi_codigo = '3068' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'The percentage may not exceed 100.00% #1#' where lengi_codigo = '3069' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'You must enter a discount or a Percentage #1#' where lengi_codigo = '3070' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Discount Schedules' where lengi_codigo = '3071' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Discounts Base List' where lengi_codigo = '3072' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Percentage s / Base' where lengi_codigo = '3073' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Error writing Discount List,' where lengi_codigo = '3074' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'You. Has published these prices if it continues to lose changes.
+To keep press "NO" and then the "Save" button.;;¿Discard changes?' where lengi_codigo = '3075' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'You. Edited lose customers if you continue these changes.;To keep press "NO" and then the "Save" button.;;¿Discards changes.' where lengi_codigo = '3076' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'The following lists generated cross-references that are not allowed' where lengi_codigo = '3077' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Price Lists' where lengi_codigo = '3078' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'You must enter a price or a Percentage #1#' where lengi_codigo = '3079' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'You must enter a price list #1#' where lengi_codigo = '3080' and leng_id = 3;
+update lenguajeitem set lengi_texto = ';; The list must be purchases' where lengi_codigo = '3081' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'The list must be purchases or costs' where lengi_codigo = '3082' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'The price list #1# invalid #2#.' where lengi_codigo = '3083' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Price Lists' where lengi_codigo = '3084' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Default list' where lengi_codigo = '3085' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Automatic X Purchase / Sale' where lengi_codigo = '3086' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Base Price List,' where lengi_codigo = '3087' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Cost' where lengi_codigo = '3088' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Products' where lengi_codigo = '3089' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'No filter x row.' where lengi_codigo = '3090' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Base List' where lengi_codigo = '3091' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Failed to record Price List' where lengi_codigo = '3092' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'You must enter an account for discounts' where lengi_codigo = '3093' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Account overall discount' where lengi_codigo = '3094' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Record to record the invoice seat' where lengi_codigo = '3095' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Please specify what kind of tax code works Cairo.' where lengi_codigo = '3096' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Fiscal Code Type' where lengi_codigo = '3097' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'C.U.I.T' where lengi_codigo = '3098' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'R.U.T.' where lengi_codigo = '3099' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Show Price' where lengi_codigo = '3100' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Indicate a price' where lengi_codigo = '3101' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'The price must be greater than zero' where lengi_codigo = '3102' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Prices were assigned successfully,' where lengi_codigo = '3103' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Filters' where lengi_codigo = '3104' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Could not load the report #1# (#2#)' where lengi_codigo = '3105' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Enter a Stored Procedure to control the stock' where lengi_codigo = '3106' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Fixed Length' where lengi_codigo = '3107' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Variable separated by a character' where lengi_codigo = '3108' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Checkbooks' where lengi_codigo = '3109' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Checkbooks' where lengi_codigo = '3110' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'You must enter a number from' where lengi_codigo ='3111' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'You must enter a number up,' where lengi_codigo ='3112' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Number From' where lengi_codigo = '3113' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Number Up' where lengi_codigo = '3114' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Last check issued' where lengi_codigo = '3115' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Suggested Checkbook' where lengi_codigo = '3116' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Failed to save the checkbook,' where lengi_codigo ='3117' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Coins' where lengi_codigo = '3118' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'You must enter a Sign' where lengi_codigo = '3119' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Currency' where lengi_codigo = '3120' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Quotes' where lengi_codigo = '3121' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Sign' where lengi_codigo = '3122' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Legal Tender' where lengi_codigo = '3123' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Accounting' where lengi_codigo = '3124' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Difference change' where lengi_codigo = '3125' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Record Collection seat when recording' where lengi_codigo = '3126' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Burn seat to record the Payment Order,' where lengi_codigo ='3127' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Burn seat to record the movement of funds' where lengi_codigo = '3128' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Burn seat when recording Surrender' where lengi_codigo = '3129' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Record to record the seat Bank Deposit' where lengi_codigo = '3130' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Record to record the presentation seat Stamp' where lengi_codigo = '3131' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Record Resolution seat when recording Stamp' where lengi_codigo = '3132' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Could not get the tax and accounting information related to Article #1#' where lengi_codigo = '3133' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Could not find the definition of VAT for the Customer' where lengi_codigo = '3134' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'You must enter a "number from" greater than zero' where lengi_codigo = '3135' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Must indicate a "number to" greater than zero' where lengi_codigo = '3136' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'The bills were canceled successfully' where lengi_codigo = '3137' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Cancel Massive Bill,' where lengi_codigo ='3138' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Import Initial Balances' where lengi_codigo = '3139' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'You must enter a document to the positive balances' where lengi_codigo = '3140' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'You must enter an item to save Movements' where lengi_codigo = '3141' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'The price can not be less than zero if this is legal tender documents indicate one..' where lengi_codigo = '3142' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'You must enter a branch to save movements' where lengi_codigo = '3143' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Cancel Invoice' where lengi_codigo = '3144' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'The bill #1# belongs Customer #2# in the generated document #3# #4#' where lengi_codigo ='3145' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'This process only cancels new invoices.;If the bill already exists process will not change.;For recorded documents and delete them from the window must Billing.;Upon completion of this process, check the status of Checkbook.;During this process should not generate invoices from other jobs.' where lengi_codigo = '3146' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Sure you want to cancel the import of Delivery Notes,' where lengi_codigo ='3147' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Starting import of Sale Delivery Notes' where lengi_codigo = '3148' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Document: #1#' where lengi_codigo = '3149' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'File: #1#' where lengi_codigo = '3150' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Branch: #1#' where lengi_codigo = '3151' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Date: #1#' where lengi_codigo = '3152' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Creating Excel object' where lengi_codigo = '3153' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Opening Excel File: #1#' where lengi_codigo = '3154' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Getting sheet 1: #1#' where lengi_codigo = '3155' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Getting the number of rows' where lengi_codigo = '3156' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'The file analysis completed successfully.;Import you sure?' where lengi_codigo = '3157' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Unable to start importing that could not get an ID import.' where lengi_codigo ='3158' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Import finished with some errors.;See the log file to see that we imported records' where lengi_codigo = '3159' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Records,' where lengi_codigo ='3354' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Import successfully completed' where lengi_codigo = '3160' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Could not get the cli_id for Customer #1#' where lengi_codigo = '3161' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Could not find the definition of VAT for the Client #1#' where lengi_codigo = '3162' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Import Sales Delivery Notes' where lengi_codigo = '3163' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'You must enter a document for Delivery Notes' where lengi_codigo = '3164' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'You must enter an Excel file with the Delivery Notes' where lengi_codigo = '3165' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Import Delivery Notes' where lengi_codigo = '3166' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'The file should contain a single sheet.;And the following columns in this order:;- Business, customer, refer, date, product,;  descrip, code and amount' where lengi_codigo = '3167' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Excel | * .xls' where lengi_codigo = '3168' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'The #1# refer customer belongs at #2# 3 # generated document # #4#' where lengi_codigo ='3169' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'The second column of the file must be named balance' where lengi_codigo = '3170' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'File: #1# - Lot #2#' where lengi_codigo = '3171' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'The first column should be called client or cuit.;If you call customer must indicate the code, but the CUIT' where lengi_codigo = '3172' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'The column #1# to be called Date,' where lengi_codigo ='3173' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'The column must be named #1# Product' where lengi_codigo = '3174' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'The column must be named #1# Descrip' where lengi_codigo ='3175' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'The column must be named #1# Amount' where lengi_codigo = '3176' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'The column #1# to be called Company' where lengi_codigo = '3177' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'The column must be named #1# I refer,' where lengi_codigo ='3178' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'The column #1# to be called Code' where lengi_codigo = '3179' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'The date of this registration will not coincide with you. Indicated in the import parameters;Are you sure importing this record?' where lengi_codigo = '3180' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'The refer #1# did not matter that no conicidio date as indicated on the import parameters.' where lengi_codigo ='3181' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Movement generated: #1#' where lengi_codigo = '3182' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Could not find the product associated with the code #1#' where lengi_codigo = '3183' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'The product code #1# does not exist in Cairo.' where lengi_codigo ='3184' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Could not find a code associated with the No. 1 Company #' where lengi_codigo ='3185' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'The Company Code #1# does not exist in Cairo.' where lengi_codigo ='3186' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'The business of this record does not match the active company (registration: #1# | active company #2#)' where lengi_codigo = '3187' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'You must select a Folder,' where lengi_codigo ='3231' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'This document does not require signature.' where lengi_codigo ='3232' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'This document has no associated user signature right Contact Manager Cairo..' where lengi_codigo = '3233' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Failed to store the last number used' where lengi_codigo = '3234' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Against Marks' where lengi_codigo = '3235' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Packaging' where lengi_codigo = '3236' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Against Marks' where lengi_codigo = '3237' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Error writing Contra Marks' where lengi_codigo = '3238' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Setting Calibradoras' where lengi_codigo ='3239' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Setting Calibradoras' where lengi_codigo = '3240' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Error writing settings Calibrating' where lengi_codigo ='3241' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Species' where lengi_codigo = '3242' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Species' where lengi_codigo = '3243' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Failed to save species,' where lengi_codigo ='3244' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Ports' where lengi_codigo ='3245' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'You must enter a City' where lengi_codigo = '3246' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Port' where lengi_codigo = '3247' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Error writing Port' where lengi_codigo = '3248' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Ships,' where lengi_codigo ='3249' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Ships,' where lengi_codigo = '3250' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Error writing Boat,' where lengi_codigo ='3251' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Calibrating' where lengi_codigo = '3252' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Calibrating' where lengi_codigo = '3253' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Error writing grader' where lengi_codigo = '3254' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Recipient / s' where lengi_codigo = '3255' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Copy to' where lengi_codigo = '3256' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Everyone must answer' where lengi_codigo = '3257' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'At least one should answer' where lengi_codigo = '3258' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'You must enter an email for the item #1#' where lengi_codigo = '3259' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'You must enter a time for item #1#' where lengi_codigo = '3260' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Mails' where lengi_codigo ='3261' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Mails' where lengi_codigo ='3262' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Failed to save the Mail' where lengi_codigo = '3263' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Product Family' where lengi_codigo = '3264' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Product Families' where lengi_codigo = '3265' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Product Families' where lengi_codigo = '3266' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Error writing ExpoFamilia' where lengi_codigo ='3267' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Position' where lengi_codigo = '3268' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Price groups' where lengi_codigo = '3269' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'You must enter a tariff position' where lengi_codigo = '3270' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'You must enter a tariff position #1#' where lengi_codigo = '3271' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'You must enter a Country #1#' where lengi_codigo = '3272' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Enter a language #1#' where lengi_codigo = '3273' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Price groups' where lengi_codigo = '3274' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Tariff Position' where lengi_codigo = '3275' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Error writing ExpoGrupoPrecio' where lengi_codigo ='3276' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'ExportPrint Export Invoice' where lengi_codigo = '3277' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Enter a language' where lengi_codigo = '3278' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Select a language, then you can modify the text of the bill on the Items tab' where lengi_codigo = '3279' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'You must enter a text for #1# 2 # #' where lengi_codigo = '3280' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'ExportPrint Packing List' where lengi_codigo = '3281' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Select a language, then you can amend the texts in the Packing List Items tab,' where lengi_codigo ='3282' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Generic' where lengi_codigo = '3283' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Approval' where lengi_codigo = '3284' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Replacement' where lengi_codigo ='3285' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Email Done' where lengi_codigo = '3286' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Implementation' where lengi_codigo = '3287' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Import' where lengi_codigo = '3288' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Imports' where lengi_codigo = '3289' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Do you want to reload the source tables?' where lengi_codigo = '3290' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Getting Data' where lengi_codigo = '3291' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Specify the column in the source code that corresponds to the field.' where lengi_codigo ='3292' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Importing records' where lengi_codigo = '3293' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Registration without ID (#1#)' where lengi_codigo = '3294' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Failed to register (#1#) original error: #2#' where lengi_codigo = '3295' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Proceed with import?' where lengi_codigo ='3296' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'The process took #1#' where lengi_codigo = '3297' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Were imported records #1#' where lengi_codigo = '3298' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'There was #1# records that failed and were not imported' where lengi_codigo ='3299' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'There was #1# records giving warnings and imported' where lengi_codigo = '3300' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'The process was completed successfully.' where lengi_codigo = '3301' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Loading data from Excel' where lengi_codigo = '3302' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Resulado import Teacher' where lengi_codigo = '3303' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Welcome to the Import Assistant Teacher' where lengi_codigo = '3304' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'With this wizard you import teachers from Excel, Access or Dbase files.' where lengi_codigo = '3305' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Enter a name for this import, specify the location of the import file and the target table' where lengi_codigo = '3306' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Source File' where lengi_codigo = '3307' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Files | * .mdb, * .xls, * dbf | Access | * .mdb | Excel | * .xls | DBase | * .dbf | OLEDB | * .udl..' where lengi_codigo = '3308' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Source Table' where lengi_codigo = '3309' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Target table' where lengi_codigo = '3310' and leng_id = 3;
+update lenguajeitem set lengi_texto = '. Link the fields of the target table to table origin may indicate defaults, leaving columns unmapped destination and indicate a source column more than once.' where lengi_codigo ='3311' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Default' where lengi_codigo = '3312' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Column origin' where lengi_codigo ='3313' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Column Destination' where lengi_codigo = '3314' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Save' where lengi_codigo ='3315' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Save As' where lengi_codigo = '3316' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Importing Data,' where lengi_codigo ='3317' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Son,' where lengi_codigo ='3318' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'View Log' where lengi_codigo = '3319' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'The file format is invalid.;The files must be Excel, Access or dBase format.' where lengi_codigo = '3320' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'You can include an ORDER BY or GROUP BY statement on origin' where lengi_codigo ='3321' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Import Registry Error' where lengi_codigo = '3322' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Warning !!!' where lengi_codigo ='3323' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'End Error' where lengi_codigo = '3324' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'End Warning !!!' where lengi_codigo ='3325' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Opening connection' where lengi_codigo = '3326' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Successful Connection' where lengi_codigo = '3327' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Successful implementation' where lengi_codigo = '3328' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'After successfully RS' where lengi_codigo = '3329' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'There was spent Internal error field.' where lengi_codigo = '3330' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'This tool allows you to directly modify the system tables.;Use with extreme caution because it changes you. Click on these tables can not be undone. In addition the system will not be able to validate these changes before they take effect.;Note that incorrect use of this tool may corrupt the system' where lengi_codigo = '3331' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Edit System Tables' where lengi_codigo = '3332' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Import Process' where lengi_codigo = '3333' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'You must enter a process of import' where lengi_codigo = '3334' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Import' where lengi_codigo = '3335' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Run Import' where lengi_codigo = '3336' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Import' where lengi_codigo = '3337' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Import Processes' where lengi_codigo = '3338' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Import Processes' where lengi_codigo = '3339' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Processes' where lengi_codigo = '3340' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Object' where lengi_codigo = '3341' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Last Import' where lengi_codigo ='3342' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'You must enter an Object #1#' where lengi_codigo = '3343' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Failed to save the import process' where lengi_codigo = '3344' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Could not get the ID of the target table.' where lengi_codigo ='3345' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Registration Code' where lengi_codigo = '3346' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'There was a record yield mistake and was not imported.' where lengi_codigo = '3347' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'There was a record that gave a warning and care.' where lengi_codigo ='3349' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Error importing record' where lengi_codigo = '3350' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'AFIP Files' where lengi_codigo = '3351' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'You must enter an input object' where lengi_codigo = '3352' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'You must enter a process object #1#' where lengi_codigo = '3353' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Record Separator' where lengi_codigo = '3355' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Input object' where lengi_codigo = '3356' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Toolbar' where lengi_codigo = '3357' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Object Process' where lengi_codigo = '3358' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Error writing AFIPArchivo' where lengi_codigo ='3359' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Please specify a schema' where lengi_codigo = '3360' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'AFIP Schemes' where lengi_codigo = '3361' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Reports' where lengi_codigo = '3362' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Define AFIP Report' where lengi_codigo = '3363' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'AFIP Process Report' where lengi_codigo = '3364' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'You must enter a subtype #1#' where lengi_codigo = '3365' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Enter a Tablahelp #1#' where lengi_codigo = '3366' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'You must specify a value #1#' where lengi_codigo = '3367' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'You must enter an input object #1#' where lengi_codigo = '3368' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Welcome to the Report Wizard AFIP' where lengi_codigo ='3369' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'With this wizard you create files for various reports AFIP.' where lengi_codigo = '3370' and leng_id = 3;
+update lenguajeitem set lengi_texto = '- Resolution 1631 (Electronic copy of documents on CD)' where lengi_codigo = '3371' and leng_id = 3;
+update lenguajeitem set lengi_texto = '-. S.I.C.O.R.E' where lengi_codigo ='3372' and leng_id = 3;
+update lenguajeitem set lengi_texto = '- C.I.T.I.' where lengi_codigo ='3373' and leng_id = 3;
+update lenguajeitem set lengi_texto = '- S.I.A.P.' where lengi_codigo ='3374' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Select a report outline AFIP to generate' where lengi_codigo ='3375' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Outline' where lengi_codigo = '3376' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'The wizard makes the report with the following parameters' where lengi_codigo = '3377' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Creating object client DLL initialization' where lengi_codigo = '3378' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Failed to create object initialization.;Error: #1#' where lengi_codigo = '3379' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Failed to initialize the DLL.;Error: #1#' where lengi_codigo = '3380' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Loading files Scheme' where lengi_codigo = '3381' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Failed to load schema files;Error: #1#' where lengi_codigo = '3382' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Files to Process' where lengi_codigo = '3383' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'File #1#' where lengi_codigo = '3384' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Creating Object Input: #1#' where lengi_codigo = '3385' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Failed to create object Entry;Error: #1#' where lengi_codigo = '3386' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Loading records ...' where lengi_codigo = '3387' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Failed to load the file records;Error: #1#' where lengi_codigo = '3388' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Records to process' where lengi_codigo = '3389' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Record #1#' where lengi_codigo = '3390' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Creating Object Process: #1#' where lengi_codigo = '3391' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Failed to create object Process;Error: #1#' where lengi_codigo = '3392' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Failed to load the record fields;Error: #1#' where lengi_codigo = '3393' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Name of file to create: #1#' where lengi_codigo = '3394' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Failed to create output file: #1#;Error: #2#' where lengi_codigo = '3395' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Loading Data' where lengi_codigo = '3396' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Invoking the Object GetRecordset input method' where lengi_codigo = '3397' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Failed to invoke the method GetRecordset;Error: #1#;#2#' where lengi_codigo = '3398' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Error processing registration: #1#;Error: #2#;#3#' where lengi_codigo = '3399' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Error writing to output file: #1#;Error: #2#' where lengi_codigo = '3400' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Error while processing the report;Error: #1#' where lengi_codigo = '3401' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'By calling the Terminate method of the object initialization Dll customer.' where lengi_codigo = '3402' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Failed to call the Dll Terminate method.Error: #1#' where lengi_codigo = '3403' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Time used: 1 #' where lengi_codigo = '3404' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Canceled by the User Process' where lengi_codigo = '3405' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Processing the report #1#' where lengi_codigo = '3406' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Resulado report #1#' where lengi_codigo = '3407' and leng_id = 3;
+update lenguajeitem set lengi_texto = '. You have completed the steps to create the report #1#' where lengi_codigo = '3408' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Advanced' where lengi_codigo = '3409' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Load the following parameters' where lengi_codigo = '3410' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Files' where lengi_codigo = '3411' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Object DLL,' where lengi_codigo ='3412' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Sep. Registration' where lengi_codigo = '3413' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Sub type' where lengi_codigo ='3414' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Advanced' where lengi_codigo = '3415' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Error writing AFIPEsquema' where lengi_codigo ='3416' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'AFIP Parameters' where lengi_codigo = '3417' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Table Help' where lengi_codigo = '3418' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Error writing AFIPParametro' where lengi_codigo ='3419' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'AFIP records' where lengi_codigo = '3420' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'You must enter a process object' where lengi_codigo = '3421' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'You must enter a Position #1#' where lengi_codigo = '3422' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'You must enter an alignment #1#' where lengi_codigo = '3423' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'You must enter a field size #1#' where lengi_codigo = '3424' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Index' where lengi_codigo = '3425' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Filler' where lengi_codigo = '3426' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Decimal Sep.' where lengi_codigo = '3427' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Whole' where lengi_codigo = '3428' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Alignment' where lengi_codigo = '3429' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Object Processing' where lengi_codigo = '3430' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Error writing AFIPRegistro' where lengi_codigo ='3431' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Filter' where lengi_codigo ='3432' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Error writing language' where lengi_codigo = '3433' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Type Doc.' where lengi_codigo = '1063' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Date of Birth' where lengi_codigo = '1064' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Number' where lengi_codigo = '1065' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'C.I..' where lengi_codigo = '1066' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'D.N.I.' where lengi_codigo = '1067' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'L.C.' where lengi_codigo = '1068' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'L.E.' where lengi_codigo = '1069' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Other' where lengi_codigo = '1070' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Passport,' where lengi_codigo = '1071' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Error writing CircuitoContable' where lengi_codigo = '1072' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Accounting Circuit' where lengi_codigo = '1073' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Accounting Circuit' where lengi_codigo = '1074' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Error writing City' where lengi_codigo = '1075' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Cities' where lengi_codigo = '1076' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'You must enter a province' where lengi_codigo = '1077' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'City' where lengi_codigo = '1078' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'City' where lengi_codigo = '1079' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Province' where lengi_codigo = '1080' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Error writing Clearings' where lengi_codigo = '1081' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Clearing' where lengi_codigo = '1082' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Clearing' where lengi_codigo = '1083' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Clearinghouse' where lengi_codigo = '1084' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Days' where lengi_codigo = '1085' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'You have edited lose items if you continue to keep these changes ;; press "NO" and then the "Save" button Discards changes ;; ¿..?' where lengi_codigo = '1086' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Error writing Collector' where lengi_codigo = '1087' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Collector' where lengi_codigo = '1088' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Collector' where lengi_codigo = '1089' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Reg Liq..' where lengi_codigo = '1090' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Commission' where lengi_codigo = '1091' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Error writing CondicionPago' where lengi_codigo = '1092' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Terms of Payment' where lengi_codigo = '1093' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'The sum of the percentages of the items of the payment condition must total 100.;;Entered add items #1#' where lengi_codigo = '1094' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Please specify in "Items" the timing of the payment term,' where lengi_codigo = '1095' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Condition of payment' where lengi_codigo = '1096' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Please specify the number of days #1#' where lengi_codigo = '1097' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'You must enter a percentage #1#' where lengi_codigo = '1098' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'This payment condition is internal to the system can not be modified..' where lengi_codigo = '1099' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'This payment condition is internal to the system can not be eliminated..' where lengi_codigo = '1100' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'This payment condition is internal to the system can not be edited..' where lengi_codigo = '1101' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'It is counted' where lengi_codigo = '1102' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'It Free,' where lengi_codigo = '1103' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Seat by Maturity' where lengi_codigo = '1104' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Percentage' where lengi_codigo = '1105' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Error writing accounts' where lengi_codigo = '1106' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Accounts' where lengi_codigo = '1107' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'You must enter a coin' where lengi_codigo = '1108' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'You must enter a category' where lengi_codigo = '1109' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'You must enter a bank' where lengi_codigo = '1110' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Accounts' where lengi_codigo = '1111' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'External ID' where lengi_codigo = '1112' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Currency' where lengi_codigo = '1113' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Company' where lengi_codigo = '1114' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'REQUIRES cost center' where lengi_codigo = '1115' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Eligible Product' where lengi_codigo = '1116' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Heritage' where lengi_codigo = '1117' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Result' where lengi_codigo = '1118' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Other' where lengi_codigo = '1119' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Category' where lengi_codigo = '1120' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Category Iva Book' where lengi_codigo = '1121' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Bank' where lengi_codigo = '1122' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Error recording Account Groups' where lengi_codigo = '1123' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Failed to record the Stock' where lengi_codigo = '2017' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Stock Transfer to Customer' where lengi_codigo = '2018' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Transfer to Customer' where lengi_codigo = '2019' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'The Depot #1# belongs to another customer.' where lengi_codigo = '2020' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'At least one of the two deposits (source or destination) must belong to the Customer.' where lengi_codigo = '2021' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Transfers of customer Stock' where lengi_codigo = '2022' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Error writing Stock Transfer to Customer' where lengi_codigo = '2023' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Stock Transfer Notes client #1#' where lengi_codigo = '2024' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Notes Stock Lot #1#' where lengi_codigo = '2025' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Stock Transfer Supplier' where lengi_codigo = '2026' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Transfer Supplier' where lengi_codigo = '2027' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'The Depot #1# belongs to another provider.' where lengi_codigo = '2028' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'At least one of the two deposits (source or destination) must belong to the Provider.' where lengi_codigo = '2029' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Stock Transfer Supplier' where lengi_codigo = '2030' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Error writing Stock Transfer Supplier' where lengi_codigo = '2031' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Error writing Stock Transfer' where lengi_codigo = '2032' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Notes on Stock Transfer Supplier #1#' where lengi_codigo = '2033' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'You must enter a Serial Number for #1# 2 # #' where lengi_codigo = '2034' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'You did not give him an amount for item with variable amount;#1# in row #2#;;Are you sure you load the kit is correct?' where lengi_codigo = '2035' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'He has not indicated serial numbers for the item #1# in row #2#;;Are you sure you load the kit is correct?' where lengi_codigo = '2036' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'He has not indicated lot numbers for item #1# in row #2#;;;Are you sure you load the kit is correct?' where lengi_codigo = '2037' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'He has not indicated lot numbers for item #1# in row #2#;;Want to use the lot of the first row for all Kits?' where lengi_codigo = '2038' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'You must enter at least one batch number for #1# in row #2#' where lengi_codigo = '2039' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'He has not indicated alternatives for item #1# in row #2#;;;Are you sure you load the kit is correct?' where lengi_codigo = '2040' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'You must enter the serial number for Item #1# identifying the Kit in row #2#' where lengi_codigo = '2041' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Please state the Lot for item #1# Kit for identifying the row #2#' where lengi_codigo = '2042' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Van' where lengi_codigo = '2043' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Down one line (#1#)' where lengi_codigo = '2044' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Add a row (#1#)' where lengi_codigo = '2045' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Save changes?' where lengi_codigo = '2046' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Bank Reconciliation' where lengi_codigo = '2047' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Cash' where lengi_codigo = '2048' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Bank Reconciliation' where lengi_codigo = '2049' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Take the date of collection of checks,' where lengi_codigo = '2050' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'S. Earring' where lengi_codigo = '2051' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'S. Reconciled,' where lengi_codigo = '2052' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'S. Rejected' where lengi_codigo = '2053' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Initial balance' where lengi_codigo = '2054' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Rejected' where lengi_codigo = '2055' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Reconciled' where lengi_codigo = '2056' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Load' where lengi_codigo = '2057' and leng_id = 3;
+update lenguajeitem set lengi_texto = 'Cheque' where lengi_codigo = '2058' and leng_id = 3;

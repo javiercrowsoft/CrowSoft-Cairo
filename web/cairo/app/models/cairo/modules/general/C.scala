@@ -388,38 +388,38 @@ object C {
   val TRANS_HORARIO_THASTA = "trans_horario_t_hasta"
 
   // Lista de Precios
-  val LISTAPRECIO = "ListaPrecio"
+  val LISTA_PRECIO = "ListaPrecio"
   val LP_ID = "lp_id"
   val LP_NAME = "lp_nombre"
 
   // Lista de Precios Items
-  val LISTAPRECIOITEM = "ListaPrecioItem"
+  val LISTA_PRECIO_ITEM = "ListaPrecioItem"
   val LPI_ID = "lpi_id"
   val LPI_PRECIO = "lpi_precio"
   val LPI_PORCENTAJE = "lpi_porcentaje"
   val LPI_FECHA = "lpi_fecha"
 
   // Lista de Descuentos
-  val LISTADESCUENTO = "ListaDescuento"
+  val LISTA_DESCUENTO = "ListaDescuento"
   val LD_ID = "ld_id"
   val LD_NAME = "ld_nombre"
 
   // Lista de Precios Clientes
-  val LISTAPRECIOCLIENTE = "ListaPrecioCliente"
+  val LISTA_PRECIO_CLIENTE = "ListaPrecioCliente"
   val LP_CLI_ID = "lpcli_id"
 
-  val LISTAPRECIOPROVEEDOR = "ListaPrecioProveedor"
+  val LISTA_PRECIO_PROVEEDOR = "ListaPrecioProveedor"
   val LP_PROV_ID = "lpprov_id"
 
   // Lista de Descuentos Clientes
-  val LISTADESCUENTOCLIENTE = "ListaDescuentoCliente"
+  val LISTA_DESCUENTO_CLIENTE = "ListaDescuentoCliente"
   val LD_CLI_ID = "ldcli_id"
 
-  val LISTADESCUENTOPROVEEDOR = "ListaDescuentoProveedor"
+  val LISTA_DESCUENTO_PROVEEDOR = "ListaDescuentoProveedor"
   val LD_PROV_ID = "ldprov_id"
 
   // Catalogo Web
-  val CATALOGOWEB = "CatalogoWeb"
+  val CATALOGO_WEB = "CatalogoWeb"
   val CATW_ID = "catw_id"
   val CATW_NAME = "catw_nombre"
   val CATW_CODE = "catw_codigo"
@@ -434,19 +434,19 @@ object C {
   val CATW_CSCART = "catw_cscart"
 
   // Catalogo Web Item
-  val CATALOGOWEBITEM = "CatalogoWebItem"
+  val CATALOGO_WEB_ITEM = "CatalogoWebItem"
   val CATWI_ID = "catwi_id"
   val CATWI_ACTIVO = "catwi_activo"
 
   // Catalogo Web Categoria
-  val CATALOGOWEBCATEGORIA = "CatalogoWebCategoria"
+  val CATALOGO_WEB_CATEGORIA = "CatalogoWebCategoria"
   val CATWC_ID = "catwc_id"
   val CATWC_NAME = "catwc_nombre"
   val CATWC_CODE = "catwc_codigo"
   val CATWC_DESCRIP = "catwc_descrip"
 
   // Catalogo Web Categoria Item
-  val CATALOGOWEBCATEGORIAITEM = "CatalogoWebCategoriaItem"
+  val CATALOGO_WEB_CATEGORIA_ITEM = "CatalogoWebCategoriaItem"
   val CATWCI_ID = "catwci_id"
   val CATWCI_POSICION = "catwci_posicion"
   val CATWCI_ACTIVO = "catwci_activo"
@@ -633,7 +633,7 @@ object C {
   val TA_ENABLED = "ta_enabled"
 
   // PercepcionTipo
-  val PERCEPCIONTIPO = "PercepcionTipo"
+  val PERCEPCION_TIPO = "PercepcionTipo"
   val PERCT_ID = "perct_id"
   val PERCT_NAME = "perct_nombre"
   val PERCT_CODE = "perct_codigo"
@@ -652,7 +652,7 @@ object C {
   val PERC_ES_IIBB = "perc_esiibb"
 
   // PercepcionItem
-  val PERCEPCIONITEM = "PercepcionItem"
+  val PERCEPCION_ITEM = "PercepcionItem"
   val PERCI_ID = "perci_id"
   val PERCI_IMPORTE_DESDE = "perci_importedesde"
   val PERCI_IMPORTE_HASTA = "perci_importehasta"
@@ -660,7 +660,7 @@ object C {
   val PERCI_IMPORTEFIJO = "perci_importefijo"
 
   // RetencionTipo
-  val RETENCIONTIPO = "RetencionTipo"
+  val RETENCION_TIPO = "RetencionTipo"
   val RETT_ID = "rett_id"
   val RETT_NAME = "rett_nombre"
   val RETT_CODE = "rett_codigo"
@@ -682,7 +682,7 @@ object C {
   val RET_ES_IIBB = "ret_esiibb"
 
   // RetencionItem
-  val RETENCIONITEM = "RetencionItem"
+  val RETENCION_ITEM = "RetencionItem"
   val RETI_ID = "reti_id"
   val RETI_IMPORTE_DESDE = "reti_importedesde"
   val RETI_IMPORTE_HASTA = "reti_importehasta"
@@ -853,11 +853,6 @@ object C {
 
   val PR_NAME_WEB_PADRE = "pr_nombre_web_padre"
 
-  val PRT_EXPO_WEB = "prt_expoweb"
-  val PRT_EXPO_CAIRO = "prt_expocairo"
-
-  val PR_ID_TAG = "pr_id_tag"
-
   val TA_ID_KIT_SERIE = "ta_id_kitSerie"
   val TA_ID_KIT_LOTE = "ta_id_kitLote"
 
@@ -881,6 +876,10 @@ object C {
   val PRODUCTO_TAG = "ProductoTag"
   val PRT_ID = "prt_id"
   val PRT_TEXTO = "prt_texto"
+  val PRT_EXPO_WEB = "prt_expoweb"
+  val PRT_EXPO_CAIRO = "prt_expocairo"
+  val PRT_ORDEN = "orden"
+  val PR_ID_TAG = "pr_id_tag"
 
   // Producto Web Image
   val PRODUCTO_WEB_IMAGE = "ProductoWebImage"
@@ -922,10 +921,10 @@ object C {
 
   // Producto Cliente
   val PRODUCTO_CLIENTE = "ProductoCliente"
-  val PR_CLI_ID = "prcli_id"
-  val PR_CLI_NAME = "prcli_nombre"
-  val PR_CLI_CODE = "prcli_codigo"
-  val PR_CLI_CODIGO_BARRA = "prcli_codigoBarra"
+  val PRCLI_ID = "prcli_id"
+  val PRCLI_NAME = "prcli_nombre"
+  val PRCLI_CODE = "prcli_codigo"
+  val PRCLI_CODIGO_BARRA = "prcli_codigoBarra"
 
   // Producto BOM
   val PRODUCTO_BOM = "ProductoBOM"
@@ -951,7 +950,7 @@ object C {
   val ROL_DESCRIP = "rol_descrip"
 
   // usuarioRol
-  val USUARIO_ROL = "usuarioRol"
+  val USUARIO_ROL = "UsuarioRol"
 
   // Prestacion
   val PRESTACION = "Prestacion"
@@ -960,7 +959,7 @@ object C {
   val PRE_GRUPO = "pre_grupo"
   
   // Empresa
-  val EMPRESA = "empresa"
+  val EMPRESA = "Empresa"
   val EMP_ID = "emp_id"
   val EMP_DESCRIP = "emp_descrip"
   val EMP_RAZONSOCIAL = "emp_razonsocial"
@@ -981,7 +980,7 @@ object C {
   val EMP_WEB = "emp_web"
 
   // UsuarioDepartamento
-  val USUARIODEPARTAMENTO = "UsuarioDepartamento"
+  val USUARIO_DEPARTAMENTO = "UsuarioDepartamento"
   val USDPTO_ID = "usdpto_id"
 
   // Persona
@@ -1023,7 +1022,7 @@ object C {
   val IDM_CODE = "idm_codigo"
 
   // Tipo Operacion
-  val TIPOOPERACION = "TipoOperacion"
+  val TIPO_OPERACION = "TipoOperacion"
   val TO_ID = "to_id"
   val TO_NAME = "to_nombre"
   val TO_CODE = "to_codigo"
@@ -1031,7 +1030,7 @@ object C {
   val TO_DESCRIP = "to_descrip"
 
   // Tipo Operacion Cuenta Grupo
-  val TIPOOPERACIONCUENTAGRUPO = "TipoOperacionCuentaGrupo"
+  val TIPO_OPERACION_CUENTA_GRUPO = "TipoOperacionCuentaGrupo"
   val TO_CUEG_ID = "tocueg_id"
 
   // Embalaje
@@ -1048,7 +1047,7 @@ object C {
   val PR_ID_STOCK = "pr_id_stock"
 
   // Usuario DepositoLogico
-  val USUARIODEPOSITO_LOGICO = "UsuarioDepositoLogico"
+  val USUARIO_DEPOSITO_LOGICO = "UsuarioDepositoLogico"
   val US_DEPL_ID = "usdepl_id"
 
   // Expo Grupo Precio
@@ -1060,7 +1059,7 @@ object C {
   val EFM_NAME = "efm_nombre"
 
   // Producto Formula Kit
-  val PRODUCTOFORMULAKIT = "ProductoFormulaKit"
+  val PRODUCTO_FORMULA_KIT = "ProductoFormulaKit"
   val PRFK_ID = "prfk_id"
   val PRFK_NAME = "prfk_nombre"
   val PRFK_CODE = "prfk_codigo"

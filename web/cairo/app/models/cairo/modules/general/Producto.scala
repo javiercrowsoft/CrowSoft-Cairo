@@ -773,7 +773,12 @@ case class ProductoLeyenda(
 
 case class ProductoTag(
                         id: Int,
-                        text: String
+                        text: String,
+                        prIdTag: Int,
+                        prName: String,
+                        order: Int,
+                        expoWeb: Int,
+                        expoCairo: Int
                         )
 
 case class ProductoCategoriaWeb(
@@ -1211,6 +1216,336 @@ object Producto {
         price match { case Some(p) => p.doubleValue case None => 0.0 },
         priceDate.getOrElse(U.NO_DATE),
         priceDefault != 0)
+    }
+  }
+
+  private val productoClienteParser: RowParser[ProductoCliente] = {
+    SqlParser.get[Int](C.PRCLI_ID) ~
+    SqlParser.get[Int](C.CLI_ID) ~
+    SqlParser.get[String](C.CLI_NAME) ~
+    SqlParser.get[String](C.PRCLI_CODE) ~
+    SqlParser.get[String](C.PRCLI_CODIGO_BARRA) map {
+    case
+        id ~
+        cliId ~
+        cliName ~
+        code ~
+        barCode =>
+      ProductoCliente(
+        id,
+        cliId,
+        cliName,
+        code,
+        barCode)
+    }
+  }
+
+  private val productoCMIParser: RowParser[ProductoCMI] = {
+    SqlParser.get[Int](C.PRCMI_ID) ~
+    SqlParser.get[String](C.PRCMI_CODE) ~
+    SqlParser.get[String](C.PRCMI_DESCRIP) ~
+    SqlParser.get[Option[Date]](C.PRCMI_FECHA_ALTA) ~
+    SqlParser.get[Option[Date]](C.PRCMI_FECHA_VTO) ~
+    SqlParser.get[Option[BigDecimal]](C.PRCMI_PRECIO) map {
+    case
+        id ~
+        code ~
+        descrip ~
+        createAt ~
+        expireDate ~
+        price =>
+      ProductoCMI(
+        id,
+        code,
+        descrip,
+        createAt,
+        expireDate,
+        price.doubleValue)
+    }
+  }
+
+  private val productoLeyendaParser: RowParser[ProductoLeyenda] = {
+    SqlParser.get[Int](C.PRL_ID) ~
+    SqlParser.get[String](C.PRL_NAME) ~
+    SqlParser.get[String](C.PRL_TEXTO) ~
+    SqlParser.get[String](C.PRL_TAG) ~
+    SqlParser.get[Int](C.PRL_ORDEN) map {
+    case
+        id ~
+        name ~
+        text ~
+        tag ~
+        order =>
+      ProductoLeyenda(
+        id,
+        name,
+        text,
+        tag,
+        order)
+    }
+  }
+
+  private val productoTagParser: RowParser[ProductoTag] = {
+    SqlParser.get[Int](C.PRT_ID) ~
+    SqlParser.get[String](C.PRT_TEXTO) ~
+    SqlParser.get[Int](C.PR_ID_TAG) ~
+    SqlParser.get[String](C.PR_NAME_COMPRA) ~
+    SqlParser.get[Int](C.PRT_ORDEN) ~
+    SqlParser.get[Int](C.PRT_EXPO_CAIRO) ~
+    SqlParser.get[Int](C.PRT_EXPO_CAIRO) map {
+    case
+      id ~
+        provId ~
+        provName ~
+        maker ~
+        name ~
+        code ~
+        barCode ~
+        paId ~
+        paName ~
+        lpName ~
+        price ~
+        priceDate ~
+        priceDefault =>
+      ProductoTag(
+        id,
+        provId,
+        provName,
+        maker.getOrElse(0) != 0,
+        name.getOrElse(""),
+        code.getOrElse(""),
+        barCode.getOrElse(""),
+        paId.getOrElse(DBHelper.NoId),
+        paName.getOrElse(""),
+        lpName.getOrElse(""),
+        price match { case Some(p) => p.doubleValue case None => 0.0 },
+        priceDate.getOrElse(U.NO_DATE),
+        priceDefault != 0)
+    }
+  }
+
+  private val productoCategoriaWebParser: RowParser[ProductoCategoriaWeb] = {
+    SqlParser.get[Int](C.PRPROV_ID) ~
+      SqlParser.get[Int](C.PROV_ID) ~
+      SqlParser.get[String](C.PROV_NAME) ~
+      SqlParser.get[Option[Int]](C.PRPROV_FABRICANTE) ~
+      SqlParser.get[Option[String]](C.PRPROV_NAME) ~
+      SqlParser.get[Option[String]](C.PRPROV_CODE) ~
+      SqlParser.get[Option[String]](C.PRPROV_CODIGO_BARRA) ~
+      SqlParser.get[Option[Int]](C.PA_ID) ~
+      SqlParser.get[Option[String]](C.PA_NAME) ~
+      SqlParser.get[Option[String]](C.LP_NAME) ~
+      SqlParser.get[Option[BigDecimal]](C.LPI_PRECIO) ~
+      SqlParser.get[Option[Date]](C.LPI_FECHA) ~
+      SqlParser.get[Option[Int]](C.PRPROV_LPI_TOP) map {
+      case
+        id ~
+          provId ~
+          provName ~
+          maker ~
+          name ~
+          code ~
+          barCode ~
+          paId ~
+          paName ~
+          lpName ~
+          price ~
+          priceDate ~
+          priceDefault =>
+        ProductoProveedor(
+          id,
+          provId,
+          provName,
+          maker.getOrElse(0) != 0,
+          name.getOrElse(""),
+          code.getOrElse(""),
+          barCode.getOrElse(""),
+          paId.getOrElse(DBHelper.NoId),
+          paName.getOrElse(""),
+          lpName.getOrElse(""),
+          price match { case Some(p) => p.doubleValue case None => 0.0 },
+          priceDate.getOrElse(U.NO_DATE),
+          priceDefault != 0)
+    }
+  }
+
+  private val productoCatalogoWebParser: RowParser[ProductoCatalogoWeb] = {
+    SqlParser.get[Int](C.PRPROV_ID) ~
+      SqlParser.get[Int](C.PROV_ID) ~
+      SqlParser.get[String](C.PROV_NAME) ~
+      SqlParser.get[Option[Int]](C.PRPROV_FABRICANTE) ~
+      SqlParser.get[Option[String]](C.PRPROV_NAME) ~
+      SqlParser.get[Option[String]](C.PRPROV_CODE) ~
+      SqlParser.get[Option[String]](C.PRPROV_CODIGO_BARRA) ~
+      SqlParser.get[Option[Int]](C.PA_ID) ~
+      SqlParser.get[Option[String]](C.PA_NAME) ~
+      SqlParser.get[Option[String]](C.LP_NAME) ~
+      SqlParser.get[Option[BigDecimal]](C.LPI_PRECIO) ~
+      SqlParser.get[Option[Date]](C.LPI_FECHA) ~
+      SqlParser.get[Option[Int]](C.PRPROV_LPI_TOP) map {
+      case
+        id ~
+          provId ~
+          provName ~
+          maker ~
+          name ~
+          code ~
+          barCode ~
+          paId ~
+          paName ~
+          lpName ~
+          price ~
+          priceDate ~
+          priceDefault =>
+        ProductoProveedor(
+          id,
+          provId,
+          provName,
+          maker.getOrElse(0) != 0,
+          name.getOrElse(""),
+          code.getOrElse(""),
+          barCode.getOrElse(""),
+          paId.getOrElse(DBHelper.NoId),
+          paName.getOrElse(""),
+          lpName.getOrElse(""),
+          price match { case Some(p) => p.doubleValue case None => 0.0 },
+          priceDate.getOrElse(U.NO_DATE),
+          priceDefault != 0)
+    }
+  }
+
+  private val productoWebImageParser: RowParser[ProductoWebImage] = {
+    SqlParser.get[Int](C.PRPROV_ID) ~
+      SqlParser.get[Int](C.PROV_ID) ~
+      SqlParser.get[String](C.PROV_NAME) ~
+      SqlParser.get[Option[Int]](C.PRPROV_FABRICANTE) ~
+      SqlParser.get[Option[String]](C.PRPROV_NAME) ~
+      SqlParser.get[Option[String]](C.PRPROV_CODE) ~
+      SqlParser.get[Option[String]](C.PRPROV_CODIGO_BARRA) ~
+      SqlParser.get[Option[Int]](C.PA_ID) ~
+      SqlParser.get[Option[String]](C.PA_NAME) ~
+      SqlParser.get[Option[String]](C.LP_NAME) ~
+      SqlParser.get[Option[BigDecimal]](C.LPI_PRECIO) ~
+      SqlParser.get[Option[Date]](C.LPI_FECHA) ~
+      SqlParser.get[Option[Int]](C.PRPROV_LPI_TOP) map {
+      case
+        id ~
+          provId ~
+          provName ~
+          maker ~
+          name ~
+          code ~
+          barCode ~
+          paId ~
+          paName ~
+          lpName ~
+          price ~
+          priceDate ~
+          priceDefault =>
+        ProductoProveedor(
+          id,
+          provId,
+          provName,
+          maker.getOrElse(0) != 0,
+          name.getOrElse(""),
+          code.getOrElse(""),
+          barCode.getOrElse(""),
+          paId.getOrElse(DBHelper.NoId),
+          paName.getOrElse(""),
+          lpName.getOrElse(""),
+          price match { case Some(p) => p.doubleValue case None => 0.0 },
+          priceDate.getOrElse(U.NO_DATE),
+          priceDefault != 0)
+    }
+  }
+
+  private val productoKitParser: RowParser[ProductoKit] = {
+    SqlParser.get[Int](C.PRPROV_ID) ~
+      SqlParser.get[Int](C.PROV_ID) ~
+      SqlParser.get[String](C.PROV_NAME) ~
+      SqlParser.get[Option[Int]](C.PRPROV_FABRICANTE) ~
+      SqlParser.get[Option[String]](C.PRPROV_NAME) ~
+      SqlParser.get[Option[String]](C.PRPROV_CODE) ~
+      SqlParser.get[Option[String]](C.PRPROV_CODIGO_BARRA) ~
+      SqlParser.get[Option[Int]](C.PA_ID) ~
+      SqlParser.get[Option[String]](C.PA_NAME) ~
+      SqlParser.get[Option[String]](C.LP_NAME) ~
+      SqlParser.get[Option[BigDecimal]](C.LPI_PRECIO) ~
+      SqlParser.get[Option[Date]](C.LPI_FECHA) ~
+      SqlParser.get[Option[Int]](C.PRPROV_LPI_TOP) map {
+      case
+        id ~
+          provId ~
+          provName ~
+          maker ~
+          name ~
+          code ~
+          barCode ~
+          paId ~
+          paName ~
+          lpName ~
+          price ~
+          priceDate ~
+          priceDefault =>
+        ProductoProveedor(
+          id,
+          provId,
+          provName,
+          maker.getOrElse(0) != 0,
+          name.getOrElse(""),
+          code.getOrElse(""),
+          barCode.getOrElse(""),
+          paId.getOrElse(DBHelper.NoId),
+          paName.getOrElse(""),
+          lpName.getOrElse(""),
+          price match { case Some(p) => p.doubleValue case None => 0.0 },
+          priceDate.getOrElse(U.NO_DATE),
+          priceDefault != 0)
+    }
+  }
+
+  private val productoBOMParser: RowParser[ProductoBOM] = {
+    SqlParser.get[Int](C.PRPROV_ID) ~
+      SqlParser.get[Int](C.PROV_ID) ~
+      SqlParser.get[String](C.PROV_NAME) ~
+      SqlParser.get[Option[Int]](C.PRPROV_FABRICANTE) ~
+      SqlParser.get[Option[String]](C.PRPROV_NAME) ~
+      SqlParser.get[Option[String]](C.PRPROV_CODE) ~
+      SqlParser.get[Option[String]](C.PRPROV_CODIGO_BARRA) ~
+      SqlParser.get[Option[Int]](C.PA_ID) ~
+      SqlParser.get[Option[String]](C.PA_NAME) ~
+      SqlParser.get[Option[String]](C.LP_NAME) ~
+      SqlParser.get[Option[BigDecimal]](C.LPI_PRECIO) ~
+      SqlParser.get[Option[Date]](C.LPI_FECHA) ~
+      SqlParser.get[Option[Int]](C.PRPROV_LPI_TOP) map {
+      case
+        id ~
+          provId ~
+          provName ~
+          maker ~
+          name ~
+          code ~
+          barCode ~
+          paId ~
+          paName ~
+          lpName ~
+          price ~
+          priceDate ~
+          priceDefault =>
+        ProductoProveedor(
+          id,
+          provId,
+          provName,
+          maker.getOrElse(0) != 0,
+          name.getOrElse(""),
+          code.getOrElse(""),
+          barCode.getOrElse(""),
+          paId.getOrElse(DBHelper.NoId),
+          paName.getOrElse(""),
+          lpName.getOrElse(""),
+          price match { case Some(p) => p.doubleValue case None => 0.0 },
+          priceDate.getOrElse(U.NO_DATE),
+          priceDefault != 0)
     }
   }
 
@@ -1952,7 +2287,16 @@ object Producto {
   private def loadProductoItems(user: CompanyUser, id: Int) = {
     ProductoItems(
       loadProveedores(user, id),
-      List(), List(), List(), List(), List(), List(), List(), List(), List(), List())
+      loadClientes(user, id),
+      loadCmi(user, id),
+      loadLeyendas(user, id),
+      loadTags(user, id),
+      loadCategoriasWeb(user, id),
+      loadCatalogosWeb(user, id),
+      loadWebImages(user, id),
+      loadKits(user, id),
+      loadBoms(user, id),
+      List())
   }
 
   private def loadProveedores(user: CompanyUser, id: Int) = {
@@ -1974,6 +2318,249 @@ object Producto {
       } catch {
         case NonFatal(e) => {
           Logger.error(s"can't get ${C.PRODUCTO_PROVEEDOR} with id $id for user ${user.toString}. Error ${e.toString}")
+          throw e
+        }
+      } finally {
+        cs.close
+      }
+    }
+  }
+
+  private def loadClientes(user: CompanyUser, id: Int) = {
+
+    DB.withTransaction(user.database.database) { implicit connection =>
+
+      val sql = "{call sp_producto_get_clientes(?, ?)}"
+      val cs = connection.prepareCall(sql)
+
+      cs.setInt(1, id)
+      cs.registerOutParameter(2, Types.OTHER)
+
+      try {
+        cs.execute()
+
+        val rs = cs.getObject(2).asInstanceOf[java.sql.ResultSet]
+        Sql.as(productoClienteParser.*, rs)
+
+      } catch {
+        case NonFatal(e) => {
+          Logger.error(s"can't get ${C.PRODUCTO_CLIENTE} with id $id for user ${user.toString}. Error ${e.toString}")
+          throw e
+        }
+      } finally {
+        cs.close
+      }
+    }
+  }
+
+  private def loadCmi(user: CompanyUser, id: Int) = {
+
+    DB.withTransaction(user.database.database) { implicit connection =>
+
+      val sql = "{call sp_producto_get_cmi(?, ?)}"
+      val cs = connection.prepareCall(sql)
+
+      cs.setInt(1, id)
+      cs.registerOutParameter(2, Types.OTHER)
+
+      try {
+        cs.execute()
+
+        val rs = cs.getObject(2).asInstanceOf[java.sql.ResultSet]
+        Sql.as(productoCmiParser.*, rs)
+
+      } catch {
+        case NonFatal(e) => {
+          Logger.error(s"can't get ${C.PRODUCTO_COMUNIDAD_INTERNET} with id $id for user ${user.toString}. Error ${e.toString}")
+          throw e
+        }
+      } finally {
+        cs.close
+      }
+    }
+  }
+
+  private def loadLeyendas(user: CompanyUser, id: Int) = {
+
+    DB.withTransaction(user.database.database) { implicit connection =>
+
+      val sql = "{call sp_producto_get_leyendas(?, ?)}"
+      val cs = connection.prepareCall(sql)
+
+      cs.setInt(1, id)
+      cs.registerOutParameter(2, Types.OTHER)
+
+      try {
+        cs.execute()
+
+        val rs = cs.getObject(2).asInstanceOf[java.sql.ResultSet]
+        Sql.as(productoLeyendaParser.*, rs)
+
+      } catch {
+        case NonFatal(e) => {
+          Logger.error(s"can't get ${C.PRODUCTO_LEYENDA} with id $id for user ${user.toString}. Error ${e.toString}")
+          throw e
+        }
+      } finally {
+        cs.close
+      }
+    }
+  }
+
+  private def loadTags(user: CompanyUser, id: Int) = {
+
+    DB.withTransaction(user.database.database) { implicit connection =>
+
+      val sql = "{call sp_producto_get_tags(?, ?)}"
+      val cs = connection.prepareCall(sql)
+
+      cs.setInt(1, id)
+      cs.registerOutParameter(2, Types.OTHER)
+
+      try {
+        cs.execute()
+
+        val rs = cs.getObject(2).asInstanceOf[java.sql.ResultSet]
+        Sql.as(productoTagsParser.*, rs)
+
+      } catch {
+        case NonFatal(e) => {
+          Logger.error(s"can't get ${C.PRODUCTO_TAG} with id $id for user ${user.toString}. Error ${e.toString}")
+          throw e
+        }
+      } finally {
+        cs.close
+      }
+    }
+  }
+
+  private def loadCategoriasWeb(user: CompanyUser, id: Int) = {
+
+    DB.withTransaction(user.database.database) { implicit connection =>
+
+      val sql = "{call sp_producto_get_categorias(?, ?)}"
+      val cs = connection.prepareCall(sql)
+
+      cs.setInt(1, id)
+      cs.registerOutParameter(2, Types.OTHER)
+
+      try {
+        cs.execute()
+
+        val rs = cs.getObject(2).asInstanceOf[java.sql.ResultSet]
+        Sql.as(productoCategoriaWebParser.*, rs)
+
+      } catch {
+        case NonFatal(e) => {
+          Logger.error(s"can't get ${C.CATALOGO_WEB_CATEGORIA} with id $id for user ${user.toString}. Error ${e.toString}")
+          throw e
+        }
+      } finally {
+        cs.close
+      }
+    }
+  }
+
+  private def loadCatalogosWeb(user: CompanyUser, id: Int) = {
+
+    DB.withTransaction(user.database.database) { implicit connection =>
+
+      val sql = "{call sp_producto_get_catalgos_web(?, ?)}"
+      val cs = connection.prepareCall(sql)
+
+      cs.setInt(1, id)
+      cs.registerOutParameter(2, Types.OTHER)
+
+      try {
+        cs.execute()
+
+        val rs = cs.getObject(2).asInstanceOf[java.sql.ResultSet]
+        Sql.as(productoCatalogoWebParser.*, rs)
+
+      } catch {
+        case NonFatal(e) => {
+          Logger.error(s"can't get ${C.CATALOGO_WEB_ITEM} with id $id for user ${user.toString}. Error ${e.toString}")
+          throw e
+        }
+      } finally {
+        cs.close
+      }
+    }
+  }
+
+  private def loadWebImages(user: CompanyUser, id: Int) = {
+
+    DB.withTransaction(user.database.database) { implicit connection =>
+
+      val sql = "{call sp_producto_get_web_images(?, ?)}"
+      val cs = connection.prepareCall(sql)
+
+      cs.setInt(1, id)
+      cs.registerOutParameter(2, Types.OTHER)
+
+      try {
+        cs.execute()
+
+        val rs = cs.getObject(2).asInstanceOf[java.sql.ResultSet]
+        Sql.as(productoWebImageParser.*, rs)
+
+      } catch {
+        case NonFatal(e) => {
+          Logger.error(s"can't get ${C.PRODUCTO_WEB_IMAGE} with id $id for user ${user.toString}. Error ${e.toString}")
+          throw e
+        }
+      } finally {
+        cs.close
+      }
+    }
+  }
+
+  private def loadKits(user: CompanyUser, id: Int) = {
+
+    DB.withTransaction(user.database.database) { implicit connection =>
+
+      val sql = "{call sp_producto_get_kits(?, ?)}"
+      val cs = connection.prepareCall(sql)
+
+      cs.setInt(1, id)
+      cs.registerOutParameter(2, Types.OTHER)
+
+      try {
+        cs.execute()
+
+        val rs = cs.getObject(2).asInstanceOf[java.sql.ResultSet]
+        Sql.as(productoKitParser.*, rs)
+
+      } catch {
+        case NonFatal(e) => {
+          Logger.error(s"can't get ${C.PRODUCTO_KIT} with id $id for user ${user.toString}. Error ${e.toString}")
+          throw e
+        }
+      } finally {
+        cs.close
+      }
+    }
+  }
+
+  private def loadBoms(user: CompanyUser, id: Int) = {
+
+    DB.withTransaction(user.database.database) { implicit connection =>
+
+      val sql = "{call sp_producto_get_boms(?, ?)}"
+      val cs = connection.prepareCall(sql)
+
+      cs.setInt(1, id)
+      cs.registerOutParameter(2, Types.OTHER)
+
+      try {
+        cs.execute()
+
+        val rs = cs.getObject(2).asInstanceOf[java.sql.ResultSet]
+        Sql.as(productoBomParser.*, rs)
+
+      } catch {
+        case NonFatal(e) => {
+          Logger.error(s"can't get ${C.PRODUCTO_BOM} with id $id for user ${user.toString}. Error ${e.toString}")
           throw e
         }
       } finally {

@@ -203,13 +203,13 @@ object Retenciontipo {
       )
     }
     def throwException = {
-      throw new RuntimeException(s"Error when saving ${C.RETENCIONTIPO}")
+      throw new RuntimeException(s"Error when saving ${C.RETENCION_TIPO}")
     }
 
     DBHelper.saveEx(
       user,
       Register(
-        C.RETENCIONTIPO,
+        C.RETENCION_TIPO,
         C.RETT_ID,
         retencionTipo.id,
         false,
@@ -230,7 +230,7 @@ object Retenciontipo {
 
   def loadWhere(user: CompanyUser, where: String, args : scala.Tuple2[scala.Any, anorm.ParameterValue[_]]*) = {
     DB.withConnection(user.database.database) { implicit connection =>
-      SQL(s"SELECT t1.*, t2.${C.CUE_NAME} FROM ${C.RETENCIONTIPO} t1" +
+      SQL(s"SELECT t1.*, t2.${C.CUE_NAME} FROM ${C.RETENCION_TIPO} t1" +
         s" LEFT JOIN ${C.CUENTA} t2 ON t1.${C.CUE_ID} = t2.${C.CUE_ID} WHERE $where")
         .on(args: _*)
         .as(retencionTipoParser.singleOpt)
@@ -240,12 +240,12 @@ object Retenciontipo {
   def delete(user: CompanyUser, id: Int) = {
     DB.withConnection(user.database.database) { implicit connection =>
       try {
-        SQL(s"DELETE FROM ${C.RETENCIONTIPO} WHERE ${C.RETT_ID} = {id}")
+        SQL(s"DELETE FROM ${C.RETENCION_TIPO} WHERE ${C.RETT_ID} = {id}")
         .on('id -> id)
         .executeUpdate
       } catch {
         case NonFatal(e) => {
-          Logger.error(s"can't delete a ${C.RETENCIONTIPO}. ${C.RETT_ID} id: $id. Error ${e.toString}")
+          Logger.error(s"can't delete a ${C.RETENCION_TIPO}. ${C.RETT_ID} id: $id. Error ${e.toString}")
           throw e
         }
       }
