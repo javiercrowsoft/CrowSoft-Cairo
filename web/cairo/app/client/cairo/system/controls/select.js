@@ -13,6 +13,7 @@
         implements an auto complete control which shows a table grid
     */
     var createAutoCompleteControl = function() {
+      var width;
       $.widget('custom.cautocomplete', $.ui.autocomplete, {
           _renderMenu: function(ul, items) {
               var self = this;
@@ -41,7 +42,7 @@
                     //
                     // the first time the ul hasn't set the width property so we use the width of the input
                     //
-                    var width = ul.width() === 0 ? self.element.width() : ul.width();
+                    width = ul.width() === 0 ? self.element.width() : ul.width();
                     width = width > 500 ? width : 500;
                     width = (width-50) / self.options.columns.length;
                     $.each(items[0].columns, function(index, item) {
@@ -64,8 +65,6 @@
               //
               // the first time the ul hasn't set the width property so we use the width of the input
               //
-              var width = ul.width() === 0 ? this.element.width() : ul.width();
-              width = (width-50) / this.options.columns.length;
               $.each(this.options.columns, function(index, column) {
                   t += '<span style="padding:0 4px;float:left;width:' + width + 'px;">' +
                         item.values[column.valueField ? column.valueField : index] + '</span>';

@@ -446,15 +446,15 @@ object Productos extends Controller with ProvidesUser {
 
       // Items
       "proveedores" -> Json.toJson(writeProductoProveedores(producto.items.proveedores)),
-      "clientes" -> Json.toJson(writeEmptyCols(List())),
-      "cmi" -> Json.toJson(writeEmptyCols(List())),
-      "leyendas" -> Json.toJson(writeEmptyCols(List())),
-      "tags" -> Json.toJson(writeEmptyCols(List())),
-      "categoriasWeb" -> Json.toJson(writeEmptyCols(List())),
-      "catalogosWeb" -> Json.toJson(writeEmptyCols(List())),
-      "webImages" -> Json.toJson(writeEmptyCols(List())),
-      "kit" -> Json.toJson(writeEmptyCols(List())),
-      "bom" -> Json.toJson(writeEmptyCols(List())),
+      "clientes" -> Json.toJson(writeProductoClientes(producto.items.clientes)),
+      "cmi" -> Json.toJson(writeProductoCMIs(producto.items.cmi)),
+      "leyendas" -> Json.toJson(writeProductoLeyendas(producto.items.leyendas)),
+      "tags" -> Json.toJson(writeProductoTags(producto.items.tags)),
+      "categoriasWeb" -> Json.toJson(writeProductoCategoriasWeb(producto.items.categoriasWeb)),
+      "catalogosWeb" -> Json.toJson(writeProductoCatalogosWeb(producto.items.catalogosWeb)),
+      "webImages" -> Json.toJson(writeProductoWebImages(producto.items.webImages)),
+      "kit" -> Json.toJson(writeProductoKits(producto.items.kit)),
+      "bom" -> Json.toJson(writeProductoBOMs(producto.items.bom)),
       "additionalFields" -> Json.toJson(additionalFieldsWrites)
     )
     def additionalFieldsWrites() = Json.obj(
@@ -479,8 +479,74 @@ object Productos extends Controller with ProvidesUser {
       C.LPI_FECHA -> Json.toJson(p.priceDate),
       C.PRPROV_LPI_TOP -> Json.toJson(p.priceDefault)
     )
+    def productoClienteWrites(p: ProductoCliente) = Json.obj(
+      C.PRCLI_ID -> Json.toJson(p.id),
+      C.CLI_ID -> Json.toJson(p.cliId),
+      C.CLI_NAME -> Json.toJson(p.name),
+      C.PRCLI_CODE -> Json.toJson(p.code),
+      C.PRCLI_CODIGO_BARRA -> Json.toJson(p.barCode)
+    )
+    def productoCMIWrites(p: ProductoCMI) = Json.obj(
+      C.PRCMI_ID -> Json.toJson(p.id),
+      C.PRCMI_CODE -> Json.toJson(p.code),
+      C.PRCMI_DESCRIP -> Json.toJson(p.descrip),
+      C.PRCMI_FECHA_ALTA -> Json.toJson(p.createdAt),
+      C.PRCMI_FECHA_VTO -> Json.toJson(p.expireDate)
+    )
+    def productoLeyendaWrites(p: ProductoLeyenda) = Json.obj(
+      C.PRL_ID -> Json.toJson(p.id),
+      C.PRL_NAME -> Json.toJson(p.name),
+      C.PRL_TEXTO -> Json.toJson(p.text),
+      C.PRL_TAG -> Json.toJson(p.tag),
+      C.PRL_ORDEN -> Json.toJson(p.order)
+    )
+    def productoTagWrites(p: ProductoTag) = Json.obj(
+      C.PRT_ID -> Json.toJson(p.id),
+      C.PRT_TEXTO -> Json.toJson(p.text),
+      C.PR_ID_TAG -> Json.toJson(p.prIdTag),
+      C.PR_NAME_COMPRA -> Json.toJson(p.prName),
+      C.PRT_EXPO_WEB -> Json.toJson(p.expoWeb),
+      C.PRT_EXPO_CAIRO -> Json.toJson(p.expoCairo),
+      C.PRT_ORDEN -> Json.toJson(p.order)
+    )
+    def productoCategoriaWebWrites(p: ProductoCategoriaWeb) = Json.obj(
+      C.CATWCI_ID -> Json.toJson(p.id),
+      C.CATWC_ID -> Json.toJson(p.catwcId),
+      C.CATWC_NAME -> Json.toJson(p.name),
+      C.CATWCI_POSICION -> Json.toJson(p.position)
+    )
+    def productoCatalogoWebWrites(p: ProductoCatalogoWeb) = Json.obj(
+      C.CATWI_ID -> Json.toJson(p.id),
+      C.CATW_ID -> Json.toJson(p.catwId),
+      C.CATW_NAME -> Json.toJson(p.name)
+    )
+    def productoWebImageWrites(p: ProductoWebImage) = Json.obj(
+      C.PRWI_ID -> Json.toJson(p.id),
+      C.PRWI_ARCHIVO -> Json.toJson(p.file),
+      C.PRWI_TIPO -> Json.toJson(p.imageType),
+      C.PRWI_ALT -> Json.toJson(p.alt),
+      C.PRWI_POSICION -> Json.toJson(p.position)
+    )
+    def productoKitWrites(p: ProductoKitItem) = Json.obj(
+      C.PRFK_ID -> Json.toJson(p.id),
+      C.PRFK_NAME -> Json.toJson(p.name),
+      C.PRFK_DEFAULT -> Json.toJson(p.default)
+    )
+    def productoBOMWrites(p: ProductoBOMItemRow) = Json.obj(
+      C.PBM_ID -> Json.toJson(p.id),
+      C.PBM_NAME -> Json.toJson(p.name)
+    )
     def writeEmptyCols(items: List[Any]) = items.map(item => itemWrites(item))
     def writeProductoProveedores(items: List[ProductoProveedor]) = items.map(item => productoProveedorWrites(item))
+    def writeProductoClientes(items: List[ProductoCliente]) = items.map(item => productoClienteWrites(item))
+    def writeProductoCMIs(items: List[ProductoCMI]) = items.map(item => productoCMIWrites(item))
+    def writeProductoLeyendas(items: List[ProductoLeyenda]) = items.map(item => productoLeyendaWrites(item))
+    def writeProductoTags(items: List[ProductoTag]) = items.map(item => productoTagWrites(item))
+    def writeProductoCategoriasWeb(items: List[ProductoCategoriaWeb]) = items.map(item => productoCategoriaWebWrites(item))
+    def writeProductoCatalogosWeb(items: List[ProductoCatalogoWeb]) = items.map(item => productoCatalogoWebWrites(item))
+    def writeProductoWebImages(items: List[ProductoWebImage]) = items.map(item => productoWebImageWrites(item))
+    def writeProductoKits(items: List[ProductoKitItem]) = items.map(item => productoKitWrites(item))
+    def writeProductoBOMs(items: List[ProductoBOMItemRow]) = items.map(item => productoBOMWrites(item))
   }
 
   def get(id: Int) = GetAction { implicit request =>
