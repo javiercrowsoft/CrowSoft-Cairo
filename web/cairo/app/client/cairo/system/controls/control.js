@@ -41,7 +41,7 @@
 
         visible: true,
         enabled: true,
-  
+
         element: null,
         selectOnFocus: false
       };
@@ -178,9 +178,6 @@
           self.element.attr('disabled', !enabled);
         }
       };
-
-      that.getEditEnabled = function() { /* TODO = implement this. */ };
-      that.setEditEnabled = function(enabled) { /* TODO = implement this. */ };
 
       that.getFontName = function() {
         return self.fontName;

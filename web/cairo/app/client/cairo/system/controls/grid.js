@@ -788,7 +788,7 @@
           //
           // boolean cell
           //
-          if(type === T.check) {
+          if(type === T.check && self.editEnabled) {
             var curValue = val(getCurrentValue(type, info.row, info.col));
             var newValue = curValue !== 0 ? 0 : Cairo.Util.boolToInt(true);
             var args = {

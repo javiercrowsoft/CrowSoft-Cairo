@@ -600,6 +600,7 @@
         properties.item(C.TI_ID_RI_COMPRA).setEnabled(status);
         properties.item(C.TI_ID_INTERNOS_COMPRA).setEnabled(status);
         properties.item(C.PR_PORC_INTERNO_C).setEnabled(status);
+        properties.item(C.CCOS_ID_COMPRA).setEnabled(status);
         properties.item(C_PROVEEDOR).setEnabled(status);
 
         if(!noRefresh) m_dialog.refreshControls();
@@ -623,6 +624,7 @@
         properties.item(C.PR_VENTA_COMPRA).setEnabled(status);
         properties.item(C.PR_VENTA_STOCK).setEnabled(status);
         properties.item(C.PR_ES_LISTA).setEnabled(status);
+        properties.item(C.CCOS_ID_VENTA).setEnabled(status);
         properties.item(C_CLIENTE).setEnabled(status);
 
         if(!noRefresh) m_dialog.refreshControls();
@@ -2177,7 +2179,7 @@
 
         elem = properties.add(null, C.POAR_ID);
         elem.setType(T.select);
-        elem.setSelectTable(Cairo.Tables.POSICION_ARANCEL);
+        elem.setSelectTable(Cairo.Tables.POSICION_ARANCELARIA);
         elem.setName(getText(3275, "")); // Posición Arancelaria
         elem.setSelectId(m_poar_id);
         elem.setValue(m_posicionArancel);
@@ -3686,7 +3688,7 @@
         switch (key) {
           case K_WEB_CATALOGOS:
           case K_WEB_CATEGORIAS:
-            rtn = lCol === 4 || lCol === 5;
+            rtn = lCol === 3 || lCol === 4;
             break;
 
           default:
