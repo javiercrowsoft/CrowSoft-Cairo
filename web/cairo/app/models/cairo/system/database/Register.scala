@@ -90,6 +90,10 @@ object Register {
     case _ => field.value
   }
 
+  def boolToInt(value: Boolean): Int = {
+    if(value) 1 else 0
+  }
+
   def getParameter(field: Field): (scala.Any, anorm.ParameterValue[_]) = {
     (field.name, toParameterValue(getValue(field)))
   }

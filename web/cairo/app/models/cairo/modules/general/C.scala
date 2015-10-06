@@ -32,6 +32,14 @@ object C {
   val PROVEEDOR_CENTRO_COSTO_DELETED = "deletedCentroCosto"
   val PROVEEDOR_DEPARTAMENTO_DELETED = "deletedDepartamentos"
 
+  val PRODUCTO_ITEMS = "productoItems"
+  val PRODUCTO_PROVEEDOR_DELETED = "deletedProveedor"
+  val PRODUCTO_CLIENTE_DELETED = "deletedCliente"
+  val PRODUCTO_CMI_DELETED = "deletedCMI"
+  val PRODUCTO_LEYENDA_DELETED = "deletedLeyenda"
+  val PRODUCTO_TAG_DELETED = "deletedTag"
+  val PRODUCTO_WEB_IMAGE_DELETED = "deletedWebImage"
+
   val EDIT_MSG = "editMsg"
   val EDITABLE = "editable"
   val HAS_IVA_RI = "bIvaRi"

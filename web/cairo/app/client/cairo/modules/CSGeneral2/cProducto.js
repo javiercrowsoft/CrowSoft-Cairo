@@ -936,15 +936,15 @@
               break;
 
             case K_LLEVA_STOCK:
-              fields.add(C.PR_LLEVA_STOCK, property.getValue(), Types.integer);
+              fields.add(C.PR_LLEVA_STOCK, property.getValue(), Types.boolean);
               break;
 
             case K_SE_COMPRA:
-              fields.add(C.PR_SE_COMPRA, property.getValue(), Types.integer);
+              fields.add(C.PR_SE_COMPRA, property.getValue(), Types.boolean);
               break;
 
             case K_SE_VENDE:
-              fields.add(C.PR_SE_VENDE, property.getValue(), Types.integer);
+              fields.add(C.PR_SE_VENDE, property.getValue(), Types.boolean);
               break;
 
             case K_NO_REDONDEO:

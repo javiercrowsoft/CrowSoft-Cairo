@@ -741,11 +741,46 @@ case class ProductoProveedor(
                               barCode: String,
                               paId: Int,
                               paName: String,
+                              lpId: Int,
                               lpName: String,
                               price: Double,
                               priceDate: Date,
                               priceDefault: Boolean
                               )
+object ProductoProveedor {
+
+  def apply(
+             id: Int,
+             provId: Int,
+             maker: Boolean,
+             name: String,
+             code: String,
+             barCode: String,
+             paId: Int,
+             lpId: Int,
+             price: Double,
+             priceDate: Date,
+             priceDefault: Boolean
+             ) = {
+
+    new ProductoProveedor(
+      id,
+      provId,
+      "",
+      maker,
+      name,
+      code,
+      barCode,
+      paId,
+      "",
+      lpId,
+      "",
+      price,
+      priceDate,
+      priceDefault
+    )
+  }
+}
 
 case class ProductoCliente(
                             id: Int,
@@ -754,6 +789,13 @@ case class ProductoCliente(
                             code: String,
                             barCode: String
                              )
+
+object ProductoCliente {
+
+  def apply(id: Int, cliId: Int, code: String, barCode: String) = {
+    new ProductoCliente(id, cliId, "", code, barCode)
+  }
+}
 
 case class ProductoCMI(
                         id: Int,
@@ -782,6 +824,19 @@ case class ProductoTag(
                         expoCairo: Int
                         )
 
+object ProductoTag {
+
+  def apply(id: Int,
+            text: String,
+            prIdTag: Int,
+            order: Int,
+            expoWeb: Int,
+            expoCairo: Int) = {
+
+    new ProductoTag(id, text, prIdTag, "", order, expoWeb, expoCairo)
+  }
+}
+
 case class ProductoCategoriaWeb(
                                  id: Int,
                                  catwcId: Int,
@@ -789,11 +844,27 @@ case class ProductoCategoriaWeb(
                                  position: Int
                                  )
 
+object ProductoCategoriaWeb {
+
+  def apply(id: Int, catwcId: Int, position: Int) = {
+
+    new ProductoCategoriaWeb(id, catwcId, "", position)
+  }
+}
+
 case class ProductoCatalogoWeb(
                                 id: Int,
                                 catwId: Int,
                                 name: String
                                 )
+
+object ProductoCatalogoWeb {
+
+  def apply(id: Int, catwId: Int) = {
+
+    new ProductoCatalogoWeb(id, catwId, "")
+  }
+}
 
 case class ProductoWebImage(
                              id: Int,
@@ -825,7 +896,15 @@ case class ProductoItems(
                           webImages: List[ProductoWebImage],
                           kit: List[ProductoKitItem],
                           bom: List[ProductoBOMItemRow],
-                          additionalFields: List[AdditionalFields]
+                          additionalFields: List[AdditionalFields],
+
+                          /* only used in save */
+                          proveedorDeleted: String,
+                          clienteDeleted: String,
+                          cmiDeleted: String,
+                          leyendaDeleted: String,
+                          tagDeleted: String,
+                          webImageDeleted: String
                           )
 
 case class Producto(
@@ -983,7 +1062,10 @@ case class ProductoTaxInfo(
 
 object Producto {
 
-  lazy val emptyProductoItems = ProductoItems(List(), List(), List(), List(), List(), List(), List(), List(), List(), List(), List())
+  lazy val emptyProductoItems = ProductoItems(
+    List(), List(), List(), List(), List(), List(), List(), List(), List(), List(), List(),
+    "", "", "", "", "", ""
+  )
 
   lazy val emptyProducto = Producto(
     false,
@@ -1182,6 +1264,7 @@ object Producto {
     SqlParser.get[Option[String]](C.PRPROV_CODIGO_BARRA) ~
     SqlParser.get[Option[Int]](C.PA_ID) ~
     SqlParser.get[Option[String]](C.PA_NAME) ~
+    SqlParser.get[Option[Int]](C.LP_ID) ~
     SqlParser.get[Option[String]](C.LP_NAME) ~
     SqlParser.get[Option[BigDecimal]](C.LPI_PRECIO) ~
     SqlParser.get[Option[Date]](C.LPI_FECHA) ~
@@ -1196,6 +1279,7 @@ object Producto {
         barCode ~
         paId ~
         paName ~
+        lpId ~
         lpName ~
         price ~
         priceDate ~
@@ -1210,6 +1294,7 @@ object Producto {
         barCode.getOrElse(""),
         paId.getOrElse(DBHelper.NoId),
         paName.getOrElse(""),
+        lpId.getOrElse(DBHelper.NoId),
         lpName.getOrElse(""),
         price match { case Some(p) => p.doubleValue case None => 0.0 },
         priceDate.getOrElse(U.NO_DATE),
@@ -1975,25 +2060,25 @@ object Producto {
 
         Field(C.PR_CODIGO_EXTERNO, producto.base.codigoExterno, FieldType.text),
         Field(C.PR_CODIGO_BARRA, producto.base.codigoBarra, FieldType.text),
-        Field(C.PR_CODIGO_BARRA_NAME, producto.base.codigoBarraName, FieldType.id),
-        Field(C.IBC_ID, producto.base.ibcId, FieldType.text),
+        Field(C.PR_CODIGO_BARRA_NAME, producto.base.codigoBarraName, FieldType.text),
+        Field(C.IBC_ID, producto.base.ibcId, FieldType.id),
         Field(C.MARC_ID, producto.base.marcId, FieldType.id),
         Field(C.PR_EXPO_CAIRO, producto.base.expoCairo, FieldType.number),
-        Field(C.PR_ES_PLANTILLA, producto.base.esPlantilla, FieldType.boolean),
+        Field(C.PR_ES_PLANTILLA, Register.boolToInt(producto.base.esPlantilla), FieldType.boolean),
         Field(C.CUR_ID, producto.base.curId, FieldType.id),
 
-        Field(C.PR_SE_COMPRA, producto.compra.seCompra, FieldType.id),
+        Field(C.PR_SE_COMPRA, Register.boolToInt(producto.compra.seCompra), FieldType.boolean),
         Field(C.PR_NAME_COMPRA, producto.compra.nombreCompra, FieldType.text),
         Field(C.PR_DESCRIP_COMPRA, producto.compra.descripCompra, FieldType.text),
         Field(C.UN_ID_COMPRA, producto.compra.unIdCompra, FieldType.id),
         Field(C.CUEG_ID_COMPRA, producto.compra.cuegIdCompra, FieldType.id),
         Field(C.TI_ID_RI_COMPRA, producto.compra.tiIdRiCompra, FieldType.id),
-        Field(C.TI_ID_INTERNOS_COMPRA, producto.compra.tiIdInternosCompra, FieldType.text),
+        Field(C.TI_ID_INTERNOS_COMPRA, producto.compra.tiIdInternosCompra, FieldType.id),
         Field(C.PR_PORC_INTERNO_C, producto.compra.porcInternoC, FieldType.number),
         Field(C.CCOS_ID_COMPRA, producto.compra.ccosIdCompra, FieldType.id),
 
-        Field(C.PR_LLEVA_STOCK, producto.stock.llevaStock, FieldType.id),
-        Field(C.UN_ID_STOCK, producto.stock.unIdStock, FieldType.text),
+        Field(C.PR_LLEVA_STOCK, Register.boolToInt(producto.stock.llevaStock), FieldType.boolean),
+        Field(C.UN_ID_STOCK, producto.stock.unIdStock, FieldType.id),
         Field(C.PR_STOCK_COMPRA, producto.stock.stockCompra, FieldType.number),
         Field(C.PR_X, producto.stock.x, FieldType.number),
         Field(C.PR_Y, producto.stock.y, FieldType.number),
@@ -2001,25 +2086,25 @@ object Producto {
         Field(C.PR_STOCK_MINIMO, producto.stock.stockMinimo, FieldType.number),
         Field(C.PR_REPOSICION, producto.stock.reposicion, FieldType.number),
         Field(C.PR_STOCK_MAXIMO, producto.stock.stockMaximo, FieldType.number),
-        Field(C.PR_LLEVA_NRO_SERIE, producto.stock.llevaNroSerie, FieldType.boolean),
-        Field(C.PR_LLEVA_NRO_LOTE, producto.stock.llevaNroLote, FieldType.boolean),
-        Field(C.PR_LOTE_FIFO, producto.stock.loteFifo, FieldType.boolean),
-        Field(C.PR_SE_PRODUCE, producto.stock.seProduce, FieldType.boolean),
-        Field(C.PR_ES_REPUESTO, producto.stock.esRepuesto, FieldType.boolean),
+        Field(C.PR_LLEVA_NRO_SERIE, Register.boolToInt(producto.stock.llevaNroSerie), FieldType.boolean),
+        Field(C.PR_LLEVA_NRO_LOTE, Register.boolToInt(producto.stock.llevaNroLote), FieldType.boolean),
+        Field(C.PR_LOTE_FIFO, Register.boolToInt(producto.stock.loteFifo), FieldType.boolean),
+        Field(C.PR_SE_PRODUCE, Register.boolToInt(producto.stock.seProduce), FieldType.boolean),
+        Field(C.PR_ES_REPUESTO, Register.boolToInt(producto.stock.esRepuesto), FieldType.boolean),
 
-        Field(C.PR_SE_VENDE, producto.venta.seVende, FieldType.number),
+        Field(C.PR_SE_VENDE, Register.boolToInt(producto.venta.seVende), FieldType.boolean),
         Field(C.PR_NAME_VENTA, producto.venta.nombreVenta, FieldType.text),
-        Field(C.PR_NAME_FACTURA, producto.venta.nombreFactura, FieldType.id),
+        Field(C.PR_NAME_FACTURA, producto.venta.nombreFactura, FieldType.text),
         Field(C.PR_DESCRIP_VENTA, producto.venta.descripVenta, FieldType.text),
-        Field(C.UN_ID_VENTA, producto.venta.unIdVenta, FieldType.text),
+        Field(C.UN_ID_VENTA, producto.venta.unIdVenta, FieldType.id),
         Field(C.PR_VENTA_COMPRA, producto.venta.ventaCompra, FieldType.number),
-        Field(C.PR_VENTA_STOCK, producto.venta.ventaStock, FieldType.id),
-        Field(C.CUEG_ID_VENTA, producto.venta.cuegIdVenta, FieldType.text),
-        Field(C.PR_ES_LISTA, producto.venta.esLista, FieldType.boolean),
-        Field(C.PR_DINERARIO, producto.venta.dinerario, FieldType.boolean),
-        Field(C.PR_NO_REDONDEO, producto.venta.noRedondeo, FieldType.id),
+        Field(C.PR_VENTA_STOCK, producto.venta.ventaStock, FieldType.number),
+        Field(C.CUEG_ID_VENTA, producto.venta.cuegIdVenta, FieldType.id),
+        Field(C.PR_ES_LISTA, Register.boolToInt(producto.venta.esLista), FieldType.boolean),
+        Field(C.PR_DINERARIO, Register.boolToInt(producto.venta.dinerario), FieldType.boolean),
+        Field(C.PR_NO_REDONDEO, Register.boolToInt(producto.venta.noRedondeo), FieldType.boolean),
         Field(C.TI_ID_RI_VENTA, producto.venta.tiIdRiVenta, FieldType.id),
-        Field(C.TI_ID_INTERNOS_VENTA, producto.venta.tiIdInternosVenta, FieldType.text),
+        Field(C.TI_ID_INTERNOS_VENTA, producto.venta.tiIdInternosVenta, FieldType.id),
         Field(C.PR_PORC_INTERNO_V, producto.venta.porcInternoV, FieldType.number),
         Field(C.CCOS_ID_VENTA, producto.venta.ccosIdVenta, FieldType.id),
 
@@ -2040,33 +2125,33 @@ object Producto {
         Field(C.PR_PESO_TOTAL, producto.comex.pesoTotal, FieldType.number),
         Field(C.PR_CANT_X_CAJA_EXPO, producto.comex.cantXCajaExpo, FieldType.number),
         Field(C.EMBL_ID, producto.comex.emblId, FieldType.id),
-        Field(C.PR_FLETE_EXPO, producto.comex.fleteExpo, FieldType.boolean),
+        Field(C.PR_FLETE_EXPO, Register.boolToInt(producto.comex.fleteExpo), FieldType.boolean),
         Field(C.EGP_ID, producto.comex.egpId, FieldType.id),
         Field(C.EFM_ID, producto.comex.efmId, FieldType.id),
         Field(C.POAR_ID, producto.comex.poarId, FieldType.id),
         Field(C.TI_ID_COMEX_GANANCIAS, producto.comex.tiIdComexGanancias, FieldType.id),
         Field(C.TI_ID_COMEX_IGB, producto.comex.tiIdComexIgb, FieldType.id),
-        Field(C.TI_ID_COMEX_IVA, producto.comex.tiIdComexIva, FieldType.text),
-        Field(C.PR_ES_KIT, producto.kit.esKit, FieldType.boolean),
-        Field(C.PR_KIT_STOCK_X_ITEM, producto.kit.kitStockXItem, FieldType.boolean),
-        Field(C.PR_KIT_RESUMIDO, producto.kit.kitResumido, FieldType.boolean),
-        Field(C.PR_KIT_IDENTIDAD, producto.kit.kitIdentidad, FieldType.boolean),
-        Field(C.PR_KIT_IDENTIDAD_X_ITEM, producto.kit.kitIdentidadXItem, FieldType.boolean),
+        Field(C.TI_ID_COMEX_IVA, producto.comex.tiIdComexIva, FieldType.id),
+        Field(C.PR_ES_KIT, Register.boolToInt(producto.kit.esKit), FieldType.boolean),
+        Field(C.PR_KIT_STOCK_X_ITEM, Register.boolToInt(producto.kit.kitStockXItem), FieldType.boolean),
+        Field(C.PR_KIT_RESUMIDO, Register.boolToInt(producto.kit.kitResumido), FieldType.boolean),
+        Field(C.PR_KIT_IDENTIDAD, Register.boolToInt(producto.kit.kitIdentidad), FieldType.boolean),
+        Field(C.PR_KIT_IDENTIDAD_X_ITEM, Register.boolToInt(producto.kit.kitIdentidadXItem), FieldType.boolean),
         Field(C.TA_ID_KIT_SERIE, producto.kit.taIdKitSerie, FieldType.id),
-        Field(C.PR_KIT_LOTE, producto.kit.kitLote, FieldType.boolean),
-        Field(C.PR_KIT_LOTE_X_ITEM, producto.kit.kitLoteXItem, FieldType.boolean),
+        Field(C.PR_KIT_LOTE, Register.boolToInt(producto.kit.kitLote), FieldType.boolean),
+        Field(C.PR_KIT_LOTE_X_ITEM, Register.boolToInt(producto.kit.kitLoteXItem), FieldType.boolean),
         Field(C.TA_ID_KIT_LOTE, producto.kit.taIdKitLote, FieldType.id),
 
         Field(C.PR_NAME_WEB, producto.web.nombreWeb, FieldType.text),
         Field(C.PR_ALIAS_WEB, producto.web.aliasWeb, FieldType.text),
         Field(C.PR_ID_WEB_PADRE, producto.web.prIdWebPadre, FieldType.id),
-        Field(C.PR_ACTIVO_WEB, producto.web.activoWeb, FieldType.boolean),
-        Field(C.PR_WEB_IMAGE_UPDATE, producto.web.webImageUpdate, FieldType.boolean),
+        Field(C.PR_ACTIVO_WEB, Register.boolToInt(producto.web.activoWeb), FieldType.boolean),
+        Field(C.PR_WEB_IMAGE_UPDATE, Register.boolToInt(producto.web.webImageUpdate), FieldType.boolean),
         Field(C.PR_CODIGO_HTML, producto.web.codigoHtml, FieldType.text),
         Field(C.PR_CODIGO_HTML_DETALLE, producto.web.codigoHtmlDetalle, FieldType.text),
         Field(C.PR_EXPO_WEB, producto.web.expoWeb, FieldType.number),
-        Field(C.PR_VENTA_WEB_MAXIMA, producto.web.ventaWebMaxima, FieldType.id),
-        Field(C.LEY_ID, producto.web.leyId, FieldType.text),
+        Field(C.PR_VENTA_WEB_MAXIMA, producto.web.ventaWebMaxima, FieldType.number),
+        Field(C.LEY_ID, producto.web.leyId, FieldType.id),
         Field(C.PR_WEB_IMAGE_FOLDER, producto.web.webImageFolder, FieldType.text),
 
         Field(C.RPT_ID_NOMBRE_COMPRA, producto.names.rptIdNombreCompra, FieldType.id),
@@ -2138,7 +2223,7 @@ object Producto {
       loadWebImages(user, id),
       loadKits(user, id),
       loadBOMs(user, id),
-      List())
+      List(), "", "", "", "", "", "")
   }
 
   private def loadProveedores(user: CompanyUser, id: Int) = {

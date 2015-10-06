@@ -1,6 +1,7 @@
 package controllers.logged.modules.general
 
 import controllers._
+import formatters.json.DateFormatter
 import play.api.mvc._
 import play.api.data._
 import play.api.data.Forms._
@@ -73,16 +74,16 @@ case class ProductoVentaData(
 
 case class ProductoRubroData(
                             rubId: Int,
-                            rubtiId1: Int,
-                            rubtiId2: Int,
-                            rubtiId3: Int,
-                            rubtiId4: Int,
-                            rubtiId5: Int,
-                            rubtiId6: Int,
-                            rubtiId7: Int,
-                            rubtiId8: Int,
-                            rubtiId9: Int,
-                            rubtiId10: Int
+                            rubtiId1: Option[Int],
+                            rubtiId2: Option[Int],
+                            rubtiId3: Option[Int],
+                            rubtiId4: Option[Int],
+                            rubtiId5: Option[Int],
+                            rubtiId6: Option[Int],
+                            rubtiId7: Option[Int],
+                            rubtiId8: Option[Int],
+                            rubtiId9: Option[Int],
+                            rubtiId10: Option[Int]
                           )
 
 case class ProductoComexData(
@@ -135,6 +136,91 @@ case class ProductoNombresData(
                             rptIdNombreImgAlt: Int
                           )
 
+case class ProductoProveedorData(
+                              id: Int,
+                              provId: Int,
+                              maker: Boolean,
+                              name: String,
+                              code: String,
+                              barCode: String,
+                              paId: Int,
+                              lpId: Int,
+                              price: Double,
+                              priceDate: String,
+                              priceDefault: Boolean
+                              )
+
+case class ProductoClienteData(
+                            id: Int,
+                            cliId: Int,
+                            code: String,
+                            barCode: String
+                            )
+
+case class ProductoCMIData(
+                        id: Int,
+                        code: String,
+                        descrip: String,
+                        createdAt: String,
+                        expireDate: String,
+                        price: Double
+                        )
+
+case class ProductoLeyendaData(
+                            id: Int,
+                            name: String,
+                            text: String,
+                            tag: String,
+                            order: Int
+                            )
+
+case class ProductoTagData(
+                        id: Int,
+                        text: String,
+                        prIdTag: Int,
+                        order: Int,
+                        expoWeb: Int,
+                        expoCairo: Int
+                        )
+
+case class ProductoCategoriaWebData(
+                                 id: Int,
+                                 catwcId: Int,
+                                 position: Int
+                                 )
+
+case class ProductoCatalogoWebData(
+                                id: Int,
+                                catwId: Int
+                                )
+
+case class ProductoWebImageData(
+                             id: Int,
+                             file: String,
+                             imageType: Int,
+                             alt: String,
+                             position: Int
+                             )
+
+case class ProductoItemsData(
+                             proveedores: List[ProductoProveedorData],
+                             clientes: List[ProductoClienteData],
+                             CMIs: List[ProductoCMIData],
+                             leyendas: List[ProductoLeyendaData],
+                             tags: List[ProductoTagData],
+                             categoriasWeb: List[ProductoCategoriaWebData],
+                             catalogosWeb: List[ProductoCatalogoWebData],
+                             webImages: List[ProductoWebImageData],
+
+                             /* only used in save */
+                             proveedorDeleted: String,
+                             clienteDeleted: String,
+                             cmiDeleted: String,
+                             leyendaDeleted: String,
+                             tagDeleted: String,
+                             webImageDeleted: String
+                              )
+
 case class ProductoData(
                          id: Option[Int],
                          active: Boolean,
@@ -151,10 +237,59 @@ case class ProductoData(
                          comex: ProductoComexData,
                          kit: ProductoKitData,
                          web: ProductoWebData,
-                         names: ProductoNombresData
+                         names: ProductoNombresData,
+
+                         /* only used in save */
+                         items: ProductoItemsData
                          )
 
 object Productos extends Controller with ProvidesUser {
+
+  val productoBaseFields = List(C.PR_CODIGO_EXTERNO, C.PR_CODIGO_BARRA, C.PR_CODIGO_BARRA_NAME, C.IBC_ID, C.MARC_ID,
+    C.PR_EXPO_CAIRO, C.PR_ES_PLANTILLA, C.CUR_ID)
+
+  val productoCompraFields = List(C.PR_SE_COMPRA, C.PR_NAME_COMPRA, C.PR_DESCRIP_COMPRA, C.UN_ID_COMPRA,
+    C.CUEG_ID_COMPRA, C.TI_ID_RI_COMPRA, C.TI_ID_INTERNOS_COMPRA, C.PR_PORC_INTERNO_C, C.CCOS_ID_COMPRA)
+
+  val productoStockFields = List(C.PR_LLEVA_STOCK, C.UN_ID_STOCK, C.PR_STOCK_COMPRA, C.PR_X, C.PR_Y, C.PR_Z,
+    C.PR_STOCK_MINIMO, C.PR_REPOSICION, C.PR_STOCK_MAXIMO, C.PR_LLEVA_NRO_SERIE, C.PR_LLEVA_NRO_LOTE, C.PR_LOTE_FIFO,
+    C.PR_SE_PRODUCE, C.PR_ES_REPUESTO)
+
+  val productoVentaFields = List(C.PR_SE_VENDE, C.PR_NAME_VENTA, C.PR_NAME_FACTURA, C.PR_DESCRIP_VENTA, C.UN_ID_VENTA,
+    C.PR_VENTA_COMPRA, C.PR_VENTA_STOCK, C.CUEG_ID_VENTA, C.PR_ES_LISTA, C.PR_DINERARIO, C.PR_NO_REDONDEO, C.TI_ID_RI_VENTA,
+    C.TI_ID_INTERNOS_VENTA, C.PR_PORC_INTERNO_V, C.CCOS_ID_VENTA)
+
+  val productoRubroFields = List(C.RUB_ID, C.RUBTI_ID_1, C.RUBTI_ID_2, C.RUBTI_ID_3, C.RUBTI_ID_4, C.RUBTI_ID_5,
+    C.RUBTI_ID_6, C.RUBTI_ID_7, C.RUBTI_ID_8, C.RUBTI_ID_9, C.RUBTI_ID_10)
+
+  val productoComexFields = List(C.UN_ID_PESO, C.PR_PESO_NETO, C.PR_PESO_TOTAL, C.PR_CANT_X_CAJA_EXPO, C.EMBL_ID,
+    C.PR_FLETE_EXPO, C.EGP_ID, C.EFM_ID, C.POAR_ID, C.TI_ID_COMEX_GANANCIAS, C.TI_ID_COMEX_IGB, C.TI_ID_COMEX_IVA)
+
+  val productoKitFields = List(C.PR_ES_KIT, C.PR_KIT_STOCK_X_ITEM, C.PR_KIT_RESUMIDO, C.PR_KIT_IDENTIDAD,
+    C.PR_KIT_IDENTIDAD_X_ITEM, C.TA_ID_KIT_SERIE, C.PR_KIT_LOTE, C.PR_KIT_LOTE_X_ITEM, C.TA_ID_KIT_LOTE)
+
+  val productoWebFields = List(C.PR_NAME_WEB, C.PR_ALIAS_WEB, C.PR_ID_WEB_PADRE, C.PR_ACTIVO_WEB, C.PR_WEB_IMAGE_UPDATE,
+    C.PR_CODIGO_HTML, C.PR_CODIGO_HTML_DETALLE, C.PR_EXPO_WEB, C.PR_VENTA_WEB_MAXIMA, C.LEY_ID, C.PR_WEB_IMAGE_FOLDER)
+
+  val productoNombresFields = List(C.RPT_ID_NOMBRE_COMPRA, C.RPT_ID_NOMBRE_VENTA, C.RPT_ID_NOMBRE_FACTURA,
+    C.RPT_ID_NOMBRE_WEB, C.RPT_ID_NOMBRE_IMG, C.RPT_ID_NOMBRE_IMG_ALT)
+
+  val productoProveedorFields = List(C.PRPROV_ID, C.PROV_ID, C.PRPROV_FABRICANTE, C.PRPROV_NAME, C.PRPROV_CODE, C.PRPROV_CODIGO_BARRA,
+    C.LPI_PRECIO, C.LPI_FECHA, C.PRPROV_LPI_TOP)
+
+  val productoClienteFields = List(C.PRCLI_ID, C.CLI_ID, C.PRCLI_CODE, C.PRCLI_CODIGO_BARRA)
+
+  val productoCMIFields = List(C.PRCMI_ID, C.PRCMI_CODE, C.PRCMI_DESCRIP, C.PRCMI_FECHA_ALTA, C.PRCMI_FECHA_VTO, C.PRCMI_PRECIO)
+
+  val productoLeyendaFields = List(C.PRL_ID, C.PRL_NAME, C.PRL_TEXTO, C.PRL_TAG, C.PRL_ORDEN)
+
+  val productoTagFields = List(C.PRT_ID, C.PRT_TEXTO, C.PR_ID_TAG, C.PRT_ORDEN, C.PRT_EXPO_WEB, C.PRT_EXPO_CAIRO)
+
+  val productoCategoriaWebFields = List(C.CATWCI_ID, C.CATWC_ID, C.CATWCI_POSICION)
+
+  val productoCatalogoWebFields = List(C.CATWI_ID, C.CATW_ID)
+
+  val productoWebImageFields = List(C.PRWI_ID, C.PRWI_ARCHIVO, C.PRWI_TIPO, C.PRWI_ALT, C.PRWI_POSICION)
 
   val productoForm = Form(
     mapping(
@@ -213,16 +348,16 @@ object Productos extends Controller with ProvidesUser {
         C.CCOS_ID_VENTA -> number)(ProductoVentaData.apply)(ProductoVentaData.unapply),
       C.PRODUCTO_RUBRO -> mapping(
         C.RUB_ID -> number,
-        C.RUBTI_ID_1 -> number,
-        C.RUBTI_ID_2 -> number,
-        C.RUBTI_ID_3 -> number,
-        C.RUBTI_ID_4 -> number,
-        C.RUBTI_ID_5 -> number,
-        C.RUBTI_ID_6 -> number,
-        C.RUBTI_ID_7 -> number,
-        C.RUBTI_ID_8 -> number,
-        C.RUBTI_ID_9 -> number,
-        C.RUBTI_ID_10 -> number)(ProductoRubroData.apply)(ProductoRubroData.unapply),
+        C.RUBTI_ID_1 -> optional(number),
+        C.RUBTI_ID_2 -> optional(number),
+        C.RUBTI_ID_3 -> optional(number),
+        C.RUBTI_ID_4 -> optional(number),
+        C.RUBTI_ID_5 -> optional(number),
+        C.RUBTI_ID_6 -> optional(number),
+        C.RUBTI_ID_7 -> optional(number),
+        C.RUBTI_ID_8 -> optional(number),
+        C.RUBTI_ID_9 -> optional(number),
+        C.RUBTI_ID_10 -> optional(number))(ProductoRubroData.apply)(ProductoRubroData.unapply),
       C.PRODUCTO_COMEX -> mapping(
         C.UN_ID_PESO -> number,
         C.PR_PESO_NETO -> of(Global.doubleFormat),
@@ -264,7 +399,81 @@ object Productos extends Controller with ProvidesUser {
         C.RPT_ID_NOMBRE_FACTURA -> number,
         C.RPT_ID_NOMBRE_WEB -> number,
         C.RPT_ID_NOMBRE_IMG -> number,
-        C.RPT_ID_NOMBRE_IMG_ALT -> number)(ProductoNombresData.apply)(ProductoNombresData.unapply)
+        C.RPT_ID_NOMBRE_IMG_ALT -> number)(ProductoNombresData.apply)(ProductoNombresData.unapply),
+      C.PRODUCTO_ITEMS -> mapping(
+        C.PRODUCTO_PROVEEDOR -> Forms.list[ProductoProveedorData](
+          mapping(
+            C.PRPROV_ID -> number,
+            C.PROV_ID -> number,
+            C.PRPROV_FABRICANTE -> boolean,
+            C.PRPROV_NAME -> text,
+            C.PRPROV_CODE -> text,
+            C.PRPROV_CODIGO_BARRA -> text,
+            C.PA_ID -> number,
+            C.LP_ID -> number,
+            C.LPI_PRECIO -> of(Global.doubleFormat),
+            C.LPI_FECHA -> text,
+            C.PRPROV_LPI_TOP -> boolean)(ProductoProveedorData.apply)(ProductoProveedorData.unapply)
+        ),
+        C.PRODUCTO_CLIENTE -> Forms.list[ProductoClienteData](
+          mapping(
+            C.PRCLI_ID -> number,
+            C.CLI_ID -> number,
+            C.PRCLI_CODE -> text,
+            C.PRCLI_CODIGO_BARRA -> text)(ProductoClienteData.apply)(ProductoClienteData.unapply)
+        ),
+        C.PRODUCTO_COMUNIDAD_INTERNET -> Forms.list[ProductoCMIData](
+          mapping(
+            C.PRCMI_ID -> number,
+            C.PRCMI_CODE -> text,
+            C.PRCMI_DESCRIP -> text,
+            C.PRCMI_FECHA_ALTA -> text,
+            C.PRCMI_FECHA_VTO -> text,
+            C.PRCMI_PRECIO -> of(Global.doubleFormat))(ProductoCMIData.apply)(ProductoCMIData.unapply)
+        ),
+        C.PRODUCTO_LEYENDA -> Forms.list[ProductoLeyendaData](
+          mapping(
+            C.PRL_ID -> number,
+            C.PRL_NAME -> text,
+            C.PRL_TEXTO -> text,
+            C.PRL_TAG -> text,
+            C.PRL_ORDEN -> number)(ProductoLeyendaData.apply)(ProductoLeyendaData.unapply)
+        ),
+        C.PRODUCTO_TAG -> Forms.list[ProductoTagData](
+          mapping(
+            C.PRT_ID -> number,
+            C.PRT_TEXTO -> text,
+            C.PR_ID_TAG -> number,
+            C.PRT_ORDEN -> number,
+            C.PRT_EXPO_WEB -> number,
+            C.PRT_EXPO_CAIRO -> number)(ProductoTagData.apply)(ProductoTagData.unapply)
+        ),
+        C.CATALOGO_WEB_CATEGORIA_ITEM -> Forms.list[ProductoCategoriaWebData](
+          mapping(
+            C.CATWCI_ID -> number,
+            C.CATWC_ID -> number,
+            C.CATWCI_POSICION -> number)(ProductoCategoriaWebData.apply)(ProductoCategoriaWebData.unapply)
+        ),
+        C.CATALOGO_WEB_ITEM -> Forms.list[ProductoCatalogoWebData](
+          mapping(
+            C.CATWI_ID -> number,
+            C.CATW_ID -> number)(ProductoCatalogoWebData.apply)(ProductoCatalogoWebData.unapply)
+        ),
+        C.PRODUCTO_WEB_IMAGE -> Forms.list[ProductoWebImageData](
+          mapping(
+            C.PRWI_ID -> number,
+            C.PRWI_ARCHIVO -> text,
+            C.PRWI_TIPO -> number,
+            C.PRWI_ALT -> text,
+            C.PRWI_POSICION -> number)(ProductoWebImageData.apply)(ProductoWebImageData.unapply)
+        ),
+        C.PRODUCTO_PROVEEDOR_DELETED -> text,
+        C.PRODUCTO_CLIENTE_DELETED -> text,
+        C.PRODUCTO_CMI_DELETED -> text,
+        C.PRODUCTO_LEYENDA_DELETED -> text,
+        C.PRODUCTO_TAG_DELETED -> text,
+        C.PRODUCTO_WEB_IMAGE_DELETED -> text
+      )(ProductoItemsData.apply)(ProductoItemsData.unapply)
     )(ProductoData.apply)(ProductoData.unapply))
 
   implicit val productoWrites = new Writes[Producto] {
@@ -474,6 +683,7 @@ object Productos extends Controller with ProvidesUser {
       C.PROV_NAME -> Json.toJson(p.provName),
       C.PA_ID -> Json.toJson(p.paId),
       C.PA_NAME -> Json.toJson(p.paName),
+      C.LP_ID -> Json.toJson(p.lpId),
       C.LP_NAME -> Json.toJson(p.lpName),
       C.LPI_PRECIO -> Json.toJson(p.price),
       C.LPI_FECHA -> Json.toJson(p.priceDate),
@@ -555,9 +765,466 @@ object Productos extends Controller with ProvidesUser {
     })
   }
 
+  //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  //
+  // this functions convert the plain JSON received in CREATE and UPDATE into a ProductoData structure
+  //
+  // because the limitation to 18 fields in case class used for FORM mapping we have grouped the fields
+  // in Proveedor/Data, ProveedorItem/Data, etc
+  //
+  // the below routines group a flat JSON and in some cases rename the name of the fields or move
+  // fields to the parent node in the JSON structure to match the case class
+  //
+
+  private def preprocessParams(implicit request:Request[AnyContent]): JsObject = {
+
+    def getJsValueAsMap(list: Map[String, JsValue]): Map[String, JsValue] = list.toList match {
+      case (key: String, jsValue: JsValue) :: t => jsValue.as[Map[String, JsValue]]
+      case _ => Map.empty
+    }
+
+    def preprocessProveedorParam(field: JsValue) = {
+      val params = field.as[Map[String, JsValue]]
+      JsObject(Global.preprocessFormParams(productoProveedorFields, "", params).toSeq)
+    }
+
+    def preprocessClienteParam(field: JsValue) = {
+      val params = field.as[Map[String, JsValue]]
+      JsObject(Global.preprocessFormParams(productoClienteFields, "", params).toSeq)
+    }
+
+    def preprocessCMIParam(field: JsValue) = {
+      val params = field.as[Map[String, JsValue]]
+      JsObject(Global.preprocessFormParams(productoCMIFields, "", params).toSeq)
+    }
+
+    def preprocessLeyendaParam(field: JsValue) = {
+      val params = field.as[Map[String, JsValue]]
+      JsObject(Global.preprocessFormParams(productoLeyendaFields, "", params).toSeq)
+    }
+
+    def preprocessTagParam(field: JsValue) = {
+      val params = field.as[Map[String, JsValue]]
+      JsObject(Global.preprocessFormParams(productoTagFields, "", params).toSeq)
+    }
+
+    def preprocessCategoriaWebParam(field: JsValue) = {
+      val params = field.as[Map[String, JsValue]]
+      JsObject(Global.preprocessFormParams(productoCategoriaWebFields, "", params).toSeq)
+    }
+
+    def preprocessCatalogoWebParam(field: JsValue) = {
+      val params = field.as[Map[String, JsValue]]
+      JsObject(Global.preprocessFormParams(productoCatalogoWebFields, "", params).toSeq)
+    }
+
+    def preprocessWebImageParam(field: JsValue) = {
+      val params = field.as[Map[String, JsValue]]
+      JsObject(Global.preprocessFormParams(productoWebImageFields, "", params).toSeq)
+    }
+
+    def preprocessProveedoresParam(items: JsValue, group: String): Map[String, JsValue] = items match {
+      case JsArray(arr) => Map(group -> JsArray(arr.map(preprocessProveedorParam(_))))
+      case _ => Map.empty
+    }
+
+    def preprocessClientesParam(items: JsValue, group: String): Map[String, JsValue] = items match {
+      case JsArray(arr) => Map(group -> JsArray(arr.map(preprocessClienteParam(_))))
+      case _ => Map.empty
+    }
+
+    def preprocessCMIsParam(items: JsValue, group: String): Map[String, JsValue] = items match {
+      case JsArray(arr) => Map(group -> JsArray(arr.map(preprocessCMIParam(_))))
+      case _ => Map.empty
+    }
+
+    def preprocessLeyendasParam(items: JsValue, group: String): Map[String, JsValue] = items match {
+      case JsArray(arr) => Map(group -> JsArray(arr.map(preprocessLeyendaParam(_))))
+      case _ => Map.empty
+    }
+
+    def preprocessTagsParam(items: JsValue, group: String): Map[String, JsValue] = items match {
+      case JsArray(arr) => Map(group -> JsArray(arr.map(preprocessTagParam(_))))
+      case _ => Map.empty
+    }
+
+    def preprocessCategoriasWebParam(items: JsValue, group: String): Map[String, JsValue] = items match {
+      case JsArray(arr) => Map(group -> JsArray(arr.map(preprocessCategoriaWebParam(_))))
+      case _ => Map.empty
+    }
+
+    def preprocessCatalogosWebParam(items: JsValue, group: String): Map[String, JsValue] = items match {
+      case JsArray(arr) => Map(group -> JsArray(arr.map(preprocessCatalogoWebParam(_))))
+      case _ => Map.empty
+    }
+
+    def preprocessWebImagesParam(items: JsValue, group: String): Map[String, JsValue] = items match {
+      case JsArray(arr) => Map(group -> JsArray(arr.map(preprocessWebImageParam(_))))
+      case _ => Map.empty
+    }
+
+    val params = Global.getParamsFromJsonRequest
+
+    // groups for productoData
+    //
+    val productoId = Global.preprocessFormParams(List("id", DBHelper.ACTIVE, C.PR_CODE), "", params)
+    val productoBaseGroup = Global.preprocessFormParams(productoBaseFields, C.PRODUCTO_BASE, params)
+    val productoCompraGroup = Global.preprocessFormParams(productoCompraFields, C.PRODUCTO_COMPRA, params)
+    val productoStockGroup = Global.preprocessFormParams(productoStockFields, C.PRODUCTO_STOCK, params)
+    val productoVentaGroup = Global.preprocessFormParams(productoVentaFields, C.PRODUCTO_VENTA, params)
+    val productoRubroGroup = Global.preprocessFormParams(productoRubroFields, C.PRODUCTO_RUBRO, params)
+    val productoComexGroup = Global.preprocessFormParams(productoComexFields, C.PRODUCTO_COMEX, params)
+    val productoKitGroup = Global.preprocessFormParams(productoKitFields, C.PRODUCTO_KIT_GROUP, params)
+    val productoWebGroup = Global.preprocessFormParams(productoWebFields, C.PRODUCTO_WEB, params)
+    val productoNombreGroup = Global.preprocessFormParams(productoNombresFields, C.PRODUCTO_NOMBRES, params)
+
+    // proveedores
+    //
+    val proveedoresInfo = getJsValueAsMap(Global.getParamsJsonRequestFor(C.PRODUCTO_PROVEEDOR, params))
+    val proveedorRows = Global.getParamsJsonRequestFor(C.ITEMS, proveedoresInfo)
+    val proveedorDeleted: Map[String, JsValue] = Global.getParamsJsonRequestFor(C.DELETED_LIST, proveedoresInfo).toList match {
+      case Nil => Map(C.PRODUCTO_PROVEEDOR_DELETED -> Json.toJson(""))
+      case deletedList :: t => Map(C.PRODUCTO_PROVEEDOR_DELETED -> Json.toJson(deletedList._2))
+    }
+    val productoProveedores = proveedorRows.toList match {
+      case (k: String, item: JsValue) :: t => preprocessProveedoresParam(item, C.PRODUCTO_PROVEEDOR)
+      case _ => Map(C.PRODUCTO_PROVEEDOR -> JsArray(List()))
+    }
+
+    // clientes
+    //
+    val clientesInfo = getJsValueAsMap(Global.getParamsJsonRequestFor(C.PRODUCTO_CLIENTE, params))
+    val clienteRows = Global.getParamsJsonRequestFor(C.ITEMS, clientesInfo)
+    val clienteDeleted: Map[String, JsValue] = Global.getParamsJsonRequestFor(C.DELETED_LIST, clientesInfo).toList match {
+      case Nil => Map(C.PRODUCTO_CLIENTE_DELETED -> Json.toJson(""))
+      case deletedList :: t => Map(C.PRODUCTO_CLIENTE_DELETED -> Json.toJson(deletedList._2))
+    }
+    val productoClientes = clienteRows.toList match {
+      case (k: String, item: JsValue) :: t => preprocessClientesParam(item, C.PRODUCTO_CLIENTE)
+      case _ => Map(C.PRODUCTO_CLIENTE -> JsArray(List()))
+    }
+
+    // cmi
+    //
+    val cmisInfo = getJsValueAsMap(Global.getParamsJsonRequestFor(C.PRODUCTO_COMUNIDAD_INTERNET, params))
+    val cmiRows = Global.getParamsJsonRequestFor(C.ITEMS, cmisInfo)
+    val cmiDeleted: Map[String, JsValue] = Global.getParamsJsonRequestFor(C.DELETED_LIST, cmisInfo).toList match {
+      case Nil => Map(C.PRODUCTO_CMI_DELETED -> Json.toJson(""))
+      case deletedList :: t => Map(C.PRODUCTO_CMI_DELETED -> Json.toJson(deletedList._2))
+    }
+    val productoCMIs = cmiRows.toList match {
+      case (k: String, item: JsValue) :: t => preprocessCMIsParam(item, C.PRODUCTO_COMUNIDAD_INTERNET)
+      case _ => Map(C.PRODUCTO_COMUNIDAD_INTERNET -> JsArray(List()))
+    }
+
+    // leyendas
+    //
+    val leyendasInfo = getJsValueAsMap(Global.getParamsJsonRequestFor(C.PRODUCTO_LEYENDA, params))
+    val leyendaRows = Global.getParamsJsonRequestFor(C.ITEMS, leyendasInfo)
+    val leyendaDeleted: Map[String, JsValue] = Global.getParamsJsonRequestFor(C.DELETED_LIST, leyendasInfo).toList match {
+      case Nil => Map(C.PRODUCTO_LEYENDA_DELETED -> Json.toJson(""))
+      case deletedList :: t => Map(C.PRODUCTO_LEYENDA_DELETED -> Json.toJson(deletedList._2))
+    }
+    val productoLeyendas = leyendaRows.toList match {
+      case (k: String, item: JsValue) :: t => preprocessLeyendasParam(item, C.PRODUCTO_LEYENDA)
+      case _ => Map(C.PRODUCTO_LEYENDA -> JsArray(List()))
+    }
+
+    // tags
+    //
+    val tagsInfo = getJsValueAsMap(Global.getParamsJsonRequestFor(C.PRODUCTO_TAG, params))
+    val tagRows = Global.getParamsJsonRequestFor(C.ITEMS, tagsInfo)
+    val tagDeleted: Map[String, JsValue] = Global.getParamsJsonRequestFor(C.DELETED_LIST, tagsInfo).toList match {
+      case Nil => Map(C.PRODUCTO_TAG_DELETED -> Json.toJson(""))
+      case deletedList :: t => Map(C.PRODUCTO_TAG_DELETED -> Json.toJson(deletedList._2))
+    }
+    val productoTags = tagRows.toList match {
+      case (k: String, item: JsValue) :: t => preprocessTagsParam(item, C.PRODUCTO_TAG)
+      case _ => Map(C.PRODUCTO_TAG -> JsArray(List()))
+    }
+
+    // categoriasWeb
+    //
+    val categoriasWebInfo = getJsValueAsMap(Global.getParamsJsonRequestFor(C.CATALOGO_WEB_CATEGORIA_ITEM, params))
+    val categoriaWebRows = Global.getParamsJsonRequestFor(C.ITEMS, categoriasWebInfo)
+    val productoCategoriasWeb = categoriaWebRows.toList match {
+      case (k: String, item: JsValue) :: t => preprocessCategoriasWebParam(item, C.CATALOGO_WEB_CATEGORIA_ITEM)
+      case _ => Map(C.CATALOGO_WEB_CATEGORIA_ITEM -> JsArray(List()))
+    }
+
+    // catalogosWeb
+    //
+    val catalogosWebInfo = getJsValueAsMap(Global.getParamsJsonRequestFor(C.CATALOGO_WEB_ITEM, params))
+    val catalogoWebRows = Global.getParamsJsonRequestFor(C.ITEMS, catalogosWebInfo)
+    val productoCatalogosWeb = catalogoWebRows.toList match {
+      case (k: String, item: JsValue) :: t => preprocessCatalogosWebParam(item, C.CATALOGO_WEB_ITEM)
+      case _ => Map(C.CATALOGO_WEB_ITEM -> JsArray(List()))
+    }
+
+    // webImages
+    //
+    val webImagesInfo = getJsValueAsMap(Global.getParamsJsonRequestFor(C.PRODUCTO_WEB_IMAGE, params))
+    val webImageRows = Global.getParamsJsonRequestFor(C.ITEMS, webImagesInfo)
+    val webImageDeleted: Map[String, JsValue] = Global.getParamsJsonRequestFor(C.DELETED_LIST, webImagesInfo).toList match {
+      case Nil => Map(C.PRODUCTO_WEB_IMAGE_DELETED -> Json.toJson(""))
+      case deletedList :: t => Map(C.PRODUCTO_WEB_IMAGE_DELETED -> Json.toJson(deletedList._2))
+    }
+    val productoWebImages = webImageRows.toList match {
+      case (k: String, item: JsValue) :: t => preprocessWebImagesParam(item, C.PRODUCTO_WEB_IMAGE)
+      case _ => Map(C.PRODUCTO_WEB_IMAGE -> JsArray(List()))
+    }
+
+    val productoItems = Map(C.PRODUCTO_ITEMS -> JsObject((
+           productoProveedores ++ proveedorDeleted ++ productoClientes ++ clienteDeleted ++ productoCMIs ++ cmiDeleted
+        ++ productoLeyendas ++ leyendaDeleted ++ productoWebImages ++ webImageDeleted ++ productoTags ++ tagDeleted
+        ++ productoCategoriasWeb ++ productoCatalogosWeb ++ productoWebImages ++ webImageDeleted).toSeq
+    ))
+
+    JsObject(
+      (productoId ++ productoBaseGroup ++ productoCompraGroup ++ productoStockGroup ++ productoVentaGroup
+        ++ productoRubroGroup ++ productoComexGroup ++ productoKitGroup ++ productoWebGroup ++ productoNombreGroup
+        ++ productoItems).toSeq)
+  }
+  //
+  //
+  //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+  def getProveedores(proveedores: List[ProductoProveedorData]): List[ProductoProveedor] = {
+    proveedores.map(proveedor => {
+      ProductoProveedor(
+        proveedor.id,
+        proveedor.provId,
+        proveedor.maker,
+        proveedor.name,
+        proveedor.code,
+        proveedor.barCode,
+        proveedor.paId,
+        proveedor.lpId,
+        proveedor.price,
+        DateFormatter.parse(proveedor.priceDate),
+        proveedor.priceDefault
+      )
+    })
+  }
+
+  def getClientes(clientes: List[ProductoClienteData]): List[ProductoCliente] = {
+    clientes.map(cliente => {
+      ProductoCliente(
+        cliente.id,
+        cliente.cliId,
+        cliente.code,
+        cliente.barCode
+      )
+    })
+  }
+
+  def getCMIs(cmis: List[ProductoCMIData]): List[ProductoCMI] = {
+    cmis.map(cmi => {
+      ProductoCMI(
+        cmi.id,
+        cmi.code,
+        cmi.descrip,
+        DateFormatter.parse(cmi.createdAt),
+        DateFormatter.parse(cmi.expireDate),
+        cmi.price
+      )
+    })
+  }
+
+  def getLeyendas(leyendas: List[ProductoLeyendaData]): List[ProductoLeyenda] = {
+    leyendas.map(leyenda => {
+      ProductoLeyenda(
+        leyenda.id,
+        leyenda.name,
+        leyenda.text,
+        leyenda.tag,
+        leyenda.order
+      )
+    })
+  }
+
+  def getTags(tags: List[ProductoTagData]): List[ProductoTag] = {
+    tags.map(tag => {
+      ProductoTag(
+        tag.id,
+        tag.text,
+        tag.prIdTag,
+        tag.order,
+        tag.expoWeb,
+        tag.expoCairo
+      )
+    })
+  }
+
+  def getCategoriasWeb(categoriasWeb: List[ProductoCategoriaWebData]): List[ProductoCategoriaWeb] = {
+    categoriasWeb.map(categoriaWeb => {
+      ProductoCategoriaWeb(
+        categoriaWeb.id,
+        categoriaWeb.catwcId,
+        categoriaWeb.position
+      )
+    })
+  }
+
+  def getCatalogosWeb(catalogosWeb: List[ProductoCatalogoWebData]): List[ProductoCatalogoWeb] = {
+    catalogosWeb.map(catalogoWeb => {
+      ProductoCatalogoWeb(
+        catalogoWeb.id,
+        catalogoWeb.catwId
+      )
+    })
+  }
+
+  def getWebImages(webImages: List[ProductoWebImageData]): List[ProductoWebImage] = {
+    webImages.map(webImage => {
+      ProductoWebImage(
+        webImage.id,
+        webImage.file,
+        webImage.imageType,
+        webImage.alt,
+        webImage.position
+      )
+    })
+  }
+  
+  def getProductoItems(producto: ProductoItemsData): ProductoItems = {
+    ProductoItems(
+      getProveedores(producto.proveedores),
+      getClientes(producto.clientes),
+      getCMIs(producto.CMIs),
+      getLeyendas(producto.leyendas),
+      getTags(producto.tags),
+      getCategoriasWeb(producto.categoriasWeb),
+      getCatalogosWeb(producto.catalogosWeb),
+      getWebImages(producto.webImages),
+      List(),
+      List(),
+      List(),
+      producto.proveedorDeleted,
+      producto.clienteDeleted,
+      producto.cmiDeleted,
+      producto.leyendaDeleted,
+      producto.tagDeleted,
+      producto.webImageDeleted
+    )
+  }
+
+  def getProducto(producto: ProductoData, id: Int): Producto = {
+    Producto(
+      id,
+      producto.active,
+      producto.code,
+      ProductoBase(
+        producto.base.codigoExterno,
+        producto.base.codigoBarra,
+        producto.base.codigoBarraName,
+        producto.base.ibcId,
+        producto.base.marcId,
+        producto.base.expoCairo,
+        producto.base.esPlantilla,
+        producto.base.curId),
+      ProductoCompra(
+        producto.compra.seCompra,
+        producto.compra.nombreCompra,
+        producto.compra.descripCompra,
+        producto.compra.unIdCompra,
+        producto.compra.cuegIdCompra,
+        producto.compra.tiIdRiCompra,
+        producto.compra.tiIdInternosCompra,
+        producto.compra.porcInternoC,
+        producto.compra.ccosIdCompra),
+      ProductoStock(
+        producto.stock.llevaStock,
+        producto.stock.unIdStock,
+        producto.stock.stockCompra,
+        producto.stock.x,
+        producto.stock.y,
+        producto.stock.z,
+        producto.stock.stockMinimo,
+        producto.stock.reposicion,
+        producto.stock.stockMaximo,
+        producto.stock.llevaNroSerie,
+        producto.stock.llevaNroLote,
+        producto.stock.loteFifo,
+        producto.stock.seProduce,
+        producto.stock.esRepuesto),
+      ProductoVenta(
+        producto.venta.seVende,
+        producto.venta.nombreVenta,
+        producto.venta.nombreFactura,
+        producto.venta.descripVenta,
+        producto.venta.unIdVenta,
+        producto.venta.ventaCompra,
+        producto.venta.ventaStock,
+        producto.venta.cuegIdVenta,
+        producto.venta.esLista,
+        producto.venta.dinerario,
+        producto.venta.noRedondeo,
+        producto.venta.tiIdRiVenta,
+        producto.venta.tiIdInternosVenta,
+        producto.venta.porcInternoV,
+        producto.venta.ccosIdVenta),
+      ProductoRubro(
+        producto.rubro.rubId,
+        producto.rubro.rubtiId1.getOrElse(0),
+        producto.rubro.rubtiId2.getOrElse(0),
+        producto.rubro.rubtiId3.getOrElse(0),
+        producto.rubro.rubtiId4.getOrElse(0),
+        producto.rubro.rubtiId5.getOrElse(0),
+        producto.rubro.rubtiId6.getOrElse(0),
+        producto.rubro.rubtiId7.getOrElse(0),
+        producto.rubro.rubtiId8.getOrElse(0),
+        producto.rubro.rubtiId9.getOrElse(0),
+        producto.rubro.rubtiId10.getOrElse(0)),
+      ProductoComex(
+        producto.comex.unIdPeso,
+        producto.comex.pesoNeto,
+        producto.comex.pesoTotal,
+        producto.comex.cantXCajaExpo,
+        producto.comex.emblId,
+        producto.comex.fleteExpo,
+        producto.comex.egpId,
+        producto.comex.efmId,
+        producto.comex.poarId,
+        producto.comex.tiIdComexGanancias,
+        producto.comex.tiIdComexIgb,
+        producto.comex.tiIdComexIva),
+      ProductoKit(
+        producto.kit.esKit,
+        producto.kit.kitStockXItem,
+        producto.kit.kitResumido,
+        producto.kit.kitIdentidad,
+        producto.kit.kitIdentidadXItem,
+        producto.kit.taIdKitSerie,
+        producto.kit.kitLote,
+        producto.kit.kitLoteXItem,
+        producto.kit.taIdKitLote),
+      ProductoWeb(
+        producto.web.nombreWeb,
+        producto.web.aliasWeb,
+        producto.web.prIdWebPadre,
+        producto.web.activoWeb,
+        producto.web.webImageUpdate,
+        producto.web.codigoHtml,
+        producto.web.codigoHtmlDetalle,
+        producto.web.expoWeb,
+        producto.web.ventaWebMaxima,
+        producto.web.leyId,
+        producto.web.webImageFolder),
+      ProductoNombres(
+        producto.names.rptIdNombreCompra,
+        producto.names.rptIdNombreVenta,
+        producto.names.rptIdNombreFactura,
+        producto.names.rptIdNombreWeb,
+        producto.names.rptIdNombreImg,
+        producto.names.rptIdNombreImgAlt),
+      getProductoItems(producto.items)
+    )
+  }
+  
   def update(id: Int) = PostAction { implicit request =>
     Logger.debug("in Productos.update")
-    productoForm.bindFromRequest.fold(
+    productoForm.bind(preprocessParams).fold(
       formWithErrors => {
         Logger.debug(s"invalid form: ${formWithErrors.toString}")
         BadRequest
@@ -568,116 +1235,10 @@ object Productos extends Controller with ProvidesUser {
           Ok(
             Json.toJson(
               Producto.update(user,
-                Producto(
-                  id,
-                  producto.active,
-                  producto.code,
-
-                  ProductoBase(
-                    producto.base.codigoExterno,
-                    producto.base.codigoBarra,
-                    producto.base.codigoBarraName,
-                    producto.base.ibcId,
-                    producto.base.marcId,
-                    producto.base.expoCairo,
-                    producto.base.esPlantilla,
-                    producto.base.curId),
-                  ProductoCompra(
-                    producto.compra.seCompra,
-                    producto.compra.nombreCompra,
-                    producto.compra.descripCompra,
-                    producto.compra.unIdCompra,
-                    producto.compra.cuegIdCompra,
-                    producto.compra.tiIdRiCompra,
-                    producto.compra.tiIdInternosCompra,
-                    producto.compra.porcInternoC,
-                    producto.compra.ccosIdCompra),
-                  ProductoStock(
-                    producto.stock.llevaStock,
-                    producto.stock.unIdStock,
-                    producto.stock.stockCompra,
-                    producto.stock.x,
-                    producto.stock.y,
-                    producto.stock.z,
-                    producto.stock.stockMinimo,
-                    producto.stock.reposicion,
-                    producto.stock.stockMaximo,
-                    producto.stock.llevaNroSerie,
-                    producto.stock.llevaNroLote,
-                    producto.stock.loteFifo,
-                    producto.stock.seProduce,
-                    producto.stock.esRepuesto),
-                  ProductoVenta(
-                    producto.venta.seVende,
-                    producto.venta.nombreVenta,
-                    producto.venta.nombreFactura,
-                    producto.venta.descripVenta,
-                    producto.venta.unIdVenta,
-                    producto.venta.ventaCompra,
-                    producto.venta.ventaStock,
-                    producto.venta.cuegIdVenta,
-                    producto.venta.esLista,
-                    producto.venta.dinerario,
-                    producto.venta.noRedondeo,
-                    producto.venta.tiIdRiVenta,
-                    producto.venta.tiIdInternosVenta,
-                    producto.venta.porcInternoV,
-                    producto.venta.ccosIdVenta),
-                  ProductoRubro(
-                    producto.rubro.rubId,
-                    producto.rubro.rubtiId1,
-                    producto.rubro.rubtiId2,
-                    producto.rubro.rubtiId3,
-                    producto.rubro.rubtiId4,
-                    producto.rubro.rubtiId5,
-                    producto.rubro.rubtiId6,
-                    producto.rubro.rubtiId7,
-                    producto.rubro.rubtiId8,
-                    producto.rubro.rubtiId9,
-                    producto.rubro.rubtiId10),
-                  ProductoComex(
-                    producto.comex.unIdPeso,
-                    producto.comex.pesoNeto,
-                    producto.comex.pesoTotal,
-                    producto.comex.cantXCajaExpo,
-                    producto.comex.emblId,
-                    producto.comex.fleteExpo,
-                    producto.comex.egpId,
-                    producto.comex.efmId,
-                    producto.comex.poarId,
-                    producto.comex.tiIdComexGanancias,
-                    producto.comex.tiIdComexIgb,
-                    producto.comex.tiIdComexIva),
-                  ProductoKit(
-                    producto.kit.esKit,
-                    producto.kit.kitStockXItem,
-                    producto.kit.kitResumido,
-                    producto.kit.kitIdentidad,
-                    producto.kit.kitIdentidadXItem,
-                    producto.kit.taIdKitSerie,
-                    producto.kit.kitLote,
-                    producto.kit.kitLoteXItem,
-                    producto.kit.taIdKitLote),
-                  ProductoWeb(
-                    producto.web.nombreWeb,
-                    producto.web.aliasWeb,
-                    producto.web.prIdWebPadre,
-                    producto.web.activoWeb,
-                    producto.web.webImageUpdate,
-                    producto.web.codigoHtml,
-                    producto.web.codigoHtmlDetalle,
-                    producto.web.expoWeb,
-                    producto.web.ventaWebMaxima,
-                    producto.web.leyId,
-                    producto.web.webImageFolder),
-                  ProductoNombres(
-                    producto.names.rptIdNombreCompra,
-                    producto.names.rptIdNombreVenta,
-                    producto.names.rptIdNombreFactura,
-                    producto.names.rptIdNombreWeb,
-                    producto.names.rptIdNombreImg,
-                    producto.names.rptIdNombreImgAlt)
-              ))))
+                getProducto(producto, id)
+              )
+            )
+          )
         })
       }
     )
@@ -685,7 +1246,7 @@ object Productos extends Controller with ProvidesUser {
 
   def create = PostAction { implicit request =>
     Logger.debug("in Productos.create")
-    productoForm.bindFromRequest.fold(
+    productoForm.bind(preprocessParams).fold(
       formWithErrors => {
         Logger.debug(s"invalid form: ${formWithErrors.toString}")
         BadRequest
@@ -696,115 +1257,10 @@ object Productos extends Controller with ProvidesUser {
           Ok(
             Json.toJson(
               Producto.create(user,
-                Producto(
-                  producto.active,
-                  producto.code,
-
-                  ProductoBase(
-                    producto.base.codigoExterno,
-                    producto.base.codigoBarra,
-                    producto.base.codigoBarraName,
-                    producto.base.ibcId,
-                    producto.base.marcId,
-                    producto.base.expoCairo,
-                    producto.base.esPlantilla,
-                    producto.base.curId),
-                  ProductoCompra(
-                    producto.compra.seCompra,
-                    producto.compra.nombreCompra,
-                    producto.compra.descripCompra,
-                    producto.compra.unIdCompra,
-                    producto.compra.cuegIdCompra,
-                    producto.compra.tiIdRiCompra,
-                    producto.compra.tiIdInternosCompra,
-                    producto.compra.porcInternoC,
-                    producto.compra.ccosIdCompra),
-                  ProductoStock(
-                    producto.stock.llevaStock,
-                    producto.stock.unIdStock,
-                    producto.stock.stockCompra,
-                    producto.stock.x,
-                    producto.stock.y,
-                    producto.stock.z,
-                    producto.stock.stockMinimo,
-                    producto.stock.reposicion,
-                    producto.stock.stockMaximo,
-                    producto.stock.llevaNroSerie,
-                    producto.stock.llevaNroLote,
-                    producto.stock.loteFifo,
-                    producto.stock.seProduce,
-                    producto.stock.esRepuesto),
-                  ProductoVenta(
-                    producto.venta.seVende,
-                    producto.venta.nombreVenta,
-                    producto.venta.nombreFactura,
-                    producto.venta.descripVenta,
-                    producto.venta.unIdVenta,
-                    producto.venta.ventaCompra,
-                    producto.venta.ventaStock,
-                    producto.venta.cuegIdVenta,
-                    producto.venta.esLista,
-                    producto.venta.dinerario,
-                    producto.venta.noRedondeo,
-                    producto.venta.tiIdRiVenta,
-                    producto.venta.tiIdInternosVenta,
-                    producto.venta.porcInternoV,
-                    producto.venta.ccosIdVenta),
-                  ProductoRubro(
-                    producto.rubro.rubId,
-                    producto.rubro.rubtiId1,
-                    producto.rubro.rubtiId2,
-                    producto.rubro.rubtiId3,
-                    producto.rubro.rubtiId4,
-                    producto.rubro.rubtiId5,
-                    producto.rubro.rubtiId6,
-                    producto.rubro.rubtiId7,
-                    producto.rubro.rubtiId8,
-                    producto.rubro.rubtiId9,
-                    producto.rubro.rubtiId10),
-                  ProductoComex(
-                    producto.comex.unIdPeso,
-                    producto.comex.pesoNeto,
-                    producto.comex.pesoTotal,
-                    producto.comex.cantXCajaExpo,
-                    producto.comex.emblId,
-                    producto.comex.fleteExpo,
-                    producto.comex.egpId,
-                    producto.comex.efmId,
-                    producto.comex.poarId,
-                    producto.comex.tiIdComexGanancias,
-                    producto.comex.tiIdComexIgb,
-                    producto.comex.tiIdComexIva),
-                  ProductoKit(
-                    producto.kit.esKit,
-                    producto.kit.kitStockXItem,
-                    producto.kit.kitResumido,
-                    producto.kit.kitIdentidad,
-                    producto.kit.kitIdentidadXItem,
-                    producto.kit.taIdKitSerie,
-                    producto.kit.kitLote,
-                    producto.kit.kitLoteXItem,
-                    producto.kit.taIdKitLote),
-                  ProductoWeb(
-                    producto.web.nombreWeb,
-                    producto.web.aliasWeb,
-                    producto.web.prIdWebPadre,
-                    producto.web.activoWeb,
-                    producto.web.webImageUpdate,
-                    producto.web.codigoHtml,
-                    producto.web.codigoHtmlDetalle,
-                    producto.web.expoWeb,
-                    producto.web.ventaWebMaxima,
-                    producto.web.leyId,
-                    producto.web.webImageFolder),
-                  ProductoNombres(
-                    producto.names.rptIdNombreCompra,
-                    producto.names.rptIdNombreVenta,
-                    producto.names.rptIdNombreFactura,
-                    producto.names.rptIdNombreWeb,
-                    producto.names.rptIdNombreImg,
-                    producto.names.rptIdNombreImgAlt)
-                ))))
+                getProducto(producto, DBHelper.NoId)
+              )
+            )
+          )
         })
       }
     )
