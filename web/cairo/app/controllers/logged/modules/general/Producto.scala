@@ -184,13 +184,11 @@ case class ProductoTagData(
                         )
 
 case class ProductoCategoriaWebData(
-                                 id: Int,
                                  catwcId: Int,
                                  position: Int
                                  )
 
 case class ProductoCatalogoWebData(
-                                id: Int,
                                 catwId: Int
                                 )
 
@@ -450,13 +448,11 @@ object Productos extends Controller with ProvidesUser {
         ),
         C.CATALOGO_WEB_CATEGORIA_ITEM -> Forms.list[ProductoCategoriaWebData](
           mapping(
-            C.CATWCI_ID -> number,
             C.CATWC_ID -> number,
             C.CATWCI_POSICION -> number)(ProductoCategoriaWebData.apply)(ProductoCategoriaWebData.unapply)
         ),
         C.CATALOGO_WEB_ITEM -> Forms.list[ProductoCatalogoWebData](
           mapping(
-            C.CATWI_ID -> number,
             C.CATW_ID -> number)(ProductoCatalogoWebData.apply)(ProductoCatalogoWebData.unapply)
         ),
         C.PRODUCTO_WEB_IMAGE -> Forms.list[ProductoWebImageData](
@@ -1059,7 +1055,7 @@ object Productos extends Controller with ProvidesUser {
   def getCategoriasWeb(categoriasWeb: List[ProductoCategoriaWebData]): List[ProductoCategoriaWeb] = {
     categoriasWeb.map(categoriaWeb => {
       ProductoCategoriaWeb(
-        categoriaWeb.id,
+        DBHelper.NoId,
         categoriaWeb.catwcId,
         categoriaWeb.position
       )
@@ -1069,7 +1065,7 @@ object Productos extends Controller with ProvidesUser {
   def getCatalogosWeb(catalogosWeb: List[ProductoCatalogoWebData]): List[ProductoCatalogoWeb] = {
     catalogosWeb.map(catalogoWeb => {
       ProductoCatalogoWeb(
-        catalogoWeb.id,
+        DBHelper.NoId,
         catalogoWeb.catwId
       )
     })

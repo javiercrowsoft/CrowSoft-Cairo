@@ -2162,10 +2162,289 @@ object Producto {
         Field(C.RPT_ID_NOMBRE_IMG_ALT, producto.names.rptIdNombreImgAlt, FieldType.id)
       )
     }
+
+    def getProveedorFields(proveedor: ProductoProveedor, prId: Int) = {
+      List(
+        Field(C.PR_ID, prId, FieldType.id),
+        Field(C.PROV_ID, proveedor.provId, FieldType.id),
+        Field(C.PRPROV_FABRICANTE, Register.boolToInt(proveedor.maker), FieldType.boolean),
+        Field(C.PRPROV_NAME, proveedor.name, FieldType.text),
+        Field(C.PRPROV_CODE, proveedor.code, FieldType.text),
+        Field(C.PRPROV_CODIGO_BARRA, proveedor.barCode, FieldType.text),
+        Field(C.PA_ID, proveedor.paId, FieldType.id),
+        Field(C.LP_ID, proveedor.lpId, FieldType.id)
+      )
+    }
+
+    def getClienteFields(cliente: ProductoCliente, prId: Int) = {
+      List(
+        Field(C.PR_ID, prId, FieldType.id),
+        Field(C.CLI_ID, cliente.cliId, FieldType.id),
+        Field(C.PRCLI_CODE, cliente.code, FieldType.text),
+        Field(C.PRCLI_CODIGO_BARRA, cliente.barCode, FieldType.text)
+      )
+    }
+
+    def getCMIFields(cmi: ProductoCMI, prId: Int) = {
+      List(
+        Field(C.PR_ID, prId, FieldType.id),
+        Field(C.PRCMI_CODE, cmi.code , FieldType.text),
+        Field(C.PRCMI_DESCRIP, cmi.descrip , FieldType.text),
+        Field(C.PRCMI_FECHA_ALTA, cmi.createdAt , FieldType.text),
+        Field(C.PRCMI_FECHA_VTO, cmi.expireDate , FieldType.text),
+        Field(C.PRCMI_PRECIO, cmi.price , FieldType.number)
+      )
+    }
+
+    def getLeyendaFields(leyenda: ProductoLeyenda, prId: Int) = {
+      List(
+        Field(C.PR_ID, prId, FieldType.id),
+        Field(C.PRL_NAME, leyenda.name, FieldType.text),
+        Field(C.PRL_TEXTO, leyenda.text, FieldType.text),
+        Field(C.PRL_TAG, leyenda.tag, FieldType.text)
+      )
+    }
+
+    def getTagFields(tag: ProductoTag, prId: Int) = {
+      List(
+        Field(C.PR_ID, prId, FieldType.id),
+        Field(C.PRT_TEXTO, tag.text, FieldType.text),
+        Field(C.PR_ID_TAG, tag.prIdTag, FieldType.id),
+        Field(C.PRT_ORDEN, tag.order, FieldType.number),
+        Field(C.PRT_EXPO_WEB, tag.expoWeb, FieldType.number),
+        Field(C.PRT_EXPO_CAIRO, tag.expoCairo, FieldType.number)
+      )
+    }
+
+    def getCategoriaWebFields(categoriaWeb: ProductoCategoriaWeb, prId: Int) = {
+      List(
+        Field(C.PR_ID, prId, FieldType.id),
+        Field(C.CATWC_ID, categoriaWeb.catwcId, FieldType.id),
+        Field(C.CATWCI_POSICION, categoriaWeb.position, FieldType.number)
+      )
+    }
+
+    def getCatalogoWebFields(catalogoWeb: ProductoCatalogoWeb, prId: Int) = {
+      List(
+        Field(C.PR_ID, prId, FieldType.id),
+        Field(C.CATW_ID, catalogoWeb.catwId, FieldType.id)
+      )
+    }
+
+    def getWebImageFields(webImage: ProductoWebImage, prId: Int) = {
+      List(
+        Field(C.PR_ID, prId, FieldType.id),
+        Field(C.PRWI_ARCHIVO, webImage.file, FieldType.text),
+        Field(C.PRWI_TIPO, webImage.imageType, FieldType.number),
+        Field(C.PRWI_ALT, webImage.alt, FieldType.text),
+        Field(C.PRWI_POSICION, webImage.position, FieldType.number)
+      )
+    }
+
     def throwException = {
       throw new RuntimeException(s"Error when saving ${C.PRODUCTO}")
     }
 
+    case class ProductoProveedorInfo(prId: Int, item: ProductoProveedor)
+
+    def saveProveedor(itemInfo: ProductoProveedorInfo) = {
+      DBHelper.save(
+        user,
+        Register(
+          C.PRODUCTO_PROVEEDOR,
+          C.PRPROV_ID,
+          itemInfo.item.id,
+          false,
+          true,
+          true,
+          getProveedorFields(itemInfo.item, itemInfo.prId)),
+        itemInfo.item.id == DBHelper.NewId
+      ) match {
+        case SaveResult(true, id) => true
+        case SaveResult(false, id) => throwException
+      }
+    }
+
+    def saveProveedores(prId: Int) = {
+      DBHelper.deleteItems(user, C.PRODUCTO_PROVEEDOR, C.PRPROV_ID, producto.items.proveedorDeleted, s" AND pr_id = ${prId}")
+      producto.items.proveedores.map(proveedor => saveProveedor(ProductoProveedorInfo(prId, proveedor)))
+    }
+
+    case class ProductoClienteInfo(prId: Int, item: ProductoCliente)
+
+    def saveCliente(itemInfo: ProductoClienteInfo) = {
+      DBHelper.save(
+        user,
+        Register(
+          C.PRODUCTO_CLIENTE,
+          C.PRCLI_ID,
+          itemInfo.item.id,
+          false,
+          true,
+          true,
+          getClienteFields(itemInfo.item, itemInfo.prId)),
+        itemInfo.item.id == DBHelper.NewId
+      ) match {
+        case SaveResult(true, id) => true
+        case SaveResult(false, id) => throwException
+      }
+    }
+
+    def saveClientes(prId: Int) = {
+      DBHelper.deleteItems(user, C.PRODUCTO_CLIENTE, C.PRCLI_ID, producto.items.clienteDeleted, s" AND pr_id = ${prId}")
+      producto.items.clientes.map(cliente => saveCliente(ProductoClienteInfo(prId, cliente)))
+    }
+
+    case class ProductoCMIInfo(prId: Int, item: ProductoCMI)
+
+    def saveCMI(itemInfo: ProductoCMIInfo) = {
+      DBHelper.save(
+        user,
+        Register(
+          C.PRODUCTO_COMUNIDAD_INTERNET,
+          C.PRCMI_ID,
+          itemInfo.item.id,
+          false,
+          true,
+          true,
+          getCMIFields(itemInfo.item, itemInfo.prId)),
+        itemInfo.item.id == DBHelper.NewId
+      ) match {
+        case SaveResult(true, id) => true
+        case SaveResult(false, id) => throwException
+      }
+    }
+
+    def saveCMIs(prId: Int) = {
+      DBHelper.deleteItems(user, C.PRODUCTO_COMUNIDAD_INTERNET, C.PRCMI_ID, producto.items.cmiDeleted, s" AND pr_id = ${prId}")
+      producto.items.cmi.map(cmi => saveCMI(ProductoCMIInfo(prId, cmi)))
+    }
+
+    case class ProductoLeyendaInfo(prId: Int, item: ProductoLeyenda)
+
+    def saveLeyenda(itemInfo: ProductoLeyendaInfo) = {
+      DBHelper.save(
+        user,
+        Register(
+          C.PRODUCTO_LEYENDA,
+          C.PRL_ID,
+          itemInfo.item.id,
+          false,
+          true,
+          true,
+          getLeyendaFields(itemInfo.item, itemInfo.prId)),
+        itemInfo.item.id == DBHelper.NewId
+      ) match {
+        case SaveResult(true, id) => true
+        case SaveResult(false, id) => throwException
+      }
+    }
+
+    def saveLeyendas(prId: Int) = {
+      DBHelper.deleteItems(user, C.PRODUCTO_LEYENDA, C.PRL_ID, producto.items.leyendaDeleted, s" AND pr_id = ${prId}")
+      producto.items.leyendas.map(leyenda => saveLeyenda(ProductoLeyendaInfo(prId, leyenda)))
+    }
+
+    case class ProductoTagInfo(prId: Int, item: ProductoTag)
+
+    def saveTag(itemInfo: ProductoTagInfo) = {
+      DBHelper.save(
+        user,
+        Register(
+          C.PRODUCTO_TAG,
+          C.PRT_ID,
+          itemInfo.item.id,
+          false,
+          true,
+          true,
+          getTagFields(itemInfo.item, itemInfo.prId)),
+        itemInfo.item.id == DBHelper.NewId
+      ) match {
+        case SaveResult(true, id) => true
+        case SaveResult(false, id) => throwException
+      }
+    }
+
+    def saveTags(prId: Int) = {
+      DBHelper.deleteItems(user, C.PRODUCTO_TAG, C.PRT_ID, producto.items.tagDeleted, s" AND pr_id = ${prId}")
+      producto.items.tags.map(tag => saveTag(ProductoTagInfo(prId, tag)))
+    }
+
+    case class ProductoCategoriaWebInfo(prId: Int, item: ProductoCategoriaWeb)
+
+    def saveCategoriaWeb(itemInfo: ProductoCategoriaWebInfo) = {
+      DBHelper.save(
+        user,
+        Register(
+          C.CATALOGO_WEB_CATEGORIA_ITEM,
+          C.CATWCI_ID,
+          itemInfo.item.id,
+          false,
+          true,
+          true,
+          getCategoriaWebFields(itemInfo.item, itemInfo.prId)),
+        itemInfo.item.id == DBHelper.NewId
+      ) match {
+        case SaveResult(true, id) => true
+        case SaveResult(false, id) => throwException
+      }
+    }
+
+    def saveCategoriasWeb(prId: Int) = {
+      DBHelper.deleteItems(user, C.CATALOGO_WEB_CATEGORIA_ITEM, C.PR_ID, prId.toString, "")
+      producto.items.categoriasWeb.map(categoriaWeb => saveCategoriaWeb(ProductoCategoriaWebInfo(prId, categoriaWeb)))
+    }
+
+    case class ProductoCatalogoWebInfo(prId: Int, item: ProductoCatalogoWeb)
+
+    def saveCatalogoWeb(itemInfo: ProductoCatalogoWebInfo) = {
+      DBHelper.save(
+        user,
+        Register(
+          C.CATALOGO_WEB_ITEM,
+          C.CATWI_ID,
+          itemInfo.item.id,
+          false,
+          true,
+          true,
+          getCatalogoWebFields(itemInfo.item, itemInfo.prId)),
+        itemInfo.item.id == DBHelper.NewId
+      ) match {
+        case SaveResult(true, id) => true
+        case SaveResult(false, id) => throwException
+      }
+    }
+
+    def saveCatalogosWeb(prId: Int) = {
+      DBHelper.deleteItems(user, C.CATALOGO_WEB_ITEM, C.PR_ID, prId.toString, "")
+      producto.items.catalogosWeb.map(catalogoWeb => saveCatalogoWeb(ProductoCatalogoWebInfo(prId, catalogoWeb)))
+    }
+
+    case class ProductoWebImageInfo(prId: Int, item: ProductoWebImage)
+
+    def saveWebImage(itemInfo: ProductoWebImageInfo) = {
+      DBHelper.save(
+        user,
+        Register(
+          C.PRODUCTO_WEB_IMAGE,
+          C.PRWI_ID,
+          itemInfo.item.id,
+          false,
+          true,
+          true,
+          getWebImageFields(itemInfo.item, itemInfo.prId)),
+        itemInfo.item.id == DBHelper.NewId
+      ) match {
+        case SaveResult(true, id) => true
+        case SaveResult(false, id) => throwException
+      }
+    }
+
+    def saveWebImages(prId: Int) = {
+      DBHelper.deleteItems(user, C.PRODUCTO_WEB_IMAGE, C.PRWI_ID, producto.items.webImageDeleted, s" AND pr_id = ${prId}")
+      producto.items.webImages.map(webImage => saveWebImage(ProductoWebImageInfo(prId, webImage)))
+    }
+    
     DBHelper.saveEx(
       user,
       Register(
@@ -2179,7 +2458,17 @@ object Producto {
       isNew,
       C.PR_CODE
     ) match {
-      case SaveResult(true, id) => load(user, id).getOrElse(throwException)
+      case SaveResult(true, id) => {
+        saveProveedores(id)
+        saveClientes(id)
+        saveCMIs(id)
+        saveLeyendas(id)
+        saveTags(id)
+        saveCategoriasWeb(id)
+        saveCatalogosWeb(id)
+        saveWebImages(id)
+        load(user, id).getOrElse(throwException)
+      }
       case SaveResult(false, id) => throwException
     }
   }

@@ -4752,6 +4752,8 @@
         var grid = property.getGrid();
         var rows = grid.getRows();
 
+        rows.clear();
+
         for(var _i = 0; _i < m_data.proveedores.length; _i += 1) {
 
           var row = rows.add(null);
@@ -4864,6 +4866,8 @@
         var grid = property.getGrid();
         var rows = grid.getRows();
 
+        rows.clear();
+
         for(var _i = 0; _i < m_data.clientes.length; _i += 1) {
 
           var row = rows.add(null, getValue(m_data.clientes[_i], C.PR_CLI_ID));
@@ -4948,6 +4952,8 @@
         var grid = property.getGrid();
         var rows = grid.getRows();
 
+        rows.clear();
+
         for(var _i = 0; _i < m_data.cmi.length; _i += 1) {
 
           var row = rows.add(null, getValue(m_data.cmi[_i], C.PRCMI_ID));
@@ -5028,6 +5034,8 @@
         var grid = property.getGrid();
         var rows = grid.getRows();
 
+        rows.clear();
+
         for(var _i = 0; _i < m_data.leyendas.length; _i += 1) {
 
           var row = rows.add(null, getValue(m_data.leyendas[_i], C.PRL_ID));
@@ -5077,6 +5085,8 @@
         var elem;
         var grid = property.getGrid();
         var rows = grid.getRows();
+
+        rows.clear();
 
         for(var _i = 0; _i < m_data.bom.length; _i += 1) {
 
@@ -5148,6 +5158,8 @@
         var grid = property.getGrid();
         var rows = grid.getRows();
 
+        rows.clear();
+
         for(var _i = 0; _i < m_data.tags.length; _i += 1) {
 
           var row = rows.add(null, getValue(m_data.tags[_i], C.PRT_ID));
@@ -5218,6 +5230,8 @@
         var grid = property.getGrid();
         var rows = grid.getRows();
 
+        rows.clear();
+
         for(var _i = 0; _i < m_data.categoriasWeb.length; _i += 1) {
 
           var row = rows.add(null);
@@ -5274,6 +5288,8 @@
         var elem;
         var grid = property.getGrid();
         var rows = grid.getRows();
+
+        rows.clear();
 
         for(var _i = 0; _i < m_data.catalogosWeb.length; _i += 1) {
 
