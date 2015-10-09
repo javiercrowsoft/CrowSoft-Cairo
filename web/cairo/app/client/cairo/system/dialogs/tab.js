@@ -13,12 +13,31 @@
 
     Dialogs.createTab = function() {
 
+      /*
+      * Tabs allow inner tabs (only two levels)
+      *
+      * the first level is the outher or main tab
+      * the sencond level is the inner tab
+      *
+      * an inner tab has a fatherTab (an outher tab)
+      * the fatherTab is the index of the outher tab
+      *
+      * the index of an inner tab is set with a negative value
+      * it is used to associate properties to the tab (using the tabIndex field of a property)
+      *
+      * the ctrlIndex is the real index of an inner tab
+      *
+      * */
+
       var self = {
         keyTab: "",
         name: '',
         index: 0,
         ctrlIndex: 0,
-        fatherTab: ""
+        fatherTab: "",
+
+        /* internal */
+        _ctl: null
       };
 
       var that = {};
@@ -44,6 +63,15 @@
       };
       that.setCtrlIndex = function(index) {
         self.ctrlIndex = index;
+        return that;
+      };
+
+      that.getControl = function() {
+        return self._ctl;
+      };
+      that.setControl = function(control) {
+        self._ctl = control;
+        self._controlLoaded = false;
         return that;
       };
 

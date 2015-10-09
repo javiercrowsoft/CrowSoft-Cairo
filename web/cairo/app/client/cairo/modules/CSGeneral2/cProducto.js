@@ -24,6 +24,7 @@
       var T = Dialogs.PropertyType;
       var val = Cairo.Util.val;
       var valEmpty = Cairo.Util.valEmpty;
+      var D = Cairo.Documents;
       
       var C_MODULE = "cProducto";
 
@@ -730,6 +731,7 @@
               rubro.load(rubId).whenSuccess(
                 function() {
                   m_data.rubro = rubro;
+                  clearRubroItem();
                   setRubro();
                   if (m_dialog.show(self, TAB_RUBRO)) {
                     m_rubroHasChanged = false;
@@ -2096,7 +2098,7 @@
 
         elem = properties.add(null, C.RUB_ID);
         elem.setType(T.select);
-        elem.setSelectTable(Cairo.Tables.RUBRO);
+        elem.setSelectTable(Cairo.Tables.RUBROS);
         elem.setTabIndex(tab_rubro);
         elem.setName(getText(1299, "")); // Rubro
         elem.setKey(K_RUB_ID);
@@ -2608,7 +2610,7 @@
           elem = properties.add(null, C.RUBTI_ID_1);
           elem.setType(T.select);
           elem.setSelectTable(Cairo.Tables.ITEMS_DE_TABLAS_DE_RUBROS);
-          elem.setSelectFilter(C.RUBT_ID_1 + " = "+ rubro.getRubtId1().toString());
+          elem.setSelectFilter(D.getRubroTablaItemFilter(rubro.getRubtId1()));
           elem.setTabIndex(tab_rubro);
           elem.setName(rubro.getRubtName1());
           elem.setKey(K_RUBTI_ID1);
@@ -2629,7 +2631,7 @@
           elem = properties.add(null, C.RUBTI_ID_2);
           elem.setType(T.select);
           elem.setSelectTable(Cairo.Tables.ITEMS_DE_TABLAS_DE_RUBROS);
-          elem.setSelectFilter(C.RUBT_ID_2 + " = "+ rubro.getRubtId2().toString());
+          elem.setSelectFilter(D.getRubroTablaItemFilter(rubro.getRubtId2()));
           elem.setTabIndex(tab_rubro);
           elem.setName(rubro.getRubtName2());
           elem.setKey(K_RUBTI_ID2);
@@ -2650,7 +2652,7 @@
           elem = properties.add(null, C.RUBTI_ID_3);
           elem.setType(T.select);
           elem.setSelectTable(Cairo.Tables.ITEMS_DE_TABLAS_DE_RUBROS);
-          elem.setSelectFilter(C.RUBT_ID_3 + " = "+ rubro.getRubtId3().toString());
+          elem.setSelectFilter(D.getRubroTablaItemFilter(rubro.getRubtId3()));
           elem.setTabIndex(tab_rubro);
           elem.setName(rubro.getRubtName3());
           elem.setKey(K_RUBTI_ID3);
@@ -2671,7 +2673,7 @@
           elem = properties.add(null, C.RUBTI_ID_4);
           elem.setType(T.select);
           elem.setSelectTable(Cairo.Tables.ITEMS_DE_TABLAS_DE_RUBROS);
-          elem.setSelectFilter(C.RUBT_ID_4 + " = "+ rubro.getRubtId4().toString());
+          elem.setSelectFilter(D.getRubroTablaItemFilter(rubro.getRubtId4()));
           elem.setTabIndex(tab_rubro);
           elem.setName(rubro.getRubtName4());
           elem.setKey(K_RUBTI_ID4);
@@ -2692,7 +2694,7 @@
           elem = properties.add(null, C.RUBTI_ID_5);
           elem.setType(T.select);
           elem.setSelectTable(Cairo.Tables.ITEMS_DE_TABLAS_DE_RUBROS);
-          elem.setSelectFilter(C.RUBT_ID_5 + " = "+ rubro.getRubtId5().toString());
+          elem.setSelectFilter(D.getRubroTablaItemFilter(rubro.getRubtId5()));
           elem.setTabIndex(tab_rubro);
           elem.setName(rubro.getRubtName5());
           elem.setKey(K_RUBTI_ID5);
@@ -2713,7 +2715,7 @@
           elem = properties.add(null, C.RUBTI_ID_6);
           elem.setType(T.select);
           elem.setSelectTable(Cairo.Tables.ITEMS_DE_TABLAS_DE_RUBROS);
-          elem.setSelectFilter(C.RUBT_ID_6 + " = "+ rubro.getRubtId6().toString());
+          elem.setSelectFilter(D.getRubroTablaItemFilter(rubro.getRubtId6()));
           elem.setTabIndex(tab_rubro);
           elem.setName(rubro.getRubtName6());
           elem.setKey(K_RUBTI_ID6);
@@ -2734,7 +2736,7 @@
           elem = properties.add(null, C.RUBTI_ID_7);
           elem.setType(T.select);
           elem.setSelectTable(Cairo.Tables.ITEMS_DE_TABLAS_DE_RUBROS);
-          elem.setSelectFilter(C.RUBT_ID_7 + " = "+ rubro.getRubtId7().toString());
+          elem.setSelectFilter(D.getRubroTablaItemFilter(rubro.getRubtId7()));
           elem.setTabIndex(tab_rubro);
           elem.setName(rubro.getRubtName7());
           elem.setKey(K_RUBTI_ID7);
@@ -2755,7 +2757,7 @@
           elem = properties.add(null, C.RUBTI_ID_8);
           elem.setType(T.select);
           elem.setSelectTable(Cairo.Tables.ITEMS_DE_TABLAS_DE_RUBROS);
-          elem.setSelectFilter(C.RUBT_ID_8 + " = "+ rubro.getRubtId8().toString());
+          elem.setSelectFilter(D.getRubroTablaItemFilter(rubro.getRubtId8()));
           elem.setTabIndex(tab_rubro);
           elem.setName(rubro.getRubtName8());
           elem.setKey(K_RUBTI_ID8);
@@ -2776,7 +2778,7 @@
           elem = properties.add(null, C.RUBTI_ID_9);
           elem.setType(T.select);
           elem.setSelectTable(Cairo.Tables.ITEMS_DE_TABLAS_DE_RUBROS);
-          elem.setSelectFilter(C.RUBT_ID_9 + " = "+ rubro.getRubtId9().toString());
+          elem.setSelectFilter(D.getRubroTablaItemFilter(rubro.getRubtId9()));
           elem.setTabIndex(tab_rubro);
           elem.setName(rubro.getRubtName9());
           elem.setKey(K_RUBTI_ID9);
@@ -2797,7 +2799,7 @@
           elem = properties.add(null, C.RUBTI_ID_10);
           elem.setType(T.select);
           elem.setSelectTable(Cairo.Tables.ITEMS_DE_TABLAS_DE_RUBROS);
-          elem.setSelectFilter(C.RUBT_ID_10 + " = "+ rubro.getRubtId10().toString());
+          elem.setSelectFilter(D.getRubroTablaItemFilter(rubro.getRubtId10()));
           elem.setTabIndex(tab_rubro);
           elem.setName(rubro.getRubtName10());
           elem.setKey(K_RUBTI_ID10);
@@ -3115,27 +3117,7 @@
               m_rub_id = NO_ID;
               m_rubro = "";
 
-              m_rubti_id1 = NO_ID;
-              m_rubti_id2 = NO_ID;
-              m_rubti_id3 = NO_ID;
-              m_rubti_id4 = NO_ID;
-              m_rubti_id5 = NO_ID;
-              m_rubti_id6 = NO_ID;
-              m_rubti_id7 = NO_ID;
-              m_rubti_id8 = NO_ID;
-              m_rubti_id9 = NO_ID;
-              m_rubti_id10 = NO_ID;
-
-              m_rubti_name1 = "";
-              m_rubti_name2 = "";
-              m_rubti_name3 = "";
-              m_rubti_name4 = "";
-              m_rubti_name5 = "";
-              m_rubti_name6 = "";
-              m_rubti_name7 = "";
-              m_rubti_name8 = "";
-              m_rubti_name9 = "";
-              m_rubti_name10 = "";
+              clearRubroItem();
 
               m_pesoNeto = 0;
               m_pesoTotal = 0;
@@ -3213,6 +3195,30 @@
             return true;
           });
       };
+
+      var clearRubroItem = function() {
+        m_rubti_id1 = NO_ID;
+        m_rubti_id2 = NO_ID;
+        m_rubti_id3 = NO_ID;
+        m_rubti_id4 = NO_ID;
+        m_rubti_id5 = NO_ID;
+        m_rubti_id6 = NO_ID;
+        m_rubti_id7 = NO_ID;
+        m_rubti_id8 = NO_ID;
+        m_rubti_id9 = NO_ID;
+        m_rubti_id10 = NO_ID;
+
+        m_rubti_name1 = "";
+        m_rubti_name2 = "";
+        m_rubti_name3 = "";
+        m_rubti_name4 = "";
+        m_rubti_name5 = "";
+        m_rubti_name6 = "";
+        m_rubti_name7 = "";
+        m_rubti_name8 = "";
+        m_rubti_name9 = "";
+        m_rubti_name10 = "";
+      }
 
       var refreshCollection = function() {
 

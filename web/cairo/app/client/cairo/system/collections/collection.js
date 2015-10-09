@@ -284,10 +284,15 @@
         return selected;
       };
 
-      that.inspect = function() {
+      that.inspect = function(f) {
         var printToLog = function(item, i) {
           try {
-            Cairo.log("item " + i.toString() + ": " + item.toString());
+            Cairo.log("item " + i.toString()
+              + ": " + item.toString()
+              + " - Name: " + (item.getName ? item.getName() : "")
+              + " - Text: " + (item.getText ? item.getText() : "")
+              + " - f: " + (f ? item[f].apply(item) : "")
+            );
           }
           catch(ignore) {}
           return true;

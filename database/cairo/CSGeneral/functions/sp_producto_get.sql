@@ -69,6 +69,28 @@ begin
                 ibc_nombre,
                 rub_nombre,
 
+                Rubro.rubt_id1,
+                Rubro.rubt_id2,
+                Rubro.rubt_id3,
+                Rubro.rubt_id4,
+                Rubro.rubt_id5,
+                Rubro.rubt_id6,
+                Rubro.rubt_id7,
+                Rubro.rubt_id8,
+                Rubro.rubt_id9,
+                Rubro.rubt_id10,
+
+                rt1.rubt_nombre rubt_name1,
+                rt2.rubt_nombre rubt_name2,
+                rt3.rubt_nombre rubt_name3,
+                rt4.rubt_nombre rubt_name4,
+                rt5.rubt_nombre rubt_name5,
+                rt6.rubt_nombre rubt_name6,
+                rt7.rubt_nombre rubt_name7,
+                rt8.rubt_nombre rubt_name8,
+                rt9.rubt_nombre rubt_name9,
+                rt10.rubt_nombre rubt_name10,
+
                 rti1.rubti_nombre rubti_name1,
                 rti2.rubti_nombre rubti_name2,
                 rti3.rubti_nombre rubti_name3,
@@ -198,6 +220,29 @@ begin
                    on Producto.poar_id = poar.poar_id
                   left join Producto prwebpadre
                    on Producto.pr_id_webpadre = prwebpadre.pr_id
+
+               -- rubro
+                  left join RubroTabla rt1
+                   on Rubro.rubt_id1 = rt1.rubt_id
+                  left join RubroTabla rt2
+                   on Rubro.rubt_id2 = rt2.rubt_id
+                  left join RubroTabla rt3
+                   on Rubro.rubt_id3 = rt3.rubt_id
+                  left join RubroTabla rt4
+                   on Rubro.rubt_id4 = rt4.rubt_id
+                  left join RubroTabla rt5
+                   on Rubro.rubt_id5 = rt5.rubt_id
+                  left join RubroTabla rt6
+                   on Rubro.rubt_id6 = rt6.rubt_id
+                  left join RubroTabla rt7
+                   on Rubro.rubt_id7 = rt7.rubt_id
+                  left join RubroTabla rt8
+                   on Rubro.rubt_id8 = rt8.rubt_id
+                  left join RubroTabla rt9
+                   on Rubro.rubt_id9 = rt9.rubt_id
+                  left join RubroTabla rt10
+                   on Rubro.rubt_id10 = rt10.rubt_id
+
             where Producto.pr_id = p_pr_id;
 
    end;

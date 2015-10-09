@@ -251,8 +251,7 @@
       };
 
       self.getTitle = function() {
-        // Provincias
-        return getText(1410, "");
+        return getText(1410, ""); // Provincias
       };
 
       self.validate = function() {

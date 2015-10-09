@@ -212,6 +212,7 @@
       };
       that.setControl = function(control) {
         self._ctl = control;
+        self._controlLoaded = false;
         return that;
       };
 
@@ -223,11 +224,23 @@
         return that;
       };
 
+      //
+      // this function must be renamed to getCtrlIndex
+      //
       that.getIndex = function() {
         return self._index;
       };
 
-      that.setIndex = function(index) {
+      //
+      // IMPORTANT: this function must never be renamed to getIndex because
+      //            that name is used for collection to maintain the index
+      //            of any object it contains.
+      //
+      //            this _index field is not the index in the collection
+      //            it is is the index of the control (select, input, combo, etc.)
+      //            in the view control[TYPE] collection (selects, combos, etc.)
+      //
+      that.setCtrlIndex = function(index) {
         self._index = index;
         return that;
       };

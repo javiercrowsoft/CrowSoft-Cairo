@@ -547,26 +547,26 @@ object Productos extends Controller with ProvidesUser {
       C.RUB_NAME -> Json.toJson(producto.rubro.rubName),
 
       // TODO: implement this
-      C.RUBT_ID_1 -> 0,
-      C.RUBT_NAME_1 -> "",
-      C.RUBT_ID_2 -> 0,
-      C.RUBT_NAME_2 -> "",
-      C.RUBT_ID_3 -> 0,
-      C.RUBT_NAME_3 -> "",
-      C.RUBT_ID_4 -> 0,
-      C.RUBT_NAME_4 -> "",
-      C.RUBT_ID_5 -> 0,
-      C.RUBT_NAME_5 -> "",
-      C.RUBT_ID_6 -> 0,
-      C.RUBT_NAME_6 -> "",
-      C.RUBT_ID_7 -> 0,
-      C.RUBT_NAME_7 -> "",
-      C.RUBT_ID_8 -> 0,
-      C.RUBT_NAME_8 -> "",
-      C.RUBT_ID_9 -> 0,
-      C.RUBT_NAME_9 -> "",
-      C.RUBT_ID_10 -> 0,
-      C.RUBT_NAME_10 -> "",
+      C.RUBT_ID_1 -> Json.toJson(producto.rubroTables.rubtId1),
+      C.RUBT_NAME_1 -> Json.toJson(producto.rubroTables.rubtName1),
+      C.RUBT_ID_2 -> Json.toJson(producto.rubroTables.rubtId2),
+      C.RUBT_NAME_2 -> Json.toJson(producto.rubroTables.rubtName2),
+      C.RUBT_ID_3 -> Json.toJson(producto.rubroTables.rubtId3),
+      C.RUBT_NAME_3 -> Json.toJson(producto.rubroTables.rubtName3),
+      C.RUBT_ID_4 -> Json.toJson(producto.rubroTables.rubtId4),
+      C.RUBT_NAME_4 -> Json.toJson(producto.rubroTables.rubtName4),
+      C.RUBT_ID_5 -> Json.toJson(producto.rubroTables.rubtId5),
+      C.RUBT_NAME_5 -> Json.toJson(producto.rubroTables.rubtName5),
+      C.RUBT_ID_6 -> Json.toJson(producto.rubroTables.rubtId6),
+      C.RUBT_NAME_6 -> Json.toJson(producto.rubroTables.rubtName6),
+      C.RUBT_ID_7 -> Json.toJson(producto.rubroTables.rubtId7),
+      C.RUBT_NAME_7 -> Json.toJson(producto.rubroTables.rubtName7),
+      C.RUBT_ID_8 -> Json.toJson(producto.rubroTables.rubtId8),
+      C.RUBT_NAME_8 -> Json.toJson(producto.rubroTables.rubtName8),
+      C.RUBT_ID_9 -> Json.toJson(producto.rubroTables.rubtId9),
+      C.RUBT_NAME_9 -> Json.toJson(producto.rubroTables.rubtName9),
+      C.RUBT_ID_10 -> Json.toJson(producto.rubroTables.rubtId10),
+      C.RUBT_NAME_10 -> Json.toJson(producto.rubroTables.rubtName10),
 
       C.RUBTI_ID_1 -> Json.toJson(producto.rubro.rubtiId1),
       C.RUBTI_NAME_1 -> Json.toJson(producto.rubro.rubtiName1),
@@ -766,7 +766,7 @@ object Productos extends Controller with ProvidesUser {
   // this functions convert the plain JSON received in CREATE and UPDATE into a ProductoData structure
   //
   // because the limitation to 18 fields in case class used for FORM mapping we have grouped the fields
-  // in Proveedor/Data, ProveedorItem/Data, etc
+  // in Producto/Data, ProductoItem/Data, etc
   //
   // the below routines group a flat JSON and in some cases rename the name of the fields or move
   // fields to the parent node in the JSON structure to match the case class
@@ -1172,6 +1172,7 @@ object Productos extends Controller with ProvidesUser {
         producto.rubro.rubtiId8.getOrElse(0),
         producto.rubro.rubtiId9.getOrElse(0),
         producto.rubro.rubtiId10.getOrElse(0)),
+      Producto.emptyProductoRubroTables,
       ProductoComex(
         producto.comex.unIdPeso,
         producto.comex.pesoNeto,

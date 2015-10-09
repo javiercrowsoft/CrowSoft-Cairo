@@ -76,6 +76,10 @@
         addToElement(text, id);
       };
 
+      that.count = function() {
+        return self.list.length;
+      };
+
       that.selectByText = function(text) {
         var index = getIndexForText(text);
         if(index > -1) {

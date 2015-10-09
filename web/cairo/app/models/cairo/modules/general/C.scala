@@ -329,7 +329,12 @@ object C {
   val IBC_CODE = "ibc_codigo"
   val IBC_DESCRIP = "ibc_descrip"
 
+  //
   // Rubro
+  //
+  val RUBRO_TABLES = "tables"
+  val RUBRO_ITEMS = "items"
+
   val RUBRO = "Rubro"
   val RUB_ID = "rub_id"
   val RUB_NAME = "rub_nombre"

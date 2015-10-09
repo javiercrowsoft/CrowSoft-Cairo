@@ -13,10 +13,10 @@
 
     var Controls = Cairo.Controls;
     
-    var createControls = function(view, viewManager) {
+    var createControls = function(view, viewManager, existingForm) {
       var tabsCount = view.tabs.count();
       var count = view.controls.count();
-      var form = $('<div class="dialog-form"></div>');
+      var form = existingForm || $('<div class="dialog-form"></div>');
       var tabs = [];
       var tabGroups = [];
       var row = null;
@@ -852,6 +852,23 @@
         return function(eventArgs) {
           return that.raiseEventWithPromise("gridSelectionRowChange", control.getIndex(), eventArgs, control);
         };
+      };
+
+      that.showAddedControls = function() {
+        //
+        // the first time the view is not binded yet but
+        // no controls couldn't have been added becuase it
+        // it is the first show anyways :)
+        //
+        if(self.form !== null) {
+          createControls(self, that, self.form.children('.dialog-form'));
+        }
+      };
+
+      that.removeControl = function(ctrl) {
+        if(ctrl.getElement() !== null) {
+          $(ctrl.getElement()).remove();
+        }
       };
 
       return that;

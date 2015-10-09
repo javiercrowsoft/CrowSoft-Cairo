@@ -822,6 +822,10 @@
     return "supplier_account_filter"; // ACREEDORES DEPOSITO_CUPONES BANCOS BIENES_DE_CAMBIO
   };
 
+  Cairo.Documents.getRubroTablaItemFilter = function(rubtId) {
+    return "rubro_tabla_item|rubtId:" + rubtId.toString();
+  };
+
   Cairo.Documents.ASIENTOS_DOC_FILTER = "document|documentTypeId:"
     + Cairo.Documents.Types.ASIENTO_CONTABLE.toString()
   ;

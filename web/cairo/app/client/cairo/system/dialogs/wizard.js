@@ -330,7 +330,7 @@
             for(var _i = 0, _count = tabs.size(); _i < _count; _i++) {
               tab = tabs.item(_i);
               m_dialog.getTabs().add(tab);
-              tab.setControlIndex(m_dialog.getTabs().count()-1);
+              tab.setCtrlIndex(m_dialog.getTabs().count()-1);
             }
 
             //

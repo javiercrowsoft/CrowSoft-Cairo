@@ -340,6 +340,93 @@ object ProductoVenta {
   }
 }
 
+case class ProductoRubroTables(
+                                rubtId1: Int,
+                                rubtName1: String,
+                                rubtId2: Int,
+                                rubtName2: String,
+                                rubtId3: Int,
+                                rubtName3: String,
+                                rubtId4: Int,
+                                rubtName4: String,
+                                rubtId5: Int,
+                                rubtName5: String,
+                                rubtId6: Int,
+                                rubtName6: String,
+                                rubtId7: Int,
+                                rubtName7: String,
+                                rubtId8: Int,
+                                rubtName8: String,
+                                rubtId9: Int,
+                                rubtName9: String,
+                                rubtId10: Int,
+                                rubtName10: String
+                                ) {
+  def this(
+            rubtId1: Int,
+            rubtId2: Int,
+            rubtId3: Int,
+            rubtId4: Int,
+            rubtId5: Int,
+            rubtId6: Int,
+            rubtId7: Int,
+            rubtId8: Int,
+            rubtId9: Int,
+            rubtId10: Int
+            ) = {
+    this(
+      rubtId1,
+      "",
+      rubtId2,
+      "",
+      rubtId3,
+      "",
+      rubtId4,
+      "",
+      rubtId5,
+      "",
+      rubtId6,
+      "",
+      rubtId7,
+      "",
+      rubtId8,
+      "",
+      rubtId9,
+      "",
+      rubtId10,
+      ""
+    )
+  }
+}
+
+object ProductoRubroTables {
+  
+  def apply(
+             rubtId1: Int,
+             rubtId2: Int,
+             rubtId3: Int,
+             rubtId4: Int,
+             rubtId5: Int,
+             rubtId6: Int,
+             rubtId7: Int,
+             rubtId8: Int,
+             rubtId9: Int,
+             rubtId10: Int) = {
+
+    new ProductoRubroTables(
+      rubtId1,
+      rubtId2,
+      rubtId3,
+      rubtId4,
+      rubtId5,
+      rubtId6,
+      rubtId7,
+      rubtId8,
+      rubtId9,
+      rubtId10)
+  }
+}
+
 case class ProductoRubro(
                           rubId: Int,
                           rubName: String,
@@ -919,6 +1006,7 @@ case class Producto(
                      venta: ProductoVenta,
 
                      rubro: ProductoRubro,
+                     rubroTables: ProductoRubroTables,
 
                      comex: ProductoComex,
                      kit: ProductoKit,
@@ -943,6 +1031,7 @@ case class Producto(
             venta: ProductoVenta,
 
             rubro: ProductoRubro,
+            rubroTables: ProductoRubroTables,
 
             comex: ProductoComex,
             kit: ProductoKit,
@@ -963,6 +1052,7 @@ case class Producto(
       venta,
 
       rubro,
+      rubroTables,
 
       comex,
       kit,
@@ -987,6 +1077,7 @@ case class Producto(
             venta: ProductoVenta,
 
             rubro: ProductoRubro,
+            rubroTables: ProductoRubroTables,
 
             comex: ProductoComex,
             kit: ProductoKit,
@@ -1007,6 +1098,7 @@ case class Producto(
       venta,
 
       rubro,
+      rubroTables,
 
       comex,
       kit,
@@ -1066,6 +1158,11 @@ object Producto {
     List(), List(), List(), List(), List(), List(), List(), List(), List(), List(), List(),
     "", "", "", "", "", ""
   )
+  
+  lazy val emptyProductoRubroTables = ProductoRubroTables(
+    DBHelper.NoId, DBHelper.NoId, DBHelper.NoId, DBHelper.NoId, DBHelper.NoId, DBHelper.NoId,
+    DBHelper.NoId, DBHelper.NoId, DBHelper.NoId, DBHelper.NoId
+  )
 
   lazy val emptyProducto = Producto(
     false,
@@ -1075,11 +1172,17 @@ object Producto {
 
     ProductoCompra(false,"", "", DBHelper.NoId, DBHelper.NoId, DBHelper.NoId, DBHelper.NoId, 0.0, DBHelper.NoId),
     ProductoStock(false, DBHelper.NoId, 0.0, 0, 0, 0, 0d, 0.0, 0.0, false, false, false, false, false),
-    ProductoVenta(false, "", "", "", DBHelper.NoId, 0.0, 0.0, DBHelper.NoId, false, false, false, DBHelper.NoId, DBHelper.NoId, 0.0, DBHelper.NoId),
+    ProductoVenta(false, "", "", "", DBHelper.NoId, 0.0, 0.0, DBHelper.NoId, false, false, false, DBHelper.NoId, 
+      DBHelper.NoId, 0.0, DBHelper.NoId),
 
-    ProductoRubro(DBHelper.NoId, DBHelper.NoId, DBHelper.NoId, DBHelper.NoId, DBHelper.NoId, DBHelper.NoId, DBHelper.NoId, DBHelper.NoId, DBHelper.NoId, DBHelper.NoId, DBHelper.NoId),
+    ProductoRubro(DBHelper.NoId, DBHelper.NoId, DBHelper.NoId, DBHelper.NoId, DBHelper.NoId, DBHelper.NoId, DBHelper.NoId, 
+      DBHelper.NoId, DBHelper.NoId, DBHelper.NoId, DBHelper.NoId),
 
-    ProductoComex(DBHelper.NoId, 0.0, 0.0, 0, DBHelper.NoId, false, DBHelper.NoId, DBHelper.NoId, DBHelper.NoId, DBHelper.NoId, DBHelper.NoId, DBHelper.NoId),
+    emptyProductoRubroTables,
+  
+    ProductoComex(DBHelper.NoId, 0.0, 0.0, 0, DBHelper.NoId, false, DBHelper.NoId, DBHelper.NoId, DBHelper.NoId, 
+      DBHelper.NoId, DBHelper.NoId, DBHelper.NoId),
+  
     ProductoKit(false, false, false, false, false, DBHelper.NoId, false, false, DBHelper.NoId),
     ProductoWeb("", "", DBHelper.NoId, false, false, "", "", 0, 0.0, DBHelper.NoId, ""),
     ProductoNombres(DBHelper.NoId, DBHelper.NoId, DBHelper.NoId, DBHelper.NoId, DBHelper.NoId, DBHelper.NoId),
@@ -1102,6 +1205,7 @@ object Producto {
              venta: ProductoVenta,
 
              rubro: ProductoRubro,
+             rubroTables: ProductoRubroTables,
 
              comex: ProductoComex,
              kit: ProductoKit,
@@ -1123,6 +1227,7 @@ object Producto {
       venta,
 
       rubro,
+      rubroTables,
 
       comex,
       kit,
@@ -1145,6 +1250,7 @@ object Producto {
              venta: ProductoVenta,
 
              rubro: ProductoRubro,
+             rubroTables: ProductoRubroTables,
 
              comex: ProductoComex,
              kit: ProductoKit,
@@ -1164,6 +1270,7 @@ object Producto {
       venta,
 
       rubro,
+      rubroTables,
 
       comex,
       kit,
@@ -1185,6 +1292,7 @@ object Producto {
              venta: ProductoVenta,
 
              rubro: ProductoRubro,
+             rubroTables: ProductoRubroTables,
 
              comex: ProductoComex,
              kit: ProductoKit,
@@ -1205,6 +1313,7 @@ object Producto {
       venta,
 
       rubro,
+      rubroTables,
 
       comex,
       kit,
@@ -1226,6 +1335,7 @@ object Producto {
              venta: ProductoVenta,
 
              rubro: ProductoRubro,
+             rubroTables: ProductoRubroTables,
 
              comex: ProductoComex,
              kit: ProductoKit,
@@ -1244,6 +1354,7 @@ object Producto {
       venta,
 
       rubro,
+      rubroTables,
 
       comex,
       kit,
@@ -1562,6 +1673,26 @@ object Producto {
     SqlParser.get[Option[String]](C.RUBTI_NAME_9) ~
     SqlParser.get[Option[Int]](C.RUBTI_ID_10) ~
     SqlParser.get[Option[String]](C.RUBTI_NAME_10) ~
+    SqlParser.get[Option[Int]](C.RUBT_ID_1) ~
+    SqlParser.get[Option[String]](C.RUBT_NAME_1) ~
+    SqlParser.get[Option[Int]](C.RUBT_ID_2) ~
+    SqlParser.get[Option[String]](C.RUBT_NAME_2) ~
+    SqlParser.get[Option[Int]](C.RUBT_ID_3) ~
+    SqlParser.get[Option[String]](C.RUBT_NAME_3) ~
+    SqlParser.get[Option[Int]](C.RUBT_ID_4) ~
+    SqlParser.get[Option[String]](C.RUBT_NAME_4) ~
+    SqlParser.get[Option[Int]](C.RUBT_ID_5) ~
+    SqlParser.get[Option[String]](C.RUBT_NAME_5) ~
+    SqlParser.get[Option[Int]](C.RUBT_ID_6) ~
+    SqlParser.get[Option[String]](C.RUBT_NAME_6) ~
+    SqlParser.get[Option[Int]](C.RUBT_ID_7) ~
+    SqlParser.get[Option[String]](C.RUBT_NAME_7) ~
+    SqlParser.get[Option[Int]](C.RUBT_ID_8) ~
+    SqlParser.get[Option[String]](C.RUBT_NAME_8) ~
+    SqlParser.get[Option[Int]](C.RUBT_ID_9) ~
+    SqlParser.get[Option[String]](C.RUBT_NAME_9) ~
+    SqlParser.get[Option[Int]](C.RUBT_ID_10) ~
+    SqlParser.get[Option[String]](C.RUBT_NAME_10) ~   
     SqlParser.get[Option[Int]](C.UN_ID_PESO) ~
     SqlParser.get[Option[String]](C.UN_NAME_PESO) ~
     SqlParser.get[BigDecimal](C.PR_PESO_NETO) ~
@@ -1712,6 +1843,27 @@ object Producto {
         rubtiId10 ~
         rubtiName10 ~
 
+        rubtId1 ~
+        rubtName1 ~
+        rubtId2 ~
+        rubtName2 ~
+        rubtId3 ~
+        rubtName3 ~
+        rubtId4 ~
+        rubtName4 ~
+        rubtId5 ~
+        rubtName5 ~
+        rubtId6 ~
+        rubtName6 ~
+        rubtId7 ~
+        rubtName7 ~
+        rubtId8 ~
+        rubtName8 ~
+        rubtId9 ~
+        rubtName9 ~
+        rubtId10 ~
+        rubtName10 ~
+        
         unIdPeso ~
         unNamePeso ~
         pesoNeto ~
@@ -1867,6 +2019,27 @@ object Producto {
           rubtiName9.getOrElse(""),
           rubtiId10.getOrElse(DBHelper.NoId),
           rubtiName10.getOrElse("")),
+        ProductoRubroTables(
+          rubtId1.getOrElse(DBHelper.NoId),
+          rubtName1.getOrElse(""),
+          rubtId2.getOrElse(DBHelper.NoId),
+          rubtName2.getOrElse(""),
+          rubtId3.getOrElse(DBHelper.NoId),
+          rubtName3.getOrElse(""),
+          rubtId4.getOrElse(DBHelper.NoId),
+          rubtName4.getOrElse(""),
+          rubtId5.getOrElse(DBHelper.NoId),
+          rubtName5.getOrElse(""),
+          rubtId6.getOrElse(DBHelper.NoId),
+          rubtName6.getOrElse(""),
+          rubtId7.getOrElse(DBHelper.NoId),
+          rubtName7.getOrElse(""),
+          rubtId8.getOrElse(DBHelper.NoId),
+          rubtName8.getOrElse(""),
+          rubtId9.getOrElse(DBHelper.NoId),
+          rubtName9.getOrElse(""),
+          rubtId10.getOrElse(DBHelper.NoId),
+          rubtName10.getOrElse("")),
         ProductoComex(
           unIdPeso.getOrElse(DBHelper.NoId),
           unNamePeso.getOrElse(""),
@@ -2815,6 +2988,7 @@ object Producto {
           p.venta,
 
           p.rubro,
+          p.rubroTables,
 
           p.comex,
           p.kit,

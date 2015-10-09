@@ -208,7 +208,7 @@
 
           function(result) {
             if(result.success) {
-                m_copy = false;
+              m_copy = false;
               return load(result.data.getId()).then(
                 function (success) {
                   if(success) {

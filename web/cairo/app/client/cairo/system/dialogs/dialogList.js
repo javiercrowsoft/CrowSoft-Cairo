@@ -123,7 +123,7 @@
                   break;
               }
 
-              if(c.getListIndex() === -1 && c.count() > 0) { c.setListIndex(0); }
+              if(c.getListIndex() === -1 && c.count() > 0) { c.selectByIndex(0); }
               c.setEnabled(property.getEnabled());
 
               break;
@@ -421,18 +421,18 @@
           switch (controlType) {
 
             case Dialogs.PropertyType.list:
-              property.setIndex(getView().getCombos().count() - 1);
+              property.setCtrlIndex(getView().getCombos().count() - 1);
               break;
 
             case Dialogs.PropertyType.select:
-              property.setIndex(getView().getSelects().count() - 1);
+              property.setCtrlIndex(getView().getSelects().count() - 1);
               c.setSelectType(Cairo.Select.SelectType.tree);
               c.setTable(property.getSelectTable());
               c.setSelectNoUseActive(property.getSelectNoUseActive());
               break;
 
             case Dialogs.PropertyType.numeric:
-              property.setIndex(getView().getMaskEdits().count() - 1);
+              property.setCtrlIndex(getView().getMaskEdits().count() - 1);
               c.setType(property.getSubType());
               if(property.getSubType() === 0) {
                 Cairo.raiseError("DialogList.loadControl", "subType wasn't set for property: " + property.getName());
@@ -440,15 +440,15 @@
               break;
 
             case Dialogs.PropertyType.date:
-              property.setIndex(getView().getDatePickers().count() - 1);
+              property.setCtrlIndex(getView().getDatePickers().count() - 1);
               break;
 
             case Dialogs.PropertyType.option:
-              property.setIndex(getView().getOptionButtons().count() - 1);
+              property.setCtrlIndex(getView().getOptionButtons().count() - 1);
               break;
 
             case Dialogs.PropertyType.text:
-              property.setIndex(getView().getTextInputs().count() - 1);
+              property.setCtrlIndex(getView().getTextInputs().count() - 1);
               c.setMaxLength(property.getSize());
               c.setButtonStyle((property.getSubType() === Dialogs.PropertyType.textButton 
                               || property.getSubType() === Dialogs.PropertyType.textButtonEx) 
@@ -456,23 +456,23 @@
               break;
 
             case Dialogs.PropertyType.file:
-              property.setIndex(getView().getTextInputs().count() - 1);
+              property.setCtrlIndex(getView().getTextInputs().count() - 1);
               c.setMaxLength(property.getSize());
               c.setType(Dialogs.PropertyType.file);
               break;
 
             case Dialogs.PropertyType.folder:
-              property.setIndex(getView().getTextInputs().count() - 1);
+              property.setCtrlIndex(getView().getTextInputs().count() - 1);
               c.setMaxLength(property.getSize());
               c.setType(Dialogs.PropertyType.folder);
               break;
 
             case Dialogs.PropertyType.password:
-              property.setIndex(getView().getPasswordInputs().count() - 1);
+              property.setCtrlIndex(getView().getPasswordInputs().count() - 1);
               break;
 
             case Dialogs.PropertyType.check:
-              property.setIndex(getView().getCheckboxes().count() - 1);
+              property.setCtrlIndex(getView().getCheckboxes().count() - 1);
               break;
           }
 

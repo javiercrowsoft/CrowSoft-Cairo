@@ -3,6 +3,7 @@ package models.cairo.system.select
 import models.cairo.system.database.{DBHelper, QueryParameter}
 import models.domain.CompanyUser
 import play.api.Logger
+import services.G
 import scala.util.control.NonFatal
 
 /*
@@ -27,7 +28,8 @@ object InternalFilter {
     "account_in_current_company" -> "f:accountInCurrentCompany",
     "supplier_account_group" -> "f:supplierAccountGroup",
     "supplier_account" -> "f:supplierAccount",
-    "account_for_cuec_id" -> "f:accountForCuecId"
+    "account_for_cuec_id" -> "f:accountForCuecId",
+    "rubro_tabla_item" -> "f:rubroTablaItem"
   )
 
   val emptyFilter = InternalFilter("", List())
@@ -63,6 +65,7 @@ object InternalFilter {
             case "f:supplierAccountGroup" => supplierAccountGroup(user)
             case "f:supplierAccount" => supplierAccount(user)
             case "f:accountForCuecId" => accountForCuecId(user, parameters)
+            case "f:rubroTablaItem" => rubroTablaItem(user, parameters)
             case _ => emptyFilter
           }
         }
@@ -95,8 +98,8 @@ object InternalFilter {
 
   private def supplierListPrice(user: CompanyUser, parameters: List[String]): InternalFilter = {
     val params = parseParameters(parameters)
-    val documentId = params("documentId").toInt
-    val supplierId = params("supplierId").toInt
+    val documentId = G.getIntOrZero(params("documentId"))
+    val supplierId = G.getIntOrZero(params("supplierId"))
 
     if(documentId == 0) {
       val sqlstmt = """
@@ -149,13 +152,13 @@ object InternalFilter {
     val params = parseParameters(parameters)
     val doctIds = {
       if(params.contains("documentTypeId")) {
-        params("documentTypeId").split("[*]").map(doctId => s"doct_id = ${doctId.toInt}").mkString(" or ")
+        params("documentTypeId").split("[*]").map(doctId => s"doct_id = ${G.getIntOrZero(doctId)}").mkString(" or ")
       }
       else ""
     }
     val invoiceTypes = {
       if(params.contains("invoiceType")) {
-        params("invoiceType").split("[*]").map(invoiceType => s"doc_tipofactura = ${invoiceType.toInt}").mkString(" or ")
+        params("invoiceType").split("[*]").map(invoiceType => s"doc_tipofactura = ${G.getIntOrZero(invoiceType)}").mkString(" or ")
       }
       else ""
     }
@@ -190,7 +193,7 @@ object InternalFilter {
     val params = parseParameters(parameters)
     val cuecIds = {
       if(params.contains("cuecId")) {
-        params("cuecId").split("[*]").map(cuecId => s"cuec_id = ${cuecId.toInt}").mkString(" or ")
+        params("cuecId").split("[*]").map(cuecId => s"cuec_id = ${G.getIntOrZero(cuecId)}").mkString(" or ")
       }
       else ""
     }
@@ -207,5 +210,17 @@ object InternalFilter {
       List()
     )
   }
+
+  private def rubroTablaItem(user: CompanyUser, parameters: List[String]): InternalFilter = {
+    val params = parseParameters(parameters)
+    val rubtId = {
+      if(params.contains("rubtId")) {
+        G.getIntOrZero(params("rubtId"))
+      }
+      else 0
+    }
+    InternalFilter(s"(rubt_id = ${rubtId})", List())
+  }
+
 
 }

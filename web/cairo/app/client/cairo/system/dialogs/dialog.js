@@ -352,7 +352,7 @@
 
         // first tab index
         //
-        var m_tabOffset = 0;
+        var m_tabOffset = -1;
 
         // flag: show okay cancel instead of save cancel
         //
@@ -1406,7 +1406,7 @@
                   break;
               }
 
-              if(c.getListIndex() === -1 && c.count() > 0) { c.setListIndex(0); }
+              if(c.getListIndex() === -1 && c.count() > 0) { c.selectByIndex(0); }
               c.setEnabled(property.getEnabled());
 
               break;
@@ -1739,13 +1739,15 @@
 
           if(property.getControlLoaded()) {
 
-            property.setControl(null);
+            var index = property.getControl().getIndex();
 
-            var index = property.getIndex();
+            property.setControl(null);
+            property.setControlLoaded(false);
 
             var view = getView();
+            var propertyType = property.getType();
 
-            switch(property.getType()) {
+            switch(propertyType) {
 
               case Dialogs.PropertyType.list:
 
@@ -1819,6 +1821,18 @@
 
                 removeControl(view.getButtons().get(index));
                 break;
+            }
+
+            //
+            // update control index in all properties of the same type
+            //
+            for(var i = 0, count = m_properties.count(); i < count; i += 1) {
+              var p = m_properties.get(i);
+              if(propertyType === p.getType()) {
+                if(property.getIndex() < p.getIndex()) {
+                  p.setCtrlIndex(p.getIndex() -1);
+                }
+              }
             }
 
             index = property.getLabelIndex();
@@ -4651,6 +4665,12 @@
             }
           }
 
+          //
+          // some times new controls are added to the view like in
+          // product edition when a template is selected
+          //
+          view.showAddedControls();
+
           if(bSetFocus) {
             view.setFocusFirstControl();
           }
@@ -4859,7 +4879,7 @@
           }
 
           if(property.getType() !== Dialogs.PropertyType.toolbar) {
-            property.setIndex(c.getIndex());
+            property.setCtrlIndex(c.getIndex());
           }
 
           setTabIndex(c);
@@ -5861,7 +5881,7 @@
           var tabCount = m_tabs.count();
 
           for(var _i = 0; _i < tabCount; _i++) {
-            m_tabs.get(_i).setControlIndex(_i);
+            m_tabs.get(_i).setCtrlIndex(_i);
           }
 
           for(var _i = 0; _i < propertyCount; _i++) {
@@ -5903,65 +5923,71 @@
 
           createFirstTabIfNotExists();
 
-          var tabCount = view.getTabs().count();
-
           tabs = (m_tabs.count() > tabs) ? m_tabs.count() : tabs;
 
           var tabsCtrl = view.getTabs();
+          var tab;
 
-          m_tabOffset = tabsCtrl.count();
+          //
+          // only the first time this function is called we initialize
+          // m_tabOffset
+          //
+          m_tabOffset = m_tabOffset === -1 ? tabsCtrl.count() : m_tabOffset;
 
           for(var i = m_tabOffset, k = 0; i < tabs + m_tabOffset; i += 1, k += 1) {
-            view.getTabs().add();
 
-            var tabCtrl = view.getTabs().get(i);
-            if(m_isDocument) {
-              if(m_isItems) {
-                tabCtrl.setTag(Cairo.Constants.DocumentSections.items);
-                tabCtrl.setColumns(1);
-                tabCtrl.setTabGroup(1);
-              }
-              else if(m_isFooter) {
-                tabCtrl.setTag(Cairo.Constants.DocumentSections.footer);
-                tabCtrl.setColumns(6);
-                tabCtrl.setTabGroup(2);
+            tab = m_tabs.get(k);
+
+            if(tab.getControl() === null) {
+
+              var tabCtrl = view.getTabs().add();
+
+              tab.setControl(tabCtrl);
+
+              if(m_isDocument) {
+                if(m_isItems) {
+                  tabCtrl.setTag(Cairo.Constants.DocumentSections.items);
+                  tabCtrl.setColumns(1);
+                  tabCtrl.setTabGroup(1);
+                }
+                else if(m_isFooter) {
+                  tabCtrl.setTag(Cairo.Constants.DocumentSections.footer);
+                  tabCtrl.setColumns(6);
+                  tabCtrl.setTabGroup(2);
+                }
+                else {
+                  tabCtrl.setTag(Cairo.Constants.DocumentSections.header);
+                  tabCtrl.setColumns(4);
+                }
               }
               else {
-                tabCtrl.setTag(Cairo.Constants.DocumentSections.header);
                 tabCtrl.setColumns(4);
               }
-            }
-            else {
-              tabCtrl.setColumns(4);
-            }
 
-            var tab = m_tabs.get(k);
-            if(tab.getFatherTab() !== "") {
-              var fatherTab = m_tabs.get(tab.getFatherTab());
-              tabCtrl.setTag(tabCtrl.getTag()
-                            + Dialogs.Constants.innerTab
-                            + ((fatherTab.getIndex() * 100) + Math.abs(tab.getIndex())).toString());
+              if(tab.getFatherTab() !== "") {
+                var fatherTab = m_tabs.get(tab.getFatherTab());
+                tabCtrl.setTag(tabCtrl.getTag()
+                              + Dialogs.Constants.innerTab
+                              + ((fatherTab.getIndex() * 100) + Math.abs(tab.getIndex())).toString());
 
+              }
+
+              tabCtrl.setText("Tab" + i.toString());
+              tabCtrl.setTabStop(false);
+              tabCtrl.setVisible(!m_hideTabButtons);
             }
-
-            tabCtrl.setText("Tab" + i.toString());
-            tabCtrl.setTabStop(false);
-            tabCtrl.setVisible(!m_hideTabButtons);
           }
 
-          if(m_tabs !== null) {
-
-            tabCount = m_tabs.count();
-            for(var _i = 0; _i < tabCount; _i++) {
-              tab = m_tabs.get(_i);
-              if(tab.getIndex() < 0) {
-                tabCtrl = view.getTabs().get(tab.getControlIndex() + m_tabOffset);
-                tabCtrl.setText(tab.getName());
-              }
-              else {
-                tabCtrl = view.getTabs().get(tab.getIndex() + m_tabOffset);
-                tabCtrl.setText(tab.getName());
-              }
+          var tabCount = m_tabs.count();
+          for(var _i = 0; _i < tabCount; _i++) {
+            tab = m_tabs.get(_i);
+            if(tab.getIndex() < 0) {
+              tabCtrl = view.getTabs().get(tab.getCtrlIndex() + m_tabOffset);
+              tabCtrl.setText(tab.getName());
+            }
+            else {
+              tabCtrl = view.getTabs().get(tab.getIndex() + m_tabOffset);
+              tabCtrl.setText(tab.getName());
             }
           }
         };
@@ -6512,7 +6538,7 @@
         };
 
         var removeControl = function(c) {
-
+          getView().removeControl(c);
         };
 
         var addControl = function(view, type, subType) {

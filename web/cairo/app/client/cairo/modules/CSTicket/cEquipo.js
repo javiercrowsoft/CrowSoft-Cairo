@@ -353,13 +353,13 @@
 
         c = properties.add(null, mTicketConstantes.RUB_ID);
         c.setType(Dialogs.PropertyType.select);
-        c.setSelectTable(Cairo.Tables.RUBRO);
+        c.setSelectTable(Cairo.Tables.RUBROS);
         // Rubro
         c.setName(getText(1299, ""));
         c.setKey(K_RUB_ID);
         value = m_rubro;
         if(m_rub_id.Substring(0, 1).toUpperCase() === KEY_NODO) {
-          value = GetNombreRama(Cairo.Tables.RUBRO, Cairo.Util.val(m_rub_id.Substring(2)), bExists);
+          value = GetNombreRama(Cairo.Tables.RUBROS, Cairo.Util.val(m_rub_id.Substring(2)), bExists);
           if(!bExists) { m_rub_id = "0"; }
         }
         c.setValue(value);
