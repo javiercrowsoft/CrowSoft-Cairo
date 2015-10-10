@@ -2105,6 +2105,12 @@
         elem.setValue(m_rubro);
         elem.setSelectId(m_rub_id);
 
+        //
+        // this is the way to make the above control to appear alone in its row
+        // it works like <BR>
+        //
+        properties.add(null).setType(T.label).setValue("").setTabIndex(tab_rubro);
+
         setRubro();
 
         //////////////////////////////////////////////////////////////
