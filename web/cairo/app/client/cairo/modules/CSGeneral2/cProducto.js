@@ -1335,7 +1335,7 @@
       };
 
       self.getTitle = function() {
-        return getText(1283, ""); // Artículos
+        return getText(1367, ""); // Artículos
       };
 
       self.validate = function() {
@@ -5849,6 +5849,7 @@
   Cairo.module("Producto.List", function(List, Cairo, Backbone, Marionette, $, _) {
 
     var NO_ID = Cairo.Constants.NO_ID;
+    var getText = Cairo.Language.getText;
 
     List.Controller = {
       list: function() {
@@ -5869,9 +5870,9 @@
           // ListController properties and methods
           //
           self.entityInfo = new Backbone.Model({
-            entitiesTitle: "Articulos",
-            entityName: "articulo",
-            entitiesName: "articulos"
+            entitiesTitle: getText(5071, ""),
+            entityName: getText(5138, ""),
+            entitiesName: getText(5139, "")
           });
 
           self.showBranch = function(branchId) {
@@ -6000,7 +6001,7 @@
 
         // create the tab
         //
-        Cairo.mainTab.showTab("Productos", "productoTreeRegion", "#general/productos", createTreeDialog, closeTreeDialog, showTreeDialog);
+        Cairo.mainTab.showTab(getText(5071, ""), "productoTreeRegion", "#general/productos", createTreeDialog, closeTreeDialog, showTreeDialog);
 
       }
     };

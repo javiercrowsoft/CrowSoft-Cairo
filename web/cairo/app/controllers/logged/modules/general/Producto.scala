@@ -536,7 +536,7 @@ object Productos extends Controller with ProvidesUser {
       C.PR_DINERARIO -> Json.toJson(producto.venta.dinerario),
       C.PR_NO_REDONDEO -> Json.toJson(producto.venta.noRedondeo),
       C.TI_ID_RI_VENTA -> Json.toJson(producto.venta.tiIdRiVenta),
-      C.TI_NAME_RI_VENTA -> Json.toJson(producto.venta.tiIdRiVenta),
+      C.TI_NAME_RI_VENTA -> Json.toJson(producto.venta.tiNameRiVenta),
       C.TI_ID_INTERNOS_VENTA -> Json.toJson(producto.venta.tiIdInternosVenta),
       C.TI_NAME_INT_VENTA -> Json.toJson(producto.venta.tiNameIntVenta),
       C.PR_PORC_INTERNO_V -> Json.toJson(producto.venta.porcInternoV),

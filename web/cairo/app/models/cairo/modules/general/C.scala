@@ -1365,6 +1365,10 @@ object C {
   val FCA_CODE = "fca_codigo"
   val FCA_FECHA_HASTA = "fca_Fechahasta"
   val FCA_FECHA_DESDE = "fca_Fechadesde"
+
+  // AUXILIARY CONSTANTS
+  val AUX_TI_ID_RNI_VENTA = -1
+  val AUX_TI_ID_RNI_COMPRA = -2
 }
 
 object S {

@@ -53,11 +53,11 @@ object Rubros extends Controller with ProvidesUser {
 
   val rubroIdFields = List("id", C.RUB_NAME, C.RUB_CODE, DBHelper.ACTIVE, C.RUB_ES_CRITERIO, C.RUB_DESCRIP)
 
-  val rubroTableFields = List(C.RUBT_ID_1, C.RUBT_ID_2, C.RUBT_ID_3, C.RUBT_ID_4, C.RUBT_ID_5, C.RUBT_ID_5, C.RUBT_ID_7, 
-    C.RUBT_ID_8, C.RUBT_ID_9, C.RUBT_ID_10)
+  val rubroTableFields = List(C.RUBT_ID_1, C.RUBT_ID_2, C.RUBT_ID_3, C.RUBT_ID_4, C.RUBT_ID_5, C.RUBT_ID_5, C.RUBT_ID_6,
+    C.RUBT_ID_7, C.RUBT_ID_8, C.RUBT_ID_9, C.RUBT_ID_10)
 
-  val rubroItemFields = List(C.RUBTI_ID_1, C.RUBTI_ID_2, C.RUBTI_ID_3, C.RUBTI_ID_4, C.RUBTI_ID_5, C.RUBTI_ID_5, C.RUBTI_ID_7,
-    C.RUBTI_ID_8, C.RUBTI_ID_9, C.RUBTI_ID_10)
+  val rubroItemFields = List(C.RUBTI_ID_1, C.RUBTI_ID_2, C.RUBTI_ID_3, C.RUBTI_ID_4, C.RUBTI_ID_5, C.RUBTI_ID_5, C.RUBTI_ID_6,
+    C.RUBTI_ID_7, C.RUBTI_ID_8, C.RUBTI_ID_9, C.RUBTI_ID_10)
   
   val rubroForm = Form(
     mapping(

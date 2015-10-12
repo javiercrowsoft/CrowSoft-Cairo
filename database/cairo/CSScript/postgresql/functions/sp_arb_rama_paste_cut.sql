@@ -61,12 +61,12 @@ begin
 
    select arb_id into v_arb_id from rama where ram_id = p_ram_id_to_paste_in;
 
+   select max(ram_orden) into v_orden from rama where ram_id_padre = p_ram_id_to_paste_in;
+
+   v_orden := coalesce(v_orden+1,0);
+      
    if p_solo_los_hijos <> 0 then
       v_incluir_ram_id_to_copy := 0;
-
-      select max(orden) into v_orden from rama where ram_id_padre = p_ram_id_to_paste_in;
-
-      v_orden := coalesce(v_orden+1,0);
 
       update rama
                   set ram_id_padre = p_ram_id_to_paste_in, modifico = p_us_id, ram_orden = ram_orden + v_orden

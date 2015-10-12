@@ -1437,7 +1437,7 @@
             case Dialogs.PropertyType.numeric:
 
               var c = view.getMaskEdits().get(property.getIndex());
-              c.setText(property.getValue());
+              c.setValue(property.getValue());
               c.setEnabled(property.getEnabled());
 
               break;

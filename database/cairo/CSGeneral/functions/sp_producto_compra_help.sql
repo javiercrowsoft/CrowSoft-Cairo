@@ -77,9 +77,39 @@ begin
                 pr_descripcompra Observaciones,
                 pr_codigo Codigo
          from Producto
+                  left join RubroTablaItem rti1
+                   on Producto.rubti_id1 = rti1.rubti_id
+                  left join RubroTablaItem rti2
+                   on Producto.rubti_id2 = rti2.rubti_id
+                  left join RubroTablaItem rti3
+                   on Producto.rubti_id3 = rti3.rubti_id
+                  left join RubroTablaItem rti4
+                   on Producto.rubti_id4 = rti4.rubti_id
+                  left join RubroTablaItem rti5
+                   on Producto.rubti_id5 = rti5.rubti_id
+                  left join RubroTablaItem rti6
+                   on Producto.rubti_id6 = rti6.rubti_id
+                  left join RubroTablaItem rti7
+                   on Producto.rubti_id7 = rti7.rubti_id
+                  left join RubroTablaItem rti8
+                   on Producto.rubti_id8 = rti8.rubti_id
+                  left join RubroTablaItem rti9
+                   on Producto.rubti_id9 = rti9.rubti_id
+                  left join RubroTablaItem rti10
+                   on Producto.rubti_id10 = rti10.rubti_id
          where ( lower(f_unaccent(pr_codigo)) like '%' || p_filter || '%'
                  or lower(f_unaccent(pr_nombrecompra)) like '%' || p_filter || '%'
                  or lower(f_unaccent(pr_descripcompra)) like '%' || p_filter || '%'
+                 or lower(f_unaccent(rti1.rubti_nombre)) like '%' || p_filter || '%'
+                 or lower(f_unaccent(rti2.rubti_nombre)) like '%' || p_filter || '%'
+                 or lower(f_unaccent(rti3.rubti_nombre)) like '%' || p_filter || '%'
+                 or lower(f_unaccent(rti4.rubti_nombre)) like '%' || p_filter || '%'
+                 or lower(f_unaccent(rti5.rubti_nombre)) like '%' || p_filter || '%'
+                 or lower(f_unaccent(rti6.rubti_nombre)) like '%' || p_filter || '%'
+                 or lower(f_unaccent(rti7.rubti_nombre)) like '%' || p_filter || '%'
+                 or lower(f_unaccent(rti8.rubti_nombre)) like '%' || p_filter || '%'
+                 or lower(f_unaccent(rti9.rubti_nombre)) like '%' || p_filter || '%'
+                 or lower(f_unaccent(rti10.rubti_nombre)) like '%' || p_filter || '%'
                  or p_filter is null )
            and ( activo <> 0 or p_bForAbm <> 0 )
            and pr_secompra <> 0

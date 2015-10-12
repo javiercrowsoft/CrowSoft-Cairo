@@ -166,6 +166,9 @@
       var m_headerColIndex = 0;
 
       var getDocumentHeader = function() {
+        if(existingForm && m_documentHeader === null) {
+          m_documentHeader = $('.document_header_box', existingForm);
+        }
         if(m_documentHeader === null) {
           m_documentHeader = $('<div class="row document_header_box"></div>');
           form.append(m_documentHeader);
