@@ -553,7 +553,7 @@
       CATW_CSCART: "catw_cscart",
 
       // Catalogo Web Item
-      CATALOGOWEBITEM: "CatalogoWebItem",
+      CATALOGO_WEB_ITEM: "CatalogoWebItem",
       CATWI_ID: "catwi_id",
       CATWI_ACTIVO: "catwi_activo",
 
@@ -714,7 +714,7 @@
       CONT_DIRECCION: "cont_direccion",
 
       // Tabla de Rubros
-      RUBROTABLA: "RubroTabla",
+      RUBRO_TABLA: "RubroTabla",
       RUBT_ID: "rubt_id",
       RUBT_NAME: "rubt_nombre",
       RUBT_CODE: "rubt_codigo",
@@ -1599,10 +1599,10 @@
     DELETE_SUCURSAL: 1159,
     LIST_SUCURSAL: 1160,
 
-    NEW_RUBROTABLA: 1161,
-    EDIT_RUBROTABLA: 1162,
-    DELETE_RUBROTABLA: 1163,
-    LIST_RUBROTABLA: 1164,
+    NEW_RUBRO_TABLA: 1161,
+    EDIT_RUBRO_TABLA: 1162,
+    DELETE_RUBRO_TABLA: 1163,
+    LIST_RUBRO_TABLA: 1164,
 
     NEW_GASTO: 1165,
     EDIT_GASTO: 1166,

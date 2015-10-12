@@ -171,7 +171,7 @@ case class ProductoLeyendaData(
                             name: String,
                             text: String,
                             tag: String,
-                            order: Int
+                            order: String
                             )
 
 case class ProductoTagData(
@@ -435,7 +435,7 @@ object Productos extends Controller with ProvidesUser {
             C.PRL_NAME -> text,
             C.PRL_TEXTO -> text,
             C.PRL_TAG -> text,
-            C.PRL_ORDEN -> number)(ProductoLeyendaData.apply)(ProductoLeyendaData.unapply)
+            C.PRL_ORDEN -> text)(ProductoLeyendaData.apply)(ProductoLeyendaData.unapply)
         ),
         C.PRODUCTO_TAG -> Forms.list[ProductoTagData](
           mapping(
@@ -546,7 +546,6 @@ object Productos extends Controller with ProvidesUser {
       C.RUB_ID -> Json.toJson(producto.rubro.rubId),
       C.RUB_NAME -> Json.toJson(producto.rubro.rubName),
 
-      // TODO: implement this
       C.RUBT_ID_1 -> Json.toJson(producto.rubroTables.rubtId1),
       C.RUBT_NAME_1 -> Json.toJson(producto.rubroTables.rubtName1),
       C.RUBT_ID_2 -> Json.toJson(producto.rubroTables.rubtId2),

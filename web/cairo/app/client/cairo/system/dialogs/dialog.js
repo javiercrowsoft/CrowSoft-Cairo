@@ -5787,14 +5787,14 @@
                       // so the validation is serialized and execute only if the previous
                       // validation has completed
                       //
-                      if(success) {
+                      if(success === true || success.isValid === true) {
                         //
                         // gridValidateRow will ask the client to validate one row
                         // and will returns a promise
                         //
                         return gridValidateRow(property.getIndex(), rowIndex, true).then(
                           function(success) {
-                            if(!success) {
+                            if(success.isValid === false) {
                               property.getControl().setRedraw(oldRedraw);
                             }
                             return success; // propagate the result to the next promise in the chain

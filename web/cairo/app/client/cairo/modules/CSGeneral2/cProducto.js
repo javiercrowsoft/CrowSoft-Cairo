@@ -790,14 +790,14 @@
           case K_KIT_IDENTIDADXITEM:
 
             bEnabled = val(m_dialog.getProperties().item(C.PR_KIT_RESUMIDO).getValue());
-            pSetKitSerieEnabled(bEnabled);
-            pSetKitLoteEnabled(bEnabled);
+            setKitSerieEnabled(bEnabled);
+            setKitLoteEnabled(bEnabled);
             break;
 
           case K_KIT_LOTE:
           case K_KIT_LOTEXITEM:
 
-            pSetKitLoteEnabled(val(m_dialog.getProperties().item(C.PR_KIT_RESUMIDO).getValue()));
+            setKitLoteEnabled(val(m_dialog.getProperties().item(C.PR_KIT_RESUMIDO).getValue()));
             break;
 
           case K_PR_ID_WEB_PADRE:
@@ -811,7 +811,7 @@
             break;
         }
 
-        return P.resolvedPromise(false);
+        return p || P.resolvedPromise(false);
       };
 
       self.save = function() {
@@ -3859,13 +3859,15 @@
 
       var saveItemsWebCatalogos = function(mainRegister) {
         var transaction = DB.createTransaction();
-        transaction.setTable(C.CATALOGOWEBITEM);
+        transaction.setTable(C.CATALOGO_WEB_ITEM);
 
         var property = m_dialog.getProperties().item(C_WEB_CATALOGS);
 
-        var _count = property.getGrid().getRows().size();
+        var rows = property.getGrid().getRows();
+        var _count = rows.size();
         for(var _i = 0; _i < _count; _i++) {
-          var row = property.getGrid().getRows().item(_i);
+
+          var row = rows.item(_i);
 
           if(Dialogs.cell(row, KICW_SELECT).getId()) {
 
@@ -3873,7 +3875,7 @@
 
             var fields = register.getFields();
             register.setFieldId(C.CATWI_ID);
-            register.setTable(C.CATALOGOWEBITEM);
+            register.setTable(C.CATALOGO_WEB_ITEM);
             register.setId(Cairo.Constants.NEW_ID);
 
             var _countj = row.size();
@@ -3907,9 +3909,11 @@
 
         var property = m_dialog.getProperties().item(C_WEB_CATEGORIES);
 
-        var _count = property.getGrid().getRows().size();
+        var rows = property.getGrid().getRows();
+        var _count = rows.size();
         for(var _i = 0; _i < _count; _i++) {
-          var row = property.getGrid().getRows().item(_i);
+
+          var row = rows.item(_i);
 
           if(Dialogs.cell(row, KICWC_SELECT).getId()) {
 
@@ -3958,9 +3962,11 @@
 
         var property = m_dialog.getProperties().item(C_PROVEEDOR);
 
-        var _count = property.getGrid().getRows().size();
+        var rows = property.getGrid().getRows();
+        var _count = rows.size();
         for(var _i = 0; _i < _count; _i++) {
-          var row = property.getGrid().getRows().item(_i);
+
+          var row = rows.item(_i);
 
           if(isRowProveedorFromUser(row)) {
 
@@ -3979,8 +3985,11 @@
               switch (cell.getKey()) {
 
                 case KIK_PRPROV_ID:
-                  if(!m_copy) {
-                    register.setId((val(cell.getValue()) > 0) ? val(cell.getValue()) : Cairo.Constants.NEW_ID);
+                  if(m_copy) {
+                    fields.add(C.PRPROV_ID, Cairo.Constants.NEW_ID, Types.integer);
+                  }
+                  else {
+                    fields.add(C.PRPROV_ID, val(cell.getValue()), Types.integer);
                   }
                   break;
 
@@ -4051,10 +4060,11 @@
 
         var property = m_dialog.getProperties().item(C_CMI);
 
-        var _count = property.getGrid().getRows().size();
+        var rows = property.getGrid().getRows();
+        var _count = rows.size();
         for(var _i = 0; _i < _count; _i++) {
 
-          var row = property.getGrid().getRows().item(_i);
+          var row = rows.item(_i);
 
           var register = new DB.Register();
 
@@ -4071,8 +4081,11 @@
             switch (cell.getKey()) {
 
               case KICMI_ID:
-                if(!m_copy) {
-                  register.setId(val(cell.getValue()));
+                if(m_copy) {
+                  fields.add(C.PRCMI_ID, Cairo.Constants.NEW_ID, Types.integer);
+                }
+                else {
+                  fields.add(C.PRCMI_ID, val(cell.getValue()), Types.integer);
                 }
                 break;
 
@@ -4123,10 +4136,11 @@
 
         var property = m_dialog.getProperties().item(C_LEYENDAS);
 
-        var _count = property.getGrid().getRows().size();
+        var rows = property.getGrid().getRows();
+        var _count = rows.size();
         for(var _i = 0; _i < _count; _i++) {
 
-          var row = property.getGrid().getRows().item(_i);
+          var row = rows.item(_i);
 
           var register = new DB.Register();
 
@@ -4143,8 +4157,11 @@
             switch (cell.getKey()) {
 
               case KICMI_ID:
-                if(!m_copy) {
-                  register.setId(val(cell.getValue()));
+                if(m_copy) {
+                  fields.add(C.PRL_ID, Cairo.Constants.NEW_ID, Types.integer);
+                }
+                else {
+                  fields.add(C.PRL_ID, val(cell.getValue()), Types.integer);
                 }
                 break;
 
@@ -4187,10 +4204,11 @@
 
         var property = m_dialog.getProperties().item(C_WEB_IMAGES);
 
-        var _count = property.getGrid().getRows().size();
+        var rows = property.getGrid().getRows();
+        var _count = rows.size();
         for(var _i = 0; _i < _count; _i++) {
 
-          var row = property.getGrid().getRows().item(_i);
+          var row = rows.item(_i);
 
           var register = new DB.Register();
 
@@ -4207,8 +4225,11 @@
             switch (cell.getKey()) {
 
               case KIWI_PRWI_ID:
-                if(!m_copy) {
-                  register.setId(val(cell.getValue()));
+                if(m_copy) {
+                  fields.add(C.PRWI_ID, Cairo.Constants.NEW_ID, Types.integer);
+                }
+                else {
+                  fields.add(C.PRWI_ID, val(cell.getValue()), Types.integer);
                 }
                 break;
 
@@ -4251,10 +4272,11 @@
 
         var property = m_dialog.getProperties().item(C_CLIENTE);
 
-        var _count = property.getGrid().getRows().size();
+        var rows = property.getGrid().getRows();
+        var _count = rows.size();
         for(var _i = 0; _i < _count; _i++) {
 
-          var row = property.getGrid().getRows().item(_i);
+          var row = rows.item(_i);
 
           var register = new DB.Register();
 
@@ -4271,8 +4293,11 @@
             switch (cell.getKey()) {
 
               case KIK_PRCLI_ID:
-                if(!m_copy) {
-                  register.setId(val(cell.getValue()));
+                if(m_copy) {
+                  fields.add(C.PR_CLI_ID, Cairo.Constants.NEW_ID, Types.integer);
+                }
+                else {
+                  fields.add(C.PR_CLI_ID, val(cell.getValue()), Types.integer);
                 }
                 break;
 
@@ -4317,10 +4342,11 @@
 
         var property = m_dialog.getProperties().item(C_TAGS);
 
-        var _count = property.getGrid().getRows().size();
+        var rows = property.getGrid().getRows();
+        var _count = rows.size();
         for(var _i = 0; _i < _count; _i++) {
 
-          var row = property.getGrid().getRows().item(_i);
+          var row = rows.item(_i);
 
           var register = new DB.Register();
 
@@ -4337,8 +4363,11 @@
             switch (cell.getKey()) {
 
               case KIT_PRT_ID:
-                if(!m_copy) {
-                  register.setId(val(cell.getValue()));
+                if(m_copy) {
+                  fields.add(C.PRT_ID, Cairo.Constants.NEW_ID, Types.integer);
+                }
+                else {
+                  fields.add(C.PRT_ID, val(cell.getValue()), Types.integer);
                 }
                 break;
 
@@ -5464,10 +5493,10 @@
         property.setEnabled(enabled);
         m_dialog.showValue(property);
 
-        pSetKitSerieEnabled(enabled);
+        setKitSerieEnabled(enabled);
       };
 
-      var pSetKitSerieEnabled = function(enabled) {
+      var setKitSerieEnabled = function(enabled) {
         var property = null;
 
         var properties = m_dialog.getProperties();
@@ -5524,11 +5553,11 @@
 
         }
 
-        pSetKitLoteEnabled(enabled);
+        setKitLoteEnabled(enabled);
 
       };
 
-      var pSetKitLoteEnabled = function(enabled) {
+      var setKitLoteEnabled = function(enabled) {
         var property = null;
         var properties = m_dialog.getProperties();
 

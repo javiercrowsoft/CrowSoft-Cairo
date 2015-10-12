@@ -898,7 +898,7 @@ case class ProductoLeyenda(
                             name: String,
                             text: String,
                             tag: String,
-                            order: Int
+                            order: String
                             )
 
 case class ProductoTag(
@@ -1463,7 +1463,7 @@ object Producto {
     SqlParser.get[String](C.PRL_NAME) ~
     SqlParser.get[String](C.PRL_TEXTO) ~
     SqlParser.get[String](C.PRL_TAG) ~
-    SqlParser.get[Int](C.PRL_ORDEN) map {
+    SqlParser.get[String](C.PRL_ORDEN) map {
     case
         id ~
         name ~
@@ -2374,7 +2374,8 @@ object Producto {
         Field(C.PR_ID, prId, FieldType.id),
         Field(C.PRL_NAME, leyenda.name, FieldType.text),
         Field(C.PRL_TEXTO, leyenda.text, FieldType.text),
-        Field(C.PRL_TAG, leyenda.tag, FieldType.text)
+        Field(C.PRL_TAG, leyenda.tag, FieldType.text),
+        Field(C.PRL_ORDEN, leyenda.order, FieldType.text)
       )
     }
 

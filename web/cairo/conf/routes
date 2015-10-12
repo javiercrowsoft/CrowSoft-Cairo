@@ -292,6 +292,11 @@ POST    /api/v1/general/rubro                      controllers.logged.modules.ge
 PUT     /api/v1/general/rubro/:id                  controllers.logged.modules.general.Rubros.update(id: Int)
 DELETE  /api/v1/general/rubro/:id                  controllers.logged.modules.general.Rubros.delete(id: Int)
 
+GET     /api/v1/general/rubrotabla/:id              controllers.logged.modules.general.RubroTablas.get(id: Int)
+POST    /api/v1/general/rubrotabla                  controllers.logged.modules.general.RubroTablas.create
+PUT     /api/v1/general/rubrotabla/:id              controllers.logged.modules.general.RubroTablas.update(id: Int)
+DELETE  /api/v1/general/rubrotabla/:id              controllers.logged.modules.general.RubroTablas.delete(id: Int)
+
 GET     /api/v1/general/cliente/:id/info/:docId             controllers.logged.modules.general.Clientes.info(id: Int, docId: Int)
 GET     /api/v1/general/cliente/:id/name                    controllers.logged.modules.general.Clientes.name(id: Int)
 GET     /api/v1/general/cliente/:id/cat_fiscal              controllers.logged.modules.general.Clientes.catFiscal(id: Int)

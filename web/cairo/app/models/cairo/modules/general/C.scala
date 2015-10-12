@@ -40,6 +40,8 @@ object C {
   val PRODUCTO_TAG_DELETED = "deletedTag"
   val PRODUCTO_WEB_IMAGE_DELETED = "deletedWebImage"
 
+  val RUBRO_TABLA_ITEM_DELETED = "itemDeleted"
+
   val EDIT_MSG = "editMsg"
   val EDITABLE = "editable"
   val HAS_IVA_RI = "bIvaRi"

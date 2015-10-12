@@ -70,7 +70,12 @@
         //
         // so basically result has to be an explicit false to not be SUCCESS
         //
-        if(result !== undefined && result !== null && result !== false && result !== 'no' && result.success !== false) {
+        if(result !== undefined
+          && result !== null
+          && result !== false
+          && result !== 'no'
+          && result.success !== false
+          && result.isValid !== false) {
           return successCallback();
         }
         else {

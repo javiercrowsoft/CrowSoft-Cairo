@@ -1458,10 +1458,11 @@
 
         var property = m_dialog.getProperties().item(C_CAIS);
 
-        var _count = property.getGrid().getRows().size();
+        var rows = property.getGrid().getRows();
+        var _count = rows.size();
         for(var _i = 0; _i < _count; _i++) {
 
-          var row = property.getGrid().getRows().item(_i);
+          var row = rows.item(_i);
 
           var register = new DB.Register();
 
@@ -2282,10 +2283,11 @@
 
         var property = m_dialog.getProperties().item(C_RETENCION);
 
-        var _count = property.getGrid().getRows().size();
+        var rows = property.getGrid().getRows();
+        var _count = rows.size();
         for(var _i = 0; _i < _count; _i++) {
 
-          var row = property.getGrid().getRows().item(_i);
+          var row = rows.item(_i);
 
           var register = new DB.Register();
 
@@ -2347,10 +2349,11 @@
 
         var property = m_dialog.getProperties().item(C_DPTO);
 
-        var _count = property.getGrid().getRows().size();
+        var rows = property.getGrid().getRows();
+        var _count = rows.size();
         for(var _i = 0; _i < _count; _i++) {
 
-          var row = property.getGrid().getRows().item(_i);
+          var row = rows.item(_i);
 
           var register = new DB.Register();
 
@@ -2402,10 +2405,11 @@
 
         var property = m_dialog.getProperties().item(C_CCOS);
 
-        var _count = property.getGrid().getRows().size();
+        var rows = property.getGrid().getRows();
+        var _count = rows.size();
         for(var _i = 0; _i < _count; _i++) {
 
-          var row = property.getGrid().getRows().item(_i);
+          var row = rows.item(_i);
 
           var register = new DB.Register();
 
@@ -2461,10 +2465,11 @@
 
         var property = m_dialog.getProperties().item(C_EMPRESAS);
 
-        var _count = property.getGrid().getRows().size();
+        var rows = property.getGrid().getRows();
+        var _count = rows.size();
         for(var _i = 0; _i < _count; _i++) {
 
-          var row = property.getGrid().getRows().item(_i);
+          var row = rows.item(_i);
 
           if(val(Dialogs.cell(row, KI_EMPPROV_ID).getId()) !== 0 ) {
 
@@ -2495,9 +2500,11 @@
         var row = null;
         var cell = null;
 
-        var _count = property.getGrid().getRows().size();
+        var rows = property.getGrid().getRows();
+        var _count = rows.size();
         for(var _i = 0; _i < _count; _i++) {
-          row = property.getGrid().getRows().item(_i);
+
+          row = rows.item(_i);
 
           var register = new DB.Register();
 
