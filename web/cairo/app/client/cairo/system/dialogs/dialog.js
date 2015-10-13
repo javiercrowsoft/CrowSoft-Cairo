@@ -1437,7 +1437,7 @@
             case Dialogs.PropertyType.numeric:
 
               var c = view.getMaskEdits().get(property.getIndex());
-              c.setValue(property.getValue());
+              c.setText(property.getValue());
               c.setEnabled(property.getEnabled());
 
               break;
@@ -5124,7 +5124,7 @@
 
                   case Dialogs.PropertyType.numeric:
 
-                    property.setText(c.getValue());
+                    property.setValue(c.getValue());
                     break;
 
                   case Dialogs.PropertyType.date:
