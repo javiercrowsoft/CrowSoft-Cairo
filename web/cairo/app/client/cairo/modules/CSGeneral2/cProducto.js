@@ -2551,7 +2551,7 @@
 
         m_genericEdit.loadCollection(m_dialog);
 
-        if(!m_dialog.show(self, tab_general, true)) { return false; }
+        if(!m_dialog.show(self)) { return false; }
 
         return true;
       };

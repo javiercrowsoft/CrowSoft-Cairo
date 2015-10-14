@@ -116,6 +116,12 @@
       RPTF_DOC_IMPRIMIR_EN_ALTA: "rptf_docImprimirEnAlta",
       RPTF_OBJECT: "rptf_object",
 
+      // Informe
+      INFORME: "Informe",
+      INF_ID: "inf_id",
+      INF_NAME: "inf_nombre",
+      INF_CODE: "inf_codigo",
+
       // Provincia
       PROVINCIA: "Provincia",
       PRO_ID: "pro_id",
@@ -364,6 +370,9 @@
       CLI_HORARIO_MHASTA: "cli_horario_m_hasta",
       CLI_HORARIO_TDESDE: "cli_horario_t_desde",
       CLI_HORARIO_THASTA: "cli_horario_t_hasta",
+
+      US_ACTIVO: "us_activo",
+      REFERIDO: "referido",
 
       // Proveedor
       PROVEEDOR: "Proveedor",

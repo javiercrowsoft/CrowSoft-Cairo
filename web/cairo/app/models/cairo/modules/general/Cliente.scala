@@ -101,5 +101,20 @@ object Cliente {
       }
     }
   }
+
+  // TODO: when save implement copy of price list
+  /*
+        if(m_copy) {
+          if(!copyListaPrecio(lastId, m_id)) {  return false; }
+        }
+
+  * */
+
+  // TODO: when save implement send email to client
+  /*
+  *
+  * sendMailToClient(bNewUser, true);
+  * */
+
 }
 

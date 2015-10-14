@@ -531,7 +531,7 @@
           }
 
           register.getFields().add2(Cairo.Constants.US_ID, m_us_id, Cairo.Constants.Types.id);
-          register.getFields().add2(Cairo.Constants.PRE_ID, csTareaPrestacion.cSPRETAREALISTTAREA, Cairo.Constants.Types.id);
+          register.getFields().add2(C.PRE_ID, csTareaPrestacion.cSPRETAREALISTTAREA, Cairo.Constants.Types.id);
 
           register.getFields().setHaveLastUpdate(false);
           register.getFields().setHaveWhoModify(false);

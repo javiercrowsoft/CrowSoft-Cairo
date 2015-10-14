@@ -4962,7 +4962,7 @@
 
             // hide labels for grids, buttons and images
             //
-            if(property.labelIsHided()) {
+            if(property.labelIsHidden()) {
               label.setVisible(false);
               // labels with tag === -1 aren't modified by showValue
               label.setTag("-1");

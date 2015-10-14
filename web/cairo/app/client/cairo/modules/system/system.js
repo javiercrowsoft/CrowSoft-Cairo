@@ -816,14 +816,29 @@
   };
 
   Cairo.Documents.getCuentaGrupoFilterForProveedor = function() {
-    return "supplier_account_group"; // ACREEDORES DEPOSITO_CUPONES BANCOS BIENES_DE_CAMBIO
+    return "supplier_account_group";
   };
   Cairo.Documents.getCuentaFilterForProveedor = function() {
-    return "supplier_account_filter"; // ACREEDORES DEPOSITO_CUPONES BANCOS BIENES_DE_CAMBIO
+    return "supplier_account_filter";
+  };
+
+  Cairo.Documents.getCuentaGrupoFilterForCliente = function() {
+    return "customer_account_group";
+  };
+  Cairo.Documents.getCuentaFilterForCliente = function() {
+    return "customer_account_filter";
   };
 
   Cairo.Documents.getRubroTablaItemFilter = function(rubtId) {
     return "rubro_tabla_item|rubtId:" + rubtId.toString();
+  };
+
+  Cairo.Documents.getCustomerFatherFilter = function(cliId) {
+    return "customer_father|customerId:" + cliId.toString();
+  };
+
+  Cairo.Documents.getCustomerReferrerFilter = function(cliId) {
+    return "customer_referer|customerId:" + cliId.toString();
   };
 
   Cairo.Documents.ASIENTOS_DOC_FILTER = "document|documentTypeId:"

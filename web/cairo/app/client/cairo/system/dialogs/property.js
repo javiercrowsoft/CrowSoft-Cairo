@@ -350,6 +350,9 @@
         return self.selectTable;
       };
       that.setSelectTable = function(table) {
+        if(table === undefined) {
+          Cairo.raiseError("setSelectTable", "undefined can not be used when calling setSelectTable");
+        }
         self.selectTable = table;
         return that;
       };
@@ -523,7 +526,7 @@
         self.hideLabel = true;
       };
 
-      that.labelIsHided = function() {
+      that.labelIsHidden = function() {
         return self.hideLabel;
       };
 
