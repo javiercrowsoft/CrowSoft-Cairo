@@ -2090,13 +2090,14 @@
       };
 
       var isEmptyRowDpto = function(row, rowIndex) {
-        var cell = null;
         var bRowIsEmpty = true;
 
-        var _count = row.size();
-        for(var _i = 0; _i < _count; _i++) {
-          cell = row.item(_i);
+        for(var _i = 0, _count = row.size(); _i < _count; _i++) {
+
+          var cell = row.item(_i);
+
           switch (cell.getKey()) {
+
             case KI_DPTO_ID:
               if(!valEmpty(cell.getValue(), Types.text)) {
                 bRowIsEmpty = false;
@@ -2109,13 +2110,14 @@
       };
 
       var isEmptyRowCcos = function(row, rowIndex) {
-        var cell = null;
         var bRowIsEmpty = true;
 
-        var _count = row.size();
-        for(var _i = 0; _i < _count; _i++) {
-          cell = row.item(_i);
+        for(var _i = 0, _count = row.size(); _i < _count; _i++) {
+
+          var cell = row.item(_i);
+
           switch (cell.getKey()) {
+
             case KI_PR_ID:
               if(!valEmpty(cell.getValue(), Types.text)) {
                 bRowIsEmpty = false;
@@ -2134,12 +2136,12 @@
       };
 
       var isEmptyRowRetencion = function(row, rowIndex) {
-        var cell = null;
         var bRowIsEmpty = true;
 
-        var _count = row.size();
-        for(var _i = 0; _i < _count; _i++) {
-          cell = row.item(_i);
+        for(var _i = 0, _count = row.size(); _i < _count; _i++) {
+
+          var cell = row.item(_i);
+
           switch (cell.getKey()) {
             case KI_RET_ID:
               if(!valEmpty(cell.getValue(), Types.text)) {
@@ -2153,12 +2155,12 @@
       };
 
       var isEmptyRowCuentaGrupo = function(row, rowIndex) {
-        var cell = null;
         var bRowIsEmpty = true;
 
-        var _count = row.size();
-        for(var _i = 0; _i < _count; _i++) {
-          cell = row.item(_i);
+        for(var _i = 0, _count = row.size(); _i < _count; _i++) {
+
+          var cell = row.item(_i);
+
           switch (cell.getKey()) {
             case KI_CUE_ID:
               if(!valEmpty(cell.getValue(), Types.text)) {
@@ -2178,13 +2180,14 @@
       };
 
       var isEmptyRowCai = function(row, rowIndex) {
-        var cell = null;
         var bRowIsEmpty = true;
 
-        var _count = row.size();
-        for(var _i = 0; _i < _count; _i++) {
-          cell = row.item(_i);
+        for(var _i = 0, _count = row.size(); _i < _count; _i++) {
+
+          var cell = row.item(_i);
+
           switch (cell.getKey()) {
+
             case KI_NUMERO:
               if(!valEmpty(cell.getValue(), Types.text)) {
                 bRowIsEmpty = false;
@@ -2207,8 +2210,8 @@
         transaction.setTable(C.PROVEEDOR_CAI);
 
         var property = m_dialog.getProperties().item(C_CAIS);
-
         var rows = property.getGrid().getRows();
+
         var _count = rows.size();
         for(var _i = 0; _i < _count; _i++) {
 
@@ -2265,7 +2268,7 @@
 
         if(m_itemsDeletedCAIS !== "" && !m_copy) {
 
-          transaction.setDeletedList(m_itemsDeletedCAIS)
+          transaction.setDeletedList(m_itemsDeletedCAIS);
         }
 
         mainRegister.addTransaction(transaction);
@@ -2276,7 +2279,6 @@
       var saveItemsRetencion = function(mainRegister) {
         var transaction = DB.createTransaction();
         transaction.setTable(C.PROVEEDOR_RETENCION);
-
 
         var property = m_dialog.getProperties().item(C_RETENCION);
 
@@ -2494,14 +2496,11 @@
 
         var property = m_dialog.getProperties().item(C_CUENTAGRUPO);
 
-        var row = null;
-        var cell = null;
-
         var rows = property.getGrid().getRows();
         var _count = rows.size();
         for(var _i = 0; _i < _count; _i++) {
 
-          row = rows.item(_i);
+          var row = rows.item(_i);
 
           var register = new DB.Register();
 
@@ -2512,7 +2511,9 @@
 
           var _countj = row.size();
           for(var _j = 0; _j < _countj; _j++) {
-            cell = row.item(_j);
+
+            var cell = row.item(_j);
+
             switch (cell.getKey()) {
 
               case KI_PROVCUEG_ID:
@@ -2552,7 +2553,7 @@
       var validateCuitProveedor = function(cuit) {
         if(cuit.trim() !== "") {
           return D.validateNroCuit(cuit, false)
-            .whenSuccess(call(D.checkCuitIsNotAlreadyUsed, cuit, m_id));
+            .whenSuccess(call(D.checkCuitProveedorIsNotAlreadyUsed, cuit, m_id));
         }
         else {
           return M.showWarningWithFalse(getText(1173)); // Debe indicar un CUIT

@@ -114,8 +114,7 @@
           return register;
         };
 
-        var _count = m_dialog.getProperties().size();
-        for (var _i = 0; _i < _count; _i++) {
+        for(var _i = 0, _count = m_dialog.getProperties().size(); _i < _count; _i++) {
 
           var property = m_dialog.getProperties().item(_i);
 
@@ -216,7 +215,7 @@
 
       self.validate = function() {
 
-        for (var _i = 0, _count = m_dialog.getProperties().size(); _i < _count; _i++) {
+        for(var _i = 0, _count = m_dialog.getProperties().size(); _i < _count; _i++) {
           var property = m_dialog.getProperties().item(_i);
 
           switch (property.getKey()) {

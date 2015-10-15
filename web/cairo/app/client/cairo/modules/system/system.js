@@ -1393,7 +1393,7 @@
     });
   };
 
-  Cairo.Documents.checkCuitIsNotAlreadyUsed = function(cuit, provId) {
+  Cairo.Documents.checkCuitProveedorIsNotAlreadyUsed = function(cuit, provId) {
 
     if(cuit === "cuit") {
       return P.resolvedPromise(true);
@@ -1411,6 +1411,35 @@
           return Cairo.Modal.showInfoWithFalse(getText(1452, "", "[" + code + "] " + razonSocial), getText(1453, ""));
               // El CUIT ya esta usado por el proveedor (1)
               // C.U.I.T. Proveedor
+        }
+        else {
+          return true;
+        }
+      }
+      else {
+        return false;
+      }
+    });
+  };
+
+  Cairo.Documents.checkCuitClienteIsNotAlreadyUsed = function(cuit, cliId) {
+
+    if(cuit === "cuit") {
+      return P.resolvedPromise(true);
+    }
+
+    var p = DB.getData("load[" + m_apiPath + "general/cliente/validate_cuit]", cuit);
+
+    return p.then(function(response) {
+
+      if(response.success === true) {
+        var cli_id = valField(response.data, C.CLI_ID);
+        var code = valField(response.data, C.CLI_CODE);
+        var razonSocial = valField(response.data, C.CLI_RAZONSOCIAL);
+        if(cli_id !== 0 && cli_id !== cliId) {
+          return Cairo.Modal.confirmViewYesDanger("", getText(1527, "", "[" + code + "] " + razonSocial));
+          // El CUIT ya esta usado por el cliente (1)
+          // Confirma que desea grabar este cliente con el mismo CUIT
         }
         else {
           return true;

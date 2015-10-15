@@ -410,7 +410,7 @@
 
       self.save = function() {
 
-        var register = new Cairo.Database.Register();
+        var register = new DB.Register();
         var fields = register.getFields();
 
         register.setFieldId(C.CLI_ID);
@@ -426,7 +426,7 @@
         }
 
         var _count = m_dialog.getProperties().size();
-        for (var _i = 0; _i < _count; _i++) {
+        for(var _i = 0; _i < _count; _i++) {
           
           var property = m_dialog.getProperties().item(_i);
           
@@ -697,7 +697,7 @@
         var nombre = null;
 
         var _count = m_dialog.getProperties().size();
-        for (var _i = 0; _i < _count; _i++) {
+        for(var _i = 0; _i < _count; _i++) {
           property = m_dialog.getProperties().item(_i);
           switch (property.getKey()) {
             case K_NAME:
@@ -1591,15 +1591,15 @@
 
           switch (key) {
             case K_SUCURSALES:
-              isEmpty = pIsEmptyRowSuc(row, rowIndex);
+              isEmpty = isEmptyRowSuc(row, rowIndex);
               break;
 
             case K_CONTACTOS:
-              isEmpty = pIsEmptyRowCont(row, rowIndex);
+              isEmpty = isEmptyRowCont(row, rowIndex);
               break;
 
             case K_CUENTA_GRUPO:
-              isEmpty = pIsEmptyRowCuentaGrupo(row, rowIndex);
+              isEmpty = isEmptyRowCuentaGrupo(row, rowIndex);
               break;
 
             case K_EMPRESAS:
@@ -1607,15 +1607,15 @@
               break;
 
             case K_DEPARTAMENTOS:
-              isEmpty = pIsEmptyRowDpto(row, rowIndex);
+              isEmpty = isEmptyRowDpto(row, rowIndex);
               break;
 
             case K_PERCEPCION:
-              isEmpty = pIsEmptyRowPercepcion(row, rowIndex);
+              isEmpty = isEmptyRowPercepcion(row, rowIndex);
               break;
 
             case K_INFORMES:
-              isEmpty = pIsEmptyRowInforme(row, rowIndex);
+              isEmpty = isEmptyRowInforme(row, rowIndex);
               break;
           }
         }
@@ -1630,7 +1630,7 @@
         var strRow = " (Row: " + rowIndex.toString() + ")";
 
         var _count = row.size();
-        for (var _i = 0; _i < _count; _i++) {
+        for(var _i = 0; _i < _count; _i++) {
           var cell = row.item(_i);
           switch (cell.getKey()) {
             case KI_NOMBRE:
@@ -1648,7 +1648,7 @@
         var strRow = " (Row: " + rowIndex.toString() + ")";
 
         var _count = row.size();
-        for (var _i = 0; _i < _count; _i++) {
+        for(var _i = 0; _i < _count; _i++) {
           var cell = row.item(_i);
           switch (cell.getKey()) {
             case KI_DPTO_ID:
@@ -1667,7 +1667,7 @@
         var strRow = " (Row: " + rowIndex.toString() + ")";
 
         var _count = row.size();
-        for (var _i = 0; _i < _count; _i++) {
+        for(var _i = 0; _i < _count; _i++) {
           var cell = row.item(_i);
           switch (cell.getKey()) {
             case KI_PERC_ID:
@@ -1686,7 +1686,7 @@
         var strRow = " (Row: " + rowIndex.toString() + ")";
 
         var _count = row.size();
-        for (var _i = 0; _i < _count; _i++) {
+        for(var _i = 0; _i < _count; _i++) {
           var cell = row.item(_i);
           switch (cell.getKey()) {
             case KI_PRE_ID:
@@ -1712,7 +1712,7 @@
         var strRow = " (Row: " + rowIndex.toString() + ")";
 
         var _count = row.size();
-        for (var _i = 0; _i < _count; _i++) {
+        for(var _i = 0; _i < _count; _i++) {
           var cell = row.item(_i);
           switch (cell.getKey()) {
             case KI_CUEG_ID:
@@ -1751,7 +1751,7 @@
       
       var load = function(id) {
 
-        return Cairo.Database.getData("load[" + m_apiPath + "general/cliente]", id).then(
+        return DB.getData("load[" + m_apiPath + "general/cliente]", id).then(
           function(response) {
 
             if(response.success !== true) { return false; }
@@ -2721,15 +2721,15 @@
         }
       };
 
-      var pIsEmptyRowSuc = function(row, rowIndex) {
-        var cell = null;
-
+      var isEmptyRowSuc = function(row, rowIndex) {
         var bRowIsEmpty = true;
 
-        var _count = row.size();
-        for (var _i = 0; _i < _count; _i++) {
-          cell = row.item(_i);
+        for(var _i = 0, _count = row.size(); _i < _count; _i++) {
+
+          var cell = row.item(_i);
+
           switch (cell.getKey()) {
+
             case KI_S_NOMBRE:
               if(!valEmpty(cell.getValue(), Types.text)) {
                 bRowIsEmpty = false;
@@ -2756,15 +2756,15 @@
         return bRowIsEmpty;
       };
 
-      var pIsEmptyRowCont = function(row, rowIndex) {
-        var cell = null;
-
+      var isEmptyRowCont = function(row, rowIndex) {
         var bRowIsEmpty = true;
 
-        var _count = row.size();
-        for (var _i = 0; _i < _count; _i++) {
-          cell = row.item(_i);
+        for(var _i = 0, _count = row.size(); _i < _count; _i++) {
+
+          var cell = row.item(_i);
+
           switch (cell.getKey()) {
+
             case KI_NOMBRE:
               if(!valEmpty(cell.getValue(), Types.text)) {
                 bRowIsEmpty = false;
@@ -2784,15 +2784,15 @@
         return bRowIsEmpty;
       };
 
-      var pIsEmptyRowDpto = function(row, rowIndex) {
-        var cell = null;
-
+      var isEmptyRowDpto = function(row, rowIndex) {
         var bRowIsEmpty = true;
 
-        var _count = row.size();
-        for (var _i = 0; _i < _count; _i++) {
-          cell = row.item(_i);
+        for(var _i = 0, _count = row.size(); _i < _count; _i++) {
+
+          var cell = row.item(_i);
+
           switch (cell.getKey()) {
+
             case KI_DPTO_ID:
               if(!valEmpty(cell.getValue(), Types.text)) {
                 bRowIsEmpty = false;
@@ -2805,15 +2805,15 @@
         return bRowIsEmpty;
       };
 
-      var pIsEmptyRowPercepcion = function(row, rowIndex) {
-        var cell = null;
-
+      var isEmptyRowPercepcion = function(row, rowIndex) {
         var bRowIsEmpty = true;
 
-        var _count = row.size();
-        for (var _i = 0; _i < _count; _i++) {
-          cell = row.item(_i);
+        for(var _i = 0, _count = row.size(); _i < _count; _i++) {
+
+          var cell = row.item(_i);
+
           switch (cell.getKey()) {
+
             case KI_PERC_ID:
               if(!valEmpty(cell.getValue(), Types.text)) {
                 bRowIsEmpty = false;
@@ -2826,15 +2826,15 @@
         return bRowIsEmpty;
       };
 
-      var pIsEmptyRowInforme = function(row, rowIndex) {
-        var cell = null;
-
+      var isEmptyRowInforme = function(row, rowIndex) {
         var bRowIsEmpty = true;
 
-        var _count = row.size();
-        for (var _i = 0; _i < _count; _i++) {
-          cell = row.item(_i);
+        for(var _i = 0, _count = row.size(); _i < _count; _i++) {
+
+          var cell = row.item(_i);
+
           switch (cell.getKey()) {
+
             case KI_INF_ID:
               if(!valEmpty(cell.getId(), Types.id)) {
                 bRowIsEmpty = false;
@@ -2847,15 +2847,15 @@
         return bRowIsEmpty;
       };
 
-      var pIsEmptyRowCuentaGrupo = function(row, rowIndex) {
-        var cell = null;
-
+      var isEmptyRowCuentaGrupo = function(row, rowIndex) {
         var bRowIsEmpty = true;
 
-        var _count = row.size();
-        for (var _i = 0; _i < _count; _i++) {
-          cell = row.item(_i);
+        for(var _i = 0, _count = row.size(); _i < _count; _i++) {
+
+          var cell = row.item(_i);
+
           switch (cell.getKey()) {
+
             case KI_CUE_ID:
               if(!valEmpty(cell.getValue(), Types.text)) {
                 bRowIsEmpty = false;
@@ -2875,18 +2875,19 @@
         return bRowIsEmpty;
       };
 
-      var saveItemsSucursales = function(mainTransaction) {
-        var transaction = new Cairo.Database.Transaction();
+      var saveItemsSucursales = function(mainRegister) {
+        var transaction = DB.createTransaction();
+        transaction.setTable(C.CLIENTE_SUCURSAL);
 
         var property = m_dialog.getProperties().item(C_SUCURSALES);
-        var row = null;
-        var cell = null;
+        var rows = property.getGrid().getRows();
 
         var _count = property.getGrid().getRows().size();
-        for (var _i = 0; _i < _count; _i++) {
-          row = property.getGrid().getRows().item(_i);
+        for(var _i = 0; _i < _count; _i++) {
 
-          var register = new Cairo.Database.Register();
+          var row = rows.item(_i);
+
+          var register = new DB.Register();
 
           var fields = register.getFields();
           register.setFieldId(C.CLIS_ID);
@@ -2894,13 +2895,17 @@
           register.setId(Cairo.Constants.NEW_ID);
 
           var _count = row.size();
-          for (var _j = 0; _j < _count; _j++) {
-            cell = row.item(_j);
+          for(var _j = 0; _j < _count; _j++) {
+
+            var cell = row.item(_j);
             switch (cell.getKey()) {
 
               case KI_S_CLIS_ID:
-                if(!m_copy) {
-                  register.setId(val(cell.getValue()));
+                if(m_copy) {
+                  fields.add(C.CLIS_ID, Cairo.Constants.NEW_ID, Types.integer);
+                }
+                else {
+                  fields.add(C.CLIS_ID, val(cell.getValue()), Types.integer);
                 }
                 break;
 
@@ -2909,7 +2914,7 @@
                 break;
 
               case KI_S_CODIGO:
-                fields.add(C.CLIS_CODE, LenB(cell.getValue()) ? cell.getValue() : Cairo.Constants.GET_CODE_FROM_ID), Types.text);
+                fields.add(C.CLIS_CODE, (cell.getValue() !== "" ? cell.getValue() : Cairo.Constants.GET_CODE_FROM_ID), Types.text);
                 break;
 
               case KI_S_DESCRIP:
@@ -2966,64 +2971,66 @@
 
               case KI_S_CONTACTO:
                 fields.add(C.CLIS_CONTACTO, cell.getValue(), Types.text);
-
                 break;
             }
           }
 
           fields.add(C.CLI_ID, m_id, Types.id);
 
-          if(!Cairo.Database.saveEx(register, , C.CLIS_CODE, "saveItemsSucursales", C_MODULE, c_ErrorSave)) { return false; }
+          transaction.addRegister(register);
         }
 
-        if(LenB(m_itemsDeletedSucursales) && !m_copy) {
-          m_itemsDeletedSucursales = RemoveLastColon(m_itemsDeletedSucursales);
+        if(m_itemsDeletedSucursales !== "" && !m_copy) {
 
-          if(!Cairo.Database.execute(sqlstmt, "saveItemsSucursales", C_MODULE)) { return false; }
+          transaction.setDeletedList(m_itemsDeletedSucursales);
         }
 
-        mainTransaction.addTransaction(transaction);
+        mainRegister.addTransaction(transaction);
 
         return true;
       };
 
-      var saveItemsPercepcion = function(mainTransaction) {
-        var transaction = new Cairo.Database.Transaction();
+      var saveItemsPercepcion = function(mainRegister) {
+        var transaction = DB.createTransaction();
+        transaction.setTable(C.CLIENTE_PERCEPCION);
 
         var property = m_dialog.getProperties().item(C_PERCEPCION);
-        var row = null;
-        var cell = null;
+        var rows = property.getGrid().getRows();
 
-        var _count = property.getGrid().getRows().size();
-        for (var _i = 0; _i < _count; _i++) {
-          row = property.getGrid().getRows().item(_i);
+        var _count = rows.size();
+        for(var _i = 0; _i < _count; _i++) {
 
-          var register = new Cairo.Database.Register();
+          var row = rows.item(_i);
+
+          var register = new DB.Register();
 
           var fields = register.getFields();
           register.setFieldId(C.CLI_PERC_ID);
-          register.setTable(C.CLIENTEPERCEPCION);
+          register.setTable(C.CLIENTE_PERCEPCION);
           register.setId(Cairo.Constants.NEW_ID);
 
           var _count = row.size();
-          for (var _j = 0; _j < _count; _j++) {
-            cell = row.item(_j);
+          for(var _j = 0; _j < _count; _j++) {
+
+            var cell = row.item(_j);
+
             switch (cell.getKey()) {
 
               case KI_CLIPERC_ID:
-                if(!m_copy) {
-                  register.setId(val(cell.getValue()));
+                if(m_copy) {
+                  fields.add(C.CLI_PERC_ID, Cairo.Constants.NEW_ID, Types.integer);
+                }
+                else {
+                  fields.add(C.CLI_PERC_ID, val(cell.getValue()), Types.integer);
                 }
                 break;
 
               case KI_PERC_ID:
                 fields.add(C.PERC_ID, cell.getId(), Types.id);
-
                 break;
 
               case KI_PERC_DESDE:
                 fields.add(C.CLI_PERC_DESDE, cell.getValue(), Types.date);
-
                 break;
 
               case KI_PERC_HASTA:
@@ -3037,43 +3044,47 @@
           transaction.addRegister(register);
         }
 
-        if(LenB(m_itemsDeletedPercepciones) && !m_copy) {
-          m_itemsDeletedPercepciones = RemoveLastColon(m_itemsDeletedPercepciones);
+        if(m_itemsDeletedPercepciones !== "" && !m_copy) {
 
-          if(!Cairo.Database.execute(sqlstmt, "saveItemsPercepcion", C_MODULE)) { return false; }
+          transaction.setDeletedList(m_itemsDeletedPercepciones);
         }
 
-        mainTransaction.addTransaction(transaction);
+        mainRegister.addTransaction(transaction);
 
         return true;
       };
 
-      var saveItemsDpto = function(mainTransaction) {
-        var transaction = new Cairo.Database.Transaction();
+      var saveItemsDpto = function(mainRegister) {
+        var transaction = DB.createTransaction();
+        transaction.setTable(C.DEPARTAMENTO_CLIENTE);
 
         var property = m_dialog.getProperties().item(C_DPTO);
-        var row = null;
-        var cell = null;
+        var rows = property.getGrid().getRows();
 
-        var _count = property.getGrid().getRows().size();
-        for (var _i = 0; _i < _count; _i++) {
-          row = property.getGrid().getRows().item(_i);
+        var _count = rows.size();
+        for(var _i = 0; _i < _count; _i++) {
 
-          var register = new Cairo.Database.Register();
+          var row = rows.item(_i);
+
+          var register = new DB.Register();
 
           var fields = register.getFields();
           register.setFieldId(C.DPTO_CLI_ID);
-          register.setTable(C.DEPARTAMENTOCLIENTE);
+          register.setTable(C.DEPARTAMENTO_CLIENTE);
           register.setId(Cairo.Constants.NEW_ID);
 
           var _count = row.size();
-          for (var _j = 0; _j < _count; _j++) {
-            cell = row.item(_j);
+          for(var _j = 0; _j < _count; _j++) {
+
+            var cell = row.item(_j);
             switch (cell.getKey()) {
 
               case KI_DPTOCLI_ID:
-                if(!m_copy) {
-                  register.setId(val(cell.getValue()));
+                if(m_copy) {
+                  fields.add(C.DPTO_CLI_ID, Cairo.Constants.NEW_ID, Types.integer);
+                }
+                else {
+                  fields.add(C.DPTO_CLI_ID, val(cell.getValue()), Types.integer);
                 }
                 break;
 
@@ -3088,108 +3099,141 @@
           transaction.addRegister(register);
         }
 
-        if(LenB(m_itemsDeletedDptos) && !m_copy) {
-          m_itemsDeletedDptos = RemoveLastColon(m_itemsDeletedDptos);
+        if(m_itemsDeletedDptos !== "" && !m_copy) {
 
-          if(!Cairo.Database.execute(sqlstmt, "saveItemsDpto", C_MODULE)) { return false; }
+          transaction.setDeletedList(m_itemsDeletedDptos);
         }
 
-        mainTransaction.addTransaction(transaction);
+        mainRegister.addTransaction(transaction);
 
         return true;
       };
 
-      var saveItemsInformes = function(mainTransaction) {
+      var saveItemsInformes = function(mainRegister) {
+        //
+        // this is a header with the user name and a flag to set if the user is enabled
+        //
+        var transaction = DB.createTransaction();
+        transaction.setTable(C.CLIENTE_INFORME);
 
         var properties = m_dialog.getProperties();
-        sqlstmt = "sp_clienteUsuarioWebSave "+ m_id+ ", "+ Cairo.Database.sqlString(properties.item(C.US_ID).getValue())+ ", '', "+ val(properties.item(C_WEB).getValue())+ ", "+ cUtil.getUser().getId().toString();
 
-        if(!Cairo.Database.execute(sqlstmt, "saveItemsInformes", C_MODULE)) { return false; }
+        var register = new DB.Register();
+
+        var fields = register.getFields();
+        register.setFieldId(C.CLI_INF_ID);
+        register.setTable(C.CLIENTE_INFORME);
+        register.setId(Cairo.Constants.NEW_ID);
+
+        fields.add(C.CLI_INF_US_ID, properties.item(C.US_ID).getValue(), Types.text);
+        fields.add(C.CLI_INF_US_ID, val(properties.item(C_WEB).getValue()), Types.boolean);
+
+        transaction.addRegister(register);
+
+        mainRegister.addTransaction(transaction);
+
+        //
+        // this is a list of reports associated to the web user
+        //
+        var transaction = DB.createTransaction();
+        transaction.setTable(C.CLIENTE_INFORME_ITEM);
 
         var property = m_dialog.getProperties().item(C_INFORMES);
-        var row = null;
-        var _count = property.getGrid().getRows().size();
-        for (var _i = 0; _i < _count; _i++) {
-          row = property.getGrid().getRows().item(_i);
 
-          sqlstmt = "sp_clienteInformeSave "+ m_id+ ", "+ Dialogs.cell(row, KI_PRE_ID).getID().toString()+ ", "+ cUtil.getUser().getId().toString();
+        var rows = property.getGrid().getRows();
+        var _count = rows.size();
+        for(var _i = 0; _i < _count; _i++) {
 
-          if(!Cairo.Database.execute(sqlstmt, "saveItemsInformes", C_MODULE)) { return false; }
+          var row = rows.item(_i);
 
+          var register = new DB.Register();
+
+          var fields = register.getFields();
+          register.setFieldId(C.CLI_INFI_ID);
+          register.setTable(C.CLIENTE_INFORME_ITEM);
+          register.setId(Cairo.Constants.NEW_ID);
+
+          fields.add(C.PRE_ID, Dialogs.cell(row, KI_PRE_ID).getId().toString(), Types.id);
+
+          transaction.addRegister(register);
         }
 
-        if(LenB(m_itemsDeletedInf) && !m_copy) {
-          m_itemsDeletedInf = RemoveLastColon(m_itemsDeletedInf);
+        if(m_itemsDeletedInf !== "" && !m_copy) {
 
-          if(!Cairo.Database.execute(sqlstmt, "saveItemsInformes", C_MODULE)) { return false; }
+          transaction.setDeletedList(m_itemsDeletedInf);
         }
 
-        mainTransaction.addTransaction(transaction);
+        mainRegister.addTransaction(transaction);
 
         return true;
       };
 
-      var saveItemsEmpresa = function(mainTransaction) {
-        var transaction = new Cairo.Database.Transaction();
-
-        if(!Cairo.Database.execute(sqlstmt, "saveItemsEmpresa", C_MODULE)) { return false; }
+      var saveItemsEmpresa = function(mainRegister) {
+        var transaction = DB.createTransaction();
+        transaction.setTable(C.EMPRESA_CLIENTE);
 
         var property = m_dialog.getProperties().item(C_EMPRESAS);
-        var row = null;
 
-        var _count = property.getGrid().getRows().size();
-        for (var _i = 0; _i < _count; _i++) {
-          row = property.getGrid().getRows().item(_i);
+        var rows = property.getGrid().getRows();
+        var _count = rows.size();
+        for(var _i = 0; _i < _count; _i++) {
 
-          if(Dialogs.cell(row, KI_EMPCLI_ID).getID()) {
+          var row = rows.item(_i);
 
-            var register = new Cairo.Database.Register();
+          if(val(Dialogs.cell(row, KI_EMPCLI_ID).getId()) !== 0 ) {
+
+            var register = new DB.Register();
 
             var fields = register.getFields();
             register.setFieldId(C.EMP_CLI_ID);
-            register.setTable(C.EMPRESACLIENTE);
+            register.setTable(C.EMPRESA_CLIENTE);
             register.setId(Cairo.Constants.NEW_ID);
 
-            fields.add(Cairo.Constants.EMP_ID, Dialogs.cell(row, KI_EMP_ID).getID(), Types.id);
-
-            fields.add(C.CLI_ID, m_id, Types.id);
+            fields.add(C.EMP_ID, val(Dialogs.cell(row, KI_EMP_ID).getId()), Types.id);
 
             transaction.addRegister(register);
           }
         }
 
-        mainTransaction.addTransaction(transaction);
+        mainRegister.addTransaction(transaction);
 
         return true;
       };
 
-      var saveItemsCuentaGrupo = function(mainTransaction) {
-        var transaction = new Cairo.Database.Transaction();
+      var saveItemsCuentaGrupo = function(mainRegister) {
+        var transaction = DB.createTransaction();
+        transaction.setTable(C.CLIENTE_CUENTA_GRUPO);
 
         var property = m_dialog.getProperties().item(C_CUENTAGRUPO);
-        var row = null;
-        var cell = null;
 
-        var _count = property.getGrid().getRows().size();
-        for (var _i = 0; _i < _count; _i++) {
-          row = property.getGrid().getRows().item(_i);
+        var rows = property.getGrid().getRows();
+        var _count = rows.size();
+        for(var _i = 0; _i < _count; _i++) {
 
-          var register = new Cairo.Database.Register();
+          var row = rows.item(_i);
+
+          var register = new DB.Register();
 
           var fields = register.getFields();
           register.setFieldId(C.CLI_CUEG_ID);
-          register.setTable(C.CLIENTECUENTAGRUPO);
+          register.setTable(C.CLIENTE_CUENTA_GRUPO);
           register.setId(Cairo.Constants.NEW_ID);
 
           var _count = row.size();
-          for (var _j = 0; _j < _count; _j++) {
-            cell = row.item(_j);
+          for(var _j = 0; _j < _count; _j++) {
+
+            var cell = row.item(_j);
+
             switch (cell.getKey()) {
 
               case KI_CLICUEG_ID:
-                if(!m_copy) {
-                  register.setId(val(cell.getValue()));
+                if(m_copy) {
+                  fields.add(C.CLI_CUEG_ID, Cairo.Constants.NEW_ID, Types.integer);
                 }
+                else {
+                  fields.add(C.CLI_CUEG_ID, val(cell.getValue()), Types.integer);
+                }
+                break;
                 break;
 
               case KI_CUEG_ID:
@@ -3207,29 +3251,29 @@
           transaction.addRegister(register);
         }
 
-        if(LenB(m_itemsDeletedCuentaGrupo) && !m_copy) {
-          m_itemsDeletedCuentaGrupo = RemoveLastColon(m_itemsDeletedCuentaGrupo);
+        if(m_itemsDeletedCuentaGrupo !== "" && !m_copy) {
 
-          if(!Cairo.Database.execute(sqlstmt, "saveItemsCuentaGrupo", C_MODULE)) { return false; }
+          transaction.setDeletedList(m_itemsDeletedCuentaGrupo);
         }
 
-        mainTransaction.addTransaction(transaction);
+        mainRegister.addTransaction(transaction);
 
         return true;
       };
 
-      var saveItemsContacto = function(mainTransaction) {
-        var transaction = new Cairo.Database.Transaction();
+      var saveItemsContacto = function(mainRegister) {
+        var transaction = DB.createTransaction();
+        transaction.setTable(C.CONTACTO);
 
         var property = m_dialog.getProperties().item(C_CONTACTO);
-        var row = null;
-        var cell = null;
 
-        var _count = property.getGrid().getRows().size();
-        for (var _i = 0; _i < _count; _i++) {
-          row = property.getGrid().getRows().item(_i);
+        var rows = property.getGrid().getRows();
+        var _count = rows.size();
+        for(var _i = 0; _i < _count; _i++) {
 
-          var register = new Cairo.Database.Register();
+          var row = rows.item(_i);
+
+          var register = new DB.Register();
 
           var fields = register.getFields();
           register.setFieldId(C.CONT_ID);
@@ -3237,14 +3281,20 @@
           register.setId(Cairo.Constants.NEW_ID);
 
           var _count = row.size();
-          for (var _j = 0; _j < _count; _j++) {
-            cell = row.item(_j);
+          for(var _j = 0; _j < _count; _j++) {
+
+            var cell = row.item(_j);
+
             switch (cell.getKey()) {
 
               case KI_CONT_ID:
-                if(!m_copy) {
-                  register.setId(val(cell.getValue()));
+                if(m_copy) {
+                  fields.add(C.CONT_ID, Cairo.Constants.NEW_ID, Types.integer);
                 }
+                else {
+                  fields.add(C.CONT_ID, val(cell.getValue()), Types.integer);
+                }
+                break;
                 break;
 
               case KI_NOMBRE:
@@ -3252,7 +3302,7 @@
                 break;
 
               case KI_CODIGO:
-                fields.add(C.CONT_CODE, LenB(cell.getValue()) ? cell.getValue() : Cairo.Constants.GET_CODE_FROM_ID), Types.text);
+                fields.add(C.CONT_CODE, (cell.getValue() !== "" ? cell.getValue() : Cairo.Constants.GET_CODE_FROM_ID), Types.text);
                 break;
 
               case KI_DESCRIP:
@@ -3287,16 +3337,15 @@
 
           fields.add(C.CLI_ID, m_id, Types.id);
 
-          if(!Cairo.Database.saveEx(register, , C.CONT_CODE, "saveItemsContacto", C_MODULE, c_ErrorSave)) { return false; }
+          transaction.addRegister(register);
         }
 
-        if(LenB(m_itemsDeletedContacto) && !m_copy) {
-          m_itemsDeletedContacto = RemoveLastColon(m_itemsDeletedContacto);
+        if(m_itemsDeletedContacto !== "" && !m_copy) {
 
-          if(!Cairo.Database.execute(sqlstmt, "saveItemsContacto", C_MODULE)) { return false; }
+          transaction.setDeletedList(m_itemsDeletedContacto);
         }
 
-        mainTransaction.addTransaction(transaction);
+        mainRegister.addTransaction(transaction);
 
         return true;
       };
@@ -3307,7 +3356,7 @@
         var strRow = " (Row: " + rowIndex.toString() + ")";
 
         var _count = row.size();
-        for (var _i = 0; _i < _count; _i++) {
+        for(var _i = 0; _i < _count; _i++) {
           cell = row.item(_i);
           switch (cell.getKey()) {
             case KI_S_NOMBRE:
@@ -3321,100 +3370,55 @@
         return P.resolvedPromise(true);
       };
 
-      // Esta funcion esta practicamente copiada en cClientePV
-      // si detectan un bug, por favor vean dicha funcion
-      //
       var validateCuitCliente = function(cuit) {
-        var _rtn = null;
-        try {
+        if(cuit.trim() !== "") {
+          return D.validateNroCuit(cuit, false)
+            .whenSuccess(call(D.checkCuitClienteIsNotAlreadyUsed, cuit, m_id));
+        }
+        else {
+          var ask = false;
+          var msg = "";
 
-          var sqlstmt = null;
-          var rs = null;
+          switch (m_dialog.getProperties().item(C.CLI_CAT_FISCAL).getListItemData()) {
+            case C.CategoriaFiscal.consumidorFinal:
+              ask = false;
+              break;
 
-          if(LenB(cuit)) {
+            case C.CategoriaFiscal.inscripto:
+            case C.CategoriaFiscal.exento:
+            case C.CategoriaFiscal.extranjero:
+            case C.CategoriaFiscal.monotributo:
+            case C.CategoriaFiscal.extranjeroIva:
+            case C.CategoriaFiscal.noResponsable:
+            case C.CategoriaFiscal.noResponsableExento:
+            case C.CategoriaFiscal.noCategorizado:
+            case C.CategoriaFiscal.inscriptoM:
+              ask = true;
+              break;
 
-            if(!Object.validateNroCuit(cuit, false)) { return _rtn; }
-
-            sqlstmt = "sp_ClienteValidateCuit "+ Cairo.Database.sqlString(cuit);
-
-            if(!Cairo.Database.openRs(sqlstmt, rs)) { return _rtn; }
-
-            if(!rs.isEOF()) {
-
-              var cli_id = null;
-
-              if(!m_copy) {
-                cli_id = m_id;
-              }
-
-              if(cli_id !== valField(rs.getFields(), C.CLI_ID)) {
-                // If Not Ask("El CUIT ya esta usado por el cliente " & _
-                //          gDB.ValField(rs.fields, cscCliRazonsocial) & _
-                //          ";;óConfirma que desea grabar este cliente con el mismo CUIT?", vbNo) Then
-                if(!Ask(getText(1527, "", valField(rs.getFields(), C.CLI_RAZONSOCIAL)), vbNo)) {
-                  return _rtn;
-                }
-              }
-            }
-          }
-          else {
-
-            var bAsk = null;
-            var msg = null;
-
-            switch (m_dialog.getProperties().item(C.CLI_CATFISCAL).getListItemData()) {
-              case csCatFiscal.cSCATFCONSUMIDORFINAL:
-                bAsk = false;
-                break;
-
-              case C.CategoriaFiscal.inscripto:
-              case csCatFiscal.cSCATFEXENTO:
-              case csCatFiscal.cSCATFEXTRANJERO:
-              case csCatFiscal.cSCATFMONOTRIBUTO:
-              case csCatFiscal.cSCATFEXTRANJEROIVA:
-              case csCatFiscal.cSCATFNORESPONSABLE:
-              case csCatFiscal.cSCATFNORESPONSABLEEXENTO:
-              case csCatFiscal.cSCATFNOCATEGORIZADO:
-              case C.CategoriaFiscal.inscriptoM:
-                bAsk = true;
-                break;
-
-              default:
-                bAsk = true;
-                break;
-            }
-
-            if(bAsk) {
-              // Para poder guardar un cliente con esta categoría fiscal " & _
-              // deben indicar un número de CUIT. Si guarda sin el CUIT el cliente quedará inactivo.
-              //
-              msg = getText(1528, "");
-
-              // ¿Desea guardar los cambios de todas formas?
-              if(!Ask(msg+ "\\r\\n\\r\\n"+ getText(1529, ""), vbYes)) {
-
-                return _rtn;
-              }
-              else {
-                var properties = m_dialog.getProperties();
-                properties.item(Cairo.Constants.ACTIVE).setValue(0);
-                m_dialog.showValue(properties.item(Cairo.Constants.ACTIVE));
-              }
-            }
-
+            default:
+              ask = true;
+              break;
           }
 
-          _rtn = true;
+          if(ask) {
+            // Para poder guardar un cliente con esta categoría fiscal " & _
+            // deben indicar un número de CUIT. Si guarda sin el CUIT el cliente quedará inactivo.
+            //
+            msg = getText(1528, "");
 
-          
-        }
-        catch (ex) {
-          Cairo.manageErrorEx(ex.message, "validateCuitCliente", C_MODULE, "");
-          
-        }
-        
+            // ¿Desea guardar los cambios de todas formas?
+            if(!Ask(msg+ "\\r\\n\\r\\n"+ getText(1529, ""), vbYes)) {
 
-        return _rtn;
+              return _rtn;
+            }
+            else {
+              var properties = m_dialog.getProperties();
+              properties.item(Cairo.Constants.ACTIVE).setValue(0);
+              m_dialog.showValue(properties.item(Cairo.Constants.ACTIVE));
+            }
+          }
+        }
       };
 
       var sendMailToClient = function(bNewUser, bAsk) {
@@ -3439,7 +3443,7 @@
 
           us_nombre = user.getName();
 
-          if(LenB(m_email)) {
+          if(m_email !== "") {
 
             if(bAsk) {
 
@@ -3469,7 +3473,7 @@
 
               msg = webMailGetMessage();
 
-              if(LenB(msg) === 0) {
+              if(msg === "") {
 
                 // Le notificamos que hemos creado una cuenta de usuario
                 // para que Ud. acceda a nuestra extranet
@@ -3521,9 +3525,9 @@
         var sqlstmt = null;
         var rs = null;
 
-        sqlstmt = "select * from configuracion where cfg_grupo = "+ Cairo.Database.sqlString(C_GRUPOGENERAL)+ " And cfg_aspecto = "+ Cairo.Database.sqlString(C_WEBUSERMAILLEYENDA);
+        sqlstmt = "select * from configuracion where cfg_grupo = "+ DB.sqlString(C_GRUPOGENERAL)+ " And cfg_aspecto = "+ DB.sqlString(C_WEBUSERMAILLEYENDA);
 
-        if(!Cairo.Database.openRs(sqlstmt, rs, csTypeCursor.cSRSSTATIC, csTypeLock.cSLOCKREADONLY, csCommandType.cSCMDTEXT, C_LoadFunction, C_MODULE)) { return ""; }
+        if(!DB.openRs(sqlstmt, rs, csTypeCursor.cSRSSTATIC, csTypeLock.cSLOCKREADONLY, csCommandType.cSCMDTEXT, C_LoadFunction, C_MODULE)) { return ""; }
 
         if(!rs.isEOF()) {
           msg = valField(rs.getFields(), Cairo.Constants.CFG_VALOR);
@@ -3535,7 +3539,7 @@
       var copyListaPrecio = function(fromId, toId) {
         var sqlstmt = null;
         sqlstmt = "sp_clienteCopyListaPrecio "+ fromId.toString()+ ","+ toId.toString()+ ","+ cUtil.getUser().getId().toString();
-        return Cairo.Database.execute(sqlstmt);
+        return DB.execute(sqlstmt);
       };
 
       var getCtaGrupo = function() {
@@ -3695,7 +3699,7 @@
             if(!Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.DELETE_CLIENTE)) {
               return P.resolvedPromise(false);
             }
-            return Cairo.Database.destroy(m_apiPath + "general/cliente", id, Cairo.Constants.DELETE_FUNCTION, "Cliente").success(
+            return DB.destroy(m_apiPath + "general/cliente", id, Cairo.Constants.DELETE_FUNCTION, "Cliente").success(
               function() {
                 try {
                   var key = getKey(id);

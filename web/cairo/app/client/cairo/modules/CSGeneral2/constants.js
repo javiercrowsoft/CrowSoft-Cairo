@@ -264,7 +264,7 @@
       CUEG_TIPO: "cueg_tipo",
 
       // Cuenta Grupo Cliente
-      CLIENTECUENTAGRUPO: "ClienteCuentaGrupo",
+      CLIENTE_CUENTA_GRUPO: "ClienteCuentaGrupo",
       CLI_CUEG_ID: "clicueg_id",
 
       // Cuenta Grupo Proveedor
@@ -272,7 +272,7 @@
       PROV_CUEG_ID: "provcueg_id",
 
       // Percepcion Cliente
-      CLIENTEPERCEPCION: "ClientePercepcion",
+      CLIENTE_PERCEPCION: "ClientePercepcion",
       CLI_PERC_ID: "cliperc_id",
       CLI_PERC_DESDE: "cliperc_desde",
       CLI_PERC_HASTA: "cliperc_hasta",
@@ -632,7 +632,7 @@
       PROV_CCOS_ID: "provccos_id",
 
       // DepartamentoCliente
-      DEPARTAMENTOCLIENTE: "DepartamentoCliente",
+      DEPARTAMENTO_CLIENTE: "DepartamentoCliente",
       DPTO_CLI_ID: "dptocli_id",
 
       // Camion
@@ -1048,8 +1048,17 @@
       PRS_DEPTO: "prs_depto",
       PRS_ES_EMPLEADO: "prs_esempleado",
 
+      // Cliente Informe
+      CLIENTE_INFORME: "ClienteInforme",
+      CLI_INF_ID: "cli_inf_id",
+      CLI_INF_US_ID: "cli_inf_us_id",
+      CLI_INF_WEB: "cli_inf_web",
+
+      CLIENTE_INFORME_ITEM: "ClienteInformeItem",
+      CLI_INFI_ID: "cli_infi_id",
+
       // Empresa Cliente
-      EMPRESACLIENTE: "EmpresaCliente",
+      EMPRESA_CLIENTE: "EmpresaCliente",
       EMP_CLI_ID: "empcli_id",
 
       // Empresa Proveedor

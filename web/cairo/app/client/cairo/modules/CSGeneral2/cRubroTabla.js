@@ -211,7 +211,7 @@
         }
 
         var _count = m_dialog.getProperties().size();
-        for (var _i = 0; _i < _count; _i++) {
+        for(var _i = 0; _i < _count; _i++) {
           var property = m_dialog.getProperties().item(_i);
           switch (property.getKey()) {
             case K_NAME:
@@ -294,7 +294,7 @@
         var property = null;
 
         var _count = m_dialog.getProperties().size();
-        for (var _i = 0; _i < _count; _i++) {
+        for(var _i = 0; _i < _count; _i++) {
           property = m_dialog.getProperties().item(_i);
           switch (property.getKey()) {
             case K_NAME:
@@ -620,7 +620,7 @@
 
         var rows = property.getGrid().getRows();
         var _count = rows.size();
-        for (var _i = 0; _i < _count; _i++) {
+        for(var _i = 0; _i < _count; _i++) {
 
           var row = rows.item(_i);
 
@@ -632,7 +632,7 @@
           register.setId(Cairo.Constants.NEW_ID);
 
           var _countj = row.size();
-          for (var _j = 0; _j < _countj; _j++) {
+          for(var _j = 0; _j < _countj; _j++) {
 
             var cell = row.item(_j);
 
@@ -762,7 +762,7 @@
         var strRow = " (Row: " + rowIndex.toString() + ")";
 
         var _count = row.size();
-        for (var _i = 0; _i < _count; _i++) {
+        for(var _i = 0; _i < _count; _i++) {
           cell = row.item(_i);
           switch (cell.getKey()) {
             case KI_NOMBRE:
@@ -787,7 +787,7 @@
         var bRowIsEmpty = true;
 
         var _count = row.size();
-        for (var _i = 0; _i < _count; _i++) {
+        for(var _i = 0; _i < _count; _i++) {
           cell = row.item(_i);
           switch (cell.getKey()) {
             case KI_NOMBRE:
