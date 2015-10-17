@@ -303,6 +303,11 @@ GET     /api/v1/general/cliente/:id/cat_fiscal              controllers.logged.m
 GET     /api/v1/general/cliente/:id/data_add                controllers.logged.modules.general.Clientes.dataAdd(id: Int)
 GET     /api/v1/general/cliente/:id/percepciones/:fecha     controllers.logged.modules.general.Clientes.getPercepciones(id: Int, fecha: String)
 
+GET     /api/v1/general/cliente/:id              controllers.logged.modules.general.Clientes.get(id: Int)
+POST    /api/v1/general/cliente                  controllers.logged.modules.general.Clientes.create
+PUT     /api/v1/general/cliente/:id              controllers.logged.modules.general.Clientes.update(id: Int)
+DELETE  /api/v1/general/cliente/:id              controllers.logged.modules.general.Clientes.delete(id: Int)
+
 GET     /api/v1/general/fechacontrolacceso/:id              controllers.logged.modules.general.FechaControlAccesos.get(id: Int)
 POST    /api/v1/general/fechacontrolacceso                  controllers.logged.modules.general.FechaControlAccesos.create
 PUT     /api/v1/general/fechacontrolacceso/:id              controllers.logged.modules.general.FechaControlAccesos.update(id: Int)

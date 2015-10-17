@@ -13,6 +13,56 @@ import models.cairo.system.security.CairoSecurity
 import models.cairo.system.database.{Recordset, DBHelper}
 import formatters.json.DateFormatter._
 
+case class ClienteData(
+                        id: Option[Int],
+                        name: String,
+                        razonsocial: String,
+                        code: String,
+                        active: Boolean,
+                        esProspecto: Boolean,
+                        catfiscal: Int,
+                        cuit: String,
+                        ingresosbrutos: String,
+                        idPadre: Int,
+                        contacto: String,
+                        chequeorden: String,
+                        cpgId: Int,
+                        fpId: Int,
+                        lpId: Int,
+                        ldId: Int,
+                        venId: Int,
+                        transId: Int,
+                        exigeTransporte: Boolean,
+                        exigeProvincia: Boolean,
+                        pciaTransporte: Boolean,
+                        creditoctacte: Double,
+                        creditototal: Double,
+                        creditoactivo: Boolean,
+                        descrip: String,
+                        calle: String,
+                        callenumero: String,
+                        piso: String,
+                        depto: String,
+                        codpostal: String,
+                        cpaId: Int,
+                        horarioMdesde: Date,
+                        horarioMhasta: Date,
+                        horarioTdesde: Date,
+                        horarioThasta: Date,
+                        localidad: String,
+                        proId: Int,
+                        zonId: Int,
+                        tel: String,
+                        fax: String,
+                        email: String,
+                        web: String,
+                        messanger: String,
+                        yahoo: String,
+                        clictId: Int,
+                        idReferido: Int,
+                        proyId: Int
+                        )
+
 
 object Clientes extends Controller with ProvidesUser {
 

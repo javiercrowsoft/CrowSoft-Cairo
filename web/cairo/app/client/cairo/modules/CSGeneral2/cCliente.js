@@ -3402,144 +3402,53 @@
           }
 
           if(ask) {
-            // Para poder guardar un cliente con esta categoría fiscal " & _
+            // Para poder guardar un cliente con esta categoría fiscal "
             // deben indicar un número de CUIT. Si guarda sin el CUIT el cliente quedará inactivo.
             //
-            msg = getText(1528, "");
+            msg = getText(1528, "") + "\\r\\n\\r\\n" + getText(1529, ""); // ¿Desea guardar los cambios de todas formas?
 
-            // ¿Desea guardar los cambios de todas formas?
-            if(!Ask(msg+ "\\r\\n\\r\\n"+ getText(1529, ""), vbYes)) {
-
-              return _rtn;
-            }
-            else {
+            return Cairo.Modal.confirmViewYesDanger("", msg).whenSuccess(function() {
               var properties = m_dialog.getProperties();
               properties.item(Cairo.Constants.ACTIVE).setValue(0);
               m_dialog.showValue(properties.item(Cairo.Constants.ACTIVE));
-            }
+              return true;
+            });
           }
         }
       };
 
-      var sendMailToClient = function(bNewUser, bAsk) {
+      var sendMailToClient = function(newUser, ask) {
 
-        var us_clave = null;
-        var us_nombre = null;
-        var bSend = null;
-
-        if(bNewUser && m_us_id !== NO_ID && m_us_activo) {
-
-          var user = null;
-          user = new CSOAPI2.cUsuario();
-
-          user.GetUser(m_us_id);
-
-          var pwd = null;
-          pwd = CSKernelClient2.CreateObject("CSMail.cUtil");
-
-          us_clave = pwd.GeneratePassword(false).toUpperCase();
-
-          if(!user.changePassword(us_clave)) { return; }
-
-          us_nombre = user.getName();
+        if(newUser && m_us_id !== NO_ID && m_us_activo) {
 
           if(m_email !== "") {
 
-            if(bAsk) {
+            var p = null;
+
+            if(ask) {
 
               // Desea enviar un e-mail al cliente notificandole el alta de su usuario en la extranet?
               //
-              bSend = Ask(getText(1530, ""), vbYes);
+              p = Cairo.Modal.confirmViewYesDefault("", getText(1530, ""));
 
             }
             else {
-              bSend = true;
+              p = P.resolvedPromise(true);
             }
 
-            if(bSend) {
-              var mail = null;
+            p.whenSuccess(function() {
 
-              mail = CSKernelClient2.CreateObject("CSMail.cMail");
-
-              var config = null;
-              config = new cGeneralConfig();
-
-              var subject = null;
-              var body = null;
-
-              subject = getText(1539, ""); // Notificación de alta de Usuario
-
-              var msg = null;
-
-              msg = webMailGetMessage();
-
-              if(msg === "") {
-
-                // Le notificamos que hemos creado una cuenta de usuario
-                // para que Ud. acceda a nuestra extranet
-                // Usuario:
-                // Contraseña:
-                //
-                msg = getText(1538, "", us_nombre, us_clave);
-
-              }
-              else {
-                if(msg.indexOf("@@usuario", 1)) {
-                  msg = msg.Replace("@@usuario", us_nombre);
+              D.customerSendUserCredentials(m_id).then(function(resutl) {
+                if(result.success) {
+                  return Cairo.Modal.showInfoWithFalse(getText(1531, "")); // El mail se envio con éxito
                 }
                 else {
-                  // Usuario:(1)
-                  msg = msg+ "\\r\\n\\r\\n"+ getText(1540, "", us_nombre);
+                  return Cairo.Modal.showInfoWithFalse(getText(1542, "")); // El mail falló
                 }
-                if(msg.indexOf("@@clave", 1)) {
-                  msg = msg.Replace("@@clave", us_clave);
-                }
-                else {
-                  // Contraseña:(1)
-                  msg = msg+ "\\r\\n"+ getText(1540, "", us_clave);
-                }
-              }
-
-              body = msg;
-
-              if(!config.Load()) { return; }
-
-              if(mail.SendEmail(m_email, config.getEmailAddress(), config.getEmailAddress(), config.getEmailServer(), config.getEmailPort(), config.getEmailUser(), config.getEmailPwd(), subject, body)) {
-                return Cairo.Modal.showInfoWithFalse(getText(1531, ""));
-                // El mail se envio con éxito
-              }
-              else {
-                MsgWarning(getText(1542, "", mail.errNumber, mail.ErrDescrip));
-                // El mail falló
-              }
-            }
-
+              });
+            });
           }
-
         }
-
-      };
-
-      var webMailGetMessage = function() {
-        var msg = null;
-        var sqlstmt = null;
-        var rs = null;
-
-        sqlstmt = "select * from configuracion where cfg_grupo = "+ DB.sqlString(C_GRUPOGENERAL)+ " And cfg_aspecto = "+ DB.sqlString(C_WEBUSERMAILLEYENDA);
-
-        if(!DB.openRs(sqlstmt, rs, csTypeCursor.cSRSSTATIC, csTypeLock.cSLOCKREADONLY, csCommandType.cSCMDTEXT, C_LoadFunction, C_MODULE)) { return ""; }
-
-        if(!rs.isEOF()) {
-          msg = valField(rs.getFields(), Cairo.Constants.CFG_VALOR);
-        }
-
-        return msg;
-      };
-
-      var copyListaPrecio = function(fromId, toId) {
-        var sqlstmt = null;
-        sqlstmt = "sp_clienteCopyListaPrecio "+ fromId.toString()+ ","+ toId.toString()+ ","+ cUtil.getUser().getId().toString();
-        return DB.execute(sqlstmt);
       };
 
       var getCtaGrupo = function() {
@@ -3591,13 +3500,24 @@
 
     Edit.Controller = { getEditor: createObject };
 
+    Edit.Controller.edit = function(id) {
+      var editor = Cairo.Cliente.Edit.Controller.getEditor();
+      var dialog = Cairo.Dialogs.Views.Controller.newDialog();
+
+      editor.setDialog(dialog);
+      editor.edit(id);
+    };
+
   });
 
   Cairo.module("Cliente.List", function(List, Cairo, Backbone, Marionette, $, _) {
+    var NO_ID = Cairo.Constants.NO_ID;
+
     List.Controller = {
       list: function() {
 
         var self = this;
+        var m_apiPath = Cairo.Database.getAPIVersion();
 
         /*
          this function will be called by the tab manager every time the
@@ -3697,9 +3617,9 @@
 
           self.destroy = function(id, treeId, branchId) {
             if(!Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.DELETE_CLIENTE)) {
-              return P.resolvedPromise(false);
+              return Cairo.Promises.resolvedPromise(false);
             }
-            return DB.destroy(m_apiPath + "general/cliente", id, Cairo.Constants.DELETE_FUNCTION, "Cliente").success(
+            return Cairo.Database.destroy(m_apiPath + "general/cliente", id, Cairo.Constants.DELETE_FUNCTION, "Cliente").whenSuccess(
               function() {
                 try {
                   var key = getKey(id);
@@ -3717,7 +3637,7 @@
 
           // progress message
           //
-          Cairo.LoadingMessage.show("Clientes", "Loading cliente from Crowsoft Cairo server.");
+          Cairo.LoadingMessage.show("Clientes", "Loading Clientes from CrowSoft Cairo server.");
 
           // create the tree region
           //
@@ -3748,6 +3668,5 @@
       }
     };
   });
-
 
 }());

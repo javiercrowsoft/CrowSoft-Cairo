@@ -23,6 +23,7 @@ Cairo.VentaConfig = {};
 Cairo.SearchZona = {};
 
 Cairo.Producto = {};
+Cairo.Proveedor = {};
 Cairo.Cliente = {};
 
 Cairo.EditDocumento = {};
