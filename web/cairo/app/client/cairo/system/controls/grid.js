@@ -1186,6 +1186,7 @@
               var nextTD = nextEditableTD(td.parentNode.childNodes, td.cellIndex+1);
               if(nextTD !== null) {
                 nextTD.focus();
+                selectRow(nextTD);
               }
             }
             else if(index === td.parentNode.childNodes.length) {
@@ -1195,7 +1196,23 @@
                 var nextTD = nextEditableTD(tr.parentNode.childNodes.item(index).childNodes, 1);
                 if(nextTD !== null) {
                   nextTD.focus();
+                  selectRow(nextTD);
                 }
+              }
+              else if(index > 0) {
+                // request a new row
+                //
+                // next prepare to start editing this cell
+                //
+                var args = {
+                  row: tr.rowIndex - 1, /* first row contains headers */
+                  col: 0
+                };
+                raiseEventAndThen(
+                  'onValidateRow',
+                  args,
+                  thenIfSuccessCall(addRow, td)
+                );
               }
             }
           });
