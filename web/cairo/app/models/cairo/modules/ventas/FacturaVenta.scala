@@ -1300,7 +1300,7 @@ object FacturaVenta {
         Field(C.FV_ORDEN_COMPRA, facturaVenta.base.ordenCompra, FieldType.text),
         Field(C.FV_CAI, facturaVenta.base.cai, FieldType.text),
         Field(C.FV_DESCRIP, facturaVenta.base.descrip, FieldType.text),
-        Field(C.FV_GRABAR_ASIENTO, (if(facturaVenta.base.grabarAsiento) 1 else 0), FieldType.boolean),
+        Field(C.FV_GRABAR_ASIENTO, Register.boolToInt(facturaVenta.base.grabarAsiento), FieldType.boolean),
 
         Field(C.FV_FECHA, facturaVenta.dates.fecha, FieldType.date),
         Field(C.FV_FECHA_ENTREGA, facturaVenta.dates.fechaEntrega, FieldType.date),

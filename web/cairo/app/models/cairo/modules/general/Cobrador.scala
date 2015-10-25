@@ -168,7 +168,7 @@ object Cobrador {
       List(
         Field(C.COB_NAME, cobrador.name, FieldType.text),
         Field(C.COB_CODE, cobrador.code, FieldType.text),
-        Field(DBHelper.ACTIVE, (if(cobrador.active) 1 else 0), FieldType.boolean),
+        Field(DBHelper.ACTIVE, Register.boolToInt(cobrador.active), FieldType.boolean),
         Field(C.REL_ID, cobrador.relId, FieldType.id),
         Field(C.COB_COMISION, cobrador.comision, FieldType.number),
         Field(C.COB_DESCRIP, cobrador.descrip, FieldType.text)

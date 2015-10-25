@@ -151,7 +151,7 @@ object FechaControlAcceso {
       List(
         Field(C.FCA_NAME, fechaControlAcceso.name, FieldType.text),
         Field(C.FCA_CODE, fechaControlAcceso.code, FieldType.text),
-        Field(DBHelper.ACTIVE, (if(fechaControlAcceso.active) 1 else 0), FieldType.boolean),
+        Field(DBHelper.ACTIVE, Register.boolToInt(fechaControlAcceso.active), FieldType.boolean),
         Field(C.FCA_FECHA_DESDE, fechaControlAcceso.desde, FieldType.text),
         Field(C.FCA_FECHA_HASTA, fechaControlAcceso.hasta, FieldType.text)
       )

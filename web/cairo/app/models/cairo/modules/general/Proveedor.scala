@@ -665,12 +665,12 @@ object Proveedor {
   private def save(user: CompanyUser, proveedor: Proveedor, isNew: Boolean): Proveedor = {
     def getFields = {
       List(
-        Field(DBHelper.ACTIVE, (if(proveedor.active) 1 else 0), FieldType.boolean),
+        Field(DBHelper.ACTIVE, Register.boolToInt(proveedor.active), FieldType.boolean),
         Field(C.PROV_CODE, proveedor.code, FieldType.text),
 
         Field(C.PROV_NAME, proveedor.base.name, FieldType.text),
         Field(C.PROV_RAZONSOCIAL, proveedor.base.razonSocial, FieldType.text),
-        Field(C.PROV_IMPRIME_TICKET, (if(proveedor.base.imprimeTicket) 1 else 0), FieldType.boolean),
+        Field(C.PROV_IMPRIME_TICKET, Register.boolToInt(proveedor.base.imprimeTicket), FieldType.boolean),
         Field(C.PROV_CONTACTO, proveedor.base.contacto, FieldType.text),
         Field(C.PROV_CUIT, proveedor.base.cuit, FieldType.text),
         Field(C.PROV_INGRESOSBRUTOS, proveedor.base.ingresosBrutos, FieldType.text),
@@ -681,7 +681,7 @@ object Proveedor {
         Field(C.PROV_NRO_CLIENTE, proveedor.base.nroCliente, FieldType.text),
         Field(C.PROV_CREDITOCTACTE, proveedor.base.creditoCtaCte, FieldType.number),
         Field(C.PROV_CREDITOTOTAL, proveedor.base.creditoTotal, FieldType.number),
-        Field(C.PROV_CREDITOACTIVO, (if(proveedor.base.creditoActivo) 1 else 0), FieldType.boolean),
+        Field(C.PROV_CREDITOACTIVO, Register.boolToInt(proveedor.base.creditoActivo), FieldType.boolean),
         Field(C.PROV_DESCRIP, proveedor.base.descrip, FieldType.text),
 
         Field(C.PROV_CALLE, proveedor.address.calle, FieldType.text),
@@ -954,7 +954,7 @@ object Proveedor {
 
       } catch {
         case NonFatal(e) => {
-          Logger.error(s"can't get ${C.PRODUCTO} with id $id for user ${user.toString}. Error ${e.toString}")
+          Logger.error(s"can't get ${C.PROVEEDOR} with id $id for user ${user.toString}. Error ${e.toString}")
           throw e
         }
       } finally {

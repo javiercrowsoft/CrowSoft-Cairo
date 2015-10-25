@@ -137,7 +137,7 @@ object Calidad {
       List(
         Field(C.CALID_NAME, calidad.name, FieldType.text),
         Field(C.CALID_CODE, calidad.code, FieldType.text),
-        Field(DBHelper.ACTIVE, (if(calidad.active) 1 else 0), FieldType.boolean),
+        Field(DBHelper.ACTIVE, Register.boolToInt(calidad.active), FieldType.boolean),
         Field(C.CALID_DESCRIP, calidad.descrip, FieldType.text)
       )
     }

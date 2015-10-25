@@ -173,7 +173,7 @@ object Zona {
       List(
         Field(C.ZON_NAME, zona.name, FieldType.text),
         Field(C.ZON_CODE, zona.code, FieldType.text),
-        Field(DBHelper.ACTIVE, (if(zona.active) 1 else 0), FieldType.boolean),
+        Field(DBHelper.ACTIVE, Register.boolToInt(zona.active), FieldType.boolean),
         Field(C.ZON_PRECIO, zona.precio, FieldType.number),
         Field(C.PR_ID, zona.prId, FieldType.id),
         Field(C.ZON_DESCRIP, zona.descrip, FieldType.text)

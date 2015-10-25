@@ -194,8 +194,8 @@ object Retenciontipo {
       List(
         Field(C.RETT_NAME, retencionTipo.name, FieldType.text),
         Field(C.RETT_CODE, retencionTipo.code, FieldType.text),
-        Field(DBHelper.ACTIVE, (if(retencionTipo.active) 1 else 0), FieldType.boolean),
-        Field(C.RETT_GENERA_SICORE, (if(retencionTipo.generaSicore) 1 else 0), FieldType.boolean),
+        Field(DBHelper.ACTIVE, Register.boolToInt(retencionTipo.active), FieldType.boolean),
+        Field(C.RETT_GENERA_SICORE, Register.boolToInt(retencionTipo.generaSicore), FieldType.boolean),
         Field(C.RETT_CODIGO_SICORE, retencionTipo.codigoSicore, FieldType.text),
         Field(C.CUE_ID, retencionTipo.cueId, FieldType.id),
         Field(C.RETT_TIPO, retencionTipo.tipo, FieldType.integer),

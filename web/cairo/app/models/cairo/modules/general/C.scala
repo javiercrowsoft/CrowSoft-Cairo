@@ -26,11 +26,19 @@ object C {
   val ITEMS = "items"
   val DELETED_LIST = "deletedList"
 
-  val PROVEEDOR_CAI_DELETED = "deletedCais"
+  val PROVEEDOR_CAI_DELETED = "deletedCai"
   val PROVEEDOR_CUENTA_GRUPO_DELETED = "deletedCuentaGrupo"
-  val PROVEEDOR_RETENCIONES_DELETED = "deletedRetenciones"
+  val PROVEEDOR_RETENCIONES_DELETED = "deletedRetencion"
   val PROVEEDOR_CENTRO_COSTO_DELETED = "deletedCentroCosto"
-  val PROVEEDOR_DEPARTAMENTO_DELETED = "deletedDepartamentos"
+  val PROVEEDOR_DEPARTAMENTO_DELETED = "deletedDepartamento"
+
+  val CLIENTE_ITEMS = "clienteItems"
+  val CLIENTE_SUCURSAL_DELETED = "deletedSucursalCliente"
+  val CLIENTE_CUENTA_GRUPO_DELETED = "deletedCuentaGrupo"
+  val CLIENTE_PERCEPCIONES_DELETED = "deletedPercepcion"
+  val CLIENTE_CONTACTO_DELETED = "deletedContacto"
+  val CLIENTE_DEPARTAMENTO_DELETED = "deletedDepartamento"
+  val CLIENTE_INFORME_DELETED = "deletedInforme"
 
   val PRODUCTO_ITEMS = "productoItems"
   val PRODUCTO_PROVEEDOR_DELETED = "deletedProveedor"
@@ -46,6 +54,9 @@ object C {
   val EDITABLE = "editable"
   val HAS_IVA_RI = "bIvaRi"
   val HAS_IVA_RNI = "bIvaRni"
+
+  val PERMISO = "Permiso"
+  val PER_ID = "per_id"
 
   // Provincia
   val PROVINCIA = "Provincia"
@@ -96,14 +107,14 @@ object C {
   val TI_TIPO = "ti_tipo"
 
   // SucursalCliente
-  val CLIENTESUCURSAL = "ClienteSucursal"
+  val CLIENTE_SUCURSAL = "ClienteSucursal"
   val CLIS_ID = "clis_id"
   val CLIS_NAME = "clis_nombre"
   val CLIS_CODE = "clis_codigo"
   val CLIS_DESCRIP = "clis_descrip"
   val CLIS_LOCALIDAD = "clis_localidad"
   val CLIS_CALLE = "clis_calle"
-  val CLIS_CALLENUMERO = "clis_callenumero"
+  val CLIS_CALLE_NUMERO = "clis_callenumero"
   val CLIS_PISO = "clis_piso"
   val CLIS_DEPTO = "clis_depto"
   val CLIS_TEL = "clis_tel"
@@ -148,7 +159,7 @@ object C {
   val CUE_NAME_VENTA = "cue_name_venta"
 
   // TarjetaCreditoCuota
-  val TARJETACREDITOCUOTA = "TarjetaCreditoCuota"
+  val TARJETA_CREDITO_CUOTA = "TarjetaCreditoCuota"
   val TJCCU_ID = "tjccu_id"
   val TJCCU_CANTIDAD = "tjccu_cantidad"
   val TJCCU_COMISION = "tjccu_comision"
@@ -167,7 +178,7 @@ object C {
   val CUE_ES_TICKET = "cue_esticket"
 
   // Cuenta Grupo
-  val CUENTAGRUPO = "CuentaGrupo"
+  val CUENTA_GRUPO = "CuentaGrupo"
   val CUEG_ID = "cueg_id"
   val CUEG_NAME = "cueg_nombre"
   val CUEG_CODE = "cueg_codigo"
@@ -183,7 +194,7 @@ object C {
   val PROV_CUEG_ID = "provcueg_id"
 
   // Percepcion Cliente
-  val CLIENTEPERCEPCION = "ClientePercepcion"
+  val CLIENTE_PERCEPCION = "ClientePercepcion"
   val CLI_PERC_ID = "cliperc_id"
   val CLI_PERC_DESDE = "cliperc_desde"
   val CLI_PERC_HASTA = "cliperc_hasta"
@@ -195,7 +206,7 @@ object C {
   val PROV_RET_HASTA = "provret_hasta"
 
   // CuentaCategoria
-  val CUENTACATEGORIA = "CuentaCategoria"
+  val CUENTA_CATEGORIA = "CuentaCategoria"
   val CUEC_ID = "cuec_id"
   val CUEC_NAME = "cuec_nombre"
   val CUEC_CODE = "cuec_codigo"
@@ -267,7 +278,7 @@ object C {
   val CLI_EMAIL = "cli_email"
   val CLI_WEB = "cli_web"
   val CLI_YAHOO = "cli_yahoo"
-  val CLI_MESSANGER = "cli_messanger"
+  val CLI_MESSENGER = "cli_messanger"
   val CLI_CREDITOCTACTE = "cli_creditoctacte"
   val CLI_CREDITOTOTAL = "cli_creditototal"
   val CLI_CREDITOACTIVO = "cli_creditoactivo"
@@ -282,6 +293,13 @@ object C {
   val CLI_HORARIO_MHASTA = "cli_horario_m_hasta"
   val CLI_HORARIO_TDESDE = "cli_horario_t_desde"
   val CLI_HORARIO_THASTA = "cli_horario_t_hasta"
+
+  val REFERIDO = "referido"
+  val US_ACTIVO = "us_activo"
+
+  val CLIENTE_BASE = "base"
+  val CLIENTE_REFERENCES = "references"
+  val CLIENTE_ADDRESS = "address"
 
   // Proveedor
   val PROVEEDOR = "Proveedor"
@@ -1335,6 +1353,11 @@ object C {
   val BRANCH = "Rama"
   val BRAN_ID = "ram_id"
   val BRAN_NAME = "ram_nombre"
+
+  val INFORME = "Informe"
+  val INF_ID = "inf_id"
+  val INF_CODE = "inf_code"
+  val INF_NAME = "inf_name"
 
   val REPORTE = "Reporte"
   val RPT_ID = "rpt_id"

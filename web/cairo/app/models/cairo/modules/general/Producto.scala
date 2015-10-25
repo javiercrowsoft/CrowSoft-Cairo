@@ -2228,7 +2228,7 @@ object Producto {
   private def save(user: CompanyUser, producto: Producto, isNew: Boolean): Producto = {
     def getFields = {
       List(
-        Field(DBHelper.ACTIVE, (if(producto.active) 1 else 0), FieldType.boolean),
+        Field(DBHelper.ACTIVE, Register.boolToInt(producto.active), FieldType.boolean),
         Field(C.PR_CODE, producto.code, FieldType.text),
 
         Field(C.PR_CODIGO_EXTERNO, producto.base.codigoExterno, FieldType.text),

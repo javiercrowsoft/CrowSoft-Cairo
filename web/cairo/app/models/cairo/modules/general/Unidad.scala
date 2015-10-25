@@ -124,7 +124,7 @@ object Unidad {
       List(
         Field(C.UN_NAME, unidad.name, FieldType.text),
         Field(C.UN_CODE, unidad.code, FieldType.text),
-        Field(DBHelper.ACTIVE, (if(unidad.active) 1 else 0), FieldType.boolean)
+        Field(DBHelper.ACTIVE, Register.boolToInt(unidad.active), FieldType.boolean)
       )
     }
     def throwException = {

@@ -225,7 +225,7 @@ object Chofer {
       List(
         Field(C.CHOF_NAME, chofer.name, FieldType.text),
         Field(C.CHOF_CODE, chofer.code, FieldType.text),
-        Field(DBHelper.ACTIVE, (if(chofer.active) 1 else 0), FieldType.boolean),
+        Field(DBHelper.ACTIVE, Register.boolToInt(chofer.active), FieldType.boolean),
         Field(C.TRANS_ID, chofer.transId, FieldType.id),
         Field(C.CAM_ID, chofer.camId, FieldType.id),
         Field(C.CHOF_DIRECCION, chofer.direccion, FieldType.text),

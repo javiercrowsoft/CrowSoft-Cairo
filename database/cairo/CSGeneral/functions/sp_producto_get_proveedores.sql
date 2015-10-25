@@ -98,7 +98,7 @@ begin
    rtn := 'rtn';
 
    open rtn for
-      ----------------------------------------------------------------------------------------------
+
       select prprov.prprov_id,
                      prprov.prprov_codigo,
                      prprov.prprov_codigobarra,

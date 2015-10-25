@@ -195,7 +195,7 @@ object TasaImpositiva {
       List(
         Field(C.TI_NAME, tasaImpositiva.name, FieldType.text),
         Field(C.TI_CODE, tasaImpositiva.code, FieldType.text),
-        Field(DBHelper.ACTIVE, (if(tasaImpositiva.active) 1 else 0), FieldType.boolean),
+        Field(DBHelper.ACTIVE, Register.boolToInt(tasaImpositiva.active), FieldType.boolean),
         Field(C.TI_PORCENTAJE, tasaImpositiva.porcentaje, FieldType.number),
         Field(C.CUE_ID, tasaImpositiva.cuecId, FieldType.id),
         Field(C.TI_CODIGO_DGI1, tasaImpositiva.codigoDgi1, FieldType.text),

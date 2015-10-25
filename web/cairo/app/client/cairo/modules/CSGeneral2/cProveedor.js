@@ -571,7 +571,7 @@
           switch (property.getKey()) {
             case K_NAME:
               if(valEmpty(property.getValue(), Types.text)) {
-                return Cairo.Modal.showInfoWithFalse(Cairo.Constants.MUST_SET_A_NAME);
+                return M.showInfoWithFalse(Cairo.Constants.MUST_SET_A_NAME);
               }
               else {
                 name = property.getValue();
@@ -592,7 +592,7 @@
 
             case K_CATFISCAL:
               if(valEmpty(property.getListItemData(), Types.integer)) {
-                return Cairo.Modal.showInfoWithFalse(getText(1174, "")); // Debe indicar una categoría fiscal
+                return M.showInfoWithFalse(getText(1174, "")); // Debe indicar una categoría fiscal
               }
               break;
 
@@ -611,7 +611,7 @@
         }
 
         if(creditoCC > creditoTotal) {
-          return Cairo.Modal.showInfoWithFalse(getText(1380, ""));
+          return M.showInfoWithFalse(getText(1380, ""));
           // El crédito en cuenta corriente no puede ser mayor que el crédito total
         }
 

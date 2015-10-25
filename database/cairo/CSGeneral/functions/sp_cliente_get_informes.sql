@@ -28,36 +28,47 @@ http://www.crowsoft.com.ar
 
 javier at crowsoft.com.ar
 */
--- Function: sp_proveedor_get_cai()
+-- Function: sp_cliente_get_informes()
 
--- drop function sp_proveedor_get_cai(integer);
+-- drop function sp_cliente_get_informes(integer);
+/*
+          select * from Departamentocliente;
+          select * from sp_cliente_get_informes(3);
+          fetch all from rtn;
+*/
 
-create or replace function sp_proveedor_get_cai
+create or replace function sp_cliente_get_informes
 (
-  in p_prov_id integer,
+  in p_cli_id integer,
   out rtn refcursor
 )
   returns refcursor as
 $BODY$
-
-begin   
+declare
+   v_us_id integer;
+begin
 
    rtn := 'rtn';
 
-   open rtn for
+   select us_id
+     into v_us_id
+     from Cliente
+      where cli_id = p_cli_id;
 
-      select provc.provc_id,
-             provc.provc_numero,
-             provc.provc_descrip,
-             provc.provc_sucursal,
-             provc.provc_fechavto
-      from proveedorCai provc
-      where provc.prov_id = p_prov_id
-      order by provc.provc_id;
+   open rtn for
+      select per.per_id,
+             inf.inf_id,
+             inf.inf_nombre,
+             inf.inf_codigo,
+             inf.pre_id
+      from Informe inf
+      join Permiso per
+        on inf.pre_id = per.pre_id
+      where per.us_id = v_us_id;
 
 end;
 $BODY$
   language plpgsql volatile
   cost 100;
-alter function sp_proveedor_get_cai(integer)
+alter function sp_cliente_get_informes(integer)
   owner to postgres;

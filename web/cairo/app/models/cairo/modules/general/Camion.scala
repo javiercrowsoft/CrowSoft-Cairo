@@ -211,7 +211,7 @@ object Camion {
     def getFields = {
       List(
         Field(C.CAM_CODE, camion.code, FieldType.text),
-        Field(DBHelper.ACTIVE, (if(camion.active) 1 else 0), FieldType.boolean),
+        Field(DBHelper.ACTIVE, Register.boolToInt(camion.active), FieldType.boolean),
         Field(C.CAM_ES_SEMI, camion.esSemi, FieldType.boolean),
         Field(C.CAM_PATENTE, camion.patente, FieldType.text),
         Field(C.CAM_PATENTESEMI, camion.patentesemi, FieldType.text),

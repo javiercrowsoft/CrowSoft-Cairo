@@ -26,18 +26,6 @@
 
       var C_MODULE = "cCliente";
 
-      var C_GRUPOGENERAL = "Ventas-General";
-      var C_WEBUSERMAILLEYENDA = "Leyenda para Usuarios de la Intranet";
-
-      var CSTBLPROYECTO = 2005;
-      var CSTBLINFORME = 7001;
-
-      var CSTPERMISO = "Permiso";
-      var CSCPER_ID = "per_id";
-      var CSCINF_ID = "inf_id";
-      var CSCINF_NAME = "inf_nombre";
-      var CSCINF_CODE = "inf_codigo";
-
       var C_PERCEPCION = "Percepcion";
       var C_EMPRESAS = "Empresas";
       var C_CUENTAGRUPO = "CuentaGrupo";
@@ -508,7 +496,7 @@
               break;
 
             case K_MESSANGER:
-              fields.add(C.CLI_MESSANGER, property.getValue(), Types.text);
+              fields.add(C.CLI_MESSENGER, property.getValue(), Types.text);
               break;
 
             case K_WEB:
@@ -702,7 +690,7 @@
           switch (property.getKey()) {
             case K_NAME:
               if(valEmpty(property.getValue(), Types.text)) {
-                return Cairo.Modal.showInfoWithFalse(Cairo.Constants.MUST_SET_A_NAME);
+                return M.showInfoWithFalse(Cairo.Constants.MUST_SET_A_NAME);
               }
               else {
                 nombre = property.getValue();
@@ -723,7 +711,7 @@
 
             case K_CATFISCAL:
               if(valEmpty(property.getListItemData(), Types.integer)) {
-                return Cairo.Modal.showInfoWithFalse(getText(1174, "")); // Debe indicar un categoria fiscal
+                return M.showInfoWithFalse(getText(1174, "")); // Debe indicar un categoria fiscal
               }
               break;
 
@@ -738,7 +726,7 @@
         }
 
         if(creditoCC > creditoTotal) {
-          return Cairo.Modal.showInfoWithFalse(getText(1380, ""));
+          return M.showInfoWithFalse(getText(1380, ""));
           // El crédito en cuenta corriente no puede ser mayor que el crédito total
         }
 
@@ -1031,7 +1019,7 @@
 
         var elem = properties.add(null, C.FP_ID);
         elem.setType(T.select);
-        elem.setSelectTable(Cairo.Tables.FORMAPAGO);
+        elem.setSelectTable(Cairo.Tables.FORMA_DE_PAGO);
         elem.setName(getText(3773, "")); // Forma de pago
         elem.setKey(K_FP_ID);
         elem.setValue(m_formapago);
@@ -1254,7 +1242,7 @@
         elem.setKey(K_WEB);
         elem.setValue(m_web);
 
-        var elem = properties.add(null, C.CLI_MESSANGER);
+        var elem = properties.add(null, C.CLI_MESSENGER);
         elem.setType(T.text);
         elem.setName(getText(1515, "")); // Contactos Messanger
         elem.setTabIndex(tab_direccion);
@@ -1379,7 +1367,7 @@
         elem.setType(T.grid);
         elem.hideLabel();
         setGridInformes(elem);
-        if(!loadInformes(elem)) { return false; }
+        loadInformes(elem);
         elem.setName(C_INFORMES);
         elem.setKey(K_INFORMES);
         elem.setTabIndex(tab_web);
@@ -1412,7 +1400,7 @@
 
         var elem = properties.add(null, C.PROY_ID);
         elem.setType(T.select);
-        elem.setTable(CSTBLPROYECTO);
+        elem.setSelectTable(Cairo.Tables.PROYECTO);
         elem.setName(getText(4663, "")); // Campaña de Marketing
         elem.setKey(K_PROY_ID);
         elem.setValue(m_proyecto);
@@ -1635,7 +1623,7 @@
           switch (cell.getKey()) {
             case KI_NOMBRE:
               if(valEmpty(cell.getValue(), Types.text)) {
-                return Cairo.Modal.showInfoWithFalse(Cairo.Constants.MUST_SET_A_NAME + strRow);
+                return M.showInfoWithFalse(Cairo.Constants.MUST_SET_A_NAME + strRow);
               }
               break;
           }
@@ -1653,7 +1641,7 @@
           switch (cell.getKey()) {
             case KI_DPTO_ID:
               if(valEmpty(cell.getId(), Types.id)) {
-                return Cairo.Modal.showInfoWithFalse(getText(1385, "", strRow));
+                return M.showInfoWithFalse(getText(1385, "", strRow));
                 // Debe indicar un departamento (1)
               }
               break;
@@ -1672,7 +1660,7 @@
           switch (cell.getKey()) {
             case KI_PERC_ID:
               if(valEmpty(cell.getId(), Types.id)) {
-                return Cairo.Modal.showInfoWithFalse(getText(1535, "", strRow));
+                return M.showInfoWithFalse(getText(1535, "", strRow));
                 // Debe indicar una percepción (1)
               }
               break;
@@ -1691,14 +1679,14 @@
           switch (cell.getKey()) {
             case KI_PRE_ID:
               if(valEmpty(cell.getId(), Types.id)) {
-                return Cairo.Modal.showInfoWithFalse(getText(1532, "", strRow));
+                return M.showInfoWithFalse(getText(1532, "", strRow));
                 // Este informe no posee una prestación y por tanto no puede asociarse al cliente (1)
               }
               break;
 
             case KI_INF_ID:
               if(valEmpty(cell.getId(), Types.id)) {
-                return Cairo.Modal.showInfoWithFalse(getText(1533, "", strRow));
+                return M.showInfoWithFalse(getText(1533, "", strRow));
                 // Debe indicar un informe (1)
               }
               break;
@@ -1717,14 +1705,14 @@
           switch (cell.getKey()) {
             case KI_CUEG_ID:
               if(valEmpty(cell.getId(), Types.id)) {
-                return Cairo.Modal.showInfoWithFalse(getText(1534, "", strRow));
+                return M.showInfoWithFalse(getText(1534, "", strRow));
                 // Debe indicar un grupo de cuentas (1)
               }
               break;
 
             case KI_CUE_ID:
               if(valEmpty(cell.getId(), Types.id)) {
-                return Cairo.Modal.showInfoWithFalse(getText(1261, "", strRow));
+                return M.showInfoWithFalse(getText(1261, "", strRow));
                 // Debe indicar una cuenta (1)
               }
               break;
@@ -1779,7 +1767,7 @@
               m_fax = valField(response.data, C.CLI_FAX);
               m_email = valField(response.data, C.CLI_EMAIL);
               m_yahoo = valField(response.data, C.CLI_YAHOO);
-              m_messanger = valField(response.data, C.CLI_MESSANGER);
+              m_messanger = valField(response.data, C.CLI_MESSENGER);
               m_web = valField(response.data, C.CLI_WEB);
               m_creditoctacte = valField(response.data, C.CLI_CREDITOCTACTE);
               m_creditototal = valField(response.data, C.CLI_CREDITOTOTAL);
@@ -2034,7 +2022,7 @@
         var property = properties.item(C.CLI_YAHOO);
         property.setValue(m_yahoo);
 
-        var property = properties.item(C.CLI_MESSANGER);
+        var property = properties.item(C.CLI_MESSENGER);
         property.setValue(m_messanger);
 
         var property = properties.item(C.CLI_WEB);
@@ -2075,26 +2063,26 @@
         property.setSelectId(m_zon_id);
 
         var property = properties.item(C_SUCURSALES);
-        if(!loadSucursales(property)) { return; }
+        loadSucursales(property);
         m_itemsDeletedSucursales = "";
 
         var property = properties.item(C_CONTACTO);
-        if(!loadContactos(property)) { return; }
+        loadContactos(property);
         m_itemsDeletedContacto = "";
 
         var property = properties.item(C_CUENTAGRUPO);
-        if(!loadCuentaGrupo(property)) { return; }
+        loadCuentaGrupo(property);
         m_itemsDeletedCuentaGrupo = "";
 
         var property = properties.item(C_PERCEPCION);
-        if(!loadPercepcion(property)) { return; }
+        loadPercepcion(property);
         m_itemsDeletedPercepciones = "";
 
         var property = properties.item(C_EMPRESAS);
-        if(!loadEmpresas(property)) { return; }
+        loadEmpresas(property);
 
         var property = properties.item(C_DPTO);
-        if(!loadDpto(property)) { return; }
+        loadDpto(property);
         m_itemsDeletedDptos = "";
 
         var property = properties.item(C_WEB);
@@ -2105,7 +2093,7 @@
         property.setEnabled(m_us_id !== NO_ID && m_us_activo);
 
         property = properties.item(C_INFORMES);
-        if(!loadInformes(property)) { return; }
+        loadInformes(property);
         m_itemsDeletedInf = "";
 
         m_genericEdit.refreshProperties(m_dialog);
@@ -2260,7 +2248,7 @@
         elem = columns.add(null);
         elem.setName(getText(1521, "")); // Informe
         elem.setType(T.select);
-        elem.setTable(CSTBLINFORME);
+        elem.setSelectTable(Cairo.Tables.INFORMES);
         elem.setSelectFilter(Cairo.User.getId());
         elem.setKey(KI_INF_ID);
 
@@ -3295,7 +3283,6 @@
                   fields.add(C.CONT_ID, val(cell.getValue()), Types.integer);
                 }
                 break;
-                break;
 
               case KI_NOMBRE:
                 fields.add(C.CONT_NAME, cell.getValue(), Types.text);
@@ -3407,7 +3394,7 @@
             //
             msg = getText(1528, "") + "\\r\\n\\r\\n" + getText(1529, ""); // ¿Desea guardar los cambios de todas formas?
 
-            return Cairo.Modal.confirmViewYesDanger("", msg).whenSuccess(function() {
+            return M.confirmViewYesDanger("", msg).whenSuccess(function() {
               var properties = m_dialog.getProperties();
               properties.item(Cairo.Constants.ACTIVE).setValue(0);
               m_dialog.showValue(properties.item(Cairo.Constants.ACTIVE));
@@ -3429,7 +3416,7 @@
 
               // Desea enviar un e-mail al cliente notificandole el alta de su usuario en la extranet?
               //
-              p = Cairo.Modal.confirmViewYesDefault("", getText(1530, ""));
+              p = M.confirmViewYesDefault("", getText(1530, ""));
 
             }
             else {
@@ -3440,10 +3427,10 @@
 
               D.customerSendUserCredentials(m_id).then(function(resutl) {
                 if(result.success) {
-                  return Cairo.Modal.showInfoWithFalse(getText(1531, "")); // El mail se envio con éxito
+                  return M.showInfoWithFalse(getText(1531, "")); // El mail se envio con éxito
                 }
                 else {
-                  return Cairo.Modal.showInfoWithFalse(getText(1542, "")); // El mail falló
+                  return M.showInfoWithFalse(getText(1542, "")); // El mail falló
                 }
               });
             });

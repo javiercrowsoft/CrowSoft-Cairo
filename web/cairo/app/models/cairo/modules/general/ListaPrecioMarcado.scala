@@ -246,7 +246,7 @@ object Listapreciomarcado {
       List(
         Field(C.LPM_NAME, listaPrecioMarcado.name, FieldType.text),
         Field(C.LPM_CODE, listaPrecioMarcado.code, FieldType.text),
-        Field(DBHelper.ACTIVE, (if(listaPrecioMarcado.active) 1 else 0), FieldType.boolean),
+        Field(DBHelper.ACTIVE, Register.boolToInt(listaPrecioMarcado.active), FieldType.boolean),
         Field(C.LPM_BASE, listaPrecioMarcado.base, FieldType.number),
         Field(C.LPM_PORCENTAJE, listaPrecioMarcado.porcentaje, FieldType.number),
         Field(C.LPM_SALTO, listaPrecioMarcado.salto, FieldType.number),

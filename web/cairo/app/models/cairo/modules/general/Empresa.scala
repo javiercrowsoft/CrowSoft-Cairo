@@ -304,7 +304,7 @@ object Empresa {
   private def save(user: CompanyUser, empresa: Empresa, isNew: Boolean): Empresa = {
     def getFields = {
       List(
-        Field(DBHelper.ACTIVE, (if(empresa.active) 1 else 0), FieldType.boolean),
+        Field(DBHelper.ACTIVE, Register.boolToInt(empresa.active), FieldType.boolean),
         Field(C.EMP_RAZONSOCIAL, empresa.razonsocial, FieldType.text),
         Field(C.EMP_CUIT, empresa.cuit, FieldType.text),
         Field(C.EMP_INGRESOSBRUTOS, empresa.ingresosbrutos, FieldType.text),

@@ -49,7 +49,7 @@ begin
    rtn := 'rtn';
 
    open rtn for
-      ----------------------------------------------------------------------------------------------
+
       select coalesce(empprov.empprov_id, 0) as empprov_id,
              emp.emp_id,
              emp.emp_nombre

@@ -137,7 +137,7 @@ object PersonaDocumentoTipo {
       List(
         Field(C.PRSDT_NAME, personaDocumentoTipo.name, FieldType.text),
         Field(C.PRSDT_CODE, personaDocumentoTipo.code, FieldType.text),
-        Field(DBHelper.ACTIVE, (if(personaDocumentoTipo.active) 1 else 0), FieldType.boolean),
+        Field(DBHelper.ACTIVE, Register.boolToInt(personaDocumentoTipo.active), FieldType.boolean),
         Field(C.PRSDT_DESCRIP, personaDocumentoTipo.descrip, FieldType.text)
       )
     }

@@ -137,7 +137,7 @@ object Pais {
       List(
         Field(C.PA_NAME, pais.name, FieldType.text),
         Field(C.PA_CODE, pais.code, FieldType.text),
-        Field(DBHelper.ACTIVE, (if(pais.active) 1 else 0), FieldType.boolean),
+        Field(DBHelper.ACTIVE, Register.boolToInt(pais.active), FieldType.boolean),
         Field(C.PA_DESCRIP, pais.descrip, FieldType.text)
       )
     }

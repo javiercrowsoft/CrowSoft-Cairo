@@ -155,7 +155,7 @@ object Ciudad {
       List(
         Field(C.CIU_NAME, ciudad.name, FieldType.text),
         Field(C.CIU_CODE, ciudad.code, FieldType.text),
-        Field(DBHelper.ACTIVE, (if(ciudad.active) 1 else 0), FieldType.boolean),
+        Field(DBHelper.ACTIVE, Register.boolToInt(ciudad.active), FieldType.boolean),
         Field(C.PRO_ID, ciudad.proId, FieldType.id),
         Field(C.CIU_DESCRIP, ciudad.descrip, FieldType.text)
       )

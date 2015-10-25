@@ -137,7 +137,7 @@ object ReglaLiquidacion {
       List(
         Field(C.REL_NAME, reglaLiquidacion.name, FieldType.text),
         Field(C.REL_CODE, reglaLiquidacion.code, FieldType.text),
-        Field(DBHelper.ACTIVE, (if(reglaLiquidacion.active) 1 else 0), FieldType.boolean),
+        Field(DBHelper.ACTIVE, Register.boolToInt(reglaLiquidacion.active), FieldType.boolean),
         Field(C.REL_DESCRIP, reglaLiquidacion.descrip, FieldType.text)
       )
     }

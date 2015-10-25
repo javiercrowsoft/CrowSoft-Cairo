@@ -168,20 +168,20 @@ object CuentaGrupo {
       List(
         Field(C.CUEG_NAME, cuentaGrupo.name, FieldType.text),
         Field(C.CUEG_CODE, cuentaGrupo.code, FieldType.text),
-        Field(DBHelper.ACTIVE, (if(cuentaGrupo.active) 1 else 0), FieldType.boolean),
+        Field(DBHelper.ACTIVE, Register.boolToInt(cuentaGrupo.active), FieldType.boolean),
         Field(C.CUEG_TIPO, cuentaGrupo.tipo, FieldType.integer),
         Field(C.CUE_ID, cuentaGrupo.cueId, FieldType.id),
         Field(C.CUEG_DESCRIP, cuentaGrupo.descrip, FieldType.text)
       )
     }
     def throwException = {
-      throw new RuntimeException(s"Error when saving ${C.CUENTAGRUPO}")
+      throw new RuntimeException(s"Error when saving ${C.CUENTA_GRUPO}")
     }
 
     DBHelper.saveEx(
       user,
       Register(
-        C.CUENTAGRUPO,
+        C.CUENTA_GRUPO,
         C.CUEG_ID,
         cuentaGrupo.id,
         false,
@@ -203,7 +203,7 @@ object CuentaGrupo {
   def loadWhere(user: CompanyUser, where: String, args : scala.Tuple2[scala.Any, anorm.ParameterValue[_]]*) = {
     DB.withConnection(user.database.database) { implicit connection =>
       SQL(s"SELECT t1.*, t2.${C.CUE_NAME} " +
-        s"FROM ${C.CUENTAGRUPO} t1 " +
+        s"FROM ${C.CUENTA_GRUPO} t1 " +
         s"LEFT JOIN ${C.CUENTA} t2 ON t1.${C.CUE_ID} = t2.${C.CUE_ID} WHERE $where")
         .on(args: _*)
         .as(cuentaGrupoParser.singleOpt)
@@ -213,12 +213,12 @@ object CuentaGrupo {
   def delete(user: CompanyUser, id: Int) = {
     DB.withConnection(user.database.database) { implicit connection =>
       try {
-        SQL(s"DELETE FROM ${C.CUENTAGRUPO} WHERE ${C.CUEG_ID} = {id}")
+        SQL(s"DELETE FROM ${C.CUENTA_GRUPO} WHERE ${C.CUEG_ID} = {id}")
         .on('id -> id)
         .executeUpdate
       } catch {
         case NonFatal(e) => {
-          Logger.error(s"can't delete a ${C.CUENTAGRUPO}. ${C.CUEG_ID} id: $id. Error ${e.toString}")
+          Logger.error(s"can't delete a ${C.CUENTA_GRUPO}. ${C.CUEG_ID} id: $id. Error ${e.toString}")
           throw e
         }
       }

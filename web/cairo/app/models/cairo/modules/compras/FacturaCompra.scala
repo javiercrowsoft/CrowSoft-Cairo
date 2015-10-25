@@ -1373,7 +1373,7 @@ object FacturaCompra {
         Field(C.FC_CAI, facturaCompra.base.cai, FieldType.text),
         Field(C.FC_TIPO_COMPROBANTE, facturaCompra.base.tipoComprobante, FieldType.number),
         Field(C.FC_DESCRIP, facturaCompra.base.descrip, FieldType.text),
-        Field(C.FC_GRABAR_ASIENTO, (if(facturaCompra.base.grabarAsiento) 1 else 0), FieldType.boolean),
+        Field(C.FC_GRABAR_ASIENTO, Register.boolToInt(facturaCompra.base.grabarAsiento), FieldType.boolean),
 
         Field(C.FC_FECHA, facturaCompra.dates.fecha, FieldType.date),
         Field(C.FC_FECHA_ENTREGA, facturaCompra.dates.fechaEntrega, FieldType.date),

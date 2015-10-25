@@ -150,7 +150,7 @@ object Clearing {
       List(
         Field(C.CLE_NAME, clearing.name, FieldType.text),
         Field(C.CLE_CODE, clearing.code, FieldType.text),
-        Field(DBHelper.ACTIVE, (if(clearing.active) 1 else 0), FieldType.boolean),
+        Field(DBHelper.ACTIVE, Register.boolToInt(clearing.active), FieldType.boolean),
         Field(C.CLE_DIAS, clearing.dias, FieldType.number),
         Field(C.CLE_DESCRIP, clearing.descrip, FieldType.text)
       )

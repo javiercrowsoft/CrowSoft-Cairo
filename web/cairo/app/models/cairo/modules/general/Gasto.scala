@@ -238,7 +238,7 @@ object Gasto {
       List(
         Field(C.GTO_NAME, gasto.name, FieldType.text),
         Field(C.GTO_CODE, gasto.code, FieldType.text),
-        Field(DBHelper.ACTIVE, (if(gasto.active) 1 else 0), FieldType.boolean),
+        Field(DBHelper.ACTIVE, Register.boolToInt(gasto.active), FieldType.boolean),
         Field(C.GTO_TIPO, gasto.tipo, FieldType.text),
         Field(C.GTO_FIJO, gasto.fijo, FieldType.number),
         Field(C.GTO_MINIMO, gasto.minimo, FieldType.number),

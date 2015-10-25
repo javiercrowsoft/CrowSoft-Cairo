@@ -274,7 +274,7 @@ object Cuenta {
         Field(C.CUE_NAME, cuenta.name, FieldType.text),
         Field(C.CUE_CODE, cuenta.code, FieldType.text),
         Field(C.CUE_IDENTIFICACION_EXTERNA, cuenta.identificacionExterna, FieldType.text),
-        Field(DBHelper.ACTIVE, (if(cuenta.active) 1 else 0), FieldType.id),
+        Field(DBHelper.ACTIVE, Register.boolToInt(cuenta.active), FieldType.id),
         Field(C.MON_ID, cuenta.monId, FieldType.id),
         Field(C.CUE_LLEVA_CENTRO_COSTO, cuenta.llevaCentroCosto, FieldType.boolean),
         Field(C.CUE_PRODUCTO, cuenta.producto, FieldType.boolean),
@@ -317,7 +317,7 @@ object Cuenta {
       SQL(s"SELECT t1.*, t2.${C.MON_NAME}, t2.${C.CUEC_NAME}, t2.${C.BCO_NAME}" +
         s" FROM ${C.CUENTA} t1" +
         s" LEFT JOIN ${C.MONEDA} t2 ON t1.${C.MON_ID} = t2.${C.MON_ID}" +
-        s" LEFT JOIN ${C.CUENTACATEGORIA} t3 ON t1.${C.CUEC_ID} = t3.${C.CUEC_ID}" +
+        s" LEFT JOIN ${C.CUENTA_CATEGORIA} t3 ON t1.${C.CUEC_ID} = t3.${C.CUEC_ID}" +
         s" LEFT JOIN ${C.BANCO} t4 ON t1.${C.BCO_ID} = t4.${C.BCO_ID}" +
         s" WHERE $where")
         .on(args: _*)

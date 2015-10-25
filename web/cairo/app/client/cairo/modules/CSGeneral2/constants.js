@@ -355,7 +355,7 @@
       CLI_EMAIL: "cli_email",
       CLI_WEB: "cli_web",
       CLI_YAHOO: "cli_yahoo",
-      CLI_MESSANGER: "cli_messanger",
+      CLI_MESSENGER: "cli_messanger",
       CLI_CREDITOCTACTE: "cli_creditoctacte",
       CLI_CREDITOTOTAL: "cli_creditototal",
       CLI_CREDITOACTIVO: "cli_creditoactivo",

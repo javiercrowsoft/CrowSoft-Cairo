@@ -124,7 +124,7 @@ object Escala {
       List(
         Field(C.ESC_NAME, escala.name, FieldType.text),
         Field(C.ESC_CODE, escala.code, FieldType.text),
-        Field(DBHelper.ACTIVE, (if(escala.active) 1 else 0), FieldType.boolean)
+        Field(DBHelper.ACTIVE, Register.boolToInt(escala.active), FieldType.boolean)
       )
     }
     def throwException = {

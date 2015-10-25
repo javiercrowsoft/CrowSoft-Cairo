@@ -181,8 +181,8 @@ object PercepcionTipo {
       List(
         Field(C.PERCT_NAME, percepcionTipo.name, FieldType.text),
         Field(C.PERCT_CODE, percepcionTipo.code, FieldType.text),
-        Field(DBHelper.ACTIVE, (if(percepcionTipo.active) 1 else 0), FieldType.boolean),
-        Field(C.PERCT_GENERA_SICORE, (if(percepcionTipo.generaSicore) 1 else 0), FieldType.boolean),
+        Field(DBHelper.ACTIVE, Register.boolToInt(percepcionTipo.active), FieldType.boolean),
+        Field(C.PERCT_GENERA_SICORE, Register.boolToInt(percepcionTipo.generaSicore), FieldType.boolean),
         Field(C.PERCT_CODIGO_SICORE, percepcionTipo.codigoSicore, FieldType.text),
         Field(C.CUE_ID, percepcionTipo.cueId, FieldType.id),
         Field(C.PERCT_DESCRIP, percepcionTipo.descrip, FieldType.text)

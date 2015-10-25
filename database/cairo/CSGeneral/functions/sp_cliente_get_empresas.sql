@@ -28,13 +28,17 @@ http://www.crowsoft.com.ar
 
 javier at crowsoft.com.ar
 */
--- Function: sp_proveedor_get_cai()
+-- Function: sp_cliente_get_empresas()
 
--- drop function sp_proveedor_get_cai(integer);
+-- drop function sp_cliente_get_empresas(integer);
+/*
+          select * from sp_cliente_get_empresas(3);
+          fetch all from rtn;
+*/
 
-create or replace function sp_proveedor_get_cai
+create or replace function sp_cliente_get_empresas
 (
-  in p_prov_id integer,
+  in p_cli_id integer,
   out rtn refcursor
 )
   returns refcursor as
@@ -46,18 +50,16 @@ begin
 
    open rtn for
 
-      select provc.provc_id,
-             provc.provc_numero,
-             provc.provc_descrip,
-             provc.provc_sucursal,
-             provc.provc_fechavto
-      from proveedorCai provc
-      where provc.prov_id = p_prov_id
-      order by provc.provc_id;
+      select coalesce(empcli.empcli_id, 0) as empcli_id,
+             emp.emp_id,
+             emp.emp_nombre
+      from Empresa emp
+      left join EmpresaCliente empcli on emp.emp_id = empcli.emp_id and empcli.cli_id = p_cli_id
+      order by emp.emp_nombre;
 
 end;
 $BODY$
   language plpgsql volatile
   cost 100;
-alter function sp_proveedor_get_cai(integer)
+alter function sp_cliente_get_empresas(integer)
   owner to postgres;

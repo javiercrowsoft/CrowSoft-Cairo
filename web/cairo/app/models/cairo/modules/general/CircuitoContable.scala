@@ -137,7 +137,7 @@ object CircuitoContable {
       List(
         Field(C.CICO_NAME, circuitoContable.name, FieldType.text),
         Field(C.CICO_CODE, circuitoContable.code, FieldType.text),
-        Field(DBHelper.ACTIVE, (if(circuitoContable.active) 1 else 0), FieldType.boolean),
+        Field(DBHelper.ACTIVE, Register.boolToInt(circuitoContable.active), FieldType.boolean),
         Field(C.CICO_DESCRIP, circuitoContable.descrip, FieldType.text)
       )
     }

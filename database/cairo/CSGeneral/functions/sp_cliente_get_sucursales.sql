@@ -28,36 +28,39 @@ http://www.crowsoft.com.ar
 
 javier at crowsoft.com.ar
 */
--- Function: sp_proveedor_get_cai()
+-- Function: sp_producto_get()
 
--- drop function sp_proveedor_get_cai(integer);
+-- drop function sp_cliente_get_sucursales(integer);
 
-create or replace function sp_proveedor_get_cai
+create or replace function sp_cliente_get_sucursales
 (
-  in p_prov_id integer,
+  in p_cli_id integer,
   out rtn refcursor
 )
   returns refcursor as
 $BODY$
-
-begin   
+begin
 
    rtn := 'rtn';
 
    open rtn for
-
-      select provc.provc_id,
-             provc.provc_numero,
-             provc.provc_descrip,
-             provc.provc_sucursal,
-             provc.provc_fechavto
-      from proveedorCai provc
-      where provc.prov_id = p_prov_id
-      order by provc.provc_id;
+      select clis.*,
+             zon.zon_nombre,
+             pro.pro_nombre,
+             pa.pa_nombre
+        from ClienteSucursal clis
+               left join Zona zon
+                on clis.zon_id = zon.zon_id
+               left join Provincia pro
+                on clis.pro_id = pro.pro_id
+               left join Pais pa
+                on clis.pa_id = pa.pa_id
+         where clis.cli_id = p_cli_id;
 
 end;
+
 $BODY$
   language plpgsql volatile
   cost 100;
-alter function sp_proveedor_get_cai(integer)
+alter function sp_cliente_get_sucursales(integer)
   owner to postgres;

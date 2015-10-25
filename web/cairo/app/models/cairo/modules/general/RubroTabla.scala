@@ -179,7 +179,7 @@ object RubroTabla {
       List(
         Field(C.RUBT_NAME, rubroTabla.name, FieldType.text),
         Field(C.RUBT_CODE, rubroTabla.code, FieldType.text),
-        Field(DBHelper.ACTIVE, (if(rubroTabla.active) 1 else 0), FieldType.boolean),
+        Field(DBHelper.ACTIVE, Register.boolToInt(rubroTabla.active), FieldType.boolean),
         Field(C.RUBT_DESCRIP, rubroTabla.descrip, FieldType.text)
       )
     }

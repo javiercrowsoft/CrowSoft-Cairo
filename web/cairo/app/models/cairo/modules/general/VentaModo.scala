@@ -220,7 +220,7 @@ object Ventamodo {
       List(
         Field(C.VM_NAME, ventamodo.name, FieldType.text),
         Field(C.VM_CODE, ventamodo.code, FieldType.text),
-        Field(DBHelper.ACTIVE, (if(ventamodo.active) 1 else 0), FieldType.boolean),
+        Field(DBHelper.ACTIVE, Register.boolToInt(ventamodo.active), FieldType.boolean),
         Field(C.VM_CTA_CTE, ventamodo.ctaCte, FieldType.integer),
         Field(C.VM_PV, ventamodo.pv, FieldType.boolean),
         Field(C.VM_OS, ventamodo.os, FieldType.boolean),

@@ -151,7 +151,7 @@ object Sucursal {
         Field(C.SUC_NAME, sucursal.name, FieldType.text),
         Field(C.SUC_CODE, sucursal.code, FieldType.text),
         Field(C.SUC_NUMERO, sucursal.numero, FieldType.number),
-        Field(DBHelper.ACTIVE, (if(sucursal.active) 1 else 0), FieldType.boolean),
+        Field(DBHelper.ACTIVE, Register.boolToInt(sucursal.active), FieldType.boolean),
         Field(C.SUC_DESCRIP, sucursal.descrip, FieldType.text)
       )
     }

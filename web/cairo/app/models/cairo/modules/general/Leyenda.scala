@@ -168,7 +168,7 @@ object Leyenda {
       List(
         Field(C.LEY_NAME, leyenda.name, FieldType.text),
         Field(C.LEY_CODE, leyenda.code, FieldType.text),
-        Field(DBHelper.ACTIVE, (if(leyenda.active) 1 else 0), FieldType.id),
+        Field(DBHelper.ACTIVE, Register.boolToInt(leyenda.active), FieldType.id),
         Field(C.IDM_ID, leyenda.idmId, FieldType.text),
         Field(C.LEY_DESCRIP, leyenda.descrip, FieldType.text),
         Field(C.LEYTEXTO, leyenda.leytexto, FieldType.text)

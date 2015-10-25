@@ -155,7 +155,7 @@ object Provincia {
       List(
         Field(C.PRO_NAME, provincia.name, FieldType.text),
         Field(C.PRO_CODE, provincia.code, FieldType.text),
-        Field(DBHelper.ACTIVE, (if(provincia.active) 1 else 0), FieldType.boolean),
+        Field(DBHelper.ACTIVE, Register.boolToInt(provincia.active), FieldType.boolean),
         Field(C.PA_ID, provincia.paId, FieldType.id),
         Field(C.PRO_DESCRIP, provincia.descrip, FieldType.text)
       )

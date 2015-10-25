@@ -181,7 +181,7 @@ object CentroCosto {
       List(
         Field(C.CCOS_NAME, centroCosto.name, FieldType.text),
         Field(C.CCOS_CODE, centroCosto.code, FieldType.text),
-        Field(DBHelper.ACTIVE, (if(centroCosto.active) 1 else 0), FieldType.boolean),
+        Field(DBHelper.ACTIVE, Register.boolToInt(centroCosto.active), FieldType.boolean),
         Field(C.CCOS_COMPRA, centroCosto.compra, FieldType.number),
         Field(C.CCOS_VENTA, centroCosto.venta, FieldType.number),
         Field(C.CCOS_ID_PADRE, centroCosto.idPadre, FieldType.id),

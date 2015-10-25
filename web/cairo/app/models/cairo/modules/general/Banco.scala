@@ -189,7 +189,7 @@ object Banco {
       List(
         Field(C.BCO_NAME, banco.name, FieldType.text),
         Field(C.BCO_CODE, banco.code, FieldType.text),
-        Field(DBHelper.ACTIVE, (if(banco.active) 1 else 0), FieldType.boolean),
+        Field(DBHelper.ACTIVE, Register.boolToInt(banco.active), FieldType.boolean),
         Field(C.BCO_MAIL, banco.mail, FieldType.text),
         Field(C.BCO_CONTACTO, banco.contacto, FieldType.text),
         Field(C.BCO_TELEFONO, banco.telefono, FieldType.text),

@@ -228,7 +228,7 @@ object FormaPago {
       List(
         Field(C.FP_NAME, formaPago.name, FieldType.text),
         Field(C.FP_CODE, formaPago.code, FieldType.text),
-        Field(DBHelper.ACTIVE, (if(formaPago.active) 1 else 0), FieldType.boolean),
+        Field(DBHelper.ACTIVE, Register.boolToInt(formaPago.active), FieldType.boolean),
         Field(C.FP_LUNES, formaPago.lunes, FieldType.boolean),
         Field(C.FP_MARTES, formaPago.martes, FieldType.boolean),
         Field(C.FP_MIERCOLES, formaPago.miercoles, FieldType.boolean),

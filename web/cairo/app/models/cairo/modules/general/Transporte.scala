@@ -277,7 +277,7 @@ object Transporte {
       List(
         Field(C.TRANS_NAME, transporte.name, FieldType.text),
         Field(C.TRANS_CODE, transporte.code, FieldType.text),
-        Field(DBHelper.ACTIVE, (if(transporte.active) 1 else 0), FieldType.boolean),
+        Field(DBHelper.ACTIVE, Register.boolToInt(transporte.active), FieldType.boolean),
         Field(C.TRANS_DIRECCION, transporte.direccion, FieldType.text),
         Field(C.TRANS_TELEFONO, transporte.telefono, FieldType.text),
         Field(C.PRO_ID, transporte.proId, FieldType.id),

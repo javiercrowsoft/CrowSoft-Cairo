@@ -137,7 +137,7 @@ object ClienteContactoTipo {
       List(
         Field(C.CLICT_NAME, clienteContactoTipo.name, FieldType.text),
         Field(C.CLICT_CODE, clienteContactoTipo.code, FieldType.text),
-        Field(DBHelper.ACTIVE, (if(clienteContactoTipo.active) 1 else 0), FieldType.boolean),
+        Field(DBHelper.ACTIVE, Register.boolToInt(clienteContactoTipo.active), FieldType.boolean),
         Field(C.CLICT_DESCRIP, clienteContactoTipo.descrip, FieldType.text)
       )
     }

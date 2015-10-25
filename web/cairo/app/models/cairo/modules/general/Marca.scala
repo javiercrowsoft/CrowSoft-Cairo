@@ -150,7 +150,7 @@ object Marca {
       List(
         Field(C.MARC_NAME, marca.name, FieldType.text),
         Field(C.MARC_CODE, marca.code, FieldType.text),
-        Field(DBHelper.ACTIVE, (if(marca.active) 1 else 0), FieldType.boolean),
+        Field(DBHelper.ACTIVE, Register.boolToInt(marca.active), FieldType.boolean),
         Field(C.MARC_DESCRIP, marca.descrip, FieldType.text),
         Field(C.MARC_TEXTO_WEB, marca.textoWeb, FieldType.text)
       )

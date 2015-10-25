@@ -747,7 +747,7 @@
           // create the dialog
           //
           Cairo.Tree.List.Controller.list(
-            Cairo.Tables.FORMAPAGO,
+            Cairo.Tables.FORMA_DE_PAGO,
             new Cairo.Tree.List.TreeLayout({ model: self.entityInfo }),
             Cairo.formaPagoTreeRegion,
             self);
