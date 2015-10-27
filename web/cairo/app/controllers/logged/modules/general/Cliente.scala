@@ -63,7 +63,9 @@ case class ClienteReferencesData(
                                   transId: Int,
                                   clictId: Int,
                                   cliIdReferido: Int,
-                                  proyId: Int
+                                  proyId: Int,
+                                  webUsName: String,
+                                  webUserActive: Boolean
                                   )
 
 case class ClienteContactoData(
@@ -168,7 +170,7 @@ object Clientes extends Controller with ProvidesUser {
     C.CLI_HORARIO_MDESDE, C.CLI_HORARIO_MHASTA, C.CLI_HORARIO_TDESDE, C.CLI_HORARIO_THASTA)
 
   val clienteReferencesFields = List(C.CLI_ID_PADRE, C.CPA_ID, C.LP_ID, C.LD_ID, C.CPG_ID, C.PRO_ID, C.ZON_ID, C.FP_ID, C.VEN_ID,
-    C.TRANS_ID, C.CLICT_ID, C.CLI_ID_REFERIDO, C.PROY_ID)
+    C.TRANS_ID, C.CLICT_ID, C.CLI_ID_REFERIDO, C.PROY_ID, C.CLI_INF_US_ID, C.CLI_INF_ACTIVE)
 
   val clienteContacto = List(C.CONT_ID, C.CONT_NAME, C.CONT_CODE, C.CONT_DESCRIP, C.CONT_DIRECCION, C.CONT_TEL,
     C.CONT_CELULAR, C.CONT_CARGO, C.CONT_EMAIL, DBHelper.ACTIVE)
@@ -238,7 +240,9 @@ object Clientes extends Controller with ProvidesUser {
         C.TRANS_ID -> number,
         C.CLICT_ID -> number,
         C.CLI_ID_REFERIDO -> number,
-        C.PROY_ID -> number)(ClienteReferencesData.apply)(ClienteReferencesData.unapply),
+        C.PROY_ID -> number,
+        C.CLI_INF_US_ID -> text,
+        C.CLI_INF_ACTIVE -> boolean)(ClienteReferencesData.apply)(ClienteReferencesData.unapply),
       C.CLIENTE_ITEMS -> mapping(
         C.CLIENTE_SUCURSAL -> Forms.list[ClienteSucursalData](
           mapping (
@@ -351,10 +355,10 @@ object Clientes extends Controller with ProvidesUser {
       C.CLI_NOMBRE_PADRE -> Json.toJson(cliente.references.padre),
       C.CPA_ID -> Json.toJson(cliente.references.address.cpaId),
       C.CPA_CODE -> Json.toJson(cliente.references.address.cpaCode),
-      C.LP_ID -> Json.toJson(cliente.references.lpId),
-      C.LP_NAME -> Json.toJson(cliente.references.lpName),
-      C.LD_ID -> Json.toJson(cliente.references.ldId),
-      C.LD_NAME -> Json.toJson(cliente.references.ldName),
+      C.LP_ID -> Json.toJson(cliente.references.priceLists.lpId),
+      C.LP_NAME -> Json.toJson(cliente.references.priceLists.lpName),
+      C.LD_ID -> Json.toJson(cliente.references.priceLists.ldId),
+      C.LD_NAME -> Json.toJson(cliente.references.priceLists.ldName),
       C.CPG_ID -> Json.toJson(cliente.references.cpgId),
       C.CPG_NAME -> Json.toJson(cliente.references.cpgName),
       C.PRO_ID -> Json.toJson(cliente.references.address.proId),
@@ -375,8 +379,9 @@ object Clientes extends Controller with ProvidesUser {
       C.PROY_NAME -> Json.toJson(cliente.references.proyName),
 
     // TODO: implement this
-      C.US_ACTIVO -> Json.toJson(false),
-      C.US_NAME -> Json.toJson(""),
+      C.CLI_INF_US_ID -> Json.toJson(cliente.references.webUser.usId),
+      C.US_NAME -> Json.toJson(cliente.references.webUser.name),
+      C.CLI_INF_ACTIVE -> Json.toJson(cliente.references.webUser.active),
 
       // Items
       "sucursales" -> Json.toJson(writeClienteSucursal(cliente.items.sucursales)),
@@ -659,12 +664,12 @@ object Clientes extends Controller with ProvidesUser {
     val clienteItems = Map(C.CLIENTE_ITEMS -> JsObject((
       clienteEmpresas
         ++ clientePercepciones ++ percepcionDeleted ++ clienteDepartamentos ++ departamentoDeleted
+        ++ clienteSucursals ++ sucursalDeleted ++ clienteCuentasGrupo ++ cuentaGrupoDeleted
         ++ clienteContactos ++ contactoDeleted ++ clienteInformes ++ informeDeleted).toSeq
     ))
 
     JsObject(
       (clienteId ++ clienteBaseGroup ++ clienteAddressGroup ++ clienteReferencesGroup
-        ++ clienteSucursals ++ sucursalDeleted ++ clienteCuentasGrupo ++ cuentaGrupoDeleted
         ++ clienteItems).toSeq)
   }
   //
@@ -829,7 +834,9 @@ object Clientes extends Controller with ProvidesUser {
         cliente.references.transId,
         cliente.references.clictId,
         cliente.references.cliIdReferido,
-        cliente.references.proyId),
+        cliente.references.proyId,
+        cliente.references.webUsName,
+        cliente.references.webUserActive),
       getClienteItems(cliente)
     )
   }

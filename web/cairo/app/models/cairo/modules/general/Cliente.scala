@@ -63,13 +63,22 @@ case class ClienteAddressReference(
                                     transName: String
                                     )
 
+case class ClientePriceLists(
+                             lpId: Int,
+                             lpName: String,
+                             ldId: Int,
+                             ldName: String
+                             )
+
+case class ClienteWebUser(
+                          usId: Int,
+                          name: String,
+                          active: Boolean
+                           )
+
 case class ClienteReferences(
                                 cliIdPadre: Int,
                                 padre: String,
-                                lpId: Int,
-                                lpName: String,
-                                ldId: Int,
-                                ldName: String,
                                 cpgId: Int,
                                 cpgName: String,
                                 fpId: Int,
@@ -82,7 +91,9 @@ case class ClienteReferences(
                                 referido: String,
                                 proyId: Int,
                                 proyName: String,
-                                address: ClienteAddressReference
+                                priceLists: ClientePriceLists,
+                                address: ClienteAddressReference,
+                                webUser: ClienteWebUser
                                 ) {
   def this(cliIdPadre: Int,
            cpaId: Int,
@@ -96,13 +107,11 @@ case class ClienteReferences(
            transId: Int,
            clictId: Int,
            cliIdReferido: Int,
-           proyId: Int) = {
+           proyId: Int,
+           usName: String,
+           webUserActive: Boolean) = {
     this(
       cliIdPadre,
-      "",
-      lpId,
-      "",
-      ldId,
       "",
       cpgId,
       "",
@@ -116,6 +125,12 @@ case class ClienteReferences(
       "",
       proyId,
       "",
+      ClientePriceLists(
+        lpId,
+        "",
+        ldId,
+        ""
+      ),
       ClienteAddressReference(
         cpaId,
         "",
@@ -125,6 +140,11 @@ case class ClienteReferences(
         "",
         transId,
         ""
+      ),
+      ClienteWebUser(
+        DBHelper.NoId,
+        usName,
+        webUserActive
       )
     )
   }
@@ -144,7 +164,9 @@ object ClienteReferences {
             transId: Int,
             clictId: Int,
             cliIdReferido: Int,
-            proyId: Int) = {
+            proyId: Int,
+            usName: String,
+            webUserActive: Boolean) = {
 
     new ClienteReferences(
       cliIdPadre,
@@ -159,7 +181,9 @@ object ClienteReferences {
       transId,
       clictId,
       cliIdReferido,
-      proyId)
+      proyId,
+      usName,
+      webUserActive)
   }
 }
 
@@ -426,7 +450,7 @@ object Cliente {
     ClienteBase("", "", false, 0, "", "", "", "", false, false, false, 0, 0, false, ""),
     ClienteAddress("", "", "", "", "", "", "", "", "", "", "", "", U.NO_DATE, U.NO_DATE, U.NO_DATE, U.NO_DATE),
     ClienteReferences(DBHelper.NoId, DBHelper.NoId, DBHelper.NoId, DBHelper.NoId, DBHelper.NoId, DBHelper.NoId,
-      DBHelper.NoId, DBHelper.NoId, DBHelper.NoId, DBHelper.NoId, DBHelper.NoId, DBHelper.NoId, DBHelper.NoId),
+      DBHelper.NoId, DBHelper.NoId, DBHelper.NoId, DBHelper.NoId, DBHelper.NoId, DBHelper.NoId, DBHelper.NoId, "", false),
 
     emptyClienteItems
   )
@@ -779,6 +803,9 @@ object Cliente {
     SqlParser.get[Option[String]](C.REFERIDO) ~
     SqlParser.get[Option[Int]](C.PROY_ID) ~
     SqlParser.get[Option[String]](C.PROY_NAME) ~
+    SqlParser.get[Option[Int]](C.US_ID) ~
+    SqlParser.get[Option[String]](C.US_NAME) ~
+    SqlParser.get[Option[Int]](C.US_ACTIVO) ~
     SqlParser.get[Date](DBHelper.CREATED_AT) ~
     SqlParser.get[Date](DBHelper.UPDATED_AT) ~
     SqlParser.get[Int](DBHelper.UPDATED_BY) map {
@@ -846,6 +873,10 @@ object Cliente {
           proyId ~
           proyName ~
 
+          usId ~
+          webUsName ~
+          webUserActive ~
+
           createdAt ~
           updatedAt ~
           updatedBy =>
@@ -889,10 +920,6 @@ object Cliente {
           ClienteReferences(
             cliIdPadre.getOrElse(DBHelper.NoId),
             padre.getOrElse(""),
-            lpId.getOrElse(DBHelper.NoId),
-            lpName.getOrElse(""),
-            ldId.getOrElse(DBHelper.NoId),
-            ldName.getOrElse(""),
             cpgId.getOrElse(DBHelper.NoId),
             cpgName.getOrElse(""),
             fpId.getOrElse(DBHelper.NoId),
@@ -905,6 +932,12 @@ object Cliente {
             referido.getOrElse(""),
             proyId.getOrElse(DBHelper.NoId),
             proyName.getOrElse(""),
+            ClientePriceLists(
+              lpId.getOrElse(DBHelper.NoId),
+              lpName.getOrElse(""),
+              ldId.getOrElse(DBHelper.NoId),
+              ldName.getOrElse("")
+            ),
             ClienteAddressReference(
               cpaId.getOrElse(DBHelper.NoId),
               cpaCode.getOrElse(""),
@@ -914,6 +947,11 @@ object Cliente {
               zonName.getOrElse(""),
               transId.getOrElse(DBHelper.NoId),
               transName.getOrElse("")
+            ),
+            ClienteWebUser(
+              usId.getOrElse(DBHelper.NoId),
+              webUsName.getOrElse(""),
+              webUserActive.getOrElse(0) != 0
             )),
           emptyClienteItems,
           createdAt,
@@ -971,8 +1009,8 @@ object Cliente {
 
         Field(C.CLI_ID_PADRE, cliente.references.cliIdPadre, FieldType.id),
         Field(C.CPA_ID, cliente.references.address.cpaId, FieldType.id),
-        Field(C.LP_ID, cliente.references.lpId, FieldType.id),
-        Field(C.LD_ID, cliente.references.ldId, FieldType.id),
+        Field(C.LP_ID, cliente.references.priceLists.lpId, FieldType.id),
+        Field(C.LD_ID, cliente.references.priceLists.ldId, FieldType.id),
         Field(C.CPG_ID, cliente.references.cpgId, FieldType.id),
         Field(C.PRO_ID, cliente.references.address.proId, FieldType.id),
         Field(C.ZON_ID, cliente.references.address.zonId, FieldType.id),

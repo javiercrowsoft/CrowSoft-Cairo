@@ -1049,10 +1049,9 @@
       PRS_ES_EMPLEADO: "prs_esempleado",
 
       // Cliente Informe
-      CLIENTE_INFORME: "ClienteInforme",
       CLI_INF_ID: "cli_inf_id",
       CLI_INF_US_ID: "cli_inf_us_id",
-      CLI_INF_WEB: "cli_inf_web",
+      CLI_INF_ACTIVE: "cli_inf_active",
 
       CLIENTE_INFORME_ITEM: "ClienteInformeItem",
       CLI_INFI_ID: "cli_infi_id",

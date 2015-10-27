@@ -294,6 +294,9 @@ object C {
   val CLI_HORARIO_TDESDE = "cli_horario_t_desde"
   val CLI_HORARIO_THASTA = "cli_horario_t_hasta"
 
+  val CLI_INF_US_ID = "cli_inf_us_id"
+  val CLI_INF_ACTIVE = "cli_inf_active"
+
   val REFERIDO = "referido"
   val US_ACTIVO = "us_activo"
 

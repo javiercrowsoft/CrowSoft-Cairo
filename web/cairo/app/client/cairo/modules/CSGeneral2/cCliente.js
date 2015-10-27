@@ -33,7 +33,6 @@
       var C_CONTACTO = "Contacto";
       var C_DPTO = "Departamentos";
       var C_INFORMES = "Informes";
-      var C_WEB = "web";
       var C_WEB_MAIL = "webmail";
 
       var K_NAME = 1;
@@ -376,13 +375,13 @@
           case K_US_WEB:
 
             var properties = m_dialog.getProperties();
-            var bWeb = val(properties.item(C_WEB).getValue());
-            properties.item(C.US_ID).setEnabled(bWeb);
-            if(properties.item(C.US_ID).getValue() === "") {
-              properties.item(C.US_ID).setValue(properties.item(C.CLI_CODE).getValue());
+            var bWeb = val(properties.item(C.CLI_INF_ACTIVE).getValue());
+            properties.item(C.CLI_INF_US_ID).setEnabled(bWeb);
+            if(properties.item(C.CLI_INF_US_ID).getValue() === "") {
+              properties.item(C.CLI_INF_US_ID).setValue(properties.item(C.CLI_CODE).getValue());
             }
 
-            m_dialog.showValue(properties.item(C.US_ID));
+            m_dialog.showValue(properties.item(C.CLI_INF_US_ID));
 
             properties.item(C_INFORMES).setEnabled(bWeb);
             m_dialog.showValue(properties.item(C_INFORMES), true);
@@ -585,7 +584,6 @@
 
             case K_FP_ID:
               fields.add(C.FP_ID, property.getSelectId(), Types.id);
-
               break;
 
             case K_HORARIO_M_DESDE:
@@ -602,6 +600,14 @@
 
             case K_HORARIO_T_HASTA:
               fields.add(C.CLI_HORARIO_THASTA, property.getValue(), Types.date);
+              break;
+
+            case K_US_WEB:
+              fields.add(C.CLI_INF_ACTIVE, property.getValue(), Types.boolean);
+              break;
+
+            case K_US_NOMBRE:
+              fields.add(C.CLI_INF_US_ID, property.getValue(), Types.text);
               break;
           }
         }
@@ -1339,7 +1345,7 @@
         elem.setGridRemoveEnabled(true);
         m_itemsDeletedDptos = "";
 
-        var elem = properties.add(null, C_WEB);
+        var elem = properties.add(null, C.CLI_INF_ACTIVE);
         elem.setType(T.check);
         elem.setName(getText(1517, "")); // Habilitar el acceso via extranet
         elem.setKey(K_US_WEB);
@@ -1354,7 +1360,7 @@
         elem.setEnabled(m_us_id !== NO_ID && m_us_activo);
         elem.setTabIndex(tab_web);
 
-        var elem = properties.add(null, C.US_ID);
+        var elem = properties.add(null, C.CLI_INF_US_ID);
         elem.setType(T.text);
         elem.setName(getText(1518, "")); // Usuario Web
         elem.setSize(50);
@@ -1537,7 +1543,7 @@
               break;
 
             case K_EMPRESAS:
-              p = true;
+              p = P.resolvedPromise(true);
               break;
 
             case K_DEPARTAMENTOS:
@@ -1801,9 +1807,9 @@
               m_proy_id = valField(response.data, C.PROY_ID);
               m_proyecto = valField(response.data, C.PROY_NAME);
 
-              m_us_id = valField(response.data, C.US_ID);
+              m_us_id = valField(response.data, C.CLI_INF_US_ID);
               m_us_nombre = valField(response.data, C.US_NAME);
-              m_us_activo = valField(response.data, C.US_ACTIVO);
+              m_us_activo = valField(response.data, C.CLI_INF_ACTIVE);
 
               m_active = valField(response.data, Cairo.Constants.ACTIVE);
               m_esProspecto = valField(response.data, C.CLI_ES_PROSPECTO);
@@ -2085,10 +2091,10 @@
         loadDpto(property);
         m_itemsDeletedDptos = "";
 
-        var property = properties.item(C_WEB);
+        var property = properties.item(C.CLI_INF_ACTIVE);
         property.setValue(m_us_id !== NO_ID && m_us_activo);
 
-        var property = properties.item(C.US_ID);
+        var property = properties.item(C.CLI_INF_US_ID);
         property.setValue(m_us_nombre);
         property.setEnabled(m_us_id !== NO_ID && m_us_activo);
 
@@ -3099,28 +3105,6 @@
 
       var saveItemsInformes = function(mainRegister) {
         //
-        // this is a header with the user name and a flag to set if the user is enabled
-        //
-        var transaction = DB.createTransaction();
-        transaction.setTable(C.CLIENTE_INFORME);
-
-        var properties = m_dialog.getProperties();
-
-        var register = new DB.Register();
-
-        var fields = register.getFields();
-        register.setFieldId(C.CLI_INF_ID);
-        register.setTable(C.CLIENTE_INFORME);
-        register.setId(Cairo.Constants.NEW_ID);
-
-        fields.add(C.CLI_INF_US_ID, properties.item(C.US_ID).getValue(), Types.text);
-        fields.add(C.CLI_INF_US_ID, val(properties.item(C_WEB).getValue()), Types.boolean);
-
-        transaction.addRegister(register);
-
-        mainRegister.addTransaction(transaction);
-
-        //
         // this is a list of reports associated to the web user
         //
         var transaction = DB.createTransaction();
@@ -3340,8 +3324,6 @@
       var validateRowSucursales = function(row, rowIndex) {
         var cell = null;
 
-        var strRow = " (Row: " + rowIndex.toString() + ")";
-
         var _count = row.size();
         for(var _i = 0; _i < _count; _i++) {
           cell = row.item(_i);
@@ -3400,6 +3382,9 @@
               m_dialog.showValue(properties.item(Cairo.Constants.ACTIVE));
               return true;
             });
+          }
+          else {
+            return P.resolvedPromise(true);
           }
         }
       };
