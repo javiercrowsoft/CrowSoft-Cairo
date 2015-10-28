@@ -1944,8 +1944,17 @@
 
             var row = grid.getRows().item(lRow);
             p = setDataProducto(row, newValueId)
-              .whenSuccess(call(D.setPrecios, row, newValueId, m_properties.item(C.LP_ID).getSelectId(), KI_PRECIO_LP, KI_PRECIO_USR))
-              .whenSuccess(call(D.setDescuentos, row, newValueId, getPrecioFromRow(row), m_properties.item(C.LD_ID).getSelectId(), KI_DESCUENTO))
+              .whenSuccess(
+                call(
+                  D.setPrecios, row, newValueId, m_properties.item(C.LP_ID).getSelectId(), KI_PRECIO_LP, KI_PRECIO_USR
+                )
+              )
+              .whenSuccess(
+                call(
+                  D.setDescuentos, row, newValueId, getPrecioFromRow(row),
+                  m_properties.item(C.LD_ID).getSelectId(), KI_DESCUENTO, KI_PRECIO
+                )
+              )
               .whenSuccess(call(setTasasImpositivas, row, newValueId, newValue))
               .then(function(result) { Cairo.LoadingMessage.close(); return result; })
             ;
@@ -1954,7 +1963,10 @@
           case KI_PRECIO_USR:
 
             var row = grid.getRows().item(lRow);
-            p = D.setDescuentos(row, cellId(row, KI_PR_ID), newValue, m_properties.item(C.LD_ID).getSelectId(), KI_DESCUENTO);
+            p = D.setDescuentos(
+              row, cellId(row, KI_PR_ID), newValue,
+              m_properties.item(C.LD_ID).getSelectId(), KI_DESCUENTO, KI_PRECIO
+            );
             break;
 
         }
@@ -2468,7 +2480,7 @@
         elem.setType(T.check);
         elem.setName(getText(3901, "")); // Ocultar Columnas
         elem.setKey(K_HIDECOLS);
-        elem.setValue(false);
+        elem.setValue(true);
         elem.setIsEditProperty(false);
 
         if(m_cajaMsg !== "") {

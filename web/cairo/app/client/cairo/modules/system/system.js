@@ -1171,13 +1171,13 @@
 
     var elem = properties.add(null, DWC.LISTA_PRECIO);
     elem.setType(T.select);
-    elem.setSelectTable(Cairo.Tables.LISTA_PRECIO);
+    elem.setSelectTable(Cairo.Tables.LISTAS_DE_PRECIOS);
     elem.setName(getText(1397, "")); // Lista de Precios
     elem.setSelectFilter(Cairo.Documents.getListaPrecioForProveedor(doc_id, prov_id));
 
     var elem = properties.add(null, DWC.LISTA_DESCUENTO);
     elem.setType(T.select);
-    elem.setSelectTable(Cairo.Tables.LISTA_DESCUENTO);
+    elem.setSelectTable(Cairo.Tables.LISTAS_DE_DESCUENTOS);
     elem.setName(getText(1398, "")); // Lista de Descuentos
     elem.setSelectFilter(Cairo.Documents.getListaDescuentoForProveedor(doc_id, prov_id));
 
@@ -1277,9 +1277,10 @@
     });
   };
 
-  Cairo.Documents.setDescuentos = function(row, prId, precio, ldId, KI_DESCUENTO) {
+  Cairo.Documents.setDescuentos = function(row, prId, precio, ldId, KI_DESCUENTO, KI_PRECIO) {
     var p;
     var desc;
+    var price;
 
     if(ldId !== NO_ID) {
 
@@ -1288,12 +1289,21 @@
 
       p = p.whenSuccessWithResult(function(response) {
         desc = valField(response.data, 'desc');
+        price = valField(response.data, 'price');
         desc = desc.replace(/\$/g, "").replace(/%/g, "");
         return true;
       }).then(function() {
           getCell(row, KI_DESCUENTO).setValue(desc);
+          if(KI_PRECIO !== undefined) {
+            getCell(row, KI_PRECIO).setValue(price);
+          }
           return true;
         });
+    }
+    else {
+      if(KI_PRECIO !== undefined) {
+        getCell(row, KI_PRECIO).setValue(precio);
+      }
     }
     return p || P.resolvedPromise(true);
   };

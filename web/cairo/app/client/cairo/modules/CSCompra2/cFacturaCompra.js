@@ -1674,8 +1674,17 @@
 
             var row = grid.getRows().item(lRow);
             p = setDataProducto(row, newValueId)
-              .whenSuccess(call(D.setPrecios, row, newValueId, m_properties.item(C.LP_ID).getSelectId(), KI_PRECIO_LP, KI_PRECIO_USR))
-              .whenSuccess(call(D.setDescuentos, row, newValueId, getPrecioFromRow(row), m_properties.item(C.LD_ID).getSelectId(), KI_DESCUENTO))
+              .whenSuccess(
+                call(
+                  D.setPrecios, row, newValueId, m_properties.item(C.LP_ID).getSelectId(), KI_PRECIO_LP, KI_PRECIO_USR
+                )
+              )
+              .whenSuccess(
+                call(
+                  D.setDescuentos, row, newValueId, getPrecioFromRow(row),
+                  m_properties.item(C.LD_ID).getSelectId(), KI_DESCUENTO
+                )
+              )
               .whenSuccess(call(setTasasImpositivas, row, newValueId, newValue))
               .then(function(result) { Cairo.LoadingMessage.close(); return result; })
             ;
@@ -2269,7 +2278,7 @@
 
         elem = properties.add(null, C.LP_ID);
         elem.setType(T.select);
-        elem.setSelectTable(Cairo.Tables.LISTA_PRECIO);
+        elem.setSelectTable(Cairo.Tables.LISTAS_DE_PRECIOS);
         elem.setName(getText(1397, "")); // Lista de Precios
         elem.setSelectFilter(D.getListaPrecioForProveedor(m_docId, m_provId));
         elem.setKey(K_LP_ID);
@@ -2279,7 +2288,7 @@
 
         elem = properties.add(null, C.LD_ID);
         elem.setType(T.select);
-        elem.setSelectTable(Cairo.Tables.LISTA_DESCUENTO);
+        elem.setSelectTable(Cairo.Tables.LISTAS_DE_DESCUENTOS);
         elem.setName(getText(1398, "")); // Lista de Descuentos
         elem.setSelectFilter(D.getListaDescuentoForProveedor(m_docId, m_provId));
         elem.setKey(K_LD_ID);
@@ -2347,7 +2356,7 @@
         elem.setType(T.check);
         elem.setName(getText(3901, "")); // Ocultar Columnas
         elem.setKey(K_HIDECOLS);
-        elem.setValue(false);
+        elem.setValue(true);
         elem.setIsEditProperty(false);
 
         if(!m_dialog.show(self)) { return false; }

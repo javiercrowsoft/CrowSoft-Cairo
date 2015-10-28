@@ -1315,7 +1315,7 @@ object Productos extends Controller with ProvidesUser {
     LoggedIntoCompanyResponse.getAction(request, { user =>
       val discount = Producto.getDiscount(user, id, ldId, price)
       val discountDesc = Producto.getDiscountDescription(user, id, ldId)
-      Ok(Json.toJson(Json.obj("discount" -> Json.toJson(discount), "desc" -> Json.toJson(discountDesc))))
+      Ok(Json.toJson(Json.obj("price" -> Json.toJson(discount), "desc" -> Json.toJson(discountDesc))))
     })
   }
 
