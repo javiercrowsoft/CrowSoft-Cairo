@@ -2144,7 +2144,7 @@
 
         elem = properties.add(null, C.CPG_ID);
         elem.setType(T.select);
-        elem.setSelectTable(Cairo.Tables.CONDICION_PAGO);
+        elem.setSelectTable(Cairo.Tables.CONDICIONES_DE_PAGO);
         elem.setName(getText(1835, "")); // C. pago
         elem.setKey(K_CPG_ID);
         elem.setSelectId(m_cpgId);
@@ -4976,7 +4976,7 @@
 
         c = m_properties.add(null, C.CPG_ID);
         c.setType(T.select);
-        c.setSelectTable(Cairo.Tables.CONDICION_PAGO);
+        c.setSelectTable(Cairo.Tables.CONDICIONES_DE_PAGO);
         c.setName(getText(1395, "")); // Condicion de pago
         c.setKey(K_CPG_ID);
         c.setValue(m_condicionPago);

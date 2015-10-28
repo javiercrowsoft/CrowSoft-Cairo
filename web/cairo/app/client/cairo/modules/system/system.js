@@ -1142,7 +1142,7 @@
 
     var elem = properties.add(null, DWC.CONDICION_PAGO);
     elem.setType(T.select);
-    elem.setSelectTable(Cairo.Tables.CONDICION_PAGO);
+    elem.setSelectTable(Cairo.Tables.CONDICIONES_DE_PAGO);
     elem.setName(getText(1395, "")); // Condición de Pago
     elem.setKey(WCC.KW_CPG_ID);
 

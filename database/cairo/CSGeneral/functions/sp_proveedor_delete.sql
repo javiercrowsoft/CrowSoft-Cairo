@@ -28,39 +28,41 @@ http://www.crowsoft.com.ar
 
 javier at crowsoft.com.ar
 */
--- Function: sp_cliente_get_sucursales()
+-- Function: sp_proveedor_delete()
 
--- drop function sp_cliente_get_sucursales(integer);
+-- drop function sp_proveedor_delete(integer);
 
-create or replace function sp_cliente_get_sucursales
+create or replace function sp_proveedor_delete
 (
-  in p_cli_id integer,
-  out rtn refcursor
+  in p_prov_id integer
 )
-  returns refcursor as
+  returns void as
 $BODY$
 begin
 
-   rtn := 'rtn';
+   delete from ProductoProveedor where prov_id = p_prov_id;
+   delete from EmpresaProveedor where prov_id = p_prov_id;
+   delete from ProveedorRetencion where prov_id = p_prov_id;
+   delete from ProveedorCuentaGrupo where prov_id = p_prov_id;
+   delete from ListaDescuentoProveedor where prov_id = p_prov_id;
+   delete from ListaPrecioProveedor where prov_id = p_prov_id;
+   delete from ProveedorCacheCredito where prov_id = p_prov_id;
+   delete from ProveedorCAI where prov_id = p_prov_id;
+   delete from EmpresaProveedorDeuda where prov_id = p_prov_id;
+   delete from Proveedor where prov_id = p_prov_id;
 
-   open rtn for
-      select clis.*,
-             zon.zon_nombre,
-             pro.pro_nombre,
-             pa.pa_nombre
-        from ClienteSucursal clis
-               left join Zona zon
-                on clis.zon_id = zon.zon_id
-               left join Provincia pro
-                on clis.pro_id = pro.pro_id
-               left join Pais pa
-                on clis.pa_id = pa.pa_id
-         where clis.cli_id = p_cli_id;
+   return;
+
+exception
+   when others then
+
+     raise exception 'Ha ocurrido un error al borrar el proveedor. sp_proveedor_delete. %. %.',
+                      sqlstate, sqlerrm;
 
 end;
 
 $BODY$
   language plpgsql volatile
   cost 100;
-alter function sp_cliente_get_sucursales(integer)
+alter function sp_proveedor_delete(integer)
   owner to postgres;

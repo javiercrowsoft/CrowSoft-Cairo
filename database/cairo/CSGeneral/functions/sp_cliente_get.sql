@@ -28,7 +28,7 @@ http://www.crowsoft.com.ar
 
 javier at crowsoft.com.ar
 */
--- Function: sp_producto_get()
+-- Function: sp_cliente_get()
 
 -- drop function sp_cliente_get(integer);
 
