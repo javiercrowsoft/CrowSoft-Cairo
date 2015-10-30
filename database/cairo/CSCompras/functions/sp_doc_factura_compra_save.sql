@@ -265,24 +265,24 @@ begin
           FacturaCompraTMP.doc_id,
           FacturaCompraTMP.prov_id,
           FacturaCompraTMP.est_id
-          into    v_mon_id,
-                  v_ta_id,
-                  v_doct_id,
-                  v_cpg_id,
-                  v_fc_total,
-                  v_fc_fecha,
-                  v_fc_fechaVto,
-                  v_fc_fechaiva,
-                  v_depl_id,
-                  v_doc_mueveStock,
-                  v_fc_descuento1,
-                  v_fc_descuento2,
-                  v_fc_totalotros,
-                  v_fc_totalpercepciones,
-                  v_fc_nrodoc,
-                  v_doc_id,
-                  v_prov_id,
-                  v_est_id
+     into v_mon_id,
+          v_ta_id,
+          v_doct_id,
+          v_cpg_id,
+          v_fc_total,
+          v_fc_fecha,
+          v_fc_fechaVto,
+          v_fc_fechaiva,
+          v_depl_id,
+          v_doc_mueveStock,
+          v_fc_descuento1,
+          v_fc_descuento2,
+          v_fc_totalotros,
+          v_fc_totalpercepciones,
+          v_fc_nrodoc,
+          v_doc_id,
+          v_prov_id,
+          v_est_id
 
    from FacturaCompraTMP
    join Documento
@@ -318,7 +318,7 @@ begin
 
             select sp_talonario_get_next_number(v_ta_id) into v_ta_nrodoc;
 
-            -- con esto evitamos que dos tomen el mismo Numero
+            -- con esto evitamos que dos tomen el mismo numero
             --
             perform sp_talonario_set(v_ta_id, v_ta_nrodoc);
 
@@ -545,7 +545,7 @@ begin
 /*
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //                                                                                                                    //
-//                                        ITEMS                                                                       //
+//                                        items                                                                       //
 //                                                                                                                    //
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 */
@@ -639,17 +639,6 @@ begin
                   v_fci_internosporc, v_fci_importe, v_fci_importeorigen, v_pr_id, v_to_id, v_ccos_id,
                   v_cue_id, v_cue_id_ivari, v_cue_id_ivarni, v_stl_id );
 
-         update FacturaCompraItemTMP
-            set fci_id = v_fci_id
-         where fcTMP_id = p_fcTMP_id
-           and fciTMP_id = v_fciTMP_id
-           and fci_orden = v_orden;
-
-         update FacturaCompraItemSerieTMP
-            set fci_id = v_fci_id
-         where fcTMP_id = p_fcTMP_id
-           and fciTMP_id = v_fciTMP_id;
-
       else
 
          -- cuando se actualiza se indica
@@ -692,19 +681,18 @@ begin
          where fc_id = v_fc_id
            and fci_id = v_fci_id;
 
-         update FacturaCompraItemTMP
-            set fci_id = v_fci_id
-         where fcTMP_id = p_fcTMP_id
-           and fciTMP_id = v_fciTMP_id
-           and fci_orden = v_orden;
-
-
-         update FacturaCompraItemSerieTMP
-            set fci_id = v_fci_id
-         where fcTMP_id = p_fcTMP_id
-           and fciTMP_id = v_fciTMP_id;
-
       end if;
+
+      update FacturaCompraItemTMP
+         set fci_id = v_fci_id
+      where fcTMP_id = p_fcTMP_id
+        and fciTMP_id = v_fciTMP_id
+        and fci_orden = v_orden;
+
+      update FacturaCompraItemSerieTMP
+         set fci_id = v_fci_id
+      where fcTMP_id = p_fcTMP_id
+        and fciTMP_id = v_fciTMP_id;
 
       v_orden := v_orden + 1;
 
@@ -874,8 +862,6 @@ begin
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 */
 
-   -- hay que borrar los items borrados del orden
-   --
    if v_is_new = 0 then
 
       delete from FacturaCompraItem
@@ -1065,7 +1051,7 @@ begin
 
    -- estado
    --
-   select * from sp_auditoria_estado_check_doc_fC(v_fc_id) into v_success, v_error_msg;
+   select * from sp_auditoria_estado_check_doc_fc(v_fc_id) into v_success, v_error_msg;
    if coalesce(v_success, 0) = 0 then
       raise exception '%', v_error_msg;
    end if;
