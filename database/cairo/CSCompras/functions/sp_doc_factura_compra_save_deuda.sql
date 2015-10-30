@@ -32,8 +32,7 @@ javier at crowsoft.com.ar
 
 -- drop function sp_doc_factura_compra_save_deuda(integer, integer, date, date, decimal, integer);
 
-create or replace
-function sp_doc_factura_compra_save_deuda
+create or replace function sp_doc_factura_compra_save_deuda
 (
   in p_fc_id integer,
   in p_cpg_id integer,

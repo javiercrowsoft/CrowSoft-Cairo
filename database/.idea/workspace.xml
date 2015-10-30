@@ -22,44 +22,54 @@
     <favorites_list name="database" />
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.48931623">
+    <splitter split-orientation="horizontal" split-proportion="0.5">
       <split-first>
         <leaf>
           <file leaf-file-name="004-generated-19941-sp-spaces.sql" pinned="false" current="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/migration_from_sqlserver/functions/004-generated-19941-sp-spaces.sql">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="191.36145" vertical-offset="4020665" max-vertical-offset="7295202">
-                  <caret line="210778" column="45" selection-start-line="210778" selection-start-column="25" selection-end-line="210778" selection-end-column="25" />
+                <state vertical-scroll-proportion="-5.506024" vertical-offset="3853104" max-vertical-offset="7295202">
+                  <caret line="202819" column="4" selection-start-line="202592" selection-start-column="0" selection-end-line="202819" selection-end-column="4" />
                   <folding />
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="sp_doc_factura_venta_save.sql" pinned="false" current="true" current-in-tab="true">
+          <file leaf-file-name="sp_doc_factura_venta_save.sql" pinned="false" current="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/cairo/CSVentas/functions/sp_doc_factura_venta_save.sql">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.3114383" vertical-offset="3050" max-vertical-offset="20368">
-                  <caret line="175" column="28" selection-start-line="175" selection-start-column="0" selection-end-line="175" selection-end-column="0" />
+                <state vertical-scroll-proportion="-6.87931" vertical-offset="14307" max-vertical-offset="20368">
+                  <caret line="774" column="42" selection-start-line="774" selection-start-column="11" selection-end-line="774" selection-end-column="42" />
                   <folding />
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="sp_doc_factura_venta_set_pendiente.sql" pinned="false" current="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/cairo/CSVentas/functions/sp_doc_factura_venta_set_pendiente.sql">
+          <file leaf-file-name="sp_doc_factura_venta_save_deuda.sql" pinned="false" current="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/cairo/CSVentas/functions/sp_doc_factura_venta_save_deuda.sql">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="-0.0" vertical-offset="0" max-vertical-offset="114">
-                  <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+                <state vertical-scroll-proportion="-2.1814988" vertical-offset="2509" max-vertical-offset="3363">
+                  <caret line="34" column="18" selection-start-line="34" selection-start-column="18" selection-end-line="34" selection-end-column="18" />
                   <folding />
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="test-out-mixing-resultsets-with-other-output-parameters.sql" pinned="false" current="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/migration_from_sqlserver/tests/test-out-mixing-resultsets-with-other-output-parameters.sql">
+          <file leaf-file-name="sp_doc_factura_venta_save_pre_cliente.sql" pinned="false" current="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/cairo/CSVentas/functions/sp_doc_factura_venta_save_pre_cliente.sql">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="-6.0" vertical-offset="605" max-vertical-offset="4313">
-                  <caret line="41" column="26" selection-start-line="39" selection-start-column="10" selection-end-line="41" selection-end-column="26" />
+                <state vertical-scroll-proportion="-22.724138" vertical-offset="82" max-vertical-offset="1007">
+                  <caret line="39" column="6" selection-start-line="39" selection-start-column="6" selection-end-line="39" selection-end-column="6" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="sp_talonario_set.sql" pinned="false" current="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/cairo/CSGeneral/functions/sp_talonario_set.sql">
+              <provider selected="true" editor-type-id="text-editor">
+                <state vertical-scroll-proportion="-24.034483" vertical-offset="899" max-vertical-offset="1824">
+                  <caret line="84" column="0" selection-start-line="84" selection-start-column="0" selection-end-line="89" selection-end-column="20" />
                   <folding />
                 </state>
               </provider>
@@ -69,21 +79,11 @@
       </split-first>
       <split-second>
         <leaf>
-          <file leaf-file-name="sp_doc_fac_cpra_orden_remito_save_aplic.sql" pinned="false" current="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/cairo/CSCompras/functions/sp_doc_fac_cpra_orden_remito_save_aplic.sql">
+          <file leaf-file-name="sp_doc_factura_compra_save_deuda.sql" pinned="false" current="true" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/cairo/CSCompras/functions/sp_doc_factura_compra_save_deuda.sql">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="-41.931034" vertical-offset="532" max-vertical-offset="4294">
-                  <caret line="92" column="3" selection-start-line="92" selection-start-column="3" selection-end-line="92" selection-end-column="3" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="sp_doc_factura_compra_save.sql" pinned="false" current="false" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/cairo/CSCompras/functions/sp_doc_factura_compra_save.sql">
-              <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="1.011325" vertical-offset="17632" max-vertical-offset="22059">
-                  <caret line="975" column="46" selection-start-line="975" selection-start-column="0" selection-end-line="975" selection-end-column="0" />
+                <state vertical-scroll-proportion="0.7083333" vertical-offset="0" max-vertical-offset="3344">
+                  <caret line="34" column="18" selection-start-line="34" selection-start-column="18" selection-end-line="34" selection-end-column="18" />
                   <folding />
                 </state>
               </provider>
@@ -101,9 +101,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/cairo/CSCompras/functions/sp_lsdoc_remitos_compra.sql" />
-        <option value="$PROJECT_DIR$/cairo/CSScript/postgresql/sequence/t_configuracion_seq.sql" />
-        <option value="$PROJECT_DIR$/cairo/CSCompras/functions/sp_doc_factura_compra_editable_get.sql" />
         <option value="$PROJECT_DIR$/cairo/CSGeneral/functions/sp_proveedor_get_cuit_info.sql" />
         <option value="$PROJECT_DIR$/migration_from_sqlserver/functions/004-generated-19941-sp-spaces.sql" />
         <option value="$PROJECT_DIR$/all_functions.txt" />
@@ -152,6 +149,9 @@
         <option value="$PROJECT_DIR$/cairo/CSGeneral/functions/sp_producto_delete.sql" />
         <option value="$PROJECT_DIR$/cairo/CSCompras/functions/sp_doc_factura_compra_save.sql" />
         <option value="$PROJECT_DIR$/cairo/CSVentas/functions/sp_doc_factura_venta_save.sql" />
+        <option value="$PROJECT_DIR$/cairo/CSVentas/functions/sp_doc_factura_venta_save_pre_cliente.sql" />
+        <option value="$PROJECT_DIR$/cairo/CSVentas/functions/sp_doc_factura_venta_save_deuda.sql" />
+        <option value="$PROJECT_DIR$/cairo/CSCompras/functions/sp_doc_factura_compra_save_deuda.sql" />
       </list>
     </option>
   </component>
@@ -635,7 +635,7 @@
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2847222" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2847222" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="DB Browser" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.19391026" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="DB Execution Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -661,20 +661,6 @@
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/cairo/CSGeneral/functions/sp_rubro_get.sql">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1204" max-vertical-offset="2413">
-          <caret line="102" column="73" selection-start-line="102" selection-start-column="47" selection-end-line="102" selection-end-column="47" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/cairo/CSGeneral/functions/sp_producto_get.sql">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="2362" max-vertical-offset="4940">
-          <caret line="151" column="58" selection-start-line="132" selection-start-column="18" selection-end-line="151" selection-end-column="58" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/cairo/CSGeneral/functions/sp_producto_compra_help.sql">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-10.931034" vertical-offset="1032" max-vertical-offset="2470">
@@ -886,14 +872,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/migration_from_sqlserver/tests/test-out-mixing-resultsets-with-other-output-parameters.sql">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-6.0" vertical-offset="605" max-vertical-offset="4313">
-          <caret line="41" column="26" selection-start-line="39" selection-start-column="10" selection-end-line="41" selection-end-column="26" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/cairo/CSVentas/functions/sp_doc_factura_venta_asiento_save.sql">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="954">
@@ -903,14 +881,6 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/cairo/CSVentas/functions/sp_doc_factura_venta_stock_save.sql">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="954">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/cairo/CSVentas/functions/sp_doc_factura_venta_save_pre_cliente.sql">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="954">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
@@ -930,14 +900,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.6041667" vertical-offset="6954" max-vertical-offset="7866">
           <caret line="395" column="3" selection-start-line="395" selection-start-column="3" selection-end-line="395" selection-end-column="3" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/migration_from_sqlserver/functions/004-generated-19941-sp-spaces.sql">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="191.36145" vertical-offset="4020665" max-vertical-offset="7295202">
-          <caret line="210778" column="45" selection-start-line="210778" selection-start-column="25" selection-end-line="210778" selection-end-column="25" />
           <folding />
         </state>
       </provider>
@@ -990,22 +952,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/cairo/CSVentas/functions/sp_doc_factura_venta_save_deuda.sql">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="954">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/cairo/CSCompras/functions/sp_doc_factura_compra_save.sql">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="1.011325" vertical-offset="17632" max-vertical-offset="22059">
-          <caret line="975" column="46" selection-start-line="975" selection-start-column="0" selection-end-line="975" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/cairo/CSVentas/functions/sp_doc_fac_vta_pedido_remito_save_aplic.sql">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="954">
@@ -1046,10 +992,66 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/migration_from_sqlserver/tests/test-out-mixing-resultsets-with-other-output-parameters.sql">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.1881081" vertical-offset="605" max-vertical-offset="4313">
+          <caret line="41" column="26" selection-start-line="39" selection-start-column="10" selection-end-line="41" selection-end-column="26" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cairo/CSCompras/functions/sp_doc_factura_compra_save.sql">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="1.011325" vertical-offset="17632" max-vertical-offset="22059">
+          <caret line="975" column="46" selection-start-line="975" selection-start-column="0" selection-end-line="975" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cairo/CSGeneral/functions/sp_talonario_set.sql">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-24.034483" vertical-offset="899" max-vertical-offset="1824">
+          <caret line="84" column="0" selection-start-line="84" selection-start-column="0" selection-end-line="89" selection-end-column="20" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cairo/CSVentas/functions/sp_doc_factura_venta_save_pre_cliente.sql">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-22.724138" vertical-offset="82" max-vertical-offset="1007">
+          <caret line="39" column="6" selection-start-line="39" selection-start-column="6" selection-end-line="39" selection-end-column="6" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/migration_from_sqlserver/functions/004-generated-19941-sp-spaces.sql">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-5.506024" vertical-offset="3853104" max-vertical-offset="7295202">
+          <caret line="202819" column="4" selection-start-line="202592" selection-start-column="0" selection-end-line="202819" selection-end-column="4" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/cairo/CSVentas/functions/sp_doc_factura_venta_save.sql">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.3114383" vertical-offset="3050" max-vertical-offset="20368">
-          <caret line="175" column="28" selection-start-line="175" selection-start-column="0" selection-end-line="175" selection-end-column="0" />
+        <state vertical-scroll-proportion="-6.87931" vertical-offset="14307" max-vertical-offset="20368">
+          <caret line="774" column="42" selection-start-line="774" selection-start-column="11" selection-end-line="774" selection-end-column="42" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cairo/CSVentas/functions/sp_doc_factura_venta_save_deuda.sql">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-2.1814988" vertical-offset="2509" max-vertical-offset="3363">
+          <caret line="34" column="18" selection-start-line="34" selection-start-column="18" selection-end-line="34" selection-end-column="18" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cairo/CSCompras/functions/sp_doc_factura_compra_save_deuda.sql">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.7083333" vertical-offset="0" max-vertical-offset="3344">
+          <caret line="34" column="18" selection-start-line="34" selection-start-column="18" selection-end-line="34" selection-end-column="18" />
           <folding />
         </state>
       </provider>
