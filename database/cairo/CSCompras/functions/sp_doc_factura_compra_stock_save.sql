@@ -28,12 +28,11 @@ http://www.crowsoft.com.ar
 
 javier at crowsoft.com.ar
 */
--- Function: sp_doc_factura_compra_asiento_save()
+-- Function: sp_doc_factura_compra_stock_save()
 
--- drop function sp_doc_factura_compra_stock_save(integer, integer);
+-- drop function sp_doc_factura_compra_stock_save(integer, integer, integer);
 
-create or replace
-function sp_doc_factura_compra_stock_save
+create or replace function sp_doc_factura_compra_stock_save
 (
   in p_fcTMP_id integer,
   in p_fc_id integer,
@@ -77,7 +76,6 @@ declare
    v_fci_cantidad decimal(18,6);
    v_fci_id integer;
    v_fci_descrip varchar(255);
-
 
    v_pr_id integer;
 
@@ -288,7 +286,7 @@ begin
          raise exception '%', v_message;
       end if;
 
-      -- borro todos los items y solo hago inserts que se mucho mas simple y rapido
+      -- borro todos los items y solo hago inserts que es mucho mas simple y rapido
       --
       delete from StockItem where st_id = v_st_id;
       delete from StockCache where prns_id in ( select prns_id from tt_productoNroSerieDel );

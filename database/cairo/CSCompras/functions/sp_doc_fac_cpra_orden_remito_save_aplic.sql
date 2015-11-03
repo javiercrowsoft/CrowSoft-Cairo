@@ -32,8 +32,7 @@ javier at crowsoft.com.ar
 
 -- drop function sp_doc_fac_cpra_ord_rto_save_aplic(integer, integer, integer);
 
-create or replace
-function sp_doc_fac_cpra_orden_remito_save_aplic
+create or replace function sp_doc_fac_cpra_orden_remito_save_aplic
 (
   in p_fc_id integer,
   in p_fcTMP_id integer,
@@ -54,8 +53,6 @@ declare
    v_rci_id integer;
 begin
 
-   v_orden := 0;
-
 /*
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //                                                                                                                    //
@@ -63,6 +60,8 @@ begin
 //                                                                                                                    //
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 */
+
+   v_orden := 0;
 
    create temporary table tt_OrdenCompraFac
    (
@@ -203,7 +202,7 @@ begin
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 */
 
-   -- Actualizo la deuda de la factura
+   -- actualizo la deuda de la factura
    --
    perform sp_doc_factura_cpra_set_item_pendiente(p_fc_id);
 

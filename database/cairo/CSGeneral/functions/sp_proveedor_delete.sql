@@ -51,8 +51,6 @@ begin
    delete from EmpresaProveedorDeuda where prov_id = p_prov_id;
    delete from Proveedor where prov_id = p_prov_id;
 
-   return;
-
 exception
    when others then
 

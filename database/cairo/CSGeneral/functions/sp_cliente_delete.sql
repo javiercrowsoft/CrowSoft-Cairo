@@ -61,8 +61,6 @@ begin
    delete from EmpresaClienteDeuda where cli_id = p_cli_id;
    delete from Cliente where cli_id = p_cli_id;
 
-   return;
-
 exception
    when others then
 

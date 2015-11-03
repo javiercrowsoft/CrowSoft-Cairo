@@ -64,8 +64,6 @@ begin
       delete from StockCache where pr_id = p_pr_id;
       delete from Producto where pr_id = p_pr_id;
 
-   return;
-
 exception
    when others then
 
