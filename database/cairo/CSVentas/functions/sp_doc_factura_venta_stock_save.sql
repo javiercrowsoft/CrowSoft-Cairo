@@ -278,6 +278,8 @@ begin
 
    v_sti_orden := 0;
 
+   perform sp_doc_factura_venta_prepare_kit(p_fv_id);
+
    for v_fvi_id,v_fvi_cantidad,v_pr_id,v_stl_id,v_fvi_descrip,v_bLlevaNroSerie,v_bEsKit,v_bLoteFifo in
         select fvi.fvi_id,
                fvi.fvi_cantidadaremitir * p.pr_ventastock,
@@ -299,34 +301,32 @@ begin
          --
          if v_bEsKit <> 0 then
 
-            perform sp_doc_factura_venta_save_item_kit(
+            select sp_doc_factura_venta_save_item_kit(
                                           p_fvTMP_id,
                                           v_fvi_id,
                                           v_st_id,
-                                          v_sti_orden,
                                           v_fvi_cantidad,
                                           v_fvi_descrip,
                                           v_pr_id,
                                           v_depl_id_origen,
                                           v_depl_id_destino,
-                                          v_stl_id;
+                                          v_stl_id) into v_sti_orden;
          else
 
             -- si tiene numero de serie hay que grabar un stockitem por cada uno.
             --
             if v_bLlevaNroSerie <> 0 then
 
-               perform sp_doc_factura_venta_save_nro_serie(
+               select sp_doc_factura_venta_save_nro_serie(
                                               p_fvTMP_id,
                                               v_fvi_id,
                                               v_st_id,
-                                              v_sti_orden,
                                               v_fvi_cantidad,
                                               v_fvi_descrip,
                                               v_pr_id,
                                               v_depl_id_origen,
                                               v_depl_id_destino,
-                                              null);
+                                              null) into v_sti_orden;
 
             else
 
@@ -397,10 +397,9 @@ begin
 
                         v_fvi_cantidad := v_fvi_cantidad - v_cant_aux;
 
-                        perform sp_doc_fac_vta_stock_item_save(
+                        select sp_doc_factura_venta_stock_item_save(
                                                        0,
                                                        v_st_id,
-                                                       v_sti_orden,
                                                        v_cant_aux,
                                                        v_fvi_descrip,
                                                        v_pr_id,
@@ -408,7 +407,7 @@ begin
                                                        v_depl_id_destino,
                                                        null,
                                                        null,
-                                                       v_stl_id);
+                                                       v_stl_id) into v_sti_orden;
 
                   end loop;
 
@@ -416,10 +415,9 @@ begin
                --
                else
 
-                  perform sp_doc_fac_vta_stock_item_save(
+                  select sp_doc_factura_venta_stock_item_save(
                                                  0,
                                                  v_st_id,
-                                                 v_sti_orden,
                                                  v_fvi_cantidad,
                                                  v_fvi_descrip,
                                                  v_pr_id,
@@ -427,7 +425,7 @@ begin
                                                  v_depl_id_destino,
                                                  null,
                                                  null,
-                                                 v_stl_id);
+                                                 v_stl_id) into v_sti_orden;
 
                end if;
             end if;

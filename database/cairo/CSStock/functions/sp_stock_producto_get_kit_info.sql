@@ -134,7 +134,7 @@ begin
 
    if v_bExpandKit = 0 and v_pr_kitResumido <> 0 then
 
-      insert into tt_KitItemsSerie ( pr_id, cantidad, prk_id ) values ( p_pr_id, 1, 0 );
+      insert into tt_kit_item_serie ( pr_id, cantidad, prk_id ) values ( p_pr_id, 1, 0 );
 
    else
 
@@ -147,7 +147,7 @@ begin
                     and pr_kitStkItem = 0
                     and p_bSoloStockXItem <> 0 ) then
 
-         insert into tt_KitItemsSerie( pr_id, cantidad, prk_id ) values ( p_pr_id, p_cantidad, 0 );
+         insert into tt_kit_item_serie( pr_id, cantidad, prk_id ) values ( p_pr_id, p_cantidad, 0 );
 
       else
 
@@ -171,7 +171,7 @@ begin
                and p.pr_eskit <> 0 );
 
          -- Agrego todos los items de este Kit que no sean kit
-         insert into tt_KitItemsSerie
+         insert into tt_kit_item_serie
            ( pr_id, cantidad, prk_id )
            ( select k.pr_id_item,
                     k.prk_cantidad * p_cantidad,
@@ -186,13 +186,13 @@ begin
          --
          if p_bSetPrIdSubKit <> 0 then
 
-            update tt_KitItemsSerie set pr_id_kit = p_pr_id where pr_id_kit is null;
+            update tt_kit_item_serie set pr_id_kit = p_pr_id where pr_id_kit is null;
 
          else
 
             if p_bSetPrIdKit <> 0 then
 
-               update tt_KitItemsSerie set pr_id_kit = 0;-- Para diferenciarlos de los Items de Kits
+               update tt_kit_item_serie set pr_id_kit = 0;-- Para diferenciarlos de los Items de Kits
 
             end if;
 
@@ -249,7 +249,7 @@ begin
             --
             if p_bSetPrIdKit <> 0 then
 
-               update tt_KitItemsSerie
+               update tt_kit_item_serie
                   set pr_id_kit = v_pr_id_item
                where pr_id_kit is null;
 
@@ -266,7 +266,7 @@ begin
                where k.prfk_id = p_prfk_id
                  and pr_id_item = v_pr_id_item;
 
-               insert into tt_KitItemsSerie( pr_id, cantidad, prk_id, pr_id_kit, nivel )
+               insert into tt_kit_item_serie( pr_id, cantidad, prk_id, pr_id_kit, nivel )
                     values ( v_pr_id_item, v_cantidad_kit, 0, p_pr_id, v_nivel );
 
             end if;
@@ -279,7 +279,7 @@ begin
          --
          if p_bSetPrIdKit <> 0 then
 
-            update tt_KitItemsSerie
+            update tt_kit_item_serie
                set pr_id_kit = null
             where pr_id_kit = 0;
 
@@ -297,7 +297,7 @@ begin
                        and pr_eskit <> 0
                        and pr_kitStkItem = 0 ) then
 
-            update tt_KitItemsSerie set pr_id_kit = p_pr_id;
+            update tt_kit_item_serie set pr_id_kit = p_pr_id;
 
          end if;
 
@@ -316,7 +316,7 @@ begin
                    p.pr_llevanroserie,
                    k.pr_id_kit,
                    sum(cantidad) cantidad
-            from tt_KitItemsSerie k
+            from tt_kit_item_serie k
             join Producto p
               on k.pr_id = p.pr_id
             group by k.pr_id,p.pr_nombrecompra,p.pr_llevanroserie,k.pr_id_kit;
@@ -328,7 +328,7 @@ begin
                    p.pr_nombrecompra,
                    p.pr_llevanroserie,
                    sum(cantidad) cantidad
-            from tt_KitItemsSerie k
+            from tt_kit_item_serie k
             join Producto p
               on k.pr_id = p.pr_id
             group by k.pr_id,p.pr_nombrecompra,p.pr_llevanroserie;
