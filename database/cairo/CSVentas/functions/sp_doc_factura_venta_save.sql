@@ -756,13 +756,13 @@ begin
 
    end if;
 
-      select sum(fvi.fvi_importe)
-        into v_fv_totaldeuda
-      from FacturaVentaItem fvi
-      join TipoOperacion t
-        on fvi.to_id = t.to_id
-      where fvi.fv_id = v_fv_id
-        and t.to_generadeuda <> 0;
+   select sum(fvi.fvi_importe)
+     into v_fv_totaldeuda
+   from FacturaVentaItem fvi
+   join TipoOperacion t
+     on fvi.to_id = t.to_id
+   where fvi.fv_id = v_fv_id
+     and t.to_generadeuda <> 0;
 
    if v_fv_totaldeuda is null then
       v_fv_totaldeuda := 0;

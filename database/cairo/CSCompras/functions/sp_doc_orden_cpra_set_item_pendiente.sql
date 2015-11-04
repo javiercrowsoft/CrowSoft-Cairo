@@ -48,7 +48,6 @@ declare
    v_aplicadoFactura decimal(18,6);
    v_aplicadoRemito decimal(18,6);
    v_aplicadoOrden decimal(18,6);
-
 begin
 
    select doct_id,

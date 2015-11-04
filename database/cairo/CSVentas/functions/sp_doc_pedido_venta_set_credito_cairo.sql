@@ -28,20 +28,20 @@ http://www.crowsoft.com.ar
 
 javier at crowsoft.com.ar
 */
--- Function: sp_doc_orden_compra_set_credito()
+-- Function: sp_doc_pedido_venta_set_credito()
 
--- drop function sp_doc_orden_compra_set_credito(integer, integer);
+-- drop function sp_doc_pedido_venta_set_credito(integer, integer);
 
-create or replace function sp_doc_orden_compra_set_credito
+create or replace function sp_doc_pedido_venta_set_credito
 (
-  in p_oc_id integer,
+  in p_pv_id integer,
   in p_borrar integer default 0
 )
   returns void as
 $BODY$
 declare
    v_pendiente decimal(18,6);
-   v_prov_id integer;
+   v_cli_id integer;
    v_doct_id integer;
    v_emp_id integer;
    v_cotizacion decimal(18,6);
@@ -50,38 +50,38 @@ declare
    v_desc1 decimal(18,6);
    v_desc2 decimal(18,6);
 
-   v_doct_ordenCompra integer := 35;
-
-   v_old_prov_ids integer[];
+   v_doct_pedidoVenta integer := 5;
+   
+   v_old_cli_ids integer[];
    i integer;
 begin
 
    -- si no hay documento adios
    --
-   if p_oc_id = 0 then
+   if p_pv_id = 0 then
       return;
    end if;
 
    SET TRANSACTION READ WRITE;
 
-   select oc.prov_id,
-          round(oc.oc_pendiente, 2),
-          oc.doct_id,
+   select pv.cli_id,
+          round(pv.pv_pendiente, 2),
+          pv.doct_id,
           doc.emp_id,
           doc.mon_id,
-          oc.oc_descuento1,
-          oc.oc_descuento2
-     into v_prov_id,
+          pv.pv_descuento1,
+          pv.pv_descuento2
+     into v_cli_id,
           v_pendiente,
           v_doct_id,
           v_emp_id,
           v_mon_id,
           v_desc1,
           v_desc2
-   from OrdenCompra oc
+   from PedidoVenta pv
    join Documento doc
-     on oc.doc_id = doc.doc_id
-   where oc.oc_id = p_oc_id;
+     on pv.doc_id = doc.doc_id
+   where pv.pv_id = p_pv_id;
 
    v_fecha := CURRENT_TIMESTAMP;
 
@@ -102,33 +102,32 @@ begin
    v_pendiente := coalesce(v_pendiente, 0) - (coalesce(v_pendiente, 0) * v_desc2 / 100);
 
 
-   -- borrar referencias a este documento por otro proveedor
+   -- borrar referencias a este documento por otro cliente
    --
-
    -- siempre borro cualquier mencion a este documento en el cache de cualquier
-   -- proveedor que no sea el indicado por el documento
+   -- cliente que no sea el indicado por el documento
    --
-   if exists ( select prov_id
-               from ProveedorCacheCredito
-               where prov_id <> v_prov_id
-                 and doct_id = v_doct_ordenCompra
-                 and id = p_oc_id ) then
+   if exists ( select cli_id
+               from ClienteCacheCredito
+               where cli_id <> v_cli_id
+                 and doct_id = v_doct_PedidoVenta
+                 and id = p_pv_id ) then
 
-      select into v_old_prov_ids prov_id
-      from ProveedorCacheCredito
-      where prov_id <> v_prov_id
-        and doct_id = v_doct_ordenCompra
-        and id = p_oc_id;
+      select into v_old_cli_ids cli_id
+      from ClienteCacheCredito
+      where cli_id <> v_cli_id
+        and doct_id = v_doct_PedidoVenta
+        and id = p_pv_id;
 
-      delete from ProveedorCacheCredito
-      where prov_id <> v_prov_id
-        and doct_id = v_doct_ordenCompra
-        and id = p_oc_id;
+      delete from ClienteCacheCredito
+      where cli_id <> v_cli_id
+        and doct_id = v_doct_PedidoVenta
+        and id = p_pv_id;
 
-      for i in 1 .. array_upper(v_old_prov_ids, 1)
+      for i in 1 .. array_upper(v_old_cli_ids, 1)
       loop
 
-         perform sp_proveedor_update_orden_cpra_credito(v_old_prov_ids[i], v_emp_id);
+         perform sp_cliente_update_pedido_credito(v_old_cli_ids[i], v_emp_id);
 
       end loop;
 
@@ -138,41 +137,42 @@ begin
    --
    if p_borrar <> 0 then
 
-      delete from ProveedorCacheCredito
-      where prov_id = v_prov_id
-        and doct_id = v_doct_ordenCompra
-        and id = p_oc_id;
+      delete ClienteCacheCredito
+      where cli_id = v_cli_id
+        and doct_id = v_doct_pedidoVenta
+        and id = p_pv_id;
 
    -- insert - update
    --
    else
 
-      if v_doct_id = 36 then /* cancelacion */
+      if v_doct_id = 22 then /* devolucion */
          v_pendiente := -v_pendiente;
       end if;
 
       if exists ( select id
-                  from ProveedorCacheCredito
-                  where prov_id = v_prov_id
-                    and doct_id = v_doct_ordenCompra
-                    and id = p_oc_id ) then
+                  from ClienteCacheCredito
+                  where cli_id = v_cli_id
+                    and doct_id = v_doct_pedidoVenta
+                    and id = p_pv_id ) then
 
          if abs(v_pendiente) >= 0.01 then
 
-            update ProveedorCacheCredito
-               set provcc_importe = v_pendiente
-            where prov_id = v_prov_id
-              and doct_id = v_doct_ordenCompra
-              and id = p_oc_id;
+            update ClienteCacheCredito
+               set clicc_importe = v_pendiente
+            where cli_id = v_cli_id
+              and doct_id = v_doct_pedidoVenta
+              and id = p_pv_id;
+
 
          -- si no hay nada pendiente lo saco del cache
          --
          else
 
-            delete from ProveedorCacheCredito
-            where prov_id = v_prov_id
-              and doct_id = v_doct_ordenCompra
-              and id = p_oc_id;
+            delete from ClienteCacheCredito
+            where cli_id = v_cli_id
+              and doct_id = v_doct_pedidoVenta
+              and id = p_pv_id;
 
          end if;
 
@@ -182,8 +182,8 @@ begin
          --
          if abs(v_pendiente) >= 0.01 then
 
-            insert into ProveedorCacheCredito( prov_id, doct_id, id, provcc_importe, emp_id )
-            values ( v_prov_id, v_doct_ordenCompra, p_oc_id, v_pendiente, v_emp_id );
+            insert into ClienteCacheCredito( cli_id, doct_id, id, clicc_importe, emp_id )
+            values ( v_cli_id, v_doct_pedidoVenta, p_pv_id, v_pendiente, v_emp_id );
 
          end if;
 
@@ -194,19 +194,13 @@ begin
    -- deuda en cache
    --
 
-   -- actualizo la deuda en la tabla proveedor
+   -- actualizo la deuda en la tabla cliente
    --
-   perform sp_proveedor_update_orden_cpra_credito(v_prov_id, v_emp_id);
-
-exception
-   when others then
-
-   raise exception 'Ha ocurrido un error al actualizar el estado de la orden de compra. sp_doc_orden_compra_set_credito. %. %.',
-                   sqlstate, sqlerrm;
+   perform sp_cliente_update_pedido_credito(v_cli_id, v_emp_id);
 
 end;
 $BODY$
   language plpgsql volatile
   cost 100;
-alter function sp_doc_orden_compra_set_credito(integer, integer)
+alter function sp_doc_pedido_venta_set_credito(integer, integer)
   owner to postgres;
