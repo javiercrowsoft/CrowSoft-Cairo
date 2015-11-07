@@ -1329,7 +1329,6 @@ object Productos extends Controller with ProvidesUser {
       C.TI_RNI_PORC_COMPRA -> Json.toJson(info.tiPorcIvaRniCompra),
       C.CUE_ID_RNI_COMPRA -> Json.toJson(info.cueIdIvaRiCompra),
 
-
       C.TI_ID_RI_VENTA -> Json.toJson(info.tiIdIvaRiVenta),
       C.TI_RI_PORC_VENTA -> Json.toJson(info.tiPorcIvaRiVenta),
       C.CUE_ID_RI_VENTA -> Json.toJson(info.cueIdIvaRiVenta),
@@ -1337,7 +1336,6 @@ object Productos extends Controller with ProvidesUser {
       C.TI_ID_RNI_VENTA -> Json.toJson(info.tiIdIvaRniVenta),
       C.TI_RNI_PORC_VENTA -> Json.toJson(info.tiPorcIvaRniVenta),
       C.CUE_ID_RNI_VENTA -> Json.toJson(info.cueIdIvaRniVenta),
-
 
       C.TI_ID_INTERNOS_COMPRA -> Json.toJson(info.tiIdInternosC),
       C.TI_PORC_INTERNOS_COMPRA -> Json.toJson(info.tiPorcInternosC),

@@ -33,7 +33,7 @@ javier at crowsoft.com.ar
 -- drop function sp_doc_fac_vta_pedido_set_pendiente(integer);
 
 /*
-          select * from facturacompra;
+          select * from facturaventa;
           select sp_doc_fac_vta_pedido_set_pendiente(1);
 */
 

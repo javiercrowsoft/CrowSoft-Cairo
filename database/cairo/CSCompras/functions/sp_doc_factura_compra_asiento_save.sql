@@ -631,7 +631,7 @@ begin
             v_fcot_debe := v_fcot_haber;
             v_fcot_haber := v_aux;
 
-            -- sumo Percepciones
+            -- sumo percepciones
             --
             select sum(fcperc_importe),
                    sum(fcperc_origen)

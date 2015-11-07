@@ -28,43 +28,38 @@ http://www.crowsoft.com.ar
 
 javier at crowsoft.com.ar
 */
--- Function: sp_doc_factura_venta_set_pendiente()
+-- Function: sp_hora_set_pendiente()
 
--- drop function sp_doc_factura_venta_set_pendiente(integer);
+-- drop function sp_hora_set_pendiente(integer);
 
-create or replace function 
-create or replace function sp_doc_factura_venta_set_pendiente
+create or replace function sp_hora_set_pendiente
 (
-  in p_fv_id integer
+  in p_hora_id integer
 )
   returns void as
 $BODY$
 declare
-   v_fv_pendiente decimal(18,6);
+   v_hora_pendiente decimal(18,6);
+   v_aplicado decimal(18,6);
 begin
 
-   SET TRANSACTION READ WRITE;
+   select hora_horas + CAST(hora_minutos as decimal(18,6)) / 60
+     into v_hora_pendiente
+   from Hora
+   where hora_id = p_hora_id;
 
-   select sum(fvd_pendiente)
-     into v_fv_pendiente
-   from FacturaVentaDeuda
-   where fv_id = p_fv_id;
+   select sum(horafv_cantidad)
+     into v_aplicado
+   from HoraFacturaVenta
+   where hora_id = p_hora_id;
 
-   v_fv_pendiente := coalesce(v_fv_pendiente, 0);
-
-   update FacturaVenta
-      set fv_pendiente = round(v_fv_pendiente, 2)
-   where fv_id = p_fv_id;
-
-exception
-   when others then
-
-      raise exception 'Ha ocurrido un error al actualizar el pendiente de la factura de venta. sp_doc_factura_venta_set_pendiente. %. %.',
-                      sqlstate, sqlerrm;
+   update hora
+      set hora_pendiente = v_hora_pendiente - coalesce(v_aplicado, 0)
+   where hora_id = p_hora_id;
 
 end;
 $BODY$
   language plpgsql volatile
   cost 100;
-alter function sp_doc_remito_compra_set_pendiente(integer)
+alter function sp_hora_set_pendiente(integer)
   owner to postgres;

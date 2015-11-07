@@ -32,8 +32,7 @@ javier at crowsoft.com.ar
 
 -- drop function sp_doc_factura_compra_asiento_save_iva(integer, integer, integer, integer, integer, integer, decimal, decimal, integer);
 
-create or replace
-function sp_doc_factura_compra_asiento_save_iva
+create or replace function sp_doc_factura_compra_asiento_save_iva
 (
   in p_fc_id integer,
   in p_as_id integer,
@@ -59,7 +58,7 @@ declare
    v_asi_orden smallint;
    v_asi_id integer;
    v_is_new integer;
-   c_item refcursor;
+   c_items refcursor;
 begin
 
    select max(asi_orden)
@@ -74,7 +73,7 @@ begin
       --
       if p_doc_esresumenbco <> 0 then
 
-         open c_item for 
+         open c_items for 
             select fci.fci_ivari,
                    fci.fci_importe,
                    fci.fci_importeorigen,
@@ -88,7 +87,7 @@ begin
 
       else
 
-         open c_item for 
+         open c_items for 
             select sum(fci.fci_ivari),
                    sum(fci.fci_importe),
                    sum(fci.fci_importeorigen),
@@ -111,7 +110,7 @@ begin
       --
       if p_doc_esresumenbco <> 0 then
 
-         open c_item for 
+         open c_items for 
             select fci.fci_ivarni,
                    fci.fci_importe,
                    fci.fci_importeorigen,
@@ -125,7 +124,7 @@ begin
 
       else
 
-         open c_item for 
+         open c_items for 
             select sum(fci.fci_ivarni),
                    sum(fci.fci_importe),
                    sum(fci.fci_importeorigen),
@@ -145,7 +144,7 @@ begin
 
    loop
 
-      fetch c_item into v_iva,v_fci_importe,v_fci_importeorigen,v_cue_id;
+      fetch c_items into v_iva,v_fci_importe,v_fci_importeorigen,v_cue_id;
       exit when not found;
 
       v_asi_id := null;
@@ -230,11 +229,9 @@ begin
 
       end if;
 
-      fetch c_item into v_iva,v_fci_importe,v_fci_importeorigen,v_cue_id;
-
    end loop;
 
-   close c_item;
+   close c_items;
 
 end;
 $BODY$

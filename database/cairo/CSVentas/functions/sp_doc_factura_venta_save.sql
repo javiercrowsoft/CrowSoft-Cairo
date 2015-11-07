@@ -732,25 +732,25 @@ begin
 
    if v_is_new = 0 then
          
-      delete FacturaVentaItem
+      delete from FacturaVentaItem
       where exists ( select fvi_id
                      from FacturaVentaItemBorradoTMP
                      where fv_id = v_fv_id
                        and fvTMP_id = p_fvTMP_id
                        and fvi_id = FacturaVentaItem.fvi_id );
 
-      delete FacturaVentaItemBorradoTMP
+      delete from FacturaVentaItemBorradoTMP
       where fv_id = v_fv_id
         and fvTMP_id = p_fvTMP_id;
 
-      delete FacturaVentaPercepcion
+      delete from FacturaVentaPercepcion
       where exists ( select fvperc_id
                      from FacturaVentaPercepcionBorradoTMP
                      where fv_id = v_fv_id
                        and fvperc_id = FacturaVentaPercepcion.fvperc_id
                        and fvTMP_id = p_fvTMP_id );
 
-      delete FacturaVentaPercepcionBorradoTMP
+      delete from FacturaVentaPercepcionBorradoTMP
       where fv_id = v_fv_id
         and fvTMP_id = p_fvTMP_id;
 
@@ -837,7 +837,6 @@ begin
       -- no genero asiento para facturas anuladas
       --
       if v_est_id <> 7 then
-      begin
          
          select * from sp_doc_factura_venta_asiento_save(v_fv_id, 0) into v_error, v_error_msg;
          if coalesce(v_error, 0) <> 0 then
@@ -893,7 +892,7 @@ begin
 
    select cj_id into v_cj_id from FacturaVentaTMP where fvTMP_id = p_fvTMP_id;
 
-   perofrm sp_movimiento_caj_get_from_caja(v_cj_id,
+   perform sp_movimiento_caj_get_from_caja(v_cj_id,
                                            1, /* apertura */
                                            v_mcj_id);
 
@@ -974,13 +973,13 @@ begin
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 */
 
-   delete HoraFacturaVentaTMP where fvTMP_ID = p_fvTMP_id;
-   delete PackingListFacturaVentaTMP where fvTMP_ID = p_fvTMP_id;
-   delete RemitoFacturaVentaTMP where fvTMP_ID = p_fvTMP_id;
-   delete PedidoFacturaVentaTMP where fvTMP_ID = p_fvTMP_id;
-   delete FacturaVentaItemSerieTMP where fvTMP_id = p_fvTMP_id;
-   delete FacturaVentaItemTMP where fvTMP_id = p_fvTMP_id;
-   delete FacturaVentaTMP where fvTMP_id = p_fvTMP_id;
+   delete from HoraFacturaVentaTMP where fvTMP_ID = p_fvTMP_id;
+   delete from PackingListFacturaVentaTMP where fvTMP_ID = p_fvTMP_id;
+   delete from RemitoFacturaVentaTMP where fvTMP_ID = p_fvTMP_id;
+   delete from PedidoFacturaVentaTMP where fvTMP_ID = p_fvTMP_id;
+   delete from FacturaVentaItemSerieTMP where fvTMP_id = p_fvTMP_id;
+   delete from FacturaVentaItemTMP where fvTMP_id = p_fvTMP_id;
+   delete from FacturaVentaTMP where fvTMP_id = p_fvTMP_id;
 
 /*
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

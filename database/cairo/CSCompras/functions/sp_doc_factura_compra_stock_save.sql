@@ -507,11 +507,10 @@ exception
       else
 
          p_error_msg := 'Ha ocurrido un error al grabar la factura de compra. sp_doc_factura_compra_stock_save.';
+         p_error_msg := '@@ERROR_SP:' || coalesce(p_error_msg, '');
+         p_error := -1;
 
       end if;
-
-      p_error := -1;
-      v_message := '@@ERROR_SP:' || coalesce(v_message, '');
 
 end;
 $BODY$
