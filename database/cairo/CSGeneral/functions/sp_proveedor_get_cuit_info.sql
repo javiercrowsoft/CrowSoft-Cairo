@@ -48,19 +48,18 @@ create or replace function sp_proveedor_get_cuit_info
 $BODY$
 begin
 
+   select prov_id,
+          prov_codigo,
+          prov_razonsocial
+     into p_prov_id,
+          p_prov_code,
+          p_prov_razonsocial
+   from Proveedor
+   where replace(prov_cuit, '-', '') = replace(p_cuit, '-', '');
 
-      select prov_id,
-             prov_codigo,
-             prov_razonsocial
-        into p_prov_id,
-             p_prov_code,
-             p_prov_razonsocial
-      from Proveedor
-      where replace(prov_cuit, '-', '') = replace(p_cuit, '-', '');
-
-      p_prov_id := coalesce(p_prov_id, 0);
-      p_prov_code := coalesce(p_prov_code, '');
-      p_prov_razonsocial := coalesce(p_prov_razonsocial, '');
+   p_prov_id := coalesce(p_prov_id, 0);
+   p_prov_code := coalesce(p_prov_code, '');
+   p_prov_razonsocial := coalesce(p_prov_razonsocial, '');
 
 end;
 $BODY$

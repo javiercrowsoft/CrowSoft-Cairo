@@ -89,12 +89,10 @@ begin
 
    -- borro toda la aplicacion actual de esta factura con pedidos
    --
-   delete PedidoFacturaVenta
+   delete from PedidoFacturaVenta
    where fvi_id in ( select fvi_id
                      from FacturaVentaItem
                      where fv_id = p_fv_id );
-
-   open c_aplicPedido;
 
    for v_pvfv_id,v_fvi_id,v_pvi_id,v_pvfv_cantidad in
         select pvfv_id,
@@ -161,7 +159,7 @@ begin
 
    -- borro toda la aplicacion actual de esta factura con pedidos
    --
-   delete RemitoFacturaVenta
+   delete from RemitoFacturaVenta
    where fvi_id in ( select fvi_id
                      from FacturaVentaItem
                      where fv_id = p_fv_id );
@@ -260,8 +258,6 @@ begin
 
    end loop;
 
-   close c_aplicPacking;
-
    perform sp_doc_fac_vta_pack_set_pendiente(p_fv_id);
 
 /*
@@ -295,7 +291,7 @@ begin
 
    -- borro toda la aplicacion actual de esta factura con pedidos
    --
-   delete HoraFacturaVenta
+   delete from HoraFacturaVenta
    where fvi_id in ( select fvi_id
                      from FacturaVentaItem
                      where fv_id = p_fv_id );

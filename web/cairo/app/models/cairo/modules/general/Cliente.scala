@@ -439,6 +439,12 @@ case class ClienteInfo(
                           ivaRni: Boolean
                           )
 
+case class ClienteCuitInfo(
+                            cliId: Int,
+                            code: String,
+                            razonSocial: String
+                            )
+
 object Cliente {
 
   lazy val emptyClienteItems = ClienteItems(List(), List(), List(), List(), List(), List(), List(), List(), "", "", "", "", "", "")
@@ -1582,6 +1588,64 @@ object Cliente {
       } catch {
         case NonFatal(e) => {
           Logger.error(s"can't get cliente info with cliId $id and docId $docId for user ${user.toString}. Error ${e.toString}")
+          throw e
+        }
+      } finally {
+        cs.close
+      }
+    }
+  }
+
+  def getCuitInfo(user: CompanyUser, cuit: String): ClienteCuitInfo = {
+
+    DB.withTransaction(user.database.database) { implicit connection =>
+
+      val sql = "{call sp_cliente_get_cuit_info(?, ?, ?, ?)}"
+      val cs = connection.prepareCall(sql)
+
+      cs.setString(1, cuit)
+      cs.registerOutParameter(2, Types.INTEGER)
+      cs.registerOutParameter(3, Types.VARCHAR)
+      cs.registerOutParameter(4, Types.VARCHAR)
+
+      try {
+        cs.execute()
+
+        ClienteCuitInfo(
+          cs.getInt(2),
+          cs.getString(3),
+          cs.getString(4)
+        )
+
+      } catch {
+        case NonFatal(e) => {
+          Logger.error(s"can't get cuit info with cuit $cuit for user ${user.toString}. Error ${e.toString}")
+          throw e
+        }
+      } finally {
+        cs.close
+      }
+    }
+  }
+
+  def validateCuit(user: CompanyUser, id: Int): Boolean = {
+
+    DB.withTransaction(user.database.database) { implicit connection =>
+
+      val sql = "{call sp_cliente_validate_cuit(?, ?)}"
+      val cs = connection.prepareCall(sql)
+
+      cs.setInt(1, id)
+      cs.registerOutParameter(2, Types.INTEGER)
+
+      try {
+        cs.execute()
+
+        cs.getInt(2) != 0
+
+      } catch {
+        case NonFatal(e) => {
+          Logger.error(s"can't validate cuit for customer with id $id for user ${user.toString}. Error ${e.toString}")
           throw e
         }
       } finally {

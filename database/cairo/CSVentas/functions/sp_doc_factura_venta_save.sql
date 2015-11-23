@@ -178,7 +178,7 @@ begin
 
    select sp_cfg_getValor('Ventas-General', 'Exigir Centro Costo') into v_cfg_valor;
 
-   v_cfg_valor := coalesce(v_cfg_valor, 0);
+   v_cfg_valor := coalesce(v_cfg_valor, '0');
 
    if to_number(v_cfg_valor) <> 0 then
 
@@ -830,7 +830,7 @@ begin
    v_cfg_valor := null;
    select sp_cfg_getValor('Ventas-General', 'Grabar Asiento') into v_cfg_valor;
 
-   v_cfg_valor := coalesce(v_cfg_valor, 0);
+   v_cfg_valor := coalesce(v_cfg_valor, '0');
 
    if to_number(v_cfg_valor) <> 0 then
 
@@ -1009,7 +1009,7 @@ begin
 
    select sp_cfg_getValor('Usuario-Config', v_cfg_clave) into v_cfg_valor;
 
-   v_cfg_valor := coalesce(v_cfg_valor, 0);
+   v_cfg_valor := coalesce(v_cfg_valor, '0');
 
    if to_number(v_cfg_valor) <> 0 then
 

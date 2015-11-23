@@ -60,7 +60,7 @@ begin
    while v_n <= p_fvi_cantidad
    loop
 
-      select *
+      select prns_id, prns_descrip, prns_fechavto
         into v_prns_id,
              v_prns_descrip,
              v_prns_fechavto
@@ -71,7 +71,7 @@ begin
              where fvi_id = p_fvi_id
                and ( ( pr_id_item = p_pr_id ) or ( p_pr_id = pr_id and pr_id_item is null ) )
                and fvTMP_id = p_fvTMP_id
-             order by fvis_orden asc )
+             order by fvis_orden asc ) t
       limit 1;
 
       -- actualizo el numero de serie
@@ -119,5 +119,5 @@ end;
 $BODY$
   language plpgsql volatile
   cost 100;
-alter function sp_doc_factura_venta_save_nro_serie(integer)
+alter function sp_doc_factura_venta_save_nro_serie(integer, integer, integer, integer, varchar, integer, integer, integer, integer)
   owner to postgres;

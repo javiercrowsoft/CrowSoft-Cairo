@@ -32,7 +32,6 @@ javier at crowsoft.com.ar
 
 -- drop function sp_doc_factura_venta_set_pendiente(integer);
 
-create or replace function 
 create or replace function sp_doc_factura_venta_set_pendiente
 (
   in p_fv_id integer

@@ -120,8 +120,6 @@ begin
             on fv.doc_id = doc.doc_id
           where fv.fv_id = p_fv_id );
 
-   open c_Items;
-
    for v_rvi_orden,v_rvi_cantidad,v_rvi_cantidadaremitir,v_rvi_pendiente,v_rvi_pendientefac,v_rvi_descrip,v_rvi_precio,
        v_rvi_precioUsr,v_rvi_precioLista,v_rvi_descuento,v_rvi_neto,v_rvi_ivari,v_rvi_ivarni,v_rvi_ivariporc,
        v_rvi_ivarniporc,v_rvi_importe,v_pr_id,v_ccos_id
@@ -196,7 +194,7 @@ begin
 
       end loop;
 
-      delete PedidoFacturaVenta
+      delete from PedidoFacturaVenta
       where pvfv_id in ( select pvfv.pvfv_id
                          from FacturaVentaItem fvi
                          join PedidoFacturaVenta pvfv

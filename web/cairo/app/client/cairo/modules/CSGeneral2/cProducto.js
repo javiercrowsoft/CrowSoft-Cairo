@@ -1685,7 +1685,7 @@
 
         elem = properties.add(null, C.IBC_ID);
         elem.setType(T.select);
-        elem.setSelectTable(Cairo.Tables.INGRESOS_BRUTOS_CATEGORIA);
+        elem.setSelectTable(Cairo.Tables.CATEGORIAS_DE_INGRESOS_BRUTOS);
         elem.setName(getText(1308, "")); // Categoría Ingresos Brutos
         elem.setKey(K_IBC_ID);
         elem.setSelectId(m_ibc_id);
@@ -2266,7 +2266,7 @@
 
         elem = properties.add(null, C.TA_ID_KIT_SERIE);
         elem.setType(T.select);
-        elem.setSelectTable(Cairo.Tables.TALONARIO);
+        elem.setSelectTable(Cairo.Tables.TALONARIOS);
         elem.setTabIndex(tab_kit);
         elem.setName(getText(1343, "")); // Talonario Serie
         elem.setKey(K_TA_ID_KITSERIE);
@@ -2292,7 +2292,7 @@
 
         elem = properties.add(null, C.TA_ID_KIT_LOTE);
         elem.setType(T.select);
-        elem.setSelectTable(Cairo.Tables.TALONARIO);
+        elem.setSelectTable(Cairo.Tables.TALONARIOS);
         elem.setTabIndex(tab_kit);
         elem.setName(getText(1346, "")); // Talonario Lote
         elem.setKey(K_TA_ID_KITLOTE);

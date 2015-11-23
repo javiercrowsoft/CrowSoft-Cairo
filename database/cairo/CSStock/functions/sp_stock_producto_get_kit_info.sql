@@ -39,36 +39,36 @@ create or replace function sp_stock_producto_get_kit_info
 (
   in p_pr_id integer,
   in p_bCreateTable integer default 1,
-  in p_bSoloStockXItem integer default 0,          -- La recursividad se detiene en aquellos kits que no controlan stock por item
-  in p_bSetPrIdKit integer default 0,              -- Para aquellos items que tambien son kits les asigna el pr_id_kit
+  in p_bSoloStockXItem integer default 0,          -- la recursividad se detiene en aquellos kits que no controlan stock por item
+  in p_bSetPrIdKit integer default 0,              -- para aquellos items que tambien son kits les asigna el pr_id_kit
                                                    -- solo en el primer nivel es decir que deben producirse los kits que componen
                                                    -- a este kit
   in p_cantidad integer default 1,
-  in p_bPPK integer default 0,                     -- Cuando estoy armando el kit, no quiero que me exija que los componentes
+  in p_bPPK integer default 0,                     -- cuando estoy armando el kit, no quiero que me exija que los componentes
                                                    -- esten asociados al kit, por que en ese caso no puedo armar el kit
-  in ip_prfk_id integer default 0,                 -- La formula a usar
-  in p_bExpandKit integer default 0,               -- Cuando es cero, si el Kit es resumido, este sp no devuelve los items,
+  in ip_prfk_id integer default 0,                 -- la formula a usar
+  in p_bExpandKit integer default 0,               -- cuando es cero, si el Kit es resumido, este sp no devuelve los items,
                                                    -- sino que solo devuelve el pr_id del kit, para simular un kit que esta
                                                    -- compuesto unicamente por un item, y de esta forma el kit sera manejado
                                                    -- por todo el resto del codigo como un producto mas.
                                                    --
-                                                   -- Por ahora el unico que llama a este sp con @@bExpandKit <> 0 es el
+                                                   -- por ahora el unico que llama a este sp con @@bExpandKit <> 0 es el
                                                    -- parte de produccion para poder consumir los items del kit.
                                                    --
-                                                   -- Esto SOLO se aplica a los kits que son RESUMIDOS
+                                                   -- esto SOLO se aplica a los kits que son RESUMIDOS
                                                    --
-                                                   -- Ademas solo se aplica al primer nivel del Kit, es decir que si tenemos
+                                                   -- ademas solo se aplica al primer nivel del Kit, es decir que si tenemos
                                                    -- el kit A compuesto por 10 componentes y uno de ellos es un kit (el B),
                                                    -- este sp devolvera solo 10 componentes, no desagrega los componentes del
                                                    -- Kit B
-  in p_bExpandKitAllLevels integer default 0,      -- Expande al kit en todos sus niveles, es decir que recorre todos los items,
+  in p_bExpandKitAllLevels integer default 0,      -- expande al kit en todos sus niveles, es decir que recorre todos los items,
                                                    -- solo es llamado por ahora por dc_csc_stk_0180 y dc_csc_ven_0350
-  in p_bGetFomulaFromTableAux integer default 0,   -- Esta tabla contiene hasta diez formulas de kits que deben ser utilizadas
+  in p_bGetFomulaFromTableAux integer default 0,   -- esta tabla contiene hasta diez formulas de kits que deben ser utilizadas
                                                    -- para obtener la lista de insumos del kit
                                                    -- solo es llamado por ahora por dc_csc_prd_0020
   in p_bSetPrIdSubKit integer default 0,           -- identifica cada item con el subkit al que pertence
                                                    -- solo es llamado por ahora por dc_csc_prd_0020
-  in p_bAddPrIdKitToTable integer default 0,       -- Agrega el pr_id del kit dentro de la tabla #KitItemsSerie
+  in p_bAddPrIdKitToTable integer default 0,       -- agrega el pr_id del kit dentro de la tabla #KitItemsSerie
 
   out rtn refcursor
 )
@@ -77,7 +77,7 @@ $BODY$
 declare
         p_prfk_id integer := ip_prfk_id;
 
-        v_bLlevaNroSerie smallint;  -- Si es un kit la cosa se pone mas complicada ya que hay que fijarse
+        v_bLlevaNroSerie smallint;  -- si es un kit la cosa se pone mas complicada ya que hay que fijarse
                                     -- si las componentes del kit llevan stock y numero de serie
 
         v_Unidad varchar(255);
@@ -120,7 +120,8 @@ begin
 
    end if;
 
-   -- Solo se crea la tabla en la primera llamada
+   -- solo se crea la tabla en la primera llamada
+   --
    if p_bCreateTable <> 0 then
 
          create temporary table tt_FormulasKit (prfk_id integer) on commit drop;
@@ -138,7 +139,7 @@ begin
 
    else
 
-      -- Si solo quiere los componentes de kits que controlan stock por item, y este kit no controla stock por item,
+      -- si solo quiere los componentes de kits que controlan stock por item, y este kit no controla stock por item,
       -- (son aquellos que debe ser fabricados previamente), solo agrego este producto y listo
       --
       if exists ( select pr_id
@@ -152,14 +153,16 @@ begin
       else
 
 
-         -- Agrego los items de este kit
+         -- agrego los items de este kit
+         --
          select max(nivel)
            into v_nivel
          from tt_KitItems ;
 
          v_nivel := coalesce(v_nivel, 0) + 1;
 
-         -- Agrego todos los items de este kit que son kit
+         -- agrego todos los items de este kit que son kit
+         --
          insert into tt_KitItems
            ( pr_id, nivel )
            ( select k.pr_id_item,
@@ -170,7 +173,8 @@ begin
              where k.prfk_id = p_prfk_id
                and p.pr_eskit <> 0 );
 
-         -- Agrego todos los items de este Kit que no sean kit
+         -- agrego todos los items de este Kit que no sean kit
+         --
          insert into tt_kit_item_serie
            ( pr_id, cantidad, prk_id )
            ( select k.pr_id_item,
@@ -182,7 +186,7 @@ begin
              where k.prfk_id = p_prfk_id
                and ( p.pr_eskit = 0 or ( p.pr_kitStkItem = 0 and p_bSoloStockXItem <> 0 )));
 
-         -- Actualizo el pr_id_kit para definir a que kit pertenecen estos insumos
+         -- actualizo el pr_id_kit para definir a que kit pertenecen estos insumos
          --
          if p_bSetPrIdSubKit <> 0 then
 
@@ -192,7 +196,7 @@ begin
 
             if p_bSetPrIdKit <> 0 then
 
-               update tt_kit_item_serie set pr_id_kit = 0;-- Para diferenciarlos de los Items de Kits
+               update tt_kit_item_serie set pr_id_kit = 0; -- para diferenciarlos de los Items de Kits
 
             end if;
 
@@ -212,7 +216,8 @@ begin
             from tt_KitItems
             where nivel = v_nivel;
 
-            -- Solo los que son kit
+            -- solo los que son kit
+            --
             if exists ( select *
                         from Producto
                         where pr_id = v_pr_id_item
@@ -228,14 +233,14 @@ begin
                v_prk_cantidad := v_prk_cantidad * p_cantidad;
 
                select sp_stock_producto_get_kit_info(
-                            v_pr_id_item,--@@pr_id
-                            0,--@@bCreateTable
+                            v_pr_id_item,       --@@pr_id
+                            0,                  --@@bCreateTable
                             p_bSoloStockXItem,
-                            0,--@@bSetPrIdKit
+                            0,                  --@@bSetPrIdKit
                             v_prk_cantidad,
-                            0,--@@bPPK
-                            null,--@@prfk_id
-                            0,--@@bExpandKit
+                            0,                  --@@bPPK
+                            null,               --@@prfk_id
+                            0,                  --@@bExpandKit
                             p_bExpandKitAllLevels,
                             p_bGetFomulaFromTableAux,
                             p_bSetPrIdSubKit,
@@ -243,8 +248,8 @@ begin
 
             end if;
 
-            -- Identifico a que kit pertenecen estos items
-            -- Observen que cuando se utiliza @@bSetPrIdKit todos los insumos
+            -- identifico a que kit pertenecen estos items
+            -- observen que cuando se utiliza @@bSetPrIdKit todos los insumos
             -- quedan asociados con al primer nivel de sub kits
             --
             if p_bSetPrIdKit <> 0 then
@@ -255,7 +260,8 @@ begin
 
             end if;
 
-            -- Este ya lo procese asi que lo borro
+            -- este ya lo procese asi que lo borro
+            --
             delete from tt_KitItems where pr_id = v_pr_id_item;
 
             if p_bAddPrIdKitToTable <> 0 then
@@ -273,7 +279,7 @@ begin
 
          end loop;
 
-         -- Pongo en null para que no se confunda el 0 con un id de producto y
+         -- pongo en null para que no se confunda el 0 con un id de producto y
          -- fallen otros sp que llaman a este y luego utilizan el pr_id_kit para
          -- insertarlo en alguna tabla, como es el caso de sp_DocParteProdKitSaveItemKit
          --
@@ -287,7 +293,7 @@ begin
 
       end if;
 
-      -- Solo si no estoy produciendo el kit
+      -- solo si no estoy produciendo el kit
       --
       if p_bSetPrIdKit <> 0 and p_bPPK = 0 and p_bSetPrIdSubKit = 0 then
 
@@ -305,7 +311,8 @@ begin
 
    end if;
 
-   -- Solo la primera llamada devuelve datos
+   -- solo la primera llamada devuelve datos
+   --
    if p_bCreateTable <> 0 then
 
       if p_bSetPrIdKit <> 0 then

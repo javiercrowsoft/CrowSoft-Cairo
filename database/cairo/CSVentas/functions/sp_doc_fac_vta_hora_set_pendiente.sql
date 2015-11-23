@@ -50,8 +50,6 @@ begin
 
    v_error_msg := '';
 
-   open c_horaPendiente;
-
    for v_hora_id in
         select distinct horafv.hora_id
         from HoraFacturaVenta horafv

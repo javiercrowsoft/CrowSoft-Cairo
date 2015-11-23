@@ -932,6 +932,34 @@ object Clientes extends Controller with ProvidesUser {
     })
   }
 
+  def getCuitInfo(cuit: String) = GetAction { implicit request =>
+    LoggedIntoCompanyResponse.getAction(request, { user =>
+      LoggedIntoCompanyResponse.getAction(request, { user =>
+        val info = Cliente.getCuitInfo(user, cuit)
+        Ok(
+          Json.toJson(
+            Json.obj(
+              C.CLI_ID -> Json.toJson(info.cliId),
+              C.CLI_CODE -> Json.toJson(info.code),
+              C.CLI_RAZONSOCIAL -> Json.toJson(info.razonSocial)
+            )))
+      })
+    })
+  }
+
+  def validateCuit(id: Int) = GetAction { implicit request =>
+    LoggedIntoCompanyResponse.getAction(request, { user =>
+      LoggedIntoCompanyResponse.getAction(request, { user =>
+        val isValid = Cliente.validateCuit(user, id)
+        Ok(
+          Json.toJson(
+            Json.obj(
+              C.IS_VALID -> Json.toJson(isValid)
+            )))
+      })
+    })
+  }
+
   def getPercepciones(id: Int, fecha: String) = GetAction { implicit request =>
     LoggedIntoCompanyResponse.getAction(request, { user =>
       Ok(Json.toJson(Recordset.getAsJson(Cliente.getPercepciones(user, id, DateFormatter.parse(fecha)))))

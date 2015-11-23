@@ -26,6 +26,8 @@ object C {
   val ITEMS = "items"
   val DELETED_LIST = "deletedList"
 
+  val IS_VALID = "is_valid"
+
   val PROVEEDOR_CAI_DELETED = "deletedCai"
   val PROVEEDOR_CUENTA_GRUPO_DELETED = "deletedCuentaGrupo"
   val PROVEEDOR_RETENCIONES_DELETED = "deletedRetencion"

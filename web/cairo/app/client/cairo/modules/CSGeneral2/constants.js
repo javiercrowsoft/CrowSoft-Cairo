@@ -10,6 +10,8 @@
       FROM: "from",
       TO: "to",
 
+      IS_VALID: "is_valid",
+
       // Usuario
       USUARIO: "Usuario",
       US_ID: "us_id",

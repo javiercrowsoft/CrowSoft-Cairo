@@ -1545,12 +1545,12 @@
 
         if(cliId !== NO_ID) {
 
-          p = DB.getData("load[" + m_apiPath + "cliente/" + cliId.toString() + "/validate_cuit]");
+          p = DB.getData("load[" + m_apiPath + "general/cliente/" + cliId.toString() + "/validate_cuit]");
 
           p = p.then(function(response) {
 
             if(response.success === true) {
-              if(response.isValid) {
+              if(valField(response.data, C.IS_VALID)) {
                 return true;
               }
               else {

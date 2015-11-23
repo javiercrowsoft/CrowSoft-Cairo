@@ -137,7 +137,7 @@ begin
    --
    if p_borrar <> 0 then
 
-      delete ClienteCacheCredito
+      delete from ClienteCacheCredito
       where cli_id = v_cli_id
         and doct_id = v_doct_pedidoVenta
         and id = p_pv_id;

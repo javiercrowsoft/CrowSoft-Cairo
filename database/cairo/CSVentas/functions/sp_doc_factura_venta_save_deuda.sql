@@ -53,7 +53,7 @@ declare
    v_cpg_escontado smallint;
    v_cpg_eslibre smallint;
    
-   v_fv_fechaVto date;
+   v_p_fv_fechaVto date;
    
    c_pago_item refcursor;
    v_cpgi_dias smallint;
@@ -68,7 +68,7 @@ declare
 
 begin
 
-   v_fv_fechaVto := p_fv_fechaVto;
+   v_p_fv_fechaVto := p_fv_fechaVto;
    v_fv_id := p_fv_id;
    v_cpg_id := p_cpg_id;
    v_fv_fecha := p_fv_fecha;
@@ -85,7 +85,7 @@ begin
    -- por lo tanto lo primero que hago es borrar toda la info de deuda
    -- y volver a generarla
    --
-   delete FacturaVentaDeuda where fv_id = v_fv_id;
+   delete from FacturaVentaDeuda where fv_id = v_fv_id;
 
    select cpg_escontado,
           cpg_eslibre
@@ -147,7 +147,7 @@ begin
 
       end loop;
 
-      close c_pagoItem;
+      close c_pago_item;
 
       select sum(fvd_pendiente)
         into v_fv_pendiente

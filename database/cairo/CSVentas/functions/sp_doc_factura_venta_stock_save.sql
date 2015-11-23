@@ -268,11 +268,11 @@ begin
 
       -- borro todos los items y solo hago inserts que es mucho mas simple y rapido
       --
-      delete StockItem where st_id = v_st_id;
+      delete from StockItem where st_id = v_st_id;
 
       -- borro todos los Kit de este movimiento
       --
-      delete StockItemKit where st_id = v_st_id;
+      delete from StockItemKit where st_id = v_st_id;
 
    end if;
 
@@ -356,7 +356,7 @@ begin
                                                   where stl_id = stc.stl_id
                                                   group by stl_id
                                                   having stc_cantidad - sum(stl_cantidad) <= 0 )
-                        order by stl.stl_fecha asc )
+                               order by stl.stl_fecha asc ) t
                         limit 1;
 
                         -- si tengo un lote lo agrego a la lista de lotes usados

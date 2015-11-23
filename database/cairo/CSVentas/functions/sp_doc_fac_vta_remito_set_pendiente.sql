@@ -68,9 +68,9 @@ begin
 
       -- estado
       --
-      sp_doc_remito_venta_set_credito(v_rv_id);
+      perform sp_doc_remito_venta_set_credito(v_rv_id);
 
-      sp_doc_remito_venta_set_estado(v_rv_id);
+      perform sp_doc_remito_venta_set_estado(v_rv_id);
 
       -- validaciones
       --
@@ -79,7 +79,7 @@ begin
 
       -- estado
       --
-      select * from sp_auditoria_estado_check_doc_rv(v_rv_id) into p_success, v_error_msg;
+      select * from sp_auditoria_estado_check_doc_rv(v_rv_id) into v_success, v_error_msg;
       if coalesce(v_success, 0) = 0 then
          raise exception '%', v_error_msg;
       end if;

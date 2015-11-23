@@ -30,7 +30,7 @@ javier at crowsoft.com.ar
 */
 -- Function: sp_doc_orden_compra_set_estado()
 
--- drop function sp_doc_orden_compra_set_estado(integer, integer);
+-- drop function sp_doc_orden_compra_set_estado(integer);
 
 create or replace function sp_doc_orden_compra_set_estado
 (

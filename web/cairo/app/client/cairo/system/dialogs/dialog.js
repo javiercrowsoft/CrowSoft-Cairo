@@ -3115,13 +3115,18 @@
 
                   showMsg("Saving document ...");
                   saveDialog(false, false).then(
-                    function() {
-                      if(m_sendNewDoc) {
-                        toolBarClickNew().then(
-                          function() {
-                            setFocusInFirstControl();
-                          }
-                        );
+                    function(success) {
+                      if(success) {
+                        if(m_sendNewDoc) {
+                          toolBarClickNew().then(
+                            function() {
+                              setFocusInFirstControl();
+                            }
+                          );
+                        }
+                        else {
+                          hideMsg();
+                        }
                       }
                       else {
                         hideMsg();

@@ -54,19 +54,25 @@ begin
           and fvi.fvi_nostock = 0
           and p.pr_eskit <> 0) then
 
+      create temporary table tt_KitItems
+      (
+         pr_id integer    not null,
+         nivel integer    not null
+      ) on commit drop;
+
       create temporary table tt_kit_item_serie
       (
-       pr_id_kit_padre     integer,
-       pr_id_kit           integer,
-       cantidad            decimal(18,6) not null,
-       cant_kits           integer default (0) not null,
-       faltante            integer default (0) not null,
-       pr_id               integer not null,
-       prk_id              integer not null,
-       costo               decimal(18,6) default (0) not null,
-       costo_x_insumos     decimal(18,6) default (0) not null,
-       col_order           integer default (3) not null,
-       nivel               smallint default (0) not null
+         pr_id_kit_padre     integer,
+         pr_id_kit           integer,
+         cantidad            decimal(18,6) not null,
+         cant_kits           integer default (0) not null,
+         faltante            integer default (0) not null,
+         pr_id               integer not null,
+         prk_id              integer not null,
+         costo               decimal(18,6) default (0) not null,
+         costo_x_insumos     decimal(18,6) default (0) not null,
+         col_order           integer default (3) not null,
+         nivel               smallint default (0) not null
       ) on commit drop;
 
    end if;

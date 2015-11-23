@@ -264,7 +264,7 @@ begin
 */
    -- borro todos los items y solo hago inserts que se mucho mas simple y rapido
    --
-   delete AsientoItem where as_id = v_as_id;
+   delete from AsientoItem where as_id = v_as_id;
 
    select count(distinct to_id)
      into v_to_count
@@ -412,7 +412,7 @@ begin
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 */
 
-   sp_doc_factura_venta_asiento_save_iva(
+   perform sp_doc_factura_venta_asiento_save_iva(
                               p_fv_id,
                               v_as_id,
                               1,

@@ -44,5 +44,5 @@ end;
 $BODY$
   language plpgsql volatile
   cost 100;
-alter function sp_doc_facturaVtaSavePreCliente(integer)
+alter function sp_doc_factura_venta_save_pre_cliente(integer)
   owner to postgres;

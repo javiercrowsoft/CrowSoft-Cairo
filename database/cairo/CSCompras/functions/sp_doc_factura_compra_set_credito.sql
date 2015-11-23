@@ -30,7 +30,7 @@ javier at crowsoft.com.ar
 */
 -- Function: sp_doc_factura_compra_set_credito()
 
--- drop function sp_doc_factura_compra_set_credito(integer);
+-- drop function sp_doc_factura_compra_set_credito(integer, integer);
 
 create or replace
 function sp_doc_factura_compra_set_credito
@@ -181,7 +181,7 @@ begin
 exception
    when others then
 
-   raise exception 'Ha ocurrido un error al actualizar el estado de la factura de Compra. sp_doc_factura_compra_set_credito.. %. %.',
+   raise exception 'Ha ocurrido un error al actualizar el estado de la factura de Compra. sp_doc_factura_compra_set_credito. %. %.',
                    sqlstate, sqlerrm;
 
 end;

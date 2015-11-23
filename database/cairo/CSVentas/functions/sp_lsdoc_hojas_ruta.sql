@@ -1,17 +1,50 @@
-create or replace function sp_lsdoc_HojasRuta
+/*
+CrowSoft-Cairo
+==============
+
+ERP application written in Scala Play Framework and Postgresql
+
+Copyright (C) 2012  Javier Mariano Alvarez
+
+This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS for A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License along
+with this program; if not, write to the Free Software Foundation, Inc.,
+51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+
+========================================================================
+
+Created by Javier
+
+http://www.crowsoft.com.ar
+
+javier at crowsoft.com.ar
+*/
+-- Function: sp_lsdoc_hojas_ruta()
+
+-- drop function sp_lsdoc_hojas_ruta(integer, date, date, varchar, varchar, varchar);
+
+create or replace function sp_lsdoc_hojas_ruta
 (
   in p_us_id integer,
-  p_Fini in date default null,
-  p_Ffin in date default null,
-  p_hr_nrodoc in varchar default null,
-  p_cam_id in varchar default null,
-  p_prs_id in varchar default null,
+  in p_Fini date,
+  in p_Ffin date,
+  in p_hr_nrodoc varchar,
+  in p_cam_id varchar,
+  in p_prs_id varchar,
   out rtn refcursor
 )
-as
-/* -///////////////////////////////////////////////////////////////////////
-INICIO PRIMERA PARTE DE ARBOLES
-/////////////////////////////////////////////////////////////////////// */
+  returns refcursor as
+$BODY$
+declare
    v_cam_id integer;
    v_prs_id integer;
    v_ram_id_Camion integer;
@@ -19,6 +52,12 @@ INICIO PRIMERA PARTE DE ARBOLES
    v_clienteID integer;
    v_IsRaiz smallint;
 begin
+
+   rtn := 'rtn';
+
+   /*- ///////////////////////////////////////////////////////////////////////
+    INICIO PRIMERA PARTE DE ARBOLES
+   /////////////////////////////////////////////////////////////////////// */
 
    select * from sp_ArbConvertId(p_cam_id) into v_cam_id, v_ram_id_Camion;
 
@@ -33,7 +72,7 @@ begin
 
       if v_IsRaiz = 0 then
       begin
-         sp_ArbGetAllHojas(v_ram_id_Camion,
+         perform sp_ArbGetAllHojas(v_ram_id_Camion,
                            v_clienteID);
 
       end;
@@ -52,7 +91,7 @@ begin
 
       if v_IsRaiz = 0 then
       begin
-         sp_ArbGetAllHojas(v_ram_id_Persona,
+         perform sp_ArbGetAllHojas(v_ram_id_Persona,
                            v_clienteID);
 
       end;
@@ -69,56 +108,64 @@ begin
 
    end if;
 
+   /*- ///////////////////////////////////////////////////////////////////////
+   FIN PRIMERA PARTE DE ARBOLES
+   /////////////////////////////////////////////////////////////////////// */
+
    open rtn for
-/*- ///////////////////////////////////////////////////////////////////////
-FIN PRIMERA PARTE DE ARBOLES
-/////////////////////////////////////////////////////////////////////// */
+
       select hr.hr_id,
-                     '' TypeTask,
-                     hr.hr_fecha Fecha,
-                     hr.hr_nrodoc Numero,
-                     prs.prs_nombre Salida_de,
-                     cam.cam_patente Camion,
-                     hr.creado Creado,
-                     hr.modificado Modificado,
-                     us.us_nombre Modifico,
-                     case
-                          when hr.hr_cumplida <> 0 then 'Si'
-                     else 'No'
-                        end Cumplida,
-                     hr.hr_descrip Descripcion
-        from HojaRuta hr
-               join Usuario us
-                on hr.modifico = us.us_id
-               left join Camion cam
-                on hr.cam_id = cam.cam_id
-               left join Persona prs
-                on hr.prs_id = prs.prs_id
-         where p_Fini <= hr.hr_fecha
-                 and p_Ffin >= hr.hr_fecha
-                 and ( hr.hr_nrodoc = p_hr_nrodoc
-                 or p_hr_nrodoc is null )
-/* -///////////////////////////////////////////////////////////////////////
-INICIO SEGUNDA PARTE DE ARBOLES
-/////////////////////////////////////////////////////////////////////// */
-                 and ( hr.cam_id = v_cam_id
-                 or v_cam_id = 0 )
-                 and ( hr.prs_id = v_prs_id
-                 or v_prs_id = 0 )
-                 -- Arboles
-                 and ( ( exists ( select rptarb_hojaid
-                                  from rptArbolRamaHoja
-                                     where rptarb_cliente = v_clienteID
-                                             and tbl_id = 1019
-                                             and rptarb_hojaid = hr.cam_id ) )
-                 or ( v_ram_id_Camion = 0 ) )
-                 and ( ( exists ( select rptarb_hojaid
-                                  from rptArbolRamaHoja
-                                     where rptarb_cliente = v_clienteID
-                                             and tbl_id = 1004
-                                             and rptarb_hojaid = hr.prs_id ) )
-                 or ( v_ram_id_Persona = 0 ) )
-        order by hr.hr_fecha,
-                 hr.hr_nrodoc;
+             '' TypeTask,
+             hr.hr_fecha Fecha,
+             hr.hr_nrodoc Numero,
+             prs.prs_nombre Salida_de,
+             cam.cam_patente Camion,
+             hr.creado Creado,
+             hr.modificado Modificado,
+             us.us_nombre Modifico,
+             case
+                when hr.hr_cumplida <> 0 then 'Si'
+                else 'No'
+             end Cumplida,
+             hr.hr_descrip Descripcion
+      from HojaRuta hr
+      join Usuario us
+        on hr.modifico = us.us_id
+      left join Camion cam
+        on hr.cam_id = cam.cam_id
+      left join Persona prs
+        on hr.prs_id = prs.prs_id
+      where p_Fini <= hr.hr_fecha
+        and p_Ffin >= hr.hr_fecha
+        and ( hr.hr_nrodoc = p_hr_nrodoc or p_hr_nrodoc is null )
+
+      /* -///////////////////////////////////////////////////////////////////////
+      INICIO SEGUNDA PARTE DE ARBOLES
+      /////////////////////////////////////////////////////////////////////// */
+
+        and ( hr.cam_id = v_cam_id
+        or v_cam_id = 0 )
+        and ( hr.prs_id = v_prs_id
+        or v_prs_id = 0 )
+        -- Arboles
+        and ( ( exists ( select rptarb_hojaid
+                         from rptArbolRamaHoja
+                         where rptarb_cliente = v_clienteID
+                           and tbl_id = 1019
+                           and rptarb_hojaid = hr.cam_id ) )
+        or ( v_ram_id_Camion = 0 ) )
+        and ( ( exists ( select rptarb_hojaid
+                         from rptArbolRamaHoja
+                         where rptarb_cliente = v_clienteID
+                           and tbl_id = 1004
+                           and rptarb_hojaid = hr.prs_id ) )
+        or ( v_ram_id_Persona = 0 ) )
+
+      order by hr.hr_fecha, hr.hr_nrodoc;
 
 end;
+$BODY$
+  language plpgsql volatile
+  cost 100;
+alter function sp_lsdoc_hojas_ruta(integer, date, date, varchar, varchar, varchar)
+  owner to postgres;
