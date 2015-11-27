@@ -266,7 +266,7 @@
 
       var m_fv_id_nc_based = 0;
 
-      var m_hojaRuta;
+      var m_hojaRuta = null;
       var m_searchZona;
 
       var m_defaultCurrency = D.getDefaultCurrency();
