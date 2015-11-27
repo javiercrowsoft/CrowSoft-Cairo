@@ -1673,10 +1673,9 @@
           }
 
           // Id = DOC_CHANGED when the document is changed
-          //                 when editing a document
+          //                  when editing a document
           //
-          m_isNew = (id === NO_ID
-            || id === D.Constants.DOC_CHANGED);
+          m_isNew = (id === NO_ID || id === D.Constants.DOC_CHANGED);
 
 
           var loadAllItems = function() {
