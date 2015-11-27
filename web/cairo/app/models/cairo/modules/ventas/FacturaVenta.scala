@@ -1345,7 +1345,6 @@ object FacturaVenta {
         Field(C.CUE_ID_IVA_RI, item.base.cueIdIvaRi, FieldType.id),
         Field(C.CUE_ID_IVA_RNI, item.base.cueIdIvaRni, FieldType.id),
         Field(C.STL_ID, item.base.stlId, FieldType.id),
-        Field(C.STL_CODE, item.base.stlCode, FieldType.text),
         Field(C.FVI_ORDEN, item.base.orden, FieldType.integer),
         Field(C.FVI_CANTIDAD, item.totals.cantidad, FieldType.currency),
         Field(C.FVI_CANTIDAD_A_REMITIR, item.totals.cantidad, FieldType.currency),

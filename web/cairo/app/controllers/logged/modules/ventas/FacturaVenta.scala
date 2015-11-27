@@ -77,7 +77,6 @@ case class FacturaVentaTotalsData(
 
 case class FacturaVentaItemDataBase(
                                       descrip: String,
-                                      descuento: String,
                                       prId: Int,
                                       ccosId: Int,
                                       toId: Int,
@@ -192,7 +191,7 @@ object FacturaVentas extends Controller with ProvidesUser {
   val facturaIdFields = List(GC.DOC_ID, C.FV_NUMERO, C.FV_NRODOC)
 
   val facturaBaseFields = List(GC.CLI_ID, GC.EST_ID, GC.CCOS_ID, GC.SUC_ID, GC.CPG_ID, GC.LGJ_ID,
-    C.FV_DESCRIP, C.FV_GRABAR_ASIENTO)
+    GC.VEN_ID, GC.CLIS_ID, C.FV_ORDEN_COMPRA, C.FV_CAI, C.FV_DESCRIP, C.FV_GRABAR_ASIENTO)
 
   val facturaDatesFields = List(C.FV_FECHA, C.FV_FECHA_ENTREGA, C.FV_FECHA_IVA, C.FV_FECHA_VTO)
 
@@ -200,13 +199,13 @@ object FacturaVentas extends Controller with ProvidesUser {
 
   val facturaCotizacionFields = List(C.FV_COTIZACION)
 
-  val facturaStockFields = List(C.PRO_ID_ORIGEN, C.PRO_ID_DESTINO, GC.DEPL_ID)
+  val facturaStockFields = List(C.PRO_ID_ORIGEN, C.PRO_ID_DESTINO, GC.DEPL_ID, GC.TRANS_ID)
 
   val facturaTotalsFields = List(C.FV_NETO, C.FV_IVA_RI, C.FV_IVA_RNI, C.FV_INTERNOS, C.FV_SUBTOTAL,
     C.FV_IMPORTE_DESC_1, C.FV_IMPORTE_DESC_2,
     C.FV_TOTAL_PERCEPCIONES, C.FV_TOTAL, C.FV_TOTAL_ORIGEN)
 
-  val facturaItemBase = List(C.FVI_DESCRIP, C.FVI_DESCUENTO, GC.PR_ID, GC.CCOS_ID, GC.TO_ID,
+  val facturaItemBase = List(C.FVI_DESCRIP, GC.PR_ID, GC.CCOS_ID, GC.TO_ID,
     GC.CUE_ID, C.CUE_ID_IVA_RI, C.CUE_ID_IVA_RNI, C.STL_ID, C.FVI_ORDEN)
 
   val facturaItemTotals = List(C.FVI_CANTIDAD, C.FVI_PRECIO, C.FVI_PRECIO_LISTA, C.FVI_PRECIO_USR, C.FVI_NETO,
@@ -278,7 +277,6 @@ object FacturaVentas extends Controller with ProvidesUser {
           C.FVI_ID -> number,
           C.FACTURA_ITEM_BASE -> mapping (
             C.FVI_DESCRIP -> text,
-            C.FVI_DESCUENTO -> text,
             GC.PR_ID -> number,
             GC.CCOS_ID -> number,
             GC.TO_ID -> number,
@@ -677,7 +675,7 @@ object FacturaVentas extends Controller with ProvidesUser {
         item.id,
         FacturaVentaItemBase(
           item.base.descrip,
-          item.base.descuento,
+          "",
           item.base.prId,
           item.base.ccosId,
           item.base.toId,

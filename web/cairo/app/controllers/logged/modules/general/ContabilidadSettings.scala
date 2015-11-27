@@ -44,7 +44,7 @@ object ContabilidadSettings extends Controller with ProvidesUser {
   }
 
   def get(id: Int) = GetAction { implicit request =>
-    LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.MODIFY_USER_SETTINGS), { user =>
+    LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.MODIFY_CONFIG_CONTABILIDAD), { user =>
       Ok(Json.toJson(ContabilidadSetting.get(user, id)))
     })
   }

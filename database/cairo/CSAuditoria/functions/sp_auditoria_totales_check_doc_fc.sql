@@ -32,8 +32,7 @@ javier at crowsoft.com.ar
 
 -- drop function sp_auditoria_totales_check_doc_fc(integer);
 
-create or replace
-function sp_auditoria_totales_check_doc_fc
+create or replace function sp_auditoria_totales_check_doc_fc
 (
   in p_fc_id integer,
   out p_success integer,

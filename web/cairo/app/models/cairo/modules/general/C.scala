@@ -267,7 +267,7 @@ object C {
   val CLI_RAZONSOCIAL = "cli_razonsocial"
   val CLI_CUIT = "cli_cuit"
   val CLI_INGRESOSBRUTOS = "cli_ingresosbrutos"
-  val CLI_CATFISCAL = "cli_catfiscal"
+  val CLI_CAT_FISCAL = "cli_catfiscal"
   val CLI_CHEQUEORDEN = "cli_chequeorden"
   val CLI_CODPOSTAL = "cli_codpostal"
   val CLI_LOCALIDAD = "cli_localidad"

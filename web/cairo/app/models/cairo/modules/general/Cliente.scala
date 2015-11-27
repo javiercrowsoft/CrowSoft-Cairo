@@ -755,7 +755,7 @@ object Cliente {
     SqlParser.get[String](C.CLI_NAME) ~
     SqlParser.get[String](C.CLI_RAZONSOCIAL) ~
     SqlParser.get[Int](C.CLI_ES_PROSPECTO) ~
-    SqlParser.get[Int](C.CLI_CATFISCAL) ~
+    SqlParser.get[Int](C.CLI_CAT_FISCAL) ~
     SqlParser.get[String](C.CLI_CUIT) ~
     SqlParser.get[String](C.CLI_INGRESOSBRUTOS) ~
     SqlParser.get[String](C.CLI_CONTACTO) ~

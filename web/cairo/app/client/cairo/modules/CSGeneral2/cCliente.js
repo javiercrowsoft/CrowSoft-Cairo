@@ -832,7 +832,6 @@
 
       var loadCollection = function() {
 
-        var tab_general = 0;
         var tab_direccion = 1;
         var tab_sucursales = 2;
         var tab_contactos = 3;

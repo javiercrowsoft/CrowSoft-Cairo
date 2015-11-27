@@ -181,7 +181,8 @@ begin
                                    + coalesce(( select sum(fcnc_importe)
                                                 from FacturaCompraNotaCredito
                                                 where ( fcd_id_factura = fcd.fcd_id and v_doct_id in ( 2,10 ) )
-                                                  or ( fcd_id_notacredito = fcd.fcd_id and v_doct_id = 8 ) ), 0)
+                                                   or ( fcd_id_notacredito = fcd.fcd_id and v_doct_id = 8 )
+                                              ), 0)
                                      )
                                   ) - fcd.fcd_importe, 2)) > 0.10
                     and fc_id = p_fc_id ) then

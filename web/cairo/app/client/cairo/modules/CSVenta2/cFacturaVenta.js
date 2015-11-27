@@ -2138,7 +2138,7 @@
 
             case KI_NRO_SERIE:
               llevaNroSerie = cellId(row, KI_PR_LLEVA_NRO_SERIE) !== 0;
-              if(valEmpty(cell.getValue(), Types.text) && llevaNroSerie) {
+              if(m_showStockData && valEmpty(cell.getValue(), Types.text) && llevaNroSerie) {
                 return M.showInfoWithFalse(getText(1630, "", strRow)); // Debe indicar un numero de serie (1)
               }
               break;
@@ -3190,9 +3190,7 @@
               m_neto = valField(data, CV.FV_NETO) / cotizacion;
               m_ivari = valField(data, CV.FV_IVA_RI) / cotizacion;
               m_ivarni = valField(data, CV.FV_IVA_RNI) / cotizacion;
-
               m_internos = valField(data, CV.FV_INTERNOS) / cotizacion;
-
               m_total = valField(data, CV.FV_TOTAL) / cotizacion;
               m_totalPercepciones = valField(data, CV.FV_TOTAL_PERCEPCIONES) / cotizacion;
               m_subTotal = valField(data, CV.FV_SUBTOTAL) / cotizacion;
@@ -3209,6 +3207,7 @@
               m_docId = valField(data, C.DOC_ID);
               m_documento = valField(data, C.DOC_NAME);
               m_doctId = valField(data, C.DOCT_ID);
+              m_showStockData = valField(data, C.DOC_MUEVE_STOCK)
               m_lpId = valField(data, C.LP_ID);
               m_listaPrecio = valField(data, C.LP_NAME);
               m_cpgId = valField(data, C.CPG_ID);

@@ -43,8 +43,8 @@ declare
    rtn row_result;
    rtnAnticipo row_result;
    
-   v_success smallint;
-   v_error smallint;
+   v_success integer;
+   v_error integer;
    v_error_msg varchar(5000);
    v_cfg_valor varchar(5000);
    
@@ -813,7 +813,7 @@ begin
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 */
 
-   perform sp_doc_factura_venta_set_pendiente(v_fv_id, v_success);
+   perform sp_doc_factura_venta_set_pendiente(v_fv_id);
 
    perform sp_doc_factura_venta_set_credito(v_fv_id);
 
@@ -892,9 +892,7 @@ begin
 
    select cj_id into v_cj_id from FacturaVentaTMP where fvTMP_id = p_fvTMP_id;
 
-   perform sp_movimiento_caj_get_from_caja(v_cj_id,
-                                           1, /* apertura */
-                                           v_mcj_id);
+   select sp_movimiento_caja_get_from_caja(v_cj_id, 1 /* apertura */) into v_mcj_id;
 
    update FacturaVenta set mcj_id = v_mcj_id where fv_id = v_fv_id;
 

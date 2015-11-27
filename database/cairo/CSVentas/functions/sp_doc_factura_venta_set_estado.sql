@@ -142,7 +142,7 @@ begin
 
    end if;
 
-   select sp_DocFacVta_set_estadoCliente(p_fv_id, v_est_id) into v_est_id;
+   select sp_doc_factura_venta_set_estado_cliente(p_fv_id, v_est_id) into v_est_id;
 
    p_est_id := v_est_id;
 

@@ -124,7 +124,8 @@ begin
 
       update EmpresaProveedorDeuda
          set empprovd_DeudaCtaCte = coalesce(v_deuda_cta_cte, 0) - coalesce(v_credito_cta_cte, 0),
-             empprovd_deudaTotal = empprovd_deudaTotal - coalesce(v_deuda_cta_cte_anterior, 0) + (coalesce(v_deuda_cta_cte, 0) - coalesce(v_credito_cta_cte, 0))
+             empprovd_deudaTotal = empprovd_deudaTotal - coalesce(v_deuda_cta_cte_anterior, 0)
+                                   + (coalesce(v_deuda_cta_cte, 0) - coalesce(v_credito_cta_cte, 0))
       where empprovd_id = v_emp_provd_id;
 
    else
@@ -134,7 +135,7 @@ begin
       insert into EmpresaProveedorDeuda
         ( empprovd_id, emp_id, prov_id, empprovd_deudaCtaCte, empprovd_deudaTotal )
         values ( v_emp_provd_id, p_emp_id, p_prov_id, coalesce(v_deuda_cta_cte, 0),
-                coalesce(v_deuda_cta_cte, 0) - coalesce(v_credito_cta_cte, 0) );
+                 coalesce(v_deuda_cta_cte, 0) - coalesce(v_credito_cta_cte, 0) );
 
    end if;
 

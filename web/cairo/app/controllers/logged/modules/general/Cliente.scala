@@ -160,7 +160,7 @@ case class ClienteData(
 
 object Clientes extends Controller with ProvidesUser {
 
-  val clienteBaseFields = List(C.CLI_NAME, C.CLI_RAZONSOCIAL, C.CLI_ES_PROSPECTO, C.CLI_CATFISCAL, C.CLI_CUIT,
+  val clienteBaseFields = List(C.CLI_NAME, C.CLI_RAZONSOCIAL, C.CLI_ES_PROSPECTO, C.CLI_CAT_FISCAL, C.CLI_CUIT,
     C.CLI_INGRESOSBRUTOS, C.CLI_CONTACTO, C.CLI_CHEQUEORDEN, C.CLI_EXIGE_TRANSPORTE,
     C.CLI_EXIGE_PROVINCIA, C.CLI_PCIA_TRANSPORTE, C.CLI_CREDITOCTACTE, C.CLI_CREDITOTOTAL, C.CLI_CREDITOACTIVO,
     C.CLI_DESCRIP)
@@ -198,7 +198,7 @@ object Clientes extends Controller with ProvidesUser {
         C.CLI_NAME -> nonEmptyText,
         C.CLI_RAZONSOCIAL -> text,
         C.CLI_ES_PROSPECTO -> boolean,
-        C.CLI_CATFISCAL -> number,
+        C.CLI_CAT_FISCAL -> number,
         C.CLI_CUIT -> text,
         C.CLI_INGRESOSBRUTOS -> text,
         C.CLI_CONTACTO -> text,
@@ -321,7 +321,7 @@ object Clientes extends Controller with ProvidesUser {
       C.CLI_NAME -> Json.toJson(cliente.base.name),
       C.CLI_RAZONSOCIAL -> Json.toJson(cliente.base.razonSocial),
       C.CLI_ES_PROSPECTO -> Json.toJson(cliente.base.esProspecto),
-      C.CLI_CATFISCAL -> Json.toJson(cliente.base.catFiscal),
+      C.CLI_CAT_FISCAL -> Json.toJson(cliente.base.catFiscal),
       C.CLI_CUIT -> Json.toJson(cliente.base.cuit),
       C.CLI_INGRESOSBRUTOS -> Json.toJson(cliente.base.ingresosBrutos),
       C.CLI_CONTACTO -> Json.toJson(cliente.base.contacto),

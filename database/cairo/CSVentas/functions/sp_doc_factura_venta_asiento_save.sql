@@ -465,7 +465,7 @@ begin
 
       select * from sp_doc_get_cue_id
                     (
-                     v_prov_id,
+                     v_cli_id,
                      v_doc_id_factura,
                      v_to_id
                     )

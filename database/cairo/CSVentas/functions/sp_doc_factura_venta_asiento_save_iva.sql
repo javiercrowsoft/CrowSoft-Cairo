@@ -30,7 +30,7 @@ javier at crowsoft.com.ar
 */
 -- Function: sp_doc_factura_venta_asiento_save_iva()
 
--- drop function sp_doc_factura_venta_asiento_save_iva(integer, integer, integer, integer, integer, integer, decimal, decimal, integer);
+-- drop function sp_doc_factura_venta_asiento_save_iva(integer, integer, integer, integer, integer, integer, decimal, decimal);
 
 create or replace function sp_doc_factura_venta_asiento_save_iva
 (
@@ -41,8 +41,7 @@ create or replace function sp_doc_factura_venta_asiento_save_iva
   in p_doct_id_factura integer, 
   in p_ccos_id integer, 
   in p_desc1 decimal(18, 6),
-  in p_desc2 decimal(18, 6),
-  in p_doc_esresumenbco integer
+  in p_desc2 decimal(18, 6)
 )
   returns void as
 $BODY$
@@ -67,7 +66,7 @@ begin
    from AsientoItem
    where as_id = p_as_id;
 
-   if p_bIva_ri <> 0 then
+   if p_iva_ri <> 0 then
 
       open c_items for
          select sum(fvi.fvi_ivari),
@@ -184,5 +183,5 @@ end;
 $BODY$
   language plpgsql volatile
   cost 100;
-alter function sp_doc_factura_venta_asiento_save_iva(integer, integer, integer, integer, integer, integer, decimal, decimal, integer)
+alter function sp_doc_factura_venta_asiento_save_iva(integer, integer, integer, integer, integer, integer, decimal, decimal)
   owner to postgres;

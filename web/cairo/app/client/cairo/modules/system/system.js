@@ -1392,7 +1392,7 @@
       if(response.success === true) {
         return {
           success: true,
-          percepciones: DB.getResultSetFromData(response.data)[0]
+          percepciones: DB.getResultSetFromData(response.data)
         };
       }
       else {
@@ -2951,8 +2951,6 @@
     };
 
     var initVentasConfig = function() {
-      // TODO: implement
-      return true; // remove this line
       m_ventasConfig = Cairo.VentaConfig.Edit.Controller.getEditor();
       return m_ventasConfig.load(Cairo.User.getId());
     };

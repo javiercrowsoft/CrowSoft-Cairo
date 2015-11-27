@@ -30,7 +30,7 @@ javier at crowsoft.com.ar
 */
 -- Function: sp_doc_factura_venta_asiento_save_interno()
 
--- drop function sp_doc_factura_venta_asiento_save_interno(integer, integer, integer, integer, integer, decimal, decimal, integer);
+-- drop function sp_doc_factura_venta_asiento_save_interno(integer, integer, integer, integer, integer, decimal, decimal);
 
 create or replace function sp_doc_factura_venta_asiento_save_interno
 (
@@ -40,8 +40,7 @@ create or replace function sp_doc_factura_venta_asiento_save_interno
   in p_doct_id_factura integer,
   in p_ccos_id integer,
   in p_desc1 decimal(18, 6),
-  in p_desc2 decimal(18, 6),
-  in p_doc_esresumenbco integer
+  in p_desc2 decimal(18, 6)
 )
   returns void as
 $BODY$
@@ -157,5 +156,5 @@ end;
 $BODY$
   language plpgsql volatile
   cost 100;
-alter function sp_doc_factura_venta_asiento_save_interno(integer, integer, integer, integer, integer, decimal, decimal, integer)
+alter function sp_doc_factura_venta_asiento_save_interno(integer, integer, integer, integer, integer, decimal, decimal)
   owner to postgres;

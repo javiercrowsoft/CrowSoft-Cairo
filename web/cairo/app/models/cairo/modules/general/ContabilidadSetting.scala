@@ -19,7 +19,7 @@ object ContabilidadSetting {
 
   lazy val emptyContabilidadSetting = ContabilidadSetting(DBHelper.NoId, List())
 
-  private val ContabilidadSettingParser: RowParser[Setting] = {
+  private val contabilidadSettingParser: RowParser[Setting] = {
     SqlParser.get[String](C.CFG_ASPECTO) ~
     SqlParser.get[String](C.CFG_GRUPO) ~
     SqlParser.get[String](C.CFG_VALOR) ~
@@ -187,7 +187,7 @@ object ContabilidadSetting {
     DB.withConnection(user.database.database) { implicit connection =>
       SQL(sqlstmt)
         .on(args: _*)
-        .as(ContabilidadSettingParser.*)
+        .as(contabilidadSettingParser.*)
     }
   }
 
@@ -196,7 +196,7 @@ object ContabilidadSetting {
     DB.withConnection(user.database.database) { implicit connection =>
       SQL(sqlstmt)
         .on(args: _*)
-        .as(ContabilidadSettingParser.*)
+        .as(contabilidadSettingParser.*)
     }
   }
 

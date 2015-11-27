@@ -32,8 +32,7 @@ javier at crowsoft.com.ar
 
 -- drop function sp_auditoria_stock_check_doc_fc(integer);
 
-create or replace
-function sp_auditoria_stock_check_doc_fc
+create or replace function sp_auditoria_stock_check_doc_fc
 (
   in p_fc_id integer,
   out p_success integer,
@@ -68,8 +67,6 @@ declare
 
    v_stl_id integer;
    v_sti_cantidad decimal(18,6);
-
-   v_cant_kits decimal(18,6);
 begin
 
    v_error := 0;
