@@ -933,7 +933,7 @@ use this function but replace the LNG_ID
         };
 
         var p = DB.getData("load[" + m_apiPath + "modulexxxx/xxxx/info]",id)
-          .successWithResult(loadData, false);
+          .whenSuccessWithResult(loadData, false);
 
         return p;
       };
@@ -1002,11 +1002,20 @@ use this function but replace the LNG_ID
        search: getValue\(\) === (.*?);
        repalce: setValue($1);
 
+       search: elem\.Value \= (.+);
+       repalce: elem.setValue($1);
+
+       search: elem\.Id \= (.+);
+       repalce: elem.setId($1);
+
        search: .*elem\.set((Left)|(Top)|(Width)|(Height)).*?\(.+\n
        replace:
 
        search (incluir espacioes despues de los dos puntos):        //'(.+)\n(.+)
        replace:$2 // $1
+
+       search (incluir espacioes despues de los dos puntos):        // (.+)\n.+c(.+)
+       replace:        c$2 // $1
 
        search: m_objList.ObjClientMenu = self;
        replace:

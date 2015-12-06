@@ -952,6 +952,7 @@
 
       var setGridRemitos = function(grid) {
         var columns = grid.getColumns();
+        columns.clear();
 
         columns.add(null).setVisible(false);
 
@@ -1052,12 +1053,14 @@
       };
 
       var setGridPercepciones = function(grid) {
-        Percepciones.loadPercepciones(grid, Cairo.Settings);
+        grid.getColumns().clear();
+        Percepciones.setGridPercepciones(grid, Cairo.Settings);
       };
 
       var setGridItems = function(grid) {
 
         var columns = grid.getColumns();
+        columns.clear();
 
         var elem = columns.add(null);
         elem.setVisible(false);

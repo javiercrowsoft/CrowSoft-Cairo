@@ -1722,7 +1722,6 @@
         var grid = property.getGrid();
 
         var columns = grid.getColumns();
-
         columns.clear();
 
         elem = columns.add(null);
@@ -1735,9 +1734,7 @@
         elem.setSelectTable(Cairo.Tables.DEPARTAMENTO);
         elem.setKey(KI_DPTO_ID);
 
-        var rows = grid.getRows();
-
-        rows.clear();
+        grid.getRows().clear();
       };
 
       var loadDepartamentos = function(property) {
@@ -1768,8 +1765,8 @@
 
         var elem;
         var grid = property.getGrid();
-        var columns = grid.getColumns();
 
+        var columns = grid.getColumns();
         columns.clear();
 
         elem = columns.add(null);
@@ -1788,9 +1785,7 @@
         elem.setSelectTable(Cairo.Tables.PRODUCTOS_DE_COMPRA);
         elem.setKey(KI_PR_ID);
 
-        var rows = grid.getRows();
-
-        rows.clear();
+        grid.getRows().clear();
       };
 
       var loadCentrosCosto = function(property) {
@@ -1826,8 +1821,8 @@
 
         var elem;
         var grid = property.getGrid();
-        var columns = grid.getColumns();
 
+        var columns = grid.getColumns();
         columns.clear();
 
         elem = columns.add(null);
@@ -1842,9 +1837,7 @@
         elem.setType(T.check);
         elem.setKey(KI_EMPPROV_ID);
 
-        var rows = grid.getRows();
-
-        rows.clear();
+        grid.getRows().clear();
       };
 
       var loadEmpresas = function(property) {
@@ -1884,8 +1877,8 @@
 
         var elem;
         var grid = property.getGrid();
-        var columns = grid.getColumns();
 
+        var columns = grid.getColumns();
         columns.clear();
 
         elem = columns.add(null);
@@ -1914,9 +1907,7 @@
         elem.setType(T.date);
         elem.setKey(KI_RET_HASTA);
 
-        var rows = grid.getRows();
-
-        rows.clear();
+        grid.getRows().clear();
       };
 
       var loadRetenciones = function(property) {
@@ -1960,8 +1951,8 @@
 
         var elem;
         var grid = property.getGrid();
-        var columns = grid.getColumns();
 
+        var columns = grid.getColumns();
         columns.clear();
 
         elem = columns.add(null);
@@ -1983,9 +1974,7 @@
 
         elem.setKey(KI_CUE_ID);
 
-        var rows = grid.getRows();
-
-        rows.clear();
+        grid.getRows().clear();
       };
 
       var loadCuentasGrupo = function(property) {
@@ -2021,8 +2010,8 @@
 
         var elem;
         var grid = property.getGrid();
-        var columns = grid.getColumns();
 
+        var columns = grid.getColumns();
         columns.clear();
 
         elem = columns.add(null);
@@ -2049,9 +2038,7 @@
         elem.setType(T.text);
         elem.setKey(KI_DESCRIP);
 
-        var rows = grid.getRows();
-
-        rows.clear();
+        grid.getRows().clear();
       };
 
       var loadCAI = function(property) {

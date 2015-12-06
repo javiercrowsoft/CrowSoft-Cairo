@@ -1023,8 +1023,9 @@
       var loadCollection = function() {
 
         var validateDocDefault = false;
-        var elem, list;
+        var elem;
 
+        var properties = m_properties;
         m_properties.clear();
 
         var tabs = m_dialog.getTabs();
@@ -1033,8 +1034,6 @@
         m_dialog.setNoButtons1(Dialogs.Buttons.BUTTON_INVALIDATE + Dialogs.Buttons.BUTTON_DOC_APLIC);
         m_dialog.setNoButtons2(Dialogs.Buttons.BUTTON_DOC_ACTION);
         m_dialog.initButtons();
-
-        var properties = m_properties;
 
         elem = properties.add(null, C.DOC_ID);
         elem.setType(T.select);
@@ -1097,6 +1096,10 @@
 
         if(!m_dialog.show(self)) { return false; }
 
+        /////////////////////////////////////////////////////////////////////
+        // ITEMS
+        /////////////////////////////////////////////////////////////////////
+
         var tabs = m_items.getTabs();
         tabs.clear();
 
@@ -1105,7 +1108,6 @@
         tab.setName(getText(1371, "")); // Items
 
         properties = m_itemsProps;
-
         properties.clear();
 
         elem = properties.add(null, C_ITEMS);
@@ -1124,8 +1126,11 @@
 
         if(!m_items.show(self)) { return false; }
 
-        properties = m_footerProps;
+        /////////////////////////////////////////////////////////////////////
+        // FOOTER
+        /////////////////////////////////////////////////////////////////////
 
+        properties = m_footerProps;
         properties.clear();
 
         var elem = properties.add(null, C_ASTOTALDEBE);
@@ -1161,10 +1166,9 @@
         
         var elem;
         var grid = property.getGrid();
-        grid.getColumns().clear();
-        grid.getRows().clear();
 
         var columns = grid.getColumns();
+        columns.clear();
 
         elem = columns.add(null);
         elem.setVisible(false);
@@ -1209,8 +1213,9 @@
         elem.setName(getText(1057, "")); // Centro de Costo
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.CENTROS_DE_COSTO);
-        elem.setKey(KI_CCOS_ID);        
+        elem.setKey(KI_CCOS_ID);
 
+        grid.getRows().clear();
       };
 
       var loadItems = function(property) {
@@ -1297,10 +1302,10 @@
               m_documento = valField(data, C.DOC_NAME);
               m_doctId = valField(data, C.DOCT_ID);
 
-              m_idCliente = valField(data, CC.ID_CLIENTE);
-              m_doctIdCliente = valField(data, CC.DOCT_ID_CLIENTE);
+              m_idCliente = valField(data, C.ID_CLIENTE);
+              m_doctIdCliente = valField(data, C.DOCT_ID_CLIENTE);
 
-              m_doc_cliente = valField(data, CC.DOC_CLIENTE);
+              m_doc_cliente = valField(data, C.DOC_CLIENTE);
 
               m_taMascara = valField(data, C.TA_MASCARA);
               m_taPropuesto = valField(data, C.TA_PROPUESTO);

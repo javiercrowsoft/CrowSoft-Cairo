@@ -355,81 +355,71 @@
         m_bWizardCompleteSuccess = rhs;
       };
 
-      self.showFacturaProyecto = function(cliId, vHoraIds) {
+      var showStartWizard = function(cliId, f) {
         try {
-
           m_cliId = cliId;
-          m_horaIds = vHoraIds.slice();
+          DB.getData("load[" + m_apiPath + "general/cliente/" + cliId.toString() + "/name]").then(function(response) {
+            try {
+              if(response.success === true) {
+                m_cliente = valField(response.data, C.CLI_NAME);
+                f();
+              }
+            }
+            catch(ex) {
+              Cairo.manageErrorEx(ex.message, ex, "showStartWizard", C_MODULE, "");
+            }
+          });
+        }
+        catch (ex) {
+          Cairo.manageErrorEx(ex.message, ex, "showStartWizard", C_MODULE, "");
+        }
+      };
 
+      self.showFacturaProyecto = function(cliId, horaIds) {
+        showStartWizard(cliId, function() {
+          m_horaIds = horaIds.slice();
           if(initMembers()) {
             showStartWizardProyecto();
           }
-        }
-        catch (ex) {
-          Cairo.manageErrorEx(ex.message, ex, "showFacturaProyecto", C_MODULE, "");
-        }
+        });
       };
 
-      self.showFacturaRemito = function(cliId, vRvIds) {
-        try {
-
-          m_cliId = cliId;
-          m_rvIds = vRvIds.slice();
-
+      self.showFacturaRemito = function(cliId, rvIds) {
+        showStartWizard(cliId, function() {
+          m_rvIds = rvIds.slice();
           if(initMembers()) {
             showStartWizardRemito();
           }
-        }
-        catch (ex) {
-          Cairo.manageErrorEx(ex.message, ex, "showFacturaRemito", C_MODULE, "");
-        }
+        });
       };
 
-      self.showFacturaPedido = function(cliId, vPvIds) {
-        try {
-
-          m_cliId = cliId;
-          m_pvIds = vPvIds.slice();
-
+      self.showFacturaPedido = function(cliId, pvIds) {
+        showStartWizard(cliId, function() {
+          m_pvIds = pvIds.slice();
           if(initMembers()) {
             showStartWizardPedido();
           }
-        }
-        catch (ex) {
-          Cairo.manageErrorEx(ex.message, ex, "showFacturaPedido", C_MODULE, "");
-        }
+        });
       };
 
-      self.showFacturaPedidoAuto = function(cliId, vPvIds, vPviIds, vPviCantidades) {
-        try {
-
-          m_cliId = cliId;
-          m_pvIds = vPvIds.slice();
-          m_pviIds = vPviIds.slice();
-          m_pviCantidades = vPviCantidades.slice();
-
+      self.showFacturaPedidoAuto = function(cliId, pvIds, pviIds, pviCantidades) {
+        showStartWizard(cliId, function() {
+          m_pvIds = pvIds.slice();
+          m_pviIds = pviIds.slice();
+          m_pviCantidades = pviCantidades.slice();
           if(initMembers()) {
             showStartWizardPedido();
           }
-        }
-        catch (ex) {
-          Cairo.manageErrorEx(ex.message, ex, "showFacturaPedidoAuto", C_MODULE, "");
-        }
+        });
       };
 
-      self.showFacturaPacking = function(cliId, vPklstIds) {
-        try {
-
-          m_cliId = cliId;
-          m_pklstIds = vPklstIds.slice();
-
+      self.showFacturaPacking = function(cliId, pklstIds) {
+        showStartWizard(cliId, function() {
+          m_pklstIds = pklstIds.slice();
           if(initMembers()) {
             showStartWizardPackingList();
           }
-        }
-        catch (ex) {
-          Cairo.manageErrorEx(ex.message, ex, "showFacturaPacking", C_MODULE, "");
-        }
+        });
       };
 
       self.showWizardFacturaRemito = function() {
@@ -1635,7 +1625,7 @@
           return false;
         };
 
-        var p = DB.getData("load[" + m_apiPath + "ventas/facturaventa/info]",id)
+        var p = DB.getData("load[" + m_apiPath + "ventas/facturaventa/info]", id)
           .whenSuccessWithResult(loadData, false);
 
         return p;
@@ -1706,23 +1696,19 @@
             // only show the wizard if the new action is not
             // originated by a change on document
             //
-            if(id !== D.Constants.DOC_CHANGED
-              && m_isNew && docDesdePedido()) {
+            if(id !== D.Constants.DOC_CHANGED && m_isNew && docDesdePedido()) {
 
               showStartWizardPedido();
             }
-            else if(id !== D.Constants.DOC_CHANGED
-              && m_isNew && docDesdeRemito()) {
+            else if(id !== D.Constants.DOC_CHANGED && m_isNew && docDesdeRemito()) {
 
               showStartWizardRemito();
             }
-            else if(id !== D.Constants.DOC_CHANGED
-              && m_isNew && docDesdePacking()) {
+            else if(id !== D.Constants.DOC_CHANGED && m_isNew && docDesdePacking()) {
 
               showStartWizardPackingList();
             }
-            else if(id !== D.Constants.DOC_CHANGED
-              && m_isNew && docDesdeProyecto()) {
+            else if(id !== D.Constants.DOC_CHANGED && m_isNew && docDesdeProyecto()) {
 
               showStartWizardProyecto();
             }
@@ -2193,7 +2179,8 @@
 
         m_dialog.setSendNewDoc(Cairo.UserConfig.getNuevoAlGrabar());
 
-        m_properties.clear();
+        var properties = m_properties;
+        properties.clear();
 
         var tabs = m_dialog.getTabs();
         tabs.clear();
@@ -2202,8 +2189,6 @@
         tabs.add(null).setIndex(1).setName(getText(1566, "")); // Adicionales
         tabs.add(null).setIndex(2).setName(getText(4909, "")); // Descuentos
         tabs.add(null).setIndex(3).setName(getText(1861, "")); // Observaciones
-
-        var properties = m_properties;
 
         elem = properties.add(null, C.DOC_ID);
         elem.setType(T.select);
@@ -2496,15 +2481,17 @@
 
         if(!m_dialog.show(self)) { return false; }
 
+        /////////////////////////////////////////////////////////////////////
+        // ITEMS
+        /////////////////////////////////////////////////////////////////////
+
         tabs = m_items.getTabs();
         tabs.clear();
 
         tabs.add(null).setIndex(0).setName(getText(1371, "")); // Items
         tabs.add(null).setIndex(1).setName(getText(1248, "")); // Percepciones
 
-
         var properties = m_itemsProps;
-
         properties.clear();
 
         var elem = properties.add(null, C_ITEMS);
@@ -2537,8 +2524,11 @@
 
         if(!m_items.show(self)) { return false; }
 
-        var properties = m_footerProps;
+        /////////////////////////////////////////////////////////////////////
+        // FOOTER
+        /////////////////////////////////////////////////////////////////////
 
+        var properties = m_footerProps;
         properties.clear();
 
         elem = properties.add(null, CV.FV_SUBTOTAL);
@@ -2727,10 +2717,8 @@
 
         var grid = property.getGrid();
 
-        grid.getColumns().clear();
-        grid.getRows().clear();
-
         var columns = grid.getColumns();
+        columns.clear();
 
         elem = columns.add(null);
         elem.setVisible(false);
@@ -2925,6 +2913,8 @@
         elem = columns.add(null);
         elem.setVisible(false);
         elem.setKey(KI_NOSTOCK);
+
+        grid.getRows().clear();
       }
 
       var loadItems = function(property, cotizacion) {
@@ -3242,8 +3232,8 @@
               m_deplId = valField(data, C.DEPL_ID);
               m_deposito = valField(data, C.DEPL_NAME);
 
-              m_asId = valField(data, CV.AS_ID);
-              m_stId = valField(data, CV.ST_ID);
+              m_asId = valField(data, C.AS_ID);
+              m_stId = valField(data, C.ST_ID);
 
               m_bIva = valField(data, C.HAS_IVA_RI);
               m_bIvaRni = valField(data, C.HAS_IVA_RNI);
@@ -3697,7 +3687,7 @@
 
         if(prId !== 0) {
 
-          p = D.getTasaFromProducto(prId, true).whenSuccessWithResult(function(data) {
+          p = D.getTasaFromProducto(prId).whenSuccessWithResult(function(data) {
 
             if(data.ti_ri_compra === 0) {
               return M.showWarningWithFalse(getText(1597, "", prName));
@@ -4219,32 +4209,32 @@
 
         m_items.showValues(m_itemsProps);
 
-        m_footerProps.item(CV.FV_SUBTOTAL);
-        c.setValue(m_subTotal);
+        m_footerProps.item(CV.FV_SUBTOTAL)
+          .setValue(m_subTotal);
 
-        m_footerProps.item(CV.FV_IMPORTE_DESC_1);
-        c.setValue(m_importeDesc1);
+        m_footerProps.item(CV.FV_IMPORTE_DESC_1)
+          .setValue(m_importeDesc1);
 
-        m_footerProps.item(CV.FV_IMPORTE_DESC_2);
-        c.setValue(m_importeDesc2);
+        m_footerProps.item(CV.FV_IMPORTE_DESC_2)
+          .setValue(m_importeDesc2);
 
-        m_footerProps.item(CV.FV_NETO);
-        c.setValue(m_neto);
+        m_footerProps.item(CV.FV_NETO)
+          .setValue(m_neto);
 
-        m_footerProps.item(CV.FV_IVA_RI);
-        c.setValue(m_ivari);
+        m_footerProps.item(CV.FV_IVA_RI)
+          .setValue(m_ivari);
 
-        m_footerProps.item(CV.FV_IVA_RNI);
-        c.setValue(m_ivarni);
+        m_footerProps.item(CV.FV_IVA_RNI)
+          .setValue(m_ivarni);
 
-        m_footerProps.item(CV.FV_INTERNOS);
-        c.setValue(m_internos);
+        m_footerProps.item(CV.FV_INTERNOS)
+          .setValue(m_internos);
 
-        m_footerProps.item(CV.FV_TOTAL_PERCEPCIONES);
-        c.setValue(m_totalPercepciones);
+        m_footerProps.item(CV.FV_TOTAL_PERCEPCIONES)
+          .setValue(m_totalPercepciones);
 
-        m_footerProps.item(CV.FV_TOTAL);
-        c.setValue(m_total);
+        m_footerProps.item(CV.FV_TOTAL)
+          .setValue(m_total);
 
         m_footer.showValues(m_footerProps);
 
@@ -4388,6 +4378,7 @@
 
       self.destroy = function() {
         try {
+
           m_dialog = null;
           m_properties = null;
           m_listController = null;
@@ -4404,6 +4395,7 @@
           m_hojaRuta = null;
           m_searchZona = null;
           m_serialNumbers = null;
+
         }
         catch (ex) {
           Cairo.manageErrorEx(ex.message, ex, "destroy", C_MODULE, "");
@@ -4513,9 +4505,8 @@
 
         var grid = property.getGrid();
         grid.getColumns().clear();
-        grid.getRows().clear();
 
-        Percepciones.loadPercepciones(grid, Cairo.Settings);
+        Percepciones.setGridPercepciones(grid, Cairo.Settings);
 
         grid.getRows().clear();
       };
@@ -4654,7 +4645,7 @@
        return _rtn;
        }
 
-       if(pGetItems().getGrid().getRows().count() === 0) {
+       if(getItems().getGrid().getRows().count() === 0) {
        // El documento debe contener al menos un item
        MsgWarning(getText(3903, ""));
        _rtn = false;

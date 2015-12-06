@@ -701,8 +701,8 @@
 
         var elem;
         var grid = property.getGrid();
-        var columns = grid.getColumns();
 
+        var columns = grid.getColumns();
         columns.clear();
 
         elem = columns.add(null);
@@ -724,9 +724,7 @@
         elem.setType(Dialogs.PropertyType.text);
         elem.setKey(KI_DESCRIP);
 
-        var rows = grid.getRows();
-
-        rows.clear();
+        grid.getRows().clear();
       };
 
       var loadItems = function(property) {

@@ -343,10 +343,10 @@
       var m_ta_id_kitLote = 0;
       var m_talonarioKitLote = "";
 
-      var m_ccos_id_compra = 0;
+      var m_ccosId_compra = 0;
       var m_centroCostoCompra = "";
 
-      var m_ccos_id_venta = 0;
+      var m_ccosId_venta = 0;
       var m_centroCostoVenta = "";
 
       var m_embl_id = 0;
@@ -1850,7 +1850,7 @@
         elem.setName(getText(1057, "")); // Centro de Costo
         elem.setKey(K_CCOS_ID_COMPRA);
         elem.setValue(m_centroCostoCompra);
-        elem.setSelectId(m_ccos_id_compra);
+        elem.setSelectId(m_ccosId_compra);
 
         //////////////////////////////////////////////////////////////
         // Stock
@@ -2085,7 +2085,7 @@
         elem.setName(getText(1057, "")); // Centro de Costo
         elem.setKey(K_CCOS_ID_VENTA);
         elem.setValue(m_centroCostoVenta);
-        elem.setSelectId(m_ccos_id_venta);
+        elem.setSelectId(m_ccosId_venta);
 
         elem = properties.add(null, C.PR_DESCRIP_VENTA);
         elem.setType(T.text);
@@ -2963,10 +2963,10 @@
               m_webImageUpdate = valField(response.data, C.PR_WEB_IMAGE_UPDATE);
 
               m_centroCostoCompra = valField(response.data, C.CCOS_NAME_COMPRA);
-              m_ccos_id_compra = valField(response.data, C.CCOS_ID_COMPRA);
+              m_ccosId_compra = valField(response.data, C.CCOS_ID_COMPRA);
 
               m_centroCostoVenta = valField(response.data, C.CCOS_NAME_VENTA);
-              m_ccos_id_venta = valField(response.data, C.CCOS_ID_VENTA);
+              m_ccosId_venta = valField(response.data, C.CCOS_ID_VENTA);
 
               m_isTemplate = valField(response.data, C.PR_ES_PLANTILLA);
               m_cur_id = valField(response.data, C.CUR_ID);
@@ -3149,10 +3149,10 @@
               m_webImageUpdate = true;
 
               m_centroCostoCompra = "";
-              m_ccos_id_compra = NO_ID;
+              m_ccosId_compra = NO_ID;
 
               m_centroCostoVenta = "";
-              m_ccos_id_venta = NO_ID;
+              m_ccosId_venta = NO_ID;
 
               m_isTemplate = 0;
               m_cur_id = NO_ID;
@@ -3305,7 +3305,7 @@
         property.setValue(m_cuentaGCompra);
 
         var property = properties.item(C.CCOS_ID_COMPRA);
-        property.setSelectId(m_ccos_id_compra);
+        property.setSelectId(m_ccosId_compra);
         property.setValue(m_centroCostoCompra);
 
         var property = properties.item(C.MARC_ID);
@@ -3479,7 +3479,7 @@
         property.setValue(bToI(m_noRedondeo));
 
         var property = properties.item(C.CCOS_ID_VENTA);
-        property.setSelectId(m_ccos_id_venta);
+        property.setSelectId(m_ccosId_venta);
         property.setValue(m_centroCostoVenta);
 
         var property = properties.item(C.PR_DESCRIP_VENTA);
@@ -4717,8 +4717,8 @@
 
         var elem;
         var grid = property.getGrid();
-        var columns = grid.getColumns();
 
+        var columns = grid.getColumns();
         columns.clear();
 
         elem = columns.add(null);
@@ -4781,9 +4781,7 @@
         elem.setType(T.check);
         elem.setKey(KIK_PROV_PRECIO_DEFAULT);
 
-        var rows = grid.getRows();
-
-        rows.clear();
+        grid.getRows().clear();
       };
 
       var loadProveedor = function(property) {
@@ -4867,8 +4865,8 @@
 
         var elem;
         var grid = property.getGrid();
-        var columns = grid.getColumns();
 
+        var columns = grid.getColumns();
         columns.clear();
 
         elem = columns.add(null);
@@ -4896,9 +4894,7 @@
         elem.setType(T.text);
         elem.setKey(KIK_CLI_CODBARRA);
 
-        var rows = grid.getRows();
-
-        rows.clear();
+        grid.getRows().clear();
       };
 
       var loadCliente = function(property) {
@@ -4941,8 +4937,8 @@
 
         var elem;
         var grid = property.getGrid();
-        var columns = grid.getColumns();
 
+        var columns = grid.getColumns();
         columns.clear();
 
         elem = columns.add(null);
@@ -4982,9 +4978,7 @@
         elem.setSubType(Dialogs.PropertySubType.textButtonEx);
         elem.setKey(KICMI_DESCRIP);
 
-        var rows = grid.getRows();
-
-        rows.clear();
+        grid.getRows().clear();
       };
 
       var loadCMI = function(property) {
@@ -5035,8 +5029,8 @@
 
         var elem;
         var grid = property.getGrid();
-        var columns = grid.getColumns();
 
+        var columns = grid.getColumns();
         columns.clear();
 
         elem = columns.add(null);
@@ -5064,9 +5058,7 @@
         elem.setType(T.text);
         elem.setKey(KIPRL_ORDEN);
 
-        var rows = grid.getRows();
-
-        rows.clear();
+        grid.getRows().clear();
       };
 
       var loadLeyendas = function(property) {
@@ -5108,17 +5100,15 @@
 
         var elem;
         var grid = property.getGrid();
-        var columns = grid.getColumns();
 
+        var columns = grid.getColumns();
         columns.clear();
 
         elem = columns.add(null);
         elem.setName(getText(1304, "")); // B.O.M.
         elem.setKey(KIK_PBM_ID);
 
-        var rows = grid.getRows();
-
-        rows.clear();
+        grid.getRows().clear();
       };
 
       var loadBOM = function(property) {
@@ -5145,8 +5135,8 @@
 
         var elem;
         var grid = property.getGrid();
-        var columns = grid.getColumns();
 
+        var columns = grid.getColumns();
         columns.clear();
 
         elem = columns.add(null);
@@ -5188,9 +5178,7 @@
         elem.setDefaultValue(Dialogs.Grids.createCell());
         elem.getDefaultValue().setValue(50);
 
-        var rows = grid.getRows();
-
-        rows.clear();
+        grid.getRows().clear();
       };
 
       var loadTags = function(property) {
@@ -5236,8 +5224,8 @@
 
         var elem;
         var grid = property.getGrid();
-        var columns = grid.getColumns();
 
+        var columns = grid.getColumns();
         columns.clear();
 
         elem = columns.add(null);
@@ -5260,9 +5248,7 @@
         elem.setSubType(Dialogs.PropertySubType.integer);
         elem.setKey(KICWCI_POSICION);
 
-        var rows = grid.getRows();
-
-        rows.clear();
+        grid.getRows().clear();
       };
 
       var loadCategoriasWeb = function(property) {
@@ -5301,8 +5287,8 @@
 
         var elem;
         var grid = property.getGrid();
-        var columns = grid.getColumns();
 
+        var columns = grid.getColumns();
         columns.clear();
 
         elem = columns.add(null);
@@ -5319,9 +5305,7 @@
         elem.setType(T.check);
         elem.setKey(KICW_SELECT);
 
-        var rows = grid.getRows();
-
-        rows.clear();
+        grid.getRows().clear();
       };
 
       var loadCatalogosWeb = function(property) {
@@ -5356,8 +5340,8 @@
 
         var elem;
         var grid = property.getGrid();
-        var columns = grid.getColumns();
 
+        var columns = grid.getColumns();
         columns.clear();
 
         elem = columns.add(null);
@@ -5374,17 +5358,17 @@
         elem.setType(T.list);
         elem.setKey(KIWI_IMAGE_TYPE);
 
-        var w_list = elem.getList();
+        var list = elem.getList();
 
-        elem = w_list.add(null);
+        elem = list.add(null);
         elem.setId(C.ProductoWebImageType.webImageThumbnail);
         elem.setValue(getText(4572, "")); // Pequeña Principal
 
-        elem = w_list.add(null);
+        elem = list.add(null);
         elem.setId(C.ProductoWebImageType.webImageMedium);
         elem.setValue(getText(4571, "")); // Pequeña
 
-        elem = w_list.add(null);
+        elem = list.add(null);
         elem.setId(C.ProductoWebImageType.webImageBig);
         elem.setValue(getText(4570, "")); // Grande
 
@@ -5400,7 +5384,6 @@
         elem.setKey(KIWI_POSICION);
 
         grid.getRows().clear();
-        
       };
 
       var loadWebImages = function(property) {
@@ -5440,8 +5423,8 @@
 
         var elem;
         var grid = property.getGrid();
-        var columns = grid.getColumns();
 
+        var columns = grid.getColumns();
         columns.clear();
 
         elem = columns.add(null);
@@ -5453,9 +5436,7 @@
         elem.setType(T.check);
         elem.setKey(KIK_PRFK_DEFAULT);
 
-        var rows = grid.getRows();
-
-        rows.clear();
+        grid.getRows().clear();
       };
 
       var loadKit = function(property) {

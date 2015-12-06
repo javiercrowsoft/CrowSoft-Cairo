@@ -42,7 +42,7 @@
       TOTAL: 3
     };
 
-    self.loadPercepciones = function(grid, grlCfg) {
+    self.setGridPercepciones = function(grid, grlCfg) {
 
       var w_columns = grid.getColumns();
       var elem = w_columns.add(null);

@@ -1202,10 +1202,8 @@
       var setGridPercepcion = function(property) {
         var grid = property.getGrid();
 
-        grid.getColumns().clear();
-        grid.getRows().clear();
-
         var columns = grid.getColumns();
+        columns.clear();
 
         var elem = columns.add(null);
         elem.setVisible(false);
@@ -1215,6 +1213,8 @@
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.PERCEPCION);
         elem.setKey(KI_PERC_ID);
+
+        grid.getRows().clear();
       }
 
       var loadPercepcion = function(grid) {

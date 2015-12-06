@@ -31,7 +31,7 @@
       var m_descripcion = "";
       var m_compra = 0;
       var m_venta = 0;
-      var m_ccos_id_padre = 0;
+      var m_ccosIdPadre = 0;
       var m_padre = "";
 
       var m_editing;
@@ -421,7 +421,7 @@
         elem.setName(getText(3573, ""));
         elem.setKey(K_CCOS_ID_PADRE);
         elem.setValue(m_padre);
-        elem.setSelectId(m_ccos_id_padre);
+        elem.setSelectId(m_ccosIdPadre);
         elem.setSelectFilter("ccos_id <> "+ m_id);
 
         var elem = properties.add(null, C.CCOS_DESCRIP);
@@ -461,7 +461,7 @@
 
         var elem = properties.item(C.CCOS_ID_PADRE);
         elem.setValue(m_padre);
-        elem.setSelectId(m_ccos_id_padre);
+        elem.setSelectId(m_ccosIdPadre);
 
         var elem = properties.item(C.CCOS_DESCRIP);
         elem.setValue(m_descripcion);
@@ -484,7 +484,7 @@
               m_descripcion = "";
               m_compra = 0;
               m_venta = 0;
-              m_ccos_id_padre = NO_ID;
+              m_ccosIdPadre = NO_ID;
               m_padre = "";
             } 
             else {
@@ -495,7 +495,7 @@
               m_descripcion = Cairo.Database.valField(response.data, C.CCOS_DESCRIP);
               m_compra = Cairo.Database.valField(response.data, C.CCOS_COMPRA);
               m_venta = Cairo.Database.valField(response.data, C.CCOS_VENTA);
-              m_ccos_id_padre = Cairo.Database.valField(response.data, C.CCOS_ID_PADRE);
+              m_ccosIdPadre = Cairo.Database.valField(response.data, C.CCOS_ID_PADRE);
               m_padre = Cairo.Database.valField(response.data, "padre");
             }
 

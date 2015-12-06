@@ -49,7 +49,7 @@
       var m_documento = "";
       var m_sucId = "";
       var m_sucursal = "";
-      var m_lgj_id = "";
+      var m_lgjId = "";
       var m_legajo = "";
 
       var m_empId = "";
@@ -298,13 +298,13 @@
         c.setName(getText(1575, ""));
         c.setKey(K_LGJ_ID);
         value = m_legajo;
-        if(m_lgj_id.Substring(0, 1).toUpperCase() === KEY_NODO) {
-          value = GetNombreRama(mStockConstantes.cSLEGAJO, Cairo.Util.val(m_lgj_id.Substring(2)), bExists);
-          if(!bExists) { m_lgj_id = "0"; }
+        if(m_lgjId.Substring(0, 1).toUpperCase() === KEY_NODO) {
+          value = GetNombreRama(mStockConstantes.cSLEGAJO, Cairo.Util.val(m_lgjId.Substring(2)), bExists);
+          if(!bExists) { m_lgjId = "0"; }
         }
         c.setValue(value);
-        c.setSelectId(Cairo.Util.val(m_lgj_id));
-        c.setSelectIntValue(m_lgj_id);
+        c.setSelectId(Cairo.Util.val(m_lgjId));
+        c.setSelectIntValue(m_lgjId);
 
 
         c = m_dialog.getProperties().add(null, C.EMP_ID);
@@ -455,7 +455,7 @@
           case K_LGJ_ID:
             var property = m_dialog.getProperties().item(mStockConstantes.LGJ_ID);
             m_legajo = property.getValue();
-            m_lgj_id = property.getSelectIntValue();
+            m_lgjId = property.getSelectIntValue();
 
 
             break;
@@ -530,7 +530,7 @@
 
         sqlstmt = sqlstmt+ Cairo.Database.sqlString(m_docId)+ ",";
         sqlstmt = sqlstmt+ Cairo.Database.sqlString(m_sucId)+ ",";
-        sqlstmt = sqlstmt+ Cairo.Database.sqlString(m_lgj_id)+ ",";
+        sqlstmt = sqlstmt+ Cairo.Database.sqlString(m_lgjId)+ ",";
         sqlstmt = sqlstmt+ Cairo.Database.sqlString(m_empId);
 
         return sqlstmt;

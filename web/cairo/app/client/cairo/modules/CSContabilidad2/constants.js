@@ -13,9 +13,6 @@
       AS_DESCRIP: "as_descrip",
       AS_FECHA: "as_fecha",
       AS_DOC_CLIENTE: "as_doc_cliente",
-      ID_CLIENTE: "id_cliente",
-      DOCT_ID_CLIENTE: "doct_id_cliente",
-      DOC_CLIENTE: "doc_cliente",
 
       // AsientoItem
       ASIENTO_ITEM: "AsientoItem",

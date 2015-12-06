@@ -269,38 +269,33 @@
         }
       };
 
-      self.showFacturaRemito = function(provId, vRcIds) {
+      var showStartWizard = function(provId, f) {
         try {
-
           m_provId = provId;
-
           DB.getData("load[" + m_apiPath + "general/proveedor/" + provId.toString() + "/name]").then(function(response) {
-
             try {
-
               if(response.success === true) {
-
-                m_proveedor = valField(response.data, C.PROV_NAME);
-
-                m_rcIds = [];
-                for(var i = 1; i < vRcIds.length; i++) {
-                  m_rcIds[i] = vRcIds[i];
-                }
-
-                if(initMembers()) {
-                  showStartWizardRemito();
-                }
+                m_proveedor = valField(response.data, C.CLI_NAME);
+                f();
               }
             }
             catch(ex) {
-              Cairo.manageErrorEx(ex.message, ex, "showFacturaRemito", C_MODULE, "");
+              Cairo.manageErrorEx(ex.message, ex, "showStartWizard", C_MODULE, "");
             }
-
           });
         }
-        catch(ex) {
-          Cairo.manageErrorEx(ex.message, ex, "showFacturaRemito", C_MODULE, "");
+        catch (ex) {
+          Cairo.manageErrorEx(ex.message, ex, "showStartWizard", C_MODULE, "");
         }
+      };
+
+      self.showFacturaRemito = function(provId, rcIds) {
+        showStartWizard(provId, function() {
+          m_rcIds = rcIds.slice();
+          if(initMembers()) {
+            showStartWizardRemito();
+          }
+        });
       };
 
       self.showWizardFacturaRemito = function() {
@@ -341,38 +336,13 @@
         return true;
       };
 
-      self.showFacturaOrden = function(provId, vOcIds) {
-        try {
-
-          m_provId = provId;
-
-          DB.getData("load[" + m_apiPath + "general/proveedor/" + provId.toString() + "/name]").then(function(response) {
-
-            try {
-
-              if(response.success === true) {
-
-                m_proveedor = valField(response.data, C.PROV_NAME);
-
-                m_ocIds = [];
-                for(var i = 1; i < vOcIds.length + 1; i++) {
-                  m_ocIds[i] = vOcIds[i];
-                }
-
-                if(initMembers()) {
-                  showStartWizardOrden();
-                }
-              }
-            }
-            catch(ex) {
-              Cairo.manageErrorEx(ex.message, ex, "showFacturaOrden", C_MODULE, "");
-            }
-
-          });
-        }
-        catch(ex) {
-          Cairo.manageErrorEx(ex.message, ex, "ShowFacturaOrden", C_MODULE, "");
-        }
+      self.showFacturaOrden = function(provId, ocIds) {
+        showStartWizard(provId, function() {
+          m_ocIds = ocIds.slice();
+          if(initMembers()) {
+            showStartWizardOrden();
+          }
+        });
       };
         
       self.copy = function() {
@@ -1436,13 +1406,11 @@
             // only show the wizard if the new action is not
             // originated by a change on document
             // 
-            if(id !== D.Constants.DOC_CHANGED
-                && m_isNew && docDesdeOrden()) {
+            if(id !== D.Constants.DOC_CHANGED && m_isNew && docDesdeOrden()) {
 
               showStartWizardOrden();
             }
-            else if(id !== D.Constants.DOC_CHANGED
-                      && m_isNew && docDesdeRemito()) {
+            else if(id !== D.Constants.DOC_CHANGED && m_isNew && docDesdeRemito()) {
 
               showStartWizardRemito();
             }
@@ -2073,7 +2041,8 @@
         var validateDocDefault = false;
         var elem, list;
 
-        m_properties.clear();
+        var properties = m_properties;
+        properties.clear();
 
         var tabs = m_dialog.getTabs();
         tabs.clear();
@@ -2082,8 +2051,6 @@
         tabs.add(null).setIndex(1).setName(getText(1566, "")); // Adicionales
         tabs.add(null).setIndex(2).setName(getText(4909, "")); // Descuentos
         tabs.add(null).setIndex(3).setName(getText(1861, "")); // Observaciones
-
-        var properties = m_properties;
 
         elem = properties.add(null, C.DOC_ID);
         elem.setType(T.select);
@@ -2361,6 +2328,10 @@
 
         if(!m_dialog.show(self)) { return false; }
 
+        /////////////////////////////////////////////////////////////////////
+        // ITEMS
+        /////////////////////////////////////////////////////////////////////
+
         var tabs = m_items.getTabs();
         tabs.clear();
 
@@ -2381,7 +2352,6 @@
         tab.setName(getText(1575, "")); // Legajos
 
         properties = m_itemsProps;
-
         properties.clear();
 
         elem = properties.add(null, C_ITEMS);
@@ -2442,8 +2412,11 @@
 
         if(!m_items.show(self)) { return false; }
 
-        properties = m_footerProps;
+        /////////////////////////////////////////////////////////////////////
+        // FOOTER
+        /////////////////////////////////////////////////////////////////////
 
+        properties = m_footerProps;
         properties.clear();
 
         elem = properties.add(null, CC.FC_SUBTOTAL);
@@ -2642,10 +2615,8 @@
 
         var grid = property.getGrid();
 
-        grid.getColumns().clear();
-        grid.getRows().clear();
-
         var columns = grid.getColumns();
+        columns.clear();
 
         elem = columns.add(null);
         elem.setVisible(false);
@@ -3026,9 +2997,8 @@
 
         var grid = property.getGrid();
         grid.getColumns().clear();
-        grid.getRows().clear();
 
-        Percepciones.loadPercepciones(grid, Cairo.Settings);
+        Percepciones.setGridPercepciones(grid, Cairo.Settings);
 
         grid.getRows().clear();
       };
@@ -3080,8 +3050,8 @@
 
         var elem;
         var grid = property.getGrid();
-        var columns = grid.getColumns();
 
+        var columns = grid.getColumns();
         columns.clear();
 
         elem = columns.add(null);
@@ -3107,7 +3077,6 @@
         elem.setKey(KIL_DESCRIP);
 
         grid.getRows().clear();
-
       };
 
       var loadLegajos = function(property, cotizacion) {
@@ -3145,10 +3114,9 @@
 
         var elem;
         var grid = property.getGrid();
-        grid.getColumns().clear();
-        grid.getRows().clear();
 
         var columns = grid.getColumns();
+        columns.clear();
 
         elem = columns.add(null);
         elem.setVisible(false);
@@ -3186,6 +3154,7 @@
         elem.setSelectTable(Cairo.Tables.CENTROS_DE_COSTO);
         elem.setKey(KI_CCOS_ID);
 
+        grid.getRows().clear();
       };
 
       var loadOtros = function(property, cotizacion) {
@@ -3342,8 +3311,8 @@
 
               m_cotizacionProv = valField(data, CC.FC_COTIZACION_PROV);
 
-              m_asId = valField(data, CC.AS_ID);
-              m_stId = valField(data, CC.ST_ID);
+              m_asId = valField(data, C.AS_ID);
+              m_stId = valField(data, C.ST_ID);
 
               m_taMascara = valField(data, C.TA_MASCARA);
               m_taPropuesto = valField(data, C.TA_PROPUESTO);
@@ -4377,34 +4346,34 @@
         m_items.showValues(m_itemsProps);
 
         m_footerProps.item(CC.FC_SUBTOTAL)
-        .setValue(m_subTotal);
+          .setValue(m_subTotal);
 
         m_footerProps.item(CC.FC_IMPORTE_DESC_1)
-        .setValue(m_importeDesc1);
+          .setValue(m_importeDesc1);
 
         m_footerProps.item(CC.FC_IMPORTE_DESC_2)
-        .setValue(m_importeDesc2);
+          .setValue(m_importeDesc2);
 
         m_footerProps.item(CC.FC_NETO)
-        .setValue(m_neto);
+          .setValue(m_neto);
 
         m_footerProps.item(CC.FC_IVA_RI)
-        .setValue(m_ivari);
+          .setValue(m_ivari);
 
         m_footerProps.item(CC.FC_IVA_RNI)
-        .setValue(m_ivarni);
+          .setValue(m_ivarni);
 
         m_footerProps.item(CC.FC_INTERNOS)
-        .setValue(m_internos);
+          .setValue(m_internos);
 
         m_footerProps.item(CC.FC_TOTAL_OTROS)
-        .setValue(m_totalOtros);
+          .setValue(m_totalOtros);
 
         m_footerProps.item(CC.FC_TOTAL_PERCEPCIONES)
-        .setValue(m_totalPercepciones);
+          .setValue(m_totalPercepciones);
 
         m_footerProps.item(CC.FC_TOTAL)
-        .setValue(m_total);
+          .setValue(m_total);
 
         m_footer.showValues(m_footerProps);
 

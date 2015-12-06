@@ -197,11 +197,11 @@
       var m_creditototal = 0;
       var m_creditoactivo;
       var m_clientePadre = "";
-      var m_cli_id_padre = 0;
+      var m_cliId_padre = 0;
       var m_clict_id = 0;
       var m_contactoTipo = "";
 
-      var m_cli_id_referido = 0;
+      var m_cliId_referido = 0;
       var m_referido = "";
       var m_proy_id = 0;
       var m_proyecto = "";
@@ -997,7 +997,7 @@
         elem.setName(getText(1509, ""));
         elem.setKey(K_CLI_ID_PADRE);
         elem.setValue(m_clientePadre);
-        elem.setSelectId(m_cli_id_padre);
+        elem.setSelectId(m_cliId_padre);
         elem.setSelectFilter(D.getCustomerFatherFilter(m_id));
 
         var elem = properties.add(null, C.CLI_CONTACTO);
@@ -1399,7 +1399,7 @@
         elem.setName(getText(4662, "")); // Referido por
         elem.setKey(K_REFERIDO);
         elem.setValue(m_referido);
-        elem.setSelectId(m_cli_id_referido);
+        elem.setSelectId(m_cliId_referido);
         elem.setSelectFilter(D.getCustomerReferrerFilter(m_id));
         elem.setTabIndex(tab_crm);
 
@@ -1786,7 +1786,7 @@
               m_exigeTrans = valField(response.data, C.CLI_EXIGE_TRANSPORTE);
               m_exigeProvincia = valField(response.data, C.CLI_EXIGE_PROVINCIA);
               m_pciaTransporte = valField(response.data, C.CLI_PCIA_TRANSPORTE);
-              m_cli_id_padre = valField(response.data, C.CLI_ID_PADRE);
+              m_cliId_padre = valField(response.data, C.CLI_ID_PADRE);
               m_clientePadre = valField(response.data, C.CLI_NOMBRE_PADRE);
               m_provincia = valField(response.data, C.PRO_NAME);
               m_zona = valField(response.data, C.ZON_NAME);
@@ -1801,7 +1801,7 @@
               m_clict_id = valField(response.data, C.CLICT_ID);
               m_contactoTipo = valField(response.data, C.CLICT_NAME);
 
-              m_cli_id_referido = valField(response.data, C.CLI_ID_REFERIDO);
+              m_cliId_referido = valField(response.data, C.CLI_ID_REFERIDO);
               m_referido = valField(response.data, C.REFERIDO);
               m_proy_id = valField(response.data, C.PROY_ID);
               m_proyecto = valField(response.data, C.PROY_NAME);
@@ -1860,7 +1860,7 @@
               m_vendedor = "";
               m_trans_id = NO_ID;
               m_transporte = "";
-              m_cli_id_padre = NO_ID;
+              m_cliId_padre = NO_ID;
               m_clientePadre = "";
               m_exigeTrans = false;
               m_exigeProvincia = false;
@@ -1875,7 +1875,7 @@
               m_clict_id = NO_ID;
               m_contactoTipo = "";
 
-              m_cli_id_referido = NO_ID;
+              m_cliId_referido = NO_ID;
               m_referido = "";
               m_proy_id = NO_ID;
               m_proyecto = "";
@@ -1939,7 +1939,7 @@
 
         var property = properties.item(C.CLI_ID_PADRE);
         property.setValue(m_clientePadre);
-        property.setSelectId(m_cli_id_padre);
+        property.setSelectId(m_cliId_padre);
         property.setSelectFilter(D.getCustomerFatherFilter(m_id));
 
         var property = properties.item(C.CLI_CONTACTO);
@@ -1962,7 +1962,7 @@
 
         var property = properties.item(C.CLI_ID_REFERIDO);
         property.setValue(m_referido);
-        property.setSelectId(m_cli_id_referido);
+        property.setSelectId(m_cliId_referido);
 
         var property = properties.item(C.LP_ID);
         property.setSelectFilter(D.getListaPrecioForCliente(NO_ID, m_id));
@@ -2113,7 +2113,6 @@
         var grid = property.getGrid();
         
         var columns = grid.getColumns();
-
         columns.clear();
 
         elem = columns.add(null);
@@ -2142,9 +2141,7 @@
         elem.setType(T.date);
         elem.setKey(KI_PERC_HASTA);
 
-        var rows = grid.getRows();
-
-        rows.clear();
+        grid.getRows().clear();
       };
 
       var loadPercepcion = function(property) {
@@ -2190,7 +2187,6 @@
         var grid = property.getGrid();
 
         var columns = grid.getColumns();
-
         columns.clear();
 
         elem = columns.add(null);
@@ -2202,9 +2198,7 @@
         elem.setSelectTable(Cairo.Tables.DEPARTAMENTO);
         elem.setKey(KI_DPTO_ID);
 
-        var rows = grid.getRows();
-
-        rows.clear();
+        grid.getRows().clear();
       };
 
       var loadDpto = function(property) {
@@ -2237,7 +2231,6 @@
         var grid = property.getGrid();
 
         var columns = grid.getColumns();
-
         columns.clear();
 
         elem = columns.add(null);
@@ -2261,9 +2254,7 @@
         elem.setVisible(false);
         elem.setKey(KI_PRE_ID);
 
-        var rows = grid.getRows();
-
-        rows.clear();
+        grid.getRows().clear();
       };
 
       var loadInformes = function(property) {
@@ -2302,8 +2293,8 @@
 
         var elem;
         var grid = property.getGrid();
-        var columns = grid.getColumns();
 
+        var columns = grid.getColumns();
         columns.clear();
 
         elem = columns.add(null);
@@ -2318,9 +2309,7 @@
         elem.setType(T.check);
         elem.setKey(KI_EMPCLI_ID);
 
-        var rows = grid.getRows();
-
-        rows.clear();
+        grid.getRows().clear();
       };
 
       var loadEmpresas = function(property) {
@@ -2362,7 +2351,6 @@
         var grid = property.getGrid();
 
         var columns = grid.getColumns();
-
         columns.clear();
 
         elem = columns.add(null);
@@ -2384,9 +2372,7 @@
         elem.setSelectFilter(D.getCuentaFilterForCliente());
         elem.setKey(KI_CUE_ID);
 
-        var rows = grid.getRows();
-
-        rows.clear();
+        grid.getRows().clear();
       };
 
       var loadCuentaGrupo = function(property) {
@@ -2424,7 +2410,6 @@
         var grid = property.getGrid();
 
         var columns = grid.getColumns();
-
         columns.clear();
 
         elem = columns.add(null);
@@ -2471,9 +2456,7 @@
         elem.setType(T.text);
         elem.setKey(KI_DIRECCION);
 
-        var rows = grid.getRows();
-
-        rows.clear();
+        grid.getRows().clear();
       };
 
       var loadContactos = function(property) {
@@ -2533,7 +2516,6 @@
         var grid = property.getGrid();
 
         var columns = grid.getColumns();
-
         columns.clear();
 
         elem = columns.add(null);
@@ -2623,9 +2605,7 @@
         elem.setSelectTable(Cairo.Tables.ZONA);
         elem.setKey(KI_S_ZON_ID);
 
-        var rows = grid.getRows();
-
-        rows.clear();
+        grid.getRows().clear();
       };
 
       var loadSucursales = function(property) {

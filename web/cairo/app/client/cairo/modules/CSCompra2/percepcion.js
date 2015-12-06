@@ -35,7 +35,7 @@
     self.KIP_DESCRIP = KIP_DESCRIP;
     self.KIP_FCPERC_ID = KIP_FCPERC_ID;
     
-    self.loadPercepciones = function(grid, grlCfg) {
+    self.setGridPercepciones = function(grid, grlCfg) {
 
       var w_columns = grid.getColumns();
       var elem = w_columns.add(null);

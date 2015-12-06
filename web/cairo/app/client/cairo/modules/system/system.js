@@ -688,8 +688,10 @@
   };
 
   Cairo.Documents.getSelectFilterForCuenta = "account_in_current_company";
+  Cairo.Documents.getSelectFilterForCuentaCheques = "account_in_for_cheques"; /* banco or documentos en cartera */
+  Cairo.Documents.getSelectFilterForCuentaEfectivo = "account_in_for_efectivo"; /* banco or caja */
 
-  Cairo.Documents.getTasaFromProducto = function(prId, isCompra) {
+  Cairo.Documents.getTasaFromProducto = function(prId) {
     var p = DB.getData("load[" + m_apiPath + "general/producto/" + prId.toString() + "/taxes]");
 
     return p.then(function(response) {
@@ -867,6 +869,14 @@
     + "|invoiceType:" + Cairo.Documents.InvoiceWizardType.remito.toString()
   ;
 
+  Cairo.Documents.COBRANZA_DOC_FILTER = "document|documentTypeId:"
+    + Cairo.Documents.Types.COBRANZA.toString()
+  ;
+
+  Cairo.Documents.ORDEN_PAGO_DOC_FILTER = "document|documentTypeId:"
+    + Cairo.Documents.Types.ORDEN_PAGO.toString()
+  ;
+
   Cairo.getStockLoteFilterEx = function(deplId,
                                         stockFisico,
                                         prIdKit,
@@ -893,7 +903,9 @@
 
   Cairo.Documents.FACTURA_COMPRAS_LIST_DOC_FILTER = Cairo.Documents.FACTURA_COMPRAS_DOC_FILTER + "|empId:0";
   Cairo.Documents.FACTURA_VENTAS_LIST_DOC_FILTER = Cairo.Documents.FACTURA_VENTAS_DOC_FILTER + "|empId:0";
-  Cairo.Documents.ASIENTOS_LIST_DOC_FILTER = Cairo.Documents.ASIENTOS_LIST_DOC_FILTER + "|empId:0";
+  Cairo.Documents.ASIENTOS_LIST_DOC_FILTER = Cairo.Documents.ASIENTOS_DOC_FILTER + "|empId:0";
+  Cairo.Documents.COBRANZA_LIST_DOC_FILTER = Cairo.Documents.COBRANZA_DOC_FILTER
+  Cairo.Documents.ORDEN_PAGO_LIST_DOC_FILTER = Cairo.Documents.ORDEN_PAGO_DOC_FILTER
 
   Cairo.History = {};
 

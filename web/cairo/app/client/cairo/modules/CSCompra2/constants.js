@@ -448,12 +448,6 @@
       PEDIDOCOTIZACIONCOMPRATMP: "PedidoCotizacionCompraTMP",
       PCCOT_TMP_ID: "pccotTMP_id",
 
-      // Asiento
-      AS_ID: "as_id",
-
-      // Stock
-      ST_ID: "st_id",
-
       // Despacho Importacion Calculo
       DESPACHOIMPCALCULO: "DespachoImpCalculo",
       DIC_ID: "dic_id",

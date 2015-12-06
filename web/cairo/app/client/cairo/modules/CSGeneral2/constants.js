@@ -12,6 +12,18 @@
 
       IS_VALID: "is_valid",
 
+      // this two constants are here so we can do C.AS_ID/C.ST_ID
+        // Asiento
+        AS_ID: "as_id",
+
+        // Stock
+        ST_ID: "st_id",
+      //---------------------------------------------------------
+
+      ID_CLIENTE: "id_cliente",
+      DOCT_ID_CLIENTE: "doct_id_cliente",
+      DOC_CLIENTE: "doc_cliente",
+
       // Usuario
       USUARIO: "Usuario",
       US_ID: "us_id",
