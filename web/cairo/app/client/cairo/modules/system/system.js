@@ -1708,6 +1708,19 @@
 
     return p || P.resolvedPromise(true);
   }
+  
+  // tesoreria
+
+  Cairo.Documents.setSelectFilterCuotas = function(row, property, dialog, tarjetaKey) {
+    var C_CUOTAS = "Cuotas";
+    var tjcId = Dialogs.cell(row, tarjetaKey).getId();
+    property.getGrid().getColumns(C_CUOTAS).setSelectFilter("instalments_for_tjcid|tjcId:" + tjcId.toString());
+    dialog.refreshColumnProperties(property, C_CUOTAS);
+  };
+
+  Cairo.Documents.getSelectChequeFilter = function(cueId) {
+    return "cheque|cueId:" + cueId.toString();
+  };
 
 }());
 

@@ -350,7 +350,7 @@
 
       var cIABMListDocClient_Save = function() {
         var register = null;
-        register = new cRegister();
+        var register = new DB.Register();
 
         var sqlstmt = null;
         sqlstmt = "delete ListaDocumentoParametro  where pre_id = "+ csTesoreriaPrestacion.cSPRETSREDITCASHFLOW.toString()+ " and us_id = "+ m_us_id;
@@ -412,8 +412,8 @@
           register.getFields().add2(Cairo.Constants.US_ID, m_us_id, Cairo.Constants.Types.id);
           register.getFields().add2(C.PRE_ID, csTesoreriaPrestacion.cSPRETSREDITCASHFLOW, Cairo.Constants.Types.id);
 
-          register.getFields().setHaveLastUpdate(false);
-          register.getFields().setHaveWhoModify(false);
+
+
           if(!Cairo.Database.save(register, , "cIABMListDocClient_Save", "cCashFlowListDoc", c_ErrorSave)) { return false; }
         }
         if(!load(m_us_id)) { return false; }

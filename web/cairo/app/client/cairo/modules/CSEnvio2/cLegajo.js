@@ -580,7 +580,7 @@
         //Error al grabar los parámetros de navegación de Legajo
 
         var register = null;
-        register = new cRegister();
+        var register = new DB.Register();
 
         var sqlstmt = null;
 
@@ -591,8 +591,8 @@
         register.setTable(Cairo.Constants.LISTADOCUMENTOPARAMETRO);
         register.setUtilizaIdentity(true);
 
-        register.getFields().setHaveLastUpdate(false);
-        register.getFields().setHaveWhoModify(false);
+
+
 
         var property = null;
         var _count = m_dialog.getProperties().size();

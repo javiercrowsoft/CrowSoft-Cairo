@@ -237,7 +237,7 @@
       var cIABMListDocClient_Refresh = function() {
         var sqlstmt = null;
 
-        pValidateFilters();
+        validateFilters();
 
         sqlstmt = "sp_lsdoc_PickingLists ";
 
@@ -265,7 +265,7 @@
         return sqlstmt;
       };
 
-      var pValidateFilters = function() {
+      var validateFilters = function() {
         if(LenB(m_nrodoc)) { return; }
         if(LenB(m_cliId) && m_cliId !== "0") { return; }
         if(LenB(m_venId) && m_venId !== "0") { return; }
@@ -387,7 +387,7 @@
 
       var cIABMListDocClient_Save = function() {
         var register = null;
-        register = new cRegister();
+        var register = new DB.Register();
 
         var sqlstmt = null;
         sqlstmt = "delete ListaDocumentoParametro  where pre_id = "+ csVentasPrestacion.cSPREVTALISTPICKINGLIST.toString()+ " and us_id = "+ m_us_id;
@@ -461,8 +461,8 @@
           register.getFields().add2(Cairo.Constants.US_ID, m_us_id, Cairo.Constants.Types.id);
           register.getFields().add2(C.PRE_ID, csVentasPrestacion.cSPREVTALISTPICKINGLIST, Cairo.Constants.Types.id);
 
-          register.getFields().setHaveLastUpdate(false);
-          register.getFields().setHaveLastUpdate(false);
+
+
           if(!Cairo.Database.save(register, , "cIABMClient_Save", C_MODULE, c_ErrorSave)) { return false; }
         }
         if(!load(m_us_id)) { return false; }

@@ -1030,11 +1030,15 @@
                     return M.showWarningWithFalse(result.errors.getMessage());
                   }
                   else {
+
                     m_copy = false;
                     Cairo.navigate(NO_ID);
+
                     return load(result.data.getId()).then(
                       function(success) {
+
                         if(success) {
+
                           Cairo.navigate(self.getPath());
                           if(m_listController !== null) {
                             updateList();
@@ -1485,7 +1489,7 @@
       };
 
       self.gridDblClick = function(key, lRow, lCol) {
-        return Cairo.Promises.resolvedPromise(false);
+        return P.resolvedPromise(false);
       };
 
       self.columnAfterEdit = function(key, lRow, lCol, newValue, newValueId) {
@@ -1626,7 +1630,7 @@
             break;
         }
 
-        return Cairo.Promises.resolvedPromise(true);
+        return P.resolvedPromise(true);
       };
 
       var columnAfterEditItems = function(property, lRow, lCol, newValue, newValueId) {
@@ -3624,7 +3628,7 @@
 
         if(m_itemsDeleted !== "" && m_id !== NO_ID && !m_copy) {
 
-          transaction.setDeletedList(m_itemsDeleted)
+          transaction.setDeletedList(m_itemsDeleted);
         }
 
         mainRegister.addTransaction(transaction);
@@ -3708,7 +3712,7 @@
 
         if(m_otrosDeleted !== "" && m_id !== NO_ID && !m_copy) {
 
-          transaction.setDeletedList(m_otrosDeleted)
+          transaction.setDeletedList(m_otrosDeleted);
         }
 
         mainRegister.addTransaction(transaction);
@@ -3784,7 +3788,7 @@
 
         if(m_legajosDeleted !== "" && m_id !== NO_ID && !m_copy) {
 
-          transaction.setDeletedList(m_legajosDeleted)
+          transaction.setDeletedList(m_legajosDeleted);
         }
 
         mainRegister.addTransaction(transaction);

@@ -683,7 +683,7 @@
         //Error al grabar los párametros de navegación de Resolución de Cupones
 
         var register = null;
-        register = new cRegister();
+        var register = new DB.Register();
 
         var sqlstmt = null;
 
@@ -781,8 +781,8 @@
           register.getFields().add2(Cairo.Constants.US_ID, m_us_id, Cairo.Constants.Types.id);
           register.getFields().add2(C.PRE_ID, csTesoreriaPrestacion.cSPRETSRLISTRESOLUCIONCUPON, Cairo.Constants.Types.id);
 
-          register.getFields().setHaveLastUpdate(false);
-          register.getFields().setHaveWhoModify(false);
+
+
           if(!Cairo.Database.save(register, , "cIABMClient_Save", C_MODULE, strError)) { return false; }
         }
 

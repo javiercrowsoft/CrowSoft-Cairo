@@ -234,7 +234,7 @@
 
           var i = null;
           G.redim(m_fcIds, vFcIds.Length + 1);
-          for (i = 1; i <= vFcIds.Length + 1; i++) {
+          for(i = 1; i <= vFcIds.Length + 1; i++) {
             m_fcIds[i] = vFcIds(i - 1);
           }
 
@@ -722,7 +722,7 @@
         }
 
         var _count = m_properties.size();
-        for (var _i = 0; _i < _count; _i++) {
+        for(var _i = 0; _i < _count; _i++) {
           var property = m_properties.item(_i);
           switch (property.getKey()) {
             case K_NUMERO:
@@ -768,7 +768,7 @@
         }
 
         var _count = m_footer.getProperties().size();
-        for (var _i = 0; _i < _count; _i++) {
+        for(var _i = 0; _i < _count; _i++) {
           property = m_footer.getProperties().item(_i);
           switch (property.getKey()) {
             case K_NETO:
@@ -867,7 +867,7 @@
 
       self.validate = function() {
 
-        for (var _i = 0, _count = m_properties.size(); _i < _count; _i++) {
+        for(var _i = 0, _count = m_properties.size(); _i < _count; _i++) {
 
           var property = m_properties.item(_i);
 
@@ -1159,23 +1159,23 @@
           switch (key) {
 
             case K_CHEQUES:
-              p = pValidateRowCheques(row, rowIndex);
+              p = validateRowCheques(row, rowIndex);
               break;
 
             case K_CHEQUEST:
-              p = pValidateRowTCheques(row, rowIndex);
+              p = validateRowTCheques(row, rowIndex);
               break;
 
             case K_OTROS:
-              p = pValidateRowOtros(row, rowIndex);
+              p = validateRowOtros(row, rowIndex);
               break;
 
             case K_EFECTIVO:
-              p = pValidateRowEfectivo(row, rowIndex);
+              p = validateRowEfectivo(row, rowIndex);
               break;
 
             case K_CTACTE:
-              p = pValidateRowCtaCte(row, rowIndex);
+              p = validateRowCtaCte(row, rowIndex);
               break;
           }
 
@@ -2011,9 +2011,7 @@
         elem.setName(Cairo.Language.getText(1267, "")); // Cuenta
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.CUENTA);
-
-        //.HelpFilter = cscCuecId & "=" & csECuecCaja
-        elem.setSelectFilter(mPublic.self.getHelpFilterEfectivo());
+        elem.setSelectFilter(D.getSelectFilterForCuentaEfectivo);
 
         elem.setKey(KIE_CUE_ID);
 
@@ -2277,7 +2275,7 @@
         }
 
         var _count = m_properties.size();
-        for (var _i = 0; _i < _count; _i++) {
+        for(var _i = 0; _i < _count; _i++) {
           prop = m_properties.item(_i);
           if(prop.getKey() !== K_DOC_ID && prop.getKey() !== K_NUMERO && prop.getKey() !== K_EST_ID) {
 
@@ -2296,7 +2294,7 @@
         }
 
         var _count = m_items.getProperties().size();
-        for (var _i = 0; _i < _count; _i++) {
+        for(var _i = 0; _i < _count; _i++) {
           prop = m_items.getProperties().item(_i);
           prop.setEnabled(bState);
         }
@@ -2624,16 +2622,16 @@
         var cell = null;
 
         var _count = getTCheques().getRows().size();
-        for (var _i = 0; _i < _count; _i++) {
+        for(var _i = 0; _i < _count; _i++) {
           row = getTCheques().getRows().item(_i);
 
-          register = new cRegister();
+          var register = new DB.Register();
           register.setFieldId(CT.OPGI_TMPID);
           register.setTable(CT.ORDENPAGOITEMTMP);
           register.setId(Cairo.Constants.NEW_ID);
 
           var _count = row.size();
-          for (var _j = 0; _j < _count; _j++) {
+          for(var _j = 0; _j < _count; _j++) {
             cell = row.item(_j);
             switch (cell.getKey()) {
 
@@ -2699,8 +2697,8 @@
           register.getFields().add2(CT.OPGI_ID, Cairo.Constants.NEW_ID, Types.long);
           register.getFields().add2(CT.OPGI_OTRO_TIPO, CT.OtroTipo.OTRO_HABER, Types.integer);
 
-          register.getFields().setHaveLastUpdate(false);
-          register.getFields().setHaveWhoModify(false);
+
+
 
           if(!Cairo.Database.save(register, , "saveTCheques", C_MODULE, c_ErrorSave)) { return false; }
         }
@@ -2715,9 +2713,9 @@
           m_tChequesDeleted = RemoveLastColon(m_tChequesDeleted);
           vDeletes = Split(m_tChequesDeleted, ",");
 
-          for (i = 0; i <= vDeletes.Length; i++) {
+          for(i = 0; i <= vDeletes.Length; i++) {
 
-            register = new cRegister();
+            var register = new DB.Register();
             register.setFieldId(CT.OPGIB_TMPID);
             register.setTable(CT.ORDENPAGOITEMBORRADOTMP);
             register.setId(Cairo.Constants.NEW_ID);
@@ -2726,8 +2724,8 @@
             register.getFields().add2(CT.OPG_ID, m_id, Types.id);
             register.getFields().add2(CT.OPG_TMPID, id, Types.id);
 
-            register.getFields().setHaveLastUpdate(false);
-            register.getFields().setHaveWhoModify(false);
+
+
 
             if(!Cairo.Database.save(register, , "saveTCheques", C_MODULE, c_ErrorSave)) { return false; }
           }
@@ -2744,16 +2742,16 @@
         var cell = null;
 
         var _count = getCheques().getRows().size();
-        for (var _i = 0; _i < _count; _i++) {
+        for(var _i = 0; _i < _count; _i++) {
           row = getCheques().getRows().item(_i);
 
-          register = new cRegister();
+          var register = new DB.Register();
           register.setFieldId(CT.OPGI_TMPID);
           register.setTable(CT.ORDENPAGOITEMTMP);
           register.setId(Cairo.Constants.NEW_ID);
 
           var _count = row.size();
-          for (var _j = 0; _j < _count; _j++) {
+          for(var _j = 0; _j < _count; _j++) {
             cell = row.item(_j);
             switch (cell.getKey()) {
 
@@ -2824,8 +2822,8 @@
           register.getFields().add2(CT.OPG_TMPID, id, Types.id);
           register.getFields().add2(CT.OPGI_OTRO_TIPO, CT.OtroTipo.OTRO_HABER, Types.integer);
 
-          register.getFields().setHaveLastUpdate(false);
-          register.getFields().setHaveWhoModify(false);
+
+
 
           if(!Cairo.Database.save(register, , "saveCheques", C_MODULE, c_ErrorSave)) { return false; }
         }
@@ -2840,9 +2838,9 @@
           m_chequesDeleted = RemoveLastColon(m_chequesDeleted);
           vDeletes = Split(m_chequesDeleted, ",");
 
-          for (i = 0; i <= vDeletes.Length; i++) {
+          for(i = 0; i <= vDeletes.Length; i++) {
 
-            register = new cRegister();
+            var register = new DB.Register();
             register.setFieldId(CT.OPGIB_TMPID);
             register.setTable(CT.ORDENPAGOITEMBORRADOTMP);
             register.setId(Cairo.Constants.NEW_ID);
@@ -2851,8 +2849,8 @@
             register.getFields().add2(CT.OPG_ID, m_id, Types.id);
             register.getFields().add2(CT.OPG_TMPID, id, Types.id);
 
-            register.getFields().setHaveLastUpdate(false);
-            register.getFields().setHaveWhoModify(false);
+
+
 
             if(!Cairo.Database.save(register, , "saveCheques", C_MODULE, c_ErrorSave)) { return false; }
           }
@@ -2869,16 +2867,16 @@
         var cell = null;
 
         var _count = getOtros().getRows().size();
-        for (var _i = 0; _i < _count; _i++) {
+        for(var _i = 0; _i < _count; _i++) {
           row = getOtros().getRows().item(_i);
 
-          register = new cRegister();
+          var register = new DB.Register();
           register.setFieldId(CT.OPGI_TMPID);
           register.setTable(CT.ORDENPAGOITEMTMP);
           register.setId(Cairo.Constants.NEW_ID);
 
           var _count = row.size();
-          for (var _j = 0; _j < _count; _j++) {
+          for(var _j = 0; _j < _count; _j++) {
             cell = row.item(_j);
             switch (cell.getKey()) {
 
@@ -2948,8 +2946,8 @@
           register.getFields().add2(CT.OPGI_TIPO, csEOrdenPagoItemTipo.cSEOPGITOTROS, Types.integer);
           register.getFields().add2(CT.OPG_TMPID, id, Types.id);
 
-          register.getFields().setHaveLastUpdate(false);
-          register.getFields().setHaveWhoModify(false);
+
+
 
           if(!Cairo.Database.save(register, , "saveOtros", C_MODULE, c_ErrorSave)) { return false; }
         }
@@ -2964,9 +2962,9 @@
           m_otrosDeleted = RemoveLastColon(m_otrosDeleted);
           vDeletes = Split(m_otrosDeleted, ",");
 
-          for (i = 0; i <= vDeletes.Length; i++) {
+          for(i = 0; i <= vDeletes.Length; i++) {
 
-            register = new cRegister();
+            var register = new DB.Register();
             register.setFieldId(CT.OPGIB_TMPID);
             register.setTable(CT.ORDENPAGOITEMBORRADOTMP);
             register.setId(Cairo.Constants.NEW_ID);
@@ -2975,8 +2973,8 @@
             register.getFields().add2(CT.OPG_ID, m_id, Types.id);
             register.getFields().add2(CT.OPG_TMPID, id, Types.id);
 
-            register.getFields().setHaveLastUpdate(false);
-            register.getFields().setHaveWhoModify(false);
+
+
 
             if(!Cairo.Database.save(register, , "saveOtros", C_MODULE, c_ErrorSave)) { return false; }
           }
@@ -2993,16 +2991,16 @@
         var cell = null;
 
         var _count = getEfectivo().getRows().size();
-        for (var _i = 0; _i < _count; _i++) {
+        for(var _i = 0; _i < _count; _i++) {
           row = getEfectivo().getRows().item(_i);
 
-          register = new cRegister();
+          var register = new DB.Register();
           register.setFieldId(CT.OPGI_TMPID);
           register.setTable(CT.ORDENPAGOITEMTMP);
           register.setId(Cairo.Constants.NEW_ID);
 
           var _count = row.size();
-          for (var _j = 0; _j < _count; _j++) {
+          for(var _j = 0; _j < _count; _j++) {
             cell = row.item(_j);
             switch (cell.getKey()) {
 
@@ -3039,8 +3037,8 @@
           register.getFields().add2(CT.OPG_TMPID, id, Types.id);
           register.getFields().add2(CT.OPGI_OTRO_TIPO, CT.OtroTipo.OTRO_HABER, Types.integer);
 
-          register.getFields().setHaveLastUpdate(false);
-          register.getFields().setHaveWhoModify(false);
+
+
 
           if(!Cairo.Database.save(register, , "saveEfectivo", C_MODULE, c_ErrorSave)) { return false; }
         }
@@ -3055,9 +3053,9 @@
           m_efectivoDeleted = RemoveLastColon(m_efectivoDeleted);
           vDeletes = Split(m_efectivoDeleted, ",");
 
-          for (i = 0; i <= vDeletes.Length; i++) {
+          for(i = 0; i <= vDeletes.Length; i++) {
 
-            register = new cRegister();
+            var register = new DB.Register();
             register.setFieldId(CT.OPGIB_TMPID);
             register.setTable(CT.ORDENPAGOITEMBORRADOTMP);
             register.setId(Cairo.Constants.NEW_ID);
@@ -3066,8 +3064,8 @@
             register.getFields().add2(CT.OPG_ID, m_id, Types.id);
             register.getFields().add2(CT.OPG_TMPID, id, Types.id);
 
-            register.getFields().setHaveLastUpdate(false);
-            register.getFields().setHaveWhoModify(false);
+
+
 
             if(!Cairo.Database.save(register, , "saveEfectivo", C_MODULE, c_ErrorSave)) { return false; }
           }
@@ -3084,16 +3082,16 @@
         var cell = null;
 
         var _count = getCtaCte().getRows().size();
-        for (var _i = 0; _i < _count; _i++) {
+        for(var _i = 0; _i < _count; _i++) {
           row = getCtaCte().getRows().item(_i);
 
-          register = new cRegister();
+          var register = new DB.Register();
           register.setFieldId(CT.OPGI_TMPID);
           register.setTable(CT.ORDENPAGOITEMTMP);
           register.setId(Cairo.Constants.NEW_ID);
 
           var _count = row.size();
-          for (var _j = 0; _j < _count; _j++) {
+          for(var _j = 0; _j < _count; _j++) {
             cell = row.item(_j);
             switch (cell.getKey()) {
 
@@ -3126,8 +3124,8 @@
           register.getFields().add2(CT.OPG_TMPID, id, Types.id);
           register.getFields().add2(CT.OPGI_OTRO_TIPO, CT.OtroTipo.OTRO_DEBE, Types.integer);
 
-          register.getFields().setHaveLastUpdate(false);
-          register.getFields().setHaveWhoModify(false);
+
+
 
           if(!Cairo.Database.save(register, , "saveCtaCte", C_MODULE, c_ErrorSave)) { return false; }
         }
@@ -3142,9 +3140,9 @@
           m_ctaCteDeleted = RemoveLastColon(m_ctaCteDeleted);
           vDeletes = Split(m_ctaCteDeleted, ",");
 
-          for (i = 0; i <= vDeletes.Length; i++) {
+          for(i = 0; i <= vDeletes.Length; i++) {
 
-            register = new cRegister();
+            var register = new DB.Register();
             register.setFieldId(CT.OPGIB_TMPID);
             register.setTable(CT.ORDENPAGOITEMBORRADOTMP);
             register.setId(Cairo.Constants.NEW_ID);
@@ -3153,8 +3151,8 @@
             register.getFields().add2(CT.OPG_ID, m_id, Types.id);
             register.getFields().add2(CT.OPG_TMPID, id, Types.id);
 
-            register.getFields().setHaveLastUpdate(false);
-            register.getFields().setHaveWhoModify(false);
+
+
 
             if(!Cairo.Database.save(register, , "saveCtaCte", C_MODULE, c_ErrorSave)) { return false; }
           }
@@ -3236,12 +3234,12 @@
         var row = null;
         var value = null;
 
-        var w_grid = property.getGrid();
+        var grid = property.getGrid();
 
-        switch (w_grid.getColumns(lCol).Key) {
+        switch (grid.getColumns().item(lCol).getKey()) {
 
           case mPublic.kICHT_IMPORTEORIGEN:
-            row = w_grid.getRows(lRow);
+            row = grid.getRows(lRow);
             var w_pCell = Dialogs.cell(row, mPublic.kICHT_MON_ID);
             if(w_pCell.getID() !== m_monDefault || w_pCell.getID() === 0) {
               Dialogs.cell(row, mPublic.kICHT_IMPORTE).setValue(Cairo.Util.val(Dialogs.cell(row, mPublic.kICHT_IMPORTEORIGEN).getValue()) * Cairo.Util.val(getCotizacion().getValue()));
@@ -3257,7 +3255,7 @@
             var cueId = null;
             var moneda = null;
 
-            row = w_grid.getRows(lRow);
+            row = grid.getRows(lRow);
 
             cueId = Dialogs.cell(row, mPublic.kICHT_CUE_ID).getID();
             GetMonedaFromCuenta(monId, moneda, cueId);
@@ -3270,7 +3268,7 @@
               Dialogs.cell(row, mPublic.kICHT_IMPORTEORIGEN).setValue(0);
             }
 
-            cABMUtil.col(property.getGrid().getColumns(), mPublic.kICHT_CHEQUE).getHelpFilter() === mPublic.self.getChequeFileter(cueId);
+            cABMUtil.col(property.getGrid().getColumns(), mPublic.kICHT_CHEQUE).setSelectFilter(D.getSelectChequeFilter(cueId));
 
                     #If PREPROC_SFS Then;
             var abmObj = null;
@@ -3286,7 +3284,7 @@
             break;
 
           case mPublic.kICHT_CHEQUE:
-            row = w_grid.getRows(lRow);
+            row = grid.getRows(lRow);
             mPublic.self.setChequeData(row, Dialogs.cell(row, mPublic.kICHT_CHEQUE).getID());
 
             showPagoNeto();
@@ -3313,10 +3311,10 @@
         var row = null;
         var value = null;
 
-        var w_grid = property.getGrid();
-        switch (w_grid.getColumns(lCol).Key) {
+        var grid = property.getGrid();
+        switch (grid.getColumns().item(lCol).getKey()) {
           case KICH_IMPORTEORIGEN:
-            row = w_grid.getRows(lRow);
+            row = grid.getRows(lRow);
             var w_pCell = Dialogs.cell(row, KICH_MON_ID);
             if(w_pCell.getID() !== m_monDefault || w_pCell.getID() === 0) {
               Dialogs.cell(row, KICH_IMPORTE).setValue(Cairo.Util.val(Dialogs.cell(row, KICH_IMPORTEORIGEN).getValue()) * Cairo.Util.val(getCotizacion().getValue()));
@@ -3335,7 +3333,7 @@
             var cueId = null;
             var moneda = null;
 
-            row = w_grid.getRows(lRow);
+            row = grid.getRows(lRow);
 
             cueId = Dialogs.cell(row, KICH_CUE_ID).getID();
             GetMonedaFromCuenta(monId, moneda, cueId);
@@ -3365,7 +3363,7 @@
 
           case KICH_CHEQUERA:
 
-            row = w_grid.getRows(lRow);
+            row = grid.getRows(lRow);
             var w_pCell = Dialogs.cell(row, KICH_CHEQUERA);
             if(w_pCell.getID() !== NO_ID) {
               Dialogs.cell(row, KICH_CHEQUE).setValue(GetChequeNumber(w_pCell.getID()));
@@ -3395,10 +3393,10 @@
         var row = null;
         var value = null;
 
-        var w_grid = property.getGrid();
-        switch (w_grid.getColumns(lCol).Key) {
+        var grid = property.getGrid();
+        switch (grid.getColumns().item(lCol).getKey()) {
           case KIE_IMPORTEORIGEN:
-            row = w_grid.getRows(lRow);
+            row = grid.getRows(lRow);
             var w_pCell = Dialogs.cell(row, KIE_MON_ID);
             if(w_pCell.getID() !== m_monDefault || w_pCell.getID() === 0) {
               Dialogs.cell(row, KIE_IMPORTE).setValue(Cairo.Util.val(Dialogs.cell(row, KIE_IMPORTEORIGEN).getValue()) * Cairo.Util.val(getCotizacion().getValue()));
@@ -3415,7 +3413,7 @@
           case KIE_CUE_ID:
             var monId = null;
             var moneda = null;
-            row = w_grid.getRows(lRow);
+            row = grid.getRows(lRow);
             GetMonedaFromCuenta(monId, moneda, Dialogs.cell(row, KIE_CUE_ID).getID());
             var w_pCell = Dialogs.cell(row, KIE_MON_ID);
             w_pCell.setValue(moneda);
@@ -3447,16 +3445,16 @@
         var row = null;
         var value = null;
 
-        var w_grid = property.getGrid();
-        switch (w_grid.getColumns(lCol).Key) {
+        var grid = property.getGrid();
+        switch (grid.getColumns().item(lCol).getKey()) {
           case KIO_DEBE:
-            row = w_grid.getRows(lRow);
+            row = grid.getRows(lRow);
             Dialogs.cell(row, KIO_IMPORTEORIGEN).setValue(Cairo.Util.val(Dialogs.cell(row, KIO_DEBE).getValue()));
             Dialogs.cell(row, KIO_HABER).setValue(0);
             break;
 
           case KIO_HABER:
-            row = w_grid.getRows(lRow);
+            row = grid.getRows(lRow);
             Dialogs.cell(row, KIO_IMPORTEORIGEN).setValue(Cairo.Util.val(Dialogs.cell(row, KIO_HABER).getValue()));
             Dialogs.cell(row, KIO_DEBE).setValue(0);
             break;
@@ -3484,19 +3482,19 @@
         var totalOrigen = null;
 
         var _count = getCheques().getRows().size();
-        for (var _i = 0; _i < _count; _i++) {
+        for(var _i = 0; _i < _count; _i++) {
           row = getCheques().getRows().item(_i);
           total = total + Cairo.Util.val(Dialogs.cell(row, KICH_IMPORTE).getValue());
         }
 
         var _count = getTCheques().getRows().size();
-        for (var _i = 0; _i < _count; _i++) {
+        for(var _i = 0; _i < _count; _i++) {
           row = getTCheques().getRows().item(_i);
           total = total + Cairo.Util.val(Dialogs.cell(row, KICH_IMPORTE).getValue());
         }
 
         var _count = getEfectivo().getRows().size();
-        for (var _i = 0; _i < _count; _i++) {
+        for(var _i = 0; _i < _count; _i++) {
           row = getEfectivo().getRows().item(_i);
           total = total + Cairo.Util.val(Dialogs.cell(row, KIE_IMPORTE).getValue());
         }
@@ -3510,7 +3508,7 @@
         var total = null;
 
         var _count = getOtros().getRows().size();
-        for (var _i = 0; _i < _count; _i++) {
+        for(var _i = 0; _i < _count; _i++) {
           row = getOtros().getRows().item(_i);
           total = total + Cairo.Util.val(Dialogs.cell(row, KIO_DEBE).getValue()) - Cairo.Util.val(Dialogs.cell(row, KIO_HABER).getValue());
         }
@@ -3545,7 +3543,7 @@
         var bRowIsEmpty = true;
 
         var _count = row.size();
-        for (var _i = 0; _i < _count; _i++) {
+        for(var _i = 0; _i < _count; _i++) {
           cell = row.item(_i);
           switch (cell.getKey()) {
             case mPublic.kICHT_CUE_ID:
@@ -3589,7 +3587,7 @@
         var bRowIsEmpty = true;
 
         var _count = row.size();
-        for (var _i = 0; _i < _count; _i++) {
+        for(var _i = 0; _i < _count; _i++) {
           cell = row.item(_i);
           switch (cell.getKey()) {
             case KICH_CUE_ID:
@@ -3625,14 +3623,14 @@
         return bRowIsEmpty;
       };
 
-      var pValidateRowTCheques = function(row,  rowIndex) { // TODO: Use of ByRef founded Private Function pValidateRowTCheques(ByRef Row As CSInterfacesABM.cIABMGridRow, ByVal RowIndex As Long) As Boolean
+      var validateRowTCheques = function(row,  rowIndex) { // TODO: Use of ByRef founded Private Function validateRowTCheques(ByRef Row As CSInterfacesABM.cIABMGridRow, ByVal RowIndex As Long) As Boolean
         var cell = null;
         var bOrigen = null;
 
         var strRow = " (Row: " + rowIndex.toString() + ")";
 
         var _count = row.size();
-        for (var _i = 0; _i < _count; _i++) {
+        for(var _i = 0; _i < _count; _i++) {
           cell = row.item(_i);
           switch (cell.getKey()) {
 
@@ -3654,7 +3652,7 @@
         return P.resolvedPromise(true);
       };
 
-      var pValidateRowCheques = function(row,  rowIndex) { // TODO: Use of ByRef founded Private Function pValidateRowCheques(ByRef Row As CSInterfacesABM.cIABMGridRow, ByVal RowIndex As Long) As Boolean
+      var validateRowCheques = function(row,  rowIndex) { // TODO: Use of ByRef founded Private Function validateRowCheques(ByRef Row As CSInterfacesABM.cIABMGridRow, ByVal RowIndex As Long) As Boolean
         var cell = null;
         var bOrigen = null;
         var monId = null;
@@ -3662,7 +3660,7 @@
         var strRow = " (Row: " + rowIndex.toString() + ")";
 
         var _count = row.size();
-        for (var _i = 0; _i < _count; _i++) {
+        for(var _i = 0; _i < _count; _i++) {
           cell = row.item(_i);
           switch (cell.getKey()) {
 
@@ -3745,7 +3743,7 @@
         var bRowIsEmpty = true;
 
         var _count = row.size();
-        for (var _i = 0; _i < _count; _i++) {
+        for(var _i = 0; _i < _count; _i++) {
           cell = row.item(_i);
           switch (cell.getKey()) {
             case KIO_CUE_ID:
@@ -3790,7 +3788,7 @@
         return bRowIsEmpty;
       };
 
-      var pValidateRowOtros = function(row,  rowIndex) { // TODO: Use of ByRef founded Private Function pValidateRowOtros(ByRef Row As CSInterfacesABM.cIABMGridRow, ByVal RowIndex As Long) As Boolean
+      var validateRowOtros = function(row,  rowIndex) { // TODO: Use of ByRef founded Private Function validateRowOtros(ByRef Row As CSInterfacesABM.cIABMGridRow, ByVal RowIndex As Long) As Boolean
         var cell = null;
         var bOrigen = null;
         var bDebe = null;
@@ -3800,7 +3798,7 @@
         var strRow = " (Row: " + rowIndex.toString() + ")";
 
         var _count = row.size();
-        for (var _i = 0; _i < _count; _i++) {
+        for(var _i = 0; _i < _count; _i++) {
           cell = row.item(_i);
           switch (cell.getKey()) {
 
@@ -3852,7 +3850,7 @@
         var bRowIsEmpty = true;
 
         var _count = row.size();
-        for (var _i = 0; _i < _count; _i++) {
+        for(var _i = 0; _i < _count; _i++) {
           cell = row.item(_i);
           switch (cell.getKey()) {
             case KICC_CUE_ID:
@@ -3876,7 +3874,7 @@
         return bRowIsEmpty;
       };
 
-      var pValidateRowCtaCte = function(row,  rowIndex) { // TODO: Use of ByRef founded Private Function pValidateRowCtaCte(ByRef Row As CSInterfacesABM.cIABMGridRow, ByVal RowIndex As Long) As Boolean
+      var validateRowCtaCte = function(row,  rowIndex) { // TODO: Use of ByRef founded Private Function validateRowCtaCte(ByRef Row As CSInterfacesABM.cIABMGridRow, ByVal RowIndex As Long) As Boolean
         var cell = null;
         var bOrigen = null;
         var monId = null;
@@ -3884,7 +3882,7 @@
         var strRow = " (Row: " + rowIndex.toString() + ")";
 
         var _count = row.size();
-        for (var _i = 0; _i < _count; _i++) {
+        for(var _i = 0; _i < _count; _i++) {
           cell = row.item(_i);
           switch (cell.getKey()) {
 
@@ -3927,7 +3925,7 @@
         var bRowIsEmpty = true;
 
         var _count = row.size();
-        for (var _i = 0; _i < _count; _i++) {
+        for(var _i = 0; _i < _count; _i++) {
           cell = row.item(_i);
           switch (cell.getKey()) {
             case KIE_CUE_ID:
@@ -3959,7 +3957,7 @@
         return bRowIsEmpty;
       };
 
-      var pValidateRowEfectivo = function(row,  rowIndex) { // TODO: Use of ByRef founded Private Function pValidateRowEfectivo(ByRef Row As CSInterfacesABM.cIABMGridRow, ByVal RowIndex As Long) As Boolean
+      var validateRowEfectivo = function(row,  rowIndex) { // TODO: Use of ByRef founded Private Function validateRowEfectivo(ByRef Row As CSInterfacesABM.cIABMGridRow, ByVal RowIndex As Long) As Boolean
         var cell = null;
         var bOrigen = null;
         var monId = null;
@@ -3967,7 +3965,7 @@
         var strRow = " (Row: " + rowIndex.toString() + ")";
 
         var _count = row.size();
-        for (var _i = 0; _i < _count; _i++) {
+        for(var _i = 0; _i < _count; _i++) {
           cell = row.item(_i);
           switch (cell.getKey()) {
 
@@ -4004,12 +4002,12 @@
       var pClearCheqId = function() {
         var row = null;
         var _count = getCheques().getRows().size();
-        for (var _i = 0; _i < _count; _i++) {
+        for(var _i = 0; _i < _count; _i++) {
           row = getCheques().getRows().item(_i);
           Dialogs.cell(row, KICH_CHEQ_ID).getID() === NO_ID;
         }
         var _count = getTCheques().getRows().size();
-        for (var _i = 0; _i < _count; _i++) {
+        for(var _i = 0; _i < _count; _i++) {
           row = getTCheques().getRows().item(_i);
           Dialogs.cell(row, mPublic.kICHT_CHEQUE).getID() === NO_ID;
         }

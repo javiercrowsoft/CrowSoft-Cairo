@@ -396,6 +396,14 @@
       FC_ID_RET: "fc_id_ret",
       FV_ID_RET: "fv_id_ret",
 
+      CobranzaItemTipo: {
+        ITEM_CHEQUES: 1,
+        ITEM_EFECTIVO: 2,
+        ITEM_TARJETA: 3,
+        ITEM_OTROS: 4,
+        ITEM_CTACTE: 5
+      },
+
       OtroTipo: {
         OTRO_DEBE: 1,
         OTRO_HABER: 2

@@ -4045,7 +4045,7 @@
 
         if(m_itemsDeletedProveedor !== "" && !m_copy) {
 
-          transaction.setDeletedList(m_itemsDeletedProveedor)
+          transaction.setDeletedList(m_itemsDeletedProveedor);
         }
 
         mainRegister.addTransaction(transaction);
@@ -4122,7 +4122,7 @@
 
         if(m_itemsDeletedCMI !== "" && !m_copy) {
 
-          transaction.setDeletedList(m_itemsDeletedCMI)
+          transaction.setDeletedList(m_itemsDeletedCMI);
         }
 
         mainRegister.addTransaction(transaction);
@@ -4190,7 +4190,7 @@
 
         if(m_itemsDeletedLeyendas !== "" && !m_copy) {
 
-          transaction.setDeletedList(m_itemsDeletedLeyendas)
+          transaction.setDeletedList(m_itemsDeletedLeyendas);
         }
 
         mainRegister.addTransaction(transaction);
@@ -4258,7 +4258,7 @@
 
         if(m_itemsDeletedWebImages !== "" && !m_copy) {
 
-          transaction.setDeletedList(m_itemsDeletedWebImages)
+          transaction.setDeletedList(m_itemsDeletedWebImages);
         }
 
         mainRegister.addTransaction(transaction);
@@ -4326,7 +4326,7 @@
 
         if(m_itemsDeletedCliente !== "" && !m_copy) {
 
-          transaction.setDeletedList(m_itemsDeletedCliente)
+          transaction.setDeletedList(m_itemsDeletedCliente);
         }
 
         mainRegister.addTransaction(transaction);
@@ -4403,7 +4403,7 @@
 
         if(m_itemsDeletedTag !== "" && !m_copy) {
 
-          transaction.setDeletedList(m_itemsDeletedTag)
+          transaction.setDeletedList(m_itemsDeletedTag);
         }
 
         mainRegister.addTransaction(transaction);

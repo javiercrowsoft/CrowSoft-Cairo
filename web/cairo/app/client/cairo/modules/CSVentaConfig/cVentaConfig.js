@@ -684,7 +684,7 @@
 
         var rows = getPercepcion().getRows();
 
-        for (var _i = 0, _count = rows.size(); _i < _count; _i++) {
+        for(var _i = 0, _count = rows.size(); _i < _count; _i++) {
 
           var row = rows.item(_i);
           var register = createRegister();

@@ -40,6 +40,12 @@ Cairo.FacturaVentaWiz = {};
 Cairo.Asiento = {};
 Cairo.AsientoListDoc = {};
 
+Cairo.Cobranza = {};
+Cairo.CobranzaWiz = {};
+
+Cairo.OrdenPago = {};
+Cairo.OrdenPagoWiz = {};
+
 Cairo.Rubro = {};
 Cairo.Rubro.Load = {};
 

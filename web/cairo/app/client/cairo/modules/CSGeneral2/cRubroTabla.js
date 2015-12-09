@@ -668,7 +668,7 @@
 
         if(m_itemsDeletedItems !== "" && !m_copy) {
 
-          transaction.setDeletedList(m_itemsDeletedItems)
+          transaction.setDeletedList(m_itemsDeletedItems);
         }
 
         mainTransaction.addTransaction(transaction);

@@ -542,7 +542,7 @@
 
             var p = null;
 
-            var docId = m_properties.item(C.DOC_ID).getSelectId();
+            var docId = getDocId().getSelectId();
 
             if(docId === NO_ID) {
               p = M.showInfo(getText(1562, ""));
@@ -683,8 +683,8 @@
             p = P.resolvedPromise(m_footer);
             break;
 
-          case Dialogs.Message.MSG_DOC_SEARCH
-          :
+          case Dialogs.Message.MSG_DOC_SEARCH:
+
             D.search(D.Types.FACTURA_VENTA, self, Cairo.bool(info));
             break;
 
@@ -702,8 +702,7 @@
               }
             }
             else {
-              p = M.showInfo(
-                getText(1620, "")); // Debe editar un comprobante guardado para poder ver los documentos auxiliares
+              p = M.showInfo(getText(1620, "")); // Debe editar un comprobante guardado para poder ver los documentos auxiliares
             }
             break;
 
@@ -788,8 +787,7 @@
 
           case Dialogs.Message.MSG_EXPORT_GET_EMAIL:
 
-            var property = m_properties.item(C.CLI_ID);
-            p = D.getEmailFromCliente(property.getSelectId());
+            p = D.getEmailFromCliente(getCliId());
             break;
 
           case Dialogs.Message.MSG_GRID_VIRTUAL_ROW:
@@ -1293,8 +1291,10 @@
                     }
                   }
                   else {
+
                     m_copy = false;
                     Cairo.navigate(NO_ID);
+
                     return load(result.data.getId()).then(
                       function(success) {
 
@@ -1997,7 +1997,7 @@
       };
 
       self.gridDblClick = function(key, lRow, lCol) {
-        return Cairo.Promises.resolvedPromise(false);
+        return P.resolvedPromise(false);
       };
 
       self.deleteRow = function(key, row, lRow) {
@@ -3566,7 +3566,7 @@
 
         if(m_itemsDeleted !== "" && m_id !== NO_ID && !m_copy) {
 
-          transaction.setDeletedList(m_itemsDeleted)
+          transaction.setDeletedList(m_itemsDeleted);
         }
 
         mainRegister.addTransaction(transaction);
@@ -4652,7 +4652,7 @@
        return _rtn;
        }
 
-       register = new cRegister();
+       var register = new DB.Register();
        register.setFieldId(CV.PRV_TMPID);
        register.setTable(CV.PRESUPUESTOVENTATMP);
 
@@ -4911,8 +4911,8 @@
        fields.add(CV.PRVI_ORDEN, iOrden, Types.integer);
        fields.add(CV.PRV_TMPID, id, Types.id);
 
-       register.getFields().setHaveLastUpdate(false);
-       register.getFields().setHaveWhoModify(false);
+
+
 
        transaction.addRegister(register);
        }

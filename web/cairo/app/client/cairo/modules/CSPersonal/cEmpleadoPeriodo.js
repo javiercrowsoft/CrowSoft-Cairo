@@ -234,7 +234,7 @@
       var cIABMListDocClient_Refresh = function() {
         var sqlstmt = null;
 
-        pValidateFilters();
+        validateFilters();
 
         sqlstmt = "sp_lsdoc_EmpleadoPeriodos ";
 
@@ -261,7 +261,7 @@
         return sqlstmt;
       };
 
-      var pValidateFilters = function() {
+      var validateFilters = function() {
         if(m_numero !== 0) { return; }
         if(LenB(m_ccosId) && m_ccosId !== "0") { return; }
         if(LenB(m_em_id) && m_em_id !== "0") { return; }
@@ -382,7 +382,7 @@
 
       var cIABMListDocClient_Save = function() {
         var register = null;
-        register = new cRegister();
+        var register = new DB.Register();
 
         var sqlstmt = null;
         sqlstmt = "delete ListaDocumentoParametro  where pre_id = "+ csPrePersonalPrestacion.cSPREPLISTEMPLEADOPERIODO.toString()+ " and us_id = "+ m_us_id;
@@ -449,8 +449,8 @@
           register.getFields().add2(Cairo.Constants.US_ID, m_us_id, Cairo.Constants.Types.id);
           register.getFields().add2(C.PRE_ID, csPrePersonalPrestacion.cSPREPLISTEMPLEADOPERIODO, Cairo.Constants.Types.id);
 
-          register.getFields().setHaveLastUpdate(false);
-          register.getFields().setHaveLastUpdate(false);
+
+
           if(!Cairo.Database.save(register, , "cIABMClient_Save", C_MODULE, c_ErrorSave)) { return false; }
         }
         if(!load(m_us_id)) { return false; }

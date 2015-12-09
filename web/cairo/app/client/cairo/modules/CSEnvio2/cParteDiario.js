@@ -662,7 +662,7 @@
 
         var register = null;
         var fields = null;
-        register = new cRegister();
+        var register = new DB.Register();
 
         var sqlstmt = null;
 

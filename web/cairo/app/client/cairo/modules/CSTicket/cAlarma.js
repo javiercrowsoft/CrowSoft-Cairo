@@ -292,7 +292,7 @@
 
       var cIABMListDocClient_Save = function() {
         var register = null;
-        register = new cRegister();
+        var register = new DB.Register();
 
         var sqlstmt = null;
         sqlstmt = "delete ListaDocumentoParametro where pre_id = "+ csPreTicketPrestacion.cSPRETICKLISTALARMA.toString()+ " and us_id = "+ m_us_id;
@@ -327,8 +327,8 @@
           register.getFields().add2(Cairo.Constants.US_ID, m_us_id, Cairo.Constants.Types.id);
           register.getFields().add2(C.PRE_ID, csPreTicketPrestacion.cSPRETICKLISTALARMA, Cairo.Constants.Types.id);
 
-          register.getFields().setHaveLastUpdate(false);
-          register.getFields().setHaveLastUpdate(false);
+
+
           if(!Cairo.Database.save(register, , "cIABMClient_Save", C_MODULE, c_ErrorSave)) { return false; }
 
         }

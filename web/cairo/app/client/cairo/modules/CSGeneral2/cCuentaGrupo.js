@@ -288,12 +288,12 @@
           }
         }
 
-        if(!pValidateTipo()) { return false; }
+        if(!validateTipo()) { return false; }
 
         return Cairo.Promises.resolvedPromise(true);
       };
 
-      var pValidateTipo = function() {
+      var validateTipo = function() {
         var tipo = null;
         var cuec_id = null;
         var cue_id = null;

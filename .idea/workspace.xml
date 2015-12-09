@@ -3,29 +3,17 @@
   <component name="ChangeListManager">
     <list default="true" id="d47203c3-b220-49d7-aac2-46c758baa4bb" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSContabilidad2/cAsiento.js" afterPath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSContabilidad2/cAsiento.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSGeneral2/cCentroCosto.js" afterPath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSGeneral2/cCentroCosto.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSGeneral2/cCliente.js" afterPath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSGeneral2/cCliente.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSTesoreria2/cCobranza.js" afterPath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSTesoreria2/cCobranza.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSGeneral2/cCuentaGrupo.js" afterPath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSGeneral2/cCuentaGrupo.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSPersonal/cEmpleadoPeriodo.js" afterPath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSPersonal/cEmpleadoPeriodo.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSCompra2/cFacturaCompra.js" afterPath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSCompra2/cFacturaCompra.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSCompra2/cFacturaCompraRemitoWiz.js" afterPath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSCompra2/cFacturaCompraRemitoWiz.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSVenta2/cFacturaVenta.js" afterPath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSVenta2/cFacturaVenta.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSVenta2/cHojaRuta.js" afterPath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSVenta2/cHojaRuta.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSPersonal/cLiquidacion.js" afterPath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSPersonal/cLiquidacion.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSTesoreria2/cOrdenPago.js" afterPath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSTesoreria2/cOrdenPago.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSStock2/cOrdenProdKit.js" afterPath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSStock2/cOrdenProdKit.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSStock2/cParteProdKit.js" afterPath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSStock2/cParteProdKit.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSGeneral2/cProducto.js" afterPath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSGeneral2/cProducto.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSGeneral2/cProveedor.js" afterPath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSGeneral2/cProveedor.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSStock2/cRecuentoStock.js" afterPath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSStock2/cRecuentoStock.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSGeneral2/cRubroTabla.js" afterPath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSGeneral2/cRubroTabla.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSStock2/cStock.js" afterPath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSStock2/cStock.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSVentaConfig/cVentaConfig.js" afterPath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSVentaConfig/cVentaConfig.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSCompra2/constants.js" afterPath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSCompra2/constants.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSContabilidad2/constants.js" afterPath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSContabilidad2/constants.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSGeneral2/constants.js" afterPath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSGeneral2/constants.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSCompra2/percepcion.js" afterPath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSCompra2/percepcion.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSVenta2/percepcion.js" afterPath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSVenta2/percepcion.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSVenta2/cPickingList.js" afterPath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSVenta2/cPickingList.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/cairo/app/client/cairo/cairoModules.js" afterPath="$PROJECT_DIR$/web/cairo/app/client/cairo/cairoModules.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/system/system.js" afterPath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/system/system.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/translate-todo-list.txt" afterPath="$PROJECT_DIR$/docs/translate-todo-list.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="CrowSoft-Cairo.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -219,6 +207,7 @@
     <treeState />
   </component>
   <component name="ProjectFrameBounds">
+    <option name="x" value="1920" />
     <option name="y" value="22" />
     <option name="width" value="1920" />
     <option name="height" value="1054" />
@@ -549,7 +538,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="22" width="1920" height="1054" extended-state="0" />
+    <frame x="1920" y="22" width="1920" height="1054" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />

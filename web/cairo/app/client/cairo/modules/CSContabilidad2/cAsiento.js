@@ -543,11 +543,15 @@
                     return M.showWarningWithFalse(result.errors.getMessage());
                   }
                   else {
+
                     m_copy = false;
                     Cairo.navigate(NO_ID);
+
                     return load(result.data.getId()).then(
                       function(success) {
+
                         if(success) {
+
                           Cairo.navigate(self.getPath());
                           if(m_listController !== null) {
                             updateList();
@@ -641,7 +645,7 @@
           return M.showInfoWithFalse(getText(1957, "")); // El debe y el haber deben coincidir para que el asiento balancee
         }
 
-        return Cairo.Promises.resolvedPromise(true);
+        return P.resolvedPromise(true);
       };
 
       self.isEmptyRow = function(key, row, rowIndex) {
@@ -733,8 +737,7 @@
           // Id = DOC_CHANGED when the document is changed
           //                  when editing a document
           //
-          m_isNew = (id === NO_ID
-            || id === D.Constants.DOC_CHANGED);
+          m_isNew = (id === NO_ID || id === D.Constants.DOC_CHANGED);
 
           var loadAllItems = function() {
             if(m_itemsProps.count() > 0) {
@@ -820,7 +823,7 @@
       };
 
       self.gridDblClick = function(key, lRow, lCol) {
-        return Cairo.Promises.resolvedPromise(false);
+        return P.resolvedPromise(false);
       };
 
       self.columnAfterEdit = function(key, lRow, lCol, newValue, newValueId) {
@@ -1443,7 +1446,7 @@
 
         if(m_itemsDeleted !== "" && m_id !== NO_ID && !m_copy) {
 
-          transaction.setDeletedList(m_itemsDeleted)
+          transaction.setDeletedList(m_itemsDeleted);
         }
 
         mainRegister.addTransaction(transaction);
