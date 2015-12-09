@@ -4526,7 +4526,7 @@
 
       var isEmptyRowProveedor = function(row, rowIndex) {
         var cell = null;
-        var bRowIsEmpty = true;
+        var rowIsEmpty = true;
 
         var _count = row.size();
         for(var _i = 0; _i < _count; _i++) {
@@ -4534,42 +4534,42 @@
           switch (cell.getKey()) {
             case KIK_PROV_ID:
               if(!valEmpty(cell.getValue(), Types.text)) {
-                bRowIsEmpty = false;
+                rowIsEmpty = false;
               }
               break;
 
             case KIK_PROV_NOMBRE:
               if(!valEmpty(cell.getValue(), Types.text)) {
-                bRowIsEmpty = false;
+                rowIsEmpty = false;
               }
               break;
 
             case KIK_PROV_CODIGO:
               if(!valEmpty(cell.getValue(), Types.text)) {
-                bRowIsEmpty = false;
+                rowIsEmpty = false;
               }
               break;
 
             case KIK_PROV_CODBARRA:
               if(!valEmpty(cell.getValue(), Types.text)) {
-                bRowIsEmpty = false;
+                rowIsEmpty = false;
               }
               break;
 
             case KIK_PA_ID:
               if(!valEmpty(cell.getValue(), Types.text)) {
-                bRowIsEmpty = false;
+                rowIsEmpty = false;
               }
               break;
           }
         }
 
-        return bRowIsEmpty;
+        return rowIsEmpty;
       };
 
       var isEmptyRowCliente = function(row, rowIndex) {
         var cell = null;
-        var bRowIsEmpty = true;
+        var rowIsEmpty = true;
 
         var _count = row.size();
         for(var _i = 0; _i < _count; _i++) {
@@ -4577,36 +4577,36 @@
           switch (cell.getKey()) {
             case KIK_CLI_ID:
               if(!valEmpty(cell.getValue(), Types.text)) {
-                bRowIsEmpty = false;
+                rowIsEmpty = false;
               }
               break;
 
             case KIK_CLI_NOMBRE:
               if(!valEmpty(cell.getValue(), Types.text)) {
-                bRowIsEmpty = false;
+                rowIsEmpty = false;
               }
               break;
 
             case KIK_CLI_CODIGO:
               if(!valEmpty(cell.getValue(), Types.text)) {
-                bRowIsEmpty = false;
+                rowIsEmpty = false;
               }
               break;
 
             case KIK_CLI_CODBARRA:
               if(!valEmpty(cell.getValue(), Types.text)) {
-                bRowIsEmpty = false;
+                rowIsEmpty = false;
               }
               break;
           }
         }
 
-        return bRowIsEmpty;
+        return rowIsEmpty;
       };
 
       var isEmptyRowLeyendas = function(row, rowIndex) {
         var cell = null;
-        var bRowIsEmpty = true;
+        var rowIsEmpty = true;
 
         var _count = row.size();
         for(var _i = 0; _i < _count; _i++) {
@@ -4614,24 +4614,24 @@
           switch (cell.getKey()) {
             case KIPRL_NOMBRE:
               if(!valEmpty(cell.getValue(), Types.text)) {
-                bRowIsEmpty = false;
+                rowIsEmpty = false;
               }
               break;
 
             case KIPRL_TEXTO:
               if(!valEmpty(cell.getValue(), Types.text)) {
-                bRowIsEmpty = false;
+                rowIsEmpty = false;
               }
               break;
           }
         }
 
-        return bRowIsEmpty;
+        return rowIsEmpty;
       };
 
       var isEmptyRowCMI = function(row, rowIndex) {
         var cell = null;
-        var bRowIsEmpty = true;
+        var rowIsEmpty = true;
 
         var _count = row.size();
         for(var _i = 0; _i < _count; _i++) {
@@ -4639,24 +4639,24 @@
           switch (cell.getKey()) {
             case KICMI_CMI_ID:
               if(!valEmpty(cell.getValue(), Types.text)) {
-                bRowIsEmpty = false;
+                rowIsEmpty = false;
               }
               break;
 
             case KICMI_CODIGO:
               if(!valEmpty(cell.getValue(), Types.text)) {
-                bRowIsEmpty = false;
+                rowIsEmpty = false;
               }
               break;
           }
         }
 
-        return bRowIsEmpty;
+        return rowIsEmpty;
       };
 
       var isEmptyRowWebImages = function(row, rowIndex) {
         var cell = null;
-        var bRowIsEmpty = true;
+        var rowIsEmpty = true;
 
         var _count = row.size();
         for(var _i = 0; _i < _count; _i++) {
@@ -4664,24 +4664,24 @@
           switch (cell.getKey()) {
             case KIWI_IMAGE:
               if(!valEmpty(cell.getValue(), Types.text)) {
-                bRowIsEmpty = false;
+                rowIsEmpty = false;
               }
               break;
 
             case KIWI_ALT:
               if(!valEmpty(cell.getValue(), Types.text)) {
-                bRowIsEmpty = false;
+                rowIsEmpty = false;
               }
               break;
           }
         }
 
-        return bRowIsEmpty;
+        return rowIsEmpty;
       };
 
       var isEmptyRowTags = function(row, rowIndex) {
         var cell = null;
-        var bRowIsEmpty = true;
+        var rowIsEmpty = true;
 
         var _count = row.size();
         for(var _i = 0; _i < _count; _i++) {
@@ -4689,7 +4689,7 @@
           switch (cell.getKey()) {
             case KIT_TEXTO:
               if(!valEmpty(cell.getValue(), Types.text)) {
-                bRowIsEmpty = false;
+                rowIsEmpty = false;
               }
               break;
 
@@ -4697,20 +4697,20 @@
             case KIT_EXPOCAIRO:
               if(!valEmpty(cell.getValue(), Types.integer)) {
                 if(val(cell.getValue()) !== 50) {
-                  bRowIsEmpty = false;
+                  rowIsEmpty = false;
                 }
               }
               break;
 
             case KIT_PR_ID_TAG:
               if(!valEmpty(cell.getValue(), Types.text)) {
-                bRowIsEmpty = false;
+                rowIsEmpty = false;
               }
               break;
           }
         }
 
-        return bRowIsEmpty;
+        return rowIsEmpty;
       };
 
       var setGridProveedor = function(property) {

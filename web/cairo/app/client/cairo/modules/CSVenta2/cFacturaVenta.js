@@ -125,8 +125,6 @@
 
       var KI_TO_ID = 400;
 
-      var CSLEGAJO = 15001;
-
       var m_id = 0;
       var m_numero = 0;
       var m_estado = "";
@@ -2349,7 +2347,7 @@
 
         elem = properties.add(null, C.LGJ_ID);
         elem.setType(T.select);
-        elem.setSelectTable(CSLEGAJO);
+        elem.setSelectTable(Cairo.Tables.LEGAJOS);
         elem.setName(getText(1575, "")); // Legajo
         elem.setKey(K_LGJ_ID);
         elem.setSelectId(m_lgjId);
@@ -4789,12 +4787,12 @@
 
        if(!Cairo.Database.save(register, , "cIABMClient_Save", C_MODULE, c_ErrorSave)) { return _rtn; }
 
-       if(!pSaveItemsPresupuesto(register.getID())) { return _rtn; }
+       if(!pSaveItemsPresupuesto(register.getId())) { return _rtn; }
        if(!register.commitTrans()) { return _rtn; }
 
        var sqlstmt = null;
        var rs = null;
-       sqlstmt = "sp_DocPresupuestoVentaSave "+ register.getID().toString();
+       sqlstmt = "sp_DocPresupuestoVentaSave "+ register.getId().toString();
 
        if(!Cairo.Database.openRs(sqlstmt, rs, , , , "cIABMClient_Save", C_MODULE, c_ErrorSave)) { return _rtn; }
 

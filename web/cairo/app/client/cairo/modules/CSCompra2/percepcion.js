@@ -121,7 +121,7 @@
     };
 
     self.isEmptyRowPercepciones = function(row, rowIndex) {
-      var bRowIsEmpty = true;
+      var rowIsEmpty = true;
 
       var _count = row.size();
       for(var _i = 0; _i < _count; _i++) {
@@ -132,35 +132,35 @@
 
           case KIP_IMPORTE:
             if(!valEmpty(cell.getValue(), Types.currency)) {
-              bRowIsEmpty = false;
+              rowIsEmpty = false;
               break;
             }
             break;
 
           case KIP_PERC_ID:
             if(!valEmpty(cell.getId(), Types.id)) {
-              bRowIsEmpty = false;
+              rowIsEmpty = false;
               break;
             }
             break;
 
           case KIP_PORCENTAJE:
             if(!valEmpty(cell.getValue(), Types.double)) {
-              bRowIsEmpty = false;
+              rowIsEmpty = false;
               break;
             }
             break;
 
           case KIP_BASE:
             if(!valEmpty(cell.getValue(), Types.currency)) {
-              bRowIsEmpty = false;
+              rowIsEmpty = false;
               break;
             }
             break;
         }
       }
 
-      return bRowIsEmpty;
+      return rowIsEmpty;
     };
 
     self.percepcionShowTotales = function(rows, property) {

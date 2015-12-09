@@ -117,8 +117,6 @@
       var KICC_IMPORTE = 3;
       var KICC_IMPORTEORIGEN = 4;
 
-      var CSLEGAJO = 15001;
-
       var m_id = 0;
       var m_numero = 0;
       var m_estado = "";
@@ -717,7 +715,7 @@
           register.getFields().add2(CT.OPG_ID, m_id, Types.long);
         }
 
-        if(register.getID() === Cairo.Constants.NEW_ID) {
+        if(register.getId() === Cairo.Constants.NEW_ID) {
           m_estId = CSGeneralEx2.csEEstado.cSEEST_PENDIENTE;
         }
 
@@ -796,15 +794,15 @@
 
         m_iOrden = 0;
 
-        if(!saveCheques(register.getID())) { return _rtn; }
-        if(!saveTCheques(register.getID())) { return _rtn; }
-        if(!saveEfectivo(register.getID())) { return _rtn; }
-        if(!saveOtros(register.getID())) { return _rtn; }
-        if(!saveCtaCte(register.getID())) { return _rtn; }
+        if(!saveCheques(register.getId())) { return _rtn; }
+        if(!saveTCheques(register.getId())) { return _rtn; }
+        if(!saveEfectivo(register.getId())) { return _rtn; }
+        if(!saveOtros(register.getId())) { return _rtn; }
+        if(!saveCtaCte(register.getId())) { return _rtn; }
 
         var sqlstmt = null;
         var rs = null;
-        sqlstmt = "sp_DocOrdenPagoSave "+ register.getID().toString();
+        sqlstmt = "sp_DocOrdenPagoSave "+ register.getId().toString();
 
         if(!Cairo.Database.openRs(sqlstmt, rs, , , , "cIABMClient_Save", C_MODULE, c_ErrorSave)) { return _rtn; }
 
@@ -1266,7 +1264,7 @@
 
         var elem = properties.add(null, CT.LGJ_ID);
         elem.setType(Dialogs.PropertyType.select);
-        elem.setTable(CSLEGAJO);
+        elem.setTable(Cairo.Tables.LEGAJOS);
         elem.setName(Cairo.Language.getText(1575, "")); // Legajo
         elem.setKey(K_LGJ_ID);
         elem.setSelectId(m_lgjId);
@@ -3241,7 +3239,7 @@
           case mPublic.kICHT_IMPORTEORIGEN:
             row = grid.getRows(lRow);
             var w_pCell = Dialogs.cell(row, mPublic.kICHT_MON_ID);
-            if(w_pCell.getID() !== m_monDefault || w_pCell.getID() === 0) {
+            if(w_pCell.getId() !== m_monDefault || w_pCell.getId() === 0) {
               Dialogs.cell(row, mPublic.kICHT_IMPORTE).setValue(Cairo.Util.val(Dialogs.cell(row, mPublic.kICHT_IMPORTEORIGEN).getValue()) * Cairo.Util.val(getCotizacion().getValue()));
             }
             else {
@@ -3257,7 +3255,7 @@
 
             row = grid.getRows(lRow);
 
-            cueId = Dialogs.cell(row, mPublic.kICHT_CUE_ID).getID();
+            cueId = Dialogs.cell(row, mPublic.kICHT_CUE_ID).getId();
             GetMonedaFromCuenta(monId, moneda, cueId);
 
             var w_pCell = Dialogs.cell(row, mPublic.kICHT_MON_ID);
@@ -3285,7 +3283,7 @@
 
           case mPublic.kICHT_CHEQUE:
             row = grid.getRows(lRow);
-            mPublic.self.setChequeData(row, Dialogs.cell(row, mPublic.kICHT_CHEQUE).getID());
+            mPublic.self.setChequeData(row, Dialogs.cell(row, mPublic.kICHT_CHEQUE).getId());
 
             showPagoNeto();
             showPagoTotal();
@@ -3316,7 +3314,7 @@
           case KICH_IMPORTEORIGEN:
             row = grid.getRows(lRow);
             var w_pCell = Dialogs.cell(row, KICH_MON_ID);
-            if(w_pCell.getID() !== m_monDefault || w_pCell.getID() === 0) {
+            if(w_pCell.getId() !== m_monDefault || w_pCell.getId() === 0) {
               Dialogs.cell(row, KICH_IMPORTE).setValue(Cairo.Util.val(Dialogs.cell(row, KICH_IMPORTEORIGEN).getValue()) * Cairo.Util.val(getCotizacion().getValue()));
             }
             else {
@@ -3335,7 +3333,7 @@
 
             row = grid.getRows(lRow);
 
-            cueId = Dialogs.cell(row, KICH_CUE_ID).getID();
+            cueId = Dialogs.cell(row, KICH_CUE_ID).getId();
             GetMonedaFromCuenta(monId, moneda, cueId);
 
             var w_pCell = Dialogs.cell(row, KICH_MON_ID);
@@ -3365,8 +3363,8 @@
 
             row = grid.getRows(lRow);
             var w_pCell = Dialogs.cell(row, KICH_CHEQUERA);
-            if(w_pCell.getID() !== NO_ID) {
-              Dialogs.cell(row, KICH_CHEQUE).setValue(GetChequeNumber(w_pCell.getID()));
+            if(w_pCell.getId() !== NO_ID) {
+              Dialogs.cell(row, KICH_CHEQUE).setValue(GetChequeNumber(w_pCell.getId()));
             }
 
             break;
@@ -3398,7 +3396,7 @@
           case KIE_IMPORTEORIGEN:
             row = grid.getRows(lRow);
             var w_pCell = Dialogs.cell(row, KIE_MON_ID);
-            if(w_pCell.getID() !== m_monDefault || w_pCell.getID() === 0) {
+            if(w_pCell.getId() !== m_monDefault || w_pCell.getId() === 0) {
               Dialogs.cell(row, KIE_IMPORTE).setValue(Cairo.Util.val(Dialogs.cell(row, KIE_IMPORTEORIGEN).getValue()) * Cairo.Util.val(getCotizacion().getValue()));
             }
             else {
@@ -3414,7 +3412,7 @@
             var monId = null;
             var moneda = null;
             row = grid.getRows(lRow);
-            GetMonedaFromCuenta(monId, moneda, Dialogs.cell(row, KIE_CUE_ID).getID());
+            GetMonedaFromCuenta(monId, moneda, Dialogs.cell(row, KIE_CUE_ID).getId());
             var w_pCell = Dialogs.cell(row, KIE_MON_ID);
             w_pCell.setValue(moneda);
             w_pCell.setID(monId);
@@ -3540,7 +3538,7 @@
 
         strRow = " (Fila "+ rowIndex.toString()+ ")";
 
-        var bRowIsEmpty = true;
+        var rowIsEmpty = true;
 
         var _count = row.size();
         for(var _i = 0; _i < _count; _i++) {
@@ -3550,7 +3548,7 @@
             case mPublic.kICHT_MON_ID:
             case mPublic.kICHT_CLE_ID:
               if(!valEmpty(cell.getId(), Types.id)) {
-                bRowIsEmpty = false;
+                rowIsEmpty = false;
                 break;
               }
 
@@ -3559,7 +3557,7 @@
             case mPublic.kICHT_IMPORTE:
             case mPublic.kICHT_IMPORTEORIGEN:
               if(!valEmpty(Cairo.Util.val(cell.getValue()), Types.double)) {
-                var bRowIsEmpty = true;
+                rowIsEmpty = false;
                 break;
               }
 
@@ -3568,14 +3566,14 @@
             case mPublic.kICHT_DESCRIP:
             case mPublic.kICHT_CHEQUE:
               if(!valEmpty(cell.getValue(), Types.text)) {
-                var bRowIsEmpty = true;
+                rowIsEmpty = false;
                 break;
               }
               break;
           }
         }
 
-        return bRowIsEmpty;
+        return rowIsEmpty;
       };
 
       var isEmptyRowCheques = function(row,  rowIndex) {
@@ -3584,7 +3582,7 @@
 
         strRow = " (Fila "+ rowIndex.toString()+ ")";
 
-        var bRowIsEmpty = true;
+        var rowIsEmpty = true;
 
         var _count = row.size();
         for(var _i = 0; _i < _count; _i++) {
@@ -3595,7 +3593,7 @@
             case KICH_MON_ID:
             case KICH_CLE_ID:
               if(!valEmpty(cell.getId(), Types.id)) {
-                bRowIsEmpty = false;
+                rowIsEmpty = false;
                 break;
               }
 
@@ -3604,7 +3602,7 @@
             case KICH_IMPORTE:
             case KICH_IMPORTEORIGEN:
               if(!valEmpty(Cairo.Util.val(cell.getValue()), Types.double)) {
-                var bRowIsEmpty = true;
+                rowIsEmpty = false;
                 break;
               }
 
@@ -3613,14 +3611,14 @@
             case KICH_DESCRIP:
             case KICH_CHEQUE:
               if(!valEmpty(cell.getValue(), Types.text)) {
-                var bRowIsEmpty = true;
+                rowIsEmpty = false;
                 break;
               }
               break;
           }
         }
 
-        return bRowIsEmpty;
+        return rowIsEmpty;
       };
 
       var validateRowTCheques = function(row,  rowIndex) { // TODO: Use of ByRef founded Private Function validateRowTCheques(ByRef Row As CSInterfacesABM.cIABMGridRow, ByVal RowIndex As Long) As Boolean
@@ -3740,7 +3738,7 @@
 
         strRow = " (Fila "+ rowIndex.toString()+ ")";
 
-        var bRowIsEmpty = true;
+        var rowIsEmpty = true;
 
         var _count = row.size();
         for(var _i = 0; _i < _count; _i++) {
@@ -3750,7 +3748,7 @@
             case KIO_CCOS_ID:
             case KIO_RET_ID:
               if(!valEmpty(cell.getId(), Types.id)) {
-                bRowIsEmpty = false;
+                rowIsEmpty = false;
                 break;
               }
 
@@ -3761,7 +3759,7 @@
             case KIO_IMPORTEORIGEN:
             case KIO_PORCRETENCION:
               if(!valEmpty(Cairo.Util.val(cell.getValue()), Types.double)) {
-                var bRowIsEmpty = true;
+                rowIsEmpty = false;
                 break;
               }
 
@@ -3770,7 +3768,7 @@
             case KIO_NRORETENCION:
             case KIO_DESCRIP:
               if(!valEmpty(cell.getValue(), Types.text)) {
-                var bRowIsEmpty = true;
+                rowIsEmpty = false;
                 break;
               }
 
@@ -3778,14 +3776,14 @@
 
             case KIO_FECHARETENCION:
               if(!valEmpty(cell.getValue(), Types.date)) {
-                var bRowIsEmpty = true;
+                rowIsEmpty = false;
                 break;
               }
               break;
           }
         }
 
-        return bRowIsEmpty;
+        return rowIsEmpty;
       };
 
       var validateRowOtros = function(row,  rowIndex) { // TODO: Use of ByRef founded Private Function validateRowOtros(ByRef Row As CSInterfacesABM.cIABMGridRow, ByVal RowIndex As Long) As Boolean
@@ -3847,7 +3845,7 @@
 
         strRow = " (Fila "+ rowIndex.toString()+ ")";
 
-        var bRowIsEmpty = true;
+        var rowIsEmpty = true;
 
         var _count = row.size();
         for(var _i = 0; _i < _count; _i++) {
@@ -3855,7 +3853,7 @@
           switch (cell.getKey()) {
             case KICC_CUE_ID:
               if(!valEmpty(cell.getId(), Types.id)) {
-                bRowIsEmpty = false;
+                rowIsEmpty = false;
                 break;
               }
 
@@ -3864,14 +3862,14 @@
             case KICC_IMPORTE:
             case KICC_IMPORTEORIGEN:
               if(!valEmpty(Cairo.Util.val(cell.getValue()), Types.double)) {
-                var bRowIsEmpty = true;
+                rowIsEmpty = false;
                 break;
               }
               break;
           }
         }
 
-        return bRowIsEmpty;
+        return rowIsEmpty;
       };
 
       var validateRowCtaCte = function(row,  rowIndex) { // TODO: Use of ByRef founded Private Function validateRowCtaCte(ByRef Row As CSInterfacesABM.cIABMGridRow, ByVal RowIndex As Long) As Boolean
@@ -3922,7 +3920,7 @@
 
         strRow = " (Fila "+ rowIndex.toString()+ ")";
 
-        var bRowIsEmpty = true;
+        var rowIsEmpty = true;
 
         var _count = row.size();
         for(var _i = 0; _i < _count; _i++) {
@@ -3930,7 +3928,7 @@
           switch (cell.getKey()) {
             case KIE_CUE_ID:
               if(!valEmpty(cell.getId(), Types.id)) {
-                bRowIsEmpty = false;
+                rowIsEmpty = false;
                 break;
               }
 
@@ -3939,7 +3937,7 @@
             case KIE_IMPORTE:
             case KIE_IMPORTEORIGEN:
               if(!valEmpty(Cairo.Util.val(cell.getValue()), Types.double)) {
-                var bRowIsEmpty = true;
+                rowIsEmpty = false;
                 break;
               }
 
@@ -3947,14 +3945,14 @@
 
             case KIE_DESCRIP:
               if(!valEmpty(cell.getValue(), Types.text)) {
-                var bRowIsEmpty = true;
+                rowIsEmpty = false;
                 break;
               }
               break;
           }
         }
 
-        return bRowIsEmpty;
+        return rowIsEmpty;
       };
 
       var validateRowEfectivo = function(row,  rowIndex) { // TODO: Use of ByRef founded Private Function validateRowEfectivo(ByRef Row As CSInterfacesABM.cIABMGridRow, ByVal RowIndex As Long) As Boolean
@@ -4004,12 +4002,12 @@
         var _count = getCheques().getRows().size();
         for(var _i = 0; _i < _count; _i++) {
           row = getCheques().getRows().item(_i);
-          Dialogs.cell(row, KICH_CHEQ_ID).getID() === NO_ID;
+          Dialogs.cell(row, KICH_CHEQ_ID).getId() === NO_ID;
         }
         var _count = getTCheques().getRows().size();
         for(var _i = 0; _i < _count; _i++) {
           row = getTCheques().getRows().item(_i);
-          Dialogs.cell(row, mPublic.kICHT_CHEQUE).getID() === NO_ID;
+          Dialogs.cell(row, mPublic.kICHT_CHEQUE).getId() === NO_ID;
         }
         var abmObj = null;
         abmObj = m_items;

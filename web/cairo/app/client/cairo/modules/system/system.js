@@ -1635,6 +1635,10 @@
     }
   };
 
+  Cairo.Documents.getFacturaVentaFilter = function(cliId) {
+    return "factura_venta_for_cli_id|cliId:" + cliId;
+  };
+
   // TODO: remove this comment after all code is translated getCtaGrupoFilter
   Cairo.Documents.getCuentaGrupoFilter = function(cuentaGrupoType) {
     var filter = "";
@@ -1906,7 +1910,7 @@
     var grupo = null;
     var nroSerieCount = null;
 
-    grupo = Dialogs.cell(row, keyGroup).getID();
+    grupo = Dialogs.cell(row, keyGroup).getId();
     nroSerieCount = Cairo.SerialNumber.getCount(nrosSerie, grupo);
 
     if(cantidad > nroSerieCount) {
@@ -1930,7 +1934,7 @@
         }
       }
 
-      if(!create(Dialogs.cell(row, keyGroup).getID(), cantidad, row, nrosSerie, keyGroup, keyNSerie, rowIndex, prId, deplId, isInput, false, false,, null, NO_ID, NO_ID, 0, NO_ID)) { return false; }
+      if(!create(Dialogs.cell(row, keyGroup).getId(), cantidad, row, nrosSerie, keyGroup, keyNSerie, rowIndex, prId, deplId, isInput, false, false,, null, NO_ID, NO_ID, 0, NO_ID)) { return false; }
 
     }
     else if(cantidad < nroSerieCount) {
@@ -1939,7 +1943,7 @@
       //La cantidad del rénglon  & RowIndex &  es menor a la cantidad de & _
       números(de serie asociados. Indique el/los números de serie a eleminar.);
 
-      if(!Cairo.SerialNumber.destroy(Dialogs.cell(row, keyGroup).getID(), val(Dialogs.cell(row, keyCantidad).getValue()), row, nrosSerie, keyGroup, keyNSerie, rowIndex, prId, deplId, isInput, nroSerieCount - cantidad)) {
+      if(!Cairo.SerialNumber.destroy(Dialogs.cell(row, keyGroup).getId(), val(Dialogs.cell(row, keyCantidad).getValue()), row, nrosSerie, keyGroup, keyNSerie, rowIndex, prId, deplId, isInput, nroSerieCount - cantidad)) {
 
         cWindow.msgWarning(getText(2917, "", rowIndex));
         //El documento no será guardado hasta que no indique los números de & _
@@ -1961,7 +1965,7 @@
     var grupo = null;
     var nroSerieCount = null;
 
-    grupo = Dialogs.cell(row, keyGroup).getID();
+    grupo = Dialogs.cell(row, keyGroup).getId();
     nroSerieCount = Cairo.SerialNumber.getCount(nrosSerie, grupo);
 
     if(cantidad > nroSerieCount) {
@@ -1976,7 +1980,7 @@
       //La cantidad del rénglon " & RowIndex & " es menor a la cantidad de & _
       números(de serie asociados. Indique el/los números de serie a eleminar.);
 
-      if(!Cairo.SerialNumber.destroy(Dialogs.cell(row, keyGroup).getID(), val(Dialogs.cell(row, keyCantidad).getValue()), row, nrosSerie, keyGroup, keyNSerie, rowIndex, prId, deplId, isInput, nroSerieCount - cantidad)) {
+      if(!Cairo.SerialNumber.destroy(Dialogs.cell(row, keyGroup).getId(), val(Dialogs.cell(row, keyCantidad).getValue()), row, nrosSerie, keyGroup, keyNSerie, rowIndex, prId, deplId, isInput, nroSerieCount - cantidad)) {
 
         cWindow.msgWarning(getText(2917, "", rowIndex));
         //El documento no será guardado hasta que no indique los números de & _
@@ -2021,7 +2025,7 @@
       var grupo = null;
       var nroSerieCount = null;
 
-      grupo = Dialogs.cell(row, keyGroup).getID();
+      grupo = Dialogs.cell(row, keyGroup).getId();
       nroSerieCount = Cairo.SerialNumber.getCount(nrosSerie, grupo);
 
       // Si no hay cargado ningun numero de serie
@@ -2042,7 +2046,7 @@
             return null;
           }
           else {
-            if(!Cairo.SerialNumber.destroy(Dialogs.cell(row, keyGroup).getID(), val(Dialogs.cell(row, keyCantidad).getValue()), row, nrosSerie, keyGroup, keyNSerie, lRow, prId, deplId, isInput, nroSerieCount - newValue)) {
+            if(!Cairo.SerialNumber.destroy(Dialogs.cell(row, keyGroup).getId(), val(Dialogs.cell(row, keyCantidad).getValue()), row, nrosSerie, keyGroup, keyNSerie, lRow, prId, deplId, isInput, nroSerieCount - newValue)) {
               return null;
             }
           }
@@ -2050,7 +2054,7 @@
         }
         else if(nroSerieCount < newValue) {
 
-          if(!Cairo.SerialNumber.edit(Dialogs.cell(row, keyGroup).getID(), newValue, row, nrosSerie, keyGroup, keyNSerie, lRow, prId, deplId, isInput, false,, null, provId, NO_ID)) {
+          if(!Cairo.SerialNumber.edit(Dialogs.cell(row, keyGroup).getId(), newValue, row, nrosSerie, keyGroup, keyNSerie, lRow, prId, deplId, isInput, false,, null, provId, NO_ID)) {
             return null;
           }
 

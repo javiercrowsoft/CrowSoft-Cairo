@@ -2695,7 +2695,7 @@
       };
 
       var isEmptyRowSuc = function(row, rowIndex) {
-        var bRowIsEmpty = true;
+        var rowIsEmpty = true;
 
         for(var _i = 0, _count = row.size(); _i < _count; _i++) {
 
@@ -2705,32 +2705,32 @@
 
             case KI_S_NOMBRE:
               if(!valEmpty(cell.getValue(), Types.text)) {
-                bRowIsEmpty = false;
+                rowIsEmpty = false;
                 break;
               }
               break;
 
             case KI_S_CODIGO:
               if(!valEmpty(cell.getValue(), Types.text)) {
-                bRowIsEmpty = false;
+                rowIsEmpty = false;
                 break;
               }
               break;
 
             case KI_S_CALLE:
               if(!valEmpty(cell.getValue(), Types.text)) {
-                bRowIsEmpty = false;
+                rowIsEmpty = false;
                 break;
               }
               break;
           }
         }
 
-        return bRowIsEmpty;
+        return rowIsEmpty;
       };
 
       var isEmptyRowCont = function(row, rowIndex) {
-        var bRowIsEmpty = true;
+        var rowIsEmpty = true;
 
         for(var _i = 0, _count = row.size(); _i < _count; _i++) {
 
@@ -2740,25 +2740,25 @@
 
             case KI_NOMBRE:
               if(!valEmpty(cell.getValue(), Types.text)) {
-                bRowIsEmpty = false;
+                rowIsEmpty = false;
                 break;
               }
               break;
 
             case KI_CODIGO:
               if(!valEmpty(cell.getValue(), Types.text)) {
-                bRowIsEmpty = false;
+                rowIsEmpty = false;
                 break;
               }
               break;
           }
         }
 
-        return bRowIsEmpty;
+        return rowIsEmpty;
       };
 
       var isEmptyRowDpto = function(row, rowIndex) {
-        var bRowIsEmpty = true;
+        var rowIsEmpty = true;
 
         for(var _i = 0, _count = row.size(); _i < _count; _i++) {
 
@@ -2768,18 +2768,18 @@
 
             case KI_DPTO_ID:
               if(!valEmpty(cell.getValue(), Types.text)) {
-                bRowIsEmpty = false;
+                rowIsEmpty = false;
                 break;
               }
               break;
           }
         }
 
-        return bRowIsEmpty;
+        return rowIsEmpty;
       };
 
       var isEmptyRowPercepcion = function(row, rowIndex) {
-        var bRowIsEmpty = true;
+        var rowIsEmpty = true;
 
         for(var _i = 0, _count = row.size(); _i < _count; _i++) {
 
@@ -2789,18 +2789,18 @@
 
             case KI_PERC_ID:
               if(!valEmpty(cell.getValue(), Types.text)) {
-                bRowIsEmpty = false;
+                rowIsEmpty = false;
                 break;
               }
               break;
           }
         }
 
-        return bRowIsEmpty;
+        return rowIsEmpty;
       };
 
       var isEmptyRowInforme = function(row, rowIndex) {
-        var bRowIsEmpty = true;
+        var rowIsEmpty = true;
 
         for(var _i = 0, _count = row.size(); _i < _count; _i++) {
 
@@ -2810,18 +2810,18 @@
 
             case KI_INF_ID:
               if(!valEmpty(cell.getId(), Types.id)) {
-                bRowIsEmpty = false;
+                rowIsEmpty = false;
                 break;
               }
               break;
           }
         }
 
-        return bRowIsEmpty;
+        return rowIsEmpty;
       };
 
       var isEmptyRowCuentaGrupo = function(row, rowIndex) {
-        var bRowIsEmpty = true;
+        var rowIsEmpty = true;
 
         for(var _i = 0, _count = row.size(); _i < _count; _i++) {
 
@@ -2831,21 +2831,21 @@
 
             case KI_CUE_ID:
               if(!valEmpty(cell.getValue(), Types.text)) {
-                bRowIsEmpty = false;
+                rowIsEmpty = false;
                 break;
               }
               break;
 
             case KI_CUEG_ID:
               if(!valEmpty(cell.getValue(), Types.text)) {
-                bRowIsEmpty = false;
+                rowIsEmpty = false;
                 break;
               }
               break;
           }
         }
 
-        return bRowIsEmpty;
+        return rowIsEmpty;
       };
 
       var saveItemsSucursales = function(mainRegister) {

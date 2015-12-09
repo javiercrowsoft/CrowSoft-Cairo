@@ -782,7 +782,7 @@
 
       var isEmptyRowItems = function(row, rowIndex) {
         var cell = null;
-        var bRowIsEmpty = true;
+        var rowIsEmpty = true;
 
         var _count = row.size();
         for(var _i = 0; _i < _count; _i++) {
@@ -790,25 +790,25 @@
           switch (cell.getKey()) {
             case KI_NOMBRE:
               if(!valEmpty(cell.getValue(), Types.text)) {
-                bRowIsEmpty = false;
+                rowIsEmpty = false;
               }
               break;
 
             case KI_CODIGO:
               if(!valEmpty(cell.getValue(), Types.text)) {
-                bRowIsEmpty = false;
+                rowIsEmpty = false;
               }
               break;
 
             case KI_DESCRIP:
               if(!valEmpty(cell.getValue(), Types.text)) {
-                bRowIsEmpty = false;
+                rowIsEmpty = false;
               }
               break;
           }
         }
 
-        return bRowIsEmpty;
+        return rowIsEmpty;
       };
 
       var showItems = function() {
