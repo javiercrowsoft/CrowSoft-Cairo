@@ -993,6 +993,11 @@ use this function but replace the LNG_ID
 
 - search and replace
 
+       to copy constants declaration
+
+       search (include spaces):  (.+):(.+),
+       replace (include spaces):  val $1 = $2
+
        search: val\(getCell\((.*?)\)\.getValue\(\)\)
        replace: cellFloat($1)
 

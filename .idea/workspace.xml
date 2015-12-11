@@ -2,18 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d47203c3-b220-49d7-aac2-46c758baa4bb" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSContabilidad2/cAsiento.js" afterPath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSContabilidad2/cAsiento.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSTesoreria2/cCobranza.js" afterPath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSTesoreria2/cCobranza.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSGeneral2/cCuentaGrupo.js" afterPath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSGeneral2/cCuentaGrupo.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSPersonal/cEmpleadoPeriodo.js" afterPath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSPersonal/cEmpleadoPeriodo.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSCompra2/cFacturaCompra.js" afterPath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSCompra2/cFacturaCompra.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSVenta2/cFacturaVenta.js" afterPath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSVenta2/cFacturaVenta.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSVenta2/cHojaRuta.js" afterPath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSVenta2/cHojaRuta.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSPersonal/cLiquidacion.js" afterPath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSPersonal/cLiquidacion.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSTesoreria2/cOrdenPago.js" afterPath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSTesoreria2/cOrdenPago.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSVenta2/cPickingList.js" afterPath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSVenta2/cPickingList.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/cairo/app/client/cairo/cairoModules.js" afterPath="$PROJECT_DIR$/web/cairo/app/client/cairo/cairoModules.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/system/system.js" afterPath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/system/system.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSTesoreria2/constants.js" afterPath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSTesoreria2/constants.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/cairo/conf/routes" afterPath="$PROJECT_DIR$/web/cairo/conf/routes" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/translate-todo-list.txt" afterPath="$PROJECT_DIR$/docs/translate-todo-list.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="CrowSoft-Cairo.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -114,8 +107,8 @@
       <file leaf-file-name="translate-todo-list.txt" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/docs/translate-todo-list.txt">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.69713074" vertical-offset="18496" max-vertical-offset="22800">
-              <caret line="1008" column="31" selection-start-line="1008" selection-start-column="31" selection-end-line="1008" selection-end-column="31" />
+            <state vertical-scroll-proportion="0.49312168" vertical-offset="18496" max-vertical-offset="22895">
+              <caret line="998" column="30" selection-start-line="998" selection-start-column="30" selection-end-line="998" selection-end-column="30" />
               <folding />
             </state>
           </provider>
@@ -210,7 +203,7 @@
     <option name="x" value="1920" />
     <option name="y" value="22" />
     <option name="width" value="1920" />
-    <option name="height" value="1054" />
+    <option name="height" value="1058" />
   </component>
   <component name="ProjectInspectionProfilesVisibleTreeState">
     <entry key="Project Default">
@@ -538,7 +531,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="1920" y="22" width="1920" height="1054" extended-state="6" />
+    <frame x="1920" y="22" width="1920" height="1058" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -889,6 +882,46 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSTicket/cEquipoDetalleEdit.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="996">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSTicket/cEquipoDetalleItem.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="996">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSTicket/cEquipoDetalleItems.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="996">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/docs/translate-todo-list.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.49312168" vertical-offset="18496" max-vertical-offset="22895">
+          <caret line="998" column="30" selection-start-line="998" selection-start-column="30" selection-end-line="998" selection-end-column="30" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSPedidoVenta2/cPedidoVenta.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="996">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSVenta2/cPickingListPedido.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="996">
@@ -925,46 +958,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="996">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSPedidoVenta2/cPedidoVenta.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="996">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSTicket/cEquipoDetalleEdit.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="996">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSTicket/cEquipoDetalleItem.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="996">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSTicket/cEquipoDetalleItems.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="996">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/docs/translate-todo-list.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.69713074" vertical-offset="18496" max-vertical-offset="22800">
-          <caret line="1008" column="31" selection-start-line="1008" selection-start-column="31" selection-end-line="1008" selection-end-column="31" />
           <folding />
         </state>
       </provider>

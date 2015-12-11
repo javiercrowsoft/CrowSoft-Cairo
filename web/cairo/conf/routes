@@ -387,6 +387,25 @@ DELETE  /api/v1/ventas/facturaventa/:id              controllers.logged.modules.
 
 GET     /api/v1/ventas/facturaventa/notes/:id        controllers.logged.modules.ventas.FacturaVentas.notes(id: Int)
 
+#
+# tesoreria
+#
+
+#GET     /api/v1/tesoreria/cobranzas                 controllers.logged.modules.tesoreria.Cobranzas.list(from: Option[String], to: Option[String], cliId: Option[String], estId: Option[String], ccosId: Option[String], sucId: Option[String], cobzId: Option[String], docId: Option[String], cpgId: Option[String], empId: Option[String])
+#GET     /api/v1/tesoreria/cobranzas/parameters      controllers.logged.modules.tesoreria.Cobranzas.parameters()
+#POST    /api/v1/tesoreria/cobranzas                 controllers.logged.modules.tesoreria.Cobranzas.saveParameters
+
+#GET     /api/v1/tesoreria/cobranzas/cliente/:cliId/remitos/:currencyId    controllers.logged.modules.tesoreria.Cobranzas.listRemitos(cliId: Int, currencyId: Int)
+#GET     /api/v1/tesoreria/cobranzas/remitos/items   controllers.logged.modules.tesoreria.Cobranzas.listRemitosItems(ids: Option[String])
+
+#GET     /api/v1/tesoreria/cobranza/:id              controllers.logged.modules.tesoreria.Cobranzas.get(id: Int)
+#POST    /api/v1/tesoreria/cobranza                  controllers.logged.modules.tesoreria.Cobranzas.create
+#POST    /api/v1/tesoreria/cobranza/from_remitos     controllers.logged.modules.tesoreria.Cobranzas.createFromRemito
+#PUT     /api/v1/tesoreria/cobranza/:id              controllers.logged.modules.tesoreria.Cobranzas.update(id: Int)
+#DELETE  /api/v1/tesoreria/cobranza/:id              controllers.logged.modules.tesoreria.Cobranzas.delete(id: Int)
+
+#GET     /api/v1/tesoreria/cobranza/notes/:id        controllers.logged.modules.tesoreria.Cobranzas.notes(id: Int)
+
 
 # end Cairo
 #--------------------------------------------------------------------------------------------------
