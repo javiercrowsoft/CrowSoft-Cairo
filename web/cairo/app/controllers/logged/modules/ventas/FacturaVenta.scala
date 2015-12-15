@@ -550,7 +550,7 @@ object FacturaVentas extends Controller with ProvidesUser {
       val facturaItemBaseGroup = Global.preprocessFormParams(facturaItemBase, C.FACTURA_ITEM_BASE, params)
       val facturaItemTotalsGroup = Global.preprocessFormParams(facturaItemTotals, C.FACTURA_ITEM_TOTALS, params)
 
-      // in the POSTED JSON we have this sctructure:
+      // in the POSTED JSON we have this structure:
       //
       //     FacturaVentaItemSerieTMP: {
       //          items: [],

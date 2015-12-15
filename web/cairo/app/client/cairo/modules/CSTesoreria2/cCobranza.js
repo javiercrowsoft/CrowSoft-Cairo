@@ -744,7 +744,7 @@
                   break;
 
                 case K_SUC_ID:
-                  fields.add(CT.SUC_ID, property.getSelectId(), Types.id);
+                  fields.add(C.SUC_ID, property.getSelectId(), Types.id);
                   break;
 
                 case K_DOC_ID:
@@ -756,11 +756,11 @@
                   break;
 
                 case K_COB_ID:
-                  fields.add(CT.COB_ID, property.getSelectId(), Types.id);
+                  fields.add(C.COB_ID, property.getSelectId(), Types.id);
                   break;
 
                 case K_LGJ_ID:
-                  fields.add(CT.LGJ_ID, property.getSelectId(), Types.id);
+                  fields.add(C.LGJ_ID, property.getSelectId(), Types.id);
                   break;
               }
             }
@@ -1344,7 +1344,7 @@
         elem.setTextMask(m_taMascara);
         elem.setTextAlign(Dialogs.TextAlign.right);
 
-        elem = properties.add(null, CT.COB_ID);
+        elem = properties.add(null, C.COB_ID);
         elem.setType(T.select);
         elem.setSelectTable(Cairo.Tables.COBRADOR);
         elem.setName(getText(1088, "")); // Cobrador
@@ -1352,7 +1352,7 @@
         elem.setSelectId(m_cobId);
         elem.setValue(m_cobrador);
 
-        elem = properties.add(null, CT.LGJ_ID);
+        elem = properties.add(null, C.LGJ_ID);
         elem.setType(T.select);
         elem.setSelectTable(Cairo.Tables.LEGAJOS);
         elem.setName(getText(1575, "")); // Legajo
@@ -1377,7 +1377,7 @@
         elem.setSelectId(m_ccosId);
         elem.setValue(m_centroCosto);
 
-        elem = properties.add(null, CT.SUC_ID);
+        elem = properties.add(null, C.SUC_ID);
         elem.setType(T.select);
         elem.setSelectTable(Cairo.Tables.SUCURSAL);
         elem.setName(getText(1281, "")); // Sucursal
@@ -1678,8 +1678,8 @@
           elem.setKey(KIO_DESCRIP);
 
           elem = row.add(null);
-          elem.setValue(getValue(m_data.otros[_i], CT.RET_NAME));
-          elem.setId(getValue(m_data.otros[_i], CT.RET_ID));
+          elem.setValue(getValue(m_data.otros[_i], C.RET_NAME));
+          elem.setId(getValue(m_data.otros[_i], C.RET_ID));
           elem.setKey(KIO_RET_ID);
 
           elem = row.add(null);
@@ -1700,7 +1700,7 @@
           elem.setKey(KIO_CCOS_ID);
 
           elem = row.add(null);
-          elem.setValue(getValue(m_data.otros[_i], CT.FV_NRODOC));
+          elem.setValue(getValue(m_data.otros[_i], C.FV_NRODOC));
           elem.setId(getValue(m_data.otros[_i], CT.FV_ID_RET));
           elem.setKey(KIO_FV_ID_RET);
         }
@@ -1823,8 +1823,8 @@
           elem.setKey(KICH_CUE_ID);
 
           elem = elem.add(null);
-          elem.setValue(getValue(m_data.cheques[_i], CT.MON_NAME));
-          elem.setId(getValue(m_data.cheques[_i], CT.MON_ID));
+          elem.setValue(getValue(m_data.cheques[_i], C.MON_NAME));
+          elem.setId(getValue(m_data.cheques[_i], C.MON_ID));
           elem.setKey(KICH_MON_ID);
 
           elem = elem.add(null);
@@ -1836,34 +1836,34 @@
           elem.setKey(KICH_IMPORTE);
 
           elem = elem.add(null);
-          elem.setValue(getValue(m_data.cheques[_i], CT.BCO_NAME));
-          elem.setId(getValue(m_data.cheques[_i], CT.BCO_ID));
+          elem.setValue(getValue(m_data.cheques[_i], C.BCO_NAME));
+          elem.setId(getValue(m_data.cheques[_i], C.BCO_ID));
           elem.setKey(KICH_BCO_ID);
 
           elem = elem.add(null);
-          elem.setValue(getValue(m_data.cheques[_i], CT.CHEQ_NUMERO_DOC));
+          elem.setValue(getValue(m_data.cheques[_i], C.CHEQ_NUMERO_DOC));
           elem.setKey(KICH_CHEQUE);
 
           elem = elem.add(null);
-          elem.setValue(getValue(m_data.cheques[_i], CT.CHEQ_NUMERO));
-          elem.setId(getValue(m_data.cheques[_i], CT.CHEQ_ID));
+          elem.setValue(getValue(m_data.cheques[_i], C.CHEQ_NUMERO));
+          elem.setId(getValue(m_data.cheques[_i], C.CHEQ_ID));
           elem.setKey(KICH_CHEQ_ID);
 
           elem = elem.add(null);
-          elem.setId(getValue(m_data.cheques[_i], CT.CHEQ_PROPIO));
+          elem.setId(getValue(m_data.cheques[_i], C.CHEQ_PROPIO));
           elem.setKey(KICH_PROPIO);
 
           elem = elem.add(null);
-          elem.setValue(getValue(m_data.cheques[_i], CT.CHEQ_FECHA_COBRO));
+          elem.setValue(getValue(m_data.cheques[_i], C.CHEQ_FECHA_COBRO));
           elem.setKey(KICH_FECHACOBRO);
 
           elem = elem.add(null);
-          elem.setValue(getValue(m_data.cheques[_i], CT.CHEQ_FECHA_VTO));
+          elem.setValue(getValue(m_data.cheques[_i], C.CHEQ_FECHA_VTO));
           elem.setKey(KICH_FECHAVTO);
 
           elem = elem.add(null);
-          elem.setValue(getValue(m_data.cheques[_i], CT.CLE_NAME));
-          elem.setId(getValue(m_data.cheques[_i], CT.CLE_ID));
+          elem.setValue(getValue(m_data.cheques[_i], C.CLE_NAME));
+          elem.setId(getValue(m_data.cheques[_i], C.CLE_ID));
           elem.setKey(KICH_CLE_ID);
 
           elem = elem.add(null);
@@ -1945,8 +1945,8 @@
           elem.setKey(KIE_CUE_ID);
 
           elem = row.add(null);
-          elem.setValue(getValue(m_data.efectivo[_i], CT.MON_NAME));
-          elem.setId(getValue(m_data.efectivo[_i], CT.MON_ID));
+          elem.setValue(getValue(m_data.efectivo[_i], C.MON_NAME));
+          elem.setId(getValue(m_data.efectivo[_i], C.MON_ID));
           elem.setKey(KIE_MON_ID);
 
           elem = row.add(null);
@@ -2091,18 +2091,18 @@
           elem.setKey(KIT_CUPON);
 
           elem = row.add(null);
-          elem.setValue(getValue(m_data.tarjetas[_i], CT.TJC_NAME));
-          elem.setId(getValue(m_data.tarjetas[_i], CT.TJC_ID));
+          elem.setValue(getValue(m_data.tarjetas[_i], C.TJC_NAME));
+          elem.setId(getValue(m_data.tarjetas[_i], C.TJC_ID));
           elem.setKey(KIT_TJC_ID);
 
           elem = row.add(null);
-          elem.setValue(getValue(m_data.tarjetas[_i], CT.TJCCU_CANTIDAD));
-          elem.setId(getValue(m_data.tarjetas[_i], CT.TJCCU_ID));
+          elem.setValue(getValue(m_data.tarjetas[_i], C.TJCCU_CANTIDAD));
+          elem.setId(getValue(m_data.tarjetas[_i], C.TJCCU_ID));
           elem.setKey(KIT_TJCCU_ID);
 
           elem = row.add(null);
-          elem.setValue(getValue(m_data.tarjetas[_i], CT.MON_NAME));
-          elem.setId(getValue(m_data.tarjetas[_i], CT.MON_ID));
+          elem.setValue(getValue(m_data.tarjetas[_i], C.MON_NAME));
+          elem.setId(getValue(m_data.tarjetas[_i], C.MON_ID));
           elem.setKey(KIT_MON_ID);
 
           elem = row.add(null);
@@ -2671,7 +2671,7 @@
                 break;
 
               case KICH_CHEQ_ID:
-                fields.add(CT.CHEQ_ID, cell.getId(), Types.id);
+                fields.add(C.CHEQ_ID, cell.getId(), Types.id);
                 break;
 
               case KICH_CHEQUE:
@@ -2679,15 +2679,15 @@
                 break;
 
               case KICH_CLE_ID:
-                fields.add(CT.CLE_ID, cell.getId(), Types.id);
+                fields.add(C.CLE_ID, cell.getId(), Types.id);
                 break;
 
               case KICH_BCO_ID:
-                fields.add(CT.BCO_ID, cell.getId(), Types.id);
+                fields.add(C.BCO_ID, cell.getId(), Types.id);
                 break;
 
               case KICH_MON_ID:
-                fields.add(CT.MON_ID, cell.getId(), Types.id);
+                fields.add(C.MON_ID, cell.getId(), Types.id);
                 break;
 
               case KICH_PROPIO:
@@ -2778,15 +2778,15 @@
                 break;
 
               case KIT_TJC_ID:
-                fields.add(CT.TJC_ID, cell.getId(), Types.id);
+                fields.add(C.TJC_ID, cell.getId(), Types.id);
                 break;
 
               case KIT_TJCCU_ID:
-                fields.add(CT.TJCCU_ID, cell.getId(), Types.id);
+                fields.add(C.TJCCU_ID, cell.getId(), Types.id);
                 break;
 
               case KIT_MON_ID:
-                fields.add(CT.MON_ID, cell.getId(), Types.id);
+                fields.add(C.MON_ID, cell.getId(), Types.id);
                 break;
 
               case KIT_FECHAVTO:
@@ -2873,7 +2873,7 @@
                 break;
 
               case KIO_RET_ID:
-                fields.add(CT.RET_ID, cell.getId(), Types.id);
+                fields.add(C.RET_ID, cell.getId(), Types.id);
                 break;
 
               case KIO_NRORETENCION:
@@ -4218,7 +4218,7 @@
               m_docId = valField(response.data, C.DOC_ID);
               m_empId = valField(response.data, C.EMP_ID);
 
-              m_cliente = valField(response.data, C.PROV_NAME);
+              m_cliente = valField(response.data, C.CLI_NAME);
               m_estado = valField(response.data, C.EST_NAME);
               m_centroCosto = valField(response.data, C.CCOS_NAME);
               m_sucursal = valField(response.data, C.SUC_NAME);
@@ -4299,13 +4299,13 @@
             break;
 
           case K_SUC_ID:
-            var property = m_properties.item(CT.SUC_ID);
+            var property = m_properties.item(C.SUC_ID);
             m_sucursal = property.getValue();
             m_sucId = property.getSelectIntValue();
             break;
 
           case K_COB_ID:
-            var property = m_properties.item(CT.COB_ID);
+            var property = m_properties.item(C.COB_ID);
             m_cobrador = property.getValue();
             m_cobId = property.getSelectIntValue();
             break;
@@ -4450,6 +4450,14 @@
             }
           }
         );
+      };
+
+      self.getPath = function() {
+        return "#tesoreria/cobranzas";
+      };
+
+      self.getEditorName = function() {
+        return "cobranzas";
       };
 
       self.getTitle = function() {

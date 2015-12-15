@@ -2,6 +2,9 @@ package models.cairo.modules.tesoreria
 
 object C {
 
+  // Asiento
+  val AS_ID = "as_id"
+
   val COBRANZA_ID = "ids"
   val COBRANZA_BASE = "base"
   val COBRANZA_PRECIOS = "precios"
@@ -12,8 +15,8 @@ object C {
 
   val COBRANZA_ITEM_DELETED = "deletedItems"
 
+  val FV_ID = "fv_id"
   val FVD_ID = "fvd_id"
-  val FVP_ID = "fvp_id"
 
   // DepositoBanco
   val DEPOSITO_BANCO = "DepositoBanco"
