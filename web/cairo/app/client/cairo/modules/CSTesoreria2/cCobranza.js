@@ -1700,7 +1700,7 @@
           elem.setKey(KIO_CCOS_ID);
 
           elem = row.add(null);
-          elem.setValue(getValue(m_data.otros[_i], C.FV_NRODOC));
+          elem.setValue(getValue(m_data.otros[_i], Cairo.Ventas.Constants.FV_NRODOC));
           elem.setId(getValue(m_data.otros[_i], CT.FV_ID_RET));
           elem.setKey(KIO_FV_ID_RET);
         }

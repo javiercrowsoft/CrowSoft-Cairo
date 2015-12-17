@@ -12,8 +12,13 @@ object C {
 
   val COBRANZA_ITEM_BASE = "base"
   val COBRANZA_ITEM_TOTALS = "totals"
+  val COBRANZA_ITEM_OTRO_RETENCION = "CobranzaItemOtroRetencion"
 
-  val COBRANZA_ITEM_DELETED = "deletedItems"
+  val COBRANZA_ITEM_CHEQUE_DELETED = "deletedCheque"
+  val COBRANZA_ITEM_TARJETA_DELETED = "deletedTarjeta"
+  val COBRANZA_ITEM_EFECTIVO_DELETED = "deletedEfectivo"
+  val COBRANZA_ITEM_OTRO_DELETED = "deletedOtro"
+  val COBRANZA_ITEM_CUENTA_CORRIENTE_DELETED = "deletedCuentaCorriente"
 
   val FV_ID = "fv_id"
   val FVD_ID = "fvd_id"
@@ -91,6 +96,12 @@ object C {
 
   // CobranzaItemTMP
   val COBRANZA_ITEM_TMP = "CobranzaItemTMP"
+  val COBRANZA_ITEM_CHEQUE_TMP = "CobranzaItemChequeTMP"
+  val COBRANZA_ITEM_TARJETA_TMP = "CobranzaItemTarjetaTMP"
+  val COBRANZA_ITEM_EFECTIVO_TMP = "CobranzaItemEfectivoTMP"
+  val COBRANZA_ITEM_OTRO_TMP = "CobranzaItemOtroTMP"
+  val COBRANZA_ITEM_CUENTA_CORRIENTE_TMP = "CobranzaItemCuentaCorrienteTMP"
+
   val COBZI_TMP_ID = "cobziTMP_id"
   val COBZI_TMP_CHEQUE = "cobziTMP_cheque"
   val COBZI_TMP_CHEQUERA = "cobziTMP_chequera"
@@ -106,7 +117,6 @@ object C {
   val COBRANZA_ITEM_BORRADO_TMP = "CobranzaItemBorradoTMP"
   val COBZIB_TMP_ID = "cobzibTMP_Id"
 
-  // Cheque
   // Cheque
   val CHEQUE = "Cheque"
   val CHEQ_ID = "cheq_id"
@@ -408,6 +418,12 @@ object C {
 
   val FC_ID_RET = "fc_id_ret"
   val FV_ID_RET = "fv_id_ret"
+
+  val COBRANZA_ITEM_TIPO_CHEQUES = 1
+  val COBRANZA_ITEM_TIPO_EFECTIVO = 2
+  val COBRANZA_ITEM_TIPO_TARJETAS = 3
+  val COBRANZA_ITEM_TIPO_OTROS = 4
+  val COBRANZA_ITEM_TIPO_CTA_CTE = 5
 }
 
 object S {

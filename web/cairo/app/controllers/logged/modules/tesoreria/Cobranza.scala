@@ -38,23 +38,77 @@ case class CobranzaTotalsData(
                                total: Double
                                )
 
-case class CobranzaItemDataBase(
+case class CobranzaItemBaseData(
                                  descrip: String,
                                  cueId: Int,
                                  ccosId: Int,
                                  orden: Int
                                  )
 
-case class CobranzaItemDataTotals(
+case class CobranzaItemTotalsData(
                                    importe: Double,
                                    importeOrigen: Double
                                    )
 
-case class CobranzaItemData(
-                             id: Int,
-                             base: CobranzaItemDataBase,
-                             totals: CobranzaItemDataTotals
-                             )
+case class CobranzaItemChequeData(
+                                   id: Int,
+                                   base: CobranzaItemBaseData,
+                                   monId: Int,
+                                   totals: CobranzaItemTotalsData,
+                                   bcoId: Int,
+                                   cheqId: Int,
+                                   numeroDoc: String,
+                                   propio: Boolean,
+                                   fechaCobro: String,
+                                   fechaVto: String,
+                                   cleId: Int
+                                   )
+
+case class CobranzaItemTarjetaData(
+                                    id: Int,
+                                    base: CobranzaItemBaseData,
+                                    monId: Int,
+                                    totals: CobranzaItemTotalsData,
+                                    tjccId: Int,
+                                    cuponNumeroDoc: String,
+                                    tjcId: Int,
+                                    tjccuId: Int,
+                                    fechaVto: String,
+                                    numero: String,
+                                    autorizacion: String,
+                                    tarjetaTipo: Int,
+                                    titular: String
+                                    )
+
+case class CobranzaItemEfectivoData(
+                                     id: Int,
+                                     base: CobranzaItemBaseData,
+                                     monId: Int,
+                                     totals: CobranzaItemTotalsData
+                                     )
+
+case class CobranzaItemRetencionData(
+                                      retId: Int,
+                                      numero: String,
+                                      porcentaje: Double,
+                                      fecha: String,
+                                      fvId: Int
+                                      )
+
+case class CobranzaItemOtroData(
+                                 id: Int,
+                                 base: CobranzaItemBaseData,
+                                 totals: CobranzaItemTotalsData,
+                                 tipo: Int,
+                                 retencion: CobranzaItemRetencionData
+                                 )
+
+case class CobranzaItemCuentaCorrienteData(
+                                            id: Int,
+                                            base: CobranzaItemBaseData,
+                                            monId: Int,
+                                            totals: CobranzaItemTotalsData
+                                            )
 
 case class CobranzaData(
                          id: Option[Int],
@@ -63,10 +117,18 @@ case class CobranzaData(
                          fecha: String,
                          cotizacion: Double,
                          totals: CobranzaTotalsData,
-                         items: List[CobranzaItemData],
+                         cheques: List[CobranzaItemChequeData],
+                         tarjetas: List[CobranzaItemTarjetaData],
+                         efectivo: List[CobranzaItemEfectivoData],
+                         otros: List[CobranzaItemOtroData],
+                         cuentaCorriente: List[CobranzaItemCuentaCorrienteData],
 
                          /* only used in save */
-                         itemDeleted: String,
+                         chequeDeleted: String,
+                         tarjetaDeleted: String,
+                         efectivoDeleted: String,
+                         otroDeleted: String,
+                         cuentaCorrienteDeleted: String,
 
                          /* applications */
                          facturas: List[FacturaCobranzaData]
@@ -89,7 +151,6 @@ case class CobranzaParamsData(
                                sucId: String,
                                cobId: String,
                                docId: String,
-                               cpgId: String,
                                empId: String
                                )
 
@@ -107,7 +168,6 @@ object Cobranzas extends Controller with ProvidesUser {
       GC.SUC_ID -> text,
       GC.COB_ID -> text,
       GC.DOC_ID -> text,
-      GC.CPG_ID -> text,
       GC.EMP_ID -> text
     )(CobranzaParamsData.apply)(CobranzaParamsData.unapply)
   )
@@ -121,6 +181,9 @@ object Cobranzas extends Controller with ProvidesUser {
   val cobranzaItemBase = List(C.COBZI_DESCRIP, GC.PR_ID, GC.CCOS_ID, GC.TO_ID, GC.CUE_ID, C.COBZI_ORDEN)
 
   val cobranzaItemTotals = List(C.COBZI_IMPORTE, C.COBZI_IMPORTE_ORIGEN)
+
+  val cobranzaItemOtroRetencion = List(GC.RET_ID, C.COBZI_NRO_RETENCION, C.COBZI_PORC_RETENCION,
+    C.COBZI_FECHA_RETENCION, C.FV_ID_RET)
 
   val facturaCobranza = List(C.FV_ID, C.FVD_ID, C.FV_COBZ_IMPORTE, C.FV_COBZ_IMPORTE_ORIGEN, C.FV_COBZ_COTIZACION)
 
@@ -137,7 +200,7 @@ object Cobranzas extends Controller with ProvidesUser {
         GC.EST_ID -> number,
         GC.CCOS_ID -> number,
         GC.SUC_ID -> number,
-        GC.CPG_ID -> number,
+        GC.COB_ID -> number,
         GC.LGJ_ID -> number,
         C.COBZ_DESCRIP -> text,
         C.COBZ_GRABAR_ASIENTO -> boolean)
@@ -149,7 +212,7 @@ object Cobranzas extends Controller with ProvidesUser {
         C.COBZ_OTROS -> of(Global.doubleFormat),
         C.COBZ_TOTAL -> of(Global.doubleFormat)
       )(CobranzaTotalsData.apply)(CobranzaTotalsData.unapply),
-      C.COBRANZA_ITEM_TMP -> Forms.list[CobranzaItemData](
+      C.COBRANZA_ITEM_CHEQUE_TMP -> Forms.list[CobranzaItemChequeData](
         mapping(
           C.COBZI_ID -> number,
           C.COBRANZA_ITEM_BASE -> mapping (
@@ -157,14 +220,106 @@ object Cobranzas extends Controller with ProvidesUser {
             GC.CUE_ID -> number,
             GC.CCOS_ID -> number,
             C.COBZI_ORDEN -> number)
-            (CobranzaItemDataBase.apply)(CobranzaItemDataBase.unapply),
+            (CobranzaItemBaseData.apply)(CobranzaItemBaseData.unapply),
+          GC.MON_ID -> number,
           C.COBRANZA_ITEM_TOTALS -> mapping (
             C.COBZI_IMPORTE -> of(Global.doubleFormat),
             C.COBZI_IMPORTE_ORIGEN -> of(Global.doubleFormat))
-            (CobranzaItemDataTotals.apply)(CobranzaItemDataTotals.unapply)
-        )(CobranzaItemData.apply)(CobranzaItemData.unapply)
+            (CobranzaItemTotalsData.apply)(CobranzaItemTotalsData.unapply),
+          GC.BCO_ID -> number,
+          C.CHEQ_ID -> number,
+          C.COBZI_TMP_CHEQUE -> text,
+          C.COBZI_TMP_PROPIO -> boolean,
+          C.COBZI_TMP_FECHA_COBRO -> text,
+          C.COBZI_TMP_FECHA_VTO -> text,
+          GC.CLE_ID -> number
+        )(CobranzaItemChequeData.apply)(CobranzaItemChequeData.unapply)
       ),
-      C.COBRANZA_ITEM_DELETED -> text,
+      C.COBRANZA_ITEM_TARJETA_TMP -> Forms.list[CobranzaItemTarjetaData](
+        mapping(
+          C.COBZI_ID -> number,
+          C.COBRANZA_ITEM_BASE -> mapping (
+            C.COBZI_DESCRIP -> text,
+            GC.CUE_ID -> number,
+            GC.CCOS_ID -> number,
+            C.COBZI_ORDEN -> number)
+            (CobranzaItemBaseData.apply)(CobranzaItemBaseData.unapply),
+          GC.MON_ID -> number,
+          C.COBRANZA_ITEM_TOTALS -> mapping (
+            C.COBZI_IMPORTE -> of(Global.doubleFormat),
+            C.COBZI_IMPORTE_ORIGEN -> of(Global.doubleFormat))
+            (CobranzaItemTotalsData.apply)(CobranzaItemTotalsData.unapply),
+          C.TJCC_ID -> number,
+          C.COBZI_TMP_CUPON -> text,
+          GC.TJC_ID -> number,
+          GC.TJCCU_ID -> number,
+          C.COBZI_TMP_FECHA_VTO -> text,
+          C.COBZI_TMP_NRO_TARJETA -> text,
+          C.COBZI_TMP_AUTORIZACION -> text,
+          C.COBZI_TARJETA_TIPO -> number,
+          C.COBZI_TMP_TITULAR -> text
+        )(CobranzaItemTarjetaData.apply)(CobranzaItemTarjetaData.unapply)
+      ),
+      C.COBRANZA_ITEM_EFECTIVO_TMP -> Forms.list[CobranzaItemEfectivoData](
+        mapping(
+          C.COBZI_ID -> number,
+          C.COBRANZA_ITEM_BASE -> mapping (
+            C.COBZI_DESCRIP -> text,
+            GC.CUE_ID -> number,
+            GC.CCOS_ID -> number,
+            C.COBZI_ORDEN -> number)
+            (CobranzaItemBaseData.apply)(CobranzaItemBaseData.unapply),
+          GC.MON_ID -> number,
+          C.COBRANZA_ITEM_TOTALS -> mapping (
+            C.COBZI_IMPORTE -> of(Global.doubleFormat),
+            C.COBZI_IMPORTE_ORIGEN -> of(Global.doubleFormat))
+            (CobranzaItemTotalsData.apply)(CobranzaItemTotalsData.unapply)
+        )(CobranzaItemEfectivoData.apply)(CobranzaItemEfectivoData.unapply)
+      ),
+      C.COBRANZA_ITEM_OTRO_TMP -> Forms.list[CobranzaItemOtroData](
+        mapping(
+          C.COBZI_ID -> number,
+          C.COBRANZA_ITEM_BASE -> mapping (
+            C.COBZI_DESCRIP -> text,
+            GC.CUE_ID -> number,
+            GC.CCOS_ID -> number,
+            C.COBZI_ORDEN -> number)
+            (CobranzaItemBaseData.apply)(CobranzaItemBaseData.unapply),
+          C.COBRANZA_ITEM_TOTALS -> mapping (
+            C.COBZI_IMPORTE -> of(Global.doubleFormat),
+            C.COBZI_IMPORTE_ORIGEN -> of(Global.doubleFormat))
+            (CobranzaItemTotalsData.apply)(CobranzaItemTotalsData.unapply),
+          C.COBZI_TIPO -> number,
+          C.COBRANZA_ITEM_OTRO_RETENCION -> mapping (
+            GC.RET_ID -> number,
+            C.COBZI_NRO_RETENCION -> text,
+            C.COBZI_PORC_RETENCION -> of(Global.doubleFormat),
+            C.COBZI_FECHA_RETENCION -> text,
+            C.FV_ID_RET -> number)
+          (CobranzaItemRetencionData.apply)(CobranzaItemRetencionData.unapply)
+        )(CobranzaItemOtroData.apply)(CobranzaItemOtroData.unapply)
+      ),
+      C.COBRANZA_ITEM_CUENTA_CORRIENTE_TMP -> Forms.list[CobranzaItemCuentaCorrienteData](
+        mapping(
+          C.COBZI_ID -> number,
+          C.COBRANZA_ITEM_BASE -> mapping (
+            C.COBZI_DESCRIP -> text,
+            GC.CUE_ID -> number,
+            GC.CCOS_ID -> number,
+            C.COBZI_ORDEN -> number)
+            (CobranzaItemBaseData.apply)(CobranzaItemBaseData.unapply),
+          GC.MON_ID -> number,
+          C.COBRANZA_ITEM_TOTALS -> mapping (
+            C.COBZI_IMPORTE -> of(Global.doubleFormat),
+            C.COBZI_IMPORTE_ORIGEN -> of(Global.doubleFormat))
+            (CobranzaItemTotalsData.apply)(CobranzaItemTotalsData.unapply)
+        )(CobranzaItemCuentaCorrienteData.apply)(CobranzaItemCuentaCorrienteData.unapply)
+      ),
+      C.COBRANZA_ITEM_CHEQUE_DELETED -> text,
+      C.COBRANZA_ITEM_TARJETA_DELETED -> text,
+      C.COBRANZA_ITEM_EFECTIVO_DELETED -> text,
+      C.COBRANZA_ITEM_OTRO_DELETED -> text,
+      C.COBRANZA_ITEM_CUENTA_CORRIENTE_DELETED -> text,
       C.FACTURA_VENTA_COBRANZA_TMP -> Forms.list[FacturaCobranzaData](
         mapping (
           C.FV_ID -> number,
@@ -240,9 +395,9 @@ object Cobranzas extends Controller with ProvidesUser {
       C.COBZ_OTROS -> Json.toJson(cobranza.totals.totalOtros),
       C.COBZ_TOTAL -> Json.toJson(cobranza.totals.total),
 
-      "items" -> Json.toJson(writeCobranzaItems(cobranza.items.items))
+      "cheques" -> Json.toJson(writeCobranzaItems(cobranza.items.cheques))
     )
-    def cobranzaItemWrites(i: CobranzaItem) = Json.obj(
+    def cobranzaItemWrites(i: CobranzaItemCheque) = Json.obj(
       C.COBZI_ID -> Json.toJson(i.id),
       C.COBZI_DESCRIP -> Json.toJson(i.base.descrip),
       GC.CUE_ID -> Json.toJson(i.base.cueId),
@@ -253,7 +408,7 @@ object Cobranzas extends Controller with ProvidesUser {
       C.COBZI_IMPORTE -> Json.toJson(i.totals.importe),
       C.COBZI_IMPORTE_ORIGEN -> Json.toJson(i.totals.importeOrigen)
     )
-    def writeCobranzaItems(items: List[CobranzaItem]) = items.map(item => cobranzaItemWrites(item))
+    def writeCobranzaItems(items: List[CobranzaItemCheque]) = items.map(item => cobranzaItemWrites(item))
   }
 
   def get(id: Int) = GetAction { implicit request =>
@@ -280,32 +435,108 @@ object Cobranzas extends Controller with ProvidesUser {
       case _ => Map.empty
     }
 
-    def preprocessSeriesParam(items: JsValue, group: String): Map[String, JsValue] = items match {
-      case jsArray: JsArray => Map(group -> jsArray)
-      case _ => Map(group -> JsArray(List()))
-    }
-
-    def preprocessItemParam(field: JsValue) = {
+    def preprocessChequeParam(field: JsValue) = {
       val params = field.as[Map[String, JsValue]]
 
-      // groups for CobranzaItemData
+      // groups for CobranzaChequeData
       //
-      val cobranzaItem = Global.preprocessFormParams(List(C.COBZI_ID), "", params)
-      val cobranzaItemBaseGroup = Global.preprocessFormParams(cobranzaItemBase, C.COBRANZA_ITEM_BASE, params)
-      val cobranzaItemTotalsGroup = Global.preprocessFormParams(cobranzaItemTotals, C.COBRANZA_ITEM_TOTALS, params)
+      val cobranzaCheque = Global.preprocessFormParams(
+        List(C.COBZI_ID, GC.MON_ID, GC.BCO_ID, C.CHEQ_ID, C.COBZI_TMP_CHEQUE, C.COBZI_TMP_PROPIO, C.COBZI_TMP_FECHA_COBRO,
+          C.COBZI_TMP_FECHA_VTO, GC.CLE_ID), "", params)
+      val cobranzaChequeBaseGroup = Global.preprocessFormParams(cobranzaItemBase, C.COBRANZA_ITEM_BASE, params)
+      val cobranzaChequeTotalsGroup = Global.preprocessFormParams(cobranzaItemTotals, C.COBRANZA_ITEM_TOTALS, params)
 
-      val item = JsObject(
-        (cobranzaItem ++ cobranzaItemBaseGroup ++ cobranzaItemTotalsGroup).toSeq)
-      item
+      val cheque = JsObject(
+        (cobranzaCheque ++ cobranzaChequeBaseGroup ++ cobranzaChequeTotalsGroup).toSeq)
+      cheque
     }
 
+    def preprocessTarjetaParam(field: JsValue) = {
+      val params = field.as[Map[String, JsValue]]
+
+      // groups for CobranzaTarjetaData
+      //
+      val cobranzaTarjeta = Global.preprocessFormParams(
+        List(C.COBZI_ID, GC.MON_ID, C.TJCC_ID, C.COBZI_TMP_CUPON, GC.TJC_ID, GC.TJCCU_ID, C.COBZI_TMP_FECHA_VTO,
+          C.COBZI_TMP_NRO_TARJETA, C.COBZI_TMP_AUTORIZACION, C.COBZI_TARJETA_TIPO, C.COBZI_TMP_TITULAR), "", params)
+      val cobranzaTarjetaBaseGroup = Global.preprocessFormParams(cobranzaItemBase, C.COBRANZA_ITEM_BASE, params)
+      val cobranzaTarjetaTotalsGroup = Global.preprocessFormParams(cobranzaItemTotals, C.COBRANZA_ITEM_TOTALS, params)
+
+      val tarjeta = JsObject(
+        (cobranzaTarjeta ++ cobranzaTarjetaBaseGroup ++ cobranzaTarjetaTotalsGroup).toSeq)
+      tarjeta
+    }
+
+    def preprocessEfectivoParam(field: JsValue) = {
+      val params = field.as[Map[String, JsValue]]
+
+      // groups for CobranzaEfectivoData
+      //
+      val cobranzaEfectivo = Global.preprocessFormParams(List(C.COBZI_ID, GC.MON_ID), "", params)
+      val cobranzaEfectivoBaseGroup = Global.preprocessFormParams(cobranzaItemBase, C.COBRANZA_ITEM_BASE, params)
+      val cobranzaEfectivoTotalsGroup = Global.preprocessFormParams(cobranzaItemTotals, C.COBRANZA_ITEM_TOTALS, params)
+
+      val efectivo = JsObject(
+        (cobranzaEfectivo ++ cobranzaEfectivoBaseGroup ++ cobranzaEfectivoTotalsGroup).toSeq)
+      efectivo
+    }
+
+    def preprocessOtroParam(field: JsValue) = {
+      val params = field.as[Map[String, JsValue]]
+
+      // groups for CobranzaOtroData
+      //
+      val cobranzaOtro = Global.preprocessFormParams(List(C.COBZI_ID, C.COBZI_TIPO), "", params)
+      val cobranzaOtroBaseGroup = Global.preprocessFormParams(cobranzaItemBase, C.COBRANZA_ITEM_BASE, params)
+      val cobranzaOtroTotalsGroup = Global.preprocessFormParams(cobranzaItemTotals, C.COBRANZA_ITEM_TOTALS, params)
+      val cobranzaOtroRetencionGroup = Global.preprocessFormParams(cobranzaItemOtroRetencion, C.COBRANZA_ITEM_OTRO_RETENCION, params)
+
+      val otro = JsObject(
+        (cobranzaOtro ++ cobranzaOtroBaseGroup ++ cobranzaOtroTotalsGroup ++ cobranzaOtroRetencionGroup).toSeq)
+      otro
+    }
+
+    def preprocessCuentaCorrienteParam(field: JsValue) = {
+      val params = field.as[Map[String, JsValue]]
+
+      // groups for CobranzaCuentaCorrienteData
+      //
+      val cobranzaCuentaCorriente = Global.preprocessFormParams(List(C.COBZI_ID, GC.MON_ID), "", params)
+      val cobranzaCuentaCorrienteBaseGroup = Global.preprocessFormParams(cobranzaItemBase, C.COBRANZA_ITEM_BASE, params)
+      val cobranzaCuentaCorrienteTotalsGroup = Global.preprocessFormParams(cobranzaItemTotals, C.COBRANZA_ITEM_TOTALS, params)
+
+      val cuentaCorriente = JsObject(
+        (cobranzaCuentaCorriente ++ cobranzaCuentaCorrienteBaseGroup ++ cobranzaCuentaCorrienteTotalsGroup).toSeq)
+      cuentaCorriente
+    }
+    
     def preprocessFacturaParam(field: JsValue) = {
       val params = field.as[Map[String, JsValue]]
       JsObject(Global.preprocessFormParams(facturaCobranza, "", params).toSeq)
     }
 
-    def preprocessItemsParam(items: JsValue, group: String): Map[String, JsValue] = items match {
-      case JsArray(arr) => Map(group -> JsArray(arr.map(preprocessItemParam(_))))
+    def preprocessChequesParam(items: JsValue, group: String): Map[String, JsValue] = items match {
+      case JsArray(arr) => Map(group -> JsArray(arr.map(preprocessChequeParam(_))))
+      case _ => Map.empty
+    }
+
+    def preprocessTarjetasParam(items: JsValue, group: String): Map[String, JsValue] = items match {
+      case JsArray(arr) => Map(group -> JsArray(arr.map(preprocessTarjetaParam(_))))
+      case _ => Map.empty
+    }
+
+    def preprocessEfectivosParam(items: JsValue, group: String): Map[String, JsValue] = items match {
+      case JsArray(arr) => Map(group -> JsArray(arr.map(preprocessEfectivoParam(_))))
+      case _ => Map.empty
+    }
+
+    def preprocessOtrosParam(items: JsValue, group: String): Map[String, JsValue] = items match {
+      case JsArray(arr) => Map(group -> JsArray(arr.map(preprocessOtroParam(_))))
+      case _ => Map.empty
+    }
+
+    def preprocessCtaCtesParam(items: JsValue, group: String): Map[String, JsValue] = items match {
+      case JsArray(arr) => Map(group -> JsArray(arr.map(preprocessCuentaCorrienteParam(_))))
       case _ => Map.empty
     }
 
@@ -323,16 +554,57 @@ object Cobranzas extends Controller with ProvidesUser {
     val facturaBaseGroup = Global.preprocessFormParams(cobranzaBaseFields, C.COBRANZA_BASE, params)
     val facturaTotalGroup = Global.preprocessFormParams(cobranzaTotalsFields, C.COBRANZA_TOTALS, params)
 
+    // cheques
+    //
+    val chequesInfo = getJsValueAsMap(Global.getParamsJsonRequestFor(C.COBRANZA_ITEM_CHEQUE_TMP, params))
+    val chequeRows = Global.getParamsJsonRequestFor(GC.ITEMS, chequesInfo)
+    val chequeDeleted: Map[String, JsValue] = Global.getParamsJsonRequestFor(GC.DELETED_LIST, chequesInfo).toList match {
+      case Nil => Map(C.COBRANZA_ITEM_CHEQUE_DELETED -> Json.toJson(""))
+      case deletedList :: t => Map(C.COBRANZA_ITEM_CHEQUE_DELETED -> Json.toJson(deletedList._2))
+    }
+    val cobranzaCheques = preprocessChequesParam(chequeRows.head._2, C.COBRANZA_ITEM_CHEQUE_TMP)
+
     // items
     //
-    val itemsInfo = getJsValueAsMap(Global.getParamsJsonRequestFor(C.COBRANZA_ITEM_TMP, params))
-    val itemRows = Global.getParamsJsonRequestFor(GC.ITEMS, itemsInfo)
-    val itemDeleted: Map[String, JsValue] = Global.getParamsJsonRequestFor(GC.DELETED_LIST, itemsInfo).toList match {
-      case Nil => Map(C.COBRANZA_ITEM_DELETED -> Json.toJson(""))
-      case deletedList :: t => Map(C.COBRANZA_ITEM_DELETED -> Json.toJson(deletedList._2))
+    val tarjetasInfo = getJsValueAsMap(Global.getParamsJsonRequestFor(C.COBRANZA_ITEM_TARJETA_TMP, params))
+    val tarjetaRows = Global.getParamsJsonRequestFor(GC.ITEMS, tarjetasInfo)
+    val tarjetaDeleted: Map[String, JsValue] = Global.getParamsJsonRequestFor(GC.DELETED_LIST, tarjetasInfo).toList match {
+      case Nil => Map(C.COBRANZA_ITEM_TARJETA_DELETED -> Json.toJson(""))
+      case deletedList :: t => Map(C.COBRANZA_ITEM_TARJETA_DELETED -> Json.toJson(deletedList._2))
     }
-    val facturaItems = preprocessItemsParam(itemRows.head._2, C.COBRANZA_ITEM_TMP)
+    val cobranzaTarjetas = preprocessTarjetasParam(tarjetaRows.head._2, C.COBRANZA_ITEM_TARJETA_TMP)
 
+    // efectivos
+    //
+    val efectivosInfo = getJsValueAsMap(Global.getParamsJsonRequestFor(C.COBRANZA_ITEM_EFECTIVO_TMP, params))
+    val efectivoRows = Global.getParamsJsonRequestFor(GC.ITEMS, efectivosInfo)
+    val efectivoDeleted: Map[String, JsValue] = Global.getParamsJsonRequestFor(GC.DELETED_LIST, efectivosInfo).toList match {
+      case Nil => Map(C.COBRANZA_ITEM_EFECTIVO_DELETED -> Json.toJson(""))
+      case deletedList :: t => Map(C.COBRANZA_ITEM_EFECTIVO_DELETED -> Json.toJson(deletedList._2))
+    }
+    val cobranzaEfectivos = preprocessEfectivosParam(efectivoRows.head._2, C.COBRANZA_ITEM_EFECTIVO_TMP)
+
+    // otros
+    //
+    val otrosInfo = getJsValueAsMap(Global.getParamsJsonRequestFor(C.COBRANZA_ITEM_OTRO_TMP, params))
+    val otroRows = Global.getParamsJsonRequestFor(GC.ITEMS, otrosInfo)
+    val otroDeleted: Map[String, JsValue] = Global.getParamsJsonRequestFor(GC.DELETED_LIST, otrosInfo).toList match {
+      case Nil => Map(C.COBRANZA_ITEM_OTRO_DELETED -> Json.toJson(""))
+      case deletedList :: t => Map(C.COBRANZA_ITEM_OTRO_DELETED -> Json.toJson(deletedList._2))
+    }
+    val cobranzaOtros = preprocessOtrosParam(otroRows.head._2, C.COBRANZA_ITEM_OTRO_TMP)
+
+    // ctaCtes
+    //
+    val ctaCtesInfo = getJsValueAsMap(Global.getParamsJsonRequestFor(C.COBRANZA_ITEM_CUENTA_CORRIENTE_TMP, params))
+    val cuentaCorrienteRows = Global.getParamsJsonRequestFor(GC.ITEMS, ctaCtesInfo)
+    val cuentaCorrienteDeleted: Map[String, JsValue] = Global.getParamsJsonRequestFor(GC.DELETED_LIST, ctaCtesInfo).toList match {
+      case Nil => Map(C.COBRANZA_ITEM_CUENTA_CORRIENTE_DELETED -> Json.toJson(""))
+      case deletedList :: t => Map(C.COBRANZA_ITEM_CUENTA_CORRIENTE_DELETED -> Json.toJson(deletedList._2))
+    }
+    val cobranzaCtaCtes = preprocessCtaCtesParam(cuentaCorrienteRows.head._2, C.COBRANZA_ITEM_CUENTA_CORRIENTE_TMP)
+    
+    
     // facturas
     //
     val facturasInfo = getJsValueAsMap(Global.getParamsJsonRequestFor(C.FACTURA_VENTA_COBRANZA_TMP, params))
@@ -344,25 +616,130 @@ object Cobranzas extends Controller with ProvidesUser {
 
     JsObject(
       (facturaId ++ facturaIdGroup ++ facturaBaseGroup ++ facturaTotalGroup
-        ++ facturaItems ++ itemDeleted ++ facturaFacturas).toSeq)
+        ++ cobranzaCheques ++ chequeDeleted
+        ++ cobranzaTarjetas ++ tarjetaDeleted
+        ++ cobranzaEfectivos ++ efectivoDeleted
+        ++ cobranzaOtros ++ otroDeleted
+        ++ cobranzaCtaCtes ++ cuentaCorrienteDeleted
+        ++ facturaFacturas).toSeq)
   }
   //
   //
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-  def getItems(items: List[CobranzaItemData]): List[CobranzaItem] = {
-    items.map(item => {
-      CobranzaItem(
-        item.id,
+  def getCheques(items: List[CobranzaItemChequeData]): List[CobranzaItemCheque] = {
+    items.map(cheque => {
+      CobranzaItemCheque(
+        cheque.id,
         CobranzaItemBase(
-          item.base.descrip,
-          item.base.cueId,
-          item.base.ccosId,
-          item.base.orden
+          cheque.base.descrip,
+          cheque.base.cueId,
+          cheque.base.ccosId,
+          cheque.base.orden
+        ),
+        cheque.monId,
+        CobranzaItemTotals(
+          cheque.totals.importe,
+          cheque.totals.importeOrigen
+        ),
+        cheque.bcoId,
+        cheque.cheqId,
+        cheque.numeroDoc,
+        cheque.propio,
+        DateFormatter.parse(cheque.fechaCobro),
+        DateFormatter.parse(cheque.fechaVto),
+        cheque.cleId
+      )
+    })
+  }
+
+  def getTarjetas(items: List[CobranzaItemTarjetaData]): List[CobranzaItemTarjeta] = {
+    items.map(tarjeta => {
+      CobranzaItemTarjeta(
+        tarjeta.id,
+        CobranzaItemBase(
+          tarjeta.base.descrip,
+          tarjeta.base.cueId,
+          tarjeta.base.ccosId,
+          tarjeta.base.orden
+        ),
+        tarjeta.monId,
+        CobranzaItemTotals(
+          tarjeta.totals.importe,
+          tarjeta.totals.importeOrigen
+        ),
+        tarjeta.tjccId,
+        tarjeta.cuponNumeroDoc,
+        tarjeta.tjcId,
+        tarjeta.tjccuId,
+        DateFormatter.parse(tarjeta.fechaVto),
+        tarjeta.numero,
+        tarjeta.autorizacion,
+        tarjeta.tarjetaTipo,
+        tarjeta.titular
+      )
+    })
+  }
+
+  def getEfectivo(items: List[CobranzaItemEfectivoData]): List[CobranzaItemEfectivo] = {
+    items.map(efectivo => {
+      CobranzaItemEfectivo(
+        efectivo.id,
+        CobranzaItemBase(
+          efectivo.base.descrip,
+          efectivo.base.cueId,
+          efectivo.base.ccosId,
+          efectivo.base.orden
+        ),
+        efectivo.monId,
+        CobranzaItemTotals(
+          efectivo.totals.importe,
+          efectivo.totals.importeOrigen
+        )
+      )
+    })
+  }
+
+  def getOtros(items: List[CobranzaItemOtroData]): List[CobranzaItemOtro] = {
+    items.map(otro => {
+      CobranzaItemOtro(
+        otro.id,
+        CobranzaItemBase(
+          otro.base.descrip,
+          otro.base.cueId,
+          otro.base.ccosId,
+          otro.base.orden
         ),
         CobranzaItemTotals(
-          item.totals.importe,
-          item.totals.importeOrigen
+          otro.totals.importe,
+          otro.totals.importeOrigen
+        ),
+        otro.tipo,
+        CobranzaItemRetencion(
+          otro.retencion.retId,
+          otro.retencion.numero,
+          otro.retencion.porcentaje,
+          DateFormatter.parse(otro.retencion.fecha),
+          otro.retencion.fvId
+        )
+      )
+    })
+  }
+
+  def getCtaCte(items: List[CobranzaItemCuentaCorrienteData]): List[CobranzaItemCuentaCorriente] = {
+    items.map(ctaCte => {
+      CobranzaItemCuentaCorriente(
+        ctaCte.id,
+        CobranzaItemBase(
+          ctaCte.base.descrip,
+          ctaCte.base.cueId,
+          ctaCte.base.ccosId,
+          ctaCte.base.orden
+        ),
+        ctaCte.monId,
+        CobranzaItemTotals(
+          ctaCte.totals.importe,
+          ctaCte.totals.importeOrigen
         )
       )
     })
@@ -382,10 +759,18 @@ object Cobranzas extends Controller with ProvidesUser {
 
   def getCobranzaItems(cobranza: CobranzaData): CobranzaItems = {
     CobranzaItems(
-      getItems(cobranza.items),
+      getCheques(cobranza.cheques),
+      getTarjetas(cobranza.tarjetas),
+      getEfectivo(cobranza.efectivo),
+      getOtros(cobranza.otros),
+      getCtaCte(cobranza.cuentaCorriente),
 
       /* only used in save */
-      cobranza.itemDeleted,
+      cobranza.chequeDeleted,
+      cobranza.tarjetaDeleted,
+      cobranza.efectivoDeleted,
+      cobranza.otroDeleted,
+      cobranza.cuentaCorrienteDeleted,
 
       getFacturas(cobranza.facturas)
     )
@@ -551,8 +936,8 @@ object Cobranzas extends Controller with ProvidesUser {
                   cobranzaParams.estId,
                   cobranzaParams.ccosId,
                   cobranzaParams.sucId,
+                  cobranzaParams.cobId,
                   cobranzaParams.docId,
-                  cobranzaParams.cpgId,
                   cobranzaParams.empId
                 )
               )

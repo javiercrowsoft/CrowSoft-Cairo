@@ -1792,7 +1792,7 @@ object DocumentListParam {
       getName(C.BRANCH, C.BRAN_NAME, C.BRAN_ID, id)
     }
     def getValue(id: String): String = {
-      if(id == "0") {
+      if(id == "0" || id == "") {
         ""
       }
       else {

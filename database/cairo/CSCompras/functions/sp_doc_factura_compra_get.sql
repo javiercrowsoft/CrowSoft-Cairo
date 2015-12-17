@@ -192,8 +192,8 @@ begin
              suc_nombre,
              doc_nombre,
              case
-                  when lgj_titulo <> '' then lgj_titulo
-                  else lgj_codigo
+                when lgj_titulo <> '' then lgj_titulo
+                else lgj_codigo
              end lgj_codigo,
              pOrigen.pro_nombre ProOrigen,
              pDestino.pro_nombre ProDestino,
@@ -208,32 +208,32 @@ begin
              doc_muevestock,
              doc_tipofactura
         from FacturaCompra
-               join Documento
-                on FacturaCompra.doc_id = Documento.doc_id
-               join DocumentoTipo
-                on FacturaCompra.doct_id = DocumentoTipo.doct_id
-               join Moneda
-                on FacturaCompra.mon_id = Moneda.mon_id
-               join CondicionPago
-                on FacturaCompra.cpg_id = CondicionPago.cpg_id
-               join Estado
-                on FacturaCompra.est_id = Estado.est_id
-               join Sucursal
-                on FacturaCompra.suc_id = Sucursal.suc_id
-               join Proveedor
-                on FacturaCompra.prov_id = Proveedor.prov_id
-               left join CentroCosto
-                on FacturaCompra.ccos_id = CentroCosto.ccos_id
-               left join ListaPrecio
-                on FacturaCompra.lp_id = ListaPrecio.lp_id
-               left join ListaDescuento
-                on FacturaCompra.ld_id = ListaDescuento.ld_id
-               left join Legajo
-                on FacturaCompra.lgj_id = Legajo.lgj_id
-               left join Provincia pOrigen
-                on FacturaCompra.pro_id_origen = pOrigen.pro_id
-               left join Provincia pDestino
-                on FacturaCompra.pro_id_destino = pDestino.pro_id
+        join Documento
+          on FacturaCompra.doc_id = Documento.doc_id
+        join DocumentoTipo
+          on FacturaCompra.doct_id = DocumentoTipo.doct_id
+        join Moneda
+          on FacturaCompra.mon_id = Moneda.mon_id
+        join CondicionPago
+          on FacturaCompra.cpg_id = CondicionPago.cpg_id
+        join Estado
+          on FacturaCompra.est_id = Estado.est_id
+        join Sucursal
+          on FacturaCompra.suc_id = Sucursal.suc_id
+        join Proveedor
+          on FacturaCompra.prov_id = Proveedor.prov_id
+        left join CentroCosto
+          on FacturaCompra.ccos_id = CentroCosto.ccos_id
+        left join ListaPrecio
+          on FacturaCompra.lp_id = ListaPrecio.lp_id
+        left join ListaDescuento
+          on FacturaCompra.ld_id = ListaDescuento.ld_id
+        left join Legajo
+          on FacturaCompra.lgj_id = Legajo.lgj_id
+        left join Provincia pOrigen
+          on FacturaCompra.pro_id_origen = pOrigen.pro_id
+        left join Provincia pDestino
+          on FacturaCompra.pro_id_destino = pDestino.pro_id
          where fc_id = p_fc_id;
 
 end;

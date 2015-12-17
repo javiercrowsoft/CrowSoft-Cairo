@@ -181,7 +181,7 @@ case class CobranzaTotals(
                            neto: Double,
                            totalOtros: Double,
                            total: Double
-                           )
+                         )
 
 case class CobranzaItemBase(
                              descrip: String,
@@ -190,7 +190,7 @@ case class CobranzaItemBase(
                              ccosId: Int,
                              ccosName: String,
                              orden: Int
-                             )
+                           )
 
 object CobranzaItemBase {
 
@@ -215,11 +215,200 @@ case class CobranzaItemTotals(
                                importeOrigen: Double
                                )
 
-case class CobranzaItem(
-                         id: Int,
-                         base: CobranzaItemBase,
-                         totals: CobranzaItemTotals
-                         )
+case class CobranzaItemMoneda(
+                               monId: Int,
+                               monName: String
+                             )
+
+case class CobranzaItemCheque(
+                               id: Int,
+                               base: CobranzaItemBase,
+                               moneda: CobranzaItemMoneda,
+                               totals: CobranzaItemTotals,
+                               bcoId: Int,
+                               bcoName: String,
+                               cheqId: Int,
+                               numero: Int,
+                               numeroDoc: String,
+                               propio: Boolean,
+                               fechaCobro: Date,
+                               fechaVto: Date,
+                               cleId: Int,
+                               cleName: String
+                             )
+
+object CobranzaItemCheque {
+
+  def apply(id: Int,
+            base: CobranzaItemBase,
+            monId: Int,
+            totals: CobranzaItemTotals,
+            bcoId: Int,
+            cheqId: Int,
+            numeroDoc: String,
+            propio: Boolean,
+            fechaCobro: Date,
+            fechaVto: Date,
+            cleId: Int) = {
+
+    new CobranzaItemCheque(
+      id,
+      base,
+      CobranzaItemMoneda(monId, ""),
+      totals,
+      bcoId,
+      "",
+      cheqId: Int,
+      0,
+      numeroDoc,
+      propio,
+      fechaCobro,
+      fechaVto,
+      cleId,
+      ""
+    )
+  }
+}
+
+case class CobranzaItemTarjeta(
+                                id: Int,
+                                base: CobranzaItemBase,
+                                moneda: CobranzaItemMoneda,
+                                totals: CobranzaItemTotals,
+                                tjccId: Int,
+                                cuponNumero: Int,
+                                cuponNumeroDoc: String,
+                                tjcId: Int,
+                                tjcName: String,
+                                tjccuId: Int,
+                                cuotas: Int,
+                                fechaVto: Date,
+                                numero: String,
+                                autorizacion: String,
+                                tarjetaTipo: Int,
+                                titular: String
+                              )
+
+object CobranzaItemTarjeta {
+
+  def apply(id: Int,
+            base: CobranzaItemBase,
+            monId: Int,
+            totals: CobranzaItemTotals,
+            tjccId: Int,
+            cuponNumeroDoc: String,
+            tjcId: Int,
+            tjccuId: Int,
+            fechaVto: Date,
+            numero: String,
+            autorizacion: String,
+            tarjetaTipo: Int,
+            titular: String) = {
+
+    new CobranzaItemTarjeta(
+      id,
+      base,
+      CobranzaItemMoneda(monId, ""),
+      totals,
+      tjccId,
+      0,
+      cuponNumeroDoc,
+      tjcId,
+      "",
+      tjccuId,
+      0,
+      fechaVto,
+      numero,
+      autorizacion,
+      tarjetaTipo,
+      titular
+    )
+  }
+}
+
+case class CobranzaItemEfectivo(
+                                 id: Int,
+                                 base: CobranzaItemBase,
+                                 moneda: CobranzaItemMoneda,
+                                 totals: CobranzaItemTotals
+                               )
+
+object CobranzaItemEfectivo {
+
+  def apply(id: Int,
+            base: CobranzaItemBase,
+            monId: Int,
+            totals: CobranzaItemTotals) = {
+
+    new CobranzaItemEfectivo(
+      id,
+      base,
+      CobranzaItemMoneda(monId, ""),
+      totals
+    )
+  }
+}
+
+case class CobranzaItemRetencion(
+                                  retId: Int,
+                                  retName: String,
+                                  numero: String,
+                                  porcentaje: Double,
+                                  fecha: Date,
+                                  fvId: Int,
+                                  numeroDoc: String
+                                )
+
+object CobranzaItemRetencion {
+
+  def apply(retId: Int,
+            numero: String,
+            porcentaje: Double,
+            fecha: Date,
+            fvId: Int) = {
+
+    new CobranzaItemRetencion(
+      retId,
+      "",
+      numero,
+      porcentaje,
+      fecha,
+      fvId,
+      ""
+    )
+  }
+}
+
+case class CobranzaItemOtro(
+                             id: Int,
+                             base: CobranzaItemBase,
+                             totals: CobranzaItemTotals,
+                             tipo: Int,
+                             retencion: CobranzaItemRetencion
+                           )
+
+case class CobranzaItemCuentaCorriente(
+                                        id: Int,
+                                        base: CobranzaItemBase,
+                                        moneda: CobranzaItemMoneda,
+                                        totals: CobranzaItemTotals
+                                      )
+
+object CobranzaItemCuentaCorriente {
+
+  def apply(id: Int,
+            base: CobranzaItemBase,
+            monId: Int,
+            totals: CobranzaItemTotals) = {
+
+    new CobranzaItemCuentaCorriente(
+      id,
+      base,
+      CobranzaItemMoneda(monId, ""),
+      totals
+    )
+  }
+}
 
 case class FacturaCobranza(
                             fvId: Int,
@@ -227,16 +416,24 @@ case class FacturaCobranza(
                             importe: Double,
                             importeOrigen: Double,
                             cotizacion: Double
-                           )
+                          )
 
 case class CobranzaItems(
-                          items: List[CobranzaItem],
+                          cheques: List[CobranzaItemCheque],
+                          tarjetas: List[CobranzaItemTarjeta],
+                          efectivo: List[CobranzaItemEfectivo],
+                          otros: List[CobranzaItemOtro],
+                          cuentaCorriente: List[CobranzaItemCuentaCorriente],
 
                           /* only used in save */
-                          itemDeleted: String,
+                          chequeDeleted: String,
+                          tarjetaDeleted: String,
+                          efectivoDeleted: String,
+                          otroDeleted: String,
+                          cuentaCorrienteDeleted: String,
 
                           facturas: List[FacturaCobranza]
-                          )
+                        )
 
 case class Cobranza(
                      id: Int,
@@ -391,7 +588,7 @@ object Cobranza {
 
   lazy val GC = models.cairo.modules.general.C
 
-  lazy val emptyCobranzaItems = CobranzaItems(List(), "", List())
+  lazy val emptyCobranzaItems = CobranzaItems(List(), List(), List(), List(), List(), "", "", "", "", "", List())
 
   lazy val emptyCobranzaReferences = CobranzaReferences(DBHelper.NoId, "", false, false, DBHelper.NoId, false, "")
 
@@ -506,13 +703,167 @@ object Cobranza {
     )
   }
 
-  private val cobranzaItemParser: RowParser[CobranzaItem] = {
+  private val cobranzaItemChequeParser: RowParser[CobranzaItemCheque] = {
     SqlParser.get[Int](C.COBZI_ID) ~
     SqlParser.get[String](C.COBZI_DESCRIP) ~
     SqlParser.get[Int](GC.CUE_ID) ~
     SqlParser.get[String](GC.CUE_NAME) ~
     SqlParser.get[Option[Int]](GC.CCOS_ID) ~
     SqlParser.get[Option[String]](GC.CCOS_NAME) ~
+    SqlParser.get[Int](GC.MON_ID) ~
+    SqlParser.get[String](GC.MON_NAME) ~
+    SqlParser.get[BigDecimal](C.COBZI_IMPORTE) ~
+    SqlParser.get[BigDecimal](C.COBZI_IMPORTE_ORIGEN) ~
+    SqlParser.get[Int](GC.BCO_ID) ~
+    SqlParser.get[String](GC.BCO_NAME) ~
+    SqlParser.get[Int](C.CHEQ_ID) ~
+    SqlParser.get[Int](C.CHEQ_NUMERO) ~
+    SqlParser.get[String](C.CHEQ_NUMERO_DOC) ~
+    SqlParser.get[Int](C.CHEQ_PROPIO) ~
+    SqlParser.get[Date](C.CHEQ_FECHA_COBRO) ~
+    SqlParser.get[Date](C.CHEQ_FECHA_VTO) ~
+    SqlParser.get[Int](GC.CLE_ID) ~
+    SqlParser.get[String](GC.CLE_NAME) ~
+    SqlParser.get[Int](C.COBZI_ORDEN) map {
+    case
+        id ~
+        descrip ~
+        cueId ~
+        cueName ~
+        ccosId ~
+        ccosName ~
+        monId ~
+        monName ~
+        importe ~
+        importeOrigen ~
+        bcoId ~
+        bcoName ~
+        cheqId ~
+        numero ~
+        numeroDoc ~
+        propio ~
+        fechaCobro ~
+        fechaVto ~
+        cleId ~
+        cleName ~
+        orden =>
+      CobranzaItemCheque(
+        id,
+        CobranzaItemBase(
+          descrip,
+          cueId,
+          cueName,
+          ccosId.getOrElse(DBHelper.NoId),
+          ccosName.getOrElse(""),
+          orden
+        ),
+        CobranzaItemMoneda(monId, monName),
+        CobranzaItemTotals(
+          importe.doubleValue(),
+          importeOrigen.doubleValue()
+        ),
+        bcoId,
+        bcoName,
+        cheqId,
+        numero,
+        numeroDoc,
+        propio != 0,
+        fechaCobro,
+        fechaVto,
+        cleId,
+        cleName
+      )
+    }
+  }
+
+  private val cobranzaItemTarjetaParser: RowParser[CobranzaItemTarjeta] = {
+    SqlParser.get[Int](C.COBZI_ID) ~
+    SqlParser.get[String](C.COBZI_DESCRIP) ~
+    SqlParser.get[Int](GC.CUE_ID) ~
+    SqlParser.get[String](GC.CUE_NAME) ~
+    SqlParser.get[Option[Int]](GC.CCOS_ID) ~
+    SqlParser.get[Option[String]](GC.CCOS_NAME) ~
+    SqlParser.get[Int](GC.MON_ID) ~
+    SqlParser.get[String](GC.MON_NAME) ~
+    SqlParser.get[BigDecimal](C.COBZI_IMPORTE) ~
+    SqlParser.get[BigDecimal](C.COBZI_IMPORTE_ORIGEN) ~
+    SqlParser.get[Int](C.TJCC_ID) ~
+    SqlParser.get[Int](C.TJCC_NUMERO) ~
+    SqlParser.get[String](C.TJCC_NUMERO_DOC) ~
+    SqlParser.get[Int](GC.TJC_ID) ~
+    SqlParser.get[String](GC.TJC_NAME) ~
+    SqlParser.get[Int](GC.TJCCU_ID) ~
+    SqlParser.get[Int](GC.TJCCU_CANTIDAD) ~
+    SqlParser.get[Date](C.TJCC_FECHA_VTO) ~
+    SqlParser.get[String](C.TJCC_NRO_TARJETA) ~
+    SqlParser.get[String](C.TJCC_NRO_AUTORIZACION) ~
+    SqlParser.get[Int](C.COBZI_TARJETA_TIPO) ~
+    SqlParser.get[String](C.TJCC_TITULAR) ~
+    SqlParser.get[Int](C.COBZI_ORDEN) map {
+    case
+        id ~
+        descrip ~
+        cueId ~
+        cueName ~
+        ccosId ~
+        ccosName ~
+        monId ~
+        monName ~
+        importe ~
+        importeOrigen ~
+        tjccId ~
+        cuponNumero ~
+        cuponNumeroDoc ~
+        tjcId ~
+        tjcName ~
+        tjccuId ~
+        cuotas ~
+        fechaVto ~
+        numero ~
+        autorizacion ~
+        tarjetaTipo ~
+        titular ~
+        orden =>
+      CobranzaItemTarjeta(
+        id,
+        CobranzaItemBase(
+          descrip,
+          cueId,
+          cueName,
+          ccosId.getOrElse(DBHelper.NoId),
+          ccosName.getOrElse(""),
+          orden
+        ),
+        CobranzaItemMoneda(monId, monName),
+        CobranzaItemTotals(
+          importe.doubleValue(),
+          importeOrigen.doubleValue()
+        ),
+        tjccId,
+        cuponNumero,
+        cuponNumeroDoc,
+        tjcId,
+        tjcName,
+        tjccuId,
+        cuotas,
+        fechaVto,
+        numero,
+        autorizacion,
+        tarjetaTipo,
+        titular
+      )
+    }
+  }
+
+  private val cobranzaItemEfectivoParser: RowParser[CobranzaItemEfectivo] = {
+    SqlParser.get[Int](C.COBZI_ID) ~
+    SqlParser.get[String](C.COBZI_DESCRIP) ~
+    SqlParser.get[Int](GC.CUE_ID) ~
+    SqlParser.get[String](GC.CUE_NAME) ~
+    SqlParser.get[Option[Int]](GC.CCOS_ID) ~
+    SqlParser.get[Option[String]](GC.CCOS_NAME) ~
+    SqlParser.get[Int](GC.MON_ID) ~
+    SqlParser.get[String](GC.MON_NAME) ~
     SqlParser.get[BigDecimal](C.COBZI_IMPORTE) ~
     SqlParser.get[BigDecimal](C.COBZI_IMPORTE_ORIGEN) ~
     SqlParser.get[Int](C.COBZI_ORDEN) map {
@@ -523,10 +874,12 @@ object Cobranza {
         cueName ~
         ccosId ~
         ccosName ~
+        monId ~
+        monName ~
         importe ~
         importeOrigen ~
         orden =>
-      CobranzaItem(
+      CobranzaItemEfectivo(
         id,
         CobranzaItemBase(
           descrip,
@@ -536,6 +889,114 @@ object Cobranza {
           ccosName.getOrElse(""),
           orden
         ),
+        CobranzaItemMoneda(monId, monName),
+        CobranzaItemTotals(
+          importe.doubleValue(),
+          importeOrigen.doubleValue()
+        )
+      )
+    }
+  }
+
+  private val cobranzaItemOtroParser: RowParser[CobranzaItemOtro] = {
+    SqlParser.get[Int](C.COBZI_ID) ~
+    SqlParser.get[String](C.COBZI_DESCRIP) ~
+    SqlParser.get[Int](GC.CUE_ID) ~
+    SqlParser.get[String](GC.CUE_NAME) ~
+    SqlParser.get[Option[Int]](GC.CCOS_ID) ~
+    SqlParser.get[Option[String]](GC.CCOS_NAME) ~
+    SqlParser.get[BigDecimal](C.COBZI_IMPORTE) ~
+    SqlParser.get[BigDecimal](C.COBZI_IMPORTE_ORIGEN) ~
+    SqlParser.get[Int](C.COBZI_OTRO_TIPO) ~
+    SqlParser.get[Int](GC.RET_ID) ~
+    SqlParser.get[String](GC.RET_NAME) ~
+    SqlParser.get[String](C.COBZI_NRO_RETENCION) ~
+    SqlParser.get[BigDecimal](C.COBZI_PORC_RETENCION) ~
+    SqlParser.get[Date](C.COBZI_FECHA_RETENCION) ~
+    SqlParser.get[Int](C.FV_ID_RET) ~
+    SqlParser.get[String](models.cairo.modules.ventas.C.FV_NRODOC) ~
+    SqlParser.get[Int](C.COBZI_ORDEN) map {
+    case
+        id ~
+        descrip ~
+        cueId ~
+        cueName ~
+        ccosId ~
+        ccosName ~
+        importe ~
+        importeOrigen ~
+        tipo ~
+        retId ~
+        retName ~
+        numero ~
+        porcentaje ~
+        fecha ~
+        fvId ~
+        numeroDoc ~
+        orden =>
+      CobranzaItemOtro(
+        id,
+        CobranzaItemBase(
+          descrip,
+          cueId,
+          cueName,
+          ccosId.getOrElse(DBHelper.NoId),
+          ccosName.getOrElse(""),
+          orden
+        ),
+        CobranzaItemTotals(
+          importe.doubleValue(),
+          importeOrigen.doubleValue()
+        ),
+        tipo,
+        CobranzaItemRetencion(
+          retId,
+          retName,
+          numero,
+          porcentaje.doubleValue(),
+          fecha,
+          fvId,
+          numeroDoc
+        )
+      )
+    }
+  }
+
+  private val cobranzaItemCuentaCorrienteParser: RowParser[CobranzaItemCuentaCorriente] = {
+    SqlParser.get[Int](C.COBZI_ID) ~
+    SqlParser.get[String](C.COBZI_DESCRIP) ~
+    SqlParser.get[Int](GC.CUE_ID) ~
+    SqlParser.get[String](GC.CUE_NAME) ~
+    SqlParser.get[Option[Int]](GC.CCOS_ID) ~
+    SqlParser.get[Option[String]](GC.CCOS_NAME) ~
+    SqlParser.get[Int](GC.MON_ID) ~
+    SqlParser.get[String](GC.MON_NAME) ~
+    SqlParser.get[BigDecimal](C.COBZI_IMPORTE) ~
+    SqlParser.get[BigDecimal](C.COBZI_IMPORTE_ORIGEN) ~
+    SqlParser.get[Int](C.COBZI_ORDEN) map {
+    case
+        id ~
+        descrip ~
+        cueId ~
+        cueName ~
+        ccosId ~
+        ccosName ~
+        monId ~
+        monName ~
+        importe ~
+        importeOrigen ~
+        orden =>
+      CobranzaItemCuentaCorriente(
+        id,
+        CobranzaItemBase(
+          descrip,
+          cueId,
+          cueName,
+          ccosId.getOrElse(DBHelper.NoId),
+          ccosName.getOrElse(""),
+          orden
+        ),
+        CobranzaItemMoneda(monId, monName),
         CobranzaItemTotals(
           importe.doubleValue(),
           importeOrigen.doubleValue()
@@ -699,7 +1160,7 @@ object Cobranza {
       )
     }
 
-    def getItemFields(item: CobranzaItem, cobzTMPId: Int) = {
+    def getItemFields(item: CobranzaItemCheque, cobzTMPId: Int) = {
       List(
         Field(C.COBZ_TMP_ID, cobzTMPId, FieldType.id),
         Field(C.COBZI_ID, item.id, FieldType.number),
@@ -740,7 +1201,7 @@ object Cobranza {
       throw new RuntimeException(message)
     }
 
-    case class CobranzaItemInfo(cobzTMPId: Int, item: CobranzaItem)
+    case class CobranzaItemInfo(cobzTMPId: Int, item: CobranzaItemCheque)
 
     def saveItem(itemInfo: CobranzaItemInfo) = {
       DBHelper.save(
@@ -782,7 +1243,7 @@ object Cobranza {
     }
 
     def saveItems(cobzTMPId: Int) = {
-      cobranza.items.items.map(item => saveItem(CobranzaItemInfo(cobzTMPId, item)))
+      cobranza.items.cheques.map(item => saveItem(CobranzaItemInfo(cobzTMPId, item)))
       cobranza.items.itemDeleted.split(",").map(saveDeletedItem(cobzTMPId))
     }
 
@@ -968,11 +1429,15 @@ object Cobranza {
   }
 
   private def loadCobranzaItems(user: CompanyUser, id: Int) = {
-    val items = loadItems(user, id)
-    CobranzaItems(items, "", List())
+    val cheques = loadItems(user, id, C.COBRANZA_ITEM_TIPO_CHEQUES, cobranzaItemChequeParser)
+    val tarjetas = loadItems(user, id, C.COBRANZA_ITEM_TIPO_TARJETAS, cobranzaItemTarjetaParser)
+    val efectivo = loadItems(user, id, C.COBRANZA_ITEM_TIPO_EFECTIVO, cobranzaItemEfectivoParser)
+    val otros = loadItems(user, id, C.COBRANZA_ITEM_TIPO_OTROS, cobranzaItemOtroParser)
+    val cuentaCorriente = loadItems(user, id, C.COBRANZA_ITEM_TIPO_CTA_CTE, cobranzaItemCuentaCorrienteParser)
+    CobranzaItems(cheques, tarjetas, efectivo, otros, cuentaCorriente, "", "", "", "", "", List())
   }
 
-  private def loadItems(user: CompanyUser, id: Int) = {
+  private def loadItems(user: CompanyUser, id: Int, tipo: Int, parser: RowParser) = {
 
     DB.withTransaction(user.database.database) { implicit connection =>
 
@@ -980,15 +1445,15 @@ object Cobranza {
       val cs = connection.prepareCall(sql)
 
       cs.setInt(1, id)
-      cs.registerOutParameter(2, Types.OTHER)
+      cs.setInt(2, tipo)
       cs.registerOutParameter(3, Types.OTHER)
 
       try {
         cs.execute()
 
-        val rs = cs.getObject(2).asInstanceOf[java.sql.ResultSet]
+        val rs = cs.getObject(3).asInstanceOf[java.sql.ResultSet]
 
-        Sql.as(cobranzaItemParser.*, rs)
+        Sql.as(parser.*, rs)
 
       } catch {
         case NonFatal(e) => {
