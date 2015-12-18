@@ -279,6 +279,7 @@
       var call = P.call;
 
       var self = {
+        table: null,
         columns: Cairo.Collections.createCollection(createColumn),
         rows: Cairo.Collections.createCollection(createRow),
 
@@ -1620,16 +1621,23 @@
 
       var that = Cairo.Controls.createControl();
       
-      that.htmlTag = "<table/>";
+      that.htmlTag = "<div/>";
 
       var superSetElement = that.setElement;
 
       that.setElement = function(element, view) {
+        element.addClass('grid-container');
+        var table = $('<table></table>');
+        element.append(table);
         superSetElement(element);
-        element.text(self.text);
-        element.addClass('dialog-grid table table-bordered');
+        //element.text(self.text);
+        table.addClass('dialog-grid table table-bordered');
         setListeners(view);
-        draw(element);
+        draw(table);
+      };
+
+      that.getTable = function() {
+        return self.table;
       };
 
       that.getColumns = function() {
@@ -1665,7 +1673,7 @@
       };
 
       that.draw = function(rowIndex) {
-        draw(that.getElement(), rowIndex);
+        draw(that.getTable(), rowIndex);
       };
 
       that.rowIsGroup = function(row) { /* TODO = implement this. */ };

@@ -2293,7 +2293,7 @@
 
             showView();
 
-            view.setText(m_client.getTitle());
+            view.setText(m_client.getTabTitle ? m_client.getTabTitle() : m_client.getTitle());
             view.setPath(m_client.getPath());
             view.setName(m_client.getEditorName());
 

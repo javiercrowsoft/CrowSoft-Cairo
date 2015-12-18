@@ -885,6 +885,10 @@
         return TITLE;
       };
 
+      self.getTabTitle = function() {
+        return "COB-" + m_numero;
+      };
+
       self.validate = function() {
 
         for(var _i = 0, _count = m_properties.size(); _i < _count; _i++) {

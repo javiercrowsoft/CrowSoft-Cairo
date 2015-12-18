@@ -1454,6 +1454,10 @@
         return getText(1624, ""); // Facturas de Venta
       };
 
+      self.getTabTitle = function() {
+        return "FV-" + m_numero;
+      };
+
       self.validate = function() {
 
         for(var _i = 0, _count = m_properties.size(); _i < _count; _i++) {
