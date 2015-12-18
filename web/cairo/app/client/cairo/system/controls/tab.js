@@ -242,15 +242,17 @@
 
       var that = Controls.createControl();
 
-      that.htmlTag = "<button/>";
+      that.htmlTag = "<li/>";
 
       var superSetElement = that.setElement;
 
       that.setElement = function(element, view) {
         superSetElement(element);
-        element.html(self.text);
-        element.addClass("btn btn-default");
-        element.attr('role', 'group');
+        if(self.selected) {
+          element.addClass("active");
+        }
+        element.attr('role', 'presentation');
+        element.html('<a href="#" role="tab" data-toggle="tab" aria-controls="" aria-expanded="true">' + self.text + '</a>');
         var onClick = view.onTabClick(that);
         element.click(function() {
           onClick();
@@ -289,6 +291,10 @@
 
       that.setTabSelected = function(selected) {
         self.selected = selected;
+        if(self.selected) {
+          var element = that.getElement();
+          if(element) element.addClass("active");
+        }
       };
 
       that.getFatherTab = function() {

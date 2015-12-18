@@ -69,7 +69,7 @@
         }
         m_lastTabIndex = index;
         if(m_groupBox === null) {
-          m_groupBox = $('<div class="btn-group" role="group" aria-label="..."></div>');
+          m_groupBox = $('<ul class="nav nav-tabs" role="tablist"></ul>');
 
           var tabColumn = $('<div class="col-lg-12 col-md-12 col-sm-12' + clazz + '"></div>');
           tabColumn.append(m_groupBox);
