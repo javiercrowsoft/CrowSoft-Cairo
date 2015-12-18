@@ -182,12 +182,16 @@ begin
                   open rtn for
                      select CobranzaItem.*,
                             ccos.ccos_nombre,
-                            cue.cue_nombre
+                            cue.cue_nombre,
+                            mon.mon_nombre,
+                            cue.mon_id
                      from CobranzaItem
                      left join CentroCosto ccos
                             on CobranzaItem.ccos_id = ccos.ccos_id
                      left join Cuenta cue
                             on CobranzaItem.cue_id = cue.cue_id
+                     left join Moneda mon
+                            on cue.mon_id = mon.mon_id
                      where CobranzaItem.cobz_id = p_cobz_id
                        and cobzi_tipo = v_CobziTCtaCte
                      order by cobzi_orden;

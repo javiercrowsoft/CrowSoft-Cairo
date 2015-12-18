@@ -1294,6 +1294,7 @@
 
         tabs.add(null).setIndex(0).setName(Cairo.Constants.TAB_GENERAL);
         tabs.add(null).setIndex(1).setName(getText(1566, "")); // Adicionales
+        tabs.add(null).setIndex(2).setName(getText(1861, "")); // Observaciones
 
         var properties = m_properties;
 
@@ -1392,6 +1393,7 @@
         elem.setSize(5000);
         elem.setKey(K_DESCRIP);
         elem.setValue(m_descrip);
+        elem.setTabIndex(2);
 
         if(!m_dialog.show(self)) { return false; }
 
@@ -2041,17 +2043,18 @@
         elem = columns.add(null);
         elem.setName(getText(2108, "")); // Operacion
         elem.setType(T.list);
+        elem.setDefaultValue(Grids.createCell());
         var defaultValue = elem.getDefaultValue();
-        defaultValue.setId(T.CuponTipo.CUPON_POSNET);
+        defaultValue.setId(CT.CuponTipo.CUPON_POSNET);
         elem.setKey(KIT_TARJETA_TIPO);
 
         var list = elem.getList();
         list.add(null)
-          .setId(T.CuponTipo.CUPON_POSNET)
+          .setId(CT.CuponTipo.CUPON_POSNET)
           .setValue(getText(2110, "")); // Posnet
         list.add(null)
-          .setId(T.CuponTipo.CUPON_MANUAL);
-        elem.setValue(getText(2111, "")); // Manual
+          .setId(CT.CuponTipo.CUPON_MANUAL)
+          .setValue(getText(2111, "")); // Manual
 
         elem = columns.add(null);
         elem.setName(getText(2109, "")); // Titular
@@ -2114,7 +2117,7 @@
           elem.setKey(KIT_IMPORTE);
 
           elem = row.add(null);
-          elem.setValue(getValue(m_data.tarjetas[_i], CT.TJCC_FECHAVTO));
+          elem.setValue(getValue(m_data.tarjetas[_i], CT.TJCC_FECHA_VTO));
           elem.setKey(KIT_FECHAVTO);
 
           elem = row.add(null);
@@ -2216,7 +2219,7 @@
         data.otros = data.get('otros');
         data.efectivo = data.get('efectivo');
         data.tarjetas = data.get('tarjetas');
-        data.ctaCte = data.get('ctaCte');
+        data.ctaCte = data.get('cuenta_corriente');
 
         return data;
       };
@@ -3914,7 +3917,7 @@
     Edit.Controller.edit = function(id) {
 
       Cairo.LoadingMessage.show("Cobranzas", "Loading Cobranza from Crowsoft Cairo server.");
-      var editor = Cairo.FacturaVenta.Edit.Controller.getEditor();
+      var editor = Cairo.Cobranza.Edit.Controller.getEditor();
 
       var dialog = Cairo.Dialogs.Views.Controller.newDialog();
       var dialogItems = Cairo.Dialogs.Views.Controller.newDialog();

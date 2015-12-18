@@ -1160,7 +1160,7 @@ object Cobranza {
       )
     }
 
-    def getItemFields(item: CobranzaItemCheque, cobzTMPId: Int) = {
+    def getChequeFields(item: CobranzaItemCheque, cobzTMPId: Int) = {
       List(
         Field(C.COBZ_TMP_ID, cobzTMPId, FieldType.id),
         Field(C.COBZI_ID, item.id, FieldType.number),
@@ -1173,6 +1173,58 @@ object Cobranza {
       )
     }
 
+    def getTarjetaFields(item: CobranzaItemTarjeta, cobzTMPId: Int) = {
+      List(
+        Field(C.COBZ_TMP_ID, cobzTMPId, FieldType.id),
+        Field(C.COBZI_ID, item.id, FieldType.number),
+        Field(C.COBZI_DESCRIP, item.base.descrip, FieldType.text),
+        Field(GC.CUE_ID, item.base.cueId, FieldType.id),
+        Field(GC.CCOS_ID, item.base.ccosId, FieldType.id),
+        Field(C.COBZI_ORDEN, item.base.orden, FieldType.integer),
+        Field(C.COBZI_IMPORTE, item.totals.importe, FieldType.currency),
+        Field(C.COBZI_IMPORTE_ORIGEN, item.totals.importeOrigen, FieldType.currency)
+      )
+    }
+
+    def getEfectivoFields(item: CobranzaItemEfectivo, cobzTMPId: Int) = {
+      List(
+        Field(C.COBZ_TMP_ID, cobzTMPId, FieldType.id),
+        Field(C.COBZI_ID, item.id, FieldType.number),
+        Field(C.COBZI_DESCRIP, item.base.descrip, FieldType.text),
+        Field(GC.CUE_ID, item.base.cueId, FieldType.id),
+        Field(GC.CCOS_ID, item.base.ccosId, FieldType.id),
+        Field(C.COBZI_ORDEN, item.base.orden, FieldType.integer),
+        Field(C.COBZI_IMPORTE, item.totals.importe, FieldType.currency),
+        Field(C.COBZI_IMPORTE_ORIGEN, item.totals.importeOrigen, FieldType.currency)
+      )
+    }
+
+    def getOtroFields(item: CobranzaItemOtro, cobzTMPId: Int) = {
+      List(
+        Field(C.COBZ_TMP_ID, cobzTMPId, FieldType.id),
+        Field(C.COBZI_ID, item.id, FieldType.number),
+        Field(C.COBZI_DESCRIP, item.base.descrip, FieldType.text),
+        Field(GC.CUE_ID, item.base.cueId, FieldType.id),
+        Field(GC.CCOS_ID, item.base.ccosId, FieldType.id),
+        Field(C.COBZI_ORDEN, item.base.orden, FieldType.integer),
+        Field(C.COBZI_IMPORTE, item.totals.importe, FieldType.currency),
+        Field(C.COBZI_IMPORTE_ORIGEN, item.totals.importeOrigen, FieldType.currency)
+      )
+    }
+
+    def getCtaCteFields(item: CobranzaItemCuentaCorriente, cobzTMPId: Int) = {
+      List(
+        Field(C.COBZ_TMP_ID, cobzTMPId, FieldType.id),
+        Field(C.COBZI_ID, item.id, FieldType.number),
+        Field(C.COBZI_DESCRIP, item.base.descrip, FieldType.text),
+        Field(GC.CUE_ID, item.base.cueId, FieldType.id),
+        Field(GC.CCOS_ID, item.base.ccosId, FieldType.id),
+        Field(C.COBZI_ORDEN, item.base.orden, FieldType.integer),
+        Field(C.COBZI_IMPORTE, item.totals.importe, FieldType.currency),
+        Field(C.COBZI_IMPORTE_ORIGEN, item.totals.importeOrigen, FieldType.currency)
+      )
+    }    
+    
     def getDeletedItemFields(cobziId: Int, cobzTMPId: Int) = {
       List(
         Field(C.COBZ_TMP_ID, cobzTMPId, FieldType.id),
@@ -1180,7 +1232,7 @@ object Cobranza {
         Field(C.COBZ_ID, cobranza.id, FieldType.id)
       )
     }
-
+    
     def getFacturaFields(item: FacturaCobranza, cobzTMPId: Int) = {
       List(
         Field(C.COBZ_TMP_ID, cobzTMPId, FieldType.id),
@@ -1201,9 +1253,9 @@ object Cobranza {
       throw new RuntimeException(message)
     }
 
-    case class CobranzaItemInfo(cobzTMPId: Int, item: CobranzaItemCheque)
+    case class CobranzaChequeInfo(cobzTMPId: Int, item: CobranzaItemCheque)
 
-    def saveItem(itemInfo: CobranzaItemInfo) = {
+    def saveCheque(itemInfo: CobranzaChequeInfo) = {
       DBHelper.save(
         user,
         Register(
@@ -1213,7 +1265,87 @@ object Cobranza {
           false,
           false,
           false,
-          getItemFields(itemInfo.item, itemInfo.cobzTMPId)),
+          getChequeFields(itemInfo.item, itemInfo.cobzTMPId)),
+        true
+      ) match {
+        case SaveResult(false, id) => throwError
+        case _ =>
+      }
+    }
+
+    case class CobranzaTarjetaInfo(cobzTMPId: Int, item: CobranzaItemTarjeta)
+
+    def saveTarjeta(itemInfo: CobranzaTarjetaInfo) = {
+      DBHelper.save(
+        user,
+        Register(
+          C.COBRANZA_ITEM_TMP,
+          C.COBZI_TMP_ID,
+          DBHelper.NoId,
+          false,
+          false,
+          false,
+          getTarjetaFields(itemInfo.item, itemInfo.cobzTMPId)),
+        true
+      ) match {
+        case SaveResult(false, id) => throwError
+        case _ =>
+      }
+    }
+
+    case class CobranzaEfectivoInfo(cobzTMPId: Int, item: CobranzaItemEfectivo)
+
+    def saveEfectivo(itemInfo: CobranzaEfectivoInfo) = {
+      DBHelper.save(
+        user,
+        Register(
+          C.COBRANZA_ITEM_TMP,
+          C.COBZI_TMP_ID,
+          DBHelper.NoId,
+          false,
+          false,
+          false,
+          getEfectivoFields(itemInfo.item, itemInfo.cobzTMPId)),
+        true
+      ) match {
+        case SaveResult(false, id) => throwError
+        case _ =>
+      }
+    }
+
+    case class CobranzaOtroInfo(cobzTMPId: Int, item: CobranzaItemOtro)
+
+    def saveOtro(itemInfo: CobranzaOtroInfo) = {
+      DBHelper.save(
+        user,
+        Register(
+          C.COBRANZA_ITEM_TMP,
+          C.COBZI_TMP_ID,
+          DBHelper.NoId,
+          false,
+          false,
+          false,
+          getOtroFields(itemInfo.item, itemInfo.cobzTMPId)),
+        true
+      ) match {
+        case SaveResult(false, id) => throwError
+        case _ =>
+      }
+    }
+
+    case class CobranzaCuentaCorrienteInfo(cobzTMPId: Int, item: CobranzaItemCuentaCorriente)
+
+    def saveCtaCte(itemInfo: CobranzaCuentaCorrienteInfo) = {
+      DBHelper.save(
+        user,
+        Register(
+          C.COBRANZA_ITEM_TMP,
+          C.COBZI_TMP_ID,
+          DBHelper.NoId,
+          false,
+          false,
+          false,
+          getCtaCteFields(itemInfo.item, itemInfo.cobzTMPId)),
         true
       ) match {
         case SaveResult(false, id) => throwError
@@ -1242,11 +1374,31 @@ object Cobranza {
       }
     }
 
-    def saveItems(cobzTMPId: Int) = {
-      cobranza.items.cheques.map(item => saveItem(CobranzaItemInfo(cobzTMPId, item)))
-      cobranza.items.itemDeleted.split(",").map(saveDeletedItem(cobzTMPId))
+    def saveCheques(cobzTMPId: Int) = {
+      cobranza.items.cheques.map(item => saveCheque(CobranzaChequeInfo(cobzTMPId, item)))
+      cobranza.items.chequeDeleted.split(",").map(saveDeletedItem(cobzTMPId))
     }
 
+    def saveTarjetas(cobzTMPId: Int) = {
+      cobranza.items.tarjetas.map(item => saveTarjeta(CobranzaTarjetaInfo(cobzTMPId, item)))
+      cobranza.items.tarjetaDeleted.split(",").map(saveDeletedItem(cobzTMPId))
+    }
+
+    def saveEfectivos(cobzTMPId: Int) = {
+      cobranza.items.efectivo.map(item => saveEfectivo(CobranzaEfectivoInfo(cobzTMPId, item)))
+      cobranza.items.efectivoDeleted.split(",").map(saveDeletedItem(cobzTMPId))
+    }
+
+    def saveOtros(cobzTMPId: Int) = {
+      cobranza.items.otros.map(item => saveOtro(CobranzaOtroInfo(cobzTMPId, item)))
+      cobranza.items.otroDeleted.split(",").map(saveDeletedItem(cobzTMPId))
+    }
+
+    def saveCtaCtes(cobzTMPId: Int) = {
+      cobranza.items.cuentaCorriente.map(item => saveCtaCte(CobranzaCuentaCorrienteInfo(cobzTMPId, item)))
+      cobranza.items.cuentaCorrienteDeleted.split(",").map(saveDeletedItem(cobzTMPId))
+    }
+    
     case class FacturaCobranzaInfo(cobzTMPId: Int, item: FacturaCobranza)
 
     def saveFactura(itemInfo: FacturaCobranzaInfo) = {
@@ -1308,8 +1460,8 @@ object Cobranza {
           * one of these two values ex: 'resultset' or 'success'
           * when type == 'resultset' the field r must be not null and contain a ResultSet
           * when type == 'success' the id field can contain 0 (False) or not 0 (-1,1 or any other number but NO 0) (True)
-          * the last kind of type is id. in this case the id must be the name of a column like fc_id, as_id, pr_id, etc
-          * it can be any column name. if the type is an integer like in fc_id, as_id or any other id column the field id
+          * the last kind of type is id. in this case the id must be the name of a column like cobz_id, as_id, pr_id, etc
+          * it can be any column name. if the type is an integer like in cobz_id, as_id or any other id column the field id
           * is used to contain the returned value
           * if the type is any other the column message is used
           *
@@ -1331,7 +1483,7 @@ object Cobranza {
               rowType match {
                 case "ERROR" => throwException(rs.getString(3))
                 case "INFO" => RowResult("INFO", 0, rs.getString(3))
-                case "fc_id" => RowResult("fc_id", rs.getInt(2), "")
+                case "cobz_id" => RowResult("cobz_id", rs.getInt(2), "")
                 case _ => RowResult("IGNORED", 0, "")
               }
             }
@@ -1366,7 +1518,7 @@ object Cobranza {
         case Nil => id
         case h :: t => {
           val _id = h match {
-            case RowResult("fc_id", id, m) => id
+            case RowResult("cobz_id", id, m) => id
             case _ => 0
           }
           findId(t, _id)
@@ -1388,7 +1540,11 @@ object Cobranza {
       true
     ) match {
       case SaveResult(true, cobzTMPId) => {
-        saveItems(cobzTMPId)
+        saveCheques(cobzTMPId)
+        saveTarjetas(cobzTMPId)
+        saveEfectivos(cobzTMPId)
+        saveOtros(cobzTMPId)
+        saveCtaCtes(cobzTMPId)
         saveFacturas(cobzTMPId)
         val messagesAndId = executeSave(cobzTMPId)
         val id = getIdFromMessages(messagesAndId)
@@ -1429,7 +1585,7 @@ object Cobranza {
   }
 
   private def loadCobranzaItems(user: CompanyUser, id: Int) = {
-    val cheques = loadItems(user, id, C.COBRANZA_ITEM_TIPO_CHEQUES, cobranzaItemChequeParser)
+    val cheques = loadItems[CobranzaItemCheque](user, id, C.COBRANZA_ITEM_TIPO_CHEQUES, cobranzaItemChequeParser)
     val tarjetas = loadItems(user, id, C.COBRANZA_ITEM_TIPO_TARJETAS, cobranzaItemTarjetaParser)
     val efectivo = loadItems(user, id, C.COBRANZA_ITEM_TIPO_EFECTIVO, cobranzaItemEfectivoParser)
     val otros = loadItems(user, id, C.COBRANZA_ITEM_TIPO_OTROS, cobranzaItemOtroParser)
@@ -1437,7 +1593,7 @@ object Cobranza {
     CobranzaItems(cheques, tarjetas, efectivo, otros, cuentaCorriente, "", "", "", "", "", List())
   }
 
-  private def loadItems(user: CompanyUser, id: Int, tipo: Int, parser: RowParser) = {
+  private def loadItems[T](user: CompanyUser, id: Int, tipo: Int, parser: RowParser[T]) = {
 
     DB.withTransaction(user.database.database) { implicit connection =>
 

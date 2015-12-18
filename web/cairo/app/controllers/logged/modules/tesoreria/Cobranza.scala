@@ -395,9 +395,76 @@ object Cobranzas extends Controller with ProvidesUser {
       C.COBZ_OTROS -> Json.toJson(cobranza.totals.totalOtros),
       C.COBZ_TOTAL -> Json.toJson(cobranza.totals.total),
 
-      "cheques" -> Json.toJson(writeCobranzaItems(cobranza.items.cheques))
+      "cheques" -> Json.toJson(writeCobranzaCheques(cobranza.items.cheques)),
+      "tarjetas" -> Json.toJson(writeCobranzaTarjetas(cobranza.items.tarjetas)),
+      "efectivo" -> Json.toJson(writeCobranzaEfectivo(cobranza.items.efectivo)),
+      "otros" -> Json.toJson(writeCobranzaOtros(cobranza.items.otros)),
+      "cuenta_corriente" -> Json.toJson(writeCobranzaCtaCte(cobranza.items.cuentaCorriente))
     )
-    def cobranzaItemWrites(i: CobranzaItemCheque) = Json.obj(
+    def cobranzaChequeWrites(i: CobranzaItemCheque) = Json.obj(
+      C.COBZI_ID -> Json.toJson(i.id),
+      C.COBZI_DESCRIP -> Json.toJson(i.base.descrip),
+      GC.CUE_ID -> Json.toJson(i.base.cueId),
+      GC.CUE_NAME -> Json.toJson(i.base.cueName),
+      GC.CCOS_ID -> Json.toJson(i.base.ccosId),
+      GC.CCOS_NAME -> Json.toJson(i.base.ccosName),
+      GC.MON_ID -> Json.toJson(i.moneda.monId),
+      GC.MON_NAME -> Json.toJson(i.moneda.monName),
+      C.COBZI_ORDEN -> Json.toJson(i.base.orden),
+      C.COBZI_IMPORTE -> Json.toJson(i.totals.importe),
+      C.COBZI_IMPORTE_ORIGEN -> Json.toJson(i.totals.importeOrigen),
+      GC.BCO_ID -> Json.toJson(i.bcoId),
+      GC.BCO_NAME -> Json.toJson(i.bcoName),
+      C.CHEQ_ID -> Json.toJson(i.cheqId),
+      C.CHEQ_NUMERO -> Json.toJson(i.numero),
+      C.CHEQ_NUMERO_DOC -> Json.toJson(i.numeroDoc),
+      C.CHEQ_PROPIO -> Json.toJson(i.propio),
+      C.CHEQ_FECHA_COBRO -> Json.toJson(i.fechaCobro),
+      C.CHEQ_FECHA_VTO -> Json.toJson(i.fechaVto),
+      GC.CLE_ID -> Json.toJson(i.cleId),
+      GC.CLE_NAME -> Json.toJson(i.cleName)
+    )
+    def cobranzaTarjetaWrites(i: CobranzaItemTarjeta) = Json.obj(
+      C.COBZI_ID -> Json.toJson(i.id),
+      C.COBZI_DESCRIP -> Json.toJson(i.base.descrip),
+      GC.CUE_ID -> Json.toJson(i.base.cueId),
+      GC.CUE_NAME -> Json.toJson(i.base.cueName),
+      GC.CCOS_ID -> Json.toJson(i.base.ccosId),
+      GC.CCOS_NAME -> Json.toJson(i.base.ccosName),
+      GC.MON_ID -> Json.toJson(i.moneda.monId),
+      GC.MON_NAME -> Json.toJson(i.moneda.monName),
+      C.COBZI_ORDEN -> Json.toJson(i.base.orden),
+      C.COBZI_IMPORTE -> Json.toJson(i.totals.importe),
+      C.COBZI_IMPORTE_ORIGEN -> Json.toJson(i.totals.importeOrigen),
+      C.TJCC_ID -> Json.toJson(i.tjccId),
+      C.TJCC_NUMERO -> Json.toJson(i.cuponNumero),
+      C.TJCC_NUMERO_DOC -> Json.toJson(i.cuponNumeroDoc),
+      GC.TJC_ID -> Json.toJson(i.tjcId),
+      GC.TJC_NAME -> Json.toJson(i.tjcName),
+      GC.TJCCU_ID -> Json.toJson(i.tjccuId),
+      GC.TJCCU_CANTIDAD -> Json.toJson(i.cuotas),
+      C.TJCC_FECHA_VTO -> Json.toJson(i.fechaVto),
+      C.TJCC_NRO_TARJETA -> Json.toJson(i.numero),
+      C.TJCC_NRO_AUTORIZACION -> Json.toJson(i.autorizacion),
+      C.COBZI_TARJETA_TIPO -> Json.toJson(i.tarjetaTipo),
+      C.TJCC_TITULAR -> Json.toJson(i.titular)
+    )
+    def cobranzaEfectivoWrites(i: CobranzaItemEfectivo) = Json.obj(
+      C.COBZI_ID -> Json.toJson(i.id),
+      C.COBZI_DESCRIP -> Json.toJson(i.base.descrip),
+      GC.CUE_ID -> Json.toJson(i.base.cueId),
+      GC.CUE_NAME -> Json.toJson(i.base.cueName),
+      GC.MON_ID -> Json.toJson(i.moneda.monId),
+      GC.MON_NAME -> Json.toJson(i.moneda.monName),
+      GC.CCOS_ID -> Json.toJson(i.base.ccosId),
+      GC.CCOS_NAME -> Json.toJson(i.base.ccosName),
+      GC.MON_ID -> Json.toJson(i.moneda.monId),
+      GC.MON_NAME -> Json.toJson(i.moneda.monName),
+      C.COBZI_ORDEN -> Json.toJson(i.base.orden),
+      C.COBZI_IMPORTE -> Json.toJson(i.totals.importe),
+      C.COBZI_IMPORTE_ORIGEN -> Json.toJson(i.totals.importeOrigen)
+    )
+    def cobranzaOtroWrites(i: CobranzaItemOtro) = Json.obj(
       C.COBZI_ID -> Json.toJson(i.id),
       C.COBZI_DESCRIP -> Json.toJson(i.base.descrip),
       GC.CUE_ID -> Json.toJson(i.base.cueId),
@@ -406,9 +473,34 @@ object Cobranzas extends Controller with ProvidesUser {
       GC.CCOS_NAME -> Json.toJson(i.base.ccosName),
       C.COBZI_ORDEN -> Json.toJson(i.base.orden),
       C.COBZI_IMPORTE -> Json.toJson(i.totals.importe),
+      C.COBZI_IMPORTE_ORIGEN -> Json.toJson(i.totals.importeOrigen),
+      C.COBZI_OTRO_TIPO -> Json.toJson(i.tipo),
+      GC.RET_ID -> Json.toJson(i.retencion.retId),
+      GC.RET_NAME -> Json.toJson(i.retencion.retName),
+      C.COBZI_NRO_RETENCION -> Json.toJson(i.retencion.numero),
+      C.COBZI_PORC_RETENCION -> Json.toJson(i.retencion.porcentaje),
+      C.COBZI_FECHA_RETENCION -> Json.toJson(i.retencion.fecha),
+      C.FV_ID_RET -> Json.toJson(i.retencion.fvId),
+      models.cairo.modules.ventas.C.FV_NRODOC -> Json.toJson(i.retencion.numeroDoc)
+    )
+    def cobranzaCtaCteWrites(i: CobranzaItemCuentaCorriente) = Json.obj(
+      C.COBZI_ID -> Json.toJson(i.id),
+      C.COBZI_DESCRIP -> Json.toJson(i.base.descrip),
+      GC.CUE_ID -> Json.toJson(i.base.cueId),
+      GC.CUE_NAME -> Json.toJson(i.base.cueName),
+      GC.CCOS_ID -> Json.toJson(i.base.ccosId),
+      GC.CCOS_NAME -> Json.toJson(i.base.ccosName),
+      GC.MON_ID -> Json.toJson(i.moneda.monId),
+      GC.MON_NAME -> Json.toJson(i.moneda.monName),
+      C.COBZI_ORDEN -> Json.toJson(i.base.orden),
+      C.COBZI_IMPORTE -> Json.toJson(i.totals.importe),
       C.COBZI_IMPORTE_ORIGEN -> Json.toJson(i.totals.importeOrigen)
     )
-    def writeCobranzaItems(items: List[CobranzaItemCheque]) = items.map(item => cobranzaItemWrites(item))
+    def writeCobranzaCheques(items: List[CobranzaItemCheque]) = items.map(item => cobranzaChequeWrites(item))
+    def writeCobranzaTarjetas(items: List[CobranzaItemTarjeta]) = items.map(item => cobranzaTarjetaWrites(item))
+    def writeCobranzaEfectivo(items: List[CobranzaItemEfectivo]) = items.map(item => cobranzaEfectivoWrites(item))
+    def writeCobranzaOtros(items: List[CobranzaItemOtro]) = items.map(item => cobranzaOtroWrites(item))
+    def writeCobranzaCtaCte(items: List[CobranzaItemCuentaCorriente]) = items.map(item => cobranzaCtaCteWrites(item))
   }
 
   def get(id: Int) = GetAction { implicit request =>

@@ -123,7 +123,7 @@
       TJCC_NUMERO: "tjcc_numero",
       TJCC_NUMERO_DOC: "tjcc_numerodoc",
       TJCC_DESCRIP: "tjcc_descrip",
-      TJCC_FECHAVTO: "tjcc_fechavto",
+      TJCC_FECHA_VTO: "tjcc_fechavto",
       TJCC_NRO_TARJETA: "tjcc_nroTarjeta",
       TJCC_NRO_AUTORIZACION: "tjcc_nroAutorizacion",
       TJCC_TITULAR: "tjcc_titular",
