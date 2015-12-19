@@ -3691,12 +3691,12 @@
 
           p = D.getTasaFromProducto(prId).whenSuccessWithResult(function(data) {
 
-            if(data.ti_ri_compra === 0) {
+            if(data.ti_ri_venta === 0) {
               return M.showWarningWithFalse(getText(1597, "", prName));
               // El producto [" & prName & "] no tiene definida su tasa impositiva de ventas para el iva responsable inscripto
             }
 
-            if(data.ti_rni_compra === 0) {
+            if(data.ti_rni_venta === 0) {
               return M.showWarningWithFalse(getText(1598, "", prName));
               // El producto [" & prName & "] no tiene definida su tasa impositiva de ventas para el iva responsable no inscripto
             }

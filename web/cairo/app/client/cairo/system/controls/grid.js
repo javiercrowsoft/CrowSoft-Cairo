@@ -883,30 +883,32 @@
         var tagName = e.target.tagName;
         if(tagName === "TD" || tagName === "I") {
           var td = tagName === "TD" ? e.target : e.target.parentNode;
-          var args = {
-            row: td.parentNode.rowIndex - 1, /* first row contains headers */
-            col: td.cellIndex,
-            key: ""
-          };
-          if (!clickInSameCell(args)) {
-            //
-            // first end any pending edition
-            //
-            endEdit().then(
-              function() {
-                selectRow(td);
-                if(td.cellIndex !== 0) {
-                  //
-                  // next prepare to start editing this cell
-                  //
-                  raiseEventAndThen(
-                    'onColumnBeforeEdit',
-                    args,
-                    thenIfSuccessCall(edit, args, td)
-                  );
+          if(td.parentNode.rowIndex > 0) { /* first row contains headers */
+            var args = {
+              row: td.parentNode.rowIndex - 1, /* first row contains headers */
+              col: td.cellIndex,
+              key: ""
+            };
+            if (!clickInSameCell(args)) {
+              //
+              // first end any pending edition
+              //
+              endEdit().then(
+                function() {
+                  selectRow(td);
+                  if(td.cellIndex !== 0) {
+                    //
+                    // next prepare to start editing this cell
+                    //
+                    raiseEventAndThen(
+                      'onColumnBeforeEdit',
+                      args,
+                      thenIfSuccessCall(edit, args, td)
+                    );
+                  }
                 }
-              }
-            );
+              );
+            }
           }
         }
       };
@@ -1417,6 +1419,9 @@
           switch(col.getType()) {
             case T.numeric:
               return "cell-number-value";
+            case T.text:
+            case T.select:
+              return "cell-text-value";
             default:
               return "";
           }
@@ -1627,13 +1632,13 @@
 
       that.setElement = function(element, view) {
         element.addClass('grid-container');
-        var table = $('<table></table>');
-        element.append(table);
+        self.table = $('<table></table>');
+        element.append(self.table);
         superSetElement(element);
         //element.text(self.text);
-        table.addClass('dialog-grid table table-bordered');
+        self.table.addClass('dialog-grid table table-bordered');
         setListeners(view);
-        draw(table);
+        draw(self.table);
       };
 
       that.getTable = function() {

@@ -782,6 +782,18 @@ div::after {
   width: 250px;
 }
 
+.cell-text-value {
+  max-width: 300px;
+  white-space:nowrap;
+  overflow: hidden;
+}
+
 .grid-column-select {
   width: 250px;
+}
+
+.grid-container {
+  overflow-x: auto;
+  overflow-y: hidden;
+  white-space: nowrap;
 }

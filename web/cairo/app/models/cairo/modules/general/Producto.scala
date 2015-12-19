@@ -886,12 +886,38 @@ object ProductoCliente {
 
 case class ProductoCMI(
                         id: Int,
+                        cmiId: Int,
+                        cmiName: String,
                         code: String,
                         descrip: String,
                         createdAt: Date,
                         expireDate: Date,
                         price: Double
                         )
+
+object ProductoCMI {
+
+  def apply(
+             id: Int,
+             cmiId: Int,
+             code: String,
+             descrip: String,
+             createdAt: Date,
+             expireDate: Date,
+             price: Double) = {
+
+    new ProductoCMI(
+      id,
+      cmiId,
+      "",
+      code,
+      descrip,
+      createdAt,
+      expireDate,
+      price
+    )
+  }
+}
 
 case class ProductoLeyenda(
                             id: Int,
@@ -1436,13 +1462,17 @@ object Producto {
 
   private val productoCMIParser: RowParser[ProductoCMI] = {
     SqlParser.get[Int](C.PRCMI_ID) ~
+    SqlParser.get[Int](C.CMI_ID) ~
+    SqlParser.get[String](C.CMI_NAME) ~
     SqlParser.get[String](C.PRCMI_CODE) ~
     SqlParser.get[String](C.PRCMI_DESCRIP) ~
     SqlParser.get[Date](C.PRCMI_FECHA_ALTA) ~
     SqlParser.get[Date](C.PRCMI_FECHA_VTO) ~
     SqlParser.get[BigDecimal](C.PRCMI_PRECIO) map {
     case
-        id ~
+        id  ~
+        cmiId ~
+        cmiName ~
         code ~
         descrip ~
         createdAt ~
@@ -1450,6 +1480,8 @@ object Producto {
         price =>
       ProductoCMI(
         id,
+        cmiId,
+        cmiName,
         code,
         descrip,
         createdAt,

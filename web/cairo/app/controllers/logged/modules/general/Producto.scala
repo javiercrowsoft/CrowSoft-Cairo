@@ -159,6 +159,7 @@ case class ProductoClienteData(
 
 case class ProductoCMIData(
                         id: Int,
+                        cmiId: Int,
                         code: String,
                         descrip: String,
                         createdAt: String,
@@ -277,7 +278,7 @@ object Productos extends Controller with ProvidesUser {
 
   val productoClienteFields = List(C.PRCLI_ID, C.CLI_ID, C.PRCLI_CODE, C.PRCLI_CODIGO_BARRA)
 
-  val productoCMIFields = List(C.PRCMI_ID, C.PRCMI_CODE, C.PRCMI_DESCRIP, C.PRCMI_FECHA_ALTA, C.PRCMI_FECHA_VTO, C.PRCMI_PRECIO)
+  val productoCMIFields = List(C.PRCMI_ID, C.CMI_ID, C.PRCMI_CODE, C.PRCMI_DESCRIP, C.PRCMI_FECHA_ALTA, C.PRCMI_FECHA_VTO, C.PRCMI_PRECIO)
 
   val productoLeyendaFields = List(C.PRL_ID, C.PRL_NAME, C.PRL_TEXTO, C.PRL_TAG, C.PRL_ORDEN)
 
@@ -423,6 +424,7 @@ object Productos extends Controller with ProvidesUser {
         C.PRODUCTO_COMUNIDAD_INTERNET -> Forms.list[ProductoCMIData](
           mapping(
             C.PRCMI_ID -> number,
+            C.CMI_ID -> number,
             C.PRCMI_CODE -> text,
             C.PRCMI_DESCRIP -> text,
             C.PRCMI_FECHA_ALTA -> text,
@@ -693,10 +695,13 @@ object Productos extends Controller with ProvidesUser {
     )
     def productoCMIWrites(p: ProductoCMI) = Json.obj(
       C.PRCMI_ID -> Json.toJson(p.id),
+      C.CMI_ID -> Json.toJson(p.cmiId),
+      C.CMI_NAME -> Json.toJson(p.cmiName),
       C.PRCMI_CODE -> Json.toJson(p.code),
       C.PRCMI_DESCRIP -> Json.toJson(p.descrip),
       C.PRCMI_FECHA_ALTA -> Json.toJson(p.createdAt),
-      C.PRCMI_FECHA_VTO -> Json.toJson(p.expireDate)
+      C.PRCMI_FECHA_VTO -> Json.toJson(p.expireDate),
+      C.PRCMI_PRECIO ->  Json.toJson(p.price)
     )
     def productoLeyendaWrites(p: ProductoLeyenda) = Json.obj(
       C.PRL_ID -> Json.toJson(p.id),
@@ -1017,6 +1022,7 @@ object Productos extends Controller with ProvidesUser {
     cmis.map(cmi => {
       ProductoCMI(
         cmi.id,
+        cmi.cmiId,
         cmi.code,
         cmi.descrip,
         DateFormatter.parse(cmi.createdAt),

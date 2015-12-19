@@ -88,7 +88,7 @@ begin
       else
          open rtn for
             select 0 success,
-                   'Estas operaciones de venta trabajar n con la caja: ' || cj_nombre || ' [' || cj_codigo || '].' info,
+                   'Estas operaciones de venta trabajarán con la caja: ' || cj_nombre || ' [' || cj_codigo || '].' info,
                    '' warning,
                    v_cj_id cj_id,
                    cj_nombre,
