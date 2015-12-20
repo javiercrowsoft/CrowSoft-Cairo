@@ -307,7 +307,7 @@ FIN PRIMERA PARTE DE ARBOLES
       -- sp_columns OrdenPago
       select opg_id,
                      '' TypeTask,
-                     opg_numero N_mero,
+                     opg_numero as "Número",
                      opg_nrodoc Comprobante,
                      prov_nombre Proveedor,
                      doc_nombre Documento,

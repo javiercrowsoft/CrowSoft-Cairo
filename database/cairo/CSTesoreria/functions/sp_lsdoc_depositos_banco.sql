@@ -201,7 +201,7 @@ FIN PRIMERA PARTE DE ARBOLES
       -- sp_columns DepositoBanco
       select dbco_id,
                      '' TypeTask,
-                     dbco_numero N_mero,
+                     dbco_numero as "Número",
                      dbco_nrodoc Comprobante,
                      bco_nombre Banco,
                      cue_nombre Cuenta,

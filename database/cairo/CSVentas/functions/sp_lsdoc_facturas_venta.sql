@@ -254,7 +254,7 @@ begin
    
       select fv_id,
              '' TypeTask,
-             fv_numero Numero,
+             fv_numero as "Numero",
              fv_nrodoc Comprobante,
              cli_nombre Cliente,
              doc_nombre Documento,

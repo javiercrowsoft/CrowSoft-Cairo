@@ -225,7 +225,7 @@ FIN PRIMERA PARTE DE ARBOLES
       -- sp_columns DepositoCupon
       select distinct DepositoCupon.dcup_id,
                               '' TypeTask,
-                              dcup_numero N_mero,
+                              dcup_numero as "Número",
                               dcup_nrodoc Comprobante,
                               tjc_nombre Tarjeta,
                               bco_nombre Banco,

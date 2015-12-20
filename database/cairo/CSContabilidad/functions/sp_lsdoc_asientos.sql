@@ -121,7 +121,7 @@ begin
 
       select as_id,
              '' TypeTask,
-             as_numero N_mero,
+             as_numero as "Número",
              as_nrodoc Comprobante,
              doc_nombre Documento,
              as_fecha Fecha,

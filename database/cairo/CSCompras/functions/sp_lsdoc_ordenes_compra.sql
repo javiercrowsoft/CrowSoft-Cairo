@@ -193,7 +193,7 @@ FIN PRIMERA PARTE DE ARBOLES
       -- sp_columns OrdenCompra
       select oc_id,
                      '' TypeTask,
-                     oc_numero N_mero,
+                     oc_numero as "Número",
                      oc_nrodoc Comprobante,
                      prov_nombre Proveedor,
                      doc_nombre Documento,

@@ -130,7 +130,7 @@ FIN PRIMERA PARTE DE ARBOLES
       -- sp_columns StockCliente
       select stcli_id,
                      '' TypeTask,
-                     stcli_numero N_mero,
+                     stcli_numero as "Número",
                      stcli_nrodoc Comprobante,
                      cli_nombre Cliente,
                      doc_nombre Documento,

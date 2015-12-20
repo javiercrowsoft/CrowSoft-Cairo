@@ -130,7 +130,7 @@ FIN PRIMERA PARTE DE ARBOLES
       -- sp_columns RecuentoStock
       select rs_id,
                      '' TypeTask,
-                     rs_numero N_mero,
+                     rs_numero as "Número",
                      rs_nrodoc Comprobante,
                      doc_nombre Documento,
                      rs_fecha Fecha,

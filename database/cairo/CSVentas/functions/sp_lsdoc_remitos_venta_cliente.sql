@@ -254,7 +254,7 @@ begin
 
       select rv_id,
              '' TypeTask,
-             rv_numero N_mero,
+             rv_numero as "Número",
              rv_nrodoc Comprobante,
              cli_nombre Cliente,
              doc_nombre Documento,

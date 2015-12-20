@@ -99,7 +99,7 @@ begin
 /////////////////////////////////////////////////////////////////////// */
       select bcoc.bcoc_id,
                      '' TypeTask,
-                     bcoc.bcoc_numero N_mero,
+                     bcoc.bcoc_numero as "Número",
                      emp.emp_nombre Empresa,
                      cue.cue_nombre Cuenta,
                      bcoc.bco_nombre Banco,

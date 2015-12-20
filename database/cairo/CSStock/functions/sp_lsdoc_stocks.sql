@@ -130,7 +130,7 @@ FIN PRIMERA PARTE DE ARBOLES
       -- sp_columns Stock
       select st_id,
                      '' TypeTask,
-                     st_numero N_mero,
+                     st_numero as "Número",
                      st_nrodoc Comprobante,
                      doct.doc_nombre Documento,
                      st_fecha Fecha,

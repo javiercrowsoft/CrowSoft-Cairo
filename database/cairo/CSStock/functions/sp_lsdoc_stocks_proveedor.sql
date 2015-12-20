@@ -130,7 +130,7 @@ FIN PRIMERA PARTE DE ARBOLES
       -- sp_columns StockProveedor
       select stprov_id,
                      '' TypeTask,
-                     stprov_numero N_mero,
+                     stprov_numero as "Número",
                      stprov_nrodoc Comprobante,
                      prov_nombre Proveedor,
                      doc_nombre Documento,

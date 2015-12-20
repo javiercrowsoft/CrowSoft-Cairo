@@ -279,7 +279,7 @@ end debug*/
 
       select cobz_id,
              '' TypeTask,
-             cobz_numero N_mero,
+             cobz_numero as "Número",
              cobz_nrodoc Comprobante,
              cli_nombre Cliente,
              doc_nombre Documento,
@@ -289,9 +289,9 @@ end debug*/
              cobz_total Total,
              cobz_pendiente Pendiente,
              case cobz_firmado
-                              when 0 then 'No'
-             else 'Si'
-                end Firmado,
+                when 0 then 'No'
+                else 'Si'
+             end Firmado,
              ccos_nombre Centro_de_costo,
              suc_nombre Sucursal,
              emp_nombre Empresa,

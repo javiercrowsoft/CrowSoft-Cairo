@@ -93,7 +93,7 @@ FIN PRIMERA PARTE DE ARBOLES
              case dic.dic_tipo
                               when 1 then 'Provisorio'
                               when 2 then 'Definitivo'   end Tipo,
-             dic.dic_numero N_mero,
+             dic.dic_numero as "Número",
              prov.prov_nombre Proveedor,
              dic.dic_titulo Titulo,
              dic.dic_fecha Fecha,

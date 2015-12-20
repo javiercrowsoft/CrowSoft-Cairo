@@ -225,7 +225,7 @@ FIN PRIMERA PARTE DE ARBOLES
       -- sp_columns ResolucionCupon
       select distinct ResolucionCupon.rcup_id,
                               '' TypeTask,
-                              rcup_numero N_mero,
+                              rcup_numero as "Número",
                               rcup_nrodoc Comprobante,
                               tjc_nombre Tarjeta,
                               bco_nombre Banco,

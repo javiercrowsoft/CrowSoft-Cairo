@@ -279,7 +279,7 @@ end debug*/
 
       select fc_id,
              '' TypeTask,
-             fc_numero Numero,
+             fc_numero as "Número",
              fc_nrodoc Comprobante,
              prov_nombre Proveedor,
              doc_nombre Documento,

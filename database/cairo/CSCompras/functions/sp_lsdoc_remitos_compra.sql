@@ -205,7 +205,7 @@ FIN PRIMERA PARTE DE ARBOLES
       -- sp_columns RemitoCompra
       select rc_id,
                      '' TypeTask,
-                     rc_numero N_mero,
+                     rc_numero as "Número",
                      rc_nrodoc Comprobante,
                      prov_nombre Proveedor,
                      doc_nombre Documento,

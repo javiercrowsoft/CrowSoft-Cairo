@@ -250,7 +250,7 @@ begin
 
       select prv_id,
              '' TypeTask,
-             prv_numero N_mero,
+             prv_numero as "Número",
              prv_nrodoc Comprobante,
              cli_nombre Cliente,
              doc_nombre Documento,

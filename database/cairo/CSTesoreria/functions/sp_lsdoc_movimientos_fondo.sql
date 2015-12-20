@@ -205,7 +205,7 @@ FIN PRIMERA PARTE DE ARBOLES
       -- sp_columns MovimientoFondo
       select mf_id,
                      '' TypeTask,
-                     mf_numero N_mero,
+                     mf_numero as "Número",
                      mf_nrodoc Comprobante,
                      cli_nombre Cliente,
                      doc_nombre Documento,

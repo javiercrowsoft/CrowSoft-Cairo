@@ -179,7 +179,7 @@ FIN PRIMERA PARTE DE ARBOLES
       -- sp_columns PedidoCompra
       select pc_id,
                      '' TypeTask,
-                     pc_numero N_mero,
+                     pc_numero as "Número",
                      pc_nrodoc Comprobante,
                      us2.us_nombre Usuario,
                      doc_nombre Documento,

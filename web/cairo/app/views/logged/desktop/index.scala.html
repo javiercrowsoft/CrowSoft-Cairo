@@ -312,17 +312,18 @@
       </div>
     </div>
     <div class="row tree-layout-buttons-toolbar-row">
-      <% if(showSelectButton) { %>
-        <div class="col-sm-3 col-md-4 col-lg-5"></div>
+        <div class="col-sm-3 col-md-4 col-lg-5">
+          <div class="btn-group">
+            <button class="btn btn-action btn-default"><i class="glyphicon glyphicon-file"></i> tree</button>
+            <button class="btn btn-action btn-default"><i class="glyphicon glyphicon-file"></i> branch</button>
+            <button class="btn btn-action btn-default"><i class="glyphicon glyphicon-copy"></i> copy</button>
+            <button class="btn btn-action btn-default"><i class="glyphicon glyphicon-paste"></i> paste</button>
+          </div>
+        </div>
         <div class="col-sm-9 col-md-8 col-lg-7 tree-select-control-search">
-      <% }
-       else { %>
-
-        <div class="tree-select-control-search">
+      <% if(showSelectButton) { %>
+          <button class="btn btn-primary align-right tree-select-button" id="tree-select-select-button"> Select </button>
       <% } %>
-          <% if(showSelectButton) { %>
-            <button class="btn btn-primary align-right tree-select-button" id="tree-select-select-button"> Select </button>
-          <% } %>
           <div class="tree-select-input align-right-first">
             <div class="tree-select-control cf search-select">
               <input
@@ -335,11 +336,10 @@
               <button>+</button>
             </div>
           </div>
-          <% if(showTableButtons) { %>
-            <button class="btn btn-primary js-new align-right"><i class='glyphicon glyphicon-file'></i> <%- entityName %></button>
-          <% } %>
-
-      </div>
+      <% if(showTableButtons) { %>
+          <button class="btn btn-primary js-new align-right"><i class='glyphicon glyphicon-file'></i> <%- entityName %></button>
+      <% } %>
+        </div>
     </div>
 
     <div class="@if(requestOrigin.userAgent.isMobile) {container} else {desktop-big-container}">
