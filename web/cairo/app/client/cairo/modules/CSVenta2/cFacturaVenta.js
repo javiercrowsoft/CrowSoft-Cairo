@@ -1451,7 +1451,7 @@
       };
 
       self.getTitle = function() {
-        return getText(1624, ""); // Facturas de Venta
+        return TITLE + (m_id !== NO_ID ? " " + m_nrodoc + " - " + m_cliente : "");
       };
 
       self.getTabTitle = function() {

@@ -616,7 +616,7 @@
       };
 
       self.getTitle = function() {
-        return TITLE;
+        return TITLE + (m_id !== NO_ID ? " " + m_nrodoc : "");
       };
 
       self.getTabTitle = function() {

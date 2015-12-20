@@ -8,7 +8,7 @@
 
       var getText = Cairo.Language.getText;
 
-      var TITLE = getText(2128, ""); // Cobranzas
+      var TITLE = getText(2060, ""); // Cobranzas
       var SAVE_ERROR_MESSAGE = getText(2098, ""); // Error al grabar la Cobranza
 
       var P = Cairo.Promises;
@@ -882,7 +882,7 @@
       };
 
       self.getTitle = function() {
-        return TITLE;
+        return TITLE + (m_id !== NO_ID ? " " + m_nrodoc + " - " + m_cliente : "");
       };
 
       self.getTabTitle = function() {

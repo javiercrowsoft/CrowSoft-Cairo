@@ -913,8 +913,8 @@ object Cobranza {
     SqlParser.get[String](C.COBZI_NRO_RETENCION) ~
     SqlParser.get[BigDecimal](C.COBZI_PORC_RETENCION) ~
     SqlParser.get[Date](C.COBZI_FECHA_RETENCION) ~
-    SqlParser.get[Int](C.FV_ID_RET) ~
-    SqlParser.get[String](models.cairo.modules.ventas.C.FV_NRODOC) ~
+    SqlParser.get[Option[Int]](C.FV_ID_RET) ~
+    SqlParser.get[Option[String]](models.cairo.modules.ventas.C.FV_NRODOC) ~
     SqlParser.get[Int](C.COBZI_ORDEN) map {
     case
         id ~
@@ -955,8 +955,8 @@ object Cobranza {
           numero,
           porcentaje.doubleValue(),
           fecha,
-          fvId,
-          numeroDoc
+          fvId.getOrElse(DBHelper.NoId),
+          numeroDoc.getOrElse("")
         )
       )
     }

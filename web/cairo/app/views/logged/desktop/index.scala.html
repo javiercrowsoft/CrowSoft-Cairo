@@ -315,37 +315,37 @@
         <div class="col-md-12">
           <% if(showTableButtons) { %>
             <div class="btn-group">
-               <button class="btn btn-primary js-new"><i class='glyphicon glyphicon-file'></i> <%- entityName %></button>
+               <button class="btn btn-primary js-new"><i class='glyphicon glyphicon-file'></i> New <%- entityName %></button>
             </div>
           <% } %>
           <div class="btn-group">
-            <button class="btn btn-action toolbar-tree-button"><i class="glyphicon glyphicon-file"></i> tree</button>
-            <button class="btn btn-action toolbar-tree-button"><i class="glyphicon glyphicon-file"></i> branch</button>
+            <button class="btn btn-action toolbar-tree-button"><i class="glyphicon glyphicon-file"></i> Tree</button>
+            <button class="btn btn-action toolbar-tree-button"><i class="glyphicon glyphicon-file"></i> Branch</button>
           </div>
           <div class="btn-group">
-            <button class="btn btn-action toolbar-tree-button"><i class="glyphicon glyphicon-copy"></i> copy</button>
-            <button class="btn btn-action toolbar-tree-button"><i class="glyphicon glyphicon-paste"></i> paste</button>
+            <button class="btn btn-action toolbar-tree-button"><i class="glyphicon glyphicon-copy"></i> Copy</button>
+            <button class="btn btn-action toolbar-tree-button"><i class="glyphicon glyphicon-paste"></i> Paste</button>
           </div>
           <div class="btn-group">
-            <button class="btn btn-action toolbar-tree-button"><i class="glyphicon glyphicon-export"></i> export list</button>
+            <button class="btn btn-action toolbar-tree-button"><i class="glyphicon glyphicon-export"></i> Export list</button>
           </div>
       <% if(showSelectButton) { %>
           <button class="btn btn-primary align-right tree-select-button" id="tree-select-select-button"> Select </button>
       <% } %>
           <div class="btn-group" style="float: right;">
-          <div class="tree-select-input">
-            <div class="tree-select-control cf search-select">
-              <input
-                    type="text"
-                    class="form-control dialog-control"
-                    id="tree-search-control"
-                    placeholder="Search for <%- entitiesName %>"
-                    autocomplete="off"
-                    autofocus
-                  />
-              <button>+</button>
+            <div class="tree-select-input">
+              <div class="tree-select-control cf search-select">
+                <input
+                      type="text"
+                      class="form-control dialog-control"
+                      id="tree-search-control"
+                      placeholder="Search for <%- entitiesName %>"
+                      autocomplete="off"
+                      autofocus
+                    />
+                <button>+</button>
+              </div>
             </div>
-          </div>
           </div>
 
         </div>
@@ -606,7 +606,45 @@
         </div>
         <div class="col-sm-8 col-md-8 col-lg-9">
           <div class="btn-group">
-          <button class="btn btn-info dialog-button dialog-new-button"><i class='glyphicon glyphicon-file'></i> New</button>
+            <button class="btn btn-info dialog-button dialog-new-button"><i class='glyphicon glyphicon-file'></i> New</button>
+            <button class="btn list-dialog-button dialog-button"><i class="glyphicon glyphicon-edit"></i> Edit</button>
+          </div>
+          <div class="btn-group">
+            <button class="btn list-dialog-button dialog-button"><i class="glyphicon glyphicon-ban-circle"></i> Invalidate</button>
+            <button class="btn list-dialog-button dialog-button"><i class="glyphicon glyphicon-remove"></i> Delete</button>
+          </div>
+          <div class="btn-group">
+            <button class="btn list-dialog-button dialog-button"><i class="glyphicon glyphicon-print"></i> Print</button>
+            <button class="btn list-dialog-button dialog-button"><i class="glyphicon glyphicon-save-file"></i> PDF</button>
+            <button class="btn list-dialog-button dialog-button"><i class="glyphicon glyphicon-envelope"></i> Email</button>
+            <button class="btn list-dialog-button dialog-button"><i class="glyphicon glyphicon-export"></i> Export</button>
+          </div>
+          <div class="btn-group">
+            <button class="btn dropdown-toggle dialog-button list-dialog-button" data-toggle="dropdown" aria-expanded="false">
+              More <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" role="menu">
+              <li><a href="#">View applications</a></li>
+              <li><a href="#">View associated documents</a></li>
+              <li><a href="#">Explain status</a></li>
+              <li><a href="#">Set/edit alarms</a></li>
+              <li><a href="#">View edit history</a></li>
+            </ul>
+          </div>
+          <div class="btn-group" style="float: right;">
+            <div class="tree-select-input">
+              <div class="tree-select-control cf search-select">
+                <input
+                      type="text"
+                      class="form-control dialog-control"
+                      id="tree-search-control"
+                      placeholder="Search for <%- entityTitle %>"
+                      autocomplete="off"
+                      autofocus
+                    />
+                <button>+</button>
+              </div>
+            </div>
           </div>
         </div>
         <div class="col-sm-1 col-md-1 col-lg-1" style="padding-right: 0;">
