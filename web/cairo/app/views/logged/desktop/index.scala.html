@@ -312,19 +312,28 @@
       </div>
     </div>
     <div class="row tree-layout-buttons-toolbar-row">
-        <div class="col-sm-3 col-md-4 col-lg-5">
+        <div class="col-md-12">
+          <% if(showTableButtons) { %>
+            <div class="btn-group">
+               <button class="btn btn-primary js-new"><i class='glyphicon glyphicon-file'></i> <%- entityName %></button>
+            </div>
+          <% } %>
           <div class="btn-group">
-            <button class="btn btn-action btn-default"><i class="glyphicon glyphicon-file"></i> tree</button>
-            <button class="btn btn-action btn-default"><i class="glyphicon glyphicon-file"></i> branch</button>
-            <button class="btn btn-action btn-default"><i class="glyphicon glyphicon-copy"></i> copy</button>
-            <button class="btn btn-action btn-default"><i class="glyphicon glyphicon-paste"></i> paste</button>
+            <button class="btn btn-action toolbar-tree-button"><i class="glyphicon glyphicon-file"></i> tree</button>
+            <button class="btn btn-action toolbar-tree-button"><i class="glyphicon glyphicon-file"></i> branch</button>
           </div>
-        </div>
-        <div class="col-sm-9 col-md-8 col-lg-7 tree-select-control-search">
+          <div class="btn-group">
+            <button class="btn btn-action toolbar-tree-button"><i class="glyphicon glyphicon-copy"></i> copy</button>
+            <button class="btn btn-action toolbar-tree-button"><i class="glyphicon glyphicon-paste"></i> paste</button>
+          </div>
+          <div class="btn-group">
+            <button class="btn btn-action toolbar-tree-button"><i class="glyphicon glyphicon-export"></i> export list</button>
+          </div>
       <% if(showSelectButton) { %>
           <button class="btn btn-primary align-right tree-select-button" id="tree-select-select-button"> Select </button>
       <% } %>
-          <div class="tree-select-input align-right-first">
+          <div class="btn-group" style="float: right;">
+          <div class="tree-select-input">
             <div class="tree-select-control cf search-select">
               <input
                     type="text"
@@ -332,13 +341,13 @@
                     id="tree-search-control"
                     placeholder="Search for <%- entitiesName %>"
                     autocomplete="off"
+                    autofocus
                   />
               <button>+</button>
             </div>
           </div>
-      <% if(showTableButtons) { %>
-          <button class="btn btn-primary js-new align-right"><i class='glyphicon glyphicon-file'></i> <%- entityName %></button>
-      <% } %>
+          </div>
+
         </div>
     </div>
 

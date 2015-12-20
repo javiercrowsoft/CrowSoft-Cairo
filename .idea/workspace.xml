@@ -1,31 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="d47203c3-b220-49d7-aac2-46c758baa4bb" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/database/all_functions.txt" afterPath="$PROJECT_DIR$/database/all_functions.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/cairo/public/stylesheets/cairo.css" afterPath="$PROJECT_DIR$/web/cairo/public/stylesheets/cairo.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/cairo/app/views/logged/desktop/index.scala.html" afterPath="$PROJECT_DIR$/web/cairo/app/views/logged/desktop/index.scala.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/database/cairo/CSContabilidad/functions/sp_lsdoc_asientos.sql" afterPath="$PROJECT_DIR$/database/cairo/CSContabilidad/functions/sp_lsdoc_asientos.sql" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/database/cairo/CSTesoreria/functions/sp_lsdoc_banco_conciliaciones.sql" afterPath="$PROJECT_DIR$/database/cairo/CSTesoreria/functions/sp_lsdoc_banco_conciliaciones.sql" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/database/cairo/CSTesoreria/functions/sp_lsdoc_cobranzas.sql" afterPath="$PROJECT_DIR$/database/cairo/CSTesoreria/functions/sp_lsdoc_cobranzas.sql" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/database/cairo/CSTesoreria/functions/sp_lsdoc_depositos_banco.sql" afterPath="$PROJECT_DIR$/database/cairo/CSTesoreria/functions/sp_lsdoc_depositos_banco.sql" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/database/cairo/CSTesoreria/functions/sp_lsdoc_depositos_cupon.sql" afterPath="$PROJECT_DIR$/database/cairo/CSTesoreria/functions/sp_lsdoc_depositos_cupon.sql" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/database/cairo/CSCompras/functions/sp_lsdoc_despachos_imp_calculo.sql" afterPath="$PROJECT_DIR$/database/cairo/CSCompras/functions/sp_lsdoc_despachos_imp_calculo.sql" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/database/cairo/CSCompras/functions/sp_lsdoc_facturas_compra.sql" afterPath="$PROJECT_DIR$/database/cairo/CSCompras/functions/sp_lsdoc_facturas_compra.sql" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/database/cairo/CSVentas/functions/sp_lsdoc_facturas_venta.sql" afterPath="$PROJECT_DIR$/database/cairo/CSVentas/functions/sp_lsdoc_facturas_venta.sql" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/database/cairo/CSTesoreria/functions/sp_lsdoc_movimientos_fondo.sql" afterPath="$PROJECT_DIR$/database/cairo/CSTesoreria/functions/sp_lsdoc_movimientos_fondo.sql" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/database/cairo/CSCompras/functions/sp_lsdoc_ordenes_compra.sql" afterPath="$PROJECT_DIR$/database/cairo/CSCompras/functions/sp_lsdoc_ordenes_compra.sql" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/database/cairo/CSTesoreria/functions/sp_lsdoc_ordenes_pago.sql" afterPath="$PROJECT_DIR$/database/cairo/CSTesoreria/functions/sp_lsdoc_ordenes_pago.sql" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/database/cairo/CSCompras/functions/sp_lsdoc_pedidos_compra.sql" afterPath="$PROJECT_DIR$/database/cairo/CSCompras/functions/sp_lsdoc_pedidos_compra.sql" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/database/cairo/CSVentas/functions/sp_lsdoc_presupuestos_venta.sql" afterPath="$PROJECT_DIR$/database/cairo/CSVentas/functions/sp_lsdoc_presupuestos_venta.sql" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/database/cairo/CSStock/functions/sp_lsdoc_recuentos_stock.sql" afterPath="$PROJECT_DIR$/database/cairo/CSStock/functions/sp_lsdoc_recuentos_stock.sql" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/database/cairo/CSCompras/functions/sp_lsdoc_remitos_compra.sql" afterPath="$PROJECT_DIR$/database/cairo/CSCompras/functions/sp_lsdoc_remitos_compra.sql" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/database/cairo/CSVentas/functions/sp_lsdoc_remitos_venta_cliente.sql" afterPath="$PROJECT_DIR$/database/cairo/CSVentas/functions/sp_lsdoc_remitos_venta_cliente.sql" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/database/cairo/CSTesoreria/functions/sp_lsdoc_resoluciones_cupon.sql" afterPath="$PROJECT_DIR$/database/cairo/CSTesoreria/functions/sp_lsdoc_resoluciones_cupon.sql" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/database/cairo/CSStock/functions/sp_lsdoc_stocks.sql" afterPath="$PROJECT_DIR$/database/cairo/CSStock/functions/sp_lsdoc_stocks.sql" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/database/cairo/CSStock/functions/sp_lsdoc_stocks_cliente.sql" afterPath="$PROJECT_DIR$/database/cairo/CSStock/functions/sp_lsdoc_stocks_cliente.sql" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/database/cairo/CSStock/functions/sp_lsdoc_stocks_proveedor.sql" afterPath="$PROJECT_DIR$/database/cairo/CSStock/functions/sp_lsdoc_stocks_proveedor.sql" />
-    </list>
+    <list default="true" id="d47203c3-b220-49d7-aac2-46c758baa4bb" name="Default" comment="" />
     <ignored path="CrowSoft-Cairo.iws" />
     <ignored path=".idea/workspace.xml" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -808,7 +784,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1920" height="1080" extended-state="0" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />

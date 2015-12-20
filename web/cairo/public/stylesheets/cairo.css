@@ -280,7 +280,7 @@ div.tree-select-dialog.ui-widget-content {
   float: right;
   padding-left: 25px;
 }
-
+/*
 @media(max-width:767px){
 
   .tree-select-input {
@@ -297,6 +297,12 @@ div.tree-select-dialog.ui-widget-content {
     float: right;
     min-width: 400px;
   }
+}
+*/
+
+.tree-select-input {
+  min-width: 310px;
+  float: right;
 }
 
 /* -------------- dialogs ------------*/
@@ -874,4 +880,8 @@ table > thead.list-dialog-grid-head > tr > th {
 .ui-widget button {
 	font-family: Verdana,Arial,sans-serif;
 	font-size: 14px;
+}
+
+.btn-group {
+  margin-bottom: 5px;
 }
