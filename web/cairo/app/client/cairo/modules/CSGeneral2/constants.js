@@ -370,7 +370,7 @@
       CLI_WEB: "cli_web",
       CLI_YAHOO: "cli_yahoo",
       CLI_MESSENGER: "cli_messanger",
-      CLI_CREDITOCTACTE: "cli_creditoctacte",
+      CLI_CREDITOCTA_CTE: "cli_creditoctacte",
       CLI_CREDITOTOTAL: "cli_creditototal",
       CLI_CREDITOACTIVO: "cli_creditoactivo",
       CLI_EXIGE_TRANSPORTE: "cli_exigeTransporte",
@@ -411,7 +411,7 @@
       PROV_EMAIL: "prov_email",
       PROV_WEB: "prov_web",
       PROV_IMPRIME_TICKET: "prov_imprimeticket",
-      PROV_CREDITOCTACTE: "prov_creditoctacte",
+      PROV_CREDITOCTA_CTE: "prov_creditoctacte",
       PROV_CREDITOTOTAL: "prov_creditototal",
       PROV_CREDITOACTIVO: "prov_creditoactivo",
 

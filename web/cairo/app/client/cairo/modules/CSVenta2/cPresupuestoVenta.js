@@ -345,13 +345,13 @@
 
         c = m_dialog.getProperties().add(null, C.CCOS_ID);
         c.setType(Dialogs.PropertyType.select);
-        c.setSelectTable(Cairo.Tables.CENTROCOSTO);
+        c.setSelectTable(Cairo.Tables.CENTRO_COSTO);
         // Centro de Costos
         c.setName(getText(1057, ""));
         c.setKey(K_CCOS_ID);
         value = m_centroCosto;
         if(m_ccosId.Substring(0, 1).toUpperCase() === KEY_NODO) {
-          value = GetNombreRama(Cairo.Tables.CENTROCOSTO, Cairo.Util.val(m_ccosId.Substring(2)), bExists);
+          value = GetNombreRama(Cairo.Tables.CENTRO_COSTO, Cairo.Util.val(m_ccosId.Substring(2)), bExists);
           if(!bExists) { m_ccosId = "0"; }
         }
         c.setValue(value);

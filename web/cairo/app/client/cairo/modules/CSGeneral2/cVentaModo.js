@@ -20,7 +20,7 @@
       var K_CODE = 2;
       var K_ACTIVE = 3;
       var K_DESCRIP = 4;
-      var K_CTACTE = 5;
+      var K_CTA_CTE = 5;
       var K_CUE_ID = 6;
       var K_OS = 7;
       var K_PV = 8;
@@ -204,7 +204,7 @@
               fields.add(C.VM_DESCRIP, property.getValue(), Cairo.Constants.Types.text);
               break;
 
-            case K_CTACTE:
+            case K_CTA_CTE:
               fields.add(C.VM_CTA_CTE, property.getListItemData(), Cairo.Constants.Types.integer);
               break;
 
@@ -427,18 +427,18 @@
         elem.setListWhoSetItem(Dialogs.ListWhoSetItem.itemData);
         var w_list = elem.getList();
         var elem = w_list.add(null);
-        elem.Id = csE_VentaModoCtaCte.cSVM_CTACTEHOJARUTA;
+        elem.Id = csE_VentaModoCtaCte.cSVM_CTA_CTEHOJARUTA;
         // Hoja de Ruta
         elem.setValue(getText(5106, ""));
         var elem = w_list.add(null);
-        elem.Id = csE_VentaModoCtaCte.cSVM_CTACTEMOSTRADOR;
+        elem.Id = csE_VentaModoCtaCte.cSVM_CTA_CTEMOSTRADOR;
         // Cobranza por Mostrador
         elem.setValue(getText(5107, ""));
         var elem = w_list.add(null);
-        elem.Id = csE_VentaModoCtaCte.cSVM_CTACTEMOSTRADOFACTURA;
+        elem.Id = csE_VentaModoCtaCte.cSVM_CTA_CTEMOSTRADOFACTURA;
         // Cobranza por Facturador
         elem.setValue(getText(5108, ""));
-        elem.setKey(K_CTACTE);
+        elem.setKey(K_CTA_CTE);
 
         var elem = properties.add(null);
         elem.setType(Dialogs.PropertyType.label);
@@ -570,7 +570,7 @@
               m_id = NO_ID;
               m_cue_id = NO_ID;
               m_cuenta = "";
-              m_ctacte = csE_VentaModoCtaCte.cSVM_CTACTEMOSTRADOFACTURA;
+              m_ctacte = csE_VentaModoCtaCte.cSVM_CTA_CTEMOSTRADOFACTURA;
               m_pv = 0;
               m_os = 0;
               m_cmvxi = 0;

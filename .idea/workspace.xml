@@ -2,12 +2,34 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d47203c3-b220-49d7-aac2-46c758baa4bb" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/cairo/app/controllers/logged/modules/general/Producto.scala" afterPath="$PROJECT_DIR$/web/cairo/app/controllers/logged/modules/general/Producto.scala" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/cairo/app/models/cairo/modules/general/Producto.scala" afterPath="$PROJECT_DIR$/web/cairo/app/models/cairo/modules/general/Producto.scala" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSVenta2/cFacturaVenta.js" afterPath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSVenta2/cFacturaVenta.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSGeneral2/cCliente.js" afterPath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSGeneral2/cCliente.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSTesoreria2/cCobranza.js" afterPath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSTesoreria2/cCobranza.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSPersonal/cEmpleadoPeriodo.js" afterPath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSPersonal/cEmpleadoPeriodo.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSCompra2/cFacturaCompraRemitoWiz.js" afterPath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSCompra2/cFacturaCompraRemitoWiz.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSPersonal/cLiquidacion.js" afterPath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSPersonal/cLiquidacion.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSTesoreria2/cMovimientoFondo.js" afterPath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSTesoreria2/cMovimientoFondo.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSCompra2/cOrdenCompra.js" afterPath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSCompra2/cOrdenCompra.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSTesoreria2/cOrdenPago.js" afterPath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSTesoreria2/cOrdenPago.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSTicket/cOrdenServicio.js" afterPath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSTicket/cOrdenServicio.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSTicket/cParteReparacion.js" afterPath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSTicket/cParteReparacion.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSCompra2/cPedidoCompra.js" afterPath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSCompra2/cPedidoCompra.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSPedidoVenta2/cPedidoVenta.js" afterPath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSPedidoVenta2/cPedidoVenta.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSVenta2/cPresupuestoVenta.js" afterPath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSVenta2/cPresupuestoVenta.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSGeneral2/cProveedor.js" afterPath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSGeneral2/cProveedor.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSCompra2/cRemitoCompra.js" afterPath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSCompra2/cRemitoCompra.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSVenta2/cRemitoVenta.js" afterPath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSVenta2/cRemitoVenta.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSVentaConfig/cVentaConfig.js" afterPath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSVentaConfig/cVentaConfig.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSGeneral2/cVentaModo.js" afterPath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSGeneral2/cVentaModo.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/cairo/public/stylesheets/cairo.css" afterPath="$PROJECT_DIR$/web/cairo/public/stylesheets/cairo.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/cairo/app/client/cairo/cairoApp.js" afterPath="$PROJECT_DIR$/web/cairo/app/client/cairo/cairoApp.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSGeneral2/constants.js" afterPath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSGeneral2/constants.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSTesoreria2/constants.js" afterPath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSTesoreria2/constants.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/cairo/app/client/cairo/system/controls/grid.js" afterPath="$PROJECT_DIR$/web/cairo/app/client/cairo/system/controls/grid.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/database/cairo/CSGeneral/functions/sp_movimiento_caja_get_caja_for_user.sql" afterPath="$PROJECT_DIR$/database/cairo/CSGeneral/functions/sp_movimiento_caja_get_caja_for_user.sql" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/cairo/app/views/logged/desktop/index.scala.html" afterPath="$PROJECT_DIR$/web/cairo/app/views/logged/desktop/index.scala.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/cairo/app/client/cairo/system/controls/select.js" afterPath="$PROJECT_DIR$/web/cairo/app/client/cairo/system/controls/select.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/system/system.js" afterPath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/system/system.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/cairo/app/client/cairo/system/controls/tree.js" afterPath="$PROJECT_DIR$/web/cairo/app/client/cairo/system/controls/tree.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/cairo/app/client/cairo/system/dialogs/view.js" afterPath="$PROJECT_DIR$/web/cairo/app/client/cairo/system/dialogs/view.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="CrowSoft-Cairo.iws" />
@@ -67,8 +89,8 @@
         <option name="LOG_MESSAGE" value="" />
       </breakpoint>
     </breakpoint_any>
-    <ui_properties converted="true" />
     <breakpoint_rules converted="true" />
+    <ui_properties converted="true" />
   </component>
   <component name="DockManager">
     <window id="1">
@@ -78,7 +100,7 @@
             <file leaf-file-name="sp_doc_factura_compra_editable_get.sql" pinned="false" current="false" current-in-tab="false">
               <entry file="file://$PROJECT_DIR$/database/cairo/CSCompras/functions/sp_doc_factura_compra_editable_get.sql">
                 <provider selected="true" editor-type-id="text-editor">
-                  <state vertical-scroll-proportion="-64.17242" vertical-offset="3934" max-vertical-offset="5909">
+                  <state vertical-scroll-proportion="0.0" vertical-offset="5795" max-vertical-offset="5909">
                     <caret line="305" column="20" selection-start-line="305" selection-start-column="20" selection-end-line="305" selection-end-column="20" />
                     <folding />
                   </state>
@@ -88,7 +110,7 @@
             <file leaf-file-name="sp_doc_factura_compra_get.sql" pinned="false" current="false" current-in-tab="false">
               <entry file="file://$PROJECT_DIR$/database/cairo/CSCompras/functions/sp_doc_factura_compra_get.sql">
                 <provider selected="true" editor-type-id="text-editor">
-                  <state vertical-scroll-proportion="-11.137931" vertical-offset="3477" max-vertical-offset="4731">
+                  <state vertical-scroll-proportion="0.0" vertical-offset="3800" max-vertical-offset="4731">
                     <caret line="200" column="77" selection-start-line="200" selection-start-column="38" selection-end-line="200" selection-end-column="38" />
                     <folding />
                   </state>
@@ -98,7 +120,7 @@
             <file leaf-file-name="sp_doc_factura_compra_get_items.sql" pinned="false" current="false" current-in-tab="true">
               <entry file="file://$PROJECT_DIR$/database/cairo/CSCompras/functions/sp_doc_factura_compra_get_items.sql">
                 <provider selected="true" editor-type-id="text-editor">
-                  <state vertical-scroll-proportion="0.9308176" vertical-offset="1350" max-vertical-offset="2299">
+                  <state vertical-scroll-proportion="0.77976817" vertical-offset="1350" max-vertical-offset="2299">
                     <caret line="110" column="0" selection-start-line="110" selection-start-column="0" selection-end-line="115" selection-end-column="20" />
                     <folding />
                   </state>
@@ -119,7 +141,7 @@
       <file leaf-file-name="004-generated-19941-sp-spaces.sql" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/database/migration_from_sqlserver/functions/004-generated-19941-sp-spaces.sql">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-3.8674698" vertical-offset="3847065" max-vertical-offset="7295297">
+            <state vertical-scroll-proportion="0.0" vertical-offset="3847065" max-vertical-offset="7295297">
               <caret line="202494" column="4" selection-start-line="202310" selection-start-column="0" selection-end-line="202494" selection-end-column="4" />
               <folding />
             </state>
@@ -139,7 +161,7 @@
       <file leaf-file-name="sp_doc_cobranza_get_items.sql" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/database/cairo/CSTesoreria/functions/sp_doc_cobranza_get_items.sql">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-6.367816" vertical-offset="3113" max-vertical-offset="4161">
+            <state vertical-scroll-proportion="0.0" vertical-offset="3113" max-vertical-offset="4161">
               <caret line="193" column="34" selection-start-line="193" selection-start-column="34" selection-end-line="193" selection-end-column="34" />
               <folding />
             </state>
@@ -149,7 +171,7 @@
       <file leaf-file-name="sp_lsdoc_cobranzas.sql" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/database/cairo/CSTesoreria/functions/sp_lsdoc_cobranzas.sql">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-11.172414" vertical-offset="892" max-vertical-offset="7657">
+            <state vertical-scroll-proportion="0.0" vertical-offset="892" max-vertical-offset="7657">
               <caret line="64" column="22" selection-start-line="64" selection-start-column="10" selection-end-line="64" selection-end-column="22" />
               <folding />
             </state>
@@ -159,7 +181,7 @@
       <file leaf-file-name="sp_movimiento_caja_get_from_caja.sql" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/database/cairo/CSGeneral/functions/sp_movimiento_caja_get_from_caja.sql">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-7.0" vertical-offset="367" max-vertical-offset="1634">
+            <state vertical-scroll-proportion="0.0" vertical-offset="367" max-vertical-offset="1634">
               <caret line="30" column="13" selection-start-line="30" selection-start-column="13" selection-end-line="30" selection-end-column="13" />
               <folding />
             </state>
@@ -169,7 +191,7 @@
       <file leaf-file-name="sp_movimiento_caja_get_caja_for_user.sql" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/database/cairo/CSGeneral/functions/sp_movimiento_caja_get_caja_for_user.sql">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.6904762" vertical-offset="1159" max-vertical-offset="2337">
+            <state vertical-scroll-proportion="0.57395834" vertical-offset="1159" max-vertical-offset="2337">
               <caret line="90" column="56" selection-start-line="90" selection-start-column="56" selection-end-line="90" selection-end-column="56" />
               <folding />
             </state>
@@ -179,7 +201,7 @@
       <file leaf-file-name="sp_producto_get_cmi.sql" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/database/cairo/CSGeneral/functions/sp_producto_get_cmi.sql">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-9.965517" vertical-offset="281" max-vertical-offset="1254">
+            <state vertical-scroll-proportion="0.0" vertical-offset="281" max-vertical-offset="1254">
               <caret line="30" column="13" selection-start-line="30" selection-start-column="13" selection-end-line="30" selection-end-column="13" />
               <folding />
             </state>
@@ -268,6 +290,7 @@
     </navigator>
     <panes>
       <pane id="Scope" />
+      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -366,9 +389,34 @@
               <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="CrowSoft-Cairo" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="CrowSoft-Cairo" />
+              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="database" />
+              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="cairo" />
+              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="CSCompras" />
+              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="functions" />
+              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -525,6 +573,21 @@
       <patterns />
       <method />
     </configuration>
+    <configuration default="true" type="ScalaTestRunConfiguration" factoryName="ScalaTest">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <extension name="scalaCoverage" />
+      <module name="" />
+      <setting name="path" value="" />
+      <setting name="package" value="" />
+      <setting name="vmparams" value="" />
+      <setting name="params" value="" />
+      <setting name="workingDirectory" value="$PROJECT_DIR$" />
+      <setting name="searchForTest" value="Across module dependencies" />
+      <setting name="testName" value="" />
+      <setting name="testKind" value="Class" />
+      <setting name="showProgressMessages" value="true" />
+      <method />
+    </configuration>
     <configuration default="true" type="AndroidRunConfigurationType" factoryName="Android Application">
       <module name="" />
       <option name="ACTIVITY_CLASS" value="" />
@@ -543,21 +606,6 @@
       <option name="CLEAR_LOGCAT" value="false" />
       <option name="SHOW_LOGCAT_AUTOMATICALLY" value="true" />
       <option name="FILTER_LOGCAT_AUTOMATICALLY" value="true" />
-      <method />
-    </configuration>
-    <configuration default="true" type="ScalaTestRunConfiguration" factoryName="ScalaTest">
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <extension name="scalaCoverage" />
-      <module name="" />
-      <setting name="path" value="" />
-      <setting name="package" value="" />
-      <setting name="vmparams" value="" />
-      <setting name="params" value="" />
-      <setting name="workingDirectory" value="$PROJECT_DIR$" />
-      <setting name="searchForTest" value="Across module dependencies" />
-      <setting name="testName" value="" />
-      <setting name="testKind" value="Class" />
-      <setting name="showProgressMessages" value="true" />
       <method />
     </configuration>
     <list size="0" />
@@ -621,7 +669,6 @@
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32903865" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.15652174" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32959402" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32913843" sideWeight="0.5" order="0" side_tool="true" content_ui="tabs" />
@@ -632,7 +679,7 @@
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32959402" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32959402" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2451923" sideWeight="0.67208123" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2451923" sideWeight="0.67208123" order="0" side_tool="false" content_ui="combo" />
       <window_info id="DB Browser" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.1340812" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32824427" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="DB Execution Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3294686" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -641,6 +688,7 @@
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.15652174" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
@@ -946,15 +994,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-9.057471" vertical-offset="4038" max-vertical-offset="4940">
           <caret line="254" column="20" selection-start-line="254" selection-start-column="20" selection-end-line="254" selection-end-column="20" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/database/cairo/CSCompras/functions/sp_doc_factura_compra_editable_get.sql">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-64.17242" vertical-offset="3934" max-vertical-offset="5909">
-          <caret line="305" column="20" selection-start-line="305" selection-start-column="20" selection-end-line="305" selection-end-column="20" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -962,54 +1001,13 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-5.9310346" vertical-offset="1327" max-vertical-offset="2432">
           <caret line="97" column="40" selection-start-line="97" selection-start-column="40" selection-end-line="97" selection-end-column="40" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/database/cairo/CSCompras/functions/sp_doc_factura_compra_get.sql">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-11.137931" vertical-offset="3477" max-vertical-offset="4731">
-          <caret line="200" column="77" selection-start-line="200" selection-start-column="38" selection-end-line="200" selection-end-column="38" />
-          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/database/migration_from_sqlserver/functions/004-generated-19941-sp-spaces.sql">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-3.8674698" vertical-offset="3847065" max-vertical-offset="7295297">
+        <state vertical-scroll-proportion="0.0" vertical-offset="3847065" max-vertical-offset="7295297">
           <caret line="202494" column="4" selection-start-line="202310" selection-start-column="0" selection-end-line="202494" selection-end-column="4" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/database/cairo/CSTesoreria/functions/sp_lsdoc_cobranzas.sql">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-11.172414" vertical-offset="892" max-vertical-offset="7657">
-          <caret line="64" column="22" selection-start-line="64" selection-start-column="10" selection-end-line="64" selection-end-column="22" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/database/cairo/CSCompras/functions/sp_doc_factura_compra_get_items.sql">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.9308176" vertical-offset="1350" max-vertical-offset="2299">
-          <caret line="110" column="0" selection-start-line="110" selection-start-column="0" selection-end-line="115" selection-end-column="20" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/database/cairo/CSTesoreria/functions/sp_doc_cobranza_get_items.sql">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-6.367816" vertical-offset="3113" max-vertical-offset="4161">
-          <caret line="193" column="34" selection-start-line="193" selection-start-column="34" selection-end-line="193" selection-end-column="34" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/database/cairo/CSGeneral/functions/sp_producto_get_cmi.sql">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-9.965517" vertical-offset="281" max-vertical-offset="1254">
-          <caret line="30" column="13" selection-start-line="30" selection-start-column="13" selection-end-line="30" selection-end-column="13" />
           <folding />
         </state>
       </provider>
@@ -1022,18 +1020,66 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/database/cairo/CSTesoreria/functions/sp_doc_cobranza_get_items.sql">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="3113" max-vertical-offset="4161">
+          <caret line="193" column="34" selection-start-line="193" selection-start-column="34" selection-end-line="193" selection-end-column="34" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/database/cairo/CSTesoreria/functions/sp_lsdoc_cobranzas.sql">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="892" max-vertical-offset="7657">
+          <caret line="64" column="22" selection-start-line="64" selection-start-column="10" selection-end-line="64" selection-end-column="22" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/database/cairo/CSGeneral/functions/sp_movimiento_caja_get_from_caja.sql">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-7.0" vertical-offset="367" max-vertical-offset="1634">
+        <state vertical-scroll-proportion="0.0" vertical-offset="367" max-vertical-offset="1634">
           <caret line="30" column="13" selection-start-line="30" selection-start-column="13" selection-end-line="30" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/database/cairo/CSGeneral/functions/sp_producto_get_cmi.sql">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="281" max-vertical-offset="1254">
+          <caret line="30" column="13" selection-start-line="30" selection-start-column="13" selection-end-line="30" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/database/cairo/CSCompras/functions/sp_doc_factura_compra_editable_get.sql">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="5795" max-vertical-offset="5909">
+          <caret line="305" column="20" selection-start-line="305" selection-start-column="20" selection-end-line="305" selection-end-column="20" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/database/cairo/CSCompras/functions/sp_doc_factura_compra_get.sql">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="3800" max-vertical-offset="4731">
+          <caret line="200" column="77" selection-start-line="200" selection-start-column="38" selection-end-line="200" selection-end-column="38" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/database/cairo/CSGeneral/functions/sp_movimiento_caja_get_caja_for_user.sql">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.6904762" vertical-offset="1159" max-vertical-offset="2337">
+        <state vertical-scroll-proportion="0.57395834" vertical-offset="1159" max-vertical-offset="2337">
           <caret line="90" column="56" selection-start-line="90" selection-start-column="56" selection-end-line="90" selection-end-column="56" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/database/cairo/CSCompras/functions/sp_doc_factura_compra_get_items.sql">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.77976817" vertical-offset="1350" max-vertical-offset="2299">
+          <caret line="110" column="0" selection-start-line="110" selection-start-column="0" selection-end-line="115" selection-end-column="20" />
           <folding />
         </state>
       </provider>

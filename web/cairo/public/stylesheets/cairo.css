@@ -48,9 +48,9 @@
 }
 
 .tree-select-control input {
-    width: -moz-calc(100% - 23px);
-    width: -webkit-calc(100% - 23px);
-    width: calc(100% - 23px);
+    width: -moz-calc(100% - 15px);
+    width: -webkit-calc(100% - 15px);
+    width: calc(100% - 15px);
     height: 35px;
     float: left;
     border: 0;
@@ -87,8 +87,8 @@
     border: 0;
     padding: 0;
     cursor: pointer;
-    height: 36px;
-    width: 23px;
+    height: 35px;
+    width: 15px;
     font: bold 15px/30px 'lucida sans', 'trebuchet MS', 'Tahoma';
     color: #fff;
     text-transform: uppercase;
@@ -133,7 +133,7 @@
 
 .tree-select-dialog {
     background-color: #222;
-    border-color: #222;
+    border-color: #cacaca;
     color: #fff;
     min-height: 400px;
 }
@@ -156,8 +156,19 @@
   color: #fff !important;*/
 }
 
-.tree-select-dialog > .ui-widget-header {
-    border-bottom: 1px solid #464545;
+.tree-select-dialog > .ui-dialog-titlebar {
+  background-color: #d9edf7;
+  border-color: #bce8f1;
+  border-radius: 4px;
+}
+
+.tree-select-dialog > .ui-dialog-titlebar > .ui-dialog-title {
+  background-color: #d9edf7;
+  color: #31708f;
+}
+
+.ui-widget-header .ui-state-default {
+  background-color: #d9edf7;
 }
 
 .tree-select-dialog > div > span.ui-dialog-title {
@@ -292,8 +303,9 @@ div.tree-select-dialog.ui-widget-content {
 
 .dialog-label {
     margin-top: 8px;
-    margin-bottom: 3px;
+    margin-bottom: 1px;
     display: block;
+    font-weight: normal;
 }
 
 .dialog-control {
@@ -326,7 +338,7 @@ div.tree-select-dialog.ui-widget-content {
 }
 
 .dialog-form-box {
-  margin-top: 20px;
+  margin-top: 10px;
   margin-bottom: 20px;
   padding-left: 15px;
   padding-right: 15px;
@@ -407,6 +419,7 @@ div.tree-select-dialog.ui-widget-content {
   border-bottom: 1px solid #464545 !important;
 }
 */
+
 .dialog-th td {
   color: black;
   background: #eeeeee;
@@ -414,6 +427,9 @@ div.tree-select-dialog.ui-widget-content {
   border-left: 1px solid #cccccc !important;
   border-right: 1px solid #cccccc !important;
   border-bottom: 1px solid #cccccc !important;
+  height: 10px;
+  padding-top: 3px !important;
+  padding-bottom: 3px !important;
 }
 
 .dialog-td {
@@ -667,6 +683,14 @@ a.DTTT_button {
   padding-top: 10px;
 }
 
+.document-list-grid>tbody>tr>td {
+  padding: 4px;
+}
+
+.document-list-grid>tbody>tr>td>button {
+  padding: 2px 4px;
+}
+
 .ui-widget-overlay .ui-front {
   z-index: 8999;
 }
@@ -675,8 +699,10 @@ input[type="radio"].dialog-checkbox, input[type="checkbox"].dialog-checkbox {
   margin-bottom: 20px;
 }
 
-.secondary-tab-box {
-  margin-top: 10px;
+.secondary-tab-box > ul {
+  border-top: 1px solid #ddd;
+  margin-top: 15px;
+  padding-top: 15px;
 }
 
 .dialog-input-control-number {
@@ -684,10 +710,10 @@ input[type="radio"].dialog-checkbox, input[type="checkbox"].dialog-checkbox {
 }
 
 .document_header_box {
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   margin-left: 5px;
   background-color: #f8f8f8;
-  padding: 10px 10px 0px 10px;
+  padding: 10px 10px 0px 0px;
 }
 
 .document_header_box div {
@@ -759,7 +785,7 @@ div::after {
 }
 
 .wizard-body {
-  min-height: 400px;
+  min-height: 450px;
 }
 
 .wizard-right-buttons {
@@ -794,6 +820,18 @@ div::after {
 
 .grid-container {
   overflow-x: auto;
-  overflow-y: hidden;
+  overflow-y: auto;
+  max-height: 350px;
   white-space: nowrap;
+/*  margin-bottom: 15px;
+  border-bottom: 1px solid #ddd;*/
+}
+
+.document-form .grid-container {
+  margin-bottom: 15px;
+  border-bottom: 1px solid #ddd;
+}
+
+.tab-control {
+  margin-bottom: 10px;
 }

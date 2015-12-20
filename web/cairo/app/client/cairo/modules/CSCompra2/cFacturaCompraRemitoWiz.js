@@ -13,8 +13,7 @@
 
       var getText = Cairo.Language.getText;
 
-      var TITLE = getText(1892, ""); // Facturas de Compra
-      var SAVE_ERROR_MESSAGE = getText(1907, ""); // Error al grabar la factura de compra      
+      var SAVE_ERROR_MESSAGE = getText(1907, ""); // Error al grabar la factura de compra
 
       var P = Cairo.Promises;
       var NO_ID = Cairo.Constants.NO_ID;
@@ -23,7 +22,6 @@
       var CC = Cairo.Compras.Constants;
       var Types = Cairo.Constants.Types;
       var valField = DB.valField;
-      var getValue = DB.getValue;
       var valEmpty = Cairo.Util.valEmpty;
       var call = P.call;
       var D = Cairo.Documents;
@@ -69,7 +67,6 @@
       var KII_INTERNOSPORC = 20;
 
       var m_objWizard;
-
       var m_wizardProcessing;
       var m_wizardCancel;
 
@@ -83,8 +80,6 @@
       var m_rcIds = 0;
 
       var m_showStockData;
-      var m_deplId = 0;
-      var m_deposito = "";
 
       var m_objClient = null;
 
@@ -136,10 +131,7 @@
       };
 
       self.setRcIds = function(value) {
-        m_rcIds = [];
-        for(var i = 0; i < value.length; i++) {
-          m_rcIds[i] = value[i];
-        }
+        m_rcIds = value.slice();
       };
 
       self.setObjClient = function(value) {
@@ -1343,7 +1335,7 @@
         var checkItem = function(row, i) {
           return validateRowItems(row, i).whenSuccess(function() {
             existsSelected = true;
-            if(!val(getCell(row, KII_PRECIO_SIN_IVA).getValue()) !== 0) {
+            if(val(getCell(row, KII_PRECIO_SIN_IVA).getValue()) === 0) {
               return M.showWarningWithFalse(getText(1667, "", i + 1)); // Debe indicar un precio para el item (1)
             }
             return true;

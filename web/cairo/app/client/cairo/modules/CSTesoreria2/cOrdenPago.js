@@ -41,7 +41,7 @@
       var C_CHEQUEST = "Cheque de Tercero";
       var C_EFECTIVO = "Efectivo";
       var C_OTROS = "Otros";
-      var C_CTACTE = "Cuenta Corriente";
+      var C_CTA_CTE = "Cuenta Corriente";
 
       var C_CHEQUERA = "Chequera";
       var C_CHEQUET = "chqt";
@@ -63,7 +63,7 @@
       var K_COTIZACION = 25;
       var K_LGJ_ID = 27;
       var K_EFECTIVO = 28;
-      var K_CTACTE = 30;
+      var K_CTA_CTE = 30;
 
       var KI_IMPORTE = 1;
       var KI_FECHA = 4;
@@ -921,7 +921,7 @@
               isEmpty = isEmptyRowEfectivo(row, rowIndex);
               break;
 
-            case K_CTACTE:
+            case K_CTA_CTE:
               isEmpty = isEmptyRowCtaCte(row, rowIndex);
               break;
           }
@@ -1079,7 +1079,7 @@
               colAUpdateEfectivo(getEfectivoProperty(), lRow, lCol);
               break;
 
-            case K_CTACTE:
+            case K_CTA_CTE:
               colAUpdateCtaCte(getCtaCteProperty(), lRow, lCol);
               break;
           }
@@ -1136,7 +1136,7 @@
             if(id !== NO_ID) { m_otrosDeleted = m_otrosDeleted+ id.toString()+ ","; }
             break;
 
-          case K_CTACTE:
+          case K_CTA_CTE:
             id = Cairo.Util.val(Dialogs.cell(row, KIO_OPGI_ID).getValue());
             if(id !== NO_ID) { m_ctaCteDeleted = m_ctaCteDeleted+ id.toString()+ ","; }
             break;
@@ -1172,7 +1172,7 @@
               p = validateRowEfectivo(row, rowIndex);
               break;
 
-            case K_CTACTE:
+            case K_CTA_CTE:
               p = validateRowCtaCte(row, rowIndex);
               break;
           }
@@ -1411,13 +1411,13 @@
 
         ///////////////////////////////////////////////////////////////////
         // CTA CTE
-        c = properties.add(null, C_CTACTE);
+        c = properties.add(null, C_CTA_CTE);
         c.setType(Dialogs.PropertyType.grid);
         c.setLeftLabel(-1);
         setGridCtaCte(c);
         if(!pLoadCtaCte(c)) { return false; }
-        c.setName(C_CTACTE);
-        c.setKey(K_CTACTE);
+        c.setName(C_CTA_CTE);
+        c.setKey(K_CTA_CTE);
         c.setTabIndex(c_TabCtaCte);
         c.setGridAddEnabled(true);
         c.setGridEditEnabled(true);
@@ -3118,7 +3118,7 @@
 
           m_iOrden = m_iOrden + 1;
           register.getFields().add2(CT.OPGI_ORDEN, m_iOrden, Types.integer);
-          register.getFields().add2(CT.OPGI_TIPO, csEOrdenPagoItemTipo.cSEOPGITCTACTE, Types.integer);
+          register.getFields().add2(CT.OPGI_TIPO, csEOrdenPagoItemTipo.cSEOPGITCTA_CTE, Types.integer);
           register.getFields().add2(CT.OPG_TMPID, id, Types.id);
           register.getFields().add2(CT.OPGI_OTRO_TIPO, CT.OtroTipo.OTRO_DEBE, Types.integer);
 
@@ -3224,7 +3224,7 @@
       };
 
       var getCtaCteProperty = function() {
-        return m_items.getProperties().item(C_CTACTE);
+        return m_items.getProperties().item(C_CTA_CTE);
       };
 
       var colAUpdateTCheque = function(property,  lRow,  lCol) { // TODO: Use of ByRef founded Private Function colAUpdateTCheque(ByRef IProperty As cIABMProperty, ByVal lRow As Long, ByVal lCol As Long) As Boolean

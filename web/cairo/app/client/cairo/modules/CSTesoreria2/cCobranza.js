@@ -41,7 +41,7 @@
       var C_EFECTIVO = "Efectivo";
       var C_TARJETA = "Tarjetas";
       var C_OTROS = "Otros";
-      var C_CTACTE = "Cuenta Corriente";
+      var C_CTA_CTE = "Cuenta Corriente";
       var C_CUOTAS = "Cuotas";
 
       var K_NUMERO = 1;
@@ -62,7 +62,7 @@
       var K_LGJ_ID = 27;
       var K_EFECTIVO = 28;
       var K_TARJETA = 29;
-      var K_CTACTE = 30;
+      var K_CTA_CTE = 30;
 
       var KIO_COBZI_ID = 1;
       var KIO_CUE_ID = 2;
@@ -947,7 +947,7 @@
               isEmpty = isEmptyRowEfectivo(row, rowIndex);
               break;
 
-            case K_CTACTE:
+            case K_CTA_CTE:
               isEmpty = isEmptyRowCtaCte(row, rowIndex);
               break;
           }
@@ -1107,8 +1107,8 @@
               columnAfterUpdateEfectivo(m_items.getProperties().item(C_EFECTIVO), lRow, lCol);
               break;
 
-            case K_CTACTE:
-              columnAfterUpdateCtaCte(m_items.getProperties().item(C_CTACTE), lRow, lCol);
+            case K_CTA_CTE:
+              columnAfterUpdateCtaCte(m_items.getProperties().item(C_CTA_CTE), lRow, lCol);
               break;
           }
 
@@ -1130,7 +1130,7 @@
             case K_EFECTIVO:
             case K_TARJETA:
             case K_OTROS:
-            case K_CTACTE:
+            case K_CTA_CTE:
               p = P.resolvedPromise(true);;
               break;
           }
@@ -1166,7 +1166,7 @@
               rtn = true;
               break;
 
-            case K_CTACTE:
+            case K_CTA_CTE:
               rtn = true;
               break;
           }
@@ -1238,7 +1238,7 @@
             if(id !== NO_ID) { m_otrosDeleted = m_otrosDeleted+ id.toString()+ ","; }
             break;
 
-          case K_CTACTE:
+          case K_CTA_CTE:
 
             var id = val(getCell(row, KIO_COBZI_ID).getValue());
             if(id !== NO_ID) { m_ctaCteDeleted = m_ctaCteDeleted+ id.toString()+ ","; }
@@ -1275,7 +1275,7 @@
               p = validateRowEfectivo(row, rowIndex);
               break;
 
-            case K_CTACTE:
+            case K_CTA_CTE:
               p = validateRowCtaCte(row, rowIndex);
               break;
           }
@@ -1489,12 +1489,12 @@
 
         m_otrosDeleted = "";
 
-        elem = properties.add(null, C_CTACTE);
+        elem = properties.add(null, C_CTA_CTE);
         elem.setType(T.grid);
         setGridCtaCte(elem);
         loadCtaCte(elem);
-        elem.setName(C_CTACTE);
-        elem.setKey(K_CTACTE);
+        elem.setName(C_CTA_CTE);
+        elem.setKey(K_CTA_CTE);
         elem.setTabIndex(c_TabCtaCte);
         elem.setGridAddEnabled(true);
         elem.setGridEditEnabled(true);
@@ -3058,7 +3058,7 @@
 
           m_iOrden = m_iOrden + 1;
           fields.add(CT.COBZI_ORDEN, m_iOrden, Types.integer);
-          fields.add(CT.COBZI_TIPO, CT.CobranzaItemTipo.ITEM_CTACTE, Types.integer);
+          fields.add(CT.COBZI_TIPO, CT.CobranzaItemTipo.ITEM_CTA_CTE, Types.integer);
           fields.add(CT.COBZI_OTRO_TIPO, CT.OtroTipo.OTRO_HABER, Types.integer);
 
           transaction.addRegister(register);
@@ -3147,7 +3147,7 @@
       };
 
       var getCtaCteProperty = function() {
-        return m_items.getProperties().item(C_CTACTE);
+        return m_items.getProperties().item(C_CTA_CTE);
       };
 
       var columnAfterUpdateCheque = function(property, lRow, lCol) {
@@ -4019,12 +4019,17 @@
           .whenSuccess(loadCollection);
       };
 
-      self.edit = function(xxId) {
-        m_listController.edit(xxId);
+      self.edit = function(cobzId) {
+        m_listController.edit(cobzId);
       };
 
-      self.deleteItem = function(xxId) {
-        return m_listController.destroy(xxId);
+      self.deleteItem = function(cobzId) {
+        D.confirmDeleteDocument()
+          .then(function(answer) {
+            if(answer === "yes") {
+              return m_listController.destroy(cobzId);
+            }
+          });
       };
 
       self.showDocDigital = function() {

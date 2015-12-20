@@ -65,9 +65,9 @@
       var K_MESSANGER = 28;
       var K_CONTACTOS = 29;
       var K_VEN_ID = 30;
-      var K_CREDITOCTACTE = 31;
-      var K_CREDITOTOTAL = 32;
-      var K_CREDITOACTIVO = 33;
+      var K_CREDITO_CTA_CTE = 31;
+      var K_CREDITO_TOTAL = 32;
+      var K_CREDITO_ACTIVO = 33;
       var K_CUENTA_GRUPO = 34;
       var K_PERCEPCION = 35;
       var K_EMPRESAS = 36;
@@ -550,15 +550,15 @@
               fields.add(C.LD_ID, property.getSelectId(), Types.id);
               break;
 
-            case K_CREDITOCTACTE:
-              fields.add(C.CLI_CREDITOCTACTE, property.getValue(), Types.currency);
+            case K_CREDITO_CTA_CTE:
+              fields.add(C.CLI_CREDITOCTA_CTE, property.getValue(), Types.currency);
               break;
 
-            case K_CREDITOTOTAL:
+            case K_CREDITO_TOTAL:
               fields.add(C.CLI_CREDITOTOTAL, property.getValue(), Types.currency);
               break;
 
-            case K_CREDITOACTIVO:
+            case K_CREDITO_ACTIVO:
               fields.add(C.CLI_CREDITOACTIVO, property.getValue(), Types.boolean);
               break;
 
@@ -721,11 +721,11 @@
               }
               break;
 
-            case K_CREDITOCTACTE:
+            case K_CREDITO_CTA_CTE:
               creditoCC = val(property.getValue());
               break;
 
-            case K_CREDITOTOTAL:
+            case K_CREDITO_TOTAL:
               creditoTotal = val(property.getValue());
               break;
           }
@@ -1082,12 +1082,12 @@
         elem.setKey(K_PCIATRANSPORTE);
         elem.setValue(val(m_pciaTransporte));
 
-        var elem = properties.add(null, C.CLI_CREDITOCTACTE);
+        var elem = properties.add(null, C.CLI_CREDITOCTA_CTE);
         elem.setType(T.numeric);
         elem.setSubType(Dialogs.PropertySubType.money);
         elem.setName(getText(1399, "")); // Crédito en cta.cte.
         elem.setTabIndex(tab_credito);
-        elem.setKey(K_CREDITOCTACTE);
+        elem.setKey(K_CREDITO_CTA_CTE);
         elem.setValue(m_creditoctacte);
 
         var elem = properties.add(null, C.CLI_CREDITOTOTAL);
@@ -1095,14 +1095,14 @@
         elem.setSubType(Dialogs.PropertySubType.money);
         elem.setName(getText(1400, "")); // Crédito Total
         elem.setTabIndex(tab_credito);
-        elem.setKey(K_CREDITOTOTAL);
+        elem.setKey(K_CREDITO_TOTAL);
         elem.setValue(m_creditototal);
 
         var elem = properties.add(null, C.CLI_CREDITOACTIVO);
         elem.setType(T.check);
         elem.setName(getText(1401, "")); // Crédito Activo
         elem.setTabIndex(tab_credito);
-        elem.setKey(K_CREDITOACTIVO);
+        elem.setKey(K_CREDITO_ACTIVO);
         elem.setValue(val(m_creditoactivo));
 
         var elem = properties.add(null, C.CLI_DESCRIP);
@@ -1774,7 +1774,7 @@
               m_yahoo = valField(response.data, C.CLI_YAHOO);
               m_messanger = valField(response.data, C.CLI_MESSENGER);
               m_web = valField(response.data, C.CLI_WEB);
-              m_creditoctacte = valField(response.data, C.CLI_CREDITOCTACTE);
+              m_creditoctacte = valField(response.data, C.CLI_CREDITOCTA_CTE);
               m_creditototal = valField(response.data, C.CLI_CREDITOTOTAL);
               m_creditoactivo = valField(response.data, C.CLI_CREDITOACTIVO);
               m_pro_id = valField(response.data, C.PRO_ID);
@@ -1991,7 +1991,7 @@
         var property = properties.item(C.CLI_PCIA_TRANSPORTE);
         property.setValue(val(m_pciaTransporte));
 
-        var property = properties.item(C.CLI_CREDITOCTACTE);
+        var property = properties.item(C.CLI_CREDITOCTA_CTE);
         property.setValue(m_creditoctacte);
 
         var property = properties.item(C.CLI_CREDITOTOTAL);

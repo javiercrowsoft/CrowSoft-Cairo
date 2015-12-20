@@ -378,13 +378,13 @@
 
         c = m_dialog.getProperties().add(null, mPedidoConstantes.CCOS_ID);
         c.setType(Dialogs.PropertyType.select);
-        c.setSelectTable(Cairo.Tables.CENTROCOSTO);
+        c.setSelectTable(Cairo.Tables.CENTRO_COSTO);
         // Centro de Costos
         c.setName(getText(1057, ""));
         c.setKey(K_CCOS_ID);
         value = m_centroCosto;
         if(m_ccosId.Substring(0, 1).toUpperCase() === KEY_NODO) {
-          value = GetNombreRama(Cairo.Tables.CENTROCOSTO, Cairo.Util.val(m_ccosId.Substring(2)), bExists);
+          value = GetNombreRama(Cairo.Tables.CENTRO_COSTO, Cairo.Util.val(m_ccosId.Substring(2)), bExists);
           if(!bExists) { m_ccosId = "0"; }
         }
         c.setValue(value);
@@ -1016,7 +1016,7 @@
           i = i + 1;
           m_vMenuModoPago[C_VM_ID, i] === Cairo.Database.valField(rs.getFields(), "vm_id");
           m_vMenuModoPago[C_VM_MENU_ID, i] === m_objList.addMenu(Cairo.Database.valField(rs.getFields(), "vm_nombre"));
-          m_vMenuModoPago[C_VM_IS_CONTADO, i] === Cairo.Database.valField(rs.getFields(), "vm_ctacte") !== csE_VentaModoCtaCte.cSVM_CTACTEHOJARUTA;
+          m_vMenuModoPago[C_VM_IS_CONTADO, i] === Cairo.Database.valField(rs.getFields(), "vm_ctacte") !== csE_VentaModoCtaCte.cSVM_CTA_CTEHOJARUTA;
           m_vMenuModoPago[C_VM_CUE_ID, i] === Cairo.Database.valField(rs.getFields(), "cue_id");
 
           m_objList.addMenu("-");

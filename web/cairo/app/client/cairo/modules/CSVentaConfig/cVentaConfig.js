@@ -35,7 +35,7 @@
       var K_ZON_ID = 14;
       var K_PERC_ID = 15;
       var K_EXIGIR_CAJA = 16;
-      var K_EXIGIR_CENTROCOSTO = 17;
+      var K_EXIGIR_CENTRO_COSTO = 17;
 
       var K_DOC_ID_SOBRANTE = 18;
       var K_DOC_ID_FALTANTE = 19;
@@ -60,7 +60,7 @@
       var C_RESTOENTERO = "Restar a precios enteros";
       var C_USARLISTAPRECIOPRECIO = "Utilizar Cache de Precios";
       var C_EXIGIRCAJA = "Exigir que la Caja Este Abierta para Facturar";
-      var C_EXIGIRCENTROCOSTO = "Exigir Centro Costo";
+      var C_EXIGIRCENTRO_COSTO = "Exigir Centro Costo";
       var C_COBRANZAPORCAJERO = "Concentrar Cobranzas en Cajero";
       var C_VENTASPORHOJADERUTA = "Ventas por Hoja de Ruta";
 
@@ -373,14 +373,14 @@
               transaction.addRegister(register);
               break;
 
-            case K_EXIGIR_CENTROCOSTO:
+            case K_EXIGIR_CENTRO_COSTO:
               register = createRegister();
 
-              register.setFilter("cfg_grupo:" + sq(C_GRUPOGENERAL) + ", cfg_aspecto:" + sq(C_EXIGIRCENTROCOSTO));
+              register.setFilter("cfg_grupo:" + sq(C_GRUPOGENERAL) + ", cfg_aspecto:" + sq(C_EXIGIRCENTRO_COSTO));
 
               var w_fields = register.getFields();
               w_fields.add(CFG_GRUPO, C_GRUPOGENERAL, TEXT);
-              w_fields.add(CONFIG_KEY, C_EXIGIRCENTROCOSTO, TEXT);
+              w_fields.add(CONFIG_KEY, C_EXIGIRCENTRO_COSTO, TEXT);
               w_fields.add(CONFIG_VALUE, property.getValue(), TEXT);
 
               transaction.addRegister(register);
@@ -809,7 +809,7 @@
                     m_ventasPorHojadeRuta = bool(getValue(settings[_i], CONFIG_VALUE));
                     break;
 
-                  case C_EXIGIRCENTROCOSTO:
+                  case C_EXIGIRCENTRO_COSTO:
                     m_exigirCentroCosto = bool(getValue(settings[_i], CONFIG_VALUE));
                     break;
 
@@ -1015,11 +1015,11 @@
         elem.setValue(Cairo.Util.boolToInt(m_ventasPorHojadeRuta));
         elem.setKey(K_VENTAS_POR_HOJADERUTA);
 
-        var elem = properties.add(null, C_EXIGIRCENTROCOSTO);
+        var elem = properties.add(null, C_EXIGIRCENTRO_COSTO);
         elem.setType(T.check);
-        elem.setName(C_EXIGIRCENTROCOSTO);
+        elem.setName(C_EXIGIRCENTRO_COSTO);
         elem.setValue(Cairo.Util.boolToInt(m_exigirCentroCosto));
-        elem.setKey(K_EXIGIR_CENTROCOSTO);
+        elem.setKey(K_EXIGIR_CENTRO_COSTO);
 
         elem = properties.add(null, C_PERCEPCION);
         elem.setType(T.grid);
@@ -1280,7 +1280,7 @@
         var elem = properties.item(C_VENTASPORHOJADERUTA);
         elem.setValue(Cairo.Util.boolToInt(m_ventasPorHojadeRuta));
 
-        var elem = properties.item(C_EXIGIRCENTROCOSTO);
+        var elem = properties.item(C_EXIGIRCENTRO_COSTO);
         elem.setValue(Cairo.Util.boolToInt(m_exigirCentroCosto));
 
         var elem = properties.item(C.CLI_RAZONSOCIAL);

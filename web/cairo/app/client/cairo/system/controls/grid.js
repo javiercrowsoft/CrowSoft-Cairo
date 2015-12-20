@@ -1635,7 +1635,6 @@
         self.table = $('<table></table>');
         element.append(self.table);
         superSetElement(element);
-        //element.text(self.text);
         self.table.addClass('dialog-grid table table-bordered');
         setListeners(view);
         draw(self.table);

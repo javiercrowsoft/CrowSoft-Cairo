@@ -527,6 +527,10 @@
     }
   };
 
+  Cairo.Documents.confirmDeleteDocument = function() {
+    return Cairo.Modal.confirmViewYesDanger("Delete", "Do you want to delete this document ?"); // TODO: use language
+  };
+
   Cairo.Documents.getEmailFromProveedor = function(provId) {
     return DB.getData("load[" + m_apiPath + "general/proveedor/" + provId.toString() + "/email]").then(
       function(response) {
@@ -1195,7 +1199,7 @@
 
     var elem = properties.add(null, DWC.LEGAJO);
     elem.setType(T.select);
-    elem.setSelectTable(Cairo.Tables.LEGAJO);
+    elem.setSelectTable(Cairo.Tables.LEGAJOS);
     elem.setName(getText(1575, "")); // Legajo
 
     var elem = properties.add(null, DWC.CENTRO_COSTO);

@@ -401,7 +401,7 @@
         ITEM_EFECTIVO: 2,
         ITEM_TARJETA: 3,
         ITEM_OTROS: 4,
-        ITEM_CTACTE: 5
+        ITEM_CTA_CTE: 5
       },
 
       OtroTipo: {

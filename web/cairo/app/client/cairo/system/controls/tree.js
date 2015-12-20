@@ -1380,7 +1380,7 @@
 
                 // to prevent the menu to be behind the dialog when showing a tree select
                 //
-                ui.menu.zIndex(1000);
+                ui.menu.zIndex(9001);
               },
               select: function(event, ui) {
                 var node = $.ui.fancytree.getNode(ui.target);
@@ -1541,7 +1541,7 @@
         itemsListLayout.on("item:delete", function(childView, args) {
           try {
             var id = $(childView.event.currentTarget.parentElement.parentElement).data("clientid");
-            Cairo.Modal.confirmViewYesDanger("Delete", "Do you want delete this item ?").then(function(answer) {
+            Cairo.Modal.confirmViewYesDanger("Delete", "Do you want to delete this item ?").then(function(answer) {
               if(answer === "yes") {
                 listController.destroy(id).whenSuccess(
                   function() {

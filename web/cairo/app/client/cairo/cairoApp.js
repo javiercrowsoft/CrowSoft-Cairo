@@ -394,7 +394,13 @@ var Cairo = new Marionette.Application();
     SELECT_ORDEN_REMITO: 450,
     SELECT_ITEMS: 600,
     DATOS_GENERALES: 700,
-    PERCEPCIONES: 800
+    PERCEPCIONES: 800,
+
+    SELECT_CLIENTE: 900,
+    SELECT_FACTURA: 1000,
+    ANTICIPO: 1100,
+    DIF_CAMBIO: 1200,
+    SELECT_COBROS: 1300
   };
 
   Cairo.Constants.WizardConstants = {
@@ -417,7 +423,43 @@ var Cairo = new Marionette.Application();
     KW_TODOS_ITEMS: 1130,
 
     KW_PERCEPCIONES: 1150,
-    KW_TOTAPERCEPCIONES: 160
+    KW_TOTAPERCEPCIONES: 160,
+
+    KW_FACTURAS: 10,
+    KW_COTIZACION: 20,
+    KW_AGRUPADOS: 30,
+    KW_VENCIDOS: 40,
+    KW_CUE_ID_DIF_CAMBIO: 50,
+    KW_DOC_ID_NC_DIF_CAMBIO: 60,
+    KW_DOC_ID_ND_DIF_CAMBIO: 70,
+    KW_PR_ID_DIF_CAMBIO: 80,
+    KW_DEFALUT_DIF_CAMBIO: 90,
+    KW_MODO_IVA_DIF_CAMBIO: 100,
+    KW_APLICACION_DIF_CAMBIO: 101,
+    KW_CHEQUES: 120,
+    KW_CTA_CTE: 130,
+    KW_EFECTIVO: 140,
+    KW_OTROS: 150,
+    KW_TARJETAS: 160,
+    KW_ANTICIPO: 170,
+    KW_IMPORTE_OTROS: 180,
+    KW_IMPORTE_TOTAL: 190,
+    KW_IMPORTE_NETO: 200,
+    KW_IMPORTE_INDICADO: 210,
+    KW_CLIENTE2: 220,
+    KW_FECHA: 230,
+    KW_FECHA_NDNC: 235,
+    KW_SUCURSAL: 240,
+    KW_DESCRIP: 250,
+    KW_COMPROBANTE: 260,
+    KW_COBRADOR: 270,
+    KW_LEGAJO: 280,
+    KW_CENTRO_COSTO: 290,
+
+    KW_CUENTA_ANTICIPO: 300,
+    KW_MONEDA_ANTICIPO: 310,
+    KW_COTIZACION_ANTICIPO: 320,
+    KW_IMPORTE_ANTICIPO: 330
   };
   
   Cairo.Constants.WizardKeys = {
@@ -482,7 +524,44 @@ var Cairo = new Marionette.Application();
     TOTAL_ITEMS: "TOTALITEMS",
     TOTAL_PERCEPCIONES: "TOTALPERCEP",
 
-    USUARIO: "US"
+    USUARIO: "US",
+
+    VENCIDOS: "VENCIDOS",
+    AGRUPADOS: "AGRUPADOS",
+    FACTUAS: "FACTURAS",
+    COTIZACION2: "COTIZACION2",
+    TOTAL_PAGO: "TOTAL-PAGO",
+    TOTAL_PAGO_ORIGEN: "TOTAL-PAGO-ORIGEN",
+    ANTICIPO: "ANTICIPO",
+    IMPORTE: "IMPORTE",
+    MONEDA: "MONEDA",
+
+    MONEDA_ANTICIPO: "ANT-MONEDA",
+    CUENTA_ANTICIPO: "ANT-CUENTA",
+    COTIZACION_ANTICIPO: "ANT-COTIZACION",
+    ANTICIPO_IMPORTE: "ANT-IMPORTE",
+
+    COBRO_OTROS: "COBRO-OTROS",
+    COBRO_TOTAL: "COBRO-TOTAL",
+    COBRO_NETO: "COBRO-NETO",
+    COBRO_INDICADO: "COBRO-INDICADO",
+
+    CHEQUES: "CHEQUES",
+    OTROS: "OTROS",
+    CTA_CTE: "CTA_CTE",
+    EFECTIVO: "EFVO",
+    TARJETAS: "TARJETA",
+
+    CUE_ID_DIF_CAMBIO: "Cuenta contable",
+    NC_DIF_CAMBIO: "Nota de credito",
+    ND_DIF_CAMBIO: "Nota de debito",
+    DEFAULT_DIF_CAMBIO: "Utilizar",
+    MODO_IVA_DIF_CAMBIO: "Tratamiento del Iva",
+    PR_ID_DIF_CAMBIO: "Articulo",
+    FECHA_ND_NC: "FechaNDNC",
+    APLICACION_ND: "AplicND",
+
+    COBRADOR: "Cobrador"
   };
 
   //
@@ -1136,6 +1215,10 @@ var Cairo = new Marionette.Application();
 
     Cairo.Settings.getAmountDecimalsFormat = function() {
       return settings.amountDecimalsFormat;
+    };
+
+    Cairo.Settings.getAmountDecimals = function() {
+      return settings.amountDecimals;
     };
 
     Cairo.Settings.getCurrencyRateDecimalsFormat = function() {
