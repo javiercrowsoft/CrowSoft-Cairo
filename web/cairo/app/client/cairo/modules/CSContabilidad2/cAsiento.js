@@ -305,16 +305,16 @@
         return _rtn;
       };
 
-      self.messageEx = function(messageID, info) {
+      self.messageEx = function(messageId, info) {
         var p = null;
 
-        switch (messageID) {
+        switch (messageId) {
           case Dialogs.Message.MSG_DOC_FIRST:
           case Dialogs.Message.MSG_DOC_PREVIOUS:
           case Dialogs.Message.MSG_DOC_NEXT:
           case Dialogs.Message.MSG_DOC_LAST:
 
-            p = move(messageID);
+            p = move(messageId);
             break;
 
           case Dialogs.Message.MSG_DOC_SIGNATURE:

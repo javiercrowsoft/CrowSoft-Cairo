@@ -1402,6 +1402,10 @@
       LGJ_TITLE: "lgj_titulo",
       LGJ_CODE: "lgj_codigo",
 
+      // Settings
+      CONFIG_KEY: "cfg_aspecto",
+      CONFIG_VALUE: "cfg_valor",
+
       // Accounting
       filterForSales: "ti_tipo: 1",
       filterForPurchase: "ti_tipo: 2",

@@ -339,11 +339,11 @@
         return _rtn;
       };
 
-      self.messageEx = function(messageID, info) {
+      self.messageEx = function(messageId, info) {
         var _rtn = null;
         var p = null;
 
-        switch (messageID) {
+        switch (messageId) {
 
           case Dialogs.Message.MSG_DOC_INFO:
 

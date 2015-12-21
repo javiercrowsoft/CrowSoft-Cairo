@@ -528,8 +528,10 @@
                     m_monId = result.info.monId;
                   }
                 }
+              ).then(function() {
+                  self.propertyChange(WC.KW_DOC_ID);
+                }
               );
-              self.propertyChange(WC.KW_DOC_ID);
               break;
 
             case WCS.SELECT_PROVEEDOR:
@@ -566,8 +568,8 @@
 
             case WCS.SELECT_ORDEN_REMITO:
 
-              p = checkRemitos(                
-                ).whenSuccess(
+              p = checkRemitos()
+                .whenSuccess(
                   function() {
                     return loadItemsXRemitos().whenSuccess(
                       function() {

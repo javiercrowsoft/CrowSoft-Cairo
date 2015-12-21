@@ -19,6 +19,7 @@ Cairo.UsuarioConfig = {};
 Cairo.StockConfig = {};
 Cairo.ContConfig = {};
 Cairo.VentaConfig = {};
+Cairo.TesoreriaConfig = {};
 
 Cairo.SearchZona = {};
 

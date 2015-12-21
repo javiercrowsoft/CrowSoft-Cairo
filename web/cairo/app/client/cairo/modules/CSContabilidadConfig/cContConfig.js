@@ -52,9 +52,6 @@
       var TEXT = Cairo.Constants.Types.text;
       var ID = Cairo.Constants.Types.id;
 
-      var CONFIG_KEY = "cfg_aspecto";
-      var CONFIG_VALUE = "cfg_valor";
-
       self.getClaveFiscal = function() {
         return m_claveFiscal;
       };
@@ -126,10 +123,10 @@
 
               register.setFilter("cfg_grupo:" + sq(C_GRUPOGENERAL) + ", cfg_aspecto:" + sq(C_CLAVEFISCAL));
 
-              var w_fields = register.getFields();
-              w_fields.add(CFG_GRUPO, C_GRUPOGENERAL, TEXT);
-              w_fields.add(CONFIG_KEY, C_CLAVEFISCAL, TEXT);
-              w_fields.add(CONFIG_VALUE, property.getListItemData(), TEXT);
+              var fields = register.getFields();
+              fields.add(CFG_GRUPO, C_GRUPOGENERAL, TEXT);
+              fields.add(C.CONFIG_KEY, C_CLAVEFISCAL, TEXT);
+              fields.add(C.CONFIG_VALUE, property.getListItemData(), TEXT);
 
               transaction.addRegister(register);
               break;
@@ -139,10 +136,10 @@
 
               register.setFilter("cfg_grupo:" + sq(C_GRUPOGENERAL) + ", cfg_aspecto:" + sq(C_FACTURAELECTRONICA));
 
-              var w_fields = register.getFields();
-              w_fields.add(CFG_GRUPO, C_GRUPOGENERAL, TEXT);
-              w_fields.add(CONFIG_KEY, C_FACTURAELECTRONICA, TEXT);
-              w_fields.add(CONFIG_VALUE, property.getValue(), TEXT);
+              var fields = register.getFields();
+              fields.add(CFG_GRUPO, C_GRUPOGENERAL, TEXT);
+              fields.add(C.CONFIG_KEY, C_FACTURAELECTRONICA, TEXT);
+              fields.add(C.CONFIG_VALUE, property.getValue(), TEXT);
 
               transaction.addRegister(register);
               break;
@@ -152,11 +149,11 @@
 
               register.setFilter("cfg_grupo:" + sq(C_GRUPOGENERAL) + ", cfg_aspecto:" + sq(C_PUNTOVENTAFE) + ", emp_id:" + companyId);
 
-              var w_fields = register.getFields();
-              w_fields.add(CFG_GRUPO, C_GRUPOGENERAL, TEXT);
-              w_fields.add(CONFIG_KEY, C_PUNTOVENTAFE, TEXT);
-              w_fields.add(CONFIG_VALUE, property.getValue(), TEXT);
-              w_fields.add(EMP_ID, companyId, ID);
+              var fields = register.getFields();
+              fields.add(CFG_GRUPO, C_GRUPOGENERAL, TEXT);
+              fields.add(C.CONFIG_KEY, C_PUNTOVENTAFE, TEXT);
+              fields.add(C.CONFIG_VALUE, property.getValue(), TEXT);
+              fields.add(EMP_ID, companyId, ID);
 
               transaction.addRegister(register);
               break;
@@ -166,11 +163,11 @@
 
               register.setFilter("cfg_grupo:" + sq(C_GRUPOGENERAL) + ", cfg_aspecto:" + sq(C_TAIDPREFACTURA) + ", emp_id:" + companyId);
 
-              var w_fields = register.getFields();
-              w_fields.add(CFG_GRUPO, C_GRUPOGENERAL, TEXT);
-              w_fields.add(CONFIG_KEY, C_TAIDPREFACTURA, TEXT);
-              w_fields.add(CONFIG_VALUE, property.getSelectId(), TEXT);
-              w_fields.add(EMP_ID, companyId, ID);
+              var fields = register.getFields();
+              fields.add(CFG_GRUPO, C_GRUPOGENERAL, TEXT);
+              fields.add(C.CONFIG_KEY, C_TAIDPREFACTURA, TEXT);
+              fields.add(C.CONFIG_VALUE, property.getSelectId(), TEXT);
+              fields.add(EMP_ID, companyId, ID);
 
               transaction.addRegister(register);
               break;
@@ -240,22 +237,22 @@
 
               for(var _i = 0; _i < settings.length; _i += 1) {
 
-                switch (getValue(settings[_i], CONFIG_KEY)) {
+                switch (getValue(settings[_i], C.CONFIG_KEY)) {
 
                   case C_CLAVEFISCAL:
-                    m_claveFiscal = val(getValue(settings[_i], CONFIG_VALUE));
+                    m_claveFiscal = val(getValue(settings[_i], C.CONFIG_VALUE));
                     break;
 
                   case C_FACTURAELECTRONICA:
-                    m_facturaElectronica = val(getValue(settings[_i], CONFIG_VALUE));
+                    m_facturaElectronica = val(getValue(settings[_i], C.CONFIG_VALUE));
                     break;
 
                   case C_PUNTOVENTAFE:
-                    m_puntoVentaFe = val(getValue(settings[_i], CONFIG_VALUE));
+                    m_puntoVentaFe = val(getValue(settings[_i], C.CONFIG_VALUE));
                     break;
 
                   case C_TAIDPREFACTURA:
-                    var value = getValue(settings[_i], CONFIG_VALUE);
+                    var value = getValue(settings[_i], C.CONFIG_VALUE);
                     m_ta_id = value.id;
                     m_talonario = value.name;
                     break;

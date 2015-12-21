@@ -2970,6 +2970,7 @@
     var m_ventasConfig = null;
     var m_stockConfig = null;
     var m_contabilidadConfig = null;
+    var m_tesorariaConfig = null;
 
     Cairo.getVentasConfig = function() {
       return m_ventasConfig;
@@ -2981,6 +2982,10 @@
 
     Cairo.getContabilidadConfig = function() {
       return m_contabilidadConfig;
+    };
+
+    Cairo.getTesoreriaConfig = function() {
+      return m_tesorariaConfig;
     };
 
     var initVentasConfig = function() {
@@ -3000,10 +3005,16 @@
       return m_contabilidadConfig.load(Cairo.User.getId());
     };
 
+    var initTesoreriaConfig = function() {
+      m_tesorariaConfig = Cairo.TesoreriaConfig.Edit.Controller.getEditor();
+      return m_tesorariaConfig.load(Cairo.User.getId());
+    };
+
     Cairo.Promises.resolvedPromise(true)
       .whenSuccess(initContabilidadConfig)
       .whenSuccess(initStockConfig)
       .whenSuccess(initVentasConfig)
+      .whenSuccess(initTesoreriaConfig)
       .then(Cairo.LoadingMessage.close);
   };
 

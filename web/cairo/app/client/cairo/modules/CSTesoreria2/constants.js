@@ -412,6 +412,21 @@
       CuponTipo: {
         CUPON_POSNET: 1,
         CUPON_MANUAL: 2
+      },
+
+      ModoDifCambio: {
+        DIF_CAMBIO_CUENTA: 1,
+        DIF_CAMBIO_NC_ND: 2
+      },
+
+      ModoIvaDifCambio: {
+        DIF_IVA_IMPONIBLE: 1,
+        DIF_IVA_NO_IMPONIBLE: 2
+      },
+
+      AplicacionDifCambio: {
+        DIF_APLICACION_ND: 1,
+        DIF_APLICACION_FV: 2
       }
     }
   };

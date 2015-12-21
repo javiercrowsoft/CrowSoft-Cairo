@@ -359,7 +359,7 @@
       var m_leyenda = "";
       var m_webImageFolder = "";
       var m_productowebpadre = "";
-      var m_pr_id_webPadre = 0;
+      var m_prIdWebPadre = 0;
       var m_webImageUpdate;
       var m_isTemplate;
       var m_cur_id = 0;
@@ -676,7 +676,7 @@
         }
 
         m_dialog.getProperties().item(C.PR_ES_PLANTILLA).setEnabled(true);
-        getTags().setEnabled(m_pr_id_webPadre === NO_ID);
+        getTags().setEnabled(m_prIdWebPadre === NO_ID);
 
       };
 
@@ -2424,7 +2424,7 @@
         elem.setKey(K_PR_ID_WEB_PADRE);
         elem.setTabIndex(tab_Web);
         elem.setValue(m_productowebpadre);
-        elem.setSelectId(m_pr_id_webPadre);
+        elem.setSelectId(m_prIdWebPadre);
 
         elem = properties.add(null, C.PR_ACTIVO_WEB);
         elem.setType(T.check);
@@ -3003,7 +3003,7 @@
               m_posicionArancel = valField(response.data, C.POAR_NAME);
 
               m_productowebpadre = valField(response.data, C.PR_NAME_WEB_PADRE);
-              m_pr_id_webPadre = valField(response.data, C.PR_ID_WEB_PADRE);
+              m_prIdWebPadre = valField(response.data, C.PR_ID_WEB_PADRE);
 
               //
               // load rubro
@@ -3189,7 +3189,7 @@
               m_posicionArancel = "";
 
               m_productowebpadre = "";
-              m_pr_id_webPadre = NO_ID;
+              m_prIdWebPadre = NO_ID;
 
             }
 
@@ -3569,7 +3569,7 @@
 
         var property = properties.item(C.PR_ID_WEB_PADRE);
         property.setValue(m_productowebpadre);
-        property.setSelectId(m_pr_id_webPadre);
+        property.setSelectId(m_prIdWebPadre);
 
         var property = properties.item(C.PR_ACTIVO_WEB);
         property.setValue(bToI(m_activoWeb));

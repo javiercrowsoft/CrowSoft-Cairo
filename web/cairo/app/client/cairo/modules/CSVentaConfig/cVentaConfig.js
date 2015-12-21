@@ -7,8 +7,6 @@
 
       var self = {};
 
-      var Dialogs = Cairo.Dialogs;
-
       var getText = Cairo.Language.getText;
 
       var Dialogs = Cairo.Dialogs;
@@ -142,9 +140,6 @@
       var EMP_ID = C.EMP_ID;
       var TEXT = Cairo.Constants.Types.text;
       var ID = Cairo.Constants.Types.id;
-
-      var CONFIG_KEY = "cfg_aspecto";
-      var CONFIG_VALUE = "cfg_valor";
 
       self.getCueIdDescGlobal = function() {
         return m_cueIdDescGlobal;
@@ -326,10 +321,10 @@
 
               register.setFilter("cfg_grupo:" + sq(C_GRUPOGENERAL) + ", cfg_aspecto:" + sq(C_CUEIDDESCGLOBAL));
 
-              var w_fields = register.getFields();
-              w_fields.add(CFG_GRUPO, C_GRUPOGENERAL, TEXT);
-              w_fields.add(CONFIG_KEY, C_CUEIDDESCGLOBAL, TEXT);
-              w_fields.add(CONFIG_VALUE, property.getSelectId(), TEXT);
+              var fields = register.getFields();
+              fields.add(CFG_GRUPO, C_GRUPOGENERAL, TEXT);
+              fields.add(C.CONFIG_KEY, C_CUEIDDESCGLOBAL, TEXT);
+              fields.add(C.CONFIG_VALUE, property.getSelectId(), TEXT);
 
               transaction.addRegister(register);
               break;
@@ -339,10 +334,10 @@
 
               register.setFilter("cfg_grupo:" + sq(C_GRUPOGENERAL) + ", cfg_aspecto:" + sq(C_GRABARASIENTO));
 
-              var w_fields = register.getFields();
-              w_fields.add(CFG_GRUPO, C_GRUPOGENERAL, TEXT);
-              w_fields.add(CONFIG_KEY, C_GRABARASIENTO, TEXT);
-              w_fields.add(CONFIG_VALUE, Cairo.Util.val(property.getValue()), TEXT);
+              var fields = register.getFields();
+              fields.add(CFG_GRUPO, C_GRUPOGENERAL, TEXT);
+              fields.add(C.CONFIG_KEY, C_GRABARASIENTO, TEXT);
+              fields.add(C.CONFIG_VALUE, Cairo.Util.val(property.getValue()), TEXT);
 
               transaction.addRegister(register);
               break;
@@ -352,10 +347,10 @@
 
               register.setFilter("cfg_grupo:" + sq(C_GRUPOGENERAL) + ", cfg_aspecto:" + sq(C_WEBUSERMAILLEYENDA));
 
-              var w_fields = register.getFields();
-              w_fields.add(CFG_GRUPO, C_GRUPOGENERAL, TEXT);
-              w_fields.add(CONFIG_KEY, C_WEBUSERMAILLEYENDA, TEXT);
-              w_fields.add(CONFIG_VALUE, property.getValue(), TEXT);
+              var fields = register.getFields();
+              fields.add(CFG_GRUPO, C_GRUPOGENERAL, TEXT);
+              fields.add(C.CONFIG_KEY, C_WEBUSERMAILLEYENDA, TEXT);
+              fields.add(C.CONFIG_VALUE, property.getValue(), TEXT);
 
               transaction.addRegister(register);
               break;
@@ -365,10 +360,10 @@
 
               register.setFilter("cfg_grupo:" + sq(C_GRUPOGENERAL) + ", cfg_aspecto:" + sq(C_EXIGIRCAJA));
 
-              var w_fields = register.getFields();
-              w_fields.add(CFG_GRUPO, C_GRUPOGENERAL, TEXT);
-              w_fields.add(CONFIG_KEY, C_EXIGIRCAJA, TEXT);
-              w_fields.add(CONFIG_VALUE, property.getValue(), TEXT);
+              var fields = register.getFields();
+              fields.add(CFG_GRUPO, C_GRUPOGENERAL, TEXT);
+              fields.add(C.CONFIG_KEY, C_EXIGIRCAJA, TEXT);
+              fields.add(C.CONFIG_VALUE, property.getValue(), TEXT);
 
               transaction.addRegister(register);
               break;
@@ -378,10 +373,10 @@
 
               register.setFilter("cfg_grupo:" + sq(C_GRUPOGENERAL) + ", cfg_aspecto:" + sq(C_EXIGIRCENTRO_COSTO));
 
-              var w_fields = register.getFields();
-              w_fields.add(CFG_GRUPO, C_GRUPOGENERAL, TEXT);
-              w_fields.add(CONFIG_KEY, C_EXIGIRCENTRO_COSTO, TEXT);
-              w_fields.add(CONFIG_VALUE, property.getValue(), TEXT);
+              var fields = register.getFields();
+              fields.add(CFG_GRUPO, C_GRUPOGENERAL, TEXT);
+              fields.add(C.CONFIG_KEY, C_EXIGIRCENTRO_COSTO, TEXT);
+              fields.add(C.CONFIG_VALUE, property.getValue(), TEXT);
 
               transaction.addRegister(register);
               break;
@@ -391,10 +386,10 @@
 
               register.setFilter("cfg_grupo:" + sq(C_GRUPOGENERAL) + ", cfg_aspecto:" + sq(C_APLICCLIENTEFAMILIA));
 
-              var w_fields = register.getFields();
-              w_fields.add(CFG_GRUPO, C_GRUPOGENERAL, TEXT);
-              w_fields.add(CONFIG_KEY, C_APLICCLIENTEFAMILIA, TEXT);
-              w_fields.add(CONFIG_VALUE, Cairo.Util.val(property.getValue()), TEXT);
+              var fields = register.getFields();
+              fields.add(CFG_GRUPO, C_GRUPOGENERAL, TEXT);
+              fields.add(C.CONFIG_KEY, C_APLICCLIENTEFAMILIA, TEXT);
+              fields.add(C.CONFIG_VALUE, Cairo.Util.val(property.getValue()), TEXT);
 
               transaction.addRegister(register);
               break;
@@ -404,10 +399,10 @@
 
               register.setFilter("cfg_grupo:" + sq(C_GRUPOGENERAL) + ", cfg_aspecto:" + sq(C_REDONDEOENPRECIOS));
 
-              var w_fields = register.getFields();
-              w_fields.add(CFG_GRUPO, C_GRUPOGENERAL, TEXT);
-              w_fields.add(CONFIG_KEY, C_REDONDEOENPRECIOS, TEXT);
-              w_fields.add(CONFIG_VALUE, Cairo.Util.val(property.getValue()), TEXT);
+              var fields = register.getFields();
+              fields.add(CFG_GRUPO, C_GRUPOGENERAL, TEXT);
+              fields.add(C.CONFIG_KEY, C_REDONDEOENPRECIOS, TEXT);
+              fields.add(C.CONFIG_VALUE, Cairo.Util.val(property.getValue()), TEXT);
 
               transaction.addRegister(register);
               break;
@@ -417,10 +412,10 @@
 
               register.setFilter("cfg_grupo:" + sq(C_GRUPOGENERAL) + ", cfg_aspecto:" + sq(C_USARLISTAPRECIOPRECIO));
 
-              var w_fields = register.getFields();
-              w_fields.add(CFG_GRUPO, C_GRUPOGENERAL, TEXT);
-              w_fields.add(CONFIG_KEY, C_USARLISTAPRECIOPRECIO, TEXT);
-              w_fields.add(CONFIG_VALUE, Cairo.Util.val(property.getValue()), TEXT);
+              var fields = register.getFields();
+              fields.add(CFG_GRUPO, C_GRUPOGENERAL, TEXT);
+              fields.add(C.CONFIG_KEY, C_USARLISTAPRECIOPRECIO, TEXT);
+              fields.add(C.CONFIG_VALUE, Cairo.Util.val(property.getValue()), TEXT);
 
               transaction.addRegister(register);
               break;
@@ -430,10 +425,10 @@
 
               register.setFilter("cfg_grupo:" + sq(C_GRUPOGENERAL) + ", cfg_aspecto:" + sq(C_DECIMALESENPRECIOS));
 
-              var w_fields = register.getFields();
-              w_fields.add(CFG_GRUPO, C_GRUPOGENERAL, TEXT);
-              w_fields.add(CONFIG_KEY, C_DECIMALESENPRECIOS, TEXT);
-              w_fields.add(CONFIG_VALUE, Cairo.Util.val(property.getValue()), TEXT);
+              var fields = register.getFields();
+              fields.add(CFG_GRUPO, C_GRUPOGENERAL, TEXT);
+              fields.add(C.CONFIG_KEY, C_DECIMALESENPRECIOS, TEXT);
+              fields.add(C.CONFIG_VALUE, Cairo.Util.val(property.getValue()), TEXT);
 
               transaction.addRegister(register);
               break;
@@ -443,10 +438,10 @@
 
               register.setFilter("cfg_grupo:" + sq(C_GRUPOGENERAL) + ", cfg_aspecto:" + sq(C_RESTOENTERO));
 
-              var w_fields = register.getFields();
-              w_fields.add(CFG_GRUPO, C_GRUPOGENERAL, TEXT);
-              w_fields.add(CONFIG_KEY, C_RESTOENTERO, TEXT);
-              w_fields.add(CONFIG_VALUE, Cairo.Util.val(property.getValue()), TEXT);
+              var fields = register.getFields();
+              fields.add(CFG_GRUPO, C_GRUPOGENERAL, TEXT);
+              fields.add(C.CONFIG_KEY, C_RESTOENTERO, TEXT);
+              fields.add(C.CONFIG_VALUE, Cairo.Util.val(property.getValue()), TEXT);
 
               transaction.addRegister(register);
               break;
@@ -456,10 +451,10 @@
 
               register.setFilter("cfg_grupo:" + sq(C_GRUPOGENERAL) + ", cfg_aspecto:" + sq(C_PV_CLI_RAZONSOCIAL));
 
-              var w_fields = register.getFields();
-              w_fields.add(CFG_GRUPO, C_GRUPOGENERAL, TEXT);
-              w_fields.add(CONFIG_KEY, C_PV_CLI_RAZONSOCIAL, TEXT);
-              w_fields.add(CONFIG_VALUE, property.getValue(), TEXT);
+              var fields = register.getFields();
+              fields.add(CFG_GRUPO, C_GRUPOGENERAL, TEXT);
+              fields.add(C.CONFIG_KEY, C_PV_CLI_RAZONSOCIAL, TEXT);
+              fields.add(C.CONFIG_VALUE, property.getValue(), TEXT);
 
               transaction.addRegister(register);
               break;
@@ -469,10 +464,10 @@
 
               register.setFilter("cfg_grupo:" + sq(C_GRUPOGENERAL) + ", cfg_aspecto:" + sq(C_PV_CLI_CAT_FISCAL));
 
-              var w_fields = register.getFields();
-              w_fields.add(CFG_GRUPO, C_GRUPOGENERAL, TEXT);
-              w_fields.add(CONFIG_KEY, C_PV_CLI_CAT_FISCAL, TEXT);
-              w_fields.add(CONFIG_VALUE, property.getListItemData(), TEXT);
+              var fields = register.getFields();
+              fields.add(CFG_GRUPO, C_GRUPOGENERAL, TEXT);
+              fields.add(C.CONFIG_KEY, C_PV_CLI_CAT_FISCAL, TEXT);
+              fields.add(C.CONFIG_VALUE, property.getListItemData(), TEXT);
 
               transaction.addRegister(register);
               break;
@@ -482,10 +477,10 @@
 
               register.setFilter("cfg_grupo:" + sq(C_GRUPOGENERAL) + ", cfg_aspecto:" + sq(C_PV_CPG_ID));
 
-              var w_fields = register.getFields();
-              w_fields.add(CFG_GRUPO, C_GRUPOGENERAL, TEXT);
-              w_fields.add(CONFIG_KEY, C_PV_CPG_ID, TEXT);
-              w_fields.add(CONFIG_VALUE, property.getSelectId(), TEXT);
+              var fields = register.getFields();
+              fields.add(CFG_GRUPO, C_GRUPOGENERAL, TEXT);
+              fields.add(C.CONFIG_KEY, C_PV_CPG_ID, TEXT);
+              fields.add(C.CONFIG_VALUE, property.getSelectId(), TEXT);
 
               transaction.addRegister(register);
               break;
@@ -495,10 +490,10 @@
 
               register.setFilter("cfg_grupo:" + sq(C_GRUPOGENERAL) + ", cfg_aspecto:" + sq(C_PV_LP_ID));
 
-              var w_fields = register.getFields();
-              w_fields.add(CFG_GRUPO, C_GRUPOGENERAL, TEXT);
-              w_fields.add(CONFIG_KEY, C_PV_LP_ID, TEXT);
-              w_fields.add(CONFIG_VALUE, property.getSelectId(), TEXT);
+              var fields = register.getFields();
+              fields.add(CFG_GRUPO, C_GRUPOGENERAL, TEXT);
+              fields.add(C.CONFIG_KEY, C_PV_LP_ID, TEXT);
+              fields.add(C.CONFIG_VALUE, property.getSelectId(), TEXT);
 
               transaction.addRegister(register);
               break;
@@ -508,10 +503,10 @@
 
               register.setFilter("cfg_grupo:" + sq(C_GRUPOGENERAL) + ", cfg_aspecto:" + sq(C_PV_PRO_ID));
 
-              var w_fields = register.getFields();
-              w_fields.add(CFG_GRUPO, C_GRUPOGENERAL, TEXT);
-              w_fields.add(CONFIG_KEY, C_PV_PRO_ID, TEXT);
-              w_fields.add(CONFIG_VALUE, property.getSelectId(), TEXT);
+              var fields = register.getFields();
+              fields.add(CFG_GRUPO, C_GRUPOGENERAL, TEXT);
+              fields.add(C.CONFIG_KEY, C_PV_PRO_ID, TEXT);
+              fields.add(C.CONFIG_VALUE, property.getSelectId(), TEXT);
 
               transaction.addRegister(register);
               break;
@@ -521,10 +516,10 @@
 
               register.setFilter("cfg_grupo:" + sq(C_GRUPOGENERAL) + ", cfg_aspecto:" + sq(C_PV_ZON_ID));
 
-              var w_fields = register.getFields();
-              w_fields.add(CFG_GRUPO, C_GRUPOGENERAL, TEXT);
-              w_fields.add(CONFIG_KEY, C_PV_ZON_ID, TEXT);
-              w_fields.add(CONFIG_VALUE, property.getSelectId(), TEXT);
+              var fields = register.getFields();
+              fields.add(CFG_GRUPO, C_GRUPOGENERAL, TEXT);
+              fields.add(C.CONFIG_KEY, C_PV_ZON_ID, TEXT);
+              fields.add(C.CONFIG_VALUE, property.getSelectId(), TEXT);
 
               transaction.addRegister(register);
               break;
@@ -534,11 +529,11 @@
 
               register.setFilter("cfg_grupo:" + sq(C_GRUPOGENERAL) + ", cfg_aspecto:" + sq(C_DOCFACTURAFALTANTE) + ", emp_id:" + companyId);
 
-              var w_fields = register.getFields();
-              w_fields.add(CFG_GRUPO, C_GRUPOGENERAL, TEXT);
-              w_fields.add(CONFIG_KEY, C_DOCFACTURAFALTANTE, TEXT);
-              w_fields.add(CONFIG_VALUE, property.getSelectId(), TEXT);
-              w_fields.add(EMP_ID, companyId, ID);
+              var fields = register.getFields();
+              fields.add(CFG_GRUPO, C_GRUPOGENERAL, TEXT);
+              fields.add(C.CONFIG_KEY, C_DOCFACTURAFALTANTE, TEXT);
+              fields.add(C.CONFIG_VALUE, property.getSelectId(), TEXT);
+              fields.add(EMP_ID, companyId, ID);
 
               transaction.addRegister(register);
               break;
@@ -548,11 +543,11 @@
 
               register.setFilter("cfg_grupo:" + sq(C_GRUPOGENERAL) + ", cfg_aspecto:" + sq(C_DOCMOVIMIENTOSOBRANTE) + ", emp_id:" + companyId);
 
-              var w_fields = register.getFields();
-              w_fields.add(CFG_GRUPO, C_GRUPOGENERAL, TEXT);
-              w_fields.add(CONFIG_KEY, C_DOCMOVIMIENTOSOBRANTE, TEXT);
-              w_fields.add(CONFIG_VALUE, property.getSelectId(), TEXT);
-              w_fields.add(EMP_ID, companyId, ID);
+              var fields = register.getFields();
+              fields.add(CFG_GRUPO, C_GRUPOGENERAL, TEXT);
+              fields.add(C.CONFIG_KEY, C_DOCMOVIMIENTOSOBRANTE, TEXT);
+              fields.add(C.CONFIG_VALUE, property.getSelectId(), TEXT);
+              fields.add(EMP_ID, companyId, ID);
 
               transaction.addRegister(register);
               break;
@@ -562,11 +557,11 @@
 
               register.setFilter("cfg_grupo:" + sq(C_GRUPOGENERAL) + ", cfg_aspecto:" + sq(C_DOCMOVIMIENTOTICKET) + ", emp_id:" + companyId);
 
-              var w_fields = register.getFields();
-              w_fields.add(CFG_GRUPO, C_GRUPOGENERAL, TEXT);
-              w_fields.add(CONFIG_KEY, C_DOCMOVIMIENTOTICKET, TEXT);
-              w_fields.add(CONFIG_VALUE, property.getSelectId(), TEXT);
-              w_fields.add(EMP_ID, companyId, ID);
+              var fields = register.getFields();
+              fields.add(CFG_GRUPO, C_GRUPOGENERAL, TEXT);
+              fields.add(C.CONFIG_KEY, C_DOCMOVIMIENTOTICKET, TEXT);
+              fields.add(C.CONFIG_VALUE, property.getSelectId(), TEXT);
+              fields.add(EMP_ID, companyId, ID);
 
               transaction.addRegister(register);
               break;
@@ -576,11 +571,11 @@
 
               register.setFilter("cfg_grupo:" + sq(C_GRUPOGENERAL) + ", cfg_aspecto:" + sq(C_PRIDFALTANTE) + ", emp_id:" + companyId);
 
-              var w_fields = register.getFields();
-              w_fields.add(CFG_GRUPO, C_GRUPOGENERAL, TEXT);
-              w_fields.add(CONFIG_KEY, C_PRIDFALTANTE, TEXT);
-              w_fields.add(CONFIG_VALUE, property.getSelectId(), TEXT);
-              w_fields.add(EMP_ID, companyId, ID);
+              var fields = register.getFields();
+              fields.add(CFG_GRUPO, C_GRUPOGENERAL, TEXT);
+              fields.add(C.CONFIG_KEY, C_PRIDFALTANTE, TEXT);
+              fields.add(C.CONFIG_VALUE, property.getSelectId(), TEXT);
+              fields.add(EMP_ID, companyId, ID);
 
               transaction.addRegister(register);
               break;
@@ -590,11 +585,11 @@
 
               register.setFilter("cfg_grupo:" + sq(C_GRUPOGENERAL) + ", cfg_aspecto:" + sq(C_CUEIDSOBRANTE) + ", emp_id:" + companyId);
 
-              var w_fields = register.getFields();
-              w_fields.add(CFG_GRUPO, C_GRUPOGENERAL, TEXT);
-              w_fields.add(CONFIG_KEY, C_CUEIDSOBRANTE, TEXT);
-              w_fields.add(CONFIG_VALUE, property.getSelectId(), TEXT);
-              w_fields.add(EMP_ID, companyId, ID);
+              var fields = register.getFields();
+              fields.add(CFG_GRUPO, C_GRUPOGENERAL, TEXT);
+              fields.add(C.CONFIG_KEY, C_CUEIDSOBRANTE, TEXT);
+              fields.add(C.CONFIG_VALUE, property.getSelectId(), TEXT);
+              fields.add(EMP_ID, companyId, ID);
 
               transaction.addRegister(register);
               break;
@@ -604,11 +599,11 @@
 
               register.setFilter("cfg_grupo:" + sq(C_GRUPOGENERAL) + ", cfg_aspecto:" + sq(C_CUEIDTICKETS) + ", emp_id:" + companyId);
 
-              var w_fields = register.getFields();
-              w_fields.add(CFG_GRUPO, C_GRUPOGENERAL, TEXT);
-              w_fields.add(CONFIG_KEY, C_CUEIDTICKETS, TEXT);
-              w_fields.add(CONFIG_VALUE, property.getSelectId(), TEXT);
-              w_fields.add(EMP_ID, companyId, ID);
+              var fields = register.getFields();
+              fields.add(CFG_GRUPO, C_GRUPOGENERAL, TEXT);
+              fields.add(C.CONFIG_KEY, C_CUEIDTICKETS, TEXT);
+              fields.add(C.CONFIG_VALUE, property.getSelectId(), TEXT);
+              fields.add(EMP_ID, companyId, ID);
 
               transaction.addRegister(register);
               break;
@@ -618,10 +613,10 @@
 
               register.setFilter("cfg_grupo:" + sq(C_GRUPOGENERAL) + ", cfg_aspecto:" + sq(C_COBRANZAPORCAJERO));
 
-              var w_fields = register.getFields();
-              w_fields.add(CFG_GRUPO, C_GRUPOGENERAL, TEXT);
-              w_fields.add(CONFIG_KEY, C_COBRANZAPORCAJERO, TEXT);
-              w_fields.add(CONFIG_VALUE, property.getValue(), TEXT);
+              var fields = register.getFields();
+              fields.add(CFG_GRUPO, C_GRUPOGENERAL, TEXT);
+              fields.add(C.CONFIG_KEY, C_COBRANZAPORCAJERO, TEXT);
+              fields.add(C.CONFIG_VALUE, property.getValue(), TEXT);
 
               transaction.addRegister(register);
               break;
@@ -631,10 +626,10 @@
 
               register.setFilter("cfg_grupo:" + sq(C_GRUPOGENERAL) + ", cfg_aspecto:" + sq(C_COBRANZAPORCAJERO));
 
-              var w_fields = register.getFields();
-              w_fields.add(CFG_GRUPO, C_GRUPOGENERAL, TEXT);
-              w_fields.add(CONFIG_KEY, C_COBRANZAPORCAJERO, TEXT);
-              w_fields.add(CONFIG_VALUE, property.getValue(), TEXT);
+              var fields = register.getFields();
+              fields.add(CFG_GRUPO, C_GRUPOGENERAL, TEXT);
+              fields.add(C.CONFIG_KEY, C_COBRANZAPORCAJERO, TEXT);
+              fields.add(C.CONFIG_VALUE, property.getValue(), TEXT);
 
               transaction.addRegister(register);
               break;
@@ -644,10 +639,10 @@
 
               register.setFilter("cfg_grupo:" + sq(C_GRUPOGENERAL) + ", cfg_aspecto:" + sq(C_VENTASPORHOJADERUTA));
 
-              var w_fields = register.getFields();
-              w_fields.add(CFG_GRUPO, C_GRUPOGENERAL, TEXT);
-              w_fields.add(CONFIG_KEY, C_VENTASPORHOJADERUTA, TEXT);
-              w_fields.add(CONFIG_VALUE, property.getValue(), TEXT);
+              var fields = register.getFields();
+              fields.add(CFG_GRUPO, C_GRUPOGENERAL, TEXT);
+              fields.add(C.CONFIG_KEY, C_VENTASPORHOJADERUTA, TEXT);
+              fields.add(C.CONFIG_VALUE, property.getValue(), TEXT);
 
               transaction.addRegister(register);
               break;
@@ -689,13 +684,13 @@
           var row = rows.item(_i);
           var register = createRegister();
 
-          register.setFilter("cfg_grupo:" + sq(C_GRUPOGENERAL) + ", cfg_aspecto:" + sq(C_VENTASPORHOJADERUTA));
+          register.setFilter("cfg_grupo:" + sq(C_GRUPOGENERAL) + ", cfg_aspecto:" + sq(C_PERCEPCION));
 
-          var w_fields = register.getFields();
-          w_fields.add(CFG_GRUPO, C_GRUPOGENERAL, TEXT);
-          w_fields.add(CONFIG_KEY, C_PERCEPCION, TEXT);
-          w_fields.add(CONFIG_VALUE, Dialogs.cell(row, KI_PERC_ID).getId(), TEXT);
-          w_fields.add(EMP_ID, companyId, ID);
+          var fields = register.getFields();
+          fields.add(CFG_GRUPO, C_GRUPOGENERAL, TEXT);
+          fields.add(C.CONFIG_KEY, C_PERCEPCION, TEXT);
+          fields.add(C.CONFIG_VALUE, Dialogs.cell(row, KI_PERC_ID).getId(), TEXT);
+          fields.add(EMP_ID, companyId, ID);
 
           transaction.addRegister(register);
         }
@@ -781,86 +776,86 @@
 
               for(var _i = 0; _i < settings.length; _i += 1) {
 
-                switch (getValue(settings[_i], CONFIG_KEY)) {
+                switch (getValue(settings[_i], C.CONFIG_KEY)) {
 
                   case C_CUEIDDESCGLOBAL:
-                    var value = getValue(settings[_i], CONFIG_VALUE);
+                    var value = getValue(settings[_i], C.CONFIG_VALUE);
                     m_cueIdDescGlobal = value.id;
                     m_cuentaDescGlobal = value.name;
                     break;
 
                   case C_GRABARASIENTO:
-                    m_grabarAsiento = bool(getValue(settings[_i], CONFIG_VALUE));
+                    m_grabarAsiento = bool(getValue(settings[_i], C.CONFIG_VALUE));
                     break;
 
                   case C_WEBUSERMAILLEYENDA:
-                    m_webUserMailLeyenda = getValue(settings[_i], CONFIG_VALUE);
+                    m_webUserMailLeyenda = getValue(settings[_i], C.CONFIG_VALUE);
                     break;
 
                   case C_EXIGIRCAJA:
-                    m_exigirCaja = bool(getValue(settings[_i], CONFIG_VALUE));
+                    m_exigirCaja = bool(getValue(settings[_i], C.CONFIG_VALUE));
                     break;
 
                   case C_COBRANZAPORCAJERO:
-                    m_cobranzaPorCajero = bool(getValue(settings[_i], CONFIG_VALUE));
+                    m_cobranzaPorCajero = bool(getValue(settings[_i], C.CONFIG_VALUE));
                     break;
 
                   case C_VENTASPORHOJADERUTA:
-                    m_ventasPorHojadeRuta = bool(getValue(settings[_i], CONFIG_VALUE));
+                    m_ventasPorHojadeRuta = bool(getValue(settings[_i], C.CONFIG_VALUE));
                     break;
 
                   case C_EXIGIRCENTRO_COSTO:
-                    m_exigirCentroCosto = bool(getValue(settings[_i], CONFIG_VALUE));
+                    m_exigirCentroCosto = bool(getValue(settings[_i], C.CONFIG_VALUE));
                     break;
 
                   case C_APLICCLIENTEFAMILIA:
-                    m_aplicClienteFamilia = bool(getValue(settings[_i], CONFIG_VALUE));
+                    m_aplicClienteFamilia = bool(getValue(settings[_i], C.CONFIG_VALUE));
                     break;
 
                   case C_REDONDEOENPRECIOS:
-                    m_redondoEnPrecios = bool(getValue(settings[_i], CONFIG_VALUE));
+                    m_redondoEnPrecios = bool(getValue(settings[_i], C.CONFIG_VALUE));
                     break;
 
                   case C_USARLISTAPRECIOPRECIO:
-                    m_usarListaPrecioPrecio = bool(getValue(settings[_i], CONFIG_VALUE));
+                    m_usarListaPrecioPrecio = bool(getValue(settings[_i], C.CONFIG_VALUE));
                     break;
 
                   case C_DECIMALESENPRECIOS:
-                    m_decimalesEnPrecio = val(getValue(settings[_i], CONFIG_VALUE));
+                    m_decimalesEnPrecio = val(getValue(settings[_i], C.CONFIG_VALUE));
                     break;
 
                   case C_RESTOENTERO:
-                    m_restoEntero = val(getValue(settings[_i], CONFIG_VALUE));
+                    m_restoEntero = val(getValue(settings[_i], C.CONFIG_VALUE));
                     break;
 
                   case C_PV_CLI_RAZONSOCIAL:
-                    m_razonSocial = getValue(settings[_i], CONFIG_VALUE);
+                    m_razonSocial = getValue(settings[_i], C.CONFIG_VALUE);
                     break;
 
                   case C_PV_CLI_CAT_FISCAL:
-                    m_catFiscal = val(getValue(settings[_i], CONFIG_VALUE));
+                    m_catFiscal = val(getValue(settings[_i], C.CONFIG_VALUE));
                     break;
 
                   case C_PV_CPG_ID:
-                    var value = getValue(settings[_i], CONFIG_VALUE);
+                    var value = getValue(settings[_i], C.CONFIG_VALUE);
                     m_cpgId = value.id;
                     m_condicionPago = value.name;
                     break;
 
                   case C_PV_LP_ID:
-                    var value = getValue(settings[_i], CONFIG_VALUE);
+                    var value = getValue(settings[_i], C.CONFIG_VALUE);
                     m_lpId = value.id;
                     m_listaPrecio = value.name;
                     break;
 
                   case C_PV_PRO_ID:
-                    var value = getValue(settings[_i], CONFIG_VALUE);
+                    var value = getValue(settings[_i], C.CONFIG_VALUE);
                     m_proId = value.id;
                     m_provincia = value.name;
                     break;
 
                   case C_PV_ZON_ID:
-                    var value = getValue(settings[_i], CONFIG_VALUE);
+                    var value = getValue(settings[_i], C.CONFIG_VALUE);
                     m_zonId = value.id;
                     m_zona = value.name;
                     break;
@@ -901,7 +896,7 @@
             });
         }
         catch(ex) {
-          Cairo.manageErrorEx(ex.message, ex, Cairo.Constants.EDIT_FUNCTION, "cVentaConfig", "");
+          Cairo.manageErrorEx(ex.message, ex, Cairo.Constants.EDIT_FUNCTION, C_MODULE, "");
         }
 
         return p;
@@ -1223,14 +1218,14 @@
 
         for(var _i = 0; _i < m_settings.length; _i += 1) {
 
-          switch (getValue(m_settings[_i], CONFIG_KEY)) {
+          switch (getValue(m_settings[_i], C.CONFIG_KEY)) {
 
             case C_PERCEPCION:
 
               var row = rows.add(null);
               row.add(null);
 
-              var value = getValue(m_settings[_i], CONFIG_VALUE);
+              var value = getValue(m_settings[_i], C.CONFIG_VALUE);
               var elem = row.add(null);
               elem.setValue(value.name);
               elem.setId(value.id);
@@ -1333,6 +1328,8 @@
 
         return m_dialog.showValues(properties);
       };
+
+      // TODO: implement grid for percepciones
 
       var destroy = function() {
         m_dialog = null;

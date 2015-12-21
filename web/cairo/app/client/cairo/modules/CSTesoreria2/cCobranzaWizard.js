@@ -142,15 +142,15 @@
 
       var m_objClient = null;
 
-      var m_lastDoc = 0;
-      var m_lastCli = 0;
+      var m_lastDocId = 0;
+      var m_lastCliId = 0;
 
       var m_lastNroDoc = "";
 
       var m_nextCliIdIndex = 0;
       var m_bUseCliIds;
 
-      var m_bAutoSelect;
+      var m_autoSelect;
       var m_bWizWasClosed;
 
       var m_bVirtualNextStopInPagos;
@@ -203,7 +203,7 @@
 
           if(m_isHojaRuta) {
 
-            if(!pLoadCajaForUsuario()) { return _rtn; }
+            if(!loadCajaForUsuario()) { return _rtn; }
 
           }
 
@@ -220,27 +220,27 @@
         return _rtn;
       };
 
-      self.messageEx = function(messageID,  info) {
+      self.messageEx = function(messageId,  info) {
         var _rtn = null;
 
         _rtn = true;
 
-        switch (messageID) {
+        switch (messageId) {
 
           case Dialogs.Message.MSG_GRID_ROW_DELETED:
 
             switch (info) {
-              case KW_CHEQUES:
-              case KW_EFECTIVO:
-              case KW_TARJETAS:
-                pShowCobroNeto();
+              case WC.KW_CHEQUES:
+              case WC.KW_EFECTIVO:
+              case WC.KW_TARJETAS:
+                showCobroNeto();
                 break;
 
-              case KW_OTROS:
-                pShowCobroOtro();
+              case WC.KW_OTROS:
+                showCobroOtro();
                 break;
             }
-            pShowCobroTotal();
+            showCobroTotal();
 
             break;
         }
@@ -255,23 +255,23 @@
         try {
 
           switch (key) {
-            case KW_FACTURAS:
+            case WC.KW_FACTURAS:
               _rtn = false;
               break;
 
-            case KW_CHEQUES:
+            case WC.KW_CHEQUES:
               _rtn = pIsEmptyRowCheques(row, rowIndex);
               break;
 
-            case KW_TARJETAS:
+            case WC.KW_TARJETAS:
               _rtn = pIsEmptyRowTarjetas(row, rowIndex);
               break;
 
-            case KW_OTROS:
+            case WC.KW_OTROS:
               _rtn = pIsEmptyRowOtros(row, rowIndex);
               break;
 
-            case KW_EFECTIVO:
+            case WC.KW_EFECTIVO:
               _rtn = pIsEmptyRowEfectivo(row, rowIndex);
               break;
           }
@@ -292,24 +292,24 @@
         try {
 
           switch (key) {
-            case KW_FACTURAS:
-              _rtn = pColAUpdateFactura(pGetFacturasProperty(), lRow, lCol);
+            case WC.KW_FACTURAS:
+              _rtn = pColAUpdateFactura(getFacturasProperty(), lRow, lCol);
               break;
 
-            case KW_CHEQUES:
-              _rtn = pColAUpdateCheque(pGetChequesProperty(), lRow, lCol);
+            case WC.KW_CHEQUES:
+              _rtn = pColAUpdateCheque(getChequesProperty(), lRow, lCol);
               break;
 
-            case KW_TARJETAS:
-              _rtn = pColAUpdateTarjeta(pGetTarjetasProperty(), lRow, lCol);
+            case WC.KW_TARJETAS:
+              _rtn = pColAUpdateTarjeta(getTarjetasProperty(), lRow, lCol);
               break;
 
-            case KW_OTROS:
-              _rtn = pColAUpdateOtro(pGetOtrosProperty(), lRow, lCol);
+            case WC.KW_OTROS:
+              _rtn = pColAUpdateOtro(getOtrosProperty(), lRow, lCol);
               break;
 
-            case KW_EFECTIVO:
-              _rtn = pColAUpdateEfectivo(pGetEfectivoProperty(), lRow, lCol);
+            case WC.KW_EFECTIVO:
+              _rtn = pColAUpdateEfectivo(getEfectivoProperty(), lRow, lCol);
               break;
           }
 
@@ -329,23 +329,23 @@
         try {
 
           switch (key) {
-            case KW_FACTURAS:
+            case WC.KW_FACTURAS:
               _rtn = true;
               break;
 
-            case KW_CHEQUES:
+            case WC.KW_CHEQUES:
               _rtn = true;
               break;
 
-            case KW_TARJETAS:
+            case WC.KW_TARJETAS:
               _rtn = true;
               break;
 
-            case KW_OTROS:
+            case WC.KW_OTROS:
               _rtn = true;
               break;
 
-            case KW_EFECTIVO:
+            case WC.KW_EFECTIVO:
               _rtn = true;
               break;
           }
@@ -366,23 +366,23 @@
         try {
 
           switch (key) {
-            case KW_FACTURAS:
-              _rtn = pColBEditFacturas(pGetFacturasProperty(), lRow, lCol, iKeyAscii);
+            case WC.KW_FACTURAS:
+              _rtn = pColBEditFacturas(getFacturasProperty(), lRow, lCol, iKeyAscii);
               break;
 
-            case KW_CHEQUES:
+            case WC.KW_CHEQUES:
               _rtn = true;
               break;
 
-            case KW_TARJETAS:
+            case WC.KW_TARJETAS:
               _rtn = pColBeforeEditTarjeta(key, lRow, lCol, iKeyAscii);
               break;
 
-            case KW_OTROS:
+            case WC.KW_OTROS:
               _rtn = true;
               break;
 
-            case KW_EFECTIVO:
+            case WC.KW_EFECTIVO:
               _rtn = true;
               break;
           }
@@ -428,10 +428,10 @@
 
           switch (key) {
 
-            case KW_FACTURAS:
+            case WC.KW_FACTURAS:
 
-              var w_pGetFacturas = pGetFacturas().getRows();
-              ShowDocAux(Dialogs.cell(w_pGetFacturas.Item(lRow), KI_FV_ID).getID(), "CSVenta2.cFacturaVenta", "CSABMInterface2.cABMGeneric");
+              var w_getFacturas = getFacturas().getRows();
+              ShowDocAux(Dialogs.cell(w_getFacturas.Item(lRow), KI_FV_ID).getID(), "CSVenta2.cFacturaVenta", "CSABMInterface2.cABMGeneric");
 
               break;
           }
@@ -448,7 +448,7 @@
         var id = null;
 
         switch (key) {
-          case KW_FACTURAS:
+          case WC.KW_FACTURAS:
             break;
 
           default:
@@ -472,27 +472,27 @@
         try {
 
           switch (key) {
-            case KW_FACTURAS:
+            case WC.KW_FACTURAS:
               _rtn = true;
               break;
 
-            case KW_CHEQUES:
-              _rtn = pValidateRowCheques(row, rowIndex);
+            case WC.KW_CHEQUES:
+              _rtn = validateRowCheques(row, rowIndex);
               break;
 
-            case KW_TARJETAS:
-              _rtn = pValidateRowTarjetas(row, rowIndex);
+            case WC.KW_TARJETAS:
+              _rtn = validateRowTarjetas(row, rowIndex);
               break;
 
-            case KW_OTROS:
-              _rtn = pValidateRowOtros(row, rowIndex);
+            case WC.KW_OTROS:
+              _rtn = validateRowOtros(row, rowIndex);
               break;
 
-            case KW_EFECTIVO:
-              _rtn = pValidateRowEfectivo(row, rowIndex);
+            case WC.KW_EFECTIVO:
+              _rtn = validateRowEfectivo(row, rowIndex);
               break;
 
-            case KW_CTA_CTE:
+            case WC.KW_CTA_CTE:
               _rtn = true;
               break;
           }
@@ -509,7 +509,7 @@
       };
 
       var pColBEditFacturas = function(property,  lRow,  lCol,  iKeyAscii) { // TODO: Use of ByRef founded Private Function pColBEditFacturas(ByRef IProperty As cIABMProperty, ByVal lRow As Long, ByVal lCol As Long, ByVal iKeyAscii As Integer)
-        switch (cABMUtil.pGetKeyFromCol(property.getGrid().getColumns(), lCol)) {
+        switch (cABMUtil.getKeyFromCol(property.getGrid().getColumns(), lCol)) {
           // Facturas
           case KI_APLICAR:
           case KI_SELECT:
@@ -544,8 +544,8 @@
         switch (w_grid.getColumns(lCol).Key) {
           case KI_SELECT:
             row = w_grid.getRows(lRow);
-            pSelectFactura(row, w_grid.getColumns());
-            pShowTotalFacturas();
+            selectFactura(row, w_grid.getColumns());
+            showTotalFacturas();
             break;
 
           case KI_COTIZACION2:
@@ -584,7 +584,7 @@
                 w_pCell.setValue(0);
               }
             }
-            pShowTotalFacturas();
+            showTotalFacturas();
             break;
         }
 
@@ -602,7 +602,7 @@
             row = w_grid.getRows(lRow);
             var w_pCell = Dialogs.cell(row, KICH_MON_ID);
             if(w_pCell.getID() !== m_monDefault || w_pCell.getID() === 0) {
-              Dialogs.cell(row, KICH_IMPORTE).getValue() === Cairo.Util.val(Dialogs.cell(row, KICH_IMPORTEORIGEN).getValue()) * Cairo.Util.val(pGetCotizacion().getValue());
+              Dialogs.cell(row, KICH_IMPORTE).getValue() === Cairo.Util.val(Dialogs.cell(row, KICH_IMPORTEORIGEN).getValue()) * Cairo.Util.val(getCotizacion().getValue());
             }
             else {
               Dialogs.cell(row, KICH_IMPORTEORIGEN).getValue() === 0;
@@ -627,9 +627,9 @@
             }
 
             if(Cairo.Util.val(Dialogs.cell(row, KICH_IMPORTE).getValue()) === 0) {
-              Dialogs.cell(row, KICH_IMPORTE).getValue() === Cairo.Util.val(pGetTotal().getValue()) - Cairo.Util.val(pGetCobroTotal().getValue());
-              pShowCobroNeto();
-              pShowCobroTotal();
+              Dialogs.cell(row, KICH_IMPORTE).getValue() === Cairo.Util.val(getTotal().getValue()) - Cairo.Util.val(getCobroTotal().getValue());
+              showCobroNeto();
+              showCobroTotal();
             }
 
             _rtn = true;
@@ -652,8 +652,8 @@
             break;
         }
 
-        pShowCobroNeto();
-        pShowCobroTotal();
+        showCobroNeto();
+        showCobroTotal();
         _rtn = true;
 
         return _rtn;
@@ -668,7 +668,7 @@
         switch (w_grid.getColumns(lCol).Key) {
           case KIT_IMPORTEORIGEN:
             row = w_grid.getRows(lRow);
-            Dialogs.cell(row, KIT_IMPORTE).getValue() === Cairo.Util.val(Dialogs.cell(row, KIT_IMPORTEORIGEN).getValue()) * Cairo.Util.val(pGetCotizacion().getValue());
+            Dialogs.cell(row, KIT_IMPORTE).getValue() === Cairo.Util.val(Dialogs.cell(row, KIT_IMPORTEORIGEN).getValue()) * Cairo.Util.val(getCotizacion().getValue());
             break;
 
           case KIT_IMPORTE:
@@ -697,9 +697,9 @@
             }
 
             if(Cairo.Util.val(Dialogs.cell(row, KIT_IMPORTE).getValue()) === 0) {
-              Dialogs.cell(row, KIT_IMPORTE).getValue() === Cairo.Util.val(pGetTotal().getValue()) - Cairo.Util.val(pGetCobroTotal().getValue());
-              pShowCobroNeto();
-              pShowCobroTotal();
+              Dialogs.cell(row, KIT_IMPORTE).getValue() === Cairo.Util.val(getTotal().getValue()) - Cairo.Util.val(getCobroTotal().getValue());
+              showCobroNeto();
+              showCobroTotal();
             }
 
             _rtn = true;
@@ -712,8 +712,8 @@
             break;
         }
 
-        pShowCobroNeto();
-        pShowCobroTotal();
+        showCobroNeto();
+        showCobroTotal();
         _rtn = true;
 
         return _rtn;
@@ -730,7 +730,7 @@
             row = w_grid.getRows(lRow);
             var w_pCell = Dialogs.cell(row, KIE_MON_ID);
             if(w_pCell.getID() !== m_monDefault || w_pCell.getID() === 0) {
-              Dialogs.cell(row, KIE_IMPORTE).getValue() === Cairo.Util.val(Dialogs.cell(row, KIE_IMPORTEORIGEN).getValue()) * Cairo.Util.val(pGetCotizacion().getValue());
+              Dialogs.cell(row, KIE_IMPORTE).getValue() === Cairo.Util.val(Dialogs.cell(row, KIE_IMPORTEORIGEN).getValue()) * Cairo.Util.val(getCotizacion().getValue());
             }
             else {
               Dialogs.cell(row, KIE_IMPORTEORIGEN).getValue() === 0;
@@ -755,9 +755,9 @@
             }
 
             if(Cairo.Util.val(Dialogs.cell(row, KIE_IMPORTE).getValue()) === 0) {
-              Dialogs.cell(row, KIE_IMPORTE).getValue() === Cairo.Util.val(pGetTotal().getValue()) - Cairo.Util.val(pGetCobroTotal().getValue());
-              pShowCobroNeto();
-              pShowCobroTotal();
+              Dialogs.cell(row, KIE_IMPORTE).getValue() === Cairo.Util.val(getTotal().getValue()) - Cairo.Util.val(getCobroTotal().getValue());
+              showCobroNeto();
+              showCobroTotal();
             }
 
             _rtn = true;
@@ -770,8 +770,8 @@
             break;
         }
 
-        pShowCobroNeto();
-        pShowCobroTotal();
+        showCobroNeto();
+        showCobroTotal();
         _rtn = true;
 
         return _rtn;
@@ -802,22 +802,22 @@
             break;
         }
 
-        pShowCobroOtro();
-        pShowCobroTotal();
+        showCobroOtro();
+        showCobroTotal();
         _rtn = true;
 
         return _rtn;
       };
 
-      var pSelectAllFactura = function(bSelect) {
+      var selectAllFactura = function(bSelect) {
         var row = null;
 
-        var w_pGetFacturas = pGetFacturas();
-        var _count = w_pGetFacturas.getRows().size();
+        var w_getFacturas = getFacturas();
+        var _count = w_getFacturas.getRows().size();
         for (var _i = 0; _i < _count; _i++) {
-          row = w_pGetFacturas.getRows().item(_i);
+          row = w_getFacturas.getRows().item(_i);
           Dialogs.cell(row, KI_SELECT).getID() === Integer.parseInt(bSelect);
-          pSelectFactura(row, w_pGetFacturas.getColumns());
+          selectFactura(row, w_getFacturas.getColumns());
         }
 
         #If PREPROC_SFS Then;
@@ -827,19 +827,19 @@
         #End If;
 
         objWizard = m_objWizard;
-        objWizard.ShowValue(pGetFacturasProperty(), true);
+        objWizard.ShowValue(getFacturasProperty(), true);
       };
 
-      var pRefreshCotizacion = function(takeFromCotizCtrl) {
+      var refreshCotizacion = function(takeFromCotizCtrl) {
         var row = null;
         var cotiz = null;
 
-        cotiz = pGetCotizacion().getValue();
+        cotiz = getCotizacion().getValue();
 
-        var w_pGetFacturas = pGetFacturas();
-        var _count = w_pGetFacturas.getRows().size();
+        var w_getFacturas = getFacturas();
+        var _count = w_getFacturas.getRows().size();
         for (var _i = 0; _i < _count; _i++) {
-          row = w_pGetFacturas.getRows().item(_i);
+          row = w_getFacturas.getRows().item(_i);
           if(Cairo.Util.val(Dialogs.cell(row, KI_IMPORTEORIGEN).getValue())) {
 
             if(takeFromCotizCtrl) {
@@ -849,7 +849,7 @@
               cotiz = Cairo.Util.val(Dialogs.cell(row, KI_COTIZACION2).getValue());
             }
 
-            if(pCol(w_pGetFacturas.getColumns(), KI_IMPORTE).getVisible()) {
+            if(pCol(w_getFacturas.getColumns(), KI_IMPORTE).getVisible()) {
               var w_pCell = Dialogs.cell(row, KI_IMPORTE);
               w_pCell.setValue(Dialogs.cell(row, KI_IMPORTEORIGEN).getValue() * cotiz);
             }
@@ -857,14 +857,14 @@
               var w_pCell = Dialogs.cell(row, KI_PENDIENTE);
               w_pCell.setValue(Dialogs.cell(row, KI_IMPORTEORIGEN).getValue() * cotiz);
             }
-            pSelectFactura(row, w_pGetFacturas.getColumns());
+            selectFactura(row, w_getFacturas.getColumns());
           }
         }
 
-        m_objWizard.showValue(pGetFacturasProperty());
+        m_objWizard.showValue(getFacturasProperty());
       };
 
-      var pSelectFactura = function(row,  columns) { // TODO: Use of ByRef founded Private Sub pSelectFactura(ByRef Row As cIABMGridRow, ByRef Columns As cIABMGridColumns)
+      var selectFactura = function(row,  columns) { // TODO: Use of ByRef founded Private Sub selectFactura(ByRef Row As cIABMGridRow, ByRef Columns As cIABMGridColumns)
         var bVisible = null;
         bVisible = pCol(columns, KI_IMPORTE).getVisible();
         var w_pCell = Dialogs.cell(row, KI_APLICAR);
@@ -883,71 +883,71 @@
         }
       };
 
-      var pValidateAnticipo = function() {
-        if(Cairo.Util.val(pGetAnticipo().getValue()) < 0) {
-          pGetAnticipo().setValue(0);
+      var validateAnticipo = function() {
+        if(Cairo.Util.val(getAnticipo().getValue()) < 0) {
+          getAnticipo().setValue(0);
         }
-        m_objWizard.showValue(pGetAnticipo());
+        m_objWizard.showValue(getAnticipo());
       };
 
-      var pShowCobroNeto = function() {
+      var showCobroNeto = function() {
         var row = null;
         var total = null;
 
-        var _count = pGetCheques().getRows().size();
+        var _count = getCheques().getRows().size();
         for (var _i = 0; _i < _count; _i++) {
-          row = pGetCheques().getRows().item(_i);
+          row = getCheques().getRows().item(_i);
           total = total + Cairo.Util.val(Dialogs.cell(row, KICH_IMPORTE).getValue());
         }
 
-        var _count = pGetEfectivo().getRows().size();
+        var _count = getEfectivo().getRows().size();
         for (var _i = 0; _i < _count; _i++) {
-          row = pGetEfectivo().getRows().item(_i);
+          row = getEfectivo().getRows().item(_i);
           total = total + Cairo.Util.val(Dialogs.cell(row, KIE_IMPORTE).getValue());
         }
 
-        var _count = pGetTarjetas().getRows().size();
+        var _count = getTarjetas().getRows().size();
         for (var _i = 0; _i < _count; _i++) {
-          row = pGetTarjetas().getRows().item(_i);
+          row = getTarjetas().getRows().item(_i);
           total = total + Cairo.Util.val(Dialogs.cell(row, KIE_IMPORTE).getValue());
         }
 
-        pGetCobroNeto().setValue(total);
-        m_objWizard.showValue(pGetCobroNeto());
+        getCobroNeto().setValue(total);
+        m_objWizard.showValue(getCobroNeto());
       };
 
-      var pShowCobroOtro = function() {
+      var showCobroOtro = function() {
         var row = null;
         var total = null;
 
-        var _count = pGetOtros().getRows().size();
+        var _count = getOtros().getRows().size();
         for (var _i = 0; _i < _count; _i++) {
-          row = pGetOtros().getRows().item(_i);
+          row = getOtros().getRows().item(_i);
           total = total + Cairo.Util.val(Dialogs.cell(row, KIO_DEBE).getValue()) - Cairo.Util.val(Dialogs.cell(row, KIO_HABER).getValue());
         }
 
-        pGetCobroOtros().setValue(total);
-        m_objWizard.showValue(pGetCobroOtros());
+        getCobroOtros().setValue(total);
+        m_objWizard.showValue(getCobroOtros());
       };
 
-      var pShowCobroTotal = function() {
-        pGetCobroTotal().setValue(Cairo.Util.val(pGetCobroNeto().getValue()) + Cairo.Util.val(pGetCobroOtros().getValue()));
-        m_objWizard.showValue(pGetCobroTotal());
+      var showCobroTotal = function() {
+        getCobroTotal().setValue(Cairo.Util.val(getCobroNeto().getValue()) + Cairo.Util.val(getCobroOtros().getValue()));
+        m_objWizard.showValue(getCobroTotal());
       };
 
-      var pShowAnticipo = function() {
-        pGetAnticipoImporte().setValue(Cairo.Util.val(pGetAnticipo().getValue()));
-        m_objWizard.showValue(pGetAnticipoImporte());
+      var showAnticipo = function() {
+        getAnticipoImporte().setValue(Cairo.Util.val(getAnticipo().getValue()));
+        m_objWizard.showValue(getAnticipoImporte());
       };
 
-      var pShowMonedaAnticipo = function(bShow) {
+      var showMonedaAnticipo = function(bShow) {
         var sqlstmt = null;
         var rs = null;
         var cue_id = null;
         var mon_id = null;
         var mon_nombre = null;
 
-        cue_id = pGetCuentaAnticipo().getSelectId();
+        cue_id = getCuentaAnticipo().getSelectId();
         if(cue_id !== Cairo.Constants.NO_ID) {
           sqlstmt = "select moneda.mon_id, mon_nombre from cuenta inner join moneda on cuenta.mon_id = moneda.mon_id where cue_id = "+ cue_id.toString();
           if(!Cairo.Database.openRs(sqlstmt, rs)) { return; }
@@ -957,63 +957,63 @@
           }
         }
 
-        var w_pGetMonedaAnticipo = pGetMonedaAnticipo();
-        w_pGetMonedaAnticipo.setSelectId(mon_id);
-        w_pGetMonedaAnticipo.setValue(mon_nombre);
+        var w_getMonedaAnticipo = getMonedaAnticipo();
+        w_getMonedaAnticipo.setSelectId(mon_id);
+        w_getMonedaAnticipo.setValue(mon_nombre);
 
         if(bShow) {
-          m_objWizard.showValue(pGetMonedaAnticipo());
+          m_objWizard.showValue(getMonedaAnticipo());
         }
 
-        var w_pGetCotizacionAnticipo = pGetCotizacionAnticipo();
+        var w_getCotizacionAnticipo = getCotizacionAnticipo();
         if(mon_id !== m_monDefault) {
           var moneda = null;
           moneda = new cMoneda();
-          w_pGetCotizacionAnticipo.setEnabled(true);
-          w_pGetCotizacionAnticipo.setValue(moneda.getCotizacion(mon_id, Date));
+          w_getCotizacionAnticipo.setEnabled(true);
+          w_getCotizacionAnticipo.setValue(moneda.getCotizacion(mon_id, Date));
         }
         else {
-          w_pGetCotizacionAnticipo.setValue(1);
-          w_pGetCotizacionAnticipo.setEnabled(false);
+          w_getCotizacionAnticipo.setValue(1);
+          w_getCotizacionAnticipo.setEnabled(false);
         }
 
         if(bShow) {
-          m_objWizard.showValue(pGetCotizacionAnticipo());
+          m_objWizard.showValue(getCotizacionAnticipo());
         }
       };
 
-      var pShowTotalFacturas = function() {
+      var showTotalFacturas = function() {
         var row = null;
         var total = null;
         var totalOrigen = null;
 
-        var _count = pGetFacturas().getRows().size();
+        var _count = getFacturas().getRows().size();
         for (var _i = 0; _i < _count; _i++) {
-          row = pGetFacturas().getRows().item(_i);
+          row = getFacturas().getRows().item(_i);
           total = total + Cairo.Util.val(Dialogs.cell(row, KI_APLICAR).getValue());
           if(Cairo.Util.val(Dialogs.cell(row, KI_IMPORTEORIGEN).getValue()) !== 0) {
             totalOrigen = totalOrigen + Cairo.Util.val(Dialogs.cell(row, KI_APLICAR).getValue());
           }
         }
 
-        pGetTotal().setValue(total + Cairo.Util.val(pGetAnticipo().getValue()));
-        pGetTotalOrigen().setValue(DivideByCero(totalOrigen, Cairo.Util.val(pGetCotizacion().getValue())));
+        getTotal().setValue(total + Cairo.Util.val(getAnticipo().getValue()));
+        getTotalOrigen().setValue(DivideByCero(totalOrigen, Cairo.Util.val(getCotizacion().getValue())));
 
-        m_objWizard.showValue(pGetTotal());
-        m_objWizard.showValue(pGetTotalOrigen());
+        m_objWizard.showValue(getTotal());
+        m_objWizard.showValue(getTotalOrigen());
       };
 
       // Proposito: Obtiene la deuda en moneda extranjera a la cotizacion original de la operacion
-      var pGetDeudaOrigen = function() {
+      var getDeudaOrigen = function() {
         var row = null;
         var total = null;
         var decimalesCotiz = null;
 
         decimalesCotiz = Cairo.Settings.getCurrencyRateDecimals();
 
-        var _count = pGetFacturas().getRows().size();
+        var _count = getFacturas().getRows().size();
         for (var _i = 0; _i < _count; _i++) {
-          row = pGetFacturas().getRows().item(_i);
+          row = getFacturas().getRows().item(_i);
           total = total + DivideByCero(Cairo.Util.val(Dialogs.cell(row, KI_APLICAR).getValue()), Cairo.Util.round(Cairo.Util.val(Dialogs.cell(row, KI_COTIZACION2).getValue()), decimalesCotiz)) * Cairo.Util.val(Dialogs.cell(row, KI_COTIZACION).getValue());
         }
 
@@ -1021,13 +1021,13 @@
       };
 
       // Obtiene los pesos cobrados por operaciones en moneda extranjera a la cotizacion de la cobranza
-      var pGetCobrado = function() {
+      var getCobrado = function() {
         var row = null;
         var total = null;
 
-        var _count = pGetFacturas().getRows().size();
+        var _count = getFacturas().getRows().size();
         for (var _i = 0; _i < _count; _i++) {
-          row = pGetFacturas().getRows().item(_i);
+          row = getFacturas().getRows().item(_i);
 
           // Solo si es moneda extranjera
           //
@@ -1041,54 +1041,44 @@
 
       // Implementacion de cIWizardClient
       var getCIWizardClient_Aplication = function() {
-        return Cairo.appName;
+        return Cairo.Application.getName();
       };
 
       var cIWizardClient_ListAdHock = function(list) {
 
       };
 
-      var cIWizardClient_Load = function() {
-        var _rtn = null;
+      self.load = function() {
         try {
+          m_objWizard.getDialog().setHideTitle(true);
 
-          var wizObj = null;
-          wizObj = m_objWizard;
-          // Autorun
-          m_bAutoSelect = wizObj.getPushVirtualNext();
+          // autorun
+          //
+          m_autoSelect = m_objWizard.getPushVirtualNext();
 
-          #If !PREPROC_SFS Then;
-          pSetObjectForm();
-          #End If;
-
-          m_objWizard.getEditGeneric().setHideTitle(true);
-          _rtn = loadSteps();
-
-          return _rtn;
+          return loadSteps();
         }
         catch (ex) {
-          Cairo.manageErrorEx(ex.message, "cIWizardClient_Load", C_MODULE, "");
+          Cairo.manageErrorEx(ex.message, ex, "load", C_MODULE, "");
+          return P.resolvedPromise(false);
         }
-
-        return _rtn;
       };
 
-      var setCIWizardClient_ObjWizard = function(value) {
+      self.getAplication = function() {
+        return Cairo.Application.getName();
+      };
+
+      self.setObjWizard = function(value) {
         m_objWizard = value;
-
-        if(value !== null) {
-          var objWiz = null;
-          objWiz = value;
-          objWiz.setObjClientObj(self);
-        }
       };
 
-      var getCIWizardClient_ObjWizard = function() {
+      self.getObjWizard = function() {
         return m_objWizard;
       };
 
-      var cIWizardClient_Work = function(currentStep,  goingToNext) {
-        var _rtn = null;
+      self.work = function(currentStep, goingToNext) {
+        var p = null;
+
         try {
 
           switch (currentStep) {
@@ -1097,368 +1087,371 @@
               break;
 
             case WCS.WELCOME:
-              // First step, Disable back
-              m_objWizard.getCmdBack().Enabled = false;
 
+              // first step, disable back
+              m_objWizard.disableBack();
               break;
 
             case WCS.SELECT_COBROS:
-              if(goingToNext) {
-                if(!pGetCuentasDeudor()) { return _rtn; }
-                pSetFilterColFactura();
-                pRefreshLabelPagos();
-              }
 
+              if(goingToNext) {
+                if(!getCuentasDeudor()) { return _rtn; }
+                setFilterColFactura();
+                refreshLabelPagos();
+              }
               break;
 
             case WCS.DATOS_GENERALES:
-              pSetDatosGenerales();
 
+              p = setDatosGenerales();
               break;
           }
 
-          _rtn = true;
-
-          // **TODO:** goto found: GoTo ExitProc;
         }
         catch (ex) {
-          Cairo.manageErrorEx(ex.message, "cIWizardClient_Work", C_MODULE, "");
-          // **TODO:** label found: ExitProc:;
+          Cairo.manageErrorEx(ex.message, ex, "work", C_MODULE, "");
         }
-        // **TODO:** on error resume next found !!!
 
-        return _rtn;
+        return p || P.resolvedPromise(true);
       };
 
-      var cIWizardClient_NextStep = function(nCurrentStep,  nNextStep) {
-        var _rtn = null;
+      self.nextStep = function(currentStep, nextStep) {
+        var p = null;
+
         try {
 
-          switch (nCurrentStep) {
+          switch (currentStep) {
 
-            // Este paso es el primero que se recibe
-            // su proposito es darle una oportunidad al cliente del wizard
-            // de indicar cual es el primer paso
+            // this is the first step called
+            // it is used to inform the wizard manager which is the first step
+            //
             case -1:
-              nNextStep = WCS.WELCOME;
-              m_objWizard.getCmdBack().Enabled = false;
 
+              nextStep = WCS.WELCOME;
+              m_objWizard.disableBack();
               break;
 
             case WCS.WELCOME:
-              nNextStep = WCS.SELECT_CLIENTE;
-              m_objWizard.getCmdNext().Caption = Cairo.Constants.c_WizStr_Next;
-              m_objWizard.getCmdBack().Enabled = false;
 
-              // Cada vez que paso por aca activo este flag
-              // para detenerme en pagos sin mostrar un cartel
+              nextStep = WCS.SELECT_CLIENTE;
+              m_objWizard.setNextText(Cairo.Constants.NEXT_TEXT);
+              m_objWizard.disableBack();
+
+              // every time we get here this flag is turned on
+              // to stop in payments without showing a message
               //
               m_bVirtualNextStopInPagos = true;
               m_bRestarVirtualPush = false;
-
               break;
 
             case WCS.SELECT_CLIENTE:
 
-              if(pGetDoc() === Cairo.Constants.NO_ID) {
-                //'Cobranzas
-                MsgWarning(getText(1562, ""), getText(2128, ""));
-                //Debe indicar un documento
-                nNextStep = WCS.SELECT_CLIENTE;
+              if(getDoc() === NO_ID) {
+                nextStep = WCS.SELECT_CLIENTE;
+                p = M.showWarningWithFalse(getText(1562, ""), getText(2128, "")); // Debe indicar un documento, Cobranzas
               }
-              else if(pGetCliente() === Cairo.Constants.NO_ID) {
-                //'Cobranzas
-                MsgWarning(getText(1563, ""), getText(2128, ""));
-                //Debe indicar un cliente
-                nNextStep = WCS.SELECT_CLIENTE;
-              }
-              else if(!pLoadFacturasXCliente()) {
-                //'Cobranzas
-                MsgWarning(getText(2129, ""), getText(2128, ""));
-                //No se pudieron cargar las facturas para este cliente
-                nNextStep = WCS.SELECT_CLIENTE;
+              else if(getCliente() === NO_ID) {
+                nextStep = WCS.SELECT_CLIENTE;
+                p = M.showWarningWithFalse(getText(1563, ""), getText(2128, "")); // Debe indicar un cliente, Cobranzas
               }
               else {
-                pGetTodos().setName(Cairo.Constants.c_selectall);
-                m_objWizard.showValue(pGetTodos());
-                m_objWizard.getCmdBack().Enabled = true;
-                nNextStep = WCS.SELECT_FACTURA;
+                p = loadFacturasXCliente()
+                  .whenSuccess(
+                  function() {
+                    getTodos().setName(Cairo.Constants.SELECT_ALL_TEXT);
+                    m_objWizard.showValue(getTodos());
+                    m_objWizard.enableBack();
+                    nextStep = WCS.SELECT_FACTURA;
+                    return true;
+                  },
+                  function() {
+                    nextStep = WCS.SELECT_CLIENTE;
+                    return M.showWarningWithFalse(getText(2129, ""), getText(2128, "")); // No se pudieron cargar las facturas para este cliente, Cobranzas
+                  }
+                );
               }
-
               break;
 
             case WCS.SELECT_FACTURA:
-              if(pChecFacturas()) {
-                pShowAnticipo();
-                nNextStep = WCS.ANTICIPO;
-              }
-              else {
-                nNextStep = WCS.SELECT_FACTURA;
-              }
 
+              p = checkFacturas()
+                .whenSuccess(
+                  function() {
+                    showAnticipo();
+                    nextStep = WCS.ANTICIPO;
+                    return true;
+                  },
+                  function() {
+                    nextStep = WCS.SELECT_FACTURA;
+                    return false;
+                  }
+                );
               break;
 
             case WCS.ANTICIPO:
-              if(pCheckAnticipo()) {
-                if(m_bDifCambio) {
-                  nNextStep = WCS.DIF_CAMBIO;
-                }
-                else {
 
-                  pLoadVirtualNextCobros();
-
-                  nNextStep = WCS.SELECT_COBROS;
-                }
+              if(m_bDifCambio) {
+                nextStep = WCS.DIF_CAMBIO;
               }
               else {
-                nNextStep = WCS.ANTICIPO;
-              }
 
+                p = loadVirtualNextCobros()
+                  .whenSuccess(
+                    function() {
+                      nextStep = WCS.SELECT_COBROS;
+                      return true;
+                    },
+                    function() {
+                      nextStep = WCS.ANTICIPO;
+                      return false;
+                    }
+                  );
+              }
               break;
 
             case WCS.DIF_CAMBIO:
 
-              pLoadVirtualNextCobros();
-
-              nNextStep = WCS.SELECT_COBROS;
-
+              p = loadVirtualNextCobros()
+                .whenSuccess(
+                function() {
+                  nextStep = WCS.SELECT_COBROS;
+                  return true;
+                },
+                function() {
+                  nextStep = WCS.DIF_CAMBIO;
+                  return false;
+                }
+              );
               break;
 
             case WCS.SELECT_COBROS:
-              if(!pValidateCobro()) {
-                nNextStep = WCS.SELECT_COBROS;
-              }
-              else {
 
-                m_objWizard.getCmdBack().Enabled = true;
-                m_objWizard.getCmdNext().Caption = Cairo.Constants.c_WizStr_Finish;
+              validateCobro()
+                .whenSuccess(
+                  function() {
+                    m_objWizard.enableBack();
+                    m_objWizard.setNextText(Cairo.Constants.FINISH_TEXT);
 
-                nNextStep = WCS.DATOS_GENERALES;
+                    nextStep = WCS.DATOS_GENERALES;
 
-                if(m_bAutoSelect) {
-
-                  var wizObj = null;
-                  wizObj = m_objWizard;
-
-                  if(m_bRestarVirtualPush) {
-
-                    wizObj.setRestartVirtualPush(true);
-
+                    if(m_autoSelect && m_bRestarVirtualPush) {
+                        m_objWizard.setRestartVirtualPush(true);
+                    }
+                    return true;
+                  },
+                  function() {
+                    nextStep = WCS.SELECT_COBROS;
+                    return false;
                   }
-                }
-              }
-
+                );
               break;
 
             case WCS.DATOS_GENERALES:
 
-              if(pValidateDatosGenerales()) {
+              p = validateDatosGenerales().whenSuccess(
+                function() {
 
-                if(pSave()) {
-
-                  // Si esta en automatico no pasamos por la impresion,
-                  // vamos directamente a crear un nuevo documento
-                  //
-                  if(m_bAutoSelect) {
-
-                    cIWizardClient_PropertyChange(KW_NEW_DOC);
-                    nNextStep = WCS.WELCOME;
-
-                  }
-                  else {
-
-                    // PrintDoc
-                    //
-                    WizShowNewStep(m_objWizard, WCS.WELCOME, m_lastNroDoc);
-                    nNextStep = WCS.WELCOME;
-
-                  }
-
+                  return save().whenSuccess(
+                    function() {
+                      if(m_autoSelect) {
+                        self.propertyChange(WC.KW_NEW_DOC);
+                        nextStep = WCS.WELCOME;
+                      }
+                      else {
+                        D.wizShowNewStep(m_objWizard, WCS.WELCOME, m_lastNroDoc);
+                        nextStep = WCS.WELCOME;
+                      }
+                      return true;
+                    },
+                    function() {
+                      nextStep = WCS.DATOS_GENERALES;
+                      return false;
+                    }
+                  );
+                },
+                function() {
+                  nextStep = WCS.DATOS_GENERALES;
+                  return false;
                 }
-                else {
-                  nNextStep = WCS.DATOS_GENERALES;
-                }
-              }
-              else {
-                nNextStep = WCS.DATOS_GENERALES;
-              }
+              )
               break;
           }
 
-          _rtn = true;
-
-          // **TODO:** goto found: GoTo ExitProc;
+          p = p || P.resolvedPromise(true);
         }
         catch (ex) {
-          Cairo.manageErrorEx(ex.message, "cIWizardClient_NextStep", C_MODULE, "");
-          // **TODO:** label found: ExitProc:;
+          Cairo.manageErrorEx(ex.message, ex, "nextStep", C_MODULE, "");
+          p = P.resolvedPromise(false);
         }
-        // **TODO:** on error resume next found !!!
 
-        return _rtn;
+        return p.then(function(success) {
+          if(success) {
+            return {
+              success: true,
+              nextStep: nextStep
+            }
+          }
+          else {
+            return P.fail();
+          }
+        });
       };
 
-      var cIWizardClient_PreviousStep = function(nCurrentStep,  nNextStep) {
+      self.previousStep = function(nCurrentStep, nextStep) {
+        var p = null;
+
         switch (nCurrentStep) {
           case WCS.WELCOME:
-            nNextStep = WCS.WELCOME;
-
+            nextStep = WCS.WELCOME;
             break;
 
           case WCS.SELECT_CLIENTE:
-            nNextStep = WCS.SELECT_CLIENTE;
-
+            nextStep = WCS.SELECT_CLIENTE;
             break;
 
           case WCS.SELECT_FACTURA:
-            m_objWizard.getCmdBack().Enabled = false;
-            nNextStep = WCS.SELECT_CLIENTE;
-
+            m_objWizard.disableBack();
+            nextStep = WCS.SELECT_CLIENTE;
             break;
 
           case WCS.ANTICIPO:
-            nNextStep = WCS.SELECT_FACTURA;
-
+            nextStep = WCS.SELECT_FACTURA;
             break;
 
           case WCS.DIF_CAMBIO:
-            nNextStep = WCS.ANTICIPO;
-
+            nextStep = WCS.ANTICIPO;
             break;
 
           case WCS.SELECT_COBROS:
             if(m_bDifCambio) {
-              nNextStep = WCS.DIF_CAMBIO;
+              nextStep = WCS.DIF_CAMBIO;
             }
             else {
-              nNextStep = WCS.ANTICIPO;
+              nextStep = WCS.ANTICIPO;
             }
-
             break;
 
           case WCS.DATOS_GENERALES:
-            m_objWizard.getCmdNext().Caption = Cairo.Constants.c_WizStr_Next;
-            nNextStep = WCS.SELECT_COBROS;
+            m_objWizard.setNextText(Cairo.Constants.NEXT_TEXT);
+            nextStep = WCS.SELECT_COBROS;
             break;
         }
 
-        return true;
+        p = p || P.resolvedPromise(true);
+
+        return p.then(function(success) {
+          if(success) {
+            return {
+              success: true,
+              nextStep: nextStep
+            }
+          }
+          else {
+            return P.fail();
+          }
+        });
       };
 
-      var cIWizardClient_PropertyChange = function(key) {
-        var _rtn = null;
+      self.propertyChange = function(key) {
+        var p = null;
+
         switch (key) {
-          case KW_CANCEL:
+
+          case WC.KW_CANCEL:
+
             if(m_wizardProcessing) {
               m_wizardCancel = true;
             }
-            else {
-              _rtn = true;
-            }
-
             break;
 
-          case KW_CLOSE_WIZARD:
-            // Finish, now close wizard
-            m_objWizard.closeWizard();
+          case WC.KW_CLOSE_WIZARD:
 
-            // PrintDoc
+            // finish, now close wizard
             //
+            m_objWizard.closeWizard();
             break;
 
-          case KW_PRINT_DOC:
-            WizPrintDocEx(m_id, m_lastDoc, cIABMProperty.getEmailFromCliente(m_lastCli));
+          case WC.KW_PRINT_DOC:
 
+            D.wizPrintDocEx(m_id, m_lastDocId, D.getEmailFromCliente(m_lastCliId));
             break;
 
-          case KW_NEW_DOC:
-            pSetMultyCliente();
+          case WC.KW_NEW_DOC:
+            
+            setMultyCliente();
 
-            // Si el wizard se cerro no hay mas nada que hacer
+            // if the wizard was closed there is nothing to do
             //
             if(!m_bWizWasClosed) {
-
-              pNewEmptyProperties();
-              WizNewDoc(m_objWizard, WCS.WELCOME);
-
+              newEmptyProperties();
+              D.wizNewDoc(m_objWizard, WCS.WELCOME);
             }
-
             break;
 
-          case KW_VENCIDOS:
-          case KW_AGRUPADOS:
-            pLoadFacturasXCliente();
+          case WC.KW_VENCIDOS:
+          case WC.KW_AGRUPADOS:
+            
+            p = loadFacturasXCliente();
             break;
 
-          case KW_COTIZACION:
-            pRefreshCotizacion(true);
-            pShowTotalFacturas();
+          case WC.KW_COTIZACION:
+
+            refreshCotizacion(true);
+            showTotalFacturas();
             break;
 
-          case KW_ANTICIPO:
-            pValidateAnticipo();
-            pShowTotalFacturas();
+          case WC.KW_ANTICIPO:
+            
+            validateAnticipo();
+            showTotalFacturas();
             break;
 
-          case KW_TODOS:
-            if(pGetTodos().getName() === Cairo.Constants.c_selectall) {
-              pSelectAllFactura(true);
-              pGetTodos().setName(Cairo.Constants.c_unselectall);
+          case WC.KW_TODOS:
+
+            if(getTodos().getName() === Cairo.Constants.SELECT_ALL_TEXT) {
+              selectAllFactura(true);
+              getTodos().setName(Cairo.Constants.UN_SELECT_ALL_TEXT);
             }
             else {
-              pSelectAllFactura(false);
-              pGetTodos().setName(Cairo.Constants.c_selectall);
+              selectAllFactura(false);
+              getTodos().setName(Cairo.Constants.SELECT_ALL_TEXT);
             }
-            m_objWizard.showValue(pGetTodos());
-            pShowTotalFacturas();
+            m_objWizard.showValue(getTodos());
+            showTotalFacturas();
             break;
 
-          case KW_CUENTA_ANTICIPO:
-            pShowMonedaAnticipo(true);
+          case WC.KW_DOC_ID:
 
-            break;
-
-          case KW_DOC_ID:
-            m_lastDoc = pGetDoc();
-
+            m_lastDocId = getDoc();
             break;
         }
 
-        return _rtn;
+        return p || P.resolvedPromise();
       };
 
-      var cIWizardClient_Terminate = function() {
-        var _rtn = null;
-        _rtn = true;
-        //Unload m_Resource
-        //Set m_Resource = Nothing
-
-        // Puede fallar y no importa
-        // ya que no conozco si el
-        // objecto Proveedor soporta
-        // la interfaz
-        // **TODO:** on error resume next found !!!
-
-        m_objClient.SetWizardCompleteSuccess(m_id !== Cairo.Constants.NO_ID);
-
-        // Autorun
-        if(m_bAutoSelect) {
-          m_objClient.TerminateWizard(Cairo.Constants.NO_ID);
+      self.terminate = function() {
+        try {
+          m_objClient.setWizardCompleteSuccess(m_id !== Cairo.Constants.NO_ID);
+          m_objClient.terminateWizard(m_autoSelect ? NO_ID : m_id);
         }
-        else {
-          m_objClient.TerminateWizard(m_id);
+        catch(ignore) {
+          Cairo.logError('Error in terminate', ignore);
         }
-
-
-        return _rtn;
       };
 
-      var getCIWizardClient_Title = function() {
-        return C_WIZARDTITLE;
+      self.getPath = function() {
+        return "#tesoreria/cobranza/sobrefactura";
       };
 
-      // funciones friend
-      // funciones privadas
+      self.getEditorName = function() {
+        var id = "N" + (new Date).getTime().toString();
+        return "cobranza/sobrefactura/" + id;
+      };
+
+      self.getTitle = function() {
+        return "Asistente de Cobranzas"; //TODO: use getText(???, ""); // Asistente de Cobranzas
+      };
+
       var loadSteps = function() {
 
         //If m_Resource Is Nothing Then Set m_Resource = New fResource
@@ -1488,22 +1481,23 @@
         abmObj = wizard.getObjAbm();
         abmObj.MinHeight = 7000;
 
-        m_lastDoc = m_tesoreriaConfig.getDocIdCobranza();
+        m_lastCliId = m_cliId;
+        m_lastDocId = Cairo.getTesoreriaConfig().getDocIdCobranza();
 
-        pSetMultyDoc();
+        setMultyDoc();
 
-        pLoadStepWelcome();
-        pLoadStepSelectCliente();
-        pLoadStepSelectFactura();
-        pLoadStepAnticipo();
-        pLoadStepDifCambio();
-        pLoadStepSelectCobros();
-        pLoadStepDatosGenerales();
+        loadStepWelcome();
+        loadSteselectCliente();
+        loadSteselectFactura();
+        loadStepAnticipo();
+        loadStepDifCambio();
+        loadSteselectCobros();
+        loadStepDatosGenerales();
 
         return true;
       };
 
-      var pSetMultyDoc = function() {
+      var setMultyDoc = function() {
         if(m_cliIds.Length > 0) {
 
           m_nextCliIdIndex = 1;
@@ -1514,12 +1508,12 @@
         }
       };
 
-      var pSetMultyCliente = function() {
+      var setMultyCliente = function() {
 
         if(m_nextCliIdIndex) {
 
           m_cliIdDoc = m_cliIds[m_nextCliIdIndex];
-          m_clienteDoc = pGetCliNombre(m_cliIdDoc);
+          m_clienteDoc = getCliNombre(m_cliIdDoc);
 
           m_nextCliIdIndex = m_nextCliIdIndex + 1;
 
@@ -1534,7 +1528,7 @@
         }
         else {
 
-          if(m_bAutoSelect) {
+          if(m_autoSelect) {
 
             var wizObj = null;
             wizObj = m_objWizard;
@@ -1560,7 +1554,7 @@
         }
       };
 
-      var pGetCliNombre = function(cli_id) {
+      var getCliNombre = function(cli_id) {
         var rtn = null;
         if(!Cairo.Database.getData(mTesoreriaConstantes.CLIENTE, mTesoreriaConstantes.CLI_ID, cli_id, mTesoreriaConstantes.CLI_NAME, rtn)) { return ""; }
         return rtn;
@@ -1607,7 +1601,7 @@
 
       };
 
-      var setGridStepSelectCliente = function(property) {
+      var setGridSteselectCliente = function(property) {
         // La clave de los pasos debe ser la constante que los define
         // Esto es vital para que la navegacion funcione correctamente
         var elem = m_objWizard.getSteps().add(null, GetKey(WCS.SELECT_CLIENTE)).getProperties();
@@ -1649,11 +1643,11 @@
         w___TYPE_NOT_FOUND.HelpFilter = "'doct_id = "+ csEDocumentoTipo.cSEDT_COBRANZA.toString()+ "'";
         w___TYPE_NOT_FOUND.Table = CSDocumento2.CSDocumento;
         w___TYPE_NOT_FOUND.Width = 4000;
-        w___TYPE_NOT_FOUND.Value = m_tesoreriaConfig.getDocCobranza();
-        w___TYPE_NOT_FOUND.HelpId = m_tesoreriaConfig.getDocIdCobranza();
-        w___TYPE_NOT_FOUND.Key = KW_DOC_ID;
+        w___TYPE_NOT_FOUND.Value = Cairo.getTesoreriaConfig().getDocCobranza();
+        w___TYPE_NOT_FOUND.HelpId = Cairo.getTesoreriaConfig().getDocIdCobranza();
+        w___TYPE_NOT_FOUND.Key = WC.KW_DOC_ID;
 
-        pSetMultyCliente();
+        setMultyCliente();
 
         //*TODO:** can't found type for with block
         //*With .Object.add(null, DWC.CLIENTE)
@@ -1673,7 +1667,7 @@
         //*TODO:** can't found type for with block
         //*With .Object.add(null, DWC.ONLY_SELECTED)
         var w___TYPE_NOT_FOUND = elem.Add(null, DWC.ONLY_SELECTED);
-        w___TYPE_NOT_FOUND.PropertyType = cspCheck;
+        w___TYPE_NOT_FOUND.PropertyType = cscheck;
         //'Cargar sólo Facturas seleccionadas
         w___TYPE_NOT_FOUND.Name = getText(2133, "");
         w___TYPE_NOT_FOUND.Value = m_fvIds.Length;
@@ -1681,7 +1675,7 @@
         w___TYPE_NOT_FOUND.LeftLabel = -2800;
       };
 
-      var setGridStepSelectFactura = function(property) {
+      var setGridSteselectFactura = function(property) {
         // La clave de los pasos debe ser la constante que los define
         // Esto es vital para que la navegacion funcione correctamente
         var elem = m_objWizard.getSteps().add(null, GetKey(WCS.SELECT_FACTURA));
@@ -1715,8 +1709,8 @@
         elem.Left = 11400;
         elem.LeftLabel = -700;
         elem.Width = 370;
-        elem.PropertyType = cspCheck;
-        elem.Key = KW_AGRUPADOS;
+        elem.PropertyType = cscheck;
+        elem.Key = WC.KW_AGRUPADOS;
 
         var elem = elem.add(null, DWC.VENCIDOS);
         //'Ver solo vencidos
@@ -1725,8 +1719,8 @@
         elem.Left = 11400;
         elem.LeftLabel = -1400;
         elem.Width = 370;
-        elem.PropertyType = cspCheck;
-        elem.Key = KW_VENCIDOS;
+        elem.PropertyType = cscheck;
+        elem.Key = WC.KW_VENCIDOS;
 
         var elem = elem.add(null, DWC.COTIZACION);
         //'Cotización
@@ -1738,7 +1732,7 @@
         elem.PropertyType = cspNumeric;
         elem.Format = Cairo.Settings.getCurrencyRateDecimalsFormat();
         elem.SubType = cspMoney;
-        elem.Key = KW_COTIZACION;
+        elem.Key = WC.KW_COTIZACION;
 
         var elem = elem.add(null, DWC.FACTUAS);
         elem.Top = 1100;
@@ -1746,10 +1740,10 @@
         //.Name = vbNullString
         elem.PropertyType = cspGrid;
         elem.LeftLabel = -1;
-        pLoadFacturas(elem.Grid);
+        loadFacturas(elem.Grid);
         elem.Width = 11500;
         elem.Height = 4400;
-        elem.Key = KW_FACTURAS;
+        elem.Key = WC.KW_FACTURAS;
         elem.GridAdd = false;
         elem.GridEdit = true;
         elem.GridRemove = false;
@@ -1761,7 +1755,7 @@
         elem.LeftLabel = -1;
         elem.Width = 2200;
         elem.PropertyType = cspButton;
-        elem.Key = KW_TODOS;
+        elem.Key = WC.KW_TODOS;
 
         var elem = elem.add(null, DWC.ANTICIPO);
         //'Anticipo
@@ -1773,7 +1767,7 @@
         elem.PropertyType = cspNumeric;
         elem.SubType = cspMoney;
         elem.Format = Cairo.Settings.getAmountDecimalsFormat();
-        elem.Key = KW_ANTICIPO;
+        elem.Key = WC.KW_ANTICIPO;
 
         var elem = elem.add(null, DWC.TOTAL_PAGO_ORIGEN);
         //'Total Origen
@@ -1847,7 +1841,7 @@
         elem.setFormat("dd/mm/yy");
         elem.setKey(KI_FECHA);
 
-        signo = pGetNomMonedaDefault();
+        signo = getNomMonedaDefault();
 
         var elem = w_columns.add(null, DWC.MONEDA);
         //'Mon
@@ -1973,10 +1967,10 @@
         //'Cuenta
         elem.Name = getText(1267, "");
 
-        elem.Value = m_tesoreriaConfig.getCueAnticipoCobz();
-        elem.HelpId = m_tesoreriaConfig.getCue_id_ant_cobz();
+        elem.Value = Cairo.getTesoreriaConfig().getCueAnticipoCobz();
+        elem.HelpId = Cairo.getTesoreriaConfig().getCueIdAntCobz();
 
-        elem.Key = KW_CUENTA_ANTICIPO;
+        elem.Key = WC.KW_CUENTA_ANTICIPO;
 
         var elem = elem.add(null, DWC.MONEDA_ANTICIPO);
         elem.Left = 2800;
@@ -1986,7 +1980,7 @@
         elem.Table = Cairo.Tables.MONEDA;
         //'Moneda
         elem.Name = getText(1113, "");
-        elem.Key = KW_MONEDA_ANTICIPO;
+        elem.Key = WC.KW_MONEDA_ANTICIPO;
         elem.Enabled = false;
 
         var elem = elem.add(null, DWC.COTIZACION_ANTICIPO);
@@ -1998,7 +1992,7 @@
         elem.Format = Cairo.Settings.getCurrencyRateDecimalsFormat();
         elem.PropertyType = cspNumeric;
         elem.SubType = cspMoney;
-        elem.Key = KW_COTIZACION_ANTICIPO;
+        elem.Key = WC.KW_COTIZACION_ANTICIPO;
 
         var elem = elem.add(null, DWC.ANTICIPO_IMPORTE);
         elem.Left = 2800;
@@ -2008,10 +2002,10 @@
         elem.Name = getText(1228, "");
         elem.PropertyType = cspNumeric;
         elem.SubType = cspMoney;
-        elem.Key = KW_IMPORTE_ANTICIPO;
+        elem.Key = WC.KW_IMPORTE_ANTICIPO;
 
-        if(m_tesoreriaConfig.getCue_id_ant_cobz() !== Cairo.Constants.NO_ID) {
-          pShowMonedaAnticipo(false);
+        if(Cairo.getTesoreriaConfig().getCueIdAntCobz() !== Cairo.Constants.NO_ID) {
+          showMonedaAnticipo(false);
         }
 
       };
@@ -2051,15 +2045,15 @@
         elem.LeftLabel = -1500;
         //'Utilizar
         elem.Name = getText(2286, "");
-        elem.Key = KW_DEFALUT_DIF_CAMBIO;
+        elem.Key = WC.KW_DEFALUT_DIF_CAMBIO;
         elem.ListWhoSetItem = csListItemData;
-        elem.ListItemData = m_tesoreriaConfig.getDefaultDifCambio();
+        elem.ListItemData = Cairo.getTesoreriaConfig().getDefaultDifCambio();
         var elem = elem.add(null);
-        elem.Id = csEModoDifCambio.cSEDIF_CAMBIOCUENTA;
+        elem.Id = CT.ModoDifCambio.cSEDIF_CAMBIOCUENTA;
         //'Una cuenta contable
         elem.Value = getText(2142, "");
         var elem = elem.add(null);
-        elem.Id = csEModoDifCambio.cSEDIF_CAMBIONCND;
+        elem.Id = CT.ModoDifCambio.cSEDIF_CAMBIONCND;
         //'Una Nota de Débito o Crédito
         elem.Value = getText(2143, "");
 
@@ -2071,9 +2065,9 @@
         elem.LeftLabel = -1500;
         //'Cuenta contable
         elem.Name = getText(2288, "");
-        elem.Key = KW_CUE_ID_DIF_CAMBIO;
-        elem.HelpId = m_tesoreriaConfig.getCueIdDifCambio();
-        elem.Value = m_tesoreriaConfig.getCuentaDifCambio();
+        elem.Key = WC.KW_CUE_ID_DIF_CAMBIO;
+        elem.HelpId = Cairo.getTesoreriaConfig().getCueIdDifCambio();
+        elem.Value = Cairo.getTesoreriaConfig().getCuentaDifCambio();
 
         var elem = elem.add(null, DWC.NC_DIF_CAMBIO);
         elem.PropertyType = cspHelp;
@@ -2083,10 +2077,10 @@
         elem.LeftLabel = -1500;
         //'Nota de Crédito
         elem.Name = getText(2289, "");
-        elem.Key = KW_DOC_ID_NC_DIF_CAMBIO;
-        elem.HelpId = m_tesoreriaConfig.getDocIdNCDifCambio();
+        elem.Key = WC.KW_DOC_ID_NC_DIF_CAMBIO;
+        elem.HelpId = Cairo.getTesoreriaConfig().getDocIdNCDifCambio();
         elem.HelpFilter = "'doct_id = 7'";
-        elem.Value = m_tesoreriaConfig.getDocNCDifCambio();
+        elem.Value = Cairo.getTesoreriaConfig().getDocNCDifCambio();
 
         var elem = elem.add(null, DWC.ND_DIF_CAMBIO);
         elem.PropertyType = cspHelp;
@@ -2096,10 +2090,10 @@
         elem.LeftLabel = -1500;
         //'Nota de Débito
         elem.Name = getText(2230, "");
-        elem.Key = KW_DOC_ID_ND_DIF_CAMBIO;
-        elem.HelpId = m_tesoreriaConfig.getDocIdNDDifCambio();
+        elem.Key = WC.KW_DOC_ID_ND_DIF_CAMBIO;
+        elem.HelpId = Cairo.getTesoreriaConfig().getDocIdNDDifCambio();
         elem.HelpFilter = "'doct_id = 9'";
-        elem.Value = m_tesoreriaConfig.getDocNDDifCambio();
+        elem.Value = Cairo.getTesoreriaConfig().getDocNDDifCambio();
 
         var elem = elem.add(null, DWC.PR_ID_DIF_CAMBIO);
         elem.PropertyType = cspHelp;
@@ -2109,9 +2103,9 @@
         elem.LeftLabel = -1500;
         //'Artículo
         elem.Name = getText(1367, "");
-        elem.Key = KW_PR_ID_DIF_CAMBIO;
-        elem.HelpId = m_tesoreriaConfig.getPrIdDifCambio();
-        elem.Value = m_tesoreriaConfig.getProductoDifCambio();
+        elem.Key = WC.KW_PR_ID_DIF_CAMBIO;
+        elem.HelpId = Cairo.getTesoreriaConfig().getPrIdDifCambio();
+        elem.Value = Cairo.getTesoreriaConfig().getProductoDifCambio();
 
         var elem = elem.add(null, DWC.MODO_IVA_DIF_CAMBIO);
         elem.PropertyType = cspList;
@@ -2120,15 +2114,15 @@
         elem.LeftLabel = -1500;
         //'Tratamiento del IVA
         elem.Name = getText(2290, "");
-        elem.Key = KW_MODO_IVA_DIF_CAMBIO;
+        elem.Key = WC.KW_MODO_IVA_DIF_CAMBIO;
         elem.ListWhoSetItem = csListItemData;
-        elem.ListItemData = m_tesoreriaConfig.getModoIvaDifCambio();
+        elem.ListItemData = Cairo.getTesoreriaConfig().getModoIvaDifCambio();
         var elem = elem.add(null);
-        elem.Id = csEModoIvaDifCambio.cSEDIFIVAIMPONIBLE;
+        elem.Id = CT.ModoIvaDifCambio.DIF_IVA_IMPONIBLE;
         //'Tomar la diferencia de cambio como base imponible para el IVA
         elem.Value = getText(2144, "");
         var elem = elem.add(null);
-        elem.Id = csEModoIvaDifCambio.cSEDIFIVANOIMPONIBLE;
+        elem.Id = CT.ModoIvaDifCambio.cSEDIFIVANOIMPONIBLE;
         //'IVA incluido en la diferencia de cambio
         elem.Value = getText(2145, "");
 
@@ -2137,7 +2131,7 @@
         elem.Left = 2800;
         //'Fecha
         elem.Name = getText(1569, "");
-        elem.Key = KW_FECHA_NDNC;
+        elem.Key = WC.KW_FECHA_NDNC;
         elem.Value = Date;
 
         var elem = elem.add(null, DWC.APLICACION_ND);
@@ -2147,21 +2141,21 @@
         elem.LeftLabel = -1500;
         //'Aplicación
         elem.Name = getText(2479, "");
-        elem.Key = KW_APLICACION_DIF_CAMBIO;
+        elem.Key = WC.KW_APLICACION_DIF_CAMBIO;
         elem.ListWhoSetItem = csListItemData;
-        elem.ListItemData = m_tesoreriaConfig.getAplicacionDifCambio();
+        elem.ListItemData = Cairo.getTesoreriaConfig().getAplicacionDifCambio();
         var elem = elem.add(null);
-        elem.Id = csEAplicacionDifCambio.cSEDIFAPLICACION_ND;
+        elem.Id = CT.AplicacionDifCambio.cSEDIFAPLICACION_ND;
         //'Cobrar la Nota de Débito y aplicar el resto a las Facturas
         elem.Value = getText(2480, "");
         var elem = elem.add(null);
-        elem.Id = csEAplicacionDifCambio.cSEDIFAPLICACIONFV;
+        elem.Id = CT.AplicacionDifCambio.cSEDIFAPLICACIONFV;
         //'Cobrar las Facturas y aplicar el resto a la Note de Débito
         elem.Value = getText(2481, "");
 
       };
 
-      var setGridStepSelectCobros = function(property) {
+      var setGridSteselectCobros = function(property) {
         var keyCobros = null;
 
         keyCobros = GetKey(WCS.SELECT_COBROS);
@@ -2243,10 +2237,10 @@
         //.Name = vbNullString
         elem.PropertyType = cspGrid;
         elem.LeftLabel = -1;
-        pLoadCheques(elem.Grid);
+        loadCheques(elem.Grid);
         elem.Width = 11500;
         elem.Height = 4000;
-        elem.Key = KW_CHEQUES;
+        elem.Key = WC.KW_CHEQUES;
         elem.GridAdd = true;
         elem.GridEdit = true;
         elem.GridRemove = true;
@@ -2258,10 +2252,10 @@
         //.Name = vbNullString
         elem.PropertyType = cspGrid;
         elem.LeftLabel = -1;
-        pLoadEfectivo(elem.Grid);
+        loadEfectivo(elem.Grid);
         elem.Width = 11500;
         elem.Height = 4000;
-        elem.Key = KW_EFECTIVO;
+        elem.Key = WC.KW_EFECTIVO;
         elem.GridAdd = true;
         elem.GridEdit = true;
         elem.GridRemove = true;
@@ -2273,10 +2267,10 @@
         //.Name = vbNullString
         elem.PropertyType = cspGrid;
         elem.LeftLabel = -1;
-        pLoadTarjetas(elem.Grid);
+        loadTarjetas(elem.Grid);
         elem.Width = 11500;
         elem.Height = 4000;
-        elem.Key = KW_TARJETAS;
+        elem.Key = WC.KW_TARJETAS;
         elem.GridAdd = true;
         elem.GridEdit = true;
         elem.GridRemove = true;
@@ -2288,10 +2282,10 @@
         //.Name = vbNullString
         elem.PropertyType = cspGrid;
         elem.LeftLabel = -1;
-        pLoadOtros(elem.Grid);
+        loadOtros(elem.Grid);
         elem.Width = 11500;
         elem.Height = 4000;
-        elem.Key = KW_OTROS;
+        elem.Key = WC.KW_OTROS;
         elem.GridAdd = true;
         elem.GridEdit = true;
         elem.GridRemove = true;
@@ -2303,10 +2297,10 @@
         //.Name = vbNullString
         elem.PropertyType = cspGrid;
         elem.LeftLabel = -1;
-        pLoadCtaCte(elem.Grid);
+        loadCtaCte(elem.Grid);
         elem.Width = 11500;
         elem.Height = 4000;
-        elem.Key = KW_CTA_CTE;
+        elem.Key = WC.KW_CTA_CTE;
         elem.GridAdd = false;
         elem.GridEdit = false;
         elem.GridRemove = false;
@@ -2323,7 +2317,7 @@
         elem.PropertyType = cspNumeric;
         elem.SubType = cspMoney;
         elem.Enabled = false;
-        elem.Key = KW_IMPORTE_INDICADO;
+        elem.Key = WC.KW_IMPORTE_INDICADO;
 
         var elem = elem.add(null, DWC.COBRO_NETO);
         elem.Top = 5580;
@@ -2336,7 +2330,7 @@
         elem.PropertyType = cspNumeric;
         elem.SubType = cspMoney;
         elem.Enabled = false;
-        elem.Key = KW_IMPORTE_NETO;
+        elem.Key = WC.KW_IMPORTE_NETO;
 
         var elem = elem.add(null, DWC.COBRO_OTROS);
         elem.Top = 5580;
@@ -2349,7 +2343,7 @@
         elem.PropertyType = cspNumeric;
         elem.SubType = cspMoney;
         elem.Enabled = false;
-        elem.Key = KW_IMPORTE_OTROS;
+        elem.Key = WC.KW_IMPORTE_OTROS;
 
         var elem = elem.add(null, DWC.COBRO_TOTAL);
         elem.Top = 5580;
@@ -2362,7 +2356,7 @@
         elem.PropertyType = cspNumeric;
         elem.SubType = cspMoney;
         elem.Enabled = false;
-        elem.Key = KW_IMPORTE_TOTAL;
+        elem.Key = WC.KW_IMPORTE_TOTAL;
       };
 
       var setGridOtros = function(property) {
@@ -2379,7 +2373,7 @@
         elem.setWidth(2200);
         elem.setKey(KIO_CUE_ID);
         //'c_filter_cuentas_de_caja
-        elem.setSelectFilter("(emp_id = "+ cUtil.getEmpId().toString()+ " or emp_id is null)"+ pGetFilterCuentaXCaja());
+        elem.setSelectFilter("(emp_id = "+ cUtil.getEmpId().toString()+ " or emp_id is null)"+ getFilterCuentaXCaja());
 
         var elem = w_columns.add(null);
         //'Debe
@@ -2476,7 +2470,7 @@
         //.HelpFilter = "(" & cscCuecId & "=" & csECuecBancos & " or " _
         +(mTesoreriaConstantes.CUEC_ID+ "="+ csECuentaCategoria.cSECUECDOCENCARTERA.toString()+ ") and (emp_id = "+ cUtil.getEmpId().toString()+ " or emp_id is null)");
         //'c_filter_cuentas_de_caja
-        elem.setSelectFilter(mPublic.self.getHelpFilterCheques()+ pGetFilterCuentaXCaja());
+        elem.setSelectFilter(mPublic.self.getHelpFilterCheques()+ getFilterCuentaXCaja());
 
         elem.setWidth(2200);
         elem.setKey(KICH_CUE_ID);
@@ -2579,7 +2573,7 @@
         //.HelpFilter = "(" & cscCuecId & "=" & csECuecCaja & " or " _
         +(mTesoreriaConstantes.CUEC_ID+ "="+ csECuentaCategoria.cSECUECBANCOS.toString()+ ") and (emp_id = "+ cUtil.getEmpId().toString()+ " or emp_id is null)");
         //'c_filter_cuentas_de_caja
-        elem.setSelectFilter(mPublic.self.getHelpFilterEfectivo()+ pGetFilterCuentaXCaja());
+        elem.setSelectFilter(mPublic.self.getHelpFilterEfectivo()+ getFilterCuentaXCaja());
 
         elem.setWidth(3000);
         elem.setKey(KIE_CUE_ID);
@@ -2796,7 +2790,7 @@
         elem.Left = 2800;
         //'Fecha
         elem.Name = getText(1569, "");
-        elem.Key = KW_FECHA;
+        elem.Key = WC.KW_FECHA;
         elem.Value = Date;
 
         var elem = elem.add(null, DWC.CLIENTE2);
@@ -2805,7 +2799,7 @@
         elem.Enabled = false;
         //'Cliente
         elem.Name = getText(1150, "");
-        elem.Key = KW_CLIENTE2;
+        elem.Key = WC.KW_CLIENTE2;
 
         var elem = elem.add(null, DWC.SUCURSAL);
         elem.PropertyType = cspHelp;
@@ -2814,7 +2808,7 @@
         elem.Name = getText(1281, "");
         elem.Value = cUtil.getUser().getSucursal();
         elem.HelpId = cUtil.getUser().getSuc_id();
-        elem.Key = KW_SUCURSAL;
+        elem.Key = WC.KW_SUCURSAL;
 
         var elem = elem.add(null, DWC.COMPROBANTE);
         elem.PropertyType = cspText;
@@ -2822,28 +2816,28 @@
         elem.TopFromProperty = DWC.FECHA;
         //'Comprobante
         elem.Name = getText(1610, "");
-        elem.Key = KW_COMPROBANTE;
+        elem.Key = WC.KW_COMPROBANTE;
 
         var elem = elem.add(null, DWC.COBRADOR);
         elem.PropertyType = cspHelp;
         elem.Table = Cairo.Tables.COBRADOR;
         //'Cobrador
         elem.Name = getText(1088, "");
-        elem.Key = KW_COBRADOR;
+        elem.Key = WC.KW_COBRADOR;
 
         var elem = elem.add(null, DWC.LEGAJO);
         elem.PropertyType = cspHelp;
         elem.Table = mTesoreriaConstantes.cSLEGAJO;
         //'Legajo
         elem.Name = getText(1575, "");
-        elem.Key = KW_LEGAJO;
+        elem.Key = WC.KW_LEGAJO;
 
         var elem = elem.add(null, DWC.CENTRO_COSTO);
         elem.PropertyType = cspHelp;
         elem.Table = Cairo.Tables.CENTRO_COSTO;
         //'Centro de Costo
         elem.Name = getText(1057, "");
-        elem.Key = KW_CENTRO_COSTO;
+        elem.Key = WC.KW_CENTRO_COSTO;
 
         var elem = elem.add(null, DWC.OBSERVACIONES);
         elem.PropertyType = cspText;
@@ -2854,7 +2848,7 @@
         elem.Width = 6250;
         //'Observaciones
         elem.Name = getText(1861, "");
-        elem.Key = KW_DESCRIP;
+        elem.Key = WC.KW_DESCRIP;
       };
 
       var pUserCancel = function() {
@@ -2871,16 +2865,16 @@
         return _rtn;
       };
 
-      var pGetAnticipo2 = function(origen) { // TODO: Use of ByRef founded Private Function pGetAnticipo2(ByRef Origen As Double) As Double
+      var getAnticipo2 = function(origen) { // TODO: Use of ByRef founded Private Function getAnticipo2(ByRef Origen As Double) As Double
         var monId = null;
         var cotizacion = null;
         var anticipo = null;
 
-        monId = pGetMonedaAnticipo().getSelectId();
-        anticipo = Cairo.Util.val(pGetAnticipoImporte().getValue());
+        monId = getMonedaAnticipo().getSelectId();
+        anticipo = Cairo.Util.val(getAnticipoImporte().getValue());
 
         if(monId !== m_monDefault) {
-          cotizacion = Cairo.Util.val(pGetCotizacionAnticipo().getValue());
+          cotizacion = Cairo.Util.val(getCotizacionAnticipo().getValue());
           origen = anticipo;
           anticipo = anticipo * cotizacion;
         }
@@ -2891,12 +2885,12 @@
         return anticipo;
       };
 
-      var pCheckAnticipo = function() {
+      var checkAnticipo = function() {
         return true;
       };
 
-      var pChecFacturas = function() {
-        if(Cairo.Util.val(pGetTotal().getValue()) === 0) {
+      var checkFacturas = function() {
+        if(Cairo.Util.val(getTotal().getValue()) === 0) {
           MsgWarning(getText(2149, ""));
           //Debe indicar una o más Facturas, un importe como anticipo, o ambas cosas.
           return null;
@@ -2924,34 +2918,34 @@
 
         m_bDifCambio = false;
 
-        bAgrupados = pGetAgrupados();
+        bAgrupados = getAgrupados();
 
         if(!Cairo.Database.openRs(sqlstmt, rs)) { return false; }
 
         // Edit From ListDoc
         //
-        bOnlySelected = pGetOnlySelected().getValue();
+        bOnlySelected = getOnlySelected().getValue();
 
-        var w_pGetFacturas = pGetFacturas();
+        var w_getFacturas = getFacturas();
 
         G.redim(vMonId, 0);
 
-        if(pGetAgrupados()) {
-          w_pGetFacturas.getColumns(DWC.IMPORTE).Visible = false;
-          w_pGetFacturas.getColumns(DWC.PENDIENTE).Visible = true;
+        if(getAgrupados()) {
+          w_getFacturas.getColumns(DWC.IMPORTE).Visible = false;
+          w_getFacturas.getColumns(DWC.PENDIENTE).Visible = true;
         }
         else {
-          w_pGetFacturas.getColumns(DWC.IMPORTE).Visible = true;
-          w_pGetFacturas.getColumns(DWC.PENDIENTE).Visible = false;
+          w_getFacturas.getColumns(DWC.IMPORTE).Visible = true;
+          w_getFacturas.getColumns(DWC.PENDIENTE).Visible = false;
         }
 
-        var w_rows = w_pGetFacturas.getRows();
+        var w_rows = w_getFacturas.getRows();
 
         w_rows.clear();
         return true;
       };
 
-      var pLoadFacturasXCliente = function() {
+      var loadFacturasXCliente = function() {
 
 
         for(var _i = 0; _i < m_data.facturasXCliente.length; _i += 1) {
@@ -2960,7 +2954,7 @@
           //
           fv_id = Cairo.Database.valField(m_data.facturasXCliente[_i], mTesoreriaConstantes.FV_ID);
 
-          bSelected = pGetApply(fv_id);
+          bSelected = getApply(fv_id);
           if(!bOnlySelected || bSelected) {
 
             var elem = w_rows.add(null);
@@ -3031,7 +3025,7 @@
 
             var elem = elem.add(null);
             if(bSelected) {
-              elem.Value = pGetApplyImporte(fv_id, Cairo.Database.valField(m_data.facturasXCliente[_i], mTesoreriaConstantes.FVD_PENDIENTE));
+              elem.Value = getApplyImporte(fv_id, Cairo.Database.valField(m_data.facturasXCliente[_i], mTesoreriaConstantes.FVD_PENDIENTE));
             }
             else {
               elem.Value = 0;
@@ -3051,24 +3045,24 @@
         }
 
         if(!bShowCotizacion) {
-          pGetFacturas().getColumns(DWC.COTIZACION).Visible = false;
-          pGetFacturas().getColumns(DWC.MONEDA).Visible = false;
-          pGetCotizacion().setVisible(false);
-          pGetTotalOrigen().setVisible(false);
+          getFacturas().getColumns(DWC.COTIZACION).Visible = false;
+          getFacturas().getColumns(DWC.MONEDA).Visible = false;
+          getCotizacion().setVisible(false);
+          getTotalOrigen().setVisible(false);
           m_bDifCambio = false;
         }
         else {
-          pGetFacturas().getColumns(DWC.COTIZACION).Visible = true;
-          pGetFacturas().getColumns(DWC.MONEDA).Visible = true;
-          pGetCotizacion().setVisible(true);
-          pGetTotalOrigen().setVisible(true);
+          getFacturas().getColumns(DWC.COTIZACION).Visible = true;
+          getFacturas().getColumns(DWC.MONEDA).Visible = true;
+          getCotizacion().setVisible(true);
+          getTotalOrigen().setVisible(true);
           m_bDifCambio = true;
         }
 
         if(vMonId.Length > 0) {
           moneda = new cMoneda();
 
-          pGetFacturas().getColumns(DWC.COTIZACION2).Visible = true;
+          getFacturas().getColumns(DWC.COTIZACION2).Visible = true;
 
           G.redim(vCotiz, vMonId.Length);
           for (i = 1; i <= vMonId.Length; i++) {
@@ -3076,9 +3070,9 @@
           }
 
           var row = null;
-          var _count = pGetFacturas().getRows().size();
+          var _count = getFacturas().getRows().size();
           for (var _i = 0; _i < _count; _i++) {
-            row = pGetFacturas().getRows().item(_i);
+            row = getFacturas().getRows().item(_i);
             for (i = 1; i <= vMonId.Length; i++) {
               if(vMonId[i] === Dialogs.cell(row, KI_MONEDA).getID()) {
                 Dialogs.cell(row, KI_COTIZACION2).getValue() === vCotiz[i];
@@ -3089,27 +3083,27 @@
 
           moneda = new cMoneda();
 
-          pGetCotizacion().setValue(moneda.getCotizacion(vMonId[1], Date));
-          pRefreshCotizacion(false);
+          getCotizacion().setValue(moneda.getCotizacion(vMonId[1], Date));
+          refreshCotizacion(false);
 
         }
         else {
-          pGetCotizacion().setVisible(false);
-          pGetFacturas().getColumns(DWC.COTIZACION2).Visible = false;
+          getCotizacion().setVisible(false);
+          getFacturas().getColumns(DWC.COTIZACION2).Visible = false;
         }
 
-        m_objWizard.showValue(pGetCotizacion());
-        m_objWizard.showValue(pGetTotalOrigen());
+        m_objWizard.showValue(getCotizacion());
+        m_objWizard.showValue(getTotalOrigen());
 
-        pRefreshFacturas();
-        pShowTotalFacturas();
+        refreshFacturas();
+        showTotalFacturas();
 
         return true;
       };
 
       // Edit From ListDoc
       //
-      var pGetApplyImporte = function(fv_id,  pendiente) {
+      var getApplyImporte = function(fv_id,  pendiente) {
         var _rtn = 0;
         var i = null;
         var j = null;
@@ -3183,7 +3177,7 @@
         return _rtn;
       };
 
-      var pGetApply = function(fv_id) {
+      var getApply = function(fv_id) {
         var _rtn = null;
         var i = null;
         var j = null;
@@ -3256,7 +3250,7 @@
         vMonIds(vMonIds.Length) = monId;
       };
 
-      var pGetNomMonedaDefault = function() {
+      var getNomMonedaDefault = function() {
         var sqlstmt = null;
         var rs = null;
 
@@ -3272,7 +3266,7 @@
         return Cairo.Database.valField(rs.getFields(), "mon_signo");
       };
 
-      var pGetCuentasDeudor = function() {
+      var getCuentasDeudor = function() {
         var i = null;
         var row = null;
         var cell = null;
@@ -3284,20 +3278,20 @@
         var cuentaAnticipo = null;
 
         // Dimensiono la grilla y el vector de facturas
-        pGetCtaCte().getRows().clear();
+        getCtaCte().getRows().clear();
 
-        var w_pGetCuentaAnticipo = pGetCuentaAnticipo();
-        cue_id_anticipo = w_pGetCuentaAnticipo.getSelectId();
-        cuentaAnticipo = w_pGetCuentaAnticipo.getValue();
+        var w_getCuentaAnticipo = getCuentaAnticipo();
+        cue_id_anticipo = w_getCuentaAnticipo.getSelectId();
+        cuentaAnticipo = w_getCuentaAnticipo.getValue();
 
-        anticipo = pGetAnticipo2(anticipoOrigen);
+        anticipo = getAnticipo2(anticipoOrigen);
 
         // Obtengo las cuentas del tercero
-        if(!mCobranza.self.getCuentasDeudor(pGetFacturas(), vCtaCte[], KI_FV_ID, KI_APLICAR, KI_COTIZACION2, anticipo, cue_id_anticipo, cuentaAnticipo, anticipoOrigen)) { return false; }
+        if(!mCobranza.self.getCuentasDeudor(getFacturas(), vCtaCte[], KI_FV_ID, KI_APLICAR, KI_COTIZACION2, anticipo, cue_id_anticipo, cuentaAnticipo, anticipoOrigen)) { return false; }
 
         // Agrego las cuentas a la grilla
         for (i = 1; i <= vCtaCte.Length; i++) {
-          row = pGetCtaCte().getRows().add(null);
+          row = getCtaCte().getRows().add(null);
 
           // La primera no se usa
           cell = row.add(null);
@@ -3319,10 +3313,10 @@
         }
 
         // Refrezco la grilla
-        pGetCobroIndicado().setValue(total);
-        m_objWizard.showValue(pGetCobroIndicado());
+        getCobroIndicado().setValue(total);
+        m_objWizard.showValue(getCobroIndicado());
 
-        pRefreshCtaCte();
+        refreshCtaCte();
         return true;
       };
 
@@ -3372,7 +3366,7 @@
         return bRowIsEmpty;
       };
 
-      var pValidateRowCheques = function(row,  rowIndex) { // TODO: Use of ByRef founded Private Function pValidateRowCheques(ByRef Row As CSInterfacesABM.cIABMGridRow, ByVal RowIndex As Long) As Boolean
+      var validateRowCheques = function(row,  rowIndex) { // TODO: Use of ByRef founded Private Function validateRowCheques(ByRef Row As CSInterfacesABM.cIABMGridRow, ByVal RowIndex As Long) As Boolean
         var cell = null;
         var bOrigen = null;
         var monId = null;
@@ -3517,7 +3511,7 @@
         return bRowIsEmpty;
       };
 
-      var pValidateRowTarjetas = function(row,  rowIndex) { // TODO: Use of ByRef founded Private Function pValidateRowTarjetas(ByRef Row As CSInterfacesABM.cIABMGridRow, ByVal RowIndex As Long) As Boolean
+      var validateRowTarjetas = function(row,  rowIndex) { // TODO: Use of ByRef founded Private Function validateRowTarjetas(ByRef Row As CSInterfacesABM.cIABMGridRow, ByVal RowIndex As Long) As Boolean
         var cell = null;
         var bOrigen = null;
         var monId = null;
@@ -3662,7 +3656,7 @@
         return bRowIsEmpty;
       };
 
-      var pValidateRowOtros = function(row,  rowIndex) { // TODO: Use of ByRef founded Private Function pValidateRowOtros(ByRef Row As CSInterfacesABM.cIABMGridRow, ByVal RowIndex As Long) As Boolean
+      var validateRowOtros = function(row,  rowIndex) { // TODO: Use of ByRef founded Private Function validateRowOtros(ByRef Row As CSInterfacesABM.cIABMGridRow, ByVal RowIndex As Long) As Boolean
         var cell = null;
         var bOrigen = null;
         var bDebe = null;
@@ -3755,7 +3749,7 @@
         return bRowIsEmpty;
       };
 
-      var pValidateRowEfectivo = function(row,  rowIndex) { // TODO: Use of ByRef founded Private Function pValidateRowEfectivo(ByRef Row As CSInterfacesABM.cIABMGridRow, ByVal RowIndex As Long) As Boolean
+      var validateRowEfectivo = function(row,  rowIndex) { // TODO: Use of ByRef founded Private Function validateRowEfectivo(ByRef Row As CSInterfacesABM.cIABMGridRow, ByVal RowIndex As Long) As Boolean
         var cell = null;
         var bOrigen = null;
         var monId = null;
@@ -3799,57 +3793,57 @@
         return Cairo.Promises.resolvedPromise(true);
       };
 
-      var pValidateCobro = function() {
+      var validateCobro = function() {
         var row = null;
         var i = null;
 
         i = 0;
-        var _count = pGetCheques().getRows().size();
+        var _count = getCheques().getRows().size();
         for (var _i = 0; _i < _count; _i++) {
-          row = pGetCheques().getRows().item(_i);
+          row = getCheques().getRows().item(_i);
           i = i + 1;
           if(!pIsEmptyRowCheques(row, i)) {
-            if(!pValidateRowCheques(row, i)) { return false; }
+            if(!validateRowCheques(row, i)) { return false; }
           }
         }
 
         i = 0;
-        var _count = pGetEfectivo().getRows().size();
+        var _count = getEfectivo().getRows().size();
         for (var _i = 0; _i < _count; _i++) {
-          row = pGetEfectivo().getRows().item(_i);
+          row = getEfectivo().getRows().item(_i);
           i = i + 1;
           if(!pIsEmptyRowEfectivo(row, i)) {
-            if(!pValidateRowEfectivo(row, i)) { return false; }
+            if(!validateRowEfectivo(row, i)) { return false; }
           }
         }
 
         i = 0;
-        var _count = pGetOtros().getRows().size();
+        var _count = getOtros().getRows().size();
         for (var _i = 0; _i < _count; _i++) {
-          row = pGetOtros().getRows().item(_i);
+          row = getOtros().getRows().item(_i);
           i = i + 1;
           if(!pIsEmptyRowOtros(row, i)) {
-            if(!pValidateRowOtros(row, i)) { return false; }
+            if(!validateRowOtros(row, i)) { return false; }
           }
         }
 
         i = 0;
-        var _count = pGetTarjetas().getRows().size();
+        var _count = getTarjetas().getRows().size();
         for (var _i = 0; _i < _count; _i++) {
-          row = pGetTarjetas().getRows().item(_i);
+          row = getTarjetas().getRows().item(_i);
           i = i + 1;
           if(!pIsEmptyRowTarjetas(row, i)) {
-            if(!pValidateRowTarjetas(row, i)) { return false; }
+            if(!validateRowTarjetas(row, i)) { return false; }
           }
         }
 
-        if(Cairo.Util.round(Cairo.Util.val(pGetCobroIndicado().getValue()), Cairo.Settings.getAmountDecimals()) !== Cairo.Util.round(Cairo.Util.val(pGetCobroTotal().getValue()), Cairo.Settings.getAmountDecimals())) {
+        if(Cairo.Util.round(Cairo.Util.val(getCobroIndicado().getValue()), Cairo.Settings.getAmountDecimals()) !== Cairo.Util.round(Cairo.Util.val(getCobroTotal().getValue()), Cairo.Settings.getAmountDecimals())) {
 
           // Si me tengo que detener en pagos y estoy en una
           // cobranza semi-automatica (las que se disparan desde
           // la recepcion de hojas de ruta), no presento un mensaje
           //
-          if(m_bVirtualNextStopInPagos && m_bAutoSelect) {
+          if(m_bVirtualNextStopInPagos && m_autoSelect) {
 
             // Apago el flag por que a la proxima que de next y no
             // alcance para el pago ya le tengo que avisar
@@ -3869,7 +3863,7 @@
         return true;
       };
 
-      var pGetDocNumber = function() {
+      var getDocNumber = function() {
         var tl = null;
         var tAL_ID = null;
         var sqlstmt = null;
@@ -3877,40 +3871,40 @@
         var mask = null;
         var bEditable = null;
 
-        if(LenB(pGetComprobante().getValue())) { return; }
+        if(LenB(getComprobante().getValue())) { return; }
 
-        sqlstmt = "sp_clienteGetTalonario "+ pGetCliente().toString()+ ","+ pGetDoc().toString();
+        sqlstmt = "sp_clienteGetTalonario "+ getCliente().toString()+ ","+ getDoc().toString();
         if(!Cairo.Database.openRs(sqlstmt, rs)) { return; }
 
         tAL_ID = Cairo.Database.valField(rs.getFields(), 0);
 
         tl = new cTalonario();
 
-        var w_pGetComprobante = pGetComprobante();
-        w_pGetComprobante.setValue(tl.GetNextNumber(tAL_ID, mask, bEditable));
-        w_pGetComprobante.setTextMask(mask);
-        w_pGetComprobante.setEnabled(bEditable);
+        var w_getComprobante = getComprobante();
+        w_getComprobante.setValue(tl.GetNextNumber(tAL_ID, mask, bEditable));
+        w_getComprobante.setTextMask(mask);
+        w_getComprobante.setEnabled(bEditable);
 
-        m_objWizard.showValue(pGetComprobante());
+        m_objWizard.showValue(getComprobante());
       };
 
-      var pSetDatosGenerales = function() {
-        var w_pGetCliente2 = pGetCliente2();
-        w_pGetCliente2.setSelectId(pGetCliente());
-        w_pGetCliente2.setValue(pGetClienteName());
-        m_objWizard.showValue(pGetCliente2());
-        pGetDocNumber();
-        pSetDatosFromAplic();
+      var setDatosGenerales = function() {
+        var w_getCliente2 = getCliente2();
+        w_getCliente2.setSelectId(getCliente());
+        w_getCliente2.setValue(getClienteName());
+        m_objWizard.showValue(getCliente2());
+        getDocNumber();
+        setDatosFromAplic();
       };
 
-      var pValidateDatosGenerales = function() {
-        if(ValEmpty(pGetFecha().getValue(), Cairo.Constants.Types.date)) {
+      var validateDatosGenerales = function() {
+        if(ValEmpty(getFecha().getValue(), Cairo.Constants.Types.date)) {
           //'Debe indicar la fecha de la Cobranza
           MsgWarning(getText(2152, ""));
           return null;
         }
 
-        if(ValEmpty(pGetSucursal().getSelectId(), Cairo.Constants.Types.id)) {
+        if(ValEmpty(getSucursal().getSelectId(), Cairo.Constants.Types.id)) {
           //'Debe indicar la sucursal
           MsgWarning(getText(1560, ""));
           return null;
@@ -3929,7 +3923,7 @@
 
 
           m_tesoreriaConfig = new cTesoreriaConfig();
-          m_tesoreriaConfig.load();
+          Cairo.getTesoreriaConfig().load();
 
           m_monDefault = GetMonedaDefault();
 
@@ -3939,7 +3933,7 @@
 
           // Hay que agregarlo a la configuracion de tesoreria
           //
-          m_isHojaRuta = m_tesoreriaConfig.getCobranzasXHojaRuta();
+          m_isHojaRuta = Cairo.getTesoreriaConfig().getCobranzasXHojaRuta();
 
           // **TODO:** goto found: GoTo ExitProc;
         }
@@ -4009,26 +4003,26 @@
 
         var w_fields = register.getFields();
         w_fields.add2(mTesoreriaConstantes.COBZ_NUMERO, 0, Cairo.Constants.Types.long);
-        var w_pGetComprobante = pGetComprobante();
+        var w_getComprobante = getComprobante();
         // PrintDoc
         //
-        m_lastNroDoc = SetMask(w_pGetComprobante.getValue(), w_pGetComprobante.getTextMask());
+        m_lastNroDoc = SetMask(w_getComprobante.getValue(), w_getComprobante.getTextMask());
         register.getFields().add2(mTesoreriaConstantes.COBZ_NRODOC, m_lastNroDoc, Cairo.Constants.Types.text);
-        w_fields.add2(mTesoreriaConstantes.COBZ_DESCRIP, pGetDescrip().getValue(), Cairo.Constants.Types.text);
-        w_fields.add2(mTesoreriaConstantes.COBZ_FECHA, pGetFecha().getValue(), Cairo.Constants.Types.date);
-        m_lastCli = pGetCliente();
-        w_fields.add2(mTesoreriaConstantes.CLI_ID, m_lastCli, Cairo.Constants.Types.id);
-        w_fields.add2(mTesoreriaConstantes.CCOS_ID, pGetCentroCosto().getSelectId(), Cairo.Constants.Types.id);
-        w_fields.add2(mTesoreriaConstantes.SUC_ID, pGetSucursal().getSelectId(), Cairo.Constants.Types.id);
-        w_fields.add2(mTesoreriaConstantes.DOC_ID, pGetDoc(), Cairo.Constants.Types.id);
-        w_fields.add2(mTesoreriaConstantes.COBZ_COTIZACION, Cairo.Util.val(pGetCotizacion().getValue()), Cairo.Constants.Types.double);
-        w_fields.add2(mTesoreriaConstantes.COB_ID, pGetCobrador().getSelectId(), Cairo.Constants.Types.id);
-        w_fields.add2(mTesoreriaConstantes.LGJ_ID, pGetLegajo().getSelectId(), Cairo.Constants.Types.id);
+        w_fields.add2(mTesoreriaConstantes.COBZ_DESCRIP, getDescrip().getValue(), Cairo.Constants.Types.text);
+        w_fields.add2(mTesoreriaConstantes.COBZ_FECHA, getFecha().getValue(), Cairo.Constants.Types.date);
+        m_lastCliId = getCliente();
+        w_fields.add2(mTesoreriaConstantes.CLI_ID, m_lastCliId, Cairo.Constants.Types.id);
+        w_fields.add2(mTesoreriaConstantes.CCOS_ID, getCentroCosto().getSelectId(), Cairo.Constants.Types.id);
+        w_fields.add2(mTesoreriaConstantes.SUC_ID, getSucursal().getSelectId(), Cairo.Constants.Types.id);
+        w_fields.add2(mTesoreriaConstantes.DOC_ID, getDoc(), Cairo.Constants.Types.id);
+        w_fields.add2(mTesoreriaConstantes.COBZ_COTIZACION, Cairo.Util.val(getCotizacion().getValue()), Cairo.Constants.Types.double);
+        w_fields.add2(mTesoreriaConstantes.COB_ID, getCobrador().getSelectId(), Cairo.Constants.Types.id);
+        w_fields.add2(mTesoreriaConstantes.LGJ_ID, getLegajo().getSelectId(), Cairo.Constants.Types.id);
         w_fields.add2(mTesoreriaConstantes.COBZ_HOJA_RUTA, CInt(m_isHojaRuta), Cairo.Constants.Types.boolean);
 
-        w_fields.add2(mTesoreriaConstantes.COBZ_NETO, Cairo.Util.val(pGetCobroNeto().getValue()), Cairo.Constants.Types.currency);
-        w_fields.add2(mTesoreriaConstantes.COBZ_OTROS, Cairo.Util.val(pGetCobroOtros().getValue()), Cairo.Constants.Types.currency);
-        w_fields.add2(mTesoreriaConstantes.COBZ_TOTAL, Cairo.Util.val(pGetCobroTotal().getValue()), Cairo.Constants.Types.currency);
+        w_fields.add2(mTesoreriaConstantes.COBZ_NETO, Cairo.Util.val(getCobroNeto().getValue()), Cairo.Constants.Types.currency);
+        w_fields.add2(mTesoreriaConstantes.COBZ_OTROS, Cairo.Util.val(getCobroOtros().getValue()), Cairo.Constants.Types.currency);
+        w_fields.add2(mTesoreriaConstantes.COBZ_TOTAL, Cairo.Util.val(getCobroTotal().getValue()), Cairo.Constants.Types.currency);
 
         w_fields.add2(mTesoreriaConstantes.COBZ_GRABAR_ASIENTO, 1, Cairo.Constants.Types.boolean);
         w_fields.add2(Cairo.Constants.EST_ID, CSGeneralEx2.csEEstado.cSEEST_PENDIENTE, Cairo.Constants.Types.id);
@@ -4077,9 +4071,9 @@
         var cell = null;
         var i = null;
 
-        var _count = pGetCheques().getRows().size();
+        var _count = getCheques().getRows().size();
         for (var _i = 0; _i < _count; _i++) {
-          row = pGetCheques().getRows().item(_i);
+          row = getCheques().getRows().item(_i);
 
           i = i + 1;
           if(!pIsEmptyRowCheques(row, i)) {
@@ -4179,14 +4173,14 @@
         //
         var aplicarND = null;
 
-        aplicarND = pGetAplicDifCambio().getListItemData() === csEAplicacionDifCambio.cSEDIFAPLICACION_ND;
+        aplicarND = getAplicDifCambio().getListItemData() === CT.AplicacionDifCambio.cSEDIFAPLICACION_ND;
 
         //-------------------------------------------------
         // Determinamos la aplicacion de cada factura
         //
-        var _count = pGetFacturas().getRows().size();
+        var _count = getFacturas().getRows().size();
         for (var _i = 0; _i < _count; _i++) {
-          row = pGetFacturas().getRows().item(_i);
+          row = getFacturas().getRows().item(_i);
 
           register = new cRegister();
 
@@ -4284,9 +4278,9 @@
         var cell = null;
         var i = null;
 
-        var _count = pGetTarjetas().getRows().size();
+        var _count = getTarjetas().getRows().size();
         for (var _i = 0; _i < _count; _i++) {
-          row = pGetTarjetas().getRows().item(_i);
+          row = getTarjetas().getRows().item(_i);
 
           i = i + 1;
           if(!pIsEmptyRowTarjetas(row, i)) {
@@ -4379,9 +4373,9 @@
         var cell = null;
         var i = null;
 
-        var _count = pGetOtros().getRows().size();
+        var _count = getOtros().getRows().size();
         for (var _i = 0; _i < _count; _i++) {
-          row = pGetOtros().getRows().item(_i);
+          row = getOtros().getRows().item(_i);
 
           i = i + 1;
           if(!pIsEmptyRowOtros(row, i)) {
@@ -4475,9 +4469,9 @@
         var cell = null;
         var i = null;
 
-        var _count = pGetEfectivo().getRows().size();
+        var _count = getEfectivo().getRows().size();
         for (var _i = 0; _i < _count; _i++) {
-          row = pGetEfectivo().getRows().item(_i);
+          row = getEfectivo().getRows().item(_i);
 
           i = i + 1;
           if(!pIsEmptyRowEfectivo(row, i)) {
@@ -4535,9 +4529,9 @@
         var row = null;
         var cell = null;
 
-        var _count = pGetCtaCte().getRows().size();
+        var _count = getCtaCte().getRows().size();
         for (var _i = 0; _i < _count; _i++) {
-          row = pGetCtaCte().getRows().item(_i);
+          row = getCtaCte().getRows().item(_i);
 
           register = new cRegister();
 
@@ -4584,7 +4578,7 @@
 
       var pSaveDifCambio = function(id,  aplicado) {
         var _rtn = null;
-        if(pGetDefaultDifCambio().getListItemData() === csEModoDifCambio.cSEDIF_CAMBIOCUENTA) {
+        if(getDefaultDifCambio().getListItemData() === CT.ModoDifCambio.cSEDIF_CAMBIOCUENTA) {
           _rtn = pSaveDifCambioCtaCble(id);
         }
         else {
@@ -4605,8 +4599,8 @@
         var diferencia = null;
         var cue_id = null;
 
-        deudaOrigen = pGetDeudaOrigen();
-        cobrado = pGetCobrado();
+        deudaOrigen = getDeudaOrigen();
+        cobrado = getCobrado();
 
         diferencia = Abs(deudaOrigen - cobrado);
 
@@ -4615,7 +4609,7 @@
           return _rtn;
         }
 
-        cue_id = pGetCueIdDifCambio().getSelectId();
+        cue_id = getCueIdDifCambio().getSelectId();
 
         if(cue_id === Cairo.Constants.NO_ID) {
           MsgWarning(getText(2153, ""));
@@ -4666,8 +4660,8 @@
         var diferencia = null;
         var fvTMPId = null;
 
-        deudaOrigen = pGetDeudaOrigen();
-        cobrado = pGetCobrado();
+        deudaOrigen = getDeudaOrigen();
+        cobrado = getCobrado();
 
         diferencia = Abs(deudaOrigen - cobrado);
 
@@ -4679,7 +4673,7 @@
         // Nota de debito
         if(deudaOrigen < cobrado) {
 
-          if(!pSaveDocVta(id, pGetNDDifCambio().getSelectId(), diferencia, true, fvTMPId)) { return _rtn; }
+          if(!pSaveDocVta(id, getNDDifCambio().getSelectId(), diferencia, true, fvTMPId)) { return _rtn; }
 
           // Agrego la nota de debito a la coleccion de
           // aplicaciones con la cobranza
@@ -4690,7 +4684,7 @@
         }
         else {
 
-          if(!pSaveDocVta(id, pGetNCDifCambio().getSelectId(), diferencia, false, fvTMPId)) { return _rtn; }
+          if(!pSaveDocVta(id, getNCDifCambio().getSelectId(), diferencia, false, fvTMPId)) { return _rtn; }
 
           // Aplico la nota de credito con cada una de las
           // facturas que generaron diferencias de cambio
@@ -4704,7 +4698,7 @@
         return _rtn;
       };
 
-      var pGetNCNDDocNumber = function(docId) {
+      var getNCNDDocNumber = function(docId) {
         var tl = null;
         var tAL_ID = null;
         var sqlstmt = null;
@@ -4721,7 +4715,7 @@
 
         }
 
-        sqlstmt = "sp_clienteGetTalonario "+ pGetCliente().toString()+ ","+ docId.toString();
+        sqlstmt = "sp_clienteGetTalonario "+ getCliente().toString()+ ","+ docId.toString();
         if(!Cairo.Database.openRs(sqlstmt, rs)) { return ""; }
 
         if(rs.isEOF()) {
@@ -4747,8 +4741,8 @@
         var vIva() = null;
         var vItems() = null;
 
-        if(!pGetIva(vIva)) { return false; }
-        if(!pGetItems(vIva, vItems, diferencia, bIsND, neto, ivaRi)) { return false; }
+        if(!getIva(vIva)) { return false; }
+        if(!getItems(vIva, vItems, diferencia, bIsND, neto, ivaRi)) { return false; }
 
         register = new cRegister();
 
@@ -4762,16 +4756,16 @@
         w_fields.add2(mTesoreriaConstantes.COBZ_TMPID, cobzTMPId, Cairo.Constants.Types.id);
 
         w_fields.add2(mTesoreriaConstantes.FV_NUMERO, 0, Cairo.Constants.Types.long);
-        w_fields.add2(mTesoreriaConstantes.FV_NRODOC, pGetNCNDDocNumber(docId), Cairo.Constants.Types.text);
+        w_fields.add2(mTesoreriaConstantes.FV_NRODOC, getNCNDDocNumber(docId), Cairo.Constants.Types.text);
 
-        w_fields.add2(mTesoreriaConstantes.FV_DESCRIP, pGetDescripNDNC(), Cairo.Constants.Types.text);
-        w_fields.add2(mTesoreriaConstantes.FV_FECHA, pGetFechaNdNc().getValue(), Cairo.Constants.Types.date);
-        w_fields.add2(mTesoreriaConstantes.FV_FECHAENTREGA, pGetFecha().getValue(), Cairo.Constants.Types.date);
-        w_fields.add2(mTesoreriaConstantes.CLI_ID, pGetCliente(), Cairo.Constants.Types.id);
-        w_fields.add2(mTesoreriaConstantes.SUC_ID, pGetSucursal().getSelectId(), Cairo.Constants.Types.id);
+        w_fields.add2(mTesoreriaConstantes.FV_DESCRIP, getDescripNDNC(), Cairo.Constants.Types.text);
+        w_fields.add2(mTesoreriaConstantes.FV_FECHA, getFechaNdNc().getValue(), Cairo.Constants.Types.date);
+        w_fields.add2(mTesoreriaConstantes.FV_FECHAENTREGA, getFecha().getValue(), Cairo.Constants.Types.date);
+        w_fields.add2(mTesoreriaConstantes.CLI_ID, getCliente(), Cairo.Constants.Types.id);
+        w_fields.add2(mTesoreriaConstantes.SUC_ID, getSucursal().getSelectId(), Cairo.Constants.Types.id);
         w_fields.add2(mTesoreriaConstantes.DOC_ID, docId, Cairo.Constants.Types.id);
         w_fields.add2(mTesoreriaConstantes.CPG_ID, csECpgTipo.cSECPGT_FECHADOCUMENTO, Cairo.Constants.Types.id);
-        w_fields.add2(mTesoreriaConstantes.LGJ_ID, pGetLegajo().getSelectId(), Cairo.Constants.Types.id);
+        w_fields.add2(mTesoreriaConstantes.LGJ_ID, getLegajo().getSelectId(), Cairo.Constants.Types.id);
 
         w_fields.add2(mTesoreriaConstantes.FV_NETO, neto, Cairo.Constants.Types.currency);
         w_fields.add2(mTesoreriaConstantes.FV_SUBTOTAL, neto, Cairo.Constants.Types.currency);
@@ -4820,8 +4814,8 @@
         register.setFieldId(mTesoreriaConstantes.FVI_TMPID);
         register.setTable(mTesoreriaConstantes.FACTURAVENTAITEMTMP);
 
-        pR_ID = pGetPrIdDifCambio().getSelectId();
-        if(!pGetCuentas(pR_ID, cue_id, cue_id_ivari)) { return false; }
+        pR_ID = getPrIdDifCambio().getSelectId();
+        if(!getCuentas(pR_ID, cue_id, cue_id_ivari)) { return false; }
 
         for (iOrden = 1; iOrden <= vItems.Length; iOrden++) {
           fields.add(mTesoreriaConstantes.FVI_ID, Cairo.Constants.NEW_ID, Cairo.Constants.Types.integer);
@@ -4855,7 +4849,7 @@
         return true;
       };
 
-      var pGetItems = function(vIva,  vItems,  diferencia,  bIsND,  neto,  totalIva) { // TODO: Use of ByRef founded Private Function pGetItems(ByRef vIva() As T_Iva, ByRef vItems() As T_Item, ByVal Diferencia As Double, ByVal bIsND As Boolean, ByRef Neto As Double, ByRef TotalIva As Double) As Boolean
+      var getItems = function(vIva,  vItems,  diferencia,  bIsND,  neto,  totalIva) { // TODO: Use of ByRef founded Private Function getItems(ByRef vIva() As T_Iva, ByRef vItems() As T_Item, ByVal Diferencia As Double, ByVal bIsND As Boolean, ByRef Neto As Double, ByRef TotalIva As Double) As Boolean
         var i = null;
         var iva = null;
         var base = null;
@@ -4864,7 +4858,7 @@
         var importeIva = null;
 
         G.redim(vItems, vIva.Length);
-        modoIva = pGetModoIvaDifCambio().getListItemData();
+        modoIva = getModoIvaDifCambio().getListItemData();
 
         neto = 0;
         totalIva = 0;
@@ -4884,7 +4878,7 @@
 
           // Si hay que usar el iva como base imponible y se trata
           // de una nota de debito
-          if(modoIva === csEModoIvaDifCambio.cSEDIFIVAIMPONIBLE && bIsND) {
+          if(modoIva === CT.ModoIvaDifCambio.DIF_IVA_IMPONIBLE && bIsND) {
             importeIva = base * vIva(i).porcentaje / 100;
             importe = base;
 
@@ -4909,11 +4903,11 @@
         // si la diferencia es distinta del neto mas el iva y
         //         (no tome el iva como base imponible o es una nota de credito) -> {en ambos casos no se toma el iva como base imponible}
         //
-        if((diferencia !== neto && modoIva === csEModoIvaDifCambio.cSEDIFIVAIMPONIBLE && bIsND) || (diferencia !== neto + importeIva && (modoIva === csEModoIvaDifCambio.cSEDIFIVANOIMPONIBLE || !bIsND))) {
+        if((diferencia !== neto && modoIva === CT.ModoIvaDifCambio.DIF_IVA_IMPONIBLE && bIsND) || (diferencia !== neto + importeIva && (modoIva === CT.ModoIvaDifCambio.cSEDIFIVANOIMPONIBLE || !bIsND))) {
 
           i = vIva.Length;
 
-          if(modoIva === csEModoIvaDifCambio.cSEDIFIVAIMPONIBLE && bIsND) {
+          if(modoIva === CT.ModoIvaDifCambio.DIF_IVA_IMPONIBLE && bIsND) {
             // Porcentaje del Neto imponible para cada tasa de iva
             base = diferencia - neto;
 
@@ -4925,7 +4919,7 @@
 
           // Si hay que usar el iva como base imponible y se trata
           // de una nota de debito
-          if(modoIva === csEModoIvaDifCambio.cSEDIFIVAIMPONIBLE && bIsND) {
+          if(modoIva === CT.ModoIvaDifCambio.DIF_IVA_IMPONIBLE && bIsND) {
             importeIva = base * vIva(i).porcentaje / 100;
             importe = base;
 
@@ -4948,7 +4942,7 @@
         return true;
       };
 
-      var pGetIva = function(vIva) { // TODO: Use of ByRef founded Private Function pGetIva(ByRef vIva() As T_Iva) As Boolean
+      var getIva = function(vIva) { // TODO: Use of ByRef founded Private Function getIva(ByRef vIva() As T_Iva) As Boolean
         var sqlstmt = null;
         var rs = null;
         var fvIds = null;
@@ -4956,7 +4950,7 @@
 
         G.redim(vIva, 0);
 
-        fvIds = pGetFvIds();
+        fvIds = getFvIds();
         sqlstmt = "select fvi_ivariporc, sum(fvi_ivari) as fvi_ivari from FacturaVentaItem where fv_id in("+ fvIds+ ") group by fvi_ivariporc  order by fvi_ivariporc desc";
 
         if(!Cairo.Database.openRs(sqlstmt, rs)) { return false; }
@@ -4976,13 +4970,13 @@
         return true;
       };
 
-      var pGetFvIds = function() {
+      var getFvIds = function() {
         var rtn = null;
         var row = null;
 
-        var _count = pGetFacturas().getRows().size();
+        var _count = getFacturas().getRows().size();
         for (var _i = 0; _i < _count; _i++) {
-          row = pGetFacturas().getRows().item(_i);
+          row = getFacturas().getRows().item(_i);
           if(Dialogs.cell(row, KI_SELECT).getID()) {
             if(Cairo.Util.val(Dialogs.cell(row, KI_APLICAR).getValue())) {
               rtn = rtn+ Dialogs.cell(row, KI_FV_ID).getID().toString()+ ",";
@@ -5001,7 +4995,7 @@
 
         // Vemos cuanta guita queda sin aplicar
         //
-        aplicar = Cairo.Util.val(pGetCobroTotal().getValue()) - aplicado;
+        aplicar = Cairo.Util.val(getCobroTotal().getValue()) - aplicado;
 
         //
         // Solo aplicamos si queda algo de guita
@@ -5058,9 +5052,9 @@
 
         // Por cada factura con diferencia de cambio
         // aplico contra esta nota de credito
-        var _count = pGetFacturas().getRows().size();
+        var _count = getFacturas().getRows().size();
         for (var _i = 0; _i < _count; _i++) {
-          row = pGetFacturas().getRows().item(_i);
+          row = getFacturas().getRows().item(_i);
 
           if(Dialogs.cell(row, KI_MONEDA).getID() !== m_monDefault) {
 
@@ -5121,7 +5115,7 @@
         return true;
       };
 
-      var pGetCuentas = function(pR_ID,  cue_id,  cue_id_ivari) { // TODO: Use of ByRef founded Private Function pGetCuentas(ByVal PR_ID As Long, ByRef cue_id As Long, cue_id_ivari As Long) As Boolean
+      var getCuentas = function(pR_ID,  cue_id,  cue_id_ivari) { // TODO: Use of ByRef founded Private Function getCuentas(ByVal PR_ID As Long, ByRef cue_id As Long, cue_id_ivari As Long) As Boolean
         var sqlstmt = null;
         var rs = null;
         var ti_id = null;
@@ -5133,7 +5127,7 @@
           cueg_id = Cairo.Database.valField(rs.getFields(), "cueg_id_venta");
           ti_id = Cairo.Database.valField(rs.getFields(), mTesoreriaConstantes.PR_TI_ID_RI_VENTA);
 
-          sqlstmt = "select cue_id from ClienteCuentaGrupo where cli_id = "+ pGetCliente().toString()+ " and cueg_id = "+ cueg_id.toString();
+          sqlstmt = "select cue_id from ClienteCuentaGrupo where cli_id = "+ getCliente().toString()+ " and cueg_id = "+ cueg_id.toString();
           if(!Cairo.Database.openRs(sqlstmt, rs)) { return false; }
           if(!rs.isEOF()) {
             cue_id = Cairo.Database.valField(rs.getFields(), mTesoreriaConstantes.CUE_ID);
@@ -5164,307 +5158,294 @@
         return true;
       };
 
-      *#If Not PREPROC_SFS Then
-      var pSetObjectForm = function() {
-        var abmGen = null;
-        var wizGen = null;
-
-        wizGen = m_objWizard;
-        abmGen = wizGen.ObjAbm;
-
-        abmGen.FactoryObject = "CSABMInterface2.cFactory";
-        abmGen.ObjForm = "CSABMInterface2.fwCobranza";
-      };
-      *#End If
-
       /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-      var pGetMonedaAnticipo = function() {
+      var getMonedaAnticipo = function() {
         return cIABMProperty.getWizProperty(m_objWizard, WCS.ANTICIPO, DWC.MONEDA_ANTICIPO);
       };
 
-      var pGetCuentaAnticipo = function() {
+      var getCuentaAnticipo = function() {
         return cIABMProperty.getWizProperty(m_objWizard, WCS.ANTICIPO, DWC.CUENTA_ANTICIPO);
       };
 
-      var pGetCobroIndicado = function() {
+      var getCobroIndicado = function() {
         return cIABMProperty.getWizProperty(m_objWizard, WCS.SELECT_COBROS, DWC.COBRO_INDICADO);
       };
 
-      var pGetCobroNeto = function() {
+      var getCobroNeto = function() {
         return cIABMProperty.getWizProperty(m_objWizard, WCS.SELECT_COBROS, DWC.COBRO_NETO);
       };
 
-      var pGetCobroOtros = function() {
+      var getCobroOtros = function() {
         return cIABMProperty.getWizProperty(m_objWizard, WCS.SELECT_COBROS, DWC.COBRO_OTROS);
       };
 
-      var pGetCobroTotal = function() {
+      var getCobroTotal = function() {
         return cIABMProperty.getWizProperty(m_objWizard, WCS.SELECT_COBROS, DWC.COBRO_TOTAL);
       };
 
-      var pGetTotal = function() {
+      var getTotal = function() {
         return cIABMProperty.getWizProperty(m_objWizard, WCS.SELECT_FACTURA, DWC.TOTAL_PAGO);
       };
 
-      var pGetTotalOrigen = function() {
+      var getTotalOrigen = function() {
         return cIABMProperty.getWizProperty(m_objWizard, WCS.SELECT_FACTURA, DWC.TOTAL_PAGO_ORIGEN);
       };
 
-      var pGetCliente2 = function() {
+      var getCliente2 = function() {
         return cIABMProperty.getWizProperty(m_objWizard, WCS.DATOS_GENERALES, DWC.CLIENTE2);
       };
 
-      var pGetClienteProperty = function() {
+      var getClienteProperty = function() {
         return cIABMProperty.getWizProperty(m_objWizard, WCS.SELECT_CLIENTE, DWC.CLIENTE);
       };
 
-      var pGetCliente = function() {
+      var getCliente = function() {
         return cIABMProperty.getWizProperty(m_objWizard, WCS.SELECT_CLIENTE, DWC.CLIENTE).getSelectId();
       };
 
-      var pGetClienteName = function() {
+      var getClienteName = function() {
         return cIABMProperty.getWizProperty(m_objWizard, WCS.SELECT_CLIENTE, DWC.CLIENTE).getValue();
       };
 
       // Edit From ListDoc
       //
-      var pGetOnlySelected = function() {
+      var getOnlySelected = function() {
         return cIABMProperty.getWizProperty(m_objWizard, WCS.SELECT_CLIENTE, DWC.ONLY_SELECTED);
       };
 
-      var pGetCheques = function() {
+      var getCheques = function() {
         return cIABMProperty.getWizProperty(m_objWizard, WCS.SELECT_COBROS, DWC.CHEQUES).getGrid();
       };
 
-      var pGetChequesProperty = function() {
+      var getChequesProperty = function() {
         return cIABMProperty.getWizProperty(m_objWizard, WCS.SELECT_COBROS, DWC.CHEQUES);
       };
 
-      var pGetTarjetas = function() {
+      var getTarjetas = function() {
         return cIABMProperty.getWizProperty(m_objWizard, WCS.SELECT_COBROS, DWC.TARJETAS).getGrid();
       };
 
-      var pGetTarjetasProperty = function() {
+      var getTarjetasProperty = function() {
         return cIABMProperty.getWizProperty(m_objWizard, WCS.SELECT_COBROS, DWC.TARJETAS);
       };
 
-      var pGetEfectivo = function() {
+      var getEfectivo = function() {
         return cIABMProperty.getWizProperty(m_objWizard, WCS.SELECT_COBROS, DWC.EFECTIVO).getGrid();
       };
 
-      var pGetEfectivoProperty = function() {
+      var getEfectivoProperty = function() {
         return cIABMProperty.getWizProperty(m_objWizard, WCS.SELECT_COBROS, DWC.EFECTIVO);
       };
 
-      var pGetOtros = function() {
+      var getOtros = function() {
         return cIABMProperty.getWizProperty(m_objWizard, WCS.SELECT_COBROS, DWC.OTROS).getGrid();
       };
 
-      var pGetOtrosProperty = function() {
+      var getOtrosProperty = function() {
         return cIABMProperty.getWizProperty(m_objWizard, WCS.SELECT_COBROS, DWC.OTROS);
       };
 
-      var pGetFacturas = function() {
+      var getFacturas = function() {
         return cIABMProperty.getWizProperty(m_objWizard, WCS.SELECT_FACTURA, DWC.FACTUAS).getGrid();
       };
 
-      var pGetCtaCte = function() {
+      var getCtaCte = function() {
         return cIABMProperty.getWizProperty(m_objWizard, WCS.SELECT_COBROS, DWC.CTA_CTE).getGrid();
       };
 
-      var pGetFacturasProperty = function() {
+      var getFacturasProperty = function() {
         return cIABMProperty.getWizProperty(m_objWizard, WCS.SELECT_FACTURA, DWC.FACTUAS);
       };
 
-      var pGetCtaCteProperty = function() {
+      var getCtaCteProperty = function() {
         return cIABMProperty.getWizProperty(m_objWizard, WCS.SELECT_COBROS, DWC.CTA_CTE);
       };
 
-      var pRefreshFacturas = function() {
+      var refreshFacturas = function() {
         m_objWizard.showValue(cIABMProperty.getWizProperty(m_objWizard, WCS.SELECT_FACTURA, DWC.FACTUAS));
       };
 
-      var pRefreshCtaCte = function() {
+      var refreshCtaCte = function() {
         m_objWizard.showValue(cIABMProperty.getWizProperty(m_objWizard, WCS.SELECT_COBROS, DWC.CTA_CTE));
       };
 
-      var pGetComprobante = function() {
+      var getComprobante = function() {
         return cIABMProperty.getWizProperty(m_objWizard, WCS.DATOS_GENERALES, DWC.COMPROBANTE);
       };
 
-      var pGetCobrador = function() {
+      var getCobrador = function() {
         return cIABMProperty.getWizProperty(m_objWizard, WCS.DATOS_GENERALES, DWC.COBRADOR);
       };
 
-      var pGetLegajo = function() {
+      var getLegajo = function() {
         return cIABMProperty.getWizProperty(m_objWizard, WCS.DATOS_GENERALES, DWC.LEGAJO);
       };
 
-      var pGetDescrip = function() {
+      var getDescrip = function() {
         return cIABMProperty.getWizProperty(m_objWizard, WCS.DATOS_GENERALES, DWC.OBSERVACIONES);
       };
 
-      var pGetCentroCosto = function() {
+      var getCentroCosto = function() {
         return cIABMProperty.getWizProperty(m_objWizard, WCS.DATOS_GENERALES, DWC.CENTRO_COSTO);
       };
 
-      var pGetSucursal = function() {
+      var getSucursal = function() {
         return cIABMProperty.getWizProperty(m_objWizard, WCS.DATOS_GENERALES, DWC.SUCURSAL);
       };
 
-      var pGetFecha = function() {
+      var getFecha = function() {
         return cIABMProperty.getWizProperty(m_objWizard, WCS.DATOS_GENERALES, DWC.FECHA);
       };
 
-      var pGetFechaNdNc = function() {
+      var getFechaNdNc = function() {
         return cIABMProperty.getWizProperty(m_objWizard, WCS.DIF_CAMBIO, DWC.FECHA_ND_NC);
       };
 
-      var pGetDoc = function() {
+      var getDoc = function() {
         return cIABMProperty.getWizProperty(m_objWizard, WCS.SELECT_CLIENTE, DWC.DOC).getSelectId();
       };
 
-      var pGetDocName = function() {
+      var getDocName = function() {
         return cIABMProperty.getWizProperty(m_objWizard, WCS.SELECT_CLIENTE, DWC.DOC).getValue();
       };
 
-      var pGetVencidos = function() {
+      var getVencidos = function() {
         return Cairo.Util.val(cIABMProperty.getWizProperty(m_objWizard, WCS.SELECT_FACTURA, DWC.VENCIDOS).getValue());
       };
 
-      var pGetTodos = function() {
+      var getTodos = function() {
         return cIABMProperty.getWizProperty(m_objWizard, WCS.SELECT_FACTURA, DWC.TODOS);
       };
 
-      var pGetAgrupados = function() {
+      var getAgrupados = function() {
         return Cairo.Util.val(cIABMProperty.getWizProperty(m_objWizard, WCS.SELECT_FACTURA, DWC.AGRUPADOS).getValue());
       };
 
-      var pGetCotizacion = function() {
+      var getCotizacion = function() {
         return cIABMProperty.getWizProperty(m_objWizard, WCS.SELECT_FACTURA, DWC.COTIZACION);
       };
 
-      var pGetCotizacionAnticipo = function() {
+      var getCotizacionAnticipo = function() {
         return cIABMProperty.getWizProperty(m_objWizard, WCS.ANTICIPO, DWC.COTIZACION_ANTICIPO);
       };
 
-      var pGetAnticipo = function() {
+      var getAnticipo = function() {
         return cIABMProperty.getWizProperty(m_objWizard, WCS.SELECT_FACTURA, DWC.ANTICIPO);
       };
 
-      var pGetAnticipoImporte = function() {
+      var getAnticipoImporte = function() {
         return cIABMProperty.getWizProperty(m_objWizard, WCS.ANTICIPO, DWC.ANTICIPO_IMPORTE);
       };
 
-      var pGetLabelCobros = function() {
+      var getLabelCobros = function() {
         return cIABMProperty.getWizProperty(m_objWizard, WCS.SELECT_COBROS, C_LABELCOBROS);
       };
 
       // Diferencias de cambio
-      var pGetModoIvaDifCambio = function() {
+      var getModoIvaDifCambio = function() {
         return cIABMProperty.getWizProperty(m_objWizard, WCS.DIF_CAMBIO, DWC.MODO_IVA_DIF_CAMBIO);
       };
 
-      var pGetAplicDifCambio = function() {
+      var getAplicDifCambio = function() {
         return cIABMProperty.getWizProperty(m_objWizard, WCS.DIF_CAMBIO, DWC.APLICACION_ND);
       };
 
-      var pGetDefaultDifCambio = function() {
+      var getDefaultDifCambio = function() {
         return cIABMProperty.getWizProperty(m_objWizard, WCS.DIF_CAMBIO, DWC.DEFAULT_DIF_CAMBIO);
       };
 
-      var pGetCueIdDifCambio = function() {
+      var getCueIdDifCambio = function() {
         return cIABMProperty.getWizProperty(m_objWizard, WCS.DIF_CAMBIO, DWC.CUE_ID_DIF_CAMBIO);
       };
 
-      var pGetNCDifCambio = function() {
+      var getNCDifCambio = function() {
         return cIABMProperty.getWizProperty(m_objWizard, WCS.DIF_CAMBIO, DWC.NC_DIF_CAMBIO);
       };
 
-      var pGetNDDifCambio = function() {
+      var getNDDifCambio = function() {
         return cIABMProperty.getWizProperty(m_objWizard, WCS.DIF_CAMBIO, DWC.ND_DIF_CAMBIO);
       };
 
-      var pGetPrIdDifCambio = function() {
+      var getPrIdDifCambio = function() {
         return cIABMProperty.getWizProperty(m_objWizard, WCS.DIF_CAMBIO, DWC.PR_ID_DIF_CAMBIO);
       };
 
-      var pNewEmptyProperties = function() {
+      var newEmptyProperties = function() {
         // (ByRef Grid As cIABMGrid)
-        pGetAnticipo().setValue(0);
+        getAnticipo().setValue(0);
 
-        pGetFacturas().getRows().clear();
-        pGetOtros().getRows().clear();
-        pGetCheques().getRows().clear();
-        pGetEfectivo().getRows().clear();
-        pGetTarjetas().getRows().clear();
-        pGetCtaCte().getRows().clear();
+        getFacturas().getRows().clear();
+        getOtros().getRows().clear();
+        getCheques().getRows().clear();
+        getEfectivo().getRows().clear();
+        getTarjetas().getRows().clear();
+        getCtaCte().getRows().clear();
 
-        pGetCobroNeto().setValue(0);
-        pGetCobroOtros().setValue(0);
-        pGetCobroTotal().setValue(0);
+        getCobroNeto().setValue(0);
+        getCobroOtros().setValue(0);
+        getCobroTotal().setValue(0);
 
-        var w_pGetClienteProperty = pGetClienteProperty();
-        w_pGetClienteProperty.setSelectId(m_cliIdDoc);
-        w_pGetClienteProperty.setValue(m_clienteDoc);
+        var w_getClienteProperty = getClienteProperty();
+        w_getClienteProperty.setSelectId(m_cliIdDoc);
+        w_getClienteProperty.setValue(m_clienteDoc);
 
-        var w_pGetCliente2 = pGetCliente2();
-        w_pGetCliente2.setSelectId(m_cliIdDoc);
-        w_pGetCliente2.setValue(m_clienteDoc);
+        var w_getCliente2 = getCliente2();
+        w_getCliente2.setSelectId(m_cliIdDoc);
+        w_getCliente2.setValue(m_clienteDoc);
 
-        var w_pGetComprobante = pGetComprobante();
-        w_pGetComprobante.setValue("");
-        w_pGetComprobante.setTextMask("");
-        var w_pGetCentroCosto = pGetCentroCosto();
-        w_pGetCentroCosto.setSelectId(Cairo.Constants.NO_ID);
-        w_pGetCentroCosto.setValue("");
-        pGetDescrip().setValue("");
+        var w_getComprobante = getComprobante();
+        w_getComprobante.setValue("");
+        w_getComprobante.setTextMask("");
+        var w_getCentroCosto = getCentroCosto();
+        w_getCentroCosto.setSelectId(Cairo.Constants.NO_ID);
+        w_getCentroCosto.setValue("");
+        getDescrip().setValue("");
 
-        m_objWizard.showValue(pGetClienteProperty());
-        m_objWizard.showValue(pGetCliente2());
-        m_objWizard.showValue(pGetFacturasProperty());
-        m_objWizard.showValue(pGetOtrosProperty());
-        m_objWizard.showValue(pGetChequesProperty());
-        m_objWizard.showValue(pGetEfectivoProperty());
-        m_objWizard.showValue(pGetTarjetasProperty());
-        m_objWizard.showValue(pGetCtaCteProperty());
-        m_objWizard.showValue(pGetAnticipo());
-        m_objWizard.showValue(pGetCobroNeto());
-        m_objWizard.showValue(pGetCobroOtros());
-        m_objWizard.showValue(pGetCobroTotal());
-        m_objWizard.showValue(pGetComprobante());
-        m_objWizard.showValue(pGetCentroCosto());
-        m_objWizard.showValue(pGetDescrip());
+        m_objWizard.showValue(getClienteProperty());
+        m_objWizard.showValue(getCliente2());
+        m_objWizard.showValue(getFacturasProperty());
+        m_objWizard.showValue(getOtrosProperty());
+        m_objWizard.showValue(getChequesProperty());
+        m_objWizard.showValue(getEfectivoProperty());
+        m_objWizard.showValue(getTarjetasProperty());
+        m_objWizard.showValue(getCtaCteProperty());
+        m_objWizard.showValue(getAnticipo());
+        m_objWizard.showValue(getCobroNeto());
+        m_objWizard.showValue(getCobroOtros());
+        m_objWizard.showValue(getCobroTotal());
+        m_objWizard.showValue(getComprobante());
+        m_objWizard.showValue(getCentroCosto());
+        m_objWizard.showValue(getDescrip());
 
       };
 
-      var pGetDescripNDNC = function() {
+      var getDescripNDNC = function() {
         var facturas = null;
         var cobranza = null;
 
         var row = null;
         var total = null;
 
-        var _count = pGetFacturas().getRows().size();
+        var _count = getFacturas().getRows().size();
         for (var _i = 0; _i < _count; _i++) {
-          row = pGetFacturas().getRows().item(_i);
+          row = getFacturas().getRows().item(_i);
           if(Cairo.Util.val(Dialogs.cell(row, KI_APLICAR).getValue())) {
             facturas = facturas+ Dialogs.cell(row, KI_NRODOC).getValue()+ ",";
           }
         }
 
         facturas = RemoveLastColon(facturas);
-        cobranza = pGetComprobante().getValue();
+        cobranza = getComprobante().getValue();
 
         return c_NCNDDescripDifCambio+ "\\r\\n\\r\\n"+ getText(2483, "", cobranza, facturas);
       };
 
-      var pSetDatosFromAplic = function() {
+      var setDatosFromAplic = function() {
         var sqlstmt = null;
         var rs = null;
         var i = null;
 
-        sqlstmt = "sp_DocCobranzaGetDataFromAplic 1,'"+ pGetFvIds()+ "'";
+        sqlstmt = "sp_DocCobranzaGetDataFromAplic 1,'"+ getFvIds()+ "'";
 
         if(!Cairo.Database.openRs(sqlstmt, rs)) { return; }
 
@@ -5474,7 +5455,7 @@
 
         while (!rs.isEOF()) {
 
-          iProp = pGetSucursal();
+          iProp = getSucursal();
           if(iProp.getSelectId() === Cairo.Constants.NO_ID && Cairo.Database.valField(rs.getFields(), mTesoreriaConstantes.SUC_ID) !== Cairo.Constants.NO_ID) {
 
             iProp.setSelectId(Cairo.Database.valField(rs.getFields(), mTesoreriaConstantes.SUC_ID));
@@ -5482,7 +5463,7 @@
             m_objWizard.showValue(iProp);
           }
 
-          iProp = pGetCentroCosto();
+          iProp = getCentroCosto();
           if(iProp.getSelectId() === Cairo.Constants.NO_ID && Cairo.Database.valField(rs.getFields(), mTesoreriaConstantes.CCOS_ID) !== Cairo.Constants.NO_ID) {
 
             iProp.setSelectId(Cairo.Database.valField(rs.getFields(), mTesoreriaConstantes.CCOS_ID));
@@ -5490,7 +5471,7 @@
             m_objWizard.showValue(iProp);
           }
 
-          iProp = pGetLegajo();
+          iProp = getLegajo();
           if(iProp.getSelectId() === Cairo.Constants.NO_ID && Cairo.Database.valField(rs.getFields(), mTesoreriaConstantes.LGJ_ID) !== Cairo.Constants.NO_ID) {
 
             iProp.setSelectId(Cairo.Database.valField(rs.getFields(), mTesoreriaConstantes.LGJ_ID));
@@ -5502,7 +5483,7 @@
         }
       };
 
-      var pSetFilterColFactura = function() {
+      var setFilterColFactura = function() {
 
         var wizObj = null;
         var abmObj = null;
@@ -5510,15 +5491,15 @@
         wizObj = m_objWizard;
         abmObj = wizObj.getObjAbm();
 
-        pCol(pGetOtros().getColumns(), KIO_FV_ID_RET).getHelpFilter() === "cli.cli_id = "+ pGetCliente().toString();
-        abmObj.RefreshColumnProperties(pGetOtrosProperty(), mTesoreriaConstantes.FV_ID_RET);
+        pCol(getOtros().getColumns(), KIO_FV_ID_RET).getHelpFilter() === "cli.cli_id = "+ getCliente().toString();
+        abmObj.RefreshColumnProperties(getOtrosProperty(), mTesoreriaConstantes.FV_ID_RET);
 
       };
 
-      var pRefreshLabelPagos = function() {
+      var refreshLabelPagos = function() {
         var iProp = null;
-        iProp = pGetLabelCobros();
-        iProp.setValue(c_LabelCobrosText+ " - "+ pGetClienteProperty().getValue());
+        iProp = getLabelCobros();
+        iProp.setValue(c_LabelCobrosText+ " - "+ getClienteProperty().getValue());
         m_objWizard.showValue(iProp);
       };
 
@@ -5553,13 +5534,13 @@
         }
 
         if(efectivo !== 0) {
-          var w_pGetEfectivo = pGetEfectivo().getRows().add(null);
+          var w_getEfectivo = getEfectivo().getRows().add(null);
 
-          w_pGetEfectivo.Add(null);
+          w_getEfectivo.Add(null);
 
           //*TODO:** can't found type for with block
           //*With .Object.add(null)
-          var w___TYPE_NOT_FOUND = w_pGetEfectivo.Add(null);
+          var w___TYPE_NOT_FOUND = w_getEfectivo.Add(null);
           w___TYPE_NOT_FOUND.Value = m_cobranzaInfo.getCuentaEfectivo();
           w___TYPE_NOT_FOUND.Id = m_cobranzaInfo.getCueIdEfectivo();
           w___TYPE_NOT_FOUND.Key = KIE_CUE_ID;
@@ -5568,14 +5549,14 @@
 
           //*TODO:** can't found type for with block
           //*With .Object.add(null)
-          var w___TYPE_NOT_FOUND = w_pGetEfectivo.Add(null);
+          var w___TYPE_NOT_FOUND = w_getEfectivo.Add(null);
           w___TYPE_NOT_FOUND.Value = moneda;
           w___TYPE_NOT_FOUND.Id = monId;
           w___TYPE_NOT_FOUND.Key = KIE_MON_ID;
 
           //*TODO:** can't found type for with block
           //*With .Object.add(null)
-          var w___TYPE_NOT_FOUND = w_pGetEfectivo.Add(null);
+          var w___TYPE_NOT_FOUND = w_getEfectivo.Add(null);
           if(monId !== m_monDefault) {
             w___TYPE_NOT_FOUND.Value = efectivo;
           }
@@ -5586,9 +5567,9 @@
 
           //*TODO:** can't found type for with block
           //*With .Object.add(null)
-          var w___TYPE_NOT_FOUND = w_pGetEfectivo.Add(null);
+          var w___TYPE_NOT_FOUND = w_getEfectivo.Add(null);
           if(monId !== m_monDefault) {
-            w___TYPE_NOT_FOUND.Value = efectivo * Cairo.Util.val(pGetCotizacion().getValue());
+            w___TYPE_NOT_FOUND.Value = efectivo * Cairo.Util.val(getCotizacion().getValue());
           }
           else {
             w___TYPE_NOT_FOUND.Value = efectivo;
@@ -5597,7 +5578,7 @@
 
           //*TODO:** can't found type for with block
           //*With .Object.add(null)
-          var w___TYPE_NOT_FOUND = w_pGetEfectivo.Add(null);
+          var w___TYPE_NOT_FOUND = w_getEfectivo.Add(null);
           w___TYPE_NOT_FOUND.Value = "";
           w___TYPE_NOT_FOUND.Key = KIE_DESCRIP;
 
@@ -5605,13 +5586,13 @@
 
         if(tickets !== 0) {
 
-          var w_pGetEfectivo = pGetEfectivo().getRows().add(null);
+          var w_getEfectivo = getEfectivo().getRows().add(null);
 
-          w_pGetEfectivo.Add(null);
+          w_getEfectivo.Add(null);
 
           //*TODO:** can't found type for with block
           //*With .Object.add(null)
-          var w___TYPE_NOT_FOUND = w_pGetEfectivo.Add(null);
+          var w___TYPE_NOT_FOUND = w_getEfectivo.Add(null);
           w___TYPE_NOT_FOUND.Value = m_cobranzaInfo.getCuentaTicket();
           w___TYPE_NOT_FOUND.Id = m_cobranzaInfo.getCueIdTicket();
           w___TYPE_NOT_FOUND.Key = KIE_CUE_ID;
@@ -5620,14 +5601,14 @@
 
           //*TODO:** can't found type for with block
           //*With .Object.add(null)
-          var w___TYPE_NOT_FOUND = w_pGetEfectivo.Add(null);
+          var w___TYPE_NOT_FOUND = w_getEfectivo.Add(null);
           w___TYPE_NOT_FOUND.Value = moneda;
           w___TYPE_NOT_FOUND.Id = monId;
           w___TYPE_NOT_FOUND.Key = KIE_MON_ID;
 
           //*TODO:** can't found type for with block
           //*With .Object.add(null)
-          var w___TYPE_NOT_FOUND = w_pGetEfectivo.Add(null);
+          var w___TYPE_NOT_FOUND = w_getEfectivo.Add(null);
           if(monId !== m_monDefault) {
             w___TYPE_NOT_FOUND.Value = tickets;
           }
@@ -5638,9 +5619,9 @@
 
           //*TODO:** can't found type for with block
           //*With .Object.add(null)
-          var w___TYPE_NOT_FOUND = w_pGetEfectivo.Add(null);
+          var w___TYPE_NOT_FOUND = w_getEfectivo.Add(null);
           if(monId !== m_monDefault) {
-            w___TYPE_NOT_FOUND.Value = tickets * Cairo.Util.val(pGetCotizacion().getValue());
+            w___TYPE_NOT_FOUND.Value = tickets * Cairo.Util.val(getCotizacion().getValue());
           }
           else {
             w___TYPE_NOT_FOUND.Value = tickets;
@@ -5649,7 +5630,7 @@
 
           //*TODO:** can't found type for with block
           //*With .Object.add(null)
-          var w___TYPE_NOT_FOUND = w_pGetEfectivo.Add(null);
+          var w___TYPE_NOT_FOUND = w_getEfectivo.Add(null);
           w___TYPE_NOT_FOUND.Value = "";
           w___TYPE_NOT_FOUND.Key = KIE_DESCRIP;
 
@@ -5657,21 +5638,21 @@
 
         if(efectivo !== 0 || tickets !== 0) {
 
-          pRefreshEfectivo();
+          refreshEfectivo();
 
-          pShowCobroNeto();
-          pShowCobroOtro();
-          pShowCobroTotal();
+          showCobroNeto();
+          showCobroOtro();
+          showCobroTotal();
 
         }
 
       };
 
-      var pRefreshEfectivo = function() {
+      var refreshEfectivo = function() {
         m_objWizard.showValue(cIABMProperty.getWizProperty(m_objWizard, WCS.SELECT_COBROS, DWC.EFECTIVO));
       };
 
-      var pGetFilterCuentaXCaja = function() {
+      var getFilterCuentaXCaja = function() {
         var _rtn = "";
 
         if(m_isHojaRuta) {

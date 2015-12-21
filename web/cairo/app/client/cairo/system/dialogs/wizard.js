@@ -139,11 +139,11 @@
         self.showDocDigital = function() {
         };
 
-        self.messageEx = function(messageID, info) {
+        self.messageEx = function(messageId, info) {
           if(m_clientObj === null) {
             var p = null;
 
-            switch (messageID) {
+            switch (messageId) {
               case Dialogs.Message.MSG_GRID_VIRTUAL_ROW:
 
                 p = Cairo.Promises.resolvedPromise(info);
@@ -152,7 +152,7 @@
             return p || Cairo.Promises.resolvedPromise(true);
           }
           else {
-            return m_clientObj.messageEx(messageID, info);
+            return m_clientObj.messageEx(messageId, info);
           }
         };
 
