@@ -13,13 +13,13 @@ import play.api.Logger
 import play.api.libs.json._
 import scala.util.control.NonFatal
 
-case class VentasSetting(userId: Int, settings: List[Setting])
+case class TesoreriaSetting(userId: Int, settings: List[Setting])
 
-object VentasSetting {
+object TesoreriaSetting {
 
-  lazy val emptyVentasSetting = VentasSetting(DBHelper.NoId, List())
+  lazy val emptyTesoreriaSetting = TesoreriaSetting(DBHelper.NoId, List())
 
-  private val ventasSettingParser: RowParser[Setting] = {
+  private val tesoreriaSettingParser: RowParser[Setting] = {
     SqlParser.get[String](C.CFG_ASPECTO) ~
     SqlParser.get[String](C.CFG_GRUPO) ~
     SqlParser.get[String](C.CFG_VALOR) ~
@@ -38,15 +38,15 @@ object VentasSetting {
     }
   }
 
-  def create(user: CompanyUser, VentasSetting: VentasSetting): VentasSetting = {
-    save(user, VentasSetting, true)
+  def create(user: CompanyUser, TesoreriaSetting: TesoreriaSetting): TesoreriaSetting = {
+    save(user, TesoreriaSetting, true)
   }
 
-  def update(user: CompanyUser, VentasSetting: VentasSetting): VentasSetting = {
-    save(user, VentasSetting, false)
+  def update(user: CompanyUser, TesoreriaSetting: TesoreriaSetting): TesoreriaSetting = {
+    save(user, TesoreriaSetting, false)
   }
 
-  private def save(user: CompanyUser, VentasSetting: VentasSetting, isNew: Boolean): VentasSetting = {
+  private def save(user: CompanyUser, TesoreriaSetting: TesoreriaSetting, isNew: Boolean): TesoreriaSetting = {
     def getFields = {
       List(
 
@@ -61,7 +61,7 @@ object VentasSetting {
       Register(
         C.CONFIGURACION,
         "",
-        VentasSetting.userId,
+        TesoreriaSetting.userId,
         false,
         true,
         true,
@@ -74,20 +74,20 @@ object VentasSetting {
     }
   }
 
-  def load(user: CompanyUser, id: Int): Option[VentasSetting] = {
+  def load(user: CompanyUser, id: Int): Option[TesoreriaSetting] = {
 
     Logger.debug(s"id: $id")
 
     val generalSettings = loadWhere(
       user,
-      s"emp_id IS NULL AND cfg_grupo = 'Ventas-General'"
+      s"emp_id IS NULL AND cfg_grupo = 'Tesoreria-General'"
     )
 
     Logger.debug(s"generalSettings: ${generalSettings.toString}")
 
     val companySettings = loadWhere(
       user,
-      s"emp_id = {empId} AND cfg_grupo = 'Ventas-General'",
+      s"emp_id = {empId} AND cfg_grupo = 'Tesoreria-General'",
       'empId -> user.cairoCompanyId
     )
 
@@ -103,26 +103,21 @@ object VentasSetting {
     }
 
     /*
-    val KEY_GRUPO_GENERAL = "Ventas-General"
-    val KEY_CLAVE_FISCAL = "Clave Fiscal"
-    val KEY_FACTURA_ELECTRONICA = "Factura Electronica Asincronica"
-    val KEY_PUNTO_VENTA_FE = "Punto Venta FE"
+    val KEY_GRUPO_GENERAL = "Tesoreria-General"
     */
-    val KEY_CUE_ID_DESC_GLOBAL = "Cuenta Descuento Global"
-    val KEY_DOC_FACTURA_FALTANTE = "Factura x Faltante en Hoja Ruta"
-    val KEY_DOC_MOVIMIENTO_SOBRANTE = "Mov. Fondo Sobrante en Hoja Ruta"
-    val KEY_DOC_MOVIMIENTO_TICKET = "Mov. Fondo Tickets en Hoja Ruta"
-    val KEY_CUE_ID_TICKETS = "Cuenta Comision sobre Tickets"
-    val KEY_CUE_ID_SOBRANTE = "Cuenta para Sobrante en Rendicion"
-    val KEY_PR_ID_FALTANTE = "Articulo para Faltantes en Rendicion"
 
-    val KEY_PERCEPCION = "Percepcion"
-    val KEY_CLIENTES_PV = "ClientesPV"
+    val KEY_CUE_ID_DIF_CAMBIO = "Cuenta contable"
+    val KEY_NC_DIF_CAMBIO = "Nota de credito"
+    val KEY_ND_DIF_CAMBIO = "Nota de debito"
+    val KEY_PR_ID_DIF_CAMBIO = "Articulo"
 
-    val KEY_PV_CPG_ID = KEY_CLIENTES_PV + C.CPG_ID
-    val KEY_PV_LP_ID = KEY_CLIENTES_PV + C.LP_ID
-    val KEY_PV_PRO_ID = KEY_CLIENTES_PV + C.PRO_ID
-    val KEY_PV_ZON_ID = KEY_CLIENTES_PV + C.ZON_ID
+    val KEY_DOC_ID_COBRANZA = "Cobranza"
+    val KEY_DOC_ID_ORDEN_PAGO = "Orden Pago"
+
+    val KEY_CUENTA_ANTICIPO_COBRANZA = "Cuenta Anticipo Cobranzas"
+    val KEY_CUENTA_ANTICIPO_PAGOS = "Cuenta Anticipo Ordenes de Pago"
+
+    val KEY_RETENCION = "Retencion"
 
     def getId(value: String): Int = {
       try {
@@ -143,49 +138,41 @@ object VentasSetting {
 
       key match {
 
-        case KEY_CUE_ID_DESC_GLOBAL => {
+        case KEY_CUE_ID_DIF_CAMBIO => {
           val cue_id = getId(value)
-          getSelectForTable(C.CUENTA, C.CUE_ID, C.CUE_NAME, cue_id, KEY_CUE_ID_DESC_GLOBAL)
+          getSelectForTable(C.CUENTA, C.CUE_ID, C.CUE_NAME, cue_id, KEY_CUE_ID_DIF_CAMBIO)
         }
-        case KEY_DOC_FACTURA_FALTANTE => {
+        case KEY_NC_DIF_CAMBIO => {
           val doc_id = getId(value)
-          getSelectForTable(C.DOCUMENTO, C.DOC_ID, C.DOC_NAME, doc_id, KEY_DOC_FACTURA_FALTANTE)
+          getSelectForTable(C.DOCUMENTO, C.DOC_ID, C.DOC_NAME, doc_id, KEY_NC_DIF_CAMBIO)
         }
-        case KEY_DOC_MOVIMIENTO_SOBRANTE => {
+        case KEY_ND_DIF_CAMBIO => {
           val doc_id = getId(value)
-          getSelectForTable(C.DOCUMENTO, C.DOC_ID, C.DOC_NAME, doc_id, KEY_DOC_MOVIMIENTO_SOBRANTE)
+          getSelectForTable(C.DOCUMENTO, C.DOC_ID, C.DOC_NAME, doc_id, KEY_ND_DIF_CAMBIO)
         }
-        case KEY_DOC_MOVIMIENTO_TICKET => {
+        case KEY_DOC_ID_COBRANZA => {
           val doc_id = getId(value)
-          getSelectForTable(C.DOCUMENTO, C.DOC_ID, C.DOC_NAME, doc_id, KEY_DOC_MOVIMIENTO_TICKET)
+          getSelectForTable(C.DOCUMENTO, C.DOC_ID, C.DOC_NAME, doc_id, KEY_DOC_ID_COBRANZA)
         }
-        case KEY_CUE_ID_TICKETS => {
+        case KEY_DOC_ID_ORDEN_PAGO => {
+          val doc_id = getId(value)
+          getSelectForTable(C.DOCUMENTO, C.DOC_ID, C.DOC_NAME, doc_id, KEY_DOC_ID_ORDEN_PAGO)
+        }
+        case KEY_CUENTA_ANTICIPO_COBRANZA => {
           val cue_id = getId(value)
-          getSelectForTable(C.CUENTA, C.CUE_ID, C.CUE_NAME, cue_id, KEY_CUE_ID_TICKETS)
+          getSelectForTable(C.CUENTA, C.CUE_ID, C.CUE_NAME, cue_id, KEY_CUENTA_ANTICIPO_COBRANZA)
         }
-        case KEY_CUE_ID_SOBRANTE => {
+        case KEY_CUENTA_ANTICIPO_PAGOS => {
           val cue_id = getId(value)
-          getSelectForTable(C.CUENTA, C.CUE_ID, C.CUE_NAME, cue_id, KEY_CUE_ID_SOBRANTE)
+          getSelectForTable(C.CUENTA, C.CUE_ID, C.CUE_NAME, cue_id, KEY_CUENTA_ANTICIPO_PAGOS)
         }
-        case KEY_PR_ID_FALTANTE => {
+        case KEY_PR_ID_DIF_CAMBIO => {
           val pr_id = getId(value)
-          getSelectForTable(C.PRODUCTO, C.PR_ID, C.PR_NAME_VENTA, pr_id, KEY_PR_ID_FALTANTE)
+          getSelectForTable(C.PRODUCTO, C.PR_ID, C.PR_NAME_VENTA, pr_id, KEY_PR_ID_DIF_CAMBIO)
         }
-        case KEY_PV_CPG_ID => {
-          val cpg_id = getId(value)
-          getSelectForTable(C.CONDICION_PAGO, C.CPG_ID, C.CPG_NAME, cpg_id, KEY_PV_CPG_ID)
-        }
-        case KEY_PV_LP_ID => {
-          val lp_id = getId(value)
-          getSelectForTable(C.LISTA_PRECIO, C.LP_ID, C.LP_NAME, lp_id, KEY_PV_LP_ID)
-        }
-        case KEY_PV_PRO_ID => {
-          val pro_id = getId(value)
-          getSelectForTable(C.PROVINCIA, C.PRO_ID, C.PRO_NAME, pro_id, KEY_PV_PRO_ID)
-        }
-        case KEY_PV_ZON_ID => {
-          val zon_id = getId(value)
-          getSelectForTable(C.ZONA, C.ZON_ID, C.ZON_NAME, zon_id, KEY_PV_ZON_ID)
+        case KEY_RETENCION => {
+          val ret_id = getId(value)
+          getSelectForTable(C.RETENCION, C.RET_ID, C.RET_NAME, ret_id, KEY_RETENCION + value)
         }
         case _ => ""
       }
@@ -198,7 +185,7 @@ object VentasSetting {
       case setting :: t => getSelectForSetting(setting) :: getSelectForSettings(t)
     }
 
-    val selectList = getSelectForSettings(companySettings).filter(q => q != "")
+    val selectList = (getSelectForSettings(companySettings) ::: getSelectForSettings(generalSettings)).filter(q => q != "")
     val sqlstmt = selectList.mkString(" UNION ")
 
     val names: List[Setting] = if(sqlstmt.isEmpty) List() else loadSql(user, sqlstmt)
@@ -208,7 +195,10 @@ object VentasSetting {
       case setting :: t => if(setting.key == key) Some(getStringFromAny(setting.value, "")) else getNameForKey(key, t)
     }
     def getComplexSetting(setting: Setting, names: List[Setting]) = {
-      getNameForKey(setting.key, names) match {
+      def getKey = {
+        if(setting.key == KEY_RETENCION) setting.key + getStringFromAny(setting.value, "0") else setting.key
+      }
+      getNameForKey(getKey, names) match {
         case Some(name) => Setting(
           setting.key,
           setting.group,
@@ -228,11 +218,14 @@ object VentasSetting {
         }
       }
     }
-    val complexSettings = companySettings.map(setting => getComplexSetting(setting, names))
+    val allSettings = (
+            companySettings.map(setting => getComplexSetting(setting, names))
+        ::: generalSettings.map(setting => getComplexSetting(setting, names))
+      )
 
-    Logger.debug(s"generalSettings: ${complexSettings.toString}")
+    Logger.debug(s"generalSettings: ${allSettings.toString}")
 
-    Some(VentasSetting(id, generalSettings ::: complexSettings))
+    Some(TesoreriaSetting(id, allSettings))
   }
 
   def loadWhere(user: CompanyUser, where: String, args : scala.Tuple2[scala.Any, anorm.ParameterValue[_]]*) = {
@@ -241,7 +234,7 @@ object VentasSetting {
     DB.withConnection(user.database.database) { implicit connection =>
       SQL(sqlstmt)
         .on(args: _*)
-        .as(ventasSettingParser.*)
+        .as(tesoreriaSettingParser.*)
     }
   }
 
@@ -250,14 +243,14 @@ object VentasSetting {
     DB.withConnection(user.database.database) { implicit connection =>
       SQL(sqlstmt)
         .on(args: _*)
-        .as(ventasSettingParser.*)
+        .as(tesoreriaSettingParser.*)
     }
   }
 
-  def get(user: CompanyUser, id: Int): VentasSetting = {
+  def get(user: CompanyUser, id: Int): TesoreriaSetting = {
     load(user, id) match {
       case Some(p) => p
-      case None => emptyVentasSetting
+      case None => emptyTesoreriaSetting
     }
   }
 

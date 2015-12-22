@@ -692,8 +692,10 @@
   };
 
   Cairo.Documents.getSelectFilterForCuenta = "account_in_current_company";
-  Cairo.Documents.getSelectFilterForCuentaCheques = "account_in_for_cheques"; /* banco or documentos en cartera */
-  Cairo.Documents.getSelectFilterForCuentaEfectivo = "account_in_for_efectivo"; /* banco or caja */
+  Cairo.Documents.getSelectFilterForCuentaCheques = "account_for_cheques"; /* banco or documentos en cartera */
+  Cairo.Documents.getSelectFilterForCuentaEfectivo = "account_for_efectivo"; /* banco or caja */
+  Cairo.Documents.getSelectFilterForCuentaAnticipoCobranza = "account_for_anticipo_cobranza"; /* duedor por ventas o deposito cupones */
+  Cairo.Documents.getSelectFilterForCuentaAnticipoPagos = "account_for_anticipo_pagos"; /* acreedores */
 
   Cairo.Documents.getTasaFromProducto = function(prId) {
     var p = DB.getData("load[" + m_apiPath + "general/producto/" + prId.toString() + "/taxes]");

@@ -849,6 +849,7 @@ div::after {
 
 .document-form .grid-container {
   margin-bottom: 15px;
+  padding-bottom: 7px;
   border-bottom: 1px solid #ddd;
 }
 

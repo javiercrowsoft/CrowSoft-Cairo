@@ -268,6 +268,9 @@ PUT     /api/v1/general/contconfig/:id              controllers.logged.modules.g
 GET     /api/v1/general/ventaconfig/:id              controllers.logged.modules.general.VentasSettings.get(id: Int)
 PUT     /api/v1/general/ventaconfig/:id              controllers.logged.modules.general.VentasSettings.update(id: Int)
 
+GET     /api/v1/general/tesoreriaconfig/:id            controllers.logged.modules.general.TesoreriaSettings.get(id: Int)
+PUT     /api/v1/general/tesoreriaconfig/:id            controllers.logged.modules.general.TesoreriaSettings.update(id: Int)
+
 GET     /api/v1/general/producto/:id                   controllers.logged.modules.general.Productos.get(id: Int)
 POST    /api/v1/general/producto                       controllers.logged.modules.general.Productos.create
 PUT     /api/v1/general/producto/:id                   controllers.logged.modules.general.Productos.update(id: Int)

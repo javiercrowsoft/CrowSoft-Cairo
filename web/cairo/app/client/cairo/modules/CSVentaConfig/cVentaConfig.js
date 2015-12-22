@@ -48,36 +48,36 @@
 
       var KI_PERC_ID = 16;
 
-      var C_GRUPOGENERAL = "Ventas-General";
-      var C_CUEIDDESCGLOBAL = "Cuenta Descuento Global";
-      var C_GRABARASIENTO = "Grabar Asiento";
-      var C_WEBUSERMAILLEYENDA = "Leyenda para Usuarios de la Intranet";
-      var C_APLICCLIENTEFAMILIA = "Aplicaciones entre Grupos de Clientes";
-      var C_REDONDEOENPRECIOS = "Redondear Decimales en Precios";
-      var C_DECIMALESENPRECIOS = "Decimales en Precios";
-      var C_RESTOENTERO = "Restar a precios enteros";
-      var C_USARLISTAPRECIOPRECIO = "Utilizar Cache de Precios";
-      var C_EXIGIRCAJA = "Exigir que la Caja Este Abierta para Facturar";
-      var C_EXIGIRCENTRO_COSTO = "Exigir Centro Costo";
-      var C_COBRANZAPORCAJERO = "Concentrar Cobranzas en Cajero";
-      var C_VENTASPORHOJADERUTA = "Ventas por Hoja de Ruta";
+      var C_GRUPO_GENERAL = "Ventas-General";
+      var C_CUE_ID_DESC_GLOBAL = "Cuenta Descuento Global";
+      var C_GRABAR_ASIENTO = "Grabar Asiento";
+      var C_WEB_USER_MAIL_LEYENDA = "Leyenda para Usuarios de la Intranet";
+      var C_APLIC_CLIENTE_FAMILIA = "Aplicaciones entre Grupos de Clientes";
+      var C_REDONDEO_EN_PRECIOS = "Redondear Decimales en Precios";
+      var C_DECIMALES_EN_PRECIOS = "Decimales en Precios";
+      var C_RESTO_ENTERO = "Restar a precios enteros";
+      var C_USAR_LISTA_PRECIO_PRECIO = "Utilizar Cache de Precios";
+      var C_EXIGIR_CAJA = "Exigir que la Caja Este Abierta para Facturar";
+      var C_EXIGIR_CENTRO_COSTO = "Exigir Centro Costo";
+      var C_COBRANZA_POR_CAJERO = "Concentrar Cobranzas en Cajero";
+      var C_VENTAS_POR_HOJA_DE_RUTA = "Ventas por Hoja de Ruta";
 
-      var C_DOCFACTURAFALTANTE = "Factura x Faltante en Hoja Ruta";
-      var C_DOCMOVIMIENTOSOBRANTE = "Mov. Fondo Sobrante en Hoja Ruta";
-      var C_DOCMOVIMIENTOTICKET = "Mov. Fondo Tickets en Hoja Ruta";
-      var C_CUEIDTICKETS = "Cuenta Comision sobre Tickets";
-      var C_CUEIDSOBRANTE = "Cuenta para Sobrante en Rendicion";
-      var C_PRIDFALTANTE = "Articulo para Faltantes en Rendicion";
+      var C_DOC_FACTURA_FALTANTE = "Factura x Faltante en Hoja Ruta";
+      var C_DOC_MOVIMIENTO_SOBRANTE = "Mov. Fondo Sobrante en Hoja Ruta";
+      var C_DOC_MOVIMIENTO_TICKET = "Mov. Fondo Tickets en Hoja Ruta";
+      var C_CUE_ID_TICKETS = "Cuenta Comision sobre Tickets";
+      var C_CUE_ID_SOBRANTE = "Cuenta para Sobrante en Rendicion";
+      var C_PR_ID_FALTANTE = "Articulo para Faltantes en Rendicion";
 
       var C_PERCEPCION = "Percepcion";
-      var C_CLIENTESPV = "ClientesPV";
+      var C_CLIENTES_PV = "ClientesPV";
 
-      var C_PV_CLI_RAZONSOCIAL = C_CLIENTESPV + C.CLI_RAZONSOCIAL;
-      var C_PV_CLI_CAT_FISCAL = C_CLIENTESPV + C.CLI_CAT_FISCAL;
-      var C_PV_CPG_ID = C_CLIENTESPV + C.CPG_ID;
-      var C_PV_LP_ID = C_CLIENTESPV + C.LP_ID;
-      var C_PV_PRO_ID = C_CLIENTESPV + C.PRO_ID;
-      var C_PV_ZON_ID = C_CLIENTESPV + C.ZON_ID;
+      var C_PV_CLI_RAZONSOCIAL = C_CLIENTES_PV + C.CLI_RAZONSOCIAL;
+      var C_PV_CLI_CAT_FISCAL = C_CLIENTES_PV + C.CLI_CAT_FISCAL;
+      var C_PV_CPG_ID = C_CLIENTES_PV + C.CPG_ID;
+      var C_PV_LP_ID = C_CLIENTES_PV + C.LP_ID;
+      var C_PV_PRO_ID = C_CLIENTES_PV + C.PRO_ID;
+      var C_PV_ZON_ID = C_CLIENTES_PV + C.ZON_ID;
 
       var m_cueIdDescGlobal = 0;
       var m_cuentaDescGlobal = "";
@@ -319,11 +319,11 @@
             case K_CUE_ID_DESCUENTO:
               register = createRegister();
 
-              register.setFilter("cfg_grupo:" + sq(C_GRUPOGENERAL) + ", cfg_aspecto:" + sq(C_CUEIDDESCGLOBAL));
+              register.setFilter("cfg_grupo:" + sq(C_GRUPO_GENERAL) + ", cfg_aspecto:" + sq(C_CUE_ID_DESC_GLOBAL));
 
               var fields = register.getFields();
-              fields.add(CFG_GRUPO, C_GRUPOGENERAL, TEXT);
-              fields.add(C.CONFIG_KEY, C_CUEIDDESCGLOBAL, TEXT);
+              fields.add(CFG_GRUPO, C_GRUPO_GENERAL, TEXT);
+              fields.add(C.CONFIG_KEY, C_CUE_ID_DESC_GLOBAL, TEXT);
               fields.add(C.CONFIG_VALUE, property.getSelectId(), TEXT);
 
               transaction.addRegister(register);
@@ -332,11 +332,11 @@
             case K_GRABAR_ASIENTO:
               register = createRegister();
 
-              register.setFilter("cfg_grupo:" + sq(C_GRUPOGENERAL) + ", cfg_aspecto:" + sq(C_GRABARASIENTO));
+              register.setFilter("cfg_grupo:" + sq(C_GRUPO_GENERAL) + ", cfg_aspecto:" + sq(C_GRABAR_ASIENTO));
 
               var fields = register.getFields();
-              fields.add(CFG_GRUPO, C_GRUPOGENERAL, TEXT);
-              fields.add(C.CONFIG_KEY, C_GRABARASIENTO, TEXT);
+              fields.add(CFG_GRUPO, C_GRUPO_GENERAL, TEXT);
+              fields.add(C.CONFIG_KEY, C_GRABAR_ASIENTO, TEXT);
               fields.add(C.CONFIG_VALUE, Cairo.Util.val(property.getValue()), TEXT);
 
               transaction.addRegister(register);
@@ -345,11 +345,11 @@
             case K_WEBMAIL_LEYENDA:
               register = createRegister();
 
-              register.setFilter("cfg_grupo:" + sq(C_GRUPOGENERAL) + ", cfg_aspecto:" + sq(C_WEBUSERMAILLEYENDA));
+              register.setFilter("cfg_grupo:" + sq(C_GRUPO_GENERAL) + ", cfg_aspecto:" + sq(C_WEB_USER_MAIL_LEYENDA));
 
               var fields = register.getFields();
-              fields.add(CFG_GRUPO, C_GRUPOGENERAL, TEXT);
-              fields.add(C.CONFIG_KEY, C_WEBUSERMAILLEYENDA, TEXT);
+              fields.add(CFG_GRUPO, C_GRUPO_GENERAL, TEXT);
+              fields.add(C.CONFIG_KEY, C_WEB_USER_MAIL_LEYENDA, TEXT);
               fields.add(C.CONFIG_VALUE, property.getValue(), TEXT);
 
               transaction.addRegister(register);
@@ -358,11 +358,11 @@
             case K_EXIGIR_CAJA:
               register = createRegister();
 
-              register.setFilter("cfg_grupo:" + sq(C_GRUPOGENERAL) + ", cfg_aspecto:" + sq(C_EXIGIRCAJA));
+              register.setFilter("cfg_grupo:" + sq(C_GRUPO_GENERAL) + ", cfg_aspecto:" + sq(C_EXIGIR_CAJA));
 
               var fields = register.getFields();
-              fields.add(CFG_GRUPO, C_GRUPOGENERAL, TEXT);
-              fields.add(C.CONFIG_KEY, C_EXIGIRCAJA, TEXT);
+              fields.add(CFG_GRUPO, C_GRUPO_GENERAL, TEXT);
+              fields.add(C.CONFIG_KEY, C_EXIGIR_CAJA, TEXT);
               fields.add(C.CONFIG_VALUE, property.getValue(), TEXT);
 
               transaction.addRegister(register);
@@ -371,11 +371,11 @@
             case K_EXIGIR_CENTRO_COSTO:
               register = createRegister();
 
-              register.setFilter("cfg_grupo:" + sq(C_GRUPOGENERAL) + ", cfg_aspecto:" + sq(C_EXIGIRCENTRO_COSTO));
+              register.setFilter("cfg_grupo:" + sq(C_GRUPO_GENERAL) + ", cfg_aspecto:" + sq(C_EXIGIR_CENTRO_COSTO));
 
               var fields = register.getFields();
-              fields.add(CFG_GRUPO, C_GRUPOGENERAL, TEXT);
-              fields.add(C.CONFIG_KEY, C_EXIGIRCENTRO_COSTO, TEXT);
+              fields.add(CFG_GRUPO, C_GRUPO_GENERAL, TEXT);
+              fields.add(C.CONFIG_KEY, C_EXIGIR_CENTRO_COSTO, TEXT);
               fields.add(C.CONFIG_VALUE, property.getValue(), TEXT);
 
               transaction.addRegister(register);
@@ -384,11 +384,11 @@
             case K_APLIC_CLIENTE_FAMILIA:
               register = createRegister();
 
-              register.setFilter("cfg_grupo:" + sq(C_GRUPOGENERAL) + ", cfg_aspecto:" + sq(C_APLICCLIENTEFAMILIA));
+              register.setFilter("cfg_grupo:" + sq(C_GRUPO_GENERAL) + ", cfg_aspecto:" + sq(C_APLIC_CLIENTE_FAMILIA));
 
               var fields = register.getFields();
-              fields.add(CFG_GRUPO, C_GRUPOGENERAL, TEXT);
-              fields.add(C.CONFIG_KEY, C_APLICCLIENTEFAMILIA, TEXT);
+              fields.add(CFG_GRUPO, C_GRUPO_GENERAL, TEXT);
+              fields.add(C.CONFIG_KEY, C_APLIC_CLIENTE_FAMILIA, TEXT);
               fields.add(C.CONFIG_VALUE, Cairo.Util.val(property.getValue()), TEXT);
 
               transaction.addRegister(register);
@@ -397,11 +397,11 @@
             case K_REDONDEO_EN_PRECIOS:
               register = createRegister();
 
-              register.setFilter("cfg_grupo:" + sq(C_GRUPOGENERAL) + ", cfg_aspecto:" + sq(C_REDONDEOENPRECIOS));
+              register.setFilter("cfg_grupo:" + sq(C_GRUPO_GENERAL) + ", cfg_aspecto:" + sq(C_REDONDEO_EN_PRECIOS));
 
               var fields = register.getFields();
-              fields.add(CFG_GRUPO, C_GRUPOGENERAL, TEXT);
-              fields.add(C.CONFIG_KEY, C_REDONDEOENPRECIOS, TEXT);
+              fields.add(CFG_GRUPO, C_GRUPO_GENERAL, TEXT);
+              fields.add(C.CONFIG_KEY, C_REDONDEO_EN_PRECIOS, TEXT);
               fields.add(C.CONFIG_VALUE, Cairo.Util.val(property.getValue()), TEXT);
 
               transaction.addRegister(register);
@@ -410,11 +410,11 @@
             case K_USAR_LISTAPRECIOPRECIO:
               register = createRegister();
 
-              register.setFilter("cfg_grupo:" + sq(C_GRUPOGENERAL) + ", cfg_aspecto:" + sq(C_USARLISTAPRECIOPRECIO));
+              register.setFilter("cfg_grupo:" + sq(C_GRUPO_GENERAL) + ", cfg_aspecto:" + sq(C_USAR_LISTA_PRECIO_PRECIO));
 
               var fields = register.getFields();
-              fields.add(CFG_GRUPO, C_GRUPOGENERAL, TEXT);
-              fields.add(C.CONFIG_KEY, C_USARLISTAPRECIOPRECIO, TEXT);
+              fields.add(CFG_GRUPO, C_GRUPO_GENERAL, TEXT);
+              fields.add(C.CONFIG_KEY, C_USAR_LISTA_PRECIO_PRECIO, TEXT);
               fields.add(C.CONFIG_VALUE, Cairo.Util.val(property.getValue()), TEXT);
 
               transaction.addRegister(register);
@@ -423,11 +423,11 @@
             case K_DECIMALES_EN_PRECIOS:
               register = createRegister();
 
-              register.setFilter("cfg_grupo:" + sq(C_GRUPOGENERAL) + ", cfg_aspecto:" + sq(C_DECIMALESENPRECIOS));
+              register.setFilter("cfg_grupo:" + sq(C_GRUPO_GENERAL) + ", cfg_aspecto:" + sq(C_DECIMALES_EN_PRECIOS));
 
               var fields = register.getFields();
-              fields.add(CFG_GRUPO, C_GRUPOGENERAL, TEXT);
-              fields.add(C.CONFIG_KEY, C_DECIMALESENPRECIOS, TEXT);
+              fields.add(CFG_GRUPO, C_GRUPO_GENERAL, TEXT);
+              fields.add(C.CONFIG_KEY, C_DECIMALES_EN_PRECIOS, TEXT);
               fields.add(C.CONFIG_VALUE, Cairo.Util.val(property.getValue()), TEXT);
 
               transaction.addRegister(register);
@@ -436,11 +436,11 @@
             case K_RESTO_ENTERO:
               register = createRegister();
 
-              register.setFilter("cfg_grupo:" + sq(C_GRUPOGENERAL) + ", cfg_aspecto:" + sq(C_RESTOENTERO));
+              register.setFilter("cfg_grupo:" + sq(C_GRUPO_GENERAL) + ", cfg_aspecto:" + sq(C_RESTO_ENTERO));
 
               var fields = register.getFields();
-              fields.add(CFG_GRUPO, C_GRUPOGENERAL, TEXT);
-              fields.add(C.CONFIG_KEY, C_RESTOENTERO, TEXT);
+              fields.add(CFG_GRUPO, C_GRUPO_GENERAL, TEXT);
+              fields.add(C.CONFIG_KEY, C_RESTO_ENTERO, TEXT);
               fields.add(C.CONFIG_VALUE, Cairo.Util.val(property.getValue()), TEXT);
 
               transaction.addRegister(register);
@@ -449,10 +449,10 @@
             case K_RAZONSOCIAL:
               register = createRegister();
 
-              register.setFilter("cfg_grupo:" + sq(C_GRUPOGENERAL) + ", cfg_aspecto:" + sq(C_PV_CLI_RAZONSOCIAL));
+              register.setFilter("cfg_grupo:" + sq(C_GRUPO_GENERAL) + ", cfg_aspecto:" + sq(C_PV_CLI_RAZONSOCIAL));
 
               var fields = register.getFields();
-              fields.add(CFG_GRUPO, C_GRUPOGENERAL, TEXT);
+              fields.add(CFG_GRUPO, C_GRUPO_GENERAL, TEXT);
               fields.add(C.CONFIG_KEY, C_PV_CLI_RAZONSOCIAL, TEXT);
               fields.add(C.CONFIG_VALUE, property.getValue(), TEXT);
 
@@ -462,10 +462,10 @@
             case K_CATFISCAL:
               register = createRegister();
 
-              register.setFilter("cfg_grupo:" + sq(C_GRUPOGENERAL) + ", cfg_aspecto:" + sq(C_PV_CLI_CAT_FISCAL));
+              register.setFilter("cfg_grupo:" + sq(C_GRUPO_GENERAL) + ", cfg_aspecto:" + sq(C_PV_CLI_CAT_FISCAL));
 
               var fields = register.getFields();
-              fields.add(CFG_GRUPO, C_GRUPOGENERAL, TEXT);
+              fields.add(CFG_GRUPO, C_GRUPO_GENERAL, TEXT);
               fields.add(C.CONFIG_KEY, C_PV_CLI_CAT_FISCAL, TEXT);
               fields.add(C.CONFIG_VALUE, property.getListItemData(), TEXT);
 
@@ -475,10 +475,10 @@
             case K_CPG_ID:
               register = createRegister();
 
-              register.setFilter("cfg_grupo:" + sq(C_GRUPOGENERAL) + ", cfg_aspecto:" + sq(C_PV_CPG_ID));
+              register.setFilter("cfg_grupo:" + sq(C_GRUPO_GENERAL) + ", cfg_aspecto:" + sq(C_PV_CPG_ID));
 
               var fields = register.getFields();
-              fields.add(CFG_GRUPO, C_GRUPOGENERAL, TEXT);
+              fields.add(CFG_GRUPO, C_GRUPO_GENERAL, TEXT);
               fields.add(C.CONFIG_KEY, C_PV_CPG_ID, TEXT);
               fields.add(C.CONFIG_VALUE, property.getSelectId(), TEXT);
 
@@ -488,10 +488,10 @@
             case K_LP_ID:
               register = createRegister();
 
-              register.setFilter("cfg_grupo:" + sq(C_GRUPOGENERAL) + ", cfg_aspecto:" + sq(C_PV_LP_ID));
+              register.setFilter("cfg_grupo:" + sq(C_GRUPO_GENERAL) + ", cfg_aspecto:" + sq(C_PV_LP_ID));
 
               var fields = register.getFields();
-              fields.add(CFG_GRUPO, C_GRUPOGENERAL, TEXT);
+              fields.add(CFG_GRUPO, C_GRUPO_GENERAL, TEXT);
               fields.add(C.CONFIG_KEY, C_PV_LP_ID, TEXT);
               fields.add(C.CONFIG_VALUE, property.getSelectId(), TEXT);
 
@@ -501,10 +501,10 @@
             case K_PRO_ID:
               register = createRegister();
 
-              register.setFilter("cfg_grupo:" + sq(C_GRUPOGENERAL) + ", cfg_aspecto:" + sq(C_PV_PRO_ID));
+              register.setFilter("cfg_grupo:" + sq(C_GRUPO_GENERAL) + ", cfg_aspecto:" + sq(C_PV_PRO_ID));
 
               var fields = register.getFields();
-              fields.add(CFG_GRUPO, C_GRUPOGENERAL, TEXT);
+              fields.add(CFG_GRUPO, C_GRUPO_GENERAL, TEXT);
               fields.add(C.CONFIG_KEY, C_PV_PRO_ID, TEXT);
               fields.add(C.CONFIG_VALUE, property.getSelectId(), TEXT);
 
@@ -514,10 +514,10 @@
             case K_ZON_ID:
               register = createRegister();
 
-              register.setFilter("cfg_grupo:" + sq(C_GRUPOGENERAL) + ", cfg_aspecto:" + sq(C_PV_ZON_ID));
+              register.setFilter("cfg_grupo:" + sq(C_GRUPO_GENERAL) + ", cfg_aspecto:" + sq(C_PV_ZON_ID));
 
               var fields = register.getFields();
-              fields.add(CFG_GRUPO, C_GRUPOGENERAL, TEXT);
+              fields.add(CFG_GRUPO, C_GRUPO_GENERAL, TEXT);
               fields.add(C.CONFIG_KEY, C_PV_ZON_ID, TEXT);
               fields.add(C.CONFIG_VALUE, property.getSelectId(), TEXT);
 
@@ -527,11 +527,11 @@
             case K_DOC_ID_FALTANTE:
               register = createRegister();
 
-              register.setFilter("cfg_grupo:" + sq(C_GRUPOGENERAL) + ", cfg_aspecto:" + sq(C_DOCFACTURAFALTANTE) + ", emp_id:" + companyId);
+              register.setFilter("cfg_grupo:" + sq(C_GRUPO_GENERAL) + ", cfg_aspecto:" + sq(C_DOC_FACTURA_FALTANTE) + ", emp_id:" + companyId);
 
               var fields = register.getFields();
-              fields.add(CFG_GRUPO, C_GRUPOGENERAL, TEXT);
-              fields.add(C.CONFIG_KEY, C_DOCFACTURAFALTANTE, TEXT);
+              fields.add(CFG_GRUPO, C_GRUPO_GENERAL, TEXT);
+              fields.add(C.CONFIG_KEY, C_DOC_FACTURA_FALTANTE, TEXT);
               fields.add(C.CONFIG_VALUE, property.getSelectId(), TEXT);
               fields.add(EMP_ID, companyId, ID);
 
@@ -541,11 +541,11 @@
             case K_DOC_ID_SOBRANTE:
               register = createRegister();
 
-              register.setFilter("cfg_grupo:" + sq(C_GRUPOGENERAL) + ", cfg_aspecto:" + sq(C_DOCMOVIMIENTOSOBRANTE) + ", emp_id:" + companyId);
+              register.setFilter("cfg_grupo:" + sq(C_GRUPO_GENERAL) + ", cfg_aspecto:" + sq(C_DOC_MOVIMIENTO_SOBRANTE) + ", emp_id:" + companyId);
 
               var fields = register.getFields();
-              fields.add(CFG_GRUPO, C_GRUPOGENERAL, TEXT);
-              fields.add(C.CONFIG_KEY, C_DOCMOVIMIENTOSOBRANTE, TEXT);
+              fields.add(CFG_GRUPO, C_GRUPO_GENERAL, TEXT);
+              fields.add(C.CONFIG_KEY, C_DOC_MOVIMIENTO_SOBRANTE, TEXT);
               fields.add(C.CONFIG_VALUE, property.getSelectId(), TEXT);
               fields.add(EMP_ID, companyId, ID);
 
@@ -555,11 +555,11 @@
             case K_DOC_ID_TICKETS:
               register = createRegister();
 
-              register.setFilter("cfg_grupo:" + sq(C_GRUPOGENERAL) + ", cfg_aspecto:" + sq(C_DOCMOVIMIENTOTICKET) + ", emp_id:" + companyId);
+              register.setFilter("cfg_grupo:" + sq(C_GRUPO_GENERAL) + ", cfg_aspecto:" + sq(C_DOC_MOVIMIENTO_TICKET) + ", emp_id:" + companyId);
 
               var fields = register.getFields();
-              fields.add(CFG_GRUPO, C_GRUPOGENERAL, TEXT);
-              fields.add(C.CONFIG_KEY, C_DOCMOVIMIENTOTICKET, TEXT);
+              fields.add(CFG_GRUPO, C_GRUPO_GENERAL, TEXT);
+              fields.add(C.CONFIG_KEY, C_DOC_MOVIMIENTO_TICKET, TEXT);
               fields.add(C.CONFIG_VALUE, property.getSelectId(), TEXT);
               fields.add(EMP_ID, companyId, ID);
 
@@ -569,11 +569,11 @@
             case K_PR_ID_FALTANTES:
               register = createRegister();
 
-              register.setFilter("cfg_grupo:" + sq(C_GRUPOGENERAL) + ", cfg_aspecto:" + sq(C_PRIDFALTANTE) + ", emp_id:" + companyId);
+              register.setFilter("cfg_grupo:" + sq(C_GRUPO_GENERAL) + ", cfg_aspecto:" + sq(C_PR_ID_FALTANTE) + ", emp_id:" + companyId);
 
               var fields = register.getFields();
-              fields.add(CFG_GRUPO, C_GRUPOGENERAL, TEXT);
-              fields.add(C.CONFIG_KEY, C_PRIDFALTANTE, TEXT);
+              fields.add(CFG_GRUPO, C_GRUPO_GENERAL, TEXT);
+              fields.add(C.CONFIG_KEY, C_PR_ID_FALTANTE, TEXT);
               fields.add(C.CONFIG_VALUE, property.getSelectId(), TEXT);
               fields.add(EMP_ID, companyId, ID);
 
@@ -583,11 +583,11 @@
             case K_CUE_ID_SOBRANTES:
               register = createRegister();
 
-              register.setFilter("cfg_grupo:" + sq(C_GRUPOGENERAL) + ", cfg_aspecto:" + sq(C_CUEIDSOBRANTE) + ", emp_id:" + companyId);
+              register.setFilter("cfg_grupo:" + sq(C_GRUPO_GENERAL) + ", cfg_aspecto:" + sq(C_CUE_ID_SOBRANTE) + ", emp_id:" + companyId);
 
               var fields = register.getFields();
-              fields.add(CFG_GRUPO, C_GRUPOGENERAL, TEXT);
-              fields.add(C.CONFIG_KEY, C_CUEIDSOBRANTE, TEXT);
+              fields.add(CFG_GRUPO, C_GRUPO_GENERAL, TEXT);
+              fields.add(C.CONFIG_KEY, C_CUE_ID_SOBRANTE, TEXT);
               fields.add(C.CONFIG_VALUE, property.getSelectId(), TEXT);
               fields.add(EMP_ID, companyId, ID);
 
@@ -597,11 +597,11 @@
             case K_CUE_ID_TICKETS:
               register = createRegister();
 
-              register.setFilter("cfg_grupo:" + sq(C_GRUPOGENERAL) + ", cfg_aspecto:" + sq(C_CUEIDTICKETS) + ", emp_id:" + companyId);
+              register.setFilter("cfg_grupo:" + sq(C_GRUPO_GENERAL) + ", cfg_aspecto:" + sq(C_CUE_ID_TICKETS) + ", emp_id:" + companyId);
 
               var fields = register.getFields();
-              fields.add(CFG_GRUPO, C_GRUPOGENERAL, TEXT);
-              fields.add(C.CONFIG_KEY, C_CUEIDTICKETS, TEXT);
+              fields.add(CFG_GRUPO, C_GRUPO_GENERAL, TEXT);
+              fields.add(C.CONFIG_KEY, C_CUE_ID_TICKETS, TEXT);
               fields.add(C.CONFIG_VALUE, property.getSelectId(), TEXT);
               fields.add(EMP_ID, companyId, ID);
 
@@ -611,11 +611,11 @@
             case K_COBRANZA_POR_CAJERO:
               register = createRegister();
 
-              register.setFilter("cfg_grupo:" + sq(C_GRUPOGENERAL) + ", cfg_aspecto:" + sq(C_COBRANZAPORCAJERO));
+              register.setFilter("cfg_grupo:" + sq(C_GRUPO_GENERAL) + ", cfg_aspecto:" + sq(C_COBRANZA_POR_CAJERO));
 
               var fields = register.getFields();
-              fields.add(CFG_GRUPO, C_GRUPOGENERAL, TEXT);
-              fields.add(C.CONFIG_KEY, C_COBRANZAPORCAJERO, TEXT);
+              fields.add(CFG_GRUPO, C_GRUPO_GENERAL, TEXT);
+              fields.add(C.CONFIG_KEY, C_COBRANZA_POR_CAJERO, TEXT);
               fields.add(C.CONFIG_VALUE, property.getValue(), TEXT);
 
               transaction.addRegister(register);
@@ -624,11 +624,11 @@
             case K_COBRANZA_POR_CAJERO:
               register = createRegister();
 
-              register.setFilter("cfg_grupo:" + sq(C_GRUPOGENERAL) + ", cfg_aspecto:" + sq(C_COBRANZAPORCAJERO));
+              register.setFilter("cfg_grupo:" + sq(C_GRUPO_GENERAL) + ", cfg_aspecto:" + sq(C_COBRANZA_POR_CAJERO));
 
               var fields = register.getFields();
-              fields.add(CFG_GRUPO, C_GRUPOGENERAL, TEXT);
-              fields.add(C.CONFIG_KEY, C_COBRANZAPORCAJERO, TEXT);
+              fields.add(CFG_GRUPO, C_GRUPO_GENERAL, TEXT);
+              fields.add(C.CONFIG_KEY, C_COBRANZA_POR_CAJERO, TEXT);
               fields.add(C.CONFIG_VALUE, property.getValue(), TEXT);
 
               transaction.addRegister(register);
@@ -637,11 +637,11 @@
             case K_VENTAS_POR_HOJADERUTA:
               register = createRegister();
 
-              register.setFilter("cfg_grupo:" + sq(C_GRUPOGENERAL) + ", cfg_aspecto:" + sq(C_VENTASPORHOJADERUTA));
+              register.setFilter("cfg_grupo:" + sq(C_GRUPO_GENERAL) + ", cfg_aspecto:" + sq(C_VENTAS_POR_HOJA_DE_RUTA));
 
               var fields = register.getFields();
-              fields.add(CFG_GRUPO, C_GRUPOGENERAL, TEXT);
-              fields.add(C.CONFIG_KEY, C_VENTASPORHOJADERUTA, TEXT);
+              fields.add(CFG_GRUPO, C_GRUPO_GENERAL, TEXT);
+              fields.add(C.CONFIG_KEY, C_VENTAS_POR_HOJA_DE_RUTA, TEXT);
               fields.add(C.CONFIG_VALUE, property.getValue(), TEXT);
 
               transaction.addRegister(register);
@@ -658,7 +658,7 @@
             register,
             false,
             "",
-            Cairo.Constants.CLIENT_SAVE_FUNCTION,
+            C.CLIENT_SAVE_FUNCTION,
             C_MODULE,
             getText(2301, "") // Error al grabar la Configuración General
 
@@ -684,10 +684,10 @@
           var row = rows.item(_i);
           var register = createRegister();
 
-          register.setFilter("cfg_grupo:" + sq(C_GRUPOGENERAL) + ", cfg_aspecto:" + sq(C_PERCEPCION));
+          register.setFilter("cfg_grupo:" + sq(C_GRUPO_GENERAL) + ", cfg_aspecto:" + sq(C_PERCEPCION));
 
           var fields = register.getFields();
-          fields.add(CFG_GRUPO, C_GRUPOGENERAL, TEXT);
+          fields.add(CFG_GRUPO, C_GRUPO_GENERAL, TEXT);
           fields.add(C.CONFIG_KEY, C_PERCEPCION, TEXT);
           fields.add(C.CONFIG_VALUE, Dialogs.cell(row, KI_PERC_ID).getId(), TEXT);
           fields.add(EMP_ID, companyId, ID);
@@ -719,7 +719,7 @@
 
           switch (property.getKey()) {
             case K_CUE_ID_DESCUENTO:
-              if(property.getSelectId() == Cairo.Constants.NO_ID) {
+              if(property.getSelectId() === NO_ID) {
                 return Cairo.Modal.showWarningWithFalse(Cairo.Language.getText(3204, ""));
                 // Debe indicar una cuenta para que Cairo pueda
                 // grabar(cCobranzaInfo.getFacturas() con descuentos globales.;; Los parámetros se guardarán de todas formas.);
@@ -737,7 +737,7 @@
           function(response) {
 
             if(response.success === true) {
-              m_cueIdDescGlobal = Cairo.Constants.NO_ID;
+              m_cueIdDescGlobal = NO_ID;
               m_cuentaDescGlobal = "";
               m_grabarAsiento = false;
               m_aplicClienteFamilia = false;
@@ -750,17 +750,17 @@
               m_cobranzaPorCajero = false;
               m_ventasPorHojadeRuta = false;
 
-              m_docIdFaltante = Cairo.Constants.NO_ID;
-              m_docIdSobrante = Cairo.Constants.NO_ID;
-              m_docIdTickets = Cairo.Constants.NO_ID;
+              m_docIdFaltante = NO_ID;
+              m_docIdSobrante = NO_ID;
+              m_docIdTickets = NO_ID;
 
               m_docTickets = "";
               m_docSobrante = "";
               m_docFaltante = "";
 
-              m_prIdFaltantes = Cairo.Constants.NO_ID;
-              m_cueIdSobrantes = Cairo.Constants.NO_ID;
-              m_cueIdTickets = Cairo.Constants.NO_ID;
+              m_prIdFaltantes = NO_ID;
+              m_cueIdSobrantes = NO_ID;
+              m_cueIdTickets = NO_ID;
 
               m_cuentaTickets = "";
               m_cuentaSobrantes = "";
@@ -778,53 +778,53 @@
 
                 switch (getValue(settings[_i], C.CONFIG_KEY)) {
 
-                  case C_CUEIDDESCGLOBAL:
+                  case C_CUE_ID_DESC_GLOBAL:
                     var value = getValue(settings[_i], C.CONFIG_VALUE);
                     m_cueIdDescGlobal = value.id;
                     m_cuentaDescGlobal = value.name;
                     break;
 
-                  case C_GRABARASIENTO:
+                  case C_GRABAR_ASIENTO:
                     m_grabarAsiento = bool(getValue(settings[_i], C.CONFIG_VALUE));
                     break;
 
-                  case C_WEBUSERMAILLEYENDA:
+                  case C_WEB_USER_MAIL_LEYENDA:
                     m_webUserMailLeyenda = getValue(settings[_i], C.CONFIG_VALUE);
                     break;
 
-                  case C_EXIGIRCAJA:
+                  case C_EXIGIR_CAJA:
                     m_exigirCaja = bool(getValue(settings[_i], C.CONFIG_VALUE));
                     break;
 
-                  case C_COBRANZAPORCAJERO:
+                  case C_COBRANZA_POR_CAJERO:
                     m_cobranzaPorCajero = bool(getValue(settings[_i], C.CONFIG_VALUE));
                     break;
 
-                  case C_VENTASPORHOJADERUTA:
+                  case C_VENTAS_POR_HOJA_DE_RUTA:
                     m_ventasPorHojadeRuta = bool(getValue(settings[_i], C.CONFIG_VALUE));
                     break;
 
-                  case C_EXIGIRCENTRO_COSTO:
+                  case C_EXIGIR_CENTRO_COSTO:
                     m_exigirCentroCosto = bool(getValue(settings[_i], C.CONFIG_VALUE));
                     break;
 
-                  case C_APLICCLIENTEFAMILIA:
+                  case C_APLIC_CLIENTE_FAMILIA:
                     m_aplicClienteFamilia = bool(getValue(settings[_i], C.CONFIG_VALUE));
                     break;
 
-                  case C_REDONDEOENPRECIOS:
+                  case C_REDONDEO_EN_PRECIOS:
                     m_redondoEnPrecios = bool(getValue(settings[_i], C.CONFIG_VALUE));
                     break;
 
-                  case C_USARLISTAPRECIOPRECIO:
+                  case C_USAR_LISTA_PRECIO_PRECIO:
                     m_usarListaPrecioPrecio = bool(getValue(settings[_i], C.CONFIG_VALUE));
                     break;
 
-                  case C_DECIMALESENPRECIOS:
+                  case C_DECIMALES_EN_PRECIOS:
                     m_decimalesEnPrecio = val(getValue(settings[_i], C.CONFIG_VALUE));
                     break;
 
-                  case C_RESTOENTERO:
+                  case C_RESTO_ENTERO:
                     m_restoEntero = val(getValue(settings[_i], C.CONFIG_VALUE));
                     break;
 
@@ -896,7 +896,7 @@
             });
         }
         catch(ex) {
-          Cairo.manageErrorEx(ex.message, ex, Cairo.Constants.EDIT_FUNCTION, C_MODULE, "");
+          Cairo.manageErrorEx(ex.message, ex, C.EDIT_FUNCTION, C_MODULE, "");
         }
 
         return p;
@@ -919,7 +919,7 @@
 
         var tab = w_tabs.add(null);
         tab.setIndex(tab_general);
-        tab.setName(Cairo.Constants.TAB_GENERAL);
+        tab.setName(C.TAB_GENERAL);
 
         var tab = w_tabs.add(null);
         tab.setIndex(tab_percepcion);
@@ -937,7 +937,7 @@
 
         properties.clear();
 
-        var elem = properties.add(null, C_CUEIDDESCGLOBAL);
+        var elem = properties.add(null, C_CUE_ID_DESC_GLOBAL);
         elem.setType(T.select);
         elem.setSelectTable(Cairo.Tables.CUENTA);
         elem.setName(Cairo.Language.getText(3094, "")); // Cuenta de descuento global
@@ -945,31 +945,31 @@
         elem.setSelectId(m_cueIdDescGlobal);
         elem.setValue(m_cuentaDescGlobal);
 
-        var elem = properties.add(null, C_GRABARASIENTO);
+        var elem = properties.add(null, C_GRABAR_ASIENTO);
         elem.setType(T.check);
         elem.setName(Cairo.Language.getText(3095, "")); // Grabar asiento al grabar la factura
         elem.setKey(K_GRABAR_ASIENTO);
         elem.setValue(Cairo.Util.boolToInt(m_grabarAsiento));
 
-        var elem = properties.add(null, C_APLICCLIENTEFAMILIA);
+        var elem = properties.add(null, C_APLIC_CLIENTE_FAMILIA);
         elem.setType(T.check);
         elem.setName(Cairo.Language.getText(3477, "")); // Aplicaciones entre Clientes de un Grupo
         elem.setKey(K_APLIC_CLIENTE_FAMILIA);
         elem.setValue(Cairo.Util.boolToInt(m_aplicClienteFamilia));
 
-        var elem = properties.add(null, C_USARLISTAPRECIOPRECIO);
+        var elem = properties.add(null, C_USAR_LISTA_PRECIO_PRECIO);
         elem.setType(T.check);
         elem.setName(Cairo.Language.getText(3597, "")); // Usar Cache de Precios
         elem.setKey(K_USAR_LISTAPRECIOPRECIO);
         elem.setValue(Cairo.Util.boolToInt(m_usarListaPrecioPrecio));
 
-        var elem = properties.add(null, C_REDONDEOENPRECIOS);
+        var elem = properties.add(null, C_REDONDEO_EN_PRECIOS);
         elem.setType(T.check);
         elem.setName(Cairo.Language.getText(3577, "")); // Redondear Decimales en Precios
         elem.setKey(K_REDONDEO_EN_PRECIOS);
         elem.setValue(Cairo.Util.boolToInt(m_redondoEnPrecios));
 
-        var elem = properties.add(null, C_DECIMALESENPRECIOS);
+        var elem = properties.add(null, C_DECIMALES_EN_PRECIOS);
         elem.setType(T.numeric);
         elem.setSubType(Dialogs.PropertySubType.integer);
         elem.setName(Cairo.Language.getText(3578, "")); // Decimales en precio
@@ -977,7 +977,7 @@
         elem.setValue(m_decimalesEnPrecio);
         elem.setEnabled(m_redondoEnPrecios);
 
-        var elem = properties.add(null, C_RESTOENTERO);
+        var elem = properties.add(null, C_RESTO_ENTERO);
         elem.setType(T.numeric);
         elem.setSubType(Dialogs.PropertySubType.double);
         elem.setName(Cairo.Language.getText(3579, "")); // Restar a precios enteros
@@ -985,34 +985,34 @@
         elem.setValue(m_restoEntero);
         elem.setEnabled(m_redondoEnPrecios);
 
-        var elem = properties.add(null, C_WEBUSERMAILLEYENDA);
+        var elem = properties.add(null, C_WEB_USER_MAIL_LEYENDA);
         elem.setType(T.text);
         elem.setSubType(Dialogs.PropertySubType.memo);
         elem.setName(Cairo.Language.getText(3206, "")); // Leyenda para Usuarios de la Intranet
         elem.setKey(K_WEBMAIL_LEYENDA);
         elem.setValue(m_webUserMailLeyenda);
 
-        var elem = properties.add(null, C_EXIGIRCAJA);
+        var elem = properties.add(null, C_EXIGIR_CAJA);
         elem.setType(T.check);
-        elem.setName(C_EXIGIRCAJA);
+        elem.setName(C_EXIGIR_CAJA);
         elem.setValue(Cairo.Util.boolToInt(m_exigirCaja));
         elem.setKey(K_EXIGIR_CAJA);
 
-        var elem = properties.add(null, C_COBRANZAPORCAJERO);
+        var elem = properties.add(null, C_COBRANZA_POR_CAJERO);
         elem.setType(T.check);
-        elem.setName(C_COBRANZAPORCAJERO);
+        elem.setName(C_COBRANZA_POR_CAJERO);
         elem.setValue(Cairo.Util.boolToInt(m_cobranzaPorCajero));
         elem.setKey(K_COBRANZA_POR_CAJERO);
 
-        var elem = properties.add(null, C_VENTASPORHOJADERUTA);
+        var elem = properties.add(null, C_VENTAS_POR_HOJA_DE_RUTA);
         elem.setType(T.check);
-        elem.setName(C_VENTASPORHOJADERUTA);
+        elem.setName(C_VENTAS_POR_HOJA_DE_RUTA);
         elem.setValue(Cairo.Util.boolToInt(m_ventasPorHojadeRuta));
         elem.setKey(K_VENTAS_POR_HOJADERUTA);
 
-        var elem = properties.add(null, C_EXIGIRCENTRO_COSTO);
+        var elem = properties.add(null, C_EXIGIR_CENTRO_COSTO);
         elem.setType(T.check);
-        elem.setName(C_EXIGIRCENTRO_COSTO);
+        elem.setName(C_EXIGIR_CENTRO_COSTO);
         elem.setValue(Cairo.Util.boolToInt(m_exigirCentroCosto));
         elem.setKey(K_EXIGIR_CENTRO_COSTO);
 
@@ -1090,8 +1090,6 @@
         elem.setId(C.CategoriaFiscal.inscriptoM);
         elem.setValue(getText(1192, "")); // Inscripto M
 
-        var filter = null;
-
         var elem = properties.add(null, C.CPG_ID);
         elem.setType(T.select);
         elem.setSelectTable(Cairo.Tables.CONDICIONES_DE_PAGO);
@@ -1105,7 +1103,7 @@
         elem.setType(T.select);
         elem.setSelectTable(Cairo.Tables.LISTAS_DE_PRECIOS);
 
-        filter = "lp_tipo = 1";
+        var filter = "lp_tipo = 1";
 
         elem.setSelectFilter(filter);
         elem.setName(Cairo.Language.getText(1397, "")); // Lista de precios
@@ -1132,7 +1130,7 @@
         elem.setSelectId(m_zonId);
         elem.setTabIndex(tab_clientesPV);
 
-        var elem = properties.add(null, C_DOCFACTURAFALTANTE);
+        var elem = properties.add(null, C_DOC_FACTURA_FALTANTE);
         elem.setType(T.select);
         elem.setTable(Cairo.Tables.DOCUMENTO);
         elem.setSelectFilter("doct_id = 1");
@@ -1142,7 +1140,7 @@
         elem.setSelectId(m_docIdFaltante);
         elem.setTabIndex(tab_hojaRuta);
 
-        var elem = properties.add(null, C_DOCMOVIMIENTOSOBRANTE);
+        var elem = properties.add(null, C_DOC_MOVIMIENTO_SOBRANTE);
         elem.setType(T.select);
         elem.setTable(Cairo.Tables.DOCUMENTO);
         elem.setSelectFilter("doct_id = 26");
@@ -1152,7 +1150,7 @@
         elem.setSelectId(m_docIdSobrante);
         elem.setTabIndex(tab_hojaRuta);
 
-        var elem = properties.add(null, C_DOCMOVIMIENTOTICKET);
+        var elem = properties.add(null, C_DOC_MOVIMIENTO_TICKET);
         elem.setType(T.select);
         elem.setTable(Cairo.Tables.DOCUMENTO);
         elem.setSelectFilter("doct_id = 26");
@@ -1162,7 +1160,7 @@
         elem.setSelectId(m_docIdTickets);
         elem.setTabIndex(tab_hojaRuta);
 
-        var elem = properties.add(null, C_PRIDFALTANTE);
+        var elem = properties.add(null, C_PR_ID_FALTANTE);
         elem.setType(T.select);
         elem.setSelectTable(Cairo.Tables.PRODUCTOS_DE_VENTA);
         elem.setName(Cairo.Language.getText(4942, "")); // Articulo para Faltantes en Rendiciones
@@ -1171,7 +1169,7 @@
         elem.setSelectId(m_prIdFaltantes);
         elem.setTabIndex(tab_hojaRuta);
 
-        var elem = properties.add(null, C_CUEIDSOBRANTE);
+        var elem = properties.add(null, C_CUE_ID_SOBRANTE);
         elem.setType(T.select);
         elem.setSelectTable(Cairo.Tables.CUENTA);
         elem.setName(Cairo.Language.getText(4943, "")); // Cuenta para Sobrantes en Rendiciones
@@ -1180,7 +1178,7 @@
         elem.setSelectId(m_cueIdSobrantes);
         elem.setTabIndex(tab_hojaRuta);
 
-        var elem = properties.add(null, C_CUEIDTICKETS);
+        var elem = properties.add(null, C_CUE_ID_TICKETS);
         elem.setType(T.select);
         elem.setSelectTable(Cairo.Tables.CUENTA);
         elem.setName(Cairo.Language.getText(4944, "")); // Cuenta para Tickets en Rendiciones
@@ -1212,8 +1210,8 @@
         grid.getRows().clear();
       }
 
-      var loadPercepcion = function(grid) {
-        var rows = grid.getRows();
+      var loadPercepcion = function(property) {
+        var rows = property.getGrid().getRows();
         rows.clear();
 
         for(var _i = 0; _i < m_settings.length; _i += 1) {
@@ -1241,41 +1239,41 @@
 
         var properties = m_dialog.getProperties();
 
-        var elem = properties.item(C_CUEIDDESCGLOBAL);
+        var elem = properties.item(C_CUE_ID_DESC_GLOBAL);
         elem.setSelectId(m_cueIdDescGlobal);
         elem.setValue(m_cuentaDescGlobal);
 
-        var elem = properties.item(C_GRABARASIENTO);
+        var elem = properties.item(C_GRABAR_ASIENTO);
         elem.setValue(Cairo.Util.boolToInt(m_grabarAsiento));
 
-        var elem = properties.item(C_APLICCLIENTEFAMILIA);
+        var elem = properties.item(C_APLIC_CLIENTE_FAMILIA);
         elem.setValue(Cairo.Util.boolToInt(m_aplicClienteFamilia));
 
-        var elem = properties.item(C_USARLISTAPRECIOPRECIO);
+        var elem = properties.item(C_USAR_LISTA_PRECIO_PRECIO);
         elem.setValue(Cairo.Util.boolToInt(m_usarListaPrecioPrecio));
 
-        var elem = properties.item(C_REDONDEOENPRECIOS);
+        var elem = properties.item(C_REDONDEO_EN_PRECIOS);
         elem.setValue(Cairo.Util.boolToInt(m_redondoEnPrecios));
 
-        var elem = properties.item(C_DECIMALESENPRECIOS);
+        var elem = properties.item(C_DECIMALES_EN_PRECIOS);
         elem.setValue(m_decimalesEnPrecio);
 
-        var elem = properties.item(C_RESTOENTERO);
+        var elem = properties.item(C_RESTO_ENTERO);
         elem.setValue(m_restoEntero);
 
-        var elem = properties.item(C_WEBUSERMAILLEYENDA);
+        var elem = properties.item(C_WEB_USER_MAIL_LEYENDA);
         elem.setValue(m_webUserMailLeyenda);
 
-        var elem = properties.item(C_EXIGIRCAJA);
+        var elem = properties.item(C_EXIGIR_CAJA);
         elem.setValue(Cairo.Util.boolToInt(m_exigirCaja));
 
-        var elem = properties.item(C_COBRANZAPORCAJERO);
+        var elem = properties.item(C_COBRANZA_POR_CAJERO);
         elem.setValue(Cairo.Util.boolToInt(m_cobranzaPorCajero));
 
-        var elem = properties.item(C_VENTASPORHOJADERUTA);
+        var elem = properties.item(C_VENTAS_POR_HOJA_DE_RUTA);
         elem.setValue(Cairo.Util.boolToInt(m_ventasPorHojadeRuta));
 
-        var elem = properties.item(C_EXIGIRCENTRO_COSTO);
+        var elem = properties.item(C_EXIGIR_CENTRO_COSTO);
         elem.setValue(Cairo.Util.boolToInt(m_exigirCentroCosto));
 
         var elem = properties.item(C.CLI_RAZONSOCIAL);
@@ -1300,27 +1298,27 @@
         elem.setValue(m_zona);
         elem.setSelectId(m_zonId);
 
-        var elem = properties.item(C_DOCFACTURAFALTANTE);
+        var elem = properties.item(C_DOC_FACTURA_FALTANTE);
         elem.setValue(m_docFaltante);
         elem.setSelectId(m_docIdFaltante);
 
-        var elem = properties.item(C_DOCMOVIMIENTOSOBRANTE);
+        var elem = properties.item(C_DOC_MOVIMIENTO_SOBRANTE);
         elem.setValue(m_docSobrante);
         elem.setSelectId(m_docIdSobrante);
 
-        var elem = properties.item(C_DOCMOVIMIENTOTICKET);
+        var elem = properties.item(C_DOC_MOVIMIENTO_TICKET);
         elem.setValue(m_docTickets);
         elem.setSelectId(m_docIdTickets);
 
-        var elem = properties.item(C_PRIDFALTANTE);
+        var elem = properties.item(C_PR_ID_FALTANTE);
         elem.setValue(m_productoFaltantes);
         elem.setSelectId(m_prIdFaltantes);
 
-        var elem = properties.item(C_CUEIDSOBRANTE);
+        var elem = properties.item(C_CUE_ID_SOBRANTE);
         elem.setValue(m_cuentaSobrantes);
         elem.setSelectId(m_cueIdSobrantes);
 
-        var elem = properties.item(C_CUEIDTICKETS);
+        var elem = properties.item(C_CUE_ID_TICKETS);
         elem.setValue(m_cuentaTickets);
         elem.setSelectId(m_cueIdTickets);
 

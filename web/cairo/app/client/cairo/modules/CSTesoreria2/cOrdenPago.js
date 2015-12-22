@@ -1350,7 +1350,7 @@
         // CHEQUES
         c = properties.add(null, C_CHEQUES);
         c.setType(Dialogs.PropertyType.grid);
-        c.setLeftLabel(-1);
+        c.hideLabel();
         setGridCheques(c);
         if(!pLoadCheques(c)) { return false; }
         c.setName(C_CHEQUES);
@@ -1366,7 +1366,7 @@
         // EFECTIVO
         c = properties.add(null, C_EFECTIVO);
         c.setType(Dialogs.PropertyType.grid);
-        c.setLeftLabel(-1);
+        c.hideLabel();
         setGridEfectivo(c);
         if(!pLoadEfectivo(c)) { return false; }
         c.setName(C_EFECTIVO);
@@ -1382,7 +1382,7 @@
         // CHEQUES DE TERCERO
         c = properties.add(null, C_CHEQUEST);
         c.setType(Dialogs.PropertyType.grid);
-        c.setLeftLabel(-1);
+        c.hideLabel();
         setGridTCheques(c);
         if(!pLoadTCheques(c)) { return false; }
         c.setName(C_CHEQUEST);
@@ -1397,7 +1397,7 @@
         // OTROS
         c = properties.add(null, C_OTROS);
         c.setType(Dialogs.PropertyType.grid);
-        c.setLeftLabel(-1);
+        c.hideLabel();
         setGridOtros(c);
         if(!pLoadOtros(c)) { return false; }
         c.setName(C_OTROS);
@@ -1413,7 +1413,7 @@
         // CTA CTE
         c = properties.add(null, C_CTA_CTE);
         c.setType(Dialogs.PropertyType.grid);
-        c.setLeftLabel(-1);
+        c.hideLabel();
         setGridCtaCte(c);
         if(!pLoadCtaCte(c)) { return false; }
         c.setName(C_CTA_CTE);

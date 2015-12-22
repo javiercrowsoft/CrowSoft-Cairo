@@ -13,29 +13,30 @@
       var DB = Cairo.Database;
       var C = Cairo.General.Constants;
       var CT = Cairo.Tesoreria.Constants;
-      var NO_ID = C.NO_ID;
+      var NO_ID = Cairo.Constants.NO_ID;
       var T = Dialogs.PropertyType;
+      var D = Cairo.Documents;
 
       var C_MODULE = "cTesoreriaConfigEdit";
 
       var K_CUE_ID_DIFCAMBIO = 1;
-      var K_DOC_ID_NC_DIFCAMBIO = 2;
-      var K_DOC_ID_ND_DIFCAMBIO = 3;
-      var K_DEFAULT_DIFCAMBIO = 4;
-      var K_MODO_IVA_DIFCAMBIO = 5;
-      var K_APLICACION_DIFCAMBIO = 101;
-      var K_PR_ID_DIFCAMBIO = 6;
+      var K_DOC_ID_NC_DIF_CAMBIO = 2;
+      var K_DOC_ID_ND_DIF_CAMBIO = 3;
+      var K_DEFAULT_DIF_CAMBIO = 4;
+      var K_MODO_IVA_DIF_CAMBIO = 5;
+      var K_APLICACION_DIF_CAMBIO = 101;
+      var K_PR_ID_DIF_CAMBIO = 6;
 
       var K_DOC_ID_COBRANZA = 7;
-      var K_DOC_ID_ORDENPAGO = 8;
+      var K_DOC_ID_ORDEN_PAGO = 8;
 
       var K_GRABAR_ASIENTO_COBRANZA = 9;
-      var K_GRABAR_ASIENTO_ORDENPAGO = 10;
-      var K_GRABAR_ASIENTO_MOVIMIENTOFONDO = 11;
+      var K_GRABAR_ASIENTO_ORDEN_PAGO = 10;
+      var K_GRABAR_ASIENTO_MOVIMIENTO_FONDO = 11;
       var K_GRABAR_ASIENTO_RENDICION = 12;
-      var K_GRABAR_ASIENTO_DEPOSITOBANCO = 13;
-      var K_GRABAR_ASIENTO_DEPOSITOCUPON = 14;
-      var K_GRABAR_ASIENTO_RESOLUCIONCUPON = 15;
+      var K_GRABAR_ASIENTO_DEPOSITO_BANCO = 13;
+      var K_GRABAR_ASIENTO_DEPOSITO_CUPON = 14;
+      var K_GRABAR_ASIENTO_RESOLUCION_CUPON = 15;
 
       var K_CALCULAR_RETENCIONES = 16;
       var K_RET_ID = 17;
@@ -46,40 +47,38 @@
 
       var K_GRABAR_ASIENTO_AGRUPADO = 20;
 
-      var K_EXIGIR_CENTROCOSTO = 21;
+      var K_EXIGIR_CENTRO_COSTO = 21;
       var K_COBRANZAS_XHOJARUTA = 22;
 
-      var CSTBLDOCUMENTO = 4001;
+      var C_GRUPO_GENERAL = "Tesoreria-General";
+      var C_CUE_ID_DIF_CAMBIO = "Cuenta contable";
+      var C_NC_DIF_CAMBIO = "Nota de credito";
+      var C_ND_DIF_CAMBIO = "Nota de debito";
+      var C_DEFAULT_DIF_CAMBIO = "Utilizar";
+      var C_MODO_IVA_DIF_CAMBIO = "Tratamiento del Iva";
+      var C_APLICACION_DIF_CAMBIO = "Aplicación Dif. Cambio";
+      var C_PR_ID_DIF_CAMBIO = "Articulo";
 
-      var C_GRUPOGENERAL = "Tesoreria-General";
-      var C_CUEIDDIFCAMBIO = "Cuenta contable";
-      var C_NCDIFCAMBIO = "Nota de credito";
-      var C_NDDIFCAMBIO = "Nota de debito";
-      var C_DEFAULTDIFCAMBIO = "Utilizar";
-      var C_MODOIVADIFCAMBIO = "Tratamiento del Iva";
-      var C_APLICACIONDIFCAMBIO = "Aplicación Dif. Cambio";
-      var C_PRIDDIFCAMBIO = "Articulo";
+      var C_GRABAR_ASIENTO_COBRANZA = "Cobranza-Grabar Asiento";
+      var C_GRABAR_ASIENTO_ORDEN_PAGO = "OrdenPago-Grabar Asiento";
+      var C_GRABAR_ASIENTO_MOVIMIENTO_FONDO = "MovimientoFondo-Grabar Asiento";
+      var C_GRABAR_ASIENTO_RENDICION = "Rendicion-Grabar Asiento";
+      var C_GRABAR_ASIENTO_DEPOSITO_BANCO = "DepositoBanco-Grabar Asiento";
+      var C_GRABAR_ASIENTO_DEPOSITO_CUPON = "DepositoCupon-Grabar Asiento";
+      var C_GRABAR_ASIENTO_RESOLUCION_CUPON = "ResolucionCupon-Grabar Asiento";
+      var C_GRABAR_ASIENTO_AGRUPADO = "Asiento Agrupado";
 
-      var C_GRABARASIENTOCOBRANZA = "Cobranza-Grabar Asiento";
-      var C_GRABARASIENTOORDENPAGO = "OrdenPago-Grabar Asiento";
-      var C_GRABARASIENTOMOVIMIENTOFONDO = "MovimientoFondo-Grabar Asiento";
-      var C_GRABARASIENTORENDICION = "Rendicion-Grabar Asiento";
-      var C_GRABARASIENTODEPOSITOBANCO = "DepositoBanco-Grabar Asiento";
-      var C_GRABARASIENTODEPOSITOCUPON = "DepositoCupon-Grabar Asiento";
-      var C_GRABARASIENTORESOLUCIONCUPON = "ResolucionCupon-Grabar Asiento";
-      var C_GRABARASIENTOAGRUPADO = "Asiento Agrupado";
-
-      var C_CALCULARRETENCIONES = "Calcular Retenciones";
+      var C_CALCULAR_RETENCIONES = "Calcular Retenciones";
       var C_RETENCION = "Retencion";
 
-      var C_DOCIDCOBRANZA = "Cobranza";
-      var C_DOCIDORDENPAGO = "Orden Pago";
+      var C_DOC_ID_COBRANZA = "Cobranza";
+      var C_DOC_ID_ORDEN_PAGO = "Orden Pago";
 
-      var C_CUENTAANTICIPOCOBRANZA = "Cuenta Anticipo Cobranzas";
-      var C_CUENTAANTICIPOPAGOS = "Cuenta Anticipo Ordenes de Pago";
+      var C_CUENTA_ANTICIPO_COBRANZA = "Cuenta Anticipo Cobranzas";
+      var C_CUENTA_ANTICIPO_PAGOS = "Cuenta Anticipo Ordenes de Pago";
 
-      var C_EXIGIRCENTROCOSTO = "Exigir Centro Costo";
-      var C_COBRANZASXHOJARUTA = "Cobranzas por Hoja de Ruta";
+      var C_EXIGIR_CENTRO_COSTO = "Exigir Centro Costo";
+      var C_COBRANZAS_X_HOJA_RUTA = "Cobranzas por Hoja de Ruta";
 
       var m_cueIdDifCambio = 0;
       var m_cuentaDifCambio = "";
@@ -138,8 +137,8 @@
 
       var CFG_GRUPO = C.CFG_GRUPO;
       var EMP_ID = C.EMP_ID;
-      var TEXT = C.Types.text;
-      var ID = C.Types.id;
+      var TEXT = Cairo.Constants.Types.text;
+      var ID = Cairo.Constants.Types.id;
 
       self.getCueIdDifCambio = function() {
         return m_cueIdDifCambio;
@@ -286,7 +285,7 @@
         return false;
       };
 
-      self.messageEx = function(messageId,  info) {
+      self.messageEx = function(messageId, info) {
         return true;
       };
 
@@ -303,7 +302,7 @@
         register.setTable(C.CONFIGURACION);
         return register;
       };
-      
+
       self.save = function() {
         var register = null;
 
@@ -315,19 +314,19 @@
         transaction.setTable(C.CONFIGURACION)
 
         for(var _i = 0, _count = m_dialog.getProperties().size(); _i < _count; _i++) {
-          
+
           var property = m_dialog.getProperties().item(_i);
-          
+
           switch (property.getKey()) {
-            
+
             case K_CUE_ID_DIFCAMBIO:
               register = createRegister();
 
-              register.setFilter("cfg_grupo:" + sq(C_GRUPOGENERAL) + ", cfg_aspecto:" + sq(C_CUEIDDIFCAMBIO));
+              register.setFilter("cfg_grupo:" + sq(C_GRUPO_GENERAL) + ", cfg_aspecto:" + sq(C_CUE_ID_DIF_CAMBIO));
 
               var fields = register.getFields();
-              fields.add(C.CFG_GRUPO, C_GRUPOGENERAL, TEXT);
-              fields.add(C.CFG_ASPECTO, C_CUEIDDIFCAMBIO, TEXT);
+              fields.add(C.CFG_GRUPO, C_GRUPO_GENERAL, TEXT);
+              fields.add(C.CFG_ASPECTO, C_CUE_ID_DIF_CAMBIO, TEXT);
               fields.add(C.CFG_VALOR, property.getSelectId(), TEXT);
 
               transaction.addRegister(register);
@@ -336,106 +335,106 @@
             case K_DOC_ID_COBRANZA:
               register = createRegister();
 
-              register.setFilter("cfg_grupo:" + sq(C_GRUPOGENERAL) + ", cfg_aspecto:" + sq(C_DOCIDCOBRANZA) + ", emp_id:" + companyId);
+              register.setFilter("cfg_grupo:" + sq(C_GRUPO_GENERAL) + ", cfg_aspecto:" + sq(C_DOC_ID_COBRANZA) + ", emp_id:" + companyId);
 
               var fields = register.getFields();
-              fields.add(C.CFG_GRUPO, C_GRUPOGENERAL, TEXT);
-              fields.add(C.CFG_ASPECTO, C_DOCIDCOBRANZA, TEXT);
+              fields.add(C.CFG_GRUPO, C_GRUPO_GENERAL, TEXT);
+              fields.add(C.CFG_ASPECTO, C_DOC_ID_COBRANZA, TEXT);
               fields.add(C.CFG_VALOR, property.getSelectId(), TEXT);
               fields.add(C.EMP_ID, companyId, TEXT);
 
               transaction.addRegister(register);
               break;
 
-            case K_DOC_ID_ORDENPAGO:
+            case K_DOC_ID_ORDEN_PAGO:
               register = createRegister();
 
-              register.setFilter("cfg_grupo:" + sq(C_GRUPOGENERAL) + ", cfg_aspecto:" + sq(C_DOCIDORDENPAGO) + ", emp_id:" + companyId);
+              register.setFilter("cfg_grupo:" + sq(C_GRUPO_GENERAL) + ", cfg_aspecto:" + sq(C_DOC_ID_ORDEN_PAGO) + ", emp_id:" + companyId);
 
               var fields = register.getFields();
-              fields.add(C.CFG_GRUPO, C_GRUPOGENERAL, TEXT);
-              fields.add(C.CFG_ASPECTO, C_DOCIDORDENPAGO, TEXT);
+              fields.add(C.CFG_GRUPO, C_GRUPO_GENERAL, TEXT);
+              fields.add(C.CFG_ASPECTO, C_DOC_ID_ORDEN_PAGO, TEXT);
               fields.add(C.CFG_VALOR, property.getSelectId(), TEXT);
               fields.add(C.EMP_ID, companyId, TEXT);
 
               transaction.addRegister(register);
               break;
 
-            case K_DOC_ID_NC_DIFCAMBIO:
+            case K_DOC_ID_NC_DIF_CAMBIO:
               register = createRegister();
 
-              register.setFilter("cfg_grupo:" + sq(C_GRUPOGENERAL) + ", cfg_aspecto:" + sq(C_NCDIFCAMBIO) + ", emp_id:" + companyId);
+              register.setFilter("cfg_grupo:" + sq(C_GRUPO_GENERAL) + ", cfg_aspecto:" + sq(C_NC_DIF_CAMBIO) + ", emp_id:" + companyId);
 
               var fields = register.getFields();
-              fields.add(C.CFG_GRUPO, C_GRUPOGENERAL, TEXT);
-              fields.add(C.CFG_ASPECTO, C_NCDIFCAMBIO, TEXT);
+              fields.add(C.CFG_GRUPO, C_GRUPO_GENERAL, TEXT);
+              fields.add(C.CFG_ASPECTO, C_NC_DIF_CAMBIO, TEXT);
               fields.add(C.CFG_VALOR, property.getSelectId(), TEXT);
               fields.add(C.EMP_ID, companyId, TEXT);
 
               transaction.addRegister(register);
               break;
 
-            case K_DOC_ID_ND_DIFCAMBIO:
+            case K_DOC_ID_ND_DIF_CAMBIO:
               register = createRegister();
 
-              register.setFilter("cfg_grupo:" + sq(C_GRUPOGENERAL) + ", cfg_aspecto:" + sq(C_NDDIFCAMBIO) + ", emp_id:" + companyId);
+              register.setFilter("cfg_grupo:" + sq(C_GRUPO_GENERAL) + ", cfg_aspecto:" + sq(C_ND_DIF_CAMBIO) + ", emp_id:" + companyId);
 
               var fields = register.getFields();
-              fields.add(C.CFG_GRUPO, C_GRUPOGENERAL, TEXT);
-              fields.add(C.CFG_ASPECTO, C_NDDIFCAMBIO, TEXT);
+              fields.add(C.CFG_GRUPO, C_GRUPO_GENERAL, TEXT);
+              fields.add(C.CFG_ASPECTO, C_ND_DIF_CAMBIO, TEXT);
               fields.add(C.CFG_VALOR, property.getSelectId(), TEXT);
               fields.add(C.EMP_ID, companyId, TEXT);
 
               transaction.addRegister(register);
               break;
 
-            case K_DEFAULT_DIFCAMBIO:
+            case K_DEFAULT_DIF_CAMBIO:
               register = createRegister();
 
-              register.setFilter("cfg_grupo:" + sq(C_GRUPOGENERAL) + ", cfg_aspecto:" + sq(C_DEFAULTDIFCAMBIO));
+              register.setFilter("cfg_grupo:" + sq(C_GRUPO_GENERAL) + ", cfg_aspecto:" + sq(C_DEFAULT_DIF_CAMBIO));
 
               var fields = register.getFields();
-              fields.add(C.CFG_GRUPO, C_GRUPOGENERAL, TEXT);
-              fields.add(C.CFG_ASPECTO, C_DEFAULTDIFCAMBIO, TEXT);
+              fields.add(C.CFG_GRUPO, C_GRUPO_GENERAL, TEXT);
+              fields.add(C.CFG_ASPECTO, C_DEFAULT_DIF_CAMBIO, TEXT);
               fields.add(C.CFG_VALOR, property.getListItemData(), TEXT);
 
               transaction.addRegister(register);
               break;
 
-            case K_MODO_IVA_DIFCAMBIO:
+            case K_MODO_IVA_DIF_CAMBIO:
               register = createRegister();
 
-              register.setFilter("cfg_grupo:" + sq(C_GRUPOGENERAL) + ", cfg_aspecto:" + sq(C_MODOIVADIFCAMBIO));
+              register.setFilter("cfg_grupo:" + sq(C_GRUPO_GENERAL) + ", cfg_aspecto:" + sq(C_MODO_IVA_DIF_CAMBIO));
 
               var fields = register.getFields();
-              fields.add(C.CFG_GRUPO, C_GRUPOGENERAL, TEXT);
-              fields.add(C.CFG_ASPECTO, C_MODOIVADIFCAMBIO, TEXT);
+              fields.add(C.CFG_GRUPO, C_GRUPO_GENERAL, TEXT);
+              fields.add(C.CFG_ASPECTO, C_MODO_IVA_DIF_CAMBIO, TEXT);
               fields.add(C.CFG_VALOR, property.getListItemData(), TEXT);
 
               transaction.addRegister(register);
               break;
 
-            case K_APLICACION_DIFCAMBIO:
+            case K_APLICACION_DIF_CAMBIO:
               register = createRegister();
 
-              register.setFilter("cfg_grupo:" + sq(C_GRUPOGENERAL) + ", cfg_aspecto:" + sq(C_APLICACIONDIFCAMBIO));
+              register.setFilter("cfg_grupo:" + sq(C_GRUPO_GENERAL) + ", cfg_aspecto:" + sq(C_APLICACION_DIF_CAMBIO));
 
               var fields = register.getFields();
-              fields.add(C.CFG_GRUPO, C_GRUPOGENERAL, TEXT);
-              fields.add(C.CFG_ASPECTO, C_APLICACIONDIFCAMBIO, TEXT);
+              fields.add(C.CFG_GRUPO, C_GRUPO_GENERAL, TEXT);
+              fields.add(C.CFG_ASPECTO, C_APLICACION_DIF_CAMBIO, TEXT);
               fields.add(C.CFG_VALOR, property.getListItemData(), TEXT);
 
               transaction.addRegister(register);
               break;
 
-            case K_PR_ID_DIFCAMBIO:
+            case K_PR_ID_DIF_CAMBIO:
               register = createRegister();
 
-              register.setFilter("cfg_grupo:" + sq(C_GRUPOGENERAL) + ", cfg_aspecto:" + sq(C_PRIDDIFCAMBIO));
+              register.setFilter("cfg_grupo:" + sq(C_GRUPO_GENERAL) + ", cfg_aspecto:" + sq(C_PR_ID_DIF_CAMBIO));
 
               var fields = register.getFields();
-              fields.add(C.CFG_GRUPO, C_GRUPOGENERAL, TEXT);
-              fields.add(C.CFG_ASPECTO, C_PRIDDIFCAMBIO, TEXT);
+              fields.add(C.CFG_GRUPO, C_GRUPO_GENERAL, TEXT);
+              fields.add(C.CFG_ASPECTO, C_PR_ID_DIF_CAMBIO, TEXT);
               fields.add(C.CFG_VALOR, property.getSelectId(), TEXT);
 
               transaction.addRegister(register);
@@ -444,38 +443,38 @@
             case K_GRABAR_ASIENTO_COBRANZA:
               register = createRegister();
 
-              register.setFilter("cfg_grupo:" + sq(C_GRUPOGENERAL) + ", cfg_aspecto:" + sq(C_GRABARASIENTOCOBRANZA));
+              register.setFilter("cfg_grupo:" + sq(C_GRUPO_GENERAL) + ", cfg_aspecto:" + sq(C_GRABAR_ASIENTO_COBRANZA));
 
               var fields = register.getFields();
-              fields.add(C.CFG_GRUPO, C_GRUPOGENERAL, TEXT);
-              fields.add(C.CFG_ASPECTO, C_GRABARASIENTOCOBRANZA, TEXT);
-              fields.add(C.CFG_VALOR, Cairo.Util.val(property.getValue()), TEXT);
+              fields.add(C.CFG_GRUPO, C_GRUPO_GENERAL, TEXT);
+              fields.add(C.CFG_ASPECTO, C_GRABAR_ASIENTO_COBRANZA, TEXT);
+              fields.add(C.CFG_VALOR, val(property.getValue()), TEXT);
 
               transaction.addRegister(register);
               break;
 
-            case K_GRABAR_ASIENTO_ORDENPAGO:
+            case K_GRABAR_ASIENTO_ORDEN_PAGO:
               register = createRegister();
 
-              register.setFilter("cfg_grupo:" + sq(C_GRUPOGENERAL) + ", cfg_aspecto:" + sq(C_GRABARASIENTOORDENPAGO));
+              register.setFilter("cfg_grupo:" + sq(C_GRUPO_GENERAL) + ", cfg_aspecto:" + sq(C_GRABAR_ASIENTO_ORDEN_PAGO));
 
               var fields = register.getFields();
-              fields.add(C.CFG_GRUPO, C_GRUPOGENERAL, TEXT);
-              fields.add(C.CFG_ASPECTO, C_GRABARASIENTOORDENPAGO, TEXT);
-              fields.add(C.CFG_VALOR, Cairo.Util.val(property.getValue()), TEXT);
+              fields.add(C.CFG_GRUPO, C_GRUPO_GENERAL, TEXT);
+              fields.add(C.CFG_ASPECTO, C_GRABAR_ASIENTO_ORDEN_PAGO, TEXT);
+              fields.add(C.CFG_VALOR, val(property.getValue()), TEXT);
 
               transaction.addRegister(register);
               break;
 
-            case K_GRABAR_ASIENTO_MOVIMIENTOFONDO:
+            case K_GRABAR_ASIENTO_MOVIMIENTO_FONDO:
               register = createRegister();
 
-              register.setFilter("cfg_grupo:" + sq(C_GRUPOGENERAL) + ", cfg_aspecto:" + sq(C_GRABARASIENTOMOVIMIENTOFONDO));
+              register.setFilter("cfg_grupo:" + sq(C_GRUPO_GENERAL) + ", cfg_aspecto:" + sq(C_GRABAR_ASIENTO_MOVIMIENTO_FONDO));
 
               var fields = register.getFields();
-              fields.add(C.CFG_GRUPO, C_GRUPOGENERAL, TEXT);
-              fields.add(C.CFG_ASPECTO, C_GRABARASIENTOMOVIMIENTOFONDO, TEXT);
-              fields.add(C.CFG_VALOR, Cairo.Util.val(property.getValue()), TEXT);
+              fields.add(C.CFG_GRUPO, C_GRUPO_GENERAL, TEXT);
+              fields.add(C.CFG_ASPECTO, C_GRABAR_ASIENTO_MOVIMIENTO_FONDO, TEXT);
+              fields.add(C.CFG_VALOR, val(property.getValue()), TEXT);
 
               transaction.addRegister(register);
               break;
@@ -483,38 +482,38 @@
             case K_GRABAR_ASIENTO_RENDICION:
               register = createRegister();
 
-              register.setFilter("cfg_grupo:" + sq(C_GRUPOGENERAL) + ", cfg_aspecto:" + sq(C_GRABARASIENTORENDICION));
+              register.setFilter("cfg_grupo:" + sq(C_GRUPO_GENERAL) + ", cfg_aspecto:" + sq(C_GRABAR_ASIENTO_RENDICION));
 
               var fields = register.getFields();
-              fields.add(C.CFG_GRUPO, C_GRUPOGENERAL, TEXT);
-              fields.add(C.CFG_ASPECTO, C_GRABARASIENTORENDICION, TEXT);
-              fields.add(C.CFG_VALOR, Cairo.Util.val(property.getValue()), TEXT);
+              fields.add(C.CFG_GRUPO, C_GRUPO_GENERAL, TEXT);
+              fields.add(C.CFG_ASPECTO, C_GRABAR_ASIENTO_RENDICION, TEXT);
+              fields.add(C.CFG_VALOR, val(property.getValue()), TEXT);
 
               transaction.addRegister(register);
               break;
 
-            case K_GRABAR_ASIENTO_DEPOSITOBANCO:
+            case K_GRABAR_ASIENTO_DEPOSITO_BANCO:
               register = createRegister();
 
-              register.setFilter("cfg_grupo:" + sq(C_GRUPOGENERAL) + ", cfg_aspecto:" + sq(C_GRABARASIENTODEPOSITOBANCO));
+              register.setFilter("cfg_grupo:" + sq(C_GRUPO_GENERAL) + ", cfg_aspecto:" + sq(C_GRABAR_ASIENTO_DEPOSITO_BANCO));
 
               var fields = register.getFields();
-              fields.add(C.CFG_GRUPO, C_GRUPOGENERAL, TEXT);
-              fields.add(C.CFG_ASPECTO, C_GRABARASIENTODEPOSITOBANCO, TEXT);
-              fields.add(C.CFG_VALOR, Cairo.Util.val(property.getValue()), TEXT);
+              fields.add(C.CFG_GRUPO, C_GRUPO_GENERAL, TEXT);
+              fields.add(C.CFG_ASPECTO, C_GRABAR_ASIENTO_DEPOSITO_BANCO, TEXT);
+              fields.add(C.CFG_VALOR, val(property.getValue()), TEXT);
 
               transaction.addRegister(register);
               break;
 
-            case K_GRABAR_ASIENTO_DEPOSITOCUPON:
+            case K_GRABAR_ASIENTO_DEPOSITO_CUPON:
               register = createRegister();
 
-              register.setFilter("cfg_grupo:" + sq(C_GRUPOGENERAL) + ", cfg_aspecto:" + sq(C_GRABARASIENTODEPOSITOCUPON));
+              register.setFilter("cfg_grupo:" + sq(C_GRUPO_GENERAL) + ", cfg_aspecto:" + sq(C_GRABAR_ASIENTO_DEPOSITO_CUPON));
 
               var fields = register.getFields();
-              fields.add(C.CFG_GRUPO, C_GRUPOGENERAL, TEXT);
-              fields.add(C.CFG_ASPECTO, C_GRABARASIENTODEPOSITOCUPON, TEXT);
-              fields.add(C.CFG_VALOR, Cairo.Util.val(property.getValue()), TEXT);
+              fields.add(C.CFG_GRUPO, C_GRUPO_GENERAL, TEXT);
+              fields.add(C.CFG_ASPECTO, C_GRABAR_ASIENTO_DEPOSITO_CUPON, TEXT);
+              fields.add(C.CFG_VALOR, val(property.getValue()), TEXT);
 
               transaction.addRegister(register);
               break;
@@ -522,25 +521,25 @@
             case K_GRABAR_ASIENTO_AGRUPADO:
               register = createRegister();
 
-              register.setFilter("cfg_grupo:" + sq(C_GRUPOGENERAL) + ", cfg_aspecto:" + sq(C_GRABARASIENTOAGRUPADO));
+              register.setFilter("cfg_grupo:" + sq(C_GRUPO_GENERAL) + ", cfg_aspecto:" + sq(C_GRABAR_ASIENTO_AGRUPADO));
 
               var fields = register.getFields();
-              fields.add(C.CFG_GRUPO, C_GRUPOGENERAL, TEXT);
-              fields.add(C.CFG_ASPECTO, C_GRABARASIENTOAGRUPADO, TEXT);
-              fields.add(C.CFG_VALOR, Cairo.Util.val(property.getValue()), TEXT);
+              fields.add(C.CFG_GRUPO, C_GRUPO_GENERAL, TEXT);
+              fields.add(C.CFG_ASPECTO, C_GRABAR_ASIENTO_AGRUPADO, TEXT);
+              fields.add(C.CFG_VALOR, val(property.getValue()), TEXT);
 
               transaction.addRegister(register);
               break;
 
-            case K_GRABAR_ASIENTO_RESOLUCIONCUPON:
+            case K_GRABAR_ASIENTO_RESOLUCION_CUPON:
               register = createRegister();
 
-              register.setFilter("cfg_grupo:" + sq(C_GRUPOGENERAL) + ", cfg_aspecto:" + sq(C_GRABARASIENTORESOLUCIONCUPON));
+              register.setFilter("cfg_grupo:" + sq(C_GRUPO_GENERAL) + ", cfg_aspecto:" + sq(C_GRABAR_ASIENTO_RESOLUCION_CUPON));
 
               var fields = register.getFields();
-              fields.add(C.CFG_GRUPO, C_GRUPOGENERAL, TEXT);
-              fields.add(C.CFG_ASPECTO, C_GRABARASIENTORESOLUCIONCUPON, TEXT);
-              fields.add(C.CFG_VALOR, Cairo.Util.val(property.getValue()), TEXT);
+              fields.add(C.CFG_GRUPO, C_GRUPO_GENERAL, TEXT);
+              fields.add(C.CFG_ASPECTO, C_GRABAR_ASIENTO_RESOLUCION_CUPON, TEXT);
+              fields.add(C.CFG_VALOR, val(property.getValue()), TEXT);
 
               transaction.addRegister(register);
               break;
@@ -548,12 +547,12 @@
             case K_CALCULAR_RETENCIONES:
               register = createRegister();
 
-              register.setFilter("cfg_grupo:" + sq(C_GRUPOGENERAL) + ", cfg_aspecto:" + sq(C_CALCULARRETENCIONES) + ", emp_id:" + companyId);
+              register.setFilter("cfg_grupo:" + sq(C_GRUPO_GENERAL) + ", cfg_aspecto:" + sq(C_CALCULAR_RETENCIONES) + ", emp_id:" + companyId);
 
               var fields = register.getFields();
-              fields.add(C.CFG_GRUPO, C_GRUPOGENERAL, TEXT);
-              fields.add(C.CFG_ASPECTO, C_CALCULARRETENCIONES, TEXT);
-              fields.add(C.CFG_VALOR, Cairo.Util.val(property.getValue()), TEXT);
+              fields.add(C.CFG_GRUPO, C_GRUPO_GENERAL, TEXT);
+              fields.add(C.CFG_ASPECTO, C_CALCULAR_RETENCIONES, TEXT);
+              fields.add(C.CFG_VALOR, val(property.getValue()), TEXT);
               fields.add(C.EMP_ID, companyId, TEXT);
 
               transaction.addRegister(register);
@@ -562,11 +561,11 @@
             case K_CUE_ID_ANT_COBZ:
               register = createRegister();
 
-              register.setFilter("cfg_grupo:" + sq(C_GRUPOGENERAL) + ", cfg_aspecto:" + sq(C_CUENTAANTICIPOCOBRANZA) + ", emp_id:" + companyId);
+              register.setFilter("cfg_grupo:" + sq(C_GRUPO_GENERAL) + ", cfg_aspecto:" + sq(C_CUENTA_ANTICIPO_COBRANZA) + ", emp_id:" + companyId);
 
               var fields = register.getFields();
-              fields.add(C.CFG_GRUPO, C_GRUPOGENERAL, TEXT);
-              fields.add(C.CFG_ASPECTO, C_CUENTAANTICIPOCOBRANZA, TEXT);
+              fields.add(C.CFG_GRUPO, C_GRUPO_GENERAL, TEXT);
+              fields.add(C.CFG_ASPECTO, C_CUENTA_ANTICIPO_COBRANZA, TEXT);
               fields.add(C.CFG_VALOR, property.getSelectId(), TEXT);
               fields.add(C.EMP_ID, companyId, TEXT);
 
@@ -576,25 +575,25 @@
             case K_CUE_ID_ANT_OPG:
               register = createRegister();
 
-              register.setFilter("cfg_grupo:" + sq(C_GRUPOGENERAL) + ", cfg_aspecto:" + sq(C_CUENTAANTICIPOPAGOS) + ", emp_id:" + companyId);
+              register.setFilter("cfg_grupo:" + sq(C_GRUPO_GENERAL) + ", cfg_aspecto:" + sq(C_CUENTA_ANTICIPO_PAGOS) + ", emp_id:" + companyId);
 
               var fields = register.getFields();
-              fields.add(C.CFG_GRUPO, C_GRUPOGENERAL, TEXT);
-              fields.add(C.CFG_ASPECTO, C_CUENTAANTICIPOPAGOS, TEXT);
+              fields.add(C.CFG_GRUPO, C_GRUPO_GENERAL, TEXT);
+              fields.add(C.CFG_ASPECTO, C_CUENTA_ANTICIPO_PAGOS, TEXT);
               fields.add(C.CFG_VALOR, property.getSelectId(), TEXT);
               fields.add(C.EMP_ID, companyId, TEXT);
 
               transaction.addRegister(register);
               break;
 
-            case K_EXIGIR_CENTROCOSTO:
+            case K_EXIGIR_CENTRO_COSTO:
               register = createRegister();
 
-              register.setFilter("cfg_grupo:" + sq(C_GRUPOGENERAL) + ", cfg_aspecto:" + sq(C_EXIGIRCENTROCOSTO));
+              register.setFilter("cfg_grupo:" + sq(C_GRUPO_GENERAL) + ", cfg_aspecto:" + sq(C_EXIGIR_CENTRO_COSTO));
 
               var fields = register.getFields();
-              fields.add(C.CFG_GRUPO, C_GRUPOGENERAL, TEXT);
-              fields.add(C.CFG_ASPECTO, C_EXIGIRCENTROCOSTO, TEXT);
+              fields.add(C.CFG_GRUPO, C_GRUPO_GENERAL, TEXT);
+              fields.add(C.CFG_ASPECTO, C_EXIGIR_CENTRO_COSTO, TEXT);
               fields.add(C.CFG_VALOR, property.getValue(), TEXT);
 
               transaction.addRegister(register);
@@ -603,11 +602,11 @@
             case K_COBRANZAS_XHOJARUTA:
               register = createRegister();
 
-              register.setFilter("cfg_grupo:" + sq(C_GRUPOGENERAL) + ", cfg_aspecto:" + sq(C_COBRANZASXHOJARUTA));
+              register.setFilter("cfg_grupo:" + sq(C_GRUPO_GENERAL) + ", cfg_aspecto:" + sq(C_COBRANZAS_X_HOJA_RUTA));
 
               var fields = register.getFields();
-              fields.add(C.CFG_GRUPO, C_GRUPOGENERAL, TEXT);
-              fields.add(C.CFG_ASPECTO, C_COBRANZASXHOJARUTA, TEXT);
+              fields.add(C.CFG_GRUPO, C_GRUPO_GENERAL, TEXT);
+              fields.add(C.CFG_ASPECTO, C_COBRANZAS_X_HOJA_RUTA, TEXT);
               fields.add(C.CFG_VALOR, property.getValue(), TEXT);
 
               transaction.addRegister(register);
@@ -623,7 +622,7 @@
             register,
             false,
             "",
-            Cairo.Constants.CLIENT_SAVE_FUNCTION,
+            C.CLIENT_SAVE_FUNCTION,
             C_MODULE,
             getText(2301, "") // Error al grabar la Configuración General
 
@@ -649,10 +648,10 @@
           var row = rows.item(_i);
           var register = createRegister();
 
-          register.setFilter("cfg_grupo:" + sq(C_GRUPOGENERAL) + ", cfg_aspecto:" + sq(C_RETENCION));
+          register.setFilter("cfg_grupo:" + sq(C_GRUPO_GENERAL) + ", cfg_aspecto:" + sq(C_RETENCION));
 
           var fields = register.getFields();
-          fields.add(CFG_GRUPO, C_GRUPOGENERAL, TEXT);
+          fields.add(CFG_GRUPO, C_GRUPO_GENERAL, TEXT);
           fields.add(C.CONFIG_KEY, C_RETENCION, TEXT);
           fields.add(C.CONFIG_VALUE, Dialogs.cell(row, KI_RET_ID).getId(), TEXT);
           fields.add(EMP_ID, companyId, ID);
@@ -688,16 +687,16 @@
 
             if(response.success === true) {
 
-              m_cueIdDifCambio = C.NO_ID;
+              m_cueIdDifCambio = NO_ID;
               m_cuentaDifCambio = "";
 
-              m_docIdNCdifCambio = C.NO_ID;
+              m_docIdNCdifCambio = NO_ID;
               m_docNCDifCambio = "";
 
-              m_docIdNDdifCambio = C.NO_ID;
+              m_docIdNDdifCambio = NO_ID;
               m_docNDDifCambio = "";
 
-              m_prIdDifCambio = C.NO_ID;
+              m_prIdDifCambio = NO_ID;
               m_productoDifCambio = "";
 
               m_defaultDifCambio = CT.ModoDifCambio.DIF_CAMBIO_NC_ND;
@@ -716,10 +715,10 @@
 
               m_calcularRetenciones = false;
 
-              m_cueIdAntCobz = C.NO_ID;
+              m_cueIdAntCobz = NO_ID;
               m_cueAnticipoCobz = "";
 
-              m_cueIdAntOpg = C.NO_ID;
+              m_cueIdAntOpg = NO_ID;
               m_cueAnticipoOpg = "";
 
               m_exigirCentroCosto = false;
@@ -731,106 +730,106 @@
               for(var _i = 0; _i < settings.length; _i += 1) {
 
                 switch (getValue(settings[_i], C.CFG_ASPECTO)) {
-                
-                  case C_CUEIDDIFCAMBIO:
+
+                  case C_CUE_ID_DIF_CAMBIO:
                     var value = getValue(settings[_i], C.CONFIG_VALUE);
                     m_cueIdDifCambio = value.id;
                     m_cuentaDifCambio = value.name;
                     break;
-  
-                  case C_PRIDDIFCAMBIO:
+
+                  case C_PR_ID_DIF_CAMBIO:
                     var value = getValue(settings[_i], C.CONFIG_VALUE);
                     m_prIdDifCambio = value.id;
                     m_productoDifCambio = value.name;
                     break;
-  
-                  case C_MODOIVADIFCAMBIO:
+
+                  case C_MODO_IVA_DIF_CAMBIO:
                     m_modoIvaDifCambio = getValue(settings[_i], C.CONFIG_VALUE);
                     break;
-  
-                  case C_APLICACIONDIFCAMBIO:
+
+                  case C_APLICACION_DIF_CAMBIO:
                     m_aplicacionDifCambio = getValue(settings[_i], C.CONFIG_VALUE);
                     break;
-  
-                  case C_DEFAULTDIFCAMBIO:
+
+                  case C_DEFAULT_DIF_CAMBIO:
                     m_defaultDifCambio = getValue(settings[_i], C.CONFIG_VALUE);
                     break;
-  
-                  case C_GRABARASIENTOCOBRANZA:
+
+                  case C_GRABAR_ASIENTO_COBRANZA:
                     m_grabarAsientoCobranza = getValue(settings[_i], C.CONFIG_VALUE);
                     break;
-  
-                  case C_GRABARASIENTODEPOSITOBANCO:
+
+                  case C_GRABAR_ASIENTO_DEPOSITO_BANCO:
                     m_grabarAsientoDepositoBanco = getValue(settings[_i], C.CONFIG_VALUE);
                     break;
-  
-                  case C_GRABARASIENTOORDENPAGO:
+
+                  case C_GRABAR_ASIENTO_ORDEN_PAGO:
                     m_grabarAsientoOrdenPago = getValue(settings[_i], C.CONFIG_VALUE);
                     break;
-  
-                  case C_GRABARASIENTOMOVIMIENTOFONDO:
+
+                  case C_GRABAR_ASIENTO_MOVIMIENTO_FONDO:
                     m_grabarAsientoMovimientoFondo = getValue(settings[_i], C.CONFIG_VALUE);
                     break;
-  
-                  case C_GRABARASIENTORENDICION:
+
+                  case C_GRABAR_ASIENTO_RENDICION:
                     m_grabarAsientoRendicion = getValue(settings[_i], C.CONFIG_VALUE);
                     break;
-  
-                  case C_GRABARASIENTORESOLUCIONCUPON:
+
+                  case C_GRABAR_ASIENTO_RESOLUCION_CUPON:
                     m_grabarAsientoResolucionCupon = getValue(settings[_i], C.CONFIG_VALUE);
                     break;
-  
-                  case C_GRABARASIENTOAGRUPADO:
+
+                  case C_GRABAR_ASIENTO_AGRUPADO:
                     m_grabarAsientoAgrupado = getValue(settings[_i], C.CONFIG_VALUE);
                     break;
-  
-                  case C_GRABARASIENTODEPOSITOCUPON:
+
+                  case C_GRABAR_ASIENTO_DEPOSITO_CUPON:
                     m_grabarAsientoDepositoCupon = getValue(settings[_i], C.CONFIG_VALUE);
                     break;
-  
-                  case C_EXIGIRCENTROCOSTO:
-                    m_exigirCentroCosto = getValue(settings[_i], C.CONFIG_VALUE);
+
+                  case C_EXIGIR_CENTRO_COSTO:
+                    m_exigirCentroCosto = bool(getValue(settings[_i], C.CONFIG_VALUE));
                     break;
-  
-                  case C_COBRANZASXHOJARUTA:
+
+                  case C_COBRANZAS_X_HOJA_RUTA:
                     m_cobranzasXHojaRuta = getValue(settings[_i], C.CONFIG_VALUE);
                     break;
 
-                  case C_NCDIFCAMBIO:
+                  case C_NC_DIF_CAMBIO:
                     var value = getValue(settings[_i], C.CONFIG_VALUE);
                     m_docIdNCdifCambio = value.id;
                     m_docNCDifCambio = value.name;
                     break;
 
-                  case C_NDDIFCAMBIO:
+                  case C_ND_DIF_CAMBIO:
                     var value = getValue(settings[_i], C.CONFIG_VALUE);
                     m_docIdNDdifCambio = value.id;
                     m_docNDDifCambio = value.name;
                     break;
 
-                  case C_DOCIDCOBRANZA:
+                  case C_DOC_ID_COBRANZA:
                     var value = getValue(settings[_i], C.CONFIG_VALUE);
                     m_docIdCobranza = value.id;
                     m_docCobranza = value.name;
                     break;
 
-                  case C_DOCIDORDENPAGO:
+                  case C_DOC_ID_ORDEN_PAGO:
                     var value = getValue(settings[_i], C.CONFIG_VALUE);
                     m_docIdOrdenPago = value.id;
                     m_docOrdenPago = value.name;
                     break;
 
-                  case C_CALCULARRETENCIONES:
-                    m_calcularRetenciones = getValue(settings[_i], C.CONFIG_VALUE);
+                  case C_CALCULAR_RETENCIONES:
+                    m_calcularRetenciones = bool(getValue(settings[_i], C.CONFIG_VALUE));
                     break;
 
-                  case C_CUENTAANTICIPOCOBRANZA:
+                  case C_CUENTA_ANTICIPO_COBRANZA:
                     var value = getValue(settings[_i], C.CONFIG_VALUE);
                     m_cueIdAntCobz = value.id;
                     m_cueAnticipoCobz = value.name;
                     break;
 
-                  case C_CUENTAANTICIPOPAGOS:
+                  case C_CUENTA_ANTICIPO_PAGOS:
                     var value = getValue(settings[_i], C.CONFIG_VALUE);
                     m_cueIdAntOpg = value.id;
                     m_cueAnticipoOpg = value.name;
@@ -873,7 +872,7 @@
             });
         }
         catch(ex) {
-          Cairo.manageErrorEx(ex.message, ex, Cairo.Constants.EDIT_FUNCTION, C_MODULE, "");
+          Cairo.manageErrorEx(ex.message, ex, C.EDIT_FUNCTION, C_MODULE, "");
         }
 
         return p;
@@ -896,7 +895,7 @@
 
         var tab = w_tabs.add(null);
         tab.setIndex(c_tab_general);
-        tab.setName(C.c_strGeneral);
+        tab.setName(C.TAB_GENERAL);
 
         var tab = w_tabs.add(null);
         tab.setIndex(c_tab_contabilidad);
@@ -914,505 +913,393 @@
 
         properties.clear();
 
-        var elem = properties.add(null, C_DEFAULTDIFCAMBIO);
-        elem.setType(Dialogs.PropertyType.list);
-        elem.setLeft(2000);
-        elem.setWidth(3000);
-        elem.setLeftLabel(-1500);
-        elem.setName(C_DEFAULTDIFCAMBIO);
-        elem.setKey(K_DEFAULT_DIFCAMBIO);
-        elem.setListWhoSetItem(csListItemData);
+        var elem = properties.add(null, C_DEFAULT_DIF_CAMBIO);
+        elem.setType(T.list);
+        elem.setName(C_DEFAULT_DIF_CAMBIO);
+        elem.setKey(K_DEFAULT_DIF_CAMBIO);
+        elem.setListWhoSetItem(Dialogs.ListWhoSetItem.itemData);
         elem.setListItemData(m_defaultDifCambio);
-        var elem = elem.add(null);
-        elem.ID = CT.ModoDifCambio.cSEDIFCAMBIOCUENTA;
-        //'Una cuenta contable
-        elem.setValue(Cairo.Language.getText(2142, ""));
-        var elem = elem.add(null);
-        elem.ID = CT.ModoDifCambio.DIF_CAMBIO_NC_ND;
-        //'Una nota de debito o credito
-        elem.setValue(Cairo.Language.getText(2143, ""));
         elem.setTabIndex(c_tab_difCambio);
+        
+        var list = elem.getList();
+        
+        var elem = list.add(null);
+        elem.setId(CT.ModoDifCambio.DIF_CAMBIO_CUENTA);
+        elem.setValue(Cairo.Language.getText(2142, "")); // Una cuenta contable
+        
+        var elem = list.add(null);
+        elem.setId(CT.ModoDifCambio.DIF_CAMBIO_NC_ND);
+        elem.setValue(Cairo.Language.getText(2143, "")); // Una nota de debito o credito
 
-        var elem = properties.add(null, C_CUEIDDIFCAMBIO);
-        elem.setType(Dialogs.PropertyType.select);
+        var elem = properties.add(null, C_CUE_ID_DIF_CAMBIO);
+        elem.setType(T.select);
         elem.setSelectTable(Cairo.Tables.CUENTA);
-        elem.setLeft(2000);
-        elem.setWidth(3000);
-        elem.setLeftLabel(-1500);
-        elem.setName(C_CUEIDDIFCAMBIO);
+        elem.setName(C_CUE_ID_DIF_CAMBIO);
         elem.setKey(K_CUE_ID_DIFCAMBIO);
         elem.setSelectId(m_cueIdDifCambio);
         elem.setValue(m_cuentaDifCambio);
         elem.setTabIndex(c_tab_difCambio);
 
-        var elem = properties.add(null, C_NCDIFCAMBIO);
-        elem.setType(Dialogs.PropertyType.select);
-        elem.setTable(CSTBLDOCUMENTO);
-        elem.setLeft(2000);
-        elem.setWidth(3000);
-        elem.setLeftLabel(-1500);
-        elem.setName(C_NCDIFCAMBIO);
-        elem.setKey(K_DOC_ID_NC_DIFCAMBIO);
+        var elem = properties.add(null, C_NC_DIF_CAMBIO);
+        elem.setType(T.select);
+        elem.setSelectTable(Cairo.Tables.DOCUMENTO);
+        elem.setName(C_NC_DIF_CAMBIO);
+        elem.setKey(K_DOC_ID_NC_DIF_CAMBIO);
         elem.setSelectId(m_docIdNCdifCambio);
         elem.setSelectFilter("'doct_id = 7'");
         elem.setValue(m_docNCDifCambio);
         elem.setTabIndex(c_tab_difCambio);
 
-        var elem = properties.add(null, C_NDDIFCAMBIO);
-        elem.setType(Dialogs.PropertyType.select);
-        elem.setTable(CSTBLDOCUMENTO);
-        elem.setLeft(2000);
-        elem.setWidth(3000);
-        elem.setLeftLabel(-1500);
-        elem.setName(C_NDDIFCAMBIO);
-        elem.setKey(K_DOC_ID_ND_DIFCAMBIO);
+        var elem = properties.add(null, C_ND_DIF_CAMBIO);
+        elem.setType(T.select);
+        elem.setSelectTable(Cairo.Tables.DOCUMENTO);
+        elem.setName(C_ND_DIF_CAMBIO);
+        elem.setKey(K_DOC_ID_ND_DIF_CAMBIO);
         elem.setSelectId(m_docIdNDdifCambio);
         elem.setSelectFilter("'doct_id = 9'");
         elem.setValue(m_docNDDifCambio);
         elem.setTabIndex(c_tab_difCambio);
 
-        var elem = properties.add(null, C_PRIDDIFCAMBIO);
-        elem.setType(Dialogs.PropertyType.select);
-        elem.setSelectTable(Cairo.Tables.PRODUCTOVENTA);
-        elem.setLeft(2000);
-        elem.setWidth(3000);
-        elem.setLeftLabel(-1500);
-        elem.setName(C_PRIDDIFCAMBIO);
-        elem.setKey(K_PR_ID_DIFCAMBIO);
+        var elem = properties.add(null, C_PR_ID_DIF_CAMBIO);
+        elem.setType(T.select);
+        elem.setSelectTable(Cairo.Tables.PRODUCTOS_DE_VENTA);
+        elem.setName(C_PR_ID_DIF_CAMBIO);
+        elem.setKey(K_PR_ID_DIF_CAMBIO);
         elem.setSelectId(m_prIdDifCambio);
         elem.setValue(m_productoDifCambio);
         elem.setTabIndex(c_tab_difCambio);
 
-        var elem = properties.add(null, C_MODOIVADIFCAMBIO);
-        elem.setType(Dialogs.PropertyType.list);
-        elem.setLeft(2000);
-        elem.setWidth(5000);
-        elem.setLeftLabel(-1500);
-        elem.setName(C_MODOIVADIFCAMBIO);
-        elem.setKey(K_MODO_IVA_DIFCAMBIO);
-        elem.setListWhoSetItem(csListItemData);
+        var elem = properties.add(null, C_MODO_IVA_DIF_CAMBIO);
+        elem.setType(T.list);
+        elem.setName(C_MODO_IVA_DIF_CAMBIO);
+        elem.setKey(K_MODO_IVA_DIF_CAMBIO);
+        elem.setListWhoSetItem(Dialogs.ListWhoSetItem.itemData);
         elem.setListItemData(m_modoIvaDifCambio);
-        var elem = elem.add(null);
-        elem.ID = CT.ModoIvaDifCambio.DIF_IVA_IMPONIBLE;
-        //'Tomar la diferencia de cambio como base imponible para el IVA
-        elem.setValue(Cairo.Language.getText(2144, ""));
-        var elem = elem.add(null);
-        elem.ID = CT.ModoIvaDifCambio.cSEDIFIVANOIMPONIBLE;
-        //'IVA incluido en la diferencia de cambio
-        elem.setValue(Cairo.Language.getText(2145, ""));
         elem.setTabIndex(c_tab_difCambio);
 
-        var elem = properties.add(null, C_APLICACIONDIFCAMBIO);
-        elem.setType(Dialogs.PropertyType.list);
-        elem.setLeft(2000);
-        elem.setWidth(5000);
-        elem.setLeftLabel(-1500);
-        elem.setName(C_APLICACIONDIFCAMBIO);
-        elem.setKey(K_APLICACION_DIFCAMBIO);
-        elem.setListWhoSetItem(csListItemData);
+        var list = elem.getList();
+
+        var elem = list.add(null);
+        elem.setId(CT.ModoIvaDifCambio.DIF_IVA_IMPONIBLE);
+        elem.setValue(Cairo.Language.getText(2144, "")); // Tomar la diferencia de cambio como base imponible para el IVA
+
+        var elem = list.add(null);
+        elem.setId(CT.ModoIvaDifCambio.DIF_IVA_NO_IMPONIBLE);
+        elem.setValue(Cairo.Language.getText(2145, "")); // IVA incluido en la diferencia de cambio
+
+        var elem = properties.add(null, C_APLICACION_DIF_CAMBIO);
+        elem.setType(T.list);
+        elem.setName(C_APLICACION_DIF_CAMBIO);
+        elem.setKey(K_APLICACION_DIF_CAMBIO);
+        elem.setListWhoSetItem(Dialogs.ListWhoSetItem.itemData);
         elem.setListItemData(m_aplicacionDifCambio);
-        var elem = elem.add(null);
-        elem.ID = CT.AplicacionDifCambio.DIF_APLICACION_ND;
-        //'Cobrar la Nota de Débito y aplicar el resto a las Facturas
-        elem.setValue(Cairo.Language.getText(2480, ""));
-        var elem = elem.add(null);
-        elem.ID = CT.AplicacionDifCambio.cSEDIFAPLICACIONFV;
-        //'Cobrar las Facturas y aplicar el resto a la Note de Débito
-        elem.setValue(Cairo.Language.getText(2481, ""));
         elem.setTabIndex(c_tab_difCambio);
 
-        var elem = properties.add(null, C_DOCIDCOBRANZA);
-        elem.setType(Dialogs.PropertyType.select);
-        elem.setTable(CSTBLDOCUMENTO);
-        elem.setLeft(2000);
-        elem.setWidth(3000);
-        elem.setLeftLabel(-1500);
-        elem.setName(C_DOCIDCOBRANZA);
+        var list = elem.getList();
+
+        var elem = list.add(null);
+        elem.setId(CT.AplicacionDifCambio.DIF_APLICACION_ND);
+        elem.setValue(Cairo.Language.getText(2480, "")); // Cobrar la Nota de Débito y aplicar el resto a las Facturas
+
+        var elem = list.add(null);
+        elem.setId(CT.AplicacionDifCambio.DIF_APLICACION_FV);
+        elem.setValue(Cairo.Language.getText(2481, "")); // Cobrar las Facturas y aplicar el resto a la Note de Débito
+
+        var elem = properties.add(null, C_DOC_ID_COBRANZA);
+        elem.setType(T.select);
+        elem.setSelectTable(Cairo.Tables.DOCUMENTO);
+        elem.setName(C_DOC_ID_COBRANZA);
         elem.setKey(K_DOC_ID_COBRANZA);
         elem.setSelectId(m_docIdCobranza);
         elem.setSelectFilter("'doct_id = 13'");
         elem.setValue(m_docCobranza);
 
-        var elem = properties.add(null, C_DOCIDORDENPAGO);
-        elem.setType(Dialogs.PropertyType.select);
-        elem.setTable(CSTBLDOCUMENTO);
-        elem.setLeft(2000);
-        elem.setWidth(3000);
-        elem.setLeftLabel(-1500);
-        elem.setName(C_DOCIDORDENPAGO);
-        elem.setKey(K_DOC_ID_ORDENPAGO);
+        var elem = properties.add(null, C_DOC_ID_ORDEN_PAGO);
+        elem.setType(T.select);
+        elem.setSelectTable(Cairo.Tables.DOCUMENTO);
+        elem.setName(C_DOC_ID_ORDEN_PAGO);
+        elem.setKey(K_DOC_ID_ORDEN_PAGO);
         elem.setSelectId(m_docIdOrdenPago);
         elem.setSelectFilter("'doct_id = 16'");
         elem.setValue(m_docOrdenPago);
 
-        var elem = properties.add(null, C_CUENTAANTICIPOCOBRANZA);
-        elem.setType(Dialogs.PropertyType.select);
+        var elem = properties.add(null, C_CUENTA_ANTICIPO_COBRANZA);
+        elem.setType(T.select);
         elem.setSelectTable(Cairo.Tables.CUENTA);
-        elem.setLeft(2000);
-        elem.setWidth(3000);
-        elem.setLeftLabel(-1500);
-        elem.setName(C_CUENTAANTICIPOCOBRANZA);
+        elem.setName(C_CUENTA_ANTICIPO_COBRANZA);
         elem.setKey(K_CUE_ID_ANT_COBZ);
         elem.setValue(m_cueAnticipoCobz);
         elem.setSelectId(m_cueIdAntCobz);
-        elem.setSelectFilter("("+ mTesoreriaConstantes.CUEC_ID+ " = "+ csECuentaCategoria.cSECUECDEUDPORVENTAS.toString()+ " or "+ mTesoreriaConstantes.CUEC_ID+ " = "+ csECuentaCategoria.cSECUECDEPOSITOCUPONES.toString()+ ")and "+ GetHelpFilterCuenta());
+        elem.setSelectFilter(D.getSelectFilterForCuentaAnticipoCobranza);
 
-        var elem = properties.add(null, C_CUENTAANTICIPOPAGOS);
-        elem.setType(Dialogs.PropertyType.select);
+        var elem = properties.add(null, C_CUENTA_ANTICIPO_PAGOS);
+        elem.setType(T.select);
         elem.setSelectTable(Cairo.Tables.CUENTA);
-        elem.setLeft(2000);
-        elem.setWidth(3000);
-        elem.setLeftLabel(-1500);
-        elem.setName(C_CUENTAANTICIPOPAGOS);
+        elem.setName(C_CUENTA_ANTICIPO_PAGOS);
         elem.setKey(K_CUE_ID_ANT_OPG);
         elem.setValue(m_cueAnticipoOpg);
         elem.setSelectId(m_cueIdAntOpg);
-        elem.setSelectFilter(mTesoreriaConstantes.CUEC_ID+ " = "+ csECuentaCategoria.cSECUECACREEDORES.toString());
+        elem.setSelectFilter(D.getSelectFilterForCuentaAnticipoPagos);
 
-        var elem = properties.add(null, C_CALCULARRETENCIONES);
-        elem.setType(Dialogs.PropertyType.check);
-        elem.setLeft(3500);
-        elem.setLeftLabel(-3000);
-        elem.setWidth(3000);
-        elem.setTopToPrevious(600);
-        elem.setName(C_CALCULARRETENCIONES);
+        var elem = properties.add(null, C_CALCULAR_RETENCIONES);
+        elem.setType(T.check);
+        elem.setName(C_CALCULAR_RETENCIONES);
         elem.setKey(K_CALCULAR_RETENCIONES);
         elem.setValue(Cairo.Util.boolToInt(m_calcularRetenciones));
 
-        var elem = properties.add(null, C_COBRANZASXHOJARUTA);
-        elem.setType(Dialogs.PropertyType.check);
-        elem.setLeft(3500);
-        elem.setLeftLabel(-3000);
-        //'Cobranzas por Hoja de Ruta
-        elem.setName(Cairo.Language.getText(5122, ""));
+        var elem = properties.add(null, C_COBRANZAS_X_HOJA_RUTA);
+        elem.setType(T.check);
+        elem.setName(Cairo.Language.getText(5122, "")); // Cobranzas por Hoja de Ruta
         elem.setKey(K_COBRANZAS_XHOJARUTA);
         elem.setValue(m_cobranzasXHojaRuta);
 
-        var elem = properties.add(null, C_GRABARASIENTOCOBRANZA);
-        elem.setType(Dialogs.PropertyType.check);
-        elem.setLeft(4500);
-        elem.setLeftLabel(-4000);
-        //'Grabar asiento al grabar la Cobranza
-        elem.setName(Cairo.Language.getText(3126, ""));
+        var elem = properties.add(null, C_GRABAR_ASIENTO_COBRANZA);
+        elem.setType(T.check);
+        elem.setName(Cairo.Language.getText(3126, "")); // Grabar asiento al grabar la Cobranza
         elem.setKey(K_GRABAR_ASIENTO_COBRANZA);
         elem.setValue(m_grabarAsientoCobranza);
         elem.setTabIndex(c_tab_contabilidad);
 
-        var elem = properties.add(null, C_GRABARASIENTOORDENPAGO);
-        elem.setType(Dialogs.PropertyType.check);
-        elem.setLeft(4500);
-        elem.setLeftLabel(-4000);
-        //'Grabar asiento al grabar la Orden de Pago
-        elem.setName(Cairo.Language.getText(3127, ""));
-        elem.setKey(K_GRABAR_ASIENTO_ORDENPAGO);
+        var elem = properties.add(null, C_GRABAR_ASIENTO_ORDEN_PAGO);
+        elem.setType(T.check);
+        elem.setName(Cairo.Language.getText(3127, "")); // Grabar asiento al grabar la Orden de Pago
+        elem.setKey(K_GRABAR_ASIENTO_ORDEN_PAGO);
         elem.setValue(m_grabarAsientoOrdenPago);
         elem.setTabIndex(c_tab_contabilidad);
 
-        var elem = properties.add(null, C_GRABARASIENTOMOVIMIENTOFONDO);
-        elem.setType(Dialogs.PropertyType.check);
-        elem.setLeft(4500);
-        elem.setLeftLabel(-4000);
-        //'Grabar asiento al grabar el Movimiento de Fondos
-        elem.setName(Cairo.Language.getText(3128, ""));
-        elem.setKey(K_GRABAR_ASIENTO_MOVIMIENTOFONDO);
+        var elem = properties.add(null, C_GRABAR_ASIENTO_MOVIMIENTO_FONDO);
+        elem.setType(T.check);
+        elem.setName(Cairo.Language.getText(3128, "")); // Grabar asiento al grabar el Movimiento de Fondos
+        elem.setKey(K_GRABAR_ASIENTO_MOVIMIENTO_FONDO);
         elem.setValue(m_grabarAsientoMovimientoFondo);
         elem.setTabIndex(c_tab_contabilidad);
 
-        var elem = properties.add(null, C_GRABARASIENTORENDICION);
-        elem.setType(Dialogs.PropertyType.check);
-        elem.setLeft(4500);
-        elem.setLeftLabel(-4000);
-        //'Grabar asiento al grabar la Rendición
-        elem.setName(Cairo.Language.getText(3129, ""));
+        var elem = properties.add(null, C_GRABAR_ASIENTO_RENDICION);
+        elem.setType(T.check);
+        elem.setName(Cairo.Language.getText(3129, "")); // Grabar asiento al grabar la Rendición
         elem.setKey(K_GRABAR_ASIENTO_RENDICION);
         elem.setValue(m_grabarAsientoRendicion);
         elem.setTabIndex(c_tab_contabilidad);
 
-        var elem = properties.add(null, C_GRABARASIENTODEPOSITOBANCO);
-        elem.setType(Dialogs.PropertyType.check);
-        elem.setLeft(4500);
-        elem.setLeftLabel(-4000);
-        //'Grabar asiento al grabar el Depósito Bancario
-        elem.setName(Cairo.Language.getText(3130, ""));
-        elem.setKey(K_GRABAR_ASIENTO_DEPOSITOBANCO);
+        var elem = properties.add(null, C_GRABAR_ASIENTO_DEPOSITO_BANCO);
+        elem.setType(T.check);
+        elem.setName(Cairo.Language.getText(3130, "")); // Grabar asiento al grabar el Depósito Bancario
+        elem.setKey(K_GRABAR_ASIENTO_DEPOSITO_BANCO);
         elem.setValue(m_grabarAsientoDepositoBanco);
         elem.setTabIndex(c_tab_contabilidad);
 
-        var elem = properties.add(null, C_GRABARASIENTODEPOSITOCUPON);
-        elem.setType(Dialogs.PropertyType.check);
-        elem.setLeft(4500);
-        elem.setLeftLabel(-4000);
-        //'Grabar asiento al grabar la presentación de Cupones
-        elem.setName(Cairo.Language.getText(3131, ""));
-        elem.setKey(K_GRABAR_ASIENTO_DEPOSITOCUPON);
+        var elem = properties.add(null, C_GRABAR_ASIENTO_DEPOSITO_CUPON);
+        elem.setType(T.check);
+        elem.setName(Cairo.Language.getText(3131, "")); // Grabar asiento al grabar la presentación de Cupones
+        elem.setKey(K_GRABAR_ASIENTO_DEPOSITO_CUPON);
         elem.setValue(m_grabarAsientoDepositoCupon);
         elem.setTabIndex(c_tab_contabilidad);
 
-        var elem = properties.add(null, C_GRABARASIENTORESOLUCIONCUPON);
-        elem.setType(Dialogs.PropertyType.check);
-        elem.setLeft(4500);
-        elem.setLeftLabel(-4000);
-        //'Grabar asiento al grabar la Resolución de Cupones
-        elem.setName(Cairo.Language.getText(3132, ""));
-        elem.setKey(K_GRABAR_ASIENTO_RESOLUCIONCUPON);
+        var elem = properties.add(null, C_GRABAR_ASIENTO_RESOLUCION_CUPON);
+        elem.setType(T.check);
+        elem.setName(Cairo.Language.getText(3132, "")); // Grabar asiento al grabar la Resolución de Cupones
+        elem.setKey(K_GRABAR_ASIENTO_RESOLUCION_CUPON);
         elem.setValue(m_grabarAsientoResolucionCupon);
         elem.setTabIndex(c_tab_contabilidad);
 
-        var elem = properties.add(null, C_GRABARASIENTOAGRUPADO);
-        elem.setType(Dialogs.PropertyType.check);
-        elem.setLeft(4500);
-        elem.setLeftLabel(-4000);
-        //'Grabar el asiento agrupado por cuentas
-        elem.setName(Cairo.Language.getText(4820, ""));
+        var elem = properties.add(null, C_GRABAR_ASIENTO_AGRUPADO);
+        elem.setType(T.check);
+        elem.setName(Cairo.Language.getText(4820, "")); // Grabar el asiento agrupado por cuentas
         elem.setKey(K_GRABAR_ASIENTO_AGRUPADO);
         elem.setValue(m_grabarAsientoAgrupado);
         elem.setTabIndex(c_tab_contabilidad);
 
-        var elem = properties.add(null, C_EXIGIRCENTROCOSTO);
-        elem.setType(Dialogs.PropertyType.check);
-        elem.setLeft(4500);
-        elem.setLeftLabel(-4000);
-        elem.setName(C_EXIGIRCENTROCOSTO);
+        var elem = properties.add(null, C_EXIGIR_CENTRO_COSTO);
+        elem.setType(T.check);
+        elem.setName(C_EXIGIR_CENTRO_COSTO);
         elem.setValue(Cairo.Util.boolToInt(m_exigirCentroCosto));
-        elem.setKey(K_EXIGIR_CENTROCOSTO);
+        elem.setKey(K_EXIGIR_CENTRO_COSTO);
         elem.setTabIndex(c_tab_contabilidad);
 
-        c = properties.add(null, C_RETENCION);
-        c.setType(Dialogs.PropertyType.grid);
-        c.setLeftLabel(-1);
-        setGridRetencion(c);
-        if(!pLoadRetencion(c)) { return false; }
-        c.setName(C_RETENCION);
-        c.setKey(K_RET_ID);
-        c.setTabIndex(c_tab_retencion);
-        c.setGridAddEnabled(true);
-        c.setGridEditEnabled(true);
-        c.setGridRemoveEnabled(true);
+        var elem = properties.add(null, C_RETENCION);
+        elem.setType(T.grid);
+        elem.hideLabel();
+        setGridRetencion(elem);
+        loadRetencion(elem);
+        elem.setName(C_RETENCION);
+        elem.setKey(K_RET_ID);
+        elem.setTabIndex(c_tab_retencion);
+        elem.setGridAddEnabled(true);
+        elem.setGridEditEnabled(true);
+        elem.setGridRemoveEnabled(true);
 
         if(!m_dialog.show(self)) { return false; }
 
         return true;
       };
 
-        var refreshCollection = function() {
+      var setGridRetencion = function(property) {
+        var grid = property.getGrid();
 
-          m_dialog.setTitle(m_name);
+        var columns = grid.getColumns();
+        columns.clear();
 
-          var properties = m_dialog.getProperties();
+        var elem = columns.add(null);
+        elem.setVisible(false);
 
-          var elem = properties.item(C_DEFAULTDIFCAMBIO);
+        var elem = columns.add(null);
+        elem.setName(Cairo.Language.getText(1403, "")); // Retencion
+        elem.setType(T.select);
+        elem.setSelectTable(Cairo.Tables.RETENCION);
+        elem.setKey(KI_RET_ID);
 
-          var elem = properties.item(C_CUEIDDIFCAMBIO);
-          elem.setSelectId(m_cueIdDifCambio);
-          elem.setValue(m_cuentaDifCambio);
+        grid.getRows().clear();
+      }
 
-          var elem = properties.item(C_NCDIFCAMBIO);
-          elem.setSelectId(m_docIdNCdifCambio);
-          elem.setValue(m_docNCDifCambio);
+      var loadRetencion = function(property) {
+        var rows = property.getGrid().getRows();
+        rows.clear();
 
-          var elem = properties.item(C_NDDIFCAMBIO);
-          elem.setSelectId(m_docIdNDdifCambio);
-          elem.setValue(m_docNDDifCambio);
+        for(var _i = 0; _i < m_settings.length; _i += 1) {
 
-          var elem = properties.item(C_PRIDDIFCAMBIO);
-          elem.setSelectId(m_prIdDifCambio);
-          elem.setValue(m_productoDifCambio);
+          switch (getValue(m_settings[_i], C.CONFIG_KEY)) {
 
-          var elem = properties.item(C_MODOIVADIFCAMBIO);
+            case C_RETENCION:
 
-          var elem = properties.item(C_APLICACIONDIFCAMBIO);
+              var row = rows.add(null);
+              row.add(null);
 
-          var elem = properties.item(C_DOCIDCOBRANZA);
-          elem.setSelectId(m_docIdCobranza);
-          elem.setValue(m_docCobranza);
+              var value = getValue(m_settings[_i], C.CONFIG_VALUE);
+              var elem = row.add(null);
+              elem.setValue(value.name);
+              elem.setId(value.id);
+              elem.setKey(KI_RET_ID);
 
-          var elem = properties.item(C_DOCIDORDENPAGO);
-          elem.setSelectId(m_docIdOrdenPago);
-          elem.setValue(m_docOrdenPago);
-
-          var elem = properties.item(C_CUENTAANTICIPOCOBRANZA);
-          elem.setValue(m_cueAnticipoCobz);
-          elem.setSelectId(m_cueIdAntCobz);
-
-          var elem = properties.item(C_CUENTAANTICIPOPAGOS);
-          elem.setValue(m_cueAnticipoOpg);
-          elem.setSelectId(m_cueIdAntOpg);
-
-          var elem = properties.item(C_CALCULARRETENCIONES);
-          elem.setValue(Cairo.Util.boolToInt(m_calcularRetenciones));
-
-          var elem = properties.item(C_COBRANZASXHOJARUTA);
-          elem.setValue(m_cobranzasXHojaRuta);
-
-          var elem = properties.item(C_GRABARASIENTOCOBRANZA);
-          elem.setValue(m_grabarAsientoCobranza);
-
-          var elem = properties.item(C_GRABARASIENTOORDENPAGO);
-          elem.setValue(m_grabarAsientoOrdenPago);
-
-          var elem = properties.item(C_GRABARASIENTOMOVIMIENTOFONDO);
-          elem.setValue(m_grabarAsientoMovimientoFondo);
-
-          var elem = properties.item(C_GRABARASIENTORENDICION);
-          elem.setValue(m_grabarAsientoRendicion);
-
-          var elem = properties.item(C_GRABARASIENTODEPOSITOBANCO);
-          elem.setValue(m_grabarAsientoDepositoBanco);
-
-          var elem = properties.item(C_GRABARASIENTODEPOSITOCUPON);
-          elem.setValue(m_grabarAsientoDepositoCupon);
-
-          var elem = properties.item(C_GRABARASIENTORESOLUCIONCUPON);
-          elem.setValue(m_grabarAsientoResolucionCupon);
-
-          var elem = properties.item(C_GRABARASIENTOAGRUPADO);
-          elem.setValue(m_grabarAsientoAgrupado);
-
-          var elem = properties.item(C_EXIGIRCENTROCOSTO);
-          elem.setValue(Cairo.Util.boolToInt(m_exigirCentroCosto));
-
-          return m_dialog.showValues(properties);
-        };
-
-        var setGridRetencion = function(property) {
-          var retencion = null;
-          var ret_id = null;
-
-          var w_grid = property.getGrid();
-
-          w_grid.getColumns().clear();
-          w_grid.getRows().clear();
-
-          var w_columns = w_grid.getColumns();
-
-          var elem = w_columns.add(null);
-          elem.setVisible(false);
-
-          var elem = w_columns.add(null);
-          //'Retencion
-          elem.setName(Cairo.Language.getText(1403, ""));
-          elem.setType(Dialogs.PropertyType.select);
-          elem.setSelectTable(Cairo.Tables.RETENCION);
-          elem.setWidth(2200);
-          elem.setKey(KI_RET_ID);
-
-          var w_rows = w_grid.getRows();
-
-          for(var _i = 0; _i < m_data.retencion.length; _i += 1) {
-
-            ret_id = Cairo.Util.val(Cairo.Database.valField(m_data.retencion[_i], C.CFG_VALOR));
-
-            if(ret_id != C.NO_ID) {
-
-              retencion = "";
-
-              if(!Cairo.Database.getData(mTesoreriaConstantes.RETENCION, mTesoreriaConstantes.RET_ID, ret_id, mTesoreriaConstantes.RET_NAME, retencion)) { return false; }
-
-              if(retencion != "") {
-
-                var elem = w_rows.add(null);
-
-                elem.Add(null);
-
-                var elem = elem.add(null);
-                elem.Value = retencion;
-                elem.ID = ret_id;
-                elem.setKey(KI_RET_ID);
-
-              }
-            }
-
+              break;
           }
-
-          return true;
-        };
-
-        var isEmptyRow = function(row,  rowIndex) {
-          var cell = null;
-          var strRow = null;
-
-          strRow = " (Fila "+ rowIndex.toString()+ ")";
-
-          var bRowIsEmpty = true;
-
-          var _count = row.size();
-          for (var _i = 0; _i < _count; _i++) {
-            cell = row.item(_i);
-            switch (cell.getKey()) {
-              case KI_RET_ID:
-                if(!ValEmpty(cell.getValue(), TEXT)) {
-                  bRowIsEmpty = false;
-                  break;
-                }
-                break;
-            }
-          }
-
-          return bRowIsEmpty;
-        };
-
-        var pValidateRow = function(row,  rowIndex) { // TODO: Use of ByRef founded Private Function pValidateRow(ByRef Row As CSInterfacesABM.cIABMGridRow, ByVal RowIndex As Long) As Boolean
-          var cell = null;
-
-          var strRow = " (Row: " + rowIndex.toString() + ")";
-
-          var _count = row.size();
-          for (var _i = 0; _i < _count; _i++) {
-            cell = row.item(_i);
-            switch (cell.getKey()) {
-              case KI_RET_ID:
-                if(ValEmpty(cell.getId(), ID)) {
-                  //'Debe indicar una Retencion (1)
-                  MsgInfo(Cairo.Language.getText(1386, ""));
-                }
-                break;
-            }
-          }
-
-          return Cairo.Promises.resolvedPromise(true);
-        };
-
-        // TODO: implement grid for retenciones
-
-        var destroy = function() {
-          m_dialog = null;
-          m_listController = null;
-        };
-
-        self.terminate = function() {
-          m_editing = false;
-
-          try {
-            if(m_listController != null) {
-              m_listController.removeEditor(self);
-            }
-          }
-          catch (ex) {
-            Cairo.manageErrorEx(ex.message, ex, "terminate", C_MODULE, "");
-          }
-
-          try {
-            destroy();
-          }
-          catch(ex) {
-            Cairo.manageErrorEx(ex.message, ex, "terminate", C_MODULE, "");
-          }
-        };
-
-        return self;
+        }
+        return true;
       };
 
-      var showEditor = function() {
-        var editor = Cairo.TesoreriaConfig.Edit.Controller.getEditor();
-        var dialog = Cairo.Dialogs.Views.Controller.newDialog();
+      var refreshCollection = function() {
 
-        editor.setDialog(dialog);
-        editor.edit();
+        var properties = m_dialog.getProperties();
+
+        var elem = properties.item(C_DEFAULT_DIF_CAMBIO);
+        elem.setListItemData(m_defaultDifCambio);
+
+        var elem = properties.item(C_CUE_ID_DIF_CAMBIO);
+        elem.setSelectId(m_cueIdDifCambio);
+        elem.setValue(m_cuentaDifCambio);
+
+        var elem = properties.item(C_NC_DIF_CAMBIO);
+        elem.setSelectId(m_docIdNCdifCambio);
+        elem.setValue(m_docNCDifCambio);
+
+        var elem = properties.item(C_ND_DIF_CAMBIO);
+        elem.setSelectId(m_docIdNDdifCambio);
+        elem.setValue(m_docNDDifCambio);
+
+        var elem = properties.item(C_PR_ID_DIF_CAMBIO);
+        elem.setSelectId(m_prIdDifCambio);
+        elem.setValue(m_productoDifCambio);
+
+        var elem = properties.item(C_MODO_IVA_DIF_CAMBIO);
+        elem.setListItemData(m_modoIvaDifCambio);
+
+        var elem = properties.item(C_APLICACION_DIF_CAMBIO);
+        elem.setListItemData(m_aplicacionDifCambio);
+
+        var elem = properties.item(C_DOC_ID_COBRANZA);
+        elem.setSelectId(m_docIdCobranza);
+        elem.setValue(m_docCobranza);
+
+        var elem = properties.item(C_DOC_ID_ORDEN_PAGO);
+        elem.setSelectId(m_docIdOrdenPago);
+        elem.setValue(m_docOrdenPago);
+
+        var elem = properties.item(C_CUENTA_ANTICIPO_COBRANZA);
+        elem.setValue(m_cueAnticipoCobz);
+        elem.setSelectId(m_cueIdAntCobz);
+
+        var elem = properties.item(C_CUENTA_ANTICIPO_PAGOS);
+        elem.setValue(m_cueAnticipoOpg);
+        elem.setSelectId(m_cueIdAntOpg);
+
+        var elem = properties.item(C_CALCULAR_RETENCIONES);
+        elem.setValue(Cairo.Util.boolToInt(m_calcularRetenciones));
+
+        var elem = properties.item(C_COBRANZAS_X_HOJA_RUTA);
+        elem.setValue(m_cobranzasXHojaRuta);
+
+        var elem = properties.item(C_GRABAR_ASIENTO_COBRANZA);
+        elem.setValue(m_grabarAsientoCobranza);
+
+        var elem = properties.item(C_GRABAR_ASIENTO_ORDEN_PAGO);
+        elem.setValue(m_grabarAsientoOrdenPago);
+
+        var elem = properties.item(C_GRABAR_ASIENTO_MOVIMIENTO_FONDO);
+        elem.setValue(m_grabarAsientoMovimientoFondo);
+
+        var elem = properties.item(C_GRABAR_ASIENTO_RENDICION);
+        elem.setValue(m_grabarAsientoRendicion);
+
+        var elem = properties.item(C_GRABAR_ASIENTO_DEPOSITO_BANCO);
+        elem.setValue(m_grabarAsientoDepositoBanco);
+
+        var elem = properties.item(C_GRABAR_ASIENTO_DEPOSITO_CUPON);
+        elem.setValue(m_grabarAsientoDepositoCupon);
+
+        var elem = properties.item(C_GRABAR_ASIENTO_RESOLUCION_CUPON);
+        elem.setValue(m_grabarAsientoResolucionCupon);
+
+        var elem = properties.item(C_GRABAR_ASIENTO_AGRUPADO);
+        elem.setValue(m_grabarAsientoAgrupado);
+
+        var elem = properties.item(C_EXIGIR_CENTRO_COSTO);
+        elem.setValue(Cairo.Util.boolToInt(m_exigirCentroCosto));
+
+        loadRetencion(getRetencion());
+
+        return m_dialog.showValues(properties);
       };
 
-      Edit.Controller = { getEditor: createObject, edit: showEditor };
+      // TODO: implement grid for retenciones
 
-    });
+      var destroy = function() {
+        m_dialog = null;
+        m_listController = null;
+      };
+
+      self.terminate = function() {
+        m_editing = false;
+
+        try {
+          if(m_listController != null) {
+            m_listController.removeEditor(self);
+          }
+        }
+        catch (ex) {
+          Cairo.manageErrorEx(ex.message, ex, "terminate", C_MODULE, "");
+        }
+
+        try {
+          destroy();
+        }
+        catch(ex) {
+          Cairo.manageErrorEx(ex.message, ex, "terminate", C_MODULE, "");
+        }
+      };
+
+      return self;
+    };
+
+    var showEditor = function() {
+      var editor = Cairo.TesoreriaConfig.Edit.Controller.getEditor();
+      var dialog = Cairo.Dialogs.Views.Controller.newDialog();
+
+      editor.setDialog(dialog);
+      editor.edit();
+    };
+
+    Edit.Controller = { getEditor: createObject, edit: showEditor };
+
+  });
 
 
-  }());
+}());

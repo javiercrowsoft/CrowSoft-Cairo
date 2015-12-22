@@ -1019,7 +1019,7 @@ use this function but replace the LNG_ID
        search (incluir espacioes despues de los dos puntos):        //'(.+)\n(.+)
        replace:$2 // $1
 
-       search (incluir espacioes despues de los dos puntos):        // (.+)\n.+c(.+)
+       search (incluir espacios despues de los dos puntos):        // (.+)\n.+c(.+)
        replace:        c$2 // $1
 
        search: m_objList.ObjClientMenu = self;
