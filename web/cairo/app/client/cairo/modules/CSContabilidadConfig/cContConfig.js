@@ -215,7 +215,7 @@
 
           switch (property.getKey()) {
             case K_CLAVE_FISCAL:
-              if(property.getListItemData() == Cairo.Constants.NO_ID) {
+              if(property.getListItemData() === Cairo.Constants.NO_ID) {
                 return Cairo.Modal.showWarningWithFalse(Cairo.Language.getText(3096, "")); // Debe indicar con que tipo de clave fiscal trabaja Cairo.
               }
               break;
@@ -377,7 +377,7 @@
         m_editing = false;
 
         try {
-          if(m_listController != null) {
+          if(m_listController !== null) {
             m_listController.removeEditor(self);
           }
         }

@@ -999,7 +999,11 @@ var Cairo = new Marionette.Application();
     var self = {
       name: '',
       id: 0,
-      currencyId: 0
+      defaultCurrency: {
+        id: 0,
+        symbol: "",
+        name: ""
+      }
     }
 
     var that = {};
@@ -1019,12 +1023,13 @@ var Cairo = new Marionette.Application();
     };
 
     that.getDefaultCurrency = function() {
-      return self.currencyId;
+      return self.defaultCurrency;
     };
-    that.setDefaultCurrency = function(currencyId) {
-      self.currencyId = currencyId;
+    that.setDefaultCurrency = function(currencyId, currencySymbol, currencyName) {
+      self.defaultCurrency.id = currencyId;
+      self.defaultCurrency.symbol = currencySymbol;
+      self.defaultCurrency.name = currencyName;
     };
-
 
     return that;
   };

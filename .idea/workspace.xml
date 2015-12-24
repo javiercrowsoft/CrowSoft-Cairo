@@ -2,15 +2,23 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d47203c3-b220-49d7-aac2-46c758baa4bb" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/cairo/app/models/cairo/modules/general/VentasSetting.scala" afterPath="$PROJECT_DIR$/web/cairo/app/models/cairo/modules/general/VentasSetting.scala" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSContabilidad2/cAsiento.js" afterPath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSContabilidad2/cAsiento.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSTesoreria2/cCobranza.js" afterPath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSTesoreria2/cCobranza.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSTesoreria2/cCobranzaWizard.js" afterPath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSTesoreria2/cCobranzaWizard.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSContabilidadConfig/cContConfig.js" afterPath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSContabilidadConfig/cContConfig.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSCompra2/cFacturaCompra.js" afterPath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSCompra2/cFacturaCompra.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSCompra2/cFacturaCompraRemitoWiz.js" afterPath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSCompra2/cFacturaCompraRemitoWiz.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSVenta2/cFacturaVenta.js" afterPath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSVenta2/cFacturaVenta.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSDocumentoEdit/cFechaControlAcceso.js" afterPath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSDocumentoEdit/cFechaControlAcceso.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSTesoreria2/cOrdenPago.js" afterPath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSTesoreria2/cOrdenPago.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSGeneral2/cProveedor.js" afterPath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSGeneral2/cProveedor.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSGeneral2/cRubro.js" afterPath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSGeneral2/cRubro.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSTesoreriaConfig/cTesoreriaConfig.js" afterPath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSTesoreriaConfig/cTesoreriaConfig.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSVentaConfig/cVentaConfig.js" afterPath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSVentaConfig/cVentaConfig.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/cairo/public/stylesheets/cairo.css" afterPath="$PROJECT_DIR$/web/cairo/public/stylesheets/cairo.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/cairo/conf/routes" afterPath="$PROJECT_DIR$/web/cairo/conf/routes" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/cairo/app/client/cairo/cairoApp.js" afterPath="$PROJECT_DIR$/web/cairo/app/client/cairo/cairoApp.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSGeneral2/constants.js" afterPath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSGeneral2/constants.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/cairo/app/views/logged/desktop/index.scala.html" afterPath="$PROJECT_DIR$/web/cairo/app/views/logged/desktop/index.scala.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/system/system.js" afterPath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/system/system.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/translate-todo-list.txt" afterPath="$PROJECT_DIR$/docs/translate-todo-list.txt" />
     </list>
     <ignored path="CrowSoft-Cairo.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -191,8 +199,8 @@
       <file leaf-file-name="translate-todo-list.txt" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/docs/translate-todo-list.txt">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.6224138" vertical-offset="18791" max-vertical-offset="22895">
-              <caret line="1008" column="42" selection-start-line="1008" selection-start-column="0" selection-end-line="1008" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.6551724" vertical-offset="18905" max-vertical-offset="22895">
+              <caret line="1015" column="66" selection-start-line="1015" selection-start-column="15" selection-end-line="1015" selection-end-column="66" />
               <folding />
             </state>
           </provider>
@@ -599,7 +607,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="1920" y="0" width="1920" height="1080" extended-state="0" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -1019,8 +1027,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/docs/translate-todo-list.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.6224138" vertical-offset="18791" max-vertical-offset="22895">
-          <caret line="1008" column="42" selection-start-line="1008" selection-start-column="0" selection-end-line="1008" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.6551724" vertical-offset="18905" max-vertical-offset="22895">
+          <caret line="1015" column="66" selection-start-line="1015" selection-start-column="15" selection-end-line="1015" selection-end-column="66" />
           <folding />
         </state>
       </provider>

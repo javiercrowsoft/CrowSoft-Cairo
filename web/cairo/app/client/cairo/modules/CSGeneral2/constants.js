@@ -849,6 +849,7 @@
       MON_ID: "mon_id",
       MON_NAME: "mon_nombre",
       MON_PRECIO: "mon_precio",
+      MON_COTIZACION: "mon_precio",
 
       // Producto
       PRODUCTO: "Producto",

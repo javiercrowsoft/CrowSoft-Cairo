@@ -691,11 +691,13 @@
     });
   };
 
-  Cairo.Documents.getSelectFilterForCuenta = "account_in_current_company";
-  Cairo.Documents.getSelectFilterForCuentaCheques = "account_for_cheques"; /* banco or documentos en cartera */
-  Cairo.Documents.getSelectFilterForCuentaEfectivo = "account_for_efectivo"; /* banco or caja */
-  Cairo.Documents.getSelectFilterForCuentaAnticipoCobranza = "account_for_anticipo_cobranza"; /* duedor por ventas o deposito cupones */
-  Cairo.Documents.getSelectFilterForCuentaAnticipoPagos = "account_for_anticipo_pagos"; /* acreedores */
+  Cairo.Documents.selectFilterForCuenta = "account_in_current_company";
+  Cairo.Documents.selectFilterForCuentaCheques = "account_for_cheques"; /* banco or documentos en cartera */
+  Cairo.Documents.selectFilterForCuentaEfectivo = "account_for_efectivo"; /* banco or caja */
+  Cairo.Documents.selectFilterForCuentaAnticipoCobranza = "account_for_anticipo_cobranza"; /* duedor por ventas o deposito cupones */
+  Cairo.Documents.selectFilterForCuentaAnticipoPagos = "account_for_anticipo_pagos"; /* acreedores */
+
+  Cairo.Documents.selectFilterForTarjeta = "tarjeta_in_current_company";
 
   Cairo.Documents.getTasaFromProducto = function(prId) {
     var p = DB.getData("load[" + m_apiPath + "general/producto/" + prId.toString() + "/taxes]");
@@ -837,6 +839,39 @@
     return "customer_account_filter";
   };
 
+  Cairo.Documents.selectFilterCuentaNotInCaja = "account_filter_not_in_caja";
+
+  Cairo.Documents.getCuentaOtroFilterForCaja = function(isHojaRuta, cjId) {
+    if(isHojaRuta) {
+      return "account_filter_caja|cajaId:" + cjId;
+    }
+    else {
+      return Cairo.Documents.selectFilterCuentaNotInCaja;
+    }
+  };
+
+  Cairo.Documents.getCuentaChequeFilterForCaja = function(isHojaRuta, cjId) {
+    // { cuec_id = banco - caja } and filter for caja
+    //
+    if(isHojaRuta) {
+      return "account_filter_cheque_caja|cajaId:" + cjId;
+    }
+    else {
+      return "account_filter_cheque_not_in_caja";
+    }
+  };
+
+  Cairo.Documents.getCuentaEfectivoFilterForCaja = function(isHojaRuta, cjId) {
+    // { cuec_id = banco - documentos en cartera } and filter for caja
+    //
+    if(isHojaRuta) {
+      return "account_filter_efectivo_caja|cajaId:" + cjId;
+    }
+    else {
+      return "account_filter_efectivo_not_in_caja";
+    }
+  };
+
   Cairo.Documents.getRubroTablaItemFilter = function(rubtId) {
     return "rubro_tabla_item|rubtId:" + rubtId.toString();
   };
@@ -868,6 +903,14 @@
     + Cairo.Documents.Types.FACTURA_VENTA.toString()
     + "*" + Cairo.Documents.Types.NOTA_CREDITO_VENTA.toString()
     + "*" + Cairo.Documents.Types.NOTA_DEBITO_VENTA.toString()
+  ;
+
+  Cairo.Documents.NOTA_CREDITO_VENTAS_DOC_FILTER = "document|documentTypeId:"
+    + Cairo.Documents.Types.NOTA_CREDITO_VENTA.toString()
+  ;
+
+  Cairo.Documents.NOTA_DEBITO_VENTAS_DOC_FILTER = "document|documentTypeId:"
+    + Cairo.Documents.Types.NOTA_DEBITO_VENTA.toString()
   ;
 
   Cairo.Documents.FACTURA_VENTAS_REMITO_DOC_FILTER = "document|documentTypeId:"
@@ -1096,15 +1139,15 @@
     wiz.setPushVirtualNext(false);
   };
 
-  var m_defaultCurrency = Cairo.Documents.getDefaultCurrency();
+  var m_defaultCurrency.id = Cairo.Documents.getDefaultCurrency();
 
   Cairo.Documents.wizCompraShowCotizacion = function(wiz, stepId, monId, show) {
     var p = null;
 
     var property = Cairo.Documents.getWizProperty(wiz, stepId, DWC.COTIZACION);
-    property.setVisible(monId !== m_defaultCurrency);
+    property.setVisible(monId !== m_defaultCurrency.id);
 
-    if(monId === m_defaultCurrency) {
+    if(monId === m_defaultCurrency.id) {
       property.setValue(0);
     }
     else {
@@ -1233,7 +1276,7 @@
 
     var elem = properties.add(null, DWC.COTIZACION_PROV);
     elem.setType(T.numeric);
-    elem.setSubType(T.money);
+    elem.setSubType(ST.money);
     elem.setName(getText(4653, "")); // Cotización Proveedor
     elem.setFormat(formatCotiz);
 
@@ -1730,6 +1773,10 @@
 
   Cairo.Documents.getSelectChequeFilter = function(cueId) {
     return "cheque|cueId:" + cueId.toString();
+  };
+
+  Cairo.Documents.getClienteName = function(cliId) {
+    return DB.getData("load[" + m_apiPath + "general/cliente/" + cliId.toString() + "/name]");
   };
 
 }());

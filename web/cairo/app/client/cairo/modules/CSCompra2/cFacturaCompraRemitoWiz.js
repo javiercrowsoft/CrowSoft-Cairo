@@ -35,6 +35,7 @@
       var DWC = Cairo.Constants.WizardKeys;
       var M = Cairo.Modal;
       var T = Dialogs.PropertyType;
+      var ST = Dialogs.PropertySubType;
 
       var KI_RC_ID = 1;
       var KI_SELECT = 2;
@@ -143,7 +144,7 @@
       };
 
       self.isEmptyRow = function(key, row, rowIndex) {
-        var isEmpty = null;
+        var isEmpty = true;
 
         try {
 
@@ -160,7 +161,6 @@
               isEmpty = Percepciones.isEmptyRowPercepciones(row, rowIndex);
               break;
           }
-
         }
         catch (ex) {
           Cairo.manageErrorEx(ex.message, ex, "isEmptyRow", C_MODULE, "");
@@ -940,7 +940,7 @@
         var elem = properties.add(null, DWC.TOTAL);
         elem.setName(getText(1584, "")); // Total
         elem.setType(T.numeric);
-        elem.setSubType(T.money);
+        elem.setSubType(ST.money);
         elem.setFormat(Cairo.Settings.getAmountDecimalsFormat());
       };
 
@@ -1016,7 +1016,7 @@
         var elem = properties.add(null, DWC.TOTAL_ITEMS);
         elem.setName(getText(1584, "")); // Total
         elem.setType(T.numeric);
-        elem.setSubType(T.money);
+        elem.setSubType(ST.money);
         elem.setFormat(Cairo.Settings.getAmountDecimalsFormat());
       };
 
@@ -1042,7 +1042,7 @@
         var elem = properties.add(null, DWC.TOTAL_PERCEPCIONES);
         elem.setName(getText(1584, "")); // Total
         elem.setType(T.numeric);
-        elem.setSubType(T.money);
+        elem.setSubType(ST.money);
         elem.setFormat(Cairo.Settings.getAmountDecimalsFormat());
       };
 
@@ -1785,7 +1785,7 @@
 
             var register = new DB.Register();
 
-            var isDefaultCurrency = m_defaultCurrency === m_monId;
+            var isDefaultCurrency = m_defaultCurrency.id === m_monId;
             var cotizacion = val(getCotizacion().getValue());
 
             if(isDefaultCurrency) {

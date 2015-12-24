@@ -251,7 +251,7 @@
       var showStartWizard = function(cliId, f) {
         try {
           m_cliId = cliId;
-          DB.getData("load[" + m_apiPath + "general/cliente/" + cliId.toString() + "/name]").then(function(response) {
+          D.getClienteName(cliId).then(function(response) {
             try {
               if(response.success === true) {
                 m_cliente = valField(response.data, C.CLI_NAME);
@@ -1570,7 +1570,7 @@
         elem.setType(T.select);
         elem.setSelectTable(Cairo.Tables.CUENTA);
         elem.setKey(KIO_CUE_ID);
-        elem.setSelectFilter(D.getSelectFilterForCuenta);
+        elem.setSelectFilter(D.selectFilterForCuenta);
 
         elem = columns.add(null);
         elem.setName(getText(1904, "")); // Debe
@@ -1730,7 +1730,7 @@
         elem.setName(getText(1267, "")); // Cuenta
         elem.setType(T.select);
         elem.setSelectTable(Cairo.Tables.CUENTA);
-        elem.setSelectFilter(D.getSelectFilterForCuentaCheques);
+        elem.setSelectFilter(D.selectFilterForCuentaCheques);
         elem.setKey(KICH_CUE_ID);
 
         elem = columns.add(null);
@@ -1896,7 +1896,7 @@
         elem.setName(getText(1267, "")); // Cuenta
         elem.setType(T.select);
         elem.setSelectTable(Cairo.Tables.CUENTA);
-        elem.setSelectFilter(D.getSelectFilterForCuentaEfectivo);
+        elem.setSelectFilter(D.selectFilterForCuentaEfectivo);
         elem.setKey(KIE_CUE_ID);
 
         elem = columns.add(null);
@@ -3161,7 +3161,7 @@
             var row = grid.getRows(lRow);
             var cell = getCell(row, KICH_MON_ID);
 
-            if(cell.getId() !== m_defaultCurrency || cell.getId() === 0) {
+            if(cell.getId() !== m_defaultCurrency.id || cell.getId() === 0) {
               getCell(row, KICH_IMPORTE)
                 .setValue(val(getCell(row, KICH_IMPORTEORIGEN).getValue()) * val(getCotizacion().getValue()));
             }
@@ -3188,7 +3188,7 @@
               var cell = getCell(row, KICH_MON_ID);
               cell.setValue(moneda);
               cell.setId(monId);
-              if(monId === m_defaultCurrency || monId === 0) {
+              if(monId === m_defaultCurrency.id || monId === 0) {
                 getCell(row, KICH_IMPORTEORIGEN).setValue(0);
               }
             });
@@ -3253,7 +3253,7 @@
 
             row = grid.getRows(lRow);
             var w_pCell = getCell(row, KIE_MON_ID);
-            if(w_pCell.getId() !== m_defaultCurrency || w_pCell.getId() === 0) {
+            if(w_pCell.getId() !== m_defaultCurrency.id || w_pCell.getId() === 0) {
               getCell(row, KIE_IMPORTE)
                 .setValue(val(getCell(row, KIE_IMPORTEORIGEN).getValue()) * val(getCotizacion().getValue()));
             }
@@ -3280,7 +3280,7 @@
               var cell = getCell(row, KICH_MON_ID);
               cell.setValue(moneda);
               cell.setId(monId);
-              if(monId === m_defaultCurrency || monId === 0) {
+              if(monId === m_defaultCurrency.id || monId === 0) {
                 getCell(row, KICH_IMPORTEORIGEN).setValue(0);
               }
             });
@@ -3486,7 +3486,7 @@
           }
         }
 
-        if(!bOrigen && monId !== m_defaultCurrency) {
+        if(!bOrigen && monId !== m_defaultCurrency.id) {
           return M.showInfoWithFalse(getText(2118, "", strRow)); // Debe indicar un importe para la moneda extranjera (1)
         }
 
@@ -3603,7 +3603,7 @@
           }
         }
 
-        if(!bOrigen && monId !== m_defaultCurrency) {
+        if(!bOrigen && monId !== m_defaultCurrency.id) {
           return M.showInfoWithFalse(getText(2118, "", strRow)); // Debe indicar un importe para la moneda extranjera (1)
         }
 
@@ -3706,7 +3706,7 @@
 
           p = D.getCurrencyFromAccount(cueId).whenSuccess(function(response) {
             var monId = valField(response.data, C.MON_ID);
-            if(monId !== m_defaultCurrency) {
+            if(monId !== m_defaultCurrency.id) {
               return M.showInfoWithFalse(getText(2118, "", strRow)); // Debe indicar un importe para la moneda extranjera (1)
             }
             else {
@@ -3785,7 +3785,7 @@
 
           p = D.getCurrencyFromAccount(cueId).whenSuccess(function(response) {
             var monId = valField(response.data, C.MON_ID);
-            if(monId !== m_defaultCurrency) {
+            if(monId !== m_defaultCurrency.id) {
               return M.showInfoWithFalse(getText(2118, "", strRow)); // Debe indicar un importe para la moneda extranjera (1)
             }
             else {
@@ -3872,7 +3872,7 @@
 
           p = D.getCurrencyFromAccount(cueId).whenSuccess(function(response) {
             var monId = valField(response.data, C.MON_ID);
-            if(monId !== m_defaultCurrency) {
+            if(monId !== m_defaultCurrency.id) {
               return M.showInfoWithFalse(getText(2118, "", strRow)); // Debe indicar un importe para la moneda extranjera (1)
             }
             else {

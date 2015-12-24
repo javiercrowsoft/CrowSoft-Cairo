@@ -119,6 +119,9 @@
       var m_cueIdAntCobz = 0;
       var m_cueIdAntOpg = 0;
 
+      var monIdAntCobz = 0;
+      var monNameAntCobz = "";
+
       var m_exigirCentroCosto;
       var m_cobranzasXHojaRuta;
 
@@ -154,6 +157,14 @@
 
       self.getCueIdAntCobz = function() {
         return m_cueIdAntCobz;
+      };
+
+      self.getMonIdAntCobz = function() {
+        return m_monIdAntCobz;
+      };
+
+      self.getMonNameAntCobz = function() {
+        return m_monNameAntCobz;
       };
 
       self.getCueAnticipoOpg = function() {
@@ -665,7 +676,7 @@
       };
 
       self.getPath = function() {
-        return "#general/tesoreriaconfig";
+        return "#tesoreria/tesoreriaconfig";
       };
 
       self.getEditorName = function() {
@@ -895,7 +906,7 @@
 
         var tab = w_tabs.add(null);
         tab.setIndex(c_tab_general);
-        tab.setName(C.TAB_GENERAL);
+        tab.setName(Cairo.Constants.TAB_GENERAL);
 
         var tab = w_tabs.add(null);
         tab.setIndex(c_tab_contabilidad);
@@ -1030,7 +1041,7 @@
         elem.setKey(K_CUE_ID_ANT_COBZ);
         elem.setValue(m_cueAnticipoCobz);
         elem.setSelectId(m_cueIdAntCobz);
-        elem.setSelectFilter(D.getSelectFilterForCuentaAnticipoCobranza);
+        elem.setSelectFilter(D.selectFilterForCuentaAnticipoCobranza);
 
         var elem = properties.add(null, C_CUENTA_ANTICIPO_PAGOS);
         elem.setType(T.select);
@@ -1039,7 +1050,7 @@
         elem.setKey(K_CUE_ID_ANT_OPG);
         elem.setValue(m_cueAnticipoOpg);
         elem.setSelectId(m_cueIdAntOpg);
-        elem.setSelectFilter(D.getSelectFilterForCuentaAnticipoPagos);
+        elem.setSelectFilter(D.selectFilterForCuentaAnticipoPagos);
 
         var elem = properties.add(null, C_CALCULAR_RETENCIONES);
         elem.setType(T.check);
@@ -1270,7 +1281,7 @@
         m_editing = false;
 
         try {
-          if(m_listController != null) {
+          if(m_listController !== null) {
             m_listController.removeEditor(self);
           }
         }

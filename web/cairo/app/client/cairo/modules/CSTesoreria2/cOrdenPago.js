@@ -1627,7 +1627,7 @@
 
           fv = f.add(null);
           fv.setValue(Cairo.Database.valField(m_data.otros[_i], C.CUE_NAME));
-          fv.setID(Cairo.Database.valField(m_data.otros[_i], C.CUE_ID));
+          fv.setId(Cairo.Database.valField(m_data.otros[_i], C.CUE_ID));
           fv.setKey(KIO_CUE_ID);
 
           fv = f.add(null);
@@ -1658,7 +1658,7 @@
 
           fv = f.add(null);
           fv.setValue(Cairo.Database.valField(m_data.otros[_i], CT.RET_NAME));
-          fv.setID(Cairo.Database.valField(m_data.otros[_i], CT.RET_ID));
+          fv.setId(Cairo.Database.valField(m_data.otros[_i], CT.RET_ID));
           fv.setKey(KIO_RET_ID);
 
           fv = f.add(null);
@@ -1675,12 +1675,12 @@
 
           fv = f.add(null);
           fv.setValue(Cairo.Database.valField(m_data.otros[_i], C.CCOS_NAME));
-          fv.setID(Cairo.Database.valField(m_data.otros[_i], C.CCOS_ID));
+          fv.setId(Cairo.Database.valField(m_data.otros[_i], C.CCOS_ID));
           fv.setKey(KIO_CCOS_ID);
 
           fv = f.add(null);
           fv.setValue(Cairo.Database.valField(m_data.otros[_i], CT.FC_NRODOC));
-          fv.setID(Cairo.Database.valField(m_data.otros[_i], CT.FC_ID_RET));
+          fv.setId(Cairo.Database.valField(m_data.otros[_i], CT.FC_ID_RET));
           fv.setKey(KIO_FC_ID_RET);
 
         }
@@ -1790,12 +1790,12 @@
 
           fv = f.add(null);
           fv.setValue(Cairo.Database.valField(m_data.tCheques[_i], C.CUE_NAME));
-          fv.setID(Cairo.Database.valField(m_data.tCheques[_i], C.CUE_ID));
+          fv.setId(Cairo.Database.valField(m_data.tCheques[_i], C.CUE_ID));
           fv.setKey(mPublic.kICHT_CUE_ID);
 
           fv = f.add(null);
           fv.setValue(Cairo.Database.valField(m_data.tCheques[_i], CT.CHEQ_NUMERO_DOC));
-          fv.setID(Cairo.Database.valField(m_data.tCheques[_i], CT.CHEQ_ID));
+          fv.setId(Cairo.Database.valField(m_data.tCheques[_i], CT.CHEQ_ID));
           fv.setKey(mPublic.kICHT_CHEQUE);
 
           fv = f.add(null);
@@ -1808,7 +1808,7 @@
 
           fv = f.add(null);
           fv.setValue(Cairo.Database.valField(m_data.tCheques[_i], CT.MON_NAME));
-          fv.setID(Cairo.Database.valField(m_data.tCheques[_i], CT.MON_ID));
+          fv.setId(Cairo.Database.valField(m_data.tCheques[_i], CT.MON_ID));
           fv.setKey(mPublic.kICHT_MON_ID);
 
           fv = f.add(null);
@@ -1940,12 +1940,12 @@
 
           fv = f.add(null);
           fv.setValue(Cairo.Database.valField(m_data.cheques[_i], C.CUE_NAME));
-          fv.setID(Cairo.Database.valField(m_data.cheques[_i], C.CUE_ID));
+          fv.setId(Cairo.Database.valField(m_data.cheques[_i], C.CUE_ID));
           fv.setKey(KICH_CUE_ID);
 
           fv = f.add(null);
           fv.setValue(Cairo.Database.valField(m_data.cheques[_i], CT.MON_NAME));
-          fv.setID(Cairo.Database.valField(m_data.cheques[_i], CT.MON_ID));
+          fv.setId(Cairo.Database.valField(m_data.cheques[_i], CT.MON_ID));
           fv.setKey(KICH_MON_ID);
 
           fv = f.add(null);
@@ -1958,7 +1958,7 @@
 
           fv = f.add(null);
           fv.setValue(Cairo.Database.valField(m_data.cheques[_i], CT.CHQ_CODE));
-          fv.setID(Cairo.Database.valField(m_data.cheques[_i], CT.CHQ_ID));
+          fv.setId(Cairo.Database.valField(m_data.cheques[_i], CT.CHQ_ID));
           fv.setKey(KICH_CHEQUERA);
 
           fv = f.add(null);
@@ -1967,7 +1967,7 @@
 
           fv = f.add(null);
           fv.setValue(Cairo.Database.valField(m_data.cheques[_i], CT.CHEQ_NUMERO));
-          fv.setID(Cairo.Database.valField(m_data.cheques[_i], CT.CHEQ_ID));
+          fv.setId(Cairo.Database.valField(m_data.cheques[_i], CT.CHEQ_ID));
           fv.setKey(KICH_CHEQ_ID);
 
           fv = f.add(null);
@@ -1980,7 +1980,7 @@
 
           fv = f.add(null);
           fv.setValue(Cairo.Database.valField(m_data.cheques[_i], CT.CLE_NAME));
-          fv.setID(Cairo.Database.valField(m_data.cheques[_i], CT.CLE_ID));
+          fv.setId(Cairo.Database.valField(m_data.cheques[_i], CT.CLE_ID));
           fv.setKey(KICH_CLE_ID);
 
           fv = f.add(null);
@@ -2009,7 +2009,7 @@
         elem.setName(Cairo.Language.getText(1267, "")); // Cuenta
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.CUENTA);
-        elem.setSelectFilter(D.getSelectFilterForCuentaEfectivo);
+        elem.setSelectFilter(D.selectFilterForCuentaEfectivo);
 
         elem.setKey(KIE_CUE_ID);
 
@@ -2053,12 +2053,12 @@
 
           fv = f.add(null);
           fv.setValue(Cairo.Database.valField(m_data.efectivo[_i], C.CUE_NAME));
-          fv.setID(Cairo.Database.valField(m_data.efectivo[_i], C.CUE_ID));
+          fv.setId(Cairo.Database.valField(m_data.efectivo[_i], C.CUE_ID));
           fv.setKey(KIE_CUE_ID);
 
           fv = f.add(null);
           fv.setValue(Cairo.Database.valField(m_data.efectivo[_i], CT.MON_NAME));
-          fv.setID(Cairo.Database.valField(m_data.efectivo[_i], CT.MON_ID));
+          fv.setId(Cairo.Database.valField(m_data.efectivo[_i], CT.MON_ID));
           fv.setKey(KIE_MON_ID);
 
           fv = f.add(null);
@@ -2124,7 +2124,7 @@
 
           fv = f.add(null);
           fv.setValue(Cairo.Database.valField(m_data.ctaCte[_i], C.CUE_NAME));
-          fv.setID(Cairo.Database.valField(m_data.ctaCte[_i], C.CUE_ID));
+          fv.setId(Cairo.Database.valField(m_data.ctaCte[_i], C.CUE_ID));
           fv.setKey(KICC_CUE_ID);
 
           fv = f.add(null);
@@ -3256,11 +3256,11 @@
             row = grid.getRows(lRow);
 
             cueId = Dialogs.cell(row, mPublic.kICHT_CUE_ID).getId();
-            GetMonedaFromCuenta(monId, moneda, cueId);
+            D.getCurrencyFromAccount(monId, moneda, cueId);
 
             var w_pCell = Dialogs.cell(row, mPublic.kICHT_MON_ID);
             w_pCell.setValue(moneda);
-            w_pCell.setID(monId);
+            w_pCell.setId(monId);
 
             if(monId === m_monDefault || monId === 0) {
               Dialogs.cell(row, mPublic.kICHT_IMPORTEORIGEN).setValue(0);
@@ -3334,11 +3334,11 @@
             row = grid.getRows(lRow);
 
             cueId = Dialogs.cell(row, KICH_CUE_ID).getId();
-            GetMonedaFromCuenta(monId, moneda, cueId);
+            D.getCurrencyFromAccount(monId, moneda, cueId);
 
             var w_pCell = Dialogs.cell(row, KICH_MON_ID);
             w_pCell.setValue(moneda);
-            w_pCell.setID(monId);
+            w_pCell.setId(monId);
 
             if(monId === m_monDefault || monId === 0) {
               Dialogs.cell(row, KICH_IMPORTEORIGEN).setValue(0);
@@ -3412,10 +3412,10 @@
             var monId = null;
             var moneda = null;
             row = grid.getRows(lRow);
-            GetMonedaFromCuenta(monId, moneda, Dialogs.cell(row, KIE_CUE_ID).getId());
-            var w_pCell = Dialogs.cell(row, KIE_MON_ID);
-            w_pCell.setValue(moneda);
-            w_pCell.setID(monId);
+            D.getCurrencyFromAccount(monId, moneda, Dialogs.cell(row, KIE_CUE_ID).getId());
+            var cell = Dialogs.cell(row, KIE_MON_ID);
+            cell.setValue(moneda);
+            cell.setId(monId);
 
             if(monId === m_monDefault || monId === 0) {
               Dialogs.cell(row, KIE_IMPORTEORIGEN).setValue(0);

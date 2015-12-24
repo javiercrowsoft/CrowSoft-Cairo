@@ -580,7 +580,7 @@
 
                     var editDoc = new Cairo.EditDocumento.Edit.Controller.getEditor();
                     editDoc.setClient(self);
-                    editDoc.setUseLegalCurrency(m_defaultCurrency === m_lastMonId);
+                    editDoc.setUseLegalCurrency(m_defaultCurrency.id === m_lastMonId);
                     editDoc.setCotizacion(val(getCotizacion().getValue()));
                     return editDoc.edit(m_id, m_doctId, true);
                   }
@@ -920,7 +920,7 @@
               }
             }
 
-            isDefaultCurrency = m_defaultCurrency === m_lastMonId;
+            isDefaultCurrency = m_defaultCurrency.id === m_lastMonId;
             if(isDefaultCurrency) {
               cotizacion = 1;
             }
@@ -2557,9 +2557,9 @@
         }
 
         var property = getCotizacion();
-        property.setVisible(monId !== m_defaultCurrency);
+        property.setVisible(monId !== m_defaultCurrency.id);
 
-        if(monId === m_defaultCurrency) {
+        if(monId === m_defaultCurrency.id) {
           property.setValue(0);
           m_lastMonIdCotizacion = monId;
         }
@@ -3135,7 +3135,7 @@
         elem.setType(T.select);
         elem.setSelectTable(Cairo.Tables.CUENTA);
         elem.setKey(KI_CUE_ID);
-        elem.setSelectFilter(D.getSelectFilterForCuenta);
+        elem.setSelectFilter(D.selectFilterForCuenta);
 
         elem = columns.add(null);
         elem.setName(getText(1904, "")); // Debe
@@ -3409,7 +3409,7 @@
 
               m_lastFecha = Cairo.Constants.NO_DATE;
 
-              if(m_lastMonId === m_defaultCurrency) {
+              if(m_lastMonId === m_defaultCurrency.id) {
                 m_cotizacion = 0;
                 m_lastMonIdCotizacion = m_lastMonId;
               }

@@ -246,7 +246,7 @@
       };
 
       self.editDocumentsEnabled = function() {
-        return m_id != NO_ID;
+        return m_id !== NO_ID;
       };
 
       self.copyEnabled = function() {
@@ -1217,13 +1217,13 @@
           case K_CAIS:
 
             var id = val(Dialogs.cell(row, KI_PROVC_ID).getValue());
-            if(id != NO_ID) { m_itemsDeletedCAIS = m_itemsDeletedCAIS + id.toString() + ","; }
+            if(id !== NO_ID) { m_itemsDeletedCAIS = m_itemsDeletedCAIS + id.toString() + ","; }
             break;
 
           case K_CUENTA_GRUPO:
 
             var id = val(Dialogs.cell(row, KI_PROVCUEG_ID).getValue());
-            if(id != NO_ID) { m_itemsDeletedCuentaGrupo = m_itemsDeletedCuentaGrupo + id.toString() + ","; }
+            if(id !== NO_ID) { m_itemsDeletedCuentaGrupo = m_itemsDeletedCuentaGrupo + id.toString() + ","; }
             break;
 
           case K_EMPRESAS:
@@ -1234,19 +1234,19 @@
           case K_DEPARTAMENTOS:
 
             var id = val(Dialogs.cell(row, KI_DPTOPROV_ID).getValue());
-            if(id != NO_ID) { m_itemsDeletedDptos = m_itemsDeletedDptos+ id.toString() + ","; }
+            if(id !== NO_ID) { m_itemsDeletedDptos = m_itemsDeletedDptos+ id.toString() + ","; }
             break;
 
           case K_CENTROS_DE_COSTO:
 
             var id = val(Dialogs.cell(row, KI_PROVCCOS_ID).getValue());
-            if(id != NO_ID) { m_itemsDeletedCcos = m_itemsDeletedCcos+ id.toString() + ","; }
+            if(id !== NO_ID) { m_itemsDeletedCcos = m_itemsDeletedCcos+ id.toString() + ","; }
             break;
 
           case K_RETENCION:
 
             var id = val(Dialogs.cell(row, KI_PROVRET_ID).getValue());
-            if(id != NO_ID) { m_itemsDeletedRetenciones = m_itemsDeletedRetenciones + id.toString() + ","; }
+            if(id !== NO_ID) { m_itemsDeletedRetenciones = m_itemsDeletedRetenciones + id.toString() + ","; }
             break;
         }
 

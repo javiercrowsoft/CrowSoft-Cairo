@@ -919,7 +919,7 @@
 
         var tab = w_tabs.add(null);
         tab.setIndex(tab_general);
-        tab.setName(C.TAB_GENERAL);
+        tab.setName(Cairo.Constants.TAB_GENERAL);
 
         var tab = w_tabs.add(null);
         tab.setIndex(tab_percepcion);
@@ -1338,7 +1338,7 @@
         m_editing = false;
 
         try {
-          if(m_listController != null) {
+          if(m_listController !== null) {
             m_listController.removeEditor(self);
           }
         }

@@ -448,7 +448,7 @@
 
             if(response.success !== true) { return false; }
 
-            if(response.data.id == NO_ID) {
+            if(response.data.id === NO_ID) {
               m_active = true;
               m_name = "";
               m_code = "";

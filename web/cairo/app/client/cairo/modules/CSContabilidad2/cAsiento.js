@@ -1186,7 +1186,7 @@
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.CUENTA);
         elem.setKey(KI_CUE_ID);
-        elem.setSelectFilter(D.getSelectFilterForCuenta);
+        elem.setSelectFilter(D.selectFilterForCuenta);
 
         elem = columns.add(null);
         elem.setName(getText(1904, "")); // Debe
@@ -1598,7 +1598,7 @@
       var isMonDefault = function(cueId) {
         return D.getCuentaInfo(cueId).then(function(info) {
           if(info.success) {
-            return info.monId === m_defaultCurrency;
+            return info.monId === m_defaultCurrency.id;
           }
           else {
             return false;

@@ -333,7 +333,7 @@
       };
 
       self.editDocumentsEnabled = function() {
-        return m_id != NO_ID;
+        return m_id !== NO_ID;
       };
 
       self.copyEnabled = function() {
@@ -348,7 +348,7 @@
         var _rtn = null;
         try {
 
-          if(m_id == NO_ID) { return _rtn; }
+          if(m_id === NO_ID) { return _rtn; }
 
           var doc = new Cairo.DocDigital();
 
@@ -598,8 +598,8 @@
       };
 
       var updateList = function() {
-        if(m_id == NO_ID) { return; }
-        if(m_listController == null) { return; }
+        if(m_id === NO_ID) { return; }
+        if(m_listController === null) { return; }
 
         if(m_isNew) {
           m_listController.addLeave(m_id, m_branchId);
