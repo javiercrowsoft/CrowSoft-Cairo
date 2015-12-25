@@ -106,7 +106,7 @@
       var KICC_IMPORTE = 3;
       var KICC_IMPORTEORIGEN = 4;
 
-      var c_NCNDDescripDifCambio = "";
+      var NC_ND_DESCRIP_DIF_CAMBIO = getText(2281, ""); // Generado automáticamente por diferencia de cambio
 
       var LABEL_COBROS_TEXT = getText(2146, ""); // Indique los instrumentos de cobro
 
@@ -115,9 +115,6 @@
       var m_wizardCancel;
 
       var m_bDifCambio;
-
-      var m_tesoreriaConfig;
-      var m_generalConfig;
 
       var m_defaultCurrency = D.getDefaultCurrency();
 
@@ -2262,8 +2259,8 @@
         elem.setType(T.select);
         elem.setSelectTable(Cairo.Tables.SUCURSAL);
         elem.setName(getText(1281, "")); // Sucursal
-        elem.setValue(cUtil.getUser().getSucursal());
-        elem.setSelectId(cUtil.getUser().getSuc_id());
+        elem.setValue(Cairo.User.getSucName());
+        elem.setSelectId(Cairo.User.getSucId());
         elem.setKey(WC.KW_SUCURSAL);
 
         var elem = properties.add(null, DWC.COMPROBANTE);
@@ -2279,7 +2276,7 @@
 
         var elem = properties.add(null, DWC.LEGAJO);
         elem.setType(T.select);
-        elem.setSelectTable(C.cSLEGAJO);
+        elem.setSelectTable(Cairo.Tables.LEGAJOS);
         elem.setName(getText(1575, "")); // Legajo
         elem.setKey(WC.KW_LEGAJO);
 
@@ -2293,40 +2290,6 @@
         elem.setType(T.text);
         elem.setName(getText(1861, "")); // Observaciones
         elem.setKey(WC.KW_DESCRIP);
-      };
-
-      var pUserCancel = function() {
-        var _rtn = null;
-        if(m_wizardCancel) {
-
-          if(Ask(getText(1665, ""), vbNo)) {
-            //Desea cancelar el proceso
-            _rtn = true;
-          }
-        }
-        m_wizardCancel = false;
-
-        return _rtn;
-      };
-
-      var getAnticipo2 = function(origen) {
-        var monId = null;
-        var cotizacion = null;
-        var anticipo = null;
-
-        monId = getMonedaAnticipo().getSelectId();
-        anticipo = val(getAnticipoImporte().getValue());
-
-        if(monId !== m_defaultCurrency.id) {
-          cotizacion = val(getCotizacionAnticipo().getValue());
-          origen = anticipo;
-          anticipo = anticipo * cotizacion;
-        }
-        else {
-          origen = 0;
-        }
-
-        return anticipo;
       };
 
       var checkAnticipo = function() {
@@ -2695,57 +2658,66 @@
       };
 
       var getCuentasDeudor = function() {
-        var i = null;
-        var row = null;
-        var cell = null;
-        var total = null;
-        var vCtaCte() = null;
-        var anticipo = null;
-        var anticipoOrigen = null;
-        var cue_id_anticipo = null;
-        var cuentaAnticipo = null;
+        var total = 0;
+        var anticipoOrigen = 0;
 
         // Dimensiono la grilla y el vector de facturas
         getCtaCte().getRows().clear();
 
-        var w_getCuentaAnticipo = getCuentaAnticipo();
-        cue_id_anticipo = w_getCuentaAnticipo.getSelectId();
-        cuentaAnticipo = w_getCuentaAnticipo.getValue();
+        var cuentaProperty = getCuentaAnticipo();
+        var cueIdAnticipo = cuentaProperty.getSelectId();
+        var cuentaAnticipo = cuentaProperty.getValue();
 
-        anticipo = getAnticipo2(anticipoOrigen);
+        var monId = getMonedaAnticipo().getSelectId();
+        var anticipo = val(getAnticipoImporte().getValue());
 
-        // Obtengo las cuentas del tercero
-        if(!mCobranza.self.getCuentasDeudor(getFacturas(), vCtaCte[], KI_FV_ID, KI_APLICAR, KI_COTIZACION2, anticipo, cue_id_anticipo, cuentaAnticipo, anticipoOrigen)) { return false; }
-
-        // Agrego las cuentas a la grilla
-        for(i = 1; i <= vCtaCte.length; i++) {
-          row = getCtaCte().getRows().add(null);
-
-          // La primera no se usa
-          cell = row.add(null);
-
-          cell = row.add(null);
-          cell.setValue(vCtaCte[i].cuenta);
-          cell.setId(vCtaCte[i].cue_id);
-          cell.setKey(KICC_CUE_ID);
-
-          cell = row.add(null);
-          cell.setValue(vCtaCte[i].importeOrigen);
-          cell.setKey(KICC_IMPORTEORIGEN);
-
-          cell = row.add(null);
-          cell.setValue(vCtaCte[i].importe);
-          cell.setKey(KICC_IMPORTE);
-
-          total = total + vCtaCte[i].importe;
+        if(monId !== m_defaultCurrency.id) {
+          var cotizacion = val(getCotizacionAnticipo().getValue());
+          anticipoOrigen = anticipo;
+          anticipo = anticipo * cotizacion;
+        }
+        else {
+          anticipoOrigen = 0;
         }
 
-        // Refrezco la grilla
-        getCobroIndicado().setValue(total);
-        m_objWizard.showValue(getCobroIndicado());
+        return D.getCuentasDeudor(getFacturas(), KI_FV_ID, KI_APLICAR, KI_COTIZACION2, anticipo, cueIdAnticipo, cuentaAnticipo, anticipoOrigen)
+          .whenSuccess(function(response) {
 
-        refreshCtaCte();
-        return true;
+            var ctaCte = response.cta_cte;
+
+            for(var i = 0; i < ctaCte.length; i++) {
+
+              var row = getCtaCte().getRows().add(null);
+
+              var cell = row.add(null);
+
+              cell = row.add(null);
+              cell.setValue(valField(ctaCte[i], C.CUE_NAME));
+              cell.setId(valField(ctaCte[i], C.CUE_NAME));
+              cell.setKey(KICC_CUE_ID);
+
+              cell = row.add(null);
+              cell.setValue(valField(ctaCte[i], C.COBZI_IMPORTE_ORIGEN));
+              cell.setKey(KICC_IMPORTEORIGEN);
+
+              var importe = val(valField(ctaCte[i], C.COBZI_IMPORTE));
+
+              cell = row.add(null);
+              cell.setValue(importe);
+              cell.setKey(KICC_IMPORTE);
+
+              total = total + importe;
+            }
+
+
+            getCobroIndicado().setValue(total);
+            m_objWizard.showValue(getCobroIndicado());
+
+            refreshCtaCte();
+
+            return true;
+          }
+        );
       };
 
       // Validaciones de Filas de Instrumentos de cobro
@@ -3322,63 +3294,32 @@
       self.initialize = function() {
         try {
 
+          m_fvIds = [];
+          m_cliIds = [];
+          m_fvIdsxCliId = [];
 
-
-            c_NCNDDescripDifCambio = getText(2281, ""); // Generado automáticamente por diferencia de cambio
-
-
-          m_tesoreriaConfig = new cTesoreriaConfig();
-          Cairo.getTesoreriaConfig().load();
-
-          G.redim(m_fvIds, 0);
-          G.redim(m_cliIds, 0);
-          G.redim(m_fvIdsxCliId, 0, 0);
-
-          // Hay que agregarlo a la configuracion de tesoreria
-          //
           m_isHojaRuta = Cairo.getTesoreriaConfig().getCobranzasXHojaRuta();
-
-          // **TODO:** goto found: GoTo ExitProc;
         }
         catch (ex) {
           Cairo.manageErrorEx(ex.message, ex, "Class_Initialize", C_MODULE, "");
-          // **TODO:** label found: ExitProc:;
         }
-        // **TODO:** on error resume next found !!!
       };
 
       self.destroy = function() {
         try {
 
-          m_generalConfig = null;
-          m_tesoreriaConfig = null;
-          G.redim(m_fvIds, 0);
-          G.redim(m_cliIds, 0);
-          G.redim(m_fvIdsxCliId, 0, 0);
+          m_fvIds = null;
+          m_cliIds = null;
+          m_fvIdsxCliId = null;
           m_objClient = null;
           m_cobranzaInfo = null;
 
-          // **TODO:** goto found: GoTo ExitProc;
         }
         catch (ex) {
           Cairo.manageErrorEx(ex.message, ex, "Class_Terminate", C_MODULE, "");
-          // **TODO:** label found: ExitProc:;
         }
-        // **TODO:** on error resume next found !!!
       };
 
-      ////////////////////////////////
-      //  Codigo estandar de errores
-      //  On Error GoTo ControlError
-      //
-      //  GoTo ExitProc
-      //ControlError:
-      //  MngError err,"", C_Module, ""
-      //  If Err.Number Then Resume ExitProc
-      //ExitProc:
-      //  On Error Resume Next
-
-      /////////////////////////////////////////////////////////////////////////////////
       var pSave = function() {
         var _rtn = null;
 
@@ -4523,214 +4464,205 @@
 
       /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
       var getMonedaAnticipo = function() {
-        return cIABMProperty.getWizProperty(m_objWizard, WCS.ANTICIPO, DWC.MONEDA_ANTICIPO);
+        return D.getWizProperty(m_objWizard, WCS.ANTICIPO, DWC.MONEDA_ANTICIPO);
       };
 
       var getCuentaAnticipo = function() {
-        return cIABMProperty.getWizProperty(m_objWizard, WCS.ANTICIPO, DWC.CUENTA_ANTICIPO);
+        return D.getWizProperty(m_objWizard, WCS.ANTICIPO, DWC.CUENTA_ANTICIPO);
       };
 
       var getCobroIndicado = function() {
-        return cIABMProperty.getWizProperty(m_objWizard, WCS.SELECT_COBROS, DWC.COBRO_INDICADO);
+        return D.getWizProperty(m_objWizard, WCS.SELECT_COBROS, DWC.COBRO_INDICADO);
       };
 
       var getCobroNeto = function() {
-        return cIABMProperty.getWizProperty(m_objWizard, WCS.SELECT_COBROS, DWC.COBRO_NETO);
+        return D.getWizProperty(m_objWizard, WCS.SELECT_COBROS, DWC.COBRO_NETO);
       };
 
       var getCobroOtros = function() {
-        return cIABMProperty.getWizProperty(m_objWizard, WCS.SELECT_COBROS, DWC.COBRO_OTROS);
+        return D.getWizProperty(m_objWizard, WCS.SELECT_COBROS, DWC.COBRO_OTROS);
       };
 
       var getCobroTotal = function() {
-        return cIABMProperty.getWizProperty(m_objWizard, WCS.SELECT_COBROS, DWC.COBRO_TOTAL);
+        return D.getWizProperty(m_objWizard, WCS.SELECT_COBROS, DWC.COBRO_TOTAL);
       };
 
       var getTotal = function() {
-        return cIABMProperty.getWizProperty(m_objWizard, WCS.SELECT_FACTURA, DWC.TOTAL_PAGO);
+        return D.getWizProperty(m_objWizard, WCS.SELECT_FACTURA, DWC.TOTAL_PAGO);
       };
 
       var getTotalOrigen = function() {
-        return cIABMProperty.getWizProperty(m_objWizard, WCS.SELECT_FACTURA, DWC.TOTAL_PAGO_ORIGEN);
+        return D.getWizProperty(m_objWizard, WCS.SELECT_FACTURA, DWC.TOTAL_PAGO_ORIGEN);
       };
 
       var getCliente2 = function() {
-        return cIABMProperty.getWizProperty(m_objWizard, WCS.DATOS_GENERALES, DWC.CLIENTE2);
+        return D.getWizProperty(m_objWizard, WCS.DATOS_GENERALES, DWC.CLIENTE2);
       };
 
       var getClienteProperty = function() {
-        return cIABMProperty.getWizProperty(m_objWizard, WCS.SELECT_CLIENTE, DWC.CLIENTE);
+        return D.getWizProperty(m_objWizard, WCS.SELECT_CLIENTE, DWC.CLIENTE);
       };
 
       var getCliente = function() {
-        return cIABMProperty.getWizProperty(m_objWizard, WCS.SELECT_CLIENTE, DWC.CLIENTE).getSelectId();
+        return D.getWizProperty(m_objWizard, WCS.SELECT_CLIENTE, DWC.CLIENTE).getSelectId();
       };
 
       var getClienteName = function() {
-        return cIABMProperty.getWizProperty(m_objWizard, WCS.SELECT_CLIENTE, DWC.CLIENTE).getValue();
+        return D.getWizProperty(m_objWizard, WCS.SELECT_CLIENTE, DWC.CLIENTE).getValue();
       };
 
       // Edit From ListDoc
       //
       var getOnlySelected = function() {
-        return cIABMProperty.getWizProperty(m_objWizard, WCS.SELECT_CLIENTE, DWC.ONLY_SELECTED);
+        return D.getWizProperty(m_objWizard, WCS.SELECT_CLIENTE, DWC.ONLY_SELECTED);
       };
 
       var getCheques = function() {
-        return cIABMProperty.getWizProperty(m_objWizard, WCS.SELECT_COBROS, DWC.CHEQUES).getGrid();
+        return D.getWizProperty(m_objWizard, WCS.SELECT_COBROS, DWC.CHEQUES).getGrid();
       };
 
       var getChequesProperty = function() {
-        return cIABMProperty.getWizProperty(m_objWizard, WCS.SELECT_COBROS, DWC.CHEQUES);
+        return D.getWizProperty(m_objWizard, WCS.SELECT_COBROS, DWC.CHEQUES);
       };
 
       var getTarjetas = function() {
-        return cIABMProperty.getWizProperty(m_objWizard, WCS.SELECT_COBROS, DWC.TARJETAS).getGrid();
+        return D.getWizProperty(m_objWizard, WCS.SELECT_COBROS, DWC.TARJETAS).getGrid();
       };
 
       var getTarjetasProperty = function() {
-        return cIABMProperty.getWizProperty(m_objWizard, WCS.SELECT_COBROS, DWC.TARJETAS);
+        return D.getWizProperty(m_objWizard, WCS.SELECT_COBROS, DWC.TARJETAS);
       };
 
       var getEfectivo = function() {
-        return cIABMProperty.getWizProperty(m_objWizard, WCS.SELECT_COBROS, DWC.EFECTIVO).getGrid();
+        return D.getWizProperty(m_objWizard, WCS.SELECT_COBROS, DWC.EFECTIVO).getGrid();
       };
 
       var getEfectivoProperty = function() {
-        return cIABMProperty.getWizProperty(m_objWizard, WCS.SELECT_COBROS, DWC.EFECTIVO);
+        return D.getWizProperty(m_objWizard, WCS.SELECT_COBROS, DWC.EFECTIVO);
       };
 
       var getOtros = function() {
-        return cIABMProperty.getWizProperty(m_objWizard, WCS.SELECT_COBROS, DWC.OTROS).getGrid();
+        return D.getWizProperty(m_objWizard, WCS.SELECT_COBROS, DWC.OTROS).getGrid();
       };
 
       var getOtrosProperty = function() {
-        return cIABMProperty.getWizProperty(m_objWizard, WCS.SELECT_COBROS, DWC.OTROS);
+        return D.getWizProperty(m_objWizard, WCS.SELECT_COBROS, DWC.OTROS);
       };
 
       var getFacturas = function() {
-        return cIABMProperty.getWizProperty(m_objWizard, WCS.SELECT_FACTURA, DWC.FACTUAS).getGrid();
+        return D.getWizProperty(m_objWizard, WCS.SELECT_FACTURA, DWC.FACTUAS).getGrid();
       };
 
       var getCtaCte = function() {
-        return cIABMProperty.getWizProperty(m_objWizard, WCS.SELECT_COBROS, DWC.CTA_CTE).getGrid();
+        return D.getWizProperty(m_objWizard, WCS.SELECT_COBROS, DWC.CTA_CTE).getGrid();
       };
 
       var getFacturasProperty = function() {
-        return cIABMProperty.getWizProperty(m_objWizard, WCS.SELECT_FACTURA, DWC.FACTUAS);
+        return D.getWizProperty(m_objWizard, WCS.SELECT_FACTURA, DWC.FACTUAS);
       };
 
       var getCtaCteProperty = function() {
-        return cIABMProperty.getWizProperty(m_objWizard, WCS.SELECT_COBROS, DWC.CTA_CTE);
+        return D.getWizProperty(m_objWizard, WCS.SELECT_COBROS, DWC.CTA_CTE);
       };
 
       var refreshFacturas = function() {
-        m_objWizard.showValue(cIABMProperty.getWizProperty(m_objWizard, WCS.SELECT_FACTURA, DWC.FACTUAS));
+        m_objWizard.showValue(D.getWizProperty(m_objWizard, WCS.SELECT_FACTURA, DWC.FACTUAS));
       };
 
       var refreshCtaCte = function() {
-        m_objWizard.showValue(cIABMProperty.getWizProperty(m_objWizard, WCS.SELECT_COBROS, DWC.CTA_CTE));
+        m_objWizard.showValue(D.getWizProperty(m_objWizard, WCS.SELECT_COBROS, DWC.CTA_CTE));
       };
 
       var getComprobante = function() {
-        return cIABMProperty.getWizProperty(m_objWizard, WCS.DATOS_GENERALES, DWC.COMPROBANTE);
+        return D.getWizProperty(m_objWizard, WCS.DATOS_GENERALES, DWC.COMPROBANTE);
       };
 
       var getCobrador = function() {
-        return cIABMProperty.getWizProperty(m_objWizard, WCS.DATOS_GENERALES, DWC.COBRADOR);
+        return D.getWizProperty(m_objWizard, WCS.DATOS_GENERALES, DWC.COBRADOR);
       };
 
       var getLegajo = function() {
-        return cIABMProperty.getWizProperty(m_objWizard, WCS.DATOS_GENERALES, DWC.LEGAJO);
+        return D.getWizProperty(m_objWizard, WCS.DATOS_GENERALES, DWC.LEGAJO);
       };
 
       var getDescrip = function() {
-        return cIABMProperty.getWizProperty(m_objWizard, WCS.DATOS_GENERALES, DWC.OBSERVACIONES);
+        return D.getWizProperty(m_objWizard, WCS.DATOS_GENERALES, DWC.OBSERVACIONES);
       };
 
       var getCentroCosto = function() {
-        return cIABMProperty.getWizProperty(m_objWizard, WCS.DATOS_GENERALES, DWC.CENTRO_COSTO);
+        return D.getWizProperty(m_objWizard, WCS.DATOS_GENERALES, DWC.CENTRO_COSTO);
       };
 
       var getSucursal = function() {
-        return cIABMProperty.getWizProperty(m_objWizard, WCS.DATOS_GENERALES, DWC.SUCURSAL);
+        return D.getWizProperty(m_objWizard, WCS.DATOS_GENERALES, DWC.SUCURSAL);
       };
 
       var getFecha = function() {
-        return cIABMProperty.getWizProperty(m_objWizard, WCS.DATOS_GENERALES, DWC.FECHA);
+        return D.getWizProperty(m_objWizard, WCS.DATOS_GENERALES, DWC.FECHA);
       };
 
       var getFechaNdNc = function() {
-        return cIABMProperty.getWizProperty(m_objWizard, WCS.DIF_CAMBIO, DWC.FECHA_ND_NC);
+        return D.getWizProperty(m_objWizard, WCS.DIF_CAMBIO, DWC.FECHA_ND_NC);
       };
 
       var getDoc = function() {
-        return cIABMProperty.getWizProperty(m_objWizard, WCS.SELECT_CLIENTE, DWC.DOC).getSelectId();
-      };
-
-      var getDocName = function() {
-        return cIABMProperty.getWizProperty(m_objWizard, WCS.SELECT_CLIENTE, DWC.DOC).getValue();
-      };
-
-      var getVencidos = function() {
-        return val(cIABMProperty.getWizProperty(m_objWizard, WCS.SELECT_FACTURA, DWC.VENCIDOS).getValue());
+        return D.getWizProperty(m_objWizard, WCS.SELECT_CLIENTE, DWC.DOC).getSelectId();
       };
 
       var getTodos = function() {
-        return cIABMProperty.getWizProperty(m_objWizard, WCS.SELECT_FACTURA, DWC.TODOS);
+        return D.getWizProperty(m_objWizard, WCS.SELECT_FACTURA, DWC.TODOS);
       };
 
       var getAgrupados = function() {
-        return val(cIABMProperty.getWizProperty(m_objWizard, WCS.SELECT_FACTURA, DWC.AGRUPADOS).getValue());
+        return val(D.getWizProperty(m_objWizard, WCS.SELECT_FACTURA, DWC.AGRUPADOS).getValue());
       };
 
       var getCotizacion = function() {
-        return cIABMProperty.getWizProperty(m_objWizard, WCS.SELECT_FACTURA, DWC.COTIZACION);
+        return D.getWizProperty(m_objWizard, WCS.SELECT_FACTURA, DWC.COTIZACION);
       };
 
       var getCotizacionAnticipo = function() {
-        return cIABMProperty.getWizProperty(m_objWizard, WCS.ANTICIPO, DWC.COTIZACION_ANTICIPO);
+        return D.getWizProperty(m_objWizard, WCS.ANTICIPO, DWC.COTIZACION_ANTICIPO);
       };
 
       var getAnticipo = function() {
-        return cIABMProperty.getWizProperty(m_objWizard, WCS.SELECT_FACTURA, DWC.ANTICIPO);
+        return D.getWizProperty(m_objWizard, WCS.SELECT_FACTURA, DWC.ANTICIPO);
       };
 
       var getAnticipoImporte = function() {
-        return cIABMProperty.getWizProperty(m_objWizard, WCS.ANTICIPO, DWC.ANTICIPO_IMPORTE);
+        return D.getWizProperty(m_objWizard, WCS.ANTICIPO, DWC.ANTICIPO_IMPORTE);
       };
 
       var getLabelCobros = function() {
-        return cIABMProperty.getWizProperty(m_objWizard, WCS.SELECT_COBROS, LABEL_COBROS);
+        return D.getWizProperty(m_objWizard, WCS.SELECT_COBROS, LABEL_COBROS);
       };
 
-      // Diferencias de cambio
       var getModoIvaDifCambio = function() {
-        return cIABMProperty.getWizProperty(m_objWizard, WCS.DIF_CAMBIO, DWC.MODO_IVA_DIF_CAMBIO);
+        return D.getWizProperty(m_objWizard, WCS.DIF_CAMBIO, DWC.MODO_IVA_DIF_CAMBIO);
       };
 
       var getAplicDifCambio = function() {
-        return cIABMProperty.getWizProperty(m_objWizard, WCS.DIF_CAMBIO, DWC.APLICACION_ND);
+        return D.getWizProperty(m_objWizard, WCS.DIF_CAMBIO, DWC.APLICACION_ND);
       };
 
       var getDefaultDifCambio = function() {
-        return cIABMProperty.getWizProperty(m_objWizard, WCS.DIF_CAMBIO, DWC.DEFAULT_DIF_CAMBIO);
+        return D.getWizProperty(m_objWizard, WCS.DIF_CAMBIO, DWC.DEFAULT_DIF_CAMBIO);
       };
 
       var getCueIdDifCambio = function() {
-        return cIABMProperty.getWizProperty(m_objWizard, WCS.DIF_CAMBIO, DWC.CUE_ID_DIF_CAMBIO);
+        return D.getWizProperty(m_objWizard, WCS.DIF_CAMBIO, DWC.CUE_ID_DIF_CAMBIO);
       };
 
       var getNCDifCambio = function() {
-        return cIABMProperty.getWizProperty(m_objWizard, WCS.DIF_CAMBIO, DWC.NC_DIF_CAMBIO);
+        return D.getWizProperty(m_objWizard, WCS.DIF_CAMBIO, DWC.NC_DIF_CAMBIO);
       };
 
       var getNDDifCambio = function() {
-        return cIABMProperty.getWizProperty(m_objWizard, WCS.DIF_CAMBIO, DWC.ND_DIF_CAMBIO);
+        return D.getWizProperty(m_objWizard, WCS.DIF_CAMBIO, DWC.ND_DIF_CAMBIO);
       };
 
       var getPrIdDifCambio = function() {
-        return cIABMProperty.getWizProperty(m_objWizard, WCS.DIF_CAMBIO, DWC.PR_ID_DIF_CAMBIO);
+        return D.getWizProperty(m_objWizard, WCS.DIF_CAMBIO, DWC.PR_ID_DIF_CAMBIO);
       };
 
       var newEmptyProperties = function() {
@@ -4800,7 +4732,7 @@
         facturas = RemoveLastColon(facturas);
         cobranza = getComprobante().getValue();
 
-        return c_NCNDDescripDifCambio+ "\\r\\n\\r\\n"+ getText(2483, "", cobranza, facturas);
+        return NC_ND_DESCRIP_DIF_CAMBIO+ "\\r\\n\\r\\n"+ getText(2483, "", cobranza, facturas);
       };
 
       var setDatosFromAplic = function() {
@@ -5012,7 +4944,7 @@
       };
 
       var refreshEfectivo = function() {
-        m_objWizard.showValue(cIABMProperty.getWizProperty(m_objWizard, WCS.SELECT_COBROS, DWC.EFECTIVO));
+        m_objWizard.showValue(D.getWizProperty(m_objWizard, WCS.SELECT_COBROS, DWC.EFECTIVO));
       };
 
       var loadCajaForUsuario = function(property) {

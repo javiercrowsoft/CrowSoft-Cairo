@@ -47,7 +47,7 @@
 
     ids = Cairo.Util.removeLastColon(ids);
 
-    return DB.getData("load[" + m_apiPath + "general/producto/list]", ids).then(
+    return DB.getData("load[" + m_apiPath + "general/producto/list?ids=" + ids + "]").then(
       function(response) {
 
         if(response.success === true) {
@@ -1617,7 +1617,7 @@
     }
   };
 
-  Cairo.Documents.validateRutEx = function(rut,  bMustByRight) {
+  Cairo.Documents.validateRutEx = function(rut, bMustByRight) {
     try {
 
       var suma = 0;
@@ -1778,6 +1778,155 @@
   Cairo.Documents.getClienteName = function(cliId) {
     return DB.getData("load[" + m_apiPath + "general/cliente/" + cliId.toString() + "/name]");
   };
+
+  /*
+  *
+  * cobranzas
+  *
+  * */
+
+  var createCobranza = function() {
+
+    var addFacId = function(facIds, id) {
+
+      for (var i = 0; i < facIds.length; i++) {
+        if(facIds[i] === id) {
+          return;
+        }
+      }
+      facIds.push(id);
+    };
+
+    var addCtaCte = function(value, valueOrigen, ctaCte, facturaCueId, facId) {
+      var cueId = 0;
+      var cueName = "";
+
+      for (var i = 0; i < facturaCueId.length; i++) {
+        if(facturaCueId.facId === facId) {
+          cueId = facturaCueId.cueId;
+          cueName = facturaCueId.cueName;
+          break;
+        }
+      }
+
+      addCtaCteAux(value, valueOrigen, ctaCte, cueId, cueName);
+    };
+
+    var addCtaCteAux = function(value, valueOrigen, ctaCte, cueId, cueName) {
+
+      for (var i = 0; i < ctaCte.length; i++) {
+        if(ctaCte.cueId === cueId) {
+          ctaCte.importe += value;
+          ctaCte.importeOrigen += valueOrigen;
+          return;
+        }
+      }
+
+      ctaCte.push(
+        {
+          importe: value,
+          importeOrigen: valueOrigen,
+          cueId: cueId,
+          cuenta: cueName
+        }
+      );
+    };
+
+    var loadCuentas = function(facturas, path) {
+      return DB.getData("load[" + m_apiPath + "tesoreria/" + path + "?ids=" + facturas + "]");
+    };
+
+    var getCuentasAux = function(
+      facturas, KI_FV_ID, KI_APLICAR, KI_COTIZACION,
+      deudor, anticipo, cueIdAnticipo, anticipoCuenta, anticipoOrigen) {
+
+      var facIds = [];
+      var ctaCte = [];
+
+      for (var _i = 0, _count = facturas.getRows().size(); _i < _count; _i++) {
+        var row = facturas.getRows().item(_i);
+        if(Cairo.Util.val(Dialogs.cell(row, KI_APLICAR).getValue())) {
+          addFacId(facIds, Dialogs.cell(row, KI_FV_ID).getId());
+        }
+      }
+
+      if(facIds.length === 0 && anticipo < 0) {
+        return Cairo.Modal.showWarningWithFail("Debe seleccionar al menos una factura o un anticipo");
+      }
+
+      var p = null;
+
+      if(facIds.length > 0) {
+
+        if(deudor) {
+          p = loadCuentas(facIds.toString(), "cobranza/cuentas");
+        }
+        else {
+          p = loadCuentas(facIds.toString(), "ordenpago/cuentas");
+        }
+
+        p = p.whenSuccess(function(response) {
+            var facturaCueId = [];
+
+            for(var i = 0; i < response.cuenta.length; i += 1) {
+              facturaCueId.push(
+                {
+                  cueId: valField(response.cuentas, C.CUE_ID),
+                  cueName: valField(response.cuentas, C.CUE_NAME),
+                  facId:  valField(response.cuentas, 0)
+                }
+              );
+            }
+
+            for (var _i = 0, _count = facturas.getRows().size(); _i < _count; _i++) {
+              row = facturas.getRows().item(_i);
+              var value = Cairo.Util.val(Dialogs.cell(row, KI_APLICAR).getValue());
+              if(value > 0) {
+                var cotizacion = Cairo.Util.val(Dialogs.cell(row, KI_COTIZACION).getValue());
+                var valueOrigen = Cairo.Util.zeroDiv(value, cotizacion);
+                addCtaCte(value, valueOrigen, ctaCte, facturaCueId, Dialogs.cell(row, KI_FV_ID).getId());
+              }
+            }
+
+            if(anticipo > 0) {
+              addCtaCteAux(anticipo, anticipoOrigen, ctaCte, cueIdAnticipo, anticipoCuenta);
+            }
+
+            return true;
+          }
+        );
+      }
+
+      return p || P.resolvedPromise(true);
+    };
+
+    var self = {};
+
+    self.getCuentasAcreedor = function(
+      facturas, KI_FC_ID, KI_APLICAR, KI_COTIZACION,
+      anticipo, cueIdAnticipo, anticipoCuenta, anticipoOrigen) {
+
+      return getCuentasAux(
+        facturas, KI_FC_ID, KI_APLICAR, KI_COTIZACION,
+        false, anticipo, cueIdAnticipo, anticipoCuenta, anticipoOrigen);
+    };
+
+    self.getCuentasDeudor = function(
+      facturas, KI_FV_ID, KI_APLICAR, KI_COTIZACION,
+      anticipo, cueIdAnticipo, anticipoCuenta, anticipoOrigen) {
+
+      return getCuentasAux(
+        facturas, KI_FV_ID, KI_APLICAR, KI_COTIZACION,
+        true, anticipo, cueIdAnticipo, anticipoCuenta, anticipoOrigen);
+    };
+
+    return self;
+  };
+
+  /*
+  *
+  *
+  * */
 
 }());
 
@@ -2164,7 +2313,7 @@
   };
 
   var edit  = function(
-    grupo, cantidad, row, nrosSerie, kI_GRUPO, kI_NROSERIE, lRow, 
+    grupo, cantidad, row, nrosSerie, KI_GRUPO, KI_NROSERIE, lRow, 
     prId, deplId, isInput, bEditKit, bParteProdKit, collKitInfo, 
     prov_id, cli_id, deleteCount, prId2) {
 
@@ -2275,7 +2424,7 @@
     if(coll === null) {
       grupo = lRow * -1;
       // (NrosSerie.Count + 1) * -1
-      Dialogs.cell(row, kI_GRUPO).setID(grupo);
+      Dialogs.cell(row, KI_GRUPO).setID(grupo);
       coll = new Collection();
       nrosSerie.Add(coll, getKey(grupo));
     }
@@ -2313,10 +2462,10 @@
     idx = idx - 1;
     if(idx >= 0) {
       G.redimPreserve(vSeries, idx);
-      Dialogs.cell(row, kI_NROSERIE).getValue() === Join(vSeries, ",");
+      Dialogs.cell(row, KI_NROSERIE).getValue() === Join(vSeries, ",");
     }
     else {
-      Dialogs.cell(row, kI_NROSERIE).getValue() === "";
+      Dialogs.cell(row, KI_NROSERIE).getValue() === "";
     }
     */
 
@@ -2324,7 +2473,7 @@
   };
 
   var create = function(
-    grupo, cantidad, row, nrosSerie, kI_GRUPO, kI_NROSERIE, lRow, 
+    grupo, cantidad, row, nrosSerie, KI_GRUPO, KI_NROSERIE, lRow, 
     prId, deplId, isInput, bEditKit, bParteProdKit, collKitInfo, 
     prov_id, cli_id, deleteCount, prId2) {
 
@@ -2371,7 +2520,7 @@
 
       grupo = lRow * -1;
       // (NrosSerie.Count + 1) * -1
-      Dialogs.cell(row, kI_GRUPO).setID(grupo);
+      Dialogs.cell(row, KI_GRUPO).setID(grupo);
       coll = new Collection();
       nrosSerie.Add(coll, getKey(grupo));
 
@@ -2438,7 +2587,7 @@
       }
     }
 
-    Dialogs.cell(row, kI_NROSERIE).getValue() === cUtil.removeLastColon(nros);
+    Dialogs.cell(row, KI_NROSERIE).getValue() === cUtil.removeLastColon(nros);
     */
 
     return Cairo.Promises.resolvedPromise(true);
