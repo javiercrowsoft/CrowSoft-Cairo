@@ -20,6 +20,7 @@
       var DB = Cairo.Database;
       var C = Cairo.General.Constants;
       var CT = Cairo.Tesoreria.Constants;
+      var CV = Cairo.Ventas.Constants;
       var Types = Cairo.Constants.Types;
       var valField = DB.valField;
       var valEmpty = Cairo.Util.valEmpty;
@@ -30,6 +31,7 @@
       var getCell = Dialogs.cell;
       var Grids = Cairo.Dialogs.Grids;
       var val = U.val;
+      var round = U.round;
       var bToI = U.boolToInt;
       var WC = Cairo.Constants.WizardConstants;
       var WCS = Cairo.Constants.WizardSteps;
@@ -116,11 +118,9 @@
 
       var m_bDifCambio;
 
-      var m_defaultCurrency = D.getDefaultCurrency();
-
       var m_id = 0;
 
-      var m_iOrden = 0;
+      var m_orden = 0;
 
       var m_cliId = 0;
       var m_cliente = "";
@@ -140,8 +140,8 @@
 
       var m_objClient = null;
 
-      var m_lastDocId = 0;
       var m_lastCliId = 0;
+      var m_lastDocId = 0;
 
       var m_lastNroDoc = "";
 
@@ -153,6 +153,10 @@
 
       var m_bVirtualNextStopInPagos;
       var m_restarVirtualPush;
+
+      var m_defaultCurrency = D.getDefaultCurrency();
+
+      var m_apiPath = DB.getAPIVersion();
 
       self.getId = function() {
         return m_id;
@@ -247,19 +251,19 @@
               break;
 
             case WC.KW_CHEQUES:
-              isEmpty = pIsEmptyRowCheques(row, rowIndex);
+              isEmpty = isEmptyRowCheques(row, rowIndex);
               break;
 
             case WC.KW_TARJETAS:
-              isEmpty = pIsEmptyRowTarjetas(row, rowIndex);
+              isEmpty = isEmptyRowTarjetas(row, rowIndex);
               break;
 
             case WC.KW_OTROS:
-              isEmpty = pIsEmptyRowOtros(row, rowIndex);
+              isEmpty = isEmptyRowOtros(row, rowIndex);
               break;
 
             case WC.KW_EFECTIVO:
-              isEmpty = pIsEmptyRowEfectivo(row, rowIndex);
+              isEmpty = isEmptyRowEfectivo(row, rowIndex);
               break;
           }
         }
@@ -918,7 +922,7 @@
           total = total
             + Cairo.Util.zeroDiv(
                 val(getCell(row, KI_APLICAR).getValue()),
-                Cairo.Util.round(val(getCell(row, KI_COTIZACION2).getValue()), decimalesCotiz)
+                round(val(getCell(row, KI_COTIZACION2).getValue()), decimalesCotiz)
             ) * val(getCell(row, KI_COTIZACION).getValue());
         }
 
@@ -986,9 +990,13 @@
             case WCS.SELECT_COBROS:
 
               if(goingToNext) {
-                if(!getCuentasDeudor()) { return _rtn; }
-                setFilterColFactura();
-                refreshLabelPagos();
+                p = getCuentasDeudor()
+                  .whenSuccess(function() {
+                    setFilterColFactura();
+                    refreshLabelPagos();
+                    return true;
+                  }
+                );
               }
               break;
 
@@ -2292,376 +2300,309 @@
         elem.setKey(WC.KW_DESCRIP);
       };
 
-      var checkAnticipo = function() {
-        return true;
-      };
-
       var checkFacturas = function() {
         if(val(getTotal().getValue()) === 0) {
-          MsgWarning(getText(2149, ""));
-          //Debe indicar una o más Facturas, un importe como anticipo, o ambas cosas.
-          return null;
-        }
-        return true;
-      };
-
-      var setGridFacturasXCliente = function(property) {
-        var bAgrupados = null;
-        var bShowCotizacion = null;
-        var vMonId() = null;
-        var vCotiz() = null;
-        var monId = null;
-        var i = null;
-        var moneda = null;
-        var cotiz = null;
-        var origen = null;
-
-        var fv_id = null;
-
-        // Edit From ListDoc
-        //
-        var bSelected = null;
-        var bOnlySelected = null;
-
-        m_bDifCambio = false;
-
-        bAgrupados = getAgrupados();
-
-        if(!Cairo.Database.openRs(sqlstmt, rs)) { return false; }
-
-        // Edit From ListDoc
-        //
-        bOnlySelected = getOnlySelected().getValue();
-
-        var w_getFacturas = getFacturas();
-
-        G.redim(vMonId, 0);
-
-        if(getAgrupados()) {
-          w_getFacturas.getColumns(DWC.IMPORTE).Visible = false;
-          w_getFacturas.getColumns(DWC.PENDIENTE).Visible = true;
+          return M.showWarningWithFail(getText(2149, "")); // Debe indicar una o más Facturas, un importe como anticipo, o ambas cosas.
         }
         else {
-          w_getFacturas.getColumns(DWC.IMPORTE).Visible = true;
-          w_getFacturas.getColumns(DWC.PENDIENTE).Visible = false;
+          return P.resolvedPromise(true);
         }
-
-        var w_rows = w_getFacturas.getRows();
-
-        w_rows.clear();
-        return true;
       };
 
-      var loadFacturasXCliente = function() {
+      var loadFacturasXCliente = function(property) {
+        var onlySelected = getOnlySelected().getValue();
 
+        return DB.getData(
+            "load[" + m_apiPath + "tesoreria/cobranzas/cliente/"
+              + getCliente().toString()
+              + "/facturas]"
+          )
+          .then(function(response) {
+            try {
 
-        for(var _i = 0; _i < m_data.facturasXCliente.length; _i += 1) {
+              if(response.success === true) {
 
-          // Edit From ListDoc
-          //
-          fv_id = Cairo.Database.valField(m_data.facturasXCliente[_i], C.FV_ID);
+                m_bDifCambio = false;
 
-          bSelected = getApply(fv_id);
-          if(!bOnlySelected || bSelected) {
+                var facturas = getFacturas();
+                
+                if(getAgrupados()) {
+                  facturas.getColumns(DWC.IMPORTE).setVisible(false);
+                  facturas.getColumns(DWC.PENDIENTE).setVisible(true);
+                }
+                else {
+                  facturas.getColumns(DWC.IMPORTE).setVisible(true);
+                  facturas.getColumns(DWC.PENDIENTE).setVisible(false);
+                }
 
-            var elem = w_rows.add(null);
+                var items = DB.getResultSetFromData(response.data.get('items'));
+                var rates = DB.getResultSetFromData(response.data.get('rates'));
 
-            // La primera no se usa
-            elem.add(null);
+                var rows = facturas.getRows();
+                rows.clear();
 
-            var elem = properties.add(null);
-            elem.setId(Cairo.Database.valField(m_data.facturasXCliente[_i], C.FVD_ID));
-            elem.setKey(KI_FVD_ID);
+                var showCotizacion = false;
 
-            var elem = properties.add(null);
-            elem.setId(parseInt(bSelected));
-            elem.setKey(KI_SELECT);
+                for(var _i = 0; _i < items.length; _i += 1) {
 
-            var elem = properties.add(null);
-            elem.setValue(Cairo.Database.valField(m_data.facturasXCliente[_i], C.DOC_NAME));
-            elem.setKey(KI_DOC);
+                  var fv_id = valField(items[_i], CV.FV_ID);
+                  var selected = getApply(fv_id);
 
-            var elem = properties.add(null);
-            elem.setValue(Cairo.Database.valField(m_data.facturasXCliente[_i], C.FV_NRODOC));
-            elem.setKey(KI_NRODOC);
+                  if(!onlySelected || selected) {
 
-            var elem = properties.add(null);
-            elem.setValue(Cairo.Database.valField(m_data.facturasXCliente[_i], C.FV_NUMERO));
-            elem.setId(Cairo.Database.valField(m_data.facturasXCliente[_i], C.FV_ID));
-            elem.setKey(KI_FV_ID);
+                    var row = rows.add(null);
 
-            var elem = properties.add(null);
-            elem.setValue(Cairo.Database.valField(m_data.facturasXCliente[_i], C.FV_FECHA));
-            elem.setKey(KI_FECHA);
+                    elem.add(null);
 
-            var elem = properties.add(null);
-            elem.setValue(Cairo.Database.valField(m_data.facturasXCliente[_i], C.MON_NAME));
-            elem.setId(Cairo.Database.valField(m_data.facturasXCliente[_i], C.MON_ID));
-            elem.setKey(KI_MONEDA);
+                    var elem = row.add(null);
+                    elem.setId(valField(items[_i], CT.FVD_ID));
+                    elem.setKey(KI_FVD_ID);
 
-            var elem = properties.add(null);
-            origen = Cairo.Database.valField(m_data.facturasXCliente[_i], C.FV_TOTAL_ORIGEN);
-            elem.setValue(origen ? origen : ""));
-            elem.setKey(KI_IMPORTEORIGEN);
-            if(val(elem.Value) !== 0) { bShowCotizacion = true; }
+                    var elem = row.add(null);
+                    elem.setId(parseInt(selected));
+                    elem.setKey(KI_SELECT);
 
-            var elem = properties.add(null);
-            cotiz = Cairo.Database.valField(m_data.facturasXCliente[_i], C.FV_COTIZACION);
-            elem.setValue(cotiz ? cotiz : ""));
-            elem.setKey(KI_COTIZACION);
+                    var elem = row.add(null);
+                    elem.setValue(valField(items[_i], C.DOC_NAME));
+                    elem.setKey(KI_DOC);
 
-            var elem = properties.add(null);
-            elem.setValue(Cairo.Database.valField(m_data.facturasXCliente[_i], C.FV_TOTAL));
-            elem.setKey(KI_TOTAL);
+                    var elem = row.add(null);
+                    elem.setValue(valField(items[_i], CV.FV_NRODOC));
+                    elem.setKey(KI_NRODOC);
 
-            var elem = properties.add(null);
-            elem.setValue(0);
-            elem.setKey(KI_COTIZACION2);
+                    var elem = row.add(null);
+                    elem.setValue(valField(items[_i], CV.FV_NUMERO));
+                    elem.setId(valField(items[_i], CV.FV_ID));
+                    elem.setKey(KI_FV_ID);
 
-            var elem = properties.add(null);
-            elem.setValue(Cairo.Database.valField(m_data.facturasXCliente[_i], C.FVD_FECHA));
-            elem.setKey(KI_VTO);
+                    var elem = row.add(null);
+                    elem.setValue(valField(items[_i], CV.FV_FECHA));
+                    elem.setKey(KI_FECHA);
 
-            var elem = properties.add(null);
-            elem.setValue(Cairo.Database.valField(m_data.facturasXCliente[_i], C.FV_PENDIENTE));
-            elem.setKey(KI_PENDIENTE);
+                    var elem = row.add(null);
+                    elem.setValue(valField(items[_i], C.MON_NAME));
+                    elem.setId(valField(items[_i], C.MON_ID));
+                    elem.setKey(KI_MONEDA);
 
-            var elem = properties.add(null);
-            elem.setValue(Cairo.Database.valField(m_data.facturasXCliente[_i], C.FVD_PENDIENTE));
-            elem.setKey(KI_IMPORTE);
+                    var elem = row.add(null);
+                    var origen = valField(items[_i], CV.FV_TOTAL_ORIGEN);
+                    elem.setValue(origen ? origen : "");
+                    elem.setKey(KI_IMPORTEORIGEN);
+                    if(val(elem.getValue()) !== 0) { showCotizacion = true; }
 
-            var elem = properties.add(null);
-            if(bSelected) {
-              elem.setValue(getApplyImporte(fv_id, Cairo.Database.valField(m_data.facturasXCliente[_i], C.FVD_PENDIENTE)));
-            }
-            else {
-              elem.setValue(0);
-            }
-            elem.setKey(KI_APLICAR);
+                    var elem = row.add(null);
+                    var cotiz = valField(items[_i], CV.FV_COTIZACION);
+                    elem.setValue(cotiz ? cotiz : "");
+                    elem.setKey(KI_COTIZACION);
 
-            var elem = properties.add(null);
-            elem.setValue(Cairo.Database.valField(m_data.facturasXCliente[_i], C.FV_DESCRIP));
-            elem.setKey(KI_DESCRIP);
+                    var elem = row.add(null);
+                    elem.setValue(valField(items[_i], CV.FV_TOTAL));
+                    elem.setKey(KI_TOTAL);
 
-            monId = Cairo.Database.valField(m_data.facturasXCliente[_i], C.MON_ID);
-            if(m_defaultCurrency.id !== monId) {
-              pAddMoneda(vMonId[], monId);
-            }
-          }
+                    var elem = row.add(null);
+                    elem.setValue(0);
+                    elem.setKey(KI_COTIZACION2);
 
-        }
+                    var elem = row.add(null);
+                    elem.setValue(valField(items[_i], CT.FVD_FECHA));
+                    elem.setKey(KI_VTO);
 
-        if(!bShowCotizacion) {
-          getFacturas().getColumns(DWC.COTIZACION).Visible = false;
-          getFacturas().getColumns(DWC.MONEDA).Visible = false;
-          getCotizacion().setVisible(false);
-          getTotalOrigen().setVisible(false);
-          m_bDifCambio = false;
-        }
-        else {
-          getFacturas().getColumns(DWC.COTIZACION).Visible = true;
-          getFacturas().getColumns(DWC.MONEDA).Visible = true;
-          getCotizacion().setVisible(true);
-          getTotalOrigen().setVisible(true);
-          m_bDifCambio = true;
-        }
+                    var elem = row.add(null);
+                    elem.setValue(valField(items[_i], CV.FV_PENDIENTE));
+                    elem.setKey(KI_PENDIENTE);
 
-        if(vMonId.length > 0) {
-          moneda = new cMoneda();
+                    var elem = row.add(null);
+                    elem.setValue(valField(items[_i], CT.FVD_PENDIENTE));
+                    elem.setKey(KI_IMPORTE);
 
-          getFacturas().getColumns(DWC.COTIZACION2).Visible = true;
+                    var elem = row.add(null);
+                    if(selected) {
+                      elem.setValue(getApplyImporte(fv_id, valField(items[_i], CT.FVD_PENDIENTE)));
+                    }
+                    else {
+                      elem.setValue(0);
+                    }
+                    elem.setKey(KI_APLICAR);
 
-          G.redim(vCotiz, vMonId.length);
-          for(i = 1; i <= vMonId.length; i++) {
-            vCotiz[i] = moneda.getCotizacion(vMonId[i], Date);
-          }
+                    var elem = row.add(null);
+                    elem.setValue(valField(items[_i], C.FV_DESCRIP));
+                    elem.setKey(KI_DESCRIP);
+                  }
+                }
 
-          var row = null;
-          var _count = getFacturas().getRows().size();
-          for(var _i = 0; _i < _count; _i++) {
-            row = getFacturas().getRows().item(_i);
-            for(i = 1; i <= vMonId.length; i++) {
-              if(vMonId[i] === getCell(row, KI_MONEDA).getId()) {
-                getCell(row, KI_COTIZACION2).setValue(vCotiz[i]);
-                break;
+                if(!showCotizacion) {
+                  getFacturas().getColumns(DWC.COTIZACION).setVisible(false);
+                  getFacturas().getColumns(DWC.MONEDA).setVisible(false);
+                  getCotizacion().setVisible(false);
+                  getTotalOrigen().setVisible(false);
+                  m_bDifCambio = false;
+                }
+                else {
+                  getFacturas().getColumns(DWC.COTIZACION).setVisible(true);
+                  getFacturas().getColumns(DWC.MONEDA).setVisible(true);
+                  getCotizacion().setVisible(true);
+                  getTotalOrigen().setVisible(true);
+                  m_bDifCambio = true;
+                }
+
+                if(rates.length > 0) {
+
+                  getFacturas().getColumns(DWC.COTIZACION2).setVisible(true);
+
+                  for(var _i = 0, _count = getFacturas().getRows().size(); _i < _count; _i++) {
+
+                    var row = getFacturas().getRows().item(_i);
+
+                    for(i = 0; i < rates.length; i++) {
+                      if(valField(rates[i], C.MON_ID) === getCell(row, KI_MONEDA).getId()) {
+                        getCell(row, KI_COTIZACION2).setValue(valField(rates[i], C.MON_PRECIO));
+                        break;
+                      }
+                    }
+                  }
+
+                  getCotizacion().setValue(valField(rates[0], C.MON_PRECIO));
+                  refreshCotizacion(false);
+
+                }
+                else {
+                  getCotizacion().setVisible(false);
+                  getFacturas().getColumns(DWC.COTIZACION2).Visible = false;
+                }
+
+                m_objWizard.showValue(getCotizacion());
+                m_objWizard.showValue(getTotalOrigen());
+
+                refreshFacturas();
+                showTotalFacturas();
+
               }
             }
-          }
-
-          moneda = new cMoneda();
-
-          getCotizacion().setValue(moneda.getCotizacion(vMonId[1], Date));
-          refreshCotizacion(false);
-
-        }
-        else {
-          getCotizacion().setVisible(false);
-          getFacturas().getColumns(DWC.COTIZACION2).Visible = false;
-        }
-
-        m_objWizard.showValue(getCotizacion());
-        m_objWizard.showValue(getTotalOrigen());
-
-        refreshFacturas();
-        showTotalFacturas();
-
-        return true;
+            catch(ex) {
+              Cairo.manageErrorEx(ex.message, ex, "showFacturaRemito", C_MODULE, "");
+              return false;
+            }
+          });
       };
 
-      // Edit From ListDoc
-      //
-      var getApplyImporte = function(fv_id, pendiente) {
-        var _rtn = 0;
-        var i = null;
-        var j = null;
-        var cobrado = null;
+      var getApplyImporte = function(fvId, pendiente) {
+        var importe = 0;
+        var cobrado = 0;
 
         if(m_useCliIds) {
 
           if(m_cobranzaInfo !== null) {
 
-            // Cobranza por Info
-            //
-            var fvInfo = null;
+            var facturas = m_cobranzaInfo.getFacturas();
 
-            var _count = m_cobranzaInfo.getFacturas().size();
-            for(var _i = 0; _i < _count; _i++) {
-              fvInfo = m_cobranzaInfo.getFacturas().item(_i);
+            for(var _i = 0, _count = facturas.length; _i < _count; _i++) {
 
-              if(fvInfo.getCliId() === m_cliIdDoc) {
+              var fvInfo = facturas[_i];
 
-                if(fvInfo.getFvId() === fv_id) {
+              if(fvInfo.cliId === m_cliIdDoc) {
 
-                  cobrado = fvInfo.getImporteCobrado();
+                if(fvInfo.fvId === fvId) {
+
+                  cobrado = fvInfo.importeCobrado;
 
                   if(pendiente < cobrado) {
-                    _rtn = pendiente;
+                    importe = pendiente;
                   }
                   else {
-                    _rtn = cobrado;
+                    importe = cobrado;
                   }
-                  return _rtn;
 
+                  break;
                 }
-
               }
             }
-
           }
           else {
 
-            // Cobranza por vector
-            //
+            var size = m_fvIdsxCliId.length > 0 ? m_fvIdsxCliId[0].length : 0;
+            for(var _i = 0, _count = size; _i < _count; _i++) {
 
-            for(j = 1; j <= (m_fvIdsxCliId, 2).length; j++) {
+              if(m_fvIdsxCliId[0, _i] === m_cliIdDoc) {
 
-              if(m_fvIdsxCliId[1, j] === m_cliIdDoc) {
+                if(m_fvIdsxCliId[1, _i] === fvId) {
 
-                if(m_fvIdsxCliId[2, j] === fv_id) {
+                  cobrado = m_fvIdsxCliId[2, _i] / 100;
 
-                  cobrado = m_fvIdsxCliId[3, j] / 100;
                   if(pendiente < cobrado) {
-                    _rtn = pendiente;
+                    importe = pendiente;
                   }
                   else {
-                    _rtn = cobrado;
+                    importe = cobrado;
                   }
-                  return _rtn;
+
+                  break;
                 }
               }
             }
-
           }
-
         }
         else {
-
-          _rtn = pendiente;
-
+          importe = pendiente;
         }
-
-
-        return _rtn;
+        return importe;
       };
 
       var getApply = function(fv_id) {
-        var _rtn = null;
-        var i = null;
-        var j = null;
+        var selected = false;
 
         if(m_useCliIds) {
 
           if(m_cobranzaInfo !== null) {
 
-            // Cobranza por Info
-            //
-            var fvInfo = null;
+            var facturas = m_cobranzaInfo.getFacturas();
 
-            var _count = m_cobranzaInfo.getFacturas().size();
-            for(var _i = 0; _i < _count; _i++) {
-              fvInfo = m_cobranzaInfo.getFacturas().item(_i);
+            for(var _i = 0, _count = facturas.length; _i < _count; _i++) {
 
-              if(fvInfo.getCliId() === m_cliIdDoc) {
+              var fvInfo = facturas[_i];
 
-                if(fvInfo.getFvId() === fv_id) {
+              if(fvInfo.cliId === m_cliIdDoc) {
 
-                  _rtn = true;
-                  return _rtn;
+                if(fvInfo.fvId === fv_id) {
 
+                  selected = true;
+                  break;
                 }
-
               }
             }
-
           }
           else {
 
-            // Cobranza por vector
-            //
+            var size = m_fvIdsxCliId.length > 0 ? m_fvIdsxCliId[0].length : 0;
+            for(var _i = 0, _count = size; _i < _count; _i++) {
 
-            for(j = 1; j <= (m_fvIdsxCliId, 2).length; j++) {
+              if(m_fvIdsxCliId[0, _i] === m_cliIdDoc) {
 
-              if(m_fvIdsxCliId[1, j] === m_cliIdDoc) {
+                if(m_fvIdsxCliId[1, _i] === fv_id) {
 
-                if(m_fvIdsxCliId[2, j] === fv_id) {
-                  _rtn = true;
-                  return _rtn;
+                  selected = true;
+                  break;
                 }
               }
             }
-
           }
-
         }
         else {
 
           for(i = 1; i <= m_fvIds.length; i++) {
             if(m_fvIds[i] === fv_id) {
-              _rtn = true;
-              return _rtn;
+              selected = true;
+              break;
             }
           }
         }
 
-        return _rtn;
-      };
-
-      var pAddMoneda = function(vMonIds, monId) {
-        var i = null;
-
-        for(i = 1; i <= vMonIds.length; i++) {
-          if(vMonIds(i) === monId) { return; }
-        }
-
-        G.redimPreserve(vMonIds, vMonIds.length + 1);
-        vMonIds(vMonIds.length) = monId;
+        return selected;
       };
 
       var getCuentasDeudor = function() {
         var total = 0;
         var anticipoOrigen = 0;
 
-        // Dimensiono la grilla y el vector de facturas
         getCtaCte().getRows().clear();
 
         var cuentaProperty = getCuentaAnticipo();
@@ -2680,35 +2621,34 @@
           anticipoOrigen = 0;
         }
 
-        return D.getCuentasDeudor(getFacturas(), KI_FV_ID, KI_APLICAR, KI_COTIZACION2, anticipo, cueIdAnticipo, cuentaAnticipo, anticipoOrigen)
+        return D.Tesoreria.getCuentasDeudor(
+            getFacturas(), KI_FV_ID, KI_APLICAR, KI_COTIZACION2,
+            anticipo, cueIdAnticipo, cuentaAnticipo, anticipoOrigen)
           .whenSuccess(function(response) {
 
-            var ctaCte = response.cta_cte;
+            var cuentas = response.cuentas;
 
-            for(var i = 0; i < ctaCte.length; i++) {
+            for(var i = 0; i < cuentas.length; i++) {
 
               var row = getCtaCte().getRows().add(null);
 
               var cell = row.add(null);
 
               cell = row.add(null);
-              cell.setValue(valField(ctaCte[i], C.CUE_NAME));
-              cell.setId(valField(ctaCte[i], C.CUE_NAME));
+              cell.setValue(cuentas[i].cueName);
+              cell.setId(cuentas[i].cueId);
               cell.setKey(KICC_CUE_ID);
 
               cell = row.add(null);
-              cell.setValue(valField(ctaCte[i], C.COBZI_IMPORTE_ORIGEN));
+              cell.setValue(cuentas[i].importeOrigen);
               cell.setKey(KICC_IMPORTEORIGEN);
 
-              var importe = val(valField(ctaCte[i], C.COBZI_IMPORTE));
-
               cell = row.add(null);
-              cell.setValue(importe);
+              cell.setValue(cuentas[i].importe);
               cell.setKey(KICC_IMPORTE);
 
-              total = total + importe;
+              total = total + cuentas[i].importe;
             }
-
 
             getCobroIndicado().setValue(total);
             m_objWizard.showValue(getCobroIndicado());
@@ -2720,575 +2660,515 @@
         );
       };
 
-      // Validaciones de Filas de Instrumentos de cobro
-      var pIsEmptyRowCheques = function(row, rowIndex) {
-        var cell = null;
-        var strRow = null;
+      var isEmptyRowCheques = function(row, rowIndex) {
+        var rowIsEmpty = true;
 
-        strRow = " (Fila "+ rowIndex.toString()+ ")";
+        for(var _i = 0, _count = row.size(); _i < _count; _i++) {
 
-        var bRowIsEmpty = true;
+          var cell = row.item(_i);
 
-        var _count = row.size();
-        for(var _i = 0; _i < _count; _i++) {
-          cell = row.item(_i);
           switch (cell.getKey()) {
+
             case KICH_CUE_ID:
             case KICH_BCO_ID:
             case KICH_MON_ID:
             case KICH_CLE_ID:
-              if(!ValEmpty(cell.getId(), Cairo.Constants.Types.id)) {
-                bRowIsEmpty = false;
-                break;
+              if(!valEmpty(cell.getId(), Types.id)) {
+                rowIsEmpty = false;
               }
-
               break;
 
             case KICH_IMPORTE:
             case KICH_IMPORTEORIGEN:
-              if(!ValEmpty(val(cell.getValue()), Cairo.Constants.Types.double)) {
-                var bRowIsEmpty = true;
-                break;
+              if(!valEmpty(val(cell.getValue()), Types.double)) {
+                rowIsEmpty = false;
               }
-
               break;
 
             case KICH_DESCRIP:
             case KICH_CHEQUE:
-              if(!ValEmpty(cell.getValue(), Cairo.Constants.Types.text)) {
-                var bRowIsEmpty = true;
-                break;
+              if(!valEmpty(cell.getValue(), Types.text)) {
+                rowIsEmpty = false;
               }
               break;
           }
         }
 
-        return bRowIsEmpty;
+        return rowIsEmpty;
       };
 
       var validateRowCheques = function(row, rowIndex) {
-        var cell = null;
-        var bOrigen = null;
-        var monId = null;
+        var bOrigen = false;
+        var monId = NO_ID;
 
         var strRow = " (Row: " + rowIndex.toString() + ")";
 
-        var _count = row.size();
-        for(var _i = 0; _i < _count; _i++) {
-          cell = row.item(_i);
+        for(var _i = 0, _count = row.size(); _i < _count; _i++) {
+
+          var cell = row.item(_i);
+
           switch (cell.getKey()) {
 
             case KICH_CUE_ID:
-              if(ValEmpty(cell.getId(), Cairo.Constants.Types.id)) {
-                        MsgInfo(getText(2113, "", strRow)); // Debe indicar una cuenta contable (1)
-              }
 
+              if(valEmpty(cell.getId(), Types.id)) {
+                return M.showInfoWithFalse(getText(2113, "", strRow)); // Debe indicar una cuenta contable (1)
+              }
               break;
 
             case KICH_BCO_ID:
-              if(ValEmpty(cell.getId(), Cairo.Constants.Types.id)) {
-                        MsgInfo(getText(2094, "", strRow)); // Debe indicar un banco (1)
-              }
 
+              if(valEmpty(cell.getId(), Types.id)) {
+                return M.showInfoWithFalse(getText(2094, "", strRow)); // Debe indicar un banco (1)
+              }
               break;
 
             case KICH_MON_ID:
-              if(ValEmpty(cell.getId(), Cairo.Constants.Types.id)) {
-                        MsgInfo(getText(2114, "", strRow)); // Debe indicar una moneda (1)
+
+              if(valEmpty(cell.getId(), Types.id)) {
+                return M.showInfoWithFalse(getText(2114, "", strRow)); // Debe indicar una moneda (1)
               }
               monId = cell.getId();
-
               break;
 
             case KICH_CLE_ID:
-              if(ValEmpty(cell.getId(), Cairo.Constants.Types.id)) {
-                        MsgInfo(getText(2115, "", strRow)); // Debe indicar un clearing (1)
-              }
 
+              if(valEmpty(cell.getId(), Types.id)) {
+                return M.showInfoWithFalse(getText(2115, "", strRow)); // Debe indicar un clearing (1)
+              }
               break;
 
             case KICH_IMPORTEORIGEN:
-              bOrigen = !ValEmpty(val(cell.getValue()), Cairo.Constants.Types.double);
 
+              bOrigen = !valEmpty(val(cell.getValue()), Types.double);
               break;
 
             case KICH_IMPORTE:
-              if(ValEmpty(val(cell.getValue()), Cairo.Constants.Types.double)) {
-                        MsgInfo(getText(1897, "", strRow)); // Debe indicar un importe (1)
-              }
 
+              if(valEmpty(val(cell.getValue()), Types.double)) {
+                return M.showInfoWithFalse(getText(1897, "", strRow)); // Debe indicar un importe (1)
+              }
               break;
 
             case KICH_CHEQUE:
-              if(ValEmpty(cell.getValue(), Cairo.Constants.Types.text)) {
-                        MsgInfo(getText(2116, "", strRow)); // Debe indicar un número de cheque (1)
-              }
 
+              if(valEmpty(cell.getValue(), Types.text)) {
+                return M.showInfoWithFalse(getText(2116, "", strRow)); // Debe indicar un número de cheque (1)
+              }
               break;
 
             case KICH_FECHACOBRO:
-              if(ValEmpty(cell.getValue(), Cairo.Constants.Types.date)) {
-                        MsgInfo(getText(2117, "", strRow)); // Debe indicar una fecha para depositar (1)
-              }
 
+              if(valEmpty(cell.getValue(), Types.date)) {
+                return M.showInfoWithFalse(getText(2117, "", strRow)); // Debe indicar una fecha para depositar (1)
+              }
               break;
 
             case KICH_FECHAVTO:
-              if(ValEmpty(cell.getValue(), Cairo.Constants.Types.date)) {
-                        MsgInfo(getText(1384, "", strRow)); // Debe indicar una fecha de vencimiento (1)
+
+              if(valEmpty(cell.getValue(), Types.date)) {
+                return M.showInfoWithFalse(getText(1384, "", strRow)); // Debe indicar una fecha de vencimiento (1)
               }
               break;
           }
         }
 
         if(!bOrigen && monId !== m_defaultCurrency.id) {
-          MsgInfo(getText(2118, "", strRow));
-          //Debe indicar un importe para la moneda extranjera (1)
+          return M.showInfoWithFalse(getText(2118, "", strRow)); // Debe indicar un importe para la moneda extranjera (1)
         }
 
         return Cairo.Promises.resolvedPromise(true);
       };
 
-      var pIsEmptyRowTarjetas = function(row, rowIndex) {
-        var cell = null;
-        var strRow = null;
+      var isEmptyRowTarjetas = function(row, rowIndex) {
 
-        strRow = " (Fila "+ rowIndex.toString()+ ")";
+        var rowIsEmpty = true;
 
-        var bRowIsEmpty = true;
-
-        var _count = row.size();
-        for(var _i = 0; _i < _count; _i++) {
-          cell = row.item(_i);
+        for(var _i = 0, _count = row.size(); _i < _count; _i++) {
+          
+          var cell = row.item(_i);
+          
           switch (cell.getKey()) {
+          
             case KIT_TJC_ID:
             case KIT_MON_ID:
             case KIT_TJCCU_ID:
-              if(!ValEmpty(cell.getId(), Cairo.Constants.Types.id)) {
-                bRowIsEmpty = false;
-                break;
-              }
 
+              if(!valEmpty(cell.getId(), Types.id)) {
+                rowIsEmpty = false;
+              }
               break;
 
             case KIT_IMPORTE:
             case KIT_IMPORTEORIGEN:
-              if(!ValEmpty(val(cell.getValue()), Cairo.Constants.Types.double)) {
-                var bRowIsEmpty = true;
-                break;
-              }
 
+              if(!valEmpty(val(cell.getValue()), Types.double)) {
+                rowIsEmpty = false;
+              }
               break;
 
             case KIT_NROTARJETA:
             case KIT_NROAUTORIZACION:
             case KIT_TITULAR:
             case KIT_DESCRIP:
-              if(!ValEmpty(cell.getValue(), Cairo.Constants.Types.text)) {
-                var bRowIsEmpty = true;
-                break;
-              }
 
+              if(!valEmpty(cell.getValue(), Types.text)) {
+                rowIsEmpty = false;
+              }
               break;
 
             case KIT_FECHAVTO:
-              if(!ValEmpty(cell.getValue(), Cairo.Constants.Types.date)) {
-                var bRowIsEmpty = true;
-                break;
+
+              if(!valEmpty(cell.getValue(), Types.date)) {
+                rowIsEmpty = true;
               }
               break;
           }
         }
 
-        return bRowIsEmpty;
+        return rowIsEmpty;
       };
 
       var validateRowTarjetas = function(row, rowIndex) {
-        var cell = null;
-        var bOrigen = null;
-        var monId = null;
+        var bOrigen = 0;
+        var monId = NO_ID;
 
         var strRow = " (Row: " + rowIndex.toString() + ")";
 
-        var _count = row.size();
-        for(var _i = 0; _i < _count; _i++) {
-          cell = row.item(_i);
+        for(var _i = 0, _count = row.size(); _i < _count; _i++) {
+
+          var cell = row.item(_i);
+
           switch (cell.getKey()) {
 
             case KIT_TJC_ID:
-              if(ValEmpty(cell.getId(), Cairo.Constants.Types.id)) {
-                        MsgInfo(getText(2113, "", strRow)); // Debe indicar una cuenta contable (1)
+              if(valEmpty(cell.getId(), Types.id)) {
+                return M.showInfoWithFalse(getText(2113, "", strRow)); // Debe indicar una cuenta contable (1)
               }
-
               break;
 
             case KIT_TJCCU_ID:
-              if(ValEmpty(cell.getId(), Cairo.Constants.Types.id)) {
-                        MsgInfo(getText(1478, "", strRow)); // Debe indicar la cantidad de cuotas (1)
+              if(valEmpty(cell.getId(), Types.id)) {
+                return M.showInfoWithFalse(getText(1478, "", strRow)); // Debe indicar la cantidad de cuotas (1)
               }
-
               break;
 
             case KIT_MON_ID:
-              if(ValEmpty(cell.getId(), Cairo.Constants.Types.id)) {
-                        MsgInfo(getText(2114, "", strRow)); // Debe indicar una moneda (1)
+              if(valEmpty(cell.getId(), Types.id)) {
+                return M.showInfoWithFalse(getText(2114, "", strRow)); // Debe indicar una moneda (1)
               }
               monId = cell.getId();
-
               break;
 
             case KIT_IMPORTEORIGEN:
-              bOrigen = !ValEmpty(val(cell.getValue()), Cairo.Constants.Types.double);
-
+              bOrigen = !valEmpty(val(cell.getValue()), Types.double);
               break;
 
             case KIT_IMPORTE:
-              if(ValEmpty(val(cell.getValue()), Cairo.Constants.Types.double)) {
-                        MsgInfo(getText(1897, "", strRow)); // Debe indicar un importe (1)
+              if(valEmpty(val(cell.getValue()), Types.double)) {
+                return M.showInfoWithFalse(getText(1897, "", strRow)); // Debe indicar un importe (1)
               }
-
               break;
 
             case KIT_NROTARJETA:
-              if(ValEmpty(cell.getValue(), Cairo.Constants.Types.text)) {
-                        MsgInfo(getText(2120, "", strRow)); // Debe indicar un número tarjeta (1)
+              if(valEmpty(cell.getValue(), Types.text)) {
+                return M.showInfoWithFalse(getText(2120, "", strRow)); // Debe indicar un número tarjeta (1)
               }
-
               break;
 
             case KIT_NROAUTORIZACION:
-              if(ValEmpty(cell.getValue(), Cairo.Constants.Types.text)) {
-                        MsgInfo(getText(2121, "", strRow)); // Debe indicar un número autorización (1)
+              if(valEmpty(cell.getValue(), Types.text)) {
+                return M.showInfoWithFalse(getText(2121, "", strRow)); // Debe indicar un número autorización (1)
               }
-
               break;
 
             case KIT_FECHAVTO:
-              if(ValEmpty(cell.getValue(), Cairo.Constants.Types.date)) {
-                        MsgInfo(getText(1384, "", strRow)); // Debe indicar una fecha de vencimiento (1)
+              if(valEmpty(cell.getValue(), Types.date)) {
+                return M.showInfoWithFalse(getText(1384, "", strRow)); // Debe indicar una fecha de vencimiento (1)
               }
-
               break;
 
             case KIT_TITULAR:
-              if(ValEmpty(cell.getValue(), Cairo.Constants.Types.text)) {
-                        MsgInfo(getText(2122, "", strRow)); // Debe indicar un Titular (1)
+              if(valEmpty(cell.getValue(), Types.text)) {
+                return M.showInfoWithFalse(getText(2122, "", strRow)); // Debe indicar un Titular (1)
               }
               break;
           }
         }
 
         if(!bOrigen && monId !== m_defaultCurrency.id) {
-            MsgInfo(getText(2118, "", strRow)); // Debe indicar un importe para la moneda extranjera (1)
+          return M.showInfoWithFalse(getText(2118, "", strRow)); // Debe indicar un importe para la moneda extranjera (1)
         }
 
         return Cairo.Promises.resolvedPromise(true);
       };
 
-      var pIsEmptyRowOtros = function(row, rowIndex) {
-        var cell = null;
-        var strRow = null;
+      var isEmptyRowOtros = function(row, rowIndex) {
+        var rowIsEmpty = true;
 
-        strRow = " (Fila "+ rowIndex.toString()+ ")";
+        for(var _i = 0, _count = row.size(); _i < _count; _i++) {
 
-        var bRowIsEmpty = true;
+          var cell = row.item(_i);
 
-        var _count = row.size();
-        for(var _i = 0; _i < _count; _i++) {
-          cell = row.item(_i);
           switch (cell.getKey()) {
+
             case KIO_CUE_ID:
             case KIO_CCOS_ID:
             case KIO_RET_ID:
-              if(!ValEmpty(cell.getId(), Cairo.Constants.Types.id)) {
-                bRowIsEmpty = false;
-                break;
-              }
 
+              if(!valEmpty(cell.getId(), Types.id)) {
+                rowIsEmpty = false;
+              }
               break;
 
             case KIO_DEBE:
             case KIO_HABER:
             case KIO_IMPORTEORIGEN:
             case KIO_PORCRETENCION:
-              if(!ValEmpty(val(cell.getValue()), Cairo.Constants.Types.double)) {
-                var bRowIsEmpty = true;
-                break;
-              }
 
+              if(!valEmpty(val(cell.getValue()), Types.double)) {
+                rowIsEmpty = true;
+              }
               break;
 
             case KIO_NRORETENCION:
             case KIO_DESCRIP:
-              if(!ValEmpty(cell.getValue(), Cairo.Constants.Types.text)) {
-                var bRowIsEmpty = true;
-                break;
-              }
 
+              if(!valEmpty(cell.getValue(), Types.text)) {
+                rowIsEmpty = true;
+              }
               break;
 
             case KIO_FECHARETENCION:
-              if(!ValEmpty(cell.getValue(), Cairo.Constants.Types.date)) {
-                var bRowIsEmpty = true;
-                break;
+
+              if(!valEmpty(cell.getValue(), Types.date)) {
+                rowIsEmpty = true;
               }
               break;
           }
         }
 
-        return bRowIsEmpty;
+        return rowIsEmpty;
       };
 
       var validateRowOtros = function(row, rowIndex) {
-        var cell = null;
-        var bOrigen = null;
-        var bDebe = null;
-        var bHaber = null;
-        var monId = null;
+        var bOrigen = 0;
+        var bDebe = false;
+        var bHaber = false;
+        var monId = 0;
 
         var strRow = " (Row: " + rowIndex.toString() + ")";
 
-        var _count = row.size();
-        for(var _i = 0; _i < _count; _i++) {
-          cell = row.item(_i);
+        for(var _i = 0, _count = row.size(); _i < _count; _i++) {
+
+          var cell = row.item(_i);
+
           switch (cell.getKey()) {
 
             case KIO_CUE_ID:
-              if(ValEmpty(cell.getId(), Cairo.Constants.Types.id)) {
-                        MsgInfo(getText(2113, "", strRow)); // Debe indicar una cuenta contable (1)
+              if(valEmpty(cell.getId(), Types.id)) {
+                return M.showInfoWithFalse(getText(2113, "", strRow)); // Debe indicar una cuenta contable (1)
               }
-
               break;
 
             case KIO_DEBE:
-              bDebe = !ValEmpty(val(cell.getValue()), Cairo.Constants.Types.double);
-
+              bDebe = !valEmpty(val(cell.getValue()), Types.double);
               break;
 
             case KIO_HABER:
-              bHaber = !ValEmpty(val(cell.getValue()), Cairo.Constants.Types.double);
-
+              bHaber = !valEmpty(val(cell.getValue()), Types.double);
               break;
 
             case KIO_IMPORTEORIGEN:
-              bOrigen = !ValEmpty(val(cell.getValue()), Cairo.Constants.Types.double);
-
+              bOrigen = !valEmpty(val(cell.getValue()), Types.double);
               break;
           }
         }
 
         if(!bDebe && !bHaber) {
-          MsgInfo(getText(1898, "", strRow));
-          //Debe indicar un importe en el debe o en el haber (1)
+          return M.showInfoWithFalse(getText(1898, "", strRow)); // Debe indicar un importe en el debe o en el haber (1)
         }
 
         if(!bOrigen && monId !== m_defaultCurrency.id) {
-          MsgInfo(getText(2118, "", strRow));
-          //Debe indicar un importe para la moneda extranjera (1)
+          return M.showInfoWithFalse(getText(2118, "", strRow)); // Debe indicar un importe para la moneda extranjera (1)
         }
 
         return Cairo.Promises.resolvedPromise(true);
       };
 
-      var pIsEmptyRowEfectivo = function(row, rowIndex) {
-        var cell = null;
-        var strRow = null;
+      var isEmptyRowEfectivo = function(row, rowIndex) {
+        var rowIsEmpty = true;
 
-        strRow = " (Fila "+ rowIndex.toString()+ ")";
+        for(var _i = 0, _count = row.size(); _i < _count; _i++) {
 
-        var bRowIsEmpty = true;
+          var cell = row.item(_i);
 
-        var _count = row.size();
-        for(var _i = 0; _i < _count; _i++) {
-          cell = row.item(_i);
           switch (cell.getKey()) {
-            case KIE_CUE_ID:
-              if(!ValEmpty(cell.getId(), Cairo.Constants.Types.id)) {
-                bRowIsEmpty = false;
-                break;
-              }
 
+            case KIE_CUE_ID:
+              if(!valEmpty(cell.getId(), Types.id)) {
+                rowIsEmpty = false;
+              }
               break;
 
             case KIE_IMPORTE:
             case KIE_IMPORTEORIGEN:
-              if(!ValEmpty(val(cell.getValue()), Cairo.Constants.Types.double)) {
-                var bRowIsEmpty = true;
-                break;
-              }
 
+              if(!valEmpty(val(cell.getValue()), Types.double)) {
+                rowIsEmpty = true;
+              }
               break;
 
             case KIE_DESCRIP:
-              if(!ValEmpty(cell.getValue(), Cairo.Constants.Types.text)) {
-                var bRowIsEmpty = true;
-                break;
+              if(!valEmpty(cell.getValue(), Types.text)) {
+                rowIsEmpty = true;
               }
               break;
           }
         }
 
-        return bRowIsEmpty;
+        return rowIsEmpty;
       };
 
       var validateRowEfectivo = function(row, rowIndex) {
-        var cell = null;
-        var bOrigen = null;
-        var monId = null;
+        var bOrigen = 0;
+        var monId = NO_ID;
 
         var strRow = " (Row: " + rowIndex.toString() + ")";
 
-        var _count = row.size();
-        for(var _i = 0; _i < _count; _i++) {
-          cell = row.item(_i);
+        for(var _i = 0, _count = row.size(); _i < _count; _i++) {
+
+          var cell = row.item(_i);
+
           switch (cell.getKey()) {
 
             case KIE_CUE_ID:
-              if(ValEmpty(cell.getId(), Cairo.Constants.Types.id)) {
-                        MsgInfo(getText(2113, "", strRow)); // Debe indicar una cuenta contable (1)
+              if(valEmpty(cell.getId(), Types.id)) {
+                return M.showInfoWithFalse(getText(2113, "", strRow)); // Debe indicar una cuenta contable (1)
               }
-
               if(!Cairo.Database.getData(C.CUENTA, C.CUE_ID, cell.getId(), C.MON_ID, monId)) { return false; }
-
               break;
 
             case KIE_IMPORTEORIGEN:
-              bOrigen = !ValEmpty(val(cell.getValue()), Cairo.Constants.Types.double);
-
+              bOrigen = !valEmpty(val(cell.getValue()), Types.double);
               break;
 
             case KIE_IMPORTE:
-              if(ValEmpty(val(cell.getValue()), Cairo.Constants.Types.double)) {
-                        MsgInfo(getText(1897, "", strRow)); // Debe indicar un importe (1)
+              if(valEmpty(val(cell.getValue()), Types.double)) {
+                return M.showInfoWithFalse(getText(1897, "", strRow)); // Debe indicar un importe (1)
               }
               break;
           }
         }
 
         if(!bOrigen && monId !== m_defaultCurrency.id) {
-          MsgInfo(getText(2118, "", strRow));
-          //Debe indicar un importe para la moneda extranjera (1)
+          return M.showInfoWithFalse(getText(2118, "", strRow)); // Debe indicar un importe para la moneda extranjera (1)
         }
 
         return Cairo.Promises.resolvedPromise(true);
       };
 
       var validateCobro = function() {
-        var row = null;
-        var i = null;
 
-        i = 0;
-        var _count = getCheques().getRows().size();
-        for(var _i = 0; _i < _count; _i++) {
-          row = getCheques().getRows().item(_i);
-          i = i + 1;
-          if(!pIsEmptyRowCheques(row, i)) {
-            if(!validateRowCheques(row, i)) { return false; }
+        for(var _i = 0, _count = getCheques().getRows().size(); _i < _count; _i++) {
+          var row = getCheques().getRows().item(_i);
+          if(!isEmptyRowCheques(row, _i + 1)) {
+            if(!validateRowCheques(row, _i + 1)) { return P.resolvedPromise(false); }
           }
         }
 
-        i = 0;
-        var _count = getEfectivo().getRows().size();
-        for(var _i = 0; _i < _count; _i++) {
-          row = getEfectivo().getRows().item(_i);
-          i = i + 1;
-          if(!pIsEmptyRowEfectivo(row, i)) {
-            if(!validateRowEfectivo(row, i)) { return false; }
+        for(var _i = 0, _count = getEfectivo().getRows().size(); _i < _count; _i++) {
+          var row = getEfectivo().getRows().item(_i);
+          if(!isEmptyRowEfectivo(row, _i + 1)) {
+            if(!validateRowEfectivo(row, _i + 1)) { return P.resolvedPromise(false); }
           }
         }
 
-        i = 0;
-        var _count = getOtros().getRows().size();
-        for(var _i = 0; _i < _count; _i++) {
-          row = getOtros().getRows().item(_i);
-          i = i + 1;
-          if(!pIsEmptyRowOtros(row, i)) {
-            if(!validateRowOtros(row, i)) { return false; }
+        for(var _i = 0, _count = getOtros().getRows().size(); _i < _count; _i++) {
+          var row = getOtros().getRows().item(_i);
+          if(!isEmptyRowOtros(row, _i + 1)) {
+            if(!validateRowOtros(row, _i + 1)) { return P.resolvedPromise(false); }
           }
         }
 
-        i = 0;
-        var _count = getTarjetas().getRows().size();
-        for(var _i = 0; _i < _count; _i++) {
-          row = getTarjetas().getRows().item(_i);
-          i = i + 1;
-          if(!pIsEmptyRowTarjetas(row, i)) {
-            if(!validateRowTarjetas(row, i)) { return false; }
+        for(var _i = 0, _count = getTarjetas().getRows().size(); _i < _count; _i++) {
+          var row = getTarjetas().getRows().item(_i);
+          if(!isEmptyRowTarjetas(row, _i + 1)) {
+            if(!validateRowTarjetas(row, _i + 1)) { return P.resolvedPromise(false); }
           }
         }
 
-        if(Cairo.Util.round(val(getCobroIndicado().getValue()), Cairo.Settings.getAmountDecimals()) !== Cairo.Util.round(val(getCobroTotal().getValue()), Cairo.Settings.getAmountDecimals())) {
+        if(round(val(getCobroIndicado().getValue()), Cairo.Settings.getAmountDecimals())
+          !== round(val(getCobroTotal().getValue()), Cairo.Settings.getAmountDecimals())) {
 
-          // Si me tengo que detener en pagos y estoy en una
-          // cobranza semi-automatica (las que se disparan desde
-          // la recepcion de hojas de ruta), no presento un mensaje
+          // if we need to stop in payments and the wizard is running in
+          // autosave (those which are launched by the waybill reception
+          // dialog), we don't show the message
           //
           if(m_bVirtualNextStopInPagos && m_autoSelect) {
 
-            // Apago el flag por que a la proxima que de next y no
-            // alcance para el pago ya le tengo que avisar
+            // turn off the flag because in the next round
+            // if there aren't enough founds we need to show
+            // a warning message
             //
             m_bVirtualNextStopInPagos = false;
             m_restarVirtualPush = true;
-
           }
           else {
-
-            MsgWarning(getText(2151, ""));
-            //El total de los instrumentos de cobro no coincide con el monto a cobrar
+            return M.showWarningWithFalse(getText(2151, "")); // El total de los instrumentos de cobro no coincide con el monto a cobrar
           }
-
-          return null;
         }
-        return true;
+
+        return P.resolvedPromise(true);
       };
 
       var getDocNumber = function() {
-        var tl = null;
-        var tAL_ID = null;
-        var sqlstmt = null;
-        var rs = null;
-        var mask = null;
-        var bEditable = null;
+        var p = null;
 
-        if(LenB(getComprobante().getValue())) { return; }
+        if(getComprobante().getValue() !== "") {
+          p = P.resolvedPromise(true);
+        }
+        else {
+          p = D.getDocNumberForCliente(getCliente(), getDoc()).then(
+            function(response) {
 
-        sqlstmt = "sp_clienteGetTalonario "+ getCliente().toString()+ ","+ getDoc().toString();
-        if(!Cairo.Database.openRs(sqlstmt, rs)) { return; }
+              if(response.success === true) {
 
-        tAL_ID = Cairo.Database.valField(rs.getFields(), 0);
+                var property = getComprobante();
 
-        tl = new cTalonario();
+                property.setValue(valField(response.data, C.TA_NUMBER));
+                property.setTextMask(valField(response.data, C.TA_MASCARA));
+                property.setEnabled(valField(response.data, C.TA_ENABLED));
 
-        var w_getComprobante = getComprobante();
-        w_getComprobante.setValue(tl.GetNextNumber(tAL_ID, mask, bEditable));
-        w_getComprobante.setTextMask(mask);
-        w_getComprobante.setEnabled(bEditable);
+                m_objWizard.showValue(property);
+              }
 
-        m_objWizard.showValue(getComprobante());
+              return response.success;
+            }
+          );
+        }
+        return p;
       };
 
       var setDatosGenerales = function() {
-        var w_getCliente2 = getCliente2();
-        w_getCliente2.setSelectId(getCliente());
-        w_getCliente2.setValue(getClienteName());
+        var property = getCliente2();
+        property.setSelectId(getCliente());
+        property.setValue(getClienteName());
         m_objWizard.showValue(getCliente2());
-        getDocNumber();
-        setDatosFromAplic();
+
+        return getDocNumber().then(setDatosFromAplic);
       };
 
       var validateDatosGenerales = function() {
-        if(ValEmpty(getFecha().getValue(), Cairo.Constants.Types.date)) {
-            MsgWarning(getText(2152, "")); // Debe indicar la fecha de la Cobranza
-          return null;
+        if(valEmpty(getFecha().getValue(), Types.date)) {
+          return M.showWarningWithFalse(getText(2152, "")); // Debe indicar la fecha de la Cobranza
         }
 
-        if(ValEmpty(getSucursal().getSelectId(), Cairo.Constants.Types.id)) {
-            MsgWarning(getText(1560, "")); // Debe indicar la sucursal
-          return null;
+        if(valEmpty(getSucursal().getSelectId(), Types.id)) {
+          return M.showWarningWithFalse(getText(1560, "")); // Debe indicar la sucursal
         }
 
-        return true;
+        return P.resolvedPromise(true);
       };
 
       self.initialize = function() {
@@ -3320,181 +3200,187 @@
         }
       };
 
-      var pSave = function() {
-        var _rtn = null;
+      var getSave = function(register) {
 
-        if(!DocCanSaveEx(m_objWizard.getEditGeneric(), DWC.FECHA, DWC.DOC)) {
-          _rtn = false;
-          return _rtn;
-        }
-
-        var register = null;
-
-        // Para determinar la aplicacion de las diferencias de cambio
-        //
-        var aplicado = null;
-
-        var mouse = null;
-        mouse = new cMouseWait();
-
-        DoEvents:(DoEvents: DoEvents: DoEvents);
-
-        register = new cRegister();
-
-        register.setFieldId(C.COBZ_TMPID);
-        register.setTable(C.COBRANZATMP);
+        register.setFieldId(CT.COBZ_ID);
+        register.setTable(CT.COBRANZA);
+        register.setPath(m_apiPath + "tesoreria/cobranza/from_facturas");
         register.setId(Cairo.Constants.NEW_ID);
 
         var fields = register.getFields();
-        fields.add(C.COBZ_NUMERO, 0, Cairo.Constants.Types.long);
-        var w_getComprobante = getComprobante();
-        // PrintDoc
-        //
-        m_lastNroDoc = SetMask(w_getComprobante.getValue(), w_getComprobante.getTextMask());
-        register.getFields().add2(C.COBZ_NRODOC, m_lastNroDoc, Cairo.Constants.Types.text);
-        fields.add(C.COBZ_DESCRIP, getDescrip().getValue(), Cairo.Constants.Types.text);
-        fields.add(C.COBZ_FECHA, getFecha().getValue(), Cairo.Constants.Types.date);
-        m_lastCliId = getCliente();
-        fields.add(C.CLI_ID, m_lastCliId, Cairo.Constants.Types.id);
-        fields.add(C.CCOS_ID, getCentroCosto().getSelectId(), Cairo.Constants.Types.id);
-        fields.add(C.SUC_ID, getSucursal().getSelectId(), Cairo.Constants.Types.id);
-        fields.add(C.DOC_ID, getDoc(), Cairo.Constants.Types.id);
-        fields.add(C.COBZ_COTIZACION, val(getCotizacion().getValue()), Cairo.Constants.Types.double);
-        fields.add(C.COB_ID, getCobrador().getSelectId(), Cairo.Constants.Types.id);
-        fields.add(C.LGJ_ID, getLegajo().getSelectId(), Cairo.Constants.Types.id);
-        fields.add(C.COBZ_HOJA_RUTA, CInt(m_isHojaRuta), Cairo.Constants.Types.boolean);
 
-        fields.add(C.COBZ_NETO, val(getCobroNeto().getValue()), Cairo.Constants.Types.currency);
-        fields.add(C.COBZ_OTROS, val(getCobroOtros().getValue()), Cairo.Constants.Types.currency);
-        fields.add(C.COBZ_TOTAL, val(getCobroTotal().getValue()), Cairo.Constants.Types.currency);
+        fields.add(C.COBZ_NUMERO, 0, Types.long);
+        fields.add(C.COBZ_NRODOC, m_lastNroDoc, Types.text);
+        fields.add(C.COBZ_DESCRIP, getDescrip().getValue(), Types.text);
+        fields.add(C.COBZ_FECHA, getFecha().getValue(), Types.date);
+        
+        fields.add(C.CLI_ID, m_lastCliId, Types.id);
+        fields.add(C.CCOS_ID, getCentroCosto().getSelectId(), Types.id);
+        fields.add(C.SUC_ID, getSucursal().getSelectId(), Types.id);
+        fields.add(C.DOC_ID, getDoc(), Types.id);
+        fields.add(C.COBZ_COTIZACION, val(getCotizacion().getValue()), Types.double);
+        fields.add(C.COB_ID, getCobrador().getSelectId(), Types.id);
+        fields.add(C.LGJ_ID, getLegajo().getSelectId(), Types.id);
+        fields.add(C.COBZ_HOJA_RUTA, bToI(m_isHojaRuta), Types.boolean);
 
-        fields.add(C.COBZ_GRABAR_ASIENTO, 1, Cairo.Constants.Types.boolean);
-        fields.add(Cairo.Constants.EST_ID, CSGeneralEx2.csEEstado.cSEEST_PENDIENTE, Cairo.Constants.Types.id);
-        fields.add(C.COBZ_ID, Cairo.Constants.NEW_ID, Cairo.Constants.Types.long);
+        fields.add(C.COBZ_NETO, val(getCobroNeto().getValue()), Types.currency);
+        fields.add(C.COBZ_OTROS, val(getCobroOtros().getValue()), Types.currency);
+        fields.add(C.COBZ_TOTAL, val(getCobroTotal().getValue()), Types.currency);
 
-        if(!register.beginTrans(Cairo.Database)) { return _rtn; }
+        fields.add(C.COBZ_GRABAR_ASIENTO, 1, Types.boolean);
+        fields.add(C.EST_ID, D.Status.pendiente, Types.id);
+        fields.add(C.COBZ_ID, Cairo.Constants.NEW_ID, Types.long);
 
-        if(!Cairo.Database.save(register, , "pSave", C_MODULE, c_ErrorSave)) { return _rtn; }
-
-        m_iOrden = 0;
-        if(!pSaveCheques(register.getId())) { return _rtn; }
-        if(!pSaveEfectivo(register.getId())) { return _rtn; }
-        if(!pSaveTarjetas(register.getId())) { return _rtn; }
-        if(!pSaveOtros(register.getId())) { return _rtn; }
-        if(!pSaveCtaCte(register.getId())) { return _rtn; }
-        if(!pSaveFacturas(register.getId(), aplicado)) { return _rtn; }
-
-        if(!pSaveDifCambio(register.getId(), aplicado)) { return _rtn; }
-
-        if(!register.commitTrans()) { return _rtn; }
-
-        var sqlstmt = null;
-        var rs = null;
-
-        sqlstmt = "sp_DocCobranzaSave "+ register.getId().toString();
-        if(!Cairo.Database.openRs(sqlstmt, rs, , , , "pSave", C_MODULE, c_ErrorSave)) { return _rtn; }
-
-        if(rs.isEOF()) { return _rtn; }
-
-        var id = null;
-        if(!GetDocIDFromRecordset(rs, id)) { return _rtn; }
-
-        m_id = id;
-
-        _rtn = m_id !== 0;
-
-        return _rtn;
       };
 
-      var pSaveCheques = function(id) {
-        var register = null;
-        var row = null;
-        var cell = null;
-        var i = null;
+      var save = function() {
+        return D.docCanBeSavedEx(m_objWizard.getDialog(), DWC.FECHA, DWC.DOC)
+          .whenSuccess(function() {
 
-        var _count = getCheques().getRows().size();
-        for(var _i = 0; _i < _count; _i++) {
-          row = getCheques().getRows().item(_i);
+            var register = new DB.Register();
 
-          i = i + 1;
-          if(!pIsEmptyRowCheques(row, i)) {
+            // TODO: check if this setMask call is nedeed
+            //
+            //m_lastNroDoc = SetMask(w_getComprobante.getValue(), w_getComprobante.getTextMask());
+            m_lastNroDoc = getComprobante().getValue();;
+            m_lastCliId = getCliente();
 
-            register = new cRegister();
+            // used to define the application in rate exchange differences
+            //
+            var aplicado = 0;
 
-            register.setFieldId(C.COBZI_TMPID);
-            register.setTable(C.COBRANZAITEMTMP);
+            //
+            // the orden is share between the five types of items (cheques, efectivo, tarjetas, otros and cta cte)
+            //
+            m_orden = 0;
+
+            getSave(register);
+
+            saveCheques(register);
+            saveEfectivo(register);
+            saveTarjetas(register);
+            saveOtros(register);
+            saveCtaCte(register);
+
+            saveFacturas(register);
+
+            return DB.saveTransaction(
+                register,
+                false,
+                "",
+                Cairo.Constants.CLIENT_SAVE_FUNCTION,
+                C_MODULE,
+                SAVE_ERROR_MESSAGE
+
+              ).then(
+
+              function(result) {
+                if(result.success) {
+
+                  if(result.errors) {
+                    return M.showWarningWithFalse(result.errors.getMessage());
+                  }
+                  else {
+                    m_id = result.data.getId();
+                    return true;
+                  }
+                }
+                else {
+                  return false;
+                }
+              }
+            );
+          }
+        );
+      };
+
+      var saveCheques = function(mainRegister) {
+
+        var transaction = new DB.createTransaction();
+
+        transaction.setTable(CT.COBRANZA_ITEM_TMP);
+
+        var rows = getCheques().getRows();
+
+        for(var _i = 0, _count = rows.size(); _i < _count; _i++) {
+
+          var row = rows.item(_i);
+
+          if(!isEmptyRowCheques(row, _i)) {
+
+            var register = new DB.Register();
+            register.setFieldId(CT.COBZI_TMP_ID);
             register.setId(Cairo.Constants.NEW_ID);
 
             var fields = register.getFields();
 
-            var _count = row.size();
-            for(var _j = 0; _j < _count; _j++) {
-              cell = row.item(_j);
+            for(var _j = 0, _countj = row.size(); _j < _countj; _j++) {
+
+              var cell = row.item(_j);
               switch (cell.getKey()) {
 
                 case KICH_DESCRIP:
-                  fields.add(C.COBZI_DESCRIP, cell.getValue(), Cairo.Constants.Types.text);
+                  fields.add(CT.COBZI_DESCRIP, cell.getValue(), Types.text);
                   break;
 
                 case KICH_CHEQUE:
-                  fields.add(C.COBZI_TMPCHEQUE, cell.getValue(), Cairo.Constants.Types.text);
-
+                  fields.add(CT.COBZI_TMP_CHEQUE, cell.getValue(), Types.text);
                   break;
 
                 case KICH_CLE_ID:
-                  fields.add(C.CLE_ID, cell.getId(), Cairo.Constants.Types.id);
+                  fields.add(C.CLE_ID, cell.getId(), Types.id);
                   break;
 
                 case KICH_BCO_ID:
-                  fields.add(C.BCO_ID, cell.getId(), Cairo.Constants.Types.id);
+                  fields.add(C.BCO_ID, cell.getId(), Types.id);
                   break;
 
                 case KICH_MON_ID:
-                  fields.add(C.MON_ID, cell.getId(), Cairo.Constants.Types.id);
+                  fields.add(C.MON_ID, cell.getId(), Types.id);
                   break;
 
                 case KICH_FECHACOBRO:
-                  fields.add(C.COBZI_TMPFECHA_COBRO, cell.getValue(), Cairo.Constants.Types.date);
+                  fields.add(CT.COBZI_TMP_FECHA_COBRO, cell.getValue(), Types.date);
                   break;
 
                 case KICH_FECHAVTO:
-                  fields.add(C.COBZI_TMPFECHA_VTO, cell.getValue(), Cairo.Constants.Types.date);
-
+                  fields.add(CT.COBZI_TMP_FECHA_VTO, cell.getValue(), Types.date);
                   break;
 
                 case KICH_CUE_ID:
-                  fields.add(C.CUE_ID, cell.getId(), Cairo.Constants.Types.id);
+                  fields.add(C.CUE_ID, cell.getId(), Types.id);
                   break;
 
                 case KICH_IMPORTEORIGEN:
-                  fields.add(C.COBZI_IMPORTE_ORIGEN, val(cell.getValue()), Cairo.Constants.Types.currency);
+                  fields.add(CT.COBZI_IMPORTE_ORIGEN, val(cell.getValue()), Types.currency);
                   break;
 
                 case KICH_IMPORTE:
-                  fields.add(C.COBZI_IMPORTE, val(cell.getValue()), Cairo.Constants.Types.currency);
+                  fields.add(CT.COBZI_IMPORTE, val(cell.getValue()), Types.currency);
                   break;
 
                 case KICH_PROPIO:
-                  fields.add(C.COBZI_TMPPROPIO, cell.getId(), Cairo.Constants.Types.boolean);
+                  fields.add(CT.COBZI_TMP_PROPIO, cell.getId(), Types.boolean);
                   break;
               }
             }
 
-            m_iOrden = m_iOrden + 1;
-            fields.add(C.COBZI_ORDEN, m_iOrden, Cairo.Constants.Types.integer);
-            fields.add(C.COBZI_TIPO, csECobranzaItemTipo.cSECOBZITCHEQUES, Cairo.Constants.Types.integer);
-            fields.add(C.COBZ_TMPID, id, Cairo.Constants.Types.id);
-            fields.add(C.COBZI_ID, Cairo.Constants.NEW_ID, Cairo.Constants.Types.long);
-            fields.add(C.COBZI_OTRO_TIPO, csEItemOtroTipo.cSEOTRODEBE, Cairo.Constants.Types.integer);
+            m_orden = m_orden + 1;
+            fields.add(CT.COBZI_ORDEN, m_orden, Types.integer);
+            fields.add(CT.COBZI_TIPO, CT.CobranzaItemTipo.ITEM_CHEQUES, Types.integer);
+            fields.add(CT.COBZI_ID, Cairo.Constants.NEW_ID, Types.long);
+            fields.add(CT.COBZI_OTRO_TIPO, CT.OtroTipo.OTRO_DEBE, Types.integer);
 
-            if(!Cairo.Database.save(register, , "pSaveCheques", C_MODULE, c_ErrorSave)) { return false; }
+            transaction.addRegister(register);
           }
         }
+
+        mainRegister.addTransaction(transaction);
 
         return true;
       };
 
-      var pSaveFacturas = function(id, aplicado) {
+      var saveFacturas = function(id, aplicado) {
 
         var register = null;
         var bSave = null;
@@ -3520,7 +3406,7 @@
         for(var _i = 0; _i < _count; _i++) {
           row = getFacturas().getRows().item(_i);
 
-          register = new cRegister();
+          register = new DB.Register();
 
           register.setFieldId(C.FV_COBZ_TMPID);
           register.setTable(C.FACTURAVENTACOBRANZATMP);
@@ -3537,11 +3423,11 @@
               bSave = true;
               switch (cell.getKey()) {
                 case KI_FV_ID:
-                  fields.add(C.FV_ID, cell.getId(), Cairo.Constants.Types.id);
+                  fields.add(C.FV_ID, cell.getId(), Types.id);
                   break;
 
                 case KI_FVD_ID:
-                  fields.add(C.FVD_ID, cell.getId(), Cairo.Constants.Types.id);
+                  fields.add(C.FVD_ID, cell.getId(), Types.id);
                   break;
 
                 case KI_APLICAR:
@@ -3549,7 +3435,7 @@
                   break;
 
                 case KI_IMPORTEORIGEN:
-                  fields.add(C.FV_COBZ_IMPORTE_ORIGEN, val(cell.getValue()), Cairo.Constants.Types.double);
+                  fields.add(C.FV_COBZ_IMPORTE_ORIGEN, val(cell.getValue()), Types.double);
                   break;
 
                 case KI_COTIZACION:
@@ -3558,7 +3444,7 @@
 
                 case KI_COTIZACION2:
                   cotiCobranza = val(cell.getValue());
-                  fields.add(C.FV_COBZ_COTIZACION, cotiCobranza, Cairo.Constants.Types.double);
+                  fields.add(C.FV_COBZ_COTIZACION, cotiCobranza, Types.double);
                   break;
 
                 case KI_PENDIENTE:
@@ -3592,12 +3478,12 @@
 
             aplicado = aplicado + pago;
 
-            fields.add(C.FV_COBZ_IMPORTE, pago, Cairo.Constants.Types.double);
-            fields.add(C.FV_COBZ_ID, 0, Cairo.Constants.Types.long);
-            fields.add(C.COBZ_TMPID, id, Cairo.Constants.Types.id);
-            fields.add(C.COBZ_ID, 0, Cairo.Constants.Types.long);
+            fields.add(C.FV_COBZ_IMPORTE, pago, Types.double);
+            fields.add(C.FV_COBZ_ID, 0, Types.long);
+            fields.add(C.COBZ_TMPID, id, Types.id);
+            fields.add(C.COBZ_ID, 0, Types.long);
 
-            if(!Cairo.Database.save(register, , "pSaveFacturas", C_MODULE, c_ErrorSave)) { return false; }
+            if(!Cairo.Database.save(register, , "saveFacturas", C_MODULE, c_ErrorSave)) { return false; }
           }
 
         }
@@ -3605,25 +3491,24 @@
         return true;
       };
 
-      var pSaveTarjetas = function(id) {
-        var register = null;
-        var property = null;
+      var saveTarjetas = function(mainRegister) {
 
-        var row = null;
-        var cell = null;
-        var i = null;
+        var transaction = new DB.createTransaction();
 
-        var _count = getTarjetas().getRows().size();
-        for(var _i = 0; _i < _count; _i++) {
-          row = getTarjetas().getRows().item(_i);
+        transaction.setTable(CT.COBRANZA_ITEM_TMP);
 
-          i = i + 1;
-          if(!pIsEmptyRowTarjetas(row, i)) {
+        var rows = getTarjetas().getRows(); 
+        
+        for(var _i = 0, _count = rows.size(); _i < _count; _i++) {
+          
+          var row = rows.item(_i);
 
-            register = new cRegister();
+          if(!isEmptyRowTarjetas(row, _i)) {
 
-            register.setFieldId(C.COBZI_TMPID);
-            register.setTable(C.COBRANZAITEMTMP);
+            var register = new DB.Register();
+
+            register.setFieldId(CT.COBZI_TMP_ID);
+            register.setTable(CT.COBRANZA_ITEM_TMP);
             register.setId(Cairo.Constants.NEW_ID);
 
             var fields = register.getFields();
@@ -3634,85 +3519,88 @@
               switch (cell.getKey()) {
 
                 case KIT_DESCRIP:
-                  fields.add(C.COBZI_DESCRIP, cell.getValue(), Cairo.Constants.Types.text);
+                  fields.add(C.COBZI_DESCRIP, cell.getValue(), Types.text);
                   break;
 
                 case KIT_CUPON:
-                  fields.add(C.COBZI_TMPCUPON, cell.getValue(), Cairo.Constants.Types.text);
+                  fields.add(C.COBZI_TMPCUPON, cell.getValue(), Types.text);
                   break;
 
                 case KIT_TJC_ID:
-                  fields.add(C.TJC_ID, cell.getId(), Cairo.Constants.Types.id);
+                  fields.add(C.TJC_ID, cell.getId(), Types.id);
                   break;
 
                 case KIT_TJCCU_ID:
-                  fields.add(C.TJCCU_ID, cell.getId(), Cairo.Constants.Types.id);
+                  fields.add(C.TJCCU_ID, cell.getId(), Types.id);
                   break;
 
                 case KIT_MON_ID:
-                  fields.add(C.MON_ID, cell.getId(), Cairo.Constants.Types.id);
+                  fields.add(C.MON_ID, cell.getId(), Types.id);
                   break;
 
                 case KIT_FECHAVTO:
-                  fields.add(C.COBZI_TMPFECHA_VTO, cell.getValue(), Cairo.Constants.Types.date);
+                  fields.add(C.COBZI_TMPFECHA_VTO, cell.getValue(), Types.date);
                   break;
 
                 case KIT_TITULAR:
-                  fields.add(C.COBZI_TMPTITULAR, cell.getValue(), Cairo.Constants.Types.text);
+                  fields.add(C.COBZI_TMPTITULAR, cell.getValue(), Types.text);
                   break;
 
                 case KIT_NROTARJETA:
-                  fields.add(C.COBZI_TMPNRO_TARJETA, cell.getValue(), Cairo.Constants.Types.text);
+                  fields.add(C.COBZI_TMPNRO_TARJETA, cell.getValue(), Types.text);
                   break;
 
                 case KIT_NROAUTORIZACION:
-                  fields.add(C.COBZI_TMPAUTORIZACION, cell.getValue(), Cairo.Constants.Types.text);
+                  fields.add(C.COBZI_TMPAUTORIZACION, cell.getValue(), Types.text);
                   break;
 
                 case KIT_TARJETA_TIPO:
-                  fields.add(C.COBZI_TARJETA_TIPO, cell.getId(), Cairo.Constants.Types.long);
+                  fields.add(C.COBZI_TARJETA_TIPO, cell.getId(), Types.long);
                   break;
 
                 case KIT_IMPORTEORIGEN:
-                  fields.add(C.COBZI_IMPORTE_ORIGEN, val(cell.getValue()), Cairo.Constants.Types.currency);
+                  fields.add(C.COBZI_IMPORTE_ORIGEN, val(cell.getValue()), Types.currency);
                   break;
 
                 case KIT_IMPORTE:
-                  fields.add(C.COBZI_IMPORTE, val(cell.getValue()), Cairo.Constants.Types.currency);
+                  fields.add(C.COBZI_IMPORTE, val(cell.getValue()), Types.currency);
                   break;
               }
             }
 
-            m_iOrden = m_iOrden + 1;
-            fields.add(C.COBZI_ORDEN, m_iOrden, Cairo.Constants.Types.integer);
-            fields.add(C.COBZI_TIPO, csECobranzaItemTipo.cSECOBZITTARJETA, Cairo.Constants.Types.integer);
-            fields.add(C.COBZ_TMPID, id, Cairo.Constants.Types.id);
-            fields.add(C.COBZI_ID, Cairo.Constants.NEW_ID, Cairo.Constants.Types.long);
-            fields.add(C.COBZI_OTRO_TIPO, csEItemOtroTipo.cSEOTRODEBE, Cairo.Constants.Types.integer);
+            m_orden = m_orden + 1;
+            fields.add(C.COBZI_ORDEN, m_orden, Types.integer);
+            fields.add(C.COBZI_TIPO, csECobranzaItemTipo.cSECOBZITTARJETA, Types.integer);
+            fields.add(C.COBZ_TMPID, id, Types.id);
+            fields.add(C.COBZI_ID, Cairo.Constants.NEW_ID, Types.long);
+            fields.add(C.COBZI_OTRO_TIPO, csEItemOtroTipo.cSEOTRODEBE, Types.integer);
 
-            if(!Cairo.Database.save(register, , "pSaveTarjetas", C_MODULE, c_ErrorSave)) { return false; }
+            if(!Cairo.Database.save(register, , "saveTarjetas", C_MODULE, c_ErrorSave)) { return false; }
           }
         }
+
+        mainRegister.addTransaction(transaction);
 
         return true;
       };
 
-      var pSaveOtros = function(id) {
-        var register = null;
-        var property = null;
+      var saveOtros = function(mainRegister) {
 
-        var row = null;
-        var cell = null;
-        var i = null;
+        var transaction = new DB.createTransaction();
+
+        transaction.setTable(CT.COBRANZA_ITEM_TMP);
+
+        var rows = getCheques().getRows();
+
 
         var _count = getOtros().getRows().size();
         for(var _i = 0; _i < _count; _i++) {
           row = getOtros().getRows().item(_i);
 
           i = i + 1;
-          if(!pIsEmptyRowOtros(row, i)) {
+          if(!isEmptyRowOtros(row, i)) {
 
-            register = new cRegister();
+            register = new DB.Register();
 
             register.setFieldId(C.COBZI_TMPID);
             register.setTable(C.COBRANZAITEMTMP);
@@ -3726,86 +3614,89 @@
               switch (cell.getKey()) {
 
                 case KIO_DESCRIP:
-                  fields.add(C.COBZI_DESCRIP, cell.getValue(), Cairo.Constants.Types.text);
+                  fields.add(C.COBZI_DESCRIP, cell.getValue(), Types.text);
                   break;
 
                 case KIO_RET_ID:
-                  fields.add(C.RET_ID, cell.getId(), Cairo.Constants.Types.id);
+                  fields.add(C.RET_ID, cell.getId(), Types.id);
                   break;
 
                 case KIO_NRORETENCION:
-                  fields.add(C.COBZI_NRO_RETENCION, cell.getValue(), Cairo.Constants.Types.text);
+                  fields.add(C.COBZI_NRO_RETENCION, cell.getValue(), Types.text);
                   break;
 
                 case KIO_PORCRETENCION:
-                  fields.add(C.COBZI_PORC_RETENCION, val(cell.getValue()), Cairo.Constants.Types.double);
+                  fields.add(C.COBZI_PORC_RETENCION, val(cell.getValue()), Types.double);
                   break;
 
                 case KIO_CCOS_ID:
-                  fields.add(C.CCOS_ID, cell.getId(), Cairo.Constants.Types.id);
+                  fields.add(C.CCOS_ID, cell.getId(), Types.id);
                   break;
 
                 case KIO_FV_ID_RET:
-                  fields.add(C.FV_ID_RET, cell.getId(), Cairo.Constants.Types.id);
+                  fields.add(C.FV_ID_RET, cell.getId(), Types.id);
                   break;
 
                 case KIO_CUE_ID:
-                  fields.add(C.CUE_ID, cell.getId(), Cairo.Constants.Types.id);
+                  fields.add(C.CUE_ID, cell.getId(), Types.id);
                   break;
 
                 case KIO_FECHARETENCION:
-                  if(!ValEmpty(cell.getValue(), Cairo.Constants.Types.date)) {
-                    fields.add(C.COBZI_FECHA_RETENCION, cell.getValue(), Cairo.Constants.Types.date);
+                  if(!valEmpty(cell.getValue(), Types.date)) {
+                    fields.add(C.COBZI_FECHA_RETENCION, cell.getValue(), Types.date);
                   }
                   break;
 
                 case KIO_IMPORTEORIGEN:
-                  fields.add(C.COBZI_IMPORTE_ORIGEN, val(cell.getValue()), Cairo.Constants.Types.currency);
+                  fields.add(C.COBZI_IMPORTE_ORIGEN, val(cell.getValue()), Types.currency);
                   break;
 
                 case KIO_DEBE:
                   if(val(cell.getValue()) !== 0) {
-                    fields.add(C.COBZI_IMPORTE, val(cell.getValue()), Cairo.Constants.Types.currency);
-                    fields.add(C.COBZI_OTRO_TIPO, csEItemOtroTipo.cSEOTRODEBE, Cairo.Constants.Types.integer);
+                    fields.add(C.COBZI_IMPORTE, val(cell.getValue()), Types.currency);
+                    fields.add(C.COBZI_OTRO_TIPO, csEItemOtroTipo.cSEOTRODEBE, Types.integer);
                   }
                   break;
 
                 case KIO_HABER:
                   if(val(cell.getValue()) !== 0) {
-                    fields.add(C.COBZI_IMPORTE, val(cell.getValue()), Cairo.Constants.Types.currency);
-                    fields.add(C.COBZI_OTRO_TIPO, csEItemOtroTipo.cSEOTROHABER, Cairo.Constants.Types.integer);
+                    fields.add(C.COBZI_IMPORTE, val(cell.getValue()), Types.currency);
+                    fields.add(C.COBZI_OTRO_TIPO, csEItemOtroTipo.cSEOTROHABER, Types.integer);
                   }
                   break;
               }
             }
 
-            m_iOrden = m_iOrden + 1;
-            fields.add(C.COBZI_ORDEN, m_iOrden, Cairo.Constants.Types.integer);
-            fields.add(C.COBZI_TIPO, csECobranzaItemTipo.cSECOBZITOTROS, Cairo.Constants.Types.integer);
-            fields.add(C.COBZ_TMPID, id, Cairo.Constants.Types.id);
-            fields.add(C.COBZI_ID, Cairo.Constants.NEW_ID, Cairo.Constants.Types.long);
+            m_orden = m_orden + 1;
+            fields.add(C.COBZI_ORDEN, m_orden, Types.integer);
+            fields.add(C.COBZI_TIPO, csECobranzaItemTipo.cSECOBZITOTROS, Types.integer);
+            fields.add(C.COBZ_TMPID, id, Types.id);
+            fields.add(C.COBZI_ID, Cairo.Constants.NEW_ID, Types.long);
 
-            if(!Cairo.Database.save(register, , "pSaveOtros", C_MODULE, c_ErrorSave)) { return false; }
+            if(!Cairo.Database.save(register, , "saveOtros", C_MODULE, c_ErrorSave)) { return false; }
           }
         }
 
         return true;
       };
 
-      var pSaveEfectivo = function(id) {
-        var register = null;
-        var row = null;
-        var cell = null;
-        var i = null;
+      var saveEfectivo = function(mainRegister) {
+
+        var transaction = new DB.createTransaction();
+
+        transaction.setTable(CT.COBRANZA_ITEM_TMP);
+
+        var rows = getCheques().getRows();
+
 
         var _count = getEfectivo().getRows().size();
         for(var _i = 0; _i < _count; _i++) {
           row = getEfectivo().getRows().item(_i);
 
           i = i + 1;
-          if(!pIsEmptyRowEfectivo(row, i)) {
+          if(!isEmptyRowEfectivo(row, i)) {
 
-            register = new cRegister();
+            register = new DB.Register();
 
             register.setFieldId(C.COBZI_TMPID);
             register.setTable(C.COBRANZAITEMTMP);
@@ -3819,38 +3710,38 @@
               switch (cell.getKey()) {
 
                 case KIE_DESCRIP:
-                  fields.add(C.COBZI_DESCRIP, cell.getValue(), Cairo.Constants.Types.text);
+                  fields.add(C.COBZI_DESCRIP, cell.getValue(), Types.text);
                   break;
 
                 case KIE_CUE_ID:
-                  fields.add(C.CUE_ID, cell.getId(), Cairo.Constants.Types.id);
+                  fields.add(C.CUE_ID, cell.getId(), Types.id);
                   break;
 
                 case KIE_IMPORTEORIGEN:
-                  fields.add(C.COBZI_IMPORTE_ORIGEN, val(cell.getValue()), Cairo.Constants.Types.currency);
+                  fields.add(C.COBZI_IMPORTE_ORIGEN, val(cell.getValue()), Types.currency);
                   break;
 
                 case KIE_IMPORTE:
-                  fields.add(C.COBZI_IMPORTE, val(cell.getValue()), Cairo.Constants.Types.currency);
+                  fields.add(C.COBZI_IMPORTE, val(cell.getValue()), Types.currency);
                   break;
               }
             }
 
-            m_iOrden = m_iOrden + 1;
-            fields.add(C.COBZI_ORDEN, m_iOrden, Cairo.Constants.Types.integer);
-            fields.add(C.COBZI_TIPO, csECobranzaItemTipo.cSECOBZITEFECTIVO, Cairo.Constants.Types.integer);
-            fields.add(C.COBZ_TMPID, id, Cairo.Constants.Types.id);
-            fields.add(C.COBZI_ID, Cairo.Constants.NEW_ID, Cairo.Constants.Types.long);
-            fields.add(C.COBZI_OTRO_TIPO, csEItemOtroTipo.cSEOTRODEBE, Cairo.Constants.Types.integer);
+            m_orden = m_orden + 1;
+            fields.add(C.COBZI_ORDEN, m_orden, Types.integer);
+            fields.add(C.COBZI_TIPO, csECobranzaItemTipo.cSECOBZITEFECTIVO, Types.integer);
+            fields.add(C.COBZ_TMPID, id, Types.id);
+            fields.add(C.COBZI_ID, Cairo.Constants.NEW_ID, Types.long);
+            fields.add(C.COBZI_OTRO_TIPO, csEItemOtroTipo.cSEOTRODEBE, Types.integer);
 
-            if(!Cairo.Database.save(register, , "pSaveEfectivo", C_MODULE, c_ErrorSave)) { return false; }
+            if(!Cairo.Database.save(register, , "saveEfectivo", C_MODULE, c_ErrorSave)) { return false; }
           }
         }
 
         return true;
       };
 
-      var pSaveCtaCte = function(id) {
+      var saveCtaCte = function(mainRegister) {
         var register = null;
         var row = null;
         var cell = null;
@@ -3859,7 +3750,7 @@
         for(var _i = 0; _i < _count; _i++) {
           row = getCtaCte().getRows().item(_i);
 
-          register = new cRegister();
+          register = new DB.Register();
 
           register.setFieldId(C.COBZI_TMPID);
           register.setTable(C.COBRANZAITEMTMP);
@@ -3873,45 +3764,45 @@
             switch (cell.getKey()) {
 
               case KICC_CUE_ID:
-                fields.add(C.CUE_ID, cell.getId(), Cairo.Constants.Types.id);
+                fields.add(C.CUE_ID, cell.getId(), Types.id);
                 break;
 
               case KICC_IMPORTEORIGEN:
-                fields.add(C.COBZI_IMPORTE_ORIGEN, val(cell.getValue()), Cairo.Constants.Types.currency);
+                fields.add(C.COBZI_IMPORTE_ORIGEN, val(cell.getValue()), Types.currency);
                 break;
 
               case KICC_IMPORTE:
-                fields.add(C.COBZI_IMPORTE, val(cell.getValue()), Cairo.Constants.Types.currency);
+                fields.add(C.COBZI_IMPORTE, val(cell.getValue()), Types.currency);
                 break;
             }
           }
 
-          m_iOrden = m_iOrden + 1;
-          fields.add(C.COBZI_ORDEN, m_iOrden, Cairo.Constants.Types.integer);
-          fields.add(C.COBZI_TIPO, csECobranzaItemTipo.cSECOBZITCTA_CTE, Cairo.Constants.Types.integer);
-          fields.add(C.COBZ_TMPID, id, Cairo.Constants.Types.id);
-          fields.add(C.COBZI_ID, Cairo.Constants.NEW_ID, Cairo.Constants.Types.long);
-          fields.add(C.COBZI_OTRO_TIPO, csEItemOtroTipo.cSEOTROHABER, Cairo.Constants.Types.integer);
+          m_orden = m_orden + 1;
+          fields.add(C.COBZI_ORDEN, m_orden, Types.integer);
+          fields.add(C.COBZI_TIPO, csECobranzaItemTipo.cSECOBZITCTA_CTE, Types.integer);
+          fields.add(C.COBZ_TMPID, id, Types.id);
+          fields.add(C.COBZI_ID, Cairo.Constants.NEW_ID, Types.long);
+          fields.add(C.COBZI_OTRO_TIPO, csEItemOtroTipo.cSEOTROHABER, Types.integer);
 
-          if(!Cairo.Database.save(register, , "pSaveCtaCte", C_MODULE, c_ErrorSave)) { return false; }
+          if(!Cairo.Database.save(register, , "saveCtaCte", C_MODULE, c_ErrorSave)) { return false; }
         }
 
         return true;
       };
 
-      var pSaveDifCambio = function(id, aplicado) {
+      var saveDifCambio = function(id, aplicado) {
         var _rtn = null;
         if(getDefaultDifCambio().getListItemData() === CT.ModoDifCambio.cSEDIF_CAMBIOCUENTA) {
-          _rtn = pSaveDifCambioCtaCble(id);
+          _rtn = saveDifCambioCtaCble(id);
         }
         else {
-          _rtn = pSaveDifCambioNCND(id, aplicado);
+          _rtn = saveDifCambioNCND(id, aplicado);
         }
 
         return _rtn;
       };
 
-      var pSaveDifCambioCtaCble = function(id) {
+      var saveDifCambioCtaCble = function(id) {
         var _rtn = null;
         var register = null;
         var property = null;
@@ -3927,7 +3818,7 @@
 
         diferencia = Abs(deudaOrigen - cobrado);
 
-        if(Cairo.Util.round(diferencia, 2) === 0) {
+        if(round(diferencia, 2) === 0) {
           _rtn = true;
           return _rtn;
         }
@@ -3940,7 +3831,7 @@
           return _rtn;
         }
 
-        register = new cRegister();
+        register = new DB.Register();
 
         register.setFieldId(C.COBZI_TMPID);
         register.setTable(C.COBRANZAITEMTMP);
@@ -3948,32 +3839,32 @@
 
         var fields = register.getFields();
 
-        fields.add(C.COBZI_DESCRIP, "Diferencia de cambio", Cairo.Constants.Types.text);
-        fields.add(C.CUE_ID, cue_id, Cairo.Constants.Types.id);
+        fields.add(C.COBZI_DESCRIP, "Diferencia de cambio", Types.text);
+        fields.add(C.CUE_ID, cue_id, Types.id);
 
         if(deudaOrigen > cobrado) {
-          fields.add(C.COBZI_IMPORTE, deudaOrigen - cobrado, Cairo.Constants.Types.currency);
-          fields.add(C.COBZI_OTRO_TIPO, csEItemOtroTipo.cSEOTRODEBE, Cairo.Constants.Types.integer);
+          fields.add(C.COBZI_IMPORTE, deudaOrigen - cobrado, Types.currency);
+          fields.add(C.COBZI_OTRO_TIPO, csEItemOtroTipo.cSEOTRODEBE, Types.integer);
         }
         else {
-          fields.add(C.COBZI_IMPORTE, Abs(deudaOrigen - cobrado), Cairo.Constants.Types.currency);
-          fields.add(C.COBZI_OTRO_TIPO, csEItemOtroTipo.cSEOTROHABER, Cairo.Constants.Types.integer);
+          fields.add(C.COBZI_IMPORTE, Abs(deudaOrigen - cobrado), Types.currency);
+          fields.add(C.COBZI_OTRO_TIPO, csEItemOtroTipo.cSEOTROHABER, Types.integer);
         }
 
-        m_iOrden = m_iOrden + 1;
-        fields.add(C.COBZI_ORDEN, m_iOrden, Cairo.Constants.Types.integer);
-        fields.add(C.COBZI_TIPO, csECobranzaItemTipo.cSECOBZITOTROS, Cairo.Constants.Types.integer);
-        fields.add(C.COBZ_TMPID, id, Cairo.Constants.Types.id);
-        fields.add(C.COBZI_ID, Cairo.Constants.NEW_ID, Cairo.Constants.Types.long);
+        m_orden = m_orden + 1;
+        fields.add(C.COBZI_ORDEN, m_orden, Types.integer);
+        fields.add(C.COBZI_TIPO, csECobranzaItemTipo.cSECOBZITOTROS, Types.integer);
+        fields.add(C.COBZ_TMPID, id, Types.id);
+        fields.add(C.COBZI_ID, Cairo.Constants.NEW_ID, Types.long);
 
-        if(!Cairo.Database.save(register, , "pSaveOtros", C_MODULE, c_ErrorSave)) { return _rtn; }
+        if(!Cairo.Database.save(register, , "saveOtros", C_MODULE, c_ErrorSave)) { return _rtn; }
 
         _rtn = true;
 
         return _rtn;
       };
 
-      var pSaveDifCambioNCND = function(id, aplicado) {
+      var saveDifCambioNCND = function(id, aplicado) {
         var _rtn = null;
         var cobrado = null;
         var deudaOrigen = null;
@@ -3985,7 +3876,7 @@
 
         diferencia = Abs(deudaOrigen - cobrado);
 
-        if(Cairo.Util.round(diferencia, 2) === 0) {
+        if(round(diferencia, 2) === 0) {
           _rtn = true;
           return _rtn;
         }
@@ -3993,23 +3884,23 @@
         // Nota de debito
         if(deudaOrigen < cobrado) {
 
-          if(!pSaveDocVta(id, getNDDifCambio().getSelectId(), diferencia, true, fvTMPId)) { return _rtn; }
+          if(!saveDocVta(id, getNDDifCambio().getSelectId(), diferencia, true, fvTMPId)) { return _rtn; }
 
           // Agrego la nota de debito a la coleccion de
           // aplicaciones con la cobranza
           //
-          if(!pSaveCobranzaND(id, fvTMPId, diferencia, aplicado)) { return _rtn; }
+          if(!saveCobranzaND(id, fvTMPId, diferencia, aplicado)) { return _rtn; }
 
           // Nota de credito
         }
         else {
 
-          if(!pSaveDocVta(id, getNCDifCambio().getSelectId(), diferencia, false, fvTMPId)) { return _rtn; }
+          if(!saveDocVta(id, getNCDifCambio().getSelectId(), diferencia, false, fvTMPId)) { return _rtn; }
 
           // Aplico la nota de credito con cada una de las
           // facturas que generaron diferencias de cambio
           //
-          if(!pSaveFacturaVentaNotaCredito(fvTMPId, diferencia)) { return _rtn; }
+          if(!saveFacturaVentaNotaCredito(fvTMPId, diferencia)) { return _rtn; }
 
         }
 
@@ -4054,7 +3945,7 @@
         return mask+ rtn;
       };
 
-      var pSaveDocVta = function(cobzTMPId, docId, diferencia, bIsND, fvTMPId) {
+      var saveDocVta = function(cobzTMPId, docId, diferencia, bIsND, fvTMPId) {
         var register = null;
         var neto = null;
         var ivaRi = null;
@@ -4064,7 +3955,7 @@
         if(!getIva(vIva)) { return false; }
         if(!getItems(vIva, vItems, diferencia, bIsND, neto, ivaRi)) { return false; }
 
-        register = new cRegister();
+        register = new DB.Register();
 
         register.setFieldId(C.FV_TMPID);
         register.setTable(C.FACTURAVENTATMP);
@@ -4072,28 +3963,28 @@
 
         var fields = register.getFields();
 
-        fields.add(C.FV_ID, Cairo.Constants.NEW_ID, Cairo.Constants.Types.long);
-        fields.add(C.COBZ_TMPID, cobzTMPId, Cairo.Constants.Types.id);
+        fields.add(C.FV_ID, Cairo.Constants.NEW_ID, Types.long);
+        fields.add(C.COBZ_TMPID, cobzTMPId, Types.id);
 
-        fields.add(C.FV_NUMERO, 0, Cairo.Constants.Types.long);
-        fields.add(C.FV_NRODOC, getNCNDDocNumber(docId), Cairo.Constants.Types.text);
+        fields.add(C.FV_NUMERO, 0, Types.long);
+        fields.add(C.FV_NRODOC, getNCNDDocNumber(docId), Types.text);
 
-        fields.add(C.FV_DESCRIP, getDescripNDNC(), Cairo.Constants.Types.text);
-        fields.add(C.FV_FECHA, getFechaNdNc().getValue(), Cairo.Constants.Types.date);
-        fields.add(C.FV_FECHAENTREGA, getFecha().getValue(), Cairo.Constants.Types.date);
-        fields.add(C.CLI_ID, getCliente(), Cairo.Constants.Types.id);
-        fields.add(C.SUC_ID, getSucursal().getSelectId(), Cairo.Constants.Types.id);
-        fields.add(C.DOC_ID, docId, Cairo.Constants.Types.id);
-        fields.add(C.CPG_ID, csECpgTipo.cSECPGT_FECHADOCUMENTO, Cairo.Constants.Types.id);
-        fields.add(C.LGJ_ID, getLegajo().getSelectId(), Cairo.Constants.Types.id);
+        fields.add(C.FV_DESCRIP, getDescripNDNC(), Types.text);
+        fields.add(C.FV_FECHA, getFechaNdNc().getValue(), Types.date);
+        fields.add(C.FV_FECHAENTREGA, getFecha().getValue(), Types.date);
+        fields.add(C.CLI_ID, getCliente(), Types.id);
+        fields.add(C.SUC_ID, getSucursal().getSelectId(), Types.id);
+        fields.add(C.DOC_ID, docId, Types.id);
+        fields.add(C.CPG_ID, csECpgTipo.cSECPGT_FECHADOCUMENTO, Types.id);
+        fields.add(C.LGJ_ID, getLegajo().getSelectId(), Types.id);
 
-        fields.add(C.FV_NETO, neto, Cairo.Constants.Types.currency);
-        fields.add(C.FV_SUBTOTAL, neto, Cairo.Constants.Types.currency);
-        fields.add(C.FV_IVARI, ivaRi, Cairo.Constants.Types.currency);
+        fields.add(C.FV_NETO, neto, Types.currency);
+        fields.add(C.FV_SUBTOTAL, neto, Types.currency);
+        fields.add(C.FV_IVARI, ivaRi, Types.currency);
 
-        fields.add(C.FV_TOTAL, neto + ivaRi, Cairo.Constants.Types.currency);
-        fields.add(C.FV_GRABAR_ASIENTO, 1, Cairo.Constants.Types.boolean);
-        fields.add(Cairo.Constants.EST_ID, CSGeneralEx2.csEEstado.cSEEST_PENDIENTE, Cairo.Constants.Types.id);
+        fields.add(C.FV_TOTAL, neto + ivaRi, Types.currency);
+        fields.add(C.FV_GRABAR_ASIENTO, 1, Types.boolean);
+        fields.add(Cairo.Constants.EST_ID, CSGeneralEx2.csEEstado.cSEEST_PENDIENTE, Types.id);
 
         var c_ErrorSave = null;
 
@@ -4108,7 +3999,7 @@
 
         if(!Cairo.Database.save(register, , "cIABMClient_Save", C_MODULE, c_ErrorSave)) { return false; }
 
-        if(!pSaveItemsNCND(register.getId(), vItems[], c_ErrorSave)) { return false; }
+        if(!saveItemsNCND(register.getId(), vItems[], c_ErrorSave)) { return false; }
         if(!register.commitTrans()) { return false; }
 
         fvTMPId = register.getId();
@@ -4116,7 +4007,7 @@
         return true;
       };
 
-      var pSaveItemsNCND = function(id, vItems, strError) {
+      var saveItemsNCND = function(id, vItems, strError) {
         var transaction = new Cairo.Database.Transaction();
         var iOrden = null;
         var pR_ID = null;
@@ -4133,19 +4024,19 @@
         if(!getCuentas(pR_ID, cue_id, cue_id_ivari)) { return false; }
 
         for(iOrden = 1; iOrden <= vItems.length; iOrden++) {
-          fields.add(C.FVI_ID, Cairo.Constants.NEW_ID, Cairo.Constants.Types.integer);
-          fields.add(C.FVI_CANTIDAD, 1, Cairo.Constants.Types.double);
-          fields.add(C.FVI_PRECIO, vItems.importe, Cairo.Constants.Types.currency);
-          fields.add(C.FVI_PRECIO_USR, vItems.importe, Cairo.Constants.Types.currency);
-          fields.add(C.FVI_NETO, vItems.importe, Cairo.Constants.Types.currency);
-          fields.add(C.FVI_IVARI, vItems.ImporteIva, Cairo.Constants.Types.currency);
-          fields.add(C.FVI_IVARIPORC, vItems.TasaIva, Cairo.Constants.Types.double);
-          fields.add(C.PR_ID, pR_ID, Cairo.Constants.Types.id);
-          fields.add(C.FVI_IMPORTE, vItems.importe + vItems.ImporteIva, Cairo.Constants.Types.currency);
-          fields.add(C.CUE_ID, cue_id, Cairo.Constants.Types.id);
-          fields.add(C.CUE_ID_IVA_RI, cue_id_ivari, Cairo.Constants.Types.id);
-          fields.add(C.FVI_ORDEN, iOrden, Cairo.Constants.Types.integer);
-          fields.add(C.FV_TMPID, id, Cairo.Constants.Types.id);
+          fields.add(C.FVI_ID, Cairo.Constants.NEW_ID, Types.integer);
+          fields.add(C.FVI_CANTIDAD, 1, Types.double);
+          fields.add(C.FVI_PRECIO, vItems.importe, Types.currency);
+          fields.add(C.FVI_PRECIO_USR, vItems.importe, Types.currency);
+          fields.add(C.FVI_NETO, vItems.importe, Types.currency);
+          fields.add(C.FVI_IVARI, vItems.ImporteIva, Types.currency);
+          fields.add(C.FVI_IVARIPORC, vItems.TasaIva, Types.double);
+          fields.add(C.PR_ID, pR_ID, Types.id);
+          fields.add(C.FVI_IMPORTE, vItems.importe + vItems.ImporteIva, Types.currency);
+          fields.add(C.CUE_ID, cue_id, Types.id);
+          fields.add(C.CUE_ID_IVA_RI, cue_id_ivari, Types.id);
+          fields.add(C.FVI_ORDEN, iOrden, Types.integer);
+          fields.add(C.FV_TMPID, id, Types.id);
 
           register.setId(Cairo.Constants.NEW_ID);
 
@@ -4301,7 +4192,7 @@
 
       // Proposito: Vincula la nota de debito por dif. de cambio con la cobranza
       //
-      var pSaveCobranzaND = function(id, fvTMPId, importe, aplicado) {
+      var saveCobranzaND = function(id, fvTMPId, importe, aplicado) {
 
         var aplicar = null;
 
@@ -4320,7 +4211,7 @@
 
           var register = null;
 
-          register = new cRegister();
+          register = new DB.Register();
 
           register.setFieldId(C.FV_COBZ_TMPID);
           register.setTable(C.FACTURAVENTACOBRANZATMP);
@@ -4328,21 +4219,21 @@
 
           var fields = register.getFields();
 
-            fields.add(C.FV_ID, fvTMPId * -1, Cairo.Constants.Types.id); //  Indica que se trata de una ND aun
+            fields.add(C.FV_ID, fvTMPId * -1, Types.id); //  Indica que se trata de una ND aun
           // no generada el sp_DocCobranzaSave
           // Graba la ND y luego la vincula con
           // la cobranza
           //
-            fields.add(C.FVD_ID, -1, Cairo.Constants.Types.id); //  Indica que la deuda sera generada
+            fields.add(C.FVD_ID, -1, Types.id); //  Indica que la deuda sera generada
           // por el sp_DocCobranzaSave
           //
 
-          fields.add(C.FV_COBZ_IMPORTE, importe, Cairo.Constants.Types.double);
-          fields.add(C.FV_COBZ_ID, 0, Cairo.Constants.Types.long);
-          fields.add(C.COBZ_TMPID, id, Cairo.Constants.Types.id);
-          fields.add(C.COBZ_ID, 0, Cairo.Constants.Types.long);
+          fields.add(C.FV_COBZ_IMPORTE, importe, Types.double);
+          fields.add(C.FV_COBZ_ID, 0, Types.long);
+          fields.add(C.COBZ_TMPID, id, Types.id);
+          fields.add(C.COBZ_ID, 0, Types.long);
 
-          if(!Cairo.Database.save(register, , "pSaveCobranzaND", C_MODULE, c_ErrorSave)) { return false; }
+          if(!Cairo.Database.save(register, , "saveCobranzaND", C_MODULE, c_ErrorSave)) { return false; }
 
         }
 
@@ -4351,7 +4242,7 @@
 
       // Proposito: Vincular la nota de credito por dif. de cambio con las facturas de
       //            esta cobranza
-      var pSaveFacturaVentaNotaCredito = function(fvTMPId, importe) {
+      var saveFacturaVentaNotaCredito = function(fvTMPId, importe) {
         var row = null;
         var aCobrar = null;
         var cobrado = null;
@@ -4373,7 +4264,7 @@
             diferencia = aCobrar - cobrado;
             if(importe < diferencia) { diferencia = importe; }
 
-            if(!pSaveFVNCAux(fvTMPId, getCell(row, KI_FV_ID).getId(), getCell(row, KI_FVD_ID).getId(), diferencia)) { return false; }
+            if(!saveFVNCAux(fvTMPId, getCell(row, KI_FV_ID).getId(), getCell(row, KI_FVD_ID).getId(), diferencia)) { return false; }
 
             importe = importe - diferencia;
 
@@ -4384,10 +4275,10 @@
         return true;
       };
 
-      var pSaveFVNCAux = function(fvTMPId, fvIdFactura, fvdIdFactura, importe) {
+      var saveFVNCAux = function(fvTMPId, fvIdFactura, fvdIdFactura, importe) {
         var register = null;
 
-        register = new cRegister();
+        register = new DB.Register();
 
         register.setFieldId(C.FV_NC_TMPID);
         register.setTable(C.FACTURAVENTANOTACREDITOTMP);
@@ -4395,26 +4286,26 @@
 
         var fields = register.getFields();
 
-        fields.add(C.FV_TMPID, fvTMPId, Cairo.Constants.Types.id);
+        fields.add(C.FV_TMPID, fvTMPId, Types.id);
 
         // Indica que se trata de una NC aun
         // no generada el sp_DocCobranzaSave
         // Graba la NC y luego la vincula con
         // las facturas
         //
-        fields.add(C.FV_ID_NOTA_CREDITO, fvTMPId * -1, Cairo.Constants.Types.id);
+        fields.add(C.FV_ID_NOTA_CREDITO, fvTMPId * -1, Types.id);
 
         // Indica que la deuda sera generada
         // por el sp_DocCobranzaSave
         //
-        fields.add(C.FVD_ID_NOTA_CREDITO, -1, Cairo.Constants.Types.id);
+        fields.add(C.FVD_ID_NOTA_CREDITO, -1, Types.id);
 
-        fields.add(C.FV_ID_FACTURA, fvIdFactura, Cairo.Constants.Types.id);
-        fields.add(C.FVD_ID_FACTURA, fvdIdFactura, Cairo.Constants.Types.id);
-        fields.add(C.FV_NC_IMPORTE, importe, Cairo.Constants.Types.double);
-        fields.add(C.FV_NC_ID, 0, Cairo.Constants.Types.long);
+        fields.add(C.FV_ID_FACTURA, fvIdFactura, Types.id);
+        fields.add(C.FVD_ID_FACTURA, fvdIdFactura, Types.id);
+        fields.add(C.FV_NC_IMPORTE, importe, Types.double);
+        fields.add(C.FV_NC_ID, 0, Types.long);
 
-        if(!Cairo.Database.save(register, , "pSaveFVNCAux", C_MODULE, c_ErrorSave)) { return false; }
+        if(!Cairo.Database.save(register, , "saveFVNCAux", C_MODULE, c_ErrorSave)) { return false; }
 
         return true;
       };
@@ -4511,8 +4402,6 @@
         return D.getWizProperty(m_objWizard, WCS.SELECT_CLIENTE, DWC.CLIENTE).getValue();
       };
 
-      // Edit From ListDoc
-      //
       var getOnlySelected = function() {
         return D.getWizProperty(m_objWizard, WCS.SELECT_CLIENTE, DWC.ONLY_SELECTED);
       };

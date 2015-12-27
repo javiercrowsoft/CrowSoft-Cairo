@@ -181,7 +181,7 @@
       var m_taPropuesto;
       var m_taMascara = "";
 
-      var m_iOrden = 0;
+      var m_orden = 0;
 
       var m_applyEditor;
 
@@ -2723,8 +2723,8 @@
             }
           }
 
-          m_iOrden = m_iOrden + 1;
-          fields.add(CT.COBZI_ORDEN, m_iOrden, Types.integer);
+          m_orden = m_orden + 1;
+          fields.add(CT.COBZI_ORDEN, m_orden, Types.integer);
           fields.add(CT.COBZI_TIPO, CT.CobranzaItemTipo.ITEM_CHEQUES, Types.integer);
           fields.add(CT.COBZI_OTRO_TIPO, CT.OtroTipo.OTRO_DEBE, Types.integer);
 
@@ -2826,8 +2826,8 @@
             }
           }
 
-          m_iOrden = m_iOrden + 1;
-          fields.add(CT.COBZI_ORDEN, m_iOrden, Types.integer);
+          m_orden = m_orden + 1;
+          fields.add(CT.COBZI_ORDEN, m_orden, Types.integer);
           fields.add(CT.COBZI_TIPO, CT.CobranzaItemTipo.ITEM_TARJETA, Types.integer);
           fields.add(CT.COBZI_OTRO_TIPO, CT.OtroTipo.OTRO_DEBE, Types.integer);
 
@@ -2927,8 +2927,8 @@
             }
           }
 
-          m_iOrden = m_iOrden + 1;
-          fields.add(CT.COBZI_ORDEN, m_iOrden, Types.integer);
+          m_orden = m_orden + 1;
+          fields.add(CT.COBZI_ORDEN, m_orden, Types.integer);
           fields.add(CT.COBZI_TIPO, CT.CobranzaItemTipo.ITEM_OTROS, Types.integer);
 
           transaction.addRegister(register);
@@ -2993,8 +2993,8 @@
             }
           }
 
-          m_iOrden = m_iOrden + 1;
-          fields.add(CT.COBZI_ORDEN, m_iOrden, Types.integer);
+          m_orden = m_orden + 1;
+          fields.add(CT.COBZI_ORDEN, m_orden, Types.integer);
           fields.add(CT.COBZI_TIPO, CT.CobranzaItemTipo.ITEM_EFECTIVO, Types.integer);
           fields.add(CT.COBZI_OTRO_TIPO, CT.OtroTipo.OTRO_DEBE, Types.integer);
 
@@ -3056,8 +3056,8 @@
             }
           }
 
-          m_iOrden = m_iOrden + 1;
-          fields.add(CT.COBZI_ORDEN, m_iOrden, Types.integer);
+          m_orden = m_orden + 1;
+          fields.add(CT.COBZI_ORDEN, m_orden, Types.integer);
           fields.add(CT.COBZI_TIPO, CT.CobranzaItemTipo.ITEM_CTA_CTE, Types.integer);
           fields.add(CT.COBZI_OTRO_TIPO, CT.OtroTipo.OTRO_HABER, Types.integer);
 

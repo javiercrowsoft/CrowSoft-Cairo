@@ -149,6 +149,16 @@
       FVP_ID_NOTA_CREDITO: "fvp_id_notacredito",
       FVP_ID_FACTURA: "fvp_id_factura",
 
+      // FacturaVentaDeuda
+      FVD_ID: "fvd_id",
+      FVD_FECHA: "fvd_fecha",
+      FVD_PENDIENTE: "fvd_pendiente",
+
+      // FacturaVentaPago
+      FVP_ID: "fvp_id",
+      FVP_FECHA: "fvp_fecha",
+      FVP_IMPORTE: "fvp_importe",
+
       // FacturaVentaNotaCreditoTMP
       FACTURA_VENTA_NOTA_CREDITOTMP: "FacturaVentaNotaCreditoTMP",
       FV_NC_TMP_ID: "fvncTMP_id",

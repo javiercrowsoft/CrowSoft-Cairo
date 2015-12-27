@@ -1785,7 +1785,7 @@
   *
   * */
 
-  var createCobranza = function() {
+  var createTesoreria = function() {
 
     var addFacId = function(facIds, id) {
 
@@ -1873,7 +1873,9 @@
                 {
                   cueId: valField(response.cuentas, C.CUE_ID),
                   cueName: valField(response.cuentas, C.CUE_NAME),
-                  facId:  valField(response.cuentas, 0)
+                  facId: valField(response.cuentas, 0),
+                  importe: 0,
+                  importeOrigen: 0
                 }
               );
             }
@@ -1892,12 +1894,12 @@
               addCtaCteAux(anticipo, anticipoOrigen, ctaCte, cueIdAnticipo, anticipoCuenta);
             }
 
-            return true;
+            return { success: true, cuentas: facturaCueId };
           }
         );
       }
 
-      return p || P.resolvedPromise(true);
+      return p || P.resolvedPromise(P.fail());
     };
 
     var self = {};
@@ -1922,6 +1924,8 @@
 
     return self;
   };
+
+  Cairo.Documents.Tesoreria = createTesoreria();
 
   /*
   *
