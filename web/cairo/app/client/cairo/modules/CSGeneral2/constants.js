@@ -1478,7 +1478,15 @@
         deudor: 4,
         debitoAutomatico: 5,
         fondoFijo: 6
+      },
+
+      CondicionPagoTipo: {
+        fechaDocumento: -2,
+        general: 1,
+        debitoAuto: 2,
+        fondoFijo: 3
       }
+
     }
 
   };
