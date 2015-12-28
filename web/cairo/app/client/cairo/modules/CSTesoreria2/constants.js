@@ -160,7 +160,7 @@
       FVP_IMPORTE: "fvp_importe",
 
       // FacturaVentaNotaCreditoTMP
-      FACTURA_VENTA_NOTA_CREDITOTMP: "FacturaVentaNotaCreditoTMP",
+      FACTURA_VENTA_NOTA_CREDITO_TMP: "FacturaVentaNotaCreditoTMP",
       FV_NC_TMP_ID: "fvncTMP_id",
 
       // OrdenPago
@@ -437,7 +437,21 @@
       AplicacionDifCambio: {
         DIF_APLICACION_ND: 1,
         DIF_APLICACION_FV: 2
+      },
+
+      HojaRutaCobranzaTipo: {
+        ANULADA_INTERNA: 1,       //AI   ANULADA INTERNA
+        ANULADA: 2,              //A    ANULADA
+        PAGO_PARCIAL: 3,          //P    PAGO PARCIAL
+        CUENTA_CORRIENTE: 4,      //C    CUENTA CORRIENTE
+        CHEQUE: 5,               //H    CHEQUE
+        ANULADA_PARCIAL: 6,       //AP   ANULADA PARCIAL
+        PENDIENTE_REPARTO: 7,     //R    PENDIENTE A REPARTIR
+        EFECTIVO: 8,             //E    EFECTIVO
+        TICKETS: 9,              //I    TICKETS
+        TARJETA: 10              //T    TARJETA
       }
+
     }
   };
 

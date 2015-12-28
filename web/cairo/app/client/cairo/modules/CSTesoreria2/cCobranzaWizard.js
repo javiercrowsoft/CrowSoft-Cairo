@@ -204,7 +204,7 @@
 
         try {
           if(m_isHojaRuta) {
-            p = loadCajaForUsuario();
+            p = loadCajaForCurrentUser();
           }
         }
         catch (ex) {
@@ -921,9 +921,9 @@
           var row = getFacturas().getRows().item(_i);
           total = total
             + Cairo.Util.zeroDiv(
-                val(getCell(row, KI_APLICAR).getValue()),
-                round(val(getCell(row, KI_COTIZACION2).getValue()), decimalesCotiz)
-            ) * val(getCell(row, KI_COTIZACION).getValue());
+            val(getCell(row, KI_APLICAR).getValue()),
+            round(val(getCell(row, KI_COTIZACION2).getValue()), decimalesCotiz)
+          ) * val(getCell(row, KI_COTIZACION).getValue());
         }
 
         return total;
@@ -1075,16 +1075,16 @@
 
               p = checkFacturas()
                 .whenSuccess(
-                  function() {
-                    showAnticipo();
-                    nextStep = WCS.ANTICIPO;
-                    return true;
-                  },
-                  function() {
-                    nextStep = WCS.SELECT_FACTURA;
-                    return false;
-                  }
-                );
+                function() {
+                  showAnticipo();
+                  nextStep = WCS.ANTICIPO;
+                  return true;
+                },
+                function() {
+                  nextStep = WCS.SELECT_FACTURA;
+                  return false;
+                }
+              );
               break;
 
             case WCS.ANTICIPO:
@@ -1096,15 +1096,15 @@
 
                 p = loadVirtualNextCobros()
                   .whenSuccess(
-                    function() {
-                      nextStep = WCS.SELECT_COBROS;
-                      return true;
-                    },
-                    function() {
-                      nextStep = WCS.ANTICIPO;
-                      return false;
-                    }
-                  );
+                  function() {
+                    nextStep = WCS.SELECT_COBROS;
+                    return true;
+                  },
+                  function() {
+                    nextStep = WCS.ANTICIPO;
+                    return false;
+                  }
+                );
               }
               break;
 
@@ -1127,22 +1127,22 @@
 
               validateCobro()
                 .whenSuccess(
-                  function() {
-                    m_objWizard.enableBack();
-                    m_objWizard.setNextText(Cairo.Constants.FINISH_TEXT);
+                function() {
+                  m_objWizard.enableBack();
+                  m_objWizard.setNextText(Cairo.Constants.FINISH_TEXT);
 
-                    nextStep = WCS.DATOS_GENERALES;
+                  nextStep = WCS.DATOS_GENERALES;
 
-                    if(m_autoSelect && m_restarVirtualPush) {
-                        m_objWizard.setRestartVirtualPush(true);
-                    }
-                    return true;
-                  },
-                  function() {
-                    nextStep = WCS.SELECT_COBROS;
-                    return false;
+                  if(m_autoSelect && m_restarVirtualPush) {
+                    m_objWizard.setRestartVirtualPush(true);
                   }
-                );
+                  return true;
+                },
+                function() {
+                  nextStep = WCS.SELECT_COBROS;
+                  return false;
+                }
+              );
               break;
 
             case WCS.DATOS_GENERALES:
@@ -1926,7 +1926,7 @@
       };
 
       var setGridOtros = function(grid) {
-        
+
         var columns = grid.getColumns();
         columns.clear();
 
@@ -2325,7 +2325,7 @@
                 m_bDifCambio = false;
 
                 var facturas = getFacturas();
-                
+
                 if(getAgrupados()) {
                   facturas.getColumns(DWC.IMPORTE).setVisible(false);
                   facturas.getColumns(DWC.PENDIENTE).setVisible(true);
@@ -2785,11 +2785,11 @@
         var rowIsEmpty = true;
 
         for(var _i = 0, _count = row.size(); _i < _count; _i++) {
-          
+
           var cell = row.item(_i);
-          
+
           switch (cell.getKey()) {
-          
+
             case KIT_TJC_ID:
             case KIT_MON_ID:
             case KIT_TJCCU_ID:
@@ -3171,7 +3171,7 @@
         return validateDifCambio();
       };
 
-      self.initialize = function() {
+      var initialize = function() {
         try {
 
           m_fvIds = [];
@@ -3181,7 +3181,7 @@
           m_isHojaRuta = Cairo.getTesoreriaConfig().getCobranzasXHojaRuta();
         }
         catch (ex) {
-          Cairo.manageErrorEx(ex.message, ex, "Class_Initialize", C_MODULE, "");
+          Cairo.manageErrorEx(ex.message, ex, "initialize", C_MODULE, "");
         }
       };
 
@@ -3196,7 +3196,7 @@
 
         }
         catch (ex) {
-          Cairo.manageErrorEx(ex.message, ex, "Class_Terminate", C_MODULE, "");
+          Cairo.manageErrorEx(ex.message, ex, "destroy", C_MODULE, "");
         }
       };
 
@@ -3213,7 +3213,7 @@
         fields.add(C.COBZ_NRODOC, m_lastNroDoc, Types.text);
         fields.add(C.COBZ_DESCRIP, getDescrip().getValue(), Types.text);
         fields.add(C.COBZ_FECHA, getFecha().getValue(), Types.date);
-        
+
         fields.add(C.CLI_ID, m_lastCliId, Types.id);
         fields.add(C.CCOS_ID, getCentroCosto().getSelectId(), Types.id);
         fields.add(C.SUC_ID, getSucursal().getSelectId(), Types.id);
@@ -3499,10 +3499,10 @@
 
         transaction.setTable(CT.COBRANZA_ITEM_TMP);
 
-        var rows = getTarjetas().getRows(); 
-        
+        var rows = getTarjetas().getRows();
+
         for(var _i = 0, _count = rows.size(); _i < _count; _i++) {
-          
+
           var row = rows.item(_i);
 
           if(!isEmptyRowTarjetas(row, _i)) {
@@ -3923,22 +3923,14 @@
       };
 
       var saveDocVta = function(mainRegister, docId, diferencia, isND) {
-        var taxes = [];
-        var neto = 0;
-        var ivaRi = 0;
-        var items = [];
-
         return getIva()
           .whenSuccess(function(result) {
 
-            taxes = result.taxes;
-            return getItems(taxes, diferencia, isND)
-          })
-          .whenSuccess(function(result) {
+            var itemsDefinition = getItems(result.taxes, diferencia, isND);
 
-            neto = result.neto;
-            ivaRi = result.ivaRi;
-            items = result.items;
+            var neto = itemsDefinition.neto;
+            var ivaRi = itemsDefinition.ivaRi;
+            var items = itemsDefinition.items;
 
             var transaction = new DB.createTransaction();
 
@@ -4029,218 +4021,200 @@
           });
       };
 
-      var getItems = function(vIva, vItems, diferencia, bIsND, neto, totalIva) {
-        var i = null;
-        var iva = null;
-        var base = null;
-        var modoIva = null;
-        var importe = null;
-        var importeIva = null;
+      var getItems = function(rates, diferencia, isND) {
 
-        G.redim(vItems, vIva.length);
-        modoIva = getModoIvaDifCambio().getListItemData();
+        var modoIva = getModoIvaDifCambio().getListItemData();
 
-        neto = 0;
-        totalIva = 0;
+        var neto = 0;
+        var totalIva = 0;
+        var iva = 0;
+        var items;
 
-        for(i = 1; i <= vIva.length; i++) {
-          iva = iva + vIva(i).importe;
+        for(var i = 1, count = rates.length; i < count; i++) {
+          iva += rates[i].importe;
         }
 
-        // Solo voy hasta el anteultimo
-        // El ultimo me lo reservo para liquidar lo
-        // que quede de la diferencia y me evito problemas
-        // de redondeo
-        for(i = 1; i <= vIva.length - 1; i++) {
-
-          // Porcentaje del Neto imponible para cada tasa de iva
-          base = diferencia * DivideByCero(vIva(i).importe, iva);
-
-          // Si hay que usar el iva como base imponible y se trata
-          // de una nota de debito
-          if(modoIva === CT.ModoIvaDifCambio.DIF_IVA_IMPONIBLE && bIsND) {
-            importeIva = base * vIva(i).porcentaje / 100;
-            importe = base;
-
-            // Si es una nota de credito o no hay que usar el iva como
-            // base imponible
-          }
-          else {
-            importe = base / (1 + vIva(i).porcentaje / 100);
-            importeIva = importe * vIva(i).porcentaje / 100;
-          }
-
-          vItems.importe = importe;
-          vItems.ImporteIva = importeIva;
-          vItems.TasaIva = vIva(i).porcentaje;
-
-          neto = neto + importe;
-          totalIva = totalIva + importeIva;
-        }
-
-        // Si la diferencia es distinta del neto y use el iva como base imponible y es una nota de debito
-        // o
-        // si la diferencia es distinta del neto mas el iva y
-        //         (no tome el iva como base imponible o es una nota de credito) -> {en ambos casos no se toma el iva como base imponible}
+        // the last item is used to register de what is left
+        // in diferencia
         //
-        if((diferencia !== neto && modoIva === CT.ModoIvaDifCambio.DIF_IVA_IMPONIBLE && bIsND) || (diferencia !== neto + importeIva && (modoIva === CT.ModoIvaDifCambio.cSEDIFIVANOIMPONIBLE || !bIsND))) {
+        for(var i = 0, count = rates.length -1; i < count; i++) {
 
-          i = vIva.length;
-
-          if(modoIva === CT.ModoIvaDifCambio.DIF_IVA_IMPONIBLE && bIsND) {
-            // Porcentaje del Neto imponible para cada tasa de iva
-            base = diferencia - neto;
-
-              } // (ModoIva = csEDifIvaNoImponible Or Not bIsND)
-          else {
-            base = diferencia - neto - totalIva;
-          }
+          // get percentage of net amount to calculate each rate
+          //
+          var base = diferencia * U.zeroDiv(rates[i].importe, iva);
+          var importeIva, importe;
 
           // Si hay que usar el iva como base imponible y se trata
           // de una nota de debito
-          if(modoIva === CT.ModoIvaDifCambio.DIF_IVA_IMPONIBLE && bIsND) {
-            importeIva = base * vIva(i).porcentaje / 100;
+          if(modoIva === CT.ModoIvaDifCambio.DIF_IVA_IMPONIBLE && isND) {
+            importeIva = base * rates[i].porcentaje / 100;
             importe = base;
 
             // Si es una nota de credito o no hay que usar el iva como
             // base imponible
           }
           else {
-            importe = base / (1 + vIva(i).porcentaje / 100);
-            importeIva = importe * vIva(i).porcentaje / 100;
+            importe = base / (1 + rates[i].porcentaje / 100);
+            importeIva = importe * rates[i].porcentaje / 100;
           }
 
-          vItems.importe = importe;
-          vItems.ImporteIva = importeIva;
-          vItems.TasaIva = vIva(i).porcentaje;
+          items.push(
+            {
+              importe: importe,
+              importeIva: importeIva,
+              tasaIva: rates[i].porcentaje
+            }
+          );
+
+          neto += importe;
+          totalIva += importeIva;
+        }
+
+        // for this two cases we don't use iva as base imponible
+        //
+        // if the difference is not equal to neto and iva was used as base and it is a ND
+        // or
+        // if the difference is not equal to neto plus importeIva and iva was not taken as base
+        // and it is a NC
+        //
+        if((diferencia !== neto
+          && modoIva === CT.ModoIvaDifCambio.DIF_IVA_IMPONIBLE
+          && isND)
+          || (diferencia !== neto + importeIva
+          && (modoIva === CT.ModoIvaDifCambio.DIF_IVA_NO_IMPONIBLE || !isND))) {
+
+          i = rates.length -1;
+
+          if(modoIva === CT.ModoIvaDifCambio.DIF_IVA_IMPONIBLE && isND) {
+            base = diferencia - neto; // percentage of neto for each tax
+          }
+          else {
+            base = diferencia - neto - totalIva; // (modoIva == DIF_IVA_NO_IMPONIBLE || !isND)
+          }
+
+          // if we have to use iva as base and it is a ND
+          //
+          if(modoIva === CT.ModoIvaDifCambio.DIF_IVA_IMPONIBLE && isND) {
+            importeIva = base * rates[i].porcentaje / 100;
+            importe = base;
+          }
+          // if it is a NC and iva is not base
+          //
+          else {
+            importe = base / (1 + rates[i].porcentaje / 100);
+            importeIva = importe * rates[i].porcentaje / 100;
+          }
+
+          items.push(
+            {
+              importe: importe,
+              importeIva: importeIva,
+              tasaIva: rates[i].porcentaje
+            }
+          );
 
           neto = neto + importe;
           totalIva = totalIva + importeIva;
         }
 
-        return true;
+        return {
+          neto: neto,
+          totalIva: totalIva,
+          items: items
+        };
       };
 
-      var getIva = function(vIva) {
-        var sqlstmt = null;
-        var rs = null;
-        var fvIds = null;
-        var i = null;
-
-        G.redim(vIva, 0);
-
-        fvIds = getFvIds();
-        sqlstmt = "select fvi_ivariporc, sum(fvi_ivari) as fvi_ivari from FacturaVentaItem where fv_id in("+ fvIds+ ") group by fvi_ivariporc  order by fvi_ivariporc desc";
-
-        if(!Cairo.Database.openRs(sqlstmt, rs)) { return false; }
-
-        if(!rs.isEOF()) {
-          rs.MoveLast;
-          rs.MoveFirst;
-          G.redim(vIva, rs.RecordCount);
-        }
-
-        while (!rs.isEOF()) {
-          i = i + 1;
-          vIva.importe = Cairo.Database.valField(rs.getFields(), C.FVI_IVARI);
-          vIva.porcentaje = Cairo.Database.valField(rs.getFields(), C.FVI_IVARIPORC);
-          rs.MoveNext;
-        }
-        return true;
+      var getIva = function() {
+        return DB.getData("load[" + m_apiPath + "tesoreria/cobranzas/facturas/taxes?ids=" + getFvIds() + "]");
       };
 
       var getFvIds = function() {
-        var rtn = null;
-        var row = null;
+        var ids = [];
+        var rows = getFacturas().getRows();
 
-        var _count = getFacturas().getRows().size();
-        for(var _i = 0; _i < _count; _i++) {
-          row = getFacturas().getRows().item(_i);
+        for(var _i = 0, _count = rows.size(); _i < _count; _i++) {
+
+          var row = rows.item(_i);
+
           if(getCell(row, KI_SELECT).getId()) {
-            if(val(getCell(row, KI_APLICAR).getValue())) {
-              rtn = rtn+ getCell(row, KI_FV_ID).getId().toString()+ ",";
+            if(val(getCell(row, KI_APLICAR).getValue()) !== 0) {
+              ids.push(getCell(row, KI_FV_ID).getId().toString());
             }
           }
         }
 
-        return RemoveLastColon(rtn);
+        return ids.toString();
       };
 
-      // Proposito: Vincula la nota de debito por dif. de cambio con la cobranza
+      // apply currency rate difference debit note with this payment
       //
-      var saveCobranzaND = function(id, fvTMPId, importe, aplicado) {
+      var saveCobranzaND = function(mainRegister, importe, aplicado) {
 
-        var aplicar = null;
-
-        // Vemos cuanta guita queda sin aplicar
-        //
-        aplicar = val(getCobroTotal().getValue()) - aplicado;
-
-        //
-        // Solo aplicamos si queda algo de guita
-        //
         if(aplicar > 0) {
+
+          var transaction = new DB.createTransaction();
+
+          transaction.setTable(CT.FACTURA_VENTA_COBRANZA_TMP);
+
+          var aplicar = val(getCobroTotal().getValue()) - aplicado;
 
           if(importe > aplicar) {
             importe = aplicar;
           }
 
-          var register = null;
+          var register = new DB.Register();
 
-          register = new DB.Register();
-
-          register.setFieldId(CV.FV_COBZ_TMPID);
-          register.setTable(C.FACTURAVENTACOBRANZATMP);
+          register.setFieldId(CT.FV_COBZ_TMP_ID);
           register.setId(Cairo.Constants.NEW_ID);
 
           var fields = register.getFields();
 
-            fields.add(CV.FV_ID, fvTMPId * -1, Types.id); //  Indica que se trata de una ND aun
-          // no generada el sp_DocCobranzaSave
-          // Graba la ND y luego la vincula con
-          // la cobranza
+          // this means the ND must be generated by the payment
           //
-            fields.add(C.FVD_ID, -1, Types.id); //  Indica que la deuda sera generada
-          // por el sp_DocCobranzaSave
-          //
+          fields.add(CV.FV_ID, -1, Types.id);
+          fields.add(C.FVD_ID, -1, Types.id);
 
           fields.add(CV.FV_COBZ_IMPORTE, importe, Types.double);
           fields.add(CV.FV_COBZ_ID, 0, Types.long);
-          fields.add(C.COBZ_TMPID, id, Types.id);
           fields.add(C.COBZ_ID, 0, Types.long);
 
-          if(!Cairo.Database.save(register, , "saveCobranzaND", C_MODULE, c_ErrorSave)) { return false; }
+          transaction.addRegister(register);
 
+          mainRegister.addTransaction(transaction);
         }
 
         return true;
       };
 
-      // Proposito: Vincular la nota de credito por dif. de cambio con las facturas de
-      //            esta cobranza
-      var saveFacturaVentaNotaCredito = function(fvTMPId, importe) {
-        var row = null;
-        var aCobrar = null;
-        var cobrado = null;
-        var diferencia = null;
+      // apply NC to inovices in this payment which has currency rate differences
+      //
+      var saveFacturaVentaNotaCredito = function(mainRegister, importe) {
 
-        // Por cada factura con diferencia de cambio
-        // aplico contra esta nota de credito
-        var _count = getFacturas().getRows().size();
-        for(var _i = 0; _i < _count; _i++) {
-          row = getFacturas().getRows().item(_i);
+        // for each invoice with a different currency rate
+        //
+        var rows = getFacturas().getRows();
+        for(var _i = 0, _count = rows.size(); _i < _count; _i++) {
+
+          var row = rows.item(_i);
 
           if(getCell(row, KI_MONEDA).getId() !== m_defaultCurrency.id) {
 
-            cobrado = val(getCell(row, KI_APLICAR).getValue());
-            // (Cobrado dividido la cotizacion a la que estoy cobrando) por la cotizacion de la factura
+            var cobrado = val(getCell(row, KI_APLICAR).getValue());
 
-            aCobrar = DivideByCero(cobrado, val(getCell(row, KI_COTIZACION2).getValue())) * val(getCell(row, KI_COTIZACION).getValue());
+            // (Payed divided by payment currency rate) by invoice currency rate
+            //
+            var aCobrar =
+              U.zeroDiv(cobrado, val(getCell(row, KI_COTIZACION2).getValue()))
+                * val(getCell(row, KI_COTIZACION).getValue());
 
-            diferencia = aCobrar - cobrado;
+            var diferencia = aCobrar - cobrado;
             if(importe < diferencia) { diferencia = importe; }
 
-            if(!saveFVNCAux(fvTMPId, getCell(row, KI_FV_ID).getId(), getCell(row, KI_FVD_ID).getId(), diferencia)) { return false; }
+            saveFVNCAux(
+              mainRegister,
+              getCell(row, KI_FV_ID).getId(),
+              getCell(row, KI_FVD_ID).getId(),
+              diferencia);
 
             importe = importe - diferencia;
 
@@ -4251,29 +4225,21 @@
         return true;
       };
 
-      var saveFVNCAux = function(fvTMPId, fvIdFactura, fvdIdFactura, importe) {
-        var register = null;
+      var saveFVNCAux = function(mainRegister, fvIdFactura, fvdIdFactura, importe) {
+        var transaction = new DB.createTransaction();
 
-        register = new DB.Register();
+        transaction.setTable(CT.FACTURA_VENTA_NOTA_CREDITO_TMP);
 
-        register.setFieldId(CV.FV_NC_TMPID);
-        register.setTable(C.FACTURAVENTANOTACREDITOTMP);
+        var register = new DB.Register();
+
+        register.setFieldId(CV.FV_NC_TMP_ID);
         register.setId(Cairo.Constants.NEW_ID);
 
         var fields = register.getFields();
 
-        fields.add(CV.FV_TMPID, fvTMPId, Types.id);
-
-        // Indica que se trata de una NC aun
-        // no generada el sp_DocCobranzaSave
-        // Graba la NC y luego la vincula con
-        // las facturas
+        // this means the NC must be generated by the payment
         //
-        fields.add(CV.FV_ID_NOTA_CREDITO, fvTMPId * -1, Types.id);
-
-        // Indica que la deuda sera generada
-        // por el sp_DocCobranzaSave
-        //
+        fields.add(CV.FV_ID_NOTA_CREDITO, -1, Types.id);
         fields.add(C.FVD_ID_NOTA_CREDITO, -1, Types.id);
 
         fields.add(CV.FV_ID_FACTURA, fvIdFactura, Types.id);
@@ -4281,52 +4247,25 @@
         fields.add(CV.FV_NC_IMPORTE, importe, Types.double);
         fields.add(CV.FV_NC_ID, 0, Types.long);
 
-        if(!Cairo.Database.save(register, , "saveFVNCAux", C_MODULE, c_ErrorSave)) { return false; }
+        transaction.addRegister(register);
+
+        mainRegister.addTransaction(transaction);
 
         return true;
       };
 
-      var getCuentas = function(pR_ID, cue_id, cue_id_ivari) {
-        var sqlstmt = null;
-        var rs = null;
-        var ti_id = null;
-        var cueg_id = null;
-
-        sqlstmt = "select cueg_id_venta, ti_id_ivariventa from producto where pr_id = "+ pR_ID.toString();
-        if(!Cairo.Database.openRs(sqlstmt, rs)) { return false; }
-        if(!rs.isEOF()) {
-          cueg_id = Cairo.Database.valField(rs.getFields(), "cueg_id_venta");
-          ti_id = Cairo.Database.valField(rs.getFields(), C.PR_TI_ID_RI_VENTA);
-
-          sqlstmt = "select cue_id from ClienteCuentaGrupo where cli_id = "+ getCliente().toString()+ " and cueg_id = "+ cueg_id.toString();
-          if(!Cairo.Database.openRs(sqlstmt, rs)) { return false; }
-          if(!rs.isEOF()) {
-            cue_id = Cairo.Database.valField(rs.getFields(), C.CUE_ID);
-          }
-          else {
-            sqlstmt = "select cue_id from CuentaGrupo where cueg_id = "+ cueg_id.toString();
-            if(!Cairo.Database.openRs(sqlstmt, rs)) { return false; }
-            if(!rs.isEOF()) {
-              cue_id = Cairo.Database.valField(rs.getFields(), C.CUE_ID);
+      var getCuentas = function(prId, cue_id, cue_id_ivari) {
+        // TODO: use the code of this function in TRANSLATED to create an scala implementation
+        //
+        return DB.getData("load[" + m_apiPath + "tesoreria/cobranzas/producto/get_info]", prId)
+          .whenSuccess(function(result) {
+            if(result.producto_info.error !== 0) {
+              return M.showWarningWithFalse(result.producto_info.error_message);
             }
             else {
-              MsgWarning(getText(2158, "", cueg_id));
-              //No se pudo encontrar el grupo de cuentas con id  & cueg_id &  para que el Cairo pueda grabar la Nota de Débito/Crédito automáticamente.
-              return null;
+              return result.producto_info;
             }
-          }
-        }
-        else {
-          MsgWarning(getText(2159, ""));
-          //Debe configurar el artículo "Diferencia de Cambio" en "Configuración > Tesorería > General", para que Cairo pueda grabar la Nota de Débito/Crédito automáticamente.
-          return null;
-        }
-
-        sqlstmt = "select cue_id from TasaImpositiva where ti_id = "+ ti_id.toString();
-        if(!Cairo.Database.openRs(sqlstmt, rs)) { return false; }
-        if(!rs.isEOF()) { cue_id_ivari = Cairo.Database.valField(rs.getFields(), C.CUE_ID); }
-
-        return true;
+          });
       };
 
       /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -4531,7 +4470,7 @@
       };
 
       var newEmptyProperties = function() {
-        // (ByRef Grid As cIABMGrid)
+
         getAnticipo().setValue(0);
 
         getFacturas().getRows().clear();
@@ -4545,20 +4484,22 @@
         getCobroOtros().setValue(0);
         getCobroTotal().setValue(0);
 
-        var w_getClienteProperty = getClienteProperty();
-        w_getClienteProperty.setSelectId(m_cliIdDoc);
-        w_getClienteProperty.setValue(m_clienteDoc);
+        var cliente = getClienteProperty();
+        cliente.setSelectId(m_cliIdDoc);
+        cliente.setValue(m_clienteDoc);
 
-        var w_getCliente2 = getCliente2();
-        w_getCliente2.setSelectId(m_cliIdDoc);
-        w_getCliente2.setValue(m_clienteDoc);
+        var cliente2 = getCliente2();
+        cliente2.setSelectId(m_cliIdDoc);
+        cliente2.setValue(m_clienteDoc);
 
-        var w_getComprobante = getComprobante();
-        w_getComprobante.setValue("");
-        w_getComprobante.setTextMask("");
-        var w_getCentroCosto = getCentroCosto();
-        w_getCentroCosto.setSelectId(NO_ID);
-        w_getCentroCosto.setValue("");
+        var comprobante = getComprobante();
+        comprobante.setValue("");
+        comprobante.setTextMask("");
+
+        var centroCosto = getCentroCosto();
+        centroCosto.setSelectId(NO_ID);
+        centroCosto.setValue("");
+
         getDescrip().setValue("");
 
         m_objWizard.showValue(getClienteProperty());
@@ -4580,264 +4521,240 @@
       };
 
       var getDescripNDNC = function() {
-        var facturas = null;
-        var cobranza = null;
+        var facturas = [];
+        var rows = getFacturas().getRows();
 
-        var row = null;
-        var total = null;
+        for(var _i = 0, _count = rows.size(); _i < _count; _i++) {
 
-        var _count = getFacturas().getRows().size();
-        for(var _i = 0; _i < _count; _i++) {
-          row = getFacturas().getRows().item(_i);
+          var row = getFacturas().getRows().item(_i);
+
           if(val(getCell(row, KI_APLICAR).getValue())) {
-            facturas = facturas+ getCell(row, KI_NRODOC).getValue()+ ",";
+            facturas.push(getCell(row, KI_NRODOC).getValue());
           }
         }
 
-        facturas = RemoveLastColon(facturas);
-        cobranza = getComprobante().getValue();
+        var cobranza = getComprobante().getValue();
 
-        return NC_ND_DESCRIP_DIF_CAMBIO+ "\\r\\n\\r\\n"+ getText(2483, "", cobranza, facturas);
+        return NC_ND_DESCRIP_DIF_CAMBIO + "\\r\\n\\r\\n" + getText(2483, "", cobranza, facturas.toString());
       };
 
       var setDatosFromAplic = function() {
-        var sqlstmt = null;
-        var rs = null;
-        var i = null;
+        // TODO: use the code of this function in TRANSLATED to create an scala implementation
+        //
+        return DB.getData("load[" + m_apiPath + "tesoreria/cobranzas/facturas/get_info?ids=" + getFvIds() + "]")
+          .whenSuccess(function(result) {
+            var facturas = result.info.facturas;
 
-        sqlstmt = "sp_DocCobranzaGetDataFromAplic 1,'"+ getFvIds()+ "'";
+            for(var _i = 0, count = facturas.length; _i < count; _i++) {
 
-        if(!Cairo.Database.openRs(sqlstmt, rs)) { return; }
+              var property = getSucursal();
+              if(property.getSelectId() === NO_ID && valField(facturas[_i], C.SUC_ID) !== NO_ID) {
+                property.setSelectId(valField(facturas[_i], C.SUC_ID));
+                property.setValue(valField(facturas[_i], C.SUC_NAME));
+                m_objWizard.showValue(property);
+              }
 
-        if(rs.isEOF()) { return; }
+              var property = getCentroCosto();
+              if(property.getSelectId() === NO_ID && valField(facturas[_i], C.CCOS_ID) !== NO_ID) {
+                property.setSelectId(valField(facturas[_i], C.CCOS_ID));
+                property.setValue(valField(facturas[_i], C.CCOS_NAME));
+                m_objWizard.showValue(property);
+              }
 
-        var iProp = null;
-
-        while (!rs.isEOF()) {
-
-          iProp = getSucursal();
-          if(iProp.getSelectId() === NO_ID && Cairo.Database.valField(rs.getFields(), C.SUC_ID) !== NO_ID) {
-
-            iProp.setSelectId(Cairo.Database.valField(rs.getFields(), C.SUC_ID));
-            iProp.setValue(Cairo.Database.valField(rs.getFields(), C.SUC_NAME));
-            m_objWizard.showValue(iProp);
-          }
-
-          iProp = getCentroCosto();
-          if(iProp.getSelectId() === NO_ID && Cairo.Database.valField(rs.getFields(), C.CCOS_ID) !== NO_ID) {
-
-            iProp.setSelectId(Cairo.Database.valField(rs.getFields(), C.CCOS_ID));
-            iProp.setValue(Cairo.Database.valField(rs.getFields(), C.CCOS_NAME));
-            m_objWizard.showValue(iProp);
-          }
-
-          iProp = getLegajo();
-          if(iProp.getSelectId() === NO_ID && Cairo.Database.valField(rs.getFields(), C.LGJ_ID) !== NO_ID) {
-
-            iProp.setSelectId(Cairo.Database.valField(rs.getFields(), C.LGJ_ID));
-            iProp.setValue(Cairo.Database.valField(rs.getFields(), C.LGJ_TITULO));
-            m_objWizard.showValue(iProp);
-          }
-
-          rs.MoveNext;
-        }
+              var property = getLegajo();
+              if(property.getSelectId() === NO_ID && valField(facturas[_i], C.LGJ_ID) !== NO_ID) {
+                property.setSelectId(valField(facturas[_i], C.LGJ_ID));
+                property.setValue(valField(facturas[_i], C.LGJ_TITULO));
+                m_objWizard.showValue(property);
+              }
+            }
+          });
       };
 
       var setFilterColFactura = function() {
 
-        var wizObj = null;
-        var abmObj = null;
-
-        wizObj = m_objWizard;
-        abmObj = wizObj.getDialog();
-
-        D.getCol(getOtros().getColumns(), KIO_FV_ID_RET).getHelpFilter() === "cli.cli_id = "+ getCliente().toString();
-        abmObj.RefreshColumnProperties(getOtrosProperty(), CT.FV_ID_RET);
+        var filter = D.getFacturaVentaFilter(getCliente());
+        D.getCol(getOtros().getColumns(), KIO_FV_ID_RET).setSelectFilter(filter);
+        m_objWizard.getDialog().refreshColumnProperties(getOtrosProperty(), CT.FV_ID_RET);
 
       };
 
       var refreshLabelPagos = function() {
-        var iProp = null;
-        iProp = getLabelCobros();
-        iProp.setValue(LABEL_COBROS_TEXT + " - " + getClienteProperty().getValue());
-        m_objWizard.showValue(iProp);
+
+        var prop = getLabelCobros();
+        prop.setValue(LABEL_COBROS_TEXT + " - " + getClienteProperty().getValue());
+        m_objWizard.showValue(prop);
+
       };
 
-      var setGridVirtualNextCobros = function(property) {
+      var loadVirtualNextCobros = function(property) {
+        var p = null;
 
-        // Si no hay objeto de info de cobranzas
-        // no hay pagos automaticos
+        // if the info payment object is null there is not automatic payments
         //
-        if(m_cobranzaInfo === null) { return; }
+        if(m_cobranzaInfo !== null) {
+          var efectivo = 0;
+          var tickets = 0;
+          var facturas = m_cobranzaInfo.getFacturas();
+          for(var _i = 0, _count = facturas.length; _i < _count; _i++) {
 
-        var fvInfo = null;
-        var efectivo = null;
-        var tickets = null;
-        var monId = null;
-        var moneda = null;
+            var fvInfo = facturas[_i];
 
-        var _count = m_cobranzaInfo.getFacturas().size();
-        for(var _i = 0; _i < _count; _i++) {
-          fvInfo = m_cobranzaInfo.getFacturas().item(_i);
-          if(fvInfo.getCliId() === m_cliIdDoc) {
+            if(fvInfo.cliId === m_cliIdDoc) {
 
-            switch (fvInfo.getFormaDePago()) {
-              case csE_HojaRutaCobranzaTipo.cSHRCT_EFECTIVO:
-                efectivo = efectivo + fvInfo.getImporteCobrado();
-                break;
+              switch (fvInfo.formaDePago) {
 
-              case csE_HojaRutaCobranzaTipo.cSHRCT_TICKETS:
-                tickets = tickets + fvInfo.getImporteCobrado();
-                break;
+                case CT.HojaRutaCobranzaTipo.EFECTIVO:
+                  efectivo += fvInfo.importeCobrado;
+                  break;
+
+                case CT.HojaRutaCobranzaTipo.TICKETS:
+                  tickets += fvInfo.importeCobrado;
+                  break;
+              }
             }
           }
+
+          if(efectivo !== 0) {
+
+            p = D.getCurrencyFromAccount(m_cobranzaInfo.cueIdEfectivo)
+              .whenSuccess(function(response) {
+                var monId = valField(response.data, C.MON_ID);
+                var moneda = valField(response.data, C.MON_NAME);
+
+                var row = getEfectivo().getRows().add(null);
+
+                row.add(null);
+
+                var elem = row.add(null);
+                elem.setValue(m_cobranzaInfo.cuentaEfectivo);
+                elem.setId(m_cobranzaInfo.cueIdEfectivo);
+                elem.setKey(KIE_CUE_ID);
+
+                var elem = row.add(null);
+                elem.setValue(moneda);
+                elem.setId(monId);
+                elem.setKey(KIE_MON_ID);
+
+                var elem = row.add(null);
+                if(monId !== m_defaultCurrency.id) {
+                  elem.setValue(efectivo);
+                }
+                else {
+                  elem.setValue(0);
+                }
+                elem.setKey(KIE_IMPORTEORIGEN);
+
+                var elem = row.add(null);
+                if(monId !== m_defaultCurrency.id) {
+                  elem.setValue(efectivo * val(getCotizacion().getValue()));
+                }
+                else {
+                  elem.setValue(efectivo);
+                }
+                elem.setKey(KIE_IMPORTE);
+
+                var elem = row.add(null);
+                elem.setValue("");
+                elem.setKey(KIE_DESCRIP);
+
+                return true;
+              });
+          }
+
+          if(tickets !== 0) {
+
+            p = p || P.resolvedPromise(true);
+
+            p = p
+              .whenSuccess(call(D.getCurrencyFromAccount, m_cobranzaInfo.cueIdTicket))
+              .whenSuccess(function(response) {
+                var monId = valField(response.data, C.MON_ID);
+                var moneda = valField(response.data, C.MON_NAME);
+
+                var row = getEfectivo().getRows().add(null);
+
+                row.add(null);
+
+                var elem = row.add(null);
+                elem.setValue(m_cobranzaInfo.cuentaTicket);
+                elem.setId(m_cobranzaInfo.cueIdTicket);
+                elem.setKey(KIE_CUE_ID);
+
+                var elem = row.add(null);
+                elem.setValue(moneda);
+                elem.setId(monId);
+                elem.setKey(KIE_MON_ID);
+
+                var elem = row.add(null);
+                if(monId !== m_defaultCurrency.id) {
+                  elem.setValue(tickets);
+                }
+                else {
+                  elem.setValue(0);
+                }
+                elem.setKey(KIE_IMPORTEORIGEN);
+
+                var elem = row.add(null);
+                if(monId !== m_defaultCurrency.id) {
+                  elem.setValue(tickets * val(getCotizacion().getValue()));
+                }
+                else {
+                  elem.setValue(tickets);
+                }
+                elem.setKey(KIE_IMPORTE);
+
+                var elem = row.add(null);
+                elem.setValue("");
+                elem.setKey(KIE_DESCRIP);
+              });
+          }
+
+          if(efectivo !== 0 || tickets !== 0) {
+
+            p = p.whenSuccess(function() {
+              refreshEfectivo();
+
+              showCobroNeto();
+              showCobroOtro();
+              showCobroTotal();
+            });
+          }
         }
 
-        if(efectivo !== 0) {
-          var w_getEfectivo = getEfectivo().getRows().add(null);
-
-          w_getEfectivo.Add(null);
-
-          //*TODO:** can't found type for with block
-          //*With .Object.add(null)
-          var elem = w_getEfectivo.Add(null);
-          elem.setValue(m_cobranzaInfo.getCuentaEfectivo());
-          elem.setId(m_cobranzaInfo.getCueIdEfectivo());
-          elem.setKey(KIE_CUE_ID);
-
-          D.getCurrencyFromAccount(monId, moneda, m_cobranzaInfo.getCueIdEfectivo());
-
-          //*TODO:** can't found type for with block
-          //*With .Object.add(null)
-          var elem = w_getEfectivo.Add(null);
-          elem.setValue(moneda);
-          elem.setId(monId);
-          elem.setKey(KIE_MON_ID);
-
-          //*TODO:** can't found type for with block
-          //*With .Object.add(null)
-          var elem = w_getEfectivo.Add(null);
-          if(monId !== m_defaultCurrency.id) {
-            elem.setValue(efectivo);
-          }
-          else {
-            elem.setValue(0);
-          }
-          elem.setKey(KIE_IMPORTEORIGEN);
-
-          //*TODO:** can't found type for with block
-          //*With .Object.add(null)
-          var elem = w_getEfectivo.Add(null);
-          if(monId !== m_defaultCurrency.id) {
-            elem.setValue(efectivo * val(getCotizacion().getValue()));
-          }
-          else {
-            elem.setValue(efectivo);
-          }
-          elem.setKey(KIE_IMPORTE);
-
-          //*TODO:** can't found type for with block
-          //*With .Object.add(null)
-          var elem = w_getEfectivo.Add(null);
-          elem.setValue("");
-          elem.setKey(KIE_DESCRIP);
-
-        }
-
-        if(tickets !== 0) {
-
-          var w_getEfectivo = getEfectivo().getRows().add(null);
-
-          w_getEfectivo.Add(null);
-
-          //*TODO:** can't found type for with block
-          //*With .Object.add(null)
-          var elem = w_getEfectivo.Add(null);
-          elem.setValue(m_cobranzaInfo.getCuentaTicket());
-          elem.setId(m_cobranzaInfo.getCueIdTicket());
-          elem.setKey(KIE_CUE_ID);
-
-          D.getCurrencyFromAccount(monId, moneda, m_cobranzaInfo.getCueIdTicket());
-
-          //*TODO:** can't found type for with block
-          //*With .Object.add(null)
-          var elem = w_getEfectivo.Add(null);
-          elem.setValue(moneda);
-          elem.setId(monId);
-          elem.setKey(KIE_MON_ID);
-
-          //*TODO:** can't found type for with block
-          //*With .Object.add(null)
-          var elem = w_getEfectivo.Add(null);
-          if(monId !== m_defaultCurrency.id) {
-            elem.setValue(tickets);
-          }
-          else {
-            elem.setValue(0);
-          }
-          elem.setKey(KIE_IMPORTEORIGEN);
-
-          //*TODO:** can't found type for with block
-          //*With .Object.add(null)
-          var elem = w_getEfectivo.Add(null);
-          if(monId !== m_defaultCurrency.id) {
-            elem.setValue(tickets * val(getCotizacion().getValue()));
-          }
-          else {
-            elem.setValue(tickets);
-          }
-          elem.setKey(KIE_IMPORTE);
-
-          //*TODO:** can't found type for with block
-          //*With .Object.add(null)
-          var elem = w_getEfectivo.Add(null);
-          elem.setValue("");
-          elem.setKey(KIE_DESCRIP);
-
-        }
-
-        if(efectivo !== 0 || tickets !== 0) {
-
-          refreshEfectivo();
-
-          showCobroNeto();
-          showCobroOtro();
-          showCobroTotal();
-
-        }
-
+        return p || P.resolvedPromise(true);
       };
 
       var refreshEfectivo = function() {
         m_objWizard.showValue(D.getWizProperty(m_objWizard, WCS.SELECT_COBROS, DWC.EFECTIVO));
       };
 
-      var loadCajaForUsuario = function(property) {
-        var msg = null;
+      var loadCajaForCurrentUser = function() {
 
-        if(!Cairo.Database.openRs(sqlstmt, rs)) { return false; }
-        if(response.success !== true) { return false; }
+        m_cjId = NO_ID;
 
-        if(response.data.id === NO_ID) {
-
-          msg = Cairo.Database.valField(m_data.cajaForUsuario[_i], "warning");
-          if(LenB(msg)) {
-            MsgWarning(msg);
-            return null;
+        return D.loadCajaForCurrentUser().whenSuccess(
+          function(result) {
+            var warningMessage = valField(result.cajaInfo, "warning");
+            if(warningMessage !== "") {
+              return M.showWarningWithFalse(warningMessage);
+            }
+            else {
+              m_cjId = valField(result.cajaInfo, C.CJ_ID);
+              return P.resolvedPromise(true);
+            }
           }
-
-          m_cjId = Cairo.Database.valField(m_data.cajaForUsuario[_i], C.CJ_ID);
-
-          return true;
-
-        };
-
-
-        return self;
+        );
       };
 
-      Edit.Controller = { getEditor: createObject };
+      initialize();
 
-    });
+      return self;
 
-  }());
+    };
+
+    Edit.Controller = { getEditor: createObject };
+
+  });
+
+}());
