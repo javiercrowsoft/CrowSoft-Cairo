@@ -17,6 +17,12 @@ case class CuentaInfo(
                       monId: Int,
                       empId: Int
                      )
+
+case class CuentaCurrencyInfo(
+                       monId: Int,
+                       monName: String
+                       )
+
 case class Cuenta(
               id: Int,
               name: String,
@@ -376,4 +382,35 @@ object Cuenta {
       }
     }
   }
+
+  def currency(user: CompanyUser, id: Int): CuentaCurrencyInfo = {
+
+    DB.withTransaction(user.database.database) { implicit connection =>
+
+      val sql = "{call sp_cuenta_get_currency_info(?, ?, ?)}"
+      val cs = connection.prepareCall(sql)
+
+      cs.setInt(1, id)
+      cs.registerOutParameter(2, Types.INTEGER)
+      cs.registerOutParameter(3, Types.VARCHAR)
+
+      try {
+        cs.execute()
+
+        CuentaCurrencyInfo(
+          cs.getInt(2),
+          cs.getString(3)
+        )
+
+      } catch {
+        case NonFatal(e) => {
+          Logger.error(s"can't get cuenta currency info with cueId $id for user ${user.toString}. Error ${e.toString}")
+          throw e
+        }
+      } finally {
+        cs.close
+      }
+    }
+  }
+
 }

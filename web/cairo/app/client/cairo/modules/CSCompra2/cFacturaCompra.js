@@ -4698,7 +4698,7 @@
       };
 
       self.getObjectType = function() {
-        return "cairo.modules.facturaCompra";
+        return "cairo.modules.compras.facturaCompra";
       };
 
       initialize();

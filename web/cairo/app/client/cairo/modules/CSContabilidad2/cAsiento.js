@@ -1625,6 +1625,10 @@
         return m_itemsProps.item(C_ITEMS);
       };
 
+      self.getObjectType = function() {
+        return "cairo.modules.contabilidad.asiento";
+      };
+
       return self;
     };
 

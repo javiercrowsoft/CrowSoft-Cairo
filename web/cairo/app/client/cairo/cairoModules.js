@@ -42,7 +42,7 @@ Cairo.Asiento = {};
 Cairo.AsientoListDoc = {};
 
 Cairo.Cobranza = {};
-Cairo.CobranzaWiz = {};
+Cairo.CobranzaWizard = {};
 
 Cairo.OrdenPago = {};
 Cairo.OrdenPagoWiz = {};

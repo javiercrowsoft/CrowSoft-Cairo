@@ -1366,7 +1366,7 @@
         loadStepCobros();
         loadStepDatosGenerales();
 
-        return true;
+        return P.resolvedPromise(true);
       };
 
       var setMultyDoc = function() {
@@ -1488,7 +1488,7 @@
         // the step's key must be the constant that defines them
         // this is crucial for the navigation to work
         //
-        var properties = m_objWizard.getSteps().add(null, U.getKey(WCS.SELECT_FACTURA));
+        var properties = m_objWizard.getSteps().add(null, U.getKey(WCS.SELECT_FACTURA)).getProperties();
 
         var elem = properties.add(null);
 
@@ -1548,9 +1548,10 @@
         elem.setFormat(Cairo.Settings.getAmountDecimalsFormat());
       };
 
-      var setGridFacturas = function(property) {
+      var setGridFacturas = function(grid) {
 
-        var columns = property.getGrid().getColumns();
+        var columns = grid.getColumns();
+        columns.clear();
 
         columns.add(null).setVisible(false);
 
@@ -1655,7 +1656,7 @@
         // the step's key must be the constant that defines them
         // this is crucial for the navigation to work
         //
-        var properties = m_objWizard.getSteps().add(null, U.getKey(WCS.ANTICIPO));
+        var properties = m_objWizard.getSteps().add(null, U.getKey(WCS.ANTICIPO)).getProperties();
 
 
         var elem = properties.add(null);
@@ -1702,7 +1703,7 @@
         // the step's key must be the constant that defines them
         // this is crucial for the navigation to work
         //
-        var properties = m_objWizard.getSteps().add(null, U.getKey(WCS.DIF_CAMBIO));
+        var properties = m_objWizard.getSteps().add(null, U.getKey(WCS.DIF_CAMBIO)).getProperties();
 
         var elem = properties.add(null);
         elem.setType(T.label);
@@ -1808,7 +1809,7 @@
         //
         var keyCobros = U.getKey(WCS.SELECT_COBROS);
 
-        var properties = m_objWizard.getSteps().add(null, keyCobros);
+        var properties = m_objWizard.getSteps().add(null, keyCobros).getProperties();
 
         var elem = properties.add(null, LABEL_COBROS);
 
@@ -1996,7 +1997,7 @@
         var elem = columns.add(null, CT.FV_ID_RET);
         elem.setName(getText(1866, "")); // Factura
         elem.setType(Dialogs.PropertyType.select);
-        elem.setTable(T.FACTURAS_DE_VENTA);
+        elem.setSelectTable(Cairo.Tables.FACTURAS_DE_VENTA);
         elem.setKey(KIO_FV_ID_RET);
       };
 
@@ -2061,7 +2062,7 @@
         var elem = columns.add(null);
         elem.setName(getText(1634, "")); // Vto.
         elem.setDefaultValue(Grids.createCell());
-        elem.getDefaultValue().setValue(Cairo.Dates.addToDate("m", 1, Date));
+        elem.getDefaultValue().setValue(Cairo.Dates.DateNames.addToDate("m", 1, Cairo.Dates.today()));
         elem.setType(Dialogs.PropertyType.date);
         elem.setKey(KICH_FECHAVTO);
 
@@ -2168,7 +2169,7 @@
         elem.setName(getText(1634, "")); // Vto.
         elem.setType(Dialogs.PropertyType.date);
         elem.setDefaultValue(Grids.createCell());
-        elem.getDefaultValue().setValue(Cairo.Dates.addToDate("d", 1, Date));
+        elem.getDefaultValue().setValue(Cairo.Dates.DateNames.addToDate("d", 1, Cairo.Dates.today()));
         elem.setKey(KIT_FECHAVTO);
 
         var elem = columns.add(null);
@@ -2185,17 +2186,17 @@
         elem.setName(getText(2108, "")); // Operacion
         elem.setType(Dialogs.PropertyType.list);
         elem.setDefaultValue(Grids.createCell());
-        elem.getDefaultValue().setId(C.CuponTipo.CUPON_POSNET);
+        elem.getDefaultValue().setId(CT.CuponTipo.CUPON_POSNET);
         elem.setKey(KIT_TARJETA_TIPO);
 
         var list = elem.getList();
 
         var elem = list.add(null);
-        elem.setId(C.CuponTipo.CUPON_POSNET);
+        elem.setId(CT.CuponTipo.CUPON_POSNET);
         elem.setValue(getText(2110, "")); // Posnet
 
         var elem = list.add(null);
-        elem.setId(C.CuponTipo.CUPON_MANUAL);
+        elem.setId(CT.CuponTipo.CUPON_MANUAL);
         elem.setValue(getText(2111, "")); // Manual
 
         var elem = columns.add(null);
@@ -2243,7 +2244,7 @@
         // the step's key must be the constant that defines them
         // this is crucial for the navigation to work
         //
-        var properties = m_objWizard.getSteps().add(null, U.getKey(WCS.DATOS_GENERALES));
+        var properties = m_objWizard.getSteps().add(null, U.getKey(WCS.DATOS_GENERALES)).getProperties();
 
         var elem = properties.add(null);
 
@@ -2290,7 +2291,7 @@
 
         var elem = properties.add(null, DWC.CENTRO_COSTO);
         elem.setType(T.select);
-        elem.setSelectTable(Cairo.Tables.CENTRO_COSTO);
+        elem.setSelectTable(Cairo.Tables.CENTROS_DE_COSTO);
         elem.setName(getText(1057, "")); // Centro de Costo
         elem.setKey(WC.KW_CENTRO_COSTO);
 

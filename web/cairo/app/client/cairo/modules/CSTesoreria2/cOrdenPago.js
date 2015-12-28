@@ -1912,7 +1912,7 @@
         elem.setName(Cairo.Language.getText(1634, "")); // Vto.
         elem.setType(Dialogs.PropertyType.date);
         elem.setDefaultValue(new cABMGridRowValue());
-        elem.getDefaultValue().setValue(DateAdd("y", 1, Date));
+        elem.getDefaultValue().setValue(DateAdd("y", 1, Cairo.Dates.today()));
         elem.setKey(KICH_FECHAVTO);
 
         var elem = w_columns.add(null);

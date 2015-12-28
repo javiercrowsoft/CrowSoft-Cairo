@@ -187,10 +187,10 @@
 
       var m_lColCuotas = 0;
 
-      var m_fvIds = 0;
+      var m_fvIds = [];
 
-      var m_cliIds = 0;
-      var m_fvIdsxCliId = 0;
+      var m_cliIds = [];
+      var m_fvIdsxCliId = [];
       var m_cobranzaInfo;
 
       // automatic wizard
@@ -2582,7 +2582,7 @@
         setEnabled();
       };
 
-      var startWizard = function(wizard, wizardConstructor) {
+      var startWizard = function(wizard, wizardConstructor, isHojaRuta) {
         wizard.setCliId(m_cliId);
         wizard.setCliente(m_cliente);
         wizard.setFvIds(m_fvIds);
@@ -2601,9 +2601,9 @@
 
       var showStartWizard = function(isHojaRuta) {
         try {
-          var wizConstructor = Cairo.CobranzaWiz.Edit.Controller.getEditor;
+          var wizConstructor = Cairo.CobranzaWizard.Edit.Controller.getEditor;
           var wizard = wizConstructor();
-          wizard.loadWizard().whenSuccess(call(startWizard, wizard, wizConstructor));
+          wizard.loadWizard().whenSuccess(call(startWizard, wizard, wizConstructor, isHojaRuta));
         }
         catch (ex) {
           Cairo.manageErrorEx(ex.message, ex, "showStartWizard", C_MODULE, "");
@@ -3912,6 +3912,12 @@
       var getFileNamePostFix = function() {
         return m_properties.item(C.CLI_ID).getValue().substr(0, 50) + "-" + m_properties.item(CT.COBZ_NRODOC).getValue();
       };
+
+      self.getObjectType = function() {
+        return "cairo.modules.tesoreria.cobranza";
+      };
+
+      initialize();
 
       return self;
     };

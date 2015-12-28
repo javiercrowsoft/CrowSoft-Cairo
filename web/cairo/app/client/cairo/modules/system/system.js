@@ -559,6 +559,10 @@
     );
   };
 
+  Cairo.Documents.getCurrencyFromAccount = function(cueId) {
+    return DB.getData("load[" + m_apiPath + "general/cuenta/" + cueId.toString() + "/currency]");
+  };
+
   Cairo.Documents.showDataAddProveedor = function(showData, dialog) {
     if(showData) {
       var provId = dialog.getProperties().item(C.PROV_ID).getSelectId();
@@ -1139,7 +1143,7 @@
     wiz.setPushVirtualNext(false);
   };
 
-  var m_defaultCurrency.id = Cairo.Documents.getDefaultCurrency();
+  var m_defaultCurrency = Cairo.Documents.getDefaultCurrency();
 
   Cairo.Documents.wizCompraShowCotizacion = function(wiz, stepId, monId, show) {
     var p = null;

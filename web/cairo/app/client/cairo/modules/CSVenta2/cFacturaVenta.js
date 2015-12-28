@@ -5129,7 +5129,7 @@
       };
 
       self.getObjectType = function() {
-        return "cairo.modules.facturaVenta";
+        return "cairo.modules.ventas.facturaVenta";
       };
 
       initialize();

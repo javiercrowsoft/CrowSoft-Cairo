@@ -2294,7 +2294,7 @@
       };
 
       self.getObjectType = function() {
-        return "cairo.modules.facturaCompraRemitoWiz";
+        return "cairo.modules.compras.facturaCompraRemitoWiz";
       };
 
       initialize();
