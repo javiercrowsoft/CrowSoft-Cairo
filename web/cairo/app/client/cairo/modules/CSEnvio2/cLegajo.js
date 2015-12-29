@@ -259,7 +259,7 @@
         c.setSelectId(Cairo.Util.val(m_cliId));
         c.setSelectIntValue(m_cliId);
 
-        c = m_dialog.getProperties().add(null, mEnvioConstantes.LGJ_TITULO);
+        c = m_dialog.getProperties().add(null, mEnvioConstantes.LGJ_TITLE);
         c.setType(Dialogs.PropertyType.text);
         // Titulo
         c.setName(getText(1864, ""));
@@ -398,7 +398,7 @@
             break;
 
           case K_TITULO:
-            m_titulo = m_dialog.getProperties().item(mEnvioConstantes.LGJ_TITULO).getValue();
+            m_titulo = m_dialog.getProperties().item(mEnvioConstantes.LGJ_TITLE).getValue();
 
             break;
 

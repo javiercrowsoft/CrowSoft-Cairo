@@ -30,7 +30,7 @@ javier at crowsoft.com.ar
 */
 -- Function: sp_doc_cobranza_get_items()
 
--- drop function sp_doc_cobranza_get_items(integer);
+-- drop function sp_doc_cobranza_get_items(integer, integer);
 /*
 select * from sp_doc_cobranza_get_items(1);
 fetch all from rtn;

@@ -132,8 +132,8 @@
 
       var m_cliIds = 0;
       var m_fvIdsxCliId = 0;
-      var m_cobranzaInfo;
-      var m_isHojaRuta;
+      var m_cobranzaInfo = null;
+      var m_isHojaRuta = false;
       var m_cjId = 0;
 
       var m_lColCuotas = 0;
@@ -187,7 +187,7 @@
       };
 
       self.setCobranzaInfo = function(value) {
-        m_cobranzaInfo = value;
+        m_cobranzaInfo = value ? value : null;
       };
 
       self.setIsHojaRuta = function(value) {
@@ -355,7 +355,7 @@
         switch (grid.getColumns().item(lCol).getKey()) {
 
           case KIT_TJCCU_ID:
-            D.setSelectFilterCuotas(grid.getRows(lRow), property, m_objWizard.getDialog(), KIT_TJC_ID);
+            D.setSelectFilterCuotas(grid.getRows().item(lRow), property, m_objWizard.getDialog(), KIT_TJC_ID);
             break;
         }
         return true;
@@ -467,16 +467,16 @@
 
         var grid = property.getGrid();
 
-        switch (grid.getColumns(lCol).getKey()) {
+        switch (grid.getColumns().item(lCol).getKey()) {
           case KI_SELECT:
-            var row = grid.getRows(lRow);
+            var row = grid.getRows().item(lRow);
             selectFactura(row, grid.getColumns());
             showTotalFacturas();
             break;
 
           case KI_COTIZACION2:
             var cotiz = null;
-            var row = grid.getRows(lRow);
+            var row = grid.getRows().item(lRow);
             cotiz = val(getCell(row, KI_COTIZACION2).getValue());
             if(D.getCol(grid.getColumns(), KI_IMPORTE).getVisible()) {
               var cell = getCell(row, KI_IMPORTE);
@@ -489,7 +489,7 @@
             break;
 
           case KI_APLICAR:
-            row = grid.getRows(lRow);
+            row = grid.getRows().item(lRow);
             var visible = D.getCol(grid.getColumns(), KI_IMPORTE).getVisible();
             var cell = getCell(row, KI_APLICAR);
             if(visible) {
@@ -521,11 +521,11 @@
         var p = null;
         var grid = property.getGrid();
 
-        switch (grid.getColumns(lCol).getKey()) {
+        switch (grid.getColumns().item(lCol).getKey()) {
 
           case KICH_IMPORTEORIGEN:
 
-            var row = grid.getRows(lRow);
+            var row = grid.getRows().item(lRow);
             var cell = getCell(row, KICH_MON_ID);
 
             if(cell.getId() !== m_defaultCurrency.id || cell.getId() === 0) {
@@ -549,10 +549,10 @@
 
           case KICH_CUE_ID:
 
-            var row = grid.getRows(lRow);
+            var row = grid.getRows().item(lRow);
 
             p = D.getCurrencyFromAccount(getCell(row, KICH_CUE_ID).getId())
-              .whenSuccess(function(response) {
+              .whenSuccessWithResult(function(response) {
 
                 var monId = valField(response.data, C.MON_ID);
                 var moneda = valField(response.data, C.MON_NAME);
@@ -580,7 +580,7 @@
 
           case KICH_FECHACOBRO:
 
-            var row = grid.getRows(lRow);
+            var row = grid.getRows().item(lRow);
             var cell = getCell(row, KICH_FECHACOBRO);
 
             if(Cairo.Util.isDate(cell.getValue())) {
@@ -596,11 +596,11 @@
         var p = null;
         var grid = property.getGrid();
 
-        switch (grid.getColumns(lCol).getKey()) {
+        switch (grid.getColumns().item(lCol).getKey()) {
 
           case KIT_IMPORTEORIGEN:
 
-            var row = grid.getRows(lRow);
+            var row = grid.getRows().item(lRow);
             getCell(row, KIT_IMPORTE).setValue(
               val(getCell(row, KIT_IMPORTEORIGEN).getValue())
                 * val(getCotizacion().getValue())
@@ -618,14 +618,14 @@
 
           case KIT_TJC_ID:
 
-            var row = grid.getRows(lRow);
+            var row = grid.getRows().item(lRow);
             var cell = getCell(row, KIT_TJCCU_ID);
             var tjcId = getCell(row, KIT_TJC_ID).getId();
 
             D.setSelectFilterCuotas(row, property, m_objWizard.getDialog(), KIT_TJC_ID);
 
             p = D.validateCuota(tjcId, cell.getId())
-              .whenSuccess(function(response) {
+              .whenSuccessWithResult(function(response) {
                 if(!response.is_valid) {
 
                   cell.setId(NO_ID);
@@ -657,11 +657,11 @@
         var p = null;
         var grid = property.getGrid();
 
-        switch (grid.getColumns(lCol).getKey()) {
+        switch (grid.getColumns().item(lCol).getKey()) {
 
           case KIE_IMPORTEORIGEN:
 
-            var row = grid.getRows(lRow);
+            var row = grid.getRows().item(lRow);
             var cell = getCell(row, KIE_MON_ID);
 
             if(cell.getId() !== m_defaultCurrency.id || cell.getId() === 0) {
@@ -686,9 +686,9 @@
 
           case KIE_CUE_ID:
 
-            var row = grid.getRows(lRow);
+            var row = grid.getRows().item(lRow);
             p = D.getCurrencyFromAccount(getCell(row, KIE_CUE_ID).getId())
-              .whenSuccess(function(response) {
+              .whenSuccessWithResult(function(response) {
 
                 var monId = valField(response.data, C.MON_ID);
                 var moneda = valField(response.data, C.MON_NAME);
@@ -722,10 +722,10 @@
 
         var grid = property.getGrid();
 
-        switch (grid.getColumns(lCol).getKey()) {
+        switch (grid.getColumns().item(lCol).getKey()) {
 
           case KIO_DEBE:
-            var row = grid.getRows(lRow);
+            var row = grid.getRows().item(lRow);
             getCell(row, KIO_IMPORTEORIGEN).setValue(val(getCell(row, KIO_DEBE).getValue()));
             getCell(row, KIO_HABER).setValue(0);
             showCobroOtro();
@@ -733,7 +733,7 @@
             break;
 
           case KIO_HABER:
-            var row = grid.getRows(lRow);
+            var row = grid.getRows().item(lRow);
             getCell(row, KIO_IMPORTEORIGEN).setValue(val(getCell(row, KIO_HABER).getValue()));
             getCell(row, KIO_DEBE).setValue(0);
             showCobroOtro();
@@ -863,7 +863,7 @@
         var cueId = getCuentaAnticipo().getSelectId();
         if(cueId !== NO_ID) {
           D.getCurrencyFromAccount(cueId, Cairo.Dates.today())
-            .whenSuccess(function(response) {
+            .whenSuccessWithResult(function(response) {
               var monId = valField(response.data, C.MON_ID);
               var monName = valField(response.data, C.MON_NAME);
               var cotizacion = valField(response.data, C.MON_COTIZACION)
@@ -1127,22 +1127,22 @@
 
               validateCobro()
                 .whenSuccess(
-                function() {
-                  m_objWizard.enableBack();
-                  m_objWizard.setNextText(Cairo.Constants.FINISH_TEXT);
+                  function() {
+                    m_objWizard.enableBack();
+                    m_objWizard.setNextText(Cairo.Constants.FINISH_TEXT);
 
-                  nextStep = WCS.DATOS_GENERALES;
+                    nextStep = WCS.DATOS_GENERALES;
 
-                  if(m_autoSelect && m_restarVirtualPush) {
-                    m_objWizard.setRestartVirtualPush(true);
+                    if(m_autoSelect && m_restarVirtualPush) {
+                      m_objWizard.setRestartVirtualPush(true);
+                    }
+                    return true;
+                  },
+                  function() {
+                    nextStep = WCS.SELECT_COBROS;
+                    return false;
                   }
-                  return true;
-                },
-                function() {
-                  nextStep = WCS.SELECT_COBROS;
-                  return false;
-                }
-              );
+                );
               break;
 
             case WCS.DATOS_GENERALES:
@@ -2328,15 +2328,15 @@
                 var facturas = getFacturas();
 
                 if(getAgrupados()) {
-                  facturas.getColumns(DWC.IMPORTE).setVisible(false);
-                  facturas.getColumns(DWC.PENDIENTE).setVisible(true);
+                  facturas.getColumns().item(DWC.IMPORTE).setVisible(false);
+                  facturas.getColumns().item(DWC.PENDIENTE).setVisible(true);
                 }
                 else {
-                  facturas.getColumns(DWC.IMPORTE).setVisible(true);
-                  facturas.getColumns(DWC.PENDIENTE).setVisible(false);
+                  facturas.getColumns().item(DWC.IMPORTE).setVisible(true);
+                  facturas.getColumns().item(DWC.PENDIENTE).setVisible(false);
                 }
 
-                var items = DB.getResultSetFromData(response.data.get('items'));
+                var items = DB.getResultSetFromData(response.data.get('facturas'));
                 var rates = DB.getResultSetFromData(response.data.get('rates'));
 
                 var rows = facturas.getRows();
@@ -2353,7 +2353,7 @@
 
                     var row = rows.add(null);
 
-                    elem.add(null);
+                    row.add(null);
 
                     var elem = row.add(null);
                     elem.setId(valField(items[_i], CT.FVD_ID));
@@ -2432,15 +2432,15 @@
                 }
 
                 if(!showCotizacion) {
-                  getFacturas().getColumns(DWC.COTIZACION).setVisible(false);
-                  getFacturas().getColumns(DWC.MONEDA).setVisible(false);
+                  getFacturas().getColumns().item(DWC.COTIZACION).setVisible(false);
+                  getFacturas().getColumns().item(DWC.MONEDA).setVisible(false);
                   getCotizacion().setVisible(false);
                   getTotalOrigen().setVisible(false);
                   m_bDifCambio = false;
                 }
                 else {
-                  getFacturas().getColumns(DWC.COTIZACION).setVisible(true);
-                  getFacturas().getColumns(DWC.MONEDA).setVisible(true);
+                  getFacturas().getColumns().item(DWC.COTIZACION).setVisible(true);
+                  getFacturas().getColumns().item(DWC.MONEDA).setVisible(true);
                   getCotizacion().setVisible(true);
                   getTotalOrigen().setVisible(true);
                   m_bDifCambio = true;
@@ -2448,15 +2448,15 @@
 
                 if(rates.length > 0) {
 
-                  getFacturas().getColumns(DWC.COTIZACION2).setVisible(true);
+                  getFacturas().getColumns().item(DWC.COTIZACION2).setVisible(true);
 
                   for(var _i = 0, _count = getFacturas().getRows().size(); _i < _count; _i++) {
 
                     var row = getFacturas().getRows().item(_i);
 
-                    for(i = 0; i < rates.length; i++) {
-                      if(valField(rates[i], C.MON_ID) === getCell(row, KI_MONEDA).getId()) {
-                        getCell(row, KI_COTIZACION2).setValue(valField(rates[i], C.MON_PRECIO));
+                    for(var _j = 0, _countj = rates.length; _j < _countj; _j++) {
+                      if(valField(rates[_j], C.MON_ID) === getCell(row, KI_MONEDA).getId()) {
+                        getCell(row, KI_COTIZACION2).setValue(valField(rates[_j], C.MON_PRECIO));
                         break;
                       }
                     }
@@ -2468,7 +2468,7 @@
                 }
                 else {
                   getCotizacion().setVisible(false);
-                  getFacturas().getColumns(DWC.COTIZACION2).Visible = false;
+                  getFacturas().getColumns().item(DWC.COTIZACION2).Visible = false;
                 }
 
                 m_objWizard.showValue(getCotizacion());
@@ -2477,6 +2477,7 @@
                 refreshFacturas();
                 showTotalFacturas();
 
+                return true;
               }
             }
             catch(ex) {
@@ -2589,8 +2590,8 @@
         }
         else {
 
-          for(i = 1; i <= m_fvIds.length; i++) {
-            if(m_fvIds[i] === fv_id) {
+          for(var _i = 0; _i < m_fvIds.length; _i++) {
+            if(m_fvIds[_i] === fv_id) {
               selected = true;
               break;
             }
@@ -2625,7 +2626,7 @@
         return D.Tesoreria.getCuentasDeudor(
             getFacturas(), KI_FV_ID, KI_APLICAR, KI_COTIZACION2,
             anticipo, cueIdAnticipo, cuentaAnticipo, anticipoOrigen)
-          .whenSuccess(function(response) {
+          .whenSuccessWithResult(function(response) {
 
             var cuentas = response.cuentas;
 
@@ -3925,7 +3926,7 @@
 
       var saveDocVta = function(mainRegister, docId, diferencia, isND) {
         return getIva()
-          .whenSuccess(function(result) {
+          .whenSuccessWithResult(function(result) {
 
             var itemsDefinition = getItems(result.taxes, diferencia, isND);
 
@@ -3983,7 +3984,7 @@
         var prId = getPrIdDifCambio().getSelectId();
 
         return getCuentas(prId)
-          .whenSuccess(function(result) {
+          .whenSuccessWithResult(function(result) {
 
             var cueId = result.cueId;
             var cueIdIvaRi = result.cueIdIvaRi;
@@ -4259,7 +4260,7 @@
         // TODO: use the code of this function in TRANSLATED to create an scala implementation
         //
         return DB.getData("load[" + m_apiPath + "tesoreria/cobranzas/producto/get_info]", prId)
-          .whenSuccess(function(result) {
+          .whenSuccessWithResult(function(result) {
             if(result.producto_info.error !== 0) {
               return M.showWarningWithFalse(result.producto_info.error_message);
             }
@@ -4543,7 +4544,7 @@
         // TODO: use the code of this function in TRANSLATED to create an scala implementation
         //
         return DB.getData("load[" + m_apiPath + "tesoreria/cobranzas/facturas/get_info?ids=" + getFvIds() + "]")
-          .whenSuccess(function(result) {
+          .whenSuccessWithResult(function(result) {
             var facturas = result.info.facturas;
 
             for(var _i = 0, count = facturas.length; _i < count; _i++) {
@@ -4565,7 +4566,7 @@
               var property = getLegajo();
               if(property.getSelectId() === NO_ID && valField(facturas[_i], C.LGJ_ID) !== NO_ID) {
                 property.setSelectId(valField(facturas[_i], C.LGJ_ID));
-                property.setValue(valField(facturas[_i], C.LGJ_TITULO));
+                property.setValue(valField(facturas[_i], C.LGJ_TITLE));
                 m_objWizard.showValue(property);
               }
             }
@@ -4619,7 +4620,7 @@
           if(efectivo !== 0) {
 
             p = D.getCurrencyFromAccount(m_cobranzaInfo.cueIdEfectivo)
-              .whenSuccess(function(response) {
+              .whenSuccessWithResult(function(response) {
                 var monId = valField(response.data, C.MON_ID);
                 var moneda = valField(response.data, C.MON_NAME);
 
@@ -4669,7 +4670,7 @@
 
             p = p
               .whenSuccess(call(D.getCurrencyFromAccount, m_cobranzaInfo.cueIdTicket))
-              .whenSuccess(function(response) {
+              .whenSuccessWithResult(function(response) {
                 var monId = valField(response.data, C.MON_ID);
                 var moneda = valField(response.data, C.MON_NAME);
 

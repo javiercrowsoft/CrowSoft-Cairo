@@ -13,6 +13,7 @@
   var Dialogs = Cairo.Dialogs;
   var getCell = Dialogs.cell;
   var val = Cairo.Util.val;
+  var zeroDiv = Cairo.Util.zeroDiv;
   var P = Cairo.Promises;
   var DB = Cairo.Database;
 
@@ -1584,23 +1585,23 @@
       }
       else {
         cuit = Cairo.Util.replaceAll(cuit, "-", "");
-        var sum = Cairo.Util.val(cuit.substr(0, 1)) * 5;
-        sum = sum + Cairo.Util.val(cuit.substr(1, 1)) * 4;
-        sum = sum + Cairo.Util.val(cuit.substr(2, 1)) * 3;
-        sum = sum + Cairo.Util.val(cuit.substr(3, 1)) * 2;
-        sum = sum + Cairo.Util.val(cuit.substr(4, 1)) * 7;
-        sum = sum + Cairo.Util.val(cuit.substr(5, 1)) * 6;
-        sum = sum + Cairo.Util.val(cuit.substr(6, 1)) * 5;
-        sum = sum + Cairo.Util.val(cuit.substr(7, 1)) * 4;
-        sum = sum + Cairo.Util.val(cuit.substr(8, 1)) * 3;
-        sum = sum + Cairo.Util.val(cuit.substr(9, 1)) * 2;
+        var sum = val(cuit.substr(0, 1)) * 5;
+        sum = sum + val(cuit.substr(1, 1)) * 4;
+        sum = sum + val(cuit.substr(2, 1)) * 3;
+        sum = sum + val(cuit.substr(3, 1)) * 2;
+        sum = sum + val(cuit.substr(4, 1)) * 7;
+        sum = sum + val(cuit.substr(5, 1)) * 6;
+        sum = sum + val(cuit.substr(6, 1)) * 5;
+        sum = sum + val(cuit.substr(7, 1)) * 4;
+        sum = sum + val(cuit.substr(8, 1)) * 3;
+        sum = sum + val(cuit.substr(9, 1)) * 2;
         var rest = sum % 11;
 
         var digit = 11 - rest;
         digit = (digit === 11) ? 0 : digit;
         digit = (digit === 10) ? 1 : digit;
 
-        if(digit !== Cairo.Util.val(cuit.substr(10, 1))) {
+        if(digit !== val(cuit.substr(10, 1))) {
           ask = true;
         }
       }
@@ -1771,7 +1772,7 @@
   Cairo.Documents.setSelectFilterCuotas = function(row, property, dialog, tarjetaKey) {
     var C_CUOTAS = "Cuotas";
     var tjcId = Dialogs.cell(row, tarjetaKey).getId();
-    property.getGrid().getColumns(C_CUOTAS).setSelectFilter("instalments_for_tjcid|tjcId:" + tjcId.toString());
+    property.getGrid().getColumns().item(C_CUOTAS).setSelectFilter("instalments_for_tjcid|tjcId:" + tjcId.toString());
     dialog.refreshColumnProperties(property, C_CUOTAS);
   };
 
@@ -1849,7 +1850,7 @@
 
       for (var _i = 0, _count = facturas.getRows().size(); _i < _count; _i++) {
         var row = facturas.getRows().item(_i);
-        if(Cairo.Util.val(Dialogs.cell(row, KI_APLICAR).getValue())) {
+        if(val(Dialogs.cell(row, KI_APLICAR).getValue())) {
           addFacId(facIds, Dialogs.cell(row, KI_FV_ID).getId());
         }
       }
@@ -1869,36 +1870,42 @@
           p = loadCuentas(facIds.toString(), "ordenpago/cuentas");
         }
 
-        p = p.whenSuccess(function(response) {
-            var facturaCueId = [];
-
-            for(var i = 0; i < response.cuenta.length; i += 1) {
-              facturaCueId.push(
-                {
-                  cueId: valField(response.cuentas, C.CUE_ID),
-                  cueName: valField(response.cuentas, C.CUE_NAME),
-                  facId: valField(response.cuentas, 0),
-                  importe: 0,
-                  importeOrigen: 0
-                }
-              );
-            }
-
-            for (var _i = 0, _count = facturas.getRows().size(); _i < _count; _i++) {
-              row = facturas.getRows().item(_i);
-              var value = Cairo.Util.val(Dialogs.cell(row, KI_APLICAR).getValue());
-              if(value > 0) {
-                var cotizacion = Cairo.Util.val(Dialogs.cell(row, KI_COTIZACION).getValue());
-                var valueOrigen = Cairo.Util.zeroDiv(value, cotizacion);
-                addCtaCte(value, valueOrigen, ctaCte, facturaCueId, Dialogs.cell(row, KI_FV_ID).getId());
+        p = p.whenSuccessWithResult(function(response) {
+            try {
+              var facturaCueId = [];
+              var cuentas = DB.getResultSetFromData(response.data)
+              for(var _i = 0, _count = cuentas.length; _i < _count; _i += 1) {
+                facturaCueId.push(
+                  {
+                    cueId: valField(cuentas[_i], C.CUE_ID),
+                    cueName: valField(cuentas[_i], C.CUE_NAME),
+                    facId: valField(cuentas[_i], 0),
+                    importe: 0,
+                    importeOrigen: 0
+                  }
+                );
               }
-            }
 
-            if(anticipo > 0) {
-              addCtaCteAux(anticipo, anticipoOrigen, ctaCte, cueIdAnticipo, anticipoCuenta);
-            }
+              for (var _i = 0, _count = facturas.getRows().size(); _i < _count; _i++) {
+                row = facturas.getRows().item(_i);
+                var value = val(Dialogs.cell(row, KI_APLICAR).getValue());
+                if(value > 0) {
+                  var cotizacion = val(Dialogs.cell(row, KI_COTIZACION).getValue());
+                  var valueOrigen = zeroDiv(value, cotizacion);
+                  addCtaCte(value, valueOrigen, ctaCte, facturaCueId, Dialogs.cell(row, KI_FV_ID).getId());
+                }
+              }
 
-            return { success: true, cuentas: facturaCueId };
+              if(anticipo > 0) {
+                addCtaCteAux(anticipo, anticipoOrigen, ctaCte, cueIdAnticipo, anticipoCuenta);
+              }
+
+              return { success: true, cuentas: facturaCueId };
+            }
+            catch (ex) {
+              Cairo.manageErrorEx(ex.message, ex, "getCuentasAux", "Documents", "");
+              return P.fail();
+            }
           }
         );
       }
@@ -3216,7 +3223,7 @@
       return m_tesorariaConfig.load(Cairo.User.getId());
     };
 
-    Cairo.Promises.resolvedPromise(true)
+    return Cairo.Promises.resolvedPromise(true)
       .whenSuccess(initContabilidadConfig)
       .whenSuccess(initStockConfig)
       .whenSuccess(initVentasConfig)

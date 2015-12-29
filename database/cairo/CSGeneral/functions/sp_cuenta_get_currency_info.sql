@@ -34,32 +34,39 @@ javier at crowsoft.com.ar
 
 create or replace function sp_cuenta_get_currency_info
 /*
-    select * from cuenta
+    select * from cuenta where mon_id = 3
     select * from sp_cuenta_get_currency_info(129);
 */
 (
   in p_cue_id integer,
 
   out p_mon_id integer,
-  out p_mon_name varchar
+  out p_mon_name varchar,
+  out p_mon_precio decimal(18,6)
 )
   returns record as
 $BODY$
 declare
       v_mon_id integer;
       v_mon_name varchar;
+      v_mon_precio decimal(18,6);
 begin
 
 
       select c.mon_id,
-             mon_nombre
+             mon_nombre,
+             case when mon_legal = 0 then sp_moneda_get_cotizacion(c.mon_id, CURRENT_TIMESTAMP::date) 
+             else 1
+             end as mon_precio
         into v_mon_id,
-             v_mon_name
+             v_mon_name,
+             v_mon_precio
       from Cuenta c inner join Moneda m on c.mon_id = m.mon_id
       where cue_id = p_cue_id;
 
       p_mon_id := coalesce(v_mon_id, 0);
       p_mon_name := coalesce(v_mon_name, '');
+      p_mon_precio := coalesce(v_mon_precio, 0);
 
 end;
 $BODY$

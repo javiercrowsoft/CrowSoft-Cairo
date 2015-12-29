@@ -248,7 +248,7 @@
         self.terminate();
       };
 
-      var showStartWizard = function(cliId, f) {
+      var showStartWizardWithCliente = function(cliId, f) {
         try {
           m_cliId = cliId;
           D.getClienteName(cliId).then(function(response) {
@@ -259,17 +259,28 @@
               }
             }
             catch(ex) {
-              Cairo.manageErrorEx(ex.message, ex, "showStartWizard", C_MODULE, "");
+              Cairo.manageErrorEx(ex.message, ex, "showStartWizardWithCliente", C_MODULE, "");
             }
           });
         }
         catch (ex) {
-          Cairo.manageErrorEx(ex.message, ex, "showStartWizard", C_MODULE, "");
+          Cairo.manageErrorEx(ex.message, ex, "showStartWizardWithCliente", C_MODULE, "");
+        }
+      };
+
+      self.showWizardCobranza = function() {
+        try {
+          if(initMembers()) {
+            showStartWizard(false);
+          }
+        }
+        catch(ex) {
+          Cairo.manageErrorEx(ex.message, ex, "showWizardCobranza", C_MODULE, "");
         }
       };
 
       self.showCobranza = function(cliId, fvIds) {
-        showStartWizard(cliId, function() {
+        showStartWizardWithCliente(cliId, function() {
           m_fvIds = fvIds.slice();
           if(initMembers()) {
             showStartWizard(false);
@@ -298,7 +309,7 @@
         try {
 
           m_cliIds = cliIds.slice();
-          m_cobranzaInfo = cobranzaInfo;
+          m_cobranzaInfo = cobranzaInfo ? cobranzaInfo : null;
 
           if(initMembers()) {
             showStartWizard(true);
@@ -1188,7 +1199,7 @@
 
           case KIT_TJCCU_ID:
 
-            var row = grid.getRows(lRow);
+            var row = grid.getRows().item(lRow);
             D.setSelectFilterCuotas(row, property, m_items, KIT_TJC_ID);
             break;
         }
@@ -3158,7 +3169,7 @@
 
           case KICH_IMPORTEORIGEN:
 
-            var row = grid.getRows(lRow);
+            var row = grid.getRows().item(lRow);
             var cell = getCell(row, KICH_MON_ID);
 
             if(cell.getId() !== m_defaultCurrency.id || cell.getId() === 0) {
@@ -3180,9 +3191,9 @@
 
           case KICH_CUE_ID:
 
-            var row = grid.getRows(lRow);
+            var row = grid.getRows().item(lRow);
 
-            D.getCurrencyFromAccount(getCell(row, KICH_CUE_ID).getId()).whenSuccess(function(response) {
+            D.getCurrencyFromAccount(getCell(row, KICH_CUE_ID).getId()).whenSuccessWithResult(function(response) {
               var monId = valField(response.data, C.MON_ID);
               var moneda = valField(response.data, C.MON_NAME);
               var cell = getCell(row, KICH_MON_ID);
@@ -3206,7 +3217,7 @@
 
           case KIT_IMPORTEORIGEN:
 
-            var row = grid.getRows(lRow);
+            var row = grid.getRows().item(lRow);
             getCell(row, KIT_IMPORTE)
               .setValue(val(getCell(row, KIT_IMPORTEORIGEN).getValue()) * val(getCotizacion().getValue()));
             showCobroNeto();
@@ -3221,12 +3232,12 @@
 
           case KIT_TJC_ID:
 
-            var row = grid.getRows(lRow);
+            var row = grid.getRows().item(lRow);
             var tjcId = getCell(row, KIT_TJC_ID).getId();
             D.setSelectFilterCuotas(row, property, m_dialog, KIT_TJC_ID);
 
             var cell = getCell(row, KIT_TJCCU_ID);
-            D.validateCuota(tjcId, cell.getId()).whenSuccess(function(response) {
+            D.validateCuota(tjcId, cell.getId()).whenSuccessWithResult(function(response) {
               if(!response.is_valid) {
                 cell.setId(NO_ID);
                 cell.setValue("");
@@ -3251,7 +3262,7 @@
 
           case KIE_IMPORTEORIGEN:
 
-            row = grid.getRows(lRow);
+            row = grid.getRows().item(lRow);
             var w_pCell = getCell(row, KIE_MON_ID);
             if(w_pCell.getId() !== m_defaultCurrency.id || w_pCell.getId() === 0) {
               getCell(row, KIE_IMPORTE)
@@ -3272,9 +3283,9 @@
 
           case KIE_CUE_ID:
 
-            var row = grid.getRows(lRow);
+            var row = grid.getRows().item(lRow);
 
-            D.getCurrencyFromAccount(getCell(row, KICH_CUE_ID).getId()).whenSuccess(function(response) {
+            D.getCurrencyFromAccount(getCell(row, KICH_CUE_ID).getId()).whenSuccessWithResult(function(response) {
               var monId = valField(response.data, C.MON_ID);
               var moneda = valField(response.data, C.MON_NAME);
               var cell = getCell(row, KICH_MON_ID);
@@ -3297,7 +3308,7 @@
         switch (grid.getColumns().item(lCol).getKey()) {
 
           case KIO_DEBE:
-            var row = grid.getRows(lRow);
+            var row = grid.getRows().item(lRow);
             getCell(row, KIO_IMPORTEORIGEN).setValue(val(getCell(row, KIO_DEBE).getValue()));
             getCell(row, KIO_HABER).setValue(0);
             showCobroOtro();
@@ -3305,7 +3316,7 @@
             break;
 
           case KIO_HABER:
-            var row = grid.getRows(lRow);
+            var row = grid.getRows().item(lRow);
             getCell(row, KIO_IMPORTEORIGEN).setValue(val(getCell(row, KIO_HABER).getValue()));
             getCell(row, KIO_DEBE).setValue(0);
             showCobroOtro();
@@ -3704,7 +3715,7 @@
 
         if(!bOrigen) {
 
-          p = D.getCurrencyFromAccount(cueId).whenSuccess(function(response) {
+          p = D.getCurrencyFromAccount(cueId).whenSuccessWithResult(function(response) {
             var monId = valField(response.data, C.MON_ID);
             if(monId !== m_defaultCurrency.id) {
               return M.showInfoWithFalse(getText(2118, "", strRow)); // Debe indicar un importe para la moneda extranjera (1)
@@ -3783,7 +3794,7 @@
 
         if(!bOrigen) {
 
-          p = D.getCurrencyFromAccount(cueId).whenSuccess(function(response) {
+          p = D.getCurrencyFromAccount(cueId).whenSuccessWithResult(function(response) {
             var monId = valField(response.data, C.MON_ID);
             if(monId !== m_defaultCurrency.id) {
               return M.showInfoWithFalse(getText(2118, "", strRow)); // Debe indicar un importe para la moneda extranjera (1)
@@ -3870,7 +3881,7 @@
 
         if(!bOrigen) {
 
-          p = D.getCurrencyFromAccount(cueId).whenSuccess(function(response) {
+          p = D.getCurrencyFromAccount(cueId).whenSuccessWithResult(function(response) {
             var monId = valField(response.data, C.MON_ID);
             if(monId !== m_defaultCurrency.id) {
               return M.showInfoWithFalse(getText(2118, "", strRow)); // Debe indicar un importe para la moneda extranjera (1)
@@ -3929,15 +3940,23 @@
       Cairo.LoadingMessage.show("Cobranzas", "Loading Cobranza from Crowsoft Cairo server.");
       var editor = Cairo.Cobranza.Edit.Controller.getEditor();
 
-      var dialog = Cairo.Dialogs.Views.Controller.newDialog();
-      var dialogItems = Cairo.Dialogs.Views.Controller.newDialog();
-      var dialogFooter = Cairo.Dialogs.Views.Controller.newDialog();
+      //
+      // wizards
+      //
+      if(id === 'sobrefactura') {
+        return editor.showWizardCobranza();
+      }
+      else {
 
-      editor.setDialog(dialog);
-      editor.setItems(dialogItems);
-      editor.setFooter(dialogFooter);
-      editor.edit(id).then(Cairo.LoadingMessage.close);
+        var dialog = Cairo.Dialogs.Views.Controller.newDialog();
+        var dialogItems = Cairo.Dialogs.Views.Controller.newDialog();
+        var dialogFooter = Cairo.Dialogs.Views.Controller.newDialog();
 
+        editor.setDialog(dialog);
+        editor.setItems(dialogItems);
+        editor.setFooter(dialogFooter);
+        editor.edit(id).then(Cairo.LoadingMessage.close);
+      }
     };
 
   });

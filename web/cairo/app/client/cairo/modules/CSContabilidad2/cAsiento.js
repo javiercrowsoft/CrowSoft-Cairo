@@ -1007,7 +1007,7 @@
               break;
 
             case KI_ORIGEN:
-              if(m_itemsProps.item(C_ITEMS).getGrid().getColumns(C_ORIGEN).Visible) {
+              if(m_itemsProps.item(C_ITEMS).getGrid().getColumns().item(C_ORIGEN).getVisible()) {
 
                 if(!isMonDefault(cue_id)) {
 

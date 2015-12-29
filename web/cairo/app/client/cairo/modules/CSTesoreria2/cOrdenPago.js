@@ -3237,7 +3237,7 @@
         switch (grid.getColumns().item(lCol).getKey()) {
 
           case mPublic.kICHT_IMPORTEORIGEN:
-            row = grid.getRows(lRow);
+            row = grid.getRows().item(lRow);
             var w_pCell = Dialogs.cell(row, mPublic.kICHT_MON_ID);
             if(w_pCell.getId() !== m_monDefault || w_pCell.getId() === 0) {
               Dialogs.cell(row, mPublic.kICHT_IMPORTE).setValue(Cairo.Util.val(Dialogs.cell(row, mPublic.kICHT_IMPORTEORIGEN).getValue()) * Cairo.Util.val(getCotizacion().getValue()));
@@ -3253,7 +3253,7 @@
             var cueId = null;
             var moneda = null;
 
-            row = grid.getRows(lRow);
+            row = grid.getRows().item(lRow);
 
             cueId = Dialogs.cell(row, mPublic.kICHT_CUE_ID).getId();
             D.getCurrencyFromAccount(monId, moneda, cueId);
@@ -3282,7 +3282,7 @@
             break;
 
           case mPublic.kICHT_CHEQUE:
-            row = grid.getRows(lRow);
+            row = grid.getRows().item(lRow);
             mPublic.self.setChequeData(row, Dialogs.cell(row, mPublic.kICHT_CHEQUE).getId());
 
             showPagoNeto();
@@ -3312,7 +3312,7 @@
         var grid = property.getGrid();
         switch (grid.getColumns().item(lCol).getKey()) {
           case KICH_IMPORTEORIGEN:
-            row = grid.getRows(lRow);
+            row = grid.getRows().item(lRow);
             var w_pCell = Dialogs.cell(row, KICH_MON_ID);
             if(w_pCell.getId() !== m_monDefault || w_pCell.getId() === 0) {
               Dialogs.cell(row, KICH_IMPORTE).setValue(Cairo.Util.val(Dialogs.cell(row, KICH_IMPORTEORIGEN).getValue()) * Cairo.Util.val(getCotizacion().getValue()));
@@ -3331,7 +3331,7 @@
             var cueId = null;
             var moneda = null;
 
-            row = grid.getRows(lRow);
+            row = grid.getRows().item(lRow);
 
             cueId = Dialogs.cell(row, KICH_CUE_ID).getId();
             D.getCurrencyFromAccount(monId, moneda, cueId);
@@ -3361,7 +3361,7 @@
 
           case KICH_CHEQUERA:
 
-            row = grid.getRows(lRow);
+            row = grid.getRows().item(lRow);
             var w_pCell = Dialogs.cell(row, KICH_CHEQUERA);
             if(w_pCell.getId() !== NO_ID) {
               Dialogs.cell(row, KICH_CHEQUE).setValue(GetChequeNumber(w_pCell.getId()));
@@ -3394,7 +3394,7 @@
         var grid = property.getGrid();
         switch (grid.getColumns().item(lCol).getKey()) {
           case KIE_IMPORTEORIGEN:
-            row = grid.getRows(lRow);
+            row = grid.getRows().item(lRow);
             var w_pCell = Dialogs.cell(row, KIE_MON_ID);
             if(w_pCell.getId() !== m_monDefault || w_pCell.getId() === 0) {
               Dialogs.cell(row, KIE_IMPORTE).setValue(Cairo.Util.val(Dialogs.cell(row, KIE_IMPORTEORIGEN).getValue()) * Cairo.Util.val(getCotizacion().getValue()));
@@ -3411,7 +3411,7 @@
           case KIE_CUE_ID:
             var monId = null;
             var moneda = null;
-            row = grid.getRows(lRow);
+            row = grid.getRows().item(lRow);
             D.getCurrencyFromAccount(monId, moneda, Dialogs.cell(row, KIE_CUE_ID).getId());
             var cell = Dialogs.cell(row, KIE_MON_ID);
             cell.setValue(moneda);
@@ -3446,13 +3446,13 @@
         var grid = property.getGrid();
         switch (grid.getColumns().item(lCol).getKey()) {
           case KIO_DEBE:
-            row = grid.getRows(lRow);
+            row = grid.getRows().item(lRow);
             Dialogs.cell(row, KIO_IMPORTEORIGEN).setValue(Cairo.Util.val(Dialogs.cell(row, KIO_DEBE).getValue()));
             Dialogs.cell(row, KIO_HABER).setValue(0);
             break;
 
           case KIO_HABER:
-            row = grid.getRows(lRow);
+            row = grid.getRows().item(lRow);
             Dialogs.cell(row, KIO_IMPORTEORIGEN).setValue(Cairo.Util.val(Dialogs.cell(row, KIO_HABER).getValue()));
             Dialogs.cell(row, KIO_DEBE).setValue(0);
             break;

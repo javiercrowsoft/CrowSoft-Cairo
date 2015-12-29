@@ -174,7 +174,8 @@ object Cuentas extends Controller with ProvidesUser {
         Json.toJson(
           Json.obj(
             C.MON_ID -> Json.toJson(info.monId),
-            C.MON_NAME -> Json.toJson(info.monName)
+            C.MON_NAME -> Json.toJson(info.monName),
+            C.MON_PRECIO -> Json.toJson(info.monPrecio)
           )))
     })
   }

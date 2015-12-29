@@ -866,7 +866,13 @@
 
       // load general settings
       //
-      Cairo.Configuration.createConfigObjects();
+      var p = Cairo.Configuration.createConfigObjects();
+
+      // starts Cairo
+      //
+      p.then(function() {
+        Cairo.start();
+      });
   });
 </script>
 

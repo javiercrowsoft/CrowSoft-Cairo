@@ -20,7 +20,8 @@ case class CuentaInfo(
 
 case class CuentaCurrencyInfo(
                        monId: Int,
-                       monName: String
+                       monName: String,
+                       monPrecio: Double
                        )
 
 case class Cuenta(
@@ -387,19 +388,21 @@ object Cuenta {
 
     DB.withTransaction(user.database.database) { implicit connection =>
 
-      val sql = "{call sp_cuenta_get_currency_info(?, ?, ?)}"
+      val sql = "{call sp_cuenta_get_currency_info(?, ?, ?, ?)}"
       val cs = connection.prepareCall(sql)
 
       cs.setInt(1, id)
       cs.registerOutParameter(2, Types.INTEGER)
       cs.registerOutParameter(3, Types.VARCHAR)
+      cs.registerOutParameter(4, Types.DECIMAL)
 
       try {
         cs.execute()
 
         CuentaCurrencyInfo(
           cs.getInt(2),
-          cs.getString(3)
+          cs.getString(3),
+          cs.getBigDecimal(4).doubleValue
         )
 
       } catch {

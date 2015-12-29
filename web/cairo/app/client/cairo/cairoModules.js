@@ -71,3 +71,21 @@ Marionette.Region = {};
 Backbone.Model = {};
 Backbone.history = {};
 Backbone.history.fragment = {};
+
+/*
+*
+* compilation tools :P
+*
+* */
+
+/*
+
+ this can be used to check if we have call getColumns(colIndex) instead of getColumns().get(colIndex) or getColumns().item(colindex)
+
+ getColumns\(([^)]+)\)
+
+ the same for getRows
+
+ getRows\(([^)]+)\)
+
+*/

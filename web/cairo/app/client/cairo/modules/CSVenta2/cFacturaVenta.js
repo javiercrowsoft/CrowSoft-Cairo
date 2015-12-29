@@ -1777,7 +1777,7 @@
             var items = getItems();
 
             var row = null;
-            row = items.getGrid().getRows(virtualRow.getInfo().row);
+            row = items.getGrid().getRows().item(virtualRow.getInfo().row);
 
             if(row.item(virtualRow.getInfo().col).getKey() === KI_PR_ID) {
 
@@ -1863,7 +1863,7 @@
 
           case KI_STL_ID:
 
-            row = property.getGrid().getRows(lRow);
+            row = property.getGrid().getRows().item(lRow);
 
             if(row !== null) {
 

@@ -1048,7 +1048,23 @@ object Cobranzas extends Controller with ProvidesUser {
 
   def listFacturas(cliId: Int) = GetAction { implicit request =>
     LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.NEW_COBRANZA), { user =>
-      Ok(Json.toJson(Recordset.getAsJson(Cobranza.listFacturas(user, cliId))))
+      val response = Cobranza.listFacturas(user, cliId) match {
+        case (facturas, rates) =>
+                  Json.toJson(
+                    Json.obj(
+                      "facturas" -> Json.toJson(Recordset.getAsJson(facturas)),
+                      "rates" -> Json.toJson(Recordset.getAsJson(rates))
+                    )
+                  )
+        case _ => Json.toJson("")
+      }
+      Ok(response)
+    })
+  }
+
+  def cuentas(ids: Option[String]) = GetAction { implicit request =>
+    LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.NEW_COBRANZA), { user =>
+      Ok(Json.toJson(Recordset.getAsJson(Cobranza.cuentas(user, ids.getOrElse("")))))
     })
   }
 }

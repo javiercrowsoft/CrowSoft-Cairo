@@ -4047,7 +4047,7 @@
                         //
                         // finally we update the grid control
                         //
-                        setRowValueInGrid(index, property, i, property.getGrid().getRows(i));
+                        setRowValueInGrid(index, property, i, property.getGrid().getRows().item(i));
                       });
                     }
                   );
@@ -4259,7 +4259,7 @@
                     // this code is executed either mustHandleEvent === true or false
                     //
                     var updateCell = function() {
-                      setRowValueInGrid(index, property, rowIndex, grid.getRows(rowIndex));
+                      setRowValueInGrid(index, property, rowIndex, grid.getRows().item(rowIndex));
                       self.setChanged(true);
                     };
 

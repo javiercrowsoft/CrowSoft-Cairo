@@ -401,13 +401,13 @@ POST    /api/v1/tesoreria/cobranzas                 controllers.logged.modules.t
 
 GET     /api/v1/tesoreria/cobranzas/cliente/:cliId/facturas    controllers.logged.modules.tesoreria.Cobranzas.listFacturas(cliId: Int)
 
+GET     /api/v1/tesoreria/cobranza/notes/:id        controllers.logged.modules.tesoreria.Cobranzas.notes(id: Int)
+GET     /api/v1/tesoreria/cobranza/cuentas          controllers.logged.modules.tesoreria.Cobranzas.cuentas(ids: Option[String])
+
 GET     /api/v1/tesoreria/cobranza/:id              controllers.logged.modules.tesoreria.Cobranzas.get(id: Int)
 POST    /api/v1/tesoreria/cobranza                  controllers.logged.modules.tesoreria.Cobranzas.create
 PUT     /api/v1/tesoreria/cobranza/:id              controllers.logged.modules.tesoreria.Cobranzas.update(id: Int)
 DELETE  /api/v1/tesoreria/cobranza/:id              controllers.logged.modules.tesoreria.Cobranzas.delete(id: Int)
-
-GET     /api/v1/tesoreria/cobranza/notes/:id        controllers.logged.modules.tesoreria.Cobranzas.notes(id: Int)
-
 
 # end Cairo
 #--------------------------------------------------------------------------------------------------

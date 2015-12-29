@@ -4607,7 +4607,7 @@
             var items = getItems();
 
             var row = null;
-            row = items.getGrid().getRows(virtualRow.getInfo().row);
+            row = items.getGrid().getRows().item(virtualRow.getInfo().row);
 
             if(row.item(virtualRow.getInfo().col).getKey() === KI_PR_ID) {
 
@@ -4712,6 +4712,7 @@
 
       Cairo.LoadingMessage.show("Factura de Compras", "Loading Factura de Compras from Crowsoft Cairo server.");
       var editor = Cairo.FacturaCompra.Edit.Controller.getEditor();
+
       //
       // wizards
       //

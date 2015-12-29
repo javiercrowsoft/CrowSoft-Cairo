@@ -217,13 +217,13 @@
     },
 
     valField: function(fields, fieldName) {
-      var value = fields.get(fieldName);
+      var value = typeof(fieldName) !== "number" ? fields.get(fieldName) : fields.values[fieldName];
       if(value === undefined) {
         // Cairo.raiseError("Missing field", "the field " + fieldName + " isn't present in this dataset");
         //
         // in development
         //
-        Cairo.log("Missing field: the field " + fieldName + " isn't present in this dataset");
+        Cairo.log("Missing field: the field " + fieldName + " isn't present in this dataset", true);
       }
       return value;
     },
@@ -234,7 +234,7 @@
         //
         // in development
         //
-        Cairo.log("Missing field: the field " + attribute + " isn't present in this dataset");
+        Cairo.log("Missing field: the field " + attribute + " isn't present in this dataset", true);
       }
       return object[attribute];
     },
@@ -404,7 +404,7 @@
     },
 
     getResultSetFromData: function(data) {
-      var columns = data.get('columns');
+      var columns = data.get ? data.get('columns') : data['columns'];
       if(columns === undefined) {
         // Cairo.raiseError("Can't return a result set from this data because it doesn't contain columns");
         //
@@ -412,7 +412,7 @@
         //
         Cairo.log("Can't return a result set from this data because it doesn't contain columns");
       }
-      var rows = data.get('rows');
+      var rows = data.get ? data.get('rows') : data['rows'];
       if(rows === undefined) {
         // Cairo.raiseError("Can't return a result set from this data because it doesn't contain rows");
         //

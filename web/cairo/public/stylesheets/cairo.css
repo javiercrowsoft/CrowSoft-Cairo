@@ -727,6 +727,7 @@ input[type="radio"].dialog-checkbox, input[type="checkbox"].dialog-checkbox {
 
 .dialog-input-control-number {
   text-align: right;
+  max-width: 200px;
 }
 
 .document_header_box {

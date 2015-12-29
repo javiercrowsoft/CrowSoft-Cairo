@@ -1874,26 +1874,55 @@ object Cobranza {
     }
   }
 
-  def listFacturas(user: CompanyUser, cliId: Int): Recordset = {
+  def listFacturas(user: CompanyUser, cliId: Int): (Recordset, Recordset) = {
 
     DB.withTransaction(user.database.database) { implicit connection =>
 
-      val sql = "{call sp_doc_cobranza_get_facturas(?, ?, ?)}"
+      val sql = "{call sp_doc_cobranza_get_facturas(?, ?, ?, ?)}"
       val cs = connection.prepareCall(sql)
 
       cs.setInt(1, user.cairoCompanyId)
       cs.setInt(2, cliId)
+      cs.registerOutParameter(3, Types.OTHER)
       cs.registerOutParameter(4, Types.OTHER)
 
       try {
         cs.execute()
 
-        val rs = cs.getObject(4).asInstanceOf[java.sql.ResultSet]
-        Recordset.load(rs)
+        val rsFacturas = cs.getObject(3).asInstanceOf[java.sql.ResultSet]
+        val rsRates = cs.getObject(4).asInstanceOf[java.sql.ResultSet]
+        (Recordset.load(rsFacturas), Recordset.load(rsRates))
 
       } catch {
         case NonFatal(e) => {
           Logger.error(s"can't get listing of facturas de venta for customer [$cliId] and user ${user.toString}. Error ${e.toString}")
+          throw e
+        }
+      } finally {
+        cs.close
+      }
+    }
+  }
+
+  def cuentas(user: CompanyUser, ids: String): Recordset = {
+
+    DB.withTransaction(user.database.database) { implicit connection =>
+
+      val sql = "{call sp_doc_cobranza_get_cuenta_deudor(?, ?)}"
+      val cs = connection.prepareCall(sql)
+
+      cs.setString(1, ids)
+      cs.registerOutParameter(2, Types.OTHER)
+
+      try {
+        cs.execute()
+
+        val rs = cs.getObject(2).asInstanceOf[java.sql.ResultSet]
+        Recordset.load(rs)
+
+      } catch {
+        case NonFatal(e) => {
+          Logger.error(s"can't get listing of cobranza cuentas deudores for list [$ids] and user ${user.toString}. Error ${e.toString}")
           throw e
         }
       } finally {

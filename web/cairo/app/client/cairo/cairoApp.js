@@ -1321,11 +1321,14 @@ var Cairo = new Marionette.Application();
     }
   };
 
-  Cairo.log = function(msg) {
+  Cairo.log = function(msg, printStackTrace) {
     try {
       msg = msg ? ": " + msg : "";
       if(window.console && window.console.log) {
         window.console.log(msg);
+        if(printStackTrace && window.console.trace) {
+          window.console.trace();
+        }
       }
     }
     catch(ignore) {}
