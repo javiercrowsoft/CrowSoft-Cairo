@@ -887,3 +887,7 @@ table > thead.list-dialog-grid-head > tr > th {
 .btn-group {
   margin-bottom: 5px;
 }
+
+.wizard-body div.grid-container {
+  min-height: 300px;
+}

@@ -2630,26 +2630,26 @@
 
             var cuentas = response.cuentas;
 
-            for(var i = 0; i < cuentas.length; i++) {
+            for(var _i = 0, _count = cuentas.length; _i < _count; _i++) {
 
               var row = getCtaCte().getRows().add(null);
 
               var cell = row.add(null);
 
               cell = row.add(null);
-              cell.setValue(cuentas[i].cueName);
-              cell.setId(cuentas[i].cueId);
+              cell.setValue(cuentas[_i].cueName);
+              cell.setId(cuentas[_i].cueId);
               cell.setKey(KICC_CUE_ID);
 
               cell = row.add(null);
-              cell.setValue(cuentas[i].importeOrigen);
+              cell.setValue(cuentas[_i].importeOrigen);
               cell.setKey(KICC_IMPORTEORIGEN);
 
               cell = row.add(null);
-              cell.setValue(cuentas[i].importe);
+              cell.setValue(cuentas[_i].importe);
               cell.setKey(KICC_IMPORTE);
 
-              total = total + cuentas[i].importe;
+              total = total + cuentas[_i].importe;
             }
 
             getCobroIndicado().setValue(total);

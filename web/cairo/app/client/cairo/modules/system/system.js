@@ -1806,10 +1806,10 @@
       var cueId = 0;
       var cueName = "";
 
-      for (var i = 0; i < facturaCueId.length; i++) {
-        if(facturaCueId.facId === facId) {
-          cueId = facturaCueId.cueId;
-          cueName = facturaCueId.cueName;
+      for (var _i = 0, _count = facturaCueId.length; _i < _count; _i++) {
+        if(facturaCueId[_i].facId === facId) {
+          cueId = facturaCueId[_i].cueId;
+          cueName = facturaCueId[_i].cueName;
           break;
         }
       }
@@ -1819,20 +1819,24 @@
 
     var addCtaCteAux = function(value, valueOrigen, ctaCte, cueId, cueName) {
 
-      for (var i = 0; i < ctaCte.length; i++) {
-        if(ctaCte.cueId === cueId) {
-          ctaCte.importe += value;
-          ctaCte.importeOrigen += valueOrigen;
+      for (var _i = 0, _count = ctaCte.length; _i < _count; _i++) {
+        if(ctaCte[_i].cueId === cueId) {
+          ctaCte[_i].importe += value;
+          ctaCte[_i].importeOrigen += valueOrigen;
           return;
         }
       }
+
+      //
+      // we only get here if the account is not present in the ctaCte array
+      //
 
       ctaCte.push(
         {
           importe: value,
           importeOrigen: valueOrigen,
           cueId: cueId,
-          cuenta: cueName
+          cueName: cueName
         }
       );
     };
@@ -1900,7 +1904,7 @@
                 addCtaCteAux(anticipo, anticipoOrigen, ctaCte, cueIdAnticipo, anticipoCuenta);
               }
 
-              return { success: true, cuentas: facturaCueId };
+              return { success: true, cuentas: ctaCte };
             }
             catch (ex) {
               Cairo.manageErrorEx(ex.message, ex, "getCuentasAux", "Documents", "");

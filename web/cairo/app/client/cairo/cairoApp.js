@@ -981,7 +981,12 @@ var Cairo = new Marionette.Application();
     isNumeric: isNumeric,
     zeroDiv: function(dividen, divisor) {
       try {
-        return dividen / divisor;
+        if(parseFloat(divisor) === 0) {
+          return 0;
+        }
+        else {
+          return dividen / divisor;
+        }
       }
       catch(ignore) {
         return 0;
