@@ -1584,6 +1584,27 @@
         elem.setFormat("dd/mm/yy");
         elem.setKey(KI_FECHA);
 
+        var elem = columns.add(null, DWC.PENDIENTE);
+        elem.setName(getText(2139, "", m_defaultCurrency.symbol)); // Importe  & Signo
+        elem.setType(Dialogs.PropertyType.numeric);
+        elem.setSubType(Dialogs.PropertySubType.money);
+        elem.setKey(KI_PENDIENTE);
+        elem.setFormat(Cairo.Settings.getAmountDecimalsFormat());
+
+        var elem = columns.add(null, DWC.IMPORTE);
+        elem.setName(getText(2139, "", m_defaultCurrency.symbol)); // Importe  & Signo
+        elem.setType(Dialogs.PropertyType.numeric);
+        elem.setSubType(Dialogs.PropertySubType.money);
+        elem.setKey(KI_IMPORTE);
+        elem.setFormat(Cairo.Settings.getAmountDecimalsFormat());
+
+        var elem = columns.add(null);
+        elem.setName(getText(1662, "")); // Aplicar
+        elem.setType(Dialogs.PropertyType.numeric);
+        elem.setSubType(Dialogs.PropertySubType.money);
+        elem.setKey(KI_APLICAR);
+        elem.setFormat(Cairo.Settings.getAmountDecimalsFormat());
+
         var elem = columns.add(null, DWC.MONEDA);
         elem.setName(getText(2063, "")); // Mon
         elem.setType(Dialogs.PropertyType.text);
@@ -1623,27 +1644,6 @@
         elem.setType(Dialogs.PropertyType.date);
         elem.setFormat("dd/mm/yy");
         elem.setKey(KI_VTO);
-
-        var elem = columns.add(null, DWC.PENDIENTE);
-        elem.setName(getText(2139, "", m_defaultCurrency.symbol)); // Importe  & Signo
-        elem.setType(Dialogs.PropertyType.numeric);
-        elem.setSubType(Dialogs.PropertySubType.money);
-        elem.setKey(KI_PENDIENTE);
-        elem.setFormat(Cairo.Settings.getAmountDecimalsFormat());
-
-        var elem = columns.add(null, DWC.IMPORTE);
-        elem.setName(getText(2139, "", m_defaultCurrency.symbol)); // Importe  & Signo
-        elem.setType(Dialogs.PropertyType.numeric);
-        elem.setSubType(Dialogs.PropertySubType.money);
-        elem.setKey(KI_IMPORTE);
-        elem.setFormat(Cairo.Settings.getAmountDecimalsFormat());
-
-        var elem = columns.add(null);
-        elem.setName(getText(1662, "")); // Aplicar
-        elem.setType(Dialogs.PropertyType.numeric);
-        elem.setSubType(Dialogs.PropertySubType.money);
-        elem.setKey(KI_APLICAR);
-        elem.setFormat(Cairo.Settings.getAmountDecimalsFormat());
 
         var elem = columns.add(null);
         elem.setName(Cairo.Constants.DESCRIPTION_LABEL);
@@ -2381,6 +2381,23 @@
                     elem.setKey(KI_FECHA);
 
                     var elem = row.add(null);
+                    elem.setValue(valField(items[_i], CV.FV_PENDIENTE));
+                    elem.setKey(KI_PENDIENTE);
+
+                    var elem = row.add(null);
+                    elem.setValue(valField(items[_i], CT.FVD_PENDIENTE));
+                    elem.setKey(KI_IMPORTE);
+
+                    var elem = row.add(null);
+                    if(selected) {
+                      elem.setValue(getApplyImporte(fv_id, valField(items[_i], CT.FVD_PENDIENTE)));
+                    }
+                    else {
+                      elem.setValue(0);
+                    }
+                    elem.setKey(KI_APLICAR);
+
+                    var elem = row.add(null);
                     elem.setValue(valField(items[_i], C.MON_NAME));
                     elem.setId(valField(items[_i], C.MON_ID));
                     elem.setKey(KI_MONEDA);
@@ -2407,23 +2424,6 @@
                     var elem = row.add(null);
                     elem.setValue(valField(items[_i], CT.FVD_FECHA));
                     elem.setKey(KI_VTO);
-
-                    var elem = row.add(null);
-                    elem.setValue(valField(items[_i], CV.FV_PENDIENTE));
-                    elem.setKey(KI_PENDIENTE);
-
-                    var elem = row.add(null);
-                    elem.setValue(valField(items[_i], CT.FVD_PENDIENTE));
-                    elem.setKey(KI_IMPORTE);
-
-                    var elem = row.add(null);
-                    if(selected) {
-                      elem.setValue(getApplyImporte(fv_id, valField(items[_i], CT.FVD_PENDIENTE)));
-                    }
-                    else {
-                      elem.setValue(0);
-                    }
-                    elem.setKey(KI_APLICAR);
 
                     var elem = row.add(null);
                     elem.setValue(valField(items[_i], CV.FV_DESCRIP));

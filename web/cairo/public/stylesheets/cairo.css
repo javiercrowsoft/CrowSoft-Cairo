@@ -891,3 +891,8 @@ table > thead.list-dialog-grid-head > tr > th {
 .wizard-body div.grid-container {
   min-height: 300px;
 }
+
+div.grid-container table {
+  width: auto;
+  min-width: 400px;
+}
