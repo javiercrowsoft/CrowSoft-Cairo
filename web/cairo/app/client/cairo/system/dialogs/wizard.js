@@ -297,9 +297,22 @@
           return m_client.load().whenSuccess(function() {
 
             var properties = m_dialog.getProperties();
+            //
+            // during load steps in the client object the dialog's tab collection is used
+            // to define inner tabs like in cobranza pagos
+            //
+            // we need to get a reference to this collection because we are going to
+            // assign a new collection to the dialog object which will contain all
+            // the tabs, one for each step plus all the inner tabs
+            //
             var tabs = m_dialog.getTabs();
+
+            // create a new tab collection and assign it to the dialog object
+            //
             m_dialog.setTabs(Cairo.Collections.createCollection(Cairo.Dialogs.createTab));
 
+            // create a tab for each step
+            //
             for(var _i = 0, _count = m_steps.size(); _i < _count; _i++) {
               var step = m_steps.item(_i);
               var tab = m_dialog.getTabs().add(null, Cairo.Util.getKey(step.getKey()));
@@ -327,9 +340,23 @@
               }
             }
 
+            // create a tab for each inner tab
+            //
             for(var _i = 0, _count = tabs.size(); _i < _count; _i++) {
-              tab = tabs.item(_i);
-              m_dialog.getTabs().add(tab);
+              var tab = tabs.item(_i);
+              var internalTabIndex = tab.getIndex();
+              m_dialog.getTabs().add(tab)
+                .setIndex(internalTabIndex); // this is very important because the collection object set the index
+                                             // of this tab object as the ordinal number in it, but we want to use
+                                             // the index property of the tab object to manage internal tabs
+                                             // for this reason we need to override this value.
+                                             // NOTICE: this is a design error. the index porperty of any object should
+                                             // be reserved to be used only for the collection object.
+                                             // the tab object should have a property called tabIndex
+                                             // TODO: refactor the tab object to use the tabIndex
+                                             // NOTICE: this tab object is NOT the control but the tab object defined
+                                             // in Cairo.Dialogs
+
               tab.setCtrlIndex(m_dialog.getTabs().count()-1);
             }
 

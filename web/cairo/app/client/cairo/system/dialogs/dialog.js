@@ -1874,7 +1874,7 @@
           var controlsCount = controls.count();
           var c = null;
 
-          if(view.getTabs().get(index).getTag().indexOf(Dialogs.Constants.innerTab, 1) >= 0) {
+          if(view.getTabs().get(index).getTag().indexOf(Dialogs.Constants.innerTab, 0) >= 0) {
 
             var childIndex = getTagChildIndex(view.getTabs().get(index).getTag());
             var fatherIndex = getTagFatherIndex(view.getTabs().get(index).getTag());
@@ -2082,9 +2082,10 @@
           var controlsCount = view.getControls().count();
           var controls = view.getControls();
           var tab = view.getTabs().get(index);
+
           m_currentInnerTab = 0;
 
-          if(tab.getTag().indexOf(Dialogs.Constants.innerTab, 1) >= 0) {
+          if(tab.getTag().indexOf(Dialogs.Constants.innerTab, 0) >= 0) {
 
             var childIndex = getTagChildIndex(tab.getTag());
             var fatherIndex = getTagFatherIndex(tab.getTag());
@@ -2111,7 +2112,7 @@
             for(var _i = 0; _i < controlsCount; _i++) {
               var c = controls.get(_i);
               if(Controls.isTab(c)) {
-                if(c.getTag().indexOf(Dialogs.Constants.innerTab, 1) >= 0) {
+                if(c.getTag().indexOf(Dialogs.Constants.innerTab, 0) >= 0) {
                   var isVisible = getTagFatherIndex(c.getTag()) === index;
                   c.setVisible(isVisible);
                   if(isVisible) {
@@ -4906,7 +4907,7 @@
             }
           }
           else {
-            if(property.getTabIndex2() > 0) {
+            if(property.getTabIndex2() !== 0) {
               c.setTag(property.getTabIndex2());
             }
             else {
@@ -6647,9 +6648,9 @@
 
         var getTagChildIndex = function(tag) {
           var index = 0;
-          var i = tag.indexOf(Dialogs.Constants.innerTab, 1);
+          var i = tag.indexOf(Dialogs.Constants.innerTab, 0);
           if(i >= 0) {
-            var n = Cairo.Util.val(tag.substring(1, i + Dialogs.Constants.innerTab.length));
+            var n = Cairo.Util.val(tag.substring(i + Dialogs.Constants.innerTab.length));
             var q = Math.abs(Cairo.Math.truncate(n / 100));
             index = (n - q * 100) * -1;
           }
@@ -6658,9 +6659,9 @@
 
         var getTagFatherIndex = function(tag) {
           var index = 0;
-          var i = tag.indexOf(Dialogs.Constants.innerTab, 1);
+          var i = tag.indexOf(Dialogs.Constants.innerTab, 0);
           if(i >= 0) {
-            return Math.abs(Math.truncate(Cairo.Util.val(tag.substring(1, i + Dialogs.Constants.innerTab.length)) / 100));
+            return Math.abs(Cairo.Math.truncate(Cairo.Util.val(tag.substring(i + Dialogs.Constants.innerTab.length)) / 100));
           }
           return index;
         };

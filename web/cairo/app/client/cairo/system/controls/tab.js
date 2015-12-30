@@ -192,13 +192,13 @@
           }
         });
 
-        var virtualPush = function() { /* TODO: implement this. */ };
+        var virtualPush = function() { /* TODO: implement this. NOTICE: this method should be remove from this object. it is for the tab in dialogs not for the main tab. */ };
         var getIndex = function() { /* TODO: implement this. */ };
         var setIndex = function(index) { /* TODO: implement this. */ };
         var getControlIndex = function() { /* TODO: implement this. */ };
         var setControlIndex = function(index) { /* TODO: implement this. */ };
-        var setTabSelected = function(selected) { /* TODO: implement this. */ };
-        var getFatherTab = function() { /* TODO: implement this. */ };
+        var setTabSelected = function(selected) { /* TODO: implement this. NOTICE: this method should be remove from this object. it is for the tab in dialogs not for the main tab. */ };
+        var getFatherTab = function() { /* TODO: implement this. NOTICE: this method should be remove from this object. it is for the tab in dialogs not for the main tab. */ };
         var setTabStop = function(stop) { /* TODO: implement this. */ };
         var setBackColorPressed = function(color) { /* TODO: implement this. */ };
 
@@ -273,8 +273,6 @@
         return self.text;
       };
 
-      that.virtualPush = function() { /* TODO: implement this. */ };
-
       that.getIndex = function() {
         return self.index;
       };
@@ -294,6 +292,24 @@
         if(self.selected) {
           var element = that.getElement();
           if(element) element.addClass("active");
+        }
+      };
+
+      that.virtualPush = function() {
+        //
+        // the tab selection works as:
+        //   when the user does a clic over a tab:
+        //     if the tab has .active in its class attribute nothing is done
+        //     if the tab has not .active in its class attribute the boostrap code remove the .active
+        //     attribute for the previous selected tab if any and then add .active to the tab
+        //
+        // for this reason virtualPush only set selected when no other tab has .active in its class attribute
+        //
+        var element = that.getElement();
+        if(element) {
+          if(element.parent().find('.active :visible').length === 0) {
+            that.setTabSelected(true);
+          }
         }
       };
 
