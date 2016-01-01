@@ -87,7 +87,13 @@
     whenSuccessWithResult: function(successCallback, falseReturnValue, errorCallback) {
       return this.then(function(result) {
         if(result.success) {
-          return successCallback(result);
+          try {
+            return successCallback(result);
+          }
+          catch (ex) {
+            Cairo.manageErrorEx(ex.message, ex, "whenSuccessWithResult", "Cairo.Promises", "");
+            return false;
+          }
         }
         else {
           return Cairo.isFunction(falseReturnValue) ? falseReturnValue() : falseReturnValue || false;

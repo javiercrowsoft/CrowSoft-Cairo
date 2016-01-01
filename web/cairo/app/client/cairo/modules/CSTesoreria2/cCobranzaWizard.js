@@ -237,7 +237,7 @@
             break;
         }
 
-        return p || P.resolvedPromise();
+        return p || P.resolvedPromise(true);
       };
 
       self.isEmptyRow = function(key, row, rowIndex) {
@@ -1125,7 +1125,7 @@
 
             case WCS.SELECT_COBROS:
 
-              validateCobro()
+              p = validateCobro()
                 .whenSuccess(
                   function() {
                     m_objWizard.enableBack();
@@ -3071,57 +3071,61 @@
       };
 
       var validateCobro = function() {
+        var p = P.resolvedPromise(true);
 
         for(var _i = 0, _count = getCheques().getRows().size(); _i < _count; _i++) {
           var row = getCheques().getRows().item(_i);
           if(!isEmptyRowCheques(row, _i + 1)) {
-            if(!validateRowCheques(row, _i + 1)) { return P.resolvedPromise(false); }
+            p = p.whenSuccess(call(validateRowCheques, row, _i + 1));
           }
         }
 
         for(var _i = 0, _count = getEfectivo().getRows().size(); _i < _count; _i++) {
           var row = getEfectivo().getRows().item(_i);
           if(!isEmptyRowEfectivo(row, _i + 1)) {
-            if(!validateRowEfectivo(row, _i + 1)) { return P.resolvedPromise(false); }
+            p = p.whenSuccess(call(validateRowEfectivo, row, _i + 1));
           }
         }
 
         for(var _i = 0, _count = getOtros().getRows().size(); _i < _count; _i++) {
           var row = getOtros().getRows().item(_i);
           if(!isEmptyRowOtros(row, _i + 1)) {
-            if(!validateRowOtros(row, _i + 1)) { return P.resolvedPromise(false); }
+            p = p.whenSuccess(call(validateRowOtros, row, _i + 1));
           }
         }
 
         for(var _i = 0, _count = getTarjetas().getRows().size(); _i < _count; _i++) {
           var row = getTarjetas().getRows().item(_i);
           if(!isEmptyRowTarjetas(row, _i + 1)) {
-            if(!validateRowTarjetas(row, _i + 1)) { return P.resolvedPromise(false); }
+            p = p.whenSuccess(call(validateRowTarjetas, row, _i + 1));
           }
         }
 
-        if(round(val(getCobroIndicado().getValue()), Cairo.Settings.getAmountDecimals())
-          !== round(val(getCobroTotal().getValue()), Cairo.Settings.getAmountDecimals())) {
+        p = p.whenSuccess(function() {
+          if(round(val(getCobroIndicado().getValue()), Cairo.Settings.getAmountDecimals())
+            !== round(val(getCobroTotal().getValue()), Cairo.Settings.getAmountDecimals())) {
 
-          // if we need to stop in payments and the wizard is running in
-          // autosave (those which are launched by the waybill reception
-          // dialog), we don't show the message
-          //
-          if(m_bVirtualNextStopInPagos && m_autoSelect) {
-
-            // turn off the flag because in the next round
-            // if there aren't enough founds we need to show
-            // a warning message
+            // if we need to stop in payments and the wizard is running in
+            // autosave (those which are launched by the waybill reception
+            // dialog), we don't show the message
             //
-            m_bVirtualNextStopInPagos = false;
-            m_restarVirtualPush = true;
-          }
-          else {
-            return M.showWarningWithFalse(getText(2151, "")); // El total de los instrumentos de cobro no coincide con el monto a cobrar
-          }
-        }
+            if(m_bVirtualNextStopInPagos && m_autoSelect) {
 
-        return P.resolvedPromise(true);
+              // turn off the flag because in the next round
+              // if there aren't enough founds we need to show
+              // a warning message
+              //
+              m_bVirtualNextStopInPagos = false;
+              m_restarVirtualPush = true;
+            }
+            else {
+              return M.showWarningWithFalse(getText(2151, "")); // El total de los instrumentos de cobro no coincide con el monto a cobrar
+            }
+          }
+          return true;
+        });
+
+        return p;
       };
 
       var getDocNumber = function() {
@@ -4127,7 +4131,7 @@
       };
 
       var getIva = function() {
-        return DB.getData("load[" + m_apiPath + "tesoreria/cobranzas/facturas/taxes?ids=" + getFvIds() + "]");
+        return DB.getData("load[" + m_apiPath + "tesoreria/cobranza/facturas/taxes?ids=" + getFvIds() + "]");
       };
 
       var getFvIds = function() {
@@ -4543,9 +4547,10 @@
       var setDatosFromAplic = function() {
         // TODO: use the code of this function in TRANSLATED to create an scala implementation
         //
-        return DB.getData("load[" + m_apiPath + "tesoreria/cobranzas/facturas/get_info?ids=" + getFvIds() + "]")
-          .whenSuccessWithResult(function(result) {
-            var facturas = result.info.facturas;
+        return DB.getData("load[" + m_apiPath + "tesoreria/cobranza/facturas?ids=" + getFvIds() + "]")
+          .whenSuccessWithResult(function(response) {
+
+            var facturas = DB.getResultSetFromData(response.data);
 
             for(var _i = 0, count = facturas.length; _i < count; _i++) {
 
@@ -4570,6 +4575,8 @@
                 m_objWizard.showValue(property);
               }
             }
+
+            return true;
           });
       };
 

@@ -1067,4 +1067,10 @@ object Cobranzas extends Controller with ProvidesUser {
       Ok(Json.toJson(Recordset.getAsJson(Cobranza.cuentas(user, ids.getOrElse("")))))
     })
   }
+
+  def facturas(ids: Option[String]) = GetAction { implicit request =>
+    LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.NEW_COBRANZA), { user =>
+      Ok(Json.toJson(Recordset.getAsJson(Cobranza.facturas(user, ids.getOrElse("")))))
+    })
+  }
 }

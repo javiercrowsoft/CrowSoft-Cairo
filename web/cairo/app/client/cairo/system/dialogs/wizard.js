@@ -22,7 +22,6 @@
         var m_dialog = null;
         var m_steps = null;
         var m_client = null;
-        var m_clientObj = null;
 
         var m_currentStep;
         var m_wizardShowed = false;
@@ -44,14 +43,6 @@
 
         self.getClient = function() {
           return m_client;
-        };
-
-        self.setClientObj = function(value) {
-          m_clientObj = value;
-        };
-
-        self.getClientObj = function() {
-          return m_clientObj;
         };
 
         self.getPushVirtualNext = function() {
@@ -140,7 +131,7 @@
         };
 
         self.messageEx = function(messageId, info) {
-          if(m_clientObj === null) {
+          if(m_client === null || m_client.messageEx === undefined) {
             var p = null;
 
             switch (messageId) {
@@ -152,7 +143,23 @@
             return p || Cairo.Promises.resolvedPromise(true);
           }
           else {
-            return m_clientObj.messageEx(messageId, info);
+            return m_client.messageEx(messageId, info).then(function(response) {
+              //
+              // if the client doesn't handle the GRID_VIRTUAL_ROW message
+              // we just return the info parameter
+              //
+              if(messageId === Dialogs.Message.MSG_GRID_VIRTUAL_ROW
+                  && (
+                    response.getObjectType === undefined
+                      || response.getObjectType() !== Cairo.Dialogs.Grids.VirtualRowType
+                  )
+                ) {
+                return info;
+              }
+              else {
+                return response;
+              }
+            });
           }
         };
 
@@ -547,7 +554,6 @@
             m_dialog = null;
             m_steps = null;
             m_client = null;
-            m_clientObj = null;
           }
           catch (ex) {
             Cairo.manageErrorEx(ex.message, ex, "destroy", Dialogs.WizardViews.Controller.newWizard, "");

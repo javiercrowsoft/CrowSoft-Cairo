@@ -1931,4 +1931,31 @@ object Cobranza {
     }
   }
 
+  def facturas(user: CompanyUser, ids: String): Recordset = {
+
+    DB.withTransaction(user.database.database) { implicit connection =>
+
+      val sql = "{call sp_doc_cobranza_get_data_from_aplic(?, ?, ?)}"
+      val cs = connection.prepareCall(sql)
+
+      cs.setInt(1, 1) // 1 = factura venta/ nota debito venta
+      cs.setString(2, ids)
+      cs.registerOutParameter(3, Types.OTHER)
+
+      try {
+        cs.execute()
+
+        val rs = cs.getObject(3).asInstanceOf[java.sql.ResultSet]
+        Recordset.load(rs)
+
+      } catch {
+        case NonFatal(e) => {
+          Logger.error(s"can't get listing of cobranza facturas for list [$ids] and user ${user.toString}. Error ${e.toString}")
+          throw e
+        }
+      } finally {
+        cs.close
+      }
+    }
+  }
 }

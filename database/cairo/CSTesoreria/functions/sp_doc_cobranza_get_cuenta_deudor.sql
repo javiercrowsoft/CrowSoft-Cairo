@@ -32,11 +32,12 @@ javier at crowsoft.com.ar
 
 -- drop function sp_doc_cobranza_get_cuenta_deudor(varchar);
 
-create or replace function sp_doc_cobranza_get_cuenta_deudor
 /*
 select * from sp_doc_cobranza_get_cuenta_deudor('22,23,24,25,26,27,28');
 fetch all from rtn;
 */
+
+create or replace function sp_doc_cobranza_get_cuenta_deudor
 (
   in p_strIds varchar,
   out rtn refcursor

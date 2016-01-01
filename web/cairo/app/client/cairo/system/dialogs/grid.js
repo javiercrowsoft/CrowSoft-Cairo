@@ -134,6 +134,8 @@
     
     Grids.Manager = createManager();
 
+    Grids.VirtualRowType = "Cairo.Dialogs.Grids.virtualRow";
+
     Grids.createVirtualRow = function() {
       
       var self = {
@@ -203,6 +205,10 @@
       };
       that.setInfo = function(value) {
         self.info = value;
+      };
+
+      that.getObjectType = function() {
+        return Grids.VirtualRowType;
       };
 
       return that;
