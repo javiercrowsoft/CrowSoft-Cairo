@@ -2076,7 +2076,7 @@
           return isVisible;
         };
 
-        self.tabClick = function(index) {
+        self.tabClick = function(index, fromWizard) {
           var firstTab = null;
           var view = getView();
           var controlsCount = view.getControls().count();
@@ -2101,7 +2101,7 @@
               }
             }
 
-            tab.virtualPush();
+            tab.virtualPush(fromWizard);
 
             m_currentInnerTab = childIndex;
 
@@ -2129,7 +2129,7 @@
           }
 
           if(firstTab !== null) {
-            self.tabClick(firstTab.getIndex());
+            self.tabClick(firstTab.getIndex(), fromWizard);
             m_currentInnerTab = getTagChildIndex(firstTab.getTag());
           }
           view.showRows();

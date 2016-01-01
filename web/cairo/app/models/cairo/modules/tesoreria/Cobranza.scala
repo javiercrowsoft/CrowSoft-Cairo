@@ -1125,6 +1125,10 @@ object Cobranza {
     }
   }
 
+  def createCobranza(user: CompanyUser, cobranza: Cobranza): Cobranza = {
+    save(user, cobranza)
+  }
+
   def create(user: CompanyUser, cobranza: Cobranza): Cobranza = {
     save(user, cobranza)
   }

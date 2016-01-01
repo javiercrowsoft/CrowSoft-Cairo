@@ -985,7 +985,7 @@ object FacturaCompras extends Controller with ProvidesUser {
   }
 
   def createFromRemito = PostAction { implicit request =>
-    Logger.debug("in FacturaCompras.create")
+    Logger.debug("in FacturaCompras.createFromRemito")
     facturaCompraForm.bind(preprocessParams).fold(
       formWithErrors => {
         Logger.debug(s"invalid form: ${formWithErrors.toString}")

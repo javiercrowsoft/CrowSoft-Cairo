@@ -477,7 +477,7 @@
           var step = m_steps.get(Cairo.Util.getKey(nStep));
 
           if(m_wizardShowed) {
-            m_dialog.tabClick(step.getTabIndex());
+            m_dialog.tabClick(step.getTabIndex(), true);
             m_currentStep = nStep;
             return true;
           }

@@ -924,6 +924,34 @@ object Cobranzas extends Controller with ProvidesUser {
     )
   }
 
+  def createFromFactura = PostAction { implicit request =>
+    Logger.debug("in Cobranzas.createFromFactura")
+    cobranzaForm.bind(preprocessParams).fold(
+      formWithErrors => {
+        Logger.debug(s"invalid form: ${formWithErrors.toString}")
+        BadRequest
+      },
+      cobranza => {
+        Logger.debug(s"form: ${cobranza.toString}")
+        LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.NEW_COBRANZA), { user =>
+          try {
+            Ok(
+              Json.toJson(
+                Cobranza.createCobranza(user,
+                  getCobranza(cobranza, DBHelper.NoId)
+                )
+              )
+            )
+          } catch {
+            case NonFatal(e) => {
+              responseError(e)
+            }
+          }
+        })
+      }
+    )
+  }
+
   def create = PostAction { implicit request =>
     Logger.debug("in Cobranzas.create")
     cobranzaForm.bind(preprocessParams).fold(

@@ -407,6 +407,7 @@ GET     /api/v1/tesoreria/cobranza/facturas         controllers.logged.modules.t
 
 GET     /api/v1/tesoreria/cobranza/:id              controllers.logged.modules.tesoreria.Cobranzas.get(id: Int)
 POST    /api/v1/tesoreria/cobranza                  controllers.logged.modules.tesoreria.Cobranzas.create
+POST    /api/v1/tesoreria/cobranza/from_facturas    controllers.logged.modules.tesoreria.Cobranzas.createFromFactura
 PUT     /api/v1/tesoreria/cobranza/:id              controllers.logged.modules.tesoreria.Cobranzas.update(id: Int)
 DELETE  /api/v1/tesoreria/cobranza/:id              controllers.logged.modules.tesoreria.Cobranzas.delete(id: Int)
 

@@ -295,7 +295,7 @@
         }
       };
 
-      that.virtualPush = function() {
+      that.virtualPush = function(force) {
         //
         // the tab selection works as:
         //   when the user does a clic over a tab:
@@ -307,7 +307,8 @@
         //
         var element = that.getElement();
         if(element) {
-          if(element.parent().find('.active :visible').length === 0) {
+          if(force === true || element.parent().find('.active :visible').length === 0) {
+            element.parent().find('.active').removeClass('active');
             that.setTabSelected(true);
           }
         }
