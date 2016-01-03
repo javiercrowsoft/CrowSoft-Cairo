@@ -660,7 +660,7 @@
               m_descrip = "";
               m_dia = 1;
               m_mes = 1;
-              m_anio = Year(Date);
+              m_anio = Cairo.Dates.today().getFullYear();
               m_banco = true;
               m_laboral = true;
               m_local = false;

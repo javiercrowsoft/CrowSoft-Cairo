@@ -1905,7 +1905,7 @@
         elem.setName(Cairo.Language.getText(2065, "")); // Depositar el
         elem.setType(Dialogs.PropertyType.date);
         elem.setDefaultValue(new cABMGridRowValue());
-        elem.getDefaultValue().setValue(Date);
+        elem.getDefaultValue().setValue(Cairo.Dates.today());
         elem.setKey(KICH_FECHACOBRO);
 
         var elem = w_columns.add(null);

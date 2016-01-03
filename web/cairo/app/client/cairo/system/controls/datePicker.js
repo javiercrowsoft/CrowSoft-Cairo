@@ -30,16 +30,10 @@
         element.addClass("dialog-control dialog-input-control");
         $(element).datepicker({
           constrainInput: false,
-          showButtonPanel: true/*,
-          beforeShow: function(input) {
-            window.setTimeout(function() {
-              $('.ui-datepicker-current').removeClass().addClass('btn btn-info pull-left');
-              $('.ui-datepicker-close').removeClass().addClass('btn btn-success');
-            }, 100);
-          }*/
+          showButtonPanel: true
         });
         var onChange = view.onDateChange(that);
-        element.change(function() {
+          element.change(function() {
           setValue(element.val());
           onChange();
         });

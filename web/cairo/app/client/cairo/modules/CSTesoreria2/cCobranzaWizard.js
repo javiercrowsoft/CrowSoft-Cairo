@@ -1781,7 +1781,7 @@
         elem.setType(T.date);
         elem.setName(getText(1569, "")); // Fecha
         elem.setKey(WC.KW_FECHA_NDNC);
-        elem.setValue(Date);
+        elem.setValue(Cairo.Dates.today());
 
         var elem = properties.add(null, DWC.APLICACION_ND);
         elem.setType(T.list);
@@ -2055,7 +2055,7 @@
         var elem = columns.add(null);
         elem.setName(getText(2065, "")); // Depositar el
         elem.setDefaultValue(Grids.createCell());
-        elem.getDefaultValue().setValue(Date);
+        elem.getDefaultValue().setValue(Cairo.Dates.today());
         elem.setType(Dialogs.PropertyType.date);
         elem.setKey(KICH_FECHACOBRO);
 
@@ -2255,7 +2255,7 @@
         elem.setType(T.date);
         elem.setName(getText(1569, "")); // Fecha
         elem.setKey(WC.KW_FECHA);
-        elem.setValue(Date);
+        elem.setValue(Cairo.Dates.today());
 
         var elem = properties.add(null, DWC.CLIENTE2);
         elem.setType(T.select);
