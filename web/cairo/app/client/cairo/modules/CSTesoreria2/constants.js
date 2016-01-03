@@ -76,8 +76,16 @@
       COBZI_TIPO: "cobzi_tipo",
       COBZI_TARJETA_TIPO: "cobzi_tarjetaTipo",
 
+
       // CobranzaItemTMP
       COBRANZA_ITEM_TMP: "CobranzaItemTMP",
+      COBRANZA_ITEM_DIF_TMP: "CobranzaItemDifTMP",
+      COBRANZA_ITEM_CHEQUE_TMP: "CobranzaItemChequeTMP",
+      COBRANZA_ITEM_TARJETA_TMP: "CobranzaItemTarjetaTMP",
+      COBRANZA_ITEM_EFECTIVO_TMP: "CobranzaItemEfectivoTMP",
+      COBRANZA_ITEM_OTRO_TMP: "CobranzaItemOtroTMP",
+      COBRANZA_ITEM_CUENTA_CORRIENTE_TMP: "CobranzaItemCuentaCorrienteTMP",
+
       COBZI_TMP_ID: "cobziTMP_id",
       COBZI_TMP_CHEQUE: "cobziTMP_cheque",
       COBZI_TMP_CHEQUERA: "cobziTMP_chequera",

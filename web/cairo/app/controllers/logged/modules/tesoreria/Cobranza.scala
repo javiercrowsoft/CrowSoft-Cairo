@@ -39,9 +39,9 @@ case class CobranzaTotalsData(
                                )
 
 case class CobranzaItemBaseData(
-                                 descrip: String,
+                                 descrip: Option[String],
                                  cueId: Int,
-                                 ccosId: Int,
+                                 ccosId: Option[Int],
                                  orden: Int
                                  )
 
@@ -83,7 +83,6 @@ case class CobranzaItemTarjetaData(
 case class CobranzaItemEfectivoData(
                                      id: Int,
                                      base: CobranzaItemBaseData,
-                                     monId: Int,
                                      totals: CobranzaItemTotalsData
                                      )
 
@@ -106,7 +105,6 @@ case class CobranzaItemOtroData(
 case class CobranzaItemCuentaCorrienteData(
                                             id: Int,
                                             base: CobranzaItemBaseData,
-                                            monId: Int,
                                             totals: CobranzaItemTotalsData
                                             )
 
@@ -174,9 +172,10 @@ object Cobranzas extends Controller with ProvidesUser {
 
   val cobranzaIdFields = List(GC.DOC_ID, C.COBZ_NUMERO, C.COBZ_NRODOC)
 
-  val cobranzaBaseFields = List(GC.CLI_ID, GC.EST_ID, GC.CCOS_ID, GC.SUC_ID, GC.LGJ_ID, C.COBZ_DESCRIP, C.COBZ_GRABAR_ASIENTO)
+  val cobranzaBaseFields = List(GC.CLI_ID, GC.EST_ID, GC.CCOS_ID, GC.SUC_ID, GC.COB_ID, GC.LGJ_ID, C.COBZ_DESCRIP,
+    C.COBZ_GRABAR_ASIENTO)
 
-  val cobranzaTotalsFields = List(C.COBZ_NETO, C.COBZ_TOTAL)
+  val cobranzaTotalsFields = List(C.COBZ_NETO, C.COBZ_OTROS, C.COBZ_TOTAL)
 
   val cobranzaItemBase = List(C.COBZI_DESCRIP, GC.PR_ID, GC.CCOS_ID, GC.TO_ID, GC.CUE_ID, C.COBZI_ORDEN)
 
@@ -216,9 +215,9 @@ object Cobranzas extends Controller with ProvidesUser {
         mapping(
           C.COBZI_ID -> number,
           C.COBRANZA_ITEM_BASE -> mapping (
-            C.COBZI_DESCRIP -> text,
+            C.COBZI_DESCRIP -> optional(text),
             GC.CUE_ID -> number,
-            GC.CCOS_ID -> number,
+            GC.CCOS_ID -> optional(number),
             C.COBZI_ORDEN -> number)
             (CobranzaItemBaseData.apply)(CobranzaItemBaseData.unapply),
           GC.MON_ID -> number,
@@ -239,9 +238,9 @@ object Cobranzas extends Controller with ProvidesUser {
         mapping(
           C.COBZI_ID -> number,
           C.COBRANZA_ITEM_BASE -> mapping (
-            C.COBZI_DESCRIP -> text,
+            C.COBZI_DESCRIP -> optional(text),
             GC.CUE_ID -> number,
-            GC.CCOS_ID -> number,
+            GC.CCOS_ID -> optional(number),
             C.COBZI_ORDEN -> number)
             (CobranzaItemBaseData.apply)(CobranzaItemBaseData.unapply),
           GC.MON_ID -> number,
@@ -264,12 +263,11 @@ object Cobranzas extends Controller with ProvidesUser {
         mapping(
           C.COBZI_ID -> number,
           C.COBRANZA_ITEM_BASE -> mapping (
-            C.COBZI_DESCRIP -> text,
+            C.COBZI_DESCRIP -> optional(text),
             GC.CUE_ID -> number,
-            GC.CCOS_ID -> number,
+            GC.CCOS_ID -> optional(number),
             C.COBZI_ORDEN -> number)
             (CobranzaItemBaseData.apply)(CobranzaItemBaseData.unapply),
-          GC.MON_ID -> number,
           C.COBRANZA_ITEM_TOTALS -> mapping (
             C.COBZI_IMPORTE -> of(Global.doubleFormat),
             C.COBZI_IMPORTE_ORIGEN -> of(Global.doubleFormat))
@@ -280,9 +278,9 @@ object Cobranzas extends Controller with ProvidesUser {
         mapping(
           C.COBZI_ID -> number,
           C.COBRANZA_ITEM_BASE -> mapping (
-            C.COBZI_DESCRIP -> text,
+            C.COBZI_DESCRIP -> optional(text),
             GC.CUE_ID -> number,
-            GC.CCOS_ID -> number,
+            GC.CCOS_ID -> optional(number),
             C.COBZI_ORDEN -> number)
             (CobranzaItemBaseData.apply)(CobranzaItemBaseData.unapply),
           C.COBRANZA_ITEM_TOTALS -> mapping (
@@ -303,12 +301,11 @@ object Cobranzas extends Controller with ProvidesUser {
         mapping(
           C.COBZI_ID -> number,
           C.COBRANZA_ITEM_BASE -> mapping (
-            C.COBZI_DESCRIP -> text,
+            C.COBZI_DESCRIP -> optional(text),
             GC.CUE_ID -> number,
-            GC.CCOS_ID -> number,
+            GC.CCOS_ID -> optional(number),
             C.COBZI_ORDEN -> number)
             (CobranzaItemBaseData.apply)(CobranzaItemBaseData.unapply),
-          GC.MON_ID -> number,
           C.COBRANZA_ITEM_TOTALS -> mapping (
             C.COBZI_IMPORTE -> of(Global.doubleFormat),
             C.COBZI_IMPORTE_ORIGEN -> of(Global.doubleFormat))
@@ -641,7 +638,7 @@ object Cobranzas extends Controller with ProvidesUser {
 
     // groups for CobranzaData
     //
-    val facturaId = Global.preprocessFormParams(List("id"), "", params)
+    val facturaId = Global.preprocessFormParams(List("id", C.COBZ_FECHA, C.COBZ_COTIZACION), "", params)
     val facturaIdGroup = Global.preprocessFormParams(cobranzaIdFields, C.COBRANZA_ID, params)
     val facturaBaseGroup = Global.preprocessFormParams(cobranzaBaseFields, C.COBRANZA_BASE, params)
     val facturaTotalGroup = Global.preprocessFormParams(cobranzaTotalsFields, C.COBRANZA_TOTALS, params)
@@ -724,9 +721,9 @@ object Cobranzas extends Controller with ProvidesUser {
       CobranzaItemCheque(
         cheque.id,
         CobranzaItemBase(
-          cheque.base.descrip,
+          cheque.base.descrip.getOrElse(""),
           cheque.base.cueId,
-          cheque.base.ccosId,
+          cheque.base.ccosId.getOrElse(DBHelper.NoId),
           cheque.base.orden
         ),
         cheque.monId,
@@ -750,9 +747,9 @@ object Cobranzas extends Controller with ProvidesUser {
       CobranzaItemTarjeta(
         tarjeta.id,
         CobranzaItemBase(
-          tarjeta.base.descrip,
+          tarjeta.base.descrip.getOrElse(""),
           tarjeta.base.cueId,
-          tarjeta.base.ccosId,
+          tarjeta.base.ccosId.getOrElse(DBHelper.NoId),
           tarjeta.base.orden
         ),
         tarjeta.monId,
@@ -778,12 +775,12 @@ object Cobranzas extends Controller with ProvidesUser {
       CobranzaItemEfectivo(
         efectivo.id,
         CobranzaItemBase(
-          efectivo.base.descrip,
+          efectivo.base.descrip.getOrElse(""),
           efectivo.base.cueId,
-          efectivo.base.ccosId,
+          efectivo.base.ccosId.getOrElse(DBHelper.NoId),
           efectivo.base.orden
         ),
-        efectivo.monId,
+        DBHelper.NoId,
         CobranzaItemTotals(
           efectivo.totals.importe,
           efectivo.totals.importeOrigen
@@ -797,9 +794,9 @@ object Cobranzas extends Controller with ProvidesUser {
       CobranzaItemOtro(
         otro.id,
         CobranzaItemBase(
-          otro.base.descrip,
+          otro.base.descrip.getOrElse(""),
           otro.base.cueId,
-          otro.base.ccosId,
+          otro.base.ccosId.getOrElse(DBHelper.NoId),
           otro.base.orden
         ),
         CobranzaItemTotals(
@@ -823,12 +820,12 @@ object Cobranzas extends Controller with ProvidesUser {
       CobranzaItemCuentaCorriente(
         ctaCte.id,
         CobranzaItemBase(
-          ctaCte.base.descrip,
+          ctaCte.base.descrip.getOrElse(""),
           ctaCte.base.cueId,
-          ctaCte.base.ccosId,
+          ctaCte.base.ccosId.getOrElse(DBHelper.NoId),
           ctaCte.base.orden
         ),
-        ctaCte.monId,
+        DBHelper.NoId,
         CobranzaItemTotals(
           ctaCte.totals.importe,
           ctaCte.totals.importeOrigen

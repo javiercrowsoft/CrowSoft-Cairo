@@ -1145,12 +1145,12 @@ object Cobranza {
         Field(C.COBZ_NRODOC, cobranza.ids.nroDoc, FieldType.text),
         Field(C.COBZ_NUMERO, cobranza.ids.numero, FieldType.number),
 
-        Field(GC.PROV_ID, cobranza.base.cliId, FieldType.id),
+        Field(GC.CLI_ID, cobranza.base.cliId, FieldType.id),
         Field(GC.EST_ID, cobranza.base.estId, FieldType.id),
         Field(GC.CCOS_ID, cobranza.base.ccosId, FieldType.id),
         Field(GC.SUC_ID, cobranza.base.sucId, FieldType.id),
+        Field(GC.COB_ID, cobranza.base.cobId, FieldType.id),
         Field(GC.LGJ_ID, cobranza.base.lgjId, FieldType.id),
-        Field(GC.CPG_ID, cobranza.base.cobId, FieldType.id),
         Field(C.COBZ_DESCRIP, cobranza.base.descrip, FieldType.text),
         Field(C.COBZ_GRABAR_ASIENTO, Register.boolToInt(cobranza.base.grabarAsiento), FieldType.boolean),
 

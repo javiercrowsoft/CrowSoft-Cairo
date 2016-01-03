@@ -3215,27 +3215,27 @@
 
         var fields = register.getFields();
 
-        fields.add(C.COBZ_NUMERO, 0, Types.long);
-        fields.add(C.COBZ_NRODOC, m_lastNroDoc, Types.text);
-        fields.add(C.COBZ_DESCRIP, getDescrip().getValue(), Types.text);
-        fields.add(C.COBZ_FECHA, getFecha().getValue(), Types.date);
+        fields.add(CT.COBZ_NUMERO, 0, Types.long);
+        fields.add(CT.COBZ_NRODOC, m_lastNroDoc, Types.text);
+        fields.add(CT.COBZ_DESCRIP, getDescrip().getValue(), Types.text);
+        fields.add(CT.COBZ_FECHA, getFecha().getValue(), Types.date);
 
         fields.add(C.CLI_ID, m_lastCliId, Types.id);
         fields.add(C.CCOS_ID, getCentroCosto().getSelectId(), Types.id);
         fields.add(C.SUC_ID, getSucursal().getSelectId(), Types.id);
         fields.add(C.DOC_ID, getDoc(), Types.id);
-        fields.add(C.COBZ_COTIZACION, val(getCotizacion().getValue()), Types.double);
+        fields.add(CT.COBZ_COTIZACION, val(getCotizacion().getValue()), Types.double);
         fields.add(C.COB_ID, getCobrador().getSelectId(), Types.id);
         fields.add(C.LGJ_ID, getLegajo().getSelectId(), Types.id);
-        fields.add(C.COBZ_HOJA_RUTA, bToI(m_isHojaRuta), Types.boolean);
+        fields.add(CT.COBZ_HOJA_RUTA, bToI(m_isHojaRuta), Types.boolean);
 
-        fields.add(C.COBZ_NETO, val(getCobroNeto().getValue()), Types.currency);
-        fields.add(C.COBZ_OTROS, val(getCobroOtros().getValue()), Types.currency);
-        fields.add(C.COBZ_TOTAL, val(getCobroTotal().getValue()), Types.currency);
+        fields.add(CT.COBZ_NETO, val(getCobroNeto().getValue()), Types.currency);
+        fields.add(CT.COBZ_OTROS, val(getCobroOtros().getValue()), Types.currency);
+        fields.add(CT.COBZ_TOTAL, val(getCobroTotal().getValue()), Types.currency);
 
-        fields.add(C.COBZ_GRABAR_ASIENTO, 1, Types.boolean);
+        fields.add(CT.COBZ_GRABAR_ASIENTO, 1, Types.boolean);
         fields.add(C.EST_ID, D.Status.pendiente, Types.id);
-        fields.add(C.COBZ_ID, Cairo.Constants.NEW_ID, Types.long);
+        fields.add(CT.COBZ_ID, Cairo.Constants.NEW_ID, Types.long);
 
       };
 
@@ -3302,7 +3302,7 @@
 
         var transaction = new DB.createTransaction();
 
-        transaction.setTable(CT.COBRANZA_ITEM_TMP);
+        transaction.setTable(CT.COBRANZA_ITEM_CHEQUE_TMP);
 
         var rows = getCheques().getRows();
 
@@ -3413,7 +3413,7 @@
 
           var register = new DB.Register();
 
-          register.setFieldId(CV.FV_COBZ_TMP_ID);
+          register.setFieldId(CT.FV_COBZ_TMP_ID);
           register.setId(Cairo.Constants.NEW_ID);
 
           mustSave = false;
@@ -3442,7 +3442,7 @@
                   break;
 
                 case KI_IMPORTEORIGEN:
-                  fields.add(CV.FV_COBZ_IMPORTE_ORIGEN, val(cell.getValue()), Types.double);
+                  fields.add(CT.FV_COBZ_IMPORTE_ORIGEN, val(cell.getValue()), Types.double);
                   break;
 
                 case KI_COTIZACION:
@@ -3451,7 +3451,7 @@
 
                 case KI_COTIZACION2:
                   cotiCobranza = val(cell.getValue());
-                  fields.add(CV.FV_COBZ_COTIZACION, cotiCobranza, Types.double);
+                  fields.add(CT.FV_COBZ_COTIZACION, cotiCobranza, Types.double);
                   break;
 
                 case KI_PENDIENTE:
@@ -3485,9 +3485,9 @@
 
             aplicado = aplicado + pago;
 
-            fields.add(CV.FV_COBZ_IMPORTE, pago, Types.double);
-            fields.add(CV.FV_COBZ_ID, 0, Types.long);
-            fields.add(C.COBZ_ID, 0, Types.long);
+            fields.add(CT.FV_COBZ_IMPORTE, pago, Types.double);
+            fields.add(CT.FV_COBZ_ID, 0, Types.long);
+            fields.add(CT.COBZ_ID, 0, Types.long);
 
             transaction.addRegister(register);
           }
@@ -3503,7 +3503,7 @@
 
         var transaction = new DB.createTransaction();
 
-        transaction.setTable(CT.COBRANZA_ITEM_TMP);
+        transaction.setTable(CT.COBRANZA_ITEM_TARJETA_TMP);
 
         var rows = getTarjetas().getRows();
 
@@ -3594,7 +3594,7 @@
 
         var transaction = new DB.createTransaction();
 
-        transaction.setTable(CT.COBRANZA_ITEM_TMP);
+        transaction.setTable(CT.COBRANZA_ITEM_OTRO_TMP);
 
         var rows = getOtros().getRows();
 
@@ -3688,7 +3688,7 @@
 
         var transaction = new DB.createTransaction();
 
-        transaction.setTable(CT.COBRANZA_ITEM_TMP);
+        transaction.setTable(CT.COBRANZA_ITEM_EFECTIVO_TMP);
 
         var rows = getEfectivo().getRows();
 
@@ -3747,7 +3747,7 @@
 
         var transaction = new DB.createTransaction();
 
-        transaction.setTable(CT.COBRANZA_ITEM_TMP);
+        transaction.setTable(CT.COBRANZA_ITEM_CUENTA_CORRIENTE_TMP);
 
         var rows = getCtaCte().getRows();
 
@@ -3860,7 +3860,7 @@
 
           var transaction = new DB.createTransaction();
 
-          transaction.setTable(CT.COBRANZA_ITEM_TMP);
+          transaction.setTable(CT.COBRANZA_ITEM_DIF_TMP);
 
           var register = new DB.Register();
 
@@ -4002,18 +4002,18 @@
 
               var fields = register.getFields();
 
-              fields.add(C.FVI_ID, Cairo.Constants.NEW_ID, Types.integer);
-              fields.add(C.FVI_CANTIDAD, 1, Types.double);
-              fields.add(C.FVI_PRECIO, items[_i].importe, Types.currency);
-              fields.add(C.FVI_PRECIO_USR, items[_i].importe, Types.currency);
-              fields.add(C.FVI_NETO, items[_i].importe, Types.currency);
-              fields.add(C.FVI_IVARI, items[_i].importeIva, Types.currency);
-              fields.add(C.FVI_IVA_RIPORC, items[_i].tasaIva, Types.double);
+              fields.add(CV.FVI_ID, Cairo.Constants.NEW_ID, Types.integer);
+              fields.add(CV.FVI_CANTIDAD, 1, Types.double);
+              fields.add(CV.FVI_PRECIO, items[_i].importe, Types.currency);
+              fields.add(CV.FVI_PRECIO_USR, items[_i].importe, Types.currency);
+              fields.add(CV.FVI_NETO, items[_i].importe, Types.currency);
+              fields.add(CV.FVI_IVARI, items[_i].importeIva, Types.currency);
+              fields.add(CV.FVI_IVA_RIPORC, items[_i].tasaIva, Types.double);
               fields.add(C.PR_ID, prId, Types.id);
-              fields.add(C.FVI_IMPORTE, items[_i].importe + items[_i].importeIva, Types.currency);
+              fields.add(CV.FVI_IMPORTE, items[_i].importe + items[_i].importeIva, Types.currency);
               fields.add(C.CUE_ID, cueId, Types.id);
               fields.add(C.CUE_ID_IVA_RI, cueIdIvaRi, Types.id);
-              fields.add(C.FVI_ORDEN, _i, Types.integer);
+              fields.add(CV.FVI_ORDEN, _i, Types.integer);
 
               transaction.addRegister(register);
 
@@ -4178,11 +4178,11 @@
           // this means the ND must be generated by the payment
           //
           fields.add(CV.FV_ID, -1, Types.id);
-          fields.add(C.FVD_ID, -1, Types.id);
+          fields.add(CT.FVD_ID, -1, Types.id);
 
-          fields.add(CV.FV_COBZ_IMPORTE, importe, Types.double);
-          fields.add(CV.FV_COBZ_ID, 0, Types.long);
-          fields.add(C.COBZ_ID, 0, Types.long);
+          fields.add(CT.FV_COBZ_IMPORTE, importe, Types.double);
+          fields.add(CT.FV_COBZ_ID, 0, Types.long);
+          fields.add(CT.COBZ_ID, 0, Types.long);
 
           transaction.addRegister(register);
 
@@ -4245,13 +4245,13 @@
 
         // this means the NC must be generated by the payment
         //
-        fields.add(CV.FV_ID_NOTA_CREDITO, -1, Types.id);
-        fields.add(C.FVD_ID_NOTA_CREDITO, -1, Types.id);
+        fields.add(CT.FV_ID_NOTA_CREDITO, -1, Types.id);
+        fields.add(CT.FVD_ID_NOTA_CREDITO, -1, Types.id);
 
-        fields.add(CV.FV_ID_FACTURA, fvIdFactura, Types.id);
-        fields.add(C.FVD_ID_FACTURA, fvdIdFactura, Types.id);
-        fields.add(CV.FV_NC_IMPORTE, importe, Types.double);
-        fields.add(CV.FV_NC_ID, 0, Types.long);
+        fields.add(CT.FV_ID_FACTURA, fvIdFactura, Types.id);
+        fields.add(CT.FVD_ID_FACTURA, fvdIdFactura, Types.id);
+        fields.add(CT.FV_NC_IMPORTE, importe, Types.double);
+        fields.add(CT.FV_NC_ID, 0, Types.long);
 
         transaction.addRegister(register);
 
