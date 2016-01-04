@@ -28,25 +28,25 @@ http://www.crowsoft.com.ar
 
 javier at crowsoft.com.ar
 */
--- Function: sp_doc_orden_pago_set_estado()
+-- Function: sp_doc_cobranza_set_estado()
 
--- drop function sp_doc_orden_pago_set_estado(integer, integer);
+-- drop function sp_doc_cobranza_set_estado(integer, integer);
 
 /*
-          select * from ordenpago;
-          select * from sp_doc_orden_pago_set_estado(3,1);
+          select * from cobranza;
+          select * from sp_doc_cobranza_set_estado(3,1);
 */
 
-create or replace function sp_doc_orden_pago_set_estado
+create or replace function sp_doc_cobranza_set_estado
 (
-  in p_opg_id integer,
+  in p_cobz_id integer,
   out p_est_id integer
 )
   returns integer as
 $BODY$
 declare
    v_est_id integer;
-   v_prov_id integer;
+   v_cli_id integer;
    v_pendiente decimal(18,6);
    v_llevaFirma smallint;
    v_firmado smallint;
@@ -59,22 +59,22 @@ declare
    v_estado_anulado integer := 7;
 begin
 
-   if p_opg_id = 0 then
+   if p_cobz_id = 0 then
       return;
    end if;
 
-   select prov_id,
-          opg_firmado,
+   select cli_id,
+          cobz_firmado,
           est_id,
-          round(opg_pendiente, 2),
+          round(cobz_pendiente, 2),
           doc_id
-     into v_prov_id,
+     into v_cli_id,
           v_firmado,
           v_est_id,
           v_pendiente,
           v_doc_id
-   from OrdenPago
-   where opg_id = p_opg_id;
+   from Cobranza
+   where cobz_id = p_cobz_id;
 
    select doc_llevafirma
      into v_doc_llevafirma
@@ -107,9 +107,9 @@ begin
 
       end if;
 
-      update OrdenPago
+      update Cobranza
          set est_id = v_est_id
-      where opg_id = p_opg_id;
+      where cobz_id = p_cobz_id;
 
    end if;
 
@@ -118,12 +118,12 @@ begin
 exception
    when others then
 
-   raise exception 'Ha ocurrido un error al actualizar el estado de la orden de pago. sp_doc_orden_pago_set_estado. %. %.',
+   raise exception 'Ha ocurrido un error al actualizar el estado de la cobranza. sp_doc_cobranza_set_estado. %. %.',
                    sqlstate, sqlerrm;
 
 end;
 $BODY$
   language plpgsql volatile
   cost 100;
-alter function sp_doc_orden_pago_set_estado(integer)
+alter function sp_doc_cobranza_set_estado(integer)
   owner to postgres;

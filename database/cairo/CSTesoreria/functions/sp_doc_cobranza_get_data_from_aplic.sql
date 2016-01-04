@@ -33,7 +33,7 @@ javier at crowsoft.com.ar
 -- drop function sp_doc_cobranza_get_data_from_aplic(integer, varchar);
 
 /*
-select * from sp_doc_cobranza_get_data_from_aplic('22,23,24,25,26,27,28');
+select * from sp_doc_cobranza_get_data_from_aplic(1,'22,23,24,25,26,27,28');
 fetch all from rtn;
 */
 

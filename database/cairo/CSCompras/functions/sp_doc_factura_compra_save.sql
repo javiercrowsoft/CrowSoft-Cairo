@@ -311,6 +311,7 @@ begin
 
       select sp_dbGetNewId('FacturaCompra', 'fc_id') into v_fc_id;
       select sp_dbGetNewId('FacturaCompra', 'fc_numero') into v_fc_numero;
+
       select * from sp_talonario_get_propuesto(v_doc_id, 0, v_prov_id) into dummyChar, v_ta_propuesto, v_ta_id, v_ta_tipo;
 
       if v_ta_propuesto = 0 then

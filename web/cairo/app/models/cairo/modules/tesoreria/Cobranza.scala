@@ -1240,6 +1240,7 @@ object Cobranza {
     def getFacturaFields(item: FacturaCobranza, cobzTMPId: Int) = {
       List(
         Field(C.COBZ_TMP_ID, cobzTMPId, FieldType.id),
+        Field(C.COBZ_ID, 0, FieldType.number),
         Field(C.FV_COBZ_ID, 0, FieldType.number),
         Field(C.FV_ID, item.fvId, FieldType.id),
         Field(C.FVD_ID, item.fvdId, FieldType.id),

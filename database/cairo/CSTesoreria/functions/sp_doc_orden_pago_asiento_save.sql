@@ -118,14 +118,14 @@ begin
       return;
    end if;
 
-    select  as_id,
-            prov_id,
-            doc_id
-    into  v_as_id,
-          v_prov_id,
-          v_doc_id_OrdenPago
-    from OrdenPago
-    where opg_id = p_opg_id;
+   select  as_id,
+           prov_id,
+           doc_id
+   into  v_as_id,
+         v_prov_id,
+         v_doc_id_OrdenPago
+   from OrdenPago
+   where opg_id = p_opg_id;
 
    v_as_id := coalesce(v_as_id, 0);
 
@@ -187,20 +187,20 @@ begin
 
       insert into Asiento( as_id, as_numero, as_nrodoc, as_descrip, as_fecha, as_doc_cliente, doc_id, doct_id,
                            doct_id_cliente, doc_id_cliente, id_cliente, modifico )
-        ( select v_as_id,
-                 v_as_numero,
-                 v_as_nrodoc,
-                 opg_descrip,
-                 opg_fecha,
-                 v_as_doc_cliente,
-                 v_doc_id,
-                 v_doct_id,
-                 v_doct_id_OrdenPago,
-                 v_doc_id_cliente,
-                 p_opg_id,
-                 modifico
-          from OrdenPago
-          where opg_id = p_opg_id );
+         ( select v_as_id,
+                  v_as_numero,
+                  v_as_nrodoc,
+                  opg_descrip,
+                  opg_fecha,
+                  v_as_doc_cliente,
+                  v_doc_id,
+                  v_doct_id,
+                  v_doct_id_OrdenPago,
+                  v_doc_id_cliente,
+                  p_opg_id,
+                  modifico
+           from OrdenPago
+           where opg_id = p_opg_id );
 
 /*
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

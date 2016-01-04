@@ -283,6 +283,8 @@ begin
       return;
    end if;
 
+   set TRANSACTION READ WRITE;
+
 /*
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //                                                                                                                    //
@@ -296,6 +298,7 @@ begin
 
       select sp_dbGetNewId('FacturaVenta', 'fv_id') into v_fv_id;
       select sp_dbGetNewId('FacturaVenta', 'fv_numero') into v_fv_numero;
+
       select * from sp_talonario_get_propuesto(v_doc_id, v_cli_id, 0) into dummyChar, v_ta_propuesto, v_ta_id, v_ta_tipo;
 
       if v_ta_propuesto = 0 then
