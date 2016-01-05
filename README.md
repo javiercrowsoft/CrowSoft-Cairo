@@ -1,7 +1,7 @@
 CrowSoft-Cairo
 ==============
 
-ERP application written in Java / Scala using Play Framework 2.0+ and Postgresql
+ERP application written in Java / Scala using Play Framework 2.0+, jQuery, Backbone.js, Marionette.js and Postgresql
 
 ![screen1](https://cloud.githubusercontent.com/assets/1075455/12122561/a0b1475c-b3ba-11e5-8972-9cdba7ce462e.png)
 
