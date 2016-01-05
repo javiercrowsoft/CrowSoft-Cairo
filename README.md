@@ -3,6 +3,8 @@ CrowSoft-Cairo
 
 ERP application written in Java / Scala using Play Framework 2.0+, jQuery, Backbone.js, Marionette.js and Postgresql
 
+[![CrowSoft Cairo Web - Demo of Product Edition](https://cloud.githubusercontent.com/assets/1075455/12123469/e80e9bb8-b3bf-11e5-8c86-976c294baf3f.png)](https://www.youtube.com/watch?v=MSn4-MozrsY)
+
 ![screen1](https://cloud.githubusercontent.com/assets/1075455/12122561/a0b1475c-b3ba-11e5-8972-9cdba7ce462e.png)
 
 ![screen2](https://cloud.githubusercontent.com/assets/1075455/12122579/b65f6ade-b3ba-11e5-8cc9-966508b32a35.png)
