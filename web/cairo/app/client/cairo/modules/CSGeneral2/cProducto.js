@@ -4525,171 +4525,171 @@
       };
 
       var isEmptyRowProveedor = function(row, rowIndex) {
-        var cell = null;
-        var rowIsEmpty = true;
 
         var _count = row.size();
         for(var _i = 0; _i < _count; _i++) {
-          cell = row.item(_i);
+
+          var cell = row.item(_i);
+
           switch (cell.getKey()) {
             case KIK_PROV_ID:
               if(!valEmpty(cell.getValue(), Types.text)) {
-                rowIsEmpty = false;
+                return false;
               }
               break;
 
             case KIK_PROV_NOMBRE:
               if(!valEmpty(cell.getValue(), Types.text)) {
-                rowIsEmpty = false;
+                return false;
               }
               break;
 
             case KIK_PROV_CODIGO:
               if(!valEmpty(cell.getValue(), Types.text)) {
-                rowIsEmpty = false;
+                return false;
               }
               break;
 
             case KIK_PROV_CODBARRA:
               if(!valEmpty(cell.getValue(), Types.text)) {
-                rowIsEmpty = false;
+                return false;
               }
               break;
 
             case KIK_PA_ID:
               if(!valEmpty(cell.getValue(), Types.text)) {
-                rowIsEmpty = false;
+                return false;
               }
               break;
           }
         }
 
-        return rowIsEmpty;
+        return true;
       };
 
       var isEmptyRowCliente = function(row, rowIndex) {
-        var cell = null;
-        var rowIsEmpty = true;
 
         var _count = row.size();
         for(var _i = 0; _i < _count; _i++) {
-          cell = row.item(_i);
+
+          var cell = row.item(_i);
+
           switch (cell.getKey()) {
             case KIK_CLI_ID:
               if(!valEmpty(cell.getValue(), Types.text)) {
-                rowIsEmpty = false;
+                return false;
               }
               break;
 
             case KIK_CLI_NOMBRE:
               if(!valEmpty(cell.getValue(), Types.text)) {
-                rowIsEmpty = false;
+                return false;
               }
               break;
 
             case KIK_CLI_CODIGO:
               if(!valEmpty(cell.getValue(), Types.text)) {
-                rowIsEmpty = false;
+                return false;
               }
               break;
 
             case KIK_CLI_CODBARRA:
               if(!valEmpty(cell.getValue(), Types.text)) {
-                rowIsEmpty = false;
+                return false;
               }
               break;
           }
         }
 
-        return rowIsEmpty;
+        return true;
       };
 
       var isEmptyRowLeyendas = function(row, rowIndex) {
-        var cell = null;
-        var rowIsEmpty = true;
 
         var _count = row.size();
         for(var _i = 0; _i < _count; _i++) {
-          cell = row.item(_i);
+
+          var cell = row.item(_i);
+
           switch (cell.getKey()) {
             case KIPRL_NOMBRE:
               if(!valEmpty(cell.getValue(), Types.text)) {
-                rowIsEmpty = false;
+                return false;
               }
               break;
 
             case KIPRL_TEXTO:
               if(!valEmpty(cell.getValue(), Types.text)) {
-                rowIsEmpty = false;
+                return false;
               }
               break;
           }
         }
 
-        return rowIsEmpty;
+        return true;
       };
 
       var isEmptyRowCMI = function(row, rowIndex) {
-        var cell = null;
-        var rowIsEmpty = true;
 
         var _count = row.size();
         for(var _i = 0; _i < _count; _i++) {
-          cell = row.item(_i);
+
+          var cell = row.item(_i);
+
           switch (cell.getKey()) {
             case KICMI_CMI_ID:
               if(!valEmpty(cell.getValue(), Types.text)) {
-                rowIsEmpty = false;
+                return false;
               }
               break;
 
             case KICMI_CODIGO:
               if(!valEmpty(cell.getValue(), Types.text)) {
-                rowIsEmpty = false;
+                return false;
               }
               break;
           }
         }
 
-        return rowIsEmpty;
+        return true;
       };
 
       var isEmptyRowWebImages = function(row, rowIndex) {
-        var cell = null;
-        var rowIsEmpty = true;
 
         var _count = row.size();
         for(var _i = 0; _i < _count; _i++) {
-          cell = row.item(_i);
+
+          var cell = row.item(_i);
+
           switch (cell.getKey()) {
             case KIWI_IMAGE:
               if(!valEmpty(cell.getValue(), Types.text)) {
-                rowIsEmpty = false;
+                return false;
               }
               break;
 
             case KIWI_ALT:
               if(!valEmpty(cell.getValue(), Types.text)) {
-                rowIsEmpty = false;
+                return false;
               }
               break;
           }
         }
 
-        return rowIsEmpty;
+        return true;
       };
 
       var isEmptyRowTags = function(row, rowIndex) {
-        var cell = null;
-        var rowIsEmpty = true;
 
         var _count = row.size();
         for(var _i = 0; _i < _count; _i++) {
-          cell = row.item(_i);
+
+          var cell = row.item(_i);
+
           switch (cell.getKey()) {
             case KIT_TEXTO:
               if(!valEmpty(cell.getValue(), Types.text)) {
-                rowIsEmpty = false;
+                return false;
               }
               break;
 
@@ -4697,20 +4697,20 @@
             case KIT_EXPOCAIRO:
               if(!valEmpty(cell.getValue(), Types.integer)) {
                 if(val(cell.getValue()) !== 50) {
-                  rowIsEmpty = false;
+                  return false;
                 }
               }
               break;
 
             case KIT_PR_ID_TAG:
               if(!valEmpty(cell.getValue(), Types.text)) {
-                rowIsEmpty = false;
+                return false;
               }
               break;
           }
         }
 
-        return rowIsEmpty;
+        return true;
       };
 
       var setGridProveedor = function(property) {

@@ -57,6 +57,7 @@ declare
    v_asi_debe decimal(18,6);
    v_asi_haber decimal(18,6);
    v_asi_origen decimal(18,6);
+   v_asi_descrip varchar(5000);
 
    v_cli_id integer;
    v_doc_id_cobranza integer;
@@ -230,33 +231,28 @@ begin
 /*
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //                                                                                                                    //
-//                                        ITEMS                                                                       //
+//                                        items                                                                       //
 //                                                                                                                    //
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 */
-   -- Borro todos los items y solo hago inserts que se mucho mas simple y rapido
-   delete AsientoItem
-
-      where as_id = v_as_id;
+   -- borro todos los items y solo hago inserts que se mucho mas simple y rapido
+   --
+   delete from AsientoItem where as_id = v_as_id;
 
    v_asi_orden := 1;
-
-   v_c_CobranzaItemAsiento := '';
 
    -- Cheques
    -- Efectivo
    -- Tarjeta
    -- Otros
    -- Debe
-   open c_CobranzaItemAsiento for
-      v_c_CobranzaItemAsiento;
 
    for v_cobzi_importe,v_cobzi_importeorigen,v_cue_id,v_ccos_id,v_cheq_id,v_asi_descrip in
         select cobzi.cobzi_importe,
                cobzi.cobzi_importeorigen,
                case
-                  when cobzi.cobzi_tipo = 3 and cobzi.cobzi_tarjetaTipo = 1 then tc.cue_id_presentado
-                  when cobzi.cobzi_tipo = 3 and cobzi.cobzi_tarjetaTipo = 2 then tc.cue_id_encartera
+                  when cobzi.cobzi_tipo = 3 and cobzi.cobzi_tarjetaTipo = 1 then t.cue_id_presentado
+                  when cobzi.cobzi_tipo = 3 and cobzi.cobzi_tarjetaTipo = 2 then t.cue_id_encartera
                   else cobzi.cue_id
                end cue_id,
                cobzi.ccos_id,
@@ -313,155 +309,95 @@ begin
    -- CtaCte
    -- Otros
    -- Haber
-   open c_CobranzaItemAsiento for
-      v_c_CobranzaItemAsiento;
 
    for v_cobzi_importe,v_cobzi_importeorigen,v_cue_id,v_ccos_id,v_asi_descrip in
         select sum(cobzi_importe),
-           sum(cobzi_importeorigen),
-           cue_id,
-           ccos_id
-             from CobranzaItem
-              where cobz_id = p_cobz_id
-             and ( cobzi_tipo = 5
-             or ( cobzi_tipo = 4
-             and cobzi_otroTipo = 2 ) )
-             group by cue_id,ccos_id
-
+               sum(cobzi_importeorigen),
+               cue_id,
+               ccos_id,
+               ''
+        from CobranzaItem
+        where cobz_id = p_cobz_id
+          and ( cobzi_tipo = 5 or ( cobzi_tipo = 4 and cobzi_otroTipo = 2 ) )
+        group by cue_id,ccos_id
    loop
-      begin
-         select mon_id
-           into v_mon_id
-           from Cuenta
-            where cue_id = v_cue_id;
 
-         v_asi_haber := v_cobzi_importe;
+      select mon_id
+        into v_mon_id
+      from Cuenta
+      where cue_id = v_cue_id;
 
-         v_asi_origen := v_cobzi_importeorigen;
+      v_asi_haber := v_cobzi_importe;
 
-         sp_doc_asiento_save_item(v_is_new,
-                               0,
-                               v_as_id,
-                               v_asi_orden,
-                               0,
-                               v_asi_haber,
-                               v_asi_origen,
-                               0,
-                               v_mon_id,
-                               v_cue_id,
-                               v_ccos_id,
-                               null,
-                               v_error);
+      v_asi_origen := v_cobzi_importeorigen;
 
-         if v_error <> 0 then
-            exit CONTROL_ERROR;
+      perform sp_doc_asiento_save_item(
+                            v_is_new,
+                            0,
+                            v_as_id,
+                            v_asi_orden,
+                            0,
+                            v_asi_haber,
+                            v_asi_origen,
+                            0,
+                            v_mon_id,
+                            v_cue_id,
+                            v_ccos_id,
+                            null,
+                            v_asi_descrip);
 
-         end if;
+      v_asi_orden := v_asi_orden + 1;
 
-         v_asi_orden := v_asi_orden + 1;
-
-         fetch c_CobranzaItemAsiento into v_cobzi_importe,v_cobzi_importeorigen,v_cue_id,v_ccos_id;
-
-      end;
    end loop;
 
-   -- While
-   close c_CobranzaItemAsiento;
-
-   /*
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//                                                                                                               //
-//                                Valido el Asiento                                                              //
-//                                                                                                               //
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/*
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//                                                                                                                    //
+//                                valido el asiento                                                                   //
+//                                                                                                                    //
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 */
-   sp_doc_asiento_validate(v_as_id,
-                                 v_error,
-                                 p_error_msg);
+   select * from sp_doc_asiento_validate(v_as_id) into v_error, p_error_msg;
 
    if v_error <> 0 then
-      exit CONTROL_ERROR;
-
+      raise exception '%', p_error_msg;
    end if;
 
-   /*
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//                                                                                                               //
-//                                Talonario                                                                      //
-//                                                                                                               //
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/*
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//                                                                                                                    //
+//                                talonario                                                                           //
+//                                                                                                                    //
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 */
+
    select ta_id
      into v_ta_id
-     from Documento
-      where doc_id = v_doc_id;
+   from Documento
+   where doc_id = v_doc_id;
 
-   sp_talonario_set(v_ta_id,
-                   v_as_nrodoc);
+   perform sp_talonario_set(v_ta_id, v_as_nrodoc);
 
-   /*
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//                                                                                                               //
-//                                Vinculo la Cobranza con su asiento                                              //
-//                                                                                                               //
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/*
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//                                                                                                                    //
+//                                vinculo la cobranza con su asiento                                                  //
+//                                                                                                                    //
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 */
    update Cobranza
       set as_id = v_as_id,
           cobz_grabarasiento = 0
-      where cobz_id = p_cobz_id;
-
-   COMMIT;
+   where cobz_id = p_cobz_id;
 
    p_error := 0;
-
-   begin
-      select 1 into v_temp
-        from DUAL
-       where p_bSelect <> 0;
-   exception
-      when others then
-         null;
-   end;
-
-   if v_temp = 1 then
-      open rtn for
-         select v_as_id
-           from DUAL ;
-
-   end if;
-
-   return;
-
-   <<CONTROL_ERROR>>
-
-   p_error := -1;
-
-   if p_error_msg is not null then
-      p_error_msg := p_error_msg || ';;';
-
-   end if;
-
-   p_error_msg := coalesce(p_error_msg, '') || 'Ha ocurrido un error al grabar la cobranza. sp_doc_cobranzaAsientoSave.';
-
-   if p_raise_error <> 0 then
-   begin
-      raise exception ( -20002, p_error_msg );
-
-   end;
-   end if;
-
-   ROLLBACK;
-
-end;
---done
 
 exception
    when others then
 
       if p_raise_error <> 0 then
 
-         raise exception 'Ha ocurrido un error al grabar la Orden de Pago. sp_doc_cobranza_asiento_save. %. %.',
+         raise exception 'Ha ocurrido un error al grabar la cobranza. sp_doc_cobranza_asiento_save. %. %.',
                          sqlstate, sqlerrm;
       else
 

@@ -194,20 +194,20 @@ begin
 
                      v_error := 1;
                      p_error_msg := p_error_msg || 'La factura indica '
-                                   || to_char(v_cant_kits, '#,###,###,##0.00')
+                                   || to_char(v_cant_kits, '9,999,999,990.00')
                                    || ' Kit "' || v_pr_nombreventa || '" compuesto(s) en total por '
-                                   || to_char(v_fvi_cantidad, '#,###,###,##0.00')
+                                   || to_char(v_fvi_cantidad, '9,999,999,990.00')
                                    || ' items' || ' y el movimiento de stock indica '
-                                   || to_char(v_sti_cantidad, '#,###,###,##0.00')
+                                   || to_char(v_sti_cantidad, '9,999,999,990.00')
                                    || CHR(10);
 
                   else
 
                      v_error := 1;
                      p_error_msg := p_error_msg || 'La factura indica '
-                                   || to_char(v_fvi_cantidad, '#,###,###,##0.00')
+                                   || to_char(v_fvi_cantidad, '9,999,999,990.00')
                                    || ' "' || v_pr_nombreventa || '" y el movimiento de stock indica '
-                                   || to_char(v_sti_cantidad, '#,###,###,##0.00')
+                                   || to_char(v_sti_cantidad, '9,999,999,990.00')
                                    || CHR(10);
 
                   end if;
@@ -252,9 +252,9 @@ begin
                         v_error := 1;
                         p_error_msg := p_error_msg || 'La factura indica que el Kit "'
                                       || v_pr_nombreventa || +'" lleva '
-                                      || to_char(v_prns_cantidad, '#,###,###,##0.00')
+                                      || to_char(v_prns_cantidad, '9,999,999,990.00')
                                       || ' "' || v_pr_item || '" y el movimiento de stock indica '
-                                      || to_char(v_sti_cantidad, '#,###,###,##0.00')
+                                      || to_char(v_sti_cantidad, '9,999,999,990.00')
                                       || CHR(10);
 
                      end if;
@@ -322,11 +322,11 @@ begin
 
                v_error := 1;
                p_error_msg := p_error_msg || 'La factura indica '
-                              || to_char(v_fvi_cantidad, '#,###,###,##0.00')
+                              || to_char(v_fvi_cantidad, '9,999,999,990.00')
                               || ' "' || v_pr_nombreventa || '" y el movimiento de stock indica '
-                              || to_char(v_sti_cantidad, '#,###,###,##0.00')
+                              || to_char(v_sti_cantidad, '9,999,999,990.00')
                               || ' y la ralacion venta-stock es '
-                              || to_char(coalesce(v_pr_ventastock, 1), '#,###,###,##0.00')
+                              || to_char(coalesce(v_pr_ventastock, 1), '9,999,999,990.00')
                               || CHR(10);
 
             end if;

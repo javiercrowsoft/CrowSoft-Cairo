@@ -3389,8 +3389,6 @@
 
       var isEmptyRowCheques = function(row, rowIndex) {
 
-        var rowIsEmpty = true;
-
         var _count = row.size();
         for(var _i = 0; _i < _count; _i++) {
 
@@ -3404,7 +3402,7 @@
             case KICH_CLE_ID:
 
               if(!valEmpty(cell.getId(), Types.id)) {
-                rowIsEmpty = false;
+                return false;
               }
               break;
 
@@ -3412,7 +3410,7 @@
             case KICH_IMPORTEORIGEN:
 
               if(!valEmpty(val(cell.getValue()), Types.double)) {
-                rowIsEmpty = false;
+                return false;
               }
               break;
 
@@ -3420,13 +3418,13 @@
             case KICH_CHEQUE:
 
               if(!valEmpty(cell.getValue(), Types.text)) {
-                rowIsEmpty = false;
+                return false;
               }
               break;
           }
         }
 
-        return rowIsEmpty;
+        return true;
       };
 
       var validateRowCheques = function(row, rowIndex) {
@@ -3506,8 +3504,6 @@
 
       var isEmptyRowTarjetas = function(row, rowIndex) {
 
-        var rowIsEmpty = true;
-
         var _count = row.size();
         for(var _i = 0; _i < _count; _i++) {
 
@@ -3519,7 +3515,7 @@
             case KIT_TJCCU_ID:
 
               if(!valEmpty(cell.getId(), Types.id)) {
-                rowIsEmpty = false;
+                return false;
               }
               break;
 
@@ -3527,7 +3523,7 @@
             case KIT_IMPORTEORIGEN:
 
               if(!valEmpty(val(cell.getValue()), Types.double)) {
-                rowIsEmpty = false;
+                return false;
               }
               break;
 
@@ -3537,19 +3533,19 @@
             case KIT_DESCRIP:
 
               if(!valEmpty(cell.getValue(), Types.text)) {
-                rowIsEmpty = false;
+                return false;
               }
               break;
 
             case KIT_FECHAVTO:
               if(!valEmpty(cell.getValue(), Types.date)) {
-                rowIsEmpty = false;
+                return false;
               }
               break;
           }
         }
 
-        return rowIsEmpty;
+        return true;
       };
 
       var validateRowTarjetas = function(row, rowIndex) {
@@ -3623,8 +3619,6 @@
 
       var isEmptyRowOtros = function(row, rowIndex) {
 
-        var rowIsEmpty = true;
-
         var _count = row.size();
         for(var _i = 0; _i < _count; _i++) {
 
@@ -3637,7 +3631,7 @@
             case KIO_RET_ID:
 
               if(!valEmpty(cell.getId(), Types.id)) {
-                rowIsEmpty = false;
+                return false;
               }
               break;
 
@@ -3647,7 +3641,7 @@
             case KIO_PORCRETENCION:
 
               if(!valEmpty(val(cell.getValue()), Types.double)) {
-                rowIsEmpty = false;
+                return false;
               }
               break;
 
@@ -3655,20 +3649,20 @@
             case KIO_DESCRIP:
 
               if(!valEmpty(cell.getValue(), Types.text)) {
-                rowIsEmpty = false;
+                return false;
               }
               break;
 
             case KIO_FECHARETENCION:
 
               if(!valEmpty(cell.getValue(), Types.date)) {
-                rowIsEmpty = false;
+                return false;
               }
               break;
           }
         }
 
-        return rowIsEmpty;
+        return true;
       };
 
       var validateRowOtros = function(row, rowIndex) {
@@ -3731,8 +3725,6 @@
 
       var isEmptyRowCtaCte = function(row, rowIndex) {
 
-        var rowIsEmpty = true;
-
         var _count = row.size();
         for(var _i = 0; _i < _count; _i++) {
 
@@ -3742,20 +3734,20 @@
 
             case KICC_CUE_ID:
               if(!valEmpty(cell.getId(), Types.id)) {
-                rowIsEmpty = false;
+                return false;
               }
               break;
 
             case KICC_IMPORTE:
             case KICC_IMPORTEORIGEN:
               if(!valEmpty(val(cell.getValue()), Types.double)) {
-                rowIsEmpty = false;
+                return false;
               }
               break;
           }
         }
 
-        return rowIsEmpty;
+        return true;
       };
 
       var validateRowCtaCte = function(row, rowIndex) {
@@ -3810,8 +3802,6 @@
 
       var isEmptyRowEfectivo = function(row, rowIndex) {
 
-        var rowIsEmpty = true;
-
         var _count = row.size();
         for(var _i = 0; _i < _count; _i++) {
 
@@ -3821,7 +3811,7 @@
 
             case KIE_CUE_ID:
               if(!valEmpty(cell.getId(), Types.id)) {
-                rowIsEmpty = false;
+                return false;
               }
               break;
 
@@ -3829,20 +3819,20 @@
             case KIE_IMPORTEORIGEN:
 
               if(!valEmpty(val(cell.getValue()), Types.double)) {
-                rowIsEmpty = false;
+                return false;
               }
               break;
 
             case KIE_DESCRIP:
 
               if(!valEmpty(cell.getValue(), Types.text)) {
-                rowIsEmpty = false;
+                return false;
               }
               break;
           }
         }
 
-        return rowIsEmpty;
+        return true;
       };
 
       var validateRowEfectivo = function(row, rowIndex) {

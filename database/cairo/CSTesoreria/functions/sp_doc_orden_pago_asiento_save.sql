@@ -631,7 +631,7 @@ exception
 
       if p_raise_error <> 0 then
 
-         raise exception 'Ha ocurrido un error al grabar la Orden de Pago. sp_doc_orden_pago_asiento_save. %. %.',
+         raise exception 'Ha ocurrido un error al grabar la orden de pago. sp_doc_orden_pago_asiento_save. %. %.',
                          sqlstate, sqlerrm;
       else
 

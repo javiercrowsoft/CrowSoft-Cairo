@@ -436,7 +436,13 @@ case class ClienteInfo(
                           ldId: Int,
                           ldName: String,
                           ivaRi: Boolean,
-                          ivaRni: Boolean
+                          ivaRni: Boolean,
+                          venId: Int,
+                          venName: String,
+                          transId: Int,
+                          transName: String,
+                          proId: Int,
+                          proName: String
                           )
 
 case class ClienteCuitInfo(
@@ -1555,7 +1561,7 @@ object Cliente {
 
     DB.withTransaction(user.database.database) { implicit connection =>
 
-      val sql = "{call sp_cliente_get_info(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}"
+      val sql = "{call sp_cliente_get_info(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}"
       val cs = connection.prepareCall(sql)
 
       cs.setInt(1, id)
@@ -1569,6 +1575,12 @@ object Cliente {
       cs.registerOutParameter(9, Types.VARCHAR)
       cs.registerOutParameter(10, Types.SMALLINT)
       cs.registerOutParameter(11, Types.SMALLINT)
+      cs.registerOutParameter(12, Types.INTEGER)
+      cs.registerOutParameter(13, Types.VARCHAR)
+      cs.registerOutParameter(14, Types.INTEGER)
+      cs.registerOutParameter(15, Types.VARCHAR)
+      cs.registerOutParameter(16, Types.INTEGER)
+      cs.registerOutParameter(17, Types.VARCHAR)
 
       try {
         cs.execute()
@@ -1582,7 +1594,13 @@ object Cliente {
           cs.getInt(8),
           cs.getString(9),
           cs.getShort(10) != 0,
-          cs.getShort(11) != 0
+          cs.getShort(11) != 0,
+          cs.getInt(12),
+          cs.getString(13),
+          cs.getInt(14),
+          cs.getString(15),
+          cs.getInt(16),
+          cs.getString(17)
         )
 
       } catch {

@@ -862,7 +862,7 @@
 
         var cueId = getCuentaAnticipo().getSelectId();
         if(cueId !== NO_ID) {
-          D.getCurrencyFromAccount(cueId, Cairo.Dates.today())
+          D.getCurrencyFromAccount(cueId)
             .whenSuccessWithResult(function(response) {
               var monId = valField(response.data, C.MON_ID);
               var monName = valField(response.data, C.MON_NAME);
@@ -2663,7 +2663,6 @@
       };
 
       var isEmptyRowCheques = function(row, rowIndex) {
-        var rowIsEmpty = true;
 
         for(var _i = 0, _count = row.size(); _i < _count; _i++) {
 
@@ -2676,27 +2675,27 @@
             case KICH_MON_ID:
             case KICH_CLE_ID:
               if(!valEmpty(cell.getId(), Types.id)) {
-                rowIsEmpty = false;
+                return false;
               }
               break;
 
             case KICH_IMPORTE:
             case KICH_IMPORTEORIGEN:
               if(!valEmpty(val(cell.getValue()), Types.double)) {
-                rowIsEmpty = false;
+                return false;
               }
               break;
 
             case KICH_DESCRIP:
             case KICH_CHEQUE:
               if(!valEmpty(cell.getValue(), Types.text)) {
-                rowIsEmpty = false;
+                return false;
               }
               break;
           }
         }
 
-        return rowIsEmpty;
+        return true;
       };
 
       var validateRowCheques = function(row, rowIndex) {
@@ -2784,8 +2783,6 @@
 
       var isEmptyRowTarjetas = function(row, rowIndex) {
 
-        var rowIsEmpty = true;
-
         for(var _i = 0, _count = row.size(); _i < _count; _i++) {
 
           var cell = row.item(_i);
@@ -2797,7 +2794,7 @@
             case KIT_TJCCU_ID:
 
               if(!valEmpty(cell.getId(), Types.id)) {
-                rowIsEmpty = false;
+                return false;
               }
               break;
 
@@ -2805,7 +2802,7 @@
             case KIT_IMPORTEORIGEN:
 
               if(!valEmpty(val(cell.getValue()), Types.double)) {
-                rowIsEmpty = false;
+                return false;
               }
               break;
 
@@ -2815,20 +2812,20 @@
             case KIT_DESCRIP:
 
               if(!valEmpty(cell.getValue(), Types.text)) {
-                rowIsEmpty = false;
+                return false;
               }
               break;
 
             case KIT_FECHAVTO:
 
               if(!valEmpty(cell.getValue(), Types.date)) {
-                rowIsEmpty = true;
+                return false;
               }
               break;
           }
         }
 
-        return rowIsEmpty;
+        return true;
       };
 
       var validateRowTarjetas = function(row, rowIndex) {
@@ -2906,7 +2903,6 @@
       };
 
       var isEmptyRowOtros = function(row, rowIndex) {
-        var rowIsEmpty = true;
 
         for(var _i = 0, _count = row.size(); _i < _count; _i++) {
 
@@ -2919,7 +2915,7 @@
             case KIO_RET_ID:
 
               if(!valEmpty(cell.getId(), Types.id)) {
-                rowIsEmpty = false;
+                return false;
               }
               break;
 
@@ -2929,7 +2925,7 @@
             case KIO_PORCRETENCION:
 
               if(!valEmpty(val(cell.getValue()), Types.double)) {
-                rowIsEmpty = true;
+                return false;
               }
               break;
 
@@ -2937,20 +2933,20 @@
             case KIO_DESCRIP:
 
               if(!valEmpty(cell.getValue(), Types.text)) {
-                rowIsEmpty = true;
+                return false;
               }
               break;
 
             case KIO_FECHARETENCION:
 
               if(!valEmpty(cell.getValue(), Types.date)) {
-                rowIsEmpty = true;
+                return false;
               }
               break;
           }
         }
 
-        return rowIsEmpty;
+        return true;
       };
 
       var validateRowOtros = function(row, rowIndex) {
@@ -2999,7 +2995,6 @@
       };
 
       var isEmptyRowEfectivo = function(row, rowIndex) {
-        var rowIsEmpty = true;
 
         for(var _i = 0, _count = row.size(); _i < _count; _i++) {
 
@@ -3009,7 +3004,7 @@
 
             case KIE_CUE_ID:
               if(!valEmpty(cell.getId(), Types.id)) {
-                rowIsEmpty = false;
+                return false;
               }
               break;
 
@@ -3017,24 +3012,24 @@
             case KIE_IMPORTEORIGEN:
 
               if(!valEmpty(val(cell.getValue()), Types.double)) {
-                rowIsEmpty = true;
+                return false;
               }
               break;
 
             case KIE_DESCRIP:
               if(!valEmpty(cell.getValue(), Types.text)) {
-                rowIsEmpty = true;
+                return false;
               }
               break;
           }
         }
 
-        return rowIsEmpty;
+        return true;
       };
 
       var validateRowEfectivo = function(row, rowIndex) {
+        var p = null;
         var bOrigen = 0;
-        var monId = NO_ID;
 
         var strRow = " (Row: " + rowIndex.toString() + ")";
 
@@ -3048,7 +3043,7 @@
               if(valEmpty(cell.getId(), Types.id)) {
                 return M.showInfoWithFalse(getText(2113, "", strRow)); // Debe indicar una cuenta contable (1)
               }
-              if(!Cairo.Database.getData(C.CUENTA, C.CUE_ID, cell.getId(), C.MON_ID, monId)) { return false; }
+              p = D.getCurrencyFromAccount(cell.getId())
               break;
 
             case KIE_IMPORTEORIGEN:
@@ -3063,11 +3058,15 @@
           }
         }
 
-        if(!bOrigen && monId !== m_defaultCurrency.id) {
-          return M.showInfoWithFalse(getText(2118, "", strRow)); // Debe indicar un importe para la moneda extranjera (1)
-        }
+        return p.whenSuccessWithResult(function(response) {
+          var monId = valField(response.data, C.MON_ID);
 
-        return Cairo.Promises.resolvedPromise(true);
+          if(!bOrigen && monId !== m_defaultCurrency.id) {
+            return M.showInfoWithFalse(getText(2118, "", strRow)); // Debe indicar un importe para la moneda extranjera (1)
+          }
+
+          return true;
+        });
       };
 
       var validateCobro = function() {

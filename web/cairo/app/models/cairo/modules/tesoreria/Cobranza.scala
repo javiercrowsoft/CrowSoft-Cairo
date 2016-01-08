@@ -1168,6 +1168,7 @@ object Cobranza {
       List(
         Field(C.COBZ_TMP_ID, cobzTMPId, FieldType.id),
         Field(C.COBZI_ID, item.id, FieldType.number),
+        Field(C.COBZI_TIPO, C.COBRANZA_ITEM_TIPO_CHEQUES, FieldType.number),
         Field(C.COBZI_DESCRIP, item.base.descrip, FieldType.text),
         Field(GC.CUE_ID, item.base.cueId, FieldType.id),
         Field(GC.CCOS_ID, item.base.ccosId, FieldType.id),
@@ -1181,6 +1182,7 @@ object Cobranza {
       List(
         Field(C.COBZ_TMP_ID, cobzTMPId, FieldType.id),
         Field(C.COBZI_ID, item.id, FieldType.number),
+        Field(C.COBZI_TIPO, C.COBRANZA_ITEM_TIPO_TARJETAS, FieldType.number),
         Field(C.COBZI_DESCRIP, item.base.descrip, FieldType.text),
         Field(GC.CUE_ID, item.base.cueId, FieldType.id),
         Field(GC.CCOS_ID, item.base.ccosId, FieldType.id),
@@ -1194,6 +1196,7 @@ object Cobranza {
       List(
         Field(C.COBZ_TMP_ID, cobzTMPId, FieldType.id),
         Field(C.COBZI_ID, item.id, FieldType.number),
+        Field(C.COBZI_TIPO, C.COBRANZA_ITEM_TIPO_EFECTIVO, FieldType.number),
         Field(C.COBZI_DESCRIP, item.base.descrip, FieldType.text),
         Field(GC.CUE_ID, item.base.cueId, FieldType.id),
         Field(GC.CCOS_ID, item.base.ccosId, FieldType.id),
@@ -1207,6 +1210,7 @@ object Cobranza {
       List(
         Field(C.COBZ_TMP_ID, cobzTMPId, FieldType.id),
         Field(C.COBZI_ID, item.id, FieldType.number),
+        Field(C.COBZI_TIPO, C.COBRANZA_ITEM_TIPO_OTROS, FieldType.number),
         Field(C.COBZI_DESCRIP, item.base.descrip, FieldType.text),
         Field(GC.CUE_ID, item.base.cueId, FieldType.id),
         Field(GC.CCOS_ID, item.base.ccosId, FieldType.id),
@@ -1220,6 +1224,7 @@ object Cobranza {
       List(
         Field(C.COBZ_TMP_ID, cobzTMPId, FieldType.id),
         Field(C.COBZI_ID, item.id, FieldType.number),
+        Field(C.COBZI_TIPO, C.COBRANZA_ITEM_TIPO_CTA_CTE, FieldType.number),
         Field(C.COBZI_DESCRIP, item.base.descrip, FieldType.text),
         Field(GC.CUE_ID, item.base.cueId, FieldType.id),
         Field(GC.CCOS_ID, item.base.ccosId, FieldType.id),

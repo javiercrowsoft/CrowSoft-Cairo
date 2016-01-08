@@ -50,7 +50,13 @@ create or replace function sp_cliente_get_info
   out p_ld_id integer,
   out p_ld_name varchar,
   out p_bIvari smallint,
-  out p_bIvarni smallint
+  out p_bIvarni smallint,
+  out p_ven_id integer,
+  out p_ven_name varchar,
+  out p_trans_id integer,
+  out p_trans_name varchar,
+  out p_pro_id integer,
+  out p_pro_name varchar
 )
   returns record as
 $BODY$
@@ -63,15 +69,27 @@ declare
       v_ld_id integer;
       v_ld_name varchar;
       v_mon_id integer;
+      v_ven_id integer;
+      v_ven_name varchar;
+      v_trans_id integer;
+      v_trans_name varchar;
+      v_pro_id integer;
+      v_pro_name varchar;
 begin
 
 
       select lp_id,
              ld_id,
-             cpg_id
+             cpg_id,
+             ven_id,
+             trans_id,
+             pro_id
         into v_lp_id,
              v_ld_id,
-             v_cpg_id
+             v_cpg_id,
+             v_ven_id,
+             v_trans_id,
+             v_pro_id
       from cliente
       where cli_id = p_cli_id;
 
@@ -126,6 +144,18 @@ begin
         select cpg_nombre, cpg_eslibre into v_cpg_name, v_cpg_eslibre from condicionpago where cpg_id = v_cpg_id;
       end if;
 
+      if v_ven_id is not null then
+        select ven_nombre into v_ven_name from vendedor where ven_id = v_ven_id;
+      end if;
+
+      if v_trans_id is not null then
+        select trans_nombre into v_trans_name from transporte where trans_id = v_trans_id;
+      end if;
+
+      if v_pro_id is not null then
+        select pro_nombre into v_pro_name from provincia where pro_id = v_pro_id;
+      end if;
+
       select * from sp_cliente_get_iva(p_cli_id) into p_bIvari, p_bIvarni;
 
       p_lp_id := coalesce(v_lp_id, 0);
@@ -135,6 +165,12 @@ begin
       p_cpg_id := coalesce(v_cpg_id, 0);
       p_cpg_name := coalesce(v_cpg_name, '');
       p_cpg_eslibre := coalesce(v_cpg_eslibre, 0);
+      p_ven_id := coalesce(v_ven_id, 0);
+      p_ven_name := coalesce(v_ven_name, '');
+      p_trans_id := coalesce(v_trans_id, 0);
+      p_trans_name := coalesce(v_trans_name, '');
+      p_pro_id := coalesce(v_pro_id, 0);
+      p_pro_name := coalesce(v_pro_name, '');
 
 end;
 $BODY$

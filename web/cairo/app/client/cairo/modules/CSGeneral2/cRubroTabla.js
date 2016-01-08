@@ -781,34 +781,34 @@
       };
 
       var isEmptyRowItems = function(row, rowIndex) {
-        var cell = null;
-        var rowIsEmpty = true;
 
         var _count = row.size();
         for(var _i = 0; _i < _count; _i++) {
-          cell = row.item(_i);
+
+          var cell = row.item(_i);
+
           switch (cell.getKey()) {
             case KI_NOMBRE:
               if(!valEmpty(cell.getValue(), Types.text)) {
-                rowIsEmpty = false;
+                return false;
               }
               break;
 
             case KI_CODIGO:
               if(!valEmpty(cell.getValue(), Types.text)) {
-                rowIsEmpty = false;
+                return false;
               }
               break;
 
             case KI_DESCRIP:
               if(!valEmpty(cell.getValue(), Types.text)) {
-                rowIsEmpty = false;
+                return false;
               }
               break;
           }
         }
 
-        return rowIsEmpty;
+        return true;
       };
 
       var showItems = function() {

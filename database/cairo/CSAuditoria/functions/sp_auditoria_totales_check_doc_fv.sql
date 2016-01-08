@@ -175,13 +175,13 @@ begin
                      || 'El total de esta factura no coincide con la suma de los totales de sus items'
                      || CHR(10)
                      || 'Importe + Percepciones: '
-                     || to_char(round(v_importe + v_percepciones, 2), '#,###,###,##0.00')
+                     || to_char(round(v_importe + v_percepciones, 2), '9,999,999,990.00')
                      || CHR(10)
                      || 'Total : '
-                     || to_char(round(v_fv_total, 2), '#,###,###,##0.00')
+                     || to_char(round(v_fv_total, 2), '9,999,999,990.00')
                      || CHR(10)
                      || 'Diferencia: '
-                     || to_char(round(round(v_importe + v_percepciones, 2) - round(v_fv_total, 2), 2), '#,###,###,##0.00')
+                     || to_char(round(round(v_importe + v_percepciones, 2) - round(v_fv_total, 2), 2), '9,999,999,990.00')
                      || CHR(10);
 
    end if;
@@ -211,11 +211,11 @@ begin
       p_error_msg := p_error_msg
                      || 'El total de percepcioens de esta factura no coincide con la suma de los totales de sus items de tipo percepcion'
                      || CHR(10)
-                     || 'Suma de Items: ' || to_char(round(v_percepciones, 2), '#,###,###,##0.00')
+                     || 'Suma de Items: ' || to_char(round(v_percepciones, 2), '9,999,999,990.00')
                      || CHR(10)
-                     || 'Total de Percepciones : ' || to_char(round(v_fv_percepciones, 2), '#,###,###,##0.00')
+                     || 'Total de Percepciones : ' || to_char(round(v_fv_percepciones, 2), '9,999,999,990.00')
                      || CHR(10)
-                     || 'Diferencia: ' || to_char(round(round(v_percepciones, 2) - round(v_fv_percepciones, 2), 2), '#,###,###,##0.00')
+                     || 'Diferencia: ' || to_char(round(round(v_percepciones, 2) - round(v_fv_percepciones, 2), 2), '9,999,999,990.00')
                      || CHR(10);
 
    end if;

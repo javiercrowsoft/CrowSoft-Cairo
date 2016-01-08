@@ -28,14 +28,13 @@ http://www.crowsoft.com.ar
 
 javier at crowsoft.com.ar
 */
--- Function: sp_auditoria_credito_check_doc_opg()
+-- Function: sp_auditoria_credito_check_doc_cobz_cliente()
 
--- drop function sp_auditoria_credito_check_doc_opg(integer);
+-- drop function sp_auditoria_credito_check_doc_cobz_cliente(integer);
 
-create or replace
-function sp_auditoria_credito_check_doc_opg
+create or replace function sp_auditoria_credito_check_doc_cobz_cliente
 (
-  in p_opg_id integer,
+  in p_cobz_id integer,
   out p_success integer,
   out p_error_msg varchar
 )
@@ -44,14 +43,14 @@ $BODY$
 declare
    v_error smallint;
    v_doct_id integer;
-   v_opg_nrodoc varchar(50);
-   v_opg_numero varchar(50);
+   v_cobz_nrodoc varchar(50);
+   v_cobz_numero varchar(50);
    v_est_id integer;
-   v_opg_pendiente decimal(18,6);
-   v_opg_total decimal(18,6);
+   v_cobz_pendiente decimal(18,6);
+   v_cobz_total decimal(18,6);
    v_aplicado decimal(18,6);
-   v_prov_id integer;
-   v_doct_ordenPago integer := 16;
+   v_cli_id integer;
+   v_doct_cobranza integer := 13;
    v_emp_id integer;
    v_pendiente decimal(18,6);
    v_cache decimal(18,6);
@@ -62,70 +61,69 @@ begin
    p_error_msg := '@@ERROR_SP:';
 
    select doct_id,
-          opg_nrodoc,
-          trim(to_char(opg_numero)),
+          cobz_nrodoc,
+          trim(to_char(cobz_numero)),
           est_id,
-          opg_pendiente,
-          opg_total,
-          prov_id,
+          cobz_pendiente,
+          cobz_total,
+          cli_id,
           emp_id
      into v_doct_id,
-          v_opg_nrodoc,
-          v_opg_numero,
+          v_cobz_nrodoc,
+          v_cobz_numero,
           v_est_id,
-          v_opg_pendiente,
-          v_opg_total,
-          v_prov_id,
+          v_cobz_pendiente,
+          v_cobz_total,
+          v_cli_id,
           v_emp_id
-   from OrdenPago
-   where opg_id = p_opg_id;
+   from Cobranza
+   where cobz_id = p_cobz_id;
 
-   if exists ( select prov_id
-               from ProveedorCacheCredito
-               where prov_id <> v_prov_id
-                 and doct_id = v_doct_ordenPago
-                 and id = p_opg_id ) then
-
+   if exists ( select cli_id
+               from ClienteCacheCredito
+               where cli_id <> v_cli_id
+                 and doct_id = v_doct_cobranza
+                 and id = p_cobz_id ) then
+   
       v_error := 1;
-      p_error_msg := p_error_msg
-                     || 'Esta orden de pago esta afectando el cache de credito de otro proveedor'
+      p_error_msg := p_error_msg 
+                     || 'Esta cobranza esta afectando el cache de credito de otro cliente ' 
                      || CHR(10);
 
    end if;
 
-   v_pendiente := round(v_opg_pendiente, 2);
+   v_pendiente := round(v_cobz_pendiente, 2);
 
    if abs(v_pendiente) >= 0.01 then
 
       if not exists ( select id
-                      from ProveedorCacheCredito
-                      where prov_id = v_prov_id
-                        and doct_id = v_doct_ordenPago
-                        and id = p_opg_id ) then
-
+                      from ClienteCacheCredito
+                      where cli_id = v_cli_id
+                        and doct_id = v_doct_cobranza
+                        and id = p_cobz_id ) then
+      
          v_error := 1;
-         p_error_msg := p_error_msg
-                        || 'Esta orden de pago tiene pendiente y no hay registro en el cache de credito'
+         p_error_msg := p_error_msg 
+                        || 'Esta cobranza tiene pendiente y no hay registro en el cache de credito' 
                         || CHR(10);
 
-
       else
-
-         select sum(provcc_importe)
+         
+         select sum(clicc_importe)
            into v_cache
-         from ProveedorCacheCredito
-         where prov_id = v_prov_id
-           and doct_id = v_doct_ordenPago
-           and id = p_opg_id
+         from ClienteCacheCredito
+         where cli_id = v_cli_id
+           and doct_id = v_doct_cobranza
+           and id = p_cobz_id
            and emp_id = v_emp_id;
 
          v_cache := coalesce(v_cache, 0);
 
          if abs(v_pendiente - v_cache) > 0.01 then
-
+         
             v_error := 1;
-            p_error_msg := p_error_msg
-                           || 'Esta orden de pago tiene un pendiente distinto al que figura en el cache de credito'
+            p_error_msg := p_error_msg 
+                           || 'Esta cobranza tiene un pendiente distinto al que figura en el cache de credito' 
                            || CHR(10);
 
          end if;
@@ -135,14 +133,14 @@ begin
    else
 
       if exists ( select id
-                  from ProveedorCacheCredito
-                  where prov_id = v_prov_id
-                    and doct_id = v_doct_ordenPago
-                    and id = p_opg_id ) then
+                  from ClienteCacheCredito
+                  where cli_id = v_cli_id
+                    and doct_id = v_doct_cobranza
+                    and id = p_cobz_id ) then
 
          v_error := 1;
-         p_error_msg := p_error_msg
-                        || 'Esta orden de pago no tiene pendiente y tiene registro en el cache de credito'
+         p_error_msg := p_error_msg 
+                        || 'Esta cobranza no tiene pendiente y tiene registro en el cache de credito' 
                         || CHR(10);
 
       end if;
@@ -159,5 +157,5 @@ end;
 $BODY$
   language plpgsql volatile
   cost 100;
-alter function sp_auditoria_credito_check_doc_opg(integer)
+alter function sp_auditoria_credito_check_doc_cobz_cliente(integer)
   owner to postgres;

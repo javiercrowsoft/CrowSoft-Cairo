@@ -2052,8 +2052,6 @@
 
       var isEmptyRowItems = function(row, rowIndex) {
 
-        var rowIsEmpty = true;
-
         var _count = row.size();
         for(var _i = 0; _i < _count; _i++) {
 
@@ -2064,29 +2062,26 @@
             case KI_CANTIDAD:
               if(!valEmpty(cell.getValue(), Types.currency)) {
                 if(val(cell.getValue()) !== 1) {
-                  rowIsEmpty = false;
-                  break;
+                  return false;
                 }
               }
               break;
 
             case KI_PRECIO:
               if(!valEmpty(cell.getValue(), Types.currency)) {
-                rowIsEmpty = false;
-                break;
+                return false;
               }
               break;
 
             case KI_PR_ID:
               if(!valEmpty(cell.getId(), Types.id)) {
-                rowIsEmpty = false;
-                break;
+                return false;
               }
               break;
           }
         }
 
-        return rowIsEmpty;
+        return true;
       };
 
       var validateRowItems = function(row, rowIndex) {

@@ -1588,7 +1588,6 @@
       };
 
       var isEmptyRowItems = function(row, rowIndex) {
-        var rowIsEmpty = true;
 
         for(var _i = 0, _count = row.size(); _i < _count; _i++) {
           var cell = row.item(_i);
@@ -1599,7 +1598,7 @@
             case KII_PENDIENTE:
 
               if(!valEmpty(cell.getId(), Types.id)) {
-                rowIsEmpty = false;
+                return false;
               }
               break;
 
@@ -1607,20 +1606,20 @@
             case KII_CANTIDAD:
 
               if(!valEmpty(cell.getValue(), Types.text)) {
-                rowIsEmpty = true;
+                return false;
               }
               break;
 
             case KII_APLICAR:
 
               if(!valEmpty(cell.getValue(), Types.date)) {
-                rowIsEmpty = true;
+                return false;
               }
               break;
           }
         }
 
-        return rowIsEmpty;
+        return true;
       };
 
       var getDocNumber = function() {

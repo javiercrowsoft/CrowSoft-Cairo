@@ -1035,7 +1035,7 @@ begin
             v_pendiente := v_pendiente || v_cobz_nrodoc || ' del '
                            || to_char(v_cobz_fecha, 'dd-mm-yyyy')
                            || ' por pesos '
-                           || to_char(v_cobz_pendiente, '#,###,###,##0.00')
+                           || to_char(v_cobz_pendiente, '9,999,999,990.00')
                            || ';';
                
          end loop;

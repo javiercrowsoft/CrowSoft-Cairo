@@ -62,10 +62,8 @@ begin
 
    if v_debe <> v_haber then
 
-      v_strDebe := sqlserver_utilities.convert_('varchar', v_debe, 1);
-      v_strHaber := sqlserver_utilities.convert_('varchar', v_haber, 1);
-      v_strDebe := substr(v_strDebe, 1, length(v_strDebe) - 4);
-      v_strHaber := substr(v_strHaber, 1, length(v_strHaber) - 4);
+      v_strDebe := trim(to_char(v_debe, '9,999,999,990.00'));
+      v_strHaber := trim(to_char(v_haber, '9,999,999,990.00'));
 
       p_error := 1;
       p_error_msg := '@@ERROR_SP:El asiento no balancea:;;  Debe : ' || v_strDebe || ';  Haber: ' || v_strHaber || ';;';

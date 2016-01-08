@@ -1119,21 +1119,21 @@ begin
 
    -- estado
    --
-   select * from sp_auditoria_credito_check_doc_cobz(v_cobz_id) into v_success, v_error_msg;
+   select * from sp_auditoria_estado_check_doc_cobz(v_cobz_id) into v_success, v_error_msg;
    if coalesce(v_success, 0) = 0 then
       raise exception '%', v_error_msg;
    end if;
 
    -- totales
    --
-   select * from sp_adttotalescheckdoccobz(v_cobz_id) into v_success, v_error_msg;
+   select * from sp_auditoria_totales_check_doc_cobz(v_cobz_id) into v_success, v_error_msg;
    if coalesce(v_success, 0) = 0 then
       raise exception '%', v_error_msg;
    end if;
 
    -- credito
    --
-   select * from sp_auditoria_credito_check_doc_cob(v_cobz_id) into v_success, v_error_msg;
+   select * from sp_auditoria_credito_check_doc_cobz(v_cobz_id) into v_success, v_error_msg;
    if coalesce(v_success, 0) = 0 then
       raise exception '%', v_error_msg;
    end if;
@@ -1161,8 +1161,8 @@ begin
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 */
 
-   rtn.type := 'fv_id';
-   rtn.id := v_fv_id;
+   rtn.type := 'cobz_id';
+   rtn.id := v_cobz_id;
 
    return next rtn;
 

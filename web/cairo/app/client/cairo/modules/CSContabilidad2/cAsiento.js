@@ -942,8 +942,6 @@
 
       var isEmptyRow = function(row, rowIndex) {
 
-        var rowIsEmpty = true;
-
         var _count = row.size();
         for(var _i = 0; _i < _count; _i++) {
 
@@ -953,8 +951,7 @@
 
             case KI_CUE_ID:
               if(!valEmpty(cell.getId(), Types.id)) {
-                rowIsEmpty = false;
-                break;
+                return false;
               }
               break;
 
@@ -962,14 +959,13 @@
             case KI_HABER:
             case KI_ORIGEN:
               if(!valEmpty(cell.getValue(), Types.currency)) {
-                rowIsEmpty = false;
-                break;
+                return false;
               }
               break;
           }
         }
 
-        return rowIsEmpty;
+        return true;
       };
 
       var validateRow = function(row, rowIndex) {

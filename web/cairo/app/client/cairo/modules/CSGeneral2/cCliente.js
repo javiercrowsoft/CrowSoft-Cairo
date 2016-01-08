@@ -2695,7 +2695,6 @@
       };
 
       var isEmptyRowSuc = function(row, rowIndex) {
-        var rowIsEmpty = true;
 
         for(var _i = 0, _count = row.size(); _i < _count; _i++) {
 
@@ -2705,32 +2704,28 @@
 
             case KI_S_NOMBRE:
               if(!valEmpty(cell.getValue(), Types.text)) {
-                rowIsEmpty = false;
-                break;
+                return false;
               }
               break;
 
             case KI_S_CODIGO:
               if(!valEmpty(cell.getValue(), Types.text)) {
-                rowIsEmpty = false;
-                break;
+                return false;
               }
               break;
 
             case KI_S_CALLE:
               if(!valEmpty(cell.getValue(), Types.text)) {
-                rowIsEmpty = false;
-                break;
+                return false;
               }
               break;
           }
         }
 
-        return rowIsEmpty;
+        return true;
       };
 
       var isEmptyRowCont = function(row, rowIndex) {
-        var rowIsEmpty = true;
 
         for(var _i = 0, _count = row.size(); _i < _count; _i++) {
 
@@ -2740,25 +2735,22 @@
 
             case KI_NOMBRE:
               if(!valEmpty(cell.getValue(), Types.text)) {
-                rowIsEmpty = false;
-                break;
+                return false;
               }
               break;
 
             case KI_CODIGO:
               if(!valEmpty(cell.getValue(), Types.text)) {
-                rowIsEmpty = false;
-                break;
+                return false;
               }
               break;
           }
         }
 
-        return rowIsEmpty;
+        return true;
       };
 
       var isEmptyRowDpto = function(row, rowIndex) {
-        var rowIsEmpty = true;
 
         for(var _i = 0, _count = row.size(); _i < _count; _i++) {
 
@@ -2768,18 +2760,16 @@
 
             case KI_DPTO_ID:
               if(!valEmpty(cell.getValue(), Types.text)) {
-                rowIsEmpty = false;
-                break;
+                return false;
               }
               break;
           }
         }
 
-        return rowIsEmpty;
+        return true;
       };
 
       var isEmptyRowPercepcion = function(row, rowIndex) {
-        var rowIsEmpty = true;
 
         for(var _i = 0, _count = row.size(); _i < _count; _i++) {
 
@@ -2789,18 +2779,16 @@
 
             case KI_PERC_ID:
               if(!valEmpty(cell.getValue(), Types.text)) {
-                rowIsEmpty = false;
-                break;
+                return false;
               }
               break;
           }
         }
 
-        return rowIsEmpty;
+        return true;
       };
 
       var isEmptyRowInforme = function(row, rowIndex) {
-        var rowIsEmpty = true;
 
         for(var _i = 0, _count = row.size(); _i < _count; _i++) {
 
@@ -2810,18 +2798,16 @@
 
             case KI_INF_ID:
               if(!valEmpty(cell.getId(), Types.id)) {
-                rowIsEmpty = false;
-                break;
+                return false;
               }
               break;
           }
         }
 
-        return rowIsEmpty;
+        return true;
       };
 
       var isEmptyRowCuentaGrupo = function(row, rowIndex) {
-        var rowIsEmpty = true;
 
         for(var _i = 0, _count = row.size(); _i < _count; _i++) {
 
@@ -2831,21 +2817,19 @@
 
             case KI_CUE_ID:
               if(!valEmpty(cell.getValue(), Types.text)) {
-                rowIsEmpty = false;
-                break;
+                return false;
               }
               break;
 
             case KI_CUEG_ID:
               if(!valEmpty(cell.getValue(), Types.text)) {
-                rowIsEmpty = false;
-                break;
+                return false;
               }
               break;
           }
         }
 
-        return rowIsEmpty;
+        return true;
       };
 
       var saveItemsSucursales = function(mainRegister) {

@@ -1451,7 +1451,7 @@
 
   Cairo.Documents.loadPercepcionesForCliente = function(cliId, fecha) {
 
-    var p = DB.getData("load[" + m_apiPath + "general/cliente/" + cliId.toString() + "/percepciones]", fecha);
+    var p = DB.getData("load[" + m_apiPath + "general/cliente/" + cliId.toString() + "/percepciones]", DB.sqlDate(fecha));
 
     return p.then(function(response) {
 

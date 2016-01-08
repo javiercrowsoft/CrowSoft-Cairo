@@ -449,15 +449,15 @@
 
       HojaRutaCobranzaTipo: {
         ANULADA_INTERNA: 1,       //AI   ANULADA INTERNA
-        ANULADA: 2,              //A    ANULADA
+        ANULADA: 2,               //A    ANULADA
         PAGO_PARCIAL: 3,          //P    PAGO PARCIAL
         CUENTA_CORRIENTE: 4,      //C    CUENTA CORRIENTE
-        CHEQUE: 5,               //H    CHEQUE
+        CHEQUE: 5,                //H    CHEQUE
         ANULADA_PARCIAL: 6,       //AP   ANULADA PARCIAL
         PENDIENTE_REPARTO: 7,     //R    PENDIENTE A REPARTIR
-        EFECTIVO: 8,             //E    EFECTIVO
-        TICKETS: 9,              //I    TICKETS
-        TARJETA: 10              //T    TARJETA
+        EFECTIVO: 8,              //E    EFECTIVO
+        TICKETS: 9,               //I    TICKETS
+        TARJETA: 10               //T    TARJETA
       }
 
     }

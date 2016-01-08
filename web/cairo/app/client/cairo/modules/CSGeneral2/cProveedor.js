@@ -2077,7 +2077,6 @@
       };
 
       var isEmptyRowDpto = function(row, rowIndex) {
-        var rowIsEmpty = true;
 
         for(var _i = 0, _count = row.size(); _i < _count; _i++) {
 
@@ -2087,17 +2086,16 @@
 
             case KI_DPTO_ID:
               if(!valEmpty(cell.getValue(), Types.text)) {
-                rowIsEmpty = false;
+                return false;
               }
               break;
           }
         }
 
-        return rowIsEmpty;
+        return true;
       };
 
       var isEmptyRowCcos = function(row, rowIndex) {
-        var rowIsEmpty = true;
 
         for(var _i = 0, _count = row.size(); _i < _count; _i++) {
 
@@ -2107,23 +2105,22 @@
 
             case KI_PR_ID:
               if(!valEmpty(cell.getValue(), Types.text)) {
-                rowIsEmpty = false;
+                return false;
               }
               break;
 
             case KI_CCOS_ID:
               if(!valEmpty(cell.getValue(), Types.text)) {
-                rowIsEmpty = false;
+                return false;
               }
               break;
           }
         }
 
-        return rowIsEmpty;
+        return true;
       };
 
       var isEmptyRowRetencion = function(row, rowIndex) {
-        var rowIsEmpty = true;
 
         for(var _i = 0, _count = row.size(); _i < _count; _i++) {
 
@@ -2132,17 +2129,16 @@
           switch (cell.getKey()) {
             case KI_RET_ID:
               if(!valEmpty(cell.getValue(), Types.text)) {
-                rowIsEmpty = false;
+                return false;
               }
               break;
           }
         }
 
-        return rowIsEmpty;
+        return true;
       };
 
       var isEmptyRowCuentaGrupo = function(row, rowIndex) {
-        var rowIsEmpty = true;
 
         for(var _i = 0, _count = row.size(); _i < _count; _i++) {
 
@@ -2151,23 +2147,22 @@
           switch (cell.getKey()) {
             case KI_CUE_ID:
               if(!valEmpty(cell.getValue(), Types.text)) {
-                rowIsEmpty = false;
+                return false;
               }
               break;
 
             case KI_CUEG_ID:
               if(!valEmpty(cell.getValue(), Types.text)) {
-                rowIsEmpty = false;
+                return false;
               }
               break;
           }
         }
 
-        return rowIsEmpty;
+        return true;
       };
 
       var isEmptyRowCai = function(row, rowIndex) {
-        var rowIsEmpty = true;
 
         for(var _i = 0, _count = row.size(); _i < _count; _i++) {
 
@@ -2177,19 +2172,19 @@
 
             case KI_NUMERO:
               if(!valEmpty(cell.getValue(), Types.text)) {
-                rowIsEmpty = false;
+                return false;
               }
               break;
 
             case KI_FECHAVTO:
               if(!valEmpty(cell.getValue(), Types.date)) {
-                rowIsEmpty = false;
+                return false;
               }
               break;
           }
         }
 
-        return rowIsEmpty;
+        return true;
       };
 
       var saveItemsCAIS = function(mainRegister) {

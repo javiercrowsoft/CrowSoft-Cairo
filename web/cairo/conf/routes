@@ -153,10 +153,10 @@ POST    /api/v1/general/cuenta                  controllers.logged.modules.gener
 PUT     /api/v1/general/cuenta/:id              controllers.logged.modules.general.Cuentas.update(id: Int)
 DELETE  /api/v1/general/cuenta/:id              controllers.logged.modules.general.Cuentas.delete(id: Int)
 
-GET     /api/v1/general/cuenta/:id/info         controllers.logged.modules.general.Cuentas.info(id: Int)
-GET     /api/v1/general/cuenta/:id/currency     controllers.logged.modules.general.Cuentas.currency(id: Int)
+GET     /api/v1/general/cuenta/:id/info              controllers.logged.modules.general.Cuentas.info(id: Int)
+GET     /api/v1/general/cuenta/:id/currency          controllers.logged.modules.general.Cuentas.currency(id: Int)
 
-GET     /api/v1/general/condicionpago/:id/info         controllers.logged.modules.general.CondicionesPago.info(id: Int)
+GET     /api/v1/general/condicionpago/:id/info       controllers.logged.modules.general.CondicionesPago.info(id: Int)
 
 GET     /api/v1/general/cuentagrupo/:id              controllers.logged.modules.general.CuentaGrupos.get(id: Int)
 POST    /api/v1/general/cuentagrupo                  controllers.logged.modules.general.CuentaGrupos.create

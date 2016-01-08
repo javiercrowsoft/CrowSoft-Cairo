@@ -909,7 +909,13 @@ object Clientes extends Controller with ProvidesUser {
             C.CPG_NAME -> Json.toJson(info.cpgName),
             C.CPG_ES_LIBRE -> Json.toJson(info.cpgEsLibre),
             C.HAS_IVA_RI -> Json.toJson(info.ivaRi),
-            C.HAS_IVA_RNI -> Json.toJson(info.ivaRni)
+            C.HAS_IVA_RNI -> Json.toJson(info.ivaRni),
+            C.VEN_ID -> Json.toJson(info.venId),
+            C.VEN_NAME -> Json.toJson(info.venName),
+            C.TRANS_ID -> Json.toJson(info.transId),
+            C.TRANS_NAME -> Json.toJson(info.transName),
+            C.PRO_ID -> Json.toJson(info.proId),
+            C.PRO_NAME -> Json.toJson(info.proName)
           )))
     })
   }

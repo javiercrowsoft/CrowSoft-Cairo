@@ -3533,92 +3533,74 @@
       };
 
       var isEmptyRowTCheques = function(row,  rowIndex) {
-        var cell = null;
-        var strRow = null;
-
-        strRow = " (Fila "+ rowIndex.toString()+ ")";
-
-        var rowIsEmpty = true;
 
         var _count = row.size();
         for(var _i = 0; _i < _count; _i++) {
-          cell = row.item(_i);
+
+          var cell = row.item(_i);
+
           switch (cell.getKey()) {
             case mPublic.kICHT_CUE_ID:
             case mPublic.kICHT_MON_ID:
             case mPublic.kICHT_CLE_ID:
               if(!valEmpty(cell.getId(), Types.id)) {
-                rowIsEmpty = false;
-                break;
+                return false;
               }
-
               break;
 
             case mPublic.kICHT_IMPORTE:
             case mPublic.kICHT_IMPORTEORIGEN:
               if(!valEmpty(Cairo.Util.val(cell.getValue()), Types.double)) {
-                rowIsEmpty = false;
-                break;
+                return false;
               }
-
               break;
 
             case mPublic.kICHT_DESCRIP:
             case mPublic.kICHT_CHEQUE:
               if(!valEmpty(cell.getValue(), Types.text)) {
-                rowIsEmpty = false;
-                break;
+                return false;
               }
               break;
           }
         }
 
-        return rowIsEmpty;
+        return true;
       };
 
       var isEmptyRowCheques = function(row,  rowIndex) {
-        var cell = null;
-        var strRow = null;
-
-        strRow = " (Fila "+ rowIndex.toString()+ ")";
-
-        var rowIsEmpty = true;
 
         var _count = row.size();
         for(var _i = 0; _i < _count; _i++) {
-          cell = row.item(_i);
+
+          var cell = row.item(_i);
+
           switch (cell.getKey()) {
             case KICH_CUE_ID:
             case KICH_CHEQUERA:
             case KICH_MON_ID:
             case KICH_CLE_ID:
               if(!valEmpty(cell.getId(), Types.id)) {
-                rowIsEmpty = false;
-                break;
+                return false;
               }
-
               break;
 
             case KICH_IMPORTE:
             case KICH_IMPORTEORIGEN:
               if(!valEmpty(Cairo.Util.val(cell.getValue()), Types.double)) {
-                rowIsEmpty = false;
-                break;
+                return false;
               }
-
               break;
 
             case KICH_DESCRIP:
             case KICH_CHEQUE:
               if(!valEmpty(cell.getValue(), Types.text)) {
-                rowIsEmpty = false;
-                break;
+                return false;
               }
               break;
           }
         }
 
-        return rowIsEmpty;
+        return true;
       };
 
       var validateRowTCheques = function(row,  rowIndex) { // TODO: Use of ByRef founded Private Function validateRowTCheques(ByRef Row As CSInterfacesABM.cIABMGridRow, ByVal RowIndex As Long) As Boolean
@@ -3733,25 +3715,19 @@
       };
 
       var isEmptyRowOtros = function(row,  rowIndex) {
-        var cell = null;
-        var strRow = null;
-
-        strRow = " (Fila "+ rowIndex.toString()+ ")";
-
-        var rowIsEmpty = true;
 
         var _count = row.size();
         for(var _i = 0; _i < _count; _i++) {
-          cell = row.item(_i);
+
+          var cell = row.item(_i);
+
           switch (cell.getKey()) {
             case KIO_CUE_ID:
             case KIO_CCOS_ID:
             case KIO_RET_ID:
               if(!valEmpty(cell.getId(), Types.id)) {
-                rowIsEmpty = false;
-                break;
+                return false;
               }
-
               break;
 
             case KIO_DEBE:
@@ -3759,31 +3735,26 @@
             case KIO_IMPORTEORIGEN:
             case KIO_PORCRETENCION:
               if(!valEmpty(Cairo.Util.val(cell.getValue()), Types.double)) {
-                rowIsEmpty = false;
-                break;
+                return false;
               }
-
               break;
 
             case KIO_NRORETENCION:
             case KIO_DESCRIP:
               if(!valEmpty(cell.getValue(), Types.text)) {
-                rowIsEmpty = false;
-                break;
+                return false;
               }
-
               break;
 
             case KIO_FECHARETENCION:
               if(!valEmpty(cell.getValue(), Types.date)) {
-                rowIsEmpty = false;
-                break;
+                return false;
               }
               break;
           }
         }
 
-        return rowIsEmpty;
+        return true;
       };
 
       var validateRowOtros = function(row,  rowIndex) { // TODO: Use of ByRef founded Private Function validateRowOtros(ByRef Row As CSInterfacesABM.cIABMGridRow, ByVal RowIndex As Long) As Boolean
@@ -3840,36 +3811,29 @@
       };
 
       var isEmptyRowCtaCte = function(row,  rowIndex) {
-        var cell = null;
-        var strRow = null;
-
-        strRow = " (Fila "+ rowIndex.toString()+ ")";
-
-        var rowIsEmpty = true;
 
         var _count = row.size();
         for(var _i = 0; _i < _count; _i++) {
-          cell = row.item(_i);
+
+          var cell = row.item(_i);
+
           switch (cell.getKey()) {
             case KICC_CUE_ID:
               if(!valEmpty(cell.getId(), Types.id)) {
-                rowIsEmpty = false;
-                break;
+                return false;
               }
-
               break;
 
             case KICC_IMPORTE:
             case KICC_IMPORTEORIGEN:
               if(!valEmpty(Cairo.Util.val(cell.getValue()), Types.double)) {
-                rowIsEmpty = false;
-                break;
+                return false;
               }
               break;
           }
         }
 
-        return rowIsEmpty;
+        return true;
       };
 
       var validateRowCtaCte = function(row,  rowIndex) { // TODO: Use of ByRef founded Private Function validateRowCtaCte(ByRef Row As CSInterfacesABM.cIABMGridRow, ByVal RowIndex As Long) As Boolean
@@ -3915,44 +3879,34 @@
       };
 
       var isEmptyRowEfectivo = function(row,  rowIndex) {
-        var cell = null;
-        var strRow = null;
-
-        strRow = " (Fila "+ rowIndex.toString()+ ")";
-
-        var rowIsEmpty = true;
 
         var _count = row.size();
         for(var _i = 0; _i < _count; _i++) {
-          cell = row.item(_i);
+
+          var cell = row.item(_i);
           switch (cell.getKey()) {
             case KIE_CUE_ID:
               if(!valEmpty(cell.getId(), Types.id)) {
-                rowIsEmpty = false;
-                break;
+                return false;
               }
-
               break;
 
             case KIE_IMPORTE:
             case KIE_IMPORTEORIGEN:
               if(!valEmpty(Cairo.Util.val(cell.getValue()), Types.double)) {
-                rowIsEmpty = false;
-                break;
+                return false;
               }
-
               break;
 
             case KIE_DESCRIP:
               if(!valEmpty(cell.getValue(), Types.text)) {
-                rowIsEmpty = false;
-                break;
+                return false;
               }
               break;
           }
         }
 
-        return rowIsEmpty;
+        return true;
       };
 
       var validateRowEfectivo = function(row,  rowIndex) { // TODO: Use of ByRef founded Private Function validateRowEfectivo(ByRef Row As CSInterfacesABM.cIABMGridRow, ByVal RowIndex As Long) As Boolean
