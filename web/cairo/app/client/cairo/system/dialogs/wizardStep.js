@@ -28,25 +28,36 @@
 
         var self = {
           wizard: null,
-          stepIndex: 0
+          stepIndex: 0,
+          layout: Dialogs.Layout.horizontal
         };
 
         var that = Cairo.Collections.createCollection(Dialogs.createProperty);
-
-        that.setWizard = function(wizard) {
-          self.wizard = wizard;
-        };
 
         that.getWizard = function() {
           return self.wizard;
         };
 
-        that.setStepIndex = function(stepIndex) {
-          self.stepIndex = stepIndex;
+        that.setWizard = function(wizard) {
+          self.wizard = wizard;
+          return that;
         };
 
         that.getStepIndex = function() {
           return self.stepIndex;
+        };
+
+        that.setStepIndex = function(stepIndex) {
+          self.stepIndex = stepIndex;
+          return that;
+        };
+
+        that.getLayout = function() {
+          return self.layout;
+        };
+        that.setLayout = function(layout) {
+          self.layout = layout;
+          return that;
         };
 
         return that;

@@ -326,6 +326,7 @@
 
               tab.setIndex(_i);
               tab.setName("Step "+ step.getIndex().toString());
+              tab.setLayout(step.getProperties().getLayout());
 
               step.setTabIndex(tab.getIndex());
               tab.setKeyTab(step.getKey());

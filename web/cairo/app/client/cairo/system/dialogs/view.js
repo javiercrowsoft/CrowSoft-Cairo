@@ -45,7 +45,18 @@
           tabs[group][tabIndex].columns = 1;
         }
         else {
-          tabs[group][tabIndex].columns = view.tabs.get(index).getColumns();
+          var tab = view.tabs.get(index);
+          switch(tab.getLayout()) {
+            case Cairo.Dialogs.Layout.verticalOneColumn:
+              tabs[group][tabIndex].columns = 1;
+              break;
+            case Cairo.Dialogs.Layout.verticalTwoColumn:
+              tabs[group][tabIndex].columns = 2;
+              break;
+            default:
+              tabs[group][tabIndex].columns = view.tabs.get(index).getColumns();
+              break;
+          }
         }
       }
 
@@ -104,7 +115,10 @@
       // add a row with one or more elements
       //
       var getRow = function(elements, clazz, tabIndex, tabGroup, isLabel, isBigColumn) {
-        if(row === null || tabs[tabGroup][tabIndex].colIndex >= tabs[tabGroup][tabIndex].columns || lastTabIndex !== tabIndex || isBigColumn) {
+        if(row === null
+          || tabs[tabGroup][tabIndex].colIndex >= tabs[tabGroup][tabIndex].columns
+          || lastTabIndex !== tabIndex
+          || isBigColumn) {
           row = $('<div class="row dialog-row"></div>');
           tabs[tabGroup][tabIndex].colIndex = 0;
           lastTabIndex = tabIndex;
@@ -147,18 +161,34 @@
         }
       };
 
-      var getColumnClass = function(tabIndex, group) {
-        switch(tabs[group][tabIndex].columns) {
-          case 1: /* it is not a bug when 1 column per tab the class must be col-xx-12 */
-            return "col-lg-12 col-md-12 col-sm-12";
-          case 3:
-            return "col-lg-4 col-md-4 col-sm-6";
-          case 4:
-            return "col-lg-3 col-md-3 col-sm-6";
-          case 6:
-            return "col-lg-2 col-md-2 col-sm-2";
-          case 12: /* it is not a bug when 12 column per tab the class must be col-xx-1 */
-            return "col-lg-1 col-md-1 col-sm-1"
+      var getColumnClass = function(tab, tabIndex, group) {
+        switch(tab.getLayout()) {
+          case Cairo.Dialogs.Layout.verticalOneColumn:
+            return "col-lg-4 col-md-4 col-sm-4";
+
+          case Cairo.Dialogs.Layout.verticalTwoColumn:
+            return "col-lg-4 col-md-4 col-sm-4";
+
+          default:
+
+            switch(tabs[group][tabIndex].columns) {
+              case 1: /* it is not a bug when 1 column per tab the class must be col-xx-12 */
+                return "col-lg-12 col-md-12 col-sm-12";
+
+              case 3:
+                return "col-lg-4 col-md-4 col-sm-6";
+
+              case 4:
+                return "col-lg-3 col-md-3 col-sm-6";
+
+              case 6:
+                return "col-lg-2 col-md-2 col-sm-2";
+
+              case 12: /* it is not a bug when 12 column per tab the class must be col-xx-1 */
+              default:
+                return "col-lg-1 col-md-1 col-sm-1"
+            }
+            break;
         }
       };
 
@@ -235,7 +265,7 @@
                 var isBigColumn = checkBigColumn(control, i);
                 var tabGroup = control.getTabGroup();
                 var tabIndex = control.getTabGroupIndex();
-                var clazz = isBigColumn ? "col-lg-12 col-md-12 col-sm-12" : getColumnClass(tabIndex, tabGroup);
+                var clazz = isBigColumn ? "col-lg-12 col-md-12 col-sm-12" : getColumnClass(tab, tabIndex, tabGroup);
                 form.append(getRow(element, clazz, tabIndex, tabGroup, isLabelForControl(control), isBigColumn));
               }
             }

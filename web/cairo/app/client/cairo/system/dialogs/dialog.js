@@ -5990,6 +5990,7 @@
               tabCtrl.setText("Tab" + i.toString());
               tabCtrl.setTabStop(false);
               tabCtrl.setVisible(!m_hideTabButtons);
+              tabCtrl.setLayout(tab.getLayout());
             }
           }
 

@@ -237,7 +237,8 @@
         tabStop: false,
         backColorPressed: 0,
         controlIndex: 0,
-        columns: 1
+        columns: 1,
+        layout: 0
       };
 
       var that = Controls.createControl();
@@ -331,6 +332,14 @@
       };
       that.setColumns = function(columns) {
         self.columns = columns;
+        return that;
+      };
+
+      that.getLayout = function() {
+        return self.layout;
+      };
+      that.setLayout = function(layout) {
+        self.layout = layout;
         return that;
       };
       

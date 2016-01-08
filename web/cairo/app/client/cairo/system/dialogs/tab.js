@@ -11,6 +11,12 @@
 
   Cairo.module("Dialogs", function(Dialogs, Cairo, Backbone, Marionette, $, _) {
 
+    Dialogs.Layout = {
+      horizontal: 0,
+      verticalOneColumn: 1,
+      verticalTwoColumn: 2
+    };
+
     Dialogs.createTab = function() {
 
       /*
@@ -35,6 +41,7 @@
         index: 0,
         ctrlIndex: 0,
         fatherTab: "",
+        layout: Dialogs.Layout.horizontal,
 
         /* internal */
         _ctl: null
@@ -88,6 +95,14 @@
       };
       that.setKeyTab = function(keyTab) {
         self.keyTab = keyTab;
+        return that;
+      };
+
+      that.getLayout = function() {
+        return self.layout;
+      };
+      that.setLayout = function(layout) {
+        self.layout = layout;
         return that;
       };
 

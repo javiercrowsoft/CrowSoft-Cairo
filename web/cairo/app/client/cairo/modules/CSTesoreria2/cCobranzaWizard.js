@@ -1432,7 +1432,11 @@
         // the step's key must be the constant that defines them
         // this is crucial for the navigation to work
         //
-        var properties = m_objWizard.getSteps().add(null, U.getKey(WCS.WELCOME)).getProperties();
+        var step = m_objWizard.getSteps().add(null, U.getKey(WCS.WELCOME));
+
+        step.getProperties().setLayout(Dialogs.Layout.verticalOneColumn);
+
+        var properties = step.getProperties();
 
         var elem = properties.add(null, DWC.TITLE);
         elem.setType(T.label);
@@ -1453,7 +1457,11 @@
         // the step's key must be the constant that defines them
         // this is crucial for the navigation to work
         //
-        var properties = m_objWizard.getSteps().add(null, U.getKey(WCS.SELECT_CLIENTE)).getProperties();
+        var step = m_objWizard.getSteps().add(null, U.getKey(WCS.SELECT_CLIENTE));
+
+        step.getProperties().setLayout(Dialogs.Layout.verticalOneColumn);
+
+        var properties = step.getProperties();
 
         var elem = properties.add(null);
 
@@ -1660,8 +1668,11 @@
         // the step's key must be the constant that defines them
         // this is crucial for the navigation to work
         //
-        var properties = m_objWizard.getSteps().add(null, U.getKey(WCS.ANTICIPO)).getProperties();
+        var step = m_objWizard.getSteps().add(null, U.getKey(WCS.ANTICIPO));
 
+        step.getProperties().setLayout(Dialogs.Layout.verticalTwoColumn);
+
+        var properties = step.getProperties();
 
         var elem = properties.add(null);
         elem.setType(T.label);
@@ -1708,7 +1719,11 @@
         // the step's key must be the constant that defines them
         // this is crucial for the navigation to work
         //
-        var properties = m_objWizard.getSteps().add(null, U.getKey(WCS.DIF_CAMBIO)).getProperties();
+        var step = m_objWizard.getSteps().add(null, U.getKey(WCS.DIF_CAMBIO));
+
+        step.getProperties().setLayout(Dialogs.Layout.verticalTwoColumn);
+
+        var properties = step.getProperties();
 
         var elem = properties.add(null);
         elem.setType(T.label);
@@ -2251,10 +2266,13 @@
         // the step's key must be the constant that defines them
         // this is crucial for the navigation to work
         //
-        var properties = m_objWizard.getSteps().add(null, U.getKey(WCS.DATOS_GENERALES)).getProperties();
+        var step = m_objWizard.getSteps().add(null, U.getKey(WCS.DATOS_GENERALES));
+
+        step.getProperties().setLayout(Dialogs.Layout.verticalTwoColumn);
+
+        var properties = step.getProperties();
 
         var elem = properties.add(null);
-
         elem.setType(T.label);
         elem.setSubType(ST.title);
         elem.setValue(getText(2148, "")); // Complete los siguientes datos del Recibo
