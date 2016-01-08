@@ -1441,7 +1441,7 @@
 
         var elem = properties.add(null, DWC.MAIN_TITLE);
         elem.setType(T.label);
-        elem.setSubType(ST.title);
+        elem.setSubType(ST.subTitle);
         elem.setValue(getText(2131, "")); // Con este Asistente usted podra generar los Recibos por Cobranzas.
 
         D.wizAddNewDocProperties(m_objWizard, WCS.WELCOME);
@@ -1528,6 +1528,7 @@
         elem.setName(Cairo.Constants.SELECT_ALL_TEXT);
         elem.setType(T.button);
         elem.setKey(WC.KW_TODOS);
+        elem.setNoShowLabel(true);
 
         var elem = properties.add(null, DWC.ANTICIPO);
         elem.setName(getText(2137, "")); // Anticipo

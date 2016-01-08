@@ -4809,6 +4809,9 @@
               else if(property.getSubType() === Dialogs.PropertySubType.mainTitle) {
                 c.setCSSClass("label-main-title");
               }
+              else if(property.getSubType() === Dialogs.PropertySubType.subTitle) {
+                c.setCSSClass("label-sub-title");
+              }
               break;
 
             // this is here to avoid confuse someone reading the code and thinking we forgot this type

@@ -859,11 +859,13 @@
         var properties = m_objWizard.getSteps().add(null, U.getKey(WCS.WELCOME)).getProperties();
 
         var elem = properties.add(null, DWC.TITLE);
-        elem.setType(T.title);        
+        elem.setType(T.label);
+        elem.setSubType(ST.mainTitle);
         elem.setValue(getText(1913, "")); // Bienvenido al Asistente de Facturas de Compra
 
         var elem = properties.add(null, DWC.MAIN_TITLE);
         elem.setType(T.label);
+        elem.setSubType(ST.subTitle);
         elem.setValue(getText(1681, "")); // Con este asistente usted podra generar las facturas sobre remitos.
 
         D.wizAddNewDocProperties(m_objWizard, WCS.WELCOME);
@@ -879,6 +881,7 @@
 
         var elem = properties.add(null);
         elem.setType(T.label);
+        elem.setSubType(ST.title);
         elem.setValue(getText(1914, "")); // Indique el documento a utilizar y el Proveedor al que se le emitirá la Factura
 
         var elem = properties.add(null, DWC.DOC);
@@ -921,6 +924,7 @@
 
         var elem = properties.add(null);
         elem.setType(T.label);        
+        elem.setSubType(ST.title);
         elem.setValue(getText(1683, "")); // Seleccione los remitos
 
         var elem = properties.add(null, DWC.REMITOS);
@@ -998,6 +1002,7 @@
 
         var elem = properties.add(null);
         elem.setType(T.label);
+        elem.setSubType(ST.title);
         elem.setValue(getText(1676, "")); // Seleccione los items he indique las cantidades que facturará de cada una de ellos
 
         var elem = properties.add(null, DWC.ITEMS);
@@ -1012,6 +1017,7 @@
         elem.setName(Cairo.Constants.SELECT_ALL_TEXT);
         elem.setType(T.button);
         elem.setKey(WC.KW_TODOS_ITEMS);
+        elem.setNoShowLabel(true);
 
         var elem = properties.add(null, DWC.TOTAL_ITEMS);
         elem.setName(getText(1584, "")); // Total
@@ -1029,6 +1035,7 @@
 
         var elem = properties.add(null);
         elem.setType(T.label);
+        elem.setSubType(ST.title);
         elem.setValue(getText(1915, "")); // Indique las percepciones si corresponde
 
         var elem = properties.add(null, DWC.PERCEPCIONES);

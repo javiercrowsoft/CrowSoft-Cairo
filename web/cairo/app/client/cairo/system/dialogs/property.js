@@ -45,7 +45,8 @@
       textButton: 8,
       textButtonEx: 9,
       mainTitle: 10,
-      title: 11
+      subTitle: 11,
+      title: 12
     };
 
     Dialogs.PropertySubType = S;

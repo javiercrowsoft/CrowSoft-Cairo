@@ -890,6 +890,7 @@ table > thead.list-dialog-grid-head > tr > th {
 
 .wizard-body div.grid-container {
   min-height: 300px;
+  margin-bottom: 25px;
 }
 
 div.grid-container table {
@@ -903,8 +904,16 @@ div.grid-container table {
   margin-bottom: 15px;
 }
 
+.label-sub-title {
+  font-size: 18px;
+  margin-top: 15px;
+  margin-bottom: 8px;
+}
+
 .label-title {
   font-size: 18px;
   margin-top: 15px;
   margin-bottom: 8px;
+  padding-bottom: 5px;
+  border-bottom: 1px solid #e1e1e1;
 }
