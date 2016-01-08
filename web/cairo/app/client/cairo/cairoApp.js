@@ -352,12 +352,16 @@ var Cairo = new Marionette.Application();
     CLOSE_WIZARD_TEXT: "Close this assistant",
     CANCEL_TEXT: "Cancel",
 
-    NEW_DOC_DESCRIP: "This document has been saved, You can create a new one or close this assistant",
+    NEW_DOC_DESCRIP: "This document has been saved, You can create a new one or close this assistant.",
+    NEW_DOC_TEXT: "Create a new document",
     PRINT_DOC_TEXT: "Print document [%1]",
+
+    NEW_DOC_CLASS: "new-doc-button",
+    PRINT_DOC_CLASS: "print-doc-button",
+    CLOSE_WIZARD_CLASS: "close-wizard-button",
 
     APPLY_PRICE_TEXT: "Apply prices to all items",
     APPLY_PRICE_ZERO_TEXT: "Apply prices only to items in zero"
-
   };
 
   Cairo.Constants.Types = {

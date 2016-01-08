@@ -1000,11 +1000,13 @@
     var iStep = wiz.getSteps().item(getKey(key));
     var properties = iStep.getProperties();
 
-    properties.item(DWC.MAIN_TITLE).setValue(Cairo.Constants.NEW_DOC_DESCRIP);
+    var titleProperty = properties.item(DWC.MAIN_TITLE);
+    titleProperty.setValue(Cairo.Constants.NEW_DOC_DESCRIP);
+    wiz.getDialog().showValue(titleProperty);
 
-    var iPropPrint = properties.item(DWC.PRINT_DOC);
-    iPropPrint.setName(Cairo.Constants.PRINT_DOC_TEXT.replace("%1", nroDoc));
-    iPropPrint.setVisible(true);
+    var printProperty = properties.item(DWC.PRINT_DOC);
+    printProperty.setName(Cairo.Constants.PRINT_DOC_TEXT.replace("%1", nroDoc));
+    printProperty.setVisible(true);
 
     properties.item(DWC.NEW_DOC).setVisible(true);
     properties.item(DWC.CLOSE_WIZARD).setVisible(true);
@@ -1022,7 +1024,7 @@
     wiz.setBackVisible(false);
     wiz.setNextVisible(false);
 
-    wiz.getDialog().showValue(iPropPrint);
+    wiz.getDialog().showValue(printProperty);
     wiz.getDialog().resetChanged();
 
     // this stop the automatic wizard
@@ -1051,6 +1053,7 @@
 
     var elem = properties.add(null, DWC.PRINT_DOC);
     elem.setName(Cairo.Constants.PRINT_DOC_TEXT);
+    elem.setCSSClass(Cairo.Constants.PRINT_DOC_CLASS);
     elem.setType(T.button);
     elem.setVisible(false);
     elem.setFontBold(true);
@@ -1058,7 +1061,8 @@
     elem.setNoShowLabel(true);
 
     elem = properties.add(null, DWC.NEW_DOC);
-    elem.setName(Cairo.Constants.NEW_DOC_DESCRIP);
+    elem.setName(Cairo.Constants.NEW_DOC_TEXT);
+    elem.setCSSClass(Cairo.Constants.NEW_DOC_CLASS);
     elem.setType(T.button);
     elem.setVisible(false);
     elem.setFontBold(true);
@@ -1067,6 +1071,7 @@
 
     elem = properties.add(null, DWC.CLOSE_WIZARD);
     elem.setName(Cairo.Constants.CLOSE_WIZARD_TEXT);
+    elem.setCSSClass(Cairo.Constants.CLOSE_WIZARD_CLASS);
     elem.setType(T.button);
     elem.setVisible(false);
     elem.setFontBold(true);
@@ -1097,51 +1102,6 @@
       elem.setFontBold(true);
       elem.setKey(WCC.KW_ACTION_BUTTON_DOC_CANCEL_AUTO);
     }
-  };
-
-  Cairo.Documents.wizShowNewStepEx = function(wiz, key, nroDoc, bShowActionButton) {
-    var iStep = wiz.getSteps().item(getKey(key));
-
-    var properties = iStep.getProperties();
-    var property = properties.item(DWC.MAIN_TITLE);
-    property.setValue(Cairo.Constants.NEW_DOC_DESCRIP);
-
-    var iPropPrint = properties.item(DWC.PRINT_DOC);
-    iPropPrint.setName(Cairo.Constants.PRINT_DOC_TEXT.replace("%1", nroDoc));
-    iPropPrint.setVisible(true);
-
-    var property = properties.item(DWC.NEW_DOC);
-    property.setVisible(true);
-
-    var property = properties.item(DWC.CLOSE_WIZARD);
-    property.setVisible(true);
-
-    if(bShowActionButton) {
-
-      var property = properties.item(DWC.ACTION_BUTTON);
-      property.setVisible(true);
-
-      var property = properties.item(DWC.ACTION_BUTTON_AUTO);
-      property.setVisible(true);
-
-      if(!properties.item(DWC.ACTION_CANCEL_AUTO) === null) {
-
-        var property = properties.item(DWC.ACTION_CANCEL_AUTO);
-        property.setVisible(true);
-      }
-    }
-
-    wiz.getCmdCancel().Visible = false;
-    wiz.getCmdBack().Visible = false;
-    wiz.getCmdNext().Visible = false;
-
-    var dialog = wiz.getDialog();
-    dialog.showValue(iPropPrint);
-    wiz.getDialog().resetChanged;
-
-    // stop the automatic wizard
-    //
-    wiz.setPushVirtualNext(false);
   };
 
   var m_defaultCurrency = Cairo.Documents.getDefaultCurrency();

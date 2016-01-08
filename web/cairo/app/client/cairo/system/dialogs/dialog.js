@@ -4893,6 +4893,10 @@
               break;
           }
 
+          if(property.getCSSClass() !== "") {
+            c.setCSSClass(property.getCSSClass());
+          }
+
           if(property.getType() !== Dialogs.PropertyType.toolbar) {
             property.setCtrlIndex(c.getIndex());
           }

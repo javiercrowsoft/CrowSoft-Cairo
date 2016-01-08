@@ -190,6 +190,8 @@
 
         noShowLabel: false,
 
+        cssClass: "",
+
         /* internal */
         _ctl: null,
         _controlLoaded: false,
@@ -627,6 +629,14 @@
       };
       that.setNoShowLabel = function(noShowLabel) {
         self.noShowLabel = noShowLabel;
+        return that;
+      };
+
+      that.getCSSClass = function() {
+        return self.cssClass;
+      };
+      that.setCSSClass = function(cssClass) {
+        self.cssClass = cssClass;
         return that;
       };
 

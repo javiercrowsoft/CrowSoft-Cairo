@@ -164,10 +164,10 @@
       var getColumnClass = function(tab, tabIndex, group) {
         switch(tab.getLayout()) {
           case Cairo.Dialogs.Layout.verticalOneColumn:
-            return "col-lg-4 col-md-4 col-sm-4";
+            return "col-lg-4 col-md-4 col-sm-4 vertical-one-column";
 
           case Cairo.Dialogs.Layout.verticalTwoColumn:
-            return "col-lg-4 col-md-4 col-sm-4";
+            return "col-lg-4 col-md-4 col-sm-4 vertical-two-column";
 
           default:
 

@@ -314,6 +314,10 @@ div.tree-select-dialog.ui-widget-content {
     font-weight: normal;
 }
 
+.dialog-subtitle {
+  color: #9B9696;
+}
+
 .dialog-control {
     display: block;
     width: 100%;
@@ -899,6 +903,14 @@ div.grid-container table {
   min-width: 400px;
 }
 
+.vertical-one-column {
+  margin-left: 70px;
+}
+
+div.vertical-two-column:first-child {
+  margin-left: 70px;
+}
+
 .label-main-title {
   font-size: 32px;
   margin-top: 20px;
@@ -907,8 +919,8 @@ div.grid-container table {
 
 .label-sub-title {
   font-size: 18px;
-  margin-top: 15px;
-  margin-bottom: 8px;
+  margin-top: 20px;
+  margin-bottom: 30px;
 }
 
 .label-title {
@@ -917,4 +929,16 @@ div.grid-container table {
   margin-bottom: 8px;
   padding-bottom: 5px;
   border-bottom: 1px solid #e1e1e1;
+}
+
+.new-doc-button {
+  width: 250px;
+}
+
+.print-doc-button {
+  width: 250px;
+}
+
+.close-wizard-button {
+  width: 250px;
 }
