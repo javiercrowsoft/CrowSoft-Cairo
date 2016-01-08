@@ -43,7 +43,9 @@
         enabled: true,
 
         element: null,
-        selectOnFocus: false
+        selectOnFocus: false,
+
+        cssClass: ""
       };
 
       var applyVisible = function() {
@@ -72,13 +74,16 @@
 
       that.setElement = function(element) {
         self.element = element;
-        $(element).data('_ID_', self._ID_);
+        element.data('_ID_', self._ID_);
         if(self.selectOnFocus) {
           that.setSelectOnFocus(true);
         }
-        $(self.element).keyup(that.onKeyUp);
+        element.keyup(that.onKeyUp);
         applyVisible();
         that.setEnabled(self.enabled);
+        if(self.cssClass !== "") {
+          element.addClass(self.cssClass);
+        };
       };
       that.getElement = function() {
         return self.element;
@@ -103,7 +108,7 @@
         self.selectOnFocus = select;
         if(self.element !== null) {
           if(select) {
-            $(self.element).focus(that.onFocus);
+            self.element.focus(that.onFocus);
           }
         }
       };
@@ -210,12 +215,19 @@
         self.fontItalic = italic;
       };
 
+      that.getCSSClass = function() {
+        return self.cssClass;
+      };
+      that.setCSSClass = function(cssClass) {
+        self.cssClass = cssClass;
+      };
+
       that.focus = function() {
-        $(self.element).focus();
+        self.element.focus();
       };
 
       that.select = function() {
-        $(self.element).select();
+        self.element.select();
       };
 
       that.flash = function() {

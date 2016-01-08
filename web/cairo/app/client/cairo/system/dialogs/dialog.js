@@ -4803,6 +4803,12 @@
                 c.setBackStyle(Dialogs.BackgroundType.transparent);
               }
               c.setTextAlign(property.getTextAlign());
+              if(property.getSubType() === Dialogs.PropertySubType.title) {
+                c.setCSSClass("label-title");
+              }
+              else if(property.getSubType() === Dialogs.PropertySubType.mainTitle) {
+                c.setCSSClass("label-main-title");
+              }
               break;
 
             // this is here to avoid confuse someone reading the code and thinking we forgot this type

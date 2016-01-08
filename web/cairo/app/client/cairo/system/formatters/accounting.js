@@ -413,5 +413,5 @@
 }(Cairo));
 
 (function() {
-  Cairo.Util.round = Cairo.accounting.toFixed;
+  Cairo.Util.round = function(value, precision) { return parseFloat(Cairo.accounting.toFixed(value, precision)); };
 }());

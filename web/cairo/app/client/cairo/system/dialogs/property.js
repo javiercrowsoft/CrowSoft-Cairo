@@ -43,7 +43,9 @@
       taxId: 6,
       memo: 7,
       textButton: 8,
-      textButtonEx: 9
+      textButtonEx: 9,
+      mainTitle: 10,
+      title: 11
     };
 
     Dialogs.PropertySubType = S;
@@ -291,6 +293,9 @@
         return self.type;
       };
       that.setType = function(type) {
+        if(type === undefined) {
+          Cairo.raiseError("setType", "undefined can not be used when calling setType");
+        }
         self.type = type;
         return that;
       };
@@ -298,6 +303,9 @@
         return self.subType;
       };
       that.setSubType = function(subType) {
+        if(subType === undefined) {
+          Cairo.raiseError("setSubType", "undefined can not be used when calling setSubType");
+        }
         self.subType = subType;
         return that;
       };
@@ -482,6 +490,9 @@
         return self.key;
       };
       that.setKey = function(key) {
+        if(key === undefined) {
+          Cairo.raiseError("setKey", "undefined can not be used when calling setKey");
+        }
         self.key = key;
         return that;
       };

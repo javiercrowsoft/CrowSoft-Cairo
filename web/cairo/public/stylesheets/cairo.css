@@ -896,3 +896,15 @@ div.grid-container table {
   width: auto;
   min-width: 400px;
 }
+
+.label-main-title {
+  font-size: 32px;
+  margin-top: 20px;
+  margin-bottom: 15px;
+}
+
+.label-title {
+  font-size: 18px;
+  margin-top: 15px;
+  margin-bottom: 8px;
+}

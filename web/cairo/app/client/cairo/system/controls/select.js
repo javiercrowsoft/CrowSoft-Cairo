@@ -43,7 +43,7 @@
                     // the first time the ul hasn't set the width property so we use the width of the input
                     //
                     width = ul.width() === 0 ? self.element.width() : ul.width();
-                    width = width > 500 ? width : 500;
+                    width = width > 1000 ? width : 1000;
                     width = (width-50) / self.options.columns.length;
                     $.each(items[0].columns, function(index, item) {
                         table.append('<span class="capitalize" style="padding:0 4px;float:left;width:' + width + 'px;">' +

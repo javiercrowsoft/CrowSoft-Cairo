@@ -24,7 +24,6 @@
       var Types = Cairo.Constants.Types;
       var valField = DB.valField;
       var valEmpty = Cairo.Util.valEmpty;
-      var val = Cairo.Util.val;
       var call = P.call;
       var D = Cairo.Documents;
       var U = Cairo.Util;
@@ -1436,11 +1435,13 @@
         var properties = m_objWizard.getSteps().add(null, U.getKey(WCS.WELCOME)).getProperties();
 
         var elem = properties.add(null, DWC.TITLE);
-        elem.setType(T.title);
+        elem.setType(T.label);
+        elem.setSubType(ST.mainTitle);
         elem.setValue(getText(2130, "")); // Bienvenido al Asistente de Cobranza
 
         var elem = properties.add(null, DWC.MAIN_TITLE);
         elem.setType(T.label);
+        elem.setSubType(ST.title);
         elem.setValue(getText(2131, "")); // Con este Asistente usted podra generar los Recibos por Cobranzas.
 
         D.wizAddNewDocProperties(m_objWizard, WCS.WELCOME);
@@ -1457,6 +1458,7 @@
         var elem = properties.add(null);
 
         elem.setType(T.label);
+        elem.setSubType(ST.title);
         elem.setValue(getText(2132, "")); // Indique el documento a utilizar y el Cliente al que se le emitirá el Recibo
 
         var elem = properties.add(null, DWC.DOC);
@@ -1493,6 +1495,7 @@
         var elem = properties.add(null);
 
         elem.setType(T.label);
+        elem.setSubType(ST.title);
         elem.setValue(getText(2134, "")); // Seleccione las Facturas he indique los importes que cancelará en cada una de ellas
 
         var elem = properties.add(null, DWC.AGRUPADOS);
@@ -1661,6 +1664,7 @@
 
         var elem = properties.add(null);
         elem.setType(T.label);
+        elem.setSubType(ST.title);
         elem.setValue(getText(2140, "")); // Indique los datos del anticipo
 
         var elem = properties.add(null, DWC.CUENTA_ANTICIPO);
@@ -1707,6 +1711,7 @@
 
         var elem = properties.add(null);
         elem.setType(T.label);
+        elem.setSubType(ST.title);
         elem.setValue(getText(2141, "")); // Indique como tratar las diferencias de cambio
 
         var elem = properties.add(null, DWC.DEFAULT_DIF_CAMBIO);
@@ -1814,6 +1819,7 @@
         var elem = properties.add(null, LABEL_COBROS);
 
         elem.setType(T.label);
+        elem.setSubType(ST.title);
         elem.setValue(LABEL_COBROS_TEXT);
 
         var dialog = m_objWizard.getDialog();
@@ -2249,6 +2255,7 @@
         var elem = properties.add(null);
 
         elem.setType(T.label);
+        elem.setSubType(ST.title);
         elem.setValue(getText(2148, "")); // Complete los siguientes datos del Recibo
 
         var elem = properties.add(null, DWC.FECHA);
@@ -3265,34 +3272,37 @@
 
             var aplicado = saveFacturas(register);
 
-            saveDifCambio(register, aplicado);
+            return saveDifCambio(register, aplicado)
 
-            return DB.saveTransaction(
-                register,
-                false,
-                "",
-                Cairo.Constants.CLIENT_SAVE_FUNCTION,
-                C_MODULE,
-                SAVE_ERROR_MESSAGE
+              .whenSuccess(function() {
 
-              ).then(
+                return DB.saveTransaction(
+                    register,
+                    false,
+                    "",
+                    Cairo.Constants.CLIENT_SAVE_FUNCTION,
+                    C_MODULE,
+                    SAVE_ERROR_MESSAGE
 
-              function(result) {
-                if(result.success) {
+                  ).then(
 
-                  if(result.errors) {
-                    return M.showWarningWithFalse(result.errors.getMessage());
+                  function(result) {
+                    if(result.success) {
+
+                      if(result.errors) {
+                        return M.showWarningWithFalse(result.errors.getMessage());
+                      }
+                      else {
+                        m_id = result.data.getId();
+                        return true;
+                      }
+                    }
+                    else {
+                      return false;
+                    }
                   }
-                  else {
-                    m_id = result.data.getId();
-                    return true;
-                  }
-                }
-                else {
-                  return false;
-                }
-              }
-            );
+                );
+              });
           }
         );
       };
@@ -3802,7 +3812,7 @@
 
         var diferencia = Math.abs(deudaOrigen - cobrado);
 
-        if(round(diferencia, 2) !== 0) {
+        if(round(diferencia, 2) !== 0.0) {
 
           if(getDefaultDifCambio().getListItemData() === CT.ModoDifCambio.DIF_CAMBIO_CUENTA) {
 
@@ -3837,13 +3847,16 @@
 
 
       var saveDifCambio = function(mainRegister, aplicado) {
+        var p = null;
+
         if(getDefaultDifCambio().getListItemData() === CT.ModoDifCambio.DIF_CAMBIO_CUENTA) {
           saveDifCambioCtaCble(mainRegister);
         }
         else {
-          saveDifCambioNCND(mainRegister, aplicado);
+          p = saveDifCambioNCND(mainRegister, aplicado);
         }
-        return true;
+
+        return p = P.resolvedPromise(true);
       };
 
       var saveDifCambioCtaCble = function(mainRegister) {
@@ -3853,7 +3866,7 @@
 
         var diferencia = Math.abs(deudaOrigen - cobrado);
 
-        if(round(diferencia, 2) !== 0) {
+        if(round(diferencia, 2) !== 0.0) {
 
           var cueId = getCueIdDifCambio().getSelectId();
 
@@ -3894,37 +3907,36 @@
       };
 
       var saveDifCambioNCND = function(mainRegister, aplicado) {
+        var p = null;
 
         var deudaOrigen = getDeudaOrigen();
         var cobrado = getCobrado();
 
         var diferencia = Math.abs(deudaOrigen - cobrado);
 
-        if(round(diferencia, 2) !== 0) {
+        if(round(diferencia, 2) !== 0.0) {
 
           // debit note
           //
           if(deudaOrigen < cobrado) {
 
-            saveDocVta(mainRegister, getNDDifCambio().getSelectId(), diferencia, true);
-
-            // add this debit note to the application
-            //
-            saveCobranzaND(mainRegister, diferencia, aplicado);
+            p = saveDocVta(mainRegister, getNDDifCambio().getSelectId(), diferencia, true)
+              // add this debit note to the application
+              //
+              .whenSuccess(call(saveCobranzaND, mainRegister, diferencia, aplicado));
           }
           // credit note
           //
           else {
 
-            saveDocVta(mainRegister, getNCDifCambio().getSelectId(), diferencia, false);
-
-            // add this credit note to the application
-            //
-            saveFacturaVentaNotaCredito(mainRegister, diferencia);
+            p = saveDocVta(mainRegister, getNCDifCambio().getSelectId(), diferencia, false)
+              // add this credit note to the application
+              //
+              .whenSuccess(call(saveFacturaVentaNotaCredito, mainRegister, diferencia));
           }
         }
 
-        return true;
+        return p || P.resolvedPromise(true);
       };
 
       var saveDocVta = function(mainRegister, docId, diferencia, isND) {

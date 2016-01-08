@@ -2,35 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d47203c3-b220-49d7-aac2-46c758baa4bb" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/cairo/app/controllers/logged/modules/general/Cliente.scala" afterPath="$PROJECT_DIR$/web/cairo/app/controllers/logged/modules/general/Cliente.scala" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/cairo/app/models/cairo/modules/general/Cliente.scala" afterPath="$PROJECT_DIR$/web/cairo/app/models/cairo/modules/general/Cliente.scala" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/cairo/app/models/cairo/modules/tesoreria/Cobranza.scala" afterPath="$PROJECT_DIR$/web/cairo/app/models/cairo/modules/tesoreria/Cobranza.scala" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSContabilidad2/cAsiento.js" afterPath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSContabilidad2/cAsiento.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSGeneral2/cCliente.js" afterPath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSGeneral2/cCliente.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSTesoreria2/cCobranza.js" afterPath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSTesoreria2/cCobranza.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/cairo/app/client/cairo/system/formatters/accounting.js" afterPath="$PROJECT_DIR$/web/cairo/app/client/cairo/system/formatters/accounting.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSTesoreria2/cCobranzaWizard.js" afterPath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSTesoreria2/cCobranzaWizard.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSCompra2/cFacturaCompra.js" afterPath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSCompra2/cFacturaCompra.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSCompra2/cFacturaCompraRemitoWiz.js" afterPath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSCompra2/cFacturaCompraRemitoWiz.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSVenta2/cFacturaVenta.js" afterPath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSVenta2/cFacturaVenta.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSTesoreria2/cOrdenPago.js" afterPath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSTesoreria2/cOrdenPago.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSGeneral2/cProducto.js" afterPath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSGeneral2/cProducto.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSGeneral2/cProveedor.js" afterPath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSGeneral2/cProveedor.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSGeneral2/cRubroTabla.js" afterPath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSGeneral2/cRubroTabla.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSTesoreria2/constants.js" afterPath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSTesoreria2/constants.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSCompra2/percepcion.js" afterPath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSCompra2/percepcion.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSVenta2/percepcion.js" afterPath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/CSVenta2/percepcion.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/cairo/conf/routes" afterPath="$PROJECT_DIR$/web/cairo/conf/routes" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/database/cairo/CSAuditoria/functions/sp_auditoria_credito_check_doc_opg.sql" afterPath="$PROJECT_DIR$/database/cairo/CSAuditoria/functions/sp_auditoria_credito_check_doc_opg.sql" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/database/cairo/CSAuditoria/functions/sp_auditoria_stock_check_doc_fv.sql" afterPath="$PROJECT_DIR$/database/cairo/CSAuditoria/functions/sp_auditoria_stock_check_doc_fv.sql" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/database/cairo/CSAuditoria/functions/sp_auditoria_totales_check_doc_fv.sql" afterPath="$PROJECT_DIR$/database/cairo/CSAuditoria/functions/sp_auditoria_totales_check_doc_fv.sql" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/database/cairo/CSGeneral/functions/sp_cliente_get_info.sql" afterPath="$PROJECT_DIR$/database/cairo/CSGeneral/functions/sp_cliente_get_info.sql" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/database/cairo/CSContabilidad/functions/sp_doc_asiento_validate.sql" afterPath="$PROJECT_DIR$/database/cairo/CSContabilidad/functions/sp_doc_asiento_validate.sql" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/database/cairo/CSTesoreria/functions/sp_doc_cobranza_asiento_save.sql" afterPath="$PROJECT_DIR$/database/cairo/CSTesoreria/functions/sp_doc_cobranza_asiento_save.sql" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/database/cairo/CSTesoreria/functions/sp_doc_cobranza_save.sql" afterPath="$PROJECT_DIR$/database/cairo/CSTesoreria/functions/sp_doc_cobranza_save.sql" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/database/cairo/CSVentas/functions/sp_doc_factura_venta_save.sql" afterPath="$PROJECT_DIR$/database/cairo/CSVentas/functions/sp_doc_factura_venta_save.sql" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/database/cairo/CSTesoreria/functions/sp_doc_orden_pago_asiento_save.sql" afterPath="$PROJECT_DIR$/database/cairo/CSTesoreria/functions/sp_doc_orden_pago_asiento_save.sql" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/system/system.js" afterPath="$PROJECT_DIR$/web/cairo/app/client/cairo/modules/system/system.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/cairo/public/stylesheets/cairo.css" afterPath="$PROJECT_DIR$/web/cairo/public/stylesheets/cairo.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/cairo/app/client/cairo/system/controls/control.js" afterPath="$PROJECT_DIR$/web/cairo/app/client/cairo/system/controls/control.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/cairo/app/client/cairo/system/dialogs/dialog.js" afterPath="$PROJECT_DIR$/web/cairo/app/client/cairo/system/dialogs/dialog.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/cairo/app/client/cairo/system/dialogs/property.js" afterPath="$PROJECT_DIR$/web/cairo/app/client/cairo/system/dialogs/property.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/cairo/app/client/cairo/system/controls/select.js" afterPath="$PROJECT_DIR$/web/cairo/app/client/cairo/system/controls/select.js" />
     </list>
     <ignored path="CrowSoft-Cairo.iws" />
     <ignored path=".idea/workspace.xml" />
