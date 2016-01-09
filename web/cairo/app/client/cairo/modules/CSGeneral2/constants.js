@@ -1406,6 +1406,7 @@
       // Settings
       CONFIG_KEY: "cfg_aspecto",
       CONFIG_VALUE: "cfg_valor",
+      CONFIG_FILTER: "cfg_filter",
 
       // Accounting
       filterForSales: "ti_tipo: 1",

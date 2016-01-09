@@ -1178,8 +1178,8 @@ use this function but replace the LNG_ID
        search: m_userCfg
        replace: OJO uno por uno hay que eliminarlo
 
-       search:
-       replace:
+       search: register\.setFilter\((.+)\);\n\n .+var fields = register.getFields\(\);
+       replace: var fields = register.getFields();\n              fields.add(C.CONFIG_FILTER, $1, TEXT);
 
        search:
        replace:

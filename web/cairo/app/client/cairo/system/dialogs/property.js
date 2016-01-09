@@ -332,10 +332,10 @@
       };
 
       that.getListItemData = function() {
-        return self.listItemData;
+        return Cairo.Util.val(self.listItemData);
       };
-      that.setListItemData = function(index) {
-        self.listItemData = index;
+      that.setListItemData = function(value) {
+        self.listItemData = Cairo.Util.val(value);
         return that;
       };
 

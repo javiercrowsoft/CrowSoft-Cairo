@@ -324,6 +324,9 @@
 
         transaction.setTable(C.CONFIGURACION)
 
+        mainRegister.setPath(m_apiPath + "general/tesoreriaconfig");
+        mainRegister.setId(Cairo.Constants.UPDATE_ID);
+
         for(var _i = 0, _count = m_dialog.getProperties().size(); _i < _count; _i++) {
 
           var property = m_dialog.getProperties().item(_i);
@@ -333,9 +336,8 @@
             case K_CUE_ID_DIFCAMBIO:
               register = createRegister();
 
-              register.setFilter("cfg_grupo:" + sq(C_GRUPO_GENERAL) + ", cfg_aspecto:" + sq(C_CUE_ID_DIF_CAMBIO));
-
               var fields = register.getFields();
+              fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(C_GRUPO_GENERAL) + ", cfg_aspecto:" + sq(C_CUE_ID_DIF_CAMBIO), TEXT);
               fields.add(C.CFG_GRUPO, C_GRUPO_GENERAL, TEXT);
               fields.add(C.CFG_ASPECTO, C_CUE_ID_DIF_CAMBIO, TEXT);
               fields.add(C.CFG_VALOR, property.getSelectId(), TEXT);
@@ -346,9 +348,8 @@
             case K_DOC_ID_COBRANZA:
               register = createRegister();
 
-              register.setFilter("cfg_grupo:" + sq(C_GRUPO_GENERAL) + ", cfg_aspecto:" + sq(C_DOC_ID_COBRANZA) + ", emp_id:" + companyId);
-
               var fields = register.getFields();
+              fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(C_GRUPO_GENERAL) + ", cfg_aspecto:" + sq(C_DOC_ID_COBRANZA) + ", emp_id:" + companyId, TEXT);
               fields.add(C.CFG_GRUPO, C_GRUPO_GENERAL, TEXT);
               fields.add(C.CFG_ASPECTO, C_DOC_ID_COBRANZA, TEXT);
               fields.add(C.CFG_VALOR, property.getSelectId(), TEXT);
@@ -360,9 +361,8 @@
             case K_DOC_ID_ORDEN_PAGO:
               register = createRegister();
 
-              register.setFilter("cfg_grupo:" + sq(C_GRUPO_GENERAL) + ", cfg_aspecto:" + sq(C_DOC_ID_ORDEN_PAGO) + ", emp_id:" + companyId);
-
               var fields = register.getFields();
+              fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(C_GRUPO_GENERAL) + ", cfg_aspecto:" + sq(C_DOC_ID_ORDEN_PAGO) + ", emp_id:" + companyId, TEXT);
               fields.add(C.CFG_GRUPO, C_GRUPO_GENERAL, TEXT);
               fields.add(C.CFG_ASPECTO, C_DOC_ID_ORDEN_PAGO, TEXT);
               fields.add(C.CFG_VALOR, property.getSelectId(), TEXT);
@@ -374,9 +374,8 @@
             case K_DOC_ID_NC_DIF_CAMBIO:
               register = createRegister();
 
-              register.setFilter("cfg_grupo:" + sq(C_GRUPO_GENERAL) + ", cfg_aspecto:" + sq(C_NC_DIF_CAMBIO) + ", emp_id:" + companyId);
-
               var fields = register.getFields();
+              fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(C_GRUPO_GENERAL) + ", cfg_aspecto:" + sq(C_NC_DIF_CAMBIO) + ", emp_id:" + companyId, TEXT);
               fields.add(C.CFG_GRUPO, C_GRUPO_GENERAL, TEXT);
               fields.add(C.CFG_ASPECTO, C_NC_DIF_CAMBIO, TEXT);
               fields.add(C.CFG_VALOR, property.getSelectId(), TEXT);
@@ -388,9 +387,8 @@
             case K_DOC_ID_ND_DIF_CAMBIO:
               register = createRegister();
 
-              register.setFilter("cfg_grupo:" + sq(C_GRUPO_GENERAL) + ", cfg_aspecto:" + sq(C_ND_DIF_CAMBIO) + ", emp_id:" + companyId);
-
               var fields = register.getFields();
+              fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(C_GRUPO_GENERAL) + ", cfg_aspecto:" + sq(C_ND_DIF_CAMBIO) + ", emp_id:" + companyId, TEXT);
               fields.add(C.CFG_GRUPO, C_GRUPO_GENERAL, TEXT);
               fields.add(C.CFG_ASPECTO, C_ND_DIF_CAMBIO, TEXT);
               fields.add(C.CFG_VALOR, property.getSelectId(), TEXT);
@@ -402,9 +400,8 @@
             case K_DEFAULT_DIF_CAMBIO:
               register = createRegister();
 
-              register.setFilter("cfg_grupo:" + sq(C_GRUPO_GENERAL) + ", cfg_aspecto:" + sq(C_DEFAULT_DIF_CAMBIO));
-
               var fields = register.getFields();
+              fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(C_GRUPO_GENERAL) + ", cfg_aspecto:" + sq(C_DEFAULT_DIF_CAMBIO), TEXT);
               fields.add(C.CFG_GRUPO, C_GRUPO_GENERAL, TEXT);
               fields.add(C.CFG_ASPECTO, C_DEFAULT_DIF_CAMBIO, TEXT);
               fields.add(C.CFG_VALOR, property.getListItemData(), TEXT);
@@ -415,9 +412,8 @@
             case K_MODO_IVA_DIF_CAMBIO:
               register = createRegister();
 
-              register.setFilter("cfg_grupo:" + sq(C_GRUPO_GENERAL) + ", cfg_aspecto:" + sq(C_MODO_IVA_DIF_CAMBIO));
-
               var fields = register.getFields();
+              fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(C_GRUPO_GENERAL) + ", cfg_aspecto:" + sq(C_MODO_IVA_DIF_CAMBIO), TEXT);
               fields.add(C.CFG_GRUPO, C_GRUPO_GENERAL, TEXT);
               fields.add(C.CFG_ASPECTO, C_MODO_IVA_DIF_CAMBIO, TEXT);
               fields.add(C.CFG_VALOR, property.getListItemData(), TEXT);
@@ -428,9 +424,8 @@
             case K_APLICACION_DIF_CAMBIO:
               register = createRegister();
 
-              register.setFilter("cfg_grupo:" + sq(C_GRUPO_GENERAL) + ", cfg_aspecto:" + sq(C_APLICACION_DIF_CAMBIO));
-
               var fields = register.getFields();
+              fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(C_GRUPO_GENERAL) + ", cfg_aspecto:" + sq(C_APLICACION_DIF_CAMBIO), TEXT);
               fields.add(C.CFG_GRUPO, C_GRUPO_GENERAL, TEXT);
               fields.add(C.CFG_ASPECTO, C_APLICACION_DIF_CAMBIO, TEXT);
               fields.add(C.CFG_VALOR, property.getListItemData(), TEXT);
@@ -441,9 +436,8 @@
             case K_PR_ID_DIF_CAMBIO:
               register = createRegister();
 
-              register.setFilter("cfg_grupo:" + sq(C_GRUPO_GENERAL) + ", cfg_aspecto:" + sq(C_PR_ID_DIF_CAMBIO));
-
               var fields = register.getFields();
+              fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(C_GRUPO_GENERAL) + ", cfg_aspecto:" + sq(C_PR_ID_DIF_CAMBIO), TEXT);
               fields.add(C.CFG_GRUPO, C_GRUPO_GENERAL, TEXT);
               fields.add(C.CFG_ASPECTO, C_PR_ID_DIF_CAMBIO, TEXT);
               fields.add(C.CFG_VALOR, property.getSelectId(), TEXT);
@@ -454,9 +448,8 @@
             case K_GRABAR_ASIENTO_COBRANZA:
               register = createRegister();
 
-              register.setFilter("cfg_grupo:" + sq(C_GRUPO_GENERAL) + ", cfg_aspecto:" + sq(C_GRABAR_ASIENTO_COBRANZA));
-
               var fields = register.getFields();
+              fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(C_GRUPO_GENERAL) + ", cfg_aspecto:" + sq(C_GRABAR_ASIENTO_COBRANZA), TEXT);
               fields.add(C.CFG_GRUPO, C_GRUPO_GENERAL, TEXT);
               fields.add(C.CFG_ASPECTO, C_GRABAR_ASIENTO_COBRANZA, TEXT);
               fields.add(C.CFG_VALOR, val(property.getValue()), TEXT);
@@ -467,9 +460,8 @@
             case K_GRABAR_ASIENTO_ORDEN_PAGO:
               register = createRegister();
 
-              register.setFilter("cfg_grupo:" + sq(C_GRUPO_GENERAL) + ", cfg_aspecto:" + sq(C_GRABAR_ASIENTO_ORDEN_PAGO));
-
               var fields = register.getFields();
+              fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(C_GRUPO_GENERAL) + ", cfg_aspecto:" + sq(C_GRABAR_ASIENTO_ORDEN_PAGO), TEXT);
               fields.add(C.CFG_GRUPO, C_GRUPO_GENERAL, TEXT);
               fields.add(C.CFG_ASPECTO, C_GRABAR_ASIENTO_ORDEN_PAGO, TEXT);
               fields.add(C.CFG_VALOR, val(property.getValue()), TEXT);
@@ -480,9 +472,8 @@
             case K_GRABAR_ASIENTO_MOVIMIENTO_FONDO:
               register = createRegister();
 
-              register.setFilter("cfg_grupo:" + sq(C_GRUPO_GENERAL) + ", cfg_aspecto:" + sq(C_GRABAR_ASIENTO_MOVIMIENTO_FONDO));
-
               var fields = register.getFields();
+              fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(C_GRUPO_GENERAL) + ", cfg_aspecto:" + sq(C_GRABAR_ASIENTO_MOVIMIENTO_FONDO), TEXT);
               fields.add(C.CFG_GRUPO, C_GRUPO_GENERAL, TEXT);
               fields.add(C.CFG_ASPECTO, C_GRABAR_ASIENTO_MOVIMIENTO_FONDO, TEXT);
               fields.add(C.CFG_VALOR, val(property.getValue()), TEXT);
@@ -493,9 +484,8 @@
             case K_GRABAR_ASIENTO_RENDICION:
               register = createRegister();
 
-              register.setFilter("cfg_grupo:" + sq(C_GRUPO_GENERAL) + ", cfg_aspecto:" + sq(C_GRABAR_ASIENTO_RENDICION));
-
               var fields = register.getFields();
+              fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(C_GRUPO_GENERAL) + ", cfg_aspecto:" + sq(C_GRABAR_ASIENTO_RENDICION), TEXT);
               fields.add(C.CFG_GRUPO, C_GRUPO_GENERAL, TEXT);
               fields.add(C.CFG_ASPECTO, C_GRABAR_ASIENTO_RENDICION, TEXT);
               fields.add(C.CFG_VALOR, val(property.getValue()), TEXT);
@@ -506,9 +496,8 @@
             case K_GRABAR_ASIENTO_DEPOSITO_BANCO:
               register = createRegister();
 
-              register.setFilter("cfg_grupo:" + sq(C_GRUPO_GENERAL) + ", cfg_aspecto:" + sq(C_GRABAR_ASIENTO_DEPOSITO_BANCO));
-
               var fields = register.getFields();
+              fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(C_GRUPO_GENERAL) + ", cfg_aspecto:" + sq(C_GRABAR_ASIENTO_DEPOSITO_BANCO), TEXT);
               fields.add(C.CFG_GRUPO, C_GRUPO_GENERAL, TEXT);
               fields.add(C.CFG_ASPECTO, C_GRABAR_ASIENTO_DEPOSITO_BANCO, TEXT);
               fields.add(C.CFG_VALOR, val(property.getValue()), TEXT);
@@ -519,9 +508,8 @@
             case K_GRABAR_ASIENTO_DEPOSITO_CUPON:
               register = createRegister();
 
-              register.setFilter("cfg_grupo:" + sq(C_GRUPO_GENERAL) + ", cfg_aspecto:" + sq(C_GRABAR_ASIENTO_DEPOSITO_CUPON));
-
               var fields = register.getFields();
+              fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(C_GRUPO_GENERAL) + ", cfg_aspecto:" + sq(C_GRABAR_ASIENTO_DEPOSITO_CUPON), TEXT);
               fields.add(C.CFG_GRUPO, C_GRUPO_GENERAL, TEXT);
               fields.add(C.CFG_ASPECTO, C_GRABAR_ASIENTO_DEPOSITO_CUPON, TEXT);
               fields.add(C.CFG_VALOR, val(property.getValue()), TEXT);
@@ -532,9 +520,8 @@
             case K_GRABAR_ASIENTO_AGRUPADO:
               register = createRegister();
 
-              register.setFilter("cfg_grupo:" + sq(C_GRUPO_GENERAL) + ", cfg_aspecto:" + sq(C_GRABAR_ASIENTO_AGRUPADO));
-
               var fields = register.getFields();
+              fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(C_GRUPO_GENERAL) + ", cfg_aspecto:" + sq(C_GRABAR_ASIENTO_AGRUPADO), TEXT);
               fields.add(C.CFG_GRUPO, C_GRUPO_GENERAL, TEXT);
               fields.add(C.CFG_ASPECTO, C_GRABAR_ASIENTO_AGRUPADO, TEXT);
               fields.add(C.CFG_VALOR, val(property.getValue()), TEXT);
@@ -545,9 +532,8 @@
             case K_GRABAR_ASIENTO_RESOLUCION_CUPON:
               register = createRegister();
 
-              register.setFilter("cfg_grupo:" + sq(C_GRUPO_GENERAL) + ", cfg_aspecto:" + sq(C_GRABAR_ASIENTO_RESOLUCION_CUPON));
-
               var fields = register.getFields();
+              fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(C_GRUPO_GENERAL) + ", cfg_aspecto:" + sq(C_GRABAR_ASIENTO_RESOLUCION_CUPON), TEXT);
               fields.add(C.CFG_GRUPO, C_GRUPO_GENERAL, TEXT);
               fields.add(C.CFG_ASPECTO, C_GRABAR_ASIENTO_RESOLUCION_CUPON, TEXT);
               fields.add(C.CFG_VALOR, val(property.getValue()), TEXT);
@@ -558,9 +544,8 @@
             case K_CALCULAR_RETENCIONES:
               register = createRegister();
 
-              register.setFilter("cfg_grupo:" + sq(C_GRUPO_GENERAL) + ", cfg_aspecto:" + sq(C_CALCULAR_RETENCIONES) + ", emp_id:" + companyId);
-
               var fields = register.getFields();
+              fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(C_GRUPO_GENERAL) + ", cfg_aspecto:" + sq(C_CALCULAR_RETENCIONES) + ", emp_id:" + companyId, TEXT);
               fields.add(C.CFG_GRUPO, C_GRUPO_GENERAL, TEXT);
               fields.add(C.CFG_ASPECTO, C_CALCULAR_RETENCIONES, TEXT);
               fields.add(C.CFG_VALOR, val(property.getValue()), TEXT);
@@ -572,9 +557,8 @@
             case K_CUE_ID_ANT_COBZ:
               register = createRegister();
 
-              register.setFilter("cfg_grupo:" + sq(C_GRUPO_GENERAL) + ", cfg_aspecto:" + sq(C_CUENTA_ANTICIPO_COBRANZA) + ", emp_id:" + companyId);
-
               var fields = register.getFields();
+              fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(C_GRUPO_GENERAL) + ", cfg_aspecto:" + sq(C_CUENTA_ANTICIPO_COBRANZA) + ", emp_id:" + companyId, TEXT);
               fields.add(C.CFG_GRUPO, C_GRUPO_GENERAL, TEXT);
               fields.add(C.CFG_ASPECTO, C_CUENTA_ANTICIPO_COBRANZA, TEXT);
               fields.add(C.CFG_VALOR, property.getSelectId(), TEXT);
@@ -586,9 +570,8 @@
             case K_CUE_ID_ANT_OPG:
               register = createRegister();
 
-              register.setFilter("cfg_grupo:" + sq(C_GRUPO_GENERAL) + ", cfg_aspecto:" + sq(C_CUENTA_ANTICIPO_PAGOS) + ", emp_id:" + companyId);
-
               var fields = register.getFields();
+              fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(C_GRUPO_GENERAL) + ", cfg_aspecto:" + sq(C_CUENTA_ANTICIPO_PAGOS) + ", emp_id:" + companyId, TEXT);
               fields.add(C.CFG_GRUPO, C_GRUPO_GENERAL, TEXT);
               fields.add(C.CFG_ASPECTO, C_CUENTA_ANTICIPO_PAGOS, TEXT);
               fields.add(C.CFG_VALOR, property.getSelectId(), TEXT);
@@ -600,9 +583,8 @@
             case K_EXIGIR_CENTRO_COSTO:
               register = createRegister();
 
-              register.setFilter("cfg_grupo:" + sq(C_GRUPO_GENERAL) + ", cfg_aspecto:" + sq(C_EXIGIR_CENTRO_COSTO));
-
               var fields = register.getFields();
+              fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(C_GRUPO_GENERAL) + ", cfg_aspecto:" + sq(C_EXIGIR_CENTRO_COSTO), TEXT);
               fields.add(C.CFG_GRUPO, C_GRUPO_GENERAL, TEXT);
               fields.add(C.CFG_ASPECTO, C_EXIGIR_CENTRO_COSTO, TEXT);
               fields.add(C.CFG_VALOR, property.getValue(), TEXT);
@@ -613,9 +595,8 @@
             case K_COBRANZAS_XHOJARUTA:
               register = createRegister();
 
-              register.setFilter("cfg_grupo:" + sq(C_GRUPO_GENERAL) + ", cfg_aspecto:" + sq(C_COBRANZAS_X_HOJA_RUTA));
-
               var fields = register.getFields();
+              fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(C_GRUPO_GENERAL) + ", cfg_aspecto:" + sq(C_COBRANZAS_X_HOJA_RUTA), TEXT);
               fields.add(C.CFG_GRUPO, C_GRUPO_GENERAL, TEXT);
               fields.add(C.CFG_ASPECTO, C_COBRANZAS_X_HOJA_RUTA, TEXT);
               fields.add(C.CFG_VALOR, property.getValue(), TEXT);
@@ -630,7 +611,7 @@
         mainRegister.addTransaction(transaction);
 
         return DB.saveTransaction(
-            register,
+            mainRegister,
             false,
             "",
             C.CLIENT_SAVE_FUNCTION,
@@ -659,9 +640,8 @@
           var row = rows.item(_i);
           var register = createRegister();
 
-          register.setFilter("cfg_grupo:" + sq(C_GRUPO_GENERAL) + ", cfg_aspecto:" + sq(C_RETENCION));
-
           var fields = register.getFields();
+              fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(C_GRUPO_GENERAL) + ", cfg_aspecto:" + sq(C_RETENCION), TEXT);
           fields.add(CFG_GRUPO, C_GRUPO_GENERAL, TEXT);
           fields.add(C.CONFIG_KEY, C_RETENCION, TEXT);
           fields.add(C.CONFIG_VALUE, Dialogs.cell(row, KI_RET_ID).getId(), TEXT);

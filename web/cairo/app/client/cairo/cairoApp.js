@@ -314,6 +314,7 @@ var Cairo = new Marionette.Application();
   Cairo.Constants = {
     NO_ID: 0,
     NEW_ID: 0,
+    UPDATE_ID: -100,  // it is used to force backbone to send a put instead of a post
     NO_DATE: NO_DATE,
     NUMBER_ID: "_number_id_",
     STATUS_ID: "_status_id_",

@@ -121,9 +121,8 @@
             case K_CLAVE_FISCAL:
               register = createRegister();
 
-              register.setFilter("cfg_grupo:" + sq(C_GRUPO_GENERAL) + ", cfg_aspecto:" + sq(C_CLAVEFISCAL));
-
               var fields = register.getFields();
+              fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(C_GRUPO_GENERAL) + ", cfg_aspecto:" + sq(C_CLAVEFISCAL), TEXT);
               fields.add(CFG_GRUPO, C_GRUPO_GENERAL, TEXT);
               fields.add(C.CONFIG_KEY, C_CLAVEFISCAL, TEXT);
               fields.add(C.CONFIG_VALUE, property.getListItemData(), TEXT);
@@ -134,9 +133,8 @@
             case K_FACTURA_ELECTRONICA:
               register = createRegister();
 
-              register.setFilter("cfg_grupo:" + sq(C_GRUPO_GENERAL) + ", cfg_aspecto:" + sq(C_FACTURAELECTRONICA));
-
               var fields = register.getFields();
+              fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(C_GRUPO_GENERAL) + ", cfg_aspecto:" + sq(C_FACTURAELECTRONICA), TEXT);
               fields.add(CFG_GRUPO, C_GRUPO_GENERAL, TEXT);
               fields.add(C.CONFIG_KEY, C_FACTURAELECTRONICA, TEXT);
               fields.add(C.CONFIG_VALUE, property.getValue(), TEXT);
@@ -147,9 +145,8 @@
             case K_FE_PUNTO_VENTA:
               register = createRegister();
 
-              register.setFilter("cfg_grupo:" + sq(C_GRUPO_GENERAL) + ", cfg_aspecto:" + sq(C_PUNTOVENTAFE) + ", emp_id:" + companyId);
-
               var fields = register.getFields();
+              fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(C_GRUPO_GENERAL) + ", cfg_aspecto:" + sq(C_PUNTOVENTAFE) + ", emp_id:" + companyId, TEXT);
               fields.add(CFG_GRUPO, C_GRUPO_GENERAL, TEXT);
               fields.add(C.CONFIG_KEY, C_PUNTOVENTAFE, TEXT);
               fields.add(C.CONFIG_VALUE, property.getValue(), TEXT);
@@ -161,9 +158,8 @@
             case K_TA_ID_PREFACTURA:
               register = createRegister();
 
-              register.setFilter("cfg_grupo:" + sq(C_GRUPO_GENERAL) + ", cfg_aspecto:" + sq(C_TAIDPREFACTURA) + ", emp_id:" + companyId);
-
               var fields = register.getFields();
+              fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(C_GRUPO_GENERAL) + ", cfg_aspecto:" + sq(C_TAIDPREFACTURA) + ", emp_id:" + companyId, TEXT);
               fields.add(CFG_GRUPO, C_GRUPO_GENERAL, TEXT);
               fields.add(C.CONFIG_KEY, C_TAIDPREFACTURA, TEXT);
               fields.add(C.CONFIG_VALUE, property.getSelectId(), TEXT);

@@ -3875,7 +3875,7 @@
           p = saveDifCambioNCND(mainRegister, aplicado);
         }
 
-        return p = P.resolvedPromise(true);
+        return p || P.resolvedPromise(true);
       };
 
       var saveDifCambioCtaCble = function(mainRegister) {
