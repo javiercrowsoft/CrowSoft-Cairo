@@ -651,8 +651,12 @@
         }
       };
 
+      var getRetencionProperty = function() {
+        return m_dialog.getProperties().item(C_RETENCION);
+      };
+
       var getRetencion = function() {
-        return m_dialog.getProperties().item(C_RETENCION).getGrid();
+        return getRetencionProperty().getGrid();
       };
 
       self.getPath = function() {
@@ -874,6 +878,8 @@
       };
 
       var loadCollection = function() {
+
+        m_dialog.setTitle(C_GRUPO_GENERAL);
 
         var c_tab_general = 0;
         var c_tab_contabilidad = 1;
@@ -1171,6 +1177,8 @@
 
         var properties = m_dialog.getProperties();
 
+        m_dialog.setTitle(C_GRUPO_GENERAL);
+
         var elem = properties.item(C_DEFAULT_DIF_CAMBIO);
         elem.setListItemData(m_defaultDifCambio);
 
@@ -1245,7 +1253,7 @@
         var elem = properties.item(C_EXIGIR_CENTRO_COSTO);
         elem.setValue(Cairo.Util.boolToInt(m_exigirCentroCosto));
 
-        loadRetencion(getRetencion());
+        loadRetencion(getRetencionProperty());
 
         return m_dialog.showValues(properties);
       };

@@ -62,6 +62,11 @@ object TesoreriaSetting {
   }
 
   private def save(user: CompanyUser, tesoreriaSetting: TesoreriaSetting, isNew: Boolean): TesoreriaSetting = {
+    DB.withTransaction(user.database.database) { implicit connection =>
+      saveEx(user, tesoreriaSetting, isNew)
+    }
+  }
+  private def saveEx(user: CompanyUser, tesoreriaSetting: TesoreriaSetting, isNew: Boolean)(implicit connection: Connection): TesoreriaSetting = {
 
     def throwExceptionWithMessage(message: String) = {
       throw new RuntimeException(s"Error when saving ${C.CONFIGURACION} ($message)")
@@ -89,7 +94,7 @@ object TesoreriaSetting {
       val key = params.getOrElse(C.CFG_ASPECTO, "")
       val group = params.getOrElse(C.CFG_GRUPO, "")
       val empId = G.getIntOrZero(params.getOrElse(C.EMP_ID, ""))
-      if(empId != 0)
+      if (empId != 0)
         SettingFilter(key, group, s"${C.EMP_ID} = $empId")
       else
         SettingFilter(key, group, s"${C.EMP_ID} IS NULL")
@@ -113,42 +118,42 @@ object TesoreriaSetting {
       // first I want to see if there are any cases when the filter and the register doesn't match
       // and it is correct
       //
-      if(filter.key != setting.key) throwExceptionWithMessage(s"The key in settings doesn't match the key in filter [ ${filter.key} - ${setting.key} | ${filter.group} - ${setting.group} ]")
-      if(filter.group != setting.group) throwExceptionWithMessage(s"The group in settings doesn't match the group in filter [ ${filter.key} - ${setting.key} | ${filter.group} - ${setting.group} ]")
-      if(
-            (filter.empId != s"${C.EMP_ID} IS NULL" && setting.empId == 0)
-        ||  (filter.empId == s"${C.EMP_ID} IS NULL" && setting.empId != 0)
+      if (filter.key != setting.key) throwExceptionWithMessage(s"The key in settings doesn't match the key in filter [ ${filter.key} - ${setting.key} | ${filter.group} - ${setting.group} ]")
+      if (filter.group != setting.group) throwExceptionWithMessage(s"The group in settings doesn't match the group in filter [ ${filter.key} - ${setting.key} | ${filter.group} - ${setting.group} ]")
+      if (
+        (filter.empId != s"${C.EMP_ID} IS NULL" && setting.empId == 0)
+          || (filter.empId == s"${C.EMP_ID} IS NULL" && setting.empId != 0)
       ) throwExceptionWithMessage(s"The empId in settings doesn't match the empId in filter [ ${filter.key} - ${setting.key} | ${filter.group} - ${setting.group} | ${filter.empId} - ${setting.empId} ]")
 
-      val empId = if(setting.empId != 0) setting.empId.toString() else "null"
-      if(exists(filter))
+      val empId = if (setting.empId != 0) setting.empId.toString() else "null"
+      if (exists(filter))
         update(setting.key, setting.group, getSettingValue(setting.value), empId, filter)
       else
         insert(setting.key, setting.group, getSettingValue(setting.value), empId)
     }
 
     def exists(filter: SettingFilter) = {
-      DB.withConnection(user.database.database) { implicit connection =>
-        try {
-          SQL(s"SELECT COUNT(*) AS c FROM ${C.CONFIGURACION} WHERE ${C.CFG_ASPECTO} = {key} AND ${C.CFG_GRUPO} = {group} AND ${filter.empId}")
-            .on('key -> filter.key, 'group -> filter.group)
-            .apply().head[Long]("c") > 0
-        } catch {
-          case NonFatal(e) => {
-            Logger.error(s"can't check if record exists with filter $filter in ${C.CONFIGURACION}. Error ${e.toString}")
-            throw e
-          }
+      //DB.withConnection(user.database.database) { implicit connection =>
+      try {
+        SQL(s"SELECT COUNT(*) AS c FROM ${C.CONFIGURACION} WHERE ${C.CFG_ASPECTO} = {key} AND ${C.CFG_GRUPO} = {group} AND ${filter.empId}")
+          .on('key -> filter.key, 'group -> filter.group)
+          .apply().head[Long]("c") > 0
+      } catch {
+        case NonFatal(e) => {
+          Logger.error(s"can't check if record exists with filter $filter in ${C.CONFIGURACION}. Error ${e.toString}")
+          throw e
         }
       }
+      //}
     }
 
     def update(key: String, group: String, value: String, empId: String, filter: SettingFilter) = {
-      DB.withConnection(user.database.database) { implicit connection =>
+      //DB.withConnection(user.database.database) { implicit connection =>
         try {
-          SQL(s"""
-          UPDATE ${C.CONFIGURACION} SET ${C.CFG_VALOR} = {value}
-          | WHERE ${C.CFG_ASPECTO} = {key} AND ${C.CFG_GRUPO} = {group} AND ${filter.empId}
-          """.stripMargin)
+          SQL( s"""
+        UPDATE ${C.CONFIGURACION} SET ${C.CFG_VALOR} = {value}
+        | WHERE ${C.CFG_ASPECTO} = {key} AND ${C.CFG_GRUPO} = {group} AND ${filter.empId}
+        """.stripMargin)
             .on('key -> filter.key, 'group -> filter.group, 'value -> value)
             .executeUpdate
         } catch {
@@ -157,11 +162,11 @@ object TesoreriaSetting {
             throw e
           }
         }
-      }
+      //}
     }
 
     def insert(key: String, group: String, value: String, empId: String) = {
-      DB.withConnection(user.database.database) { implicit connection =>
+      //DB.withConnection(user.database.database) { implicit connection =>
         try {
           SQL(s"INSERT INTO ${C.CONFIGURACION} (${C.CFG_ASPECTO}, ${C.CFG_GRUPO}, ${C.CFG_VALOR}, ${C.EMP_ID}, ${DBHelper.UPDATED_BY}) VALUES({key}, {group}, {value}, $empId, {userId})")
             .on('key -> key, 'group -> group, 'value -> value, 'userId -> user.userId)
@@ -172,15 +177,15 @@ object TesoreriaSetting {
             throw e
           }
         }
-      }
+      //}
     }
 
     // remove all configuration for retenciones
     def deleteRetenciones() = {
-      DB.withConnection(user.database.database) { implicit connection =>
+      //DB.withConnection(user.database.database) { implicit connection =>
         try {
           SQL(s"DELETE FROM ${C.CONFIGURACION} WHERE ${C.CFG_ASPECTO} = {key} AND ${C.CFG_GRUPO} = {group} AND ${C.EMP_ID} = {empId}")
-            .on('key -> KEY_RETENCION, 'group -> KEY_GRUPO_GENERAL, 'empId -> user.cairoCompanyId )
+            .on('key -> KEY_RETENCION, 'group -> KEY_GRUPO_GENERAL, 'empId -> user.cairoCompanyId)
             .executeUpdate
         } catch {
           case NonFatal(e) => {
@@ -188,7 +193,7 @@ object TesoreriaSetting {
             throw e
           }
         }
-      }
+      //}
     }
 
     // save settings
@@ -204,6 +209,7 @@ object TesoreriaSetting {
     // always return what we have saved
     //
     load(user, tesoreriaSetting.userId).getOrElse(throwException)
+
   }
 
   def load(user: CompanyUser, id: Int): Option[TesoreriaSetting] = {
