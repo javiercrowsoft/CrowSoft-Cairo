@@ -641,7 +641,7 @@
           var register = createRegister();
 
           var fields = register.getFields();
-              fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(C_GRUPO_GENERAL) + ", cfg_aspecto:" + sq(C_RETENCION), TEXT);
+          fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(C_GRUPO_GENERAL) + ", cfg_aspecto:" + sq(C_RETENCION) + ", emp_id:" + companyId, TEXT);
           fields.add(CFG_GRUPO, C_GRUPO_GENERAL, TEXT);
           fields.add(C.CONFIG_KEY, C_RETENCION, TEXT);
           fields.add(C.CONFIG_VALUE, Dialogs.cell(row, KI_RET_ID).getId(), TEXT);

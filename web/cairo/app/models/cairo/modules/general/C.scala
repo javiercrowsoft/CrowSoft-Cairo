@@ -1342,6 +1342,7 @@ object C {
   val CFG_GRUPO = "cfg_grupo"
   val CFG_ASPECTO = "cfg_aspecto"
   val CFG_VALOR = "cfg_valor"
+  val CFG_FILTER = "cfg_filter"
 
   // Lenguaje
   val LENGUAJE = "Lenguaje"
