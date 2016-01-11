@@ -92,7 +92,7 @@
                "/{{filter}}" +
                "/" + active +
                "/" + useSearch +
-               "/" + internalFilter +
+               "/" + Cairo.Util.replaceAll(internalFilter, "|", "%7C") +
                "/2"; // like: 1 filter% | 2 %filter% | 3 filter.replaceAll(*,%) | 4 %filter
       };
 
@@ -102,7 +102,7 @@
                "/{{text}}" +
                "/{{textId}}" +
                "/" + active +
-               "/" + internalFilter;
+               "/" + Cairo.Util.replaceAll(internalFilter, "|", "%7C");
       };
 
       var getSearchSource = function(tableId, active, internalFilter) {

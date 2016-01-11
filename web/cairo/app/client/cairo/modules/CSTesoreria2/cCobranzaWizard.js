@@ -4772,7 +4772,7 @@
 
         m_cjId = NO_ID;
 
-        return D.loadCajaForCurrentUser().whenSuccess(
+        return D.loadCajaForCurrentUser().whenSuccessWithResult(
           function(result) {
             var warningMessage = valField(result.cajaInfo, "warning");
             if(warningMessage !== "") {
