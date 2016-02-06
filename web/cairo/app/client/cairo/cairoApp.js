@@ -624,7 +624,7 @@ var Cairo = new Marionette.Application();
   *                                                                 I live in Argentina. Obviuslly that has to be the
   *                                                                 reason. I am a dd/mm/yy person :D
   *                                                                 BUTTTTT wait ... WHY 2001 !!! I am not in 2001
-  *                                                                 it is 2015 (at least when I was written this)
+  *                                                                 it is 2015 (at least when I was writing this)
   * Okay I will make my own function :(
   *
   * */
