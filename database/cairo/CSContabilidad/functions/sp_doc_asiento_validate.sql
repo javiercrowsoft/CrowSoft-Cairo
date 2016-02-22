@@ -77,10 +77,8 @@ begin
 
       select sum(asi.asi_debe) - sum(asi.asi_haber)
         into v_dif
-      from Asiento ast
-      join AsientoItem asi
-        on ast.as_id = asi.as_id
-      group by ast.as_id;
+      from  AsientoItem asi
+      where as_id = p_as_id;
 
       if v_dif <> 0 then
 
