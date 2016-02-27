@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project version="4">
-  <component name="SqlDialectMappings">
-    <file url="file://$PROJECT_DIR$/database/cairo/CSAlarmaMail/Scripts/Servicios/postgresql/functions/alr_dc_csc_srv_0010_m.sql" dialect="PostgreSQL" />
-    <file url="file://$PROJECT_DIR$/database/cairo/CSAlarmaMail/Scripts/Servicios/postgresql/functions/alr_dc_csc_stk_0010_m.sql" dialect="PostgreSQL" />
-    <file url="file://$PROJECT_DIR$/database/cairo/CSScript/postgresql/functions/sp_arb_arbol_create.sql" dialect="PostgreSQL" />
-  </component>
-</project>
-
