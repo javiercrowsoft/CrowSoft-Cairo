@@ -9,7 +9,7 @@
     <meta name="author" content="">
     <link rel="shortcut icon" href="../../assets/ico/favicon.ico">
 
-    <title>Carousel Template for Bootstrap</title>
+    <title>Welcome to CrowSoft</title>
 
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" href="@routes.Assets.at("stylesheets/welcome.css")">
@@ -26,6 +26,45 @@
 
     <!-- Custom styles for this template -->
     <link href="carousel.css" rel="stylesheet">
+    <style>
+        .carousel-image-background {
+          position: relative;
+          width: 100%;
+          min-width: 974px;
+        }
+        .carousel-caption h1 {
+          color: white;
+        }
+        .carousel-caption p {
+          color: #F5F5F5;
+        }
+
+        @@media (min-width: 300px) {
+          .carousel-caption h1 {
+            font-size: 4em;
+          }
+          .carousel-caption p {
+            font-size: 2em;
+          }
+        }
+        @@media (min-width: 760px) {
+          .carousel-caption h1 {
+            font-size: 5em;
+          }
+          .carousel-caption p {
+            font-size: 2em;
+          }
+        }
+        @@media (min-width: 992px) {
+          .carousel-caption h1 {
+            font-size: 6em;
+          }
+          .carousel-caption p {
+            font-size: 2em;
+          }
+        }
+    </style>
+    
 </head>
 <!-- NAVBAR
 ================================================== -->
@@ -42,7 +81,7 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="#">Project name</a>
+                    <a class="navbar-brand" href="#">CrowSoft</a>
                 </div>
                 <div class="navbar-collapse collapse">
                     <ul class="nav navbar-nav">
@@ -81,32 +120,32 @@
     </ol>
     <div class="carousel-inner">
         <div class="item active">
-            <img data-src="holder.js/900x500/auto/#777:#7a7a7a/text:First slide" alt="First slide">
+            <img src="assets/images/crowsoft/reserva500.jpg" alt="First slide" class="carousel-image-background">
             <div class="container">
                 <div class="carousel-caption">
-                    <h1>Example headline.</h1>
-                    <p>Note: If you're viewing this page via a <code>file://</code> URL, the "next" and "previous" Glyphicon buttons on the left and right might not load/display properly due to web browser security rules.</p>
-                    <p><a class="btn btn-lg btn-primary" href="#" role="button">Sign up today</a></p>
+                    <h1>CrowSoft Cairo</h1>
+                    <p>Administre su empresa de forma simple y segura</p>
+                    <p><a class="btn btn-lg btn-primary" href="#" role="button">Contactenos</a></p>
                 </div>
             </div>
         </div>
         <div class="item">
-            <img data-src="holder.js/900x500/auto/#666:#6a6a6a/text:Second slide" alt="Second slide">
+            <img src="assets/images/crowsoft/merlo500.jpg" alt="Second slide" class="carousel-image-background">
             <div class="container">
                 <div class="carousel-caption">
-                    <h1>Another example headline.</h1>
-                    <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
-                    <p><a class="btn btn-lg btn-primary" href="#" role="button">Learn more</a></p>
+                    <h1>Factura Electronica</h1>
+                    <p>Genere facturas electrónicas según resolución general 2485 y 3749/15</p>
+                    <p><a class="btn btn-lg btn-primary" href="#" role="button">Contactenos</a></p>
                 </div>
             </div>
         </div>
         <div class="item">
-            <img data-src="holder.js/900x500/auto/#555:#5a5a5a/text:Third slide" alt="Third slide">
+            <img src="assets/images/crowsoft/cordoba500.jpg" alt="Third slide" class="carousel-image-background">
             <div class="container">
                 <div class="carousel-caption">
-                    <h1>One more for good measure.</h1>
-                    <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
-                    <p><a class="btn btn-lg btn-primary" href="#" role="button">Browse gallery</a></p>
+                    <h1>CrowSoft Cairo</h1>
+                    <p>Gestione sus compras, ventas, tesoreria, contabilidad y stock</p>
+                    <p><a class="btn btn-lg btn-primary" href="#" role="button">Contactenos</a></p>
                 </div>
             </div>
         </div>
@@ -126,21 +165,21 @@
     <!-- Three columns of text below the carousel -->
     <div class="row">
         <div class="col-lg-4">
-            <img class="img-circle" data-src="holder.js/140x140" alt="Generic placeholder image">
-            <h2>Heading</h2>
-            <p>Donec sed odio dui. Etiam porta sem malesuada magna mollis euismod. Nullam id dolor id nibh ultricies vehicula ut id elit. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Praesent commodo cursus magna.</p>
+            <img class="img-circle" src="assets/images/crowsoft/multi-user.png" alt="Generic placeholder image">
+            <h2>Multi Usuario</h2>
+            <p>Cree todos los usuarios que necesite. Defina perfiles de usuario para proteger su informacion. Los usuarios no requieren licencias adicionales.</p>
             <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
         </div><!-- /.col-lg-4 -->
         <div class="col-lg-4">
-            <img class="img-circle" data-src="holder.js/140x140" alt="Generic placeholder image">
-            <h2>Heading</h2>
-            <p>Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Cras mattis consectetur purus sit amet fermentum. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh.</p>
+            <img class="img-circle" src="assets/images/crowsoft/companies.jpeg" alt="Generic placeholder image">
+            <h2>Multi Empresa</h2>
+            <p>Gestione todas las empresas que necesite en una o mas bases de datos. Las empresas no requieren licencias adicionales.</p>
             <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
         </div><!-- /.col-lg-4 -->
         <div class="col-lg-4">
-            <img class="img-circle" data-src="holder.js/140x140" alt="Generic placeholder image">
-            <h2>Heading</h2>
-            <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
+            <img class="img-circle" src="assets/images/crowsoft/currencies.png" alt="Generic placeholder image">
+            <h2>Multi Moneda</h2>
+            <p>Venda, compre, pague y cobre en multiples monedas. El sistema realiza el calculo de diferencia de cambio automaticamente.</p>
             <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
         </div><!-- /.col-lg-4 -->
     </div><!-- /.row -->
@@ -152,11 +191,14 @@
 
     <div class="row featurette">
         <div class="col-md-7">
-            <h2 class="featurette-heading">First featurette heading. <span class="text-muted">It'll blow your mind.</span></h2>
-            <p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.</p>
+            <h2 class="featurette-heading">Una interfaz simple e intuitiva. <span class="text-muted">Descubra lo facil que es operar el sistema.</span></h2>
+            <p class="lead">
+            Al comenzar a utilizar el sistema descubrira lo rapido y facil que es crear nuevos documentos de facturas, cobranzas, pagos,
+            o ingresar nuevos clientes, productos o proveedores, gracias a un diseño de interfaz de usuario simple y estandarizado.
+            </p>
         </div>
         <div class="col-md-5">
-            <img class="featurette-image img-responsive" data-src="holder.js/500x500/auto" alt="Generic placeholder image">
+            <img class="featurette-image img-responsive" src="assets/images/crowsoft/desktop.png" alt="Generic placeholder image">
         </div>
     </div>
 
@@ -164,11 +206,11 @@
 
     <div class="row featurette">
         <div class="col-md-5">
-            <img class="featurette-image img-responsive" data-src="holder.js/500x500/auto" alt="Generic placeholder image">
+            <img class="featurette-image img-responsive" src="assets/images/crowsoft/facturas.png" alt="Generic placeholder image">
         </div>
         <div class="col-md-7">
-            <h2 class="featurette-heading">Oh yeah, it's that good. <span class="text-muted">See for yourself.</span></h2>
-            <p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.</p>
+            <h2 class="featurette-heading">Encuentre rapidamente toda la informacion que busca. <span class="text-muted">Compruebe lo rapido que es navegar documentos en el sistema.</span></h2>
+            <p class="lead">Gracias a los filtros por fecha, cliente, documento y descripcion encontrar facturas, cobranzas o pagos es instantaneo.</p>
         </div>
     </div>
 
@@ -176,11 +218,12 @@
 
     <div class="row featurette">
         <div class="col-md-7">
-            <h2 class="featurette-heading">And lastly, this one. <span class="text-muted">Checkmate.</span></h2>
-            <p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.</p>
+            <h2 class="featurette-heading">Reduzca los tiempos de carga de documentos. <span class="text-muted">Aproveche la contabilidad y el manejo de stock en linea.</span></h2>
+            <p class="lead">Gracias a la configuracion de parametros por defecto vea como se reducen todos sus tiempos de carga de datos al sistema.
+            Los asientos contables y los movimientos de stock se generan automicamente.</p>
         </div>
         <div class="col-md-5">
-            <img class="featurette-image img-responsive" data-src="holder.js/500x500/auto" alt="Generic placeholder image">
+            <img class="featurette-image img-responsive" src="assets/images/crowsoft/factura.png" alt="Generic placeholder image">
         </div>
     </div>
 
@@ -192,7 +235,7 @@
     <!-- FOOTER -->
     <footer>
         <p class="pull-right"><a href="#">Back to top</a></p>
-        <p>&copy; 2014 Company, Inc. &middot; <a href="#">Privacy</a> &middot; <a href="#">Terms</a></p>
+        <p>&copy; 2016 CrowSoft.</p>
     </footer>
 
 </div><!-- /.container -->
