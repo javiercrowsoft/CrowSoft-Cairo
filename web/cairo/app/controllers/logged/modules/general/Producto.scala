@@ -211,7 +211,6 @@ case class ProductoItemsData(
                              catalogosWeb: List[ProductoCatalogoWebData],
                              webImages: List[ProductoWebImageData],
 
-                             /* only used in save */
                              proveedorDeleted: String,
                              clienteDeleted: String,
                              cmiDeleted: String,
@@ -238,7 +237,6 @@ case class ProductoData(
                          web: ProductoWebData,
                          names: ProductoNombresData,
 
-                         /* only used in save */
                          items: ProductoItemsData
                          )
 

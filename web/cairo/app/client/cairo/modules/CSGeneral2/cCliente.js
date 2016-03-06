@@ -2848,7 +2848,6 @@
 
           var fields = register.getFields();
           register.setFieldId(C.CLIS_ID);
-          register.setTable(C.CLIENTE_SUCURSAL);
           register.setId(Cairo.Constants.NEW_ID);
 
           var _count = row.size();
@@ -2963,7 +2962,6 @@
 
           var fields = register.getFields();
           register.setFieldId(C.CLI_PERC_ID);
-          register.setTable(C.CLIENTE_PERCEPCION);
           register.setId(Cairo.Constants.NEW_ID);
 
           var _count = row.size();
@@ -3027,7 +3025,6 @@
 
           var fields = register.getFields();
           register.setFieldId(C.DPTO_CLI_ID);
-          register.setTable(C.DEPARTAMENTO_CLIENTE);
           register.setId(Cairo.Constants.NEW_ID);
 
           var _count = row.size();
@@ -3085,7 +3082,6 @@
 
           var fields = register.getFields();
           register.setFieldId(C.CLI_INFI_ID);
-          register.setTable(C.CLIENTE_INFORME_ITEM);
           register.setId(Cairo.Constants.NEW_ID);
 
           fields.add(C.PRE_ID, Dialogs.cell(row, KI_PRE_ID).getId().toString(), Types.id);
@@ -3121,7 +3117,6 @@
 
             var fields = register.getFields();
             register.setFieldId(C.EMP_CLI_ID);
-            register.setTable(C.EMPRESA_CLIENTE);
             register.setId(Cairo.Constants.NEW_ID);
 
             fields.add(C.EMP_ID, val(Dialogs.cell(row, KI_EMP_ID).getId()), Types.id);
@@ -3151,7 +3146,6 @@
 
           var fields = register.getFields();
           register.setFieldId(C.CLI_CUEG_ID);
-          register.setTable(C.CLIENTE_CUENTA_GRUPO);
           register.setId(Cairo.Constants.NEW_ID);
 
           var _count = row.size();
@@ -3212,7 +3206,6 @@
 
           var fields = register.getFields();
           register.setFieldId(C.CONT_ID);
-          register.setTable(C.CONTACTO);
           register.setId(Cairo.Constants.NEW_ID);
 
           var _count = row.size();

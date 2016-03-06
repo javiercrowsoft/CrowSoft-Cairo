@@ -1579,8 +1579,8 @@
       var loadCollection = function() {
 
         var elem;
+        var tab;
 
-        var tab_general = 0;
         var tab_compra = 1;
         var tab_stock = 2;
         var tab_venta = 3;
@@ -1591,46 +1591,46 @@
         var tab_Web = 8;
         var tab_web2 = 9;
 
-        var w_tabs = m_dialog.getTabs();
+        var tabs = m_dialog.getTabs();
 
-        w_tabs.clear();
+        tabs.clear();
 
-        var tab = w_tabs.add(null);
+        tab = tabs.add(null);
         tab.setName(Cairo.Constants.TAB_GENERAL);
 
-        var tab = w_tabs.add(null);
+        tab = tabs.add(null);
         tab.setName(getText(1489, "")); // Compras
         tab.setIndex(tab_compra);
 
-        var tab = w_tabs.add(null);
+        tab = tabs.add(null);
         tab.setIndex(tab_stock);
         tab.setName(getText(1298, "")); // Stock
 
-        var tab = w_tabs.add(null);
+        tab = tabs.add(null);
         tab.setIndex(tab_venta);
         tab.setName(getText(1059, "")); // Venta
 
-        var tab = w_tabs.add(null);
+        tab = tabs.add(null);
         tab.setIndex(tab_rubro);
         tab.setName(getText(1299, "")); // Rubro
 
-        var tab = w_tabs.add(null);
+        tab = tabs.add(null);
         tab.setIndex(tab_comex);
         tab.setName(getText(3523, "")); // COMEX
 
-        var tab = w_tabs.add(null);
+        tab = tabs.add(null);
         tab.setIndex(tab_kit);
         tab.setName(getText(1301, "")); // Kit
 
-        var tab = w_tabs.add(null);
+        tab = tabs.add(null);
         tab.setIndex(tab_proveedor);
         tab.setName(getText(4595, "")); // Terceros
 
-        var tab = w_tabs.add(null);
+        tab = tabs.add(null);
         tab.setIndex(tab_Web);
         tab.setName(getText(1038, "")); // Web
 
-        var tab = w_tabs.add(null);
+        tab = tabs.add(null);
         tab.setIndex(tab_web2);
         tab.setName(getText(4792, "")); // Cat. Web
 
@@ -3240,364 +3240,364 @@
         var property = properties.item(C.PR_NAME_COMPRA);
         property.setValue(m_purchaseName);
 
-        var property = properties.item(Cairo.Constants.ACTIVE);
+        property = properties.item(Cairo.Constants.ACTIVE);
         property.setValue(m_active === true ? 1 : 0);
 
-        var property = properties.item(C.PR_CODE);
+        property = properties.item(C.PR_CODE);
         property.setValue(m_code);
 
-        var property = properties.item(C.PR_CODIGO_EXTERNO);
+        property = properties.item(C.PR_CODIGO_EXTERNO);
         property.setValue(m_codigoExterno);
 
-        var property = properties.item(C.PR_CODIGO_BARRA);
+        property = properties.item(C.PR_CODIGO_BARRA);
         property.setValue(m_codigoBarra);
 
-        var property = properties.item(C.PR_CODIGO_BARRA_NAME);
+        property = properties.item(C.PR_CODIGO_BARRA_NAME);
         property.setValue(m_codigoBarraNombre);
 
-        var property = properties.item(C.IBC_ID);
+        property = properties.item(C.IBC_ID);
         property.setSelectId(m_ibc_id);
         property.setValue(m_ingresosBrutos);
 
-        var property = properties.item(C.PR_ES_PLANTILLA);
+        property = properties.item(C.PR_ES_PLANTILLA);
         property.setValue(m_isTemplate);
 
-        var property = properties.item(C.CUR_ID);
+        property = properties.item(C.CUR_ID);
         property.setValue(m_curso);
         property.setSelectId(m_cur_id);
 
-        var property = properties.item(C.PR_DESCRIP_COMPRA);
+        property = properties.item(C.PR_DESCRIP_COMPRA);
         property.setValue(m_descripCompra);
 
-        var property = properties.item(C.RPT_ID_NOMBRE_COMPRA);
+        property = properties.item(C.RPT_ID_NOMBRE_COMPRA);
         property.setValue(m_rpt_nombreCompra);
         property.setSelectId(m_rpt_id_nombreCompra);
 
-        var property = properties.item(C.RPT_ID_NOMBRE_VENTA);
+        property = properties.item(C.RPT_ID_NOMBRE_VENTA);
         property.setValue(m_rpt_nombreVenta);
         property.setSelectId(m_rpt_id_nombreVenta);
 
-        var property = properties.item(C.RPT_ID_NOMBRE_FACTURA);
+        property = properties.item(C.RPT_ID_NOMBRE_FACTURA);
         property.setValue(m_rpt_nombrefactura);
         property.setSelectId(m_rpt_id_nombrefactura);
 
-        var property = properties.item(C.RPT_ID_NOMBRE_WEB);
+        property = properties.item(C.RPT_ID_NOMBRE_WEB);
         property.setValue(m_rpt_nombreweb);
         property.setSelectId(m_rpt_id_nombreweb);
 
-        var property = properties.item(C.RPT_ID_NOMBRE_IMG);
+        property = properties.item(C.RPT_ID_NOMBRE_IMG);
         property.setValue(m_rpt_nombreimg);
         property.setSelectId(m_rpt_id_nombreimg);
 
-        var property = properties.item(C.RPT_ID_NOMBRE_IMG_ALT);
+        property = properties.item(C.RPT_ID_NOMBRE_IMG_ALT);
         property.setValue(m_rpt_nombreimgalt);
         property.setSelectId(m_rpt_id_nombreimgalt);
 
-        var property = properties.item(C.PR_SE_COMPRA);
+        property = properties.item(C.PR_SE_COMPRA);
         property.setValue(bToI(m_seCompra));
 
-        var property = properties.item(C.UN_ID_COMPRA);
+        property = properties.item(C.UN_ID_COMPRA);
         property.setSelectId(m_un_id_compra);
         property.setValue(m_unidadCompra);
 
-        var property = properties.item(C.CUEG_ID_COMPRA);
+        property = properties.item(C.CUEG_ID_COMPRA);
         property.setSelectId(m_cueg_id_compra);
         property.setValue(m_cuentaGCompra);
 
-        var property = properties.item(C.CCOS_ID_COMPRA);
+        property = properties.item(C.CCOS_ID_COMPRA);
         property.setSelectId(m_ccosId_compra);
         property.setValue(m_centroCostoCompra);
 
-        var property = properties.item(C.MARC_ID);
+        property = properties.item(C.MARC_ID);
         property.setValue(m_marca);
         property.setSelectId(m_marc_id);
 
-        var property = properties.item(C.UN_ID_PESO);
+        property = properties.item(C.UN_ID_PESO);
         property.setValue(m_unidadPeso);
         property.setSelectId(m_un_id_peso);
 
-        var property = properties.item(C.PR_PESO_NETO);
+        property = properties.item(C.PR_PESO_NETO);
         property.setValue(m_pesoNeto);
 
-        var property = properties.item(C.PR_PESO_TOTAL);
+        property = properties.item(C.PR_PESO_TOTAL);
         property.setValue(m_pesoTotal);
 
-        var property = properties.item(C.EGP_ID);
+        property = properties.item(C.EGP_ID);
         property.setValue(m_grupoExpo);
         property.setSelectId(m_egp_id);
 
-        var property = properties.item(C.EFM_ID);
+        property = properties.item(C.EFM_ID);
         property.setValue(m_familiaExpo);
         property.setSelectId(m_efm_id);
 
-        var property = properties.item(C.PR_FLETE_EXPO);
+        property = properties.item(C.PR_FLETE_EXPO);
         property.setValue(bToI(m_fleteExpo));
 
-        var property = properties.item(C.PR_CANT_X_CAJA_EXPO);
+        property = properties.item(C.PR_CANT_X_CAJA_EXPO);
         property.setValue(m_cantXCajaExpo);
 
-        var property = properties.item(C.EMBL_ID);
+        property = properties.item(C.EMBL_ID);
         property.setValue(m_embalaje);
         property.setSelectId(m_embl_id);
 
-        var property = properties.item(C.TI_ID_COMEX_GANANCIAS);
+        property = properties.item(C.TI_ID_COMEX_GANANCIAS);
         property.setSelectId(m_ti_id_comex_ganancias);
         property.setValue(m_ti_comex_ganancias);
 
-        var property = properties.item(C.TI_ID_COMEX_IGB);
+        property = properties.item(C.TI_ID_COMEX_IGB);
         property.setSelectId(m_ti_id_comex_igb);
         property.setValue(m_ti_comex_igb);
 
-        var property = properties.item(C.TI_ID_COMEX_IVA);
+        property = properties.item(C.TI_ID_COMEX_IVA);
         property.setSelectId(m_ti_id_comex_iva);
         property.setValue(m_ti_comex_iva);
 
-        var property = properties.item(C.POAR_ID);
+        property = properties.item(C.POAR_ID);
         property.setSelectId(m_poar_id);
         property.setValue(m_posicionArancel);
 
-        var property = properties.item(C.PR_EXPO_WEB);
+        property = properties.item(C.PR_EXPO_WEB);
         property.setValue(m_expoWeb);
 
-        var property = properties.item(C.PR_EXPO_CAIRO);
+        property = properties.item(C.PR_EXPO_CAIRO);
         property.setValue(m_expoCairo);
 
-        var property = properties.item(C.PR_VENTA_WEB_MAXIMA);
+        property = properties.item(C.PR_VENTA_WEB_MAXIMA);
         property.setValue(m_ventaWebMaxima);
 
-        var property = properties.item(C.LEY_ID);
+        property = properties.item(C.LEY_ID);
         property.setValue(m_leyenda);
         property.setSelectId(m_ley_id);
 
-        var property = properties.item(C.PR_WEB_IMAGE_FOLDER);
+        property = properties.item(C.PR_WEB_IMAGE_FOLDER);
         property.setValue(m_webImageFolder);
 
-        var property = properties.item(C.PR_WEB_IMAGE_UPDATE);
+        property = properties.item(C.PR_WEB_IMAGE_UPDATE);
         property.setValue(bToI(m_webImageUpdate));
 
-        var property = properties.item(C.TI_ID_RI_COMPRA);
+        property = properties.item(C.TI_ID_RI_COMPRA);
         property.setValue(m_tiIvaRiCompra);
         property.setSelectId(m_ti_id_iva_ri_compra);
 
-        var property = properties.item(C.TI_ID_INTERNOS_COMPRA);
+        property = properties.item(C.TI_ID_INTERNOS_COMPRA);
         property.setValue(m_tiInternosc);
         property.setSelectId(m_ti_id_internos_c);
 
-        var property = properties.item(C.PR_PORC_INTERNO_C);
+        property = properties.item(C.PR_PORC_INTERNO_C);
         property.setValue(m_porcInternoC);
 
         //////////////////////////////////////////////////////////////
         // Stock
         //
-        var property = properties.item(C.PR_LLEVA_STOCK);
+        property = properties.item(C.PR_LLEVA_STOCK);
         property.setValue(bToI(m_llevaStock));
 
-        var property = properties.item(C.UN_ID_STOCK);
+        property = properties.item(C.UN_ID_STOCK);
         property.setValue(m_unidadStock);
         property.setSelectId(m_un_id_stock);
 
-        var property = properties.item(C.PR_STOCK_COMPRA);
+        property = properties.item(C.PR_STOCK_COMPRA);
         property.setValue(m_compraStock);
 
-        var property = properties.item(C.PR_X);
+        property = properties.item(C.PR_X);
         property.setValue(m_x);
 
-        var property = properties.item(C.PR_Y);
+        property = properties.item(C.PR_Y);
         property.setValue(m_y);
 
-        var property = properties.item(C.PR_Z);
+        property = properties.item(C.PR_Z);
         property.setValue(m_z);
 
-        var property = properties.item(C.PR_STOCK_MINIMO);
+        property = properties.item(C.PR_STOCK_MINIMO);
         property.setValue(m_stockMinimo);
 
-        var property = properties.item(C.PR_STOCK_MAXIMO);
+        property = properties.item(C.PR_STOCK_MAXIMO);
         property.setValue(m_stockMaximo);
 
-        var property = properties.item(C.PR_REPOSICION);
+        property = properties.item(C.PR_REPOSICION);
         property.setValue(m_reposicion);
 
-        var property = properties.item(C.PR_LLEVA_NRO_SERIE);
+        property = properties.item(C.PR_LLEVA_NRO_SERIE);
         property.setValue(bToI(m_llevaNroSerie));
 
-        var property = properties.item(C.PR_LLEVA_NRO_LOTE);
+        property = properties.item(C.PR_LLEVA_NRO_LOTE);
         property.setValue(bToI(m_llevaNroLote));
 
-        var property = properties.item(C.PR_LOTE_FIFO);
+        property = properties.item(C.PR_LOTE_FIFO);
         property.setValue(bToI(m_loteFifo));
 
-        var property = properties.item(C.PR_SE_PRODUCE);
+        property = properties.item(C.PR_SE_PRODUCE);
         property.setValue(bToI(m_seProduce));
 
-        var property = properties.item(C.PR_ES_REPUESTO);
+        property = properties.item(C.PR_ES_REPUESTO);
         property.setValue(bToI(m_esRepuesto));
 
         //////////////////////////////////////////////////////////////
         // Ventas
         //
-        var property = properties.item(C.PR_SE_VENDE);
+        property = properties.item(C.PR_SE_VENDE);
         property.setValue(bToI(m_seVende));
 
-        var property = properties.item(C.PR_NAME_VENTA);
+        property = properties.item(C.PR_NAME_VENTA);
         property.setValue(m_saleName);
 
-        var property = properties.item(C.PR_NAME_FACTURA);
+        property = properties.item(C.PR_NAME_FACTURA);
         property.setValue(m_nombreFactura);
 
-        var property = properties.item(C.UN_ID_VENTA);
+        property = properties.item(C.UN_ID_VENTA);
         property.setValue(m_unidadVenta);
         property.setSelectId(m_un_id_venta);
 
-        var property = properties.item(C.PR_VENTA_COMPRA);
+        property = properties.item(C.PR_VENTA_COMPRA);
         property.setValue(m_compraVenta);
 
-        var property = properties.item(C.PR_VENTA_STOCK);
+        property = properties.item(C.PR_VENTA_STOCK);
         property.setValue(m_ventaStock);
 
-        var property = properties.item(C.CUEG_ID_VENTA);
+        property = properties.item(C.CUEG_ID_VENTA);
         property.setSelectId(m_cueg_id_venta);
         property.setValue(m_cuentaGVenta);
 
-        var property = properties.item(C.PR_ES_LISTA);
+        property = properties.item(C.PR_ES_LISTA);
         property.setValue(bToI(m_esLista));
 
-        var property = properties.item(C.TI_ID_RI_VENTA);
+        property = properties.item(C.TI_ID_RI_VENTA);
         property.setValue(m_tiIvaRiVenta);
         property.setSelectId(m_ti_id_iva_ri_venta);
 
-        var property = properties.item(C.TI_ID_INTERNOS_VENTA);
+        property = properties.item(C.TI_ID_INTERNOS_VENTA);
         property.setValue(m_tiInternosv);
         property.setSelectId(m_ti_id_internos_v);
 
-        var property = properties.item(C.PR_PORC_INTERNO_V);
+        property = properties.item(C.PR_PORC_INTERNO_V);
         property.setValue(m_porcInternoV);
 
-        var property = properties.item(C.PR_DINERARIO);
+        property = properties.item(C.PR_DINERARIO);
         property.setValue(bToI(m_dinerario));
 
-        var property = properties.item(C.PR_NO_REDONDEO);
+        property = properties.item(C.PR_NO_REDONDEO);
         property.setValue(bToI(m_noRedondeo));
 
-        var property = properties.item(C.CCOS_ID_VENTA);
+        property = properties.item(C.CCOS_ID_VENTA);
         property.setSelectId(m_ccosId_venta);
         property.setValue(m_centroCostoVenta);
 
-        var property = properties.item(C.PR_DESCRIP_VENTA);
+        property = properties.item(C.PR_DESCRIP_VENTA);
         property.setValue(m_descripVenta);
 
-        var property = properties.item(C.RUB_ID);
+        property = properties.item(C.RUB_ID);
         property.setValue(m_rubro);
         property.setSelectId(m_rub_id);
 
         //////////////////////////////////////////////////////////////
         // Kit
         //
-        var property = properties.item(C.PR_ES_KIT);
+        property = properties.item(C.PR_ES_KIT);
         property.setValue(bToI(m_eskit));
 
-        var property = properties.item(C.PR_KIT_STOCK_X_ITEM);
+        property = properties.item(C.PR_KIT_STOCK_X_ITEM);
         property.setValue(bToI(m_kitStkXItem));
 
-        var property = properties.item(C.PR_KIT_RESUMIDO);
+        property = properties.item(C.PR_KIT_RESUMIDO);
         property.setValue(bToI(m_kitResumido));
 
-        var property = properties.item(C.PR_KIT_IDENTIDAD);
+        property = properties.item(C.PR_KIT_IDENTIDAD);
         property.setValue(bToI(m_kitIdentidad));
 
-        var property = properties.item(C.PR_KIT_IDENTIDAD_X_ITEM);
+        property = properties.item(C.PR_KIT_IDENTIDAD_X_ITEM);
         property.setValue(bToI(m_kitIdentidadXItem));
 
-        var property = properties.item(C.TA_ID_KIT_SERIE);
+        property = properties.item(C.TA_ID_KIT_SERIE);
         property.setValue(m_talonarioKitSerie);
         property.setSelectId(m_ta_id_kitSerie);
 
-        var property = properties.item(C.PR_KIT_LOTE);
+        property = properties.item(C.PR_KIT_LOTE);
         property.setValue(bToI(m_kitLote));
 
-        var property = properties.item(C.PR_KIT_LOTE_X_ITEM);
+        property = properties.item(C.PR_KIT_LOTE_X_ITEM);
         property.setValue(bToI(m_kitLoteXItem));
 
-        var property = properties.item(C.TA_ID_KIT_LOTE);
+        property = properties.item(C.TA_ID_KIT_LOTE);
         property.setValue(m_talonarioKitLote);
         property.setSelectId(m_ta_id_kitLote);
 
-        var property = properties.item(C_PRODUCTO_KIT);
+        property = properties.item(C_PRODUCTO_KIT);
         loadKit(property);
 
         //////////////////////////////////////////////////////////////
         // Proveedores
         //
-        var property = properties.item(C_PROVEEDOR);
+        property = properties.item(C_PROVEEDOR);
         loadProveedor(property);
         m_itemsDeletedProveedor = "";
 
         //////////////////////////////////////////////////////////////
         // Clientes
         //
-        var property = properties.item(C_CLIENTE);
+        property = properties.item(C_CLIENTE);
         loadCliente(property);
         m_itemsDeletedCliente = "";
 
         //////////////////////////////////////////////////////////////
         // BOMs
         //
-        var property = properties.item(C_BOM);
+        property = properties.item(C_BOM);
         loadBOM(property);
 
         //////////////////////////////////////////////////////////////
         // CMI
         //
-        var property = properties.item(C_CMI);
+        property = properties.item(C_CMI);
         loadCMI(property);
         m_itemsDeletedCMI = "";
 
         //////////////////////////////////////////////////////////////
         // Leyendas
         //
-        var property = properties.item(C_LEYENDAS);
+        property = properties.item(C_LEYENDAS);
         loadLeyendas(property);
         m_itemsDeletedLeyendas = "";
 
         //////////////////////////////////////////////////////////////
         // Tags
         //
-        var property = properties.item(C.PR_NAME_WEB);
+        property = properties.item(C.PR_NAME_WEB);
         property.setValue(m_nombreWeb);
 
-        var property = properties.item(C.PR_ALIAS_WEB);
+        property = properties.item(C.PR_ALIAS_WEB);
         property.setValue(m_aliasWeb);
 
-        var property = properties.item(C.PR_ID_WEB_PADRE);
+        property = properties.item(C.PR_ID_WEB_PADRE);
         property.setValue(m_productowebpadre);
         property.setSelectId(m_prIdWebPadre);
 
-        var property = properties.item(C.PR_ACTIVO_WEB);
+        property = properties.item(C.PR_ACTIVO_WEB);
         property.setValue(bToI(m_activoWeb));
 
-        var property = properties.item(C.PR_CODIGO_HTML);
+        property = properties.item(C.PR_CODIGO_HTML);
         property.setValue(m_codigoHtml);
 
-        var property = properties.item(C.PR_CODIGO_HTML_DETALLE);
+        property = properties.item(C.PR_CODIGO_HTML_DETALLE);
         property.setValue(m_codigoHtmlDetalle);
 
-        var property = properties.item(C_WEB_IMAGES);
+        property = properties.item(C_WEB_IMAGES);
         loadWebImages(property);
         m_itemsDeletedWebImages = "";
 
-        var property = properties.item(C_TAGS);
+        property = properties.item(C_TAGS);
         loadTags(property);
         m_itemsDeletedTag = "";
 
         //////////////////////////////////////////////////////////////
         // Catalogos
         //
-        var property = properties.item(C_WEB_CATALOGS);
+        property = properties.item(C_WEB_CATALOGS);
         loadCatalogosWeb(property);
 
         //////////////////////////////////////////////////////////////
         // Categorias
         //
-        var property = properties.item(C_WEB_CATEGORIES);
+        property = properties.item(C_WEB_CATEGORIES);
         loadCategoriasWeb(property);
 
         m_genericEdit.refreshProperties(m_dialog);
@@ -3620,66 +3620,67 @@
       };
 
       var refreshRubro = function() {
+        var property;
         var rubro = m_data.rubro;
 
         var properties = m_dialog.getProperties();
 
         if(rubro.getRubtId1() !== NO_ID) {
-          var property = properties.item(C.RUBTI_ID_1);
+          property = properties.item(C.RUBTI_ID_1);
           property.setValue(m_rubti_name1);
           property.setSelectId(m_rubti_id1);
         }
 
         if(rubro.getRubtId2() !== NO_ID) {
-          var property = properties.item(C.RUBTI_ID_2);
+          property = properties.item(C.RUBTI_ID_2);
           property.setValue(m_rubti_name2);
           property.setSelectId(m_rubti_id2);
         }
 
         if(rubro.getRubtId3() !== NO_ID) {
-          var property = properties.item(C.RUBTI_ID_3);
+          property = properties.item(C.RUBTI_ID_3);
           property.setValue(m_rubti_name3);
           property.setSelectId(m_rubti_id3);
         }
 
         if(rubro.getRubtId4() !== NO_ID) {
-          var property = properties.item(C.RUBTI_ID_4);
+          property = properties.item(C.RUBTI_ID_4);
           property.setValue(m_rubti_name4);
           property.setSelectId(m_rubti_id4);
         }
 
         if(rubro.getRubtId5() !== NO_ID) {
-          var property = properties.item(C.RUBTI_ID_5);
+          property = properties.item(C.RUBTI_ID_5);
           property.setValue(m_rubti_name5);
           property.setSelectId(m_rubti_id5);
         }
 
         if(rubro.getRubtId6() !== NO_ID) {
-          var property = properties.item(C.RUBTI_ID_6);
+          property = properties.item(C.RUBTI_ID_6);
           property.setValue(m_rubti_name6);
           property.setSelectId(m_rubti_id6);
         }
 
         if(rubro.getRubtId7() !== NO_ID) {
-          var property = properties.item(C.RUBTI_ID_7);
+          property = properties.item(C.RUBTI_ID_7);
           property.setValue(m_rubti_name7);
           property.setSelectId(m_rubti_id7);
         }
 
         if(rubro.getRubtId8() !== NO_ID) {
-          var property = properties.item(C.RUBTI_ID_8);
+          property = properties.item(C.RUBTI_ID_8);
           property.setValue(m_rubti_name8);
           property.setSelectId(m_rubti_id8);
         }
 
         if(rubro.getRubtId9() !== NO_ID) {
-          var property = properties.item(C.RUBTI_ID_9);
+          property = properties.item(C.RUBTI_ID_9);
           property.setValue(m_rubti_name9);
           property.setSelectId(m_rubti_id9);
         }
 
         if(rubro.getRubtId10() !== NO_ID) {
-          var property = properties.item(C.RUBTI_ID_10);
+          property = properties.item(C.RUBTI_ID_10);
           property.setValue(m_rubti_name10);
           property.setSelectId(m_rubti_id10);
         }
@@ -3812,7 +3813,7 @@
       self.gridDblClick = function(key, lRow, lCol) {
         switch (key) {
           case K_PROVEEDOR:
-            var property = m_dialog.getProperties().item(C_PROVEEDOR);
+            property = m_dialog.getProperties().item(C_PROVEEDOR);
             editPriceList(Dialogs.cell(property.getGrid().getRows().item(lRow), KIK_PROV_LPI_ID).getId());
             break;
         }
@@ -3875,7 +3876,6 @@
 
             var fields = register.getFields();
             register.setFieldId(C.CATWI_ID);
-            register.setTable(C.CATALOGO_WEB_ITEM);
             register.setId(Cairo.Constants.NEW_ID);
 
             var _countj = row.size();
@@ -3905,7 +3905,7 @@
 
       var saveItemsWebCategorias = function(mainRegister) {
         var transaction = DB.createTransaction();
-        transaction.setTable(C.CATALOGOWEBCATEGORIAITEM);
+        transaction.setTable(C.CATALOGO_WEB_CATEGORIA_ITEM);
 
         var property = m_dialog.getProperties().item(C_WEB_CATEGORIES);
 
@@ -3921,7 +3921,6 @@
 
             var fields = register.getFields();
             register.setFieldId(C.CATWCI_ID);
-            register.setTable(C.CATALOGOWEBCATEGORIAITEM);
             register.setId(Cairo.Constants.NEW_ID);
 
             var _countj = row.size();
@@ -3958,7 +3957,7 @@
         var updatePriceTransaction = DB.createTransaction();
 
         transaction.setTable(C.PRODUCTO_PROVEEDOR);
-        updatePriceTransaction.setTable("UPDATED_PRICES");
+        updatePriceTransaction.setTable(C.UPDATED_PRICES);
 
         var property = m_dialog.getProperties().item(C_PROVEEDOR);
 
@@ -3974,7 +3973,6 @@
 
             var fields = register.getFields();
             register.setFieldId(C.PRPROV_ID);
-            register.setTable(C.PRODUCTO_PROVEEDOR);
             register.setId(Cairo.Constants.NEW_ID);
 
             var _countj = row.size();
@@ -4070,7 +4068,6 @@
 
           var fields = register.getFields();
           register.setFieldId(C.PRCMI_ID);
-          register.setTable(C.PRODUCTO_COMUNIDAD_INTERNET);
           register.setId(Cairo.Constants.NEW_ID);
 
           var _countj = row.size();
@@ -4146,7 +4143,6 @@
 
           var fields = register.getFields();
           register.setFieldId(C.PRL_ID);
-          register.setTable(C.PRODUCTO_LEYENDA);
           register.setId(Cairo.Constants.NEW_ID);
 
           var _countj = row.size();
@@ -4214,7 +4210,6 @@
 
           var fields = register.getFields();
           register.setFieldId(C.PRWI_ID);
-          register.setTable(C.PRODUCTO_WEB_IMAGE);
           register.setId(Cairo.Constants.NEW_ID);
 
           var _countj = row.size();
@@ -4282,7 +4277,6 @@
 
           var fields = register.getFields();
           register.setFieldId(C.PR_CLI_ID);
-          register.setTable(C.PRODUCTO_CLIENTE);
           register.setId(Cairo.Constants.NEW_ID);
 
           var _countj = row.size();
@@ -4352,7 +4346,6 @@
 
           var fields = register.getFields();
           register.setFieldId(C.PRT_ID);
-          register.setTable(C.PRODUCTO_TAG);
           register.setId(Cairo.Constants.NEW_ID);
 
           var _countj = row.size();

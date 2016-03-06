@@ -294,12 +294,6 @@
         return Cairo.Promises.resolvedPromise(false);
       };
 
-      var createRegister = function() {
-        var register = new DB.Register();
-        register.setTable(C.CONFIGURACION);
-        return register;
-      };
-      
       self.save = function() {
         var register = null;
 
@@ -317,7 +311,7 @@
           switch (property.getKey()) {
 
             case K_CUE_ID_DESCUENTO:
-              register = createRegister();
+              register = new DB.Register();
 
               var fields = register.getFields();
               fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(C_GRUPO_GENERAL) + ", cfg_aspecto:" + sq(C_CUE_ID_DESC_GLOBAL), TEXT);
@@ -329,7 +323,7 @@
               break;
 
             case K_GRABAR_ASIENTO:
-              register = createRegister();
+              register = new DB.Register();
 
               var fields = register.getFields();
               fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(C_GRUPO_GENERAL) + ", cfg_aspecto:" + sq(C_GRABAR_ASIENTO), TEXT);
@@ -341,7 +335,7 @@
               break;
 
             case K_WEBMAIL_LEYENDA:
-              register = createRegister();
+              register = new DB.Register();
 
               var fields = register.getFields();
               fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(C_GRUPO_GENERAL) + ", cfg_aspecto:" + sq(C_WEB_USER_MAIL_LEYENDA), TEXT);
@@ -353,7 +347,7 @@
               break;
 
             case K_EXIGIR_CAJA:
-              register = createRegister();
+              register = new DB.Register();
 
               var fields = register.getFields();
               fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(C_GRUPO_GENERAL) + ", cfg_aspecto:" + sq(C_EXIGIR_CAJA), TEXT);
@@ -365,7 +359,7 @@
               break;
 
             case K_EXIGIR_CENTRO_COSTO:
-              register = createRegister();
+              register = new DB.Register();
 
               var fields = register.getFields();
               fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(C_GRUPO_GENERAL) + ", cfg_aspecto:" + sq(C_EXIGIR_CENTRO_COSTO), TEXT);
@@ -377,7 +371,7 @@
               break;
 
             case K_APLIC_CLIENTE_FAMILIA:
-              register = createRegister();
+              register = new DB.Register();
 
               var fields = register.getFields();
               fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(C_GRUPO_GENERAL) + ", cfg_aspecto:" + sq(C_APLIC_CLIENTE_FAMILIA), TEXT);
@@ -389,7 +383,7 @@
               break;
 
             case K_REDONDEO_EN_PRECIOS:
-              register = createRegister();
+              register = new DB.Register();
 
               var fields = register.getFields();
               fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(C_GRUPO_GENERAL) + ", cfg_aspecto:" + sq(C_REDONDEO_EN_PRECIOS), TEXT);
@@ -401,7 +395,7 @@
               break;
 
             case K_USAR_LISTAPRECIOPRECIO:
-              register = createRegister();
+              register = new DB.Register();
 
               var fields = register.getFields();
               fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(C_GRUPO_GENERAL) + ", cfg_aspecto:" + sq(C_USAR_LISTA_PRECIO_PRECIO), TEXT);
@@ -413,7 +407,7 @@
               break;
 
             case K_DECIMALES_EN_PRECIOS:
-              register = createRegister();
+              register = new DB.Register();
 
               var fields = register.getFields();
               fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(C_GRUPO_GENERAL) + ", cfg_aspecto:" + sq(C_DECIMALES_EN_PRECIOS), TEXT);
@@ -425,7 +419,7 @@
               break;
 
             case K_RESTO_ENTERO:
-              register = createRegister();
+              register = new DB.Register();
 
               var fields = register.getFields();
               fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(C_GRUPO_GENERAL) + ", cfg_aspecto:" + sq(C_RESTO_ENTERO), TEXT);
@@ -437,7 +431,7 @@
               break;
 
             case K_RAZONSOCIAL:
-              register = createRegister();
+              register = new DB.Register();
 
               var fields = register.getFields();
               fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(C_GRUPO_GENERAL) + ", cfg_aspecto:" + sq(C_PV_CLI_RAZONSOCIAL), TEXT);
@@ -449,7 +443,7 @@
               break;
 
             case K_CATFISCAL:
-              register = createRegister();
+              register = new DB.Register();
 
               var fields = register.getFields();
               fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(C_GRUPO_GENERAL) + ", cfg_aspecto:" + sq(C_PV_CLI_CAT_FISCAL), TEXT);
@@ -461,7 +455,7 @@
               break;
 
             case K_CPG_ID:
-              register = createRegister();
+              register = new DB.Register();
 
               var fields = register.getFields();
               fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(C_GRUPO_GENERAL) + ", cfg_aspecto:" + sq(C_PV_CPG_ID), TEXT);
@@ -473,7 +467,7 @@
               break;
 
             case K_LP_ID:
-              register = createRegister();
+              register = new DB.Register();
 
               var fields = register.getFields();
               fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(C_GRUPO_GENERAL) + ", cfg_aspecto:" + sq(C_PV_LP_ID), TEXT);
@@ -485,7 +479,7 @@
               break;
 
             case K_PRO_ID:
-              register = createRegister();
+              register = new DB.Register();
 
               var fields = register.getFields();
               fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(C_GRUPO_GENERAL) + ", cfg_aspecto:" + sq(C_PV_PRO_ID), TEXT);
@@ -497,7 +491,7 @@
               break;
 
             case K_ZON_ID:
-              register = createRegister();
+              register = new DB.Register();
 
               var fields = register.getFields();
               fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(C_GRUPO_GENERAL) + ", cfg_aspecto:" + sq(C_PV_ZON_ID), TEXT);
@@ -509,7 +503,7 @@
               break;
 
             case K_DOC_ID_FALTANTE:
-              register = createRegister();
+              register = new DB.Register();
 
               var fields = register.getFields();
               fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(C_GRUPO_GENERAL) + ", cfg_aspecto:" + sq(C_DOC_FACTURA_FALTANTE) + ", emp_id:" + companyId, TEXT);
@@ -522,7 +516,7 @@
               break;
 
             case K_DOC_ID_SOBRANTE:
-              register = createRegister();
+              register = new DB.Register();
 
               var fields = register.getFields();
               fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(C_GRUPO_GENERAL) + ", cfg_aspecto:" + sq(C_DOC_MOVIMIENTO_SOBRANTE) + ", emp_id:" + companyId, TEXT);
@@ -535,7 +529,7 @@
               break;
 
             case K_DOC_ID_TICKETS:
-              register = createRegister();
+              register = new DB.Register();
 
               var fields = register.getFields();
               fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(C_GRUPO_GENERAL) + ", cfg_aspecto:" + sq(C_DOC_MOVIMIENTO_TICKET) + ", emp_id:" + companyId, TEXT);
@@ -548,7 +542,7 @@
               break;
 
             case K_PR_ID_FALTANTES:
-              register = createRegister();
+              register = new DB.Register();
 
               var fields = register.getFields();
               fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(C_GRUPO_GENERAL) + ", cfg_aspecto:" + sq(C_PR_ID_FALTANTE) + ", emp_id:" + companyId, TEXT);
@@ -561,7 +555,7 @@
               break;
 
             case K_CUE_ID_SOBRANTES:
-              register = createRegister();
+              register = new DB.Register();
 
               var fields = register.getFields();
               fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(C_GRUPO_GENERAL) + ", cfg_aspecto:" + sq(C_CUE_ID_SOBRANTE) + ", emp_id:" + companyId, TEXT);
@@ -574,7 +568,7 @@
               break;
 
             case K_CUE_ID_TICKETS:
-              register = createRegister();
+              register = new DB.Register();
 
               var fields = register.getFields();
               fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(C_GRUPO_GENERAL) + ", cfg_aspecto:" + sq(C_CUE_ID_TICKETS) + ", emp_id:" + companyId, TEXT);
@@ -587,7 +581,7 @@
               break;
 
             case K_COBRANZA_POR_CAJERO:
-              register = createRegister();
+              register = new DB.Register();
 
               var fields = register.getFields();
               fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(C_GRUPO_GENERAL) + ", cfg_aspecto:" + sq(C_COBRANZA_POR_CAJERO), TEXT);
@@ -599,7 +593,7 @@
               break;
 
             case K_COBRANZA_POR_CAJERO:
-              register = createRegister();
+              register = new DB.Register();
 
               var fields = register.getFields();
               fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(C_GRUPO_GENERAL) + ", cfg_aspecto:" + sq(C_COBRANZA_POR_CAJERO), TEXT);
@@ -611,7 +605,7 @@
               break;
 
             case K_VENTAS_POR_HOJADERUTA:
-              register = createRegister();
+              register = new DB.Register();
 
               var fields = register.getFields();
               fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(C_GRUPO_GENERAL) + ", cfg_aspecto:" + sq(C_VENTAS_POR_HOJA_DE_RUTA), TEXT);
@@ -657,7 +651,7 @@
         for(var _i = 0, _count = rows.size(); _i < _count; _i++) {
 
           var row = rows.item(_i);
-          var register = createRegister();
+          var register = new DB.Register();
 
           var fields = register.getFields();
               fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(C_GRUPO_GENERAL) + ", cfg_aspecto:" + sq(C_PERCEPCION), TEXT);

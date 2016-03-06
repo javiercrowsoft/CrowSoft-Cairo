@@ -1016,7 +1016,7 @@ use this function but replace the LNG_ID
        search: .*elem\.set((Left)|(Top)|(Width)|(Height)).*?\(.+\n
        replace:
 
-       search (incluir espacioes despues de los dos puntos):        //'(.+)\n(.+)
+       search (incluir espacios despues de los dos puntos):        //'(.+)\n(.+)
        replace:$2 // $1
 
        search (incluir espacios despues de los dos puntos):        // (.+)\n.+c(.+)

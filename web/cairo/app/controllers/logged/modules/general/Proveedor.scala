@@ -109,7 +109,6 @@ case class ProveedorData(
                           dptos: List[ProveedorDepartamentoData],
                           centrosCosto: List[ProveedorCentroCostoData],
 
-                          /* only used in save */
                           caiDeleted: String,
                           cuentaGrupoDeleted: String,
                           retencionDeleted: String,

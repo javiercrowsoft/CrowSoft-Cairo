@@ -116,7 +116,6 @@ case class FacturaCompraItemData(
                                     base: FacturaCompraItemDataBase,
                                     totals: FacturaCompraItemDataTotals,
 
-                                    /* only used in save */
                                     series: List[FacturaCompraItemDataSerie],
                                     serieDeleted: String
                                   )
@@ -166,7 +165,6 @@ case class FacturaCompraData(
                               legajos: List[FacturaCompraLegajoData],
                               percepciones: List[FacturaCompraPercepcionData],
 
-                              /* only used in save */
                               itemDeleted: String,
                               otroDeleted: String,
                               legajoDeleted: String,
@@ -893,7 +891,6 @@ object FacturaCompras extends Controller with ProvidesUser {
       getLegajos(facturaCompra.legajos),
       getPercepciones(facturaCompra.percepciones),
 
-      /* only used in save */
       facturaCompra.itemDeleted,
       facturaCompra.otroDeleted,
       facturaCompra.legajoDeleted,

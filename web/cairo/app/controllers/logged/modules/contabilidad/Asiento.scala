@@ -43,8 +43,6 @@ case class AsientoData(
                         ids: AsientoIdData,
                         base: AsientoBaseData,
                         items: List[AsientoItemData],
-
-                        /* only used in save */
                         itemDeleted: String
                       )
 
@@ -239,8 +237,6 @@ object Asientos extends Controller with ProvidesUser {
   def getAsientoItems(asiento: AsientoData): AsientoItems = {
     AsientoItems(
       getItems(asiento.items),
-
-      /* only used in save */
       asiento.itemDeleted
     )
   }

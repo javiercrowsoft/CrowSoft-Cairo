@@ -4,7 +4,7 @@
 
 -- Dumped from database version 9.0.10
 -- Dumped by pg_dump version 9.1.4
--- Started on 2015-09-14 15:23:11 ART
+-- Started on 2016-02-28 22:10:25 ART
 
 SET statement_timeout = 0;
 SET client_encoding = 'UTF8';
@@ -20,8 +20,8 @@ SET default_tablespace = '';
 SET default_with_oids = false;
 
 --
--- TOC entry 793 (class 1259 OID 227978)
--- Dependencies: 4241 4242 4243 4244 4245 4246 4247 4248 4249 4250 6
+-- TOC entry 797 (class 1259 OID 227978)
+-- Dependencies: 4348 4349 4350 4351 4352 4353 4354 4355 4356 4357 6
 -- Name: sysmenu; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -51,8 +51,8 @@ CREATE TABLE sysmenu (
 ALTER TABLE public.sysmenu OWNER TO postgres;
 
 --
--- TOC entry 794 (class 1259 OID 227994)
--- Dependencies: 793 6
+-- TOC entry 798 (class 1259 OID 227994)
+-- Dependencies: 797 6
 -- Name: sysmenu_me_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -67,8 +67,8 @@ CREATE SEQUENCE sysmenu_me_id_seq
 ALTER TABLE public.sysmenu_me_id_seq OWNER TO postgres;
 
 --
--- TOC entry 4256 (class 0 OID 0)
--- Dependencies: 794
+-- TOC entry 4363 (class 0 OID 0)
+-- Dependencies: 798
 -- Name: sysmenu_me_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -76,8 +76,8 @@ ALTER SEQUENCE sysmenu_me_id_seq OWNED BY sysmenu.me_id;
 
 
 --
--- TOC entry 4257 (class 0 OID 0)
--- Dependencies: 794
+-- TOC entry 4364 (class 0 OID 0)
+-- Dependencies: 798
 -- Name: sysmenu_me_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
@@ -85,8 +85,8 @@ SELECT pg_catalog.setval('sysmenu_me_id_seq', 927, true);
 
 
 --
--- TOC entry 4240 (class 2604 OID 228389)
--- Dependencies: 794 793
+-- TOC entry 4347 (class 2604 OID 228389)
+-- Dependencies: 798 797
 -- Name: me_id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -94,8 +94,8 @@ ALTER TABLE ONLY sysmenu ALTER COLUMN me_id SET DEFAULT nextval('sysmenu_me_id_s
 
 
 --
--- TOC entry 4253 (class 0 OID 227978)
--- Dependencies: 793
+-- TOC entry 4360 (class 0 OID 227978)
+-- Dependencies: 797
 -- Data for Name: sysmenu; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -381,8 +381,8 @@ INSERT INTO sysmenu (me_id, me_text, me_key, pre_id, me_father, me_position, me_
 
 
 --
--- TOC entry 4252 (class 2606 OID 229695)
--- Dependencies: 793 793
+-- TOC entry 4359 (class 2606 OID 229695)
+-- Dependencies: 797 797
 -- Name: sysmenu_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -390,7 +390,7 @@ ALTER TABLE ONLY sysmenu
     ADD CONSTRAINT sysmenu_pkey PRIMARY KEY (me_id);
 
 
--- Completed on 2015-09-14 15:23:11 ART
+-- Completed on 2016-02-28 22:10:26 ART
 
 --
 -- PostgreSQL database dump complete

@@ -798,12 +798,6 @@
 
         transaction.setTable(C.CONFIGURACION)
 
-        var createRegister = function() {
-          var register = new Cairo.Database.Register();
-          register.setTable(C.CONFIGURACION);
-          return register;
-        };
-
         var _count = m_dialog.getProperties().size();
         for(var _i = 0; _i < _count; _i++) {
 
@@ -816,7 +810,7 @@
             //  
 
             case K_DOC_ID_PC:
-              register = createRegister();
+              register = new Cairo.Database.Register();
 
               var fields = register.getFields();
               fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(GRUPO_USUARIO_CONFIG) + ", cfg_aspecto:" + sq(ck(DOC_PC, ucs.purchases)) + ", emp_id:" + companyId, TEXT);
@@ -829,7 +823,7 @@
               break;
 
             case K_DOC_ID_PREC:
-              register = createRegister();
+              register = new Cairo.Database.Register();
 
               var fields = register.getFields();
               fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(GRUPO_USUARIO_CONFIG) + ", cfg_aspecto:" + sq(ck(DOC_PREC, ucs.purchases)) + ", emp_id:" + companyId, TEXT);
@@ -842,7 +836,7 @@
               break;
 
             case K_DOC_ID_COT:
-              register = createRegister();
+              register = new Cairo.Database.Register();
 
               var fields = register.getFields();
               fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(GRUPO_USUARIO_CONFIG) + ", cfg_aspecto:" + sq(ck(DOC_COT, ucs.purchases)) + ", emp_id:" + companyId, TEXT);
@@ -855,7 +849,7 @@
               break;
 
             case K_DOC_ID_OC:
-              register = createRegister();
+              register = new Cairo.Database.Register();
 
               var fields = register.getFields();
               fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(GRUPO_USUARIO_CONFIG) + ", cfg_aspecto:" + sq(ck(DOC_OC, ucs.purchases)) + ", emp_id:" + companyId, TEXT);
@@ -868,7 +862,7 @@
               break;
 
             case K_DOC_ID_RC:
-              register = createRegister();
+              register = new Cairo.Database.Register();
 
               var fields = register.getFields();
               fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(GRUPO_USUARIO_CONFIG) + ", cfg_aspecto:" + sq(ck(DOC_RC, ucs.purchases)) + ", emp_id:" + companyId, TEXT);
@@ -881,7 +875,7 @@
               break;
 
             case K_DOC_ID_FC:
-              register = createRegister();
+              register = new Cairo.Database.Register();
 
               var fields = register.getFields();
               fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(GRUPO_USUARIO_CONFIG) + ", cfg_aspecto:" + sq(ck(DOC_FC, ucs.purchases)) + ", emp_id:" + companyId, TEXT);
@@ -894,7 +888,7 @@
               break;
 
             case K_SHOWDATAADIC_IN_COMPRAS:
-              register = createRegister();
+              register = new Cairo.Database.Register();
 
               var fields = register.getFields();
               fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(GRUPO_USUARIO_CONFIG) + ", cfg_aspecto:" + sq(ck(SHOW_DATA_ADD_IN_COMPRAS, ucs.purchases)), TEXT);
@@ -909,7 +903,7 @@
             // stock
             //
             case K_DEPL_ID:
-              register = createRegister();
+              register = new Cairo.Database.Register();
 
               var fields = register.getFields();
               fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(GRUPO_USUARIO_CONFIG) + ", cfg_aspecto:" + sq(ck(DEPOSITO, ucs.stock)) + ", emp_id:" + companyId, TEXT);
@@ -922,7 +916,7 @@
               break;
 
             case K_DEPL_ID_SRV:
-              register = createRegister();
+              register = new Cairo.Database.Register();
 
               var fields = register.getFields();
               fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(GRUPO_USUARIO_CONFIG) + ", cfg_aspecto:" + sq(ck(DEPOSITO_SRV, ucs.stock)) + ", emp_id:" + companyId, TEXT);
@@ -939,7 +933,7 @@
             //
             case K_INFORMAR_ANTICIPOS:
 
-              register = createRegister();
+              register = new Cairo.Database.Register();
 
               var fields = register.getFields();
               fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(GRUPO_USUARIO_CONFIG) + ", cfg_aspecto:" + sq(ck(INFORMAR_ANTICIPOS, ucs.sales)), TEXT);
@@ -951,7 +945,7 @@
               break;
 
             case K_DOC_ID_PREV:
-              register = createRegister();
+              register = new Cairo.Database.Register();
 
               var fields = register.getFields();
               fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(GRUPO_USUARIO_CONFIG) + ", cfg_aspecto:" + sq(ck(DOC_PREV, ucs.sales)) + ", emp_id:" + companyId, TEXT);
@@ -964,7 +958,7 @@
               break;
 
             case K_DOC_ID_PV:
-              register = createRegister();
+              register = new Cairo.Database.Register();
 
               var fields = register.getFields();
               fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(GRUPO_USUARIO_CONFIG) + ", cfg_aspecto:" + sq(ck(DOC_PV, ucs.sales)) + ", emp_id:" + companyId, TEXT);
@@ -977,7 +971,7 @@
               break;
 
             case K_DOC_ID_RV:
-              register = createRegister();
+              register = new Cairo.Database.Register();
 
               var fields = register.getFields();
               fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(GRUPO_USUARIO_CONFIG) + ", cfg_aspecto:" + sq(ck(DOC_RV, ucs.sales)) + ", emp_id:" + companyId, TEXT);
@@ -990,7 +984,7 @@
               break;
 
             case K_DOC_ID_RV_C:
-              register = createRegister();
+              register = new Cairo.Database.Register();
 
               var fields = register.getFields();
               fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(GRUPO_USUARIO_CONFIG) + ", cfg_aspecto:" + sq(ck(DOC_RV_C, ucs.sales)) + ", emp_id:" + companyId, TEXT);
@@ -1003,7 +997,7 @@
               break;
 
             case K_DOC_ID_FV:
-              register = createRegister();
+              register = new Cairo.Database.Register();
 
               var fields = register.getFields();
               fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(GRUPO_USUARIO_CONFIG) + ", cfg_aspecto:" + sq(ck(DOC_FV, ucs.sales)) + ", emp_id:" + companyId, TEXT);
@@ -1016,7 +1010,7 @@
               break;
 
             case K_DOC_ID_COBZ:
-              register = createRegister();
+              register = new Cairo.Database.Register();
 
               var fields = register.getFields();
               fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(GRUPO_USUARIO_CONFIG) + ", cfg_aspecto:" + sq(ck(DOC_COBZ, ucs.sales)) + ", emp_id:" + companyId, TEXT);
@@ -1029,7 +1023,7 @@
               break;
 
             case K_VIEW_NAMES_IN_TOOLBAR:
-              register = createRegister();
+              register = new Cairo.Database.Register();
 
               var fields = register.getFields();
               fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(GRUPO_USUARIO_CONFIG) + ", cfg_aspecto:" + sq(ck(VIEW_NAMES_IN_TOOLBAR, ucs.general)), TEXT);
@@ -1041,7 +1035,7 @@
               break;
 
             case K_PARTE_REPARACION_ESTADO_DEFAULT:
-              register = createRegister();
+              register = new Cairo.Database.Register();
 
               var fields = register.getFields();
               fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(GRUPO_USUARIO_CONFIG) + ", cfg_aspecto:" + sq(ck(PRP_ESTADO_X_DEF, ucs.services)) + ", emp_id:" + companyId, TEXT);
@@ -1054,7 +1048,7 @@
               break;
 
             case K_SHOWDATAADIC_IN_VENTAS:
-              register = createRegister();
+              register = new Cairo.Database.Register();
 
               var fields = register.getFields();
               fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(GRUPO_USUARIO_CONFIG) + ", cfg_aspecto:" + sq(ck(SHOW_DATA_ADD_IN_VENTAS, ucs.sales)), TEXT);
@@ -1066,7 +1060,7 @@
               break;
 
             case K_SHOW_BARCODE_INPUT_CTRLS:
-              register = createRegister();
+              register = new Cairo.Database.Register();
 
               var fields = register.getFields();
               fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(GRUPO_USUARIO_CONFIG) + ", cfg_aspecto:" + sq(SHOW_BARCODE_INPUT_CTRLS) + ", emp_id:" + companyId, TEXT);
@@ -1079,7 +1073,7 @@
               break;
 
             case K_ESTADO_EN_HOJA_RUTA:
-              register = createRegister();
+              register = new Cairo.Database.Register();
 
               var fields = register.getFields();
               fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(GRUPO_USUARIO_CONFIG) + ", cfg_aspecto:" + sq(ck(ESTADO_HOJA_RUTA, ucs.sales)) + ", emp_id:" + companyId, TEXT);
@@ -1096,7 +1090,7 @@
             //  
 
             case K_PICKINLIST_DOC_ID_FACTURA:
-              register = createRegister();
+              register = new Cairo.Database.Register();
 
               var fields = register.getFields();
               fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(GRUPO_USUARIO_CONFIG) + ", cfg_aspecto:" + sq(ck(PKL_DOC_FACTURA, ucs.sales)) + ", emp_id:" + companyId, TEXT);
@@ -1109,7 +1103,7 @@
               break;
 
             case K_PICKINLIST_DOC_ID_INTERNO:
-              register = createRegister();
+              register = new Cairo.Database.Register();
 
               var fields = register.getFields();
               fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(GRUPO_USUARIO_CONFIG) + ", cfg_aspecto:" + sq(ck(PKL_DOC_INTERNO, ucs.sales)) + ", emp_id:" + companyId, TEXT);
@@ -1122,7 +1116,7 @@
               break;
 
             case K_ESTADO_EN_PICKING_LIST:
-              register = createRegister();
+              register = new Cairo.Database.Register();
 
               var fields = register.getFields();
               fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(GRUPO_USUARIO_CONFIG) + ", cfg_aspecto:" + sq(ck(ESTADO_PICKING_LIST, ucs.sales)) + ", emp_id:" + companyId, TEXT);
@@ -1139,7 +1133,7 @@
             //
 
             case K_DESKTOP:
-              register = createRegister();
+              register = new Cairo.Database.Register();
 
               var fields = register.getFields();
               fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(GRUPO_USUARIO_CONFIG) + ", cfg_aspecto:" + sq(ck(DESKTOP, ucs.general)) + ", emp_id:" + companyId, TEXT);
@@ -1152,7 +1146,7 @@
               break;
 
             case K_USAR_COLORES_EN_DOCUMENTOS:
-              register = createRegister();
+              register = new Cairo.Database.Register();
 
               var fields = register.getFields();
               fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(GRUPO_USUARIO_CONFIG) + ", cfg_aspecto:" + sq(ck(USAR_COLORES_EN_DOC, ucs.general)), TEXT);
@@ -1164,7 +1158,7 @@
               break;
 
             case K_COLOR_BACKGROUND:
-              register = createRegister();
+              register = new Cairo.Database.Register();
 
               var fields = register.getFields();
               fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(GRUPO_USUARIO_CONFIG) + ", cfg_aspecto:" + sq(ck(COLOR_EN_EMPRESA, ucs.general)) + ", emp_id:" + companyId, TEXT);
@@ -1177,7 +1171,7 @@
               break;
 
             case K_FOLDER_TO_EXPORT_PDF:
-              register = createRegister();
+              register = new Cairo.Database.Register();
 
               var fields = register.getFields();
               fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(GRUPO_USUARIO_CONFIG) + ", cfg_aspecto:" + sq(ck(FOLDER_TO_EXPORT_PDF, ucs.general)) + ", emp_id:" + companyId, TEXT);
@@ -1190,7 +1184,7 @@
               break;
 
             case K_LENGUAJE:
-              register = createRegister();
+              register = new Cairo.Database.Register();
 
               var fields = register.getFields();
               fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(GRUPO_USUARIO_CONFIG) + ", cfg_aspecto:" + sq(ck(LENGUAJE, ucs.general)) + ", emp_id:" + companyId, TEXT);
@@ -1204,7 +1198,7 @@
 
             case K_AUTO_SIZE_COLS:
 
-              register = createRegister();
+              register = new Cairo.Database.Register();
 
               var fields = register.getFields();
               fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(GRUPO_USUARIO_CONFIG) + ", cfg_aspecto:" + sq(ck(AUTO_SIZE_COLS, ucs.general)) + ", emp_id:" + companyId, TEXT);
@@ -1218,7 +1212,7 @@
 
             case K_MULTI_SELECT:
 
-              register = createRegister();
+              register = new Cairo.Database.Register();
 
               var fields = register.getFields();
               fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(GRUPO_USUARIO_CONFIG) + ", cfg_aspecto:" + sq(ck(MULTI_SELECT, ucs.general)) + ", emp_id:" + companyId, TEXT);
@@ -1232,7 +1226,7 @@
 
             case K_SHOW_SAVE_AS:
 
-              register = createRegister();
+              register = new Cairo.Database.Register();
 
               var fields = register.getFields();
               fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(GRUPO_USUARIO_CONFIG) + ", cfg_aspecto:" + sq(ck(SHOW_SAVE_AS, ucs.general)) + ", emp_id:" + companyId, TEXT);
@@ -1246,7 +1240,7 @@
 
             case K_SHOW_ALL_IN_WIZARD:
 
-              register = createRegister();
+              register = new Cairo.Database.Register();
 
               var fields = register.getFields();
               fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(GRUPO_USUARIO_CONFIG) + ", cfg_aspecto:" + sq(ck(SHOW_ALL_IN_WIZARD, ucs.general)) + ", emp_id:" + companyId, TEXT);
@@ -1263,7 +1257,7 @@
             //
 
             case K_DOC_ID_MF:
-              register = createRegister();
+              register = new Cairo.Database.Register();
 
               var fields = register.getFields();
               fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(GRUPO_USUARIO_CONFIG) + ", cfg_aspecto:" + sq(ck(DOC_MF, ucs.treasury)) + ", emp_id:" + companyId, TEXT);
@@ -1276,7 +1270,7 @@
               break;
 
             case K_DOC_ID_DBCO:
-              register = createRegister();
+              register = new Cairo.Database.Register();
 
               var fields = register.getFields();
               fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(GRUPO_USUARIO_CONFIG) + ", cfg_aspecto:" + sq(ck(DOC_DBCO, ucs.treasury)) + ", emp_id:" + companyId, TEXT);
@@ -1289,7 +1283,7 @@
               break;
 
             case K_DEBE_HABER_MF:
-              register = createRegister();
+              register = new Cairo.Database.Register();
 
               var fields = register.getFields();
               fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(GRUPO_USUARIO_CONFIG) + ", cfg_aspecto:" + sq(ck(DEBE_HABER_MF, ucs.treasury)) + ", emp_id:" + companyId, TEXT);
@@ -1306,7 +1300,7 @@
             //
 
             case K_DOC_ID_OS:
-              register = createRegister();
+              register = new Cairo.Database.Register();
 
               var fields = register.getFields();
               fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(GRUPO_USUARIO_CONFIG) + ", cfg_aspecto:" + sq(ck(DOC_OS, ucs.services)) + ", emp_id:" + companyId, TEXT);
@@ -1319,7 +1313,7 @@
               break;
 
             case K_DOC_ID_PRP:
-              register = createRegister();
+              register = new Cairo.Database.Register();
 
               var fields = register.getFields();
               fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(GRUPO_USUARIO_CONFIG) + ", cfg_aspecto:" + sq(ck(DOC_PRP, ucs.services)) + ", emp_id:" + companyId, TEXT);
@@ -1336,7 +1330,7 @@
             //
 
             case K_DOC_ID_LIQ:
-              register = createRegister();
+              register = new Cairo.Database.Register();
 
               var fields = register.getFields();
               fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(GRUPO_USUARIO_CONFIG) + ", cfg_aspecto:" + sq(ck(DOC_LIQ, ucs.preferences)) + ", emp_id:" + companyId, TEXT);
@@ -1349,7 +1343,7 @@
               break;
 
             case K_USE_PRINTER_SIZE:
-              register = createRegister();
+              register = new Cairo.Database.Register();
 
               var fields = register.getFields();
               fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(GRUPO_USUARIO_CONFIG) + ", cfg_aspecto:" + sq(ck(USE_PRINTER_SIZE, ucs.general)), TEXT);
@@ -1361,7 +1355,7 @@
               break;
 
             case K_PTD_FECHAINI:
-              register = createRegister();
+              register = new Cairo.Database.Register();
 
               var fields = register.getFields();
               fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(GRUPO_USUARIO_CONFIG) + ", cfg_aspecto:" + sq(ck(PTD_FECHA, ucs.services)) + ", emp_id:" + companyId, TEXT);
@@ -1374,7 +1368,7 @@
               break;
 
             case K_NUEVO_AL_GRABAR:
-              register = createRegister();
+              register = new Cairo.Database.Register();
 
               var fields = register.getFields();
               fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(GRUPO_USUARIO_CONFIG) + ", cfg_aspecto:" + sq(ck(NUEVO_AL_GRABAR, ucs.sales)), TEXT);
@@ -1386,7 +1380,7 @@
               break;
 
             case K_NUEVO_PTD_AL_GRABAR:
-              register = createRegister();
+              register = new Cairo.Database.Register();
 
               var fields = register.getFields();
               fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(GRUPO_USUARIO_CONFIG) + ", cfg_aspecto:" + sq(ck(NUEVO_PTD_AL_GRABAR, ucs.sales)), TEXT);
@@ -1398,7 +1392,7 @@
               break;
 
             case K_PRINT_IN_NEW_FV:
-              register = createRegister();
+              register = new Cairo.Database.Register();
 
               var fields = register.getFields();
               fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(GRUPO_USUARIO_CONFIG) + ", cfg_aspecto:" + sq(ck(PRINT_IN_NEW_FV, ucs.sales)), TEXT);
@@ -1410,7 +1404,7 @@
               break;
 
             case K_PRINT_IN_NEW_COBZ_CDO:
-              register = createRegister();
+              register = new Cairo.Database.Register();
 
               var fields = register.getFields();
               fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(GRUPO_USUARIO_CONFIG) + ", cfg_aspecto:" + sq(ck(PRINT_IN_NEW_COBZ_CDO, ucs.sales)), TEXT);
@@ -1422,7 +1416,7 @@
               break;
 
             case K_CLIENTE_X_DEFECTO:
-              register = createRegister();
+              register = new Cairo.Database.Register();
 
               var fields = register.getFields();
               fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(GRUPO_USUARIO_CONFIG) + ", cfg_aspecto:" + sq(ck(CLIENTE_X_DEFECTO, ucs.sales)) + ", emp_id:" + companyId, TEXT);
@@ -1435,7 +1429,7 @@
               break;
 
             case K_CUENTA_FVO_X_DEFECTO:
-              register = createRegister();
+              register = new Cairo.Database.Register();
 
               var fields = register.getFields();
               fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(GRUPO_USUARIO_CONFIG) + ", cfg_aspecto:" + sq(ck(CUENTA_FVO_X_DEFECTO, ucs.sales)) + ", emp_id:" + companyId, TEXT);
@@ -1448,7 +1442,7 @@
               break;
 
             case K_CLOSE_WIZARD:
-              register = createRegister();
+              register = new Cairo.Database.Register();
 
               var fields = register.getFields();
               fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(GRUPO_USUARIO_CONFIG) + ", cfg_aspecto:" + sq(ck(CLOSE_WIZARD, ucs.sales)), TEXT);
@@ -1460,7 +1454,7 @@
               break;
 
             case K_NO_ASK_IN_PRINT:
-              register = createRegister();
+              register = new Cairo.Database.Register();
 
               var fields = register.getFields();
               fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(GRUPO_USUARIO_CONFIG) + ", cfg_aspecto:" + sq(ck(NO_ASK_IN_PRINT, ucs.sales)), TEXT);

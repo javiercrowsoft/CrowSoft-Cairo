@@ -14,6 +14,7 @@ import models.cairo.system.database.DBHelper
 
 case class EmpresaData(
               id: Option[Int],
+              name: String,
               active: Boolean,
               razonsocial: String,
               cuit: String,
@@ -38,6 +39,7 @@ object Empresas extends Controller with ProvidesUser {
   val empresaForm = Form(
     mapping(
       "id" -> optional(number),
+      C.EMP_NAME -> nonEmptyText,
       DBHelper.ACTIVE -> boolean,
       C.EMP_RAZONSOCIAL -> text,
       C.EMP_CUIT -> text,
@@ -61,6 +63,7 @@ object Empresas extends Controller with ProvidesUser {
     def writes(empresa: Empresa) = Json.obj(
       "id" -> Json.toJson(empresa.id),
       C.EMP_ID -> Json.toJson(empresa.id),
+      C.EMP_NAME -> Json.toJson(empresa.name),
       DBHelper.ACTIVE -> Json.toJson(empresa.active),
       C.EMP_RAZONSOCIAL -> Json.toJson(empresa.razonsocial),
       C.EMP_CUIT -> Json.toJson(empresa.cuit),
@@ -102,6 +105,7 @@ object Empresas extends Controller with ProvidesUser {
               Empresa.update(user,
                 Empresa(
                        id,
+                       empresa.name,
                        empresa.active,
                        empresa.razonsocial,
                        empresa.cuit,
@@ -139,6 +143,7 @@ object Empresas extends Controller with ProvidesUser {
             Json.toJson(
               Empresa.create(user,
                 Empresa(
+                       empresa.name,
                        empresa.active,
                        empresa.razonsocial,
                        empresa.cuit,

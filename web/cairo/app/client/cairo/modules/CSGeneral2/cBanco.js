@@ -158,7 +158,6 @@
       };
 
       self.propertyChange = function(key) {
-
         return Cairo.Promises.resolvedPromise(false);
       };
 
@@ -289,9 +288,6 @@
               if(Cairo.Util.valEmpty(property.getValue(), Cairo.Constants.Types.text)) {
                 property.setValue(Cairo.Constants.GET_CODE_FROM_ID);
               }
-              break;
-
-            case K_ACTIVE:
               break;
           }
         }

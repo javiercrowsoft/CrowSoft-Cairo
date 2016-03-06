@@ -199,68 +199,68 @@ object Transporte {
   }
 
   private val transporteParser: RowParser[Transporte] = {
-      SqlParser.get[Int](C.TRANS_ID) ~
-      SqlParser.get[String](C.TRANS_NAME) ~
-      SqlParser.get[String](C.TRANS_CODE) ~
-      SqlParser.get[Int](DBHelper.ACTIVE) ~
-      SqlParser.get[String](C.TRANS_DIRECCION) ~
-      SqlParser.get[String](C.TRANS_TELEFONO) ~
-      SqlParser.get[Int](C.PRO_ID) ~
-      SqlParser.get[String](C.PRO_NAME) ~
-      SqlParser.get[String](C.TRANS_MAIL) ~
-      SqlParser.get[String](C.TRANS_WEB) ~
-      SqlParser.get[Int](C.PROV_ID) ~
-      SqlParser.get[String](C.PROV_NAME) ~
-      SqlParser.get[Date](C.TRANS_HORARIO_MDESDE) ~
-      SqlParser.get[Date](C.TRANS_HORARIO_MHASTA) ~
-      SqlParser.get[Date](C.TRANS_HORARIO_TDESDE) ~
-      SqlParser.get[Date](C.TRANS_HORARIO_THASTA) ~
-      SqlParser.get[String](C.TRANS_DESCRIP) ~
-      SqlParser.get[Date](DBHelper.CREATED_AT) ~
-      SqlParser.get[Date](DBHelper.UPDATED_AT) ~
-      SqlParser.get[Int](DBHelper.UPDATED_BY) map {
-      case
-              id ~
-              name ~
-              code ~
-              active ~
-              direccion ~
-              telefono ~
-              proId ~
-              proName ~
-              mail ~
-              web ~
-              provId ~
-              provName ~
-              horarioMdesde ~
-              horarioMhasta ~
-              horarioTdesde ~
-              horarioThasta ~
-              descrip  ~
-              createdAt ~
-              updatedAt ~
-              updatedBy =>
-        Transporte(
-              id,
-              name,
-              code,
-              active != 0,
-              direccion,
-              telefono,
-              proId,
-              proName,
-              mail,
-              web,
-              provId,
-              provName,
-              horarioMdesde,
-              horarioMhasta,
-              horarioTdesde,
-              horarioThasta,
-              descrip,
-              createdAt,
-              updatedAt,
-              updatedBy)
+    SqlParser.get[Int](C.TRANS_ID) ~
+    SqlParser.get[String](C.TRANS_NAME) ~
+    SqlParser.get[String](C.TRANS_CODE) ~
+    SqlParser.get[Int](DBHelper.ACTIVE) ~
+    SqlParser.get[String](C.TRANS_DIRECCION) ~
+    SqlParser.get[String](C.TRANS_TELEFONO) ~
+    SqlParser.get[Int](C.PRO_ID) ~
+    SqlParser.get[String](C.PRO_NAME) ~
+    SqlParser.get[String](C.TRANS_MAIL) ~
+    SqlParser.get[String](C.TRANS_WEB) ~
+    SqlParser.get[Int](C.PROV_ID) ~
+    SqlParser.get[String](C.PROV_NAME) ~
+    SqlParser.get[Date](C.TRANS_HORARIO_MDESDE) ~
+    SqlParser.get[Date](C.TRANS_HORARIO_MHASTA) ~
+    SqlParser.get[Date](C.TRANS_HORARIO_TDESDE) ~
+    SqlParser.get[Date](C.TRANS_HORARIO_THASTA) ~
+    SqlParser.get[String](C.TRANS_DESCRIP) ~
+    SqlParser.get[Date](DBHelper.CREATED_AT) ~
+    SqlParser.get[Date](DBHelper.UPDATED_AT) ~
+    SqlParser.get[Int](DBHelper.UPDATED_BY) map {
+    case
+        id ~
+        name ~
+        code ~
+        active ~
+        direccion ~
+        telefono ~
+        proId ~
+        proName ~
+        mail ~
+        web ~
+        provId ~
+        provName ~
+        horarioMdesde ~
+        horarioMhasta ~
+        horarioTdesde ~
+        horarioThasta ~
+        descrip  ~
+        createdAt ~
+        updatedAt ~
+        updatedBy =>
+      Transporte(
+        id,
+        name,
+        code,
+        active != 0,
+        direccion,
+        telefono,
+        proId,
+        proName,
+        mail,
+        web,
+        provId,
+        provName,
+        horarioMdesde,
+        horarioMhasta,
+        horarioTdesde,
+        horarioThasta,
+        descrip,
+        createdAt,
+        updatedAt,
+        updatedBy)
     }
   }
 

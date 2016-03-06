@@ -975,11 +975,15 @@ object C {
   val USUARIO = "Usuario"
   val US_ID = "us_id"
   val US_NAME = "us_nombre"
-  val US_CLAVE = "us_clave"
+  val US_PASSWORD = "us_clave"
   val US_DESCRIP = "us_descrip"
   val US_EXTERNO = "us_externo"
   val US_EMP_X_DPTO = "us_empxdpto"
   val US_EMPRESA_EX = "us_empresaex"
+  val US_DEPOSITO = "us_deposito"
+
+  val USUARIO_ITEMS = "usuarioItems"
+  val USUARIO_EMPRESA_DELETED = "deletedCliProv"
 
   // Rol
   val ROL = "Rol"
@@ -987,8 +991,19 @@ object C {
   val ROL_NAME = "rol_nombre"
   val ROL_DESCRIP = "rol_descrip"
 
-  // usuarioRol
+  // UsuarioRol
   val USUARIO_ROL = "UsuarioRol"
+  val USUARIO_ROL_DELETED = "deletedRol"
+
+  //  EmpresaUsuario
+  val EMPRESA_USUARIO = "EmpresaUsuario"
+  val EMP_US_ID = "empus_id"
+
+  val EMPRESA_USUARIO_DELETED = "deletedEmpresa"
+
+  // UsuarioEmpresa
+  val USUARIO_EMPRESA = "UsuarioEmpresa"
+  val US_EMP_ID = "usemp_id"
 
   // Prestacion
   val PRESTACION = "Prestacion"
@@ -1401,6 +1416,12 @@ object C {
 }
 
 object S {
+
+  val LIST_USUARIO = 10
+  val NEW_USUARIO = 11
+  val EDIT_USUARIO = 12
+  val DELETE_USUARIO = 13
+
   val NEW_DEPOSITO_LOGICO = 1016
   val EDIT_DEPOSITO_LOGICO = 1017
   val DELETE_DEPOSITO_LOGICO = 1018
@@ -1411,10 +1432,10 @@ object S {
   val DELETE_UNIDAD = 1022
   val LIST_UNIDAD = 1023
 
-  val NEW_SUCURSALCLIENTE = 1024
-  val EDIT_SUCURSALCLIENTE = 1025
-  val DELETE_SUCURSALCLIENTE = 1026
-  val LIST_SUCURSALCLIENTE = 1027
+  val NEW_SUCURSAL_CLIENTE = 1024
+  val EDIT_SUCURSAL_CLIENTE = 1025
+  val DELETE_SUCURSAL_CLIENTE = 1026
+  val LIST_SUCURSAL_CLIENTE = 1027
 
   val NEW_BANCO = 1032
   val EDIT_BANCO = 1033
@@ -1426,10 +1447,10 @@ object S {
   val DELETE_VENDEDORES = 1038
   val LIST_VENDEDORES = 1039
 
-  val NEW_TARJETACREDITO = 1040
-  val EDIT_TARJETACREDITO = 1041
-  val DELETE_TARJETACREDITO = 1042
-  val LIST_TARJETACREDITO = 1043
+  val NEW_TARJETA_CREDITO = 1040
+  val EDIT_TARJETA_CREDITO = 1041
+  val DELETE_TARJETA_CREDITO = 1042
+  val LIST_TARJETA_CREDITO = 1043
 
   val NEW_CUENTA = 1044
   val EDIT_CUENTA = 1045

@@ -120,7 +120,7 @@
         catch(ex) {
           Cairo.manageErrorEx(ex.message, ex, Cairo.Constants.SHOW_DOCUMENTS_FUNCTION, C_MODULE, "");
         }
-              
+
         return _rtn;
       };
 
@@ -138,7 +138,7 @@
             _rtn = true;
             break;
         }
-      
+
         return Cairo.Promises.resolvedPromise(_rtn);
       };
 
@@ -147,7 +147,7 @@
       };
 
       self.propertyChange = function(key) {
-        //
+        return Cairo.Promises.resolvedPromise(false);
       };
 
       self.save = function() {
@@ -162,7 +162,7 @@
 
         if(m_copy) {
           register.setId(Cairo.Constants.NEW_ID);
-        } 
+        }
         else {
           register.setId(m_id);
         }
@@ -195,7 +195,7 @@
 
           function(result) {
             if(result.success) {
-                m_copy = false;
+              m_copy = false;
               return load(result.data.getId()).then(
                 function (success) {
                   if(success) {
@@ -212,7 +212,7 @@
             else {
               return false;
             }
-        });
+          });
       };
 
       var updateList = function() {
@@ -259,9 +259,6 @@
                 property.setValue(Cairo.Constants.GET_CODE_FROM_ID);
               }
               break;
-
-            case K_ACTIVE:
-              break;
           }
         }
 
@@ -299,7 +296,7 @@
           if(id === NO_ID) {
             m_isNew = true;
             if(!Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.NEW_UNIDAD)) { return p; }
-          } 
+          }
           else {
             m_isNew = false;
             if(!Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.EDIT_UNIDAD)) { return p; }
@@ -308,7 +305,7 @@
           m_dialog.setInModalWindow(inModalWindow);
 
           p = load(id).then(
-           function(success) {
+            function(success) {
               if(success) {
 
                 if(!loadCollection()) { return false; }
@@ -318,19 +315,19 @@
 
                 if(inModalWindow) {
                   success = m_id !== NO_ID;
-                } 
+                }
                 else {
                   success = true;
                 }
 
               }
               return success;
-          });
+            });
         }
         catch(ex) {
           Cairo.manageErrorEx(ex.message, ex, Cairo.Constants.EDIT_FUNCTION, C_MODULE, "");
-      }
-      
+        }
+
         return p;
       };
 
@@ -408,15 +405,15 @@
               m_name = "";
               m_code = "";
               m_id = NO_ID;
-            } 
+            }
             else {
               m_active = Cairo.Database.valField(response.data, Cairo.Constants.ACTIVE);
               m_name = Cairo.Database.valField(response.data, C.UN_NAME);
               m_code = Cairo.Database.valField(response.data, C.UN_CODE);
               m_id = Cairo.Database.valField(response.data, C.UN_ID);
             }
-          return true;
-        });
+            return true;
+          });
       };
 
       var destroy = function() {

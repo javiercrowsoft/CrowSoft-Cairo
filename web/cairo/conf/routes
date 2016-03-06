@@ -93,6 +93,12 @@ GET     /client/*file                   controllers.FileService.getFile(path="/a
 # modules
 
 # general
+
+GET     /api/v1/general/usuario/:id              controllers.logged.modules.general.Usuarios.get(id: Int)
+POST    /api/v1/general/usuario                  controllers.logged.modules.general.Usuarios.create
+PUT     /api/v1/general/usuario/:id              controllers.logged.modules.general.Usuarios.update(id: Int)
+DELETE  /api/v1/general/usuario/:id              controllers.logged.modules.general.Usuarios.delete(id: Int)
+
 GET     /api/v1/general/provincia/:id              controllers.logged.modules.general.Provincias.get(id: Int)
 POST    /api/v1/general/provincia                  controllers.logged.modules.general.Provincias.create
 PUT     /api/v1/general/provincia/:id              controllers.logged.modules.general.Provincias.update(id: Int)

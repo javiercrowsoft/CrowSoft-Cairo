@@ -308,12 +308,6 @@
         return Cairo.Promises.resolvedPromise(false);
       };
 
-      var createRegister = function() {
-        var register = new DB.Register();
-        register.setTable(C.CONFIGURACION);
-        return register;
-      };
-
       self.save = function() {
         var register = null;
 
@@ -334,7 +328,7 @@
           switch (property.getKey()) {
 
             case K_CUE_ID_DIFCAMBIO:
-              register = createRegister();
+              register = new DB.Register();
 
               var fields = register.getFields();
               fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(C_GRUPO_GENERAL) + ", cfg_aspecto:" + sq(C_CUE_ID_DIF_CAMBIO), TEXT);
@@ -346,7 +340,7 @@
               break;
 
             case K_DOC_ID_COBRANZA:
-              register = createRegister();
+              register = new DB.Register();
 
               var fields = register.getFields();
               fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(C_GRUPO_GENERAL) + ", cfg_aspecto:" + sq(C_DOC_ID_COBRANZA) + ", emp_id:" + companyId, TEXT);
@@ -359,7 +353,7 @@
               break;
 
             case K_DOC_ID_ORDEN_PAGO:
-              register = createRegister();
+              register = new DB.Register();
 
               var fields = register.getFields();
               fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(C_GRUPO_GENERAL) + ", cfg_aspecto:" + sq(C_DOC_ID_ORDEN_PAGO) + ", emp_id:" + companyId, TEXT);
@@ -372,7 +366,7 @@
               break;
 
             case K_DOC_ID_NC_DIF_CAMBIO:
-              register = createRegister();
+              register = new DB.Register();
 
               var fields = register.getFields();
               fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(C_GRUPO_GENERAL) + ", cfg_aspecto:" + sq(C_NC_DIF_CAMBIO) + ", emp_id:" + companyId, TEXT);
@@ -385,7 +379,7 @@
               break;
 
             case K_DOC_ID_ND_DIF_CAMBIO:
-              register = createRegister();
+              register = new DB.Register();
 
               var fields = register.getFields();
               fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(C_GRUPO_GENERAL) + ", cfg_aspecto:" + sq(C_ND_DIF_CAMBIO) + ", emp_id:" + companyId, TEXT);
@@ -398,7 +392,7 @@
               break;
 
             case K_DEFAULT_DIF_CAMBIO:
-              register = createRegister();
+              register = new DB.Register();
 
               var fields = register.getFields();
               fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(C_GRUPO_GENERAL) + ", cfg_aspecto:" + sq(C_DEFAULT_DIF_CAMBIO), TEXT);
@@ -410,7 +404,7 @@
               break;
 
             case K_MODO_IVA_DIF_CAMBIO:
-              register = createRegister();
+              register = new DB.Register();
 
               var fields = register.getFields();
               fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(C_GRUPO_GENERAL) + ", cfg_aspecto:" + sq(C_MODO_IVA_DIF_CAMBIO), TEXT);
@@ -422,7 +416,7 @@
               break;
 
             case K_APLICACION_DIF_CAMBIO:
-              register = createRegister();
+              register = new DB.Register();
 
               var fields = register.getFields();
               fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(C_GRUPO_GENERAL) + ", cfg_aspecto:" + sq(C_APLICACION_DIF_CAMBIO), TEXT);
@@ -434,7 +428,7 @@
               break;
 
             case K_PR_ID_DIF_CAMBIO:
-              register = createRegister();
+              register = new DB.Register();
 
               var fields = register.getFields();
               fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(C_GRUPO_GENERAL) + ", cfg_aspecto:" + sq(C_PR_ID_DIF_CAMBIO), TEXT);
@@ -446,7 +440,7 @@
               break;
 
             case K_GRABAR_ASIENTO_COBRANZA:
-              register = createRegister();
+              register = new DB.Register();
 
               var fields = register.getFields();
               fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(C_GRUPO_GENERAL) + ", cfg_aspecto:" + sq(C_GRABAR_ASIENTO_COBRANZA), TEXT);
@@ -458,7 +452,7 @@
               break;
 
             case K_GRABAR_ASIENTO_ORDEN_PAGO:
-              register = createRegister();
+              register = new DB.Register();
 
               var fields = register.getFields();
               fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(C_GRUPO_GENERAL) + ", cfg_aspecto:" + sq(C_GRABAR_ASIENTO_ORDEN_PAGO), TEXT);
@@ -470,7 +464,7 @@
               break;
 
             case K_GRABAR_ASIENTO_MOVIMIENTO_FONDO:
-              register = createRegister();
+              register = new DB.Register();
 
               var fields = register.getFields();
               fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(C_GRUPO_GENERAL) + ", cfg_aspecto:" + sq(C_GRABAR_ASIENTO_MOVIMIENTO_FONDO), TEXT);
@@ -482,7 +476,7 @@
               break;
 
             case K_GRABAR_ASIENTO_RENDICION:
-              register = createRegister();
+              register = new DB.Register();
 
               var fields = register.getFields();
               fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(C_GRUPO_GENERAL) + ", cfg_aspecto:" + sq(C_GRABAR_ASIENTO_RENDICION), TEXT);
@@ -494,7 +488,7 @@
               break;
 
             case K_GRABAR_ASIENTO_DEPOSITO_BANCO:
-              register = createRegister();
+              register = new DB.Register();
 
               var fields = register.getFields();
               fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(C_GRUPO_GENERAL) + ", cfg_aspecto:" + sq(C_GRABAR_ASIENTO_DEPOSITO_BANCO), TEXT);
@@ -506,7 +500,7 @@
               break;
 
             case K_GRABAR_ASIENTO_DEPOSITO_CUPON:
-              register = createRegister();
+              register = new DB.Register();
 
               var fields = register.getFields();
               fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(C_GRUPO_GENERAL) + ", cfg_aspecto:" + sq(C_GRABAR_ASIENTO_DEPOSITO_CUPON), TEXT);
@@ -518,7 +512,7 @@
               break;
 
             case K_GRABAR_ASIENTO_AGRUPADO:
-              register = createRegister();
+              register = new DB.Register();
 
               var fields = register.getFields();
               fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(C_GRUPO_GENERAL) + ", cfg_aspecto:" + sq(C_GRABAR_ASIENTO_AGRUPADO), TEXT);
@@ -530,7 +524,7 @@
               break;
 
             case K_GRABAR_ASIENTO_RESOLUCION_CUPON:
-              register = createRegister();
+              register = new DB.Register();
 
               var fields = register.getFields();
               fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(C_GRUPO_GENERAL) + ", cfg_aspecto:" + sq(C_GRABAR_ASIENTO_RESOLUCION_CUPON), TEXT);
@@ -542,7 +536,7 @@
               break;
 
             case K_CALCULAR_RETENCIONES:
-              register = createRegister();
+              register = new DB.Register();
 
               var fields = register.getFields();
               fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(C_GRUPO_GENERAL) + ", cfg_aspecto:" + sq(C_CALCULAR_RETENCIONES) + ", emp_id:" + companyId, TEXT);
@@ -555,7 +549,7 @@
               break;
 
             case K_CUE_ID_ANT_COBZ:
-              register = createRegister();
+              register = new DB.Register();
 
               var fields = register.getFields();
               fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(C_GRUPO_GENERAL) + ", cfg_aspecto:" + sq(C_CUENTA_ANTICIPO_COBRANZA) + ", emp_id:" + companyId, TEXT);
@@ -568,7 +562,7 @@
               break;
 
             case K_CUE_ID_ANT_OPG:
-              register = createRegister();
+              register = new DB.Register();
 
               var fields = register.getFields();
               fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(C_GRUPO_GENERAL) + ", cfg_aspecto:" + sq(C_CUENTA_ANTICIPO_PAGOS) + ", emp_id:" + companyId, TEXT);
@@ -581,7 +575,7 @@
               break;
 
             case K_EXIGIR_CENTRO_COSTO:
-              register = createRegister();
+              register = new DB.Register();
 
               var fields = register.getFields();
               fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(C_GRUPO_GENERAL) + ", cfg_aspecto:" + sq(C_EXIGIR_CENTRO_COSTO), TEXT);
@@ -593,7 +587,7 @@
               break;
 
             case K_COBRANZAS_XHOJARUTA:
-              register = createRegister();
+              register = new DB.Register();
 
               var fields = register.getFields();
               fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(C_GRUPO_GENERAL) + ", cfg_aspecto:" + sq(C_COBRANZAS_X_HOJA_RUTA), TEXT);
@@ -638,7 +632,7 @@
         for(var _i = 0, _count = rows.size(); _i < _count; _i++) {
 
           var row = rows.item(_i);
-          var register = createRegister();
+          var register = new DB.Register();
 
           var fields = register.getFields();
           fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(C_GRUPO_GENERAL) + ", cfg_aspecto:" + sq(C_RETENCION) + ", emp_id:" + companyId, TEXT);

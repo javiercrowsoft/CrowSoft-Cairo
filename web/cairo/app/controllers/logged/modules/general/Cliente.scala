@@ -136,7 +136,6 @@ case class ClienteItemsData (
                               contactos: List[ClienteContactoData],
                               informes: List[ClienteInformeData],
 
-                              /* only used in save */
                               sucursalDeleted: String,
                               cuentaGrupoDeleted: String,
                               percepcionDeleted: String,

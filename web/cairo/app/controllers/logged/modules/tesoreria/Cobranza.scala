@@ -121,7 +121,6 @@ case class CobranzaData(
                          otros: List[CobranzaItemOtroData],
                          cuentaCorriente: List[CobranzaItemCuentaCorrienteData],
 
-                         /* only used in save */
                          chequeDeleted: String,
                          tarjetaDeleted: String,
                          efectivoDeleted: String,
@@ -854,7 +853,6 @@ object Cobranzas extends Controller with ProvidesUser {
       getOtros(cobranza.otros),
       getCtaCte(cobranza.cuentaCorriente),
 
-      /* only used in save */
       cobranza.chequeDeleted,
       cobranza.tarjetaDeleted,
       cobranza.efectivoDeleted,

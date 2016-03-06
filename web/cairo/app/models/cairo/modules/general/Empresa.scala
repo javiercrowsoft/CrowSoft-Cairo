@@ -15,6 +15,7 @@ import scala.util.control.NonFatal
 
 case class Empresa(
               id: Int,
+              name: String,
               active: Boolean,
               razonsocial: String,
               cuit: String,
@@ -38,6 +39,7 @@ case class Empresa(
 
   def this(
       id: Int,
+      name: String,
       active: Boolean,
       razonsocial: String,
       cuit: String,
@@ -58,6 +60,7 @@ case class Empresa(
 
     this(
       id,
+      name,
       active,
       razonsocial,
       cuit,
@@ -81,6 +84,7 @@ case class Empresa(
   }
 
   def this(
+      name: String,
       active: Boolean,
       razonsocial: String,
       cuit: String,
@@ -101,6 +105,7 @@ case class Empresa(
 
     this(
       DBHelper.NoId,
+      name,
       active,
       razonsocial,
       cuit,
@@ -146,6 +151,7 @@ object Empresa {
 
   def apply(
       id: Int,
+      name: String,
       active: Boolean,
       razonsocial: String,
       cuit: String,
@@ -166,6 +172,7 @@ object Empresa {
 
     new Empresa(
       id,
+      name,
       active,
       razonsocial,
       cuit,
@@ -186,6 +193,7 @@ object Empresa {
   }
 
   def apply(
+      name: String,
       active: Boolean,
       razonsocial: String,
       cuit: String,
@@ -205,6 +213,7 @@ object Empresa {
       descrip: String) = {
 
     new Empresa(
+      name,
       active,
       razonsocial,
       cuit,
@@ -226,6 +235,7 @@ object Empresa {
 
   private val empresaParser: RowParser[Empresa] = {
       SqlParser.get[Int](C.EMP_ID) ~
+      SqlParser.get[String](C.EMP_NAME) ~
       SqlParser.get[Int](DBHelper.ACTIVE) ~
       SqlParser.get[String](C.EMP_RAZONSOCIAL) ~
       SqlParser.get[String](C.EMP_CUIT) ~
@@ -248,6 +258,7 @@ object Empresa {
       SqlParser.get[Int](DBHelper.UPDATED_BY) map {
       case
               id ~
+              name ~
               active ~
               razonsocial ~
               cuit ~
@@ -270,6 +281,7 @@ object Empresa {
               updatedBy =>
         Empresa(
               id,
+              name,
               active != 0,
               razonsocial,
               cuit,
@@ -304,6 +316,7 @@ object Empresa {
   private def save(user: CompanyUser, empresa: Empresa, isNew: Boolean): Empresa = {
     def getFields = {
       List(
+        Field(C.EMP_NAME, empresa.name, FieldType.text),
         Field(DBHelper.ACTIVE, Register.boolToInt(empresa.active), FieldType.boolean),
         Field(C.EMP_RAZONSOCIAL, empresa.razonsocial, FieldType.text),
         Field(C.EMP_CUIT, empresa.cuit, FieldType.text),

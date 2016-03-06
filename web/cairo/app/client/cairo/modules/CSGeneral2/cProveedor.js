@@ -2203,7 +2203,6 @@
 
           var fields = register.getFields();
           register.setFieldId(C.PROVC_ID);
-          register.setTable(C.PROVEEDOR_CAI);
           register.setId(Cairo.Constants.NEW_ID);
 
           var _countj = row.size();
@@ -2274,7 +2273,6 @@
 
           var fields = register.getFields();
           register.setFieldId(C.PROV_RET_ID);
-          register.setTable(C.PROVEEDOR_RETENCION);
           register.setId(Cairo.Constants.NEW_ID);
 
           var _countj = row.size();
@@ -2340,7 +2338,6 @@
 
           var fields = register.getFields();
           register.setFieldId(C.DPTO_PROV_ID);
-          register.setTable(C.DEPARTAMENTO_PROVEEDOR);
           register.setId(Cairo.Constants.NEW_ID);
 
           var _countj = row.size();
@@ -2396,7 +2393,6 @@
 
           var fields = register.getFields();
           register.setFieldId(C.PROV_CCOS_ID);
-          register.setTable(C.PROVEEDOR_CENTRO_COSTO);
           register.setId(Cairo.Constants.NEW_ID);
 
           var _countj = row.size();
@@ -2458,7 +2454,6 @@
 
             var fields = register.getFields();
             register.setFieldId(C.EMP_PROV_ID);
-            register.setTable(C.EMPRESA_PROVEEDOR);
             register.setId(Cairo.Constants.NEW_ID);
 
             fields.add(C.EMP_ID, val(Dialogs.cell(row, KI_EMP_ID).getId()), Types.id);
@@ -2488,7 +2483,6 @@
 
           var fields = register.getFields();
           register.setFieldId(C.PROV_CUEG_ID);
-          register.setTable(C.PROVEEDOR_CUENTA_GRUPO);
           register.setId(Cairo.Constants.NEW_ID);
 
           var _countj = row.size();

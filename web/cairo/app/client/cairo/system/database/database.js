@@ -73,7 +73,7 @@
     },
 
     save: function(register, isNew, functionName, module, title) {
-      return this.saveEx(register, isNew, codeField, functionName, module, title);
+      return this.saveEx(register, isNew, "", functionName, module, title);
     },
 
     saveTransaction: function(register, isNew, codeField, functionName, module, title) {

@@ -158,7 +158,6 @@
       };
 
       self.propertyChange = function(key) {
-
         return Cairo.Promises.resolvedPromise(false);
       };
 

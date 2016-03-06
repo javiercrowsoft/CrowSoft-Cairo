@@ -628,7 +628,6 @@
 
           var fields = register.getFields();
           register.setFieldId(C.RUBTI_ID);
-          register.setTable(C.RUBRO_TABLA_ITEM);
           register.setId(Cairo.Constants.NEW_ID);
 
           var _countj = row.size();

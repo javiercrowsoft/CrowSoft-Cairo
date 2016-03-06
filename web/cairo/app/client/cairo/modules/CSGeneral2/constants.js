@@ -33,6 +33,15 @@
       US_EXTERNO: "us_externo",
       US_EMP_X_DPTO: "us_empxdpto",
       US_EMPRESA_EX: "us_empresaex",
+      US_DEPOSITO: "us_deposito",
+
+      US_COPY_PERMISSIONS: "us_copy_permissions",
+
+      EMPRESA_USUARIO: "EmpresaUsuario",
+      EMP_US_ID: "empus_id",
+
+      USUARIO_EMPRESA: "UsuarioEmpresa",
+      US_EMP_ID: "usemp_id",
       
       // Configuracion
       CONFIGURACION: "Configuracion",
@@ -588,7 +597,7 @@
       CATWC_DESCRIP: "catwc_descrip",
 
       // Catalogo Web Categoria Item
-      CATALOGOWEBCATEGORIAITEM: "CatalogoWebCategoriaItem",
+      CATALOGO_WEB_CATEGORIA_ITEM: "CatalogoWebCategoriaItem",
       CATWCI_ID: "catwci_id",
       CATWCI_POSICION: "catwci_posicion",
       CATWCI_ACTIVO: "catwci_activo",
@@ -1003,6 +1012,8 @@
       PRPROV_NAME: "prprov_nombre",
       PRPROV_CODE: "prprov_codigo",
       PRPROV_CODIGO_BARRA: "prprov_codigoBarra",
+
+      UPDATED_PRICES: "UPDATED_PRICES",
 
       // Producto Cliente
       PRODUCTO_CLIENTE: "ProductoCliente",
@@ -1493,6 +1504,11 @@
   };
 
   Cairo.Security.Actions.General = {
+
+    LIST_USUARIO: 10,
+    NEW_USUARIO: 11,
+    EDIT_USUARIO: 12,
+    DELETE_USUARIO: 13,
 
     NEW_DEPOSITO_LOGICO: 1016,
     EDIT_DEPOSITO_LOGICO: 1017,

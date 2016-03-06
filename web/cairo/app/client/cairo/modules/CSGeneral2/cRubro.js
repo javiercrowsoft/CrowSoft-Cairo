@@ -640,9 +640,6 @@
                 property.setValue(Cairo.Constants.GET_CODE_FROM_ID);
               }
               break;
-
-            case K_ACTIVE:
-              break;
           }
         }
 

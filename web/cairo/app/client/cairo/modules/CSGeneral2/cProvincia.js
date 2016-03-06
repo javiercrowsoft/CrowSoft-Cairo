@@ -152,7 +152,6 @@
       };
 
       self.propertyChange = function(key) {
-
         return Cairo.Promises.resolvedPromise(false);
       };
 
@@ -278,9 +277,6 @@
                 return Cairo.Modal.showInfoWithFalse(getText(1411, ""));
                 // Debe indicar un País
               }
-              break;
-
-            case K_ACTIVE:
               break;
           }
         }

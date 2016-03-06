@@ -114,8 +114,6 @@ case class FacturaVentaItemData(
                                   id: Int,
                                   base: FacturaVentaItemDataBase,
                                   totals: FacturaVentaItemDataTotals,
-
-                                  /* only used in save */
                                   series: List[FacturaVentaItemDataSerie]
                                   )
 
@@ -142,7 +140,6 @@ case class FacturaVentaData(
                               items: List[FacturaVentaItemData],
                               percepciones: List[FacturaVentaPercepcionData],
 
-                              /* only used in save */
                               itemDeleted: String,
                               percepcionDeleted: String,
 
@@ -749,7 +746,6 @@ object FacturaVentas extends Controller with ProvidesUser {
 
       getPercepciones(facturaVenta.percepciones),
 
-      /* only used in save */
       facturaVenta.itemDeleted,
       facturaVenta.percepcionDeleted,
 

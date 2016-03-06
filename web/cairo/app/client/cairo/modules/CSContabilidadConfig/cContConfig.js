@@ -7,8 +7,6 @@
 
       var self = {};
 
-      var Dialogs = Cairo.Dialogs;
-
       var getText = Cairo.Language.getText;
 
       var Dialogs = Cairo.Dialogs;
@@ -106,12 +104,6 @@
 
         transaction.setTable(C.CONFIGURACION)
 
-        var createRegister = function() {
-          var register = new DB.Register();
-          register.setTable(C.CONFIGURACION);
-          return register;
-        };
-
         for(var _i = 0, _count = m_dialog.getProperties().size(); _i < _count; _i++) {
 
           var property = m_dialog.getProperties().item(_i);
@@ -119,7 +111,7 @@
           switch (property.getKey()) {
 
             case K_CLAVE_FISCAL:
-              register = createRegister();
+              register = new DB.Register();
 
               var fields = register.getFields();
               fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(C_GRUPO_GENERAL) + ", cfg_aspecto:" + sq(C_CLAVEFISCAL), TEXT);
@@ -131,7 +123,7 @@
               break;
 
             case K_FACTURA_ELECTRONICA:
-              register = createRegister();
+              register = new DB.Register();
 
               var fields = register.getFields();
               fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(C_GRUPO_GENERAL) + ", cfg_aspecto:" + sq(C_FACTURAELECTRONICA), TEXT);
@@ -143,7 +135,7 @@
               break;
 
             case K_FE_PUNTO_VENTA:
-              register = createRegister();
+              register = new DB.Register();
 
               var fields = register.getFields();
               fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(C_GRUPO_GENERAL) + ", cfg_aspecto:" + sq(C_PUNTOVENTAFE) + ", emp_id:" + companyId, TEXT);
@@ -156,7 +148,7 @@
               break;
 
             case K_TA_ID_PREFACTURA:
-              register = createRegister();
+              register = new DB.Register();
 
               var fields = register.getFields();
               fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(C_GRUPO_GENERAL) + ", cfg_aspecto:" + sq(C_TAIDPREFACTURA) + ", emp_id:" + companyId, TEXT);
