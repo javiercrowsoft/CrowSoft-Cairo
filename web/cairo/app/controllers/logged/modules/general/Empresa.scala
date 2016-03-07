@@ -11,6 +11,18 @@ import models.cairo.modules.general._
 import models.cairo.system.security.CairoSecurity
 import models.cairo.system.database.DBHelper
 
+case class EmpresaAddressData(
+                               calle: String,
+                               callenumero: String,
+                               piso: String,
+                               depto: String,
+                               localidad: String,
+                               codpostal: String,
+                               tel: String,
+                               fax: String,
+                               email: String,
+                               web: String
+                             )
 
 case class EmpresaData(
               id: Option[Int],
@@ -21,17 +33,8 @@ case class EmpresaData(
               ingresosbrutos: String,
               catfiscal: Int,
               chequeorden: String,
-              calle: String,
-              callenumero: String,
-              piso: String,
-              depto: String,
-              localidad: String,
-              codpostal: String,
-              tel: String,
-              fax: String,
-              email: String,
-              web: String,
-              descrip: String
+              descrip: String,
+              address: EmpresaAddressData
               )
 
 object Empresas extends Controller with ProvidesUser {
@@ -46,17 +49,19 @@ object Empresas extends Controller with ProvidesUser {
       C.EMP_INGRESOSBRUTOS -> text,
       C.EMP_CATFISCAL -> number,
       C.EMP_CHEQUEORDEN -> text,
-      C.EMP_CALLE -> text,
-      C.EMP_CALLENUMERO -> text,
-      C.EMP_PISO -> text,
-      C.EMP_DEPTO -> text,
-      C.EMP_LOCALIDAD -> text,
-      C.EMP_CODPOSTAL -> text,
-      C.EMP_TEL -> text,
-      C.EMP_FAX -> text,
-      C.EMP_EMAIL -> text,
-      C.EMP_WEB -> text,
-      C.EMP_DESCRIP -> text
+      C.EMP_DESCRIP -> text,
+      C.EMPRESA_ADDRESS -> mapping (
+        C.EMP_CALLE -> text,
+        C.EMP_CALLENUMERO -> text,
+        C.EMP_PISO -> text,
+        C.EMP_DEPTO -> text,
+        C.EMP_LOCALIDAD -> text,
+        C.EMP_CODPOSTAL -> text,
+        C.EMP_TEL -> text,
+        C.EMP_FAX -> text,
+        C.EMP_EMAIL -> text,
+        C.EMP_WEB -> text
+      )(EmpresaAddressData.apply)(EmpresaAddressData.unapply)
   )(EmpresaData.apply)(EmpresaData.unapply))
 
   implicit val empresaWrites = new Writes[Empresa] {
@@ -90,9 +95,81 @@ object Empresas extends Controller with ProvidesUser {
     })
   }
 
+  //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  //
+  // this functions convert the plain JSON received in CREATE and UPDATE into a RubroData structure
+  //
+  // because the limitation to 18 fields in case class used for FORM mapping we have grouped the fields
+  // in Empresa/Address, etc
+  //
+  // the below routines group a flat JSON and in some cases rename the name of the fields or move
+  // fields to the parent node in the JSON structure to match the case class
+  //
+  private def preprocessParams(implicit request:Request[AnyContent]): JsObject = {
+
+    val params = Global.getParamsFromJsonRequest
+
+    // groups for rubroData
+    //
+    val empresaId = Global.preprocessFormParams(
+      List(
+        "id",
+        C.EMP_NAME,
+        DBHelper.ACTIVE,
+        C.EMP_RAZONSOCIAL,
+        C.EMP_CUIT,
+        C.EMP_INGRESOSBRUTOS,
+        C.EMP_CATFISCAL,
+        C.EMP_CHEQUEORDEN,
+        C.EMP_DESCRIP),
+      "", params)
+    val empresaTableGroup = Global.preprocessFormParams(
+      List(
+        C.EMP_CALLE,
+        C.EMP_CALLENUMERO,
+        C.EMP_PISO,
+        C.EMP_DEPTO,
+        C.EMP_LOCALIDAD,
+        C.EMP_CODPOSTAL,
+        C.EMP_TEL,
+        C.EMP_FAX,
+        C.EMP_EMAIL,
+        C.EMP_WEB),
+      C.EMPRESA_ADDRESS, params)
+
+    JsObject((empresaId ++ empresaTableGroup).toSeq)
+  }
+  //
+  //
+  //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+  def getEmpresa(empresa: EmpresaData, id: Int): Empresa = {
+    Empresa(
+      id,
+      empresa.name,
+      empresa.active,
+      empresa.razonsocial,
+      empresa.cuit,
+      empresa.ingresosbrutos,
+      empresa.catfiscal,
+      empresa.chequeorden,
+      empresa.address.calle,
+      empresa.address.callenumero,
+      empresa.address.piso,
+      empresa.address.depto,
+      empresa.address.localidad,
+      empresa.address.codpostal,
+      empresa.address.tel,
+      empresa.address.fax,
+      empresa.address.email,
+      empresa.address.web,
+      empresa.descrip
+    )
+  }
+
   def update(id: Int) = PostAction { implicit request =>
-    Logger.debug("in empresas.update")
-    empresaForm.bindFromRequest.fold(
+    Logger.debug("in Empresas.update")
+    empresaForm.bind(preprocessParams).fold(
       formWithErrors => {
         Logger.debug(s"invalid form: ${formWithErrors.toString}")
         BadRequest
@@ -103,35 +180,18 @@ object Empresas extends Controller with ProvidesUser {
           Ok(
             Json.toJson(
               Empresa.update(user,
-                Empresa(
-                       id,
-                       empresa.name,
-                       empresa.active,
-                       empresa.razonsocial,
-                       empresa.cuit,
-                       empresa.ingresosbrutos,
-                       empresa.catfiscal,
-                       empresa.chequeorden,
-                       empresa.calle,
-                       empresa.callenumero,
-                       empresa.piso,
-                       empresa.depto,
-                       empresa.localidad,
-                       empresa.codpostal,
-                       empresa.tel,
-                       empresa.fax,
-                       empresa.email,
-                       empresa.web,
-                       empresa.descrip
-                ))))
+                getEmpresa(empresa, id)
+              )
+            )
+          )
         })
       }
     )
   }
 
   def create = PostAction { implicit request =>
-    Logger.debug("in empresas.create")
-    empresaForm.bindFromRequest.fold(
+    Logger.debug("in Empresas.create")
+    empresaForm.bind(preprocessParams).fold(
       formWithErrors => {
         Logger.debug(s"invalid form: ${formWithErrors.toString}")
         BadRequest
@@ -142,33 +202,17 @@ object Empresas extends Controller with ProvidesUser {
           Ok(
             Json.toJson(
               Empresa.create(user,
-                Empresa(
-                       empresa.name,
-                       empresa.active,
-                       empresa.razonsocial,
-                       empresa.cuit,
-                       empresa.ingresosbrutos,
-                       empresa.catfiscal,
-                       empresa.chequeorden,
-                       empresa.calle,
-                       empresa.callenumero,
-                       empresa.piso,
-                       empresa.depto,
-                       empresa.localidad,
-                       empresa.codpostal,
-                       empresa.tel,
-                       empresa.fax,
-                       empresa.email,
-                       empresa.web,
-                       empresa.descrip
-                ))))
+                getEmpresa(empresa, DBHelper.NoId)
+              )
+            )
+          )
         })
       }
     )
   }
 
   def delete(id: Int) = PostAction { implicit request =>
-    Logger.debug("in empresas.delete")
+    Logger.debug("in Empresas.delete")
     LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.DELETE_EMPRESA), { user =>
       Empresa.delete(user, id)
       // Backbonejs requires at least an empty json object in the response

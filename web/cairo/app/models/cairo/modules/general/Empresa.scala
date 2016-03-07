@@ -131,6 +131,7 @@ case class Empresa(
 object Empresa {
 
   lazy val emptyEmpresa = Empresa(
+    "",
     false,
     "",
     "",

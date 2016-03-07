@@ -4,21 +4,10 @@
   Cairo.module("Controls", function(Controls, Cairo, Backbone, Marionette, $, _) {
 
     var createPassword = function() {
-      var self = {
-        text: ""
-      };
 
-      var that = Controls.createControl();
+      var that = Controls.createInput();
 
-      that.htmlTag = "<input/>";
-
-      that.setText = function(text) {
-        self.text = text;
-      };
-
-      that.getText = function() {
-        return self.text;
-      };
+      that.setType(Controls.InputType.password);
 
       return that;
     };

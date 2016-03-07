@@ -339,7 +339,7 @@
       };
 
       self.getPath = function() {
-        return "#general/usuario/" + m_id.toString();
+        return "#sistema/usuario/" + m_id.toString();
       };
 
       self.getEditorName = function() {
@@ -348,7 +348,7 @@
       };
 
       self.getTitle = function() {
-        return getText(1130, ""); // Usuarios
+        return getText(1137, ""); // Usuarios
       };
 
       self.validate = function() {
@@ -536,7 +536,7 @@
 
         elem = properties.add(null, C.PRS_ID);
         elem.setType(Dialogs.PropertyType.select);
-        elem.setTable(CSPERSONA);
+        elem.setSelectTable(CSPERSONA);
         elem.setName(getText(2812, "")); // Persona
         elem.setKey(K_PRS_ID);
         elem.setSelectId(m_prs_id);
@@ -544,7 +544,7 @@
 
         elem = properties.add(null, C.SUC_ID);
         elem.setType(Dialogs.PropertyType.select);
-        elem.setTable(CSSUCURSAL);
+        elem.setSelectTable(CSSUCURSAL);
         elem.setName(getText(1281, "")); // Sucursal
         elem.setKey(K_SUC_ID);
         elem.setSelectId(m_suc_id);
@@ -676,21 +676,6 @@
 
               m_data = loadDataFromResponse(response);
 
-              m_active = true;
-              m_usDeposito = false;
-              m_name = "";
-              m_id = NO_ID;
-              m_password = "";
-              m_descrip = "";
-              m_externo = false;
-              m_empXDpto = false;
-              m_empresaEx = false;
-              m_prs_id = NO_ID;
-              m_persona = "";
-              m_suc_id = NO_ID;
-              m_sucursal = "";
-            }
-            else {
               m_active = valField(response.data, Cairo.Constants.ACTIVE);
               m_usDeposito = valField(response.data, C.US_DEPOSITO);
               m_name = valField(response.data, C.US_NAME);
@@ -704,6 +689,21 @@
               m_sucursal = valField(response.data, C.SUC_NAME);
               m_empXDpto = valField(response.data, C.US_EMP_X_DPTO);
               m_empresaEx = valField(response.data, C.US_EMPRESA_EX);
+            }
+            else {
+              m_active = true;
+              m_usDeposito = false;
+              m_name = "";
+              m_id = NO_ID;
+              m_password = "";
+              m_descrip = "";
+              m_externo = false;
+              m_empXDpto = false;
+              m_empresaEx = false;
+              m_prs_id = NO_ID;
+              m_persona = "";
+              m_suc_id = NO_ID;
+              m_sucursal = "";
             }
             return true;
           });
@@ -1062,13 +1062,13 @@
         elem = columns.add(null);
         elem.setName(getText(1150, "")); // Cliente
         elem.setType(Dialogs.PropertyType.select);
-        elem.setTable(Cairo.Tables.CLIENTE);
+        elem.setSelectTable(Cairo.Tables.CLIENTE);
         elem.setKey(KI_CLI_ID);
 
         elem = columns.add(null);
         elem.setName(getText(1151, "")); // Proveedor
         elem.setType(Dialogs.PropertyType.select);
-        elem.setTable(Cairo.Tables.PROVEEDOR);
+        elem.setSelectTable(Cairo.Tables.PROVEEDOR);
         elem.setKey(KI_PROV_ID);
 
         grid.getRows().clear();
@@ -1117,7 +1117,7 @@
         elem = columns.add(null);
         elem.setName(getText(2619, "")); // Rol
         elem.setType(Dialogs.PropertyType.select);
-        elem.setTable(Cairo.Tables.ROL);
+        elem.setSelectTable(Cairo.Tables.ROL);
         elem.setKey(KI_ROL_ID);
 
         grid.getRows().clear();
@@ -1265,6 +1265,14 @@
     };
 
     Edit.Controller = { getEditor: createObject };
+
+    Edit.Controller.edit = function(id) {
+      var editor = Cairo.Usuario.Edit.Controller.getEditor();
+      var dialog = Cairo.Dialogs.Views.Controller.newDialog();
+
+      editor.setDialog(dialog);
+      editor.edit(id);
+    };
 
   });
 
@@ -1423,7 +1431,7 @@
 
         // create the tab
         //
-        Cairo.mainTab.showTab("Usuarios", "usuarioTreeRegion", "#general/usuarios", createTreeDialog, closeTreeDialog, showTreeDialog);
+        Cairo.mainTab.showTab("Usuarios", "usuarioTreeRegion", "#sistema/usuarios", createTreeDialog, closeTreeDialog, showTreeDialog);
 
       }
     };

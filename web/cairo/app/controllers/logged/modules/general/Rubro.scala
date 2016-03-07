@@ -181,6 +181,9 @@ object Rubros extends Controller with ProvidesUser {
 
     JsObject((rubroId ++ rubroTableGroup ++ rubroItemGroup).toSeq)
   }
+  //
+  //
+  //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
   def getRubro(rubro: RubroData, id: Int): Rubro = {
     Rubro(

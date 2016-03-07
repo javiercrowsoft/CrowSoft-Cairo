@@ -123,7 +123,9 @@ case class Usuario(
             empresaEx: Boolean,
 
             prsId: Int,
+            prsName: String,
             sucId: Int,
+            sucName: String,
 
             descrip: String,
 
@@ -139,9 +141,9 @@ case class Usuario(
       empXDpto,
       empresaEx,
       prsId,
-      "",
+      prsName,
       sucId,
-      "",
+      sucName,
 
       descrip,
 
@@ -180,12 +182,13 @@ case class Usuario(
       empresaEx,
 
       prsId,
+      "",
       sucId,
+      "",
 
       descrip,
 
       items)
-
   }
 
 }
@@ -239,7 +242,50 @@ object Usuario {
       empresaEx,
 
       prsId,
+      "",
       sucId,
+      "",
+
+      descrip,
+
+      items)
+  }
+
+  def apply(
+             id: Int,
+             name: String,
+             active: Boolean,
+             password: String,
+
+             usDeposito: Boolean,
+             externo: Boolean,
+             empXDpto: Boolean,
+             empresaEx: Boolean,
+
+             prsId: Int,
+             prsName: String,
+             sucId: Int,
+             sucName: String,
+
+             descrip: String,
+
+             items: UsuarioItems) = {
+
+    new Usuario(
+      id,
+      name,
+      active,
+      password,
+
+      usDeposito,
+      externo,
+      empXDpto,
+      empresaEx,
+
+      prsId,
+      prsName,
+      sucId,
+      sucName,
 
       descrip,
 
@@ -259,7 +305,9 @@ object Usuario {
              prsId: Int,
              sucId: Int,
 
-             descrip: String) = {
+             descrip: String,
+
+             items: UsuarioItems) = {
 
     new Usuario(
       name,
@@ -276,7 +324,7 @@ object Usuario {
 
       descrip,
 
-      emptyUsuarioItems)
+      items)
   }
 
   private val usuarioParser: RowParser[Usuario] = {
@@ -325,6 +373,7 @@ object Usuario {
         sucId.getOrElse(DBHelper.NoId),
         sucName.getOrElse(""),
         descrip,
+        emptyUsuarioItems,
         createdAt,
         updatedAt,
         updatedBy)
@@ -539,7 +588,7 @@ object Usuario {
 
   def loadWhere(user: CompanyUser, where: String, args : scala.Tuple2[scala.Any, anorm.ParameterValue[_]]*) = {
     DB.withConnection(user.database.database) { implicit connection =>
-      SQL(s"SELECT t1.*, t2.${C.PRS_NAME}, t3.${C.SUC_NAME} FROM ${C.USUARIO} t1 INNER JOIN ${C.PERSONA} t2 ON t1.${C.PRS_ID} = t2.${C.PRS_ID} INNER JOIN ${C.SUCURSAL} t3 ON t1.${C.SUC_ID} = t3.${C.SUC_ID} WHERE $where")
+      SQL(s"SELECT t1.*, t2.${C.PRS_NAME}, t3.${C.SUC_NAME} FROM ${C.USUARIO} t1 LEFT JOIN ${C.PERSONA} t2 ON t1.${C.PRS_ID} = t2.${C.PRS_ID} LEFT JOIN ${C.SUCURSAL} t3 ON t1.${C.SUC_ID} = t3.${C.SUC_ID} WHERE $where")
         .on(args: _*)
         .as(usuarioParser.singleOpt)
     }
@@ -557,7 +606,7 @@ object Usuario {
     DB.withConnection(user.database.database) { implicit connection =>
       SQL(s"SELECT t1.*, t2.${C.CLI_NAME}, t3.${C.PROV_NAME} FROM ${C.USUARIO_EMPRESA} t1 LEFT JOIN ${C.CLIENTE} t2 ON t1.${C.CLI_ID} = t2.${C.CLI_ID} LEFT JOIN ${C.PROVEEDOR} t3 ON t1.${C.PROV_ID} = t3.${C.PROV_ID} WHERE t1.${C.US_ID} = {id}")
         .on('id -> id)
-        .as(usuarioCliProvParser.singleOpt)
+        .as(usuarioCliProvParser.*)
     }
   }
 
@@ -565,7 +614,7 @@ object Usuario {
     DB.withConnection(user.database.database) { implicit connection =>
       SQL(s"SELECT t1.*, t2.${C.EMP_NAME} FROM ${C.EMPRESA_USUARIO} t1 INNER JOIN ${C.EMPRESA} t2 ON t1.${C.EMP_ID} = t2.${C.EMP_ID} WHERE t1.${C.US_ID} = {id}")
         .on('id -> id)
-        .as(empresaUsuarioParser.singleOpt)
+        .as(empresaUsuarioParser.*)
     }
   }
 
@@ -573,7 +622,7 @@ object Usuario {
     DB.withConnection(user.database.database) { implicit connection =>
       SQL(s"SELECT t1.*, t2.${C.ROL_NAME} FROM ${C.USUARIO_ROL} t1 INNER JOIN ${C.ROL} t2 ON t1.${C.ROL_ID} = t2.${C.ROL_ID} WHERE t1.${C.US_ID} = {id}")
         .on('id -> id)
-        .as(usuarioRolParser.singleOpt)
+        .as(usuarioRolParser.*)
     }
   }
 

@@ -23,6 +23,7 @@ Cairo.TesoreriaConfig = {};
 
 Cairo.SearchZona = {};
 
+Cairo.Usuario = {};
 Cairo.Producto = {};
 Cairo.Proveedor = {};
 Cairo.Cliente = {};

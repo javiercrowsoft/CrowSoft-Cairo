@@ -18,7 +18,8 @@
       taxId: 7,
       memo: 8,
       file: 9,
-      folder: 10
+      folder: 10,
+      password: 11
     };
 
     var createInput = function() {
@@ -44,6 +45,7 @@
       var isText = function() {
         return (
           self.type === Controls.InputType.text
+          || self.type === Controls.InputType.password
           || self.type === Controls.InputType.file
           || self.type === Controls.InputType.folder
           || self.type === Controls.InputType.mask
@@ -73,6 +75,9 @@
 
       that.setElement = function(element, view) {
         superSetElement(element);
+        if(self.type === Controls.InputType.password) {
+          element.attr('type', 'password');
+        }
         element.val(self.text);
         element.addClass("dialog-control dialog-input-control");
         var onChange = isText() ? view.onTextChange(that) : view.onMaskEditChange(that);

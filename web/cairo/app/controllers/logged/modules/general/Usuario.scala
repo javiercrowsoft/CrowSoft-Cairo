@@ -128,7 +128,7 @@ object Usuarios extends Controller with ProvidesUser {
       C.PROV_NAME -> Json.toJson(p.provName)
     )
     def usuarioEmpresaWrites(p: EmpresaUsuario) = Json.obj(
-      C.US_EMP_ID -> Json.toJson(p.id),
+      C.EMP_US_ID -> Json.toJson(p.id),
       C.EMP_ID -> Json.toJson(p.empId),
       C.EMP_NAME -> Json.toJson(p.empName)
     )
@@ -137,8 +137,8 @@ object Usuarios extends Controller with ProvidesUser {
       C.ROL_NAME -> Json.toJson(p.rolName)
     )
     def writeUsuarioCliProvs(items: List[UsuarioCliProv]) = items.map(item => usuarioCliProvWrites(item))
-    def writeUsuarioEmpresas(items: List[EmpresaUsuario]) = items.map(item => usuarioRolWrites(item))
-    def writeUsuarioRoles(items: List[UsuarioRol]) = items.map(item => usuarioEmpresaWrites(item))
+    def writeUsuarioEmpresas(items: List[EmpresaUsuario]) = items.map(item => usuarioEmpresaWrites(item))
+    def writeUsuarioRoles(items: List[UsuarioRol]) = items.map(item => usuarioRolWrites(item))
   }
 
   def get(id: Int) = GetAction { implicit request =>

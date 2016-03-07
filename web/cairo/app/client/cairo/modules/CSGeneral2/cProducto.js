@@ -1335,7 +1335,7 @@
       };
 
       self.getTitle = function() {
-        return getText(1367, ""); // Artículos
+        return getText(1367, ""); // Artículo
       };
 
       self.validate = function() {

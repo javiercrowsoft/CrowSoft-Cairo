@@ -1032,6 +1032,8 @@ object C {
   val EMP_EMAIL = "emp_email"
   val EMP_WEB = "emp_web"
 
+  val EMPRESA_ADDRESS = "address"
+
   // UsuarioDepartamento
   val USUARIO_DEPARTAMENTO = "UsuarioDepartamento"
   val USDPTO_ID = "usdpto_id"
