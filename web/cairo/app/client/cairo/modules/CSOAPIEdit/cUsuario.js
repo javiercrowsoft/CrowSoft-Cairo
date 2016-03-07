@@ -19,6 +19,7 @@
       var M = Cairo.Modal;
       var valEmpty = Cairo.Util.valEmpty;
       var Types = Cairo.Constants.Types;
+      var bToI = Cairo.Util.boolToInt;
 
       var C_MODULE = "cUsuario";
 
@@ -508,31 +509,31 @@
         elem.setType(Dialogs.PropertyType.check);
         elem.setName(Cairo.Constants.ACTIVE_LABEL);
         elem.setKey(K_ACTIVE);
-        elem.setValue(m_active === true ? 1 : 0);
+        elem.setValue(bToI(m_active));
 
         elem = properties.add(null, C.US_DEPOSITO);
         elem.setType(Dialogs.PropertyType.check);
         elem.setName(getText(2808, "")); // Este usuario NO especifica Depósitos de trabajo
         elem.setKey(K_USDEPOSITO);
-        elem.setValue(Cairo.Util.boolToInt(m_usDeposito));
+        elem.setValue(bToI(m_usDeposito));
 
         elem = properties.add(null, C.US_EXTERNO);
         elem.setType(Dialogs.PropertyType.check);
         elem.setName(getText(2810, "")); // Externo
         elem.setKey(K_EXTERNO);
-        elem.setValue(Cairo.Util.boolToInt(m_externo));
+        elem.setValue(bToI(m_externo));
 
         elem = properties.add(null, C.US_EMP_X_DPTO);
         elem.setType(Dialogs.PropertyType.check);
         elem.setName(getText(2809, "")); // Clientes/Proveedores por departamento
         elem.setKey(K_CLIPROV_X_DPTO);
-        elem.setValue(Cairo.Util.boolToInt(m_empXDpto));
+        elem.setValue(bToI(m_empXDpto));
 
         elem = properties.add(null, C.US_EMPRESA_EX);
         elem.setType(Dialogs.PropertyType.check);
         elem.setName(getText(2811, "")); // Clientes/Proveedores por Usuario
         elem.setKey(K_EMPRESAEX);
-        elem.setValue(Cairo.Util.boolToInt(m_empresaEx));
+        elem.setValue(bToI(m_empresaEx));
 
         elem = properties.add(null, C.PRS_ID);
         elem.setType(Dialogs.PropertyType.select);
@@ -605,49 +606,49 @@
 
         var properties = m_dialog.getProperties();
 
-        var property = properties.item(null, C.US_NAME);
+        var property = properties.item(C.US_NAME);
         property.setValue(m_name);
 
-        property = properties.item(null, C.US_CLAVE);
+        property = properties.item(C.US_CLAVE);
         property.setValue(m_password);
 
-        property = properties.item(null, "CONFIRMACION");
+        property = properties.item("CONFIRMACION");
         property.setValue(m_password);
 
-        property = properties.item(null, Cairo.Constants.ACTIVE);
-        property.setValue(m_active === true ? 1 : 0);
+        property = properties.item(Cairo.Constants.ACTIVE);
+        property.setValue(bToI(m_active));
 
-        property = properties.item(null, C.US_DEPOSITO);
-        property.setValue(Cairo.Util.boolToInt(m_usDeposito));
+        property = properties.item(C.US_DEPOSITO);
+        property.setValue(bToI(m_usDeposito));
 
-        property = properties.item(null, C.US_EXTERNO);
-        property.setValue(Cairo.Util.boolToInt(m_externo));
+        property = properties.item(C.US_EXTERNO);
+        property.setValue(bToI(m_externo));
 
-        property = properties.item(null, C.US_EMP_X_DPTO);
-        property.setValue(Cairo.Util.boolToInt(m_empXDpto));
+        property = properties.item(C.US_EMP_X_DPTO);
+        property.setValue(bToI(m_empXDpto));
 
-        property = properties.item(null, C.US_EMPRESA_EX);
-        property.setValue(Cairo.Util.boolToInt(m_empresaEx));
+        property = properties.item(C.US_EMPRESA_EX);
+        property.setValue(bToI(m_empresaEx));
 
-        property = properties.item(null, C.PRS_ID);
+        property = properties.item(C.PRS_ID);
         property.setSelectId(m_prs_id);
         property.setValue(m_persona);
 
-        property = properties.item(null, C.SUC_ID);
+        property = properties.item(C.SUC_ID);
         property.setValue(m_sucursal);
 
-        property = properties.item(null, C.US_DESCRIP);
+        property = properties.item(C.US_DESCRIP);
         property.setValue(m_descrip);
 
-        property = properties.item(null, C_CLIPROV);
+        property = properties.item(C_CLIPROV);
         loadCliProv(property);
 
         m_itemsDeletedCliProv = "";
 
-        property = properties.item(null, C_EMPRESAS);
+        property = properties.item(C_EMPRESAS);
         loadEmpresas(property);
 
-        property = properties.item(null, C_ROLES);
+        property = properties.item(C_ROLES);
         loadRoles(property);
 
         return m_dialog.showValues(properties);
@@ -973,6 +974,7 @@
 
       var saveItemsRoles = function(mainRegister) {
         var transaction = new DB.createTransaction();
+        transaction.setTable(C.USUARIO_ROL);
 
         var rows = m_dialog.getProperties().item(C_ROLES).getGrid().getRows();
         var _count = rows.size();
@@ -981,8 +983,6 @@
           var row = rows.item(_i);
 
           var register = new DB.Register();
-
-          register.setTable(C.USUARIO_ROL);
 
           var fields = register.getFields();
           fields.add(C.ROL_ID, Dialogs.cell(row, KI_ROL_ID).getId(), Types.id);

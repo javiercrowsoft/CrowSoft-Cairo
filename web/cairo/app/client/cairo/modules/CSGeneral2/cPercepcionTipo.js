@@ -422,7 +422,7 @@
         elem.setType(Dialogs.PropertyType.check);
         elem.setName(Cairo.Constants.ACTIVE_LABEL);
         elem.setKey(K_ACTIVE);
-        elem.setValue(m_active === true ? 1 : 0);
+        elem.setValue(Cairo.Util.boolToInt(m_active));
 
         var elem = properties.add(null, C.PERCT_GENERA_SICORE);
         elem.setType(Dialogs.PropertyType.check);
@@ -474,7 +474,7 @@
         elem.setValue(m_code);
 
         var elem = properties.item(Cairo.Constants.ACTIVE);
-        elem.setValue(m_active === true ? 1 : 0);
+        elem.setValue(Cairo.Util.boolToInt(m_active));
 
         var elem = properties.item(C.PERCT_GENERA_SICORE);
         elem.setValue(Cairo.Util.boolToInt(m_generaSicore));

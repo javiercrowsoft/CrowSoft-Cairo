@@ -798,7 +798,7 @@
         elem.setType(T.check);
         elem.setName(Cairo.Constants.ACTIVE_LABEL);
         elem.setKey(K_ACTIVE);
-        elem.setValue(m_active === true ? 1 : 0);
+        elem.setValue(Cairo.Util.boolToInt(m_active));
 
         var elem = properties.add(null, C.PROV_IMPRIME_TICKET);
         elem.setType(T.check);
@@ -1591,7 +1591,7 @@
         property.setValue(m_code);
 
         var property = properties.item(Cairo.Constants.ACTIVE);
-        property.setValue(m_active === true ? 1 : 0);
+        property.setValue(Cairo.Util.boolToInt(m_active));
 
         var property = properties.item(C.PROV_IMPRIME_TICKET);
         property.setValue(val(m_imprimeTicket));

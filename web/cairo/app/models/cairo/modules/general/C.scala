@@ -999,8 +999,6 @@ object C {
   val EMPRESA_USUARIO = "EmpresaUsuario"
   val EMP_US_ID = "empus_id"
 
-  val EMPRESA_USUARIO_DELETED = "deletedEmpresa"
-
   // UsuarioEmpresa
   val USUARIO_EMPRESA = "UsuarioEmpresa"
   val US_EMP_ID = "usemp_id"

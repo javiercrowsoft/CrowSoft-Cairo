@@ -368,7 +368,7 @@
         elem.setType(Dialogs.PropertyType.check);
         elem.setName(Cairo.Constants.ACTIVE_LABEL);
         elem.setKey(K_ACTIVE);
-        elem.setValue(m_active === true ? 1 : 0);
+        elem.setValue(Cairo.Util.boolToInt(m_active));
 
         if(!m_dialog.show(self)) { return false; }
 
@@ -388,7 +388,7 @@
         elem.setValue(m_code);
 
         var elem = properties.item(Cairo.Constants.ACTIVE);
-        elem.setValue(m_active === true ? 1 : 0);
+        elem.setValue(Cairo.Util.boolToInt(m_active));
 
         return m_dialog.showValues(properties);
       };

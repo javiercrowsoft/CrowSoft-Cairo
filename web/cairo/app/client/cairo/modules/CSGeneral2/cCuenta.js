@@ -572,7 +572,7 @@
         elem.setType(Dialogs.PropertyType.check);
         elem.setName(Cairo.Constants.ACTIVE_LABEL);
         elem.setKey(K_ACTIVE);
-        elem.setValue(m_active === true ? 1 : 0);
+        elem.setValue(Cairo.Util.boolToInt(m_active));
 
         var elem = properties.add(null, C.MON_ID);
         elem.setType(Dialogs.PropertyType.select);
@@ -730,7 +730,7 @@
         elem.setValue(m_identificacionExterna);
 
         var elem = properties.item(Cairo.Constants.ACTIVE);
-        elem.setValue(m_active === true ? 1 : 0);
+        elem.setValue(Cairo.Util.boolToInt(m_active));
 
         var elem = properties.item(C.MON_ID);
         elem.setSelectId(m_monId);

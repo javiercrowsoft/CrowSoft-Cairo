@@ -1660,7 +1660,7 @@
         elem.setType(T.check);
         elem.setName(Cairo.Constants.ACTIVE_LABEL);
         elem.setKey(K_ACTIVE);
-        elem.setValue(m_active === true ? 1 : 0);
+        elem.setValue(Cairo.Util.boolToInt(m_active));
 
         elem = properties.add(null, C.PR_CODIGO_EXTERNO);
         elem.setType(T.text);
@@ -3241,7 +3241,7 @@
         property.setValue(m_purchaseName);
 
         property = properties.item(Cairo.Constants.ACTIVE);
-        property.setValue(m_active === true ? 1 : 0);
+        property.setValue(Cairo.Util.boolToInt(m_active));
 
         property = properties.item(C.PR_CODE);
         property.setValue(m_code);

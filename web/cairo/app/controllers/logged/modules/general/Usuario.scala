@@ -21,7 +21,6 @@ case class UsuarioCliProvData(
                               )
 
 case class EmpresaUsuarioData(
-                               id: Int,
                                empId: Int
                               )
 
@@ -35,7 +34,6 @@ case class UsuarioItemsData(
                              roles: List[UsuarioRolData],
 
                              cliProvDeleted: String,
-                             empresaDeleted: String,
                              rolDeleted: String
                            )
 
@@ -58,7 +56,7 @@ case class UsuarioData(
 object Usuarios extends Controller with ProvidesUser {
 
   val usuarioCliProvFields = List(C.US_EMP_ID, C.CLI_ID, C.PROV_ID)
-  val usuarioEmpresaFields = List(C.EMP_US_ID, C.EMP_ID)
+  val usuarioEmpresaFields = List(C.EMP_ID)
   val usuarioRolFields = List(C.ROL_ID)
 
   val usuarioForm = Form(
@@ -84,7 +82,6 @@ object Usuarios extends Controller with ProvidesUser {
         ),
         C.EMPRESA_USUARIO -> Forms.list[EmpresaUsuarioData] (
           mapping(
-            C.EMP_US_ID -> number,
             C.EMP_ID -> number
           )(EmpresaUsuarioData.apply)(EmpresaUsuarioData.unapply)
         ),
@@ -94,7 +91,6 @@ object Usuarios extends Controller with ProvidesUser {
           )(UsuarioRolData.apply)(UsuarioRolData.unapply)
         ),
         C.USUARIO_EMPRESA_DELETED -> text,
-        C.EMPRESA_USUARIO_DELETED -> text,
         C.USUARIO_ROL_DELETED -> text
       )(UsuarioItemsData.apply)(UsuarioItemsData.unapply)
     )(UsuarioData.apply)(UsuarioData.unapply))
@@ -233,10 +229,6 @@ object Usuarios extends Controller with ProvidesUser {
     //
     val empresasInfo = getJsValueAsMap(Global.getParamsJsonRequestFor(C.EMPRESA_USUARIO, params))
     val empresaRows = Global.getParamsJsonRequestFor(C.ITEMS, empresasInfo)
-    val empresaDeleted: Map[String, JsValue] = Global.getParamsJsonRequestFor(C.DELETED_LIST, empresasInfo).toList match {
-      case Nil => Map(C.EMPRESA_USUARIO_DELETED -> Json.toJson(""))
-      case deletedList :: t => Map(C.EMPRESA_USUARIO_DELETED -> Json.toJson(deletedList._2))
-    }
     val usuarioEmpresas = empresaRows.toList match {
       case (k: String, item: JsValue) :: t => preprocessEmpresasParam(item, C.EMPRESA_USUARIO)
       case _ => Map(C.EMPRESA_USUARIO -> JsArray(List()))
@@ -256,7 +248,7 @@ object Usuarios extends Controller with ProvidesUser {
     }
 
     val usuarioItems = Map(C.USUARIO_ITEMS -> JsObject((
-           usuarioCliProvs ++ cliProvDeleted ++ usuarioEmpresas ++ empresaDeleted ++ usuarioRoles ++ rolDeleted).toSeq
+           usuarioCliProvs ++ cliProvDeleted ++ usuarioEmpresas ++ usuarioRoles ++ rolDeleted).toSeq
     ))
 
     JsObject(
@@ -279,7 +271,7 @@ object Usuarios extends Controller with ProvidesUser {
   def getEmpresas(empresas: List[EmpresaUsuarioData]): List[EmpresaUsuario] = {
     empresas.map(empresa => {
       EmpresaUsuario(
-        empresa.id,
+        DBHelper.NewId,
         empresa.empId
       )
     })
@@ -299,7 +291,6 @@ object Usuarios extends Controller with ProvidesUser {
       getEmpresas(usuario.empresas),
       getRoles(usuario.roles),
       usuario.cliProvDeleted,
-      usuario.empresaDeleted,
       usuario.rolDeleted
     )
   }

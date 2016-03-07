@@ -83,7 +83,6 @@ case class UsuarioItems(
 
                          /* only used in save */
                          cliProvDeleted: String,
-                         empresaDeleted: String,
                          rolDeleted: String
                        )
 
@@ -196,7 +195,7 @@ case class Usuario(
 object Usuario {
 
   lazy val emptyUsuarioItems = UsuarioItems(
-    List(), List(), List(), "", "", ""
+    List(), List(), List(), "", ""
   )
 
   lazy val emptyUsuario = Usuario(
@@ -469,7 +468,7 @@ object Usuario {
     def getEmpresaFields(empresa: EmpresaUsuario, usId: Int) = {
       List(
         Field(C.US_ID, usId, FieldType.id),
-        Field(C.CLI_ID, empresa.empId, FieldType.id)
+        Field(C.EMP_ID, empresa.empId, FieldType.id)
       )
     }
 
@@ -506,7 +505,7 @@ object Usuario {
     
     def saveCliProvs(usId: Int) = {
       DBHelper.deleteItems(user, C.USUARIO_EMPRESA, C.US_EMP_ID, usuario.items.cliProvDeleted, s" AND us_id = ${usId}")
-      usuario.items.cliProvs.map(usuario => saveCliProv(UsuarioCliProvInfo(usId, usuario)))
+      usuario.items.cliProvs.map(cliProv => saveCliProv(UsuarioCliProvInfo(usId, cliProv)))
     }
 
     case class EmpresaUsuarioInfo(usId: Int, item: EmpresaUsuario)
@@ -530,8 +529,8 @@ object Usuario {
     }
 
     def saveEmpresas(usId: Int) = {
-      DBHelper.deleteItems(user, C.EMPRESA_USUARIO, C.EMP_US_ID, usuario.items.empresaDeleted, s" AND us_id = ${usId}")
-      usuario.items.empresas.map(usuario => saveEmpresa(EmpresaUsuarioInfo(usId, usuario)))
+      DBHelper.deleteItems(user, C.EMPRESA_USUARIO, C.US_ID, usId.toString, "")
+      usuario.items.empresas.map(empresa => saveEmpresa(EmpresaUsuarioInfo(usId, empresa)))
     }
 
     case class UsuarioRolInfo(usId: Int, item: UsuarioRol)
@@ -556,9 +555,14 @@ object Usuario {
 
     def saveRoles(usId: Int) = {
       DBHelper.deleteItems(user, C.USUARIO_ROL, C.ROL_ID, usuario.items.rolDeleted, s" AND us_id = ${usId}")
-      usuario.items.roles.map(usuario => saveRol(UsuarioRolInfo(usId, usuario)))
+      val roles = loadRoles(user, usId)
+      usuario.items.roles.filter(rol => ! roles.exists(r => r.rolId == rol.rolId)).map(rol => saveRol(UsuarioRolInfo(usId, rol)))
     }
-    
+
+    // TODO: this has to be in a transaction so we need to create a new method saveEx which receives a connection
+    //       and DBHelper.saveEx must check if this connection parameter is null use the existing code, but if not is
+    //       null use the parameter connection
+
     DBHelper.saveEx(
       user,
       Register(
@@ -599,7 +603,7 @@ object Usuario {
       loadCliProvs(user, id),
       loadEmpresas(user, id),
       loadRoles(user, id),
-      "", "", "")
+      "", "")
   }
 
   private def loadCliProvs(user: CompanyUser, id: Int) = {
