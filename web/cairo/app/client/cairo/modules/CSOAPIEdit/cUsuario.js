@@ -1081,6 +1081,8 @@
         var grid = property.getGrid();
         var rows = grid.getRows();
 
+        rows.clear();
+
         for(var _i = 0; _i < m_data.cliProv.length; _i += 1) {
 
           var row = rows.add(null, getValue(m_data.cliProv[_i], C.US_EMP_ID));
@@ -1128,6 +1130,8 @@
         var elem;
         var grid = property.getGrid();
         var rows = grid.getRows();
+
+        rows.clear();
 
         for(var _i = 0; _i < m_data.roles.length; _i += 1) {
 

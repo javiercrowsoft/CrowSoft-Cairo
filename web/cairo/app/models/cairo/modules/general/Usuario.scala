@@ -402,7 +402,7 @@ object Usuario {
   }
 
   private val empresaUsuarioParser: RowParser[EmpresaUsuario] = {
-    SqlParser.get[Int](C.EMP_US_ID) ~
+    SqlParser.get[Option[Int]](C.EMP_US_ID) ~
     SqlParser.get[Int](C.EMP_ID) ~
     SqlParser.get[String](C.EMP_NAME) map {
     case
@@ -616,7 +616,7 @@ object Usuario {
 
   private def loadEmpresas(user: CompanyUser, id: Int) = {
     DB.withConnection(user.database.database) { implicit connection =>
-      SQL(s"SELECT t1.*, t2.${C.EMP_NAME} FROM ${C.EMPRESA_USUARIO} t1 INNER JOIN ${C.EMPRESA} t2 ON t1.${C.EMP_ID} = t2.${C.EMP_ID} WHERE t1.${C.US_ID} = {id}")
+      SQL(s"SELECT t1.${C.EMP_US_ID}, t2.${C.EMP_ID} t2.${C.EMP_NAME} FROM ${C.EMPRESA} t2 LEFT JOIN ${C.EMPRESA_USUARIO} t1 ON t1.${C.EMP_ID} = t2.${C.EMP_ID} WHERE t1.${C.US_ID} = {id}")
         .on('id -> id)
         .as(empresaUsuarioParser.*)
     }
