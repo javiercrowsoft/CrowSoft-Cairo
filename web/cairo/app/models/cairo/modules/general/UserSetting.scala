@@ -546,7 +546,7 @@ object UserSetting {
       val sql = "{call sp_movimiento_caja_get_caja_for_user(?, ?, ?)}"
       val cs = connection.prepareCall(sql)
 
-      cs.setInt(1, user.userId)
+      cs.setInt(1, user.masterUserId)
       cs.setInt(2, user.cairoCompanyId)
       cs.registerOutParameter(3, Types.OTHER)
 
@@ -558,7 +558,7 @@ object UserSetting {
 
       } catch {
         case NonFatal(e) => {
-          Logger.error(s"can't get caja for user with usId $user.userId and empId ${user.cairoCompanyId} for user ${user.toString}. Error ${e.toString}")
+          Logger.error(s"can't get caja for user with usId ${user.masterUserId} and empId ${user.cairoCompanyId} for user ${user.toString}. Error ${e.toString}")
           throw e
         }
       } finally {

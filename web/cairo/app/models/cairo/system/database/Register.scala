@@ -60,7 +60,7 @@ object Register {
         case false => register.fields
       }
       def getFieldsWithUpdatedBy(fields: List[Field]) = register.hasUpdatedBy match {
-        case true => Field(DBHelper.UPDATED_BY, user.userId, FieldType.id) :: fields
+        case true => Field(DBHelper.UPDATED_BY, user.masterUserId, FieldType.id) :: fields
         case false => fields
       }
       Logger.debug(s"in Register.getSqlSave - getFields - register.hasUpdatedBy: ${register.hasUpdatedBy} - register.hasTimestamp: ${register.hasTimestamp}")

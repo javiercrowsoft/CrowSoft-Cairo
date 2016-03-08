@@ -220,7 +220,7 @@ object Select {
 
     Table.load(user, tableId) match {
       case Some(table) => {
-        val parsedTable = ParsedTable(user.userId, user.cairoCompanyId, table)
+        val parsedTable = ParsedTable(user.masterUserId, user.cairoCompanyId, table)
         executeSelect(
           parsedTable.selectStatement,
           table.hasActive,
@@ -507,7 +507,7 @@ object Select {
 
     Table.load(user, tableId) match {
       case Some(table) => {
-        val parsedTable = ParsedTable(user.userId, user.cairoCompanyId, table)
+        val parsedTable = ParsedTable(user.masterUserId, user.cairoCompanyId, table)
         executeSelect(
           parsedTable.selectStatement,
           table,

@@ -169,7 +169,7 @@ object TesoreriaSetting {
       //DB.withConnection(user.database.database) { implicit connection =>
         try {
           SQL(s"INSERT INTO ${C.CONFIGURACION} (${C.CFG_ASPECTO}, ${C.CFG_GRUPO}, ${C.CFG_VALOR}, ${C.EMP_ID}, ${DBHelper.UPDATED_BY}) VALUES({key}, {group}, {value}, $empId, {userId})")
-            .on('key -> key, 'group -> group, 'value -> value, 'userId -> user.userId)
+            .on('key -> key, 'group -> group, 'value -> value, 'userId -> user.masterUserId)
             .executeUpdate
         } catch {
           case NonFatal(e) => {

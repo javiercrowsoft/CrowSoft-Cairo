@@ -32,7 +32,7 @@ object Document {
 
       cs.setInt(1, user.cairoCompanyId)
       cs.setInt(2, id)
-      cs.setInt(3, user.userId)
+      cs.setInt(3, user.masterUserId)
       cs.setInt(4, preId)
       cs.registerOutParameter(5, Types.INTEGER)
       cs.registerOutParameter(6, Types.VARCHAR)
@@ -62,7 +62,7 @@ object Document {
 
       cs.setInt(1, user.cairoCompanyId)
       cs.setInt(2, id)
-      cs.setInt(3, user.userId)
+      cs.setInt(3, user.masterUserId)
       cs.registerOutParameter(4, Types.INTEGER)
       cs.registerOutParameter(5, Types.INTEGER)
       cs.registerOutParameter(6, Types.INTEGER)
@@ -262,7 +262,7 @@ object Document {
       val cs = connection.prepareCall(sql)
 
       cs.setInt(1, user.cairoCompanyId)
-      cs.setInt(2, user.userId)
+      cs.setInt(2, user.masterUserId)
       cs.setInt(3, doctId)
       cs.setInt(4, doctIdApplic)
       cs.setInt(5, id)

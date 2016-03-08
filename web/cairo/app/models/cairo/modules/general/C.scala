@@ -1849,7 +1849,7 @@ object DocumentListParam {
       ,
       'preId -> preId,
       'empId -> user.cairoCompanyId,
-      'usId -> user.userId
+      'usId -> user.masterUserId
     )
 
     getMap(params)

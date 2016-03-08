@@ -1607,7 +1607,7 @@ object FacturaVenta {
         val sql = "select * from sp_doc_factura_venta_save(?, ?)"
         val cs = connection.prepareStatement(sql)
 
-        cs.setInt(1, user.userId)
+        cs.setInt(1, user.masterUserId)
         cs.setInt(2, fcTMPId)
 
         try {
@@ -1738,7 +1738,7 @@ object FacturaVenta {
 
       cs.setInt(1, user.cairoCompanyId)
       cs.setInt(2, id)
-      cs.setInt(3, user.userId)
+      cs.setInt(3, user.masterUserId)
       cs.registerOutParameter(4, Types.OTHER)
 
       try {
@@ -1836,7 +1836,7 @@ object FacturaVenta {
     DB.withConnection(user.database.database) { implicit connection =>
       try {
         SQL("sp_doc_factura_venta_delete {id}, {empId}, {usId}")
-          .on('id -> id, 'empId -> user.cairoCompanyId, 'usId -> user.userId)
+          .on('id -> id, 'empId -> user.cairoCompanyId, 'usId -> user.masterUserId)
           .executeUpdate
       } catch {
         case NonFatal(e) => {
@@ -1883,7 +1883,7 @@ object FacturaVenta {
   def saveParams(user: CompanyUser, facturaVentaParams: FacturaVentaParams): FacturaVentaParams = {
     val baseFields = List(
       Field(GC.EMP_ID, user.cairoCompanyId, FieldType.id),
-      Field(GC.US_ID, user.userId, FieldType.id),
+      Field(GC.US_ID, user.masterUserId, FieldType.id),
       Field(GC.PRE_ID, S.LIST_FACTURA_VENTA, FieldType.id)
     )
 
@@ -1966,7 +1966,7 @@ object FacturaVenta {
           .on(
             'preId -> S.LIST_FACTURA_VENTA,
             'empId -> user.cairoCompanyId,
-            'usId -> user.userId
+            'usId -> user.masterUserId
           )
           .executeUpdate
       } catch {
@@ -2065,7 +2065,7 @@ object FacturaVenta {
       val sql = "{call sp_lsdoc_facturas_venta(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}"
       val cs = connection.prepareCall(sql)
 
-      cs.setInt(1, user.userId)
+      cs.setInt(1, user.masterUserId)
       cs.setDate(2, new java.sql.Date(from.getTime()))
       cs.setDate(3, new java.sql.Date(to.getTime()))
       cs.setString(4, cliId.getOrElse("0"))

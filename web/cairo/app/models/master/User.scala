@@ -198,6 +198,10 @@ object User {
   }
 
   def update(id: Int, user: User) = {
+    update(id, username, email)
+  }
+
+  def update(id: Int, username: String, email: String) = {
     DB.withConnection("master") { implicit connection =>
       SQL("""
           UPDATE users SET
@@ -206,8 +210,8 @@ object User {
           WHERE us_id = {id}
       """).on(
           'id -> id,
-          'username -> user.username,
-          'email -> user.email
+          'username -> username,
+          'email -> email
       ).executeUpdate
     }
   }

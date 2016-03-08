@@ -3,11 +3,12 @@ package models.cairo.modules.general
 import java.sql.{Connection, CallableStatement, ResultSet, Types, SQLException}
 import anorm.SqlParser._
 import anorm._
-import services.DateUtil
+import services.{PasswordHash, DateUtil}
 import services.db.DB
 import models.cairo.system.database.{DBHelper, Register, Field, FieldType, SaveResult}
 import play.api.Play.current
-import models.domain.CompanyUser
+import models.domain.{ CompanyUser, Company }
+import models.master.User
 import java.util.Date
 import play.api.Logger
 import play.api.libs.json._
@@ -410,7 +411,7 @@ object Usuario {
         empId ~
         empName =>
       EmpresaUsuario(
-        id,
+        id.getOrElse(DBHelper.NoId),
         empId,
         empName
       )
@@ -479,8 +480,12 @@ object Usuario {
       )
     }
 
-    def throwException = {
-      throw new RuntimeException(s"Error when saving ${C.USUARIO}")
+    def throwError = {
+      throwException(s"Error when saving ${C.USUARIO}")
+    }
+
+    def throwException(message: String) = {
+      throw new RuntimeException(message)
     }
 
     case class UsuarioCliProvInfo(usId: Int, item: UsuarioCliProv)
@@ -499,7 +504,7 @@ object Usuario {
         itemInfo.item.id == DBHelper.NewId
       ) match {
         case SaveResult(true, id) => true
-        case SaveResult(false, id) => throwException
+        case SaveResult(false, id) => throwError
       }
     }
     
@@ -524,7 +529,7 @@ object Usuario {
         itemInfo.item.id == DBHelper.NewId
       ) match {
         case SaveResult(true, id) => true
-        case SaveResult(false, id) => throwException
+        case SaveResult(false, id) => throwError
       }
     }
 
@@ -549,7 +554,7 @@ object Usuario {
         true
       ) match {
         case SaveResult(true, id) => true
-        case SaveResult(false, id) => throwException
+        case SaveResult(false, id) => throwError
       }
     }
 
@@ -557,6 +562,73 @@ object Usuario {
       DBHelper.deleteItems(user, C.USUARIO_ROL, C.ROL_ID, usuario.items.rolDeleted, s" AND us_id = ${usId}")
       val roles = loadRoles(user, usId)
       usuario.items.roles.filter(rol => ! roles.exists(r => r.rolId == rol.rolId)).map(rol => saveRol(UsuarioRolInfo(usId, rol)))
+    }
+
+    def getUserNameFromDomain = {
+      val dbName = user.database.database
+      val domain = dbName.substring(0, dbName.lastIndexOf("_"))
+      usuario.name.replace(" ", "_") + "@" + domain
+    }
+
+    val masterUser = if(usuario.id != DBHelper.NoId) User.load(usuario.id) else None
+
+    val masterUserId = masterUser match {
+      case Some(user) => {
+        val userNameWithDomain = getUserNameFromDomain
+        if(user.username != getUserNameFromDomain) {
+          User.update(
+            user.id,
+            userNameWithDomain,
+            userNameWithDomain
+          )
+        }
+        user.id
+      }
+      case None => {
+
+        // must be a new Usuario
+        if(! isNew) throwException(s"Error when saving ${C.USUARIO}. Cant't find a master user for user ${usuario.name}")
+
+        val userName = getUserNameFromDomain
+        val emailAddress = userName
+        val password = PasswordHash.createHash(usuario.password)
+        val code = PasswordHash.createCode(usuario.password)
+        User.save(
+          User(
+            NotAssigned,
+            userName,
+            emailAddress,
+            password,
+            code,
+            usuario.active,
+            false,
+            "",
+            "",
+            "",
+            "",
+            false,
+            null,
+            null
+          )
+        )
+      }
+    }
+
+    def saveCompanyUser(usId: Int, empId: Int) = {
+      CompanyUser.findByCompanyAndUser(user, empId) match {
+        case None => CompanyUser.save(
+          CompanyUser(
+            user.masterUser,
+            Company.load(empId).getOrElse(throwError),
+            user.database
+          )
+        )
+        case _ => // nothing to do
+      }
+    }
+
+    def saveCompaniesUser(usId: Int) = {
+      usuario.items.empresas.map(empresa => saveCompanyUser(usId, empresa.id))
     }
 
     // TODO: this has to be in a transaction so we need to create a new method saveEx which receives a connection
@@ -568,7 +640,7 @@ object Usuario {
       Register(
         C.USUARIO,
         C.US_ID,
-        usuario.id,
+        masterUserId,
         false,
         true,
         true,
@@ -580,9 +652,10 @@ object Usuario {
         saveCliProvs(id)
         saveEmpresas(id)
         saveRoles(id)
-        load(user, id).getOrElse(throwException)
+        saveCompanyUser(id)
+        load(user, id).getOrElse(throwError)
       }
-      case SaveResult(false, id) => throwException
+      case SaveResult(false, id) => throwError
     }
   }
 

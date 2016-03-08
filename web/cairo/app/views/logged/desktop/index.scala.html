@@ -2,7 +2,7 @@
 
 @import helper._
 
-@main("Desktop", s"Welcome ${companyUser.user.username} to your ${companyUser.company.company_name}'s desktop!") {
+@main("Desktop", s"Welcome ${companyUser.masterUser.username} to your ${companyUser.company.company_name}'s desktop!") {
 
     <div class="navbar navbar-default navbar-fixed-top" role="navigation">
       <div class="@if(loggedUser.isDesktop && !requestOrigin.userAgent.isMobile) {desktop-big-container} else {container}">
@@ -653,7 +653,7 @@
     return @if(requestOrigin.userAgent.isMobile) {true} else {false};
   };
 
-  Cairo.User.setId(@{companyUser.userId});
+  Cairo.User.setId(@{companyUser.masterUserId});
   Cairo.Company.setId(@{companyUser.cairoCompanyId});
   Cairo.Company.setName('@{companyUser.cairoCompanyName}');
   Cairo.User.setSucId(@{companyUser.cairoUser.branch.id});

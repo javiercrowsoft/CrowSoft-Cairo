@@ -19,7 +19,7 @@ object Language {
       val sql = "{call sp_sys_language_get(?, ?)}"
       val cs = connection.prepareCall(sql)
 
-      cs.setInt(1, user.userId)
+      cs.setInt(1, user.masterUserId)
       cs.registerOutParameter(2, Types.OTHER)
 
       try {

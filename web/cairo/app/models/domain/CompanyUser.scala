@@ -13,12 +13,12 @@ case class Person(id: Int, name: String)
 case class CairoUser(branch: BranchOffice, person: Person, isExternal: Boolean)
 
 case class CompanyUser(
-                        user: User,
+                        masterUser: User,
                         company: Company,
                         database: Database) {
-  val isLogged = { user != null }
+  val isLogged = { masterUser != null }
   val isLoggedIntoCompany = { company != null }
-  lazy val userId = { if(user == null) 0 else user.userId }
+  lazy val masterUserId = { if(masterUser == null) 0 else masterUser.userId }
   lazy val domainCompanyId = { if(company == null) 0 else company.domainId}
   lazy val cairoCompanyId = { if(company == null) 0 else company.company_id}
   lazy val cairoCompanyName = { if(company == null) "" else company.company_name}
@@ -33,13 +33,13 @@ object CompanyUser {
   lazy val emptyCairoUser = CairoUser(null, null, false)
 
   def save(companyUser: CompanyUser): Int = {
-    DB.withConnection(companyUser.user.domainDataSource) { implicit connection =>
+    DB.withConnection(companyUser.masterUser.domainDataSource) { implicit connection =>
       SQL("""
           INSERT INTO company_users(co_id, us_id)
           VALUES({co_id}, {us_id})
           """).on(
           'co_id -> companyUser.company.id,
-          'us_id -> companyUser.user.id
+          'us_id -> companyUser.masterUser.id
         ).executeInsert().map(id => id.toInt).getOrElse(throw new RuntimeException("Error when inserting company_users"))
     }
   }
@@ -116,7 +116,7 @@ object CompanyUser {
            | LEFT JOIN sucursal s ON u.suc_id = s.suc_id
            | LEFT JOIN persona p ON u.prs_id = p.prs_id
            | WHERE us_id = {id}""".stripMargin)
-        .on('id -> user.userId)
+        .on('id -> user.masterUserId)
         .as(cairoUserParser.singleOpt)
     }
   }

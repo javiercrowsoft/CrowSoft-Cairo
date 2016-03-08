@@ -165,7 +165,7 @@ object Branch {
       val sql = "{call sp_arb_rama_create(?, ?, ?, ?, ?)}"
       val cs = connection.prepareCall(sql)
 
-      cs.setInt(1, user.userId)
+      cs.setInt(1, user.masterUserId)
       cs.setInt(2, treeId)
       cs.setInt(3, branch.fatherId)
       cs.setString(4, branch.name)
@@ -202,7 +202,7 @@ object Branch {
       val sql = "{call sp_arb_rama_rename(?, ?, ?, ?)}"
       val cs = connection.prepareCall(sql)
 
-      cs.setInt(1, user.userId)
+      cs.setInt(1, user.masterUserId)
       cs.setInt(2, branch.id)
       cs.setString(3, branch.name)
       cs.registerOutParameter(4, Types.OTHER)
@@ -250,7 +250,7 @@ object Branch {
       val sql = "{call sp_arbborrarrama(?, ?)}"
       val cs = connection.prepareCall(sql)
 
-      cs.setInt(1, user.userId)
+      cs.setInt(1, user.masterUserId)
       cs.setInt(2, id)
 
       try {
@@ -274,7 +274,7 @@ object Branch {
       val sql = s"{call $sp(?, ?, ?, ?, ?)}"
       val cs = connection.prepareCall(sql)
 
-      cs.setInt(1, user.userId)
+      cs.setInt(1, user.masterUserId)
       cs.setInt(2, idFrom)
       cs.setInt(3, idTo)
       cs.setShort(4, (if(onlyChildren) 1 else 0).toShort)
@@ -318,7 +318,7 @@ object Branch {
       val sql = s"{call $sp(?, ?, ?)}"
       val cs = connection.prepareCall(sql)
 
-      cs.setInt(1, user.userId)
+      cs.setInt(1, user.masterUserId)
       cs.setInt(2, id)
       cs.registerOutParameter(3, Types.OTHER)
 
@@ -354,7 +354,7 @@ object Branch {
       val sql = s"{call $sp(?, ?, ?, ?)}"
       val cs = connection.prepareCall(sql)
 
-      cs.setInt(1, user.userId)
+      cs.setInt(1, user.masterUserId)
       cs.setString(2, ids)
       cs.setInt(3, idTo)
       cs.registerOutParameter(4, Types.OTHER)
