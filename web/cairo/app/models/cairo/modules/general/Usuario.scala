@@ -572,21 +572,22 @@ object Usuario {
 
     val masterUser = if(usuario.id != DBHelper.NoId) User.load(usuario.id) else None
 
-    val masterUserId = masterUser match {
+    val masterUserId: Int = masterUser match {
       case Some(user) => {
         val userNameWithDomain = getUserNameFromDomain
         if(user.username != getUserNameFromDomain) {
           User.update(
-            user.id,
+            usuario.id,
             userNameWithDomain,
             userNameWithDomain
           )
         }
-        user.id
+        usuario.id
       }
       case None => {
 
         // must be a new Usuario
+        //
         if(! isNew) throwException(s"Error when saving ${C.USUARIO}. Cant't find a master user for user ${usuario.name}")
 
         val userName = getUserNameFromDomain
@@ -615,11 +616,11 @@ object Usuario {
     }
 
     def saveCompanyUser(usId: Int, empId: Int) = {
-      CompanyUser.findByCompanyAndUser(user, empId) match {
+      CompanyUser.findByCompanyAndUser(user.masterUser, empId, usId) match {
         case None => CompanyUser.save(
           CompanyUser(
             user.masterUser,
-            Company.load(empId).getOrElse(throwError),
+            Company.load(user.masterUser, empId).getOrElse(throwError),
             user.database
           )
         )
@@ -652,7 +653,7 @@ object Usuario {
         saveCliProvs(id)
         saveEmpresas(id)
         saveRoles(id)
-        saveCompanyUser(id)
+        saveCompaniesUser(id)
         load(user, id).getOrElse(throwError)
       }
       case SaveResult(false, id) => throwError
@@ -689,7 +690,7 @@ object Usuario {
 
   private def loadEmpresas(user: CompanyUser, id: Int) = {
     DB.withConnection(user.database.database) { implicit connection =>
-      SQL(s"SELECT t1.${C.EMP_US_ID}, t2.${C.EMP_ID} t2.${C.EMP_NAME} FROM ${C.EMPRESA} t2 LEFT JOIN ${C.EMPRESA_USUARIO} t1 ON t1.${C.EMP_ID} = t2.${C.EMP_ID} WHERE t1.${C.US_ID} = {id}")
+      SQL(s"SELECT t1.${C.EMP_US_ID}, t2.${C.EMP_ID}, t2.${C.EMP_NAME} FROM ${C.EMPRESA} t2 LEFT JOIN ${C.EMPRESA_USUARIO} t1 ON t1.${C.EMP_ID} = t2.${C.EMP_ID} WHERE t1.${C.US_ID} = {id}")
         .on('id -> id)
         .as(empresaUsuarioParser.*)
     }

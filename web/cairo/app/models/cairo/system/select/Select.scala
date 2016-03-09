@@ -56,6 +56,15 @@ object Select {
   * there are a customer versions of selectStatement which override the system version. this allows
   * to customize the select with the requirements of every customer
   *
+  * NOTICE if the select statement contains a concatenation of strings + or || you must use &&
+  *        and if it contains a formula like coallesce in the fiter definition part the comma
+  *        must be replace with # ( I know it is ugly and I deserve to burn in hell )
+  * example:
+  *
+  * 'select us_id, us_nombre as Usuario, coalesce(prs_nombre &&'' ''&& prs_apellido,'''') as Nombre
+  *  from usuario left join persona prs on usuario.prs_id = prs.prs_id
+  *  |us_nombre:string,coalesce(prs_nombre &&'' ''&& prs_apellido#''''):string'
+  *
   * */
   def get(
            user: CompanyUser,
@@ -99,7 +108,7 @@ object Select {
     *
     * */
       def parseDefinition(sqlSelectDefinition: String): (String, List[Column]) = {
-        val info = sqlSelectDefinition.split("[|]")
+        val info = sqlSelectDefinition.split("[|]").map(s => s.replace("&&", "||"))
         try {
           val sqlstmt = info(0)
           def getColumn(columnDef: String): Column = {
@@ -111,7 +120,7 @@ object Select {
             case columnDef :: tail => getColumn(columnDef) :: getColumns(tail)
           }
           if(info.length == 1) (sqlstmt, List())
-          else (sqlstmt, getColumns(info(1).split("[,]").toList))
+          else (sqlstmt, getColumns(info(1).split("[,]").map(s => s.replace("#", ",")).toList))
         }
         catch {
           case NonFatal(e) => {
@@ -135,6 +144,8 @@ object Select {
           case _ => s"%$filter%" // 2 is default => %filter%
         }
       }
+
+      Logger.debug("in Select.get")
 
       parseDefinition(sqlSelectDefinition) match {
         case (sql, columns) => {
@@ -371,7 +382,7 @@ object Select {
       val id = getId
 
       def parseDefinition(sqlSelectDefinition: String): (String, List[Column]) = {
-        val info = sqlSelectDefinition.split("[|]")
+        val info = sqlSelectDefinition.split("[|]").map(s => s.replace("&&", "||"))
         try {
           (info(0), List())
         }
@@ -409,6 +420,8 @@ object Select {
           sqlstmt
         }
       }
+
+      Logger.debug("in Select.validate")
 
       // if it is a branch
       //

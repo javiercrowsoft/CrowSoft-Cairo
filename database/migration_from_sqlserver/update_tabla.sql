@@ -25,3 +25,6 @@ set
           tbl_sqlhelp = replace(tbl_sqlhelp,'@@bFilterType','@@filterType'),
           tbl_sqlhelpcliente = replace(tbl_sqlhelpcliente,'@@bFilterType','@@filterType')
 ;
+update tabla
+set tbl_sqlhelp = 'select us_id, us_nombre as Usuario, coalesce(prs_nombre &&'' ''&& prs_apellido,'''') as Nombre from usuario left join persona prs on usuario.prs_id = prs.prs_id|us_nombre:string,coalesce(prs_nombre &&'' ''&& prs_apellido#''''):string'
+where tbl_id = 3;

@@ -197,11 +197,11 @@ object User {
     }
   }
 
-  def update(id: Int, user: User) = {
-    update(id, username, email)
+  def update(id: Int, user: User): Int = {
+    update(id, user.username, user.email)
   }
 
-  def update(id: Int, username: String, email: String) = {
+  def update(id: Int, username: String, email: String): Int = {
     DB.withConnection("master") { implicit connection =>
       SQL("""
           UPDATE users SET

@@ -26,11 +26,11 @@ Cairo
 
 ## Definitions
 
- There are only one master database
+ There is only one master database
 
- There are one domain database by email domain
+ There is one domain database by email domain
 
- There are one ore more cairo database by email domain
+ There is one ore more cairo database by email domain
 
  When a person creates a user it must provide an email address. The domain is used to create the domain and cairo databases.
 
@@ -143,4 +143,4 @@ Datatables.net used is 1.10.0
 
 jquery-ui-10.1.3,js
 NOTICE !!! :
-  this library has been modified at line 8448 and 8452: the jquery classes in the buttons close and today havr been removed and the boostrap classes has been added
+  this library has been modified at line 8448 and 8452: the jquery classes in the buttons close and today have been removed and the boostrap classes has been added
