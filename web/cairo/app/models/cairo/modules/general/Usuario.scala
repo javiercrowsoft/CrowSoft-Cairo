@@ -565,9 +565,9 @@ object Usuario {
     }
 
     def getUserNameFromDomain = {
-      val dbName = user.database.database
-      val domain = dbName.substring(0, dbName.lastIndexOf("_"))
-      usuario.name.replace(" ", "_") + "@" + domain
+      val userEmail = user.masterUser.email
+      val domain = userEmail.substring(userEmail.indexOf("@"))
+      usuario.name.replace(" ", "_").toLowerCase + domain
     }
 
     val masterUser = if(usuario.id != DBHelper.NoId) User.load(usuario.id) else None
