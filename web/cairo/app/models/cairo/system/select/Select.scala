@@ -34,8 +34,8 @@ object Select {
                 @@us_id           int,
                 @@bForAbm         tinyint,
                 @@filterType      tinyint,
-                @@filter 					varchar(255)  = '',
-                @@check  					smallint 			= 0,
+                @@filter          varchar(255)  = '',
+                @@check           smallint      = 0,
                 @@id              int           = 0,
                 @@filter2         varchar(255)  = ''
               )
@@ -182,8 +182,8 @@ object Select {
                 @@us_id           int,
                 @@bForAbm         tinyint,
                 @@filterType      tinyint,
-                @@filter 					varchar(255)  = '',
-                @@check  					smallint 			= 0,
+                @@filter          varchar(255)  = '',
+                @@check           smallint      = 0,
                 @@cpa_id          int           = 0,
                 @@filter2         varchar(255)  = ''
               )
@@ -268,8 +268,8 @@ object Select {
                 @@us_id           int,
                 @@bForAbm         tinyint,
                 @@filterType      tinyint,
-                @@filter 					varchar(255)  = '',
-                @@check  					smallint 			= 0,
+                @@filter          varchar(255)  = '',
+                @@check           smallint      = 0,
                 @@id              int           = 0,
                 @@filter2         varchar(255)  = ''
               )
