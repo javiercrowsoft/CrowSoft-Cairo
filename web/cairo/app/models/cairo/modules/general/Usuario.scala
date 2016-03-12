@@ -620,7 +620,7 @@ object Usuario {
         case None => CompanyUser.save(
           CompanyUser(
             user.masterUser,
-            Company.load(user.masterUser, empId).getOrElse(throwError),
+            Company.load(user.masterUser, empId).getOrElse(throwException(s"Error when saving ${C.USUARIO}. Cant't find a company for empId $empId")),
             user.database
           )
         )
@@ -629,7 +629,7 @@ object Usuario {
     }
 
     def saveCompaniesUser(usId: Int) = {
-      usuario.items.empresas.map(empresa => saveCompanyUser(usId, empresa.id))
+      usuario.items.empresas.map(empresa => saveCompanyUser(usId, empresa.empId))
     }
 
     // TODO: this has to be in a transaction so we need to create a new method saveEx which receives a connection
