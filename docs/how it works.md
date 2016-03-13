@@ -83,6 +83,8 @@ Cairo
 
 the user is represented in all this three databases
 
+![users and companies](https://cloud.githubusercontent.com/assets/1075455/13728973/7f51a700-e907-11e5-8913-5a60f3c5e79a.png)
+
 ### Server Side
 
 User registration / activation
