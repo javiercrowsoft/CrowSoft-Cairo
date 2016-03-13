@@ -40,7 +40,7 @@ Cairo
 
  Users are created in two ways:
 
-  - When person who register at the cairo landing page (for example www.crowsoft.com.ar)
+  - When a person registers at the cairo landing page (for example www.crowsoft.com.ar)
 
   - When a new user is created using the user dialog in cairo.
 

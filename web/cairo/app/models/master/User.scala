@@ -261,5 +261,13 @@ object User {
     )
   }
 
+  def updateCode(id: Int, code: String) = {
+    DB.withConnection("master") { implicit connection =>
+      SQL("UPDATE users SET us_code = {code} WHERE us_id = {id}")
+        .on('id -> id, 'code -> code)
+        .executeUpdate
+    }
+  }
+
 }
 
