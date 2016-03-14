@@ -32,15 +32,42 @@ object CompanyUser {
 
   lazy val emptyCairoUser = CairoUser(null, null, false)
 
+  private def throwError: Int = {
+    throw new RuntimeException("Error when inserting company_users")
+  }
+
+  private def getId(id: Pk[Int]) = id match {
+    case Id(id) => id
+    case _ => throwError
+  }
+
   def save(companyUser: CompanyUser): Int = {
-    DB.withConnection(companyUser.masterUser.domainDataSource) { implicit connection =>
+    val coId = getId(companyUser.company.id)
+    val usId = getId(companyUser.masterUser.id)
+    save(companyUser.masterUser, coId, usId)
+  }
+
+  def save(masterUser: User, coId: Int, usId: Int): Int = {
+    DB.withConnection(masterUser.domainDataSource) { implicit connection =>
       SQL("""
           INSERT INTO company_users(co_id, us_id)
           VALUES({co_id}, {us_id})
           """).on(
-          'co_id -> companyUser.company.id,
-          'us_id -> companyUser.masterUser.id
-        ).executeInsert().map(id => id.toInt).getOrElse(throw new RuntimeException("Error when inserting company_users"))
+        'co_id -> coId,
+        'us_id -> usId
+      ).executeInsert().map(id => id.toInt).getOrElse(throwError)
+    }
+  }
+
+  def removeUser(user: CompanyUser, usId: Int) = {
+    val dbId = getId(user.database.id)
+    DB.withConnection(user.masterUser.domainDataSource) { implicit connection =>
+      SQL("""
+          DELETE FROM company_users where us_id = {id} AND co_id IN (SELECT co_id FROM companies WHERE db_id = {dbId})
+          """).on(
+        'id -> usId,
+        'dbId -> dbId
+      ).executeUpdate
     }
   }
 

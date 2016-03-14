@@ -617,19 +617,25 @@ object Usuario {
 
     def saveCompanyUser(usId: Int, empId: Int) = {
       CompanyUser.findByCompanyAndUser(user.masterUser, empId, usId) match {
-        case None => CompanyUser.save(
-          CompanyUser(
-            user.masterUser,
-            Company.load(user.masterUser, empId).getOrElse(throwException(s"Error when saving ${C.USUARIO}. Cant't find a company for empId $empId")),
-            user.database
-          )
-        )
+        case None => {
+          //
+          // we validate that the empId has a coId in the domain database
+          //
+          val coId = Company.load(user.masterUser, empId)
+            .getOrElse(throwException(s"Error when saving ${C.USUARIO}. Cant't find a company for empId $empId"))
+            .id.getOrElse(DBHelper.NoId)
+          CompanyUser.save(user.masterUser, coId, usId)
+        }
         case _ => // nothing to do
       }
     }
 
     def saveCompaniesUser(usId: Int) = {
-      usuario.items.empresas.map(empresa => saveCompanyUser(usId, empresa.empId))
+      Logger.debug(user.database.toString)
+      CompanyUser.removeUser(user, usId)
+      if(usuario.active) {
+        usuario.items.empresas.map(empresa => saveCompanyUser(usId, empresa.empId))
+      }
     }
 
     // TODO: this has to be in a transaction so we need to create a new method saveEx which receives a connection
