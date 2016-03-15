@@ -246,21 +246,21 @@
 
         // Error al grabar la tabla de marcado de precios
         return Cairo.Database.saveEx(
-            register,
-            false,
-            C.LPM_CODE,
-            Cairo.Constants.CLIENT_SAVE_FUNCTION,
-            C_MODULE,
-            getText(3505, "")).then(
+          register,
+          false,
+          C.LPM_CODE,
+          Cairo.Constants.CLIENT_SAVE_FUNCTION,
+          C_MODULE,
+          getText(3505, "")).then(
 
           function(result) {
             if(result.success) {
-                updateListaPrecioPrecio();
-
-                m_copy = false;
+              updateListaPrecioPrecio();
+              m_copy = false;
               return load(result.data.getId()).then(
                 function (success) {
                   if(success) {
+                    Cairo.navigate(self.getPath());
                     if(m_listController !== null) {
                       updateList();
                       m_listController.updateEditorKey(self, m_id);

@@ -245,6 +245,7 @@
               return load(result.data.getId()).then(
                 function (success) {
                   if(success) {
+                    Cairo.navigate(self.getPath());
                     if(m_listController !== null) {
                       updateList();
                       m_listController.updateEditorKey(self, m_id);

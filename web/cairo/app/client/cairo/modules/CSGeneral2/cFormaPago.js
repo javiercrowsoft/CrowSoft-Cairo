@@ -237,19 +237,20 @@
         }
 
         return Cairo.Database.saveEx(
-            register,
-            false,
-            C.FP_CODE,
-            Cairo.Constants.CLIENT_SAVE_FUNCTION,
-            C_MODULE,
-            getText(5060, "")).then(
+          register,
+          false,
+          C.FP_CODE,
+          Cairo.Constants.CLIENT_SAVE_FUNCTION,
+          C_MODULE,
+          getText(5060, "")).then(
 
           function(result) {
             if(result.success) {
-                m_copy = false;
+              m_copy = false;
               return load(result.data.getId()).then(
                 function (success) {
                   if(success) {
+                    Cairo.navigate(self.getPath());
                     if(m_listController !== null) {
                       updateList();
                       m_listController.updateEditorKey(self, m_id);

@@ -256,24 +256,25 @@
 
         register.beginTrans(Cairo.Database);
         return Cairo.Database.saveEx(
-            register,
-            false,
-            C.FE_CODE,
-            Cairo.Constants.CLIENT_SAVE_FUNCTION,
-            C_MODULE,
-            getText(1543, "")).then(
+          register,
+          false,
+          C.FE_CODE,
+          Cairo.Constants.CLIENT_SAVE_FUNCTION,
+          C_MODULE,
+          getText(1543, "")).then(
 
           function(result) {
             if(result.success) {
-                sqlstmt = "sp_FeriadoSave "+ register.getId().toString();
-                if(!Cairo.Database.execute(sqlstmt)) { return false; }
+              sqlstmt = "sp_FeriadoSave "+ register.getId().toString();
+              if(!Cairo.Database.execute(sqlstmt)) { return false; }
 
-                register.commitTrans();
+              register.commitTrans();
 
-                m_copy = false;
+              m_copy = false;
               return load(result.data.getId()).then(
                 function (success) {
                   if(success) {
+                    Cairo.navigate(self.getPath());
                     if(m_listController !== null) {
                       updateList();
                       m_listController.updateEditorKey(self, m_id);

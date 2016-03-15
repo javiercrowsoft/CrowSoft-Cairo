@@ -223,19 +223,20 @@
         }
 
         return Cairo.Database.saveEx(
-            register,
-            false,
-            C.GTO_CODE,
-            Cairo.Constants.CLIENT_SAVE_FUNCTION,
-            C_MODULE,
-            getText(1220, "")).then(
+          register,
+          false,
+          C.GTO_CODE,
+          Cairo.Constants.CLIENT_SAVE_FUNCTION,
+          C_MODULE,
+          getText(1220, "")).then(
 
           function(result) {
             if(result.success) {
-                m_copy = false;
+              m_copy = false;
               return load(result.data.getId()).then(
                 function (success) {
                   if(success) {
+                    Cairo.navigate(self.getPath());
                     if(m_listController !== null) {
                       updateList();
                       m_listController.updateEditorKey(self, m_id);
