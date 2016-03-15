@@ -179,6 +179,8 @@
 
       self.messageEx = function(messageId, info) {
         var _rtn = null;
+        var p = null;
+
         switch (messageId) {
 
           case Dialogs.Message.MSG_DOC_INFO:
@@ -187,12 +189,17 @@
             _rtn = Dialogs.Message.MSG_DOC_INFO_HANDLED;
             break;
 
+          case Dialogs.Message.MSG_GRID_VIRTUAL_ROW:
+
+            p = P.resolvedPromise(info);
+            break;
+
           default:
             _rtn = true;
             break;
         }
 
-        return Cairo.Promises.resolvedPromise(_rtn);
+        return p || P.resolvedPromise(_rtn);
       };
 
       self.discardChanges = function() {
@@ -758,7 +765,7 @@
       self.newRow = function(key, rows) {
         switch (key) {
           case K_CLIPROV:
-            addRowToUpdated(rows);
+            addRowToUpdated(rows-1);
             break;
         }
         return P.resolvedPromise(true);
@@ -946,7 +953,7 @@
                     fields.add(C.US_EMP_ID, Cairo.Constants.NEW_ID, Types.integer);
                   }
                   else {
-                    register.setId(Cairo.Util.val(cell.getValue()));
+                    fields.add(C.US_EMP_ID, Cairo.Util.val(cell.getValue()), Types.integer);
                   }
                   break;
 

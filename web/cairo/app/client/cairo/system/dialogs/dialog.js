@@ -3954,6 +3954,12 @@
           ).then(
             function(virtualRow) {
               //
+              // we need to check that the return value of self.messageEx contains the virtualRow info
+              //
+              if(virtualRow.getSuccess === undefined) {
+                Cairo.raiseError("Grid Edition", "The 'self.messageEx = function(messageId, info) {' method must return the info parameter when the message is 'Dialogs.Message.MSG_GRID_VIRTUAL_ROW'");
+              }
+              //
               // it is not a virtual row selection so we return false
               //
               if(virtualRow.getSuccess() === false) {
