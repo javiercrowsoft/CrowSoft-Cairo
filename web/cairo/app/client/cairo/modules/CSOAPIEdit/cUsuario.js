@@ -673,9 +673,12 @@
 
             if(response.success !== true) { return false; }
 
-            if(response.data.id !== NO_ID) {
+            //
+            // companies are always present so we need to load items even when id == NO_ID
+            //
+            m_data = loadDataFromResponse(response);
 
-              m_data = loadDataFromResponse(response);
+            if(response.data.id !== NO_ID) {
 
               m_active = valField(response.data, Cairo.Constants.ACTIVE);
               m_usDeposito = valField(response.data, C.US_DEPOSITO);

@@ -240,7 +240,7 @@ object DBHelper {
       if(isNewRecord && !register.useIdentity && !register.fieldId.isEmpty) {
         getNewId(user, register.table, register.fieldId)
       }
-      else NoId
+      else register.id
     }
 
     val isNewRecord = register.id == NoId

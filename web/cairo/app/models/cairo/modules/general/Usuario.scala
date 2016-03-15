@@ -726,29 +726,26 @@ object Usuario {
   }
 
   def get(user: CompanyUser, id: Int): Usuario = {
-    load(user, id) match {
-      case Some(p) => {
-        Usuario(
-          p.id,
-          p.name,
-          p.active,
-          p.password, // password is always empty
-          p.usDeposito,
-          p.externo,
-          p.empXDpto,
-          p.empresaEx,
+    val p = load(user, id).getOrElse(emptyUsuario)
 
-          p.prsId,
-          p.prsName,
-          p.sucId,
-          p.sucName,
+    Usuario(
+      p.id,
+      p.name,
+      p.active,
+      p.password, // password is always empty
+      p.usDeposito,
+      p.externo,
+      p.empXDpto,
+      p.empresaEx,
 
-          p.descrip,
+      p.prsId,
+      p.prsName,
+      p.sucId,
+      p.sucName,
 
-          loadUsuarioItems(user, id)
-        )
-      }
-      case None => emptyUsuario
-    }
+      p.descrip,
+
+      loadUsuarioItems(user, id)
+    )
   }
 }
