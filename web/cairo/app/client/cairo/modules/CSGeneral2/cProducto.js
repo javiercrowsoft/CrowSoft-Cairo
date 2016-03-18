@@ -16,14 +16,16 @@
       var C = Cairo.General.Constants;
       var NO_ID = Cairo.Constants.NO_ID;
       var Types = Cairo.Constants.Types;
-      var bToI = Cairo.Util.boolToInt;
+      var U = Cairo.Util;
+      var bToI = U.boolToInt;
+      var bool = U.bool;
       var valField = DB.valField;
       var getValue = DB.getValue;
       var getDateValue = DB.getDateValue;
       var M = Cairo.Modal;
       var T = Dialogs.PropertyType;
-      var val = Cairo.Util.val;
-      var valEmpty = Cairo.Util.valEmpty;
+      var val = U.val;
+      var valEmpty = U.valEmpty;
       var D = Cairo.Documents;
       
       var C_MODULE = "cProducto";
@@ -361,7 +363,7 @@
       var m_productowebpadre = "";
       var m_prIdWebPadre = 0;
       var m_webImageUpdate;
-      var m_isTemplate;
+      var m_isTemplate = false;
       var m_cur_id = 0;
       var m_curso = "";
 
@@ -1661,7 +1663,7 @@
         elem.setType(T.check);
         elem.setName(Cairo.Constants.ACTIVE_LABEL);
         elem.setKey(K_ACTIVE);
-        elem.setValue(Cairo.Util.boolToInt(m_active));
+        elem.setValue(bToI(m_active));
 
         elem = properties.add(null, C.PR_CODIGO_EXTERNO);
         elem.setType(T.text);
@@ -2969,7 +2971,7 @@
               m_centroCostoVenta = valField(response.data, C.CCOS_NAME_VENTA);
               m_ccosId_venta = valField(response.data, C.CCOS_ID_VENTA);
 
-              m_isTemplate = valField(response.data, C.PR_ES_PLANTILLA);
+              m_isTemplate = bool(valField(response.data, C.PR_ES_PLANTILLA));
               m_cur_id = valField(response.data, C.CUR_ID);
               m_curso = valField(response.data, C.CUR_NAME);
 
@@ -3155,7 +3157,7 @@
               m_centroCostoVenta = "";
               m_ccosId_venta = NO_ID;
 
-              m_isTemplate = 0;
+              m_isTemplate = false;
               m_cur_id = NO_ID;
               m_curso = "";
 
@@ -3242,7 +3244,7 @@
         property.setValue(m_purchaseName);
 
         property = properties.item(Cairo.Constants.ACTIVE);
-        property.setValue(Cairo.Util.boolToInt(m_active));
+        property.setValue(bToI(m_active));
 
         property = properties.item(C.PR_CODE);
         property.setValue(m_code);

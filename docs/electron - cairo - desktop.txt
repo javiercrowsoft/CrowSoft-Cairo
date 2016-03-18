@@ -1,0 +1,3 @@
+el proyecto esta en
+CrowSoft/Electron
+para ejecutarlo hay que entrar en terminal y cd code luego npm start

@@ -217,6 +217,9 @@
     },
 
     valField: function(fields, fieldName) {
+      if(fieldName === undefined) {
+        Cairo.raiseError("Missing fieldName", "the fieldName can't be undefined when calling to valField");
+      }
       var value = typeof(fieldName) !== "number" ? fields.get(fieldName) : fields.values[fieldName];
       if(value === undefined) {
         // Cairo.raiseError("Missing field", "the field " + fieldName + " isn't present in this dataset");
@@ -230,17 +233,32 @@
 
     getValue: function(object, attribute) {
       if(attribute === undefined) {
+        Cairo.raiseError("Missing attribute", "the attribute can't be undefined when calling to getValue");
+      }
+      var value = object[attribute];
+      if(value === undefined) {
         //Cairo.raiseError("Missing field", "the field " + attribute + " isn't present in this dataset");
         //
         // in development
         //
         Cairo.log("Missing field: the field " + attribute + " isn't present in this dataset", true);
       }
-      return object[attribute];
+      return value;
     },
 
     getDateValue: function(object, attribute) {
-      return new Date(object[attribute]);
+      if(attribute === undefined) {
+        Cairo.raiseError("Missing attribute", "the attribute can't be undefined when calling to getDateValue");
+      }
+      var value = object[attribute];
+      if(value === undefined) {
+        //Cairo.raiseError("Missing field", "the field " + attribute + " isn't present in this dataset");
+        //
+        // in development
+        //
+        Cairo.log("Missing field: the field " + attribute + " isn't present in this dataset", true);
+      }
+      return new Date(value);
     },
 
     Register: function() {

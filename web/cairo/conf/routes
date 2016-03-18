@@ -34,12 +34,12 @@ POST    /domains                        controllers.Domains.create
 
 # User
 
-GET   	/users          				        controllers.Users.list
-GET	  	/users/add					            controllers.Users.add
-POST  	/users						              controllers.Users.create
-GET		  /users/:id/edit				          controllers.Users.edit(id: Int)
-POST 	  /users/:id					            controllers.Users.update(id: Int)
-DELETE	/users/:id		                  controllers.Users.delete(id: Int)
+GET     /users                          controllers.Users.list
+GET     /users/add                      controllers.Users.add
+POST    /users                          controllers.Users.create
+GET     /users/:id/edit                 controllers.Users.edit(id: Int)
+POST    /users/:id                      controllers.Users.update(id: Int)
+DELETE  /users/:id                      controllers.Users.delete(id: Int)
 GET     /users/password/reset           controllers.Users.resetPassword
 POST    /users/password/reset           controllers.Users.sendResetPasswordEmail
 GET     /users/password/reset/:token    controllers.Users.newPassword(token: String)
