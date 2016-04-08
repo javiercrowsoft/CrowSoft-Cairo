@@ -705,8 +705,7 @@
 
         register.setId(Cairo.Constants.NEW_ID);
 
-        var apiPath = Cairo.Database.getAPIVersion();
-        register.setPath(apiPath + "general/ordenpago");
+        register.setPath(m_apiPath + "general/ordenpago");
 
         if(m_copy) {
           register.getFields().add2(CT.OPG_ID, Cairo.Constants.NEW_ID, Types.long);
@@ -1617,7 +1616,7 @@
         var f = null;
         var fv = null;
 
-        for(var _i = 0; _i < m_data.otros.length; _i += 1) {
+        for(var _i = 0, count = m_data.otros.length; _i < count; _i += 1) {
 
           f = property.getGrid().getRows().add(null, rs(CT.OPGI_ID).Value);
 
@@ -1780,7 +1779,7 @@
         var f = null;
         var fv = null;
 
-        for(var _i = 0; _i < m_data.tCheques.length; _i += 1) {
+        for(var _i = 0, count = m_data.tCheques.length; _i < count; _i += 1) {
 
           f = property.getGrid().getRows().add(null, rs(CT.OPGI_ID).Value);
 
@@ -1930,7 +1929,7 @@
         var f = null;
         var fv = null;
 
-        for(var _i = 0; _i < m_data.cheques.length; _i += 1) {
+        for(var _i = 0, count = m_data.cheques.length; _i < count; _i += 1) {
 
           f = property.getGrid().getRows().add(null, rs(CT.OPGI_ID).Value);
 
@@ -2043,7 +2042,7 @@
         var f = null;
         var fv = null;
 
-        for(var _i = 0; _i < m_data.efectivo.length; _i += 1) {
+        for(var _i = 0, count = m_data.efectivo.length; _i < count; _i += 1) {
 
           f = property.getGrid().getRows().add(null, rs(CT.OPGI_ID).Value);
 
@@ -2114,7 +2113,7 @@
         var f = null;
         var fv = null;
 
-        for(var _i = 0; _i < m_data.ctaCte.length; _i += 1) {
+        for(var _i = 0, count = m_data.ctaCte.length; _i < count; _i += 1) {
 
           f = property.getGrid().getRows().add(null, rs(CT.OPGI_ID).Value);
 
@@ -4463,8 +4462,7 @@
         register.setFieldId(C.LDP_ID);
         register.setTable(C.LISTA_DOCUMENTO_PARAMETRO);
 
-        var apiPath = DB.getAPIVersion();
-        register.setPath(apiPath + "tesoreria/ordenespago");
+        register.setPath(m_apiPath + "tesoreria/ordenespago");
 
         register.setId(Cairo.Constants.NEW_ID);
 

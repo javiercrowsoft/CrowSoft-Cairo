@@ -427,7 +427,7 @@
                   var p = null;
 
                   // when the document property is changed and the dialog was
-                  // editing a saved invoice we need to move to a new invoice
+                  // editing a saved invoice we need to move to a new document
                   //
                   if(m_id !== NO_ID && m_docId !== m_lastDocId) {
                     p = self.edit(D.Constants.DOC_CHANGED);
@@ -1229,7 +1229,7 @@
 
         rows.clear();
 
-        for(var _i = 0; _i < m_data.items.length; _i += 1) {
+        for(var _i = 0, count = m_data.items.length; _i < count; _i += 1) {
 
           var row = rows.add(null, getValue(m_data.items[_i], CC.ASI_ID));
 
@@ -1438,7 +1438,7 @@
             }
           }
 
-          orden = orden + 1;
+          orden += 1;
           fields.add(CC.ASI_ORDEN, orden, Types.integer);
 
           transaction.addRegister(register);
@@ -1939,7 +1939,6 @@
         register.setFieldId(C.LDP_ID);
         register.setTable(C.LISTA_DOCUMENTO_PARAMETRO);
 
-        var m_apiPath = DB.getAPIVersion();
         register.setPath(m_apiPath + "contabilidad/asientos");
 
         register.setId(Cairo.Constants.NEW_ID);

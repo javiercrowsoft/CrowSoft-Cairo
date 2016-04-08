@@ -664,9 +664,11 @@
       CAM_CODE: "cam_codigo",
       CAM_DESCRIP: "cam_descrip",
       CAM_PATENTE: "cam_patente",
-      CAM_PATENTESEMI: "cam_patentesemi",
+      CAM_PATENTE_SEMI: "cam_patentesemi",
       CAM_TARA: "cam_tara",
       CAM_ES_SEMI: "cam_essemi",
+      CAM_ID_SEMI: "cam_id_semi",
+      CAM_CODE_SEMI: "cam_codigo_semi",
 
       // Chofer
       CHOFER: "Chofer",
@@ -783,6 +785,7 @@
       DOC_TIPO_FACTURA: "doc_tipofactura",
       DOC_MUEVE_STOCK: "doc_muevestock",
       DOC_SIN_PERC: "doc_sin_perc",
+      DOC_TIPO_PEDIDO: "doc_tipopedido",
 
       // fecha Control de Acceso
       FECHA_CONTROL_ACCESO: "FechaControlAcceso",

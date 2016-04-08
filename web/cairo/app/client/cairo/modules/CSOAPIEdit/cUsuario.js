@@ -1094,7 +1094,7 @@
 
         rows.clear();
 
-        for(var _i = 0; _i < m_data.cliProv.length; _i += 1) {
+        for(var _i = 0, count = m_data.cliProv.length; _i < count; _i += 1) {
 
           var row = rows.add(null, getValue(m_data.cliProv[_i], C.US_EMP_ID));
 
@@ -1144,7 +1144,7 @@
 
         rows.clear();
 
-        for(var _i = 0; _i < m_data.roles.length; _i += 1) {
+        for(var _i = 0, count = m_data.roles.length; _i < count; _i += 1) {
 
           var row = rows.add(null, getValue(m_data.roles[_i], C.ROL_ID));
 
@@ -1192,7 +1192,7 @@
 
         rows.clear();
 
-        for(var _i = 0; _i < m_data.empresas.length; _i += 1) {
+        for(var _i = 0, count = m_data.empresas.length; _i < count; _i += 1) {
 
           var row = rows.add(null, getValue(m_data.empresas[_i], C.EMP_ID));
 

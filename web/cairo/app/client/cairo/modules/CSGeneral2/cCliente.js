@@ -2153,7 +2153,7 @@
 
         rows.clear();
         
-        for(var _i = 0; _i < m_data.percepciones.length; _i += 1) {
+        for(var _i = 0, count = m_data.percepciones.length; _i < count; _i += 1) {
 
           var row = rows.add(null, getValue(m_data.percepciones[_i], C.CLI_PERC_ID));
 
@@ -2210,7 +2210,7 @@
 
         rows.clear();
         
-        for(var _i = 0; _i < m_data.dptos.length; _i += 1) {
+        for(var _i = 0, count = m_data.dptos.length; _i < count; _i += 1) {
 
           var row = rows.add(null, getValue(m_data.dptos[_i], C.DPTO_CLI_ID));
 
@@ -2266,7 +2266,7 @@
 
         rows.clear();
         
-        for(var _i = 0; _i < m_data.informes.length; _i += 1) {
+        for(var _i = 0, count = m_data.informes.length; _i < count; _i += 1) {
 
           var row = rows.add(null, getValue(m_data.informes[_i], C.PER_ID));
 
@@ -2322,7 +2322,7 @@
 
         rows.clear();
 
-        for(var _i = 0; _i < m_data.empresas.length; _i += 1) {
+        for(var _i = 0, count = m_data.empresas.length; _i < count; _i += 1) {
 
           var row = rows.add(null);
 
@@ -2384,7 +2384,7 @@
 
         rows.clear();
 
-        for(var _i = 0; _i < m_data.cuentasGrupo.length; _i += 1) {
+        for(var _i = 0, count = m_data.cuentasGrupo.length; _i < count; _i += 1) {
 
           var row = rows.add(null, getValue(m_data.cuentasGrupo[_i], C.CLI_CUEG_ID));
 
@@ -2468,7 +2468,7 @@
 
         rows.clear();
         
-        for(var _i = 0; _i < m_data.contactos.length; _i += 1) {
+        for(var _i = 0, count = m_data.contactos.length; _i < count; _i += 1) {
 
           var row = rows.add(null, getValue(m_data.contactos[_i], C.CONT_ID));
 
@@ -2617,7 +2617,7 @@
 
         rows.clear();
         
-        for(var _i = 0; _i < m_data.sucursales.length; _i += 1) {
+        for(var _i = 0, count = m_data.sucursales.length; _i < count; _i += 1) {
 
           var row = rows.add(null, getValue(m_data.sucursales[_i], C.CLIS_ID));
 

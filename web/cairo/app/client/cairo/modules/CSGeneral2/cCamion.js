@@ -165,7 +165,7 @@
         switch (key) {
           case K_ESSEMI:
             var properties = m_dialog.getProperties();
-            iProp = properties.item(C.CAM_PATENTESEMI);
+            iProp = properties.item(C.CAM_PATENTE_SEMI);
             iProp.setEnabled(Cairo.Util.val(properties.item(C.CAM_ES_SEMI).getValue()) === 0);
             m_dialog.showValue(iProp);
             break;
@@ -206,7 +206,7 @@
               break;
 
             case K_PATENTESEMI:
-              fields.add(C.CAM_PATENTESEMI, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.CAM_PATENTE_SEMI, property.getValue(), Cairo.Constants.Types.text);
               break;
 
             case K_TARA:
@@ -420,7 +420,7 @@
         elem.setKey(K_PATENTE);
         elem.setValue(m_patente);
 
-        var elem = properties.add(null, C.CAM_PATENTESEMI);
+        var elem = properties.add(null, C.CAM_PATENTE_SEMI);
         elem.setType(Dialogs.PropertyType.text);
         // Patente Semi
         elem.setName(getText(1048, ""));
@@ -486,7 +486,7 @@
         var elem = properties.item(C.CAM_PATENTE);
         elem.setValue(m_patente);
 
-        var elem = properties.item(C.CAM_PATENTESEMI);
+        var elem = properties.item(C.CAM_PATENTE_SEMI);
         elem.setValue(m_patentesemi);
 
         var elem = properties.item(C.CAM_TARA);
@@ -519,7 +519,7 @@
               m_code = Cairo.Database.valField(response.data, C.CAM_CODE);
               m_descrip = Cairo.Database.valField(response.data, C.CAM_DESCRIP);
               m_patente = Cairo.Database.valField(response.data, C.CAM_PATENTE);
-              m_patentesemi = Cairo.Database.valField(response.data, C.CAM_PATENTESEMI);
+              m_patentesemi = Cairo.Database.valField(response.data, C.CAM_PATENTE_SEMI);
               m_tara = Cairo.Database.valField(response.data, C.CAM_TARA);
               m_active = Cairo.Database.valField(response.data, Cairo.Constants.ACTIVE);
               m_esSemi = Cairo.Database.valField(response.data, C.CAM_ES_SEMI);

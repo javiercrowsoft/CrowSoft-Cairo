@@ -35,6 +35,7 @@
       var val = Cairo.Util.val;
       var M = Cairo.Modal;
       var T = Dialogs.PropertyType;
+      var ST = Dialogs.PropertySubType;
 
       var C_MODULE = "cFacturaVenta";
 
@@ -313,7 +314,7 @@
         m_bAutoPago = rhs;
       };
 
-      self.setCue_id_autoPago = function(rhs) {
+      self.setCueIdAutoPago = function(rhs) {
         m_cueIdAutoPago = rhs;
       };
 
@@ -329,11 +330,11 @@
         return m_bWizardCompleteSuccess;
       };
 
-      self.setDoc_id = function(rhs) {
+      self.setDocId = function(rhs) {
         m_lastDocId = rhs;
       };
 
-      self.setDoc_name = function(rhs) {
+      self.setDocName = function(rhs) {
         m_lastDocName = rhs;
       };
 
@@ -666,6 +667,12 @@
             });
             break;
 
+          case Dialogs.Message.MSG_DOC_INFO:
+
+            Cairo.Documentation.show("", "", CS.NEW_FACTURA);
+            p = Dialogs.Message.MSG_DOC_INFO_HANDLED;
+            break;
+
           case Dialogs.Message.MSG_DOC_NEW_WITH_WIZARD:
 
             p = P.resolvedPromise(true);
@@ -769,7 +776,7 @@
               }
             }
             else {
-              p = M.showInfo(getText(3955, "")); // Esta opción solo sirve para modificar documentos guardados y aplicados
+              p = M.showInfo(getText(3955, "")); // Esta opción sólo sirve para modificar documentos guardados
             }
             break;
 
@@ -1669,7 +1676,6 @@
           //
           m_isNew = (id === NO_ID || id === D.Constants.DOC_CHANGED);
 
-
           var loadAllItems = function() {
             if(m_itemsProps.count() > 0) {
               var cotizacion = 0;
@@ -1943,8 +1949,7 @@
                 )
               )
               .whenSuccess(call(setTasasImpositivas, row, newValueId, newValue))
-              .then(function(result) { Cairo.LoadingMessage.close(); return result; })
-            ;
+              .then(function(result) { Cairo.LoadingMessage.close(); return result; });
             break;
 
           case KI_PRECIO_USR:
@@ -2210,7 +2215,7 @@
 
         elem = properties.add(null, Cairo.Constants.NUMBER_ID);
         elem.setType(T.numeric);
-        elem.setSubType(Dialogs.PropertySubType.integer);
+        elem.setSubType(ST.integer);
         elem.setName(getText(1065, "")); // Número
         elem.setKey(K_NUMERO);
         elem.setValue(m_numero);
@@ -2269,7 +2274,7 @@
 
         elem = properties.add(null, CV.FV_COTIZACION);
         elem.setType(T.numeric);
-        elem.setSubType(Dialogs.PropertySubType.money);
+        elem.setSubType(ST.money);
         elem.setName(getText(1635, "")); // Cotización
         elem.setFormat(Cairo.Settings.getCurrencyRateDecimalsFormat());
         elem.setKey(K_COTIZACION);
@@ -2284,7 +2289,7 @@
 
         elem = properties.add(null, CV.FV_DESCUENTO1);
         elem.setType(T.numeric);
-        elem.setSubType(Dialogs.PropertySubType.percentage);
+        elem.setSubType(ST.percentage);
         elem.setName(getText(1573, "")); // Desc. 1
         elem.setKey(K_DESCUENTO1);
         elem.setValue(m_descuento1);
@@ -2292,7 +2297,7 @@
 
         elem = properties.add(null, CV.FV_DESCUENTO2);
         elem.setType(T.numeric);
-        elem.setSubType(Dialogs.PropertySubType.percentage);
+        elem.setSubType(ST.percentage);
         elem.setName("2");
         elem.setKey(K_DESCUENTO2);
         elem.setValue(m_descuento2);
@@ -2337,7 +2342,7 @@
 
         elem = properties.add(null, CV.FV_DESCRIP);
         elem.setType(T.text);
-        elem.setSubType(Dialogs.PropertySubType.memo);
+        elem.setSubType(ST.memo);
         elem.setName(getText(1211, "")); // Observ.
         elem.setSize(5000);
         elem.setKey(K_DESCRIP);
@@ -2452,7 +2457,7 @@
 
           elem = properties.add(null, CV.CLIENTE_DATA_ADD);
           elem.setType(T.text);
-          elem.setSubType(Dialogs.PropertySubType.memo);
+          elem.setSubType(ST.memo);
           elem.setTabIndex(3);
 
         }
@@ -2530,7 +2535,7 @@
 
         elem = properties.add(null, CV.FV_SUBTOTAL);
         elem.setType(T.numeric);
-        elem.setSubType(Dialogs.PropertySubType.money);
+        elem.setSubType(ST.money);
         elem.setName(getText(1579, "")); // Sub Total
         elem.setKey(K_SUBTOTAL);
         elem.setValue(m_subTotal);
@@ -2539,7 +2544,7 @@
 
         elem = properties.add(null, CV.FV_IMPORTE_DESC_1);
         elem.setType(T.numeric);
-        elem.setSubType(Dialogs.PropertySubType.money);
+        elem.setSubType(ST.money);
         elem.setName(getText(1573, "")); // Desc. 1
         elem.setKey(K_IMPORTE_DESC_1);
         elem.setValue(m_importeDesc1);
@@ -2548,7 +2553,7 @@
 
         elem = properties.add(null, CV.FV_IMPORTE_DESC_2);
         elem.setType(T.numeric);
-        elem.setSubType(Dialogs.PropertySubType.money);
+        elem.setSubType(ST.money);
         elem.setName(getText(1580, "")); // Desc. 2
         elem.setKey(K_IMPORTE_DESC_2);
         elem.setValue(m_importeDesc2);
@@ -2557,7 +2562,7 @@
 
         elem = properties.add(null, CV.FV_NETO);
         elem.setType(T.numeric);
-        elem.setSubType(Dialogs.PropertySubType.money);
+        elem.setSubType(ST.money);
         elem.setName(getText(1581, "")); // Neto
         elem.setKey(K_NETO);
         elem.setValue(m_neto);
@@ -2567,7 +2572,7 @@
         elem = properties.add(null, CV.FV_IVA_RI);
         elem.setType(T.numeric);
         elem.setName(getText(1582, "")); // IVA RI
-        elem.setSubType(Dialogs.PropertySubType.money);
+        elem.setSubType(ST.money);
         elem.setKey(K_IVA_RI);
         elem.setValue(m_ivari);
         elem.setFormat(Cairo.Settings.getAmountDecimalsFormat());
@@ -2576,7 +2581,7 @@
         elem = properties.add(null, CV.FV_INTERNOS);
         elem.setType(T.numeric);
         elem.setName(getText(4914, "")); // Internos
-        elem.setSubType(Dialogs.PropertySubType.money);
+        elem.setSubType(ST.money);
         elem.setKey(K_INTERNOS);
         elem.setValue(m_internos);
         elem.setFormat(Cairo.Settings.getAmountDecimalsFormat());
@@ -2585,7 +2590,7 @@
         elem = properties.add(null, CV.FV_IVA_RNI);
         elem.setType(T.numeric);
         elem.setName(getText(1583, "")); // IVA RNI
-        elem.setSubType(Dialogs.PropertySubType.money);
+        elem.setSubType(ST.money);
         elem.setKey(K_IVA_RNI);
         elem.setValue(m_ivarni);
         elem.setFormat(Cairo.Settings.getAmountDecimalsFormat());
@@ -2595,7 +2600,7 @@
         elem.setType(T.numeric);
         elem.setFormat(Cairo.Settings.getAmountDecimalsFormat());
         elem.setName(getText(1248, "")); // Percepciones
-        elem.setSubType(Dialogs.PropertySubType.money);
+        elem.setSubType(ST.money);
         elem.setKey(K_TOTAL_PERCEPCIONES);
         elem.setValue(m_totalPercepciones);
         elem.setEnabled(false);
@@ -2604,7 +2609,7 @@
         elem.setType(T.numeric);
         elem.setFormat(Cairo.Settings.getAmountDecimalsFormat());
         elem.setName(getText(1584, "")); // Total
-        elem.setSubType(Dialogs.PropertySubType.money);
+        elem.setSubType(ST.money);
         elem.setKey(K_TOTAL);
         elem.setValue(m_total);
         elem.setEnabled(false);
@@ -2745,14 +2750,14 @@
         elem = columns.add(null);
         elem.setName(Cairo.Constants.DESCRIPTION_LABEL);
         elem.setType(T.text);
-        elem.setSubType(Dialogs.PropertySubType.textButtonEx);
+        elem.setSubType(ST.textButtonEx);
         elem.setKey(KI_DESCRIP);
 
         elem = columns.add(null);
         elem.setName(getText(1374, "")); // Cantidad
         elem.setFormat(Cairo.Settings.getQuantityDecimalsFormat());
         elem.setType(T.numeric);
-        elem.setSubType(Dialogs.PropertySubType.double);
+        elem.setSubType(ST.double);
         elem.setKey(KI_CANTIDAD);
 
         elem.setDefaultValue(Grids.createCell());
@@ -2761,7 +2766,7 @@
         elem = columns.add(null);
         elem.setName(getText(1639, "")); // Nro. Serie
         elem.setType(T.text);
-        elem.setSubType(Dialogs.PropertySubType.textButton);
+        elem.setSubType(ST.textButton);
         elem.setKey(KI_NRO_SERIE);
         elem.setVisible(m_showStockData);
 
@@ -2776,7 +2781,7 @@
         elem.setName(getText(1585, "")); // Descuento
         elem.setType(T.numeric);
         elem.setFormat(Cairo.Settings.getAmountDecimalsFormat());
-        elem.setSubType(Dialogs.PropertySubType.money);
+        elem.setSubType(ST.money);
         elem.setKey(KI_DESCUENTO);
         elem.setEnabled(false);
         elem.setVisible(bColVisible);
@@ -2791,7 +2796,7 @@
         elem = columns.add(null);
         elem.setName(getText(1587, "")); // Precio (LP)
         elem.setType(T.numeric);
-        elem.setSubType(Dialogs.PropertySubType.money);
+        elem.setSubType(ST.money);
         elem.setFormat(Cairo.Settings.getAmountDecimalsFormat());
         elem.setKey(KI_PRECIO_LP);
         elem.setEnabled(false);
@@ -2800,7 +2805,7 @@
         elem = columns.add(null);
         elem.setName(getText(1586, "")); // Precio
         elem.setType(T.numeric);
-        elem.setSubType(Dialogs.PropertySubType.money);
+        elem.setSubType(ST.money);
         elem.setFormat(Cairo.Settings.getAmountDecimalsFormat());
         elem.setKey(KI_PRECIO_USR);
         elem.setEnabled(Cairo.Security.silentHasPermissionTo(CS.EDIT_PRICE_FAC));
@@ -2808,7 +2813,7 @@
         elem = columns.add(null);
         elem.setName(getText(1588, "")); // Precio c/desc.
         elem.setType(T.numeric);
-        elem.setSubType(Dialogs.PropertySubType.money);
+        elem.setSubType(ST.money);
         elem.setFormat(Cairo.Settings.getAmountDecimalsFormat());
         elem.setKey(KI_PRECIO);
         elem.setEnabled(false);
@@ -2816,7 +2821,7 @@
         elem = columns.add(null);
         elem.setName(getText(1581, "")); // Neto
         elem.setType(T.numeric);
-        elem.setSubType(Dialogs.PropertySubType.money);
+        elem.setSubType(ST.money);
         elem.setFormat(Cairo.Settings.getAmountDecimalsFormat());
         elem.setKey(KI_NETO);
         elem.setEnabled(false);
@@ -2824,7 +2829,7 @@
         elem = columns.add(null);
         elem.setName(getText(1582, "")); // IVA RI
         elem.setType(T.numeric);
-        elem.setSubType(Dialogs.PropertySubType.money);
+        elem.setSubType(ST.money);
         elem.setFormat(Cairo.Settings.getAmountDecimalsFormat());
         elem.setKey(KI_IVA_RI);
         elem.setEnabled(false);
@@ -2833,7 +2838,7 @@
         elem.setName(getText(1583, "")); // IVA RNI
         elem.setType(T.numeric);
         elem.setFormat(Cairo.Settings.getAmountDecimalsFormat());
-        elem.setSubType(Dialogs.PropertySubType.money);
+        elem.setSubType(ST.money);
         elem.setKey(KI_IVA_RNI);
         elem.setEnabled(false);
         elem.setVisible(bColVisible);
@@ -2842,7 +2847,7 @@
         elem.setName(getText(4914, "")); // Internos
         elem.setType(T.numeric);
         elem.setFormat(Cairo.Settings.getAmountDecimalsFormat());
-        elem.setSubType(Dialogs.PropertySubType.money);
+        elem.setSubType(ST.money);
         elem.setKey(KI_INTERNOS);
         elem.setEnabled(false);
 
@@ -2850,7 +2855,7 @@
         elem.setName(getText(1228, "")); // Importe
         elem.setType(T.numeric);
         elem.setFormat(Cairo.Settings.getAmountDecimalsFormat());
-        elem.setSubType(Dialogs.PropertySubType.money);
+        elem.setSubType(ST.money);
         elem.setKey(KI_IMPORTE);
         elem.setEnabled(false);
 
@@ -2922,7 +2927,7 @@
 
         rows.clear();
 
-        for(var _i = 0; _i < m_data.items.length; _i += 1) {
+        for(var _i = 0, count = m_data.items.length; _i < count; _i += 1) {
 
           var row = rows.add(null, getValue(m_data.items[_i], CV.FVI_ID));
 
@@ -3407,7 +3412,6 @@
 
         var rows = getGrid(m_items, C_ITEMS).getRows();
 
-
         for(var _i = 0, _count = rows.size(); _i < _count; _i++) {
 
           var row = rows.item(_i);
@@ -3425,9 +3429,6 @@
             switch (cell.getKey()) {
 
               case KI_FVI_ID:
-                var apiPath = Cairo.Database.getAPIVersion();
-                register.setPath(apiPath + "venta/facturaventa");
-
                 if(m_copy) {
                   fields.add(CV.FVI_ID, Cairo.Constants.NEW_ID, Types.integer);
                 }
@@ -3551,7 +3552,7 @@
             fields.add(CV.FVI_IMPORTE_ORIGEN, origen, Types.currency);
           }
 
-          orden = orden + 1;
+          orden += 1;
           fields.add(CV.FVI_ORDEN, orden, Types.integer);
 
           transaction.addRegister(register);
@@ -3647,8 +3648,8 @@
         var properties = m_footerProps;
         properties.item(CV.FV_SUBTOTAL).setValue(neto);
 
-        var desc1 = m_properties.item(CV.FV_DESCUENTO1).getValue();
-        var desc2 = m_properties.item(CV.FV_DESCUENTO2).getValue();
+        var desc1 = val(m_properties.item(CV.FV_DESCUENTO1).getValue());
+        var desc2 = val(m_properties.item(CV.FV_DESCUENTO2).getValue());
 
         ivaRi = ivaRi - (ivaRi * desc1 / 100);
         ivaRni = ivaRni - (ivaRni * desc1 / 100);
@@ -3815,11 +3816,10 @@
       };
 
       var setEnabledAux = function(bState) {
-        var prop = null;
 
         var _count = m_properties.size();
         for(var _i = 0; _i < _count; _i++) {
-          prop = m_properties.item(_i);
+          var prop = m_properties.item(_i);
           if(prop.getKey() !== K_DOC_ID
             && prop.getKey() !== K_NUMERO
             && prop.getKey() !== K_EST_ID
@@ -3846,7 +3846,7 @@
 
         var _count = m_itemsProps.size();
         for(var _i = 0; _i < _count; _i++) {
-          prop = m_itemsProps.item(_i);
+          var prop = m_itemsProps.item(_i);
           prop.setEnabled(bState);
         }
 
@@ -4486,7 +4486,7 @@
 
       var showCobranza = function() {
         try {
-          var cobranza = Cairo.Cobranza.createObject();
+          var cobranza = Cairo.Cobranza.Edit.Controller.getEditor();
           cobranza.showCobranza(getCliId(), getFvIds());
         }
         catch(ex) {
@@ -4515,7 +4515,7 @@
 
         rows.clear()
 
-        for(var _i = 0; _i < m_data.percepciones.length; _i += 1) {
+        for(var _i = 0, count = m_data.percepciones.length; _i < count; _i += 1) {
 
           var row = rows.add(null, getValue(m_data.percepciones[_i], CV.FVPERC_ID));
 
@@ -4764,7 +4764,7 @@
        break;
 
        case K_SUBTOTAL:
-       fields.add(CV.PRV_SUB_TOTAL, property.getValue(), Types.currency);
+       fields.add(CV.PRV_SUBTOTAL, property.getValue(), Types.currency);
        break;
 
        case K_IMPORTEDESC1:
@@ -5689,8 +5689,7 @@
         register.setFieldId(C.LDP_ID);
         register.setTable(C.LISTA_DOCUMENTO_PARAMETRO);
 
-        var apiPath = DB.getAPIVersion();
-        register.setPath(apiPath + "ventas/facturaventas");
+        register.setPath(m_apiPath + "ventas/facturaventas");
 
         register.setId(Cairo.Constants.NEW_ID);
 
@@ -5798,7 +5797,7 @@
       self.setListController = function(controller) {
         m_listController = controller;
       };
-      
+
       var createMenu = function() {
 
         if(m_menuLoaded) { return; }
@@ -5972,7 +5971,7 @@
 
       var showCobranza = function() {
         try {
-          var cobranza = Cairo.Cobranza.createObject();
+          var cobranza = Cairo.Cobranza.Edit.Controller.getEditor();
           cobranza.showCobranza(NO_ID, getFvIds());
         }
         catch(ex) {

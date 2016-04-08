@@ -2802,7 +2802,7 @@
 
         rows.clear();
 
-        for(var _i = 0; _i < m_data.items.length; _i += 1) {
+        for(var _i = 0, count = m_data.items.length; _i < count; _i += 1) {
 
           var row = rows.add(null, getValue(m_data.items[_i], CC.FCI_ID));
 
@@ -2958,7 +2958,7 @@
 
         m_serialNumbers.clear();
 
-        for(var _i = 0; _i < m_data.serialNumbers.length; _i += 1) {
+        for(var _i = 0, count = m_data.serialNumbers.length; _i < count; _i += 1) {
 
           // check if the group has changed
           // 
@@ -3003,7 +3003,7 @@
 
         rows.clear()
 
-        for(var _i = 0; _i < m_data.percepciones.length; _i += 1) {
+        for(var _i = 0, count = m_data.percepciones.length; _i < count; _i += 1) {
 
           var row = rows.add(null, getValue(m_data.percepciones[_i], CC.FCPERC_ID));
 
@@ -3080,7 +3080,7 @@
 
         rows.clear()
 
-        for(var _i = 0; _i < m_data.legajos.length; _i += 1) {
+        for(var _i = 0, count = m_data.legajos.length; _i < count; _i += 1) {
 
           var row = rows.add(null, getValue(m_data.legajos[_i], CC.FCLGJ_ID));
 
@@ -3158,7 +3158,7 @@
 
         rows.clear()
 
-        for(var _i = 0; _i < m_data.otros.length; _i += 1) {
+        for(var _i = 0, count = m_data.otros.length; _i < count; _i += 1) {
 
           var row = rows.add(null, getValue(m_data.otros[_i], CC.FCOT_ID));
 
@@ -3605,7 +3605,7 @@
             fields.add(CC.FCI_IMPORTE_ORIGEN, origen, Types.currency);
           }
 
-          orden = orden + 1;
+          orden += 1;
           fields.add(CC.FCI_ORDEN, orden, Types.integer);
 
           transaction.addRegister(register);
@@ -3693,7 +3693,7 @@
             fields.add(CC.FCOT_ORIGEN, origen, Types.currency);
           }
 
-          orden = orden + 1;
+          orden += 1;
           fields.add(CC.FCOT_ORDEN, orden, Types.integer);
 
           transaction.addRegister(register);
@@ -3768,7 +3768,7 @@
             fields.add(CC.FCLGJ_IMPORTE_ORIGEN, origen, Types.currency);
           }
 
-          orden = orden + 1;
+          orden += 1;
           fields.add(CC.FCLGJ_ORDEN, orden, Types.integer);
 
           transaction.addRegister(register);
@@ -3894,8 +3894,8 @@
         var properties = m_footerProps;
         properties.item(CC.FC_SUBTOTAL).setValue(neto);
 
-        var desc1 = m_properties.item(CC.FC_DESCUENTO1).getValue();
-        var desc2 = m_properties.item(CC.FC_DESCUENTO2).getValue();
+        var desc1 = val(m_properties.item(CC.FC_DESCUENTO1).getValue());
+        var desc2 = val(m_properties.item(CC.FC_DESCUENTO2).getValue());
 
         ivaRi = ivaRi - (ivaRi * desc1 / 100);
         ivaRni = ivaRni - (ivaRni * desc1 / 100);
@@ -4038,11 +4038,10 @@
       };
 
       var setEnabledAux = function(bState) {
-        var prop = null;
 
         var _count = m_properties.size();
         for(var _i = 0; _i < _count; _i++) {
-          prop = m_properties.item(_i);
+          var prop = m_properties.item(_i);
           if(prop.getKey() !== K_DOC_ID
             && prop.getKey() !== K_NUMERO
             && prop.getKey() !== K_EST_ID
@@ -4069,7 +4068,7 @@
 
         var _count = m_itemsProps.size();
         for(var _i = 0; _i < _count; _i++) {
-          prop = m_itemsProps.item(_i);
+          var prop = m_itemsProps.item(_i);
           prop.setEnabled(bState);
         }
 

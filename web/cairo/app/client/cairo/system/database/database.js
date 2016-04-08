@@ -274,6 +274,18 @@
       
       var fields = {
         add: function(name, value, type) {
+          if(name === undefined || value === undefined || type === undefined) {
+
+            var what = "";
+            if(name === undefined)
+              what = "fieldName";
+            else if(value === undefined)
+              what = "value";
+            else
+              what = "type";
+
+            Cairo.raiseError("Missing " + what, "the " + what + " can't be undefined when calling to fields.add");
+          }
           self.fields.push({name: name, value: value, type: type});
         },
         asObject: function() {

@@ -287,7 +287,7 @@
           fields.add(CC.FCPERC_ORIGEN, origen, Types.currency);
         }
 
-        orden = orden + 1;
+        orden += 1;
         fields.add(CC.FCPERC_ORDEN, orden, Types.integer);
 
         transaction.addRegister(register);

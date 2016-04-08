@@ -195,6 +195,11 @@
     orden: 5
   };
 
+  Cairo.Documents.OrderWizardType = {
+    directa: 0,
+    presupuesto: 1
+  }
+
   Cairo.Documents.ReceiptType = {
     original: 1,
     fax: 2,
@@ -634,6 +639,10 @@
     }
   };
 
+  Cairo.Documents.getInfo = function(tblId, id) {
+    // TODO: implement this
+  };
+
   Cairo.Documents.getProperty = function(dialog, key) {
     return dialog.getProperties().item(key);
   };
@@ -830,6 +839,14 @@
     return "customer_branch|customerId:" + cliId.toString();
   };
 
+  Cairo.Documents.getSelectFilterChofer = function(transId) {
+    return "chofer|transId:" + transId.toString();
+  };
+
+  Cairo.Documents.getSelectFilterCamion = function(transId) {
+    return "camion|transId:" + transId.toString();
+  };
+
   Cairo.Documents.getCuentaGrupoFilterForProveedor = function() {
     return "supplier_account_group";
   };
@@ -929,6 +946,11 @@
 
   Cairo.Documents.ORDEN_PAGO_DOC_FILTER = "document|documentTypeId:"
     + Cairo.Documents.Types.ORDEN_PAGO.toString()
+  ;
+
+  Cairo.Documents.PEDIDO_VENTAS_DOC_FILTER = "document|documentTypeId:"
+    + Cairo.Documents.Types.PEDIDO_VENTA.toString()
+    + "*" + Cairo.Documents.Types.DEVOLUCION_PEDIDO_VTA.toString()
   ;
 
   Cairo.getStockLoteFilterEx = function(deplId,

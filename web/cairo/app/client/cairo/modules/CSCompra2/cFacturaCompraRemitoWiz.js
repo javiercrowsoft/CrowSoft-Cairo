@@ -1975,7 +1975,7 @@
             // this is very important. it is used to associate remitoCompraitem
             // with the new FacturaCompraitem
             //
-            orden = orden + 1;
+            orden += 1;
             fields.add(CC.FCI_ORDEN, orden, Types.integer);
 
             transaction.addRegister(register);
@@ -2031,7 +2031,7 @@
             // this is very important. it is used to associate remitoCompraitem
             // with the new FacturaCompraitem
             //
-            orden = orden + 1;
+            orden += 1;
             register.getFields().add(CC.FCI_ID, orden, Types.long);
 
             transaction.addRegister(register);

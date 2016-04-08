@@ -218,7 +218,7 @@
       PRV_IVARI: "prv_ivari",
       PRV_IVARNI: "prv_ivarni",
       PRV_TOTAL: "prv_total",
-      PRV_SUB_TOTAL: "prv_subtotal",
+      PRV_SUBTOTAL: "prv_subtotal",
       PRV_DESCUENTO1: "prv_descuento1",
       PRV_DESCUENTO2: "prv_descuento2",
       PRV_IMPORTE_DESC1: "prv_importedesc1",
@@ -266,12 +266,75 @@
       PRV_DV_ID: "prvdv_id",
       PRV_DV_CANTIDAD: "prvdv_cantidad",
       PRVI_ID_DEVOLUCION: "prvi_id_devolucion",
-      PRVI_ID_PRESUPUESTO: "prvi_id_presupuesto"
+      PRVI_ID_PRESUPUESTO: "prvi_id_presupuesto",
+
+      PEDIDO_VENTA_TMP: "PedidoVentaTMP",
+      PV_TMPID: "pvtmp_id",
+
+      PEDIDO_VENTA: "PedidoVenta",
+      PV_ID: "pv_id",
+      PV_NUMERO: "pv_numero",
+      PV_NRODOC: "pv_nrodoc",
+      PV_DESCRIP: "pv_descrip",
+      PV_FECHA: "pv_fecha",
+      PV_FECHA_ENTREGA: "pv_fechaentrega",
+      PV_FIRMADO: "pv_firmado",
+      PV_NETO: "pv_neto",
+      PV_IVARI: "pv_ivari",
+      PV_IVARNI: "pv_ivarni",
+      PV_TOTAL: "pv_total",
+      PV_SUBTOTAL: "pv_subtotal",
+      PV_DESCUENTO1: "pv_descuento1",
+      PV_DESCUENTO2: "pv_descuento2",
+      PV_IMPORTE_DESC1: "pv_importedesc1",
+      PV_IMPORTE_DESC2: "pv_importedesc2",
+      PV_DESTINATARIO: "pv_destinatario",
+      PV_ORDEN_COMPRA: "pv_ordencompra",
+
+      // Deposito
+      RAM_ID_STOCK: "ram_id_stock",
+      RAMA_STOCK: "ramastock",
+
+      // Items de Pedidos de Venta
+      PEDIDO_VENTA_ITEM_TMP: "PedidoVentaItemTMP",
+      PVI_TMP_ID: "pvitmp_id",
+
+      PEDIDO_VENTA_ITEM: "PedidoVentaItem",
+      PVI_ID: "pvi_id",
+      PVI_ORDEN: "pvi_orden",
+      PVI_CANTIDAD: "pvi_cantidad",
+      PVI_CANTIDAD_A_REMITIR: "pvi_cantidadaremitir",
+      PVI_DESCRIP: "pvi_descrip",
+      PVI_PRECIO: "pvi_precio",
+      PVI_NETO: "pvi_neto",
+      PVI_IVARI: "pvi_ivari",
+      PVI_IVARNI: "pvi_ivarni",
+      PVI_IVARI_PORC: "pvi_ivariporc",
+      PVI_IVARNI_PORC: "pvi_ivarniporc",
+      PVI_IMPORTE: "pvi_importe",
+      PVI_PRECIO_USR: "pvi_precioUsr",
+      PVI_PRECIO_LISTA: "pvi_precioLista",
+      PVI_DESCUENTO: "pvi_descuento",
+      PVI_PENDIENTE: "pvi_pendiente",
+      PVI_PENDIENTE_PKLST: "pvi_pendientepklst",
+      PVI_PENDIENTE_PRV: "pvi_pendienteprv",
+
+      // Items Borrados de pedidos de venta
+      PEDIDO_VENTA_ITEM_BORRADO_TMP: "PedidoVentaItemBorradoTMP",
+      PVIB_TMP_ID: "pvibTMP_id",
     }
   };
 
   Cairo.Security.Actions.Ventas = {
-    
+
+    NEW_PEDIDO: 3000,
+    EDIT_PEDIDO: 3001,
+    DELETE_PEDIDO: 3002,
+    LIST_PEDIDO: 3003,
+    DES_ANULAR_PEDIDO: 3004,
+    ANULAR_PEDIDO: 3005,
+    EDIT_PRICE_PED: 3006,
+
     NEW_FACTURA: 16002,
     EDIT_FACTURA: 16003,
     DELETE_FACTURA: 16004,

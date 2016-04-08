@@ -1,5 +1,8 @@
 {
-    "compilerOptions": {
-        "target": "ES6"
-    }
+  "compilerOptions": {
+    "target": "es6"
+  },
+  "files": [
+    "./**/*.js"
+  ]
 }

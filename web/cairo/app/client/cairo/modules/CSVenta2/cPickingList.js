@@ -304,8 +304,7 @@
         register.setFieldId(C.LDP_ID);
         register.setTable(C.LISTA_DOCUMENTO_PARAMETRO);
 
-        var apiPath = DB.getAPIVersion();
-        register.setPath(apiPath + "compras/facturacompras");
+        register.setPath(m_apiPath + "compras/facturacompras");
 
         register.setId(Cairo.Constants.NEW_ID);
 

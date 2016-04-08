@@ -294,7 +294,7 @@
           fields.add(CV.FVPERC_ORIGEN, origen, Types.currency);
         }
 
-        orden = orden + 1;
+        orden += 1;
         fields.add(CV.FVPERC_ORDEN, orden, Types.integer);
 
         transaction.addRegister(register);

@@ -711,7 +711,7 @@
             register.setFieldId(CT.COBZ_ID);
             register.setTable(CT.COBRANZA);
 
-            register.setPath(apiPath + "tesoreria/cobranza");
+            register.setPath(m_apiPath + "tesoreria/cobranza");
 
             if(m_copy) {
               register.setId(Cairo.Constants.NEW_ID);
@@ -1655,7 +1655,7 @@
 
         rows.clear()
 
-        for(var _i = 0; _i < m_data.otros.length; _i += 1) {
+        for(var _i = 0, count = m_data.otros.length; _i < count; _i += 1) {
 
           var row = rows.add(null, getValue(m_data.otros[_i], CT.COBZI_ID));
 
@@ -1826,7 +1826,7 @@
 
         rows.clear();
 
-        for(var _i = 0; _i < m_data.cheques.length; _i += 1) {
+        for(var _i = 0, count = m_data.cheques.length; _i < count; _i += 1) {
 
           elem = rows.add(null, getValue(m_data.cheques[_i], CT.COBZI_ID));
 
@@ -1948,7 +1948,7 @@
 
         rows.clear();
 
-        for(var _i = 0; _i < m_data.efectivo.length; _i += 1) {
+        for(var _i = 0, count = m_data.efectivo.length; _i < count; _i += 1) {
 
           var row = rows.add(null, getValue(m_data.efectivo[_i], CT.COBZI_ID));
 
@@ -2091,7 +2091,7 @@
         var grid = property.getGrid();
         var rows = grid.getRows();
 
-        for(var _i = 0; _i < m_data.tarjetas.length; _i += 1) {
+        for(var _i = 0, count = m_data.tarjetas.length; _i < count; _i += 1) {
 
           var row = rows.add(null, getValue(m_data.tarjetas[_i], CT.COBZI_ID));
 
@@ -2202,7 +2202,7 @@
 
         rows.clear();
 
-        for(var _i = 0; _i < m_data.ctaCte.length; _i += 1) {
+        for(var _i = 0, count = m_data.ctaCte.length; _i < count; _i += 1) {
 
           var row = rows.add(null, getValue(m_data.ctaCte[_i], CT.COBZI_ID));
 

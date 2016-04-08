@@ -732,7 +732,7 @@
         var grid = property.getGrid();
         var rows = grid.getRows();
 
-        for(var _i = 0; _i < m_data.items.length; _i += 1) {
+        for(var _i = 0, count = m_data.items.length; _i < count; _i += 1) {
 
           var row = rows.add(null, getValue(m_data.items[_i], C.RUBTI_ID));
 
