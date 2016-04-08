@@ -99,7 +99,7 @@
       var KI_IMPORTE = 8;
       var KI_NETO = 9;
       var KI_IVARI = 10;
-      var KI_IVARNI = 11;
+      var KI_IVA_RNI = 11;
       var KI_PR_ID = 13;
       var KI_LPI_ID = 14;
       var KI_LDI_ID = 15;
@@ -212,7 +212,7 @@
       var m_docEditable;
       var m_docEditMsg = "";
 
-      var m_objApply;
+      var m_applyEditor;
 
       var m_prvIds = 0;
 
@@ -290,6 +290,17 @@
             showStartWizardPresupuesto();
           }
         });
+      };
+
+      self.showWizardPedidoPresupuesto = function() {
+        try {
+          if(initMembers()) {
+            showStartWizardPresupuesto();
+          }
+        }
+        catch(ex) {
+          Cairo.manageErrorEx(ex.message, ex, "showWizardPedidoPresupuesto", C_MODULE, "");
+        }
       };
 
       var initMembers = function() {
@@ -2009,7 +2020,7 @@
         elem.setType(T.numeric);
         elem.setFormat(Cairo.Settings.getAmountDecimalsFormat());
         elem.setSubType(ST.money);
-        elem.setKey(KI_IVARNI);
+        elem.setKey(KI_IVA_RNI);
         elem.setEnabled(false);
         elem.setVisible(bColVisible);
 
@@ -2110,7 +2121,7 @@
 
           elem = row.add(null);
           elem.setValue(getValue(m_data.items[_i], CV.PVI_IVARNI));
-          elem.setKey(KI_IVARNI);
+          elem.setKey(KI_IVA_RNI);
 
           elem = row.add(null);
           elem.setValue(getValue(m_data.items[_i], CV.PVI_IMPORTE));
@@ -2416,7 +2427,7 @@
                 }
                 break;
 
-              case KI_IVARNI:
+              case KI_IVA_RNI:
                 if(m_bIvaRni) {
                   fields.add(CV.PVI_IVARNI, cell.getValue(), Types.currency);
                 }
@@ -2484,7 +2495,7 @@
 
         getCell(row, KI_NETO).setValue(neto);
         getCell(row, KI_IVARI).setValue(ivaRi);
-        getCell(row, KI_IVARNI).setValue(ivaRni);
+        getCell(row, KI_IVA_RNI).setValue(ivaRni);
         getCell(row, KI_IMPORTE).setValue(importe);
       };
 
@@ -2500,7 +2511,7 @@
           var row = rows.item(_i);
           neto = neto + cellFloat(row, KI_NETO);
           ivaRi = ivaRi + cellFloat(row, KI_IVARI);
-          ivaRni = ivaRni + cellFloat(row, KI_IVARNI);
+          ivaRni = ivaRni + cellFloat(row, KI_IVA_RNI);
         }
 
         var properties = m_footer.getProperties();
@@ -2822,133 +2833,133 @@
       };
 
       var refreshProperties = function() {
-        var c;
 
-        m_properties.item(C.DOC_ID);
-        c.setSelectId(m_docId);
-        c.setSelectIntValue("");
-        c.setValue(m_documento);
+        m_properties.item(C.DOC_ID)
+          .setSelectId(m_docId)
+          .setSelectIntValue("")
+          .setValue(m_documento);
 
-        m_properties.item(CV.PV_FECHA);
-        c.setValue(m_fecha);
+        m_properties.item(CV.PV_FECHA)
+          .setValue(m_fecha);
 
-        m_properties.item(CV.PV_FECHA_ENTREGA);
-        c.setValue(m_fechaentrega);
+        m_properties.item(CV.PV_FECHA_ENTREGA)
+          .setValue(m_fechaentrega);
 
-        m_properties.item(C.CLI_ID);
-        c.setSelectId(m_cliId);
-        c.setSelectIntValue("");
-        c.setValue(m_cliente);
+        m_properties.item(C.CLI_ID)
+          .setSelectId(m_cliId)
+          .setSelectIntValue("")
+          .setValue(m_cliente);
 
-        m_properties.item(Cairo.Constants.NUMBER_ID);
-        c.setValue(m_numero);
+        m_properties.item(Cairo.Constants.NUMBER_ID)
+          .setValue(m_numero);
 
-        m_properties.item(Cairo.Constants.STATUS_ID);
-        c.setValue(m_estado);
+        m_properties.item(Cairo.Constants.STATUS_ID)
+          .setValue(m_estado);
 
-        m_properties.item(CV.PV_NRODOC);
-        c.setValue(m_nrodoc);
-        c.setTextMask(m_taMascara);
-        c.setTextAlign(Dialogs.TextAlign.right);
+        m_properties.item(CV.PV_NRODOC)
+          .setValue(m_nrodoc)
+          .setTextMask(m_taMascara)
+          .setTextAlign(Dialogs.TextAlign.right);
 
-        m_properties.item(CV.PV_DESCUENTO1);
-        c.setValue(m_descuento1);
+        m_properties.item(CV.PV_DESCUENTO1)
+          .setValue(m_descuento1);
 
-        m_properties.item(CV.PV_DESCUENTO2);
-        c.setValue(m_descuento2);
+        m_properties.item(CV.PV_DESCUENTO2)
+          .setValue(m_descuento2);
 
-        m_properties.item(CV.RAM_ID_STOCK);
         if(val(m_ramIdStock) !== NO_ID) {
-          c.setSelectIntValue(m_ramIdStock);
-          c.setSelectId(val(m_ramIdStock));
-          c.setValue(m_ramaStock);
+          m_properties.item(CV.RAM_ID_STOCK)
+            .setSelectIntValue(m_ramIdStock)
+            .setSelectId(val(m_ramIdStock))
+            .setValue(m_ramaStock);
         }
         else {
-          c.setSelectIntValue(Cairo.UserConfig.getDeplRamId());
-          c.setSelectId(Cairo.UserConfig.getDeplId());
-          c.setValue(Cairo.UserConfig.getDeplNombre());
+          m_properties.item(CV.RAM_ID_STOCK)
+            .setSelectIntValue(Cairo.UserConfig.getDeplRamId())
+            .setSelectId(Cairo.UserConfig.getDeplId())
+            .setValue(Cairo.UserConfig.getDeplNombre());
         }
 
-        m_properties.item(C.CPG_ID);
-        c.setSelectId(m_cpgId);
-        c.setSelectIntValue("");
-        c.setValue(m_condicionPago);
+        m_properties.item(C.CPG_ID)
+          .setSelectId(m_cpgId)
+          .setSelectIntValue("")
+          .setValue(m_condicionPago);
 
-        m_properties.item(C.LP_ID);
-        c.setSelectFilter(D.getListaPrecioForCliente(m_docId, m_cliId));
-        c.setSelectId(m_lpId);
-        c.setSelectIntValue("");
-        c.setValue(m_listaPrecio);
+        m_properties.item(C.LP_ID)
+          .setSelectFilter(D.getListaPrecioForCliente(m_docId, m_cliId))
+          .setSelectId(m_lpId)
+          .setSelectIntValue("")
+          .setValue(m_listaPrecio);
 
-        m_properties.item(C.LD_ID);
-        c.setSelectFilter(D.getListaDescuentoForCliente(m_docId, m_cliId));
-        c.setSelectId(m_ldId);
-        c.setSelectIntValue("");
-        c.setValue(m_listaDescuento);
+        m_properties.item(C.LD_ID)
+          .setSelectFilter(D.getListaDescuentoForCliente(m_docId, m_cliId))
+          .setSelectId(m_ldId)
+          .setSelectIntValue("")
+          .setValue(m_listaDescuento);
 
-        m_properties.item(C.CCOS_ID);
-        c.setSelectId(m_ccosId);
-        c.setSelectIntValue("");
-        c.setValue(m_centroCosto);
+        m_properties.item(C.CCOS_ID)
+          .setSelectId(m_ccosId)
+          .setSelectIntValue("")
+          .setValue(m_centroCosto);
 
-        m_properties.item(C.SUC_ID);
-        c.setSelectId(m_sucId);
-        c.setSelectIntValue("");
-        c.setValue(m_sucursal);
+        m_properties.item(C.SUC_ID)
+          .setSelectId(m_sucId)
+          .setSelectIntValue("")
+          .setValue(m_sucursal);
 
-        m_properties.item(C.VEN_ID);
-        c.setSelectId(m_venId);
-        c.setSelectIntValue("");
-        c.setValue(m_vendedor);
+        m_properties.item(C.VEN_ID)
+          .setSelectId(m_venId)
+          .setSelectIntValue("")
+          .setValue(m_vendedor);
 
-        m_properties.item(CV.PV_DESCRIP);
-        c.setValue(m_descrip);
+        m_properties.item(CV.PV_DESCRIP)
+          .setValue(m_descrip);
 
-        m_properties.item(C.LGJ_ID);
-        c.setSelectId(m_lgjId);
-        c.setSelectIntValue("");
-        c.setValue(m_legajo);
+        m_properties.item(C.LGJ_ID)
+          .setSelectId(m_lgjId)
+          .setSelectIntValue("")
+          .setValue(m_legajo);
 
-        m_properties.item(C.PRO_ID_ORIGEN);
-        c.setSelectId(m_proIdOrigen);
-        c.setSelectIntValue("");
-        c.setValue(m_proOrigen);
+        m_properties.item(C.PRO_ID_ORIGEN)
+          .setSelectId(m_proIdOrigen)
+          .setSelectIntValue("")
+          .setValue(m_proOrigen);
 
-        m_properties.item(C.PRO_ID_DESTINO);
-        c.setSelectId(m_proIdDestino);
-        c.setSelectIntValue("");
-        c.setValue(m_proDestino);
+        m_properties.item(C.PRO_ID_DESTINO)
+          .setSelectId(m_proIdDestino)
+          .setSelectIntValue("")
+          .setValue(m_proDestino);
 
-        m_properties.item(C.TRANS_ID);
-        c.setSelectId(m_transId);
-        c.setSelectIntValue("");
-        c.setValue(m_transporte);
+        m_properties.item(C.TRANS_ID)
+          .setSelectId(m_transId)
+          .setSelectIntValue("")
+          .setValue(m_transporte);
 
-        m_properties.item(CV.PV_DESTINATARIO);
-        c.setValue(m_destinatario);
+        m_properties.item(CV.PV_DESTINATARIO)
+          .setValue(m_destinatario);
 
-        m_properties.item(CV.PV_ORDEN_COMPRA);
-        c.setValue(m_ordenCompra);
+        m_properties.item(CV.PV_ORDEN_COMPRA)
+          .setValue(m_ordenCompra);
 
-        m_properties.item(C.CHOF_ID);
-        c.setSelectId(m_chofId);
-        c.setValue(m_chofer);
-        c.setSelectFilter(mPublicTransporte.self.getHelpTransporte(m_transId));
+        m_properties.item(C.CHOF_ID)
+          .setSelectId(m_chofId)
+          .setValue(m_chofer)
+          .setSelectFilter(D.getSelectFilterChofer(m_transId));
 
-        m_properties.item(C.CAM_ID);
-        c.setSelectId(m_camId);
-        c.setValue(m_camion);
-        c.setSelectFilter(mPublicTransporte.self.getHelpTransporte(m_transId));
+        m_properties.item(C.CAM_ID)
+          .setSelectId(m_camId)
+          .setValue(m_camion)
+          .setSelectFilter(D.getSelectFilterCamion(m_transId));
 
-        m_properties.item(C.CAM_ID_SEMI);
-        c.setSelectId(m_camIdSemi);
-        c.setValue(m_semi);
-        c.setSelectFilter(mPublicTransporte.self.getHelpTransporte(m_transId));
+        m_properties.item(C.CAM_ID_SEMI)
+          .setSelectId(m_camIdSemi)
+          .setValue(m_semi)
+          .setSelectFilter(D.getSelectFilterCamion(m_transId));
 
-        m_properties.item(C.CLIS_ID);
-        c.setSelectId(m_clisId);
-        c.setSelectIntValue("");
-        c.setValue(m_clienteSucursal);
+        m_properties.item(C.CLIS_ID)
+          .setSelectId(m_clisId)
+          .setSelectIntValue("")
+          .setValue(m_clienteSucursal);
 
         m_dialog.showValues(m_dialog.getProperties());
         m_dialog.resetChanged();
@@ -2958,26 +2969,26 @@
 
         m_items.showValues(m_itemsProps);
 
-        m_footerProps.item(CV.PV_SUBTOTAL);
-        c.setValue(m_subTotal);
+        m_footerProps.item(CV.PV_SUBTOTAL)
+          .setValue(m_subTotal);
 
-        m_footerProps.item(CV.PV_IMPORTE_DESC1);
-        c.setValue(m_importeDesc1);
+        m_footerProps.item(CV.PV_IMPORTE_DESC1)
+          .setValue(m_importeDesc1);
 
-        m_footerProps.item(CV.PV_IMPORTE_DESC2);
-        c.setValue(m_importeDesc2);
+        m_footerProps.item(CV.PV_IMPORTE_DESC2)
+          .setValue(m_importeDesc2);
 
-        m_footerProps.item(CV.PV_NETO);
-        c.setValue(m_neto);
+        m_footerProps.item(CV.PV_NETO)
+          .setValue(m_neto);
 
-        m_footerProps.item(CV.PV_IVARI);
-        c.setValue(m_ivari);
+        m_footerProps.item(CV.PV_IVARI)
+          .setValue(m_ivari);
 
-        m_footerProps.item(CV.PV_IVARNI);
-        c.setValue(m_ivarni);
+        m_footerProps.item(CV.PV_IVARNI)
+          .setValue(m_ivarni);
 
-        m_footerProps.item(CV.PV_TOTAL);
-        c.setValue(m_total);
+        m_footerProps.item(CV.PV_TOTAL)
+          .setValue(m_total);
 
         m_footer.showValues(m_footerProps);
 
@@ -2985,32 +2996,6 @@
 
         return D.showDataAddCliente(Cairo.UserConfig.getShowDataAddInVentas(), m_dialog)
 
-      };
-
-      var showApplycation = function() {
-
-        if(!DoCairo.Security.anAccess(csPreVtaModifyAplic, m_docId, csE_DocTypePrestacion.cSEDOCTPREAPLICAR)) { return; }
-
-        if(m_objApply === null) {
-          m_objApply = new cPedidoVentaAplic();
-
-          // Edit Apply
-          //
-        }
-        else {
-          if(m_objApply.self.getId() !== m_id) {
-            m_objApply.self.setObjectClient(null);
-            m_objApply = new cPedidoVentaAplic();
-          }
-        }
-
-        // Edit Apply
-        //
-        m_objApply.self.setObjectClient(self);
-
-        if(!m_objApply.self.show(m_id, m_total, m_nrodoc, m_cliId, m_cliente, m_sucId, m_docId, m_doctId === csEDocumentoTipo.cSEDT_DEVOLUCIONPEDIDOVTA)) {
-          m_objApply = null;
-        }
       };
 
       var showApplycation = function() {
@@ -3161,10 +3146,7 @@
       };
 
       var getPvIds = function() {
-        var rtn() = null;
-        G.redim(rtn, 1);
-        rtn[1] = m_id;
-        return rtn;
+        return [m_id];
       };
 
       var getCliId = function() {
@@ -3175,50 +3157,35 @@
         return m_items.getProperties().item(C_ITEMS);
       };
 
-      // HIDECOLS
-      //
-      var showHideCols = function(bOnlyStock) {
-        var columns = null;
-        var bVisible = null;
-        var abmObj = null;
-        abmObj = m_dialog;
+      var showHideCols = function(onlyStock) {
 
-        if(abmObj.getInSave()) { return; }
+        if(! m_dialog.getInSave()) {
 
-        bVisible = val(m_properties.item(c_HideCols).getValue()) === 0;
+          var visible = val(m_properties.item(Cairo.Constants.HIDE_COLUMNS).getValue()) === 0;
+          var prop = getItems();
 
-        var iProp = null;
-        iProp = getItems();
+          m_dialog.drawGrid(prop, false);
 
-        abmObj.DrawGrid(iProp, false);
+          var columns = prop.getGrid().getColumns();
 
-        var i = null;
+          for(var i = 1, count = columns.count(); i < count; i++) {
+            switch (columns.item(i).getKey()) {
 
-        columns = iProp.getGrid().getColumns();
-        for (i = 1; i <= columns.count(); i++) {
-          switch (columns(i).Key) {
+              case KI_DESCUENTO:
+              case KI_UNIDAD:
+              case KI_PRECIO_LP:
+              case KI_IVA_RNI:
 
-            case KI_DESCUENTO:
-            case KI_UNIDAD:
-            case KI_PRECIO_LP:
-            case KI_IVARNI:
-            case KI_CCOS_ID:
-
-              ck // Solo si la llamada fue para todas las columnas
-              //
-              if(!bOnlyStock) {
-                columns(i).Visible = bVisible;
-                abmObj.RefreshColumnPropertiesByIndex(iProp, i);
-              }
-
-              break;
+                if(! onlyStock) {
+                  columns.item(i).setVisible(visible);
+                  m_dialog.refreshColumnPropertiesByIndex(prop, i);
+                }
+                break;
+            }
           }
         }
-
-        abmObj.DrawGrid(iProp, true);
+        m_dialog.drawGrid(prop, true);
       };
-      //
-      // HIDECOLS - fin
 
       var updateIva = function() {
         var p = P.resolvedPromise(true);
@@ -3239,11 +3206,7 @@
       };
 
       var getFileNamePostFix = function() {
-        var rtn = null;
-
-        rtn = m_properties.item(C.CLI_ID).getValue().Substring(0, 50)+ "-"+ m_properties.item(CV.PV_NRODOC).getValue();
-
-        return rtn;
+        return m_cliente.substring(0, 50) + "-" + m_nrodoc;
       };
 
       var showMenuDocAction = function() {
@@ -3253,25 +3216,14 @@
       };
 
       var setColorBackground = function() {
-        var doct_id = null;
-        var doc_id = null;
-        var abmGen = null;
-
-        abmGen = m_dialog;
-
-        doc_id = getDocId().getSelectId();
-        if(!DB.getData(CV.DOCUMENTO, C.DOC_ID, doc_id, CV.DOCT_ID, doct_id)) { return; }
-
-        //c1c1f6
         if(Cairo.UserConfig.getUsarColoresEnDocumentos()) {
-          if(doct_id === csEDocumentoTipo.cSEDT_DEVOLUCIONPEDIDOVTA) {
-            abmGen.SetBakcColorTagMain(RGB(&HFF, &HAA, &H0));
+          if(m_lastDoctId === D.Types.DEVOLUCION_PEDIDO_VTA) {
+            m_dialog.setBackColorTabMain("#ffaa00");
           }
           else {
-            abmGen.SetBakcColorTagMain(RGB(&HFF, &HAA, &H0));
+            m_dialog.setBackColorTabMain("white");
           }
         }
-
       };
 
       var getDocId = function() {
@@ -3320,23 +3272,16 @@
     };
 
     Edit.Controller = { getEditor: createObject };
-    Edit.Controller = { getEditor: createObject };
 
     Edit.Controller.edit = function(id) {
 
-      Cairo.LoadingMessage.show("Factura de Compras", "Loading Pedido de Ventas from Crowsoft Cairo server.");
+      Cairo.LoadingMessage.show("Pedido de Ventas", "Loading Pedido de Ventas from Crowsoft Cairo server.");
       var editor = Cairo.PedidoVenta.Edit.Controller.getEditor();
-
-      this needs some atention. not every object has wizards.
-
-        //
-        // wizards
-        //
-        if(id === 'sobreremito') {
-        return editor.showWizardX-X-X-X-X-X-X();
-      }
-      else if(id === 'sobreorden') {
-        return editor.showWizardX-X-X-X-X-X-X();
+      //
+      // wizards
+      //
+      if(id === 'sobrepresupuesto') {
+        return editor.showWizardPedidoPresupuesto();
       }
       else {
 
@@ -3353,7 +3298,7 @@
 
   });
 
-  Cairo.module("XxxxListDoc.Edit", function(Edit, Cairo, Backbone, Marionette, $, _) {
+  Cairo.module("PedidoVentaListDoc.Edit", function(Edit, Cairo, Backbone, Marionette, $, _) {
 
     var createObject = function() {
 

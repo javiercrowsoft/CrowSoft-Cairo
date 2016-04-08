@@ -4222,7 +4222,6 @@
       };
 
       var refreshProperties = function() {
-        var c;
 
         m_properties.item(C.DOC_ID)
         .setSelectId(m_docId)
@@ -4304,14 +4303,15 @@
         .setSelectId(m_proIdDestino)
         .setValue(m_proDestino);
 
-        c = m_properties.item(C.DEPL_ID_ORIGEN);
         if(m_deplId !== NO_ID || !m_showStockData) {
-          c.setSelectId(m_deplId);
-          c.setValue(m_deposito);
+          m_properties.item(C.DEPL_ID_ORIGEN)
+            .setSelectId(m_deplId)
+            .setValue(m_deposito);
         }
         else {
-          c.setSelectId(Cairo.UserConfig.getDeplId());
-          c.setValue(Cairo.UserConfig.getDeplNombre());
+          m_properties.item(C.DEPL_ID_ORIGEN)
+            .setSelectId(Cairo.UserConfig.getDeplId())
+            .setValue(Cairo.UserConfig.getDeplNombre());
         }
 
         m_properties.item(CC.FC_COTIZACION_PROV)

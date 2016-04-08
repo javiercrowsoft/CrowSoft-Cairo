@@ -2512,7 +2512,6 @@
 
 
       var refreshProperties = function() {
-        var c;
 
         var properties = m_dialog.getProperties();
 
