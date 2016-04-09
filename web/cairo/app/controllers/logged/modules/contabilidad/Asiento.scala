@@ -13,7 +13,6 @@ import models.cairo.system.database.{Recordset, DBHelper}
 import java.util.Date
 import formatters.json.DateFormatter
 import formatters.json.DateFormatter._
-
 import scala.util.control.NonFatal
 
 case class AsientoIdData(

@@ -13,7 +13,6 @@ import models.cairo.system.security.CairoSecurity
 import models.cairo.system.database.{Recordset, DBHelper}
 import formatters.json.DateFormatter
 import formatters.json.DateFormatter._
-
 import scala.util.control.NonFatal
 
 case class FacturaCompraIdData(
@@ -452,8 +451,8 @@ object FacturaCompras extends Controller with ProvidesUser {
       C.FC_FIRMADO -> Json.toJson(facturaCompra.references.firmado),
       GC.DOC_MUEVE_STOCK -> Json.toJson(facturaCompra.references.docMueveStock),
       GC.DOC_TIPO_FACTURA -> Json.toJson(facturaCompra.references.docTipoFactura),
-      C.AS_ID -> Json.toJson(facturaCompra.references.stId),
-      C.ST_ID -> Json.toJson(facturaCompra.references.asId),
+      C.ST_ID -> Json.toJson(facturaCompra.references.stId),
+      C.AS_ID -> Json.toJson(facturaCompra.references.asId),
       GC.HAS_IVA_RI -> Json.toJson(facturaCompra.references.hasIvaRi),
       GC.HAS_IVA_RNI -> Json.toJson(facturaCompra.references.hasIvaRni),
       GC.EDITABLE -> Json.toJson(facturaCompra.references.editable),

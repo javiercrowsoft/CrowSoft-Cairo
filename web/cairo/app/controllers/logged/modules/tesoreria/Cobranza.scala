@@ -12,7 +12,6 @@ import models.cairo.system.security.CairoSecurity
 import models.cairo.system.database.{Recordset, DBHelper}
 import formatters.json.DateFormatter
 import formatters.json.DateFormatter._
-
 import scala.util.control.NonFatal
 
 case class CobranzaIdData(

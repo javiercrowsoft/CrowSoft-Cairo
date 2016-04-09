@@ -50,8 +50,8 @@
       var K_FECHA = 4;
       var K_FECHAENTREGA = 5;
       var K_NETO = 6;
-      var K_IVARI = 7;
-      var K_IVARNI = 8;
+      var K_IVA_RI = 7;
+      var K_IVA_RNI = 8;
       var K_TOTAL = 9;
       var K_CLI_ID = 10;
       var K_DOC_ID = 11;
@@ -114,8 +114,8 @@
       var m_fecha = null;
       var m_fechaentrega = null;
       var m_neto = 0;
-      var m_ivari = 0;
-      var m_ivarni = 0;
+      var m_ivaRi = 0;
+      var m_ivaRni = 0;
       var m_total = 0;
       var m_subTotal = 0;
       var m_descuento1 = 0;
@@ -891,12 +891,12 @@
                   fields.add(CV.PV_NETO, property.getValue(), Types.currency);
                   break;
 
-                case K_IVARI:
-                  fields.add(CV.PV_IVARI, property.getValue(), Types.currency);
+                case K_IVA_RI:
+                  fields.add(CV.PV_IVA_RI, property.getValue(), Types.currency);
                   break;
 
-                case K_IVARNI:
-                  fields.add(CV.PV_IVARNI, property.getValue(), Types.currency);
+                case K_IVA_RNI:
+                  fields.add(CV.PV_IVA_RNI, property.getValue(), Types.currency);
                   break;
 
                 case K_SUBTOTAL:
@@ -1845,21 +1845,21 @@
         elem.setFormat(Cairo.Settings.getAmountDecimalsFormat());
         elem.setEnabled(false);
 
-        elem = properties.add(null, CV.PV_IVARI);
+        elem = properties.add(null, CV.PV_IVA_RI);
         elem.setType(T.numeric);
         elem.setName(getText(1582, "")); // IVA RI
         elem.setSubType(ST.money);
-        elem.setKey(K_IVARI);
-        elem.setValue(m_ivari);
+        elem.setKey(K_IVA_RI);
+        elem.setValue(m_ivaRi);
         elem.setFormat(Cairo.Settings.getAmountDecimalsFormat());
         elem.setEnabled(false);
 
-        elem = properties.add(null, CV.PV_IVARNI);
+        elem = properties.add(null, CV.PV_IVA_RNI);
         elem.setType(T.numeric);
         elem.setName(getText(1583, "")); // IVA RNI
         elem.setSubType(ST.money);
-        elem.setKey(K_IVARNI);
-        elem.setValue(m_ivarni);
+        elem.setKey(K_IVA_RNI);
+        elem.setValue(m_ivaRni);
         elem.setFormat(Cairo.Settings.getAmountDecimalsFormat());
         elem.setEnabled(false);
 
@@ -2110,11 +2110,11 @@
           elem.setKey(KI_NETO);
 
           elem = row.add(null);
-          elem.setValue(getValue(m_data.items[_i], CV.PVI_IVARI));
+          elem.setValue(getValue(m_data.items[_i], CV.PVI_IVA_RI));
           elem.setKey(KI_IVA_RI);
 
           elem = row.add(null);
-          elem.setValue(getValue(m_data.items[_i], CV.PVI_IVARNI));
+          elem.setValue(getValue(m_data.items[_i], CV.PVI_IVA_RNI));
           elem.setKey(KI_IVA_RNI);
 
           elem = row.add(null);
@@ -2123,7 +2123,7 @@
 
           elem = row.add(null);
           if(m_bIva) {
-            elem.setValue(getValue(m_data.items[_i], CV.FVI_IVA_RIPORC));
+            elem.setValue(getValue(m_data.items[_i], CV.PVI_IVA_RIPORC));
           }
           else {
             elem.setValue(0);
@@ -2132,7 +2132,7 @@
 
           elem = row.add(null);
           if(m_bIvaRni) {
-            elem.setValue(getValue(m_data.items[_i], CV.FVI_IVA_RNIPORC));
+            elem.setValue(getValue(m_data.items[_i], CV.PVI_IVA_RNIPORC));
           }
           else {
             elem.setValue(0);
@@ -2181,8 +2181,8 @@
               m_fecha = valField(data, CV.PV_FECHA);
               m_fechaentrega = valField(data, CV.PV_FECHA_ENTREGA);
               m_neto = valField(data, CV.PV_NETO);
-              m_ivari = valField(data, CV.PV_IVARI);
-              m_ivarni = valField(data, CV.PV_IVARNI);
+              m_ivaRi = valField(data, CV.PV_IVA_RI);
+              m_ivaRni = valField(data, CV.PV_IVA_RNI);
               m_total = valField(data, CV.PV_TOTAL);
               m_subTotal = valField(data, CV.PV_SUBTOTAL);
               m_descuento1 = valField(data, CV.PV_DESCUENTO1);
@@ -2261,8 +2261,8 @@
               m_fecha = Cairo.Dates.today();
               m_fechaentrega = Cairo.Dates.tomorrow();
               m_neto = 0;
-              m_ivari = 0;
-              m_ivarni = 0;
+              m_ivaRi = 0;
+              m_ivaRni = 0;
               m_total = 0;
               m_subTotal = 0;
               m_descuento1 = 0;
@@ -2366,7 +2366,7 @@
 
         var rows = getGrid(m_items, C_ITEMS).getRows();
 
-        for (var _i = 0, _count = rows.size();; _i < _count; _i++) {
+        for (var _i = 0, _count = rows.size(); _i < _count; _i++) {
 
           var row = rows.item(_i);
 
@@ -2425,25 +2425,25 @@
 
               case KI_IVA_RI:
                 if(m_bIva) {
-                  fields.add(CV.PVI_IVARI, cell.getValue(), Types.currency);
+                  fields.add(CV.PVI_IVA_RI, cell.getValue(), Types.currency);
                 }
                 break;
 
               case KI_IVA_RNI:
                 if(m_bIvaRni) {
-                  fields.add(CV.PVI_IVARNI, cell.getValue(), Types.currency);
+                  fields.add(CV.PVI_IVA_RNI, cell.getValue(), Types.currency);
                 }
                 break;
 
               case KI_IVA_RI_PERCENT:
                 if(m_bIva) {
-                  fields.add(CV.PVI_IVARI_PORC, cell.getValue(), Types.double);
+                  fields.add(CV.PVI_IVA_RIPORC, cell.getValue(), Types.double);
                 }
                 break;
 
               case KI_IVA_RNI_PERCENT:
                 if(m_bIvaRni) {
-                  fields.add(CV.PVI_IVARNI_PORC, cell.getValue(), Types.double);
+                  fields.add(CV.PVI_IVA_RNIPORC, cell.getValue(), Types.double);
                 }
                 break;
 
@@ -2539,8 +2539,8 @@
         neto = neto - desc2;
 
         properties.item(CV.PV_NETO).setValue(neto);
-        properties.item(CV.PV_IVARI).setValue(ivaRi);
-        properties.item(CV.PV_IVARNI).setValue(ivaRni);
+        properties.item(CV.PV_IVA_RI).setValue(ivaRi);
+        properties.item(CV.PV_IVA_RNI).setValue(ivaRni);
         properties.item(CV.PV_TOTAL).setValue(neto + ivaRni + ivaRi);
 
         m_footer.refreshControls();
@@ -2598,7 +2598,7 @@
           cell.setId(valField(response.data, C.CCOS_ID_VENTA));
 
           return true;
-        }
+        });
       };
 
       var setEnabled = function() {
@@ -2983,11 +2983,11 @@
         m_footerProps.item(CV.PV_NETO)
           .setValue(m_neto);
 
-        m_footerProps.item(CV.PV_IVARI)
-          .setValue(m_ivari);
+        m_footerProps.item(CV.PV_IVA_RI)
+          .setValue(m_ivaRi);
 
-        m_footerProps.item(CV.PV_IVARNI)
-          .setValue(m_ivarni);
+        m_footerProps.item(CV.PV_IVA_RNI)
+          .setValue(m_ivaRni);
 
         m_footerProps.item(CV.PV_TOTAL)
           .setValue(m_total);
@@ -3213,7 +3213,7 @@
 
       var showMenuDocAction = function() {
         // Remitir el pedido|Facturar el pedido|Show stock info
-        var menu = getText(3966, "") + "~1|" + getText(3967, "") + "~2|" + getText(,"9999"); // TODO: complete language
+        var menu = getText(3966, "") + "~1|" + getText(3967, "") + "~2|" + getText("9999"); // TODO: complete language
         m_dialog.showPopMenu(menu);
       };
 
@@ -3386,7 +3386,7 @@
       var m_menuModoPago = [];
 
       var emptyData = {
-        ventamodos: []
+        ventaModos: []
       };
       
       var m_data = emptyData;
@@ -3603,7 +3603,7 @@
       var loadDataFromResponse = function(response) {
         var data = response.data;
 
-        data.ventaModos = data.get('ventamodos');
+        data.ventaModos = data.get('ventaModos');
 
         return data;
       };
@@ -3620,9 +3620,12 @@
 
             if(response.success !== true) { return false; }
 
-            if(response.data.id === NO_ID) {
+            //
+            // this is a special case. venta_modos list is not related with params
+            //
+            m_data = loadDataFromResponse(response);
 
-              m_data = loadDataFromResponse(response);
+            if(response.data.id === NO_ID) {
 
               m_fechaIniV = "";
               m_fechaIni = Cairo.Dates.today();
@@ -3926,6 +3929,10 @@
       self.setDialog = function(dialog) {
         m_dialog = dialog;
         m_properties = dialog.getProperties();
+      };
+
+      self.setListController = function(controller) {
+        m_listController = controller;
       };
 
       var createMenu = function() {
@@ -4271,7 +4278,7 @@
           //
           Cairo.LoadingMessage.show("PedidoVenta", "Loading Pedido de Ventas from Crowsoft Cairo server.");
 
-          self.documentList = Cairo.XxxxListDoc.Edit.Controller.getEditor();
+          self.documentList = Cairo.PedidoVentaListDoc.Edit.Controller.getEditor();
           var dialog = Cairo.Dialogs.Views.ListController.newDialogList();
 
           self.documentList.setListController(self);

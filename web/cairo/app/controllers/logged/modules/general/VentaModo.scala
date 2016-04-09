@@ -43,8 +43,8 @@ object VentaModos extends Controller with ProvidesUser {
       C.VM_DESCRIP -> text
   )(VentamodoData.apply)(VentamodoData.unapply))
 
-  implicit val ventamodoWrites = new Writes[Ventamodo] {
-    def writes(ventamodo: Ventamodo) = Json.obj(
+  implicit val ventamodoWrites = new Writes[VentaModo] {
+    def writes(ventamodo: VentaModo) = Json.obj(
       "id" -> Json.toJson(ventamodo.id),
       C.VM_ID -> Json.toJson(ventamodo.id),
       C.VM_NAME -> Json.toJson(ventamodo.name),
@@ -63,7 +63,7 @@ object VentaModos extends Controller with ProvidesUser {
 
   def get(id: Int) = GetAction { implicit request =>
     LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.LIST_VENTAMODO), { user =>
-      Ok(Json.toJson(Ventamodo.get(user, id)))
+      Ok(Json.toJson(VentaModo.get(user, id)))
     })
   }
 
@@ -79,8 +79,8 @@ object VentaModos extends Controller with ProvidesUser {
         LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.EDIT_VENTAMODO), { user =>
           Ok(
             Json.toJson(
-              Ventamodo.update(user,
-                Ventamodo(
+              VentaModo.update(user,
+                VentaModo(
                        id,
                        ventamodo.name,
                        ventamodo.code,
@@ -110,8 +110,8 @@ object VentaModos extends Controller with ProvidesUser {
         LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.NEW_VENTAMODO), { user =>
           Ok(
             Json.toJson(
-              Ventamodo.create(user,
-                Ventamodo(
+              VentaModo.create(user,
+                VentaModo(
                        ventamodo.name,
                        ventamodo.code,
                        ventamodo.active,
@@ -131,7 +131,7 @@ object VentaModos extends Controller with ProvidesUser {
   def delete(id: Int) = PostAction { implicit request =>
     Logger.debug("in ventamodos.delete")
     LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.DELETE_VENTAMODO), { user =>
-      Ventamodo.delete(user, id)
+      VentaModo.delete(user, id)
       // Backbonejs requires at least an empty json object in the response
       // if not it will call errorHandler even when we responded with 200 OK :P
       Ok(JsonUtil.emptyJson)

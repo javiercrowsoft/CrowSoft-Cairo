@@ -13,7 +13,7 @@ import play.api.Logger
 import play.api.libs.json._
 import scala.util.control.NonFatal
 
-case class Ventamodo(
+case class VentaModo(
               id: Int,
               name: String,
               code: String,
@@ -90,9 +90,9 @@ case class Ventamodo(
 
 }
 
-object Ventamodo {
+object VentaModo {
 
-  lazy val emptyVentamodo = Ventamodo(
+  lazy val emptyVentamodo = VentaModo(
     "",
     "",
     false,
@@ -117,7 +117,7 @@ object Ventamodo {
       cueId: Int,
       descrip: String) = {
 
-    new Ventamodo(
+    new VentaModo(
       id,
       name,
       code,
@@ -143,7 +143,7 @@ object Ventamodo {
       cueId: Int,
       descrip: String) = {
 
-    new Ventamodo(
+    new VentaModo(
       name,
       code,
       active,
@@ -156,16 +156,16 @@ object Ventamodo {
       descrip)
   }
 
-  private val ventamodoParser: RowParser[Ventamodo] = {
+  private val ventamodoParser: RowParser[VentaModo] = {
       SqlParser.get[Int](C.VM_ID) ~
       SqlParser.get[String](C.VM_NAME) ~
       SqlParser.get[String](C.VM_CODE) ~
       SqlParser.get[Int](DBHelper.ACTIVE) ~
       SqlParser.get[Int](C.VM_CTA_CTE) ~
-      SqlParser.get[Boolean](C.VM_PV) ~
-      SqlParser.get[Boolean](C.VM_OS) ~
-      SqlParser.get[Boolean](C.VM_COBZ) ~
-      SqlParser.get[Boolean](C.VM_CMVXI) ~
+      SqlParser.get[Int](C.VM_PV) ~
+      SqlParser.get[Int](C.VM_OS) ~
+      SqlParser.get[Int](C.VM_COBZ) ~
+      SqlParser.get[Int](C.VM_CMVXI) ~
       SqlParser.get[Int](C.CUE_ID) ~
       SqlParser.get[String](C.CUE_NAME) ~
       SqlParser.get[String](C.VM_DESCRIP) ~
@@ -188,16 +188,16 @@ object Ventamodo {
               createdAt ~
               updatedAt ~
               updatedBy =>
-        Ventamodo(
+        VentaModo(
               id,
               name,
               code,
               active != 0,
               ctaCte,
-              pv,
-              os,
-              cobz,
-              cmvxi,
+              pv != 0,
+              os != 0,
+              cobz != 0,
+              cmvxi != 0,
               cueId,
               cueName,
               descrip,
@@ -207,15 +207,15 @@ object Ventamodo {
     }
   }
 
-  def create(user: CompanyUser, ventamodo: Ventamodo): Ventamodo = {
+  def create(user: CompanyUser, ventamodo: VentaModo): VentaModo = {
     save(user, ventamodo, true)
   }
 
-  def update(user: CompanyUser, ventamodo: Ventamodo): Ventamodo = {
+  def update(user: CompanyUser, ventamodo: VentaModo): VentaModo = {
     save(user, ventamodo, false)
   }
 
-  private def save(user: CompanyUser, ventamodo: Ventamodo, isNew: Boolean): Ventamodo = {
+  private def save(user: CompanyUser, ventamodo: VentaModo, isNew: Boolean): VentaModo = {
     def getFields = {
       List(
         Field(C.VM_NAME, ventamodo.name, FieldType.text),
@@ -231,13 +231,13 @@ object Ventamodo {
       )
     }
     def throwException = {
-      throw new RuntimeException(s"Error when saving ${C.VENTAMODO}")
+      throw new RuntimeException(s"Error when saving ${C.VENTA_MODO}")
     }
 
     DBHelper.saveEx(
       user,
       Register(
-        C.VENTAMODO,
+        C.VENTA_MODO,
         C.VM_ID,
         ventamodo.id,
         false,
@@ -252,14 +252,14 @@ object Ventamodo {
     }
   }
 
-  def load(user: CompanyUser, id: Int): Option[Ventamodo] = {
+  def load(user: CompanyUser, id: Int): Option[VentaModo] = {
     loadWhere(user, s"${C.VM_ID} = {id}", 'id -> id)
   }
 
   def loadWhere(user: CompanyUser, where: String, args : scala.Tuple2[scala.Any, anorm.ParameterValue[_]]*) = {
     DB.withConnection(user.database.database) { implicit connection =>
       SQL(s"SELECT t1.*, t2.${C.CUE_NAME}" +
-        s" FROM ${C.VENTAMODO} t1" +
+        s" FROM ${C.VENTA_MODO} t1" +
         s" LEFT JOIN ${C.CUENTA} t2 ON t1.${C.CUE_ID} = t2.${C.CUE_ID} WHERE $where")
         .on(args: _*)
         .as(ventamodoParser.singleOpt)
@@ -269,22 +269,28 @@ object Ventamodo {
   def delete(user: CompanyUser, id: Int) = {
     DB.withConnection(user.database.database) { implicit connection =>
       try {
-        SQL(s"DELETE FROM ${C.VENTAMODO} WHERE ${C.VM_ID} = {id}")
+        SQL(s"DELETE FROM ${C.VENTA_MODO} WHERE ${C.VM_ID} = {id}")
         .on('id -> id)
         .executeUpdate
       } catch {
         case NonFatal(e) => {
-          Logger.error(s"can't delete a ${C.VENTAMODO}. ${C.VM_ID} id: $id. Error ${e.toString}")
+          Logger.error(s"can't delete a ${C.VENTA_MODO}. ${C.VM_ID} id: $id. Error ${e.toString}")
           throw e
         }
       }
     }
   }
 
-  def get(user: CompanyUser, id: Int): Ventamodo = {
+  def get(user: CompanyUser, id: Int): VentaModo = {
     load(user, id) match {
       case Some(p) => p
       case None => emptyVentamodo
+    }
+  }
+
+  def list(user: CompanyUser) = {
+    DB.withConnection(user.database.database) { implicit connection =>
+      SQL(s"SELECT t1.*, t2.${C.CUE_NAME} FROM ${C.VENTA_MODO} t1 INNER JOIN ${C.CUENTA} t2 ON t1.${C.CUE_ID} = t2.${C.CUE_ID} WHERE ${C.VM_PV} <> 0 AND t1.${DBHelper.ACTIVE} <> 0 ORDER BY ${C.VM_CODE}").as(ventamodoParser *)
     }
   }
 }

@@ -12,6 +12,18 @@ object C {
   // Stock
   val ST_ID = "st_id"
 
+  val PEDIDO_ID = "ids"
+  val PEDIDO_BASE = "base"
+  val PEDIDO_DATES = "dates"
+  val PEDIDO_PRECIOS = "precios"
+  val PEDIDO_STOCK = "stock"
+  val PEDIDO_TOTALS = "totals"
+
+  val PEDIDO_ITEM_BASE = "base"
+  val PEDIDO_ITEM_TOTALS = "totals"
+
+  val PEDIDO_ITEM_DELETED = "deletedItems"
+  
   val FACTURA_ID = "ids"
   val FACTURA_BASE = "base"
   val FACTURA_DATES = "dates"
@@ -274,25 +286,89 @@ object C {
   val PRVIB_TMP_ID = "prvibTMP_id"
 
   // Presupuesto Pedido Venta
-  val PRESUPUESTOPEDIDOVENTA = "PresupuestoPedidoVenta"
+  val PRESUPUESTO_PEDIDO_VENTA = "PresupuestoPedidoVenta"
   val PRV_PV_ID = "prvpv_id"
   val PRV_PV_CANTIDAD = "prvpv_cantidad"
 
   // Presupuesto Pedido Venta TMP
-  val PRESUPUESTOPEDIDO_VENTA_TMP = "PresupuestoPedidoVentaTMP"
+  val PRESUPUESTO_PEDIDO_VENTA_TMP = "PresupuestoPedidoVentaTMP"
   val PRV_PV_TMP_ID = "prvpvTMP_id"
 
   // Presupuesto Devolucion Venta TMP
-  val PRESUPUESTODEVOLUCION_VENTA_TMP = "PresupuestoDevolucionVentaTMP"
+  val PRESUPUESTO_DEVOLUCION_VENTA_TMP = "PresupuestoDevolucionVentaTMP"
   val PRV_DV_TMP_ID = "prvdvTMP_id"
   val PRV_DV_ID = "prvdv_id"
   val PRV_DV_CANTIDAD = "prvdv_cantidad"
   val PRVI_ID_DEVOLUCION = "prvi_id_devolucion"
   val PRVI_ID_PRESUPUESTO = "prvi_id_presupuesto"
+
+  val PEDIDO_VENTA_TMP = "PedidoVentaTMP"
+  val PV_TMP_ID = "pvtmp_id"
+
+  val PEDIDO_VENTA = "PedidoVenta"
+  val PV_ID = "pv_id"
+  val PV_NUMERO = "pv_numero"
+  val PV_NRODOC = "pv_nrodoc"
+  val PV_DESCRIP = "pv_descrip"
+  val PV_FECHA = "pv_fecha"
+  val PV_FECHA_ENTREGA = "pv_fechaentrega"
+  val PV_FIRMADO = "pv_firmado"
+  val PV_NETO = "pv_neto"
+  val PV_IVA_RI = "pv_ivari"
+  val PV_IVA_RNI = "pv_ivarni"
+  val PV_TOTAL = "pv_total"
+  val PV_SUBTOTAL = "pv_subtotal"
+  val PV_DESCUENTO1 = "pv_descuento1"
+  val PV_DESCUENTO2 = "pv_descuento2"
+  val PV_IMPORTE_DESC_1 = "pv_importedesc1"
+  val PV_IMPORTE_DESC_2 = "pv_importedesc2"
+  val PV_DESTINATARIO = "pv_destinatario"
+  val PV_ORDEN_COMPRA = "pv_ordencompra"
+
+  // Deposito
+  val RAM_ID_STOCK = "ram_id_stock"
+  val RAMA_STOCK = "ramastock"
+
+  // Items de Pedidos de Venta
+  val PEDIDO_VENTA_ITEM_TMP = "PedidoVentaItemTMP"
+  val PVI_TMP_ID = "pvitmp_id"
+
+  val PEDIDO_VENTA_ITEM = "PedidoVentaItem"
+  val PVI_ID = "pvi_id"
+  val PVI_ORDEN = "pvi_orden"
+  val PVI_CANTIDAD = "pvi_cantidad"
+  val PVI_CANTIDAD_A_REMITIR = "pvi_cantidadaremitir"
+  val PVI_DESCRIP = "pvi_descrip"
+  val PVI_PRECIO = "pvi_precio"
+  val PVI_NETO = "pvi_neto"
+  val PVI_IVA_RI = "pvi_ivari"
+  val PVI_IVA_RNI = "pvi_ivarni"
+  val PVI_IVA_RIPORC = "pvi_ivariporc"
+  val PVI_IVA_RNIPORC = "pvi_ivarniporc"
+  val PVI_IMPORTE = "pvi_importe"
+  val PVI_PRECIO_USR = "pvi_precioUsr"
+  val PVI_PRECIO_LISTA = "pvi_precioLista"
+  val PVI_DESCUENTO = "pvi_descuento"
+  val PVI_PENDIENTE = "pvi_pendiente"
+  val PVI_PENDIENTE_PKLST = "pvi_pendientepklst"
+  val PVI_PENDIENTE_PRV = "pvi_pendienteprv"
+
+  // Items Borrados de pedidos de venta
+  val PEDIDO_VENTA_ITEM_BORRADO_TMP = "PedidoVentaItemBorradoTMP"
+  val PVIB_TMP_ID = "pvibTMP_id"
+  
 }
 
 object S {
 
+  val NEW_PEDIDO_VENTA = 3000
+  val EDIT_PEDIDO_VENTA = 3001
+  val DELETE_PEDIDO_VENTA = 3002
+  val LIST_PEDIDO_VENTA = 3003
+  val DES_ANULAR_PEDIDO_VENTA = 3004
+  val ANULAR_PEDIDO_VENTA = 3005
+  val EDIT_PRICE_PED_VENTA = 3006
+  
   val NEW_FACTURA_VENTA = 16002
   val EDIT_FACTURA_VENTA = 16003
   val DELETE_FACTURA_VENTA = 16004

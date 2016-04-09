@@ -656,6 +656,7 @@ object C {
   val DOC_NAME = "doc_nombre"
   val DOC_MUEVE_STOCK = "doc_muevestock"
   val DOC_TIPO_FACTURA = "doc_tipofactura"
+  val DOC_TIPO_PEDIDO = "doc_tipopedido"
 
   val DOC_EDITABLE_STATUS = "doc_editable_status"
   val DOC_EDITABLE_MESSAGE = "doc_editable_message"
@@ -1342,7 +1343,7 @@ object C {
   val FP_DOMINGO = "fp_domingo"
 
   // VentaModo
-  val VENTAMODO = "VentaModo"
+  val VENTA_MODO = "VentaModo"
   val VM_ID = "vm_id"
   val VM_NAME = "vm_nombre"
   val VM_CODE = "vm_codigo"

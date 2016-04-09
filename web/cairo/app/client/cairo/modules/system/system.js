@@ -3158,7 +3158,7 @@
 
   Cairo.Dates.getVirtualDateOrDate = function(virtualDate, date) {
     if(Cairo.Dates.DateNames.getDateNames().contains(virtualDate)) {
-      return Cairo.Dates.DateNames.getDateByName((virtualDate);
+      return Cairo.Dates.DateNames.getDateByName(virtualDate);
     }
     else {
       return date;

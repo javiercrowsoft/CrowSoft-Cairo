@@ -40,6 +40,7 @@ Cairo.FacturaVentaRemitoWiz = {};
 Cairo.FacturaVentaWiz = {};
 
 Cairo.PedidoVenta = {};
+Cairo.PedidoVentaListDoc = {};
 
 Cairo.RemitoVenta = {};
 

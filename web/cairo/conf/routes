@@ -3,56 +3,56 @@
 # ~~~~
 
 # Home page
-GET     /                               controllers.Application.loggedIndex
-GET     /index                          controllers.Application.index
-GET     /welcome                        controllers.Application.welcome
+GET     /                                                                                    controllers.Application.loggedIndex
+GET     /index                                                                               controllers.Application.index
+GET     /welcome                                                                             controllers.Application.welcome
 
 # Error
-GET     /error                          controllers.Application.error
+GET     /error                                                                               controllers.Application.error
 
 # Sign Up
 
-POST    /registration                   controllers.Registration.create
-GET     /registration/validate/:code    controllers.Registration.validate(code: String)
-GET     /registration/validation_email  controllers.Registration.sendValidationEmail
-GET     /registration/activate          controllers.Registration.activate
-GET     /registration/must_activate     controllers.Registration.mustActivate
+POST    /registration                                                                        controllers.Registration.create
+GET     /registration/validate/:code                                                         controllers.Registration.validate(code: String)
+GET     /registration/validation_email                                                       controllers.Registration.sendValidationEmail
+GET     /registration/activate                                                               controllers.Registration.activate
+GET     /registration/must_activate                                                          controllers.Registration.mustActivate
 
 # Session
 
-GET     /login                          controllers.Sessions.newSession
-POST    /login                          controllers.Sessions.create
-GET     /logout                         controllers.Sessions.destroy
-GET     /clean                          controllers.Sessions.clean
-GET     /location_blocked               controllers.Sessions.locationBlocked
-GET     /account_locked                 controllers.Sessions.userLocked
+GET     /login                                                                               controllers.Sessions.newSession
+POST    /login                                                                               controllers.Sessions.create
+GET     /logout                                                                              controllers.Sessions.destroy
+GET     /clean                                                                               controllers.Sessions.clean
+GET     /location_blocked                                                                    controllers.Sessions.locationBlocked
+GET     /account_locked                                                                      controllers.Sessions.userLocked
 
 # Domain
 
-GET     /domains/add                    controllers.Domains.add
-POST    /domains                        controllers.Domains.create
+GET     /domains/add                                                                         controllers.Domains.add
+POST    /domains                                                                             controllers.Domains.create
 
 # User
 
-GET     /users                          controllers.Users.list
-GET     /users/add                      controllers.Users.add
-POST    /users                          controllers.Users.create
-GET     /users/:id/edit                 controllers.Users.edit(id: Int)
-POST    /users/:id                      controllers.Users.update(id: Int)
-DELETE  /users/:id                      controllers.Users.delete(id: Int)
-GET     /users/password/reset           controllers.Users.resetPassword
-POST    /users/password/reset           controllers.Users.sendResetPasswordEmail
-GET     /users/password/reset/:token    controllers.Users.newPassword(token: String)
-GET     /users/password/change          controllers.Users.changePassword
-POST    /users/password/save            controllers.Users.savePassword
-GET     /users/password/saved           controllers.Users.passwordSaved
+GET     /users                                                                               controllers.Users.list
+GET     /users/add                                                                           controllers.Users.add
+POST    /users                                                                               controllers.Users.create
+GET     /users/:id/edit                                                                      controllers.Users.edit(id: Int)
+POST    /users/:id                                                                           controllers.Users.update(id: Int)
+DELETE  /users/:id                                                                           controllers.Users.delete(id: Int)
+GET     /users/password/reset                                                                controllers.Users.resetPassword
+POST    /users/password/reset                                                                controllers.Users.sendResetPasswordEmail
+GET     /users/password/reset/:token                                                         controllers.Users.newPassword(token: String)
+GET     /users/password/change                                                               controllers.Users.changePassword
+POST    /users/password/save                                                                 controllers.Users.savePassword
+GET     /users/password/saved                                                                controllers.Users.passwordSaved
 
 # Company
-GET     /companies                      controllers.logged.Companies.list
-POST    /company/login                  controllers.logged.Companies.login
+GET     /companies                                                                           controllers.logged.Companies.list
+POST    /company/login                                                                       controllers.logged.Companies.login
 
 # Desktop
-GET     /desktop                        controllers.logged.Desktop.show
+GET     /desktop                                                                             controllers.logged.Desktop.show
 
 
 # Cairo
@@ -61,376 +61,376 @@ GET     /desktop                        controllers.logged.Desktop.show
 
 # system
 #
-GET     /system/trees/:tableId          controllers.logged.system.trees.Trees.list(tableId: Int)
-GET     /system/tree/:id                controllers.logged.system.trees.Trees.get(id: Int)
+GET     /system/trees/:tableId                                                               controllers.logged.system.trees.Trees.list(tableId: Int)
+GET     /system/tree/:id                                                                     controllers.logged.system.trees.Trees.get(id: Int)
 
-POST    /system/tree                    controllers.logged.system.trees.Trees.create
-POST    /system/tree/sort               controllers.logged.system.trees.Trees.sort
+POST    /system/tree                                                                         controllers.logged.system.trees.Trees.create
+POST    /system/tree/sort                                                                    controllers.logged.system.trees.Trees.sort
 
-GET     /system/branch/:id              controllers.logged.system.trees.Branches.get(id: Int)
-POST    /system/branch                  controllers.logged.system.trees.Branches.create
-PUT     /system/branch/:id              controllers.logged.system.trees.Branches.update(id: Int)
-DELETE  /system/branch/:id              controllers.logged.system.trees.Branches.delete(id: Int)
+GET     /system/branch/:id                                                                   controllers.logged.system.trees.Branches.get(id: Int)
+POST    /system/branch                                                                       controllers.logged.system.trees.Branches.create
+PUT     /system/branch/:id                                                                   controllers.logged.system.trees.Branches.update(id: Int)
+DELETE  /system/branch/:id                                                                   controllers.logged.system.trees.Branches.delete(id: Int)
 
-POST    /system/branch/paste            controllers.logged.system.trees.Branches.paste
-POST    /system/branch/move             controllers.logged.system.trees.Branches.move
-POST    /system/leave/paste             controllers.logged.system.trees.Branches.pasteLeave
+POST    /system/branch/paste                                                                 controllers.logged.system.trees.Branches.paste
+POST    /system/branch/move                                                                  controllers.logged.system.trees.Branches.move
+POST    /system/leave/paste                                                                  controllers.logged.system.trees.Branches.pasteLeave
 
-GET     /system/branch/:treeId/leave/item/:clientId controllers.logged.system.trees.Branches.getByClientId(treeId: Int, clientId: Int)
+GET     /system/branch/:treeId/leave/item/:clientId                                          controllers.logged.system.trees.Branches.getByClientId(treeId: Int, clientId: Int)
 
-GET     /system/users                   controllers.logged.system.Users.list
+GET     /system/users                                                                        controllers.logged.system.Users.list
 
 
-GET     /system/select/rows/:tableId/:filter/:active/:useSearch/:internalFilter/:like  controllers.logged.system.select.Selects.get(tableId: Int, filter: String, active: Boolean, useSearch: Boolean, internalFilter: String, like: Int)
-GET     /system/select/validate/:tableId/:text/:textId/:active/:internalFilter         controllers.logged.system.select.Selects.validate(tableId: Int, text: String, textId: String, active: Boolean, internalFilter: String)
+GET     /system/select/rows/:tableId/:filter/:active/:useSearch/:internalFilter/:like        controllers.logged.system.select.Selects.get(tableId: Int, filter: String, active: Boolean, useSearch: Boolean, internalFilter: String, like: Int)
+GET     /system/select/validate/:tableId/:text/:textId/:active/:internalFilter               controllers.logged.system.select.Selects.validate(tableId: Int, text: String, textId: String, active: Boolean, internalFilter: String)
 
 
 # Web client code
 #
-GET     /client/*file                   controllers.FileService.getFile(path="/app/client", file)
+GET     /client/*file                                                                        controllers.FileService.getFile(path="/app/client", file)
 
 
 # modules
 
 # general
 
-GET     /api/v1/general/usuario/:id              controllers.logged.modules.general.Usuarios.get(id: Int)
-POST    /api/v1/general/usuario                  controllers.logged.modules.general.Usuarios.create
-PUT     /api/v1/general/usuario/:id              controllers.logged.modules.general.Usuarios.update(id: Int)
-DELETE  /api/v1/general/usuario/:id              controllers.logged.modules.general.Usuarios.delete(id: Int)
+GET     /api/v1/general/usuario/:id                                                          controllers.logged.modules.general.Usuarios.get(id: Int)
+POST    /api/v1/general/usuario                                                              controllers.logged.modules.general.Usuarios.create
+PUT     /api/v1/general/usuario/:id                                                          controllers.logged.modules.general.Usuarios.update(id: Int)
+DELETE  /api/v1/general/usuario/:id                                                          controllers.logged.modules.general.Usuarios.delete(id: Int)
 
-GET     /api/v1/general/provincia/:id              controllers.logged.modules.general.Provincias.get(id: Int)
-POST    /api/v1/general/provincia                  controllers.logged.modules.general.Provincias.create
-PUT     /api/v1/general/provincia/:id              controllers.logged.modules.general.Provincias.update(id: Int)
-DELETE  /api/v1/general/provincia/:id              controllers.logged.modules.general.Provincias.delete(id: Int)
+GET     /api/v1/general/provincia/:id                                                        controllers.logged.modules.general.Provincias.get(id: Int)
+POST    /api/v1/general/provincia                                                            controllers.logged.modules.general.Provincias.create
+PUT     /api/v1/general/provincia/:id                                                        controllers.logged.modules.general.Provincias.update(id: Int)
+DELETE  /api/v1/general/provincia/:id                                                        controllers.logged.modules.general.Provincias.delete(id: Int)
 
-GET     /api/v1/general/banco/:id              controllers.logged.modules.general.Bancos.get(id: Int)
-POST    /api/v1/general/banco                  controllers.logged.modules.general.Bancos.create
-PUT     /api/v1/general/banco/:id              controllers.logged.modules.general.Bancos.update(id: Int)
-DELETE  /api/v1/general/banco/:id              controllers.logged.modules.general.Bancos.delete(id: Int)
+GET     /api/v1/general/banco/:id                                                            controllers.logged.modules.general.Bancos.get(id: Int)
+POST    /api/v1/general/banco                                                                controllers.logged.modules.general.Bancos.create
+PUT     /api/v1/general/banco/:id                                                            controllers.logged.modules.general.Bancos.update(id: Int)
+DELETE  /api/v1/general/banco/:id                                                            controllers.logged.modules.general.Bancos.delete(id: Int)
 
-GET     /api/v1/general/chofer/:id              controllers.logged.modules.general.Choferes.get(id: Int)
-POST    /api/v1/general/chofer                  controllers.logged.modules.general.Choferes.create
-PUT     /api/v1/general/chofer/:id              controllers.logged.modules.general.Choferes.update(id: Int)
-DELETE  /api/v1/general/chofer/:id              controllers.logged.modules.general.Choferes.delete(id: Int)
+GET     /api/v1/general/chofer/:id                                                           controllers.logged.modules.general.Choferes.get(id: Int)
+POST    /api/v1/general/chofer                                                               controllers.logged.modules.general.Choferes.create
+PUT     /api/v1/general/chofer/:id                                                           controllers.logged.modules.general.Choferes.update(id: Int)
+DELETE  /api/v1/general/chofer/:id                                                           controllers.logged.modules.general.Choferes.delete(id: Int)
 
-GET     /api/v1/general/calidad/:id              controllers.logged.modules.general.Calidades.get(id: Int)
-POST    /api/v1/general/calidad                  controllers.logged.modules.general.Calidades.create
-PUT     /api/v1/general/calidad/:id              controllers.logged.modules.general.Calidades.update(id: Int)
-DELETE  /api/v1/general/calidad/:id              controllers.logged.modules.general.Calidades.delete(id: Int)
+GET     /api/v1/general/calidad/:id                                                          controllers.logged.modules.general.Calidades.get(id: Int)
+POST    /api/v1/general/calidad                                                              controllers.logged.modules.general.Calidades.create
+PUT     /api/v1/general/calidad/:id                                                          controllers.logged.modules.general.Calidades.update(id: Int)
+DELETE  /api/v1/general/calidad/:id                                                          controllers.logged.modules.general.Calidades.delete(id: Int)
 
-GET     /api/v1/general/camion/:id              controllers.logged.modules.general.Camiones.get(id: Int)
-POST    /api/v1/general/camion                  controllers.logged.modules.general.Camiones.create
-PUT     /api/v1/general/camion/:id              controllers.logged.modules.general.Camiones.update(id: Int)
-DELETE  /api/v1/general/camion/:id              controllers.logged.modules.general.Camiones.delete(id: Int)
+GET     /api/v1/general/camion/:id                                                           controllers.logged.modules.general.Camiones.get(id: Int)
+POST    /api/v1/general/camion                                                               controllers.logged.modules.general.Camiones.create
+PUT     /api/v1/general/camion/:id                                                           controllers.logged.modules.general.Camiones.update(id: Int)
+DELETE  /api/v1/general/camion/:id                                                           controllers.logged.modules.general.Camiones.delete(id: Int)
 
-GET     /api/v1/general/centrodecosto/:id              controllers.logged.modules.general.CentrosCosto.get(id: Int)
-POST    /api/v1/general/centrodecosto                  controllers.logged.modules.general.CentrosCosto.create
-PUT     /api/v1/general/centrodecosto/:id              controllers.logged.modules.general.CentrosCosto.update(id: Int)
-DELETE  /api/v1/general/centrodecosto/:id              controllers.logged.modules.general.CentrosCosto.delete(id: Int)
+GET     /api/v1/general/centrodecosto/:id                                                    controllers.logged.modules.general.CentrosCosto.get(id: Int)
+POST    /api/v1/general/centrodecosto                                                        controllers.logged.modules.general.CentrosCosto.create
+PUT     /api/v1/general/centrodecosto/:id                                                    controllers.logged.modules.general.CentrosCosto.update(id: Int)
+DELETE  /api/v1/general/centrodecosto/:id                                                    controllers.logged.modules.general.CentrosCosto.delete(id: Int)
 
-GET     /api/v1/general/circuitocontable/:id              controllers.logged.modules.general.CircuitosContables.get(id: Int)
-POST    /api/v1/general/circuitocontable                  controllers.logged.modules.general.CircuitosContables.create
-PUT     /api/v1/general/circuitocontable/:id              controllers.logged.modules.general.CircuitosContables.update(id: Int)
-DELETE  /api/v1/general/circuitocontable/:id              controllers.logged.modules.general.CircuitosContables.delete(id: Int)
+GET     /api/v1/general/circuitocontable/:id                                                 controllers.logged.modules.general.CircuitosContables.get(id: Int)
+POST    /api/v1/general/circuitocontable                                                     controllers.logged.modules.general.CircuitosContables.create
+PUT     /api/v1/general/circuitocontable/:id                                                 controllers.logged.modules.general.CircuitosContables.update(id: Int)
+DELETE  /api/v1/general/circuitocontable/:id                                                 controllers.logged.modules.general.CircuitosContables.delete(id: Int)
 
-GET     /api/v1/general/ciudad/:id              controllers.logged.modules.general.Ciudades.get(id: Int)
-POST    /api/v1/general/ciudad                  controllers.logged.modules.general.Ciudades.create
-PUT     /api/v1/general/ciudad/:id              controllers.logged.modules.general.Ciudades.update(id: Int)
-DELETE  /api/v1/general/ciudad/:id              controllers.logged.modules.general.Ciudades.delete(id: Int)
+GET     /api/v1/general/ciudad/:id                                                           controllers.logged.modules.general.Ciudades.get(id: Int)
+POST    /api/v1/general/ciudad                                                               controllers.logged.modules.general.Ciudades.create
+PUT     /api/v1/general/ciudad/:id                                                           controllers.logged.modules.general.Ciudades.update(id: Int)
+DELETE  /api/v1/general/ciudad/:id                                                           controllers.logged.modules.general.Ciudades.delete(id: Int)
 
-GET     /api/v1/general/clearing/:id              controllers.logged.modules.general.Clearings.get(id: Int)
-POST    /api/v1/general/clearing                  controllers.logged.modules.general.Clearings.create
-PUT     /api/v1/general/clearing/:id              controllers.logged.modules.general.Clearings.update(id: Int)
-DELETE  /api/v1/general/clearing/:id              controllers.logged.modules.general.Clearings.delete(id: Int)
+GET     /api/v1/general/clearing/:id                                                         controllers.logged.modules.general.Clearings.get(id: Int)
+POST    /api/v1/general/clearing                                                             controllers.logged.modules.general.Clearings.create
+PUT     /api/v1/general/clearing/:id                                                         controllers.logged.modules.general.Clearings.update(id: Int)
+DELETE  /api/v1/general/clearing/:id                                                         controllers.logged.modules.general.Clearings.delete(id: Int)
 
-GET     /api/v1/general/clientecontactotipo/:id              controllers.logged.modules.general.ClienteContactoTipos.get(id: Int)
-POST    /api/v1/general/clientecontactotipo                  controllers.logged.modules.general.ClienteContactoTipos.create
-PUT     /api/v1/general/clientecontactotipo/:id              controllers.logged.modules.general.ClienteContactoTipos.update(id: Int)
-DELETE  /api/v1/general/clientecontactotipo/:id              controllers.logged.modules.general.ClienteContactoTipos.delete(id: Int)
+GET     /api/v1/general/clientecontactotipo/:id                                              controllers.logged.modules.general.ClienteContactoTipos.get(id: Int)
+POST    /api/v1/general/clientecontactotipo                                                  controllers.logged.modules.general.ClienteContactoTipos.create
+PUT     /api/v1/general/clientecontactotipo/:id                                              controllers.logged.modules.general.ClienteContactoTipos.update(id: Int)
+DELETE  /api/v1/general/clientecontactotipo/:id                                              controllers.logged.modules.general.ClienteContactoTipos.delete(id: Int)
 
-GET     /api/v1/general/cobrador/:id              controllers.logged.modules.general.Cobradores.get(id: Int)
-POST    /api/v1/general/cobrador                  controllers.logged.modules.general.Cobradores.create
-PUT     /api/v1/general/cobrador/:id              controllers.logged.modules.general.Cobradores.update(id: Int)
-DELETE  /api/v1/general/cobrador/:id              controllers.logged.modules.general.Cobradores.delete(id: Int)
+GET     /api/v1/general/cobrador/:id                                                         controllers.logged.modules.general.Cobradores.get(id: Int)
+POST    /api/v1/general/cobrador                                                             controllers.logged.modules.general.Cobradores.create
+PUT     /api/v1/general/cobrador/:id                                                         controllers.logged.modules.general.Cobradores.update(id: Int)
+DELETE  /api/v1/general/cobrador/:id                                                         controllers.logged.modules.general.Cobradores.delete(id: Int)
 
-GET     /api/v1/general/cuenta/:id              controllers.logged.modules.general.Cuentas.get(id: Int)
-POST    /api/v1/general/cuenta                  controllers.logged.modules.general.Cuentas.create
-PUT     /api/v1/general/cuenta/:id              controllers.logged.modules.general.Cuentas.update(id: Int)
-DELETE  /api/v1/general/cuenta/:id              controllers.logged.modules.general.Cuentas.delete(id: Int)
+GET     /api/v1/general/cuenta/:id                                                           controllers.logged.modules.general.Cuentas.get(id: Int)
+POST    /api/v1/general/cuenta                                                               controllers.logged.modules.general.Cuentas.create
+PUT     /api/v1/general/cuenta/:id                                                           controllers.logged.modules.general.Cuentas.update(id: Int)
+DELETE  /api/v1/general/cuenta/:id                                                           controllers.logged.modules.general.Cuentas.delete(id: Int)
 
-GET     /api/v1/general/cuenta/:id/info              controllers.logged.modules.general.Cuentas.info(id: Int)
-GET     /api/v1/general/cuenta/:id/currency          controllers.logged.modules.general.Cuentas.currency(id: Int)
+GET     /api/v1/general/cuenta/:id/info                                                      controllers.logged.modules.general.Cuentas.info(id: Int)
+GET     /api/v1/general/cuenta/:id/currency                                                  controllers.logged.modules.general.Cuentas.currency(id: Int)
 
-GET     /api/v1/general/condicionpago/:id/info       controllers.logged.modules.general.CondicionesPago.info(id: Int)
+GET     /api/v1/general/condicionpago/:id/info                                               controllers.logged.modules.general.CondicionesPago.info(id: Int)
 
-GET     /api/v1/general/cuentagrupo/:id              controllers.logged.modules.general.CuentaGrupos.get(id: Int)
-POST    /api/v1/general/cuentagrupo                  controllers.logged.modules.general.CuentaGrupos.create
-PUT     /api/v1/general/cuentagrupo/:id              controllers.logged.modules.general.CuentaGrupos.update(id: Int)
-DELETE  /api/v1/general/cuentagrupo/:id              controllers.logged.modules.general.CuentaGrupos.delete(id: Int)
+GET     /api/v1/general/cuentagrupo/:id                                                      controllers.logged.modules.general.CuentaGrupos.get(id: Int)
+POST    /api/v1/general/cuentagrupo                                                          controllers.logged.modules.general.CuentaGrupos.create
+PUT     /api/v1/general/cuentagrupo/:id                                                      controllers.logged.modules.general.CuentaGrupos.update(id: Int)
+DELETE  /api/v1/general/cuentagrupo/:id                                                      controllers.logged.modules.general.CuentaGrupos.delete(id: Int)
 
-GET     /api/v1/general/empresa/:id              controllers.logged.modules.general.Empresas.get(id: Int)
-POST    /api/v1/general/empresa                  controllers.logged.modules.general.Empresas.create
-PUT     /api/v1/general/empresa/:id              controllers.logged.modules.general.Empresas.update(id: Int)
-DELETE  /api/v1/general/empresa/:id              controllers.logged.modules.general.Empresas.delete(id: Int)
+GET     /api/v1/general/empresa/:id                                                          controllers.logged.modules.general.Empresas.get(id: Int)
+POST    /api/v1/general/empresa                                                              controllers.logged.modules.general.Empresas.create
+PUT     /api/v1/general/empresa/:id                                                          controllers.logged.modules.general.Empresas.update(id: Int)
+DELETE  /api/v1/general/empresa/:id                                                          controllers.logged.modules.general.Empresas.delete(id: Int)
 
-GET     /api/v1/general/escala/:id              controllers.logged.modules.general.Escalas.get(id: Int)
-POST    /api/v1/general/escala                  controllers.logged.modules.general.Escalas.create
-PUT     /api/v1/general/escala/:id              controllers.logged.modules.general.Escalas.update(id: Int)
-DELETE  /api/v1/general/escala/:id              controllers.logged.modules.general.Escalas.delete(id: Int)
+GET     /api/v1/general/escala/:id                                                           controllers.logged.modules.general.Escalas.get(id: Int)
+POST    /api/v1/general/escala                                                               controllers.logged.modules.general.Escalas.create
+PUT     /api/v1/general/escala/:id                                                           controllers.logged.modules.general.Escalas.update(id: Int)
+DELETE  /api/v1/general/escala/:id                                                           controllers.logged.modules.general.Escalas.delete(id: Int)
 
-GET     /api/v1/general/feriado/:id              controllers.logged.modules.general.Feriados.get(id: Int)
-POST    /api/v1/general/feriado                  controllers.logged.modules.general.Feriados.create
-PUT     /api/v1/general/feriado/:id              controllers.logged.modules.general.Feriados.update(id: Int)
-DELETE  /api/v1/general/feriado/:id              controllers.logged.modules.general.Feriados.delete(id: Int)
+GET     /api/v1/general/feriado/:id                                                          controllers.logged.modules.general.Feriados.get(id: Int)
+POST    /api/v1/general/feriado                                                              controllers.logged.modules.general.Feriados.create
+PUT     /api/v1/general/feriado/:id                                                          controllers.logged.modules.general.Feriados.update(id: Int)
+DELETE  /api/v1/general/feriado/:id                                                          controllers.logged.modules.general.Feriados.delete(id: Int)
 
-GET     /api/v1/general/formapago/:id              controllers.logged.modules.general.FormasPago.get(id: Int)
-POST    /api/v1/general/formapago                  controllers.logged.modules.general.FormasPago.create
-PUT     /api/v1/general/formapago/:id              controllers.logged.modules.general.FormasPago.update(id: Int)
-DELETE  /api/v1/general/formapago/:id              controllers.logged.modules.general.FormasPago.delete(id: Int)
+GET     /api/v1/general/formapago/:id                                                        controllers.logged.modules.general.FormasPago.get(id: Int)
+POST    /api/v1/general/formapago                                                            controllers.logged.modules.general.FormasPago.create
+PUT     /api/v1/general/formapago/:id                                                        controllers.logged.modules.general.FormasPago.update(id: Int)
+DELETE  /api/v1/general/formapago/:id                                                        controllers.logged.modules.general.FormasPago.delete(id: Int)
 
-GET     /api/v1/general/gasto/:id              controllers.logged.modules.general.Gastos.get(id: Int)
-POST    /api/v1/general/gasto                  controllers.logged.modules.general.Gastos.create
-PUT     /api/v1/general/gasto/:id              controllers.logged.modules.general.Gastos.update(id: Int)
-DELETE  /api/v1/general/gasto/:id              controllers.logged.modules.general.Gastos.delete(id: Int)
+GET     /api/v1/general/gasto/:id                                                            controllers.logged.modules.general.Gastos.get(id: Int)
+POST    /api/v1/general/gasto                                                                controllers.logged.modules.general.Gastos.create
+PUT     /api/v1/general/gasto/:id                                                            controllers.logged.modules.general.Gastos.update(id: Int)
+DELETE  /api/v1/general/gasto/:id                                                            controllers.logged.modules.general.Gastos.delete(id: Int)
 
-GET     /api/v1/general/listapreciomarcado/:id              controllers.logged.modules.general.ListasPrecioMarcado.get(id: Int)
-POST    /api/v1/general/listapreciomarcado                  controllers.logged.modules.general.ListasPrecioMarcado.create
-PUT     /api/v1/general/listapreciomarcado/:id              controllers.logged.modules.general.ListasPrecioMarcado.update(id: Int)
-DELETE  /api/v1/general/listapreciomarcado/:id              controllers.logged.modules.general.ListasPrecioMarcado.delete(id: Int)
+GET     /api/v1/general/listapreciomarcado/:id                                               controllers.logged.modules.general.ListasPrecioMarcado.get(id: Int)
+POST    /api/v1/general/listapreciomarcado                                                   controllers.logged.modules.general.ListasPrecioMarcado.create
+PUT     /api/v1/general/listapreciomarcado/:id                                               controllers.logged.modules.general.ListasPrecioMarcado.update(id: Int)
+DELETE  /api/v1/general/listapreciomarcado/:id                                               controllers.logged.modules.general.ListasPrecioMarcado.delete(id: Int)
 
-GET     /api/v1/general/marca/:id              controllers.logged.modules.general.Marcas.get(id: Int)
-POST    /api/v1/general/marca                  controllers.logged.modules.general.Marcas.create
-PUT     /api/v1/general/marca/:id              controllers.logged.modules.general.Marcas.update(id: Int)
-DELETE  /api/v1/general/marca/:id              controllers.logged.modules.general.Marcas.delete(id: Int)
+GET     /api/v1/general/marca/:id                                                            controllers.logged.modules.general.Marcas.get(id: Int)
+POST    /api/v1/general/marca                                                                controllers.logged.modules.general.Marcas.create
+PUT     /api/v1/general/marca/:id                                                            controllers.logged.modules.general.Marcas.update(id: Int)
+DELETE  /api/v1/general/marca/:id                                                            controllers.logged.modules.general.Marcas.delete(id: Int)
 
-GET     /api/v1/general/pais/:id              controllers.logged.modules.general.Paises.get(id: Int)
-POST    /api/v1/general/pais                  controllers.logged.modules.general.Paises.create
-PUT     /api/v1/general/pais/:id              controllers.logged.modules.general.Paises.update(id: Int)
-DELETE  /api/v1/general/pais/:id              controllers.logged.modules.general.Paises.delete(id: Int)
+GET     /api/v1/general/pais/:id                                                             controllers.logged.modules.general.Paises.get(id: Int)
+POST    /api/v1/general/pais                                                                 controllers.logged.modules.general.Paises.create
+PUT     /api/v1/general/pais/:id                                                             controllers.logged.modules.general.Paises.update(id: Int)
+DELETE  /api/v1/general/pais/:id                                                             controllers.logged.modules.general.Paises.delete(id: Int)
 
-GET     /api/v1/general/percepciontipo/:id              controllers.logged.modules.general.PercepcionTipos.get(id: Int)
-POST    /api/v1/general/percepciontipo                  controllers.logged.modules.general.PercepcionTipos.create
-PUT     /api/v1/general/percepciontipo/:id              controllers.logged.modules.general.PercepcionTipos.update(id: Int)
-DELETE  /api/v1/general/percepciontipo/:id              controllers.logged.modules.general.PercepcionTipos.delete(id: Int)
+GET     /api/v1/general/percepciontipo/:id                                                   controllers.logged.modules.general.PercepcionTipos.get(id: Int)
+POST    /api/v1/general/percepciontipo                                                       controllers.logged.modules.general.PercepcionTipos.create
+PUT     /api/v1/general/percepciontipo/:id                                                   controllers.logged.modules.general.PercepcionTipos.update(id: Int)
+DELETE  /api/v1/general/percepciontipo/:id                                                   controllers.logged.modules.general.PercepcionTipos.delete(id: Int)
 
-GET     /api/v1/general/personadocumentotipo/:id              controllers.logged.modules.general.PersonaDocumentoTipos.get(id: Int)
-POST    /api/v1/general/personadocumentotipo                  controllers.logged.modules.general.PersonaDocumentoTipos.create
-PUT     /api/v1/general/personadocumentotipo/:id              controllers.logged.modules.general.PersonaDocumentoTipos.update(id: Int)
-DELETE  /api/v1/general/personadocumentotipo/:id              controllers.logged.modules.general.PersonaDocumentoTipos.delete(id: Int)
+GET     /api/v1/general/personadocumentotipo/:id                                             controllers.logged.modules.general.PersonaDocumentoTipos.get(id: Int)
+POST    /api/v1/general/personadocumentotipo                                                 controllers.logged.modules.general.PersonaDocumentoTipos.create
+PUT     /api/v1/general/personadocumentotipo/:id                                             controllers.logged.modules.general.PersonaDocumentoTipos.update(id: Int)
+DELETE  /api/v1/general/personadocumentotipo/:id                                             controllers.logged.modules.general.PersonaDocumentoTipos.delete(id: Int)
 
-GET     /api/v1/general/posicionarancel/:id              controllers.logged.modules.general.PosicionAranceles.get(id: Int)
-POST    /api/v1/general/posicionarancel                  controllers.logged.modules.general.PosicionAranceles.create
-PUT     /api/v1/general/posicionarancel/:id              controllers.logged.modules.general.PosicionAranceles.update(id: Int)
-DELETE  /api/v1/general/posicionarancel/:id              controllers.logged.modules.general.PosicionAranceles.delete(id: Int)
+GET     /api/v1/general/posicionarancel/:id                                                  controllers.logged.modules.general.PosicionAranceles.get(id: Int)
+POST    /api/v1/general/posicionarancel                                                      controllers.logged.modules.general.PosicionAranceles.create
+PUT     /api/v1/general/posicionarancel/:id                                                  controllers.logged.modules.general.PosicionAranceles.update(id: Int)
+DELETE  /api/v1/general/posicionarancel/:id                                                  controllers.logged.modules.general.PosicionAranceles.delete(id: Int)
 
-GET     /api/v1/general/productohelpconfig/:id              controllers.logged.modules.general.ProductosHelpConfig.get(id: Int)
-POST    /api/v1/general/productohelpconfig                  controllers.logged.modules.general.ProductosHelpConfig.create
-PUT     /api/v1/general/productohelpconfig/:id              controllers.logged.modules.general.ProductosHelpConfig.update(id: Int)
-DELETE  /api/v1/general/productohelpconfig/:id              controllers.logged.modules.general.ProductosHelpConfig.delete(id: Int)
+GET     /api/v1/general/productohelpconfig/:id                                               controllers.logged.modules.general.ProductosHelpConfig.get(id: Int)
+POST    /api/v1/general/productohelpconfig                                                   controllers.logged.modules.general.ProductosHelpConfig.create
+PUT     /api/v1/general/productohelpconfig/:id                                               controllers.logged.modules.general.ProductosHelpConfig.update(id: Int)
+DELETE  /api/v1/general/productohelpconfig/:id                                               controllers.logged.modules.general.ProductosHelpConfig.delete(id: Int)
 
-GET     /api/v1/general/reglaliquidacion/:id              controllers.logged.modules.general.ReglasLiquidacion.get(id: Int)
-POST    /api/v1/general/reglaliquidacion                  controllers.logged.modules.general.ReglasLiquidacion.create
-PUT     /api/v1/general/reglaliquidacion/:id              controllers.logged.modules.general.ReglasLiquidacion.update(id: Int)
-DELETE  /api/v1/general/reglaliquidacion/:id              controllers.logged.modules.general.ReglasLiquidacion.delete(id: Int)
+GET     /api/v1/general/reglaliquidacion/:id                                                 controllers.logged.modules.general.ReglasLiquidacion.get(id: Int)
+POST    /api/v1/general/reglaliquidacion                                                     controllers.logged.modules.general.ReglasLiquidacion.create
+PUT     /api/v1/general/reglaliquidacion/:id                                                 controllers.logged.modules.general.ReglasLiquidacion.update(id: Int)
+DELETE  /api/v1/general/reglaliquidacion/:id                                                 controllers.logged.modules.general.ReglasLiquidacion.delete(id: Int)
 
-GET     /api/v1/general/retenciontipo/:id              controllers.logged.modules.general.RetencionesTipo.get(id: Int)
-POST    /api/v1/general/retenciontipo                  controllers.logged.modules.general.RetencionesTipo.create
-PUT     /api/v1/general/retenciontipo/:id              controllers.logged.modules.general.RetencionesTipo.update(id: Int)
-DELETE  /api/v1/general/retenciontipo/:id              controllers.logged.modules.general.RetencionesTipo.delete(id: Int)
+GET     /api/v1/general/retenciontipo/:id                                                    controllers.logged.modules.general.RetencionesTipo.get(id: Int)
+POST    /api/v1/general/retenciontipo                                                        controllers.logged.modules.general.RetencionesTipo.create
+PUT     /api/v1/general/retenciontipo/:id                                                    controllers.logged.modules.general.RetencionesTipo.update(id: Int)
+DELETE  /api/v1/general/retenciontipo/:id                                                    controllers.logged.modules.general.RetencionesTipo.delete(id: Int)
 
-GET     /api/v1/general/sucursal/:id              controllers.logged.modules.general.Sucursales.get(id: Int)
-POST    /api/v1/general/sucursal                  controllers.logged.modules.general.Sucursales.create
-PUT     /api/v1/general/sucursal/:id              controllers.logged.modules.general.Sucursales.update(id: Int)
-DELETE  /api/v1/general/sucursal/:id              controllers.logged.modules.general.Sucursales.delete(id: Int)
+GET     /api/v1/general/sucursal/:id                                                         controllers.logged.modules.general.Sucursales.get(id: Int)
+POST    /api/v1/general/sucursal                                                             controllers.logged.modules.general.Sucursales.create
+PUT     /api/v1/general/sucursal/:id                                                         controllers.logged.modules.general.Sucursales.update(id: Int)
+DELETE  /api/v1/general/sucursal/:id                                                         controllers.logged.modules.general.Sucursales.delete(id: Int)
 
-GET     /api/v1/general/tasaimpositiva/:id              controllers.logged.modules.general.TasasImpositivas.get(id: Int)
-POST    /api/v1/general/tasaimpositiva                  controllers.logged.modules.general.TasasImpositivas.create
-PUT     /api/v1/general/tasaimpositiva/:id              controllers.logged.modules.general.TasasImpositivas.update(id: Int)
-DELETE  /api/v1/general/tasaimpositiva/:id              controllers.logged.modules.general.TasasImpositivas.delete(id: Int)
+GET     /api/v1/general/tasaimpositiva/:id                                                   controllers.logged.modules.general.TasasImpositivas.get(id: Int)
+POST    /api/v1/general/tasaimpositiva                                                       controllers.logged.modules.general.TasasImpositivas.create
+PUT     /api/v1/general/tasaimpositiva/:id                                                   controllers.logged.modules.general.TasasImpositivas.update(id: Int)
+DELETE  /api/v1/general/tasaimpositiva/:id                                                   controllers.logged.modules.general.TasasImpositivas.delete(id: Int)
 
-GET     /api/v1/general/transporte/:id              controllers.logged.modules.general.Transportes.get(id: Int)
-POST    /api/v1/general/transporte                  controllers.logged.modules.general.Transportes.create
-PUT     /api/v1/general/transporte/:id              controllers.logged.modules.general.Transportes.update(id: Int)
-DELETE  /api/v1/general/transporte/:id              controllers.logged.modules.general.Transportes.delete(id: Int)
+GET     /api/v1/general/transporte/:id                                                       controllers.logged.modules.general.Transportes.get(id: Int)
+POST    /api/v1/general/transporte                                                           controllers.logged.modules.general.Transportes.create
+PUT     /api/v1/general/transporte/:id                                                       controllers.logged.modules.general.Transportes.update(id: Int)
+DELETE  /api/v1/general/transporte/:id                                                       controllers.logged.modules.general.Transportes.delete(id: Int)
 
-GET     /api/v1/general/unidad/:id              controllers.logged.modules.general.Unidades.get(id: Int)
-POST    /api/v1/general/unidad                  controllers.logged.modules.general.Unidades.create
-PUT     /api/v1/general/unidad/:id              controllers.logged.modules.general.Unidades.update(id: Int)
-DELETE  /api/v1/general/unidad/:id              controllers.logged.modules.general.Unidades.delete(id: Int)
+GET     /api/v1/general/unidad/:id                                                           controllers.logged.modules.general.Unidades.get(id: Int)
+POST    /api/v1/general/unidad                                                               controllers.logged.modules.general.Unidades.create
+PUT     /api/v1/general/unidad/:id                                                           controllers.logged.modules.general.Unidades.update(id: Int)
+DELETE  /api/v1/general/unidad/:id                                                           controllers.logged.modules.general.Unidades.delete(id: Int)
 
-GET     /api/v1/general/ventamodo/:id              controllers.logged.modules.general.VentaModos.get(id: Int)
-POST    /api/v1/general/ventamodo                  controllers.logged.modules.general.VentaModos.create
-PUT     /api/v1/general/ventamodo/:id              controllers.logged.modules.general.VentaModos.update(id: Int)
-DELETE  /api/v1/general/ventamodo/:id              controllers.logged.modules.general.VentaModos.delete(id: Int)
+GET     /api/v1/general/ventamodo/:id                                                        controllers.logged.modules.general.VentaModos.get(id: Int)
+POST    /api/v1/general/ventamodo                                                            controllers.logged.modules.general.VentaModos.create
+PUT     /api/v1/general/ventamodo/:id                                                        controllers.logged.modules.general.VentaModos.update(id: Int)
+DELETE  /api/v1/general/ventamodo/:id                                                        controllers.logged.modules.general.VentaModos.delete(id: Int)
 
-GET     /api/v1/general/zona/:id              controllers.logged.modules.general.Zonas.get(id: Int)
-POST    /api/v1/general/zona                  controllers.logged.modules.general.Zonas.create
-PUT     /api/v1/general/zona/:id              controllers.logged.modules.general.Zonas.update(id: Int)
-DELETE  /api/v1/general/zona/:id              controllers.logged.modules.general.Zonas.delete(id: Int)
+GET     /api/v1/general/zona/:id                                                             controllers.logged.modules.general.Zonas.get(id: Int)
+POST    /api/v1/general/zona                                                                 controllers.logged.modules.general.Zonas.create
+PUT     /api/v1/general/zona/:id                                                             controllers.logged.modules.general.Zonas.update(id: Int)
+DELETE  /api/v1/general/zona/:id                                                             controllers.logged.modules.general.Zonas.delete(id: Int)
 
-GET     /api/v1/general/usuarioconfig/caja_info        controllers.logged.modules.general.UserSettings.getCajaInfo
-GET     /api/v1/general/usuarioconfig/:id              controllers.logged.modules.general.UserSettings.get(id: Int)
-PUT     /api/v1/general/usuarioconfig/:id              controllers.logged.modules.general.UserSettings.update(id: Int)
+GET     /api/v1/general/usuarioconfig/caja_info                                              controllers.logged.modules.general.UserSettings.getCajaInfo
+GET     /api/v1/general/usuarioconfig/:id                                                    controllers.logged.modules.general.UserSettings.get(id: Int)
+PUT     /api/v1/general/usuarioconfig/:id                                                    controllers.logged.modules.general.UserSettings.update(id: Int)
 
-GET     /api/v1/general/contconfig/:id              controllers.logged.modules.general.ContabilidadSettings.get(id: Int)
-PUT     /api/v1/general/contconfig/:id              controllers.logged.modules.general.ContabilidadSettings.update(id: Int)
+GET     /api/v1/general/contconfig/:id                                                       controllers.logged.modules.general.ContabilidadSettings.get(id: Int)
+PUT     /api/v1/general/contconfig/:id                                                       controllers.logged.modules.general.ContabilidadSettings.update(id: Int)
 
-GET     /api/v1/general/ventaconfig/:id              controllers.logged.modules.general.VentasSettings.get(id: Int)
-PUT     /api/v1/general/ventaconfig/:id              controllers.logged.modules.general.VentasSettings.update(id: Int)
+GET     /api/v1/general/ventaconfig/:id                                                      controllers.logged.modules.general.VentasSettings.get(id: Int)
+PUT     /api/v1/general/ventaconfig/:id                                                      controllers.logged.modules.general.VentasSettings.update(id: Int)
 
-GET     /api/v1/general/tesoreriaconfig/:id            controllers.logged.modules.general.TesoreriaSettings.get(id: Int)
-PUT     /api/v1/general/tesoreriaconfig/:id            controllers.logged.modules.general.TesoreriaSettings.update(id: Int)
+GET     /api/v1/general/tesoreriaconfig/:id                                                  controllers.logged.modules.general.TesoreriaSettings.get(id: Int)
+PUT     /api/v1/general/tesoreriaconfig/:id                                                  controllers.logged.modules.general.TesoreriaSettings.update(id: Int)
 
-GET     /api/v1/general/producto/:id                   controllers.logged.modules.general.Productos.get(id: Int)
-POST    /api/v1/general/producto                       controllers.logged.modules.general.Productos.create
-PUT     /api/v1/general/producto/:id                   controllers.logged.modules.general.Productos.update(id: Int)
-DELETE  /api/v1/general/producto/:id                   controllers.logged.modules.general.Productos.delete(id: Int)
+GET     /api/v1/general/producto/:id                                                         controllers.logged.modules.general.Productos.get(id: Int)
+POST    /api/v1/general/producto                                                             controllers.logged.modules.general.Productos.create
+PUT     /api/v1/general/producto/:id                                                         controllers.logged.modules.general.Productos.update(id: Int)
+DELETE  /api/v1/general/producto/:id                                                         controllers.logged.modules.general.Productos.delete(id: Int)
 
-GET     /api/v1/general/producto/:id/stock/proveedor/:provId     controllers.logged.modules.general.Productos.getProveedorStockInfo(id: Int, provId: Int)
-GET     /api/v1/general/producto/:id/stock/cliente/:cliId        controllers.logged.modules.general.Productos.getClienteStockInfo(id: Int, cliId: Int)
-GET     /api/v1/general/producto/:id/price/:lpId                 controllers.logged.modules.general.Productos.getPrice(id: Int, lpId: Int)
-GET     /api/v1/general/producto/:id/discount/:ldId/price/:price controllers.logged.modules.general.Productos.getDiscount(id: Int, ldId: Int, price: Double)
-GET     /api/v1/general/producto/:id/taxes                       controllers.logged.modules.general.Productos.getTaxes(id: Int)
+GET     /api/v1/general/producto/:id/stock/proveedor/:provId                                 controllers.logged.modules.general.Productos.getProveedorStockInfo(id: Int, provId: Int)
+GET     /api/v1/general/producto/:id/stock/cliente/:cliId                                    controllers.logged.modules.general.Productos.getClienteStockInfo(id: Int, cliId: Int)
+GET     /api/v1/general/producto/:id/price/:lpId                                             controllers.logged.modules.general.Productos.getPrice(id: Int, lpId: Int)
+GET     /api/v1/general/producto/:id/discount/:ldId/price/:price                             controllers.logged.modules.general.Productos.getDiscount(id: Int, ldId: Int, price: Double)
+GET     /api/v1/general/producto/:id/taxes                                                   controllers.logged.modules.general.Productos.getTaxes(id: Int)
 
-GET     /api/v1/general/proveedor/:id/info/:docId      controllers.logged.modules.general.Proveedores.info(id: Int, docId: Int)
-GET     /api/v1/general/proveedor/:id/name             controllers.logged.modules.general.Proveedores.name(id: Int)
-GET     /api/v1/general/proveedor/:id/cat_fiscal       controllers.logged.modules.general.Proveedores.catFiscal(id: Int)
-GET     /api/v1/general/proveedor/:id/data_add         controllers.logged.modules.general.Proveedores.dataAdd(id: Int)
-GET     /api/v1/general/proveedor/validate_cuit/:cuit  controllers.logged.modules.general.Proveedores.validateCuit(cuit: String)
+GET     /api/v1/general/proveedor/:id/info/:docId                                            controllers.logged.modules.general.Proveedores.info(id: Int, docId: Int)
+GET     /api/v1/general/proveedor/:id/name                                                   controllers.logged.modules.general.Proveedores.name(id: Int)
+GET     /api/v1/general/proveedor/:id/cat_fiscal                                             controllers.logged.modules.general.Proveedores.catFiscal(id: Int)
+GET     /api/v1/general/proveedor/:id/data_add                                               controllers.logged.modules.general.Proveedores.dataAdd(id: Int)
+GET     /api/v1/general/proveedor/validate_cuit/:cuit                                        controllers.logged.modules.general.Proveedores.validateCuit(cuit: String)
 
-GET     /api/v1/general/proveedor/:id                  controllers.logged.modules.general.Proveedores.get(id: Int)
-POST    /api/v1/general/proveedor                      controllers.logged.modules.general.Proveedores.create
-PUT     /api/v1/general/proveedor/:id                  controllers.logged.modules.general.Proveedores.update(id: Int)
-DELETE  /api/v1/general/proveedor/:id                  controllers.logged.modules.general.Proveedores.delete(id: Int)
+GET     /api/v1/general/proveedor/:id                                                        controllers.logged.modules.general.Proveedores.get(id: Int)
+POST    /api/v1/general/proveedor                                                            controllers.logged.modules.general.Proveedores.create
+PUT     /api/v1/general/proveedor/:id                                                        controllers.logged.modules.general.Proveedores.update(id: Int)
+DELETE  /api/v1/general/proveedor/:id                                                        controllers.logged.modules.general.Proveedores.delete(id: Int)
 
-GET     /api/v1/general/rubro/:id                  controllers.logged.modules.general.Rubros.get(id: Int)
-POST    /api/v1/general/rubro                      controllers.logged.modules.general.Rubros.create
-PUT     /api/v1/general/rubro/:id                  controllers.logged.modules.general.Rubros.update(id: Int)
-DELETE  /api/v1/general/rubro/:id                  controllers.logged.modules.general.Rubros.delete(id: Int)
+GET     /api/v1/general/rubro/:id                                                            controllers.logged.modules.general.Rubros.get(id: Int)
+POST    /api/v1/general/rubro                                                                controllers.logged.modules.general.Rubros.create
+PUT     /api/v1/general/rubro/:id                                                            controllers.logged.modules.general.Rubros.update(id: Int)
+DELETE  /api/v1/general/rubro/:id                                                            controllers.logged.modules.general.Rubros.delete(id: Int)
 
-GET     /api/v1/general/rubrotabla/:id              controllers.logged.modules.general.RubroTablas.get(id: Int)
-POST    /api/v1/general/rubrotabla                  controllers.logged.modules.general.RubroTablas.create
-PUT     /api/v1/general/rubrotabla/:id              controllers.logged.modules.general.RubroTablas.update(id: Int)
-DELETE  /api/v1/general/rubrotabla/:id              controllers.logged.modules.general.RubroTablas.delete(id: Int)
+GET     /api/v1/general/rubrotabla/:id                                                       controllers.logged.modules.general.RubroTablas.get(id: Int)
+POST    /api/v1/general/rubrotabla                                                           controllers.logged.modules.general.RubroTablas.create
+PUT     /api/v1/general/rubrotabla/:id                                                       controllers.logged.modules.general.RubroTablas.update(id: Int)
+DELETE  /api/v1/general/rubrotabla/:id                                                       controllers.logged.modules.general.RubroTablas.delete(id: Int)
 
-GET     /api/v1/general/cliente/:id/info/:docId             controllers.logged.modules.general.Clientes.info(id: Int, docId: Int)
-GET     /api/v1/general/cliente/:id/name                    controllers.logged.modules.general.Clientes.name(id: Int)
-GET     /api/v1/general/cliente/:id/cat_fiscal              controllers.logged.modules.general.Clientes.catFiscal(id: Int)
-GET     /api/v1/general/cliente/:id/validate_cuit           controllers.logged.modules.general.Clientes.validateCuit(id: Int)
-GET     /api/v1/general/cliente/:id/data_add                controllers.logged.modules.general.Clientes.dataAdd(id: Int)
-GET     /api/v1/general/cliente/validate_cuit/:cuit         controllers.logged.modules.general.Clientes.getCuitInfo(cuit: String)
-GET     /api/v1/general/cliente/:id/percepciones/:fecha     controllers.logged.modules.general.Clientes.getPercepciones(id: Int, fecha: String)
+GET     /api/v1/general/cliente/:id/info/:docId                                              controllers.logged.modules.general.Clientes.info(id: Int, docId: Int)
+GET     /api/v1/general/cliente/:id/name                                                     controllers.logged.modules.general.Clientes.name(id: Int)
+GET     /api/v1/general/cliente/:id/cat_fiscal                                               controllers.logged.modules.general.Clientes.catFiscal(id: Int)
+GET     /api/v1/general/cliente/:id/validate_cuit                                            controllers.logged.modules.general.Clientes.validateCuit(id: Int)
+GET     /api/v1/general/cliente/:id/data_add                                                 controllers.logged.modules.general.Clientes.dataAdd(id: Int)
+GET     /api/v1/general/cliente/validate_cuit/:cuit                                          controllers.logged.modules.general.Clientes.getCuitInfo(cuit: String)
+GET     /api/v1/general/cliente/:id/percepciones/:fecha                                      controllers.logged.modules.general.Clientes.getPercepciones(id: Int, fecha: String)
 
-GET     /api/v1/general/cliente/:id              controllers.logged.modules.general.Clientes.get(id: Int)
-POST    /api/v1/general/cliente                  controllers.logged.modules.general.Clientes.create
-PUT     /api/v1/general/cliente/:id              controllers.logged.modules.general.Clientes.update(id: Int)
-DELETE  /api/v1/general/cliente/:id              controllers.logged.modules.general.Clientes.delete(id: Int)
+GET     /api/v1/general/cliente/:id                                                          controllers.logged.modules.general.Clientes.get(id: Int)
+POST    /api/v1/general/cliente                                                              controllers.logged.modules.general.Clientes.create
+PUT     /api/v1/general/cliente/:id                                                          controllers.logged.modules.general.Clientes.update(id: Int)
+DELETE  /api/v1/general/cliente/:id                                                          controllers.logged.modules.general.Clientes.delete(id: Int)
 
-GET     /api/v1/general/fechacontrolacceso/:id              controllers.logged.modules.general.FechaControlAccesos.get(id: Int)
-POST    /api/v1/general/fechacontrolacceso                  controllers.logged.modules.general.FechaControlAccesos.create
-PUT     /api/v1/general/fechacontrolacceso/:id              controllers.logged.modules.general.FechaControlAccesos.update(id: Int)
-DELETE  /api/v1/general/fechacontrolacceso/:id              controllers.logged.modules.general.FechaControlAccesos.delete(id: Int)
+GET     /api/v1/general/fechacontrolacceso/:id                                               controllers.logged.modules.general.FechaControlAccesos.get(id: Int)
+POST    /api/v1/general/fechacontrolacceso                                                   controllers.logged.modules.general.FechaControlAccesos.create
+PUT     /api/v1/general/fechacontrolacceso/:id                                               controllers.logged.modules.general.FechaControlAccesos.update(id: Int)
+DELETE  /api/v1/general/fechacontrolacceso/:id                                               controllers.logged.modules.general.FechaControlAccesos.delete(id: Int)
 
-GET     /api/v1/documento/currency/:id/rate/:date             controllers.logged.modules.documentos.Currencies.rate(id: Int, date: String)
-GET     /api/v1/documento/:id/edit_status/:preId              controllers.logged.modules.documentos.Documents.editStatus(id: Int, preId: Int)
-GET     /api/v1/documento/:id/info                            controllers.logged.modules.documentos.Documents.info(id: Int)
-GET     /api/v1/documento/:id/next_number                     controllers.logged.modules.documentos.Documents.nextNumber(id: Int)
-GET     /api/v1/documento/:id/is_valid_date/:date             controllers.logged.modules.documentos.Documents.isValidDate(id: Int, date: String)
-GET     /api/v1/documento/:id/supplier/:provId/next_number    controllers.logged.modules.documentos.Documents.supplierNextNumber(id: Int, provId: Int)
-GET     /api/v1/documento/:id/supplier/:provId/account        controllers.logged.modules.documentos.Documents.supplierAccount(id: Int, provId: Int)
-GET     /api/v1/documento/:id/customer/:cliId/next_number     controllers.logged.modules.documentos.Documents.customerNextNumber(id: Int, cliId: Int)
-GET     /api/v1/documento/:id/customer/:cliId/account         controllers.logged.modules.documentos.Documents.customerAccount(id: Int, cliId: Int)
+GET     /api/v1/documento/currency/:id/rate/:date                                            controllers.logged.modules.documentos.Currencies.rate(id: Int, date: String)
+GET     /api/v1/documento/:id/edit_status/:preId                                             controllers.logged.modules.documentos.Documents.editStatus(id: Int, preId: Int)
+GET     /api/v1/documento/:id/info                                                           controllers.logged.modules.documentos.Documents.info(id: Int)
+GET     /api/v1/documento/:id/next_number                                                    controllers.logged.modules.documentos.Documents.nextNumber(id: Int)
+GET     /api/v1/documento/:id/is_valid_date/:date                                            controllers.logged.modules.documentos.Documents.isValidDate(id: Int, date: String)
+GET     /api/v1/documento/:id/supplier/:provId/next_number                                   controllers.logged.modules.documentos.Documents.supplierNextNumber(id: Int, provId: Int)
+GET     /api/v1/documento/:id/supplier/:provId/account                                       controllers.logged.modules.documentos.Documents.supplierAccount(id: Int, provId: Int)
+GET     /api/v1/documento/:id/customer/:cliId/next_number                                    controllers.logged.modules.documentos.Documents.customerNextNumber(id: Int, cliId: Int)
+GET     /api/v1/documento/:id/customer/:cliId/account                                        controllers.logged.modules.documentos.Documents.customerAccount(id: Int, cliId: Int)
 
-GET     /api/v1/documento/from_doct_id/:doctId/:doctIdApplic/:id/:idEx  controllers.logged.modules.documentos.Documents.fromDoctId(doctId: Int, doctIdApplic: Int, id: Int, idEx: Int)
+GET     /api/v1/documento/from_doct_id/:doctId/:doctIdApplic/:id/:idEx                       controllers.logged.modules.documentos.Documents.fromDoctId(doctId: Int, doctIdApplic: Int, id: Int, idEx: Int)
 
 #
 # contabilidad
 #
 
-GET     /api/v1/contabilidad/asientos                  controllers.logged.modules.contabilidad.Asientos.list(from: Option[String], to: Option[String], docId: Option[String], empId: Option[String])
-GET     /api/v1/contabilidad/asientos/parameters       controllers.logged.modules.contabilidad.Asientos.parameters()
-POST    /api/v1/contabilidad/asientos                  controllers.logged.modules.contabilidad.Asientos.saveParameters
+GET     /api/v1/contabilidad/asientos                                                        controllers.logged.modules.contabilidad.Asientos.list(from: Option[String], to: Option[String], docId: Option[String], empId: Option[String])
+GET     /api/v1/contabilidad/asientos/parameters                                             controllers.logged.modules.contabilidad.Asientos.parameters()
+POST    /api/v1/contabilidad/asientos                                                        controllers.logged.modules.contabilidad.Asientos.saveParameters
 
-GET     /api/v1/contabilidad/asiento/:id               controllers.logged.modules.contabilidad.Asientos.get(id: Int)
-POST    /api/v1/contabilidad/asiento                   controllers.logged.modules.contabilidad.Asientos.create
-PUT     /api/v1/contabilidad/asiento/:id               controllers.logged.modules.contabilidad.Asientos.update(id: Int)
-DELETE  /api/v1/contabilidad/asiento/:id               controllers.logged.modules.contabilidad.Asientos.delete(id: Int)
+GET     /api/v1/contabilidad/asiento/:id                                                     controllers.logged.modules.contabilidad.Asientos.get(id: Int)
+POST    /api/v1/contabilidad/asiento                                                         controllers.logged.modules.contabilidad.Asientos.create
+PUT     /api/v1/contabilidad/asiento/:id                                                     controllers.logged.modules.contabilidad.Asientos.update(id: Int)
+DELETE  /api/v1/contabilidad/asiento/:id                                                     controllers.logged.modules.contabilidad.Asientos.delete(id: Int)
 
-GET     /api/v1/contabilidad/asiento/notes/:id         controllers.logged.modules.contabilidad.Asientos.notes(id: Int)
+GET     /api/v1/contabilidad/asiento/notes/:id                                               controllers.logged.modules.contabilidad.Asientos.notes(id: Int)
 
 #
 # compras
 #
 
-GET     /api/v1/compras/facturacompras                 controllers.logged.modules.compras.FacturaCompras.list(from: Option[String], to: Option[String], provId: Option[String], estId: Option[String], ccosId: Option[String], sucId: Option[String], docId: Option[String], cpgId: Option[String], empId: Option[String])
-GET     /api/v1/compras/facturacompras/parameters      controllers.logged.modules.compras.FacturaCompras.parameters()
-POST    /api/v1/compras/facturacompras                 controllers.logged.modules.compras.FacturaCompras.saveParameters
+GET     /api/v1/compras/facturacompras                                                       controllers.logged.modules.compras.FacturaCompras.list(from: Option[String], to: Option[String], provId: Option[String], estId: Option[String], ccosId: Option[String], sucId: Option[String], docId: Option[String], cpgId: Option[String], empId: Option[String])
+GET     /api/v1/compras/facturacompras/parameters                                            controllers.logged.modules.compras.FacturaCompras.parameters()
+POST    /api/v1/compras/facturacompras                                                       controllers.logged.modules.compras.FacturaCompras.saveParameters
 
-GET     /api/v1/compras/facturacompras/proveedor/:provId/remitos/:currencyId    controllers.logged.modules.compras.FacturaCompras.listRemitos(provId: Int, currencyId: Int)
-GET     /api/v1/compras/facturacompras/remitos/items   controllers.logged.modules.compras.FacturaCompras.listRemitosItems(ids: Option[String])
+GET     /api/v1/compras/facturacompras/proveedor/:provId/remitos/:currencyId                 controllers.logged.modules.compras.FacturaCompras.listRemitos(provId: Int, currencyId: Int)
+GET     /api/v1/compras/facturacompras/remitos/items                                         controllers.logged.modules.compras.FacturaCompras.listRemitosItems(ids: Option[String])
 
-GET     /api/v1/compras/facturacompra/:id              controllers.logged.modules.compras.FacturaCompras.get(id: Int)
-POST    /api/v1/compras/facturacompra                  controllers.logged.modules.compras.FacturaCompras.create
-POST    /api/v1/compras/facturacompra/from_remitos     controllers.logged.modules.compras.FacturaCompras.createFromRemito
-PUT     /api/v1/compras/facturacompra/:id              controllers.logged.modules.compras.FacturaCompras.update(id: Int)
-DELETE  /api/v1/compras/facturacompra/:id              controllers.logged.modules.compras.FacturaCompras.delete(id: Int)
+GET     /api/v1/compras/facturacompra/:id                                                    controllers.logged.modules.compras.FacturaCompras.get(id: Int)
+POST    /api/v1/compras/facturacompra                                                        controllers.logged.modules.compras.FacturaCompras.create
+POST    /api/v1/compras/facturacompra/from_remitos                                           controllers.logged.modules.compras.FacturaCompras.createFromRemito
+PUT     /api/v1/compras/facturacompra/:id                                                    controllers.logged.modules.compras.FacturaCompras.update(id: Int)
+DELETE  /api/v1/compras/facturacompra/:id                                                    controllers.logged.modules.compras.FacturaCompras.delete(id: Int)
 
-GET     /api/v1/compras/facturacompra/notes/:id        controllers.logged.modules.compras.FacturaCompras.notes(id: Int)
+GET     /api/v1/compras/facturacompra/notes/:id                                              controllers.logged.modules.compras.FacturaCompras.notes(id: Int)
 
 #
 # ventas
 #
 
-GET     /api/v1/ventas/pedidoventas                 controllers.logged.modules.ventas.PedidoVentas.list(from: Option[String], to: Option[String], cliId: Option[String], estId: Option[String], ccosId: Option[String], sucId: Option[String], venId: Option[String], docId: Option[String], cpgId: Option[String], empId: Option[String])
-GET     /api/v1/ventas/pedidoventas/parameters      controllers.logged.modules.ventas.PedidoVentas.parameters()
-POST    /api/v1/ventas/pedidoventas                 controllers.logged.modules.ventas.PedidoVentas.saveParameters
+GET     /api/v1/ventas/pedidoventas                                                          controllers.logged.modules.ventas.PedidoVentas.list(from: Option[String], to: Option[String], cliId: Option[String], estId: Option[String], ccosId: Option[String], sucId: Option[String], venId: Option[String], docId: Option[String], cpgId: Option[String], empId: Option[String])
+GET     /api/v1/ventas/pedidoventas/parameters                                               controllers.logged.modules.ventas.PedidoVentas.parameters()
+POST    /api/v1/ventas/pedidoventas                                                          controllers.logged.modules.ventas.PedidoVentas.saveParameters
 
-GET     /api/v1/ventas/pedidoventas/cliente/:cliId/prespuestos/:currencyId    controllers.logged.modules.ventas.PedidoVentas.listPresupuestos(cliId: Int, currencyId: Int)
-GET     /api/v1/ventas/pedidoventas/prespuestos/items   controllers.logged.modules.ventas.PedidoVentas.listPresupuestosItems(ids: Option[String])
+GET     /api/v1/ventas/pedidoventas/cliente/:cliId/prespuestos/:currencyId                   controllers.logged.modules.ventas.PedidoVentas.listPresupuestos(cliId: Int, currencyId: Int)
+GET     /api/v1/ventas/pedidoventas/prespuestos/items                                        controllers.logged.modules.ventas.PedidoVentas.listPresupuestosItems(ids: Option[String])
 
-GET     /api/v1/ventas/facturaventa/:id                 controllers.logged.modules.ventas.PedidoVentas.get(id: Int)
-POST    /api/v1/ventas/facturaventa                     controllers.logged.modules.ventas.PedidoVentas.create
-POST    /api/v1/ventas/facturaventa/from_presupuestos   controllers.logged.modules.ventas.PedidoVentas.createFromPresupuesto
-PUT     /api/v1/ventas/facturaventa/:id                 controllers.logged.modules.ventas.PedidoVentas.update(id: Int)
-DELETE  /api/v1/ventas/facturaventa/:id                 controllers.logged.modules.ventas.PedidoVentas.delete(id: Int)
+GET     /api/v1/ventas/facturaventa/:id                                                      controllers.logged.modules.ventas.PedidoVentas.get(id: Int)
+POST    /api/v1/ventas/facturaventa                                                          controllers.logged.modules.ventas.PedidoVentas.create
+POST    /api/v1/ventas/facturaventa/from_presupuestos                                        controllers.logged.modules.ventas.PedidoVentas.createFromPresupuesto
+PUT     /api/v1/ventas/facturaventa/:id                                                      controllers.logged.modules.ventas.PedidoVentas.update(id: Int)
+DELETE  /api/v1/ventas/facturaventa/:id                                                      controllers.logged.modules.ventas.PedidoVentas.delete(id: Int)
 
-GET     /api/v1/ventas/facturaventa/notes/:id        controllers.logged.modules.ventas.PedidoVentas.notes(id: Int)
+GET     /api/v1/ventas/facturaventa/notes/:id                                                controllers.logged.modules.ventas.PedidoVentas.notes(id: Int)
 
-GET     /api/v1/ventas/facturaventas                 controllers.logged.modules.ventas.FacturaVentas.list(from: Option[String], to: Option[String], cliId: Option[String], estId: Option[String], ccosId: Option[String], sucId: Option[String], venId: Option[String], docId: Option[String], cpgId: Option[String], empId: Option[String])
-GET     /api/v1/ventas/facturaventas/parameters      controllers.logged.modules.ventas.FacturaVentas.parameters()
-POST    /api/v1/ventas/facturaventas                 controllers.logged.modules.ventas.FacturaVentas.saveParameters
+GET     /api/v1/ventas/facturaventas                                                         controllers.logged.modules.ventas.FacturaVentas.list(from: Option[String], to: Option[String], cliId: Option[String], estId: Option[String], ccosId: Option[String], sucId: Option[String], venId: Option[String], docId: Option[String], cpgId: Option[String], empId: Option[String])
+GET     /api/v1/ventas/facturaventas/parameters                                              controllers.logged.modules.ventas.FacturaVentas.parameters()
+POST    /api/v1/ventas/facturaventas                                                         controllers.logged.modules.ventas.FacturaVentas.saveParameters
 
-GET     /api/v1/ventas/facturaventas/cliente/:cliId/remitos/:currencyId    controllers.logged.modules.ventas.FacturaVentas.listRemitos(cliId: Int, currencyId: Int)
-GET     /api/v1/ventas/facturaventas/remitos/items   controllers.logged.modules.ventas.FacturaVentas.listRemitosItems(ids: Option[String])
+GET     /api/v1/ventas/facturaventas/cliente/:cliId/remitos/:currencyId                      controllers.logged.modules.ventas.FacturaVentas.listRemitos(cliId: Int, currencyId: Int)
+GET     /api/v1/ventas/facturaventas/remitos/items                                           controllers.logged.modules.ventas.FacturaVentas.listRemitosItems(ids: Option[String])
 
-GET     /api/v1/ventas/facturaventa/:id              controllers.logged.modules.ventas.FacturaVentas.get(id: Int)
-POST    /api/v1/ventas/facturaventa                  controllers.logged.modules.ventas.FacturaVentas.create
-POST    /api/v1/ventas/facturaventa/from_remitos     controllers.logged.modules.ventas.FacturaVentas.createFromRemito
-PUT     /api/v1/ventas/facturaventa/:id              controllers.logged.modules.ventas.FacturaVentas.update(id: Int)
-DELETE  /api/v1/ventas/facturaventa/:id              controllers.logged.modules.ventas.FacturaVentas.delete(id: Int)
+GET     /api/v1/ventas/facturaventa/:id                                                      controllers.logged.modules.ventas.FacturaVentas.get(id: Int)
+POST    /api/v1/ventas/facturaventa                                                          controllers.logged.modules.ventas.FacturaVentas.create
+POST    /api/v1/ventas/facturaventa/from_remitos                                             controllers.logged.modules.ventas.FacturaVentas.createFromRemito
+PUT     /api/v1/ventas/facturaventa/:id                                                      controllers.logged.modules.ventas.FacturaVentas.update(id: Int)
+DELETE  /api/v1/ventas/facturaventa/:id                                                      controllers.logged.modules.ventas.FacturaVentas.delete(id: Int)
 
-GET     /api/v1/ventas/facturaventa/notes/:id        controllers.logged.modules.ventas.FacturaVentas.notes(id: Int)
+GET     /api/v1/ventas/facturaventa/notes/:id                                                controllers.logged.modules.ventas.FacturaVentas.notes(id: Int)
 
 #
 # tesoreria
 #
 
-GET     /api/v1/tesoreria/cobranzas                 controllers.logged.modules.tesoreria.Cobranzas.list(from: Option[String], to: Option[String], cliId: Option[String], estId: Option[String], ccosId: Option[String], sucId: Option[String], cobId: Option[String], docId: Option[String], empId: Option[String])
-GET     /api/v1/tesoreria/cobranzas/parameters      controllers.logged.modules.tesoreria.Cobranzas.parameters()
-POST    /api/v1/tesoreria/cobranzas                 controllers.logged.modules.tesoreria.Cobranzas.saveParameters
+GET     /api/v1/tesoreria/cobranzas                                                          controllers.logged.modules.tesoreria.Cobranzas.list(from: Option[String], to: Option[String], cliId: Option[String], estId: Option[String], ccosId: Option[String], sucId: Option[String], cobId: Option[String], docId: Option[String], empId: Option[String])
+GET     /api/v1/tesoreria/cobranzas/parameters                                               controllers.logged.modules.tesoreria.Cobranzas.parameters()
+POST    /api/v1/tesoreria/cobranzas                                                          controllers.logged.modules.tesoreria.Cobranzas.saveParameters
 
-GET     /api/v1/tesoreria/cobranzas/cliente/:cliId/facturas    controllers.logged.modules.tesoreria.Cobranzas.listFacturas(cliId: Int)
+GET     /api/v1/tesoreria/cobranzas/cliente/:cliId/facturas                                  controllers.logged.modules.tesoreria.Cobranzas.listFacturas(cliId: Int)
 
-GET     /api/v1/tesoreria/cobranza/notes/:id        controllers.logged.modules.tesoreria.Cobranzas.notes(id: Int)
-GET     /api/v1/tesoreria/cobranza/cuentas          controllers.logged.modules.tesoreria.Cobranzas.cuentas(ids: Option[String])
-GET     /api/v1/tesoreria/cobranza/facturas         controllers.logged.modules.tesoreria.Cobranzas.facturas(ids: Option[String])
+GET     /api/v1/tesoreria/cobranza/notes/:id                                                 controllers.logged.modules.tesoreria.Cobranzas.notes(id: Int)
+GET     /api/v1/tesoreria/cobranza/cuentas                                                   controllers.logged.modules.tesoreria.Cobranzas.cuentas(ids: Option[String])
+GET     /api/v1/tesoreria/cobranza/facturas                                                  controllers.logged.modules.tesoreria.Cobranzas.facturas(ids: Option[String])
 
-GET     /api/v1/tesoreria/cobranza/:id              controllers.logged.modules.tesoreria.Cobranzas.get(id: Int)
-POST    /api/v1/tesoreria/cobranza                  controllers.logged.modules.tesoreria.Cobranzas.create
-POST    /api/v1/tesoreria/cobranza/from_facturas    controllers.logged.modules.tesoreria.Cobranzas.createFromFactura
-PUT     /api/v1/tesoreria/cobranza/:id              controllers.logged.modules.tesoreria.Cobranzas.update(id: Int)
-DELETE  /api/v1/tesoreria/cobranza/:id              controllers.logged.modules.tesoreria.Cobranzas.delete(id: Int)
+GET     /api/v1/tesoreria/cobranza/:id                                                       controllers.logged.modules.tesoreria.Cobranzas.get(id: Int)
+POST    /api/v1/tesoreria/cobranza                                                           controllers.logged.modules.tesoreria.Cobranzas.create
+POST    /api/v1/tesoreria/cobranza/from_facturas                                             controllers.logged.modules.tesoreria.Cobranzas.createFromFactura
+PUT     /api/v1/tesoreria/cobranza/:id                                                       controllers.logged.modules.tesoreria.Cobranzas.update(id: Int)
+DELETE  /api/v1/tesoreria/cobranza/:id                                                       controllers.logged.modules.tesoreria.Cobranzas.delete(id: Int)
 
 # end Cairo
 #--------------------------------------------------------------------------------------------------
@@ -438,4 +438,5 @@ DELETE  /api/v1/tesoreria/cobranza/:id              controllers.logged.modules.t
 
 
 # Map static resources from the /public folder to the /assets URL path
-GET     /assets/*file                   controllers.Assets.at(path="/public", file)
+GET     /assets/*file                                                                        controllers.Assets.at(path="/public", file)
+

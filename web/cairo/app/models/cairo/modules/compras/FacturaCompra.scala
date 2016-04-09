@@ -1148,8 +1148,8 @@ object FacturaCompra {
     SqlParser.get[Int](C.FC_FIRMADO) ~
     SqlParser.get[Int](GC.DOC_MUEVE_STOCK) ~
     SqlParser.get[Int](GC.DOC_TIPO_FACTURA) ~
-    SqlParser.get[Option[Int]](C.AS_ID) ~
     SqlParser.get[Option[Int]](C.ST_ID) ~
+    SqlParser.get[Option[Int]](C.AS_ID) ~
     SqlParser.get[Int](GC.HAS_IVA_RI) ~
     SqlParser.get[Int](GC.HAS_IVA_RNI) ~
     SqlParser.get[Int](GC.EDITABLE) ~
@@ -1217,8 +1217,8 @@ object FacturaCompra {
         firmado ~
         docMueveStock ~
         docTipoFactura ~
-        asId ~
         stId ~
+        asId ~
         hasIvaRi ~
         hasIvaRni ~
         editable ~
@@ -1291,8 +1291,8 @@ object FacturaCompra {
           firmado != 0,
           docMueveStock != 0,
           docTipoFactura,
-          asId.getOrElse(DBHelper.NoId),
           stId.getOrElse(DBHelper.NoId),
+          asId.getOrElse(DBHelper.NoId),
           hasIvaRi != 0,
           hasIvaRni != 0,
           editable != 0,

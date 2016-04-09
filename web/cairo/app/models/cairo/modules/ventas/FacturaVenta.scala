@@ -516,10 +516,10 @@ object FacturaVentaPercepcion {
 }
 
 case class FacturaVentaRemito(
-                                rciId: Int,
-                                cantidad: Double,
-                                fviId: Int
-                                )
+                               rviId: Int,
+                               cantidad: Double,
+                               fviId: Int
+                             )
 
 case class FacturaVentaItems(
                                 items: List[FacturaVentaItem],
@@ -957,13 +957,13 @@ object FacturaVenta {
         prnsCode ~
         prnsDescrip ~
         prnsFechaVto ~
-        fcId =>
+        fviId =>
       FacturaVentaItemSerie(
         prnsId,
         prnsCode,
         prnsDescrip,
         prnsFechaVto,
-        fcId
+        fviId
       )
     }
   }
@@ -1062,8 +1062,8 @@ object FacturaVenta {
     SqlParser.get[Int](C.FV_FIRMADO) ~
     SqlParser.get[Int](GC.DOC_MUEVE_STOCK) ~
     SqlParser.get[Int](GC.DOC_TIPO_FACTURA) ~
-    SqlParser.get[Option[Int]](C.AS_ID) ~
     SqlParser.get[Option[Int]](C.ST_ID) ~
+    SqlParser.get[Option[Int]](C.AS_ID) ~
     SqlParser.get[Int](GC.HAS_IVA_RI) ~
     SqlParser.get[Int](GC.HAS_IVA_RNI) ~
     SqlParser.get[Int](GC.EDITABLE) ~
@@ -1135,8 +1135,8 @@ object FacturaVenta {
         firmado ~
         docMueveStock ~
         docTipoFactura ~
-        asId ~
         stId ~
+        asId ~
         hasIvaRi ~
         hasIvaRni ~
         editable ~
@@ -1213,8 +1213,8 @@ object FacturaVenta {
           firmado != 0,
           docMueveStock != 0,
           docTipoFactura,
-          asId.getOrElse(DBHelper.NoId),
           stId.getOrElse(DBHelper.NoId),
+          asId.getOrElse(DBHelper.NoId),
           hasIvaRi != 0,
           hasIvaRni != 0,
           editable != 0,
@@ -1332,9 +1332,9 @@ object FacturaVenta {
       )
     }
 
-    def getItemFields(item: FacturaVentaItem, fcTMPId: Int) = {
+    def getItemFields(item: FacturaVentaItem, fvTMPId: Int) = {
       List(
-        Field(C.FV_TMP_ID, fcTMPId, FieldType.id),
+        Field(C.FV_TMP_ID, fvTMPId, FieldType.id),
         Field(C.FVI_ID, item.id, FieldType.number),
         Field(C.FVI_DESCRIP, item.base.descrip, FieldType.text),
         Field(C.FVI_DESCUENTO, item.base.descuento, FieldType.text),
@@ -1363,17 +1363,17 @@ object FacturaVenta {
       )
     }
 
-    def getDeletedItemFields(fviId: Int, fcTMPId: Int) = {
+    def getDeletedItemFields(fviId: Int, fvTMPId: Int) = {
       List(
-        Field(C.FV_TMP_ID, fcTMPId, FieldType.id),
+        Field(C.FV_TMP_ID, fvTMPId, FieldType.id),
         Field(C.FVI_ID, fviId, FieldType.number),
         Field(C.FV_ID, facturaVenta.id, FieldType.id)
       )
     }
 
-    def getPercepcionFields(item: FacturaVentaPercepcion, fcTMPId: Int) = {
+    def getPercepcionFields(item: FacturaVentaPercepcion, fvTMPId: Int) = {
       List(
-        Field(C.FV_TMP_ID, fcTMPId, FieldType.id),
+        Field(C.FV_TMP_ID, fvTMPId, FieldType.id),
         Field(C.FVPERC_ID, item.id, FieldType.number),
         Field(GC.PERC_ID, item.percId, FieldType.id),
         Field(C.FVPERC_BASE, item.base, FieldType.currency),
@@ -1386,27 +1386,27 @@ object FacturaVenta {
       )
     }
 
-    def getDeletedPercepcionFields(fcpercId: Int, fcTMPId: Int) = {
+    def getDeletedPercepcionFields(fvpercId: Int, fvTMPId: Int) = {
       List(
-        Field(C.FV_TMP_ID, fcTMPId, FieldType.id),
-        Field(C.FVPERC_ID, fcpercId, FieldType.number),
+        Field(C.FV_TMP_ID, fvTMPId, FieldType.id),
+        Field(C.FVPERC_ID, fvpercId, FieldType.number),
         Field(C.FV_ID, facturaVenta.id, FieldType.id)
       )
     }
 
-    def getRemitoFields(item: FacturaVentaRemito, fcTMPId: Int) = {
+    def getRemitoFields(item: FacturaVentaRemito, fvTMPId: Int) = {
       List(
-        Field(C.FV_TMP_ID, fcTMPId, FieldType.id),
+        Field(C.FV_TMP_ID, fvTMPId, FieldType.id),
         Field(C.RV_FV_ID, 0, FieldType.number),
-        Field(C.RVI_ID, item.rciId, FieldType.id),
+        Field(C.RVI_ID, item.rviId, FieldType.id),
         Field(C.RV_FV_CANTIDAD, item.cantidad, FieldType.currency),
-        Field(C.FVI_ID, item.rciId, FieldType.id)
+        Field(C.FVI_ID, item.rviId, FieldType.id)
       )
     }
 
-    def getSerieFields(item: FacturaVentaItemSerie, fcTMPId: Int, fviTMPId: Int, prId: Int) = {
+    def getSerieFields(item: FacturaVentaItemSerie, fvTMPId: Int, fviTMPId: Int, prId: Int) = {
       List(
-        Field(C.FV_TMP_ID, fcTMPId, FieldType.id),
+        Field(C.FV_TMP_ID, fvTMPId, FieldType.id),
         Field(C.FVI_TMP_ID, fviTMPId, FieldType.id),
         Field(GC.PR_ID, prId, FieldType.id),
         Field(GC.PRNS_ID, item.id, FieldType.id),
@@ -1416,9 +1416,9 @@ object FacturaVenta {
       )
     }
 
-    def getSerieDeletedFields(prnsId: Int, fcTMPId: Int) = {
+    def getSerieDeletedFields(prnsId: Int, fvTMPId: Int) = {
       List(
-        Field(C.FV_TMP_ID, fcTMPId, FieldType.id),
+        Field(C.FV_TMP_ID, fvTMPId, FieldType.id),
         Field(GC.PRNS_ID, prnsId, FieldType.id)
       )
     }
@@ -1431,7 +1431,7 @@ object FacturaVenta {
       throw new RuntimeException(message)
     }
 
-    def saveItemSerie(fcTMPId: Int, fviTMPId: Int, prId: Int)(item: FacturaVentaItemSerie) = {
+    def saveItemSerie(fvTMPId: Int, fviTMPId: Int, prId: Int)(item: FacturaVentaItemSerie) = {
       DBHelper.save(
         user,
         Register(
@@ -1441,7 +1441,7 @@ object FacturaVenta {
           false,
           false,
           false,
-          getSerieFields(item, fcTMPId, fviTMPId, prId)),
+          getSerieFields(item, fvTMPId, fviTMPId, prId)),
         true
       ) match {
         case SaveResult(true, id) => true
@@ -1450,16 +1450,16 @@ object FacturaVenta {
     }
 
     case class FacturaVentaItemSerieInfo(
-                                           fcTMPId: Int,
+                                           fvTMPId: Int,
                                            fviTMPId: Int,
                                            prId: Int,
                                            series: List[FacturaVentaItemSerie])
 
     def saveItemSeries(serieInfo: FacturaVentaItemSerieInfo) = {
-      serieInfo.series.map(saveItemSerie(serieInfo.fcTMPId, serieInfo.fviTMPId, serieInfo.prId))
+      serieInfo.series.map(saveItemSerie(serieInfo.fvTMPId, serieInfo.fviTMPId, serieInfo.prId))
     }
 
-    case class FacturaVentaItemInfo(fcTMPId: Int, item: FacturaVentaItem)
+    case class FacturaVentaItemInfo(fvTMPId: Int, item: FacturaVentaItem)
 
     def saveItem(itemInfo: FacturaVentaItemInfo) = {
       DBHelper.save(
@@ -1471,18 +1471,18 @@ object FacturaVenta {
           false,
           false,
           false,
-          getItemFields(itemInfo.item, itemInfo.fcTMPId)),
+          getItemFields(itemInfo.item, itemInfo.fvTMPId)),
         true
       ) match {
         case SaveResult(true, id) => {
           FacturaVentaItemSerieInfo(
-            itemInfo.fcTMPId, id, itemInfo.item.base.prId, itemInfo.item.series)
+            itemInfo.fvTMPId, id, itemInfo.item.base.prId, itemInfo.item.series)
         }
         case SaveResult(false, id) => throwError
       }
     }
 
-    def saveDeletedItem(fcTMPId: Int)(fviId: String) = {
+    def saveDeletedItem(fvTMPId: Int)(fviId: String) = {
       val id = G.getIntOrZero(fviId)
       if(id != 0) {
         DBHelper.save(
@@ -1494,7 +1494,7 @@ object FacturaVenta {
             false,
             false,
             false,
-            getDeletedItemFields(id, fcTMPId)),
+            getDeletedItemFields(id, fvTMPId)),
           true
         ) match {
           case SaveResult(false, id) => throwError
@@ -1503,12 +1503,12 @@ object FacturaVenta {
       }
     }
 
-    def saveItems(fcTMPId: Int) = {
-      facturaVenta.items.items.map(item => saveItem(FacturaVentaItemInfo(fcTMPId, item))).map(saveItemSeries)
-      facturaVenta.items.itemDeleted.split(",").map(saveDeletedItem(fcTMPId))
+    def saveItems(fvTMPId: Int) = {
+      facturaVenta.items.items.map(item => saveItem(FacturaVentaItemInfo(fvTMPId, item))).map(saveItemSeries)
+      facturaVenta.items.itemDeleted.split(",").map(saveDeletedItem(fvTMPId))
     }
 
-    case class FacturaVentaPercepcionInfo(fcTMPId: Int, item: FacturaVentaPercepcion)
+    case class FacturaVentaPercepcionInfo(fvTMPId: Int, item: FacturaVentaPercepcion)
 
     def savePercepcion(itemInfo: FacturaVentaPercepcionInfo) = {
       DBHelper.save(
@@ -1520,7 +1520,7 @@ object FacturaVenta {
           false,
           false,
           false,
-          getPercepcionFields(itemInfo.item, itemInfo.fcTMPId)),
+          getPercepcionFields(itemInfo.item, itemInfo.fvTMPId)),
         true
       ) match {
         case SaveResult(true, id) => true
@@ -1528,8 +1528,8 @@ object FacturaVenta {
       }
     }
 
-    def saveDeletedPercepcion(fcTMPId: Int)(fcpercId: String) = {
-      val id = G.getIntOrZero(fcpercId)
+    def saveDeletedPercepcion(fvTMPId: Int)(fvpercId: String) = {
+      val id = G.getIntOrZero(fvpercId)
       if(id != 0) {
         DBHelper.save(
           user,
@@ -1540,7 +1540,7 @@ object FacturaVenta {
             false,
             false,
             false,
-            getDeletedPercepcionFields(id, fcTMPId)),
+            getDeletedPercepcionFields(id, fvTMPId)),
           true
         ) match {
           case SaveResult(false, id) => throwError
@@ -1549,12 +1549,12 @@ object FacturaVenta {
       }
     }
 
-    def savePercepciones(fcTMPId: Int) = {
-      facturaVenta.items.percepciones.map(percepcion => savePercepcion(FacturaVentaPercepcionInfo(fcTMPId, percepcion)))
-      facturaVenta.items.percepcionDeleted.split(",").map(saveDeletedPercepcion(fcTMPId))
+    def savePercepciones(fvTMPId: Int) = {
+      facturaVenta.items.percepciones.map(percepcion => savePercepcion(FacturaVentaPercepcionInfo(fvTMPId, percepcion)))
+      facturaVenta.items.percepcionDeleted.split(",").map(saveDeletedPercepcion(fvTMPId))
     }
 
-    case class FacturaVentaRemitoInfo(fcTMPId: Int, item: FacturaVentaRemito)
+    case class FacturaVentaRemitoInfo(fvTMPId: Int, item: FacturaVentaRemito)
 
     def saveRemito(itemInfo: FacturaVentaRemitoInfo) = {
       DBHelper.save(
@@ -1566,7 +1566,7 @@ object FacturaVenta {
           false,
           false,
           false,
-          getRemitoFields(itemInfo.item, itemInfo.fcTMPId)),
+          getRemitoFields(itemInfo.item, itemInfo.fvTMPId)),
         true
       ) match {
         case SaveResult(true, id) => true
@@ -1574,19 +1574,19 @@ object FacturaVenta {
       }
     }
 
-    def saveRemitos(fcTMPId: Int) = {
-      facturaVenta.items.remitos.map(remito => saveRemito(FacturaVentaRemitoInfo(fcTMPId, remito)))
+    def saveRemitos(fvTMPId: Int) = {
+      facturaVenta.items.remitos.map(remito => saveRemito(FacturaVentaRemitoInfo(fvTMPId, remito)))
     }
 
     case class RowResult(rowType: String, id: Int, message: String)
 
-    def saveFromWizard(fcTMPId: Int) = {
+    def saveFromWizard(fvTMPId: Int) = {
 
       DB.withTransaction(user.database.database) { implicit connection =>
         val sql = "select * from sp_doc_factura_venta_wizard_save(?)"
         val cs = connection.prepareStatement(sql)
 
-        cs.setInt(1, fcTMPId)
+        cs.setInt(1, fvTMPId)
 
         try {
           cs.executeQuery()
@@ -1601,14 +1601,14 @@ object FacturaVenta {
       }
     }
 
-    def executeSave(fcTMPId: Int): List[RowResult] = {
+    def executeSave(fvTMPId: Int): List[RowResult] = {
 
       DB.withTransaction(user.database.database) { implicit connection =>
         val sql = "select * from sp_doc_factura_venta_save(?, ?)"
         val cs = connection.prepareStatement(sql)
 
         cs.setInt(1, user.masterUserId)
-        cs.setInt(2, fcTMPId)
+        cs.setInt(2, fvTMPId)
 
         try {
           val rs = cs.executeQuery()
@@ -1715,12 +1715,12 @@ object FacturaVenta {
         getFields),
       true
     ) match {
-      case SaveResult(true, fcTMPId) => {
-        saveItems(fcTMPId)
-        savePercepciones(fcTMPId)
-        if(isFromWizard) saveFromWizard(fcTMPId)
-        saveRemitos(fcTMPId)
-        val messagesAndId = executeSave(fcTMPId)
+      case SaveResult(true, fvTMPId) => {
+        saveItems(fvTMPId)
+        savePercepciones(fvTMPId)
+        if(isFromWizard) saveFromWizard(fvTMPId)
+        saveRemitos(fvTMPId)
+        val messagesAndId = executeSave(fvTMPId)
         val id = getIdFromMessages(messagesAndId)
         load(user, id).getOrElse(throwError)
       }
