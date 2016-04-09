@@ -39,7 +39,11 @@ Cairo.FacturaVentaListDoc = {};
 Cairo.FacturaVentaRemitoWiz = {};
 Cairo.FacturaVentaWiz = {};
 
-Cairo.PedidoVenta = {}
+Cairo.PedidoVenta = {};
+
+Cairo.RemitoVenta = {};
+
+Cairo.PackingList = {};
 
 Cairo.Asiento = {};
 Cairo.AsientoListDoc = {};

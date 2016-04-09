@@ -55,6 +55,19 @@
       return defer.promise;
     },
 
+    confirmViewNoDefault: function(title, message) {
+      var defer = new Cairo.Promises.Defer();
+
+      var view = Cairo.confirmViewNoDefault(
+        title,
+        message,
+        function(answer) { defer.resolve(answer); }
+      );
+      Cairo.dialogRegion.show(view);
+
+      return defer.promise;
+    },
+
     inputFormView: function(title, message, defaultValue) {
       var defer = new Cairo.Promises.Defer();
 

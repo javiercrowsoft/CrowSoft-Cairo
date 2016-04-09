@@ -2325,24 +2325,13 @@
         // ITEMS
         /////////////////////////////////////////////////////////////////////
 
-        var tabs = m_items.getTabs();
+        tabs = m_items.getTabs();
         tabs.clear();
 
-        var tab = tabs.add(null);
-        tab.setIndex(0);
-        tab.setName(getText(1371, "")); // Items
-
-        var tab = tabs.add(null);
-        tab.setIndex(1);
-        tab.setName(getText(1070, "")); // Otros
-
-        var tab = tabs.add(null);
-        tab.setIndex(2);
-        tab.setName(getText(1248, "")); // Percepciones
-
-        var tab = tabs.add(null);
-        tab.setIndex(3);
-        tab.setName(getText(1575, "")); // Legajos
+        tabs.add(null).setIndex(0).setName(getText(1371, "")); // Items
+        tabs.add(null).setIndex(1).setName(getText(1070, "")); // Otros
+        tabs.add(null).setIndex(2).setName(getText(1248, "")); // Percepciones
+        tabs.add(null).setIndex(3).setName(getText(1575, "")); // Legajos
 
         properties = m_itemsProps;
         properties.clear();
@@ -4796,7 +4785,7 @@
       var m_menuShowAplic = 0;
       var m_menuShowAsiento = 0;
       var m_menuShowDocAux = 0;
-      var m_menuFirmar = 0;
+      var m_menuSign = 0;
 
       var m_apiPath = DB.getAPIVersion();
       var SAVE_ERROR = getText(2179, ""); // Error al grabar los párametros de navegación de Factura de Compras
@@ -4871,7 +4860,7 @@
               showDocAux();
               break;
 
-            case m_menuFirmar:
+            case m_menuSign:
               signDocument();
               break;
           }
@@ -5287,20 +5276,16 @@
         m_menuShowOrdenPago = m_dialog.addMenu(getText(1922, "")); // Orden de Pago
         m_dialog.addMenu("-");
         
-        m_menuFirmar = m_dialog.addMenu(getText(1594, "")); // Firmar
+        m_menuSign = m_dialog.addMenu(getText(1594, "")); // Firmar
         m_dialog.addMenu("-");
         
         m_menuShowInfoProv = m_dialog.addMenu(getText(1887, "")); // Ver Info del Proveedor
-        
         m_menuAddNote = m_dialog.addMenu(getText(1615, "")); // Agregar Nota
-        
         m_menuShowNotes = m_dialog.addMenu(getText(1616, "")); // Ver Notas
         m_dialog.addMenu("-");
         
         m_menuShowAplic = m_dialog.addMenu(getText(1617, "")); // Ver Aplicaciones
-        
         m_menuShowAsiento = m_dialog.addMenu(getText(1692, "")); // Ver Asiento Contable
-        
         m_menuShowDocAux = m_dialog.addMenu(getText(1691, "")); // Ver Documento Asociado
       };
 

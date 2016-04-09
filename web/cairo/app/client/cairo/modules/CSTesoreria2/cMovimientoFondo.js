@@ -76,10 +76,10 @@
 
       var m_title = "";
 
-      var m_menuShowMensajes = 0;
+      var m_menuShowNotes = 0;
       var m_menuAddNote = 0;
       var m_menuShowAsiento = 0;
-      var m_menuFirmar = 0;
+      var m_menuSign = 0;
 
       var m_apiPath = DB.getAPIVersion();
       var SAVE_ERROR = getText(2243, ""); // Error al grabar los párametros de navegación de Xxxx
@@ -126,7 +126,7 @@
 
           switch (index) {
 
-            case m_menuShowMensajes:
+            case m_menuShowNotes:
               showNotes();
 
               break;
@@ -141,7 +141,7 @@
 
               break;
 
-            case m_menuFirmar:
+            case m_menuSign:
               signDocument();
               break;
           }
@@ -855,12 +855,12 @@
         m_objList.ObjClientMenu = self;
         m_objList.addMenu("-");
         // Firmar
-        m_menuFirmar = m_objList.addMenu(getText(1594, ""));
+        m_menuSign = m_objList.addMenu(getText(1594, ""));
         m_objList.addMenu("-");
         // Agregar Nota
         m_menuAddNote = m_objList.addMenu(getText(1615, ""));
         // Ver Notas
-        m_menuShowMensajes = m_objList.addMenu(getText(1616, ""));
+        m_menuShowNotes = m_objList.addMenu(getText(1616, ""));
         m_objList.addMenu("-");
         // Ver Asiento Contable
         m_menuShowAsiento = m_objList.addMenu(getText(1692, ""));

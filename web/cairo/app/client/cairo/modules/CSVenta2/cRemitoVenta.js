@@ -80,12 +80,12 @@
       var m_menuLoaded;
 
       var m_menuShowFactura = 0;
-      var m_menuShowMensajes = 0;
+      var m_menuShowNotes = 0;
       var m_menuShowInfoCli = 0;
       var m_menuAddNote = 0;
       var m_menuShowAplic = 0;
       var m_menuShowDocAux = 0;
-      var m_menuFirmar = 0;
+      var m_menuSign = 0;
       var m_menuShowFacturaAuto = 0;
       var m_menuShowCancelar = 0;
       var m_menuEditCliente = 0;
@@ -178,7 +178,7 @@
 
               break;
 
-            case m_menuShowMensajes:
+            case m_menuShowNotes:
               showNotes();
 
               break;
@@ -198,7 +198,7 @@
 
               break;
 
-            case m_menuFirmar:
+            case m_menuSign:
               signDocument();
 
               break;
@@ -969,14 +969,14 @@
         m_menuShowCancelar = m_objList.addMenu(getText(4962, ""));
         m_objList.addMenu("-");
         // Firmar
-        m_menuFirmar = m_objList.addMenu(getText(1594, ""));
+        m_menuSign = m_objList.addMenu(getText(1594, ""));
         m_objList.addMenu("-");
         // Ver Info del Cliente
         m_menuShowInfoCli = m_objList.addMenu(getText(1614, ""));
         // Agregar Nota
         m_menuAddNote = m_objList.addMenu(getText(1615, ""));
         // Ver Notas
-        m_menuShowMensajes = m_objList.addMenu(getText(1616, ""));
+        m_menuShowNotes = m_objList.addMenu(getText(1616, ""));
         m_objList.addMenu("-");
         // Ver Aplicaciones
         m_menuShowAplic = m_objList.addMenu(getText(1617, ""));

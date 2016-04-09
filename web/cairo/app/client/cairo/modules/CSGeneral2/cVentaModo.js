@@ -425,15 +425,15 @@
         elem.setListWhoSetItem(Dialogs.ListWhoSetItem.itemData);
         var w_list = elem.getList();
         var elem = w_list.add(null);
-        elem.Id = csE_VentaModoCtaCte.cSVM_CTA_CTEHOJARUTA;
+        elem.Id = C.VentaModoCtaCte.hojaRuta;
         // Hoja de Ruta
         elem.setValue(getText(5106, ""));
         var elem = w_list.add(null);
-        elem.Id = csE_VentaModoCtaCte.cSVM_CTA_CTEMOSTRADOR;
+        elem.Id = C.VentaModoCtaCte.mostrador;
         // Cobranza por Mostrador
         elem.setValue(getText(5107, ""));
         var elem = w_list.add(null);
-        elem.Id = csE_VentaModoCtaCte.cSVM_CTA_CTEMOSTRADOFACTURA;
+        elem.Id = C.VentaModoCtaCte.ctacteMostradorFactura;
         // Cobranza por Facturador
         elem.setValue(getText(5108, ""));
         elem.setKey(K_CTA_CTE);
@@ -568,7 +568,7 @@
               m_id = NO_ID;
               m_cue_id = NO_ID;
               m_cuenta = "";
-              m_ctacte = csE_VentaModoCtaCte.cSVM_CTA_CTEMOSTRADOFACTURA;
+              m_ctacte = C.VentaModoCtaCte.ctacteMostradorFactura;
               m_pv = 0;
               m_os = 0;
               m_cmvxi = 0;

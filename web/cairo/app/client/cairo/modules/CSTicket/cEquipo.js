@@ -117,7 +117,7 @@
 
       var m_menuShowFactura = 0;
 
-      var m_menuShowMensajes = 0;
+      var m_menuShowNotes = 0;
       var m_menuAddNote = 0;
       var m_menuChangePr = 0;
       var m_menuUpdateSerie = 0;
@@ -169,7 +169,7 @@
 
           switch (index) {
 
-            case m_menuShowMensajes:
+            case m_menuShowNotes:
               showNotes();
 
               break;
@@ -1261,7 +1261,7 @@
         // Agregar Nota
         m_menuAddNote = m_objList.addMenu(getText(1615, ""));
         // Ver Notas
-        m_menuShowMensajes = m_objList.addMenu(getText(1616, ""));
+        m_menuShowNotes = m_objList.addMenu(getText(1616, ""));
       };
 
       var pChangePr = function(vIds) { // TODO: Use of ByRef founded Private Sub pChangePr(ByRef vIds() As Long)

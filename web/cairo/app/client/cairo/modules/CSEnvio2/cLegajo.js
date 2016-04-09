@@ -67,7 +67,7 @@
       var m_menuLoaded;
       var m_title = "";
 
-      var m_menuShowMensajes = 0;
+      var m_menuShowNotes = 0;
       var m_menuAddNote = 0;
       var m_menuShowInfoCli = 0;
 
@@ -778,7 +778,7 @@
         // Agregar Nota
         m_menuAddNote = m_objList.addMenu(getText(1615, ""));
         // Ver Notas
-        m_menuShowMensajes = m_objList.addMenu(getText(1616, ""));
+        m_menuShowNotes = m_objList.addMenu(getText(1616, ""));
       };
 
       var showNotes = function() {

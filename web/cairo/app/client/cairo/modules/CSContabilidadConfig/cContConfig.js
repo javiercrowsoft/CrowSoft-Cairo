@@ -307,10 +307,10 @@
         elem.setListItemData(m_claveFiscal);
         var list = elem.getList();
         var elem = list.add(null);
-        elem.setId(C.ClaveFiscalType.cuit); 
+        elem.setId(C.ClaveFiscalTipo.cuit);
         elem.setValue(Cairo.Language.getText(3098, "")); // C.U.I.T.
         var elem = list.add(null);
-        elem.setId(C.ClaveFiscalType.rut);
+        elem.setId(C.ClaveFiscalTipo.rut);
         elem.setValue(Cairo.Language.getText(3099, "")); // R.U.T.
 
         var elem = properties.add(null, C_PUNTOVENTAFE);

@@ -85,12 +85,12 @@
       var m_menuShowRemitoAuto = 0;
       var m_menuShowRemito = 0;
 
-      var m_menuShowMensajes = 0;
+      var m_menuShowNotes = 0;
       var m_menuAddNote = 0;
       var m_menuShowInfoCli = 0;
       var m_menuShowAplic = 0;
       var m_menuShowDocAux = 0;
-      var m_menuFirmar = 0;
+      var m_menuSign = 0;
 
       var m_vMenuModoPago = 0;
 
@@ -178,7 +178,7 @@
 
               break;
 
-            case m_menuShowMensajes:
+            case m_menuShowNotes:
               showNotes();
 
               break;
@@ -198,7 +198,7 @@
 
               break;
 
-            case m_menuFirmar:
+            case m_menuSign:
               signDocument();
 
               break;
@@ -961,14 +961,14 @@
         m_menuShowRemito = m_objList.addMenu(getText(1612, ""));
         m_objList.addMenu("-");
         // Firmar
-        m_menuFirmar = m_objList.addMenu(getText(1594, ""));
+        m_menuSign = m_objList.addMenu(getText(1594, ""));
         m_objList.addMenu("-");
         // Ver Info del Cliente
         m_menuShowInfoCli = m_objList.addMenu(getText(1614, ""));
         // Agregar Nota
         m_menuAddNote = m_objList.addMenu(getText(1615, ""));
         // Ver Notas
-        m_menuShowMensajes = m_objList.addMenu(getText(1616, ""));
+        m_menuShowNotes = m_objList.addMenu(getText(1616, ""));
         m_objList.addMenu("-");
         // Ver Aplicaciones
         m_menuShowAplic = m_objList.addMenu(getText(1617, ""));
@@ -1003,7 +1003,7 @@
           i = i + 1;
           m_vMenuModoPago[C_VM_ID, i] === Cairo.Database.valField(rs.getFields(), "vm_id");
           m_vMenuModoPago[C_VM_MENU_ID, i] === m_objList.addMenu(Cairo.Database.valField(rs.getFields(), "vm_nombre"));
-          m_vMenuModoPago[C_VM_IS_CONTADO, i] === Cairo.Database.valField(rs.getFields(), "vm_ctacte") !== csE_VentaModoCtaCte.cSVM_CTA_CTEHOJARUTA;
+          m_vMenuModoPago[C_VM_IS_CONTADO, i] === Cairo.Database.valField(rs.getFields(), "vm_ctacte") !== C.VentaModoCtaCte.hojaRuta;
           m_vMenuModoPago[C_VM_CUE_ID, i] === Cairo.Database.valField(rs.getFields(), "cue_id");
 
           m_objList.addMenu("-");

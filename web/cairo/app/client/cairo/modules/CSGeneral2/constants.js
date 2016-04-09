@@ -1426,6 +1426,10 @@
       filterForSales: "ti_tipo: 1",
       filterForPurchase: "ti_tipo: 2",
 
+      //
+      // use when translate to english
+      //
+      /*
       AccountGroupType: {
         productForSale: 1,
         productForPurchase: 2,
@@ -1433,6 +1437,16 @@
         debtor: 4,
         directDebit: 5,
         pettyCashFund: 6
+      },
+      */
+
+      CuentaGrupoTipo: {
+        productoVenta: 1,
+        productoCompra: 2,
+        acreedor: 3,
+        deudor: 4,
+        debitoAutomatico: 5,
+        fondoFijo: 6
       },
 
       ProductoWebImageType: {
@@ -1460,7 +1474,7 @@
         deplIdTercero: -3
       },
 
-      ClaveFiscalType: {
+      ClaveFiscalTipo: {
         cuit: 1,
         rut: 2
       },
@@ -1486,20 +1500,17 @@
         depositoCupones: 19
       },
 
-      CuentaGrupoType: {
-        productoVenta: 1,
-        productoCompra: 2,
-        acreedor: 3,
-        deudor: 4,
-        debitoAutomatico: 5,
-        fondoFijo: 6
-      },
-
       CondicionPagoTipo: {
         fechaDocumento: -2,
         general: 1,
         debitoAuto: 2,
         fondoFijo: 3
+      },
+
+      VentaModoCtaCte: {
+        hojaRuta: 1,
+        mostrador: 2,
+        ctacteMostradorFactura: 3
       }
 
     }

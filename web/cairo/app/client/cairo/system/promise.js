@@ -185,7 +185,7 @@
   //          {{ Cairo.Promises.call = function(<< f >>) {
   //        the arguments to call are optionals so call has
   //        only one explicit parameter << f >>
-  //        when the function returned by call is invoqued
+  //        when the function returned by call is invoked
   //        it will be called with one argument named result
   //        this argument is passed at the end of the arguments
   //        to the f function

@@ -4082,12 +4082,12 @@
 
       var m_title = "";
 
-      var m_menuShowMensajes = 0;
+      var m_menuShowNotes = 0;
       var m_menuShowInfoProv = 0;
       var m_menuAddNote = 0;
       var m_menuShowAplic = 0;
       var m_menuShowAsiento = 0;
-      var m_menuFirmar = 0;
+      var m_menuSign = 0;
 
       var m_objApply;
 
@@ -4141,7 +4141,7 @@
 
               break;
 
-            case m_menuShowMensajes:
+            case m_menuShowNotes:
               showNotes();
 
               break;
@@ -4161,7 +4161,7 @@
 
               break;
 
-            case m_menuFirmar:
+            case m_menuSign:
               signDocument();
 
               break;
@@ -4592,12 +4592,12 @@
 
         m_dialog.clearMenu();
 
-        m_menuFirmar = m_dialog.addMenu(getText(1594, "")); // Firmar
+        m_menuSign = m_dialog.addMenu(getText(1594, "")); // Firmar
         m_dialog.addMenu("-");
 
         m_menuAddNote = m_dialog.addMenu(getText(1615, "")); // Agregar Nota
 
-        m_menuShowMensajes = m_dialog.addMenu(getText(1616, "")); // Ver Notas
+        m_menuShowNotes = m_dialog.addMenu(getText(1616, "")); // Ver Notas
         m_dialog.addMenu("-");
 
         m_menuShowAsiento = m_dialog.addMenu(getText(1692, "")); // Ver Asiento Contable
@@ -4616,8 +4616,8 @@
       };
 
       var showNotes = function() {
-        var fcId = m_dialog.getId();
-        return DB.getData("load[" + m_apiPath + "tesoreria/ordenpago/notes]", fcId)
+        var opgId = m_dialog.getId();
+        return DB.getData("load[" + m_apiPath + "tesoreria/ordenpago/notes]", opgId)
           .whenSuccessWithResult(D.showNotes);
       };
 

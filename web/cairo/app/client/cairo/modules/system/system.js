@@ -977,6 +977,7 @@
     return Cairo.Promises.resolvedPromise(false);
   };
 
+  Cairo.Documents.PEDIDO_VENTAS_LIST_DOC_FILTER = Cairo.Documents.PEDIDO_VENTAS_DOC_FILTER + "|empId:0";
   Cairo.Documents.FACTURA_COMPRAS_LIST_DOC_FILTER = Cairo.Documents.FACTURA_COMPRAS_DOC_FILTER + "|empId:0";
   Cairo.Documents.FACTURA_VENTAS_LIST_DOC_FILTER = Cairo.Documents.FACTURA_VENTAS_DOC_FILTER + "|empId:0";
   Cairo.Documents.ASIENTOS_LIST_DOC_FILTER = Cairo.Documents.ASIENTOS_DOC_FILTER + "|empId:0";
@@ -1534,11 +1535,11 @@
 
     switch (Cairo.getContabilidadConfig().getClaveFiscal()) {
 
-      case C.ClaveFiscalType.cuit:
+      case C.ClaveFiscalTipo.cuit:
         p = Cairo.Documents.validateNroCuitEx(cuit, bMustByRight);
         break;
 
-      case C.ClaveFiscalType.rut:
+      case C.ClaveFiscalTipo.rut:
         p = Cairo.Documents.validateRutEx(cuit, bMustByRight);
         break;
     }
@@ -1680,22 +1681,22 @@
     var filter = "";
 
     switch (cuentaGrupoType) {
-      case C.CuentaGrupoType.acreedor:
+      case C.CuentaGrupoTipo.acreedor:
         filter = "2*8"; // Bancos y Acreedores
         break;
-      case C.CuentaGrupoType.deudor:
+      case C.CuentaGrupoTipo.deudor:
         filter = "4" // Deudores
         break;
-      case C.CuentaGrupoType.productoCompra:
+      case C.CuentaGrupoTipo.productoCompra:
         filter = "5*6*9*10"; // Bienes de cambio y de uso, y Egresos e Ingresos (para descuentos obtenidos)
         break;
-      case C.CuentaGrupoType.productoVenta:
+      case C.CuentaGrupoTipo.productoVenta:
         filter = "9*10"; // Ingresos y Egresos (para descuentos cedidos)
         break;
-      case C.CuentaGrupoType:
+      case C.CuentaGrupoTipo:
         filter = "2"; // Bancos
         break;
-      case C.CuentaGrupoType:
+      case C.CuentaGrupoTipo:
         filter = "14"; // Caja
         break;
       default:
@@ -1705,7 +1706,7 @@
     return "account_for_cuec_id|cuecId:" + filter;
   }
 
-  var getCuentaGrupoType = function(cuegId) {
+  var getCuentaGrupoTipo = function(cuegId) {
     return DB.getData("load[" + m_apiPath + "general/cuentagrupo]", cuegId).then(
       function(response) {
         if(response.success === true) {
@@ -1736,7 +1737,7 @@
       case KI_CUE_ID:
         var cuegId = getCell(grid.getRows().item(row), KI_CUEG_ID).getId();
 
-        p = getCuentaGrupoType(cuegId)
+        p = getCuentaGrupoTipo(cuegId)
           .whenSuccessWithResult(function(result) {
             var filter = Cairo.Documents.getCuentaGrupoFilter(result.cuentaGrupoType);
             Cairo.Documents.getCol(columns, KI_CUE_ID).setSelectFilter(filter);
@@ -3155,6 +3156,61 @@
     return Cairo.Dates.DateNames.getDateById(Cairo.Dates.VirtualDates.TOMORROW);
   };
 
+  Cairo.Dates.getVirtualDateOrDate = function(virtualDate, date) {
+    if(Cairo.Dates.DateNames.getDateNames().contains(virtualDate)) {
+      return Cairo.Dates.DateNames.getDateByName((virtualDate);
+    }
+    else {
+      return date;
+    }
+  };
+
+  var createDateDiff = function() {
+
+    var MS_PER_DAY = 1000 * 60 * 60 * 24;
+
+    // a and b are javascript Date objects
+    var dateDiffInDays = function(a, b) {
+      // Discard the time and time-zone information.
+      var utc1 = Date.UTC(a.getFullYear(), a.getMonth(), a.getDate());
+      var utc2 = Date.UTC(b.getFullYear(), b.getMonth(), b.getDate());
+      return Math.floor((utc2 - utc1) / MS_PER_DAY);
+    }
+
+    var dateDiffInMonths = function(a, b) {
+      var years = a.getFullYear() - b.getFullYear();
+      var months;
+      if(years === 0) {
+        months = a.getMonth() - b.getMonth();
+      }
+      else {
+        months = Math.abs(years * 12) + Math.abs(a.getMonth - b.getMonth);
+        if(years < 0) months *= -1;
+      }
+      return months;
+    }
+
+    var dateDiffInYears = function(a, b) {
+      return a.getFullYear() - b.getFullYear();
+    }
+
+    var dateDiff = function(datePart, dateA, dateB) {
+      switch(datePart) {
+        case "y":
+          return dateDiffInYears(dateA, dateB);
+        case "m":
+          return dateDiffInMonths(dateA, dateB);
+        case "d":
+          return dateDiffInDays(dateA, dateB);
+        default:
+          Cairo.raiseError("dateDiff must be called with three arguments: datePart, dateA and dateB. datePart is y, m or d");
+      }
+    };
+
+    return dateDiff;
+  };
+
+  Cairo.Dates.dateDiff = createDateDiff();
 
 }());
 

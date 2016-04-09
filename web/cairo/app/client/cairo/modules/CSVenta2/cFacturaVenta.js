@@ -2493,10 +2493,10 @@
         tabs.add(null).setIndex(0).setName(getText(1371, "")); // Items
         tabs.add(null).setIndex(1).setName(getText(1248, "")); // Percepciones
 
-        var properties = m_itemsProps;
+        properties = m_itemsProps;
         properties.clear();
 
-        var elem = properties.add(null, C_ITEMS);
+        elem = properties.add(null, C_ITEMS);
         elem.setType(T.grid);
         elem.hideLabel();
         setGridItems(elem);
@@ -2530,7 +2530,7 @@
         // FOOTER
         /////////////////////////////////////////////////////////////////////
 
-        var properties = m_footerProps;
+        properties = m_footerProps;
         properties.clear();
 
         elem = properties.add(null, CV.FV_SUBTOTAL);
@@ -5240,20 +5240,18 @@
       var m_menuLoaded;
 
       var m_menuShowCobranza = 0;
-      var m_menuShowMensajes = 0;
+      var m_menuShowNotes = 0;
       var m_menuShowInfoCli = 0;
       var m_menuAddNote = 0;
       var m_menuShowAplic = 0;
       var m_menuShowAsiento = 0;
       var m_menuShowDocAux = 0;
-      var m_menuFirmar = 0;
+      var m_menuSign = 0;
       var m_menuEditCliente = 0;
 
       var m_menuGetCae = 0;
       var m_menuUpdateTalonarios = 0;
       var m_sendCAEByEmail = 0;
-
-      var m_objApply;
 
       var m_apiPath = DB.getAPIVersion();
       var SAVE_ERROR = getText(2226, ""); // Error al grabar los párametros de navegación de Factura de Ventas
@@ -5328,7 +5326,7 @@
               D.showInfo(Cairo.Tables.CLIENTE, getCliId());
               break;
 
-            case m_menuShowMensajes:
+            case m_menuShowNotes:
               showNotes();
               break;
 
@@ -5348,7 +5346,7 @@
               showDocAux();
               break;
 
-            case m_menuFirmar:
+            case m_menuSign:
               signDocument();
               break;
 
@@ -5479,7 +5477,6 @@
 
         return DB.getData("load[" + m_apiPath + "ventas/facturaventas/parameters]").then(
           function(response) {
-
 
             m_empId = Cairo.Company.getId();
             m_empresa = Cairo.Company.getName();
@@ -5812,33 +5809,27 @@
         m_menuShowCobranza = m_dialog.addMenu(getText(1690, "")); // Cobrar
         m_dialog.addMenu("-");
 
-        m_menuFirmar = m_dialog.addMenu(getText(1594, "")); // Firmar
+        m_menuSign = m_dialog.addMenu(getText(1594, "")); // Firmar
         m_dialog.addMenu("-");
 
         m_menuShowInfoCli = m_dialog.addMenu(getText(1614, "")); // Ver Info del Cliente
-
         m_menuAddNote = m_dialog.addMenu(getText(1615, "")); // Agregar Nota
-
-        m_menuShowMensajes = m_dialog.addMenu(getText(1616, "")); // Ver Notas
+        m_menuShowNotes = m_dialog.addMenu(getText(1616, "")); // Ver Notas
         m_dialog.addMenu("-");
 
         m_menuShowAplic = m_dialog.addMenu(getText(1617, "")); // Ver Aplicaciones
-
         m_menuShowAsiento = m_dialog.addMenu(getText(1692, "")); // Ver Asiento Contable
-
         m_menuShowDocAux = m_dialog.addMenu(getText(1691, "")); // Ver Documento Asociado
         m_dialog.addMenu("-");
 
         m_menuGetCae = m_dialog.addMenu(getText(5125, "")); // Obtener CAE
-
         m_menuUpdateTalonarios = m_dialog.addMenu(getText(5130, "")); // Actualizar Talonarios AFIP
-
         m_sendCAEByEmail = m_dialog.addMenu(getText(5131, "")); // Enviar Factura Electronica por e-mail
       };
 
       var showNotes = function() {
-        var fcId = m_dialog.getId();
-        return DB.getData("load[" + m_apiPath + "ventas/facturaventa/notes]", fcId)
+        var fvId = m_dialog.getId();
+        return DB.getData("load[" + m_apiPath + "ventas/facturaventa/notes]", fvId)
           .whenSuccessWithResult(D.showNotes);
       };
 

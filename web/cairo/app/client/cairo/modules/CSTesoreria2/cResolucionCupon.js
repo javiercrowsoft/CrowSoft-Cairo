@@ -76,10 +76,10 @@
 
       var m_title = "";
 
-      var m_menuShowMensajes = 0;
+      var m_menuShowNotes = 0;
       var m_menuAddNote = 0;
       var m_menuShowAsiento = 0;
-      var m_menuFirmar = 0;
+      var m_menuSign = 0;
 
       var m_apiPath = DB.getAPIVersion();
       var SAVE_ERROR = getText(2248, ""); // Error al grabar los párametros de navegación de Xxxx
@@ -886,12 +886,12 @@
         m_objList.ObjClientMenu = self;
         m_objList.ClearMenu;
         // Firmar
-        m_menuFirmar = m_objList.addMenu(getText(1594, ""));
+        m_menuSign = m_objList.addMenu(getText(1594, ""));
         m_objList.addMenu("-");
         // Agregar Nota
         m_menuAddNote = m_objList.addMenu(getText(1615, ""));
         // Ver Notas
-        m_menuShowMensajes = m_objList.addMenu(getText(1616, ""));
+        m_menuShowNotes = m_objList.addMenu(getText(1616, ""));
         m_objList.addMenu("-");
         // Ver Asiento Contable
         m_menuShowAsiento = m_objList.addMenu(getText(1692, ""));

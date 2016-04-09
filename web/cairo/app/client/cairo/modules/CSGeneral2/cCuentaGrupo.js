@@ -306,7 +306,7 @@
         cuec_id = mPublic.self.getCuecIdFromCueId(cue_id);
 
         switch (tipo) {
-          case C.AccountGroupType.creditor:
+          case C.CuentaGrupoTipo.acreedor:
             if(cuec_id !== csECuentaCategoria.cSECUECACREEDORES && cuec_id !== csECuentaCategoria.cSECUECBANCOS) {
               // La cuenta debe ser de tipo acreedor por compras o banco.
               Cairo.Modal.showInfo(getText(3529, ""));
@@ -315,7 +315,7 @@
 
             break;
 
-          case C.AccountGroupType.debtor:
+          case C.CuentaGrupoTipo.deudor:
             if(cuec_id !== csECuentaCategoria.cSECUECDEUDPORVENTAS) {
               // La cuenta debe ser de tipo deudor por ventas.
               Cairo.Modal.showInfo(getText(3530, ""));
@@ -324,7 +324,7 @@
 
             break;
 
-          case C.AccountGroupType.productForSale:
+          case C.CuentaGrupoTipo.productoVenta:
             if(cuec_id !== csECuentaCategoria.cSECUECINGRESOS && cuec_id !== csECuentaCategoria.cSECUECEGRESOS) {
               if(pCuentaForProducto(cue_id) === false) {
                 // La cuenta debe ser de tipo ingresos, o egresos o estar marcada como elegible para productos.
@@ -335,7 +335,7 @@
 
             break;
 
-          case C.AccountGroupType.productForPurchase:
+          case C.CuentaGrupoTipo.productoCompra:
             if(cuec_id !== csECuentaCategoria.cSECUECBIENESDEUSO && cuec_id !== csECuentaCategoria.cSECUECBIENESDECAMBIO && cuec_id !== csECuentaCategoria.cSECUECINGRESOS && cuec_id !== csECuentaCategoria.cSECUECEGRESOS) {
 
               if(pCuentaForProducto(cue_id) === false) {
@@ -348,7 +348,7 @@
 
             break;
 
-          case C.AccountGroupType.directDebit:
+          case C.CuentaGrupoTipo.debitoAutomatico:
             if(cuec_id !== csECuentaCategoria.cSECUECBANCOS) {
               // La cuenta debe ser de tipo banco
               Cairo.Modal.showInfo(getText(3571, ""));
@@ -357,7 +357,7 @@
 
             break;
 
-          case C.AccountGroupType.pettyCashFund:
+          case C.CuentaGrupoTipo.fondoFijo:
             if(cuec_id !== csECuentaCategoria.cSECUECCAJA) {
               // La cuenta debe ser de tipo caja
               Cairo.Modal.showInfo(getText(3572, ""));
@@ -503,27 +503,27 @@
         elem.setListItemData(m_tipo);
         var w_list = elem.getList();
         var elem = w_list.add(null);
-        elem.Id = C.AccountGroupType.creditor;
+        elem.Id = C.CuentaGrupoTipo.acreedor;
         // Acreedor
         elem.setValue(getText(3534, ""));
         var elem = w_list.add(null);
-        elem.Id = C.AccountGroupType.debtor;
+        elem.Id = C.CuentaGrupoTipo.deudor;
         // Deudor
         elem.setValue(getText(3535, ""));
         var elem = w_list.add(null);
-        elem.Id = C.AccountGroupType.productForPurchase;
+        elem.Id = C.CuentaGrupoTipo.productoCompra;
         // Articulos de Compra
         elem.setValue(getText(3536, ""));
         var elem = w_list.add(null);
-        elem.Id = C.AccountGroupType.productForSale;
+        elem.Id = C.CuentaGrupoTipo.productoVenta;
         // Articulos de Venta
         elem.setValue(getText(3537, ""));
         var elem = w_list.add(null);
-        elem.Id = C.AccountGroupType.directDebit;
+        elem.Id = C.CuentaGrupoTipo.debitoAutomatico;
         // Debito Automatico
         elem.setValue(getText(3569, ""));
         var elem = w_list.add(null);
-        elem.Id = C.AccountGroupType.pettyCashFund;
+        elem.Id = C.CuentaGrupoTipo.fondoFijo;
         // Fondo Fijo
         elem.setValue(getText(3570, ""));
         elem.setKey(K_TIPO);
@@ -605,7 +605,7 @@
               m_descrip = "";
               m_cue_id = NO_ID;
               m_cuenta = "";
-              m_tipo = C.AccountGroupType.creditor;
+              m_tipo = C.CuentaGrupoTipo.acreedor;
               m_active = true;
 
             }

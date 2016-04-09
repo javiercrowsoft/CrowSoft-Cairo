@@ -1816,7 +1816,7 @@
         elem.setKey(K_CUEG_ID_COMPRA);
         elem.setSelectId(m_cueg_id_compra);
         elem.setValue(m_cuentaGCompra);
-        elem.setSelectFilter("cueg_tipo = "+ C.AccountGroupType.productForPurchase.toString());
+        elem.setSelectFilter("cueg_tipo = "+ C.CuentaGrupoTipo.productoCompra.toString());
 
         elem = properties.add(null, C.TI_ID_RI_COMPRA);
         elem.setType(T.select);
@@ -2030,7 +2030,7 @@
         elem.setTabIndex(tab_venta);
         elem.setSelectId(m_cueg_id_venta);
         elem.setValue(m_cuentaGVenta);
-        elem.setSelectFilter("cueg_tipo = "+ C.AccountGroupType.productForSale.toString());
+        elem.setSelectFilter("cueg_tipo = "+ C.CuentaGrupoTipo.productoVenta.toString());
 
         elem = properties.add(null, C.PR_ES_LISTA);
         elem.setType(T.check);

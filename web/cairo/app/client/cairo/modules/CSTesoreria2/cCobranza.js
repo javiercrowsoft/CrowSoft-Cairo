@@ -1300,7 +1300,7 @@
       };
 
       var loadCollection = function() {
-        var elem
+        var elem;
 
         m_properties.clear();
 
@@ -1422,7 +1422,7 @@
         var c_TabOtros = 3;
         var c_TabCtaCte = 4;
 
-        var tabs = m_items.getTabs();
+        tabs = m_items.getTabs();
         tabs.clear();
 
         tabs.add(null)
@@ -4017,12 +4017,12 @@
 
       var m_title = "";
 
-      var m_menuShowMensajes = 0;
+      var m_menuShowNotes = 0;
       var m_menuShowInfoCli = 0;
       var m_menuAddNote = 0;
       var m_menuShowAplic = 0;
       var m_menuShowAsiento = 0;
-      var m_menuFirmar = 0;
+      var m_menuSign = 0;
 
       var m_apiPath = DB.getAPIVersion();
       var SAVE_ERROR = getText(2282, ""); // Error al grabar los párametros de navegación de Cobranza
@@ -4078,7 +4078,7 @@
               D.showInfo(Cairo.Tables.CLIENTE, getCliId());
               break;
 
-            case m_menuShowMensajes:
+            case m_menuShowNotes:
               showNotes();
               break;
 
@@ -4094,7 +4094,7 @@
               showAsiento();
               break;
 
-            case m_menuFirmar:
+            case m_menuSign:
               signDocument();
               break;
           }
@@ -4511,14 +4511,14 @@
 
         m_dialog.clearMenu();
 
-        m_menuFirmar = m_dialog.addMenu(getText(1594, "")); // Firmar
+        m_menuSign = m_dialog.addMenu(getText(1594, "")); // Firmar
         m_dialog.addMenu("-");
 
         m_menuShowInfoCli = m_dialog.addMenu(getText(1594, "")); // Ver Info del Cliente
 
         m_menuAddNote = m_dialog.addMenu(getText(1615, "")); // Agregar Nota
 
-        m_menuShowMensajes = m_dialog.addMenu(getText(1616, "")); // Ver Notas
+        m_menuShowNotes = m_dialog.addMenu(getText(1616, "")); // Ver Notas
         m_dialog.addMenu("-");
 
         m_menuShowAplic = m_dialog.addMenu(getText(1617, "")); // Ver Aplicaciones
@@ -4531,8 +4531,8 @@
       };
 
       var showNotes = function() {
-        var fcId = m_dialog.getId();
-        return DB.getData("load[" + m_apiPath + "tesoreria/cobranza/notes]", fcId)
+        var cobzId = m_dialog.getId();
+        return DB.getData("load[" + m_apiPath + "tesoreria/cobranza/notes]", cobzId)
           .whenSuccessWithResult(D.showNotes);
       };
 

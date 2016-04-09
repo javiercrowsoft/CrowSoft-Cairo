@@ -1103,12 +1103,10 @@
         // ITEMS
         /////////////////////////////////////////////////////////////////////
 
-        var tabs = m_items.getTabs();
+        tabs = m_items.getTabs();
         tabs.clear();
 
-        var tab = tabs.add(null);
-        tab.setIndex(0);
-        tab.setName(getText(1371, "")); // Items
+        tabs.add(null).setIndex(0).setName(getText(1371, "")); // Items
 
         properties = m_itemsProps;
         properties.clear();
@@ -1136,7 +1134,7 @@
         properties = m_footerProps;
         properties.clear();
 
-        var elem = properties.add(null, C_ASTOTALDEBE);
+        elem = properties.add(null, C_ASTOTALDEBE);
         elem.setType(Dialogs.PropertyType.numeric);
         elem.setSubType(Dialogs.PropertySubType.money);
         elem.setName(getText(1961, "")); // Total Debe
@@ -1145,7 +1143,7 @@
         elem.setFormat(Cairo.Settings.getAmountDecimalsFormat());
         elem.setEnabled(false);
 
-        var elem = properties.add(null, C_ASTOTALHABER);
+        elem = properties.add(null, C_ASTOTALHABER);
         elem.setType(Dialogs.PropertyType.numeric);
         elem.setSubType(Dialogs.PropertySubType.money);
         elem.setName(getText(1962, "")); // Total Haber
@@ -1698,10 +1696,10 @@
 
       var m_menuLoaded;
 
-      var m_menuShowMensajes = 0;
+      var m_menuShowNotes = 0;
       var m_menuAddNote = 0;
       var m_menuShowDocAux = 0;
-      var m_menuFirmar = 0;
+      var m_menuSign = 0;
 
       var m_apiPath = DB.getAPIVersion();
       var SAVE_ERROR = getText(2295, ""); // Error al grabar los parámetros de navegación de Asientos Contables
@@ -2026,11 +2024,11 @@
 
         m_menuLoaded = true;
 
-        m_menuFirmar = m_dialog.addMenu(getText(1594, "")); // Firmar
+        m_menuSign = m_dialog.addMenu(getText(1594, "")); // Firmar
         m_dialog.addMenu("-");
 
         m_menuAddNote = m_dialog.addMenu(getText(1615, "")); // Agregar Nota
-        m_menuShowMensajes = m_dialog.addMenu(getText(1616, "")); // Ver Notas
+        m_menuShowNotes = m_dialog.addMenu(getText(1616, "")); // Ver Notas
         m_dialog.addMenu("-");
 
         m_menuShowDocAux = m_dialog.addMenu(getText(1691, "")); // Ver Documento Asociado
