@@ -55,6 +55,7 @@ declare
    
    v_orden smallint;
    v_doct_id integer;
+   v_est_id integer;
    v_cpg_id integer;
    v_doc_mueveStock smallint;
    v_doc_generaremito smallint;
@@ -84,7 +85,6 @@ declare
    v_fv_totalpercepciones decimal(18,6);
    v_fv_nrodoc varchar(50);
    v_rv_nrodoc varchar(50);
-   v_est_id integer;
    v_fv_numero integer;
    v_fv_descrip varchar(5000);
    v_fv_fechaentrega date;
@@ -830,7 +830,6 @@ begin
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 */
 
-   v_cfg_valor := null;
    select sp_cfg_getValor('Ventas-General', 'Grabar Asiento') into v_cfg_valor;
 
    v_cfg_valor := coalesce(v_cfg_valor, '0');
@@ -1006,7 +1005,6 @@ begin
 */
 
    v_cfg_clave := 'Informar Anticipos Vta_' || trim(to_char(v_modifico));
-   v_cfg_valor := 0;
 
    select sp_cfg_getValor('Usuario-Config', v_cfg_clave) into v_cfg_valor;
 

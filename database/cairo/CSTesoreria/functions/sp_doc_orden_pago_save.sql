@@ -955,8 +955,6 @@ begin
 
    perform sp_doc_orden_pago_cheque_set_credito(v_opg_id);
 
-   v_cfg_valor := null;
-
    select sp_cfg_getValor('Tesoreria-General', 'OrdenPago-Grabar Asiento') into v_cfg_valor;
 
    v_cfg_valor := coalesce(v_cfg_valor, '0');

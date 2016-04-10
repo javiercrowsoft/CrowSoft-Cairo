@@ -735,7 +735,7 @@
             return D.docCanBeSaved(m_dialog, CV.PV_FECHA);
           })
           .whenSuccess(function() {
-            if(getItems().getGrid().getRows().count() < 2) {
+            if(getItems().getGrid().getRows().count() === 0) {
               M.showWarning(getText(3903, "")); // El documento debe contener al menos un item
               return false;
             }
@@ -997,7 +997,7 @@
       };
 
       self.getPath = function() {
-        return "#general/pedidoventa/" + m_id.toString();
+        return "#venta/pedidodeventa/" + m_id.toString();
       };
 
       self.getEditorName = function() {
@@ -1475,6 +1475,7 @@
               if(valEmpty(cell.getValue(), Types.currency)) {
                 return M.showInfoWithFalse(getText(1365, "", strRow)); // Debe indicar una cantidad (1)
               }
+              break;
 
             case KI_PR_ID:
               if(valEmpty(cell.getId(), Types.id)) {
@@ -2443,15 +2444,11 @@
                 break;
 
               case KI_IVA_RI_PERCENT:
-                if(m_bIva) {
                   fields.add(CV.PVI_IVA_RIPORC, cell.getValue(), Types.double);
-                }
                 break;
 
               case KI_IVA_RNI_PERCENT:
-                if(m_bIvaRni) {
                   fields.add(CV.PVI_IVA_RNIPORC, cell.getValue(), Types.double);
-                }
                 break;
 
               case KI_PR_ID:

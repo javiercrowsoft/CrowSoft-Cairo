@@ -28,32 +28,27 @@ http://www.crowsoft.com.ar
 
 javier at crowsoft.com.ar
 */
--- Function: sp_cfg_getvalor(character varying, character varying, integer)
+-- Function: result_info()
 
--- drop function sp_cfg_getvalor(character varying, character varying, integer);
+-- drop function result_info(varchar);
 
-create or replace function sp_cfg_getvalor
+create or replace function result_info
 (
-    in p_cfg_grupo character varying,
-    in p_cfg_aspecto character varying,
-    in p_emp_id integer default null,
-    out p_cfg_valor character varying
+  in message varchar
 )
-  returns character varying as
+  returns row_result as
 $BODY$
+declare
+  rtn row_result;
 begin
 
-   p_cfg_valor := null;
-   
-   select cfg_valor
-     into p_cfg_valor
-   from Configuracion
-   where cfg_grupo = p_cfg_grupo
-     and cfg_aspecto = p_cfg_aspecto
-     and ( emp_id = p_emp_id or ( emp_id is null and p_emp_id is null ) );
+    rtn.type := 'INFO';
+    rtn.message := message;
+    return rtn;
+
 end;
 $BODY$
   language plpgsql volatile
   cost 100;
-alter function sp_cfg_getvalor(character varying, character varying, integer)
+alter function result_info(varchar)
   owner to postgres;

@@ -3479,7 +3479,6 @@
               case KI_INTERNOS:
                 internos = val(cell.getValue());
                 fields.add(CV.FVI_INTERNOS, internos * cotizacion, Types.currency);
-
                 break;
 
               case KI_IVA_RI_PERCENT:
@@ -3492,7 +3491,6 @@
 
               case KI_INTERNOS_PERCENT:
                 fields.add(CV.FVI_INTERNOS_PORC, cell.getValue(), Types.double);
-
                 break;
 
               case KI_PR_ID:

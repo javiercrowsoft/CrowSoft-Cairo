@@ -3245,24 +3245,22 @@
 
     var initVentasConfig = function() {
       m_ventasConfig = Cairo.VentaConfig.Edit.Controller.getEditor();
-      return m_ventasConfig.load(Cairo.User.getId());
+      return m_ventasConfig.load();
     };
 
     var initStockConfig = function() {
-      // TODO: implement
-      return true; // remove this line
       m_stockConfig = Cairo.StockConfig.Edit.Controller.getEditor();
-      return m_stockConfig.load(Cairo.User.getId());
+      return m_stockConfig.load();
     };
 
     var initContabilidadConfig = function() {
       m_contabilidadConfig = Cairo.ContConfig.Edit.Controller.getEditor();
-      return m_contabilidadConfig.load(Cairo.User.getId());
+      return m_contabilidadConfig.load();
     };
 
     var initTesoreriaConfig = function() {
       m_tesorariaConfig = Cairo.TesoreriaConfig.Edit.Controller.getEditor();
-      return m_tesorariaConfig.load(Cairo.User.getId());
+      return m_tesorariaConfig.load();
     };
 
     return Cairo.Promises.resolvedPromise(true)

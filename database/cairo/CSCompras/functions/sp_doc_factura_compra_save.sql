@@ -972,7 +972,6 @@ begin
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 */
 
-   v_cfg_valor := null;
    select sp_cfg_getValor('Compras-General', 'Grabar Asiento') into v_cfg_valor;
 
    v_cfg_valor := coalesce(v_cfg_valor, '0');

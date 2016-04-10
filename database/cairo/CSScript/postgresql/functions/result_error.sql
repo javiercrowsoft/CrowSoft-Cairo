@@ -30,7 +30,7 @@ javier at crowsoft.com.ar
 */
 -- Function: result_error()
 
--- drop function result_error();
+-- drop function result_error(varchar);
 
 create or replace function result_error
 (

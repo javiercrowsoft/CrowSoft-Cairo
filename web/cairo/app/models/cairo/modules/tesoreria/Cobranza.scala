@@ -1465,17 +1465,17 @@ object Cobranza {
           *     RETURNS SETOF row_result AS ...
           *
           * the field type is used to identify the value in the row. there are three
-          * kind of types: resultset, success, id
+          * kind of types: resultset, success, key
           * for first two (resultset and success) the value of type is string with
           * one of these two values ex: 'resultset' or 'success'
           * when type == 'resultset' the field r must be not null and contain a ResultSet
           * when type == 'success' the id field can contain 0 (False) or not 0 (-1,1 or any other number but NO 0) (True)
-          * the last kind of type is id. in this case the id must be the name of a column like cobz_id, as_id, pr_id, etc
+          * the last kind of type is key. in this case the key must be the name of a column like cobz_id, as_id, pr_id, etc
           * it can be any column name. if the type is an integer like in cobz_id, as_id or any other id column the field id
           * is used to contain the returned value
           * if the type is any other the column message is used
           *
-          * there are two special types for id: 'INFO', 'ERROR'
+          * there are two special types for key: 'INFO', 'ERROR'
           * when type == 'ERROR' the system will raise an exception
           * when type == 'INFO' the system will show an alert
           * in both cases the field message contains the description
