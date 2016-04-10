@@ -193,7 +193,7 @@ case class FacturaVentaBase(
       "",
       clisId,
       "",
-      "",
+      ordenCompra,
       cai,
       descrip,
       grabarAsiento

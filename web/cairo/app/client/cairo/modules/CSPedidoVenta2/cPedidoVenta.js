@@ -1502,7 +1502,9 @@
 
         tabs.add(null).setIndex(0).setName(Cairo.Constants.TAB_GENERAL);
         tabs.add(null).setIndex(1).setName(getText(1566, "")); // Adicionales
-        tabs.add(null).setIndex(2).setName(getText(1050, "")); // Transporte
+        tabs.add(null).setIndex(2).setName(getText(4909, "")); // Descuentos
+        tabs.add(null).setIndex(3).setName(getText(1050, "")); // Transporte
+        tabs.add(null).setIndex(4).setName(getText(1861, "")); // Observaciones
 
         elem = properties.add(null, C.DOC_ID);
         elem.setType(T.select);
@@ -1584,6 +1586,7 @@
         elem.setName(getText(1573, "")); // Desc. 1
         elem.setKey(K_DESCUENTO1);
         elem.setValue(m_descuento1);
+        elem.setTabIndex(2);
 
         elem = properties.add(null, CV.PV_DESCUENTO2);
         elem.setType(T.numeric);
@@ -1591,6 +1594,27 @@
         elem.setName("2");
         elem.setKey(K_DESCUENTO2);
         elem.setValue(m_descuento2);
+        elem.setTabIndex(2);
+
+        elem = properties.add(null, C.LP_ID);
+        elem.setType(T.select);
+        elem.setSelectTable(Cairo.Tables.LISTAS_DE_PRECIOS);
+        elem.setName(getText(1397, "")); // Lista de Precios
+        elem.setSelectFilter(D.getListaPrecioForCliente(m_docId, m_cliId));
+        elem.setKey(K_LP_ID);
+        elem.setSelectId(m_lpId);
+        elem.setValue(m_listaPrecio);
+        elem.setTabIndex(2);
+
+        elem = properties.add(null, C.LD_ID);
+        elem.setType(T.select);
+        elem.setSelectTable(Cairo.Tables.LISTAS_DE_DESCUENTOS);
+        elem.setName(getText(1398, "")); // Lista de Descuentos
+        elem.setSelectFilter(D.getListaDescuentoForCliente(m_docId, m_cliId));
+        elem.setKey(K_LD_ID);
+        elem.setSelectId(m_ldId);
+        elem.setValue(m_listaDescuento);
+        elem.setTabIndex(2);
 
         elem = properties.add(null, CV.RAM_ID_STOCK);
         elem.setType(T.select);
@@ -1615,15 +1639,6 @@
 
         elem.setSelectType(Cairo.Select.SelectType.tree);
 
-        elem = properties.add(null, C.LP_ID);
-        elem.setType(T.select);
-        elem.setSelectTable(Cairo.Tables.LISTAS_DE_PRECIOS);
-        elem.setName(getText(1397, "")); // Lista de Precios
-        elem.setSelectFilter(D.getListaPrecioForCliente(m_docId, m_cliId));
-        elem.setKey(K_LP_ID);
-        elem.setSelectId(m_lpId);
-        elem.setValue(m_listaPrecio);
-
         elem = properties.add(null, C.VEN_ID);
         elem.setType(T.select);
         elem.setSelectTable(Cairo.Tables.VENDEDOR);
@@ -1631,6 +1646,7 @@
         elem.setKey(K_VEN_ID);
         elem.setSelectId(m_venId);
         elem.setValue(m_vendedor);
+        elem.setTabIndex(1);
 
         elem = properties.add(null, C.CCOS_ID);
         elem.setType(T.select);
@@ -1655,6 +1671,7 @@
         elem.setSize(5000);
         elem.setKey(K_DESCRIP);
         elem.setValue(m_descrip);
+        elem.setTabIndex(4);
 
         elem = properties.add(null, C.LGJ_ID);
         elem.setType(T.select);
@@ -1699,16 +1716,6 @@
         elem.setValue(m_ordenCompra);
         elem.setTabIndex(1);
 
-        elem = properties.add(null, C.LD_ID);
-        elem.setType(T.select);
-        elem.setSelectTable(Cairo.Tables.LISTAS_DE_DESCUENTOS);
-        elem.setName(getText(1398, "")); // Lista de Descuentos
-        elem.setSelectFilter(D.getListaDescuentoForCliente(m_docId, m_cliId));
-        elem.setKey(K_LD_ID);
-        elem.setSelectId(m_ldId);
-        elem.setValue(m_listaDescuento);
-        elem.setTabIndex(1);
-
         elem = properties.add(null, C.TRANS_ID);
         elem.setType(T.select);
         elem.setSelectTable(Cairo.Tables.TRANSPORTE);
@@ -1716,7 +1723,7 @@
         elem.setKey(K_TRANS_ID);
         elem.setValue(m_transporte);
         elem.setSelectId(m_transId);
-        elem.setTabIndex(2);
+        elem.setTabIndex(3);
 
         elem = properties.add(null, C.CHOF_ID);
         elem.setType(T.select);
@@ -1726,7 +1733,7 @@
         elem.setValue(m_chofer);
         elem.setSelectId(m_chofId);
         elem.setSelectFilter(D.getSelectFilterChofer(m_transId));
-        elem.setTabIndex(2);
+        elem.setTabIndex(3);
 
         elem = properties.add(null, C.CAM_ID);
         elem.setType(T.select);
@@ -1736,7 +1743,7 @@
         elem.setValue(m_camion);
         elem.setSelectId(m_camId);
         elem.setSelectFilter(D.getSelectFilterCamion(m_transId));
-        elem.setTabIndex(2);
+        elem.setTabIndex(3);
 
         elem = properties.add(null, C.CAM_ID_SEMI);
         elem.setType(T.select);
@@ -1746,7 +1753,7 @@
         elem.setValue(m_semi);
         elem.setSelectId(m_camIdSemi);
         elem.setSelectFilter(D.getSelectFilterCamion(m_transId));
-        elem.setTabIndex(2);
+        elem.setTabIndex(3);
 
         elem = properties.add(null, CV.PV_DESTINATARIO);
         elem.setType(T.text);
@@ -1754,14 +1761,14 @@
         elem.setName(getText(3494, "")); // Destinatario
         elem.setKey(K_DESTINATARIO);
         elem.setValue(m_destinatario);
-        elem.setTabIndex(2);
+        elem.setTabIndex(3);
 
         if(Cairo.UserConfig.getShowDataAddInVentas()) {
 
           elem = properties.add(null, CV.CLIENTE_DATA_ADD);
           elem.setType(T.text);
           elem.setSubType(ST.memo);
-          elem.setTabIndex(3);
+          elem.setTabIndex(4);
 
         }
 
@@ -2090,7 +2097,7 @@
           elem.setKey(KI_DESCUENTO);
 
           elem = row.add(null);
-          elem.setValue(getValue(m_data.items[_i], CV.UN_NAME));
+          elem.setValue(getValue(m_data.items[_i], C.UN_NAME));
           elem.setKey(KI_UNIDAD);
 
           elem = row.add(null);

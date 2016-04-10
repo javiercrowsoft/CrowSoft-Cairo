@@ -54,7 +54,7 @@ object Choferes extends Controller with ProvidesUser {
       C.TRANS_ID -> Json.toJson(chofer.transId),
       C.TRANS_NAME -> Json.toJson(chofer.transName),
       C.CAM_ID -> Json.toJson(chofer.camId),
-      C.CAM_NAME -> Json.toJson(chofer.camName),
+      C.CAM_PATENTE -> Json.toJson(chofer.camPatente),
       C.CHOF_DIRECCION -> Json.toJson(chofer.direccion),
       C.CHOF_DNI -> Json.toJson(chofer.dni),
       C.CHOF_FECHA_NACIMIENTO -> Json.toJson(chofer.fechadeNacimiento),

@@ -154,7 +154,7 @@ object Camion {
       SqlParser.get[Int](DBHelper.ACTIVE) ~
       SqlParser.get[Boolean](C.CAM_ES_SEMI) ~
       SqlParser.get[String](C.CAM_PATENTE) ~
-      SqlParser.get[String](C.CAM_PATENTESEMI) ~
+      SqlParser.get[String](C.CAM_PATENTE_SEMI) ~
       SqlParser.get[Int](C.CAM_TARA) ~
       SqlParser.get[Int](C.TRANS_ID) ~
       SqlParser.get[String](C.TRANS_NAME) ~
@@ -214,7 +214,7 @@ object Camion {
         Field(DBHelper.ACTIVE, Register.boolToInt(camion.active), FieldType.boolean),
         Field(C.CAM_ES_SEMI, camion.esSemi, FieldType.boolean),
         Field(C.CAM_PATENTE, camion.patente, FieldType.text),
-        Field(C.CAM_PATENTESEMI, camion.patentesemi, FieldType.text),
+        Field(C.CAM_PATENTE_SEMI, camion.patentesemi, FieldType.text),
         Field(C.CAM_TARA, camion.tara, FieldType.number),
         Field(C.TRANS_ID, camion.transId, FieldType.id),
         Field(C.CHOF_ID, camion.chofId, FieldType.id),

@@ -551,10 +551,11 @@ object C {
   val CAM_CODE = "cam_codigo"
   val CAM_DESCRIP = "cam_descrip"
   val CAM_PATENTE = "cam_patente"
-  val CAM_NAME = CAM_PATENTE
-  val CAM_PATENTESEMI = "cam_patentesemi"
+  val CAM_PATENTE_SEMI = "cam_patentesemi"
   val CAM_TARA = "cam_tara"
   val CAM_ES_SEMI = "cam_essemi"
+
+  val CAM_ID_SEMI = "cam_id_semi"
 
   // Chofer
   val CHOFER = "Chofer"

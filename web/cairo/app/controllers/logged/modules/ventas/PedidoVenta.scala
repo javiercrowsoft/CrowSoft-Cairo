@@ -31,6 +31,7 @@ case class PedidoVentaBaseData(
                                   lgjId: Int,
                                   venId: Int,
                                   clisId: Int,
+                                  destinatario: String,
                                   ordenCompra: String,
                                   descrip: String
                                   )
@@ -51,7 +52,10 @@ case class PedidoVentaStockData(
                                  proIdOrigen: Int,
                                  proIdDestino: Int,
                                  ramIdStock: String,
-                                 transId: Int
+                                 transId: Int,
+                                 chofId: Int,
+                                 camId: Int,
+                                 semiId: Int
                                )
 
 case class PedidoVentaTotalsData(
@@ -147,13 +151,13 @@ object PedidoVentas extends Controller with ProvidesUser {
   val pedidoIdFields = List(GC.DOC_ID, C.PV_NUMERO, C.PV_NRODOC)
 
   val pedidoBaseFields = List(GC.CLI_ID, GC.EST_ID, GC.CCOS_ID, GC.SUC_ID, GC.CPG_ID, GC.LGJ_ID,
-    GC.VEN_ID, GC.CLIS_ID, C.PV_ORDEN_COMPRA, C.PV_DESCRIP)
+    GC.VEN_ID, GC.CLIS_ID, C.PV_DESTINATARIO, C.PV_ORDEN_COMPRA, C.PV_DESCRIP)
 
   val pedidoDatesFields = List(C.PV_FECHA, C.PV_FECHA_ENTREGA)
 
   val pedidoPreciosFields = List(C.PV_DESCUENTO1, C.PV_DESCUENTO2, GC.LP_ID, GC.LD_ID)
 
-  val pedidoStockFields = List(C.PRO_ID_ORIGEN, C.PRO_ID_DESTINO, C.RAM_ID_STOCK, GC.TRANS_ID)
+  val pedidoStockFields = List(C.PRO_ID_ORIGEN, C.PRO_ID_DESTINO, C.RAM_ID_STOCK, GC.TRANS_ID, GC.CHOF_ID, GC.CAM_ID, GC.CAM_ID_SEMI)
 
   val pedidoTotalsFields = List(C.PV_NETO, C.PV_IVA_RI, C.PV_IVA_RNI, C.PV_SUBTOTAL,
     C.PV_IMPORTE_DESC_1, C.PV_IMPORTE_DESC_2, C.PV_TOTAL)
@@ -182,6 +186,7 @@ object PedidoVentas extends Controller with ProvidesUser {
         GC.LGJ_ID -> number,
         GC.VEN_ID -> number,
         GC.CLIS_ID -> number,
+        C.PV_DESTINATARIO -> text,
         C.PV_ORDEN_COMPRA -> text,
         C.PV_DESCRIP -> text)
         (PedidoVentaBaseData.apply)(PedidoVentaBaseData.unapply),
@@ -199,7 +204,10 @@ object PedidoVentas extends Controller with ProvidesUser {
         C.PRO_ID_ORIGEN -> number,
         C.PRO_ID_DESTINO -> number,
         C.RAM_ID_STOCK -> text,
-        GC.TRANS_ID -> number)
+        GC.TRANS_ID -> number,
+        GC.CHOF_ID -> number,
+        GC.CAM_ID -> number,
+        GC.CAM_ID_SEMI -> number)
         (PedidoVentaStockData.apply)(PedidoVentaStockData.unapply),
       C.PEDIDO_TOTALS -> mapping (
         C.PV_NETO -> of(Global.doubleFormat),
@@ -306,6 +314,7 @@ object PedidoVentas extends Controller with ProvidesUser {
       GC.VEN_NAME -> Json.toJson(pedidoVenta.base.venName),
       GC.CLIS_ID -> Json.toJson(pedidoVenta.base.clisId),
       GC.CLIS_NAME -> Json.toJson(pedidoVenta.base.clisName),
+      C.PV_DESTINATARIO -> Json.toJson(pedidoVenta.base.ordenCompra),
       C.PV_ORDEN_COMPRA -> Json.toJson(pedidoVenta.base.ordenCompra),
       C.PV_DESCRIP -> Json.toJson(pedidoVenta.base.descrip),
 
@@ -333,6 +342,12 @@ object PedidoVentas extends Controller with ProvidesUser {
       C.RAMA_STOCK -> Json.toJson(pedidoVenta.stock.ramNameStock),
       GC.TRANS_ID -> Json.toJson(pedidoVenta.stock.transId),
       GC.TRANS_NAME -> Json.toJson(pedidoVenta.stock.transName),
+      GC.CHOF_ID -> Json.toJson(pedidoVenta.stock.chofId),
+      GC.CHOF_NAME -> Json.toJson(pedidoVenta.stock.chofName),
+      GC.CAM_ID -> Json.toJson(pedidoVenta.stock.camId),
+      GC.CAM_PATENTE -> Json.toJson(pedidoVenta.stock.camPatente),
+      GC.CAM_ID_SEMI -> Json.toJson(pedidoVenta.stock.camIdSemi),
+      GC.CAM_PATENTE_SEMI -> Json.toJson(pedidoVenta.stock.camPatenteSemi),
       C.PRO_ID_ORIGEN -> Json.toJson(pedidoVenta.stock.proIdOrigen),
       C.PRO_ORIGEN_NAME -> Json.toJson(pedidoVenta.stock.proNameOrigen),
       C.PRO_ID_DESTINO -> Json.toJson(pedidoVenta.stock.proIdOrigen),
@@ -531,6 +546,7 @@ object PedidoVentas extends Controller with ProvidesUser {
         pedidoVenta.base.lgjId,
         pedidoVenta.base.venId,
         pedidoVenta.base.clisId,
+        pedidoVenta.base.destinatario,
         pedidoVenta.base.ordenCompra,
         pedidoVenta.base.descrip),
       PedidoVenta.emptyPedidoVentaReferences,
@@ -546,7 +562,10 @@ object PedidoVentas extends Controller with ProvidesUser {
         pedidoVenta.stock.proIdOrigen,
         pedidoVenta.stock.proIdDestino,
         pedidoVenta.stock.ramIdStock,
-        pedidoVenta.stock.transId),
+        pedidoVenta.stock.transId,
+        pedidoVenta.stock.chofId,
+        pedidoVenta.stock.camId,
+        pedidoVenta.stock.semiId),
       PedidoVentaTotals(
         pedidoVenta.totals.neto,
         pedidoVenta.totals.ivaRi,

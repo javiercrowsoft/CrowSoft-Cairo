@@ -14,22 +14,22 @@ import play.api.libs.json._
 import scala.util.control.NonFatal
 
 case class Chofer(
-              id: Int,
-              name: String,
-              code: String,
-              active: Boolean,
-              transId: Int,
-              transName: String,
-              camId: Int,
-              camName: String,
-              direccion: String,
-              dni: Int,
-              fechadeNacimiento: Date,
-              telefono: String,
-              descrip: String,
-              createdAt: Date,
-              updatedAt: Date,
-              updatedBy: Int) {
+                   id: Int,
+                   name: String,
+                   code: String,
+                   active: Boolean,
+                   transId: Int,
+                   transName: String,
+                   camId: Int,
+                   camPatente: String,
+                   direccion: String,
+                   dni: Int,
+                   fechadeNacimiento: Date,
+                   telefono: String,
+                   descrip: String,
+                   createdAt: Date,
+                   updatedAt: Date,
+                   updatedBy: Int) {
 
   def this(
       id: Int,
@@ -166,7 +166,7 @@ object Chofer {
       SqlParser.get[Int](C.TRANS_ID) ~
       SqlParser.get[String](C.TRANS_NAME) ~
       SqlParser.get[Int](C.CAM_ID) ~
-      SqlParser.get[String](C.CAM_NAME) ~
+      SqlParser.get[String](C.CAM_PATENTE) ~
       SqlParser.get[String](C.CHOF_DIRECCION) ~
       SqlParser.get[Int](C.CHOF_DNI) ~
       SqlParser.get[Date](C.CHOF_FECHA_NACIMIENTO) ~
@@ -183,7 +183,7 @@ object Chofer {
               transId ~
               transName ~
               camId ~
-              camName ~
+              camPatente ~
               direccion ~
               dni ~
               fechadeNacimiento ~
@@ -200,7 +200,7 @@ object Chofer {
               transId,
               transName,
               camId,
-              camName,
+              camPatente,
               direccion,
               dni,
               fechadeNacimiento,
@@ -263,7 +263,7 @@ object Chofer {
 
   def loadWhere(user: CompanyUser, where: String, args : scala.Tuple2[scala.Any, anorm.ParameterValue[_]]*) = {
     DB.withConnection(user.database.database) { implicit connection =>
-      SQL(s"SELECT t1.*, t2.${C.TRANS_NAME}, t3.${C.CAM_NAME}" +
+      SQL(s"SELECT t1.*, t2.${C.TRANS_NAME}, t3.${C.CAM_PATENTE}" +
         s" FROM ${C.CHOFER} t1" +
         s" LEFT JOIN ${C.TRANSPORTE} t2 ON t1.${C.TRANS_ID} = t2.${C.TRANS_ID}" +
         s" LEFT JOIN ${C.CAMION} t3 ON t1.${C.CAM_ID} = t3.${C.CAM_ID}" +
