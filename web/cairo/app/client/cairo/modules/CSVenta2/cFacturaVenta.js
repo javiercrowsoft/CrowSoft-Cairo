@@ -4702,27 +4702,27 @@
        break;
 
        case K_DOC_ID:
-       fields.add(CV.DOC_ID, docId, Types.id);
+       fields.add(C.DOC_ID, docId, Types.id);
        break;
 
        case K_LP_ID:
-       fields.add(CV.LP_ID, property.getSelectId(), Types.id);
+       fields.add(C.LP_ID, property.getSelectId(), Types.id);
        break;
 
        case K_LD_ID:
-       fields.add(CV.LD_ID, property.getSelectId(), Types.id);
+       fields.add(C.LD_ID, property.getSelectId(), Types.id);
        break;
 
        case K_CPG_ID:
-       fields.add(CV.CPG_ID, property.getSelectId(), Types.id);
+       fields.add(C.CPG_ID, property.getSelectId(), Types.id);
        break;
 
        case K_VEN_ID:
-       fields.add(CV.VEN_ID, property.getSelectId(), Types.id);
+       fields.add(C.VEN_ID, property.getSelectId(), Types.id);
        break;
 
        case K_LGJ_ID:
-       fields.add(CV.LGJ_ID, property.getSelectId(), Types.id);
+       fields.add(C.LGJ_ID, property.getSelectId(), Types.id);
        break;
 
        case K_PRO_ID_ORIGEN:

@@ -48,11 +48,11 @@ case class PedidoVentaDatesData(
                                    )
 
 case class PedidoVentaStockData(
-                                   proIdOrigen: Int,
-                                   proIdDestino: Int,
-                                   deplId: Int,
-                                   transId: Int
-                                   )
+                                 proIdOrigen: Int,
+                                 proIdDestino: Int,
+                                 ramIdStock: String,
+                                 transId: Int
+                               )
 
 case class PedidoVentaTotalsData(
                                     neto: Double,
@@ -153,7 +153,7 @@ object PedidoVentas extends Controller with ProvidesUser {
 
   val pedidoPreciosFields = List(C.PV_DESCUENTO1, C.PV_DESCUENTO2, GC.LP_ID, GC.LD_ID)
 
-  val pedidoStockFields = List(C.PRO_ID_ORIGEN, C.PRO_ID_DESTINO, GC.DEPL_ID, GC.TRANS_ID)
+  val pedidoStockFields = List(C.PRO_ID_ORIGEN, C.PRO_ID_DESTINO, C.RAM_ID_STOCK, GC.TRANS_ID)
 
   val pedidoTotalsFields = List(C.PV_NETO, C.PV_IVA_RI, C.PV_IVA_RNI, C.PV_SUBTOTAL,
     C.PV_IMPORTE_DESC_1, C.PV_IMPORTE_DESC_2, C.PV_TOTAL)
@@ -198,7 +198,7 @@ object PedidoVentas extends Controller with ProvidesUser {
       C.PEDIDO_STOCK -> mapping (
         C.PRO_ID_ORIGEN -> number,
         C.PRO_ID_DESTINO -> number,
-        GC.DEPL_ID -> number,
+        C.RAM_ID_STOCK -> text,
         GC.TRANS_ID -> number)
         (PedidoVentaStockData.apply)(PedidoVentaStockData.unapply),
       C.PEDIDO_TOTALS -> mapping (
@@ -329,8 +329,8 @@ object PedidoVentas extends Controller with ProvidesUser {
       GC.LD_ID -> Json.toJson(pedidoVenta.precios.ldId),
       GC.LD_NAME -> Json.toJson(pedidoVenta.precios.ldName),
 
-      GC.DEPL_ID -> Json.toJson(pedidoVenta.stock.deplId),
-      GC.DEPL_NAME -> Json.toJson(pedidoVenta.stock.deplName),
+      C.RAM_ID_STOCK -> Json.toJson(pedidoVenta.stock.ramIdStock),
+      C.RAMA_STOCK -> Json.toJson(pedidoVenta.stock.ramNameStock),
       GC.TRANS_ID -> Json.toJson(pedidoVenta.stock.transId),
       GC.TRANS_NAME -> Json.toJson(pedidoVenta.stock.transName),
       C.PRO_ID_ORIGEN -> Json.toJson(pedidoVenta.stock.proIdOrigen),
@@ -545,7 +545,7 @@ object PedidoVentas extends Controller with ProvidesUser {
       PedidoVentaStock(
         pedidoVenta.stock.proIdOrigen,
         pedidoVenta.stock.proIdDestino,
-        pedidoVenta.stock.deplId,
+        pedidoVenta.stock.ramIdStock,
         pedidoVenta.stock.transId),
       PedidoVentaTotals(
         pedidoVenta.totals.neto,

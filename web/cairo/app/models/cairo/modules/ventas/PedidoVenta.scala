@@ -256,19 +256,19 @@ case class PedidoVentaDates(
                              )
 
 case class PedidoVentaStock(
-                               proIdOrigen: Int,
-                               proNameOrigen: String,
-                               proIdDestino: Int,
-                               proNameDestino: String,
-                               deplId: Int,
-                               deplName: String,
-                               transId: Int,
-                               transName: String
-                             ) {
+                             proIdOrigen: Int,
+                             proNameOrigen: String,
+                             proIdDestino: Int,
+                             proNameDestino: String,
+                             ramIdStock: String,
+                             ramNameStock: String,
+                             transId: Int,
+                             transName: String
+                           ) {
   def this(
             proIdOrigen: Int,
             proIdDestino: Int,
-            deplId: Int,
+            ramaIdStock: String,
             transId: Int
             ) = {
     this(
@@ -276,7 +276,7 @@ case class PedidoVentaStock(
       "",
       proIdDestino,
       "",
-      deplId,
+      ramaIdStock,
       "",
       transId,
       ""
@@ -289,13 +289,13 @@ object PedidoVentaStock {
   def apply(
              proIdOrigen: Int,
              proIdDestino: Int,
-             deplId: Int,
+             ramaIdStock: String,
              transId: Int) = {
 
     new PedidoVentaStock(
       proIdOrigen,
       proIdDestino,
-      deplId,
+      ramaIdStock,
       transId)
   }
 }
@@ -554,7 +554,7 @@ object PedidoVenta {
     emptyPedidoVentaReferences,
     PedidoVentaDates(U.NO_DATE, U.NO_DATE),
     PedidoVentaPrecios(0.0, 0.0, DBHelper.NoId, DBHelper.NoId),
-    PedidoVentaStock(DBHelper.NoId, DBHelper.NoId, DBHelper.NoId, DBHelper.NoId),
+    PedidoVentaStock(DBHelper.NoId, DBHelper.NoId, "", DBHelper.NoId),
     PedidoVentaTotals(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0),
     emptyPedidoVentaItems
   )
@@ -784,8 +784,8 @@ object PedidoVenta {
     SqlParser.get[Option[String]](C.PRO_ORIGEN_NAME) ~
     SqlParser.get[Option[Int]](C.PRO_ID_DESTINO) ~
     SqlParser.get[Option[String]](C.PRO_DESTINO_NAME) ~
-    SqlParser.get[Option[Int]](GC.DEPL_ID) ~
-    SqlParser.get[Option[String]](GC.DEPL_NAME) ~
+    SqlParser.get[String](C.RAM_ID_STOCK) ~
+    SqlParser.get[String](C.RAMA_STOCK) ~
     SqlParser.get[Option[Int]](GC.TRANS_ID) ~
     SqlParser.get[Option[String]](GC.TRANS_NAME) ~
     SqlParser.get[BigDecimal](C.PV_NETO) ~
@@ -846,8 +846,8 @@ object PedidoVenta {
         proNameOrigen ~
         proIdDestino ~
         proNameDestino ~
-        deplId ~
-        deplName ~
+        ramIdStock ~
+        ramIdName ~
         transId ~
         transName ~
         neto ~
@@ -919,8 +919,8 @@ object PedidoVenta {
           proNameOrigen.getOrElse(""),
           proIdDestino.getOrElse(DBHelper.NoId),
           proNameDestino.getOrElse(""),
-          deplId.getOrElse(DBHelper.NoId),
-          deplName.getOrElse(""),
+          ramIdStock,
+          ramIdName,
           transId.getOrElse(DBHelper.NoId),
           transName.getOrElse("")
         ),
@@ -984,7 +984,7 @@ object PedidoVenta {
 
         Field(C.PRO_ID_ORIGEN, pedidoVenta.stock.proIdOrigen, FieldType.id),
         Field(C.PRO_ID_DESTINO, pedidoVenta.stock.proIdDestino, FieldType.id),
-        Field(GC.DEPL_ID, pedidoVenta.stock.deplId, FieldType.id),
+        Field(GC.DEPL_ID, pedidoVenta.stock.ramIdStock, FieldType.text),
         Field(GC.TRANS_ID, pedidoVenta.stock.transId, FieldType.id),
 
         Field(C.PV_NETO, pedidoVenta.totals.neto, FieldType.currency),

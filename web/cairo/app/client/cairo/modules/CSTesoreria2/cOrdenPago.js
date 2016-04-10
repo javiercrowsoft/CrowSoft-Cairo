@@ -1263,7 +1263,7 @@
 
         var elem = properties.add(null, CT.LGJ_ID);
         elem.setType(Dialogs.PropertyType.select);
-        elem.setTable(Cairo.Tables.LEGAJOS);
+        elem.setSelectTable(Cairo.Tables.LEGAJOS);
         elem.setName(Cairo.Language.getText(1575, "")); // Legajo
         elem.setKey(K_LGJ_ID);
         elem.setSelectId(m_lgjId);

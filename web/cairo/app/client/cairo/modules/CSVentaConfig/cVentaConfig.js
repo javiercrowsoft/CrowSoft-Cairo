@@ -1100,7 +1100,7 @@
 
         var elem = properties.add(null, C_DOC_FACTURA_FALTANTE);
         elem.setType(T.select);
-        elem.setTable(Cairo.Tables.DOCUMENTO);
+        elem.setSelectTable(Cairo.Tables.DOCUMENTO);
         elem.setSelectFilter("doct_id = 1");
         elem.setName(Cairo.Language.getText(4937, "")); // Documento de Factura por Faltante
         elem.setKey(K_DOC_ID_FALTANTE);
@@ -1110,7 +1110,7 @@
 
         var elem = properties.add(null, C_DOC_MOVIMIENTO_SOBRANTE);
         elem.setType(T.select);
-        elem.setTable(Cairo.Tables.DOCUMENTO);
+        elem.setSelectTable(Cairo.Tables.DOCUMENTO);
         elem.setSelectFilter("doct_id = 26");
         elem.setName(Cairo.Language.getText(4938, "")); // Documento de Movimiento de Fondos Sobrantes
         elem.setKey(K_DOC_ID_SOBRANTE);
@@ -1120,7 +1120,7 @@
 
         var elem = properties.add(null, C_DOC_MOVIMIENTO_TICKET);
         elem.setType(T.select);
-        elem.setTable(Cairo.Tables.DOCUMENTO);
+        elem.setSelectTable(Cairo.Tables.DOCUMENTO);
         elem.setSelectFilter("doct_id = 26");
         elem.setName(Cairo.Language.getText(4939, "")); // Documento de Movimiento de Fondos Tickets
         elem.setKey(K_DOC_ID_TICKETS);

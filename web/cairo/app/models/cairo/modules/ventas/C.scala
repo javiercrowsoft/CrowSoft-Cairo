@@ -327,7 +327,7 @@ object C {
 
   // Deposito
   val RAM_ID_STOCK = "ram_id_stock"
-  val RAMA_STOCK = "ramastock"
+  val RAMA_STOCK = "RamaStock"
 
   // Items de Pedidos de Venta
   val PEDIDO_VENTA_ITEM_TMP = "PedidoVentaItemTMP"

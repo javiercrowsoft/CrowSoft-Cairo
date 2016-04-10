@@ -389,13 +389,13 @@ POST    /api/v1/ventas/pedidoventas                                             
 GET     /api/v1/ventas/pedidoventas/cliente/:cliId/prespuestos/:currencyId                   controllers.logged.modules.ventas.PedidoVentas.listPresupuestos(cliId: Int, currencyId: Int)
 GET     /api/v1/ventas/pedidoventas/prespuestos/items                                        controllers.logged.modules.ventas.PedidoVentas.listPresupuestosItems(ids: Option[String])
 
-GET     /api/v1/ventas/facturaventa/:id                                                      controllers.logged.modules.ventas.PedidoVentas.get(id: Int)
-POST    /api/v1/ventas/facturaventa                                                          controllers.logged.modules.ventas.PedidoVentas.create
-POST    /api/v1/ventas/facturaventa/from_presupuestos                                        controllers.logged.modules.ventas.PedidoVentas.createFromPresupuesto
-PUT     /api/v1/ventas/facturaventa/:id                                                      controllers.logged.modules.ventas.PedidoVentas.update(id: Int)
-DELETE  /api/v1/ventas/facturaventa/:id                                                      controllers.logged.modules.ventas.PedidoVentas.delete(id: Int)
+GET     /api/v1/ventas/pedidoventa/:id                                                       controllers.logged.modules.ventas.PedidoVentas.get(id: Int)
+POST    /api/v1/ventas/pedidoventa                                                           controllers.logged.modules.ventas.PedidoVentas.create
+POST    /api/v1/ventas/pedidoventa/from_presupuestos                                         controllers.logged.modules.ventas.PedidoVentas.createFromPresupuesto
+PUT     /api/v1/ventas/pedidoventa/:id                                                       controllers.logged.modules.ventas.PedidoVentas.update(id: Int)
+DELETE  /api/v1/ventas/pedidoventa/:id                                                       controllers.logged.modules.ventas.PedidoVentas.delete(id: Int)
 
-GET     /api/v1/ventas/facturaventa/notes/:id                                                controllers.logged.modules.ventas.PedidoVentas.notes(id: Int)
+GET     /api/v1/ventas/pedidoventa/notes/:id                                                 controllers.logged.modules.ventas.PedidoVentas.notes(id: Int)
 
 GET     /api/v1/ventas/facturaventas                                                         controllers.logged.modules.ventas.FacturaVentas.list(from: Option[String], to: Option[String], cliId: Option[String], estId: Option[String], ccosId: Option[String], sucId: Option[String], venId: Option[String], docId: Option[String], cpgId: Option[String], empId: Option[String])
 GET     /api/v1/ventas/facturaventas/parameters                                              controllers.logged.modules.ventas.FacturaVentas.parameters()

@@ -1506,7 +1506,7 @@
 
         elem = properties.add(null, C.DOC_ID);
         elem.setType(T.select);
-        elem.setTable(Cairo.Tables.DOCUMENTO);
+        elem.setSelectTable(Cairo.Tables.DOCUMENTO);
         elem.setName(getText(1567, "")); // Documento
         elem.setKey(K_DOC_ID);
 
@@ -1594,7 +1594,7 @@
 
         elem = properties.add(null, CV.RAM_ID_STOCK);
         elem.setType(T.select);
-        elem.setTable(Cairo.Tables.DEPOSITO_LOGICO);
+        elem.setSelectTable(Cairo.Tables.DEPOSITO_LOGICO);
         elem.setName(getText(1574, "")); // Depósito
         elem.setKey(K_RAM_ID_STOCK);
 
@@ -1658,7 +1658,7 @@
 
         elem = properties.add(null, C.LGJ_ID);
         elem.setType(T.select);
-        elem.setTable(Cairo.Tables.LEGAJOS);
+        elem.setSelectTable(Cairo.Tables.LEGAJOS);
         elem.setName(getText(1575, "")); // Legajo
         elem.setKey(K_LGJ_ID);
         elem.setSelectId(m_lgjId);
@@ -2197,7 +2197,7 @@
               m_sucursal = valField(data, C.SUC_NAME);
               m_docId = valField(data, C.DOC_ID);
               m_documento = valField(data, C.DOC_NAME);
-              m_doctId = valField(data, CV.DOCT_ID);
+              m_doctId = valField(data, C.DOCT_ID);
               m_lpId = valField(data, C.LP_ID);
               m_listaPrecio = valField(data, C.LP_NAME);
               m_cpgId = valField(data, C.CPG_ID);
@@ -2238,8 +2238,8 @@
               m_clisId = valField(data, C.CLIS_ID);
               m_clienteSucursal = valField(data, C.CLIS_NAME);
 
-              m_taPropuesto = valField(data, Cairo.Constants.TA_PROPUESTO);
-              m_taMascara = valField(data, Cairo.Constants.TA_MASCARA);
+              m_taPropuesto = valField(data, C.TA_PROPUESTO);
+              m_taMascara = valField(data, C.TA_MASCARA);
 
               m_bIva = valField(data, C.HAS_IVA_RI);
               m_bIvaRni = valField(data, C.HAS_IVA_RNI);
@@ -3562,6 +3562,15 @@
         c.setSelectId(val(m_sucId));
         c.setSelectIntValue(m_sucId);
 
+        c = m_properties.add(null, C.VEN_ID);
+        c.setType(T.select);
+        c.setSelectTable(Cairo.Tables.VENDEDOR);
+        c.setName(getText(1510, "")); // Vendedor
+        c.setKey(K_VEN_ID);
+        c.setValue(m_vendedor);
+        c.setSelectId(val(m_venId));
+        c.setSelectIntValue(m_venId);
+
         c = m_properties.add(null, C.DOC_ID);
         c.setType(T.select);
         c.setSelectTable(Cairo.Tables.DOCUMENTO);
@@ -3662,6 +3671,7 @@
               m_estId = valField(response.data, C.EST_ID);
               m_ccosId = valField(response.data, C.CCOS_ID);
               m_sucId = valField(response.data, C.SUC_ID);
+              m_venId = valField(response.data, C.VEN_ID);
               m_docId = valField(response.data, C.DOC_ID);
               m_cpgId = valField(response.data, C.CPG_ID);
               m_empId = valField(response.data, C.EMP_ID);
@@ -3670,6 +3680,7 @@
               m_estado = valField(response.data, C.EST_NAME);
               m_centroCosto = valField(response.data, C.CCOS_NAME);
               m_sucursal = valField(response.data, C.SUC_NAME);
+              m_vendedor = valField(response.data, C.VEN_NAME);
               m_documento = valField(response.data, C.DOC_NAME);
               m_condicionPago = valField(response.data, C.CPG_NAME);
               m_empresa = valField(response.data, C.EMP_NAME);
