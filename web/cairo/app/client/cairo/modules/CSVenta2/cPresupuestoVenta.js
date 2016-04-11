@@ -510,7 +510,7 @@
           });
       };
 
-      self.getAplication = function() {
+      self.getApplication = function() {
         return Cairo.Application.getName();
       };
 

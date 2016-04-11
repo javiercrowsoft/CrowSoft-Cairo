@@ -138,7 +138,7 @@
       //-------------------------------------------------------------------------------------
       // Interfaz cliente de List de documentos
 
-      self.getAplication = function() {
+      self.getApplication = function() {
         return Cairo.Application.getName();
       };
 
