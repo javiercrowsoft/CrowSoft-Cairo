@@ -28,11 +28,11 @@ http://www.crowsoft.com.ar
 
 javier at crowsoft.com.ar
 */
--- Function: sp_doc_pedido_venta_set_credito()
+-- Function: sp_doc_pedido_vta_set_credito_cairo()
 
--- drop function sp_doc_pedido_venta_set_credito(integer, integer);
+-- drop function sp_doc_pedido_vta_set_credito_cairo(integer, integer);
 
-create or replace function sp_doc_pedido_venta_set_credito
+create or replace function sp_doc_pedido_vta_set_credito_cairo
 (
   in p_pv_id integer,
   in p_borrar integer default 0
@@ -202,5 +202,5 @@ end;
 $BODY$
   language plpgsql volatile
   cost 100;
-alter function sp_doc_pedido_venta_set_credito(integer, integer)
+alter function sp_doc_pedido_vta_set_credito_cairo(integer, integer)
   owner to postgres;

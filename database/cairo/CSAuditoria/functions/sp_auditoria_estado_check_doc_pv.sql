@@ -67,7 +67,7 @@ begin
                from PedidoVentaItem pvi
                where (pvi.pvi_pendiente + (  coalesce(( select sum(pvfv_cantidad)
                                                         from PedidoFacturaVenta
-                                                        where pvi.pvi_id = pvi.pvi_id ), 0)
+                                                        where pvi_id = pvi.pvi_id ), 0)
                                            + coalesce(( select sum(pvdv_cantidad)
                                                         from PedidoDevolucionVenta
                                                         where  ( pvi_id_pedido = pvi.pvi_id and v_doct_id = 5 )

@@ -1253,14 +1253,14 @@
 
         virtualRow.setSuccess(false);
 
-        switch (virtualRow.getInfo().getKey()) {
+        switch (virtualRow.getInfo().key) {
           case K_ITEMS:
             var items = getItems();
 
             var row = null;
-            row = items.getGrid().getRows.item(virtualRow.row);
+            row = items.getGrid().getRows.item(virtualRow.getInfo().row);
 
-            if(row.item(virtualRow.col).getKey() === KI_PR_ID) {
+            if(row.item(virtualRow.getInfo().col).getKey() === KI_PR_ID) {
 
               var cell = getCell(row, KI_PR_ID);
 

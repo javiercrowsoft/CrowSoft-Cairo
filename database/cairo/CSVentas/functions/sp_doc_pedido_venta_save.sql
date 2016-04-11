@@ -539,7 +539,7 @@ begin
    --
    perform sp_doc_pedido_venta_set_pendiente(v_pv_id);
 
-   perform sp_doc_pedidoventa_set_credito(v_pv_id);
+   perform sp_doc_pedido_venta_set_credito(v_pv_id);
 
    perform sp_doc_pedido_venta_set_estado(v_pv_id);
 
@@ -552,7 +552,7 @@ begin
 */
    -- estado
    --
-   select * from sp_auditoria_credito_check_doc_pv(v_pv_id) into v_success, v_error_msg;
+   select * from sp_auditoria_estado_check_doc_pv(v_pv_id) into v_success, v_error_msg;
    if coalesce(v_success, 0) = 0 then
       raise exception '%', v_error_msg;
    end if;
@@ -560,7 +560,6 @@ begin
    -- totales
    --
    select * from sp_auditoria_totales_check_doc_pv(v_pv_id) into v_success, v_error_msg;
-
    if coalesce(v_success, 0) = 0 then
       raise exception '%', v_error_msg;
    end if;
@@ -568,7 +567,6 @@ begin
    -- credito
    --
    select * from sp_auditoria_credito_check_doc_pv(v_pv_id) into v_success, v_error_msg;
-
    if coalesce(v_success, 0) = 0 then
       raise exception '%', v_error_msg;
    end if;
@@ -609,7 +607,7 @@ begin
 
    select sp_cfg_getValor('Ventas-Config', 'Informar Pedido sin Precio Vta') into v_cfg_valor;
 
-   v_cfg_valor := coalesce(v_cfg_valor, 0);
+   v_cfg_valor := coalesce(v_cfg_valor, '0');
 
    if to_number(v_cfg_valor) <> 0 then
 
@@ -626,7 +624,7 @@ begin
 
    select sp_cfg_getValor('Ventas-Config', 'Informar Pedido sin Firma') into v_cfg_valor;
 
-   v_cfg_valor := coalesce(v_cfg_valor, 0);
+   v_cfg_valor := coalesce(v_cfg_valor, '0');
 
    select doc_llevafirmacredito
      into v_doc_llevafirmacredito

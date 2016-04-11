@@ -61,26 +61,30 @@ begin
 
    SET TRANSACTION READ WRITE;
 
-   create temporary table tt_KitItems
-   (
-      pr_id integer    not null,
-      nivel integer    not null
-   ) on commit drop;
+   if not table_exists('tt_KitItems') then
+      create temporary table tt_KitItems
+      (
+         pr_id integer    not null,
+         nivel integer    not null
+      ) on commit drop;
+   end if;
 
-   create temporary table tt_kit_item_serie
-   (
-      pr_id_kit_padre     integer,
-      pr_id_kit           integer,
-      cantidad            decimal(18,6) not null,
-      cant_kits           integer default (0) not null,
-      faltante            integer default (0) not null,
-      pr_id               integer not null,
-      prk_id              integer not null,
-      costo               decimal(18,6) default (0) not null,
-      costo_x_insumos     decimal(18,6) default (0) not null,
-      col_order           integer default (3) not null,
-      nivel               smallint default (0) not null
-   ) on commit drop;
+   if not table_exists('tt_kit_item_serie') then
+      create temporary table tt_kit_item_serie
+      (
+         pr_id_kit_padre     integer,
+         pr_id_kit           integer,
+         cantidad            decimal(18,6) not null,
+         cant_kits           integer default (0) not null,
+         faltante            integer default (0) not null,
+         pr_id               integer not null,
+         prk_id              integer not null,
+         costo               decimal(18,6) default (0) not null,
+         costo_x_insumos     decimal(18,6) default (0) not null,
+         col_order           integer default (3) not null,
+         nivel               smallint default (0) not null
+      ) on commit drop;
+   end if;
 
    delete from PedidoVentaItemStock where pv_id = p_pv_id;
 

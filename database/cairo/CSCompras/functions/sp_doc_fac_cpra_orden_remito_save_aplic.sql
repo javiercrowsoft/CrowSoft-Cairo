@@ -28,9 +28,9 @@ http://www.crowsoft.com.ar
 
 javier at crowsoft.com.ar
 */
--- Function: sp_doc_fac_cpra_ord_rto_save_aplic()
+-- Function: sp_doc_fac_cpra_orden_remito_save_aplic()
 
--- drop function sp_doc_fac_cpra_ord_rto_save_aplic(integer, integer, integer);
+-- drop function sp_doc_fac_cpra_orden_remito_save_aplic(integer, integer, integer);
 
 create or replace function sp_doc_fac_cpra_orden_remito_save_aplic
 (

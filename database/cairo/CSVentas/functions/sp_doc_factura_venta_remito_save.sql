@@ -228,7 +228,7 @@ begin
 
    perform sp_doc_remito_vta_set_item_pendiente(p_fv_id);
 
-   -- actualizo la deuda de la Pedido
+   -- actualizo la deuda del pedido
    --
    perform sp_doc_remito_venta_set_pendiente(v_rv_id);
 

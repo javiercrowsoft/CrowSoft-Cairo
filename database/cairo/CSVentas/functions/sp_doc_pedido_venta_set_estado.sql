@@ -116,7 +116,7 @@ begin
 
             -- se obtiene la deuda del cliente
             --
-            select * from sp_doc_pedido_venta_get_deuda_clien(v_cli_id) into v_pendiente, v_pendientedoc;
+            select * from sp_doc_pedido_venta_get_deuda_cliente(v_cli_id) into v_pendiente, v_pendientedoc;
 
             -- se obtiene el credito del cliente
             --
