@@ -55,62 +55,70 @@
       }
 
     </div>
-        @if(requestOrigin.userAgent.isMobile) {
-          <div class="collapse navbar-collapse" style="margin-top: 100px;">
-            <div class="navbar-form navbar-right" style="padding-top: 5px;">
-              <a class="btn btn-danger btn-xs" href="/logout" style="margin-right: 10px;">
-                Logout
-              </a>
-            </div>
-            <div class="container">
-                <div class="row">
-                    <div class="panel-group mobile-accordion-menu" id="mainMenu">
-                        @for(menu <- menus) { @htmlHelpers.menuItemMobile(menu) }
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h4 class="panel-title">
-                                    <a data-toggle="collapse" data-parent="#mainMenu" href="#collapseHelp">
-                                        Help <b class="caret"></b>
-                                    </a>
-                                </h4>
-                            </div>
 
-                            <div id="collapseHelp" class="panel-collapse collapse menu-panel">
-                                <div class="panel-body">
-                                    <ul class="list-group">
-                                        <li class="list-group-item"><a href="#about" class="menu">About</a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-          </div><!--/.nav-collapse -->
-        }
-<div class="container @if(requestOrigin.userAgent.isMobile){mobile-body} desktop-container">
-    <div class="row">
-        @flash.get("success").map { msg =>
-            <div class="alert alert-info">@msg</div>
-        }
-    </div>
-</div>
+  @if(requestOrigin.userAgent.isMobile) {
+    <div class="collapse navbar-collapse" style="margin-top: 100px;">
+      <div class="navbar-form navbar-right" style="padding-top: 5px;">
+        <a class="btn btn-danger btn-xs" href="/logout" style="margin-right: 10px;">
+          Logout
+        </a>
+      </div>
+      <div class="container">
+          <div class="row">
+              <div class="panel-group mobile-accordion-menu" id="mainMenu">
+                  @for(menu <- menus) { @htmlHelpers.menuItemMobile(menu) }
+                  <div class="panel panel-default">
+                      <div class="panel-heading">
+                          <h4 class="panel-title">
+                              <a data-toggle="collapse" data-parent="#mainMenu" href="#collapseHelp">
+                                  Help <b class="caret"></b>
+                              </a>
+                          </h4>
+                      </div>
 
-<div id="header-region"></div>
+                      <div id="collapseHelp" class="panel-collapse collapse menu-panel">
+                          <div class="panel-body">
+                              <ul class="list-group">
+                                  <li class="list-group-item"><a href="#about" class="menu">About</a></li>
+                              </ul>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+    </div><!--/.nav-collapse -->
+  }
 
-<div id="mainTabBody" class="tab-content" @if(requestOrigin.userAgent.isMobile) {style="margin-top: 45px;"}>
-  <div class="tab-pane active" id="desktop-region">
+  <div class="container @if(requestOrigin.userAgent.isMobile){mobile-body} desktop-container">
+      <div class="row">
+          @flash.get("success").map { msg =>
+              <div class="alert alert-info">@msg</div>
+          }
+      </div>
   </div>
-</div>
 
-<div id="main-region">
-</div>
+  <div id="header-region"></div>
 
-<div id="dialog-region"></div>
-<div id="dialog-loading-region"></div>
-<div id="dialog-select-tree-region"></div>
+  <div id="mainTabBody" class="tab-content" @if(requestOrigin.userAgent.isMobile) {style="margin-top: 45px;"}>
+    <div class="tab-pane active" id="desktop-region">
+    </div>
+  </div>
 
-<!-- Backbone templates -->
+  <div id="main-region">
+  </div>
+
+  <div id="dialog-region"></div>
+  <div id="dialog-loading-region"></div>
+  <div id="dialog-select-tree-region"></div>
+
+<!--
+#########################################################
+
+Backbone templates
+
+#########################################################
+-->
 
 <script type="text/template" id="about-message">
     <div class="container">
@@ -188,7 +196,176 @@
 
 <!-- desktop -->
 <script type="text/template" id="desktop-template">
+        <div id="page-wrapper" style="min-height: 724px;">
+            <div class="row" style="padding-left: 50px;">
+                <div class="col-lg-12">
+                    <h2 class="page-header">Modulos</h2>
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+            <!-- /.row -->
+            <div class="row" style="padding-left: 50px; padding-right: 50px;">
+                <div class="col-lg-3">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            Compras
+                        </div>
+                        <div class="panel-body">
+                            <br>
+                            <ul>
+                                <li><a href="#compra/facturasdecompra" class="menu">Facturas de Compra</a>
+                                    <hr>
+                                </li>
+                                <li><a href="#compra/remitosdecompra" class="menu">Remitos de Compra</a>
+                                    <hr>
+                                </li>
+                                <li><a href="#compra/ordenesdecompra" class="menu">Ordenes de Compra</a>
+                                    <hr>
+                                </li>
+                                <li><a href="#compra/pedidosdecompra" class="menu">Pedidos de Compra</a>
+                                    <hr>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="panel-footer">
+                            <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+                            <a href="#compra/compraconfig" class="menu">Configuracion</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.col-lg-4 -->
+                <div class="col-lg-3">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            Ventas
+                        </div>
+                        <div class="panel-body">
+                            <br>
+                            <ul>
+                                <li><a href="#venta/facturasdeventa" class="menu">Facturas de Venta</a>
+                                    <hr>
+                                </li>
+                                <li><a href="#venta/remitosdeventa" class="menu">Remitos de Venta</a>
+                                    <hr>
+                                </li>
+                                <li><a href="#venta/pedidosdeventa" class="menu">Pedidos de Venta</a>
+                                    <hr>
+                                </li>
+                                <li><a href="#venta/pedidosdeventa" class="menu">Presupuestos de Venta</a>
+                                    <hr>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="panel-footer">
+                            <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+                            <a href="#venta/config" class="menu">Configuracion</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.col-lg-4 -->
+                <div class="col-lg-3">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            Tesoreria
+                        </div>
+                        <div class="panel-body">
+                            <br>
+                            <ul>
+                                <li><a href="#tesoreria/cobranzas" class="menu">Cobranzas</a>
+                                    <hr>
+                                </li>
+                                <li><a href="#tesoreria/ordenespago" class="menu">Ordenes de Pago</a>
+                                    <hr>
+                                </li>
+                                <li><a href="#tesoreria/movimientosfondo" class="menu">Movimientos de Fondo</a>
+                                    <hr>
+                                </li>
+                                <li><a href="#tesoreria/depositosbanco" class="menu">Depositos Bancarios</a>
+                                    <hr>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="panel-footer">
+                            <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+                            <a href="#venta/config" class="menu">Configuracion</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            Contabilidad
+                        </div>
+                        <div class="panel-body">
+                            <br>
+                            <ul>
+                                <li><a href="#contabilidad/asientos" class="menu">Asientos</a>
+                                    <hr>
+                                </li>
+                                <li><a href="#contabilidad/ejercicioscontables" class="menu">Ejercicios Contables</a>
+                                    <hr>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="panel-footer">
+                            <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+                            <a href="#contabilidad/config" class="menu">Configuracion</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.col-lg-4 -->
+            </div>
+            <div class="row" style="padding-left: 50px;">
+                <div class="col-lg-12">
+                    <h2 class="page-header">Informes</h2>
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
 
+            <div class="row" style="padding-left: 50px; padding-right: 50px;">
+                <div class="col-lg-12">
+                    <div class="panel panel-default">
+                        <!-- /.panel-heading -->
+                        <div class="panel-body">
+                            <!-- Nav tabs -->
+                            <ul class="nav nav-pills">
+                                <li class="active"><a data-toggle="tab" href="#compras-pills">Home</a>
+                                </li>
+                                <li><a data-toggle="tab" href="#ventas-pills">Ventas</a>
+                                </li>
+                                <li><a data-toggle="tab" href="#tesoreria-pills">Tesoreria</a>
+                                </li>
+                                <li><a data-toggle="tab" href="#contabilidad-pills">Contabilidad</a>
+                                </li>
+                            </ul>
+
+                            <!-- Tab panes -->
+                            <div class="tab-content inner-tab-content">
+                                <div id="compras-pills" class="tab-pane fade in active">
+                                    <h4>Compras</h4>
+                                    <p>.</p>
+                                </div>
+                                <div id="ventas-pills" class="tab-pane fade">
+                                    <h4>Ventas</h4>
+                                    <p>.</p>
+                                </div>
+                                <div id="tesoreria-pills" class="tab-pane fade">
+                                    <h4>Tesoreria</h4>
+                                    <p>.</p>
+                                </div>
+                                <div id="contabilidad-pills" class="tab-pane fade">
+                                    <h4>Contabilidad</h4>
+                                    <p>.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+                    <!-- /.panel -->
+                </div>
+                <!-- /.col-lg-6 -->
+            </div>
+        </div>
 </script>
 
 <!-- trees -->

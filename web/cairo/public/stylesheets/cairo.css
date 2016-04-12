@@ -942,3 +942,7 @@ div.vertical-two-column:first-child {
 .close-wizard-button {
   width: 250px;
 }
+
+.inner-tab-content {
+  margin-top: 37px;
+}
