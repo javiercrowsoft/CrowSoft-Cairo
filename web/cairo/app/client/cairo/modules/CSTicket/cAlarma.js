@@ -311,20 +311,20 @@
           switch (property.getKey()) {
 
             case K_PROYECTO:
-              register.getFields().add2(Cairo.Constants.LDP_VALOR, property.getSelectIntValue(), Cairo.Constants.Types.text);
-              register.getFields().add2(Cairo.Constants.LDP_ORDEN, 30, Cairo.Constants.Types.integer);
-              register.getFields().add2(Cairo.Constants.LDP_ID, K_PROYECTO, Cairo.Constants.Types.integer);
+              fields.add(Cairo.Constants.LDP_VALOR, property.getSelectIntValue(), Cairo.Constants.Types.text);
+              fields.add(Cairo.Constants.LDP_ORDEN, 30, Cairo.Constants.Types.integer);
+              fields.add(Cairo.Constants.LDP_ID, K_PROYECTO, Cairo.Constants.Types.integer);
               break;
 
             case K_CLIENTE:
-              register.getFields().add2(Cairo.Constants.LDP_VALOR, property.getSelectIntValue(), Cairo.Constants.Types.text);
-              register.getFields().add2(Cairo.Constants.LDP_ORDEN, 50, Cairo.Constants.Types.integer);
-              register.getFields().add2(Cairo.Constants.LDP_ID, K_CLIENTE, Cairo.Constants.Types.integer);
+              fields.add(Cairo.Constants.LDP_VALOR, property.getSelectIntValue(), Cairo.Constants.Types.text);
+              fields.add(Cairo.Constants.LDP_ORDEN, 50, Cairo.Constants.Types.integer);
+              fields.add(Cairo.Constants.LDP_ID, K_CLIENTE, Cairo.Constants.Types.integer);
 
               break;
           }
-          register.getFields().add2(Cairo.Constants.US_ID, m_us_id, Cairo.Constants.Types.id);
-          register.getFields().add2(C.PRE_ID, csPreTicketPrestacion.cSPRETICKLISTALARMA, Cairo.Constants.Types.id);
+          fields.add(Cairo.Constants.US_ID, m_us_id, Cairo.Constants.Types.id);
+          fields.add(C.PRE_ID, csPreTicketPrestacion.cSPRETICKLISTALARMA, Cairo.Constants.Types.id);
 
 
 
@@ -568,7 +568,7 @@
           var elem = m_properties.add(null, "TypeTask");
           elem.setName("TypeTask");
           elem.setCaption(" ");
-          var elem = elem.add(null);
+          var elem = row.add(null);
           elem.FormulaType = csConditionType.cSCONDTNONE;
           elem.IconIndex = c_img_task;
           elem.setWidth(500);

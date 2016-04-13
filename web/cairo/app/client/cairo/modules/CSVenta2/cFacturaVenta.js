@@ -2817,6 +2817,7 @@
         elem.setFormat(Cairo.Settings.getAmountDecimalsFormat());
         elem.setKey(KI_PRECIO);
         elem.setEnabled(false);
+        elem.setVisible(bColVisible);
 
         elem = columns.add(null);
         elem.setName(getText(1581, "")); // Neto
@@ -4574,6 +4575,7 @@
               case KI_DESCUENTO:
               case KI_UNIDAD:
               case KI_PRECIO_LP:
+              case KI_PRECIO:
               case KI_IVA_RNI:
               case KI_TO_ID:
 

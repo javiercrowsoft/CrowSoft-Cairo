@@ -25,12 +25,7 @@
       var valEmpty = Cairo.Util.valEmpty;
       var call = P.call;
       var D = Cairo.Documents;
-      var getProperty = D.getProperty;
-      var getGrid = D.getGrid;
       var getCell = Dialogs.cell;
-      var cellVal = Dialogs.cellVal;
-      var cellId = Dialogs.cellId;
-      var cellFloat = Dialogs.cellFloat;
       var val = Cairo.Util.val;
       var M = Cairo.Modal;
       var T = Dialogs.PropertyType;
@@ -236,11 +231,6 @@
 
       self.setWizardCompleteSuccess = function(rhs) {
         m_bWizardCompleteSuccess = rhs;
-      };
-
-      self.refresh = function() {
-        load(m_id);
-        refreshProperties();
       };
 
       self.terminateWizard = function(id) {
@@ -688,7 +678,7 @@
 
         p = D.docCanBeEdited(m_docEditable, m_docEditMsg)
           .whenSuccess(
-            call(D.docCanBeSaved, m_dialog, CV.FV_FECHA_IVA)
+            call(D.docCanBeSaved, m_dialog, CT.COBZ_FECHA)
           )
           .whenSuccess(function() {
             if(getCheques().getRows().count() === 0
@@ -728,7 +718,9 @@
 
             var _count = m_properties.size();
             for(var _i = 0; _i < _count; _i++) {
+
               var property = m_properties.item(_i);
+
               switch (property.getKey()) {
                 case K_NUMERO:
                   fields.add(CT.COBZ_NUMERO, property.getValue(), Types.long);
@@ -778,7 +770,9 @@
 
             var _count = m_footer.getProperties().size();
             for(var _i = 0; _i < _count; _i++) {
+
               property = m_footer.getProperties().item(_i);
+
               switch (property.getKey()) {
                 case K_NETO:
                   fields.add(CT.COBZ_NETO, val(property.getValue()), Types.currency);
@@ -796,6 +790,8 @@
 
             fields.add(CT.COBZ_GRABAR_ASIENTO, 1, Types.boolean);
             fields.add(C.EST_ID, m_estId, Types.id);
+
+            m_orden = 0;
 
             saveCheques(register);
             saveEfectivo(register);
@@ -1162,23 +1158,14 @@
           switch (key) {
 
             case K_CHEQUES:
+            case K_OTROS:
+            case K_EFECTIVO:
+            case K_CTA_CTE:
               rtn = true;
               break;
 
             case K_TARJETA:
               rtn = columnBeforeEditTarjeta(key, lRow, lCol, iKeyAscii);
-              break;
-
-            case K_OTROS:
-              rtn = true;
-              break;
-
-            case K_EFECTIVO:
-              rtn = true;
-              break;
-
-            case K_CTA_CTE:
-              rtn = true;
               break;
           }
 
@@ -1203,10 +1190,6 @@
             D.setSelectFilterCuotas(row, property, m_items, KIT_TJC_ID);
             break;
         }
-        return true;
-      };
-
-      self.columnBeforeEdit = function(property, lRow, lCol, iKeyAscii) {
         return true;
       };
 
@@ -1828,62 +1811,62 @@
 
         for(var _i = 0, count = m_data.cheques.length; _i < count; _i += 1) {
 
-          elem = rows.add(null, getValue(m_data.cheques[_i], CT.COBZI_ID));
+          var row = rows.add(null, getValue(m_data.cheques[_i], CT.COBZI_ID));
 
-          elem = elem.add(null);
+          elem = row.add(null);
           elem.setValue(getValue(m_data.cheques[_i], CT.COBZI_ID));
           elem.setKey(KICH_COBZI_ID);
 
-          elem = elem.add(null);
+          elem = row.add(null);
           elem.setValue(getValue(m_data.cheques[_i], C.CUE_NAME));
           elem.setId(getValue(m_data.cheques[_i], C.CUE_ID));
           elem.setKey(KICH_CUE_ID);
 
-          elem = elem.add(null);
+          elem = row.add(null);
           elem.setValue(getValue(m_data.cheques[_i], C.MON_NAME));
           elem.setId(getValue(m_data.cheques[_i], C.MON_ID));
           elem.setKey(KICH_MON_ID);
 
-          elem = elem.add(null);
+          elem = row.add(null);
           elem.setValue(getValue(m_data.cheques[_i], CT.COBZI_IMPORTE_ORIGEN));
           elem.setKey(KICH_IMPORTEORIGEN);
 
-          elem = elem.add(null);
+          elem = row.add(null);
           elem.setValue(getValue(m_data.cheques[_i], CT.COBZI_IMPORTE));
           elem.setKey(KICH_IMPORTE);
 
-          elem = elem.add(null);
+          elem = row.add(null);
           elem.setValue(getValue(m_data.cheques[_i], C.BCO_NAME));
           elem.setId(getValue(m_data.cheques[_i], C.BCO_ID));
           elem.setKey(KICH_BCO_ID);
 
-          elem = elem.add(null);
-          elem.setValue(getValue(m_data.cheques[_i], C.CHEQ_NUMERO_DOC));
+          elem = row.add(null);
+          elem.setValue(getValue(m_data.cheques[_i], CT.CHEQ_NUMERO_DOC));
           elem.setKey(KICH_CHEQUE);
 
-          elem = elem.add(null);
-          elem.setValue(getValue(m_data.cheques[_i], C.CHEQ_NUMERO));
-          elem.setId(getValue(m_data.cheques[_i], C.CHEQ_ID));
+          elem = row.add(null);
+          elem.setValue(getValue(m_data.cheques[_i], CT.CHEQ_NUMERO));
+          elem.setId(getValue(m_data.cheques[_i], CT.CHEQ_ID));
           elem.setKey(KICH_CHEQ_ID);
 
-          elem = elem.add(null);
-          elem.setId(getValue(m_data.cheques[_i], C.CHEQ_PROPIO));
+          elem = row.add(null);
+          elem.setId(getValue(m_data.cheques[_i], CT.CHEQ_PROPIO));
           elem.setKey(KICH_PROPIO);
 
-          elem = elem.add(null);
-          elem.setValue(getValue(m_data.cheques[_i], C.CHEQ_FECHA_COBRO));
+          elem = row.add(null);
+          elem.setValue(getValue(m_data.cheques[_i], CT.CHEQ_FECHA_COBRO));
           elem.setKey(KICH_FECHACOBRO);
 
-          elem = elem.add(null);
-          elem.setValue(getValue(m_data.cheques[_i], C.CHEQ_FECHA_VTO));
+          elem = row.add(null);
+          elem.setValue(getValue(m_data.cheques[_i], CT.CHEQ_FECHA_VTO));
           elem.setKey(KICH_FECHAVTO);
 
-          elem = elem.add(null);
+          elem = row.add(null);
           elem.setValue(getValue(m_data.cheques[_i], C.CLE_NAME));
           elem.setId(getValue(m_data.cheques[_i], C.CLE_ID));
           elem.setKey(KICH_CLE_ID);
 
-          elem = elem.add(null);
+          elem = row.add(null);
           elem.setValue(getValue(m_data.cheques[_i], CT.COBZI_DESCRIP));
           elem.setKey(KICH_DESCRIP);
         }

@@ -53,19 +53,6 @@
         </div>
         <div class="collapse navbar-collapse">
             <div class="navbar-form navbar-left" style="padding: 7px"><span>@subtitle</span></div>
-            @if(loggedUser.isLogged) {
-                <div class="navbar-form navbar-right" style="padding: 10px">
-                  <a class="btn btn-danger btn-xs" href="/logout">
-                    Logout
-                  </a>
-                </div>
-            } else {
-                @form(routes.Sessions.create(), 'id -> "loginForm", 'class -> "navbar-form navbar-right") {
-                    @CSRF.formField
-                    @formLoginFields()
-                    <button type="submit" class="btn btn-success">Sign in</button>
-                }
-            }
         </div><!--/.nav-collapse -->
       </div>
     </div>

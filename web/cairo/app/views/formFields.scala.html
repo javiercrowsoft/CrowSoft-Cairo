@@ -1,8 +1,13 @@
-@(userForm: Form[models.master.UserData])
+@(userForm: Form[models.master.UserData], isLogin: Boolean)
 
 @import helper._
 @import views.html.helper.htmlHelpers._
 @import models.master.UserData
 
-@inputText(userForm("email"), args = 'id -> "emailField", 'class -> "form-control form-control-sign-in", 'placeholder -> "Your Email", '_label -> "")
-@inputPassword(userForm("password"), args = 'class -> "form-control form-control-sign-in", 'placeholder -> "Password", '_label -> "")
+@if(isLogin){
+  @inputText(userForm("email"), args = 'id -> "emailField", 'class -> "form-control form-control-sign-in", 'placeholder -> "Email", '_label -> "")
+  @inputPassword(userForm("password"), args = 'class -> "form-control form-control-sign-in", 'placeholder -> "Clave", '_label -> "")
+} else {
+  @inputText(userForm("newEmail"), args = 'id -> "newEmailField", 'class -> "form-control form-control-sign-in", 'placeholder -> "Email", 'autocomplete -> "off", '_label -> "")
+  @inputPassword(userForm("password"), args = 'class -> "form-control form-control-sign-in", 'placeholder -> "Clave", 'autocomplete -> "off", '_label -> "")
+}

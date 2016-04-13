@@ -18,9 +18,7 @@
       }
 
     } else {
-      <h1>Welcome!</h1>
-      <p>Please register to start using CrowSoft Cairo. It is free for the first two months. If you like it start paying $50.- a month. No user limit.</p>
-      <p><a class="btn btn-primary btn-lg" role="button">Learn more &raquo;</a></p>
+      <h1>Bien venido!</h1>
     }
   </div>
 </div>
@@ -28,16 +26,34 @@
     <div class="container">
         @if(loggedUser.isLogged) {
         } else {
+        <br>
         <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-2"></div>
             <div class="col-xs-12 col-sm-12 col-md-4 well well-sm">
-                <legend><i class="glyphicon glyphicon-user"></i> Sign up!</legend>
-                @form(routes.Registration.create, 'id -> "userForm", 'class -> "form") {
+                <legend><i class="glyphicon glyphicon-user"></i> Ingresar</legend>
+                @form(routes.Sessions.create(), 'id -> "userForm", 'class -> "form") {
                 @CSRF.formField
-                @formFields(userForm)
+                @formFields(userForm, true)
+
+                <button class="btn btn-lg btn-primary btn-block" type="submit">
+                    Ingresar</button>
+                }
+                <hr/>
+                <a href="@{routes.Users.resetPassword}">Olvido su clave</a>
+
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-1">
+
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-4 well well-sm">
+                <legend><i class="glyphicon glyphicon-user"></i> Crear un nuevo usario</legend>
+                @form(routes.Registration.create, 'id -> "newUserForm", 'class -> "form") {
+                @CSRF.formField
+                @formFields(userForm, false)
                 @flash.get("error").map { msg =>
                 <div class="alert alert-warning">@msg</div>
                 }
-                <button class="btn btn-lg btn-primary btn-block" type="submit">Sign up</button>
+                <button class="btn btn-lg btn-success btn-block" type="submit">Registrarse</button>
                 }
             </div>
         </div>

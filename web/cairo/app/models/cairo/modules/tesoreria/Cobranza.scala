@@ -1172,6 +1172,9 @@ object Cobranza {
         Field(C.COBZI_DESCRIP, item.base.descrip, FieldType.text),
         Field(GC.CUE_ID, item.base.cueId, FieldType.id),
         Field(GC.CCOS_ID, item.base.ccosId, FieldType.id),
+        Field(GC.BCO_ID, item.bcoId, FieldType.id),
+        Field(GC.CLE_ID, item.cleId, FieldType.id),
+        Field(GC.MON_ID, item.moneda.monId, FieldType.id),
         Field(C.COBZI_ORDEN, item.base.orden, FieldType.integer),
         Field(C.COBZI_IMPORTE, item.totals.importe, FieldType.currency),
         Field(C.COBZI_IMPORTE_ORIGEN, item.totals.importeOrigen, FieldType.currency)

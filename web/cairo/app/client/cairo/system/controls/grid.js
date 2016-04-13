@@ -1399,7 +1399,7 @@
           else {
             switch(col.getType()) {
               case T.numeric:
-                clazz = 'grid-column-numeric';
+                clazz = 'grid-column-number';
                 break;
               case T.text:
                 clazz = 'grid-column-text';

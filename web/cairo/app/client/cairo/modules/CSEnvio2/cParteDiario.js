@@ -830,7 +830,7 @@
           var elem = m_properties.add(null, "TypeTask");
           elem.setName("TypeTask");
           elem.setCaption(" ");
-          var elem = elem.add(null);
+          var elem = row.add(null);
           elem.FormulaType = csConditionType.cSCONDTNONE;
           elem.IconIndex = C_IMG_TASK;
           elem.setWidth(500);

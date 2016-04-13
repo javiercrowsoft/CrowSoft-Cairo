@@ -463,19 +463,19 @@
         elem.setListItemData(m_tipo);
         elem.setListWhoSetItem(Dialogs.ListWhoSetItem.itemData);
 
-        var elem = elem.add(null);
+        var elem = row.add(null);
         elem.Id = csE_RetencionTipo.cSERETTSOBREIVA;
         // Sobre Iva
         elem.setValue(getText(1424, ""));
-        var elem = elem.add(null);
+        var elem = row.add(null);
         elem.Id = csE_RetencionTipo.cSERETTSOBRENETO;
         // Sobre Neto
         elem.setValue(getText(1425, ""));
-        var elem = elem.add(null);
+        var elem = row.add(null);
         elem.Id = csE_RetencionTipo.cSERETTGANANCIAS;
         // Ganancias
         elem.setValue(getText(1426, ""));
-        var elem = elem.add(null);
+        var elem = row.add(null);
         elem.Id = csE_RetencionTipo.cSERETTBRUTOEIVA;
         // Sobre el Total
         elem.setValue(getText(1427, ""));

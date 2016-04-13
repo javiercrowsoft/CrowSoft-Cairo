@@ -621,58 +621,58 @@
 
             case K_FECHAINI:
               if(property.getSelectIntValue() !== "") {
-                register.getFields().add2(Cairo.Constants.LDP_VALOR, property.getSelectIntValue(), Cairo.Constants.Types.text);
+                fields.add(Cairo.Constants.LDP_VALOR, property.getSelectIntValue(), Cairo.Constants.Types.text);
               }
               else {
-                register.getFields().add2(Cairo.Constants.LDP_VALOR, property.getValue(), Cairo.Constants.Types.text);
+                fields.add(Cairo.Constants.LDP_VALOR, property.getValue(), Cairo.Constants.Types.text);
               }
 
-              register.getFields().add2(Cairo.Constants.LDP_ORDEN, 10, Cairo.Constants.Types.integer);
-              register.getFields().add2(Cairo.Constants.LDP_ID, K_FECHAINI, Cairo.Constants.Types.integer);
+              fields.add(Cairo.Constants.LDP_ORDEN, 10, Cairo.Constants.Types.integer);
+              fields.add(Cairo.Constants.LDP_ID, K_FECHAINI, Cairo.Constants.Types.integer);
 
               break;
 
             case K_FECHAFIN:
 
               if(property.getSelectIntValue() !== "") {
-                register.getFields().add2(Cairo.Constants.LDP_VALOR, property.getSelectIntValue(), Cairo.Constants.Types.text);
+                fields.add(Cairo.Constants.LDP_VALOR, property.getSelectIntValue(), Cairo.Constants.Types.text);
               }
               else {
-                register.getFields().add2(Cairo.Constants.LDP_VALOR, property.getValue(), Cairo.Constants.Types.text);
+                fields.add(Cairo.Constants.LDP_VALOR, property.getValue(), Cairo.Constants.Types.text);
               }
 
-              register.getFields().add2(Cairo.Constants.LDP_ORDEN, 20, Cairo.Constants.Types.integer);
-              register.getFields().add2(Cairo.Constants.LDP_ID, K_FECHAFIN, Cairo.Constants.Types.integer);
+              fields.add(Cairo.Constants.LDP_ORDEN, 20, Cairo.Constants.Types.integer);
+              fields.add(Cairo.Constants.LDP_ID, K_FECHAFIN, Cairo.Constants.Types.integer);
 
               break;
 
             case K_CUE_ID:
-              register.getFields().add2(Cairo.Constants.LDP_VALOR, property.getSelectIntValue(), Cairo.Constants.Types.text);
-              register.getFields().add2(Cairo.Constants.LDP_ORDEN, 40, Cairo.Constants.Types.integer);
-              register.getFields().add2(Cairo.Constants.LDP_ID, K_CUE_ID, Cairo.Constants.Types.integer);
+              fields.add(Cairo.Constants.LDP_VALOR, property.getSelectIntValue(), Cairo.Constants.Types.text);
+              fields.add(Cairo.Constants.LDP_ORDEN, 40, Cairo.Constants.Types.integer);
+              fields.add(Cairo.Constants.LDP_ID, K_CUE_ID, Cairo.Constants.Types.integer);
               break;
 
             case K_BCO_ID:
-              register.getFields().add2(Cairo.Constants.LDP_VALOR, property.getSelectIntValue(), Cairo.Constants.Types.text);
-              register.getFields().add2(Cairo.Constants.LDP_ORDEN, 50, Cairo.Constants.Types.integer);
-              register.getFields().add2(Cairo.Constants.LDP_ID, K_BCO_ID, Cairo.Constants.Types.integer);
+              fields.add(Cairo.Constants.LDP_VALOR, property.getSelectIntValue(), Cairo.Constants.Types.text);
+              fields.add(Cairo.Constants.LDP_ORDEN, 50, Cairo.Constants.Types.integer);
+              fields.add(Cairo.Constants.LDP_ID, K_BCO_ID, Cairo.Constants.Types.integer);
 
 
               break;
 
             case K_EMP_ID:
-              register.getFields().add2(Cairo.Constants.LDP_VALOR, property.getSelectIntValue(), Cairo.Constants.Types.text);
-              register.getFields().add2(Cairo.Constants.LDP_ORDEN, 100, Cairo.Constants.Types.integer);
-              register.getFields().add2(Cairo.Constants.LDP_ID, K_EMP_ID, Cairo.Constants.Types.integer);
+              fields.add(Cairo.Constants.LDP_VALOR, property.getSelectIntValue(), Cairo.Constants.Types.text);
+              fields.add(Cairo.Constants.LDP_ORDEN, 100, Cairo.Constants.Types.integer);
+              fields.add(Cairo.Constants.LDP_ID, K_EMP_ID, Cairo.Constants.Types.integer);
 
               break;
           }
 
 
-          register.getFields().add2(C.EMP_ID, cUtil.getEmpId(), Cairo.Constants.Types.id);
+          fields.add(C.EMP_ID, cUtil.getEmpId(), Cairo.Constants.Types.id);
 
-          register.getFields().add2(Cairo.Constants.US_ID, m_us_id, Cairo.Constants.Types.id);
-          register.getFields().add2(C.PRE_ID, csTesoreriaPrestacion.cSPRETSRLISTCONCILIACIONBCO, Cairo.Constants.Types.id);
+          fields.add(Cairo.Constants.US_ID, m_us_id, Cairo.Constants.Types.id);
+          fields.add(C.PRE_ID, csTesoreriaPrestacion.cSPRETSRLISTCONCILIACIONBCO, Cairo.Constants.Types.id);
 
 
 
@@ -723,7 +723,7 @@
           var elem = m_properties.add(null, "TypeTask");
           elem.setName("TypeTask");
           elem.setCaption(" ");
-          var elem = elem.add(null);
+          var elem = row.add(null);
           elem.FormulaType = csConditionType.cSCONDTNONE;
           elem.IconIndex = C_IMG_TASK;
           elem.setWidth(500);

@@ -433,14 +433,14 @@
         elem.setListItemData(m_tipo);
 
         // TODO: fix this: it uses a list. var elem is wrong. It must be var item = elem.getList().add( ...
-        var elem = elem.add(null);
+        var elem = row.add(null);
         elem.Id = csE_GastoTipo.cSEGTOTAEREO;
         // A�reo
         elem.setValue(getText(1224, ""));
-        var elem = elem.add(null);
+        var elem = row.add(null);
         elem.Id = csE_GastoTipo.cSEGTOTGENERAL;
         elem.setValue(Cairo.Constants.TAB_GENERAL);
-        var elem = elem.add(null);
+        var elem = row.add(null);
         elem.Id = csE_GastoTipo.cSEGTOTMARITIMO;
         // Mar�timo
         elem.setValue(getText(1225, ""));

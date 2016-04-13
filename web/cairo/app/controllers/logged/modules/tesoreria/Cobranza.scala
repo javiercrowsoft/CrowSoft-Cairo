@@ -55,7 +55,7 @@ case class CobranzaItemChequeData(
                                    monId: Int,
                                    totals: CobranzaItemTotalsData,
                                    bcoId: Int,
-                                   cheqId: Int,
+                                   cheqId: Option[Int],
                                    numeroDoc: String,
                                    propio: Boolean,
                                    fechaCobro: String,
@@ -224,7 +224,7 @@ object Cobranzas extends Controller with ProvidesUser {
             C.COBZI_IMPORTE_ORIGEN -> of(Global.doubleFormat))
             (CobranzaItemTotalsData.apply)(CobranzaItemTotalsData.unapply),
           GC.BCO_ID -> number,
-          C.CHEQ_ID -> number,
+          C.CHEQ_ID -> optional(number),
           C.COBZI_TMP_CHEQUE -> text,
           C.COBZI_TMP_PROPIO -> boolean,
           C.COBZI_TMP_FECHA_COBRO -> text,
@@ -730,7 +730,7 @@ object Cobranzas extends Controller with ProvidesUser {
           cheque.totals.importeOrigen
         ),
         cheque.bcoId,
-        cheque.cheqId,
+        cheque.cheqId.getOrElse(DBHelper.NoId),
         cheque.numeroDoc,
         cheque.propio,
         DateFormatter.parse(cheque.fechaCobro),
