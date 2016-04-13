@@ -101,7 +101,11 @@
       COBRANZA_ITEM_BORRADO_TMP: "CobranzaItemBorradoTMP",
       COBZIB_TMP_ID: "cobzibTMP_Id",
 
-      // Cheque
+      // Chequera
+      CHEQUERA: "Chequera",
+      CHQ_ID: "chq_id",
+      CHQ_CODE: "chq_codigo",
+
       // Cheque
       CHEQUE: "Cheque",
       CHEQ_ID: "cheq_id",

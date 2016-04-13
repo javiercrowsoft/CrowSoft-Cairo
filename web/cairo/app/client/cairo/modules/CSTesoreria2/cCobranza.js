@@ -2,6 +2,7 @@
   "use strict";
 
   Cairo.module("Cobranza.Edit", function(Edit, Cairo, Backbone, Marionette, $, _) {
+
     var createObject = function() {
 
       var self = {};

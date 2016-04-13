@@ -707,6 +707,8 @@
 
   Cairo.Documents.selectFilterForCuenta = "account_in_current_company";
   Cairo.Documents.selectFilterForCuentaCheques = "account_for_cheques"; /* banco or documentos en cartera */
+  Cairo.Documents.selectFilterForCuentaChequesT = "account_for_cheques_t"; /* documentos en cartera */
+  Cairo.Documents.selectFilterForCuentaChequesP = "account_for_cheques_p"; /* banco */
   Cairo.Documents.selectFilterForCuentaEfectivo = "account_for_efectivo"; /* banco or caja */
   Cairo.Documents.selectFilterForCuentaAnticipoCobranza = "account_for_anticipo_cobranza"; /* duedor por ventas o deposito cupones */
   Cairo.Documents.selectFilterForCuentaAnticipoPagos = "account_for_anticipo_pagos"; /* acreedores */
