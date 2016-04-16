@@ -209,6 +209,13 @@
 
       // OrdenPagoItemTMP
       ORDEN_PAGO_ITEM_TMP: "OrdenPagoItemTMP",
+      ORDEN_PAGO_ITEM_CHEQUE_TMP: "OrdenPagoItemChequeTMP",
+      ORDEN_PAGO_ITEM_CHEQUET_TMP: "OrdenPagoItemChequeTTMP",
+      ORDEN_PAGO_ITEM_TARJETA_TMP: "OrdenPagoItemTarjetaTMP",
+      ORDEN_PAGO_ITEM_EFECTIVO_TMP: "OrdenPagoItemEfectivoTMP",
+      ORDEN_PAGO_ITEM_OTRO_TMP: "OrdenPagoItemOtroTMP",
+      ORDEN_PAGO_ITEM_CUENTA_CORRIENTE_TMP: "OrdenPagoItemCuentaCorrienteTMP",
+
       OPGI_TMP_ID: "opgiTMP_id",
       OPGI_TMP_CHEQUE: "opgiTMP_cheque",
       OPGI_TMP_CUPON: "opgiTMP_cupon",
@@ -424,6 +431,14 @@
         ITEM_TARJETA: 3,
         ITEM_OTROS: 4,
         ITEM_CTA_CTE: 5
+      },
+
+      OrdenPagoItemTipo: {
+        ITEM_CHEQUES: 1,
+        ITEM_EFECTIVO: 2,
+        ITEM_OTROS: 4,
+        ITEM_CTA_CTE: 5,
+        ITEM_CHEQUEST: 6
       },
 
       OtroTipo: {

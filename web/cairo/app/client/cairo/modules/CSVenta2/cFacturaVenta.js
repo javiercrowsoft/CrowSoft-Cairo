@@ -4777,7 +4777,7 @@
        }
        }
 
-       fields.add(Cairo.Constants.EST_ID, CSGeneralEx2.csEEstado.cSEEST_PENDIENTE, Types.id);
+       fields.add(C.EST_ID, CSGeneralEx2.csEEstado.cSEEST_PENDIENTE, Types.id);
 
        register.getFields().setHaveLastUpdate(true);
        register.getFields().setHaveWhoModify(true);

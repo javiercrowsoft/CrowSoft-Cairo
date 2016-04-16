@@ -2494,7 +2494,6 @@
           .whenSuccessWithResult(completeMove);
       };
 
-
       var refreshProperties = function() {
 
         var properties = m_dialog.getProperties();
@@ -2631,13 +2630,15 @@
 
         }
         catch (ex) {
-          Cairo.manageErrorEx(ex.message, ex, "Class_Terminate", C_MODULE, "");
+          Cairo.manageErrorEx(ex.message, ex, "destroy", C_MODULE, "");
         }
       };
 
       var saveCheques = function(mainRegister) {
         
         var transaction = DB.createTransaction();
+
+        transaction.setTable(CT.COBRANZA_ITEM_CHEQUE_TMP);
 
         var rows = getCheques().getRows();
         
@@ -2651,8 +2652,8 @@
 
           var fields = register.getFields();
 
-          var _count = row.size();
-          for(var _j = 0; _j < _count; _j++) {
+          var _countj = row.size();
+          for(var _j = 0; _j < _countj; _j++) {
 
             var cell = row.item(_j);
             switch (cell.getKey()) {
@@ -2664,7 +2665,6 @@
                 else {
                   fields.add(CT.COBZI_ID, val(cell.getValue()), Types.integer);
                 }
-
                 break;
 
               case KICH_DESCRIP:
@@ -2739,6 +2739,8 @@
 
         var transaction = DB.createTransaction();
 
+        transaction.setTable(CT.COBRANZA_ITEM_TARJETA_TMP);
+
         var rows = getTarjetas().getRows();
           
         for(var _i = 0, _count = rows.size(); _i < _count; _i++) {
@@ -2751,8 +2753,8 @@
 
           var fields = register.getFields();
 
-          var _count = row.size();
-          for(var _j = 0; _j < _count; _j++) {
+          var _countj = row.size();
+          for(var _j = 0; _j < _countj; _j++) {
 
             var cell = row.item(_j);
             switch (cell.getKey()) {
@@ -2842,6 +2844,8 @@
 
         var transaction = DB.createTransaction();
 
+        transaction.setTable(CT.COBRANZA_ITEM_OTRO_TMP);
+
         var rows = getOtros().getRows();
           
         for(var _i = 0, _count = rows.size(); _i < _count; _i++) {
@@ -2854,8 +2858,8 @@
 
           var fields = register.getFields();
 
-          var _count = row.size();
-          for(var _j = 0; _j < _count; _j++) {
+          var _countj = row.size();
+          for(var _j = 0; _j < _countj; _j++) {
 
             var cell = row.item(_j);
             switch (cell.getKey()) {
@@ -2942,6 +2946,8 @@
 
         var transaction = DB.createTransaction();
 
+        transaction.setTable(CT.COBRANZA_ITEM_EFECTIVO_TMP);
+
         var rows = getEfectivo().getRows();
           
         for(var _i = 0, _count = rows.size(); _i < _count; _i++) {
@@ -2954,8 +2960,8 @@
 
           var fields = register.getFields();
 
-          var _count = row.size();
-          for(var _j = 0; _j < _count; _j++) {
+          var _countj = row.size();
+          for(var _j = 0; _j < _countj; _j++) {
 
             var cell = row.item(_j);
             switch (cell.getKey()) {
@@ -3009,6 +3015,8 @@
 
         var transaction = DB.createTransaction();
 
+        transaction.setTable(CT.COBRANZA_ITEM_CUENTA_CORRIENTE_TMP);
+
         var rows = getCtaCte().getRows();
           
         for(var _i = 0, _count = rows.size(); _i < _count; _i++) {
@@ -3021,8 +3029,8 @@
 
           var fields = register.getFields();
 
-          var _count = row.size();
-          for(var _j = 0; _j < _count; _j++) {
+          var _countj = row.size();
+          for(var _j = 0; _j < _countj; _j++) {
 
             var cell = row.item(_j);
             switch (cell.getKey()) {
@@ -3089,7 +3097,7 @@
 
         m_applyEditor.setClient(self);
 
-        if(!m_applyEditor.self.show(m_id, m_total, m_nrodoc, m_cliente)) {
+        if(!m_applyEditor.show(m_id, m_total, m_nrodoc, m_cliente)) {
           m_applyEditor = null;
         }
         m_applyEditor.show(
@@ -3246,8 +3254,8 @@
           case KIE_IMPORTEORIGEN:
 
             row = grid.getRows().item(lRow);
-            var w_pCell = getCell(row, KIE_MON_ID);
-            if(w_pCell.getId() !== m_defaultCurrency.id || w_pCell.getId() === 0) {
+            var cell = getCell(row, KIE_MON_ID);
+            if(cell.getId() !== m_defaultCurrency.id || cell.getId() === 0) {
               getCell(row, KIE_IMPORTE)
                 .setValue(val(getCell(row, KIE_IMPORTEORIGEN).getValue()) * val(getCotizacion().getValue()));
             }

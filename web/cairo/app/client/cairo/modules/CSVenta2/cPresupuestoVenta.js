@@ -1117,7 +1117,7 @@
 
         }
         catch (ex) {
-          Cairo.manageErrorEx(ex.message, ex, "Class_Terminate", C_MODULE, "");
+          Cairo.manageErrorEx(ex.message, ex, "destroy", C_MODULE, "");
 
         }
 
@@ -1143,7 +1143,7 @@
 
         }
         catch (ex) {
-          Cairo.manageErrorEx(ex.message, ex, "Class_Terminate", C_MODULE, "");
+          Cairo.manageErrorEx(ex.message, ex, "destroy", C_MODULE, "");
 
         }
 

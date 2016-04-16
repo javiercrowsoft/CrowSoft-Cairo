@@ -569,6 +569,10 @@
     return DB.getData("load[" + m_apiPath + "general/cuenta/" + cueId.toString() + "/currency]");
   };
 
+  Cairo.Documents.getChequeData = function(row, cheqId) {
+    return DB.getData("load[" + m_apiPath + "general/cheque/" + cheqId.toString() + "/info]");
+  };
+
   Cairo.Documents.showDataAddProveedor = function(showData, dialog) {
     if(showData) {
       var provId = dialog.getProperties().item(C.PROV_ID).getSelectId();

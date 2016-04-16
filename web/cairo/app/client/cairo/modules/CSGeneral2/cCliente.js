@@ -2851,8 +2851,8 @@
           register.setFieldId(C.CLIS_ID);
           register.setId(Cairo.Constants.NEW_ID);
 
-          var _count = row.size();
-          for(var _j = 0; _j < _count; _j++) {
+          var _countj = row.size();
+          for(var _j = 0; _j < _countj; _j++) {
 
             var cell = row.item(_j);
             switch (cell.getKey()) {
@@ -2965,8 +2965,8 @@
           register.setFieldId(C.CLI_PERC_ID);
           register.setId(Cairo.Constants.NEW_ID);
 
-          var _count = row.size();
-          for(var _j = 0; _j < _count; _j++) {
+          var _countj = row.size();
+          for(var _j = 0; _j < _countj; _j++) {
 
             var cell = row.item(_j);
 
@@ -3028,8 +3028,8 @@
           register.setFieldId(C.DPTO_CLI_ID);
           register.setId(Cairo.Constants.NEW_ID);
 
-          var _count = row.size();
-          for(var _j = 0; _j < _count; _j++) {
+          var _countj = row.size();
+          for(var _j = 0; _j < _countj; _j++) {
 
             var cell = row.item(_j);
             switch (cell.getKey()) {
@@ -3149,8 +3149,8 @@
           register.setFieldId(C.CLI_CUEG_ID);
           register.setId(Cairo.Constants.NEW_ID);
 
-          var _count = row.size();
-          for(var _j = 0; _j < _count; _j++) {
+          var _countj = row.size();
+          for(var _j = 0; _j < _countj; _j++) {
 
             var cell = row.item(_j);
 
@@ -3209,8 +3209,8 @@
           register.setFieldId(C.CONT_ID);
           register.setId(Cairo.Constants.NEW_ID);
 
-          var _count = row.size();
-          for(var _j = 0; _j < _count; _j++) {
+          var _countj = row.size();
+          for(var _j = 0; _j < _countj; _j++) {
 
             var cell = row.item(_j);
 
