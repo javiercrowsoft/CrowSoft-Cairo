@@ -3253,7 +3253,7 @@
 
           case KIE_IMPORTEORIGEN:
 
-            row = grid.getRows().item(lRow);
+            var row = grid.getRows().item(lRow);
             var cell = getCell(row, KIE_MON_ID);
             if(cell.getId() !== m_defaultCurrency.id || cell.getId() === 0) {
               getCell(row, KIE_IMPORTE)
@@ -3353,12 +3353,11 @@
       };
 
       var showCobroOtro = function() {
-        var row = null;
-        var total = null;
+        var total = 0;
 
         var _count = getOtros().getRows().size();
         for(var _i = 0; _i < _count; _i++) {
-          row = getOtros().getRows().item(_i);
+          var row = getOtros().getRows().item(_i);
           total = total + val(getCell(row, KIO_DEBE).getValue()) - val(getCell(row, KIO_HABER).getValue());
         }
 
@@ -4093,7 +4092,7 @@
 
         }
         catch (ex) {
-          Cairo.manageErrorEx(ex.message, ex, "ProcessMenu", C_MODULE, "");
+          Cairo.manageErrorEx(ex.message, ex, "processMenu", C_MODULE, "");
         }
       };
 
@@ -4117,7 +4116,7 @@
         c = m_properties.add(null, C.CLI_ID);
         c.setType(T.select);
         c.setSelectTable(Cairo.Tables.CLIENTE);
-        c.setName(getText(1150, "")); // Proveedor
+        c.setName(getText(1150, "")); // Cliente
         c.setKey(K_CLI_ID);
         c.setValue(m_cliente);
         c.setSelectId(val(m_cliId));

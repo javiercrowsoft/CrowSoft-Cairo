@@ -51,9 +51,11 @@ Cairo.AsientoListDoc = {};
 
 Cairo.Cobranza = {};
 Cairo.CobranzaWizard = {};
+Cairo.CobranzaListDoc = {};
 
 Cairo.OrdenPago = {};
 Cairo.OrdenPagoWiz = {};
+Cairo.OrdenPagoListDoc = {};
 
 Cairo.Rubro = {};
 Cairo.Rubro.Load = {};
