@@ -1056,7 +1056,7 @@
               break;
 
             case K_CHEQUEST:
-              columnAfterUpdateTCheque(getTChequesProperty(), lRow, lCol);
+              columnAfterUpdateChequeT(getTChequesProperty(), lRow, lCol);
               break;
 
             case K_OTROS:
@@ -1655,11 +1655,13 @@
         elem.setName(getText(1150, "")); // Cliente
         elem.setType(T.text);
         elem.setKey(KICHT_CLI_ID);
+        elem.setEnabled(false);
 
         elem = columns.add(null);
         elem.setName(getText(1122, "")); // Banco
         elem.setType(T.text);
         elem.setKey(KICHT_BCO_ID);
+        elem.setEnabled(false);
 
         elem = columns.add(null);
         elem.setName(getText(2063, "")); // Mon
@@ -3001,7 +3003,7 @@
         return m_items.getProperties().item(C_CTA_CTE);
       };
 
-      var columnAfterUpdateTCheque = function(property, lRow, lCol) {
+      var columnAfterUpdateChequeT = function(property, lRow, lCol) {
 
         var grid = property.getGrid();
 

@@ -453,12 +453,10 @@
           case KI_COTIZACION2:
 
             return true;
-            break;
 
           default:
 
             return false;
-            break;
         }
       };
 
@@ -474,9 +472,8 @@
             break;
 
           case KI_COTIZACION2:
-            var cotiz = null;
             var row = grid.getRows().item(lRow);
-            cotiz = val(getCell(row, KI_COTIZACION2).getValue());
+            var cotiz = val(getCell(row, KI_COTIZACION2).getValue());
             if(D.getCol(grid.getColumns(), KI_IMPORTE).getVisible()) {
               var cell = getCell(row, KI_IMPORTE);
               cell.setValue(getCell(row, KI_IMPORTEORIGEN).getValue() * cotiz);
@@ -1438,12 +1435,14 @@
 
         var properties = step.getProperties();
 
-        var elem = properties.add(null, DWC.TITLE);
+        var elem;
+
+        elem = properties.add(null, DWC.TITLE);
         elem.setType(T.label);
         elem.setSubType(ST.mainTitle);
         elem.setValue(getText(2130, "")); // Bienvenido al Asistente de Cobranza
 
-        var elem = properties.add(null, DWC.MAIN_TITLE);
+        elem = properties.add(null, DWC.MAIN_TITLE);
         elem.setType(T.label);
         elem.setSubType(ST.subTitle);
         elem.setValue(getText(2131, "")); // Con este Asistente usted podra generar los Recibos por Cobranzas.
@@ -1469,7 +1468,7 @@
         elem.setSubType(ST.title);
         elem.setValue(getText(2132, "")); // Indique el documento a utilizar y el Cliente al que se le emitirá el Recibo
 
-        var elem = properties.add(null, DWC.DOC);
+        elem = properties.add(null, DWC.DOC);
         elem.setName(getText(1567, "")); // Documento
         elem.setType(T.select);
         elem.setSelectFilter(Cairo.Documents.COBRANZA_DOC_FILTER);
@@ -1480,14 +1479,14 @@
 
         setMultyCliente();
 
-        var elem = properties.add(null, DWC.CLIENTE);
+        elem = properties.add(null, DWC.CLIENTE);
         elem.setName(getText(1150, "")); // Cliente
         elem.setType(T.select);
         elem.setSelectTable(Cairo.Tables.CLIENTE);
         elem.setValue(m_clienteDoc);
         elem.setSelectId(m_cliIdDoc);
 
-        var elem = properties.add(null, DWC.ONLY_SELECTED);
+        elem = properties.add(null, DWC.ONLY_SELECTED);
         elem.setType(T.check);
         elem.setName(getText(2133, "")); // Cargar sólo Facturas seleccionadas
         elem.setValue(m_fvIds.length);
@@ -1506,24 +1505,24 @@
         elem.setSubType(ST.title);
         elem.setValue(getText(2134, "")); // Seleccione las Facturas he indique los importes que cancelará en cada una de ellas
 
-        var elem = properties.add(null, DWC.AGRUPADOS);
+        elem = properties.add(null, DWC.AGRUPADOS);
         elem.setName(getText(2135, "")); // Agrupar
         elem.setType(T.check);
         elem.setKey(WC.KW_AGRUPADOS);
 
-        var elem = properties.add(null, DWC.VENCIDOS);
+        elem = properties.add(null, DWC.VENCIDOS);
         elem.setName(getText(2136, "")); // Ver solo vencidos
         elem.setType(T.check);
         elem.setKey(WC.KW_VENCIDOS);
 
-        var elem = properties.add(null, DWC.COTIZACION);
+        elem = properties.add(null, DWC.COTIZACION);
         elem.setName(getText(1635, "")); // Cotización
         elem.setType(T.numeric);
         elem.setFormat(Cairo.Settings.getCurrencyRateDecimalsFormat());
         elem.setSubType(ST.money);
         elem.setKey(WC.KW_COTIZACION);
 
-        var elem = properties.add(null, DWC.FACTUAS);
+        elem = properties.add(null, DWC.FACTUAS);
 
         elem.setType(T.grid);
         setGridFacturas(elem.getGrid());
@@ -1532,27 +1531,27 @@
         elem.setGridEditEnabled(true);
         elem.setGridRemoveEnabled(false);
 
-        var elem = properties.add(null, DWC.TODOS);
+        elem = properties.add(null, DWC.TODOS);
         elem.setName(Cairo.Constants.SELECT_ALL_TEXT);
         elem.setType(T.button);
         elem.setKey(WC.KW_TODOS);
         elem.setNoShowLabel(true);
 
-        var elem = properties.add(null, DWC.ANTICIPO);
+        elem = properties.add(null, DWC.ANTICIPO);
         elem.setName(getText(2137, "")); // Anticipo
         elem.setType(T.numeric);
         elem.setSubType(ST.money);
         elem.setFormat(Cairo.Settings.getAmountDecimalsFormat());
         elem.setKey(WC.KW_ANTICIPO);
 
-        var elem = properties.add(null, DWC.TOTAL_PAGO_ORIGEN);
+        elem = properties.add(null, DWC.TOTAL_PAGO_ORIGEN);
         elem.setName(getText(2138, "")); // Total Origen
         elem.setType(T.numeric);
         elem.setSubType(ST.money);
         elem.setEnabled(false);
         elem.setFormat(Cairo.Settings.getAmountDecimalsFormat());
 
-        var elem = properties.add(null, DWC.TOTAL_PAGO);
+        elem = properties.add(null, DWC.TOTAL_PAGO);
         elem.setName(getText(1584, "")); // Total
         elem.setType(T.numeric);
         elem.setSubType(ST.money);
@@ -1567,83 +1566,85 @@
 
         columns.add(null).setVisible(false);
 
-        var elem = columns.add(null);
+        var elem;
+
+        elem = columns.add(null);
         elem.setVisible(false);
         elem.setKey(KI_FVD_ID);
 
-        var elem = columns.add(null);
+        elem = columns.add(null);
         elem.setType(Dialogs.PropertyType.check);
         elem.setKey(KI_SELECT);
 
-        var elem = columns.add(null);
+        elem = columns.add(null);
         elem.setName(getText(1223, "")); // Tipo
         elem.setType(Dialogs.PropertyType.text);
         elem.setKey(KI_DOC);
 
-        var elem = columns.add(null);
+        elem = columns.add(null);
         elem.setName(getText(1567, "")); // Documento
         elem.setType(Dialogs.PropertyType.text);
         elem.setKey(KI_NRODOC);
 
-        var elem = columns.add(null);
+        elem = columns.add(null);
         elem.setName(getText(1065, "")); // Número
         elem.setType(Dialogs.PropertyType.numeric);
         elem.setKey(KI_FV_ID);
 
-        var elem = columns.add(null);
+        elem = columns.add(null);
         elem.setName(getText(1569, "")); // Fecha
         elem.setType(Dialogs.PropertyType.date);
         elem.setFormat("dd/mm/yy");
         elem.setKey(KI_FECHA);
 
-        var elem = columns.add(null, DWC.PENDIENTE);
+        elem = columns.add(null, DWC.PENDIENTE);
         elem.setName(getText(2139, "", m_defaultCurrency.symbol)); // Importe  & Signo
         elem.setType(Dialogs.PropertyType.numeric);
         elem.setSubType(Dialogs.PropertySubType.money);
         elem.setKey(KI_PENDIENTE);
         elem.setFormat(Cairo.Settings.getAmountDecimalsFormat());
 
-        var elem = columns.add(null, DWC.IMPORTE);
+        elem = columns.add(null, DWC.IMPORTE);
         elem.setName(getText(2139, "", m_defaultCurrency.symbol)); // Importe  & Signo
         elem.setType(Dialogs.PropertyType.numeric);
         elem.setSubType(Dialogs.PropertySubType.money);
         elem.setKey(KI_IMPORTE);
         elem.setFormat(Cairo.Settings.getAmountDecimalsFormat());
 
-        var elem = columns.add(null);
+        elem = columns.add(null);
         elem.setName(getText(1662, "")); // Aplicar
         elem.setType(Dialogs.PropertyType.numeric);
         elem.setSubType(Dialogs.PropertySubType.money);
         elem.setKey(KI_APLICAR);
         elem.setFormat(Cairo.Settings.getAmountDecimalsFormat());
 
-        var elem = columns.add(null, DWC.MONEDA);
+        elem = columns.add(null, DWC.MONEDA);
         elem.setName(getText(2063, "")); // Mon
         elem.setType(Dialogs.PropertyType.text);
         elem.setKey(KI_MONEDA);
 
-        var elem = columns.add(null);
+        elem = columns.add(null);
         elem.setName(getText(1901, "")); // Origen
         elem.setType(Dialogs.PropertyType.numeric);
         elem.setSubType(Dialogs.PropertySubType.money);
         elem.setKey(KI_IMPORTEORIGEN);
         elem.setFormat(Cairo.Settings.getAmountDecimalsFormat());
 
-        var elem = columns.add(null, DWC.COTIZACION);
+        elem = columns.add(null, DWC.COTIZACION);
         elem.setName(getText(1650, "")); // Cotiz.
         elem.setType(Dialogs.PropertyType.numeric);
         elem.setSubType(Dialogs.PropertySubType.money);
         elem.setKey(KI_COTIZACION);
         elem.setFormat(Cairo.Settings.getCurrencyRateDecimalsFormat());
 
-        var elem = columns.add(null);
+        elem = columns.add(null);
         elem.setName(m_defaultCurrency.symbol);
         elem.setType(Dialogs.PropertyType.numeric);
         elem.setSubType(Dialogs.PropertySubType.money);
         elem.setKey(KI_TOTAL);
         elem.setFormat(Cairo.Settings.getAmountDecimalsFormat());
 
-        var elem = columns.add(null, DWC.COTIZACION2);
+        elem = columns.add(null, DWC.COTIZACION2);
         elem.setName(getText(1650, "")); // Cotiz.
         elem.setType(Dialogs.PropertyType.numeric);
         elem.setSubType(Dialogs.PropertySubType.money);
@@ -1651,13 +1652,13 @@
         elem.setVisible(false);
         elem.setFormat(Cairo.Settings.getCurrencyRateDecimalsFormat());
 
-        var elem = columns.add(null);
+        elem = columns.add(null);
         elem.setName(getText(1634, "")); // Vto.
         elem.setType(Dialogs.PropertyType.date);
         elem.setFormat("dd/mm/yy");
         elem.setKey(KI_VTO);
 
-        var elem = columns.add(null);
+        elem = columns.add(null);
         elem.setName(Cairo.Constants.DESCRIPTION_LABEL);
         elem.setType(Dialogs.PropertyType.text);
         elem.setKey(KI_DESCRIP);
@@ -1679,7 +1680,7 @@
         elem.setSubType(ST.title);
         elem.setValue(getText(2140, "")); // Indique los datos del anticipo
 
-        var elem = properties.add(null, DWC.CUENTA_ANTICIPO);
+        elem = properties.add(null, DWC.CUENTA_ANTICIPO);
         elem.setType(T.select);
         elem.setSelectTable(Cairo.Tables.CUENTA);
         elem.setSelectFilter(D.selectFilterForCuentaAnticipoCobranza);
@@ -1688,21 +1689,21 @@
         elem.setSelectId(Cairo.getTesoreriaConfig().getCueIdAntCobz());
         elem.setKey(WC.KW_CUENTA_ANTICIPO);
 
-        var elem = properties.add(null, DWC.MONEDA_ANTICIPO);
+        elem = properties.add(null, DWC.MONEDA_ANTICIPO);
         elem.setType(T.select);
         elem.setSelectTable(Cairo.Tables.MONEDA);
         elem.setName(getText(1113, "")); // Moneda
         elem.setKey(WC.KW_MONEDA_ANTICIPO);
         elem.setEnabled(false);
 
-        var elem = properties.add(null, DWC.COTIZACION_ANTICIPO);
+        elem = properties.add(null, DWC.COTIZACION_ANTICIPO);
         elem.setName(getText(1635, "")); // Cotización
         elem.setFormat(Cairo.Settings.getCurrencyRateDecimalsFormat());
         elem.setType(T.numeric);
         elem.setSubType(ST.money);
         elem.setKey(WC.KW_COTIZACION_ANTICIPO);
 
-        var elem = properties.add(null, DWC.ANTICIPO_IMPORTE);
+        elem = properties.add(null, DWC.ANTICIPO_IMPORTE);
         elem.setName(getText(1228, "")); // Importe
         elem.setType(T.numeric);
         elem.setSubType(ST.money);
@@ -1730,7 +1731,7 @@
         elem.setSubType(ST.title);
         elem.setValue(getText(2141, "")); // Indique como tratar las diferencias de cambio
 
-        var elem = properties.add(null, DWC.DEFAULT_DIF_CAMBIO);
+        elem = properties.add(null, DWC.DEFAULT_DIF_CAMBIO);
         elem.setType(T.list);
         elem.setName(getText(2286, "")); // Utilizar
         elem.setKey(WC.KW_DEFALUT_DIF_CAMBIO);
@@ -1739,15 +1740,15 @@
 
         var list = elem.getList();
 
-        var elem = list.add(null);
+        elem = list.add(null);
         elem.setId(CT.ModoDifCambio.DIF_CAMBIO_CUENTA);
         elem.setValue(getText(2142, "")); // Una cuenta contable
 
-        var elem = list.add(null);
+        elem = list.add(null);
         elem.setId(CT.ModoDifCambio.DIF_CAMBIO_NC_ND);
         elem.setValue(getText(2143, "")); // Una Nota de Débito o Crédito
 
-        var elem = properties.add(null, DWC.CUE_ID_DIF_CAMBIO);
+        elem = properties.add(null, DWC.CUE_ID_DIF_CAMBIO);
         elem.setType(T.select);
         elem.setSelectTable(Cairo.Tables.CUENTA);
         elem.setName(getText(2288, "")); // Cuenta contable
@@ -1755,7 +1756,7 @@
         elem.setSelectId(Cairo.getTesoreriaConfig().getCueIdDifCambio());
         elem.setValue(Cairo.getTesoreriaConfig().getCuentaDifCambio());
 
-        var elem = properties.add(null, DWC.NC_DIF_CAMBIO);
+        elem = properties.add(null, DWC.NC_DIF_CAMBIO);
         elem.setType(T.select);
         elem.setSelectTable(Cairo.Tables.DOCUMENTO);
         elem.setName(getText(2289, "")); // Nota de Crédito
@@ -1764,7 +1765,7 @@
         elem.setSelectFilter(D.NOTA_CREDITO_VENTAS_DOC_FILTER);
         elem.setValue(Cairo.getTesoreriaConfig().getDocNCDifCambio());
 
-        var elem = properties.add(null, DWC.ND_DIF_CAMBIO);
+        elem = properties.add(null, DWC.ND_DIF_CAMBIO);
         elem.setType(T.select);
         elem.setSelectTable(Cairo.Tables.DOCUMENTO);
         elem.setName(getText(2230, "")); // Nota de Débito
@@ -1773,7 +1774,7 @@
         elem.setSelectFilter(D.NOTA_DEBITO_VENTAS_DOC_FILTER);
         elem.setValue(Cairo.getTesoreriaConfig().getDocNDDifCambio());
 
-        var elem = properties.add(null, DWC.PR_ID_DIF_CAMBIO);
+        elem = properties.add(null, DWC.PR_ID_DIF_CAMBIO);
         elem.setType(T.select);
         elem.setSelectTable(Cairo.Tables.PRODUCTOS_DE_VENTA);
         elem.setName(getText(1367, "")); // Artículo
@@ -1781,7 +1782,7 @@
         elem.setSelectId(Cairo.getTesoreriaConfig().getPrIdDifCambio());
         elem.setValue(Cairo.getTesoreriaConfig().getProductoDifCambio());
 
-        var elem = properties.add(null, DWC.MODO_IVA_DIF_CAMBIO);
+        elem = properties.add(null, DWC.MODO_IVA_DIF_CAMBIO);
         elem.setType(T.list);
         elem.setName(getText(2290, "")); // Tratamiento del IVA
         elem.setKey(WC.KW_MODO_IVA_DIF_CAMBIO);
@@ -1790,21 +1791,21 @@
 
         var list = elem.getList();
 
-        var elem = list.add(null);
+        elem = list.add(null);
         elem.setId(CT.ModoIvaDifCambio.DIF_IVA_IMPONIBLE);
         elem.setValue(getText(2144, "")); // Tomar la diferencia de cambio como base imponible para el IVA
 
-        var elem = list.add(null);
+        elem = list.add(null);
         elem.setId(CT.ModoIvaDifCambio.DIF_IVA_NO_IMPONIBLE);
         elem.setValue(getText(2145, "")); // IVA incluido en la diferencia de cambio
 
-        var elem = properties.add(null, DWC.FECHA_ND_NC);
+        elem = properties.add(null, DWC.FECHA_ND_NC);
         elem.setType(T.date);
         elem.setName(getText(1569, "")); // Fecha
         elem.setKey(WC.KW_FECHA_NDNC);
         elem.setValue(Cairo.Dates.today());
 
-        var elem = properties.add(null, DWC.APLICACION_ND);
+        elem = properties.add(null, DWC.APLICACION_ND);
         elem.setType(T.list);
         elem.setName(getText(2479, "")); // Aplicación
         elem.setKey(WC.KW_APLICACION_DIF_CAMBIO);
@@ -1813,11 +1814,11 @@
 
         var list = elem.getList();
 
-        var elem = list.add(null);
+        elem = list.add(null);
         elem.setId(CT.AplicacionDifCambio.DIF_APLICACION_ND);
         elem.setValue(getText(2480, "")); // Cobrar la Nota de Débito y aplicar el resto a las Facturas
 
-        var elem = list.add(null);
+        elem = list.add(null);
         elem.setId(CT.AplicacionDifCambio.DIF_APLICACION_FV);
         elem.setValue(getText(2481, "")); // Cobrar las Facturas y aplicar el resto a la Note de Débito
 
@@ -1832,7 +1833,9 @@
 
         var properties = m_objWizard.getSteps().add(null, keyCobros).getProperties();
 
-        var elem = properties.add(null, LABEL_COBROS);
+        var elem;
+
+        elem = properties.add(null, LABEL_COBROS);
 
         elem.setType(T.label);
         elem.setSubType(ST.title);
@@ -1842,30 +1845,30 @@
 
         var tab = dialog.getTabs().add(null);
         tab.setFatherTab(keyCobros);
-        tab.setName("Cheques");
+        tab.setName(getText(2099, "")); // Cheques
         tab.setIndex(-1);
 
         tab = dialog.getTabs().add(null);
         tab.setFatherTab(keyCobros);
-        tab.setName("Efectivo");
+        tab.setName(getText(2100, "")); // Efectivo
         tab.setIndex(-2);
 
         tab = dialog.getTabs().add(null);
         tab.setFatherTab(keyCobros);
-        tab.setName("Tarjetas");
+        tab.setName(getText(2101, "")); // Tarjetas
         tab.setIndex(-3);
 
         tab = dialog.getTabs().add(null);
         tab.setFatherTab(keyCobros);
-        tab.setName("Otros");
+        tab.setName(getText(1070, "")); // Otros
         tab.setIndex(-4);
 
         tab = dialog.getTabs().add(null);
         tab.setFatherTab(keyCobros);
-        tab.setName("Cuenta Corriente");
+        tab.setName(getText(2102, "")); // Cta Corriente
         tab.setIndex(-5);
 
-        var elem = properties.add(null, DWC.CHEQUES);
+        elem = properties.add(null, DWC.CHEQUES);
 
         elem.setType(T.grid);
         setGridCheques(elem.getGrid());
@@ -1875,7 +1878,7 @@
         elem.setGridRemoveEnabled(true);
         elem.setTabIndex(-1);
 
-        var elem = properties.add(null, DWC.EFECTIVO);
+        elem = properties.add(null, DWC.EFECTIVO);
 
         elem.setType(T.grid);
         setGridEfectivo(elem.getGrid());
@@ -1885,7 +1888,7 @@
         elem.setGridRemoveEnabled(true);
         elem.setTabIndex(-2);
 
-        var elem = properties.add(null, DWC.TARJETAS);
+        elem = properties.add(null, DWC.TARJETAS);
 
         elem.setType(T.grid);
         setGridTarjetas(elem.getGrid());
@@ -1895,7 +1898,7 @@
         elem.setGridRemoveEnabled(true);
         elem.setTabIndex(-3);
 
-        var elem = properties.add(null, DWC.OTROS);
+        elem = properties.add(null, DWC.OTROS);
 
         elem.setType(T.grid);
         setGridOtros(elem.getGrid());
@@ -1905,7 +1908,7 @@
         elem.setGridRemoveEnabled(true);
         elem.setTabIndex(-4);
 
-        var elem = properties.add(null, DWC.CTA_CTE);
+        elem = properties.add(null, DWC.CTA_CTE);
 
         elem.setType(T.grid);
         setGridCtaCte(elem.getGrid());
@@ -1915,7 +1918,7 @@
         elem.setGridRemoveEnabled(false);
         elem.setTabIndex(-5);
 
-        var elem = properties.add(null, DWC.COBRO_INDICADO);
+        elem = properties.add(null, DWC.COBRO_INDICADO);
         elem.setFormat(Cairo.Settings.getAmountDecimalsFormat());
         elem.setName(getText(2147, "")); // A cobrar
         elem.setType(T.numeric);
@@ -1923,7 +1926,7 @@
         elem.setEnabled(false);
         elem.setKey(WC.KW_IMPORTE_INDICADO);
 
-        var elem = properties.add(null, DWC.COBRO_NETO);
+        elem = properties.add(null, DWC.COBRO_NETO);
         elem.setName(getText(1581, "")); // Neto
         elem.setFormat(Cairo.Settings.getAmountDecimalsFormat());
         elem.setType(T.numeric);
@@ -1931,7 +1934,7 @@
         elem.setEnabled(false);
         elem.setKey(WC.KW_IMPORTE_NETO);
 
-        var elem = properties.add(null, DWC.COBRO_OTROS);
+        elem = properties.add(null, DWC.COBRO_OTROS);
         elem.setFormat(Cairo.Settings.getAmountDecimalsFormat());
         elem.setName(getText(1070, "")); // Otros
         elem.setType(T.numeric);
@@ -1939,7 +1942,7 @@
         elem.setEnabled(false);
         elem.setKey(WC.KW_IMPORTE_OTROS);
 
-        var elem = properties.add(null, DWC.COBRO_TOTAL);
+        elem = properties.add(null, DWC.COBRO_TOTAL);
         elem.setName(getText(1584, "")); // Total
         elem.setFormat(Cairo.Settings.getAmountDecimalsFormat());
         elem.setType(T.numeric);
@@ -1955,68 +1958,70 @@
 
         columns.add(null).setVisible(false);
 
-        var elem = columns.add(null);
+        var elem;
+
+        elem = columns.add(null);
         elem.setName(getText(1267, "")); // Cuenta
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.CUENTA);
         elem.setKey(KIO_CUE_ID);
         elem.setSelectFilter(D.getCuentaOtroFilterForCaja(m_isHojaRuta, m_cjId));
 
-        var elem = columns.add(null);
+        elem = columns.add(null);
         elem.setName(getText(1904, "")); // Debe
         elem.setType(Dialogs.PropertyType.numeric);
         elem.setFormat(Cairo.Settings.getAmountDecimalsFormat());
         elem.setSubType(Dialogs.PropertySubType.money);
         elem.setKey(KIO_DEBE);
 
-        var elem = columns.add(null);
+        elem = columns.add(null);
         elem.setName(getText(1905, "")); // Haber
         elem.setType(Dialogs.PropertyType.numeric);
         elem.setFormat(Cairo.Settings.getAmountDecimalsFormat());
         elem.setSubType(Dialogs.PropertySubType.money);
         elem.setKey(KIO_HABER);
 
-        var elem = columns.add(null);
+        elem = columns.add(null);
         elem.setName(getText(1901, "")); // Origen
         elem.setType(Dialogs.PropertyType.numeric);
         elem.setFormat(Cairo.Settings.getAmountDecimalsFormat());
         elem.setSubType(Dialogs.PropertySubType.money);
         elem.setKey(KIO_IMPORTEORIGEN);
 
-        var elem = columns.add(null);
+        elem = columns.add(null);
         elem.setName(Cairo.Constants.DESCRIPTION_LABEL);
         elem.setType(Dialogs.PropertyType.text);
         elem.setKey(KIO_DESCRIP);
 
-        var elem = columns.add(null);
+        elem = columns.add(null);
         elem.setName(getText(1403, "")); // Retención
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.RETENCION);
         elem.setKey(KIO_RET_ID);
 
-        var elem = columns.add(null);
+        elem = columns.add(null);
         elem.setName(getText(2103, "")); // C. Retención
         elem.setType(Dialogs.PropertyType.text);
         elem.setKey(KIO_NRORETENCION);
 
-        var elem = columns.add(null);
+        elem = columns.add(null);
         elem.setName(getText(2104, "")); // % Retención
         elem.setType(Dialogs.PropertyType.numeric);
         elem.setSubType(Dialogs.PropertySubType.percentage);
         elem.setKey(KIO_PORCRETENCION);
 
-        var elem = columns.add(null);
+        elem = columns.add(null);
         elem.setName(getText(1569, "")); // Fecha
         elem.setType(Dialogs.PropertyType.date);
         elem.setKey(KIO_FECHARETENCION);
 
-        var elem = columns.add(null);
+        elem = columns.add(null);
         elem.setName(getText(1057, "")); // Centro de Costo
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.CENTRO_COSTO);
         elem.setKey(KIO_CCOS_ID);
 
-        var elem = columns.add(null, CT.FV_ID_RET);
+        elem = columns.add(null, CT.FV_ID_RET);
         elem.setName(getText(1866, "")); // Factura
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.FACTURAS_DE_VENTA);
@@ -2030,71 +2035,73 @@
 
         columns.add(null).setVisible(false);
 
-        var elem = columns.add(null);
+        var elem;
+
+        elem = columns.add(null);
         elem.setName(getText(1267, "")); // Cuenta
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.CUENTA);
         elem.setSelectFilter(D.getCuentaChequeFilterForCaja(m_isHojaRuta, m_cjId));
         elem.setKey(KICH_CUE_ID);
 
-        var elem = columns.add(null);
+        elem = columns.add(null);
         elem.setName(getText(2063, "")); // Mon
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.MONEDA);
         elem.setKey(KICH_MON_ID);
         elem.setEnabled(false);
 
-        var elem = columns.add(null);
+        elem = columns.add(null);
         elem.setName(getText(1901, "")); // Origen
         elem.setType(Dialogs.PropertyType.numeric);
         elem.setFormat(Cairo.Settings.getAmountDecimalsFormat());
         elem.setSubType(Dialogs.PropertySubType.money);
         elem.setKey(KICH_IMPORTEORIGEN);
 
-        var elem = columns.add(null);
+        elem = columns.add(null);
         elem.setName(getText(1228, "")); // Importe
         elem.setType(Dialogs.PropertyType.numeric);
         elem.setFormat(Cairo.Settings.getAmountDecimalsFormat());
         elem.setSubType(Dialogs.PropertySubType.money);
         elem.setKey(KICH_IMPORTE);
 
-        var elem = columns.add(null);
+        elem = columns.add(null);
         elem.setName(getText(1122, "")); // Banco
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.BANCO);
         elem.setKey(KICH_BCO_ID);
 
-        var elem = columns.add(null);
+        elem = columns.add(null);
         elem.setName(getText(2059, "")); // Nro. Cheque
         elem.setType(Dialogs.PropertyType.text);
         elem.setKey(KICH_CHEQUE);
 
-        var elem = columns.add(null);
+        elem = columns.add(null);
         elem.setName(getText(3719, "")); // Propio
         elem.setType(Dialogs.PropertyType.check);
         elem.setKey(KICH_PROPIO);
 
-        var elem = columns.add(null);
+        elem = columns.add(null);
         elem.setName(getText(2065, "")); // Depositar el
         elem.setDefaultValue(Grids.createCell());
         elem.getDefaultValue().setValue(Cairo.Dates.today());
         elem.setType(Dialogs.PropertyType.date);
         elem.setKey(KICH_FECHACOBRO);
 
-        var elem = columns.add(null);
+        elem = columns.add(null);
         elem.setName(getText(1634, "")); // Vto.
         elem.setDefaultValue(Grids.createCell());
         elem.getDefaultValue().setValue(Cairo.Dates.DateNames.addToDate("m", 1, Cairo.Dates.today()));
         elem.setType(Dialogs.PropertyType.date);
         elem.setKey(KICH_FECHAVTO);
 
-        var elem = columns.add(null);
+        elem = columns.add(null);
         elem.setName(getText(1083, "")); // Clering
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.CLEARING);
         elem.setKey(KICH_CLE_ID);
 
-        var elem = columns.add(null);
+        elem = columns.add(null);
         elem.setName(Cairo.Constants.DESCRIPTION_LABEL);
         elem.setType(Dialogs.PropertyType.text);
         elem.setKey(KICH_DESCRIP);
@@ -2107,35 +2114,37 @@
 
         columns.add(null).setVisible(false);
 
-        var elem = columns.add(null);
+        var elem;
+
+        elem = columns.add(null);
         elem.setName(getText(1267, "")); // Cuenta
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.CUENTA);
         elem.setSelectFilter(D.getCuentaChequeFilterForCaja(m_isHojaRuta, m_cjId));
         elem.setKey(KIE_CUE_ID);
 
-        var elem = columns.add(null);
+        elem = columns.add(null);
         elem.setName(getText(2063, "")); // Mon
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.MONEDA);
         elem.setKey(KIE_MON_ID);
         elem.setEnabled(false);
 
-        var elem = columns.add(null);
+        elem = columns.add(null);
         elem.setName(getText(1901, "")); // Origen
         elem.setType(Dialogs.PropertyType.numeric);
         elem.setFormat(Cairo.Settings.getAmountDecimalsFormat());
         elem.setSubType(Dialogs.PropertySubType.money);
         elem.setKey(KIE_IMPORTEORIGEN);
 
-        var elem = columns.add(null);
+        elem = columns.add(null);
         elem.setName(getText(1228, "")); // Importe
         elem.setType(Dialogs.PropertyType.numeric);
         elem.setFormat(Cairo.Settings.getAmountDecimalsFormat());
         elem.setSubType(Dialogs.PropertySubType.money);
         elem.setKey(KIE_IMPORTE);
 
-        var elem = columns.add(null);
+        elem = columns.add(null);
         elem.setName(Cairo.Constants.DESCRIPTION_LABEL);
         elem.setType(Dialogs.PropertyType.text);
         elem.setKey(KIE_DESCRIP);
@@ -2148,63 +2157,65 @@
 
         columns.add(null).setVisible(false);
 
-        var elem = columns.add(null);
+        var elem;
+
+        elem = columns.add(null);
         elem.setName(getText(2105, "")); // Cupon
         elem.setType(Dialogs.PropertyType.text);
         elem.setKey(KIT_CUPON);
 
-        var elem = columns.add(null);
+        elem = columns.add(null);
         elem.setName(getText(2106, "")); // Tarjeta
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectFilter(D.selectFilterForTarjeta);
         elem.setSelectTable(Cairo.Tables.TARJETACREDITO);
         elem.setKey(KIT_TJC_ID);
 
-        var elem = columns.add(null, C_CUOTAS);
+        elem = columns.add(null, C_CUOTAS);
         elem.setName(getText(1473, "")); // Cuotas
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.TARJETACREDITOCUOTA);
         elem.setKey(KIT_TJCCU_ID);
         m_lColCuotas = columns.count();
 
-        var elem = columns.add(null);
+        elem = columns.add(null);
         elem.setName(getText(2063, "")); // Mon
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.MONEDA);
         elem.setKey(KIT_MON_ID);
 
-        var elem = columns.add(null);
+        elem = columns.add(null);
         elem.setName(getText(1901, "")); // Origen
         elem.setType(Dialogs.PropertyType.numeric);
         elem.setFormat(Cairo.Settings.getAmountDecimalsFormat());
         elem.setSubType(Dialogs.PropertySubType.money);
         elem.setKey(KIT_IMPORTEORIGEN);
 
-        var elem = columns.add(null);
+        elem = columns.add(null);
         elem.setName(getText(1228, "")); // Importe
         elem.setType(Dialogs.PropertyType.numeric);
         elem.setFormat(Cairo.Settings.getAmountDecimalsFormat());
         elem.setSubType(Dialogs.PropertySubType.money);
         elem.setKey(KIT_IMPORTE);
 
-        var elem = columns.add(null);
+        elem = columns.add(null);
         elem.setName(getText(1634, "")); // Vto.
         elem.setType(Dialogs.PropertyType.date);
         elem.setDefaultValue(Grids.createCell());
         elem.getDefaultValue().setValue(Cairo.Dates.DateNames.addToDate("d", 1, Cairo.Dates.today()));
         elem.setKey(KIT_FECHAVTO);
 
-        var elem = columns.add(null);
+        elem = columns.add(null);
         elem.setName(getText(2107, "")); // Nro. Tarjeta
         elem.setType(Dialogs.PropertyType.text);
         elem.setKey(KIT_NROTARJETA);
 
-        var elem = columns.add(null);
+        elem = columns.add(null);
         elem.setName(getText(2123, "")); // Cod. Autoriz.
         elem.setType(Dialogs.PropertyType.text);
         elem.setKey(KIT_NROAUTORIZACION);
 
-        var elem = columns.add(null);
+        elem = columns.add(null);
         elem.setName(getText(2108, "")); // Operacion
         elem.setType(Dialogs.PropertyType.list);
         elem.setDefaultValue(Grids.createCell());
@@ -2213,20 +2224,20 @@
 
         var list = elem.getList();
 
-        var elem = list.add(null);
+        elem = list.add(null);
         elem.setId(CT.CuponTipo.CUPON_POSNET);
         elem.setValue(getText(2110, "")); // Posnet
 
-        var elem = list.add(null);
+        elem = list.add(null);
         elem.setId(CT.CuponTipo.CUPON_MANUAL);
         elem.setValue(getText(2111, "")); // Manual
 
-        var elem = columns.add(null);
+        elem = columns.add(null);
         elem.setName(getText(2109, "")); // Titular
         elem.setType(Dialogs.PropertyType.text);
         elem.setKey(KIT_TITULAR);
 
-        var elem = columns.add(null);
+        elem = columns.add(null);
         elem.setName(Cairo.Constants.DESCRIPTION_LABEL);
         elem.setType(Dialogs.PropertyType.text);
         elem.setKey(KIT_DESCRIP);
@@ -2239,21 +2250,23 @@
 
         columns.add(null).setVisible(false);
 
-        var elem = columns.add(null);
+        var elem;
+
+        elem = columns.add(null);
         elem.setName(getText(1267, "")); // Cuenta
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.CUENTA);
         elem.setSelectFilter(D.selectFilterCuentaNotInCaja);
         elem.setKey(KICC_CUE_ID);
 
-        var elem = columns.add(null);
+        elem = columns.add(null);
         elem.setName(getText(1901, "")); // Origen
         elem.setType(Dialogs.PropertyType.numeric);
         elem.setFormat(Cairo.Settings.getAmountDecimalsFormat());
         elem.setSubType(Dialogs.PropertySubType.money);
         elem.setKey(KICC_IMPORTEORIGEN);
 
-        var elem = columns.add(null);
+        elem = columns.add(null);
         elem.setName(getText(1228, "")); // Importe
         elem.setType(Dialogs.PropertyType.numeric);
         elem.setFormat(Cairo.Settings.getAmountDecimalsFormat());
@@ -2277,20 +2290,20 @@
         elem.setSubType(ST.title);
         elem.setValue(getText(2148, "")); // Complete los siguientes datos del Recibo
 
-        var elem = properties.add(null, DWC.FECHA);
+        elem = properties.add(null, DWC.FECHA);
         elem.setType(T.date);
         elem.setName(getText(1569, "")); // Fecha
         elem.setKey(WC.KW_FECHA);
         elem.setValue(Cairo.Dates.today());
 
-        var elem = properties.add(null, DWC.CLIENTE2);
+        elem = properties.add(null, DWC.CLIENTE2);
         elem.setType(T.select);
         elem.setSelectTable(Cairo.Tables.CLIENTE);
         elem.setEnabled(false);
         elem.setName(getText(1150, "")); // Cliente
         elem.setKey(WC.KW_CLIENTE2);
 
-        var elem = properties.add(null, DWC.SUCURSAL);
+        elem = properties.add(null, DWC.SUCURSAL);
         elem.setType(T.select);
         elem.setSelectTable(Cairo.Tables.SUCURSAL);
         elem.setName(getText(1281, "")); // Sucursal
@@ -2298,30 +2311,30 @@
         elem.setSelectId(Cairo.User.getSucId());
         elem.setKey(WC.KW_SUCURSAL);
 
-        var elem = properties.add(null, DWC.COMPROBANTE);
+        elem = properties.add(null, DWC.COMPROBANTE);
         elem.setType(T.text);
         elem.setName(getText(1610, "")); // Comprobante
         elem.setKey(WC.KW_COMPROBANTE);
 
-        var elem = properties.add(null, DWC.COBRADOR);
+        elem = properties.add(null, DWC.COBRADOR);
         elem.setType(T.select);
         elem.setSelectTable(Cairo.Tables.COBRADOR);
         elem.setName(getText(1088, "")); // Cobrador
         elem.setKey(WC.KW_COBRADOR);
 
-        var elem = properties.add(null, DWC.LEGAJO);
+        elem = properties.add(null, DWC.LEGAJO);
         elem.setType(T.select);
         elem.setSelectTable(Cairo.Tables.LEGAJOS);
         elem.setName(getText(1575, "")); // Legajo
         elem.setKey(WC.KW_LEGAJO);
 
-        var elem = properties.add(null, DWC.CENTRO_COSTO);
+        elem = properties.add(null, DWC.CENTRO_COSTO);
         elem.setType(T.select);
         elem.setSelectTable(Cairo.Tables.CENTROS_DE_COSTO);
         elem.setName(getText(1057, "")); // Centro de Costo
         elem.setKey(WC.KW_CENTRO_COSTO);
 
-        var elem = properties.add(null, DWC.OBSERVACIONES);
+        elem = properties.add(null, DWC.OBSERVACIONES);
         elem.setType(T.text);
         elem.setName(getText(1861, "")); // Observaciones
         elem.setKey(WC.KW_DESCRIP);
@@ -2385,36 +2398,36 @@
                     elem.setId(valField(items[_i], CT.FVD_ID));
                     elem.setKey(KI_FVD_ID);
 
-                    var elem = row.add(null);
+                    elem = row.add(null);
                     elem.setId(parseInt(selected));
                     elem.setKey(KI_SELECT);
 
-                    var elem = row.add(null);
+                    elem = row.add(null);
                     elem.setValue(valField(items[_i], C.DOC_NAME));
                     elem.setKey(KI_DOC);
 
-                    var elem = row.add(null);
+                    elem = row.add(null);
                     elem.setValue(valField(items[_i], CV.FV_NRODOC));
                     elem.setKey(KI_NRODOC);
 
-                    var elem = row.add(null);
+                    elem = row.add(null);
                     elem.setValue(valField(items[_i], CV.FV_NUMERO));
                     elem.setId(valField(items[_i], CV.FV_ID));
                     elem.setKey(KI_FV_ID);
 
-                    var elem = row.add(null);
+                    elem = row.add(null);
                     elem.setValue(valField(items[_i], CV.FV_FECHA));
                     elem.setKey(KI_FECHA);
 
-                    var elem = row.add(null);
+                    elem = row.add(null);
                     elem.setValue(valField(items[_i], CV.FV_PENDIENTE));
                     elem.setKey(KI_PENDIENTE);
 
-                    var elem = row.add(null);
+                    elem = row.add(null);
                     elem.setValue(valField(items[_i], CT.FVD_PENDIENTE));
                     elem.setKey(KI_IMPORTE);
 
-                    var elem = row.add(null);
+                    elem = row.add(null);
                     if(selected) {
                       elem.setValue(getApplyImporte(fv_id, valField(items[_i], CT.FVD_PENDIENTE)));
                     }
@@ -2423,35 +2436,35 @@
                     }
                     elem.setKey(KI_APLICAR);
 
-                    var elem = row.add(null);
+                    elem = row.add(null);
                     elem.setValue(valField(items[_i], C.MON_NAME));
                     elem.setId(valField(items[_i], C.MON_ID));
                     elem.setKey(KI_MONEDA);
 
-                    var elem = row.add(null);
+                    elem = row.add(null);
                     var origen = valField(items[_i], CV.FV_TOTAL_ORIGEN);
                     elem.setValue(origen ? origen : "");
                     elem.setKey(KI_IMPORTEORIGEN);
                     if(val(elem.getValue()) !== 0) { showCotizacion = true; }
 
-                    var elem = row.add(null);
+                    elem = row.add(null);
                     var cotiz = valField(items[_i], CV.FV_COTIZACION);
                     elem.setValue(cotiz ? cotiz : "");
                     elem.setKey(KI_COTIZACION);
 
-                    var elem = row.add(null);
+                    elem = row.add(null);
                     elem.setValue(valField(items[_i], CV.FV_TOTAL));
                     elem.setKey(KI_TOTAL);
 
-                    var elem = row.add(null);
+                    elem = row.add(null);
                     elem.setValue(0);
                     elem.setKey(KI_COTIZACION2);
 
-                    var elem = row.add(null);
+                    elem = row.add(null);
                     elem.setValue(valField(items[_i], CT.FVD_FECHA));
                     elem.setKey(KI_VTO);
 
-                    var elem = row.add(null);
+                    elem = row.add(null);
                     elem.setValue(valField(items[_i], CV.FV_DESCRIP));
                     elem.setKey(KI_DESCRIP);
                   }
@@ -4670,12 +4683,12 @@
                 elem.setId(m_cobranzaInfo.cueIdEfectivo);
                 elem.setKey(KIE_CUE_ID);
 
-                var elem = row.add(null);
+                elem = row.add(null);
                 elem.setValue(moneda);
                 elem.setId(monId);
                 elem.setKey(KIE_MON_ID);
 
-                var elem = row.add(null);
+                elem = row.add(null);
                 if(monId !== m_defaultCurrency.id) {
                   elem.setValue(efectivo);
                 }
@@ -4684,7 +4697,7 @@
                 }
                 elem.setKey(KIE_IMPORTEORIGEN);
 
-                var elem = row.add(null);
+                elem = row.add(null);
                 if(monId !== m_defaultCurrency.id) {
                   elem.setValue(efectivo * val(getCotizacion().getValue()));
                 }
@@ -4693,7 +4706,7 @@
                 }
                 elem.setKey(KIE_IMPORTE);
 
-                var elem = row.add(null);
+                elem = row.add(null);
                 elem.setValue("");
                 elem.setKey(KIE_DESCRIP);
 
@@ -4720,12 +4733,12 @@
                 elem.setId(m_cobranzaInfo.cueIdTicket);
                 elem.setKey(KIE_CUE_ID);
 
-                var elem = row.add(null);
+                elem = row.add(null);
                 elem.setValue(moneda);
                 elem.setId(monId);
                 elem.setKey(KIE_MON_ID);
 
-                var elem = row.add(null);
+                elem = row.add(null);
                 if(monId !== m_defaultCurrency.id) {
                   elem.setValue(tickets);
                 }
@@ -4734,7 +4747,7 @@
                 }
                 elem.setKey(KIE_IMPORTEORIGEN);
 
-                var elem = row.add(null);
+                elem = row.add(null);
                 if(monId !== m_defaultCurrency.id) {
                   elem.setValue(tickets * val(getCotizacion().getValue()));
                 }
@@ -4743,7 +4756,7 @@
                 }
                 elem.setKey(KIE_IMPORTE);
 
-                var elem = row.add(null);
+                elem = row.add(null);
                 elem.setValue("");
                 elem.setKey(KIE_DESCRIP);
               });
