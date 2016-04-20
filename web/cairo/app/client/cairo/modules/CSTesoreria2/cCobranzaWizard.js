@@ -2120,7 +2120,7 @@
         elem.setName(getText(1267, "")); // Cuenta
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.CUENTA);
-        elem.setSelectFilter(D.getCuentaChequeFilterForCaja(m_isHojaRuta, m_cjId));
+        elem.setSelectFilter(D.getCuentaEfectivoFilterForCaja(m_isHojaRuta, m_cjId));
         elem.setKey(KIE_CUE_ID);
 
         elem = columns.add(null);
@@ -2349,7 +2349,8 @@
         }
       };
 
-      var loadFacturasXCliente = function(property) {
+      var loadFacturasXCliente = function() {
+
         var onlySelected = getOnlySelected().getValue();
 
         return DB.getData(
@@ -2385,8 +2386,8 @@
 
                 for(var _i = 0; _i < items.length; _i += 1) {
 
-                  var fv_id = valField(items[_i], CV.FV_ID);
-                  var selected = getApply(fv_id);
+                  var fvId = valField(items[_i], CV.FV_ID);
+                  var selected = getApply(fvId);
 
                   if(!onlySelected || selected) {
 
@@ -2429,7 +2430,7 @@
 
                     elem = row.add(null);
                     if(selected) {
-                      elem.setValue(getApplyImporte(fv_id, valField(items[_i], CT.FVD_PENDIENTE)));
+                      elem.setValue(getApplyImporte(fvId, valField(items[_i], CT.FVD_PENDIENTE)));
                     }
                     else {
                       elem.setValue(0);
@@ -2588,7 +2589,7 @@
         return importe;
       };
 
-      var getApply = function(fv_id) {
+      var getApply = function(fvId) {
         var selected = false;
 
         if(m_useCliIds) {
@@ -2603,7 +2604,7 @@
 
               if(fvInfo.cliId === m_cliIdDoc) {
 
-                if(fvInfo.fvId === fv_id) {
+                if(fvInfo.fvId === fvId) {
 
                   selected = true;
                   break;
@@ -2618,7 +2619,7 @@
 
               if(m_fvIdsxCliId[0, _i] === m_cliIdDoc) {
 
-                if(m_fvIdsxCliId[1, _i] === fv_id) {
+                if(m_fvIdsxCliId[1, _i] === fvId) {
 
                   selected = true;
                   break;
@@ -2630,7 +2631,7 @@
         else {
 
           for(var _i = 0; _i < m_fvIds.length; _i++) {
-            if(m_fvIds[_i] === fv_id) {
+            if(m_fvIds[_i] === fvId) {
               selected = true;
               break;
             }
@@ -4303,7 +4304,7 @@
         return true;
       };
 
-      var getCuentas = function(prId, cue_id, cue_id_ivari) {
+      var getCuentas = function(prId) {
         // TODO: use the code of this function in TRANSLATED to create an scala implementation
         //
         return DB.getData("load[" + m_apiPath + "tesoreria/cobranzas/producto/get_info]", prId)
@@ -4318,6 +4319,7 @@
       };
 
       /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
       var getMonedaAnticipo = function() {
         return D.getWizProperty(m_objWizard, WCS.ANTICIPO, DWC.MONEDA_ANTICIPO);
       };

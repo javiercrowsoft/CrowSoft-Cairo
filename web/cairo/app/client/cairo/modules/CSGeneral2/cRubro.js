@@ -307,7 +307,6 @@
         property.setValue(Cairo.Constants.COPY_OF + property.getValue());
 
         m_dialog.showValue(m_dialog.getProperties().item(C.RUB_CODE));
-        m_dialog.showValue(m_dialog.getProperties().item(C.RUB_NAME));
 
         m_copy = true;
       };

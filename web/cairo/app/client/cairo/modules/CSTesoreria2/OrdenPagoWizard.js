@@ -20,7 +20,7 @@
       var DB = Cairo.Database;
       var C = Cairo.General.Constants;
       var CT = Cairo.Tesoreria.Constants;
-      var CV = Cairo.Ventas.Constants;
+      var CC = Cairo.Compras.Constants;
       var Types = Cairo.Constants.Types;
       var valField = DB.valField;
       var valEmpty = Cairo.Util.valEmpty;
@@ -116,9 +116,6 @@
       var m_wizardCancel;
 
       var m_bMultiCurrency;
-
-      var m_tesoreriaConfig;
-      var m_generalConfig;
 
       var m_id = 0;
 
@@ -1879,678 +1876,365 @@
         elem.setKey(KICH_DESCRIP);
       };
 
-      var setGridEfectivo = function(property) {
-        // La primera simpre esta invisible
-        var w_columns = grid.getColumns();
+      var setGridEfectivo = function(grid) {
 
-        w_columns.add(null).setVisible(false);
+        var columns = grid.getColumns();
+        columns.clear();
 
-        var elem = w_columns.add(null);
-        //'Cuenta
-        elem.setName(getText(1267, ""));
+        columns.add(null).setVisible(false);
+
+        var elem;
+
+        elem = columns.add(null);
+        elem.setName(getText(1267, "")); // Cuenta
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.CUENTA);
-
-        //.HelpFilter = cscCuecId & "=" & csECuecCaja & _
-        " and (emp_id = "(+ cUtil.getEmpId().toString()+ " or emp_id is null)");
-        elem.setSelectFilter(mPublic.self.getHelpFilterEfectivo()+ c_filter_cuentas_de_caja);
-
-        elem.setWidth(3000);
+        elem.setSelectFilter(D.getCuentaEfectivoFilterForCaja(false));
         elem.setKey(KIE_CUE_ID);
 
-        var elem = w_columns.add(null);
-        //'Mon
-        elem.setName(getText(2063, ""));
+        elem = columns.add(null);
+        elem.setName(getText(2063, "")); // Mon
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.MONEDA);
-        elem.setWidth(520);
         elem.setKey(KIE_MON_ID);
         elem.setEnabled(false);
 
-        var elem = w_columns.add(null);
-        //'Origen
-        elem.setName(getText(1901, ""));
+        elem = columns.add(null);
+        elem.setName(getText(1901, "")); // Origen
         elem.setType(Dialogs.PropertyType.numeric);
-        elem.setFormat(m_generalConfig.getFormatDecImporte());
+        elem.setFormat(Cairo.Settings.getAmountDecimalsFormat());
         elem.setSubType(Dialogs.PropertySubType.money);
-        elem.setWidth(920);
         elem.setKey(KIE_IMPORTEORIGEN);
 
-        var elem = w_columns.add(null);
-        //'Importe
-        elem.setName(getText(1228, ""));
+        elem = columns.add(null);
+        elem.setName(getText(1228, "")); // Importe
         elem.setType(Dialogs.PropertyType.numeric);
-        elem.setFormat(m_generalConfig.getFormatDecImporte());
+        elem.setFormat(Cairo.Settings.getAmountDecimalsFormat());
         elem.setSubType(Dialogs.PropertySubType.money);
-        elem.setWidth(920);
         elem.setKey(KIE_IMPORTE);
 
-        var elem = w_columns.add(null);
+        elem = columns.add(null);
         elem.setName(Cairo.Constants.DESCRIPTION_LABEL);
         elem.setType(Dialogs.PropertyType.text);
-        elem.setWidth(2500);
         elem.setKey(KIE_DESCRIP);
       };
 
-      var setGridCtaCte = function(property) {
-        // La primera simpre esta invisible
-        var w_columns = grid.getColumns();
+      var setGridCtaCte = function(grid) {
 
-        w_columns.add(null).setVisible(false);
+        var columns = grid.getColumns();
+        columns.clear();
 
-        var elem = w_columns.add(null);
-        //'Cuenta
-        elem.setName(getText(1267, ""));
+        columns.add(null).setVisible(false);
+
+        var elem;
+
+        elem = columns.add(null);
+        elem.setName(getText(1267, "")); // Cuenta
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.CUENTA);
-        elem.setWidth(3000);
-        elem.setSelectFilter("(1=1)"+ c_filter_cuentas_de_caja);
+        elem.setSelectFilter(D.selectFilterCuentaNotInCaja);
         elem.setKey(KICC_CUE_ID);
 
-        var elem = w_columns.add(null);
-        //'Origen
-        elem.setName(getText(1901, ""));
+        elem = columns.add(null);
+        elem.setName(getText(1901, "")); // Origen
         elem.setType(Dialogs.PropertyType.numeric);
-        elem.setFormat(m_generalConfig.getFormatDecImporte());
+        elem.setFormat(Cairo.Settings.getAmountDecimalsFormat());
         elem.setSubType(Dialogs.PropertySubType.money);
-        elem.setWidth(920);
         elem.setKey(KICC_IMPORTEORIGEN);
 
-        var elem = w_columns.add(null);
-        //'Importe
-        elem.setName(getText(1228, ""));
+        elem = columns.add(null);
+        elem.setName(getText(1228, "")); // Importe
         elem.setType(Dialogs.PropertyType.numeric);
-        elem.setFormat(m_generalConfig.getFormatDecImporte());
+        elem.setFormat(Cairo.Settings.getAmountDecimalsFormat());
         elem.setSubType(Dialogs.PropertySubType.money);
-        elem.setWidth(920);
         elem.setKey(KICC_IMPORTE);
       };
 
-      var setGridStepDatosGenerales = function(property) {
-        // La clave de los pasos debe ser la constante que los define
-        // Esto es vital para que la navegacion funcione correctamente
-        var elem = m_objWizard.getSteps().add(null, U.getKey(WCS.DATOSGENERALES));
+      var loadStepDatosGenerales = function() {
 
-        var elem = elem.add(null);
-        //.Name = vbNullString
-        elem.Top = 100;
-        elem.Left = 100;
-        elem.TopNotChange = true;
-        elem.LeftNotChange = true;
-        elem.PropertyType = cspImage;
-        elem.Value = 3;
-        //Set .Picture = m_Resource.ImgWiz3.Picture
+        // the step's key must be the constant that defines them
+        // this is crucial for the navigation to work
+        //
+        var step = m_objWizard.getSteps().add(null, U.getKey(WCS.DATOS_GENERALES));
 
-        var elem = elem.add(null);
-        //.Name = vbNullString
-        elem.Top = 400;
-        elem.Left = 1500;
-        elem.TopNotChange = true;
-        elem.LeftNotChange = true;
-        elem.Height = 880;
-        elem.Width = 8000;
-        elem.PropertyType = cspLabel;
-        elem.FontBold = true;
-        //'Complete los siguientes datos del recibo
-        elem.Value = getText(2148, "");
+        step.getProperties().setLayout(Dialogs.Layout.verticalTwoColumn);
 
-        var elem = elem.add(null, DWC.FECHA);
-        elem.PropertyType = cspDate;
-        elem.Left = 2800;
-        //'Fecha
-        elem.Name = getText(1569, "");
-        elem.Key = WC.KW_FECHA;
-        elem.Value = Date;
+        var properties = step.getProperties();
 
-        var elem = elem.add(null, DWC.PROVEEDOR2);
-        elem.PropertyType = cspHelp;
-        elem.Table = Cairo.Tables.PROVEEDOR;
-        elem.Enabled = false;
-        //'Proveedor
-        elem.Name = getText(1151, "");
-        elem.Key = WC.KW_PROVEEDOR2;
+        var elem = properties.add(null);
+        elem.setType(T.label);
+        elem.setSubType(ST.title);
+        elem.setValue(getText(2148, "")); // Complete los siguientes datos del Recibo
 
-        var elem = elem.add(null, DWC.SUCURSAL);
-        elem.PropertyType = cspHelp;
-        elem.Table = Cairo.Tables.SUCURSAL;
-        //'Sucursal
-        elem.Name = getText(1281, "");
-        elem.Value = cUtil.getUser().getSucursal();
-        elem.HelpId = cUtil.getUser().getSuc_id();
-        elem.Key = WC.KW_SUCURSAL;
+        elem = properties.add(null, DWC.FECHA);
+        elem.setType(T.date);
+        elem.setName(getText(1569, "")); // Fecha
+        elem.setKey(WC.KW_FECHA);
+        elem.setValue(Cairo.Dates.today());
 
-        var elem = elem.add(null, DWC.COMPROBANTE);
-        elem.PropertyType = cspText;
-        elem.Left = 6800;
-        elem.TopFromProperty = DWC.FECHA;
-        //'Comprobante
-        elem.Name = getText(1610, "");
-        elem.Key = WC.KW_COMPROBANTE;
+        elem = properties.add(null, DWC.PROVEEDOR2);
+        elem.setType(T.select);
+        elem.setSelectTable(Cairo.Tables.PROVEEDOR);
+        elem.setEnabled(false);
+        elem.setName(getText(1151, "")); // Proveedor
+        elem.setKey(WC.KW_PROVEEDOR2);
 
-        var elem = elem.add(null, DWC.LEGAJO);
-        elem.PropertyType = cspHelp;
-        elem.Table = mTesoreriaConstantes.cSLEGAJO;
-        //'Legajo
-        elem.Name = getText(1575, "");
-        elem.Key = WC.KW_LEGAJO;
+        elem = properties.add(null, DWC.SUCURSAL);
+        elem.setType(T.select);
+        elem.setSelectTable(Cairo.Tables.SUCURSAL);
+        elem.setName(getText(1281, "")); // Sucursal
+        elem.setValue(Cairo.User.getSucName());
+        elem.setSelectId(Cairo.User.getSucId());
+        elem.setKey(WC.KW_SUCURSAL);
 
-        var elem = elem.add(null, DWC.CENTROCOSTO);
-        elem.PropertyType = cspHelp;
-        elem.Table = Cairo.Tables.CENTROCOSTO;
-        //'Centro de Costo
-        elem.Name = getText(1057, "");
-        elem.Key = WC.KW_CENTRO_COSTO;
+        elem = properties.add(null, DWC.COMPROBANTE);
+        elem.setType(T.text);
+        elem.setName(getText(1610, "")); // Comprobante
+        elem.setKey(WC.KW_COMPROBANTE);
 
-        var elem = elem.add(null, DWC.OBSERVACIONES);
-        elem.PropertyType = cspText;
-        elem.Left = 2800;
-        elem.TopFromProperty = DWC.CENTROCOSTO;
-        elem.TopToPrevious = 440;
-        elem.Height = 880;
-        elem.Width = 6250;
-        //'Observaciones
-        elem.Name = getText(1861, "");
-        elem.Key = WC.KW_DESCRIP;
-      };
+        elem = properties.add(null, DWC.LEGAJO);
+        elem.setType(T.select);
+        elem.setSelectTable(Cairo.Tables.LEGAJOS);
+        elem.setName(getText(1575, "")); // Legajo
+        elem.setKey(WC.KW_LEGAJO);
 
-      var pUserCancel = function() {
-        var _rtn = null;
-        if(m_wizardCancel) {
+        elem = properties.add(null, DWC.CENTRO_COSTO);
+        elem.setType(T.select);
+        elem.setSelectTable(Cairo.Tables.CENTROS_DE_COSTO);
+        elem.setName(getText(1057, "")); // Centro de Costo
+        elem.setKey(WC.KW_CENTRO_COSTO);
 
-          //'Desea cancelar el proceso
-          if(Ask(getText(1665, ""), vbNo)) {
-
-            _rtn = true;
-          }
-        }
-        m_wizardCancel = false;
-
-        return _rtn;
-      };
-
-      var getDoc = function() {
-        return cIABMProperty.getWizProperty(m_objWizard, WCS.SELECTPROVEEDOR, DWC.DOC).getSelectId();
-      };
-
-      var getDocName = function() {
-        return cIABMProperty.getWizProperty(m_objWizard, WCS.SELECTPROVEEDOR, DWC.DOC).getValue();
-
-      };
-
-      var getVencidos = function() {
-        return val(cIABMProperty.getWizProperty(m_objWizard, WCS.SELECTFACTURA, DWC.VENCIDOS).getValue());
-      };
-
-      var getTodos = function() {
-        return cIABMProperty.getWizProperty(m_objWizard, WCS.SELECTFACTURA, DWC.TODOS);
-      };
-
-      var getAgrupados = function() {
-        return val(cIABMProperty.getWizProperty(m_objWizard, WCS.SELECTFACTURA, DWC.AGRUPADOS).getValue());
-      };
-
-      var getCotizacion = function() {
-        return cIABMProperty.getWizProperty(m_objWizard, WCS.SELECTFACTURA, DWC.COTIZACION);
-      };
-
-      var getCotizacionAnticipo = function() {
-        return cIABMProperty.getWizProperty(m_objWizard, WCS.ANTICIPO, DWC.COTIZACIONANTICIPO);
-      };
-
-      var getAnticipo = function() {
-        return cIABMProperty.getWizProperty(m_objWizard, WCS.SELECTFACTURA, DWC.ANTICIPO);
-      };
-
-      var getAnticipoImporte = function() {
-        return cIABMProperty.getWizProperty(m_objWizard, WCS.ANTICIPO, DWC.ANTICIPOIMPORTE);
-      };
-
-      var getAnticipo2 = function(origen) { // TODO: Use of ByRef founded Private Function getAnticipo2(ByRef Origen As Double) As Double
-        var monId = null;
-        var cotizacion = null;
-        var anticipo = null;
-
-        monId = getMonedaAnticipo().getSelectId();
-        anticipo = val(getAnticipoImporte().getValue());
-
-        if(monId !== m_monDefault) {
-          cotizacion = val(getCotizacionAnticipo().getValue());
-          origen = anticipo;
-          anticipo = anticipo * cotizacion;
-        }
-        else {
-          origen = 0;
-        }
-
-        return anticipo;
-      };
-
-      var getMonedaAnticipo = function() {
-        return cIABMProperty.getWizProperty(m_objWizard, WCS.ANTICIPO, DWC.MONEDAANTICIPO);
-      };
-
-      var getCuentaAnticipo = function() {
-        return cIABMProperty.getWizProperty(m_objWizard, WCS.ANTICIPO, DWC.CUENTAANTICIPO);
-      };
-
-      var getPagoIndicado = function() {
-        return cIABMProperty.getWizProperty(m_objWizard, WCS.SELECTPAGOS, DWC.PAGOINDICADO);
-      };
-
-      var getPagoNeto = function() {
-        return cIABMProperty.getWizProperty(m_objWizard, WCS.SELECTPAGOS, DWC.PAGONETO);
-      };
-
-      var getPagoOtros = function() {
-        return cIABMProperty.getWizProperty(m_objWizard, WCS.SELECTPAGOS, DWC.PAGOOTROS);
-      };
-
-      var getPagoTotal = function() {
-        return cIABMProperty.getWizProperty(m_objWizard, WCS.SELECTPAGOS, DWC.PAGOTOTAL);
-      };
-
-      var getTotal = function() {
-        return cIABMProperty.getWizProperty(m_objWizard, WCS.SELECTFACTURA, DWC.TOTALPAGO);
-      };
-
-      var getTotalOrigen = function() {
-        return cIABMProperty.getWizProperty(m_objWizard, WCS.SELECTFACTURA, DWC.TOTALPAGOORIGEN);
-      };
-
-      var getProveedor2 = function() {
-        return cIABMProperty.getWizProperty(m_objWizard, WCS.DATOSGENERALES, DWC.PROVEEDOR2);
-      };
-
-      var getProveedor = function() {
-        return cIABMProperty.getWizProperty(m_objWizard, WCS.SELECTPROVEEDOR, DWC.PROVEEDOR).getSelectId();
-      };
-
-      var getProveedorName = function() {
-        return cIABMProperty.getWizProperty(m_objWizard, WCS.SELECTPROVEEDOR, DWC.PROVEEDOR).getValue();
-      };
-
-      // Edit From ListDoc
-      //
-      var getOnlySelected = function() {
-        return cIABMProperty.getWizProperty(m_objWizard, WCS.SELECTPROVEEDOR, DWC.ONLYSELECTED);
-      };
-
-      var getChequesT = function() {
-        return cIABMProperty.getWizProperty(m_objWizard, WCS.SELECTPAGOS, DWC.CHEQUESTERCERO).getGrid();
-      };
-
-      var getCheques = function() {
-        return cIABMProperty.getWizProperty(m_objWizard, WCS.SELECTPAGOS, DWC.CHEQUES).getGrid();
-      };
-
-      var getChequesProperty = function() {
-        return cIABMProperty.getWizProperty(m_objWizard, WCS.SELECTPAGOS, DWC.CHEQUES);
-      };
-
-      var getChequesTProperty = function() {
-        return cIABMProperty.getWizProperty(m_objWizard, WCS.SELECTPAGOS, DWC.CHEQUESTERCERO);
-      };
-
-      var getEfectivo = function() {
-        return cIABMProperty.getWizProperty(m_objWizard, WCS.SELECTPAGOS, DWC.EFECTIVO).getGrid();
-      };
-
-      var getEfectivoProperty = function() {
-        return cIABMProperty.getWizProperty(m_objWizard, WCS.SELECTPAGOS, DWC.EFECTIVO);
-      };
-
-      var getOtros = function() {
-        return cIABMProperty.getWizProperty(m_objWizard, WCS.SELECTPAGOS, DWC.OTROS).getGrid();
-      };
-
-      var getOtrosProperty = function() {
-        return cIABMProperty.getWizProperty(m_objWizard, WCS.SELECTPAGOS, DWC.OTROS);
-      };
-
-      var getFacturas = function() {
-        return cIABMProperty.getWizProperty(m_objWizard, WCS.SELECTFACTURA, DWC.FACTUAS).getGrid();
-      };
-
-      var getCtaCte = function() {
-        return cIABMProperty.getWizProperty(m_objWizard, WCS.SELECTPAGOS, DWC.CTACTE).getGrid();
-      };
-
-      var getFacturasProperty = function() {
-        return cIABMProperty.getWizProperty(m_objWizard, WCS.SELECTFACTURA, DWC.FACTUAS);
-      };
-
-      var getCtaCteProperty = function() {
-        return cIABMProperty.getWizProperty(m_objWizard, WCS.SELECTPAGOS, DWC.CTACTE);
-      };
-
-      var pRefreshFacturas = function() {
-        m_objWizard.showValue(cIABMProperty.getWizProperty(m_objWizard, WCS.SELECTFACTURA, DWC.FACTUAS));
-      };
-
-      var pRefreshCtaCte = function() {
-        m_objWizard.showValue(cIABMProperty.getWizProperty(m_objWizard, WCS.SELECTPAGOS, DWC.CTACTE));
-      };
-
-      var pRefreshOtros = function() {
-        m_objWizard.showValue(cIABMProperty.getWizProperty(m_objWizard, WCS.SELECTPAGOS, DWC.OTROS));
-      };
-
-      var getComprobante = function() {
-        return cIABMProperty.getWizProperty(m_objWizard, WCS.DATOSGENERALES, DWC.COMPROBANTE);
-      };
-
-      var getLegajo = function() {
-        return cIABMProperty.getWizProperty(m_objWizard, WCS.DATOSGENERALES, DWC.LEGAJO);
-      };
-
-      var getDescrip = function() {
-        return cIABMProperty.getWizProperty(m_objWizard, WCS.DATOSGENERALES, DWC.OBSERVACIONES);
-      };
-
-      var getCentroCosto = function() {
-        return cIABMProperty.getWizProperty(m_objWizard, WCS.DATOSGENERALES, DWC.CENTROCOSTO);
-      };
-
-      var getSucursal = function() {
-        return cIABMProperty.getWizProperty(m_objWizard, WCS.DATOSGENERALES, DWC.SUCURSAL);
-      };
-
-      var getFecha = function() {
-        return cIABMProperty.getWizProperty(m_objWizard, WCS.DATOSGENERALES, DWC.FECHA);
+        elem = properties.add(null, DWC.OBSERVACIONES);
+        elem.setType(T.text);
+        elem.setName(getText(1861, "")); // Observaciones
+        elem.setKey(WC.KW_DESCRIP);
       };
 
       var checkFacturas = function() {
         if(val(getTotal().getValue()) === 0) {
-          p = M.showWarningWithFalse(getText(2149, ""));
-          //Debe indicar una o más facturas, un importe como anticipo, o ambas cosas.
-          return null;
-        }
-        return true;
-      };
-
-      var setGridFacturasXProveedor = function(property) {
-        var bAgrupados = null;
-        var bShowCotizacion = null;
-        var vMonId() = null;
-        var vCotiz() = null;
-        var monId = null;
-        var i = null;
-        var moneda = null;
-        var cotiz = null;
-        var origen = null;
-
-        var fc_id = null;
-
-        // Edit From ListDoc
-        //
-        var bSelected = null;
-        var bOnlySelected = null;
-
-        bAgrupados = getAgrupados();
-
-        if(!Cairo.Database.openRs(sqlstmt, rs)) { return false; }
-
-        // Edit From ListDoc
-        //
-        bOnlySelected = getOnlySelected().getValue();
-
-        var w_getFacturas = getFacturas();
-
-        G.redim(vMonId, 0);
-
-        if(getAgrupados()) {
-          w_getFacturas.getColumns(DWC.IMPORTE).Visible = false;
-          w_getFacturas.getColumns(DWC.PENDIENTE).Visible = true;
+          return M.showWarningWithFail(getText(2149, "")); // Debe indicar una o más facturas, un importe como anticipo, o ambas cosas.
         }
         else {
-          w_getFacturas.getColumns(DWC.IMPORTE).Visible = true;
-          w_getFacturas.getColumns(DWC.PENDIENTE).Visible = false;
+          return P.resolvedPromise(true);
         }
-
-        var w_rows = w_getFacturas.getRows();
-
-        w_rows.clear();
-        return true;
       };
 
       var loadFacturasXProveedor = function() {
+        
+        var onlySelected = getOnlySelected().getValue();
 
+        return DB.getData(
+            "load[" + m_apiPath + "tesoreria/ordenespago/proveedor/"
+              + getProveedor().toString()
+              + "/facturas]"
+          )
+          .then(function(response) {
+            try {
 
-        for(var _i = 0; _i < m_data.facturasXProveedor.length; _i += 1) {
+              if(response.success === true) {
 
-          // Edit From ListDoc
-          //
-          fc_id = Cairo.Database.valField(m_data.facturasXProveedor[_i], mTesoreriaConstantes.FC_ID);
+                var facturas = getFacturas();
 
-          bSelected = getApply(fc_id);
-          if(!bOnlySelected || bSelected) {
+                if(getAgrupados()) {
+                  facturas.getColumns().item(DWC.IMPORTE).setVisible(false);
+                  facturas.getColumns().item(DWC.PENDIENTE).setVisible(true);
+                }
+                else {
+                  facturas.getColumns().item(DWC.IMPORTE).setVisible(true);
+                  facturas.getColumns().item(DWC.PENDIENTE).setVisible(false);
+                }
 
-            var elem = w_rows.add(null);
+                var items = DB.getResultSetFromData(response.data.get('facturas'));
+                var rates = DB.getResultSetFromData(response.data.get('rates'));
 
-            // La primera no se usa
-            elem.add(null);
+                var rows = facturas.getRows();
+                rows.clear();
 
-            var elem = elem.add(null);
-            elem.Id = Cairo.Database.valField(m_data.facturasXProveedor[_i], mTesoreriaConstantes.FCD_ID);
-            elem.Key = KI_FCD_ID;
+                var showCotizacion = false;
 
-            var elem = elem.add(null);
-            elem.Id = Integer.parseInt(bSelected);
-            elem.Key = KI_SELECT;
+                for(var _i = 0; _i < items.length; _i += 1) {
 
-            var elem = elem.add(null);
-            elem.Value = Cairo.Database.valField(m_data.facturasXProveedor[_i], mTesoreriaConstantes.DOC_NAME);
-            elem.Key = KI_DOC;
+                  var fcId = valField(items[_i], CC.FC_ID);
+                  var selected = getApply(fcId);
+                  
+                  if(!onlySelected || selected) {
 
-            var elem = elem.add(null);
-            elem.Value = Cairo.Database.valField(m_data.facturasXProveedor[_i], mTesoreriaConstantes.FC_NRODOC);
-            elem.Key = KI_NRODOC;
+                    var row = rows.add(null);
 
-            var elem = elem.add(null);
-            elem.Value = Cairo.Database.valField(m_data.facturasXProveedor[_i], mTesoreriaConstantes.FC_NUMERO);
-            elem.Id = Cairo.Database.valField(m_data.facturasXProveedor[_i], mTesoreriaConstantes.FC_ID);
-            elem.Key = KI_FC_ID;
+                    // La primera no se usa
+                    row.add(null);
 
-            var elem = elem.add(null);
-            elem.Value = Cairo.Database.valField(m_data.facturasXProveedor[_i], mTesoreriaConstantes.FC_FECHA);
-            elem.Key = KI_FECHA;
+                    var elem = row.add(null);
+                    elem.setId(valField(items[_i], CT.FCD_ID));
+                    elem.setKey(KI_FCD_ID);
 
-            var elem = elem.add(null);
-            elem.Value = Cairo.Database.valField(m_data.facturasXProveedor[_i], mTesoreriaConstantes.MON_NAME);
-            //'jav 2004-08-26
-            elem.Id = Cairo.Database.valField(m_data.facturasXProveedor[_i], mTesoreriaConstantes.MON_ID);
-            elem.Key = KI_MONEDA;
+                    elem = row.add(null);
+                    elem.setId(parseInt(selected));
+                    elem.setKey(KI_SELECT);
 
-            var elem = elem.add(null);
-            origen = Cairo.Database.valField(m_data.facturasXProveedor[_i], mTesoreriaConstantes.FC_TOTAL_ORIGEN);
-            elem.Value = origen ? origen : "");
-            elem.Key = KI_IMPORTEORIGEN;
-            if(val(elem.Value) !== 0) { bShowCotizacion = true; }
+                    elem = row.add(null);
+                    elem.setValue(valField(items[_i], C.DOC_NAME));
+                    elem.setKey(KI_DOC);
 
-            var elem = elem.add(null);
-            cotiz = Cairo.Database.valField(m_data.facturasXProveedor[_i], mTesoreriaConstantes.FC_COTIZACION);
-            elem.Value = cotiz ? cotiz : "");
-            elem.Key = KI_COTIZACION;
+                    elem = row.add(null);
+                    elem.setValue(valField(items[_i], CC.FC_NRODOC));
+                    elem.setKey(KI_NRODOC);
 
-            var elem = elem.add(null);
-            elem.Value = Cairo.Database.valField(m_data.facturasXProveedor[_i], mTesoreriaConstantes.FC_TOTAL);
-            elem.Key = KI_TOTAL;
+                    elem = row.add(null);
+                    elem.setValue(valField(items[_i], CC.FC_NUMERO));
+                    elem.setId(valField(items[_i], CC.FC_ID));
+                    elem.setKey(KI_FC_ID);
 
-            var elem = elem.add(null);
-            elem.Value = 0;
-            elem.Key = KI_COTIZACION2;
+                    elem = row.add(null);
+                    elem.setValue(valField(items[_i], CC.FC_FECHA));
+                    elem.setKey(KI_FECHA);
 
-            var elem = elem.add(null);
-            elem.Value = Cairo.Database.valField(m_data.facturasXProveedor[_i], mTesoreriaConstantes.FCD_FECHA);
-            elem.Key = KI_VTO;
+                    elem = row.add(null);
+                    elem.setValue(valField(items[_i], C.MON_NAME));
+                    elem.setId(valField(items[_i], C.MON_ID));
+                    elem.setKey(KI_MONEDA);
 
-            var elem = elem.add(null);
-            elem.Value = Cairo.Database.valField(m_data.facturasXProveedor[_i], mTesoreriaConstantes.FC_PENDIENTE);
-            elem.Key = KI_PENDIENTE;
+                    elem = row.add(null);
+                    var origen = valField(items[_i], CC.FC_TOTAL_ORIGEN);
+                    elem.setValue(origen ? origen : "");
+                    elem.setKey(KI_IMPORTEORIGEN);
+                    if(val(elem.getValue()) !== 0) { showCotizacion = true; }
 
-            var elem = elem.add(null);
-            elem.Value = Cairo.Database.valField(m_data.facturasXProveedor[_i], mTesoreriaConstantes.FCD_PENDIENTE);
-            elem.Key = KI_IMPORTE;
+                    elem = row.add(null);
+                    var cotiz = valField(items[_i], CC.FC_COTIZACION);
+                    elem.setValue(cotiz ? cotiz : "");
+                    elem.setKey(KI_COTIZACION);
 
-            var elem = elem.add(null);
-            if(bSelected) {
-              elem.Value = Cairo.Database.valField(m_data.facturasXProveedor[_i], mTesoreriaConstantes.FCD_PENDIENTE);
-            }
-            else {
-              elem.Value = 0;
-            }
-            elem.Key = KI_APLICAR;
+                    elem = row.add(null);
+                    elem.setValue(valField(items[_i], CC.FC_TOTAL));
+                    elem.setKey(KI_TOTAL);
 
-            var elem = elem.add(null);
-            elem.Value = Cairo.Database.valField(m_data.facturasXProveedor[_i], mTesoreriaConstantes.FC_DESCRIP);
-            elem.Key = KI_DESCRIP;
+                    elem = row.add(null);
+                    elem.setValue(0);
+                    elem.setKey(KI_COTIZACION2);
 
-            monId = Cairo.Database.valField(m_data.facturasXProveedor[_i], mTesoreriaConstantes.MON_ID);
-            if(m_monDefault !== monId) {
-              pAddMoneda(vMonId[], monId);
-            }
-          }
+                    elem = row.add(null);
+                    elem.setValue(valField(items[_i], CT.FCD_FECHA));
+                    elem.setKey(KI_VTO);
 
-        }
+                    elem = row.add(null);
+                    elem.setValue(valField(items[_i], CC.FC_PENDIENTE));
+                    elem.setKey(KI_PENDIENTE);
 
-        if(!bShowCotizacion) {
-          getFacturas().getColumns(DWC.COTIZACION).Visible = false;
-          getFacturas().getColumns(DWC.MONEDA).Visible = false;
-          getCotizacion().setVisible(false);
-          getTotalOrigen().setVisible(false);
-        }
-        else {
-          getFacturas().getColumns(DWC.COTIZACION).Visible = true;
-          getFacturas().getColumns(DWC.MONEDA).Visible = true;
-          getCotizacion().setVisible(true);
-          getTotalOrigen().setVisible(true);
-        }
+                    elem = row.add(null);
+                    elem.setValue(valField(items[_i], CT.FCD_PENDIENTE));
+                    elem.setKey(KI_IMPORTE);
 
-        m_bMultiCurrency = false;
+                    elem = row.add(null);
+                    if(selected) {
+                      elem.setValue(valField(items[_i], CT.FCD_PENDIENTE));
+                    }
+                    else {
+                      elem.setValue(0);
+                    }
+                    elem.setKey(KI_APLICAR);
 
-        if(vMonId.Length > 1) {
-          moneda = new cMoneda();
+                    elem = row.add(null);
+                    elem.setValue(valField(items[_i], CC.FC_DESCRIP));
+                    elem.setKey(KI_DESCRIP);
+                  }
+                }
 
-          m_bMultiCurrency = true;
+                if(!showCotizacion) {
+                  getFacturas().getColumns().item(DWC.COTIZACION).setVisible(false);
+                  getFacturas().getColumns().item(DWC.MONEDA).setVisible(false);
+                  getCotizacion().setVisible(false);
+                  getTotalOrigen().setVisible(false);
+                }
+                else {
+                  getFacturas().getColumns().item(DWC.COTIZACION).setVisible(true);
+                  getFacturas().getColumns().item(DWC.MONEDA).setVisible(true);
+                  getCotizacion().setVisible(true);
+                  getTotalOrigen().setVisible(true);
+                }
 
-          getFacturas().getColumns(DWC.COTIZACION2).Visible = true;
-          getCotizacion().setVisible(false);
+                m_bMultiCurrency = false;
 
-          G.redim(vCotiz, vMonId.Length);
-          for (i = 1; i <= vMonId.Length; i++) {
-            vCotiz[i] = moneda.getCotizacion(vMonId[i], Date);
-          }
+                if(rates.length > 0) {
 
-          var row = null;
-          var _count = getFacturas().getRows().size();
-          for (var _i = 0; _i < _count; _i++) {
-            row = getFacturas().getRows().item(_i);
-            for (i = 1; i <= vMonId.Length; i++) {
-              if(vMonId[i] === getCell(row, KI_MONEDA).getId()) {
-                getCell(row, KI_COTIZACION2).getValue() === vCotiz[i];
-                break;
+                  m_bMultiCurrency = true;
+
+                  getFacturas().getColumns().item(DWC.COTIZACION2).setVisible(true);
+
+                  for(var _i = 0, _count = getFacturas().getRows().size(); _i < _count; _i++) {
+
+                    var row = getFacturas().getRows().item(_i);
+
+                    for(var _j = 0, _countj = rates.length; _j < _countj; _j++) {
+                      if(valField(rates[_j], C.MON_ID) === getCell(row, KI_MONEDA).getId()) {
+                        getCell(row, KI_COTIZACION2).setValue(valField(rates[_j], C.MON_PRECIO));
+                        break;
+                      }
+                    }
+                  }
+
+                  getCotizacion().setValue(valField(rates[0], C.MON_PRECIO));
+                  refreshCotizacion(false);
+
+                }
+                else {
+                  getCotizacion().setVisible(false);
+                  getFacturas().getColumns().item(DWC.COTIZACION2).Visible = false;
+                }
+
+                m_objWizard.showValue(getCotizacion());
+                m_objWizard.showValue(getTotalOrigen());
+
+                refreshFacturas();
+                showTotalFacturas();
+
+                return true;
               }
             }
-          }
-        }
-        else if(vMonId.Length > 0) {
-          moneda = new cMoneda();
-
-          getCotizacion().setValue(moneda.getCotizacion(vMonId[1], Date));
-          refreshCotizacion();
-          getFacturas().getColumns(DWC.COTIZACION2).Visible = false;
-        }
-
-        m_objWizard.showValue(getCotizacion());
-        m_objWizard.showValue(getTotalOrigen());
-
-        pRefreshFacturas();
-        showTotalFacturas();
-
-        return true;
+            catch(ex) {
+              Cairo.manageErrorEx(ex.message, ex, "showFacturaRemito", C_MODULE, "");
+              return false;
+            }
+          });
       };
 
-      // Edit From ListDoc
-      //
-      var getApply = function(fc_id) {
-        var _rtn = null;
-        var i = null;
-
-        for (i = 1; i <= m_fcIds.Length; i++) {
-          if(m_fcIds[i] === fc_id) {
-            _rtn = true;
-            return _rtn;
+      var getApply = function(fcId) {
+        var selected = false;
+        
+        for(var _i = 0; _i < m_fcIds.length; _i++) {
+          if(m_fcIds[_i] === fcId) {
+            selected = true;
+            break;
           }
         }
 
-        return _rtn;
-      };
-
-      var pAddMoneda = function(vMonIds, monId) { // TODO: Use of ByRef founded Private Sub pAddMoneda(ByRef vMonIds() As Long, ByVal MonId As Long)
-        var i = null;
-
-        for (i = 1; i <= vMonIds.Length; i++) {
-          if(vMonIds(i) === monId) { return; }
-        }
-
-        G.redimPreserve(vMonIds, vMonIds.Length + 1);
-        vMonIds(vMonIds.Length) = monId;
-      };
-
-      var getNomMonedaDefault = function() {
-        var sqlstmt = null;
-        var rs = null;
-
-        sqlstmt = "select mon_signo from Moneda where mon_legal <> 0";
-        if(!Cairo.Database.openRs(sqlstmt, rs)) { return ""; }
-
-        if(rs.isEOF()) {
-          p = M.showWarningWithFalse(getText(2150, ""));
-          //Debe definir cual es la moneda legal con la que opera Cairo
-          return null;
-        }
-
-        return Cairo.Database.valField(rs.getFields(), "mon_signo");
-      };
-
-      var getMonedaDefault = function() {
-        var sqlstmt = null;
-        var rs = null;
-
-        sqlstmt = "select mon_id from Moneda where mon_legal <> 0";
-        if(!Cairo.Database.openRs(sqlstmt, rs)) { return 0; }
-
-        if(rs.isEOF()) {
-          p = M.showWarningWithFalse(getText(2150, ""));
-          //Debe definir cual es la moneda legal con la que opera Cairo
-          return null;
-        }
-
-        return Cairo.Database.valField(rs.getFields(), mTesoreriaConstantes.MON_ID);
+        return selected;
       };
 
       var getCuentasAcreedor = function() {
-        var i = null;
-        var row = null;
-        var cell = null;
-        var total = null;
-        var vCtaCte() = null;
-        var anticipo = null;
-        var anticipoOrigen = null;
-        var cue_id_anticipo = null;
-        var cuentaAnticipo = null;
+        var total = 0;
+        var anticipoOrigen = 0;
 
-        // Dimensiono la grilla y el vector de facturas
         getCtaCte().getRows().clear();
 
-        var w_getCuentaAnticipo = getCuentaAnticipo();
-        cue_id_anticipo = w_getCuentaAnticipo.getSelectId();
-        cuentaAnticipo = w_getCuentaAnticipo.getValue();
+        var cuentaProperty = getCuentaAnticipo();
+        var cueIdAnticipo = cuentaProperty.getSelectId();
+        var cuentaAnticipo = cuentaProperty.getValue();
 
-        anticipo = getAnticipo2(anticipoOrigen);
+        var monId = getMonedaAnticipo().getSelectId();
+        var anticipo = val(getAnticipoImporte().getValue());
+
+        if(monId !== m_defaultCurrency.id) {
+          var cotizacion = val(getCotizacionAnticipo().getValue());
+          anticipoOrigen = anticipo;
+          anticipo = anticipo * cotizacion;
+        }
+        else {
+          anticipoOrigen = 0;
+        }
 
         // Obtengo las cuentas del tercero
-        if(!mCobranza.self.getCuentasAcreedor(getFacturas(), vCtaCte[], KI_FC_ID, KI_APLICAR, KI_COTIZACION2, anticipo, cue_id_anticipo, cuentaAnticipo, anticipoOrigen)) { return false; }
+        if(!mCobranza.self.getCuentasAcreedor(getFacturas(), vCtaCte[], KI_FC_ID, KI_APLICAR, KI_COTIZACION2, anticipo, cueIdAnticipo, cuentaAnticipo, anticipoOrigen)) { return false; }
 
         // Agrego las cuentas a la grilla
         for (i = 1; i <= vCtaCte.Length; i++) {
@@ -2579,7 +2263,7 @@
         getPagoIndicado().setValue(total);
         m_objWizard.showValue(getPagoIndicado());
 
-        pRefreshCtaCte();
+        refreshCtaCte();
 
         // Si se deben calcular las retenciones
         //
@@ -2609,8 +2293,8 @@
 
           while (!rsRet.isEOF()) {
 
-            ret_id = Cairo.Database.valField(rsRet.getFields(), mTesoreriaConstantes.RET_ID);
-            ret_nombre = Cairo.Database.valField(rsRet.getFields(), mTesoreriaConstantes.RET_NAME);
+            ret_id = valField(rsRet.getFields(), mTesoreriaConstantes.RET_ID);
+            ret_nombre = valField(rsRet.getFields(), mTesoreriaConstantes.RET_NAME);
 
             getCuentaForRetencion(ret_id, cue_id, cue_nombre);
 
@@ -2628,10 +2312,10 @@
 
               if(!rs.isEOF()) {
 
-                retencion = Cairo.Database.valField(rs.getFields(), "retencion");
-                porcentaje = Cairo.Database.valField(rs.getFields(), "porcentaje");
-                comprobante = Cairo.Database.valField(rs.getFields(), "comprobante");
-                base = Cairo.Database.valField(rs.getFields(), "base");
+                retencion = valField(rs.getFields(), "retencion");
+                porcentaje = valField(rs.getFields(), "porcentaje");
+                comprobante = valField(rs.getFields(), "comprobante");
+                base = valField(rs.getFields(), "base");
 
                 if(retencion > 0) {
 
@@ -2695,7 +2379,7 @@
 
         }
 
-        pRefreshOtros();
+        refreshOtros();
         showPagoOtro();
         showPagoTotal();
 
@@ -2722,8 +2406,8 @@
 
         if(rs.isEOF()) { return; }
 
-        cue_id = Cairo.Database.valField(rs.getFields(), mTesoreriaConstantes.CUE_ID);
-        cue_nombre = Cairo.Database.valField(rs.getFields(), mTesoreriaConstantes.CUE_NAME);
+        cue_id = valField(rs.getFields(), mTesoreriaConstantes.CUE_ID);
+        cue_nombre = valField(rs.getFields(), mTesoreriaConstantes.CUE_NAME);
       };
 
       var getFacturarForRetencion = function() {
@@ -3233,7 +2917,7 @@
         sqlstmt = "sp_ProveedorGetTalonario "+ getProveedor().toString()+ ","+ getDoc().toString();
         if(!Cairo.Database.openRs(sqlstmt, rs)) { return; }
 
-        tAL_ID = Cairo.Database.valField(rs.getFields(), 0);
+        tAL_ID = valField(rs.getFields(), 0);
 
         tl = new cTalonario();
 
@@ -3270,59 +2954,28 @@
         return true;
       };
 
-      self.initialize = function() {
+      var initialize = function() {
         try {
 
-          //'Error al grabar la Orden de Pago
-          c_ErrorSave = getText(1910, "");
+          m_fcIds = [];
 
-          m_generalConfig = new cGeneralConfig();
-          m_generalConfig.Load;
-
-          m_tesoreriaConfig = new cTesoreriaConfig();
-          m_tesoreriaConfig.load();
-
-          m_monDefault = getMonedaDefault();
-          G.redim(m_fcIds, 0);
-
-          // **TODO:** goto found: GoTo ExitProc;
         }
         catch (ex) {
-          Cairo.manageErrorEx(ex.message, "Class_Initialize", C_MODULE, "");
-          // **TODO:** label found: ExitProc:;
+          Cairo.manageErrorEx(ex.message, ex, "initialize", C_MODULE, "");
         }
-        // **TODO:** on error resume next found !!!
       };
 
       self.destroy = function() {
         try {
 
-          m_generalConfig = null;
-          m_tesoreriaConfig = null;
-          G.redim(m_fcIds, 0);
-          m_objClient = null;
+          m_fcIds = null;
 
-          // **TODO:** goto found: GoTo ExitProc;
         }
         catch (ex) {
-          Cairo.manageErrorEx(ex.message, "Class_Terminate", C_MODULE, "");
-          // **TODO:** label found: ExitProc:;
+          Cairo.manageErrorEx(ex.message, ex, "destroy", C_MODULE, "");
         }
-        // **TODO:** on error resume next found !!!
       };
 
-      ////////////////////////////////
-      //  Codigo estandar de errores
-      //  On Error GoTo ControlError
-      //
-      //  GoTo ExitProc
-      //ControlError:
-      //  MngError err,"", C_Module, ""
-      //  If Err.Number Then Resume ExitProc
-      //ExitProc:
-      //  On Error Resume Next
-
-      /////////////////////////////////////////////////////////////////////////////////
       var pSave = function() {
         var _rtn = null;
 
@@ -3635,7 +3288,7 @@
                   break;
 
                 case KIO_FC_ID_RET:
-                  w_fields.add2(mTesoreriaConstantes.FC_ID_RET, cell.getId(), Cairo.Constants.Types.id);
+                  w_fields.add2(CC.FC_ID_RET, cell.getId(), Cairo.Constants.Types.id);
                   break;
 
                 case KIO_CUE_ID:
@@ -3818,8 +3471,8 @@
 
         while (!rs.isEOF()) {
           i = i + 1;
-          vIva.importe = Cairo.Database.valField(rs.getFields(), mTesoreriaConstantes.FCI_IVARI);
-          vIva.porcentaje = Cairo.Database.valField(rs.getFields(), mTesoreriaConstantes.FCI_IVARIPORC);
+          vIva.importe = valField(rs.getFields(), mTesoreriaConstantes.FCI_IVARI);
+          vIva.porcentaje = valField(rs.getFields(), mTesoreriaConstantes.FCI_IVARIPORC);
           rs.MoveNext;
         }
         return true;
@@ -3857,7 +3510,7 @@
 
           register = new cRegister();
 
-          register.setFieldId(mTesoreriaConstantes.FC_OPG_TMPID);
+          register.setFieldId(CC.FC_OPG_TMPID);
           register.setTable(mTesoreriaConstantes.FACTURACOMPRAORDENPAGOTMP);
           register.setId(Cairo.Constants.NEW_ID);
 
@@ -3872,7 +3525,7 @@
               bSave = true;
               switch (cell.getKey()) {
                 case KI_FC_ID:
-                  w_fields.add2(mTesoreriaConstantes.FC_ID, cell.getId(), Cairo.Constants.Types.id);
+                  w_fields.add2(CC.FC_ID, cell.getId(), Cairo.Constants.Types.id);
                   break;
 
                 case KI_FCD_ID:
@@ -3884,7 +3537,7 @@
                   break;
 
                 case KI_IMPORTEORIGEN:
-                  w_fields.add2(mTesoreriaConstantes.FC_OPG_IMPORTE_ORIGEN, val(cell.getValue()), Cairo.Constants.Types.double);
+                  w_fields.add2(CC.FC_OPG_IMPORTE_ORIGEN, val(cell.getValue()), Cairo.Constants.Types.double);
                   break;
 
                 case KI_COTIZACION:
@@ -3893,7 +3546,7 @@
 
                 case KI_COTIZACION2:
                   cotiOrdenPago = val(cell.getValue());
-                  w_fields.add2(mTesoreriaConstantes.FC_OPG_COTIZACION, cotiOrdenPago, Cairo.Constants.Types.double);
+                  w_fields.add2(CC.FC_OPG_COTIZACION, cotiOrdenPago, Cairo.Constants.Types.double);
                   break;
               }
             }
@@ -3908,8 +3561,8 @@
               pago = pago / cotiOrdenPago * cotiOrigen;
             }
 
-            w_fields.add2(mTesoreriaConstantes.FC_OPG_IMPORTE, pago, Cairo.Constants.Types.double);
-            w_fields.add2(mTesoreriaConstantes.FC_OPG_ID, 0, Cairo.Constants.Types.long);
+            w_fields.add2(CC.FC_OPG_IMPORTE, pago, Cairo.Constants.Types.double);
+            w_fields.add2(CC.FC_OPG_ID, 0, Cairo.Constants.Types.long);
             w_fields.add2(mTesoreriaConstantes.OPG_TMPID, id, Cairo.Constants.Types.id);
             w_fields.add2(mTesoreriaConstantes.OPG_ID, 0, Cairo.Constants.Types.long);
 
@@ -3992,26 +3645,26 @@
         while (!rs.isEOF()) {
 
           iProp = getSucursal();
-          if(iProp.getSelectId() === NO_ID && Cairo.Database.valField(rs.getFields(), mTesoreriaConstantes.SUC_ID) !== NO_ID) {
+          if(iProp.getSelectId() === NO_ID && valField(rs.getFields(), mTesoreriaConstantes.SUC_ID) !== NO_ID) {
 
-            iProp.setSelectId(Cairo.Database.valField(rs.getFields(), mTesoreriaConstantes.SUC_ID));
-            iProp.setValue(Cairo.Database.valField(rs.getFields(), mTesoreriaConstantes.SUC_NAME));
+            iProp.setSelectId(valField(rs.getFields(), mTesoreriaConstantes.SUC_ID));
+            iProp.setValue(valField(rs.getFields(), mTesoreriaConstantes.SUC_NAME));
             m_objWizard.showValue(iProp);
           }
 
           iProp = getCentroCosto();
-          if(iProp.getSelectId() === NO_ID && Cairo.Database.valField(rs.getFields(), mTesoreriaConstantes.CCOS_ID) !== NO_ID) {
+          if(iProp.getSelectId() === NO_ID && valField(rs.getFields(), mTesoreriaConstantes.CCOS_ID) !== NO_ID) {
 
-            iProp.setSelectId(Cairo.Database.valField(rs.getFields(), mTesoreriaConstantes.CCOS_ID));
-            iProp.setValue(Cairo.Database.valField(rs.getFields(), mTesoreriaConstantes.CCOS_NAME));
+            iProp.setSelectId(valField(rs.getFields(), mTesoreriaConstantes.CCOS_ID));
+            iProp.setValue(valField(rs.getFields(), mTesoreriaConstantes.CCOS_NAME));
             m_objWizard.showValue(iProp);
           }
 
           iProp = getLegajo();
-          if(iProp.getSelectId() === NO_ID && Cairo.Database.valField(rs.getFields(), mTesoreriaConstantes.LGJ_ID) !== NO_ID) {
+          if(iProp.getSelectId() === NO_ID && valField(rs.getFields(), mTesoreriaConstantes.LGJ_ID) !== NO_ID) {
 
-            iProp.setSelectId(Cairo.Database.valField(rs.getFields(), mTesoreriaConstantes.LGJ_ID));
-            iProp.setValue(Cairo.Database.valField(rs.getFields(), mTesoreriaConstantes.LGJ_TITULO));
+            iProp.setSelectId(valField(rs.getFields(), mTesoreriaConstantes.LGJ_ID));
+            iProp.setValue(valField(rs.getFields(), mTesoreriaConstantes.LGJ_TITULO));
             m_objWizard.showValue(iProp);
           }
 
@@ -4118,7 +3771,7 @@
         abmObj = wizObj.getObjAbm();
 
         D.getCol(getOtros().getColumns(), KIO_FC_ID_RET).getHelpFilter() === "prov.prov_id = "+ getProveedor().toString();
-        abmObj.RefreshColumnProperties(getOtrosProperty(), mTesoreriaConstantes.FC_ID_RET);
+        abmObj.RefreshColumnProperties(getOtrosProperty(), CC.FC_ID_RET);
 
       };
 
@@ -4136,169 +3789,183 @@
 
       };
 
+      /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+      var getMonedaAnticipo = function() {
+        return D.getWizProperty(m_objWizard, WCS.ANTICIPO, DWC.MONEDA_ANTICIPO);
+      };
+
+      var getCuentaAnticipo = function() {
+        return D.getWizProperty(m_objWizard, WCS.ANTICIPO, DWC.CUENTA_ANTICIPO);
+      };
+
+      var getPagoIndicado = function() {
+        return D.getWizProperty(m_objWizard, WCS.SELECT_PAGOS, DWC.PAGO_INDICADO);
+      };
+
+      var getPagoNeto = function() {
+        return D.getWizProperty(m_objWizard, WCS.SELECT_PAGOS, DWC.PAGO_NETO);
+      };
+
+      var getPagoOtros = function() {
+        return D.getWizProperty(m_objWizard, WCS.SELECT_PAGOS, DWC.PAGO_OTROS);
+      };
+
+      var getPagoTotal = function() {
+        return D.getWizProperty(m_objWizard, WCS.SELECT_PAGOS, DWC.PAGO_TOTAL);
+      };
+
+      var getTotal = function() {
+        return D.getWizProperty(m_objWizard, WCS.SELECT_FACTURA, DWC.TOTAL_PAGO);
+      };
+
+      var getTotalOrigen = function() {
+        return D.getWizProperty(m_objWizard, WCS.SELECT_FACTURA, DWC.TOTAL_PAGO_ORIGEN);
+      };
+
+      var getProveedor2 = function() {
+        return D.getWizProperty(m_objWizard, WCS.DATOS_GENERALES, DWC.PROVEEDOR2);
+      };
+
+      var getProveedor = function() {
+        return D.getWizProperty(m_objWizard, WCS.SELECT_PROVEEDOR, DWC.PROVEEDOR).getSelectId();
+      };
+
+      var getProveedorName = function() {
+        return D.getWizProperty(m_objWizard, WCS.SELECT_PROVEEDOR, DWC.PROVEEDOR).getValue();
+      };
+
+      var getOnlySelected = function() {
+        return D.getWizProperty(m_objWizard, WCS.SELECT_PROVEEDOR, DWC.ONLY_SELECTED);
+      };
+
+      var getChequesT = function() {
+        return D.getWizProperty(m_objWizard, WCS.SELECT_PAGOS, DWC.CHEQUES_TERCERO).getGrid();
+      };
+
+      var getCheques = function() {
+        return D.getWizProperty(m_objWizard, WCS.SELECT_PAGOS, DWC.CHEQUES).getGrid();
+      };
+
+      var getChequesProperty = function() {
+        return D.getWizProperty(m_objWizard, WCS.SELECT_PAGOS, DWC.CHEQUES);
+      };
+
+      var getChequesTProperty = function() {
+        return D.getWizProperty(m_objWizard, WCS.SELECT_PAGOS, DWC.CHEQUES_TERCERO);
+      };
+
+      var getEfectivo = function() {
+        return D.getWizProperty(m_objWizard, WCS.SELECT_PAGOS, DWC.EFECTIVO).getGrid();
+      };
+
+      var getEfectivoProperty = function() {
+        return D.getWizProperty(m_objWizard, WCS.SELECT_PAGOS, DWC.EFECTIVO);
+      };
+
+      var getOtros = function() {
+        return D.getWizProperty(m_objWizard, WCS.SELECT_PAGOS, DWC.OTROS).getGrid();
+      };
+
+      var getOtrosProperty = function() {
+        return D.getWizProperty(m_objWizard, WCS.SELECT_PAGOS, DWC.OTROS);
+      };
+
+      var getFacturas = function() {
+        return D.getWizProperty(m_objWizard, WCS.SELECT_FACTURA, DWC.FACTUAS).getGrid();
+      };
+
+      var getCtaCte = function() {
+        return D.getWizProperty(m_objWizard, WCS.SELECT_PAGOS, DWC.CTA_CTE).getGrid();
+      };
+
+      var getFacturasProperty = function() {
+        return D.getWizProperty(m_objWizard, WCS.SELECT_FACTURA, DWC.FACTUAS);
+      };
+
+      var getCtaCteProperty = function() {
+        return D.getWizProperty(m_objWizard, WCS.SELECT_PAGOS, DWC.CTA_CTE);
+      };
+
+      var refreshFacturas = function() {
+        m_objWizard.showValue(D.getWizProperty(m_objWizard, WCS.SELECT_FACTURA, DWC.FACTUAS));
+      };
+
+      var refreshCtaCte = function() {
+        m_objWizard.showValue(D.getWizProperty(m_objWizard, WCS.SELECT_PAGOS, DWC.CTA_CTE));
+      };
+
+      var refreshOtros = function() {
+        m_objWizard.showValue(D.getWizProperty(m_objWizard, WCS.SELECT_PAGOS, DWC.OTROS));
+      };
+
+      var getComprobante = function() {
+        return D.getWizProperty(m_objWizard, WCS.DATOS_GENERALES, DWC.COMPROBANTE);
+      };
+
+      var getLegajo = function() {
+        return D.getWizProperty(m_objWizard, WCS.DATOS_GENERALES, DWC.LEGAJO);
+      };
+
+      var getDescrip = function() {
+        return D.getWizProperty(m_objWizard, WCS.DATOS_GENERALES, DWC.OBSERVACIONES);
+      };
+
+      var getCentroCosto = function() {
+        return D.getWizProperty(m_objWizard, WCS.DATOS_GENERALES, DWC.CENTRO_COSTO);
+      };
+
+      var getSucursal = function() {
+        return D.getWizProperty(m_objWizard, WCS.DATOS_GENERALES, DWC.SUCURSAL);
+      };
+
+      var getFecha = function() {
+        return D.getWizProperty(m_objWizard, WCS.DATOS_GENERALES, DWC.FECHA);
+      };
+
+      var getDoc = function() {
+        return D.getWizProperty(m_objWizard, WCS.SELECT_PROVEEDOR, DWC.DOC).getSelectId();
+      };
+
+      var getDocName = function() {
+        return D.getWizProperty(m_objWizard, WCS.SELECT_PROVEEDOR, DWC.DOC).getValue();
+      };
+
+      var getVencidos = function() {
+        return val(D.getWizProperty(m_objWizard, WCS.SELECT_FACTURA, DWC.VENCIDOS).getValue());
+      };
+
+      var getTodos = function() {
+        return D.getWizProperty(m_objWizard, WCS.SELECT_FACTURA, DWC.TODOS);
+      };
+
+      var getAgrupados = function() {
+        return val(D.getWizProperty(m_objWizard, WCS.SELECT_FACTURA, DWC.AGRUPADOS).getValue());
+      };
+
+      var getCotizacion = function() {
+        return D.getWizProperty(m_objWizard, WCS.SELECT_FACTURA, DWC.COTIZACION);
+      };
+
+      var getCotizacionAnticipo = function() {
+        return D.getWizProperty(m_objWizard, WCS.ANTICIPO, DWC.COTIZACION_ANTICIPO);
+      };
+
+      var getAnticipo = function() {
+        return D.getWizProperty(m_objWizard, WCS.SELECT_FACTURA, DWC.ANTICIPO);
+      };
+
+      var getAnticipoImporte = function() {
+        return D.getWizProperty(m_objWizard, WCS.ANTICIPO, DWC.ANTICIPO_IMPORTE);
+      };
+
+      initialize();
+
       return self;
     };
 
     Edit.Controller = { getEditor: createObject };
 
   });
-
-  Cairo.module("OrdenPagoWizard.List", function(List, Cairo, Backbone, Marionette, $, _) {
-    List.Controller = {
-      list: function() {
-
-        var self = this;
-
-        /*
-         this function will be called by the tab manager every time the
-         view must be created. when the tab is not visible the tab manager
-         will not call this function but only make the tab visible
-         */
-        var createTreeDialog = function(tabId) {
-
-          var editors = Cairo.Editors.ordenpagowizardEditors || Cairo.Collections.createCollection(null);
-          Cairo.Editors.ordenpagowizardEditors = editors;
-
-          // ListController properties and methods
-          //
-          self.entityInfo = new Backbone.Model({
-            entitiesTitle: "OrdenPagoWizards",
-            entityName: "ordenpagowizard",
-            entitiesName: "ordenpagowizards"
-          });
-
-          self.showBranch = function(branchId) {
-            Cairo.log("Loading nodeId: " + branchId);
-            Cairo.Tree.List.Controller.listBranch(branchId, Cairo.Tree.List.Controller.showItems, self);
-          };
-
-          self.addLeave = function(id, branchId) {
-            try {
-              Cairo.Tree.List.Controller.addLeave(branchId, id, self);
-            }
-            catch(ignore) {
-              Cairo.log("Error when adding this item to the branch\n\n" + ignore.message);
-            }
-          };
-
-          self.refreshBranch = function(id, branchId) {
-            try {
-              Cairo.Tree.List.Controller.refreshBranchIfActive(branchId, id, self);
-            }
-            catch(ignore) {
-              Cairo.log("Error when refreshing a branch\n\n" + ignore.message);
-            }
-          };
-
-          var getIndexFromEditor = function(editor) {
-            var count = editors.count();
-            for(var i = 0; i < count; i += 1) {
-              if(editors.item(i).editor === editor) {
-                return i;
-              }
-            }
-            return -1;
-          };
-
-          self.removeEditor = function(editor) {
-            var index = getIndexFromEditor(editor);
-            if(index >= 0) {
-              editors.remove(index);
-            }
-          };
-
-          var getKey = function(id) {
-            if(id === NO_ID) {
-              return "new-id:" + (new Date).getTime().toString()
-            }
-            else {
-              return "k:" + id.toString();
-            }
-          };
-
-          self.updateEditorKey = function(editor, newId) {
-            var index = getIndexFromEditor(editor);
-            if(index >= 0) {
-              var editor = editors.item(index);
-              editors.remove(index);
-              var key = getKey(newId);
-              editors.add(editor, key);
-            }
-          };
-
-          self.edit = function(id, treeId, branchId) {
-            var key = getKey(id);
-            if(editors.contains(key)) {
-              editors.item(key).dialog.showDialog();
-            }
-            else {
-              var editor = Cairo.OrdenPagoWizard.Edit.Controller.getEditor();
-              var dialog = Cairo.Dialogs.Views.Controller.newDialog();
-
-              editor.setTree(self);
-              editor.setDialog(dialog);
-              editor.setTreeId(treeId);
-              editor.setBranchId(branchId);
-              editor.edit(id);
-
-              editors.add({editor: editor, dialog: dialog}, key);
-            }
-          };
-
-          self.destroy = function(id, treeId, branchId) {
-            if(!Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.DELETE_ORDENPAGOWIZARD)) {
-              return Cairo.Promises.resolvedPromise(false);
-            }
-            var apiPath = Cairo.Database.getAPIVersion();
-            return Cairo.Database.destroy(apiPath + "general/ordenpagowizard", id, Cairo.Constants.DELETE_FUNCTION, "OrdenPagoWizard").success(
-              function() {
-                try {
-                  var key = getKey(id);
-                  if(editors.contains(key)) {
-                    editors.item(key).dialog.closeDialog();
-                  }
-                }
-                catch(ignore) {
-                  Cairo.log('Error closing dialog after delete');
-                }
-                return true;
-              }
-            );
-          };
-
-          // progress message
-          //
-          Cairo.LoadingMessage.show("OrdenPagoWizards", "Loading ordenpagowizard from Crowsoft Cairo server.");
-
-          // create the tree region
-          //
-          Cairo.addRegions({ ordenpagowizardTreeRegion: tabId });
-
-          // create the dialog
-          //
-          Cairo.Tree.List.Controller.list(
-            Cairo.Tables.ORDENPAGOWIZARD,
-            new Cairo.Tree.List.TreeLayout({ model: self.entityInfo }),
-            Cairo.ordenpagowizardTreeRegion,
-            self);
-
-        };
-
-        var showTreeDialog = function() {
-          Cairo.Tree.List.Controller.showTreeDialog(self);
-        };
-
-        var closeTreeDialog = function() {
-
-        }
-
-        // create the tab
-        //
-        Cairo.mainTab.showTab("OrdenPagoWizards", "ordenpagowizardTreeRegion", "#general/ordenpagowizards", createTreeDialog, closeTreeDialog, showTreeDialog);
-
-      }
-    };
-  });
-
 
 }());

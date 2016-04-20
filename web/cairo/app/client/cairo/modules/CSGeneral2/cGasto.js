@@ -145,7 +145,6 @@
         property.setValue(Cairo.Constants.COPY_OF + property.getValue());
 
         m_dialog.showValue(m_dialog.getProperties().item(C.GTO_CODE));
-        m_dialog.showValue(m_dialog.getProperties().item(C.GTO_NAME));
 
         m_copy = true;
       };
