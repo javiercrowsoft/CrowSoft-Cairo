@@ -591,6 +591,21 @@
         }
       };
 
+      var destroy = function() {
+        try {
+          m_dialog = null;
+          m_properties = null;
+          m_listController = null;
+          m_footer = null;
+          m_footerProps = null;
+          m_items = null;
+          m_itemsProps = null;
+        }
+        catch (ex) {
+          Cairo.manageErrorEx(ex.message, ex, "destroy", C_MODULE, "");
+        }
+      };
+
       self.terminate = function() {
 
         m_editing = false;
@@ -604,6 +619,8 @@
         catch (ignored) {
           Cairo.logError('Error in terminate', ignored);
         }
+
+        destroy();
       };
 
       self.getPath = function() {
@@ -1600,21 +1617,6 @@
         });
       };
 
-      self.destroy = function() {
-        try {
-          m_dialog = null;
-          m_properties = null;
-          m_listController = null;
-          m_footer = null;
-          m_footerProps = null;
-          m_items = null;
-          m_itemsProps = null;
-        }
-        catch (ex) {
-          Cairo.manageErrorEx(ex.message, ex, "destroy", C_MODULE, "");
-        }
-      };
-
       var getItems = function() {
         return m_itemsProps.item(C_ITEMS);
       };
@@ -2056,7 +2058,7 @@
         }
       };
 
-      self.destroy = function() {
+      self.terminate = function() {
         try {
           m_dialog = null;
           m_properties = null;

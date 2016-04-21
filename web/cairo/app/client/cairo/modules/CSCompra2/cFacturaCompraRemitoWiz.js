@@ -812,6 +812,18 @@
         return p || P.resolvedPromise();
       };
 
+      var destroy = function() {
+        try {
+
+          m_rcIds = null;
+          m_objClient = null;
+
+        }
+        catch (ex) {
+          Cairo.manageErrorEx(ex.message, ex, "destroy", C_MODULE, "");
+        }
+      };
+
       self.terminate = function() {
         try {
           m_objClient.terminateWizard(m_id);
@@ -819,6 +831,8 @@
         catch(ignore) {
           Cairo.logError('Error in terminate', ignore);
         }
+
+        destroy();
       };
 
       self.getPath = function() {
@@ -1701,18 +1715,6 @@
         }
         catch (ex) {
           Cairo.manageErrorEx(ex.message, ex, "initialize", C_MODULE, "");
-        }
-      };
-
-      self.destroy = function() {
-        try {
-
-          m_rcIds = null;
-          m_objClient = null;
-
-        }
-        catch (ex) {
-          Cairo.manageErrorEx(ex.message, ex, "destroy", C_MODULE, "");
         }
       };
 

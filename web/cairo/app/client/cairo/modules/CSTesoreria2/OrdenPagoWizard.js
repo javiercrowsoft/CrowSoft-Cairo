@@ -23,6 +23,7 @@
       var CC = Cairo.Compras.Constants;
       var Types = Cairo.Constants.Types;
       var valField = DB.valField;
+      var getValue = DB.getValue;
       var valEmpty = Cairo.Util.valEmpty;
       var call = P.call;
       var D = Cairo.Documents;
@@ -1207,7 +1208,7 @@
       var loadSteps = function() {
 
         m_lastProvId = m_provId;
-        m_lastDoc = m_tesoreriaConfig.getDocIdOrdenPago();
+        m_lastDoc = Cairo.getTesoreriaConfig().getDocIdOrdenPago();
 
         loadStepWelcome();
         loadStepSelectProveedor();
@@ -2233,207 +2234,155 @@
           anticipoOrigen = 0;
         }
 
-        // Obtengo las cuentas del tercero
-        if(!mCobranza.self.getCuentasAcreedor(getFacturas(), vCtaCte[], KI_FC_ID, KI_APLICAR, KI_COTIZACION2, anticipo, cueIdAnticipo, cuentaAnticipo, anticipoOrigen)) { return false; }
+        return D.Tesoreria.getCuentasAcreedor(
+            getFacturas(), KI_FC_ID, KI_APLICAR, KI_COTIZACION2,
+            anticipo, cueIdAnticipo, cuentaAnticipo, anticipoOrigen)
+          .whenSuccessWithResult(function(response) {
 
-        // Agrego las cuentas a la grilla
-        for (i = 1; i <= vCtaCte.Length; i++) {
-          row = getCtaCte().getRows().add(null);
+            var cuentas = response.cuentas;
 
-          // La primera no se usa
-          cell = row.add(null);
+            for(var _i = 0, _count = cuentas.length; _i < _count; _i++) {
 
-          cell = row.add(null);
-          cell.setValue(vCtaCte[i].cuenta);
-          cell.setID(vCtaCte[i].cue_id);
-          cell.setKey(KICC_CUE_ID);
+              var row = getCtaCte().getRows().add(null);
 
-          cell = row.add(null);
-          cell.setValue(vCtaCte[i].importeOrigen);
-          cell.setKey(KICC_IMPORTEORIGEN);
+              var cell = row.add(null);
 
-          cell = row.add(null);
-          cell.setValue(vCtaCte[i].importe);
-          cell.setKey(KICC_IMPORTE);
+              cell = row.add(null);
+              cell.setValue(cuentas[_i].cueName);
+              cell.setId(cuentas[_i].cueId);
+              cell.setKey(KICC_CUE_ID);
 
-          total = total + vCtaCte[i].importe;
-        }
+              cell = row.add(null);
+              cell.setValue(cuentas[_i].importeOrigen);
+              cell.setKey(KICC_IMPORTEORIGEN);
 
-        // Refrezco la grilla
-        getPagoIndicado().setValue(total);
-        m_objWizard.showValue(getPagoIndicado());
+              cell = row.add(null);
+              cell.setValue(cuentas[_i].importe);
+              cell.setKey(KICC_IMPORTE);
 
-        refreshCtaCte();
+              total = total + cuentas[_i].importe;
+            }
 
-        // Si se deben calcular las retenciones
-        //
-        if(m_tesoreriaConfig.getCalcularRetenciones()) {
+            getPagoIndicado().setValue(total);
+            m_objWizard.showValue(getPagoIndicado());
 
-          getOtros().getRows().clear();
+            refreshCtaCte();
 
-          var cue_id = null;
-          var cue_nombre = null;
-          var ret_id = null;
-          var ret_nombre = null;
-          var rsRet = null;
+            var p = null;
 
-          var retencion = null;
-          var porcentaje = null;
-          var comprobante = null;
-          var base = null;
+            if(Cairo.getTesoreriaConfig().getCalcularRetenciones()) {
 
-          if(!getRetencionForProveedor(rsRet)) { return false; }
+              getOtros().getRows().clear();
 
-          if(rsRet.isEOF()) {
+              p = getRetencionForProveedor().whenSuccessWithResult(function(response) {
 
-            p = M.showWarningWithFalse(getText(2210, ""));
-            //Cairo está configurado para calcular retenciones, pero no sea ha
-            //indicado la Retención a usar.
-          }
+                var retenciones = response.retenciones;
 
-          while (!rsRet.isEOF()) {
+                if(retenciones.length === 0) {
 
-            ret_id = valField(rsRet.getFields(), mTesoreriaConstantes.RET_ID);
-            ret_nombre = valField(rsRet.getFields(), mTesoreriaConstantes.RET_NAME);
-
-            getCuentaForRetencion(ret_id, cue_id, cue_nombre);
-
-            if(cue_id !== NO_ID) {
-
-              var facturas = null;
-              var sqlstmt = null;
-              var rs = null;
-
-              facturas = getFacturarForRetencion();
-
-              sqlstmt = "sp_DocOrdenPagoGetRetencion "+ cUtil.getUser().getId().toString()+ ","+ Cairo.Database.sqlDate(VDGetDateById(csDateEnum.cSMONTH_FIRSTDAY))+ ","+ Cairo.Database.sqlDate(VDGetDateById(csDateEnum.cSMONTH_LASTDAY))+ ","+ getProveedor().toString()+ ","+ cUtil.getEmpId().toString()+ ","+ ret_id.toString()+ ","+ Cairo.Database.sqlNumber(total)+ ","+ Cairo.Database.sqlString(facturas)+ ", 1";
-
-              if(!Cairo.Database.openRs(sqlstmt, rs)) { return false; }
-
-              if(!rs.isEOF()) {
-
-                retencion = valField(rs.getFields(), "retencion");
-                porcentaje = valField(rs.getFields(), "porcentaje");
-                comprobante = valField(rs.getFields(), "comprobante");
-                base = valField(rs.getFields(), "base");
-
-                if(retencion > 0) {
-
-                  var w_rows = getOtros().getRows();
-                  w_rows.add(null);
-                  var property = w_rows.item(.Object.count());
-                  property.add(null);
-                  property.add(null).setKey(KIO_CUE_ID);
-                  property.add(null).setKey(KIO_DEBE);
-                  property.add(null).setKey(KIO_HABER);
-                  property.add(null).setKey(KIO_IMPORTEORIGEN);
-                  property.add(null).setKey(KIO_DESCRIP);
-                  property.add(null).setKey(KIO_RET_ID);
-                  property.add(null).setKey(KIO_NRORETENCION);
-                  property.add(null).setKey(KIO_PORCRETENCION);
-                  property.add(null).setKey(KIO_FECHARETENCION);
-                  property.add(null).setKey(KIO_CCOS_ID);
-                  property.add(null).setKey(KIO_FC_ID_RET);
-
-                  var cell = getCell(.LinkedMap.get(.Object.count()), KIO_CUE_ID);
-                  if(cell.getId() === NO_ID || cell.getId() === cue_id) {
-                    cell.setID(cue_id);
-                    cell.setValue(cue_nombre);
-                  }
-
-                  var cell = getCell(.LinkedMap.get(.Object.count()), KIO_RET_ID);
-                  if(cell.getId() === NO_ID || cell.getId() === ret_id) {
-                    cell.setID(ret_id);
-                    cell.setValue(ret_nombre);
-                  }
-
-                  getCell(w_rows.item(w_rows.count()), KIO_DEBE).getValue() === retencion;
-                  getCell(w_rows.item(w_rows.count()), KIO_PORCRETENCION).getValue() === porcentaje;
-                  getCell(w_rows.item(w_rows.count()), KIO_NRORETENCION).getValue() === comprobante;
-                  getCell(w_rows.item(w_rows.count()), KIO_DESCRIP).getValue() === getText(2972, "", cIABMProperty.getFormat(base, m_generalConfig.getFormatDecImporte()));
-
+                  return M.showWarningWithFalse(getText(2210, ""));
+                  // Cairo está configurado para calcular retenciones, pero no sea ha
+                  // indicado la Retención a usar.
                 }
                 else {
 
-                  // Si la retencion dio 0 y la primera fila
-                  // es de la retencion que estoy calculando
-                  // borro la fila
-                  //
-                  var w_rows = getOtros().getRows();
-                  if(w_rows.count() > 0) {
-                    if(getCell(w_rows.item(1), KIO_RET_ID).getId() === ret_id && ret_id !== NO_ID) {
-                      w_rows.remove(1);
+                  for(var i = 0, count = retenciones.length; i < count; i += 1) {
+
+                    var retId = getValue(retenciones[i], C.RET_ID);
+                    var retNombre = getValue(retenciones[i], C.RET_NAME);
+
+                    var cueId = getValue(retenciones[i], C.CUE_ID);
+                    var cueNombre = getValue(retenciones[i], C.CUE_NAME);
+
+                    if(cueId !== NO_ID) {
+
+                      var retencionInfo = getValue(retenciones[i], C.RETENCION_INFO)
+
+                      if(retencionInfo.retencion > 0) {
+
+                        var retencion = retencionInfo.retencion;
+                        var porcentaje = retencionInfo.porcentaje;
+                        var comprobante = retencionInfo.comprobante;
+                        var base = retencionInfo.base;
+
+                        var row = getOtros().getRows().add(null);
+
+                        row.add(null);
+                        row.add(null).setKey(KIO_CUE_ID);
+                        row.add(null).setKey(KIO_DEBE);
+                        row.add(null).setKey(KIO_HABER);
+                        row.add(null).setKey(KIO_IMPORTEORIGEN);
+                        row.add(null).setKey(KIO_DESCRIP);
+                        row.add(null).setKey(KIO_RET_ID);
+                        row.add(null).setKey(KIO_NRORETENCION);
+                        row.add(null).setKey(KIO_PORCRETENCION);
+                        row.add(null).setKey(KIO_FECHARETENCION);
+                        row.add(null).setKey(KIO_CCOS_ID);
+                        row.add(null).setKey(KIO_FC_ID_RET);
+
+                        var cell = getCell(row, KIO_CUE_ID);
+                        if(cell.getId() === NO_ID || cell.getId() === cueId) {
+                          cell.setId(cueId);
+                          cell.setValue(cueNombre);
+                        }
+
+                        var cell = getCell(row, KIO_RET_ID);
+                        if(cell.getId() === NO_ID || cell.getId() === retId) {
+                          cell.setId(retId);
+                          cell.setValue(retNombre);
+                        }
+
+                        getCell(row, KIO_DEBE).setValue(retencion;
+                        getCell(row, KIO_PORCRETENCION).setValue(porcentaje;
+                        getCell(row, KIO_NRORETENCION).setValue(comprobante;
+                        getCell(row, KIO_DESCRIP).setValue(getText(2972, "", format(base, Cairo.Settings.getCurrencyRateDecimalsFormat()));
+
+                      }
+                      else {
+
+                        // if the amount for this tax is zero and the
+                        // first row belongs to this tax we remove the row
+                        //
+                        var rows = getOtros().getRows();
+                        if(rows.count() > 0) {
+                          if(getCell(rows.item(0), KIO_RET_ID).getId() === retId && retId !== NO_ID) {
+                            rows.remove(0);
+                          }
+                        }
+                      }
+                    }
+                    else {
+                      p = M.showWarningWithFalse(getText(2209, "", retNombre));
+                      // Cairo está configurado para calcular retenciones, pero no se ha
+                      // configurado la Cuenta Contable para la Retención " & retNombre & "."
                     }
                   }
                 }
-              }
-            }
-            else {
-              p = M.showWarningWithFalse(getText(2209, "", retencion));
-              //Cairo está configurado para calcular retenciones, pero no se ha
-              //configurado la Cuenta Contable para la Retención " & retencion & "."
+
+                return true;
+              });
             }
 
-            rsRet.MoveNext;
+            p = p || P.resolvedPromise();
+
+            return p.then(function() {
+
+              refreshOtros();
+              showPagoOtro();
+              showPagoTotal();
+
+              return true;
+
+            });
           }
-
-        }
-
-        refreshOtros();
-        showPagoOtro();
-        showPagoTotal();
-
-        return true;
       };
 
-      var getRetencionForProveedor = function(rs) { // TODO: Use of ByRef founded Private Function getRetencionForProveedor(ByRef rs As ADODB.Recordset) As Boolean
-        var sqlstmt = null;
+      var getRetencionForProveedor = function() {
+        return DB.getData(
+          "load[" + m_apiPath
+            + "tesoreria/proveedor/" + getProveedor().toString()
+            + "/retenciones_for/" + DB.sqlDate(getFecha().getValue()) + "]");
 
-        sqlstmt = "sp_RetencionGetForProvId "+ getProveedor().toString()+ ","+ cUtil.getEmpId().toString()+ ","+ Cairo.Database.sqlDate(getFecha().getValue());
-
-        if(!Cairo.Database.openRs(sqlstmt, rs)) { return false; }
-
-        return true;
-
-      };
-
-      var getCuentaForRetencion = function(ret_id, cue_id, cue_nombre) { // TODO: Use of ByRef founded Private Sub getCuentaForRetencion(ByVal ret_id As Long, ByRef cue_id As Long, ByRef cue_nombre As String)
-        var sqlstmt = null;
-        var rs = null;
-
-        sqlstmt = "sp_RetencionTipoGetCuenta "+ ret_id.toString();
-        if(!Cairo.Database.openRs(sqlstmt, rs)) { return; }
-
-        if(rs.isEOF()) { return; }
-
-        cue_id = valField(rs.getFields(), mTesoreriaConstantes.CUE_ID);
-        cue_nombre = valField(rs.getFields(), mTesoreriaConstantes.CUE_NAME);
-      };
-
-      var getFacturarForRetencion = function() {
-        var rtn = null;
-        var row = null;
-        var value = null;
-
-        var _count = getFacturas().getRows().size();
-        for (var _i = 0; _i < _count; _i++) {
-          row = getFacturas().getRows().item(_i);
-          if(getCell(row, KI_SELECT).getId()) {
-            value = val(getCell(row, KI_APLICAR).getValue());
-            if(value) {
-              if(value !== val(getCell(row, KI_PENDIENTE).getValue())) {
-                rtn = rtn+ getCell(row, KI_FC_ID).getValue()+ "-"+ Cairo.Database.sqlNumber(value)+ "*";
-              }
-              else {
-                rtn = rtn+ getCell(row, KI_FC_ID).getValue()+ "*";
-              }
-            }
-          }
-        }
-
-        if(rtn.Substring(rtn.Length - 1) === "*") { rtn = rtn.Substring(0, rtn.Length - 1); }
-
-        return rtn;
       };
 
       // Validaciones de Filas de Instrumentos de Pago
