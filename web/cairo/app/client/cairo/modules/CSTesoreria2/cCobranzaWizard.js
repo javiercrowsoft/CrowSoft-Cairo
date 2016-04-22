@@ -71,6 +71,7 @@
       var KIO_FECHARETENCION = 10;
       var KIO_CCOS_ID = 11;
       var KIO_FV_ID_RET = 12;
+      var KIO_MON_ID = 13;
 
       var KICH_CUE_ID = 2;
       var KICH_IMPORTE = 3;
@@ -307,8 +308,33 @@
         return p || P.resolvedPromise(true);
       };
 
-      self.columnAfterEdit = function(key, lRow, lCol, newValue, newValueID) {
-        return P.resolvedPromise(true);
+      self.columnAfterEdit = function(key, lRow, lCol, newValue, newValueId) {
+        var p = null;
+        var grid = property.getGrid();
+        var columnKey = grid.getColumns().item(lCol).getKey();
+
+        switch (columnKey) {
+
+          case KIO_CUE_ID:
+            var cueId = newValueId;
+
+            if(cueId !== NO_ID) {
+
+              p = D.getCuentaInfo(cueId).then(function(info) {
+                if(info.success) {
+                  var row = grid.getRows().item(lRow);
+                  getCell(row, KIO_MON_ID).setId(info.monId);
+                  return true;
+                }
+                else {
+                  return false;
+                }
+              });
+            }
+            break;
+        }
+
+        return p || P.resolvedPromise(true);
       };
 
       self.columnBeforeEdit = function(key, lRow, lCol, iKeyAscii) {
@@ -1968,6 +1994,10 @@
         elem.setSelectFilter(D.getCuentaOtroFilterForCaja(m_isHojaRuta, m_cjId));
 
         elem = columns.add(null);
+        elem.setVisible(false);
+        elem.setKey(KIO_MON_ID);
+
+        elem = columns.add(null);
         elem.setName(getText(1904, "")); // Debe
         elem.setType(Dialogs.PropertyType.numeric);
         elem.setFormat(Cairo.Settings.getAmountDecimalsFormat());
@@ -3007,6 +3037,10 @@
               if(valEmpty(cell.getId(), Types.id)) {
                 return M.showInfoWithFalse(getText(2113, "", strRow)); // Debe indicar una cuenta contable (1)
               }
+              break;
+
+            case KIO_MON_ID:
+              monId = cell.getId();
               break;
 
             case KIO_DEBE:

@@ -521,6 +521,17 @@
 
   Cairo.Documents.getDefaultCurrency = Cairo.Company.getDefaultCurrency;
 
+  Cairo.Documents.isMonDefault = function(cueId) {
+    return D.getCuentaInfo(cueId).then(function(info) {
+      if(info.success) {
+        return info.monId === Cairo.Documents.getDefaultCurrency().id;
+      }
+      else {
+        return false;
+      }
+    });
+  };
+
   Cairo.Documents.docHasChanged = function(dialog, lastDoc) {
     var property = dialog.getProperties().item(C.DOC_ID);
     var docId = property.getSelectId();

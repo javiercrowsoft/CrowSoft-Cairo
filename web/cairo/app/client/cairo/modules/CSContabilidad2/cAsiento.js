@@ -901,7 +901,7 @@
 
             if(cueId !== NO_ID) {
 
-              p = isMonDefault(cueId).then(function(isDefault) {
+              p = D.isMonDefault(cueId).then(function(isDefault) {
                 if(!isDefault) {
                   grid.getColumns().item(C_ORIGEN).setVisible(true);
                   m_dialog.refreshColumnProperties(property, C_ORIGEN);
@@ -1022,7 +1022,7 @@
             case KI_ORIGEN:
               if(m_itemsProps.item(C_ITEMS).getGrid().getColumns().item(C_ORIGEN).getVisible()) {
 
-                if(!isMonDefault(cue_id)) {
+                if(!D.isMonDefault(cue_id)) {
 
                   if(valEmpty(cell.getValue(), Types.currency)) {
                     return M.showInfoWithFalse(getText(1958, "", strRow)); // Debe indicar el importe en la moneda de la cuenta (1)
@@ -1604,17 +1604,6 @@
         m_footer.showValues(m_footerProps);
 
         setEnabled();
-      };
-
-      var isMonDefault = function(cueId) {
-        return D.getCuentaInfo(cueId).then(function(info) {
-          if(info.success) {
-            return info.monId === m_defaultCurrency.id;
-          }
-          else {
-            return false;
-          }
-        });
       };
 
       var getItems = function() {

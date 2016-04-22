@@ -1148,7 +1148,7 @@
         return P.resolvedPromise(true);
       };
 
-      self.columnAfterEdit = function(key, lRow, lCol, newValue, newValueID) {
+      self.columnAfterEdit = function(key, lRow, lCol, newValue, newValueId) {
         var p = null;
 
         try {

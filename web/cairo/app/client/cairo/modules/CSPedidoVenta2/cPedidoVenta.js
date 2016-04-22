@@ -1276,7 +1276,7 @@
         return p || P.resolvedPromise(virtualRow);
       };
 
-      self.columnAfterEdit = function(key, lRow, lCol, newValue, newValueID) {
+      self.columnAfterEdit = function(key, lRow, lCol, newValue, newValueId) {
         var p = null;
 
         try {
@@ -1284,7 +1284,7 @@
           switch (key) {
             case K_ITEMS:
               var property = getProperty(m_items, C_ITEMS);
-              p = columnAfterEditItems(property, lRow, lCol, newValue, newValueID);
+              p = columnAfterEditItems(property, lRow, lCol, newValue, newValueId);
               break;
           }
 

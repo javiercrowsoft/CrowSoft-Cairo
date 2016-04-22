@@ -726,7 +726,7 @@
       // grid
       //
 
-      self.columnAfterEdit = function(key, lRow, lCol, newValue, newValueID) {
+      self.columnAfterEdit = function(key, lRow, lCol, newValue, newValueId) {
         return P.resolvedPromise(true);
       };
 
