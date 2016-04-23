@@ -3186,16 +3186,15 @@
 
             var row = grid.getRows().item(lRow);
 
-            D.getCurrencyFromAccount(getCell(row, KICH_CUE_ID).getId()).whenSuccessWithResult(function(response) {
-              var monId = valField(response.data, C.MON_ID);
-              var moneda = valField(response.data, C.MON_NAME);
-              var cell = getCell(row, KICH_MON_ID);
-              cell.setValue(moneda);
-              cell.setId(monId);
-              if(monId === m_defaultCurrency.id || monId === 0) {
-                getCell(row, KICH_IMPORTEORIGEN).setValue(0);
-              }
-            });
+            D.getCurrencyFromAccount(getCell(row, KICH_CUE_ID).getId())
+              .whenSuccessWithResult(function(info) {
+                var cell = getCell(row, KICH_MON_ID);
+                cell.setValue(info.monName);
+                cell.setId(info.monId);
+                if(info.monId === m_defaultCurrency.id || info.monId === 0) {
+                  getCell(row, KICH_IMPORTEORIGEN).setValue(0);
+                }
+              });
             break;
         }
 
@@ -3278,16 +3277,15 @@
 
             var row = grid.getRows().item(lRow);
 
-            D.getCurrencyFromAccount(getCell(row, KICH_CUE_ID).getId()).whenSuccessWithResult(function(response) {
-              var monId = valField(response.data, C.MON_ID);
-              var moneda = valField(response.data, C.MON_NAME);
-              var cell = getCell(row, KICH_MON_ID);
-              cell.setValue(moneda);
-              cell.setId(monId);
-              if(monId === m_defaultCurrency.id || monId === 0) {
-                getCell(row, KICH_IMPORTEORIGEN).setValue(0);
-              }
-            });
+            D.getCurrencyFromAccount(getCell(row, KICH_CUE_ID).getId())
+              .whenSuccessWithResult(function(info) {
+                var cell = getCell(row, KICH_MON_ID);
+                cell.setValue(info.monName);
+                cell.setId(info.monId);
+                if(info.monId === m_defaultCurrency.id || info.monId === 0) {
+                  getCell(row, KICH_IMPORTEORIGEN).setValue(0);
+                }
+              });
             break;
         }
 
@@ -3701,9 +3699,8 @@
 
         if(!bOrigen) {
 
-          p = D.getCurrencyFromAccount(cueId).whenSuccessWithResult(function(response) {
-            var monId = valField(response.data, C.MON_ID);
-            if(monId !== m_defaultCurrency.id) {
+          p = D.getCurrencyFromAccount(cueId).whenSuccessWithResult(function(info) {
+            if(info.monId !== m_defaultCurrency.id) {
               return M.showInfoWithFalse(getText(2118, "", strRow)); // Debe indicar un importe para la moneda extranjera (1)
             }
             else {
@@ -3778,9 +3775,8 @@
 
         if(!bOrigen) {
 
-          p = D.getCurrencyFromAccount(cueId).whenSuccessWithResult(function(response) {
-            var monId = valField(response.data, C.MON_ID);
-            if(monId !== m_defaultCurrency.id) {
+          p = D.getCurrencyFromAccount(cueId).whenSuccessWithResult(function(info) {
+            if(info.monId !== m_defaultCurrency.id) {
               return M.showInfoWithFalse(getText(2118, "", strRow)); // Debe indicar un importe para la moneda extranjera (1)
             }
             else {
@@ -3863,9 +3859,8 @@
 
         if(!bOrigen) {
 
-          p = D.getCurrencyFromAccount(cueId).whenSuccessWithResult(function(response) {
-            var monId = valField(response.data, C.MON_ID);
-            if(monId !== m_defaultCurrency.id) {
+          p = D.getCurrencyFromAccount(cueId).whenSuccessWithResult(function(info) {
+            if(info.monId !== m_defaultCurrency.id) {
               return M.showInfoWithFalse(getText(2118, "", strRow)); // Debe indicar un importe para la moneda extranjera (1)
             }
             else {

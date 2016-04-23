@@ -3031,17 +3031,16 @@
 
             var row = grid.getRows().item(lRow);
 
-            D.getCurrencyFromAccount(getCell(row, KICH_CUE_ID).getId()).whenSuccessWithResult(function(response) {
-              var monId = valField(response.data, C.MON_ID);
-              var moneda = valField(response.data, C.MON_NAME);
-              var cell = getCell(row, KICH_MON_ID);
-              cell.setValue(moneda);
-              cell.setId(monId);
-              if(monId === m_defaultCurrency.id || monId === 0) {
-                getCell(row, KICH_IMPORTEORIGEN).setValue(0);
-              }
-              return true;
-            });
+            D.getCurrencyFromAccount(getCell(row, KICH_CUE_ID).getId())
+              .whenSuccessWithResult(function(info) {
+                var cell = getCell(row, KICH_MON_ID);
+                cell.setValue(info.monName);
+                cell.setId(info.monId);
+                if(info.monId === m_defaultCurrency.id || info.monId === 0) {
+                  getCell(row, KICH_IMPORTEORIGEN).setValue(0);
+                }
+                return true;
+              });
             break;
 
           case KICHT_CHEQUE:
@@ -3114,16 +3113,15 @@
 
             var row = grid.getRows().item(lRow);
 
-            D.getCurrencyFromAccount(getCell(row, KICH_CUE_ID).getId()).whenSuccessWithResult(function(response) {
-              var monId = valField(response.data, C.MON_ID);
-              var moneda = valField(response.data, C.MON_NAME);
-              var cell = getCell(row, KICH_MON_ID);
-              cell.setValue(moneda);
-              cell.setId(monId);
-              if(monId === m_defaultCurrency.id || monId === 0) {
-                getCell(row, KICH_IMPORTEORIGEN).setValue(0);
-              }
-            });
+            D.getCurrencyFromAccount(getCell(row, KICH_CUE_ID).getId())
+              .whenSuccessWithResult(function(info) {
+                var cell = getCell(row, KICH_MON_ID);
+                cell.setValue(info.monName);
+                cell.setId(info.monId);
+                if(info.monId === m_defaultCurrency.id || info.monId === 0) {
+                  getCell(row, KICH_IMPORTEORIGEN).setValue(0);
+                }
+              });
             break;
 
           case KICH_CHEQUERA:
@@ -3175,16 +3173,15 @@
 
             var row = grid.getRows().item(lRow);
 
-            D.getCurrencyFromAccount(getCell(row, KICH_CUE_ID).getId()).whenSuccessWithResult(function(response) {
-              var monId = valField(response.data, C.MON_ID);
-              var moneda = valField(response.data, C.MON_NAME);
-              var cell = getCell(row, KICH_MON_ID);
-              cell.setValue(moneda);
-              cell.setId(monId);
-              if(monId === m_defaultCurrency.id || monId === 0) {
-                getCell(row, KICH_IMPORTEORIGEN).setValue(0);
-              }
-            });
+            D.getCurrencyFromAccount(getCell(row, KICH_CUE_ID).getId())
+              .whenSuccessWithResult(function(info) {
+                var cell = getCell(row, KICH_MON_ID);
+                cell.setValue(info.monName);
+                cell.setId(info.monId);
+                if(info.monId === m_defaultCurrency.id || info.monId === 0) {
+                  getCell(row, KICH_IMPORTEORIGEN).setValue(0);
+                }
+              });
             break;
         }
 
@@ -3548,9 +3545,8 @@
         }
 
         if(!bOrigen) {
-          p = D.getCurrencyFromAccount(cueId).whenSuccessWithResult(function(response) {
-            var monId = valField(response.data, C.MON_ID);
-            if(monId !== m_defaultCurrency.id) {
+          p = D.getCurrencyFromAccount(cueId).whenSuccessWithResult(function(info) {
+            if(info.monId !== m_defaultCurrency.id) {
               return M.showInfoWithFalse(getText(2118, "", strRow)); // Debe indicar un importe para la moneda extranjera (1)
             }
             else {
@@ -3623,9 +3619,8 @@
         }
 
         if(!bOrigen) {
-          p = D.getCurrencyFromAccount(cueId).whenSuccessWithResult(function(response) {
-            var monId = valField(response.data, C.MON_ID);
-            if(monId !== m_defaultCurrency.id) {
+          p = D.getCurrencyFromAccount(cueId).whenSuccessWithResult(function(info) {
+            if(info.monId !== m_defaultCurrency.id) {
               return M.showInfoWithFalse(getText(2118, "", strRow)); // Debe indicar un importe para la moneda extranjera (1)
             }
             else {
@@ -3673,28 +3668,28 @@
       };
 
       var validateRowEfectivo = function(row, rowIndex) {
-        var p = null;
         var bOrigen = false;
-        var cueId = NO_ID;
+        var monId = NO_ID;
 
         var strRow = " (Row: " + rowIndex.toString() + ")";
 
-        var _count = row.size();
-        for(var _i = 0; _i < _count; _i++) {
+        for(var _i = 0, _count = row.size(); _i < _count; _i++) {
 
           var cell = row.item(_i);
 
           switch (cell.getKey()) {
 
             case KIE_CUE_ID:
-              cueId = cell.getId();
-              if(valEmpty(cueId, Types.id)) {
+              if(valEmpty(cell.getId(), Types.id)) {
                 return M.showInfoWithFalse(getText(2113, "", strRow)); // Debe indicar una cuenta contable (1)
               }
               break;
 
-            case KIE_IMPORTEORIGEN:
+            case KIE_MON_ID:
+              monId = cell.getId();
+              break;
 
+            case KIE_IMPORTEORIGEN:
               bOrigen = !valEmpty(val(cell.getValue()), Types.double);
               break;
 
@@ -3707,19 +3702,10 @@
         }
 
         if(!bOrigen && monId !== m_defaultCurrency.id) {
-
-          p = D.getCurrencyFromAccount(cueId).whenSuccessWithResult(function(response) {
-            var monId = valField(response.data, C.MON_ID);
-            if(monId !== m_defaultCurrency.id) {
-              return M.showInfoWithFalse(getText(2118, "", strRow)); // Debe indicar un importe para la moneda extranjera (1)
-            }
-            else {
-              return true;
-            }
-          });
+          return M.showInfoWithFalse(getText(2118, "", strRow)); // Debe indicar un importe para la moneda extranjera (1)
         }
 
-        return p || P.resolvedPromise(true);
+        return P.resolvedPromise(true);
       };
 
       var clearCheqId = function() {

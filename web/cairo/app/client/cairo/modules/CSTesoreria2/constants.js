@@ -190,6 +190,8 @@
       OPG_GRABAR_ASIENTO: "opg_grabarAsiento",
       OPG_FIRMADO: "opg_firmado",
 
+      OPG_MESSAGES: "opg_messages",
+
       // OrdenPagoTMP
       ORDEN_PAGO_TMP: "OrdenPagoTMP",
       OPG_TMP_ID: "opgTMP_id",
