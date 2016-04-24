@@ -4229,6 +4229,7 @@
               m_estId = valField(response.data, C.EST_ID);
               m_ccosId = valField(response.data, C.CCOS_ID);
               m_sucId = valField(response.data, C.SUC_ID);
+              m_cobId = valField(response.data, C.COB_ID);
               m_docId = valField(response.data, C.DOC_ID);
               m_empId = valField(response.data, C.EMP_ID);
 
@@ -4236,6 +4237,7 @@
               m_estado = valField(response.data, C.EST_NAME);
               m_centroCosto = valField(response.data, C.CCOS_NAME);
               m_sucursal = valField(response.data, C.SUC_NAME);
+              m_cobrador = valField(response.data, C.COB_NAME);
               m_documento = valField(response.data, C.DOC_NAME);
               m_empresa = valField(response.data, C.EMP_NAME);
 

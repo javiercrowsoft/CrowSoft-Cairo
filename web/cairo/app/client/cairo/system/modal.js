@@ -76,20 +76,9 @@
         message,
         defaultValue,
         function(text) {
-          // TODO: remove this line
-          Cairo.dialogSelectTreeRegion.handler = null;
-          // end remove
           defer.resolve(text);
         }
       );
-
-      // TODO: remove this lines
-      Cairo.dialogSelectTreeRegion.handler = {
-        closeDialog: function() {
-          defer.reject();
-        }
-      };
-      // end remove
 
       Cairo.dialogRegion.show(view);
 

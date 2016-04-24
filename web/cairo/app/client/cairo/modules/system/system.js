@@ -3233,6 +3233,8 @@
     }
 
     var dateDiff = function(datePart, dateA, dateB) {
+      dateA = Cairo.Util.getDateValue(dateA);
+      dateB = Cairo.Util.getDateValue(dateB);
       switch(datePart) {
         case "y":
           return dateDiffInYears(dateA, dateB);

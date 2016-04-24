@@ -416,6 +416,23 @@ GET     /api/v1/ventas/facturaventa/notes/:id                                   
 # tesoreria
 #
 
+GET     /api/v1/tesoreria/ordenespago                                                        controllers.logged.modules.tesoreria.OrdenesPago.list(from: Option[String], to: Option[String], cliId: Option[String], estId: Option[String], ccosId: Option[String], sucId: Option[String], cobId: Option[String], docId: Option[String], empId: Option[String])
+GET     /api/v1/tesoreria/ordenespago/parameters                                             controllers.logged.modules.tesoreria.OrdenesPago.parameters()
+POST    /api/v1/tesoreria/ordenespago                                                        controllers.logged.modules.tesoreria.OrdenesPago.saveParameters
+
+GET     /api/v1/tesoreria/ordenespago/cliente/:cliId/facturas                                controllers.logged.modules.tesoreria.OrdenesPago.listFacturas(cliId: Int)
+
+GET     /api/v1/tesoreria/ordenepago/notes/:id                                               controllers.logged.modules.tesoreria.OrdenesPago.notes(id: Int)
+GET     /api/v1/tesoreria/ordenepago/cuentas                                                 controllers.logged.modules.tesoreria.OrdenesPago.cuentas(ids: Option[String])
+GET     /api/v1/tesoreria/ordenepago/facturas                                                controllers.logged.modules.tesoreria.OrdenesPago.facturas(ids: Option[String])
+
+GET     /api/v1/tesoreria/ordenepago/:id                                                     controllers.logged.modules.tesoreria.OrdenesPago.get(id: Int)
+POST    /api/v1/tesoreria/ordenepago                                                         controllers.logged.modules.tesoreria.OrdenesPago.create
+POST    /api/v1/tesoreria/ordenepago/from_facturas                                           controllers.logged.modules.tesoreria.OrdenesPago.createFromFactura
+PUT     /api/v1/tesoreria/ordenepago/:id                                                     controllers.logged.modules.tesoreria.OrdenesPago.update(id: Int)
+DELETE  /api/v1/tesoreria/ordenepago/:id                                                     controllers.logged.modules.tesoreria.OrdenesPago.delete(id: Int)
+
+
 GET     /api/v1/tesoreria/cobranzas                                                          controllers.logged.modules.tesoreria.Cobranzas.list(from: Option[String], to: Option[String], cliId: Option[String], estId: Option[String], ccosId: Option[String], sucId: Option[String], cobId: Option[String], docId: Option[String], empId: Option[String])
 GET     /api/v1/tesoreria/cobranzas/parameters                                               controllers.logged.modules.tesoreria.Cobranzas.parameters()
 POST    /api/v1/tesoreria/cobranzas                                                          controllers.logged.modules.tesoreria.Cobranzas.saveParameters
