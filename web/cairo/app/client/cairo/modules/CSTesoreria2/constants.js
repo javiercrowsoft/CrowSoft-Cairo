@@ -213,7 +213,6 @@
       ORDEN_PAGO_ITEM_TMP: "OrdenPagoItemTMP",
       ORDEN_PAGO_ITEM_CHEQUE_TMP: "OrdenPagoItemChequeTMP",
       ORDEN_PAGO_ITEM_CHEQUET_TMP: "OrdenPagoItemChequeTTMP",
-      ORDEN_PAGO_ITEM_TARJETA_TMP: "OrdenPagoItemTarjetaTMP",
       ORDEN_PAGO_ITEM_EFECTIVO_TMP: "OrdenPagoItemEfectivoTMP",
       ORDEN_PAGO_ITEM_OTRO_TMP: "OrdenPagoItemOtroTMP",
       ORDEN_PAGO_ITEM_CUENTA_CORRIENTE_TMP: "OrdenPagoItemCuentaCorrienteTMP",

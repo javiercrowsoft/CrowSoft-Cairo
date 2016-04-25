@@ -5,6 +5,7 @@ object C {
   // Asiento
   val AS_ID = "as_id"
 
+  // Cobranza
   val COBRANZA_ID = "ids"
   val COBRANZA_BASE = "base"
   val COBRANZA_PRECIOS = "precios"
@@ -22,6 +23,25 @@ object C {
 
   val FV_ID = "fv_id"
   val FVD_ID = "fvd_id"
+
+  // OrdenPago
+  val ORDEN_PAGO_ID = "ids"
+  val ORDEN_PAGO_BASE = "base"
+  val ORDEN_PAGO_PRECIOS = "precios"
+  val ORDEN_PAGO_TOTALS = "totals"
+
+  val ORDEN_PAGO_ITEM_BASE = "base"
+  val ORDEN_PAGO_ITEM_TOTALS = "totals"
+  val ORDEN_PAGO_ITEM_OTRO_RETENCION = "OrdenPagoItemOtroRetencion"
+
+  val ORDEN_PAGO_ITEM_CHEQUE_DELETED = "deletedCheque"
+  val ORDEN_PAGO_ITEM_CHEQUET_DELETED = "deletedChequeT"
+  val ORDEN_PAGO_ITEM_EFECTIVO_DELETED = "deletedEfectivo"
+  val ORDEN_PAGO_ITEM_OTRO_DELETED = "deletedOtro"
+  val ORDEN_PAGO_ITEM_CUENTA_CORRIENTE_DELETED = "deletedCuentaCorriente"
+
+  val FC_ID = "fc_id"
+  val FCD_ID = "fcd_id"
 
   // DepositoBanco
   val DEPOSITO_BANCO = "DepositoBanco"
@@ -208,8 +228,14 @@ object C {
   val OPGI_NRO_RETENCION = "opgi_nroRetencion"
   val OPGI_TIPO = "opgi_tipo"
 
-  // OrdenPagoItemTMP
+  // OrdenItemTMP
   val ORDEN_PAGO_ITEM_TMP = "OrdenPagoItemTMP"
+  val ORDEN_PAGO_ITEM_CHEQUE_TMP = "OrdenPagoItemChequeTMP"
+  val ORDEN_PAGO_ITEM_CHEQUET_TMP = "OrdenPagoItemChequeTTMP"
+  val ORDEN_PAGO_ITEM_EFECTIVO_TMP = "OrdenPagoItemEfectivoTMP"
+  val ORDEN_PAGO_ITEM_OTRO_TMP = "OrdenPagoItemOtroTMP"
+  val ORDEN_PAGO_ITEM_CUENTA_CORRIENTE_TMP = "OrdenPagoItemCuentaCorrienteTMP"
+  
   val OPGI_TMP_ID = "opgiTMP_id"
   val OPGI_TMP_CHEQUE = "opgiTMP_cheque"
   val OPGI_TMP_CUPON = "opgiTMP_cupon"
@@ -424,6 +450,12 @@ object C {
   val COBRANZA_ITEM_TIPO_TARJETAS = 3
   val COBRANZA_ITEM_TIPO_OTROS = 4
   val COBRANZA_ITEM_TIPO_CTA_CTE = 5
+
+  val ORDEN_PAGO_ITEM_TIPO_CHEQUES = 1
+  val ORDEN_PAGO_ITEM_TIPO_EFECTIVO = 2
+  val ORDEN_PAGO_ITEM_TIPO_OTROS = 4
+  val ORDEN_PAGO_ITEM_TIPO_CTA_CTE = 5
+  val ORDEN_PAGO_ITEM_TIPO_CHEQUEST = 6
 }
 
 object S {

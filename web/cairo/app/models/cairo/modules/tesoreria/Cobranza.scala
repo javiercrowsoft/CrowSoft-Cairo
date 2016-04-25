@@ -258,7 +258,7 @@ object CobranzaItemCheque {
       totals,
       bcoId,
       "",
-      cheqId: Int,
+      cheqId,
       0,
       numeroDoc,
       propio,

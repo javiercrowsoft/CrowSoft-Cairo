@@ -416,7 +416,7 @@ GET     /api/v1/ventas/facturaventa/notes/:id                                   
 # tesoreria
 #
 
-GET     /api/v1/tesoreria/ordenespago                                                        controllers.logged.modules.tesoreria.OrdenesPago.list(from: Option[String], to: Option[String], cliId: Option[String], estId: Option[String], ccosId: Option[String], sucId: Option[String], cobId: Option[String], docId: Option[String], empId: Option[String])
+GET     /api/v1/tesoreria/ordenespago                                                        controllers.logged.modules.tesoreria.OrdenesPago.list(from: Option[String], to: Option[String], cliId: Option[String], estId: Option[String], ccosId: Option[String], sucId: Option[String], docId: Option[String], empId: Option[String])
 GET     /api/v1/tesoreria/ordenespago/parameters                                             controllers.logged.modules.tesoreria.OrdenesPago.parameters()
 POST    /api/v1/tesoreria/ordenespago                                                        controllers.logged.modules.tesoreria.OrdenesPago.saveParameters
 

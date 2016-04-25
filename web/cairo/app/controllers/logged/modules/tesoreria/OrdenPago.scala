@@ -54,28 +54,26 @@ case class OrdenPagoItemChequeData(
                                     monId: Int,
                                     totals: OrdenPagoItemTotalsData,
                                     bcoId: Int,
+                                    chqId: Int,
                                     cheqId: Option[Int],
                                     numeroDoc: String,
-                                    propio: Boolean,
                                     fechaCobro: String,
                                     fechaVto: String,
                                     cleId: Int
                                   )
 
-case class OrdenPagoItemTarjetaData(
+case class OrdenPagoItemChequeTData(
                                      id: Int,
                                      base: OrdenPagoItemBaseData,
                                      monId: Int,
                                      totals: OrdenPagoItemTotalsData,
-                                     tjccId: Int,
-                                     cuponNumeroDoc: String,
-                                     tjcId: Int,
-                                     tjccuId: Int,
+                                     bcoId: Int,
+                                     cliId: Int,
+                                     cheqId: Option[Int],
+                                     numeroDoc: String,
+                                     fechaCobro: String,
                                      fechaVto: String,
-                                     numero: String,
-                                     autorizacion: String,
-                                     tarjetaTipo: Int,
-                                     titular: String
+                                     cleId: Int
                                    )
 
 case class OrdenPagoItemEfectivoData(
@@ -89,7 +87,7 @@ case class OrdenPagoItemRetencionData(
                                        numero: String,
                                        porcentaje: Double,
                                        fecha: String,
-                                       fvId: Int
+                                       fcId: Int
                                      )
 
 case class OrdenPagoItemOtroData(
@@ -114,13 +112,13 @@ case class OrdenPagoData(
                           cotizacion: Double,
                           totals: OrdenPagoTotalsData,
                           cheques: List[OrdenPagoItemChequeData],
-                          tarjetas: List[OrdenPagoItemTarjetaData],
+                          chequesT: List[OrdenPagoItemChequeTData],
                           efectivo: List[OrdenPagoItemEfectivoData],
                           otros: List[OrdenPagoItemOtroData],
                           cuentaCorriente: List[OrdenPagoItemCuentaCorrienteData],
 
                           chequeDeleted: String,
-                          tarjetaDeleted: String,
+                          chequeTDeleted: String,
                           efectivoDeleted: String,
                           otroDeleted: String,
                           cuentaCorrienteDeleted: String,
@@ -130,8 +128,8 @@ case class OrdenPagoData(
                         )
 
 case class FacturaOrdenPagoData(
-                                 fvId: Int,
-                                 fvdId: Int,
+                                 fcId: Int,
+                                 fcdId: Int,
                                  importe: Double,
                                  importeOrigen: Double,
                                  cotizacion: Double
@@ -156,11 +154,10 @@ object OrdenesPago extends Controller with ProvidesUser {
     mapping(
       GC.FROM -> text,
       GC.TO -> text,
-      GC.CLI_ID -> text,
+      GC.PROV_ID -> text,
       GC.EST_ID -> text,
       GC.CCOS_ID -> text,
       GC.SUC_ID -> text,
-      GC.COB_ID -> text,
       GC.DOC_ID -> text,
       GC.EMP_ID -> text
     )(OrdenPagoParamsData.apply)(OrdenPagoParamsData.unapply)
@@ -168,7 +165,7 @@ object OrdenesPago extends Controller with ProvidesUser {
 
   val ordenPagoIdFields = List(GC.DOC_ID, C.OPG_NUMERO, C.OPG_NRODOC)
 
-  val ordenPagoBaseFields = List(GC.CLI_ID, GC.EST_ID, GC.CCOS_ID, GC.SUC_ID, GC.COB_ID, GC.LGJ_ID, C.OPG_DESCRIP,
+  val ordenPagoBaseFields = List(GC.PROV_ID, GC.EST_ID, GC.CCOS_ID, GC.SUC_ID, GC.LGJ_ID, C.OPG_DESCRIP,
     C.OPG_GRABAR_ASIENTO)
 
   val ordenPagoTotalsFields = List(C.OPG_NETO, C.OPG_OTROS, C.OPG_TOTAL)
@@ -185,106 +182,103 @@ object OrdenesPago extends Controller with ProvidesUser {
   val ordenPagoForm: Form[OrdenPagoData] = Form(
     mapping(
       "id" -> optional(number),
-      C.COBRANZA_ID -> mapping(
+      C.ORDEN_PAGO_ID -> mapping(
         GC.DOC_ID -> number,
         C.OPG_NUMERO -> number,
         C.OPG_NRODOC -> text)
       (OrdenPagoIdData.apply)(OrdenPagoIdData.unapply),
-      C.COBRANZA_BASE -> mapping(
-        GC.CLI_ID -> number,
+      C.ORDEN_PAGO_BASE -> mapping(
+        GC.PROV_ID -> number,
         GC.EST_ID -> number,
         GC.CCOS_ID -> number,
         GC.SUC_ID -> number,
-        GC.COB_ID -> number,
         GC.LGJ_ID -> number,
         C.OPG_DESCRIP -> text,
         C.OPG_GRABAR_ASIENTO -> boolean)
       (OrdenPagoBaseData.apply)(OrdenPagoBaseData.unapply),
       C.OPG_FECHA -> text,
       C.OPG_COTIZACION -> of(Global.doubleFormat),
-      C.COBRANZA_TOTALS -> mapping (
+      C.ORDEN_PAGO_TOTALS -> mapping (
         C.OPG_NETO -> of(Global.doubleFormat),
         C.OPG_OTROS -> of(Global.doubleFormat),
         C.OPG_TOTAL -> of(Global.doubleFormat)
       )(OrdenPagoTotalsData.apply)(OrdenPagoTotalsData.unapply),
-      C.COBRANZA_ITEM_CHEQUE_TMP -> Forms.list[OrdenPagoItemChequeData](
+      C.ORDEN_PAGO_ITEM_CHEQUE_TMP -> Forms.list[OrdenPagoItemChequeData](
         mapping(
           C.OPGI_ID -> number,
-          C.COBRANZA_ITEM_BASE -> mapping (
+          C.ORDEN_PAGO_ITEM_BASE -> mapping (
             C.OPGI_DESCRIP -> optional(text),
             GC.CUE_ID -> number,
             GC.CCOS_ID -> optional(number),
             C.OPGI_ORDEN -> number)
           (OrdenPagoItemBaseData.apply)(OrdenPagoItemBaseData.unapply),
           GC.MON_ID -> number,
-          C.COBRANZA_ITEM_TOTALS -> mapping (
+          C.ORDEN_PAGO_ITEM_TOTALS -> mapping (
             C.OPGI_IMPORTE -> of(Global.doubleFormat),
             C.OPGI_IMPORTE_ORIGEN -> of(Global.doubleFormat))
           (OrdenPagoItemTotalsData.apply)(OrdenPagoItemTotalsData.unapply),
           GC.BCO_ID -> number,
+          GC.CHQ_ID -> number,
           C.CHEQ_ID -> optional(number),
           C.OPGI_TMP_CHEQUE -> text,
-          C.OPGI_TMP_PROPIO -> boolean,
           C.OPGI_TMP_FECHA_COBRO -> text,
           C.OPGI_TMP_FECHA_VTO -> text,
           GC.CLE_ID -> number
         )(OrdenPagoItemChequeData.apply)(OrdenPagoItemChequeData.unapply)
       ),
-      C.COBRANZA_ITEM_TARJETA_TMP -> Forms.list[OrdenPagoItemTarjetaData](
+      C.ORDEN_PAGO_ITEM_CHEQUET_TMP -> Forms.list[OrdenPagoItemChequeTData](
         mapping(
           C.OPGI_ID -> number,
-          C.COBRANZA_ITEM_BASE -> mapping (
+          C.ORDEN_PAGO_ITEM_BASE -> mapping (
             C.OPGI_DESCRIP -> optional(text),
             GC.CUE_ID -> number,
             GC.CCOS_ID -> optional(number),
             C.OPGI_ORDEN -> number)
           (OrdenPagoItemBaseData.apply)(OrdenPagoItemBaseData.unapply),
           GC.MON_ID -> number,
-          C.COBRANZA_ITEM_TOTALS -> mapping (
+          C.ORDEN_PAGO_ITEM_TOTALS -> mapping (
             C.OPGI_IMPORTE -> of(Global.doubleFormat),
             C.OPGI_IMPORTE_ORIGEN -> of(Global.doubleFormat))
           (OrdenPagoItemTotalsData.apply)(OrdenPagoItemTotalsData.unapply),
-          C.TJCC_ID -> number,
-          C.OPGI_TMP_CUPON -> text,
-          GC.TJC_ID -> number,
-          GC.TJCCU_ID -> number,
+          GC.BCO_ID -> number,
+          GC.CLI_ID -> number,
+          C.CHEQ_ID -> optional(number),
+          C.OPGI_TMP_CHEQUE -> text,
+          C.OPGI_TMP_FECHA_COBRO -> text,
           C.OPGI_TMP_FECHA_VTO -> text,
-          C.OPGI_TMP_NRO_TARJETA -> text,
-          C.OPGI_TMP_AUTORIZACION -> text,
-          C.OPGI_TARJETA_TIPO -> number,
-          C.OPGI_TMP_TITULAR -> text
-        )(OrdenPagoItemTarjetaData.apply)(OrdenPagoItemTarjetaData.unapply)
+          GC.CLE_ID -> number
+        )(OrdenPagoItemChequeTData.apply)(OrdenPagoItemChequeTData.unapply)
       ),
-      C.COBRANZA_ITEM_EFECTIVO_TMP -> Forms.list[OrdenPagoItemEfectivoData](
+      C.ORDEN_PAGO_ITEM_EFECTIVO_TMP -> Forms.list[OrdenPagoItemEfectivoData](
         mapping(
           C.OPGI_ID -> number,
-          C.COBRANZA_ITEM_BASE -> mapping (
+          C.ORDEN_PAGO_ITEM_BASE -> mapping (
             C.OPGI_DESCRIP -> optional(text),
             GC.CUE_ID -> number,
             GC.CCOS_ID -> optional(number),
             C.OPGI_ORDEN -> number)
           (OrdenPagoItemBaseData.apply)(OrdenPagoItemBaseData.unapply),
-          C.COBRANZA_ITEM_TOTALS -> mapping (
+          C.ORDEN_PAGO_ITEM_TOTALS -> mapping (
             C.OPGI_IMPORTE -> of(Global.doubleFormat),
             C.OPGI_IMPORTE_ORIGEN -> of(Global.doubleFormat))
           (OrdenPagoItemTotalsData.apply)(OrdenPagoItemTotalsData.unapply)
         )(OrdenPagoItemEfectivoData.apply)(OrdenPagoItemEfectivoData.unapply)
       ),
-      C.COBRANZA_ITEM_OTRO_TMP -> Forms.list[OrdenPagoItemOtroData](
+      C.ORDEN_PAGO_ITEM_OTRO_TMP -> Forms.list[OrdenPagoItemOtroData](
         mapping(
           C.OPGI_ID -> number,
-          C.COBRANZA_ITEM_BASE -> mapping (
+          C.ORDEN_PAGO_ITEM_BASE -> mapping (
             C.OPGI_DESCRIP -> optional(text),
             GC.CUE_ID -> number,
             GC.CCOS_ID -> optional(number),
             C.OPGI_ORDEN -> number)
           (OrdenPagoItemBaseData.apply)(OrdenPagoItemBaseData.unapply),
-          C.COBRANZA_ITEM_TOTALS -> mapping (
+          C.ORDEN_PAGO_ITEM_TOTALS -> mapping (
             C.OPGI_IMPORTE -> of(Global.doubleFormat),
             C.OPGI_IMPORTE_ORIGEN -> of(Global.doubleFormat))
           (OrdenPagoItemTotalsData.apply)(OrdenPagoItemTotalsData.unapply),
           C.OPGI_TIPO -> number,
-          C.COBRANZA_ITEM_OTRO_RETENCION -> mapping (
+          C.ORDEN_PAGO_ITEM_OTRO_RETENCION -> mapping (
             GC.RET_ID -> number,
             C.OPGI_NRO_RETENCION -> text,
             C.OPGI_PORC_RETENCION -> of(Global.doubleFormat),
@@ -293,27 +287,27 @@ object OrdenesPago extends Controller with ProvidesUser {
           (OrdenPagoItemRetencionData.apply)(OrdenPagoItemRetencionData.unapply)
         )(OrdenPagoItemOtroData.apply)(OrdenPagoItemOtroData.unapply)
       ),
-      C.COBRANZA_ITEM_CUENTA_CORRIENTE_TMP -> Forms.list[OrdenPagoItemCuentaCorrienteData](
+      C.ORDEN_PAGO_ITEM_CUENTA_CORRIENTE_TMP -> Forms.list[OrdenPagoItemCuentaCorrienteData](
         mapping(
           C.OPGI_ID -> number,
-          C.COBRANZA_ITEM_BASE -> mapping (
+          C.ORDEN_PAGO_ITEM_BASE -> mapping (
             C.OPGI_DESCRIP -> optional(text),
             GC.CUE_ID -> number,
             GC.CCOS_ID -> optional(number),
             C.OPGI_ORDEN -> number)
           (OrdenPagoItemBaseData.apply)(OrdenPagoItemBaseData.unapply),
-          C.COBRANZA_ITEM_TOTALS -> mapping (
+          C.ORDEN_PAGO_ITEM_TOTALS -> mapping (
             C.OPGI_IMPORTE -> of(Global.doubleFormat),
             C.OPGI_IMPORTE_ORIGEN -> of(Global.doubleFormat))
           (OrdenPagoItemTotalsData.apply)(OrdenPagoItemTotalsData.unapply)
         )(OrdenPagoItemCuentaCorrienteData.apply)(OrdenPagoItemCuentaCorrienteData.unapply)
       ),
-      C.COBRANZA_ITEM_CHEQUE_DELETED -> text,
-      C.COBRANZA_ITEM_TARJETA_DELETED -> text,
-      C.COBRANZA_ITEM_EFECTIVO_DELETED -> text,
-      C.COBRANZA_ITEM_OTRO_DELETED -> text,
-      C.COBRANZA_ITEM_CUENTA_CORRIENTE_DELETED -> text,
-      C.FACTURA_VENTA_COBRANZA_TMP -> Forms.list[FacturaOrdenPagoData](
+      C.ORDEN_PAGO_ITEM_CHEQUE_DELETED -> text,
+      C.ORDEN_PAGO_ITEM_CHEQUET_DELETED -> text,
+      C.ORDEN_PAGO_ITEM_EFECTIVO_DELETED -> text,
+      C.ORDEN_PAGO_ITEM_OTRO_DELETED -> text,
+      C.ORDEN_PAGO_ITEM_CUENTA_CORRIENTE_DELETED -> text,
+      C.FACTURA_COMPRA_ORDEN_PAGO_TMP -> Forms.list[FacturaOrdenPagoData](
         mapping (
           C.FC_ID -> number,
           C.FCD_ID -> number,
@@ -329,8 +323,8 @@ object OrdenesPago extends Controller with ProvidesUser {
     def writes(ordenPagoParams: OrdenPagoParams) = Json.obj(
       GC.FROM -> Json.toJson(ordenPagoParams.from),
       GC.TO -> Json.toJson(ordenPagoParams.to),
-      GC.CLI_ID -> Json.toJson(ordenPagoParams.provId),
-      GC.CLI_NAME -> Json.toJson(ordenPagoParams.provName),
+      GC.PROV_ID -> Json.toJson(ordenPagoParams.provId),
+      GC.PROV_NAME -> Json.toJson(ordenPagoParams.provName),
       GC.EST_ID -> Json.toJson(ordenPagoParams.estId),
       GC.EST_NAME -> Json.toJson(ordenPagoParams.estName),
       GC.CCOS_ID -> Json.toJson(ordenPagoParams.ccosId),
@@ -356,8 +350,8 @@ object OrdenesPago extends Controller with ProvidesUser {
 
       C.OPG_FECHA -> Json.toJson(ordenPago.fecha),
 
-      GC.CLI_ID -> Json.toJson(ordenPago.base.provId),
-      GC.CLI_NAME -> Json.toJson(ordenPago.base.provName),
+      GC.PROV_ID -> Json.toJson(ordenPago.base.provId),
+      GC.PROV_NAME -> Json.toJson(ordenPago.base.provName),
       GC.EST_ID -> Json.toJson(ordenPago.base.estId),
       GC.EST_NAME -> Json.toJson(ordenPago.base.estName),
       GC.SUC_ID -> Json.toJson(ordenPago.base.sucId),
@@ -385,7 +379,7 @@ object OrdenesPago extends Controller with ProvidesUser {
       C.OPG_TOTAL -> Json.toJson(ordenPago.totals.total),
 
       "cheques" -> Json.toJson(writeOrdenPagoCheques(ordenPago.items.cheques)),
-      "tarjetas" -> Json.toJson(writeOrdenPagoTarjetas(ordenPago.items.tarjetas)),
+      "chequesT" -> Json.toJson(writeOrdenPagoChequesT(ordenPago.items.chequesT)),
       "efectivo" -> Json.toJson(writeOrdenPagoEfectivo(ordenPago.items.efectivo)),
       "otros" -> Json.toJson(writeOrdenPagoOtros(ordenPago.items.otros)),
       "cuenta_corriente" -> Json.toJson(writeOrdenPagoCtaCte(ordenPago.items.cuentaCorriente))
@@ -404,16 +398,17 @@ object OrdenesPago extends Controller with ProvidesUser {
       C.OPGI_IMPORTE_ORIGEN -> Json.toJson(i.totals.importeOrigen),
       GC.BCO_ID -> Json.toJson(i.bcoId),
       GC.BCO_NAME -> Json.toJson(i.bcoName),
+      GC.CHQ_ID -> Json.toJson(i.chqId),
+      GC.CHQ_DESCRIP -> Json.toJson(i.chqName),
       C.CHEQ_ID -> Json.toJson(i.cheqId),
       C.CHEQ_NUMERO -> Json.toJson(i.numero),
       C.CHEQ_NUMERO_DOC -> Json.toJson(i.numeroDoc),
-      C.CHEQ_PROPIO -> Json.toJson(i.propio),
       C.CHEQ_FECHA_COBRO -> Json.toJson(i.fechaCobro),
       C.CHEQ_FECHA_VTO -> Json.toJson(i.fechaVto),
       GC.CLE_ID -> Json.toJson(i.cleId),
       GC.CLE_NAME -> Json.toJson(i.cleName)
     )
-    def ordenPagoTarjetaWrites(i: OrdenPagoItemTarjeta) = Json.obj(
+    def ordenPagoChequeTWrites(i: OrdenPagoItemChequeT) = Json.obj(
       C.OPGI_ID -> Json.toJson(i.id),
       C.OPGI_DESCRIP -> Json.toJson(i.base.descrip),
       GC.CUE_ID -> Json.toJson(i.base.cueId),
@@ -425,18 +420,17 @@ object OrdenesPago extends Controller with ProvidesUser {
       C.OPGI_ORDEN -> Json.toJson(i.base.orden),
       C.OPGI_IMPORTE -> Json.toJson(i.totals.importe),
       C.OPGI_IMPORTE_ORIGEN -> Json.toJson(i.totals.importeOrigen),
-      C.TJCC_ID -> Json.toJson(i.tjccId),
-      C.TJCC_NUMERO -> Json.toJson(i.cuponNumero),
-      C.TJCC_NUMERO_DOC -> Json.toJson(i.cuponNumeroDoc),
-      GC.TJC_ID -> Json.toJson(i.tjcId),
-      GC.TJC_NAME -> Json.toJson(i.tjcName),
-      GC.TJCCU_ID -> Json.toJson(i.tjccuId),
-      GC.TJCCU_CANTIDAD -> Json.toJson(i.cuotas),
-      C.TJCC_FECHA_VTO -> Json.toJson(i.fechaVto),
-      C.TJCC_NRO_TARJETA -> Json.toJson(i.numero),
-      C.TJCC_NRO_AUTORIZACION -> Json.toJson(i.autorizacion),
-      C.OPGI_TARJETA_TIPO -> Json.toJson(i.tarjetaTipo),
-      C.TJCC_TITULAR -> Json.toJson(i.titular)
+      GC.BCO_ID -> Json.toJson(i.bcoId),
+      GC.BCO_NAME -> Json.toJson(i.bcoName),
+      GC.PROV_ID -> Json.toJson(i.cliId),
+      GC.PROV_NAME -> Json.toJson(i.cliName),
+      C.CHEQ_ID -> Json.toJson(i.cheqId),
+      C.CHEQ_NUMERO -> Json.toJson(i.numero),
+      C.CHEQ_NUMERO_DOC -> Json.toJson(i.numeroDoc),
+      C.CHEQ_FECHA_COBRO -> Json.toJson(i.fechaCobro),
+      C.CHEQ_FECHA_VTO -> Json.toJson(i.fechaVto),
+      GC.CLE_ID -> Json.toJson(i.cleId),
+      GC.CLE_NAME -> Json.toJson(i.cleName)
     )
     def ordenPagoEfectivoWrites(i: OrdenPagoItemEfectivo) = Json.obj(
       C.OPGI_ID -> Json.toJson(i.id),
@@ -469,7 +463,7 @@ object OrdenesPago extends Controller with ProvidesUser {
       C.OPGI_NRO_RETENCION -> Json.toJson(i.retencion.numero),
       C.OPGI_PORC_RETENCION -> Json.toJson(i.retencion.porcentaje),
       C.OPGI_FECHA_RETENCION -> Json.toJson(i.retencion.fecha),
-      C.FC_ID_RET -> Json.toJson(i.retencion.fvId),
+      C.FC_ID_RET -> Json.toJson(i.retencion.fcId),
       models.cairo.modules.compras.C.FC_NRODOC -> Json.toJson(i.retencion.numeroDoc)
     )
     def ordenPagoCtaCteWrites(i: OrdenPagoItemCuentaCorriente) = Json.obj(
@@ -486,14 +480,14 @@ object OrdenesPago extends Controller with ProvidesUser {
       C.OPGI_IMPORTE_ORIGEN -> Json.toJson(i.totals.importeOrigen)
     )
     def writeOrdenPagoCheques(items: List[OrdenPagoItemCheque]) = items.map(item => ordenPagoChequeWrites(item))
-    def writeOrdenPagoTarjetas(items: List[OrdenPagoItemTarjeta]) = items.map(item => ordenPagoTarjetaWrites(item))
+    def writeOrdenPagoChequesT(items: List[OrdenPagoItemChequeT]) = items.map(item => ordenPagoChequeTWrites(item))
     def writeOrdenPagoEfectivo(items: List[OrdenPagoItemEfectivo]) = items.map(item => ordenPagoEfectivoWrites(item))
     def writeOrdenPagoOtros(items: List[OrdenPagoItemOtro]) = items.map(item => ordenPagoOtroWrites(item))
     def writeOrdenPagoCtaCte(items: List[OrdenPagoItemCuentaCorriente]) = items.map(item => ordenPagoCtaCteWrites(item))
   }
 
   def get(id: Int) = GetAction { implicit request =>
-    LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.LIST_COBRANZA), { user =>
+    LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.LIST_ORDEN_PAGO), { user =>
       Ok(Json.toJson(OrdenPago.get(user, id)))
     })
   }
@@ -522,10 +516,10 @@ object OrdenesPago extends Controller with ProvidesUser {
       // groups for OrdenPagoChequeData
       //
       val ordenPagoCheque = Global.preprocessFormParams(
-        List(C.OPGI_ID, GC.MON_ID, GC.BCO_ID, C.CHEQ_ID, C.OPGI_TMP_CHEQUE, C.OPGI_TMP_PROPIO, C.OPGI_TMP_FECHA_COBRO,
+        List(C.OPGI_ID, GC.MON_ID, GC.BCO_ID, GC.CHQ_ID, C.CHEQ_ID, C.OPGI_TMP_CHEQUE, C.OPGI_TMP_FECHA_COBRO,
           C.OPGI_TMP_FECHA_VTO, GC.CLE_ID), "", params)
-      val ordenPagoChequeBaseGroup = Global.preprocessFormParams(ordenPagoItemBase, C.COBRANZA_ITEM_BASE, params)
-      val ordenPagoChequeTotalsGroup = Global.preprocessFormParams(ordenPagoItemTotals, C.COBRANZA_ITEM_TOTALS, params)
+      val ordenPagoChequeBaseGroup = Global.preprocessFormParams(ordenPagoItemBase, C.ORDEN_PAGO_ITEM_BASE, params)
+      val ordenPagoChequeTotalsGroup = Global.preprocessFormParams(ordenPagoItemTotals, C.ORDEN_PAGO_ITEM_TOTALS, params)
 
       val cheque = JsObject(
         (ordenPagoCheque ++ ordenPagoChequeBaseGroup ++ ordenPagoChequeTotalsGroup).toSeq)
@@ -537,15 +531,15 @@ object OrdenesPago extends Controller with ProvidesUser {
 
       // groups for OrdenPagoTarjetaData
       //
-      val ordenPagoTarjeta = Global.preprocessFormParams(
-        List(C.OPGI_ID, GC.MON_ID, C.TJCC_ID, C.OPGI_TMP_CUPON, GC.TJC_ID, GC.TJCCU_ID, C.OPGI_TMP_FECHA_VTO,
-          C.OPGI_TMP_NRO_TARJETA, C.OPGI_TMP_AUTORIZACION, C.OPGI_TARJETA_TIPO, C.OPGI_TMP_TITULAR), "", params)
-      val ordenPagoTarjetaBaseGroup = Global.preprocessFormParams(ordenPagoItemBase, C.COBRANZA_ITEM_BASE, params)
-      val ordenPagoTarjetaTotalsGroup = Global.preprocessFormParams(ordenPagoItemTotals, C.COBRANZA_ITEM_TOTALS, params)
+      val ordenPagoChequeT = Global.preprocessFormParams(
+        List(C.OPGI_ID, GC.MON_ID, GC.BCO_ID, GC.CLI_ID, C.CHEQ_ID, C.OPGI_TMP_CHEQUE, C.OPGI_TMP_FECHA_COBRO,
+          C.OPGI_TMP_FECHA_VTO, GC.CLE_ID), "", params)
+      val ordenPagoTarjetaBaseGroup = Global.preprocessFormParams(ordenPagoItemBase, C.ORDEN_PAGO_ITEM_BASE, params)
+      val ordenPagoTarjetaTotalsGroup = Global.preprocessFormParams(ordenPagoItemTotals, C.ORDEN_PAGO_ITEM_TOTALS, params)
 
-      val tarjeta = JsObject(
-        (ordenPagoTarjeta ++ ordenPagoTarjetaBaseGroup ++ ordenPagoTarjetaTotalsGroup).toSeq)
-      tarjeta
+      val chequeT = JsObject(
+        (ordenPagoChequeT ++ ordenPagoTarjetaBaseGroup ++ ordenPagoTarjetaTotalsGroup).toSeq)
+      chequeT
     }
 
     def preprocessEfectivoParam(field: JsValue) = {
@@ -554,8 +548,8 @@ object OrdenesPago extends Controller with ProvidesUser {
       // groups for OrdenPagoEfectivoData
       //
       val ordenPagoEfectivo = Global.preprocessFormParams(List(C.OPGI_ID, GC.MON_ID), "", params)
-      val ordenPagoEfectivoBaseGroup = Global.preprocessFormParams(ordenPagoItemBase, C.COBRANZA_ITEM_BASE, params)
-      val ordenPagoEfectivoTotalsGroup = Global.preprocessFormParams(ordenPagoItemTotals, C.COBRANZA_ITEM_TOTALS, params)
+      val ordenPagoEfectivoBaseGroup = Global.preprocessFormParams(ordenPagoItemBase, C.ORDEN_PAGO_ITEM_BASE, params)
+      val ordenPagoEfectivoTotalsGroup = Global.preprocessFormParams(ordenPagoItemTotals, C.ORDEN_PAGO_ITEM_TOTALS, params)
 
       val efectivo = JsObject(
         (ordenPagoEfectivo ++ ordenPagoEfectivoBaseGroup ++ ordenPagoEfectivoTotalsGroup).toSeq)
@@ -568,9 +562,9 @@ object OrdenesPago extends Controller with ProvidesUser {
       // groups for OrdenPagoOtroData
       //
       val ordenPagoOtro = Global.preprocessFormParams(List(C.OPGI_ID, C.OPGI_TIPO), "", params)
-      val ordenPagoOtroBaseGroup = Global.preprocessFormParams(ordenPagoItemBase, C.COBRANZA_ITEM_BASE, params)
-      val ordenPagoOtroTotalsGroup = Global.preprocessFormParams(ordenPagoItemTotals, C.COBRANZA_ITEM_TOTALS, params)
-      val ordenPagoOtroRetencionGroup = Global.preprocessFormParams(ordenPagoItemOtroRetencion, C.COBRANZA_ITEM_OTRO_RETENCION, params)
+      val ordenPagoOtroBaseGroup = Global.preprocessFormParams(ordenPagoItemBase, C.ORDEN_PAGO_ITEM_BASE, params)
+      val ordenPagoOtroTotalsGroup = Global.preprocessFormParams(ordenPagoItemTotals, C.ORDEN_PAGO_ITEM_TOTALS, params)
+      val ordenPagoOtroRetencionGroup = Global.preprocessFormParams(ordenPagoItemOtroRetencion, C.ORDEN_PAGO_ITEM_OTRO_RETENCION, params)
 
       val otro = JsObject(
         (ordenPagoOtro ++ ordenPagoOtroBaseGroup ++ ordenPagoOtroTotalsGroup ++ ordenPagoOtroRetencionGroup).toSeq)
@@ -583,8 +577,8 @@ object OrdenesPago extends Controller with ProvidesUser {
       // groups for OrdenPagoCuentaCorrienteData
       //
       val ordenPagoCuentaCorriente = Global.preprocessFormParams(List(C.OPGI_ID, GC.MON_ID), "", params)
-      val ordenPagoCuentaCorrienteBaseGroup = Global.preprocessFormParams(ordenPagoItemBase, C.COBRANZA_ITEM_BASE, params)
-      val ordenPagoCuentaCorrienteTotalsGroup = Global.preprocessFormParams(ordenPagoItemTotals, C.COBRANZA_ITEM_TOTALS, params)
+      val ordenPagoCuentaCorrienteBaseGroup = Global.preprocessFormParams(ordenPagoItemBase, C.ORDEN_PAGO_ITEM_BASE, params)
+      val ordenPagoCuentaCorrienteTotalsGroup = Global.preprocessFormParams(ordenPagoItemTotals, C.ORDEN_PAGO_ITEM_TOTALS, params)
 
       val cuentaCorriente = JsObject(
         (ordenPagoCuentaCorriente ++ ordenPagoCuentaCorrienteBaseGroup ++ ordenPagoCuentaCorrienteTotalsGroup).toSeq)
@@ -631,74 +625,73 @@ object OrdenesPago extends Controller with ProvidesUser {
     // groups for OrdenPagoData
     //
     val facturaId = Global.preprocessFormParams(List("id", C.OPG_FECHA, C.OPG_COTIZACION), "", params)
-    val facturaIdGroup = Global.preprocessFormParams(ordenPagoIdFields, C.COBRANZA_ID, params)
-    val facturaBaseGroup = Global.preprocessFormParams(ordenPagoBaseFields, C.COBRANZA_BASE, params)
-    val facturaTotalGroup = Global.preprocessFormParams(ordenPagoTotalsFields, C.COBRANZA_TOTALS, params)
+    val facturaIdGroup = Global.preprocessFormParams(ordenPagoIdFields, C.ORDEN_PAGO_ID, params)
+    val facturaBaseGroup = Global.preprocessFormParams(ordenPagoBaseFields, C.ORDEN_PAGO_BASE, params)
+    val facturaTotalGroup = Global.preprocessFormParams(ordenPagoTotalsFields, C.ORDEN_PAGO_TOTALS, params)
 
     // cheques
     //
-    val chequesInfo = getJsValueAsMap(Global.getParamsJsonRequestFor(C.COBRANZA_ITEM_CHEQUE_TMP, params))
+    val chequesInfo = getJsValueAsMap(Global.getParamsJsonRequestFor(C.ORDEN_PAGO_ITEM_CHEQUE_TMP, params))
     val chequeRows = Global.getParamsJsonRequestFor(GC.ITEMS, chequesInfo)
     val chequeDeleted: Map[String, JsValue] = Global.getParamsJsonRequestFor(GC.DELETED_LIST, chequesInfo).toList match {
-      case Nil => Map(C.COBRANZA_ITEM_CHEQUE_DELETED -> Json.toJson(""))
-      case deletedList :: t => Map(C.COBRANZA_ITEM_CHEQUE_DELETED -> Json.toJson(deletedList._2))
+      case Nil => Map(C.ORDEN_PAGO_ITEM_CHEQUE_DELETED -> Json.toJson(""))
+      case deletedList :: t => Map(C.ORDEN_PAGO_ITEM_CHEQUE_DELETED -> Json.toJson(deletedList._2))
     }
-    val ordenPagoCheques = preprocessChequesParam(chequeRows.head._2, C.COBRANZA_ITEM_CHEQUE_TMP)
+    val ordenPagoCheques = preprocessChequesParam(chequeRows.head._2, C.ORDEN_PAGO_ITEM_CHEQUE_TMP)
 
-    // items
+    // cheques tercero
     //
-    val tarjetasInfo = getJsValueAsMap(Global.getParamsJsonRequestFor(C.COBRANZA_ITEM_TARJETA_TMP, params))
-    val tarjetaRows = Global.getParamsJsonRequestFor(GC.ITEMS, tarjetasInfo)
-    val tarjetaDeleted: Map[String, JsValue] = Global.getParamsJsonRequestFor(GC.DELETED_LIST, tarjetasInfo).toList match {
-      case Nil => Map(C.COBRANZA_ITEM_TARJETA_DELETED -> Json.toJson(""))
-      case deletedList :: t => Map(C.COBRANZA_ITEM_TARJETA_DELETED -> Json.toJson(deletedList._2))
+    val chequesTInfo = getJsValueAsMap(Global.getParamsJsonRequestFor(C.ORDEN_PAGO_ITEM_CHEQUET_TMP, params))
+    val chequeTRows = Global.getParamsJsonRequestFor(GC.ITEMS, chequesTInfo)
+    val chequeTDeleted: Map[String, JsValue] = Global.getParamsJsonRequestFor(GC.DELETED_LIST, chequesTInfo).toList match {
+      case Nil => Map(C.ORDEN_PAGO_ITEM_CHEQUET_DELETED -> Json.toJson(""))
+      case deletedList :: t => Map(C.ORDEN_PAGO_ITEM_CHEQUET_DELETED -> Json.toJson(deletedList._2))
     }
-    val ordenPagoTarjetas = preprocessTarjetasParam(tarjetaRows.head._2, C.COBRANZA_ITEM_TARJETA_TMP)
+    val ordenPagoChequeT = preprocessTarjetasParam(chequeTRows.head._2, C.ORDEN_PAGO_ITEM_CHEQUET_TMP)
 
     // efectivos
     //
-    val efectivosInfo = getJsValueAsMap(Global.getParamsJsonRequestFor(C.COBRANZA_ITEM_EFECTIVO_TMP, params))
+    val efectivosInfo = getJsValueAsMap(Global.getParamsJsonRequestFor(C.ORDEN_PAGO_ITEM_EFECTIVO_TMP, params))
     val efectivoRows = Global.getParamsJsonRequestFor(GC.ITEMS, efectivosInfo)
     val efectivoDeleted: Map[String, JsValue] = Global.getParamsJsonRequestFor(GC.DELETED_LIST, efectivosInfo).toList match {
-      case Nil => Map(C.COBRANZA_ITEM_EFECTIVO_DELETED -> Json.toJson(""))
-      case deletedList :: t => Map(C.COBRANZA_ITEM_EFECTIVO_DELETED -> Json.toJson(deletedList._2))
+      case Nil => Map(C.ORDEN_PAGO_ITEM_EFECTIVO_DELETED -> Json.toJson(""))
+      case deletedList :: t => Map(C.ORDEN_PAGO_ITEM_EFECTIVO_DELETED -> Json.toJson(deletedList._2))
     }
-    val ordenPagoEfectivos = preprocessEfectivosParam(efectivoRows.head._2, C.COBRANZA_ITEM_EFECTIVO_TMP)
+    val ordenPagoEfectivos = preprocessEfectivosParam(efectivoRows.head._2, C.ORDEN_PAGO_ITEM_EFECTIVO_TMP)
 
     // otros
     //
-    val otrosInfo = getJsValueAsMap(Global.getParamsJsonRequestFor(C.COBRANZA_ITEM_OTRO_TMP, params))
+    val otrosInfo = getJsValueAsMap(Global.getParamsJsonRequestFor(C.ORDEN_PAGO_ITEM_OTRO_TMP, params))
     val otroRows = Global.getParamsJsonRequestFor(GC.ITEMS, otrosInfo)
     val otroDeleted: Map[String, JsValue] = Global.getParamsJsonRequestFor(GC.DELETED_LIST, otrosInfo).toList match {
-      case Nil => Map(C.COBRANZA_ITEM_OTRO_DELETED -> Json.toJson(""))
-      case deletedList :: t => Map(C.COBRANZA_ITEM_OTRO_DELETED -> Json.toJson(deletedList._2))
+      case Nil => Map(C.ORDEN_PAGO_ITEM_OTRO_DELETED -> Json.toJson(""))
+      case deletedList :: t => Map(C.ORDEN_PAGO_ITEM_OTRO_DELETED -> Json.toJson(deletedList._2))
     }
-    val ordenPagoOtros = preprocessOtrosParam(otroRows.head._2, C.COBRANZA_ITEM_OTRO_TMP)
+    val ordenPagoOtros = preprocessOtrosParam(otroRows.head._2, C.ORDEN_PAGO_ITEM_OTRO_TMP)
 
-    // ctaCtes
+    // cta ctes
     //
-    val ctaCtesInfo = getJsValueAsMap(Global.getParamsJsonRequestFor(C.COBRANZA_ITEM_CUENTA_CORRIENTE_TMP, params))
+    val ctaCtesInfo = getJsValueAsMap(Global.getParamsJsonRequestFor(C.ORDEN_PAGO_ITEM_CUENTA_CORRIENTE_TMP, params))
     val cuentaCorrienteRows = Global.getParamsJsonRequestFor(GC.ITEMS, ctaCtesInfo)
     val cuentaCorrienteDeleted: Map[String, JsValue] = Global.getParamsJsonRequestFor(GC.DELETED_LIST, ctaCtesInfo).toList match {
-      case Nil => Map(C.COBRANZA_ITEM_CUENTA_CORRIENTE_DELETED -> Json.toJson(""))
-      case deletedList :: t => Map(C.COBRANZA_ITEM_CUENTA_CORRIENTE_DELETED -> Json.toJson(deletedList._2))
+      case Nil => Map(C.ORDEN_PAGO_ITEM_CUENTA_CORRIENTE_DELETED -> Json.toJson(""))
+      case deletedList :: t => Map(C.ORDEN_PAGO_ITEM_CUENTA_CORRIENTE_DELETED -> Json.toJson(deletedList._2))
     }
-    val ordenPagoCtaCtes = preprocessCtaCtesParam(cuentaCorrienteRows.head._2, C.COBRANZA_ITEM_CUENTA_CORRIENTE_TMP)
-
+    val ordenPagoCtaCtes = preprocessCtaCtesParam(cuentaCorrienteRows.head._2, C.ORDEN_PAGO_ITEM_CUENTA_CORRIENTE_TMP)
 
     // facturas
     //
-    val facturasInfo = getJsValueAsMap(Global.getParamsJsonRequestFor(C.FACTURA_VENTA_COBRANZA_TMP, params))
+    val facturasInfo = getJsValueAsMap(Global.getParamsJsonRequestFor(C.FACTURA_COMPRA_ORDEN_PAGO_TMP, params))
     val facturaRows = Global.getParamsJsonRequestFor(GC.ITEMS, facturasInfo)
     val facturaFacturas = facturaRows.toList match {
-      case (k: String, item: JsValue) :: t => preprocessFacturasParam(item, C.FACTURA_VENTA_COBRANZA_TMP)
-      case _ => Map(C.FACTURA_VENTA_COBRANZA_TMP -> JsArray(List()))
+      case (k: String, item: JsValue) :: t => preprocessFacturasParam(item, C.FACTURA_COMPRA_ORDEN_PAGO_TMP)
+      case _ => Map(C.FACTURA_COMPRA_ORDEN_PAGO_TMP -> JsArray(List()))
     }
 
     JsObject(
       (facturaId ++ facturaIdGroup ++ facturaBaseGroup ++ facturaTotalGroup
         ++ ordenPagoCheques ++ chequeDeleted
-        ++ ordenPagoTarjetas ++ tarjetaDeleted
+        ++ ordenPagoChequeT ++ chequeTDeleted
         ++ ordenPagoEfectivos ++ efectivoDeleted
         ++ ordenPagoOtros ++ otroDeleted
         ++ ordenPagoCtaCtes ++ cuentaCorrienteDeleted
@@ -724,9 +717,9 @@ object OrdenesPago extends Controller with ProvidesUser {
           cheque.totals.importeOrigen
         ),
         cheque.bcoId,
+        cheque.chqId,
         cheque.cheqId.getOrElse(DBHelper.NoId),
         cheque.numeroDoc,
-        cheque.propio,
         DateFormatter.parse(cheque.fechaCobro),
         DateFormatter.parse(cheque.fechaVto),
         cheque.cleId
@@ -734,30 +727,28 @@ object OrdenesPago extends Controller with ProvidesUser {
     })
   }
 
-  def getTarjetas(items: List[OrdenPagoItemTarjetaData]): List[OrdenPagoItemTarjeta] = {
-    items.map(tarjeta => {
-      OrdenPagoItemTarjeta(
-        tarjeta.id,
+  def getChequeT(items: List[OrdenPagoItemChequeTData]): List[OrdenPagoItemChequeT] = {
+    items.map(cheque => {
+      OrdenPagoItemChequeT(
+        cheque.id,
         OrdenPagoItemBase(
-          tarjeta.base.descrip.getOrElse(""),
-          tarjeta.base.cueId,
-          tarjeta.base.ccosId.getOrElse(DBHelper.NoId),
-          tarjeta.base.orden
+          cheque.base.descrip.getOrElse(""),
+          cheque.base.cueId,
+          cheque.base.ccosId.getOrElse(DBHelper.NoId),
+          cheque.base.orden
         ),
-        tarjeta.monId,
+        cheque.monId,
         OrdenPagoItemTotals(
-          tarjeta.totals.importe,
-          tarjeta.totals.importeOrigen
+          cheque.totals.importe,
+          cheque.totals.importeOrigen
         ),
-        tarjeta.tjccId,
-        tarjeta.cuponNumeroDoc,
-        tarjeta.tjcId,
-        tarjeta.tjccuId,
-        DateFormatter.parse(tarjeta.fechaVto),
-        tarjeta.numero,
-        tarjeta.autorizacion,
-        tarjeta.tarjetaTipo,
-        tarjeta.titular
+        cheque.bcoId,
+        cheque.cliId,
+        cheque.cheqId.getOrElse(DBHelper.NoId),
+        cheque.numeroDoc,
+        DateFormatter.parse(cheque.fechaCobro),
+        DateFormatter.parse(cheque.fechaVto),
+        cheque.cleId
       )
     })
   }
@@ -801,7 +792,7 @@ object OrdenesPago extends Controller with ProvidesUser {
           otro.retencion.numero,
           otro.retencion.porcentaje,
           DateFormatter.parse(otro.retencion.fecha),
-          otro.retencion.fvId
+          otro.retencion.fcId
         )
       )
     })
@@ -829,8 +820,8 @@ object OrdenesPago extends Controller with ProvidesUser {
   def getFacturas(facturas: List[FacturaOrdenPagoData]): List[FacturaOrdenPago] = {
     facturas.map(factura => {
       FacturaOrdenPago(
-        factura.fvId,
-        factura.fvdId,
+        factura.fcId,
+        factura.fcdId,
         factura.importe,
         factura.importeOrigen,
         factura.cotizacion
@@ -841,13 +832,13 @@ object OrdenesPago extends Controller with ProvidesUser {
   def getOrdenPagoItems(ordenPago: OrdenPagoData): OrdenPagoItems = {
     OrdenPagoItems(
       getCheques(ordenPago.cheques),
-      getTarjetas(ordenPago.tarjetas),
+      getChequeT(ordenPago.chequesT),
       getEfectivo(ordenPago.efectivo),
       getOtros(ordenPago.otros),
       getCtaCte(ordenPago.cuentaCorriente),
 
       ordenPago.chequeDeleted,
-      ordenPago.tarjetaDeleted,
+      ordenPago.chequeTDeleted,
       ordenPago.efectivoDeleted,
       ordenPago.otroDeleted,
       ordenPago.cuentaCorrienteDeleted,
@@ -892,7 +883,7 @@ object OrdenesPago extends Controller with ProvidesUser {
       },
       ordenPago => {
         Logger.debug(s"form: ${ordenPago.toString}")
-        LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.EDIT_COBRANZA), { user =>
+        LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.EDIT_ORDEN_PAGO), { user =>
           try {
             Ok(
               Json.toJson(
@@ -920,7 +911,7 @@ object OrdenesPago extends Controller with ProvidesUser {
       },
       ordenPago => {
         Logger.debug(s"form: ${ordenPago.toString}")
-        LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.NEW_COBRANZA), { user =>
+        LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.NEW_ORDEN_PAGO), { user =>
           try {
             Ok(
               Json.toJson(
@@ -948,7 +939,7 @@ object OrdenesPago extends Controller with ProvidesUser {
       },
       ordenPago => {
         Logger.debug(s"form: ${ordenPago.toString}")
-        LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.NEW_COBRANZA), { user =>
+        LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.NEW_ORDEN_PAGO), { user =>
           try {
             Ok(
               Json.toJson(
@@ -981,7 +972,7 @@ object OrdenesPago extends Controller with ProvidesUser {
 
   def delete(id: Int) = PostAction { implicit request =>
     Logger.debug("in OrdenesPago.delete")
-    LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.DELETE_COBRANZA), { user =>
+    LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.DELETE_ORDEN_PAGO), { user =>
       try {
         OrdenPago.delete(user, id)
         // Backbonejs requires at least an empty json object in the response
@@ -1005,7 +996,7 @@ object OrdenesPago extends Controller with ProvidesUser {
             docId: Option[String],
             empId: Option[String]
           ) = GetAction { implicit request =>
-    LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.LIST_COBRANZA), { user =>
+    LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.LIST_ORDEN_PAGO), { user =>
       Ok(
         Json.toJson(
           Recordset.getAsJson(
@@ -1017,7 +1008,7 @@ object OrdenesPago extends Controller with ProvidesUser {
   }
 
   def parameters = GetAction { implicit request =>
-    LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.LIST_COBRANZA), { user =>
+    LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.LIST_ORDEN_PAGO), { user =>
       Ok(Json.toJson(OrdenPago.loadParams(user)))
     })
   }
@@ -1031,7 +1022,7 @@ object OrdenesPago extends Controller with ProvidesUser {
       },
       ordenPagoParams => {
         Logger.debug(s"form: ${ordenPagoParams.toString}")
-        LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.LIST_COBRANZA), { user =>
+        LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.LIST_ORDEN_PAGO), { user =>
           Ok(
             Json.toJson(
               OrdenPago.saveParams(user,
@@ -1054,13 +1045,13 @@ object OrdenesPago extends Controller with ProvidesUser {
   }
 
   def notes(id: Int) = GetAction { implicit request =>
-    LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.LIST_COBRANZA), { user =>
+    LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.LIST_ORDEN_PAGO), { user =>
       Ok(Json.toJson(""))
     })
   }
 
   def listFacturas(provId: Int) = GetAction { implicit request =>
-    LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.NEW_COBRANZA), { user =>
+    LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.NEW_ORDEN_PAGO), { user =>
       val response = OrdenPago.listFacturas(user, provId) match {
         case (facturas, rates) =>
           Json.toJson(
@@ -1076,13 +1067,13 @@ object OrdenesPago extends Controller with ProvidesUser {
   }
 
   def cuentas(ids: Option[String]) = GetAction { implicit request =>
-    LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.NEW_COBRANZA), { user =>
+    LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.NEW_ORDEN_PAGO), { user =>
       Ok(Json.toJson(Recordset.getAsJson(OrdenPago.cuentas(user, ids.getOrElse("")))))
     })
   }
 
   def facturas(ids: Option[String]) = GetAction { implicit request =>
-    LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.NEW_COBRANZA), { user =>
+    LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.NEW_ORDEN_PAGO), { user =>
       Ok(Json.toJson(Recordset.getAsJson(OrdenPago.facturas(user, ids.getOrElse("")))))
     })
   }

@@ -136,6 +136,16 @@ object C {
   val BCO_WEB = "bco_web"
   val BCO_MAIL = "bco_mail"
 
+  // Chequera
+  val CHEQUERA = "Chequera"
+  val CHQ_ID = "chq_id"
+  val CHQ_CODIGO = "chq_codigo"
+  val CHQ_DESCRIP = "chq_descrip"
+  val CHQ_NUMERO_DESDE = "chq_numerodesde"
+  val CHQ_NUMERO_HASTA = "chq_numerohasta"
+  val CHQ_ULTIMO_NUMERO = "chq_ultimonumero"
+  val CHQ_DEFAULT = "chq_default"
+
   // Vendedor
   val VENDEDOR = "Vendedor"
   val VEN_ID = "ven_id"

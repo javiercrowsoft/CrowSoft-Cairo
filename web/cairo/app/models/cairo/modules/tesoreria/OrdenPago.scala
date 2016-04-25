@@ -220,10 +220,11 @@ case class OrdenPagoItemCheque(
                                 totals: OrdenPagoItemTotals,
                                 bcoId: Int,
                                 bcoName: String,
+                                chqId: Int,
+                                chqName: String,
                                 cheqId: Int,
                                 numero: Int,
                                 numeroDoc: String,
-                                propio: Boolean,
                                 fechaCobro: Date,
                                 fechaVto: Date,
                                 cleId: Int,
@@ -237,9 +238,9 @@ object OrdenPagoItemCheque {
             monId: Int,
             totals: OrdenPagoItemTotals,
             bcoId: Int,
+            chqId: Int,
             cheqId: Int,
             numeroDoc: String,
-            propio: Boolean,
             fechaCobro: Date,
             fechaVto: Date,
             cleId: Int) = {
@@ -251,10 +252,11 @@ object OrdenPagoItemCheque {
       totals,
       bcoId,
       "",
-      cheqId: Int,
+      chqId,
+      "",
+      cheqId,
       0,
       numeroDoc,
-      propio,
       fechaCobro,
       fechaVto,
       cleId,
@@ -263,58 +265,54 @@ object OrdenPagoItemCheque {
   }
 }
 
-case class OrdenPagoItemTarjeta(
+case class OrdenPagoItemChequeT(
                                  id: Int,
                                  base: OrdenPagoItemBase,
                                  moneda: OrdenPagoItemMoneda,
                                  totals: OrdenPagoItemTotals,
-                                 tjccId: Int,
-                                 cuponNumero: Int,
-                                 cuponNumeroDoc: String,
-                                 tjcId: Int,
-                                 tjcName: String,
-                                 tjccuId: Int,
-                                 cuotas: Int,
+                                 bcoId: Int,
+                                 bcoName: String,
+                                 cliId: Int,
+                                 cliName: String,
+                                 cheqId: Int,
+                                 numero: Int,
+                                 numeroDoc: String,
+                                 fechaCobro: Date,
                                  fechaVto: Date,
-                                 numero: String,
-                                 autorizacion: String,
-                                 tarjetaTipo: Int,
-                                 titular: String
+                                 cleId: Int,
+                                 cleName: String
                                )
 
-object OrdenPagoItemTarjeta {
+object OrdenPagoItemChequeT {
 
   def apply(id: Int,
             base: OrdenPagoItemBase,
             monId: Int,
             totals: OrdenPagoItemTotals,
-            tjccId: Int,
-            cuponNumeroDoc: String,
-            tjcId: Int,
-            tjccuId: Int,
+            bcoId: Int,
+            cliId: Int,
+            cheqId: Int,
+            numeroDoc: String,
+            fechaCobro: Date,
             fechaVto: Date,
-            numero: String,
-            autorizacion: String,
-            tarjetaTipo: Int,
-            titular: String) = {
+            cleId: Int) = {
 
-    new OrdenPagoItemTarjeta(
+    new OrdenPagoItemChequeT(
       id,
       base,
       OrdenPagoItemMoneda(monId, ""),
       totals,
-      tjccId,
-      0,
-      cuponNumeroDoc,
-      tjcId,
+      bcoId,
       "",
-      tjccuId,
+      cliId,
+      "",
+      cheqId,
       0,
+      numeroDoc,
+      fechaCobro,
       fechaVto,
-      numero,
-      autorizacion,
-      tarjetaTipo,
-      titular
+      cleId,
+      ""
     )
   }
 }
@@ -348,7 +346,7 @@ case class OrdenPagoItemRetencion(
                                    numero: String,
                                    porcentaje: Double,
                                    fecha: Date,
-                                   fvId: Int,
+                                   fcId: Int,
                                    numeroDoc: String
                                  )
 
@@ -358,7 +356,7 @@ object OrdenPagoItemRetencion {
             numero: String,
             porcentaje: Double,
             fecha: Date,
-            fvId: Int) = {
+            fcId: Int) = {
 
     new OrdenPagoItemRetencion(
       retId,
@@ -366,7 +364,7 @@ object OrdenPagoItemRetencion {
       numero,
       porcentaje,
       fecha,
-      fvId,
+      fcId,
       ""
     )
   }
@@ -404,8 +402,8 @@ object OrdenPagoItemCuentaCorriente {
 }
 
 case class FacturaOrdenPago(
-                             fvId: Int,
-                             fvdId: Int,
+                             fcId: Int,
+                             fcdId: Int,
                              importe: Double,
                              importeOrigen: Double,
                              cotizacion: Double
@@ -413,14 +411,14 @@ case class FacturaOrdenPago(
 
 case class OrdenPagoItems(
                            cheques: List[OrdenPagoItemCheque],
-                           tarjetas: List[OrdenPagoItemTarjeta],
+                           chequesT: List[OrdenPagoItemChequeT],
                            efectivo: List[OrdenPagoItemEfectivo],
                            otros: List[OrdenPagoItemOtro],
                            cuentaCorriente: List[OrdenPagoItemCuentaCorriente],
 
                            /* only used in save */
                            chequeDeleted: String,
-                           tarjetaDeleted: String,
+                           chequeTDeleted: String,
                            efectivoDeleted: String,
                            otroDeleted: String,
                            cuentaCorrienteDeleted: String,
@@ -590,7 +588,7 @@ object OrdenPago {
 
   lazy val emptyOrdenPagoParams = OrdenPagoParams(
     DateFormatter.format(DateUtil.plusDays(DateUtil.currentTime, -60)),
-    DateFormatter.format(DateUtil.currentTime), "0", "", "0", "", "0", "", "0", "", "0", "", "0", "", "0", "")
+    DateFormatter.format(DateUtil.currentTime), "0", "", "0", "", "0", "", "0", "", "0", "", "0", "")
 
   def apply(
              id: Int,
@@ -702,10 +700,11 @@ object OrdenPago {
       SqlParser.get[BigDecimal](C.OPGI_IMPORTE_ORIGEN) ~
       SqlParser.get[Int](GC.BCO_ID) ~
       SqlParser.get[String](GC.BCO_NAME) ~
+      SqlParser.get[Int](GC.CHQ_ID) ~
+      SqlParser.get[String](GC.CHQ_DESCRIP) ~
       SqlParser.get[Int](C.CHEQ_ID) ~
       SqlParser.get[Int](C.CHEQ_NUMERO) ~
       SqlParser.get[String](C.CHEQ_NUMERO_DOC) ~
-      SqlParser.get[Int](C.CHEQ_PROPIO) ~
       SqlParser.get[Date](C.CHEQ_FECHA_COBRO) ~
       SqlParser.get[Date](C.CHEQ_FECHA_VTO) ~
       SqlParser.get[Int](GC.CLE_ID) ~
@@ -724,10 +723,11 @@ object OrdenPago {
           importeOrigen ~
           bcoId ~
           bcoName ~
+          chqId ~
+          chqName ~
           cheqId ~
           numero ~
           numeroDoc ~
-          propio ~
           fechaCobro ~
           fechaVto ~
           cleId ~
@@ -750,10 +750,11 @@ object OrdenPago {
           ),
           bcoId,
           bcoName,
+          chqId,
+          chqName,
           cheqId,
           numero,
           numeroDoc,
-          propio != 0,
           fechaCobro,
           fechaVto,
           cleId,
@@ -762,7 +763,7 @@ object OrdenPago {
     }
   }
 
-  private val ordenPagoItemTarjetaParser: RowParser[OrdenPagoItemTarjeta] = {
+  private val ordenPagoItemChequeTParser: RowParser[OrdenPagoItemChequeT] = {
     SqlParser.get[Int](C.OPGI_ID) ~
       SqlParser.get[String](C.OPGI_DESCRIP) ~
       SqlParser.get[Int](GC.CUE_ID) ~
@@ -773,18 +774,17 @@ object OrdenPago {
       SqlParser.get[String](GC.MON_NAME) ~
       SqlParser.get[BigDecimal](C.OPGI_IMPORTE) ~
       SqlParser.get[BigDecimal](C.OPGI_IMPORTE_ORIGEN) ~
-      SqlParser.get[Int](C.TJCC_ID) ~
-      SqlParser.get[Int](C.TJCC_NUMERO) ~
-      SqlParser.get[String](C.TJCC_NUMERO_DOC) ~
-      SqlParser.get[Int](GC.TJC_ID) ~
-      SqlParser.get[String](GC.TJC_NAME) ~
-      SqlParser.get[Int](GC.TJCCU_ID) ~
-      SqlParser.get[Int](GC.TJCCU_CANTIDAD) ~
-      SqlParser.get[Date](C.TJCC_FECHA_VTO) ~
-      SqlParser.get[String](C.TJCC_NRO_TARJETA) ~
-      SqlParser.get[String](C.TJCC_NRO_AUTORIZACION) ~
-      SqlParser.get[Int](C.OPGI_TARJETA_TIPO) ~
-      SqlParser.get[String](C.TJCC_TITULAR) ~
+      SqlParser.get[Int](GC.BCO_ID) ~
+      SqlParser.get[String](GC.BCO_NAME) ~
+      SqlParser.get[Int](GC.CLI_ID) ~
+      SqlParser.get[String](GC.CLI_NAME) ~
+      SqlParser.get[Int](C.CHEQ_ID) ~
+      SqlParser.get[Int](C.CHEQ_NUMERO) ~
+      SqlParser.get[String](C.CHEQ_NUMERO_DOC) ~
+      SqlParser.get[Date](C.CHEQ_FECHA_COBRO) ~
+      SqlParser.get[Date](C.CHEQ_FECHA_VTO) ~
+      SqlParser.get[Int](GC.CLE_ID) ~
+      SqlParser.get[String](GC.CLE_NAME) ~
       SqlParser.get[Int](C.OPGI_ORDEN) map {
       case
         id ~
@@ -797,20 +797,19 @@ object OrdenPago {
           monName ~
           importe ~
           importeOrigen ~
-          tjccId ~
-          cuponNumero ~
-          cuponNumeroDoc ~
-          tjcId ~
-          tjcName ~
-          tjccuId ~
-          cuotas ~
-          fechaVto ~
+          bcoId ~
+          bcoName ~
+          cliId ~
+          cliName ~
+          cheqId ~
           numero ~
-          autorizacion ~
-          tarjetaTipo ~
-          titular ~
+          numeroDoc ~
+          fechaCobro ~
+          fechaVto ~
+          cleId ~
+          cleName ~
           orden =>
-        OrdenPagoItemTarjeta(
+        OrdenPagoItemChequeT(
           id,
           OrdenPagoItemBase(
             descrip,
@@ -825,18 +824,17 @@ object OrdenPago {
             importe.doubleValue(),
             importeOrigen.doubleValue()
           ),
-          tjccId,
-          cuponNumero,
-          cuponNumeroDoc,
-          tjcId,
-          tjcName,
-          tjccuId,
-          cuotas,
-          fechaVto,
+          bcoId,
+          bcoName,
+          cliId,
+          cliName,
+          cheqId,
           numero,
-          autorizacion,
-          tarjetaTipo,
-          titular
+          numeroDoc,
+          fechaCobro,
+          fechaVto,
+          cleId,
+          cleName
         )
     }
   }
@@ -917,7 +915,7 @@ object OrdenPago {
           numero ~
           porcentaje ~
           fecha ~
-          fvId ~
+          fcId ~
           numeroDoc ~
           orden =>
         OrdenPagoItemOtro(
@@ -941,7 +939,7 @@ object OrdenPago {
             numero,
             porcentaje.doubleValue(),
             fecha,
-            fvId.getOrElse(DBHelper.NoId),
+            fcId.getOrElse(DBHelper.NoId),
             numeroDoc.getOrElse("")
           )
         )
@@ -1160,11 +1158,11 @@ object OrdenPago {
       )
     }
 
-    def getTarjetaFields(item: OrdenPagoItemTarjeta, opgTMPId: Int) = {
+    def getChequeTFields(item: OrdenPagoItemChequeT, opgTMPId: Int) = {
       List(
         Field(C.OPG_TMP_ID, opgTMPId, FieldType.id),
         Field(C.OPGI_ID, item.id, FieldType.number),
-        Field(C.OPGI_TIPO, C.ORDEN_PAGO_ITEM_TIPO_TARJETAS, FieldType.number),
+        Field(C.OPGI_TIPO, C.ORDEN_PAGO_ITEM_TIPO_CHEQUEST, FieldType.number),
         Field(C.OPGI_DESCRIP, item.base.descrip, FieldType.text),
         Field(GC.CUE_ID, item.base.cueId, FieldType.id),
         Field(GC.CCOS_ID, item.base.ccosId, FieldType.id),
@@ -1229,8 +1227,8 @@ object OrdenPago {
         Field(C.OPG_TMP_ID, opgTMPId, FieldType.id),
         Field(C.OPG_ID, 0, FieldType.number),
         Field(C.FC_OPG_ID, 0, FieldType.number),
-        Field(C.FC_ID, item.fvId, FieldType.id),
-        Field(C.FCD_ID, item.fvdId, FieldType.id),
+        Field(C.FC_ID, item.fcId, FieldType.id),
+        Field(C.FCD_ID, item.fcdId, FieldType.id),
         Field(C.FC_OPG_IMPORTE, item.importe, FieldType.currency),
         Field(C.FC_OPG_IMPORTE_ORIGEN, item.importeOrigen, FieldType.currency),
         Field(C.FC_OPG_COTIZACION, item.cotizacion, FieldType.currency)
@@ -1265,7 +1263,7 @@ object OrdenPago {
       }
     }
 
-    case class OrdenPagoTarjetaInfo(opgTMPId: Int, item: OrdenPagoItemTarjeta)
+    case class OrdenPagoTarjetaInfo(opgTMPId: Int, item: OrdenPagoItemChequeT)
 
     def saveTarjeta(itemInfo: OrdenPagoTarjetaInfo) = {
       DBHelper.save(
@@ -1277,7 +1275,7 @@ object OrdenPago {
           false,
           false,
           false,
-          getTarjetaFields(itemInfo.item, itemInfo.opgTMPId)),
+          getChequeTFields(itemInfo.item, itemInfo.opgTMPId)),
         true
       ) match {
         case SaveResult(false, id) => throwError
@@ -1372,8 +1370,8 @@ object OrdenPago {
     }
 
     def saveTarjetas(opgTMPId: Int) = {
-      ordenPago.items.tarjetas.map(item => saveTarjeta(OrdenPagoTarjetaInfo(opgTMPId, item)))
-      ordenPago.items.tarjetaDeleted.split(",").map(saveDeletedItem(opgTMPId))
+      ordenPago.items.chequesT.map(item => saveTarjeta(OrdenPagoTarjetaInfo(opgTMPId, item)))
+      ordenPago.items.chequeTDeleted.split(",").map(saveDeletedItem(opgTMPId))
     }
 
     def saveEfectivos(opgTMPId: Int) = {
@@ -1578,11 +1576,11 @@ object OrdenPago {
 
   private def loadOrdenPagoItems(user: CompanyUser, id: Int) = {
     val cheques = loadItems[OrdenPagoItemCheque](user, id, C.ORDEN_PAGO_ITEM_TIPO_CHEQUES, ordenPagoItemChequeParser)
-    val tarjetas = loadItems(user, id, C.ORDEN_PAGO_ITEM_TIPO_TARJETAS, ordenPagoItemTarjetaParser)
+    val chequesT = loadItems(user, id, C.ORDEN_PAGO_ITEM_TIPO_CHEQUEST, ordenPagoItemChequeTParser)
     val efectivo = loadItems(user, id, C.ORDEN_PAGO_ITEM_TIPO_EFECTIVO, ordenPagoItemEfectivoParser)
     val otros = loadItems(user, id, C.ORDEN_PAGO_ITEM_TIPO_OTROS, ordenPagoItemOtroParser)
     val cuentaCorriente = loadItems(user, id, C.ORDEN_PAGO_ITEM_TIPO_CTA_CTE, ordenPagoItemCuentaCorrienteParser)
-    OrdenPagoItems(cheques, tarjetas, efectivo, otros, cuentaCorriente, "", "", "", "", "", List())
+    OrdenPagoItems(cheques, chequesT, efectivo, otros, cuentaCorriente, "", "", "", "", "", List())
   }
 
   private def loadItems[T](user: CompanyUser, id: Int, tipo: Int, parser: RowParser[T]) = {

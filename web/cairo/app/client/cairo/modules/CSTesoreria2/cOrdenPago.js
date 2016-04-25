@@ -2445,11 +2445,11 @@
         m_otrosDeleted = "";
         m_ctaCteDeleted = "";
 
-        loadCheques(getChequesProperty())) { return; }
-        loadEfectivo(getEfectivoProperty())) { return; }
-        loadChequesT(getTChequesProperty())) { return; }
-        loadOtros(getOtrosProperty())) { return; }
-        loadCtaCte(getCtaCteProperty())) { return; }
+        loadCheques(getChequesProperty());
+        loadEfectivo(getEfectivoProperty());
+        loadChequesT(getTChequesProperty());
+        loadOtros(getOtrosProperty());
+        loadCtaCte(getCtaCteProperty());
 
         m_items.showValues(m_itemsProps);
 
