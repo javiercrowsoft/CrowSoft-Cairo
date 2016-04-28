@@ -591,6 +591,21 @@
         }
       };
 
+      var destroy = function() {
+        try {
+          m_dialog = null;
+          m_properties = null;
+          m_listController = null;
+          m_footer = null;
+          m_footerProps = null;
+          m_items = null;
+          m_itemsProps = null;
+        }
+        catch (ex) {
+          Cairo.manageErrorEx(ex.message, ex, "destroy", C_MODULE, "");
+        }
+      };
+
       self.terminate = function() {
 
         m_editing = false;
@@ -604,6 +619,8 @@
         catch (ignored) {
           Cairo.logError('Error in terminate', ignored);
         }
+
+        destroy();
       };
 
       self.getPath = function() {
@@ -884,7 +901,7 @@
 
             if(cueId !== NO_ID) {
 
-              p = isMonDefault(cueId).then(function(isDefault) {
+              p = D.isMonDefault(cueId).then(function(isDefault) {
                 if(!isDefault) {
                   grid.getColumns().item(C_ORIGEN).setVisible(true);
                   m_dialog.refreshColumnProperties(property, C_ORIGEN);
@@ -1005,7 +1022,7 @@
             case KI_ORIGEN:
               if(m_itemsProps.item(C_ITEMS).getGrid().getColumns().item(C_ORIGEN).getVisible()) {
 
-                if(!isMonDefault(cue_id)) {
+                if(!D.isMonDefault(cue_id)) {
 
                   if(valEmpty(cell.getValue(), Types.currency)) {
                     return M.showInfoWithFalse(getText(1958, "", strRow)); // Debe indicar el importe en la moneda de la cuenta (1)
@@ -1589,32 +1606,6 @@
         setEnabled();
       };
 
-      var isMonDefault = function(cueId) {
-        return D.getCuentaInfo(cueId).then(function(info) {
-          if(info.success) {
-            return info.monId === m_defaultCurrency.id;
-          }
-          else {
-            return false;
-          }
-        });
-      };
-
-      self.destroy = function() {
-        try {
-          m_dialog = null;
-          m_properties = null;
-          m_listController = null;
-          m_footer = null;
-          m_footerProps = null;
-          m_items = null;
-          m_itemsProps = null;
-        }
-        catch (ex) {
-          Cairo.manageErrorEx(ex.message, ex, "destroy", C_MODULE, "");
-        }
-      };
-
       var getItems = function() {
         return m_itemsProps.item(C_ITEMS);
       };
@@ -2056,7 +2047,7 @@
         }
       };
 
-      self.destroy = function() {
+      self.terminate = function() {
         try {
           m_dialog = null;
           m_properties = null;

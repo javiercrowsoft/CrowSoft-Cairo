@@ -865,6 +865,24 @@
         }
       };
 
+      var destroy = function() {
+        try {
+
+          m_dialog = null;
+          m_listController = null;
+          m_footer = null;
+          m_items = null;
+          m_fvIds = [];
+          m_cliIds = [];
+          m_fvIdsxCliId = [];
+          m_cobranzaInfo = null;
+
+        }
+        catch (ex) {
+          Cairo.manageErrorEx(ex.message, ex, "destroy", C_MODULE, "");
+        }
+      };
+
       self.terminate = function() {
 
         m_editing = false;
@@ -878,6 +896,8 @@
         catch (ignored) {
           Cairo.logError('Error in terminate', ignored);
         }
+
+        destroy();
       };
 
       self.getPath = function() {
@@ -1128,7 +1148,7 @@
         return P.resolvedPromise(true);
       };
 
-      self.columnAfterEdit = function(key, lRow, lCol, newValue, newValueID) {
+      self.columnAfterEdit = function(key, lRow, lCol, newValue, newValueId) {
         var p = null;
 
         try {
@@ -2616,24 +2636,6 @@
         }
       };
 
-      self.destroy = function() {
-        try {
-
-          m_dialog = null;
-          m_listController = null;
-          m_footer = null;
-          m_items = null;
-          m_fvIds = [];
-          m_cliIds = [];
-          m_fvIdsxCliId = [];
-          m_cobranzaInfo = null;
-
-        }
-        catch (ex) {
-          Cairo.manageErrorEx(ex.message, ex, "destroy", C_MODULE, "");
-        }
-      };
-
       var saveCheques = function(mainRegister) {
         
         var transaction = DB.createTransaction();
@@ -3184,16 +3186,15 @@
 
             var row = grid.getRows().item(lRow);
 
-            D.getCurrencyFromAccount(getCell(row, KICH_CUE_ID).getId()).whenSuccessWithResult(function(response) {
-              var monId = valField(response.data, C.MON_ID);
-              var moneda = valField(response.data, C.MON_NAME);
-              var cell = getCell(row, KICH_MON_ID);
-              cell.setValue(moneda);
-              cell.setId(monId);
-              if(monId === m_defaultCurrency.id || monId === 0) {
-                getCell(row, KICH_IMPORTEORIGEN).setValue(0);
-              }
-            });
+            D.getCurrencyFromAccount(getCell(row, KICH_CUE_ID).getId())
+              .whenSuccessWithResult(function(info) {
+                var cell = getCell(row, KICH_MON_ID);
+                cell.setValue(info.monName);
+                cell.setId(info.monId);
+                if(info.monId === m_defaultCurrency.id || info.monId === 0) {
+                  getCell(row, KICH_IMPORTEORIGEN).setValue(0);
+                }
+              });
             break;
         }
 
@@ -3276,16 +3277,15 @@
 
             var row = grid.getRows().item(lRow);
 
-            D.getCurrencyFromAccount(getCell(row, KICH_CUE_ID).getId()).whenSuccessWithResult(function(response) {
-              var monId = valField(response.data, C.MON_ID);
-              var moneda = valField(response.data, C.MON_NAME);
-              var cell = getCell(row, KICH_MON_ID);
-              cell.setValue(moneda);
-              cell.setId(monId);
-              if(monId === m_defaultCurrency.id || monId === 0) {
-                getCell(row, KICH_IMPORTEORIGEN).setValue(0);
-              }
-            });
+            D.getCurrencyFromAccount(getCell(row, KICH_CUE_ID).getId())
+              .whenSuccessWithResult(function(info) {
+                var cell = getCell(row, KICH_MON_ID);
+                cell.setValue(info.monName);
+                cell.setId(info.monId);
+                if(info.monId === m_defaultCurrency.id || info.monId === 0) {
+                  getCell(row, KICH_IMPORTEORIGEN).setValue(0);
+                }
+              });
             break;
         }
 
@@ -3699,9 +3699,8 @@
 
         if(!bOrigen) {
 
-          p = D.getCurrencyFromAccount(cueId).whenSuccessWithResult(function(response) {
-            var monId = valField(response.data, C.MON_ID);
-            if(monId !== m_defaultCurrency.id) {
+          p = D.getCurrencyFromAccount(cueId).whenSuccessWithResult(function(info) {
+            if(info.monId !== m_defaultCurrency.id) {
               return M.showInfoWithFalse(getText(2118, "", strRow)); // Debe indicar un importe para la moneda extranjera (1)
             }
             else {
@@ -3776,9 +3775,8 @@
 
         if(!bOrigen) {
 
-          p = D.getCurrencyFromAccount(cueId).whenSuccessWithResult(function(response) {
-            var monId = valField(response.data, C.MON_ID);
-            if(monId !== m_defaultCurrency.id) {
+          p = D.getCurrencyFromAccount(cueId).whenSuccessWithResult(function(info) {
+            if(info.monId !== m_defaultCurrency.id) {
               return M.showInfoWithFalse(getText(2118, "", strRow)); // Debe indicar un importe para la moneda extranjera (1)
             }
             else {
@@ -3861,9 +3859,8 @@
 
         if(!bOrigen) {
 
-          p = D.getCurrencyFromAccount(cueId).whenSuccessWithResult(function(response) {
-            var monId = valField(response.data, C.MON_ID);
-            if(monId !== m_defaultCurrency.id) {
+          p = D.getCurrencyFromAccount(cueId).whenSuccessWithResult(function(info) {
+            if(info.monId !== m_defaultCurrency.id) {
               return M.showInfoWithFalse(getText(2118, "", strRow)); // Debe indicar un importe para la moneda extranjera (1)
             }
             else {
@@ -4232,6 +4229,7 @@
               m_estId = valField(response.data, C.EST_ID);
               m_ccosId = valField(response.data, C.CCOS_ID);
               m_sucId = valField(response.data, C.SUC_ID);
+              m_cobId = valField(response.data, C.COB_ID);
               m_docId = valField(response.data, C.DOC_ID);
               m_empId = valField(response.data, C.EMP_ID);
 
@@ -4239,6 +4237,7 @@
               m_estado = valField(response.data, C.EST_NAME);
               m_centroCosto = valField(response.data, C.CCOS_NAME);
               m_sucursal = valField(response.data, C.SUC_NAME);
+              m_cobrador = valField(response.data, C.COB_NAME);
               m_documento = valField(response.data, C.DOC_NAME);
               m_empresa = valField(response.data, C.EMP_NAME);
 
@@ -4614,7 +4613,7 @@
         }
       };
 
-      self.destroy = function() {
+      self.terminate = function() {
         try {
           m_dialog = null;
           m_properties = null;

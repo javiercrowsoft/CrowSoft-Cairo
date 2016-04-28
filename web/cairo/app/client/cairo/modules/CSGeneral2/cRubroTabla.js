@@ -94,7 +94,6 @@
         property.setValue(Cairo.Constants.COPY_OF + property.getValue());
 
         m_dialog.showValue(m_dialog.getProperties().item(C.RUBT_CODE));
-        m_dialog.showValue(m_dialog.getProperties().item(C.RUBT_NAME));
 
         m_copy = true;
       };

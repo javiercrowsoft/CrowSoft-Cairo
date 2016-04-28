@@ -68,7 +68,6 @@
         property.setValue(Cairo.Constants.COPY_OF + property.getValue());
 
         m_dialog.showValue(m_dialog.getProperties().item(C.PA_CODE));
-        m_dialog.showValue(m_dialog.getProperties().item(C.PA_NAME));
 
         m_copy = true;
       };

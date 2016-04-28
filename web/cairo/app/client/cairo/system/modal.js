@@ -76,16 +76,9 @@
         message,
         defaultValue,
         function(text) {
-          Cairo.dialogSelectTreeRegion.handler = null;
           defer.resolve(text);
         }
       );
-
-      Cairo.dialogSelectTreeRegion.handler = {
-        closeDialog: function() {
-          defer.reject();
-        }
-      };
 
       Cairo.dialogRegion.show(view);
 

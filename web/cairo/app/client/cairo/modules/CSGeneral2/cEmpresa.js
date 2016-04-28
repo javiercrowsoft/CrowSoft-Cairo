@@ -192,7 +192,6 @@
         property.setValue("Copia de "+ property.getValue());
 
         m_dialog.showValue(m_dialog.getProperties().item(C.EMP_CODE));
-        m_dialog.showValue(m_dialog.getProperties().item(C.EMP_NAME));
 
         m_copy = true;
       };

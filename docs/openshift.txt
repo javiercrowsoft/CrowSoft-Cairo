@@ -1,0 +1,20 @@
+how to set a domain in nic.ar to work with the site in OpenShift
+
+1- register the domain in nic.ar
+2- update in OpenShift the name of the application using the alias option
+   to get into this option click in the application name and then in
+   the page is opened click the link change which is after the name
+   of the site. Add two aliases:
+    www.yourdomain.com.ar
+    yourdomain.com.ar
+3- create an account in cloudflare.com
+   add a web site.
+   configure two CNAME entries:
+   yourdomain.com.ar alias of yoursite-yourapp.rhcloud.com
+   www               alias of yoursite-yourapp.rhcloud.com
+4- update nic.ar DNS using the option "delegar"
+
+links with help:
+
+http://llamadarecursiva.blogspot.com.ar/2013/07/redirigir-un-dominio-propio-tu.html
+https://blog.openshift.com/how-to-use-a-cdn-with-your-openshift-application/

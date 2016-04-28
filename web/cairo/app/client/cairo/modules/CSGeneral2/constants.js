@@ -857,6 +857,8 @@
       RETI_PORCENTAJE: "reti_porcentaje",
       RETI_IMPORTEFIJO: "reti_importefijo",
 
+      RETENCION_INFO: "retencionInfo",
+
       // Monedas
       MON_ID: "mon_id",
       MON_NAME: "mon_nombre",

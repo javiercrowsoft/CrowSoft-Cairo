@@ -100,7 +100,6 @@
         property.setValue(Cairo.Constants.COPY_OF + property.getValue());
 
         m_dialog.showValue(m_dialog.getProperties().item(C.CUE_CODE));
-        m_dialog.showValue(m_dialog.getProperties().item(C.CUE_NAME));
 
         m_copy = true;
       };

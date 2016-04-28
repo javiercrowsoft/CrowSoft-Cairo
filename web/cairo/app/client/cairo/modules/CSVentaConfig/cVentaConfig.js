@@ -1166,10 +1166,12 @@
         var columns = grid.getColumns();
         columns.clear();
 
-        var elem = columns.add(null);
+        var elem;
+
+        elem = columns.add(null);
         elem.setVisible(false);
 
-        var elem = columns.add(null);
+        elem = columns.add(null);
         elem.setName(Cairo.Language.getText(1252, "")); // Percepcion
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.PERCEPCION);

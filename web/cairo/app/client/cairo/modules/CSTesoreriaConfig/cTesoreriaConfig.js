@@ -1130,10 +1130,12 @@
         var columns = grid.getColumns();
         columns.clear();
 
-        var elem = columns.add(null);
+        var elem;
+
+        elem = columns.add(null);
         elem.setVisible(false);
 
-        var elem = columns.add(null);
+        elem = columns.add(null);
         elem.setName(Cairo.Language.getText(1403, "")); // Retencion
         elem.setType(T.select);
         elem.setSelectTable(Cairo.Tables.RETENCION);

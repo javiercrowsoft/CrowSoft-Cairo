@@ -300,27 +300,6 @@
     );
   };
 
-  Cairo.Documents.getCuentaInfo = function(cueId) {
-    return DB.getData(
-      "load[" + m_apiPath + "general/cuenta/" + cueId.toString() + "/info]").then(
-      function(response) {
-
-        var info = {}
-
-        if(response.success === true) {
-          info.monId = valField(response.data, C.MON_ID);
-          info.empId = valField(response.data, C.EMP_ID);
-          info.success = true;
-        }
-        else {
-          info.success = false;
-        }
-
-        return info;
-      }
-    );
-  };
-
   Cairo.Documents.getDocCliente = function(doctId, id) {
     return DB.getData(
       "load[" + m_apiPath + "documento/" + doctId.toString() + "/doc_client]", id);
@@ -517,9 +496,62 @@
     })
   };
 
+  Cairo.Documents.getCuentaInfo = function(cueId) {
+    return DB.getData(
+        "load[" + m_apiPath + "general/cuenta/" + cueId.toString() + "/info]").then(
+      function(response) {
+
+        var info = {}
+
+        if(response.success === true) {
+          info.monId = valField(response.data, C.MON_ID);
+          info.empId = valField(response.data, C.EMP_ID);
+          info.success = true;
+        }
+        else {
+          info.success = false;
+        }
+
+        return info;
+      }
+    );
+  };
+
+  Cairo.Documents.getCurrencyFromAccount = function(cueId) {
+    return DB.getData("load[" + m_apiPath + "general/cuenta/" + cueId.toString() + "/currency]").then(
+      function(response) {
+
+        var info = {}
+
+        if(response.success === true) {
+          info.monId = valField(response.data, C.MON_ID);
+          info.monName = valField(response.data, C.MON_NAME);
+          info.rate = valField(response.data, C.MON_COTIZACION);
+          info.success = true;
+        }
+        else {
+          info.success = false;
+        }
+
+        return info;
+      }
+    );
+  };
+
   Cairo.Documents.setDefaultCurrency = Cairo.Company.setDefaultCurrency;
 
   Cairo.Documents.getDefaultCurrency = Cairo.Company.getDefaultCurrency;
+
+  Cairo.Documents.isMonDefault = function(cueId) {
+    return D.getCuentaInfo(cueId).then(function(info) {
+      if(info.success) {
+        return info.monId === Cairo.Documents.getDefaultCurrency().id;
+      }
+      else {
+        return false;
+      }
+    });
+  };
 
   Cairo.Documents.docHasChanged = function(dialog, lastDoc) {
     var property = dialog.getProperties().item(C.DOC_ID);
@@ -563,10 +595,6 @@
         }
       }
     );
-  };
-
-  Cairo.Documents.getCurrencyFromAccount = function(cueId) {
-    return DB.getData("load[" + m_apiPath + "general/cuenta/" + cueId.toString() + "/currency]");
   };
 
   Cairo.Documents.getChequeData = function(row, cheqId) {
@@ -3205,6 +3233,8 @@
     }
 
     var dateDiff = function(datePart, dateA, dateB) {
+      dateA = Cairo.Util.getDateValue(dateA);
+      dateB = Cairo.Util.getDateValue(dateB);
       switch(datePart) {
         case "y":
           return dateDiffInYears(dateA, dateB);

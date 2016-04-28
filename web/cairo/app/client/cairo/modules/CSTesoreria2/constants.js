@@ -190,6 +190,8 @@
       OPG_GRABAR_ASIENTO: "opg_grabarAsiento",
       OPG_FIRMADO: "opg_firmado",
 
+      OPG_MESSAGES: "opg_messages",
+
       // OrdenPagoTMP
       ORDEN_PAGO_TMP: "OrdenPagoTMP",
       OPG_TMP_ID: "opgTMP_id",
@@ -211,7 +213,6 @@
       ORDEN_PAGO_ITEM_TMP: "OrdenPagoItemTMP",
       ORDEN_PAGO_ITEM_CHEQUE_TMP: "OrdenPagoItemChequeTMP",
       ORDEN_PAGO_ITEM_CHEQUET_TMP: "OrdenPagoItemChequeTTMP",
-      ORDEN_PAGO_ITEM_TARJETA_TMP: "OrdenPagoItemTarjetaTMP",
       ORDEN_PAGO_ITEM_EFECTIVO_TMP: "OrdenPagoItemEfectivoTMP",
       ORDEN_PAGO_ITEM_OTRO_TMP: "OrdenPagoItemOtroTMP",
       ORDEN_PAGO_ITEM_CUENTA_CORRIENTE_TMP: "OrdenPagoItemCuentaCorrienteTMP",
@@ -229,7 +230,7 @@
       ORDEN_PAGO_ITEM_BORRADO_TMP: "OrdenPagoItemBorradoTMP",
       OPGIB_TMP_ID: "OpgibTMP_Id",
 
-      // FacturaCompraCobranza
+      // FacturaCompraOrdenPago
       FACTURA_COMPRA_ORDEN_PAGO_TMP: "FacturaCompraOrdenPagoTMP",
       FC_OPG_IMPORTE: "fcopg_importe",
       FC_OPG_TMP_ID: "fcopgTMP_id",
@@ -247,6 +248,16 @@
       FCD_ID_FACTURA: "fcd_id_factura",
       FCP_ID_NOTA_CREDITO: "fcp_id_notacredito",
       FCP_ID_FACTURA: "fcp_id_factura",
+
+      // FacturaCompraDeuda
+      FCD_ID: "fcd_id",
+      FCD_FECHA: "fcd_fecha",
+      FCD_PENDIENTE: "fcd_pendiente",
+
+      // FacturaCompraPago
+      FCP_ID: "fcp_id",
+      FCP_FECHA: "fcp_fecha",
+      FCP_IMPORTE: "fcp_importe",
 
       // FacturaCompraNotaCreditoTMP
       FACTURA_COMPRA_NOTA_CREDITO_TMP: "FacturaCompraNotaCreditoTMP",

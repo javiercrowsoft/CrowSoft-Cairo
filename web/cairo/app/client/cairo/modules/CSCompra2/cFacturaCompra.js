@@ -1078,6 +1078,24 @@
         }
       };
 
+      var destroy = function() {
+        try {
+          m_dialog = null;
+          m_properties = null;
+          m_listController = null;
+          m_footer = null;
+          m_footerProps = null;
+          m_items = null;
+          m_itemsProps = null;
+          m_ocIds = [];
+          m_rcIds = [];
+          m_serialNumbers = null;
+        }
+        catch(ex) {
+          Cairo.manageErrorEx(ex.message, ex, "destroy", C_MODULE, "");
+        }
+      };
+
       self.terminate = function() {
 
         m_editing = false;
@@ -1091,6 +1109,8 @@
         catch (ignore) {
           Cairo.logError('Error in terminate', ignore);
         }
+
+        destroy();
       };
 
       self.getPath = function() {
@@ -4454,24 +4474,6 @@
         }
       };
 
-      self.destroy = function() {
-        try {
-          m_dialog = null;
-          m_properties = null;
-          m_listController = null;
-          m_footer = null;
-          m_footerProps = null;
-          m_items = null;
-          m_itemsProps = null;
-          m_ocIds = [];
-          m_rcIds = [];
-          m_serialNumbers = null;
-        }
-        catch(ex) {
-          Cairo.manageErrorEx(ex.message, ex, "destroy", C_MODULE, "");
-        }
-      };
-
       var saveItemNroSerie = function(mainRegister, row, order, prId, grupo) {
 
         if(cellId(row, KI_PR_LLEVA_NRO_SERIE) !== 0 && m_showStockData) {
@@ -5417,7 +5419,7 @@
         }
       };
 
-      self.destroy = function() {
+      self.terminate = function() {
         try {
           m_dialog = null;
           m_properties = null;

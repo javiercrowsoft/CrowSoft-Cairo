@@ -812,6 +812,18 @@
         return p || P.resolvedPromise();
       };
 
+      var destroy = function() {
+        try {
+
+          m_rcIds = null;
+          m_objClient = null;
+
+        }
+        catch (ex) {
+          Cairo.manageErrorEx(ex.message, ex, "destroy", C_MODULE, "");
+        }
+      };
+
       self.terminate = function() {
         try {
           m_objClient.terminateWizard(m_id);
@@ -819,6 +831,8 @@
         catch(ignore) {
           Cairo.logError('Error in terminate', ignore);
         }
+
+        destroy();
       };
 
       self.getPath = function() {
@@ -858,12 +872,14 @@
         //
         var properties = m_objWizard.getSteps().add(null, U.getKey(WCS.WELCOME)).getProperties();
 
-        var elem = properties.add(null, DWC.TITLE);
+        var elem;
+
+        elem = properties.add(null, DWC.TITLE);
         elem.setType(T.label);
         elem.setSubType(ST.mainTitle);
         elem.setValue(getText(1913, "")); // Bienvenido al Asistente de Facturas de Compra
 
-        var elem = properties.add(null, DWC.MAIN_TITLE);
+        elem = properties.add(null, DWC.MAIN_TITLE);
         elem.setType(T.label);
         elem.setSubType(ST.subTitle);
         elem.setValue(getText(1681, "")); // Con este asistente usted podra generar las facturas sobre remitos.
@@ -884,7 +900,7 @@
         elem.setSubType(ST.title);
         elem.setValue(getText(1914, "")); // Indique el documento a utilizar y el Proveedor al que se le emitirá la Factura
 
-        var elem = properties.add(null, DWC.DOC);
+        elem = properties.add(null, DWC.DOC);
         elem.setName(getText(1567, "")); // Documento
         elem.setType(T.select);
         elem.setSelectFilter(D.FACTURA_COMPRAS_REMITO_DOC_FILTER);
@@ -893,7 +909,7 @@
         elem.setSelectId(m_docId);
         elem.setKey(WC.KW_DOC_ID);
 
-        var elem = properties.add(null, DWC.PROVEEDOR);
+        elem = properties.add(null, DWC.PROVEEDOR);
         elem.setName(getText(1151, "")); // Proveedor
         elem.setType(T.select);
         elem.setSelectTable(Cairo.Tables.PROVEEDOR);
@@ -901,7 +917,7 @@
         elem.setSelectId(m_provId);
         elem.setKey(WC.KW_PROV_ID);
 
-        var elem = properties.add(null, DWC.DEPOSITO);
+        elem = properties.add(null, DWC.DEPOSITO);
         elem.setName(getText(1574, "")); // Deposito
         elem.setType(T.select);
         elem.setSelectTable(Cairo.Tables.DEPOSITO_LOGICO);
@@ -909,7 +925,7 @@
         elem.setValue(Cairo.UserConfig.getDeplNombre());
         elem.setEnabled(m_showStockData);
 
-        var elem = properties.add(null, DWC.ONLY_SELECTED);
+        elem = properties.add(null, DWC.ONLY_SELECTED);
         elem.setType(T.check);
         elem.setName(getText(1682, "")); // Cargar solo remitos seleccionados
         elem.setValue(m_rcIds.length > 0);
@@ -927,7 +943,7 @@
         elem.setSubType(ST.title);
         elem.setValue(getText(1683, "")); // Seleccione los remitos
 
-        var elem = properties.add(null, DWC.REMITOS);
+        elem = properties.add(null, DWC.REMITOS);
         elem.setType(T.grid);
         setGridRemitos(elem.getGrid());
         elem.setKey(WC.KW_REMITOS);
@@ -935,13 +951,13 @@
         elem.setGridEditEnabled(true);
         elem.setGridRemoveEnabled(false);
 
-        var elem = properties.add(null, DWC.TODOS);
+        elem = properties.add(null, DWC.TODOS);
         elem.setName(Cairo.Constants.SELECT_ALL_TEXT);
         elem.setType(T.button);
         elem.setKey(WC.KW_TODOS);
         elem.setNoShowLabel(true);
 
-        var elem = properties.add(null, DWC.TOTAL);
+        elem = properties.add(null, DWC.TOTAL);
         elem.setName(getText(1584, "")); // Total
         elem.setType(T.numeric);
         elem.setSubType(ST.money);
@@ -954,40 +970,42 @@
 
         columns.add(null).setVisible(false);
 
-        var elem = columns.add(null);
+        var elem;
+
+        elem = columns.add(null);
         elem.setType(Dialogs.PropertyType.check);
         elem.setKey(KI_SELECT);
 
-        var elem = columns.add(null);
+        elem = columns.add(null);
         elem.setName(getText(1223, "")); // Tipo
         elem.setType(Dialogs.PropertyType.text);
         elem.setKey(KI_DOC);
 
-        var elem = columns.add(null);
+        elem = columns.add(null);
         elem.setName(getText(1567, "")); // Documento
         elem.setType(Dialogs.PropertyType.text);
         elem.setKey(KI_NRODOC);
 
-        var elem = columns.add(null);
+        elem = columns.add(null);
         elem.setName(getText(1065, "")); // Número
         elem.setType(Dialogs.PropertyType.numeric);
         elem.setSubType(Dialogs.PropertySubType.integer);
         elem.setKey(KI_RC_ID);
 
-        var elem = columns.add(null);
+        elem = columns.add(null);
         elem.setName(getText(1569, "")); // Fecha
         elem.setType(Dialogs.PropertyType.date);
         elem.setFormat("dd/mm/yy");
         elem.setKey(KI_FECHA);
 
-        var elem = columns.add(null);
+        elem = columns.add(null);
         elem.setName(getText(1584, "")); // Total
         elem.setType(Dialogs.PropertyType.numeric);
         elem.setSubType(Dialogs.PropertySubType.money);
         elem.setKey(KI_TOTAL);
         elem.setFormat(Cairo.Settings.getAmountDecimalsFormat());
 
-        var elem = columns.add(null);
+        elem = columns.add(null);
         elem.setName(Cairo.Constants.DESCRIPTION_LABEL);
         elem.setType(Dialogs.PropertyType.text);
         elem.setKey(KI_DESCRIP);
@@ -1005,7 +1023,7 @@
         elem.setSubType(ST.title);
         elem.setValue(getText(1676, "")); // Seleccione los items he indique las cantidades que facturará de cada una de ellos
 
-        var elem = properties.add(null, DWC.ITEMS);
+        elem = properties.add(null, DWC.ITEMS);
         elem.setType(T.grid);
         setGridItems(elem.getGrid());
         elem.setKey(WC.KW_ITEMS);
@@ -1013,13 +1031,13 @@
         elem.setGridEditEnabled(true);
         elem.setGridRemoveEnabled(false);
 
-        var elem = properties.add(null, DWC.TODOS_ITEMS);
+        elem = properties.add(null, DWC.TODOS_ITEMS);
         elem.setName(Cairo.Constants.SELECT_ALL_TEXT);
         elem.setType(T.button);
         elem.setKey(WC.KW_TODOS_ITEMS);
         elem.setNoShowLabel(true);
 
-        var elem = properties.add(null, DWC.TOTAL_ITEMS);
+        elem = properties.add(null, DWC.TOTAL_ITEMS);
         elem.setName(getText(1584, "")); // Total
         elem.setType(T.numeric);
         elem.setSubType(ST.money);
@@ -1038,7 +1056,7 @@
         elem.setSubType(ST.title);
         elem.setValue(getText(1915, "")); // Indique las percepciones si corresponde
 
-        var elem = properties.add(null, DWC.PERCEPCIONES);
+        elem = properties.add(null, DWC.PERCEPCIONES);
         elem.setType(T.grid);
         setGridPercepciones(elem.getGrid());
         elem.setKey(WC.KW_PERCEPCIONES);
@@ -1046,7 +1064,7 @@
         elem.setGridEditEnabled(true);
         elem.setGridRemoveEnabled(true);
 
-        var elem = properties.add(null, DWC.TOTAL_PERCEPCIONES);
+        elem = properties.add(null, DWC.TOTAL_PERCEPCIONES);
         elem.setName(getText(1584, "")); // Total
         elem.setType(T.numeric);
         elem.setSubType(ST.money);
@@ -1063,31 +1081,33 @@
         var columns = grid.getColumns();
         columns.clear();
 
-        var elem = columns.add(null);
+        var elem;
+
+        elem = columns.add(null);
         elem.setVisible(false);
         elem.setKey(KII_RVI_ID);
 
-        var elem = columns.add(null);
+        elem = columns.add(null);
         elem.setType(Dialogs.PropertyType.check);
         elem.setKey(KII_SELECT);
 
-        var elem = columns.add(null);
+        elem = columns.add(null);
         elem.setName(getText(1567, "")); // Documento
         elem.setType(Dialogs.PropertyType.text);
         elem.setKey(KI_NRODOC);
 
-        var elem = columns.add(null);
+        elem = columns.add(null);
         elem.setName(getText(1065, "")); // Número
         elem.setType(Dialogs.PropertyType.numeric);
         elem.setSubType(Dialogs.PropertySubType.integer);
         elem.setKey(KI_RC_ID);
 
-        var elem = columns.add(null);
+        elem = columns.add(null);
         elem.setName(getText(1367, "")); // Articulo
         elem.setType(Dialogs.PropertyType.text);
         elem.setKey(KII_ARTICULO);
 
-        var elem = columns.add(null);
+        elem = columns.add(null);
         elem.setName(getText(1586, "")); // Precio
         elem.setType(Dialogs.PropertyType.numeric);
         elem.setSubType(Dialogs.PropertySubType.money);
@@ -1095,78 +1115,78 @@
         elem.setFormat(Cairo.Settings.getAmountDecimalsFormat());
         elem.setEnabled(Cairo.Security.silentHasPermissionTo(Cairo.Security.Actions.Compras.EDIT_PRICE_FAC));
 
-        var elem = columns.add(null);
+        elem = columns.add(null);
         elem.setName(getText(1374, "")); // Cantidad
         elem.setType(Dialogs.PropertyType.numeric);
         elem.setSubType(Dialogs.PropertySubType.double);
         elem.setKey(KII_CANTIDAD);
         elem.setFormat(Cairo.Settings.getQuantityDecimalsFormat());
 
-        var elem = columns.add(null, DWC.PENDIENTE);
+        elem = columns.add(null, DWC.PENDIENTE);
         elem.setName(getText(1609, "")); // Pendiente
         elem.setType(Dialogs.PropertyType.numeric);
         elem.setSubType(Dialogs.PropertySubType.double);
         elem.setKey(KII_PENDIENTE);
         elem.setFormat(Cairo.Settings.getQuantityDecimalsFormat());
 
-        var elem = columns.add(null);
+        elem = columns.add(null);
         elem.setName(getText(1662, "")); // Aplicar
         elem.setType(Dialogs.PropertyType.numeric);
         elem.setSubType(Dialogs.PropertySubType.double);
         elem.setKey(KII_APLICAR);
         elem.setFormat(Cairo.Settings.getQuantityDecimalsFormat());
 
-        var elem = columns.add(null, DWC.TOTAL_ITEMS);
+        elem = columns.add(null, DWC.TOTAL_ITEMS);
         elem.setName(getText(1584, "")); // Total
         elem.setType(Dialogs.PropertyType.numeric);
         elem.setSubType(Dialogs.PropertySubType.money);
         elem.setKey(KII_TOTAL);
         elem.setFormat(Cairo.Settings.getQuantityDecimalsFormat());
 
-        var elem = columns.add(null);        
+        elem = columns.add(null);
         elem.setName(getText(1661, "")); // Tipo Operación
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.TIPOOPERACION);
         elem.setKey(KII_TO_ID);
 
-        var elem = columns.add(null);
+        elem = columns.add(null);
         elem.setName(Cairo.Constants.DESCRIPTION_LABEL);
         elem.setType(Dialogs.PropertyType.text);
         elem.setKey(KII_DESCRIP);
 
-        var elem = columns.add(null);
+        elem = columns.add(null);
         elem.setVisible(false);
         elem.setKey(KII_PRECIOIVA);
 
-        var elem = columns.add(null);
+        elem = columns.add(null);
         elem.setVisible(false);
         elem.setKey(KII_PRECIO_LP);
 
-        var elem = columns.add(null);
+        elem = columns.add(null);
         elem.setVisible(false);
         elem.setKey(KII_PRECIO_USR);
 
-        var elem = columns.add(null);
+        elem = columns.add(null);
         elem.setVisible(false);
         elem.setKey(KII_IVARIPERCENT);
 
-        var elem = columns.add(null);
+        elem = columns.add(null);
         elem.setVisible(false);
         elem.setKey(KII_IVARNIPERCENT);
 
-        var elem = columns.add(null);
+        elem = columns.add(null);
         elem.setVisible(false);
         elem.setKey(KII_INTERNOSPERCENT);
 
-        var elem = columns.add(null);
+        elem = columns.add(null);
         elem.setVisible(false);
         elem.setKey(KII_INTERNOSPORC);
 
-        var elem = columns.add(null);
+        elem = columns.add(null);
         elem.setVisible(false);
         elem.setKey(KII_DESCUENTO);
 
-        var elem = columns.add(null);
+        elem = columns.add(null);
         elem.setVisible(false);
         elem.setKey(KII_CCOS_ID);
       };
@@ -1413,86 +1433,86 @@
                   elem.setId(valField(items[_i], CC.RCI_ID));
                   elem.setKey(KII_RVI_ID);
 
-                  var elem = row.add(null);
+                  elem = row.add(null);
                   elem.setValue(0);
                   elem.setKey(KII_SELECT);
 
-                  var elem = row.add(null);
+                  elem = row.add(null);
                   elem.setValue(valField(items[_i], CC.RC_NRODOC));
                   elem.setKey(KI_NRODOC);
 
-                  var elem = row.add(null);
+                  elem = row.add(null);
                   elem.setValue(valField(items[_i], CC.RC_NUMERO));
                   elem.setId(valField(items[_i], CC.RC_ID));
                   elem.setKey(KI_RC_ID);
 
-                  var elem = row.add(null);
+                  elem = row.add(null);
                   elem.setValue(valField(items[_i], C.PR_NAME_COMPRA));
                   elem.setId(valField(items[_i], C.PR_ID));
                   elem.setKey(KII_ARTICULO);
 
-                  var elem = row.add(null);
+                  elem = row.add(null);
                   elem.setValue(valField(items[_i], CC.RCI_PRECIO+ "2"));
                   elem.setKey(KII_PRECIO_SIN_IVA);
 
-                  var elem = row.add(null);
+                  elem = row.add(null);
                   elem.setValue(valField(items[_i], CC.RCI_CANTIDAD_A_REMITIR));
                   elem.setKey(KII_CANTIDAD);
 
-                  var elem = row.add(null);
+                  elem = row.add(null);
                   elem.setValue(valField(items[_i], CC.RCI_PENDIENTEFAC));
                   elem.setKey(KII_PENDIENTE);
 
-                  var elem = row.add(null);
+                  elem = row.add(null);
                   elem.setValue(0);
                   elem.setKey(KII_APLICAR);
 
-                  var elem = row.add(null);
+                  elem = row.add(null);
                   elem.setValue(valField(items[_i], CC.RCI_IMPORTE));
                   elem.setKey(KII_TOTAL);
 
-                  var elem = row.add(null);
+                  elem = row.add(null);
                   elem.setId(D.Constants.TO_COMERCIAL_ID);
                   elem.setValue(D.Constants.TO_COMERCIAL);
                   elem.setKey(KII_TO_ID);
 
-                  var elem = row.add(null);
+                  elem = row.add(null);
                   elem.setValue(valField(items[_i], CC.RCI_DESCRIP));
                   elem.setKey(KII_DESCRIP);
 
-                  var elem = row.add(null);
+                  elem = row.add(null);
                   elem.setValue(valField(items[_i], CC.RCI_PRECIO));
                   elem.setKey(KII_PRECIOIVA);
 
-                  var elem = row.add(null);
+                  elem = row.add(null);
                   elem.setValue(valField(items[_i], CC.RCI_PRECIO_LISTA));
                   elem.setKey(KII_PRECIO_LP);
 
-                  var elem = row.add(null);
+                  elem = row.add(null);
                   elem.setValue(valField(items[_i], CC.RCI_PRECIO_USR));
                   elem.setKey(KII_PRECIO_USR);
 
-                  var elem = row.add(null);
+                  elem = row.add(null);
                   elem.setValue(valField(items[_i], CC.RCI_IVA_RIPORC));
                   elem.setKey(KII_IVARIPERCENT);
 
-                  var elem = row.add(null);
+                  elem = row.add(null);
                   elem.setValue(valField(items[_i], CC.RCI_IVA_RNIPORC));
                   elem.setKey(KII_IVARNIPERCENT);
 
-                  var elem = row.add(null);
+                  elem = row.add(null);
                   elem.setValue(valField(items[_i], CC.FCI_INTERNOS_PORC));
                   elem.setKey(KII_INTERNOSPERCENT);
 
-                  var elem = row.add(null);
+                  elem = row.add(null);
                   elem.setValue(valField(items[_i], C.PR_PORC_INTERNO_C));
                   elem.setKey(KII_INTERNOSPORC);
 
-                  var elem = row.add(null);
+                  elem = row.add(null);
                   elem.setValue(valField(items[_i], CC.RCI_DESCUENTO));
                   elem.setKey(KII_DESCUENTO);
 
-                  var elem = row.add(null);
+                  elem = row.add(null);
                   elem.setId(valField(items[_i], C.CCOS_ID));
                   elem.setKey(KII_CCOS_ID);
 
@@ -1545,28 +1565,28 @@
                     elem.setId(bToI(selected));
                     elem.setKey(KI_SELECT);
 
-                    var elem = row.add(null);
+                    elem = row.add(null);
                     elem.setValue(valField(items[_i], C.DOC_NAME));
                     elem.setKey(KI_DOC);
 
-                    var elem = row.add(null);
+                    elem = row.add(null);
                     elem.setValue(valField(items[_i], CC.RC_NRODOC));
                     elem.setKey(KI_NRODOC);
 
-                    var elem = row.add(null);
+                    elem = row.add(null);
                     elem.setValue(valField(items[_i], CC.RC_NUMERO));
                     elem.setId(valField(items[_i], CC.RC_ID));
                     elem.setKey(KI_RC_ID);
 
-                    var elem = row.add(null);
+                    elem = row.add(null);
                     elem.setValue(valField(items[_i], CC.RC_FECHA));
                     elem.setKey(KI_FECHA);
 
-                    var elem = row.add(null);
+                    elem = row.add(null);
                     elem.setValue(valField(items[_i], CC.RC_TOTAL));
                     elem.setKey(KI_TOTAL);
 
-                    var elem = row.add(null);
+                    elem = row.add(null);
                     elem.setValue(valField(items[_i], CC.RC_DESCRIP));
                     elem.setKey(KI_DESCRIP);
                   }
@@ -1695,18 +1715,6 @@
         }
         catch (ex) {
           Cairo.manageErrorEx(ex.message, ex, "initialize", C_MODULE, "");
-        }
-      };
-
-      self.destroy = function() {
-        try {
-
-          m_rcIds = null;
-          m_objClient = null;
-
-        }
-        catch (ex) {
-          Cairo.manageErrorEx(ex.message, ex, "destroy", C_MODULE, "");
         }
       };
 

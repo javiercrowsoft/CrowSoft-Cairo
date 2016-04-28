@@ -299,96 +299,96 @@ end debug*/
              Cobranza.modificado,
              us_nombre Modifico,
              cobz_descrip Observaciones
-        from Cobranza
-        join Documento
-         on Cobranza.doc_id = Documento.doc_id
-        join Empresa
-         on Documento.emp_id = Empresa.emp_id
-        join Estado
-         on Cobranza.est_id = Estado.est_id
-        join Sucursal
-         on Cobranza.suc_id = Sucursal.suc_id
-        join Cliente
-         on Cobranza.cli_id = Cliente.cli_id
-        join Usuario
-         on Cobranza.modifico = Usuario.us_id
-        left join Cobrador
-         on Cobranza.cob_id = Cobrador.cob_id
-        left join CentroCosto
-         on Cobranza.ccos_id = CentroCosto.ccos_id
-        where p_Fini <= cobz_fecha
-          and p_Ffin >= cobz_fecha
+      from Cobranza
+      join Documento
+       on Cobranza.doc_id = Documento.doc_id
+      join Empresa
+       on Documento.emp_id = Empresa.emp_id
+      join Estado
+       on Cobranza.est_id = Estado.est_id
+      join Sucursal
+       on Cobranza.suc_id = Sucursal.suc_id
+      join Cliente
+       on Cobranza.cli_id = Cliente.cli_id
+      join Usuario
+       on Cobranza.modifico = Usuario.us_id
+      left join Cobrador
+       on Cobranza.cob_id = Cobrador.cob_id
+      left join CentroCosto
+       on Cobranza.ccos_id = CentroCosto.ccos_id
+      where p_Fini <= cobz_fecha
+        and p_Ffin >= cobz_fecha
 
-        /* -///////////////////////////////////////////////////////////////////////
-        INICIO SEGUNDA PARTE DE ARBOLES
-        /////////////////////////////////////////////////////////////////////// */
+      /* -///////////////////////////////////////////////////////////////////////
+      INICIO SEGUNDA PARTE DE ARBOLES
+      /////////////////////////////////////////////////////////////////////// */
 
-          and ( Cliente.cli_id = v_cli_id
-          or v_cli_id = 0 )
-          and ( Estado.est_id = v_est_id
-          or v_est_id = 0 )
-          and ( Sucursal.suc_id = v_suc_id
-          or v_suc_id = 0 )
-          and ( Documento.doc_id = v_doc_id
-          or v_doc_id = 0 )
-          and ( CentroCosto.ccos_id = v_ccos_id
-          or v_ccos_id = 0 )
-          and ( Cobrador.cob_id = v_cob_id
-          or v_cob_id = 0 )
-          and ( Empresa.emp_id = v_emp_id
-          or v_emp_id = 0 )
-          -- Arboles
-          and ( ( exists ( select rptarb_hojaid
-                           from rptArbolRamaHoja
-                              where rptarb_cliente = v_clienteID
-                                      and tbl_id = 28
+        and ( Cliente.cli_id = v_cli_id
+        or v_cli_id = 0 )
+        and ( Estado.est_id = v_est_id
+        or v_est_id = 0 )
+        and ( Sucursal.suc_id = v_suc_id
+        or v_suc_id = 0 )
+        and ( Documento.doc_id = v_doc_id
+        or v_doc_id = 0 )
+        and ( CentroCosto.ccos_id = v_ccos_id
+        or v_ccos_id = 0 )
+        and ( Cobrador.cob_id = v_cob_id
+        or v_cob_id = 0 )
+        and ( Empresa.emp_id = v_emp_id
+        or v_emp_id = 0 )
+        -- Arboles
+        and ( ( exists ( select rptarb_hojaid
+                         from rptArbolRamaHoja
+                            where rptarb_cliente = v_clienteID
+                                    and tbl_id = 28
 
-                                      and rptarb_hojaid = Cliente.cli_id ) )
-          or ( v_ram_id_Cliente = 0 ) )
-          and ( ( exists ( select rptarb_hojaid
-                           from rptArbolRamaHoja
-                              where rptarb_cliente = v_clienteID
-                                      and tbl_id = 21
+                                    and rptarb_hojaid = Cliente.cli_id ) )
+        or ( v_ram_id_Cliente = 0 ) )
+        and ( ( exists ( select rptarb_hojaid
+                         from rptArbolRamaHoja
+                            where rptarb_cliente = v_clienteID
+                                    and tbl_id = 21
 
-                                      and rptarb_hojaid = CentroCosto.ccos_id ) )
-          or ( v_ram_id_CentroCosto = 0 ) )
-          and ( ( exists ( select rptarb_hojaid
-                           from rptArbolRamaHoja
-                              where rptarb_cliente = v_clienteID
-                                      and tbl_id = 4005
+                                    and rptarb_hojaid = CentroCosto.ccos_id ) )
+        or ( v_ram_id_CentroCosto = 0 ) )
+        and ( ( exists ( select rptarb_hojaid
+                         from rptArbolRamaHoja
+                            where rptarb_cliente = v_clienteID
+                                    and tbl_id = 4005
 
-                                      and rptarb_hojaid = Estado.est_id ) )
-          or ( v_ram_id_Estado = 0 ) )
-          and ( ( exists ( select rptarb_hojaid
-                           from rptArbolRamaHoja
-                              where rptarb_cliente = v_clienteID
-                                      and tbl_id = 1007
+                                    and rptarb_hojaid = Estado.est_id ) )
+        or ( v_ram_id_Estado = 0 ) )
+        and ( ( exists ( select rptarb_hojaid
+                         from rptArbolRamaHoja
+                            where rptarb_cliente = v_clienteID
+                                    and tbl_id = 1007
 
-                                      and rptarb_hojaid = Sucursal.suc_id ) )
-          or ( v_ram_id_Sucursal = 0 ) )
-          and ( ( exists ( select rptarb_hojaid
-                           from rptArbolRamaHoja
-                              where rptarb_cliente = v_clienteID
-                                      and tbl_id = 25
+                                    and rptarb_hojaid = Sucursal.suc_id ) )
+        or ( v_ram_id_Sucursal = 0 ) )
+        and ( ( exists ( select rptarb_hojaid
+                         from rptArbolRamaHoja
+                            where rptarb_cliente = v_clienteID
+                                    and tbl_id = 25
 
-                                      and rptarb_hojaid = Cobrador.cob_id ) )
-          or ( v_ram_id_Cobrador = 0 ) )
-          and ( ( exists ( select rptarb_hojaid
-                           from rptArbolRamaHoja
-                              where rptarb_cliente = v_clienteID
-                                      and tbl_id = 4001
+                                    and rptarb_hojaid = Cobrador.cob_id ) )
+        or ( v_ram_id_Cobrador = 0 ) )
+        and ( ( exists ( select rptarb_hojaid
+                         from rptArbolRamaHoja
+                            where rptarb_cliente = v_clienteID
+                                    and tbl_id = 4001
 
-                                      and rptarb_hojaid = Documento.doc_id ) )
-          or ( v_ram_id_Documento = 0 ) )
-          and ( ( exists ( select rptarb_hojaid
-                           from rptArbolRamaHoja
-                              where rptarb_cliente = v_clienteID
-                                      and tbl_id = 1018
+                                    and rptarb_hojaid = Documento.doc_id ) )
+        or ( v_ram_id_Documento = 0 ) )
+        and ( ( exists ( select rptarb_hojaid
+                         from rptArbolRamaHoja
+                            where rptarb_cliente = v_clienteID
+                                    and tbl_id = 1018
 
-                                      and rptarb_hojaid = Empresa.emp_id ) )
-          or ( v_ram_id_empresa = 0 ) )
+                                    and rptarb_hojaid = Empresa.emp_id ) )
+        or ( v_ram_id_empresa = 0 ) )
 
-        order by cobz_fecha;
+      order by cobz_fecha;
 
 end;
 $BODY$

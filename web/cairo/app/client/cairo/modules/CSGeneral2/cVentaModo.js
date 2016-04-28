@@ -80,7 +80,6 @@
         property.setValue(Cairo.Constants.COPY_OF + property.getValue());
 
         m_dialog.showValue(m_dialog.getProperties().item(C.VM_CODE));
-        m_dialog.showValue(m_dialog.getProperties().item(C.VM_NAME));
 
         m_copy = true;
       };

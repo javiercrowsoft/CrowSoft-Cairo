@@ -405,7 +405,8 @@ var Cairo = new Marionette.Application();
     SELECT_FACTURA: 1000,
     ANTICIPO: 1100,
     DIF_CAMBIO: 1200,
-    SELECT_COBROS: 1300
+    SELECT_COBROS: 1300,
+    SELECT_PAGOS: 1300
   };
 
   Cairo.Constants.WizardConstants = {
@@ -442,6 +443,7 @@ var Cairo = new Marionette.Application();
     KW_MODO_IVA_DIF_CAMBIO: 100,
     KW_APLICACION_DIF_CAMBIO: 101,
     KW_CHEQUES: 120,
+    KW_CHEQUEST: 125,
     KW_CTA_CTE: 130,
     KW_EFECTIVO: 140,
     KW_OTROS: 150,
@@ -452,6 +454,7 @@ var Cairo = new Marionette.Application();
     KW_IMPORTE_NETO: 200,
     KW_IMPORTE_INDICADO: 210,
     KW_CLIENTE2: 220,
+    KW_PROVEEDOR2: 220,
     KW_FECHA: 230,
     KW_FECHA_NDNC: 235,
     KW_SUCURSAL: 240,
@@ -551,7 +554,14 @@ var Cairo = new Marionette.Application();
     COBRO_NETO: "COBRO-NETO",
     COBRO_INDICADO: "COBRO-INDICADO",
 
+    PAGO_OTROS: "PAGO-OTROS",
+    PAGO_TOTAL: "PAGO-TOTAL",
+    PAGO_NETO: "PAGO-NETO",
+    PAGO_INDICADO: "PAGO-INDICADO",
+
     CHEQUES: "CHEQUES",
+    CHEQUES_TERCERO: "CHEQUES_TERCERO",
+    COPY_CHEQUES: "COPY_CHEQUES",
     OTROS: "OTROS",
     CTA_CTE: "CTA_CTE",
     EFECTIVO: "EFVO",
