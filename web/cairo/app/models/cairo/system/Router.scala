@@ -29,6 +29,7 @@ object Router {
       fileHandler match {
         case "CSCompra2/cFacturaCompra" => List(Wizard("CSCompra2/cFacturaCompraRemitoWiz"))
         case "CSTesoreria2/cCobranza" => List(Wizard("CSTesoreria2/cCobranzaWizard"))
+        case "CSTesoreria2/cOrdenPago" => List(Wizard("CSTesoreria2/cOrdenPagoWizard"))
         case _ => List()
       }
     }

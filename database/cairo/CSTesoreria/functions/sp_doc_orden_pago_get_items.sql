@@ -133,12 +133,16 @@ begin
                       ccos.ccos_nombre,
                       cue.cue_nombre,
                       ret.ret_nombre,
-                      fc.fc_nrodoc
+                      fc.fc_nrodoc,
+                      mon.mon_nombre,
+                      mon.mon_id
                from OrdenPagoItem
                left join CentroCosto ccos
                 on OrdenPagoItem.ccos_id = ccos.ccos_id
                left join Cuenta cue
                 on OrdenPagoItem.cue_id = cue.cue_id
+               left join Moneda mon
+                on cue.mon_id = mon.mon_id
                left join Retencion ret
                 on OrdenPagoItem.ret_id = ret.ret_id
                left join FacturaCompra fc
@@ -156,12 +160,16 @@ begin
                open rtn for
                   select OrdenPagoItem.*,
                          ccos.ccos_nombre,
-                         cue.cue_nombre
+                         cue.cue_nombre,
+                         mon.mon_nombre,
+                         mon.mon_id
                   from OrdenPagoItem
                   left join CentroCosto ccos
                    on OrdenPagoItem.ccos_id = ccos.ccos_id
                   left join Cuenta cue
                    on OrdenPagoItem.cue_id = cue.cue_id
+                  left join Moneda mon
+                   on cue.mon_id = mon.mon_id
 
                   where OrdenPagoItem.opg_id = p_opg_id
                     and opgi_tipo = v_OpgiTCtaCte
@@ -179,6 +187,7 @@ begin
                             cue.cue_nombre,
                             cheq.bco_id,
                             cheq.cle_id,
+                            cheq.cli_id,                            
                             bco.bco_nombre,
                             cle.cle_nombre,
                             cli.cli_nombre,

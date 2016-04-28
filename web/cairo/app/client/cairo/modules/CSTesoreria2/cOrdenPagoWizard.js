@@ -2345,8 +2345,7 @@
                         row.add(null).setKey(KIO_FC_ID_RET);
 
                         // TODO: check this
-
-                        check this because it must be wrong
+                        // check this because it must be wrong
 
                         var cell = getCell(row, KIO_CUE_ID);
                         if(cell.getId() === NO_ID || cell.getId() === cueId) {
@@ -2363,10 +2362,13 @@
                           cell.setValue(retNombre);
                         }
 
-                        getCell(row, KIO_DEBE).setValue(retencion;
-                        getCell(row, KIO_PORCRETENCION).setValue(porcentaje;
-                        getCell(row, KIO_NRORETENCION).setValue(comprobante;
-                        getCell(row, KIO_DESCRIP).setValue(getText(2972, "", format(base, Cairo.Settings.getCurrencyRateDecimalsFormat()));
+                        getCell(row, KIO_DEBE).setValue(retencion);
+                        getCell(row, KIO_PORCRETENCION).setValue(porcentaje);
+                        getCell(row, KIO_NRORETENCION).setValue(comprobante);
+                        getCell(row, KIO_DESCRIP)
+                          .setValue(
+                            getText(2972, "",
+                              Cairo.accounting.formatNumber(base, Cairo.Settings.getCurrencyRateDecimalsFormat()));
 
                       }
                       else {

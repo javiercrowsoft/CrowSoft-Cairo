@@ -2485,7 +2485,7 @@
 
       var showStartWizard = function(isHojaRuta) {
         try {
-          var wizConstructor = Cairo.CobranzaWizard.Edit.Controller.getEditor;
+          var wizConstructor = Cairo.OrdenPagoWizard.Edit.Controller.getEditor;
           var wizard = wizConstructor();
           wizard.loadWizard().whenSuccess(call(startWizard, wizard, wizConstructor, isHojaRuta));
         }
@@ -3745,7 +3745,7 @@
     Edit.Controller.edit = function(id) {
 
       Cairo.LoadingMessage.show("Ordenes de Pago", "Loading Orden de Pago from Crowsoft Cairo server.");
-      var editor = Cairo.FacturaVenta.Edit.Controller.getEditor();
+      var editor = Cairo.OrdenPago.Edit.Controller.getEditor();
 
       //
       // wizards
