@@ -701,7 +701,7 @@ object OrdenPago {
       SqlParser.get[Int](GC.BCO_ID) ~
       SqlParser.get[String](GC.BCO_NAME) ~
       SqlParser.get[Int](GC.CHQ_ID) ~
-      SqlParser.get[String](GC.CHQ_DESCRIP) ~
+      SqlParser.get[String](GC.CHQ_CODE) ~
       SqlParser.get[Int](C.CHEQ_ID) ~
       SqlParser.get[Int](C.CHEQ_NUMERO) ~
       SqlParser.get[String](C.CHEQ_NUMERO_DOC) ~
@@ -995,8 +995,8 @@ object OrdenPago {
       SqlParser.get[String](GC.DOC_NAME) ~
       SqlParser.get[Int](C.OPG_NUMERO) ~
       SqlParser.get[String](C.OPG_NRODOC) ~
-      SqlParser.get[Int](GC.CLI_ID) ~
-      SqlParser.get[String](GC.CLI_NAME) ~
+      SqlParser.get[Int](GC.PROV_ID) ~
+      SqlParser.get[String](GC.PROV_NAME) ~
       SqlParser.get[Int](GC.EST_ID) ~
       SqlParser.get[String](GC.EST_NAME) ~
       SqlParser.get[Option[Int]](GC.CCOS_ID) ~
@@ -1123,7 +1123,7 @@ object OrdenPago {
         Field(C.OPG_NRODOC, ordenPago.ids.nroDoc, FieldType.text),
         Field(C.OPG_NUMERO, ordenPago.ids.numero, FieldType.number),
 
-        Field(GC.CLI_ID, ordenPago.base.provId, FieldType.id),
+        Field(GC.PROV_ID, ordenPago.base.provId, FieldType.id),
         Field(GC.EST_ID, ordenPago.base.estId, FieldType.id),
         Field(GC.CCOS_ID, ordenPago.base.ccosId, FieldType.id),
         Field(GC.SUC_ID, ordenPago.base.sucId, FieldType.id),
@@ -1418,7 +1418,7 @@ object OrdenPago {
     def executeSave(opgTMPId: Int): List[RowResult] = {
 
       DB.withTransaction(user.database.database) { implicit connection =>
-        val sql = "select * from sp_doc_ordenPago_save(?, ?)"
+        val sql = "select * from sp_doc_orden_pago_save(?, ?)"
         val cs = connection.prepareStatement(sql)
 
         cs.setInt(1, user.masterUserId)
@@ -1441,7 +1441,7 @@ object OrdenPago {
           * );
           *
           *
-          * ex: CREATE OR REPLACE FUNCTION sp_doc_ordenPago_save( params )
+          * ex: CREATE OR REPLACE FUNCTION sp_doc_orden_pago_save( params )
           *     RETURNS SETOF row_result AS ...
           *
           * the field type is used to identify the value in the row. there are three
@@ -1549,7 +1549,7 @@ object OrdenPago {
 
     DB.withTransaction(user.database.database) { implicit connection =>
 
-      val sql = "{call sp_doc_ordenPago_get(?, ?, ?, ?)}"
+      val sql = "{call sp_doc_orden_pago_get(?, ?, ?, ?)}"
       val cs = connection.prepareCall(sql)
 
       cs.setInt(1, user.cairoCompanyId)
@@ -1587,7 +1587,7 @@ object OrdenPago {
 
     DB.withTransaction(user.database.database) { implicit connection =>
 
-      val sql = "{call sp_doc_ordenPago_get_items(?, ?, ?)}"
+      val sql = "{call sp_doc_orden_pago_get_items(?, ?, ?)}"
       val cs = connection.prepareCall(sql)
 
       cs.setInt(1, id)
@@ -1615,7 +1615,7 @@ object OrdenPago {
   def delete(user: CompanyUser, id: Int) = {
     DB.withConnection(user.database.database) { implicit connection =>
       try {
-        SQL("sp_doc_ordenPago_delete {id}, {empId}, {usId}")
+        SQL("sp_doc_orden_pago_delete {id}, {empId}, {usId}")
           .on('id -> id, 'empId -> user.cairoCompanyId, 'usId -> user.masterUserId)
           .executeUpdate
       } catch {
@@ -1855,7 +1855,7 @@ object OrdenPago {
 
     DB.withTransaction(user.database.database) { implicit connection =>
 
-      val sql = "{call sp_doc_ordenPago_get_facturas(?, ?, ?, ?)}"
+      val sql = "{call sp_doc_orden_pago_get_facturas(?, ?, ?, ?)}"
       val cs = connection.prepareCall(sql)
 
       cs.setInt(1, user.cairoCompanyId)
@@ -1885,7 +1885,7 @@ object OrdenPago {
 
     DB.withTransaction(user.database.database) { implicit connection =>
 
-      val sql = "{call sp_doc_ordenPago_get_cuenta_deudor(?, ?)}"
+      val sql = "{call sp_doc_orden_pago_get_cuenta_deudor(?, ?)}"
       val cs = connection.prepareCall(sql)
 
       cs.setString(1, ids)
@@ -1912,7 +1912,7 @@ object OrdenPago {
 
     DB.withTransaction(user.database.database) { implicit connection =>
 
-      val sql = "{call sp_doc_ordenPago_get_data_from_aplic(?, ?, ?)}"
+      val sql = "{call sp_doc_orden_pago_get_data_from_aplic(?, ?, ?)}"
       val cs = connection.prepareCall(sql)
 
       cs.setInt(1, 1) // 1 = factura compra/ nota debito compra

@@ -399,7 +399,7 @@ object OrdenesPago extends Controller with ProvidesUser {
       GC.BCO_ID -> Json.toJson(i.bcoId),
       GC.BCO_NAME -> Json.toJson(i.bcoName),
       GC.CHQ_ID -> Json.toJson(i.chqId),
-      GC.CHQ_DESCRIP -> Json.toJson(i.chqName),
+      GC.CHQ_CODE -> Json.toJson(i.chqName),
       C.CHEQ_ID -> Json.toJson(i.cheqId),
       C.CHEQ_NUMERO -> Json.toJson(i.numero),
       C.CHEQ_NUMERO_DOC -> Json.toJson(i.numeroDoc),

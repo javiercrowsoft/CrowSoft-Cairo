@@ -139,7 +139,7 @@ object C {
   // Chequera
   val CHEQUERA = "Chequera"
   val CHQ_ID = "chq_id"
-  val CHQ_CODIGO = "chq_codigo"
+  val CHQ_CODE = "chq_codigo"
   val CHQ_DESCRIP = "chq_descrip"
   val CHQ_NUMERO_DESDE = "chq_numerodesde"
   val CHQ_NUMERO_HASTA = "chq_numerohasta"

@@ -651,7 +651,7 @@
                   Dialogs.cell(row, KICHT_CLI_ID).setValue(valField(response.data, C.CLI_NAME));
                   Dialogs.cell(row, KICHT_FECHAVTO).setValue(valField(response.data, CT.CHEQ_FECHA_VTO));
                   Dialogs.cell(row, KICHT_FECHACOBRO).setValue(valField(response.data, CT.CHEQ_FECHA_COBRO));
-                  Dialogs.cell(row, KICHT_CLE_ID).setValue(valField(response.data, CT.CLE_NAME));
+                  Dialogs.cell(row, KICHT_CLE_ID).setValue(valField(response.data, C.CLE_NAME));
                   Dialogs.cell(row, KICHT_IMPORTE).setValue(valField(response.data, CT.CHEQ_IMPORTE));
                   Dialogs.cell(row, KICHT_IMPORTEORIGEN).setValue(valField(response.data, CT.CHEQ_IMPORTE_ORIGEN));
 
@@ -1759,7 +1759,7 @@
         elem = columns.add(null, C_CHEQUET);
         elem.setName(getText(2059, "")); // Nr. Cheque
         elem.setType(T.select);
-        elem.setTable(Cairo.Tables.CHEQUE);
+        elem.setSelectTable(Cairo.Tables.CHEQUE);
         elem.setSelectFilter("1 = 2");
         elem.setSubType(Dialogs.PropertySubType.integer);
         elem.setKey(KICHT_CHEQUE);
@@ -2876,12 +2876,12 @@
         fields.add(CT.OPG_DESCRIP, getDescrip().getValue(), Types.text);
         fields.add(CT.OPG_FECHA, getFecha().getValue(), Types.date);
 
-        fields.add(CT.PROV_ID, m_lastProvId, Types.id);
-        fields.add(CT.CCOS_ID, getCentroCosto().getSelectId(), Types.id);
-        fields.add(CT.SUC_ID, getSucursal().getSelectId(), Types.id);
-        fields.add(CT.DOC_ID, getDoc(), Types.id);
+        fields.add(C.PROV_ID, m_lastProvId, Types.id);
+        fields.add(C.CCOS_ID, getCentroCosto().getSelectId(), Types.id);
+        fields.add(C.SUC_ID, getSucursal().getSelectId(), Types.id);
+        fields.add(C.DOC_ID, getDoc(), Types.id);
         fields.add(CT.OPG_COTIZACION, val(getCotizacion().getValue()), Types.double);
-        fields.add(CT.LGJ_ID, getLegajo().getSelectId(), Types.id);
+        fields.add(C.LGJ_ID, getLegajo().getSelectId(), Types.id);
 
         fields.add(CT.OPG_NETO, val(getPagoNeto().getValue()), Types.currency);
         fields.add(CT.OPG_OTROS, val(getPagoOtros().getValue()), Types.currency);
@@ -2987,11 +2987,11 @@
                   break;
 
                 case KICH_CLE_ID:
-                  fields.add(CT.CLE_ID, cell.getId(), Types.id);
+                  fields.add(C.CLE_ID, cell.getId(), Types.id);
                   break;
 
                 case KICH_MON_ID:
-                  fields.add(CT.MON_ID, cell.getId(), Types.id);
+                  fields.add(C.MON_ID, cell.getId(), Types.id);
                   break;
 
                 case KICH_FECHACOBRO:
@@ -3065,11 +3065,11 @@
                   break;
 
                 case KICHT_CLE_ID:
-                  fields.add(CT.CLE_ID, cell.getId(), Types.id);
+                  fields.add(C.CLE_ID, cell.getId(), Types.id);
                   break;
 
                 case KICHT_MON_ID:
-                  fields.add(CT.MON_ID, cell.getId(), Types.id);
+                  fields.add(C.MON_ID, cell.getId(), Types.id);
                   break;
 
                 case KICHT_FECHACOBRO:
@@ -3140,7 +3140,7 @@
                   break;
 
                 case KIO_RET_ID:
-                  fields.add(CT.RET_ID, cell.getId(), Types.id);
+                  fields.add(C.RET_ID, cell.getId(), Types.id);
                   break;
 
                 case KIO_NRORETENCION:
@@ -3152,11 +3152,11 @@
                   break;
 
                 case KIO_CCOS_ID:
-                  fields.add(CT.CCOS_ID, cell.getId(), Types.id);
+                  fields.add(C.CCOS_ID, cell.getId(), Types.id);
                   break;
 
                 case KIO_FC_ID_RET:
-                  fields.add(CC.FC_ID_RET, cell.getId(), Types.id);
+                  fields.add(CT.FC_ID_RET, cell.getId(), Types.id);
                   break;
 
                 case KIO_CUE_ID:
@@ -3475,23 +3475,23 @@
             for(var _i = 0, count = facturas.length; _i < count; _i++) {
 
               var property = getSucursal();
-              if(property.getSelectId() === NO_ID && valField(facturas[_i], CT.SUC_ID) !== NO_ID) {
-                property.setSelectId(valField(facturas[_i], CT.SUC_ID));
-                property.setValue(valField(facturas[_i], CT.SUC_NAME));
+              if(property.getSelectId() === NO_ID && valField(facturas[_i], C.SUC_ID) !== NO_ID) {
+                property.setSelectId(valField(facturas[_i], C.SUC_ID));
+                property.setValue(valField(facturas[_i], C.SUC_NAME));
                 m_objWizard.showValue(property);
               }
     
               property = getCentroCosto();
-              if(property.getSelectId() === NO_ID && valField(facturas[_i], CT.CCOS_ID) !== NO_ID) {
-                property.setSelectId(valField(facturas[_i], CT.CCOS_ID));
-                property.setValue(valField(facturas[_i], CT.CCOS_NAME));
+              if(property.getSelectId() === NO_ID && valField(facturas[_i], C.CCOS_ID) !== NO_ID) {
+                property.setSelectId(valField(facturas[_i], C.CCOS_ID));
+                property.setValue(valField(facturas[_i], C.CCOS_NAME));
                 m_objWizard.showValue(property);
               }
     
               property = getLegajo();
-              if(property.getSelectId() === NO_ID && valField(facturas[_i], CT.LGJ_ID) !== NO_ID) {
-                property.setSelectId(valField(facturas[_i], CT.LGJ_ID));
-                property.setValue(valField(facturas[_i], CT.LGJ_TITLE));
+              if(property.getSelectId() === NO_ID && valField(facturas[_i], C.LGJ_ID) !== NO_ID) {
+                property.setSelectId(valField(facturas[_i], C.LGJ_ID));
+                property.setValue(valField(facturas[_i], C.LGJ_TITLE));
                 m_objWizard.showValue(property);
               }
             }
