@@ -1820,7 +1820,7 @@ object OrdenPago {
 
     DB.withTransaction(user.database.database) { implicit connection =>
 
-      val sql = "{call sp_lsdoc_ordenPagos(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}"
+      val sql = "{call sp_lsdoc_ordenes_pago(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}"
       val cs = connection.prepareCall(sql)
 
       cs.setInt(1, user.masterUserId)

@@ -4124,13 +4124,13 @@
             break;
 
           case K_SUC_ID:
-            var property = m_properties.item(CT.SUC_ID);
+            var property = m_properties.item(C.SUC_ID);
             m_sucursal = property.getValue();
             m_sucId = property.getSelectIntValue();
             break;
 
           case K_DOC_ID:
-            var property = m_properties.item(CT.DOC_ID);
+            var property = m_properties.item(C.DOC_ID);
             m_documento = property.getValue();
             m_docId = property.getSelectIntValue();
             break;
