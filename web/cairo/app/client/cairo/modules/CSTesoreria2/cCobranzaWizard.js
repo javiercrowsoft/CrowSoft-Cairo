@@ -128,11 +128,11 @@
       var m_cliIdDoc = 0;
       var m_clienteDoc = "";
 
-      var m_fvIds = 0;
-
-      var m_cliIds = 0;
-      var m_fvIdsxCliId = 0;
+      var m_fvIds = null;
+      var m_cliIds = null;
+      var m_fvIdsxCliId = null;
       var m_cobranzaInfo = null;
+
       var m_isHojaRuta = false;
       var m_cjId = 0;
 
@@ -310,21 +310,28 @@
 
       self.columnAfterEdit = function(key, lRow, lCol, newValue, newValueId) {
         var p = null;
-        var grid = property.getGrid();
-        var columnKey = grid.getColumns().item(lCol).getKey();
 
-        switch (columnKey) {
+        switch(key) {
 
-          case KIO_CUE_ID:
-            var cueId = newValueId;
+          case WC.KW_OTROS:
 
-            if(cueId !== NO_ID) {
+            var grid = getOtros();
+            var columnKey = grid.getColumns().item(lCol).getKey();
 
-              p = D.getCurrencyFromAccount(cueId).whenSuccessWithResult(function(info) {
-                var row = grid.getRows().item(lRow);
-                getCell(row, KIO_MON_ID).setId(info.monId);
-                return true;
-              });
+            switch (columnKey) {
+
+              case KIO_CUE_ID:
+                var cueId = newValueId;
+
+                if(cueId !== NO_ID) {
+
+                  p = D.getCurrencyFromAccount(cueId).whenSuccessWithResult(function(info) {
+                    var row = grid.getRows().item(lRow);
+                    getCell(row, KIO_MON_ID).setId(info.monId);
+                    return true;
+                  });
+                }
+                break;
             }
             break;
         }

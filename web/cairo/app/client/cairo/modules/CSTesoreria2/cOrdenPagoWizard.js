@@ -125,7 +125,8 @@
 
       var m_provId = 0;
       var m_proveedor = "";
-      var m_fcIds = 0;
+
+      var m_fcIds = null;
 
       var m_objClient = null;
 
@@ -257,26 +258,33 @@
 
       self.columnAfterEdit = function(key, lRow, lCol, newValue, newValueId) {
         var p = null;
-        var grid = property.getGrid();
-        var columnKey = grid.getColumns().item(lCol).getKey();
 
-        switch (columnKey) {
+        switch(key) {
 
-          case KIO_CUE_ID:
-            var cueId = newValueId;
+          case WC.KW_OTROS:
 
-            if(cueId !== NO_ID) {
+            var grid = getOtros();
+            var columnKey = grid.getColumns().item(lCol).getKey();
 
-              p = D.getCuentaInfo(cueId).then(function(info) {
-                if(info.success) {
-                  var row = grid.getRows().item(lRow);
-                  getCell(row, KIO_MON_ID).setId(info.monId);
-                  return true;
+            switch (columnKey) {
+
+              case KIO_CUE_ID:
+                var cueId = newValueId;
+
+                if(cueId !== NO_ID) {
+
+                  p = D.getCuentaInfo(cueId).then(function(info) {
+                    if(info.success) {
+                      var row = grid.getRows().item(lRow);
+                      getCell(row, KIO_MON_ID).setId(info.monId);
+                      return true;
+                    }
+                    else {
+                      return false;
+                    }
+                  });
                 }
-                else {
-                  return false;
-                }
-              });
+                break;
             }
             break;
         }
@@ -1211,12 +1219,12 @@
       };
 
       self.getPath = function() {
-        return "#tesoreria/ordenpago/sobrefactura";
+        return "#tesoreria/ordendepago/sobrefactura";
       };
 
       self.getEditorName = function() {
         var id = "N" + (new Date).getTime().toString();
-        return "ordenpago/sobrefactura/" + id;
+        return "ordendepago/sobrefactura/" + id;
       };
       
       self.getTitle = function() {
@@ -1269,7 +1277,7 @@
         // the step's key must be the constant that defines them
         // this is crucial for the navigation to work
         //
-        var step = m_objWizard.getSteps().add(null, U.getKey(WCS.SELECT_PROVEEDOR)).getProperties();
+        var step = m_objWizard.getSteps().add(null, U.getKey(WCS.SELECT_PROVEEDOR));
 
         step.getProperties().setLayout(Dialogs.Layout.verticalOneColumn);
 
@@ -2368,7 +2376,7 @@
                         getCell(row, KIO_DESCRIP)
                           .setValue(
                             getText(2972, "",
-                              Cairo.accounting.formatNumber(base, Cairo.Settings.getCurrencyRateDecimalsFormat()));
+                              Cairo.accounting.formatNumber(base, Cairo.Settings.getCurrencyRateDecimalsFormat())));
 
                       }
                       else {
@@ -2407,7 +2415,7 @@
               return true;
 
             });
-          }
+          });
       };
 
       var getRetencionForProveedor = function() {
@@ -3592,7 +3600,13 @@
           .whenSuccessWithResult(function(response) {
 
             if(response.success === true) {
-              return M.showInfo(valField(response.data, CT.OPG_MESSAGES));
+              var message = valField(response.data, CT.OPG_MESSAGES);
+              if(message !== "") {
+                return M.showInfo(message);
+              }
+              else {
+                return true;
+              }
             }
 
           });

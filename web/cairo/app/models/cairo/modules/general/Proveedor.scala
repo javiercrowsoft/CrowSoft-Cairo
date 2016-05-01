@@ -5,7 +5,7 @@ import anorm.SqlParser._
 import anorm._
 import services.DateUtil
 import services.db.DB
-import models.cairo.system.database.{DBHelper, Register, Field, FieldType, SaveResult}
+import models.cairo.system.database._
 import models.cairo.system.database.DBHelper.rowToFloat
 import java.math.BigDecimal
 import play.api.Play.current
@@ -1251,6 +1251,35 @@ object Proveedor {
       } catch {
         case NonFatal(e) => {
           Logger.error(s"can't get cuit info with cuit $cuit for user ${user.toString}. Error ${e.toString}")
+          throw e
+        }
+      } finally {
+        cs.close
+      }
+    }
+  }
+
+  def getRetenciones(user: CompanyUser, id: Int, fecha: Date): Recordset = {
+
+    DB.withTransaction(user.database.database) { implicit connection =>
+
+      val sql = "{call sp_proveedor_get_retenciones(?, ?, ?, ?)}"
+      val cs = connection.prepareCall(sql)
+
+      cs.setInt(1, id)
+      cs.setInt(2, user.cairoCompanyId)
+      cs.setDate(3, new java.sql.Date(fecha.getTime()))
+      cs.registerOutParameter(4, Types.OTHER)
+
+      try {
+        cs.execute()
+
+        val rs = cs.getObject(4).asInstanceOf[java.sql.ResultSet]
+        Recordset.load(rs)
+
+      } catch {
+        case NonFatal(e) => {
+          Logger.error(s"can't get proveedor retenciones with provId $id and empId ${user.cairoCompanyId} for user ${user.toString}. Error ${e.toString}")
           throw e
         }
       } finally {

@@ -28,41 +28,52 @@ http://www.crowsoft.com.ar
 
 javier at crowsoft.com.ar
 */
--- Function: sp_proveedor_get_retenciones()
+-- Function: sp_doc_orden_pago_get_cuenta_deudor()
 
--- drop function sp_proveedor_get_retenciones(integer);
+-- drop function sp_doc_orden_pago_get_cuenta_deudor(varchar);
+
 /*
-          select * from ProveedorRetencion;
-          select * from sp_proveedor_get_retenciones(6);
-          fetch all from rtn;
+select * from sp_doc_orden_pago_get_cuenta_deudor('22,23,24,25,26,27,28');
+fetch all from rtn;
 */
 
-create or replace function sp_proveedor_get_retenciones
+create or replace function sp_doc_orden_pago_get_cuenta_deudor
 (
-  in p_prov_id integer,
+  in p_strIds varchar,
   out rtn refcursor
 )
   returns refcursor as
 $BODY$
+declare
+   v_cue_acreedoresXvta integer := 8;
+   v_timeCode timestamp with time zone;
 begin
+
+   v_timeCode := CURRENT_TIMESTAMP;
+
+   perform sp_str_string_to_table(v_timeCode, p_strIds, ',');
 
    rtn := 'rtn';
 
    open rtn for
-
-      select
-             provret_id,
-             provret.ret_id,
-             provret_desde,
-             provret_hasta,
-             ret_nombre
-      from ProveedorRetencion provret
-      inner join Retencion ret on provret.ret_id = ret.ret_id
-      where provret.prov_id = p_prov_id;
+      select fc_id,
+             c.cue_id,
+             c.cue_nombre
+      from AsientoItem
+      join FacturaCompra
+        on AsientoItem.as_id = FacturaCompra.as_id
+      join TmpStringToTable
+        on FacturaCompra.fc_id = cast(TmpStringToTable.tmpstr2tbl_campo as integer)
+      join Cuenta c
+        on AsientoItem.cue_id = c.cue_id
+      where asi_debe <> 0
+        and tmpstr2tbl_id = v_timeCode
+        and c.cuec_id = v_cue_acreedoresXvta
+      group by fc_id,c.cue_id,c.cue_nombre;
 
 end;
 $BODY$
   language plpgsql volatile
   cost 100;
-alter function sp_proveedor_get_retenciones(integer)
+alter function sp_doc_orden_pago_get_cuenta_deudor(varchar)
   owner to postgres;

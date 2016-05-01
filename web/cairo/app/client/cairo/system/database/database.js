@@ -227,6 +227,11 @@
         // in development
         //
         Cairo.log("Missing field: the field " + fieldName + " isn't present in this dataset", true);
+
+        //
+        // if the field doesn't exists
+        //
+        value = "";
       }
       return value;
     },

@@ -28,7 +28,7 @@ object Application extends Controller with ProvidesUser {
     }
     else {
       Logger.debug("showing index")
-      Redirect(controllers.routes.Application.index)
+      Redirect(controllers.routes.Application.welcome)
     }
   }
 

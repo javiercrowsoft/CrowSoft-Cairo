@@ -10,7 +10,7 @@ import play.api.Logger
 import play.api.libs.json._
 import models.cairo.modules.general._
 import models.cairo.system.security.CairoSecurity
-import models.cairo.system.database.DBHelper
+import models.cairo.system.database.{Recordset, DBHelper}
 import formatters.json.DateFormatter._
 
 case class ProveedorBaseData(
@@ -745,6 +745,12 @@ object Proveedores extends Controller with ProvidesUser {
               C.PROV_RAZONSOCIAL -> Json.toJson(info.razonSocial)
             )))
       })
+    })
+  }
+
+  def getRetenciones(id: Int, fecha: String) = GetAction { implicit request =>
+    LoggedIntoCompanyResponse.getAction(request, { user =>
+      Ok(Json.toJson(Recordset.getAsJson(Proveedor.getRetenciones(user, id, DateFormatter.parse(fecha)))))
     })
   }
 }

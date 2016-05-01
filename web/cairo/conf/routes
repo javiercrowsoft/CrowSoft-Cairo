@@ -298,6 +298,7 @@ GET     /api/v1/general/proveedor/:id/name                                      
 GET     /api/v1/general/proveedor/:id/cat_fiscal                                             controllers.logged.modules.general.Proveedores.catFiscal(id: Int)
 GET     /api/v1/general/proveedor/:id/data_add                                               controllers.logged.modules.general.Proveedores.dataAdd(id: Int)
 GET     /api/v1/general/proveedor/validate_cuit/:cuit                                        controllers.logged.modules.general.Proveedores.validateCuit(cuit: String)
+GET     /api/v1/general/proveedor/:id/retenciones_for/:fecha                                 controllers.logged.modules.general.Proveedores.getRetenciones(id: Int, fecha: String)
 
 GET     /api/v1/general/proveedor/:id                                                        controllers.logged.modules.general.Proveedores.get(id: Int)
 POST    /api/v1/general/proveedor                                                            controllers.logged.modules.general.Proveedores.create
@@ -420,7 +421,9 @@ GET     /api/v1/tesoreria/ordenespago                                           
 GET     /api/v1/tesoreria/ordenespago/parameters                                             controllers.logged.modules.tesoreria.OrdenesPago.parameters()
 POST    /api/v1/tesoreria/ordenespago                                                        controllers.logged.modules.tesoreria.OrdenesPago.saveParameters
 
-GET     /api/v1/tesoreria/ordenespago/cliente/:cliId/facturas                                controllers.logged.modules.tesoreria.OrdenesPago.listFacturas(cliId: Int)
+GET     /api/v1/tesoreria/ordenespago/proveedor/:provId/facturas                             controllers.logged.modules.tesoreria.OrdenesPago.listFacturas(provId: Int)
+
+GET     /api/v1/tesoreria/ordenespago/proveedor/:provId/messages                             controllers.logged.modules.tesoreria.OrdenesPago.messages(provId: Int)
 
 GET     /api/v1/tesoreria/ordenpago/notes/:id                                                controllers.logged.modules.tesoreria.OrdenesPago.notes(id: Int)
 GET     /api/v1/tesoreria/ordenpago/cuentas                                                  controllers.logged.modules.tesoreria.OrdenesPago.cuentas(ids: Option[String])

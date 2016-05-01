@@ -202,11 +202,7 @@
 
       var m_applyEditor;
 
-      var m_fcIds = 0;
-
-      var m_provIds = [];
-      var m_fcIdsxProvId = [];
-      var m_ordenPagoInfo;
+      var m_fcIds = null;
 
       var m_apiPath = DB.getAPIVersion();
 
@@ -825,10 +821,7 @@
           m_listController = null;
           m_footer = null;
           m_items = null;
-          m_fcIds = [];
-          m_provIds = [];
-          m_fcIdsxProvId = [];
-          m_ordenPagoInfo = null;
+          m_fcIds = null;
 
         }
         catch (ex) {
@@ -859,7 +852,7 @@
 
       self.getEditorName = function() {
         var id = m_id ? m_id.toString() : "N" + (new Date).getTime().toString();
-        return "ordenpago" + id;
+        return "ordendepago" + id;
       };
 
       self.getTitle = function() {
@@ -2470,12 +2463,9 @@
       };
 
       var startWizard = function(wizard, wizardConstructor) {
-        wizard.setProId(m_provId);
+        wizard.setProvId(m_provId);
         wizard.setProveedor(m_proveedor);
         wizard.setFcIds(m_fcIds);
-        wizard.setProvIds(m_provIds);
-        wizard.setFcIdsxProvId(m_fcIdsxProvId);
-        wizard.setOrdenPagoInfo(m_ordenPagoInfo);
         wizard.setObjClient(self);
 
         var wizardDialog = Cairo.Dialogs.WizardViews.Controller.newWizard();
@@ -2498,8 +2488,6 @@
         try {
 
           m_fcIds = [];
-          m_provIds = [];
-          m_fcIdsxProvId = [];
 
         }
         catch (ex) {
@@ -3737,6 +3725,8 @@
         return m_properties.item(C.PROV_ID).getValue().substr(0, 50) + "-" + m_properties.item(CT.OPG_NRODOC).getValue();
       };
 
+      initialize();
+
       return self;
     };
 
@@ -3751,7 +3741,7 @@
       // wizards
       //
       if(id === 'sobrefactura') {
-        return editor.showWizardCobranza();
+        return editor.showWizardOrdenPago();
       }
       else {
 

@@ -28,41 +28,42 @@ http://www.crowsoft.com.ar
 
 javier at crowsoft.com.ar
 */
--- Function: sp_proveedor_get_retenciones()
+-- Function: sp_doc_orden_pago_get_facturas()
 
--- drop function sp_proveedor_get_retenciones(integer);
+-- drop function sp_doc_orden_pago_get_facturas(integer, integer, integer, integer);
 /*
-          select * from ProveedorRetencion;
-          select * from sp_proveedor_get_retenciones(6);
-          fetch all from rtn;
-*/
 
-create or replace function sp_proveedor_get_retenciones
+  select * from sp_doc_orden_pago_get_facturas(2,19);
+  fetch all from rtn;
+  fetch all from rtn_rates;
+
+  select prov_id from facturacompra where fc_pendiente > 0
+  select * from proveedor where prov_id = 19
+
+*/
+create or replace function sp_doc_orden_pago_get_facturas
 (
+  in p_emp_id integer,
   in p_prov_id integer,
-  out rtn refcursor
+  in p_bSoloVencidos integer default 1,
+  in p_bAgrupado integer default 0,
+  out rtn refcursor,
+  out rtnRates refcursor
 )
-  returns refcursor as
+  returns record as
 $BODY$
 begin
 
-   rtn := 'rtn';
-
-   open rtn for
-
-      select
-             provret_id,
-             provret.ret_id,
-             provret_desde,
-             provret_hasta,
-             ret_nombre
-      from ProveedorRetencion provret
-      inner join Retencion ret on provret.ret_id = ret.ret_id
-      where provret.prov_id = p_prov_id;
+   select * from sp_doc_orden_pago_get_facturas_cliente(
+                    p_emp_id,
+                    p_prov_id,
+                    p_bSoloVencidos,
+                    p_bAgrupado)
+   into rtn, rtnRates;
 
 end;
 $BODY$
   language plpgsql volatile
   cost 100;
-alter function sp_proveedor_get_retenciones(integer)
+alter function sp_doc_orden_pago_get_facturas(integer, integer, integer, integer)
   owner to postgres;

@@ -1050,6 +1050,12 @@ object OrdenesPago extends Controller with ProvidesUser {
     })
   }
 
+  def messages(id: Int) = GetAction { implicit request =>
+    LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.LIST_ORDEN_PAGO), { user =>
+      Ok(Json.toJson(""))
+    })
+  }
+
   def listFacturas(provId: Int) = GetAction { implicit request =>
     LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.NEW_ORDEN_PAGO), { user =>
       val response = OrdenPago.listFacturas(user, provId) match {
