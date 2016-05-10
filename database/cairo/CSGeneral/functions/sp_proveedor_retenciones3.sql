@@ -28,16 +28,16 @@ http://www.crowsoft.com.ar
 
 javier at crowsoft.com.ar
 */
--- Function: sp_retencion_get_for_prov_id()
+-- Function: sp_proveedor_get_retenciones()
 
--- drop function sp_retencion_get_for_prov_id(integer);
+-- drop function sp_proveedor_get_retenciones(integer, integer, date);
 /*
           select * from ProveedorRetencion;
-          select * from sp_retencion_get_for_prov_id(6,1,'20160501');
+          select * from sp_proveedor_get_retenciones(6,1,'20160501');
           fetch all from rtn;
 */
 
-create or replace function sp_retencion_get_for_prov_id
+create or replace function sp_proveedor_get_retenciones
 (
   in p_prov_id integer,
   in p_emp_id integer,
@@ -47,6 +47,11 @@ create or replace function sp_retencion_get_for_prov_id
   returns refcursor as
 $BODY$
 begin   
+
+   create temporary table tt_tmp_retencion
+    (
+     ret_id integer
+    ) on commit drop;
 
    rtn := 'rtn';
    
@@ -101,5 +106,5 @@ end;
 $BODY$
   language plpgsql volatile
   cost 100;
-alter function sp_retencion_get_for_prov_id(integer, integer, date)
+alter function sp_proveedor_get_retenciones(integer, integer, date)
   owner to postgres;

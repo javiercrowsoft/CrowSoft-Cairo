@@ -2092,7 +2092,6 @@
 
                     var row = rows.add(null);
 
-                    // La primera no se usa
                     row.add(null);
 
                     var elem = row.add(null);
@@ -2121,6 +2120,23 @@
                     elem.setKey(KI_FECHA);
 
                     elem = row.add(null);
+                    elem.setValue(valField(items[_i], CC.FC_PENDIENTE));
+                    elem.setKey(KI_PENDIENTE);
+
+                    elem = row.add(null);
+                    elem.setValue(valField(items[_i], CT.FCD_PENDIENTE));
+                    elem.setKey(KI_IMPORTE);
+
+                    elem = row.add(null);
+                    if(selected) {
+                      elem.setValue(valField(items[_i], CT.FCD_PENDIENTE));
+                    }
+                    else {
+                      elem.setValue(0);
+                    }
+                    elem.setKey(KI_APLICAR);
+
+                    elem = row.add(null);
                     elem.setValue(valField(items[_i], C.MON_NAME));
                     elem.setId(valField(items[_i], C.MON_ID));
                     elem.setKey(KI_MONEDA);
@@ -2147,23 +2163,6 @@
                     elem = row.add(null);
                     elem.setValue(valField(items[_i], CT.FCD_FECHA));
                     elem.setKey(KI_VTO);
-
-                    elem = row.add(null);
-                    elem.setValue(valField(items[_i], CC.FC_PENDIENTE));
-                    elem.setKey(KI_PENDIENTE);
-
-                    elem = row.add(null);
-                    elem.setValue(valField(items[_i], CT.FCD_PENDIENTE));
-                    elem.setKey(KI_IMPORTE);
-
-                    elem = row.add(null);
-                    if(selected) {
-                      elem.setValue(valField(items[_i], CT.FCD_PENDIENTE));
-                    }
-                    else {
-                      elem.setValue(0);
-                    }
-                    elem.setKey(KI_APLICAR);
 
                     elem = row.add(null);
                     elem.setValue(valField(items[_i], CC.FC_DESCRIP));
@@ -2421,8 +2420,8 @@
       var getRetencionForProveedor = function() {
         return DB.getData(
           "load[" + m_apiPath
-            + "tesoreria/proveedor/" + getProveedor().toString()
-            + "/retenciones_for/" + DB.sqlDate(getFecha().getValue()) + "]");
+            + "general/proveedor/" + getProveedor().toString()
+            + "/retenciones/" + DB.sqlDate(getFecha().getValue()) + "]");
 
       };
 
