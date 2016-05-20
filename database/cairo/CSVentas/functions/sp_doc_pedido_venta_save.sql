@@ -129,7 +129,7 @@ begin
    if not exists ( select pvTMP_id
                    from PedidoVentaTMP
                    where pvTMP_id = p_pvTMP_id ) then
-      return query select * from result_failed;
+      return query select * from result_failed();
       return;
 
    end if;

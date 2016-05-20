@@ -857,7 +857,10 @@
       RETI_PORCENTAJE: "reti_porcentaje",
       RETI_IMPORTEFIJO: "reti_importefijo",
 
-      RETENCION_INFO: "retencionInfo",
+      RETENCION_INFO_RETENCION: "retencion",
+      RETENCION_INFO_PORCENTAJE: "porcentaje",
+      RETENCION_INFO_COMPROBANTE: "comprobante",
+      RETENCION_INFO_BASE: "base",
 
       // Monedas
       MON_ID: "mon_id",

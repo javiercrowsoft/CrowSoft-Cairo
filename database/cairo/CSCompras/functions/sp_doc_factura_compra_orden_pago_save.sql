@@ -30,11 +30,12 @@ javier at crowsoft.com.ar
 */
 -- Function: sp_doc_factura_compra_orden_pago_save()
 
--- drop function sp_doc_factura_compra_orden_pago_save(integer);
+-- drop function sp_doc_factura_compra_orden_pago_save(integer, integer);
 
 create or replace
 function sp_doc_factura_compra_orden_pago_save
 (
+  in p_us_id integer,
   in p_fc_id integer,
   out p_success integer,
   out p_error_msg varchar
@@ -273,7 +274,7 @@ begin
          p_success := 0;
 
          for rslt in
-            select * from sp_doc_orden_pago_save(v_opgTMP_id, 1 /* no error */, p_fc_id)
+            select * from sp_doc_orden_pago_save(p_us_id, v_opgTMP_id, 1 /* no error */, p_fc_id)
          loop
             if rslt.type = 'ERROR' then
                p_error_msg := '@@ERROR_SP:' || rslt.message;
@@ -317,5 +318,5 @@ end;
 $BODY$
   language plpgsql volatile
   cost 100;
-alter function sp_doc_factura_compra_orden_pago_save(integer)
+alter function sp_doc_factura_compra_orden_pago_save(integer, integer)
   owner to postgres;

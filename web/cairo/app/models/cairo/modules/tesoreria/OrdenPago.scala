@@ -1191,9 +1191,17 @@ object OrdenPago {
         Field(C.OPG_TMP_ID, opgTMPId, FieldType.id),
         Field(C.OPGI_ID, item.id, FieldType.number),
         Field(C.OPGI_TIPO, C.ORDEN_PAGO_ITEM_TIPO_OTROS, FieldType.number),
+        Field(C.OPGI_OTRO_TIPO, item.tipo, FieldType.number),
         Field(C.OPGI_DESCRIP, item.base.descrip, FieldType.text),
         Field(GC.CUE_ID, item.base.cueId, FieldType.id),
         Field(GC.CCOS_ID, item.base.ccosId, FieldType.id),
+
+        Field(GC.RET_ID, item.retencion.retId, FieldType.id),
+        Field(C.OPGI_NRO_RETENCION, item.retencion.numero, FieldType.text),
+        Field(C.OPGI_FECHA_RETENCION, item.retencion.fecha, FieldType.date),
+        Field(C.OPGI_PORC_RETENCION, item.retencion.porcentaje, FieldType.number),
+        Field(C.FC_ID_RET, item.retencion.fcId, FieldType.number),
+
         Field(C.OPGI_ORDEN, item.base.orden, FieldType.integer),
         Field(C.OPGI_IMPORTE, item.totals.importe, FieldType.currency),
         Field(C.OPGI_IMPORTE_ORIGEN, item.totals.importeOrigen, FieldType.currency)

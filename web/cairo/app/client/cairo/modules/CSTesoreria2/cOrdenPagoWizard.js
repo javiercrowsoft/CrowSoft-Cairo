@@ -13,7 +13,7 @@
 
       var C_MODULE = "cOrdenPagoWizard";
 
-      var SAVE_ERROR_MESSAGE = getText(1910, ""); // Error al grabar la Cobranza
+      var SAVE_ERROR_MESSAGE = getText(1910, ""); // Error al grabar la Orden de Pago
 
       var P = Cairo.Promises;
       var NO_ID = Cairo.Constants.NO_ID;
@@ -1228,7 +1228,7 @@
       };
       
       self.getTitle = function() {
-        return "Asistente de Ordenes de Pago"; //TODO: use getText(???, ""); // Asistente de Cobranzas
+        return "Asistente de Ordenes de Pago"; //TODO: use getText(???, ""); // Asistente de Ordenes de Pago
       };
 
       var loadSteps = function() {
@@ -1741,7 +1741,7 @@
         elem.setSelectTable(Cairo.Tables.CENTRO_COSTO);
         elem.setKey(KIO_CCOS_ID);
 
-        elem = columns.add(null, CT.FV_ID_RET);
+        elem = columns.add(null, CT.FC_ID_RET);
         elem.setName(getText(1866, "")); // Factura
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.FACTURAS_DE_COMPRA);
@@ -2303,9 +2303,9 @@
 
               getOtros().getRows().clear();
 
-              p = getRetencionForProveedor().whenSuccessWithResult(function(response) {
+              p = getRetencionForProveedor(total, getFacturarForRetencion()).whenSuccessWithResult(function(response) {
 
-                var retenciones = response.retenciones;
+                var retenciones = DB.getResultSetFromData(response.data);
 
                 if(retenciones.length === 0) {
 
@@ -2317,21 +2317,26 @@
 
                   for(var i = 0, count = retenciones.length; i < count; i += 1) {
 
-                    var retId = getValue(retenciones[i], C.RET_ID);
-                    var retNombre = getValue(retenciones[i], C.RET_NAME);
+                    var retId = valField(retenciones[i], C.RET_ID);
+                    var retNombre = valField(retenciones[i], C.RET_NAME);
 
-                    var cueId = getValue(retenciones[i], C.CUE_ID);
-                    var cueNombre = getValue(retenciones[i], C.CUE_NAME);
-                    var monId = getValue(retenciones[i], C.MON_ID);
+                    var cueId = valField(retenciones[i], C.CUE_ID);
+                    var cueNombre = valField(retenciones[i], C.CUE_NAME);
+                    var monId = valField(retenciones[i], C.MON_ID);
 
                     if(cueId !== NO_ID) {
 
-                      var retencionInfo = getValue(retenciones[i], C.RETENCION_INFO)
+                      var retencionInfo = {
+                        retencion: valField(retenciones[i], C.RETENCION_INFO_RETENCION),
+                        porcentaje: valField(retenciones[i], C.RETENCION_INFO_PORCENTAJE),
+                        comprobante: valField(retenciones[i], C.RETENCION_INFO_COMPROBANTE),
+                        base: valField(retenciones[i], C.RETENCION_INFO_BASE),
+                      };
 
                       if(retencionInfo.retencion > 0) {
 
                         var retencion = retencionInfo.retencion;
-                        var porcentaje = retencionInfo.porcentaje;
+                        var porcentaje = retencionInfo.porcentaje/100; // TODO: check this division is needed
                         var comprobante = retencionInfo.comprobante;
                         var base = retencionInfo.base;
 
@@ -2350,9 +2355,6 @@
                         row.add(null).setKey(KIO_FECHARETENCION);
                         row.add(null).setKey(KIO_CCOS_ID);
                         row.add(null).setKey(KIO_FC_ID_RET);
-
-                        // TODO: check this
-                        // check this because it must be wrong
 
                         var cell = getCell(row, KIO_CUE_ID);
                         if(cell.getId() === NO_ID || cell.getId() === cueId) {
@@ -2417,11 +2419,45 @@
           });
       };
 
-      var getRetencionForProveedor = function() {
+      var getFacturarForRetencion = function() {
+        var rtn = "";
+        var rows = getFacturas().getRows();
+        var _count = rows.size();
+
+        for (var _i = 0; _i < _count; _i++) {
+
+          var row = rows.item(_i);
+
+          if(Dialogs.cell(row, KI_SELECT).getId()) {
+            var value = Cairo.Util.val(Dialogs.cell(row, KI_APLICAR).getValue());
+            if(value) {
+              if(value !== Cairo.Util.val(Dialogs.cell(row, KI_PENDIENTE).getValue())) {
+                rtn = rtn + Dialogs.cell(row, KI_FC_ID).getValue() + "-" + Cairo.Database.sqlNumber(value) + "*";
+              }
+              else {
+                rtn = rtn + Dialogs.cell(row, KI_FC_ID).getValue() + "*";
+              }
+            }
+          }
+        }
+
+        if(rtn.substring(rtn.length - 1) === "*") {
+          rtn = rtn.substring(0, rtn.length - 1);
+        }
+
+        return rtn;
+      };
+
+      var getRetencionForProveedor = function(total, facturas) {
+        var params = {
+          fecha: DB.sqlDate(getFecha().getValue()),
+          pago: DB.sqlNumber(total),
+          facturas: facturas
+        }
         return DB.getData(
           "load[" + m_apiPath
             + "general/proveedor/" + getProveedor().toString()
-            + "/retenciones/" + DB.sqlDate(getFecha().getValue()) + "]");
+            + "/retenciones]", null, params);
 
       };
 
@@ -2846,7 +2882,7 @@
           return M.showWarningWithFalse(getText(1560, "")); // Debe indicar la sucursal
         }
 
-        return true;
+        return P.resolvedPromise(true);
       };
 
       var initialize = function() {
@@ -2961,7 +2997,7 @@
 
         var transaction = new DB.createTransaction();
 
-        transaction.setTable(CT.COBRANZA_ITEM_CHEQUE_TMP);
+        transaction.setTable(CT.ORDEN_PAGO_ITEM_CHEQUE_TMP);
 
         var rows = getCheques().getRows();
 
@@ -3012,7 +3048,7 @@
                   break;
 
                 case KICH_CUE_ID:
-                  fields.add(CT.CUE_ID, NO_ID, Types.id);
+                  fields.add(C.CUE_ID, NO_ID, Types.id);
                   break;
 
                 case KICH_IMPORTEORIGEN:
@@ -3090,7 +3126,7 @@
                   break;
 
                 case KICHT_CUE_ID:
-                  fields.add(CT.CUE_ID, cell.getId(), Types.id);
+                  fields.add(C.CUE_ID, cell.getId(), Types.id);
                   break;
 
                 case KICHT_IMPORTEORIGEN:
@@ -3122,7 +3158,7 @@
 
         var transaction = new DB.createTransaction();
 
-        transaction.setTable(CT.COBRANZA_ITEM_OTRO_TMP);
+        transaction.setTable(CT.ORDEN_PAGO_ITEM_OTRO_TMP);
 
         var rows = getOtros().getRows();
 
@@ -3169,7 +3205,7 @@
                   break;
 
                 case KIO_CUE_ID:
-                  fields.add(CT.CUE_ID, cell.getId(), Types.id);
+                  fields.add(C.CUE_ID, cell.getId(), Types.id);
                   break;
 
                 case KIO_FECHARETENCION:
@@ -3216,7 +3252,7 @@
 
         var transaction = new DB.createTransaction();
 
-        transaction.setTable(CT.COBRANZA_ITEM_EFECTIVO_TMP);
+        transaction.setTable(CT.ORDEN_PAGO_ITEM_EFECTIVO_TMP);
 
         var rows = getEfectivo().getRows();
 
@@ -3243,7 +3279,7 @@
                   break;
 
                 case KIE_CUE_ID:
-                  fields.add(CT.CUE_ID, cell.getId(), Types.id);
+                  fields.add(C.CUE_ID, cell.getId(), Types.id);
                   break;
 
                 case KIE_IMPORTEORIGEN:
@@ -3296,7 +3332,7 @@
             switch (cell.getKey()) {
 
               case KICC_CUE_ID:
-                fields.add(CT.CUE_ID, cell.getId(), Types.id);
+                fields.add(C.CUE_ID, cell.getId(), Types.id);
                 break;
 
               case KICC_IMPORTEORIGEN:
@@ -3364,7 +3400,7 @@
 
           var register = new DB.Register();
 
-          register.setFieldId(CC.FC_OPG_TMP_ID);
+          register.setFieldId(CT.FC_OPG_TMP_ID);
           register.setId(Cairo.Constants.NEW_ID);
 
           mustSave = false;
@@ -3393,7 +3429,7 @@
                   break;
 
                 case KI_IMPORTEORIGEN:
-                  fields.add(CC.FC_OPG_IMPORTE_ORIGEN, val(cell.getValue()), Types.double);
+                  fields.add(CT.FC_OPG_IMPORTE_ORIGEN, val(cell.getValue()), Types.double);
                   break;
 
                 case KI_COTIZACION:
@@ -3402,7 +3438,7 @@
 
                 case KI_COTIZACION2:
                   cotiOrdenPago = val(cell.getValue());
-                  fields.add(CC.FC_OPG_COTIZACION, cotiOrdenPago, Types.double);
+                  fields.add(CT.FC_OPG_COTIZACION, cotiOrdenPago, Types.double);
                   break;
               }
             }
@@ -3418,8 +3454,8 @@
               pago = pago / cotiOrdenPago * cotiOrigen;
             }
 
-            fields.add(CC.FC_OPG_IMPORTE, pago, Types.double);
-            fields.add(CC.FC_OPG_ID, 0, Types.long);
+            fields.add(CT.FC_OPG_IMPORTE, pago, Types.double);
+            fields.add(CT.FC_OPG_ID, 0, Types.long);
             fields.add(CT.OPG_ID, 0, Types.long);
 
             transaction.addRegister(register);

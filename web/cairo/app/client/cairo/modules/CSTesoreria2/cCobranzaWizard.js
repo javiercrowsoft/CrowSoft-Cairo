@@ -2776,21 +2776,18 @@
           switch (cell.getKey()) {
 
             case KICH_CUE_ID:
-
               if(valEmpty(cell.getId(), Types.id)) {
                 return M.showInfoWithFalse(getText(2113, "", strRow)); // Debe indicar una cuenta contable (1)
               }
               break;
 
             case KICH_BCO_ID:
-
               if(valEmpty(cell.getId(), Types.id)) {
                 return M.showInfoWithFalse(getText(2094, "", strRow)); // Debe indicar un banco (1)
               }
               break;
 
             case KICH_MON_ID:
-
               if(valEmpty(cell.getId(), Types.id)) {
                 return M.showInfoWithFalse(getText(2114, "", strRow)); // Debe indicar una moneda (1)
               }
@@ -2798,40 +2795,34 @@
               break;
 
             case KICH_CLE_ID:
-
               if(valEmpty(cell.getId(), Types.id)) {
                 return M.showInfoWithFalse(getText(2115, "", strRow)); // Debe indicar un clearing (1)
               }
               break;
 
             case KICH_IMPORTEORIGEN:
-
               bOrigen = !valEmpty(val(cell.getValue()), Types.double);
               break;
 
             case KICH_IMPORTE:
-
               if(valEmpty(val(cell.getValue()), Types.double)) {
                 return M.showInfoWithFalse(getText(1897, "", strRow)); // Debe indicar un importe (1)
               }
               break;
 
             case KICH_CHEQUE:
-
               if(valEmpty(cell.getValue(), Types.text)) {
                 return M.showInfoWithFalse(getText(2116, "", strRow)); // Debe indicar un número de cheque (1)
               }
               break;
 
             case KICH_FECHACOBRO:
-
               if(valEmpty(cell.getValue(), Types.date)) {
                 return M.showInfoWithFalse(getText(2117, "", strRow)); // Debe indicar una fecha para depositar (1)
               }
               break;
 
             case KICH_FECHAVTO:
-
               if(valEmpty(cell.getValue(), Types.date)) {
                 return M.showInfoWithFalse(getText(1384, "", strRow)); // Debe indicar una fecha de vencimiento (1)
               }
@@ -3114,7 +3105,7 @@
               }
               break;
 
-            case KIE_CUE_ID:
+            case KIE_MON_ID:
               monId = cell.getId();
               break;
 

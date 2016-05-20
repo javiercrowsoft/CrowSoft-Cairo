@@ -1259,27 +1259,30 @@ object Proveedor {
     }
   }
 
-  def getRetenciones(user: CompanyUser, id: Int, fecha: Date): Recordset = {
+  def getRetenciones(user: CompanyUser, provId: Int, fecha: Date, pago: Double, facturas: String): Recordset = {
 
     DB.withTransaction(user.database.database) { implicit connection =>
 
-      val sql = "{call sp_proveedor_get_retenciones(?, ?, ?, ?)}"
+      val sql = "{call sp_proveedor_get_retenciones(?, ?, ?, ?, ?, ?, ?)}"
       val cs = connection.prepareCall(sql)
 
-      cs.setInt(1, id)
+      cs.setInt(1, user.masterUserId)
       cs.setInt(2, user.cairoCompanyId)
-      cs.setDate(3, new java.sql.Date(fecha.getTime()))
-      cs.registerOutParameter(4, Types.OTHER)
+      cs.setInt(3, provId)
+      cs.setDate(4, new java.sql.Date(fecha.getTime()))
+      cs.setBigDecimal(5, new BigDecimal(pago))
+      cs.setString(6, facturas)
+      cs.registerOutParameter(7, Types.OTHER)
 
       try {
         cs.execute()
 
-        val rs = cs.getObject(4).asInstanceOf[java.sql.ResultSet]
+        val rs = cs.getObject(7).asInstanceOf[java.sql.ResultSet]
         Recordset.load(rs)
 
       } catch {
         case NonFatal(e) => {
-          Logger.error(s"can't get proveedor retenciones with provId $id and empId ${user.cairoCompanyId} for user ${user.toString}. Error ${e.toString}")
+          Logger.error(s"can't get proveedor retenciones with provId $provId and empId ${user.cairoCompanyId} for user ${user.toString}. Error ${e.toString}")
           throw e
         }
       } finally {

@@ -748,9 +748,18 @@ object Proveedores extends Controller with ProvidesUser {
     })
   }
 
-  def getRetenciones(id: Int, fecha: String) = GetAction { implicit request =>
+  def getRetenciones(provId: Int, fecha: Option[String], pago: Option[Double], facturas: Option[String]) = GetAction { implicit request =>
     LoggedIntoCompanyResponse.getAction(request, { user =>
-      Ok(Json.toJson(Recordset.getAsJson(Proveedor.getRetenciones(user, id, DateFormatter.parse(fecha)))))
+      Ok(
+        Json.toJson(
+          Recordset.getAsJson(
+            Proveedor.getRetenciones(
+              user,
+              provId,
+              DateFormatter.parse(fecha.getOrElse("")),
+              pago.getOrElse(0),
+              facturas.getOrElse("")
+            ))))
     })
   }
 }

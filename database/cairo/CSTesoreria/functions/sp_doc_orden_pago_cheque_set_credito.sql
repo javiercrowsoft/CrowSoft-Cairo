@@ -120,7 +120,7 @@ begin
         and cheq_anulado = 0
         and cheq_rechazado = 0;
 
-      v_pendiente := sqlserver_utilities.round_(coalesce(v_pendiente, 0), 2);
+      v_pendiente := round(coalesce(v_pendiente, 0), 2);
 
       if exists ( select id
                   from ProveedorCacheCredito

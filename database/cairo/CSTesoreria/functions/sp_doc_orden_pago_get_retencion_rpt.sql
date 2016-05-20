@@ -30,7 +30,20 @@ javier at crowsoft.com.ar
 */
 -- Function: sp_doc_orden_pago_get_retencion_rpt()
 
--- drop function sp_doc_orden_pago_get_retencion_rpt(integer);
+/*
+drop function sp_doc_orden_pago_get_retencion_rpt(
+  date,
+  date,
+  integer,
+  varchar,
+  decimal,
+  decimal,
+  decimal,
+  decimal,
+  decimal,
+  decimal
+);
+*/
 /*
           select * from ProveedorRetencion;
           select * from sp_doc_orden_pago_get_retencion_rpt(6);
@@ -46,12 +59,12 @@ create or replace function sp_doc_orden_pago_get_retencion_rpt
   in p_fhasta date,
   in p_prov_id integer,
   in p_emp_id varchar,
-  in p_pago integer,
-  in p_opg_total integer,
-  in p_nuevoPago integer,
-  in p_base integer,
-  in p_tasa integer,
-  in p_ret integer,
+  in p_pago decimal(18,6),
+  in p_opg_total decimal(18,6),
+  in p_nuevoPago decimal(18,6),
+  in p_base decimal(18,6),
+  in p_tasa decimal(18,6),
+  in p_ret decimal(18,6),
   out rtn refcursor
 )
   returns refcursor as
@@ -203,10 +216,10 @@ alter function sp_doc_orden_pago_get_retencion_rpt(
   date,
   integer,
   varchar,
-  integer,
-  integer,
-  integer,
-  integer,
-  integer,
-  integer)
+  decimal,
+  decimal,
+  decimal,
+  decimal,
+  decimal,
+  decimal)
   owner to postgres;

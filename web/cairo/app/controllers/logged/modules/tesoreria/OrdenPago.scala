@@ -86,7 +86,7 @@ case class OrdenPagoItemRetencionData(
                                        retId: Int,
                                        numero: String,
                                        porcentaje: Double,
-                                       fecha: String,
+                                       fecha: Option[String],
                                        fcId: Int
                                      )
 
@@ -277,12 +277,12 @@ object OrdenesPago extends Controller with ProvidesUser {
             C.OPGI_IMPORTE -> of(Global.doubleFormat),
             C.OPGI_IMPORTE_ORIGEN -> of(Global.doubleFormat))
           (OrdenPagoItemTotalsData.apply)(OrdenPagoItemTotalsData.unapply),
-          C.OPGI_TIPO -> number,
+          C.OPGI_OTRO_TIPO -> number,
           C.ORDEN_PAGO_ITEM_OTRO_RETENCION -> mapping (
             GC.RET_ID -> number,
             C.OPGI_NRO_RETENCION -> text,
             C.OPGI_PORC_RETENCION -> of(Global.doubleFormat),
-            C.OPGI_FECHA_RETENCION -> text,
+            C.OPGI_FECHA_RETENCION -> optional(text),
             C.FC_ID_RET -> number)
           (OrdenPagoItemRetencionData.apply)(OrdenPagoItemRetencionData.unapply)
         )(OrdenPagoItemOtroData.apply)(OrdenPagoItemOtroData.unapply)
@@ -561,7 +561,7 @@ object OrdenesPago extends Controller with ProvidesUser {
 
       // groups for OrdenPagoOtroData
       //
-      val ordenPagoOtro = Global.preprocessFormParams(List(C.OPGI_ID, C.OPGI_TIPO), "", params)
+      val ordenPagoOtro = Global.preprocessFormParams(List(C.OPGI_ID, C.OPGI_OTRO_TIPO), "", params)
       val ordenPagoOtroBaseGroup = Global.preprocessFormParams(ordenPagoItemBase, C.ORDEN_PAGO_ITEM_BASE, params)
       val ordenPagoOtroTotalsGroup = Global.preprocessFormParams(ordenPagoItemTotals, C.ORDEN_PAGO_ITEM_TOTALS, params)
       val ordenPagoOtroRetencionGroup = Global.preprocessFormParams(ordenPagoItemOtroRetencion, C.ORDEN_PAGO_ITEM_OTRO_RETENCION, params)
@@ -791,7 +791,7 @@ object OrdenesPago extends Controller with ProvidesUser {
           otro.retencion.retId,
           otro.retencion.numero,
           otro.retencion.porcentaje,
-          DateFormatter.parse(otro.retencion.fecha),
+          DateFormatter.parse(otro.retencion.fecha.getOrElse("")),
           otro.retencion.fcId
         )
       )

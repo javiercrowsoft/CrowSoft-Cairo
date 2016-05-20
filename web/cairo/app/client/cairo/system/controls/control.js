@@ -240,6 +240,8 @@
         return that.getObjectType() + " - " + that.getName() + " - " + that.htmlTag;
       };
 
+      that.inspect = that.toString;
+
       return that;
     };
 

@@ -285,7 +285,7 @@ object Cobranzas extends Controller with ProvidesUser {
             C.COBZI_IMPORTE -> of(Global.doubleFormat),
             C.COBZI_IMPORTE_ORIGEN -> of(Global.doubleFormat))
             (CobranzaItemTotalsData.apply)(CobranzaItemTotalsData.unapply),
-          C.COBZI_TIPO -> number,
+          C.COBZI_OTRO_TIPO -> number,
           C.COBRANZA_ITEM_OTRO_RETENCION -> mapping (
             GC.RET_ID -> number,
             C.COBZI_NRO_RETENCION -> text,
@@ -573,7 +573,7 @@ object Cobranzas extends Controller with ProvidesUser {
 
       // groups for CobranzaOtroData
       //
-      val cobranzaOtro = Global.preprocessFormParams(List(C.COBZI_ID, C.COBZI_TIPO), "", params)
+      val cobranzaOtro = Global.preprocessFormParams(List(C.COBZI_ID, C.COBZI_OTRO_TIPO), "", params)
       val cobranzaOtroBaseGroup = Global.preprocessFormParams(cobranzaItemBase, C.COBRANZA_ITEM_BASE, params)
       val cobranzaOtroTotalsGroup = Global.preprocessFormParams(cobranzaItemTotals, C.COBRANZA_ITEM_TOTALS, params)
       val cobranzaOtroRetencionGroup = Global.preprocessFormParams(cobranzaItemOtroRetencion, C.COBRANZA_ITEM_OTRO_RETENCION, params)

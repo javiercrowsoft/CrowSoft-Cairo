@@ -88,7 +88,7 @@ begin
       open rtn for
 
          -- devolvemos un recordset vacio para que el que llama
-         -- no fallse el preguntar por eof
+         -- no falle el preguntar por eof
          --
          select 0 dummy from Cobranza where 1 = 2;
 

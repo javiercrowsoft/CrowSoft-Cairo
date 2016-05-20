@@ -169,7 +169,7 @@ begin
    if not exists ( select fvTMP_id
                    from FacturaVentaTMP
                    where fvTMP_id = p_fvTMP_id ) then
-      return query select * from result_failed;
+      return query select * from result_failed();
       return;
 
    end if;

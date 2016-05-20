@@ -169,7 +169,7 @@ begin
                    from FacturaCompraTMP
                    where fcTMP_id = p_fcTMP_id ) then
 
-      return query select * from result_failed;
+      return query select * from result_failed();
       return;
 
    end if;
@@ -1036,7 +1036,7 @@ begin
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 */
 
-   select * from sp_doc_factura_compra_orden_pago_save(v_fc_id) into v_success, v_error_msg;
+   select * from sp_doc_factura_compra_orden_pago_save(p_us_id, v_fc_id) into v_success, v_error_msg;
    if coalesce(v_success, 0) = 0 then
       raise exception '%', v_error_msg;
    end if;

@@ -30,7 +30,18 @@ javier at crowsoft.com.ar
 */
 -- Function: sp_doc_orden_pago_get_retencion()
 
--- drop function sp_doc_orden_pago_get_retencion(integer);
+/*
+drop function sp_doc_orden_pago_get_retencion(
+  integer,
+  date,
+  date,
+  varchar,
+  varchar,
+  varchar,
+  decimal,
+  varchar,
+  integer);
+*/
 /*
           select * from ProveedorRetencion;
           select * from sp_doc_orden_pago_get_retencion(6);
@@ -45,7 +56,7 @@ create or replace function sp_doc_orden_pago_get_retencion
   in p_prov_id varchar,
   in p_emp_id varchar,
   in p_ret_id varchar,
-  in p_pago integer,
+  in p_pago decimal(18,6),
   in p_facturas varchar,
   in p_IsForOPG integer default 0,
   out rtn refcursor
@@ -79,7 +90,7 @@ declare
    v_catf_id integer;
    v_tipoBase smallint;
 
-   v_codigo date;
+   v_codigo timestamp with time zone;
    v_pagoParcial decimal(18,6);
    v_txt varchar(5000);
    v_fc_numero integer;
@@ -131,7 +142,6 @@ begin
      base decimal(18,6) default (0) not null
    ) on commit drop;
 
-
    -- solo convierto los ids
    --
    select * from sp_ArbConvertId(p_prov_id) into v_prov_id, v_ram_id_Proveedor;
@@ -145,7 +155,7 @@ begin
           v_ibc_id,
           v_tipoMinimo
    from Retencion
-   where ret_id = p_ret_id;
+   where ret_id = v_ret_id;
 
    --/////////////////////////////////////////////////////////////////////////////////////////////////////
    --
@@ -156,17 +166,17 @@ begin
    -- si la retencion indica explicitamente al menos una categoria fiscal
    -- comprobamos que la categoria del proveedor este asociada a la retencion
    --
-   if exists ( select * from RetencionCategoriaFiscal where ret_id = p_ret_id ) then
+   if exists ( select * from RetencionCategoriaFiscal where ret_id = v_ret_id ) then
 
       select prov_catFiscal
         into v_catf_id
       from Proveedor
-      where prov_id = p_prov_id;
+      where prov_id = v_prov_id;
 
       select retcatf_base
         into v_tipoBase
       from RetencionCategoriaFiscal
-      where ret_id = p_ret_id
+      where ret_id = v_ret_id
         and catf_id = v_catf_id;
 
       -- si tipoBase es null es por que esta retencion
@@ -196,16 +206,16 @@ begin
       -- si la retencion indica explicitamente al menos una provincia
       -- comprobamos que la provincia del proveedor este asociada a la retencion
       --
-      if exists ( select * from RetencionProvincia where ret_id = p_ret_id ) then
+      if exists ( select * from RetencionProvincia where ret_id = v_ret_id ) then
 
          select pro_id
            into v_pro_id
          from Proveedor
-         where prov_id = p_prov_id;
+         where prov_id = v_prov_id;
 
          if not exists ( select *
                          from RetencionProvincia
-                         where ret_id = p_ret_id
+                         where ret_id = v_ret_id
                            and pro_id = v_pro_id ) then
 
             v_noAplica := 1;
@@ -223,8 +233,8 @@ begin
 
             if exists ( select *
                         from ProveedorRetencion
-                        where prov_id = p_prov_id
-                          and ret_id = p_ret_id ) then
+                        where prov_id = v_prov_id
+                          and ret_id = v_ret_id ) then
 
                v_noAplica := 0;
 
@@ -401,7 +411,7 @@ begin
                select fc_id
                  into v_fc_id
                from FacturaCompra
-               where fc_numero = CAST(v_txt as integer);
+               where fc_numero = to_number(v_txt);
 
                -- esto no me gusta, pero no lo vamos a tocar por ahora.
                --
@@ -426,7 +436,7 @@ begin
                   --
                   if v_ibc_id is null then
 
-                     insert into tt_nuevoPago ( fc_numero, pago ) values ( v_txt, 0 );
+                     insert into tt_nuevoPago ( fc_numero, pago ) values ( to_number(v_txt), 0 );
 
                   else
 
@@ -477,7 +487,7 @@ begin
 
                      if v_pago_ibc > 0 then
 
-                        insert into tt_nuevoPago ( fc_numero, pago ) values ( v_txt, v_pago_ibc );
+                        insert into tt_nuevoPago ( fc_numero, pago ) values ( to_number(v_txt), v_pago_ibc );
 
                      end if;
 
@@ -489,8 +499,8 @@ begin
 
                if instr(v_txt, '-') <> 0 then
 
-                  v_fc_numero := CAST(substr(v_txt, 1, instr(v_txt, '-') - 1) as integer);
-                  v_pagoParcial := CAST(substr(v_txt, instr(v_txt, '-') || 1, length(v_txt)) as decimal(18,6));
+                  v_fc_numero := to_number(substr(v_txt, 1, instr(v_txt, '-') - 1));
+                  v_pagoParcial := cast(substr(v_txt, instr(v_txt, '-') || 1, length(v_txt)) as decimal(18,6));
 
                   select fc_id
                     into v_fc_id
@@ -836,9 +846,9 @@ begin
          from OrdenPago opg
          join OrdenPagoItem opgi
            on opg.opg_id = opgi.opg_id
-         where opg.prov_id = p_prov_id
+         where opg.prov_id = v_prov_id
            and opg.opg_fecha between p_fdesde and p_fhasta
-           and opgi.ret_id = p_ret_id;
+           and opgi.ret_id = v_ret_id;
 
          v_yaRetenido := coalesce(v_yaRetenido, 0);
 
@@ -896,7 +906,7 @@ begin
          select ta_id
            into v_ta_id
          from Retencion
-         where ret_id = p_ret_id;
+         where ret_id = v_ret_id;
 
          select sp_talonario_get_next_number(v_ta_id) into v_ta_nrodoc;
 
@@ -961,7 +971,7 @@ alter function sp_doc_orden_pago_get_retencion(
   varchar,
   varchar,
   varchar,
-  integer,
+  decimal,
   varchar,
   integer)
   owner to postgres;

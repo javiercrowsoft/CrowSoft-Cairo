@@ -30,11 +30,12 @@ javier at crowsoft.com.ar
 */
 -- Function: sp_doc_orden_pago_save()
 
--- drop function sp_doc_orden_pago_save(integer, integer);
+-- drop function sp_doc_orden_pago_save(integer, integer, integer, integer);
 
 create or replace
 function sp_doc_orden_pago_save
 (
+  in p_us_id integer,
   in p_opgTMP_id integer,
   in p_no_raise_error integer default 0,
   in p_fc_id integer default null
@@ -146,11 +147,11 @@ begin
 
    -- si no existe chau
    --
-   if exists ( select opgTMP_id
+   if not exists ( select opgTMP_id
                from OrdenPagoTMP
                where opgTMP_id = p_opgTMP_id ) then
 
-      return query select * from result_failed;
+      return query select * from result_failed();
       return;
 
    end if;
@@ -1031,9 +1032,9 @@ begin
    select modifico into v_modifico from OrdenPago where opg_id = v_opg_id;
 
    if v_is_new <> 0 then
-      perform sp_HistoriaUpdate(18005, v_opg_id, v_modifico, 1);
+      perform sp_historia_update(18005, v_opg_id, v_modifico, 1);
    else
-      perform sp_HistoriaUpdate(18005, v_opg_id, v_modifico, 3);
+      perform sp_historia_update(18005, v_opg_id, v_modifico, 3);
    end if;
 
 /*
@@ -1044,8 +1045,8 @@ begin
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 */
 
-   rtn.type = 'opg_id';
-   rtn.id = v_opg_id;
+   rtn.type := 'opg_id';
+   rtn.id := v_opg_id;
 
    return next rtn;
 
@@ -1067,5 +1068,5 @@ end;
 $BODY$
   language plpgsql volatile
   cost 100;
-alter function sp_doc_orden_pago_save(integer, integer, integer)
+alter function sp_doc_orden_pago_save(integer, integer, integer, integer)
   owner to postgres;

@@ -1214,6 +1214,7 @@ object Cobranza {
         Field(C.COBZ_TMP_ID, cobzTMPId, FieldType.id),
         Field(C.COBZI_ID, item.id, FieldType.number),
         Field(C.COBZI_TIPO, C.COBRANZA_ITEM_TIPO_OTROS, FieldType.number),
+        Field(C.COBZI_OTRO_TIPO, item.tipo, FieldType.number),
         Field(C.COBZI_DESCRIP, item.base.descrip, FieldType.text),
         Field(GC.CUE_ID, item.base.cueId, FieldType.id),
         Field(GC.CCOS_ID, item.base.ccosId, FieldType.id),

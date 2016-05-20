@@ -89,7 +89,7 @@ begin
                    from AsientoTMP
                    where asTMP_id = p_asTMP_id ) then
 
-      return query select * from result_failed;
+      return query select * from result_failed();
       return;
 
    end if;

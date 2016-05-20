@@ -438,6 +438,10 @@
       return Cairo.Util.getDateValue(date).toISOString();
     },
 
+    sqlNumber: function(number) {
+      return val(number);
+    },
+
     getResultSetFromData: function(data) {
       var columns = data.get ? data.get('columns') : data['columns'];
       if(columns === undefined) {

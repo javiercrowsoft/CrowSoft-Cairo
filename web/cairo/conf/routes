@@ -298,7 +298,7 @@ GET     /api/v1/general/proveedor/:id/name                                      
 GET     /api/v1/general/proveedor/:id/cat_fiscal                                             controllers.logged.modules.general.Proveedores.catFiscal(id: Int)
 GET     /api/v1/general/proveedor/:id/data_add                                               controllers.logged.modules.general.Proveedores.dataAdd(id: Int)
 GET     /api/v1/general/proveedor/validate_cuit/:cuit                                        controllers.logged.modules.general.Proveedores.validateCuit(cuit: String)
-GET     /api/v1/general/proveedor/:id/retenciones/:fecha                                     controllers.logged.modules.general.Proveedores.getRetenciones(id: Int, fecha: String)
+GET     /api/v1/general/proveedor/:provId/retenciones                                        controllers.logged.modules.general.Proveedores.getRetenciones(provId: Int, fecha: Option[String], pago: Option[Double], facturas: Option[String])
 
 GET     /api/v1/general/proveedor/:id                                                        controllers.logged.modules.general.Proveedores.get(id: Int)
 POST    /api/v1/general/proveedor                                                            controllers.logged.modules.general.Proveedores.create

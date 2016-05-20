@@ -412,7 +412,7 @@
 
       eventHandler.onSelectChange = function(control) {
         return function() {
-
+           endEdit();
         };
       };
 

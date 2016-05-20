@@ -45,7 +45,7 @@ create or replace function sp_doc_orden_pago_get_cuenta_deudor
   returns refcursor as
 $BODY$
 declare
-   v_cue_acreedoresXvta integer := 8;
+   v_cue_acreedoresXcpra integer := 8;
    v_timeCode timestamp with time zone;
 begin
 
@@ -66,9 +66,9 @@ begin
         on FacturaCompra.fc_id = cast(TmpStringToTable.tmpstr2tbl_campo as integer)
       join Cuenta c
         on AsientoItem.cue_id = c.cue_id
-      where asi_debe <> 0
+      where asi_haber <> 0
         and tmpstr2tbl_id = v_timeCode
-        and c.cuec_id = v_cue_acreedoresXvta
+        and c.cuec_id = v_cue_acreedoresXcpra
       group by fc_id,c.cue_id,c.cue_nombre;
 
 end;

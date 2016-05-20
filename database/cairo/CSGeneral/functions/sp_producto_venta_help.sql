@@ -34,7 +34,7 @@ javier at crowsoft.com.ar
 
 create or replace function sp_productoventahelp
 /*
-          select * from sp_ProductoventaHelp(1,1,1,'hp%',0,0); fetch all from rtn;
+          select * from sp_ProductoventaHelp(1,1,1,1,'hp%',0,0); fetch all from rtn;
           select * from sp_ProductoventaHelp(1,1,0,0,'Impresora Deskjet 450ci',1); fetch all from rtn;
           select * from sp_productoventahelp(1,1,0,1,'Impresora', 0); fetch all from rtn;
 */
@@ -56,7 +56,7 @@ declare
    v_filter varchar(255);
    v_prhc_atributo smallint;
    v_prhc_codigo varchar(255);
-   v_timeCode date;
+   v_timeCode timestamp with time zone;
 begin
 
    rtn := 'rtn';
