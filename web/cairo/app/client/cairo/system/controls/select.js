@@ -535,7 +535,10 @@
           source = getSelectSource(_table, _noUseActive === false, _filter);
           validateSource = getValidateSource(_table, _noUseActive === false, _filter);
           $(selector).removeClass("select-invalid-input");
-          $(selector).cautocomplete("resetLastSearched");
+          try {
+            $(selector).cautocomplete("resetLastSearched");
+          }
+          catch(ignore) {}
         };
 
         return {

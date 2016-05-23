@@ -1533,7 +1533,7 @@ object Cobranza {
         case h :: t => {
           val _id = h match {
             case RowResult("cobz_id", id, m) => id
-            case _ => 0
+            case _ => id
           }
           findId(t, _id)
         }

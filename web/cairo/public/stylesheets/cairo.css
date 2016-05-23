@@ -947,3 +947,10 @@ div.vertical-two-column:first-child {
 .inner-tab-content {
   margin-top: 37px;
 }
+
+/* Desktop */
+
+.desktop-header {
+  margin-top: 0px;
+  margin-bottom: 20px;
+}

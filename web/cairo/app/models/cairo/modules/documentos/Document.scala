@@ -88,7 +88,7 @@ object Document {
 
     DB.withTransaction(user.database.database) { implicit connection =>
 
-      val sql = "{call sp_document_get_next_number(?, ?, ?, ?)}"
+      val sql = "{call sp_documento_get_next_number(?, ?, ?, ?)}"
       val cs = connection.prepareCall(sql)
 
       cs.setInt(1, id)

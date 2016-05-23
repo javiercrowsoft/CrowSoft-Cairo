@@ -1364,15 +1364,19 @@
     });
   };
 
-  Cairo.Documents.setDescuentos = function(row, prId, precio, ldId, KI_DESCUENTO, KI_PRECIO) {
+  //
+  // getCurrentPrice is a function so we can use call(getPriceFromRow, rowIndex) when calling
+  // setDescuentos
+  //
+  Cairo.Documents.setDescuentos = function(row, prId, getCurrentPrice, ldId, KI_DESCUENTO, KI_PRECIO) {
     var p;
     var desc;
-    var price;
+    var price = getCurrentPrice();
 
     if(ldId !== NO_ID) {
 
       p = DB.getData(
-        "load[" + m_apiPath + "general/producto/" + prId.toString() + "/discount/" + ldId.toString() + "/price]", precio);
+        "load[" + m_apiPath + "general/producto/" + prId.toString() + "/discount/" + ldId.toString() + "/price]", price);
 
       p = p.whenSuccessWithResult(function(response) {
         desc = valField(response.data, 'desc');
@@ -1389,7 +1393,7 @@
     }
     else {
       if(KI_PRECIO !== undefined) {
-        getCell(row, KI_PRECIO).setValue(precio);
+        getCell(row, KI_PRECIO).setValue(price);
       }
     }
     return p || P.resolvedPromise(true);

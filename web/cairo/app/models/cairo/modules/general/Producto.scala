@@ -3082,8 +3082,8 @@ object Producto {
       val sql = "{call sp_lp_get_precio(?, ?, ?)}"
       val cs = connection.prepareCall(sql)
 
-      cs.setInt(1, id)
-      cs.setInt(2, lpId)
+      cs.setInt(1, lpId)
+      cs.setInt(2, id)
       cs.registerOutParameter(3, Types.DECIMAL)
 
       try {
@@ -3109,8 +3109,8 @@ object Producto {
       val sql = "{call sp_ld_get_descuento(?, ?, ?)}"
       val cs = connection.prepareCall(sql)
 
-      cs.setInt(1, id)
-      cs.setInt(2, ldId)
+      cs.setInt(1, ldId)
+      cs.setInt(2, id)
       cs.registerOutParameter(3, Types.DECIMAL)
       cs.setBigDecimal(3, new BigDecimal(price))
 

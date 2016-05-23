@@ -28,21 +28,21 @@ http://www.crowsoft.com.ar
 
 javier at crowsoft.com.ar
 */
--- Function: sp_document_get_next_number()
+-- Function: sp_documento_get_next_number()
 
--- drop function sp_document_get_next_number(integer);
+-- drop function sp_documento_get_next_number(integer);
 
 /*
 
           select * from documento where doct_id = 8;
           select * from proveedor;
-          select * from sp_document_get_next_number(1, 169);
+          select * from sp_documento_get_next_number(1, 169);
 
 */
 
-create or replace function sp_document_get_next_number
+create or replace function sp_documento_get_next_number
 (
-  in p_doc_id integer default null,
+  in p_doc_id integer,
   out p_number integer,
   out p_mask varchar,
   out p_enabled integer
@@ -78,5 +78,5 @@ end;
 $BODY$
   language plpgsql volatile
   cost 100;
-alter function sp_document_get_next_number(integer)
+alter function sp_documento_get_next_number(integer)
   owner to postgres;

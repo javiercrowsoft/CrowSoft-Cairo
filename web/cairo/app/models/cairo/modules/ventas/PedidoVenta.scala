@@ -1284,7 +1284,7 @@ object PedidoVenta {
         case h :: t => {
           val _id = h match {
             case RowResult("pv_id", id, m) => id
-            case _ => 0
+            case _ => id
           }
           findId(t, _id)
         }

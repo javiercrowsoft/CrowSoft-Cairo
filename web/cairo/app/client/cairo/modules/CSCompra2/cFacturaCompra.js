@@ -1677,7 +1677,7 @@
               )
               .whenSuccess(
                 call(
-                  D.setDescuentos, row, newValueId, getPrecioFromRow(row),
+                  D.setDescuentos, row, newValueId, call(getPrecioFromRow, row),
                   m_properties.item(C.LD_ID).getSelectId(), KI_DESCUENTO
                 )
               )

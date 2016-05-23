@@ -1355,7 +1355,7 @@
               )
               .whenSuccess(
                 call(
-                  D.setDescuentos, row, newValueId, getPrecioFromRow(row),
+                  D.setDescuentos, row, newValueId, call(getPrecioFromRow, row),
                   m_properties.item(C.LD_ID).getSelectId(), KI_DESCUENTO, KI_PRECIO
                 )
               )
@@ -2550,10 +2550,10 @@
         m_footer.refreshControls();
       };
 
-      var setTasasImpositivas = function(row, pr_id, pr_nombre) {
+      var setTasasImpositivas = function(row, prId, prName) {
         var p = null;
 
-        if(pr_id === 0) {
+        if(prId !== 0) {
 
           p = D.getTasaFromProducto(prId).whenSuccessWithResult(function(data) {
 
@@ -2738,7 +2738,7 @@
               var proName = valField(response.data, C.PRO_NAME);
 
               var prop = m_properties
-                .item(C.PRO_ID)
+                .item(C.PRO_ID_DESTINO)
                 .setValue(proName)
                 .setSelectId(proId);
 

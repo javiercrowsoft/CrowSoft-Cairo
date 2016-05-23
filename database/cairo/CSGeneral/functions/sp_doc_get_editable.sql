@@ -132,7 +132,7 @@ begin
       end if;
 
       p_editable_status := coalesce(v_editable, 0);
-      p_editable_message := coalesce(v_edit_msg, 'Error al obtener el estado de edicion del documento');
+      p_editable_message := coalesce(v_edit_msg, '');
 
    end;
 end;

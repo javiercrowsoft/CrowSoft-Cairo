@@ -4,20 +4,38 @@
 
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
-            <pattern>%coloredLevel %logger{15} - %message%n%xException{5}</pattern>
+            <pattern>[%d{HH:mm:ss.SSS}] %coloredLevel %logger{15} - %message%n%xException{5}</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!-- Support multiple-JVM writing to the same log file -->
+        <prudent>true</prudent>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>logs\logFile.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>30</maxHistory>
+            <totalSizeCap>1GB</totalSizeCap>
+        </rollingPolicy>
+
+        <encoder>
+            <!-- <pattern>[%d{HH:mm:ss.SSS}] %-4relative [%thread] %-5level %logger{35} - %msg%n</pattern> -->
+            <pattern>[%d{HH:mm:ss.SSS}] %coloredLevel %logger{15} - %message%n%xException{5}</pattern>
         </encoder>
     </appender>
 
     <logger name="com.jolbox.bonecp" level="DEBUG">
         <appender-ref ref="STDOUT" />
+        <appender-ref ref="FILE" />
     </logger>
 
     <logger name="play" level="DEBUG">
         <appender-ref ref="STDOUT" />
+        <appender-ref ref="FILE" />
     </logger>
 
     <logger name="application" level="DEBUG">
         <appender-ref ref="STDOUT" />
+        <appender-ref ref="FILE" />
     </logger>
 
 </configuration>
