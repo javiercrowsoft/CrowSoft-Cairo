@@ -3967,7 +3967,7 @@
               var proName = valField(response.data, C.PRO_NAME);
 
               var prop = m_properties
-                .item(C.PRO_ID)
+                .item(C.PRO_ID_DESTINO)
                 .setValue(proName)
                 .setSelectId(proId);
 
