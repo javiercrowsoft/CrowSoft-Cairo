@@ -1236,4 +1236,145 @@
 
   });
 
+  /*
+  *
+  * this module contains very specialized views.
+  * this views know about their controller.
+  * they are not generic views.
+  *
+  * */
+
+  Cairo.module("Views", function(Views, Cairo, Backbone, Marionette, $, _) {
+
+    /*
+    *
+    * reports is a controller which just returns a collection of group objects
+    * which are basically a name and a collection of reports which are a text,
+    * a description and a path used to create a link
+    *
+    * getGroups() => [{ group }]
+    * group       => [ name, reports [{ report }] }
+    * report      => { text, description, path }
+    *
+    * */
+    Views.createReportsView = function(reports) {
+
+      var groups = reports.getGroups();
+
+      var createTab = function(group, index, tabs) {
+        var link = $('<a data-toggle="tab" href="#' + group.getId() + '-pills">');
+        link.text(group.getName());
+        var tab = $('<li>');
+        tab.append(link);
+        tabs.append(tab);
+      };
+
+      var createTabs = function() {
+        var tabs = $('<ul class="nav nav-pills">');
+        groups.each(createTab, tabs);
+        return tabs;
+      };
+
+      var createReportLink = function(report, index, container) {
+        var row = $('<div class="row">');
+        var linkCol = $('<div class="col-sm-5">');
+        var link = $('<a href="#' + report.getPath() + '">');
+        var descripCol = $('<div class="col-sm-7">')
+        var descrip = $('<p>');
+
+        link.text(report.getName());
+        linkCol.append(link);
+
+        descrip.text(report.getDescrip());
+        descripCol.append(descrip)
+
+        row.append(linkCol).append(descripCol);
+        container.append(row);
+      };
+
+      var createReportLinks = function(reports) {
+        var container = $('<div>')
+        reports.each(createReportLink, container);
+        return container;
+      };
+
+      var createPanel = function(group, index, panels) {
+        var reports = createReportLinks(group.getReports());
+        var container = $('<div id="' + group.getId() + '-pills" class="tab-pane fade">');
+        var title = $('<h4>');
+        title.text(group.getName());
+        container.append(title);
+        container.append(reports);
+        panels.append(container);
+      };
+
+      var createPanels = function() {
+        var panels = $('<div class="tab-content inner-tab-content">');
+        groups.each(createPanel, panels);
+        return panels;
+      };
+
+      var setFirstGroupActive = function(tabs, panels) {
+        // TODO: implement this
+      };
+
+      var that = {};
+
+      that.render = function(view) {
+        var container = $('#reports', view.el);
+        var tabs = createTabs();
+        var panels = createPanels();
+        container.append(tabs);
+        container.append(panels);
+        setFirstGroupActive(tabs, panels);
+      };
+
+      return that;
+    };
+
+    /*
+    *
+    * modules is a controller which just returns a collection of module objects
+    * which are basically a name and a collection of links which are a text and
+    * a path used to create a link
+    *
+    * getModules() => [{ module }]
+    * module       => { name, modules [{ link }] }
+    * link         => { text, path }
+    *
+    * */
+    Views.createModulesView = function(modules) {
+
+      var that = {};
+
+      that.render = function(view) {
+
+      };
+
+      return that;
+    };
+
+    /*
+    *
+    * tasks is a controller which just returns a collection of task objects
+    * which are basically a type, a text, a date and a path used to create a link
+    *
+    * getTasks() => [{ task }]
+    * task       => { type, text, date, path }
+    *
+    * */
+
+    Views.createTasksView = function(tasks) {
+
+      var that = {};
+
+      that.render = function(view) {
+
+      };
+
+      return that;
+    };
+
+  });
+
 }());

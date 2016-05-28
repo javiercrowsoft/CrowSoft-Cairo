@@ -8,7 +8,8 @@ Cairo.module("CairoRouterApp", function(CairoRouterApp, Cairo, Backbone, Marione
          @if(!routerEntry.path2.isEmpty){"@{routerEntry.path2}": "@{routerEntry.action2}@{routerEntry.handlerObject}",}
       }
         "about" : "showAbout",
-        "desktop" : "showDesktop"
+        "desktop" : "showDesktop",
+        "reports/report/:id" : "showReport"
     }
   });
 
@@ -32,6 +33,9 @@ Cairo.module("CairoRouterApp", function(CairoRouterApp, Cairo, Backbone, Marione
         showDesktop: function() {
           // this must be empty. the desktop is always present and it is created on page load
         },
+        showReport: function(id) {
+          Cairo.Reports.Report.Controller.show(id);
+        }
 
   };
 

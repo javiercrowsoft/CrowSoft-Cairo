@@ -28,25 +28,50 @@ http://www.crowsoft.com.ar
 
 javier at crowsoft.com.ar
 */
--- Function: sp_cols()
+-- Function: sp_desktop_get_reportes(integer)
 
--- drop function sp_cols(varchar);
+-- drop function sp_desktop_get_reportes(integer, integer);
 
-create or replace function sp_cols(in tableName varchar, out rtn refcursor)
-  returns refcursor as
+/*
+select * from sp_desktop_get_reportes(1);
+fetch all from rtn;
+*/
+
+create or replace function sp_desktop_get_reportes
+(
+  in p_us_id integer,
+  in p_inf_tipo integer default 1,
+  out rtn refcursor
+)
+   returns refcursor as
 $BODY$
-declare
-v_leng_id integer;
 begin
-        rtn := 'rtn';
-        open rtn for
-        select *
-        from information_schema.columns
-        where table_name = lower(tableName);
+
+   rtn := 'rtn';
+
+   open rtn for
+
+   select distinct
+             r.rpt_id,
+             r.rpt_nombre,
+             i.inf_modulo,
+             r.rpt_descrip
+
+   from Reporte r
+   join Informe i
+     on r.inf_id = i.inf_id
+   join (select * from sp_security_get_permisos_x_usuario(p_us_id)) as i2
+     on i.pre_id = i2.pre_id
+
+   where ( r.us_id = p_us_id or p_us_id = 0 )
+     and i.activo <> 0
+     and i.inf_tipo = p_inf_tipo
+
+   order by i.inf_modulo, r.rpt_nombre;
 
 end;
 $BODY$
   language plpgsql volatile
   cost 100;
-alter function sp_cols(varchar)
+alter function sp_doc_get_editable(integer, integer, integer, integer)
   owner to postgres;

@@ -954,3 +954,16 @@ div.vertical-two-column:first-child {
   margin-top: 0px;
   margin-bottom: 20px;
 }
+
+#reports-pills h4 {
+  margin-bottom: 20px;
+  margin-left: 25px;
+}
+
+#reports .row {
+  border-bottom: 1px solid #e1e1e1;
+  margin-left: 10px;
+  margin-right: 10px;
+  margin-bottom: 10px;
+  padding-bottom: 5px;
+}

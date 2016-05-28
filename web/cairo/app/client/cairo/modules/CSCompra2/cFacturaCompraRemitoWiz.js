@@ -1425,7 +1425,7 @@
                 var rows = getItems().getRows();
                 rows.clear();
 
-                for(var _i = 0; _i < items.length; _i += 1) {
+                for(var _i = 0, count = items.length; _i < count; _i += 1) {
 
                   var row = rows.add(null);
 
@@ -1550,7 +1550,7 @@
                 var rows = getRemitos().getRows();
                 rows.clear();
 
-                for(var _i = 0; _i < items.length; _i += 1) {
+                for(var _i = 0, count = items.length; _i < count; _i += 1) {
 
                   var rcId = valField(items[_i], CC.RC_ID);
                   var selected = getApply(rcId);

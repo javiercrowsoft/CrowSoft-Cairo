@@ -2409,7 +2409,7 @@
 
                 var showCotizacion = false;
 
-                for(var _i = 0; _i < items.length; _i += 1) {
+                for(var _i = 0, count = items.length; _i < count; _i += 1) {
 
                   var fvId = valField(items[_i], CV.FV_ID);
                   var selected = getApply(fvId);
@@ -4055,7 +4055,7 @@
             var cueId = result.cueId;
             var cueIdIvaRi = result.cueIdIvaRi;
 
-            for(var _i = 0; _i < items.length; _i++) {
+            for(var _i = 0, count = items.length; _i < count; _i++) {
 
               var register = new DB.Register();
 

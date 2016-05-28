@@ -1389,12 +1389,8 @@ object C {
 
   val INFORME = "Informe"
   val INF_ID = "inf_id"
-  val INF_CODE = "inf_code"
-  val INF_NAME = "inf_name"
-
-  val REPORTE = "Reporte"
-  val RPT_ID = "rpt_id"
-  val RPT_NAME = "rpt_nombre"
+  val INF_CODE = "inf_codigo"
+  val INF_NAME = "inf_nombre"
 
   // Producto Numero Serie
   val PRODUCTO_NUMERO_SERIE = "ProductoNumeroSerie"

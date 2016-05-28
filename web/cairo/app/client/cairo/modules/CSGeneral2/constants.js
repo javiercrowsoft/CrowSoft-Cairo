@@ -144,6 +144,23 @@
       INF_ID: "inf_id",
       INF_NAME: "inf_nombre",
       INF_CODE: "inf_codigo",
+      INF_MODULO: "inf_modulo",
+
+      // Reporte
+      REPORTE: "Reporte",
+      RPT_ID: "rpt_id",
+      RPT_NAME: "rpt_nombre",
+      RPT_DESCRIP: "rpt_descrip",
+
+      // ReporteParametro
+      REPORTE_PARAMETRO: "ReporteParametro",
+      RPTP_ID: "rptp_id",
+      RPTP_VALUE: "rptp_valor",
+      RPTP_VISIBLE: "rptp_visible",
+
+      INFP_ID: "infp_id",
+      INFP_NAME: "infp_nombre",
+      INFP_TYPE: "infp_tipo",
 
       // Provincia
       PROVINCIA: "Provincia",

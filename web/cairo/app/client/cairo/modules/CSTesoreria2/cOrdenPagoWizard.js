@@ -2083,7 +2083,7 @@
 
                 var showCotizacion = false;
 
-                for(var _i = 0; _i < items.length; _i += 1) {
+                for(var _i = 0, count = items.length; _i < count; _i += 1) {
 
                   var fcId = valField(items[_i], CC.FC_ID);
                   var selected = getApply(fcId);

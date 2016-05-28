@@ -89,6 +89,14 @@ GET     /system/select/validate/:tableId/:text/:textId/:active/:internalFilter  
 #
 GET     /client/*file                                                                        controllers.FileService.getFile(path="/app/client", file)
 
+# desktop
+GET     /api/v1/desktop/reports                                                              controllers.logged.Desktop.listReports
+
+# reports
+GET     /api/v1/reports/report/:id                                                           controllers.logged.system.reports.Reports.get(id: Int)
+POST    /api/v1/reports/report                                                               controllers.logged.system.reports.Reports.create
+PUT     /api/v1/reports/report/:id                                                           controllers.logged.system.reports.Reports.update(id: Int)
+DELETE  /api/v1/reports/report/:id                                                           controllers.logged.system.reports.Reports.delete(id: Int)
 
 # modules
 
