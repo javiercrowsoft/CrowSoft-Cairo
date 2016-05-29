@@ -1,0 +1,237 @@
+@()
+<script type="text/template" id="desktop-template">
+    <div id="page-wrapper" style="min-height: 724px;">
+        <div class="row" style="padding-left: 50px; padding-right: 50px; padding-top: 25px;">
+            <div class="col-lg-12">
+                <div class="panel panel-default">
+                    <!-- /.panel-heading -->
+                    <div class="panel-body">
+                        <!-- Nav tabs -->
+                        <ul class="nav nav-pills">
+                            <li class="active"><a data-toggle="tab" href="#modules-pills">Modulos</a>
+                            </li>
+                            <li><a data-toggle="tab" href="#reports-pills">Reportes</a>
+                            </li>
+                        </ul>
+
+                        <!-- Tab panes -->
+                        <div class="tab-content inner-tab-content">
+                            <div id="modules-pills" class="tab-pane fade in active">
+
+                                <div class="row" style="padding-left: 50px;">
+                                    <div class="col-lg-12">
+                                        <h2 class="desktop-header">Modulos</h2>
+                                    </div>
+                                    <!-- /.col-lg-12 -->
+                                </div>
+                                <!-- /.row -->
+                                <div class="row" style="padding-left: 50px; padding-right: 50px;">
+                                    <div class="col-lg-2">
+                                        <div class="panel panel-primary">
+                                            <div class="panel-heading">
+                                                Compras
+                                            </div>
+                                            <div class="panel-body">
+                                                <br>
+                                                <ul>
+                                                    <li><a href="#compra/facturasdecompra" class="menu">Facturas de Compra</a>
+                                                        <hr>
+                                                    </li>
+                                                    <li><a href="#compra/remitosdecompra" class="menu">Remitos de Compra</a>
+                                                        <hr>
+                                                    </li>
+                                                    <li><a href="#compra/ordenesdecompra" class="menu">Ordenes de Compra</a>
+                                                        <hr>
+                                                    </li>
+                                                    <li><a href="#compra/pedidosdecompra" class="menu">Pedidos de Compra</a>
+                                                        <hr>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <div class="panel-footer">
+                                                <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+                                                <a href="#compra/compraconfig" class="menu">Configuracion</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- /.col-lg-4 -->
+                                    <div class="col-lg-2">
+                                        <div class="panel panel-primary">
+                                            <div class="panel-heading">
+                                                Ventas
+                                            </div>
+                                            <div class="panel-body">
+                                                <br>
+                                                <ul>
+                                                    <li><a href="#venta/facturasdeventa" class="menu">Facturas de Venta</a>
+                                                        <hr>
+                                                    </li>
+                                                    <li><a href="#venta/remitosdeventa" class="menu">Remitos de Venta</a>
+                                                        <hr>
+                                                    </li>
+                                                    <li><a href="#venta/pedidosdeventa" class="menu">Pedidos de Venta</a>
+                                                        <hr>
+                                                    </li>
+                                                    <li><a href="#venta/pedidosdeventa" class="menu">Presupuestos de Venta</a>
+                                                        <hr>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <div class="panel-footer">
+                                                <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+                                                <a href="#venta/config" class="menu">Configuracion</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- /.col-lg-4 -->
+                                    <div class="col-lg-2">
+                                        <div class="panel panel-primary">
+                                            <div class="panel-heading">
+                                                Tesoreria
+                                            </div>
+                                            <div class="panel-body">
+                                                <br>
+                                                <ul>
+                                                    <li><a href="#tesoreria/cobranzas" class="menu">Cobranzas</a>
+                                                        <hr>
+                                                    </li>
+                                                    <li><a href="#tesoreria/ordenespago" class="menu">Ordenes de Pago</a>
+                                                        <hr>
+                                                    </li>
+                                                    <li><a href="#tesoreria/movimientosfondo" class="menu">Movimientos de Fondo</a>
+                                                        <hr>
+                                                    </li>
+                                                    <li><a href="#tesoreria/depositosbanco" class="menu">Depositos Bancarios</a>
+                                                        <hr>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <div class="panel-footer">
+                                                <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+                                                <a href="#venta/config" class="menu">Configuracion</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2">
+                                        <div class="panel panel-primary">
+                                            <div class="panel-heading">
+                                                Contabilidad
+                                            </div>
+                                            <div class="panel-body">
+                                                <br>
+                                                <ul>
+                                                    <li><a href="#contabilidad/asientos" class="menu">Asientos</a>
+                                                        <hr>
+                                                    </li>
+                                                    <li><a href="#contabilidad/ejercicioscontables" class="menu">Ejercicios Contables</a>
+                                                        <hr>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <div class="panel-footer">
+                                                <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+                                                <a href="#contabilidad/contconfig" class="menu">Configuracion</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- /.col-lg-4 -->
+                                    <div class="col-lg-4">
+                                        <div class="panel panel-default">
+                                            <div class="panel-heading">
+                                                <span class="glyphicon glyphicon-time" aria-hidden="true"></span> Tareas
+                                            </div>
+                                            <!-- /.panel-heading -->
+                                            <div class="panel-body">
+                                                <div class="list-group">
+                                                    <a href="#compra/facturadecompra/74" class="list-group-item">
+                                                        <span class="glyphicon glyphicon-barcode" aria-hidden="true"></span>
+                                                        Hewlett-Packard fc: 00576592
+                                                        <span class="pull-right text-muted small"><em>10/04/2016</em>
+                                                        </span>
+                                                    </a>
+                                                    <a href="#compra/facturadecompra/74" class="list-group-item">
+                                                        <span class="glyphicon glyphicon-barcode" aria-hidden="true"></span>
+                                                        Hewlett-Packard fc: 0033591
+                                                        <span class="pull-right text-muted small"><em>15/04/2016</em>
+                                                        </span>
+                                                    </a>
+                                                    <a href="#compra/facturadecompra/74" class="list-group-item">
+                                                        <span class="glyphicon glyphicon-barcode" aria-hidden="true"></span>
+                                                        Epson fc: 00587944
+                                                        <span class="pull-right text-muted small"><em>15/04/2016</em>
+                                                        </span>
+                                                    </a>
+                                                    <a href="#compra/facturadecompra/74" class="list-group-item">
+                                                        <span class="glyphicon glyphicon-barcode" aria-hidden="true"></span>
+                                                        IBM fc: 00022481
+                                                        <span class="pull-right text-muted small"><em>16/04/2016</em>
+                                                        </span>
+                                                    </a>
+                                                    <a href="#venta/facturadeventa/528" class="list-group-item">
+                                                        <span class="glyphicon glyphicon-usd" aria-hidden="true"></span>
+                                                        Baires fv: 00050055
+                                                        <span class="pull-right text-muted small"><em>08/04/2016</em>
+                                                        </span>
+                                                    </a>
+                                                    <a href="#venta/facturadeventa/528" class="list-group-item">
+                                                        <span class="glyphicon glyphicon-usd" aria-hidden="true"></span>
+                                                        Arg Containers fv: 00050055
+                                                        <span class="pull-right text-muted small"><em>12/04/2016</em>
+                                                        </span>
+                                                    </a>
+                                                    <a href="#venta/facturadeventa/528" class="list-group-item">
+                                                        <span class="glyphicon glyphicon-usd" aria-hidden="true"></span>
+                                                        Autopistas del Sur fv: 00050055
+                                                        <span class="pull-right text-muted small"><em>05/04/2016</em>
+                                                        </span>
+                                                    </a>
+                                                    <a href="#" class="list-group-item">
+                                                        <span class="glyphicon glyphicon-phone-alt" aria-hidden="true"></span>
+                                                        Eduardo Milosnik 4308-9564 cel: 5897-6261
+                                                        <span class="pull-right text-muted small"><em>16:30</em>
+                                                        </span>
+                                                    </a>
+
+                                                </div>
+                                                <!-- /.list-group -->
+                                                <a href="#" class="btn btn-default btn-block">Ver todas las tareas</a>
+                                            </div>
+                                            <!-- /.panel-body -->
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div id="reports-pills" class="tab-pane fade">
+
+                                <div class="row" style="padding-left: 50px;">
+                                    <div class="col-lg-12">
+                                        <h2 class="desktop-header">Reportes</h2>
+                                    </div>
+                                    <!-- /.col-lg-12 -->
+                                </div>
+
+                                <div class="row" style="padding-left: 50px; padding-right: 50px;">
+                                    <div class="col-lg-12">
+                                        <div class="panel panel-default">
+                                            <!-- /.panel-heading -->
+                                            <div class="panel-body" id="reports">
+
+                                            </div>
+                                            <!-- /.panel-body -->
+                                        </div>
+                                        <!-- /.panel -->
+                                    </div>
+                                    <!-- /.col-lg-6 -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.panel-body -->
+                </div>
+                <!-- /.panel -->
+            </div>
+            <!-- /.col-lg-6 -->
+        </div>
+    </div>
+</script>

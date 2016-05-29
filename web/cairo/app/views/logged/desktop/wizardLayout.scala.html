@@ -1,0 +1,25 @@
+@(requestOrigin: services.RequestOrigin)
+<script type="text/template" id="wizard-layout-template">
+    <div class="row">
+        <div class="col-sm-12 col-md-12">
+            <div class="@if(requestOrigin.userAgent.isMobile) {container} else {desktop-big-container}">
+                <h3 class="sub-header dialog-subtitle"><%- entityTitle %></h3>
+            </div>
+        </div>
+    </div>
+    <div class="@if(requestOrigin.userAgent.isMobile) {container} else {dialog-container}">
+        <div class="dialog-form-box @if(!requestOrigin.userAgent.isMobile) {wizard-body}">
+          <div id="formBody">
+          </div>
+        </div>
+        <div class="row document-list-buttons-toolbar-row">
+            <div class="col-sm-1 col-md-1 col-lg-1">
+                <button class="btn btn-info dialog-button dialog-wizard-cancel-button">Cancel</button>
+            </div>
+            <div class="col-sm-11 col-md-11 col-lg-11 wizard-right-buttons">
+                <button class="btn btn-info dialog-button dialog-wizard-back-button">Back</button>
+                <button class="btn btn-info dialog-button dialog-wizard-next-button">Next</button>
+            </div>
+        </div>
+    </div>
+</script>

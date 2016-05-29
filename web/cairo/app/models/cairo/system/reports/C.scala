@@ -15,6 +15,7 @@ object C {
   val RPTP_ID = "rptp_id"
   val RPTP_VALUE = "rptp_valor"
   val RPTP_VISIBLE = "rptp_visible"
+  val SELECT_VALUE_NAME = "select_value_name"
 
   val INFORME = "Informe"
   val INF_ID = "inf_id"

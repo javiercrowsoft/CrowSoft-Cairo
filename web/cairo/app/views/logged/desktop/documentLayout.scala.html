@@ -1,0 +1,65 @@
+@(requestOrigin: services.RequestOrigin)
+<script type="text/template" id="document-layout-template">
+    <div class="row dialog-header">
+        <div class="col-sm-12 col-md-12">
+            <div class="@if(requestOrigin.userAgent.isMobile) {container} else {desktop-big-container}">
+                <h3 class="sub-header dialog-subtitle"><%- entityTitle %></h3>
+            </div>
+        </div>
+    </div>
+    <div class="@if(requestOrigin.userAgent.isMobile) {container} else {dialog-container}">
+        <div class="row document-list-buttons-toolbar-row">
+          <div class="col-sm-11 col-md-11 col-lg-11">
+            <div class="btn-group">
+            <button class="btn btn-info dialog-button dialog-new-button"><i class='glyphicon glyphicon-file'></i> New</button>
+            <button class="btn btn-success dialog-button dialog-save-button"><i class='glyphicon glyphicon-floppy-disk'></i> Save</button>
+            </div>
+            <div class="btn-group">
+            <button class="btn btn-info dialog-button dialog-copy-button">Duplicate</button>
+            <button class="btn btn-warning dialog-button dialog-discard-button">Discard Changes</button>
+            </div>
+            <div class="btn-group">
+            <button class="btn btn-info dialog-button dialog-search-button"><i class='glyphicon glyphicon-search'></i> Search</button>
+            </div>
+            <div class="btn-group">
+            <button class="btn btn-info dialog-button dialog-print-button"><i class='glyphicon glyphicon-print'></i> Print</button>
+            </div>
+            <div class="btn-group">
+            <button class="btn btn-info dialog-button dialog-documents-button"><i class='glyphicon glyphicon-paper-clip'></i> Attached Files</button>
+            </div>
+            <div class="btn-group">
+            <button class="btn btn-info dialog-button dialog-permissions-button"><i class='glyphicon glyphicon-step-backward'></i></button>
+            <button class="btn btn-info dialog-button dialog-documents-button"><i class='glyphicon glyphicon-backward'></i></button>
+            <button class="btn btn-info dialog-button dialog-documents-button"><i class='glyphicon glyphicon-forward'></i></button>
+            <button class="btn btn-info dialog-button dialog-documents-button"><i class='glyphicon glyphicon-step-forward'></i></button>
+            </div>
+
+            <div class="btn-group">
+              <button type="button" class="btn btn-default dropdown-toggle dialog-button" data-toggle="dropdown" aria-expanded="false">
+                More <span class="caret"></span>
+              </button>
+              <ul class="dropdown-menu" role="menu">
+                <li><a href="#">Edit</a></li>
+                <li class="divider"></li>
+                <li><a href="#">Invalidate</a></li>
+                <li class="divider"></li>
+                <li><a href="#"></i>Delete</a></li>
+                <li class="divider"></li>
+                <li><a href="#">View applications</a></li>
+                <li><a href="#">View associated documents</a></li>
+                <li><a href="#">Explain status</a></li>
+                <li><a href="#">Set/edit alarms</a></li>
+                <li><a href="#">View edit history</a></li>
+              </ul>
+            </div>
+          </div>
+          <div class="col-sm-1 col-md-1 col-lg-1">
+            <button class="btn btn-warning dialog-button dialog-close-button">Close</button>
+          </div>
+        </div>
+        <div class="dialog-form-box document-form">
+          <div id="formBody">
+          </div>
+        </div>
+    </div>
+</script>

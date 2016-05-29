@@ -157,10 +157,12 @@
       RPTP_ID: "rptp_id",
       RPTP_VALUE: "rptp_valor",
       RPTP_VISIBLE: "rptp_visible",
+      SELECT_VALUE_NAME: "select_value_name",
 
       INFP_ID: "infp_id",
       INFP_NAME: "infp_nombre",
       INFP_TYPE: "infp_tipo",
+      INFP_SQLSTMT: "infp_sqlstmt",
 
       // Provincia
       PROVINCIA: "Provincia",

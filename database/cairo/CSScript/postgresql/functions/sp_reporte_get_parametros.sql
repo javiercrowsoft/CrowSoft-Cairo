@@ -36,7 +36,7 @@ javier at crowsoft.com.ar
 -- select * from reporte where inf_id = 34
 -- sp_col reporteparametro
 /* 
-select * from sp_reporte_get_parametros( 113 );
+select * from sp_reporte_get_parametros( 111 );
 fetch all from rtn;
 */
 create or replace function sp_reporte_get_parametros
@@ -62,9 +62,13 @@ begin
              i.inf_id,
              i.tbl_id,
              r.rptp_id,
-             r.rptp_valor,
+             coalesce(r.rptp_valor,i.infp_default) as rptp_valor,
              coalesce(r.rptp_visible,i.infp_visible) as rptp_visible,
-             r.rpt_id
+             r.rpt_id,
+             sp_reporte_get_parametro_value(
+                coalesce(r.rptp_valor,i.infp_default),
+                i.infp_tipo,
+                i.tbl_id) as select_value_name
 
       from Reporte rpt
       inner join InformeParametro i on rpt.inf_id = i.inf_id

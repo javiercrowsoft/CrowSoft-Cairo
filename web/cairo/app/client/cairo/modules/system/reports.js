@@ -154,12 +154,13 @@
       var self = {
         id: 0,
         name: "",
-        value: "",
+        value: "",          /* value is always the internal value not what is shown to the user. ex: in selects is id or branch id */
         visible: false,
         paramType: 0,
         infpId: 0,
         tblId: 0,
-        valueId: "0"
+        sqlstmt: "",        /* this is the worst posible name. I keep it to avoid confusing you more. it contains a list of tuples { id, name } */
+        selectValueName: "" /* for selects it is the name or the branch name */
       }
 
       var that = {};
@@ -185,11 +186,11 @@
         self.value = value;
         return that;
       };
-      that.getValueId = function() {
-        return self.valueId;
+      that.getSelectValueName = function() {
+        return self.selectValueName;
       };
-      that.setValueId = function(valueId) {
-        self.valueId = valueId;
+      that.setSelectValueName = function(selectValueName) {
+        self.selectValueName = selectValueName;
         return that;
       };
       that.getVisible = function() {
@@ -218,6 +219,13 @@
       };
       that.setTblId = function(tblId) {
         self.tblId = tblId;
+        return that;
+      };
+      that.getSqlstmt = function() {
+        return self.sqlstmt;
+      };
+      that.setSqlstmt = function(sqlstmt) {
+        self.sqlstmt = sqlstmt;
         return that;
       };
       return that;
@@ -250,6 +258,7 @@
       var m_title = "";
 
       var m_id = NO_ID;
+      var m_name = "";
       var m_infId = NO_ID;
       var m_code = "";
       var m_descrip = "";
@@ -304,36 +313,33 @@
       };
 
       var createParamProperty = function(item, index, properties) {
-        var p = m_properties.add(null)
-          .setName(item.getName())
-          .setType(getPropertyType(item.getParamType()))
-          .setValue(item.getValue);
+        if(item.getVisible()) {
+          var p = m_properties.add(null)
+            .setName(item.getName())
+            .setType(getPropertyType(item.getParamType()))
+            .setValue(item.getValue());
 
-        switch(item.getParamType())
+          switch(item.getParamType()) {
 
-          case RT.date:
+            case RT.select:
 
+              p.setSelectTable(item.getTblId())
+                .setSelectId(item.getValue())
+                .setValue(item.getSelectValueName())
+              break;
 
-            break;
+            case RT.numeric:
 
-          case RT.select:
+              p.setSubType(Dialogs.PropertySubType.double);
+              break;
 
-            p.setSelectTable(item.getTblId())
-              .setSelectId(item.getValueId())
-            break;
+            case RT.sqlstmt:
+            case RT.list:
 
-          case RT.numeric:
-
-            p.setSubType(Dialogs.PropertySubType.double);
-            break;
-
-          case RT.sqlstmt:
-          case RT.list:
-
-            // TODO:
-            break;
+              // TODO:
+              break;
+          }
         }
-
       };
 
       var loadCollection = function() {
@@ -343,7 +349,7 @@
         m_params.each(createParamProperty, m_properties);
 
         createMenu();
-        if(!m_dialog.showDocumentList(self)) { return false; }
+        if(!m_dialog.showParams(self)) { return false; }
 
         return true;
       };
@@ -362,6 +368,7 @@
             if(response.data.id !== NO_ID) {
 
               m_id = response.data.id;
+              m_name = valField(response.data, C.RPT_NAME);
               m_infId = valField(response.data, C.INF_ID);
               m_code = valField(response.data, C.INF_CODE);
               m_descrip = valField(response.data, C.RPT_DESCRIP);
@@ -369,6 +376,8 @@
               loadParams(response.data.get('params'));
 
             }
+
+            m_title = m_name;
 
             return true;
           }
@@ -387,6 +396,9 @@
             .setVisible(getValue(params[i], C.RPTP_VISIBLE))
             .setInfpId(getValue(params[i], C.INFP_ID))
             .setParamType(getValue(params[i], C.INFP_TYPE))
+            .setTblId(getValue(params[i], C.TBL_ID))
+            .setSqlstmt(getValue(params[i], C.INFP_SQLSTMT))
+            .setSelectValueName(getValue(params[i], C.SELECT_VALUE_NAME));
         }
       };
 
@@ -461,6 +473,10 @@
 
       self.getTitle = function() {
         return m_title;
+      };
+
+      self.getTabTitle = function() {
+        return m_code;
       };
 
       self.validate = function() {
@@ -583,7 +599,7 @@
 
         // progress message
         //
-        Cairo.LoadingMessage.show("Reportes", "Loading Reporte from Crowsoft Cairo server.");
+        Cairo.LoadingMessage.show("Reportes 1", "Loading Reporte from Crowsoft Cairo server.");
 
         self.reportDialog = Report.Controller.getEditor();
         var dialog = Cairo.Dialogs.Views.ListController.newDialogList();

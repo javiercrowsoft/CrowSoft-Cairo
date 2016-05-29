@@ -1,0 +1,72 @@
+@()
+<script type="text/template" id="about-message">
+    <div class="container">
+        <h1>About CrowSoft Cairo Web</h1>
+        <p>This application has been developed with Play Framework (Scala), Postgresql, Bootstrap 3.0, jQuery, Backbone.js and Backbone.Marionette.js.</p>
+        <p>Hopefully, it has served you well !</p>
+        <p>It is open source :) You can find all the source code in <a href="https://github.com/javiercrowsoft/CrowSoft-Cairo">https://github.com/javiercrowsoft/CrowSoft-Cairo</a>.</p>
+    </div>
+</script>
+
+<script type="text/template" id="loading-view">
+    <div class="alert alert-info" style="margin : 10px 10px 10px 10px;">
+        <div class="row">
+            <div class="col-sm-12 col-md-12 col-lg-12">
+              <div id="spinner"></div>
+              <span style="margin-left: 50px;">
+                <%- message %>
+              </span>
+            </div>
+        </div>
+    </div>
+</script>
+
+<script type="text/template" id="input-text-form">
+  <form>
+    <div class="input-text-form">
+      <div class="control-group">
+        <label for="input-text-text"><%- label %></label>
+        <input id="input-text-text" name="input-text-text" type="text" value="<%- text %>"/>
+      </div>
+    </div>
+    <button class="btn js-submit btn-info btn-small">Submit</button>
+  </form>
+</script>
+
+
+<script type="text/template" id="confirm-form">
+  <form>
+    <div class="input-text-form">
+      <div class="control-group">
+        <p><%= message %></p>
+      </div>
+    </div>
+    <button class="btn js-submit-yes <%- yesClass %> btn-small">Yes</button>
+    <button class="btn js-submit-no <%- noClass %> btn-small">No</button>
+    <button class="btn js-submit-cancel btn-small <%- cancelClass %>">Cancel</button>
+  </form>
+</script>
+
+<script type="text/template" id="error-message-view">
+  <form>
+    <div class="input-text-form">
+      <div class="control-group">
+        <p><%= message %></p>
+      </div>
+    </div>
+    <button class="btn js-submit btn-info btn-small">Close</button>
+    <button class="btn js-showErrorDetails btn-warning btn-small">Details</button>
+  </form>
+  <iframe id="errorDetailIFrame" style="width: 800px; height: 600px; display: none; margin-top: 50px; border: none;"></iframe>
+</script>
+
+<script type="text/template" id="info-message-view">
+    <form>
+        <div class="input-text-form">
+            <div class="control-group">
+                <p><%= message %></p>
+            </div>
+        </div>
+        <button class="btn js-submit btn-info btn-small">Close</button>
+    </form>
+</script>

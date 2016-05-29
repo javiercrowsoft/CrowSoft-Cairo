@@ -33,7 +33,7 @@
         var init = function(view) {
           try {
             m_view = view;
-            m_bIsParam = m_view.getType() === "ListDoc";
+            m_bIsParam = m_view.getType() === "Params";
 
             m_view.addListener({
 
@@ -93,6 +93,10 @@
 
         self.showDocumentList = function(client) {
           return show(client, Views.createDocumentListView());
+        };
+
+        self.showParams = function(client) {
+          return show(client, Views.createParametersView());
         };
 
         self.showValue = function(property) {
@@ -383,7 +387,7 @@
             self.showValue(property);
           }
 
-          m_view.setText(m_client.getTitle());
+          m_view.setText(m_client.getTabTitle ? m_client.getTabTitle() : m_client.getTitle());
           m_view.setPath(m_client.getPath());
           m_view.setName(m_client.getEditorName());
           m_view.getSubTitle().setText(m_client.getTitle());

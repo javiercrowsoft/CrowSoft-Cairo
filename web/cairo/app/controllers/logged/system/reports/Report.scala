@@ -62,7 +62,10 @@ object Reports extends Controller with ProvidesUser {
       C.RPTP_VALUE -> Json.toJson(p.value),
       C.RPTP_VISIBLE -> Json.toJson(p.visible),
       C.INFP_TYPE -> Json.toJson(p.paramType),
-      C.INFP_ID -> Json.toJson(p.infpId)
+      C.INFP_ID -> Json.toJson(p.infpId),
+      C.TBL_ID -> Json.toJson(p.tblId),
+      C.INFP_SQLSTMT -> Json.toJson(p.sqlstmt),
+      C.SELECT_VALUE_NAME -> Json.toJson(p.selectValueName)
     )
     def writeReportParams(items: List[ReportParam]) = items.map(item => reportParamWrites(item))
   }

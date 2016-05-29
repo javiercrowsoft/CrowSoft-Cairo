@@ -22,7 +22,8 @@ case class ReportParam(
                       infpId: Int,
                       paramType: Int,
                       tblId: Int,
-                      sqlstmt: String
+                      sqlstmt: String,
+                      selectValueName: String
                       )
 
 object ReportParam {
@@ -42,6 +43,7 @@ object ReportParam {
       infpId,
       0,          // from infp_id
       0,          // from infp_id
+      "",         // from infp_id
       ""          // from infp_id
     )
   }
@@ -158,7 +160,8 @@ object Report {
       SqlParser.get[Int](C.INFP_ID) ~
       SqlParser.get[Int](C.INFP_TYPE) ~
       SqlParser.get[Option[Int]](C.TBL_ID) ~
-      SqlParser.get[String](C.INFP_SQLSTMT) map {
+      SqlParser.get[String](C.INFP_SQLSTMT) ~
+      SqlParser.get[String](C.SELECT_VALUE_NAME) map {
       case
           id ~
           name ~
@@ -167,7 +170,8 @@ object Report {
           infpId ~
           infpTipo ~
           tblId ~
-          infpSqlstmt =>
+          infpSqlstmt ~
+          selectValueName =>
         ReportParam(
           id.getOrElse(DBHelper.NoId),
           name,
@@ -176,7 +180,8 @@ object Report {
           infpId,
           infpTipo,
           tblId.getOrElse(DBHelper.NoId),
-          infpSqlstmt)
+          infpSqlstmt,
+          selectValueName)
       }
   }
 

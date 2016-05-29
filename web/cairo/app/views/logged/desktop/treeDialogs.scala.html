@@ -1,0 +1,169 @@
+@(requestOrigin: services.RequestOrigin)
+<script type="text/template" id="tree-list-panel-template">
+</script>
+
+<script type="text/template" id="tree-create-first-tree-template">
+  <br>
+  <br>
+  <div class="alert alert-info">
+    <div class="alert alert-warning"><h4>You must create a tree to list <%- entitiesName %></h4></div>
+    <br><br>
+  <button class="btn btn-primary js-new-tree">Create new tree</button>
+  </div>
+</script>
+
+<script type="text/template" id="tree-layout-template">
+    <div class="row tree-header">
+      <div class="col-sm-12 col-md-12">
+        <div class="@if(requestOrigin.userAgent.isMobile) {container} else {desktop-big-container}">
+            <h3 class="sub-header"><%- entitiesTitle %></h3>
+        </div>
+      </div>
+    </div>
+    <div class="row tree-layout-buttons-toolbar-row">
+        <div class="col-md-12">
+          <% if(showTableButtons) { %>
+            <div class="btn-group">
+               <button class="btn btn-primary js-new"><i class='glyphicon glyphicon-file'></i> New <%- entityName %></button>
+            </div>
+          <% } %>
+          <div class="btn-group">
+            <button class="btn btn-action toolbar-tree-button"><i class="glyphicon glyphicon-file"></i> Tree</button>
+            <button class="btn btn-action toolbar-tree-button"><i class="glyphicon glyphicon-file"></i> Branch</button>
+          </div>
+          <div class="btn-group">
+            <button class="btn btn-action toolbar-tree-button"><i class="glyphicon glyphicon-copy"></i> Copy</button>
+            <button class="btn btn-action toolbar-tree-button"><i class="glyphicon glyphicon-paste"></i> Paste</button>
+          </div>
+          <div class="btn-group">
+            <button class="btn btn-action toolbar-tree-button"><i class="glyphicon glyphicon-export"></i> Export list</button>
+          </div>
+      <% if(showSelectButton) { %>
+          <button class="btn btn-primary align-right tree-select-button" id="tree-select-select-button"> Select </button>
+      <% } %>
+          <div class="btn-group" style="float: right;">
+            <div class="tree-select-input">
+              <div class="tree-select-control cf search-select">
+                <input
+                      type="text"
+                      class="form-control dialog-control"
+                      id="tree-search-control"
+                      placeholder="Search for <%- entitiesName %>"
+                      autocomplete="off"
+                      autofocus
+                    />
+                <button>+</button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+    </div>
+
+    <div class="@if(requestOrigin.userAgent.isMobile) {container} else {desktop-big-container}">
+        <div class="row">
+            <div class="col-sm-5 col-md-4 col-lg-3 tree-layout-tree-column">
+                <ul class="nav noFocus">
+                    <li><div id="trees"></div></li>
+                    <li><div id="tree"></div></li>
+                </ul>
+                @if(requestOrigin.userAgent.isMobile){<br/>}
+            </div>
+            <div id="tree-main-list-region" class="col-sm-7 col-md-8 col-lg-9 tree-list-region">
+
+              <div class="col-sm-1 col-md-1"></div>
+              <div class="col-sm-11 col-md-11" style="padding-right: 0px;">
+                <div class="alert alert-info" style="padding-right: 5px;">
+                  <p>Select a folder to list <%- entitiesName %></p>
+                </div>
+              </div>
+            </div>
+        </div>
+    </div>
+</script>
+
+<script type="text/template" id="tree-list-layout-template">
+    <div id="tree-list-region">
+        <div id="tree-panel-region"></div>
+        <div id="tree-items-region"></div>
+    </div>
+</script>
+
+<script type="text/template" id="tree-item-template">
+    <option value="<%- id %>"><%- name %></option>
+</script>
+
+<script type="text/template" id="tree-list-template">
+    <thead>
+    <tr id="tree-list-headers">
+        <th><i class="glyphicon glyphicon-pencil"></i></th>
+        <% columns.forEach(function(column) { %>
+            <th class="capitalize"><%- column.name %></th>
+        <% }); %>
+    </tr>
+    </thead>
+    <tbody>
+    </tbody>
+</script>
+
+<script type="text/template" id="tree-list-template-mobile">
+  <thead>
+  <tr id="tree-list-headers">
+    <th>Items</th>
+  </tr>
+  </thead>
+  <tbody>
+  </tbody>
+</script>
+
+<script type="text/template" id="tree-list-item-template">
+    <% leaves.forEach(function(leave) { %>
+    <tr data-id="<%- leave.id %>" data-clientid="<%- leave.clientId %>">
+      <td nowrap>
+        <% if(showEditButton) { %>
+        <button class="btn btn-sm btn-info js-edit" type="button" data-row-id="<%- leave.clientId %>">
+          <i class="glyphicon glyphicon-pencil"></i>
+        </button>
+        <% }
+           if(showDeleteButton) {
+        %>
+        <button class="btn btn-sm btn-danger js-delete" type="button">
+          <i class="glyphicon glyphicon-remove"></i>
+        </button>
+        <% } %>
+      </td>
+      <%
+        var index;
+        for (index = 0; index < columns.length; index++) {
+      %>
+        <td nowrap><%= Cairo.Tree.getColumnValue(columns[index], leave.values[index]) %></td>
+      <% } %>
+    </tr>
+    <% }); %>
+</script>
+
+<script type="text/template" id="tree-list-item-template-mobile">
+    <% leaves.forEach(function(leave) { %>
+    <tr data-id="<%- leave.id %>" data-clientid="<%- leave.clientId %>">
+      <td>
+        <%
+        var index;
+        for (index = 0; index < columns.length; index++) {
+        %>
+        <span class="capitalize"><%- columns[index].name %></span>: <%= Cairo.Tree.getColumnValue(columns[index], leave.values[index]) %><br>
+        <% } %>
+      <br>
+      <button class="btn btn-sm btn-info js-edit" type="button" data-row-id="<%- leave.clientId %>">
+        <i class="glyphicon glyphicon-pencil"></i>
+      </button>
+      <button class="btn btn-sm btn-danger js-delete" type="button">
+        <i class="glyphicon glyphicon-remove"></i>
+      </button>
+    </td>
+    </tr>
+    <% }); %>
+</script>
+
+<script type="text/template" id="tree-list-none-template">
+    <td colspan="3">No items to display.</td>
+</script>
