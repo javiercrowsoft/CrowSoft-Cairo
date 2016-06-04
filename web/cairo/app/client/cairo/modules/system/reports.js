@@ -26,7 +26,7 @@
       }
     }, false );
 
-    that.sendMessage = function(message) {
+    var sendMessage = function(message) {
 
       var defer = new Cairo.Promises.Defer();
 
@@ -49,7 +49,7 @@
     };
 
     that.checkCSReportsExtension = function() {
-      that.sendMessage("hola").then(function(response) {
+      sendMessage("hola").then(function(response) {
         console.log(JSON.stringify(response.request));
         console.log(JSON.stringify(response.response));
       });
@@ -68,13 +68,14 @@
     *   report_title: _string_,
     *   report_name: _string_,
     *   report_code: _string_,
-    *   report_params: [ _REPORT_PARAM_ ],
     *   report_file: _string_,
-    *   data: { _data_source_name_: _DATA_SOURCE_ },
+    *   report_params: [ _REPORT_PARAM_ ],
+    *   data: [{ _data_source_name_: _DATA_SOURCE_ }],
     * }
     *
     * _REPORT_PARAM_ : {
-    *
+    *   name: _string_,
+    *   value: _string_
     * }
     *
     * _DATA_SOURCE_ : {
@@ -83,6 +84,47 @@
     * }
     *
     * */
+
+    that.ACTIONS = {
+      PREVIEW: 'preview',
+      PDF: 'pdf',
+      EXCEL: 'excel',
+      PRINT: 'print'
+    }
+
+    that.createReportDataSource = function(dataSourceName, recordset) {
+      return { name: dataSourceName, data: recordset };
+    };
+
+    that.createReportParam = function(name, value) {
+      return { name: name, value: value };
+    };
+
+    that.createReportData = function(title, name, code, file, params, data) {
+      return {
+        title: title,
+        name: name,
+        code: code,
+        file: file,
+        params: params,
+        data: data
+      };
+    };
+
+    that.createReportDefinition = function(action, data) {
+      return {
+        action: action,
+        data: data
+      };
+    };
+
+    that.previewReport = function(reportDefinition) {
+      return sendMessage(reportDefinition).then(function(response) {
+        console.log(JSON.stringify(response.request));
+        console.log(JSON.stringify(response.response));
+        return response;
+      });
+    };
 
     return that;
   };
@@ -355,6 +397,7 @@
       var m_name = "";
       var m_infId = NO_ID;
       var m_code = "";
+      var m_reportFile = "";
       var m_descrip = "";
 
       var m_params = Cairo.Collections.createCollection(createParam);
@@ -467,6 +510,7 @@
               m_name = valField(response.data, C.RPT_NAME);
               m_infId = valField(response.data, C.INF_ID);
               m_code = valField(response.data, C.INF_CODE);
+              m_reportFile = valField(response.data, C.INF_REPORT_FILE);
               m_descrip = valField(response.data, C.RPT_DESCRIP);
 
               loadParams(response.data.get('params'));
@@ -557,6 +601,35 @@
       self.refresh = function() {
         var params = getParams();
         return DB.getData("load[" + m_apiPath + C_REPORT_PATH + m_id + "/show]", null, params);
+      };
+
+      var getReportParam = function(item, index) {
+        var p = item.getProperty();
+        return Cairo.CSReportConnection.createReportParam(p.getName(), p.getValue());
+      };
+
+      var createRecordset = function(data) {
+        return {
+          columns: data.get('columns'),
+          rows: data.get('rows')
+        };
+      };
+
+      self.preview = function() {
+        var params = getParams();
+        return DB.getData("load[" + m_apiPath + C_REPORT_PATH + m_id + "/show]", null, params).then(function(response) {
+
+          var params = m_params.map(getReportParam);
+
+          var data = [Cairo.CSReportConnection.createReportDataSource(m_code, createRecordset(response.data))];
+
+          var rd = Cairo.CSReportConnection.createReportDefinition(
+            Cairo.CSReportConnection.ACTIONS.PREVIEW,
+            Cairo.CSReportConnection.createReportData(m_title, m_name, m_code, m_reportFile, params, data)
+          );
+
+          return Cairo.CSReportConnection.previewReport(rd);
+        });
       };
 
       self.save = function() {

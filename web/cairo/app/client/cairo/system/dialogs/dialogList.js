@@ -49,6 +49,7 @@
               closeClick:                 closeClick,
               documentsClick:             documentsClick,
 
+              previewClick:               previewClick,
               gridClick:                  gridClick,
               pdfClick:                   pdfClick,
               exportClick:                exportClick,
@@ -318,6 +319,23 @@
         // for now we just delegate to refresh
         //
         var gridClick = refreshClick;
+
+        var previewClick = function() {
+          var p;
+          try {
+            Cairo.LoadingMessage.show(m_client.getTitle(), "Loading data from Crowsoft Cairo server.");
+            refreshAux();
+            p = m_client.preview().whenSuccessWithResult(function(response) {
+              // TODO: implement preview
+              //m_view.getListGrid().load(response.data);
+            }).then(Cairo.LoadingMessage.close);
+            return;
+          }
+          catch (ex) {
+            Cairo.manageErrorEx(ex.message, ex, "refreshList", C_MODULE, "");
+          }
+          return p || Cairo.Promises.resolvedPromise(false);
+        };
 
         var pdfClick = function() {
 

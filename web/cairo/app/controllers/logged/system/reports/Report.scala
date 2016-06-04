@@ -53,6 +53,7 @@ object Reports extends Controller with ProvidesUser {
       C.INF_CODE -> Json.toJson(report.code),
       C.RPT_DESCRIP -> Json.toJson(report.descrip),
       C.INF_ID -> Json.toJson(report.infId),
+      C.INF_REPORT_FILE -> Json.toJson(report.reportFile),
       "params" -> Json.toJson(writeReportParams(report.params))
     )
     def reportParamWrites(p: ReportParam) = Json.obj(

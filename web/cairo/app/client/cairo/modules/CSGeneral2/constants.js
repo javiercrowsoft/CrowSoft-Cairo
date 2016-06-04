@@ -145,6 +145,7 @@
       INF_NAME: "inf_nombre",
       INF_CODE: "inf_codigo",
       INF_MODULO: "inf_modulo",
+      INF_REPORT_FILE: "inf_reporte",
 
       // Reporte
       REPORTE: "Reporte",
