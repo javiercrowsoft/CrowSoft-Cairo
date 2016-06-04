@@ -1,0 +1,67 @@
+http://stackoverflow.com/questions/24219144/native-messaging-chrome
+https://developer.chrome.com/extensions/nativeMessaging
+http://stackoverflow.com/questions/2652094/start-an-external-application-from-a-google-chrome-extension
+http://stackoverflow.com/questions/30880709/c-sharp-native-host-with-chrome-native-messaging
+http://stackoverflow.com/questions/27643892/native-messaging-from-chrome-extension-to-native-host-written-in-c-sharp
+http://stackoverflow.com/questions/27653624/very-slow-to-pass-large-amount-of-data-from-chrome-extension-to-host-written
+http://www.codeproject.com/Questions/837330/Receiving-message-in-Csharp-from-Chrome-Extension
+
+http://stackoverflow.com/questions/11981282/convert-json-to-datatable
+
+call extension from web page
+http://stackoverflow.com/questions/8712810/trigger-invoke-a-chrome-extension-from-a-web-page
+
+to complete/update the manifest.json file
+https://developer.chrome.com/extensions/manifest#version
+
+extensions in other browsers:
+http://stackoverflow.com/questions/32279081/equivalent-of-chrome-native-messaging-in-edge
+
+MAC
+
+mcs -g -debug+ CurrencyConverter.cs -out:CurrencyConverter.exe -pkg:cocoa-sharp
+rm -rf CSReportWebServer.app
+macpack -m:2 -o:.  -r:/Library/Frameworks/Mono.framework/Versions/Current/lib/ libCocoaSharpGlue.dylib -r:CSReportWebServer.nib -n:CSReportWebServer -a:CSReportWebServer.exe
+
+
+             CSReportWebServer.vshost.exe          Echo.log                              
+
+
+CSReportWebServer.pdb                 CSReportWebServer.vshost.exe.manifest 
+
+rm -rf CSReportWebServer.app;macpack -o:. -m:winforms -r:/Library/Frameworks/Mono.framework/Versions/Current/lib/ libCocoaSharpGlue.dylib  -r:log4net.dll -r:CSReportWebServer.manifest.json -r:CSReportWebServer.vshost.exe.config -r:Newtonsoft.Json.dll -r:log4net.xml -r:CSReportWebServer.exe.config -r:Newtonsoft.Json.xml -n:CSReportWebServer -a:CSReportWebServer.exe
+
+
+1- the file CSReportWebServer.manifest has a property named allowed_origins it must include the id of the extension:
+
+"allowed_origins": [
+    "chrome-extension://knldjmfmopnpolahpmmgbagdohdnhkik/",
+    "chrome-extension://gcnibndgglpiclanidkdkemhkjejpfai/"
+  ]
+  
+2- the flow is this:
+
+> web page calls content.js using window.postMessage. 
+this function has two params. 
+message and destination. 
+destination must be window.location.href. 
+message must be an object with a property destination = to 'chrome-extension://$EXTENSION_ID/'.
+LIKE: {destination: 'chrome-extension://gcnibndgglpiclanidkdkemhkjejpfai/' }
+add fields to this message object as you need to pass information to the native app
+
+> content.js calls background.js if the destination in message matches.
+it uses port.postMessage
+
+> the background.js calls the native application using port.postMessage
+background.js has two ports one to content.js and other to the native app 
+
+> native application read the message from standar in
+
+> native application writes response in standar out
+
+> background.js receives a message with the response and send a message to content.js using port.postMessage 
+
+> content.js receives a message with the response and send a message to the webpage using window.postMessage
+
+var message = {destination: 'chrome-extension://gcnibndgglpiclanidkdkemhkjejpfai/', message:"hola"}
+window.postMessage(message, window.location.href)
