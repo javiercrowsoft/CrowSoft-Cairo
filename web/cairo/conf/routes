@@ -98,6 +98,8 @@ POST    /api/v1/reports/report                                                  
 PUT     /api/v1/reports/report/:id                                                           controllers.logged.system.reports.Reports.update(id: Int)
 DELETE  /api/v1/reports/report/:id                                                           controllers.logged.system.reports.Reports.delete(id: Int)
 
+GET     /api/v1/reports/report/:id/show                                                      controllers.logged.system.reports.Reports.show(id: Int)
+
 # modules
 
 # general

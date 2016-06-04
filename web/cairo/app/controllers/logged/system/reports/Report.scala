@@ -11,8 +11,7 @@ import play.api.Logger
 import play.api.libs.json._
 import models.cairo.modules.system.reports._
 import models.cairo.system.security.CairoSecurity
-import models.cairo.system.database.DBHelper
-
+import models.cairo.system.database.{Recordset, DBHelper}
 
 case class ReportParamData(
                           id: Int,
@@ -187,6 +186,19 @@ object Reports extends Controller with ProvidesUser {
       // Backbonejs requires at least an empty json object in the response
       // if not it will call errorHandler even when we responded with 200 OK :P
       Ok(JsonUtil.emptyJson)
+    })
+  }
+
+  def getParams[A](request: Request[A]) = {
+    request.queryString.map { case (k,v) => k -> v.mkString }
+  }
+
+  def show(id: Int/*, params: Option[String]* */) = GetAction { implicit request =>
+    LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(Report.getAction(id) _), { user =>
+      Ok(
+        Json.toJson(
+          Recordset.getAsJson(
+            Report.show(user, id, getParams(request)))))
     })
   }
 

@@ -3,10 +3,12 @@ package models.cairo.modules.system.reports
 import java.sql.{Connection, CallableStatement, ResultSet, Types, SQLException}
 import anorm.SqlParser._
 import anorm._
+import formatters.json.DateFormatter
 import models.cairo.modules.general.C
 import services.DateUtil
 import services.db.DB
-import models.cairo.system.database.{DBHelper, Register, Field, FieldType, SaveResult}
+import models.cairo.system.database.{DBHelper, Register, Field, FieldType, SaveResult, Recordset}
+import java.math.BigDecimal
 import play.api.Play.current
 import models.domain.CompanyUser
 import java.util.Date
@@ -23,7 +25,8 @@ case class ReportParam(
                       paramType: Int,
                       tblId: Int,
                       sqlstmt: String,
-                      selectValueName: String
+                      selectValueName: String,
+                      order: Int
                       )
 
 object ReportParam {
@@ -44,7 +47,8 @@ object ReportParam {
       0,          // from infp_id
       0,          // from infp_id
       "",         // from infp_id
-      ""          // from infp_id
+      "",         // from infp_id
+      0
     )
   }
 }
@@ -55,6 +59,8 @@ case class Report(
               code: String,
               active: Boolean,
               infId: Int,
+              storedProcedure: String,
+              reportFile: String,
               descrip: String,
               params: List[ReportParam],
               createdAt: Date,
@@ -67,6 +73,8 @@ case class Report(
       code: String,
       active: Boolean,
       infId: Int,
+      storedProcedure: String,
+      reportFile: String,
       descrip: String,
       params: List[ReportParam]) = {
 
@@ -76,6 +84,8 @@ case class Report(
       code,
       active,
       infId,
+      storedProcedure,
+      reportFile,
       descrip,
       params,
       DateUtil.currentTime,
@@ -88,6 +98,8 @@ case class Report(
       code: String,
       active: Boolean,
       infId: Int,
+      storedProcedure: String,
+      reportFile: String,
       descrip: String,
       params: List[ReportParam]) = {
 
@@ -97,6 +109,8 @@ case class Report(
       code,
       active,
       infId,
+      storedProcedure,
+      reportFile,
       descrip,
       params)
 
@@ -109,8 +123,6 @@ object Report {
   lazy val emptyReport = Report(
     DBHelper.NoId,
     "",
-    "",
-    false,
     DBHelper.NoId,
     "",
     List()
@@ -122,6 +134,8 @@ object Report {
       code: String,
       active: Boolean,
       infId: Int,
+      storedProcedure: String,
+      reportFile: String,
       descrip: String,
       params: List[ReportParam]) = {
 
@@ -131,6 +145,8 @@ object Report {
       code,
       active,
       infId,
+      storedProcedure,
+      reportFile,
       descrip,
       params)
   }
@@ -148,6 +164,8 @@ object Report {
       "",
       true,
       infId,
+      "",
+      "",
       descrip,
       params)
   }
@@ -161,7 +179,8 @@ object Report {
       SqlParser.get[Int](C.INFP_TYPE) ~
       SqlParser.get[Option[Int]](C.TBL_ID) ~
       SqlParser.get[String](C.INFP_SQLSTMT) ~
-      SqlParser.get[String](C.SELECT_VALUE_NAME) map {
+      SqlParser.get[String](C.SELECT_VALUE_NAME) ~
+      SqlParser.get[Int](C.INFP_ORDER) map {
       case
           id ~
           name ~
@@ -171,7 +190,8 @@ object Report {
           infpTipo ~
           tblId ~
           infpSqlstmt ~
-          selectValueName =>
+          selectValueName ~
+          order =>
         ReportParam(
           id.getOrElse(DBHelper.NoId),
           name,
@@ -181,7 +201,8 @@ object Report {
           infpTipo,
           tblId.getOrElse(DBHelper.NoId),
           infpSqlstmt,
-          selectValueName)
+          selectValueName,
+          order)
       }
   }
 
@@ -191,6 +212,8 @@ object Report {
       SqlParser.get[String](C.INF_CODE) ~
       SqlParser.get[Int](DBHelper.ACTIVE) ~
       SqlParser.get[Int](C.INF_ID) ~
+      SqlParser.get[String](C.INF_STORED_PROCEDURE) ~
+      SqlParser.get[String](C.INF_REPORT_FILE) ~
       SqlParser.get[String](C.RPT_DESCRIP) ~
       SqlParser.get[Date](DBHelper.CREATED_AT) ~
       SqlParser.get[Date](DBHelper.UPDATED_AT) ~
@@ -201,6 +224,8 @@ object Report {
               code ~
               active ~
               infId ~
+              storedProcedure ~
+              reportFile ~
               descrip ~
               createdAt ~
               updatedAt ~
@@ -211,6 +236,8 @@ object Report {
               code,
               active != 0,
               infId,
+              storedProcedure,
+              reportFile,
               descrip,
               List(),
               createdAt,
@@ -264,7 +291,8 @@ object Report {
 
   def loadWhere(user: CompanyUser, where: String, args : scala.Tuple2[scala.Any, anorm.ParameterValue[_]]*) = {
     DB.withConnection(user.database.database) { implicit connection =>
-      SQL(s"SELECT t1.*, t2.inf_codigo FROM ${C.REPORTE} t1 INNER JOIN ${C.INFORME} t2 ON t1.inf_id = t2.inf_id WHERE $where")
+      SQL(s"""SELECT t1.*, t2.${C.INF_CODE}, t2.${C.INF_STORED_PROCEDURE}, t2.${C.INF_REPORT_FILE}
+             | FROM ${C.REPORTE} t1 INNER JOIN ${C.INFORME} t2 ON t1.inf_id = t2.inf_id WHERE $where""".stripMargin)
         .on(args: _*)
         .as(reportParser.singleOpt)
     }
@@ -332,8 +360,103 @@ object Report {
 
   def get(user: CompanyUser, id: Int): Report = {
     load(user, id) match {
-      case Some(p) => Report(p.id, p.name, p.code, p.active, p.infId, p.descrip, loadReportParams(user, id))
+      case Some(p) => Report(
+                              p.id,
+                              p.name,
+                              p.code,
+                              p.active,
+                              p.infId,
+                              p.storedProcedure,
+                              p.reportFile,
+                              p.descrip,
+                              loadReportParams(user, id))
       case None => emptyReport
+    }
+  }
+
+  def show(user: CompanyUser, id: Int, params: Map[String, String]): Recordset = {
+
+    def throwErrorReportNotFound(id: Int) = {
+      throwException(s"Error report $id not found")
+    }
+
+    def throwException(message: String) = {
+      throw new RuntimeException(message)
+    }
+
+    val report = load(user, id).getOrElse(throwErrorReportNotFound(id))
+    val reportParams = loadReportParams(user, id)
+
+    DB.withTransaction(user.database.database) { implicit connection =>
+
+      val sql = s"{call ${report.storedProcedure} (${params.map( _ => "?").mkString("?, ", ", ", ", ?")})}"
+      val cs = connection.prepareCall(sql)
+
+      def throwErrorParameterNotFound(key: String) = {
+        throwException(s"Error parameter $key not found")
+      }
+
+      def getParamType(key: String) = {
+        val infId = key.substring(1).toInt
+        val reportParam = reportParams.find(_.infpId == infId).getOrElse(throwErrorParameterNotFound(key))
+        reportParam.paramType
+      }
+
+      def getParam(p: (String, String), index: Int) = p match {
+        case (key, value) => {
+          Logger.debug(s"params: $key, $value")
+          getParamType(key) match {
+            case ReportParamType.date =>     cs.setDate(index, new java.sql.Date(DateFormatter.parse(value).getTime()))
+            case ReportParamType.select =>   cs.setString(index, value)
+            case ReportParamType.numeric =>  cs.setBigDecimal(index, new BigDecimal(value.toDouble))
+            case ReportParamType.sqlstmt =>  cs.setInt(index, value.toInt)
+            case ReportParamType.text =>     cs.setString(index, value)
+            case ReportParamType.list =>     cs.setInt(index, value.toInt)
+            case ReportParamType.check =>    cs.setInt(index, value.toInt)
+          }
+        }
+      }
+
+      def getParams(params: List[(String, String)], index: Int): Int = params match {
+        case Nil => index
+        case param :: tail => {
+          getParam(param, index)
+          getParams(tail, index + 1)
+        }
+      }
+
+      def getParamOrder(key: String) = {
+        val infId = key.substring(1).toInt
+        val reportParam = reportParams.find(_.infpId == infId).getOrElse(throwErrorParameterNotFound(key))
+        reportParam.order
+      }
+
+      def compareParams(a: (String, String), b: (String, String)) = {
+        getParamOrder(a._1) < getParamOrder(b._1)
+      }
+
+      Logger.debug("params: " + params.toString)
+      Logger.debug("params: " + params.map( _ => "?"))
+      Logger.debug("params: " + params.map( _ => "?").mkString(", "))
+
+      cs.setInt(1, user.masterUserId)
+      val index = getParams(params.toList.sortWith(compareParams), 2)
+      cs.registerOutParameter(index, Types.OTHER)
+
+      try {
+        cs.execute()
+
+        val rs = cs.getObject(index).asInstanceOf[java.sql.ResultSet]
+        Recordset.load(rs)
+
+      } catch {
+        case NonFatal(e) => {
+          Logger.error(s"can't get listing of facturas de compra for user ${user.toString}. Error ${e.toString}")
+          throw e
+        }
+      } finally {
+        cs.close
+      }
     }
   }
 }

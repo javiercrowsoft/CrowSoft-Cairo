@@ -3,6 +3,92 @@
 
   var C_REPORT_PATH = "reports/report/";
 
+  var createCSReportConnection = function() {
+    var pendingMessages = [];
+
+    var that = {};
+
+    // TODO: move this to configuration
+    //
+    Cairo.CSREPORTS_EXTENSION_ID = 'gcnibndgglpiclanidkdkemhkjejpfai';
+
+    var extension_url = "chrome-extension://"+ Cairo.CSREPORTS_EXTENSION_ID +"/";
+
+    window.addEventListener( "message", function(event) {
+      if(event.source != window) return;
+      var message = event.data;
+      if(message.source && (message.source === extension_url))
+      {
+        var pm;
+        if(pm = pendingMessages[message.request.id]) {
+          pm.defer.resolve({ request: pm.message, response: message.request });
+        }
+      }
+    }, false );
+
+    that.sendMessage = function(message) {
+
+      var defer = new Cairo.Promises.Defer();
+
+      message = {
+        destination: 'chrome-extension://gcnibndgglpiclanidkdkemhkjejpfai/',
+        message: message,
+        id: Cairo.Util.getNextRandomId()
+      };
+
+      var pendingMessage = {
+        message: message,
+        defer: defer
+      };
+
+      pendingMessages[message.id] = pendingMessage;
+
+      window.postMessage(message, window.location.href);
+
+      return defer.promise;
+    };
+
+    that.checkCSReportsExtension = function() {
+      that.sendMessage("hola").then(function(response) {
+        console.log(JSON.stringify(response.request));
+        console.log(JSON.stringify(response.response));
+      });
+    };
+
+    /*
+    *
+    * CSReportWeb message has this definition:
+    *
+    * {
+    *   action: _ACTION_,
+    *   data: { _REPORT_DATA_ }    *
+    * }
+    *
+    * _REPORT_DATA_ : {
+    *   report_title: _string_,
+    *   report_name: _string_,
+    *   report_code: _string_,
+    *   report_params: [ _REPORT_PARAM_ ],
+    *   report_file: _string_,
+    *   data: { _data_source_name_: _DATA_SOURCE_ },
+    * }
+    *
+    * _REPORT_PARAM_ : {
+    *
+    * }
+    *
+    * _DATA_SOURCE_ : {
+    *   name: _string_,
+    *   data: _RECORDSET_
+    * }
+    *
+    * */
+
+    return that;
+  };
+
+  Cairo.CSReportConnection = createCSReportConnection();
+
   Cairo.module("Reports", function(Reports, Cairo, Backbone, Marionette, $, _) {
 
     Reports.createReports = function() {
@@ -154,13 +240,14 @@
       var self = {
         id: 0,
         name: "",
-        value: "",          /* value is always the internal value not what is shown to the user. ex: in selects is id or branch id */
+        value: "",           /* value is always the internal value not what is shown to the user. ex: in selects is id or branch id */
         visible: false,
         paramType: 0,
         infpId: 0,
         tblId: 0,
-        sqlstmt: "",        /* this is the worst posible name. I keep it to avoid confusing you more. it contains a list of tuples { id, name } */
-        selectValueName: "" /* for selects it is the name or the branch name */
+        sqlstmt: "",         /* this is the worst posible name. I keep it to avoid confusing you more. it contains a list of tuples { id, name } */
+        selectValueName: "", /* for selects it is the name or the branch name */
+        property: null
       }
 
       var that = {};
@@ -226,6 +313,13 @@
       };
       that.setSqlstmt = function(sqlstmt) {
         self.sqlstmt = sqlstmt;
+        return that;
+      };
+      that.getProperty = function() {
+        return self.property;
+      };
+      that.setProperty = function(property) {
+        self.property = property;
         return that;
       };
       return that;
@@ -339,6 +433,8 @@
               // TODO:
               break;
           }
+
+          item.setProperty(p);
         }
       };
 
@@ -410,12 +506,57 @@
         return true;
       };
 
+      var getParam = function(item, index, params) {
+        var p = item.getProperty();
+        var paramName = "p" + item.getInfpId();
+        var value = p.getValue();
+
+        switch(item.getParamType()) {
+
+          case RT.date:
+
+            var date;
+            if((date = p.getSelectIntValue()) !== "") {
+              value = Cairo.Dates.DateNames.getDateByName(date);
+            }
+            else if(isDate((date = p.getValue()))) {
+              value = date;
+            }
+            else {
+              Cairo.raiseError("Reports", "Date is invalid"); // TODO: use language
+            }
+            value = DB.sqlDate(value);
+            break;
+
+          case RT.select:
+
+            value = p.getSelectIntValue();
+            break;
+
+          case RT.numeric:
+
+            value = val(value);
+            break;
+
+          case RT.sqlstmt:
+          case RT.list:
+
+            // TODO:
+            break;
+        }
+
+        params[paramName] = value;
+      };
+
+      var getParams = function() {
+        var params = {};
+        m_params.map(getParam, params);
+        return params;
+      };
+
       self.refresh = function() {
-
-        var params = {
-        };
-
-        return DB.getData("load[" + m_apiPath + C_REPORT_PATH + "show]", m_id, params);
+        var params = getParams();
+        return DB.getData("load[" + m_apiPath + C_REPORT_PATH + m_id + "/show]", null, params);
       };
 
       self.save = function() {

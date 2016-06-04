@@ -21,11 +21,24 @@ object C {
   val INF_ID = "inf_id"
   val INF_CODE = "inf_codigo"
   val INF_NAME = "inf_nombre"
+  val INF_STORED_PROCEDURE = "inf_storedprocedure"
+  val INF_REPORT_FILE = "inf_reporte"
 
   val INFORME_PARAMETRO = "InformeParametro"
   val INFP_ID = "infp_id"
   val INFP_NAME = "infp_nombre"
   val INFP_TYPE = "infp_tipo"
   val INFP_SQLSTMT = "infp_sqlstmt"
+  val INFP_ORDER = "infp_orden"
 
+}
+
+object ReportParamType {
+  val date = 1
+  val select = 2
+  val numeric = 3
+  val sqlstmt = 4
+  val text = 5
+  val list = 6
+  val check = 7
 }

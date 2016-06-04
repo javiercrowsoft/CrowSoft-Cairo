@@ -49,6 +49,12 @@
               closeClick:                 closeClick,
               documentsClick:             documentsClick,
 
+              gridClick:                  gridClick,
+              pdfClick:                   pdfClick,
+              exportClick:                exportClick,
+              emailClick:                 emailClick,
+              infoClick:                  infoClick,
+
               viewDestroy:                viewDestroy,
 
               comboChange:                comboChange,
@@ -307,6 +313,26 @@
             Cairo.manageErrorEx(ex.message, ex, "refreshList", C_MODULE, "");
           }
           return p || Cairo.Promises.resolvedPromise(false);
+        };
+
+        // for now we just delegate to refresh
+        //
+        var gridClick = refreshClick;
+
+        var pdfClick = function() {
+
+        };
+
+        var exportClick = function() {
+
+        };
+
+        var emailClick = function() {
+
+        };
+
+        var infoClick = function() {
+
         };
 
         // TODO: implement grid.getSelectedRow()

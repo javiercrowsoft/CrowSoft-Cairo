@@ -11,7 +11,8 @@
         listeners: {
           onDeleteRow: null,
           onEditRow: null
-        }
+        },
+        showEditButtons: true
       };
 
       var that = Controls.createControl();
@@ -176,14 +177,16 @@
       };
 
       gridManager.getEditRowButton = function(cells) {
-        var id = cells[0];
-        var editButton = $("<button class='btn btn-sm btn-info js-edit' type='button' data-row-id='" + id + "'>")
-        editButton.html("<i class='glyphicon glyphicon-pencil'></i>");
-        var deleteButton = $("<button class='btn btn-sm btn-danger js-delete' style='margin-left: 4px;' type='button' data-row-id='" + id + "'>")
-        deleteButton.html("<i class='glyphicon glyphicon-remove'></i>");
         var td = $('<td nowrap ></td>');
-        td.append(editButton);
-        td.append(deleteButton);
+        if(self.showEditButtons) {
+          var id = cells[0];
+          var editButton = $("<button class='btn btn-sm btn-info js-edit' type='button' data-row-id='" + id + "'>")
+          editButton.html("<i class='glyphicon glyphicon-pencil'></i>");
+          var deleteButton = $("<button class='btn btn-sm btn-danger js-delete' style='margin-left: 4px;' type='button' data-row-id='" + id + "'>")
+          deleteButton.html("<i class='glyphicon glyphicon-remove'></i>");
+          td.append(editButton);
+          td.append(deleteButton);
+        }
         return td;
       };
 
@@ -366,6 +369,10 @@
           args
         );
       };
+
+      that.setShowEditButtons = function(show) {
+        self.showEditButtons = show;
+      }
 
       that.setContainer = function(container, view) {
         self.container = container;

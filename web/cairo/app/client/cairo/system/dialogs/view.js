@@ -1229,7 +1229,112 @@
 
     Views.createParametersView = function() {
 
+      var self = {
+        btnPrint: Controls.createButton(),
+        btnPreview: Controls.createButton(),
+        btnGrid: Controls.createButton(),
+        btnPDF: Controls.createButton(),
+        btnEmail: Controls.createButton(),
+        btnExport: Controls.createButton(),
+        btnInfo: Controls.createButton(),
+        listGrid: Controls.createListGrid(),
+        saved: false
+      };
+
+      self.listGrid.setShowEditButtons(false);
+
       var that = Views.createView('Params');
+
+      that.getPrintButton = function() {
+        return self.btnPrint;
+      };
+      that.getPreviewButton = function() {
+        return self.btnPreview;
+      };
+      that.getGridButton = function() {
+        return self.btnGrid;
+      };
+      that.getPDFButton = function() {
+        return self.btnPDF;
+      };
+      that.getEmailButton = function() {
+        return self.btnEmail;
+      };
+      that.getExportButton = function() {
+        return self.btnExport;
+      };
+      that.getInfoButton = function() {
+        return self.btnInfo;
+      };
+      that.getListGrid = function() {
+        return self.listGrid;
+      };
+      that.setSaved = function(saved) {
+        self.saved = saved;
+      };
+
+      var superBindView = that.bindView;
+
+      var onPrintClick = function() {
+        that.raiseEvent("printClick");
+      };
+
+      var onPreviewClick = function() {
+        that.raiseEvent("previewClick");
+      };
+
+      var onGridClick = function() {
+        that.raiseEvent("gridClick");
+      };
+
+      var onPDFClick = function() {
+        that.raiseEvent("pdfClick");
+      };
+
+      var onEmailClick = function() {
+        that.raiseEvent("emailClick");
+      };
+
+      var onInfoClick = function() {
+        that.raiseEvent("infoClick");
+      };
+
+      that.bindView = function(view) {
+        superBindView(view);
+
+        self.btnPrint.setElement(view.$('.dialog-print-button'));
+        self.btnPrint.getElement().click(onPrintClick);
+
+        self.btnPreview.setElement(view.$('.dialog-preview-button'));
+        self.btnPreview.getElement().click(onPreviewClick);
+
+        self.btnGrid.setElement(view.$('.dialog-grid-button'));
+        self.btnGrid.getElement().click(onGridClick);
+
+        self.btnPDF.setElement(view.$('.dialog-pdf-button'));
+        self.btnPDF.getElement().click(onPDFClick);
+
+        self.btnEmail.setElement(view.$('.dialog-email-button'));
+        self.btnEmail.getElement().click(onEmailClick);
+
+        self.btnInfo.setElement(view.$('.dialog-info-button'));
+        self.btnInfo.getElement().click(onInfoClick);
+
+        self.listGrid.setContainer(view.$('.document-list-grid-body'), that);
+
+      };
+
+      that.onListGridEditRow = function(control) {
+        return function(eventArgs) {
+          return that.raiseEventWithPromise("editClick", control.getIndex(), eventArgs, control);
+        };
+      };
+
+      that.onListGridDeleteRow = function(control) {
+        return function(eventArgs) {
+          return that.raiseEventWithPromise("deleteClick", control.getIndex(), eventArgs, control);
+        };
+      };
 
       return that;
     };
