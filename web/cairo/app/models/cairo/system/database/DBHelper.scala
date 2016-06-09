@@ -100,6 +100,9 @@ object DBHelper {
       val v = rs.getBigDecimal(i)
       if(v == null) 0 else v.doubleValue()
     }
+    def toBase64(bytes: Array[Byte]) = {
+      new String(org.apache.commons.codec.binary.Base64.encodeBase64(bytes), java.nio.charset.StandardCharsets.UTF_8)
+    }
     val value = metaData.getColumnTypeName(i).toLowerCase match {
       case "integer" => rs.getInt(i)
       case "int2" => rs.getInt(i)
@@ -122,6 +125,7 @@ object DBHelper {
       case "varchar" => rs.getString(i)
       case "text" => rs.getString(i)
       case "character varying" => rs.getString(i)
+      case "bytea" => toBase64(rs.getBytes(i))
       case other => {
         if(metaData.getColumnClassName(i) == "java.lang.String") rs.getString(i)
         else {

@@ -33,6 +33,10 @@ object C {
 
 }
 
+object S {
+  val LIST_REPORTS = 7008
+}
+
 object ReportParamType {
   val date = 1
   val select = 2

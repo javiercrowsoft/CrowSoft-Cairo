@@ -92,6 +92,10 @@ GET     /client/*file                                                           
 # desktop
 GET     /api/v1/desktop/reports                                                              controllers.logged.Desktop.listReports
 
+# reports-logos
+GET     /api/v1/reports/logo/small                                                           controllers.logged.system.reports.Reports.getLogoChico()
+GET     /api/v1/reports/logo/big                                                             controllers.logged.system.reports.Reports.getLogoGrande()
+
 # reports
 GET     /api/v1/reports/report/:id                                                           controllers.logged.system.reports.Reports.get(id: Int)
 POST    /api/v1/reports/report                                                               controllers.logged.system.reports.Reports.create

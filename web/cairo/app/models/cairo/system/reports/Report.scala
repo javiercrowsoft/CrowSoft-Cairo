@@ -374,6 +374,40 @@ object Report {
     }
   }
 
+  def getLogoChico(user: CompanyUser): Recordset = {
+    getLogo(user, "sp_rpt_get_logos_chico")
+  }
+
+  def getLogoGrande(user: CompanyUser): Recordset = {
+    getLogo(user, "sp_rpt_get_logos_grande")
+  }
+
+  def getLogo(user: CompanyUser, sp: String): Recordset = {
+    DB.withTransaction(user.database.database) { implicit connection =>
+
+      val sql = s"{call $sp(?, ?)}"
+      val cs = connection.prepareCall(sql)
+
+      cs.setInt(1, user.cairoCompanyId)
+      cs.registerOutParameter(2, Types.OTHER)
+
+      try {
+        cs.execute()
+
+        val rs = cs.getObject(2).asInstanceOf[java.sql.ResultSet]
+        Recordset.load(rs)
+
+      } catch {
+        case NonFatal(e) => {
+          Logger.error(s"can't get logo for user ${user.toString}. Error ${e.toString}")
+          throw e
+        }
+      } finally {
+        cs.close
+      }
+    }
+  }
+
   def show(user: CompanyUser, id: Int, params: Map[String, String]): Recordset = {
 
     def throwErrorReportNotFound(id: Int) = {

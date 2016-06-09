@@ -65,3 +65,13 @@ background.js has two ports one to content.js and other to the native app
 
 var message = {destination: 'chrome-extension://gcnibndgglpiclanidkdkemhkjejpfai/', message:"hola"}
 window.postMessage(message, window.location.href)
+
+
+migration of logos
+http://social.technet.microsoft.com/wiki/contents/articles/18571.how-to-transfer-records-from-sql-server-to-postgres.aspx
+
+storing binary data 
+https://www.postgresql.org/docs/7.4/static/jdbc-binary-data.html
+
+send json of binary data
+https://www.linkedin.com/pulse/how-transfer-binary-files-pdfimages-etc-json-rahul-budholiya

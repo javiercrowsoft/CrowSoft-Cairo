@@ -2,7 +2,6 @@ package controllers.logged.system.reports
 
 import controllers._
 import formatters.json.DateFormatter
-import models.cairo.modules.general.ProductoProveedor
 import play.api.mvc._
 import play.api.data._
 import play.api.data.Forms._
@@ -195,12 +194,25 @@ object Reports extends Controller with ProvidesUser {
     request.queryString.map { case (k,v) => k -> v.mkString }
   }
 
-  def show(id: Int/*, params: Option[String]* */) = GetAction { implicit request =>
+  def show(id: Int) = GetAction { implicit request =>
     LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(Report.getAction(id) _), { user =>
       Ok(
         Json.toJson(
           Recordset.getAsJson(
             Report.show(user, id, getParams(request)))))
+    })
+  }
+
+  def getLogoChico = { getLogo("chico") }
+  def getLogoGrande = { getLogo("grande") }
+
+  def getLogo(logo: String) = GetAction { implicit request =>
+    LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.LIST_REPORTS), { user =>
+      val rs = logo match {
+        case "chico" => Report.getLogoChico(user)
+        case "grande" => Report.getLogoGrande(user)
+      }
+      Ok(Json.toJson(Recordset.getAsJson(rs)))
     })
   }
 

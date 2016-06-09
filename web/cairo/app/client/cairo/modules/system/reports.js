@@ -3,6 +3,9 @@
 
   var C_REPORT_PATH = "reports/report/";
 
+  var SMALL_LOGO_DATA_SOURCE = "SP_RptGetLogosChico";
+  var BIG_LOGO_DATA_SOURCE = "SP_RptGetLogosGrande";
+
   var createCSReportConnection = function() {
     var pendingMessages = [];
 
@@ -49,7 +52,7 @@
     };
 
     that.checkCSReportsExtension = function() {
-      sendMessage("hola").then(function(response) {
+      sendMessage({action: "debugger", message:"hola"}).then(function(response) {
         console.log(JSON.stringify(response.request));
         console.log(JSON.stringify(response.response));
       });
@@ -615,6 +618,19 @@
         };
       };
 
+      var getLogos = function() {
+        var logos = {};
+        return DB.getData("load[" + m_apiPath + "reports/logo/small]", null)
+          .whenSuccessWithResult(function(response) {
+            logos.small = createRecordset(response.data)
+            return DB.getData("load[" + m_apiPath + "reports/logo/big]", null)
+              .whenSuccessWithResult(function(response) {
+                logos.big = createRecordset(response.data)
+                return {success: true, logos: logos };
+              });
+          });
+      };
+
       self.preview = function() {
         var params = getParams();
         return DB.getData("load[" + m_apiPath + C_REPORT_PATH + m_id + "/show]", null, params).then(function(response) {
@@ -623,12 +639,19 @@
 
           var data = [Cairo.CSReportConnection.createReportDataSource(m_code, createRecordset(response.data))];
 
-          var rd = Cairo.CSReportConnection.createReportDefinition(
-            Cairo.CSReportConnection.ACTIONS.PREVIEW,
-            Cairo.CSReportConnection.createReportData(m_title, m_name, m_code, m_reportFile, params, data)
-          );
+          return getLogos().whenSuccessWithResult(function(response) {
 
-          return Cairo.CSReportConnection.previewReport(rd);
+            data.push(Cairo.CSReportConnection.createReportDataSource(SMALL_LOGO_DATA_SOURCE, response.logos.small));
+            data.push(Cairo.CSReportConnection.createReportDataSource(BIG_LOGO_DATA_SOURCE, response.logos.big));
+
+            var rd = Cairo.CSReportConnection.createReportDefinition(
+              Cairo.CSReportConnection.ACTIONS.PREVIEW,
+              Cairo.CSReportConnection.createReportData(m_title, m_name, m_code, m_reportFile, params, data)
+            );
+
+            return Cairo.CSReportConnection.previewReport(rd);
+
+          });
         });
       };
 
