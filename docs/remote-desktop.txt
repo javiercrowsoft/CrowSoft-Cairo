@@ -1,0 +1,36 @@
+remote desktop using webrtc
+
+http://stackoverflow.com/questions/24162346/desktop-capture-chrome-plugin
+
+firefox
+http://mozilla.github.io/webrtc-landing/
+
+google
+https://developer.chrome.com/extensions/samples#search
+
+others
+https://github.com/muaz-khan/WebRTC-Experiment
+
+a solution written in c# (asp.net)
+http://www.cloudmanagementsuite.com/remote-control/   (I don't know if they use webrtc)
+
+SO questions
+http://stackoverflow.com/questions/25241170/is-webrtcs-desktop-sharing-without-calling-choosedesktopmedia-possible
+
+http://www.meshcommander.com/webrtc
+
+https://webrtc.ventures/2016/03/3-things-webrtc-cannot-do/
+
+private void MoveCursor()
+{
+   // Set the Current cursor, move the cursor's Position,
+   // and set its clipping rectangle to the form. 
+
+   this.Cursor = new Cursor(Cursor.Current.Handle);
+   Cursor.Position = new Point(Cursor.Position.X - 50, Cursor.Position.Y - 50);
+   Cursor.Clip = new Rectangle(this.Location, this.Size);
+}
+
+http://stackoverflow.com/questions/647236/moving-mouse-cursor-programmatically
+http://stackoverflow.com/questions/12761169/send-keys-through-sendinput-in-user32-dll
+http://inputsimulator.codeplex.com/

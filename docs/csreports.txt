@@ -19,17 +19,11 @@ http://stackoverflow.com/questions/32279081/equivalent-of-chrome-native-messagin
 
 MAC
 
-mcs -g -debug+ CurrencyConverter.cs -out:CurrencyConverter.exe -pkg:cocoa-sharp
-rm -rf CSReportWebServer.app
-macpack -m:2 -o:.  -r:/Library/Frameworks/Mono.framework/Versions/Current/lib/ libCocoaSharpGlue.dylib -r:CSReportWebServer.nib -n:CSReportWebServer -a:CSReportWebServer.exe
-
-
-             CSReportWebServer.vshost.exe          Echo.log                              
-
-
-CSReportWebServer.pdb                 CSReportWebServer.vshost.exe.manifest 
-
 rm -rf CSReportWebServer.app;macpack -o:. -m:winforms -r:/Library/Frameworks/Mono.framework/Versions/Current/lib/ libCocoaSharpGlue.dylib  -r:log4net.dll -r:CSReportWebServer.manifest.json -r:CSReportWebServer.vshost.exe.config -r:Newtonsoft.Json.dll -r:log4net.xml -r:CSReportWebServer.exe.config -r:Newtonsoft.Json.xml -n:CSReportWebServer -a:CSReportWebServer.exe
+
+the manifest for the native app is in this folder:
+
+~/Library/Application Support/Google/Chrome/NativeMessagingHosts
 
 
 1- the file CSReportWebServer.manifest has a property named allowed_origins it must include the id of the extension:

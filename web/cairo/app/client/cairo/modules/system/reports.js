@@ -14,6 +14,7 @@
     // TODO: move this to configuration
     //
     Cairo.CSREPORTS_EXTENSION_ID = 'gcnibndgglpiclanidkdkemhkjejpfai';
+    //Cairo.CSREPORTS_EXTENSION_ID = 'gkhbdpmpplahhgnpjkmkppcpcphlgphb';
 
     var extension_url = "chrome-extension://"+ Cairo.CSREPORTS_EXTENSION_ID +"/";
 
@@ -34,7 +35,7 @@
       var defer = new Cairo.Promises.Defer();
 
       message = {
-        destination: 'chrome-extension://gcnibndgglpiclanidkdkemhkjejpfai/',
+        destination: 'chrome-extension://' + Cairo.CSREPORTS_EXTENSION_ID + '/',
         message: message,
         id: Cairo.Util.getNextRandomId()
       };
