@@ -321,7 +321,7 @@ WHILE @Column_ID is not null
 						'COALESCE('''''''' + REPLACE(CONVERT(char(255),RTRIM(' + @Column_Name + ')),'''''''','''''''''''')+'''''''',''NULL'')'
 				WHEN @Data_Type in ('text','ntext')
 						THEN  
-						'COALESCE('''''''' + REPLACE(CONVERT(char(8000),' + @Column_Name + '),'''''''','''''''''''')+'''''''',''NULL'')'					
+						'COALESCE(''E'' + '''''''' + REPLACE(CONVERT(char(8000),' + @Column_Name + '),'''''''','''''''''''')+'''''''',''NULL'')'
 				WHEN @Data_Type in ('binary','varbinary')
 						THEN  
 						'COALESCE(RTRIM(CONVERT(char,' + 'CONVERT(int,' + @Column_Name + '))),''NULL'')'  
@@ -356,7 +356,7 @@ WHILE @Column_ID is not null
 						'COALESCE('''''''' + REPLACE(CONVERT(char(255),RTRIM(' + @Column_Name + ')),'''''''','''''''''''')+'''''''',''NULL'')'
 				WHEN @Data_Type in ('text','ntext')
 						THEN  
-						'COALESCE('''''''' + REPLACE(CONVERT(char(8000),' + @Column_Name + '),'''''''','''''''''''')+'''''''',''NULL'')'					
+						'COALESCE(''E'' + '''''''' + REPLACE(CONVERT(char(8000),' + @Column_Name + '),'''''''','''''''''''')+'''''''',''NULL'')'
 				WHEN @Data_Type in ('binary','varbinary')
 						THEN  
 						'COALESCE(RTRIM(CONVERT(char,' + 'CONVERT(int,' + @Column_Name + '))),''NULL'')'  

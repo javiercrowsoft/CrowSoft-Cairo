@@ -7,25 +7,31 @@
   var BIG_LOGO_DATA_SOURCE = "SP_RptGetLogosGrande";
 
   var createCSReportConnection = function() {
-    var pendingMessages = [];
+
+    var m_pendingMessages = [];
+    var m_reports = []; // contains a collection of Reports.Report which comunicate with the native application
 
     var that = {};
 
     // TODO: move this to configuration
     //
-    Cairo.CSREPORTS_EXTENSION_ID = 'gcnibndgglpiclanidkdkemhkjejpfai';
-    //Cairo.CSREPORTS_EXTENSION_ID = 'gkhbdpmpplahhgnpjkmkppcpcphlgphb';
+    //Cairo.CSREPORTS_EXTENSION_ID = 'gcnibndgglpiclanidkdkemhkjejpfai';
+    Cairo.CSREPORTS_EXTENSION_ID = 'gkhbdpmpplahhgnpjkmkppcpcphlgphb';
 
     var extension_url = "chrome-extension://"+ Cairo.CSREPORTS_EXTENSION_ID +"/";
 
     window.addEventListener( "message", function(event) {
       if(event.source != window) return;
-      var message = event.data;
-      if(message.source && (message.source === extension_url))
+      var envelope = event.data;
+      if(envelope.source && (envelope.source === extension_url))
       {
         var pm;
-        if(pm = pendingMessages[message.request.id]) {
-          pm.defer.resolve({ request: pm.message, response: message.request });
+        if(envelope.message.id !== undefined && (pm = m_pendingMessages[envelope.message.id])) {
+          pm.defer.resolve({ request: pm.message, response: envelope.message });
+        }
+        var rpt;
+        if(envelope.message.webReportId !== undefined && (rpt = m_reports[envelope.message.webReportId])) {
+          rpt.processWebReportMessage(envelope.message);
         }
       }
     }, false );
@@ -45,11 +51,21 @@
         defer: defer
       };
 
-      pendingMessages[message.id] = pendingMessage;
+      m_pendingMessages[message.id] = pendingMessage;
 
       window.postMessage(message, window.location.href);
 
       return defer.promise;
+    };
+
+    that.registerReport = function(report) {
+      var id = Cairo.Util.getNextRandomId();
+      m_reports[id] = report;
+      return id;
+    };
+
+    that.unRegisterReport = function(id) {
+      m_reports[id] = null;
     };
 
     that.checkCSReportsExtension = function() {
@@ -65,7 +81,8 @@
     *
     * {
     *   action: _ACTION_,
-    *   data: { _REPORT_DATA_ }    *
+    *   data: { _REPORT_DATA_ | _REPORT_PAGE_DATA_ },    *
+    *   webReportId: _string_
     * }
     *
     * _REPORT_DATA_ : {
@@ -87,10 +104,15 @@
     *   data: _RECORDSET_
     * }
     *
+    * _REPORT_PAGE_DATA_ : {
+    *   report_page: _int_
+    * }
+    *
     * */
 
     that.ACTIONS = {
       PREVIEW: 'preview',
+      MOVE_TO_PAGE: 'moveToPage',
       PDF: 'pdf',
       EXCEL: 'excel',
       PRINT: 'print'
@@ -115,10 +137,14 @@
       };
     };
 
-    that.createReportDefinition = function(action, data) {
+    that.createReportDefinition = function(action, data, reportId) {
+      if(reportId === undefined) {
+        Cairo.raiseError("Reports", "CSReportConnection.createReportDefinition can't be called without a reportId. To get a reportId you must call CSReportConnection.registerReport.");
+      }
       return {
         action: action,
-        data: data
+        data: data,
+        webReportId: reportId // this is used to allow the native application to send messages to an instance of Cairo.Reports.Report
       };
     };
 
@@ -126,8 +152,58 @@
       return sendMessage(reportDefinition).then(function(response) {
         console.log(JSON.stringify(response.request));
         console.log(JSON.stringify(response.response));
+        response.success = true;
         return response;
       });
+    };
+
+    var csEMoveTo =
+    {
+        C_FIRSTPAGE: 1,
+        C_NEXTPAGE: -1,
+        C_PREVIOUSPAGE: -2,
+        C_LASTPAGE: -3
+    };
+
+    var createReportPageData = function(page, reportId) {
+      return {
+        report_page: page,
+        reportId: reportId
+      };
+    };
+
+    var moveToPage = function(page, webReportId, reportId) {
+      var rd = that.createReportDefinition(
+        that.ACTIONS.MOVE_TO_PAGE,
+        createReportPageData(page, reportId),
+        webReportId
+      );
+      return sendMessage(rd).then(function(response) {
+        console.log(JSON.stringify(response.request));
+        console.log(JSON.stringify(response.response));
+        response.success = true;
+        return response;
+      });
+    };
+
+    that.firstPage = function(webReportId, reportId) {
+      moveToPage(csEMoveTo.C_FIRSTPAGE, webReportId, reportId);
+    };
+
+    that.previousPage = function(webReportId, reportId) {
+      moveToPage(csEMoveTo.C_PREVIOUSPAGE, webReportId, reportId);
+    };
+
+    that.currentPage = function(page, webReportId, reportId) {
+      moveToPage(page, webReportId, reportId);
+    };
+
+    that.nextPage = function(webReportId, reportId) {
+      moveToPage(csEMoveTo.C_NEXTPAGE, webReportId, reportId);
+    };
+
+    that.lastPage = function(webReportId, reportId) {
+      moveToPage(csEMoveTo.C_LASTPAGE, webReportId, reportId);
     };
 
     return that;
@@ -411,6 +487,10 @@
       var m_apiPath = DB.getAPIVersion();
       var SAVE_ERROR = getText(2226, ""); //TODO: add new entry in language for this message // Error al grabar los párametros del reporte #1#
 
+      var m_webReportId = Cairo.CSReportConnection.registerReport(self);
+      var m_reportId = ""; // this is returned by CSReportWebServer in the REPORT_PREVIEW_DONE message
+                           // it is used to call methods over an instance of a report like moveToPage
+
       self.show = function(id) {
         initialize();
         return load(id)
@@ -647,13 +727,49 @@
 
             var rd = Cairo.CSReportConnection.createReportDefinition(
               Cairo.CSReportConnection.ACTIONS.PREVIEW,
-              Cairo.CSReportConnection.createReportData(m_title, m_name, m_code, m_reportFile, params, data)
+              Cairo.CSReportConnection.createReportData(m_title, m_name, m_code, m_reportFile, params, data),
+              m_webReportId
             );
 
             return Cairo.CSReportConnection.previewReport(rd);
 
           });
         });
+      };
+
+      self.firstPage = function() {
+        Cairo.CSReportConnection.firstPage(m_webReportId, m_reportId);
+      };
+
+      self.previousPage = function() {
+        Cairo.CSReportConnection.previousPage(m_webReportId, m_reportId);
+      };
+
+      self.currentPage = function(page) {
+        Cairo.CSReportConnection.currentPage(page, m_webReportId, m_reportId);
+      };
+
+      self.nextPage = function() {
+        Cairo.CSReportConnection.nextPage(m_webReportId, m_reportId);
+      };
+
+      self.lastPage = function() {
+        Cairo.CSReportConnection.lastPage(m_webReportId, m_reportId);
+      };
+
+      self.processWebReportMessage = function(message) {
+        switch(message.messageType) {
+          case 'REPORT_PREVIEW_DONE':
+            m_reportId = message.reportId;
+            m_dialog.showPage(message.page);
+            m_dialog.setCurrentPage(1);
+            m_dialog.setTotalPages(message.totalPages);
+            break;
+          case 'REPORT_PREVIEW_PAGE':
+            m_dialog.showPage(message.page);
+            m_dialog.setCurrentPage(message.pageIndex);
+            break;
+        }
       };
 
       self.save = function() {
@@ -754,6 +870,7 @@
           m_dialog = null;
           m_properties = null;
           m_listController = null;
+          Cairo.CSReportConnection.unRegisterReport(m_webReportId);
         }
         catch (ex) {
           Cairo.manageErrorEx(ex.message, ex, "destroy", C_MODULE, "");

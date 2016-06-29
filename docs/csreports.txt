@@ -19,12 +19,19 @@ http://stackoverflow.com/questions/32279081/equivalent-of-chrome-native-messagin
 
 MAC
 
+** probably this command line need to be edited to add vbnc and Microsoft.VisualBasic.dll
 rm -rf CSReportWebServer.app;macpack -o:. -m:winforms -r:/Library/Frameworks/Mono.framework/Versions/Current/lib/ libCocoaSharpGlue.dylib  -r:log4net.dll -r:CSReportWebServer.manifest.json -r:CSReportWebServer.vshost.exe.config -r:Newtonsoft.Json.dll -r:log4net.xml -r:CSReportWebServer.exe.config -r:Newtonsoft.Json.xml -n:CSReportWebServer -a:CSReportWebServer.exe
+
+
+rm -rf Echo.app;macpack -o:. -m:console -r:log4net.dll -r:Newtonsoft.Json.dll -r:Echo.exe.config -n:CSEcho -a:Echo.exe
+
+
+http://superuser.com/questions/132501/how-to-create-a-app-from-a-mono-application-in-mac-os-x
+http://www.mono-project.com/archived/guiderunning_mono_applications/
 
 the manifest for the native app is in this folder:
 
 ~/Library/Application Support/Google/Chrome/NativeMessagingHosts
-
 
 1- the file CSReportWebServer.manifest has a property named allowed_origins it must include the id of the extension:
 
@@ -69,3 +76,25 @@ https://www.postgresql.org/docs/7.4/static/jdbc-binary-data.html
 
 send json of binary data
 https://www.linkedin.com/pulse/how-transfer-binary-files-pdfimages-etc-json-rahul-budholiya
+
+Mono in MAC
+
+icons
+http://www.flaticon.com/packs
+
+folders:
+~/Work/CrowSoft/proyectos.c#/CSReports.net/CSReports/CSReportWebServer/bin/Debug
+~/Work/CrowSoft/proyectos.c#/CSReports.net/CSReports/CSReportWebServer/bin/Debug/CSReportWebServer.app/Contents/Resources
+
+1) mackpac will create a bash script which doesn't pass the arguments used when the script is invoqued
+you must manually edit this file and add $1 to the two places where mono is invoqued at the end of this
+script.
+
+2) you must include vbnc as a reference and probably Microsoft.VisualBasic.dll (I need to make more
+test and then I will add this to the mackpack command line) to get the version of vbnc use which vbnc
+then use ls -l over that file, that will give you the path of the original file.
+
+3) when working with native extension with chrome Console.Write/WriteLine CAN NOT be called. this make
+the port class to crash.
+
+4) don't create to many graphic objects

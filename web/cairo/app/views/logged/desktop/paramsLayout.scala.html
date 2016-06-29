@@ -41,8 +41,31 @@
             <button class="btn btn-success dialog-button dialog-save-button"><i class='glyphicon glyphicon-floppy-disk'></i> Save</button>
           </div>
         </div>
-        <div class="col-sm-9 col-md-9 col-lg-10 document-list-list">
-          <div class="document-list-grid-body">
+        <div class="col-sm-9 col-md-9 col-lg-10 document-list-list" style="padding-top: 10px;">
+
+          <ul class="nav nav-tabs">
+            <li class="active"><a class="report-preview-tab" href="#report-preview" data-toggle="tab">Preview</a></li>
+            <li><a class="report-grid-tab" href="#report-grid" data-toggle="tab">Grid</a></li>
+            <li><a class="report-chart-tab" href="#report-chart" data-toggle="tab">Chart</a></li>
+          </ul>
+          <div class="tab-content" style="margin: 20px;">
+            <div id="report-preview" class="tab-pane active">
+              <div class="btn-group">
+                <button class="btn btn-info dialog-button dialog-documents-button report-first-page"><i class='glyphicon glyphicon-step-backward'></i></button>
+                <button class="btn btn-info dialog-button dialog-documents-button report-previous-page"><i class='glyphicon glyphicon-backward'></i></button>
+                <input class="btn dialog-input-control report-current-page" style="width: 50px; height:34px; margin-left: 5px;">
+                <input class="btn dialog-input-control report-total-pages" style="width: 50px; height:34px; margin-right: 5px;" disabled>
+                <button class="btn btn-info dialog-button dialog-documents-button report-next-page"><i class='glyphicon glyphicon-forward'></i></button>
+                <button class="btn btn-info dialog-button dialog-documents-button report-last-page"><i class='glyphicon glyphicon-step-forward'></i></button>
+              </div>
+              <div class="dialog-report-container" style="overflow:scroll; height:400px;">
+                <img class="dialog-page-image">
+              </div>
+            </div>
+            <div class="document-list-grid-body tab-pane" id="report-grid">
+            </div>
+            <div class="tab-pane" id="report-chart">
+            </div>
           </div>
         </div>
       </div>

@@ -681,6 +681,7 @@
       that.showDialog = function() {
         showTab();
         self.visible = true;
+        Cairo.resizeComponents();
       };
 
       that.closeDialog = function() {
@@ -1238,6 +1239,16 @@
         btnExport: Controls.createButton(),
         btnInfo: Controls.createButton(),
         listGrid: Controls.createListGrid(),
+        pageImage: Controls.createImage(),
+        previewTab: null,
+        gridTab: null,
+        chartTab: null,
+        btnFirstPage: Controls.createButton(),
+        btnPreviousPage: Controls.createButton(),
+        currentPage: Controls.createInput(),
+        totalPages: Controls.createInput(),
+        btnNextPage: Controls.createButton(),
+        btnLastPage: Controls.createButton(),
         saved: false
       };
 
@@ -1299,6 +1310,26 @@
         that.raiseEvent("infoClick");
       };
 
+      var onFirstPageClick = function() {
+        that.raiseEvent("firstPageClick");
+      };
+
+      var onPreviousPageClick = function() {
+        that.raiseEvent("previousPageClick");
+      };
+
+      var onCurrentPageChange = function() {
+        that.raiseEvent("currentPageChange");
+      };
+
+      var onNextPageClick = function() {
+        that.raiseEvent("nextPageClick");
+      };
+
+      var onLastPageClick = function() {
+        that.raiseEvent("lastPageClick");
+      };
+
       that.bindView = function(view) {
         superBindView(view);
 
@@ -1322,6 +1353,24 @@
 
         self.listGrid.setContainer(view.$('.document-list-grid-body'), that);
 
+        self.pageImage.setElement(view.$('.dialog-page-image'));
+
+        self.previewTab = view.$('.report-preview-tab');
+        self.gridTab = view.$('.report-grid-tab');
+        self.chartTab = view.$('.report-chart-tab');
+
+        self.btnFirstPage.setElement(view.$('.report-first-page'));
+        self.btnFirstPage.getElement().click(onFirstPageClick);
+        self.btnPreviousPage.setElement(view.$('.report-previous-page'));
+        self.btnPreviousPage.getElement().click(onPreviousPageClick);
+        self.currentPage.setElement(view.$('.report-current-page'), that, onCurrentPageChange);
+        self.totalPages.setElement(view.$('.report-total-pages'), that);
+        self.totalPages.setEnabled(false);
+        self.btnNextPage.setElement(view.$('.report-next-page'));
+        self.btnNextPage.getElement().click(onNextPageClick);
+        self.btnLastPage.setElement(view.$('.report-last-page'));
+        self.btnLastPage.getElement().click(onLastPageClick);
+
       };
 
       that.onListGridEditRow = function(control) {
@@ -1334,6 +1383,34 @@
         return function(eventArgs) {
           return that.raiseEventWithPromise("deleteClick", control.getIndex(), eventArgs, control);
         };
+      };
+
+      that.showPage = function(page) {
+        self.pageImage.setImage(page);
+      };
+
+      that.showPreviewTab = function() {
+        self.previewTab.tab('show');
+      };
+
+      that.showGridTab = function() {
+        self.gridTab.tab('show');
+      };
+
+      that.showChartTab = function() {
+        self.chartTab.tab('show');
+      };
+
+      that.setTotalPages = function(totalPages) {
+        self.totalPages.setValue(totalPages);
+      };
+
+      that.setCurrentPage = function(page) {
+        self.currentPage.setValue(page);
+      };
+
+      that.getCurrentPage = function() {
+        return self.currentPage.getValue();
       };
 
       return that;

@@ -228,6 +228,50 @@
         // TODO: implement this.
       };
 
+      var format = function(data) {
+        data = data.split('\n');
+        for(var i = 0, count = data.length; i < count; i += 1) {
+          if(/^[Rr]espuesta/g.exec(data[i])) {
+            data[i] = "<span style='color: green;'>" + data[i] + "</span>";
+          }
+          else if(/^[Mm]ercado[Ll]ibre/g.exec(data[i])) {
+            var v = data[i].split('-');
+            if(v.length>1) {
+              v[0] = "<span style='color: mediumblue;'>" + v[0] + "</span>";
+              v[1] = "<span style='color: orangered;'>" + v[1] + "</span>";
+            }
+            data[i] = v.join("-");
+          }
+        }
+        data = data.join('<br>');
+        return '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px; margin-left: 100px; margin-bottom: 10px; max-width: 800px;">'+
+          '<tr>'+
+          '<td>Observaciones:</td>'+
+          '</tr><tr>'+
+          '<td>'+ data +'</td>'+
+          '</tr>'+
+          '</table>';
+      };
+
+      gridManager.showRowDetails = function(tr) {
+        var text = tr.childNodes[tr.childNodes.length-1].innerHTML;
+        if(text !== "") {
+        var row = gridManager.dataTable.row(tr);
+          row.child( format(text) ).show();
+        }
+      };
+
+      gridManager.showDetails = function() {
+        if(self.rows.length > 0 &&
+           self.columns[self.columns.length-1].name.toLowerCase() === "observaciones") {
+
+          var rows = $('tr', gridManager.body);
+          for(var i = 0, count = rows.length; i < count; i += 1) {
+            gridManager.showRowDetails(rows[i]);
+          }
+        }
+      };
+
       gridManager.createDataTable = function() {
         var buttons = [];
         var scrollX = false;
@@ -263,6 +307,8 @@
         };
 
         gridManager.dataTable = $(that.getElement()).DataTable(dataTableSettings);
+
+        gridManager.showDetails();
       };
 
       //

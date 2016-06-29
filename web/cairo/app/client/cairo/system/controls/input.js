@@ -73,14 +73,20 @@
         }
       };
 
-      that.setElement = function(element, view) {
+      that.setElement = function(element, view, onChangeHandler) {
         superSetElement(element);
         if(self.type === Controls.InputType.password) {
           element.attr('type', 'password');
         }
         element.val(self.text);
         element.addClass("dialog-control dialog-input-control");
-        var onChange = isText() ? view.onTextChange(that) : view.onMaskEditChange(that);
+        var onChange;
+        if(onChangeHandler !== undefined) {
+          onChange = onChangeHandler;
+        }
+        else {
+          onChange = isText() ? view.onTextChange(that) : view.onMaskEditChange(that);
+        }
         element.change(function() {
           that.setText(element.val());
           onChange();

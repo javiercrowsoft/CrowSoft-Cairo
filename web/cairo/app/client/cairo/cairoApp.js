@@ -1689,4 +1689,23 @@ var Cairo = new Marionette.Application();
 
   Cairo.LoadingMessage.show(Cairo.Application.getName(), "Loading General Settings");
 
+  var resizeComponents = function() {
+    try {
+      var win = $(window);
+      var f = $("#footer");
+
+      var rc = $(".dialog-report-container");
+      if(rc.length > 0) {
+        rc.height(win.height() - rc.offset().top - f.height() - 20);
+      }
+    }
+    catch(ignore) {}
+  };
+
+  Cairo.resizeComponents = resizeComponents;
+
+  $(window).on('resize', function(){
+    resizeComponents();
+  });
+
 }());

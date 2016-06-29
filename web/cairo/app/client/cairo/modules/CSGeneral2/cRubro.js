@@ -788,7 +788,7 @@
 
         var elem = properties.add(null, C.RUBTI_ID_1);
         elem.setType(Dialogs.PropertyType.select);
-        elem.setSelectTable(Cairo.Tables.RUBRO_TABLA_ITEM);
+        elem.setSelectTable(Cairo.Tables.TABLAS_DE_RUBROS);
         elem.setSelectFilter(D.getRubroTablaItemFilter(m_rubtId1));
         elem.setName(getText(1432, "")); // Item 1
         elem.setKey(K_RUBTI_ID1);
@@ -807,7 +807,7 @@
 
         var elem = properties.add(null, C.RUBTI_ID_2);
         elem.setType(Dialogs.PropertyType.select);
-        elem.setSelectTable(Cairo.Tables.RUBRO_TABLA_ITEM);
+        elem.setSelectTable(Cairo.Tables.TABLAS_DE_RUBROS);
         elem.setSelectFilter(D.getRubroTablaItemFilter(m_rubtId2));
         elem.setName(getText(1434, "")); // Item 2
         elem.setKey(K_RUBTI_ID2);
@@ -826,7 +826,7 @@
 
         var elem = properties.add(null, C.RUBTI_ID_3);
         elem.setType(Dialogs.PropertyType.select);
-        elem.setSelectTable(Cairo.Tables.RUBRO_TABLA_ITEM);
+        elem.setSelectTable(Cairo.Tables.TABLAS_DE_RUBROS);
         elem.setSelectFilter(D.getRubroTablaItemFilter(m_rubtId3));
         elem.setName(getText(1436, "")); // Item 3
         elem.setKey(K_RUBTI_ID3);
@@ -845,7 +845,7 @@
 
         var elem = properties.add(null, C.RUBTI_ID_4);
         elem.setType(Dialogs.PropertyType.select);
-        elem.setSelectTable(Cairo.Tables.RUBRO_TABLA_ITEM);
+        elem.setSelectTable(Cairo.Tables.TABLAS_DE_RUBROS);
         elem.setSelectFilter(D.getRubroTablaItemFilter(m_rubtId4));
         elem.setName(getText(1438, "")); // Item 4
         elem.setKey(K_RUBTI_ID4);
@@ -864,7 +864,7 @@
 
         var elem = properties.add(null, C.RUBTI_ID_5);
         elem.setType(Dialogs.PropertyType.select);
-        elem.setSelectTable(Cairo.Tables.RUBRO_TABLA_ITEM);
+        elem.setSelectTable(Cairo.Tables.TABLAS_DE_RUBROS);
         elem.setSelectFilter(D.getRubroTablaItemFilter(m_rubtId5));
         elem.setName(getText(1440, "")); // Item 5
         elem.setKey(K_RUBTI_ID5);
@@ -883,7 +883,7 @@
 
         var elem = properties.add(null, C.RUBTI_ID_6);
         elem.setType(Dialogs.PropertyType.select);
-        elem.setSelectTable(Cairo.Tables.RUBRO_TABLA_ITEM);
+        elem.setSelectTable(Cairo.Tables.TABLAS_DE_RUBROS);
         elem.setSelectFilter(D.getRubroTablaItemFilter(m_rubtId6));
         elem.setName(getText(1442, "")); // Item 6
         elem.setKey(K_RUBTI_ID6);
@@ -902,7 +902,7 @@
 
         var elem = properties.add(null, C.RUBTI_ID_7);
         elem.setType(Dialogs.PropertyType.select);
-        elem.setSelectTable(Cairo.Tables.RUBRO_TABLA_ITEM);
+        elem.setSelectTable(Cairo.Tables.TABLAS_DE_RUBROS);
         elem.setSelectFilter(D.getRubroTablaItemFilter(m_rubtId7));
         elem.setName(getText(1444, "")); // Item 7
         elem.setKey(K_RUBTI_ID7);
@@ -921,7 +921,7 @@
 
         var elem = properties.add(null, C.RUBTI_ID_8);
         elem.setType(Dialogs.PropertyType.select);
-        elem.setSelectTable(Cairo.Tables.RUBRO_TABLA_ITEM);
+        elem.setSelectTable(Cairo.Tables.TABLAS_DE_RUBROS);
         elem.setSelectFilter(D.getRubroTablaItemFilter(m_rubtId8));
         elem.setName(getText(1446, "")); // Item 8
         elem.setKey(K_RUBTI_ID8);
@@ -940,7 +940,7 @@
 
         var elem = properties.add(null, C.RUBTI_ID_9);
         elem.setType(Dialogs.PropertyType.select);
-        elem.setSelectTable(Cairo.Tables.RUBRO_TABLA_ITEM);
+        elem.setSelectTable(Cairo.Tables.TABLAS_DE_RUBROS);
         elem.setSelectFilter(D.getRubroTablaItemFilter(m_rubtId9));
         elem.setName(getText(1448, "")); // Item 9
         elem.setKey(K_RUBTI_ID9);
@@ -959,7 +959,7 @@
 
         var elem = properties.add(null, C.RUBTI_ID_10);
         elem.setType(Dialogs.PropertyType.select);
-        elem.setSelectTable(Cairo.Tables.RUBRO_TABLA_ITEM);
+        elem.setSelectTable(Cairo.Tables.TABLAS_DE_RUBROS);
         elem.setSelectFilter(D.getRubroTablaItemFilter(m_rubtId10));
         elem.setName(getText(1450, "")); // Item 10
         elem.setKey(K_RUBTI_ID10);

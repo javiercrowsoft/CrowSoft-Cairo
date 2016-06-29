@@ -1368,10 +1368,10 @@
   // getCurrentPrice is a function so we can use call(getPriceFromRow, rowIndex) when calling
   // setDescuentos
   //
-  Cairo.Documents.setDescuentos = function(row, prId, getCurrentPrice, ldId, KI_DESCUENTO, KI_PRECIO) {
+  Cairo.Documents.setDescuentos = function(row, prId, currentPrice, ldId, KI_DESCUENTO, KI_PRECIO) {
     var p;
     var desc;
-    var price = getCurrentPrice();
+    var price = Cairo.isFunction(currentPrice) ? currentPrice() : currentPrice;
 
     if(ldId !== NO_ID) {
 

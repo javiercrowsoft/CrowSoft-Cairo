@@ -44,7 +44,11 @@ begin
         and cfg_aspecto = 'Lenguaje Gral_' || p_us_id::varchar
         and emp_id = p_emp_id;
 
-        v_leng_id := coalesce(v_leng_id, 1);                            
+        v_leng_id := coalesce(v_leng_id, 1);
+
+        if v_leng_id = 0 then
+           v_leng_id := 1;
+        end if;                            
 
         rtn := 'rtn';
         
@@ -74,7 +78,7 @@ begin
                         m.me_object_handler,
                         m.me_package,
                         m.me_file_path,
-                        l.lengi_texto as text,
+                        coalesce(l.lengi_texto,'????') as text,
                         coalesce(lfather1.lengi_texto,'') as father1,
                         coalesce(lfather2.lengi_texto,'') as father2,
                         coalesce(lfather3.lengi_texto,'') as father3,

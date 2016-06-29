@@ -30,7 +30,11 @@
         element.addClass("dialog-control dialog-input-control");
         $(element).datepicker({
           constrainInput: false,
-          showButtonPanel: true
+          showButtonPanel: true,
+          changeMonth: true,
+          changeYear: true,
+          numberOfMonths: 2,
+          yearRange: "c-20:c+5"
         });
         var onChange = view.onDateChange(that);
           element.change(function() {

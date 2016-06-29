@@ -6,13 +6,20 @@
     var createImage = function() {
 
       var self = {
+        image: ""
       };
 
       var that = Controls.createControl();
 
       that.htmlTag = "<img/>";
 
-      that.setImage = function(image) { /* TODO: implement this. */ };
+      that.setImage = function(image) {
+        self.image = image;
+        var element = that.getElement();
+        if(element) {
+          element.attr("src", image);
+        }
+      };
 
       return that;
     };

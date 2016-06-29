@@ -66,7 +66,16 @@
               optionButtonClick:          optionButtonClick,
               textChange:                 textChange,
               textPasswordChange:         textPasswordChange,
-              textButtonClick:            textButtonClick
+              textButtonClick:            textButtonClick,
+
+              // to navigate a report preview
+
+              firstPageClick:             firstPage,
+              previousPageClick:          previousPage,
+              currentPageChange:          currentPage,
+              nextPageClick:              nextPage,
+              lastPageClick:              lastPage
+
             });
           }
           catch (ex) {
@@ -307,6 +316,9 @@
             refreshAux();
             p = m_client.refresh().whenSuccessWithResult(function(response) {
               m_view.getListGrid().load(response.data);
+              if(m_bIsParam) {
+                m_view.showGridTab();
+              }
             }).then(Cairo.LoadingMessage.close);
             return;
           }
@@ -326,8 +338,7 @@
             Cairo.LoadingMessage.show(m_client.getTitle(), "Loading data from Crowsoft Cairo server.");
             refreshAux();
             p = m_client.preview().whenSuccessWithResult(function(response) {
-              // TODO: implement preview
-              //m_view.getListGrid().load(response.data);
+              m_view.showPreviewTab();
             }).then(Cairo.LoadingMessage.close);
             return;
           }
@@ -351,6 +362,38 @@
 
         var infoClick = function() {
 
+        };
+
+        var firstPage = function() {
+          m_client.firstPage();
+        };
+
+        var previousPage = function() {
+          m_client.previousPage();
+        };
+
+        var currentPage = function() {
+          m_client.currentPage(m_view.getCurrentPage());
+        };
+
+        var nextPage = function() {
+          m_client.nextPage();
+        };
+
+        var lastPage = function() {
+          m_client.lastPage();
+        };
+
+        self.setCurrentPage = function(page) {
+          m_view.setCurrentPage(page);
+        };
+
+        self.setTotalPages = function(totalPages) {
+          m_view.setTotalPages(totalPages);
+        };
+
+        self.showPage = function(page) {
+          m_view.showPage(page);
         };
 
         // TODO: implement grid.getSelectedRow()
