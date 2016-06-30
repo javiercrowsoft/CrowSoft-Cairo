@@ -160,7 +160,7 @@
       var m_doctId = 0;
       var m_firmado;
 
-      var m_as_id = 0;
+      var m_asId = 0;
 
       var m_editing;
 
@@ -2164,7 +2164,7 @@
               m_docEditable = valField(data, C.DOC_EDITABLE);
               m_docEditMsg = valField(data, C.DOC_EDIT_MSG);
 
-              m_as_id = valField(data, C.AS_ID);
+              m_asId = valField(data, C.AS_ID);
 
               m_taPropuesto = valField(data, C.TA_PROPUESTO);
               m_taMascara = valField(data, C.TA_MASCARA);
@@ -2196,7 +2196,7 @@
               m_sucursal = Cairo.User.getSucName();
               m_firmado = false;
 
-              m_as_id = NO_ID;
+              m_asId = NO_ID;
 
               m_taPropuesto = false;
               m_taMascara = "";

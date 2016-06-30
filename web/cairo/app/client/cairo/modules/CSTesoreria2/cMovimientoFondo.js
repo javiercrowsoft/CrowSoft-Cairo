@@ -1,8 +1,4087 @@
 (function() {
   "use strict";
 
-  Cairo.module("Xxxx.Edit", function(Edit, Cairo, Backbone, Marionette, $, _) {
+  Cairo.module("MovimientoFondo.Edit", function(Edit, Cairo, Backbone, Marionette, $, _) {
 
+    var createObject = function() {
+
+      var self = {};
+
+      var getText = Cairo.Language.getText;
+
+      var TITLE = getText(2185, ""); // Movimiento de Fondos
+      var SAVE_ERROR_MESSAGE = getText(2242, ""); // Error al grabar el movimiento de fondo
+
+      var P = Cairo.Promises;
+      var NO_ID = Cairo.Constants.NO_ID;
+      var DB = Cairo.Database;
+      var Dialogs = Cairo.Dialogs;
+      var Grids = Cairo.Dialogs.Grids;
+      var C = Cairo.General.Constants;
+      var CT = Cairo.Tesoreria.Constants;
+      var CC = Cairo.Compras.Constants;
+      var CS = Cairo.Security.Actions.Tesoreria;
+      var Types = Cairo.Constants.Types;
+      var valField = DB.valField;
+      var getValue = DB.getValue;
+      var valEmpty = Cairo.Util.valEmpty;
+      var call = P.call;
+      var D = Cairo.Documents;
+      var getProperty = D.getProperty;
+      var getGrid = D.getGrid;
+      var getCell = Dialogs.cell;
+      var cellVal = Dialogs.cellVal;
+      var cellId = Dialogs.cellId;
+      var cellFloat = Dialogs.cellFloat;
+      var val = Cairo.Util.val;
+      var M = Cairo.Modal;
+      var T = Dialogs.PropertyType;
+
+      var C_MODULE = "cMovimientoFondo";
+
+      var C_EFECTIVO = "Efectivo";
+      var C_CHEQUES = "Cheques";
+      var C_CHEQUEST = "Cheques En Cartera";
+      var C_CHEQUESI = "Ingreso de Cheques";
+
+      var C_CHEQUERA = "Chequera";
+      var C_CHEQUET = "chqt";
+
+      var C_ORIGENDEBE = "OrigenDebe";
+      var C_ORIGENHABER = "OrigenHaber";
+
+      var K_NUMERO = 1;
+      var K_NRODOC = 2;
+      var K_DESCRIP = 3;
+      var K_FECHA = 4;
+      var K_TOTAL = 9;
+      var K_CLI_ID = 10;
+      var K_DOC_ID = 11;
+      var K_DOCT_ID = 12;
+      var K_EFECTIVO = 15;
+      var K_CHEQUES = 16;
+      var K_CHEQUEST = 17;
+      var K_CHEQUESI = 29;
+      var K_EST_ID = 18;
+      var K_CCOS_ID = 19;
+      var K_SUC_ID = 20;
+      var K_US_ID = 26;
+      var K_LGJ_ID = 27;
+      var K_COTIZACION = 28;
+
+      var KI_MFI_ID = 2;
+      var KI_ORDEN = 3;
+      var KI_DESCRIP = 6;
+      var KI_IMPORTE = 8;
+      var KI_ORIGEN_DEBE = 9;
+      var KI_ORIGEN_HABER = 10;
+      var KI_CCOS_ID = 22;
+
+      var KICH_MFI_ID = 1;
+      var KICH_IMPORTE = 3;
+      var KICH_IMPORTEORIGEN = 4;
+      var KICH_CHEQUERA = 5;
+      var KICH_CHEQUE = 6;
+      var KICH_CHEQ_ID = 7;
+      var KICH_MON_ID = 8;
+      var KICH_FECHACOBRO = 10;
+      var KICH_FECHAVTO = 11;
+      var KICH_CLE_ID = 12;
+      var KICH_DESCRIP = 13;
+
+      var KI_CUE_ID_DEBE = 300;
+      var KI_CUE_ID_HABER = 301;
+
+      var m_id = 0;
+      var m_numero = 0;
+      var m_estado = "";
+      var m_estId = 0;
+      var m_nrodoc = "";
+      var m_descrip = "";
+      var m_fecha = null;
+      var m_total = 0;
+      var m_usId = 0;
+      var m_usuario = "";
+      var m_lgjId = 0;
+      var m_legajo = "";
+
+      var m_cotizacion = 0;
+      var m_ccosId = 0;
+      var m_centroCosto = "";
+      var m_sucId = 0;
+      var m_sucursal = "";
+      var m_cliId = 0;
+      var m_cliente = "";
+      var m_docId = 0;
+      var m_documento = "";
+      var m_doctId = 0;
+      var m_monId = 0;
+      var m_lastMonIdCotizacion = 0;
+      var m_creado = null;
+      var m_modificado = null;
+      var m_modifico = 0;
+      var m_firmado;
+
+      var m_asId = 0;
+
+      var m_editing;
+
+      var m_footer;
+      var m_items;
+      var m_dialog;
+      var m_listController = null;
+
+      var m_lastDocId = 0;
+      var m_lastDocName = "";
+
+      var m_lastDoctId = 0;
+
+      var m_lastCliId = 0;      
+      var m_lastCliName = "";
+
+      var m_isNew;
+
+      var m_defaultCurrency = D.getDefaultCurrency();
+
+      var m_efectivoDeleted = "";
+
+      var m_copy;
+
+      var m_docEditable;
+      var m_docEditMsg = "";
+
+      var m_taPropuesto;
+      var m_taMascara = "";
+
+      var m_orden = 0;
+
+      var m_chequesDeleted = "";
+      var m_tChequesDeleted = "";
+      var m_iChequesDeleted = "";
+
+      var m_apiPath = DB.getAPIVersion();
+
+      var emptyData = {
+        cheques: [],
+        chequesT: [],
+        otros: [],
+        efectivo: [],
+        tarjetas: [],
+        ctaCte: []
+      };
+
+      var m_data = emptyData;
+
+      self.getEditorType = function() {
+        return "document"
+      };
+
+      self.refresh = function() {
+        load(m_id);
+        refreshProperties();
+      };
+
+      var initMembers = function() {
+
+        if(!Cairo.Security.docHasPermissionTo(
+          CS.NEW_MOVIMIENTO_FONDO,
+          NO_ID,
+          Cairo.Security.ActionTypes.create)) {
+          return false;
+        }
+
+        self.setDialog(Cairo.Dialogs.Views.Controller.newDialog());
+        self.setFooter(Cairo.Dialogs.Views.Controller.newDialog());
+        self.setItems(Cairo.Dialogs.Views.Controller.newDialog());
+
+        return true;
+      };
+
+      self.copy = function() {
+
+        if(!Cairo.Security.docHasPermissionTo(
+          CS.NEW_MOVIMIENTO_FONDO,
+          m_docId,
+          Cairo.Security.ActionTypes.create,
+          true)) {
+          return false;
+        }
+
+        updateList();
+
+        m_isNew = true;
+
+        if(m_listController !== null) {
+          m_listController.updateEditorKey(self, NO_ID);
+        }
+
+        m_copy = true;
+        m_docEditable = true;
+        m_docEditMsg = "";
+
+        D.setDocNumber(m_lastDocId, m_dialog, CT.MF_NRODOC).then(
+          function(enabled) {
+            m_taPropuesto = enabled;
+            setEnabled();
+          }
+        );
+      };
+
+      self.editNew = function() {
+
+        var p;
+
+        updateList();
+
+        m_isNew = true;
+
+        if(m_listController !== null) {
+          m_listController.updateEditorKey(self, NO_ID);
+        }
+
+        p = self.edit(NO_ID).then(function() {
+
+          var p = null;
+
+          if(!m_docEditable && getDocId().getSelectId() !== NO_ID) {
+            if(m_docEditMsg !== "") {
+              p = M.showWarning(m_docEditMsg);
+            }
+          }
+
+          return p || P.resolvedPromise();
+
+        }).then(function() {
+
+            var p = null;
+
+            var docId = getDocId().getSelectId();
+
+            if(docId === NO_ID) {
+              p = M.showInfo(getText(1562, ""));
+            }
+
+            return p || P.resolvedPromise();
+
+          }).then(function() {
+
+            return D.setDocNumber(m_lastDocId, m_dialog, CC.AS_NRODOC)
+
+          }).then(function(enabled) {
+
+            m_taPropuesto = enabled;
+            return true;
+
+          });
+
+        return p;
+      };
+
+      self.getApplication = function() {
+        return Cairo.Application.getName();
+      };
+
+      self.editDocumentsEnabled = function() {
+        return m_id !== NO_ID;
+      };
+
+      self.copyEnabled = function() {
+        return true;
+      };
+
+      self.addEnabled = function() {
+        return true;
+      };
+
+      self.showDocDigital = function() {
+        var _rtn = null;
+        try {
+
+          if(m_id === NO_ID) { return _rtn; }
+
+          var doc = new Cairo.DocDigital();
+
+          doc.setClientTable(CC.MOVIMIENTO_FONDO);
+          doc.setClientTableID(m_id);
+
+          _rtn = doc.showDocs(Cairo.Database);
+
+        }
+        catch (ex) {
+          Cairo.manageErrorEx(ex.message, "showDocDigital", C_MODULE, "");
+        }
+
+        return _rtn;
+      };
+
+      self.messageEx = function(messageID,  info) {
+        var p = null;
+
+        switch (messageID) {
+          case Dialogs.Message.MSG_DOC_FIRST:
+          case Dialogs.Message.MSG_DOC_PREVIOUS:
+          case Dialogs.Message.MSG_DOC_NEXT:
+          case Dialogs.Message.MSG_DOC_LAST:
+
+            p = move(messageID);
+            break;
+
+          case Dialogs.Message.MSG_DOC_SIGNATURE:
+
+            p = signDocument();
+            break;
+
+          case Dialogs.Message.MSG_GRID_ROW_DELETED:
+
+            switch (info) {
+              case K_CHEQUES:
+              case K_CHEQUEST:
+              case K_EFECTIVO:
+              case K_CHEQUESI:
+                pShowTotales();
+                break;
+            }
+            break;
+
+          case Dialogs.Message.MSG_DOC_EDIT_STATE:
+
+            D.showEditStatus(m_docEditMsg, TITLE);
+            break;
+
+          case Dialogs.Message.MSG_DOC_DELETE:
+
+            p = self.deleteDocument(m_id).success(function() {
+              return move(Dialogs.Message.MSG_DOC_NEXT);
+            });
+            break;
+
+          case Dialogs.Message.MSG_DOC_INVALIDATE:
+
+            p = D.docInvalidate(m_doctId, m_id, m_dialog).then(function(result) {
+              if(result.success === true) {
+                m_estId = result.estId;
+                m_estado = result.estado;
+                m_docEditable = result.editable;
+                m_docEditMsg = result.message;
+                setEnabled();
+              }
+            });
+            break;
+
+          case Dialogs.Message.MSG_DOC_REFRESH:
+
+            p = load(m_id).then(function(success) {
+              if(success === true) {
+                refreshProperties();
+              }
+            });
+            break;
+
+          case Dialogs.Message.MSG_DOC_EX_GET_ITEMS:
+
+            p = P.resolvedPromise(m_items);
+            break;
+
+          case Dialogs.Message.MSG_DOC_EX_GET_FOOTERS:
+
+            p = P.resolvedPromise(m_footer);
+            break;
+
+          case Dialogs.Message.MSG_DOC_SEARCH                    :
+
+            D.search(D.Types.MOVIMIENTO_FONDO, self, Cairo.bool(info));
+            break;
+
+          case Dialogs.Message.MSG_DOC_DOC_AUX:
+
+            if(m_id) {
+              D.showDocAux(m_asId, "Asiento");
+            }
+            else {
+              return M.showInfoWithFalse(getText(1620, "")); // Debe editar un comprobante guardado para poder ver los documentos auxiliares
+            }
+            break;
+
+          case Dialogs.Message.MSG_DOC_DOC_EDIT:
+
+            if(m_id) {
+
+              if(m_docEditable) {
+                p = M.showInfo(getText(1555, "")); // Este documento puede editarse normalmente
+              }
+              else {
+
+                p = D.docCanBeSaved(m_dialog, CT.MF_FECHA).then(function(canBeSaved) {
+                  if(canBeSaved) {
+
+                    var editDoc = new Cairo.EditDocumento.Edit.Controller.getEditor();
+                    editDoc.setClient(self);
+                    editDoc.edit(m_id, m_doctId, true);
+                  }
+                });
+              }
+            }
+            else {
+              p = M.showInfo(getText(1556, "")); // Esta opción solo sirve para modificar documentos guardados y aplicados
+            }
+            break;
+
+          case Dialogs.Message.MSG_DOC_HISTORY:
+
+            if(m_id !== NO_ID) {
+              p = Cairo.History.show(Cairo.Tables.MOVIMIENTOS_DE_FONDO, m_id, m_documento + " " + m_nrodoc);
+            }
+            else {
+              p = M.showInfo(getText(1552, "")); // El documento aun no ha sido guardado
+            }
+            break;
+        }
+
+        return p || P.resolvedPromise();
+      };
+
+      self.discardChanges = function() {
+        Cairo.raiseError("MovimientoFondo", "DiscardChanges was called");
+      };
+
+      self.propertyChange = function(key) {
+
+        var p = null;
+
+        switch (key) {
+
+          case K_DOC_ID:
+
+            // if the document has changed
+            //
+            var changeInfo = D.docHasChanged(m_dialog, m_lastDocId);
+            if(changeInfo.changed) {
+
+              m_lastDocId = changeInfo.docId;
+              m_lastDocName = changeInfo.docName;
+
+              p = DB.getData("load[" + m_apiPath + "documento/" + m_lastDocId.toString() + "/info]");
+
+              p = p.then(function(response) {
+
+                if(response.success === true) {
+                  m_lastDoctId = valField(response.data, C.DOCT_ID);
+                }
+                return response.success;
+
+              })
+                .whenSuccess(function() {
+
+                  var p = null;
+
+                  // when the document property is changed and the dialog was
+                  // editing a saved invoice we need to move to a new document
+                  //
+                  if(m_id !== NO_ID && m_docId !== m_lastDocId) {
+                    p = self.edit(D.Constants.DOC_CHANGED);
+                  }
+
+                  return p || P.resolvedPromise(true);
+
+                })
+                .whenSuccess(function() {
+
+                  return D.setDocNumber(m_lastDocId, m_dialog, CC.MF_NRODOC)
+                    .then(function(enabled) {
+
+                      m_taPropuesto = enabled;
+                    });
+                });
+            }
+
+            p = p || P.resolvedPromise();
+
+            p.then(function() {
+              setEnabled();
+            });
+
+            break;
+
+          case K_FECHA:
+
+            m_lastMonIdCotizacion = NO_ID;
+            showCotizacion();
+            break;
+        }
+      };
+
+      self.save = function() {
+        var _rtn = null;
+        var cotizacion = null;
+        var totalOrigen = null;
+        var bMonedaLegal = null;
+        var total = null;
+
+        // Save and State
+        //
+        if(!DocCanEdit(m_docEditable, m_docEditMsg)) {
+          _rtn = true;
+          return _rtn;
+        }
+        if(!DocCanSave(m_dialog, mTesoreriaConstantes.MF_FECHA)) {
+          _rtn = false;
+          return _rtn;
+        }
+
+        // OJO -tsr
+        if(pGetCheques().getRows().count() === 0 && pGetTCheques().getRows().count() === 0 && pGetICheques().getRows().count() === 0 && pGetEfectivo().getRows().count() === 0) {
+
+          //'El documento debe contener al menos un item
+          MsgWarning(Cairo.Language.getText(3903, ""));
+          _rtn = false;
+          return _rtn;
+        }
+
+        var mouse = null;
+        mouse = new cMouseWait();
+
+        DoEvents:(DoEvents: DoEvents: DoEvents);
+
+        var register = new Cairo.Database.Register();
+        register.setFieldId(mTesoreriaConstantes.MF_TMPID);
+        register.setTable(mTesoreriaConstantes.MOVIMIENTOFONDOTMP);
+
+        register.setId(Cairo.Constants.NEW_ID);
+
+        var apiPath = Cairo.Database.getAPIVersion();
+        register.setPath(apiPath + "general/movimientofondo");
+
+        if(m_copy) {
+          register.getFields().add2(mTesoreriaConstantes.MF_ID, Cairo.Constants.NEW_ID, Cairo.Constants.Types.long);
+        }
+        else {
+          register.getFields().add2(mTesoreriaConstantes.MF_ID, m_id, Cairo.Constants.Types.long);
+        }
+
+        if(register.getID() === Cairo.Constants.NEW_ID) {
+          m_estId = CSGeneralEx2.csEEstado.cSEEST_PENDIENTE;
+        }
+
+        var _count = m_dialog.getProperties().size();
+        for (var _i = 0; _i < _count; _i++) {
+          var property = m_dialog.getProperties().item(_i);
+          switch (property.getKey()) {
+            case K_NUMERO:
+              register.getFields().add2(mTesoreriaConstantes.MF_NUMERO, property.getValue(), Cairo.Constants.Types.long);
+              break;
+
+            case K_NRODOC:
+              register.getFields().add2(mTesoreriaConstantes.MF_NRODOC, property.getValue(), Cairo.Constants.Types.text);
+              break;
+
+            case K_DESCRIP:
+              register.getFields().add2(mTesoreriaConstantes.MF_DESCRIP, property.getValue(), Cairo.Constants.Types.text);
+              break;
+
+            case K_FECHA:
+              register.getFields().add2(mTesoreriaConstantes.MF_FECHA, property.getValue(), Cairo.Constants.Types.date);
+              break;
+
+            case K_CLI_ID:
+              register.getFields().add2(mTesoreriaConstantes.CLI_ID, property.getSelectId(), Cairo.Constants.Types.id);
+              break;
+
+            case K_CCOS_ID:
+              register.getFields().add2(mTesoreriaConstantes.CCOS_ID, property.getSelectId(), Cairo.Constants.Types.id);
+              break;
+
+            case K_SUC_ID:
+              register.getFields().add2(mTesoreriaConstantes.SUC_ID, property.getSelectId(), Cairo.Constants.Types.id);
+              break;
+
+            case K_DOC_ID:
+              register.getFields().add2(mTesoreriaConstantes.DOC_ID, property.getSelectId(), Cairo.Constants.Types.id);
+              break;
+
+            case K_COTIZACION:
+              cotizacion = property.getValue();
+              register.getFields().add2(mTesoreriaConstantes.MF_COTIZACION, property.getValue(), Cairo.Constants.Types.double);
+              break;
+
+            case K_US_ID:
+              register.getFields().add2(Cairo.Constants.US_ID, property.getSelectId(), Cairo.Constants.Types.id);
+              break;
+
+            case K_LGJ_ID:
+              register.getFields().add2(mTesoreriaConstantes.LGJ_ID, property.getSelectId(), Cairo.Constants.Types.id);
+              break;
+          }
+        }
+
+        // Si la cotizacion es 0 es por que la moneda
+        // del documento es la de curso legal y por tanto
+        // no grabo el importe origen
+        if(cotizacion === 0) {
+          cotizacion = 1;
+          bMonedaLegal = true;
+        }
+
+        var _count = m_footer.getProperties().size();
+        for (var _i = 0; _i < _count; _i++) {
+          property = m_footer.getProperties().item(_i);
+          switch (property.getKey()) {
+            case K_TOTAL:
+              total = property.getValue();
+              break;
+          }
+        }
+
+        totalOrigen = total;
+        register.getFields().add2(mTesoreriaConstantes.MF_TOTAL, totalOrigen * cotizacion, Cairo.Constants.Types.currency);
+        register.getFields().add2(mTesoreriaConstantes.MF_GRABARASIENTO, 1, Cairo.Constants.Types.boolean);
+        register.getFields().add2(Cairo.Constants.EST_ID, m_estId, Cairo.Constants.Types.id);
+
+        if(bMonedaLegal) {
+          register.getFields().add2(mTesoreriaConstantes.MF_TOTALORIGEN, 0, Cairo.Constants.Types.currency);
+        }
+        else {
+          register.getFields().add2(mTesoreriaConstantes.MF_TOTALORIGEN, totalOrigen, Cairo.Constants.Types.currency);
+        }
+
+        register.getFields().setHaveLastUpdate(true);
+        register.getFields().setHaveWhoModify(true);
+
+        register.prepareTransaction();
+        if(!Cairo.Database.save(register, , "cIABMClient_Save", C_MODULE, c_ErrorSave)) { return _rtn; }
+
+        m_orden = 0;
+
+        if(!pSaveEfectivo(register.getID(), cotizacion, bMonedaLegal)) { return _rtn; }
+        if(!pSaveCheques(register.getID())) { return _rtn; }
+        if(!pSaveTCheques(register.getID())) { return _rtn; }
+        if(!pSaveICheques(register.getID())) { return _rtn; }
+
+        var sqlstmt = null;
+        var rs = null;
+        sqlstmt = "sp_DocMovimientoFondoSave "+ register.getID().toString();
+
+        if(!Cairo.Database.openRs(sqlstmt, rs, , , , "cIABMClient_Save", C_MODULE, c_ErrorSave)) { return _rtn; }
+
+        if(rs.isEOF()) { return _rtn; }
+
+        var id = null;
+        if(!GetDocIDFromRecordset(rs, id)) { return _rtn; }
+
+        m_copy = false;
+
+        _rtn = load(id);
+
+        return _rtn;
+      };
+
+      var updateList = function() {
+        if(m_id === NO_ID) { return; }
+        if(m_listController === null) { return; }
+
+        if(m_isNew) {
+          m_listController.addLeave(m_id, m_branchId);
+        }
+        else {
+          m_listController.refreshBranch(m_id, m_branchId);
+        }
+      };
+
+      self.terminate = function() {
+
+        m_editing = false;
+
+        try {
+          if(m_listController !== null) {
+            updateList();
+            m_listController.removeEditor(self);
+          }
+        }
+        catch (ignored) {
+          Cairo.logError('Error in terminate', ignored);
+        }
+      };
+
+      self.getPath = function() {
+        return "#general/movimientofondo/" + m_id.toString();
+      };
+
+      self.getEditorName = function() {
+        var id = m_id ? m_id.toString() : "N" + (new Date).getTime().toString();
+        return "movimientofondo" + id;
+      };
+
+      self.getTitle = function() {
+        //'Movimiento de Fondos
+        return Cairo.Language.getText(2185, "");
+      };
+
+      self.validate = function() {
+        var property = null;
+
+        var _count = m_dialog.getProperties().size();
+        for (var _i = 0; _i < _count; _i++) {
+          property = m_dialog.getProperties().item(_i);
+          switch (property.getKey()) {
+            case K_FECHA:
+              if(ValEmpty(property.getValue(), Cairo.Constants.Types.date)) {
+                //'Debe indicar una fecha
+                MsgInfo(Cairo.Language.getText(1558, ""));
+              }
+              break;
+
+            case K_DOC_ID:
+              if(ValEmpty(property.getSelectId(), Cairo.Constants.Types.id)) {
+                //'Debe indicar un documento
+                MsgInfo(Cairo.Language.getText(1562, ""));
+              }
+              break;
+
+            case K_SUC_ID:
+              if(ValEmpty(property.getSelectId(), Cairo.Constants.Types.id)) {
+                //'Debe indicar una sucursal
+                MsgInfo(Cairo.Language.getText(1560, ""));
+              }
+              break;
+
+            case K_COTIZACION:
+              if(ValEmpty(property.getValue(), Cairo.Constants.Types.double) && property.getVisible()) {
+                //'Debe indicar una cotización
+                MsgInfo(Cairo.Language.getText(1626, ""));
+              }
+              break;
+          }
+        }
+
+        return Cairo.Promises.resolvedPromise(true);
+      };
+
+      var isEmptyRow = function(key,  row,  rowIndex) {
+        var _rtn = null;
+        try {
+
+          switch (key) {
+            case K_EFECTIVO:
+              _rtn = pIsEmptyRow(row, rowIndex);
+              break;
+
+            case K_CHEQUES:
+              _rtn = pIsEmptyRowCheques(row, rowIndex);
+              break;
+
+            case K_CHEQUEST:
+              _rtn = pIsEmptyRowTCheques(row, rowIndex);
+              break;
+
+            case K_CHEQUESI:
+              _rtn = pIsEmptyRowICheques(row, rowIndex);
+              break;
+          }
+
+          // **TODO:** goto found: GoTo ExitProc;
+        }
+        catch (ex) {
+          Cairo.manageErrorEx(ex.message, "validateRow", C_MODULE, "");
+          // **TODO:** label found: ExitProc:;
+        }
+        // **TODO:** on error resume next found !!!
+
+        return _rtn;
+      };
+
+      //-------------------------------------------------------------------------------------
+      // Documento
+      var getCIDocumento_DocId = function() {
+        return m_docId;
+      };
+
+      var getCIDocumento_DocTId = function() {
+        return m_doctId;
+      };
+
+      var getCIDocumento_Id = function() {
+        return m_id;
+      };
+
+      var cIDocumento_LoadForPrint = function(id) {
+        var _rtn = null;
+        try {
+
+          var sqlstmt = null;
+          var rs = null;
+
+          sqlstmt = "select doct_id, doc_id from MovimientoFondo where mf_id = "+ id.toString();
+          if(!Cairo.Database.openRs(sqlstmt, rs)) { return _rtn; }
+
+          m_id = id;
+          m_docId = Cairo.Database.valField(rs.getFields(), mTesoreriaConstantes.DOC_ID);
+          m_doctId = Cairo.Database.valField(rs.getFields(), mTesoreriaConstantes.DOCT_ID);
+
+          _rtn = true;
+
+          // **TODO:** goto found: GoTo ExitProc;
+        }
+        catch (ex) {
+          Cairo.manageErrorEx(ex.message, "cIDocumento_LoadForPrint", C_MODULE, "");
+          // **TODO:** label found: ExitProc:;
+        }
+        // **TODO:** on error resume next found !!!
+
+        return _rtn;
+      };
+
+      //-------------------------------------------------------------------------------------
+      self.getDialog = function() {
+        return m_dialog;
+      };
+
+      self.setTreeId = function(rhs) {
+        m_treeId = rhs;
+      };
+
+      self.getTreeId = function() {
+        return m_treeId;
+      };
+
+      self.list = function() {
+        return Cairo.Security.hasPermissionTo(csTesoreriaPrestacion.cSPRETSRLISTMOVIMIENTOFONDO);
+      };
+
+      self.setDialog = function(rhs) {
+        m_dialog = rhs;
+        m_dialog.setIsDocument(true);
+
+                #If !PREPROC_SFS Then;
+        var abmGen = null;
+
+        abmGen = m_dialog;
+        abmGen.FactoryObject = "CSABMInterface2.cFactory";
+        abmGen.ObjForm = "CSABMInterface2.fMovimientoFondo";
+                #End If;
+      };
+
+      self.isEditing = function() {
+        return m_editing;
+      };
+
+      self.edit = function(id,  inModalWindow) {
+        var p = Cairo.Promises.resolvedPromise(false);
+        try {
+
+          if(!DoCairo.Security.anAccess(csTesoreriaPrestacion.cSPRETSRLISTMOVIMIENTOFONDO, GetdocIdFromObjAbm(m_dialog), csE_DocTypePrestacion.cSEDOCTPRELIST)) { return p; }
+
+          // Id = csDocChanged esto significa que se cambio
+          //                   el documento estando en un
+          //                   comprobante ya guardado
+          //
+          m_isNew = id === NO_ID || id === csDocChanged;
+
+          p = load(id).then(
+            function(success) {
+              if(success) {
+
+                if(m_dialog.getProperties().count() === 0) {
+                  if(!loadCollection()) { return false; }
+                }
+                else {
+                  refreshProperties();
+                }
+
+                m_editing = true;
+                m_copy = false;
+
+                success = true;
+              }
+              return success;
+            });
+        }
+        catch (ex) {
+          Cairo.manageErrorEx(ex.message, "cIEditGeneric_Edit", C_MODULE, "");
+        }
+
+        return p;
+      };
+
+      self.setTree = function(rhs) {
+        m_listController = rhs;
+      };
+
+      self.setBranchId = function(rhs) {
+        m_branchId = rhs;
+      };
+
+      self.getBranchId = function() {
+        return m_branchId;
+      };
+
+      var columnAfterUpdate = function(key,  lRow,  lCol) {
+        var _rtn = null;
+        try {
+
+          switch (key) {
+            case K_EFECTIVO:
+              pShowTotales();
+              _rtn = true;
+              break;
+
+            case K_CHEQUES:
+              _rtn = pColAUpdateCheque(m_items.getProperties().item(C_CHEQUES), lRow, lCol);
+              break;
+
+            case K_CHEQUEST:
+              _rtn = pColAUpdateTCheque(m_items.getProperties().item(C_CHEQUEST), lRow, lCol);
+              break;
+
+            case K_CHEQUESI:
+              _rtn = pColAUpdateICheque(m_items.getProperties().item(C_CHEQUESI), lRow, lCol);
+              break;
+          }
+
+          // **TODO:** goto found: GoTo ExitProc;
+        }
+        catch (ex) {
+          Cairo.manageErrorEx(ex.message, "columnAfterUpdate", C_MODULE, "");
+          // **TODO:** label found: ExitProc:;
+        }
+        // **TODO:** on error resume next found !!!
+
+        return _rtn;
+      };
+
+      var columnAfterEdit = function(key,  lRow,  lCol,  newValue,  newValueID) {
+        var _rtn = null;
+        try {
+
+          switch (key) {
+            case K_EFECTIVO:
+              _rtn = pColumnAfterEdit(m_items.getProperties().item(C_EFECTIVO), lRow, lCol, newValue, newValueID);
+              break;
+
+            default:
+              _rtn = true;
+              break;
+          }
+
+          // **TODO:** goto found: GoTo ExitProc;
+        }
+        catch (ex) {
+          Cairo.manageErrorEx(ex.message, "columnAfterEdit", C_MODULE, "");
+          // **TODO:** label found: ExitProc:;
+        }
+        // **TODO:** on error resume next found !!!
+
+        return _rtn;
+      };
+
+      var columnBeforeEdit = function(key,  lRow,  lCol,  iKeyAscii) {
+        return true;
+      };
+
+      var columnButtonClick = function(key,  lRow,  lCol,  iKeyAscii) {
+
+      };
+
+      var columnClick = function(key,  lRow,  lCol) {
+
+      };
+
+      var dblClick = function(key,  lRow,  lCol) {
+
+      };
+
+      var deleteRow = function(key,  row,  lRow) {
+        var id = null;
+
+        switch (key) {
+          case K_CHEQUES:
+            id = Cairo.Util.val(Dialogs.cell(row, KICH_MFI_ID).getValue());
+            if(id !== NO_ID) { m_chequesDeleted = m_chequesDeleted+ id.toString()+ ","; }
+            break;
+
+          case K_CHEQUEST:
+            id = Cairo.Util.val(Dialogs.cell(row, KICH_MFI_ID).getValue());
+            if(id !== NO_ID) { m_tChequesDeleted = m_tChequesDeleted+ id.toString()+ ","; }
+            break;
+
+          case K_CHEQUESI:
+            id = Cairo.Util.val(Dialogs.cell(row, KICH_MFI_ID).getValue());
+            if(id !== NO_ID) { m_iChequesDeleted = m_iChequesDeleted+ id.toString()+ ","; }
+            break;
+
+          case K_EFECTIVO:
+            id = Cairo.Util.val(Dialogs.cell(row, KI_MFI_ID).getValue());
+            if(id !== NO_ID) { m_efectivoDeleted = m_efectivoDeleted+ id.toString()+ ","; }
+            break;
+        }
+
+        return true;
+      };
+
+      var listAdHock = function(key,  row,  colIndex,  list) {
+
+      };
+
+      var newRow = function(key,  rows) {
+
+      };
+
+      var validateRow = function(key,  row,  rowIndex) {
+        var _rtn = null;
+        try {
+
+          switch (key) {
+            case K_EFECTIVO:
+              _rtn = pValidateRow(row, rowIndex);
+              break;
+
+            case K_CHEQUES:
+              _rtn = pValidateRowCheques(row, rowIndex);
+              break;
+
+            case K_CHEQUEST:
+              _rtn = pValidateRowTCheques(row, rowIndex);
+              break;
+
+            case K_CHEQUESI:
+              _rtn = pValidateRowICheques(row, rowIndex);
+              break;
+          }
+
+          // **TODO:** goto found: GoTo ExitProc;
+        }
+        catch (ex) {
+          Cairo.manageErrorEx(ex.message, "validateRow", C_MODULE, "");
+          // **TODO:** label found: ExitProc:;
+        }
+        // **TODO:** on error resume next found !!!
+
+        return _rtn;
+      };
+
+      var pIsEmptyRow = function(row,  rowIndex) {
+        var cell = null;
+        var strRow = null;
+
+        strRow = " (Fila "+ rowIndex.toString()+ ")";
+
+        var bRowIsEmpty = true;
+
+        var _count = row.size();
+        for (var _i = 0; _i < _count; _i++) {
+          cell = row.item(_i);
+          switch (cell.getKey()) {
+            case KI_IMPORTE:
+              if(!ValEmpty(cell.getValue(), Cairo.Constants.Types.currency)) {
+                bRowIsEmpty = false;
+                break;
+              }
+              break;
+          }
+        }
+
+        return bRowIsEmpty;
+      };
+
+      var pValidateRow = function(row,  rowIndex) { // TODO: Use of ByRef founded Private Function pValidateRow(ByRef Row As CSInterfacesABM.cIABMGridRow, ByVal RowIndex As Long) As Boolean
+        var cell = null;
+        var cue_id_debe = null;
+        var cue_id_haber = null;
+
+        var strRow = " (Row: " + rowIndex.toString() + ")";
+
+        var _count = row.size();
+        for (var _i = 0; _i < _count; _i++) {
+          cell = row.item(_i);
+          switch (cell.getKey()) {
+
+            case KI_IMPORTE:
+              if(ValEmpty(cell.getValue(), Cairo.Constants.Types.currency)) {
+                //'Debe indicar un importe (1)
+                MsgInfo(Cairo.Language.getText(1897, "", strRow));
+              }
+
+              break;
+
+            case KI_CUE_ID_DEBE:
+              if(ValEmpty(cell.getId(), Cairo.Constants.Types.id)) {
+                //'Debe indicar una cuenta destino (1)
+                MsgInfo(Cairo.Language.getText(2187, "", strRow));
+              }
+              cue_id_debe = cell.getId();
+
+              break;
+
+            case KI_CUE_ID_HABER:
+              if(ValEmpty(cell.getId(), Cairo.Constants.Types.id)) {
+                //'Debe indicar una cuenta origen (1)
+                MsgInfo(Cairo.Language.getText(2186, "", strRow));
+              }
+              cue_id_haber = cell.getId();
+
+              break;
+
+            case KI_ORIGEN_DEBE:
+              if(m_items.getProperties().item(C_EFECTIVO).getGrid().getColumns(C_ORIGENDEBE).Visible) {
+
+                if(!pIsMonDefault(cue_id_debe)) {
+
+                  if(ValEmpty(cell.getValue(), Cairo.Constants.Types.currency)) {
+
+                    if(m_userCfg.getDebeHaberMf()) {
+                      MsgInfo(Cairo.Language.getText(4812, "", strRow));
+                      //Debe indicar el importe en la moneda de la cuenta debe (1)
+                    }
+                    else {
+                      MsgInfo(Cairo.Language.getText(4811, "", strRow));
+                      //Debe indicar el importe en la moneda de la cuenta destino (1)
+                    }
+                  }
+                }
+              }
+
+              break;
+
+            case KI_ORIGEN_HABER:
+              if(m_items.getProperties().item(C_EFECTIVO).getGrid().getColumns(C_ORIGENHABER).Visible) {
+
+                if(!pIsMonDefault(cue_id_haber)) {
+
+                  if(ValEmpty(cell.getValue(), Cairo.Constants.Types.currency)) {
+                    if(m_userCfg.getDebeHaberMf()) {
+                      MsgInfo(Cairo.Language.getText(4813, "", strRow));
+                      //Debe indicar el importe en la moneda de la cuenta haber (1)
+                    }
+                    else {
+                      MsgInfo(Cairo.Language.getText(4810, "", strRow));
+                      //Debe indicar el importe en la moneda de la cuenta origen (1)
+                    }
+                  }
+                }
+              }
+              break;
+          }
+        }
+
+        return Cairo.Promises.resolvedPromise(true);
+      };
+
+      var pColumnAfterEdit = function(property,  lRow,  lCol,  newValue,  newValueID) { // TODO: Use of ByRef founded Private Function pColumnAfterEdit(ByRef IProperty As cIABMProperty, ByVal lRow As Long, ByVal lCol As Long, ByVal NewValue As Variant, ByVal NewValueID As Long)
+        var column = null;
+
+        column = property.getGrid().getColumns().item(lCol);
+
+        switch (column.getKey()) {
+
+          case KI_CUE_ID_DEBE:
+          case KI_CUE_ID_HABER:
+
+            var colKey = null;
+
+            if(column.getKey() === KI_CUE_ID_DEBE) {
+              colKey = C_ORIGENDEBE;
+            }
+            else {
+              colKey = C_ORIGENHABER;
+            }
+
+            if(!pIsMonDefault(newValueID) && newValueID !== NO_ID) {
+
+              property.getGrid().getColumns().item(colKey).setVisible(true);
+                      #If PREPROC_SFS Then;
+              var abmObj = null;
+                      #Else;
+              var abmObj = null;
+                      #End If;
+              abmObj = m_dialog;
+              abmObj.RefreshColumnProperties(property, colKey);
+            }
+
+            break;
+        }
+        return true;
+      };
+
+      // funciones privadas
+      var loadCollection = function() {
+        var filter = null;
+        var c = null;
+                #If PREPROC_SFS Then;
+        var abmGen = null;
+                #Else;
+        var abmGen = null;
+                #End If;
+        var cotizacion = null;
+
+        // Preferencias del usuario
+        //
+        var bValidateDocDefault = null;
+
+        abmGen = m_dialog;
+        abmGen.ResetLayoutMembers;
+
+        abmGen.setNoButtons1(csButtons.bUTTON_DOC_APLIC);
+        abmGen.setNoButtons2(csButtons.bUTTON_DOC_ACTION);
+        abmGen.InitButtons;
+
+        var w_tabs = m_dialog.getTabs();
+        w_tabs.clear();
+
+        var tab = w_tabs.add(null);
+        tab.setName(Cairo.Constants.c_strGeneral);
+
+        var tab = w_tabs.add(null);
+        tab.setIndex(1);
+        //'Adicionales
+        tab.setName(Cairo.Language.getText(1566, ""));
+
+        var properties = m_dialog.getProperties();
+
+        properties.clear();
+
+        var elem = properties.add(null, mTesoreriaConstantes.DOC_ID);
+        elem.setType(Dialogs.PropertyType.select);
+        elem.setTable(CSDocumento2.CSDocumento);
+        //'Documento
+        elem.setName(Cairo.Language.getText(1567, ""));
+        elem.setKey(K_DOC_ID);
+
+        if(m_docId !== NO_ID) {
+          elem.setSelectId(m_docId);
+          elem.setValue(m_documento);
+        }
+        else {
+          // Preferencias del usuario
+          //
+          elem.setSelectId(m_userCfg.getDocMfId());
+          elem.setValue(m_userCfg.getDocMfNombre());
+
+          bValidateDocDefault = elem.getSelectId() !== NO_ID;
+        }
+
+        elem.setSelectFilter("'doct_id = "+ csEDocumentoTipo.cSEDT_MOVIMIENTOFONDO.toString()+ "'");
+
+        var elem = properties.add(null, cDeclarations.getCsDocNumberID());
+        elem.setType(Dialogs.PropertyType.numeric);
+        elem.setSubType(Dialogs.PropertySubType.Integer);
+        //'Número
+        elem.setName(Cairo.Language.getText(1065, ""));
+        elem.setKey(K_NUMERO);
+        elem.setValue(m_numero);
+        elem.setEnabled(false);
+
+        var elem = properties.add(null, cDeclarations.getCsDocEstateID());
+        elem.setType(Dialogs.PropertyType.text);
+        //'Estado
+        elem.setName(Cairo.Language.getText(1568, ""));
+        elem.setKey(K_EST_ID);
+        elem.setValue(m_estado);
+        elem.setEnabled(false);
+
+        var elem = properties.add(null, mTesoreriaConstantes.MF_FECHA);
+        elem.setType(Dialogs.PropertyType.date);
+        //'Fecha
+        elem.setName(Cairo.Language.getText(1569, ""));
+        elem.setLeftLabel(-580);
+        elem.setLeft(700);
+        elem.setKey(K_FECHA);
+        elem.setValue(m_fecha);
+
+        var elem = properties.add(null, mTesoreriaConstantes.CLI_ID);
+        elem.setType(Dialogs.PropertyType.select);
+        elem.setSelectTable(Cairo.Tables.CLIENTE);
+        elem.setTopFromProperty(mTesoreriaConstantes.MF_FECHA);
+        elem.setLeft(3500);
+        elem.setLeftLabel(-1100);
+        //'Cliente
+        elem.setName(Cairo.Language.getText(1150, ""));
+        elem.setKey(K_CLI_ID);
+        elem.setSelectId(m_cliId);
+        elem.setValue(m_cliente);
+        abmGen.NewKeyPropFocus = mTesoreriaConstantes.CLI_ID;
+
+        var elem = properties.add(null, mTesoreriaConstantes.MF_NRODOC);
+        elem.setType(Dialogs.PropertyType.text);
+        //'Número
+        elem.setName(Cairo.Language.getText(1065, ""));
+        elem.setTopToPrevious(400);
+        elem.setSize(50);
+        elem.setKey(K_NRODOC);
+        elem.setValue(m_nrodoc);
+        elem.setTextMask(m_taMascara);
+        elem.setTextAlign(vbRightJustify);
+
+        var elem = properties.add(null, Cairo.Constants.US_ID);
+        elem.setType(Dialogs.PropertyType.select);
+        elem.setTable(csUsuario);
+        //'Responsable
+        elem.setName(Cairo.Language.getText(1822, ""));
+        elem.setTopToPrevious(400);
+        elem.setKey(K_US_ID);
+        elem.setSelectId(m_usId);
+        elem.setValue(m_usuario);
+
+        var elem = properties.add(null, mTesoreriaConstantes.LGJ_ID);
+        elem.setType(Dialogs.PropertyType.select);
+        elem.setTable(CSLEGAJO);
+        //'Legajo
+        elem.setName(Cairo.Language.getText(1575, ""));
+        elem.setKey(K_LGJ_ID);
+        elem.setSelectId(m_lgjId);
+        elem.setValue(m_legajo);
+        elem.setTabIndex(1);
+
+        var elem = properties.add(null, mTesoreriaConstantes.MF_COTIZACION);
+        elem.setType(Dialogs.PropertyType.numeric);
+        elem.setSubType(Dialogs.PropertySubType.money);
+        elem.setTopFromProperty(mTesoreriaConstantes.CLI_ID);
+        elem.setLeft(7100);
+        elem.setLeftLabel(-1200);
+        //'Cotización
+        elem.setName(Cairo.Language.getText(1635, ""));
+        elem.setFormat(m_generalConfig.getFormatDecCotizacion());
+        elem.setKey(K_COTIZACION);
+        elem.setValue(m_cotizacion);
+        elem.setWidth(1000);
+
+        if(m_cotizacion !== 0) {
+          cotizacion = m_cotizacion;
+        }
+        else {
+          cotizacion = 1;
+        }
+
+        var elem = properties.add(null, mTesoreriaConstantes.CCOS_ID);
+        elem.setType(Dialogs.PropertyType.select);
+        elem.setSelectTable(Cairo.Tables.CENTROCOSTO);
+        //'Centro de Costo
+        elem.setName(Cairo.Language.getText(1057, ""));
+        elem.setTopToPrevious(400);
+        elem.setKey(K_CCOS_ID);
+        elem.setSelectId(m_ccosId);
+        elem.setValue(m_centroCosto);
+
+        var elem = properties.add(null, mTesoreriaConstantes.SUC_ID);
+        elem.setType(Dialogs.PropertyType.select);
+        elem.setSelectTable(Cairo.Tables.SUCURSAL);
+        //'Sucursal
+        elem.setName(Cairo.Language.getText(1281, ""));
+        elem.setTopToPrevious(400);
+        elem.setKey(K_SUC_ID);
+        elem.setSelectId(m_sucId);
+        elem.setValue(m_sucursal);
+
+        var elem = properties.add(null, mTesoreriaConstantes.MF_DESCRIP);
+        elem.setType(Dialogs.PropertyType.text);
+        elem.setSubType(Dialogs.PropertySubType.memo);
+        //'Observ.
+        elem.setName(Cairo.Language.getText(1211, ""));
+        elem.setLeftLabel(-600);
+        elem.setSize(5000);
+        elem.setKey(K_DESCRIP);
+        elem.setValue(m_descrip);
+        elem.setLeftFromProperty(mTesoreriaConstantes.MF_FECHA);
+        elem.setTopFromProperty(mTesoreriaConstantes.MF_NRODOC);
+        elem.setWidth(8660);
+        elem.setHeight(520);
+        elem.setTopToPrevious(800);
+
+        if(!m_dialog.show(self)) { return false; }
+
+        var c_TabEfectivo = 0;
+        var c_TabCheque = 1;
+        var c_TabChequeT = 2;
+        var c_TabChequeI = 3;
+
+        var w_tabs = m_items.getTabs();
+
+        w_tabs.clear();
+
+        var tab = w_tabs.add(null);
+        tab.setIndex(c_TabEfectivo);
+        //'Efectivo
+        tab.setName(Cairo.Language.getText(2100, ""));
+
+        var tab = w_tabs.add(null);
+        tab.setIndex(c_TabCheque);
+        //'Cheques
+        tab.setName(Cairo.Language.getText(2099, ""));
+
+        var tab = w_tabs.add(null);
+        tab.setIndex(c_TabChequeT);
+        //'Cheques en Cartera
+        tab.setName(Cairo.Language.getText(2188, ""));
+
+        var tab = w_tabs.add(null);
+        tab.setIndex(c_TabChequeI);
+        //'Ingreso de Cheques
+        tab.setName(Cairo.Language.getText(2189, ""));
+
+        abmGen = m_items;
+        abmGen.ResetLayoutMembers;
+
+        var properties = m_items.getProperties();
+
+        properties.clear();
+
+        ///////////////////////////////////////////////////////////////////
+        // EFECTIVO
+        c = properties.add(null, C_EFECTIVO);
+        c.setType(Dialogs.PropertyType.grid);
+        c.hideLabel();;
+        setGridEfectivo(c);
+        if(!pLoadEfectivo(c, cotizacion)) { return false; }
+        c.setName(C_EFECTIVO);
+        c.setKey(K_EFECTIVO);
+        c.setTabIndex(0);
+        c.setGridAddEnabled(true);
+        c.setGridEditEnabled(true);
+        c.setGridRemoveEnabled(true);
+        m_efectivoDeleted = "";
+
+        ///////////////////////////////////////////////////////////////////
+        // CHEQUES
+        c = properties.add(null, C_CHEQUES);
+        c.setType(Dialogs.PropertyType.grid);
+        c.hideLabel();;
+        setGridCheques(c);
+        if(!pLoadCheques(c)) { return false; }
+        c.setName(C_CHEQUES);
+        c.setKey(K_CHEQUES);
+        c.setTabIndex(c_TabCheque);
+        c.setGridAddEnabled(true);
+        c.setGridEditEnabled(true);
+        c.setGridRemoveEnabled(true);
+
+        m_chequesDeleted = "";
+
+        ///////////////////////////////////////////////////////////////////
+        // CHEQUES DE TERCERO
+        c = properties.add(null, C_CHEQUEST);
+        c.setType(Dialogs.PropertyType.grid);
+        c.hideLabel();;
+        setGridTCheques(c);
+        if(!pLoadTCheques(c)) { return false; }
+        c.setName(C_CHEQUEST);
+        c.setKey(K_CHEQUEST);
+        c.setTabIndex(c_TabChequeT);
+        c.setGridAddEnabled(true);
+        c.setGridEditEnabled(true);
+        c.setGridRemoveEnabled(true);
+
+        m_tChequesDeleted = "";
+
+        ///////////////////////////////////////////////////////////////////
+        // INGRESO DE CHEQUES DE TERCERO
+        c = properties.add(null, C_CHEQUESI);
+        c.setType(Dialogs.PropertyType.grid);
+        c.hideLabel();;
+        setGridICheques(c);
+        if(!pLoadICheques(c)) { return false; }
+        c.setName(C_CHEQUESI);
+        c.setKey(K_CHEQUESI);
+        c.setTabIndex(c_TabChequeI);
+        c.setGridAddEnabled(true);
+        c.setGridEditEnabled(true);
+        c.setGridRemoveEnabled(true);
+
+        m_iChequesDeleted = "";
+
+        if(!m_items.show(self)) { return false; }
+
+        abmGen = m_footer;
+        abmGen.ResetLayoutMembers;
+
+        var properties = m_footer.getProperties();
+
+        properties.clear();
+
+        c = properties.add(null, mTesoreriaConstantes.MF_TOTAL);
+        c.setType(Dialogs.PropertyType.numeric);
+        c.setFormat(m_generalConfig.getFormatDecImporte());
+        //'Total
+        c.setName(Cairo.Language.getText(1584, ""));
+        c.setSubType(Dialogs.PropertySubType.money);
+        c.setKey(K_TOTAL);
+        c.setValue(m_total);
+        c.setEnabled(false);
+
+        setEnabled();
+
+        if(!m_footer.show(self)) { return false; }
+
+        // Preferencias del Usuario
+        //
+        if(bValidateDocDefault) {
+          self.propertyChange(K_DOC_ID);
+        }
+
+        return true;
+      };
+
+      var refreshCollection = function() {
+
+        m_dialog.setTitle(m_name);
+
+        var properties = m_dialog.getProperties();
+
+        var elem = properties.item(mTesoreriaConstantes.DOC_ID);
+        elem.setSelectId(m_docId);
+        elem.setValue(m_documento);
+        elem.setSelectId(m_userCfg.getDocMfId());
+        elem.setValue(m_userCfg.getDocMfNombre());
+
+        var elem = properties.item(cDeclarations.getCsDocNumberID());
+        elem.setValue(m_numero);
+
+        var elem = properties.item(cDeclarations.getCsDocEstateID());
+        elem.setValue(m_estado);
+
+        var elem = properties.item(mTesoreriaConstantes.MF_FECHA);
+        elem.setValue(m_fecha);
+
+        var elem = properties.item(mTesoreriaConstantes.CLI_ID);
+        elem.setSelectId(m_cliId);
+        elem.setValue(m_cliente);
+
+        var elem = properties.item(mTesoreriaConstantes.MF_NRODOC);
+        elem.setValue(m_nrodoc);
+
+        var elem = properties.item(Cairo.Constants.US_ID);
+        elem.setSelectId(m_usId);
+        elem.setValue(m_usuario);
+
+        var elem = properties.item(mTesoreriaConstantes.LGJ_ID);
+        elem.setSelectId(m_lgjId);
+        elem.setValue(m_legajo);
+
+        var elem = properties.item(mTesoreriaConstantes.MF_COTIZACION);
+        elem.setValue(m_cotizacion);
+
+        var elem = properties.item(mTesoreriaConstantes.CCOS_ID);
+        elem.setSelectId(m_ccosId);
+        elem.setValue(m_centroCosto);
+
+        var elem = properties.item(mTesoreriaConstantes.SUC_ID);
+        elem.setSelectId(m_sucId);
+        elem.setValue(m_sucursal);
+
+        var elem = properties.item(mTesoreriaConstantes.MF_DESCRIP);
+        elem.setValue(m_descrip);
+
+        return m_dialog.showValues(properties);
+      };
+
+      // Cotizacion
+      var showCotizacion = function() {
+        var monId = null;
+        var dDate = null;
+        var iProp = null;
+
+        if(m_id === NO_ID) {
+          if(m_lastDocId === NO_ID) { return; }
+          if(!Cairo.Database.getData(mTesoreriaConstantes.DOCUMENTO, mTesoreriaConstantes.DOC_ID, m_lastDocId, mTesoreriaConstantes.MON_ID, monId)) { return; }
+        }
+        else {
+          monId = m_monId;
+        }
+
+        iProp = m_dialog.getProperties().item(mTesoreriaConstantes.MF_COTIZACION);
+        iProp.setVisible(monId !== GetMonedaDefault);
+
+        if(m_lastMonIdCotizacion !== monId || iProp.getValue() === 0) {
+          dDate = m_dialog.getProperties().item(mTesoreriaConstantes.MF_FECHA).getValue();
+          if(!IsDate(dDate)) { dDate = Date; }
+          iProp.setValue(cMoneda.getCotizacion(monId, dDate));
+          m_lastMonIdCotizacion = monId;
+        }
+
+        m_dialog.showValue(iProp);
+      };
+
+      var pGetMonedaDefault = function() {
+        var sqlstmt = null;
+        var rs = null;
+
+        sqlstmt = "select mon_id from Moneda where mon_legal <> 0";
+        if(!Cairo.Database.openRs(sqlstmt, rs)) { return 0; }
+
+        if(rs.isEOF()) {
+          MsgWarning(Cairo.Language.getText(2150, ""));
+          //Debe definir cual es la moneda legal con la que opera Cairo
+          return null;
+        }
+
+        return Cairo.Database.valField(rs.getFields(), mTesoreriaConstantes.MON_ID);
+      };
+
+      var setGridEfectivo = function(property) {
+
+        var o = null;
+        var iColDebe = null;
+        var iColHaber = null;
+        var origenDebe = null;
+        var origenHaber = null;
+
+        var w_grid = property.getGrid();
+
+        w_grid.getColumns().clear();
+        w_grid.getRows().clear();
+
+        var w_columns = w_grid.getColumns();
+
+        var elem = w_columns.add(null);
+        elem.setVisible(false);
+        elem.setKey(KI_MFI_ID);
+
+        if(m_userCfg.getDebeHaberMf()) {
+
+          var elem = w_columns.add(null);
+          //'Cuenta Debe
+          elem.setName(Cairo.Language.getText(4814, ""));
+          elem.setType(Dialogs.PropertyType.select);
+          elem.setSelectTable(Cairo.Tables.CUENTA);
+          elem.setWidth(1800);
+          elem.setKey(KI_CUE_ID_DEBE);
+          elem.setSelectFilter(GetHelpFilterCuenta());
+
+          var elem = w_columns.add(null);
+          //'Cuenta Haber
+          elem.setName(Cairo.Language.getText(4815, ""));
+          elem.setType(Dialogs.PropertyType.select);
+          elem.setSelectTable(Cairo.Tables.CUENTA);
+          elem.setWidth(1800);
+          elem.setKey(KI_CUE_ID_HABER);
+          elem.setSelectFilter(GetHelpFilterCuenta());
+
+        }
+        else {
+          var elem = w_columns.add(null);
+          //'Cuenta Origen
+          elem.setName(Cairo.Language.getText(2190, ""));
+          elem.setType(Dialogs.PropertyType.select);
+          elem.setSelectTable(Cairo.Tables.CUENTA);
+          elem.setWidth(1800);
+          elem.setKey(KI_CUE_ID_HABER);
+          elem.setSelectFilter(GetHelpFilterCuenta());
+
+          var elem = w_columns.add(null);
+          //'Cuenta Destino
+          elem.setName(Cairo.Language.getText(2191, ""));
+          elem.setType(Dialogs.PropertyType.select);
+          elem.setSelectTable(Cairo.Tables.CUENTA);
+          elem.setWidth(1800);
+          elem.setKey(KI_CUE_ID_DEBE);
+          elem.setSelectFilter(GetHelpFilterCuenta());
+        }
+
+        var elem = w_columns.add(null);
+        elem.setName(Cairo.Constants.DESCRIPTION_LABEL);
+        elem.setType(Dialogs.PropertyType.text);
+        elem.setSubType(Dialogs.PropertySubType.textButtonEx);
+        elem.setWidth(4000);
+        elem.setKey(KI_DESCRIP);
+
+        var elem = w_columns.add(null);
+        //'Importe
+        elem.setName(Cairo.Language.getText(1228, ""));
+        elem.setType(Dialogs.PropertyType.numeric);
+        elem.setFormat(m_generalConfig.getFormatDecImporte());
+        elem.setSubType(Dialogs.PropertySubType.money);
+        elem.setWidth(1200);
+        elem.setKey(KI_IMPORTE);
+
+        if(m_userCfg.getDebeHaberMf()) {
+
+          iColDebe = w_columns.add(null, C_ORIGENDEBE);
+          //'Origen Debe
+          iColDebe.setName(Cairo.Language.getText(4816, ""));
+          iColDebe.setFormat(m_generalConfig.getFormatDecImporte());
+          iColDebe.setType(Dialogs.PropertyType.numeric);
+          iColDebe.setSubType(Dialogs.PropertySubType.money);
+          iColDebe.setWidth(1500);
+          iColDebe.setVisible(false);
+          iColDebe.setKey(KI_ORIGEN_DEBE);
+
+          iColHaber = w_columns.add(null, C_ORIGENHABER);
+          //'Origen Haber
+          iColHaber.setName(Cairo.Language.getText(4817, ""));
+          iColHaber.setFormat(m_generalConfig.getFormatDecImporte());
+          iColHaber.setType(Dialogs.PropertyType.numeric);
+          iColHaber.setSubType(Dialogs.PropertySubType.money);
+          iColHaber.setWidth(1500);
+          iColHaber.setVisible(false);
+          iColHaber.setKey(KI_ORIGEN_HABER);
+
+        }
+        else {
+
+          iColHaber = w_columns.add(null, C_ORIGENHABER);
+          //'Importe Origen Origen
+          iColHaber.setName(Cairo.Language.getText(4818, ""));
+          iColHaber.setFormat(m_generalConfig.getFormatDecImporte());
+          iColHaber.setType(Dialogs.PropertyType.numeric);
+          iColHaber.setSubType(Dialogs.PropertySubType.money);
+          iColHaber.setWidth(1500);
+          iColHaber.setVisible(false);
+          iColHaber.setKey(KI_ORIGEN_HABER);
+
+          iColDebe = w_columns.add(null, C_ORIGENDEBE);
+          //'Importe Origen Destino
+          iColDebe.setName(Cairo.Language.getText(4819, ""));
+          iColDebe.setFormat(m_generalConfig.getFormatDecImporte());
+          iColDebe.setType(Dialogs.PropertyType.numeric);
+          iColDebe.setSubType(Dialogs.PropertySubType.money);
+          iColDebe.setWidth(1500);
+          iColDebe.setVisible(false);
+          iColDebe.setKey(KI_ORIGEN_DEBE);
+
+        }
+
+        var elem = w_columns.add(null);
+        //'Centro de Costo
+        elem.setName(Cairo.Language.getText(1057, ""));
+        elem.setType(Dialogs.PropertyType.select);
+        elem.setSelectTable(Cairo.Tables.CENTROCOSTO);
+        elem.setWidth(1800);
+        elem.setKey(KI_CCOS_ID);
+
+        var w_rows = w_grid.getRows();
+        for(var _i = 0; _i < m_data.efectivo.length; _i += 1) {
+
+          var elem = w_rows.add(null, rs(mTesoreriaConstantes.MFI_ID).Value);
+
+          var elem = elem.add(null);
+          elem.Value = Cairo.Database.valField(m_data.efectivo[_i], mTesoreriaConstantes.MFI_ID);
+          elem.setKey(KI_MFI_ID);
+
+          if(m_userCfg.getDebeHaberMf()) {
+
+            var elem = elem.add(null);
+            elem.Value = Cairo.Database.valField(m_data.efectivo[_i], "Debe");
+            elem.Id = Cairo.Database.valField(m_data.efectivo[_i], mTesoreriaConstantes.CUE_ID_DEBE);
+            elem.setKey(KI_CUE_ID_DEBE);
+
+            var elem = elem.add(null);
+            elem.Value = Cairo.Database.valField(m_data.efectivo[_i], "Haber");
+            elem.Id = Cairo.Database.valField(m_data.efectivo[_i], mTesoreriaConstantes.CUE_ID_HABER);
+            elem.setKey(KI_CUE_ID_HABER);
+
+          }
+          else {
+
+            var elem = elem.add(null);
+            elem.Value = Cairo.Database.valField(m_data.efectivo[_i], "Haber");
+            elem.Id = Cairo.Database.valField(m_data.efectivo[_i], mTesoreriaConstantes.CUE_ID_HABER);
+            elem.setKey(KI_CUE_ID_HABER);
+
+            var elem = elem.add(null);
+            elem.Value = Cairo.Database.valField(m_data.efectivo[_i], "Debe");
+            elem.Id = Cairo.Database.valField(m_data.efectivo[_i], mTesoreriaConstantes.CUE_ID_DEBE);
+            elem.setKey(KI_CUE_ID_DEBE);
+          }
+
+          var elem = elem.add(null);
+          elem.Value = Cairo.Database.valField(m_data.efectivo[_i], mTesoreriaConstantes.MFI_DESCRIP);
+          elem.setKey(KI_DESCRIP);
+
+          var elem = elem.add(null);
+          elem.Value = Cairo.Database.valField(m_data.efectivo[_i], mTesoreriaConstantes.MFI_IMPORTE) / cotizacion;
+          elem.setKey(KI_IMPORTE);
+
+          if(m_userCfg.getDebeHaberMf()) {
+
+            var elem = elem.add(null);
+            elem.Value = Cairo.Database.valField(m_data.efectivo[_i], mTesoreriaConstantes.MFI_IMPORTE_ORIGEN) / cotizacion;
+            origenDebe = elem.Value;
+            elem.setKey(KI_ORIGEN_DEBE);
+            var elem = elem.add(null);
+            elem.Value = Cairo.Database.valField(m_data.efectivo[_i], mTesoreriaConstantes.MFI_IMPORTE_ORIGEN_HABER) / cotizacion;
+            origenHaber = elem.Value;
+            elem.setKey(KI_ORIGEN_HABER);
+
+          }
+          else {
+
+            var elem = elem.add(null);
+            elem.Value = Cairo.Database.valField(m_data.efectivo[_i], mTesoreriaConstantes.MFI_IMPORTE_ORIGEN_HABER) / cotizacion;
+            origenHaber = elem.Value;
+            elem.setKey(KI_ORIGEN_HABER);
+            var elem = elem.add(null);
+            elem.Value = Cairo.Database.valField(m_data.efectivo[_i], mTesoreriaConstantes.MFI_IMPORTE_ORIGEN) / cotizacion;
+            origenDebe = elem.Value;
+            elem.setKey(KI_ORIGEN_DEBE);
+
+          }
+
+          var elem = elem.add(null);
+          elem.Value = Cairo.Database.valField(m_data.efectivo[_i], mTesoreriaConstantes.CCOS_NAME);
+          elem.Id = Cairo.Database.valField(m_data.efectivo[_i], mTesoreriaConstantes.CCOS_ID);
+          elem.setKey(KI_CCOS_ID);
+
+          if(origenDebe !== 0) { iColDebe.setVisible(true); }
+          if(origenHaber !== 0) { iColHaber.setVisible(true); }
+
+        }
+
+        return true;
+      };
+
+      var load = function(id) {
+        var cotizacion = null;
+
+        var apiPath = Cairo.Database.getAPIVersion();
+        return Cairo.Database.getData("load[" + apiPath + "general/movimientofondo]", id).then(
+          function(response) {
+
+            if(response.success !== true) { return false; }
+
+            if(response.data.id !== NO_ID) {
+
+              m_isNew = false;
+
+              m_cotizacion = Cairo.Database.valField(response.data, mTesoreriaConstantes.MF_COTIZACION);
+              cotizacion = (m_cotizacion !== 0) ? m_cotizacion : 1);
+
+              m_id = Cairo.Database.valField(response.data, mTesoreriaConstantes.MF_ID);
+              m_numero = Cairo.Database.valField(response.data, mTesoreriaConstantes.MF_NUMERO);
+              m_nrodoc = Cairo.Database.valField(response.data, mTesoreriaConstantes.MF_NRODOC);
+              m_descrip = Cairo.Database.valField(response.data, mTesoreriaConstantes.MF_DESCRIP);
+              m_fecha = Cairo.Database.valField(response.data, mTesoreriaConstantes.MF_FECHA);
+              m_total = Cairo.Database.valField(response.data, mTesoreriaConstantes.MF_TOTAL) / cotizacion;
+              m_cliId = Cairo.Database.valField(response.data, mTesoreriaConstantes.CLI_ID);
+              m_cliente = Cairo.Database.valField(response.data, mTesoreriaConstantes.CLI_NAME);
+              m_ccosId = Cairo.Database.valField(response.data, mTesoreriaConstantes.CCOS_ID);
+              m_centroCosto = Cairo.Database.valField(response.data, mTesoreriaConstantes.CCOS_NAME);
+              m_sucId = Cairo.Database.valField(response.data, mTesoreriaConstantes.SUC_ID);
+              m_sucursal = Cairo.Database.valField(response.data, mTesoreriaConstantes.SUC_NAME);
+              m_docId = Cairo.Database.valField(response.data, mTesoreriaConstantes.DOC_ID);
+              m_documento = Cairo.Database.valField(response.data, mTesoreriaConstantes.DOC_NAME);
+              m_doctId = Cairo.Database.valField(response.data, mTesoreriaConstantes.DOCT_ID);
+              m_usId = Cairo.Database.valField(response.data, Cairo.Constants.US_ID);
+              m_usuario = Cairo.Database.valField(response.data, Cairo.Constants.US_NAME);
+              m_lgjId = Cairo.Database.valField(response.data, mTesoreriaConstantes.LGJ_ID);
+              m_legajo = Cairo.Database.valField(response.data, mTesoreriaConstantes.LGJ_CODE);
+              m_creado = Cairo.Database.valField(response.data, Cairo.Constants.CREADO);
+              m_modificado = Cairo.Database.valField(response.data, Cairo.Constants.MODIFICADO);
+              m_modifico = Cairo.Database.valField(response.data, Cairo.Constants.MODIFICO);
+              m_estId = Cairo.Database.valField(response.data, Cairo.Constants.EST_ID);
+              m_estado = Cairo.Database.valField(response.data, Cairo.Constants.EST_NAME);
+              m_firmado = Cairo.Database.valField(response.data, mTesoreriaConstantes.MF_FIRMADO);
+              m_monId = Cairo.Database.valField(response.data, mTesoreriaConstantes.MON_ID);
+              m_docEditable = Cairo.Database.valField(response.data, Cairo.Constants.DOC_EDITABLE);
+              m_docEditMsg = Cairo.Database.valField(response.data, Cairo.Constants.DOCEDIT_MSG);
+
+              // Para ver documentos auxiliares
+              //
+              m_asId = Cairo.Database.valField(response.data, mTesoreriaConstantes.AS_ID);
+
+              m_taPropuesto = Cairo.Database.valField(response.data, Cairo.Constants.TA__PROPUESTO);
+              m_taMascara = Cairo.Database.valField(response.data, Cairo.Constants.TA__MASCARA);
+
+              m_lastDocId = m_docId;
+              m_lastCliId = m_cliId;
+              m_lastDocName = m_documento;
+              m_lastCliName = m_cliente;
+
+              m_lastMonIdCotizacion = m_monId;
+
+            }
+            else {
+              m_id = NO_ID;
+              m_numero = 0;
+              m_nrodoc = "";
+              m_descrip = "";
+              m_fecha = VDGetDateById(csDateEnum.cSTODAY);
+              m_total = 0;
+              m_cliId = NO_ID;
+              m_cliente = "";
+              m_ccosId = NO_ID;
+              m_centroCosto = "";
+              m_docId = NO_ID;
+              m_documento = "";
+              m_doctId = NO_ID;
+              m_usId = NO_ID;
+              m_usuario = "";
+              m_lgjId = NO_ID;
+              m_legajo = "";
+              m_cotizacion = 0;
+              m_monId = NO_ID;
+              m_creado = Cairo.Constants.cSNODATE;
+              m_modificado = Cairo.Constants.cSNODATE;
+              m_modifico = 0;
+              m_estId = NO_ID;
+              m_estado = "";
+              m_sucId = cUtil.getUser().getSuc_id();
+              m_sucursal = cUtil.getUser().getSucursal();
+              m_firmado = false;
+
+              m_docId = m_lastDocId;
+              m_cliId = m_lastCliId;
+              m_cliente = m_lastCliName;
+              m_documento = m_lastDocName;
+
+              // Para ver documentos auxiliares
+              //
+              m_asId = NO_ID;
+
+              m_taPropuesto = false;
+              m_taMascara = "";
+
+              m_lastMonIdCotizacion = NO_ID;
+
+              // Cotizacion
+              if(m_docId !== NO_ID) {
+                m_cotizacion = DocGetCotizacion(m_docId, m_fecha);
+              }
+
+              DocEditableGet(m_docId, m_docEditable, m_docEditMsg, csTesoreriaPrestacion.cSPRETSRNEWMOVIMIENTOFONDO);
+            }
+
+            return true;
+          });
+      };
+
+      var setCIEditGenericDoc_Footer = function(rhs) {
+        m_footer = rhs;
+
+        if(rhs === null) { Exit Property; }
+
+        m_footer.setIsDocument(true);
+        m_footer.setIsFooter(true);
+        m_footer.setObjForm(m_dialog.getObjForm());
+      };
+
+      var setCIEditGenericDoc_Items = function(rhs) {
+        m_items = rhs;
+
+        if(rhs === null) { Exit Property; }
+
+        m_items.setIsDocument(true);
+        m_items.setIsItems(true);
+        m_items.setObjForm(m_dialog.getObjForm());
+      };
+
+      var pSaveEfectivo = function(id,  cotizacion,  bMonedaLegal) {
+        var register = null;
+        var origen = null;
+
+        var row = null;
+        var cell = null;
+
+        var _count = m_items.getProperties().item(C_EFECTIVO).getGrid().getRows().size();
+        for (var _i = 0; _i < _count; _i++) {
+          row = m_items.getProperties().item(C_EFECTIVO).getGrid().getRows().item(_i);
+
+          register = new cRegister();
+          register.setFieldId(mTesoreriaConstantes.MFI_TMPID);
+          register.setTable(mTesoreriaConstantes.MOVIMIENTOFONDOITEMTMP);
+          register.setId(Cairo.Constants.NEW_ID);
+
+          var _count = row.size();
+          for (var _j = 0; _j < _count; _j++) {
+            cell = row.item(_j);
+            switch (cell.getKey()) {
+
+              case KI_MFI_ID:
+                if(m_copy) {
+                  register.getFields().add2(mTesoreriaConstantes.MFI_ID, Cairo.Constants.NEW_ID, Cairo.Constants.Types.integer);
+                }
+                else {
+                  register.getFields().add2(mTesoreriaConstantes.MFI_ID, Cairo.Util.val(cell.getValue()), Cairo.Constants.Types.integer);
+                }
+                break;
+
+              case KI_DESCRIP:
+                register.getFields().add2(mTesoreriaConstantes.MFI_DESCRIP, cell.getValue(), Cairo.Constants.Types.text);
+                break;
+
+              case KI_CCOS_ID:
+                register.getFields().add2(mTesoreriaConstantes.CCOS_ID, cell.getId(), Cairo.Constants.Types.id);
+                break;
+
+              case KI_CUE_ID_DEBE:
+                register.getFields().add2(mTesoreriaConstantes.CUE_ID_DEBE, cell.getId(), Cairo.Constants.Types.id);
+                break;
+
+              case KI_CUE_ID_HABER:
+                register.getFields().add2(mTesoreriaConstantes.CUE_ID_HABER, cell.getId(), Cairo.Constants.Types.id);
+                break;
+
+              case KI_IMPORTE:
+                origen = cell.getValue();
+                break;
+
+              case KI_ORIGEN_DEBE:
+                register.getFields().add2(mTesoreriaConstantes.MFI_IMPORTE_ORIGEN, cell.getValue(), Cairo.Constants.Types.currency);
+                break;
+
+              case KI_ORIGEN_HABER:
+                register.getFields().add2(mTesoreriaConstantes.MFI_IMPORTE_ORIGEN_HABER, cell.getValue(), Cairo.Constants.Types.currency);
+                break;
+            }
+          }
+
+          register.getFields().add2(mTesoreriaConstantes.MFI_IMPORTE, origen * cotizacion, Cairo.Constants.Types.currency);
+          if(bMonedaLegal) {
+            if(m_items.getProperties().item(C_EFECTIVO).getGrid().getColumns(C_ORIGENDEBE).Visible === false) {
+              register.getFields().add2(mTesoreriaConstantes.MFI_IMPORTE_ORIGEN, 0, Cairo.Constants.Types.currency);
+            }
+          }
+          else {
+            register.getFields().add2(mTesoreriaConstantes.MFI_IMPORTE_ORIGEN, origen, Cairo.Constants.Types.currency);
+          }
+
+          m_orden = m_orden + 1;
+          register.getFields().add2(mTesoreriaConstantes.MFI_ORDEN, m_orden, Cairo.Constants.Types.integer);
+          register.getFields().add2(mTesoreriaConstantes.MFI_TIPO, csEMovimientoFondoItemTipo.cSEMFITEFECTIVO, Cairo.Constants.Types.integer);
+          register.getFields().add2(mTesoreriaConstantes.MF_TMPID, id, Cairo.Constants.Types.id);
+
+          register.getFields().setHaveLastUpdate(false);
+          register.getFields().setHaveWhoModify(false);
+
+          if(!Cairo.Database.save(register, , "pSaveEfectivo", C_MODULE, c_ErrorSave)) { return false; }
+        }
+
+        var sqlstmt = null;
+
+        if(m_efectivoDeleted !== "" && m_id !== NO_ID && !m_copy) {
+
+          var vDeletes = null;
+          var i = null;
+
+          m_efectivoDeleted = RemoveLastColon(m_efectivoDeleted);
+          vDeletes = Split(m_efectivoDeleted, ",");
+
+          for (i = 0; i <= vDeletes.Length; i++) {
+
+            register = new cRegister();
+            register.setFieldId(mTesoreriaConstantes.MFIB_TMPID);
+            register.setTable(mTesoreriaConstantes.MOVIMIENTOFONDOITEMBORRADOTMP);
+            register.setId(Cairo.Constants.NEW_ID);
+
+            register.getFields().add2(mTesoreriaConstantes.MFI_ID, Cairo.Util.val(vDeletes(i)), Cairo.Constants.Types.integer);
+            register.getFields().add2(mTesoreriaConstantes.MF_ID, m_id, Cairo.Constants.Types.id);
+            register.getFields().add2(mTesoreriaConstantes.MF_TMPID, id, Cairo.Constants.Types.id);
+
+            register.getFields().setHaveLastUpdate(false);
+            register.getFields().setHaveWhoModify(false);
+
+            if(!Cairo.Database.save(register, , "pSaveEfectivo", C_MODULE, c_ErrorSave)) { return false; }
+          }
+
+        }
+
+        return true;
+      };
+
+      // Reglas del Objeto de Negocios
+      var pShowTotales = function() {
+        var total = null;
+        var row = null;
+
+        var _count = pGetCheques().getRows().size();
+        for (var _i = 0; _i < _count; _i++) {
+          row = pGetCheques().getRows().item(_i);
+          total = total + Cairo.Util.val(Dialogs.cell(row, KICH_IMPORTE).getValue());
+        }
+
+        var _count = pGetTCheques().getRows().size();
+        for (var _i = 0; _i < _count; _i++) {
+          row = pGetTCheques().getRows().item(_i);
+          total = total + Cairo.Util.val(Dialogs.cell(row, KICH_IMPORTE).getValue());
+        }
+
+        var _count = pGetICheques().getRows().size();
+        for (var _i = 0; _i < _count; _i++) {
+          row = pGetICheques().getRows().item(_i);
+          total = total + Cairo.Util.val(Dialogs.cell(row, KICH_IMPORTE).getValue());
+        }
+
+        var _count = pGetEfectivo().getRows().size();
+        for (var _i = 0; _i < _count; _i++) {
+          row = pGetEfectivo().getRows().item(_i);
+          total = total + Cairo.Util.val(Dialogs.cell(row, KI_IMPORTE).getValue());
+        }
+
+        m_footer.getProperties().item(mTesoreriaConstantes.MF_TOTAL).setValue(total);
+
+        m_footer.refreshControls();
+      };
+
+      var setEnabled = function() {
+        var bState = null;
+
+        if(m_docEditable) {
+          bState = m_dialog.getProperties().item(mTesoreriaConstantes.DOC_ID).getSelectId() !== NO_ID;
+        }
+        else {
+          bState = false;
+        }
+
+        pSetEnabledAux(bState);
+      };
+
+      var pSetEnabledAux = function(bState) {
+        var prop = null;
+
+        var _count = m_dialog.getProperties().size();
+        for (var _i = 0; _i < _count; _i++) {
+          prop = m_dialog.getProperties().item(_i);
+          if(prop.getKey() !== K_DOC_ID && prop.getKey() !== K_NUMERO && prop.getKey() !== K_EST_ID) {
+
+            if(bState) {
+              if(prop.getKey() !== K_NRODOC) {
+                prop.setEnabled(bState);
+              }
+              else {
+                prop.setEnabled(m_taPropuesto);
+              }
+            }
+            else {
+              prop.setEnabled(false);
+            }
+          }
+        }
+
+        var _count = m_items.getProperties().size();
+        for (var _i = 0; _i < _count; _i++) {
+          prop = m_items.getProperties().item(_i);
+          prop.setEnabled(bState);
+        }
+
+                #If PREPROC_SFS Then;
+        var abmGen = null;
+                #Else;
+        var abmGen = null;
+                #End If;
+
+        abmGen = m_items;
+        abmGen.RefreshEnabledState(m_items.getProperties());
+
+        abmGen = m_dialog;
+        abmGen.RefreshEnabledState(m_dialog.getProperties());
+      };
+
+      var pGetCueIdCliente = function(mon_id,  cue_id) { // TODO: Use of ByRef founded Private Function pGetCueIdCliente(ByRef Mon_id As Long, ByRef Cue_id As Long) As Boolean
+        var sqlstmt = null;
+        var rs = null;
+
+        // Cuenta contable del cliente
+        sqlstmt = "sp_DocGetCueId "+ m_lastCliId+ ","+ m_lastDocId;
+        if(!Cairo.Database.openRs(sqlstmt, rs)) { return false; }
+
+        if(rs.isEOF()) { return false; }
+
+        cue_id = Cairo.Database.valField(rs.getFields(), mTesoreriaConstantes.CUE_ID);
+        mon_id = Cairo.Database.valField(rs.getFields(), mTesoreriaConstantes.MON_ID);
+
+        return true;
+      };
+
+      var signDocument = function() {
+        var doc = null;
+        var us_id = null;
+
+        doc = new cDocumento();
+
+        if(m_id === NO_ID) {
+          MsgWarning(Cairo.Language.getText(1592, ""));
+          //Antes de poder firmar el documento debe guardarlo.
+          return null;
+        }
+
+        if(m_firmado) {
+          if(!Ask(Cairo.Language.getText(1593, ""), vbYes, Cairo.Language.getText(1594, ""))) {
+            //El documento ya ha sido firmado desea borrar la firma, Firmar
+            return null;
+          }
+        }
+
+        if(!doc.Firmar(m_docId, us_id)) { return false; }
+
+        var sqlstmt = null;
+        var rs = null;
+
+        sqlstmt = "sp_DocMovimientoFondoFirmar "+ m_id+ ","+ us_id.toString();
+        if(!Cairo.Database.openRs(sqlstmt, rs)) { return false; }
+
+        m_estId = Cairo.Database.valField(rs.getFields(), Cairo.Constants.EST_ID);
+        m_estado = Cairo.Database.valField(rs.getFields(), Cairo.Constants.EST_NAME);
+
+        var iProp = null;
+        iProp = m_dialog.getProperties().item(cDeclarations.getCsDocEstateID());
+
+        iProp.setSelectId(m_estId);
+        iProp.setValue(m_estado);
+
+        Cairo.Database.getData(mTesoreriaConstantes.MOVIMIENTOFONDO, mTesoreriaConstantes.MF_ID, m_id, mTesoreriaConstantes.MF_FIRMADO, m_firmado);
+
+        m_dialog.showValue(iProp);
+
+        return true;
+      };
+
+      var move = function(moveTo) {
+        var sqlstmt = null;
+        var rs = null;
+        var doc_id = null;
+
+        doc_id = m_dialog.getProperties().item(mTesoreriaConstantes.DOC_ID).getSelectId();
+
+        if(doc_id === NO_ID) { MsgInfo(Cairo.Language.getText(1595, "")); }
+        //Debe seleccionar un documento
+
+        sqlstmt = "sp_DocMovimientoFondoMover "+ moveTo+ ","+ m_numero+ ","+ doc_id.toString();
+
+        if(!Cairo.Database.openRs(sqlstmt, rs)) { return false; }
+
+        // Si no obtuve ningun id al moverme
+        //
+        if(rs.isEOF()) {
+
+          switch (moveTo) {
+
+            // Si era siguiente ahora busco el ultimo
+            //
+            case Dialogs.Message.MSG_DOC_NEXT:
+              move(Dialogs.Message.MSG_DOC_LAST);
+
+              // Si era anterior ahora busco el primero
+              //
+              break;
+
+            case Dialogs.Message.MSG_DOC_PREVIOUS:
+              move(Dialogs.Message.MSG_DOC_FIRST);
+
+              // Si no encontre ni ultimo ni primero
+              // es por que no hay ningun comprobante para
+              // este documento
+              //
+              break;
+
+            case Dialogs.Message.MSG_DOC_FIRST:
+            case Dialogs.Message.MSG_DOC_LAST:
+
+              // Cargo un registro vacio
+              //
+              load(NO_ID);
+
+              // Refresco el formulario
+              //
+              refreshProperties();
+
+              // Obtengo un nuevo numero de comprobante
+              //
+              GetDocNumber(m_lastDocId, m_dialog, m_taPropuesto, mTesoreriaConstantes.MF_NRODOC);
+
+              break;
+          }
+
+        }
+        else {
+          if(!load(Cairo.Database.valField(rs.getFields(), 0))) { return false; }
+
+          refreshProperties();
+        }
+
+        return true;
+      };
+
+      var refreshProperties = function() {
+        var c = null;
+                #If PREPROC_SFS Then;
+        var abmGen = null;
+                #Else;
+        var abmGen = null;
+                #End If;
+        var filter = null;
+        var cotizacion = null;
+
+        var properties = m_dialog.getProperties();
+
+        c = properties.item(mTesoreriaConstantes.DOC_ID);
+        c.setSelectId(m_docId);
+        c.setValue(m_documento);
+
+        c = properties.item(mTesoreriaConstantes.MF_FECHA);
+        c.setValue(m_fecha);
+
+        c = properties.item(mTesoreriaConstantes.CLI_ID);
+        c.setSelectId(m_cliId);
+        c.setValue(m_cliente);
+
+        c = properties.item(cDeclarations.getCsDocNumberID());
+        c.setValue(m_numero);
+
+        c = properties.item(cDeclarations.getCsDocEstateID());
+        c.setValue(m_estado);
+
+        c = properties.item(mTesoreriaConstantes.MF_NRODOC);
+        c.setValue(m_nrodoc);
+        c.setTextMask(m_taMascara);
+        c.setTextAlign(vbRightJustify);
+
+        c = properties.item(Cairo.Constants.US_ID);
+        c.setSelectId(m_usId);
+        c.setValue(m_usuario);
+
+        c = properties.item(mTesoreriaConstantes.MF_COTIZACION);
+        c.setValue(m_cotizacion);
+
+        c = properties.item(mTesoreriaConstantes.CCOS_ID);
+        c.setSelectId(m_ccosId);
+        c.setValue(m_centroCosto);
+
+        c = properties.item(mTesoreriaConstantes.SUC_ID);
+        c.setSelectId(m_sucId);
+        c.setValue(m_sucursal);
+
+        c = properties.item(mTesoreriaConstantes.LGJ_ID);
+        c.setSelectId(m_lgjId);
+        c.setValue(m_legajo);
+
+        c = properties.item(mTesoreriaConstantes.MF_DESCRIP);
+        c.setValue(m_descrip);
+
+        abmGen = m_dialog;
+        abmGen.ShowValues(m_dialog.getProperties());
+
+        abmGen.ResetChanged;
+
+        if(m_cotizacion !== 0) {
+          cotizacion = m_cotizacion;
+        }
+        else {
+          cotizacion = 1;
+        }
+
+        c = m_items.getProperties().item(C_EFECTIVO);
+        if(!pLoadEfectivo(c, cotizacion)) { return; }
+
+                #If PREPROC_SFS Then;
+        var abmObj = null;
+                #Else;
+        var abmObj = null;
+                #End If;
+
+        abmObj = m_dialog;
+        abmObj.RefreshColumnProperties(c, C_ORIGENDEBE);
+        abmObj.RefreshColumnProperties(c, C_ORIGENHABER);
+
+        m_efectivoDeleted = "";
+
+        c = m_items.getProperties().item(C_CHEQUES);
+        if(!pLoadCheques(c)) { return; }
+
+        m_chequesDeleted = "";
+
+        c = m_items.getProperties().item(C_CHEQUEST);
+        if(!pLoadTCheques(c)) { return; }
+
+        m_tChequesDeleted = "";
+
+        c = m_items.getProperties().item(C_CHEQUESI);
+        if(!pLoadICheques(c)) { return; }
+
+        m_iChequesDeleted = "";
+
+        abmGen = m_items;
+        abmGen.ShowValues(m_items.getProperties());
+
+        c = m_footer.getProperties().item(mTesoreriaConstantes.MF_TOTAL);
+        c.setValue(m_total);
+
+        abmGen = m_footer;
+        abmGen.ShowValues(m_footer.getProperties());
+
+        setEnabled();
+      };
+
+      // Construccion - Destruccion
+      self.initialize = function() {
+        try {
+
+          //'Error al grabar el Movimiento de Fondo
+          c_ErrorSave = Cairo.Language.getText(2242, "");
+
+          m_generalConfig = new cGeneralConfig();
+          m_generalConfig.Load;
+          m_defaultCurrency = GetMonedaDefault();
+
+          // Preferencias del Usuario
+          //
+          m_userCfg = new cUsuarioConfig();
+          m_userCfg.Load;
+          m_userCfg.ValidateMF;
+
+          // **TODO:** goto found: GoTo ExitProc;
+        }
+        catch (ex) {
+          Cairo.manageErrorEx(ex.message, "Class_Initialize", C_MODULE, "");
+          // **TODO:** label found: ExitProc:;
+        }
+        // **TODO:** on error resume next found !!!
+      };
+
+      self.destroy = function() {
+        try {
+
+          m_dialog = null;
+          m_listController = null;
+          m_footer = null;
+          m_items = null;
+          m_generalConfig = null;
+          m_host = null;
+
+          // Preferencias del Usuario
+          //
+          m_userCfg = null;
+
+          // **TODO:** goto found: GoTo ExitProc;
+        }
+        catch (ex) {
+          Cairo.manageErrorEx(ex.message, "Class_Terminate", C_MODULE, "");
+          // **TODO:** label found: ExitProc:;
+        }
+        // **TODO:** on error resume next found !!!
+      };
+
+      //------------------------------------------------------------------------------------------------
+      var pSaveICheques = function(id) {
+        var register = null;
+        var row = null;
+        var cell = null;
+
+        var _count = pGetICheques().getRows().size();
+        for (var _i = 0; _i < _count; _i++) {
+          row = pGetICheques().getRows().item(_i);
+
+          register = new cRegister();
+          register.setFieldId(mTesoreriaConstantes.MFI_TMPID);
+          register.setTable(mTesoreriaConstantes.MOVIMIENTOFONDOITEMTMP);
+          register.setId(Cairo.Constants.NEW_ID);
+
+          var _count = row.size();
+          for (var _j = 0; _j < _count; _j++) {
+            cell = row.item(_j);
+            switch (cell.getKey()) {
+
+              case KICH_MFI_ID:
+                if(m_copy) {
+                  register.getFields().add2(mTesoreriaConstantes.MFI_ID, Cairo.Constants.NEW_ID, Cairo.Constants.Types.integer);
+                }
+                else {
+                  register.getFields().add2(mTesoreriaConstantes.MFI_ID, Cairo.Util.val(cell.getValue()), Cairo.Constants.Types.integer);
+                }
+
+                break;
+
+              case mPublic.kICHT_DESCRIP:
+                register.getFields().add2(mTesoreriaConstantes.MFI_DESCRIP, cell.getValue(), Cairo.Constants.Types.text);
+
+                break;
+
+              case mPublic.kICHT_CHEQUE:
+                register.getFields().add2(mTesoreriaConstantes.MFI_TMPCHEQUE, cell.getValue(), Cairo.Constants.Types.text);
+
+                break;
+
+              case mPublic.kICHT_CHEQ_ID:
+                register.getFields().add2(mTesoreriaConstantes.CHEQ_ID, cell.getId(), Cairo.Constants.Types.id);
+
+                break;
+
+              case mPublic.kICHT_CLE_ID:
+                register.getFields().add2(mTesoreriaConstantes.CLE_ID, cell.getId(), Cairo.Constants.Types.id);
+
+                break;
+
+              case mPublic.kICHT_BCO_ID:
+                register.getFields().add2(mTesoreriaConstantes.BCO_ID, cell.getId(), Cairo.Constants.Types.id);
+
+                break;
+
+              case mPublic.kICHT_MON_ID:
+                register.getFields().add2(mTesoreriaConstantes.MON_ID, cell.getId(), Cairo.Constants.Types.id);
+
+                break;
+
+              case mPublic.kICHT_FECHACOBRO:
+                register.getFields().add2(mTesoreriaConstantes.MFI_TMPFECHA_COBRO, cell.getValue(), Cairo.Constants.Types.date);
+
+                break;
+
+              case mPublic.kICHT_FECHAVTO:
+                register.getFields().add2(mTesoreriaConstantes.MFI_TMPFECHA_VTO, cell.getValue(), Cairo.Constants.Types.date);
+
+                break;
+
+              case KI_CUE_ID_DEBE:
+                register.getFields().add2(mTesoreriaConstantes.CUE_ID_DEBE, cell.getId(), Cairo.Constants.Types.id);
+
+                break;
+
+              case KI_CUE_ID_HABER:
+                register.getFields().add2(mTesoreriaConstantes.CUE_ID_HABER, cell.getId(), Cairo.Constants.Types.id);
+
+                break;
+
+              case mPublic.kICHT_IMPORTEORIGEN:
+                register.getFields().add2(mTesoreriaConstantes.MFI_IMPORTE_ORIGEN, Cairo.Util.val(cell.getValue()), Cairo.Constants.Types.currency);
+
+                break;
+
+              case mPublic.kICHT_IMPORTE:
+                register.getFields().add2(mTesoreriaConstantes.MFI_IMPORTE, Cairo.Util.val(cell.getValue()), Cairo.Constants.Types.currency);
+
+                break;
+
+              case KI_CCOS_ID:
+                register.getFields().add2(mTesoreriaConstantes.CCOS_ID, cell.getId(), Cairo.Constants.Types.id);
+                break;
+            }
+          }
+
+          m_orden = m_orden + 1;
+          register.getFields().add2(mTesoreriaConstantes.MFI_ORDEN, m_orden, Cairo.Constants.Types.integer);
+          register.getFields().add2(mTesoreriaConstantes.MFI_TIPO, csEMovimientoFondoItemTipo.cSEMFITCHEQUESI, Cairo.Constants.Types.integer);
+          register.getFields().add2(mTesoreriaConstantes.MF_TMPID, id, Cairo.Constants.Types.id);
+          register.getFields().add2(mTesoreriaConstantes.MFI_ID, Cairo.Constants.NEW_ID, Cairo.Constants.Types.long);
+
+          register.getFields().setHaveLastUpdate(false);
+          register.getFields().setHaveWhoModify(false);
+
+          if(!Cairo.Database.save(register, , "pSaveICheques", C_MODULE, c_ErrorSave)) { return false; }
+        }
+
+        var sqlstmt = null;
+
+        if(m_iChequesDeleted !== "" && m_id !== NO_ID && !m_copy) {
+
+          var vDeletes = null;
+          var i = null;
+
+          m_iChequesDeleted = RemoveLastColon(m_iChequesDeleted);
+          vDeletes = Split(m_iChequesDeleted, ",");
+
+          for (i = 0; i <= vDeletes.Length; i++) {
+
+            register = new cRegister();
+            register.setFieldId(mTesoreriaConstantes.MFIB_TMPID);
+            register.setTable(mTesoreriaConstantes.MOVIMIENTOFONDOITEMBORRADOTMP);
+            register.setId(Cairo.Constants.NEW_ID);
+
+            register.getFields().add2(mTesoreriaConstantes.MFI_ID, Cairo.Util.val(vDeletes(i)), Cairo.Constants.Types.integer);
+            register.getFields().add2(mTesoreriaConstantes.MF_ID, m_id, Cairo.Constants.Types.id);
+            register.getFields().add2(mTesoreriaConstantes.MF_TMPID, id, Cairo.Constants.Types.id);
+
+            register.getFields().setHaveLastUpdate(false);
+            register.getFields().setHaveWhoModify(false);
+
+            if(!Cairo.Database.save(register, , "pSaveICheques", C_MODULE, c_ErrorSave)) { return false; }
+          }
+
+        }
+
+        return true;
+      };
+
+      var pSaveTCheques = function(id) {
+        var register = null;
+        var row = null;
+        var cell = null;
+
+        var _count = pGetTCheques().getRows().size();
+        for (var _i = 0; _i < _count; _i++) {
+          row = pGetTCheques().getRows().item(_i);
+
+          register = new cRegister();
+          register.setFieldId(mTesoreriaConstantes.MFI_TMPID);
+          register.setTable(mTesoreriaConstantes.MOVIMIENTOFONDOITEMTMP);
+          register.setId(Cairo.Constants.NEW_ID);
+
+          var _count = row.size();
+          for (var _j = 0; _j < _count; _j++) {
+            cell = row.item(_j);
+            switch (cell.getKey()) {
+
+              case KICH_MFI_ID:
+                if(m_copy) {
+                  register.getFields().add2(mTesoreriaConstantes.MFI_ID, Cairo.Constants.NEW_ID, Cairo.Constants.Types.integer);
+                }
+                else {
+                  register.getFields().add2(mTesoreriaConstantes.MFI_ID, Cairo.Util.val(cell.getValue()), Cairo.Constants.Types.integer);
+                }
+                break;
+
+              case mPublic.kICHT_DESCRIP:
+                register.getFields().add2(mTesoreriaConstantes.MFI_DESCRIP, cell.getValue(), Cairo.Constants.Types.text);
+
+                break;
+
+              case mPublic.kICHT_CHEQUE:
+                register.getFields().add2(mTesoreriaConstantes.CHEQ_ID, cell.getId(), Cairo.Constants.Types.id);
+
+                break;
+
+              case mPublic.kICHT_CLE_ID:
+                register.getFields().add2(mTesoreriaConstantes.CLE_ID, cell.getId(), Cairo.Constants.Types.id);
+
+                break;
+
+              case mPublic.kICHT_MON_ID:
+                register.getFields().add2(mTesoreriaConstantes.MON_ID, cell.getId(), Cairo.Constants.Types.id);
+
+                break;
+
+              case mPublic.kICHT_FECHACOBRO:
+                register.getFields().add2(mTesoreriaConstantes.MFI_TMPFECHA_COBRO, cell.getValue(), Cairo.Constants.Types.date);
+
+                break;
+
+              case mPublic.kICHT_FECHAVTO:
+                register.getFields().add2(mTesoreriaConstantes.MFI_TMPFECHA_VTO, cell.getValue(), Cairo.Constants.Types.date);
+
+                break;
+
+              case KI_CUE_ID_DEBE:
+                register.getFields().add2(mTesoreriaConstantes.CUE_ID_DEBE, cell.getId(), Cairo.Constants.Types.id);
+                break;
+
+              case KI_CUE_ID_HABER:
+                register.getFields().add2(mTesoreriaConstantes.CUE_ID_HABER, cell.getId(), Cairo.Constants.Types.id);
+
+                break;
+
+              case mPublic.kICHT_IMPORTEORIGEN:
+                register.getFields().add2(mTesoreriaConstantes.MFI_IMPORTE_ORIGEN, Cairo.Util.val(cell.getValue()), Cairo.Constants.Types.currency);
+
+                break;
+
+              case mPublic.kICHT_IMPORTE:
+                register.getFields().add2(mTesoreriaConstantes.MFI_IMPORTE, Cairo.Util.val(cell.getValue()), Cairo.Constants.Types.currency);
+
+                break;
+
+              case KI_CCOS_ID:
+                register.getFields().add2(mTesoreriaConstantes.CCOS_ID, cell.getId(), Cairo.Constants.Types.id);
+                break;
+            }
+          }
+
+          m_orden = m_orden + 1;
+          register.getFields().add2(mTesoreriaConstantes.MFI_ORDEN, m_orden, Cairo.Constants.Types.integer);
+          register.getFields().add2(mTesoreriaConstantes.MFI_TIPO, csEMovimientoFondoItemTipo.cSEMFITCHEQUEST, Cairo.Constants.Types.integer);
+          register.getFields().add2(mTesoreriaConstantes.MF_TMPID, id, Cairo.Constants.Types.id);
+          register.getFields().add2(mTesoreriaConstantes.MFI_ID, Cairo.Constants.NEW_ID, Cairo.Constants.Types.long);
+
+          register.getFields().setHaveLastUpdate(false);
+          register.getFields().setHaveWhoModify(false);
+
+          if(!Cairo.Database.save(register, , "pSaveTCheques", C_MODULE, c_ErrorSave)) { return false; }
+        }
+
+        var sqlstmt = null;
+
+        if(m_tChequesDeleted !== "" && m_id !== NO_ID && !m_copy) {
+
+          var vDeletes = null;
+          var i = null;
+
+          m_tChequesDeleted = RemoveLastColon(m_tChequesDeleted);
+          vDeletes = Split(m_tChequesDeleted, ",");
+
+          for (i = 0; i <= vDeletes.Length; i++) {
+
+            register = new cRegister();
+            register.setFieldId(mTesoreriaConstantes.MFIB_TMPID);
+            register.setTable(mTesoreriaConstantes.MOVIMIENTOFONDOITEMBORRADOTMP);
+            register.setId(Cairo.Constants.NEW_ID);
+
+            register.getFields().add2(mTesoreriaConstantes.MFI_ID, Cairo.Util.val(vDeletes(i)), Cairo.Constants.Types.integer);
+            register.getFields().add2(mTesoreriaConstantes.MF_ID, m_id, Cairo.Constants.Types.id);
+            register.getFields().add2(mTesoreriaConstantes.MF_TMPID, id, Cairo.Constants.Types.id);
+
+            register.getFields().setHaveLastUpdate(false);
+            register.getFields().setHaveWhoModify(false);
+
+            if(!Cairo.Database.save(register, , "pSaveTCheques", C_MODULE, c_ErrorSave)) { return false; }
+          }
+
+        }
+
+        return true;
+      };
+
+      var pSaveCheques = function(id) {
+        var register = null;
+        var property = null;
+
+        var row = null;
+        var cell = null;
+
+        var _count = pGetCheques().getRows().size();
+        for (var _i = 0; _i < _count; _i++) {
+          row = pGetCheques().getRows().item(_i);
+
+          register = new cRegister();
+          register.setFieldId(mTesoreriaConstantes.MFI_TMPID);
+          register.setTable(mTesoreriaConstantes.MOVIMIENTOFONDOITEMTMP);
+          register.setId(Cairo.Constants.NEW_ID);
+
+          var _count = row.size();
+          for (var _j = 0; _j < _count; _j++) {
+            cell = row.item(_j);
+            switch (cell.getKey()) {
+
+              case KICH_MFI_ID:
+                if(m_copy) {
+                  register.getFields().add2(mTesoreriaConstantes.MFI_ID, Cairo.Constants.NEW_ID, Cairo.Constants.Types.integer);
+                }
+                else {
+                  register.getFields().add2(mTesoreriaConstantes.MFI_ID, Cairo.Util.val(cell.getValue()), Cairo.Constants.Types.integer);
+                }
+                break;
+
+              case KICH_DESCRIP:
+                register.getFields().add2(mTesoreriaConstantes.MFI_DESCRIP, cell.getValue(), Cairo.Constants.Types.text);
+
+                break;
+
+              case KICH_CHEQUERA:
+                register.getFields().add2(mTesoreriaConstantes.CHQ_ID, cell.getId(), Cairo.Constants.Types.id);
+
+                break;
+
+              case KICH_CHEQUE:
+                register.getFields().add2(mTesoreriaConstantes.MFI_TMPCHEQUE, cell.getValue(), Cairo.Constants.Types.text);
+
+                break;
+
+              case KICH_CHEQ_ID:
+
+                if(m_copy) {
+                  register.getFields().add2(mTesoreriaConstantes.CHEQ_ID, NO_ID, Cairo.Constants.Types.id);
+                }
+                else {
+                  register.getFields().add2(mTesoreriaConstantes.CHEQ_ID, cell.getId(), Cairo.Constants.Types.id);
+                }
+
+                break;
+
+              case KICH_CLE_ID:
+                register.getFields().add2(mTesoreriaConstantes.CLE_ID, cell.getId(), Cairo.Constants.Types.id);
+
+                break;
+
+              case KICH_MON_ID:
+                register.getFields().add2(mTesoreriaConstantes.MON_ID, cell.getId(), Cairo.Constants.Types.id);
+                break;
+
+              case KICH_FECHACOBRO:
+                register.getFields().add2(mTesoreriaConstantes.MFI_TMPFECHA_COBRO, cell.getValue(), Cairo.Constants.Types.date);
+                break;
+
+              case KICH_FECHAVTO:
+                register.getFields().add2(mTesoreriaConstantes.MFI_TMPFECHA_VTO, cell.getValue(), Cairo.Constants.Types.date);
+
+                break;
+
+              case KI_CUE_ID_DEBE:
+                register.getFields().add2(mTesoreriaConstantes.CUE_ID_DEBE, cell.getId(), Cairo.Constants.Types.id);
+                break;
+
+              case KI_CUE_ID_HABER:
+                register.getFields().add2(mTesoreriaConstantes.CUE_ID_HABER, cell.getId(), Cairo.Constants.Types.id);
+
+                break;
+
+              case KICH_IMPORTEORIGEN:
+                register.getFields().add2(mTesoreriaConstantes.MFI_IMPORTE_ORIGEN, Cairo.Util.val(cell.getValue()), Cairo.Constants.Types.currency);
+                break;
+
+              case KICH_IMPORTE:
+                register.getFields().add2(mTesoreriaConstantes.MFI_IMPORTE, Cairo.Util.val(cell.getValue()), Cairo.Constants.Types.currency);
+
+                break;
+
+              case KI_CCOS_ID:
+                register.getFields().add2(mTesoreriaConstantes.CCOS_ID, cell.getId(), Cairo.Constants.Types.id);
+                break;
+            }
+          }
+
+          m_orden = m_orden + 1;
+          register.getFields().add2(mTesoreriaConstantes.MFI_ORDEN, m_orden, Cairo.Constants.Types.integer);
+          register.getFields().add2(mTesoreriaConstantes.MFI_TIPO, csEMovimientoFondoItemTipo.cSEMFITCHEQUES, Cairo.Constants.Types.integer);
+          register.getFields().add2(mTesoreriaConstantes.MF_TMPID, id, Cairo.Constants.Types.id);
+
+          register.getFields().setHaveLastUpdate(false);
+          register.getFields().setHaveWhoModify(false);
+
+          if(!Cairo.Database.save(register, , "pSaveCheques", C_MODULE, c_ErrorSave)) { return false; }
+        }
+
+        var sqlstmt = null;
+
+        if(m_chequesDeleted !== "" && m_id !== NO_ID && !m_copy) {
+
+          var vDeletes = null;
+          var i = null;
+
+          m_chequesDeleted = RemoveLastColon(m_chequesDeleted);
+          vDeletes = Split(m_chequesDeleted, ",");
+
+          for (i = 0; i <= vDeletes.Length; i++) {
+
+            register = new cRegister();
+            register.setFieldId(mTesoreriaConstantes.MFIB_TMPID);
+            register.setTable(mTesoreriaConstantes.MOVIMIENTOFONDOITEMBORRADOTMP);
+            register.setId(Cairo.Constants.NEW_ID);
+
+            register.getFields().add2(mTesoreriaConstantes.MFI_ID, Cairo.Util.val(vDeletes(i)), Cairo.Constants.Types.integer);
+            register.getFields().add2(mTesoreriaConstantes.MF_ID, m_id, Cairo.Constants.Types.id);
+            register.getFields().add2(mTesoreriaConstantes.MF_TMPID, id, Cairo.Constants.Types.id);
+
+            register.getFields().setHaveLastUpdate(false);
+            register.getFields().setHaveWhoModify(false);
+
+            if(!Cairo.Database.save(register, , "pSaveCheques", C_MODULE, c_ErrorSave)) { return false; }
+          }
+
+        }
+
+        return true;
+      };
+
+      var pGetICheques = function() {
+        return m_items.getProperties().item(C_CHEQUESI).getGrid();
+      };
+
+      var pGetTCheques = function() {
+        return m_items.getProperties().item(C_CHEQUEST).getGrid();
+      };
+
+      var pGetCheques = function() {
+        return m_items.getProperties().item(C_CHEQUES).getGrid();
+      };
+
+      var pGetEfectivo = function() {
+        return m_items.getProperties().item(C_EFECTIVO).getGrid();
+      };
+
+      var setGridICheques = function(property) {
+
+        var w_grid = property.getGrid();
+
+        w_grid.getColumns().clear();
+        w_grid.getRows().clear();
+
+        var w_columns = w_grid.getColumns();
+
+        var elem = w_columns.add(null);
+        elem.setVisible(false);
+        elem.setKey(mPublic.kICHT_MFI_ID);
+
+        var elem = w_columns.add(null);
+        //'Cuenta Origen
+        elem.setName(Cairo.Language.getText(2190, ""));
+        elem.setType(Dialogs.PropertyType.select);
+        elem.setSelectTable(Cairo.Tables.CUENTA);
+
+        //.HelpFilter = cscCuecId & "=" & csECuecDocEnCartera
+        elem.setSelectFilter(GetHelpFilterCuenta());
+
+        elem.setWidth(2200);
+        elem.setKey(KI_CUE_ID_HABER);
+
+        var elem = w_columns.add(null);
+        //'Cuenta Destino
+        elem.setName(Cairo.Language.getText(2191, ""));
+        elem.setType(Dialogs.PropertyType.select);
+        elem.setSelectTable(Cairo.Tables.CUENTA);
+
+        elem.setSelectFilter(mPublic.self.getHelpFilterCheques());
+
+        elem.setWidth(1800);
+        elem.setKey(KI_CUE_ID_DEBE);
+
+        var elem = w_columns.add(null);
+        //'Mon
+        elem.setName(Cairo.Language.getText(2063, ""));
+        elem.setType(Dialogs.PropertyType.select);
+        elem.setSelectTable(Cairo.Tables.MONEDA);
+        elem.setWidth(520);
+        elem.setKey(mPublic.kICHT_MON_ID);
+        elem.setEnabled(false);
+
+        var elem = w_columns.add(null);
+        //'Origen
+        elem.setName(Cairo.Language.getText(1901, ""));
+        elem.setType(Dialogs.PropertyType.numeric);
+        elem.setFormat(m_generalConfig.getFormatDecImporte());
+        elem.setSubType(Dialogs.PropertySubType.money);
+        elem.setWidth(920);
+        elem.setKey(mPublic.kICHT_IMPORTEORIGEN);
+
+        var elem = w_columns.add(null);
+        //'Importe
+        elem.setName(Cairo.Language.getText(1228, ""));
+        elem.setType(Dialogs.PropertyType.numeric);
+        elem.setFormat(m_generalConfig.getFormatDecImporte());
+        elem.setSubType(Dialogs.PropertySubType.money);
+        elem.setWidth(920);
+        elem.setKey(mPublic.kICHT_IMPORTE);
+
+        var elem = w_columns.add(null);
+        //'Banco
+        elem.setName(Cairo.Language.getText(1122, ""));
+        elem.setType(Dialogs.PropertyType.select);
+        elem.setSelectTable(Cairo.Tables.BANCO);
+        elem.setWidth(2000);
+        elem.setKey(mPublic.kICHT_BCO_ID);
+
+        var elem = w_columns.add(null, C_CHEQUET);
+        //'Nr. Cheque
+        elem.setName(Cairo.Language.getText(2059, ""));
+        elem.setType(Dialogs.PropertyType.text);
+        elem.setWidth(1000);
+        elem.setKey(mPublic.kICHT_CHEQUE);
+
+        var elem = w_columns.add(null);
+        //'Cheque
+        elem.setName(Cairo.Language.getText(2058, ""));
+        elem.setType(Dialogs.PropertyType.text);
+        elem.setWidth(1000);
+        elem.setKey(mPublic.kICHT_CHEQ_ID);
+        elem.setEnabled(false);
+
+        var elem = w_columns.add(null);
+        //'Depositar el
+        elem.setName(Cairo.Language.getText(2065, ""));
+        elem.setType(Dialogs.PropertyType.date);
+        elem.setDefaultValue(new cABMGridRowValue());
+        elem.getDefaultValue().setValue(Date);
+        elem.setWidth(970);
+        elem.setKey(mPublic.kICHT_FECHACOBRO);
+
+        var elem = w_columns.add(null);
+        //'Vto.
+        elem.setName(Cairo.Language.getText(1634, ""));
+        elem.setType(Dialogs.PropertyType.date);
+        elem.setWidth(970);
+        elem.setDefaultValue(new cABMGridRowValue());
+        elem.getDefaultValue().setValue(DateAdd("m", 1, Date));
+        elem.setKey(mPublic.kICHT_FECHAVTO);
+
+        var elem = w_columns.add(null);
+        //'Clering
+        elem.setName(Cairo.Language.getText(1083, ""));
+        elem.setType(Dialogs.PropertyType.select);
+        elem.setSelectTable(Cairo.Tables.CLEARING);
+        elem.setWidth(800);
+        elem.setKey(mPublic.kICHT_CLE_ID);
+
+        var elem = w_columns.add(null);
+        elem.setName(Cairo.Constants.DESCRIPTION_LABEL);
+        elem.setType(Dialogs.PropertyType.text);
+        elem.setSubType(Dialogs.PropertySubType.textButtonEx);
+        elem.setWidth(1600);
+        elem.setKey(mPublic.kICHT_DESCRIP);
+
+        var elem = w_columns.add(null);
+        //'Centro de Costo
+        elem.setName(Cairo.Language.getText(1057, ""));
+        elem.setType(Dialogs.PropertyType.select);
+        elem.setSelectTable(Cairo.Tables.CENTROCOSTO);
+        elem.setWidth(1800);
+        elem.setKey(KI_CCOS_ID);
+
+        var w_rows = w_grid.getRows();
+
+        for(var _i = 0; _i < m_data.iCheques.length; _i += 1) {
+
+          var elem = w_rows.add(null, rs(mTesoreriaConstantes.MFI_ID).Value);
+
+          var elem = elem.add(null);
+          elem.Value = Cairo.Database.valField(m_data.iCheques[_i], mTesoreriaConstantes.MFI_ID);
+          elem.setKey(mPublic.kICHT_MFI_ID);
+
+          var elem = elem.add(null);
+          elem.Value = Cairo.Database.valField(m_data.iCheques[_i], "Haber");
+          elem.Id = Cairo.Database.valField(m_data.iCheques[_i], mTesoreriaConstantes.CUE_ID_HABER);
+          elem.setKey(KI_CUE_ID_HABER);
+
+          var elem = elem.add(null);
+          elem.Value = Cairo.Database.valField(m_data.iCheques[_i], "Debe");
+          elem.Id = Cairo.Database.valField(m_data.iCheques[_i], mTesoreriaConstantes.CUE_ID_DEBE);
+          elem.setKey(KI_CUE_ID_DEBE);
+
+          var elem = elem.add(null);
+          elem.Value = Cairo.Database.valField(m_data.iCheques[_i], mTesoreriaConstantes.MON_NAME);
+          elem.Id = Cairo.Database.valField(m_data.iCheques[_i], mTesoreriaConstantes.MON_ID);
+          elem.setKey(mPublic.kICHT_MON_ID);
+
+          var elem = elem.add(null);
+          elem.Value = Cairo.Database.valField(m_data.iCheques[_i], mTesoreriaConstantes.MFI_IMPORTE_ORIGEN);
+          elem.setKey(mPublic.kICHT_IMPORTEORIGEN);
+
+          var elem = elem.add(null);
+          elem.Value = Cairo.Database.valField(m_data.iCheques[_i], mTesoreriaConstantes.MFI_IMPORTE);
+          elem.setKey(mPublic.kICHT_IMPORTE);
+
+          var elem = elem.add(null);
+          elem.Value = Cairo.Database.valField(m_data.iCheques[_i], mTesoreriaConstantes.BCO_NAME);
+          elem.Id = Cairo.Database.valField(m_data.iCheques[_i], mTesoreriaConstantes.BCO_ID);
+          elem.setKey(mPublic.kICHT_BCO_ID);
+
+          var elem = elem.add(null);
+          elem.Value = Cairo.Database.valField(m_data.iCheques[_i], mTesoreriaConstantes.CHEQ_NUMERO_DOC);
+          elem.setKey(mPublic.kICHT_CHEQUE);
+
+          var elem = elem.add(null);
+          elem.Value = Cairo.Database.valField(m_data.iCheques[_i], mTesoreriaConstantes.CHEQ_NUMERO);
+          elem.Id = Cairo.Database.valField(m_data.iCheques[_i], mTesoreriaConstantes.CHEQ_ID);
+          elem.setKey(mPublic.kICHT_CHEQ_ID);
+
+          var elem = elem.add(null);
+          elem.Value = Cairo.Database.valField(m_data.iCheques[_i], mTesoreriaConstantes.CHEQ_FECHA_COBRO);
+          elem.setKey(KICH_FECHACOBRO);
+
+          var elem = elem.add(null);
+          elem.Value = Cairo.Database.valField(m_data.iCheques[_i], mTesoreriaConstantes.CHEQ_FECHA_VTO);
+          elem.setKey(KICH_FECHAVTO);
+
+          var elem = elem.add(null);
+          elem.Value = Cairo.Database.valField(m_data.iCheques[_i], mTesoreriaConstantes.CLE_NAME);
+          elem.Id = Cairo.Database.valField(m_data.iCheques[_i], mTesoreriaConstantes.CLE_ID);
+          elem.setKey(KICH_CLE_ID);
+
+          var elem = elem.add(null);
+          elem.Value = Cairo.Database.valField(m_data.iCheques[_i], mTesoreriaConstantes.MFI_DESCRIP);
+          elem.setKey(KICH_DESCRIP);
+
+          var elem = elem.add(null);
+          elem.Value = Cairo.Database.valField(m_data.iCheques[_i], mTesoreriaConstantes.CCOS_NAME);
+          elem.Id = Cairo.Database.valField(m_data.iCheques[_i], mTesoreriaConstantes.CCOS_ID);
+          elem.setKey(KI_CCOS_ID);
+
+        }
+
+        return true;
+      };
+
+      var setGridTCheques = function(property) {
+
+        var w_grid = property.getGrid();
+
+        w_grid.getColumns().clear();
+        w_grid.getRows().clear();
+
+        var w_columns = w_grid.getColumns();
+
+        var elem = w_columns.add(null);
+        elem.setVisible(false);
+        elem.setKey(mPublic.kICHT_MFI_ID);
+
+        var elem = w_columns.add(null);
+        //'Cuenta Origen
+        elem.setName(Cairo.Language.getText(2190, ""));
+        elem.setType(Dialogs.PropertyType.select);
+        elem.setSelectTable(Cairo.Tables.CUENTA);
+
+        //.HelpFilter = cscCuecId & "=" & csECuecDocEnCartera
+        elem.setSelectFilter(mPublic.self.getHelpFilterChequesT());
+
+        elem.setWidth(2200);
+        elem.setKey(KI_CUE_ID_HABER);
+
+        var elem = w_columns.add(null);
+        //'Cuenta Destino
+        elem.setName(Cairo.Language.getText(2191, ""));
+        elem.setType(Dialogs.PropertyType.select);
+        elem.setSelectTable(Cairo.Tables.CUENTA);
+        elem.setWidth(1800);
+        elem.setKey(KI_CUE_ID_DEBE);
+
+        var elem = w_columns.add(null, C_CHEQUET);
+        //'Nr. Cheque
+        elem.setName(Cairo.Language.getText(2059, ""));
+        elem.setType(Dialogs.PropertyType.select);
+        elem.setTable(csETablesTesoreria.cSCHEQUE);
+        elem.setSelectFilter("1 = 2");
+        elem.setSubType(Dialogs.PropertySubType.Integer);
+        elem.setWidth(1000);
+        elem.setKey(mPublic.kICHT_CHEQUE);
+
+        var elem = w_columns.add(null);
+        //'Cliente
+        elem.setName(Cairo.Language.getText(1150, ""));
+        elem.setType(Dialogs.PropertyType.text);
+        elem.setWidth(2000);
+        elem.setKey(mPublic.kICHT_CLI_ID);
+
+        var elem = w_columns.add(null);
+        //'Banco
+        elem.setName(Cairo.Language.getText(1122, ""));
+        elem.setType(Dialogs.PropertyType.text);
+        elem.setWidth(2000);
+        elem.setKey(mPublic.kICHT_BCO_ID);
+
+        var elem = w_columns.add(null);
+        //'Mon
+        elem.setName(Cairo.Language.getText(2063, ""));
+        elem.setType(Dialogs.PropertyType.select);
+        elem.setSelectTable(Cairo.Tables.MONEDA);
+        elem.setWidth(520);
+        elem.setKey(mPublic.kICHT_MON_ID);
+        elem.setEnabled(false);
+
+        var elem = w_columns.add(null);
+        //'Origen
+        elem.setName(Cairo.Language.getText(1901, ""));
+        elem.setType(Dialogs.PropertyType.numeric);
+        elem.setFormat(m_generalConfig.getFormatDecImporte());
+        elem.setSubType(Dialogs.PropertySubType.money);
+        elem.setWidth(920);
+        elem.setKey(mPublic.kICHT_IMPORTEORIGEN);
+        elem.setEnabled(false);
+
+        var elem = w_columns.add(null);
+        //'Importe
+        elem.setName(Cairo.Language.getText(1228, ""));
+        elem.setType(Dialogs.PropertyType.numeric);
+        elem.setFormat(m_generalConfig.getFormatDecImporte());
+        elem.setSubType(Dialogs.PropertySubType.money);
+        elem.setWidth(920);
+        elem.setKey(mPublic.kICHT_IMPORTE);
+        elem.setEnabled(false);
+
+        var elem = w_columns.add(null);
+        //'Depositar el
+        elem.setName(Cairo.Language.getText(2065, ""));
+        elem.setType(Dialogs.PropertyType.date);
+        elem.setWidth(970);
+        elem.setKey(mPublic.kICHT_FECHACOBRO);
+        elem.setEnabled(false);
+
+        var elem = w_columns.add(null);
+        //'Vto.
+        elem.setName(Cairo.Language.getText(1634, ""));
+        elem.setType(Dialogs.PropertyType.date);
+        elem.setWidth(970);
+        elem.setKey(mPublic.kICHT_FECHAVTO);
+        elem.setEnabled(false);
+
+        var elem = w_columns.add(null);
+        //'Clering
+        elem.setName(Cairo.Language.getText(1083, ""));
+        elem.setType(Dialogs.PropertyType.select);
+        elem.setSelectTable(Cairo.Tables.CLEARING);
+        elem.setWidth(800);
+        elem.setKey(mPublic.kICHT_CLE_ID);
+        elem.setEnabled(false);
+
+        var elem = w_columns.add(null);
+        elem.setName(Cairo.Constants.DESCRIPTION_LABEL);
+        elem.setType(Dialogs.PropertyType.text);
+        elem.setSubType(Dialogs.PropertySubType.textButtonEx);
+        elem.setWidth(1600);
+        elem.setKey(mPublic.kICHT_DESCRIP);
+
+        var elem = w_columns.add(null);
+        //'Centro de Costo
+        elem.setName(Cairo.Language.getText(1057, ""));
+        elem.setType(Dialogs.PropertyType.select);
+        elem.setSelectTable(Cairo.Tables.CENTROCOSTO);
+        elem.setWidth(1800);
+        elem.setKey(KI_CCOS_ID);
+
+        var w_rows = w_grid.getRows();
+
+        for(var _i = 0; _i < m_data.tCheques.length; _i += 1) {
+
+          var elem = w_rows.add(null, rs(mTesoreriaConstantes.MFI_ID).Value);
+
+          var elem = elem.add(null);
+          elem.Value = Cairo.Database.valField(m_data.tCheques[_i], mTesoreriaConstantes.MFI_ID);
+          elem.setKey(mPublic.kICHT_MFI_ID);
+
+          var elem = elem.add(null);
+          elem.Value = Cairo.Database.valField(m_data.tCheques[_i], "Haber");
+          elem.Id = Cairo.Database.valField(m_data.tCheques[_i], mTesoreriaConstantes.CUE_ID_HABER);
+          elem.setKey(KI_CUE_ID_HABER);
+
+          var elem = elem.add(null);
+          elem.Value = Cairo.Database.valField(m_data.tCheques[_i], "Debe");
+          elem.Id = Cairo.Database.valField(m_data.tCheques[_i], mTesoreriaConstantes.CUE_ID_DEBE);
+          elem.setKey(KI_CUE_ID_DEBE);
+
+          var elem = elem.add(null);
+          elem.Value = Cairo.Database.valField(m_data.tCheques[_i], mTesoreriaConstantes.CHEQ_NUMERO_DOC);
+          elem.Id = Cairo.Database.valField(m_data.tCheques[_i], mTesoreriaConstantes.CHEQ_ID);
+          elem.setKey(mPublic.kICHT_CHEQUE);
+
+          var elem = elem.add(null);
+          elem.Value = Cairo.Database.valField(m_data.tCheques[_i], mTesoreriaConstantes.CLI_NAME);
+          elem.setKey(mPublic.kICHT_CLI_ID);
+
+          var elem = elem.add(null);
+          elem.Value = Cairo.Database.valField(m_data.tCheques[_i], mTesoreriaConstantes.BCO_NAME);
+          elem.setKey(mPublic.kICHT_BCO_ID);
+
+          var elem = elem.add(null);
+          elem.Value = Cairo.Database.valField(m_data.tCheques[_i], mTesoreriaConstantes.MON_NAME);
+          elem.Id = Cairo.Database.valField(m_data.tCheques[_i], mTesoreriaConstantes.MON_ID);
+          elem.setKey(mPublic.kICHT_MON_ID);
+
+          var elem = elem.add(null);
+          elem.Value = Cairo.Database.valField(m_data.tCheques[_i], mTesoreriaConstantes.MFI_IMPORTE_ORIGEN);
+          elem.setKey(mPublic.kICHT_IMPORTEORIGEN);
+
+          var elem = elem.add(null);
+          elem.Value = Cairo.Database.valField(m_data.tCheques[_i], mTesoreriaConstantes.MFI_IMPORTE);
+          elem.setKey(mPublic.kICHT_IMPORTE);
+
+          var elem = elem.add(null);
+          elem.Value = Cairo.Database.valField(m_data.tCheques[_i], mTesoreriaConstantes.CHEQ_FECHA_COBRO);
+          elem.setKey(KICH_FECHACOBRO);
+
+          var elem = elem.add(null);
+          elem.Value = Cairo.Database.valField(m_data.tCheques[_i], mTesoreriaConstantes.CHEQ_FECHA_VTO);
+          elem.setKey(KICH_FECHAVTO);
+
+          var elem = elem.add(null);
+          elem.Value = Cairo.Database.valField(m_data.tCheques[_i], mTesoreriaConstantes.CLE_NAME);
+          elem.setKey(KICH_CLE_ID);
+
+          var elem = elem.add(null);
+          elem.Value = Cairo.Database.valField(m_data.tCheques[_i], mTesoreriaConstantes.MFI_DESCRIP);
+          elem.setKey(KICH_DESCRIP);
+
+          var elem = elem.add(null);
+          elem.Value = Cairo.Database.valField(m_data.tCheques[_i], mTesoreriaConstantes.CCOS_NAME);
+          elem.Id = Cairo.Database.valField(m_data.tCheques[_i], mTesoreriaConstantes.CCOS_ID);
+          elem.setKey(KI_CCOS_ID);
+
+        }
+
+        return true;
+      };
+
+      var setGridCheques = function(property) {
+
+        var w_grid = property.getGrid();
+
+        w_grid.getColumns().clear();
+        w_grid.getRows().clear();
+
+        var w_columns = w_grid.getColumns();
+
+        var elem = w_columns.add(null);
+        elem.setVisible(false);
+        elem.setKey(KICH_MFI_ID);
+
+        var elem = w_columns.add(null);
+        //'Cuenta Origen
+        elem.setName(Cairo.Language.getText(2190, ""));
+        elem.setType(Dialogs.PropertyType.select);
+        elem.setSelectTable(Cairo.Tables.CUENTA);
+
+        //.HelpFilter = cscCuecId & "=" & csECuecBancos
+        elem.setSelectFilter(mPublic.self.getHelpFilterChequesP());
+
+        elem.setWidth(2200);
+        elem.setKey(KI_CUE_ID_HABER);
+
+        var elem = w_columns.add(null);
+        //'Cuenta Destino
+        elem.setName(Cairo.Language.getText(2191, ""));
+        elem.setType(Dialogs.PropertyType.select);
+        elem.setSelectTable(Cairo.Tables.CUENTA);
+        elem.setWidth(1800);
+        elem.setKey(KI_CUE_ID_DEBE);
+
+        var elem = w_columns.add(null);
+        //'Mon
+        elem.setName(Cairo.Language.getText(2063, ""));
+        elem.setType(Dialogs.PropertyType.select);
+        elem.setSelectTable(Cairo.Tables.MONEDA);
+        elem.setWidth(520);
+        elem.setKey(KICH_MON_ID);
+        elem.setEnabled(false);
+
+        var elem = w_columns.add(null);
+        //'Origen
+        elem.setName(Cairo.Language.getText(1901, ""));
+        elem.setType(Dialogs.PropertyType.numeric);
+        elem.setFormat(m_generalConfig.getFormatDecImporte());
+        elem.setSubType(Dialogs.PropertySubType.money);
+        elem.setWidth(920);
+        elem.setKey(KICH_IMPORTEORIGEN);
+
+        var elem = w_columns.add(null);
+        //'Importe
+        elem.setName(Cairo.Language.getText(1228, ""));
+        elem.setType(Dialogs.PropertyType.numeric);
+        elem.setFormat(m_generalConfig.getFormatDecImporte());
+        elem.setSubType(Dialogs.PropertySubType.money);
+        elem.setWidth(920);
+        elem.setKey(KICH_IMPORTE);
+
+        var elem = w_columns.add(null, C_CHEQUERA);
+        //'Chequera
+        elem.setName(Cairo.Language.getText(2064, ""));
+        elem.setType(Dialogs.PropertyType.select);
+        elem.setSelectTable(Cairo.Tables.CHEQUERA);
+        elem.setWidth(1000);
+        elem.setKey(KICH_CHEQUERA);
+
+        var elem = w_columns.add(null);
+        //'Nr. Cheque
+        elem.setName(Cairo.Language.getText(2059, ""));
+        elem.setType(Dialogs.PropertyType.text);
+        elem.setWidth(1000);
+        elem.setKey(KICH_CHEQUE);
+
+        var elem = w_columns.add(null);
+        //'Cheque
+        elem.setName(Cairo.Language.getText(2058, ""));
+        elem.setType(Dialogs.PropertyType.text);
+        elem.setWidth(1000);
+        elem.setEnabled(false);
+        elem.setKey(KICH_CHEQ_ID);
+
+        var elem = w_columns.add(null);
+        //'Depositar el
+        elem.setName(Cairo.Language.getText(2065, ""));
+        elem.setType(Dialogs.PropertyType.date);
+        elem.setDefaultValue(new cABMGridRowValue());
+        elem.getDefaultValue().setValue(Date);
+        elem.setWidth(970);
+        elem.setKey(KICH_FECHACOBRO);
+
+        var elem = w_columns.add(null);
+        //'Vto.
+        elem.setName(Cairo.Language.getText(1634, ""));
+        elem.setType(Dialogs.PropertyType.date);
+        elem.setWidth(970);
+        elem.setDefaultValue(new cABMGridRowValue());
+        elem.getDefaultValue().setValue(DateAdd("m", 1, Date));
+        elem.setKey(KICH_FECHAVTO);
+
+        var elem = w_columns.add(null);
+        //'Clering
+        elem.setName(Cairo.Language.getText(1083, ""));
+        elem.setType(Dialogs.PropertyType.select);
+        elem.setSelectTable(Cairo.Tables.CLEARING);
+        elem.setWidth(800);
+        elem.setKey(KICH_CLE_ID);
+
+        var elem = w_columns.add(null);
+        elem.setName(Cairo.Constants.DESCRIPTION_LABEL);
+        elem.setType(Dialogs.PropertyType.text);
+        elem.setSubType(Dialogs.PropertySubType.textButtonEx);
+        elem.setWidth(1600);
+        elem.setKey(KICH_DESCRIP);
+
+        var elem = w_columns.add(null);
+        //'Centro de Costo
+        elem.setName(Cairo.Language.getText(1057, ""));
+        elem.setType(Dialogs.PropertyType.select);
+        elem.setSelectTable(Cairo.Tables.CENTROCOSTO);
+        elem.setWidth(1800);
+        elem.setKey(KI_CCOS_ID);
+
+        var w_rows = w_grid.getRows();
+
+        for(var _i = 0; _i < m_data.cheques.length; _i += 1) {
+
+          var elem = w_rows.add(null, rs(mTesoreriaConstantes.MFI_ID).Value);
+
+          var elem = elem.add(null);
+          elem.Value = Cairo.Database.valField(m_data.cheques[_i], mTesoreriaConstantes.MFI_ID);
+          elem.setKey(KICH_MFI_ID);
+
+          var elem = elem.add(null);
+          elem.Value = Cairo.Database.valField(m_data.cheques[_i], "Haber");
+          elem.Id = Cairo.Database.valField(m_data.cheques[_i], mTesoreriaConstantes.CUE_ID_HABER);
+          elem.setKey(KI_CUE_ID_HABER);
+
+          var elem = elem.add(null);
+          elem.Value = Cairo.Database.valField(m_data.cheques[_i], "Debe");
+          elem.Id = Cairo.Database.valField(m_data.cheques[_i], mTesoreriaConstantes.CUE_ID_DEBE);
+          elem.setKey(KI_CUE_ID_DEBE);
+
+          var elem = elem.add(null);
+          elem.Value = Cairo.Database.valField(m_data.cheques[_i], mTesoreriaConstantes.MON_NAME);
+          elem.Id = Cairo.Database.valField(m_data.cheques[_i], mTesoreriaConstantes.MON_ID);
+          elem.setKey(KICH_MON_ID);
+
+          var elem = elem.add(null);
+          elem.Value = Cairo.Database.valField(m_data.cheques[_i], mTesoreriaConstantes.MFI_IMPORTE_ORIGEN);
+          elem.setKey(KICH_IMPORTEORIGEN);
+
+          var elem = elem.add(null);
+          elem.Value = Cairo.Database.valField(m_data.cheques[_i], mTesoreriaConstantes.MFI_IMPORTE);
+          elem.setKey(KICH_IMPORTE);
+
+          var elem = elem.add(null);
+          elem.Value = Cairo.Database.valField(m_data.cheques[_i], mTesoreriaConstantes.CHQ_CODE);
+          elem.Id = Cairo.Database.valField(m_data.cheques[_i], mTesoreriaConstantes.CHQ_ID);
+          elem.setKey(KICH_CHEQUERA);
+
+          var elem = elem.add(null);
+          elem.Value = Cairo.Database.valField(m_data.cheques[_i], mTesoreriaConstantes.CHEQ_NUMERO_DOC);
+          elem.setKey(KICH_CHEQUE);
+
+          var elem = elem.add(null);
+          elem.Value = Cairo.Database.valField(m_data.cheques[_i], mTesoreriaConstantes.CHEQ_NUMERO);
+          elem.Id = Cairo.Database.valField(m_data.cheques[_i], mTesoreriaConstantes.CHEQ_ID);
+          elem.setKey(KICH_CHEQ_ID);
+
+          var elem = elem.add(null);
+          elem.Value = Cairo.Database.valField(m_data.cheques[_i], mTesoreriaConstantes.CHEQ_FECHA_COBRO);
+          elem.setKey(KICH_FECHACOBRO);
+
+          var elem = elem.add(null);
+          elem.Value = Cairo.Database.valField(m_data.cheques[_i], mTesoreriaConstantes.CHEQ_FECHA_VTO);
+          elem.setKey(KICH_FECHAVTO);
+
+          var elem = elem.add(null);
+          elem.Value = Cairo.Database.valField(m_data.cheques[_i], mTesoreriaConstantes.CLE_NAME);
+          elem.Id = Cairo.Database.valField(m_data.cheques[_i], mTesoreriaConstantes.CLE_ID);
+          elem.setKey(KICH_CLE_ID);
+
+          var elem = elem.add(null);
+          elem.Value = Cairo.Database.valField(m_data.cheques[_i], mTesoreriaConstantes.MFI_DESCRIP);
+          elem.setKey(KICH_DESCRIP);
+
+          var elem = elem.add(null);
+          elem.Value = Cairo.Database.valField(m_data.cheques[_i], mTesoreriaConstantes.CCOS_NAME);
+          elem.Id = Cairo.Database.valField(m_data.cheques[_i], mTesoreriaConstantes.CCOS_ID);
+          elem.setKey(KI_CCOS_ID);
+
+        }
+
+        return true;
+      };
+
+      var pColAUpdateICheque = function(property,  lRow,  lCol) { // TODO: Use of ByRef founded Private Function pColAUpdateICheque(ByRef IProperty As cIABMProperty, ByVal lRow As Long, ByVal lCol As Long) As Boolean
+        var _rtn = null;
+        var row = null;
+        var value = null;
+
+        var w_grid = property.getGrid();
+
+        switch (w_grid.getColumns(lCol).Key) {
+
+          case mPublic.kICHT_IMPORTEORIGEN:
+            row = w_grid.getRows(lRow);
+            var w_pCell = Dialogs.cell(row, mPublic.kICHT_MON_ID);
+            if(w_pCell.getID() !== m_defaultCurrency || w_pCell.getID() === 0) {
+              Dialogs.cell(row, mPublic.kICHT_IMPORTE).getValue() === Cairo.Util.val(Dialogs.cell(row, mPublic.kICHT_IMPORTEORIGEN).getValue()) * Cairo.Util.val(pGetCotizacion().getValue());
+            }
+            else {
+              Dialogs.cell(row, mPublic.kICHT_IMPORTEORIGEN).getValue() === 0;
+            }
+
+            break;
+
+          case KI_CUE_ID_DEBE:
+            var monId = null;
+            var cueId = null;
+            var moneda = null;
+
+            row = w_grid.getRows(lRow);
+
+            cueId = Dialogs.cell(row, KI_CUE_ID_DEBE).getID();
+            GetMonedaFromCuenta(monId, moneda, cueId);
+
+            var w_pCell = Dialogs.cell(row, mPublic.kICHT_MON_ID);
+            w_pCell.setValue(moneda);
+            w_pCell.setID(monId);
+
+            if(monId === m_defaultCurrency || monId === 0) {
+              Dialogs.cell(row, mPublic.kICHT_IMPORTEORIGEN).getValue() === 0;
+            }
+
+            cABMUtil.pCol(property.getGrid().getColumns(), mPublic.kICHT_CHEQUE).getHelpFilter() === mPublic.self.getChequeFileter(cueId);
+
+                    #If PREPROC_SFS Then;
+            var abmObj = null;
+                    #Else;
+            var abmObj = null;
+                    #End If;
+            abmObj = m_items;
+            abmObj.RefreshColumnProperties(property, C_CHEQUET);
+
+            _rtn = true;
+            return _rtn;
+
+            break;
+
+          case mPublic.kICHT_IMPORTE:
+
+            pShowTotales();
+
+            _rtn = true;
+            return _rtn;
+
+            break;
+
+          default:
+            _rtn = true;
+            return _rtn;
+            break;
+        }
+
+        _rtn = true;
+
+        return _rtn;
+      };
+
+      var pColAUpdateTCheque = function(property,  lRow,  lCol) { // TODO: Use of ByRef founded Private Function pColAUpdateTCheque(ByRef IProperty As cIABMProperty, ByVal lRow As Long, ByVal lCol As Long) As Boolean
+        var _rtn = null;
+        var row = null;
+        var value = null;
+
+        var w_grid = property.getGrid();
+
+        switch (w_grid.getColumns(lCol).Key) {
+
+          case mPublic.kICHT_IMPORTEORIGEN:
+            row = w_grid.getRows(lRow);
+            var w_pCell = Dialogs.cell(row, mPublic.kICHT_MON_ID);
+            if(w_pCell.getID() !== m_defaultCurrency || w_pCell.getID() === 0) {
+              Dialogs.cell(row, mPublic.kICHT_IMPORTE).getValue() === Cairo.Util.val(Dialogs.cell(row, mPublic.kICHT_IMPORTEORIGEN).getValue()) * Cairo.Util.val(pGetCotizacion().getValue());
+            }
+            else {
+              Dialogs.cell(row, mPublic.kICHT_IMPORTEORIGEN).getValue() === 0;
+            }
+
+            break;
+
+          case KI_CUE_ID_HABER:
+            var monId = null;
+            var cueId = null;
+            var moneda = null;
+
+            row = w_grid.getRows(lRow);
+
+            cueId = Dialogs.cell(row, KI_CUE_ID_HABER).getID();
+            GetMonedaFromCuenta(monId, moneda, cueId);
+
+            var w_pCell = Dialogs.cell(row, mPublic.kICHT_MON_ID);
+            w_pCell.setValue(moneda);
+            w_pCell.setID(monId);
+
+            if(monId === m_defaultCurrency || monId === 0) {
+              Dialogs.cell(row, mPublic.kICHT_IMPORTEORIGEN).getValue() === 0;
+            }
+
+            cABMUtil.pCol(property.getGrid().getColumns(), mPublic.kICHT_CHEQUE).getHelpFilter() === mPublic.self.getChequeFileter(cueId);
+
+                    #If PREPROC_SFS Then;
+            var abmObj = null;
+                    #Else;
+            var abmObj = null;
+                    #End If;
+            abmObj = m_items;
+            abmObj.RefreshColumnProperties(property, C_CHEQUET);
+
+            _rtn = true;
+            return _rtn;
+
+            break;
+
+          case mPublic.kICHT_CHEQUE:
+            row = w_grid.getRows(lRow);
+            mPublic.self.setChequeData(row, Dialogs.cell(row, mPublic.kICHT_CHEQUE).getID());
+
+            pShowTotales();
+
+            _rtn = true;
+            return _rtn;
+
+            break;
+
+          default:
+            _rtn = true;
+            return _rtn;
+            break;
+        }
+
+        _rtn = true;
+
+        return _rtn;
+      };
+
+      var pColAUpdateCheque = function(property,  lRow,  lCol) { // TODO: Use of ByRef founded Private Function pColAUpdateCheque(ByRef IProperty As cIABMProperty, ByVal lRow As Long, ByVal lCol As Long) As Boolean
+        var _rtn = null;
+        var row = null;
+        var value = null;
+
+        var w_grid = property.getGrid();
+        switch (w_grid.getColumns(lCol).Key) {
+          case KICH_IMPORTEORIGEN:
+            row = w_grid.getRows(lRow);
+            var w_pCell = Dialogs.cell(row, KICH_MON_ID);
+            if(w_pCell.getID() !== m_defaultCurrency || w_pCell.getID() === 0) {
+              Dialogs.cell(row, KICH_IMPORTE).getValue() === Cairo.Util.val(Dialogs.cell(row, KICH_IMPORTEORIGEN).getValue()) * Cairo.Util.val(pGetCotizacion().getValue());
+            }
+            else {
+              Dialogs.cell(row, KICH_IMPORTEORIGEN).getValue() === 0;
+            }
+            break;
+
+          case KICH_IMPORTE:
+
+            break;
+
+          case KI_CUE_ID_HABER:
+            var monId = null;
+            var cueId = null;
+            var moneda = null;
+
+            row = w_grid.getRows(lRow);
+
+            cueId = Dialogs.cell(row, KI_CUE_ID_HABER).getID();
+            GetMonedaFromCuenta(monId, moneda, cueId);
+
+            var w_pCell = Dialogs.cell(row, KICH_MON_ID);
+            w_pCell.setValue(moneda);
+            w_pCell.setID(monId);
+
+            if(monId === m_defaultCurrency || monId === 0) {
+              Dialogs.cell(row, KICH_IMPORTEORIGEN).getValue() === 0;
+            }
+
+            cABMUtil.pCol(property.getGrid().getColumns(), KICH_CHEQUERA).getHelpFilter() === mTesoreriaConstantes.CUE_ID+ "="+ cueId.toString();
+
+                    #If PREPROC_SFS Then;
+            var abmObj = null;
+                    #Else;
+            var abmObj = null;
+                    #End If;
+            abmObj = m_items;
+            abmObj.RefreshColumnProperties(property, C_CHEQUERA);
+
+            _rtn = true;
+            return _rtn;
+
+            break;
+
+          case KICH_CHEQUERA:
+
+            row = w_grid.getRows(lRow);
+            var w_pCell = Dialogs.cell(row, KICH_CHEQUERA);
+            if(w_pCell.getID() !== NO_ID) {
+              Dialogs.cell(row, KICH_CHEQUE).getValue() === GetChequeNumber(w_pCell.getID());
+            }
+
+            break;
+
+          default:
+            _rtn = true;
+            return _rtn;
+            break;
+        }
+
+        pShowTotales();
+        _rtn = true;
+
+        return _rtn;
+      };
+
+      var pValidateRowICheques = function(row,  rowIndex) { // TODO: Use of ByRef founded Private Function pValidateRowICheques(ByRef Row As CSInterfacesABM.cIABMGridRow, ByVal RowIndex As Long) As Boolean
+
+        var cell = null;
+        var bOrigen = null;
+        var monId = null;
+
+        var strRow = " (Row: " + rowIndex.toString() + ")";
+
+        var _count = row.size();
+        for (var _i = 0; _i < _count; _i++) {
+          cell = row.item(_i);
+          switch (cell.getKey()) {
+
+            case KI_CUE_ID_HABER:
+              if(ValEmpty(cell.getId(), Cairo.Constants.Types.id)) {
+                //'Debe indicar una cuenta origen (1)
+                MsgInfo(Cairo.Language.getText(2186, "", strRow));
+              }
+
+              break;
+
+            case KI_CUE_ID_DEBE:
+              if(ValEmpty(cell.getId(), Cairo.Constants.Types.id)) {
+                //'Debe indicar una cuenta destino (1)
+                MsgInfo(Cairo.Language.getText(2187, "", strRow));
+              }
+
+              break;
+
+            case mPublic.kICHT_BCO_ID:
+              if(ValEmpty(cell.getId(), Cairo.Constants.Types.id)) {
+                //'Debe indicar un banco (1)
+                MsgInfo(Cairo.Language.getText(2094, "", strRow));
+              }
+
+              break;
+
+            case KICH_MON_ID:
+              if(ValEmpty(cell.getId(), Cairo.Constants.Types.id)) {
+                //'Debe indicar una moneda (1)
+                MsgInfo(Cairo.Language.getText(2114, "", strRow));
+              }
+              monId = cell.getId();
+
+              break;
+
+            case KICH_CLE_ID:
+              if(ValEmpty(cell.getId(), Cairo.Constants.Types.id)) {
+                //'Debe indicar un clearing (1)
+                MsgInfo(Cairo.Language.getText(2115, "", strRow));
+              }
+
+              break;
+
+            case KICH_IMPORTEORIGEN:
+              bOrigen = !ValEmpty(Cairo.Util.val(cell.getValue()), Cairo.Constants.Types.double);
+
+              break;
+
+            case KICH_IMPORTE:
+              if(ValEmpty(Cairo.Util.val(cell.getValue()), Cairo.Constants.Types.double)) {
+                //'Debe indicar un importe (1)
+                MsgInfo(Cairo.Language.getText(1897, "", strRow));
+              }
+
+              break;
+
+            case KICH_CHEQUE:
+              if(ValEmpty(cell.getValue(), Cairo.Constants.Types.text)) {
+                //'Debe indicar una número de cheque (1)
+                MsgInfo(Cairo.Language.getText(2116, "", strRow));
+              }
+
+              break;
+
+            case KICH_FECHACOBRO:
+              if(ValEmpty(cell.getValue(), Cairo.Constants.Types.date)) {
+                //'Debe indicar una fecha para depositar (1)
+                MsgInfo(Cairo.Language.getText(2117, "", strRow));
+              }
+
+              break;
+
+            case KICH_FECHAVTO:
+              if(ValEmpty(cell.getValue(), Cairo.Constants.Types.date)) {
+                //'Debe indicar una fecha de vencimiento (1)
+                MsgInfo(Cairo.Language.getText(1384, "", strRow));
+              }
+
+              break;
+          }
+        }
+
+        return Cairo.Promises.resolvedPromise(true);
+      };
+
+      var pValidateRowTCheques = function(row,  rowIndex) { // TODO: Use of ByRef founded Private Function pValidateRowTCheques(ByRef Row As CSInterfacesABM.cIABMGridRow, ByVal RowIndex As Long) As Boolean
+
+        var cell = null;
+        var bOrigen = null;
+        var monId = null;
+
+        var strRow = " (Row: " + rowIndex.toString() + ")";
+
+        var _count = row.size();
+        for (var _i = 0; _i < _count; _i++) {
+          cell = row.item(_i);
+          switch (cell.getKey()) {
+
+            case KI_CUE_ID_HABER:
+              if(ValEmpty(cell.getId(), Cairo.Constants.Types.id)) {
+                //'Debe indicar una cuenta origen (1)
+                MsgInfo(Cairo.Language.getText(2186, "", strRow));
+              }
+
+              break;
+
+            case KI_CUE_ID_DEBE:
+              if(ValEmpty(cell.getId(), Cairo.Constants.Types.id)) {
+                //'Debe indicar una cuenta destino (1)
+                MsgInfo(Cairo.Language.getText(2187, "", strRow));
+              }
+
+              break;
+          }
+        }
+
+        return Cairo.Promises.resolvedPromise(true);
+      };
+
+      var pValidateRowCheques = function(row,  rowIndex) { // TODO: Use of ByRef founded Private Function pValidateRowCheques(ByRef Row As CSInterfacesABM.cIABMGridRow, ByVal RowIndex As Long) As Boolean
+
+        var cell = null;
+        var bOrigen = null;
+        var monId = null;
+
+        var strRow = " (Row: " + rowIndex.toString() + ")";
+
+        var _count = row.size();
+        for (var _i = 0; _i < _count; _i++) {
+          cell = row.item(_i);
+          switch (cell.getKey()) {
+
+            case KI_CUE_ID_HABER:
+              if(ValEmpty(cell.getId(), Cairo.Constants.Types.id)) {
+                //'Debe indicar una cuenta origen (1)
+                MsgInfo(Cairo.Language.getText(2186, "", strRow));
+              }
+              break;
+
+            case KI_CUE_ID_DEBE:
+              if(ValEmpty(cell.getId(), Cairo.Constants.Types.id)) {
+                //'Debe indicar una cuenta destino (1)
+                MsgInfo(Cairo.Language.getText(2187, "", strRow));
+              }
+
+              break;
+
+            case KICH_MON_ID:
+              if(ValEmpty(cell.getId(), Cairo.Constants.Types.id)) {
+                //'Debe indicar una moneda (1)
+                MsgInfo(Cairo.Language.getText(2114, "", strRow));
+              }
+              monId = cell.getId();
+
+              break;
+
+            case KICH_CLE_ID:
+              if(ValEmpty(cell.getId(), Cairo.Constants.Types.id)) {
+                //'Debe indicar un clearing (1)
+                MsgInfo(Cairo.Language.getText(2115, "", strRow));
+              }
+
+              break;
+
+            case KICH_IMPORTEORIGEN:
+              bOrigen = !ValEmpty(Cairo.Util.val(cell.getValue()), Cairo.Constants.Types.double);
+
+              break;
+
+            case KICH_IMPORTE:
+              if(ValEmpty(Cairo.Util.val(cell.getValue()), Cairo.Constants.Types.double)) {
+                //'Debe indicar un importe (1)
+                MsgInfo(Cairo.Language.getText(1897, "", strRow));
+              }
+
+              break;
+
+            case KICH_CHEQUERA:
+              if(ValEmpty(cell.getId(), Cairo.Constants.Types.id)) {
+                //'Debe indicar una Chequera (1)
+                MsgInfo(Cairo.Language.getText(2193, "", strRow));
+              }
+
+              break;
+
+            case KICH_CHEQUE:
+              if(ValEmpty(cell.getValue(), Cairo.Constants.Types.text)) {
+                //'Debe indicar una número de cheque (1)
+                MsgInfo(Cairo.Language.getText(2116, "", strRow));
+              }
+
+              break;
+
+            case KICH_FECHACOBRO:
+              if(ValEmpty(cell.getValue(), Cairo.Constants.Types.date)) {
+                //'Debe indicar una fecha para depositar (1)
+                MsgInfo(Cairo.Language.getText(2117, "", strRow));
+              }
+
+              break;
+
+            case KICH_FECHAVTO:
+              if(ValEmpty(cell.getValue(), Cairo.Constants.Types.date)) {
+                //'Debe indicar una fecha de vencimiento (1)
+                MsgInfo(Cairo.Language.getText(1384, "", strRow));
+              }
+              break;
+          }
+        }
+
+        if(!bOrigen && monId !== m_defaultCurrency) {
+          //'Debe indicar un importe para la moneda extranjera (1)
+          MsgInfo(Cairo.Language.getText(2118, "", strRow));
+        }
+
+        return Cairo.Promises.resolvedPromise(true);
+      };
+
+      var pIsEmptyRowICheques = function(row,  rowIndex) {
+
+        var cell = null;
+        var strRow = null;
+
+        strRow = " (Fila "+ rowIndex.toString()+ ")";
+
+        var bRowIsEmpty = true;
+
+        var _count = row.size();
+        for (var _i = 0; _i < _count; _i++) {
+          cell = row.item(_i);
+          switch (cell.getKey()) {
+            case KI_CUE_ID_HABER:
+            case mPublic.kICHT_MON_ID:
+            case mPublic.kICHT_CLE_ID:
+            case KI_CUE_ID_DEBE:
+            case mPublic.kICHT_BCO_ID:
+            case mPublic.kICHT_CLE_ID:
+
+              if(!ValEmpty(cell.getId(), Cairo.Constants.Types.id)) {
+                bRowIsEmpty = false;
+                break;
+              }
+
+              break;
+
+            case mPublic.kICHT_IMPORTE:
+            case mPublic.kICHT_IMPORTEORIGEN:
+              if(!ValEmpty(Cairo.Util.val(cell.getValue()), Cairo.Constants.Types.double)) {
+                var bRowIsEmpty = true;
+                break;
+              }
+
+              break;
+
+            case mPublic.kICHT_DESCRIP:
+            case mPublic.kICHT_CHEQUE:
+              if(!ValEmpty(cell.getValue(), Cairo.Constants.Types.text)) {
+                var bRowIsEmpty = true;
+                break;
+              }
+              break;
+          }
+        }
+
+        return bRowIsEmpty;
+      };
+
+      var pIsEmptyRowTCheques = function(row,  rowIndex) {
+
+        var cell = null;
+        var strRow = null;
+
+        strRow = " (Fila "+ rowIndex.toString()+ ")";
+
+        var bRowIsEmpty = true;
+
+        var _count = row.size();
+        for (var _i = 0; _i < _count; _i++) {
+          cell = row.item(_i);
+          switch (cell.getKey()) {
+            case KI_CUE_ID_HABER:
+            case mPublic.kICHT_MON_ID:
+            case mPublic.kICHT_CLE_ID:
+              if(!ValEmpty(cell.getId(), Cairo.Constants.Types.id)) {
+                bRowIsEmpty = false;
+                break;
+              }
+
+              break;
+
+            case mPublic.kICHT_IMPORTE:
+            case mPublic.kICHT_IMPORTEORIGEN:
+              if(!ValEmpty(Cairo.Util.val(cell.getValue()), Cairo.Constants.Types.double)) {
+                var bRowIsEmpty = true;
+                break;
+              }
+
+              break;
+
+            case mPublic.kICHT_DESCRIP:
+            case mPublic.kICHT_CHEQUE:
+              if(!ValEmpty(cell.getValue(), Cairo.Constants.Types.text)) {
+                var bRowIsEmpty = true;
+                break;
+              }
+              break;
+          }
+        }
+
+        return bRowIsEmpty;
+      };
+
+      var pIsEmptyRowCheques = function(row,  rowIndex) {
+
+        var cell = null;
+        var strRow = null;
+
+        strRow = " (Fila "+ rowIndex.toString()+ ")";
+
+        var bRowIsEmpty = true;
+
+        var _count = row.size();
+        for (var _i = 0; _i < _count; _i++) {
+          cell = row.item(_i);
+          switch (cell.getKey()) {
+            case KI_CUE_ID_HABER:
+            case KICH_CHEQUERA:
+            case KICH_MON_ID:
+            case KICH_CLE_ID:
+              if(!ValEmpty(cell.getId(), Cairo.Constants.Types.id)) {
+                bRowIsEmpty = false;
+                break;
+              }
+
+              break;
+
+            case KICH_IMPORTE:
+            case KICH_IMPORTEORIGEN:
+              if(!ValEmpty(Cairo.Util.val(cell.getValue()), Cairo.Constants.Types.double)) {
+                var bRowIsEmpty = true;
+                break;
+              }
+
+              break;
+
+            case KICH_DESCRIP:
+            case KICH_CHEQUE:
+              if(!ValEmpty(cell.getValue(), Cairo.Constants.Types.text)) {
+                var bRowIsEmpty = true;
+                break;
+              }
+              break;
+          }
+        }
+
+        return bRowIsEmpty;
+      };
+
+      var pGetCotizacion = function() {
+        return m_dialog.getProperties().item(mTesoreriaConstantes.MF_COTIZACION);
+      };
+
+      var pIsMonDefault = function(cue_id) {
+        var sqlstmt = null;
+        var rs = null;
+
+        sqlstmt = "select moneda.mon_id from cuenta, moneda where cuenta.mon_id = moneda.mon_id  and cue_id = "+ cue_id.toString()+ " and mon_legal <> 0";
+
+        if(!Cairo.Database.openRs(sqlstmt, rs)) { return false; }
+
+        return !rs.isEOF();
+      };
+
+
+      return self;
+    };
+
+    Edit.Controller = { getEditor: createObject };
   });
 
   Cairo.module("XxxxListDoc.Edit", function(Edit, Cairo, Backbone, Marionette, $, _) {
@@ -56,7 +4135,7 @@
       var m_centroCosto = "";
       var m_sucId = "";
       var m_sucursal = "";
-      var m_us_id_responsable = "";
+      var m_usId_responsable = "";
       var m_usuario = "";
       var m_docId = "";
       var m_documento = "";
@@ -340,13 +4419,13 @@
         c.setName(getText(1137, ""));
         c.setKey(K_US_ID);
         value = m_usuario;
-        if(m_us_id_responsable.Substring(0, 1).toUpperCase() === KEY_NODO) {
-          value = GetNombreRama(csUsuario, Cairo.Util.val(m_us_id_responsable.Substring(2)), bExists);
-          if(!bExists) { m_us_id_responsable = "0"; }
+        if(m_usId_responsable.Substring(0, 1).toUpperCase() === KEY_NODO) {
+          value = GetNombreRama(csUsuario, Cairo.Util.val(m_usId_responsable.Substring(2)), bExists);
+          if(!bExists) { m_usId_responsable = "0"; }
         }
         c.setValue(value);
-        c.setSelectId(Cairo.Util.val(m_us_id_responsable));
-        c.setSelectIntValue(m_us_id_responsable);
+        c.setSelectId(Cairo.Util.val(m_usId_responsable));
+        c.setSelectIntValue(m_usId_responsable);
 
         c = m_dialog.getProperties().add(null, mTesoreriaConstantes.DOC_ID);
         c.setType(Dialogs.PropertyType.select);
@@ -416,7 +4495,7 @@
               m_centroCosto = "";
               m_sucId = NO_ID;
               m_sucursal = "";
-              m_us_id_responsable = NO_ID;
+              m_usId_responsable = NO_ID;
               m_usuario = "";
               m_docId = NO_ID;
               m_documento = "";
@@ -535,7 +4614,7 @@
           case K_US_ID:
             var property = m_dialog.getProperties().item(Cairo.Constants.US_ID);
             m_usuario = property.getValue();
-            m_us_id_responsable = property.getSelectIntValue();
+            m_usId_responsable = property.getSelectIntValue();
 
             break;
 
@@ -619,7 +4698,7 @@
         sqlstmt = sqlstmt+ Cairo.Database.sqlString(m_estId)+ ",";
         sqlstmt = sqlstmt+ Cairo.Database.sqlString(m_ccosId)+ ",";
         sqlstmt = sqlstmt+ Cairo.Database.sqlString(m_sucId)+ ",";
-        sqlstmt = sqlstmt+ Cairo.Database.sqlString(m_us_id_responsable)+ ",";
+        sqlstmt = sqlstmt+ Cairo.Database.sqlString(m_usId_responsable)+ ",";
         sqlstmt = sqlstmt+ Cairo.Database.sqlString(m_docId)+ ",";
         sqlstmt = sqlstmt+ Cairo.Database.sqlString(m_empId);
 
@@ -726,7 +4805,7 @@
 
         var sqlstmt = null;
 
-        sqlstmt = "delete ListaDocumentoParametro  where pre_id = "+ csTesoreriaPrestacion.cSPRETSRLISTMOVIMIENTOFONDO.toString()+ " and us_id = "+ m_us_id+ " and (emp_id is null or emp_id = "+ cUtil.getEmpId().toString()+ ")";
+        sqlstmt = "delete ListaDocumentoParametro  where pre_id = "+ csTesoreriaPrestacion.cSPRETSRLISTMOVIMIENTOFONDO.toString()+ " and us_id = "+ m_usId+ " and (emp_id is null or emp_id = "+ cUtil.getEmpId().toString()+ ")";
 
         if(!Cairo.Database.execute(sqlstmt, "cIABMClient_Save", C_MODULE, strError)) { return false; }
 
@@ -818,7 +4897,7 @@
 
           fields.add(C.EMP_ID, cUtil.getEmpId(), Cairo.Constants.Types.id);
 
-          fields.add(Cairo.Constants.US_ID, m_us_id, Cairo.Constants.Types.id);
+          fields.add(Cairo.Constants.US_ID, m_usId, Cairo.Constants.Types.id);
           fields.add(C.PRE_ID, csTesoreriaPrestacion.cSPRETSRLISTMOVIMIENTOFONDO, Cairo.Constants.Types.id);
 
 
@@ -826,7 +4905,7 @@
           if(!Cairo.Database.save(register, , "cIABMClient_Save", C_MODULE, strError)) { return false; }
         }
 
-        if(!load(m_us_id)) { return false; }
+        if(!load(m_usId)) { return false; }
 
         return true;
       };

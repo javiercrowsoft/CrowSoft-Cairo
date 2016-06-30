@@ -1,0 +1,8 @@
+investigate this possible attack
+
+a user puts html code in a description field (for example pr_descrip or fv_descrip)
+this text is then rendered in the html (for example for fv_descript it is rendered
+in the list_doc dialog)
+using this a person can execute an script and get access when a user with
+more privileges is listing the invoice.
+maybe we should use encodeURIComponent in input control set text.
