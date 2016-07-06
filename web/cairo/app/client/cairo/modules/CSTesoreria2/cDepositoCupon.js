@@ -238,7 +238,7 @@
           c.setValue(m_fechaFin);
         }
 
-        c = m_dialog.getProperties().add(null, mTesoreriaConstantes.TJC_ID);
+        c = m_dialog.getProperties().add(null, CT.TJC_ID);
         c.setType(Dialogs.PropertyType.select);
         c.setSelectTable(Cairo.Tables.TARJETACREDITO);
         // Tarjeta
@@ -253,7 +253,7 @@
         c.setSelectId(Cairo.Util.val(m_tjc_id));
         c.setSelectIntValue(m_tjc_id);
 
-        c = m_dialog.getProperties().add(null, mTesoreriaConstantes.BCO_ID);
+        c = m_dialog.getProperties().add(null, CT.BCO_ID);
         c.setType(Dialogs.PropertyType.select);
         c.setSelectTable(Cairo.Tables.BANCO);
         // Banco
@@ -268,7 +268,7 @@
         c.setSelectId(Cairo.Util.val(m_bco_id));
         c.setSelectIntValue(m_bco_id);
 
-        c = m_dialog.getProperties().add(null, mTesoreriaConstantes.CUE_ID);
+        c = m_dialog.getProperties().add(null, CT.CUE_ID);
         c.setType(Dialogs.PropertyType.select);
         c.setSelectTable(Cairo.Tables.CUENTA);
         // Cuenta
@@ -298,7 +298,7 @@
         c.setSelectId(Cairo.Util.val(m_estId));
         c.setSelectIntValue(m_estId);
 
-        c = m_dialog.getProperties().add(null, mTesoreriaConstantes.SUC_ID);
+        c = m_dialog.getProperties().add(null, CT.SUC_ID);
         c.setType(Dialogs.PropertyType.select);
         c.setSelectTable(Cairo.Tables.SUCURSAL);
         // Sucursal
@@ -313,7 +313,7 @@
         c.setSelectId(Cairo.Util.val(m_sucId));
         c.setSelectIntValue(m_sucId);
 
-        c = m_dialog.getProperties().add(null, mTesoreriaConstantes.DOC_ID);
+        c = m_dialog.getProperties().add(null, CT.DOC_ID);
         c.setType(Dialogs.PropertyType.select);
         c.setSelectTable(csETablasDocumento.CSDocumento);
         // Documentos
@@ -477,35 +477,35 @@
             break;
 
           case K_BCO_ID:
-            var property = m_dialog.getProperties().item(mTesoreriaConstantes.BCO_ID);
+            var property = m_dialog.getProperties().item(CT.BCO_ID);
             m_banco = property.getValue();
             m_bco_id = property.getSelectIntValue();
 
             break;
 
           case K_CUE_ID:
-            var property = m_dialog.getProperties().item(mTesoreriaConstantes.CUE_ID);
+            var property = m_dialog.getProperties().item(CT.CUE_ID);
             m_cuenta = property.getValue();
             m_cue_id = property.getSelectIntValue();
 
             break;
 
           case K_SUC_ID:
-            var property = m_dialog.getProperties().item(mTesoreriaConstantes.SUC_ID);
+            var property = m_dialog.getProperties().item(CT.SUC_ID);
             m_sucursal = property.getValue();
             m_sucId = property.getSelectIntValue();
 
             break;
 
           case K_DOC_ID:
-            var property = m_dialog.getProperties().item(mTesoreriaConstantes.DOC_ID);
+            var property = m_dialog.getProperties().item(CT.DOC_ID);
             m_documento = property.getValue();
             m_docId = property.getSelectIntValue();
 
             break;
 
           case K_TJC_ID:
-            var property = m_dialog.getProperties().item(mTesoreriaConstantes.TJC_ID);
+            var property = m_dialog.getProperties().item(CT.TJC_ID);
             m_tarjeta = property.getValue();
             m_tjc_id = property.getSelectIntValue();
 

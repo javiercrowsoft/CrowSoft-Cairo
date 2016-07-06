@@ -182,12 +182,12 @@
             break;
 
           case K_TITULO:
-            m_titulo = m_dialog.getProperties().item(mTesoreriaConstantes.CF_NAME).getValue();
+            m_titulo = m_dialog.getProperties().item(CT.CF_NAME).getValue();
 
             break;
 
           case K_DESCRIP:
-            m_descrip = m_dialog.getProperties().item(mTesoreriaConstantes.CF_DESCRIP).getValue();
+            m_descrip = m_dialog.getProperties().item(CT.CF_DESCRIP).getValue();
 
             break;
         }
@@ -563,7 +563,7 @@
           c.setValue(m_fechaFin);
         }
 
-        c = m_dialog.getProperties().add(null, mTesoreriaConstantes.CF_NAME);
+        c = m_dialog.getProperties().add(null, CT.CF_NAME);
         c.setType(Dialogs.PropertyType.text);
         // Título
         c.setName(getText(1864, ""));
@@ -571,7 +571,7 @@
         c.setKey(K_TITULO);
         c.setValue(m_titulo);
 
-        c = m_dialog.getProperties().add(null, mTesoreriaConstantes.CF_DESCRIP);
+        c = m_dialog.getProperties().add(null, CT.CF_DESCRIP);
         c.setType(Dialogs.PropertyType.text);
         // Observaciones
         c.setName(getText(1861, ""));

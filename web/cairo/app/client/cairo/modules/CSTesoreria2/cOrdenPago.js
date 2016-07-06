@@ -628,7 +628,6 @@
       self.save = function() {
 
         var p;
-        var isNew = false;
 
         p = D.docCanBeEdited(m_docEditable, m_docEditMsg)
           .whenSuccess(
@@ -659,11 +658,9 @@
 
             if(m_copy) {
               register.setId(Cairo.Constants.NEW_ID);
-              isNew = true;
             }
             else {
               register.setId(m_id);
-              isNew = m_id === NO_ID;
             }
 
             if(register.getId() === Cairo.Constants.NEW_ID) {
@@ -818,9 +815,12 @@
         try {
 
           m_dialog = null;
+          m_properties = null;
           m_listController = null;
           m_footer = null;
+          m_footerProps = null;
           m_items = null;
+          m_itemsProps = null;
           m_fcIds = null;
 
         }

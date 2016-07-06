@@ -251,7 +251,7 @@
           c.setValue(m_fechaFin);
         }
 
-        c = m_dialog.getProperties().add(null, mTesoreriaConstantes.CUE_ID);
+        c = m_dialog.getProperties().add(null, CT.CUE_ID);
         c.setType(Dialogs.PropertyType.select);
         c.setSelectTable(Cairo.Tables.CUENTA);
         // Cuenta
@@ -266,7 +266,7 @@
         c.setSelectId(Cairo.Util.val(m_cue_id));
         c.setSelectIntValue(m_cue_id);
 
-        c = m_dialog.getProperties().add(null, mTesoreriaConstantes.BCO_ID);
+        c = m_dialog.getProperties().add(null, CT.BCO_ID);
         c.setType(Dialogs.PropertyType.select);
         c.setSelectTable(Cairo.Tables.BANCO);
         // Banco
@@ -414,14 +414,14 @@
             break;
 
           case K_BCO_ID:
-            var property = m_dialog.getProperties().item(mTesoreriaConstantes.BCO_ID);
+            var property = m_dialog.getProperties().item(CT.BCO_ID);
             m_banco = property.getValue();
             m_bco_id = property.getSelectIntValue();
 
             break;
 
           case K_CUE_ID:
-            var property = m_dialog.getProperties().item(mTesoreriaConstantes.CUE_ID);
+            var property = m_dialog.getProperties().item(CT.CUE_ID);
             m_cuenta = property.getValue();
             m_cue_id = property.getSelectIntValue();
 
