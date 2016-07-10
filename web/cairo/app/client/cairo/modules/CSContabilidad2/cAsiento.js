@@ -901,7 +901,7 @@
 
             if(cueId !== NO_ID) {
 
-              p = D.isMonDefault(cueId).then(function(isDefault) {
+              p = D.accuntUsesDefaultCurrency(cueId).then(function(isDefault) {
                 if(!isDefault) {
                   grid.getColumns().item(C_ORIGEN).setVisible(true);
                   m_dialog.refreshColumnProperties(property, C_ORIGEN);
@@ -989,6 +989,7 @@
         var p = null;
         var bDebe = false;
         var bHaber = false;
+        var bCheckCueOrigen = false;
         var cue_id = 0;
 
         var strRow = " (Row: " + rowIndex.toString() + ")";
@@ -1021,13 +1022,7 @@
 
             case KI_ORIGEN:
               if(m_itemsProps.item(C_ITEMS).getGrid().getColumns().item(C_ORIGEN).getVisible()) {
-
-                if(!D.isMonDefault(cue_id)) {
-
-                  if(valEmpty(cell.getValue(), Types.currency)) {
-                    return M.showInfoWithFalse(getText(1958, "", strRow)); // Debe indicar el importe en la moneda de la cuenta (1)
-                  }
-                }
+                bCheckCueOrigen = true;
               }
               break;
           }
@@ -1035,6 +1030,17 @@
 
         if(bDebe && bHaber) {
           return M.showInfoWithFalse(getText(1959, "", strRow)); // Debe indicar un importe en el Debe o en el Haber, no en ambas columnas (1)
+        }
+
+        if(bCheckCueOrigen) {
+          p = D.accuntUsesDefaultCurrency(cue_id).whenSuccessWithResult(function(isDefaultCurrency) {
+            if(!isDefaultCurrency) {
+
+              if(valEmpty(cell.getValue(), Types.currency)) {
+                return M.showInfoWithFalse(getText(1958, "", strRow)); // Debe indicar el importe en la moneda de la cuenta (1)
+              }
+            }
+          });
         }
 
         return p || P.resolvedPromise(true);

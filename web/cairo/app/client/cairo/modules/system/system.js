@@ -542,7 +542,7 @@
 
   Cairo.Documents.getDefaultCurrency = Cairo.Company.getDefaultCurrency;
 
-  Cairo.Documents.isMonDefault = function(cueId) {
+  Cairo.Documents.accuntUsesDefaultCurrency = function(cueId) {
     return D.getCuentaInfo(cueId).then(function(info) {
       if(info.success) {
         return info.monId === Cairo.Documents.getDefaultCurrency().id;
@@ -750,6 +750,12 @@
   Cairo.Documents.selectFilterForCuentaAnticipoPagos = "account_for_anticipo_pagos"; /* acreedores */
 
   Cairo.Documents.selectFilterForTarjeta = "tarjeta_in_current_company";
+
+  Cairo.Documents.updateChequeraFilter = function(property, key, cueId, dialog) {
+    var col = D.getCol(property.getGrid().getColumns(), key)
+    col.setSelectFilter("chequera|cueId:" + cueId.toString(););
+    dialog.refreshColumnProperties(property, key);
+  };
 
   Cairo.Documents.getTasaFromProducto = function(prId) {
     var p = DB.getData("load[" + m_apiPath + "general/producto/" + prId.toString() + "/taxes]");

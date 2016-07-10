@@ -313,6 +313,7 @@
           function(enabled) {
             m_taPropuesto = enabled;
             setEnabled();
+            clearCheqId();
           }
         );
       };
@@ -3070,6 +3071,22 @@
         return P.resolvedPromise(true);
       };
 
+      var updateColCuenta = function(row, cueId, info) {
+        var cell = getCell(row, KICH_MON_ID);
+        cell.setValue(info.monName);
+        cell.setId(info.monId);
+        if(info.monId === m_defaultCurrency.id || info.monId === 0) {
+          getCell(row, KICH_IMPORTEORIGEN).setValue(0);
+        }
+
+        D.updateChequeraFilter(
+          property,
+          KICH_CHEQUERA,
+          cueId,
+          m_items
+        )
+      };
+
       var columnAfterUpdateCheque = function(property, lRow, lCol) {
 
         var grid = property.getGrid();
@@ -3099,17 +3116,9 @@
 
           case KICH_CUE_ID:
 
-            var row = grid.getRows().item(lRow);
-
-            D.getCurrencyFromAccount(getCell(row, KICH_CUE_ID).getId())
-              .whenSuccessWithResult(function(info) {
-                var cell = getCell(row, KICH_MON_ID);
-                cell.setValue(info.monName);
-                cell.setId(info.monId);
-                if(info.monId === m_defaultCurrency.id || info.monId === 0) {
-                  getCell(row, KICH_IMPORTEORIGEN).setValue(0);
-                }
-              });
+            var cueId = getCell(row, KICH_CUE_ID).getId();
+            D.getCurrencyFromAccount(cueId)
+              .whenSuccessWithResult(call(updateColCuenta, row, cueId));
             break;
 
           case KICH_CHEQUERA:

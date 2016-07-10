@@ -89,6 +89,22 @@
       var KICH_CLE_ID = 12;
       var KICH_DESCRIP = 13;
 
+      var KICHT_OPGI_ID = 1;
+      var KICHT_MFI_ID = 1;
+
+      var KICHT_CUE_ID = 2;
+      var KICHT_IMPORTE = 3;
+      var KICHT_IMPORTEORIGEN = 4;
+      var KICHT_CLI_ID = 5;
+      var KICHT_BCO_ID = 6;
+      var KICHT_CHEQUE = 7;
+      var KICHT_MON_ID = 8;
+      var KICHT_FECHACOBRO = 10;
+      var KICHT_FECHAVTO = 11;
+      var KICHT_CLE_ID = 12;
+      var KICHT_DESCRIP = 13;
+      var KICHT_CHEQ_ID = 14;
+
       var KI_CUE_ID_DEBE = 300;
       var KI_CUE_ID_HABER = 301;
 
@@ -341,7 +357,7 @@
               case K_CHEQUEST:
               case K_EFECTIVO:
               case K_CHEQUESI:
-                pShowTotales();
+                showTotales();
                 break;
             }
             break;
@@ -900,7 +916,6 @@
           //
           m_isNew = (id === NO_ID || id === D.Constants.DOC_CHANGED);
 
-
           var loadAllItems = function() {
             if(m_itemsProps.count() > 0) {
               loadCheques(getChequesProperty());
@@ -946,7 +961,7 @@
 
           switch (key) {
             case K_EFECTIVO:
-              pShowTotales();
+              showTotales();
               break;
 
             case K_CHEQUES:
@@ -1006,182 +1021,203 @@
       };
 
       self.deleteRow = function(key, row, lRow) {
-        var id = null;
 
         switch (key) {
           case K_CHEQUES:
-            id = Cairo.Util.val(Dialogs.cell(row, KICH_MFI_ID).getValue());
+
+            var id = val(getCell(row, KICH_MFI_ID).getValue());
             if(id !== NO_ID) { m_chequesDeleted = m_chequesDeleted+ id.toString()+ ","; }
             break;
 
           case K_CHEQUEST:
-            id = Cairo.Util.val(Dialogs.cell(row, KICH_MFI_ID).getValue());
+
+            var id = val(getCell(row, KICH_MFI_ID).getValue());
             if(id !== NO_ID) { m_tChequesDeleted = m_tChequesDeleted+ id.toString()+ ","; }
             break;
 
           case K_CHEQUESI:
-            id = Cairo.Util.val(Dialogs.cell(row, KICH_MFI_ID).getValue());
+
+            var id = val(getCell(row, KICH_MFI_ID).getValue());
             if(id !== NO_ID) { m_iChequesDeleted = m_iChequesDeleted+ id.toString()+ ","; }
             break;
 
           case K_EFECTIVO:
-            id = Cairo.Util.val(Dialogs.cell(row, KI_MFI_ID).getValue());
+
+            var id = val(getCell(row, KI_MFI_ID).getValue());
             if(id !== NO_ID) { m_efectivoDeleted = m_efectivoDeleted+ id.toString()+ ","; }
             break;
         }
 
-        return true;
+        return P.resolvedPromise(true);
       };
 
-      var listAdHock = function(key, row, colIndex, list) {
-
-      };
-
-      var newRow = function(key, rows) {
-
+      self.newRow = function(key, rows) {
+        return P.resolvedPromise(true);
       };
 
       var validateRow = function(key, row, rowIndex) {
-        var _rtn = null;
+        var p = null;
+
         try {
 
           switch (key) {
+
             case K_EFECTIVO:
-              _rtn = pValidateRow(row, rowIndex);
+              p = validateRow(row, rowIndex);
               break;
 
             case K_CHEQUES:
-              _rtn = pValidateRowCheques(row, rowIndex);
+              p = validateRowCheques(row, rowIndex);
               break;
 
             case K_CHEQUEST:
-              _rtn = pValidateRowTCheques(row, rowIndex);
+              p = validateRowTCheques(row, rowIndex);
               break;
 
             case K_CHEQUESI:
-              _rtn = pValidateRowICheques(row, rowIndex);
+              p = validateRowICheques(row, rowIndex);
               break;
           }
 
-          // **TODO:** goto found: GoTo ExitProc;
         }
         catch (ex) {
           Cairo.manageErrorEx(ex.message, ex, "validateRow", C_MODULE, "");
-          // **TODO:** label found: ExitProc:;
         }
-        // **TODO:** on error resume next found !!!
 
-        return _rtn;
+        return p || P.resolvedPromise(false);
       };
 
       var isEmptyRow = function(row, rowIndex) {
-        var cell = null;
-        var strRow = null;
-
-        strRow = " (Fila "+ rowIndex.toString()+ ")";
-
-        var bRowIsEmpty = true;
 
         var _count = row.size();
         for (var _i = 0; _i < _count; _i++) {
-          cell = row.item(_i);
+
+          var cell = row.item(_i);
+          
           switch (cell.getKey()) {
+          
             case KI_IMPORTE:
               if(!valEmpty(cell.getValue(), Types.currency)) {
-                bRowIsEmpty = false;
-                break;
+                return false;
               }
               break;
           }
         }
 
-        return bRowIsEmpty;
+        return true;
       };
 
-      var pValidateRow = function(row, rowIndex) { // TODO: Use of ByRef founded Private Function pValidateRow(ByRef Row As CSInterfacesABM.cIABMGridRow, ByVal RowIndex As Long) As Boolean
-        var cell = null;
-        var cue_id_debe = null;
-        var cue_id_haber = null;
+      var validateOrigenDebeColumn = function(cell, strRow, result) {
+        if(!result) {
 
+          if(valEmpty(cell.getValue(), Types.currency)) {
+
+            if(Cairo.UserConfig.getDebeHaberMf()) {
+              return M.showInfoWithFalse(getText(4812, "", strRow));
+              // Debe indicar el importe en la moneda de la cuenta debe (1)
+            }
+            else {
+              return M.showInfoWithFalse(getText(4811, "", strRow));
+              // Debe indicar el importe en la moneda de la cuenta destino (1)
+            }
+          }
+        }
+        return true;
+      };
+
+      var validateOrigenHaberColumn = function(cell, strRow, result) {
+
+        if(!result) {
+
+          if(valEmpty(cell.getValue(), Types.currency)) {
+
+            if(Cairo.UserConfig.getDebeHaberMf()) {
+              return M.showInfoWithFalse(getText(4813, "", strRow));
+              // Debe indicar el importe en la moneda de la cuenta haber (1)
+            }
+            else {
+              return M.showInfoWithFalse(getText(4810, "", strRow));
+              // Debe indicar el importe en la moneda de la cuenta origen (1)
+            }
+          }
+        }
+        return true;
+      };
+
+      var validateRow = function(row, rowIndex) {
+
+        var bCheckOrigenDebe = false;
+        var bCheckOrigenHaber = false;
+        var cueIdDebe = NO_ID;
+        var cueIdHaber = NO_ID;
+        
         var strRow = " (Row: " + rowIndex.toString() + ")";
-
+        
         var _count = row.size();
         for (var _i = 0; _i < _count; _i++) {
-          cell = row.item(_i);
+
+          var cell = row.item(_i);
+          
           switch (cell.getKey()) {
 
             case KI_IMPORTE:
               if(valEmpty(cell.getValue(), Types.currency)) {
                 return M.showInfoWithFalse(getText(1897, "", strRow)); // Debe indicar un importe (1)
               }
-
               break;
 
             case KI_CUE_ID_DEBE:
               if(valEmpty(cell.getId(), Types.id)) {
                 return M.showInfoWithFalse(getText(2187, "", strRow)); // Debe indicar una cuenta destino (1)
               }
-              cue_id_debe = cell.getId();
-
+              cueIdDebe = cell.getId();
               break;
 
             case KI_CUE_ID_HABER:
               if(valEmpty(cell.getId(), Types.id)) {
                 return M.showInfoWithFalse(getText(2186, "", strRow)); // Debe indicar una cuenta origen (1)
               }
-              cue_id_haber = cell.getId();
-
+              cueIdHaber = cell.getId();
               break;
 
             case KI_ORIGEN_DEBE:
               if(m_items.getProperties().item(C_EFECTIVO).getGrid().getColumns(C_ORIGENDEBE).Visible) {
-
-                if(!pIsMonDefault(cue_id_debe)) {
-
-                  if(valEmpty(cell.getValue(), Types.currency)) {
-
-                    if(m_userCfg.getDebeHaberMf()) {
-                      return M.showInfoWithFalse(getText(4812, "", strRow));
-                      //Debe indicar el importe en la moneda de la cuenta debe (1)
-                    }
-                    else {
-                      return M.showInfoWithFalse(getText(4811, "", strRow));
-                      //Debe indicar el importe en la moneda de la cuenta destino (1)
-                    }
-                  }
-                }
+                bCheckOrigenDebe = true;
               }
-
               break;
 
             case KI_ORIGEN_HABER:
               if(m_items.getProperties().item(C_EFECTIVO).getGrid().getColumns(C_ORIGENHABER).Visible) {
-
-                if(!pIsMonDefault(cue_id_haber)) {
-
-                  if(valEmpty(cell.getValue(), Types.currency)) {
-                    if(m_userCfg.getDebeHaberMf()) {
-                      return M.showInfoWithFalse(getText(4813, "", strRow));
-                      //Debe indicar el importe en la moneda de la cuenta haber (1)
-                    }
-                    else {
-                      return M.showInfoWithFalse(getText(4810, "", strRow));
-                      //Debe indicar el importe en la moneda de la cuenta origen (1)
-                    }
-                  }
-                }
+                bCheckOrigenHaber = true;
               }
               break;
           }
         }
 
-        return P.resolvedPromise(true);
+        var p = P.resolvedPromise(true)
+
+        if(bCheckOrigenDebe) {
+          p = p.whenSuccess(call(accountUseDefaultCurrency, cueIdDebe))
+            .whenSuccessWithResult(call(validateOrigenDebeColumn, cell, strRow));
+        }
+        if(bCheckOrigenHaber) {
+          p = p.whenSuccess(call(accountUseDefaultCurrency, cueIdHaber))
+            .whenSuccessWithResult(call(validateOrigenHaberColumn, cell, strRow));
+        }
+
+        return p;
       };
 
-      var columnAfterEdit = function(property, lRow, lCol, newValue, newValueID) { // TODO: Use of ByRef founded Private Function columnAfterEdit(ByRef IProperty As cIABMProperty, ByVal lRow As Long, ByVal lCol As Long, ByVal NewValue As Variant, ByVal NewValueID As Long)
-        var column = null;
+      var updateAccountColumn = function(newValueID, colKey, result) {
+        if(!result && newValueID !== NO_ID) {
+          property.getGrid().getColumns().item(colKey).setVisible(true);
+          m_dialog.refreshColumnProperties(property, colKey);
+        }
+      };
 
-        column = property.getGrid().getColumns().item(lCol);
+      var columnAfterEdit = function(property, lRow, lCol, newValue, newValueId) {
+
+        var column = property.getGrid().getColumns().item(lCol);
 
         switch (column.getKey()) {
 
@@ -1197,18 +1233,8 @@
               colKey = C_ORIGENHABER;
             }
 
-            if(!pIsMonDefault(newValueID) && newValueID !== NO_ID) {
-
-              property.getGrid().getColumns().item(colKey).setVisible(true);
-                      #If PREPROC_SFS Then;
-              var abmObj = null;
-                      #Else;
-              var abmObj = null;
-                      #End If;
-              abmObj = m_dialog;
-              abmObj.RefreshColumnProperties(property, colKey);
-            }
-
+            return accountUseDefaultCurrency(newValueId)
+              .whenSuccessWithResult(call(updateAccountColumn, colKey, newValueId));
             break;
         }
         return true;
@@ -1263,8 +1289,8 @@
         else {
           // Preferencias del usuario
           //
-          elem.setSelectId(m_userCfg.getDocMfId());
-          elem.setValue(m_userCfg.getDocMfNombre());
+          elem.setSelectId(Cairo.UserConfig.getDocMfId());
+          elem.setValue(Cairo.UserConfig.getDocMfNombre());
 
           bValidateDocDefault = elem.getSelectId() !== NO_ID;
         }
@@ -1518,8 +1544,8 @@
         var elem = properties.item(CT.DOC_ID);
         elem.setSelectId(m_docId);
         elem.setValue(m_documento);
-        elem.setSelectId(m_userCfg.getDocMfId());
-        elem.setValue(m_userCfg.getDocMfNombre());
+        elem.setSelectId(Cairo.UserConfig.getDocMfId());
+        elem.setValue(Cairo.UserConfig.getDocMfNombre());
 
         var elem = properties.item(cDeclarations.getCsDocNumberID());
         elem.setValue(m_numero);
@@ -1624,7 +1650,7 @@
         elem.setVisible(false);
         elem.setKey(KI_MFI_ID);
 
-        if(m_userCfg.getDebeHaberMf()) {
+        if(Cairo.UserConfig.getDebeHaberMf()) {
 
           var elem = w_columns.add(null);
           elem.setName(getText(4814, "")); // Cuenta Debe
@@ -1676,7 +1702,7 @@
         elem.setWidth(1200);
         elem.setKey(KI_IMPORTE);
 
-        if(m_userCfg.getDebeHaberMf()) {
+        if(Cairo.UserConfig.getDebeHaberMf()) {
 
           iColDebe = w_columns.add(null, C_ORIGENDEBE);
           iColDebe.setName(getText(4816, "")); // Origen Debe
@@ -1735,7 +1761,7 @@
           elem.Value = Cairo.Database.valField(m_data.efectivo[_i], CT.MFI_ID);
           elem.setKey(KI_MFI_ID);
 
-          if(m_userCfg.getDebeHaberMf()) {
+          if(Cairo.UserConfig.getDebeHaberMf()) {
 
             var elem = elem.add(null);
             elem.Value = Cairo.Database.valField(m_data.efectivo[_i], "Debe");
@@ -1769,7 +1795,7 @@
           elem.Value = Cairo.Database.valField(m_data.efectivo[_i], CT.MFI_IMPORTE) / cotizacion;
           elem.setKey(KI_IMPORTE);
 
-          if(m_userCfg.getDebeHaberMf()) {
+          if(Cairo.UserConfig.getDebeHaberMf()) {
 
             var elem = elem.add(null);
             elem.Value = Cairo.Database.valField(m_data.efectivo[_i], CT.MFI_IMPORTE_ORIGEN) / cotizacion;
@@ -1967,7 +1993,7 @@
                   fields.add(CT.MFI_ID, Cairo.Constants.NEW_ID, Types.integer);
                 }
                 else {
-                  fields.add(CT.MFI_ID, Cairo.Util.val(cell.getValue()), Types.integer);
+                  fields.add(CT.MFI_ID, val(cell.getValue()), Types.integer);
                 }
                 break;
 
@@ -2039,7 +2065,7 @@
             register.setTable(CT.MOVIMIENTOFONDOITEMBORRADOTMP);
             register.setId(Cairo.Constants.NEW_ID);
 
-            fields.add(CT.MFI_ID, Cairo.Util.val(vDeletes(i)), Types.integer);
+            fields.add(CT.MFI_ID, val(vDeletes(i)), Types.integer);
             fields.add(CT.MF_ID, m_id, Types.id);
             fields.add(CT.MF_TMPID, id, Types.id);
 
@@ -2055,32 +2081,32 @@
       };
 
       // Reglas del Objeto de Negocios
-      var pShowTotales = function() {
+      var showTotales = function() {
         var total = null;
         var row = null;
 
         var _count = getCheques().getRows().size();
         for (var _i = 0; _i < _count; _i++) {
           row = getCheques().getRows().item(_i);
-          total = total + Cairo.Util.val(Dialogs.cell(row, KICH_IMPORTE).getValue());
+          total = total + val(getCell(row, KICH_IMPORTE).getValue());
         }
 
         var _count = getTCheques().getRows().size();
         for (var _i = 0; _i < _count; _i++) {
           row = getTCheques().getRows().item(_i);
-          total = total + Cairo.Util.val(Dialogs.cell(row, KICH_IMPORTE).getValue());
+          total = total + val(getCell(row, KICH_IMPORTE).getValue());
         }
 
         var _count = getICheques().getRows().size();
         for (var _i = 0; _i < _count; _i++) {
           row = getICheques().getRows().item(_i);
-          total = total + Cairo.Util.val(Dialogs.cell(row, KICH_IMPORTE).getValue());
+          total = total + val(getCell(row, KICH_IMPORTE).getValue());
         }
 
         var _count = getEfectivo().getRows().size();
         for (var _i = 0; _i < _count; _i++) {
           row = getEfectivo().getRows().item(_i);
-          total = total + Cairo.Util.val(Dialogs.cell(row, KI_IMPORTE).getValue());
+          total = total + val(getCell(row, KI_IMPORTE).getValue());
         }
 
         m_footerProps.item(CT.MF_TOTAL).setValue(total);
@@ -2098,10 +2124,10 @@
           bState = false;
         }
 
-        pSetEnabledAux(bState);
+        setEnabledAux(bState);
       };
 
-      var pSetEnabledAux = function(bState) {
+      var setEnabledAux = function(bState) {
         var prop = null;
 
         var _count = m_properties.size();
@@ -2381,16 +2407,6 @@
 
           c_ErrorSave = getText(2242, ""); // Error al grabar el Movimiento de Fondo
 
-          m_generalConfig = new cGeneralConfig();
-          m_generalConfig.Load;
-          m_defaultCurrency = GetMonedaDefault();
-
-          // Preferencias del Usuario
-          //
-          m_userCfg = new cUsuarioConfig();
-          m_userCfg.Load;
-          m_userCfg.ValidateMF;
-
           // **TODO:** goto found: GoTo ExitProc;
         }
         catch (ex) {
@@ -2427,7 +2443,7 @@
                   fields.add(CT.MFI_ID, Cairo.Constants.NEW_ID, Types.integer);
                 }
                 else {
-                  fields.add(CT.MFI_ID, Cairo.Util.val(cell.getValue()), Types.integer);
+                  fields.add(CT.MFI_ID, val(cell.getValue()), Types.integer);
                 }
 
                 break;
@@ -2483,12 +2499,12 @@
                 break;
 
               case mPublic.kICHT_IMPORTEORIGEN:
-                fields.add(CT.MFI_IMPORTE_ORIGEN, Cairo.Util.val(cell.getValue()), Types.currency);
+                fields.add(CT.MFI_IMPORTE_ORIGEN, val(cell.getValue()), Types.currency);
 
                 break;
 
               case mPublic.kICHT_IMPORTE:
-                fields.add(CT.MFI_IMPORTE, Cairo.Util.val(cell.getValue()), Types.currency);
+                fields.add(CT.MFI_IMPORTE, val(cell.getValue()), Types.currency);
 
                 break;
 
@@ -2527,7 +2543,7 @@
             register.setTable(CT.MOVIMIENTOFONDOITEMBORRADOTMP);
             register.setId(Cairo.Constants.NEW_ID);
 
-            fields.add(CT.MFI_ID, Cairo.Util.val(vDeletes(i)), Types.integer);
+            fields.add(CT.MFI_ID, val(vDeletes(i)), Types.integer);
             fields.add(CT.MF_ID, m_id, Types.id);
             fields.add(CT.MF_TMPID, id, Types.id);
 
@@ -2566,7 +2582,7 @@
                   fields.add(CT.MFI_ID, Cairo.Constants.NEW_ID, Types.integer);
                 }
                 else {
-                  fields.add(CT.MFI_ID, Cairo.Util.val(cell.getValue()), Types.integer);
+                  fields.add(CT.MFI_ID, val(cell.getValue()), Types.integer);
                 }
                 break;
 
@@ -2610,12 +2626,12 @@
                 break;
 
               case mPublic.kICHT_IMPORTEORIGEN:
-                fields.add(CT.MFI_IMPORTE_ORIGEN, Cairo.Util.val(cell.getValue()), Types.currency);
+                fields.add(CT.MFI_IMPORTE_ORIGEN, val(cell.getValue()), Types.currency);
 
                 break;
 
               case mPublic.kICHT_IMPORTE:
-                fields.add(CT.MFI_IMPORTE, Cairo.Util.val(cell.getValue()), Types.currency);
+                fields.add(CT.MFI_IMPORTE, val(cell.getValue()), Types.currency);
 
                 break;
 
@@ -2654,7 +2670,7 @@
             register.setTable(CT.MOVIMIENTOFONDOITEMBORRADOTMP);
             register.setId(Cairo.Constants.NEW_ID);
 
-            fields.add(CT.MFI_ID, Cairo.Util.val(vDeletes(i)), Types.integer);
+            fields.add(CT.MFI_ID, val(vDeletes(i)), Types.integer);
             fields.add(CT.MF_ID, m_id, Types.id);
             fields.add(CT.MF_TMPID, id, Types.id);
 
@@ -2695,7 +2711,7 @@
                   fields.add(CT.MFI_ID, Cairo.Constants.NEW_ID, Types.integer);
                 }
                 else {
-                  fields.add(CT.MFI_ID, Cairo.Util.val(cell.getValue()), Types.integer);
+                  fields.add(CT.MFI_ID, val(cell.getValue()), Types.integer);
                 }
                 break;
 
@@ -2753,11 +2769,11 @@
                 break;
 
               case KICH_IMPORTEORIGEN:
-                fields.add(CT.MFI_IMPORTE_ORIGEN, Cairo.Util.val(cell.getValue()), Types.currency);
+                fields.add(CT.MFI_IMPORTE_ORIGEN, val(cell.getValue()), Types.currency);
                 break;
 
               case KICH_IMPORTE:
-                fields.add(CT.MFI_IMPORTE, Cairo.Util.val(cell.getValue()), Types.currency);
+                fields.add(CT.MFI_IMPORTE, val(cell.getValue()), Types.currency);
 
                 break;
 
@@ -2795,7 +2811,7 @@
             register.setTable(CT.MOVIMIENTOFONDOITEMBORRADOTMP);
             register.setId(Cairo.Constants.NEW_ID);
 
-            fields.add(CT.MFI_ID, Cairo.Util.val(vDeletes(i)), Types.integer);
+            fields.add(CT.MFI_ID, val(vDeletes(i)), Types.integer);
             fields.add(CT.MF_ID, m_id, Types.id);
             fields.add(CT.MF_TMPID, id, Types.id);
 
@@ -3394,16 +3410,16 @@
 
         var w_grid = property.getGrid();
 
-        switch (w_grid.getColumns(lCol).Key) {
+        switch (w_grid.getColumns().item(lCol).getKey()) {
 
           case mPublic.kICHT_IMPORTEORIGEN:
             row = w_grid.getRows(lRow);
-            var w_pCell = Dialogs.cell(row, mPublic.kICHT_MON_ID);
-            if(w_pCell.getID() !== m_defaultCurrency || w_pCell.getID() === 0) {
-              Dialogs.cell(row, mPublic.kICHT_IMPORTE).getValue() === Cairo.Util.val(Dialogs.cell(row, mPublic.kICHT_IMPORTEORIGEN).getValue()) * Cairo.Util.val(getCotizacion().getValue());
+            var cell = getCell(row, mPublic.kICHT_MON_ID);
+            if(cell.getId() !== m_defaultCurrency || cell.getId() === 0) {
+              getCell(row, mPublic.kICHT_IMPORTE).setValue(val(getCell(row, mPublic.kICHT_IMPORTEORIGEN).getValue()) * val(getCotizacion().getValue()));
             }
             else {
-              Dialogs.cell(row, mPublic.kICHT_IMPORTEORIGEN).getValue() === 0;
+              getCell(row, mPublic.kICHT_IMPORTEORIGEN).setValue(0);
             }
 
             break;
@@ -3415,15 +3431,15 @@
 
             row = w_grid.getRows(lRow);
 
-            cueId = Dialogs.cell(row, KI_CUE_ID_DEBE).getID();
+            cueId = getCell(row, KI_CUE_ID_DEBE).getId();
             GetMonedaFromCuenta(monId, moneda, cueId);
 
-            var w_pCell = Dialogs.cell(row, mPublic.kICHT_MON_ID);
-            w_pCell.setValue(moneda);
-            w_pCell.setID(monId);
+            var cell = getCell(row, mPublic.kICHT_MON_ID);
+            cell.setValue(moneda);
+            cell.setId(monId);
 
             if(monId === m_defaultCurrency || monId === 0) {
-              Dialogs.cell(row, mPublic.kICHT_IMPORTEORIGEN).getValue() === 0;
+              getCell(row, mPublic.kICHT_IMPORTEORIGEN).setValue(0);
             }
 
             cABMUtil.pCol(property.getGrid().getColumns(), mPublic.kICHT_CHEQUE).getHelpFilter() === mPublic.self.getChequeFileter(cueId);
@@ -3443,7 +3459,7 @@
 
           case mPublic.kICHT_IMPORTE:
 
-            pShowTotales();
+            showTotales();
 
             _rtn = true;
             return _rtn;
@@ -3468,16 +3484,16 @@
 
         var w_grid = property.getGrid();
 
-        switch (w_grid.getColumns(lCol).Key) {
+        switch (w_grid.getColumns().item(lCol).getKey()) {
 
           case mPublic.kICHT_IMPORTEORIGEN:
             row = w_grid.getRows(lRow);
-            var w_pCell = Dialogs.cell(row, mPublic.kICHT_MON_ID);
-            if(w_pCell.getID() !== m_defaultCurrency || w_pCell.getID() === 0) {
-              Dialogs.cell(row, mPublic.kICHT_IMPORTE).getValue() === Cairo.Util.val(Dialogs.cell(row, mPublic.kICHT_IMPORTEORIGEN).getValue()) * Cairo.Util.val(getCotizacion().getValue());
+            var cell = getCell(row, mPublic.kICHT_MON_ID);
+            if(cell.getId() !== m_defaultCurrency || cell.getId() === 0) {
+              getCell(row, mPublic.kICHT_IMPORTE).setValue(val(getCell(row, mPublic.kICHT_IMPORTEORIGEN).getValue()) * val(getCotizacion().getValue()));
             }
             else {
-              Dialogs.cell(row, mPublic.kICHT_IMPORTEORIGEN).getValue() === 0;
+              getCell(row, mPublic.kICHT_IMPORTEORIGEN).setValue(0);
             }
 
             break;
@@ -3489,15 +3505,15 @@
 
             row = w_grid.getRows(lRow);
 
-            cueId = Dialogs.cell(row, KI_CUE_ID_HABER).getID();
+            cueId = getCell(row, KI_CUE_ID_HABER).getId();
             GetMonedaFromCuenta(monId, moneda, cueId);
 
-            var w_pCell = Dialogs.cell(row, mPublic.kICHT_MON_ID);
-            w_pCell.setValue(moneda);
-            w_pCell.setID(monId);
+            var cell = getCell(row, mPublic.kICHT_MON_ID);
+            cell.setValue(moneda);
+            cell.setId(monId);
 
             if(monId === m_defaultCurrency || monId === 0) {
-              Dialogs.cell(row, mPublic.kICHT_IMPORTEORIGEN).getValue() === 0;
+              getCell(row, mPublic.kICHT_IMPORTEORIGEN).setValue(0);
             }
 
             cABMUtil.pCol(property.getGrid().getColumns(), mPublic.kICHT_CHEQUE).getHelpFilter() === mPublic.self.getChequeFileter(cueId);
@@ -3517,9 +3533,9 @@
 
           case mPublic.kICHT_CHEQUE:
             row = w_grid.getRows(lRow);
-            mPublic.self.setChequeData(row, Dialogs.cell(row, mPublic.kICHT_CHEQUE).getID());
+            mPublic.self.setChequeData(row, getCell(row, mPublic.kICHT_CHEQUE).getId());
 
-            pShowTotales();
+            showTotales();
 
             _rtn = true;
             return _rtn;
@@ -3537,84 +3553,67 @@
         return _rtn;
       };
 
-      var columnAfterUpdateCheque = function(property, lRow, lCol) { // TODO: Use of ByRef founded Private Function columnAfterUpdateCheque(ByRef IProperty As cIABMProperty, ByVal lRow As Long, ByVal lCol As Long) As Boolean
-        var _rtn = null;
-        var row = null;
-        var value = null;
+      var updateColCuenta = function(row, cueId, info) {
+        var cell = getCell(row, KICH_MON_ID);
+        cell.setValue(info.monName);
+        cell.setId(info.monId);
+        if(info.monId === m_defaultCurrency.id || info.monId === 0) {
+          getCell(row, KICH_IMPORTEORIGEN).setValue(0);
+        }
 
-        var w_grid = property.getGrid();
-        switch (w_grid.getColumns(lCol).Key) {
+        D.updateChequeraFilter(
+          property,
+          KICH_CHEQUERA,
+          cueId,
+          m_items
+        )
+      };
+
+      var columnAfterUpdateCheque = function(property, lRow, lCol) { // TODO: Use of ByRef founded Private Function columnAfterUpdateCheque(ByRef IProperty As cIABMProperty, ByVal lRow As Long, ByVal lCol As Long) As Boolean
+
+        var grid = property.getGrid();
+
+        switch (grid.getColumns().item(lCol).getKey()) {
+
           case KICH_IMPORTEORIGEN:
-            row = w_grid.getRows(lRow);
-            var w_pCell = Dialogs.cell(row, KICH_MON_ID);
-            if(w_pCell.getID() !== m_defaultCurrency || w_pCell.getID() === 0) {
-              Dialogs.cell(row, KICH_IMPORTE).getValue() === Cairo.Util.val(Dialogs.cell(row, KICH_IMPORTEORIGEN).getValue()) * Cairo.Util.val(getCotizacion().getValue());
+
+            var row = grid.getRows(lRow);
+            var cell = getCell(row, KICH_MON_ID);
+            if(cell.getId() !== m_defaultCurrency || cell.getId() === 0) {
+              getCell(row, KICH_IMPORTE).setValue(val(getCell(row, KICH_IMPORTEORIGEN).getValue()) * val(getCotizacion().getValue()));
             }
             else {
-              Dialogs.cell(row, KICH_IMPORTEORIGEN).getValue() === 0;
+              getCell(row, KICH_IMPORTEORIGEN).setValue(0);
             }
+            showTotales();
             break;
 
           case KICH_IMPORTE:
 
+            showTotales();
             break;
 
           case KI_CUE_ID_HABER:
-            var monId = null;
-            var cueId = null;
-            var moneda = null;
 
-            row = w_grid.getRows(lRow);
-
-            cueId = Dialogs.cell(row, KI_CUE_ID_HABER).getID();
-            GetMonedaFromCuenta(monId, moneda, cueId);
-
-            var w_pCell = Dialogs.cell(row, KICH_MON_ID);
-            w_pCell.setValue(moneda);
-            w_pCell.setID(monId);
-
-            if(monId === m_defaultCurrency || monId === 0) {
-              Dialogs.cell(row, KICH_IMPORTEORIGEN).getValue() === 0;
-            }
-
-            cABMUtil.pCol(property.getGrid().getColumns(), KICH_CHEQUERA).getHelpFilter() === CT.CUE_ID+ "="+ cueId.toString();
-
-                    #If PREPROC_SFS Then;
-            var abmObj = null;
-                    #Else;
-            var abmObj = null;
-                    #End If;
-            abmObj = m_items;
-            abmObj.RefreshColumnProperties(property, C_CHEQUERA);
-
-            _rtn = true;
-            return _rtn;
-
+            var cueId = getCell(row, KI_CUE_ID_HABER).getId();
+            D.getCurrencyFromAccount(cueId)
+              .whenSuccessWithResult(call(updateColCuenta, row, cueId));
             break;
 
           case KICH_CHEQUERA:
 
-            row = w_grid.getRows(lRow);
-            var w_pCell = Dialogs.cell(row, KICH_CHEQUERA);
-            if(w_pCell.getID() !== NO_ID) {
-              Dialogs.cell(row, KICH_CHEQUE).getValue() === GetChequeNumber(w_pCell.getID());
-            }
+            var row = grid.getRows().item(lRow);
 
-            break;
-
-          default:
-            _rtn = true;
-            return _rtn;
+            D.getChequeNumber(getCell(row, KICH_CHEQUERA).getId()).whenSuccessWithResult(function(response) {
+              getCell(row, KICH_CHEQUE).setValue(valField(response.data, C.CHEQ_NUMERO_DOC));
+            });
             break;
         }
 
-        pShowTotales();
-        _rtn = true;
-
-        return _rtn;
+        return P.resolvedPromise(true);
       };
 
-      var pValidateRowICheques = function(row, rowIndex) { // TODO: Use of ByRef founded Private Function pValidateRowICheques(ByRef Row As CSInterfacesABM.cIABMGridRow, ByVal RowIndex As Long) As Boolean
+      var validateRowICheques = function(row, rowIndex) { // TODO: Use of ByRef founded Private Function validateRowICheques(ByRef Row As CSInterfacesABM.cIABMGridRow, ByVal RowIndex As Long) As Boolean
 
         var cell = null;
         var bOrigen = null;
@@ -3664,12 +3663,12 @@
               break;
 
             case KICH_IMPORTEORIGEN:
-              bOrigen = !valEmpty(Cairo.Util.val(cell.getValue()), Types.double);
+              bOrigen = !valEmpty(val(cell.getValue()), Types.double);
 
               break;
 
             case KICH_IMPORTE:
-              if(valEmpty(Cairo.Util.val(cell.getValue()), Types.double)) {
+              if(valEmpty(val(cell.getValue()), Types.double)) {
                 return M.showInfoWithFalse(getText(1897, "", strRow)); // Debe indicar un importe (1)
               }
 
@@ -3701,7 +3700,7 @@
         return P.resolvedPromise(true);
       };
 
-      var pValidateRowTCheques = function(row, rowIndex) { // TODO: Use of ByRef founded Private Function pValidateRowTCheques(ByRef Row As CSInterfacesABM.cIABMGridRow, ByVal RowIndex As Long) As Boolean
+      var validateRowTCheques = function(row, rowIndex) { // TODO: Use of ByRef founded Private Function validateRowTCheques(ByRef Row As CSInterfacesABM.cIABMGridRow, ByVal RowIndex As Long) As Boolean
 
         var cell = null;
         var bOrigen = null;
@@ -3733,7 +3732,7 @@
         return P.resolvedPromise(true);
       };
 
-      var pValidateRowCheques = function(row, rowIndex) { // TODO: Use of ByRef founded Private Function pValidateRowCheques(ByRef Row As CSInterfacesABM.cIABMGridRow, ByVal RowIndex As Long) As Boolean
+      var validateRowCheques = function(row, rowIndex) { // TODO: Use of ByRef founded Private Function validateRowCheques(ByRef Row As CSInterfacesABM.cIABMGridRow, ByVal RowIndex As Long) As Boolean
 
         var cell = null;
         var bOrigen = null;
@@ -3775,12 +3774,12 @@
               break;
 
             case KICH_IMPORTEORIGEN:
-              bOrigen = !valEmpty(Cairo.Util.val(cell.getValue()), Types.double);
+              bOrigen = !valEmpty(val(cell.getValue()), Types.double);
 
               break;
 
             case KICH_IMPORTE:
-              if(valEmpty(Cairo.Util.val(cell.getValue()), Types.double)) {
+              if(valEmpty(val(cell.getValue()), Types.double)) {
                 return M.showInfoWithFalse(getText(1897, "", strRow)); // Debe indicar un importe (1)
               }
 
@@ -3851,7 +3850,7 @@
 
             case mPublic.kICHT_IMPORTE:
             case mPublic.kICHT_IMPORTEORIGEN:
-              if(!valEmpty(Cairo.Util.val(cell.getValue()), Types.double)) {
+              if(!valEmpty(val(cell.getValue()), Types.double)) {
                 var bRowIsEmpty = true;
                 break;
               }
@@ -3896,7 +3895,7 @@
 
             case mPublic.kICHT_IMPORTE:
             case mPublic.kICHT_IMPORTEORIGEN:
-              if(!valEmpty(Cairo.Util.val(cell.getValue()), Types.double)) {
+              if(!valEmpty(val(cell.getValue()), Types.double)) {
                 var bRowIsEmpty = true;
                 break;
               }
@@ -3942,7 +3941,7 @@
 
             case KICH_IMPORTE:
             case KICH_IMPORTEORIGEN:
-              if(!valEmpty(Cairo.Util.val(cell.getValue()), Types.double)) {
+              if(!valEmpty(val(cell.getValue()), Types.double)) {
                 var bRowIsEmpty = true;
                 break;
               }
@@ -3966,17 +3965,11 @@
         return m_properties.item(CT.MF_COTIZACION);
       };
 
-      var pIsMonDefault = function(cue_id) {
-        var sqlstmt = null;
-        var rs = null;
-
-        sqlstmt = "select moneda.mon_id from cuenta, moneda where cuenta.mon_id = moneda.mon_id  and cue_id = "+ cue_id.toString()+ " and mon_legal <> 0";
-
-        if(!Cairo.Database.openRs(sqlstmt, rs)) { return false; }
-
-        return !rs.isEOF();
+      var accountUseDefaultCurrency = function(cueId) {
+        return D.getCurrencyFromAccount(cueId).whenSuccessWithResult(function(info) {
+          return info.monId === m_defaultCurrency.id;
+        });
       };
-
 
       return self;
     };
@@ -4257,11 +4250,11 @@
         c.setKey(K_CLI_ID);
         value = m_cliente;
         if(m_cliId.Substring(0, 1).toUpperCase() === KEY_NODO) {
-          value = GetNombreRama(Cairo.Tables.CLIENTE, Cairo.Util.val(m_cliId.Substring(2)), bExists);
+          value = GetNombreRama(Cairo.Tables.CLIENTE, val(m_cliId.Substring(2)), bExists);
           if(!bExists) { m_cliId = "0"; }
         }
         c.setValue(value);
-        c.setSelectId(Cairo.Util.val(m_cliId));
+        c.setSelectId(val(m_cliId));
         c.setSelectIntValue(m_cliId);
 
         c = m_properties.add(null, C.EST_ID);
@@ -4271,11 +4264,11 @@
         c.setKey(K_EST_ID);
         value = m_estado;
         if(m_estId.Substring(0, 1).toUpperCase() === KEY_NODO) {
-          value = GetNombreRama(csEstado, Cairo.Util.val(m_estId.Substring(2)), bExists);
+          value = GetNombreRama(csEstado, val(m_estId.Substring(2)), bExists);
           if(!bExists) { m_estId = "0"; }
         }
         c.setValue(value);
-        c.setSelectId(Cairo.Util.val(m_estId));
+        c.setSelectId(val(m_estId));
         c.setSelectIntValue(m_estId);
 
         c = m_properties.add(null, CT.CCOS_ID);
@@ -4285,11 +4278,11 @@
         c.setKey(K_CCOS_ID);
         value = m_centroCosto;
         if(m_ccosId.Substring(0, 1).toUpperCase() === KEY_NODO) {
-          value = GetNombreRama(Cairo.Tables.CENTRO_COSTO, Cairo.Util.val(m_ccosId.Substring(2)), bExists);
+          value = GetNombreRama(Cairo.Tables.CENTRO_COSTO, val(m_ccosId.Substring(2)), bExists);
           if(!bExists) { m_ccosId = "0"; }
         }
         c.setValue(value);
-        c.setSelectId(Cairo.Util.val(m_ccosId));
+        c.setSelectId(val(m_ccosId));
         c.setSelectIntValue(m_ccosId);
 
         c = m_properties.add(null, CT.SUC_ID);
@@ -4299,11 +4292,11 @@
         c.setKey(K_SUC_ID);
         value = m_sucursal;
         if(m_sucId.Substring(0, 1).toUpperCase() === KEY_NODO) {
-          value = GetNombreRama(Cairo.Tables.SUCURSAL, Cairo.Util.val(m_sucId.Substring(2)), bExists);
+          value = GetNombreRama(Cairo.Tables.SUCURSAL, val(m_sucId.Substring(2)), bExists);
           if(!bExists) { m_sucId = "0"; }
         }
         c.setValue(value);
-        c.setSelectId(Cairo.Util.val(m_sucId));
+        c.setSelectId(val(m_sucId));
         c.setSelectIntValue(m_sucId);
 
         c = m_properties.add(null, Cairo.Constants.US_ID);
@@ -4313,11 +4306,11 @@
         c.setKey(K_US_ID);
         value = m_usuario;
         if(m_usId_responsable.Substring(0, 1).toUpperCase() === KEY_NODO) {
-          value = GetNombreRama(csUsuario, Cairo.Util.val(m_usId_responsable.Substring(2)), bExists);
+          value = GetNombreRama(csUsuario, val(m_usId_responsable.Substring(2)), bExists);
           if(!bExists) { m_usId_responsable = "0"; }
         }
         c.setValue(value);
-        c.setSelectId(Cairo.Util.val(m_usId_responsable));
+        c.setSelectId(val(m_usId_responsable));
         c.setSelectIntValue(m_usId_responsable);
 
         c = m_properties.add(null, CT.DOC_ID);
@@ -4327,11 +4320,11 @@
         c.setKey(K_DOC_ID);
         value = m_documento;
         if(m_docId.Substring(0, 1).toUpperCase() === KEY_NODO) {
-          value = GetNombreRama(csETablasDocumento.CSDocumento, Cairo.Util.val(m_docId.Substring(2)), bExists);
+          value = GetNombreRama(csETablasDocumento.CSDocumento, val(m_docId.Substring(2)), bExists);
           if(!bExists) { m_docId = "0"; }
         }
         c.setValue(value);
-        c.setSelectId(Cairo.Util.val(m_docId));
+        c.setSelectId(val(m_docId));
         c.setSelectIntValue(m_docId);
         c.setSelectFilter("'{emp_id=0}doct_id = "+ csEDocumentoTipo.cSEDT_MOVIMIENTOFONDO.toString()+ "'");
 
@@ -4343,11 +4336,11 @@
         c.setKey(K_EMP_ID);
         value = m_empresa;
         if(m_empId.Substring(0, 1).toUpperCase() === KEY_NODO) {
-          value = GetNombreRama(Cairo.Tables.EMPRESA, Cairo.Util.val(m_empId.Substring(2)), bExists);
+          value = GetNombreRama(Cairo.Tables.EMPRESA, val(m_empId.Substring(2)), bExists);
           if(!bExists) { m_empId = "0"; }
         }
         c.setValue(value);
-        c.setSelectId(Cairo.Util.val(m_empId));
+        c.setSelectId(val(m_empId));
         c.setSelectIntValue(m_empId);
 
         createMenu();
