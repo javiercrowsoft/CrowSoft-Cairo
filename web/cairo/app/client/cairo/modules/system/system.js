@@ -954,6 +954,14 @@
     + Cairo.Documents.Types.ASIENTO_CONTABLE.toString()
   ;
 
+  Cairo.Documents.MOVIMIENTOS_DE_FONDO_DOC_FILTER = "document|documentTypeId:"
+    + Cairo.Documents.Types.MOVIMIENTO_FONDO.toString()
+  ;
+
+  Cairo.Documents.DEPOSITOS_BANCARIOS_DOC_FILTER = "document|documentTypeId:"
+    + Cairo.Documents.Types.DEPOSITO_BANCO.toString()
+  ;
+
   Cairo.Documents.FACTURA_COMPRAS_DOC_FILTER = "document|documentTypeId:"
     + Cairo.Documents.Types.FACTURA_COMPRA.toString()
     + "*" + Cairo.Documents.Types.NOTA_CREDITO_COMPRA.toString()

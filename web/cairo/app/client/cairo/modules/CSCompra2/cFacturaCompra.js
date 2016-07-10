@@ -2234,8 +2234,9 @@
 
         elem = properties.add(null, CC.FC_COTIZACION_PROV);
         elem.setType(T.numeric);
-        elem.setSubType(Dialogs.PropertySubType.double);
+        elem.setSubType(Dialogs.PropertySubType.money);
         elem.setName(getText(4653, "")); // Cotizacion Proveedor
+        elem.setFormat(Cairo.Settings.getCurrencyRateDecimalsFormat());
         elem.setKey(K_COTIZACION_PROV);
         elem.setValue(m_cotizacionProv);
         elem.setTabIndex(1);

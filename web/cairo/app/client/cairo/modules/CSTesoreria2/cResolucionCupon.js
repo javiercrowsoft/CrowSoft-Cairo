@@ -313,7 +313,7 @@
         c.setSelectId(Cairo.Util.val(m_sucId));
         c.setSelectIntValue(m_sucId);
 
-        c = m_dialog.getProperties().add(null, CT.DOC_ID);
+        c = m_dialog.getProperties().add(null, C.DOC_ID);
         c.setType(Dialogs.PropertyType.select);
         c.setSelectTable(csETablasDocumento.CSDocumento);
         // Documentos
@@ -493,7 +493,7 @@
             break;
 
           case K_DOC_ID:
-            var property = m_dialog.getProperties().item(CT.DOC_ID);
+            var property = m_dialog.getProperties().item(C.DOC_ID);
             m_documento = property.getValue();
             m_docId = property.getSelectIntValue();
 

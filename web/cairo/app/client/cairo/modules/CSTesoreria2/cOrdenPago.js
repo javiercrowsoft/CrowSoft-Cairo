@@ -1394,6 +1394,7 @@
         elem.setGridAddEnabled(true);
         elem.setGridEditEnabled(true);
         elem.setGridRemoveEnabled(true);
+
         m_chequesTDeleted = "";
 
         elem = properties.add(null, C_OTROS);
@@ -1425,7 +1426,6 @@
         m_ctaCteDeleted = "";
 
         if(!m_items.show(self)) { return false; }
-
 
         /////////////////////////////////////////////////////////////////////
         // FOOTER

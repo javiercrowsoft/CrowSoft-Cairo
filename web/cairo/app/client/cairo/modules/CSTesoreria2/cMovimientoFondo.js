@@ -175,8 +175,8 @@
       var m_orden = 0;
 
       var m_chequesDeleted = "";
-      var m_tChequesDeleted = "";
-      var m_iChequesDeleted = "";
+      var m_chequesTDeleted = "";
+      var m_chequesIDeleted = "";
 
       var m_apiPath = DB.getAPIVersion();
 
@@ -610,7 +610,7 @@
                   break;
 
                 case K_DOC_ID:
-                  fields.add(CT.DOC_ID, property.getSelectId(), Types.id);
+                  fields.add(C.DOC_ID, property.getSelectId(), Types.id);
                   break;
 
                 case K_COTIZACION:
@@ -1032,13 +1032,13 @@
           case K_CHEQUEST:
 
             var id = val(getCell(row, KICH_MFI_ID).getValue());
-            if(id !== NO_ID) { m_tChequesDeleted = m_tChequesDeleted+ id.toString()+ ","; }
+            if(id !== NO_ID) { m_chequesTDeleted = m_chequesTDeleted+ id.toString()+ ","; }
             break;
 
           case K_CHEQUESI:
 
             var id = val(getCell(row, KICH_MFI_ID).getValue());
-            if(id !== NO_ID) { m_iChequesDeleted = m_iChequesDeleted+ id.toString()+ ","; }
+            if(id !== NO_ID) { m_chequesIDeleted = m_chequesIDeleted+ id.toString()+ ","; }
             break;
 
           case K_EFECTIVO:
@@ -1240,45 +1240,29 @@
         return true;
       };
 
-      // funciones privadas
       var loadCollection = function() {
-        var filter = null;
-        var c = null;
-                #If PREPROC_SFS Then;
-        var abmGen = null;
-                #Else;
-        var abmGen = null;
-                #End If;
-        var cotizacion = null;
 
-        // Preferencias del usuario
-        //
-        var bValidateDocDefault = null;
+        var cotizacion = 0;
+        var validateDocDefault = false;
+        var elem;
 
-        abmGen = m_dialog;
-        abmGen.ResetLayoutMembers;
+        var properties = m_properties;
+        m_properties.clear();
 
-        abmGen.setNoButtons1(csButtons.bUTTON_DOC_APLIC);
-        abmGen.setNoButtons2(csButtons.bUTTON_DOC_ACTION);
-        abmGen.InitButtons;
+        var tabs = m_dialog.getTabs();
+        tabs.clear();
 
-        var w_tabs = m_dialog.getTabs();
-        w_tabs.clear();
+        tabs.add(null).setIndex(0).setName(Cairo.Constants.TAB_GENERAL);
+        tabs.add(null).setIndex(1).setName(getText(1566, "")); // Adicionales
+        tabs.add(null).setIndex(2).setName(getText(1861, "")); // Observaciones
 
-        var tab = w_tabs.add(null);
-        tab.setName(Cairo.Constants.c_strGeneral);
+        m_dialog.setNoButtons1(Dialogs.Buttons.BUTTON_DOC_APLIC);
+        m_dialog.setNoButtons2(Dialogs.Buttons.BUTTON_DOC_ACTION);
+        m_dialog.initButtons();
 
-        var tab = w_tabs.add(null);
-        tab.setIndex(1);
-        tab.setName(getText(1566, "")); // Adicionales
-
-        var properties = m_dialog.getProperties();
-
-        properties.clear();
-
-        var elem = properties.add(null, CT.DOC_ID);
+        elem = properties.add(null, C.DOC_ID);
         elem.setType(Dialogs.PropertyType.select);
-        elem.setTable(CSDocumento2.CSDocumento);
+        elem.setTable(Cairo.Tables.DOCUMENTO);
         elem.setName(getText(1567, "")); // Documento
         elem.setKey(K_DOC_ID);
 
@@ -1287,90 +1271,79 @@
           elem.setValue(m_documento);
         }
         else {
-          // Preferencias del usuario
+          // user preferences
           //
           elem.setSelectId(Cairo.UserConfig.getDocMfId());
           elem.setValue(Cairo.UserConfig.getDocMfNombre());
 
-          bValidateDocDefault = elem.getSelectId() !== NO_ID;
+          validateDocDefault = elem.getSelectId() !== NO_ID;
         }
 
-        elem.setSelectFilter("'doct_id = "+ csEDocumentoTipo.cSEDT_MOVIMIENTOFONDO.toString()+ "'");
+        elem.setSelectFilter(D.MOVIMIENTOS_DE_FONDO_DOC_FILTER);
 
-        var elem = properties.add(null, cDeclarations.getCsDocNumberID());
+        elem = properties.add(null, Cairo.Constants.NUMBER_ID);
         elem.setType(Dialogs.PropertyType.numeric);
-        elem.setSubType(Dialogs.PropertySubType.Integer);
+        elem.setSubType(Dialogs.PropertySubType.integer);
         elem.setName(getText(1065, "")); // Número
         elem.setKey(K_NUMERO);
         elem.setValue(m_numero);
         elem.setEnabled(false);
 
-        var elem = properties.add(null, cDeclarations.getCsDocEstateID());
+        elem = properties.add(null, Cairo.Constants.STATUS_ID);
         elem.setType(Dialogs.PropertyType.text);
         elem.setName(getText(1568, "")); // Estado
         elem.setKey(K_EST_ID);
         elem.setValue(m_estado);
         elem.setEnabled(false);
 
-        var elem = properties.add(null, CT.MF_FECHA);
+        elem = properties.add(null, CT.MF_FECHA);
         elem.setType(Dialogs.PropertyType.date);
         elem.setName(getText(1569, "")); // Fecha
-        elem.setLeftLabel(-580);
-        elem.setLeft(700);
         elem.setKey(K_FECHA);
         elem.setValue(m_fecha);
 
-        var elem = properties.add(null, CT.CLI_ID);
+        elem = properties.add(null, CT.CLI_ID);
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.CLIENTE);
-        elem.setTopFromProperty(CT.MF_FECHA);
-        elem.setLeft(3500);
-        elem.setLeftLabel(-1100);
         elem.setName(getText(1150, "")); // Cliente
         elem.setKey(K_CLI_ID);
         elem.setSelectId(m_cliId);
         elem.setValue(m_cliente);
-        abmGen.NewKeyPropFocus = CT.CLI_ID;
+        m_dialog.NewKeyPropFocus = CT.CLI_ID;
 
-        var elem = properties.add(null, CT.MF_NRODOC);
+        elem = properties.add(null, CT.MF_NRODOC);
         elem.setType(Dialogs.PropertyType.text);
         elem.setName(getText(1065, "")); // Número
-        elem.setTopToPrevious(400);
         elem.setSize(50);
         elem.setKey(K_NRODOC);
         elem.setValue(m_nrodoc);
         elem.setTextMask(m_taMascara);
-        elem.setTextAlign(vbRightJustify);
+        elem.setTextAlign(Dialogs.TextAlign.right);
 
-        var elem = properties.add(null, Cairo.Constants.US_ID);
+        elem = properties.add(null, Cairo.Constants.US_ID);
         elem.setType(Dialogs.PropertyType.select);
-        elem.setTable(csUsuario);
+        elem.setTable(Cairo.Tables.USUARIO);
         elem.setName(getText(1822, "")); // Responsable
-        elem.setTopToPrevious(400);
         elem.setKey(K_US_ID);
         elem.setSelectId(m_usId);
         elem.setValue(m_usuario);
 
-        var elem = properties.add(null, CT.LGJ_ID);
+        elem = properties.add(null, CT.LGJ_ID);
         elem.setType(Dialogs.PropertyType.select);
-        elem.setTable(CSLEGAJO);
+        elem.setTable(Cairo.Tables.LEGAJOS);
         elem.setName(getText(1575, "")); // Legajo
         elem.setKey(K_LGJ_ID);
         elem.setSelectId(m_lgjId);
         elem.setValue(m_legajo);
         elem.setTabIndex(1);
 
-        var elem = properties.add(null, CT.MF_COTIZACION);
+        elem = properties.add(null, CT.MF_COTIZACION);
         elem.setType(Dialogs.PropertyType.numeric);
         elem.setSubType(Dialogs.PropertySubType.money);
-        elem.setTopFromProperty(CT.CLI_ID);
-        elem.setLeft(7100);
-        elem.setLeftLabel(-1200);
         elem.setName(getText(1635, "")); // Cotización
-        elem.setFormat(m_generalConfig.getFormatDecCotizacion());
+        elem.setFormat(Cairo.Settings.getCurrencyRateDecimalsFormat());
         elem.setKey(K_COTIZACION);
         elem.setValue(m_cotizacion);
-        elem.setWidth(1000);
 
         if(m_cotizacion !== 0) {
           cotizacion = m_cotizacion;
@@ -1379,37 +1352,30 @@
           cotizacion = 1;
         }
 
-        var elem = properties.add(null, CT.CCOS_ID);
+        elem = properties.add(null, CT.CCOS_ID);
         elem.setType(Dialogs.PropertyType.select);
-        elem.setSelectTable(Cairo.Tables.CENTROCOSTO);
+        elem.setSelectTable(Cairo.Tables.CENTROS_DE_COSTO);
         elem.setName(getText(1057, "")); // Centro de Costo
-        elem.setTopToPrevious(400);
         elem.setKey(K_CCOS_ID);
         elem.setSelectId(m_ccosId);
         elem.setValue(m_centroCosto);
 
-        var elem = properties.add(null, CT.SUC_ID);
+        elem = properties.add(null, CT.SUC_ID);
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.SUCURSAL);
         elem.setName(getText(1281, "")); // Sucursal
-        elem.setTopToPrevious(400);
         elem.setKey(K_SUC_ID);
         elem.setSelectId(m_sucId);
         elem.setValue(m_sucursal);
 
-        var elem = properties.add(null, CT.MF_DESCRIP);
+        elem = properties.add(null, CT.MF_DESCRIP);
         elem.setType(Dialogs.PropertyType.text);
         elem.setSubType(Dialogs.PropertySubType.memo);
         elem.setName(getText(1211, "")); // Observ.
-        elem.setLeftLabel(-600);
         elem.setSize(5000);
         elem.setKey(K_DESCRIP);
         elem.setValue(m_descrip);
-        elem.setLeftFromProperty(CT.MF_FECHA);
-        elem.setTopFromProperty(CT.MF_NRODOC);
-        elem.setWidth(8660);
-        elem.setHeight(520);
-        elem.setTopToPrevious(800);
+        elem.setTabIndex(3);
 
         if(!m_dialog.show(self)) { return false; }
 
@@ -1418,119 +1384,96 @@
         var c_TabChequeT = 2;
         var c_TabChequeI = 3;
 
-        var w_tabs = m_items.getTabs();
+        tabs = m_items.getTabs();
+        tabs.clear();
 
-        w_tabs.clear();
+        tabs.add(null).setIndex(c_TabEfectivo).setName(getText(2100, "")); // Efectivo
+        tabs.add(null).setIndex(c_TabCheque).setName(getText(2099, "")); // Cheques
+        tabs.add(null).setIndex(c_TabChequeT).setName(getText(2188, "")); // Cheques en Cartera
+        tabs.add(null).setIndex(c_TabChequeI).setName(getText(2189, "")); // Ingreso de Cheques
 
-        var tab = w_tabs.add(null);
-        tab.setIndex(c_TabEfectivo);
-        tab.setName(getText(2100, "")); // Efectivo
-
-        var tab = w_tabs.add(null);
-        tab.setIndex(c_TabCheque);
-        tab.setName(getText(2099, "")); // Cheques
-
-        var tab = w_tabs.add(null);
-        tab.setIndex(c_TabChequeT);
-        tab.setName(getText(2188, "")); // Cheques en Cartera
-
-        var tab = w_tabs.add(null);
-        tab.setIndex(c_TabChequeI);
-        tab.setName(getText(2189, "")); // Ingreso de Cheques
-
-        abmGen = m_items;
-        abmGen.ResetLayoutMembers;
-
-        var properties = m_items.getProperties();
-
+        properties = m_itemsProps;
         properties.clear();
 
-        ///////////////////////////////////////////////////////////////////
-        cTIVO); // EFECTIVO
-        c.setType(Dialogs.PropertyType.grid);
-        c.hideLabel();;
-        setGridEfectivo(c);
-        if(!loadEfectivo(c, cotizacion)) { return false; }
-        c.setName(C_EFECTIVO);
-        c.setKey(K_EFECTIVO);
-        c.setTabIndex(0);
-        c.setGridAddEnabled(true);
-        c.setGridEditEnabled(true);
-        c.setGridRemoveEnabled(true);
+        elem = properties.add(null, C_EFECTIVO);
+        elem.setType(T.grid);
+        elem.hideLabel();
+        setGridEfectivo(elem);
+        loadEfectivo(elem);
+        elem.setName(C_EFECTIVO);
+        elem.setKey(K_EFECTIVO);
+        elem.setTabIndex(c_TabEfectivo);
+        elem.setGridAddEnabled(true);
+        elem.setGridEditEnabled(true);
+        elem.setGridRemoveEnabled(true);
+
         m_efectivoDeleted = "";
 
-        ///////////////////////////////////////////////////////////////////
-        cHEQUES); // CHEQUES
-        c.setType(Dialogs.PropertyType.grid);
-        c.hideLabel();;
-        setGridCheques(c);
-        if(!loadCheques(c)) { return false; }
-        c.setName(C_CHEQUES);
-        c.setKey(K_CHEQUES);
-        c.setTabIndex(c_TabCheque);
-        c.setGridAddEnabled(true);
-        c.setGridEditEnabled(true);
-        c.setGridRemoveEnabled(true);
+        elem = properties.add(null, C_CHEQUES);
+        elem.setType(T.grid);
+        elem.hideLabel();
+        setGridCheques(elem);
+        loadCheques(elem);
+        elem.setName(C_CHEQUES);
+        elem.setKey(K_CHEQUES);
+        elem.setTabIndex(c_TabCheque);
+        elem.setGridAddEnabled(true);
+        elem.setGridEditEnabled(true);
+        elem.setGridRemoveEnabled(true);
 
         m_chequesDeleted = "";
 
-        ///////////////////////////////////////////////////////////////////
-        cHEQUEST); // CHEQUES DE TERCERO
-        c.setType(Dialogs.PropertyType.grid);
-        c.hideLabel();;
-        setGridTCheques(c);
-        if(!loadTCheques(c)) { return false; }
-        c.setName(C_CHEQUEST);
-        c.setKey(K_CHEQUEST);
-        c.setTabIndex(c_TabChequeT);
-        c.setGridAddEnabled(true);
-        c.setGridEditEnabled(true);
-        c.setGridRemoveEnabled(true);
+        elem = properties.add(null, C_CHEQUEST);
+        elem.setType(T.grid);
+        elem.hideLabel();
+        setGridTCheques(elem);
+        loadChequesT(elem);
+        elem.setName(C_CHEQUEST);
+        elem.setKey(K_CHEQUEST);
+        elem.setTabIndex(c_TabChequeT);
+        elem.setGridAddEnabled(true);
+        elem.setGridEditEnabled(true);
+        elem.setGridRemoveEnabled(true);
 
-        m_tChequesDeleted = "";
+        m_chequesTDeleted = "";
 
-        ///////////////////////////////////////////////////////////////////
-        cHEQUESI); // INGRESO DE CHEQUES DE TERCERO
-        c.setType(Dialogs.PropertyType.grid);
-        c.hideLabel();;
-        setGridICheques(c);
-        if(!loadICheques(c)) { return false; }
-        c.setName(C_CHEQUESI);
-        c.setKey(K_CHEQUESI);
-        c.setTabIndex(c_TabChequeI);
-        c.setGridAddEnabled(true);
-        c.setGridEditEnabled(true);
-        c.setGridRemoveEnabled(true);
+        elem = properties.add(null, C_CHEQUESI);
+        elem.setType(T.grid);
+        elem.hideLabel();
+        setGridICheques(elem);
+        loadChequesI(elem);
+        elem.setName(C_CHEQUESI);
+        elem.setKey(K_CHEQUESI);
+        elem.setTabIndex(c_TabChequeI);
+        elem.setGridAddEnabled(true);
+        elem.setGridEditEnabled(true);
+        elem.setGridRemoveEnabled(true);
 
-        m_iChequesDeleted = "";
+        m_chequesIDeleted = "";
 
         if(!m_items.show(self)) { return false; }
 
-        abmGen = m_footer;
-        abmGen.ResetLayoutMembers;
-
-        var properties = m_footer.getProperties();
-
+        var properties = m_footerProps;
         properties.clear();
 
-        c = properties.add(null, CT.MF_TOTAL);
-        c.setType(Dialogs.PropertyType.numeric);
-        c.setFormat(m_generalConfig.getFormatDecImporte());
-        c.setName(getText(1584, "")); // Total
-        c.setSubType(Dialogs.PropertySubType.money);
-        c.setKey(K_TOTAL);
-        c.setValue(m_total);
-        c.setEnabled(false);
+        elem = properties.add(null, CT.MF_TOTAL);
+        elem.setType(T.numeric);
+        elem.setFormat(Cairo.Settings.getAmountDecimalsFormat());
+        elem.setName(getText(1584, "")); // Total
+        elem.setSubType(Dialogs.PropertySubType.money);
+        elem.setKey(K_TOTAL);
+        elem.setValue(m_total);
+        elem.setEnabled(false);
 
         setEnabled();
 
         if(!m_footer.show(self)) { return false; }
 
-        // Preferencias del Usuario
-        //
-        if(bValidateDocDefault) {
+        if(validateDocDefault) {
           self.propertyChange(K_DOC_ID);
         }
+
+        showCotizacion();
 
         return true;
       };
@@ -1541,16 +1484,16 @@
 
         var properties = m_dialog.getProperties();
 
-        var elem = properties.item(CT.DOC_ID);
+        var elem = properties.item(C.DOC_ID);
         elem.setSelectId(m_docId);
         elem.setValue(m_documento);
         elem.setSelectId(Cairo.UserConfig.getDocMfId());
         elem.setValue(Cairo.UserConfig.getDocMfNombre());
 
-        var elem = properties.item(cDeclarations.getCsDocNumberID());
+        var elem = properties.item(Cairo.Constants.NUMBER_ID);
         elem.setValue(m_numero);
 
-        var elem = properties.item(cDeclarations.getCsDocEstateID());
+        var elem = properties.item(Cairo.Constants.STATUS_ID);
         elem.setValue(m_estado);
 
         var elem = properties.item(CT.MF_FECHA);
@@ -1596,7 +1539,7 @@
 
         if(m_id === NO_ID) {
           if(m_lastDocId === NO_ID) { return; }
-          if(!Cairo.Database.getData(CT.DOCUMENTO, CT.DOC_ID, m_lastDocId, CT.MON_ID, monId)) { return; }
+          if(!Cairo.Database.getData(CT.DOCUMENTO, C.DOC_ID, m_lastDocId, CT.MON_ID, monId)) { return; }
         }
         else {
           monId = m_monId;
@@ -1656,7 +1599,6 @@
           elem.setName(getText(4814, "")); // Cuenta Debe
           elem.setType(Dialogs.PropertyType.select);
           elem.setSelectTable(Cairo.Tables.CUENTA);
-          elem.setWidth(1800);
           elem.setKey(KI_CUE_ID_DEBE);
           elem.setSelectFilter(GetHelpFilterCuenta());
 
@@ -1664,7 +1606,6 @@
           elem.setName(getText(4815, "")); // Cuenta Haber
           elem.setType(Dialogs.PropertyType.select);
           elem.setSelectTable(Cairo.Tables.CUENTA);
-          elem.setWidth(1800);
           elem.setKey(KI_CUE_ID_HABER);
           elem.setSelectFilter(GetHelpFilterCuenta());
 
@@ -1674,7 +1615,6 @@
           elem.setName(getText(2190, "")); // Cuenta Origen
           elem.setType(Dialogs.PropertyType.select);
           elem.setSelectTable(Cairo.Tables.CUENTA);
-          elem.setWidth(1800);
           elem.setKey(KI_CUE_ID_HABER);
           elem.setSelectFilter(GetHelpFilterCuenta());
 
@@ -1682,7 +1622,6 @@
           elem.setName(getText(2191, "")); // Cuenta Destino
           elem.setType(Dialogs.PropertyType.select);
           elem.setSelectTable(Cairo.Tables.CUENTA);
-          elem.setWidth(1800);
           elem.setKey(KI_CUE_ID_DEBE);
           elem.setSelectFilter(GetHelpFilterCuenta());
         }
@@ -1691,7 +1630,6 @@
         elem.setName(Cairo.Constants.DESCRIPTION_LABEL);
         elem.setType(Dialogs.PropertyType.text);
         elem.setSubType(Dialogs.PropertySubType.textButtonEx);
-        elem.setWidth(4000);
         elem.setKey(KI_DESCRIP);
 
         var elem = w_columns.add(null);
@@ -1699,7 +1637,6 @@
         elem.setType(Dialogs.PropertyType.numeric);
         elem.setFormat(m_generalConfig.getFormatDecImporte());
         elem.setSubType(Dialogs.PropertySubType.money);
-        elem.setWidth(1200);
         elem.setKey(KI_IMPORTE);
 
         if(Cairo.UserConfig.getDebeHaberMf()) {
@@ -1748,8 +1685,7 @@
         var elem = w_columns.add(null);
         elem.setName(getText(1057, "")); // Centro de Costo
         elem.setType(Dialogs.PropertyType.select);
-        elem.setSelectTable(Cairo.Tables.CENTROCOSTO);
-        elem.setWidth(1800);
+        elem.setSelectTable(Cairo.Tables.CENTROS_DE_COSTO);
         elem.setKey(KI_CCOS_ID);
 
         var w_rows = w_grid.getRows();
@@ -1861,7 +1797,7 @@
               m_centroCosto = Cairo.Database.valField(response.data, CT.CCOS_NAME);
               m_sucId = Cairo.Database.valField(response.data, CT.SUC_ID);
               m_sucursal = Cairo.Database.valField(response.data, CT.SUC_NAME);
-              m_docId = Cairo.Database.valField(response.data, CT.DOC_ID);
+              m_docId = Cairo.Database.valField(response.data, C.DOC_ID);
               m_documento = Cairo.Database.valField(response.data, CT.DOC_NAME);
               m_doctId = Cairo.Database.valField(response.data, CT.DOCT_ID);
               m_usId = Cairo.Database.valField(response.data, Cairo.Constants.US_ID);
@@ -2118,7 +2054,7 @@
         var bState = null;
 
         if(m_docEditable) {
-          bState = m_properties.item(CT.DOC_ID).getSelectId() !== NO_ID;
+          bState = m_properties.item(C.DOC_ID).getSelectId() !== NO_ID;
         }
         else {
           bState = false;
@@ -2156,16 +2092,16 @@
         }
 
                 #If PREPROC_SFS Then;
-        var abmGen = null;
+        var m_dialog = null;
                 #Else;
-        var abmGen = null;
+        var m_dialog = null;
                 #End If;
 
-        abmGen = m_items;
-        abmGen.RefreshEnabledState(m_items.getProperties());
+        m_dialog = m_items;
+        m_dialog.RefreshEnabledState(m_items.getProperties());
 
-        abmGen = m_dialog;
-        abmGen.RefreshEnabledState(m_dialog.getProperties());
+        m_dialog = m_dialog;
+        m_dialog.RefreshEnabledState(m_dialog.getProperties());
       };
 
       var getCueIdCliente = function(mon_id, cue_id) { // TODO: Use of ByRef founded Private Function getCueIdCliente(ByRef Mon_id As Long, ByRef Cue_id As Long) As Boolean
@@ -2214,7 +2150,7 @@
         m_estado = Cairo.Database.valField(rs.getFields(), Cairo.Constants.EST_NAME);
 
         var iProp = null;
-        iProp = m_properties.item(cDeclarations.getCsDocEstateID());
+        iProp = m_properties.item(Cairo.Constants.STATUS_ID);
 
         iProp.setSelectId(m_estId);
         iProp.setValue(m_estado);
@@ -2231,7 +2167,7 @@
         var rs = null;
         var doc_id = null;
 
-        doc_id = m_properties.item(CT.DOC_ID).getSelectId();
+        doc_id = m_properties.item(C.DOC_ID).getSelectId();
 
         if(doc_id === NO_ID) { return M.showInfoWithFalse(getText(1595, "")); }
         //Debe seleccionar un documento
@@ -2294,16 +2230,16 @@
       var refreshProperties = function() {
         var c = null;
                 #If PREPROC_SFS Then;
-        var abmGen = null;
+        var m_dialog = null;
                 #Else;
-        var abmGen = null;
+        var m_dialog = null;
                 #End If;
         var filter = null;
         var cotizacion = null;
 
         var properties = m_dialog.getProperties();
 
-        c = properties.item(CT.DOC_ID);
+        c = properties.item(C.DOC_ID);
         c.setSelectId(m_docId);
         c.setValue(m_documento);
 
@@ -2314,16 +2250,16 @@
         c.setSelectId(m_cliId);
         c.setValue(m_cliente);
 
-        c = properties.item(cDeclarations.getCsDocNumberID());
+        c = properties.item(Cairo.Constants.NUMBER_ID);
         c.setValue(m_numero);
 
-        c = properties.item(cDeclarations.getCsDocEstateID());
+        c = properties.item(Cairo.Constants.STATUS_ID);
         c.setValue(m_estado);
 
         c = properties.item(CT.MF_NRODOC);
         c.setValue(m_nrodoc);
         c.setTextMask(m_taMascara);
-        c.setTextAlign(vbRightJustify);
+        c.setTextAlign(Dialogs.TextAlign.right);
 
         c = properties.item(Cairo.Constants.US_ID);
         c.setSelectId(m_usId);
@@ -2347,10 +2283,10 @@
         c = properties.item(CT.MF_DESCRIP);
         c.setValue(m_descrip);
 
-        abmGen = m_dialog;
-        abmGen.ShowValues(m_dialog.getProperties());
+        m_dialog = m_dialog;
+        m_dialog.ShowValues(m_dialog.getProperties());
 
-        abmGen.ResetChanged;
+        m_dialog.ResetChanged;
 
         if(m_cotizacion !== 0) {
           cotizacion = m_cotizacion;
@@ -2382,21 +2318,21 @@
         c = m_items.getProperties().item(C_CHEQUEST);
         if(!loadTCheques(c)) { return; }
 
-        m_tChequesDeleted = "";
+        m_chequesTDeleted = "";
 
         c = m_items.getProperties().item(C_CHEQUESI);
         if(!loadICheques(c)) { return; }
 
-        m_iChequesDeleted = "";
+        m_chequesIDeleted = "";
 
-        abmGen = m_items;
-        abmGen.ShowValues(m_items.getProperties());
+        m_dialog = m_items;
+        m_dialog.ShowValues(m_items.getProperties());
 
         c = m_footerProps.item(CT.MF_TOTAL);
         c.setValue(m_total);
 
-        abmGen = m_footer;
-        abmGen.ShowValues(m_footer.getProperties());
+        m_dialog = m_footer;
+        m_dialog.ShowValues(m_footer.getProperties());
 
         setEnabled();
       };
@@ -2528,13 +2464,13 @@
 
         var sqlstmt = null;
 
-        if(m_iChequesDeleted !== "" && m_id !== NO_ID && !m_copy) {
+        if(m_chequesIDeleted !== "" && m_id !== NO_ID && !m_copy) {
 
           var vDeletes = null;
           var i = null;
 
-          m_iChequesDeleted = RemoveLastColon(m_iChequesDeleted);
-          vDeletes = Split(m_iChequesDeleted, ",");
+          m_chequesIDeleted = RemoveLastColon(m_chequesIDeleted);
+          vDeletes = Split(m_chequesIDeleted, ",");
 
           for (i = 0; i <= vDeletes.Length; i++) {
 
@@ -2655,13 +2591,13 @@
 
         var sqlstmt = null;
 
-        if(m_tChequesDeleted !== "" && m_id !== NO_ID && !m_copy) {
+        if(m_chequesTDeleted !== "" && m_id !== NO_ID && !m_copy) {
 
           var vDeletes = null;
           var i = null;
 
-          m_tChequesDeleted = RemoveLastColon(m_tChequesDeleted);
-          vDeletes = Split(m_tChequesDeleted, ",");
+          m_chequesTDeleted = RemoveLastColon(m_chequesTDeleted);
+          vDeletes = Split(m_chequesTDeleted, ",");
 
           for (i = 0; i <= vDeletes.Length; i++) {
 
@@ -2863,7 +2799,6 @@
         //.HelpFilter = cscCuecId & "=" & csECuecDocEnCartera
         elem.setSelectFilter(GetHelpFilterCuenta());
 
-        elem.setWidth(2200);
         elem.setKey(KI_CUE_ID_HABER);
 
         var elem = w_columns.add(null);
@@ -2873,14 +2808,12 @@
 
         elem.setSelectFilter(mPublic.self.getHelpFilterCheques());
 
-        elem.setWidth(1800);
         elem.setKey(KI_CUE_ID_DEBE);
 
         var elem = w_columns.add(null);
         elem.setName(getText(2063, "")); // Mon
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.MONEDA);
-        elem.setWidth(520);
         elem.setKey(mPublic.kICHT_MON_ID);
         elem.setEnabled(false);
 
@@ -2889,7 +2822,6 @@
         elem.setType(Dialogs.PropertyType.numeric);
         elem.setFormat(m_generalConfig.getFormatDecImporte());
         elem.setSubType(Dialogs.PropertySubType.money);
-        elem.setWidth(920);
         elem.setKey(mPublic.kICHT_IMPORTEORIGEN);
 
         var elem = w_columns.add(null);
@@ -2897,26 +2829,22 @@
         elem.setType(Dialogs.PropertyType.numeric);
         elem.setFormat(m_generalConfig.getFormatDecImporte());
         elem.setSubType(Dialogs.PropertySubType.money);
-        elem.setWidth(920);
         elem.setKey(mPublic.kICHT_IMPORTE);
 
         var elem = w_columns.add(null);
         elem.setName(getText(1122, "")); // Banco
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.BANCO);
-        elem.setWidth(2000);
         elem.setKey(mPublic.kICHT_BCO_ID);
 
         var elem = w_columns.add(null, C_CHEQUET);
         elem.setName(getText(2059, "")); // Nr. Cheque
         elem.setType(Dialogs.PropertyType.text);
-        elem.setWidth(1000);
         elem.setKey(mPublic.kICHT_CHEQUE);
 
         var elem = w_columns.add(null);
         elem.setName(getText(2058, "")); // Cheque
         elem.setType(Dialogs.PropertyType.text);
-        elem.setWidth(1000);
         elem.setKey(mPublic.kICHT_CHEQ_ID);
         elem.setEnabled(false);
 
@@ -2925,13 +2853,11 @@
         elem.setType(Dialogs.PropertyType.date);
         elem.setDefaultValue(new cABMGridRowValue());
         elem.getDefaultValue().setValue(Date);
-        elem.setWidth(970);
         elem.setKey(mPublic.kICHT_FECHACOBRO);
 
         var elem = w_columns.add(null);
         elem.setName(getText(1634, "")); // Vto.
         elem.setType(Dialogs.PropertyType.date);
-        elem.setWidth(970);
         elem.setDefaultValue(new cABMGridRowValue());
         elem.getDefaultValue().setValue(DateAdd("m", 1, Date));
         elem.setKey(mPublic.kICHT_FECHAVTO);
@@ -2940,21 +2866,18 @@
         elem.setName(getText(1083, "")); // Clering
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.CLEARING);
-        elem.setWidth(800);
         elem.setKey(mPublic.kICHT_CLE_ID);
 
         var elem = w_columns.add(null);
         elem.setName(Cairo.Constants.DESCRIPTION_LABEL);
         elem.setType(Dialogs.PropertyType.text);
         elem.setSubType(Dialogs.PropertySubType.textButtonEx);
-        elem.setWidth(1600);
         elem.setKey(mPublic.kICHT_DESCRIP);
 
         var elem = w_columns.add(null);
         elem.setName(getText(1057, "")); // Centro de Costo
         elem.setType(Dialogs.PropertyType.select);
-        elem.setSelectTable(Cairo.Tables.CENTROCOSTO);
-        elem.setWidth(1800);
+        elem.setSelectTable(Cairo.Tables.CENTROS_DE_COSTO);
         elem.setKey(KI_CCOS_ID);
 
         var w_rows = w_grid.getRows();
@@ -3052,14 +2975,12 @@
         //.HelpFilter = cscCuecId & "=" & csECuecDocEnCartera
         elem.setSelectFilter(mPublic.self.getHelpFilterChequesT());
 
-        elem.setWidth(2200);
         elem.setKey(KI_CUE_ID_HABER);
 
         var elem = w_columns.add(null);
         elem.setName(getText(2191, "")); // Cuenta Destino
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.CUENTA);
-        elem.setWidth(1800);
         elem.setKey(KI_CUE_ID_DEBE);
 
         var elem = w_columns.add(null, C_CHEQUET);
@@ -3067,27 +2988,23 @@
         elem.setType(Dialogs.PropertyType.select);
         elem.setTable(csETablesTesoreria.cSCHEQUE);
         elem.setSelectFilter("1 = 2");
-        elem.setSubType(Dialogs.PropertySubType.Integer);
-        elem.setWidth(1000);
+        elem.setSubType(Dialogs.PropertySubType.integer);
         elem.setKey(mPublic.kICHT_CHEQUE);
 
         var elem = w_columns.add(null);
         elem.setName(getText(1150, "")); // Cliente
         elem.setType(Dialogs.PropertyType.text);
-        elem.setWidth(2000);
         elem.setKey(mPublic.kICHT_CLI_ID);
 
         var elem = w_columns.add(null);
         elem.setName(getText(1122, "")); // Banco
         elem.setType(Dialogs.PropertyType.text);
-        elem.setWidth(2000);
         elem.setKey(mPublic.kICHT_BCO_ID);
 
         var elem = w_columns.add(null);
         elem.setName(getText(2063, "")); // Mon
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.MONEDA);
-        elem.setWidth(520);
         elem.setKey(mPublic.kICHT_MON_ID);
         elem.setEnabled(false);
 
@@ -3096,7 +3013,6 @@
         elem.setType(Dialogs.PropertyType.numeric);
         elem.setFormat(m_generalConfig.getFormatDecImporte());
         elem.setSubType(Dialogs.PropertySubType.money);
-        elem.setWidth(920);
         elem.setKey(mPublic.kICHT_IMPORTEORIGEN);
         elem.setEnabled(false);
 
@@ -3105,21 +3021,18 @@
         elem.setType(Dialogs.PropertyType.numeric);
         elem.setFormat(m_generalConfig.getFormatDecImporte());
         elem.setSubType(Dialogs.PropertySubType.money);
-        elem.setWidth(920);
         elem.setKey(mPublic.kICHT_IMPORTE);
         elem.setEnabled(false);
 
         var elem = w_columns.add(null);
         elem.setName(getText(2065, "")); // Depositar el
         elem.setType(Dialogs.PropertyType.date);
-        elem.setWidth(970);
         elem.setKey(mPublic.kICHT_FECHACOBRO);
         elem.setEnabled(false);
 
         var elem = w_columns.add(null);
         elem.setName(getText(1634, "")); // Vto.
         elem.setType(Dialogs.PropertyType.date);
-        elem.setWidth(970);
         elem.setKey(mPublic.kICHT_FECHAVTO);
         elem.setEnabled(false);
 
@@ -3127,7 +3040,6 @@
         elem.setName(getText(1083, "")); // Clering
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.CLEARING);
-        elem.setWidth(800);
         elem.setKey(mPublic.kICHT_CLE_ID);
         elem.setEnabled(false);
 
@@ -3135,14 +3047,12 @@
         elem.setName(Cairo.Constants.DESCRIPTION_LABEL);
         elem.setType(Dialogs.PropertyType.text);
         elem.setSubType(Dialogs.PropertySubType.textButtonEx);
-        elem.setWidth(1600);
         elem.setKey(mPublic.kICHT_DESCRIP);
 
         var elem = w_columns.add(null);
         elem.setName(getText(1057, "")); // Centro de Costo
         elem.setType(Dialogs.PropertyType.select);
-        elem.setSelectTable(Cairo.Tables.CENTROCOSTO);
-        elem.setWidth(1800);
+        elem.setSelectTable(Cairo.Tables.CENTROS_DE_COSTO);
         elem.setKey(KI_CCOS_ID);
 
         var w_rows = w_grid.getRows();
@@ -3238,21 +3148,18 @@
         //.HelpFilter = cscCuecId & "=" & csECuecBancos
         elem.setSelectFilter(mPublic.self.getHelpFilterChequesP());
 
-        elem.setWidth(2200);
         elem.setKey(KI_CUE_ID_HABER);
 
         var elem = w_columns.add(null);
         elem.setName(getText(2191, "")); // Cuenta Destino
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.CUENTA);
-        elem.setWidth(1800);
         elem.setKey(KI_CUE_ID_DEBE);
 
         var elem = w_columns.add(null);
         elem.setName(getText(2063, "")); // Mon
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.MONEDA);
-        elem.setWidth(520);
         elem.setKey(KICH_MON_ID);
         elem.setEnabled(false);
 
@@ -3261,7 +3168,6 @@
         elem.setType(Dialogs.PropertyType.numeric);
         elem.setFormat(m_generalConfig.getFormatDecImporte());
         elem.setSubType(Dialogs.PropertySubType.money);
-        elem.setWidth(920);
         elem.setKey(KICH_IMPORTEORIGEN);
 
         var elem = w_columns.add(null);
@@ -3269,26 +3175,22 @@
         elem.setType(Dialogs.PropertyType.numeric);
         elem.setFormat(m_generalConfig.getFormatDecImporte());
         elem.setSubType(Dialogs.PropertySubType.money);
-        elem.setWidth(920);
         elem.setKey(KICH_IMPORTE);
 
         var elem = w_columns.add(null, C_CHEQUERA);
         elem.setName(getText(2064, "")); // Chequera
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.CHEQUERA);
-        elem.setWidth(1000);
         elem.setKey(KICH_CHEQUERA);
 
         var elem = w_columns.add(null);
         elem.setName(getText(2059, "")); // Nr. Cheque
         elem.setType(Dialogs.PropertyType.text);
-        elem.setWidth(1000);
         elem.setKey(KICH_CHEQUE);
 
         var elem = w_columns.add(null);
         elem.setName(getText(2058, "")); // Cheque
         elem.setType(Dialogs.PropertyType.text);
-        elem.setWidth(1000);
         elem.setEnabled(false);
         elem.setKey(KICH_CHEQ_ID);
 
@@ -3297,13 +3199,11 @@
         elem.setType(Dialogs.PropertyType.date);
         elem.setDefaultValue(new cABMGridRowValue());
         elem.getDefaultValue().setValue(Date);
-        elem.setWidth(970);
         elem.setKey(KICH_FECHACOBRO);
 
         var elem = w_columns.add(null);
         elem.setName(getText(1634, "")); // Vto.
         elem.setType(Dialogs.PropertyType.date);
-        elem.setWidth(970);
         elem.setDefaultValue(new cABMGridRowValue());
         elem.getDefaultValue().setValue(DateAdd("m", 1, Date));
         elem.setKey(KICH_FECHAVTO);
@@ -3312,21 +3212,18 @@
         elem.setName(getText(1083, "")); // Clering
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.CLEARING);
-        elem.setWidth(800);
         elem.setKey(KICH_CLE_ID);
 
         var elem = w_columns.add(null);
         elem.setName(Cairo.Constants.DESCRIPTION_LABEL);
         elem.setType(Dialogs.PropertyType.text);
         elem.setSubType(Dialogs.PropertySubType.textButtonEx);
-        elem.setWidth(1600);
         elem.setKey(KICH_DESCRIP);
 
         var elem = w_columns.add(null);
         elem.setName(getText(1057, "")); // Centro de Costo
         elem.setType(Dialogs.PropertyType.select);
-        elem.setSelectTable(Cairo.Tables.CENTROCOSTO);
-        elem.setWidth(1800);
+        elem.setSelectTable(Cairo.Tables.CENTROS_DE_COSTO);
         elem.setKey(KI_CCOS_ID);
 
         var w_rows = w_grid.getRows();
@@ -4313,7 +4210,7 @@
         c.setSelectId(val(m_usId_responsable));
         c.setSelectIntValue(m_usId_responsable);
 
-        c = m_properties.add(null, CT.DOC_ID);
+        c = m_properties.add(null, C.DOC_ID);
         c.setType(Dialogs.PropertyType.select);
         c.setSelectTable(csETablasDocumento.CSDocumento);
         c.setName(getText(1611, "")); // Documentos
@@ -4503,7 +4400,7 @@
             break;
 
           case K_DOC_ID:
-            var property = m_properties.item(CT.DOC_ID);
+            var property = m_properties.item(C.DOC_ID);
             m_documento = property.getValue();
             m_docId = property.getSelectIntValue();
 
@@ -4927,7 +4824,6 @@
           var elem = row.add(null);
           elem.FormulaType = csConditionType.cSCONDTNONE;
           elem.IconIndex = C_IMG_TASK;
-          elem.setWidth(500);
           elem.setSortType(csSortType.cSSRTTICON);
 
           var elem = m_properties.add(null, "Descripción");
