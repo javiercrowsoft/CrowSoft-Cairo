@@ -210,7 +210,7 @@
         m_docEditable = true;
         m_docEditMsg = "";
 
-        D.setDocNumber(m_lastDocId, m_dialog, CC.AS_NRODOC).then(
+        return D.setDocNumber(m_lastDocId, m_dialog, CC.AS_NRODOC).then(
           function(enabled) {
             m_taPropuesto = enabled;
             setEnabled();
@@ -448,7 +448,7 @@
 
             p = p || P.resolvedPromise();
 
-            p.then(function() {
+            p = p.then(function() {
               setEnabled();
             });
 

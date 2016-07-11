@@ -138,6 +138,8 @@
       var m_modifico = 0;
       var m_firmado;
 
+      var m_lastFecha = Cairo.Constants.NO_DATE;
+
       var m_asId = 0;
 
       var m_editing;
@@ -151,6 +153,7 @@
       var m_listController = null;
 
       var m_lastDocId = 0;
+      var m_lastMonId = 0;
       var m_lastDocName = "";
 
       var m_lastDoctId = 0;
@@ -238,7 +241,7 @@
         m_docEditable = true;
         m_docEditMsg = "";
 
-        D.setDocNumber(m_lastDocId, m_dialog, CT.MF_NRODOC).then(
+        return D.setDocNumber(m_lastDocId, m_dialog, CT.MF_NRODOC).then(
           function(enabled) {
             m_taPropuesto = enabled;
             setEnabled();
@@ -484,6 +487,7 @@
               p = p.then(function(response) {
 
                 if(response.success === true) {
+                  m_lastMonId = valField(response.data, C.MON_ID);
                   m_lastDoctId = valField(response.data, C.DOCT_ID);
                 }
                 return response.success;
@@ -493,7 +497,8 @@
 
                   var p = null;
 
-                  cument // when the document property is changed and the dialog was
+                  // when the document property is changed and the dialog was
+                  // editing a saved invoice we need to move to a new invoice
                   //
                   if(m_id !== NO_ID && m_docId !== m_lastDocId) {
                     p = self.edit(D.Constants.DOC_CHANGED);
@@ -514,7 +519,7 @@
 
             p = p || P.resolvedPromise();
 
-            p.then(function() {
+            p = p.then(function() {
               setEnabled();
             });
 
@@ -522,10 +527,15 @@
 
           case K_FECHA:
 
-            m_lastMonIdCotizacion = NO_ID;
-            showCotizacion();
-            break;
+            if(m_lastFecha !== getFecha()) {
+              m_lastFecha = getFecha();
+              m_lastMonIdCotizacion = NO_ID;
+
+              p = showCotizacion();
+            }
         }
+
+        return p || P.resolvedPromise();
       };
 
       self.save = function() {
@@ -628,9 +638,14 @@
               }
             }
 
-            if(cotizacion === 0) {
+            isDefaultCurrency = m_defaultCurrency.id === m_lastMonId;
+            if(isDefaultCurrency) {
               cotizacion = 1;
-              isDefaultCurrency = true;
+            }
+            else {
+              if(cotizacion === 0) {
+                cotizacion = 1;
+              }
             }
 
             var _count = m_footerProps.size();
@@ -1478,84 +1493,49 @@
         return true;
       };
 
-      var refreshCollection = function() {
-
-        m_dialog.setTitle(m_name);
-
-        var properties = m_dialog.getProperties();
-
-        var elem = properties.item(C.DOC_ID);
-        elem.setSelectId(m_docId);
-        elem.setValue(m_documento);
-        elem.setSelectId(Cairo.UserConfig.getDocMfId());
-        elem.setValue(Cairo.UserConfig.getDocMfNombre());
-
-        var elem = properties.item(Cairo.Constants.NUMBER_ID);
-        elem.setValue(m_numero);
-
-        var elem = properties.item(Cairo.Constants.STATUS_ID);
-        elem.setValue(m_estado);
-
-        var elem = properties.item(CT.MF_FECHA);
-        elem.setValue(m_fecha);
-
-        var elem = properties.item(CT.CLI_ID);
-        elem.setSelectId(m_cliId);
-        elem.setValue(m_cliente);
-
-        var elem = properties.item(CT.MF_NRODOC);
-        elem.setValue(m_nrodoc);
-
-        var elem = properties.item(Cairo.Constants.US_ID);
-        elem.setSelectId(m_usId);
-        elem.setValue(m_usuario);
-
-        var elem = properties.item(CT.LGJ_ID);
-        elem.setSelectId(m_lgjId);
-        elem.setValue(m_legajo);
-
-        var elem = properties.item(CT.MF_COTIZACION);
-        elem.setValue(m_cotizacion);
-
-        var elem = properties.item(CT.CCOS_ID);
-        elem.setSelectId(m_ccosId);
-        elem.setValue(m_centroCosto);
-
-        var elem = properties.item(CT.SUC_ID);
-        elem.setSelectId(m_sucId);
-        elem.setValue(m_sucursal);
-
-        var elem = properties.item(CT.MF_DESCRIP);
-        elem.setValue(m_descrip);
-
-        return m_dialog.showValues(properties);
-      };
-
-      // Cotizacion
       var showCotizacion = function() {
-        var monId = null;
-        var dDate = null;
-        var iProp = null;
+
+        var p = null;
+        var monId;
 
         if(m_id === NO_ID) {
           if(m_lastDocId === NO_ID) { return; }
-          if(!Cairo.Database.getData(CT.DOCUMENTO, C.DOC_ID, m_lastDocId, CT.MON_ID, monId)) { return; }
+          monId = m_lastMonId;
         }
         else {
           monId = m_monId;
         }
 
-        iProp = m_properties.item(CT.MF_COTIZACION);
-        iProp.setVisible(monId !== GetMonedaDefault);
+        var property = getCotizacion();
+        property.setVisible(monId !== m_defaultCurrency.id);
 
-        if(m_lastMonIdCotizacion !== monId || iProp.getValue() === 0) {
-          dDate = m_properties.item(CT.MF_FECHA).getValue();
-          if(!IsDate(dDate)) { dDate = Date; }
-          iProp.setValue(cMoneda.getCotizacion(monId, dDate));
+        if(monId === m_defaultCurrency.id) {
+          property.setValue(0);
           m_lastMonIdCotizacion = monId;
         }
+        else {
+          if(m_lastMonIdCotizacion !== monId || property.getValue() === 0) {
 
-        m_dialog.showValue(iProp);
+            var date = getFecha();
+            if(! Cairo.Util.isDate(date)) {
+              date = new Date();
+            }
+
+            p = D.getCurrencyRate(monId, date).then(function(rate) {
+              property.setValue(rate);
+              m_lastFecha = date;
+              m_lastMonIdCotizacion = monId;
+            });
+          }
+        }
+
+        p = p || P.resolvedPromise(true);
+
+        p = p.then(function() {
+          m_dialog.showValue(property);
+        });
+
+        return p;
       };
 
       var getMonedaDefault = function() {
@@ -1770,17 +1750,21 @@
       };
 
       var load = function(id) {
-        var cotizacion = null;
+        var cotizacion = 0;
+        m_data = emptyData;
 
-        var apiPath = Cairo.Database.getAPIVersion();
-        return Cairo.Database.getData("load[" + apiPath + "general/movimientofondo]", id).then(
+        return Cairo.Database.getData("load[" + m_apiPath + "tesoreria/movimientofondo]", id).then(
           function(response) {
+
+            var p = null;
 
             if(response.success !== true) { return false; }
 
             if(response.data.id !== NO_ID) {
 
-              m_isNew = false;
+              m_data = loadDataFromResponse(response);
+
+              var data = response.data;
 
               m_cotizacion = Cairo.Database.valField(response.data, CT.MF_COTIZACION);
               cotizacion = (m_cotizacion !== 0) ? m_cotizacion : 1);
@@ -1822,12 +1806,13 @@
               m_taMascara = Cairo.Database.valField(response.data, Cairo.Constants.TA__MASCARA);
 
               m_lastDocId = m_docId;
+              m_lastMonId = m_monId;
               m_lastCliId = m_cliId;
               m_lastDocName = m_documento;
               m_lastCliName = m_cliente;
 
               m_lastMonIdCotizacion = m_monId;
-
+              m_lastFecha = m_fecha;
             }
             else {
               m_id = NO_ID;
@@ -1859,27 +1844,48 @@
               m_firmado = false;
 
               m_docId = m_lastDocId;
+              m_monId = m_lastMonId;
               m_cliId = m_lastCliId;
               m_cliente = m_lastCliName;
               m_documento = m_lastDocName;
 
-              // Para ver documentos auxiliares
-              //
               m_asId = NO_ID;
 
               m_taPropuesto = false;
               m_taMascara = "";
 
-              m_lastMonIdCotizacion = NO_ID;
-
-              cId !== NO_ID) { // Cotizacion
-                m_cotizacion = DocGetCotizacion(m_docId, m_fecha);
+              if(m_lastMonIdCotizacion !== m_lastMonId) {
+                m_lastMonIdCotizacion = NO_ID;
               }
 
-              DocEditableGet(m_docId, m_docEditable, m_docEditMsg, CS.cSPRETSRNEWMOVIMIENTOFONDO);
+              m_lastFecha = Cairo.Constants.NO_DATE;
+
+              if(m_lastMonId === m_defaultCurrency.id) {
+                m_cotizacion = 0;
+                m_lastMonIdCotizacion = m_lastMonId;
+              }
+              else {
+                if(m_docId !== NO_ID && m_lastMonIdCotizacion === NO_ID) {
+                  p = D.getCurrencyRate(m_lastMonId, m_fecha).then(function(rate) {
+                    m_cotizacion = rate;
+                  });
+                }
+              }
+
+              m_data = emptyData;
+
+              p = p || P.resolvedPromise();
+
+              p = p
+                .then(P.call(D.editableStatus, m_docId, CS.NEW_FACTURA))
+                .then(function(status) {
+                  m_docEditable = status.editableStatus;
+                  m_docEditMsg = status.message;
+                  return true;
+                });
             }
 
-            return true;
+            return p || P.resolvedPromise(true);
           });
       };
 
@@ -3312,7 +3318,7 @@
           case mPublic.kICHT_IMPORTEORIGEN:
             row = w_grid.getRows(lRow);
             var cell = getCell(row, mPublic.kICHT_MON_ID);
-            if(cell.getId() !== m_defaultCurrency || cell.getId() === 0) {
+            if(cell.getId() !== m_defaultCurrency.id || cell.getId() === 0) {
               getCell(row, mPublic.kICHT_IMPORTE).setValue(val(getCell(row, mPublic.kICHT_IMPORTEORIGEN).getValue()) * val(getCotizacion().getValue()));
             }
             else {
@@ -3335,7 +3341,7 @@
             cell.setValue(moneda);
             cell.setId(monId);
 
-            if(monId === m_defaultCurrency || monId === 0) {
+            if(monId === m_defaultCurrency.id || monId === 0) {
               getCell(row, mPublic.kICHT_IMPORTEORIGEN).setValue(0);
             }
 
@@ -3386,7 +3392,7 @@
           case mPublic.kICHT_IMPORTEORIGEN:
             row = w_grid.getRows(lRow);
             var cell = getCell(row, mPublic.kICHT_MON_ID);
-            if(cell.getId() !== m_defaultCurrency || cell.getId() === 0) {
+            if(cell.getId() !== m_defaultCurrency.id || cell.getId() === 0) {
               getCell(row, mPublic.kICHT_IMPORTE).setValue(val(getCell(row, mPublic.kICHT_IMPORTEORIGEN).getValue()) * val(getCotizacion().getValue()));
             }
             else {
@@ -3409,7 +3415,7 @@
             cell.setValue(moneda);
             cell.setId(monId);
 
-            if(monId === m_defaultCurrency || monId === 0) {
+            if(monId === m_defaultCurrency.id || monId === 0) {
               getCell(row, mPublic.kICHT_IMPORTEORIGEN).setValue(0);
             }
 
@@ -3476,7 +3482,7 @@
 
             var row = grid.getRows(lRow);
             var cell = getCell(row, KICH_MON_ID);
-            if(cell.getId() !== m_defaultCurrency || cell.getId() === 0) {
+            if(cell.getId() !== m_defaultCurrency.id || cell.getId() === 0) {
               getCell(row, KICH_IMPORTE).setValue(val(getCell(row, KICH_IMPORTEORIGEN).getValue()) * val(getCotizacion().getValue()));
             }
             else {
@@ -3711,7 +3717,7 @@
           }
         }
 
-        if(!bOrigen && monId !== m_defaultCurrency) {
+        if(!bOrigen && monId !== m_defaultCurrency.id) {
           return M.showInfoWithFalse(getText(2118, "", strRow)); // Debe indicar un importe para la moneda extranjera (1)
         }
 

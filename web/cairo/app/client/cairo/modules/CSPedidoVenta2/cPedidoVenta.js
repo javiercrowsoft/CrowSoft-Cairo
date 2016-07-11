@@ -335,7 +335,7 @@
         m_docEditable = true;
         m_docEditMsg = "";
 
-        D.setDocNumberForCliente(m_lastCliId, m_lastDocId, m_dialog).then(
+        return D.setDocNumberForCliente(m_lastCliId, m_lastDocId, m_dialog).then(
           function(enabled) {
             m_taPropuesto = enabled;
             setEnabled();
@@ -679,7 +679,7 @@
 
             p = p || P.resolvedPromise();
 
-            p.then(function() {
+            p = p.then(function() {
               setEnabled();
             });
             break;

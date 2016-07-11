@@ -118,6 +118,8 @@
       var m_modifico = 0;
       var m_firmado;
 
+      var m_lastFecha = Cairo.Constants.NO_DATE;
+
       var m_asId = 0;
 
       var m_editing;
@@ -152,8 +154,6 @@
 
       var m_taPropuesto;
       var m_taMascara = "";
-
-      var m_monDefault = 0;
 
       var m_efectivoDeleted = "";
       var m_chequesDeleted = "";
@@ -221,7 +221,7 @@
         m_docEditable = true;
         m_docEditMsg = "";
 
-        D.setDocNumber(m_lastDocId, m_dialog, CT.DBCO_NRODOC).then(
+        return D.setDocNumber(m_lastDocId, m_dialog, CT.DBCO_NRODOC).then(
           function(enabled) {
             m_taPropuesto = enabled;
             setEnabled();
@@ -454,7 +454,8 @@
 
                   var p = null;
 
-                  cument // when the document property is changed and the dialog was
+                  // when the document property is changed and the dialog was
+                  // editing a saved invoice we need to move to a new invoice
                   //
                   if(m_id !== NO_ID && m_docId !== m_lastDocId) {
                     p = self.edit(D.Constants.DOC_CHANGED);
@@ -475,7 +476,7 @@
 
             p = p || P.resolvedPromise();
 
-            p.then(function() {
+            p = p.then(function() {
               setEnabled();
             });
 
@@ -495,16 +496,22 @@
 
           case K_CUE_ID:
 
-            showBanco();
-            showCotizacion();
+            p = showBanco().then(function() {
+              showCotizacion();
+            });
             break;
 
           case K_FECHA:
 
-            m_lastMonIdCotizacion = NO_ID;
-            showCotizacion();
-            break;
+            if(m_lastFecha !== getFecha()) {
+              m_lastFecha = getFecha();
+              m_lastMonIdCotizacion = NO_ID;
+              p = showCotizacion();
+              break;
+            }
         }
+
+        return p || P.resolvedPromise();
       };
 
       self.save = function() {
@@ -1009,7 +1016,7 @@
             var row = grid.getRows(lRow);
             var cell = getCell(row, KICH_MON_ID);
             
-            if(cell.getId() !== m_monDefault || cell.getId() === 0) {
+            if(cell.getId() !== m_defaultCurrency.id || cell.getId() === 0) {
               getCell(row, KICH_IMPORTE).setValue(val(getCell(row, KICH_IMPORTEORIGEN).getValue()) * val(getCotizacion().getValue()));
             }
             else {
@@ -1342,7 +1349,7 @@
           }
         }
 
-        if(!bOrigen && monId !== m_monDefault) {
+        if(!bOrigen && monId !== m_defaultCurrency.id) {
           return M.showInfoWithFalse(getText(2118, "", strRow)); // Debe indicar un importe para la moneda extranjera (1)
         }
 
@@ -1450,7 +1457,7 @@
         elem.setFormat(Cairo.Settings.getCurrencyRateDecimalsFormat());
         elem.setKey(K_COTIZACION);
         elem.setValue(m_cotizacion);
-        elem.setVisible(m_monId !== m_monDefault);
+        elem.setVisible(m_monId !== m_defaultCurrency.id);
 
         if(m_cotizacion !== 0) {
           cotizacion = m_cotizacion;
@@ -1560,86 +1567,52 @@
         return true;
       };
 
-      var refreshCollection = function() {
-
-        m_dialog.setTitle(m_name);
-
-        var properties = m_dialog.getProperties();
-
-        var elem = properties.item(C.DOC_ID);
-        elem.setSelectId(m_docId);
-        elem.setValue(m_documento);
-        elem.setSelectId(Cairo.UserConfig.getDocDbcoId());
-        elem.setValue(Cairo.UserConfig.getDocDbcoNombre());
-
-        var elem = properties.item(Cairo.Constants.NUMBER_ID);
-        elem.setValue(m_numero);
-
-        var elem = properties.item(Cairo.Constants.STATUS_ID);
-        elem.setValue(m_estado);
-
-        var elem = properties.item(CT.DBCO_FECHA);
-        elem.setValue(m_fecha);
-
-        var elem = properties.item(CT.DBCO_NRODOC);
-        elem.setValue(m_nrodoc);
-
-        var elem = properties.item(CT.BCO_ID);
-        elem.setSelectId(m_bcoId);
-        elem.setValue(m_banco);
-
-        var elem = properties.item(CT.CUE_ID);
-        elem.setSelectId(m_cueId);
-        elem.setValue(m_cuenta);
-
-        var elem = properties.item(CT.LGJ_ID);
-        elem.setSelectId(m_lgjId);
-        elem.setValue(m_legajo);
-
-        var elem = properties.item(CT.DBCO_COTIZACION);
-        elem.setValue(m_cotizacion);
-
-        var elem = properties.item(CT.SUC_ID);
-        elem.setSelectId(m_sucId);
-        elem.setValue(m_sucursal);
-
-        var elem = properties.item(CT.DBCO_DESCRIP);
-        elem.setValue(m_descrip);
-
-        return m_dialog.showValues(properties);
-      };
-
-      // Cotizacion
       var showCotizacion = function() {
-        var monId = null;
-        var dDate = null;
-        var iProp = null;
-        var bCueChanged = null;
 
-        var w_getCuenta = getCuenta();
+        var p = null;
+        var cueChange = false;
+        var cuenta = getCuenta();
 
-        if(!(m_lastCueId === w_getCuenta.getSelectId() && !m_copy)) {
-          m_lastCueId = w_getCuenta.getSelectId();
-          m_lastCueName = w_getCuenta.getValue();
-          bCueChanged = true;
+        if(m_lastCueId !== cuenta.getSelectId() || m_copy) {
+          m_lastCueId = cuenta.getSelectId();
+          m_lastCueName = cuenta.getValue();
+          cueChange = true;
         }
 
-        if(!Cairo.Database.getData(CT.CUENTA, CT.CUE_ID, m_lastCueId, CT.MON_ID, monId)) { return; }
+        if(cueChange) {
 
-        iProp = m_properties.item(CT.DBCO_COTIZACION);
-        iProp.setVisible(monId !== m_monDefault && monId !== NO_ID);
+          var property = m_properties.item(CT.DBCO_COTIZACION);
 
-        if(bCueChanged) {
+          p = D.getCurrencyFromAccount(m_lastCueId)
+            .whenSuccessWithResult(function(info) {
 
-          if(m_lastMonIdCotizacion !== monId || iProp.getValue() === 0) {
-            dDate = m_properties.item(CT.DBCO_FECHA).getValue();
-            if(!IsDate(dDate)) { dDate = Date; }
-            iProp.setValue(cMoneda.getCotizacion(monId, dDate));
-            m_lastMonIdCotizacion = monId;
-          }
+              property.setVisible(info.monId !== m_defaultCurrency.id && info.monId !== NO_ID);
+
+              if(info.monId === m_defaultCurrency.id) {
+                property.setValue(0);
+                m_lastMonIdCotizacion = info.monId;
+              }
+              else {
+                if(m_lastMonIdCotizacion !== info.monId || property.getValue() === 0) {
+
+                  var date = getFecha();
+                  if(! Cairo.Util.isDate(date)) {
+                    date = new Date();
+                  }
+                  return D.getCurrencyRate(info.monId, date).then(function(rate) {
+                    property.setValue(rate);
+                    m_lastFecha = date;
+                    m_lastMonIdCotizacion = info.monId;
+                  });
+                }
+              }
+            })
+            .then(function() {
+              m_dialog.showValue(property);
+            });
         }
 
-        m_dialog.showValue(iProp);
+        return p || P.resolvedPromise(true);
       };
 
       //Private Function getMonedaDefault() As Long
@@ -2811,6 +2784,10 @@
 
       var getBanco = function() {
         return m_properties.item(CT.BCO_ID);
+      };
+
+      var getFecha = function() {
+        return m_properties.item(CC.DBCO_FECHA).getValue();
       };
 
       var showBanco = function() {

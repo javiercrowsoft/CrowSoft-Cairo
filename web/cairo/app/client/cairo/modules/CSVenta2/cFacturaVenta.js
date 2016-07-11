@@ -192,7 +192,7 @@
       var m_lastMonIdCotizacion = 0;
       var m_firmado;
 
-      var m_lastFecha = null;
+      var m_lastFecha = Cairo.Constants.NO_DATE;
 
       var m_asId = 0;
       var m_stId = 0;
@@ -503,7 +503,7 @@
         m_docEditable = true;
         m_docEditMsg = "";
 
-        D.setDocNumberForCliente(m_lastCliId, m_lastDocId, m_dialog).then(
+        return D.setDocNumberForCliente(m_lastCliId, m_lastDocId, m_dialog).then(
           function(enabled) {
             m_taPropuesto = enabled;
             setEnabled();
@@ -944,7 +944,7 @@
 
             p = p || P.resolvedPromise();
 
-            p.then(function() {
+            p = p.then(function() {
               setEnabled();
             });
 

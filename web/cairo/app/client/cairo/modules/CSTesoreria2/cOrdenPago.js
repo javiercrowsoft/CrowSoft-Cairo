@@ -309,7 +309,7 @@
         m_docEditable = true;
         m_docEditMsg = "";
 
-        D.setDocNumber(m_lastDocId, m_dialog, CT.OPG_NRODOC).then(
+        return D.setDocNumber(m_lastDocId, m_dialog, CT.OPG_NRODOC).then(
           function(enabled) {
             m_taPropuesto = enabled;
             setEnabled();
@@ -613,7 +613,7 @@
 
             p = p || P.resolvedPromise();
 
-            p.then(function() {
+            p = p.then(function() {
               setEnabled();
             });
 
@@ -1005,7 +1005,6 @@
           //                  when editing a document
           //
           m_isNew = (id === NO_ID || id === D.Constants.DOC_CHANGED);
-
 
           var loadAllItems = function() {
             if(m_itemsProps.count() > 0) {

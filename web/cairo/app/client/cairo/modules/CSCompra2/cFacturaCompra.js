@@ -188,7 +188,7 @@
       var m_lastMonIdCotizacion = 0;
       var m_firmado;
 
-      var m_lastFecha = null;
+      var m_lastFecha = Cairo.Constants.NO_DATE;
 
       var m_asId = 0;
       var m_stId = 0;
@@ -367,7 +367,7 @@
         m_docEditable = true;
         m_docEditMsg = "";
 
-        D.setDocNumberForProveedor(m_lastProvId, m_lastDocId, m_dialog).then(
+        return D.setDocNumberForProveedor(m_lastProvId, m_lastDocId, m_dialog).then(
           function(enabled) {
             m_taPropuesto = enabled;
             setEnabled();
@@ -713,7 +713,7 @@
 
             p = p || P.resolvedPromise();
 
-            p.then(function() {
+            p = p.then(function() {
               setEnabled();
             });
 
@@ -721,12 +721,12 @@
 
           case K_PROV_ID:
 
-            setDataProveedor().whenSuccess(function() {
-              D.setDocNumberForProveedor(m_lastProvId, m_lastDocId, m_dialog)
+            p = setDataProveedor().whenSuccess(function() {
+              return D.setDocNumberForProveedor(m_lastProvId, m_lastDocId, m_dialog)
               .then(function(enabled) {
                 m_taPropuesto = enabled;
               }).then(function() {
-                D.showDataAddProveedor(Cairo.UserConfig.getShowDataAddInCompras(), m_dialog);
+                return D.showDataAddProveedor(Cairo.UserConfig.getShowDataAddInCompras(), m_dialog);
               });
             });
             break;
@@ -1400,9 +1400,7 @@
           // Id = DOC_CHANGED when the document is changed
           //                  when editing a document
           // 
-          m_isNew = (id === NO_ID
-                      || id === D.Constants.DOC_CHANGED);
-
+          m_isNew = (id === NO_ID || id === D.Constants.DOC_CHANGED);
 
           var loadAllItems = function() {
             if(m_itemsProps.count() > 0) {
