@@ -2787,6 +2787,8 @@
         return p || P.resolvedPromise(false);
       };
 
+      // TODO: dry this method it is copied in all documents
+      //
       var signDocument = function() {
 
         if(m_id === NO_ID) {

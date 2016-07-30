@@ -4037,6 +4037,8 @@
         return p;
       };
 
+      // TODO: dry this method it is copied in all documents
+      //
       var signDocument = function() {
 
         if(m_id === NO_ID) {
@@ -4264,6 +4266,10 @@
 
         setEnabled();
 
+        // TODO: check this. we use cotizacion from m_cotizacion to load items
+        //       but then we load cotizacion from document and date
+        //       this come from vb6
+        //
         return showCotizacion()
           .then(showFechaVto)
           .then(call(D.showDataAddCliente, Cairo.UserConfig.getShowDataAddInVentas(), m_dialog));

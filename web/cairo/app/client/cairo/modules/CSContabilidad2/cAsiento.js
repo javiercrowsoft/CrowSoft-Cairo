@@ -7,6 +7,7 @@
       var D = Cairo.Documents;
       var M = Cairo.Modal;
       var NO_ID = Cairo.Constants.NO_ID;
+      var getText = Cairo.Language.getText;
 
       if(asId !== NO_ID) {
 
@@ -1539,6 +1540,8 @@
         return m_properties.item(C.DOC_ID);
       };
 
+      // TODO: dry this method it is copied in all documents
+      //
       var move = function(moveTo) {
         var docId = getDocId().getSelectId();
 
@@ -1596,6 +1599,7 @@
         m_dialog.refreshColumnProperties(m_itemsProps.item(C_ITEMS), C_ORIGEN);
 
         m_itemsDeleted = "";
+        loadItems(getProperty(m_items, C_ITEMS));
 
         m_items.showValues(m_itemsProps);
 

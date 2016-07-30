@@ -331,7 +331,7 @@
           case Dialogs.Message.MSG_GRID_ROW_DELETED:
 
             p = true;
-            showTotales();
+            showTotals();
             break;
 
           case Dialogs.Message.MSG_DOC_EDIT_STATE:
@@ -479,14 +479,10 @@
 
           case K_BCO_ID:
 
-            getFilterCuenta(getBanco().getSelectId())
-              .whenSuccessWithResult(function(result) {
-
-                var prop = getCuenta();
-                prop.setSelectFilter(result.filter);
-                m_dialog.showValue(prop);
-                m_dialog.validateProp(prop, C.CUE_ID)
-              });
+            var prop = getCuenta();
+            prop.setSelectFilter(Cairo.Documents.getCuentaFilterForBanco(getBanco().getSelectId()));
+            m_dialog.showValue(prop);
+            m_dialog.validateProp(prop, C.CUE_ID)
             break;
 
           case K_CUE_ID:
@@ -941,7 +937,7 @@
 
           switch (key) {
             case K_EFECTIVO:
-              showTotales();
+              showTotals();
               break;
 
             case K_CHEQUES:
@@ -949,7 +945,7 @@
               break;
 
             case K_CHEQUEST:
-              showTotales();
+              showTotals();
               break;
           }
 
@@ -1017,12 +1013,12 @@
             else {
               getCell(row, KICH_IMPORTEORIGEN).setValue(0);
             }
-            showTotales();
+            showTotals();
             break;
 
           case KICH_IMPORTE:
 
-            showTotales();
+            showTotals();
             break;
 
           case KI_CUE_ID_HABER:
@@ -1430,7 +1426,7 @@
         elem = properties.add(null, CT.CUE_ID);
         elem.setType(T.select);
         elem.setSelectTable(Cairo.Tables.CUENTA);
-        elem.setSelectFilter(getFilterCuenta(m_bcoId));
+        elem.setSelectFilter(Cairo.Documents.getCuentaFilterForBanco(m_bcoId));
         elem.setName(getText(1267, "")); // Cuenta
         elem.setKey(K_CUE_ID);
         elem.setSelectId(m_cueId);
@@ -1859,7 +1855,7 @@
         o.setName(getText(1267, "")); // Cuenta
         o.setType(T.select);
         o.setTable(Cairo.Tables.CUENTA);
-        o.setSelectFilter(getFilterCuentaItem());
+        o.setSelectFilter(Cairo.Documents.selectFilterForCuentaCaja);
         o.setWidth(2200);
         o.setEnabled(false);
         o.setKey(KI_CUE_ID);
@@ -1933,7 +1929,7 @@
 
         }
 
-        colCheque.setSelectFilter(getFilterCheque(RemoveLastColon(colCheqFilter)));
+        colCheque.setSelectFilter(Cairo.Documents.getSelectChequeFilterEnCartera(colCheqFilter));
 
         return true;
       };
@@ -2342,10 +2338,9 @@
         return true;
       };
 
-      // Reglas del Objeto de Negocios
-      var showTotales = function() {
-        var total = null;
-        var row = null;
+      var showTotals = function() {
+        var total = 0;
+        var row;
 
         var _count = getCheques().getRows().size();
         for (var _i = 0; _i < _count; _i++) {
@@ -2389,11 +2384,13 @@
         var _count = m_properties.size();
         for (var _i = 0; _i < _count; _i++) {
           prop = m_properties.item(_i);
-          if(prop.getKey() !== K_DOC_ID && prop.getKey() !== K_NUMERO && prop.getKey() !== K_EST_ID) {
+          if(prop.getKey() !== K_DOC_ID
+              && prop.getKey() !== K_NUMERO
+              && prop.getKey() !== K_EST_ID) {
 
             if(bState) {
               if(prop.getKey() !== K_NRODOC) {
-                prop.setEnabled(bState);
+                prop.setEnabled(true);
               }
               else {
                 prop.setEnabled(m_taPropuesto);
@@ -2411,236 +2408,147 @@
           prop.setEnabled(bState);
         }
 
-        var m_dialog = null;
-
-        m_dialog = m_items;
-        m_dialog.RefreshEnabledState(m_items.getProperties());
-
-        m_dialog = m_dialog;
-        m_dialog.RefreshEnabledState(m_dialog.getProperties());
+        m_dialog.refreshEnabledState(m_itemsProps);
+        m_dialog.refreshEnabledState(m_properties);
       };
 
+      // TODO: dry this method it is copied in all documents
+      //
       var signDocument = function() {
-        var doc = null;
-        var us_id = null;
-
-        doc = new cDocumento();
 
         if(m_id === NO_ID) {
-          MsgWarning(getText(1592, "")); // Antes de poder firmar el documento debe guardarlo.
-          return null;
+          return M.showWarningWithFalse(getText(1592, ""));
+          // Antes de poder firmar el documento debe guardarlo.
         }
+
+        var refreshState = function(response) {
+
+          m_estId = response.est_id;
+          m_estado = response.estado;
+          m_firmado = response.firmado;
+
+          var prop = m_properties.item(Cairo.Constants.STATUS_ID);
+
+          prop.setSelectId(m_estId);
+          prop.setValue(m_estado);
+
+          m_dialog.showValue(prop);
+        };
+
+        var p = null;
 
         if(m_firmado) {
-          if(!Ask(getText(1593, ""), vbYes, getText(1594, ""))) {
-            //El documento ya ha sido firmado desea borrar la firma, Firmar
-            return null;
-          }
+          p = M.confirmViewYesDefault(
+              getText(1594, ""), // Firmar
+              getText(1593, "")  // El documento ya ha sido firmado desea borrar la firma
+          );
         }
 
-        if(!doc.Firmar(m_docId, us_id)) { return false; }
+        p = p || P.resolvedPromise(true);
 
-        var sqlstmt = null;
-        var rs = null;
+        p = p
+            .whenSuccess(D.signDocument(m_doctId, m_id))
+            .whenSuccessWithResult(refreshState);
 
-        sqlstmt = "sp_DocDepositoBancoFirmar "+ m_id+ ","+ us_id.toString();
-        if(!Cairo.Database.openRs(sqlstmt, rs)) { return false; }
-
-        m_estId = Cairo.Database.valField(rs.getFields(), Cairo.Constants.EST_ID);
-        m_estado = Cairo.Database.valField(rs.getFields(), Cairo.Constants.EST_NAME);
-
-        var iProp = null;
-        iProp = m_properties.item(Cairo.Constants.STATUS_ID);
-
-        iProp.setSelectId(m_estId);
-        iProp.setValue(m_estado);
-
-        Cairo.Database.getData(CT.DEPOSITOBANCO, CT.DBCO_ID, m_id, CT.DBCO_FIRMADO, m_firmado);
-
-        m_dialog.showValue(iProp);
-
-        return true;
+        return p;
       };
 
+      // TODO: dry this method it is copied in all documents
+      //
       var move = function(moveTo) {
-        var sqlstmt = null;
-        var rs = null;
-        var doc_id = null;
+        var docId = getDocId().getSelectId();
 
-        doc_id = m_properties.item(C.DOC_ID).getSelectId();
+        if(docId === NO_ID) {
+          return M.showInfoWithFalse(
+              getText(1595, "") // Debe seleccionar un documento
+          );
+        }
 
-        if(doc_id === NO_ID) { return M.showInfoWithFalse(getText(1595, "")); } // Debe seleccionar un documento
+        var completeMove = function(response) {
+          // id === NO_ID means this document doesn't have any transaction
+          //
+          if(response.id === NO_ID) {
 
-        sqlstmt = "sp_DocDepositoBancoMover "+ moveTo+ ","+ m_numero+ ","+ doc_id.toString();
-
-        if(!Cairo.Database.openRs(sqlstmt, rs)) { return false; }
-
-        // Si no obtuve ningun id al moverme
-        //
-        if(rs.isEOF()) {
-
-          switch (moveTo) {
-
-            // Si era siguiente ahora busco el ultimo
-            //
-            case Dialogs.Message.MSG_DOC_NEXT:
-              move(Dialogs.Message.MSG_DOC_LAST);
-
-              // Si era anterior ahora busco el primero
-              //
-              break;
-
-            case Dialogs.Message.MSG_DOC_PREVIOUS:
-              move(Dialogs.Message.MSG_DOC_FIRST);
-
-              comprobante para // Si no encontre ni ultimo ni primero
-              // este documento
-              //
-              break;
-
-            case Dialogs.Message.MSG_DOC_FIRST:
-            case Dialogs.Message.MSG_DOC_LAST:
-
-              // Cargo un registro vacio
-              //
-              load(NO_ID);
-
-              // Refresco el formulario
-              //
-              pRefreshProperties();
-
-              // Obtengo un nuevo numero de comprobante
-              //
-              GetDocNumber(m_lastDocId, m_dialog, m_taPropuesto, CT.DBCO_NRODOC);
-
-              break;
+            return load(NO_ID)
+                .whenSuccess(call(D.setDocNumber, m_docId, m_dialog, CC.AS_NRODOC))
+                .then(function(enabled) { m_taPropuesto = enabled; })
+                .then(refreshProperties);
           }
-
+          else {
+            return load(response.id)
+                .whenSuccess(refreshProperties);
+          }
         }
-        else {
-          if(!load(Cairo.Database.valField(rs.getFields(), 0))) { return false; }
-
-          pRefreshProperties();
-        }
-
-        return true;
+        return D.move(m_docId, moveTo)
+            .whenSuccessWithResult(completeMove);
       };
 
-      var pRefreshProperties = function() {
-        var c = null;
-        var m_dialog = null;
-        var filter = null;
-        var cotizacion = null;
+      var refreshProperties = function() {
 
-        var properties = m_dialog.getProperties();
+        m_properties.item(C.DOC_ID)
+        .setSelectId(m_docId)
+        .setValue(m_documento);
 
-        c = properties.item(C.DOC_ID);
-        c.setSelectId(m_docId);
-        c.setValue(m_documento);
+        m_properties.item(CT.DBCO_FECHA)
+        .setValue(m_fecha);
 
-        c = properties.item(CT.DBCO_FECHA);
-        c.setValue(m_fecha);
+        m_properties.item(CT.BCO_ID)
+        .setSelectId(m_bcoId)
+        .setValue(m_banco);
 
-        c = properties.item(CT.BCO_ID);
-        c.setSelectId(m_bcoId);
-        c.setValue(m_banco);
+        m_properties.item(CT.CUE_ID)
+        .setSelectId(m_cueId)
+        .setValue(m_cuenta)
+        .setSelectFilter(Cairo.Documents.getCuentaFilterForBanco(m_bcoId));
 
-        c = properties.item(CT.CUE_ID);
-        c.setSelectId(m_cueId);
-        c.setValue(m_cuenta);
-        c.setSelectFilter(getFilterCuenta(m_properties.item(CT.BCO_ID).getSelectId()));
+        m_properties.item(Cairo.Constants.NUMBER_ID)
+        .setValue(m_numero);
 
-        c = properties.item(Cairo.Constants.NUMBER_ID);
-        c.setValue(m_numero);
+        m_properties.item(Cairo.Constants.STATUS_ID)
+        .setValue(m_estado);
 
-        c = properties.item(Cairo.Constants.STATUS_ID);
-        c.setValue(m_estado);
+        m_properties.item(CT.DBCO_NRODOC)
+        .setValue(m_nrodoc)
+        .setTextMask(m_taMascara)
+        .setTextAlign(Dialogs.TextAlign.right);
 
-        c = properties.item(CT.DBCO_NRODOC);
-        c.setValue(m_nrodoc);
-        c.setTextMask(m_taMascara);
-        c.setTextAlign(Dialogs.TextAlign.right);
+        m_properties.item(CT.DBCO_COTIZACION)
+        .setValue(m_cotizacion);
 
-        c = properties.item(CT.DBCO_COTIZACION);
-        c.setValue(m_cotizacion);
+        m_properties.item(CT.SUC_ID)
+        .setSelectId(m_sucId)
+        .setValue(m_sucursal);
 
-        c = properties.item(CT.SUC_ID);
-        c.setSelectId(m_sucId);
-        c.setValue(m_sucursal);
+        m_properties.item(CT.LGJ_ID)
+        .setSelectId(m_lgjId)
+        .setValue(m_legajo);
 
-        c = properties.item(CT.LGJ_ID);
-        c.setSelectId(m_lgjId);
-        c.setValue(m_legajo);
+        m_properties.item(CT.DBCO_DESCRIP)
+        .setValue(m_descrip);
 
-        c = properties.item(CT.DBCO_DESCRIP);
-        c.setValue(m_descrip);
+        m_dialog.showValues(m_dialog.getProperties());
+        m_dialog.resetChanged();
 
-        m_dialog = m_dialog;
-        m_dialog.ShowValues(m_dialog.getProperties());
-
-        m_dialog.ResetChanged;
-
-        if(m_cotizacion !== 0) {
-          cotizacion = m_cotizacion;
-        }
-        else {
-          cotizacion = 1;
-        }
-
-        c = m_items.getProperties().item(C_EFECTIVO);
-        if(!loadEfectivo(c, cotizacion)) { return; }
+        var cotizacion = (m_cotizacion !== 0) ? m_cotizacion : 1;
 
         m_efectivoDeleted = "";
-
-        c = m_items.getProperties().item(C_CHEQUES);
-        if(!loadCheques(c)) { return; }
-
         m_chequesDeleted = "";
-
-        c = m_items.getProperties().item(C_CHEQUEST);
-        if(!loadTCheques(c, cotizacion)) { return; }
-
         m_chequesTDeleted = "";
 
-        m_dialog = m_items;
-        m_dialog.ShowValues(m_items.getProperties());
+        loadEfectivo(getProperty(m_items, C_EFECTIVO), cotizacion);
+        loadCheques(getProperty(m_items, C_CHEQUES));
+        loadTCheques(getProperty(m_items, C_CHEQUEST), cotizacion);
 
-        m_dialog.RefreshColumnProperties(c, C_COLCHEQUE);
+        m_items.refreshColumnProperties(getProperty(m_items, C_CHEQUEST), C_COLCHEQUE);
 
-        c = m_footerProps.item(CT.DBCO_TOTAL);
-        c.setValue(m_total);
+        m_items.showValues(m_items.getProperties());
 
-        m_dialog = m_footer;
-        m_dialog.ShowValues(m_footer.getProperties());
+        m_footerProps.item(CT.DBCO_TOTAL)
+        .setValue(m_total);
+
+        m_footer.showValues(m_footerProps);
 
         setEnabled();
-      };
-
-      var getFilterCuenta = function(bco_id) {
-        var filter = null;
-
-        filter = CT.CUEC_ID+ " = "+ csECuentaCategoria.cSECUECBANCOS.toString()+ " and cuenta.emp_id = "+ cUtil.getEmpId().toString();
-
-        if(bco_id) {
-          filter = filter+ " and bco_id = "+ bco_id.toString();
-        }
-
-        return filter;
-      };
-
-      var getFilterCuentaItem = function() {
-        return CT.CUEC_ID+ " = "+ csECuentaCategoria.cSECUECCAJA.toString();
-      };
-
-      var getFilterCheque = function(cheqIds) {
-        var rtn = null;
-
-        rtn = CT.CUEC_ID+ " = "+ csECuentaCategoria.cSECUECDOCENCARTERA.toString()+ " and cuenta.emp_id = "+ cUtil.getEmpId().toString();
-        if(cheqIds !== "") {
-          rtn = "("+ rtn+ ") Or (cheq_id in ("+ cheqIds+ "))";
-        }
-
-        return rtn;
       };
 
       var setChequeData = function(row, cheq_id) { // TODO: Use of ByRef founded Private Sub setChequeData(ByRef Row As cIABMGridRow, ByVal cheq_id As Long)

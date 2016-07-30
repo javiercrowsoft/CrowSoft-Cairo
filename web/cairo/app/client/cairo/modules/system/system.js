@@ -746,6 +746,7 @@
   Cairo.Documents.selectFilterForCuentaChequesT = "account_for_cheques_t"; /* documentos en cartera */
   Cairo.Documents.selectFilterForCuentaChequesP = "account_for_cheques_p"; /* banco */
   Cairo.Documents.selectFilterForCuentaEfectivo = "account_for_efectivo"; /* banco or caja */
+  Cairo.Documents.selectFilterForCuentaCaja = "account_for_caja"; /* caja */
   Cairo.Documents.selectFilterForCuentaAnticipoCobranza = "account_for_anticipo_cobranza"; /* duedor por ventas o deposito cupones */
   Cairo.Documents.selectFilterForCuentaAnticipoPagos = "account_for_anticipo_pagos"; /* acreedores */
 
@@ -914,6 +915,14 @@
     else {
       return Cairo.Documents.selectFilterCuentaNotInCaja;
     }
+  };
+
+  Cairo.Documents.getCuentaFilterForBanco = function(bcoId) {
+    var filter = "account_filter_banco";
+    if(bcoId) {
+      filter += "|bancoId:" + bcoId.toString();
+    }
+    return filter;
   };
 
   Cairo.Documents.getCuentaChequeFilterForCaja = function(isHojaRuta, cjId) {
@@ -1817,6 +1826,14 @@
 
   Cairo.Documents.getSelectChequeFilter = function(cueId) {
     return "cheque|cueId:" + cueId.toString();
+  };
+
+  Cairo.Documents.getSelectChequeFilterEnCartera = function(cheqIds) {
+    var filter = "cheque_en_cartera";
+    if(cheqIds !== "") {
+      filter += "|cheqId:" + Cairo.Util.removeLastColon(cheqIds.toString());
+    }
+    return filter;
   };
 
   Cairo.Documents.getClienteName = function(cliId) {
