@@ -60,6 +60,9 @@ Cairo.OrdenPago = {};
 Cairo.OrdenPagoWizard = {};
 Cairo.OrdenPagoListDoc = {};
 
+Cairo.DepositoBanco = {};
+Cairo.DepositoBancoListDoc = {};
+
 Cairo.Rubro = {};
 Cairo.Rubro.Load = {};
 
