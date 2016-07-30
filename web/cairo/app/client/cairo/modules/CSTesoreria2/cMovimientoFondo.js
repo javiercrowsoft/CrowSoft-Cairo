@@ -133,9 +133,6 @@
       var m_doctId = 0;
       var m_monId = 0;
       var m_lastMonIdCotizacion = 0;
-      var m_creado = null;
-      var m_modificado = null;
-      var m_modifico = 0;
       var m_firmado;
 
       var m_lastFecha = Cairo.Constants.NO_DATE;
@@ -153,8 +150,8 @@
       var m_listController = null;
 
       var m_lastDocId = 0;
-      var m_lastMonId = 0;
       var m_lastDocName = "";
+      var m_lastMonId = 0;
 
       var m_lastDoctId = 0;
 
@@ -184,12 +181,10 @@
       var m_apiPath = DB.getAPIVersion();
 
       var emptyData = {
+        efectivo: [],
         cheques: [],
         chequesT: [],
-        otros: [],
-        efectivo: [],
-        tarjetas: [],
-        ctaCte: []
+        chequesI: []
       };
 
       var m_data = emptyData;
@@ -933,11 +928,10 @@
 
           var loadAllItems = function() {
             if(m_itemsProps.count() > 0) {
+              loadEfectivo(getEfectivoProperty());
               loadCheques(getChequesProperty());
               loadChequesT(getTChequesProperty());
-              loadEfectivo(getEfectivoProperty());
-              loadOtros(getOtrosProperty());
-              loadCtaCte(getCtaCteProperty());
+              loadChequesI(getTChequesProperty());
             }
             return P.resolvedPromise(true);
           };
@@ -1276,7 +1270,7 @@
         m_dialog.initButtons();
 
         elem = properties.add(null, C.DOC_ID);
-        elem.setType(Dialogs.PropertyType.select);
+        elem.setType(T.select);
         elem.setTable(Cairo.Tables.DOCUMENTO);
         elem.setName(getText(1567, "")); // Documento
         elem.setKey(K_DOC_ID);
@@ -1297,7 +1291,7 @@
         elem.setSelectFilter(D.MOVIMIENTOS_DE_FONDO_DOC_FILTER);
 
         elem = properties.add(null, Cairo.Constants.NUMBER_ID);
-        elem.setType(Dialogs.PropertyType.numeric);
+        elem.setType(T.numeric);
         elem.setSubType(Dialogs.PropertySubType.integer);
         elem.setName(getText(1065, "")); // Número
         elem.setKey(K_NUMERO);
@@ -1305,20 +1299,20 @@
         elem.setEnabled(false);
 
         elem = properties.add(null, Cairo.Constants.STATUS_ID);
-        elem.setType(Dialogs.PropertyType.text);
+        elem.setType(T.text);
         elem.setName(getText(1568, "")); // Estado
         elem.setKey(K_EST_ID);
         elem.setValue(m_estado);
         elem.setEnabled(false);
 
         elem = properties.add(null, CT.MF_FECHA);
-        elem.setType(Dialogs.PropertyType.date);
+        elem.setType(T.date);
         elem.setName(getText(1569, "")); // Fecha
         elem.setKey(K_FECHA);
         elem.setValue(m_fecha);
 
         elem = properties.add(null, CT.CLI_ID);
-        elem.setType(Dialogs.PropertyType.select);
+        elem.setType(T.select);
         elem.setSelectTable(Cairo.Tables.CLIENTE);
         elem.setName(getText(1150, "")); // Cliente
         elem.setKey(K_CLI_ID);
@@ -1327,7 +1321,7 @@
         m_dialog.NewKeyPropFocus = CT.CLI_ID;
 
         elem = properties.add(null, CT.MF_NRODOC);
-        elem.setType(Dialogs.PropertyType.text);
+        elem.setType(T.text);
         elem.setName(getText(1065, "")); // Número
         elem.setSize(50);
         elem.setKey(K_NRODOC);
@@ -1336,7 +1330,7 @@
         elem.setTextAlign(Dialogs.TextAlign.right);
 
         elem = properties.add(null, Cairo.Constants.US_ID);
-        elem.setType(Dialogs.PropertyType.select);
+        elem.setType(T.select);
         elem.setTable(Cairo.Tables.USUARIO);
         elem.setName(getText(1822, "")); // Responsable
         elem.setKey(K_US_ID);
@@ -1344,7 +1338,7 @@
         elem.setValue(m_usuario);
 
         elem = properties.add(null, CT.LGJ_ID);
-        elem.setType(Dialogs.PropertyType.select);
+        elem.setType(T.select);
         elem.setTable(Cairo.Tables.LEGAJOS);
         elem.setName(getText(1575, "")); // Legajo
         elem.setKey(K_LGJ_ID);
@@ -1353,7 +1347,7 @@
         elem.setTabIndex(1);
 
         elem = properties.add(null, CT.MF_COTIZACION);
-        elem.setType(Dialogs.PropertyType.numeric);
+        elem.setType(T.numeric);
         elem.setSubType(Dialogs.PropertySubType.money);
         elem.setName(getText(1635, "")); // Cotización
         elem.setFormat(Cairo.Settings.getCurrencyRateDecimalsFormat());
@@ -1368,7 +1362,7 @@
         }
 
         elem = properties.add(null, CT.CCOS_ID);
-        elem.setType(Dialogs.PropertyType.select);
+        elem.setType(T.select);
         elem.setSelectTable(Cairo.Tables.CENTROS_DE_COSTO);
         elem.setName(getText(1057, "")); // Centro de Costo
         elem.setKey(K_CCOS_ID);
@@ -1376,7 +1370,7 @@
         elem.setValue(m_centroCosto);
 
         elem = properties.add(null, CT.SUC_ID);
-        elem.setType(Dialogs.PropertyType.select);
+        elem.setType(T.select);
         elem.setSelectTable(Cairo.Tables.SUCURSAL);
         elem.setName(getText(1281, "")); // Sucursal
         elem.setKey(K_SUC_ID);
@@ -1384,7 +1378,7 @@
         elem.setValue(m_sucursal);
 
         elem = properties.add(null, CT.MF_DESCRIP);
-        elem.setType(Dialogs.PropertyType.text);
+        elem.setType(T.text);
         elem.setSubType(Dialogs.PropertySubType.memo);
         elem.setName(getText(1211, "")); // Observ.
         elem.setSize(5000);
@@ -1414,7 +1408,7 @@
         elem.setType(T.grid);
         elem.hideLabel();
         setGridEfectivo(elem);
-        loadEfectivo(elem);
+        loadEfectivo(elem, cotizacion);
         elem.setName(C_EFECTIVO);
         elem.setKey(K_EFECTIVO);
         elem.setTabIndex(c_TabEfectivo);
@@ -1473,7 +1467,7 @@
 
         elem = properties.add(null, CT.MF_TOTAL);
         elem.setType(T.numeric);
-        elem.setFormat(Cairo.Settings.getAmountDecimalsFormat());
+        elem.setFormat(Cairo.Settings.getAmountDecimalsFormat()());
         elem.setName(getText(1584, "")); // Total
         elem.setSubType(Dialogs.PropertySubType.money);
         elem.setKey(K_TOTAL);
@@ -1538,207 +1532,209 @@
         return p;
       };
 
-      var getMonedaDefault = function() {
-        var sqlstmt = null;
-        var rs = null;
-
-        sqlstmt = "select mon_id from Moneda where mon_legal <> 0";
-        if(!Cairo.Database.openRs(sqlstmt, rs)) { return 0; }
-
-        if(rs.isEOF()) {
-          MsgWarning(getText(2150, ""));
-          //Debe definir cual es la moneda legal con la que opera Cairo
-          return null;
-        }
-
-        return Cairo.Database.valField(rs.getFields(), CT.MON_ID);
-      };
-
       var setGridEfectivo = function(property) {
 
-        var o = null;
-        var iColDebe = null;
-        var iColHaber = null;
-        var origenDebe = null;
-        var origenHaber = null;
+        var elem;
+        var grid = property.getGrid();
 
-        var w_grid = property.getGrid();
+        var columns = grid.getColumns();
+        columns.clear();
 
-        w_grid.getColumns().clear();
-        w_grid.getRows().clear();
-
-        var w_columns = w_grid.getColumns();
-
-        var elem = w_columns.add(null);
+        elem = columns.add(null);
         elem.setVisible(false);
         elem.setKey(KI_MFI_ID);
 
         if(Cairo.UserConfig.getDebeHaberMf()) {
 
-          var elem = w_columns.add(null);
+          elem = columns.add(null);
           elem.setName(getText(4814, "")); // Cuenta Debe
-          elem.setType(Dialogs.PropertyType.select);
+          elem.setType(T.select);
           elem.setSelectTable(Cairo.Tables.CUENTA);
           elem.setKey(KI_CUE_ID_DEBE);
-          elem.setSelectFilter(GetHelpFilterCuenta());
+          elem.setSelectFilter(D.selectFilterForCuenta);
 
-          var elem = w_columns.add(null);
+          elem = columns.add(null);
           elem.setName(getText(4815, "")); // Cuenta Haber
-          elem.setType(Dialogs.PropertyType.select);
+          elem.setType(T.select);
           elem.setSelectTable(Cairo.Tables.CUENTA);
           elem.setKey(KI_CUE_ID_HABER);
-          elem.setSelectFilter(GetHelpFilterCuenta());
+          elem.setSelectFilter(D.selectFilterForCuenta);
 
         }
         else {
-          var elem = w_columns.add(null);
+          elem = columns.add(null);
           elem.setName(getText(2190, "")); // Cuenta Origen
-          elem.setType(Dialogs.PropertyType.select);
+          elem.setType(T.select);
           elem.setSelectTable(Cairo.Tables.CUENTA);
           elem.setKey(KI_CUE_ID_HABER);
-          elem.setSelectFilter(GetHelpFilterCuenta());
+          elem.setSelectFilter(D.selectFilterForCuenta);
 
-          var elem = w_columns.add(null);
+          elem = columns.add(null);
           elem.setName(getText(2191, "")); // Cuenta Destino
-          elem.setType(Dialogs.PropertyType.select);
+          elem.setType(T.select);
           elem.setSelectTable(Cairo.Tables.CUENTA);
           elem.setKey(KI_CUE_ID_DEBE);
-          elem.setSelectFilter(GetHelpFilterCuenta());
+          elem.setSelectFilter(D.selectFilterForCuenta);
         }
 
-        var elem = w_columns.add(null);
+        elem = columns.add(null);
         elem.setName(Cairo.Constants.DESCRIPTION_LABEL);
-        elem.setType(Dialogs.PropertyType.text);
+        elem.setType(T.text);
         elem.setSubType(Dialogs.PropertySubType.textButtonEx);
         elem.setKey(KI_DESCRIP);
 
-        var elem = w_columns.add(null);
+        elem = columns.add(null);
         elem.setName(getText(1228, "")); // Importe
-        elem.setType(Dialogs.PropertyType.numeric);
-        elem.setFormat(m_generalConfig.getFormatDecImporte());
+        elem.setType(T.numeric);
+        elem.setFormat(Cairo.Settings.getAmountDecimalsFormat());
         elem.setSubType(Dialogs.PropertySubType.money);
         elem.setKey(KI_IMPORTE);
 
+        var iColDebe;
+        var iColHaber;
+        
         if(Cairo.UserConfig.getDebeHaberMf()) {
 
-          iColDebe = w_columns.add(null, C_ORIGENDEBE);
+          iColDebe = columns.add(null, C_ORIGENDEBE);
           iColDebe.setName(getText(4816, "")); // Origen Debe
-          iColDebe.setFormat(m_generalConfig.getFormatDecImporte());
-          iColDebe.setType(Dialogs.PropertyType.numeric);
+          iColDebe.setFormat(Cairo.Settings.getAmountDecimalsFormat());
+          iColDebe.setType(T.numeric);
           iColDebe.setSubType(Dialogs.PropertySubType.money);
-          iColDebe.setWidth(1500);
           iColDebe.setVisible(false);
           iColDebe.setKey(KI_ORIGEN_DEBE);
 
-          iColHaber = w_columns.add(null, C_ORIGENHABER);
+          iColHaber = columns.add(null, C_ORIGENHABER);
           iColHaber.setName(getText(4817, "")); // Origen Haber
-          iColHaber.setFormat(m_generalConfig.getFormatDecImporte());
-          iColHaber.setType(Dialogs.PropertyType.numeric);
+          iColHaber.setFormat(Cairo.Settings.getAmountDecimalsFormat());
+          iColHaber.setType(T.numeric);
           iColHaber.setSubType(Dialogs.PropertySubType.money);
-          iColHaber.setWidth(1500);
           iColHaber.setVisible(false);
           iColHaber.setKey(KI_ORIGEN_HABER);
 
         }
         else {
 
-          iColHaber = w_columns.add(null, C_ORIGENHABER);
+          iColHaber = columns.add(null, C_ORIGENHABER);
           iColHaber.setName(getText(4818, "")); // Importe Origen Origen
-          iColHaber.setFormat(m_generalConfig.getFormatDecImporte());
-          iColHaber.setType(Dialogs.PropertyType.numeric);
+          iColHaber.setFormat(Cairo.Settings.getAmountDecimalsFormat());
+          iColHaber.setType(T.numeric);
           iColHaber.setSubType(Dialogs.PropertySubType.money);
-          iColHaber.setWidth(1500);
           iColHaber.setVisible(false);
           iColHaber.setKey(KI_ORIGEN_HABER);
 
-          iColDebe = w_columns.add(null, C_ORIGENDEBE);
+          iColDebe = columns.add(null, C_ORIGENDEBE);
           iColDebe.setName(getText(4819, "")); // Importe Origen Destino
-          iColDebe.setFormat(m_generalConfig.getFormatDecImporte());
-          iColDebe.setType(Dialogs.PropertyType.numeric);
+          iColDebe.setFormat(Cairo.Settings.getAmountDecimalsFormat());
+          iColDebe.setType(T.numeric);
           iColDebe.setSubType(Dialogs.PropertySubType.money);
-          iColDebe.setWidth(1500);
           iColDebe.setVisible(false);
           iColDebe.setKey(KI_ORIGEN_DEBE);
 
         }
 
-        var elem = w_columns.add(null);
+        elem = columns.add(null);
         elem.setName(getText(1057, "")); // Centro de Costo
-        elem.setType(Dialogs.PropertyType.select);
+        elem.setType(T.select);
         elem.setSelectTable(Cairo.Tables.CENTROS_DE_COSTO);
         elem.setKey(KI_CCOS_ID);
 
-        var w_rows = w_grid.getRows();
-        for(var _i = 0; _i < m_data.efectivo.length; _i += 1) {
+        grid.getRows().clear();
+      };
 
-          var elem = w_rows.add(null, rs(CT.MFI_ID).Value);
+      var loadEfectivo = function(property, cotizacion) {
 
-          var elem = elem.add(null);
-          elem.Value = Cairo.Database.valField(m_data.efectivo[_i], CT.MFI_ID);
+        var elem;
+        var grid = property.getGrid();        
+        var rows = grid.getRows();
+
+        var iColDebe;
+        var iColHaber;
+
+        if(Cairo.UserConfig.getDebeHaberMf()) {
+
+          iColDebe = columns.get(C_ORIGENDEBE);
+          iColHaber = columns.get(C_ORIGENHABER);
+
+        }
+        else {
+
+          iColHaber = columns.get(C_ORIGENHABER);
+          iColDebe = columns.get(C_ORIGENDEBE);
+        }
+
+        for(var _i = 0, count = m_data.efectivo.length; _i < count; _i += 1) {
+
+          var row = rows.add(null, getValue(m_data.efectivo[_i], CT.OPGI_ID));
+
+          elem = row.add(null);
+          elem.setValue(getValue(m_data.efectivo[_i], CT.MFI_ID));
           elem.setKey(KI_MFI_ID);
 
           if(Cairo.UserConfig.getDebeHaberMf()) {
 
             var elem = elem.add(null);
-            elem.Value = Cairo.Database.valField(m_data.efectivo[_i], "Debe");
-            elem.Id = Cairo.Database.valField(m_data.efectivo[_i], CT.CUE_ID_DEBE);
+            elem.setValue(getValue(m_data.efectivo[_i], "Debe"));
+            elem.Id = getValue(m_data.efectivo[_i], CT.CUE_ID_DEBE);
             elem.setKey(KI_CUE_ID_DEBE);
 
             var elem = elem.add(null);
-            elem.Value = Cairo.Database.valField(m_data.efectivo[_i], "Haber");
-            elem.Id = Cairo.Database.valField(m_data.efectivo[_i], CT.CUE_ID_HABER);
+            elem.setValue(getValue(m_data.efectivo[_i], "Haber"));
+            elem.Id = getValue(m_data.efectivo[_i], CT.CUE_ID_HABER);
             elem.setKey(KI_CUE_ID_HABER);
 
           }
           else {
 
             var elem = elem.add(null);
-            elem.Value = Cairo.Database.valField(m_data.efectivo[_i], "Haber");
-            elem.Id = Cairo.Database.valField(m_data.efectivo[_i], CT.CUE_ID_HABER);
+            elem.setValue(getValue(m_data.efectivo[_i], "Haber"));
+            elem.Id = getValue(m_data.efectivo[_i], CT.CUE_ID_HABER);
             elem.setKey(KI_CUE_ID_HABER);
 
             var elem = elem.add(null);
-            elem.Value = Cairo.Database.valField(m_data.efectivo[_i], "Debe");
-            elem.Id = Cairo.Database.valField(m_data.efectivo[_i], CT.CUE_ID_DEBE);
+            elem.setValue(getValue(m_data.efectivo[_i], "Debe"));
+            elem.Id = getValue(m_data.efectivo[_i], CT.CUE_ID_DEBE);
             elem.setKey(KI_CUE_ID_DEBE);
           }
 
           var elem = elem.add(null);
-          elem.Value = Cairo.Database.valField(m_data.efectivo[_i], CT.MFI_DESCRIP);
+          elem.setValue(getValue(m_data.efectivo[_i], CT.MFI_DESCRIP));
           elem.setKey(KI_DESCRIP);
 
           var elem = elem.add(null);
-          elem.Value = Cairo.Database.valField(m_data.efectivo[_i], CT.MFI_IMPORTE) / cotizacion;
+          elem.setValue(getValue(m_data.efectivo[_i], CT.MFI_IMPORTE) / cotizacion);
           elem.setKey(KI_IMPORTE);
+
+          var origenDebe = 0;
+          var origenHaber = 0;
 
           if(Cairo.UserConfig.getDebeHaberMf()) {
 
             var elem = elem.add(null);
-            elem.Value = Cairo.Database.valField(m_data.efectivo[_i], CT.MFI_IMPORTE_ORIGEN) / cotizacion;
-            origenDebe = elem.Value;
+            elem.setValue(getValue(m_data.efectivo[_i], CT.MFI_IMPORTE_ORIGEN) / cotizacion);
+            origenDebe = elem.getValue();
             elem.setKey(KI_ORIGEN_DEBE);
             var elem = elem.add(null);
-            elem.Value = Cairo.Database.valField(m_data.efectivo[_i], CT.MFI_IMPORTE_ORIGEN_HABER) / cotizacion;
-            origenHaber = elem.Value;
+            elem.setValue(getValue(m_data.efectivo[_i], CT.MFI_IMPORTE_ORIGEN_HABER) / cotizacion);
+            origenHaber = elem.getValue();
             elem.setKey(KI_ORIGEN_HABER);
 
           }
           else {
 
             var elem = elem.add(null);
-            elem.Value = Cairo.Database.valField(m_data.efectivo[_i], CT.MFI_IMPORTE_ORIGEN_HABER) / cotizacion;
-            origenHaber = elem.Value;
+            elem.setValue(getValue(m_data.efectivo[_i], CT.MFI_IMPORTE_ORIGEN_HABER) / cotizacion);
+            origenHaber = elem.getValue();
             elem.setKey(KI_ORIGEN_HABER);
             var elem = elem.add(null);
-            elem.Value = Cairo.Database.valField(m_data.efectivo[_i], CT.MFI_IMPORTE_ORIGEN) / cotizacion;
-            origenDebe = elem.Value;
+            elem.setValue(getValue(m_data.efectivo[_i], CT.MFI_IMPORTE_ORIGEN) / cotizacion);
+            origenDebe = elem.getValue();
             elem.setKey(KI_ORIGEN_DEBE);
 
           }
 
           var elem = elem.add(null);
-          elem.Value = Cairo.Database.valField(m_data.efectivo[_i], CT.CCOS_NAME);
-          elem.Id = Cairo.Database.valField(m_data.efectivo[_i], CT.CCOS_ID);
+          elem.setValue(getValue(m_data.efectivo[_i], CT.CCOS_NAME));
+          elem.Id = getValue(m_data.efectivo[_i], CT.CCOS_ID);
           elem.setKey(KI_CCOS_ID);
 
           if(origenDebe !== 0) { iColDebe.setVisible(true); }
@@ -1747,6 +1743,17 @@
         }
 
         return true;
+      };
+
+      var loadDataFromResponse = function(response) {
+        var data = response.data;
+
+        data.cheques = data.get('cheques');
+        data.chequesT = data.get('chequesT');
+        data.chequesI = data.get('chequesI');
+        data.efectivo = data.get('efectivo');
+
+        return data;
       };
 
       var load = function(id) {
@@ -1769,41 +1776,36 @@
               m_cotizacion = Cairo.Database.valField(response.data, CT.MF_COTIZACION);
               cotizacion = (m_cotizacion !== 0) ? m_cotizacion : 1);
 
-              m_id = Cairo.Database.valField(response.data, CT.MF_ID);
-              m_numero = Cairo.Database.valField(response.data, CT.MF_NUMERO);
-              m_nrodoc = Cairo.Database.valField(response.data, CT.MF_NRODOC);
-              m_descrip = Cairo.Database.valField(response.data, CT.MF_DESCRIP);
-              m_fecha = Cairo.Database.valField(response.data, CT.MF_FECHA);
-              m_total = Cairo.Database.valField(response.data, CT.MF_TOTAL) / cotizacion;
-              m_cliId = Cairo.Database.valField(response.data, CT.CLI_ID);
-              m_cliente = Cairo.Database.valField(response.data, CT.CLI_NAME);
-              m_ccosId = Cairo.Database.valField(response.data, CT.CCOS_ID);
-              m_centroCosto = Cairo.Database.valField(response.data, CT.CCOS_NAME);
-              m_sucId = Cairo.Database.valField(response.data, CT.SUC_ID);
-              m_sucursal = Cairo.Database.valField(response.data, CT.SUC_NAME);
-              m_docId = Cairo.Database.valField(response.data, C.DOC_ID);
-              m_documento = Cairo.Database.valField(response.data, CT.DOC_NAME);
-              m_doctId = Cairo.Database.valField(response.data, CT.DOCT_ID);
-              m_usId = Cairo.Database.valField(response.data, Cairo.Constants.US_ID);
-              m_usuario = Cairo.Database.valField(response.data, Cairo.Constants.US_NAME);
-              m_lgjId = Cairo.Database.valField(response.data, CT.LGJ_ID);
-              m_legajo = Cairo.Database.valField(response.data, CT.LGJ_CODE);
-              m_creado = Cairo.Database.valField(response.data, Cairo.Constants.CREADO);
-              m_modificado = Cairo.Database.valField(response.data, Cairo.Constants.MODIFICADO);
-              m_modifico = Cairo.Database.valField(response.data, Cairo.Constants.MODIFICO);
-              m_estId = Cairo.Database.valField(response.data, Cairo.Constants.EST_ID);
-              m_estado = Cairo.Database.valField(response.data, Cairo.Constants.EST_NAME);
-              m_firmado = Cairo.Database.valField(response.data, CT.MF_FIRMADO);
-              m_monId = Cairo.Database.valField(response.data, CT.MON_ID);
-              m_docEditable = Cairo.Database.valField(response.data, Cairo.Constants.DOC_EDITABLE);
-              m_docEditMsg = Cairo.Database.valField(response.data, Cairo.Constants.DOCEDIT_MSG);
+              m_id = valField(data, CT.MF_ID);
+              m_numero = valField(data, CT.MF_NUMERO);
+              m_nrodoc = valField(data, CT.MF_NRODOC);
+              m_descrip = valField(data, CT.MF_DESCRIP);
+              m_fecha = valField(data, CT.MF_FECHA);
+              m_total = valField(data, CT.MF_TOTAL) / cotizacion;
+              m_cliId = valField(data, CT.CLI_ID);
+              m_cliente = valField(data, CT.CLI_NAME);
+              m_ccosId = valField(data, CT.CCOS_ID);
+              m_centroCosto = valField(data, CT.CCOS_NAME);
+              m_sucId = valField(data, CT.SUC_ID);
+              m_sucursal = valField(data, CT.SUC_NAME);
+              m_docId = valField(data, C.DOC_ID);
+              m_documento = valField(data, CT.DOC_NAME);
+              m_doctId = valField(data, CT.DOCT_ID);
+              m_usId = valField(data, C.US_ID);
+              m_usuario = valField(data, C.US_NAME);
+              m_lgjId = valField(data, CT.LGJ_ID);
+              m_legajo = valField(data, CT.LGJ_CODE);
+              m_estId = valField(data, C.EST_ID);
+              m_estado = valField(data, C.EST_NAME);
+              m_firmado = valField(data, CT.MF_FIRMADO);
+              m_monId = valField(data, CT.MON_ID);
+              m_docEditable = valField(data, C.DOC_EDITABLE);
+              m_docEditMsg = valField(data, C.DOC_EDIT_MSG);
 
-              // Para ver documentos auxiliares
-              //
-              m_asId = Cairo.Database.valField(response.data, CT.AS_ID);
+              m_asId = valField(data, CT.AS_ID);
 
-              m_taPropuesto = Cairo.Database.valField(response.data, Cairo.Constants.TA__PROPUESTO);
-              m_taMascara = Cairo.Database.valField(response.data, Cairo.Constants.TA__MASCARA);
+              m_taPropuesto = valField(data, C.TA_PROPUESTO);
+              m_taMascara = valField(data, C.TA_MASCARA);
 
               m_lastDocId = m_docId;
               m_lastMonId = m_monId;
@@ -1819,28 +1821,20 @@
               m_numero = 0;
               m_nrodoc = "";
               m_descrip = "";
-              m_fecha = VDGetDateById(csDateEnum.cSTODAY);
+              m_fecha = Cairo.Dates.today();
               m_total = 0;
-              m_cliId = NO_ID;
-              m_cliente = "";
               m_ccosId = NO_ID;
               m_centroCosto = "";
-              m_docId = NO_ID;
-              m_documento = "";
               m_doctId = NO_ID;
               m_usId = NO_ID;
               m_usuario = "";
               m_lgjId = NO_ID;
               m_legajo = "";
               m_cotizacion = 0;
-              m_monId = NO_ID;
-              m_creado = Cairo.Constants.cSNODATE;
-              m_modificado = Cairo.Constants.cSNODATE;
-              m_modifico = 0;
               m_estId = NO_ID;
               m_estado = "";
-              m_sucId = cUtil.getUser().getSuc_id();
-              m_sucursal = cUtil.getUser().getSucursal();
+              m_sucId = Cairo.User.getSucId();
+              m_sucursal = Cairo.User.getSucName();
               m_firmado = false;
 
               m_docId = m_lastDocId;
@@ -1877,7 +1871,7 @@
               p = p || P.resolvedPromise();
 
               p = p
-                .then(P.call(D.editableStatus, m_docId, CS.NEW_FACTURA))
+                .then(P.call(D.editableStatus, m_docId, CS.NEW_MOVIMIENTO_FONDO))
                 .then(function(status) {
                   m_docEditable = status.editableStatus;
                   m_docEditMsg = status.message;
@@ -1889,45 +1883,363 @@
           });
       };
 
-      var setCIEditGenericDoc_Footer = function(rhs) {
-        m_footer = rhs;
+      self.setFooter = function(footer) {
+        m_footer = footer;
+        m_footerProps = footer.getProperties();
 
-        if(rhs === null) { Exit Property; }
-
-        m_footer.setIsDocument(true);
-        m_footer.setIsFooter(true);
-        m_footer.setObjForm(m_dialog.getObjForm());
+        if(footer !== null) {
+          m_footer.setIsDocument(true);
+          m_footer.setIsFooter(true);
+          m_footer.setView(m_dialog.getView());
+        }
       };
 
-      var setCIEditGenericDoc_Items = function(rhs) {
-        m_items = rhs;
+      self.setItems = function(items) {
+        m_items = items;
+        m_itemsProps = m_items.getProperties();
 
-        if(rhs === null) { Exit Property; }
-
-        m_items.setIsDocument(true);
-        m_items.setIsItems(true);
-        m_items.setObjForm(m_dialog.getObjForm());
+        if(items !== null) {
+          m_items.setIsDocument(true);
+          m_items.setIsItems(true);
+          m_items.setView(m_dialog.getView());
+        }
       };
 
-      var saveEfectivo = function(id, cotizacion, bMonedaLegal) {
-        var register = null;
-        var origen = null;
+      var saveICheques = function(mainRegister) {
 
-        var row = null;
-        var cell = null;
+        var transaction = DB.createTransaction();
 
-        var _count = m_items.getProperties().item(C_EFECTIVO).getGrid().getRows().size();
-        for (var _i = 0; _i < _count; _i++) {
-          row = m_items.getProperties().item(C_EFECTIVO).getGrid().getRows().item(_i);
+        transaction.setTable(CT.MOVIMIENTO_FONDO_ITEM_CHEQUEI_TMP);
 
-          register = new cRegister();
-          register.setFieldId(CT.MFI_TMPID);
-          register.setTable(CT.MOVIMIENTOFONDOITEMTMP);
+        var rows = getChequesI().getRows();
+
+        for(var _i = 0, _count = rows.size(); _i < _count; _i++) {
+
+          var row = rows.item(_i);
+
+          var register = new DB.Register();
+          register.setFieldId(CT.MFI_TMP_ID);
           register.setId(Cairo.Constants.NEW_ID);
 
-          var _count = row.size();
-          for (var _j = 0; _j < _count; _j++) {
-            cell = row.item(_j);
+          var fields = register.getFields();
+
+          var _countj = row.size();
+          for(var _j = 0; _j < _countj; _j++) {
+
+            var cell = row.item(_j);
+            switch (cell.getKey()) {
+
+              case KICH_MFI_ID:
+                if(m_copy) {
+                  fields.add(CT.MFI_ID, Cairo.Constants.NEW_ID, Types.integer);
+                }
+                else {
+                  fields.add(CT.MFI_ID, val(cell.getValue()), Types.integer);
+                }
+                break;
+
+              case KICHT_DESCRIP:
+                fields.add(CT.MFI_DESCRIP, cell.getValue(), Types.text);
+                break;
+
+              case KICHT_CHEQUE:
+                fields.add(CT.MFI_TMP_CHEQUE, cell.getValue(), Types.text);
+                break;
+
+              case KICHT_CHEQ_ID:
+                fields.add(CT.CHEQ_ID, cell.getId(), Types.id);
+                break;
+
+              case KICHT_CLE_ID:
+                fields.add(CT.CLE_ID, cell.getId(), Types.id);
+                break;
+
+              case KICHT_BCO_ID:
+                fields.add(CT.BCO_ID, cell.getId(), Types.id);
+                break;
+
+              case KICHT_MON_ID:
+                fields.add(CT.MON_ID, cell.getId(), Types.id);
+                break;
+
+              case KICHT_FECHACOBRO:
+                fields.add(CT.MFI_TMP_FECHA_COBRO, cell.getValue(), Types.date);
+                break;
+
+              case KICHT_FECHAVTO:
+                fields.add(CT.MFI_TMP_FECHA_VTO, cell.getValue(), Types.date);
+                break;
+
+              case KI_CUE_ID_DEBE:
+                fields.add(CT.CUE_ID_DEBE, cell.getId(), Types.id);
+                break;
+
+              case KI_CUE_ID_HABER:
+                fields.add(CT.CUE_ID_HABER, cell.getId(), Types.id);
+                break;
+
+              case KICHT_IMPORTEORIGEN:
+                fields.add(CT.MFI_IMPORTE_ORIGEN, val(cell.getValue()), Types.currency);
+                break;
+
+              case KICHT_IMPORTE:
+                fields.add(CT.MFI_IMPORTE, val(cell.getValue()), Types.currency);
+                break;
+
+              case KI_CCOS_ID:
+                fields.add(CT.CCOS_ID, cell.getId(), Types.id);
+                break;
+            }
+          }
+
+          m_orden = m_orden + 1;
+          fields.add(CT.MFI_ORDEN, m_orden, Types.integer);
+          fields.add(CT.MFI_TIPO, CT.MovimientoFondoItemTipo.ITEM_CHEQUESI, Types.integer);
+          fields.add(CT.MFI_ID, Cairo.Constants.NEW_ID, Types.long);
+
+          transaction.addRegister(register);
+        }
+
+        if(m_chequesIDeleted !== "" && m_id !== NO_ID && !m_copy) {
+
+          transaction.setDeletedList(m_chequesIDeleted);
+        }
+
+        mainRegister.addTransaction(transaction);
+      };
+
+      var saveTCheques = function(mainRegister) {
+
+        var transaction = DB.createTransaction();
+
+        transaction.setTable(CT.MOVIMIENTO_FONDO_ITEM_CHEQUET_TMP);
+
+        var rows = getChequesT().getRows();
+
+        for(var _i = 0, _count = rows.size(); _i < _count; _i++) {
+
+          var row = rows.item(_i);
+
+          var register = new DB.Register();
+          register.setFieldId(CT.MFI_TMP_ID);
+          register.setId(Cairo.Constants.NEW_ID);
+
+          var fields = register.getFields();
+
+          var _countj = row.size();
+          for(var _j = 0; _j < _countj; _j++) {
+
+            var cell = row.item(_j);
+            switch (cell.getKey()) {
+
+              case KICH_MFI_ID:
+                if(m_copy) {
+                  fields.add(CT.MFI_ID, Cairo.Constants.NEW_ID, Types.integer);
+                }
+                else {
+                  fields.add(CT.MFI_ID, val(cell.getValue()), Types.integer);
+                }
+                break;
+
+              case KICHT_DESCRIP:
+                fields.add(CT.MFI_DESCRIP, cell.getValue(), Types.text);
+                break;
+
+              case KICHT_CHEQUE:
+                fields.add(CT.CHEQ_ID, cell.getId(), Types.id);
+                break;
+
+              case KICHT_CLE_ID:
+                fields.add(CT.CLE_ID, cell.getId(), Types.id);
+                break;
+
+              case KICHT_MON_ID:
+                fields.add(CT.MON_ID, cell.getId(), Types.id);
+                break;
+
+              case KICHT_FECHACOBRO:
+                fields.add(CT.MFI_TMP_FECHA_COBRO, cell.getValue(), Types.date);
+                break;
+
+              case KICHT_FECHAVTO:
+                fields.add(CT.MFI_TMP_FECHA_VTO, cell.getValue(), Types.date);
+                break;
+
+              case KI_CUE_ID_DEBE:
+                fields.add(CT.CUE_ID_DEBE, cell.getId(), Types.id);
+                break;
+
+              case KI_CUE_ID_HABER:
+                fields.add(CT.CUE_ID_HABER, cell.getId(), Types.id);
+                break;
+
+              case KICHT_IMPORTEORIGEN:
+                fields.add(CT.MFI_IMPORTE_ORIGEN, val(cell.getValue()), Types.currency);
+                break;
+
+              case KICHT_IMPORTE:
+                fields.add(CT.MFI_IMPORTE, val(cell.getValue()), Types.currency);
+                break;
+
+              case KI_CCOS_ID:
+                fields.add(CT.CCOS_ID, cell.getId(), Types.id);
+                break;
+            }
+          }
+
+          m_orden = m_orden + 1;
+          fields.add(CT.MFI_ORDEN, m_orden, Types.integer);
+          fields.add(CT.MFI_TIPO, CT.MovimientoFondoItemTipo.ITEM_CHEQUEST, Types.integer);
+          fields.add(CT.MFI_ID, Cairo.Constants.NEW_ID, Types.long);
+
+          transaction.addRegister(register);
+        }
+
+        if(m_chequesTDeleted !== "" && m_id !== NO_ID && !m_copy) {
+
+          transaction.setDeletedList(m_chequesTDeleted);
+        }
+
+        mainRegister.addTransaction(transaction);
+
+        return true;
+      };
+
+      var saveCheques = function(mainRegister) {
+
+        var transaction = DB.createTransaction();
+
+        transaction.setTable(CT.MOVIMIENTO_FONDO_ITEM_CHEQUE_TMP);
+
+        var rows = getCheques().getRows();
+
+        for(var _i = 0, _count = rows.size(); _i < _count; _i++) {
+
+          var row = rows.item(_i);
+
+          var register = new DB.Register();
+          register.setFieldId(CT.MFI_TMP_ID);
+          register.setId(Cairo.Constants.NEW_ID);
+
+          var fields = register.getFields();
+
+          var _countj = row.size();
+          for(var _j = 0; _j < _countj; _j++) {
+
+            var cell = row.item(_j);
+            switch (cell.getKey()) {
+
+              case KICH_MFI_ID:
+                if(m_copy) {
+                  fields.add(CT.MFI_ID, Cairo.Constants.NEW_ID, Types.integer);
+                }
+                else {
+                  fields.add(CT.MFI_ID, val(cell.getValue()), Types.integer);
+                }
+                break;
+
+              case KICH_DESCRIP:
+                fields.add(CT.MFI_DESCRIP, cell.getValue(), Types.text);
+                break;
+
+              case KICH_CHEQUERA:
+                fields.add(CT.CHQ_ID, cell.getId(), Types.id);
+                break;
+
+              case KICH_CHEQUE:
+                fields.add(CT.MFI_TMP_CHEQUE, cell.getValue(), Types.text);
+                break;
+
+              case KICH_CHEQ_ID:
+
+                if(m_copy) {
+                  fields.add(CT.CHEQ_ID, NO_ID, Types.id);
+                }
+                else {
+                  fields.add(CT.CHEQ_ID, cell.getId(), Types.id);
+                }
+                break;
+
+              case KICH_CLE_ID:
+                fields.add(CT.CLE_ID, cell.getId(), Types.id);
+                break;
+
+              case KICH_MON_ID:
+                fields.add(CT.MON_ID, cell.getId(), Types.id);
+                break;
+
+              case KICH_FECHACOBRO:
+                fields.add(CT.MFI_TMP_FECHA_COBRO, cell.getValue(), Types.date);
+                break;
+
+              case KICH_FECHAVTO:
+                fields.add(CT.MFI_TMP_FECHA_VTO, cell.getValue(), Types.date);
+                break;
+
+              case KI_CUE_ID_DEBE:
+                fields.add(CT.CUE_ID_DEBE, cell.getId(), Types.id);
+                break;
+
+              case KI_CUE_ID_HABER:
+                fields.add(CT.CUE_ID_HABER, cell.getId(), Types.id);
+
+                break;
+
+              case KICH_IMPORTEORIGEN:
+                fields.add(CT.MFI_IMPORTE_ORIGEN, val(cell.getValue()), Types.currency);
+                break;
+
+              case KICH_IMPORTE:
+                fields.add(CT.MFI_IMPORTE, val(cell.getValue()), Types.currency);
+                break;
+
+              case KI_CCOS_ID:
+                fields.add(CT.CCOS_ID, cell.getId(), Types.id);
+                break;
+            }
+          }
+
+          m_orden = m_orden + 1;
+          fields.add(CT.MFI_ORDEN, m_orden, Types.integer);
+          fields.add(CT.MFI_TIPO, CT.MovimientoFondoItemTipo.ITEM_CHEQUES, Types.integer);
+
+          transaction.addRegister(register);
+        }
+
+        if(m_chequesDeleted !== "" && m_id !== NO_ID && !m_copy) {
+
+          transaction.setDeletedList(m_chequesDeleted);
+        }
+
+        mainRegister.addTransaction(transaction);
+
+        return true;
+      };
+
+      var saveEfectivo = function(mainRegister, cotizacion, isDefaultCurrency) {
+
+        var transaction = DB.createTransaction();
+
+        transaction.setTable(CT.MOVIMIENTO_FONDO_ITEM_EFECTIVO_TMP);
+
+        var rows = getEfectivo().getRows();
+
+        for(var _i = 0, _count = rows.size(); _i < _count; _i++) {
+
+          var row = rows.item(_i);
+
+          var register = new DB.Register();
+          register.setFieldId(CT.MFI_TMP_ID);
+          register.setId(Cairo.Constants.NEW_ID);
+
+          var fields = register.getFields();
+
+          var origen = 0;
+
+          var _countj = row.size();
+          for (var _j = 0; _j < _countj; _j++) {
+
+            var cell = row.item(_j);
             switch (cell.getKey()) {
 
               case KI_MFI_ID:
@@ -1970,8 +2282,15 @@
           }
 
           fields.add(CT.MFI_IMPORTE, origen * cotizacion, Types.currency);
-          if(bMonedaLegal) {
-            if(m_items.getProperties().item(C_EFECTIVO).getGrid().getColumns(C_ORIGENDEBE).Visible === false) {
+
+          // MFI_IMPORTE_ORIGEN is for DEBE
+          // HABER is in MFI_IMPORTE_ORIGEN_HABER
+          //
+          if(isDefaultCurrency) {
+            //
+            // TODO: this is ugly
+            //
+            if(getEfectivo().getColumns().item(C_ORIGENDEBE).getVisible() === false) {
               fields.add(CT.MFI_IMPORTE_ORIGEN, 0, Types.currency);
             }
           }
@@ -1981,48 +2300,21 @@
 
           m_orden = m_orden + 1;
           fields.add(CT.MFI_ORDEN, m_orden, Types.integer);
-          fields.add(CT.MFI_TIPO, csEMovimientoFondoItemTipo.cSEMFITEFECTIVO, Types.integer);
-          fields.add(CT.MF_TMPID, id, Types.id);
+          fields.add(CT.MFI_TIPO, CT.MovimientoFondoItemTipo.ITEM_EFECTIVO, Types.integer);
 
-          register.getFields().setHaveLastUpdate(false);
-          register.getFields().setHaveWhoModify(false);
-
-          if(!Cairo.Database.save(register, , "saveEfectivo", C_MODULE, c_ErrorSave)) { return false; }
+          transaction.addRegister(register);
         }
-
-        var sqlstmt = null;
 
         if(m_efectivoDeleted !== "" && m_id !== NO_ID && !m_copy) {
 
-          var vDeletes = null;
-          var i = null;
-
-          m_efectivoDeleted = RemoveLastColon(m_efectivoDeleted);
-          vDeletes = Split(m_efectivoDeleted, ",");
-
-          for (i = 0; i <= vDeletes.Length; i++) {
-
-            register = new cRegister();
-            register.setFieldId(CT.MFIB_TMPID);
-            register.setTable(CT.MOVIMIENTOFONDOITEMBORRADOTMP);
-            register.setId(Cairo.Constants.NEW_ID);
-
-            fields.add(CT.MFI_ID, val(vDeletes(i)), Types.integer);
-            fields.add(CT.MF_ID, m_id, Types.id);
-            fields.add(CT.MF_TMPID, id, Types.id);
-
-            register.getFields().setHaveLastUpdate(false);
-            register.getFields().setHaveWhoModify(false);
-
-            if(!Cairo.Database.save(register, , "saveEfectivo", C_MODULE, c_ErrorSave)) { return false; }
-          }
-
+          transaction.setDeletedList(m_efectivoDeleted);
         }
+
+        mainRegister.addTransaction(transaction);
 
         return true;
       };
 
-      // Reglas del Objeto de Negocios
       var showTotales = function() {
         var total = null;
         var row = null;
@@ -2358,416 +2650,6 @@
         // **TODO:** on error resume next found !!!
       };
 
-
-
-      //------------------------------------------------------------------------------------------------
-      var saveICheques = function(id) {
-        var register = null;
-        var row = null;
-        var cell = null;
-
-        var _count = getICheques().getRows().size();
-        for (var _i = 0; _i < _count; _i++) {
-          row = getICheques().getRows().item(_i);
-
-          register = new cRegister();
-          register.setFieldId(CT.MFI_TMPID);
-          register.setTable(CT.MOVIMIENTOFONDOITEMTMP);
-          register.setId(Cairo.Constants.NEW_ID);
-
-          var _count = row.size();
-          for (var _j = 0; _j < _count; _j++) {
-            cell = row.item(_j);
-            switch (cell.getKey()) {
-
-              case KICH_MFI_ID:
-                if(m_copy) {
-                  fields.add(CT.MFI_ID, Cairo.Constants.NEW_ID, Types.integer);
-                }
-                else {
-                  fields.add(CT.MFI_ID, val(cell.getValue()), Types.integer);
-                }
-
-                break;
-
-              case mPublic.kICHT_DESCRIP:
-                fields.add(CT.MFI_DESCRIP, cell.getValue(), Types.text);
-
-                break;
-
-              case mPublic.kICHT_CHEQUE:
-                fields.add(CT.MFI_TMPCHEQUE, cell.getValue(), Types.text);
-
-                break;
-
-              case mPublic.kICHT_CHEQ_ID:
-                fields.add(CT.CHEQ_ID, cell.getId(), Types.id);
-
-                break;
-
-              case mPublic.kICHT_CLE_ID:
-                fields.add(CT.CLE_ID, cell.getId(), Types.id);
-
-                break;
-
-              case mPublic.kICHT_BCO_ID:
-                fields.add(CT.BCO_ID, cell.getId(), Types.id);
-
-                break;
-
-              case mPublic.kICHT_MON_ID:
-                fields.add(CT.MON_ID, cell.getId(), Types.id);
-
-                break;
-
-              case mPublic.kICHT_FECHACOBRO:
-                fields.add(CT.MFI_TMPFECHA_COBRO, cell.getValue(), Types.date);
-
-                break;
-
-              case mPublic.kICHT_FECHAVTO:
-                fields.add(CT.MFI_TMPFECHA_VTO, cell.getValue(), Types.date);
-
-                break;
-
-              case KI_CUE_ID_DEBE:
-                fields.add(CT.CUE_ID_DEBE, cell.getId(), Types.id);
-
-                break;
-
-              case KI_CUE_ID_HABER:
-                fields.add(CT.CUE_ID_HABER, cell.getId(), Types.id);
-
-                break;
-
-              case mPublic.kICHT_IMPORTEORIGEN:
-                fields.add(CT.MFI_IMPORTE_ORIGEN, val(cell.getValue()), Types.currency);
-
-                break;
-
-              case mPublic.kICHT_IMPORTE:
-                fields.add(CT.MFI_IMPORTE, val(cell.getValue()), Types.currency);
-
-                break;
-
-              case KI_CCOS_ID:
-                fields.add(CT.CCOS_ID, cell.getId(), Types.id);
-                break;
-            }
-          }
-
-          m_orden = m_orden + 1;
-          fields.add(CT.MFI_ORDEN, m_orden, Types.integer);
-          fields.add(CT.MFI_TIPO, csEMovimientoFondoItemTipo.cSEMFITCHEQUESI, Types.integer);
-          fields.add(CT.MF_TMPID, id, Types.id);
-          fields.add(CT.MFI_ID, Cairo.Constants.NEW_ID, Types.long);
-
-          register.getFields().setHaveLastUpdate(false);
-          register.getFields().setHaveWhoModify(false);
-
-          if(!Cairo.Database.save(register, , "saveICheques", C_MODULE, c_ErrorSave)) { return false; }
-        }
-
-        var sqlstmt = null;
-
-        if(m_chequesIDeleted !== "" && m_id !== NO_ID && !m_copy) {
-
-          var vDeletes = null;
-          var i = null;
-
-          m_chequesIDeleted = RemoveLastColon(m_chequesIDeleted);
-          vDeletes = Split(m_chequesIDeleted, ",");
-
-          for (i = 0; i <= vDeletes.Length; i++) {
-
-            register = new cRegister();
-            register.setFieldId(CT.MFIB_TMPID);
-            register.setTable(CT.MOVIMIENTOFONDOITEMBORRADOTMP);
-            register.setId(Cairo.Constants.NEW_ID);
-
-            fields.add(CT.MFI_ID, val(vDeletes(i)), Types.integer);
-            fields.add(CT.MF_ID, m_id, Types.id);
-            fields.add(CT.MF_TMPID, id, Types.id);
-
-            register.getFields().setHaveLastUpdate(false);
-            register.getFields().setHaveWhoModify(false);
-
-            if(!Cairo.Database.save(register, , "saveICheques", C_MODULE, c_ErrorSave)) { return false; }
-          }
-
-        }
-
-        return true;
-      };
-
-      var saveTCheques = function(id) {
-        var register = null;
-        var row = null;
-        var cell = null;
-
-        var _count = getTCheques().getRows().size();
-        for (var _i = 0; _i < _count; _i++) {
-          row = getTCheques().getRows().item(_i);
-
-          register = new cRegister();
-          register.setFieldId(CT.MFI_TMPID);
-          register.setTable(CT.MOVIMIENTOFONDOITEMTMP);
-          register.setId(Cairo.Constants.NEW_ID);
-
-          var _count = row.size();
-          for (var _j = 0; _j < _count; _j++) {
-            cell = row.item(_j);
-            switch (cell.getKey()) {
-
-              case KICH_MFI_ID:
-                if(m_copy) {
-                  fields.add(CT.MFI_ID, Cairo.Constants.NEW_ID, Types.integer);
-                }
-                else {
-                  fields.add(CT.MFI_ID, val(cell.getValue()), Types.integer);
-                }
-                break;
-
-              case mPublic.kICHT_DESCRIP:
-                fields.add(CT.MFI_DESCRIP, cell.getValue(), Types.text);
-
-                break;
-
-              case mPublic.kICHT_CHEQUE:
-                fields.add(CT.CHEQ_ID, cell.getId(), Types.id);
-
-                break;
-
-              case mPublic.kICHT_CLE_ID:
-                fields.add(CT.CLE_ID, cell.getId(), Types.id);
-
-                break;
-
-              case mPublic.kICHT_MON_ID:
-                fields.add(CT.MON_ID, cell.getId(), Types.id);
-
-                break;
-
-              case mPublic.kICHT_FECHACOBRO:
-                fields.add(CT.MFI_TMPFECHA_COBRO, cell.getValue(), Types.date);
-
-                break;
-
-              case mPublic.kICHT_FECHAVTO:
-                fields.add(CT.MFI_TMPFECHA_VTO, cell.getValue(), Types.date);
-
-                break;
-
-              case KI_CUE_ID_DEBE:
-                fields.add(CT.CUE_ID_DEBE, cell.getId(), Types.id);
-                break;
-
-              case KI_CUE_ID_HABER:
-                fields.add(CT.CUE_ID_HABER, cell.getId(), Types.id);
-
-                break;
-
-              case mPublic.kICHT_IMPORTEORIGEN:
-                fields.add(CT.MFI_IMPORTE_ORIGEN, val(cell.getValue()), Types.currency);
-
-                break;
-
-              case mPublic.kICHT_IMPORTE:
-                fields.add(CT.MFI_IMPORTE, val(cell.getValue()), Types.currency);
-
-                break;
-
-              case KI_CCOS_ID:
-                fields.add(CT.CCOS_ID, cell.getId(), Types.id);
-                break;
-            }
-          }
-
-          m_orden = m_orden + 1;
-          fields.add(CT.MFI_ORDEN, m_orden, Types.integer);
-          fields.add(CT.MFI_TIPO, csEMovimientoFondoItemTipo.cSEMFITCHEQUEST, Types.integer);
-          fields.add(CT.MF_TMPID, id, Types.id);
-          fields.add(CT.MFI_ID, Cairo.Constants.NEW_ID, Types.long);
-
-          register.getFields().setHaveLastUpdate(false);
-          register.getFields().setHaveWhoModify(false);
-
-          if(!Cairo.Database.save(register, , "saveTCheques", C_MODULE, c_ErrorSave)) { return false; }
-        }
-
-        var sqlstmt = null;
-
-        if(m_chequesTDeleted !== "" && m_id !== NO_ID && !m_copy) {
-
-          var vDeletes = null;
-          var i = null;
-
-          m_chequesTDeleted = RemoveLastColon(m_chequesTDeleted);
-          vDeletes = Split(m_chequesTDeleted, ",");
-
-          for (i = 0; i <= vDeletes.Length; i++) {
-
-            register = new cRegister();
-            register.setFieldId(CT.MFIB_TMPID);
-            register.setTable(CT.MOVIMIENTOFONDOITEMBORRADOTMP);
-            register.setId(Cairo.Constants.NEW_ID);
-
-            fields.add(CT.MFI_ID, val(vDeletes(i)), Types.integer);
-            fields.add(CT.MF_ID, m_id, Types.id);
-            fields.add(CT.MF_TMPID, id, Types.id);
-
-            register.getFields().setHaveLastUpdate(false);
-            register.getFields().setHaveWhoModify(false);
-
-            if(!Cairo.Database.save(register, , "saveTCheques", C_MODULE, c_ErrorSave)) { return false; }
-          }
-
-        }
-
-        return true;
-      };
-
-      var saveCheques = function(id) {
-        var register = null;
-        var property = null;
-
-        var row = null;
-        var cell = null;
-
-        var _count = getCheques().getRows().size();
-        for (var _i = 0; _i < _count; _i++) {
-          row = getCheques().getRows().item(_i);
-
-          register = new cRegister();
-          register.setFieldId(CT.MFI_TMPID);
-          register.setTable(CT.MOVIMIENTOFONDOITEMTMP);
-          register.setId(Cairo.Constants.NEW_ID);
-
-          var _count = row.size();
-          for (var _j = 0; _j < _count; _j++) {
-            cell = row.item(_j);
-            switch (cell.getKey()) {
-
-              case KICH_MFI_ID:
-                if(m_copy) {
-                  fields.add(CT.MFI_ID, Cairo.Constants.NEW_ID, Types.integer);
-                }
-                else {
-                  fields.add(CT.MFI_ID, val(cell.getValue()), Types.integer);
-                }
-                break;
-
-              case KICH_DESCRIP:
-                fields.add(CT.MFI_DESCRIP, cell.getValue(), Types.text);
-
-                break;
-
-              case KICH_CHEQUERA:
-                fields.add(CT.CHQ_ID, cell.getId(), Types.id);
-
-                break;
-
-              case KICH_CHEQUE:
-                fields.add(CT.MFI_TMPCHEQUE, cell.getValue(), Types.text);
-
-                break;
-
-              case KICH_CHEQ_ID:
-
-                if(m_copy) {
-                  fields.add(CT.CHEQ_ID, NO_ID, Types.id);
-                }
-                else {
-                  fields.add(CT.CHEQ_ID, cell.getId(), Types.id);
-                }
-
-                break;
-
-              case KICH_CLE_ID:
-                fields.add(CT.CLE_ID, cell.getId(), Types.id);
-
-                break;
-
-              case KICH_MON_ID:
-                fields.add(CT.MON_ID, cell.getId(), Types.id);
-                break;
-
-              case KICH_FECHACOBRO:
-                fields.add(CT.MFI_TMPFECHA_COBRO, cell.getValue(), Types.date);
-                break;
-
-              case KICH_FECHAVTO:
-                fields.add(CT.MFI_TMPFECHA_VTO, cell.getValue(), Types.date);
-
-                break;
-
-              case KI_CUE_ID_DEBE:
-                fields.add(CT.CUE_ID_DEBE, cell.getId(), Types.id);
-                break;
-
-              case KI_CUE_ID_HABER:
-                fields.add(CT.CUE_ID_HABER, cell.getId(), Types.id);
-
-                break;
-
-              case KICH_IMPORTEORIGEN:
-                fields.add(CT.MFI_IMPORTE_ORIGEN, val(cell.getValue()), Types.currency);
-                break;
-
-              case KICH_IMPORTE:
-                fields.add(CT.MFI_IMPORTE, val(cell.getValue()), Types.currency);
-
-                break;
-
-              case KI_CCOS_ID:
-                fields.add(CT.CCOS_ID, cell.getId(), Types.id);
-                break;
-            }
-          }
-
-          m_orden = m_orden + 1;
-          fields.add(CT.MFI_ORDEN, m_orden, Types.integer);
-          fields.add(CT.MFI_TIPO, csEMovimientoFondoItemTipo.cSEMFITCHEQUES, Types.integer);
-          fields.add(CT.MF_TMPID, id, Types.id);
-
-          register.getFields().setHaveLastUpdate(false);
-          register.getFields().setHaveWhoModify(false);
-
-          if(!Cairo.Database.save(register, , "saveCheques", C_MODULE, c_ErrorSave)) { return false; }
-        }
-
-        var sqlstmt = null;
-
-        if(m_chequesDeleted !== "" && m_id !== NO_ID && !m_copy) {
-
-          var vDeletes = null;
-          var i = null;
-
-          m_chequesDeleted = RemoveLastColon(m_chequesDeleted);
-          vDeletes = Split(m_chequesDeleted, ",");
-
-          for (i = 0; i <= vDeletes.Length; i++) {
-
-            register = new cRegister();
-            register.setFieldId(CT.MFIB_TMPID);
-            register.setTable(CT.MOVIMIENTOFONDOITEMBORRADOTMP);
-            register.setId(Cairo.Constants.NEW_ID);
-
-            fields.add(CT.MFI_ID, val(vDeletes(i)), Types.integer);
-            fields.add(CT.MF_ID, m_id, Types.id);
-            fields.add(CT.MF_TMPID, id, Types.id);
-
-            register.getFields().setHaveLastUpdate(false);
-            register.getFields().setHaveWhoModify(false);
-
-            if(!Cairo.Database.save(register, , "saveCheques", C_MODULE, c_ErrorSave)) { return false; }
-          }
-
-        }
-
-        return true;
-      };
-
       var getICheques = function() {
         return m_items.getProperties().item(C_CHEQUESI).getGrid();
       };
@@ -2784,6 +2666,10 @@
         return m_items.getProperties().item(C_EFECTIVO).getGrid();
       };
 
+      var getFecha = function() {
+        return m_properties.item(CC.MF_FECHA).getValue();
+      };
+
       var setGridICheques = function(property) {
 
         var w_grid = property.getGrid();
@@ -2795,11 +2681,11 @@
 
         var elem = w_columns.add(null);
         elem.setVisible(false);
-        elem.setKey(mPublic.kICHT_MFI_ID);
+        elem.setKey(KICHT_MFI_ID);
 
         var elem = w_columns.add(null);
         elem.setName(getText(2190, "")); // Cuenta Origen
-        elem.setType(Dialogs.PropertyType.select);
+        elem.setType(T.select);
         elem.setSelectTable(Cairo.Tables.CUENTA);
 
         //.HelpFilter = cscCuecId & "=" & csECuecDocEnCartera
@@ -2809,7 +2695,7 @@
 
         var elem = w_columns.add(null);
         elem.setName(getText(2191, "")); // Cuenta Destino
-        elem.setType(Dialogs.PropertyType.select);
+        elem.setType(T.select);
         elem.setSelectTable(Cairo.Tables.CUENTA);
 
         elem.setSelectFilter(mPublic.self.getHelpFilterCheques());
@@ -2818,141 +2704,141 @@
 
         var elem = w_columns.add(null);
         elem.setName(getText(2063, "")); // Mon
-        elem.setType(Dialogs.PropertyType.select);
+        elem.setType(T.select);
         elem.setSelectTable(Cairo.Tables.MONEDA);
-        elem.setKey(mPublic.kICHT_MON_ID);
+        elem.setKey(KICHT_MON_ID);
         elem.setEnabled(false);
 
         var elem = w_columns.add(null);
         elem.setName(getText(1901, "")); // Origen
-        elem.setType(Dialogs.PropertyType.numeric);
-        elem.setFormat(m_generalConfig.getFormatDecImporte());
+        elem.setType(T.numeric);
+        elem.setFormat(Cairo.Settings.getAmountDecimalsFormat());
         elem.setSubType(Dialogs.PropertySubType.money);
-        elem.setKey(mPublic.kICHT_IMPORTEORIGEN);
+        elem.setKey(KICHT_IMPORTEORIGEN);
 
         var elem = w_columns.add(null);
         elem.setName(getText(1228, "")); // Importe
-        elem.setType(Dialogs.PropertyType.numeric);
-        elem.setFormat(m_generalConfig.getFormatDecImporte());
+        elem.setType(T.numeric);
+        elem.setFormat(Cairo.Settings.getAmountDecimalsFormat());
         elem.setSubType(Dialogs.PropertySubType.money);
-        elem.setKey(mPublic.kICHT_IMPORTE);
+        elem.setKey(KICHT_IMPORTE);
 
         var elem = w_columns.add(null);
         elem.setName(getText(1122, "")); // Banco
-        elem.setType(Dialogs.PropertyType.select);
+        elem.setType(T.select);
         elem.setSelectTable(Cairo.Tables.BANCO);
-        elem.setKey(mPublic.kICHT_BCO_ID);
+        elem.setKey(KICHT_BCO_ID);
 
         var elem = w_columns.add(null, C_CHEQUET);
         elem.setName(getText(2059, "")); // Nr. Cheque
-        elem.setType(Dialogs.PropertyType.text);
-        elem.setKey(mPublic.kICHT_CHEQUE);
+        elem.setType(T.text);
+        elem.setKey(KICHT_CHEQUE);
 
         var elem = w_columns.add(null);
         elem.setName(getText(2058, "")); // Cheque
-        elem.setType(Dialogs.PropertyType.text);
-        elem.setKey(mPublic.kICHT_CHEQ_ID);
+        elem.setType(T.text);
+        elem.setKey(KICHT_CHEQ_ID);
         elem.setEnabled(false);
 
         var elem = w_columns.add(null);
         elem.setName(getText(2065, "")); // Depositar el
-        elem.setType(Dialogs.PropertyType.date);
+        elem.setType(T.date);
         elem.setDefaultValue(new cABMGridRowValue());
         elem.getDefaultValue().setValue(Date);
-        elem.setKey(mPublic.kICHT_FECHACOBRO);
+        elem.setKey(KICHT_FECHACOBRO);
 
         var elem = w_columns.add(null);
         elem.setName(getText(1634, "")); // Vto.
-        elem.setType(Dialogs.PropertyType.date);
+        elem.setType(T.date);
         elem.setDefaultValue(new cABMGridRowValue());
         elem.getDefaultValue().setValue(DateAdd("m", 1, Date));
-        elem.setKey(mPublic.kICHT_FECHAVTO);
+        elem.setKey(KICHT_FECHAVTO);
 
         var elem = w_columns.add(null);
         elem.setName(getText(1083, "")); // Clering
-        elem.setType(Dialogs.PropertyType.select);
+        elem.setType(T.select);
         elem.setSelectTable(Cairo.Tables.CLEARING);
-        elem.setKey(mPublic.kICHT_CLE_ID);
+        elem.setKey(KICHT_CLE_ID);
 
         var elem = w_columns.add(null);
         elem.setName(Cairo.Constants.DESCRIPTION_LABEL);
-        elem.setType(Dialogs.PropertyType.text);
+        elem.setType(T.text);
         elem.setSubType(Dialogs.PropertySubType.textButtonEx);
-        elem.setKey(mPublic.kICHT_DESCRIP);
+        elem.setKey(KICHT_DESCRIP);
 
         var elem = w_columns.add(null);
         elem.setName(getText(1057, "")); // Centro de Costo
-        elem.setType(Dialogs.PropertyType.select);
+        elem.setType(T.select);
         elem.setSelectTable(Cairo.Tables.CENTROS_DE_COSTO);
         elem.setKey(KI_CCOS_ID);
 
-        var w_rows = w_grid.getRows();
+        var rows = w_grid.getRows();
 
         for(var _i = 0; _i < m_data.iCheques.length; _i += 1) {
 
-          var elem = w_rows.add(null, rs(CT.MFI_ID).Value);
+          var elem = rows.add(null, rs(CT.MFI_ID).Value);
 
           var elem = elem.add(null);
-          elem.Value = Cairo.Database.valField(m_data.iCheques[_i], CT.MFI_ID);
-          elem.setKey(mPublic.kICHT_MFI_ID);
+          elem.setValue(getValue(m_data.iCheques[_i], CT.MFI_ID));
+          elem.setKey(KICHT_MFI_ID);
 
           var elem = elem.add(null);
-          elem.Value = Cairo.Database.valField(m_data.iCheques[_i], "Haber");
-          elem.Id = Cairo.Database.valField(m_data.iCheques[_i], CT.CUE_ID_HABER);
+          elem.setValue(getValue(m_data.iCheques[_i], "Haber"));
+          elem.Id = getValue(m_data.iCheques[_i], CT.CUE_ID_HABER);
           elem.setKey(KI_CUE_ID_HABER);
 
           var elem = elem.add(null);
-          elem.Value = Cairo.Database.valField(m_data.iCheques[_i], "Debe");
-          elem.Id = Cairo.Database.valField(m_data.iCheques[_i], CT.CUE_ID_DEBE);
+          elem.setValue(getValue(m_data.iCheques[_i], "Debe"));
+          elem.Id = getValue(m_data.iCheques[_i], CT.CUE_ID_DEBE);
           elem.setKey(KI_CUE_ID_DEBE);
 
           var elem = elem.add(null);
-          elem.Value = Cairo.Database.valField(m_data.iCheques[_i], CT.MON_NAME);
-          elem.Id = Cairo.Database.valField(m_data.iCheques[_i], CT.MON_ID);
-          elem.setKey(mPublic.kICHT_MON_ID);
+          elem.setValue(getValue(m_data.iCheques[_i], CT.MON_NAME));
+          elem.Id = getValue(m_data.iCheques[_i], CT.MON_ID);
+          elem.setKey(KICHT_MON_ID);
 
           var elem = elem.add(null);
-          elem.Value = Cairo.Database.valField(m_data.iCheques[_i], CT.MFI_IMPORTE_ORIGEN);
-          elem.setKey(mPublic.kICHT_IMPORTEORIGEN);
+          elem.setValue(getValue(m_data.iCheques[_i], CT.MFI_IMPORTE_ORIGEN));
+          elem.setKey(KICHT_IMPORTEORIGEN);
 
           var elem = elem.add(null);
-          elem.Value = Cairo.Database.valField(m_data.iCheques[_i], CT.MFI_IMPORTE);
-          elem.setKey(mPublic.kICHT_IMPORTE);
+          elem.setValue(getValue(m_data.iCheques[_i], CT.MFI_IMPORTE));
+          elem.setKey(KICHT_IMPORTE);
 
           var elem = elem.add(null);
-          elem.Value = Cairo.Database.valField(m_data.iCheques[_i], CT.BCO_NAME);
-          elem.Id = Cairo.Database.valField(m_data.iCheques[_i], CT.BCO_ID);
-          elem.setKey(mPublic.kICHT_BCO_ID);
+          elem.setValue(getValue(m_data.iCheques[_i], CT.BCO_NAME));
+          elem.Id = getValue(m_data.iCheques[_i], CT.BCO_ID);
+          elem.setKey(KICHT_BCO_ID);
 
           var elem = elem.add(null);
-          elem.Value = Cairo.Database.valField(m_data.iCheques[_i], CT.CHEQ_NUMERO_DOC);
-          elem.setKey(mPublic.kICHT_CHEQUE);
+          elem.setValue(getValue(m_data.iCheques[_i], CT.CHEQ_NUMERO_DOC));
+          elem.setKey(KICHT_CHEQUE);
 
           var elem = elem.add(null);
-          elem.Value = Cairo.Database.valField(m_data.iCheques[_i], CT.CHEQ_NUMERO);
-          elem.Id = Cairo.Database.valField(m_data.iCheques[_i], CT.CHEQ_ID);
-          elem.setKey(mPublic.kICHT_CHEQ_ID);
+          elem.setValue(getValue(m_data.iCheques[_i], CT.CHEQ_NUMERO));
+          elem.Id = getValue(m_data.iCheques[_i], CT.CHEQ_ID);
+          elem.setKey(KICHT_CHEQ_ID);
 
           var elem = elem.add(null);
-          elem.Value = Cairo.Database.valField(m_data.iCheques[_i], CT.CHEQ_FECHA_COBRO);
+          elem.setValue(getValue(m_data.iCheques[_i], CT.CHEQ_FECHA_COBRO));
           elem.setKey(KICH_FECHACOBRO);
 
           var elem = elem.add(null);
-          elem.Value = Cairo.Database.valField(m_data.iCheques[_i], CT.CHEQ_FECHA_VTO);
+          elem.setValue(getValue(m_data.iCheques[_i], CT.CHEQ_FECHA_VTO));
           elem.setKey(KICH_FECHAVTO);
 
           var elem = elem.add(null);
-          elem.Value = Cairo.Database.valField(m_data.iCheques[_i], CT.CLE_NAME);
-          elem.Id = Cairo.Database.valField(m_data.iCheques[_i], CT.CLE_ID);
+          elem.setValue(getValue(m_data.iCheques[_i], CT.CLE_NAME));
+          elem.Id = getValue(m_data.iCheques[_i], CT.CLE_ID);
           elem.setKey(KICH_CLE_ID);
 
           var elem = elem.add(null);
-          elem.Value = Cairo.Database.valField(m_data.iCheques[_i], CT.MFI_DESCRIP);
+          elem.setValue(getValue(m_data.iCheques[_i], CT.MFI_DESCRIP));
           elem.setKey(KICH_DESCRIP);
 
           var elem = elem.add(null);
-          elem.Value = Cairo.Database.valField(m_data.iCheques[_i], CT.CCOS_NAME);
-          elem.Id = Cairo.Database.valField(m_data.iCheques[_i], CT.CCOS_ID);
+          elem.setValue(getValue(m_data.iCheques[_i], CT.CCOS_NAME));
+          elem.Id = getValue(m_data.iCheques[_i], CT.CCOS_ID);
           elem.setKey(KI_CCOS_ID);
 
         }
@@ -2971,11 +2857,11 @@
 
         var elem = w_columns.add(null);
         elem.setVisible(false);
-        elem.setKey(mPublic.kICHT_MFI_ID);
+        elem.setKey(KICHT_MFI_ID);
 
         var elem = w_columns.add(null);
         elem.setName(getText(2190, "")); // Cuenta Origen
-        elem.setType(Dialogs.PropertyType.select);
+        elem.setType(T.select);
         elem.setSelectTable(Cairo.Tables.CUENTA);
 
         //.HelpFilter = cscCuecId & "=" & csECuecDocEnCartera
@@ -2985,147 +2871,147 @@
 
         var elem = w_columns.add(null);
         elem.setName(getText(2191, "")); // Cuenta Destino
-        elem.setType(Dialogs.PropertyType.select);
+        elem.setType(T.select);
         elem.setSelectTable(Cairo.Tables.CUENTA);
         elem.setKey(KI_CUE_ID_DEBE);
 
         var elem = w_columns.add(null, C_CHEQUET);
         elem.setName(getText(2059, "")); // Nr. Cheque
-        elem.setType(Dialogs.PropertyType.select);
+        elem.setType(T.select);
         elem.setTable(csETablesTesoreria.cSCHEQUE);
         elem.setSelectFilter("1 = 2");
         elem.setSubType(Dialogs.PropertySubType.integer);
-        elem.setKey(mPublic.kICHT_CHEQUE);
+        elem.setKey(KICHT_CHEQUE);
 
         var elem = w_columns.add(null);
         elem.setName(getText(1150, "")); // Cliente
-        elem.setType(Dialogs.PropertyType.text);
-        elem.setKey(mPublic.kICHT_CLI_ID);
+        elem.setType(T.text);
+        elem.setKey(KICHT_CLI_ID);
 
         var elem = w_columns.add(null);
         elem.setName(getText(1122, "")); // Banco
-        elem.setType(Dialogs.PropertyType.text);
-        elem.setKey(mPublic.kICHT_BCO_ID);
+        elem.setType(T.text);
+        elem.setKey(KICHT_BCO_ID);
 
         var elem = w_columns.add(null);
         elem.setName(getText(2063, "")); // Mon
-        elem.setType(Dialogs.PropertyType.select);
+        elem.setType(T.select);
         elem.setSelectTable(Cairo.Tables.MONEDA);
-        elem.setKey(mPublic.kICHT_MON_ID);
+        elem.setKey(KICHT_MON_ID);
         elem.setEnabled(false);
 
         var elem = w_columns.add(null);
         elem.setName(getText(1901, "")); // Origen
-        elem.setType(Dialogs.PropertyType.numeric);
-        elem.setFormat(m_generalConfig.getFormatDecImporte());
+        elem.setType(T.numeric);
+        elem.setFormat(Cairo.Settings.getAmountDecimalsFormat());
         elem.setSubType(Dialogs.PropertySubType.money);
-        elem.setKey(mPublic.kICHT_IMPORTEORIGEN);
+        elem.setKey(KICHT_IMPORTEORIGEN);
         elem.setEnabled(false);
 
         var elem = w_columns.add(null);
         elem.setName(getText(1228, "")); // Importe
-        elem.setType(Dialogs.PropertyType.numeric);
-        elem.setFormat(m_generalConfig.getFormatDecImporte());
+        elem.setType(T.numeric);
+        elem.setFormat(Cairo.Settings.getAmountDecimalsFormat());
         elem.setSubType(Dialogs.PropertySubType.money);
-        elem.setKey(mPublic.kICHT_IMPORTE);
+        elem.setKey(KICHT_IMPORTE);
         elem.setEnabled(false);
 
         var elem = w_columns.add(null);
         elem.setName(getText(2065, "")); // Depositar el
-        elem.setType(Dialogs.PropertyType.date);
-        elem.setKey(mPublic.kICHT_FECHACOBRO);
+        elem.setType(T.date);
+        elem.setKey(KICHT_FECHACOBRO);
         elem.setEnabled(false);
 
         var elem = w_columns.add(null);
         elem.setName(getText(1634, "")); // Vto.
-        elem.setType(Dialogs.PropertyType.date);
-        elem.setKey(mPublic.kICHT_FECHAVTO);
+        elem.setType(T.date);
+        elem.setKey(KICHT_FECHAVTO);
         elem.setEnabled(false);
 
         var elem = w_columns.add(null);
         elem.setName(getText(1083, "")); // Clering
-        elem.setType(Dialogs.PropertyType.select);
+        elem.setType(T.select);
         elem.setSelectTable(Cairo.Tables.CLEARING);
-        elem.setKey(mPublic.kICHT_CLE_ID);
+        elem.setKey(KICHT_CLE_ID);
         elem.setEnabled(false);
 
         var elem = w_columns.add(null);
         elem.setName(Cairo.Constants.DESCRIPTION_LABEL);
-        elem.setType(Dialogs.PropertyType.text);
+        elem.setType(T.text);
         elem.setSubType(Dialogs.PropertySubType.textButtonEx);
-        elem.setKey(mPublic.kICHT_DESCRIP);
+        elem.setKey(KICHT_DESCRIP);
 
         var elem = w_columns.add(null);
         elem.setName(getText(1057, "")); // Centro de Costo
-        elem.setType(Dialogs.PropertyType.select);
+        elem.setType(T.select);
         elem.setSelectTable(Cairo.Tables.CENTROS_DE_COSTO);
         elem.setKey(KI_CCOS_ID);
 
-        var w_rows = w_grid.getRows();
+        var rows = w_grid.getRows();
 
         for(var _i = 0; _i < m_data.tCheques.length; _i += 1) {
 
-          var elem = w_rows.add(null, rs(CT.MFI_ID).Value);
+          var elem = rows.add(null, rs(CT.MFI_ID).Value);
 
           var elem = elem.add(null);
-          elem.Value = Cairo.Database.valField(m_data.tCheques[_i], CT.MFI_ID);
-          elem.setKey(mPublic.kICHT_MFI_ID);
+          elem.setValue(getValue(m_data.tCheques[_i], CT.MFI_ID));
+          elem.setKey(KICHT_MFI_ID);
 
           var elem = elem.add(null);
-          elem.Value = Cairo.Database.valField(m_data.tCheques[_i], "Haber");
-          elem.Id = Cairo.Database.valField(m_data.tCheques[_i], CT.CUE_ID_HABER);
+          elem.setValue(getValue(m_data.tCheques[_i], "Haber"));
+          elem.Id = getValue(m_data.tCheques[_i], CT.CUE_ID_HABER);
           elem.setKey(KI_CUE_ID_HABER);
 
           var elem = elem.add(null);
-          elem.Value = Cairo.Database.valField(m_data.tCheques[_i], "Debe");
-          elem.Id = Cairo.Database.valField(m_data.tCheques[_i], CT.CUE_ID_DEBE);
+          elem.setValue(getValue(m_data.tCheques[_i], "Debe"));
+          elem.Id = getValue(m_data.tCheques[_i], CT.CUE_ID_DEBE);
           elem.setKey(KI_CUE_ID_DEBE);
 
           var elem = elem.add(null);
-          elem.Value = Cairo.Database.valField(m_data.tCheques[_i], CT.CHEQ_NUMERO_DOC);
-          elem.Id = Cairo.Database.valField(m_data.tCheques[_i], CT.CHEQ_ID);
-          elem.setKey(mPublic.kICHT_CHEQUE);
+          elem.setValue(getValue(m_data.tCheques[_i], CT.CHEQ_NUMERO_DOC));
+          elem.Id = getValue(m_data.tCheques[_i], CT.CHEQ_ID);
+          elem.setKey(KICHT_CHEQUE);
 
           var elem = elem.add(null);
-          elem.Value = Cairo.Database.valField(m_data.tCheques[_i], CT.CLI_NAME);
-          elem.setKey(mPublic.kICHT_CLI_ID);
+          elem.setValue(getValue(m_data.tCheques[_i], CT.CLI_NAME));
+          elem.setKey(KICHT_CLI_ID);
 
           var elem = elem.add(null);
-          elem.Value = Cairo.Database.valField(m_data.tCheques[_i], CT.BCO_NAME);
-          elem.setKey(mPublic.kICHT_BCO_ID);
+          elem.setValue(getValue(m_data.tCheques[_i], CT.BCO_NAME));
+          elem.setKey(KICHT_BCO_ID);
 
           var elem = elem.add(null);
-          elem.Value = Cairo.Database.valField(m_data.tCheques[_i], CT.MON_NAME);
-          elem.Id = Cairo.Database.valField(m_data.tCheques[_i], CT.MON_ID);
-          elem.setKey(mPublic.kICHT_MON_ID);
+          elem.setValue(getValue(m_data.tCheques[_i], CT.MON_NAME));
+          elem.Id = getValue(m_data.tCheques[_i], CT.MON_ID);
+          elem.setKey(KICHT_MON_ID);
 
           var elem = elem.add(null);
-          elem.Value = Cairo.Database.valField(m_data.tCheques[_i], CT.MFI_IMPORTE_ORIGEN);
-          elem.setKey(mPublic.kICHT_IMPORTEORIGEN);
+          elem.setValue(getValue(m_data.tCheques[_i], CT.MFI_IMPORTE_ORIGEN));
+          elem.setKey(KICHT_IMPORTEORIGEN);
 
           var elem = elem.add(null);
-          elem.Value = Cairo.Database.valField(m_data.tCheques[_i], CT.MFI_IMPORTE);
-          elem.setKey(mPublic.kICHT_IMPORTE);
+          elem.setValue(getValue(m_data.tCheques[_i], CT.MFI_IMPORTE));
+          elem.setKey(KICHT_IMPORTE);
 
           var elem = elem.add(null);
-          elem.Value = Cairo.Database.valField(m_data.tCheques[_i], CT.CHEQ_FECHA_COBRO);
+          elem.setValue(getValue(m_data.tCheques[_i], CT.CHEQ_FECHA_COBRO));
           elem.setKey(KICH_FECHACOBRO);
 
           var elem = elem.add(null);
-          elem.Value = Cairo.Database.valField(m_data.tCheques[_i], CT.CHEQ_FECHA_VTO);
+          elem.setValue(getValue(m_data.tCheques[_i], CT.CHEQ_FECHA_VTO));
           elem.setKey(KICH_FECHAVTO);
 
           var elem = elem.add(null);
-          elem.Value = Cairo.Database.valField(m_data.tCheques[_i], CT.CLE_NAME);
+          elem.setValue(getValue(m_data.tCheques[_i], CT.CLE_NAME));
           elem.setKey(KICH_CLE_ID);
 
           var elem = elem.add(null);
-          elem.Value = Cairo.Database.valField(m_data.tCheques[_i], CT.MFI_DESCRIP);
+          elem.setValue(getValue(m_data.tCheques[_i], CT.MFI_DESCRIP));
           elem.setKey(KICH_DESCRIP);
 
           var elem = elem.add(null);
-          elem.Value = Cairo.Database.valField(m_data.tCheques[_i], CT.CCOS_NAME);
-          elem.Id = Cairo.Database.valField(m_data.tCheques[_i], CT.CCOS_ID);
+          elem.setValue(getValue(m_data.tCheques[_i], CT.CCOS_NAME));
+          elem.Id = getValue(m_data.tCheques[_i], CT.CCOS_ID);
           elem.setKey(KI_CCOS_ID);
 
         }
@@ -3148,7 +3034,7 @@
 
         var elem = w_columns.add(null);
         elem.setName(getText(2190, "")); // Cuenta Origen
-        elem.setType(Dialogs.PropertyType.select);
+        elem.setType(T.select);
         elem.setSelectTable(Cairo.Tables.CUENTA);
 
         //.HelpFilter = cscCuecId & "=" & csECuecBancos
@@ -3158,147 +3044,147 @@
 
         var elem = w_columns.add(null);
         elem.setName(getText(2191, "")); // Cuenta Destino
-        elem.setType(Dialogs.PropertyType.select);
+        elem.setType(T.select);
         elem.setSelectTable(Cairo.Tables.CUENTA);
         elem.setKey(KI_CUE_ID_DEBE);
 
         var elem = w_columns.add(null);
         elem.setName(getText(2063, "")); // Mon
-        elem.setType(Dialogs.PropertyType.select);
+        elem.setType(T.select);
         elem.setSelectTable(Cairo.Tables.MONEDA);
         elem.setKey(KICH_MON_ID);
         elem.setEnabled(false);
 
         var elem = w_columns.add(null);
         elem.setName(getText(1901, "")); // Origen
-        elem.setType(Dialogs.PropertyType.numeric);
-        elem.setFormat(m_generalConfig.getFormatDecImporte());
+        elem.setType(T.numeric);
+        elem.setFormat(Cairo.Settings.getAmountDecimalsFormat());
         elem.setSubType(Dialogs.PropertySubType.money);
         elem.setKey(KICH_IMPORTEORIGEN);
 
         var elem = w_columns.add(null);
         elem.setName(getText(1228, "")); // Importe
-        elem.setType(Dialogs.PropertyType.numeric);
-        elem.setFormat(m_generalConfig.getFormatDecImporte());
+        elem.setType(T.numeric);
+        elem.setFormat(Cairo.Settings.getAmountDecimalsFormat());
         elem.setSubType(Dialogs.PropertySubType.money);
         elem.setKey(KICH_IMPORTE);
 
         var elem = w_columns.add(null, C_CHEQUERA);
         elem.setName(getText(2064, "")); // Chequera
-        elem.setType(Dialogs.PropertyType.select);
+        elem.setType(T.select);
         elem.setSelectTable(Cairo.Tables.CHEQUERA);
         elem.setKey(KICH_CHEQUERA);
 
         var elem = w_columns.add(null);
         elem.setName(getText(2059, "")); // Nr. Cheque
-        elem.setType(Dialogs.PropertyType.text);
+        elem.setType(T.text);
         elem.setKey(KICH_CHEQUE);
 
         var elem = w_columns.add(null);
         elem.setName(getText(2058, "")); // Cheque
-        elem.setType(Dialogs.PropertyType.text);
+        elem.setType(T.text);
         elem.setEnabled(false);
         elem.setKey(KICH_CHEQ_ID);
 
         var elem = w_columns.add(null);
         elem.setName(getText(2065, "")); // Depositar el
-        elem.setType(Dialogs.PropertyType.date);
+        elem.setType(T.date);
         elem.setDefaultValue(new cABMGridRowValue());
         elem.getDefaultValue().setValue(Date);
         elem.setKey(KICH_FECHACOBRO);
 
         var elem = w_columns.add(null);
         elem.setName(getText(1634, "")); // Vto.
-        elem.setType(Dialogs.PropertyType.date);
+        elem.setType(T.date);
         elem.setDefaultValue(new cABMGridRowValue());
         elem.getDefaultValue().setValue(DateAdd("m", 1, Date));
         elem.setKey(KICH_FECHAVTO);
 
         var elem = w_columns.add(null);
         elem.setName(getText(1083, "")); // Clering
-        elem.setType(Dialogs.PropertyType.select);
+        elem.setType(T.select);
         elem.setSelectTable(Cairo.Tables.CLEARING);
         elem.setKey(KICH_CLE_ID);
 
         var elem = w_columns.add(null);
         elem.setName(Cairo.Constants.DESCRIPTION_LABEL);
-        elem.setType(Dialogs.PropertyType.text);
+        elem.setType(T.text);
         elem.setSubType(Dialogs.PropertySubType.textButtonEx);
         elem.setKey(KICH_DESCRIP);
 
         var elem = w_columns.add(null);
         elem.setName(getText(1057, "")); // Centro de Costo
-        elem.setType(Dialogs.PropertyType.select);
+        elem.setType(T.select);
         elem.setSelectTable(Cairo.Tables.CENTROS_DE_COSTO);
         elem.setKey(KI_CCOS_ID);
 
-        var w_rows = w_grid.getRows();
+        var rows = w_grid.getRows();
 
         for(var _i = 0; _i < m_data.cheques.length; _i += 1) {
 
-          var elem = w_rows.add(null, rs(CT.MFI_ID).Value);
+          var elem = rows.add(null, rs(CT.MFI_ID).Value);
 
           var elem = elem.add(null);
-          elem.Value = Cairo.Database.valField(m_data.cheques[_i], CT.MFI_ID);
+          elem.setValue(getValue(m_data.cheques[_i], CT.MFI_ID));
           elem.setKey(KICH_MFI_ID);
 
           var elem = elem.add(null);
-          elem.Value = Cairo.Database.valField(m_data.cheques[_i], "Haber");
-          elem.Id = Cairo.Database.valField(m_data.cheques[_i], CT.CUE_ID_HABER);
+          elem.setValue(getValue(m_data.cheques[_i], "Haber"));
+          elem.Id = getValue(m_data.cheques[_i], CT.CUE_ID_HABER);
           elem.setKey(KI_CUE_ID_HABER);
 
           var elem = elem.add(null);
-          elem.Value = Cairo.Database.valField(m_data.cheques[_i], "Debe");
-          elem.Id = Cairo.Database.valField(m_data.cheques[_i], CT.CUE_ID_DEBE);
+          elem.setValue(getValue(m_data.cheques[_i], "Debe"));
+          elem.Id = getValue(m_data.cheques[_i], CT.CUE_ID_DEBE);
           elem.setKey(KI_CUE_ID_DEBE);
 
           var elem = elem.add(null);
-          elem.Value = Cairo.Database.valField(m_data.cheques[_i], CT.MON_NAME);
-          elem.Id = Cairo.Database.valField(m_data.cheques[_i], CT.MON_ID);
+          elem.setValue(getValue(m_data.cheques[_i], CT.MON_NAME));
+          elem.Id = getValue(m_data.cheques[_i], CT.MON_ID);
           elem.setKey(KICH_MON_ID);
 
           var elem = elem.add(null);
-          elem.Value = Cairo.Database.valField(m_data.cheques[_i], CT.MFI_IMPORTE_ORIGEN);
+          elem.setValue(getValue(m_data.cheques[_i], CT.MFI_IMPORTE_ORIGEN));
           elem.setKey(KICH_IMPORTEORIGEN);
 
           var elem = elem.add(null);
-          elem.Value = Cairo.Database.valField(m_data.cheques[_i], CT.MFI_IMPORTE);
+          elem.setValue(getValue(m_data.cheques[_i], CT.MFI_IMPORTE));
           elem.setKey(KICH_IMPORTE);
 
           var elem = elem.add(null);
-          elem.Value = Cairo.Database.valField(m_data.cheques[_i], CT.CHQ_CODE);
-          elem.Id = Cairo.Database.valField(m_data.cheques[_i], CT.CHQ_ID);
+          elem.setValue(getValue(m_data.cheques[_i], CT.CHQ_CODE));
+          elem.Id = getValue(m_data.cheques[_i], CT.CHQ_ID);
           elem.setKey(KICH_CHEQUERA);
 
           var elem = elem.add(null);
-          elem.Value = Cairo.Database.valField(m_data.cheques[_i], CT.CHEQ_NUMERO_DOC);
+          elem.setValue(getValue(m_data.cheques[_i], CT.CHEQ_NUMERO_DOC));
           elem.setKey(KICH_CHEQUE);
 
           var elem = elem.add(null);
-          elem.Value = Cairo.Database.valField(m_data.cheques[_i], CT.CHEQ_NUMERO);
-          elem.Id = Cairo.Database.valField(m_data.cheques[_i], CT.CHEQ_ID);
+          elem.setValue(getValue(m_data.cheques[_i], CT.CHEQ_NUMERO));
+          elem.Id = getValue(m_data.cheques[_i], CT.CHEQ_ID);
           elem.setKey(KICH_CHEQ_ID);
 
           var elem = elem.add(null);
-          elem.Value = Cairo.Database.valField(m_data.cheques[_i], CT.CHEQ_FECHA_COBRO);
+          elem.setValue(getValue(m_data.cheques[_i], CT.CHEQ_FECHA_COBRO));
           elem.setKey(KICH_FECHACOBRO);
 
           var elem = elem.add(null);
-          elem.Value = Cairo.Database.valField(m_data.cheques[_i], CT.CHEQ_FECHA_VTO);
+          elem.setValue(getValue(m_data.cheques[_i], CT.CHEQ_FECHA_VTO));
           elem.setKey(KICH_FECHAVTO);
 
           var elem = elem.add(null);
-          elem.Value = Cairo.Database.valField(m_data.cheques[_i], CT.CLE_NAME);
-          elem.Id = Cairo.Database.valField(m_data.cheques[_i], CT.CLE_ID);
+          elem.setValue(getValue(m_data.cheques[_i], CT.CLE_NAME));
+          elem.Id = getValue(m_data.cheques[_i], CT.CLE_ID);
           elem.setKey(KICH_CLE_ID);
 
           var elem = elem.add(null);
-          elem.Value = Cairo.Database.valField(m_data.cheques[_i], CT.MFI_DESCRIP);
+          elem.setValue(getValue(m_data.cheques[_i], CT.MFI_DESCRIP));
           elem.setKey(KICH_DESCRIP);
 
           var elem = elem.add(null);
-          elem.Value = Cairo.Database.valField(m_data.cheques[_i], CT.CCOS_NAME);
-          elem.Id = Cairo.Database.valField(m_data.cheques[_i], CT.CCOS_ID);
+          elem.setValue(getValue(m_data.cheques[_i], CT.CCOS_NAME));
+          elem.Id = getValue(m_data.cheques[_i], CT.CCOS_ID);
           elem.setKey(KI_CCOS_ID);
 
         }
@@ -3315,14 +3201,14 @@
 
         switch (w_grid.getColumns().item(lCol).getKey()) {
 
-          case mPublic.kICHT_IMPORTEORIGEN:
+          case KICHT_IMPORTEORIGEN:
             row = w_grid.getRows(lRow);
-            var cell = getCell(row, mPublic.kICHT_MON_ID);
+            var cell = getCell(row, KICHT_MON_ID);
             if(cell.getId() !== m_defaultCurrency.id || cell.getId() === 0) {
-              getCell(row, mPublic.kICHT_IMPORTE).setValue(val(getCell(row, mPublic.kICHT_IMPORTEORIGEN).getValue()) * val(getCotizacion().getValue()));
+              getCell(row, KICHT_IMPORTE).setValue(val(getCell(row, KICHT_IMPORTEORIGEN).getValue()) * val(getCotizacion().getValue()));
             }
             else {
-              getCell(row, mPublic.kICHT_IMPORTEORIGEN).setValue(0);
+              getCell(row, KICHT_IMPORTEORIGEN).setValue(0);
             }
 
             break;
@@ -3337,15 +3223,15 @@
             cueId = getCell(row, KI_CUE_ID_DEBE).getId();
             GetMonedaFromCuenta(monId, moneda, cueId);
 
-            var cell = getCell(row, mPublic.kICHT_MON_ID);
+            var cell = getCell(row, KICHT_MON_ID);
             cell.setValue(moneda);
             cell.setId(monId);
 
             if(monId === m_defaultCurrency.id || monId === 0) {
-              getCell(row, mPublic.kICHT_IMPORTEORIGEN).setValue(0);
+              getCell(row, KICHT_IMPORTEORIGEN).setValue(0);
             }
 
-            cABMUtil.pCol(property.getGrid().getColumns(), mPublic.kICHT_CHEQUE).getHelpFilter() === mPublic.self.getChequeFileter(cueId);
+            cABMUtil.pCol(property.getGrid().getColumns(), KICHT_CHEQUE).getHelpFilter() === mPublic.self.getChequeFileter(cueId);
 
                     #If PREPROC_SFS Then;
             var abmObj = null;
@@ -3360,7 +3246,7 @@
 
             break;
 
-          case mPublic.kICHT_IMPORTE:
+          case KICHT_IMPORTE:
 
             showTotales();
 
@@ -3389,14 +3275,14 @@
 
         switch (w_grid.getColumns().item(lCol).getKey()) {
 
-          case mPublic.kICHT_IMPORTEORIGEN:
+          case KICHT_IMPORTEORIGEN:
             row = w_grid.getRows(lRow);
-            var cell = getCell(row, mPublic.kICHT_MON_ID);
+            var cell = getCell(row, KICHT_MON_ID);
             if(cell.getId() !== m_defaultCurrency.id || cell.getId() === 0) {
-              getCell(row, mPublic.kICHT_IMPORTE).setValue(val(getCell(row, mPublic.kICHT_IMPORTEORIGEN).getValue()) * val(getCotizacion().getValue()));
+              getCell(row, KICHT_IMPORTE).setValue(val(getCell(row, KICHT_IMPORTEORIGEN).getValue()) * val(getCotizacion().getValue()));
             }
             else {
-              getCell(row, mPublic.kICHT_IMPORTEORIGEN).setValue(0);
+              getCell(row, KICHT_IMPORTEORIGEN).setValue(0);
             }
 
             break;
@@ -3411,15 +3297,15 @@
             cueId = getCell(row, KI_CUE_ID_HABER).getId();
             GetMonedaFromCuenta(monId, moneda, cueId);
 
-            var cell = getCell(row, mPublic.kICHT_MON_ID);
+            var cell = getCell(row, KICHT_MON_ID);
             cell.setValue(moneda);
             cell.setId(monId);
 
             if(monId === m_defaultCurrency.id || monId === 0) {
-              getCell(row, mPublic.kICHT_IMPORTEORIGEN).setValue(0);
+              getCell(row, KICHT_IMPORTEORIGEN).setValue(0);
             }
 
-            cABMUtil.pCol(property.getGrid().getColumns(), mPublic.kICHT_CHEQUE).getHelpFilter() === mPublic.self.getChequeFileter(cueId);
+            cABMUtil.pCol(property.getGrid().getColumns(), KICHT_CHEQUE).getHelpFilter() === mPublic.self.getChequeFileter(cueId);
 
                     #If PREPROC_SFS Then;
             var abmObj = null;
@@ -3434,9 +3320,9 @@
 
             break;
 
-          case mPublic.kICHT_CHEQUE:
+          case KICHT_CHEQUE:
             row = w_grid.getRows(lRow);
-            mPublic.self.setChequeData(row, getCell(row, mPublic.kICHT_CHEQUE).getId());
+            mPublic.self.setChequeData(row, getCell(row, KICHT_CHEQUE).getId());
 
             showTotales();
 
@@ -3543,7 +3429,7 @@
 
               break;
 
-            case mPublic.kICHT_BCO_ID:
+            case KICHT_BCO_ID:
               if(valEmpty(cell.getId(), Types.id)) {
                 return M.showInfoWithFalse(getText(2094, "", strRow)); // Debe indicar un banco (1)
               }
@@ -3738,11 +3624,11 @@
           cell = row.item(_i);
           switch (cell.getKey()) {
             case KI_CUE_ID_HABER:
-            case mPublic.kICHT_MON_ID:
-            case mPublic.kICHT_CLE_ID:
+            case KICHT_MON_ID:
+            case KICHT_CLE_ID:
             case KI_CUE_ID_DEBE:
-            case mPublic.kICHT_BCO_ID:
-            case mPublic.kICHT_CLE_ID:
+            case KICHT_BCO_ID:
+            case KICHT_CLE_ID:
 
               if(!valEmpty(cell.getId(), Types.id)) {
                 bRowIsEmpty = false;
@@ -3751,8 +3637,8 @@
 
               break;
 
-            case mPublic.kICHT_IMPORTE:
-            case mPublic.kICHT_IMPORTEORIGEN:
+            case KICHT_IMPORTE:
+            case KICHT_IMPORTEORIGEN:
               if(!valEmpty(val(cell.getValue()), Types.double)) {
                 var bRowIsEmpty = true;
                 break;
@@ -3760,8 +3646,8 @@
 
               break;
 
-            case mPublic.kICHT_DESCRIP:
-            case mPublic.kICHT_CHEQUE:
+            case KICHT_DESCRIP:
+            case KICHT_CHEQUE:
               if(!valEmpty(cell.getValue(), Types.text)) {
                 var bRowIsEmpty = true;
                 break;
@@ -3787,8 +3673,8 @@
           cell = row.item(_i);
           switch (cell.getKey()) {
             case KI_CUE_ID_HABER:
-            case mPublic.kICHT_MON_ID:
-            case mPublic.kICHT_CLE_ID:
+            case KICHT_MON_ID:
+            case KICHT_CLE_ID:
               if(!valEmpty(cell.getId(), Types.id)) {
                 bRowIsEmpty = false;
                 break;
@@ -3796,8 +3682,8 @@
 
               break;
 
-            case mPublic.kICHT_IMPORTE:
-            case mPublic.kICHT_IMPORTEORIGEN:
+            case KICHT_IMPORTE:
+            case KICHT_IMPORTEORIGEN:
               if(!valEmpty(val(cell.getValue()), Types.double)) {
                 var bRowIsEmpty = true;
                 break;
@@ -3805,8 +3691,8 @@
 
               break;
 
-            case mPublic.kICHT_DESCRIP:
-            case mPublic.kICHT_CHEQUE:
+            case KICHT_DESCRIP:
+            case KICHT_CHEQUE:
               if(!valEmpty(cell.getValue(), Types.text)) {
                 var bRowIsEmpty = true;
                 break;
@@ -4125,7 +4011,7 @@
         m_properties.clear();
 
         c = m_properties.add(null, C_FECHAINI);
-        c.setType(Dialogs.PropertyType.date);
+        c.setType(T.date);
         c.setName(getText(1203, "")); // Fecha desde
         c.setKey(K_FECHAINI);
         if(LenB(m_fechaIniV)) {
@@ -4136,7 +4022,7 @@
         }
 
         c = m_properties.add(null, C_FECHAFIN);
-        c.setType(Dialogs.PropertyType.date);
+        c.setType(T.date);
         c.setName(getText(1204, "")); // Fecha hasta
         c.setKey(K_FECHAFIN);
         if(LenB(m_fechaFinV)) {
@@ -4147,7 +4033,7 @@
         }
 
         c = m_properties.add(null, CT.CLI_ID);
-        c.setType(Dialogs.PropertyType.select);
+        c.setType(T.select);
         c.setSelectTable(Cairo.Tables.CLIENTE);
         c.setName(getText(1150, "")); // Cliente
         c.setKey(K_CLI_ID);
@@ -4161,7 +4047,7 @@
         c.setSelectIntValue(m_cliId);
 
         c = m_properties.add(null, C.EST_ID);
-        c.setType(Dialogs.PropertyType.select);
+        c.setType(T.select);
         c.setSelectTable(csEstado);
         c.setName(getText(1568, "")); // Estado
         c.setKey(K_EST_ID);
@@ -4175,7 +4061,7 @@
         c.setSelectIntValue(m_estId);
 
         c = m_properties.add(null, CT.CCOS_ID);
-        c.setType(Dialogs.PropertyType.select);
+        c.setType(T.select);
         c.setSelectTable(Cairo.Tables.CENTRO_COSTO);
         c.setName(getText(1057, "")); // Centro de Costos
         c.setKey(K_CCOS_ID);
@@ -4189,7 +4075,7 @@
         c.setSelectIntValue(m_ccosId);
 
         c = m_properties.add(null, CT.SUC_ID);
-        c.setType(Dialogs.PropertyType.select);
+        c.setType(T.select);
         c.setSelectTable(Cairo.Tables.SUCURSAL);
         c.setName(getText(1281, "")); // Sucursal
         c.setKey(K_SUC_ID);
@@ -4203,7 +4089,7 @@
         c.setSelectIntValue(m_sucId);
 
         c = m_properties.add(null, Cairo.Constants.US_ID);
-        c.setType(Dialogs.PropertyType.select);
+        c.setType(T.select);
         c.setSelectTable(csUsuario);
         c.setName(getText(1137, "")); // Usuario
         c.setKey(K_US_ID);
@@ -4217,7 +4103,7 @@
         c.setSelectIntValue(m_usId_responsable);
 
         c = m_properties.add(null, C.DOC_ID);
-        c.setType(Dialogs.PropertyType.select);
+        c.setType(T.select);
         c.setSelectTable(csETablasDocumento.CSDocumento);
         c.setName(getText(1611, "")); // Documentos
         c.setKey(K_DOC_ID);
@@ -4233,7 +4119,7 @@
 
 
         c = m_properties.add(null, C.EMP_ID);
-        c.setType(Dialogs.PropertyType.select);
+        c.setType(T.select);
         c.setSelectTable(Cairo.Tables.EMPRESA);
         c.setName(getText(1114, "")); // Empresa
         c.setKey(K_EMP_ID);

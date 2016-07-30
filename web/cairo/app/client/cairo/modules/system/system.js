@@ -753,7 +753,7 @@
 
   Cairo.Documents.updateChequeraFilter = function(property, key, cueId, dialog) {
     var col = D.getCol(property.getGrid().getColumns(), key)
-    col.setSelectFilter("chequera|cueId:" + cueId.toString(););
+    col.setSelectFilter("chequera|cueId:" + cueId.toString());
     dialog.refreshColumnProperties(property, key);
   };
 

@@ -778,8 +778,8 @@
               m_proyectoItem = "";
               m_obje_id = NO_ID;
               m_objetivo = "";
-              m_us_id2 = cUtil.getUser().getId();
-              m_usuario = cUtil.getUser().getName();
+              m_us_id2 = Cairo.User.getId();
+              m_usuario = Cairo.User.getName();
               m_tar_id = NO_ID;
               m_tarea = "";
               m_descrip = "";

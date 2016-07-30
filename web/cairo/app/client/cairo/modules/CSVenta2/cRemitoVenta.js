@@ -1166,7 +1166,7 @@
 
         for(i = 0; i <= vRvIds.Length; i++) {
 
-          sqlstmt = "sp_DocRemitoVentaCancelar "+ cUtil.getUser().getId().toString()+ ","+ cUtil.getEmpId().toString()+ ","+ vRvIds[i].toString();
+          sqlstmt = "sp_DocRemitoVentaCancelar "+ Cairo.User.getId().toString()+ ","+ cUtil.getEmpId().toString()+ ","+ vRvIds[i].toString();
 
           if(!Cairo.Database.openRs(sqlstmt, rs)) { return; }
           if(rs.isEOF()) { return; }

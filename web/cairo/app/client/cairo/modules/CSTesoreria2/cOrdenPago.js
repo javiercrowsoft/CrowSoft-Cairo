@@ -2508,7 +2508,7 @@
           var row = rows.item(_i);
 
           var register = new DB.Register();
-          register.setTable(CT.ORDEN_PAGO_ITEM_TMP);
+          register.setFieldId(CT.OPGI_TMP_ID);
           register.setId(Cairo.Constants.NEW_ID);
 
           var fields = register.getFields();
@@ -2574,9 +2574,9 @@
           transaction.addRegister(register);
         }
 
-        if(m_chequesDeleted !== "" && m_id !== NO_ID && !m_copy) {
+        if(m_chequesTDeleted !== "" && m_id !== NO_ID && !m_copy) {
 
-          transaction.setDeletedList(m_chequesDeleted);
+          transaction.setDeletedList(m_chequesTDeleted);
         }
 
         mainRegister.addTransaction(transaction);
@@ -2691,7 +2691,7 @@
 
         for(var _i = 0, _count = rows.size(); _i < _count; _i++) {
 
-          var row = getOtros().getRows().item(_i);
+          var row = rows.item(_i);
 
           var register = new DB.Register();
           register.setFieldId(CT.OPGI_TMP_ID);
@@ -2793,7 +2793,7 @@
 
         for(var _i = 0, _count = rows.size(); _i < _count; _i++) {
 
-          var row = getEfectivo().getRows().item(_i);
+          var row = rows.item(_i);
 
           var register = new DB.Register();
           register.setFieldId(CT.OPGI_TMP_ID);

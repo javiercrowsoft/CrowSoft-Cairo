@@ -32,7 +32,10 @@
       DBCOI_TIPO: "dbcoi_tipo",
 
       // DepositoBancoItemTMP
-      DEPOSITO_BANCO_ITEM_TMP: "DepositoBancoItemTMP",
+      DEPOSITO_BANCO_ITEM_CHEQUE_TMP: "DepositoBancoItemChequeTMP",
+      DEPOSITO_BANCO_ITEM_CHEQUET_TMP: "DepositoBancoItemChequeTTMP",
+      DEPOSITO_BANCO_ITEM_EFECTIVO_TMP: "DepositoBancoItemEfectivoTMP",
+
       DBCOI_TMP_ID: "dbcoiTMP_id",
       DBCOI_TMP_CHEQUE: "dbcoiTMP_cheque",
       DBCOI_TMP_FECHA_COBRO: "dbcoiTMP_fechacobro",
@@ -76,9 +79,7 @@
       COBZI_TIPO: "cobzi_tipo",
       COBZI_TARJETA_TIPO: "cobzi_tarjetaTipo",
 
-
       // CobranzaItemTMP
-      COBRANZA_ITEM_TMP: "CobranzaItemTMP",
       COBRANZA_ITEM_DIF_TMP: "CobranzaItemDifTMP",
       COBRANZA_ITEM_CHEQUE_TMP: "CobranzaItemChequeTMP",
       COBRANZA_ITEM_TARJETA_TMP: "CobranzaItemTarjetaTMP",
@@ -210,7 +211,6 @@
       OPGI_TIPO: "opgi_tipo",
 
       // OrdenPagoItemTMP
-      ORDEN_PAGO_ITEM_TMP: "OrdenPagoItemTMP",
       ORDEN_PAGO_ITEM_CHEQUE_TMP: "OrdenPagoItemChequeTMP",
       ORDEN_PAGO_ITEM_CHEQUET_TMP: "OrdenPagoItemChequeTTMP",
       ORDEN_PAGO_ITEM_EFECTIVO_TMP: "OrdenPagoItemEfectivoTMP",
@@ -281,8 +281,12 @@
       MF_GRABARASIENTO: "mf_grabarasiento",
       MF_COTIZACION: "mf_cotizacion",
 
-      // Movimiento de Fondos Item MTP
-      MOVIMIENTO_FONDO_ITEM_TMP: "MovimientoFondoItemTMP",
+      // MovimientoFondoItemTMP
+      MOVIMIENTO_FONDO_ITEM_CHEQUE_TMP: "MovimientoFondoItemChequeTMP",
+      MOVIMIENTO_FONDO_ITEM_CHEQUET_TMP: "MovimientoFondoItemChequeTTMP",
+      MOVIMIENTO_FONDO_ITEM_CHEQUEI_TMP: "MovimientoFondoItemChequeITMP",
+      MOVIMIENTO_FONDO_ITEM_EFECTIVO_TMP: "MovimientoFondoItemEfectivoTMP",
+
       MFI_TMP_ID: "mfiTMP_id",
       MFI_TMP_CHEQUE: "mfiTMP_cheque",
       MFI_TMP_FECHA_COBRO: "mfiTMP_FechaCobro",
@@ -449,6 +453,19 @@
         ITEM_EFECTIVO: 2,
         ITEM_OTROS: 4,
         ITEM_CTA_CTE: 5,
+        ITEM_CHEQUEST: 6
+      },
+
+      MovimientoFondoItemTipo: {
+        ITEM_CHEQUES: 1,
+        ITEM_EFECTIVO: 2,
+        ITEM_CHEQUEST: 6,
+        ITEM_CHEQUESI: 7
+      },
+
+      DepositoBancoItemTipo: {
+        ITEM_CHEQUES: 1,
+        ITEM_EFECTIVO: 2,
         ITEM_CHEQUEST: 6
       },
 

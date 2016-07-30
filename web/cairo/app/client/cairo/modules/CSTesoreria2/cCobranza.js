@@ -2746,7 +2746,7 @@
           
         for(var _i = 0, _count = rows.size(); _i < _count; _i++) {
 
-          var row = getTarjetas().getRows().item(_i);
+          var row = rows.item(_i);
 
           var register = new DB.Register();
           register.setFieldId(CT.COBZI_TMP_ID);
@@ -2851,7 +2851,7 @@
           
         for(var _i = 0, _count = rows.size(); _i < _count; _i++) {
           
-          var row = getOtros().getRows().item(_i);
+          var row = rows.item(_i);
 
           var register = new DB.Register();
           register.setFieldId(CT.COBZI_TMP_ID);
@@ -2953,7 +2953,7 @@
           
         for(var _i = 0, _count = rows.size(); _i < _count; _i++) {
           
-          var row = getEfectivo().getRows().item(_i);
+          var row = rows.item(_i);
 
           var register = new DB.Register();
           register.setFieldId(CT.COBZI_TMP_ID);
