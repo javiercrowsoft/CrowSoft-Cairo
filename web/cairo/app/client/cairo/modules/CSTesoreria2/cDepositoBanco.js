@@ -983,7 +983,8 @@
             var cell = getCell(row, KICH_MON_ID);
             
             if(cell.getId() !== m_defaultCurrency.id || cell.getId() === 0) {
-              getCell(row, KICH_IMPORTE).setValue(val(getCell(row, KICH_IMPORTEORIGEN).getValue()) * val(getCotizacion().getValue()));
+              getCell(row, KICH_IMPORTE).setValue(
+                  cellFloat(row, KICH_IMPORTEORIGEN) * val(getCotizacion().getValue()));
             }
             else {
               getCell(row, KICH_IMPORTEORIGEN).setValue(0);
