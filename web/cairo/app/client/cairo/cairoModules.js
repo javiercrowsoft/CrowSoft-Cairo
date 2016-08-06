@@ -63,6 +63,9 @@ Cairo.OrdenPagoListDoc = {};
 Cairo.DepositoBanco = {};
 Cairo.DepositoBancoListDoc = {};
 
+Cairo.MovimientoFondo = {};
+Cairo.MovimientoFondoListDoc = {};
+
 Cairo.Rubro = {};
 Cairo.Rubro.Load = {};
 

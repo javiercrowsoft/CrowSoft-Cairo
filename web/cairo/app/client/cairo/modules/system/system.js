@@ -963,11 +963,11 @@
     + Cairo.Documents.Types.ASIENTO_CONTABLE.toString()
   ;
 
-  Cairo.Documents.MOVIMIENTOS_DE_FONDO_DOC_FILTER = "document|documentTypeId:"
+  Cairo.Documents.MOVIMIENTO_FONDO_DOC_FILTER = "document|documentTypeId:"
     + Cairo.Documents.Types.MOVIMIENTO_FONDO.toString()
   ;
 
-  Cairo.Documents.DEPOSITOS_BANCARIOS_DOC_FILTER = "document|documentTypeId:"
+  Cairo.Documents.DEPOSITO_BANCO_DOC_FILTER = "document|documentTypeId:"
     + Cairo.Documents.Types.DEPOSITO_BANCO.toString()
   ;
 
@@ -1042,8 +1042,10 @@
   Cairo.Documents.FACTURA_COMPRAS_LIST_DOC_FILTER = Cairo.Documents.FACTURA_COMPRAS_DOC_FILTER + "|empId:0";
   Cairo.Documents.FACTURA_VENTAS_LIST_DOC_FILTER = Cairo.Documents.FACTURA_VENTAS_DOC_FILTER + "|empId:0";
   Cairo.Documents.ASIENTOS_LIST_DOC_FILTER = Cairo.Documents.ASIENTOS_DOC_FILTER + "|empId:0";
-  Cairo.Documents.COBRANZA_LIST_DOC_FILTER = Cairo.Documents.COBRANZA_DOC_FILTER
-  Cairo.Documents.ORDEN_PAGO_LIST_DOC_FILTER = Cairo.Documents.ORDEN_PAGO_DOC_FILTER
+  Cairo.Documents.COBRANZA_LIST_DOC_FILTER = Cairo.Documents.COBRANZA_DOC_FILTER + "|empId:0";
+  Cairo.Documents.ORDEN_PAGO_LIST_DOC_FILTER = Cairo.Documents.ORDEN_PAGO_DOC_FILTER + "|empId:0";
+  Cairo.Documents.MOVIMIENTO_FONDO_LIST_DOC_FILTER = Cairo.Documents.MOVIMIENTO_FONDO_DOC_FILTER + "|empId:0";
+  Cairo.Documents.DEPOSITO_BANCO_LIST_DOC_FILTER = Cairo.Documents.DEPOSITO_BANCO_DOC_FILTER + "|empId:0";
 
   Cairo.History = {};
 
@@ -1825,7 +1827,7 @@
   };
 
   Cairo.Documents.getSelectChequeFilter = function(cueId) {
-    return "cheque|cueId:" + cueId.toString();
+    return "cheque|cueId:" + cueId.toString() + ",anulado:false";
   };
 
   Cairo.Documents.getSelectChequeFilterEnCartera = function(cheqIds) {

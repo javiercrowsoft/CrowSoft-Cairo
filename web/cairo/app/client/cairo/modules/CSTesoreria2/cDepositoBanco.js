@@ -919,6 +919,9 @@
               columnAfterUpdateCheque(getChequesProperty(), lRow, lCol);
               break;
 
+            // TODO: validates we don't need to update
+            //       cheque filter like we do in MF
+            //
             case K_CHEQUEST:
               showTotals();
               break;
@@ -1386,7 +1389,7 @@
           validateDocDefault = elem.getSelectId() !== NO_ID;
         }
 
-        elem.setSelectFilter(D.DEPOSITOS_BANCARIOS_DOC_FILTER);
+        elem.setSelectFilter(D.DEPOSITO_BANCO_DOC_FILTER);
 
         elem = properties.add(null, Cairo.Constants.NUMBER_ID);
         elem.setType(T.numeric);
