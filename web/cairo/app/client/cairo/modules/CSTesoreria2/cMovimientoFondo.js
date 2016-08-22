@@ -3639,6 +3639,7 @@
       var D = Cairo.Documents;
       var M = Cairo.Modal;
       var C = Cairo.General.Constants;
+      var CT = Cairo.Tesoreria.Constants;
       var Types = Cairo.Constants.Types;
       var Dialogs = Cairo.Dialogs;
       var T = Dialogs.PropertyType;
@@ -3647,7 +3648,6 @@
       var getDateValue = Cairo.Util.getDateValue;
       var today = Cairo.Dates.today;
       var valField = DB.valField;
-      var CS = Cairo.Security.Actions.Compras;
 
       var C_MODULE = "cMovimientoFondoListDoc";
 
@@ -3707,12 +3707,12 @@
           .whenSuccess(loadCollection);
       };
 
-      self.edit = function(xxId) {
-        m_listController.edit(xxId);
+      self.edit = function(mfId) {
+        m_listController.edit(mfId);
       };
 
-      self.deleteItem = function(xxId) {
-        return m_listController.destroy(xxId);
+      self.deleteItem = function(mfId) {
+        return m_listController.destroy(mfId);
       };
 
       self.showDocDigital = function() {
@@ -3838,15 +3838,6 @@
         c.setSelectId(val(m_docId));
         c.setSelectIntValue(m_docId);
         c.setSelectFilter(D.MOVIMIENTO_FONDO_LIST_DOC_FILTER);
-
-        c = m_properties.add(null, C.CPG_ID);
-        c.setType(T.select);
-        c.setSelectTable(Cairo.Tables.CONDICIONES_DE_PAGO);
-        c.setName(getText(1395, "")); // Condicion de pago
-        c.setKey(K_CPG_ID);
-        c.setValue(m_condicionPago);
-        c.setSelectId(val(m_cpgId));
-        c.setSelectIntValue(m_cpgId);
 
         c = m_properties.add(null, C.EMP_ID);
         c.setType(T.select);
@@ -3987,14 +3978,14 @@
 
           case K_CLI_ID:
 
-            var property = m_properties.item(CT.CLI_ID);
+            var property = m_properties.item(C.CLI_ID);
             m_cliente = property.getValue();
             m_cliId = property.getSelectIntValue();
             break;
 
           case K_CCOS_ID:
 
-            var property = m_properties.item(CT.CCOS_ID);
+            var property = m_properties.item(C.CCOS_ID);
             m_centroCosto = property.getValue();
             m_ccosId = property.getSelectIntValue();
             break;

@@ -3779,6 +3779,7 @@
       var D = Cairo.Documents;
       var M = Cairo.Modal;
       var C = Cairo.General.Constants;
+      var CT = Cairo.Tesoreria.Constants;
       var Types = Cairo.Constants.Types;
       var Dialogs = Cairo.Dialogs;
       var T = Dialogs.PropertyType;
@@ -3787,7 +3788,6 @@
       var getDateValue = Cairo.Util.getDateValue;
       var today = Cairo.Dates.today;
       var valField = DB.valField;
-      var CT = Cairo.Security.Actions.Tesoreria;
 
       var C_MODULE = "cOrdenPagoListDoc";
 
