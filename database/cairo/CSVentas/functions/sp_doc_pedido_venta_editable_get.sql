@@ -67,7 +67,7 @@ declare
    v_fca_fechaDesde date;
    v_fca_fechaHasta date;
 
-   v_doc_editarimpresos smallint;
+   v_doc_editarImpresos smallint;
 begin
 
    v_anulado := 7;
@@ -266,12 +266,12 @@ begin
 
       if v_impreso <> 0 and p_no_anulado = 0 then
 
-         select doc_editarimpresos
-           into v_doc_editarimpresos
+         select doc_editarImpresos
+           into v_doc_editarImpresos
          from Documento
          where doc_id = v_doc_id;
 
-         if v_doc_editarimpresos = 0 then
+         if v_doc_editarImpresos = 0 then
 
             p_editable := 0;
 

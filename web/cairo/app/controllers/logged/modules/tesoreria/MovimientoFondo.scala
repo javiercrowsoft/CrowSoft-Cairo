@@ -884,6 +884,7 @@ object MovimientosFondo extends Controller with ProvidesUser {
                   movimientoFondoParams.estId,
                   movimientoFondoParams.ccosId,
                   movimientoFondoParams.sucId,
+                  movimientoFondoParams.usId,
                   movimientoFondoParams.docId,
                   movimientoFondoParams.empId
                 )

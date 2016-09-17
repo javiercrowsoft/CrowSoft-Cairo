@@ -34,7 +34,6 @@ javier at crowsoft.com.ar
 /*
 select * from sp_doc_cobranza_get_items(1);
 fetch all from rtn;
-fetch all from rtn_serie;
 */
 create or replace function sp_doc_cobranza_get_items
 (
@@ -105,16 +104,16 @@ begin
                    cue.cue_nombre,
                    mon.mon_nombre,
                    mon.mon_id
-              from CobranzaItem
-              join Cuenta cue
-                on CobranzaItem.cue_id = cue.cue_id
-              join Moneda mon
-                on cue.mon_id = mon.mon_id
-              left join CentroCosto ccos
-                on CobranzaItem.ccos_id = ccos.ccos_id
-              where CobranzaItem.cobz_id = p_cobz_id
-                and cobzi_tipo = v_CobziTEfectivo
-              order by cobzi_orden;
+            from CobranzaItem
+            join Cuenta cue
+              on CobranzaItem.cue_id = cue.cue_id
+            join Moneda mon
+              on cue.mon_id = mon.mon_id
+            left join CentroCosto ccos
+              on CobranzaItem.ccos_id = ccos.ccos_id
+            where CobranzaItem.cobz_id = p_cobz_id
+              and cobzi_tipo = v_CobziTEfectivo
+            order by cobzi_orden;
 
       else
 

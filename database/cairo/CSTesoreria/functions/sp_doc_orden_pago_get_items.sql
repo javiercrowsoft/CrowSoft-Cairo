@@ -34,7 +34,6 @@ javier at crowsoft.com.ar
 /*
 select * from sp_doc_orden_pago_get_items(1);
 fetch all from rtn;
-fetch all from rtn_serie;
 */
 create or replace function sp_doc_orden_pago_get_items
 (

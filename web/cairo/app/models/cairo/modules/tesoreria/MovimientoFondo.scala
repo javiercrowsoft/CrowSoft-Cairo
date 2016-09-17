@@ -964,8 +964,8 @@ object MovimientoFondo {
       SqlParser.get[String](GC.DOC_NAME) ~
       SqlParser.get[Int](C.MF_NUMERO) ~
       SqlParser.get[String](C.MF_NRODOC) ~
-      SqlParser.get[Int](GC.CLI_ID) ~
-      SqlParser.get[String](GC.CLI_NAME) ~
+      SqlParser.get[Option[Int]](GC.CLI_ID) ~
+      SqlParser.get[Option[String]](GC.CLI_NAME) ~
       SqlParser.get[Int](GC.EST_ID) ~
       SqlParser.get[String](GC.EST_NAME) ~
       SqlParser.get[Option[Int]](GC.CCOS_ID) ~
@@ -1031,8 +1031,8 @@ object MovimientoFondo {
             nroDoc
           ),
           MovimientoFondoBase(
-            cliId,
-            cliName,
+            cliId.getOrElse(DBHelper.NoId),
+            cliName.getOrElse(""),
             estId,
             estName,
             ccosId.getOrElse(DBHelper.NoId),
@@ -1716,7 +1716,7 @@ object MovimientoFondo {
 
     DB.withTransaction(user.database.database) { implicit connection =>
 
-      val sql = "{call sp_lsdoc_movimientos_fondo(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}"
+      val sql = "{call sp_lsdoc_movimientos_fondo(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}"
       val cs = connection.prepareCall(sql)
 
       cs.setInt(1, user.masterUserId)
@@ -1726,14 +1726,15 @@ object MovimientoFondo {
       cs.setString(5, estId.getOrElse("0"))
       cs.setString(6, ccosId.getOrElse("0"))
       cs.setString(7, sucId.getOrElse("0"))
-      cs.setString(8, docId.getOrElse("0"))
-      cs.setString(9, empId.getOrElse("0"))
-      cs.registerOutParameter(10, Types.OTHER)
+      cs.setString(8, sucId.getOrElse("0"))
+      cs.setString(9, docId.getOrElse("0"))
+      cs.setString(10, empId.getOrElse("0"))
+      cs.registerOutParameter(11, Types.OTHER)
 
       try {
         cs.execute()
 
-        val rs = cs.getObject(10).asInstanceOf[java.sql.ResultSet]
+        val rs = cs.getObject(11).asInstanceOf[java.sql.ResultSet]
         Recordset.load(rs)
 
       } catch {

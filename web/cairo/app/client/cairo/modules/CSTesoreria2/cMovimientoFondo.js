@@ -3788,7 +3788,7 @@
 
         c = m_properties.add(null, C.US_ID);
         c.setType(T.select);
-        c.setSelectTable(Cairo.Tables.US_ID);
+        c.setSelectTable(Cairo.Tables.USUARIO);
         c.setName(getText(1137, "")); // Usuario
         c.setKey(K_US_ID);
         c.setValue(m_usuario);
@@ -3893,7 +3893,7 @@
               m_fechaFin = isDate(m_fechaFin) ? getDateValue(m_fechaFin) : today();
 
               m_cliId = valField(response.data, C.CLI_ID);
-              m_usIdResponsable = valField(response.data, CT.US_ID);
+              m_usIdResponsable = valField(response.data, C.US_ID);
               m_estId = valField(response.data, C.EST_ID);
               m_ccosId = valField(response.data, C.CCOS_ID);
               m_sucId = valField(response.data, C.SUC_ID);

@@ -7361,7 +7361,7 @@ create table Documento(
 	doc_st_consumo smallint not null CONSTRAINT DF_Documento_doc_st_consumo  default (0),
 	doc_rc_despachoimpo smallint not null CONSTRAINT DF_Documento_doc_rc_despachoimpo  default (0),
 	doc_fv_sinpercepcion smallint not null CONSTRAINT DF_Documento_doc_fv_sinpercepcion  default (0),
-	doc_editarimpresos smallint not null CONSTRAINT DF_Documento_doc_editarimpresos  default (0),
+	doc_editarImpresos smallint not null CONSTRAINT DF_Documento_doc_editarImpresos  default (0),
 	doc_esresumenbco smallint not null CONSTRAINT DF_Documento_doc_esresumenbco  default (0),
 	doc_escreditobanco smallint not null CONSTRAINT DF_Documento_doc_escreditobanco_1  default (0),
 	doc_esventaaccion smallint not null CONSTRAINT DF_Documento_doc_esventaaccion_1  default (0),

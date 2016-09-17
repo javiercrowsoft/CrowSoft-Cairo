@@ -34,7 +34,7 @@ javier at crowsoft.com.ar
 
 create or replace function sp_doc_cobranza_editable_get
 /*
-          select * from sp_doc_cobranza_editable_get(1,7,1)
+   select * from sp_doc_cobranza_editable_get(1,7,1)
 */
 (
   in p_emp_id integer,
@@ -67,7 +67,7 @@ declare
    v_fca_fechaDesde date;
    v_fca_fechaHasta date;
 
-   v_doc_editarimpresos smallint;
+   v_doc_editarImpresos smallint;
 begin
 
    if p_cobz_id <> 0 then
@@ -95,7 +95,6 @@ begin
          where emp_id = v_emp_id;
 
          p_editable := 0;
-
 
          if p_delete = 0 then
             p_edit_msg := 'El comprobante pertenece a la empresa ' || v_emp_nombre || ', para editarlo debe ingresar al sistema indicando dicha empresa.';
@@ -200,7 +199,11 @@ begin
 
             p_editable := 0;
 
-            p_edit_msg := 'La fecha del comprobante esta fuera del intervalo definido por las fechas de control de acceso (' || to_char(coalesce(v_fca_fechaDesde, '')) || ' - ' || to_char(coalesce(v_fca_fechaHasta, '')) || ')';
+            p_edit_msg := 'La fecha del comprobante esta fuera del intervalo definido por las fechas de control de acceso ('
+                          || to_char(coalesce(v_fca_fechaDesde, ''))
+                          || ' - '
+                          || to_char(coalesce(v_fca_fechaHasta, ''))
+                          || ')';
 
             return;
 
@@ -221,12 +224,12 @@ begin
 
       if v_impreso <> 0 and p_no_anulado = 0 then
 
-         select doc_editarimpresos
-           into v_doc_editarimpresos
+         select doc_editarImpresos
+           into v_doc_editarImpresos
          from Documento
          where doc_id = v_doc_id;
 
-         if v_doc_editarimpresos = 0 then
+         if v_doc_editarImpresos = 0 then
 
             p_editable := 0;
 

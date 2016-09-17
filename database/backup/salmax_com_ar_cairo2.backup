@@ -3571,7 +3571,7 @@ CREATE TABLE documento (
     doc_st_consumo smallint DEFAULT 0 NOT NULL,
     doc_rc_despachoimpo smallint DEFAULT 0 NOT NULL,
     doc_fv_sinpercepcion smallint DEFAULT 0 NOT NULL,
-    doc_editarimpresos smallint DEFAULT 0 NOT NULL,
+    doc_editarImpresos smallint DEFAULT 0 NOT NULL,
     doc_esresumenbco smallint DEFAULT 0 NOT NULL,
     doc_escreditobanco smallint DEFAULT 0 NOT NULL,
     doc_esventaaccion smallint DEFAULT 0 NOT NULL,
@@ -16991,7 +16991,7 @@ COPY despachoimpcalculoposicionarancel (dic_id, dicp_id, dicp_derechos, dicp_est
 -- Data for Name: documento; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY documento (doc_id, doc_nombre, doc_codigo, doc_descrip, doc_llevafirma, doc_llevafirmacredito, doc_llevafirmaprint0, doc_id_asiento, doc_muevestock, doc_id_stock, doc_generaremito, doc_id_remito, doc_rv_desde_pv, doc_rv_desde_os, doc_rc_desde_oc, doc_rv_bom, doc_pv_desde_prv, doc_tipofactura, doc_tipopackinglist, doc_tipoordencompra, doc_st_consumo, doc_rc_despachoimpo, doc_fv_sinpercepcion, doc_editarimpresos, doc_esresumenbco, doc_escreditobanco, doc_esventaaccion, doc_esventacheque, doc_escobchequesgr, doc_escobcaidasgr, doc_esasientoplantilla, doc_asientoresumido, doc_object_edit, doc_esfacturaelectronica, doct_id, docg_id, cico_id, fca_id, ta_id, ta_id_final, ta_id_inscripto, ta_id_externo, ta_id_inscriptom, ta_id_haberes, mon_id, cueg_id, emp_id, pre_id_new, pre_id_edit, pre_id_delete, pre_id_list, pre_id_anular, pre_id_desanular, pre_id_aplicar, pre_id_print, creado, modificado, modifico, activo) FROM stdin;
+COPY documento (doc_id, doc_nombre, doc_codigo, doc_descrip, doc_llevafirma, doc_llevafirmacredito, doc_llevafirmaprint0, doc_id_asiento, doc_muevestock, doc_id_stock, doc_generaremito, doc_id_remito, doc_rv_desde_pv, doc_rv_desde_os, doc_rc_desde_oc, doc_rv_bom, doc_pv_desde_prv, doc_tipofactura, doc_tipopackinglist, doc_tipoordencompra, doc_st_consumo, doc_rc_despachoimpo, doc_fv_sinpercepcion, doc_editarImpresos, doc_esresumenbco, doc_escreditobanco, doc_esventaaccion, doc_esventacheque, doc_escobchequesgr, doc_escobcaidasgr, doc_esasientoplantilla, doc_asientoresumido, doc_object_edit, doc_esfacturaelectronica, doct_id, docg_id, cico_id, fca_id, ta_id, ta_id_final, ta_id_inscripto, ta_id_externo, ta_id_inscriptom, ta_id_haberes, mon_id, cueg_id, emp_id, pre_id_new, pre_id_edit, pre_id_delete, pre_id_list, pre_id_anular, pre_id_desanular, pre_id_aplicar, pre_id_print, creado, modificado, modifico, activo) FROM stdin;
 \.
 
 
