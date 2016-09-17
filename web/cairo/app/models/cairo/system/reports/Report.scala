@@ -485,7 +485,7 @@ object Report {
 
       } catch {
         case NonFatal(e) => {
-          Logger.error(s"can't get listing of facturas de compra for user ${user.toString}. Error ${e.toString}")
+          Logger.error(s"can't get listing of reportes for user ${user.toString}. Error ${e.toString}")
           throw e
         }
       } finally {

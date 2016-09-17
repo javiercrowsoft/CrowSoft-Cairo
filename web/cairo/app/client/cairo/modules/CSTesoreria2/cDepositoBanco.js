@@ -2898,7 +2898,7 @@
 
       var load = function() {
 
-        return DB.getData("load[" + m_apiPath + "tesoreria/depositobanco/parameters]").then(
+        return DB.getData("load[" + m_apiPath + "tesoreria/depositosbanco/parameters]").then(
           function(response) {
 
 
@@ -3084,7 +3084,7 @@
           empId: m_empId
         };
 
-        return DB.getData("load[" + m_apiPath + "compras/facturacompras]", null, params);
+        return DB.getData("load[" + m_apiPath + "tesoreria/depositosbanco]", null, params);
       };
 
       self.save = function() {
@@ -3095,7 +3095,7 @@
         register.setFieldId(C.LDP_ID);
         register.setTable(C.LISTA_DOCUMENTO_PARAMETRO);
 
-        register.setPath(m_apiPath + "tesoreria/depositobancos");
+        register.setPath(m_apiPath + "tesoreria/depositosbanco");
 
         register.setId(Cairo.Constants.NEW_ID);
 

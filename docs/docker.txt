@@ -1,0 +1,16 @@
+sudo docker run --name postgres91 -e POSTGRES_PASSWORD=14FeDyAr -d -p 5432:5432 postgres:9.1
+sudo docker start postgres91
+
+sudo docker inspect dfe1e66169df | grep IPAddress | cut -d '"' -f 4
+
+sudo docker inspect -f "{{ .Config.Env }}" dfe1e66169df
+
+sudo docker-compose up
+
+psql -h 172.17.0.2 -p 5432 -U postgres latest-prod < backup.sql
+
+docker-compose run web gem install rake -v 11.1.2
+
+docker ps -a | grep 'Exited' | awk '{print $1}' | xargs --no-run-if-empty docker rm
+
+docker rmi node

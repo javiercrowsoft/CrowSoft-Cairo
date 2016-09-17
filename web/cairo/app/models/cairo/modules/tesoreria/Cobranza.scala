@@ -1600,10 +1600,10 @@ object Cobranza {
 
   private def loadCobranzaItems(user: CompanyUser, id: Int) = {
     val cheques = loadItems[CobranzaItemCheque](user, id, C.COBRANZA_ITEM_TIPO_CHEQUES, cobranzaItemChequeParser)
-    val tarjetas = loadItems(user, id, C.COBRANZA_ITEM_TIPO_TARJETAS, cobranzaItemTarjetaParser)
-    val efectivo = loadItems(user, id, C.COBRANZA_ITEM_TIPO_EFECTIVO, cobranzaItemEfectivoParser)
-    val otros = loadItems(user, id, C.COBRANZA_ITEM_TIPO_OTROS, cobranzaItemOtroParser)
-    val cuentaCorriente = loadItems(user, id, C.COBRANZA_ITEM_TIPO_CTA_CTE, cobranzaItemCuentaCorrienteParser)
+    val tarjetas = loadItems[CobranzaItemTarjeta](user, id, C.COBRANZA_ITEM_TIPO_TARJETAS, cobranzaItemTarjetaParser)
+    val efectivo = loadItems[CobranzaItemEfectivo](user, id, C.COBRANZA_ITEM_TIPO_EFECTIVO, cobranzaItemEfectivoParser)
+    val otros = loadItems[CobranzaItemOtro](user, id, C.COBRANZA_ITEM_TIPO_OTROS, cobranzaItemOtroParser)
+    val cuentaCorriente = loadItems[CobranzaItemCuentaCorriente](user, id, C.COBRANZA_ITEM_TIPO_CTA_CTE, cobranzaItemCuentaCorrienteParser)
     CobranzaItems(cheques, tarjetas, efectivo, otros, cuentaCorriente, "", "", "", "", "", List())
   }
 
@@ -1879,7 +1879,7 @@ object Cobranza {
 
       } catch {
         case NonFatal(e) => {
-          Logger.error(s"can't get listing of facturas de compra for user ${user.toString}. Error ${e.toString}")
+          Logger.error(s"can't get listing of cobranzas for user ${user.toString}. Error ${e.toString}")
           throw e
         }
       } finally {

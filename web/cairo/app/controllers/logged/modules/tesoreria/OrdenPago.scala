@@ -170,7 +170,7 @@ object OrdenesPago extends Controller with ProvidesUser {
 
   val ordenPagoTotalsFields = List(C.OPG_NETO, C.OPG_OTROS, C.OPG_TOTAL)
 
-  val ordenPagoItemBase = List(C.OPGI_DESCRIP, GC.PR_ID, GC.CCOS_ID, GC.TO_ID, GC.CUE_ID, C.OPGI_ORDEN)
+  val ordenPagoItemBase = List(C.OPGI_DESCRIP, GC.CCOS_ID, GC.TO_ID, GC.CUE_ID, C.OPGI_ORDEN)
 
   val ordenPagoItemTotals = List(C.OPGI_IMPORTE, C.OPGI_IMPORTE_ORIGEN)
 
@@ -526,19 +526,19 @@ object OrdenesPago extends Controller with ProvidesUser {
       cheque
     }
 
-    def preprocessTarjetaParam(field: JsValue) = {
+    def preprocessChequeTParam(field: JsValue) = {
       val params = field.as[Map[String, JsValue]]
 
-      // groups for OrdenPagoTarjetaData
+      // groups for OrdenPagoChequeTData
       //
       val ordenPagoChequeT = Global.preprocessFormParams(
         List(C.OPGI_ID, GC.MON_ID, GC.BCO_ID, GC.CLI_ID, C.CHEQ_ID, C.OPGI_TMP_CHEQUE, C.OPGI_TMP_FECHA_COBRO,
           C.OPGI_TMP_FECHA_VTO, GC.CLE_ID), "", params)
-      val ordenPagoTarjetaBaseGroup = Global.preprocessFormParams(ordenPagoItemBase, C.ORDEN_PAGO_ITEM_BASE, params)
-      val ordenPagoTarjetaTotalsGroup = Global.preprocessFormParams(ordenPagoItemTotals, C.ORDEN_PAGO_ITEM_TOTALS, params)
+      val ordenPagoChequeTBaseGroup = Global.preprocessFormParams(ordenPagoItemBase, C.ORDEN_PAGO_ITEM_BASE, params)
+      val ordenPagoChequeTTotalsGroup = Global.preprocessFormParams(ordenPagoItemTotals, C.ORDEN_PAGO_ITEM_TOTALS, params)
 
       val chequeT = JsObject(
-        (ordenPagoChequeT ++ ordenPagoTarjetaBaseGroup ++ ordenPagoTarjetaTotalsGroup).toSeq)
+        (ordenPagoChequeT ++ ordenPagoChequeTBaseGroup ++ ordenPagoChequeTTotalsGroup).toSeq)
       chequeT
     }
 
@@ -595,8 +595,8 @@ object OrdenesPago extends Controller with ProvidesUser {
       case _ => Map.empty
     }
 
-    def preprocessTarjetasParam(items: JsValue, group: String): Map[String, JsValue] = items match {
-      case JsArray(arr) => Map(group -> JsArray(arr.map(preprocessTarjetaParam(_))))
+    def preprocessChequesTParam(items: JsValue, group: String): Map[String, JsValue] = items match {
+      case JsArray(arr) => Map(group -> JsArray(arr.map(preprocessChequeTParam(_))))
       case _ => Map.empty
     }
 
@@ -647,7 +647,7 @@ object OrdenesPago extends Controller with ProvidesUser {
       case Nil => Map(C.ORDEN_PAGO_ITEM_CHEQUET_DELETED -> Json.toJson(""))
       case deletedList :: t => Map(C.ORDEN_PAGO_ITEM_CHEQUET_DELETED -> Json.toJson(deletedList._2))
     }
-    val ordenPagoChequeT = preprocessTarjetasParam(chequeTRows.head._2, C.ORDEN_PAGO_ITEM_CHEQUET_TMP)
+    val ordenPagoChequeT = preprocessChequesTParam(chequeTRows.head._2, C.ORDEN_PAGO_ITEM_CHEQUET_TMP)
 
     // efectivos
     //

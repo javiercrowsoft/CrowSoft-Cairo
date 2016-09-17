@@ -8,7 +8,6 @@ object C {
   // Cobranza
   val COBRANZA_ID = "ids"
   val COBRANZA_BASE = "base"
-  val COBRANZA_PRECIOS = "precios"
   val COBRANZA_TOTALS = "totals"
 
   val COBRANZA_ITEM_BASE = "base"
@@ -27,7 +26,6 @@ object C {
   // OrdenPago
   val ORDEN_PAGO_ID = "ids"
   val ORDEN_PAGO_BASE = "base"
-  val ORDEN_PAGO_PRECIOS = "precios"
   val ORDEN_PAGO_TOTALS = "totals"
 
   val ORDEN_PAGO_ITEM_BASE = "base"
@@ -42,6 +40,18 @@ object C {
 
   val FC_ID = "fc_id"
   val FCD_ID = "fcd_id"
+
+  // MovimientoFondo
+  val DEPOSITO_BANCO_ID = "ids"
+  val DEPOSITO_BANCO_BASE = "base"
+  val DEPOSITO_BANCO_TOTALS = "totals"
+
+  val DEPOSITO_BANCO_ITEM_BASE = "base"
+  val DEPOSITO_BANCO_ITEM_TOTALS = "totals"
+
+  val DEPOSITO_BANCO_ITEM_CHEQUE_DELETED = "deletedCheque"
+  val DEPOSITO_BANCO_ITEM_CHEQUET_DELETED = "deletedChequeT"
+  val DEPOSITO_BANCO_ITEM_EFECTIVO_DELETED = "deletedEfectivo"
 
   // DepositoBanco
   val DEPOSITO_BANCO = "DepositoBanco"
@@ -71,6 +81,10 @@ object C {
 
   // DepositoBancoItemTMP
   val DEPOSITO_BANCO_ITEM_TMP = "DepositoBancoItemTMP"
+  val DEPOSITO_BANCO_ITEM_CHEQUE_TMP = "DepositoBancoItemChequeTMP"
+  val DEPOSITO_BANCO_ITEM_CHEQUET_TMP = "DepositoBancoItemChequeTTMP"
+  val DEPOSITO_BANCO_ITEM_EFECTIVO_TMP = "DepositoBancoItemEfectivoTMP"
+
   val DBCOI_TMP_ID = "dbcoiTMP_id"
   val DBCOI_TMP_CHEQUE = "dbcoiTMP_cheque"
   val DBCOI_TMP_FECHA_COBRO = "dbcoiTMP_fechacobro"
@@ -272,6 +286,20 @@ object C {
   val FACTURA_COMPRA_NOTA_CREDITO_TMP = "FacturaCompraNotaCreditoTMP"
   val FC_NC_TMP_ID = "fvncTMP_id"
 
+
+  // MovimientoFondo
+  val MOVIMIENTO_FONDO_ID = "ids"
+  val MOVIMIENTO_FONDO_BASE = "base"
+  val MOVIMIENTO_FONDO_TOTALS = "totals"
+
+  val MOVIMIENTO_FONDO_ITEM_BASE = "base"
+  val MOVIMIENTO_FONDO_ITEM_TOTALS = "totals"
+
+  val MOVIMIENTO_FONDO_ITEM_CHEQUE_DELETED = "deletedCheque"
+  val MOVIMIENTO_FONDO_ITEM_CHEQUET_DELETED = "deletedChequeT"
+  val MOVIMIENTO_FONDO_ITEM_CHEQUEI_DELETED = "deletedChequeI"
+  val MOVIMIENTO_FONDO_ITEM_EFECTIVO_DELETED = "deletedEfectivo"
+
   // Movimiento de Fondos TMP
   val MOVIMIENTO_FONDO_TMP = "MovimientoFondoTMP"
   val MF_TMP_ID = "mfTMP_id"
@@ -290,14 +318,20 @@ object C {
   val MF_GRABAR_ASIENTO = "mf_grabarasiento"
   val MF_COTIZACION = "mf_cotizacion"
 
-  // Movimiento de Fondos Item MTP
+  // Movimiento de Fondos Item TMP
+
   val MOVIMIENTO_FONDO_ITEM_TMP = "MovimientoFondoItemTMP"
+  val MOVIMIENTO_FONDO_ITEM_CHEQUE_TMP = "MovimientoFondoItemChequeTMP"
+  val MOVIMIENTO_FONDO_ITEM_CHEQUET_TMP = "MovimientoFondoItemChequeTTMP"
+  val MOVIMIENTO_FONDO_ITEM_CHEQUEI_TMP = "MovimientoFondoItemChequeITMP"
+  val MOVIMIENTO_FONDO_ITEM_EFECTIVO_TMP = "MovimientoFondoItemEfectivoTMP"
+
   val MFI_TMP_ID = "mfiTMP_id"
   val MFI_TMP_CHEQUE = "mfiTMP_cheque"
   val MFI_TMP_FECHA_COBRO = "mfiTMP_FechaCobro"
   val MFI_TMP_FECHA_VTO = "mfiTMP_FechaVto"
 
-  // Movimiento de Fondos Item Borrado MTP
+  // Movimiento de Fondos Item Borrado TMP
   val MOVIMIENTO_FONDO_ITEM_BORRADO_TMP = "MovimientoFondoItemBorradoTMP"
   val MFIB_TMP_ID = "mfibTMP_id"
 
@@ -312,6 +346,8 @@ object C {
   val MFI_TIPO = "mfi_tipo"
   val CUE_ID_DEBE = "cue_id_debe"
   val CUE_ID_HABER = "cue_id_haber"
+  val CUE_DEBE_NAME = "cue_debe_name"
+  val CUE_HABER_NAME = "cue_haber_name"
 
   // DepositoCupon
   val DEPOSITO_CUPON = "DepositoCupon"
@@ -456,6 +492,11 @@ object C {
   val ORDEN_PAGO_ITEM_TIPO_OTROS = 4
   val ORDEN_PAGO_ITEM_TIPO_CTA_CTE = 5
   val ORDEN_PAGO_ITEM_TIPO_CHEQUEST = 6
+
+  val MOVIMIENTO_FONDO_ITEM_TIPO_CHEQUES = 1
+  val MOVIMIENTO_FONDO_ITEM_TIPO_EFECTIVO = 2
+  val MOVIMIENTO_FONDO_ITEM_TIPO_CHEQUEST = 6
+  val MOVIMIENTO_FONDO_ITEM_TIPO_CHEQUESI = 7
 }
 
 object S {

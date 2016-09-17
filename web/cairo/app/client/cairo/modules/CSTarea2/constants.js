@@ -1,7 +1,7 @@
 (function() {
   "use strict";
 
-  Cairo.General = {
+  Cairo.Tareas = {
 
     Constants: {
 

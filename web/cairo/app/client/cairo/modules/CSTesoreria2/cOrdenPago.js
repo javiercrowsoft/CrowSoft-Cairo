@@ -67,20 +67,6 @@
       var K_EFECTIVO = 28;
       var K_CTA_CTE = 30;
 
-      var KI_IMPORTE = 1;
-      var KI_FECHA = 4;
-      var KI_DESCRIP = 6;
-      var KI_DOC = 7;
-      var KI_PENDIENTE = 8;
-      var KI_VTO = 9;
-      var KI_TOTAL = 10;
-      var KI_COTIZACION = 11;
-      var KI_NRODOC = 12;
-      var KI_IMPORTEORIGEN = 13;
-      var KI_MONEDA = 14;
-      var KI_COTIZACION2 = 15;
-      var KI_FCD_ID = 16;
-
       var KIO_OPGI_ID = 1;
       var KIO_CUE_ID = 2;
       var KIO_DEBE = 3;
@@ -108,7 +94,6 @@
       var KICH_DESCRIP = 13;
 
       var KICHT_OPGI_ID = 1;
-      var KICHT_MFI_ID = 1;
 
       var KICHT_CUE_ID = 2;
       var KICHT_IMPORTE = 3;
@@ -121,7 +106,6 @@
       var KICHT_FECHAVTO = 11;
       var KICHT_CLE_ID = 12;
       var KICHT_DESCRIP = 13;
-      var KICHT_CHEQ_ID = 14;
 
       var KIE_OPGI_ID = 1;
       var KIE_CUE_ID = 2;
@@ -3801,8 +3785,8 @@
       var K_CCOS_ID = 6;
       var K_SUC_ID = 7;
       var K_DOC_ID = 9;
-
       var K_EMP_ID = 100;
+
       var m_fechaIni = null;
       var m_fechaFin = null;
       var m_provId = "";

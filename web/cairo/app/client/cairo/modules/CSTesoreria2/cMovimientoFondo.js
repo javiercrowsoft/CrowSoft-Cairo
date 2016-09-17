@@ -28,10 +28,7 @@
       var call = P.call;
       var D = Cairo.Documents;
       var getProperty = D.getProperty;
-      var getGrid = D.getGrid;
       var getCell = Dialogs.cell;
-      var cellVal = Dialogs.cellVal;
-      var cellId = Dialogs.cellId;
       var cellFloat = Dialogs.cellFloat;
       var val = Cairo.Util.val;
       var M = Cairo.Modal;
@@ -57,7 +54,6 @@
       var K_TOTAL = 9;
       var K_CLI_ID = 10;
       var K_DOC_ID = 11;
-      var K_DOCT_ID = 12;
       var K_EFECTIVO = 15;
       var K_CHEQUES = 16;
       var K_CHEQUEST = 17;
@@ -70,7 +66,6 @@
       var K_COTIZACION = 28;
 
       var KI_MFI_ID = 2;
-      var KI_ORDEN = 3;
       var KI_DESCRIP = 6;
       var KI_IMPORTE = 8;
       var KI_ORIGEN_DEBE = 9;
@@ -89,10 +84,8 @@
       var KICH_CLE_ID = 12;
       var KICH_DESCRIP = 13;
 
-      var KICHT_OPGI_ID = 1;
       var KICHT_MFI_ID = 1;
 
-      var KICHT_CUE_ID = 2;
       var KICHT_IMPORTE = 3;
       var KICHT_IMPORTEORIGEN = 4;
       var KICHT_CLI_ID = 5;
@@ -3860,7 +3853,7 @@
 
       var load = function() {
 
-        return DB.getData("load[" + m_apiPath + "tesoreria/movimientofondo/parameters]").then(
+        return DB.getData("load[" + m_apiPath + "tesoreria/movimientosfondo/parameters]").then(
           function(response) {
 
             m_empId = Cairo.Company.getId();
@@ -3900,7 +3893,7 @@
               m_fechaFin = isDate(m_fechaFin) ? getDateValue(m_fechaFin) : today();
 
               m_cliId = valField(response.data, C.CLI_ID);
-              m_usIdResponsable = valField(response.data, C.US_ID_RESPONSABLE);
+              m_usIdResponsable = valField(response.data, CT.US_ID);
               m_estId = valField(response.data, C.EST_ID);
               m_ccosId = valField(response.data, C.CCOS_ID);
               m_sucId = valField(response.data, C.SUC_ID);
@@ -4057,7 +4050,7 @@
           empId: m_empId
         };
 
-        return DB.getData("load[" + m_apiPath + "tesoreria/movimientofondos]", null, params);
+        return DB.getData("load[" + m_apiPath + "tesoreria/movimientosfondo]", null, params);
       };
 
       self.save = function() {
@@ -4068,7 +4061,7 @@
         register.setFieldId(C.LDP_ID);
         register.setTable(C.LISTA_DOCUMENTO_PARAMETRO);
 
-        register.setPath(m_apiPath + "tesoreria/movimientofondos");
+        register.setPath(m_apiPath + "tesoreria/movimientosfondo");
 
         register.setId(Cairo.Constants.NEW_ID);
 
@@ -4149,11 +4142,11 @@
       };
 
       self.getPath = function() {
-        return "#tesoreria/movimientofondos";
+        return "#tesoreria/movimientosfondo";
       };
 
       self.getEditorName = function() {
-        return "movimientofondos";
+        return "movimientosfondo";
       };
 
       self.getTitle = function() {

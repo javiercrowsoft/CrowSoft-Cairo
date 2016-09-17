@@ -466,6 +466,29 @@ POST    /api/v1/tesoreria/cobranza/from_facturas                                
 PUT     /api/v1/tesoreria/cobranza/:id                                                       controllers.logged.modules.tesoreria.Cobranzas.update(id: Int)
 DELETE  /api/v1/tesoreria/cobranza/:id                                                       controllers.logged.modules.tesoreria.Cobranzas.delete(id: Int)
 
+
+GET     /api/v1/tesoreria/movimientosfondo                                                        controllers.logged.modules.tesoreria.MovimientosFondo.list(from: Option[String], to: Option[String], cliId: Option[String], estId: Option[String], ccosId: Option[String], sucId: Option[String], docId: Option[String], empId: Option[String])
+GET     /api/v1/tesoreria/movimientosfondo/parameters                                             controllers.logged.modules.tesoreria.MovimientosFondo.parameters()
+POST    /api/v1/tesoreria/movimientosfondo                                                        controllers.logged.modules.tesoreria.MovimientosFondo.saveParameters
+
+GET     /api/v1/tesoreria/movimientofondo/notes/:id                                                controllers.logged.modules.tesoreria.MovimientosFondo.notes(id: Int)
+
+GET     /api/v1/tesoreria/movimientofondo/:id                                                      controllers.logged.modules.tesoreria.MovimientosFondo.get(id: Int)
+POST    /api/v1/tesoreria/movimientofondo                                                          controllers.logged.modules.tesoreria.MovimientosFondo.create
+PUT     /api/v1/tesoreria/movimientofondo/:id                                                      controllers.logged.modules.tesoreria.MovimientosFondo.update(id: Int)
+DELETE  /api/v1/tesoreria/movimientofondo/:id                                                      controllers.logged.modules.tesoreria.MovimientosFondo.delete(id: Int)
+
+GET     /api/v1/tesoreria/depositosbanco                                                        controllers.logged.modules.tesoreria.DepositosBanco.list(from: Option[String], to: Option[String], bcoId: Option[String], estId: Option[String], ccosId: Option[String], sucId: Option[String], docId: Option[String], empId: Option[String])
+GET     /api/v1/tesoreria/depositosbanco/parameters                                             controllers.logged.modules.tesoreria.DepositosBanco.parameters()
+POST    /api/v1/tesoreria/depositosbanco                                                        controllers.logged.modules.tesoreria.DepositosBanco.saveParameters
+
+GET     /api/v1/tesoreria/depositobanco/notes/:id                                                controllers.logged.modules.tesoreria.DepositosBanco.notes(id: Int)
+
+GET     /api/v1/tesoreria/depositobanco/:id                                                      controllers.logged.modules.tesoreria.DepositosBanco.get(id: Int)
+POST    /api/v1/tesoreria/depositobanco                                                          controllers.logged.modules.tesoreria.DepositosBanco.create
+PUT     /api/v1/tesoreria/depositobanco/:id                                                      controllers.logged.modules.tesoreria.DepositosBanco.update(id: Int)
+DELETE  /api/v1/tesoreria/depositobanco/:id                                                      controllers.logged.modules.tesoreria.DepositosBanco.delete(id: Int)
+
 # end Cairo
 #--------------------------------------------------------------------------------------------------
 

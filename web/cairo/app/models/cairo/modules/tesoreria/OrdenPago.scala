@@ -1271,9 +1271,9 @@ object OrdenPago {
       }
     }
 
-    case class OrdenPagoTarjetaInfo(opgTMPId: Int, item: OrdenPagoItemChequeT)
+    case class OrdenPagoChequeTInfo(opgTMPId: Int, item: OrdenPagoItemChequeT)
 
-    def saveTarjeta(itemInfo: OrdenPagoTarjetaInfo) = {
+    def saveChequeT(itemInfo: OrdenPagoChequeTInfo) = {
       DBHelper.save(
         user,
         Register(
@@ -1377,8 +1377,8 @@ object OrdenPago {
       ordenPago.items.chequeDeleted.split(",").map(saveDeletedItem(opgTMPId))
     }
 
-    def saveTarjetas(opgTMPId: Int) = {
-      ordenPago.items.chequesT.map(item => saveTarjeta(OrdenPagoTarjetaInfo(opgTMPId, item)))
+    def saveChequesT(opgTMPId: Int) = {
+      ordenPago.items.chequesT.map(item => saveChequeT(OrdenPagoChequeTInfo(opgTMPId, item)))
       ordenPago.items.chequeTDeleted.split(",").map(saveDeletedItem(opgTMPId))
     }
 
@@ -1539,7 +1539,7 @@ object OrdenPago {
     ) match {
       case SaveResult(true, opgTMPId) => {
         saveCheques(opgTMPId)
-        saveTarjetas(opgTMPId)
+        saveChequesT(opgTMPId)
         saveEfectivos(opgTMPId)
         saveOtros(opgTMPId)
         saveCtaCtes(opgTMPId)
@@ -1584,10 +1584,10 @@ object OrdenPago {
 
   private def loadOrdenPagoItems(user: CompanyUser, id: Int) = {
     val cheques = loadItems[OrdenPagoItemCheque](user, id, C.ORDEN_PAGO_ITEM_TIPO_CHEQUES, ordenPagoItemChequeParser)
-    val chequesT = loadItems(user, id, C.ORDEN_PAGO_ITEM_TIPO_CHEQUEST, ordenPagoItemChequeTParser)
-    val efectivo = loadItems(user, id, C.ORDEN_PAGO_ITEM_TIPO_EFECTIVO, ordenPagoItemEfectivoParser)
-    val otros = loadItems(user, id, C.ORDEN_PAGO_ITEM_TIPO_OTROS, ordenPagoItemOtroParser)
-    val cuentaCorriente = loadItems(user, id, C.ORDEN_PAGO_ITEM_TIPO_CTA_CTE, ordenPagoItemCuentaCorrienteParser)
+    val chequesT = loadItems[OrdenPagoItemChequeT](user, id, C.ORDEN_PAGO_ITEM_TIPO_CHEQUEST, ordenPagoItemChequeTParser)
+    val efectivo = loadItems[OrdenPagoItemEfectivo](user, id, C.ORDEN_PAGO_ITEM_TIPO_EFECTIVO, ordenPagoItemEfectivoParser)
+    val otros = loadItems[OrdenPagoItemOtro](user, id, C.ORDEN_PAGO_ITEM_TIPO_OTROS, ordenPagoItemOtroParser)
+    val cuentaCorriente = loadItems[OrdenPagoItemCuentaCorriente](user, id, C.ORDEN_PAGO_ITEM_TIPO_CTA_CTE, ordenPagoItemCuentaCorrienteParser)
     OrdenPagoItems(cheques, chequesT, efectivo, otros, cuentaCorriente, "", "", "", "", "", List())
   }
 
@@ -1850,7 +1850,7 @@ object OrdenPago {
 
       } catch {
         case NonFatal(e) => {
-          Logger.error(s"can't get listing of facturas de compra for user ${user.toString}. Error ${e.toString}")
+          Logger.error(s"can't get listing of ordenes de pago for user ${user.toString}. Error ${e.toString}")
           throw e
         }
       } finally {
