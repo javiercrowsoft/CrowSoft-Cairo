@@ -1194,7 +1194,7 @@
             //
             var rows = property.getGrid().getRows();
 
-            for(var _i = 0; _i < rows.count(); _i++) {
+            for(var _i = 0, count = rows.count(); _i < count; _i++) {
               var row = rows.get(_i);
               if(row.get(c_col_aux_group1) === null) {
                 row.add(null, c_col_aux_group1, 1);
@@ -1242,7 +1242,7 @@
         // update edit status in all properties
         //
         self.refreshEnabledState = function(properties) {
-          for(var _i = 0; _i < m_properties.count(); _i++) {
+          for(var _i = 0, count = properties.count(); _i < count; _i++) {
             self.setEnabled(properties.get(_i));
           }
           self.setTabIndexDescription();
@@ -1254,7 +1254,7 @@
           if(m_isDocument) {
             // documents are edited using three dialog objects
             //
-            for(var _i = 0; _i < properties.count(); _i++) {
+            for(var _i = 0, count = properties.count(); _i < count; _i++) {
               var property = properties.get(_i);
 
               if(m_isFooter) {
@@ -1271,7 +1271,7 @@
           else {
             // masters and wizards
             //
-            for(var _i = 0; _i < properties.count(); _i++) {
+            for(var _i = 0, count = properties.count(); _i < count; _i++) {
               self.showValueEx(properties.get(_i), true, "");
             }
           }
@@ -1386,7 +1386,7 @@
               var c = view.getCombos().get(property.getIndex());
               c.clear();
 
-              for(var _i = 0; _i < property.getList().count(); _i++) {
+              for(var _i = 0, count = property.getList().count(); _i < count; _i++) {
                 var item = property.getList().get(_i);
                 c.add(item.getValue(), item.getId());
               }

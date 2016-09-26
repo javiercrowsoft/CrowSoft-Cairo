@@ -239,7 +239,7 @@
 
           }).then(function() {
 
-            return D.setDocNumber(m_lastDocId, m_dialog, CC.AS_NRODOC)
+            return D.setDocNumber(m_lastDocId, m_dialog, CT.DBCO_NRODOC)
 
           }).then(function(enabled) {
 
@@ -275,7 +275,7 @@
 
           var doc = new Cairo.DocDigital();
 
-          doc.setClientTable(CC.DEPOSITO_BANCO);
+          doc.setClientTable(CT.DEPOSITO_BANCO);
           doc.setClientTableID(m_id);
 
           _rtn = doc.showDocs(Cairo.Database);
@@ -438,7 +438,7 @@
                 })
                 .whenSuccess(function() {
 
-                  return D.setDocNumber(m_lastDocId, m_dialog, CC.DBCO_NRODOC)
+                  return D.setDocNumber(m_lastDocId, m_dialog, CT.DBCO_NRODOC)
                     .then(function(enabled) {
 
                       m_taPropuesto = enabled;
@@ -493,7 +493,7 @@
 
         p = D.docCanBeEdited(m_docEditable, m_docEditMsg)
           .whenSuccess(function() {
-            return D.docCanBeSaved(m_dialog, CC.DBCO_FECHA);
+            return D.docCanBeSaved(m_dialog, CT.DBCO_FECHA);
           })
           .whenSuccess(function() {
             if(getCheques().getRows().count() === 0
@@ -1372,7 +1372,7 @@
 
         elem = properties.add(null, C.DOC_ID);
         elem.setType(T.select);
-        elem.setTable(Cairo.Tables.DOCUMENTO);
+        elem.setSelectTable(Cairo.Tables.DOCUMENTO);
         elem.setName(getText(1567, "")); // Documento
         elem.setKey(K_DOC_ID);
 
@@ -1441,7 +1441,7 @@
 
         elem = properties.add(null, C.LGJ_ID);
         elem.setType(T.select);
-        elem.setTable(Cairo.Tables.LEGAJOS);
+        elem.setSelectTable(Cairo.Tables.LEGAJOS);
         elem.setName(getText(1575, "")); // Legajo
         elem.setKey(K_LGJ_ID);
         elem.setSelectId(m_lgjId);
@@ -1862,13 +1862,13 @@
         elem = columns.add(null, C_COLCHEQUE);
         elem.setName(getText(2058, "")); // Cheque
         elem.setType(T.select);
-        elem.setTable(Cairo.Tables.CHEQUE);
+        elem.setSelectTable(Cairo.Tables.CHEQUE);
         elem.setKey(KI_CHEQ_ID);
 
         elem = columns.add(null);
         elem.setName(getText(1267, "")); // Cuenta
         elem.setType(T.select);
-        elem.setTable(Cairo.Tables.CUENTA);
+        elem.setSelectTable(Cairo.Tables.CUENTA);
         elem.setSelectFilter(Cairo.Documents.selectFilterForCuentaCaja);
         elem.setEnabled(false);
         elem.setKey(KI_CUE_ID);
@@ -2490,7 +2490,7 @@
           if(response.id === NO_ID) {
 
             return load(NO_ID)
-                .whenSuccess(call(D.setDocNumber, m_docId, m_dialog, CC.AS_NRODOC))
+                .whenSuccess(call(D.setDocNumber, m_docId, m_dialog, CT.DBCO_NRODOC))
                 .then(function(enabled) { m_taPropuesto = enabled; })
                 .then(refreshProperties);
           }
@@ -2576,15 +2576,15 @@
       };
 
       var getTCheques = function() {
-        return m_items.getProperties().item(C_CHEQUEST).getGrid();
+        return getTChequesProperty().getGrid();
       };
 
       var getCheques = function() {
-        return m_items.getProperties().item(C_CHEQUES).getGrid();
+        return getChequesProperty().getGrid();
       };
 
       var getEfectivo = function() {
-        return m_items.getProperties().item(C_EFECTIVO).getGrid();
+        return getEfectivoProperty().getGrid();
       };
 
       var getTChequesProperty = function() {
@@ -2597,14 +2597,6 @@
 
       var getEfectivoProperty = function() {
         return m_items.getProperties().item(C_EFECTIVO);
-      };
-
-      var initialize = function() {
-        try {
-        }
-        catch (ex) {
-          Cairo.manageErrorEx(ex.message, ex, "initialize", C_MODULE, "");
-        }
       };
 
       var getCuenta = function() {
@@ -2653,7 +2645,9 @@
         return p || P.resolvedPromise(true);
       };
 
-      initialize();
+      var getDocId = function() {
+        return m_properties.item(C.DOC_ID);
+      };
 
       return self;
     };

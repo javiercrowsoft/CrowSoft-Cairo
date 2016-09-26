@@ -668,7 +668,7 @@
               break;
           }
 
-          w_fields.add2(Cairo.Constants.US_ID, m_us_id, Cairo.Constants.Types.id);
+          w_fields.add2(C.US_ID, m_us_id, Cairo.Constants.Types.id);
           w_fields.add2(C.PRE_ID, csEnvioPrestacion.cSPREENVLISTLEGAJO, Cairo.Constants.Types.id);
 
           if(!Cairo.Database.save(register, , "cIABMClient_Save", C_MODULE, strError)) { return false; }

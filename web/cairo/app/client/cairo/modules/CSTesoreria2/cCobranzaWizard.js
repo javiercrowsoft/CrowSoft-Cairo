@@ -2533,7 +2533,7 @@
                 }
                 else {
                   getCotizacion().setVisible(false);
-                  getFacturas().getColumns().item(DWC.COTIZACION2).Visible = false;
+                  getFacturas().getColumns().item(DWC.COTIZACION2).setVisible(false);
                 }
 
                 m_objWizard.showValue(getCotizacion());

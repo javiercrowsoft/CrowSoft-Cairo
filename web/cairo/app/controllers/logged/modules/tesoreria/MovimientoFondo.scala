@@ -25,6 +25,7 @@ case class MovimientoFondoBaseData(
                                     estId: Int,
                                     ccosId: Int,
                                     sucId: Int,
+                                    usId: Int,
                                     lgjId: Int,
                                     descrip: String,
                                     grabarAsiento: Boolean
@@ -40,7 +41,8 @@ case class MovimientoFondoItemBaseData(
 
 case class MovimientoFondoItemTotalsData(
                                           importe: Double,
-                                          importeOrigen: Double
+                                          importeOrigen: Double,
+                                          importeOrigenHaber: Double
                                         )
 
 case class MovimientoFondoItemChequeData(
@@ -162,6 +164,7 @@ object MovimientosFondo extends Controller with ProvidesUser {
         GC.EST_ID -> number,
         GC.CCOS_ID -> number,
         GC.SUC_ID -> number,
+        GC.US_ID -> number,
         GC.LGJ_ID -> number,
         C.MF_DESCRIP -> text,
         C.MF_GRABAR_ASIENTO -> boolean)
@@ -182,7 +185,8 @@ object MovimientosFondo extends Controller with ProvidesUser {
           GC.MON_ID -> number,
           C.MOVIMIENTO_FONDO_ITEM_TOTALS -> mapping (
             C.MFI_IMPORTE -> of(Global.doubleFormat),
-            C.MFI_IMPORTE_ORIGEN -> of(Global.doubleFormat))
+            C.MFI_IMPORTE_ORIGEN -> of(Global.doubleFormat),
+            C.MFI_IMPORTE_ORIGEN_HABER -> of(Global.doubleFormat))
           (MovimientoFondoItemTotalsData.apply)(MovimientoFondoItemTotalsData.unapply),
           GC.BCO_ID -> number,
           GC.CHQ_ID -> number,
@@ -206,7 +210,8 @@ object MovimientosFondo extends Controller with ProvidesUser {
           GC.MON_ID -> number,
           C.MOVIMIENTO_FONDO_ITEM_TOTALS -> mapping (
             C.MFI_IMPORTE -> of(Global.doubleFormat),
-            C.MFI_IMPORTE_ORIGEN -> of(Global.doubleFormat))
+            C.MFI_IMPORTE_ORIGEN -> of(Global.doubleFormat),
+            C.MFI_IMPORTE_ORIGEN_HABER -> of(Global.doubleFormat))
           (MovimientoFondoItemTotalsData.apply)(MovimientoFondoItemTotalsData.unapply),
           GC.BCO_ID -> number,
           GC.CLI_ID -> number,
@@ -230,7 +235,8 @@ object MovimientosFondo extends Controller with ProvidesUser {
           GC.MON_ID -> number,
           C.MOVIMIENTO_FONDO_ITEM_TOTALS -> mapping (
             C.MFI_IMPORTE -> of(Global.doubleFormat),
-            C.MFI_IMPORTE_ORIGEN -> of(Global.doubleFormat))
+            C.MFI_IMPORTE_ORIGEN -> of(Global.doubleFormat),
+            C.MFI_IMPORTE_ORIGEN_HABER -> of(Global.doubleFormat))
           (MovimientoFondoItemTotalsData.apply)(MovimientoFondoItemTotalsData.unapply),
           GC.BCO_ID -> number,
           C.CHEQ_ID -> optional(number),
@@ -252,7 +258,8 @@ object MovimientosFondo extends Controller with ProvidesUser {
           (MovimientoFondoItemBaseData.apply)(MovimientoFondoItemBaseData.unapply),
           C.MOVIMIENTO_FONDO_ITEM_TOTALS -> mapping (
             C.MFI_IMPORTE -> of(Global.doubleFormat),
-            C.MFI_IMPORTE_ORIGEN -> of(Global.doubleFormat))
+            C.MFI_IMPORTE_ORIGEN -> of(Global.doubleFormat),
+            C.MFI_IMPORTE_ORIGEN_HABER -> of(Global.doubleFormat))
           (MovimientoFondoItemTotalsData.apply)(MovimientoFondoItemTotalsData.unapply)
         )(MovimientoFondoItemEfectivoData.apply)(MovimientoFondoItemEfectivoData.unapply)
       ),
@@ -275,6 +282,8 @@ object MovimientosFondo extends Controller with ProvidesUser {
       GC.CCOS_NAME -> Json.toJson(movimientoFondoParams.ccosName),
       GC.SUC_ID -> Json.toJson(movimientoFondoParams.sucId),
       GC.SUC_NAME -> Json.toJson(movimientoFondoParams.sucName),
+      GC.US_ID -> Json.toJson(movimientoFondoParams.usId),
+      GC.US_NAME -> Json.toJson(movimientoFondoParams.usName),
       GC.DOC_ID -> Json.toJson(movimientoFondoParams.docId),
       GC.DOC_NAME -> Json.toJson(movimientoFondoParams.docName),
       GC.EMP_ID -> Json.toJson(movimientoFondoParams.empId),
@@ -300,10 +309,13 @@ object MovimientosFondo extends Controller with ProvidesUser {
       GC.EST_NAME -> Json.toJson(movimientoFondo.base.estName),
       GC.SUC_ID -> Json.toJson(movimientoFondo.base.sucId),
       GC.SUC_NAME -> Json.toJson(movimientoFondo.base.sucName),
+      GC.US_ID -> Json.toJson(movimientoFondo.base.usId),
+      GC.US_NAME -> Json.toJson(movimientoFondo.base.usName),
       GC.CCOS_ID -> Json.toJson(movimientoFondo.base.ccosId),
       GC.CCOS_NAME -> Json.toJson(movimientoFondo.base.ccosName),
       GC.LGJ_ID -> Json.toJson(movimientoFondo.base.lgjId),
       GC.LGJ_CODE -> Json.toJson(movimientoFondo.base.lgjCode),
+      GC.MON_ID -> Json.toJson(movimientoFondo.base.monId),
       C.MF_DESCRIP -> Json.toJson(movimientoFondo.base.descrip),
       C.MF_GRABAR_ASIENTO -> Json.toJson(movimientoFondo.base.grabarAsiento),
 
@@ -338,6 +350,7 @@ object MovimientosFondo extends Controller with ProvidesUser {
       C.MFI_ORDEN -> Json.toJson(i.base.orden),
       C.MFI_IMPORTE -> Json.toJson(i.totals.importe),
       C.MFI_IMPORTE_ORIGEN -> Json.toJson(i.totals.importeOrigen),
+      C.MFI_IMPORTE_ORIGEN_HABER -> Json.toJson(i.totals.importeOrigenHaber),
       GC.BCO_ID -> Json.toJson(i.bcoId),
       GC.BCO_NAME -> Json.toJson(i.bcoName),
       GC.CHQ_ID -> Json.toJson(i.chqId),
@@ -364,6 +377,7 @@ object MovimientosFondo extends Controller with ProvidesUser {
       C.MFI_ORDEN -> Json.toJson(i.base.orden),
       C.MFI_IMPORTE -> Json.toJson(i.totals.importe),
       C.MFI_IMPORTE_ORIGEN -> Json.toJson(i.totals.importeOrigen),
+      C.MFI_IMPORTE_ORIGEN_HABER -> Json.toJson(i.totals.importeOrigenHaber),
       GC.BCO_ID -> Json.toJson(i.bcoId),
       GC.BCO_NAME -> Json.toJson(i.bcoName),
       GC.CLI_ID -> Json.toJson(i.cliId),
@@ -390,6 +404,7 @@ object MovimientosFondo extends Controller with ProvidesUser {
       C.MFI_ORDEN -> Json.toJson(i.base.orden),
       C.MFI_IMPORTE -> Json.toJson(i.totals.importe),
       C.MFI_IMPORTE_ORIGEN -> Json.toJson(i.totals.importeOrigen),
+      C.MFI_IMPORTE_ORIGEN_HABER -> Json.toJson(i.totals.importeOrigenHaber),
       GC.BCO_ID -> Json.toJson(i.bcoId),
       GC.BCO_NAME -> Json.toJson(i.bcoName),
       C.CHEQ_ID -> Json.toJson(i.cheqId),
@@ -403,8 +418,10 @@ object MovimientosFondo extends Controller with ProvidesUser {
     def movimientoFondoEfectivoWrites(i: MovimientoFondoItemEfectivo) = Json.obj(
       C.MFI_ID -> Json.toJson(i.id),
       C.MFI_DESCRIP -> Json.toJson(i.base.descrip),
-      GC.CUE_ID -> Json.toJson(i.base.cueIdDebe),
-      GC.CUE_NAME -> Json.toJson(i.base.cueNameDebe),
+      C.CUE_ID_DEBE -> Json.toJson(i.base.cueIdDebe),
+      C.CUE_DEBE_NAME -> Json.toJson(i.base.cueNameDebe),
+      C.CUE_ID_HABER -> Json.toJson(i.base.cueIdHaber),
+      C.CUE_HABER_NAME -> Json.toJson(i.base.cueNameHaber),
       GC.MON_ID -> Json.toJson(i.moneda.monId),
       GC.MON_NAME -> Json.toJson(i.moneda.monName),
       GC.CCOS_ID -> Json.toJson(i.base.ccosId),
@@ -413,7 +430,8 @@ object MovimientosFondo extends Controller with ProvidesUser {
       GC.MON_NAME -> Json.toJson(i.moneda.monName),
       C.MFI_ORDEN -> Json.toJson(i.base.orden),
       C.MFI_IMPORTE -> Json.toJson(i.totals.importe),
-      C.MFI_IMPORTE_ORIGEN -> Json.toJson(i.totals.importeOrigen)
+      C.MFI_IMPORTE_ORIGEN -> Json.toJson(i.totals.importeOrigen),
+      C.MFI_IMPORTE_ORIGEN_HABER -> Json.toJson(i.totals.importeOrigenHaber)
     )
     def writeMovimientoFondoCheques(items: List[MovimientoFondoItemCheque]) = items.map(item => movimientoFondoChequeWrites(item))
     def writeMovimientoFondoChequesT(items: List[MovimientoFondoItemChequeT]) = items.map(item => movimientoFondoChequeTWrites(item))
@@ -601,7 +619,8 @@ object MovimientosFondo extends Controller with ProvidesUser {
         cheque.monId,
         MovimientoFondoItemTotals(
           cheque.totals.importe,
-          cheque.totals.importeOrigen
+          cheque.totals.importeOrigen,
+          cheque.totals.importeOrigenHaber
         ),
         cheque.bcoId,
         cheque.chqId,
@@ -628,7 +647,8 @@ object MovimientosFondo extends Controller with ProvidesUser {
         cheque.monId,
         MovimientoFondoItemTotals(
           cheque.totals.importe,
-          cheque.totals.importeOrigen
+          cheque.totals.importeOrigen,
+          cheque.totals.importeOrigenHaber
         ),
         cheque.bcoId,
         cheque.cliId,
@@ -655,7 +675,8 @@ object MovimientosFondo extends Controller with ProvidesUser {
         cheque.monId,
         MovimientoFondoItemTotals(
           cheque.totals.importe,
-          cheque.totals.importeOrigen
+          cheque.totals.importeOrigen,
+          cheque.totals.importeOrigenHaber
         ),
         cheque.bcoId,
         cheque.cheqId.getOrElse(DBHelper.NoId),
@@ -681,7 +702,8 @@ object MovimientosFondo extends Controller with ProvidesUser {
         DBHelper.NoId,
         MovimientoFondoItemTotals(
           efectivo.totals.importe,
-          efectivo.totals.importeOrigen
+          efectivo.totals.importeOrigen,
+          efectivo.totals.importeOrigenHaber
         )
       )
     })
@@ -713,6 +735,7 @@ object MovimientosFondo extends Controller with ProvidesUser {
         movimientoFondo.base.estId,
         movimientoFondo.base.ccosId,
         movimientoFondo.base.sucId,
+        movimientoFondo.base.usId,
         movimientoFondo.base.lgjId,
         movimientoFondo.base.descrip,
         movimientoFondo.base.grabarAsiento),

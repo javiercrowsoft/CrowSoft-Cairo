@@ -347,7 +347,7 @@
         c.setSelectId(Cairo.Util.val(m_sucId));
         c.setSelectIntValue(m_sucId);
 
-        c = properties.add(null, Cairo.Constants.US_ID);
+        c = properties.add(null, C.US_ID);
         c.setType(Dialogs.PropertyType.select);
         c.setSelectTable(csUsuario);
         // Técnico
@@ -601,7 +601,7 @@
             break;
 
           case K_US_ID:
-            var property = properties.item(Cairo.Constants.US_ID);
+            var property = properties.item(C.US_ID);
             m_usuario = property.getValue();
             m_us_id2 = property.getSelectIntValue();
 
@@ -928,7 +928,7 @@
 
           fields.add(C.EMP_ID, cUtil.getEmpId(), Cairo.Constants.Types.id);
 
-          fields.add(Cairo.Constants.US_ID, m_us_id, Cairo.Constants.Types.id);
+          fields.add(C.US_ID, m_us_id, Cairo.Constants.Types.id);
           fields.add(C.PRE_ID, csPreTicketPrestacion.cSPRETICKLISTPARTEREPARACION, Cairo.Constants.Types.id);
 
 

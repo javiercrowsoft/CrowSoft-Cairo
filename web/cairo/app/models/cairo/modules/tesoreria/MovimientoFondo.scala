@@ -117,8 +117,11 @@ case class MovimientoFondoBase(
                           ccosName: String,
                           sucId: Int,
                           sucName: String,
+                          usId: Int,
+                          usName: String,
                           lgjId: Int,
                           lgjCode: String,
+                          monId: Int, /* only for select */
                           descrip: String,
                           grabarAsiento: Boolean
                         ) {
@@ -127,6 +130,7 @@ case class MovimientoFondoBase(
             estId: Int,
             ccosId: Int,
             sucId: Int,
+            usId: Int,
             lgjId: Int,
             descrip: String,
             grabarAsiento: Boolean
@@ -140,8 +144,11 @@ case class MovimientoFondoBase(
       "",
       sucId,
       "",
+      usId,
+      "",
       lgjId,
       "",
+      DBHelper.NoId,
       descrip,
       grabarAsiento
     )
@@ -155,6 +162,7 @@ object MovimientoFondoBase {
              estId: Int,
              ccosId: Int,
              sucId: Int,
+             usId: Int,
              lgjId: Int,
              descrip: String,
              grabarAsiento: Boolean) = {
@@ -164,6 +172,7 @@ object MovimientoFondoBase {
       estId,
       ccosId,
       sucId,
+      usId,
       lgjId,
       descrip,
       grabarAsiento)
@@ -204,7 +213,8 @@ object MovimientoFondoItemBase {
 
 case class MovimientoFondoItemTotals(
                                 importe: Double,
-                                importeOrigen: Double
+                                importeOrigen: Double,
+                                importeOrigenHaber: Double
                               )
 
 case class MovimientoFondoItemMoneda(
@@ -558,7 +568,7 @@ object MovimientoFondo {
 
   lazy val emptyMovimientoFondo = MovimientoFondo(
     MovimientoFondoId(DBHelper.NoId, 0, ""),
-    MovimientoFondoBase(DBHelper.NoId, DBHelper.NoId, DBHelper.NoId, DBHelper.NoId, DBHelper.NoId, "", false),
+    MovimientoFondoBase(DBHelper.NoId, DBHelper.NoId, DBHelper.NoId, DBHelper.NoId, DBHelper.NoId, DBHelper.NoId, "", false),
     emptyMovimientoFondoReferences,
     U.NO_DATE,
     0,
@@ -681,6 +691,7 @@ object MovimientoFondo {
       SqlParser.get[String](GC.MON_NAME) ~
       SqlParser.get[BigDecimal](C.MFI_IMPORTE) ~
       SqlParser.get[BigDecimal](C.MFI_IMPORTE_ORIGEN) ~
+      SqlParser.get[BigDecimal](C.MFI_IMPORTE_ORIGEN_HABER) ~
       SqlParser.get[Int](GC.BCO_ID) ~
       SqlParser.get[String](GC.BCO_NAME) ~
       SqlParser.get[Int](GC.CHQ_ID) ~
@@ -707,6 +718,7 @@ object MovimientoFondo {
           monName ~
           importe ~
           importeOrigen ~
+          importeOrigenHaber ~
           bcoId ~
           bcoName ~
           chqId ~
@@ -734,7 +746,8 @@ object MovimientoFondo {
           MovimientoFondoItemMoneda(monId, monName),
           MovimientoFondoItemTotals(
             importe.doubleValue(),
-            importeOrigen.doubleValue()
+            importeOrigen.doubleValue(),
+            importeOrigenHaber.doubleValue()
           ),
           bcoId,
           bcoName,
@@ -764,17 +777,18 @@ object MovimientoFondo {
       SqlParser.get[String](GC.MON_NAME) ~
       SqlParser.get[BigDecimal](C.MFI_IMPORTE) ~
       SqlParser.get[BigDecimal](C.MFI_IMPORTE_ORIGEN) ~
+      SqlParser.get[BigDecimal](C.MFI_IMPORTE_ORIGEN_HABER) ~
       SqlParser.get[Int](GC.BCO_ID) ~
       SqlParser.get[String](GC.BCO_NAME) ~
-      SqlParser.get[Int](GC.CLI_ID) ~
-      SqlParser.get[String](GC.CLI_NAME) ~
+      SqlParser.get[Option[Int]](GC.CLI_ID) ~
+      SqlParser.get[Option[String]](GC.CLI_NAME) ~
       SqlParser.get[Int](C.CHEQ_ID) ~
       SqlParser.get[Int](C.CHEQ_NUMERO) ~
       SqlParser.get[String](C.CHEQ_NUMERO_DOC) ~
       SqlParser.get[Date](C.CHEQ_FECHA_COBRO) ~
       SqlParser.get[Date](C.CHEQ_FECHA_VTO) ~
-      SqlParser.get[Int](GC.CLE_ID) ~
-      SqlParser.get[String](GC.CLE_NAME) ~
+      SqlParser.get[Option[Int]](GC.CLE_ID) ~
+      SqlParser.get[Option[String]](GC.CLE_NAME) ~
       SqlParser.get[Int](C.MFI_ORDEN) map {
       case
         id ~
@@ -789,6 +803,7 @@ object MovimientoFondo {
           monName ~
           importe ~
           importeOrigen ~
+          importeOrigenHaber ~
           bcoId ~
           bcoName ~
           cliId ~
@@ -816,19 +831,20 @@ object MovimientoFondo {
           MovimientoFondoItemMoneda(monId, monName),
           MovimientoFondoItemTotals(
             importe.doubleValue(),
-            importeOrigen.doubleValue()
+            importeOrigen.doubleValue(),
+            importeOrigenHaber.doubleValue()
           ),
           bcoId,
           bcoName,
-          cliId,
-          cliName,
+          cliId.getOrElse(DBHelper.NoId),
+          cliName.getOrElse(""),
           cheqId,
           numero,
           numeroDoc,
           fechaCobro,
           fechaVto,
-          cleId,
-          cleName
+          cleId.getOrElse(DBHelper.NoId),
+          cleName.getOrElse("")
         )
     }
   }
@@ -846,6 +862,7 @@ object MovimientoFondo {
       SqlParser.get[String](GC.MON_NAME) ~
       SqlParser.get[BigDecimal](C.MFI_IMPORTE) ~
       SqlParser.get[BigDecimal](C.MFI_IMPORTE_ORIGEN) ~
+      SqlParser.get[BigDecimal](C.MFI_IMPORTE_ORIGEN_HABER) ~
       SqlParser.get[Int](GC.BCO_ID) ~
       SqlParser.get[String](GC.BCO_NAME) ~
       SqlParser.get[Int](C.CHEQ_ID) ~
@@ -853,8 +870,8 @@ object MovimientoFondo {
       SqlParser.get[String](C.CHEQ_NUMERO_DOC) ~
       SqlParser.get[Date](C.CHEQ_FECHA_COBRO) ~
       SqlParser.get[Date](C.CHEQ_FECHA_VTO) ~
-      SqlParser.get[Int](GC.CLE_ID) ~
-      SqlParser.get[String](GC.CLE_NAME) ~
+      SqlParser.get[Option[Int]](GC.CLE_ID) ~
+      SqlParser.get[Option[String]](GC.CLE_NAME) ~
       SqlParser.get[Int](C.MFI_ORDEN) map {
       case
         id ~
@@ -869,6 +886,7 @@ object MovimientoFondo {
           monName ~
           importe ~
           importeOrigen ~
+          importeOrigenHaber ~
           bcoId ~
           bcoName ~
           cheqId ~
@@ -894,7 +912,8 @@ object MovimientoFondo {
           MovimientoFondoItemMoneda(monId, monName),
           MovimientoFondoItemTotals(
             importe.doubleValue(),
-            importeOrigen.doubleValue()
+            importeOrigen.doubleValue(),
+            importeOrigenHaber.doubleValue()
           ),
           bcoId,
           bcoName,
@@ -903,8 +922,8 @@ object MovimientoFondo {
           numeroDoc,
           fechaCobro,
           fechaVto,
-          cleId,
-          cleName
+          cleId.getOrElse(DBHelper.NoId),
+          cleName.getOrElse("")
         )
     }
   }
@@ -922,6 +941,7 @@ object MovimientoFondo {
       SqlParser.get[String](GC.MON_NAME) ~
       SqlParser.get[BigDecimal](C.MFI_IMPORTE) ~
       SqlParser.get[BigDecimal](C.MFI_IMPORTE_ORIGEN) ~
+      SqlParser.get[BigDecimal](C.MFI_IMPORTE_ORIGEN_HABER) ~
       SqlParser.get[Int](C.MFI_ORDEN) map {
       case
         id ~
@@ -936,6 +956,7 @@ object MovimientoFondo {
           monName ~
           importe ~
           importeOrigen ~
+          importeOrigenHaber ~
           orden =>
         MovimientoFondoItemEfectivo(
           id,
@@ -952,7 +973,8 @@ object MovimientoFondo {
           MovimientoFondoItemMoneda(monId, monName),
           MovimientoFondoItemTotals(
             importe.doubleValue(),
-            importeOrigen.doubleValue()
+            importeOrigen.doubleValue(),
+            importeOrigenHaber.doubleValue()
           )
         )
     }
@@ -972,8 +994,11 @@ object MovimientoFondo {
       SqlParser.get[Option[String]](GC.CCOS_NAME) ~
       SqlParser.get[Int](GC.SUC_ID) ~
       SqlParser.get[String](GC.SUC_NAME) ~
+      SqlParser.get[Option[Int]](GC.US_ID) ~
+      SqlParser.get[Option[String]](GC.US_NAME) ~
       SqlParser.get[Option[Int]](GC.LGJ_ID) ~
       SqlParser.get[Option[String]](GC.LGJ_CODE) ~
+      SqlParser.get[Int](GC.MON_ID) ~
       SqlParser.get[String](C.MF_DESCRIP) ~
       SqlParser.get[Int](C.MF_GRABAR_ASIENTO) ~
       SqlParser.get[Int](GC.DOCT_ID) ~
@@ -1004,8 +1029,11 @@ object MovimientoFondo {
           ccosName ~
           sucId ~
           sucName ~
+          usId ~
+          usName ~
           lgjId ~
           lgjCode ~
+          monId ~
           descrip ~
           grabarAsiento ~
           doctId ~
@@ -1039,8 +1067,11 @@ object MovimientoFondo {
             ccosName.getOrElse(""),
             sucId,
             sucName,
+            usId.getOrElse(DBHelper.NoId),
+            usName.getOrElse(""),
             lgjId.getOrElse(DBHelper.NoId),
             lgjCode.getOrElse(""),
+            monId,
             descrip,
             grabarAsiento != 0
           ),
@@ -1088,6 +1119,7 @@ object MovimientoFondo {
         Field(GC.EST_ID, movimientoFondo.base.estId, FieldType.id),
         Field(GC.CCOS_ID, movimientoFondo.base.ccosId, FieldType.id),
         Field(GC.SUC_ID, movimientoFondo.base.sucId, FieldType.id),
+        Field(GC.US_ID, movimientoFondo.base.usId, FieldType.id),
         Field(GC.LGJ_ID, movimientoFondo.base.lgjId, FieldType.id),
         Field(C.MF_DESCRIP, movimientoFondo.base.descrip, FieldType.text),
         Field(C.MF_GRABAR_ASIENTO, Register.boolToInt(movimientoFondo.base.grabarAsiento), FieldType.boolean),
@@ -1114,7 +1146,8 @@ object MovimientoFondo {
         Field(GC.MON_ID, item.moneda.monId, FieldType.id),
         Field(C.MFI_ORDEN, item.base.orden, FieldType.integer),
         Field(C.MFI_IMPORTE, item.totals.importe, FieldType.currency),
-        Field(C.MFI_IMPORTE_ORIGEN, item.totals.importeOrigen, FieldType.currency)
+        Field(C.MFI_IMPORTE_ORIGEN, item.totals.importeOrigen, FieldType.currency),
+        Field(C.MFI_IMPORTE_ORIGEN_HABER, item.totals.importeOrigenHaber, FieldType.currency)
       )
     }
 
@@ -1129,7 +1162,8 @@ object MovimientoFondo {
         Field(GC.CCOS_ID, item.base.ccosId, FieldType.id),
         Field(C.MFI_ORDEN, item.base.orden, FieldType.integer),
         Field(C.MFI_IMPORTE, item.totals.importe, FieldType.currency),
-        Field(C.MFI_IMPORTE_ORIGEN, item.totals.importeOrigen, FieldType.currency)
+        Field(C.MFI_IMPORTE_ORIGEN, item.totals.importeOrigen, FieldType.currency),
+        Field(C.MFI_IMPORTE_ORIGEN_HABER, item.totals.importeOrigenHaber, FieldType.currency)
       )
     }
 
@@ -1144,7 +1178,8 @@ object MovimientoFondo {
         Field(GC.CCOS_ID, item.base.ccosId, FieldType.id),
         Field(C.MFI_ORDEN, item.base.orden, FieldType.integer),
         Field(C.MFI_IMPORTE, item.totals.importe, FieldType.currency),
-        Field(C.MFI_IMPORTE_ORIGEN, item.totals.importeOrigen, FieldType.currency)
+        Field(C.MFI_IMPORTE_ORIGEN, item.totals.importeOrigen, FieldType.currency),
+        Field(C.MFI_IMPORTE_ORIGEN_HABER, item.totals.importeOrigenHaber, FieldType.currency)
       )
     }
 
@@ -1159,7 +1194,8 @@ object MovimientoFondo {
         Field(GC.CCOS_ID, item.base.ccosId, FieldType.id),
         Field(C.MFI_ORDEN, item.base.orden, FieldType.integer),
         Field(C.MFI_IMPORTE, item.totals.importe, FieldType.currency),
-        Field(C.MFI_IMPORTE_ORIGEN, item.totals.importeOrigen, FieldType.currency)
+        Field(C.MFI_IMPORTE_ORIGEN, item.totals.importeOrigen, FieldType.currency),
+        Field(C.MFI_IMPORTE_ORIGEN_HABER, item.totals.importeOrigenHaber, FieldType.currency)
       )
     }
 

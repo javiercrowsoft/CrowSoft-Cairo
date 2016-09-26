@@ -275,7 +275,7 @@
 
           }).then(function() {
 
-            return D.setDocNumber(m_lastDocId, m_dialog, CC.AS_NRODOC)
+            return D.setDocNumber(m_lastDocId, m_dialog, CT.MF_NRODOC)
 
           }).then(function(enabled) {
 
@@ -311,7 +311,7 @@
 
           var doc = new Cairo.DocDigital();
 
-          doc.setClientTable(CC.MOVIMIENTO_FONDO);
+          doc.setClientTable(CT.MOVIMIENTO_FONDO);
           doc.setClientTableID(m_id);
 
           _rtn = doc.showDocs(Cairo.Database);
@@ -497,7 +497,7 @@
                 })
                 .whenSuccess(function() {
 
-                  return D.setDocNumber(m_lastDocId, m_dialog, CC.MF_NRODOC)
+                  return D.setDocNumber(m_lastDocId, m_dialog, CT.MF_NRODOC)
                     .then(function(enabled) {
 
                       m_taPropuesto = enabled;
@@ -537,7 +537,7 @@
 
         p = D.docCanBeEdited(m_docEditable, m_docEditMsg)
           .whenSuccess(function() {
-            return D.docCanBeSaved(m_dialog, CC.MF_FECHA);
+            return D.docCanBeSaved(m_dialog, CT.MF_FECHA);
           })
           .whenSuccess(function() {
             if(getCheques().getRows().count() === 0
@@ -596,11 +596,11 @@
                   break;
 
                 case K_CLI_ID:
-                  fields.add(CT.CLI_ID, property.getSelectId(), Types.id);
+                  fields.add(C.CLI_ID, property.getSelectId(), Types.id);
                   break;
 
                 case K_CCOS_ID:
-                  fields.add(CT.CCOS_ID, property.getSelectId(), Types.id);
+                  fields.add(C.CCOS_ID, property.getSelectId(), Types.id);
                   break;
 
                 case K_SUC_ID:
@@ -617,7 +617,7 @@
                   break;
 
                 case K_US_ID:
-                  fields.add(Cairo.Constants.US_ID, property.getSelectId(), Types.id);
+                  fields.add(C.US_ID, property.getSelectId(), Types.id);
                   break;
 
                 case K_LGJ_ID:
@@ -967,15 +967,15 @@
               break;
 
             case K_CHEQUES:
-              columnAfterUpdateCheque(m_items.getProperties().item(C_CHEQUES), lRow, lCol);
+              columnAfterUpdateCheque(getChequesProperty(), lRow, lCol);
               break;
 
             case K_CHEQUEST:
-              columnAfterUpdateChequeT(m_items.getProperties().item(C_CHEQUEST), lRow, lCol);
+              columnAfterUpdateChequeT(getTChequesProperty(), lRow, lCol);
               break;
 
             case K_CHEQUESI:
-              columnAfterUpdateICheque(m_items.getProperties().item(C_CHEQUESI), lRow, lCol);
+              columnAfterUpdateICheque(getIChequesProperty(), lRow, lCol);
               break;
           }
 
@@ -989,7 +989,7 @@
 
       self.columnAfterEdit = function(key, lRow, lCol, newValue, newValueId) {
         var p = null;
-        
+
         try {
 
           switch (key) {
@@ -1095,9 +1095,9 @@
         for (var _i = 0; _i < _count; _i++) {
 
           var cell = row.item(_i);
-          
+
           switch (cell.getKey()) {
-          
+
             case KI_IMPORTE:
               if(!valEmpty(cell.getValue(), Types.currency)) {
                 return false;
@@ -1152,14 +1152,14 @@
         var bCheckOrigenHaber = false;
         var cueIdDebe = NO_ID;
         var cueIdHaber = NO_ID;
-        
+
         var strRow = " (Row: " + rowIndex.toString() + ")";
-        
+
         var _count = row.size();
         for (var _i = 0; _i < _count; _i++) {
 
           var cell = row.item(_i);
-          
+
           switch (cell.getKey()) {
 
             case KI_IMPORTE:
@@ -1183,13 +1183,13 @@
               break;
 
             case KI_ORIGEN_DEBE:
-              if(m_items.getProperties().item(C_EFECTIVO).getGrid().getColumns(C_ORIGENDEBE).Visible) {
+              if(getEfectivoProperty().getGrid().getColumns(C_ORIGENDEBE).getVisible()) {
                 bCheckOrigenDebe = true;
               }
               break;
 
             case KI_ORIGEN_HABER:
-              if(m_items.getProperties().item(C_EFECTIVO).getGrid().getColumns(C_ORIGENHABER).Visible) {
+              if(getEfectivoProperty().getGrid().getColumns(C_ORIGENHABER).getVisible()) {
                 bCheckOrigenHaber = true;
               }
               break;
@@ -1264,7 +1264,7 @@
 
         elem = properties.add(null, C.DOC_ID);
         elem.setType(T.select);
-        elem.setTable(Cairo.Tables.DOCUMENTO);
+        elem.setSelectTable(Cairo.Tables.DOCUMENTO);
         elem.setName(getText(1567, "")); // Documento
         elem.setKey(K_DOC_ID);
 
@@ -1304,14 +1304,14 @@
         elem.setKey(K_FECHA);
         elem.setValue(m_fecha);
 
-        elem = properties.add(null, CT.CLI_ID);
+        elem = properties.add(null, C.CLI_ID);
         elem.setType(T.select);
         elem.setSelectTable(Cairo.Tables.CLIENTE);
         elem.setName(getText(1150, "")); // Cliente
         elem.setKey(K_CLI_ID);
         elem.setSelectId(m_cliId);
         elem.setValue(m_cliente);
-        m_dialog.NewKeyPropFocus = CT.CLI_ID;
+        m_dialog.NewKeyPropFocus = C.CLI_ID;
 
         elem = properties.add(null, CT.MF_NRODOC);
         elem.setType(T.text);
@@ -1322,9 +1322,9 @@
         elem.setTextMask(m_taMascara);
         elem.setTextAlign(Dialogs.TextAlign.right);
 
-        elem = properties.add(null, Cairo.Constants.US_ID);
+        elem = properties.add(null, C.US_ID);
         elem.setType(T.select);
-        elem.setTable(Cairo.Tables.USUARIO);
+        elem.setSelectTable(Cairo.Tables.USUARIO);
         elem.setName(getText(1822, "")); // Responsable
         elem.setKey(K_US_ID);
         elem.setSelectId(m_usId);
@@ -1332,7 +1332,7 @@
 
         elem = properties.add(null, C.LGJ_ID);
         elem.setType(T.select);
-        elem.setTable(Cairo.Tables.LEGAJOS);
+        elem.setSelectTable(Cairo.Tables.LEGAJOS);
         elem.setName(getText(1575, "")); // Legajo
         elem.setKey(K_LGJ_ID);
         elem.setSelectId(m_lgjId);
@@ -1354,7 +1354,7 @@
           cotizacion = 1;
         }
 
-        elem = properties.add(null, CT.CCOS_ID);
+        elem = properties.add(null, C.CCOS_ID);
         elem.setType(T.select);
         elem.setSelectTable(Cairo.Tables.CENTROS_DE_COSTO);
         elem.setName(getText(1057, "")); // Centro de Costo
@@ -1377,7 +1377,7 @@
         elem.setSize(5000);
         elem.setKey(K_DESCRIP);
         elem.setValue(m_descrip);
-        elem.setTabIndex(3);
+        elem.setTabIndex(2);
 
         if(!m_dialog.show(self)) { return false; }
 
@@ -1460,7 +1460,7 @@
 
         elem = properties.add(null, CT.MF_TOTAL);
         elem.setType(T.numeric);
-        elem.setFormat(Cairo.Settings.getAmountDecimalsFormat()());
+        elem.setFormat(Cairo.Settings.getAmountDecimalsFormat());
         elem.setName(getText(1584, "")); // Total
         elem.setSubType(Dialogs.PropertySubType.money);
         elem.setKey(K_TOTAL);
@@ -1587,7 +1587,7 @@
 
         var iColDebe;
         var iColHaber;
-        
+
         if(Cairo.UserConfig.getDebeHaberMf()) {
 
           iColDebe = columns.add(null, C_ORIGENDEBE);
@@ -1639,8 +1639,9 @@
       var loadEfectivo = function(property, cotizacion) {
 
         var elem;
-        var grid = property.getGrid();        
+        var grid = property.getGrid();
         var rows = grid.getRows();
+        var columns = grid.getColumns();
 
         var iColDebe;
         var iColHaber;
@@ -1659,7 +1660,7 @@
 
         for(var _i = 0, count = m_data.efectivo.length; _i < count; _i += 1) {
 
-          var row = rows.add(null, getValue(m_data.efectivo[_i], CT.OPGI_ID));
+          var row = rows.add(null, getValue(m_data.efectivo[_i], CT.MFI_ID));
 
           elem = row.add(null);
           elem.setValue(getValue(m_data.efectivo[_i], CT.MFI_ID));
@@ -1668,26 +1669,26 @@
           if(Cairo.UserConfig.getDebeHaberMf()) {
 
             elem = row.add(null);
-            elem.setValue(getValue(m_data.efectivo[_i], "Debe"));
-            elem.setId(getValue(m_data.efectivo[_i], C.CUE_ID_DEBE));
+            elem.setValue(getValue(m_data.efectivo[_i], CT.CUE_DEBE_NAME));
+            elem.setId(getValue(m_data.efectivo[_i], CT.CUE_ID_DEBE));
             elem.setKey(KI_CUE_ID_DEBE);
 
             elem = row.add(null);
-            elem.setValue(getValue(m_data.efectivo[_i], "Haber"));
-            elem.setId(getValue(m_data.efectivo[_i], C.CUE_ID_HABER));
+            elem.setValue(getValue(m_data.efectivo[_i], CT.CUE_HABER_NAME));
+            elem.setId(getValue(m_data.efectivo[_i], CT.CUE_ID_HABER));
             elem.setKey(KI_CUE_ID_HABER);
 
           }
           else {
 
             elem = row.add(null);
-            elem.setValue(getValue(m_data.efectivo[_i], "Haber"));
-            elem.setId(getValue(m_data.efectivo[_i], C.CUE_ID_HABER));
+            elem.setValue(getValue(m_data.efectivo[_i], CT.CUE_HABER_NAME));
+            elem.setId(getValue(m_data.efectivo[_i], CT.CUE_ID_HABER));
             elem.setKey(KI_CUE_ID_HABER);
 
             elem = row.add(null);
-            elem.setValue(getValue(m_data.efectivo[_i], "Debe"));
-            elem.setId(getValue(m_data.efectivo[_i], C.CUE_ID_DEBE));
+            elem.setValue(getValue(m_data.efectivo[_i], CT.CUE_DEBE_NAME));
+            elem.setId(getValue(m_data.efectivo[_i], CT.CUE_ID_DEBE));
             elem.setKey(KI_CUE_ID_DEBE);
           }
 
@@ -1728,8 +1729,8 @@
           }
 
           elem = row.add(null);
-          elem.setValue(getValue(m_data.efectivo[_i], CT.CCOS_NAME));
-          elem.setId(getValue(m_data.efectivo[_i], CT.CCOS_ID));
+          elem.setValue(getValue(m_data.efectivo[_i], C.CCOS_NAME));
+          elem.setId(getValue(m_data.efectivo[_i], C.CCOS_ID));
           elem.setKey(KI_CCOS_ID);
 
           if(origenDebe !== 0) { iColDebe.setVisible(true); }
@@ -1966,11 +1967,11 @@
                 break;
 
               case KI_CUE_ID_DEBE:
-                fields.add(C.CUE_ID_DEBE, cell.getId(), Types.id);
+                fields.add(CT.CUE_ID_DEBE, cell.getId(), Types.id);
                 break;
 
               case KI_CUE_ID_HABER:
-                fields.add(C.CUE_ID_HABER, cell.getId(), Types.id);
+                fields.add(CT.CUE_ID_HABER, cell.getId(), Types.id);
                 break;
 
               case KICHT_IMPORTEORIGEN:
@@ -1982,7 +1983,7 @@
                 break;
 
               case KI_CCOS_ID:
-                fields.add(CT.CCOS_ID, cell.getId(), Types.id);
+                fields.add(C.CCOS_ID, cell.getId(), Types.id);
                 break;
             }
           }
@@ -2061,11 +2062,11 @@
                 break;
 
               case KI_CUE_ID_DEBE:
-                fields.add(C.CUE_ID_DEBE, cell.getId(), Types.id);
+                fields.add(CT.CUE_ID_DEBE, cell.getId(), Types.id);
                 break;
 
               case KI_CUE_ID_HABER:
-                fields.add(C.CUE_ID_HABER, cell.getId(), Types.id);
+                fields.add(CT.CUE_ID_HABER, cell.getId(), Types.id);
                 break;
 
               case KICHT_IMPORTEORIGEN:
@@ -2077,7 +2078,7 @@
                 break;
 
               case KI_CCOS_ID:
-                fields.add(CT.CCOS_ID, cell.getId(), Types.id);
+                fields.add(C.CCOS_ID, cell.getId(), Types.id);
                 break;
             }
           }
@@ -2172,11 +2173,11 @@
                 break;
 
               case KI_CUE_ID_DEBE:
-                fields.add(C.CUE_ID_DEBE, cell.getId(), Types.id);
+                fields.add(CT.CUE_ID_DEBE, cell.getId(), Types.id);
                 break;
 
               case KI_CUE_ID_HABER:
-                fields.add(C.CUE_ID_HABER, cell.getId(), Types.id);
+                fields.add(CT.CUE_ID_HABER, cell.getId(), Types.id);
 
                 break;
 
@@ -2189,7 +2190,7 @@
                 break;
 
               case KI_CCOS_ID:
-                fields.add(CT.CCOS_ID, cell.getId(), Types.id);
+                fields.add(C.CCOS_ID, cell.getId(), Types.id);
                 break;
             }
           }
@@ -2251,15 +2252,15 @@
                 break;
 
               case KI_CCOS_ID:
-                fields.add(CT.CCOS_ID, cell.getId(), Types.id);
+                fields.add(C.CCOS_ID, cell.getId(), Types.id);
                 break;
 
               case KI_CUE_ID_DEBE:
-                fields.add(C.CUE_ID_DEBE, cell.getId(), Types.id);
+                fields.add(CT.CUE_ID_DEBE, cell.getId(), Types.id);
                 break;
 
               case KI_CUE_ID_HABER:
-                fields.add(C.CUE_ID_HABER, cell.getId(), Types.id);
+                fields.add(CT.CUE_ID_HABER, cell.getId(), Types.id);
                 break;
 
               case KI_IMPORTE:
@@ -2472,7 +2473,7 @@
           if(response.id === NO_ID) {
 
             return load(NO_ID)
-                .whenSuccess(call(D.setDocNumber, m_docId, m_dialog, CC.AS_NRODOC))
+                .whenSuccess(call(D.setDocNumber, m_docId, m_dialog, CT.MF_NRODOC))
                 .then(function(enabled) { m_taPropuesto = enabled; })
                 .then(refreshProperties);
           }
@@ -2494,7 +2495,7 @@
         m_properties.item(CT.MF_FECHA)
         .setValue(m_fecha);
 
-        m_properties.item(CT.CLI_ID)
+        m_properties.item(C.CLI_ID)
         .setSelectId(m_cliId)
         .setValue(m_cliente);
 
@@ -2509,14 +2510,14 @@
         .setTextMask(m_taMascara)
         .setTextAlign(Dialogs.TextAlign.right);
 
-        m_properties.item(Cairo.Constants.US_ID)
+        m_properties.item(C.US_ID)
         .setSelectId(m_usId)
         .setValue(m_usuario);
 
         m_properties.item(CT.MF_COTIZACION)
         .setValue(m_cotizacion);
 
-        m_properties.item(CT.CCOS_ID)
+        m_properties.item(C.CCOS_ID)
         .setSelectId(m_ccosId)
         .setValue(m_centroCosto);
 
@@ -2559,32 +2560,40 @@
         setEnabled();
       };
 
-      var initialize = function() {
-        try {
-        }
-        catch (ex) {
-          Cairo.manageErrorEx(ex.message, ex, "initialize", C_MODULE, "");
-        }
-      };
-
       var getICheques = function() {
-        return m_items.getProperties().item(C_CHEQUESI).getGrid();
+        return getIChequesProperty().getGrid();
       };
 
       var getTCheques = function() {
-        return m_items.getProperties().item(C_CHEQUEST).getGrid();
+        return getTChequesProperty().getGrid();
       };
 
       var getCheques = function() {
-        return m_items.getProperties().item(C_CHEQUES).getGrid();
+        return getChequesProperty().getGrid();
       };
 
       var getEfectivo = function() {
-        return m_items.getProperties().item(C_EFECTIVO).getGrid();
+        return getEfectivoProperty().getGrid();
+      };
+
+      var getTChequesProperty = function() {
+        return m_items.getProperties().item(C_CHEQUEST);
+      };
+
+      var getIChequesProperty = function() {
+        return m_items.getProperties().item(C_CHEQUESI);
+      };
+
+      var getChequesProperty = function() {
+        return m_items.getProperties().item(C_CHEQUES);
+      };
+
+      var getEfectivoProperty = function() {
+        return m_items.getProperties().item(C_EFECTIVO);
       };
 
       var getFecha = function() {
-        return m_properties.item(CC.MF_FECHA).getValue();
+        return m_properties.item(CT.MF_FECHA).getValue();
       };
 
       var setGridChequesI = function(property) {
@@ -2703,13 +2712,13 @@
           elem.setKey(KICHT_MFI_ID);
 
           elem = row.add(null);
-          elem.setValue(getValue(m_data.chequesI[_i], "Haber"));
-          elem.setId(getValue(m_data.chequesI[_i], C.CUE_ID_HABER));
+          elem.setValue(getValue(m_data.chequesI[_i], CT.CUE_HABER_NAME));
+          elem.setId(getValue(m_data.chequesI[_i], CT.CUE_ID_HABER));
           elem.setKey(KI_CUE_ID_HABER);
 
           elem = row.add(null);
-          elem.setValue(getValue(m_data.chequesI[_i], "Debe"));
-          elem.setId(getValue(m_data.chequesI[_i], C.CUE_ID_DEBE));
+          elem.setValue(getValue(m_data.chequesI[_i], CT.CUE_DEBE_NAME));
+          elem.setId(getValue(m_data.chequesI[_i], CT.CUE_ID_DEBE));
           elem.setKey(KI_CUE_ID_DEBE);
 
           elem = row.add(null);
@@ -2757,8 +2766,8 @@
           elem.setKey(KICH_DESCRIP);
 
           elem = row.add(null);
-          elem.setValue(getValue(m_data.chequesI[_i], CT.CCOS_NAME));
-          elem.setId(getValue(m_data.chequesI[_i], CT.CCOS_ID));
+          elem.setValue(getValue(m_data.chequesI[_i], C.CCOS_NAME));
+          elem.setId(getValue(m_data.chequesI[_i], C.CCOS_ID));
           elem.setKey(KI_CCOS_ID);
 
         }
@@ -2794,7 +2803,7 @@
         elem = columns.add(null, C_CHEQUET);
         elem.setName(getText(2059, "")); // Nr. Cheque
         elem.setType(T.select);
-        elem.setTable(Cairo.Tables.CHEQUE);
+        elem.setSelectTable(Cairo.Tables.CHEQUE);
         elem.setSelectFilter("1 = 2");
         elem.setSubType(Dialogs.PropertySubType.integer);
         elem.setKey(KICHT_CHEQUE);
@@ -2883,13 +2892,13 @@
           elem.setKey(KICHT_MFI_ID);
 
           elem = row.add(null);
-          elem.setValue(getValue(m_data.chequesT[_i], "Haber"));
-          elem.setId(getValue(m_data.chequesT[_i], C.CUE_ID_HABER));
+          elem.setValue(getValue(m_data.chequesT[_i], CT.CUE_HABER_NAME));
+          elem.setId(getValue(m_data.chequesT[_i], CT.CUE_ID_HABER));
           elem.setKey(KI_CUE_ID_HABER);
 
           elem = row.add(null);
-          elem.setValue(getValue(m_data.chequesT[_i], "Debe"));
-          elem.setId(getValue(m_data.chequesT[_i], C.CUE_ID_DEBE));
+          elem.setValue(getValue(m_data.chequesT[_i], CT.CUE_DEBE_NAME));
+          elem.setId(getValue(m_data.chequesT[_i], CT.CUE_ID_DEBE));
           elem.setKey(KI_CUE_ID_DEBE);
 
           elem = row.add(null);
@@ -2898,7 +2907,7 @@
           elem.setKey(KICHT_CHEQUE);
 
           elem = row.add(null);
-          elem.setValue(getValue(m_data.chequesT[_i], CT.CLI_NAME));
+          elem.setValue(getValue(m_data.chequesT[_i], C.CLI_NAME));
           elem.setKey(KICHT_CLI_ID);
 
           elem = row.add(null);
@@ -2935,8 +2944,8 @@
           elem.setKey(KICH_DESCRIP);
 
           elem = row.add(null);
-          elem.setValue(getValue(m_data.chequesT[_i], CT.CCOS_NAME));
-          elem.setId(getValue(m_data.chequesT[_i], CT.CCOS_ID));
+          elem.setValue(getValue(m_data.chequesT[_i], C.CCOS_NAME));
+          elem.setId(getValue(m_data.chequesT[_i], C.CCOS_ID));
           elem.setKey(KI_CCOS_ID);
 
         }
@@ -3059,13 +3068,13 @@
           elem.setKey(KICH_MFI_ID);
 
           elem = row.add(null);
-          elem.setValue(getValue(m_data.cheques[_i], "Haber"));
-          elem.setId(getValue(m_data.cheques[_i], C.CUE_ID_HABER));
+          elem.setValue(getValue(m_data.cheques[_i], CT.CUE_HABER_NAME));
+          elem.setId(getValue(m_data.cheques[_i], CT.CUE_ID_HABER));
           elem.setKey(KI_CUE_ID_HABER);
 
           elem = row.add(null);
-          elem.setValue(getValue(m_data.cheques[_i], "Debe"));
-          elem.setId(getValue(m_data.cheques[_i], C.CUE_ID_DEBE));
+          elem.setValue(getValue(m_data.cheques[_i], CT.CUE_DEBE_NAME));
+          elem.setId(getValue(m_data.cheques[_i], CT.CUE_ID_DEBE));
           elem.setKey(KI_CUE_ID_DEBE);
 
           elem = row.add(null);
@@ -3113,8 +3122,8 @@
           elem.setKey(KICH_DESCRIP);
 
           elem = row.add(null);
-          elem.setValue(getValue(m_data.cheques[_i], CT.CCOS_NAME));
-          elem.setId(getValue(m_data.cheques[_i], CT.CCOS_ID));
+          elem.setValue(getValue(m_data.cheques[_i], C.CCOS_NAME));
+          elem.setId(getValue(m_data.cheques[_i], C.CCOS_ID));
           elem.setKey(KI_CCOS_ID);
 
         }
@@ -3603,6 +3612,10 @@
         return bRowIsEmpty;
       };
 
+      var getDocId = function() {
+        return m_properties.item(C.DOC_ID);
+      };
+
       var getCotizacion = function() {
         return m_properties.item(CT.MF_COTIZACION);
       };
@@ -3617,6 +3630,22 @@
     };
 
     Edit.Controller = { getEditor: createObject };
+
+    Edit.Controller.edit = function(id) {
+
+      Cairo.LoadingMessage.show("Movimientos de Fondo", "Loading Movimiento de Fondo from Crowsoft Cairo server.");
+      var editor = Cairo.MovimientoFondo.Edit.Controller.getEditor();
+
+      var dialog = Cairo.Dialogs.Views.Controller.newDialog();
+      var dialogItems = Cairo.Dialogs.Views.Controller.newDialog();
+      var dialogFooter = Cairo.Dialogs.Views.Controller.newDialog();
+
+      editor.setDialog(dialog);
+      editor.setItems(dialogItems);
+      editor.setFooter(dialogFooter);
+      editor.edit(id).then(Cairo.LoadingMessage.close);
+    };
+
   });
 
   Cairo.module("MovimientoFondoListDoc.Edit", function(Edit, Cairo, Backbone, Marionette, $, _) {

@@ -305,6 +305,8 @@
       MFI_IMPORTE_ORIGEN: "mfi_importeorigen",
       MFI_IMPORTE_ORIGEN_HABER: "mfi_importeorigenHaber",
       MFI_TIPO: "mfi_tipo",
+      CUE_DEBE_NAME: "cue_debe_name",
+      CUE_HABER_NAME: "cue_haber_name",
       CUE_ID_DEBE: "cue_id_debe",
       CUE_ID_HABER: "cue_id_haber",
 

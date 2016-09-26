@@ -844,7 +844,7 @@
 
           fields.add(C.EMP_ID, cUtil.getEmpId(), Cairo.Constants.Types.id);
 
-          fields.add(Cairo.Constants.US_ID, m_us_id, Cairo.Constants.Types.id);
+          fields.add(C.US_ID, m_us_id, Cairo.Constants.Types.id);
           fields.add(C.PRE_ID, csComprasPrestacion.cSPRECPRALISTREMITO, Cairo.Constants.Types.id);
 
 

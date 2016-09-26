@@ -457,7 +457,7 @@
               break;
           }
 
-          fields.add(Cairo.Constants.US_ID, m_us_id, Cairo.Constants.Types.id);
+          fields.add(C.US_ID, m_us_id, Cairo.Constants.Types.id);
           fields.add(C.PRE_ID, csVentasPrestacion.cSPREVTALISTPICKINGLIST, Cairo.Constants.Types.id);
 
 

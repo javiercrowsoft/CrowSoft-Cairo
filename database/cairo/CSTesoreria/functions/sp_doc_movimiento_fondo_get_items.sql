@@ -91,6 +91,7 @@ begin
                    chq.chq_codigo,
                    cheq.cheq_numero,
                    ccos.ccos_nombre,
+                   cheq.bco_id,
                    bco.bco_nombre,
                    cle.cle_nombre,
                    mon.mon_nombre,
@@ -135,8 +136,10 @@ begin
                     chaber.cue_nombre cue_haber_name,
                     cheq.cheq_numero,
                     ccos.ccos_nombre,
+                    cheq.bco_id,
                     bco.bco_nombre,
                     cle.cle_nombre,
+                    cheq.cli_id,
                     cli.cli_nombre,
                     mon.mon_nombre,
                     mon.mon_id,
@@ -178,6 +181,8 @@ begin
                          bco.bco_nombre,
                          cheq.cle_id,
                          cle.cle_nombre,
+                         cheq.cli_id,
+                         cli.cli_nombre,
                          mon.mon_nombre,
                          mon.mon_id,
                          cheq.cheq_numerodoc,
@@ -198,6 +203,8 @@ begin
                    on cheq.cle_id = cle.cle_id
                   left join Moneda mon
                    on cheq.mon_id = mon.mon_id
+                  left join Cliente cli
+                   on cheq.cli_id = cli.cli_id
                   where MovimientoFondoItem.mf_id = p_mf_id
                     and mfi_tipo = v_mfiTChequesI
                   order by mfi_orden;

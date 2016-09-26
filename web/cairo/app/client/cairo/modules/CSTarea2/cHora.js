@@ -229,7 +229,7 @@
             break;
 
           case K_USUARIO:
-            m_us_id2 = m_dialog.getProperties().item(Cairo.Constants.US_ID).getSelectIntValue();
+            m_us_id2 = m_dialog.getProperties().item(C.US_ID).getSelectIntValue();
 
             break;
 
@@ -502,7 +502,7 @@
 
               break;
           }
-          fields.add(Cairo.Constants.US_ID, m_us_id, Cairo.Constants.Types.id);
+          fields.add(C.US_ID, m_us_id, Cairo.Constants.Types.id);
           fields.add(C.PRE_ID, csTareaPrestacion.cSPRETAREALISTHORA, Cairo.Constants.Types.id);
 
 
@@ -716,7 +716,7 @@
         c.setSelectId(Cairo.Util.val(m_tar_id));
         c.setSelectIntValue(m_tar_id);
 
-        c = m_dialog.getProperties().add(null, Cairo.Constants.US_ID);
+        c = m_dialog.getProperties().add(null, C.US_ID);
         c.setType(Dialogs.PropertyType.select);
         c.setSelectTable(csUsuario);
         // Usuario
