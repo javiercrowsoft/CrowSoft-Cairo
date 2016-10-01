@@ -1210,11 +1210,12 @@
         return p;
       };
 
-      var updateAccountColumn = function(newValueId, colKey, result) {
-        if(!result && newValueId !== NO_ID) {
+      var updateAccountColumn = function(property, colKey, newValueId, useDeafultCurrency) {
+        if(!useDeafultCurrency && newValueId !== NO_ID) {
           property.getGrid().getColumns().item(colKey).setVisible(true);
           m_dialog.refreshColumnProperties(property, colKey);
         }
+        return true;
       };
 
       var columnAfterEdit = function(property, lRow, lCol, newValue, newValueId) {
@@ -1236,7 +1237,7 @@
             }
 
             return accountUseDefaultCurrency(newValueId)
-              .whenSuccessWithResult(call(updateAccountColumn, colKey, newValueId));
+              .then(call(updateAccountColumn, property, colKey, newValueId));
             break;
         }
         return true;

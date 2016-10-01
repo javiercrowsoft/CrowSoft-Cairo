@@ -1,12 +1,21 @@
 (function() {
   "use strict";
 
+  var stackTrace = function() {
+    var e = new Error('dummy');
+    return e.stack.replace(/^[^\(]+?[\n$]/gm, '')
+        .replace(/^\s+at\s+/gm, '')
+        .replace(/^Object.<anonymous>\s*\(/gm, '{anonymous}()@')
+
+  };
+
   Cairo.Promises = {};
 
   Cairo.Promises.Promise = function() {
     //Cairo.log("promise - created");
     this.successCallbacks = [];
     this.errorCallbacks = [];
+    this.stackTrace = stackTrace && stackTrace()
   };
 
   Cairo.Promises.Promise.prototype = {
