@@ -529,8 +529,9 @@
 
             var row = grid.getRows().item(lRow);
 
-            D.getChequeNumber(getCell(row, KICH_CHEQUERA).getId()).whenSuccessWithResult(function(response) {
+            return D.getChequeNumber(getCell(row, KICH_CHEQUERA).getId()).whenSuccessWithResult(function(response) {
               getCell(row, KICH_CHEQUE).setValue(valField(response.data, C.CHEQ_NUMERO_DOC));
+              return true;
             });
             break;
 
@@ -612,7 +613,6 @@
       };
 
       var columnAfterUpdateChequeT = function(property, lRow, lCol) {
-        var p = null;
         var grid = property.getGrid();
 
         switch (grid.getColumns().item(lCol).getKey()) {
@@ -635,7 +635,7 @@
 
             var row = grid.getRows().item(lRow);
 
-            D.getCurrencyFromAccount(getCell(row, KICH_CUE_ID).getId())
+            return D.getCurrencyFromAccount(getCell(row, KICH_CUE_ID).getId())
               .whenSuccessWithResult(function(info) {
                 var cell = getCell(row, KICH_MON_ID);
                 cell.setValue(info.monName);
@@ -651,7 +651,7 @@
 
             var row = grid.getRows().item(lRow);
 
-            D.getChequeData(getCell(row, KICHT_CHEQUE).getId())
+            return D.getChequeData(getCell(row, KICHT_CHEQUE).getId())
               .then(function(response) {
                 if(response.success === true) {
 

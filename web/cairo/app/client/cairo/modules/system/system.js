@@ -597,12 +597,12 @@
     );
   };
 
-  Cairo.Documents.getChequeData = function(row, cheqId) {
-    return DB.getData("load[" + m_apiPath + "general/cheque/" + cheqId.toString() + "/info]");
+  Cairo.Documents.getChequeData = function(cheqId) {
+    return DB.getData("load[" + m_apiPath + "tesoreria/cheque/" + cheqId.toString() + "/info]");
   };
 
-  Cairo.Documents.getChequeNumber = function(row, chqId) {
-    return DB.getData("load[" + m_apiPath + "general/chequera/" + chqId.toString() + "/next_number]");
+  Cairo.Documents.getChequeNumber = function(chqId) {
+    return DB.getData("load[" + m_apiPath + "tesoreria/chequera/" + chqId.toString() + "/next_number]");
   };
 
   Cairo.Documents.showDataAddProveedor = function(showData, dialog) {
@@ -756,6 +756,7 @@
     var col = D.getCol(property.getGrid().getColumns(), key)
     col.setSelectFilter("chequera|cueId:" + cueId.toString());
     dialog.refreshColumnProperties(property, key);
+    return true;
   };
 
   Cairo.Documents.getTasaFromProducto = function(prId) {

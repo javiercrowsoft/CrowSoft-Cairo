@@ -408,6 +408,11 @@
             p = signDocument();
             break;
 
+          case Dialogs.Message.MSG_GRID_VIRTUAL_ROW:
+
+            p = P.resolvedPromise(info);
+            break;
+
           case Dialogs.Message.MSG_GRID_ROW_DELETED:
             
             switch (info) {
@@ -1045,23 +1050,24 @@
       };
 
       self.columnAfterUpdate = function(key, lRow, lCol) {
+        var p = null;
         try {
 
           switch (key) {
             case K_CHEQUES:
-              columnAfterUpdateCheque(getChequesProperty(), lRow, lCol);
+              p = columnAfterUpdateCheque(getChequesProperty(), lRow, lCol);
               break;
 
             case K_CHEQUEST:
-              columnAfterUpdateChequeT(getTChequesProperty(), lRow, lCol);
+              p = columnAfterUpdateChequeT(getTChequesProperty(), lRow, lCol);
               break;
 
             case K_OTROS:
-              columnAfterUpdateOtro(getOtrosProperty(), lRow, lCol);
+              p = columnAfterUpdateOtro(getOtrosProperty(), lRow, lCol);
               break;
 
             case K_EFECTIVO:
-              columnAfterUpdateEfectivo(getEfectivoProperty(), lRow, lCol);
+              p = columnAfterUpdateEfectivo(getEfectivoProperty(), lRow, lCol);
               break;
 
             case K_CTA_CTE:
@@ -3003,7 +3009,7 @@
 
             var row = grid.getRows().item(lRow);
 
-            D.getCurrencyFromAccount(getCell(row, KICH_CUE_ID).getId())
+            return D.getCurrencyFromAccount(getCell(row, KICH_CUE_ID).getId())
               .whenSuccessWithResult(function(info) {
                 var cell = getCell(row, KICH_MON_ID);
                 cell.setValue(info.monName);
@@ -3019,7 +3025,7 @@
 
             var row = grid.getRows().item(lRow);
 
-            D.getChequeData(getCell(row, KICHT_CHEQUE).getId())
+            return D.getChequeData(getCell(row, KICHT_CHEQUE).getId())
               .then(function(response) {
                 if(response.success === true) {
 
@@ -3054,7 +3060,7 @@
         return P.resolvedPromise(true);
       };
 
-      var updateColCuenta = function(row, cueId, info) {
+      var updateColCuenta = function(property, row, cueId, info) {
         var cell = getCell(row, KICH_MON_ID);
         cell.setValue(info.monName);
         cell.setId(info.monId);
@@ -3062,12 +3068,12 @@
           getCell(row, KICH_IMPORTEORIGEN).setValue(0);
         }
 
-        D.updateChequeraFilter(
+        return D.updateChequeraFilter(
           property,
           KICH_CHEQUERA,
           cueId,
           m_items
-        )
+        );
       };
 
       var columnAfterUpdateCheque = function(property, lRow, lCol) {
@@ -3100,16 +3106,17 @@
           case KICH_CUE_ID:
 
             var cueId = getCell(row, KICH_CUE_ID).getId();
-            D.getCurrencyFromAccount(cueId)
-              .whenSuccessWithResult(call(updateColCuenta, row, cueId));
+            return D.getCurrencyFromAccount(cueId)
+              .whenSuccessWithResult(call(updateColCuenta, property, row, cueId));
             break;
 
           case KICH_CHEQUERA:
 
             var row = grid.getRows().item(lRow);
 
-            D.getChequeNumber(getCell(row, KICH_CHEQUERA).getId()).whenSuccessWithResult(function(response) {
+            return D.getChequeNumber(getCell(row, KICH_CHEQUERA).getId()).whenSuccessWithResult(function(response) {
               getCell(row, KICH_CHEQUE).setValue(valField(response.data, C.CHEQ_NUMERO_DOC));
+              return true;
             });
             break;
         }
@@ -3153,7 +3160,7 @@
 
             var row = grid.getRows().item(lRow);
 
-            D.getCurrencyFromAccount(getCell(row, KICH_CUE_ID).getId())
+            return D.getCurrencyFromAccount(getCell(row, KICH_CUE_ID).getId())
               .whenSuccessWithResult(function(info) {
                 var cell = getCell(row, KICH_MON_ID);
                 cell.setValue(info.monName);
@@ -3161,6 +3168,7 @@
                 if(info.monId === m_defaultCurrency.id || info.monId === 0) {
                   getCell(row, KICH_IMPORTEORIGEN).setValue(0);
                 }
+                return true;
               });
             break;
         }

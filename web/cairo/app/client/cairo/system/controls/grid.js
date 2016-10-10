@@ -1620,6 +1620,25 @@
         }
       };
 
+      var refreshColumn = function(col) {
+        //
+        // for now only visible state
+        //
+        var colIndex = col.getIndex();
+        var colVisible = col.getVisible();
+        var rows = $("tr", gridManager.body);
+        for(var i = 0, count = rows.length; i < count; i += 1) {
+          var td = $(rows[i].children[colIndex]);
+          if(colVisible) {
+            td.removeClass("hidden");
+          }
+          else {
+            td.addClass("hidden");
+          }
+        }
+        gridManager.hiddenStatus[colIndex] = colVisible;
+      };
+
       //
       // control
       //
@@ -1678,6 +1697,10 @@
 
       that.draw = function(rowIndex) {
         draw(that.getTable(), rowIndex);
+      };
+
+      that.refreshColumn = function(col) {
+        refreshColumn(col);
       };
 
       that.rowIsGroup = function(row) { /* TODO = implement this. */ };

@@ -1228,15 +1228,16 @@
           catch(ignore) {}
         };
 
-        self.refreshColumnPropertiesByIndex = function(property, keyCol) {
-          return self.refreshColumnProperties(property, keyCol);
+        self.refreshColumnPropertiesByIndex = function(property, indexCol) {
+          /* when the index is number the get method of collections uses it as an index */
+          return self.refreshColumnProperties(property, indexCol);
         };
 
         self.refreshColumnProperties = function(property, keyCol) {
           var column = property.getGrid().getColumns().get(keyCol);
           var grid = getView().getGrids().get(property.getIndex());
           var colGrid = grid.getColumns().get(column.getIndex());
-          m_gridManager.setColumnProperties(grid, column, colGrid);
+          m_gridManager.refreshColumnProperties(grid, column, colGrid);
         };
 
         // update edit status in all properties

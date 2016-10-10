@@ -19,7 +19,6 @@
       var Grids = Cairo.Dialogs.Grids;
       var C = Cairo.General.Constants;
       var CT = Cairo.Tesoreria.Constants;
-      var CC = Cairo.Compras.Constants;
       var CS = Cairo.Security.Actions.Tesoreria;
       var Types = Cairo.Constants.Types;
       var valField = DB.valField;
@@ -339,6 +338,11 @@
           case Dialogs.Message.MSG_DOC_SIGNATURE:
 
             p = signDocument();
+            break;
+
+          case Dialogs.Message.MSG_GRID_VIRTUAL_ROW:
+
+            p = P.resolvedPromise(info);
             break;
 
           case Dialogs.Message.MSG_GRID_ROW_DELETED:
@@ -959,6 +963,7 @@
       };
 
       self.columnAfterUpdate = function(key, lRow, lCol) {
+        var p = null;
         try {
 
           switch (key) {
@@ -967,15 +972,15 @@
               break;
 
             case K_CHEQUES:
-              columnAfterUpdateCheque(getChequesProperty(), lRow, lCol);
+              p = columnAfterUpdateCheque(getChequesProperty(), lRow, lCol);
               break;
 
             case K_CHEQUEST:
-              columnAfterUpdateChequeT(getTChequesProperty(), lRow, lCol);
+              p = columnAfterUpdateChequeT(getTChequesProperty(), lRow, lCol);
               break;
 
             case K_CHEQUESI:
-              columnAfterUpdateICheque(getIChequesProperty(), lRow, lCol);
+              p = columnAfterUpdateICheque(getIChequesProperty(), lRow, lCol);
               break;
           }
 
@@ -984,7 +989,7 @@
           Cairo.manageErrorEx(ex.message, ex, "columnAfterUpdate", C_MODULE, "");
         }
 
-        return P.resolvedPromise(true);
+        return p || P.resolvedPromise(true);
       };
 
       self.columnAfterEdit = function(key, lRow, lCol, newValue, newValueId) {
@@ -1057,7 +1062,7 @@
         return P.resolvedPromise(true);
       };
 
-      var validateRow = function(key, row, rowIndex) {
+      self.validateRow = function(key, row, rowIndex) {
         var p = null;
 
         try {
@@ -1065,7 +1070,7 @@
           switch (key) {
 
             case K_EFECTIVO:
-              p = validateRow(row, rowIndex);
+              p = validateRowEfectivo(row, rowIndex);
               break;
 
             case K_CHEQUES:
@@ -1146,12 +1151,14 @@
         return true;
       };
 
-      var validateRow = function(row, rowIndex) {
+      var validateRowEfectivo = function(row, rowIndex) {
 
         var bCheckOrigenDebe = false;
         var bCheckOrigenHaber = false;
         var cueIdDebe = NO_ID;
         var cueIdHaber = NO_ID;
+        var cellImporteOrigenDebe = null;
+        var cellImporteOrigenHaber = null;
 
         var strRow = " (Row: " + rowIndex.toString() + ")";
 
@@ -1183,14 +1190,16 @@
               break;
 
             case KI_ORIGEN_DEBE:
-              if(getEfectivoProperty().getGrid().getColumns(C_ORIGENDEBE).getVisible()) {
+              if(getEfectivoProperty().getGrid().getColumns().item(C_ORIGENDEBE).getVisible()) {
                 bCheckOrigenDebe = true;
+                cellImporteOrigenDebe = cell;
               }
               break;
 
             case KI_ORIGEN_HABER:
-              if(getEfectivoProperty().getGrid().getColumns(C_ORIGENHABER).getVisible()) {
+              if(getEfectivoProperty().getGrid().getColumns().item(C_ORIGENHABER).getVisible()) {
                 bCheckOrigenHaber = true;
+                cellImporteOrigenHaber = cell;
               }
               break;
           }
@@ -1200,11 +1209,11 @@
 
         if(bCheckOrigenDebe) {
           p = p.whenSuccess(call(accountUseDefaultCurrency, cueIdDebe))
-            .whenSuccessWithResult(call(validateOrigenDebeColumn, cell, strRow));
+            .then(call(validateOrigenDebeColumn, cellImporteOrigenDebe, strRow));
         }
         if(bCheckOrigenHaber) {
           p = p.whenSuccess(call(accountUseDefaultCurrency, cueIdHaber))
-            .whenSuccessWithResult(call(validateOrigenHaberColumn, cell, strRow));
+            .then(call(validateOrigenHaberColumn, cellImporteOrigenHaber, strRow));
         }
 
         return p;
@@ -1240,7 +1249,7 @@
               .then(call(updateAccountColumn, property, colKey, newValueId));
             break;
         }
-        return true;
+        return P.resolvedPromise(true);
       };
 
       var loadCollection = function() {
@@ -3150,14 +3159,14 @@
       };
 
       var columnAfterUpdateICheque = function(property, lRow, lCol) {
-
+        var p = null;
         var grid = property.getGrid();
 
         switch (grid.getColumns().item(lCol).getKey()) {
 
           case KICHT_IMPORTEORIGEN:
-            
-            var row = grid.getRows(lRow);
+
+            var row = grid.getRows().item(lRow);
             var cell = getCell(row, KICHT_MON_ID);
               
             if(cell.getId() !== m_defaultCurrency.id || cell.getId() === 0) {
@@ -3170,7 +3179,7 @@
 
           case KI_CUE_ID_DEBE:
             
-            updateColChequeCuenta(property, lRow, grid);
+            p = updateColChequeCuenta(property, lRow, grid);
             break;
 
           case KICHT_IMPORTE:
@@ -3179,18 +3188,18 @@
             break;
         }
 
-        return P.resolvedPromise(true);
+        return p || P.resolvedPromise(true);
       };
 
       var columnAfterUpdateChequeT = function(property, lRow, lCol) {
-
+        var p = null;
         var grid = property.getGrid();
 
         switch (grid.getColumns().item(lCol).getKey()) {
 
           case KICHT_IMPORTEORIGEN:
 
-            var row = grid.getRows(lRow);
+            var row = grid.getRows().item(lRow);
             var cell = getCell(row, KICHT_MON_ID);
 
             if(cell.getId() !== m_defaultCurrency.id || cell.getId() === 0) {
@@ -3203,14 +3212,14 @@
 
           case KI_CUE_ID_HABER:
 
-            updateColChequeCuenta(property, lRow, grid);
+            p = updateColChequeCuenta(property, lRow, grid);
             break;
 
           case KICHT_CHEQUE:
 
             var row = grid.getRows().item(lRow);
 
-            D.getChequeData(getCell(row, KICHT_CHEQUE).getId())
+            p = D.getChequeData(getCell(row, KICHT_CHEQUE).getId())
                 .then(function(response) {
                   if(response.success === true) {
 
@@ -3239,10 +3248,10 @@
             break;
         }
 
-        return P.resolvedPromise(true);
+        return p || P.resolvedPromise(true);
       };
 
-      var updateColCuenta = function(row, cueId, info) {
+      var updateColCuenta = function(property, row, cueId, info) {
         var cell = getCell(row, KICH_MON_ID);
         cell.setValue(info.monName);
         cell.setId(info.monId);
@@ -3250,23 +3259,23 @@
           getCell(row, KICH_IMPORTEORIGEN).setValue(0);
         }
 
-        D.updateChequeraFilter(
+        return D.updateChequeraFilter(
           property,
           KICH_CHEQUERA,
           cueId,
           m_items
-        )
+        );
       };
 
       var columnAfterUpdateCheque = function(property, lRow, lCol) {
-
+        var p = null;
         var grid = property.getGrid();
 
         switch (grid.getColumns().item(lCol).getKey()) {
 
           case KICH_IMPORTEORIGEN:
 
-            var row = grid.getRows(lRow);
+            var row = grid.getRows().item(lRow);
             var cell = getCell(row, KICH_MON_ID);
             if(cell.getId() !== m_defaultCurrency.id || cell.getId() === 0) {
               getCell(row, KICH_IMPORTE).setValue(val(getCell(row, KICH_IMPORTEORIGEN).getValue()) * val(getCotizacion().getValue()));
@@ -3284,22 +3293,24 @@
 
           case KI_CUE_ID_HABER:
 
+            var row = grid.getRows().item(lRow);
             var cueId = getCell(row, KI_CUE_ID_HABER).getId();
-            D.getCurrencyFromAccount(cueId)
-              .whenSuccessWithResult(call(updateColCuenta, row, cueId));
+            p = D.getCurrencyFromAccount(cueId)
+              .whenSuccessWithResult(call(updateColCuenta, property, row, cueId));
             break;
 
           case KICH_CHEQUERA:
 
             var row = grid.getRows().item(lRow);
 
-            D.getChequeNumber(getCell(row, KICH_CHEQUERA).getId()).whenSuccessWithResult(function(response) {
-              getCell(row, KICH_CHEQUE).setValue(valField(response.data, C.CHEQ_NUMERO_DOC));
+            p = D.getChequeNumber(getCell(row, KICH_CHEQUERA).getId()).whenSuccessWithResult(function(response) {
+              getCell(row, KICH_CHEQUE).setValue(valField(response.data, CT.CHEQ_NUMERO_DOC));
+              return true;
             });
             break;
         }
 
-        return P.resolvedPromise(true);
+        return p || P.resolvedPromise(true);
       };
 
       var validateRowICheques = function(row, rowIndex) { // TODO: Use of ByRef founded Private Function validateRowICheques(ByRef Row As CSInterfacesABM.cIABMGridRow, ByVal RowIndex As Long) As Boolean

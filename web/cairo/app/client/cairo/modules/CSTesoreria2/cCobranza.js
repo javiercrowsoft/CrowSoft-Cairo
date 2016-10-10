@@ -468,6 +468,11 @@
             p = signDocument();
             break;
 
+          case Dialogs.Message.MSG_GRID_VIRTUAL_ROW:
+
+            p = P.resolvedPromise(info);
+            break;
+
           case Dialogs.Message.MSG_GRID_ROW_DELETED:
 
             switch (info) {
@@ -1115,27 +1120,28 @@
       };
 
       self.columnAfterUpdate = function(key, lRow, lCol) {
+        var p = null;
         try {
 
           switch (key) {
             case K_CHEQUES:
-              columnAfterUpdateCheque(m_items.getProperties().item(C_CHEQUES), lRow, lCol);
+              p = columnAfterUpdateCheque(m_items.getProperties().item(C_CHEQUES), lRow, lCol);
               break;
 
             case K_TARJETA:
-              columnAfterUpdateTarjeta(m_items.getProperties().item(C_TARJETA), lRow, lCol);
+              p = columnAfterUpdateTarjeta(m_items.getProperties().item(C_TARJETA), lRow, lCol);
               break;
 
             case K_OTROS:
-              columnAfterUpdateOtro(m_items.getProperties().item(C_OTROS), lRow, lCol);
+              p = columnAfterUpdateOtro(m_items.getProperties().item(C_OTROS), lRow, lCol);
               break;
 
             case K_EFECTIVO:
-              columnAfterUpdateEfectivo(m_items.getProperties().item(C_EFECTIVO), lRow, lCol);
+              p = columnAfterUpdateEfectivo(m_items.getProperties().item(C_EFECTIVO), lRow, lCol);
               break;
 
             case K_CTA_CTE:
-              columnAfterUpdateCtaCte(m_items.getProperties().item(C_CTA_CTE), lRow, lCol);
+              p = columnAfterUpdateCtaCte(m_items.getProperties().item(C_CTA_CTE), lRow, lCol);
               break;
           }
 
@@ -1144,7 +1150,7 @@
           Cairo.manageErrorEx(ex.message, ex, "columnAfterUpdate", C_MODULE, "");
         }
 
-        return P.resolvedPromise(true);
+        return p || P.resolvedPromise(true);
       };
 
       self.columnAfterEdit = function(key, lRow, lCol, newValue, newValueId) {
@@ -3154,7 +3160,7 @@
       };
 
       var columnAfterUpdateCheque = function(property, lRow, lCol) {
-
+        var p = null;
         var grid = property.getGrid();
 
         switch (grid.getColumns().item(lCol).getKey()) {
@@ -3185,7 +3191,7 @@
 
             var row = grid.getRows().item(lRow);
 
-            D.getCurrencyFromAccount(getCell(row, KICH_CUE_ID).getId())
+            p = D.getCurrencyFromAccount(getCell(row, KICH_CUE_ID).getId())
               .whenSuccessWithResult(function(info) {
                 var cell = getCell(row, KICH_MON_ID);
                 cell.setValue(info.monName);
@@ -3193,15 +3199,16 @@
                 if(info.monId === m_defaultCurrency.id || info.monId === 0) {
                   getCell(row, KICH_IMPORTEORIGEN).setValue(0);
                 }
+                return true;
               });
             break;
         }
 
-        return P.resolvedPromise(true);
+        return p || P.resolvedPromise(true);
       };
 
       var columnAfterUpdateTarjeta = function(property, lRow, lCol) {
-
+        var p = null;
         var grid = property.getGrid();
 
         switch (grid.getColumns().item(lCol).getKey()) {
@@ -3228,7 +3235,7 @@
             D.setSelectFilterCuotas(row, property, m_dialog, KIT_TJC_ID);
 
             var cell = getCell(row, KIT_TJCCU_ID);
-            D.validateCuota(tjcId, cell.getId()).whenSuccessWithResult(function(response) {
+            p = D.validateCuota(tjcId, cell.getId()).whenSuccessWithResult(function(response) {
               if(!response.is_valid) {
                 cell.setId(NO_ID);
                 cell.setValue("");
@@ -3238,7 +3245,7 @@
             break;
         }
 
-        return P.resolvedPromise(true);
+        return p || P.resolvedPromise(true);
       };
 
       var columnAfterUpdateCtaCte = function(property, lRow, lCol) {

@@ -110,6 +110,11 @@
         gridControl.draw(rowIndex);
       };
 
+      that.refreshColumnProperties = function(gridControl, column, colGrid) {
+        setColumnProperties(colGrid, column);
+        gridControl.refreshColumn(colGrid);
+      };
+
       that.setColumnProperties = function(gridControl, column, colGrid) {
         setColumnProperties(colGrid, column);
       };

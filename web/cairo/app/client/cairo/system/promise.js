@@ -9,13 +9,18 @@
 
   };
 
+  var saveStackTrace = function(that, promise) {
+    promise.stackTrace = that.promise.stackTrace + "\n++++++++++++++++\n" + promise.stackTrace;
+    that.promise.stackTrace = promise.stackTrace;
+  };
+
   Cairo.Promises = {};
 
   Cairo.Promises.Promise = function() {
     //Cairo.log("promise - created");
     this.successCallbacks = [];
     this.errorCallbacks = [];
-    this.stackTrace = stackTrace && stackTrace()
+    this.stackTrace = stackTrace && stackTrace();
   };
 
   Cairo.Promises.Promise.prototype = {
@@ -115,8 +120,16 @@
     },
 
     executeCallback: function(callbackData, result) {
+      var that = this;
       window.setTimeout(function() {
-        var res = callbackData.func(result);
+        var res;
+        try{
+          res = callbackData.func(result);
+        }
+        catch(ex) {
+          that.printStackTrace();
+          throw ex;
+        }
         if(res instanceof Cairo.Promises.Promise) {
           callbackData.defer.bind(res);
         }
@@ -124,6 +137,10 @@
           callbackData.defer.resolve(res);
         }
       }, 0);
+    },
+
+    printStackTrace: function() {
+      Cairo.log(this.stackTrace);
     }
   };
 
@@ -158,6 +175,7 @@
     // with the same data
     bind: function(promise) {
       var that = this;
+      saveStackTrace(that, promise);
       promise.then(
         function(res) { that.resolve(res); }, 
         function(err) { that.reject(err); }

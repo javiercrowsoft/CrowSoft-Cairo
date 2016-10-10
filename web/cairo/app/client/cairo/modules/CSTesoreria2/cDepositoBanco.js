@@ -19,7 +19,6 @@
       var Grids = Cairo.Dialogs.Grids;
       var C = Cairo.General.Constants;
       var CT = Cairo.Tesoreria.Constants;
-      var CC = Cairo.Compras.Constants;
       var CS = Cairo.Security.Actions.Tesoreria;
       var Types = Cairo.Constants.Types;
       var valField = DB.valField;
@@ -303,6 +302,11 @@
           case Dialogs.Message.MSG_DOC_SIGNATURE:
 
             p = signDocument();
+            break;
+
+          case Dialogs.Message.MSG_GRID_VIRTUAL_ROW:
+
+            p = P.resolvedPromise(info);
             break;
 
           case Dialogs.Message.MSG_GRID_ROW_DELETED:
@@ -908,6 +912,7 @@
       };
 
       self.columnAfterUpdate = function(key, lRow, lCol) {
+        var p = null;
         try {
 
           switch (key) {
@@ -916,7 +921,7 @@
               break;
 
             case K_CHEQUES:
-              columnAfterUpdateCheque(getChequesProperty(), lRow, lCol);
+              p = columnAfterUpdateCheque(getChequesProperty(), lRow, lCol);
               break;
 
             // TODO: validates we don't need to update
@@ -932,7 +937,7 @@
           Cairo.manageErrorEx(ex.message, ex, "columnAfterUpdate", C_MODULE, "");
         }
 
-        return P.resolvedPromise(true);
+        return p || P.resolvedPromise(true);
       };
 
       self.columnAfterEdit = function(key, lRow, lCol, newValue, newValueId) {
@@ -958,7 +963,7 @@
         return P.resolvedPromise(true);
       };
 
-      var updateColCuenta = function(row, cueId, info) {
+      var updateColCuenta = function(property, row, cueId, info) {
         var cell = getCell(row, KICH_MON_ID);
         cell.setValue(info.monName);
         cell.setId(info.monId);
@@ -966,12 +971,12 @@
           getCell(row, KICH_IMPORTEORIGEN).setValue(0);
         }
 
-        D.updateChequeraFilter(
+        return D.updateChequeraFilter(
           property,
           KICH_CHEQUERA,
           cueId,
           m_items
-        )
+        );
       };
 
       var columnAfterUpdateCheque = function(property, lRow, lCol) {
@@ -982,7 +987,7 @@
 
           case KICH_IMPORTEORIGEN:
 
-            var row = grid.getRows(lRow);
+            var row = grid.getRows().item(lRow);
             var cell = getCell(row, KICH_MON_ID);
             
             if(cell.getId() !== m_defaultCurrency.id || cell.getId() === 0) {
@@ -1002,17 +1007,20 @@
 
           case KI_CUE_ID_HABER:
 
+            var row = grid.getRows().item(lRow);
             var cueId = getCell(row, KI_CUE_ID_HABER).getId();
-            D.getCurrencyFromAccount(cueId)
-              .whenSuccessWithResult(call(updateColCuenta, row, cueId));
+
+            return D.getCurrencyFromAccount(cueId)
+              .whenSuccessWithResult(call(updateColCuenta, property, row, cueId));
             break;
 
           case KICH_CHEQUERA:
 
             var row = grid.getRows().item(lRow);
 
-            D.getChequeNumber(getCell(row, KICH_CHEQUERA).getId()).whenSuccessWithResult(function(response) {
-              getCell(row, KICH_CHEQUE).setValue(valField(response.data, C.CHEQ_NUMERO_DOC));
+            return D.getChequeNumber(getCell(row, KICH_CHEQUERA).getId()).whenSuccessWithResult(function(response) {
+              getCell(row, KICH_CHEQUE).setValue(valField(response.data, CT.CHEQ_NUMERO_DOC));
+              return true;
             });
             break;
             
@@ -1032,7 +1040,7 @@
 
             if(cheqId !== getCell(row, KI_CHEQ_ID_SAVED).getId()) {
 
-              D.getChequeData(getCell(row, KI_CHEQ_ID).getId())
+              return D.getChequeData(getCell(row, KI_CHEQ_ID).getId())
                   .then(function(response) {
                     if(response.success === true) {
 
@@ -1059,7 +1067,7 @@
             break;
         }
 
-        return true;
+        return P.resolvedPromise(true);
       };
 
       self.columnButtonClick = function(key, lRow, lCol, iKeyAscii) {
@@ -1103,7 +1111,7 @@
         return P.resolvedPromise(true);
       };
 
-      var validateRow = function(key, row, rowIndex) {
+      self.validateRow = function(key, row, rowIndex) {
 
         var p = null;
 
@@ -1112,7 +1120,7 @@
           switch (key) {
 
             case K_EFECTIVO:
-              p = validateRow(row, rowIndex);
+              p = validateRowEfectivo(row, rowIndex);
               break;
 
             case K_CHEQUES:
@@ -1251,7 +1259,7 @@
         return P.resolvedPromise(true);
       };
 
-      var validateRow = function(row, rowIndex) {
+      var validateRowEfectivo = function(row, rowIndex) {
 
         var strRow = " (Row: " + rowIndex.toString() + ")";
 
