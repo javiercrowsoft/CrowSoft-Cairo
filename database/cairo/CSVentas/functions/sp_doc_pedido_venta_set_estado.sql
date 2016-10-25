@@ -50,8 +50,8 @@ declare
    v_firmado smallint;
    v_deuda decimal(18,6);
    v_doc_id integer;
-   v_doc_llevafirma smallint;
-   v_doc_llevafirmaCredito smallint;
+   v_doc_llevaFirma smallint;
+   v_doc_llevaFirmaCredito smallint;
 
    v_estado_pendienteDespacho integer := 2;
    v_estado_pendienteCredito integer := 3;
@@ -82,8 +82,8 @@ begin
 
    select doc_llevafirma,
           doc_llevafirmaCredito
-     into v_doc_llevafirma,
-          v_doc_llevafirmaCredito
+     into v_doc_llevaFirma,
+          v_doc_llevaFirmaCredito
    from Documento
    where doc_id = v_doc_id;
 
@@ -93,7 +93,7 @@ begin
       -- y no esta finalizado (puede ser que se finalizo y luego se modifico el documento
       -- para que requiera firma en cuyo caso no se exige firma para documentos finalizados)
       --
-      if v_firmado = 0 and v_doc_llevafirma <> 0 and v_est_id <> v_estado_finalizado then
+      if v_firmado = 0 and v_doc_llevaFirma <> 0 and v_est_id <> v_estado_finalizado then
 
          v_est_id := v_estado_pendienteFirma;
 
@@ -131,13 +131,13 @@ begin
             --
             if v_pendiente + v_pendientedoc > v_creditoTotal or v_pendiente > v_creditoCtaCte then
 
-               if v_firmado = 0 and v_doc_llevafirmaCredito <> 0 then
+               if v_firmado = 0 and v_doc_llevaFirmaCredito <> 0 then
 
                   v_est_id := v_estado_pendienteFirma;
 
                else
 
-                  if v_firmado <> 0 and v_doc_llevafirmaCredito <> 0 then
+                  if v_firmado <> 0 and v_doc_llevaFirmaCredito <> 0 then
 
                      v_est_id := v_estado_pendienteDespacho;
 

@@ -98,7 +98,7 @@ declare
 
    v_ordenItem smallint;
 
-   v_ta_ultimonro integer;
+   v_ta_ultimoNro integer;
    v_ta_mascara varchar(50);
 
    v_creado date;
@@ -184,7 +184,7 @@ begin
       select ta_ultimonro,
              ta_mascara,
              doct_id
-        into v_ta_ultimonro,
+        into v_ta_ultimoNro,
              v_ta_mascara,
              v_doct_id
       from Documento
@@ -192,8 +192,8 @@ begin
         on Documento.ta_id = Talonario.ta_id
       where doc_id = v_doc_id;
 
-      v_ta_ultimonro := v_ta_ultimonro + 1;
-      v_as_nrodoc := trim(to_char(v_ta_ultimonro));
+      v_ta_ultimoNro := v_ta_ultimoNro + 1;
+      v_as_nrodoc := trim(to_char(v_ta_ultimoNro));
       v_as_nrodoc := substr(v_ta_mascara, 1, length(v_ta_mascara) - length(v_as_nrodoc)) || v_as_nrodoc;
 
       insert into Asiento( as_id, as_numero, as_nrodoc, as_descrip, as_fecha, as_doc_cliente, doc_id, doct_id,

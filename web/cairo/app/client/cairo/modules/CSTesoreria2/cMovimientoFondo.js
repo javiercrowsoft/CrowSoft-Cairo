@@ -1481,15 +1481,14 @@
 
         if(!m_footer.show(self)) { return false; }
 
+        var p = null;
+
         if(validateDocDefault) {
-          self.propertyChange(K_DOC_ID);
+          p = self.propertyChange(K_DOC_ID);
         }
 
-        // TODO: check this. we use cotizacion from m_cotizacion to load items
-        //       but then we load cotizacion from document and date
-        //       this come from vb6
-        //
-        return showCotizacion();
+        p = p || P.resolvedPromise();
+        return p.then(showCotizacion);
       };
 
       var showCotizacion = function() {
@@ -1655,6 +1654,8 @@
 
         var iColDebe;
         var iColHaber;
+
+        rows.clear();
 
         if(Cairo.UserConfig.getDebeHaberMf()) {
 

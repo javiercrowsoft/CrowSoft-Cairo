@@ -51,7 +51,7 @@ declare
    v_llevaFirma smallint;
    v_firmado smallint;
    v_doc_id integer;
-   v_doc_llevafirma smallint;
+   v_doc_llevaFirma smallint;
 
    v_estado_pendiente integer := 1;
    v_estado_pendienteFirma integer := 4;
@@ -77,7 +77,7 @@ begin
    where opg_id = p_opg_id;
 
    select doc_llevafirma
-     into v_doc_llevafirma
+     into v_doc_llevaFirma
    from Documento
    where doc_id = v_doc_id;
 
@@ -87,7 +87,7 @@ begin
       -- y no esta finalizado (puede ser que se finalizo y luego se modifico el documento
       -- para que requiera firma en cuyo caso no se exige firma para documentos finalizados)
       --
-      if v_firmado = 0 and v_doc_llevafirma <> 0 and v_est_id <> v_estado_finalizado then
+      if v_firmado = 0 and v_doc_llevaFirma <> 0 and v_est_id <> v_estado_finalizado then
 
          v_est_id := v_estado_pendienteFirma;
 

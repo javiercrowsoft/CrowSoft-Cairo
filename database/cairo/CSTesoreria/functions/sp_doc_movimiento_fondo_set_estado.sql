@@ -1,4 +1,4 @@
-/*
+﻿/*
 CrowSoft-Cairo
 ==============
 
@@ -28,18 +28,18 @@ http://www.crowsoft.com.ar
 
 javier at crowsoft.com.ar
 */
--- Function: sp_doc_cobranza_set_estado()
+-- Function: sp_doc_movimiento_fondo_set_estado()
 
--- drop function sp_doc_cobranza_set_estado(integer, integer);
+-- drop function sp_doc_movimiento_fondo_set_estado(integer);
 
 /*
-          select * from cobranza;
-          select * from sp_doc_cobranza_set_estado(3,1);
+          select * from movimientofondo;
+          select * from sp_doc_movimiento_fondo_set_estado(3,1);
 */
 
-create or replace function sp_doc_cobranza_set_estado
+create or replace function sp_doc_movimiento_fondo_set_estado
 (
-  in p_cobz_id integer,
+  in p_mf_id integer,
   out p_est_id integer
 )
   returns integer as
@@ -47,34 +47,32 @@ $BODY$
 declare
    v_est_id integer;
    v_cli_id integer;
-   v_pendiente decimal(18,6);
    v_llevaFirma smallint;
    v_firmado smallint;
    v_doc_id integer;
    v_doc_llevaFirma smallint;
 
    v_estado_pendiente integer := 1;
+   v_estado_pendienteCredito integer := 3;
    v_estado_pendienteFirma integer := 4;
    v_estado_finalizado integer := 5;
    v_estado_anulado integer := 7;
 begin
 
-   if p_cobz_id = 0 then
+   if p_mf_id = 0 then
       return;
    end if;
 
    select cli_id,
-          cobz_firmado,
+          mf_firmado,
           est_id,
-          round(cobz_pendiente, 2),
           doc_id
      into v_cli_id,
           v_firmado,
           v_est_id,
-          v_pendiente,
           v_doc_id
-   from Cobranza
-   where cobz_id = p_cobz_id;
+   from MovimientoFondo
+   where mf_id = p_mf_id;
 
    select doc_llevafirma
      into v_doc_llevaFirma
@@ -93,23 +91,13 @@ begin
 
       else
 
-         -- si el comprobante no tiene pendiente se finaliza
-         --
-         if coalesce(v_pendiente, 0) <= 0 then
-
-            v_est_id := v_estado_finalizado;
-
-         else
-
-            v_est_id := v_estado_pendiente;
-
-         end if;
+         v_est_id := v_estado_finalizado;
 
       end if;
 
-      update Cobranza
+      update MovimientoFondo
          set est_id = v_est_id
-      where cobz_id = p_cobz_id;
+      where mf_id = p_mf_id;
 
    end if;
 
@@ -118,12 +106,12 @@ begin
 exception
    when others then
 
-   raise exception 'Ha ocurrido un error al actualizar el estado de la cobranza. sp_doc_cobranza_set_estado. %. %.',
+   raise exception 'Ha ocurrido un error al actualizar el estado de la cobranza. sp_doc_movimiento_fondo_set_estado. %. %.',
                    sqlstate, sqlerrm;
 
 end;
 $BODY$
   language plpgsql volatile
   cost 100;
-alter function sp_doc_cobranza_set_estado(integer)
+alter function sp_doc_movimiento_fondo_set_estado(integer)
   owner to postgres;

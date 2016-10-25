@@ -1079,6 +1079,14 @@ begin
 
    perform sp_doc_cobranza_cheque_set_credito(v_cobz_id);
 
+/*
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//                                                                                                                    //
+//                                        asiento                                                                     //
+//                                                                                                                    //
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+*/
+
    select sp_cfg_getValor('Tesoreria-General', 'Cobranza-Grabar Asiento') into v_cfg_valor;
 
    v_cfg_valor := coalesce(v_cfg_valor, '0');

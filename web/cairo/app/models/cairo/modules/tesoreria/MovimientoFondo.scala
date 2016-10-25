@@ -1302,7 +1302,7 @@ object MovimientoFondo {
           user,
           Register(
             C.MOVIMIENTO_FONDO_ITEM_BORRADO_TMP,
-            C.OPGIB_TMP_ID,
+            C.MFIB_TMP_ID,
             DBHelper.NoId,
             false,
             false,
@@ -1373,8 +1373,8 @@ object MovimientoFondo {
           * one of these two values ex: 'resultset' or 'success'
           * when type == 'resultset' the field r must be not null and contain a ResultSet
           * when type == 'success' the id field can contain 0 (False) or not 0 (-1,1 or any other number but NO 0) (True)
-          * the last kind of type is key. in this case the key must be the name of a column like opg_id, as_id, pr_id, etc
-          * it can be any column name. if the type is an integer like in opg_id, as_id or any other id column the field id
+          * the last kind of type is key. in this case the key must be the name of a column like mf_id, as_id, pr_id, etc
+          * it can be any column name. if the type is an integer like in mf_id, as_id or any other id column the field id
           * is used to contain the returned value
           * if the type is any other the column message is used
           *
@@ -1396,7 +1396,7 @@ object MovimientoFondo {
               rowType match {
                 case "ERROR" => throwException(rs.getString(3))
                 case "INFO" => RowResult("INFO", 0, rs.getString(3))
-                case "opg_id" => RowResult("opg_id", rs.getInt(2), "")
+                case "mf_id" => RowResult("mf_id", rs.getInt(2), "")
                 case _ => RowResult("IGNORED", 0, "")
               }
             }
@@ -1431,7 +1431,7 @@ object MovimientoFondo {
         case Nil => id
         case h :: t => {
           val _id = h match {
-            case RowResult("opg_id", id, m) => id
+            case RowResult("mf_id", id, m) => id
             case _ => id
           }
           findId(t, _id)

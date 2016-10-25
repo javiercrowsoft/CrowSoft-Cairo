@@ -44,19 +44,19 @@ function sp_talonario_get_next_number
   returns varchar as
 $BODY$
 declare
-   v_ta_ultimonro integer;
+   v_ta_ultimoNro integer;
    v_ta_mascara varchar(100);
    v_lenmascara smallint;
 begin
 
     select ta_ultimonro,
            ta_mascara
-      into v_ta_ultimonro,
+      into v_ta_ultimoNro,
            v_ta_mascara
     from Talonario
     where ta_id = p_ta_id;
 
-    p_ta_nrodoc := trim(to_char(v_ta_ultimonro + 1));
+    p_ta_nrodoc := trim(to_char(v_ta_ultimoNro + 1));
 
     v_lenMascara := length(v_ta_mascara) - length(p_ta_nrodoc);
 

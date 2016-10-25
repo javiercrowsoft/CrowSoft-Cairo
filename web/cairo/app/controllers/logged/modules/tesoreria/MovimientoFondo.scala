@@ -42,7 +42,7 @@ case class MovimientoFondoItemBaseData(
 case class MovimientoFondoItemTotalsData(
                                           importe: Double,
                                           importeOrigen: Double,
-                                          importeOrigenHaber: Double
+                                          importeOrigenHaber: Option[Double]
                                         )
 
 case class MovimientoFondoItemChequeData(
@@ -142,14 +142,12 @@ object MovimientosFondo extends Controller with ProvidesUser {
 
   val movimientoFondoIdFields = List(GC.DOC_ID, C.MF_NUMERO, C.MF_NRODOC)
 
-  val movimientoFondoBaseFields = List(GC.CLI_ID, GC.EST_ID, GC.CCOS_ID, GC.SUC_ID, GC.LGJ_ID, C.MF_DESCRIP,
+  val movimientoFondoBaseFields = List(GC.CLI_ID, GC.EST_ID, GC.CCOS_ID, GC.SUC_ID, GC.LGJ_ID, C.MF_DESCRIP, GC.US_ID,
     C.MF_GRABAR_ASIENTO)
 
-  val movimientoFondoTotalsFields = List(C.MF_TOTAL)
+  val movimientoFondoItemBase = List(C.MFI_DESCRIP, GC.PR_ID, GC.CCOS_ID, GC.TO_ID, C.CUE_ID_DEBE, C.CUE_ID_HABER, C.MFI_ORDEN)
 
-  val movimientoFondoItemBase = List(C.MFI_DESCRIP, GC.PR_ID, GC.CCOS_ID, GC.TO_ID, GC.CUE_ID, C.MFI_ORDEN)
-
-  val movimientoFondoItemTotals = List(C.MFI_IMPORTE, C.MFI_IMPORTE_ORIGEN)
+  val movimientoFondoItemTotals = List(C.MFI_IMPORTE, C.MFI_IMPORTE_ORIGEN, C.MFI_IMPORTE_ORIGEN_HABER)
 
   val movimientoFondoForm: Form[MovimientoFondoData] = Form(
     mapping(
@@ -186,7 +184,7 @@ object MovimientosFondo extends Controller with ProvidesUser {
           C.MOVIMIENTO_FONDO_ITEM_TOTALS -> mapping (
             C.MFI_IMPORTE -> of(Global.doubleFormat),
             C.MFI_IMPORTE_ORIGEN -> of(Global.doubleFormat),
-            C.MFI_IMPORTE_ORIGEN_HABER -> of(Global.doubleFormat))
+            C.MFI_IMPORTE_ORIGEN_HABER -> optional(of(Global.doubleFormat)))
           (MovimientoFondoItemTotalsData.apply)(MovimientoFondoItemTotalsData.unapply),
           GC.BCO_ID -> number,
           GC.CHQ_ID -> number,
@@ -211,7 +209,7 @@ object MovimientosFondo extends Controller with ProvidesUser {
           C.MOVIMIENTO_FONDO_ITEM_TOTALS -> mapping (
             C.MFI_IMPORTE -> of(Global.doubleFormat),
             C.MFI_IMPORTE_ORIGEN -> of(Global.doubleFormat),
-            C.MFI_IMPORTE_ORIGEN_HABER -> of(Global.doubleFormat))
+            C.MFI_IMPORTE_ORIGEN_HABER -> optional(of(Global.doubleFormat)))
           (MovimientoFondoItemTotalsData.apply)(MovimientoFondoItemTotalsData.unapply),
           GC.BCO_ID -> number,
           GC.CLI_ID -> number,
@@ -236,7 +234,7 @@ object MovimientosFondo extends Controller with ProvidesUser {
           C.MOVIMIENTO_FONDO_ITEM_TOTALS -> mapping (
             C.MFI_IMPORTE -> of(Global.doubleFormat),
             C.MFI_IMPORTE_ORIGEN -> of(Global.doubleFormat),
-            C.MFI_IMPORTE_ORIGEN_HABER -> of(Global.doubleFormat))
+            C.MFI_IMPORTE_ORIGEN_HABER -> optional(of(Global.doubleFormat)))
           (MovimientoFondoItemTotalsData.apply)(MovimientoFondoItemTotalsData.unapply),
           GC.BCO_ID -> number,
           C.CHEQ_ID -> optional(number),
@@ -259,7 +257,7 @@ object MovimientosFondo extends Controller with ProvidesUser {
           C.MOVIMIENTO_FONDO_ITEM_TOTALS -> mapping (
             C.MFI_IMPORTE -> of(Global.doubleFormat),
             C.MFI_IMPORTE_ORIGEN -> of(Global.doubleFormat),
-            C.MFI_IMPORTE_ORIGEN_HABER -> of(Global.doubleFormat))
+            C.MFI_IMPORTE_ORIGEN_HABER -> optional(of(Global.doubleFormat)))
           (MovimientoFondoItemTotalsData.apply)(MovimientoFondoItemTotalsData.unapply)
         )(MovimientoFondoItemEfectivoData.apply)(MovimientoFondoItemEfectivoData.unapply)
       ),
@@ -549,10 +547,9 @@ object MovimientosFondo extends Controller with ProvidesUser {
 
     // groups for MovimientoFondoData
     //
-    val facturaId = Global.preprocessFormParams(List("id", C.MF_FECHA, C.MF_COTIZACION), "", params)
+    val facturaId = Global.preprocessFormParams(List("id", C.MF_FECHA, C.MF_COTIZACION, C.MF_TOTAL), "", params)
     val facturaIdGroup = Global.preprocessFormParams(movimientoFondoIdFields, C.MOVIMIENTO_FONDO_ID, params)
     val facturaBaseGroup = Global.preprocessFormParams(movimientoFondoBaseFields, C.MOVIMIENTO_FONDO_BASE, params)
-    val facturaTotalGroup = Global.preprocessFormParams(movimientoFondoTotalsFields, C.MOVIMIENTO_FONDO_TOTALS, params)
 
     // cheques
     //
@@ -579,10 +576,10 @@ object MovimientosFondo extends Controller with ProvidesUser {
     val chequesIInfo = getJsValueAsMap(Global.getParamsJsonRequestFor(C.MOVIMIENTO_FONDO_ITEM_CHEQUET_TMP, params))
     val chequeIRows = Global.getParamsJsonRequestFor(GC.ITEMS, chequesIInfo)
     val chequeIDeleted: Map[String, JsValue] = Global.getParamsJsonRequestFor(GC.DELETED_LIST, chequesIInfo).toList match {
-      case Nil => Map(C.MOVIMIENTO_FONDO_ITEM_CHEQUET_DELETED -> Json.toJson(""))
-      case deletedList :: t => Map(C.MOVIMIENTO_FONDO_ITEM_CHEQUET_DELETED -> Json.toJson(deletedList._2))
+      case Nil => Map(C.MOVIMIENTO_FONDO_ITEM_CHEQUEI_DELETED -> Json.toJson(""))
+      case deletedList :: t => Map(C.MOVIMIENTO_FONDO_ITEM_CHEQUEI_DELETED -> Json.toJson(deletedList._2))
     }
-    val movimientoFondoChequeI = preprocessChequesIParam(chequeTRows.head._2, C.MOVIMIENTO_FONDO_ITEM_CHEQUEI_TMP)
+    val movimientoFondoChequeI = preprocessChequesIParam(chequeIRows.head._2, C.MOVIMIENTO_FONDO_ITEM_CHEQUEI_TMP)
 
     // efectivos
     //
@@ -595,7 +592,7 @@ object MovimientosFondo extends Controller with ProvidesUser {
     val movimientoFondoEfectivos = preprocessEfectivosParam(efectivoRows.head._2, C.MOVIMIENTO_FONDO_ITEM_EFECTIVO_TMP)
 
     JsObject(
-      (facturaId ++ facturaIdGroup ++ facturaBaseGroup ++ facturaTotalGroup
+      (facturaId ++ facturaIdGroup ++ facturaBaseGroup
         ++ movimientoFondoCheques ++ chequeDeleted
         ++ movimientoFondoChequeT ++ chequeTDeleted
         ++ movimientoFondoChequeI ++ chequeIDeleted
@@ -620,7 +617,7 @@ object MovimientosFondo extends Controller with ProvidesUser {
         MovimientoFondoItemTotals(
           cheque.totals.importe,
           cheque.totals.importeOrigen,
-          cheque.totals.importeOrigenHaber
+          cheque.totals.importeOrigenHaber.getOrElse(0)
         ),
         cheque.bcoId,
         cheque.chqId,
@@ -648,7 +645,7 @@ object MovimientosFondo extends Controller with ProvidesUser {
         MovimientoFondoItemTotals(
           cheque.totals.importe,
           cheque.totals.importeOrigen,
-          cheque.totals.importeOrigenHaber
+          cheque.totals.importeOrigenHaber.getOrElse(0)
         ),
         cheque.bcoId,
         cheque.cliId,
@@ -676,7 +673,7 @@ object MovimientosFondo extends Controller with ProvidesUser {
         MovimientoFondoItemTotals(
           cheque.totals.importe,
           cheque.totals.importeOrigen,
-          cheque.totals.importeOrigenHaber
+          cheque.totals.importeOrigenHaber.getOrElse(0)
         ),
         cheque.bcoId,
         cheque.cheqId.getOrElse(DBHelper.NoId),
@@ -703,7 +700,7 @@ object MovimientosFondo extends Controller with ProvidesUser {
         MovimientoFondoItemTotals(
           efectivo.totals.importe,
           efectivo.totals.importeOrigen,
-          efectivo.totals.importeOrigenHaber
+          efectivo.totals.importeOrigenHaber.getOrElse(0)
         )
       )
     })

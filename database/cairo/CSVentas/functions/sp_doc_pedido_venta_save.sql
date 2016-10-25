@@ -46,7 +46,7 @@ declare
    v_error integer;
    v_error_msg varchar(5000);
    v_cfg_valor varchar(5000);
-   v_doc_llevafirmacredito smallint;
+   v_doc_llevaFirmacredito smallint;
    
    v_is_new integer;
 
@@ -627,11 +627,11 @@ begin
    v_cfg_valor := coalesce(v_cfg_valor, '0');
 
    select doc_llevafirmacredito
-     into v_doc_llevafirmacredito
+     into v_doc_llevaFirmacredito
    from Documento
    where doc_id = v_doc_id;
 
-   if to_number(v_cfg_valor) <> 0 and v_doc_llevafirmacredito <> 0 then
+   if to_number(v_cfg_valor) <> 0 and v_doc_llevaFirmacredito <> 0 then
 
       select est_id
         into v_est_id

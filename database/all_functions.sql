@@ -4298,7 +4298,7 @@ declare
    v_error smallint;
    v_cfg_valor varchar(5000);
 
-   v_ta_ultimonro integer;
+   v_ta_ultimoNro integer;
    v_ta_mascara varchar(50);
 
    v_cuec_id integer;
@@ -4372,7 +4372,7 @@ begin
       select ta_ultimonro,
              ta_mascara,
              doct_id
-        into v_ta_ultimonro,
+        into v_ta_ultimoNro,
              v_ta_mascara,
              v_doct_id
       from Documento
@@ -4380,8 +4380,8 @@ begin
         on Documento.ta_id = Talonario.ta_id
       where doc_id = v_doc_id;
 
-      v_ta_ultimonro := v_ta_ultimonro + 1;
-      v_as_nrodoc := trim(to_char(v_ta_ultimonro));
+      v_ta_ultimoNro := v_ta_ultimoNro + 1;
+      v_as_nrodoc := trim(to_char(v_ta_ultimoNro));
       v_as_nrodoc := substr(v_ta_mascara, 1, length(v_ta_mascara) - length(v_as_nrodoc)) || v_as_nrodoc;
 
       insert into Asiento( as_id, as_numero, as_nrodoc, as_descrip, as_fecha, as_doc_cliente, doc_id, doct_id,
@@ -8855,19 +8855,19 @@ CREATE OR REPLACE FUNCTION public.sp_talonario_get_next_number(p_ta_id integer, 
  LANGUAGE plpgsql
 AS $function$
 declare
-   v_ta_ultimonro integer;
+   v_ta_ultimoNro integer;
    v_ta_mascara varchar(100);
    v_lenmascara smallint;
 begin
 
     select ta_ultimonro,
            ta_mascara
-      into v_ta_ultimonro,
+      into v_ta_ultimoNro,
            v_ta_mascara
     from Talonario
     where ta_id = p_ta_id;
 
-    p_ta_nrodoc := trim(to_char(v_ta_ultimonro + 1));
+    p_ta_nrodoc := trim(to_char(v_ta_ultimoNro + 1));
 
     v_lenMascara := length(v_ta_mascara) - length(p_ta_nrodoc);
 
@@ -13669,7 +13669,7 @@ declare
    v_firmado smallint;
    v_deuda decimal(18,6);
    v_doc_id integer;
-   v_doc_llevafirma smallint;
+   v_doc_llevaFirma smallint;
 
    v_estado_pendiente integer := 1;
    v_estado_pendienteCredito integer := 3;
@@ -13694,7 +13694,7 @@ begin
    where oc_id = p_oc_id;
 
    select doc_llevafirma
-     into v_doc_llevafirma
+     into v_doc_llevaFirma
    from Documento
    where doc_id = v_doc_id;
 
@@ -13704,7 +13704,7 @@ begin
       -- y no esta finalizado (puede ser que se finalizo y luego se modifico el documento
       -- para que requiera firma en cuyo caso no se exige firma para documentos finalizados)
       --
-      if v_firmado = 0 and v_doc_llevafirma <> 0 and v_est_id <> v_estado_finalizado then
+      if v_firmado = 0 and v_doc_llevaFirma <> 0 and v_est_id <> v_estado_finalizado then
 
          v_est_id := v_estado_pendienteFirma;
 
@@ -14220,7 +14220,7 @@ declare
    v_firmado smallint;
    v_deuda decimal(18,6);
    v_doc_id integer;
-   v_doc_llevafirma smallint;
+   v_doc_llevaFirma smallint;
 
    v_estado_pendiente integer := 1;
    v_estado_pendienteCredito integer := 3;
@@ -14245,7 +14245,7 @@ begin
    where rc_id = p_rc_id;
 
    select doc_llevafirma
-     into v_doc_llevafirma
+     into v_doc_llevaFirma
    from Documento
    where doc_id = v_doc_id;
 
@@ -14255,7 +14255,7 @@ begin
       -- y no esta finalizado (puede ser que se finalizo y luego se modifico el documento
       -- para que requiera firma en cuyo caso no se exige firma para documentos finalizados)
       --
-      if v_firmado = 0 and v_doc_llevafirma <> 0 and v_est_id <> v_estado_finalizado then
+      if v_firmado = 0 and v_doc_llevaFirma <> 0 and v_est_id <> v_estado_finalizado then
 
          v_est_id := v_estado_pendienteFirma;
 
@@ -15452,7 +15452,7 @@ declare
    v_firmado smallint;
    v_deuda decimal(18,6);
    v_doc_id integer;
-   v_doc_llevafirma smallint;
+   v_doc_llevaFirma smallint;
 
    v_estado_pendiente integer := 1;
    v_estado_pendienteCredito integer := 3;
@@ -15477,7 +15477,7 @@ begin
    where fc_id = p_fc_id;
 
    select doc_llevafirma
-     into v_doc_llevafirma
+     into v_doc_llevaFirma
    from Documento
    where doc_id = v_doc_id;
 
@@ -15487,7 +15487,7 @@ begin
       -- y no esta finalizado (puede ser que se finalizo y luego se modifico el documento
       -- para que requiera firma en cuyo caso no se exige firma para documentos finalizados)
       --
-      if v_firmado = 0 and v_doc_llevafirma <> 0 and v_est_id <> v_estado_finalizado then
+      if v_firmado = 0 and v_doc_llevaFirma <> 0 and v_est_id <> v_estado_finalizado then
 
          v_est_id := v_estado_pendienteFirma;
 
@@ -16631,7 +16631,7 @@ declare
 
    v_orden_item smallint;
 
-   v_ta_ultimonro integer;
+   v_ta_ultimoNro integer;
    v_ta_mascara varchar(50);
 
    v_creado date;
@@ -16724,7 +16724,7 @@ begin
       select ta_ultimonro,
              ta_mascara,
              doct_id
-        into v_ta_ultimonro,
+        into v_ta_ultimoNro,
              v_ta_mascara,
              v_doct_id
       from Documento
@@ -16732,8 +16732,8 @@ begin
         on Documento.ta_id = Talonario.ta_id
       where doc_id = v_doc_id;
 
-      v_ta_ultimonro := v_ta_ultimonro + 1;
-      v_as_nrodoc := trim(to_char(v_ta_ultimonro));
+      v_ta_ultimoNro := v_ta_ultimoNro + 1;
+      v_as_nrodoc := trim(to_char(v_ta_ultimoNro));
       v_as_nrodoc := substr(v_ta_mascara, 1, length(v_ta_mascara) - length(v_as_nrodoc)) || v_as_nrodoc;
 
       insert into Asiento( as_id, as_numero, as_nrodoc, as_descrip, as_fecha, as_doc_cliente, doc_id, doct_id,
@@ -18348,7 +18348,7 @@ declare
    v_llevaFirma smallint;
    v_firmado smallint;
    v_doc_id integer;
-   v_doc_llevafirma smallint;
+   v_doc_llevaFirma smallint;
 
    v_estado_pendiente integer := 1;
    v_estado_pendienteFirma integer := 4;
@@ -18374,7 +18374,7 @@ begin
    where opg_id = p_opg_id;
 
    select doc_llevafirma
-     into v_doc_llevafirma
+     into v_doc_llevaFirma
    from Documento
    where doc_id = v_doc_id;
 
@@ -18384,7 +18384,7 @@ begin
       -- y no esta finalizado (puede ser que se finalizo y luego se modifico el documento
       -- para que requiera firma en cuyo caso no se exige firma para documentos finalizados)
       --
-      if v_firmado = 0 and v_doc_llevafirma <> 0 and v_est_id <> v_estado_finalizado then
+      if v_firmado = 0 and v_doc_llevaFirma <> 0 and v_est_id <> v_estado_finalizado then
 
          v_est_id := v_estado_pendienteFirma;
 
@@ -25498,7 +25498,7 @@ declare
    v_llevaFirma smallint;
    v_firmado smallint;
    v_doc_id integer;
-   v_doc_llevafirma smallint;
+   v_doc_llevaFirma smallint;
 
    v_estado_pendiente integer := 1;
    v_estado_pendienteFirma integer := 4;
@@ -25524,7 +25524,7 @@ begin
    where cobz_id = p_cobz_id;
 
    select doc_llevafirma
-     into v_doc_llevafirma
+     into v_doc_llevaFirma
    from Documento
    where doc_id = v_doc_id;
 
@@ -25534,7 +25534,7 @@ begin
       -- y no esta finalizado (puede ser que se finalizo y luego se modifico el documento
       -- para que requiera firma en cuyo caso no se exige firma para documentos finalizados)
       --
-      if v_firmado = 0 and v_doc_llevafirma <> 0 and v_est_id <> v_estado_finalizado then
+      if v_firmado = 0 and v_doc_llevaFirma <> 0 and v_est_id <> v_estado_finalizado then
 
          v_est_id := v_estado_pendienteFirma;
 
@@ -25622,7 +25622,7 @@ declare
 
    v_error smallint;
 
-   v_ta_ultimonro integer;
+   v_ta_ultimoNro integer;
    v_ta_mascara varchar(50);
 
 begin
@@ -25687,7 +25687,7 @@ begin
       select ta_ultimonro,
              ta_mascara,
              doct_id
-        into v_ta_ultimonro,
+        into v_ta_ultimoNro,
              v_ta_mascara,
              v_doct_id
       from Documento
@@ -25695,8 +25695,8 @@ begin
         on Documento.ta_id = Talonario.ta_id
       where doc_id = v_doc_id;
 
-      v_ta_ultimonro := v_ta_ultimonro + 1;
-      v_as_nrodoc := trim(to_char(v_ta_ultimonro));
+      v_ta_ultimoNro := v_ta_ultimoNro + 1;
+      v_as_nrodoc := trim(to_char(v_ta_ultimoNro));
       v_as_nrodoc := substr(v_ta_mascara, 1, length(v_ta_mascara) - length(v_as_nrodoc)) || v_as_nrodoc;
 
       insert into Asiento ( as_id, as_numero, as_nrodoc, as_descrip, as_fecha, as_doc_cliente, doc_id, doct_id,
@@ -26272,7 +26272,7 @@ declare
 
    v_ordenItem smallint;
 
-   v_ta_ultimonro integer;
+   v_ta_ultimoNro integer;
    v_ta_mascara varchar(50);
 
    v_creado date;
@@ -26358,7 +26358,7 @@ begin
       select ta_ultimonro,
              ta_mascara,
              doct_id
-        into v_ta_ultimonro,
+        into v_ta_ultimoNro,
              v_ta_mascara,
              v_doct_id
       from Documento
@@ -26366,8 +26366,8 @@ begin
         on Documento.ta_id = Talonario.ta_id
       where doc_id = v_doc_id;
 
-      v_ta_ultimonro := v_ta_ultimonro + 1;
-      v_as_nrodoc := trim(to_char(v_ta_ultimonro));
+      v_ta_ultimoNro := v_ta_ultimoNro + 1;
+      v_as_nrodoc := trim(to_char(v_ta_ultimoNro));
       v_as_nrodoc := substr(v_ta_mascara, 1, length(v_ta_mascara) - length(v_as_nrodoc)) || v_as_nrodoc;
 
       insert into Asiento( as_id, as_numero, as_nrodoc, as_descrip, as_fecha, as_doc_cliente, doc_id, doct_id,
@@ -27803,8 +27803,8 @@ declare
    v_firmado smallint;
    v_deuda decimal(18,6);
    v_doc_id integer;
-   v_doc_llevafirma smallint;
-   v_doc_llevafirmaCredito smallint;
+   v_doc_llevaFirma smallint;
+   v_doc_llevaFirmaCredito smallint;
 
    v_estado_pendienteDespacho integer := 2;
    v_estado_pendienteCredito integer := 3;
@@ -27835,8 +27835,8 @@ begin
 
    select doc_llevafirma,
           doc_llevafirmaCredito
-     into v_doc_llevafirma,
-          v_doc_llevafirmaCredito
+     into v_doc_llevaFirma,
+          v_doc_llevaFirmaCredito
    from Documento
    where doc_id = v_doc_id;
 
@@ -27846,7 +27846,7 @@ begin
       -- y no esta finalizado (puede ser que se finalizo y luego se modifico el documento
       -- para que requiera firma en cuyo caso no se exige firma para documentos finalizados)
       --
-      if v_firmado = 0 and v_doc_llevafirma <> 0 and v_est_id <> v_estado_finalizado then
+      if v_firmado = 0 and v_doc_llevaFirma <> 0 and v_est_id <> v_estado_finalizado then
 
          v_est_id := v_estado_pendienteFirma;
 
@@ -27884,13 +27884,13 @@ begin
             --
             if v_pendiente + v_pendientedoc > v_creditoTotal or v_pendiente > v_creditoCtaCte then
 
-               if v_firmado = 0 and v_doc_llevafirmaCredito <> 0 then
+               if v_firmado = 0 and v_doc_llevaFirmaCredito <> 0 then
 
                   v_est_id := v_estado_pendienteFirma;
 
                else
 
-                  if v_firmado <> 0 and v_doc_llevafirmaCredito <> 0 then
+                  if v_firmado <> 0 and v_doc_llevaFirmaCredito <> 0 then
 
                      v_est_id := v_estado_pendienteDespacho;
 
@@ -29215,7 +29215,7 @@ declare
    v_firmado smallint;
    v_deuda decimal(18,6);
    v_doc_id integer;
-   v_doc_llevafirma smallint;
+   v_doc_llevaFirma smallint;
 
    v_estado_pendiente integer := 1;
    v_estado_pendienteCredito integer := 3;
@@ -29240,7 +29240,7 @@ begin
    where fv_id = p_fv_id;
 
    select doc_llevafirma
-     into v_doc_llevafirma
+     into v_doc_llevaFirma
    from Documento
    where doc_id = v_doc_id;
 
@@ -29250,7 +29250,7 @@ begin
       -- y no esta finalizado (puede ser que se finalizo y luego se modifico el documento
       -- para que requiera firma en cuyo caso no se exige firma para documentos finalizados)
       --
-      if v_firmado = 0 and v_doc_llevafirma <> 0 and v_est_id <> v_estado_finalizado then
+      if v_firmado = 0 and v_doc_llevaFirma <> 0 and v_est_id <> v_estado_finalizado then
 
          v_est_id := v_estado_pendienteFirma;
 
@@ -34327,7 +34327,7 @@ declare
    v_error integer;
    v_error_msg varchar(5000);
    v_cfg_valor varchar(5000);
-   v_doc_llevafirmacredito smallint;
+   v_doc_llevaFirmacredito smallint;
    
    v_is_new integer;
 
@@ -34908,11 +34908,11 @@ begin
    v_cfg_valor := coalesce(v_cfg_valor, '0');
 
    select doc_llevafirmacredito
-     into v_doc_llevafirmacredito
+     into v_doc_llevaFirmacredito
    from Documento
    where doc_id = v_doc_id;
 
-   if to_number(v_cfg_valor) <> 0 and v_doc_llevafirmacredito <> 0 then
+   if to_number(v_cfg_valor) <> 0 and v_doc_llevaFirmacredito <> 0 then
 
       select est_id
         into v_est_id
