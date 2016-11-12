@@ -2,7 +2,7 @@ set nocount on
 
 declare @name varchar(5000)
 
-set @name = 'comunidadinternet';
+set @name = '';
 
 select 'alter table '+ name +' disable trigger all;' from sysobjects where xtype = 'U' and name <> 'dtproperties' and (name like @name or @name = '');
 

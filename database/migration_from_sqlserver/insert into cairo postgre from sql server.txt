@@ -29,6 +29,8 @@ Execute this file using psql
 
 /Library/PostgreSQL/9.0/bin/psql -p 5434 -U postgres -d olaen_com_ar_cairo -a -f /Users/javier/Documents/CrowSoft/Scripts/cairoO-ci.sql
 
+/Library/PostgreSQL/9.0/bin/psql -p 5434 -U postgres -d sdi_com_ar_cairo -a -f /Users/javier/Documents/CrowSoft/Customers/Salmax/sdi.sql
+
 - run all functions:
 
 /Library/PostgreSQL/9.0/bin/psql -p 5434 -U postgres -d development_cairo > /Users/javier/Documents/CrowSoft/Scripts/all_functions.sql <<"__END__"
