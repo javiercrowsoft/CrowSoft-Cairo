@@ -15,8 +15,7 @@
 
     // TODO: move this to configuration
     //
-    //Cairo.CSREPORTS_EXTENSION_ID = 'gcnibndgglpiclanidkdkemhkjejpfai';
-    Cairo.CSREPORTS_EXTENSION_ID = 'gkhbdpmpplahhgnpjkmkppcpcphlgphb';
+    Cairo.CSREPORTS_EXTENSION_ID = 'gfladhgjbflfogopjcjkmokdddcboika';
 
     var extension_url = "chrome-extension://"+ Cairo.CSREPORTS_EXTENSION_ID +"/";
 
