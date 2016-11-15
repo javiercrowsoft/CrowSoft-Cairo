@@ -111,6 +111,19 @@ begin
 
    end if;
 
+   if exists( select 1 from OrdenPagoItem opgi
+              where opg_id = @@opg_id and opgi_nroRetencion <> ''
+                and exists(select 1 from OrdenPagoItem opgi2
+                           where opgi2.opgi_nroRetencion = opgi.opgi_nroRetencion
+                             and opgi2.opgi_id <> opgi.opgi_id) ) then
+
+      v_error := 1;
+      p_error_msg := p_error_msg
+                     || 'El numero de comprobante de retencion ya ha sido usado'
+                     || CHR(10);
+
+   end if;
+
    -- no hubo errores asi que todo bien
    --
    if v_error = 0 then
