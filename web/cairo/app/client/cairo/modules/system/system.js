@@ -435,6 +435,20 @@
 
   Cairo.Documents.getDocumentInfo = function(doctId, id) {
     /* TODO: implement this. */
+    /*
+     this function should return:
+
+     info.id,
+     info.total * ((info.cotizacion !== 0) ? info.cotizacion : 1),
+     info.nrodoc,
+     info.prov_id,
+     info.proveedor,
+     info.suc_id,
+     info.doc_id,
+     info.doct_id === D.Types.NOTA_CREDITO_COMPRA,
+     info.emp_id,
+     info.empresa
+     */
     return Cairo.Promises.resolvedPromise({ success: false });
   };
 

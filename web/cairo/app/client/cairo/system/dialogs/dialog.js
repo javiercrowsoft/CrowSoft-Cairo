@@ -545,6 +545,13 @@
             newClick:                   docToolbarClick(Dialogs.Constants.toolbarKeyNew),
             printClick:                 docToolbarClick(Dialogs.Constants.toolbarKeyPrint),
             saveClick:                  docToolbarClick(Dialogs.Constants.toolbarKeySave),
+            editClick:                  docToolbarClick(Dialogs.Constants.toolbarKeyDocEdit),
+            invalidateClick:            docToolbarClick(Dialogs.Constants.toolbarKeyInvalidate),
+            deleteClick:                docToolbarClick(Dialogs.Constants.toolbarKeyDelete),
+            applyClick:                 docToolbarClick(Dialogs.Constants.toolbarKeyApply),
+            statusClick:                docToolbarClick(Dialogs.Constants.toolbarKeyEditState),
+            alarmsClick:                docToolbarClick(Dialogs.Constants.toolbarKeyDocAlert),
+            historyClick:               docToolbarClick(Dialogs.Constants.toolbarKeyHistory),
 
             selectKeyDown:              docHandlerSelectKeyDown,
 

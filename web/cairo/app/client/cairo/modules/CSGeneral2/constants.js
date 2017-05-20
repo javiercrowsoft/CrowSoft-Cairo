@@ -23,6 +23,9 @@
       ID_CLIENTE: "id_cliente",
       DOCT_ID_CLIENTE: "doct_id_cliente",
       DOC_CLIENTE: "doc_cliente",
+      NRO_DOC: "nrodoc",
+      PENDIENTE: "pendiente",
+      IMPORTE: "importe",
 
       // Usuario
       USUARIO: "Usuario",

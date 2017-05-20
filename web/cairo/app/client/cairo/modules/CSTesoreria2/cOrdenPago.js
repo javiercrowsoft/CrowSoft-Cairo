@@ -184,7 +184,7 @@
 
       var m_orden = 0;
 
-      var m_applyEditor;
+      var m_applyEditor = null;
 
       var m_fcIds = null;
 
@@ -4376,7 +4376,9 @@
             info.total,
             info.nrodoc,
             info.prov_id,
-            info.proveedor);
+            info.proveedor,
+            info.emp_id,
+            info.empresa);
         };
 
         var fvId = m_dialog.getId();
