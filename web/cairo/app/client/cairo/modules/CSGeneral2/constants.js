@@ -26,6 +26,8 @@
       NRO_DOC: "nrodoc",
       PENDIENTE: "pendiente",
       IMPORTE: "importe",
+      FECHA: "fecha",
+      APLICADO: "aplicado",
 
       // Usuario
       USUARIO: "Usuario",

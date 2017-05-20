@@ -682,11 +682,17 @@
   Cairo.Documents.docCanBeEdited = function(canBeEdited, message) {
     if(canBeEdited !== true) {
       return Cairo.Modal.showWarningWithFalse(getText(2913, "", message));
-                                              //Este documento no puede ser modificado debido a:;; & DocEditMsg
+                                              // Este documento no puede ser modificado debido a:;; & DocEditMsg
     }
     else {
       return Cairo.Promises.resolvedPromise(true);
     }
+  };
+
+  Cairo.Documents.msgApplyDisabled = function(empName) {
+    return Cairo.Modal.showWarningWithFalse(getText(2910, "", empName));
+                                            // Este documento pertence a la empresa  & emp_nombre &
+                                            // Para poder modificar su aplicaci�n debe ingresar a & emp_nombre &
   };
 
   Cairo.Documents.getInfo = function(tblId, id) {
