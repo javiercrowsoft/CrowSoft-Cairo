@@ -21,6 +21,9 @@
       var CT = Cairo.Tesoreria.Constants;
       var getCell = Dialogs.cell;
       var D = Cairo.Documents;
+      var M = Cairo.Modal;
+      var DB = Cairo.Database;
+      var NO_ID = Cairo.Constants.NO_ID;
 
       var K_PENDIENTE_ORDENPAGO = 10;
       var K_TOTAL_ORDENPAGO = 11;
@@ -97,16 +100,16 @@
       var m_lastRowVto = 0;
       var m_lastRowItem = 0;
 
-      var m_objectClient;
+      var m_client;
       var m_empId = 0;
       var m_empName = "";
 
       var m_vOpgNC;
-      var m_fcd_id = 0;
-      var m_fcp_id = 0;
+      var m_fcdId = 0;
+      var m_fcpId = 0;
 
       var m_vOrdenRemito;
-      var m_fci_id = 0;
+      var m_fciId = 0;
 
       var m_apiPath = DB.getAPIVersion();
 
@@ -120,8 +123,8 @@
 
       var m_data = emptyData;
 
-      self.setObjectClient = function(rhs) {
-        m_objectClient = rhs;
+      self.setClient = function(rhs) {
+        m_client = rhs;
       };
 
       self.getId = function() {
@@ -251,85 +254,114 @@
           return D.msgApplyDisabled(m_empName);
         }
 
-        var fcTMPId = null;
-
         ordenPagoUpdateGrids();
         itemUpdateGrids();
 
-        // Temporal
-        if(!pSaveDocCpra(m_docId, fcTMPId)) { return _rtn; }
+        var register = new DB.Register();
 
-        // Ordenes / Remitos
-        if(!itemSaveOrdenRemito(fcTMPId)) { return _rtn; }
+        register.setFieldId(CC.FC_ID);
+        register.setTable(CC.FACTURA_COMPRA);
 
-        // Aplicaciones Automaticas
+        register.setPath(m_apiPath + "compras/facturacompra/aplic");
+
+        saveDocCpra(register);
+        itemSaveOrdenRemito(register);
+
+        // the applied amount is not editable if the payment condition is automatic
         //
-        var bSuccess = null;
-        var bAutomatic = null;
+        var p = isAutomatic()
+          .then(function(result) {
+            if(result.success) {
+              if(result.isAutomatic) {
+                return M.showWarning(getText(3582, ""));
+                                       // El tipo de condición de pago de esta factura ha generado automticamente
+                                       // la orden de pago y su aplicacion no puede modificarse manualmente.
+                                       // Solo se guardara la aplicación de la factura entre remitos y ordenes
+                                       // de compra.
+              }
+              else {
+                return true;
+              }
+            }
+            else {
+              return M.showWarningWithFalse(getText(3583, ""));
+                                     // No se pudo determinar si esta factura genera automaticamente una orden de
+                                     // pago. Vuelva a intentar gurdar la aplicación.
+            }
+          })
+          .whenSuccess(function() {
+            ordenPagoSaveNotaCredito(register);
+            ordenPagoSaveOrdenPago(register);
+          });
 
-        if(pIsAutomatic(bSuccess)) {
-          //'El tipo de condición de pago de esta factura ha generado automticamente la orden de pago y su aplicacion no puede modificarse manualmente. Solo se guardara la aplicación de la factura entre remitos y ordenes de compra.
-          MsgWarning(Cairo.Language.getText(3582, ""));
-          bAutomatic = true;
-        }
-        else {
-          if(!bSuccess) {
-            //'No se pudo determinar si esta factura genera automaticamente una orden de pago. Vuelva a intentar gurdar la aplicación.
-            MsgWarning(Cairo.Language.getText(3583, ""));
-            return _rtn;
+        return p.then(function() {
+          DB.saveTransaction(
+            register,
+            false,
+            "",
+            Cairo.Constants.CLIENT_SAVE_FUNCTION,
+            C_MODULE,
+            SAVE_ERROR_MESSAGE
+          )
+        }).then(
+
+          function(result) {
+            if(result.success) {
+
+              if(result.errors) {
+                return M.showWarningWithFalse(result.errors.getMessage());
+              }
+              else {
+
+                return load(result.data.getId()).then(
+                  function(success) {
+
+                    if(success) {
+
+                      if(m_client !== null) {
+                        updateList();
+                        m_client.refresh(self, m_fcId);
+                      }
+                    };
+                    return success;
+                  }
+                );
+              }
+            }
+            else {
+              return false;
+            }
           }
-        }
-
-        // Solo modifico la aplicacion de remitos y ordenes de compra
-        // cuando la factura tiene una condicion de pago Debito Automatico
-        // o fondo fijo
-        //
-        if(bSuccess && !bAutomatic) {
-
-          // Notas de credito
-          if(!ordenPagoSaveNotaCredito(fcTMPId)) { return _rtn; }
-
-          // OrdenPagos
-          if(!ordenPagoSaveOrdenPago(fcTMPId)) { return _rtn; }
-
-        }
-
-        // Aplico llamando al sp
-        var sqlstmt = null;
-        var rs = null;
-
-        sqlstmt = "sp_DocFacturaCompraSaveAplic "+ fcTMPId.toString();
-        if(!Cairo.Database.openRs(sqlstmt, rs, , , , "pSave", C_MODULE, SAVE_ERROR_MESSAGE)) { return _rtn; }
-
-        if(rs.isEOF()) { return _rtn; }
-
-        var id = null;
-        if(!GetDocIDFromRecordset(rs, id)) { return _rtn; }
-
-        if(id === Cairo.Constants.NO_ID) { return _rtn; }
-
-        if(!ordenPagoLoadAplicVtos()) { return _rtn; }
-        if(!itemLoadAplicItems()) { return _rtn; }
-
-        _rtn = true;
-
-        // Edit Apply
-        //
-        pRefreshClient();
-
-        return _rtn;
+        );
       };
 
-      var updateList = function() {
-        if(m_id === Cairo.Constants.NO_ID) { return; }
-        if(m_listController === null) { return; }
+      var loadDataFromResponse = function(response) {
+        var data = response.data;
 
-        if(m_isNew) {
-          m_listController.addLeave(m_id, m_branchId);
-        }
-        else {
-          m_listController.refreshBranch(m_id, m_branchId);
-        }
+        data.vencimientos = data.get('vencimientos');
+        data.items = data.get('items');
+        data.pagosAplicados = data.get('pagosAplicados');
+        data.pagosAplicados = data.get('pagosAplicados');
+        data.pagosParaAplicar = data.get('pagosParaAplicar');
+        data.itemsAplicados = data.get('itemsAplicados');
+        data.itemsParaAplicar = data.get('itemsParaAplicar');
+
+        return data;
+      };
+
+      var load = function() {
+        return DB.getData("load[" + m_apiPath + "compras/facturacompra/aplic]", m_fcId).then(
+          function(response) {
+            if(response.success !== true) { return false; }
+
+            if(response.data.id === m_fcdId) {
+              m_data = loadDataFromResponse(response);
+              ordenPagoLoadAplicVtos();
+              itemLoadAplicItems();
+            }
+          });
+        if(ordenPagoLoadAplicVtos()) { return _rtn; }
+        if(itemLoadAplicItems()) { return _rtn; }
       };
 
       self.terminate = function() {
@@ -337,9 +369,10 @@
         m_editing = false;
 
         try {
-          if(m_listController !== null) {
-            updateList();
-            m_listController.removeEditor(self);
+          if(m_client !== null) {
+            // check what we should do here
+            //
+            debugger;
           }
         }
         catch (ignored) {
@@ -360,7 +393,7 @@
         var _rtn = "";
         // **TODO:** on error resume next found !!!
         //'Aplicación Factura de Compra
-        _rtn = Cairo.Language.getText(1908, "");
+        _rtn = getText(1908, "");
         m_dialog.setTitle(m_fcNumero+ " - "+ m_proveedor);
 
         return _rtn;
@@ -508,30 +541,11 @@
         return true;
       };
 
-      //////////////////////////////////////////////////////////////////////////////////////
-      //
-      //   GENERICAS
-      //
-      //////////////////////////////////////////////////////////////////////////////////////
-
       var edit = function() {
-        var _rtn = null;
-        try {
-
-          if(!ordenPagoLoadAplicVtos()) { return _rtn; }
-          if(!itemLoadAplicItems()) { return _rtn; }
-          if(!loadCollection()) { return _rtn; }
-
+        return load().whenSuccess(function() {
+          loadCollection();
           m_editing = true;
-          _rtn = true;
-
-          return _rtn;
-        }
-        catch (ex) {
-          Cairo.manageErrorEx(ex.message, "pEdit", C_MODULE, "");
-        }
-
-        return _rtn;
+        });
       };
 
       var loadCollection = function() {
@@ -552,12 +566,12 @@
 
         var tab = w_tabs.add(null);
         //'Items
-        tab.setName(Cairo.Language.getText(1371, ""));
+        tab.setName(getText(1371, ""));
 
         var tab = w_tabs.add(null);
         tab.setIndex(1);
         //'Vencimientos
-        tab.setName(Cairo.Language.getText(1644, ""));
+        tab.setName(getText(1644, ""));
 
         var properties = m_dialog.getProperties();
         c = properties.add(null, C_ITEMS);
@@ -598,7 +612,7 @@
         c.setType(Dialogs.PropertyType.numeric);
         c.setSubType(Dialogs.PropertySubType.money);
         //'Importe facturado
-        c.setName(Cairo.Language.getText(1909, ""));
+        c.setName(getText(1909, ""));
         c.setEnabled(false);
         c.setLeft(2000);
         c.setLeftLabel(-1500);
@@ -612,7 +626,7 @@
         c.setType(Dialogs.PropertyType.numeric);
         c.setSubType(Dialogs.PropertySubType.money);
         //'Pendiente
-        c.setName(Cairo.Language.getText(1609, ""));
+        c.setName(getText(1609, ""));
         c.setEnabled(false);
         c.setFormat(m_generalConfig.getFormatDecImporte());
         c.setKey(K_PENDIENTE_ORDENPAGO);
@@ -628,7 +642,7 @@
         if(!ordenPagoLoadVencimientos(c)) { return false; }
         c.setKey(K_VENCIMIENTOS);
         //'Vencimientos
-        c.setName(Cairo.Language.getText(1644, ""));
+        c.setName(getText(1644, ""));
         c.hideLabel();;
         c.setWidth(9400);
         c.setLeft(250);
@@ -674,7 +688,7 @@
         return true;
       };
 
-      var pIsAutomatic = function(bSuccess) { // TODO: Use of ByRef founded Private Function pIsAutomatic(ByRef bSuccess As Boolean) As Boolean
+      var isAutomatic = function(bSuccess) { // TODO: Use of ByRef founded Private Function pIsAutomatic(ByRef bSuccess As Boolean) As Boolean
         var opg_id = null;
 
         if(!Cairo.Database.getData(mComprasConstantes.FACTURACOMPRA, mComprasConstantes.FC_ID, m_fcId, CT.OPG_ID, opg_id)) {
@@ -690,14 +704,14 @@
       //
       var pRefreshClient = function() {
         // **TODO:** on error resume next found !!!
-        if(m_objectClient === null) { return; }
-        m_objectClient.self.refresh();
+        if(m_client === null) { return; }
+        m_client.self.refresh();
       };
 
       //////////////////////////////////////////////////////////////////////////////////////
       // FacturaCompraTemporal
       //////////////////////////////////////////////////////////////////////////////////////
-      var pSaveDocCpra = function(docId, fcTMPId) { // TODO: Use of ByRef founded Private Function pSaveDocCpra(ByVal DocId As Long, ByRef FcTMPId As Long) As Boolean
+      var saveDocCpra = function(docId, fcTMPId) { // TODO: Use of ByRef founded Private Function pSaveDocCpra(ByVal DocId As Long, ByRef FcTMPId As Long) As Boolean
         var register = null;
 
         register = new cRegister();
@@ -767,14 +781,14 @@
 
         var elem = w_columns.add(null);
         //'Producto
-        elem.setName(Cairo.Language.getText(1619, ""));
+        elem.setName(getText(1619, ""));
         elem.setType(Dialogs.PropertyType.text);
         elem.setWidth(2500);
         elem.setKey(KII_PR_ID);
 
         var elem = w_columns.add(null);
         //'Pendiente
-        elem.setName(Cairo.Language.getText(1609, ""));
+        elem.setName(getText(1609, ""));
         elem.setType(Dialogs.PropertyType.numeric);
         elem.setFormat(m_generalConfig.getFormatDecImporte());
         elem.setSubType(Dialogs.PropertySubType.money);
@@ -783,7 +797,7 @@
 
         var elem = w_columns.add(null);
         //'Aplicado
-        elem.setName(Cairo.Language.getText(1608, ""));
+        elem.setName(getText(1608, ""));
         elem.setType(Dialogs.PropertyType.numeric);
         elem.setFormat(m_generalConfig.getFormatDecImporte());
         elem.setSubType(Dialogs.PropertySubType.money);
@@ -869,28 +883,28 @@
 
         var elem = w_columns.add(null);
         //'Documento
-        elem.setName(Cairo.Language.getText(1567, ""));
+        elem.setName(getText(1567, ""));
         elem.setType(Dialogs.PropertyType.text);
         elem.setWidth(2925);
         elem.setKey(KIPR_DOC);
 
         var elem = w_columns.add(null);
         //'Comprobante
-        elem.setName(Cairo.Language.getText(1610, ""));
+        elem.setName(getText(1610, ""));
         elem.setType(Dialogs.PropertyType.text);
         elem.setWidth(1575);
         elem.setKey(KIPR_NRODOC);
 
         var elem = w_columns.add(null);
         //'Fecha
-        elem.setName(Cairo.Language.getText(1569, ""));
+        elem.setName(getText(1569, ""));
         elem.setType(Dialogs.PropertyType.date);
         elem.setWidth(1395);
         elem.setKey(KIPR_FECHA);
 
         var elem = w_columns.add(null);
         //'Pendiente
-        elem.setName(Cairo.Language.getText(1609, ""));
+        elem.setName(getText(1609, ""));
         elem.setType(Dialogs.PropertyType.numeric);
         elem.setFormat(m_generalConfig.getFormatDecImporte());
         elem.setSubType(Dialogs.PropertySubType.money);
@@ -899,7 +913,7 @@
 
         var elem = w_columns.add(null);
         //'Aplicado
-        elem.setName(Cairo.Language.getText(1608, ""));
+        elem.setName(getText(1608, ""));
         elem.setType(Dialogs.PropertyType.numeric);
         elem.setFormat(m_generalConfig.getFormatDecImporte());
         elem.setSubType(Dialogs.PropertySubType.money);
@@ -1056,7 +1070,7 @@
 
         iProp.getGrid().getRows().clear();
 
-        m_fci_id = fci_id;
+        m_fciId = fci_id;
 
         for (i = 1; i <= m_vOrdenRemito.Length; i++) {
 
@@ -1099,7 +1113,7 @@
                 break;
               }
 
-              id = m_fci_id;
+              id = m_fciId;
               for (j = 1; j <= m_vOrdenRemito[i].vAplicaciones.Length; j++) {
                 if(id === m_vOrdenRemito[i].vAplicaciones(j).fci_id && id !== Cairo.Constants.NO_ID) {
                   bAplic = true;
@@ -1286,7 +1300,7 @@
         if(idx === 0) {
           G.redimPreserve(vAplicaciones, vAplicaciones.Length + 1);
           idx = vAplicaciones.Length;
-          vAplicaciones.fci_id = m_fci_id;
+          vAplicaciones.fci_id = m_fciId;
         }
 
         vAplicaciones(idx).Aplicado = importe;
@@ -1600,14 +1614,14 @@
 
         var elem = w_columns.add(null);
         //'Fecha
-        elem.setName(Cairo.Language.getText(1569, ""));
+        elem.setName(getText(1569, ""));
         elem.setType(Dialogs.PropertyType.date);
         elem.setWidth(1395);
         elem.setKey(KIV_FECHA);
 
         var elem = w_columns.add(null);
         //'Pendiente
-        elem.setName(Cairo.Language.getText(1609, ""));
+        elem.setName(getText(1609, ""));
         elem.setType(Dialogs.PropertyType.numeric);
         elem.setFormat(m_generalConfig.getFormatDecImporte());
         elem.setSubType(Dialogs.PropertySubType.money);
@@ -1616,7 +1630,7 @@
 
         var elem = w_columns.add(null);
         //'Aplicado
-        elem.setName(Cairo.Language.getText(1608, ""));
+        elem.setName(getText(1608, ""));
         elem.setType(Dialogs.PropertyType.numeric);
         elem.setFormat(m_generalConfig.getFormatDecImporte());
         elem.setSubType(Dialogs.PropertySubType.money);
@@ -1747,28 +1761,28 @@
 
         var elem = w_columns.add(null);
         //'Documento
-        elem.setName(Cairo.Language.getText(1567, ""));
+        elem.setName(getText(1567, ""));
         elem.setType(Dialogs.PropertyType.text);
         elem.setWidth(2925);
         elem.setKey(KIC_DOC);
 
         var elem = w_columns.add(null);
         //'Comprobante
-        elem.setName(Cairo.Language.getText(1610, ""));
+        elem.setName(getText(1610, ""));
         elem.setType(Dialogs.PropertyType.text);
         elem.setWidth(1575);
         elem.setKey(KIC_NRODOC);
 
         var elem = w_columns.add(null);
         //'Fecha
-        elem.setName(Cairo.Language.getText(1569, ""));
+        elem.setName(getText(1569, ""));
         elem.setType(Dialogs.PropertyType.date);
         elem.setWidth(1395);
         elem.setKey(KIC_FECHA);
 
         var elem = w_columns.add(null);
         //'Pendiente
-        elem.setName(Cairo.Language.getText(1609, ""));
+        elem.setName(getText(1609, ""));
         elem.setType(Dialogs.PropertyType.numeric);
         elem.setFormat(m_generalConfig.getFormatDecImporte());
         elem.setSubType(Dialogs.PropertySubType.money);
@@ -1777,7 +1791,7 @@
 
         var elem = w_columns.add(null);
         //'Aplicado
-        elem.setName(Cairo.Language.getText(1608, ""));
+        elem.setName(getText(1608, ""));
         elem.setType(Dialogs.PropertyType.numeric);
         elem.setFormat(m_generalConfig.getFormatDecImporte());
         elem.setSubType(Dialogs.PropertySubType.money);
@@ -1786,7 +1800,7 @@
 
         var elem = w_columns.add(null);
         //'Cotiz.
-        elem.setName(Cairo.Language.getText(1650, ""));
+        elem.setName(getText(1650, ""));
         elem.setType(Dialogs.PropertyType.numeric);
         elem.setSubType(Dialogs.PropertySubType.money);
         elem.setFormat(m_generalConfig.getFormatDecCotizacion());
@@ -1830,8 +1844,8 @@
 
         iProp.getGrid().getRows().clear();
 
-        m_fcd_id = fcd_id;
-        m_fcp_id = fcp_id;
+        m_fcdId = fcd_id;
+        m_fcpId = fcp_id;
 
         for (i = 1; i <= m_vOpgNC.Length; i++) {
 
@@ -2091,8 +2105,8 @@
         if(idx === 0) {
           G.redimPreserve(vAplicaciones, vAplicaciones.Length + 1);
           idx = vAplicaciones.Length;
-          vAplicaciones.fcd_id = m_fcd_id;
-          vAplicaciones.fcp_id = m_fcp_id;
+          vAplicaciones.fcd_id = m_fcdId;
+          vAplicaciones.fcp_id = m_fcpId;
         }
 
         vAplicaciones(idx).Aplicado = importe;
@@ -2601,7 +2615,7 @@
         try {
 
           //'Error al grabar la factura de Compra
-          SAVE_ERROR_MESSAGE = Cairo.Language.getText(1907, "");
+          SAVE_ERROR_MESSAGE = getText(1907, "");
 
           m_generalConfig = new cGeneralConfig();
           m_generalConfig.Load;
