@@ -369,16 +369,16 @@ object C {
   val OCIB_TMP_ID = "ocibTMP_id"
 
   // Orden Factura Compra TMP
-  val ORDENFACTURA_COMPRA_TMP = "OrdenFacturaCompraTMP"
+  val ORDEN_FACTURA_COMPRA_TMP = "OrdenFacturaCompraTMP"
   val OC_FC_TMP_ID = "ocfcTMP_id"
 
   // Orden Factura Compra
-  val ORDENFACTURA_COMPRA = "OrdenFacturaCompra"
+  val ORDEN_FACTURA_COMPRA = "OrdenFacturaCompra"
   val OC_FC_ID = "ocfc_id"
   val OC_FC_CANTIDAD = "ocfc_cantidad"
 
   // Devolucion Orden Compra TMP
-  val ORDENDEVOLUCIONCOMPRATMP = "OrdenDevolucionCompraTMP"
+  val ORDEN_DEVOLUCION_COMPRA_TMP = "OrdenDevolucionCompraTMP"
   val OC_DC_TMP_ID = "ocdcTMP_id"
   val OC_DC_ID = "ocdc_id"
   val OC_DC_CANTIDAD = "ocdc_cantidad"
@@ -386,16 +386,16 @@ object C {
   val OCI_ID_ORDEN = "oci_id_Orden"
 
   // Orden Remito Compra
-  val ORDENREMITO_COMPRA = "OrdenRemitoCompra"
+  val ORDEN_REMITO_COMPRA = "OrdenRemitoCompra"
   val OC_RC_ID = "ocrc_id"
   val OC_RC_CANTIDAD = "ocrc_cantidad"
 
   // Orden Remito Compra TMP
-  val ORDENREMITO_COMPRA_TMP = "OrdenRemitoCompraTMP"
+  val ORDEN_REMITO_COMPRA_TMP = "OrdenRemitoCompraTMP"
   val OC_RC_TMP_ID = "ocrcTMP_id"
 
   // Cotizacion
-  val COTIZACIONCOMPRA = "CotizacionCompra"
+  val COTIZACION_COMPRA = "CotizacionCompra"
   val COT_ID = "cot_id"
   val COT_NUMERO = "cot_numero"
   val COT_NRODOC = "cot_nrodoc"
@@ -411,7 +411,7 @@ object C {
   val COT_FIRMADO = "cot_firmado"
 
   // Cotizacion Item
-  val COTIZACIONCOMPRAITEM = "CotizacionCompraItem"
+  val COTIZACION_COMPRA_ITEM = "CotizacionCompraItem"
   val COTI_ID = "coti_id"
   val COTI_ORDEN = "coti_orden"
   val COTI_CANTIDAD = "coti_cantidad"
@@ -429,7 +429,7 @@ object C {
   val COTI_IMPORTE = "coti_importe"
 
   // Presupuesto Compra
-  val PRESUPUESTOCOMPRA = "PresupuestoCompra"
+  val PRESUPUESTO_COMPRA = "PresupuestoCompra"
   val PRC_ID = "prc_id"
   val PRC_NUMERO = "prc_numero"
   val PRC_NRODOC = "prc_nrodoc"
@@ -449,7 +449,7 @@ object C {
   val PRC_IMPORTE_DESC_2 = "prc_importedesc2"
 
   // Presupuesto Compra Item
-  val PRESUPUESTOCOMPRAITEM = "PresupuestoCompraItem"
+  val PRESUPUESTO_COMPRA_ITEM = "PresupuestoCompraItem"
   val PRCI_ID = "prci_id"
   val PRCI_ORDEN = "prci_orden"
   val PRCI_CANTIDAD = "prci_cantidad"
@@ -469,28 +469,28 @@ object C {
   val PRCI_IMPORTE = "prci_importe"
 
   // Pedido Orden de Compra
-  val PEDIDOORDEN_COMPRA = "PedidoOrdenCompra"
+  val PEDIDO_ORDEN_COMPRA = "PedidoOrdenCompra"
   val PC_OC_ID = "pcoc_id"
   val PC_OC_CANTIDAD = "pcoc_cantidad"
 
   // Pedido Orden de Compra TMP
-  val PEDIDOORDEN_COMPRA_TMP = "PedidoOrdenCompraTMP"
+  val PEDIDO_ORDEN_COMPRA_TMP = "PedidoOrdenCompraTMP"
   val PC_OC_TMP_ID = "pcocTMP_id"
 
   // Pedido Cotizacion Compra
-  val PEDIDOCOTIZACIONCOMPRA = "PedidoCotizacionCompra"
+  val PEDIDO_COTIZACION_COMPRA = "PedidoCotizacionCompra"
   val PCCOT_ID = "pccot_id"
   val PCCOT_CANTIDAD = "pccot_cantidad"
 
   // Pedido Cotizacion Compra TMP
-  val PEDIDOCOTIZACIONCOMPRATMP = "PedidoCotizacionCompraTMP"
+  val PEDIDO_COTIZACION_COMPRA_TMP = "PedidoCotizacionCompraTMP"
   val PCCOT_TMP_ID = "pccotTMP_id"
 
   // Stock
   val ST_ID = "st_id"
 
   // Despacho Importacion Calculo
-  val DESPACHOIMPCALCULO = "DespachoImpCalculo"
+  val DESPACHO_IMP_CALCULO = "DespachoImpCalculo"
   val DIC_ID = "dic_id"
   val DIC_NUMERO = "dic_numero"
   val DIC_FECHA = "dic_fecha"
@@ -514,7 +514,7 @@ object C {
   val MON_ID2 = "mon_id2"
 
   // Despacho Importacion Calculo Item
-  val DESPACHOIMPCALCULOITEM = "DespachoImpCalculoItem"
+  val DESPACHO_IMP_CALCULO_ITEM = "DespachoImpCalculoItem"
   val DICI_ID = "dici_id"
   val DICI_CODE = "dici_codigo"
   val DICI_VALOR = "dici_valor"

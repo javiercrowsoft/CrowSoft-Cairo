@@ -1580,7 +1580,6 @@
       };
 
       var columnBeforeEditItems = function(property, lRow, lCol, iKeyAscii) {
-
         var rtn = false;
         var grid = property.getGrid();
 
