@@ -26,9 +26,9 @@
       var DB = Cairo.Database;
       var NO_ID = Cairo.Constants.NO_ID;
       var cellFloat = Dialogs.cellFloat;
-      var getCell = Dialogs.cell;
       var Types = Cairo.Constants.Types;
       var valField = DB.valField;
+      var getValue = DB.getValue;
 
       var K_PENDIENTE_ORDENPAGO = 10;
       var K_TOTAL_ORDENPAGO = 11;
@@ -121,11 +121,12 @@
       var m_apiPath = DB.getAPIVersion();
 
       var emptyData = {
+        vencimientos: [],
         items: [],
-        otros: [],
-        percepciones: [],
-        legajos: [],
-        serialNumbers: []
+        pagosAplicados: [],
+        pagosParaAplicar: [],
+        itemsAplicados: [],
+        itemsParaAplicar: []
       };
 
       var m_data = emptyData;
@@ -348,7 +349,6 @@
         data.vencimientos = data.get('vencimientos');
         data.items = data.get('items');
         data.pagosAplicados = data.get('pagosAplicados');
-        data.pagosAplicados = data.get('pagosAplicados');
         data.pagosParaAplicar = data.get('pagosParaAplicar');
         data.itemsAplicados = data.get('itemsAplicados');
         data.itemsParaAplicar = data.get('itemsParaAplicar');
@@ -566,7 +566,7 @@
 
         elem = properties.add(null, C_APLIC_ORDEN_REMITO);
         elem.setType(Dialogs.PropertyType.grid);
-        elem.hideLabel();;
+        elem.hideLabel();
         setGridAplicOrdenRemito(elem);
         elem.setKey(K_APLIC_ORDEN_REMITO);
         elem.setName("OrdenRemito");
@@ -591,7 +591,7 @@
         elem.setSubType(Dialogs.PropertySubType.money);
         elem.setName(getText(1609, "")); // Pendiente
         elem.setEnabled(false);
-        elem.setFormat(m_generalConfig.getFormatDecImporte());
+        elem.setFormat(Cairo.Settings.getAmountDecimalsFormat());
         elem.setKey(K_PENDIENTE_ORDENPAGO);
         elem.setTabIndex(1);
 
@@ -602,7 +602,7 @@
         loadVencimientos(elem);
         elem.setKey(K_VENCIMIENTOS);
         elem.setName(getText(1644, "")); // Vencimientos
-        elem.hideLabel();;
+        elem.hideLabel();
         elem.setGridEditEnabled(false);
         elem.setGridAddEnabled(false);
         elem.setGridRemoveEnabled(false);
@@ -612,11 +612,11 @@
 
         elem = properties.add(null, C_APLICORDENPAGO);
         elem.setType(Dialogs.PropertyType.grid);
-        elem.hideLabel();;
+        elem.hideLabel();
         setGridAplicOrdenPago(elem);
         elem.setKey(K_APLIC_ORDENPAGO);
         elem.setName("OrdenPago");
-        elem.hideLabel();;
+        elem.hideLabel();
         elem.setGridEditEnabled(true);
         elem.setGridAddEnabled(false);
         elem.setGridRemoveEnabled(false);
@@ -657,219 +657,211 @@
         itemLoadAplicCreditos();
       };
 
-      var loadItems = function(propiedad) {
+      var setGridItems = function(property) {
 
-        sqlstmt = "sp_DocFacturaCompraGetAplic "+ Cairo.Company.getId().toString()+ ","+ m_fcId+ ",4";
-        if(!Cairo.Database.openRs(sqlstmt, rs, csTypeCursor.cSRSSTATIC, csTypeLock.cSLOCKREADONLY, csCommandType.cSCMDTEXT, "pItLoadItems", C_MODULE)) { return false; }
+        var elem;
 
-        propiedad.getGrid().getColumns().clear();
-        propiedad.getGrid().getRows().clear();
+        var grid = property.getGrid();
 
-        grid = propiedad.getGrid();
+        var columns = grid.getColumns();
+        columns.clear();
 
-        var w_columns = grid.getColumns();
-        var elem = w_columns.add(null);
+        elem = columns.add(null);
         elem.setVisible(false);
         elem.setKey(KII_FCI_ID);
 
-        var elem = w_columns.add(null);
+        elem = columns.add(null);
         elem.setName(getText(1619, "")); // Producto
         elem.setType(Dialogs.PropertyType.text);
         elem.setKey(KII_PR_ID);
 
-        var elem = w_columns.add(null);
+        elem = columns.add(null);
         elem.setName(getText(1609, "")); // Pendiente
         elem.setType(Dialogs.PropertyType.numeric);
-        elem.setFormat(m_generalConfig.getFormatDecImporte());
+        elem.setFormat(Cairo.Settings.getAmountDecimalsFormat());
         elem.setSubType(Dialogs.PropertySubType.money);
         elem.setKey(KII_PENDIENTE);
 
-        var elem = w_columns.add(null);
+        elem = columns.add(null);
         elem.setName(getText(1608, "")); // Aplicado
         elem.setType(Dialogs.PropertyType.numeric);
-        elem.setFormat(m_generalConfig.getFormatDecImporte());
+        elem.setFormat(Cairo.Settings.getAmountDecimalsFormat());
         elem.setSubType(Dialogs.PropertySubType.money);
         elem.setKey(KII_APLICADO);
 
-        var elem = w_columns.add(null);
+        elem = columns.add(null);
         elem.setVisible(false);
         elem.setKey(KII_APLICADO2);
 
-        var f = null;
-        var fv = null;
+        grid.getRows().clear();
+      };
+      
+      var loadItems = function(property) {
 
-        while (!rs.isEOF()) {
+        var elem;
+        var grid = property.getGrid();
+        var rows = grid.getRows();
 
-          f = propiedad.getGrid().getRows().add(null);
+        rows.clear();
 
-          fv = f.add(null);
-          fv.setID(Cairo.Database.valField(rs.getFields(), CC.FCI_ID));
-          fv.setKey(KII_FCI_ID);
+        for(var _i = 0, count = m_data.items.length; _i < count; _i += 1) {
 
-          fv = f.add(null);
-          fv.setID(Cairo.Database.valField(rs.getFields(), CC.PR_ID));
-          fv.setValue(Cairo.Database.valField(rs.getFields(), CC.PR_NOMBRECOMPRA));
-          fv.setKey(KII_PR_ID);
+          var row = rows.add(null);
 
-          fv = f.add(null);
-          fv.setValue(Cairo.Database.valField(rs.getFields(), CC.FCI_PENDIENTE));
-          fv.setKey(KII_PENDIENTE);
+          elem = row.add(null);
+          elem.setId(getValue(m_data.items[_i], CC.FCI_ID));
+          elem.setKey(KII_FCI_ID);
 
-          value = Cairo.Database.valField(rs.getFields(), C.APLICADO);
-          fv = f.add(null);
-          fv.setValue(value);
-          fv.setKey(KII_APLICADO);
+          elem = row.add(null);
+          elem.setId(getValue(m_data.items[_i], C.PR_ID));
+          elem.setValue(getValue(m_data.items[_i], C.PR_NAME_COMPRA));
+          elem.setKey(KII_PR_ID);
+
+          elem = row.add(null);
+          elem.setValue(getValue(m_data.items[_i], CC.FCI_PENDIENTE));
+          elem.setKey(KII_PENDIENTE);
+
+          var value = getValue(m_data.items[_i], C.APLICADO);
+          elem = row.add(null);
+          elem.setValue(value);
+          elem.setKey(KII_APLICADO);
 
           if(value !== 0) {
-            row = f;
-            row.setBackColor(&HFFCC99);
+            row.setBackColor("#FFCC99");
           }
 
-          fv = f.add(null);
-          fv.setValue(Cairo.Database.valField(rs.getFields(), C.APLICADO));
-          fv.setKey(KII_APLICADO2);
-
-          rs.MoveNext;
+          elem = row.add(null);
+          elem.setValue(getValue(m_data.items[_i], C.APLICADO));
+          elem.setKey(KII_APLICADO2);
         }
-
-        return true;
       };
 
-      var setGridAplicOrdenRemito = function(propiedad) { // TODO: Use of ByRef founded Private Function itemSetGridAplicOrdenRemito(ByRef Propiedad As cIABMProperty) As Boolean
-        var grid = null;
+      var setGridAplicOrdenRemito = function(property) {
+        var elem;
 
-        propiedad.getGrid().getColumns().clear();
-        propiedad.getGrid().getRows().clear();
+        var grid = property.getGrid();
+        grid.getColumns().clear();
+        grid.getRows().clear();
 
-        grid = propiedad.getGrid();
-
-        var w_columns = grid.getColumns();
-        var elem = w_columns.add(null);
+        var columns = grid.getColumns();
+        elem = columns.add(null);
         elem.setVisible(false);
         elem.setKey(KIPR_IDX1);
 
-        var elem = w_columns.add(null);
+        elem = columns.add(null);
         elem.setVisible(false);
         elem.setKey(KIPR_IDX2);
 
-        var elem = w_columns.add(null);
+        elem = columns.add(null);
         elem.setVisible(false);
         elem.setKey(KIPR_RCFC_ID);
 
-        var elem = w_columns.add(null);
+        elem = columns.add(null);
         elem.setVisible(false);
         elem.setKey(KIPR_OCFC_ID);
 
-        var elem = w_columns.add(null);
+        elem = columns.add(null);
         elem.setVisible(false);
         elem.setKey(KIPR_RCI_ID);
 
-        var elem = w_columns.add(null);
+        elem = columns.add(null);
         elem.setVisible(false);
         elem.setKey(KIPR_RC_ID);
 
-        var elem = w_columns.add(null);
+        elem = columns.add(null);
         elem.setVisible(false);
         elem.setKey(KIPR_OCI_ID);
 
-        var elem = w_columns.add(null);
+        elem = columns.add(null);
         elem.setVisible(false);
         elem.setKey(KIPR_OC_ID);
 
-        var elem = w_columns.add(null);
+        elem = columns.add(null);
         elem.setName(getText(1567, "")); // Documento
         elem.setType(Dialogs.PropertyType.text);
         elem.setKey(KIPR_DOC);
 
-        var elem = w_columns.add(null);
+        elem = columns.add(null);
         elem.setName(getText(1610, "")); // Comprobante
         elem.setType(Dialogs.PropertyType.text);
         elem.setKey(KIPR_NRODOC);
 
-        var elem = w_columns.add(null);
+        elem = columns.add(null);
         elem.setName(getText(1569, "")); // Fecha
         elem.setType(Dialogs.PropertyType.date);
         elem.setKey(KIPR_FECHA);
 
-        var elem = w_columns.add(null);
+        elem = columns.add(null);
         elem.setName(getText(1609, "")); // Pendiente
         elem.setType(Dialogs.PropertyType.numeric);
-        elem.setFormat(m_generalConfig.getFormatDecImporte());
+        elem.setFormat(Cairo.Settings.getAmountDecimalsFormat());
         elem.setSubType(Dialogs.PropertySubType.money);
         elem.setKey(KIPR_PENDIENTE);
 
-        var elem = w_columns.add(null);
+        elem = columns.add(null);
         elem.setName(getText(1608, "")); // Aplicado
         elem.setType(Dialogs.PropertyType.numeric);
-        elem.setFormat(m_generalConfig.getFormatDecImporte());
+        elem.setFormat(Cairo.Settings.getAmountDecimalsFormat());
         elem.setSubType(Dialogs.PropertySubType.money);
         elem.setKey(KIPR_APLICADO);
 
-        var elem = w_columns.add(null);
+        elem = columns.add(null);
         elem.setVisible(false);
         elem.setKey(KIPR_APLICADO2);
 
-        return true;
+        grid.getRows().clear();
       };
 
       var itemLoadAplicAplicados = function() {
-        var sqlstmt = null;
-        var rs = null;
-        var i = null;
-        var idx = null;
 
-        sqlstmt = "sp_DocFacturaCompraGetAplic "+ Cairo.Company.getId().toString()+ ","+ m_fcId+ ",5";
-        if(!Cairo.Database.openRs(sqlstmt, rs, csTypeCursor.cSRSSTATIC, csTypeLock.cSLOCKREADONLY, csCommandType.cSCMDTEXT, "pLoadAplicAplicados", C_MODULE)) { return false; }
+        m_vOrdenRemito = [];
 
-        G.redim(m_vOrdenRemito, 0);
-        G.redimPreserve(0, .vAplicaciones);
+        for(var _i = 0, count = m_data.itemsAplicados.length; _i < count; _i += 1) {
 
-        if(!rs.isEOF()) {
+          var indexInfo = itemAddToCreditos(
+            getValue(m_data.itemsAplicados[_i], CC.RCI_ID),
+            getValue(m_data.itemsAplicados[_i], CC.OCI_ID)
+          );
 
-          rs.MoveLast;
-          rs.MoveFirst;
+          var item = m_vOrdenRemito[indexInfo.indexOrdenRemito];
 
-          while (!rs.isEOF()) {
-
-            i = itemAddToCreditos(Cairo.Database.valField(rs.getFields(), CC.RCI_ID), Cairo.Database.valField(rs.getFields(), CC.OCI_ID), idx);
-
-            // Documento
-            //
-            m_vOrdenRemito[i].docNombre = Cairo.Database.valField(rs.getFields(), CC.DOC_NAME);
-            m_vOrdenRemito[i].nroDoc = Cairo.Database.valField(rs.getFields(), C.NRO_DOC);
-            m_vOrdenRemito[i].fecha = Cairo.Database.valField(rs.getFields(), C.FECHA);
-
-            // Pendiente
-            //
-            m_vOrdenRemito[i].pendiente = Cairo.Database.valField(rs.getFields(), CSCPENDIENTE);
-            m_vOrdenRemito[i].pendienteActual = m_vOrdenRemito[i].pendiente;
-
-            // Orden / Remito
-            //
-            m_vOrdenRemito[i].rci_id = Cairo.Database.valField(rs.getFields(), CC.RCI_ID);
-            m_vOrdenRemito[i].rc_id = Cairo.Database.valField(rs.getFields(), CC.RC_ID);
-            m_vOrdenRemito[i].oci_id = Cairo.Database.valField(rs.getFields(), CC.OCI_ID);
-            m_vOrdenRemito[i].oc_id = Cairo.Database.valField(rs.getFields(), CC.OC_ID);
-            m_vOrdenRemito[i].pR_ID = Cairo.Database.valField(rs.getFields(), CC.PR_ID);
-
-            // Aplicaciones
-
-            vAplicaciones.rcfc_id = Cairo.Database.valField(rs.getFields(), CC.RC_FC_ID);
-            vAplicaciones.ocfc_id = Cairo.Database.valField(rs.getFields(), CC.OC_FC_ID);
-
-            vAplicaciones.fci_id = Cairo.Database.valField(rs.getFields(), CC.FCI_ID);
-
-            vAplicaciones.Aplicado = Cairo.Database.valField(rs.getFields(), C.APLICADO);
-
-            // Aplicacion total sobre este credito
-            m_vOrdenRemito[i].aplicado = m_vOrdenRemito[i].aplicado + m_vOrdenRemito[i].vAplicaciones(idx).Aplicado;
-            m_vOrdenRemito[i].aplicadoActual = m_vOrdenRemito[i].aplicado;
-
-            rs.MoveNext;
+          if(item === undefined) {
+            item = { vAplicaciones: [] };
           }
-        }
 
-        return true;
+          // document
+          //
+          item.docNombre = getValue(m_data.itemsAplicados[_i], CC.DOC_NAME);
+          item.nroDoc = getValue(m_data.itemsAplicados[_i], C.NRO_DOC);
+          item.fecha = getValue(m_data.itemsAplicados[_i], C.FECHA);
+
+          // pending
+          //
+          item.pendiente = getValue(m_data.itemsAplicados[_i], C.PENDIENTE);
+          item.pendienteActual = item.pendiente;
+
+          // buying order / delivery notice
+          //
+          item.rci_id = getValue(m_data.itemsAplicados[_i], CC.RCI_ID);
+          item.rc_id = getValue(m_data.itemsAplicados[_i], CC.RC_ID);
+          item.oci_id = getValue(m_data.itemsAplicados[_i], CC.OCI_ID);
+          item.oc_id = getValue(m_data.itemsAplicados[_i], CC.OC_ID);
+          item.pR_ID = getValue(m_data.itemsAplicados[_i], C.PR_ID);
+
+          // applied
+          //
+          var aplicaciones = item.vAplicaciones[indexInfo.indexAplic];
+          aplicaciones.rcfc_id = getValue(m_data.itemsAplicados[_i], CC.RC_FC_ID);
+          aplicaciones.ocfc_id = getValue(m_data.itemsAplicados[_i], CC.OC_FC_ID);
+          aplicaciones.fci_id = getValue(m_data.itemsAplicados[_i], CC.FCI_ID);
+          aplicaciones.aplicado = getValue(m_data.itemsAplicados[_i], C.APLICADO);
+
+          // total applied to this credit
+          //
+          item.aplicado = item.aplicado
+            + item.vAplicaciones[indexInfo.indexAplic].aplicado;
+          item.aplicadoActual = item.aplicado;
+        }
       };
 
       var itemLoadAplicCreditos = function() {
@@ -891,17 +883,17 @@
           while (!rs.isEOF()) {
 
             i = i + 1;
-            m_vOrdenRemito[i].pR_ID = Cairo.Database.valField(rs.getFields(), CC.PR_ID);
-            m_vOrdenRemito[i].rci_id = Cairo.Database.valField(rs.getFields(), CC.RCI_ID);
-            m_vOrdenRemito[i].rc_id = Cairo.Database.valField(rs.getFields(), CC.RC_ID);
-            m_vOrdenRemito[i].oci_id = Cairo.Database.valField(rs.getFields(), CC.OCI_ID);
-            m_vOrdenRemito[i].oc_id = Cairo.Database.valField(rs.getFields(), CC.OC_ID);
+            m_vOrdenRemito[i].pR_ID = valField(rs.getFields(), C.PR_ID);
+            m_vOrdenRemito[i].rci_id = valField(rs.getFields(), CC.RCI_ID);
+            m_vOrdenRemito[i].rc_id = valField(rs.getFields(), CC.RC_ID);
+            m_vOrdenRemito[i].oci_id = valField(rs.getFields(), CC.OCI_ID);
+            m_vOrdenRemito[i].oc_id = valField(rs.getFields(), CC.OC_ID);
 
-            m_vOrdenRemito[i].docNombre = Cairo.Database.valField(rs.getFields(), CC.DOC_NAME);
-            m_vOrdenRemito[i].nroDoc = Cairo.Database.valField(rs.getFields(), C.NRO_DOC);
-            m_vOrdenRemito[i].fecha = Cairo.Database.valField(rs.getFields(), C.FECHA);
+            m_vOrdenRemito[i].docNombre = valField(rs.getFields(), CC.DOC_NAME);
+            m_vOrdenRemito[i].nroDoc = valField(rs.getFields(), C.NRO_DOC);
+            m_vOrdenRemito[i].fecha = valField(rs.getFields(), C.FECHA);
 
-            m_vOrdenRemito[i].pendiente = Cairo.Database.valField(rs.getFields(), CSCPENDIENTE);
+            m_vOrdenRemito[i].pendiente = valField(rs.getFields(), CSCPENDIENTE);
             m_vOrdenRemito[i].pendienteActual = m_vOrdenRemito[i].pendiente;
 
             G.redim(m_vOrdenRemito[i].vAplicaciones, 0);
@@ -913,27 +905,22 @@
         return true;
       };
 
-      var itemAddToCreditos = function(rciId, ociId, idx) { // TODO: Use of ByRef founded Private Function itemAddToCreditos(ByVal RciId As Long, ByVal OciId As Long, ByRef Idx As Long) As Long
-        var _rtn = 0;
-        var i = null;
+      var itemAddToCreditos = function(rciId, ociId) {
+        var indexInfo = {
+          indexOrdenRemito: 0,
+          indexAplic: 0
+        };
 
-        for(i = 1; i <= m_vOrdenRemito.Length; i++) {
-          if((m_vOrdenRemito[i].rci_id === rciId && rciId !== NO_ID) || (m_vOrdenRemito[i].oci_id === ociId && ociId !== NO_ID)) {
-
-            G.redimPreserve(m_vOrdenRemito[i].vAplicaciones, m_vOrdenRemito[i].vAplicaciones.Length + 1);
-
-            idx = m_vOrdenRemito[i].vAplicaciones.Length;
-            _rtn = i;
-            return _rtn;
+        for(var i = 1, count = m_vOrdenRemito.length; i < count; i += 1) {
+          if(   (m_vOrdenRemito[i].rci_id === rciId && rciId !== NO_ID)
+             || (m_vOrdenRemito[i].oci_id === ociId && ociId !== NO_ID)) {
+            indexInfo.indexRemito = i;
+            indexInfo.indexAplic = m_vOrdenRemito[i].vAplicaciones.length + 1;
+            break;
           }
         }
 
-        G.redimPreserve(m_vOrdenRemito, m_vOrdenRemito.Length + 1);
-        G.redimPreserve(m_vOrdenRemito.Length, .vAplicaciones);
-        _rtn = m_vOrdenRemito.Length;
-        idx = 1;
-
-        return _rtn;
+        return indexInfo;
       };
 
       var itemUpdateGrids = function() {
@@ -1020,7 +1007,7 @@
         return true;
       };
 
-      var itemUpdateAplicItems = function(propiedad, fci_id) { // TODO: Use of ByRef founded Private Function itemUpdateAplicItems(ByRef Propiedad As cIABMProperty, ByVal fci_id As Long) As Double
+      var itemUpdateAplicItems = function(property, fci_id) { // TODO: Use of ByRef founded Private Function itemUpdateAplicItems(ByRef property As cIABMProperty, ByVal fci_id As Long) As Double
         var cotizacion = null;
         var i = null;
         var j = null;
@@ -1061,66 +1048,66 @@
 
             f = iProp.getGrid().getRows().add(null);
 
-            fv = f.add(null);
-            fv.setID(idx);
-            fv.setKey(KIPR_IDX1);
+            elem = row.add(null);
+            elem.setId(idx);
+            elem.setKey(KIPR_IDX1);
 
-            fv = f.add(null);
-            fv.setID(i);
-            fv.setKey(KIPR_IDX2);
+            elem = row.add(null);
+            elem.setId(i);
+            elem.setKey(KIPR_IDX2);
 
-            fv = f.add(null);
-            fv.setID(m_vOrdenRemito[idx].vAplicaciones[i].rcfc_id);
-            fv.setKey(KIPR_RCFC_ID);
+            elem = row.add(null);
+            elem.setId(m_vOrdenRemito[idx].vAplicaciones[i].rcfc_id);
+            elem.setKey(KIPR_RCFC_ID);
 
-            fv = f.add(null);
-            fv.setID(m_vOrdenRemito[idx].vAplicaciones[i].ocfc_id);
-            fv.setKey(KIPR_OCFC_ID);
+            elem = row.add(null);
+            elem.setId(m_vOrdenRemito[idx].vAplicaciones[i].ocfc_id);
+            elem.setKey(KIPR_OCFC_ID);
 
-            fv = f.add(null);
-            fv.setID(m_vOrdenRemito[idx].rci_id);
-            fv.setKey(KIPR_RCI_ID);
+            elem = row.add(null);
+            elem.setId(m_vOrdenRemito[idx].rci_id);
+            elem.setKey(KIPR_RCI_ID);
 
-            fv = f.add(null);
-            fv.setID(m_vOrdenRemito[idx].rc_id);
-            fv.setKey(KIPR_RC_ID);
+            elem = row.add(null);
+            elem.setId(m_vOrdenRemito[idx].rc_id);
+            elem.setKey(KIPR_RC_ID);
 
-            fv = f.add(null);
-            fv.setID(m_vOrdenRemito[idx].oci_id);
-            fv.setKey(KIPR_OCI_ID);
+            elem = row.add(null);
+            elem.setId(m_vOrdenRemito[idx].oci_id);
+            elem.setKey(KIPR_OCI_ID);
 
-            fv = f.add(null);
-            fv.setID(m_vOrdenRemito[idx].oc_id);
-            fv.setKey(KIPR_OC_ID);
+            elem = row.add(null);
+            elem.setId(m_vOrdenRemito[idx].oc_id);
+            elem.setKey(KIPR_OC_ID);
 
-            fv = f.add(null);
-            fv.setValue(m_vOrdenRemito[idx].docNombre);
-            fv.setKey(KIPR_DOC);
+            elem = row.add(null);
+            elem.setValue(m_vOrdenRemito[idx].docNombre);
+            elem.setKey(KIPR_DOC);
 
-            fv = f.add(null);
-            fv.setValue(m_vOrdenRemito[idx].nroDoc);
-            fv.setKey(KIPR_NRODOC);
+            elem = row.add(null);
+            elem.setValue(m_vOrdenRemito[idx].nroDoc);
+            elem.setKey(KIPR_NRODOC);
 
-            fv = f.add(null);
+            elem = row.add(null);
             if(m_vOrdenRemito[idx].fecha === Cairo.Constants.cSNODATE) {
-              fv.setValue("");
+              elem.setValue("");
             }
             else {
-              fv.setValue(m_vOrdenRemito[idx].fecha);
+              elem.setValue(m_vOrdenRemito[idx].fecha);
             }
-            fv.setKey(KIPR_FECHA);
+            elem.setKey(KIPR_FECHA);
 
-            fv = f.add(null);
-            fv.setValue(m_vOrdenRemito[idx].pendiente);
-            fv.setKey(KIPR_PENDIENTE);
+            elem = row.add(null);
+            elem.setValue(m_vOrdenRemito[idx].pendiente);
+            elem.setKey(KIPR_PENDIENTE);
 
-            fv = f.add(null);
-            fv.setValue(m_vOrdenRemito[idx].vAplicaciones[i].Aplicado);
-            fv.setKey(KIPR_APLICADO);
+            elem = row.add(null);
+            elem.setValue(m_vOrdenRemito[idx].vAplicaciones[i].Aplicado);
+            elem.setKey(KIPR_APLICADO);
 
-            fv = f.add(null);
-            fv.setValue(m_vOrdenRemito[idx].vAplicaciones[i].Aplicado);
-            fv.setKey(KIPR_APLICADO2);
+            elem = row.add(null);
+            elem.setValue(m_vOrdenRemito[idx].vAplicaciones[i].Aplicado);
+            elem.setKey(KIPR_APLICADO2);
 
             row = f;
             row.setBackColor(&HFFCC99);
@@ -1136,66 +1123,66 @@
 
         f = iProp.getGrid().getRows().add(null);
 
-        fv = f.add(null);
-        fv.setID(i);
-        fv.setKey(KIPR_IDX1);
+        elem = row.add(null);
+        elem.setId(i);
+        elem.setKey(KIPR_IDX1);
 
-        fv = f.add(null);
-        fv.setID(0);
-        fv.setKey(KIPR_IDX2);
+        elem = row.add(null);
+        elem.setId(0);
+        elem.setKey(KIPR_IDX2);
 
-        fv = f.add(null);
-        fv.setID(NO_ID);
-        fv.setKey(KIPR_RCFC_ID);
+        elem = row.add(null);
+        elem.setId(NO_ID);
+        elem.setKey(KIPR_RCFC_ID);
 
-        fv = f.add(null);
-        fv.setID(NO_ID);
-        fv.setKey(KIPR_OCFC_ID);
+        elem = row.add(null);
+        elem.setId(NO_ID);
+        elem.setKey(KIPR_OCFC_ID);
 
-        fv = f.add(null);
-        fv.setID(m_vOrdenRemito[i].rci_id);
-        fv.setKey(KIPR_RCI_ID);
+        elem = row.add(null);
+        elem.setId(m_vOrdenRemito[i].rci_id);
+        elem.setKey(KIPR_RCI_ID);
 
-        fv = f.add(null);
-        fv.setID(m_vOrdenRemito[i].rc_id);
-        fv.setKey(KIPR_RC_ID);
+        elem = row.add(null);
+        elem.setId(m_vOrdenRemito[i].rc_id);
+        elem.setKey(KIPR_RC_ID);
 
-        fv = f.add(null);
-        fv.setID(m_vOrdenRemito[i].oci_id);
-        fv.setKey(KIPR_OCI_ID);
+        elem = row.add(null);
+        elem.setId(m_vOrdenRemito[i].oci_id);
+        elem.setKey(KIPR_OCI_ID);
 
-        fv = f.add(null);
-        fv.setID(m_vOrdenRemito[i].oci_id);
-        fv.setKey(KIPR_OC_ID);
+        elem = row.add(null);
+        elem.setId(m_vOrdenRemito[i].oci_id);
+        elem.setKey(KIPR_OC_ID);
 
-        fv = f.add(null);
-        fv.setValue(m_vOrdenRemito[i].docNombre);
-        fv.setKey(KIPR_DOC);
+        elem = row.add(null);
+        elem.setValue(m_vOrdenRemito[i].docNombre);
+        elem.setKey(KIPR_DOC);
 
-        fv = f.add(null);
-        fv.setValue(m_vOrdenRemito[i].nroDoc);
-        fv.setKey(KIPR_NRODOC);
+        elem = row.add(null);
+        elem.setValue(m_vOrdenRemito[i].nroDoc);
+        elem.setKey(KIPR_NRODOC);
 
-        fv = f.add(null);
+        elem = row.add(null);
         if(m_vOrdenRemito[i].fecha === Cairo.Constants.cSNODATE) {
-          fv.setValue("");
+          elem.setValue("");
         }
         else {
-          fv.setValue(m_vOrdenRemito[i].fecha);
+          elem.setValue(m_vOrdenRemito[i].fecha);
         }
-        fv.setKey(KIPR_FECHA);
+        elem.setKey(KIPR_FECHA);
 
-        fv = f.add(null);
-        fv.setValue(m_vOrdenRemito[i].pendiente);
-        fv.setKey(KIPR_PENDIENTE);
+        elem = row.add(null);
+        elem.setValue(m_vOrdenRemito[i].pendiente);
+        elem.setKey(KIPR_PENDIENTE);
 
-        fv = f.add(null);
-        fv.setValue(0);
-        fv.setKey(KIPR_APLICADO);
+        elem = row.add(null);
+        elem.setValue(0);
+        elem.setKey(KIPR_APLICADO);
 
-        fv = f.add(null);
-        fv.setValue(0);
-        fv.setKey(KIPR_APLICADO2);
+        elem = row.add(null);
+        elem.setValue(0);
+        elem.setKey(KIPR_APLICADO2);
       };
 
       var itemAddToAplic = function(vAplicaciones, importe, idx) { // TODO: Use of ByRef founded Private Function itemAddToAplic(ByRef vAplicaciones() As T_ItAplic, ByVal Importe As Double, ByVal Idx As Long) As Double
@@ -1443,40 +1430,40 @@
 
           while (!rs.isEOF()) {
 
-            i = ordenPagoAddToCreditos(Cairo.Database.valField(rs.getFields(), CT.OPG_ID), Cairo.Database.valField(rs.getFields(), CT.FCD_ID), Cairo.Database.valField(rs.getFields(), CT.FCP_ID), idx);
+            i = ordenPagoAddToCreditos(valField(rs.getFields(), CT.OPG_ID), valField(rs.getFields(), CT.FCD_ID), valField(rs.getFields(), CT.FCP_ID), idx);
 
             // Documento
             //
-            m_vOpgNC[i].docNombre = Cairo.Database.valField(rs.getFields(), CC.DOC_NAME);
-            m_vOpgNC[i].nroDoc = Cairo.Database.valField(rs.getFields(), "nrodoc");
+            m_vOpgNC[i].docNombre = valField(rs.getFields(), CC.DOC_NAME);
+            m_vOpgNC[i].nroDoc = valField(rs.getFields(), "nrodoc");
 
             // Pendiente
             //
-            m_vOpgNC[i].pendiente = Cairo.Database.valField(rs.getFields(), "Pendiente");
+            m_vOpgNC[i].pendiente = valField(rs.getFields(), "Pendiente");
             m_vOpgNC[i].pendienteActual = m_vOpgNC[i].pendiente;
 
             // Factura o Nota de credito
             //
-            m_vOpgNC[i].fc_id = Cairo.Database.valField(rs.getFields(), CC.FC_ID);
+            m_vOpgNC[i].fc_id = valField(rs.getFields(), CC.FC_ID);
 
-            m_vOpgNC[i].fcp_id = Cairo.Database.valField(rs.getFields(), "fcp_id2");
-            m_vOpgNC[i].fcd_id = Cairo.Database.valField(rs.getFields(), "fcd_id2");
+            m_vOpgNC[i].fcp_id = valField(rs.getFields(), "fcp_id2");
+            m_vOpgNC[i].fcd_id = valField(rs.getFields(), "fcd_id2");
 
             // OrdenPago
             //
-            m_vOpgNC[i].opg_id = Cairo.Database.valField(rs.getFields(), CT.OPG_ID);
-            m_vOpgNC[i].fecha = Cairo.Database.valField(rs.getFields(), CT.OPG_FECHA);
-            m_vOpgNC[i].cotizacion = Cairo.Database.valField(rs.getFields(), CT.FC_OPG_COTIZACION);
+            m_vOpgNC[i].opg_id = valField(rs.getFields(), CT.OPG_ID);
+            m_vOpgNC[i].fecha = valField(rs.getFields(), CT.OPG_FECHA);
+            m_vOpgNC[i].cotizacion = valField(rs.getFields(), CT.FC_OPG_COTIZACION);
 
             // Aplicaciones
 
-            vAplicaciones.fcopg_id = Cairo.Database.valField(rs.getFields(), CT.FC_OPG_ID);
-            vAplicaciones.fcnc_id = Cairo.Database.valField(rs.getFields(), CT.FC_NC_ID);
+            vAplicaciones.fcopg_id = valField(rs.getFields(), CT.FC_OPG_ID);
+            vAplicaciones.fcnc_id = valField(rs.getFields(), CT.FC_NC_ID);
 
-            vAplicaciones.fcp_id = Cairo.Database.valField(rs.getFields(), CT.FCP_ID);
-            vAplicaciones.fcd_id = Cairo.Database.valField(rs.getFields(), CT.FCD_ID);
+            vAplicaciones.fcp_id = valField(rs.getFields(), CT.FCP_ID);
+            vAplicaciones.fcd_id = valField(rs.getFields(), CT.FCD_ID);
 
-            vAplicaciones.Aplicado = Cairo.Database.valField(rs.getFields(), "Aplicado");
+            vAplicaciones.Aplicado = valField(rs.getFields(), "Aplicado");
 
             // Aplicacion total sobre este credito
             m_vOpgNC[i].aplicado = m_vOpgNC[i].aplicado + m_vOpgNC[i].vAplicaciones(idx).Aplicado;
@@ -1489,7 +1476,7 @@
         return true;
       };
 
-      var loadVencimientos = function(propiedad) { // TODO: Use of ByRef founded Private Function ordenPagoLoadVencimientos(ByRef Propiedad As cIABMProperty) As Boolean
+      var loadVencimientos = function(property) { // TODO: Use of ByRef founded Private Function ordenPagoLoadVencimientos(ByRef property As cIABMProperty) As Boolean
         var sqlstmt = null;
         var rs = null;
         var grid = null;
@@ -1498,40 +1485,40 @@
         sqlstmt = "sp_DocFacturaCompraGetAplic "+ Cairo.Company.getId().toString()+ ","+ m_fcId+ ",1";
         if(!Cairo.Database.openRs(sqlstmt, rs, csTypeCursor.cSRSSTATIC, csTypeLock.cSLOCKREADONLY, csCommandType.cSCMDTEXT, "pLoadAplic", C_MODULE)) { return false; }
 
-        propiedad.getGrid().getColumns().clear();
-        propiedad.getGrid().getRows().clear();
+        property.getGrid().getColumns().clear();
+        property.getGrid().getRows().clear();
 
-        grid = propiedad.getGrid();
+        grid = property.getGrid();
 
-        var w_columns = grid.getColumns();
-        var elem = w_columns.add(null);
+        var columns = grid.getColumns();
+        var elem = columns.add(null);
         elem.setVisible(false);
         elem.setKey(KIV_FCD_ID);
 
-        var elem = w_columns.add(null);
+        var elem = columns.add(null);
         elem.setVisible(false);
         elem.setKey(KIV_FCP_ID);
 
-        var elem = w_columns.add(null);
+        var elem = columns.add(null);
         elem.setName(getText(1569, "")); // Fecha
         elem.setType(Dialogs.PropertyType.date);
         elem.setKey(KIV_FECHA);
 
-        var elem = w_columns.add(null);
+        var elem = columns.add(null);
         elem.setName(getText(1609, "")); // Pendiente
         elem.setType(Dialogs.PropertyType.numeric);
-        elem.setFormat(m_generalConfig.getFormatDecImporte());
+        elem.setFormat(Cairo.Settings.getAmountDecimalsFormat());
         elem.setSubType(Dialogs.PropertySubType.money);
         elem.setKey(KIV_PENDIENTE);
 
-        var elem = w_columns.add(null);
+        var elem = columns.add(null);
         elem.setName(getText(1608, "")); // Aplicado
         elem.setType(Dialogs.PropertyType.numeric);
-        elem.setFormat(m_generalConfig.getFormatDecImporte());
+        elem.setFormat(Cairo.Settings.getAmountDecimalsFormat());
         elem.setSubType(Dialogs.PropertySubType.money);
         elem.setKey(KIV_APLICADO);
 
-        var elem = w_columns.add(null);
+        var elem = columns.add(null);
         elem.setVisible(false);
         elem.setKey(KIV_APLICADO2);
 
@@ -1540,31 +1527,31 @@
 
         while (!rs.isEOF()) {
 
-          f = propiedad.getGrid().getRows().add(null);
+          var row = rows.add(null);
 
-          fv = f.add(null);
-          fv.setID(Cairo.Database.valField(rs.getFields(), CT.FCD_ID));
-          fv.setKey(KIV_FCD_ID);
+          elem = row.add(null);
+          elem.setId(valField(rs.getFields(), CT.FCD_ID));
+          elem.setKey(KIV_FCD_ID);
 
-          fv = f.add(null);
-          fv.setID(Cairo.Database.valField(rs.getFields(), CT.FCP_ID));
-          fv.setKey(KIV_FCP_ID);
+          elem = row.add(null);
+          elem.setId(valField(rs.getFields(), CT.FCP_ID));
+          elem.setKey(KIV_FCP_ID);
 
-          fv = f.add(null);
-          fv.setValue(Cairo.Database.valField(rs.getFields(), "Fecha"));
-          fv.setKey(KIV_FECHA);
+          elem = row.add(null);
+          elem.setValue(valField(rs.getFields(), "Fecha"));
+          elem.setKey(KIV_FECHA);
 
-          fv = f.add(null);
-          fv.setValue(Cairo.Database.valField(rs.getFields(), "Pendiente"));
-          fv.setKey(KIV_PENDIENTE);
+          elem = row.add(null);
+          elem.setValue(valField(rs.getFields(), "Pendiente"));
+          elem.setKey(KIV_PENDIENTE);
 
-          fv = f.add(null);
-          fv.setValue(Cairo.Database.valField(rs.getFields(), "Importe"));
-          fv.setKey(KIV_APLICADO);
+          elem = row.add(null);
+          elem.setValue(valField(rs.getFields(), "Importe"));
+          elem.setKey(KIV_APLICADO);
 
-          fv = f.add(null);
-          fv.setValue(Cairo.Database.valField(rs.getFields(), "Importe"));
-          fv.setKey(KIV_APLICADO2);
+          elem = row.add(null);
+          elem.setValue(valField(rs.getFields(), "Importe"));
+          elem.setKey(KIV_APLICADO2);
 
           rs.MoveNext;
         }
@@ -1592,18 +1579,18 @@
           while (!rs.isEOF()) {
 
             i = i + 1;
-            m_vOpgNC[i].opg_id = Cairo.Database.valField(rs.getFields(), CT.OPG_ID);
-            m_vOpgNC[i].fc_id = Cairo.Database.valField(rs.getFields(), CC.FC_ID);
-            m_vOpgNC[i].fcd_id = Cairo.Database.valField(rs.getFields(), CT.FCD_ID);
+            m_vOpgNC[i].opg_id = valField(rs.getFields(), CT.OPG_ID);
+            m_vOpgNC[i].fc_id = valField(rs.getFields(), CC.FC_ID);
+            m_vOpgNC[i].fcd_id = valField(rs.getFields(), CT.FCD_ID);
 
-            m_vOpgNC[i].docNombre = Cairo.Database.valField(rs.getFields(), CC.DOC_NAME);
-            m_vOpgNC[i].nroDoc = Cairo.Database.valField(rs.getFields(), "nroDoc");
+            m_vOpgNC[i].docNombre = valField(rs.getFields(), CC.DOC_NAME);
+            m_vOpgNC[i].nroDoc = valField(rs.getFields(), "nroDoc");
 
-            m_vOpgNC[i].fecha = Cairo.Database.valField(rs.getFields(), "fecha");
-            m_vOpgNC[i].pendiente = Cairo.Database.valField(rs.getFields(), "pendiente");
+            m_vOpgNC[i].fecha = valField(rs.getFields(), "fecha");
+            m_vOpgNC[i].pendiente = valField(rs.getFields(), "pendiente");
             m_vOpgNC[i].pendienteActual = m_vOpgNC[i].pendiente;
 
-            m_vOpgNC[i].cotizacion = Cairo.Database.valField(rs.getFields(), CT.FC_OPG_COTIZACION);
+            m_vOpgNC[i].cotizacion = valField(rs.getFields(), CT.FC_OPG_COTIZACION);
 
             G.redim(m_vOpgNC[i].vAplicaciones, 0);
 
@@ -1614,84 +1601,84 @@
         return true;
       };
 
-      var setGridAplicOrdenPago = function(propiedad) { // TODO: Use of ByRef founded Private Function ordenPagoSetGridAplicOrdenPago(ByRef Propiedad As cIABMProperty) As Boolean
+      var setGridAplicOrdenPago = function(property) { // TODO: Use of ByRef founded Private Function ordenPagoSetGridAplicOrdenPago(ByRef property As cIABMProperty) As Boolean
         var grid = null;
 
-        propiedad.getGrid().getColumns().clear();
-        propiedad.getGrid().getRows().clear();
+        property.getGrid().getColumns().clear();
+        property.getGrid().getRows().clear();
 
-        grid = propiedad.getGrid();
+        grid = property.getGrid();
 
-        var w_columns = grid.getColumns();
-        var elem = w_columns.add(null);
+        var columns = grid.getColumns();
+        var elem = columns.add(null);
         elem.setVisible(false);
         elem.setKey(KIC_IDX1);
 
-        var elem = w_columns.add(null);
+        var elem = columns.add(null);
         elem.setVisible(false);
         elem.setKey(KIC_IDX2);
 
-        var elem = w_columns.add(null);
+        var elem = columns.add(null);
         elem.setVisible(false);
         elem.setKey(KIC_FCOPG_ID);
 
-        var elem = w_columns.add(null);
+        var elem = columns.add(null);
         elem.setVisible(false);
         elem.setKey(KIC_FCNC_ID);
 
-        var elem = w_columns.add(null);
+        var elem = columns.add(null);
         elem.setVisible(false);
         elem.setKey(KIC_OPG_ID);
 
-        var elem = w_columns.add(null);
+        var elem = columns.add(null);
         elem.setVisible(false);
         elem.setKey(KIC_FC_ID);
 
-        var elem = w_columns.add(null);
+        var elem = columns.add(null);
         elem.setVisible(false);
         elem.setKey(KIC_FCD_ID);
 
-        var elem = w_columns.add(null);
+        var elem = columns.add(null);
         elem.setVisible(false);
         elem.setKey(KIC_FCP_ID);
 
-        var elem = w_columns.add(null);
+        var elem = columns.add(null);
         elem.setName(getText(1567, "")); // Documento
         elem.setType(Dialogs.PropertyType.text);
         elem.setKey(KIC_DOC);
 
-        var elem = w_columns.add(null);
+        var elem = columns.add(null);
         elem.setName(getText(1610, "")); // Comprobante
         elem.setType(Dialogs.PropertyType.text);
         elem.setKey(KIC_NRODOC);
 
-        var elem = w_columns.add(null);
+        var elem = columns.add(null);
         elem.setName(getText(1569, "")); // Fecha
         elem.setType(Dialogs.PropertyType.date);
         elem.setKey(KIC_FECHA);
 
-        var elem = w_columns.add(null);
+        var elem = columns.add(null);
         elem.setName(getText(1609, "")); // Pendiente
         elem.setType(Dialogs.PropertyType.numeric);
-        elem.setFormat(m_generalConfig.getFormatDecImporte());
+        elem.setFormat(Cairo.Settings.getAmountDecimalsFormat());
         elem.setSubType(Dialogs.PropertySubType.money);
         elem.setKey(KIC_PENDIENTE);
 
-        var elem = w_columns.add(null);
+        var elem = columns.add(null);
         elem.setName(getText(1608, "")); // Aplicado
         elem.setType(Dialogs.PropertyType.numeric);
-        elem.setFormat(m_generalConfig.getFormatDecImporte());
+        elem.setFormat(Cairo.Settings.getAmountDecimalsFormat());
         elem.setSubType(Dialogs.PropertySubType.money);
         elem.setKey(KIC_APLICADO);
 
-        var elem = w_columns.add(null);
+        var elem = columns.add(null);
         elem.setName(getText(1650, "")); // Cotiz.
         elem.setType(Dialogs.PropertyType.numeric);
         elem.setSubType(Dialogs.PropertySubType.money);
         elem.setFormat(m_generalConfig.getFormatDecCotizacion());
         elem.setKey(KIC_COTIZACION);
 
-        var elem = w_columns.add(null);
+        var elem = columns.add(null);
         elem.setVisible(false);
         elem.setKey(KIC_APLICADO2);
 
@@ -1811,72 +1798,72 @@
 
             f = iProp.getGrid().getRows().add(null);
 
-            fv = f.add(null);
-            fv.setID(idx);
-            fv.setKey(KIC_IDX1);
+            elem = row.add(null);
+            elem.setId(idx);
+            elem.setKey(KIC_IDX1);
 
-            fv = f.add(null);
-            fv.setID(i);
-            fv.setKey(KIC_IDX2);
+            elem = row.add(null);
+            elem.setId(i);
+            elem.setKey(KIC_IDX2);
 
-            fv = f.add(null);
-            fv.setID(m_vOpgNC[idx].vAplicaciones[i].fcopg_id);
-            fv.setKey(KIC_FCOPG_ID);
+            elem = row.add(null);
+            elem.setId(m_vOpgNC[idx].vAplicaciones[i].fcopg_id);
+            elem.setKey(KIC_FCOPG_ID);
 
-            fv = f.add(null);
-            fv.setID(m_vOpgNC[idx].vAplicaciones[i].fcnc_id);
-            fv.setKey(KIC_FCNC_ID);
+            elem = row.add(null);
+            elem.setId(m_vOpgNC[idx].vAplicaciones[i].fcnc_id);
+            elem.setKey(KIC_FCNC_ID);
 
-            fv = f.add(null);
-            fv.setID(m_vOpgNC[idx].opg_id);
-            fv.setKey(KIC_OPG_ID);
+            elem = row.add(null);
+            elem.setId(m_vOpgNC[idx].opg_id);
+            elem.setKey(KIC_OPG_ID);
 
-            fv = f.add(null);
-            fv.setID(m_vOpgNC[idx].fc_id);
-            fv.setKey(KIC_FC_ID);
+            elem = row.add(null);
+            elem.setId(m_vOpgNC[idx].fc_id);
+            elem.setKey(KIC_FC_ID);
 
-            fv = f.add(null);
-            fv.setID(m_vOpgNC[idx].vAplicaciones[i].fcd_id);
-            fv.setKey(KIC_FCD_ID);
+            elem = row.add(null);
+            elem.setId(m_vOpgNC[idx].vAplicaciones[i].fcd_id);
+            elem.setKey(KIC_FCD_ID);
 
-            fv = f.add(null);
-            fv.setID(m_vOpgNC[idx].vAplicaciones[i].fcp_id);
-            fv.setKey(KIC_FCP_ID);
+            elem = row.add(null);
+            elem.setId(m_vOpgNC[idx].vAplicaciones[i].fcp_id);
+            elem.setKey(KIC_FCP_ID);
 
-            fv = f.add(null);
-            fv.setValue(m_vOpgNC[idx].docNombre);
-            fv.setKey(KIC_DOC);
+            elem = row.add(null);
+            elem.setValue(m_vOpgNC[idx].docNombre);
+            elem.setKey(KIC_DOC);
 
-            fv = f.add(null);
-            fv.setValue(m_vOpgNC[idx].nroDoc);
-            fv.setKey(KIC_NRODOC);
+            elem = row.add(null);
+            elem.setValue(m_vOpgNC[idx].nroDoc);
+            elem.setKey(KIC_NRODOC);
 
-            fv = f.add(null);
+            elem = row.add(null);
             if(m_vOpgNC[idx].fecha === Cairo.Constants.cSNODATE) {
-              fv.setValue("");
+              elem.setValue("");
             }
             else {
-              fv.setValue(m_vOpgNC[idx].fecha);
+              elem.setValue(m_vOpgNC[idx].fecha);
             }
-            fv.setKey(KIC_FECHA);
+            elem.setKey(KIC_FECHA);
 
-            fv = f.add(null);
-            fv.setValue(m_vOpgNC[idx].pendiente);
-            fv.setKey(KIC_PENDIENTE);
+            elem = row.add(null);
+            elem.setValue(m_vOpgNC[idx].pendiente);
+            elem.setKey(KIC_PENDIENTE);
 
-            fv = f.add(null);
-            fv.setValue(m_vOpgNC[idx].vAplicaciones[i].Aplicado);
-            fv.setKey(KIC_APLICADO);
+            elem = row.add(null);
+            elem.setValue(m_vOpgNC[idx].vAplicaciones[i].Aplicado);
+            elem.setKey(KIC_APLICADO);
 
-            fv = f.add(null);
+            elem = row.add(null);
             if(m_vOpgNC[idx].cotizacion !== 0) {
-              fv.setValue(m_vOpgNC[idx].cotizacion);
+              elem.setValue(m_vOpgNC[idx].cotizacion);
             }
-            fv.setKey(KIC_COTIZACION);
+            elem.setKey(KIC_COTIZACION);
 
-            fv = f.add(null);
-            fv.setValue(m_vOpgNC[idx].vAplicaciones[i].Aplicado);
-            fv.setKey(KIC_APLICADO2);
+            elem = row.add(null);
+            elem.setValue(m_vOpgNC[idx].vAplicaciones[i].Aplicado);
+            elem.setKey(KIC_APLICADO2);
           }
         }
       };
@@ -1889,72 +1876,72 @@
 
         f = iProp.getGrid().getRows().add(null);
 
-        fv = f.add(null);
-        fv.setID(i);
-        fv.setKey(KIC_IDX1);
+        elem = row.add(null);
+        elem.setId(i);
+        elem.setKey(KIC_IDX1);
 
-        fv = f.add(null);
-        fv.setID(0);
-        fv.setKey(KIC_IDX2);
+        elem = row.add(null);
+        elem.setId(0);
+        elem.setKey(KIC_IDX2);
 
-        fv = f.add(null);
-        fv.setID(NO_ID);
-        fv.setKey(KIC_FCOPG_ID);
+        elem = row.add(null);
+        elem.setId(NO_ID);
+        elem.setKey(KIC_FCOPG_ID);
 
-        fv = f.add(null);
-        fv.setID(NO_ID);
-        fv.setKey(KIC_FCNC_ID);
+        elem = row.add(null);
+        elem.setId(NO_ID);
+        elem.setKey(KIC_FCNC_ID);
 
-        fv = f.add(null);
-        fv.setID(m_vOpgNC[i].opg_id);
-        fv.setKey(KIC_OPG_ID);
+        elem = row.add(null);
+        elem.setId(m_vOpgNC[i].opg_id);
+        elem.setKey(KIC_OPG_ID);
 
-        fv = f.add(null);
-        fv.setID(m_vOpgNC[i].fc_id);
-        fv.setKey(KIC_FC_ID);
+        elem = row.add(null);
+        elem.setId(m_vOpgNC[i].fc_id);
+        elem.setKey(KIC_FC_ID);
 
-        fv = f.add(null);
-        fv.setID(m_vOpgNC[i].fcd_id);
-        fv.setKey(KIC_FCD_ID);
+        elem = row.add(null);
+        elem.setId(m_vOpgNC[i].fcd_id);
+        elem.setKey(KIC_FCD_ID);
 
-        fv = f.add(null);
-        fv.setID(NO_ID);
-        fv.setKey(KIC_FCP_ID);
+        elem = row.add(null);
+        elem.setId(NO_ID);
+        elem.setKey(KIC_FCP_ID);
 
-        fv = f.add(null);
-        fv.setValue(m_vOpgNC[i].docNombre);
-        fv.setKey(KIC_DOC);
+        elem = row.add(null);
+        elem.setValue(m_vOpgNC[i].docNombre);
+        elem.setKey(KIC_DOC);
 
-        fv = f.add(null);
-        fv.setValue(m_vOpgNC[i].nroDoc);
-        fv.setKey(KIC_NRODOC);
+        elem = row.add(null);
+        elem.setValue(m_vOpgNC[i].nroDoc);
+        elem.setKey(KIC_NRODOC);
 
-        fv = f.add(null);
+        elem = row.add(null);
         if(m_vOpgNC[i].fecha === Cairo.Constants.cSNODATE) {
-          fv.setValue("");
+          elem.setValue("");
         }
         else {
-          fv.setValue(m_vOpgNC[i].fecha);
+          elem.setValue(m_vOpgNC[i].fecha);
         }
-        fv.setKey(KIC_FECHA);
+        elem.setKey(KIC_FECHA);
 
-        fv = f.add(null);
-        fv.setValue(m_vOpgNC[i].pendiente);
-        fv.setKey(KIC_PENDIENTE);
+        elem = row.add(null);
+        elem.setValue(m_vOpgNC[i].pendiente);
+        elem.setKey(KIC_PENDIENTE);
 
-        fv = f.add(null);
-        fv.setValue(0);
-        fv.setKey(KIC_APLICADO);
+        elem = row.add(null);
+        elem.setValue(0);
+        elem.setKey(KIC_APLICADO);
 
-        fv = f.add(null);
-        fv.setKey(KIC_COTIZACION);
+        elem = row.add(null);
+        elem.setKey(KIC_COTIZACION);
 
-        fv = f.add(null);
-        fv.setValue(0);
-        fv.setKey(KIC_APLICADO2);
+        elem = row.add(null);
+        elem.setValue(0);
+        elem.setKey(KIC_APLICADO2);
       };
 
-      var ordenPagoUpdateAplicVtos = function(propiedad, fcd_id, fcp_id) { // TODO: Use of ByRef founded Private Function ordenPagoUpdateAplicVtos(ByRef Propiedad As cIABMProperty, ByVal fcd_id As Long, ByVal fcp_id As Long) As Double
+      var ordenPagoUpdateAplicVtos = function(property, fcd_id, fcp_id) { // TODO: Use of ByRef founded Private Function ordenPagoUpdateAplicVtos(ByRef property As cIABMProperty, ByVal fcd_id As Long, ByVal fcp_id As Long) As Double
         var cotizacion = null;
         var i = null;
         var j = null;
@@ -2369,7 +2356,7 @@
 
           if(rs.isEOF()) { return _rtn; }
 
-          _rtn = Cairo.Database.valField(rs.getFields(), CC.MON_ID);
+          _rtn = valField(rs.getFields(), CC.MON_ID);
 
           
         }
@@ -2397,7 +2384,7 @@
 
           if(rs.isEOF()) { return _rtn; }
 
-          cotizacion = Cairo.Database.valField(rs.getFields(), CT.OPG_COTIZACION);
+          cotizacion = valField(rs.getFields(), CT.OPG_COTIZACION);
 
           _rtn = true;
 
@@ -2425,7 +2412,7 @@
 
           if(rs.isEOF()) { return _rtn; }
 
-          cueIdFactura = Cairo.Database.valField(rs.getFields(), CC.CUE_ID);
+          cueIdFactura = valField(rs.getFields(), CC.CUE_ID);
 
           _rtn = true;
 
