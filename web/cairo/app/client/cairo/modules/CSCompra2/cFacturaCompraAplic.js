@@ -327,7 +327,6 @@
                     if(success) {
 
                       if(m_client !== null) {
-                        updateList();
                         m_client.refresh(self, m_fcId);
                       }
                     };
@@ -644,6 +643,29 @@
         return true;
       };
 
+      var refreshCollection = function() {
+        var properties = m_dialog.getProperties();
+
+        var property = properties.add(null, C_ITEMS);
+        loadItems(property);
+
+        property = properties.add(null, C_APLIC_ORDEN_REMITO);
+        property.getGrid().getRows().clear();
+
+        property = properties.add(null, C_TOTAL_ORDEN_PAGO); // OrdenPago
+        property.setValue(m_total);
+
+        property = properties.add(null, C_VENCIMIENTOS);
+        loadVencimientos(property);
+
+        property = properties.add(null, C_APLICORDENPAGO);
+        property.getGrid().getRows().clear();
+
+        m_dialog.showValues(m_dialog.getProperties());
+
+        ordenPagoShowPendienteOrdenPago();
+      };
+
       var saveDocCpra = function(register) {
 
         var fields = register.getFields();
@@ -860,8 +882,7 @@
 
           // total applied to this credit
           //
-          item.aplicado = item.aplicado
-            + item.vAplicaciones[indexInfo.indexAplic].aplicado;
+          item.aplicado = item.aplicado + item.vAplicaciones[indexInfo.indexAplic].aplicado;
           item.aplicadoActual = item.aplicado;
         }
       };
@@ -1086,11 +1107,11 @@
             elem.setKey(KIPR_PENDIENTE);
 
             elem = row.add(null);
-            elem.setValue(m_vOrdenRemito[idx].vAplicaciones[i].Aplicado);
+            elem.setValue(m_vOrdenRemito[idx].vAplicaciones[i].aplicado);
             elem.setKey(KIPR_APLICADO);
 
             elem = row.add(null);
-            elem.setValue(m_vOrdenRemito[idx].vAplicaciones[i].Aplicado);
+            elem.setValue(m_vOrdenRemito[idx].vAplicaciones[i].aplicado);
             elem.setKey(KIPR_APLICADO2);
 
             row.setBackColor("#HFFCC99");
@@ -1193,55 +1214,47 @@
       };
 
       var itemColBEditOrdenRemito = function(property, lRow, lCol) {
-        switch (cABMUtil.pGetKeyFromCol(property.getGrid().getColumns(), lCol)) {
+        switch (property.getGrid().getColumns().item(lCol).getKey()) {
           case KIPR_APLICADO:
             break;
 
           default:
-            return null;
-            break;
+            return false;
         }
-
         return true;
       };
 
       var itemGetItemPendiente = function() {
-        var iProp = null;
-        iProp = m_dialog.getProperties().item(C_ITEMS);
-        return getCell(iProp.getGrid().getRows().item(iProp.getSelectedIndex()), KII_PENDIENTE);
+        var property = m_dialog.getProperties().item(C_ITEMS);
+        return getCell(property.getGrid().getRows().item(property.getSelectedIndex()), KII_PENDIENTE);
       };
 
       var itemGetItemAplicado = function() {
-        var iProp = null;
-        iProp = m_dialog.getProperties().item(C_ITEMS);
-        return getCell(iProp.getGrid().getRows().item(iProp.getSelectedIndex()), KII_APLICADO2);
+        var property = m_dialog.getProperties().item(C_ITEMS);
+        return getCell(property.getGrid().getRows().item(property.getSelectedIndex()), KII_APLICADO2);
       };
 
-      var itemColAUpdateOrdenRemito = function(property, lRow, lCol) { // TODO: Use of ByRef founded Private Function itemColAUpdateOrdenRemito(ByRef IProperty As cIABMProperty, ByVal lRow As Long, ByVal lCol As Long)
-        var row = null;
-        var maxVal = null;
-        var bVisible = null;
-        var pendiente = null;
+      var itemColAUpdateOrdenRemito = function(property, lRow, lCol) {
+        var grid = property.getGrid();
 
-        var w_grid = property.getGrid();
-        switch (w_grid.getColumns(lCol).Key) {
+        switch (grid.getColumns(lCol).Key) {
           case KIPR_APLICADO:
-            row = w_grid.getRows().item(lRow);
+            var row = grid.getRows().item(lRow);
 
-            var w_pCell = getCell(row, KIPR_APLICADO);
+            var cell = getCell(row, KIPR_APLICADO);
 
-            pendiente = Cairo.Util.val(itemGetItemPendiente().getValue()) + cellFloat(row, KIPR_APLICADO2);
-            maxVal = cellFloat(row, KIPR_PENDIENTE) + cellFloat(row, KIPR_APLICADO2);
+            var pendiente = Cairo.Util.val(itemGetItemPendiente().getValue()) + cellFloat(row, KIPR_APLICADO2);
+            var maxVal = cellFloat(row, KIPR_PENDIENTE) + cellFloat(row, KIPR_APLICADO2);
 
             if(maxVal > pendiente) {
               maxVal = pendiente;
             }
 
-            if(Cairo.Util.val(w_pCell.getValue()) > maxVal) {
-              w_pCell.setValue(maxVal);
+            if(Cairo.Util.val(cell.getValue()) > maxVal) {
+              cell.setValue(maxVal);
             }
-            else if(Cairo.Util.val(w_pCell.getValue()) < 0) {
-              w_pCell.setValue(0);
+            else if(Cairo.Util.val(cell.getValue()) < 0) {
+              cell.setValue(0);
             }
 
             var aplicado = null;
@@ -1249,46 +1262,39 @@
             itemRefreshItem(aplicado);
             itemGetItemAplicado().setValue(aplicado);
 
-            // Actulizo el pendiente
-            var w_pCell = getCell(row, KIPR_PENDIENTE);
-            w_pCell.setValue(Cairo.Util.val(w_pCell.getValue()) + cellFloat(row, KIPR_APLICADO2) - cellFloat(row, KIPR_APLICADO));
+            // update pending credit
+            //
+            cell = getCell(row, KIPR_PENDIENTE);
+            cell.setValue(Cairo.Util.val(cell.getValue()) + cellFloat(row, KIPR_APLICADO2) - cellFloat(row, KIPR_APLICADO));
             getCell(row, KIPR_APLICADO2).setValue(getCell(row, KIPR_APLICADO).getValue());
             break;
         }
-
-        return true;
       };
 
       var itemGetAplicado = function() {
-        var row = null;
-        var rtn = null;
-
-        var _count = m_dialog.getProperties().item(C_APLIC_ORDEN_REMITO).getGrid().getRows().size();
-        for(var _i = 0; _i < _count; _i++) {
-          row = m_dialog.getProperties().item(C_APLIC_ORDEN_REMITO).getGrid().getRows().item(_i);
-          rtn = rtn + cellFloat(row, KIPR_APLICADO);
+        var aplicado = 0;
+        var rows = m_dialog.getProperties().item(C_APLIC_ORDEN_REMITO).getGrid().getRows();
+        for(var _i = 0, _count = rows.size(); _i < _count; _i++) {
+          var row = rows.item(_i);
+          aplicado = aplicado + cellFloat(row, KIPR_APLICADO);
         }
-        return rtn;
+        return aplicado;
       };
 
       var itemRefreshItem = function(aplicado) {
-        var iProp = null;
-        var row = null;
-        var aplicadoActual = null;
-
-        iProp = m_dialog.getProperties().item(C_ITEMS);
-        row = iProp.getGrid().getRows().item(m_lastRowItem);
+        var property = m_dialog.getProperties().item(C_ITEMS);
+        var row = property.getGrid().getRows().item(m_lastRowItem);
 
         getCell(row, KII_APLICADO).setValue(aplicado);
-        aplicadoActual = cellFloat(row, KII_APLICADO2);
+        var aplicadoActual = cellFloat(row, KII_APLICADO2);
 
-        var w_pCell = getCell(row, KII_PENDIENTE);
-        w_pCell.setValue(w_pCell.getValue() - (aplicado - aplicadoActual));
+        var cell = getCell(row, KII_PENDIENTE);
+        cell.setValue(cell.getValue() - (aplicado - aplicadoActual));
 
         getCell(row, KII_APLICADO2).setValue(aplicado);
 
-        m_dialog.ShowCellValue(iProp, m_lastRowItem, D.getCol(iProp.getGrid().getColumns(), KII_PENDIENTE));
-        m_dialog.ShowCellValue(iProp, m_lastRowItem, D.getCol(iProp.getGrid().getColumns(), KII_APLICADO));
+        m_dialog.showCellValue(property, m_lastRowItem, D.getCol(property.getGrid().getColumns(), KII_PENDIENTE));
+        m_dialog.showCellValue(property, m_lastRowItem, D.getCol(property.getGrid().getColumns(), KII_APLICADO));
       };
 
       var itemSaveOrdenRemito = function(mainRegister) {
@@ -1309,7 +1315,7 @@
 
               if(m_vOrdenRemito[i].vAplicaciones[j].fci_id !== NO_ID) {
 
-                if(m_vOrdenRemito[i].vAplicaciones[j].Aplicado > 0) {
+                if(m_vOrdenRemito[i].vAplicaciones[j].aplicado > 0) {
 
                   var register = new DB.Register();
                   register.setFieldId(CC.OC_FC_TMP_ID);
@@ -1425,8 +1431,7 @@
 
           // total applied to this credit
           //
-          item.aplicado = item.aplicado
-            + item.vAplicaciones(indexInfo.indexAplic).Aplicado;
+          item.aplicado = item.aplicado + item.vAplicaciones(indexInfo.indexAplic).aplicado;
           item.aplicadoActual = item.aplicado;
         }
       };
@@ -1623,7 +1628,7 @@
         for(var i = 0, count = m_vOpgNC.length; i < count ; i += 1) {
           if(   (m_vOpgNC[i].opg_id === opgId && opgId !== NO_ID)
              || (m_vOpgNC[i].fcd_id === fcdId && fcdId !== NO_ID)
-            || (m_vOpgNC[i].fcp_id === fcpId && fcpId !== NO_ID)) {
+             || (m_vOpgNC[i].fcp_id === fcpId && fcpId !== NO_ID)) {
 
             index = i;
             break;
@@ -1639,7 +1644,7 @@
           fcopg_id: null,
           fcnc_id: null,
           fcp_id: null,
-          fcd_id:null,
+          fcd_id: null,
           aplicado: 0
         });
 
@@ -1785,7 +1790,7 @@
             elem.setKey(KIC_PENDIENTE);
 
             elem = row.add(null);
-            elem.setValue(m_vOpgNC[idx].vAplicaciones[i].Aplicado);
+            elem.setValue(m_vOpgNC[idx].vAplicaciones[i].aplicado);
             elem.setKey(KIC_APLICADO);
 
             elem = row.add(null);
@@ -1795,7 +1800,7 @@
             elem.setKey(KIC_COTIZACION);
 
             elem = row.add(null);
-            elem.setValue(m_vOpgNC[idx].vAplicaciones[i].Aplicado);
+            elem.setValue(m_vOpgNC[idx].vAplicaciones[i].aplicado);
             elem.setKey(KIC_APLICADO2);
           }
         }
@@ -1873,7 +1878,7 @@
         elem.setKey(KIC_APLICADO2);
       };
 
-      var ordenPagoUpdateAplicVtos = function(property, fcdId, fcpId) {
+      var ordenPagoUpdateAplicVtos = function() {
         var aplicadoTotal = 0;
         var rows = ordenPagoGetItemsOrdenPago().getRows();
 
@@ -2037,15 +2042,9 @@
 
       var ordenPagoUpdateGrids = function() {
         var aplicado = 0;
-        var property = m_dialog.getProperties().item(C_VENCIMIENTOS);
 
         if(m_lastRowVto !== 0) {
-
-          var row = property.getGrid().getRows().item(m_lastRowVto);
-          aplicado = ordenPagoUpdateAplicVtos(
-            m_dialog.getProperties().item(C_APLICORDENPAGO),
-            getCell(row, KIV_FCD_ID).getId(),
-            getCell(row, KIV_FCP_ID).getId());
+          aplicado = ordenPagoUpdateAplicVtos();
         }
 
         return aplicado;
@@ -2226,7 +2225,6 @@
 
         fields.add(CT.OPGI_ORDEN, 1, Types.integer);
         fields.add(CT.OPGI_TIPO, CT.OrdenPagoItemTipo.ITEM_CTA_CTE, Types.integer);
-        fields.add(CT.OPGI_ID, id, Types.long);
         fields.add(CT.OPGI_OTRO_TIPO, CT.OtroTipo.OTRO_HABER, Types.integer);
 
         mainRegister.addTransaction(transaction);
