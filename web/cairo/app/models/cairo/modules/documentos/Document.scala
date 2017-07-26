@@ -15,6 +15,20 @@ import scala.util.control.NonFatal
 import models.cairo.modules.general.U
 
 case class DocumentEditStatus(status: Int, message: String)
+case class TransInfo(
+                      id: Int,
+                      cotizacion: Double,
+                      total: Double,
+                      nrodoc: String,
+                      provId: Int,
+                      provName: String,
+                      cliId: Int,
+                      cliName: String,
+                      sucId: Int,
+                      docId: Int,
+                      doctId: Int,
+                      empId: Int,
+                      empresa: String)
 case class DocumentInfo(monId: Int, doctId: Int, docTipoFactura: Int, mueveStock: Boolean)
 case class DocInfo(id: Int, name: String, monId: Int)
 case class DocumentNumberInfo(number: Int, mask: String, enabled: Boolean)
@@ -76,6 +90,58 @@ object Document {
       } catch {
         case NonFatal(e) => {
           Logger.error(s"can't get document info with docId $id for user ${user.toString}. Error ${e.toString}")
+          throw e
+        }
+      } finally {
+        cs.close
+      }
+    }
+  }
+
+  def transInfo(user: CompanyUser, doctId: Int, id: Int): TransInfo = {
+
+    DB.withTransaction(user.database.database) { implicit connection =>
+
+      val sql = "{call sp_doc_get_trans_info(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}"
+      val cs = connection.prepareCall(sql)
+
+      cs.setInt(1, user.cairoCompanyId)
+      cs.setInt(2, id)
+      cs.setInt(3, user.masterUserId)
+      cs.registerOutParameter(4, Types.DECIMAL)
+      cs.registerOutParameter(5, Types.DECIMAL)
+      cs.registerOutParameter(6, Types.VARCHAR)
+      cs.registerOutParameter(7, Types.INTEGER)
+      cs.registerOutParameter(8, Types.VARCHAR)
+      cs.registerOutParameter(9, Types.INTEGER)
+      cs.registerOutParameter(10, Types.VARCHAR)
+      cs.registerOutParameter(11, Types.INTEGER)
+      cs.registerOutParameter(12, Types.INTEGER)
+      cs.registerOutParameter(13, Types.INTEGER)
+      cs.registerOutParameter(14, Types.INTEGER)
+      cs.registerOutParameter(15, Types.VARCHAR)
+
+      try {
+        cs.execute()
+
+        TransInfo(
+          id,
+          cs.getBigDecimal(4).doubleValue,
+          cs.getBigDecimal(5).doubleValue,
+          cs.getString(6),
+          cs.getInt(7),
+          cs.getString(8),
+          cs.getInt(9),
+          cs.getString(10),
+          cs.getInt(11),
+          cs.getInt(12),
+          cs.getInt(13),
+          cs.getInt(11),
+          cs.getString(15))
+
+      } catch {
+        case NonFatal(e) => {
+          Logger.error(s"can't get transaction info with doctId $doctId and Id $id for user ${user.toString}. Error ${e.toString}")
           throw e
         }
       } finally {

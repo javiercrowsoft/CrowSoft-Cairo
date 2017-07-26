@@ -32,6 +32,20 @@ object Documents extends Controller with ProvidesUser {
     })
   }
 
+  def transInfo(doctId: Int, id: Int) = GetAction { implicit request =>
+    LoggedIntoCompanyResponse.getAction(request, { user =>
+      val info = Document.transInfo(user, doctId, id)
+      Ok(
+        Json.toJson(
+          Json.obj(
+            GC.MON_ID -> Json.toJson(info.monId),
+            GC.DOCT_ID -> Json.toJson(info.doctId),
+            GC.DOC_TIPO_FACTURA -> Json.toJson(info.docTipoFactura),
+            GC.DOC_MUEVE_STOCK -> Json.toJson(info.mueveStock)
+          )))
+    })
+  }
+
   def info(id: Int) = GetAction { implicit request =>
     LoggedIntoCompanyResponse.getAction(request, { user =>
       val info = Document.info(user, id)

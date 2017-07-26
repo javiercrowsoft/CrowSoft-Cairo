@@ -1554,7 +1554,7 @@
         var grid = property.getGrid();
         var rows = grid.getRows();
 
-        rows.clear()
+        rows.clear();
 
         for(var _i = 0, count = m_data.otros.length; _i < count; _i += 1) {
 

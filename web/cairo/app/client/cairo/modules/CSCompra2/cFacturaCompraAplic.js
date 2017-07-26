@@ -383,7 +383,6 @@
         }
         catch (ex) {
           Cairo.manageErrorEx(ex.message, ex, "destroy", C_MODULE, "");
-
         }
       };
 
@@ -689,9 +688,7 @@
       var setGridItems = function(property) {
 
         var elem;
-
         var grid = property.getGrid();
-
         var columns = grid.getColumns();
         columns.clear();
 

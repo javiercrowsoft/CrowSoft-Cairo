@@ -449,7 +449,25 @@
      info.emp_id,
      info.empresa
      */
-    return Cairo.Promises.resolvedPromise({ success: false });
+    return DB.getData("load[" + m_apiPath + "documento/" + doctId.toString() + "/info]", id).then(function(response) {
+
+      var info = { success: response.success };
+
+      if(response.success === true) {
+        info.id = valField(response.data, C.ID);
+        info.cotizacion = valField(response.data, C.COTIZACION);
+        info.total = valField(response.data, C.TOTAL) * ((info.cotizacion !== 0) ? info.cotizacion : 1);
+        info.nrodoc = valField(response.data, C.NRO_DOC);
+        info.prov_id = valField(response.data, C.PROV_ID);
+        info.proveedor = valField(response.data, C.PROV_NAME);
+        info.suc_id = valField(response.data, C.SUC_ID);
+        info.doc_id = valField(response.data, C.DOC_ID);
+        info.doct_id = valField(response.data, C.DOCT_ID);
+        info.emp_id = valField(response.data, C.EMP_ID);
+        info.empresa = valField(response.data, C.EMP_NAME);
+      }
+      return info;
+    });
   };
 
   Cairo.Documents.showDocAux = function(id, objEditName) {

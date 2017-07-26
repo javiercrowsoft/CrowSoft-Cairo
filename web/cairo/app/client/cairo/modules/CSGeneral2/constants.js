@@ -28,6 +28,8 @@
       IMPORTE: "importe",
       FECHA: "fecha",
       APLICADO: "aplicado",
+      COTIZACION: "cotizacion",
+      TOTAL: "total",
 
       // Usuario
       USUARIO: "Usuario",
