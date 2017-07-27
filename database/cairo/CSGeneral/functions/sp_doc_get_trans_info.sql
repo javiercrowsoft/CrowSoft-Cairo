@@ -35,8 +35,9 @@ javier at crowsoft.com.ar
 create or replace
 function sp_doc_get_trans_info
 /*
-  select * from facturaventa
+  select emp_id from facturacompra
   select * from sp_doc_get_trans_info(1,1,1,1)
+  select * from sp_doc_get_trans_info(2,1,1,1)
 */
 (
   in p_emp_id integer,
@@ -77,13 +78,15 @@ begin
 
    else
 
-      select fc_id, fc_cotizacion, fc_total, fc_nrodoc, fc.prov_id, prov_nombre, fc.suc_id, fc.doc_id, fc.doct_id, fc.emp_id, emp_nombre
+      select fc_id, fc_cotizacion, fc_total, fc_nrodoc, fc.prov_id, prov_nombre, fc.suc_id, fc.doc_id, fc.doct_id, doc.emp_id, emp_nombre
         into p_id, p_cotizacion, p_total, p_nrodoc, p_prov_id, p_prov_nombre, p_suc_id, p_doc_id, p_doct_id_out, p_emp_id_out, p_emp_nombre 
       from facturaCompra fc
       inner join proveedor prov
        on fc.prov_id = prov.prov_id
+      inner join documento doc
+       on fc.doc_id = doc.doc_id
       inner join empresa emp
-       on fc.emp_id = emp.emp_id
+       on doc.emp_id = emp.emp_id
       where fc_id = p_id;
 
       p_cli_id := 0;

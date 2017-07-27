@@ -393,6 +393,7 @@ PUT     /api/v1/compras/facturacompra/:id                                       
 DELETE  /api/v1/compras/facturacompra/:id                                                    controllers.logged.modules.compras.FacturaCompras.delete(id: Int)
 
 GET     /api/v1/compras/facturacompra/notes/:id                                              controllers.logged.modules.compras.FacturaCompras.notes(id: Int)
+GET     /api/v1/compras/facturacompra/aplic/:id                                              controllers.logged.modules.compras.FacturaCompras.aplic(id: Int)
 
 #
 # ventas

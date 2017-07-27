@@ -967,7 +967,7 @@ object Clientes extends Controller with ProvidesUser {
 
   def getPercepciones(id: Int, fecha: String) = GetAction { implicit request =>
     LoggedIntoCompanyResponse.getAction(request, { user =>
-      Ok(Json.toJson(Recordset.getAsJson(Cliente.getPercepciones(user, id, DateFormatter.parse(fecha)))))
+      Ok(Recordset.getAsJson(Cliente.getPercepciones(user, id, DateFormatter.parse(fecha))))
     })
   }
 

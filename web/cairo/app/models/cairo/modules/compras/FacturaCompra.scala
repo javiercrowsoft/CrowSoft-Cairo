@@ -2423,6 +2423,61 @@ object FacturaCompra {
     }
   }
 
+  def aplic(user: CompanyUser, id: Int, aplicType: Int): Recordset = {
+
+    DB.withTransaction(user.database.database) { implicit connection =>
+
+      val sql = "{call sp_doc_factura_compra_get_aplic(?, ?, ?, ?)}"
+      val cs = connection.prepareCall(sql)
+
+      cs.setInt(1, user.cairoCompanyId)
+      cs.setInt(2, id)
+      cs.setInt(3, aplicType)
+      cs.registerOutParameter(4, Types.OTHER)
+
+      try {
+        cs.execute()
+
+        val rs = cs.getObject(4).asInstanceOf[java.sql.ResultSet]
+        Recordset.load(rs)
+
+      } catch {
+        case NonFatal(e) => {
+          Logger.error(s"can't get aplic list for id [$id] and user ${user.toString}. Error ${e.toString}")
+          throw e
+        }
+      } finally {
+        cs.close
+      }
+    }
+  }
+
+  def getCtaCteCuenta(user: CompanyUser, id: Int): (Int, Int) = {
+
+    DB.withTransaction(user.database.database) { implicit connection =>
+
+      val sql = "{call sp_doc_factura_compra_get_cuenta_deudor(?, ?, ?)}"
+      val cs = connection.prepareCall(sql)
+
+      cs.setInt(1, user.cairoCompanyId)
+      cs.registerOutParameter(2, Types.INTEGER)
+      cs.registerOutParameter(3, Types.INTEGER)
+
+      try {
+        cs.execute()
+        (cs.getInt(2), cs.getInt(3))
+
+      } catch {
+        case NonFatal(e) => {
+          Logger.error(s"can't get cuenta of Cta.Cte. for id [$id] and user ${user.toString}. Error ${e.toString}")
+          throw e
+        }
+      } finally {
+        cs.close
+      }
+    }
+  }
+
   /*
   def test(user: CompanyUser) = {
     DB.withTransaction(user.database.database) { implicit connection =>

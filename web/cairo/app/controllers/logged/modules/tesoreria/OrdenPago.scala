@@ -1062,8 +1062,8 @@ object OrdenesPago extends Controller with ProvidesUser {
         case (facturas, rates) =>
           Json.toJson(
             Json.obj(
-              "facturas" -> Json.toJson(Recordset.getAsJson(facturas)),
-              "rates" -> Json.toJson(Recordset.getAsJson(rates))
+              "facturas" -> Recordset.getAsJson(facturas),
+              "rates" -> Recordset.getAsJson(rates)
             )
           )
         case _ => Json.toJson("")

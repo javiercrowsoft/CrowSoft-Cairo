@@ -28,6 +28,11 @@ object C {
 
   val IS_VALID = "is_valid"
 
+  val ID = "id"
+  val COTIZACION = "cotizacion"
+  val TOTAL = "total"
+  val NRO_DOC = "nrodoc"
+
   val PROVEEDOR_CAI_DELETED = "deletedCai"
   val PROVEEDOR_CUENTA_GRUPO_DELETED = "deletedCuentaGrupo"
   val PROVEEDOR_RETENCIONES_DELETED = "deletedRetencion"

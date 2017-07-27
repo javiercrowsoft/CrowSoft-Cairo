@@ -345,12 +345,12 @@
       var loadDataFromResponse = function(response) {
         var data = response.data;
 
-        data.vencimientos = data.get('vencimientos');
-        data.items = data.get('items');
-        data.pagosAplicados = data.get('pagosAplicados');
-        data.pagosParaAplicar = data.get('pagosParaAplicar');
-        data.itemsAplicados = data.get('itemsAplicados');
-        data.itemsParaAplicar = data.get('itemsParaAplicar');
+        data.vencimientos = DB.getResultSetFromData(data.get('vencimientos'));
+        data.items = DB.getResultSetFromData(data.get('items'));
+        data.pagosAplicados = DB.getResultSetFromData(data.get('pagosAplicados'));
+        data.pagosParaAplicar = DB.getResultSetFromData(data.get('pagosParaAplicar'));
+        data.itemsAplicados = DB.getResultSetFromData(data.get('itemsAplicados'));
+        data.itemsParaAplicar = DB.getResultSetFromData(data.get('itemsParaAplicar'));
 
         return data;
       };
@@ -360,7 +360,7 @@
           function(response) {
             if(response.success !== true) { return false; }
 
-            if(response.data.id === m_fcdId) {
+            if(response.data.id === m_fcId) {
 
               m_data = loadDataFromResponse(response);
 
@@ -371,6 +371,8 @@
 
               ordenPagoLoadAplicVtos();
               itemLoadAplicItems();
+
+              return true;
             }
           });
       };
@@ -735,19 +737,19 @@
           var row = rows.add(null);
 
           elem = row.add(null);
-          elem.setId(getValue(m_data.items[_i], CC.FCI_ID));
+          elem.setId(valField(m_data.items[_i], CC.FCI_ID));
           elem.setKey(KII_FCI_ID);
 
           elem = row.add(null);
-          elem.setId(getValue(m_data.items[_i], C.PR_ID));
-          elem.setValue(getValue(m_data.items[_i], C.PR_NAME_COMPRA));
+          elem.setId(valField(m_data.items[_i], C.PR_ID));
+          elem.setValue(valField(m_data.items[_i], C.PR_NAME_COMPRA));
           elem.setKey(KII_PR_ID);
 
           elem = row.add(null);
-          elem.setValue(getValue(m_data.items[_i], CC.FCI_PENDIENTE));
+          elem.setValue(valField(m_data.items[_i], CC.FCI_PENDIENTE));
           elem.setKey(KII_PENDIENTE);
 
-          var value = getValue(m_data.items[_i], C.APLICADO);
+          var value = valField(m_data.items[_i], C.APLICADO);
           elem = row.add(null);
           elem.setValue(value);
           elem.setKey(KII_APLICADO);
@@ -757,7 +759,7 @@
           }
 
           elem = row.add(null);
-          elem.setValue(getValue(m_data.items[_i], C.APLICADO));
+          elem.setValue(valField(m_data.items[_i], C.APLICADO));
           elem.setKey(KII_APLICADO2);
         }
       };
@@ -844,38 +846,38 @@
         for(var _i = 0, count = m_data.itemsAplicados.length; _i < count; _i += 1) {
 
           var indexInfo = itemAddToCreditos(
-            getValue(m_data.itemsAplicados[_i], CC.RCI_ID),
-            getValue(m_data.itemsAplicados[_i], CC.OCI_ID)
+            valField(m_data.itemsAplicados[_i], CC.RCI_ID),
+            valField(m_data.itemsAplicados[_i], CC.OCI_ID)
           );
 
           var item = m_vOrdenRemito[indexInfo.indexOrdenRemito];
 
           // document
           //
-          item.docNombre = getValue(m_data.itemsAplicados[_i], CC.DOC_NAME);
-          item.nroDoc = getValue(m_data.itemsAplicados[_i], C.NRO_DOC);
-          item.fecha = getValue(m_data.itemsAplicados[_i], C.FECHA);
+          item.docName = valField(m_data.itemsAplicados[_i], C.DOC_NAME);
+          item.nroDoc = valField(m_data.itemsAplicados[_i], C.NRO_DOC);
+          item.fecha = valField(m_data.itemsAplicados[_i], C.FECHA);
 
           // pending
           //
-          item.pendiente = getValue(m_data.itemsAplicados[_i], C.PENDIENTE);
+          item.pendiente = valField(m_data.itemsAplicados[_i], C.PENDIENTE);
           item.pendienteActual = item.pendiente;
 
           // buying order / delivery notice
           //
-          item.rci_id = getValue(m_data.itemsAplicados[_i], CC.RCI_ID);
-          item.rc_id = getValue(m_data.itemsAplicados[_i], CC.RC_ID);
-          item.oci_id = getValue(m_data.itemsAplicados[_i], CC.OCI_ID);
-          item.oc_id = getValue(m_data.itemsAplicados[_i], CC.OC_ID);
-          item.pr_id = getValue(m_data.itemsAplicados[_i], C.PR_ID);
+          item.rci_id = valField(m_data.itemsAplicados[_i], CC.RCI_ID);
+          item.rc_id = valField(m_data.itemsAplicados[_i], CC.RC_ID);
+          item.oci_id = valField(m_data.itemsAplicados[_i], CC.OCI_ID);
+          item.oc_id = valField(m_data.itemsAplicados[_i], CC.OC_ID);
+          item.pr_id = valField(m_data.itemsAplicados[_i], C.PR_ID);
 
           // applied
           //
           var aplicaciones = item.vAplicaciones[indexInfo.indexAplic];
-          aplicaciones.rcfc_id = getValue(m_data.itemsAplicados[_i], CC.RC_FC_ID);
-          aplicaciones.ocfc_id = getValue(m_data.itemsAplicados[_i], CC.OC_FC_ID);
-          aplicaciones.fci_id = getValue(m_data.itemsAplicados[_i], CC.FCI_ID);
-          aplicaciones.aplicado = getValue(m_data.itemsAplicados[_i], C.APLICADO);
+          aplicaciones.rcfc_id = valField(m_data.itemsAplicados[_i], CC.RC_FC_ID);
+          aplicaciones.ocfc_id = valField(m_data.itemsAplicados[_i], CC.OC_FC_ID);
+          aplicaciones.fci_id = valField(m_data.itemsAplicados[_i], CC.FCI_ID);
+          aplicaciones.aplicado = valField(m_data.itemsAplicados[_i], C.APLICADO);
 
           // total applied to this credit
           //
@@ -885,25 +887,21 @@
       };
 
       var itemLoadAplicCreditos = function() {
-
-        m_vOrdenRemito = [];
-        
         for(var _i = 0, count = m_data.itemsParaAplicar.length; _i < count; _i += 1) {
-
-          m_vOrdenRemito[_i].pr_id = getValue(m_data.itemsParaAplicar[_i], C.PR_ID);
-          m_vOrdenRemito[_i].rci_id = getValue(m_data.itemsParaAplicar[_i], CC.RCI_ID);
-          m_vOrdenRemito[_i].rc_id = getValue(m_data.itemsParaAplicar[_i], CC.RC_ID);
-          m_vOrdenRemito[_i].oci_id = getValue(m_data.itemsParaAplicar[_i], CC.OCI_ID);
-          m_vOrdenRemito[_i].oc_id = getValue(m_data.itemsParaAplicar[_i], CC.OC_ID);
-
-          m_vOrdenRemito[_i].docNombre = getValue(m_data.itemsParaAplicar[_i], CC.DOC_NAME);
-          m_vOrdenRemito[_i].nroDoc = getValue(m_data.itemsParaAplicar[_i], C.NRO_DOC);
-          m_vOrdenRemito[_i].fecha = getValue(m_data.itemsParaAplicar[_i], C.FECHA);
-
-          m_vOrdenRemito[_i].pendiente = getValue(m_data.itemsParaAplicar[_i], C.PENDIENTE);
-          m_vOrdenRemito[_i].pendienteActual = m_vOrdenRemito[_i].pendiente;
-
-          m_vOrdenRemito[_i].vAplicaciones = [];
+          var pendiente = valField(m_data.itemsParaAplicar[_i], C.PENDIENTE);
+          m_vOrdenRemito.push({
+            pr_id: valField(m_data.itemsParaAplicar[_i], C.PR_ID),
+            rci_id: valField(m_data.itemsParaAplicar[_i], CC.RCI_ID),
+            rc_id: valField(m_data.itemsParaAplicar[_i], CC.RC_ID),
+            oci_id: valField(m_data.itemsParaAplicar[_i], CC.OCI_ID),
+            oc_id: valField(m_data.itemsParaAplicar[_i], CC.OC_ID),
+            docName: valField(m_data.itemsParaAplicar[_i], C.DOC_NAME),
+            nroDoc: valField(m_data.itemsParaAplicar[_i], C.NRO_DOC),
+            fecha: valField(m_data.itemsParaAplicar[_i], C.FECHA),
+            pendiente: pendiente,
+            pendienteActual: pendiente,
+            vAplicaciones: []
+          });
         }
       };
 
@@ -1083,7 +1081,7 @@
             elem.setKey(KIPR_OC_ID);
 
             elem = row.add(null);
-            elem.setValue(m_vOrdenRemito[idx].docNombre);
+            elem.setValue(m_vOrdenRemito[idx].docName);
             elem.setKey(KIPR_DOC);
 
             elem = row.add(null);
@@ -1156,7 +1154,7 @@
         elem.setKey(KIPR_OC_ID);
 
         elem = row.add(null);
-        elem.setValue(m_vOrdenRemito[i].docNombre);
+        elem.setValue(m_vOrdenRemito[i].docName);
         elem.setKey(KIPR_DOC);
 
         elem = row.add(null);
@@ -1387,44 +1385,44 @@
         for(var _i = 0, count = m_data.pagosAplicados.length; _i < count; _i += 1) {
 
           var indexInfo = ordenPagoAddToCreditos(
-            getValue(m_data.pagosAplicados[_i], CT.OPG_ID), 
-            getValue(m_data.pagosAplicados[_i], CT.FCD_ID),
-            getValue(m_data.pagosAplicados[_i], CT.FCP_ID)
+            valField(m_data.pagosAplicados[_i], CT.OPG_ID), 
+            valField(m_data.pagosAplicados[_i], CT.FCD_ID),
+            valField(m_data.pagosAplicados[_i], CT.FCP_ID)
           );
 
           var item = m_vOrdenRemito[indexInfo.indexPago];
           
           // document
           //
-          item.docNombre = getValue(m_data.pagosAplicados[_i], CC.DOC_NAME);
-          item.nroDoc = getValue(m_data.pagosAplicados[_i], "nrodoc");
+          item.docName = valField(m_data.pagosAplicados[_i], C.DOC_NAME);
+          item.nroDoc = valField(m_data.pagosAplicados[_i], "nrodoc");
 
           // pending
           //
-          item.pendiente = getValue(m_data.pagosAplicados[_i], "Pendiente");
+          item.pendiente = valField(m_data.pagosAplicados[_i], "Pendiente");
           item.pendienteActual = item.pendiente;
 
           // invoice or credit note
           //
-          item.fc_id = getValue(m_data.pagosAplicados[_i], CC.FC_ID);
+          item.fc_id = valField(m_data.pagosAplicados[_i], CC.FC_ID);
 
-          item.fcp_id = getValue(m_data.pagosAplicados[_i], "fcp_id2");
-          item.fcd_id = getValue(m_data.pagosAplicados[_i], "fcd_id2");
+          item.fcp_id = valField(m_data.pagosAplicados[_i], "fcp_id2");
+          item.fcd_id = valField(m_data.pagosAplicados[_i], "fcd_id2");
 
           // payments
           //
-          item.opg_id = getValue(m_data.pagosAplicados[_i], CT.OPG_ID);
-          item.fecha = getValue(m_data.pagosAplicados[_i], CT.OPG_FECHA);
-          item.cotizacion = getValue(m_data.pagosAplicados[_i], CT.FC_OPG_COTIZACION);
+          item.opg_id = valField(m_data.pagosAplicados[_i], CT.OPG_ID);
+          item.fecha = valField(m_data.pagosAplicados[_i], CT.OPG_FECHA);
+          item.cotizacion = valField(m_data.pagosAplicados[_i], CT.FC_OPG_COTIZACION);
 
           // applied
           //
           var aplicaciones = item.vAplicaciones[indexInfo.indexAplic];
-          aplicaciones.fcopg_id = getValue(m_data.pagosAplicados[_i], CT.FC_OPG_ID);
-          aplicaciones.fcnc_id = getValue(m_data.pagosAplicados[_i], CT.FC_NC_ID);
-          aplicaciones.fcp_id = getValue(m_data.pagosAplicados[_i], CT.FCP_ID);
-          aplicaciones.fcd_id = getValue(m_data.pagosAplicados[_i], CT.FCD_ID);
-          aplicaciones.aplicado = getValue(m_data.pagosAplicados[_i], C.APLICADO);
+          aplicaciones.fcopg_id = valField(m_data.pagosAplicados[_i], CT.FC_OPG_ID);
+          aplicaciones.fcnc_id = valField(m_data.pagosAplicados[_i], CT.FC_NC_ID);
+          aplicaciones.fcp_id = valField(m_data.pagosAplicados[_i], CT.FCP_ID);
+          aplicaciones.fcd_id = valField(m_data.pagosAplicados[_i], CT.FCD_ID);
+          aplicaciones.aplicado = valField(m_data.pagosAplicados[_i], C.APLICADO);
 
           // total applied to this credit
           //
@@ -1489,51 +1487,46 @@
           var row = rows.add(null);
 
           elem = row.add(null);
-          elem.setId(getValue(m_data.vencimientos[_i], CT.FCD_ID));
+          elem.setId(valField(m_data.vencimientos[_i], CT.FCD_ID));
           elem.setKey(KIV_FCD_ID);
 
           elem = row.add(null);
-          elem.setId(getValue(m_data.vencimientos[_i], CT.FCP_ID));
+          elem.setId(valField(m_data.vencimientos[_i], CT.FCP_ID));
           elem.setKey(KIV_FCP_ID);
 
           elem = row.add(null);
-          elem.setValue(getValue(m_data.vencimientos[_i], C.FECHA));
+          elem.setValue(valField(m_data.vencimientos[_i], C.FECHA));
           elem.setKey(KIV_FECHA);
 
           elem = row.add(null);
-          elem.setValue(getValue(m_data.vencimientos[_i], C.PENDIENTE));
+          elem.setValue(valField(m_data.vencimientos[_i], C.PENDIENTE));
           elem.setKey(KIV_PENDIENTE);
 
           elem = row.add(null);
-          elem.setValue(getValue(m_data.vencimientos[_i], C.IMPORTE));
+          elem.setValue(valField(m_data.vencimientos[_i], C.IMPORTE));
           elem.setKey(KIV_APLICADO);
 
           elem = row.add(null);
-          elem.setValue(getValue(m_data.vencimientos[_i], C.IMPORTE));
+          elem.setValue(valField(m_data.vencimientos[_i], C.IMPORTE));
           elem.setKey(KIV_APLICADO2);
         }
       };
 
       var ordenPagoLoadAplicCreditos = function() {
-
-        m_vOpgNC = [];
-
         for(var _i = 0, count = m_data.pagosParaAplicar.length; _i < count; _i += 1) {
-
-            m_vOpgNC[_i].opg_id = getValue(m_data.pagosParaAplicar[_i], CT.OPG_ID);
-            m_vOpgNC[_i].fc_id = getValue(m_data.pagosParaAplicar[_i], CC.FC_ID);
-            m_vOpgNC[_i].fcd_id = getValue(m_data.pagosParaAplicar[_i], CT.FCD_ID);
-
-            m_vOpgNC[_i].docNombre = getValue(m_data.pagosParaAplicar[_i], CC.DOC_NAME);
-            m_vOpgNC[_i].nroDoc = getValue(m_data.pagosParaAplicar[_i], C.NRO_DOC);
-
-            m_vOpgNC[_i].fecha = getValue(m_data.pagosParaAplicar[_i], C.FECHA);
-            m_vOpgNC[_i].pendiente = getValue(m_data.pagosParaAplicar[_i], C.PENDIENTE);
-            m_vOpgNC[_i].pendienteActual = m_vOpgNC[_i].pendiente;
-
-            m_vOpgNC[_i].cotizacion = getValue(m_data.pagosParaAplicar[_i], CT.FC_OPG_COTIZACION);
-
-            m_vOpgNC[_i].vAplicaciones = [];
+          var pendiente = valField(m_data.pagosParaAplicar[_i], C.PENDIENTE);
+          m_vOpgNC.push({
+            opg_id: valField(m_data.pagosParaAplicar[_i], CT.OPG_ID),
+            fc_id: valField(m_data.pagosParaAplicar[_i], CC.FC_ID),
+            fcd_id: valField(m_data.pagosParaAplicar[_i], CT.FCD_ID),
+            docName: valField(m_data.pagosParaAplicar[_i], C.DOC_NAME),
+            nroDoc: valField(m_data.pagosParaAplicar[_i], C.NRO_DOC),
+            fecha: valField(m_data.pagosParaAplicar[_i], C.FECHA),
+            pendiente: pendiente,
+            pendienteActual: pendiente,
+            cotizacion: valField(m_data.pagosParaAplicar[_i], CT.FC_OPG_COTIZACION),
+            vAplicaciones: []
+          });
         }
       };
 
@@ -1766,7 +1759,7 @@
             elem.setKey(KIC_FCP_ID);
 
             elem = row.add(null);
-            elem.setValue(m_vOpgNC[idx].docNombre);
+            elem.setValue(m_vOpgNC[idx].docName);
             elem.setKey(KIC_DOC);
 
             elem = row.add(null);
@@ -1843,7 +1836,7 @@
         elem.setKey(KIC_FCP_ID);
 
         elem = row.add(null);
-        elem.setValue(m_vOpgNC[i].docNombre);
+        elem.setValue(m_vOpgNC[i].docName);
         elem.setKey(KIC_DOC);
 
         elem = row.add(null);
@@ -2216,7 +2209,7 @@
 
         var fields = register.getFields();
 
-        fields.add(CC.CUE_ID, m_ctaCteCueId, Types.id);
+        fields.add(C.CUE_ID, m_ctaCteCueId, Types.id);
         fields.add(CT.OPGI_IMPORTE_ORIGEN, aplic.importeOrigen, Types.currency);
         fields.add(CT.OPGI_IMPORTE, aplic.importe, Types.currency);
 

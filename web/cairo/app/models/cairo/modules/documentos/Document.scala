@@ -28,7 +28,7 @@ case class TransInfo(
                       docId: Int,
                       doctId: Int,
                       empId: Int,
-                      empresa: String)
+                      empName: String)
 case class DocumentInfo(monId: Int, doctId: Int, docTipoFactura: Int, mueveStock: Boolean)
 case class DocInfo(id: Int, name: String, monId: Int)
 case class DocumentNumberInfo(number: Int, mask: String, enabled: Boolean)
@@ -106,38 +106,39 @@ object Document {
       val cs = connection.prepareCall(sql)
 
       cs.setInt(1, user.cairoCompanyId)
-      cs.setInt(2, id)
-      cs.setInt(3, user.masterUserId)
-      cs.registerOutParameter(4, Types.DECIMAL)
+      cs.setInt(2, doctId)
+      cs.setInt(3, id)
+      cs.setInt(4, user.masterUserId)
       cs.registerOutParameter(5, Types.DECIMAL)
-      cs.registerOutParameter(6, Types.VARCHAR)
-      cs.registerOutParameter(7, Types.INTEGER)
-      cs.registerOutParameter(8, Types.VARCHAR)
-      cs.registerOutParameter(9, Types.INTEGER)
-      cs.registerOutParameter(10, Types.VARCHAR)
-      cs.registerOutParameter(11, Types.INTEGER)
+      cs.registerOutParameter(6, Types.DECIMAL)
+      cs.registerOutParameter(7, Types.VARCHAR)
+      cs.registerOutParameter(8, Types.INTEGER)
+      cs.registerOutParameter(9, Types.VARCHAR)
+      cs.registerOutParameter(10, Types.INTEGER)
+      cs.registerOutParameter(11, Types.VARCHAR)
       cs.registerOutParameter(12, Types.INTEGER)
       cs.registerOutParameter(13, Types.INTEGER)
       cs.registerOutParameter(14, Types.INTEGER)
-      cs.registerOutParameter(15, Types.VARCHAR)
+      cs.registerOutParameter(15, Types.INTEGER)
+      cs.registerOutParameter(16, Types.VARCHAR)
 
       try {
         cs.execute()
 
         TransInfo(
           id,
-          cs.getBigDecimal(4).doubleValue,
           cs.getBigDecimal(5).doubleValue,
-          cs.getString(6),
-          cs.getInt(7),
-          cs.getString(8),
-          cs.getInt(9),
-          cs.getString(10),
-          cs.getInt(11),
+          cs.getBigDecimal(6).doubleValue,
+          cs.getString(7),
+          cs.getInt(8),
+          cs.getString(9),
+          cs.getInt(10),
+          cs.getString(11),
           cs.getInt(12),
           cs.getInt(13),
-          cs.getInt(11),
-          cs.getString(15))
+          cs.getInt(14),
+          cs.getInt(15),
+          cs.getString(16))
 
       } catch {
         case NonFatal(e) => {

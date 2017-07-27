@@ -1132,13 +1132,30 @@ object FacturaCompras extends Controller with ProvidesUser {
 
   def listRemitos(provId: Int, currencyId: Int) = GetAction { implicit request =>
     LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.NEW_FACTURA_COMPRA), { user =>
-      Ok(Json.toJson(Recordset.getAsJson(FacturaCompra.listRemitos(user, provId, currencyId))))
+      Ok(Recordset.getAsJson(FacturaCompra.listRemitos(user, provId, currencyId)))
     })
   }
 
   def listRemitosItems(ids: Option[String]) = GetAction { implicit request =>
     LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.NEW_FACTURA_COMPRA), { user =>
-      Ok(Json.toJson(Recordset.getAsJson(FacturaCompra.listRemitosItems(user, ids.getOrElse("")))))
+      Ok(Recordset.getAsJson(FacturaCompra.listRemitosItems(user, ids.getOrElse(""))))
     })
   }
+
+  def aplic(id: Int) = GetAction { implicit request =>
+    LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.MODIFY_APLIC_COMPRA), { user =>
+      val (cueId, monId) = FacturaCompra.getCtaCteCuenta(user, id)
+      Ok(Json.obj(
+        "ctacte_cue_id" -> Json.toJson(cueId),
+        "mon_id_x_cuenta" -> Json.toJson(monId),
+        "vencimientos" -> Recordset.getAsJson(FacturaCompra.aplic(user, id, 1)),
+        "pagosAplicados" -> Recordset.getAsJson(FacturaCompra.aplic(user, id, 2)),
+        "pagosParaAplicar" -> Recordset.getAsJson(FacturaCompra.aplic(user, id, 3)),
+        "items" -> Recordset.getAsJson(FacturaCompra.aplic(user, id, 4)),
+        "itemsAplicados" -> Recordset.getAsJson(FacturaCompra.aplic(user, id, 5)),
+        "itemsParaAplicar" -> Recordset.getAsJson(FacturaCompra.aplic(user, id, 6))
+      ))
+    })
+  }
+
 }

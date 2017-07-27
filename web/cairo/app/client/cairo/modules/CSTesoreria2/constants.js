@@ -442,6 +442,9 @@
       FC_ID_RET: "fc_id_ret",
       FV_ID_RET: "fv_id_ret",
 
+      CTACTE_CUE_ID: "ctacte_cue_id",
+      MON_ID_X_CUENTA: "mon_id_x_cuenta",
+
       CobranzaItemTipo: {
         ITEM_CHEQUES: 1,
         ITEM_EFECTIVO: 2,
