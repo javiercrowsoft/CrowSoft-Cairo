@@ -407,7 +407,7 @@
       };
 
       self.getPath = function() {
-        return "#general/facturacompraaplic/" + m_id.toString();
+        return "#general/facturacompraaplic/" + m_fcId.toString();
       };
 
       self.getEditorName = function() {
@@ -1194,7 +1194,7 @@
         vAplicaciones[idx].aplicado = importe;
 
         for(var i = 0, count = vAplicaciones.length; i < count; i += 1) {
-          totalAplicado += vAplicaciones(i).aplicado;
+          totalAplicado += vAplicaciones[i].aplicado;
         }
 
         return totalAplicado;
@@ -1390,7 +1390,7 @@
             valField(m_data.pagosAplicados[_i], CT.FCP_ID)
           );
 
-          var item = m_vOrdenRemito[indexInfo.indexPago];
+          var item = m_vOpgNC[indexInfo.indexPago];
           
           // document
           //
@@ -1426,7 +1426,7 @@
 
           // total applied to this credit
           //
-          item.aplicado = item.aplicado + item.vAplicaciones(indexInfo.indexAplic).aplicado;
+          item.aplicado = item.aplicado + item.vAplicaciones[indexInfo.indexAplic].aplicado;
           item.aplicadoActual = item.aplicado;
         }
       };
@@ -1625,7 +1625,7 @@
           }
         }
 
-        if (index === -1){
+        if (index === -1) {
           m_vOpgNC.push({ vAplicaciones: [] });
           index = m_vOpgNC.length -1;
         }
@@ -1691,13 +1691,13 @@
             for(var j = 0, countj = m_vOpgNC[i].vAplicaciones.length; j < countj; j++) {
 
               id = getCell(row, KIC_FCD_ID).getId();
-              if(id === m_vOpgNC[i].vAplicaciones(j).fcd_id && id !== NO_ID) {
+              if(id === m_vOpgNC[i].vAplicaciones[j].fcd_id && id !== NO_ID) {
                 bAplic = true;
                 break;
               }
 
               id = getCell(row, KIC_FCP_ID).getId();
-              if(id === m_vOpgNC[i].vAplicaciones(j).fcp_id && id !== NO_ID) {
+              if(id === m_vOpgNC[i].vAplicaciones[j].fcp_id && id !== NO_ID) {
                 bAplic = true;
                 break;
               }

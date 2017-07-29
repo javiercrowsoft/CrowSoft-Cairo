@@ -158,6 +158,8 @@
         gridRemoveEnabled: false,
         gridEditEnabled: false,
         gridSelectedRow: 0, /* VB6: was selectedIndex */
+        gridRowSelect: false,
+        gridDontSelectInGotFocus: false,
 
         selectId: 0,
         selectFilter: '',
@@ -462,6 +464,22 @@
       };
       that.setGridRemoveEnabled = function(enabled) {
         self.gridRemoveEnabled = enabled;
+        return that;
+      };
+
+      that.getRowSelect = function() {
+        return self.gridRowSelect;
+      };
+      that.setRowSelect = function(rowSelect) {
+        self.gridRowSelect = rowSelect;
+        return that;
+      };
+
+      that.getDontSelectInGotFocus = function() {
+        return self.gridDontSelectInGotFocus;
+      };
+      that.setDontSelectInGotFocus = function(rowSelect) {
+        self.gridDontSelectInGotFocus = rowSelect;
         return that;
       };
 
