@@ -134,6 +134,28 @@
         gridControl.setDeleteEnabled(enabled);
       };
 
+      that.showCellValue = function(gridControl, grid, lrow, lcol) {
+        var cell = grid.getRows().item(lrow).getCells().item(lcol);
+        var gridCell = gridControl.cell(lrow, lcol);
+        var col = grid.getColumns().item(lcol);
+
+        gridControl.setRedraw(false);
+
+        gridCell.setItemData(cell.getId());
+
+        if(col.getType() === Dialogs.PropertyType.date) {
+          gridCell.setText(Cairo.Util.getDateValueForGrid(cell.getValue()));
+        }
+        else if(col.getSubType() === Dialogs.PropertySubType.percentage) {
+          gridCell.setText(Cairo.Util.val(cell.getValue()) / 100);
+        }
+        else {
+          gridCell.setText(cell.getValue());
+        }
+        gridControl.setRedraw(true);
+        gridControl.draw(lrow);
+      };
+
       return that;
     };
     

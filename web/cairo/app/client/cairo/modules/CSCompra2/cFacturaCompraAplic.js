@@ -243,6 +243,11 @@
                 break;
             }
             break;
+
+          case Dialogs.Message.MSG_GRID_VIRTUAL_ROW:
+
+            p = P.resolvedPromise(info);
+            break;
         }
 
         return p || P.resolvedPromise();
@@ -426,7 +431,7 @@
         return P.resolvedPromise(false);
       };
 
-      var columnAfterUpdate = function(key, lRow, lCol) {
+      self.columnAfterUpdate = function(key, lRow, lCol) {
         try {
           
           switch (key) {
@@ -1257,7 +1262,7 @@
       var itemColAUpdateOrdenRemito = function(property, lRow, lCol) {
         var grid = property.getGrid();
 
-        switch (grid.getColumns(lCol).Key) {
+        switch (grid.getColumns().item(lCol).getKey()) {
           case KIPR_APLICADO:
             var row = grid.getRows().item(lRow);
 
@@ -1277,8 +1282,7 @@
               cell.setValue(0);
             }
 
-            var aplicado = null;
-            aplicado = itemGetAplicado();
+            var aplicado = itemGetAplicado();
             itemRefreshItem(aplicado);
             itemGetItemAplicado().setValue(aplicado);
 
@@ -1313,8 +1317,9 @@
 
         getCell(row, KII_APLICADO2).setValue(aplicado);
 
-        m_dialog.showCellValue(property, m_lastRowItem, D.getCol(property.getGrid().getColumns(), KII_PENDIENTE));
-        m_dialog.showCellValue(property, m_lastRowItem, D.getCol(property.getGrid().getColumns(), KII_APLICADO));
+        var cols = property.getGrid().getColumns();
+        m_dialog.showCellValue(property, m_lastRowItem, D.getCol(cols, KII_PENDIENTE).getIndex());
+        m_dialog.showCellValue(property, m_lastRowItem, D.getCol(cols, KII_APLICADO).getIndex());
       };
 
       var itemSaveOrdenRemito = function(mainRegister) {
@@ -1971,7 +1976,7 @@
       var ordenPagoColAUpdateOrdenPago = function(property, lRow, lCol) {
         var grid = property.getGrid();
         
-        switch (grid.getColumns(lCol).Key) {
+        switch (grid.getColumns().item(lCol).getKey()) {
           case KIC_APLICADO:
             var row = grid.getRows().item(lRow);
 
