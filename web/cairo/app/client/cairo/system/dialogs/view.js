@@ -727,6 +727,9 @@
         self.form = view.$("#formBody");
       };
 
+      /*
+       *  This function will call all listeners
+       * */
       that.raiseEvent = function(eventName, eventData) {
         for(var i = 0; i < self.listeners.length; i += 1) {
           var listener = self.listeners[i];
@@ -736,6 +739,10 @@
         }
       };
 
+      /*
+      *  This function will call only one listener (the first registered) and return the value of that call
+      *  which must be a promise (that is the listener responsibility)
+      * */
       that.raiseEventWithPromise = function(eventName, eventData, eventArgs, control) {
         for(var i = 0; i < self.listeners.length; i += 1) {
           var listener = self.listeners[i];
@@ -1536,7 +1543,7 @@
         var row = $('<div class="row">');
         var linkCol = $('<div class="col-sm-5">');
         var link = $('<a href="#' + report.getPath() + '">');
-        var descripCol = $('<div class="col-sm-7">')
+        var descripCol = $('<div class="col-sm-7">');
         var descrip = $('<p>');
 
         link.text(report.getName());

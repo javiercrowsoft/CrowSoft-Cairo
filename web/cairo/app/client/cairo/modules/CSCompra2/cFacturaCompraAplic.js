@@ -29,7 +29,7 @@
       var cellFloat = Dialogs.cellFloat;
       var Types = Cairo.Constants.Types;
       var valField = DB.valField;
-      var getValue = DB.getValue;
+      var valFieldDateValue = DB.valFieldDateValue;
 
       var K_PENDIENTE_ORDENPAGO = 10;
       var K_TOTAL_ORDENPAGO = 11;
@@ -104,8 +104,8 @@
 
       var m_defaultCurrency = D.getDefaultCurrency();
 
-      var m_lastRowVto = 0;
-      var m_lastRowItem = 0;
+      var m_lastRowVto = -1;
+      var m_lastRowItem = -1;
 
       var m_client;
       var m_empId = 0;
@@ -205,13 +205,13 @@
 
                 // save the amount for the installment we were editing
                 //
-                if(m_lastRowVto !== 0) {
+                if(m_lastRowVto !== -1) {
                   ordenPagoRefreshVto(ordenPagoUpdateGrids());
                 }
 
                 // show amounts applied for this installment
                 //
-                m_lastRowVto = info.getSelectedIndex();
+                m_lastRowVto = info.getSelectedRow();
                 var row = info.getGrid().getRows().item(m_lastRowVto);
                 if(row !== null) {
                   ordenPagoSetAplicVtos(
@@ -226,13 +226,13 @@
 
                 // save the amount for the item we were editing
                 //
-                if(m_lastRowItem !== 0) {
+                if(m_lastRowItem !== -1) {
                   itemUpdateGrids();
                 }
 
                 // show amounts applied for this item
                 //
-                m_lastRowItem = info.getSelectedIndex();
+                m_lastRowItem = info.getSelectedRow();
                 row = info.getGrid().getRows().item(m_lastRowItem);
                 if(row !== null) {
                   itemSetAplicItems(
@@ -551,7 +551,7 @@
 
       var loadCollection = function() {
 
-        m_lastRowVto = 0;
+        m_lastRowVto = -1;
         m_dialog.getProperties().clear();
 
         var tabs = m_dialog.getTabs();
@@ -856,7 +856,7 @@
           //
           item.docName = valField(m_data.itemsAplicados[_i], C.DOC_NAME);
           item.nroDoc = valField(m_data.itemsAplicados[_i], C.NRO_DOC);
-          item.fecha = valField(m_data.itemsAplicados[_i], C.FECHA);
+          item.fecha = valFieldDateValue(m_data.itemsAplicados[_i], C.FECHA);
 
           // pending
           //
@@ -897,12 +897,32 @@
             oc_id: valField(m_data.itemsParaAplicar[_i], CC.OC_ID),
             docName: valField(m_data.itemsParaAplicar[_i], C.DOC_NAME),
             nroDoc: valField(m_data.itemsParaAplicar[_i], C.NRO_DOC),
-            fecha: valField(m_data.itemsParaAplicar[_i], C.FECHA),
+            fecha: valFieldDateValue(m_data.itemsParaAplicar[_i], C.FECHA),
             pendiente: pendiente,
             pendienteActual: pendiente,
-            vAplicaciones: []
+            vAplicaciones: [],
+            aplicado: 0,
+            aplicadoActual: 0
           });
         }
+      };
+
+      var createOrdenRemitoItem = function() {
+        return {
+          pr_id: 0,
+          rci_id: 0,
+          rc_id: 0,
+          oci_id: 0,
+          oc_id: 0,
+          docName: "",
+          nroDoc: "",
+          fecha: Cairo.Constants.NO_DATE,
+          pendiente: 0,
+          pendienteActual: 0,
+          vAplicaciones: [],
+          aplicado: 0,
+          aplicadoActual: 0
+        };
       };
 
       var itemAddToCreditos = function(rciId, ociId) {
@@ -918,16 +938,11 @@
         }
 
         if (index === -1){
-          m_vOrdenRemito.push({ vAplicaciones: [] });
+          m_vOrdenRemito.push(createOrdenRemitoItem());
           index = m_vOrdenRemito.length -1;
         }
 
-        m_vOrdenRemito[index].vAplicaciones.push({
-          rcfc_id: null,
-          ocfc_id:  null,
-          fci_id: null,
-          aplicado: 0
-        });
+        m_vOrdenRemito[index].vAplicaciones.push(createOrdenRemitoAplic());
 
         return {
           indexOrdenRemito: i,
@@ -935,10 +950,19 @@
         };
       };
 
+      var createOrdenRemitoAplic = function() {
+        return {
+          rcfc_id: null,
+          ocfc_id: null,
+          fci_id: null,
+          aplicado: 0
+        };
+      };
+
       var itemUpdateGrids = function() {
         var aplicadoTotal = 0;
 
-        if(m_lastRowItem !== 0) {
+        if(m_lastRowItem !== -1) {
           var properties = m_dialog.getProperties();
           var row = properties.item(C_ITEMS).getGrid().getRows().item(m_lastRowItem);
           aplicadoTotal = itemUpdateAplicItems(
@@ -1021,7 +1045,7 @@
         for(var _i = 0, _count = rows.size(); _i < _count; _i += 1) {
           var row = rows.item(_i);
 
-          if(cellFloat(row, KIPR_APLICADO) > 0 || getCell(row, KIPR_IDX2).getId() !== 0) {
+          if(cellFloat(row, KIPR_APLICADO) > 0 || getCell(row, KIPR_IDX2).getId() !== -1) {
 
             var i = getCell(row, KIPR_IDX1).getId();
             var j = getCell(row, KIPR_IDX2).getId();
@@ -1089,7 +1113,7 @@
             elem.setKey(KIPR_NRODOC);
 
             elem = row.add(null);
-            if(m_vOrdenRemito[idx].fecha.getTime() === Cairo.Constants.NO_DATE.getTime()) {
+            if(m_vOrdenRemito[idx].fecha === Cairo.Constants.NO_DATE) {
               elem.setValue("");
             }
             else {
@@ -1162,7 +1186,7 @@
         elem.setKey(KIPR_NRODOC);
 
         elem = row.add(null);
-        if(m_vOrdenRemito[i].fecha.getTime() === Cairo.Constants.NO_DATE.getTime()) {
+        if(m_vOrdenRemito[i].fecha === Cairo.Constants.NO_DATE) {
           elem.setValue("");
         }
         else {
@@ -1187,7 +1211,8 @@
         var totalAplicado = 0;
 
         if(idx === -1) {
-          idx = vAplicaciones.length;
+          vAplicaciones.push(createOrdenRemitoAplic());
+          idx = vAplicaciones.length -1;
           vAplicaciones[idx].fci_id = m_fciId;
         }
 
@@ -1221,12 +1246,12 @@
 
       var itemGetItemPendiente = function() {
         var property = m_dialog.getProperties().item(C_ITEMS);
-        return getCell(property.getGrid().getRows().item(property.getSelectedIndex()), KII_PENDIENTE);
+        return getCell(property.getGrid().getRows().item(property.getSelectedRow()), KII_PENDIENTE);
       };
 
       var itemGetItemAplicado = function() {
         var property = m_dialog.getProperties().item(C_ITEMS);
-        return getCell(property.getGrid().getRows().item(property.getSelectedIndex()), KII_APLICADO2);
+        return getCell(property.getGrid().getRows().item(property.getSelectedRow()), KII_APLICADO2);
       };
 
       var itemColAUpdateOrdenRemito = function(property, lRow, lCol) {
@@ -1395,24 +1420,24 @@
           // document
           //
           item.docName = valField(m_data.pagosAplicados[_i], C.DOC_NAME);
-          item.nroDoc = valField(m_data.pagosAplicados[_i], "nrodoc");
+          item.nroDoc = valField(m_data.pagosAplicados[_i], C.NRO_DOC);
 
           // pending
           //
-          item.pendiente = valField(m_data.pagosAplicados[_i], "Pendiente");
+          item.pendiente = valField(m_data.pagosAplicados[_i], C.PENDIENTE);
           item.pendienteActual = item.pendiente;
 
           // invoice or credit note
           //
           item.fc_id = valField(m_data.pagosAplicados[_i], CC.FC_ID);
 
-          item.fcp_id = valField(m_data.pagosAplicados[_i], "fcp_id2");
-          item.fcd_id = valField(m_data.pagosAplicados[_i], "fcd_id2");
+          item.fcp_id = valField(m_data.pagosAplicados[_i], CT.FCP_ID2);
+          item.fcd_id = valField(m_data.pagosAplicados[_i], CT.FCD_ID2);
 
           // payments
           //
           item.opg_id = valField(m_data.pagosAplicados[_i], CT.OPG_ID);
-          item.fecha = valField(m_data.pagosAplicados[_i], CT.OPG_FECHA);
+          item.fecha = valFieldDateValue(m_data.pagosAplicados[_i], CT.OPG_FECHA);
           item.cotizacion = valField(m_data.pagosAplicados[_i], CT.FC_OPG_COTIZACION);
 
           // applied
@@ -1521,11 +1546,13 @@
             fcd_id: valField(m_data.pagosParaAplicar[_i], CT.FCD_ID),
             docName: valField(m_data.pagosParaAplicar[_i], C.DOC_NAME),
             nroDoc: valField(m_data.pagosParaAplicar[_i], C.NRO_DOC),
-            fecha: valField(m_data.pagosParaAplicar[_i], C.FECHA),
+            fecha: valFieldDateValue(m_data.pagosParaAplicar[_i], C.FECHA),
             pendiente: pendiente,
             pendienteActual: pendiente,
             cotizacion: valField(m_data.pagosParaAplicar[_i], CT.FC_OPG_COTIZACION),
-            vAplicaciones: []
+            vAplicaciones: [],
+            aplicado: 0,
+            aplicadoActual: 0
           });
         }
       };
@@ -1612,6 +1639,23 @@
         grid.getRows().clear();
       };
 
+      var createOrdenPagoItem = function() {
+        return {
+          opg_id: 0,
+          fc_id: 0,
+          fcd_id: 0,
+          docName: "",
+          nroDoc: "",
+          fecha: Cairo.Constants.NO_DATE,
+          pendiente: 0,
+          pendienteActual: 0,
+          cotizacion: 1,
+          vAplicaciones: [],
+          aplicado: 0,
+          aplicadoActual: 0
+        };
+      };
+
       var ordenPagoAddToCreditos = function(opgId, fcdId, fcpId) {
         var index = -1;
 
@@ -1626,21 +1670,25 @@
         }
 
         if (index === -1) {
-          m_vOpgNC.push({ vAplicaciones: [] });
+          m_vOpgNC.push(createOrdenPagoItem());
           index = m_vOpgNC.length -1;
         }
 
-        m_vOpgNC[index].vAplicaciones.push({
+        m_vOpgNC[index].vAplicaciones.push(createOrdenPagoAplic());
+
+        return {
+          indexPago: 0,
+          indexAplic: m_vOpgNC[index].vAplicaciones.length -1
+        };
+      };
+
+      var createOrdenPagoAplic = function() {
+        return {
           fcopg_id: null,
           fcnc_id: null,
           fcp_id: null,
           fcd_id: null,
           aplicado: 0
-        });
-
-        return {
-          indexPago: 0,
-          indexAplic: m_vOpgNC[index].vAplicaciones.length -1
         };
       };
 
@@ -1895,8 +1943,10 @@
         var aplicado = 0;
 
         if(idx === -1) {
-          vAplicaciones.push({ fcd_id: m_fcdId, fcp_id: m_fcpId });
-          idx = vAplicaciones.length;
+          vAplicaciones.push(createOrdenPagoAplic());
+          idx = vAplicaciones.length -1;
+          vAplicaciones[idx].fcd_id = m_fcdId;
+          vAplicaciones[idx].fcp_id = m_fcpId;
         }
 
         vAplicaciones[idx].aplicado = importe;
@@ -1910,12 +1960,12 @@
 
       var ordenPagoGetVtoPendiente = function() {
         var property = m_dialog.getProperties().item(C_VENCIMIENTOS);
-        return getCell(property.getGrid().getRows().item(property.getSelectedIndex()), KIV_PENDIENTE);
+        return getCell(property.getGrid().getRows().item(property.getSelectedRow()), KIV_PENDIENTE);
       };
 
       var ordenPagoGetVtoAplicado = function() {
         var property = m_dialog.getProperties().item(C_VENCIMIENTOS);
-        return getCell(property.getGrid().getRows().item(property.getSelectedIndex()), KIV_APLICADO2);
+        return getCell(property.getGrid().getRows().item(property.getSelectedRow()), KIV_APLICADO2);
       };
 
       var ordenPagoColAUpdateOrdenPago = function(property, lRow, lCol) {
@@ -2033,7 +2083,7 @@
       var ordenPagoUpdateGrids = function() {
         var aplicado = 0;
 
-        if(m_lastRowVto !== 0) {
+        if(m_lastRowVto !== -1) {
           aplicado = ordenPagoUpdateAplicVtos();
         }
 

@@ -259,6 +259,9 @@
       FCP_FECHA: "fcp_fecha",
       FCP_IMPORTE: "fcp_importe",
 
+      FCP_ID2: "fcp_id2",
+      FCD_ID2: "fcd_id2",
+
       // FacturaCompraNotaCreditoTMP
       FACTURA_COMPRA_NOTA_CREDITO_TMP: "FacturaCompraNotaCreditoTMP",
       FC_NC_TMP_ID: "fvncTMP_id",

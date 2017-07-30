@@ -627,6 +627,10 @@
         return self.backColor;
       };
 
+      that.inspect = function() {
+        self.cells.inspect();
+      };
+
       return that;
     };
 

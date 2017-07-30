@@ -3813,7 +3813,7 @@
           try {
             var grid = getView().getGrids().get(index);
             if(property.getGrid().getColumns().item(colIndex).getType() === Dialogs.PropertyType.grid) {
-              grid.selectRow(rowIndex);
+              grid.selectRow(rowIndex); // TODO: investigate how this is supposed to work, maybe this should be removed
             }
             else {
               grid.unSelectRow();
@@ -3833,7 +3833,7 @@
             }
             else if(what === Dialogs.GridSelectChangeType.GRID_ROW_CHANGE) {
               if(m_client !== null) {
-                m_client.messageEx(Dialogs.Message.MSG_GRID_ROW_CHANGE, property);
+                return m_client.messageEx(Dialogs.Message.MSG_GRID_ROW_CHANGE, property);
               }
             }
           }
