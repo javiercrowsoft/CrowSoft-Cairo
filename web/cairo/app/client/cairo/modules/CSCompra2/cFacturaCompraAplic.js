@@ -452,7 +452,7 @@
         return P.resolvedPromise(true);
       };
 
-      var columnBeforeEdit = function(key, lRow, lCol, iKeyAscii) {
+      self.columnBeforeEdit = function(key, lRow, lCol, iKeyAscii) {
         var rtn = false;
         
         try {

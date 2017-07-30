@@ -1170,6 +1170,8 @@
                         'onValidateRow',
                         args,
                         thenIfSuccessCall(addRow, td)
+                      ).then(
+                        call(raiseEvent, 'onSelectionRowChange')
                       );
                     }
                   }
