@@ -4390,6 +4390,10 @@
           .then(call(D.showDataAddProveedor, Cairo.UserConfig.getShowDataAddInCompras(), m_dialog));
       };
 
+      self.destroyAplicDialog = function() {
+        m_applyEditor = null;
+      };
+
       var showApplycation = function() {
 
         var showEditor = function(info) {

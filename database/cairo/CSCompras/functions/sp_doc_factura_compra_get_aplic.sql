@@ -32,7 +32,7 @@ javier at crowsoft.com.ar
 
 -- drop function sp_doc_factura_compra_get_aplic(integer);
 /*
-select * from sp_doc_factura_compra_get_aplic(1,1,6);
+select * from sp_doc_factura_compra_get_aplic(1,3,6);
 fetch all from rtn;
 */
 create or replace function sp_doc_factura_compra_get_aplic

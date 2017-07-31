@@ -674,7 +674,7 @@
           self.tabHandler.destroyDialog);
 
         return true;
-      }
+      };
 
       that.showModalDialog = function () { /* TODO: implement this. */ };
 

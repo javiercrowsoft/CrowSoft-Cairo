@@ -160,8 +160,8 @@
           return edit();
         }
         else {
-          m_dialog.focus(); // TODO: this function must be added to dialog. Should activate the tab of this dialog.
-          return P.resolvedPromise(false);
+          m_dialog.focus();
+          return P.resolvedPromise(true);
         }
       };
 
@@ -401,7 +401,7 @@
           if(m_client !== null) {
             // check what we should do here
             //
-            debugger;
+            m_client.destroyAplicDialog();
           }
         }
         catch (ignored) {
@@ -551,6 +551,7 @@
         return load().whenSuccess(function() {
           loadCollection();
           m_editing = true;
+          return true;
         });
       };
 
@@ -914,11 +915,11 @@
 
       var createOrdenRemitoItem = function() {
         return {
-          pr_id: 0,
-          rci_id: 0,
-          rc_id: 0,
-          oci_id: 0,
-          oc_id: 0,
+          pr_id: NO_ID,
+          rci_id: NO_ID,
+          rc_id: NO_ID,
+          oci_id: NO_ID,
+          oc_id: NO_ID,
           docName: "",
           nroDoc: "",
           fecha: Cairo.Constants.NO_DATE,
@@ -1549,6 +1550,7 @@
             opg_id: valField(m_data.pagosParaAplicar[_i], CT.OPG_ID),
             fc_id: valField(m_data.pagosParaAplicar[_i], CC.FC_ID),
             fcd_id: valField(m_data.pagosParaAplicar[_i], CT.FCD_ID),
+            fcp_id: NO_ID,
             docName: valField(m_data.pagosParaAplicar[_i], C.DOC_NAME),
             nroDoc: valField(m_data.pagosParaAplicar[_i], C.NRO_DOC),
             fecha: valFieldDateValue(m_data.pagosParaAplicar[_i], C.FECHA),
@@ -1646,9 +1648,10 @@
 
       var createOrdenPagoItem = function() {
         return {
-          opg_id: 0,
-          fc_id: 0,
-          fcd_id: 0,
+          opg_id: NO_ID,
+          fc_id: NO_ID,
+          fcd_id: NO_ID,
+          fcp_id: NO_ID,
           docName: "",
           nroDoc: "",
           fecha: Cairo.Constants.NO_DATE,
@@ -1689,10 +1692,10 @@
 
       var createOrdenPagoAplic = function() {
         return {
-          fcopg_id: null,
-          fcnc_id: null,
-          fcp_id: null,
-          fcd_id: null,
+          fcopg_id: NO_ID,
+          fcnc_id: NO_ID,
+          fcp_id: NO_ID,
+          fcd_id: NO_ID,
           aplicado: 0
         };
       };
@@ -2034,8 +2037,9 @@
 
         getCell(row, KIV_APLICADO2).setValue(aplicado);
 
-        m_dialog.showCellValue(property, m_lastRowVto,  D.getCol(property.getGrid().getColumns(), KIV_PENDIENTE));
-        m_dialog.showCellValue(property, m_lastRowVto, D.getCol(property.getGrid().getColumns(), KIV_APLICADO));
+        var cols = property.getGrid().getColumns();
+        m_dialog.showCellValue(property, m_lastRowVto,  D.getCol(cols, KIV_PENDIENTE).getIndex());
+        m_dialog.showCellValue(property, m_lastRowVto, D.getCol(cols, KIV_APLICADO).getIndex());
       };
 
       var ordenPagoGetItemsOrdenPagoProperty = function() {

@@ -6701,6 +6701,12 @@
           }
         };
 
+        self.bringToFront = function() {
+          getView().bringToFront();
+        };
+
+        self.focus = self.bringToFront;
+
         initialize();
 
         return self;
