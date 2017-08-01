@@ -261,6 +261,10 @@
 
         getCells: function() {
           return self.cells;
+        },
+
+        inspect: function() {
+          self.cells.inspect();
         }
       };
 
@@ -364,9 +368,11 @@
       };
 
       var raiseEvent = function(event, eventArg) {
+        var p = null;
         if(self.listeners[event] !== null) {
-          self.listeners[event](eventArg);
+          p = self.listeners[event](eventArg);
         }
+        return p || P.resolvedPromise(false);
       };
 
       var raiseEventAndThen = function(event, eventArg, thenCall) {
@@ -427,6 +433,14 @@
 
       var selectRow = function(td) {
         $(td.parentNode).addClass('highlight').siblings().removeClass('highlight');
+        var tr = td.parentNode;
+        var args = {
+          row: tr.rowIndex - 1, /* first row contains headers */
+          col: td.cellIndex
+        };
+        raiseEvent('onSelectionChange', args).then(
+          call(raiseEvent, 'onSelectionRowChange', args)
+        );
       };
 
       var inputCtrl = null;
@@ -907,6 +921,8 @@
                     );
                   }
                 }
+              ).then(
+                call(raiseEvent, 'onSelectionChange', args)
               );
             }
           }
@@ -1061,6 +1077,8 @@
                 thenIfSuccessCall(edit, args, td)
               );
             }
+          ).then(
+            call(raiseEvent, 'onSelectionChange', args)
           );
         }
       };
@@ -1138,7 +1156,9 @@
                 endEdit().then(function() {
                   var nextTD = nextVisibleTD(td.parentNode.childNodes, td.cellIndex, moveToCol);
                   nextTD.focus();
-                })
+                }).then(
+                  call(raiseEvent, 'onSelectionChange', args)
+                );
               }
             }
           }

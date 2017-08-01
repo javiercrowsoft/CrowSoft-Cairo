@@ -243,7 +243,7 @@
       var m_taMascara = "";
       var m_rvTaPropuesto;
 
-      var m_applyEditor;
+      var m_applyEditor = null;
 
       var m_serialNumbers;
       var m_kitDefinitions;
@@ -5959,7 +5959,9 @@
             info.cliente,
             info.suc_id,
             info.doc_id,
-            info.doct_id === D.Types.NOTA_CREDITO_VENTA);
+            info.doct_id === D.Types.NOTA_CREDITO_VENTA,
+            info.emp_id,
+            info.empresa);
         };
 
         var fvId = m_dialog.getId();

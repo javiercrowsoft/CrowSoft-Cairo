@@ -3816,7 +3816,7 @@
       self.gridDblClick = function(key, lRow, lCol) {
         switch (key) {
           case K_PROVEEDOR:
-            property = m_dialog.getProperties().item(C_PROVEEDOR);
+            var property = m_dialog.getProperties().item(C_PROVEEDOR);
             editPriceList(Dialogs.cell(property.getGrid().getRows().item(lRow), KIK_PROV_LPI_ID).getId());
             break;
         }

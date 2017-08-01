@@ -74,7 +74,7 @@ object UserSettings extends Controller with ProvidesUser {
 
   def getCajaInfo() = GetAction { implicit request =>
     LoggedIntoCompanyResponse.getAction(request, { user =>
-      Ok(Json.toJson(Recordset.getAsJson(UserSetting.getCajaInfo(user))))
+      Ok(Recordset.getAsJson(UserSetting.getCajaInfo(user)))
     })
   }
 

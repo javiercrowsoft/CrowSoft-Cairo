@@ -761,7 +761,7 @@ object PedidoVentas extends Controller with ProvidesUser {
 
   def listPresupuestos(cliId: Int, currencyId: Int) = GetAction { implicit request =>
     LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.NEW_PEDIDO_VENTA), { user =>
-      Ok(Json.toJson(Recordset.getAsJson(PedidoVenta.listPresupuestos(user, cliId, currencyId))))
+      Ok(Recordset.getAsJson(PedidoVenta.listPresupuestos(user, cliId, currencyId)))
     })
   }
 

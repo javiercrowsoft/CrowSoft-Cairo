@@ -233,7 +233,7 @@
       var m_taPropuesto;
       var m_taMascara = "";
 
-      var m_applyEditor;
+      var m_applyEditor = null;
 
       var m_ocIds = 0;
       var m_rcIds = 0;
@@ -1580,7 +1580,6 @@
       };
 
       var columnBeforeEditItems = function(property, lRow, lCol, iKeyAscii) {
-
         var rtn = false;
         var grid = property.getGrid();
 
@@ -4391,40 +4390,55 @@
           .then(call(D.showDataAddProveedor, Cairo.UserConfig.getShowDataAddInCompras(), m_dialog));
       };
 
+      self.destroyAplicDialog = function() {
+        m_applyEditor = null;
+      };
+
       var showApplycation = function() {
 
-        if(!Cairo.Security.docHasPermissionTo(
-          CS.MODIFY_APLIC,
-          m_docId,
-          Cairo.Security.ActionTypes.apply)) {
-          return false;
-        }
-
-        if(m_applyEditor === null) {
-          m_applyEditor = Cairo.FacturaCompraAplic.createObject();
-        }
-        else {
-          if(m_applyEditor.getId() !== m_id) {
-            m_applyEditor.setClient(null);
-            m_applyEditor = Cairo.FacturaCompraAplic.createObject();
+        var showEditor = function(info) {
+          if (!Cairo.Security.docHasPermissionTo(
+            CS.MODIFY_APLIC,
+            m_docId,
+            Cairo.Security.ActionTypes.apply)) {
+            return false;
           }
-        }
 
-        m_applyEditor.setClient(self);
+          if (m_applyEditor === null) {
+            m_applyEditor = Cairo.FacturaCompraAplic.Edit.Controller.getEditor();
+          }
+          else {
+            if (m_applyEditor.getId() !== m_id) {
+              m_applyEditor.setClient(null);
+              m_applyEditor = Cairo.FacturaCompraAplic.Edit.Controller.getEditor();
+            }
+          }
 
-        m_applyEditor.show(
-          m_id,
-          m_total * ((m_cotizacion !== 0) ? m_cotizacion : 1),
-          m_nrodoc,
-          m_provId,
-          m_proveedor,
-          m_sucId,
-          m_docId,
-          m_doctId === D.Types.NOTA_CREDITO_COMPRA).then(function(result) {
-            if(result !== true) {
+          m_applyEditor.setClient(self);
+
+          m_applyEditor.show(
+            info.id,
+            info.total * ((info.cotizacion !== 0) ? info.cotizacion : 1),
+            info.nrodoc,
+            info.prov_id,
+            info.proveedor,
+            info.suc_id,
+            info.doc_id,
+            info.doct_id === D.Types.NOTA_CREDITO_COMPRA,
+            info.emp_id,
+            info.empresa)
+          .then(function (result) {
+            if (result !== true) {
               m_applyEditor = null;
             }
-        });
+          });
+        };
+        // TODO: if the document is not saved it should show a message
+        //       if the document has unsaved changes it should suggest
+        //       the user to save changes
+        if(m_id !== NO_ID) {
+          D.getDocumentInfo(D.Types.FACTURA_COMPRA, m_id).whenSuccessWithResult(showEditor);
+        }
       };
 
       var startWizard = function(wizard, wizardConstructor) {
@@ -5372,7 +5386,7 @@
             return false;
           }
 
-          var applyEditor = Cairo.FacturaCompraAplic.createObject();
+          var applyEditor = Cairo.FacturaCompraAplic.Edit.Controller.getEditor();
 
           applyEditor.setClient(self);
 
@@ -5384,7 +5398,10 @@
               info.proveedor,
               info.suc_id,
               info.doc_id,
-              info.doct_id === D.Types.NOTA_CREDITO_COMPRA);
+              info.doct_id === D.Types.NOTA_CREDITO_COMPRA,
+              info.emp_id,
+              info.empresa
+          );
         };
         
         var fcId = m_dialog.getId();

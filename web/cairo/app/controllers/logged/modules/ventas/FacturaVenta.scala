@@ -988,7 +988,7 @@ object FacturaVentas extends Controller with ProvidesUser {
 
   def listRemitos(cliId: Int, currencyId: Int) = GetAction { implicit request =>
     LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.NEW_FACTURA_VENTA), { user =>
-      Ok(Json.toJson(Recordset.getAsJson(FacturaVenta.listRemitos(user, cliId, currencyId))))
+      Ok(Recordset.getAsJson(FacturaVenta.listRemitos(user, cliId, currencyId)))
     })
   }
 

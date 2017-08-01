@@ -331,16 +331,16 @@
       OCIB_TMP_ID: "ocibTMP_id",
 
       // Orden Factura Compra TMP
-      ORDENFACTURA_COMPRA_TMP: "OrdenFacturaCompraTMP",
+      ORDEN_FACTURA_COMPRA_TMP: "OrdenFacturaCompraTMP",
       OC_FC_TMP_ID: "ocfcTMP_id",
 
       // Orden Factura Compra
-      ORDENFACTURA_COMPRA: "OrdenFacturaCompra",
+      ORDEN_FACTURA_COMPRA: "OrdenFacturaCompra",
       OC_FC_ID: "ocfc_id",
       OC_FC_CANTIDAD: "ocfc_cantidad",
 
       // Devolucion Orden Compra TMP
-      ORDENDEVOLUCIONCOMPRATMP: "OrdenDevolucionCompraTMP",
+      ORDEN_DEVOLUCION_COMPRA_TMP: "OrdenDevolucionCompraTMP",
       OC_DC_TMP_ID: "ocdcTMP_id",
       OC_DC_ID: "ocdc_id",
       OC_DC_CANTIDAD: "ocdc_cantidad",
@@ -348,16 +348,16 @@
       OCI_ID_ORDEN: "oci_id_Orden",
 
       // Orden Remito Compra
-      ORDENREMITO_COMPRA: "OrdenRemitoCompra",
+      ORDEN_REMITO_COMPRA: "OrdenRemitoCompra",
       OC_RC_ID: "ocrc_id",
       OC_RC_CANTIDAD: "ocrc_cantidad",
 
       // Orden Remito Compra TMP
-      ORDENREMITO_COMPRA_TMP: "OrdenRemitoCompraTMP",
+      ORDEN_REMITO_COMPRA_TMP: "OrdenRemitoCompraTMP",
       OC_RC_TMP_ID: "ocrcTMP_id",
 
       // Cotizacion
-      COTIZACIONCOMPRA: "CotizacionCompra",
+      COTIZACION_COMPRA: "CotizacionCompra",
       COT_ID: "cot_id",
       COT_NUMERO: "cot_numero",
       COT_NRODOC: "cot_nrodoc",
@@ -373,7 +373,7 @@
       COT_FIRMADO: "cot_firmado",
 
       // Cotizacion Item
-      COTIZACIONCOMPRAITEM: "CotizacionCompraItem",
+      COTIZACION_COMPRA_ITEM: "CotizacionCompraItem",
       COTI_ID: "coti_id",
       COTI_ORDEN: "coti_orden",
       COTI_CANTIDAD: "coti_cantidad",
@@ -391,7 +391,7 @@
       COTI_IMPORTE: "coti_importe",
 
       // Presupuesto Compra
-      PRESUPUESTOCOMPRA: "PresupuestoCompra",
+      PRESUPUESTO_COMPRA: "PresupuestoCompra",
       PRC_ID: "prc_id",
       PRC_NUMERO: "prc_numero",
       PRC_NRODOC: "prc_nrodoc",
@@ -411,7 +411,7 @@
       PRC_IMPORTE_DESC_2: "prc_importedesc2",
 
       // Presupuesto Compra Item
-      PRESUPUESTOCOMPRAITEM: "PresupuestoCompraItem",
+      PRESUPUESTO_COMPRA_ITEM: "PresupuestoCompraItem",
       PRCI_ID: "prci_id",
       PRCI_ORDEN: "prci_orden",
       PRCI_CANTIDAD: "prci_cantidad",
@@ -431,25 +431,25 @@
       PRCI_IMPORTE: "prci_importe",
 
       // Pedido Orden de Compra
-      PEDIDOORDEN_COMPRA: "PedidoOrdenCompra",
+      PEDIDO_ORDEN_COMPRA: "PedidoOrdenCompra",
       PC_OC_ID: "pcoc_id",
       PC_OC_CANTIDAD: "pcoc_cantidad",
 
       // Pedido Orden de Compra TMP
-      PEDIDOORDEN_COMPRA_TMP: "PedidoOrdenCompraTMP",
+      PEDIDO_ORDEN_COMPRA_TMP: "PedidoOrdenCompraTMP",
       PC_OC_TMP_ID: "pcocTMP_id",
 
       // Pedido Cotizacion Compra
-      PEDIDOCOTIZACIONCOMPRA: "PedidoCotizacionCompra",
+      PEDIDO_COTIZACION_COMPRA: "PedidoCotizacionCompra",
       PCCOT_ID: "pccot_id",
       PCCOT_CANTIDAD: "pccot_cantidad",
 
       // Pedido Cotizacion Compra TMP
-      PEDIDOCOTIZACIONCOMPRATMP: "PedidoCotizacionCompraTMP",
+      PEDIDO_COTIZACION_COMPRA_TMP: "PedidoCotizacionCompraTMP",
       PCCOT_TMP_ID: "pccotTMP_id",
 
       // Despacho Importacion Calculo
-      DESPACHOIMPCALCULO: "DespachoImpCalculo",
+      DESPACHO_IMP_CALCULO: "DespachoImpCalculo",
       DIC_ID: "dic_id",
       DIC_NUMERO: "dic_numero",
       DIC_FECHA: "dic_fecha",

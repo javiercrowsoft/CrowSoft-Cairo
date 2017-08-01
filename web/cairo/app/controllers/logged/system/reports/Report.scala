@@ -212,7 +212,7 @@ object Reports extends Controller with ProvidesUser {
         case "chico" => Report.getLogoChico(user)
         case "grande" => Report.getLogoGrande(user)
       }
-      Ok(Json.toJson(Recordset.getAsJson(rs)))
+      Ok(Recordset.getAsJson(rs))
     })
   }
 

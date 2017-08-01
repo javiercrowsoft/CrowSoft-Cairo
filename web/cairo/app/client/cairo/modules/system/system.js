@@ -435,7 +435,39 @@
 
   Cairo.Documents.getDocumentInfo = function(doctId, id) {
     /* TODO: implement this. */
-    return Cairo.Promises.resolvedPromise({ success: false });
+    /*
+     this function should return:
+
+     info.id,
+     info.total * ((info.cotizacion !== 0) ? info.cotizacion : 1),
+     info.nrodoc,
+     info.prov_id,
+     info.proveedor,
+     info.suc_id,
+     info.doc_id,
+     info.doct_id === D.Types.NOTA_CREDITO_COMPRA,
+     info.emp_id,
+     info.empresa
+     */
+    return DB.getData("load[" + m_apiPath + "documento/" + doctId.toString() + "/info]", id).then(function(response) {
+
+      var info = { success: response.success };
+
+      if(response.success === true) {
+        info.id = valField(response.data, C.ID);
+        info.cotizacion = valField(response.data, C.COTIZACION);
+        info.total = valField(response.data, C.TOTAL) * ((info.cotizacion !== 0) ? info.cotizacion : 1);
+        info.nrodoc = valField(response.data, C.NRO_DOC);
+        info.prov_id = valField(response.data, C.PROV_ID);
+        info.proveedor = valField(response.data, C.PROV_NAME);
+        info.suc_id = valField(response.data, C.SUC_ID);
+        info.doc_id = valField(response.data, C.DOC_ID);
+        info.doct_id = valField(response.data, C.DOCT_ID);
+        info.emp_id = valField(response.data, C.EMP_ID);
+        info.empresa = valField(response.data, C.EMP_NAME);
+      }
+      return info;
+    });
   };
 
   Cairo.Documents.showDocAux = function(id, objEditName) {
@@ -668,11 +700,17 @@
   Cairo.Documents.docCanBeEdited = function(canBeEdited, message) {
     if(canBeEdited !== true) {
       return Cairo.Modal.showWarningWithFalse(getText(2913, "", message));
-                                              //Este documento no puede ser modificado debido a:;; & DocEditMsg
+                                              // Este documento no puede ser modificado debido a:;; & DocEditMsg
     }
     else {
       return Cairo.Promises.resolvedPromise(true);
     }
+  };
+
+  Cairo.Documents.msgApplyDisabled = function(empName) {
+    return Cairo.Modal.showWarningWithFalse(getText(2910, "", empName));
+                                            // Este documento pertence a la empresa  & emp_nombre &
+                                            // Para poder modificar su aplicaci�n debe ingresar a & emp_nombre &
   };
 
   Cairo.Documents.getInfo = function(tblId, id) {

@@ -1001,11 +1001,11 @@ use this function but replace the LNG_ID
        search: val\(getCell\((.*?)\)\.getValue\(\)\)
        replace: cellFloat($1)
 
-       search: getCell\((.*)?\)\.getValue\(\)
-       replace: cellVal($1)
-
        search: getValue\(\) === (.*?);
        repalce: setValue($1);
+
+       search: getCell\((.*)?\)\.getValue\(\)
+       replace: cellVal($1)
 
        search: elem\.Value \= (.+);
        repalce: elem.setValue($1);

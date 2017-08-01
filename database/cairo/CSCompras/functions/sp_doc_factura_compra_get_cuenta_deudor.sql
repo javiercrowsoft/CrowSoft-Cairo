@@ -1,4 +1,4 @@
-/*
+﻿/*
 CrowSoft-Cairo
 ==============
 
@@ -28,38 +28,44 @@ http://www.crowsoft.com.ar
 
 javier at crowsoft.com.ar
 */
--- Function: sp_doc_factura_compra_get_legajos()
+-- Function: sp_doc_factura_compra_get_cuenta_deudor()
 
--- drop function sp_doc_factura_compra_get_legajos(integer);
+-- drop function sp_doc_factura_compra_get_cuenta_deudor(integer);
+
+create or replace function sp_doc_factura_compra_get_cuenta_deudor
 /*
-select * from sp_doc_factura_compra_get_legajos(1);
-fetch all from rtn;
+proposito: devuelve la cuenta deudor por compras de la factura para ser utilizada en la interfaz
+					      de aplicacion de documentos de Compra.
+select * from sp_doc_factura_compra_get_cuenta_deudor(1);
 */
-create or replace function sp_doc_factura_compra_get_legajos
 (
   in p_fc_id integer,
-  out rtn refcursor
+  out p_cue_id integer,
+  out p_mon_id integer
 )
-  returns refcursor as
+  returns record as
 $BODY$
+declare
+   v_cue_deudoresXcpra integer;
 begin
 
-   rtn := 'rtn';
+   v_cue_deudoresXcpra := 8;
 
-   open rtn for
-      select FacturaCompraLegajo.*,
-             case
-               when lgj_titulo <> '' then lgj_titulo
-               else lgj_codigo
-             end lgj_codigo
-      from FacturaCompraLegajo
-       join Legajo on FacturaCompraLegajo.lgj_id = Legajo.lgj_id
-      where fc_id = p_fc_id
-      order by fclgj_orden;
+   select c.cue_id, c.mon_id
+     into p_cue_id, p_mon_id
+   from AsientoItem
+   join FacturaCompra
+    on AsientoItem.as_id = FacturaCompra.as_id
+   join Cuenta c
+    on AsientoItem.cue_id = c.cue_id
+   where asi_haber <> 0
+     and c.cuec_id = v_cue_deudoresXcpra
+     and fc_id = p_fc_id
+   group by fc_id,c.cue_id,c.cue_nombre;
 
 end;
 $BODY$
   language plpgsql volatile
   cost 100;
-alter function sp_doc_factura_compra_get_legajos(integer)
+alter function sp_doc_factura_compra_get_cuenta_deudor(integer)
   owner to postgres;
