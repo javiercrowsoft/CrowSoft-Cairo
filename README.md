@@ -19,6 +19,13 @@ ERP application written in Java / Scala using Play Framework 2.0+, jQuery, Backb
 
 ![screen7](https://cloud.githubusercontent.com/assets/1075455/12122834/483d3566-b3bc-11e5-85aa-f03bc314fa7a.png)
 
+## Virtual Machine for Developers
+
+You can download this zip file which contains a VMWare virtual machine with Ubuntu 16.04, PostgreSQL, PlayFramework, Prax, and CrowSoft Cairo installed and configured.
+
+[https://drive.google.com/file/d/0BybR4EhP4MYsQ0ttUzFrbHEwa1k/view?usp=sharing](https://drive.google.com/file/d/0BybR4EhP4MYsQ0ttUzFrbHEwa1k/view?usp=sharing)
+
+
 #License
 
 Copyright (C) 2012  Javier Mariano Alvarez
