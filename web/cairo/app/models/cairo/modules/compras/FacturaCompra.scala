@@ -1052,11 +1052,11 @@ object FacturaCompra {
   private val facturaCompraLegajoParser: RowParser[FacturaCompraLegajo] = {
     SqlParser.get[Int](C.FCLGJ_ID) ~
     SqlParser.get[Int](GC.LGJ_ID) ~
-    SqlParser.get[String](GC.LGJ_NAME) ~
+    SqlParser.get[String](GC.LGJ_CODE) ~
     SqlParser.get[BigDecimal](C.FCLGJ_IMPORTE) ~
     SqlParser.get[String](C.FCLGJ_DESCRIP) ~
     SqlParser.get[BigDecimal](C.FCLGJ_IMPORTE_ORIGEN) ~
-    SqlParser.get[Int](C.FCOT_ORDEN) map {
+    SqlParser.get[Int](C.FCLGJ_ORDEN) map {
     case
         id ~
         lgjId ~

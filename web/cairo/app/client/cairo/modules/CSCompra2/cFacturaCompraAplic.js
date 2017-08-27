@@ -290,8 +290,10 @@
                                        // Solo se guardara la aplicación de la factura entre remitos y ordenes
                                        // de compra.
         }
-        ordenPagoSaveNotaCredito(register);
-        ordenPagoSaveOrdenPago(register);
+        else {
+          ordenPagoSaveNotaCredito(register);
+          ordenPagoSaveOrdenPago(register);
+        }
 
         return DB.saveTransaction(
             register,
@@ -318,7 +320,7 @@
                       if(m_client !== null) {
                         m_client.refresh(self, m_fcId);
                       }
-                    };
+                    }
                     return success;
                   }
                 );
@@ -936,7 +938,7 @@
         m_vOrdenRemito[index].vAplicaciones.push(createOrdenRemitoAplic());
 
         return {
-          indexOrdenRemito: i,
+          indexOrdenRemito: index,
           indexAplic: m_vOrdenRemito[index].vAplicaciones.length -1
         };
       };
@@ -1670,7 +1672,7 @@
         m_vOpgNC[index].vAplicaciones.push(createOrdenPagoAplic());
 
         return {
-          indexPago: 0,
+          indexPago: index,
           indexAplic: m_vOpgNC[index].vAplicaciones.length -1
         };
       };

@@ -1406,7 +1406,7 @@ object C {
 
   // Legajo
   val LGJ_ID = "lgj_id"
-  val LGJ_NAME = "lgj_name"
+  val LGJ_NAME = "lgj_titulo"
   val LGJ_CODE = "lgj_codigo"
 
   // ListaDocumentoParametro
