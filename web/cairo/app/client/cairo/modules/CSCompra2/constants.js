@@ -164,6 +164,8 @@
       FC_TIPO_COMPROBANTE: "fc_tipocomprobante",
       FC_COTIZACION_PROV: "fc_cotizacionprov",
 
+      FC_PAGO_AUTOMATICO: "fc_pago_automatico",
+
       // FacturaCompraTMP
       FACTURA_COMPRA_TMP: "FacturaCompraTMP",
       FC_TMP_ID: "fcTMP_id",

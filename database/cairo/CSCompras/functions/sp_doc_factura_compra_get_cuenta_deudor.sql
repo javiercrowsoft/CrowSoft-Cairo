@@ -41,7 +41,8 @@ select * from sp_doc_factura_compra_get_cuenta_deudor(1);
 (
   in p_fc_id integer,
   out p_cue_id integer,
-  out p_mon_id integer
+  out p_mon_id integer,
+  out p_pago_automatico integer
 )
   returns record as
 $BODY$
@@ -51,8 +52,8 @@ begin
 
    v_cue_deudoresXcpra := 8;
 
-   select c.cue_id, c.mon_id
-     into p_cue_id, p_mon_id
+   select c.cue_id, c.mon_id, case when FacturaCompra.opg_id is not null then 1 else 0 end
+     into p_cue_id, p_mon_id, p_pago_automatico
    from AsientoItem
    join FacturaCompra
     on AsientoItem.as_id = FacturaCompra.as_id

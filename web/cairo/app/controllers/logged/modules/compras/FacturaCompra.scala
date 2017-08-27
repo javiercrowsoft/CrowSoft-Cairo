@@ -1144,10 +1144,11 @@ object FacturaCompras extends Controller with ProvidesUser {
 
   def aplic(id: Int) = GetAction { implicit request =>
     LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.MODIFY_APLIC_COMPRA), { user =>
-      val (cueId, monId) = FacturaCompra.getCtaCteCuenta(user, id)
+      val (cueId, monId, fcPagoAutomatico) = FacturaCompra.getCtaCteCuenta(user, id)
       Ok(Json.obj(
         "ctacte_cue_id" -> Json.toJson(cueId),
         "mon_id_x_cuenta" -> Json.toJson(monId),
+        "fc_pago_automatico" -> Json.toJson(fcPagoAutomatico),
         "vencimientos" -> Recordset.getAsJson(FacturaCompra.aplic(user, id, 1)),
         "pagosAplicados" -> Recordset.getAsJson(FacturaCompra.aplic(user, id, 2)),
         "pagosParaAplicar" -> Recordset.getAsJson(FacturaCompra.aplic(user, id, 3)),
@@ -1155,6 +1156,12 @@ object FacturaCompras extends Controller with ProvidesUser {
         "itemsAplicados" -> Recordset.getAsJson(FacturaCompra.aplic(user, id, 5)),
         "itemsParaAplicar" -> Recordset.getAsJson(FacturaCompra.aplic(user, id, 6))
       ))
+    })
+  }
+
+  def saveAplic(id: Int) = GetAction { implicit request =>
+    LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.MODIFY_APLIC_COMPRA), { user =>
+      Ok("")
     })
   }
 

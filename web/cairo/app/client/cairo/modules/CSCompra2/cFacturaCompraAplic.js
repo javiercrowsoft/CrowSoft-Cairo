@@ -93,6 +93,7 @@
       var m_dialog = null;
       var m_fcId = 0;
       var m_isNotaCredito;
+      var m_isAutoPayment;
       var m_fcNumero = "";
       var m_proveedor = "";
       var m_provId = 0;
@@ -275,51 +276,33 @@
         register.setFieldId(CC.FC_ID);
         register.setTable(CC.FACTURA_COMPRA);
         register.setPath(m_apiPath + "compras/facturacompra/aplic");
-        register.setId(Cairo.Constants.NEW_ID);
+        register.setId(m_fcId);
 
         saveDocCpra(register);
         itemSaveOrdenRemito(register);
 
         // the applied amount is not editable if the payment condition is automatic
         //
-        var p = D.docFacturaCompraIsAutomatic(m_fcdId)
-          .then(function(result) {
-            if(result.success) {
-              if(result.isAutomatic) {
+        if(m_isAutoPayment) {
                 return M.showWarning(getText(3582, ""));
                                        // El tipo de condición de pago de esta factura ha generado automticamente
                                        // la orden de pago y su aplicacion no puede modificarse manualmente.
                                        // Solo se guardara la aplicación de la factura entre remitos y ordenes
                                        // de compra.
-              }
-              else {
-                return true;
-              }
-            }
-            else {
-              return M.showWarningWithFalse(getText(3583, ""));
-                                     // No se pudo determinar si esta factura genera automaticamente una orden de
-                                     // pago. Vuelva a intentar guardar la aplicación.
-            }
-          })
-          .whenSuccess(function() {
-            ordenPagoSaveNotaCredito(register);
-            ordenPagoSaveOrdenPago(register);
-            return true;
-          });
+        }
+        else {
+          ordenPagoSaveNotaCredito(register);
+          ordenPagoSaveOrdenPago(register);
+        }
 
-        return p.whenSuccess(function() {
-
-          return DB.saveTransaction(
+        return DB.saveTransaction(
             register,
             false,
             "",
             Cairo.Constants.CLIENT_SAVE_FUNCTION,
             C_MODULE,
             SAVE_ERROR_MESSAGE
-          );
-
-        }).then(
+          ).then(
 
           function(result) {
             if(result.success) {
@@ -328,9 +311,12 @@
                 return M.showWarningWithFalse(result.errors.getMessage());
               }
               else {
+
                 return load().then(
                   function(success) {
+
                     if(success) {
+
                       if(m_client !== null) {
                         m_client.refresh(self, m_fcId);
                       }
@@ -373,6 +359,7 @@
 
               m_ctaCteCueId = valField(data, CT.CTACTE_CUE_ID);
               m_monIdXCuenta = valField(data, CT.MON_ID_X_CUENTA);
+              m_isAutoPayment = valField(data, CC.FC_PAGO_AUTOMATICO);
 
               ordenPagoLoadAplicVtos();
               itemLoadAplicItems();
@@ -951,7 +938,7 @@
         m_vOrdenRemito[index].vAplicaciones.push(createOrdenRemitoAplic());
 
         return {
-          indexOrdenRemito: i,
+          indexOrdenRemito: index,
           indexAplic: m_vOrdenRemito[index].vAplicaciones.length -1
         };
       };
@@ -1685,7 +1672,7 @@
         m_vOpgNC[index].vAplicaciones.push(createOrdenPagoAplic());
 
         return {
-          indexPago: 0,
+          indexPago: index,
           indexAplic: m_vOpgNC[index].vAplicaciones.length -1
         };
       };

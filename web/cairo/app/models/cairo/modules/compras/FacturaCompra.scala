@@ -1052,11 +1052,11 @@ object FacturaCompra {
   private val facturaCompraLegajoParser: RowParser[FacturaCompraLegajo] = {
     SqlParser.get[Int](C.FCLGJ_ID) ~
     SqlParser.get[Int](GC.LGJ_ID) ~
-    SqlParser.get[String](GC.LGJ_NAME) ~
+    SqlParser.get[String](GC.LGJ_CODE) ~
     SqlParser.get[BigDecimal](C.FCLGJ_IMPORTE) ~
     SqlParser.get[String](C.FCLGJ_DESCRIP) ~
     SqlParser.get[BigDecimal](C.FCLGJ_IMPORTE_ORIGEN) ~
-    SqlParser.get[Int](C.FCOT_ORDEN) map {
+    SqlParser.get[Int](C.FCLGJ_ORDEN) map {
     case
         id ~
         lgjId ~
@@ -2452,20 +2452,21 @@ object FacturaCompra {
     }
   }
 
-  def getCtaCteCuenta(user: CompanyUser, id: Int): (Int, Int) = {
+  def getCtaCteCuenta(user: CompanyUser, id: Int): (Int, Int, Boolean) = {
 
     DB.withTransaction(user.database.database) { implicit connection =>
 
-      val sql = "{call sp_doc_factura_compra_get_cuenta_deudor(?, ?, ?)}"
+      val sql = "{call sp_doc_factura_compra_get_cuenta_deudor(?, ?, ?, ?)}"
       val cs = connection.prepareCall(sql)
 
       cs.setInt(1, user.cairoCompanyId)
       cs.registerOutParameter(2, Types.INTEGER)
       cs.registerOutParameter(3, Types.INTEGER)
+      cs.registerOutParameter(4, Types.INTEGER)
 
       try {
         cs.execute()
-        (cs.getInt(2), cs.getInt(3))
+        (cs.getInt(2), cs.getInt(3), cs.getInt(4) != 0)
 
       } catch {
         case NonFatal(e) => {
